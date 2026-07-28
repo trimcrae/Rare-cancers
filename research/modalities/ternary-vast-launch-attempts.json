@@ -3,6 +3,74 @@
   "_read_this_when": "the market gate says CLEAR but no host is running. A gate that cleared and a launch that then died look identical in every other artifact.",
   "attempts": [
     {
+      "utc": "2026-07-27T13:13:04Z",
+      "et": "9:13 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30269185466",
+      "reason": "board cleared both ceilings; dispatched task=edge-reps (run 30269249817)",
+      "reconstructed_from_job_log": true,
+      "gate_ratio_vs_basis": 1.261,
+      "gate_mean_usd_per_ns": 0.005497,
+      "gate_projected_usd": 11.07,
+      "gate_max_ratio_vs_basis": 1.5,
+      "gate_hold": false,
+      "gate_board_depth": {
+        "offers_returned": 64,
+        "qualifying": 60,
+        "priceable": 31,
+        "needed": 4,
+        "used_for_mean": 4
+      }
+    },
+    {
+      "utc": "2026-07-27T13:16:28Z",
+      "et": "9:16 AM ET",
+      "outcome": "refused-on-price",
+      "what_that_means": "a price check inside the launch refused it after the gate had cleared",
+      "stage": "launch job's own re-price, after a 2m35s image pull",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30269249817",
+      "reason": "the launch re-read the board 3m24s after the CLEAR that authorised it and exited 1: \"2.44x the ladder basis exceeds the 1.50x drift line ... need <= $0.006539/ns\". Nothing was rented; nothing was left billing (collect at 10:13 AM ET: 0 instance(s) up). This second veto has since been removed \u2014 the refusal now lives per-offer at selection (ResourceSpec.max_usd_per_ns).",
+      "reconstructed_from_job_log": true,
+      "gate_ratio_vs_basis": 2.436,
+      "gate_mean_usd_per_ns": 0.010618,
+      "gate_projected_usd": 21.39,
+      "gate_max_ratio_vs_basis": 1.5,
+      "gate_hold": true,
+      "gate_board_depth": {
+        "offers_returned": 49,
+        "qualifying": 46,
+        "priceable": 9,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "n_requested": 4,
+      "n_rented": 0
+    },
+    {
+      "utc": "2026-07-27T13:23:16Z",
+      "et": "9:23 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30269185466",
+      "reason": "board cleared both ceilings; dispatched task=edge-reps (run 30270047942)",
+      "reconstructed_from_job_log": true,
+      "gate_ratio_vs_basis": 1.455,
+      "gate_mean_usd_per_ns": 0.006342,
+      "gate_projected_usd": 12.77,
+      "gate_max_ratio_vs_basis": 1.5,
+      "gate_hold": false,
+      "gate_board_depth": {
+        "offers_returned": 64,
+        "qualifying": 60,
+        "priceable": 30,
+        "needed": 4,
+        "used_for_mean": 4
+      }
+    },
+    {
       "utc": "2026-07-27T13:26:36Z",
       "et": "9:26 AM ET",
       "outcome": "refused-on-price",
@@ -25,63 +93,6 @@
       },
       "n_requested": 4,
       "n_rented": 0
-    },
-    {
-      "utc": "2026-07-27T15:07:21Z",
-      "et": "11:07 AM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "market-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30278376557",
-      "gate_ratio_vs_basis": 1.483,
-      "gate_mean_usd_per_ns": 0.006463,
-      "gate_projected_usd": 13.02,
-      "gate_max_ratio_vs_basis": 1.5,
-      "gate_hold": false,
-      "gate_board_depth": {
-        "offers_returned": 54,
-        "qualifying": 53,
-        "priceable": 21,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "reason": "board cleared both ceilings; dispatching task=edge-reps"
-    },
-    {
-      "utc": "2026-07-27T15:10:50Z",
-      "et": "11:10 AM ET",
-      "outcome": "board-unreadable",
-      "what_that_means": "the market could not be read at all (provider API/auth/rate-limit) \u2014 a FAULT: we never learned what the board cost",
-      "stage": "rent (steps.rent.outcome=failure)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30278451510",
-      "gate_hold": true,
-      "reason": "task=edge-reps; job status failure",
-      "gate_reason": "could not read the board (RuntimeError: vast API GET /search/asks/ -> 403: <html> <head><title>403 Forbidden</title></head> <body> <center><h1>403 Forbidden</h1></center> </body> </html>) \u2014 an unreadable market is not a cheap one",
-      "n_requested": 4,
-      "n_rented": 0,
-      "reclassified": "recorded as the retired outcome `rented-nothing`, which named two possibilities and therefore neither \u2014 the defect this row caused. Reclassified from the job log of run 30278451510: every Vast call answered a bare nginx 403 (board read 11:08:18 AM ET; /instances/ and all four /search/asks/ at 11:10:50 AM ET). A collect on the same key at 11:13:56 AM ET listed instances normally, so the 403 was transient throttling, not authorisation. 0/4 rented, nothing orphaned. Fixed by retrying 403 on idempotent GETs, and by copying the gate's own `reason` into this row."
-    },
-    {
-      "utc": "2026-07-27T16:08:05Z",
-      "et": "12:08 PM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "market-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30283225625",
-      "gate_ratio_vs_basis": 1.286,
-      "gate_mean_usd_per_ns": 0.004389,
-      "gate_projected_usd": 9.41,
-      "gate_max_ratio_vs_basis": 1.5,
-      "gate_hold": false,
-      "gate_reason": "projected $9.41 within this rung's ceiling $20.74 AND 1.29x basis is within the 1.50x drift line",
-      "gate_board_depth": {
-        "offers_returned": 64,
-        "qualifying": 63,
-        "priceable": 52,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "reason": "board cleared both ceilings; dispatching task=edge-reps"
     },
     {
       "utc": "2026-07-27T16:14:38Z",
@@ -1865,5 +1876,10 @@
       "reason": "every unit already done or hosted; no launch dispatched, no rental attempted"
     }
   ],
-  "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line."
+  "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
+  "_aged_out": {
+    "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
+    "n_total": 3,
+    "through_utc": "2026-07-27T16:08:05Z"
+  }
 }

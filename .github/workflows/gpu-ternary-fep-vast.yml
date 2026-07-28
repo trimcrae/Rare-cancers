@@ -164,12 +164,53 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       - name: Unit tests (identity round-trip, prefix keying, cost arithmetic)
+        # ★★ `-m "not committed_artifact"` — WHY THIS JOB NO LONGER ASSERTS THE CONTENT OF A DATA FILE
+        # (2026-07-28). This job is in the `needs:` of every task in this workflow, so anything red here
+        # blocks market-gate, collect, launch and stop alike. On 2026-07-28 a launch job's own ledger write
+        # evicted a row that `test_the_committed_ledger_is_valid_and_records_the_lost_windows` pins, and the
+        # entire ternary lane went down for ~90 minutes across seven consecutive red runs — not because any
+        # code was broken, but because a committed JSON file had drifted.
+        #
+        # A test of a MUTABLE ARTIFACT and a test of CODE fail for unrelated reasons and deserve unrelated
+        # blast radii. The artifact tests still run, still fail loudly, and were NOT weakened — see the
+        # `ledger-integrity` job below, which depends on nothing and is depended on by nothing.
+        # `--strict-markers` is what stops the deselection silently matching nothing after a rename.
         run: |
           set -eo pipefail
           python -m pip install -q pytest
           python -m pytest research/modalities/tests/test_ternary_vast_launch.py \
                            research/modalities/tests/test_ternary_vast_watchdog.py \
-                           research/modalities/tests/test_ternary_launch_ledger.py -q
+                           research/modalities/tests/test_ternary_launch_ledger.py \
+                           --strict-markers -m "not committed_artifact" -q
+
+  # ------------------------------------------------------------------ free: LOUD, but gates nothing
+  ledger-integrity:
+    # ★★ THE GUARD THAT KEEPS THIS CLASS OF FAILURE OFF THE LANE'S CRITICAL PATH (2026-07-28).
+    # Deliberately `needs: resolve` only, and named in NO other job's `needs:`. A row lost from the ledger
+    # is a real finding and must be seen — the run goes red, and `--verify` prints an `::error` naming the
+    # exact missing row and the one command that restores it — but it can no longer stop a fleet being
+    # supervised, collected or stopped. The old arrangement inverted that: the bookkeeping outranked the
+    # billing. `if: always()` so it reports on every dispatch of this workflow, including the GPU ones.
+    needs: resolve
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }   # depth 0: --verify reads the file's history
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: The committed ledger still holds every row marked to be kept
+        run: |
+          set -eo pipefail
+          python -m pip install -q pytest
+          # Read-only. It never repairs here: an auto-commit from a job that runs on every dispatch would
+          # race the lanes that are appending to this same file, and the structural fix means an evidence
+          # row can no longer be evicted in the first place. If this ever fires, `--repair` restores it by
+          # union from git history and the annotation says so.
+          python research/modalities/ternary_launch_ledger.py --verify
+          python -m pytest research/modalities/tests/test_ternary_launch_ledger.py \
+                           --strict-markers -m "committed_artifact" -q
 
   dry-run:
     needs: [resolve, test]
@@ -319,12 +360,32 @@ jobs:
               --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
               --reason "every unit already done or hosted; no launch dispatched, no rental attempted" || true
           fi
-          git add research/modalities/ternary-vast-market-hold.json \
-                  research/modalities/ternary-vast-launch-attempts.json
+          # ★★ THE SAME UNION-ON-RACE THE RENT STEP USES, AND FOR THE SAME REASON (2026-07-28).
+          # This was `git pull --rebase --autostash || true` then `git push || true` — the pattern the rent
+          # step documents as having silently dropped the record of a four-host purchase. A textual 3-way
+          # rebase of two appends to one JSON array conflicts routinely between lanes, and `|| true` then
+          # swallows the conflict, drops the commit and leaves the authorisation unrecorded. It survived
+          # here, in the step that runs FAR more often than the rent step. A union keyed on
+          # (utc, outcome, run_url) cannot conflict; `--merge-from` is that union, and it is idempotent.
+          BR="${{ github.ref_name }}"
+          HOLDFILE=research/modalities/ternary-vast-market-hold.json
+          LEDGER=research/modalities/ternary-vast-launch-attempts.json
+          git add "$HOLDFILE" "$LEDGER"
           if ! git diff --cached --quiet; then
-            git commit -m "tvast market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) for valB_mini r1+r2 (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
+            cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
+            MSG="tvast market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) for valB_mini r1+r2 (CI)"
+            for attempt in 1 2 3 4 5; do
+              git commit -q -m "$MSG" || true
+              if git push origin HEAD:"$BR" 2>/dev/null; then break; fi
+              echo "[gate] push attempt $attempt lost a race; re-basing onto origin/$BR, unioning the ledger row"
+              # Onto ORIGIN, never HEAD~1: after a lost race HEAD is an ancestor of the branch, so a commit
+              # on top of it can only be rejected again as non-fast-forward. See the rent step's note.
+              git fetch -q origin "$BR"; git reset -q --hard "origin/$BR"
+              cp /tmp/hold-ours.json "$HOLDFILE"
+              python research/modalities/ternary_launch_ledger.py --merge-from /tmp/ledger-ours.json
+              git add "$HOLDFILE" "$LEDGER"
+              if git diff --cached --quiet; then break; fi
+            done
           fi
           echo "market-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host)"
 
@@ -859,12 +920,24 @@ jobs:
           # a gate that declines to buy is that declining must never be SILENT: a fleet that never launched
           # looks identical to one that finished, and the only thing that tells them apart is a hold readout
           # carrying the market snapshot that caused it.
-          git add research/modalities/valb-triangle-market-hold.json \
-                  research/modalities/ternary-vast-launch-attempts.json
+          # Union-on-race, identical to the valB_mini gate above — same artifact, same defect, same fix.
+          BR="${{ github.ref_name }}"
+          HOLDFILE=research/modalities/valb-triangle-market-hold.json
+          LEDGER=research/modalities/ternary-vast-launch-attempts.json
+          git add "$HOLDFILE" "$LEDGER"
           if ! git diff --cached --quiet; then
-            git commit -m "valB triangle market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
+            cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
+            MSG="valB triangle market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) (CI)"
+            for attempt in 1 2 3 4 5; do
+              git commit -q -m "$MSG" || true
+              if git push origin HEAD:"$BR" 2>/dev/null; then break; fi
+              echo "[gate] push attempt $attempt lost a race; re-basing onto origin/$BR, unioning the ledger row"
+              git fetch -q origin "$BR"; git reset -q --hard "origin/$BR"
+              cp /tmp/hold-ours.json "$HOLDFILE"
+              python research/modalities/ternary_launch_ledger.py --merge-from /tmp/ledger-ours.json
+              git add "$HOLDFILE" "$LEDGER"
+              if git diff --cached --quiet; then break; fi
+            done
           fi
           echo "triangle-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host)"
           if [ "$RC" = 0 ]; then
@@ -1322,9 +1395,26 @@ jobs:
           # rented FOUR hosts. Money was going out with no record that it had been authorised.
           #
           # THE FIX IS TO RE-APPEND, NOT TO RE-MERGE. A textual 3-way merge of two appends to one JSON array
-          # is exactly the conflict above. Instead each attempt takes origin's CURRENT ledger, re-runs the
-          # append onto it, and pushes; a lost race just means the next attempt appends onto a newer file.
-          # That is why the ledger's own record command is re-invoked inside the loop rather than outside it.
+          # is exactly the conflict above. Instead each attempt takes origin's CURRENT ledger, unions our
+          # already-written row onto it, and pushes; a lost race just means the next attempt unions onto a
+          # newer file.
+          #
+          # ⚠ AND THE RECOVERY RESETS ONTO `origin/$BR`, NOT ONTO `HEAD~1` (measured 2026-07-28). It used to
+          # be `git reset --hard HEAD~1`, which leaves HEAD at the job's ORIGINAL checkout — an ANCESTOR of
+          # the branch the other lane has since advanced. Committing on top of that produces a history that
+          # does not contain theirs, so the retry push is rejected as non-fast-forward for exactly the same
+          # reason the first one was, and every one of the five attempts fails identically. Reproduced end to
+          # end in a scratch repo: push 1 rejected, recover, push 2 rejected with the same
+          # "Note about fast-forwards"; resetting onto `origin/$BR` instead pushes clean and origin ends up
+          # holding BOTH rows. The loop was therefore loud-but-useless on a real race — it could only ever
+          # reach the "NOT PERSISTED" error below.
+          #
+          # ⚠ AND THIS RETRY LOOP IS **NOT** WHAT LOST A ROW ON 2026-07-28. It was the leading suspect and
+          # it is innocent: the losing commit still contained the row written by the commit immediately
+          # before it, so its base was current and no race or stale checkout was involved. The cause was
+          # inside `record()` — the cap deleted the OLDEST row on every write once the file was full — and
+          # both the evidence and the fix have their one home in `ternary_launch_ledger.py`. Do not
+          # re-diagnose it here.
           #
           # AND IT FAILS LOUD. `|| true` on the record of a rental is the wrong default: a purchase nobody
           # recorded is worse than a red build (the same argument `--verify-armed` already makes for a leg
@@ -1333,21 +1423,28 @@ jobs:
           BR="${{ github.ref_name }}"
           LEDGER=research/modalities/ternary-vast-launch-attempts.json
           git add -f research/modalities/ternary-vast-rental-receipt.json 2>/dev/null || true
+          # ★ THE ROW IS RECORDED ONCE AND THEN UNIONED, NEVER RE-RECORDED (2026-07-28). `--record` stamps
+          # `utc` from the wall clock, so re-running it per retry mints a row with a DIFFERENT key each
+          # time — five retries that each half-succeeded could leave five rows for one launch. Keeping our
+          # copy and unioning it onto origin's is idempotent, and it preserves any other local row instead
+          # of discarding it with the checkout.
+          RECEIPT=research/modalities/ternary-vast-rental-receipt.json
+          cp "$LEDGER" /tmp/ledger-ours.json
+          cp "$RECEIPT" /tmp/receipt-ours.json 2>/dev/null || true
           LEDGER_PUSHED=0
           for attempt in 1 2 3 4 5; do
             git add "$LEDGER"
+            git add -f "$RECEIPT" 2>/dev/null || true
             if git diff --cached --quiet -- "$LEDGER"; then LEDGER_PUSHED=1; break; fi
             git commit -q -m "tvast launch attempt: $OUTCOME (CI)"
             if git push origin HEAD:"$BR" 2>/dev/null; then LEDGER_PUSHED=1; break; fi
-            echo "[ledger] push attempt $attempt lost a race; re-appending onto origin/$BR"
-            git reset -q --hard HEAD~1
+            echo "[ledger] push attempt $attempt lost a race; re-basing onto origin/$BR and unioning our row"
+            # Onto ORIGIN, not HEAD~1 — see the fast-forward note above. This takes origin's whole tree,
+            # including its ledger, so our row is put back by the union and the receipt from our copy.
             git fetch -q origin "$BR"
-            git checkout -q "origin/$BR" -- "$LEDGER" 2>/dev/null || true
-            python research/modalities/ternary_launch_ledger.py --record "$OUTCOME" \
-              --stage "rent (steps.rent.outcome=${{ steps.rent.outcome }})" \
-              --gate /tmp/launch-board.json --run-url "$RUN_URL" \
-              --receipt research/modalities/ternary-vast-rental-receipt.json \
-              --reason "$REASON"
+            git reset -q --hard "origin/$BR"
+            cp /tmp/receipt-ours.json "$RECEIPT" 2>/dev/null || true
+            python research/modalities/ternary_launch_ledger.py --merge-from /tmp/ledger-ours.json
           done
           if [ "$LEDGER_PUSHED" != 1 ]; then
             echo "::error title=LAUNCH RECORD NOT PERSISTED::a rental may have happened and the ledger row could not be pushed. The row follows IN FULL so it can be re-applied by hand."

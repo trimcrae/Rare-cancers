@@ -25,14 +25,40 @@ gate readout it is handed, and every one of those is derived by `ternary_vast_la
 `vast-ladder-repricing.json`. It is a log, not a source of truth.
 """
 import argparse
+import contextlib
+import hashlib
 import json
 import os
+import subprocess
+import tempfile
 import time
 
 LEDGER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ternary-vast-launch-attempts.json")
 
 # Bounded so the file stays readable and its diffs stay reviewable. The interesting record is always the
 # most recent one; anything older than the last few dozen attempts is history, not monitoring.
+#
+# ★★ THE CAP TOOK THE WHOLE TERNARY LANE DOWN FOR ~90 MINUTES (measured 2026-07-28, 4:12–6:11 AM ET).
+# This module's docstring calls the file APPEND-ONLY and `test_history_is_appended_never_rewritten` pins
+# that word — but the write was `(attempts + [e])[-MAX_ATTEMPTS:]`, which is not an append-only log, it is
+# a RING BUFFER that silently destroys the oldest row on every write once the file is full. Evidence, all
+# from `git log` on the ledger itself:
+#
+#   commit    UTC       n_attempts   first row kept
+#   2a3c7a14  07:08     60           13:13:04Z     <- already at the cap; 9:13 AM ET seed row evicted here
+#   6753b36f  08:08     60           13:16:28Z     <- evicted 13:13:04Z. Nobody noticed: not a pinned row.
+#   f989a303  08:12     60           13:23:16Z     <- evicted 13:16:28Z, WHICH IS A PINNED ROW -> CI red
+#   a81ef65e  10:10     61           13:16:28Z     <- the hand restore, one row OVER the cap
+#   f654e104  10:11     60           13:26:36Z     <- next append: 61+1-60 = TWO rows evicted, undoing it
+#
+# Never a merge, a race or a stale checkout: f989a303 still CONTAINS the 08:08:09Z row written by the
+# commit immediately before it, so its base was current. And replaying THIS function's old body over
+# 6753b36f's exact blob reproduces f989a303's row list key-for-key — the loss is deterministic, not a race.
+# Pinned as behaviour by `test_the_cap_can_never_evict_an_evidence_row`.
+#
+# THE CAP IS NOT THE DEFECT — a reviewable file is worth having. The defect is that eviction could reach a
+# row the repo keeps as EVIDENCE. `_evict` below can now only ever age out ROUTINE rows, and says so in the
+# file when it does. The cap is unchanged at 60 (a threshold, and not this fix's to move).
 MAX_ATTEMPTS = 60
 
 # The outcomes worth distinguishing. Kept a closed set so a typo cannot invent a state that no reader
@@ -119,6 +145,149 @@ def load(path=LEDGER):
                                     "and a launch that then died look identical in every other artifact.")
     d.setdefault("attempts", [])
     return d
+
+
+# =============================================================================================================
+# ★★ EVIDENCE ROWS, AND WHY EVICTION MUST NOT BE ABLE TO REACH THEM
+# =============================================================================================================
+# A row is EVIDENCE when the repo keeps it deliberately rather than as routine telemetry: the four rows
+# reconstructed from the 2026-07-27 job logs (the reason this file exists at all — see `_seeded`), and
+# anything a human later marks `retain: true`. Those are exactly the rows a test may pin, and therefore
+# exactly the rows whose disappearance turns a bookkeeping cap into a lane outage.
+#
+# ⚠ MARKING IS THE ROW'S OWN PROPERTY, NOT A LIST KEPT SOMEWHERE ELSE (CLAUDE.md §1). A second file naming
+# "the rows that matter" would be a copy that drifts; the row carries its own status and the merge preserves
+# it, so recovery from any historical blob restores the marking with the data.
+def is_evidence(e):
+    """True when this row must survive the cap. See the block above."""
+    return bool(e.get("retain") or e.get("reconstructed_from_job_log"))
+
+
+def key(e):
+    """The identity of an attempt row: `(utc, outcome, run_url)`.
+
+    This is the established merge rule for this file — the same triple the hand reconciliation of
+    2026-07-28 used — and it is what makes two divergent copies of the ledger unionisable instead of
+    conflicting. It is deliberately NOT used to deduplicate a freshly recorded event: two attempts can share
+    a second, an outcome and a run (the bounded-file test records dozens that do), so a fresh append is
+    always an append. Dedup belongs to `merge`, which reconciles two VERSIONS OF THE FILE.
+    """
+    return (e.get("utc"), e.get("outcome"), e.get("run_url"))
+
+
+def merge(*attempt_lists):
+    """Union rows from several copies of the ledger, keyed on `key`, ordered oldest-first by `utc`.
+
+    First occurrence wins, so a copy that has since been enriched (a `reason` added by a later pass) does
+    not lose to a barer duplicate if it is passed first. Order within one `utc` is the order supplied, so a
+    lane that recorded several rows inside one second keeps their sequence.
+    """
+    out, seen = [], set()
+    for rows in attempt_lists:
+        for e in rows or []:
+            k = key(e)
+            if k in seen:
+                continue
+            seen.add(k)
+            out.append(e)
+    return [e for _, _, e in sorted(((e.get("utc") or "", i, e) for i, e in enumerate(out)),
+                                    key=lambda t: (t[0], t[1]))]
+
+
+def _evict(rows, cap=MAX_ATTEMPTS):
+    """Bring `rows` down to `cap` by aging out ROUTINE rows only, oldest first. Returns `(kept, evicted)`.
+
+    ★ AN EVIDENCE ROW IS NEVER EVICTED, EVEN IF THAT LEAVES THE FILE OVER THE CAP. The cap is a
+    readability preference; the evidence is the point of the file. When the two conflict the preference
+    yields — which is the whole correction of 2026-07-28, where it was the other way round and a
+    bookkeeping preference deleted the record it was keeping.
+
+    ★ AND THE NEWEST ROW IS NEVER EVICTED EITHER, for the same reason one level in: a ledger that discards
+    the event it was just handed has recorded nothing at all, and would report that nothing happened. The
+    old ring buffer got this right only by accident (it sliced from the tail); stated here so it survives.
+    """
+    rows = list(rows)
+    n_drop = len(rows) - cap
+    if n_drop <= 0:
+        return rows, []
+    last_i = len(rows) - 1
+    kept, evicted = [], []
+    for i, e in enumerate(rows):                     # oldest first
+        if n_drop > 0 and i != last_i and not is_evidence(e):
+            evicted.append(e)
+            n_drop -= 1
+        else:
+            kept.append(e)
+    return kept, evicted
+
+
+def _note_evictions(d, evicted):
+    """Aging out a row is a DELETION, and a deletion this file does not mention is exactly how 90 minutes
+    went to diagnosing a diff nobody could account for. Every eviction leaves a running count and the
+    high-water mark behind, so the loss is legible in the file rather than only in `git log`."""
+    if not evicted:
+        return
+    prev = d.get("_aged_out") if isinstance(d.get("_aged_out"), dict) else {}
+    through = max([e.get("utc") or "" for e in evicted] + [prev.get("through_utc") or ""])
+    d["_aged_out"] = {
+        "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an "
+                 "evidence row (`retain` / `reconstructed_from_job_log`) — those are exempt from the cap. "
+                 "Nothing is lost: recover any row from git with "
+                 "`ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this "
+                 "file (everything else).",
+        "n_total": int(prev.get("n_total") or 0) + len(evicted),
+        "through_utc": through,
+    }
+
+
+def _lockfile(path):
+    """A stable-inode lock beside no repo file. Keyed by the ledger's absolute path so two processes
+    writing the same ledger contend and two writing different ones do not. Lives in the temp dir precisely
+    so it can never be `git add`ed by a lane that runs `git add -A`."""
+    h = hashlib.sha256(os.path.abspath(path).encode()).hexdigest()[:16]
+    return os.path.join(tempfile.gettempdir(), "ternary-launch-ledger-%s.lock" % h)
+
+
+@contextlib.contextmanager
+def _exclusive(path):
+    """Hold an exclusive lock for the read-modify-write below.
+
+    ★ WHY THE READ MUST HAPPEN INSIDE THIS. `record` rewrites the WHOLE file from a list it has just read.
+    Two processes appending at once would each read the same base, each append their own row, and the
+    second write would erase the first one's row — a real concurrent-append race, distinct from (and
+    surviving) the cap defect that actually caused the 2026-07-28 outage. Locking the read as well as the
+    write is what makes the second writer see the first writer's row and append after it.
+    """
+    try:
+        import fcntl
+    except ImportError:                                        # non-POSIX: degrade to unlocked, never fail
+        yield
+        return
+    fh = open(_lockfile(path), "a+")
+    try:
+        fcntl.flock(fh.fileno(), fcntl.LOCK_EX)
+        yield
+    finally:
+        try:
+            fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
+        finally:
+            fh.close()
+
+
+def _write(path, d):
+    """Write via a temp file in the same directory + `os.replace`, so a crash or a concurrent reader can
+    never see a half-written ledger — the file is either the old one or the new one."""
+    dirname = os.path.dirname(os.path.abspath(path)) or "."
+    fd, tmp = tempfile.mkstemp(dir=dirname, prefix=".ledger-", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w") as fh:
+            json.dump(d, fh, indent=2)
+            fh.write("\n")
+        os.replace(tmp, path)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.unlink(tmp)
+        raise
 
 
 def record(outcome, run_url=None, stage=None, reason=None, gate=None,
@@ -216,11 +385,16 @@ def record(outcome, run_url=None, stage=None, reason=None, gate=None,
                                   if r.get(k) is not None} for r in live]
     if reason:
         e["reason"] = reason[:600]
-    d = load(path)
-    d["attempts"] = (d["attempts"] + [e])[-MAX_ATTEMPTS:]
-    with open(path, "w") as fh:
-        json.dump(d, fh, indent=2)
-        fh.write("\n")
+    # ★★ THE READ, THE APPEND AND THE WRITE ARE ONE ATOMIC SECTION (2026-07-28).
+    # `load` is called HERE, inside the lock, and never earlier — the file on disk at this instant is the
+    # base, so a row another process appended a moment ago is already in it and is carried forward. The
+    # append itself is a plain append (see `key` for why a fresh event is never deduplicated); the only
+    # rows that can leave are routine ones the cap ages out, and that is now recorded rather than silent.
+    with _exclusive(path):
+        d = load(path)
+        d["attempts"], evicted = _evict(d["attempts"] + [e])
+        _note_evictions(d, evicted)
+        _write(path, d)
     return e
 
 
@@ -279,6 +453,101 @@ def is_fault(path=LEDGER):
     return bool(e) and e["outcome"] in FAULTS
 
 
+# =============================================================================================================
+# ★★ RECOVERY — because "it is in git" is only true if something can actually get it back out
+# =============================================================================================================
+# When the cap ate the pinned row on 2026-07-28 the data was never gone: every version of this file is a blob
+# in the repo. What was missing was a way to SAY that, so the restore was done by hand, at 6:10 AM, by reading
+# a diff — and the hand restore was itself undone 73 seconds later because it left the file one row over the
+# cap. `verify` answers "is an evidence row missing?" and `repair` puts it back by union, from history.
+def evidence_from_git(path=LEDGER, max_commits=400):
+    """Every EVIDENCE row this ledger has ever held, recovered from its own git history.
+
+    Bounded by `max_commits` so it stays a few seconds even on a long-lived file. Returns `[]` rather than
+    raising when git is unavailable or the file is untracked — a recovery tool that explodes outside a
+    checkout is a recovery tool nobody runs.
+    """
+    d = os.path.dirname(os.path.abspath(path)) or "."
+    base = os.path.basename(path)
+
+    def _git(*args):
+        return subprocess.run(("git", "-C", d) + args, capture_output=True, text=True, timeout=120)
+
+    try:
+        r = _git("log", "--format=%H", "-n", str(int(max_commits)), "--", base)
+        if r.returncode != 0:
+            return []
+        shas = [s for s in r.stdout.split() if s]
+    except (OSError, subprocess.SubprocessError):
+        return []
+    rows = []
+    for sha in shas:
+        try:
+            blob = _git("show", "%s:./%s" % (sha, base))
+        except (OSError, subprocess.SubprocessError):
+            continue
+        if blob.returncode != 0:
+            continue
+        try:
+            rows.extend(json.loads(blob.stdout).get("attempts") or [])
+        except (ValueError, AttributeError):
+            continue
+    return [e for e in merge(rows) if is_evidence(e)]
+
+
+def merge_from(other, path=LEDGER):
+    """Union the attempts in `other` (a ledger dict or a path to one) into `path`. Returns rows added.
+
+    ★★ THIS IS WHAT A PUSH RACE SHOULD DO, AND IT IS IDEMPOTENT (2026-07-28). The workflow's retry loop used
+    to recover from a lost push by replacing the file with origin's copy and RE-RUNNING `--record`. That
+    works, but `record` stamps `utc` from the wall clock, so each retry mints a row with a different key —
+    five retries that each half-succeeded could leave five rows for one launch. Unioning our already-written
+    row onto origin's current file instead produces exactly one row no matter how many times it runs, and it
+    preserves any OTHER local row rather than discarding it with the checkout.
+    """
+    if isinstance(other, str):
+        try:
+            with open(other) as fh:
+                other = json.load(fh)
+        except (OSError, ValueError):
+            return []
+    incoming = (other or {}).get("attempts") or []
+    with _exclusive(path):
+        d = load(path)
+        have = {key(e) for e in d["attempts"]}
+        added = [e for e in incoming if key(e) not in have]
+        if added:
+            d["attempts"], evicted = _evict(merge(d["attempts"], incoming))
+            _note_evictions(d, evicted)
+            _write(path, d)
+    return added
+
+
+def verify(path=LEDGER, max_commits=400):
+    """Evidence rows this file has held before and is not holding now. Empty list = healthy."""
+    have = {key(e) for e in load(path)["attempts"]}
+    return [e for e in evidence_from_git(path, max_commits) if key(e) not in have]
+
+
+def repair(path=LEDGER, max_commits=400):
+    """Union any missing evidence rows back in, from history. Returns the rows restored.
+
+    ⚠ EVIDENCE ONLY, DELIBERATELY. Unioning the FULL history back in would undo every legitimate eviction
+    and grow the file without bound — the cap exists for a reason. What must never be lost is the evidence,
+    and that is exactly what this restores.
+    """
+    missing = verify(path, max_commits)
+    if not missing:
+        return []
+    with _exclusive(path):
+        d = load(path)
+        rows = merge(d["attempts"], missing)
+        d["attempts"], evicted = _evict(rows)
+        _note_evictions(d, evicted)
+        _write(path, d)
+    return missing
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--record", metavar="OUTCOME", choices=sorted(OUTCOMES))
@@ -294,14 +563,48 @@ def main(argv=None):
                          "rental instead of from a step's exit code.")
     ap.add_argument("--path", default=LEDGER)
     ap.add_argument("--print-last", action="store_true")
+    # ★ THE TWO COMMANDS THE 2026-07-28 OUTAGE NEEDED AND DID NOT HAVE.
+    ap.add_argument("--verify", action="store_true",
+                    help="exit 1 if an evidence row this file once held is missing. Read-only.")
+    ap.add_argument("--repair", action="store_true",
+                    help="restore missing evidence rows from git history by union, and report them.")
+    ap.add_argument("--merge-from", default=None, metavar="LEDGER_JSON",
+                    help="union another copy of the ledger into --path, keyed on (utc, outcome, run_url). "
+                         "Idempotent — this is how a lost push race is recovered without re-recording.")
     a = ap.parse_args(argv)
+    rc = 0
+    if a.merge_from:
+        added = merge_from(a.merge_from, a.path)
+        print("[ledger] merge-from %s: %d row(s) added" % (os.path.basename(a.merge_from), len(added)))
+    if a.repair:
+        restored = repair(a.path)
+        if restored:
+            # A repair is a real finding, not a chore: something deleted a row the repo keeps on purpose.
+            print("::error title=LEDGER EVIDENCE ROW RESTORED::%d evidence row(s) were missing from %s and "
+                  "have been restored from git history: %s"
+                  % (len(restored), os.path.basename(a.path),
+                     ", ".join("%s %s" % (e.get("et"), e.get("outcome")) for e in restored)))
+        else:
+            print("[ledger] repair: nothing missing — every evidence row this file has held is present")
+    if a.verify:
+        missing = verify(a.path)
+        for e in missing:
+            print("::error title=LEDGER EVIDENCE ROW MISSING::%s (%s) %s — this row is marked to be kept and "
+                  "is not in the committed ledger. Restore it with: python "
+                  "research/modalities/ternary_launch_ledger.py --repair"
+                  % (e.get("et"), e.get("utc"), e.get("outcome")))
+        if missing:
+            rc = 1
+        else:
+            print("[ledger] verify: %d evidence row(s) present, none missing"
+                  % len([e for e in load(a.path)["attempts"] if is_evidence(e)]))
     if a.record:
         e = record(a.record, run_url=a.run_url, stage=a.stage, reason=a.reason, gate=a.gate,
                    n_requested=a.n_requested, n_rented=a.n_rented, receipt=a.receipt, path=a.path)
         print(json.dumps(e, indent=2))
-    if a.print_last or not a.record:
+    if a.print_last or not (a.record or a.verify or a.repair or a.merge_from):
         print(summary_line(a.path))
-    return 0
+    return rc
 
 
 if __name__ == "__main__":
