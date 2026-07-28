@@ -144,7 +144,14 @@ CLASS_HOST = "host"             # durable — about the machine. May persist.
 
 # Ordered: capacity is checked FIRST, because `resources_unavailable` also matches the never-started markers
 # below and would otherwise be misfiled as a durable host verdict — which is precisely how it became one.
-_CAPACITY_MARKERS = ("resources_unavailable", "no free gpu", "capacity")
+# ★ AND THE `create/start race` VERDICT IS PERISHABLE TOO — it is the one this repo has PROVEN WRONG.
+# `vast_machine_blacklist`'s own history records the step 1 fan-out condemning machines 53989, 31035 and
+# 24573 as "never starts" on exactly this verdict, and every one of them had demonstrably run this repo's
+# container at 94-99 % GPU; the verdict flipped when an unrelated instance was reaped. A conclusion drawn
+# from "cur_state=stopped with an empty status_msg across 2 checks" is about a MOMENT in the provider's
+# scheduler, not about the machine — so it may bound the current wave and must not become permanent.
+_CAPACITY_MARKERS = ("resources_unavailable", "no free gpu", "capacity",
+                     "create/start race", "empty status_msg")
 
 
 def classify_reason(why):

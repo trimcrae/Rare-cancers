@@ -102,3 +102,13 @@ def test_clearing_only_the_shared_set_is_not_enough():
 
 def test_clear_refuses_without_a_snapshot():
     assert vmb.main(["--clear", "because"]) == 2
+
+
+def test_the_create_start_race_verdict_is_perishable_because_it_has_been_wrong():
+    """53989, 31035 and 24573 were condemned on exactly this wording and every one had run our container at
+    94-99 % GPU. A verdict that has demonstrably flipped must not create a permanent entry."""
+    why = ("never started: cur_state=stopped with an empty status_msg for 53 min across 2 consecutive "
+           "checks (create/start race, not an image pull)")
+    assert vmb.classify_reason(why) == vmb.CLASS_CAPACITY
+    s3 = _FakeS3()
+    assert vmb.publish(s3, "b", "53989", why, "step1_fanout") is False

@@ -70,9 +70,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side) || blacklist-clear ($0, snapshot the shared machine-exclusion set to the repo and then EMPTY it, shared + every lane's own list)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side) || blacklist-clear ($0, snapshot the shared machine-exclusion set to the repo and then EMPTY it, shared + every lane's own list) | blacklist-snapshot ($0, snapshot ONLY — the history survives a clear, so this recovers the record if the snapshot commit ever loses its race)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-diag]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, blacklist-snapshot, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-diag]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -147,7 +147,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-diag|blacklist-clear) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-diag|blacklist-clear|blacklist-snapshot) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -1398,7 +1398,7 @@ jobs:
   # $0: two S3 reads and two S3 writes. Rents nothing, destroys nothing, touches no instance.
   blacklist_clear:
     needs: resolve
-    if: ${{ needs.resolve.outputs.task == 'blacklist-clear' }}
+    if: ${{ needs.resolve.outputs.task == 'blacklist-clear' || needs.resolve.outputs.task == 'blacklist-snapshot' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -1416,6 +1416,18 @@ jobs:
         run: |
           set -eo pipefail
           python -m pip install -q boto3
+          CLEAR_ARGS=""
+          if [ "${{ needs.resolve.outputs.task }}" = "blacklist-clear" ]; then
+            CLEAR_ARGS=1
+          fi
+          if [ -z "$CLEAR_ARGS" ]; then
+            # SNAPSHOT ONLY. `clear_all` keeps `history`, so a later snapshot still carries every pre-clear
+            # entry plus the CLEARED event — which is what makes the record recoverable when the commit
+            # below loses its push race, as it did at 9:55 PM ET on 2026-07-27.
+            python research/modalities/vast_machine_blacklist.py \
+              --snapshot research/modalities/vast-blacklist-snapshot-before-clear.json 2>&1 | tee /tmp/bl.txt
+            exit 0
+          fi
           python research/modalities/vast_machine_blacklist.py \
             --snapshot research/modalities/vast-blacklist-snapshot-before-clear.json \
             --clear "trimcrae 2026-07-27: the set reached 48 machines and became the binding constraint on placement (2 of 2 authorised units failed on `no rentable verified offer` against a 189-offer board at healthy prices). Capacity refusals were being stored as permanent host verdicts." \
@@ -1429,12 +1441,18 @@ jobs:
           git add research/modalities/vast-blacklist-snapshot-before-clear.json
           if git diff --cached --quiet; then echo "snapshot unchanged"; exit 0; fi
           git commit -m "vast blacklist: snapshot of the exclusion set immediately before the clear (CI)"
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" \
-              && git push origin HEAD:"${{ github.ref_name }}" && exit 0
-            sleep $((i * 7))
+          # main takes a lot of CI commits, so three tries at 7/14/21 s is not enough — this lost all three
+          # at 9:55 PM ET and the set was cleared with its record unpushed. `rebase --abort` on failure so a
+          # half-finished rebase never leaks into the next attempt.
+          for i in 1 2 3 4 5 6; do
+            git fetch -q origin "${{ github.ref_name }}"
+            if git rebase -q --autostash "origin/${{ github.ref_name }}" \
+               && git push -q origin HEAD:"${{ github.ref_name }}"; then exit 0; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
           done
-          echo "::error title=SNAPSHOT NOT PUSHED::the set was cleared but its snapshot did not land"
+          echo "::error title=SNAPSHOT NOT PUSHED::the record did not land. It is printed in full below and by `task=blacklist-snapshot`, which re-derives it from the surviving history."
+          cat research/modalities/vast-blacklist-snapshot-before-clear.json
           exit 1
       - name: Summary LAST
         if: ${{ always() }}
