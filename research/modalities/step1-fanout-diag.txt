@@ -1,40 +1,41 @@
 
-[s1f-diag] ===== e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral (label s1f-08-cw_bio_primary_amide) phase=leg-complex-FAILED-rc1 2026-07-27T17:41:18Z vast_status=loading =====
+[s1f-diag] ===== e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral (label s1f-08-cw_bio_primary_amide) phase=leg-complex-FAILED-rc1 2026-07-28T09:52:35Z vast_status=gone =====
 [s1f-diag] --- S3 complex.log (tail) ---
-etupUnit:1, HybridTopologyMultiStateSimulationUnit:1, HybridTopologyMultiStateAnalysisUnit:1}
-  [rbfe][watchdog] armed: fires only AFTER production .nc starts advancing, then if it stalls >= 45 min (equilibration never trips it)
-INFO:	Found credentials in environment variables.
-  [spot-safe] commit store: s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral/ckpt/complex
-[clash-diag:initial] atoms=112955 nonfinite_atoms=0 coords>1000nm_atoms=0
-[clash-diag:initial] non-bonded pairs < 0.90 A: 0 force-bearing (REAL) + 1 zeroed-exception (hybrid A/B, benign); closest non-bonded = 0.000 A
-[clash-diag:initial]   non-bonded pair (4052,4054) d=0.000 A  [EXCLUDED-hybrid(benign)]
-[clash-diag:initial]   non-bonded pair (4044,4043) d=1.375 A  [EXCLUDED-hybrid(benign)]
-[clash-diag:initial]   non-bonded pair (4041,4042) d=1.386 A  [EXCLUDED-hybrid(benign)]
-[clash-diag:initial]   non-bonded pair (4047,4046) d=1.391 A  [EXCLUDED-hybrid(benign)]
-[clash-diag:initial]   non-bonded pair (4050,4044) d=1.399 A  [EXCLUDED-hybrid(benign)]
-[clash-diag:initial]   non-bonded pair (112848,29040) d=1.582 A  [FORCE-BEARING(real clash)]
-[clash-diag:initial]   non-bonded pair (112805,88779) d=1.589 A  [FORCE-BEARING(real clash)]
-[clash-diag:initial]   non-bonded pair (112903,74475) d=1.606 A  [FORCE-BEARING(real clash)]
-[spot-driver] trajectory persistence: positions every 0 iteration(s), velocities every 0 — output_indices='not water'  ** NO POSITIONS WILL BE STORED — this leg will not be re-analysable **
-[spot-driver] warmup_target=400 (ci=20) prod_target=2000 (ci=40)
-[spot-driver] restore -> none (fresh)
-WARNING:	Warning: The openmmtools.multistate API is experimental and may change in future releases
-WARNING:	Warning: The openmmtools.multistate API is experimental and may change in future releases
+-BEARING(real clash)]
+[clash-diag:setup_nan]   non-bonded pair (112783,24666) d=1.586 A  [FORCE-BEARING(real clash)]
+[clash-diag:setup_nan]   non-bonded pair (112752,47330) d=1.591 A  [FORCE-BEARING(real clash)]
+[clash-diag:setup_nan]   non-bonded pair (112822,28860) d=1.602 A  [FORCE-BEARING(real clash)]
+[clash-diag:setup_nan]   non-bonded pair (112942,51264) d=1.618 A  [FORCE-BEARING(real clash)]
+[clash-diag:setup_nan]   non-bonded pair (112849,78758) d=1.642 A  [FORCE-BEARING(real clash)]
+[clash-diag:setup_nan]   non-bonded pair (112933,8850) d=1.643 A  [FORCE-BEARING(real clash)]
+[force-diag:setup_nan]   group  0 MonteCarloBarostat           E = 0.0 kJ/mol
+[force-diag:setup_nan]   group  1 CustomBondForce              E = 23.57137245716123 kJ/mol
+[force-diag:setup_nan]   group  2 HarmonicBondForce            E = 4981.53859920729 kJ/mol
+[force-diag:setup_nan]   group  3 CustomAngleForce             E = 17.049364208987342 kJ/mol
+[force-diag:setup_nan]   group  4 HarmonicAngleForce           E = 10558.844895363614 kJ/mol
+[force-diag:setup_nan]   group  5 CustomTorsionForce           E = 12.604554956446343 kJ/mol
+[force-diag:setup_nan]   group  6 PeriodicTorsionForce         E = 14013.833205144214 kJ/mol
+[force-diag:setup_nan]   group  7 NonbondedForce               E = -1095401.6327234148 kJ/mol
+[force-diag:setup_nan]   group  8 CustomNonbondedForce         E = -97.29436680488394 kJ/mol
+[force-diag:setup_nan]   group  9 CustomBondForce              E = 24.05696850178725 kJ/mol
+[force-diag:setup_nan] TOTAL potential energy = -1065867.42813038 kJ/mol
+[force-diag:setup_nan] ✅ every force term is FINITE at the input coordinates (max |E| = 1.0954e+06 kJ/mol, total = -1.06587e+06 kJ/mol). The NaN was produced DURING minimisation, not by the system as built — RETRY candidate, not a block candidate.
+[nan-diag] nan-error-logs artifacts (0): []
 Traceback (most recent call last):
-  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1839, in <module>
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1905, in <module>
     main()
-  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1755, in main
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1821, in main
     return run_splittest()
            ^^^^^^^^^^^^^^^
-  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1742, in run_splittest
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1808, in run_splittest
     run_simulate()
-  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1015, in run_simulate
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1056, in run_simulate
     return _run_simulate_spot_safe(proto, byname, setup_outputs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 997, in _run_simulate_spot_safe
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/nr4a3_rbfe.py", line 1038, in _run_simulate_spot_safe
     outputs = drv.run_spot_safe(
               ^^^^^^^^^^^^^^^^^^
-  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/rbfe_spot_driver.py", line 608, in run_spot_safe
+  File "/root/Rare-cancers-claude-max-effort-2dq11l/research/modalities/rbfe_spot_driver.py", line 787, in run_spot_safe
     warmup = unit._get_sampler(system=system, positions=positions, lambdas=lambdas,
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openfe/protocols/openmm_rfe/hybridtop_units.py", line 1156, in _get_sampler
@@ -47,6 +48,7 @@ Traceback (most recent call last):
     return _openmm.LocalEnergyMinimizer_minimize(context, tolerance, maxIterations, reporter)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 openmm.OpenMMException: Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan
-[s1f-diag] --- Vast container stdout for instance 46031270 ---
-Error response from daemon: No such container: C.46031270
+[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)
 
+[s1f-diag] ===== e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral (label s1f-18-cw_bio_primary_amide) phase=leg-complex-running 2026-07-27T12:56:02Z vast_status=gone =====
+[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log above is the only record (this is why the leg now uploads its log even on failure)
