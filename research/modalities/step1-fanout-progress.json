@@ -1,7 +1,7 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-28T00:32:40Z",
-  "_generated_et": "8:32 PM ET Jul 27, 2026",
+  "_generated_utc": "2026-07-28T00:40:46Z",
+  "_generated_et": "8:40 PM ET Jul 27, 2026",
   "n_units": 19,
   "n_complete": 1,
   "live_instances": 6,
@@ -12,8 +12,8 @@
   },
   "gpu_util": [
     98.999908,
-    97.999908,
-    0.0,
+    92.999908,
+    91.999916,
     0.0
   ],
   "phases": {
@@ -33,7 +33,7 @@
       "gpu_util": 98.999908,
       "inet_down": 530.2,
       "dph": 0.27442962962962963,
-      "age_min": 168
+      "age_min": 176
     },
     {
       "id": 46050235,
@@ -46,7 +46,7 @@
       "gpu_util": null,
       "inet_down": 885.3,
       "dph": 0.18402222222222223,
-      "age_min": 112
+      "age_min": 120
     },
     {
       "id": 46055058,
@@ -56,10 +56,10 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 5090",
-      "gpu_util": 97.999908,
+      "gpu_util": 92.999908,
       "inet_down": 928.4,
       "dph": 0.20712222222222224,
-      "age_min": 48
+      "age_min": 56
     },
     {
       "id": 46056275,
@@ -69,10 +69,10 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 5090",
-      "gpu_util": 0.0,
+      "gpu_util": 91.999916,
       "inet_down": 807.2,
       "dph": 0.2262222222222222,
-      "age_min": 31
+      "age_min": 39
     },
     {
       "id": 46056728,
@@ -85,38 +85,29 @@
       "gpu_util": null,
       "inet_down": 849.2,
       "dph": 0.23982222222222221,
-      "age_min": 24
+      "age_min": 32
     },
     {
       "id": 46057243,
       "label": "s1f-03-cw_ev_5alkyne",
       "machine_id": 7118,
       "status": "exited",
-      "cur_state": "stopped",
+      "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 3090",
       "gpu_util": 0.0,
-      "inet_down": 616.6,
+      "inet_down": 612.1,
       "dph": 0.11917037037037037,
-      "age_min": 16
+      "age_min": 24
     }
   ],
   "stopped_host_adjudication": {
     "never_started": [],
-    "preempted": [
-      {
-        "instance": 46057243,
-        "label": "s1f-03-cw_ev_5alkyne",
-        "machine_id": "7118",
-        "gpu": "RTX 3090",
-        "age_min": 16,
-        "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh"
-      }
-    ],
+    "preempted": [],
     "never_started_by_machine": {},
     "max_units_on_one_machine": 0,
     "n_never_started": 0,
-    "n_preempted": 1,
+    "n_preempted": 0,
     "n_double_booked": 0,
     "n_host_fault": 0,
     "n_stopped_on_a_proven_machine": 0,
@@ -135,8 +126,8 @@
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "phase": "leg-complex-running 2026-07-28T00:30:29Z",
-      "committed": "complex/production@120",
-      "committed_scalar": 1000120,
+      "committed": "complex/production@160",
+      "committed_scalar": 1000160,
       "committed_prev_scalar": 1000120,
       "ddg_bind_kcal": null
     },
@@ -167,17 +158,17 @@
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
       "phase": "leg-complex-running 2026-07-27T21:46:59Z",
-      "committed": "complex/production@1760",
-      "committed_scalar": 1001760,
-      "committed_prev_scalar": 1001720,
+      "committed": "complex/production@1800",
+      "committed_scalar": 1001800,
+      "committed_prev_scalar": 1001760,
       "ddg_bind_kcal": null
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
       "phase": "leg-complex-running 2026-07-27T22:41:58Z",
-      "committed": "complex/production@1480",
-      "committed_scalar": 1001480,
-      "committed_prev_scalar": 1001440,
+      "committed": "complex/production@1520",
+      "committed_scalar": 1001520,
+      "committed_prev_scalar": 1001480,
       "ddg_bind_kcal": null
     },
     {
@@ -185,7 +176,7 @@
       "phase": "leg-complex-running 2026-07-28T00:03:59Z",
       "committed": "complex/production@1760",
       "committed_scalar": 1001760,
-      "committed_prev_scalar": 1001720,
+      "committed_prev_scalar": 1001760,
       "ddg_bind_kcal": null
     },
     {
@@ -277,6 +268,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 24.1,
+  "realised_usd_so_far": 24.25,
   "plan_usd_whole_tranche": 29.72
 }
