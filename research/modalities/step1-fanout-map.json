@@ -3,7 +3,7 @@
   "_scope": "19 map edges at their charge-conserving microstate leg, on the PRIMARY nr4a3_design druggable frame. Charge-changing microstate legs and the conformer/paralogue frame axis are separate tranches and were NOT run \u2014 see congeneric_fanout.plan().",
   "_claim_ceiling": "CONDITIONAL relative free energies given a HYPOTHESIZED cmpd19 pose (no solved NR4A3 cocrystal) in ONE modeled opened conformer, single replicate per edge. NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is not established here \u2014 it rests on valA_mini + OpenFE's published benchmark for this protocol.",
   "n_units": 19,
-  "n_complete": 10,
+  "n_complete": 11,
   "blocked_units": {
     "e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral": {
       "why": "no available mapper reaches the provable atom-map floor of 20. LOMAP element_change=False 17; element_change=True 19, but ONLY by mapping the ester methyl CARBON onto an amide HYDROGEN (C->H), which is the degenerate correspondence the floor exists to reject; Kartograf 18. Identical maps at LOMAP budgets t20 and t300 in 0.01 s, so the MCS timeout is MEASURED not to be the mechanism. This is a statement about the MAPPERS, not about any rented host, so no rental can fix it. A complete 22-atom map provably exists (the heavy-atom graphs are isomorphic up to the single O->N substitution), so the block is revisitable: if a mapper ever returns >= 20 for this edge, lift it with FANOUT_UNBLOCK=1.",
@@ -193,6 +193,26 @@
       "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
     },
     {
+      "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
+      "edge_id": "e_zaienne_cmpd19__cw_ms_carbinol",
+      "leg_id": "neutral__neutral",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "zaienne_cmpd19",
+      "ligand_b": "cw_ms_carbinol",
+      "ddg_bind_kcal": 0.582,
+      "ddg_bind_unc_kcal": 0.602,
+      "dg_complex_morph_kcal": -0.35312408663453204,
+      "complex_unc_kcal": 0.40586029385382644,
+      "dg_solvent_morph_kcal": -0.934842338326183,
+      "solvent_unc_kcal": 0.4442112170484421,
+      "n_mapped_atoms": 17,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    },
+    {
       "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid",
       "edge_id": "e_zaienne_cmpd19__cw_ms_free_acid",
       "leg_id": "neutral__neutral_acid",
@@ -293,6 +313,14 @@
       "perturbation": "3-CO2Me -> 3-CO2H (free acid; ionizable microstate pair)"
     },
     {
+      "node": "cw_ms_carbinol",
+      "edge_id": "e_zaienne_cmpd19__cw_ms_carbinol",
+      "ddg_bind_kcal": 0.582,
+      "class": "microstate_variant",
+      "star": "star_3position",
+      "perturbation": "3-CO2Me -> 3-CH2OH (carbinol; drops the 3-carbonyl SAR)"
+    },
+    {
       "node": "cw_ev_5cooh",
       "edge_id": "e_zaienne_cmpd19__cw_ev_5cooh",
       "ddg_bind_kcal": 0.688,
@@ -328,65 +356,41 @@
   "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this modeled conformer, conditional on the pose hypothesis.",
   "idle_guard": [
     {
-      "instance": 46112126,
-      "label": "s1f-14-cw_ms_carbinol",
+      "instance": 46132149,
+      "label": "s1f-01-cw_ev_5oh",
       "verdict": "WORKING",
       "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 92.999908,
-        "progress_advanced": true,
-        "log_age_min": 1.9453177166666669,
-        "start_ages_min": [
-          1610.8619846661886,
-          1596.7119846661885,
-          1319.5453179995218,
-          1284.4953179995218,
-          425.3453179995219,
-          423.6619846661886,
-          422.72865133285524,
-          306.6786513328552
-        ],
-        "instance_age_min": 308
-      }
-    },
-    {
-      "instance": 46132149,
-      "label": "s1f-01-cw_ev_5oh",
-      "verdict": "COLD_START",
-      "why": "instance is 8 min old, under the 15 min floor \u2014 too young to have proved anything either way",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
         "gpu_util": 0.0,
-        "progress_advanced": false,
-        "log_age_min": 1.8153173666666667,
+        "progress_advanced": true,
+        "log_age_min": 1.8885751,
         "start_ages_min": [
-          1605.531984301408,
-          1439.2486509680748,
-          1272.6819843014082,
-          1221.6319843014082,
-          1165.9986509680748,
-          1105.1819843014082,
-          1053.3653176347414,
-          1038.4486509680748,
-          1029.7153176347415,
-          989.5153176347415,
-          932.5486509680748,
-          917.5653176347415,
-          865.4819843014081,
-          813.6153176347415,
-          811.4153176347414,
-          594.4986509680748,
-          545.6319843014081,
-          439.5486509680748,
-          425.5486509680748,
-          332.6153176347415,
-          311.3819843014081,
-          7.931984301408132
+          1680.8052420417469,
+          1514.5219087084135,
+          1347.9552420417467,
+          1296.9052420417468,
+          1241.2719087084135,
+          1180.4552420417467,
+          1128.63857537508,
+          1113.7219087084134,
+          1104.98857537508,
+          1064.7885753750802,
+          1007.8219087084134,
+          992.8385753750802,
+          940.7552420417468,
+          888.8885753750801,
+          886.6885753750801,
+          669.7719087084134,
+          620.9052420417468,
+          514.8219087084134,
+          500.82190870841345,
+          407.8885753750801,
+          386.65524204174676,
+          83.20524204174677
         ],
-        "instance_age_min": 8
+        "instance_age_min": 84
       }
     },
     {
@@ -399,46 +403,46 @@
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 112.31810775000001,
+        "log_age_min": 187.59382481666668,
         "start_ages_min": [
-          1543.684774696827,
-          1518.3181080301604,
-          1515.4181080301603,
-          1200.9514413634936,
-          1198.2181080301602,
-          999.9681080301602,
-          998.3681080301602,
-          971.4014413634936,
-          968.7347746968269,
-          932.6514413634936,
-          929.034774696827,
-          911.5181080301603,
-          909.4681080301602,
-          864.8181080301603,
-          863.4514413634936,
-          760.134774696827,
-          758.3514413634936,
-          741.1681080301603,
-          738.3014413634936,
-          612.884774696827,
-          610.2014413634936,
-          562.634774696827,
-          560.134774696827,
-          545.8014413634936,
-          544.284774696827,
-          446.4681080301603,
-          441.51810803016025,
-          437.1681080301603,
-          296.06810803016026,
-          294.01810803016025,
-          267.73477469682695,
-          265.6681080301603,
-          198.13477469682692,
-          196.28477469682693,
-          116.71810803016027,
-          114.13477469682694
+          1618.9604917287827,
+          1593.593825062116,
+          1590.693825062116,
+          1276.2271583954494,
+          1273.493825062116,
+          1075.243825062116,
+          1073.643825062116,
+          1046.6771583954494,
+          1044.0104917287827,
+          1007.9271583954493,
+          1004.3104917287826,
+          986.793825062116,
+          984.743825062116,
+          940.093825062116,
+          938.7271583954494,
+          835.4104917287826,
+          833.6271583954493,
+          816.4438250621159,
+          813.5771583954494,
+          688.1604917287826,
+          685.4771583954494,
+          637.9104917287826,
+          635.4104917287826,
+          621.0771583954494,
+          619.5604917287826,
+          521.743825062116,
+          516.793825062116,
+          512.4438250621159,
+          371.34382506211597,
+          369.293825062116,
+          343.01049172878265,
+          340.943825062116,
+          273.41049172878263,
+          271.56049172878267,
+          191.99382506211597,
+          189.41049172878266
         ],
-        "instance_age_min": 8
+        "instance_age_min": 84
       }
     },
     {
@@ -451,53 +455,53 @@
         "container_started": false,
         "gpu_util": null,
         "progress_advanced": false,
-        "log_age_min": 17.938169866666666,
+        "log_age_min": 93.21587066666666,
         "start_ages_min": [
-          1380.3548368096351,
-          1285.3715034763018,
-          1002.1715034763018,
-          612.9548368096351,
-          595.1548368096352,
-          546.4715034763018,
-          540.4381701429685,
-          485.72150347630185,
-          467.95483680963514,
-          439.8715034763018,
-          409.5715034763018,
-          394.1548368096352,
-          368.7381701429685,
-          308.8548368096352,
-          239.8381701429685,
-          197.25483680963515,
-          84.3381701429685
+          1455.6325375596682,
+          1360.6492042263349,
+          1077.4492042263348,
+          688.2325375596682,
+          670.4325375596683,
+          621.7492042263349,
+          615.7158708930016,
+          560.9992042263349,
+          543.2325375596682,
+          515.1492042263349,
+          484.8492042263349,
+          469.4325375596682,
+          444.01587089300153,
+          384.1325375596682,
+          315.11587089300156,
+          272.53253755966824,
+          159.61587089300156
         ],
-        "instance_age_min": 5
+        "instance_age_min": 81
       }
     },
     {
       "instance": 46132500,
       "label": "s1f-15-cw_ms_5acetamido_ester",
-      "verdict": "COLD_START",
-      "why": "instance is 3 min old, under the 15 min floor \u2014 too young to have proved anything either way",
+      "verdict": "WORKING",
+      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 0.0,
-        "progress_advanced": false,
-        "log_age_min": 0.6079690000000001,
+        "gpu_util": 99.999908,
+        "progress_advanced": true,
+        "log_age_min": 1.4877214833333334,
         "start_ages_min": [
-          440.82463593085606,
-          396.49130259752275,
-          385.6579692641894,
-          196.54130259752273,
-          183.45796926418942,
-          2.6413025975227358
+          516.1043883999189,
+          471.7710550665855,
+          460.9377217332522,
+          271.82105506658553,
+          258.7377217332522,
+          77.92105506658554
         ],
-        "instance_age_min": 3
+        "instance_age_min": 78
       }
     }
   ],
-  "realised_usd": 53.32,
+  "realised_usd": 54.53,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -1696,8 +1700,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "machine_id": 12259,
       "rate_usd_h": 0.2448,
-      "billed_h": 5.13,
-      "usd": 1.257
+      "billed_h": 6.38,
+      "usd": 1.563
     },
     {
       "instance": "46112230",
@@ -1768,32 +1772,32 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "machine_id": 33657,
       "rate_usd_h": 0.1292,
-      "billed_h": 0.13,
-      "usd": 0.017
+      "billed_h": 1.4,
+      "usd": 0.181
     },
     {
       "instance": "46132151",
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "machine_id": 29706,
       "rate_usd_h": 0.204,
-      "billed_h": 0.13,
-      "usd": 0.027
+      "billed_h": 1.4,
+      "usd": 0.286
     },
     {
       "instance": "46132341",
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "machine_id": 50113,
       "rate_usd_h": 0.204,
-      "billed_h": 0.08,
-      "usd": 0.017
+      "billed_h": 1.35,
+      "usd": 0.275
     },
     {
       "instance": "46132500",
       "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
       "machine_id": 55559,
       "rate_usd_h": 0.1768,
-      "billed_h": 0.05,
-      "usd": 0.009
+      "billed_h": 1.3,
+      "usd": 0.23
     }
   ],
   "plan_usd_whole_tranche": 29.72,
