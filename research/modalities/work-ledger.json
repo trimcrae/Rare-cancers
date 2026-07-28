@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-28T02:09:48Z",
-  "_generated_et": "10:09 PM ET Jul 27, 2026",
+  "_generated_utc": "2026-07-28T02:11:46Z",
+  "_generated_et": "10:11 PM ET Jul 27, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-28T02:57:48Z",
-  "_stale_after_et": "10:57 PM ET Jul 27, 2026",
+  "_stale_after_utc": "2026-07-28T02:59:46Z",
+  "_stale_after_et": "10:59 PM ET Jul 27, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -1756,7 +1756,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "11 host(s) up and new evidence 1 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
+        "10 host(s) up and new evidence 2 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
       ]
     },
     {
@@ -1816,22 +1816,22 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "4 host(s) up and new evidence 31 min ago (ternary-vast-market-hold.json `utc`). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
+        "4 host(s) up and new evidence 33 min ago (ternary-vast-market-hold.json `utc`). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
       ]
     },
     {
       "id": "lane:closure-triangle",
       "scanner": "lanes",
-      "what": "valB closure triangle, 4 legs (Vast) \u2014 IDLE-UNEXPECTED",
+      "what": "valB closure triangle, 4 legs (Vast) \u2014 ADVANCING",
       "owner": "gpu-ternary-fep-vast.yml",
       "owner_note": null,
-      "state": "open",
-      "evidence_fingerprint": "IDLE-UNEXPECTED||valb-triangle-market-hold.json `utc`",
-      "last_evidence_utc": "2026-07-28T01:24:48Z",
-      "last_evidence_et": "9:24 PM ET Jul 27, 2026",
+      "state": "advancing",
+      "evidence_fingerprint": "ADVANCING||valb-triangle-market-hold.json `utc`",
+      "last_evidence_utc": "2026-07-28T02:10:47Z",
+      "last_evidence_et": "10:10 PM ET Jul 27, 2026",
       "last_evidence_what": "valb-triangle-market-hold.json `utc`",
-      "next_evidence_due_utc": "2026-07-28T02:09:48Z",
-      "next_evidence_due_et": "10:09 PM ET Jul 27, 2026",
+      "next_evidence_due_utc": "2026-07-28T02:55:47Z",
+      "next_evidence_due_et": "10:55 PM ET Jul 27, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -1853,20 +1853,10 @@
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 0,
       "retry_budget": 3,
-      "auto_action": {
-        "kind": "workflow_dispatch",
-        "workflow": "gpu-ternary-fep-vast.yml",
-        "ref": "main",
-        "inputs": {
-          "task": "triangle-gate"
-        },
-        "why": "advance lane closure-triangle out of IDLE-UNEXPECTED",
-        "gated_by": "ternary_vast_launch's $/ns market gate, which writes ternary-vast-market-hold.json / valb-triangle-market-hold.json on EVERY pass so a decline is never silent",
-        "what": "one $0 ternary GATE pass \u2014 it prices the board and either holds (committing the snapshot) or self-dispatches the launch"
-      },
-      "auto_action_why_none": null,
+      "auto_action": null,
+      "auto_action_why_none": "evidence is not due until 10:55 PM ET Jul 27, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": null,
       "cost_points_at": null,
       "price_points_at": "valb-triangle-market-hold.json",
@@ -1875,7 +1865,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "NO HOSTS, 4 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 45 min (threshold 45 min; last: valb-triangle-market-hold.json `utc` at 9:24 PM ET Jul 27, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from finished. It is NOT finished. Someone ha"
+        "3 host(s) up and new evidence 1 min ago (valb-triangle-market-hold.json `utc`). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
       ]
     },
     {
@@ -1941,30 +1931,12 @@
       ]
     }
   ],
-  "_dispatch_plan": [
-    {
-      "kind": "workflow_dispatch",
-      "workflow": "gpu-ternary-fep-vast.yml",
-      "ref": "main",
-      "inputs": {
-        "task": "triangle-gate"
-      },
-      "why": "advance lane closure-triangle out of IDLE-UNEXPECTED",
-      "gated_by": "ternary_vast_launch's $/ns market gate, which writes ternary-vast-market-hold.json / valb-triangle-market-hold.json on EVERY pass so a decline is never silent",
-      "what": "one $0 ternary GATE pass \u2014 it prices the board and either holds (committing the snapshot) or self-dispatches the launch",
-      "serves": [
-        "lane:closure-triangle"
-      ],
-      "why_each": [
-        "lane:closure-triangle: advance lane closure-triangle out of IDLE-UNEXPECTED"
-      ]
-    }
-  ],
+  "_dispatch_plan": [],
   "_dispatch_plan_is_a_request": "this module NEVER shells out. The workflow executes these with `gh workflow run`; each names a workflow and no price.",
   "n_by_state": {
     "blocked": 30,
-    "open": 7,
-    "advancing": 10,
+    "open": 6,
+    "advancing": 11,
     "done": 1,
     "held": 1
   },
@@ -2028,17 +2000,17 @@
     "rung:post_submit"
   ],
   "_self": {
-    "now_et": "10:09 PM ET Jul 27, 2026",
-    "generated_et": "10:09 PM ET Jul 27, 2026",
-    "stale_after_et": "10:57 PM ET Jul 27, 2026",
+    "now_et": "10:11 PM ET Jul 27, 2026",
+    "generated_et": "10:11 PM ET Jul 27, 2026",
+    "stale_after_et": "10:59 PM ET Jul 27, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 10:57 PM ET Jul 27, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 10:59 PM ET Jul 27, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (10:08 PM ET Jul 27, 2026) refreshed the artifact to 10:09 PM ET Jul 27, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (10:09 PM ET Jul 27, 2026) refreshed the artifact to 10:11 PM ET Jul 27, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
