@@ -126,3 +126,31 @@ def test_the_cli_actually_reads_its_command_line(monkeypatch, tmp_path):
     out = tmp_path / "snap.json"
     monkeypatch.setattr(_sys, "argv", ["vast_machine_blacklist.py", "--clear", "x"])
     assert vmb.main() == 2          # --clear without --snapshot is refused, proving the flag was parsed
+
+
+def test_nothing_is_defined_after_the_main_guard():
+    """`raise SystemExit(main())` runs at import-as-script time, so a def BELOW it never exists when the
+    module is executed — only when it is imported. That is why the unit tests all passed while the real CLI
+    died on `NameError: name 'snapshot' is not defined` (2026-07-27). Import-only tests cannot see this.
+    """
+    import ast
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "vast_machine_blacklist.py")).read()
+    tree = ast.parse(src)
+    guards = [i for i, n in enumerate(tree.body)
+              if isinstance(n, ast.If) and "__main__" in ast.dump(n.test)]
+    assert guards, "no __main__ guard found"
+    after = [n.name for n in tree.body[guards[-1] + 1:]
+             if isinstance(n, (ast.FunctionDef, ast.ClassDef))]
+    assert after == [], f"defined after the __main__ guard and therefore invisible to the CLI: {after}"
+
+
+def test_the_cli_runs_as_a_SCRIPT_not_just_as_an_import(tmp_path):
+    """Exercise the real entry point the workflow uses. --clear without --snapshot must exit 2, which proves
+    the module got far enough to parse flags rather than dying on a NameError."""
+    import subprocess
+    mod = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                       "vast_machine_blacklist.py")
+    r = subprocess.run([sys.executable, mod, "--clear", "x"], capture_output=True, text=True)
+    assert r.returncode == 2, f"rc={r.returncode} stdout={r.stdout[-400:]} stderr={r.stderr[-400:]}"
+    assert "NameError" not in r.stderr

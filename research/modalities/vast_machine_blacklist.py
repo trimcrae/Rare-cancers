@@ -340,10 +340,6 @@ def main(argv=None):
     return 0
 
 
-if __name__ == "__main__":
-    raise SystemExit(main())
-
-
 def snapshot(s3, bucket, key=None):
     """The FULL current shared state, for committing before a clear. Read-only.
 
@@ -382,3 +378,5 @@ def clear_all(s3, bucket, why, lane="operator", key=None):
                                    "machine_ids": [], "history": hist}, indent=2).encode())
     print(f"[blacklist] CLEARED {len(ids)} machine(s) from the shared set: {why}", flush=True)
     return ids
+if __name__ == "__main__":
+    raise SystemExit(main())
