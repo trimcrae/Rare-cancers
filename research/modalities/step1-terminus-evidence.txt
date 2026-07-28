@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 7:31 AM ET Jul 28, 2026
+[s1f-terminus] read at 7:34 AM ET Jul 28, 2026
 
-[s1f-terminus] 5207 object(s) under the results prefix
+[s1f-terminus] 5213 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1030 B  4:39 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral/ddg.json
@@ -17,7 +17,7 @@
 === PER-UNIT CENSUS — furthest committed iteration per (leg, phase), from the spot commit store ===
     smoke ceiling = production@4; production target = warmup@400 + production@2000 per leg
   e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral             ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral              ddg=no  NO-TERMINUS        complex/production@760, complex/warmup@400
+  e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral              ddg=no  NO-TERMINUS        complex/production@800, complex/warmup@400
   e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
@@ -238,18 +238,18 @@
        }
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 159 offers visible (baseline ~23), 159 qualifying, 92 priceable, 10 needed
-  floors           : min $0.095/hr, median $0.2667/hr
-  best fleet $/ns  : $0.006006/ns  ·  1.76× basis (basis $0.003412/ns)
-  projected        : $27.54 against a $39.42 ceiling
+  board depth      : 152 offers visible (baseline ~23), 152 qualifying, 90 priceable, 10 needed
+  floors           : min $0.0507/hr, median $0.2667/hr
+  best fleet $/ns  : $0.005741/ns  ·  1.68× basis (basis $0.003412/ns)
+  projected        : $26.32 against a $39.42 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
+    RTX 3090   m28164    $0.0507/hr  $0.00396/ns · 1.16× basis
+    RTX 5090   m144071   $0.1733/hr  $0.00474/ns · 1.39× basis
     RTX 4090   m12697    $0.1333/hr  $0.00485/ns · 1.42× basis
-    RTX 5090   m50113    $0.2000/hr  $0.00539/ns · 1.58× basis
-    RTX 4090   m28905    $0.1587/hr  $0.00564/ns · 1.65× basis
     RTX 4090   m51777    $0.1733/hr  $0.00610/ns · 1.79× basis
     RTX 4090   m55559    $0.1733/hr  $0.00610/ns · 1.79× basis
+    RTX 4090   m7064     $0.1730/hr  $0.00632/ns · 1.85× basis
+    RTX 4090   m5750     $0.1730/hr  $0.00632/ns · 1.85× basis
     RTX 4090   m56108    $0.1730/hr  $0.00632/ns · 1.85× basis
     RTX 4090   m4590     $0.1730/hr  $0.00632/ns · 1.85× basis
-    RTX 5090   m36507    $0.2400/hr  $0.00636/ns · 1.86× basis
     RTX 3090   m16661    $0.0950/hr  $0.00637/ns · 1.87× basis
-    RTX 3090   m145397   $0.1067/hr  $0.00661/ns · 1.94× basis
