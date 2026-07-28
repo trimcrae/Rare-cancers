@@ -1,0 +1,208 @@
+{
+  "_what": "measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own leg.json timing block. The one home for `ternary_vast_launch.ARM_ITERATION_RATES`; regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`.",
+  "_never_pool": "across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625) or across phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up)",
+  "generated_utc": "2026-07-28T11:03:53Z",
+  "n_leg_records": 14,
+  "rates": {
+    "2.0": {
+      "ternary": {
+        "s_per_iter": 13.7,
+        "source_phase": "production",
+        "n_legs": 1,
+        "spread_s_per_iter": [
+          13.7,
+          13.7
+        ],
+        "units": [
+          "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke"
+        ],
+        "gpus": [
+          "NVIDIA GeForce RTX 4090"
+        ]
+      }
+    },
+    "4.0": {
+      "binary": {
+        "s_per_iter": 10.9,
+        "source_phase": "production",
+        "n_legs": 3,
+        "spread_s_per_iter": [
+          8.0,
+          12.7
+        ],
+        "units": [
+          "calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge",
+          "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+          "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
+        ],
+        "gpus": [
+          "NVIDIA GeForce RTX 4080 SUPER",
+          "NVIDIA GeForce RTX 4090",
+          "NVIDIA GeForce RTX 5090"
+        ]
+      },
+      "solvent": {
+        "s_per_iter": 1.7,
+        "source_phase": "production",
+        "n_legs": 1,
+        "spread_s_per_iter": [
+          1.7,
+          1.7
+        ],
+        "units": [
+          "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge"
+        ],
+        "gpus": [
+          "NVIDIA GeForce RTX 4090"
+        ]
+      },
+      "ternary": {
+        "s_per_iter": 16.6,
+        "source_phase": "production",
+        "n_legs": 3,
+        "spread_s_per_iter": [
+          7.9,
+          17.0
+        ],
+        "units": [
+          "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
+          "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
+          "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe"
+        ],
+        "gpus": [
+          "NVIDIA GeForce RTX 4090"
+        ]
+      }
+    }
+  },
+  "legs": [
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
+      "leg_id": "5aks_d0_to_d__ternary_nr4a3",
+      "arm": "ternary",
+      "mode": "5aks_smoke",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "n_particles": 147788,
+      "warmup_median_s_per_iter": 8.0,
+      "warmup_n": 1,
+      "production_median_s_per_iter": 7.9,
+      "production_n": 3,
+      "recorded_utc": "2026-07-26T21:07:21Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke",
+      "leg_id": "calib_hi_to_lo2__ternary_vhl",
+      "arm": "ternary",
+      "mode": "triangle_smoke",
+      "status": "done",
+      "timestep_fs": 2.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "n_particles": 141458,
+      "warmup_median_s_per_iter": 13.6,
+      "warmup_n": 1,
+      "production_median_s_per_iter": 13.7,
+      "production_n": 3,
+      "recorded_utc": "2026-07-27T22:56:29Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge",
+      "leg_id": "calib_hi_to_lo__binary_vhl",
+      "arm": "binary",
+      "mode": "edge",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+      "n_particles": null,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 12.7,
+      "production_n": 24,
+      "recorded_utc": "2026-07-26T10:31:28Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "leg_id": "calib_hi_to_lo__binary_vhl",
+      "arm": "binary",
+      "mode": "edge_reps",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "n_particles": 90324,
+      "warmup_median_s_per_iter": 6.0,
+      "warmup_n": 17,
+      "production_median_s_per_iter": 8.0,
+      "production_n": 50,
+      "recorded_utc": "2026-07-28T05:08:49Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "leg_id": "calib_hi_to_lo__binary_vhl",
+      "arm": "binary",
+      "mode": "edge_reps",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "n_particles": 90720,
+      "warmup_median_s_per_iter": 8.0,
+      "warmup_n": 21,
+      "production_median_s_per_iter": 10.9,
+      "production_n": 50,
+      "recorded_utc": "2026-07-28T09:58:49Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge",
+      "leg_id": "calib_hi_to_lo__solvent",
+      "arm": "solvent",
+      "mode": "edge",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "n_particles": null,
+      "warmup_median_s_per_iter": 1.3,
+      "warmup_n": 15,
+      "production_median_s_per_iter": 1.7,
+      "production_n": 50,
+      "recorded_utc": "2026-07-25T21:54:21Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "arm": "ternary",
+      "mode": "edge",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "n_particles": null,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 17.0,
+      "production_n": 8,
+      "recorded_utc": "2026-07-26T15:31:02Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "arm": "ternary",
+      "mode": "probe",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "n_particles": null,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 16.6,
+      "production_n": 1,
+      "recorded_utc": "2026-07-25T22:07:08Z"
+    }
+  ]
+}
