@@ -1,11 +1,12 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 4:44 AM ET Jul 28, 2026
+[s1f-terminus] read at 4:48 AM ET Jul 28, 2026
 
-[s1f-terminus] 4790 object(s) under the results prefix
+[s1f-terminus] 4831 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1030 B  4:39 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral/ddg.json
       1012 B  2:50 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral/ddg.json
+      1006 B  4:48 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral/ddg.json
       1007 B  8:48 AM ET Jul 27, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid/ddg.json
        995 B  2:56 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral/ddg.json
       1015 B  10:33 PM ET Jul 27, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral/ddg.json
@@ -17,8 +18,8 @@
   e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral             ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral              ddg=no  NO-TERMINUS        complex/production@480, complex/warmup@400
   e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@80, solvent/warmup@400
+  e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral          ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
+  e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine    ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@360, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
@@ -74,6 +75,28 @@
          "complex_unc_kcal": 0.1328809571071061,
          "dg_solvent_morph_kcal": -38.03048774793776,
          "solvent_unc_kcal": 0.14552597006116563,
+         "n_mapped_atoms": 21,
+         "n_windows": 12,
+         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+       }
+     e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
+     ddg.json:
+       {
+         "unit_id": "e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
+         "edge_id": "e_zaienne_cmpd19__cw_ev_5alkyne",
+         "leg_id": "neutral__neutral",
+         "receptor": "nr4a3",
+         "frame": "nr4a3_design:top_druggable_frame_1",
+         "ligand_a": "zaienne_cmpd19",
+         "ligand_b": "cw_ev_5alkyne",
+         "ddg_bind_kcal": -0.363,
+         "ddg_bind_unc_kcal": 0.047,
+         "dg_complex_morph_kcal": -2.7164926331849095,
+         "complex_unc_kcal": 0.03712238440513211,
+         "dg_solvent_morph_kcal": -2.353906121495063,
+         "solvent_unc_kcal": 0.02920026106208822,
          "n_mapped_atoms": 21,
          "n_windows": 12,
          "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
@@ -192,20 +215,19 @@
        }
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 155 offers visible (baseline ~23), 155 qualifying, 95 priceable, 12 needed
-  floors           : min $0.051/hr, median $0.3253/hr
-  best fleet $/ns  : $0.005326/ns  ·  1.56× basis (basis $0.003412/ns)
-  projected        : $29.3 against a $47.31 ceiling
+  board depth      : 158 offers visible (baseline ~23), 158 qualifying, 97 priceable, 11 needed
+  floors           : min $0.048/hr, median $0.3253/hr
+  best fleet $/ns  : $0.005147/ns  ·  1.51× basis (basis $0.003412/ns)
+  projected        : $25.96 against a $43.37 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
-    RTX 3090   m68109    $0.0510/hr  $0.00398/ns · 1.17× basis
+    RTX 3090   m68109    $0.0480/hr  $0.00382/ns · 1.12× basis
     RTX 5090   m8914     $0.1420/hr  $0.00398/ns · 1.17× basis
-    RTX 4090   m24573    $0.1067/hr  $0.00425/ns · 1.25× basis
+    RTX 5090   m54510    $0.1790/hr  $0.00488/ns · 1.43× basis
     RTX 3090   m12708    $0.0680/hr  $0.00491/ns · 1.44× basis
-    RTX 3090   m48605    $0.0667/hr  $0.00523/ns · 1.53× basis
     RTX 4090   m53989    $0.1467/hr  $0.00527/ns · 1.54× basis
     RTX 5090   m51045    $0.2000/hr  $0.00539/ns · 1.58× basis
     RTX 4080S  m33657    $0.1290/hr  $0.00547/ns · 1.60× basis
-    RTX 4090   m31036    $0.1587/hr  $0.00564/ns · 1.65× basis
+    RTX 5090   m52991    $0.2040/hr  $0.00549/ns · 1.61× basis
+    RTX 4090   m30113    $0.1587/hr  $0.00564/ns · 1.65× basis
+    RTX 4090   m140043   $0.1600/hr  $0.00568/ns · 1.67× basis
     RTX 4090   m51777    $0.1733/hr  $0.00610/ns · 1.79× basis
-    RTX 3090   m52517    $0.1133/hr  $0.00677/ns · 1.99× basis
-    RTX 4090   m26487    $0.2000/hr  $0.00693/ns · 2.03× basis
