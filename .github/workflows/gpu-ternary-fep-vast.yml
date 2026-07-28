@@ -1307,12 +1307,52 @@ jobs:
             --receipt research/modalities/ternary-vast-rental-receipt.json \
             --reason "$REASON"
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          # ★★ THE RECORD OF A PURCHASE MUST NOT BE LOST TO A MERGE (2026-07-27, 9:31 PM ET).
+          #
+          # WHAT HAPPENED. This was `git pull --rebase --autostash || true` then `git push || true`. The
+          # ledger is an APPEND-ONLY array that several lanes append to concurrently, so a rebase of our
+          # commit onto theirs conflicts routinely. It did:
+          #
+          #     error: could not apply 5c654a3e... tvast launch attempt: launched (CI)
+          #     Everything up-to-date
+          #     [ledger] no launch attempt recorded yet
+          #
+          # Both failures were swallowed by `|| true`, the commit was dropped, the repo was left mid-rebase,
+          # and the readout then reported that no launch had ever been attempted — for a run that had just
+          # rented FOUR hosts. Money was going out with no record that it had been authorised.
+          #
+          # THE FIX IS TO RE-APPEND, NOT TO RE-MERGE. A textual 3-way merge of two appends to one JSON array
+          # is exactly the conflict above. Instead each attempt takes origin's CURRENT ledger, re-runs the
+          # append onto it, and pushes; a lost race just means the next attempt appends onto a newer file.
+          # That is why the ledger's own record command is re-invoked inside the loop rather than outside it.
+          #
+          # AND IT FAILS LOUD. `|| true` on the record of a rental is the wrong default: a purchase nobody
+          # recorded is worse than a red build (the same argument `--verify-armed` already makes for a leg
+          # billing with nothing watching it). If every attempt fails, the row is printed IN FULL to the log
+          # so it is recoverable by hand, and the step exits non-zero.
+          BR="${{ github.ref_name }}"
+          LEDGER=research/modalities/ternary-vast-launch-attempts.json
           git add -f research/modalities/ternary-vast-rental-receipt.json 2>/dev/null || true
-          git add research/modalities/ternary-vast-launch-attempts.json
-          if ! git diff --cached --quiet -- research/modalities/ternary-vast-launch-attempts.json; then
-            git commit -m "tvast launch attempt: $OUTCOME (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
+          LEDGER_PUSHED=0
+          for attempt in 1 2 3 4 5; do
+            git add "$LEDGER"
+            if git diff --cached --quiet -- "$LEDGER"; then LEDGER_PUSHED=1; break; fi
+            git commit -q -m "tvast launch attempt: $OUTCOME (CI)"
+            if git push origin HEAD:"$BR" 2>/dev/null; then LEDGER_PUSHED=1; break; fi
+            echo "[ledger] push attempt $attempt lost a race; re-appending onto origin/$BR"
+            git reset -q --hard HEAD~1
+            git fetch -q origin "$BR"
+            git checkout -q "origin/$BR" -- "$LEDGER" 2>/dev/null || true
+            python research/modalities/ternary_launch_ledger.py --record "$OUTCOME" \
+              --stage "rent (steps.rent.outcome=${{ steps.rent.outcome }})" \
+              --gate /tmp/launch-board.json --run-url "$RUN_URL" \
+              --receipt research/modalities/ternary-vast-rental-receipt.json \
+              --reason "$REASON"
+          done
+          if [ "$LEDGER_PUSHED" != 1 ]; then
+            echo "::error title=LAUNCH RECORD NOT PERSISTED::a rental may have happened and the ledger row could not be pushed. The row follows IN FULL so it can be re-applied by hand."
+            cat "$LEDGER" | tail -c 4000
+            exit 1
           fi
           echo "::notice title=TVAST launch attempt::$(python research/modalities/ternary_launch_ledger.py --print-last)"
 
