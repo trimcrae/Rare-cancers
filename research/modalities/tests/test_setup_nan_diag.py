@@ -90,12 +90,39 @@ def test_nan_force_term_is_caught_as_well_as_inf():
     assert "BLOCK the unit" in drv.energy_probe_verdict(rows, float("nan"))
 
 
-def test_all_finite_says_RETRY():
+def test_all_finite_energies_AND_a_finite_gradient_says_RETRY():
     rows = [_row("HarmonicBondForce", 1234.5), _row("NonbondedForce", -987654.0)]
-    v = drv.energy_probe_verdict(rows, -986419.5)
+    v = drv.energy_probe_verdict(rows, -986419.5,
+                                 grad={"n_nonfinite": 0, "max_kj_mol_nm": 4.2e4, "argmax": 17})
     assert "RETRY candidate" in v
     assert "BLOCK" not in v
     assert "987654" in v            # the max |E| is quoted, so the reading is auditable
+
+
+# ---- ★★ THE CORRECTION THAT COST 25 RENTALS (2026-07-28) --------------------------------------
+# This block replaces `test_all_finite_says_RETRY`, which asserted that all-finite ENERGIES alone
+# licence a retry. That assertion was the rule the lane followed for `cw_bio_primary_amide`, and it
+# re-placed that unit 25 times across 7 distinct card/driver combinations, every attempt dying at the
+# same `LocalEnergyMinimizer.minimize` call (`step1-nan-forensics.json`). The rule was not merely
+# unlucky — it was measuring the wrong quantity: a minimiser descends the DERIVATIVE, and a pair of
+# atoms at exactly coincident coordinates keeps every energy finite while leaving the derivative
+# undefined. SUPERSEDED, retained for the record: "every force term is FINITE ... RETRY candidate,
+# not a block candidate" spoken with no gradient reading attached.
+def test_finite_energies_with_a_NON_FINITE_gradient_is_never_a_retry():
+    rows = [_row("HarmonicBondForce", 1234.5), _row("NonbondedForce", -987654.0)]
+    v = drv.energy_probe_verdict(rows, -986419.5, grad={"n_nonfinite": 2, "top": [{"atom": 4052}]})
+    assert "RETRY" not in v
+    assert "DETERMINISTIC" in v
+    assert "Do not rent another one" in v
+
+
+def test_no_gradient_reading_is_HALF_MEASURED_and_not_a_retry_licence():
+    # The default call (no `grad`) is exactly the shape that produced the wrong answer, so it must no
+    # longer be speakable as RETRY. "We did not ask" and "we asked and it was fine" are different states.
+    v = drv.energy_probe_verdict([_row("NonbondedForce", -1.0e6)], -1.0e6)
+    assert "HALF-MEASURED" in v
+    assert "RETRY candidate" not in v
+    assert "BLOCK" not in v
 
 
 def test_finite_groups_but_non_finite_total_still_says_BLOCK():
@@ -143,3 +170,84 @@ def test_hmrdiag_energy_probe_is_opt_in_and_non_fatal():
     assert "_drv._force_energy_probe(system, positions" in blk
     assert "energy_probe_verdict" in blk
     assert "except Exception as _pe" in blk
+
+
+# ---- coordinate degeneracy: detection --------------------------------------------------------
+# WHY THIS IS A SEPARATE CONCEPT FROM A CLASH, AND WHY THAT DISTINCTION IS THE WHOLE FIX. The clash
+# report asks "is this pair close enough to push on each other?", classifies an excluded coincident
+# pair as benign, and is RIGHT to: excluded pairs exert no direct nonbonded force. The minimiser does
+# not care. It differentiates, and r = 0 has no derivative whether or not the pair is excluded.
+def test_coincident_pairs_finds_an_exactly_duplicated_coordinate():
+    pos = [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0], [0.0, 0.0, 0.0], [2.0, 0.0, 0.0]]
+    assert drv.coincident_pairs(pos) == [(0, 2)]
+
+
+def test_coincident_pairs_ignores_a_close_but_distinct_contact():
+    # 0.09 nm = 0.9 A is a severe steric clash and emphatically NOT this function's business: the
+    # minimiser can and should resolve it. Flagging it here would silently turn a geometry guard into
+    # a clash fixer that edits chemistry.
+    pos = [[0.0, 0.0, 0.0], [0.09, 0.0, 0.0]]
+    assert drv.coincident_pairs(pos) == []
+
+
+def test_coincident_pairs_reports_each_pair_once_and_sorted():
+    pos = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+    assert drv.coincident_pairs(pos) == [(0, 1), (0, 2), (1, 2)]
+
+
+# ---- coordinate degeneracy: the fix ----------------------------------------------------------
+def test_dedegenerate_moves_only_the_degenerate_atom_and_by_the_stated_amount():
+    import math
+    pos = [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0], [0.0, 0.0, 0.0]]
+    out, rep = drv._dedegenerate_positions(pos, lambda _m: None, "t", nudge_nm=1e-3)
+    assert rep["n_coincident_pairs"] == 1 and rep["n_moved"] == 1
+    # atom 0 keeps its coordinates exactly; atom 1 was never degenerate and is untouched.
+    assert list(out[0]) == [0.0, 0.0, 0.0]
+    assert list(out[1]) == [1.0, 1.0, 1.0]
+    d = math.dist(list(out[2]), [0.0, 0.0, 0.0])
+    assert math.isclose(d, 1e-3, rel_tol=1e-9)
+    assert drv.coincident_pairs(out) == []
+
+
+def test_dedegenerate_is_deterministic_across_calls():
+    """Two hosts handed the same system must start from the same coordinates. A random nudge would
+    make a failing leg irreproducible, which is the opposite of what a spot lane needs."""
+    pos = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+    a, _ = drv._dedegenerate_positions([r[:] for r in pos], lambda _m: None, "t")
+    b, _ = drv._dedegenerate_positions([r[:] for r in pos], lambda _m: None, "t")
+    assert [list(r) for r in a] == [list(r) for r in b]
+
+
+def test_dedegenerate_is_a_no_op_on_a_healthy_system():
+    """Every other unit in the lane has no coincident pair, and this must be provably inert for them —
+    a geometry guard that quietly perturbs healthy systems would put a silent deviation into 18 legs."""
+    pos = [[0.0, 0.0, 0.0], [0.5, 0.0, 0.0], [0.0, 0.5, 0.0]]
+    out, rep = drv._dedegenerate_positions([r[:] for r in pos], lambda _m: None, "t")
+    assert rep["n_coincident_pairs"] == 0
+    assert [list(r) for r in out] == pos
+
+
+def test_the_driver_dedegenerates_BEFORE_anything_reads_the_positions():
+    """Ordering is the whole property: the restraint centre, the sampler and the minimiser all read
+    `positions`, so the de-degeneration has to happen ahead of all of them, not next to one of them."""
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "rbfe_spot_driver.py")).read()
+    body = src.split("def run_spot_safe(", 1)[1]
+    i_fix = body.index("_dedegenerate_positions(positions")
+    for later in ("add_flat_bottom_restraint", "unit._get_sampler(", "_get_integrator("):
+        assert i_fix < body.index(later), f"{later} reads positions before the de-degeneration"
+
+
+def test_dedegeneration_can_be_switched_off_but_defaults_ON():
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "rbfe_spot_driver.py")).read()
+    assert 'os.environ.get("RBFE_DEDEGENERATE", "1") == "1"' in src
+
+
+def test_gradient_probe_returns_an_empty_dict_rather_than_a_fabricated_zero():
+    # "not measured" and "measured, and fine" have opposite consequences — the first must never be
+    # rendered as the second, which is why the failure return is {} and the verdict reads {} as
+    # HALF-MEASURED rather than as a clean gradient.
+    logs = []
+    assert drv._gradient_probe(object(), logs.append, "unit-test") == {}
+    assert any("grad-diag:unit-test" in m for m in logs)

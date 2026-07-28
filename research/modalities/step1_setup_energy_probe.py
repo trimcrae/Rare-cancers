@@ -126,6 +126,16 @@ def probe_unit(unit, in_dir):
     row["n_particles"] = info.get("n_particles")
     row["force_census"] = info.get("force_census")
     row["energy_probe"] = info.get("energy_probe")
+    # ★ THE GRADIENT AND THE COORDINATE-DEGENERACY CENSUS, ALONGSIDE THE ENERGY (2026-07-28). The energy
+    # probe alone said RETRY about this very edge and the lane then bought 25 hosts to watch it fail; the
+    # missing half was that `LocalEnergyMinimizer` follows the DERIVATIVE, which an exactly-coincident pair
+    # leaves undefined while the energy stays finite. Both readings are recorded so neither can be quoted
+    # alone. Taken on the ORIGINAL positions — `run_spot_safe`'s de-degeneration happens later, in stage 2.
+    try:
+        import rbfe_spot_driver as _drv
+        row["gradient_probe"] = dict(_drv.LAST_GRADIENT_PROBE) or None
+    except Exception as e:  # noqa: BLE001
+        row["gradient_probe"] = {"error": f"{type(e).__name__}: {e}"}
 
     # ---- STAGE 2: RUN THE REAL MINIMISER --------------------------------------------------------
     # ★★ WHY STAGE 1 IS NOT ENOUGH, STATED PLAINLY. The energy probe evaluates ONE point: the
@@ -181,8 +191,13 @@ def _minimize_repro(rbfe, openfe, Chem, unit):
 
 
 def verdict(row):
-    """(decision, why) in {BLOCK, RETRY, INCONCLUSIVE}. PURE — the rule that decides whether this
-    lane keeps buying hosts for an edge is testable, not eyeballed in a CI log.
+    """(decision, why) in {BLOCK, FIX_GEOMETRY, RETRY, INCONCLUSIVE}. PURE — the rule that decides whether
+    this lane keeps buying hosts for an edge is testable, not eyeballed in a CI log.
+
+    FIX_GEOMETRY is the outcome this function was missing on 2026-07-27, and its absence is what made the
+    answer wrong: it covers a system that is SOUND but whose STARTING POINT is degenerate. Collapsed into
+    RETRY (which is where it used to land) it says "rent another host"; collapsed into BLOCK it retires a
+    computable edge. It is neither.
 
     INCONCLUSIVE is a first-class answer and must never collapse into RETRY: 'the probe did not run'
     and 'the probe ran and the system is fine' are different states, and only the second is a licence
@@ -203,6 +218,20 @@ def verdict(row):
                          f"setup(), before a single minimisation step — {bad}. That is a property of "
                          f"the staged system and reproduces on every host, so renting another one "
                          f"buys nothing")
+    # ★★ A NON-FINITE GRADIENT IS A DETERMINISTIC FAILURE THAT NO ENERGY READING CAN SEE (2026-07-28).
+    # This function returned RETRY for `cw_bio_primary_amide` on the strength of all-finite energies, and
+    # the lane acted on it 25 times across 7 distinct cards. `LocalEnergyMinimizer` descends the
+    # derivative; an exactly-coincident coordinate pair keeps every energy finite and leaves the derivative
+    # undefined. The remedy is not a block — `_dedegenerate_positions` fixes the starting geometry — but it
+    # is emphatically not "rent another host", so the verdict must not say RETRY.
+    gp = row.get("gradient_probe") or {}
+    if gp.get("n_nonfinite"):
+        return "FIX_GEOMETRY", (
+            f"every force term's ENERGY is finite, but the GRADIENT is non-finite on "
+            f"{gp['n_nonfinite']} atom(s) at the coordinates handed to setup() — a minimiser cannot step "
+            f"away from a point whose derivative is not a number, so this reproduces on every host. Not a "
+            f"host problem and not an unfixable edge: de-degenerate the starting coordinates "
+            f"(`rbfe_spot_driver._dedegenerate_positions`) and re-place")
     hi = max(abs(r["energy_kj_mol"]) for r in rows)
     # Stage 2 is what actually closes the question — a single-point reading cannot see a lambda
     # window it never visited. Its absence downgrades the answer rather than being ignored.
