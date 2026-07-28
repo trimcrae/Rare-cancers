@@ -1,21 +1,22 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-28T03:39:29Z",
-  "_generated_et": "11:39 PM ET Jul 27, 2026",
+  "_generated_utc": "2026-07-28T03:41:02Z",
+  "_generated_et": "11:41 PM ET Jul 27, 2026",
   "n_units": 19,
   "n_complete": 2,
-  "live_instances": 7,
+  "live_instances": 8,
   "_vast_unreadable": null,
   "instance_states": {
-    "running": 6,
+    "running": 7,
     "loading": 1
   },
   "gpu_util": [
     98.999908,
-    96.999908,
+    80.999924,
     99.999908,
-    0.0,
-    99.999908
+    98.999908,
+    99.999908,
+    0.0
   ],
   "phases": {
     "leg-complex-running": 14,
@@ -35,7 +36,7 @@
       "gpu_util": null,
       "inet_down": 891.6,
       "dph": 0.18402222222222223,
-      "age_min": 299
+      "age_min": 300
     },
     {
       "id": 46061523,
@@ -48,7 +49,7 @@
       "gpu_util": 98.999908,
       "inet_down": 916.1,
       "dph": 0.2534222222222222,
-      "age_min": 137
+      "age_min": 139
     },
     {
       "id": 46063881,
@@ -58,10 +59,10 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 4090",
-      "gpu_util": 96.999908,
+      "gpu_util": 80.999924,
       "inet_down": 881.1,
       "dph": 0.18402222222222223,
-      "age_min": 106
+      "age_min": 108
     },
     {
       "id": 46064769,
@@ -74,7 +75,7 @@
       "gpu_util": 99.999908,
       "inet_down": 923.7,
       "dph": 0.18742222222222224,
-      "age_min": 93
+      "age_min": 95
     },
     {
       "id": 46070923,
@@ -84,10 +85,10 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 5090",
-      "gpu_util": 0.0,
+      "gpu_util": 98.999908,
       "inet_down": 7887.3,
       "dph": 0.24103703703703702,
-      "age_min": 3
+      "age_min": 4
     },
     {
       "id": 46071019,
@@ -95,12 +96,12 @@
       "machine_id": 19492,
       "status": "loading",
       "cur_state": "running",
-      "status_msg": "ec6d5f6c9ed9: Pull complete\n",
+      "status_msg": "#6 1.106 Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64  InRelease [1581 B]\n",
       "gpu": "RTX 5090",
       "gpu_util": null,
       "inet_down": 718.3,
       "dph": 0.2262222222222222,
-      "age_min": 1
+      "age_min": 3
     },
     {
       "id": 46071020,
@@ -113,6 +114,19 @@
       "gpu_util": 99.999908,
       "inet_down": 761.5,
       "dph": 0.20145185185185188,
+      "age_min": 3
+    },
+    {
+      "id": 46071140,
+      "label": "s1f-07-cw_ev_5pegamine",
+      "machine_id": 24573,
+      "status": "running",
+      "cur_state": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "gpu": "RTX 4090",
+      "gpu_util": 0.0,
+      "inet_down": 1882.3,
+      "dph": 0.13842962962962962,
       "age_min": 1
     }
   ],
@@ -181,14 +195,14 @@
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
       "phase": "leg-solvent-running 2026-07-28T02:59:26Z",
-      "committed": "solvent/production@1000",
-      "committed_scalar": 11001000,
-      "committed_prev_scalar": 11000920,
+      "committed": "solvent/production@1040",
+      "committed_scalar": 11001040,
+      "committed_prev_scalar": 11001000,
       "ddg_bind_kcal": null
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
-      "phase": "leg-complex-running 2026-07-28T00:03:59Z",
+      "phase": "leg-complex-running 2026-07-28T03:40:56Z",
       "committed": "complex/production@1960",
       "committed_scalar": 1001960,
       "committed_prev_scalar": 1001960,
@@ -215,7 +229,7 @@
       "phase": "leg-complex-running 2026-07-28T01:24:00Z",
       "committed": "complex/production@1360",
       "committed_scalar": 1001360,
-      "committed_prev_scalar": 1001320,
+      "committed_prev_scalar": 1001360,
       "ddg_bind_kcal": null
     },
     {
@@ -283,6 +297,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 29.46,
+  "realised_usd_so_far": 29.5,
   "plan_usd_whole_tranche": 29.72
 }
