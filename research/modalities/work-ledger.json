@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-28T14:45:02Z",
-  "_generated_et": "10:45 AM ET Jul 28, 2026",
+  "_generated_utc": "2026-07-28T15:36:50Z",
+  "_generated_et": "11:36 AM ET Jul 28, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-28T15:33:02Z",
-  "_stale_after_et": "11:33 AM ET Jul 28, 2026",
+  "_stale_after_utc": "2026-07-28T16:24:50Z",
+  "_stale_after_et": "12:24 PM ET Jul 28, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -593,16 +593,16 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5oh \u2014 complex/production@1040",
+      "what": "Step-1 fan-out unit cw_ev_5oh \u2014 complex/production@1240",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "1001040",
-      "last_evidence_utc": "2026-07-28T14:44:03Z",
-      "last_evidence_et": "10:44 AM ET Jul 28, 2026",
+      "evidence_fingerprint": "1001240",
+      "last_evidence_utc": "2026-07-28T15:35:17Z",
+      "last_evidence_et": "11:35 AM ET Jul 28, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-07-28T16:14:03Z",
-      "next_evidence_due_et": "12:14 PM ET Jul 28, 2026",
+      "next_evidence_due_utc": "2026-07-28T17:05:17Z",
+      "next_evidence_due_et": "1:05 PM ET Jul 28, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -690,7 +690,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 12:14 PM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 1:05 PM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1106,7 +1106,7 @@
       "what": "Step-1 fan-out unit cw_bio_hydroxamic \u2014 complex/production@1320",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "advancing",
+      "state": "open",
       "evidence_fingerprint": "1001320",
       "last_evidence_utc": "2026-07-28T13:15:17Z",
       "last_evidence_et": "9:15 AM ET Jul 28, 2026",
@@ -1141,12 +1141,29 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T15:36:50Z",
+          "et": "11:36 AM ET Jul 28, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1001320",
+          "why": "no committed iteration since 9:15 AM ET Jul 28, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 0,
+      "n_fruitless_attempts": 1,
       "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 10:45 AM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action": {
+        "kind": "workflow_dispatch",
+        "workflow": "step1-fanout-autoscale.yml",
+        "ref": "main",
+        "inputs": {},
+        "why": "no committed iteration since 9:15 AM ET Jul 28, 2026",
+        "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+        "what": "one supervision tick of the step-1 congeneric RBFE fan-out: collect, nudge, place"
+      },
+      "auto_action_why_none": null,
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1159,16 +1176,16 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ms_free_acid \u2014 solvent/production@2000",
+      "what": "Step-1 fan-out unit cw_ms_free_acid \u2014 no commit yet",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "advancing",
-      "evidence_fingerprint": "11002000",
-      "last_evidence_utc": "2026-07-28T14:44:03Z",
-      "last_evidence_et": "10:44 AM ET Jul 28, 2026",
+      "state": "done",
+      "evidence_fingerprint": null,
+      "last_evidence_utc": "2026-07-28T15:35:17Z",
+      "last_evidence_et": "11:35 AM ET Jul 28, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-07-28T16:14:03Z",
-      "next_evidence_due_et": "12:14 PM ET Jul 28, 2026",
+      "next_evidence_due_utc": "2026-07-28T17:05:17Z",
+      "next_evidence_due_et": "1:05 PM ET Jul 28, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -1229,7 +1246,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 12:14 PM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "finished",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1242,16 +1259,16 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ms_carbinol \u2014 complex/production@640",
+      "what": "Step-1 fan-out unit cw_ms_carbinol \u2014 complex/production@960",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "1000640",
-      "last_evidence_utc": "2026-07-28T14:44:03Z",
-      "last_evidence_et": "10:44 AM ET Jul 28, 2026",
+      "evidence_fingerprint": "1000960",
+      "last_evidence_utc": "2026-07-28T15:35:17Z",
+      "last_evidence_et": "11:35 AM ET Jul 28, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-07-28T16:14:03Z",
-      "next_evidence_due_et": "12:14 PM ET Jul 28, 2026",
+      "next_evidence_due_utc": "2026-07-28T17:05:17Z",
+      "next_evidence_due_et": "1:05 PM ET Jul 28, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -1285,7 +1302,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 12:14 PM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 1:05 PM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1301,7 +1318,7 @@
       "what": "Step-1 fan-out unit cw_ms_5acetamido_ester \u2014 complex/production@320",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "advancing",
+      "state": "open",
       "evidence_fingerprint": "1000320",
       "last_evidence_utc": "2026-07-28T13:15:17Z",
       "last_evidence_et": "9:15 AM ET Jul 28, 2026",
@@ -1336,12 +1353,29 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T15:36:50Z",
+          "et": "11:36 AM ET Jul 28, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1000320",
+          "why": "no committed iteration since 9:15 AM ET Jul 28, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 0,
+      "n_fruitless_attempts": 1,
       "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 10:45 AM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action": {
+        "kind": "workflow_dispatch",
+        "workflow": "step1-fanout-autoscale.yml",
+        "ref": "main",
+        "inputs": {},
+        "why": "no committed iteration since 9:15 AM ET Jul 28, 2026",
+        "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+        "what": "one supervision tick of the step-1 congeneric RBFE fan-out: collect, nudge, place"
+      },
+      "auto_action_why_none": null,
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1415,7 +1449,7 @@
       "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 complex/production@800",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "advancing",
+      "state": "open",
       "evidence_fingerprint": "1000800",
       "last_evidence_utc": "2026-07-28T13:43:18Z",
       "last_evidence_et": "9:43 AM ET Jul 28, 2026",
@@ -1450,12 +1484,29 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T15:36:50Z",
+          "et": "11:36 AM ET Jul 28, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1000800",
+          "why": "no committed iteration since 9:43 AM ET Jul 28, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 0,
+      "n_fruitless_attempts": 1,
       "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 11:13 AM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action": {
+        "kind": "workflow_dispatch",
+        "workflow": "step1-fanout-autoscale.yml",
+        "ref": "main",
+        "inputs": {},
+        "why": "no committed iteration since 9:43 AM ET Jul 28, 2026",
+        "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+        "what": "one supervision tick of the step-1 congeneric RBFE fan-out: collect, nudge, place"
+      },
+      "auto_action_why_none": null,
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1471,7 +1522,7 @@
       "what": "Step-1 fan-out unit cw_bio_primary_amide \u2014 complex/production@440",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "advancing",
+      "state": "open",
       "evidence_fingerprint": "1000440",
       "last_evidence_utc": "2026-07-28T13:15:17Z",
       "last_evidence_et": "9:15 AM ET Jul 28, 2026",
@@ -1506,12 +1557,29 @@
           "why": "no committed iteration since 8:24 PM ET Jul 27, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T15:36:50Z",
+          "et": "11:36 AM ET Jul 28, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1000440",
+          "why": "no committed iteration since 9:15 AM ET Jul 28, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 0,
+      "n_fruitless_attempts": 1,
       "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 10:45 AM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action": {
+        "kind": "workflow_dispatch",
+        "workflow": "step1-fanout-autoscale.yml",
+        "ref": "main",
+        "inputs": {},
+        "why": "no committed iteration since 9:15 AM ET Jul 28, 2026",
+        "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+        "what": "one supervision tick of the step-1 congeneric RBFE fan-out: collect, nudge, place"
+      },
+      "auto_action_why_none": null,
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1859,12 +1927,12 @@
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "ADVANCING|fade429ca2deba63|step1-fanout-progress.json `_generated_utc`",
-      "last_evidence_utc": "2026-07-28T14:44:03Z",
-      "last_evidence_et": "10:44 AM ET Jul 28, 2026",
+      "evidence_fingerprint": "ADVANCING|9611390b145aa632|step1-fanout-progress.json `_generated_utc`",
+      "last_evidence_utc": "2026-07-28T15:35:17Z",
+      "last_evidence_et": "11:35 AM ET Jul 28, 2026",
       "last_evidence_what": "step1-fanout-progress.json `_generated_utc`",
-      "next_evidence_due_utc": "2026-07-28T15:29:03Z",
-      "next_evidence_due_et": "11:29 AM ET Jul 28, 2026",
+      "next_evidence_due_utc": "2026-07-28T16:20:17Z",
+      "next_evidence_due_et": "12:20 PM ET Jul 28, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -1880,7 +1948,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 11:29 AM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 12:20 PM ET Jul 28, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1889,7 +1957,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "6 host(s) up and new evidence 1 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
+        "6 host(s) up and new evidence 2 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
       ]
     },
     {
@@ -1996,9 +2064,18 @@
           "why": "advance lane ternary-valb-reps out of ADVANCING",
           "gated_by": "ternary_vast_launch's $/ns market gate, which writes ternary-vast-market-hold.json / valb-triangle-market-hold.json on EVERY pass so a decline is never silent",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-28T15:36:50Z",
+          "et": "11:36 AM ET Jul 28, 2026",
+          "action": "workflow_dispatch gpu-ternary-fep-vast.yml {\"task\": \"market-gate\"}",
+          "fingerprint_at_dispatch": "ADVANCING||ternary-vast-market-hold.json `utc`",
+          "why": "advance lane ternary-valb-reps out of ADVANCING",
+          "gated_by": "ternary_vast_launch's $/ns market gate, which writes ternary-vast-market-hold.json / valb-triangle-market-hold.json on EVERY pass so a decline is never silent",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 2,
+      "n_fruitless_attempts": 3,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -2020,7 +2097,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "2 host(s) up and new evidence 0 min ago (ternary-vast-market-hold.json `utc`). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
+        "2 host(s) up and new evidence 51 min ago (ternary-vast-market-hold.json `utc`). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
       ]
     },
     {
@@ -2116,7 +2193,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "2 host(s) up and this lane has produced NO new evidence for 498 min (last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 2:26 AM ET Jul 28, 2026, threshold 90 min). A valB cohort was dead for 85 min under exactly this shape while its watchdog printed 'advancing \u2026 Leaving it alone'. NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is t"
+        "2 host(s) up and this lane has produced NO new evidence for 550 min (last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 2:26 AM ET Jul 28, 2026, threshold 90 min). A valB cohort was dead for 85 min under exactly this shape while its watchdog printed 'advancing \u2026 Leaving it alone'. NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is t"
       ]
     },
     {
@@ -2185,6 +2262,27 @@
   "_dispatch_plan": [
     {
       "kind": "workflow_dispatch",
+      "workflow": "step1-fanout-autoscale.yml",
+      "ref": "main",
+      "inputs": {},
+      "why": "no committed iteration since 9:15 AM ET Jul 28, 2026",
+      "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+      "what": "one supervision tick of the step-1 congeneric RBFE fan-out: collect, nudge, place",
+      "serves": [
+        "fanout-unit:e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
+        "fanout-unit:e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
+        "fanout-unit:e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
+        "fanout-unit:e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral"
+      ],
+      "why_each": [
+        "fanout-unit:e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral: no committed iteration since 9:15 AM ET Jul 28, 2026",
+        "fanout-unit:e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral: no committed iteration since 9:15 AM ET Jul 28, 2026",
+        "fanout-unit:e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral: no committed iteration since 9:43 AM ET Jul 28, 2026",
+        "fanout-unit:e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral: no committed iteration since 9:15 AM ET Jul 28, 2026"
+      ]
+    },
+    {
+      "kind": "workflow_dispatch",
       "workflow": "gpu-ternary-fep-vast.yml",
       "ref": "main",
       "inputs": {
@@ -2204,9 +2302,9 @@
   "_dispatch_plan_is_a_request": "this module NEVER shells out. The workflow executes these with `gh workflow run`; each names a workflow and no price.",
   "n_by_state": {
     "blocked": 23,
-    "open": 6,
-    "done": 9,
-    "advancing": 10,
+    "open": 10,
+    "done": 10,
+    "advancing": 5,
     "held": 1
   },
   "blocked": [
@@ -2262,17 +2360,17 @@
     "rung:post_submit"
   ],
   "_self": {
-    "now_et": "10:45 AM ET Jul 28, 2026",
-    "generated_et": "10:45 AM ET Jul 28, 2026",
-    "stale_after_et": "11:33 AM ET Jul 28, 2026",
+    "now_et": "11:36 AM ET Jul 28, 2026",
+    "generated_et": "11:36 AM ET Jul 28, 2026",
+    "stale_after_et": "12:24 PM ET Jul 28, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 11:33 AM ET Jul 28, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 12:24 PM ET Jul 28, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (10:42 AM ET Jul 28, 2026) refreshed the artifact to 10:45 AM ET Jul 28, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (10:44 AM ET Jul 28, 2026) refreshed the artifact to 11:36 AM ET Jul 28, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
