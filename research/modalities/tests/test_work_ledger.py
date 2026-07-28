@@ -898,3 +898,29 @@ def test_END_TO_END_a_correctly_resting_board_dispatches_NOTHING(tmp_path):
     assert wl.BLOCKED in states and wl.HELD in states
     assert "RETRY BUDGET SPENT" not in wl.render_board(doc, root, NOW), \
         "nothing here has spent a budget — only external gates are holding"
+
+
+# ============================================================================================================
+# The ledger must not inherit the single-root blindness — and here it matters MORE than in the watcher,
+# because this module DISPATCHES. A lane it cannot see reads as unowned work and gets a gate task fired at
+# it every tick.
+# ============================================================================================================
+def test_source_roots_reach_the_lane_watcher(monkeypatch, tmp_path):
+    seen = {}
+
+    def spy(root, now, **kw):
+        seen["source_roots"] = kw.get("source_roots")
+        return {"lanes": []}, []
+
+    monkeypatch.setattr(wl.lsw, "build_report", spy)
+    wl.gather(str(tmp_path), str(tmp_path / "S.md"), str(tmp_path / "s.json"),
+              datetime.datetime(2026, 7, 27, 23, 0, tzinfo=datetime.timezone.utc),
+              use_api=False, source_roots={"ternary": "/tmp/roots/ternary"})
+    assert seen["source_roots"] == {"ternary": "/tmp/roots/ternary"}
+
+
+def test_a_source_root_pointing_nowhere_is_refused_before_anything_dispatches(tmp_path, capsys):
+    rc = wl.main(["--root", str(tmp_path), "--no-api",
+                  "--source-root", f"ternary={tmp_path}/nope"])
+    assert rc == 2
+    assert "is not a directory" in capsys.readouterr().err

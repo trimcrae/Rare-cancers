@@ -176,6 +176,7 @@ jobs:
           set +e
           python3 research/modalities/work_ledger.py \
             --root research/modalities \
+            --source-root ternary=/tmp/roots/ternary \
             --ledger research/modalities/work-ledger.json \
             --board --write \
             --json /tmp/work-ledger.json \

@@ -1011,7 +1011,8 @@ def _action(workflow: str, inputs: dict | None, *, why: str) -> dict:
 # gathering — ALL file I/O lives here, so every scanner above stays pure and replayable
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 def gather(root: str, strategy_path: str, schedule_path: str, now: datetime.datetime, *,
-           use_api: bool = False) -> tuple[list[Entry], list[dict]]:
+           use_api: bool = False,
+           source_roots: dict[str, str] | None = None) -> tuple[list[Entry], list[dict]]:
     """Run every scanner. Returns `(entries, scanner_coverage)`.
 
     ⚠ A SCANNER THAT RAISES IS RECORDED, NOT SWALLOWED. A category that stopped being scanned looks exactly
@@ -1053,7 +1054,11 @@ def gather(root: str, strategy_path: str, schedule_path: str, now: datetime.date
     def _lanes():
         # ★ CONSUMED, NOT RE-IMPLEMENTED. `use_api=False` by default keeps this offline and deterministic;
         # the Actions-API half of that module is its own supervision check and has its own workflow.
-        rep, _states = lsw.build_report(root, now, use_api=use_api)
+        # ★ source_roots, NOT a bare root. The lanes do not all live on one branch (see
+        # `lane_staleness_watch.gather`'s header). Handing the watcher one root here would make the
+        # ledger inherit that blindness — and unlike the watcher, the ledger DISPATCHES, so a lane it
+        # cannot see reads as unowned work and gets a gate task fired at it on every tick.
+        rep, _states = lsw.build_report(root, now, use_api=use_api, source_roots=source_roots)
         return scan_lanes(rep, None)
 
     run("lanes", _lanes)
@@ -1654,8 +1659,9 @@ def _counts(entries: list[dict]) -> dict[str, int]:
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 def build(root: str, strategy_path: str, schedule_path: str, now: datetime.datetime, *,
           prev: dict | None = None, use_api: bool = False, runs: list[dict] | None = None,
-          fetch_error: str | None = None) -> dict:
-    found, cov = gather(root, strategy_path, schedule_path, now, use_api=use_api)
+          fetch_error: str | None = None, source_roots: dict[str, str] | None = None) -> dict:
+    found, cov = gather(root, strategy_path, schedule_path, now, use_api=use_api,
+                        source_roots=source_roots)
     entries = reconcile(prev, found, now)
     plan = dispatch_plan(entries, now)              # records an attempt on every entry it serves
     stale_after = now + datetime.timedelta(minutes=EXPECTED_TICK_MIN * STALE_AFTER_TICKS)
@@ -1708,6 +1714,10 @@ def build(root: str, strategy_path: str, schedule_path: str, now: datetime.datet
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--root", default=HERE)
+    ap.add_argument("--source-root", action="append", default=None, metavar="SOURCE=DIR",
+                    help="where a lane's artifacts actually live, e.g. `ternary=/tmp/roots/ternary`. "
+                         "Passed straight through to lane_staleness_watch — see its gather() header for "
+                         "why one root is not enough.")
     ap.add_argument("--ledger", default=DEFAULT_LEDGER)
     ap.add_argument("--strategy", default=DEFAULT_STRATEGY)
     ap.add_argument("--schedule", default=DEFAULT_SCHEDULE)
@@ -1728,12 +1738,25 @@ def main(argv=None) -> int:
         print(f"::error::--now {a.now!r} is not an ISO8601 Z timestamp", file=sys.stderr)
         return 2
 
+    source_roots = {}
+    for item in (a.source_root or []):
+        if "=" not in item:
+            print(f"::error::--source-root {item!r} must be SOURCE=DIR", file=sys.stderr)
+            return 2
+        name, _, path = item.partition("=")
+        # Same refusal as lane_staleness_watch: a mapping that points nowhere reads as an empty directory,
+        # every lane there looks like it has no evidence, and THIS module would dispatch against that.
+        if not os.path.isdir(path):
+            print(f"::error::--source-root {name}={path!r} is not a directory", file=sys.stderr)
+            return 2
+        source_roots[name.strip()] = path
+
     prev, _perr = _load_json(a.ledger)
     runs, ferr = (None, None)
     if not a.no_api:
         runs, ferr = fsa.fetch_runs(REPO, TICK_WORKFLOW)
     doc = build(a.root, a.strategy, a.schedule, now, prev=prev, use_api=False, runs=runs,
-                fetch_error=ferr)
+                fetch_error=ferr, source_roots=source_roots)
 
     print(f"[work-ledger] {len(doc['entries'])} entr(ies) at {doc['_generated_et']}: "
           + ", ".join(f"{n} {s}" for s, n in sorted(doc["n_by_state"].items())))
