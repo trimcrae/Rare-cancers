@@ -1138,6 +1138,16 @@ def retire_perishable_exclusions(s3, bucket):
 
     Returns the retired ids. Idempotent: a second call finds nothing left to retire.
     """
+    # The SHARED set gets the same treatment in the same breath — this lane reads `local ∪ shared`, so a
+    # perishable entry over there filters our placements exactly as one of ours does, and on 2026-07-28
+    # three of the shared set's four entries were that class. It is rule-application, not an overrule of
+    # another lane's evidence; the argument is in `vast_machine_blacklist.retire_perishable.__doc__`.
+    try:
+        import vast_machine_blacklist as vmb
+        vmb.retire_perishable(s3, bucket)
+    except Exception as e:  # noqa: BLE001 — a repair must never be able to stop a launch
+        print(f"[s1f] shared-set retire skipped: {type(e).__name__}: {e}")
+
     doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
     if not (doc.get("machine_ids") or []):
         return []

@@ -263,3 +263,50 @@ def test_the_committed_pre_clear_record_is_still_intact():
     doc = json.load(open(p))
     assert doc["n_machine_ids"] == 41
     assert doc["history_entries_by_reason_class"] == {"host": 9, "capacity": 32}
+
+
+# ============================================================================================================
+# ★ THE ENTRIES THE GUARD WAS ADDED TOO LATE FOR. Measured live 7:16 AM ET 2026-07-28, hours after the set
+# was cleared to zero: the shared set held four machines and its own history classes three of them as
+# capacity refusals — one of them written NINETY SECONDS earlier by the backfill, from the ternary lane's
+# wave-scoped list. Closing the door does not empty the room.
+# ============================================================================================================
+def test_retire_perishable_removes_a_capacity_entry_the_guard_would_refuse_today():
+    s3 = _FakeS3()
+    vmb.publish(s3, "b", "28908", "container never started: 163 min from rental", "step1_fanout")
+    # written the way a pre-guard build (or backfill's synthetic label) got them in
+    ids, doc = vmb.load(s3, "b")
+    doc["machine_ids"] = sorted(set(ids) | {"46427", "8914"})
+    doc["history"] += [
+        {"machine_id": "46427", "why": "never started: cur_state=stopped with an empty status_msg for 94 "
+                                       "min across 2 consecutive checks (create/start race, not an image "
+                                       "pull)", "lane": "step1_fanout"},
+        {"machine_id": "8914", "why": "resources_unavailable on start (instance 46089664)",
+         "lane": "rung5a_ks"}]
+    s3.objs[vmb.SHARED_KEY] = json.dumps(doc)
+
+    assert sorted(vmb.retire_perishable(s3, "b")) == ["46427", "8914"]
+    assert vmb.load(s3, "b")[0] == ["28908"], "the genuine host verdict must survive"
+
+
+def test_retire_perishable_is_idempotent():
+    s3 = _FakeS3()
+    vmb.publish(s3, "b", "1", "container never started", "ternary")
+    assert vmb.retire_perishable(s3, "b") == []
+
+
+def test_retire_perishable_records_what_it_removed():
+    s3 = _FakeS3({vmb.SHARED_KEY: json.dumps({
+        "machine_ids": ["8914"],
+        "history": [{"machine_id": "8914", "why": "resources_unavailable on start", "lane": "rung5a_ks"}]})})
+    vmb.retire_perishable(s3, "b")
+    last = json.loads(s3.objs[vmb.SHARED_KEY])["history"][-1]
+    assert last["action"] == "retire_perishable" and last["retired_machine_ids"] == ["8914"]
+
+
+def test_retire_perishable_leaves_an_entry_it_cannot_read_a_reason_for():
+    """Unlike this lane's own list, the shared set's history is complete by construction — publish always
+    writes it — so a shared entry with no reason is a surprise, not a legacy. Leave it and let a human look;
+    the cross-lane set is the one where being wrong is most expensive in both directions."""
+    s3 = _FakeS3({vmb.SHARED_KEY: json.dumps({"machine_ids": ["999"], "history": []})})
+    assert vmb.retire_perishable(s3, "b") == []

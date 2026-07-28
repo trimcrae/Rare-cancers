@@ -393,6 +393,9 @@ def main(argv=None):
     ap.add_argument("--lane-list", action="append", default=None, metavar="KEY",
                     help="READ-ONLY: report what is on this lane's own exclusion list, and the reason class "
                          "of each entry. Repeatable. Runs before any clear, and never writes.")
+    ap.add_argument("--retire-perishable", action="store_true",
+                    help="remove SHARED entries whose OWN recorded reason is a capacity refusal. Not a TTL "
+                         "and not an overrule — the rule publish() already enforces, applied retroactively.")
     ap.add_argument("--force-snapshot", action="store_true",
                     help="overwrite an existing snapshot file. Destroys a record; there is no good reason.")
     ap.add_argument("--lane-state", action="append", default=None, metavar="KEY",
@@ -442,6 +445,10 @@ def main(argv=None):
             fh.write("\n")
         print(f"[blacklist] snapshot -> {a.snapshot}: {snap['n_machine_ids']} machine(s), "
               f"by reason class {snap['history_entries_by_reason_class']}")
+        # AFTER the snapshot, ALWAYS — the retire is a mutation, and the record of what was there must be
+        # written down before anything is removed. Same discipline as `--clear` requiring `--snapshot`.
+        if a.retire_perishable:
+            retire_perishable(s3, bucket)
         if not a.clear:
             # RETURN, don't fall through to the read-only dump. Printing the whole set after writing it to a
             # file is pure noise, and it buried the git error of the very step that failed to commit it.
@@ -483,6 +490,64 @@ def snapshot(s3, bucket, key=None):
         "history_entries_by_reason_class": by_class,
         "history": hist,
     }
+
+
+def retire_perishable(s3, bucket, key=None, lane="operator"):
+    """Take out of the SHARED set every entry whose OWN recorded reason classifies as CLASS_CAPACITY.
+
+    ⚠⚠ WHY THIS IS NEEDED EVEN THOUGH `publish` NOW REFUSES THAT CLASS. Because entries created BEFORE the
+    guard, or created THROUGH it by `backfill`'s synthetic label, are still sitting there — and they are the
+    majority. Measured live at 7:16 AM ET 2026-07-28, hours after the set was cleared to zero: the shared
+    set held FOUR machines, and the history says three of them are perishable —
+
+      * `8914`  — "backfilled from rung5a_ks's refuse-to-start list", filed `reason_class: host`, written at
+                  11:15:26Z, **ninety seconds before the diagnostic ran**. That is the laundering caught in
+                  the act: `ternary-vast/_lane_state.json` held exactly `["8914"]` at that moment, i.e. the
+                  ternary lane's WAVE-SCOPED capacity refusal for the current tick, promoted to a permanent
+                  cross-lane entry by the per-read backfill.
+      * `46427`, `62866` — "never started: cur_state=stopped with an empty status_msg … (create/start race,
+                  not an image pull)", both with `reason_class: None`, i.e. written by a pre-guard build of
+                  this module that a lane branch was still running.
+      * `28908` — "container never started: 163 min from rental with no phase mark of its own" — a genuine
+                  host verdict, and it stays.
+
+    ★ THIS IS NOT `withdraw`, AND IT IS NOT AN OVERRULE OF ANOTHER LANE. `withdraw(only_lane=True)` refuses
+    to touch another lane's entry because that entry rests on evidence we cannot see. Here we ARE looking at
+    their evidence — the reason they recorded — and applying the classification rule the set now enforces at
+    its own door. The question answered is not "were they wrong?" but "could this entry be created today?",
+    and for a capacity reason the answer is no, by their rule and ours. Nothing is retired for being old.
+
+    Returns the retired ids. Idempotent.
+    """
+    ids, doc = load(s3, bucket, key)
+    if not ids:
+        return []
+    hist = list(doc.get("history") or [])
+    retire = []
+    for mid in ids:
+        rows = [h for h in hist if str(h.get("machine_id")) == mid and h.get("action") != "withdraw"]
+        if rows and all(classify_reason(h.get("why")) == CLASS_CAPACITY for h in rows):
+            retire.append(mid)
+    if not retire:
+        return []
+    hist.append({"machine_id": None, "action": "retire_perishable", "lane": lane, "utc": _utcnow(),
+                 "reason_class": "retire",
+                 "why": f"RETIRED {len(retire)} entr(ies) whose own recorded reason classifies as "
+                        f"CLASS_CAPACITY — a claim about a moment, which `publish` refuses at the door and "
+                        f"which reached this set before the guard or through backfill's synthetic label.",
+                 "retired_machine_ids": retire})
+    try:
+        s3.put_object(Bucket=bucket, Key=key or SHARED_KEY,
+                      Body=json.dumps({"_what": _WHAT, "_scope": "host — fails to start for anybody",
+                                       "machine_ids": sorted(set(ids) - set(retire)),
+                                       "history": hist}, indent=2).encode())
+    except Exception as e:  # noqa: BLE001 — a repair must never be able to stop a launch
+        print(f"[blacklist] could not retire perishable shared entries: {type(e).__name__}: {e}", flush=True)
+        return []
+    print(f"[blacklist] ⚖ RETIRED {len(retire)} perishable entr(ies) from the SHARED set {retire} — their "
+          f"own recorded reasons are capacity refusals. {len(set(ids) - set(retire))} host-scoped entr(ies) "
+          f"remain.", flush=True)
+    return retire
 
 
 def lane_list_report(s3, bucket, lane_key):
