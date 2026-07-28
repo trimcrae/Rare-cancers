@@ -299,7 +299,11 @@ def main(argv=None):
     ap.add_argument("--clear", default=None, metavar="WHY", help="empty the shared set, recording WHY")
     ap.add_argument("--lane-state", action="append", default=None, metavar="KEY",
                     help="also clear this lane's own `_blocked_machines` (repeatable)")
-    a = ap.parse_args([] if argv is None else argv)
+    # ⚠ `sys.argv[1:]`, NOT `[]`. Passing an empty list here silently DISCARDS every command-line flag, so
+    # `--snapshot` and `--clear` were never seen and the tool just ran its read-only print while reporting
+    # success — a clear that did nothing, twice, and looked like it had worked both times (2026-07-27).
+    import sys
+    a = ap.parse_args(sys.argv[1:] if argv is None else argv)
     bucket = a.bucket_opt or a.bucket or (os.environ.get("VAST_CKPT_BUCKET")
                                           or "sagemaker-us-east-2-646605541856")
     import boto3

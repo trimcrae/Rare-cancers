@@ -112,3 +112,17 @@ def test_the_create_start_race_verdict_is_perishable_because_it_has_been_wrong()
     assert vmb.classify_reason(why) == vmb.CLASS_CAPACITY
     s3 = _FakeS3()
     assert vmb.publish(s3, "b", "53989", why, "step1_fanout") is False
+
+
+def test_the_cli_actually_reads_its_command_line(monkeypatch, tmp_path):
+    """`parse_args([])` ignores every flag. That made --clear a silent no-op that reported success twice."""
+    import sys as _sys
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "vast_machine_blacklist.py")).read()
+    assert "parse_args([] if argv is None else argv)" not in src
+    assert "sys.argv[1:] if argv is None else argv" in src
+
+    # And end to end: with argv=None the parser must see the real process argv.
+    out = tmp_path / "snap.json"
+    monkeypatch.setattr(_sys, "argv", ["vast_machine_blacklist.py", "--clear", "x"])
+    assert vmb.main() == 2          # --clear without --snapshot is refused, proving the flag was parsed
