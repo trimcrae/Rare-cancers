@@ -1,46 +1,72 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-28T02:10:47Z",
-  "n_units": 1,
+  "utc": "2026-07-28T03:38:16Z",
+  "n_units": 4,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 1.71,
-  "ceiling_usd": 3.85,
-  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 1 legs",
+  "plan_usd": 6.83,
+  "ceiling_usd": 15.4,
+  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 4 legs",
   "breakeven_usd_per_ns": 0.009234,
   "depth": {
-    "offers_returned": 197,
-    "qualifying": 197,
-    "priceable": 111,
-    "needed": 1,
-    "used_for_mean": 1
+    "offers_returned": 181,
+    "qualifying": 181,
+    "priceable": 103,
+    "needed": 4,
+    "used_for_mean": 4
   },
   "offers": [
     {
       "gpu": "RTX 5090",
       "machine_id": 8914,
-      "min_bid_usd_h": 0.139,
-      "usd_per_ns": 0.003775
+      "min_bid_usd_h": 0.145,
+      "usd_per_ns": 0.00392
+    },
+    {
+      "gpu": "RTX 3090",
+      "machine_id": 139040,
+      "min_bid_usd_h": 0.06666667,
+      "usd_per_ns": 0.003932
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 24573,
+      "min_bid_usd_h": 0.10666666666666667,
+      "usd_per_ns": 0.004019
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 29707,
+      "min_bid_usd_h": 0.2,
+      "usd_per_ns": 0.005255
     }
   ],
-  "mean_usd_per_ns": 0.003775,
-  "ratio_vs_basis": 1.106,
-  "projected_usd": 1.57,
+  "mean_usd_per_ns": 0.004281,
+  "ratio_vs_basis": 1.255,
+  "projected_usd": 7.14,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $1.57 within this rung's ceiling $3.85 AND 1.11x basis is within the 1.92x drift line",
+  "reason": "projected $7.14 within this rung's ceiling $15.40 AND 1.25x basis is within the 1.92x drift line",
   "mode": "triangle",
   "nothing_to_launch": false,
   "units_done": [],
-  "units_live": [
+  "units_live": [],
+  "units_needing_host": [
+    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "units_needing_host": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
-  ],
-  "units_replacing_a_dead_host": []
+  "units_replacing_a_dead_host": [
+    {
+      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "dead_instance": 46065474,
+      "machine_id": 30974,
+      "gpu": "RTX 3090",
+      "actual_status": "exited",
+      "cur_state": "stopped"
+    }
+  ]
 }
