@@ -1660,6 +1660,10 @@ def rung_band_usd(n_units, entry="ternary_4fs_recalibration (1 matched edge)", l
 # same number). `inflight_usd_per_ns.DRIFT_MULTIPLE` is the drift line's one home; a literal here would be a
 # second copy free to disagree with the board that reports against it.
 from inflight_usd_per_ns import DRIFT_MULTIPLE as _DRIFT_MULTIPLE  # noqa: E402
+# The buy line, DERIVED not typed (CLAUDE.md §1: never a multiple of a correctable basis). It gates the
+# teardown decision for the same reason it gates a rental — see teardown_decision.py.
+from inflight_usd_per_ns import APPROVED_USD_PER_NS as _BUY_LINE_USD_PER_NS  # noqa: E402
+import teardown_decision as tdd  # noqa: E402
 
 MARKET_MAX_RATIO_VS_BASIS = float(os.environ.get("TVAST_MAX_RATIO_VS_BASIS") or _DRIFT_MULTIPLE)
 
@@ -1914,6 +1918,12 @@ def collect(bucket=None, prefix=None, autostop=True):
     except Exception:  # noqa: BLE001 — first run
         prev_state = {}
     new_state, blocked = {}, set()
+    # Machines already known bad from PREVIOUS passes. The replacement check must exclude them or it would
+    # price a board including hosts that have already refused us — and then destroy a live box on the
+    # strength of an offer we could not actually take.
+    _prior_blocked = {str(m) for m in (prev_state.get("_blocked_machines") or [])}
+    # Boxes this pass HELD instead of destroying, so the readout can show them with their snapshot.
+    held_boxes = []
 
     # DEDUPE before anything else: two instances on one unit write the same S3 keys, do the same work and
     # bill twice. Keep the oldest (most progress, checkpoints already committed) — but a WORKING host beats an
@@ -2037,10 +2047,19 @@ def collect(bucket=None, prefix=None, autostop=True):
             except Exception as e:  # noqa: BLE001
                 print(f"    nudge failed: {e}")
             if err == "resources_unavailable":
-                # NOT something to wait out. Vast is a market of ~23 independently priced hosts, not a
-                # pool; the floor is flat day-to-day, so a different host today costs what this one will
-                # cost tomorrow. Raising the bid was tested on 2026-07-25 (+26% to the value ceiling) and
-                # changed nothing. Record the machine, destroy, pick another.
+                # NOT something to wait out ON THIS HOST. Vast is a market of independently priced hosts,
+                # not a pool, and raising the bid was tested on 2026-07-25 (+26% to the value ceiling) and
+                # changed nothing. So the machine is blacklisted unconditionally and the next placement
+                # goes elsewhere.
+                #
+                # ★★ BUT THE TEARDOWN IS NOW CONDITIONAL (trimcrae, 2026-07-27: "we should only do that if
+                # we know we have a better alternative"). The old rule destroyed immediately on the premise
+                # that "a different host today costs what this one will tomorrow" — which assumed a
+                # replacement was always purchasable. The buy line broke that premise: at 8:32 PM ET the
+                # step 1 board's cheapest was 1.96x basis and ALL 12 units were refused. Destroying into
+                # that market forfeits the instance's DISK (the staged inputs — the checkpoint itself is
+                # safe in S3) and buys back only ~$0.011/hr of storage, while the gate declines to replace
+                # what we just tore down. Full argument and the measured dollars: teardown_decision.py.
                 blocked.add(str(i.get("machine_id")))
                 print(f"    (machine {i.get('machine_id')} has no free GPU and no bid fixes it — blocked)")
                 # scope="host": nothing about OUR workload enters this verdict, so every lane may act on it.
@@ -2052,11 +2071,36 @@ def collect(bucket=None, prefix=None, autostop=True):
                                 lane="ternary")
                 except Exception as _e:  # noqa: BLE001 — a monitoring aid must never fail a collect
                     print(f"    (shared blacklist publish failed: {_e})")
-                print(f"    -> destroying {iid}: picking another host beats queueing on this one")
+                # Is a replacement actually purchasable? Asked through the SAME gate that would authorise
+                # the replacement rental, so the two answers can never disagree — a board this refuses to
+                # buy from is a board we must not tear down into. It reads the live market; on any failure
+                # we fail CLOSED (treat it as "no replacement") rather than destroy blind, which is the
+                # documented Vast-403-under-throttling hazard.
+                repl = None
                 try:
-                    _vast_request("DELETE", f"/instances/{iid}/", key)
-                except Exception as e:  # noqa: BLE001
-                    print(f"    destroy failed: {e}")
+                    import relaunch_market_gate as _rmg
+                    _hold, _gdoc = _rmg.gate("ternary", uid or str(iid),
+                                             resource_spec(),
+                                             key=key, excluded=tuple(blocked | _prior_blocked), s3=s3,
+                                             state_bucket=b, state_prefix=p)
+                    if not _hold:
+                        repl = _gdoc.get("best_usd_per_ns")
+                except Exception as _e:  # noqa: BLE001 — an unreadable board is NOT permission to destroy
+                    print(f"    (replacement check failed, failing CLOSED: {type(_e).__name__}: {_e})")
+
+                _td = tdd.decide(replacement_usd_per_ns=repl,
+                                 buy_line_usd_per_ns=_BUY_LINE_USD_PER_NS,
+                                 stopped_min=up_h * 60.0, max_stopped_min=MAX_STOPPED_MIN)
+                print(tdd.render(_td, instance_id=iid, machine_id=i.get("machine_id")))
+                if _td["destroy"]:
+                    try:
+                        _vast_request("DELETE", f"/instances/{iid}/", key)
+                    except Exception as e:  # noqa: BLE001
+                        print(f"    destroy failed: {e}")
+                else:
+                    # VISIBLE, with the snapshot that caused it (CLAUDE.md §6) — a silent hold is
+                    # indistinguishable from a lane that finished.
+                    held_boxes.append({"instance": iid, "machine_id": i.get("machine_id"), **_td})
             elif up_h * 60 > MAX_STOPPED_MIN:
                 print(f"    -> destroying {iid} (stopped {up_h * 60:.0f} min, not a capacity wait)")
                 try:
@@ -2067,6 +2111,15 @@ def collect(bucket=None, prefix=None, autostop=True):
     # ONE COMPACT LINE PER UNIT, LAST. GitHub truncates a job log from the tail, and this board's per-instance
     # detail is long enough that on a busy poll the verdict scrolls out of a 25-line fetch — which is exactly
     # when a monitor most needs it. So repeat the decision-relevant facts in one grep-able line each.
+    # ⛔ HELD BOXES, BEFORE the summary. A capacity-refused box we KEPT is money not being spent on a GPU and
+    # a decision that must be auditable; printing nothing would make it indistinguishable from a teardown.
+    if held_boxes:
+        print(f"---- TVAST-HELD ({len(held_boxes)} capacity-refused box(es) kept, not destroyed) ----")
+        for h in held_boxes:
+            print(f"TVAST-HELD instance={h['instance']} machine={h['machine_id']} "
+                  f"stopped={h['stopped_min']:.0f}min storage=${h['hold_cost_usd_h']:.3f}/hr "
+                  f"best_replacement={h['replacement_usd_per_ns']} buy_line={h['buy_line_usd_per_ns']} "
+                  f"-> {h['verdict']}")
     print("---- TVAST-SUMMARY ----")
     for u, d in sorted(recs.items()):
         t = (d.get("timing") or {}).get("production") or {}

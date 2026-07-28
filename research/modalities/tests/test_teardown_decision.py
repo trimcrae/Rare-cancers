@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""Teardown is a SWAP, and a swap you cannot complete is just a loss.
+
+The decision these pin: on a capacity refusal, destroying immediately forfeits the instance's disk (the
+staged inputs) and buys ~$0.011/hr of storage back. That trade is worth making when a replacement is
+actually purchasable, and not when the buy line would refuse one — which is a real state, measured at
+8:32 PM ET on 2026-07-27 when the board's cheapest was 1.96x basis and all 12 units were refused.
+"""
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import teardown_decision as td  # noqa: E402
+
+LINE = 0.006539          # the absolute buy line; never typed as a multiple (CLAUDE.md §1)
+
+
+def _d(**kw):
+    base = dict(replacement_usd_per_ns=0.004, buy_line_usd_per_ns=LINE,
+                stopped_min=5.0, max_stopped_min=45.0)
+    base.update(kw)
+    return td.decide(**base)
+
+
+# ---------------------------------------------------------------- the swap is available
+def test_a_replacement_under_the_line_means_destroy_and_swap():
+    d = _d(replacement_usd_per_ns=0.004)
+    assert d["destroy"] is True
+    assert d["verdict"] == td.DESTROY_HAVE_REPLACEMENT
+
+
+def test_a_replacement_exactly_AT_the_line_still_counts_as_available():
+    # The line is an inclusive ceiling everywhere else in this repo; it must not become exclusive here.
+    assert _d(replacement_usd_per_ns=LINE)["destroy"] is True
+
+
+# ---------------------------------------------------------------- the swap is NOT available
+def test_no_replacement_under_the_line_means_HOLD_not_destroy():
+    d = _d(replacement_usd_per_ns=0.00668)          # 1.96x basis — the 8:32 PM board
+    assert d["destroy"] is False
+    assert d["verdict"] == td.HOLD_NO_REPLACEMENT
+    assert d["replacement_clears_buy_line"] is False
+
+
+def test_an_empty_board_means_HOLD_rather_than_a_blind_teardown():
+    # `None` = nothing priceable at all. That is LESS reason to destroy, not more: we would be tearing down
+    # into a market we cannot even measure.
+    assert _d(replacement_usd_per_ns=None)["destroy"] is False
+
+
+def test_a_missing_buy_line_never_authorises_a_teardown():
+    # Fail CLOSED. A board read that failed (the Vast 403-under-throttling case) must not read as
+    # "replacement available".
+    assert _d(buy_line_usd_per_ns=None)["destroy"] is False
+
+
+# ---------------------------------------------------------------- the hold cannot last forever
+def test_the_backstop_still_reaps_a_box_nobody_can_replace():
+    d = _d(replacement_usd_per_ns=0.00668, stopped_min=46.0, max_stopped_min=45.0)
+    assert d["destroy"] is True
+    assert d["verdict"] == td.DESTROY_BACKSTOP
+
+
+def test_the_backstop_does_not_fire_early():
+    assert _d(replacement_usd_per_ns=0.00668, stopped_min=44.0)["destroy"] is False
+
+
+# ---------------------------------------------------------------- the readout
+def test_a_held_box_never_renders_like_a_purchase():
+    # CLAUDE.md §1: `⚠ PAYING` = money going out on a GPU; a HOLD is not that. Conflating them is what made
+    # an earlier round of hold readouts unreadable.
+    line = td.render(_d(replacement_usd_per_ns=0.00668), instance_id="1", machine_id="2")
+    assert "⛔ HOLDING" in line and "$0 GPU going out" in line
+    assert "⚠ PAYING" not in line
+
+
+def test_a_hold_carries_the_snapshot_that_caused_it():
+    # A silent hold is indistinguishable from a lane that finished — the failure mode §6 names explicitly.
+    d = _d(replacement_usd_per_ns=0.00668)
+    assert d["hold_cost_usd_h"] > 0
+    assert "buy line" in d["hold_why"]
+    assert d["replacement_usd_per_ns"] == 0.00668 and d["buy_line_usd_per_ns"] == LINE
+
+
+def test_the_decision_never_consults_gpu_util_or_raises_a_bid():
+    # Two standing prohibitions, asserted against the parsed CODE — the module docstring discusses both at
+    # length, so a plain substring scan would trip over its own rationale.
+    import ast
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "teardown_decision.py")).read()
+    tree = ast.parse(src)
+    names = {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
+    names |= {n.attr for n in ast.walk(tree) if isinstance(n, ast.Attribute)}
+    names |= {n.arg for n in ast.walk(tree) if isinstance(n, ast.arg)}
+    names |= {k.value for k in ast.walk(tree) if isinstance(k, ast.Constant) and isinstance(k.value, str)
+              and "\n" not in k.value}
+    assert not any("gpu_util" in str(n) for n in names)
+    assert not any("bid" in str(n).lower() for n in names)
+
+
+def test_it_is_pure_no_io_no_clock():
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "teardown_decision.py")).read()
+    for banned in ("import boto3", "import requests", "time.time(", "datetime.now("):
+        assert banned not in src, banned
