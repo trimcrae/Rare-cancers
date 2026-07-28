@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 6:29 PM ET Jul 28, 2026
+[s1f-terminus] read at 6:31 PM ET Jul 28, 2026
 
-[s1f-terminus] 6095 object(s) under the results prefix
+[s1f-terminus] 6098 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1030 B  4:39 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral/ddg.json
@@ -30,7 +30,7 @@
   e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@1560, complex/warmup@400
+  e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@1600, complex/warmup@400
   e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid   ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral         ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        complex/production@960, complex/warmup@400
@@ -284,10 +284,16 @@
        }
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board UNREADABLE: RuntimeError: vast API GET /search/asks/ -> 403: <html>
-<head><title>403 Forbidden</title></head>
-<body>
-<center><h1>403 Forbidden</h1></center>
-</body>
-</html>
- — an unreadable board is not a cheap board; a release would be refused for lack of evidence (same discipline as market_hold).
+  board depth      : 176 offers visible (baseline ~23), 176 qualifying, 103 priceable, 8 needed
+  floors           : min $0.0667/hr, median $0.3067/hr
+  best fleet $/ns  : $0.006123/ns  ·  1.79× basis (basis $0.003412/ns)
+  projected        : $22.46 against a $31.54 ceiling
+  OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
+    RTX 3090   m12708    $0.0667/hr  $0.00483/ns · 1.42× basis
+    RTX 5090   m50093    $0.2000/hr  $0.00539/ns · 1.58× basis
+    RTX 4090   m51777    $0.1733/hr  $0.00610/ns · 1.79× basis
+    RTX 4090   m55559    $0.1733/hr  $0.00610/ns · 1.79× basis
+    RTX 3090   m16661    $0.0950/hr  $0.00637/ns · 1.87× basis
+    RTX 5090   m36518    $0.2450/hr  $0.00648/ns · 1.90× basis
+    RTX 3090   m52517    $0.1133/hr  $0.00677/ns · 1.99× basis
+    RTX 4090   m26628    $0.2000/hr  $0.00693/ns · 2.03× basis
