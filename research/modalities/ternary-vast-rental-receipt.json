@@ -1,62 +1,67 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-27T23:51:08Z",
+  "utc": "2026-07-28T00:03:46Z",
   "mode": "triangle",
-  "n_requested": 4,
-  "n_rented": 3,
+  "n_requested": 1,
+  "n_rented": 1,
   "requested": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "rented": [
     {
-      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": "46055583",
-      "machine_id": 45983,
-      "bid": 0.2312,
-      "dph": 0.2288888888888889,
+      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": "46056372",
+      "machine_id": 35115,
+      "bid": 0.1153,
+      "dph": 0.11522222222222223,
       "gpu": "RTX 5090",
-      "dph_total_usd_h": 0.24786666666666668,
-      "dph_base_usd_h": 0.23120000000000002,
-      "usd_per_ns": 0.00575,
-      "x_basis": 1.685,
+      "dph_total_usd_h": 0.13196666666666668,
+      "dph_base_usd_h": 0.1153,
+      "usd_per_ns": 0.003061,
+      "x_basis": 0.897,
+      "over_buy_line": false
+    }
+  ],
+  "failed": [],
+  "already_live": [
+    {
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": 46055595,
+      "machine_id": 62866,
+      "gpu": "RTX 5090",
+      "dph_total_usd_h": 0.22066666666666665,
+      "dph_base_usd_h": 0.204,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005119,
+      "x_basis": 1.5,
       "over_buy_line": false
     },
     {
       "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": "46055590",
+      "instance": 46055590,
       "machine_id": 51777,
-      "bid": 0.1768,
-      "dph": 0.17555555555555555,
       "gpu": "RTX 4090",
       "dph_total_usd_h": 0.19346666666666668,
       "dph_base_usd_h": 0.1768,
+      "cur_state": "running",
+      "actual_status": "running",
       "usd_per_ns": 0.005775,
       "x_basis": 1.693,
       "over_buy_line": false
     },
     {
-      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": "46055595",
-      "machine_id": 62866,
-      "bid": 0.204,
-      "dph": 0.2022222222222222,
+      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": 46055583,
+      "machine_id": 45983,
       "gpu": "RTX 5090",
-      "dph_total_usd_h": 0.22066666666666665,
-      "dph_base_usd_h": 0.204,
-      "usd_per_ns": 0.005119,
-      "x_basis": 1.5,
+      "dph_total_usd_h": 0.24786666666666668,
+      "dph_base_usd_h": 0.23120000000000002,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.00575,
+      "x_basis": 1.685,
       "over_buy_line": false
     }
-  ],
-  "failed": [
-    {
-      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "error": "NoQualifyingOffer: vast: no rentable verified offer for ResourceSpec(gpu='rtx4090', min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=60, min_reliability=0.9, interruptible=True, exclude_machine_ids=('26910', '51546', '19499', '57342', '68109', '8914', '24573', '110782', '53989', '34646', '144071', '43159', '140160', '30974', '11892', '45983', '29668', '29711', '12697', '139040', '62866', '19492', '6786",
-      "kind": "market"
-    }
-  ],
-  "already_live": []
+  ]
 }
