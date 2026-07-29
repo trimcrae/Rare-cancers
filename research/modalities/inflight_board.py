@@ -124,16 +124,37 @@ def eta_seconds(phase, iteration, targets, s_per_iter):
     return remaining * s_per_iter if remaining > 0 else 0.0
 
 
-def state_of(has_host, advanced, no_advance_polls, cold_start, why_not_running=None):
+def state_of(has_host, advanced, no_advance_polls, cold_start, why_not_running=None,
+             pre_first_commit=False):
     """(state, why). PURE.
 
     ⚠ REFUSES to call a leg STALLED without a reason — see the module docstring. Raising is correct: a board
     that can render an unexplained stall will render one, and the reader then has to go and find out by hand.
+
+    ★★ `pre_first_commit` EXISTS BECAUSE THE FIRST VERSION OF THIS BOARD GOT IT WRONG IN PRODUCTION, on the
+    very first run (2026-07-29, 1:05 PM ET). `calib_lo_to_lo2__ternary_vhl` rendered:
+
+        T2 ternary   0.0%  —   $0.00533/ns · 1.56× basis  STALLED  no committed checkpoint yet; host up
+                                                                   21 min and the first warmup boundary is
+                                                                   one checkpoint interval of MD after the
+                                                                   image pull
+
+    — a STALLED verdict whose own reason explains why it is NOT stalled. The cause: the poll counter was
+    counting 0 -> 0 -> 0 and calling that "no advance", when a leg that has never reached its first
+    checkpoint boundary has nothing to advance FROM. Its host was 21 min old and this lane's measured first
+    boundary lands ~30-40 min in, so it was healthy.
+
+    A leg that has never committed is therefore judged against the repo's existing setup grace
+    (`watchdog_policy.DEFAULT_SETUP_GRACE_MIN`, 90 min — the same line `vast_idle_guard` uses to decide a
+    container is WEDGED rather than slow), NOT against the poll counter and not against the 15-minute
+    cold-start floor. Past that grace with still nothing committed it IS a stall, and then the reason is real.
     """
     if not has_host:
         return NO_HOST, (why_not_running or "no live instance")
     if advanced:
         return RUNNING, ""
+    if pre_first_commit:
+        return STARTING, (why_not_running or "no first checkpoint yet, and still inside the setup grace")
     if cold_start:
         return STARTING, (why_not_running or "host is inside its cold-start grace — image pull / minimise")
     if (no_advance_polls or 0) >= STALL_POLLS:
@@ -191,12 +212,14 @@ def render(rows, now_epoch=None):
     """The whole board as one block of text. PURE (given the rows)."""
     if not rows:
         return "IN-FLIGHT BOARD: no GPU legs.\n"
-    head = ("%-18s %7s  %-12s %-26s %-9s %s"
+    head = ("%-18s %7s  %-16s %-26s %-9s %s"
             % ("LEG", "% DONE", "ETA (ET)", "$/ns", "STATE", "WHY (when not running)"))
     out = [head, "-" * len(head)]
     for r in rows:
         pct = "—" if r.get("pct") is None else ("%.1f%%" % r["pct"])
-        out.append("%-18s %7s  %-12s %-26s %-9s %s"
+        # 16 wide, because a next-day ETA renders "1:31 AM Jul 30" and a 12-wide column pushed every later
+        # cell out of alignment on the very first live board.
+        out.append("%-18s %7s  %-16s %-26s %-9s %s"
                    % (r.get("name", "?")[:18], pct,
                       _fmt_eta(r.get("eta_s"), now_epoch=now_epoch),
                       r.get("usd_per_ns") or "—",

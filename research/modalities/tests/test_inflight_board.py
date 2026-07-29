@@ -134,3 +134,45 @@ def test_render_is_stable_across_calls():
     rows = [{"name": "T3 binary", "pct": 2.3, "eta_s": 3600.0,
              "usd_per_ns": "$0.004557/ns · 1.34x", "state": B.RUNNING, "why": ""}]
     assert B.render(rows, now_epoch=1_800_000_000) == B.render(rows, now_epoch=1_800_000_000)
+
+
+# ── the defect the board's own first live run exposed ────────────────────────────────────────────────
+# `calib_lo_to_lo2__ternary_vhl` rendered STALLED at 1:05 PM ET on 2026-07-29 with the reason "no committed
+# checkpoint yet; host up 21 min ..." — a stall verdict whose own reason explains why it is not a stall.
+
+def test_a_leg_that_has_never_committed_is_not_stalled_inside_the_setup_grace():
+    st, why = B.state_of(True, advanced=False, no_advance_polls=6, cold_start=False,
+                         why_not_running="no committed checkpoint yet; host up 21 min",
+                         pre_first_commit=True)
+    assert st == B.STARTING, "a leg with no first checkpoint has nothing to advance FROM"
+    assert why
+
+
+def test_pre_first_commit_beats_the_poll_counter_however_high_it_gets():
+    st, _ = B.state_of(True, advanced=False, no_advance_polls=99, cold_start=False,
+                       why_not_running="still staging", pre_first_commit=True)
+    assert st == B.STARTING
+
+
+def test_past_the_setup_grace_a_never_committed_leg_IS_stalled():
+    """The caller stops passing pre_first_commit once the grace elapses; then the normal rule applies."""
+    st, why = B.state_of(True, advanced=False, no_advance_polls=3, cold_start=False,
+                         why_not_running="120 min with no first checkpoint and the log is silent",
+                         pre_first_commit=False)
+    assert st == B.STALLED and "120 min" in why
+
+
+def test_advancing_still_wins_over_pre_first_commit():
+    assert B.state_of(True, True, 0, False, pre_first_commit=True)[0] == B.RUNNING
+
+
+def test_next_day_eta_does_not_break_column_alignment():
+    rows = [{"name": "T3 ternary", "pct": 16.2, "eta_s": 60 * 60 * 12.5,
+             "usd_per_ns": "$0.00456/ns · 1.34x basis", "state": B.RUNNING, "why": ""},
+            {"name": "T2 binary", "pct": 16.2, "eta_s": 3600.0,
+             "usd_per_ns": "$0.00512/ns · 1.50x basis", "state": B.RUNNING, "why": ""}]
+    lines = B.render(rows, now_epoch=1_800_000_000).splitlines()
+    body = [ln for ln in lines[2:] if ln.strip()]
+    # every row must put STATE in the same column, which a too-narrow ETA cell breaks
+    cols = [ln.index("RUNNING") for ln in body]
+    assert len(set(cols)) == 1, "ETA column too narrow — a next-day stamp shifted the later cells"

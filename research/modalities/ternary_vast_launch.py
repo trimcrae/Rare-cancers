@@ -3047,8 +3047,14 @@ def collect(bucket=None, prefix=None, autostop=True):
             # guard by construction — a board that called a box stalled while the guard was still shielding
             # it would be two definitions of the same thing, free to disagree at 3 AM.
             _cold = (_b["up_h"] or 0) * 60.0 < vig.MIN_INSTANCE_AGE_MIN
+            # A leg that has NEVER committed has nothing to advance from, so the poll counter cannot judge
+            # it — see `state_of`'s `pre_first_commit` note for the STALLED row this produced on the board's
+            # first live run. Both thresholds are IMPORTED: the setup grace is `vig.SETUP_GRACE_MIN`, itself
+            # `watchdog_policy.DEFAULT_SETUP_GRACE_MIN`, so the board, the idle guard and the watchdog all
+            # answer "is this leg merely slow to start?" from one number.
+            _pre_first = (_b["phase"] is None and (_b["up_h"] or 0) * 60.0 < vig.SETUP_GRACE_MIN)
             _state, _swhy = ifb.state_of(True, _b["advanced"], _b["no_advance_polls"], _cold,
-                                         why_not_running=_why or None)
+                                         why_not_running=_why or None, pre_first_commit=_pre_first)
             _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
                           "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),
                           "state": _state, "why": _swhy})
