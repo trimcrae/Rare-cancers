@@ -174,7 +174,25 @@ def diagnose(mode="edge_reps", bucket=None, prefix=None, key=None, want_console=
         marker, marker_age, _tail, log_age = tv.phase_and_log(uid, b, p)
         atts = attempt_logs(uid, b, p)
         rec = recs.get(uid) or {}
-        u = {"arm": arm, "leg_record_status": rec.get("status"),
+        # ★ THE BREAKER'S VERDICT AND THE TIMESTAMPS THAT PRODUCE IT (added 2026-07-29). Without this, the
+        # diagnostic showed `leg_record_status: failed` + `n_attempts_archived: 51` and left a reader to
+        # infer the block — and gave no way at all to see the fact that decides it: whether that record is
+        # still the NEWEST thing about the unit. Three units' worth of guessing came out of that gap.
+        try:
+            import leg_failure_breaker as _lfb
+            _s3c = tv._s3()
+            _commit_utc = _lfb.newest_commit_utc(_s3c, b, p, uid)
+            _evic = _lfb.read_eviction(_s3c, b, p, uid)
+            _sup = _lfb.superseding_evidence(rec, newest_commit_utc=_commit_utc, eviction=_evic)
+            _brk = _lfb.decide(rec or None, _lfb.count_attempts(_s3c, b, p, uid), superseding=_sup)
+            breaker = {"verdict": _brk.get("verdict"), "block": _brk.get("block"),
+                       "n_attempts": _brk.get("n_attempts"),
+                       "record_utc": rec.get("updated_utc") or rec.get("_s3_last_modified"),
+                       "newest_commit_utc": _commit_utc,
+                       "eviction": _evic, "superseded_by": _sup}
+        except Exception as e:  # noqa: BLE001 — a diagnostic must never crash the board it prints
+            breaker = {"error": f"{type(e).__name__}: {e}"}
+        u = {"arm": arm, "leg_record_status": rec.get("status"), "breaker": breaker,
              "committed": {"phase": phase, "iteration": it, "scalar": scalar},
              "phase_marker": marker, "phase_marker_age_min": marker_age, "log_age_min": log_age,
              "n_attempts_archived": len(atts),
@@ -201,6 +219,10 @@ def diagnose(mode="edge_reps", bucket=None, prefix=None, key=None, want_console=
               f"phase_marker={marker!r} ({'%.0f min old' % marker_age if marker_age is not None else 'n/a'})"
               f"  log {'%.1f min old' % log_age if log_age is not None else 'n/a'}")
         print(f"  attempts archived: {len(atts)}")
+        print(f"  BREAKER: {breaker.get('verdict') or breaker.get('error')}  block={breaker.get('block')}  "
+              f"record={breaker.get('record_utc')}  newest_commit={breaker.get('newest_commit_utc')}  "
+              f"evicted={(breaker.get('eviction') or {}).get('utc')}  "
+              f"superseded_by={(breaker.get('superseded_by') or {}).get('kind')}")
         for a in atts:
             print(f"    {a['utc']}  {a['bytes']:>8} B  {a['n_lines']:>5} lines  {a['key'].split('/')[-1]}")
             print(f"      LAST: {a['last_line'][:160]}")

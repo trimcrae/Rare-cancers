@@ -342,8 +342,21 @@ def record(outcome, run_url=None, stage=None, reason=None, gate=None,
     # possibilities names neither" mistake that `rented-nothing` was retired for. When units WERE wanted the
     # fallback is the FAULT word, never the benign one: the launcher has its own markers for a correct
     # price refusal, so anything reaching here without them is unexplained.
+    #
+    # ★★ AND `nothing-to-launch` IS WRONG THE MOMENT A UNIT WAS WITHHELD (2026-07-29). `n_requested == 0`
+    # has TWO causes and this line used to read only one of them. On the 13:05:24Z tick the receipt carried
+    # `n_requested: 0` because one unit was genuinely running and one was withheld by the failure breaker on
+    # 51 strikes — and this derivation filed the row as `nothing-to-launch`, "no unit needed a host", over a
+    # lane stalled on a unit whose checkpoint sat at warmup/576. That is the SAME §6 prohibition the
+    # `blocked` word was added to fix, arriving through a second door: the gate path recorded `blocked`
+    # correctly, the launch path recorded `nothing-to-launch` for the identical state. The receipt now names
+    # its withheld units, so the word can be derived from the fact instead of from the zero.
+    n_withheld = int((receipt or {}).get("n_withheld") or 0) if isinstance(receipt, dict) else 0
     if outcome == "launched" and n_rented is not None and int(n_rented) == 0:
-        outcome = "nothing-to-launch" if not n_requested else "submit-failed"
+        if n_withheld:
+            outcome = "blocked"
+        else:
+            outcome = "nothing-to-launch" if not n_requested else "submit-failed"
     if isinstance(gate, str):
         try:
             with open(gate) as fh:
@@ -390,6 +403,13 @@ def record(outcome, run_url=None, stage=None, reason=None, gate=None,
         # Units this launch did NOT rent because they already hold a host, priced the same way. On a
         # zero-rental tick this is the whole of what the lane costs, and without it such a row says nothing
         # about money at all — which is what left a board mean standing in for a purchase.
+        # ⛔ THE UNITS THIS TICK REFUSED TO BUY, NAMED IN THE ROW. Without them a `blocked` row says a number
+        # and not a unit, and the whole reason `blocked` exists is that a withheld unit must be visible.
+        wh = [r for r in (receipt.get("withheld") or []) if isinstance(r, dict)]
+        if wh:
+            e["n_withheld"] = len(wh)
+            e["withheld"] = [{k: r.get(k) for k in ("unit_id", "reason", "n_attempts", "threshold")
+                              if r.get(k) is not None} for r in wh]
         live = [r for r in (receipt.get("already_live") or []) if isinstance(r, dict)]
         if live:
             e["already_live"] = [{k: r.get(k) for k in ("unit_id", "instance", "gpu", "usd_per_ns",

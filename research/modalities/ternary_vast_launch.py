@@ -1468,20 +1468,70 @@ def unit_hosts(uids, key=None):
     """
     key = key or os.environ.get("VAST_API_KEY")
     if not key:
-        return {"live": {}, "dead": {}}
+        return {"live": {}, "dead": {}, "occupied_machines": set()}
     # IMPORTED, NOT RE-TYPED (CLAUDE.md §1). A local `!= "stopped"` here would be a fourth private copy of
     # "is this box working", free to disagree with the watchdog's and the collector's — and disagreeing
     # copies of exactly this predicate are what produced both of today's incidents.
     from gpu_backend import vast_instance_occupies_slot
-    live, dead = {}, {}
+    live, dead, occupied = {}, {}, set()
     for i in _vast_request("GET", "/instances/", key).get("instances", []) or []:
+        # ★★ OCCUPANCY IS COUNTED FIRST, ACROSS *EVERY* INSTANCE THIS ACCOUNT HOLDS — before the label
+        # filter, so it sees the step 1 fan-out's boxes as well as this lane's. See `occupied_machines` in
+        # the return value for why this exists; the short version is that a machine we are already sitting on
+        # is a machine that will refuse our second rental, and it does not stop being that because a
+        # different lane rented it.
+        mid = i.get("machine_id")
+        if mid is not None:
+            occupied.add(str(mid))
         lab = i.get("label") or ""
         if not str(lab).startswith(LABEL_PREFIX):
             continue
         for uid in uids:
             if label_matches_unit(lab, uid):
                 (live if vast_instance_occupies_slot(i) else dead)[uid] = i
-    return {"live": live, "dead": dead}
+    return {"live": live, "dead": dead,
+            # ★★ MACHINES WE ARE ALREADY ON — THE EXCLUSION THAT WAS MISSING (measured 2026-07-29, 9:25 AM
+            # ET, and it is the reason r2 could not stay placed).
+            #
+            # WHAT HAPPENED. r1 was running on machine 28164 (instance 46191306, advancing to warmup/1024).
+            # The gate priced the board, machine 28164 came back as the cheapest offer on it, and the
+            # launcher rented r2 there too — instance 46197224, the SAME machine. Twelve minutes later that
+            # host answered `resources_unavailable` and `collect` destroyed it: `⛔ DESTROYED this pass
+            # (capacity refusal on machine 28164; ...)`. The machine had room for one of our GPUs, not two.
+            # It is in the committed record twice over: `ternary-vast-market-hold.json` @ 2026-07-29T13:01:41Z
+            # prices exactly one offer, machine 28164, in the same file that names our own instance 46191306
+            # on machine 28164.
+            #
+            # WHY NOTHING STOPPED IT. `submit` already spreads units ONE PER MACHINE — but only within a
+            # single launch (`used` starts from `blocked_machine_ids()` and grows as that call rents). It has
+            # no notion of a machine occupied by a host rented on an EARLIER tick, and `blocked_machine_ids`
+            # cannot supply one: its only source is the `resources_unavailable` branch. So nothing in the
+            # rental path could exclude a machine merely for already carrying our own work. This is
+            # CLAUDE.md §6's named failure — "a host that never starts has infinite realised $/ns, invisible
+            # to $/ns ranking, so without the exclusion it keeps winning selection and keeps failing" —
+            # arriving through occupancy rather than through a refusal.
+            #
+            # ⚠ IT DELIBERATELY COUNTS *EVERY* INSTANCE, INCLUDING TERMINAL-LOOKING ONES. `exited` on Vast is
+            # routinely transient (`submit` refuses to destroy on one observation for exactly that reason,
+            # and r1's own instance read `exited` at 13:01 and `running` at 13:05), and a `stopped` box can be
+            # restarted and reclaim its GPU. A machine carrying an instance we have not destroyed is a
+            # machine that may take its slot back, so it is not a place to put a second unit. Using
+            # `vast_instance_occupies_slot` here instead would re-open the hole every time a live host
+            # happened to be observed mid-flicker.
+            #
+            # ⚠ AND IT IS NOT A BLACKLIST. Nothing is written down and nothing is remembered: this set is
+            # recomputed from the live instance list on every tick, so the moment a corpse is reaped its
+            # machine is purchasable again. That keeps trimcrae's 2026-07-27 ruling intact — a capacity
+            # refusal must stay PERISHABLE and must never become a durable cross-lane exclusion — because
+            # this is not a refusal record at all, it is a statement about where we are sitting right now.
+            #
+            # COST OF THE TRADE, stated honestly: we may skip a machine that genuinely had a second free
+            # GPU. That is the same trade `submit`'s existing one-unit-per-machine rule already makes, on
+            # the same evidence (machine 53989 took two legs on 2026-07-25 and refused both starts), and §6's
+            # measured premise applies — ~23 independently-priced hosts with a flat floor, so the next host
+            # costs what this one does. A refused rental costs a teardown and a cold start; a slightly
+            # different host costs nothing.
+            "occupied_machines": occupied}
 
 
 def live_unit_hosts(uids, key=None):
@@ -1538,6 +1588,47 @@ def rented_rate_row(uid, inst):
     return row
 
 
+def breaker_verdicts(uids, records, bucket=None, prefix=None):
+    """{unit_id: verdict} for every unit the failure breaker has an OPINION about. THE one call site.
+
+    ★★ ONE CALL SITE, NOT TWO (CLAUDE.md §1; the property this restores was asserted by a test that could
+    not see it break). `outstanding_units` and `submit` each used to build their own `lfb.decide(...)` loop,
+    and `tests/test_leg_failure_breaker.py` pinned that with `src.count("lfb.decide(") >= 2` — a source-text
+    assertion that counts CALLS and cannot compare ARGUMENTS. Two loops that pass different inputs satisfy
+    it perfectly while returning different answers, which is exactly the drift the test was written to stop.
+    Now there is one loop, both callers use it, and the same-verdict test runs both paths and compares the
+    sets they withhold.
+
+    Returns only the units with a verdict worth carrying — blocked, or blocked-but-superseded — because a
+    unit the breaker has nothing to say about must not appear in a readout as though it did.
+
+    Fails OPEN throughout (an unreadable attempt listing or commit store yields no block), deliberately
+    opposite to `submit`'s instance-list check: guessing wrong here costs at most one rental of a unit that
+    may well now succeed, whereas guessing wrong there double-buys on top of running work.
+    """
+    b = bucket or DEFAULT_BUCKET
+    p = (prefix or RESULT_PREFIX).rstrip("/")
+    out = {}
+    s3 = None
+    for u in uids:
+        rec = (records or {}).get(u)
+        # Cheap exit: only a `failed` record can possibly be blocked, so only that costs S3 calls.
+        if (rec or {}).get("status") != "failed":
+            continue
+        if s3 is None:
+            s3 = _s3()
+        d = lfb.decide(
+            rec,
+            lfb.count_attempts(s3, b, p, u),
+            superseding=lfb.superseding_evidence(
+                rec,
+                newest_commit_utc=lfb.newest_commit_utc(s3, b, p, u),
+                eviction=lfb.read_eviction(s3, b, p, u)))
+        if d["block"] or d.get("superseded_by"):
+            out[u] = d
+    return out
+
+
 def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None, key=None):
     """Which of this mode's units still need a host — the ONE answer both the gate and `submit` use.
 
@@ -1556,11 +1647,12 @@ def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None
                           warmup_timestep_fs=warmup_timestep_fs) for (l, s, d) in specs]
     uids = [j.env["UNIT_ID"] for j in jobs]
     done = {u for u, d in leg_records().items() if d.get("status") == "done"}
-    live_hosts, dead_hosts = {}, {}
+    live_hosts, dead_hosts, occupied = {}, {}, set()
     listing_error = None
     try:
         hosts = unit_hosts(uids, key=key)
         live_hosts, dead_hosts = hosts["live"], hosts["dead"]
+        occupied = set(hosts.get("occupied_machines") or ())
     except Exception as e:  # noqa: BLE001 — reported, not swallowed; callers must FAIL CLOSED on it
         listing_error = f"{type(e).__name__}: {e}"
         print(f"[launch] could not list live instances ({listing_error}); "
@@ -1571,24 +1663,24 @@ def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None
     # prices and the launcher buys, so this is the one place that can stop the loop without touching the
     # on-host retry rule (which must stay permissive, or no fix could ever be validated).
     # Blocked units are RETURNED, not dropped — the readout has to show them (CLAUDE.md §6).
-    _blocked = {}
-    _recs = leg_records()
-    for _u in uids:
-        if _u in done or _u in live_hosts:
-            continue
-        _rec = _recs.get(_u)
-        if (_rec or {}).get("status") != "failed":
-            continue          # cheap exit: only a failed unit can possibly be blocked, so only it costs a listing
-        _d = lfb.decide(_rec, lfb.count_attempts(_s3(), DEFAULT_BUCKET, RESULT_PREFIX, _u))
-        if _d["block"]:
-            _blocked[_u] = _d
-            print(lfb.render(_u, _d))
+    _verdicts = breaker_verdicts([u for u in uids if u not in done and u not in live_hosts], leg_records())
+    _blocked = {u: d for u, d in _verdicts.items() if d["block"]}
+    # ↻ A LIFTED BLOCK IS A DECISION AND IS PRINTED AS ONE. Renting a unit that carries 51 strikes must not
+    # look like a unit the breaker never considered — see `lfb.render`.
+    _unblocked = {u: d for u, d in _verdicts.items() if not d["block"]}
+    for _u, _d in sorted(_verdicts.items()):
+        print(lfb.render(_u, _d))
     return {"needed": [u for u in uids if u not in done and u not in live_hosts and u not in _blocked],
             "blocked": _blocked,
+            "unblocked": _unblocked,
             "done": [u for u in uids if u in done],
             "live": [u for u in uids if u in live_hosts and u not in done],
             "live_hosts": live_hosts,
             "dead_hosts": {u: i for u, i in dead_hosts.items() if u not in done and u not in live_hosts},
+            # Passed through so the GATE prices a board the LAUNCHER would actually buy from. Pricing a
+            # machine we are sitting on is how the 13:01:41Z snapshot came to quote $0.052 on machine 28164
+            # and then have that exact rental refused.
+            "occupied_machines": sorted(occupied),
             # ★★ THE FIELD EVERY CALLER MUST CHECK BEFORE RENTING. `needed` is only trustworthy when the
             # instance list was actually read: on a listing failure NOTHING looks live, so `needed` silently
             # becomes "every unit" — and renting on that is how this lane would genuinely double-buy on top
@@ -1610,14 +1702,27 @@ def receipt_path():
     return os.environ.get("TVAST_RECEIPT_PATH") or RECEIPT_PATH
 
 
-def write_rental_receipt(mode, requested, submitted, failed, live_rates=(), note=None, path=None):
+def write_rental_receipt(mode, requested, submitted, failed, live_rates=(), note=None, path=None,
+                         withheld=(), skipped=(), unblocked=()):
     """What this launch ACTUALLY rented, and at what rate per host. Written on every path.
 
     ⛔ THE FILE THAT DECIDES THE LEDGER'S OUTCOME WORD. Before it existed, the workflow inferred the word
     from `steps.rent.outcome`, so "the rent step exited 0" produced `launched` — "hosts were actually
     rented" — for a tick that rented nothing at all. The rental is a fact the launcher knows and the shell
     does not; writing it down is what stops the shell guessing.
+
+    ★★ AND IT IS THE ONE PLACE THAT DECIDES *WHY* NOTHING WAS RENTED (measured 2026-07-29). This branch used
+    to be handed a hard-coded note, `"every unit for this mode is already done or running — no rental
+    attempted"`, and it wrote that sentence whenever `keep` was empty — regardless of WHY it was empty.
+    `keep` is emptied by two completely different things: units that really are done or running, and units
+    the failure BREAKER withheld. On the 13:05:24Z tick the mode's two remaining units were one of each —
+    r1 genuinely running, r2 withheld on 51 strikes — and the receipt asserted that both were "done or
+    running". r2 was neither: its checkpoint sat at warmup/576 and nothing would ever re-place it. A receipt
+    that names a unit's state wrongly is worse than one that says nothing, because it is quotable. So the
+    wording is DERIVED here from `withheld` and `skipped` rather than asserted by the caller, and every
+    withheld unit is NAMED with its reason (CLAUDE.md §6 — never silently drop a unit).
     """
+    withheld, skipped = list(withheld), list(skipped)
     doc = {"_what": "what the last ternary launch actually rented, per host, at the rate the instance is "
                     "billed — NOT a board mean and NOT the launcher's `dph≈` line (both read low or price a "
                     "market rather than a purchase). This is the number that answers 'what are we paying?'",
@@ -1625,6 +1730,32 @@ def write_rental_receipt(mode, requested, submitted, failed, live_rates=(), note
            "n_requested": len(requested), "n_rented": len(submitted),
            "requested": list(requested), "rented": list(submitted), "failed": list(failed),
            "already_live": list(live_rates)}
+    if withheld:
+        doc["n_withheld"] = len(withheld)
+        doc["withheld"] = withheld
+    if skipped:
+        doc["skipped"] = skipped
+    if unblocked:
+        # ↻ WE RENTED A UNIT THAT WOULD OTHERWISE BE BLOCKED. That is a decision with money attached, so it
+        # goes in the artifact with the evidence that authorised it — never only in a log line.
+        doc["unblocked"] = list(unblocked)
+    if not note:
+        if withheld:
+            # NOT "nothing to do". A withheld unit is a STALLED unit, and the difference has to survive into
+            # the artifact — this is the same defect as a blocked lane reporting `nothing-to-launch`.
+            note = ("⛔ %d unit(s) WITHHELD by the failure breaker and NOT rented — this lane is NOT "
+                    "finished. %s%s Withheld: %s"
+                    % (len(withheld),
+                       ("%d unit(s) rented. " % len(submitted)) if submitted else "$0 spent this tick. ",
+                       ("%d needed no rental (%s). "
+                        % (len(skipped), ", ".join("%s: %s" % (k.get("unit_id"), k.get("why"))
+                                                   for k in skipped))) if skipped else "",
+                       "; ".join("%s (%s)" % (w.get("unit_id"), w.get("why") or w.get("verdict"))
+                                 for w in withheld)))
+        elif not requested and not submitted:
+            note = ("every unit for this mode is already done or running — no rental attempted"
+                    + (" (%s)" % ", ".join("%s: %s" % (s.get("unit_id"), s.get("why")) for s in skipped)
+                       if skipped else ""))
     if note:
         doc["note"] = note
     try:
@@ -1712,20 +1843,29 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     # able to halt the lane) — deliberately opposite to the instance-list check above, which fails CLOSED
     # because guessing wrong THERE double-buys on top of running work, whereas guessing wrong here costs at
     # most one rental of a unit that may well now succeed.
-    _brk = {}
-    _recs_for_breaker = leg_records()
-    for _j in jobs:
-        _u = _j.env["UNIT_ID"]
-        if _u in busy:
-            continue
-        _rec = _recs_for_breaker.get(_u)
-        if (_rec or {}).get("status") != "failed":
-            continue
-        _d = lfb.decide(_rec, lfb.count_attempts(_s3(), DEFAULT_BUCKET, RESULT_PREFIX, _u))
-        if _d["block"]:
-            _brk[_u] = _d
-            print(lfb.render(_u, _d))
+    #
+    # ⛔ AND IT ASKS THROUGH `breaker_verdicts`, THE SAME FUNCTION `outstanding_units` ASKS THROUGH. Two
+    # loops calling `lfb.decide` with independently-gathered arguments is a difference the old source-text
+    # test could not see; one function is the only form of "the same verdict" that cannot drift.
+    _verdicts = breaker_verdicts([j.env["UNIT_ID"] for j in jobs if j.env["UNIT_ID"] not in busy],
+                                 leg_records())
+    _brk = {u: d for u, d in _verdicts.items() if d["block"]}
+    for _u, _d in sorted(_verdicts.items()):
+        print(lfb.render(_u, _d))
     keep = [j for j in jobs if j.env["UNIT_ID"] not in busy and j.env["UNIT_ID"] not in _brk]
+    # WHAT THIS LAUNCH IS NOT RENTING, AND WHY — carried to the receipt rather than left in a log line the
+    # tail-truncation eats. `withheld` and `skipped` are different facts and must never be merged: one is a
+    # unit that is stalled, the other a unit that is fine.
+    _withheld_rows = [{"unit_id": u, "reason": "failure-breaker", "n_attempts": d.get("n_attempts"),
+                       "threshold": d.get("threshold"), "status": d.get("status"),
+                       "verdict": d.get("verdict"), "why": d.get("why")}
+                      for u, d in sorted(_brk.items())]
+    _skipped_rows = ([{"unit_id": u, "why": "done"} for u in sorted(done & {j.env["UNIT_ID"] for j in jobs})]
+                     + [{"unit_id": u, "why": "running"}
+                        for u in sorted(inflight & {j.env["UNIT_ID"] for j in jobs})])
+    _unblocked_rows = [{"unit_id": u, "n_attempts": d.get("n_attempts"),
+                        "superseded_by": d.get("superseded_by"), "why": d.get("why")}
+                       for u, d in sorted(_verdicts.items()) if not d["block"]]
     # ★ WHAT THE UNITS WE ARE *NOT* RENTING ALREADY COST US, priced off the LIVE INSTANCE RECORD. Without
     # this, a tick that rents nothing has nothing to say about money at all, and the only $/ns figure
     # anywhere near it is a board mean — the substitution that made 12:39 PM ET read as a 2.032x purchase.
@@ -1770,20 +1910,38 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
               f"a terminal status on Vast is often transient, and `collect` is the one that nudges, reads "
               f"the reply and reaps on real evidence.")
     if not keep:
-        print("[launch] every unit for this mode is already done or running — nothing to rent")
+        if _brk:
+            print("[launch] NOTHING RENTED, and it is NOT because the mode is finished: %d unit(s) were "
+                  "withheld by the failure breaker (%s). $0 spent this tick."
+                  % (len(_brk), ", ".join(sorted(_brk))))
+        else:
+            print("[launch] every unit for this mode is already done or running — nothing to rent")
         # ★★ SAY SO IN A FILE, NOT ONLY IN A LOG LINE (2026-07-27). This branch is the one the 12:29 PM and
         # 12:39 PM ET ticks took, and because it left no artifact the ledger step downstream could only see
         # "the rent step exited 0" — which it filed as `launched`, meaning "hosts were actually rented".
         # Zero were. The receipt is what lets the outcome word be derived from the RENTAL rather than from
         # an exit code, and it is written on every path so its ABSENCE is itself diagnostic.
+        # ⛔ NO `note=` HERE ANY MORE. The caller used to assert "every unit is already done or running" from
+        # this branch unconditionally, which is false the moment the breaker withheld one. The wording is
+        # DERIVED from `withheld`/`skipped` inside `write_rental_receipt` — its one home.
         write_rental_receipt(mode, requested=[], submitted=[], failed=[],
                              live_rates=getattr(submit, "last_live_rates", []),
-                             note="every unit for this mode is already done or running — no rental attempted")
+                             withheld=_withheld_rows, skipped=_skipped_rows,
+                             unblocked=_unblocked_rows)
         return []
 
     bad = set(blocked_machine_ids())
     if bad:
         print(f"[launch] excluding {len(bad)} machine(s) known to refuse starts: {sorted(bad)}")
+    # ⛔ AND THE MACHINES WE ARE ALREADY SITTING ON. Separate from `bad` and printed separately, because they
+    # are different facts with different lifetimes: `bad` is a refusal we recorded, this is where our own
+    # instances are RIGHT NOW, recomputed every tick and never written down. Merging them into one line is
+    # how a self-collision would come to read as a blacklist entry. Full argument: `unit_hosts`.
+    occupied = set(_hosts.get("occupied_machines") or ()) if key else set()
+    if occupied:
+        print(f"[launch] excluding {len(occupied)} machine(s) this account already occupies "
+              f"(a second unit on a machine we are already on is what got r2 capacity-refused on 28164 at "
+              f"9:37 AM ET on 2026-07-29): {sorted(occupied)}")
     backend = get_backend("vast")
     handles = []
     # ONE UNIT PER MACHINE. Offers are per GPU slot, so selection happily picks the same cheapest-$/ns
@@ -1791,7 +1949,7 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     # rental and then refuses every start (observed 2026-07-25: machine 53989 took two legs and answered
     # resources_unavailable for both). Spreading costs ~nothing: the market shows ~23 hosts and the floor
     # is flat day-to-day.
-    used = set(bad)
+    used = set(bad) | occupied
     failures = []
     for j in keep:
         try:
@@ -1837,7 +1995,8 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
             print(f"[launch] could not read back the rented rates ({type(e).__name__}: {e}); "
                   "the receipt will carry the offer quote only")
     write_rental_receipt(mode, requested=[j.env["UNIT_ID"] for j in keep], submitted=handles,
-                         failed=failures, live_rates=getattr(submit, "last_live_rates", []))
+                         failed=failures, live_rates=getattr(submit, "last_live_rates", []),
+                         withheld=_withheld_rows, skipped=_skipped_rows, unblocked=_unblocked_rows)
     if handles:
         json.dump(handles, open("ternary-vast-handles.json", "w"), indent=2)
     print(f"[launch] {len(handles)}/{len(keep)} unit(s) submitted -> "
@@ -1855,7 +2014,8 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
             "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "mode": mode, "requested": [j.env["UNIT_ID"] for j in keep],
             "submitted": handles, "failed": failures,
-            "excluded_machines": sorted(bad),
+            "withheld": _withheld_rows, "unblocked": _unblocked_rows,
+            "excluded_machines": sorted(bad), "occupied_machines": sorted(occupied),
         }, indent=2).encode())
     except Exception as e:  # noqa: BLE001
         print(f"[launch] could not persist the launch record: {type(e).__name__}: {e}")
@@ -2084,6 +2244,32 @@ def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max
     return hold, out
 
 
+def _withheld_rows_for_gate(out):
+    """The gate readout's rows for units the breaker withheld. PURE (given `outstanding_units`'s answer).
+
+    ★★ EMITTED ON EVERY BRANCH, NOT JUST `n == 0` (measured 2026-07-29, the THIRD readout gap of the same
+    shape). `units_blocked` used to be built inside the `n == 0` branch alone, so a breaker withholding one
+    unit while ANOTHER still needed a host produced a readout in which the withheld unit did not appear at
+    all — not in `units_done`, not in `units_live`, not in `units_needing_host`, not in `units_blocked`. It
+    simply vanished. The committed snapshots show it twice: at 11:46:13Z and again at 13:01:41Z, both
+    `n_units 1` CLEAR ticks, `calib_hi_to_lo__ternary_vhl_r2_...` is absent from every list in the file
+    while r1 is named in `units_needing_host`. A reader could only conclude the mode had three units.
+
+    That is CLAUDE.md §6's prohibition — a withheld unit must be VISIBLE with its reason — and it was
+    invisible by construction on the branch the lane spends most of its time in.
+    """
+    return [{"unit_id": u, "n_attempts": d.get("n_attempts"), "threshold": d.get("threshold"),
+             "status": d.get("status"), "why": d.get("why")}
+            for u, d in sorted((out.get("blocked") or {}).items())]
+
+
+def _unblocked_rows_for_gate(out):
+    """Units carrying a would-be block that durable evidence has SUPERSEDED — see `leg_failure_breaker`."""
+    return [{"unit_id": u, "n_attempts": d.get("n_attempts"),
+             "superseded_by": d.get("superseded_by"), "why": d.get("why")}
+            for u, d in sorted((out.get("unblocked") or {}).items())]
+
+
 def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
     """(action, readout) — price ONLY the units of `mode` that still need a host.
 
@@ -2117,7 +2303,7 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
     # "an unreadable market is not a cheap one": the one case where guessing is worst is the case where
     # nobody is awake to check.
     if not out["listing_ok"]:
-        return "hold", {
+        readout = {
             "_what": _gate_what(mode),
             "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "mode": mode, "hold": True, "nothing_to_launch": False,
@@ -2126,6 +2312,11 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
                        "would double-buy on top of running legs. The next tick re-checks."
                        % out["listing_error"]),
         }
+        # Withheld units are named even here: the reason this tick is holding is the unreadable listing, but
+        # a unit the breaker is withholding is a SECOND, independent fact and must not be lost behind it.
+        if out.get("blocked"):
+            readout["units_blocked"] = _withheld_rows_for_gate(out)
+        return "hold", readout
     n = len(out["needed"])
     if n == 0:
         # ★★ A LANE THAT FINISHED AND A LANE THAT IS BLOCKED MUST NOT RENDER ALIKE (measured 2026-07-29,
@@ -2147,12 +2338,12 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
             # intention of entering, which is precisely the number that got misread as a purchase.
             "live_host_rates": [rented_rate_row(u, out["live_hosts"][u]) for u in out["live"]],
         }
+        if out.get("unblocked"):
+            readout["units_unblocked"] = _unblocked_rows_for_gate(out)
         if blocked:
             # NOT a price hold — the market was never consulted — so it must not borrow the price-hold
             # vocabulary either. Its own outcome word, and every blocked unit named with its evidence.
-            readout["units_blocked"] = [
-                {"unit_id": u, "n_attempts": d.get("n_attempts"), "threshold": d.get("threshold"),
-                 "status": d.get("status"), "why": d.get("why")} for u, d in sorted(blocked.items())]
+            readout["units_blocked"] = _withheld_rows_for_gate(out)
             readout["reason"] = (
                 "⛔ %d of mode %s's units are BLOCKED on repeated failure and were NOT rented — %d done, "
                 "%d running, %d blocked. $0 spent this tick. This lane is NOT finished and NOT price-held: "
@@ -2165,7 +2356,17 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
                              "not consulted because nothing is for sale to us right now; this is NOT a price "
                              "hold." % (mode, len(out["done"]), len(out["live"])))
         return "nothing-to-launch", readout
-    hold, readout = market_gate(n, key=key, excluded=excluded, max_ratio=max_ratio, mode=mode)
+    # ⛔ THE GATE MUST PRICE A BOARD THE LAUNCHER WOULD ACTUALLY BUY FROM (measured 2026-07-29). Its whole
+    # justification is that `gate_for_mode` and `submit` ask the same question from the same code — and the
+    # exclusion set is part of that question. `ternary-vast-market-hold.json` @ 13:01:41Z priced exactly one
+    # offer, machine 28164, in the same file that names our own instance 46191306 on machine 28164: the gate
+    # quoted $0.052/hr on a machine that could not take a second unit from us, and the rental that followed
+    # was capacity-refused. A quote for a host we cannot use is not a cheap board, it is a wrong number.
+    _occ = set(out.get("occupied_machines") or ())
+    hold, readout = market_gate(n, key=key, excluded=tuple(set(excluded or ()) | _occ),
+                                max_ratio=max_ratio, mode=mode)
+    if _occ:
+        readout["machines_we_already_occupy"] = sorted(_occ)
     readout.update({"mode": mode, "nothing_to_launch": False,
                     "units_done": out["done"], "units_live": out["live"],
                     "units_needing_host": out["needed"],
@@ -2179,6 +2380,20 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
                          "gpu": i.get("gpu_name"), "actual_status": i.get("actual_status"),
                          "cur_state": i.get("cur_state")}
                         for u, i in sorted((out.get("dead_hosts") or {}).items())]})
+    # ⛔ THE WITHHELD UNITS, ON THIS BRANCH TOO. `n > 0` means SOME unit is being priced — it does not mean
+    # every other unit is accounted for, and until now this branch listed only done/live/needed, so a
+    # withheld unit disappeared from the snapshot entirely. See `_withheld_rows_for_gate`.
+    _wr, _ur = _withheld_rows_for_gate(out), _unblocked_rows_for_gate(out)
+    if _ur:
+        readout["units_unblocked"] = _ur
+    if _wr:
+        readout["units_blocked"] = _wr
+        readout["reason"] = (
+            "%s ⛔ SEPARATELY: %d unit(s) of this mode are WITHHELD by the failure breaker and are NOT part "
+            "of this quote — %s. Those units are STALLED, not finished; this gate priced only the %d unit(s) "
+            "that can actually be rented."
+            % (readout.get("reason", ""), len(_wr),
+               ", ".join("%s (%s failed hosts)" % (w["unit_id"], w["n_attempts"]) for w in _wr), n))
     return ("hold" if hold else "clear"), readout
 
 
@@ -2532,6 +2747,38 @@ def collect(bucket=None, prefix=None, autostop=True):
                                  disk_gb=resource_spec().disk_gb)
                 print(tdd.render(_td, instance_id=iid, machine_id=i.get("machine_id")))
                 if _td["destroy"]:
+                    # ★★ RECORD THAT *WE* ENDED THIS ATTEMPT, BEFORE ENDING IT (2026-07-29). Without this
+                    # receipt the failure breaker sees only the unit's stale `status=failed` record plus a
+                    # growing attempt archive, and files our own correct teardown as another strike — so the
+                    # conditional-teardown ruling slowly poisons every unit it evicts. r2 reached 51 strikes
+                    # and a permanent block this way while its checkpoint sat at warmup/576, advancing.
+                    #
+                    # ⛔ GUARDED, because this receipt can lift a block. It is written ONLY when the unit did
+                    # not die on this host — `crashed` is False, which this branch already implies, since a
+                    # crashed unit is destroyed by the `why` chain above and never reaches here — AND only
+                    # when the record can be POSITIVELY dated to before this host started. A unit whose
+                    # record we cannot date gets no receipt: `record_predates_host` returns None there, and
+                    # crediting an eviction on a guess is how the 84-rental loop would come back.
+                    if uid:
+                        # Only a FAILED record can be superseded, so only a failed record needs dating.
+                        _pre = (lfb.record_predates_host(_rec, i.get("start_date"))
+                                if (_rec or {}).get("status") == "failed" else True)
+                        if _pre is True:
+                            try:
+                                lfb.record_eviction(
+                                    s3, b, p, uid,
+                                    why=(f"capacity refusal on machine {i.get('machine_id')}; "
+                                         f"{_td.get('verdict')}"),
+                                    instance=iid, machine_id=i.get("machine_id"))
+                                print(f"    -> ↻ EVICTION RECORDED for {uid}: this teardown was OUR "
+                                      f"decision (market), not this unit failing — the failure breaker "
+                                      f"will not count it as a strike.")
+                            except Exception as _e:  # noqa: BLE001 — never fail a teardown on bookkeeping
+                                print(f"    (eviction receipt not written: {type(_e).__name__}: {_e})")
+                        else:
+                            print(f"    (no eviction receipt for {uid}: its failed record cannot be dated "
+                                  f"before this host started ({_pre!r}) — refusing to credit an eviction "
+                                  f"on a guess)")
                     _destroy(iid, f"capacity refusal on machine {i.get('machine_id')}; "
                                   f"{_td.get('verdict')}")
                 else:
