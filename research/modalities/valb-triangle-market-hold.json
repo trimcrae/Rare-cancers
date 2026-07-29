@@ -1,42 +1,75 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-29T15:16:20Z",
-  "mode": "triangle",
-  "n_units": 0,
-  "nothing_to_launch": false,
-  "hold": false,
-  "units_done": [],
-  "units_live": [],
-  "live_host_rates": [],
-  "units_blocked": [
+  "utc": "2026-07-29T15:24:03Z",
+  "n_units": 4,
+  "basis_usd_per_ns": 0.003412,
+  "plan_usd": 6.83,
+  "ceiling_usd": 15.4,
+  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 4 legs",
+  "breakeven_usd_per_ns": 0.009234,
+  "depth": {
+    "offers_returned": 163,
+    "qualifying": 159,
+    "priceable": 100,
+    "needed": 4,
+    "used_for_mean": 4
+  },
+  "offers": [
     {
-      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "n_attempts": 15,
-      "threshold": 3,
-      "status": "failed",
-      "why": "this unit has failed on 15 separate rented hosts (threshold 3) with no intervening success. The last record is status=failed at phase None (rc=1), and NOTHING durable has been written since it \u2014 no commit, and no eviction of ours. Buying another host tests nothing \u2014 the repetition across distinct hosts is what makes this a code/data fault rather than a bad machine. NOT permanent: fix the cause, then clear the attempt archive (leg_failure_breaker.reset_for) or supersede the failed record, and the next tick rents normally."
+      "gpu": "RTX 3090",
+      "machine_id": 28164,
+      "min_bid_usd_h": 0.06,
+      "usd_per_ns": 0.004168
     },
     {
-      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "n_attempts": 15,
-      "threshold": 3,
-      "status": "failed",
-      "why": "this unit has failed on 15 separate rented hosts (threshold 3) with no intervening success. The last record is status=failed at phase None (rc=1), and NOTHING durable has been written since it \u2014 no commit, and no eviction of ours. Buying another host tests nothing \u2014 the repetition across distinct hosts is what makes this a code/data fault rather than a bad machine. NOT permanent: fix the cause, then clear the attempt archive (leg_failure_breaker.reset_for) or supersede the failed record, and the next tick rents normally."
+      "gpu": "RTX 4090",
+      "machine_id": 18857,
+      "min_bid_usd_h": 0.121,
+      "usd_per_ns": 0.004294
     },
     {
-      "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "n_attempts": 7,
-      "threshold": 3,
-      "status": "failed",
-      "why": "this unit has failed on 7 separate rented hosts (threshold 3) with no intervening success. The last record is status=failed at phase None (rc=1), and NOTHING durable has been written since it \u2014 no commit, and no eviction of ours. Buying another host tests nothing \u2014 the repetition across distinct hosts is what makes this a code/data fault rather than a bad machine. NOT permanent: fix the cause, then clear the attempt archive (leg_failure_breaker.reset_for) or supersede the failed record, and the next tick rents normally."
+      "gpu": "RTX 3090",
+      "machine_id": 48605,
+      "min_bid_usd_h": 0.06666667,
+      "usd_per_ns": 0.004831
     },
     {
-      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "n_attempts": 21,
-      "threshold": 3,
-      "status": "failed",
-      "why": "this unit has failed on 21 separate rented hosts (threshold 3) with no intervening success. The last record is status=failed at phase None (rc=1), and NOTHING durable has been written since it \u2014 no commit, and no eviction of ours. Buying another host tests nothing \u2014 the repetition across distinct hosts is what makes this a code/data fault rather than a bad machine. NOT permanent: fix the cause, then clear the attempt archive (leg_failure_breaker.reset_for) or supersede the failed record, and the next tick rents normally."
+      "gpu": "RTX 5090",
+      "machine_id": 52991,
+      "min_bid_usd_h": 0.19999999999999998,
+      "usd_per_ns": 0.005255
     }
   ],
-  "reason": "\u26d4 4 of mode triangle's units are BLOCKED on repeated failure and were NOT rented \u2014 0 done, 0 running, 4 blocked. $0 spent this tick. This lane is NOT finished and NOT price-held: it is stalled on a code/data fault that another host cannot fix. Units: calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle (15 failed hosts), calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle (15 failed hosts), calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle (7 failed hosts), calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle (21 failed hosts)"
+  "mean_usd_per_ns": 0.004637,
+  "ratio_vs_basis": 1.359,
+  "projected_usd": 7.73,
+  "max_ratio_vs_basis": 1.9166094031192507,
+  "usd_per_ns_at_max_ratio": 0.006539,
+  "fails_dollar_ceiling": false,
+  "fails_ratio_ceiling": false,
+  "hold": false,
+  "reason": "projected $7.73 within this rung's ceiling $15.40 AND 1.36x basis is within the 1.92x drift line",
+  "machines_we_already_occupy": [
+    "137041",
+    "141336",
+    "141396",
+    "19499",
+    "20243",
+    "29707",
+    "56748",
+    "56760",
+    "62866",
+    "77866"
+  ],
+  "mode": "triangle",
+  "nothing_to_launch": false,
+  "units_done": [],
+  "units_live": [],
+  "units_needing_host": [
+    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
+  ],
+  "units_replacing_a_dead_host": []
 }
