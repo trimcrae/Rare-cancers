@@ -1,25 +1,60 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-29T16:35:28Z",
-  "mode": "edge_reps",
-  "n_requested": 1,
-  "n_rented": 0,
+  "utc": "2026-07-29T16:44:03Z",
+  "mode": "triangle",
+  "n_requested": 2,
+  "n_rented": 2,
   "requested": [
-    "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps"
+    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "rented": [],
-  "failed": [
+  "rented": [
     {
-      "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
-      "error": "CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 12976, 33622, 20243); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.",
-      "kind": "capacity"
+      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": "46210431",
+      "machine_id": 35777,
+      "bid": 0.1618,
+      "dph": 0.16088888888888886,
+      "gpu": "RTX 4090",
+      "dph_total_usd_h": 0.17846666666666666,
+      "dph_base_usd_h": 0.1618,
+      "usd_per_ns": 0.005327,
+      "x_basis": 1.561,
+      "over_buy_line": false
+    },
+    {
+      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": "46210432",
+      "machine_id": 141591,
+      "bid": 0.136,
+      "dph": 0.13555555555555554,
+      "gpu": "RTX 4090",
+      "dph_total_usd_h": 0.15266666666666667,
+      "dph_base_usd_h": 0.136,
+      "usd_per_ns": 0.004557,
+      "x_basis": 1.336,
+      "over_buy_line": false
     }
   ],
+  "failed": [],
   "already_live": [
     {
-      "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
-      "instance": 46203979,
-      "machine_id": 62866,
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": 46206989,
+      "machine_id": 50113,
+      "gpu": "RTX 5090",
+      "dph_total_usd_h": 0.22066666666666665,
+      "dph_base_usd_h": 0.204,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005119,
+      "x_basis": 1.5,
+      "over_buy_line": false
+    },
+    {
+      "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": 46205476,
+      "machine_id": 52991,
       "gpu": "RTX 5090",
       "dph_total_usd_h": 0.22066666666666665,
       "dph_base_usd_h": 0.204,
@@ -32,15 +67,11 @@
   ],
   "skipped": [
     {
-      "unit_id": "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
-      "why": "done"
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "why": "running"
     },
     {
-      "unit_id": "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
-      "why": "done"
-    },
-    {
-      "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
       "why": "running"
     }
   ]
