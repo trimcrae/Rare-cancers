@@ -308,8 +308,10 @@ def energy_probe_verdict(rows, total_kj_mol, grad=None):
     # attempt died at the same `LocalEnergyMinimizer.minimize` call with the same message
     # (`step1-nan-forensics.json`). The reading was not wrong — it was INCOMPLETE. "Force term" here means
     # a force OBJECT's potential ENERGY, and `LocalEnergyMinimizer` does not descend energies, it descends
-    # their derivative. A system can hold a perfectly finite energy at a point where the gradient is
-    # non-finite: an excluded coincident pair contributes a bounded energy and an unbounded d/dr.
+    # their derivative. A system can hold an unremarkable energy at a point whose gradient is unusable: an
+    # excluded coincident pair contributes a bounded energy and a derivative set only by how nearly equal
+    # two coordinates are — measured here at 4.996e17 kJ/mol/nm, finite, and twelve orders of magnitude
+    # above every other atom in the same box.
     #
     # So a "no non-finite energy" reading may no longer be spoken as RETRY on its own. With a gradient
     # reading attached, the verdict is decided by the gradient; without one, the honest answer is that half
@@ -342,8 +344,10 @@ def energy_probe_verdict(rows, total_kj_mol, grad=None):
                 f"{g.get('max_excluding_coincident_kj_mol_nm'):.6g} on every non-degenerate atom"
                 + (f" — a factor of {_r:.3g}" if _r else "")
                 + f". That force has no physical scale; it is set by how nearly equal two coordinates are. "
-                  f"A double-precision minimiser can descend it and a GPU's does not. Do not rent another "
-                  f"host: de-degenerate the starting coordinates (`_dedegenerate_positions`).")
+                  f"Measured consequence on this lane: the double-precision CPU minimiser descended it to "
+                  f"completion, and the GPU minimiser failed on every one of 25 attempts across 7 distinct "
+                  f"card/driver combinations. Do not rent another host: de-degenerate the starting "
+                  f"coordinates (`_dedegenerate_positions`).")
     if g.get("max_kj_mol_nm") is not None:
         return (f"✅ every force term is FINITE at the input coordinates (max |E| = {hi:.6g} kJ/mol, "
                 f"total = {total_kj_mol:.6g} kJ/mol) AND the gradient is finite everywhere "
@@ -367,10 +371,10 @@ def _gradient_probe(ctx, log, tag, top_n=6, positions=None):
     ★★ WHY IT IS A SEPARATE READING AND NOT A DETAIL OF THE ENERGY ONE. `LocalEnergyMinimizer` descends
     the DERIVATIVE of the potential. An energy that is finite everywhere therefore does not certify that a
     minimiser can take a step: a pair of atoms at exactly coincident coordinates contributes a bounded
-    energy (its direct nonbonded term is excluded) and an unbounded derivative, and the first minimisation
-    step along an inf/NaN gradient is precisely `Particle coordinate is NaN`. The energy-only probe called
-    that state "RETRY candidate" on 2026-07-27 and the lane then bought twenty-five hosts to watch it fail
-    identically (`step1-nan-forensics.json`).
+    energy (its direct nonbonded term is excluded) and a derivative with no physical scale — measured at
+    4.996e17 kJ/mol/nm against 3.44e5 on the largest non-degenerate atom of the same 112,955-atom system.
+    The energy-only probe called that state "RETRY candidate" on 2026-07-27 and the lane then bought
+    twenty-five hosts to watch it fail identically (`step1-nan-forensics.json`).
 
     Returns {"n_nonfinite", "max_kj_mol_nm", "argmax", "top"} or {} if the reading could not be taken —
     never a fabricated zero, because "no gradient measured" and "gradient fine" have opposite consequences.
