@@ -1030,7 +1030,19 @@ def _load_excluded(s3, bucket):
     return vmb.union(ids, s3, bucket), doc
 
 
-def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
+def unit_condemnations(doc, unit):
+    """Distinct machines this UNIT has durably condemned, from the exclusion list's own history. PURE.
+
+    Withdrawn and wave-scoped rows do not count — only entries that actually persist.
+    """
+    if not unit:
+        return set()
+    return {str(h.get("machine_id")) for h in ((doc or {}).get("history") or [])
+            if h.get("unit") == unit and h.get("action") != "withdraw"
+            and h.get("scope") != "wave" and h.get("machine_id") is not None}
+
+
+def _record_exclusion(s3, bucket, machine_id, why, scope="lane", unit=None):
     """Record a machine this lane will not re-rent. `scope="host"` ALSO publishes it cross-lane.
 
     The default is `lane` on purpose: a verdict that mixes this workload with the machine (the starved-host
@@ -1040,12 +1052,43 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
     ★★ AND THE REASON IS CLASSIFIED AT THE DOOR. A `CLASS_CAPACITY` reason never reaches `machine_ids`, never
     reaches the shared set, and binds only the current wave — whatever `scope` the caller asked for, because
     `scope` says who a verdict is about and the CLASS says how long it is true for, and only one of those two
-    questions was being asked here. Returns True if the machine was newly recorded anywhere.
+    questions was being asked here.
+
+    ★★ AND A UNIT THAT HAS CONDEMNED THE LAST N MACHINES IS NOT EVIDENCE ABOUT MACHINES (2026-07-29).
+    Measured by joining this lane's live exclusion list to the committed per-tick census: **15 durable
+    machine exclusions were produced by 10 distinct units**, and the distribution is not flat —
+    `s1f-13-cw_ms_free_acid` condemned 3 machines (138147-class instances 46031601 / 46081212 / 46004074),
+    `s1f-03-cw_ev_5alkyne` condemned 3 (46060816 / 46071019 / 46041656), and `s1f-04-cw_ev_5ch2nh2` 2 —
+    every one on the identical `gpu_util 0.0% for 2 checks` verdict. That is the same shape the ternary lane
+    hit at far greater cost: two units re-rented across **35 and 49 separate hosts**.
+
+    When one unit reports the same fault on host after host, the common factor is the UNIT. Blaming the
+    machines converts a per-unit fault into a per-machine blacklist at a rate of one good host per attempt —
+    which is a second, independent way for the filter to become the binding constraint on placement, and the
+    one `leg_failure_breaker` does not cover (it stops the SPENDING on the 4th host; it does not un-blame the
+    three already condemned, nor stop the blaming below its threshold).
+
+    The threshold is `leg_failure_breaker.DEFAULT_THRESHOLD` — imported, not re-typed, because "how many
+    distinct hosts before the unit is the suspect" is one question and must have one answer (rule 1).
+
+    Returns True if the machine was newly recorded anywhere.
     """
     import vast_machine_blacklist as vmb
     ids, doc = _load_excluded(s3, bucket)
     mid = str(machine_id)
     perishable = vmb.classify_reason(why) == vmb.CLASS_CAPACITY
+
+    if not perishable and unit:
+        import leg_failure_breaker as _lfb
+        prior = unit_condemnations(doc, unit) - {mid}
+        if len(prior) >= _lfb.DEFAULT_THRESHOLD:
+            print(f"[s1f] machine {mid} deliberately NOT excluded — unit {unit} has already condemned "
+                  f"{len(prior)} distinct machine(s) ({sorted(prior)}) on its own verdicts. The common "
+                  f"factor is the UNIT, not the hosts: a per-unit fault blaming a per-machine blacklist "
+                  f"costs one good host per attempt. See leg_failure_breaker, which stops buying the next "
+                  f"host for this unit; nothing more is learned by retiring this one. Reason was: {why}")
+            return False
+
     if scope == "host" and not perishable:
         vmb.publish(s3, bucket, mid, why, lane="step1_fanout")
 
@@ -1077,15 +1120,18 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
                                 "machine_ids": sorted(cur | {mid}),
                                 "why": {**(cap.get("why") or {}), mid: str(why)[:400]}}
         hist.append({"machine_id": mid, "why": why, "utc": now, "reason_class": vmb.CLASS_CAPACITY,
-                     "scope": "wave", "wave": w})
+                     "scope": "wave", "wave": w, "unit": unit})
         print(f"[s1f] machine {mid} excluded for THIS WAVE ONLY (run {w}) — {why!r} is a capacity refusal, "
               f"a claim about a moment. It is selectable again on the next tick.")
     else:
         if mid in ids:
             return False
         out["machine_ids"] = sorted(set(doc.get("machine_ids") or []) | {mid})
+        # ★ THE UNIT IS RECORDED, and that is what makes the guard above possible at all. Until now the
+        # history said WHICH machine and WHY but never WHO — so "has this unit condemned three hosts?" was
+        # unanswerable from the artifact and had to be reconstructed by joining the committed census.
         hist.append({"machine_id": mid, "why": why, "utc": now, "reason_class": vmb.CLASS_HOST,
-                     "scope": scope})
+                     "scope": scope, "unit": unit})
 
     out["history"] = hist
     try:
@@ -2821,7 +2867,8 @@ def mode_monitor():
                         # shared set has no expiry — see the `_dupes` / `_proven` notes above.
                         print(f"[s1f] machine {mid} deliberately NOT excluded — {why}. It stays selectable "
                               f"and is re-priced by the market gate like any other offer.")
-                    elif mid is not None and _record_exclusion(s3, bucket, mid, why, scope=_scope):
+                    elif mid is not None and _record_exclusion(s3, bucket, mid, why, scope=_scope,
+                                                              unit=i.get("label")):
                         print(f"[s1f] machine {mid} added to the lane exclusion set"
                               + (" AND published to the cross-lane shared set (host-scoped: it never "
                                  "started)" if _scope == "host" else
@@ -2912,9 +2959,13 @@ def mode_monitor():
                 _vast_request("DELETE", f"/instances/{iid}/", key)
             except Exception as e:  # noqa: BLE001
                 print(f"[s1f] destroy {iid} failed: {e}")
+            # THE UNIT, passed so the starved-host verdict can be counted against its author. This is the
+            # exact site the measurement indicted: 15 durable exclusions, 10 units, three of them condemning
+            # 3 / 3 / 2 machines apiece on this identical wording.
             if mid is not None and _record_exclusion(s3, bucket, mid,
                                                      f"gpu_util {util}% for {strikes} checks on a plain-RBFE "
-                                                     f"leg (healthy band 70-95%); instance {iid}"):
+                                                     f"leg (healthy band 70-95%); instance {iid}",
+                                                     unit=i.get("label")):
                 print(f"[s1f] machine {mid} added to the lane exclusion set")
             new_state.pop(iid, None)
         _save_ledger(s3, bucket, ledger)
@@ -3411,7 +3462,7 @@ def mode_reap():
             continue
         if mid is None:
             print(f"[s1f-reap] {iid} has no machine_id in the listing — destroyed, but nothing to exclude")
-        elif _record_exclusion(s3, bucket, mid, why):
+        elif _record_exclusion(s3, bucket, mid, why, unit=i.get("label")):
             print(f"[s1f-reap] machine {mid} added to the lane exclusion set: {why}")
         else:
             print(f"[s1f-reap] machine {mid} was already excluded (or the write failed) — see the log above")

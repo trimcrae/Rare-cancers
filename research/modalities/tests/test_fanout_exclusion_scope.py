@@ -207,3 +207,86 @@ def test_hosts_we_already_hold_are_not_counted_as_exclusions():
 
 def test_exclusions_hold_is_a_named_placement_decision():
     assert "exclusions_hold" in cfv.PLACEMENT_DECISIONS
+
+
+# ============================================================================================================
+# ★★ IS THE MACHINE EVEN THE RIGHT UNIT OF BLAME? (2026-07-29)
+#
+# Measured by joining this lane's live exclusion list to the committed per-tick census: 15 durable machine
+# exclusions were produced by 10 distinct UNITS, and three units account for 8 of them — s1f-13 condemned 3
+# machines, s1f-03 condemned 3, s1f-04 condemned 2, every one on the identical `gpu_util 0.0%` wording. The
+# ternary lane hit the same shape far more expensively: two units re-rented across 35 and 49 separate hosts.
+# A per-unit fault blaming a per-machine blacklist costs one good host per attempt.
+# ============================================================================================================
+STARVED_WHY = "gpu_util 0.0% for 2 checks on a plain-RBFE leg (healthy band 70-95%); instance {}"
+
+
+def _condemn(s3, unit, machines):
+    for i, m in enumerate(machines):
+        cfv._record_exclusion(s3, "b", m, STARVED_WHY.format(46000000 + i), unit=unit)
+
+
+def test_a_unit_may_condemn_hosts_below_the_threshold():
+    """One or two is still a story about hosts — a single unlucky machine can produce two."""
+    s3 = _FakeS3()
+    _condemn(s3, "s1f-13-cw_ms_free_acid", ["1", "2"])
+    assert _doc(s3)["machine_ids"] == ["1", "2"]
+
+
+def test_a_unit_that_has_condemned_N_hosts_stops_being_evidence_about_hosts():
+    s3 = _FakeS3()
+    _condemn(s3, "s1f-13-cw_ms_free_acid", ["1", "2", "3"])
+    assert _doc(s3)["machine_ids"] == ["1", "2", "3"]
+    # the fourth is refused: the common factor is the unit
+    assert cfv._record_exclusion(s3, "b", "4", STARVED_WHY.format(9), unit="s1f-13-cw_ms_free_acid") is False
+    assert "4" not in _doc(s3)["machine_ids"]
+
+
+def test_the_guard_is_PER_UNIT_and_does_not_gag_a_different_unit():
+    """A real bad host must still be recordable by whoever lands on it next."""
+    s3 = _FakeS3()
+    _condemn(s3, "s1f-13-cw_ms_free_acid", ["1", "2", "3"])
+    assert cfv._record_exclusion(s3, "b", "4", STARVED_WHY.format(9), unit="s1f-03-cw_ev_5alkyne") is True
+    assert "4" in _doc(s3)["machine_ids"]
+
+
+def test_the_threshold_has_ONE_home_shared_with_the_spend_breaker():
+    """"How many distinct hosts before the unit is the suspect" is one question. `leg_failure_breaker` stops
+    buying the next host; this stops blaming the next machine. Two answers would be a rule 1 violation."""
+    import ast
+    import leg_failure_breaker as lfb
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "congeneric_fanout_vast.py")).read()
+    fn = next(n for n in ast.walk(ast.parse(src))
+              if isinstance(n, ast.FunctionDef) and n.name == "_record_exclusion")
+    attrs = {n.attr for n in ast.walk(fn) if isinstance(n, ast.Attribute)}
+    assert "DEFAULT_THRESHOLD" in attrs, "the threshold must be imported, never re-typed"
+    assert lfb.DEFAULT_THRESHOLD == 3
+
+
+def test_wave_scoped_rows_do_not_count_toward_a_units_condemnations():
+    """A capacity refusal is not a verdict the unit authored about a host, so it must not push a unit over
+    the line and gag its genuine host findings."""
+    doc = {"history": [{"machine_id": str(m), "unit": "u", "scope": "wave"} for m in range(9)]}
+    assert cfv.unit_condemnations(doc, "u") == set()
+
+
+def test_the_unit_is_recorded_on_every_durable_row(monkeypatch):
+    """Until now the history said WHICH machine and WHY but never WHO, so the question could only be
+    answered by joining the committed census. It is answerable from the artifact now."""
+    s3 = _FakeS3()
+    cfv._record_exclusion(s3, "b", "77", STARVED_WHY.format(1), unit="s1f-13-cw_ms_free_acid")
+    assert _doc(s3)["history"][-1]["unit"] == "s1f-13-cw_ms_free_acid"
+
+
+def test_the_call_sites_actually_pass_the_unit():
+    """A guard that is never given the evidence is a guard that never fires."""
+    import ast
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "congeneric_fanout_vast.py")).read()
+    calls = [n for n in ast.walk(ast.parse(src))
+             if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+             and n.func.id == "_record_exclusion"]
+    assert calls, "no call sites found"
+    for c in calls:
+        assert any(k.arg == "unit" for k in c.keywords), ast.dump(c)[:200]
