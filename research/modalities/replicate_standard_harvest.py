@@ -62,7 +62,93 @@ CANDIDATE_DOIS = {
     # openfe / open-source stack
     "gowers2023_openfe": "10.1021/acs.jcim.3c01438",
     "hahn2024_openfe": "10.26434/chemrxiv-2024-6h4vd",
+    # --- round 2: DOIs recovered from round 1's OWN committed Crossref search --------------------
+    # Every one below was read out of `_replicate_standard/harvest-summary.json` on the
+    # `replicate-standard-cache` branch (generated 2026-07-29T10:49:15Z), not recalled.  Crossref
+    # registers supporting information as `<parent>.s001`, so two of these are the parent DOI of an
+    # `.s001` row that the search returned; the harvest resolves them like any other candidate, and a
+    # MISS is still a result.
+    "bhati2022_largescale_real": "10.1021/acs.jctc.1c01288",     # query "Large Scale Study of Ligand-Protein..."
+    "bhati2021_largescale_preprint": "10.26434/chemrxiv-2021-zdzng",
+    "uq_alchemical": "10.1021/acs.jctc.7b01143",                 # parent of ...7b01143.s001
+    "ties20": "10.1021/acs.jcim.2c01596",                        # parent of ...2c01596.s001
+    "hysteresis1993": "10.1080/08927029308022167",
+    # cinnabar cites this for its `cc_per_edge` (cycle closure / sqrt(cycle length)) normalisation.
+    # NOT corroborated by any committed capture -- deliberately entered UNCHECKED so the harvest is
+    # what decides it, which is the whole point of a candidate list.
+    "baumann2023_cycleclosure": "10.1021/acs.jctc.3c00282",
 }
+
+# ---------------------------------------------------------------------------
+# 1b. ★★ A HIT IS NOT AN IDENTITY CHECK -- AND ONE OF THESE RESOLVED TO THE WRONG PAPER.
+#
+# Measured 2026-07-29 in the harvest's own output: `bhati2022_largescale` -> 10.1021/acs.jctc.1c00669
+# came back **HIT**, titled *"Residue-Residue Contact Changes during Functional Processes Define
+# Allosteric Communication Pathways"* -- a real, resolvable DOI for a DIFFERENT paper than the
+# large-scale RBFE study it was entered as.  `verify_dois` printed HIT, `main` left it out of the
+# "unresolved (DO NOT CITE)" list, and nothing else looked, so the one failure mode the harvest exists
+# to prevent -- citing a paper we never read -- passed straight through the guard that was supposed to
+# catch it.  A resolvable DOI proves the identifier exists; it says nothing about WHICH work it names.
+#
+# So each candidate may carry a distinctive fragment of the title it is expected to resolve to, and
+# the resolution is graded on BOTH.  Absence of a fragment is reported as `UNCHECKED`, never as
+# `CONFIRMED`: "we did not look" and "we looked and it was right" are different states, and only the
+# second is a licence to cite.  Fragments below are normalised prefixes of the titles Crossref itself
+# returned in the 2026-07-29 harvest (`doi_verification[*].title`) -- measurements, not recollection.
+# ---------------------------------------------------------------------------
+EXPECTED_TITLE = {
+    "mey2020_bestpractices": "best practices for alchemical free energy",
+    "hahn2022_benchmarks": "best practices for constructing preparing and",
+    "coveney2016_pccp": "on the calculation of equilibrium thermodynamic",
+    "bhati2017_ties": "rapid accurate precise and reliable relative",
+    # ⚠ THE WRONG-PAPER CASE. The DOI is retained, not deleted: it is the evidence, and dropping it
+    # would let the same recollection be re-entered tomorrow with nothing to contradict it. What is
+    # expected here is the paper it was ENTERED AS; the real one is `bhati2022_largescale_real`.
+    "bhati2022_largescale": "large scale study of ligand protein",
+    "bhati2022_largescale_real": "large scale study of ligand protein",
+    "bhati2021_largescale_preprint": "large scale study of ligand protein",
+    "loeffler2018_repro": "reproducibility of free energy calculations across",
+    "wang2015_fepplus": "accurate and reliable prediction of relative",
+    "schindler2020_merck": "large scale assessment of binding free",
+    "gapsys2020_chemsci": "large scale relative protein ligand binding",
+    "ross2023_maximal": "the maximal and current accuracy of",
+    "kuhn2020_bi": "assessment of binding affinity via alchemical",
+    "cournia2017_rbfe": "relative binding free energy calculations in",
+    "cournia2020_rigorous": "rigorous free energy simulations in virtual",
+    "liu2013_lomap": "lead optimization mapper automating free energy",
+    "xu2019_diffnet": "optimal measurement network of pairwise differences",
+    "wang2013_fep_rest": "modeling local structural rearrangements using fep",
+    "uq_alchemical": "uncertainty quantification in alchemical free energy",
+    "ties20": "ties 2 0 a dual topology",
+    "hysteresis1993": "hysteresis and statistical errors in free",
+}
+
+
+def _norm_title(s):
+    """Lower-case, collapse everything that is not a letter or digit. PURE.
+
+    Crossref titles carry en-dashes, HTML entities and inconsistent capitalisation, so a raw
+    substring test would report a wrong paper for a right one -- a false alarm on a fabrication
+    guard is how a guard gets switched off."""
+    return re.sub(r"[^a-z0-9]+", " ", (s or "").lower()).strip()
+
+
+def identity_verdict(key, status, title):
+    """Did the DOI resolve to the work we entered it as? -> CONFIRMED / WRONG-PAPER / UNCHECKED / N/A.
+
+    PURE, and separate from `status` on purpose: HIT/MISS is about the identifier and this is about
+    the work. Collapsing them is exactly what let `bhati2022_largescale` read as usable."""
+    if status != "HIT":
+        return "N/A"
+    frag = EXPECTED_TITLE.get(key)
+    if not frag:
+        return "UNCHECKED"
+    return "CONFIRMED" if _norm_title(frag) in _norm_title(title) else "WRONG-PAPER"
+
+
+def citable(row):
+    """May the methods note cite this row? PURE. Only a HIT whose identity was CONFIRMED."""
+    return row.get("status") == "HIT" and row.get("identity") == "CONFIRMED"
 
 # ---------------------------------------------------------------------------
 # 2. Crossref free-text searches -- how we find the REAL DOI for a paper whose DOI we do not know
@@ -181,7 +267,15 @@ def verify_dois() -> dict:
         else:
             out[key] = {"status": "MISS", "doi": doi, "http": code,
                         "note": "DOI did not resolve at Crossref -- DO NOT CITE"}
-        print(f"[doi] {key:32s} {out[key]['status']:10s} {doi}", flush=True)
+        out[key]["identity"] = identity_verdict(key, out[key]["status"], out[key].get("title"))
+        out[key]["expected_title_fragment"] = EXPECTED_TITLE.get(key)
+        if out[key]["identity"] == "WRONG-PAPER":
+            out[key]["note"] = ("RESOLVES, BUT TO A DIFFERENT WORK than this key was entered as -- "
+                                "DO NOT CITE. A resolvable DOI is not an identity check.")
+        elif out[key]["identity"] == "UNCHECKED":
+            out[key]["note"] = ("resolved, but no expected title was recorded for this key, so WHICH "
+                                "work it names has not been checked -- confirm before citing")
+        print(f"[doi] {key:32s} {out[key]['status']:6s} {out[key]['identity']:11s} {doi}", flush=True)
         time.sleep(0.4)
     return out
 
@@ -261,7 +355,9 @@ def main() -> int:
     summary = {
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "purpose": ("Evidence base for the congeneric-RBFE replicate/uncertainty field-standard note. "
-                    "Crossref HIT/MISS is the fabrication guard: cite only HITs."),
+                    "The fabrication guard is HIT *and* identity CONFIRMED: cite only rows that are "
+                    "both. A HIT alone proves the identifier exists, not which work it names -- "
+                    "measured 2026-07-29, one candidate HIT on a real DOI for a different paper."),
         "doi_verification": verify_dois(),
         "crossref_search": search_crossref(),
         "fetches": fetch_texts(),
@@ -270,10 +366,18 @@ def main() -> int:
     with open(os.path.join(OUT_DIR, "harvest-summary.json"), "w", encoding="utf-8") as fh:
         json.dump(summary, fh, indent=1)
 
-    hits = sum(1 for v in summary["doi_verification"].values() if v["status"] == "HIT")
-    miss = [k for k, v in summary["doi_verification"].items() if v["status"] != "HIT"]
+    dv = summary["doi_verification"]
+    hits = sum(1 for v in dv.values() if v["status"] == "HIT")
+    cite = sorted(k for k, v in dv.items() if citable(v))
+    miss = [k for k, v in dv.items() if v["status"] != "HIT"]
+    wrong = [k for k, v in dv.items() if v.get("identity") == "WRONG-PAPER"]
+    unchecked = [k for k, v in dv.items() if v.get("identity") == "UNCHECKED"]
     okf = sum(1 for v in summary["fetches"].values() if v["ok"])
-    print(f"\n[summary] DOIs verified {hits}/{len(CANDIDATE_DOIS)}; unresolved (DO NOT CITE): {miss}")
+    print(f"\n[summary] DOIs resolved {hits}/{len(CANDIDATE_DOIS)}; CITABLE (resolved AND identity "
+          f"confirmed) {len(cite)}: {cite}")
+    print(f"[summary] unresolved (DO NOT CITE): {miss}")
+    print(f"[summary] resolved but WRONG PAPER (DO NOT CITE): {wrong}")
+    print(f"[summary] resolved, identity UNCHECKED (confirm before citing): {unchecked}")
     print(f"[summary] full-text/doc fetches OK {okf}/{len(FETCH_URLS)}")
     return 0
 
