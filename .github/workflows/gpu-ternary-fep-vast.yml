@@ -72,7 +72,7 @@ on:
       task:
         description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side) || blacklist-clear ($0, snapshot the shared machine-exclusion set to the repo and then EMPTY it, shared + every lane's own list) | blacklist-snapshot ($0, snapshot ONLY — the history survives a clear, so this recovers the record if the snapshot commit ever loses its race)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, blacklist-snapshot, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-diag, charge-provenance]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, blacklist-snapshot, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-diag, charge-provenance, retire-host]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -92,6 +92,10 @@ on:
         default: ""
       watch_minutes:
         description: "reps-diag: also TRACE container memory vs its limit for this many minutes (blank = skip). Must be running while a ternary leg is in setup — that trace is what separates an OOM kill from a provider stop."
+        type: string
+        default: ""
+      gpu_class:
+        description: "override the GPU class the lane rents (blank = rtx4090, the lane default). Sets TVAST_GPU. Use `rtx5090` to bias placement to the faster class when a leg is the critical path — the 5090s on this lane measured 9.2-12.6 s/iter against 19-34 s/iter for the 4090s on the same per-iteration cost basis. It is a CLASS filter, not a guarantee: host-level variance inside a class is what made this necessary."
         type: string
         default: ""
       leg_only:
@@ -147,7 +151,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-diag|charge-provenance|blacklist-clear|blacklist-snapshot) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-diag|charge-provenance|retire-host|blacklist-clear|blacklist-snapshot) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -227,6 +231,7 @@ jobs:
       - name: Print the JobSpec that would be rented
         env:
           GIT_BRANCH: ${{ github.ref_name }}
+          TVAST_GPU: ${{ github.event.inputs.gpu_class }}
           TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
           TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
         run: |
@@ -304,6 +309,9 @@ jobs:
       contents: write
       actions: write
     env:
+      # priced with the SAME class the launch would buy — otherwise the gate projects a
+      # market we would not actually rent from.
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -908,6 +916,9 @@ jobs:
       contents: write
       actions: write
     env:
+      # priced with the SAME class the launch would buy — otherwise the gate projects a
+      # market we would not actually rent from.
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1150,6 +1161,7 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       GIT_BRANCH: ${{ github.ref_name }}
       TVAST_IMAGE: ${{ github.event.inputs.vast_image }}
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:
@@ -1592,6 +1604,37 @@ jobs:
           gh workflow run gpu-ternary-fep-vast.yml -R "${{ github.repository }}" \
             --ref "${{ github.ref_name }}" -f task=collect
           echo "::notice title=POST-LAUNCH RECHECK::collect dispatched ~5 min after the rental — this is what closes the accepted-but-never-running window; it reaps nothing that collect would not reap anyway."
+
+  # ------------------------------------------------ free: retire ONE unit's host, keeping its checkpoint
+  # For a host measurably underperforming its own card class. The `$/ns` column cannot see this: it is
+  # derived from each card's TABLE throughput, so a host delivering half its class rate still renders a
+  # cheap-looking figure while the REALISED rate is double it. Full case in `retire_host.__doc__`.
+  # Destroys a HOST, never a RESULT — the commit store is in S3 and the next gate tick resumes from it.
+  retire_host:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'retire-host' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: ternary-vast-mutate
+      cancel-in-progress: false
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Retire the matching unit's host
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          SEL="${{ github.event.inputs.leg_only }}"
+          test -n "$SEL" || { echo "::error::set leg_only — refusing to retire every host at once"; exit 1; }
+          python research/modalities/ternary_vast_launch.py --retire-host "$SEL"
 
   # ------------------------------------------------------- free: empty the machine-exclusion set, on purpose
   # ★★ trimcrae, 2026-07-27 9:45 PM ET: "Clear out our blacklist then and don't add anything back unless you
@@ -2117,6 +2160,7 @@ jobs:
       VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
       VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:
@@ -2328,6 +2372,7 @@ jobs:
       VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
       VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:

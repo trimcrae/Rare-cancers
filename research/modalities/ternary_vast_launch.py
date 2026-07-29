@@ -3378,9 +3378,70 @@ def stop_all():
     return n
 
 
+def retire_host(match, dry_run=False):
+    """Destroy the host of every unit whose id contains `match`, LEAVING the checkpoint. Returns the list.
+
+    ★★ WHY A LANE NEEDS THIS, AND WHY IT IS NOT `--stop` (trimcrae, 2026-07-29, 2:30 PM ET: *"can we get T2
+    ternary on a faster chip … or at least subvert the ranking to filter on only faster chips"*).
+
+    THE MEASURED CASE. `calib_lo_to_lo2__ternary_vhl` was delivering **34.5 s/iter** against the **16.0
+    s/iter** median MEASURED on a Vast RTX 4090 for this exact 146,284-particle assembly — 2.2x slower than
+    its own card class, and ~3x slower than the 5090-class hosts on the same lane (9.2-12.6 s/iter). Its ETA
+    was 25 h against 11-15 h for its three siblings, so it alone set when the closure residual R could be
+    computed.
+
+    ⚠ AND THE BOARD COULD NOT SEE IT, which is the part worth remembering. `$/ns` is derived from each card's
+    TABLE throughput, not from what the host actually delivers, so that leg rendered `$0.00533/ns · 1.56x` —
+    comfortably under the buy line — while its REALISED rate was ~2.2x that, around 3.4x basis and well over
+    the line. Retiring it is therefore not an override of the price gate; it is the gate's own intent, applied
+    with a number the gate does not have. (Same family as `vast_rate_forensics`' complaint that a launcher's
+    `dph≈` line reads low against what the instance is billed.)
+
+    ⚠ NOT `--stop`. That destroys every instance this lane holds, which here would have thrown away three
+    healthy legs at 9-32 % to fix one. The selector is the unit id, and `submit`'s ordinary path re-places it.
+
+    ⚠ AND IT DESTROYS A HOST, NEVER A RESULT. The commit store is in S3 and survives; the next rental resumes
+    from the same checkpoint, so the cost of retiring is one image pull, not the work done so far. It refuses
+    to touch a unit whose leg record is already `done`.
+    """
+    key = os.environ["VAST_API_KEY"]
+    done = {u for u, d in (leg_records() or {}).items() if (d or {}).get("status") == "done"}
+    out = []
+    for i in _vast_request("GET", "/instances/", key).get("instances", []) or []:
+        lab = str(i.get("label") or "")
+        if not lab.startswith(LABEL_PREFIX):
+            continue
+        uid = next((u for u in _known_unit_ids() if label_matches_unit(lab, u)), None)
+        if not uid or match not in uid:
+            continue
+        if uid in done:
+            print(f"  skipping {uid}: leg record is status=done — a RESULT is never retired")
+            continue
+        row = {"unit_id": uid, "instance": i.get("id"), "machine_id": i.get("machine_id"),
+               "gpu": i.get("gpu_name"), "dph_total": i.get("dph_total")}
+        if dry_run:
+            print(f"  WOULD retire {row}")
+        else:
+            try:
+                _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+                print(f"  RETIRED host {i.get('id')} (machine {i.get('machine_id')}, {i.get('gpu_name')}) "
+                      f"for {uid} — checkpoint intact, the next gate tick re-places it")
+            except Exception as e:  # noqa: BLE001
+                print(f"  failed to retire {i.get('id')}: {e}")
+                continue
+        out.append(row)
+    if not out:
+        print(f"  no live host matched {match!r} — nothing retired")
+    return out
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Ternary cooperativity FEP on Vast.ai (RUNG 2b lane)")
+    ap.add_argument("--retire-host", metavar="SUBSTRING",
+                    help="destroy the HOST of every unit whose id contains SUBSTRING, leaving the checkpoint "
+                         "so the next gate tick re-places it. For a host measurably underperforming its own "
+                         "card class — see `retire_host` for the case that motivated it.")
     ap.add_argument("--mode", choices=sorted(MODES), default=os.environ.get("TVAST_MODE") or "probe")
     ap.add_argument("--timestep-fs", default=None)
     ap.add_argument("--warmup-timestep-fs", default=None)
@@ -3471,6 +3532,8 @@ def main(argv=None):
         legs = fetch_legs(a.fetch_legs, mode=a.mode, timestep_fs=a.timestep_fs,
                           warmup_timestep_fs=a.warmup_timestep_fs)
         print(json.dumps(ddg_coop_identity(legs), indent=2))
+    elif a.retire_host:
+        print(json.dumps(retire_host(a.retire_host, dry_run=a.dry_run), indent=1))
     elif a.stop:
         stop_all()
     elif a.collect:
