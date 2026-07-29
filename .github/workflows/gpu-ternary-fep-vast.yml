@@ -1537,9 +1537,14 @@ jobs:
             # ★ AND EVERY LANE'S OWN LIST, classified by each entry's ORIGINAL recorded reason. The shared
             # set alone cannot answer "why is the fan-out filtering 49 machines?" — its list is its own, and
             # reading only the shared key is what made a lane-local 41 invisible for a night.
+            # ★ `--project-retire` IS THE $0 VERIFICATION PATH. The retires themselves run inside the fan-out's
+            # LAUNCH tick, and a launch tick rents GPUs — so "just run it and look" is not a free check. This
+            # computes the same answer with the same classification functions over the live lists: zero
+            # writes, zero contact with any host, one S3 GET per key. It is what makes "the filter is N today
+            # and would be M" answerable without spending anything.
             python research/modalities/vast_machine_blacklist.py \
               --snapshot "research/modalities/vast-blacklist-snapshot-$(date -u +%Y-%m-%dT%H%MZ).json" \
-              --lane-list "vast-shared/_excluded_machines.json" \
+              --project-retire \
               --lane-list "nr4a3-step1-fanout/results/_excluded_machines.json" \
               --lane-list "ternary-vast/_lane_state.json" \
               --lane-list "protfep-vast/_lane_state.json" \

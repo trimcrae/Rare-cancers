@@ -393,6 +393,9 @@ def main(argv=None):
     ap.add_argument("--lane-list", action="append", default=None, metavar="KEY",
                     help="READ-ONLY: report what is on this lane's own exclusion list, and the reason class "
                          "of each entry. Repeatable. Runs before any clear, and never writes.")
+    ap.add_argument("--project-retire", action="store_true",
+                    help="READ-ONLY: print what the exclusion filter WOULD become after the retires. Zero "
+                         "writes, zero host contact, $0 — the way to verify the fix without a placing tick.")
     ap.add_argument("--retire-perishable", action="store_true",
                     help="remove SHARED entries whose OWN recorded reason is a capacity refusal. Not a TTL "
                          "and not an overrule — the rule publish() already enforces, applied retroactively.")
@@ -419,6 +422,14 @@ def main(argv=None):
                  f"by reason class {rep['by_reason_class']}" if rep["exists"]
                  else f"⚠ ABSENT ({rep.get('error')}) — nothing here, which is NOT the same as clean"))
         print(json.dumps(rep, indent=2))
+
+    if a.project_retire:
+        proj = project_retire(s3, bucket, a.lane_list or [])
+        print("[blacklist] PROJECTED RETIRE (read-only, nothing changed):")
+        print(json.dumps(proj, indent=2))
+        t = proj["_total_union"]
+        print(f"[blacklist] the launcher filters on {t['before']} machine(s) today -> {t['after']} "
+              f"after the retires ({t['before'] - t['after']} would be released)")
 
     if a.clear and not a.snapshot:
         print("::error::--clear requires --snapshot: never delete state you have not first written down")
@@ -490,6 +501,39 @@ def snapshot(s3, bucket, key=None):
         "history_entries_by_reason_class": by_class,
         "history": hist,
     }
+
+
+def project_retire(s3, bucket, lane_keys=()):
+    """READ-ONLY: what the exclusion filter WOULD be after the retires, without changing anything.
+
+    ★ WHY A DRY RUN AND NOT "JUST RUN IT AND LOOK". The retire lives in the fan-out's launch tick, and a
+    launch tick places units — so verifying the fix by running one costs GPU dollars, which is exactly what
+    is not authorised here. This computes the same answer from the same functions over the live lists, with
+    zero writes and zero contact with any host: one S3 GET per key.
+
+    Returns `{key: {"before": n, "after": n, "would_retire": [...]}}` plus a `_total` row, because the number
+    that actually gates placement is the UNION the launcher filters on, not any single list.
+    """
+    out, union_before, union_after = {}, set(), set()
+    for k in (list(lane_keys) + [SHARED_KEY]):
+        rep = lane_list_report(s3, bucket, k)
+        if not rep["exists"]:
+            out[k] = {"absent": True, "error": rep.get("error")}
+            continue
+        ids = set(rep["machine_ids"])
+        # The shared set retires the capacity class only; a lane's own list also sheds entries carrying no
+        # recorded reason at all. Both rules are the ones the live code applies — see `retire_perishable`
+        # and `congeneric_fanout_vast.retire_perishable_exclusions`.
+        drop = {m for m, v in rep["per_machine"].items() if v["class"] == CLASS_CAPACITY}
+        if k != SHARED_KEY:
+            drop |= {m for m, v in rep["per_machine"].items() if v["class"] == "unjustified"}
+        out[k] = {"before": len(ids), "after": len(ids - drop), "would_retire": sorted(drop),
+                  "by_reason_class": rep["by_reason_class"]}
+        union_before |= ids
+        union_after |= (ids - drop)
+    out["_total_union"] = {"before": len(union_before), "after": len(union_after),
+                           "_what": "the machine count the launcher actually filters on (local ∪ shared)"}
+    return out
 
 
 def retire_perishable(s3, bucket, key=None, lane="operator"):

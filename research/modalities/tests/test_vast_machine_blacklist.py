@@ -310,3 +310,32 @@ def test_retire_perishable_leaves_an_entry_it_cannot_read_a_reason_for():
     the cross-lane set is the one where being wrong is most expensive in both directions."""
     s3 = _FakeS3({vmb.SHARED_KEY: json.dumps({"machine_ids": ["999"], "history": []})})
     assert vmb.retire_perishable(s3, "b") == []
+
+
+def test_project_retire_is_read_only_and_reports_the_union():
+    """The verification path that costs $0: the retire lives in a LAUNCH tick, and a launch tick rents GPUs.
+    This computes the same answer from the same classification with zero writes."""
+    s3 = _FakeS3({
+        vmb.SHARED_KEY: json.dumps({
+            "machine_ids": ["8914", "28908"],
+            "history": [{"machine_id": "8914", "why": "resources_unavailable on start"},
+                        {"machine_id": "28908", "why": "container never started: 163 min from rental"}]}),
+        "lane/_excluded_machines.json": json.dumps({
+            "machine_ids": ["8914", "77", "999"],
+            "history": [{"machine_id": "8914", "why": "resources_unavailable on start"},
+                        {"machine_id": "77", "why": "gpu_util 0.0% for 2 checks on a plain-RBFE leg"}]}),
+    })
+    before = json.dumps(s3.objs, sort_keys=True)
+    proj = vmb.project_retire(s3, "b", ["lane/_excluded_machines.json"])
+    assert json.dumps(s3.objs, sort_keys=True) == before, "a dry run must not write"
+    # union today = {8914, 28908, 77, 999}; after = {28908, 77}
+    assert proj["_total_union"] == {"before": 4, "after": 2, "_what": proj["_total_union"]["_what"]}
+    assert proj["lane/_excluded_machines.json"]["would_retire"] == ["8914", "999"]
+    assert proj[vmb.SHARED_KEY]["would_retire"] == ["8914"]
+
+
+def test_project_retire_keeps_an_unjustified_entry_in_the_SHARED_set():
+    """Asymmetric on purpose, and it matches the live code: a lane's own list sheds reasonless entries, the
+    cross-lane set does not, because publish() always writes history so a gap there is a surprise."""
+    s3 = _FakeS3({vmb.SHARED_KEY: json.dumps({"machine_ids": ["999"], "history": []})})
+    assert vmb.project_retire(s3, "b")[vmb.SHARED_KEY]["would_retire"] == []
