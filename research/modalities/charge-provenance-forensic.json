@@ -8,6 +8,9 @@
       "tag": "calib_hi_to_lo__ternary_vhl_fwd_r0",
       "arm": "ternary",
       "cycle": "r0",
+      "leg": "calib_hi_to_lo__ternary_vhl",
+      "direction": "fwd",
+      "seed": 0,
       "banked": "\u0394G_morph 47.511 \u00b1 0.045 (SI S11); the ternary arm of the published \u0394\u0394G_coop = \u22120.522",
       "store": "gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/valB-6hax",
       "setup_caches": {
@@ -25,6 +28,21 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_insert": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            7030,
+            141967
+          ],
+          "endpoint_A_first_three": [
+            0.6501648483985881,
+            0.1426590291971187,
+            -0.09279758648929792
+          ],
+          "endpoint_B_first_three": [
+            0.6499121170829643,
+            0.14240632768381725,
+            -0.09305030290376057
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
@@ -260,6 +278,21 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_insert": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            7030,
+            146924
+          ],
+          "endpoint_A_first_three": [
+            0.6501648483985881,
+            0.1426590291971187,
+            -0.09279758648929792
+          ],
+          "endpoint_B_first_three": [
+            0.6499121170829643,
+            0.14240632768381725,
+            -0.09305030290376057
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
@@ -636,6 +669,9 @@
       "tag": "calib_hi_to_lo__ternary_vhl_rev_r0",
       "arm": "ternary",
       "cycle": "r0",
+      "leg": "calib_hi_to_lo__ternary_vhl",
+      "direction": "rev",
+      "seed": 0,
       "banked": "the |\u0394G_fwd + \u0394G_rev| = 0.325 antisymmetry check (SI S11)",
       "store": "gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/valB-6hax",
       "setup_caches": {
@@ -653,15 +689,30 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_delete": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            7030,
+            7139
+          ],
+          "endpoint_A_first_three": [
+            0.6499121212146499,
+            0.1424062275073745,
+            -0.09305032857439735
+          ],
+          "endpoint_B_first_three": [
+            0.6501648483985881,
+            0.1426590291971187,
+            -0.09279758648929792
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
               "columns": {
                 "base": {
                   "len": 141968,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603805447486637,
+                  "start": 3080,
+                  "sign": "-",
+                  "max_abs_diff": 0.941056856275179,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -683,16 +734,16 @@
                 }
               },
               "matched": false,
-              "best_column": "base"
+              "best_column": "offset:lambda_electrostatics_core"
             },
             "r0_ternary_rev/preequil/calib_hi": {
               "n": 109,
               "columns": {
                 "base": {
                   "len": 141968,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603805447486637,
+                  "start": 3080,
+                  "sign": "-",
+                  "max_abs_diff": 0.941056856275179,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -714,16 +765,16 @@
                 }
               },
               "matched": false,
-              "best_column": "base"
+              "best_column": "offset:lambda_electrostatics_core"
             },
             "r1_binary/preequil/calib_hi": {
               "n": 109,
               "columns": {
                 "base": {
                   "len": 141968,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807813045977,
+                  "start": 3080,
+                  "sign": "-",
+                  "max_abs_diff": 0.9410568842148562,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -745,16 +796,16 @@
                 }
               },
               "matched": false,
-              "best_column": "base"
+              "best_column": "offset:lambda_electrostatics_core"
             },
             "r1_ternary/preequil/calib_hi": {
               "n": 109,
               "columns": {
                 "base": {
                   "len": 141968,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807813045977,
+                  "start": 3080,
+                  "sign": "-",
+                  "max_abs_diff": 0.9410568842148562,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -776,16 +827,16 @@
                 }
               },
               "matched": false,
-              "best_column": "base"
+              "best_column": "offset:lambda_electrostatics_core"
             },
             "r2_binary/preequil/calib_hi": {
               "n": 109,
               "columns": {
                 "base": {
                   "len": 141968,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807273049768,
+                  "start": 3080,
+                  "sign": "-",
+                  "max_abs_diff": 0.9410568302152353,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -807,16 +858,16 @@
                 }
               },
               "matched": false,
-              "best_column": "base"
+              "best_column": "offset:lambda_electrostatics_core"
             },
             "r2_ternary/preequil/calib_hi": {
               "n": 109,
               "columns": {
                 "base": {
                   "len": 141968,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807262113136,
+                  "start": 3080,
+                  "sign": "-",
+                  "max_abs_diff": 0.9410568291215722,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -838,16 +889,16 @@
                 }
               },
               "matched": false,
-              "best_column": "base"
+              "best_column": "offset:lambda_electrostatics_core"
             },
             "tri_smoke_ternary/preequil/calib_hi": {
               "n": 109,
               "columns": {
                 "base": {
                   "len": 141968,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807264847295,
+                  "start": 3080,
+                  "sign": "-",
+                  "max_abs_diff": 0.941056829394988,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -869,7 +920,7 @@
                 }
               },
               "matched": false,
-              "best_column": "base"
+              "best_column": "offset:lambda_electrostatics_core"
             }
           },
           "carries_a_pose_charge_set": false
@@ -888,15 +939,30 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_delete": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            7030,
+            7139
+          ],
+          "endpoint_A_first_three": [
+            0.6499121212146499,
+            0.1424062275073745,
+            -0.09305032857439735
+          ],
+          "endpoint_B_first_three": [
+            0.6501648502612333,
+            0.1426589267516355,
+            -0.09279762187955576
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
               "columns": {
                 "base": {
                   "len": 146020,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603805447486637,
+                  "start": 7056,
+                  "sign": "-",
+                  "max_abs_diff": 0.8847825222714704,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -925,9 +991,9 @@
               "columns": {
                 "base": {
                   "len": 146020,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603805447486637,
+                  "start": 7056,
+                  "sign": "-",
+                  "max_abs_diff": 0.8847825222714704,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -956,9 +1022,9 @@
               "columns": {
                 "base": {
                   "len": 146020,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807813045977,
+                  "start": 7056,
+                  "sign": "-",
+                  "max_abs_diff": 0.8847824608041804,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -987,9 +1053,9 @@
               "columns": {
                 "base": {
                   "len": 146020,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807813045977,
+                  "start": 7056,
+                  "sign": "-",
+                  "max_abs_diff": 0.8847824608041804,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -1018,9 +1084,9 @@
               "columns": {
                 "base": {
                   "len": 146020,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807273049768,
+                  "start": 7056,
+                  "sign": "-",
+                  "max_abs_diff": 0.8847824664092043,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -1049,9 +1115,9 @@
               "columns": {
                 "base": {
                   "len": 146020,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807262113136,
+                  "start": 7056,
+                  "sign": "-",
+                  "max_abs_diff": 0.8847824653155412,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -1080,9 +1146,9 @@
               "columns": {
                 "base": {
                   "len": 146020,
-                  "start": 7030,
-                  "sign": "+",
-                  "max_abs_diff": 0.5603807264847295,
+                  "start": 7056,
+                  "sign": "-",
+                  "max_abs_diff": 0.884782465588957,
                   "n_exact_of_109": 0,
                   "EXACT_RUN": false
                 },
@@ -1264,6 +1330,9 @@
       "tag": "calib_hi_to_lo__binary_vhl_fwd_r0",
       "arm": "binary",
       "cycle": "r0",
+      "leg": "calib_hi_to_lo__binary_vhl",
+      "direction": "fwd",
+      "seed": 0,
       "banked": "the binary arm \u2014 BOTH the original (\u0394\u0394G_coop \u22120.534) and the restrained re-run (\u22120.522) carry this tag; they differ only by SETUP_CACHE_VERSION, so both versions are probed",
       "store": "gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/valB-6hax",
       "setup_caches": {
@@ -1281,6 +1350,21 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_insert": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            5105,
+            94141
+          ],
+          "endpoint_A_first_three": [
+            0.6501648483985881,
+            0.1426590291971187,
+            -0.09279758648929792
+          ],
+          "endpoint_B_first_three": [
+            0.6499121170829643,
+            0.14240632768381725,
+            -0.09305030290376057
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
@@ -1537,6 +1621,9 @@
       "tag": "calib_hi_to_lo__binary_vhl_fwd_r1",
       "arm": "binary",
       "cycle": "r1",
+      "leg": "calib_hi_to_lo__binary_vhl",
+      "direction": "fwd",
+      "seed": 1,
       "banked": "\u0394G_morph 48.274 \u00b1 0.109 (ternary-vast-watch.json, landed 2026-07-28T05:08:46Z)",
       "store": "s3://sagemaker-us-east-2-646605541856/ternary-vast",
       "setup_caches": {
@@ -1554,6 +1641,21 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_insert": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            5105,
+            90323
+          ],
+          "endpoint_A_first_three": [
+            0.6501648502612333,
+            0.1426589267516355,
+            -0.09279762187955576
+          ],
+          "endpoint_B_first_three": [
+            0.6499121212146499,
+            0.1424062275073745,
+            -0.09305032857439735
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
@@ -1930,6 +2032,9 @@
       "tag": "calib_hi_to_lo__ternary_vhl_fwd_r1",
       "arm": "ternary",
       "cycle": "r1",
+      "leg": "calib_hi_to_lo__ternary_vhl",
+      "direction": "fwd",
+      "seed": 1,
       "banked": "the r1 ternary partner \u2014 its arm-mate is banked, so its charge set is decision-relevant",
       "store": "s3://sagemaker-us-east-2-646605541856/ternary-vast",
       "setup_caches": {
@@ -1947,6 +2052,21 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_insert": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            7030,
+            144446
+          ],
+          "endpoint_A_first_three": [
+            0.6501648502612333,
+            0.1426589267516355,
+            -0.09279762187955576
+          ],
+          "endpoint_B_first_three": [
+            0.6499121212146499,
+            0.1424062275073745,
+            -0.09305032857439735
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
@@ -2323,6 +2443,9 @@
       "tag": "calib_hi_to_lo__binary_vhl_fwd_r2",
       "arm": "binary",
       "cycle": "r2",
+      "leg": "calib_hi_to_lo__binary_vhl",
+      "direction": "fwd",
+      "seed": 2,
       "banked": "\u0394G_morph 47.951 \u00b1 0.102",
       "store": "s3://sagemaker-us-east-2-646605541856/ternary-vast",
       "setup_caches": {
@@ -2340,6 +2463,21 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_insert": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            5105,
+            90719
+          ],
+          "endpoint_A_first_three": [
+            0.6501648446562094,
+            0.14265899565241752,
+            -0.09279754552819314
+          ],
+          "endpoint_B_first_three": [
+            0.6499121194197373,
+            0.1424062257124619,
+            -0.09305024096234278
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
@@ -2716,6 +2854,9 @@
       "tag": "calib_hi_to_lo__ternary_vhl_fwd_r2",
       "arm": "ternary",
       "cycle": "r2",
+      "leg": "calib_hi_to_lo__ternary_vhl",
+      "direction": "fwd",
+      "seed": 2,
       "banked": "the r2 ternary partner",
       "store": "s3://sagemaker-us-east-2-646605541856/ternary-vast",
       "setup_caches": {
@@ -2733,6 +2874,21 @@
             "lambda_electrostatics_core": 109,
             "lambda_electrostatics_insert": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            7030,
+            141739
+          ],
+          "endpoint_A_first_three": [
+            0.6501648457498725,
+            0.14265899674608074,
+            -0.09279754443452992
+          ],
+          "endpoint_B_first_three": [
+            0.6499121212146499,
+            0.1424062275073745,
+            -0.09305032857439735
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
@@ -3109,6 +3265,9 @@
       "tag": "calib_hi_to_lo2__ternary_vhl_fwd_r0",
       "arm": "ternary",
       "cycle": "triangle_smoke",
+      "leg": "calib_hi_to_lo2__ternary_vhl",
+      "direction": "fwd",
+      "seed": 0,
       "banked": "\u0394G 44.807 \u00b1 0.582 (the closing edge, end to end)",
       "store": "s3://sagemaker-us-east-2-646605541856/ternary-vast",
       "setup_caches": {
@@ -3127,6 +3286,21 @@
             "lambda_electrostatics_delete": 1,
             "lambda_electrostatics_insert": 1
           },
+          "alchemical_atom_count": 110,
+          "alchemical_index_range": [
+            7030,
+            141457
+          ],
+          "endpoint_A_first_three": [
+            0.6501648454764567,
+            0.14265899647266492,
+            -0.09279754470794573
+          ],
+          "endpoint_B_first_three": [
+            0.650075256004246,
+            0.142569392099293,
+            -0.0928870745755117
+          ],
           "pose_charge_probes": {
             "r0_ternary_fwd/preequil/calib_hi": {
               "n": 109,
@@ -3558,11 +3732,11 @@
   "cycles": {
     "r0": {
       "members": [
-        "r0_ternary_fwd (ternary, v2pe)",
-        "r0_ternary_fwd (ternary, v1)",
-        "r0_ternary_rev (ternary, v2pe)",
-        "r0_ternary_rev (ternary, v1)",
-        "r0_binary_fwd (binary, v1)"
+        "r0_ternary_fwd (ternary, fwd, v2pe)",
+        "r0_ternary_fwd (ternary, fwd, v1)",
+        "r0_ternary_rev (ternary, rev, v2pe)",
+        "r0_ternary_rev (ternary, rev, v1)",
+        "r0_binary_fwd (binary, fwd, v1)"
       ],
       "pairwise": [
         {
@@ -3583,12 +3757,35 @@
           "only_in_a": [],
           "only_in_b": [],
           "ARMS_SHARE_ONE_CHARGE_SET": true,
+          "endpoints": {
+            "A_vs_A": {
+              "n": 110,
+              "max_abs_diff": 0.0,
+              "SAME": true
+            },
+            "B_vs_B": {
+              "n": 110,
+              "max_abs_diff": 0.0,
+              "SAME": true
+            },
+            "A_vs_B": {
+              "n": 110,
+              "max_abs_diff": 0.1588472800178638,
+              "SAME": false
+            },
+            "B_vs_A": {
+              "n": 110,
+              "max_abs_diff": 0.1588472800178638,
+              "SAME": false
+            }
+          },
           "a": "r0_ternary_fwd/v2pe",
           "b": "r0_binary_fwd/v1",
           "arms": [
             "ternary",
             "binary"
-          ]
+          ],
+          "direction": "fwd"
         },
         {
           "columns": {
@@ -3608,65 +3805,42 @@
           "only_in_a": [],
           "only_in_b": [],
           "ARMS_SHARE_ONE_CHARGE_SET": true,
+          "endpoints": {
+            "A_vs_A": {
+              "n": 110,
+              "max_abs_diff": 0.0,
+              "SAME": true
+            },
+            "B_vs_B": {
+              "n": 110,
+              "max_abs_diff": 0.0,
+              "SAME": true
+            },
+            "A_vs_B": {
+              "n": 110,
+              "max_abs_diff": 0.1588472800178638,
+              "SAME": false
+            },
+            "B_vs_A": {
+              "n": 110,
+              "max_abs_diff": 0.1588472800178638,
+              "SAME": false
+            }
+          },
           "a": "r0_ternary_fwd/v1",
           "b": "r0_binary_fwd/v1",
           "arms": [
             "ternary",
             "binary"
-          ]
-        },
-        {
-          "columns": {
-            "lambda_electrostatics_core": {
-              "len": 109,
-              "max_abs_diff": 1.1207610406621582,
-              "n_exact": 0,
-              "IDENTICAL": false
-            }
-          },
-          "only_in_a": [
-            "lambda_electrostatics_delete"
           ],
-          "only_in_b": [
-            "lambda_electrostatics_insert"
-          ],
-          "ARMS_SHARE_ONE_CHARGE_SET": false,
-          "a": "r0_ternary_rev/v2pe",
-          "b": "r0_binary_fwd/v1",
-          "arms": [
-            "ternary",
-            "binary"
-          ]
-        },
-        {
-          "columns": {
-            "lambda_electrostatics_core": {
-              "len": 109,
-              "max_abs_diff": 1.1207612772180922,
-              "n_exact": 0,
-              "IDENTICAL": false
-            }
-          },
-          "only_in_a": [
-            "lambda_electrostatics_delete"
-          ],
-          "only_in_b": [
-            "lambda_electrostatics_insert"
-          ],
-          "ARMS_SHARE_ONE_CHARGE_SET": false,
-          "a": "r0_ternary_rev/v1",
-          "b": "r0_binary_fwd/v1",
-          "arms": [
-            "ternary",
-            "binary"
-          ]
+          "direction": "fwd"
         }
       ]
     },
     "r1": {
       "members": [
-        "r1_binary (binary, v1pe)",
-        "r1_ternary (ternary, v1pe)"
+        "r1_binary (binary, fwd, v1pe)",
+        "r1_ternary (ternary, fwd, v1pe)"
       ],
       "pairwise": [
         {
@@ -3687,19 +3861,42 @@
           "only_in_a": [],
           "only_in_b": [],
           "ARMS_SHARE_ONE_CHARGE_SET": true,
+          "endpoints": {
+            "A_vs_A": {
+              "n": 110,
+              "max_abs_diff": 0.0,
+              "SAME": true
+            },
+            "B_vs_B": {
+              "n": 110,
+              "max_abs_diff": 0.0,
+              "SAME": true
+            },
+            "A_vs_B": {
+              "n": 110,
+              "max_abs_diff": 0.1588473969581129,
+              "SAME": false
+            },
+            "B_vs_A": {
+              "n": 110,
+              "max_abs_diff": 0.1588473969581129,
+              "SAME": false
+            }
+          },
           "a": "r1_binary/v1pe",
           "b": "r1_ternary/v1pe",
           "arms": [
             "binary",
             "ternary"
-          ]
+          ],
+          "direction": "fwd"
         }
       ]
     },
     "r2": {
       "members": [
-        "r2_binary (binary, v1pe)",
-        "r2_ternary (ternary, v1pe)"
+        "r2_binary (binary, fwd, v1pe)",
+        "r2_ternary (ternary, fwd, v1pe)"
       ],
       "pairwise": [
         {
@@ -3720,22 +3917,155 @@
           "only_in_a": [],
           "only_in_b": [],
           "ARMS_SHARE_ONE_CHARGE_SET": true,
+          "endpoints": {
+            "A_vs_A": {
+              "n": 110,
+              "max_abs_diff": 6.069830799093623e-08,
+              "SAME": true
+            },
+            "B_vs_B": {
+              "n": 110,
+              "max_abs_diff": 1.806088469891165e-07,
+              "SAME": true
+            },
+            "A_vs_B": {
+              "n": 110,
+              "max_abs_diff": 0.158847391353089,
+              "SAME": false
+            },
+            "B_vs_A": {
+              "n": 110,
+              "max_abs_diff": 0.1588473644393424,
+              "SAME": false
+            }
+          },
           "a": "r2_binary/v1pe",
           "b": "r2_ternary/v1pe",
           "arms": [
             "binary",
             "ternary"
-          ]
+          ],
+          "direction": "fwd"
         }
       ]
     },
     "triangle_smoke": {
       "members": [
-        "tri_smoke_ternary (ternary, v1pe)"
+        "tri_smoke_ternary (ternary, fwd, v1pe)"
       ],
       "pairwise": []
     }
   },
+  "directions": [
+    {
+      "fwd": "r0_ternary_fwd/v2pe",
+      "rev": "r0_ternary_rev/v2pe",
+      "endpoints": {
+        "A_vs_A": {
+          "n": 110,
+          "max_abs_diff": 0.15884739509546775,
+          "SAME": false
+        },
+        "B_vs_B": {
+          "n": 110,
+          "max_abs_diff": 0.1588472800178638,
+          "SAME": false
+        },
+        "A_vs_B": {
+          "n": 110,
+          "max_abs_diff": 3.469446951953614e-18,
+          "SAME": true
+        },
+        "B_vs_A": {
+          "n": 110,
+          "max_abs_diff": 2.342868934412934e-07,
+          "SAME": true
+        }
+      },
+      "SAME_CHARGE_ASSIGNMENT_SWAPPED": true
+    },
+    {
+      "fwd": "r0_ternary_fwd/v2pe",
+      "rev": "r0_ternary_rev/v1",
+      "endpoints": {
+        "A_vs_A": {
+          "n": 110,
+          "max_abs_diff": 0.15884739509546775,
+          "SAME": false
+        },
+        "B_vs_B": {
+          "n": 110,
+          "max_abs_diff": 0.15884728188050895,
+          "SAME": false
+        },
+        "A_vs_B": {
+          "n": 110,
+          "max_abs_diff": 2.3655593395233154e-07,
+          "SAME": true
+        },
+        "B_vs_A": {
+          "n": 110,
+          "max_abs_diff": 2.342868934412934e-07,
+          "SAME": true
+        }
+      },
+      "SAME_CHARGE_ASSIGNMENT_SWAPPED": true
+    },
+    {
+      "fwd": "r0_ternary_fwd/v1",
+      "rev": "r0_ternary_rev/v2pe",
+      "endpoints": {
+        "A_vs_A": {
+          "n": 110,
+          "max_abs_diff": 0.15884739509546775,
+          "SAME": false
+        },
+        "B_vs_B": {
+          "n": 110,
+          "max_abs_diff": 0.1588472800178638,
+          "SAME": false
+        },
+        "A_vs_B": {
+          "n": 110,
+          "max_abs_diff": 3.469446951953614e-18,
+          "SAME": true
+        },
+        "B_vs_A": {
+          "n": 110,
+          "max_abs_diff": 2.342868934412934e-07,
+          "SAME": true
+        }
+      },
+      "SAME_CHARGE_ASSIGNMENT_SWAPPED": true
+    },
+    {
+      "fwd": "r0_ternary_fwd/v1",
+      "rev": "r0_ternary_rev/v1",
+      "endpoints": {
+        "A_vs_A": {
+          "n": 110,
+          "max_abs_diff": 0.15884739509546775,
+          "SAME": false
+        },
+        "B_vs_B": {
+          "n": 110,
+          "max_abs_diff": 0.15884728188050895,
+          "SAME": false
+        },
+        "A_vs_B": {
+          "n": 110,
+          "max_abs_diff": 2.3655593395233154e-07,
+          "SAME": true
+        },
+        "B_vs_A": {
+          "n": 110,
+          "max_abs_diff": 2.342868934412934e-07,
+          "SAME": true
+        }
+      },
+      "SAME_CHARGE_ASSIGNMENT_SWAPPED": true
+    }
+  ],
   "verdicts": {
     "r0_ternary_fwd/v2pe": {
       "verdict": "SYSTEM CARRIES A POSE-FILE CHARGE SET",
@@ -3753,6 +4083,20 @@
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_insert": 1
       },
+      "alchemical_index_range": [
+        7030,
+        141967
+      ],
+      "endpoint_A_first_three": [
+        0.6501648483985881,
+        0.1426590291971187,
+        -0.09279758648929792
+      ],
+      "endpoint_B_first_three": [
+        0.6499121170829643,
+        0.14240632768381725,
+        -0.09305030290376057
+      ],
       "banked": "\u0394G_morph 47.511 \u00b1 0.045 (SI S11); the ternary arm of the published \u0394\u0394G_coop = \u22120.522"
     },
     "r0_ternary_fwd/v1": {
@@ -3771,26 +4115,68 @@
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_insert": 1
       },
+      "alchemical_index_range": [
+        7030,
+        146924
+      ],
+      "endpoint_A_first_three": [
+        0.6501648483985881,
+        0.1426590291971187,
+        -0.09279758648929792
+      ],
+      "endpoint_B_first_three": [
+        0.6499121170829643,
+        0.14240632768381725,
+        -0.09305030290376057
+      ],
       "banked": "\u0394G_morph 47.511 \u00b1 0.045 (SI S11); the ternary arm of the published \u0394\u0394G_coop = \u22120.522"
     },
     "r0_ternary_rev/v2pe": {
-      "verdict": "no pose-file charge vector matches this System",
+      "verdict": "no pose-file charge vector CAN match: this leg's \u03bb=0 endpoint is the record the relaxed SDF carries no charges for \u2014 see `directions` for the endpoint reconstruction that does measure it",
       "matching_pose_vectors": [],
       "n_particles_nonbonded": 141968,
       "alchemical_columns": {
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_delete": 1
       },
+      "alchemical_index_range": [
+        7030,
+        7139
+      ],
+      "endpoint_A_first_three": [
+        0.6499121212146499,
+        0.1424062275073745,
+        -0.09305032857439735
+      ],
+      "endpoint_B_first_three": [
+        0.6501648483985881,
+        0.1426590291971187,
+        -0.09279758648929792
+      ],
       "banked": "the |\u0394G_fwd + \u0394G_rev| = 0.325 antisymmetry check (SI S11)"
     },
     "r0_ternary_rev/v1": {
-      "verdict": "no pose-file charge vector matches this System",
+      "verdict": "no pose-file charge vector CAN match: this leg's \u03bb=0 endpoint is the record the relaxed SDF carries no charges for \u2014 see `directions` for the endpoint reconstruction that does measure it",
       "matching_pose_vectors": [],
       "n_particles_nonbonded": 146020,
       "alchemical_columns": {
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_delete": 1
       },
+      "alchemical_index_range": [
+        7030,
+        7139
+      ],
+      "endpoint_A_first_three": [
+        0.6499121212146499,
+        0.1424062275073745,
+        -0.09305032857439735
+      ],
+      "endpoint_B_first_three": [
+        0.6501648502612333,
+        0.1426589267516355,
+        -0.09279762187955576
+      ],
       "banked": "the |\u0394G_fwd + \u0394G_rev| = 0.325 antisymmetry check (SI S11)"
     },
     "r0_binary_fwd/v1": {
@@ -3809,6 +4195,20 @@
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_insert": 1
       },
+      "alchemical_index_range": [
+        5105,
+        94141
+      ],
+      "endpoint_A_first_three": [
+        0.6501648483985881,
+        0.1426590291971187,
+        -0.09279758648929792
+      ],
+      "endpoint_B_first_three": [
+        0.6499121170829643,
+        0.14240632768381725,
+        -0.09305030290376057
+      ],
       "banked": "the binary arm \u2014 BOTH the original (\u0394\u0394G_coop \u22120.534) and the restrained re-run (\u22120.522) carry this tag; they differ only by SETUP_CACHE_VERSION, so both versions are probed"
     },
     "r1_binary/v1pe": {
@@ -3827,6 +4227,20 @@
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_insert": 1
       },
+      "alchemical_index_range": [
+        5105,
+        90323
+      ],
+      "endpoint_A_first_three": [
+        0.6501648502612333,
+        0.1426589267516355,
+        -0.09279762187955576
+      ],
+      "endpoint_B_first_three": [
+        0.6499121212146499,
+        0.1424062275073745,
+        -0.09305032857439735
+      ],
       "banked": "\u0394G_morph 48.274 \u00b1 0.109 (ternary-vast-watch.json, landed 2026-07-28T05:08:46Z)"
     },
     "r1_ternary/v1pe": {
@@ -3845,6 +4259,20 @@
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_insert": 1
       },
+      "alchemical_index_range": [
+        7030,
+        144446
+      ],
+      "endpoint_A_first_three": [
+        0.6501648502612333,
+        0.1426589267516355,
+        -0.09279762187955576
+      ],
+      "endpoint_B_first_three": [
+        0.6499121212146499,
+        0.1424062275073745,
+        -0.09305032857439735
+      ],
       "banked": "the r1 ternary partner \u2014 its arm-mate is banked, so its charge set is decision-relevant"
     },
     "r2_binary/v1pe": {
@@ -3863,6 +4291,20 @@
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_insert": 1
       },
+      "alchemical_index_range": [
+        5105,
+        90719
+      ],
+      "endpoint_A_first_three": [
+        0.6501648446562094,
+        0.14265899565241752,
+        -0.09279754552819314
+      ],
+      "endpoint_B_first_three": [
+        0.6499121194197373,
+        0.1424062257124619,
+        -0.09305024096234278
+      ],
       "banked": "\u0394G_morph 47.951 \u00b1 0.102"
     },
     "r2_ternary/v1pe": {
@@ -3881,6 +4323,20 @@
         "lambda_electrostatics_core": 109,
         "lambda_electrostatics_insert": 1
       },
+      "alchemical_index_range": [
+        7030,
+        141739
+      ],
+      "endpoint_A_first_three": [
+        0.6501648457498725,
+        0.14265899674608074,
+        -0.09279754443452992
+      ],
+      "endpoint_B_first_three": [
+        0.6499121212146499,
+        0.1424062275073745,
+        -0.09305032857439735
+      ],
       "banked": "the r2 ternary partner"
     },
     "tri_smoke_ternary/v1pe": {
@@ -3900,7 +4356,42 @@
         "lambda_electrostatics_delete": 1,
         "lambda_electrostatics_insert": 1
       },
+      "alchemical_index_range": [
+        7030,
+        141457
+      ],
+      "endpoint_A_first_three": [
+        0.6501648454764567,
+        0.14265899647266492,
+        -0.09279754470794573
+      ],
+      "endpoint_B_first_three": [
+        0.650075256004246,
+        0.142569392099293,
+        -0.0928870745755117
+      ],
       "banked": "\u0394G 44.807 \u00b1 0.582 (the closing edge, end to end)"
     }
+  },
+  "fanout_exposure": {
+    "_what": "does the STEP 1 fan-out's staged pose file carry a charge model to inherit?",
+    "_why_no_system": "the fan-out configures no setup cache, so no hybrid System was persisted; the staged SDF is the only stored artifact that can answer this",
+    "files": {
+      "nr4a3-step1-fanout/stage/ligand/docked_nr4a3.sdf": {
+        "n_records": 17,
+        "n_records_carrying_charges": 0,
+        "names": [
+          "cw_bio_acylsulfonamide",
+          "cw_bio_hydroxamic",
+          "cw_bio_nmethyl_amide",
+          "cw_bio_primary_amide",
+          "cw_bio_tetrazole",
+          "cw_ev_5alkyne",
+          "cw_ev_5ch2nh2",
+          "cw_ev_5cooh"
+        ]
+      }
+    },
+    "ANY_CHARGE_TO_INHERIT": false
   }
 }
