@@ -1,27 +1,26 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-29T10:04:32Z",
-  "_generated_et": "6:04 AM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T10:14:10Z",
+  "_generated_et": "6:14 AM ET Jul 29, 2026",
   "n_units": 19,
   "n_complete": 14,
-  "live_instances": 5,
+  "live_instances": 4,
   "_vast_unreadable": null,
   "instance_states": {
-    "running": 3,
-    "exited": 2
+    "running": 2,
+    "exited": 1,
+    "loading": 1
   },
   "gpu_util": [
     99.999908,
     0.0,
-    0.0,
-    85.999916,
-    99.999908
+    0.0
   ],
   "phases": {
     "done": 14,
-    "leg-complex-FAILED-rc1": 2,
-    "leg-solvent-running": 2,
-    "leg-complex-running": 1
+    "leg-complex-running": 2,
+    "leg-complex-FAILED-rc1": 1,
+    "leg-solvent-running": 2
   },
   "instances": [
     {
@@ -35,33 +34,7 @@
       "gpu_util": 99.999908,
       "inet_down": 882.5,
       "dph": 0.11742222222222223,
-      "age_min": 334
-    },
-    {
-      "id": 46174099,
-      "label": "s1f-15-cw_ms_5acetamido_ester",
-      "machine_id": 9427,
-      "status": "running",
-      "cur_state": "running",
-      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
-      "gpu": "RTX 4090",
-      "gpu_util": 0.0,
-      "inet_down": 856.0,
-      "dph": 0.18394074074074074,
-      "age_min": 196
-    },
-    {
-      "id": 46181951,
-      "label": "s1f-08-cw_bio_primary_amide",
-      "machine_id": 33657,
-      "status": "exited",
-      "cur_state": "stopped",
-      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
-      "gpu": "RTX 4080S",
-      "gpu_util": 0.0,
-      "inet_down": 1096.0,
-      "dph": 0.15142222222222224,
-      "age_min": 55
+      "age_min": 344
     },
     {
       "id": 46181953,
@@ -71,52 +44,75 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 5090",
-      "gpu_util": 85.999916,
+      "gpu_util": 0.0,
       "inet_down": 452.1,
       "dph": 0.2262222222222222,
-      "age_min": 55
+      "age_min": 65
     },
     {
-      "id": 46181954,
-      "label": "s1f-18-cw_bio_primary_amide",
-      "machine_id": 41950,
+      "id": 46185296,
+      "label": "s1f-08-cw_bio_primary_amide",
+      "machine_id": 12227,
       "status": "exited",
       "cur_state": "stopped",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 4090",
-      "gpu_util": 99.999908,
-      "inet_down": 869.3,
-      "dph": 0.19662222222222223,
-      "age_min": 55
+      "gpu_util": 0.0,
+      "inet_down": 914.0,
+      "dph": 0.15822222222222224,
+      "age_min": 9
+    },
+    {
+      "id": 46185297,
+      "label": "s1f-18-cw_bio_primary_amide",
+      "machine_id": 31035,
+      "status": "loading",
+      "cur_state": "stopped",
+      "status_msg": "",
+      "gpu": "RTX 4090",
+      "gpu_util": null,
+      "inet_down": 901.6,
+      "dph": 0.18402222222222223,
+      "age_min": 9
     }
   ],
   "stopped_host_adjudication": {
-    "never_started": [],
+    "never_started": [
+      {
+        "instance": 46185297,
+        "label": "s1f-18-cw_bio_primary_amide",
+        "machine_id": "31035",
+        "gpu": "RTX 4090",
+        "age_min": 9,
+        "status_msg": "",
+        "double_booked_behind": null,
+        "machine_has_run_our_container": true,
+        "klass": "stopped_on_a_proven_machine",
+        "remedy": "destroy and let the market gate re-price it; this machine has RUN our container, so it cannot be condemned as one that never starts",
+        "machine_excluded_now": false
+      }
+    ],
     "preempted": [
       {
-        "instance": 46181951,
+        "instance": 46185296,
         "label": "s1f-08-cw_bio_primary_amide",
-        "machine_id": "33657",
-        "gpu": "RTX 4080S",
-        "age_min": 55,
-        "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh"
-      },
-      {
-        "instance": 46181954,
-        "label": "s1f-18-cw_bio_primary_amide",
-        "machine_id": "41950",
+        "machine_id": "12227",
         "gpu": "RTX 4090",
-        "age_min": 55,
+        "age_min": 9,
         "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh"
       }
     ],
-    "never_started_by_machine": {},
-    "max_units_on_one_machine": 0,
-    "n_never_started": 0,
-    "n_preempted": 2,
+    "never_started_by_machine": {
+      "31035": [
+        "s1f-18-cw_bio_primary_amide"
+      ]
+    },
+    "max_units_on_one_machine": 1,
+    "n_never_started": 1,
+    "n_preempted": 1,
     "n_double_booked": 0,
     "n_host_fault": 0,
-    "n_stopped_on_a_proven_machine": 0,
+    "n_stopped_on_a_proven_machine": 1,
     "host_fault_machines": [],
     "machines_excluded_since": []
   },
@@ -187,7 +183,7 @@
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
-      "phase": "leg-complex-FAILED-rc1 2026-07-29T09:20:46Z",
+      "phase": "leg-complex-running 2026-07-29T10:05:37Z",
       "committed": "no commit yet (boot / stage / setup / minimise)",
       "committed_scalar": 0,
       "committed_prev_scalar": 0,
@@ -244,9 +240,9 @@
     {
       "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
       "phase": "leg-solvent-running 2026-07-29T09:59:01Z",
-      "committed": "solvent/production@1360",
-      "committed_scalar": 11001360,
-      "committed_prev_scalar": 11001120,
+      "committed": "solvent/production@1600",
+      "committed_scalar": 11001600,
+      "committed_prev_scalar": 11001360,
       "ddg_bind_kcal": null
     },
     {
@@ -260,9 +256,9 @@
     {
       "unit_id": "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
       "phase": "leg-solvent-running 2026-07-29T09:50:54Z",
-      "committed": "solvent/production@160",
-      "committed_scalar": 11000160,
-      "committed_prev_scalar": 10000400,
+      "committed": "solvent/production@600",
+      "committed_scalar": 11000600,
+      "committed_prev_scalar": 11000160,
       "ddg_bind_kcal": null
     },
     {
@@ -274,6 +270,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 68.88,
+  "realised_usd_so_far": 68.98,
   "plan_usd_whole_tranche": 29.72
 }
