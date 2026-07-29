@@ -1,7 +1,7 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-29T16:22:35Z",
-  "_generated_et": "12:22 PM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T16:30:39Z",
+  "_generated_et": "12:30 PM ET Jul 29, 2026",
   "n_units": 19,
   "n_complete": 16,
   "n_computable": 18,
@@ -13,14 +13,15 @@
       "utc": "2026-07-28T11:19:43Z"
     }
   },
-  "live_instances": 2,
+  "live_instances": 3,
   "_vast_unreadable": null,
   "instance_states": {
-    "running": 1,
+    "running": 2,
     "exited": 1
   },
   "gpu_util": [
-    99.999908
+    99.999908,
+    0.0
   ],
   "phases": {
     "done": 16,
@@ -39,7 +40,7 @@
       "gpu_util": null,
       "inet_down": 709.5,
       "dph": 0.2262222222222222,
-      "age_min": 132
+      "age_min": 140
     },
     {
       "id": 46208072,
@@ -52,7 +53,20 @@
       "gpu_util": 99.999908,
       "inet_down": 400.8,
       "dph": 0.15822222222222224,
-      "age_min": 14
+      "age_min": 22
+    },
+    {
+      "id": 46209115,
+      "label": "s1f-18-cw_bio_primary_amide",
+      "machine_id": 29717,
+      "status": "running",
+      "cur_state": "running",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "gpu": "RTX 5090",
+      "gpu_util": 0.0,
+      "inet_down": 643.1,
+      "dph": 0.2262222222222222,
+      "age_min": 8
     }
   ],
   "stopped_host_adjudication": {
@@ -63,7 +77,7 @@
         "label": "s1f-18-cw_bio_primary_amide",
         "machine_id": "141591",
         "gpu": "RTX 4090",
-        "age_min": 14,
+        "age_min": 22,
         "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh"
       }
     ],
@@ -154,9 +168,9 @@
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "phase": "leg-complex-running 2026-07-29T14:15:04Z",
       "blocked_why": null,
-      "committed": "complex/production@40",
-      "committed_scalar": 1000040,
-      "committed_prev_scalar": 400,
+      "committed": "complex/production@80",
+      "committed_scalar": 1000080,
+      "committed_prev_scalar": 1000040,
       "ddg_bind_kcal": null
     },
     {
@@ -242,7 +256,7 @@
     },
     {
       "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
-      "phase": "leg-complex-running 2026-07-29T16:11:21Z",
+      "phase": "leg-complex-running 2026-07-29T16:30:09Z",
       "blocked_why": null,
       "committed": "complex/production@1920",
       "committed_scalar": 1001920,
@@ -250,6 +264,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 71.4,
+  "realised_usd_so_far": 71.47,
   "plan_usd_whole_tranche": 29.72
 }
