@@ -2,6 +2,306 @@
   "_what": "which charge set each banked valB leg's serialized hybrid System actually carried",
   "_method": "read from the stored setup-cache System XML; $0, read-only, no GPU",
   "_tolerance": 1e-06,
+  "caches": {
+    "s3://sagemaker-us-east-2-646605541856/ternary-vast": {
+      "preequilcache/5aks_d0_to_d__ternary_nr4a1__seed0__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 921600,
+        "first_mtime": "2026-07-27T01:27:33+00:00",
+        "last_mtime": "2026-07-27T01:27:33+00:00"
+      },
+      "preequilcache/5aks_d0_to_d__ternary_nr4a3__seed0__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 921600,
+        "first_mtime": "2026-07-26T20:52:33+00:00",
+        "last_mtime": "2026-07-26T20:52:33+00:00"
+      },
+      "preequilcache/calib_hi_to_lo2__binary_vhl__seed0__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 440320,
+        "first_mtime": "2026-07-28T01:12:49+00:00",
+        "last_mtime": "2026-07-28T01:12:49+00:00"
+      },
+      "preequilcache/calib_hi_to_lo2__ternary_vhl__seed0__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 604160,
+        "first_mtime": "2026-07-27T22:42:35+00:00",
+        "last_mtime": "2026-07-27T22:42:35+00:00"
+      },
+      "preequilcache/calib_hi_to_lo__binary_vhl__seed0__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 440320,
+        "first_mtime": "2026-07-25T19:49:39+00:00",
+        "last_mtime": "2026-07-25T19:49:39+00:00"
+      },
+      "preequilcache/calib_hi_to_lo__binary_vhl__seed1__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 440320,
+        "first_mtime": "2026-07-27T18:19:52+00:00",
+        "last_mtime": "2026-07-27T18:19:52+00:00"
+      },
+      "preequilcache/calib_hi_to_lo__binary_vhl__seed2__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 440320,
+        "first_mtime": "2026-07-27T16:47:59+00:00",
+        "last_mtime": "2026-07-27T16:47:59+00:00"
+      },
+      "preequilcache/calib_hi_to_lo__ternary_vhl__seed0__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 604160,
+        "first_mtime": "2026-07-25T17:54:33+00:00",
+        "last_mtime": "2026-07-25T17:54:33+00:00"
+      },
+      "preequilcache/calib_hi_to_lo__ternary_vhl__seed1__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 604160,
+        "first_mtime": "2026-07-27T20:58:59+00:00",
+        "last_mtime": "2026-07-27T20:58:59+00:00"
+      },
+      "preequilcache/calib_hi_to_lo__ternary_vhl__seed2__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 604160,
+        "first_mtime": "2026-07-27T20:14:17+00:00",
+        "last_mtime": "2026-07-27T20:14:17+00:00"
+      },
+      "preequilcache/calib_lo_to_lo2__binary_vhl__seed0__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 440320,
+        "first_mtime": "2026-07-27T23:58:09+00:00",
+        "last_mtime": "2026-07-27T23:58:09+00:00"
+      },
+      "preequilcache/calib_lo_to_lo2__ternary_vhl__seed0__nagl__ns0.5__v1.tar": {
+        "n_objects": 1,
+        "bytes": 604160,
+        "first_mtime": "2026-07-27T23:58:18+00:00",
+        "last_mtime": "2026-07-27T23:58:18+00:00"
+      },
+      "setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 9526529,
+        "first_mtime": "2026-07-27T01:39:49+00:00",
+        "last_mtime": "2026-07-27T01:39:52+00:00"
+      },
+      "setupcache/5aks_d0_to_d__ternary_nr4a3_fwd_r0__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 7245815,
+        "first_mtime": "2026-07-26T20:57:28+00:00",
+        "last_mtime": "2026-07-26T20:57:31+00:00"
+      },
+      "setupcache/calib_hi_to_lo2__binary_vhl_fwd_r0__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 4163883,
+        "first_mtime": "2026-07-28T01:15:21+00:00",
+        "last_mtime": "2026-07-28T01:15:23+00:00"
+      },
+      "setupcache/calib_hi_to_lo2__ternary_vhl_fwd_r0__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 6405217,
+        "first_mtime": "2026-07-27T22:45:37+00:00",
+        "last_mtime": "2026-07-27T22:45:38+00:00"
+      },
+      "setupcache/calib_hi_to_lo__binary_vhl_fwd_r0__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 4209475,
+        "first_mtime": "2026-07-25T19:54:58+00:00",
+        "last_mtime": "2026-07-25T19:55:08+00:00"
+      },
+      "setupcache/calib_hi_to_lo__binary_vhl_fwd_r1__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 4185309,
+        "first_mtime": "2026-07-27T18:22:20+00:00",
+        "last_mtime": "2026-07-27T18:22:30+00:00"
+      },
+      "setupcache/calib_hi_to_lo__binary_vhl_fwd_r2__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 4214060,
+        "first_mtime": "2026-07-27T16:49:54+00:00",
+        "last_mtime": "2026-07-27T16:49:57+00:00"
+      },
+      "setupcache/calib_hi_to_lo__solvent_fwd_r0__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 240260,
+        "first_mtime": "2026-07-25T19:43:11+00:00",
+        "last_mtime": "2026-07-25T19:43:13+00:00"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_fwd_r0__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 6332705,
+        "first_mtime": "2026-07-25T19:47:03+00:00",
+        "last_mtime": "2026-07-25T19:47:05+00:00"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_fwd_r1__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 6491181,
+        "first_mtime": "2026-07-27T23:53:53+00:00",
+        "last_mtime": "2026-07-27T23:54:03+00:00"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_fwd_r2__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 6411082,
+        "first_mtime": "2026-07-28T00:45:08+00:00",
+        "last_mtime": "2026-07-28T00:45:10+00:00"
+      },
+      "stagecache/5aks_d0_to_d__ternary_nr4a1__boltz5aks__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 921600,
+        "first_mtime": "2026-07-26T22:44:55+00:00",
+        "last_mtime": "2026-07-26T22:44:55+00:00"
+      },
+      "stagecache/5aks_d0_to_d__ternary_nr4a3__boltz5aks__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 921600,
+        "first_mtime": "2026-07-26T22:44:55+00:00",
+        "last_mtime": "2026-07-26T22:44:55+00:00"
+      },
+      "stagecache/calib_hi_to_lo2__binary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 430080,
+        "first_mtime": "2026-07-27T19:53:26+00:00",
+        "last_mtime": "2026-07-27T19:53:26+00:00"
+      },
+      "stagecache/calib_hi_to_lo2__ternary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 1402880,
+        "first_mtime": "2026-07-27T19:53:16+00:00",
+        "last_mtime": "2026-07-27T19:53:16+00:00"
+      },
+      "stagecache/calib_hi_to_lo__binary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 430080,
+        "first_mtime": "2026-07-25T18:40:53+00:00",
+        "last_mtime": "2026-07-25T18:40:53+00:00"
+      },
+      "stagecache/calib_hi_to_lo__binary_vhl__8G1Q__seed1__v1.tar": {
+        "n_objects": 1,
+        "bytes": 430080,
+        "first_mtime": "2026-07-26T23:47:32+00:00",
+        "last_mtime": "2026-07-26T23:47:32+00:00"
+      },
+      "stagecache/calib_hi_to_lo__binary_vhl__8G1Q__seed2__v1.tar": {
+        "n_objects": 1,
+        "bytes": 430080,
+        "first_mtime": "2026-07-27T05:08:50+00:00",
+        "last_mtime": "2026-07-27T05:08:50+00:00"
+      },
+      "stagecache/calib_hi_to_lo__solvent__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 20480,
+        "first_mtime": "2026-07-25T18:40:56+00:00",
+        "last_mtime": "2026-07-25T18:40:56+00:00"
+      },
+      "stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 1402880,
+        "first_mtime": "2026-07-25T17:46:53+00:00",
+        "last_mtime": "2026-07-25T17:46:53+00:00"
+      },
+      "stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed1__v1.tar": {
+        "n_objects": 1,
+        "bytes": 1402880,
+        "first_mtime": "2026-07-26T23:47:21+00:00",
+        "last_mtime": "2026-07-26T23:47:21+00:00"
+      },
+      "stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed2__v1.tar": {
+        "n_objects": 1,
+        "bytes": 1402880,
+        "first_mtime": "2026-07-27T05:08:40+00:00",
+        "last_mtime": "2026-07-27T05:08:40+00:00"
+      },
+      "stagecache/calib_lo_to_lo2__binary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 430080,
+        "first_mtime": "2026-07-27T19:29:58+00:00",
+        "last_mtime": "2026-07-27T19:29:58+00:00"
+      },
+      "stagecache/calib_lo_to_lo2__ternary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 1402880,
+        "first_mtime": "2026-07-27T19:29:43+00:00",
+        "last_mtime": "2026-07-27T19:29:43+00:00"
+      }
+    },
+    "gs://project-a7ebde30-e2ed-4b8d-9a9-rbfe-ckpt/valB-6hax": {
+      "preequilcache/calib_hi_to_lo__ternary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 593920,
+        "first_mtime": "2026-07-19T21:23:34Z",
+        "last_mtime": "2026-07-19T21:23:34Z"
+      },
+      "preequilcache/calib_hi_to_lo__ternary_vhl__8G1Q__seed0__v2.tar": {
+        "n_objects": 1,
+        "bytes": 604160,
+        "first_mtime": "2026-07-20T01:42:57Z",
+        "last_mtime": "2026-07-20T01:42:57Z"
+      },
+      "setupcache/calib_hi_to_lo__binary_vhl_fwd_r0__nagl__v1": {
+        "n_objects": 5,
+        "bytes": 4351871,
+        "first_mtime": "2026-07-23T17:57:17Z",
+        "last_mtime": "2026-07-23T17:57:17Z"
+      },
+      "setupcache/calib_hi_to_lo__solvent_fwd_r0__nagl__v1": {
+        "n_objects": 5,
+        "bytes": 240632,
+        "first_mtime": "2026-07-25T00:42:12Z",
+        "last_mtime": "2026-07-25T00:42:13Z"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_fwd_r0__am1bcc__v1": {
+        "n_objects": 5,
+        "bytes": 6576334,
+        "first_mtime": "2026-07-19T17:56:48Z",
+        "last_mtime": "2026-07-19T17:56:54Z"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_fwd_r0__nagl__v1": {
+        "n_objects": 5,
+        "bytes": 6606432,
+        "first_mtime": "2026-07-18T18:19:44Z",
+        "last_mtime": "2026-07-18T18:19:51Z"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_fwd_r0__nagl__v1pe": {
+        "n_objects": 5,
+        "bytes": 6495933,
+        "first_mtime": "2026-07-19T21:36:53Z",
+        "last_mtime": "2026-07-19T21:36:59Z"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_fwd_r0__nagl__v2pe": {
+        "n_objects": 5,
+        "bytes": 6422583,
+        "first_mtime": "2026-07-20T05:28:09Z",
+        "last_mtime": "2026-07-20T05:28:15Z"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_rev_r0__nagl__v1": {
+        "n_objects": 5,
+        "bytes": 6577876,
+        "first_mtime": "2026-07-25T15:54:43Z",
+        "last_mtime": "2026-07-25T15:54:45Z"
+      },
+      "setupcache/calib_hi_to_lo__ternary_vhl_rev_r0__nagl__v2pe": {
+        "n_objects": 5,
+        "bytes": 6417365,
+        "first_mtime": "2026-07-25T19:21:48Z",
+        "last_mtime": "2026-07-25T19:21:52Z"
+      },
+      "stagecache/calib_hi_to_lo__binary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 430080,
+        "first_mtime": "2026-07-23T16:27:14Z",
+        "last_mtime": "2026-07-23T16:27:14Z"
+      },
+      "stagecache/calib_hi_to_lo__solvent__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 20480,
+        "first_mtime": "2026-07-25T00:41:23Z",
+        "last_mtime": "2026-07-25T00:41:23Z"
+      },
+      "stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed0__v1.tar": {
+        "n_objects": 1,
+        "bytes": 1402880,
+        "first_mtime": "2026-07-25T19:16:02Z",
+        "last_mtime": "2026-07-25T19:16:02Z"
+      }
+    }
+  },
   "legs": [
     {
       "id": "r0_ternary_fwd",
