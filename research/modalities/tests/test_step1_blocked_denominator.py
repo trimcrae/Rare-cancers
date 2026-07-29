@@ -136,3 +136,119 @@ def test_the_map_artifact_the_manuscript_cites_carries_the_denominator():
     assert "computable_units(units, _blocked_now)" in body
     # ...and from the SAME read as the list it is derived from, or the count and the list can disagree.
     assert body.count("_load_blocked(s3, bucket)") == 1
+
+
+# ---- the consecutive-failure breaker, which this lane referenced and never called ---------------
+# `_record_exclusion` has long pointed at `leg_failure_breaker` as "the thing that stops buying the next
+# host for this unit". Nothing in the module called it. `cw_bio_primary_amide` went through that gap for 25
+# rentals on 7 distinct card/driver combinations, every one dying at the same call.
+import types  # noqa: E402
+
+
+class _FakeS3:
+    def __init__(self, attempts=0, phase=None, has_result=False, baseline=None):
+        self.attempts, self.phase, self.has_result = attempts, phase, has_result
+        self.baseline, self.put = baseline, {}
+
+    def list_objects_v2(self, **kw):
+        return {"Contents": [{"Key": f"k{i}"} for i in range(self.attempts)], "IsTruncated": False}
+
+    def head_object(self, **kw):
+        if kw["Key"].endswith("/ddg.json") and self.has_result:
+            return {}
+        raise RuntimeError("404")
+
+    def get_object(self, **kw):
+        import io
+        k = kw["Key"]
+        if k.endswith("phase.txt") and self.phase:
+            return {"Body": io.BytesIO(self.phase.encode())}
+        if k.endswith(cfv._BREAKER_BASELINE_KEY_SUFFIX) and self.baseline is not None:
+            return {"Body": io.BytesIO(json.dumps({"units": self.baseline}).encode())}
+        raise RuntimeError("404")
+
+    def put_object(self, **kw):
+        self.put[kw["Key"]] = kw["Body"]
+
+
+import json  # noqa: E402
+
+UNIT = {"unit_id": "u1", "receptor": "nr4a3", "leg_id": "neutral__neutral"}
+
+
+def test_a_unit_that_has_never_run_is_never_held():
+    d = cfv.breaker_decision(_FakeS3(attempts=0, phase=None), "b", UNIT)
+    assert d["block"] is False
+
+
+def test_one_failure_is_not_enough_to_hold():
+    d = cfv.breaker_decision(_FakeS3(attempts=1, phase="leg-complex-FAILED-rc1 2026-07-29T09:00:00Z"),
+                             "b", UNIT)
+    assert d["block"] is False
+
+
+def test_repeated_failure_across_hosts_stops_the_buying():
+    """THE 25-RENTAL DEFECT, in one assertion."""
+    import leg_failure_breaker as lfb
+    d = cfv.breaker_decision(
+        _FakeS3(attempts=lfb.DEFAULT_THRESHOLD, phase="leg-complex-FAILED-rc1 2026-07-29T09:00:00Z"),
+        "b", UNIT)
+    assert d["block"] is True
+    assert "NOT permanent" in d["why"]
+
+
+def test_a_running_unit_is_never_held_however_many_attempts_it_has():
+    """The breaker must not touch work in flight — a resumed leg legitimately has many container starts."""
+    d = cfv.breaker_decision(_FakeS3(attempts=40, phase="leg-complex-running 2026-07-29T09:00:00Z"),
+                             "b", UNIT)
+    assert d["block"] is False
+
+
+def test_a_finished_unit_is_never_held():
+    d = cfv.breaker_decision(_FakeS3(attempts=99, phase="done", has_result=True), "b", UNIT)
+    assert d["block"] is False
+
+
+def test_the_baseline_re_arms_without_destroying_the_evidence():
+    """Re-arming is an OFFSET. The archive is the only durable record that this unit was bought 25 times;
+    `leg_failure_breaker.reset_for` would delete it, and that count is cited in the block reason and in the
+    manuscript. Attempts before the baseline stop counting; the objects stay."""
+    fake = _FakeS3(attempts=27, phase="leg-complex-FAILED-rc1 2026-07-29T09:00:00Z", baseline={"u1": 26})
+    d = cfv.breaker_decision(fake, "b", UNIT, cfv._breaker_baselines(fake, "b"))
+    assert d["block"] is False
+    assert d["n_attempts"] == 1 and d["attempts_before_baseline"] == 26
+
+
+def test_an_unreadable_bucket_fails_OPEN_and_never_halts_the_lane():
+    class Dead(_FakeS3):
+        def list_objects_v2(self, **kw):
+            raise RuntimeError("s3 down")
+    d = cfv.breaker_decision(Dead(phase="leg-complex-FAILED-rc1 2026-07-29T09:00:00Z"), "b", UNIT)
+    assert d["block"] is False, "an unreadable bucket must not be able to stop the lane"
+
+
+def test_the_threshold_is_imported_not_retyped():
+    s = _src("congeneric_fanout_vast.py")
+    assert "import leg_failure_breaker as lfb" in s and "lfb.decide(" in s
+    assert "DEFAULT_THRESHOLD = " not in s, "the threshold must have one home, in leg_failure_breaker"
+
+
+def test_a_breaker_hold_is_a_NAMED_placement_outcome_and_not_silence():
+    s = _src("congeneric_fanout_vast.py")
+    assert '"breaker_hold"' in s
+    body = s.split("PLACEMENT_DECISIONS = {", 1)[1]
+    assert "breaker_hold" in body, "an unnamed hold is the silent drop CLAUDE.md section 6 forbids"
+
+
+def test_the_breaker_hold_is_tested_before_nothing_pending():
+    """'we declined to buy' and 'there is nothing to buy' are opposite facts with opposite remedies."""
+    s = _src("congeneric_fanout_vast.py")
+    body = s.split("if not batch:", 1)[1]
+    assert body.index('_dec = "breaker_hold"') < body.index('_dec, _why = "nothing_pending"')
+
+
+def test_unblocking_also_re_arms_the_breaker():
+    """Two guards that must be lifted by two separate gestures look, from outside, like one broken guard."""
+    s = _src("congeneric_fanout_vast.py")
+    body = s.split('if os.environ.get("FANOUT_UNBLOCK") == "1":', 1)[1].split('doc["_what"]', 1)[0]
+    assert "_BREAKER_BASELINE_KEY_SUFFIX" in body and "_attempt_count(" in body

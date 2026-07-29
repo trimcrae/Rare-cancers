@@ -1085,8 +1085,9 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane", unit=None):
             print(f"[s1f] machine {mid} deliberately NOT excluded — unit {unit} has already condemned "
                   f"{len(prior)} distinct machine(s) ({sorted(prior)}) on its own verdicts. The common "
                   f"factor is the UNIT, not the hosts: a per-unit fault blaming a per-machine blacklist "
-                  f"costs one good host per attempt. See leg_failure_breaker, which stops buying the next "
-                  f"host for this unit; nothing more is learned by retiring this one. Reason was: {why}")
+                  f"costs one good host per attempt. `breaker_decision` (this module) applies "
+                  f"leg_failure_breaker's rule and stops buying the next host for this unit; nothing more "
+                  f"is learned by retiring this one. Reason was: {why}")
             return False
 
     if scope == "host" and not perishable:
@@ -1404,6 +1405,80 @@ def computable_units(units, blocked):
     return [u for u in units if u["unit_id"] not in blk]
 
 
+_BREAKER_BASELINE_KEY_SUFFIX = "_breaker_baseline.json"
+
+
+def _attempt_count(s3, bucket, unit_id):
+    """How many container starts this unit has paid for, counted from its own archive in S3.
+
+    Returns None when the listing fails. `leg_failure_breaker.decide` treats None as "not over the
+    threshold", i.e. it FAILS OPEN — an unreadable bucket must not be able to halt a lane, and the worst
+    case is one extra rental."""
+    try:
+        n, tok = 0, None
+        while True:
+            kw = {"Bucket": bucket, "Prefix": f"{RESULT_PREFIX}/{unit_id}/attempts/"}
+            if tok:
+                kw["ContinuationToken"] = tok
+            page = s3.list_objects_v2(**kw)
+            n += len(page.get("Contents", []) or [])
+            if not page.get("IsTruncated"):
+                return n
+            tok = page.get("NextContinuationToken")
+    except Exception as e:  # noqa: BLE001 — reported, never swallowed into a silent zero
+        print(f"[s1f-breaker] could not count attempts for {unit_id}: {type(e).__name__}: {e}")
+        return None
+
+
+def _breaker_baselines(s3, bucket):
+    """{unit_id: attempts already spent BEFORE the last time someone said the cause was fixed}.
+
+    ★★ WHY A BASELINE AND NOT A DELETE (2026-07-29). `leg_failure_breaker.reset_for` re-arms a unit by
+    DELETING its attempt archive, and for this lane that archive is the evidence — it is the only durable
+    record that `cw_bio_primary_amide` was bought 25 times on 7 distinct cards, and that count is quoted in
+    the manuscript and in the block reason. Destroying evidence to reset a counter is the wrong trade when
+    an offset does the same job: the breaker counts attempts made SINCE the baseline, the archive stays
+    whole, and the history a later reader needs is still there. Same principle as the append-only ledger —
+    add a marker, never overwrite the record."""
+    return dict(((_get_json(s3, bucket, f"{RESULT_PREFIX}/{_BREAKER_BASELINE_KEY_SUFFIX}") or {})
+                 .get("units") or {}))
+
+
+def breaker_decision(s3, bucket, unit, baselines=None):
+    """Should this lane RENT for `unit`? The shared consecutive-failure rule, on step 1's own S3 layout.
+
+    ★★ WHY THIS EXISTS AT ALL (2026-07-29). `leg_failure_breaker` was written for the ternary lane and this
+    module referenced it in a comment — "See leg_failure_breaker, which stops buying the next host for this
+    unit" — while never calling it. That sentence was false for this lane, and the gap is exactly what
+    `cw_bio_primary_amide` fell through: 25 rentals, on 7 distinct card/driver combinations, every one dying
+    at the same `LocalEnergyMinimizer` call, because nothing anywhere counted the attempts.
+
+    The DECISION is `leg_failure_breaker.decide` — imported, not re-implemented — so the threshold and the
+    wording have one home across both lanes (rule 1). Only the two lane-specific facts are supplied here:
+    where the attempt archive lives, and how to read a status out of a `phase.txt` marker (this lane writes
+    no `leg.json`).
+
+    ⚠ IT ACTS AT THE MOMENT OF RENTING AND NOWHERE ELSE. Work already executing is never touched."""
+    import leg_failure_breaker as lfb
+    uid = unit["unit_id"]
+    if _exists(s3, bucket, result_key(unit, RESULT_PREFIX)):
+        return lfb.decide({"status": "done"}, 0)
+    phase = (_get_text(s3, bucket, f"{RESULT_PREFIX}/{uid}/phase.txt") or "").strip()
+    if not phase:
+        # Never run. `decide` must let it run — a unit with no record has earned no suspicion.
+        return lfb.decide(None, None)
+    marker = phase.split()[0]
+    status = "failed" if ("FAILED" in marker or "NORESULT" in marker) else "running"
+    n = _attempt_count(s3, bucket, uid)
+    base = int((baselines or {}).get(uid, 0) or 0)
+    if n is not None:
+        n = max(0, n - base)
+    d = lfb.decide({"status": status, "phase": marker, "rc": marker.rsplit("-rc", 1)[-1]
+                    if "-rc" in marker else None}, n)
+    d["attempts_before_baseline"] = base
+    return d
+
+
 def _pending(s3, bucket, units, blocked=None):
     """Units with no ddg.json in S3 yet AND not blocked, in map order. Blocks are announced, never silent."""
     blocked = _load_blocked(s3, bucket) if blocked is None else blocked
@@ -1472,6 +1547,11 @@ PLACEMENT_DECISIONS = {
                          "board improves. This one does not clear on its own: it is trimcrae's call",
     "placement_disabled": "this tick was asked to measure only — no placement was attempted",
     "cost_model_red":    "the unit-list / cost-model tests failed, so nothing may be rented",
+    "breaker_hold":      "every remaining unit has failed on `leg_failure_breaker.DEFAULT_THRESHOLD` or "
+                         "more separate rented hosts with nothing changing in between, so buying another "
+                         "host tests nothing. NOT permanent and NOT a scientific exclusion: fix the cause, "
+                         "then re-arm the unit (mode_block with FANOUT_UNBLOCK=1 records the current "
+                         "attempt count as the new baseline)",
     "measurement_failed": "this tick's progress check or collect did not succeed, so the fleet was neither "
                           "measured nor reaped — adding hosts to it is the wrong direction",
     # ★ THE EIGHTH, ADDED 2026-07-28. Units cleared the price gate and STILL could not be placed, because
@@ -2045,6 +2125,28 @@ def mode_launch():
     todo = [u for u in pending if f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
             not in live_labels]
 
+    # ★★ THE CONSECUTIVE-FAILURE BREAKER, WHICH THIS LANE REFERENCED AND NEVER CALLED (2026-07-29).
+    # `_record_exclusion` below already points at `leg_failure_breaker` as the thing that "stops buying the
+    # next host for this unit". It did not, here — nothing in this module called it — and
+    # `cw_bio_primary_amide` fell straight through the gap: 25 rentals across 7 distinct card/driver
+    # combinations, every one dying at the same `LocalEnergyMinimizer` call, because no code path anywhere
+    # counted how many times we had already paid to watch it.
+    #
+    # ⚠ HELD IS NOT DROPPED, AND IT IS NOT BLOCKED EITHER. A held unit is printed with its count and its
+    # reason, carried into the placement record, and re-armed by an explicit gesture once the cause is
+    # fixed — the same shape as a price hold. CLAUDE.md §6 forbids the silent version of this.
+    _baselines = _breaker_baselines(s3, bucket)
+    _breaker_held = []
+    _kept = []
+    for u in todo:
+        d = breaker_decision(s3, bucket, u, _baselines)
+        if d.get("block"):
+            _breaker_held.append((u, d))
+            _lprint(f"[s1f] BREAKER HOLD, not renting {u['unit_id']}: {d['why']}")
+        else:
+            _kept.append(u)
+    todo = _kept
+
     # ---- the two switches, each with a NAMED, RECORDED outcome ------------------------------------------
     # Both write the snapshot before returning, so the artifact's timestamp advances on every tick and can
     # only ever go stale by the tick itself not running. That is the whole repair.
@@ -2204,6 +2306,17 @@ def mode_launch():
             # wrong question. `n_withheld` is the count that gate held, not 0 — a held unit that reports
             # zero withheld is invisible in exactly the readout built to make holds visible.
             _dec, _why, _n_withheld = _narrowed
+        elif _breaker_held and not [u for u in pending
+                                    if u["unit_id"] not in {h["unit_id"] for h, _ in _breaker_held}
+                                    and f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
+                                    not in live_labels]:
+            # Checked BEFORE `nothing_pending`, because a breaker hold is emphatically not "nothing left to
+            # place" — it is a lane declining to buy, which is a different fact with a different remedy.
+            _dec = "breaker_hold"
+            _why = ("; ".join(f"{h['unit_id']}: {d['n_attempts']} attempt(s) on separate hosts "
+                              f"(threshold {d['threshold']})" for h, d in _breaker_held)
+                    + ". Fix the cause, then re-arm with FANOUT_UNBLOCK=1.")
+            _n_withheld = len(_breaker_held)
         elif not pending:
             _dec, _why = "nothing_pending", ("every unit has a ddg.json in S3 or is on the blocked list — "
                                              "there is nothing left for this lane to place")
@@ -3518,6 +3631,30 @@ def mode_block():
     if os.environ.get("FANOUT_UNBLOCK") == "1":
         removed = doc["units"].pop(uid, None)
         print(f"[s1f] unblocked {uid} (was: {removed})")
+        # ★★ UNBLOCKING IS THE GESTURE THAT MEANS "THE CAUSE IS FIXED", SO IT RE-ARMS THE BREAKER TOO
+        # (2026-07-29). Without this, lifting a block achieves nothing for any unit that has already burned
+        # `leg_failure_breaker.DEFAULT_THRESHOLD` hosts: the launcher would simply hold it on the attempt
+        # count instead, and the two guards would look like one broken one. The re-arm is an OFFSET, not a
+        # delete — the archive is the evidence that this unit was bought 25 times, it is cited in the block
+        # reason and in the manuscript, and a counter reset must not cost the record.
+        _n_now = _attempt_count(s3, bucket, uid)
+        if _n_now is None:
+            print(f"[s1f] ⚠ could not read {uid}'s attempt archive, so the breaker baseline was NOT moved. "
+                  f"The unblock stands, but the failure breaker may still hold this unit — re-run this "
+                  f"mode once the bucket reads cleanly.")
+        else:
+            _bl = _get_json(s3, bucket, f"{RESULT_PREFIX}/{_BREAKER_BASELINE_KEY_SUFFIX}") or {}
+            _bl.setdefault("units", {})
+            # UNION, never overwrite: another lane tick may have re-armed a different unit between this
+            # read and this write, and a whole-document replace would silently drop it.
+            _bl["units"] = {**(_bl.get("units") or {}), uid: _n_now}
+            _bl["_what"] = ("attempts already spent per unit at the moment someone declared its cause "
+                            "fixed. `breaker_decision` counts only attempts made SINCE this baseline, so "
+                            "the archive stays whole and the breaker still re-arms.")
+            s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/{_BREAKER_BASELINE_KEY_SUFFIX}",
+                          Body=json.dumps(_bl, indent=2).encode())
+            print(f"[s1f] failure-breaker re-armed for {uid}: baseline set to {_n_now} archived attempt(s); "
+                  f"only failures after this count towards the threshold. The archive is untouched.")
     else:
         if not why:
             raise SystemExit("[s1f] BLOCK_REASON is required — a block with no stated reason is an edge that "
