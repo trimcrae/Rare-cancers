@@ -95,28 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-07-29T13:54:14Z",
-      "et": "9:54 AM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "market-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30458102913",
-      "gate_ratio_vs_basis": 1.371,
-      "gate_mean_usd_per_ns": 0.004679,
-      "gate_projected_usd": 2.51,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "projected $2.51 within this rung's ceiling $5.19 AND 1.37x basis is within the 1.92x drift line",
-      "gate_board_depth": {
-        "offers_returned": 152,
-        "qualifying": 151,
-        "priceable": 98,
-        "needed": 1,
-        "used_for_mean": 1
-      },
-      "reason": "board cleared both ceilings; dispatching task=edge-reps"
-    },
-    {
       "utc": "2026-07-29T13:59:44Z",
       "et": "9:59 AM ET",
       "outcome": "launched",
@@ -1684,12 +1662,61 @@
       "gate_hold": false,
       "gate_reason": "no unit of mode triangle needs a host \u2014 0 done, 4 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
       "reason": "every triangle leg already done or hosted; no launch dispatched, no rental attempted"
+    },
+    {
+      "utc": "2026-07-29T17:55:56Z",
+      "et": "1:55 PM ET",
+      "outcome": "launched",
+      "what_that_means": "hosts were actually rented",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30477285555",
+      "gate_ratio_vs_basis": 0.936,
+      "gate_mean_usd_per_ns": 0.003192,
+      "gate_projected_usd": 1.71,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $1.71 within this rung's ceiling $5.19 AND 0.94x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 174,
+        "qualifying": 168,
+        "priceable": 104,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "n_requested": 1,
+      "n_rented": 1,
+      "rented": [
+        {
+          "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+          "instance": "46215418",
+          "machine_id": 18857,
+          "gpu": "RTX 4090",
+          "dph_total_usd_h": 0.14006666666666667,
+          "usd_per_ns": 0.004181,
+          "x_basis": 1.225,
+          "over_buy_line": false
+        }
+      ],
+      "rented_max_usd_per_ns": 0.004181,
+      "rented_any_over_buy_line": false,
+      "already_live": [
+        {
+          "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+          "instance": 46210692,
+          "gpu": "RTX 4090",
+          "usd_per_ns": 0.005327,
+          "x_basis": 1.561,
+          "over_buy_line": false,
+          "actual_status": "running"
+        }
+      ],
+      "reason": "task=edge-reps; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 101,
-    "through_utc": "2026-07-29T13:25:32Z"
+    "n_total": 102,
+    "through_utc": "2026-07-29T13:54:14Z"
   }
 }
