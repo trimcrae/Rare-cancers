@@ -203,8 +203,53 @@ def system_charges(path):
                     in_nb = False
                 el.clear()
     for nm in offsets:
-        offsets[nm] = [q for _i, q in sorted(offsets[nm])]
+        offsets[nm] = sorted(offsets[nm])          # (particle_index, q), index-ordered
     return base, offsets
+
+
+def endpoint_vectors(base, offsets):
+    """(indices, q_A, q_B) for the alchemical region — BOTH λ endpoints, not just the one in the base column.
+
+    ★ WHY THIS EXISTS, and it is the difference between measuring the reverse leg and guessing about it.
+    A perses/OpenFE hybrid stores the λ=0 endpoint as the NonbondedForce base charge and the λ=1 endpoint as
+    `base + offset`. So a pose-file probe against the base column can only ever see endpoint A — which is why
+    the FORWARD legs (A = the charged record) matched and the REVERSE leg (A = the record the pose file
+    carries no charges for) matched nothing. Reconstructing q_B makes the reverse leg measurable from the same
+    bytes: its endpoints are the forward leg's, swapped.
+    """
+    idx, qb = [], {}
+    for lst in offsets.values():
+        for i, q in lst:
+            qb[i] = qb.get(i, 0.0) + q
+    idx = sorted(qb)
+    qA = [base[i] for i in idx if i < len(base)]
+    qB = [base[i] + qb[i] for i in idx if i < len(base)]
+    return idx, qA, qB
+
+
+def compare_endpoints(ea, eb, tol=TOL):
+    """Do two Systems' alchemical endpoints describe the SAME charge assignment?
+
+    Compared as SORTED MULTISETS, deliberately. A reverse leg builds its hybrid around the other molecule, so
+    its atom ORDER is not the forward leg's; an element-wise comparison would report a difference that is a
+    relabelling, not a charge model. The values themselves are what a charge model determines, and two
+    different models disagree in the second decimal — four orders of magnitude above this tolerance.
+    """
+    out = {}
+    for nm, (va, vb) in {"A_vs_A": (ea[1], eb[1]), "B_vs_B": (ea[2], eb[2]),
+                         "A_vs_B": (ea[1], eb[2]), "B_vs_A": (ea[2], eb[1])}.items():
+        sa, sb = sorted(va), sorted(vb)
+        if len(sa) != len(sb):
+            out[nm] = {"len_a": len(sa), "len_b": len(sb), "SAME": False, "why": "different atom counts"}
+            continue
+        mx = max((abs(p - q) for p, q in zip(sa, sb)), default=0.0)
+        out[nm] = {"n": len(sa), "max_abs_diff": float(mx), "SAME": bool(mx <= tol)}
+    return out
+
+
+def _qs(offset_list):
+    """Charges only, from an index-ordered [(particle_index, q), ...] offset column."""
+    return [q for _i, q in offset_list]
 
 
 def best_window(hay, needle, tol=TOL):
@@ -220,8 +265,15 @@ def best_window(hay, needle, tol=TOL):
     best = (-1, float("inf"), 0)
     first = needle[0]
     cands = [i for i in range(n - m + 1) if abs(hay[i] - first) <= tol]
-    if not cands:                       # no exact anchor -> fall back to the globally closest alignment
-        cands = range(n - m + 1)
+    if not cands:
+        # NO EXACT ANCHOR -> no exact run is possible, so the remaining job is only to report HOW FAR the
+        # closest alignment is. That is a diagnostic, not the verdict, and it must not cost more than the
+        # verdict did: an exhaustive O(n·m) sweep of a 142k-particle system is ~15 s per probe per column and
+        # there are dozens of both, which is how a $0 forensic turns into a job that times out and measures
+        # NOTHING. Sample a bounded, evenly spaced set of starts instead.
+        span = n - m + 1
+        step = max(1, span // 2000)
+        cands = range(0, span, step)
     for i in cands:
         mx, nex = 0.0, 0
         for j in range(m):
@@ -250,7 +302,7 @@ def probe(sysq, offs, vec, tol=TOL):
     res = {"n": len(vec), "columns": {}}
     cols = {"base": sysq}
     for nm, v in offs.items():
-        cols["offset:" + nm] = v
+        cols["offset:" + nm] = _qs(v)
     neg = [-x for x in vec]
     for nm, col in cols.items():
         st, mx, nex = best_window(col, vec, tol)
@@ -280,7 +332,7 @@ def _compare_offsets(offs_a, offs_b, tol=TOL):
     """
     out = {"columns": {}}
     for nm in sorted(set(offs_a) & set(offs_b)):
-        va, vb = offs_a[nm], offs_b[nm]
+        va, vb = _qs(offs_a[nm]), _qs(offs_b[nm])
         if len(va) != len(vb):
             out["columns"][nm] = {"len_a": len(va), "len_b": len(vb),
                                   "IDENTICAL": False, "why": "different lengths"}
@@ -394,6 +446,7 @@ def audit(legs, tmp, keep_vectors=False):
     for spec in legs:
         tag = "%s_%s_r%d" % (spec["leg"], spec["direction"], spec["seed"])
         row = {"id": spec["id"], "tag": tag, "arm": spec["arm"], "cycle": spec["cycle"],
+               "leg": spec["leg"], "direction": spec["direction"], "seed": spec["seed"],
                "banked": spec["banked"], "store": spec["root"], "setup_caches": {}}
         for ver in spec["versions"]:
             cache = "%s/setupcache/%s__%s__%s" % (spec["root"], tag, spec["charge"], ver)
@@ -428,8 +481,14 @@ def audit(legs, tmp, keep_vectors=False):
             ent["status"] = "READ"
             ent["n_particles_nonbonded"] = len(base)
             ent["offset_columns"] = {k: len(v) for k, v in offs.items()}
+            ep = endpoint_vectors(base, offs)
+            ent["alchemical_atom_count"] = len(ep[0])
+            ent["alchemical_index_range"] = [ep[0][0], ep[0][-1]] if ep[0] else None
+            ent["endpoint_A_first_three"] = ep[1][:3]
+            ent["endpoint_B_first_three"] = ep[2][:3]
             ent["_base"] = base
             ent["_offs"] = offs
+            ent["_ep"] = ep
             row["setup_caches"][ver] = ent
         row["pose_files"] = pose_sdfs(spec["root"], spec["leg"], spec["seed"], tmp=os.path.join(tmp, "pose"))
         rows.append(row)
@@ -460,24 +519,56 @@ def audit(legs, tmp, keep_vectors=False):
     # charge signature, already isolated from the protein/water/ion background by the engine itself. Two arms
     # of one cycle transform the SAME ligand pair: if their offset columns are element-wise identical the
     # charge model cancels from ΔΔG_coop whatever that model was, and if they are not, it does not.
-    cycles = {}
+    cycles, by_id = {}, {}
     for row in rows:
         for ver, ent in row["setup_caches"].items():
             if ent.get("status") == "READ":
-                cycles.setdefault(row["cycle"], []).append((row["id"], row["arm"], ver, ent))
+                cycles.setdefault(row["cycle"], []).append(
+                    (row["id"], row["arm"], row["direction"], ver, ent))
+                by_id["%s/%s" % (row["id"], ver)] = (row, ent)
     cycle_report = {}
     for cyc, members in cycles.items():
-        rep = {"members": ["%s (%s, %s)" % (i, a, v) for i, a, v, _ in members], "pairwise": []}
+        rep = {"members": ["%s (%s, %s, %s)" % (i, a, d, v) for i, a, d, v, _ in members], "pairwise": []}
         for x in range(len(members)):
             for y in range(x + 1, len(members)):
-                ix, ax, vx, ex = members[x]
-                iy, ay, vy, ey = members[y]
+                ix, ax, dx, vx, ex = members[x]
+                iy, ay, dy, vy, ey = members[y]
                 if ax == ay:
                     continue                       # same arm — not a cycle pair
+                # ★ ONLY SAME-DIRECTION ARMS FORM A CYCLE. Pairing a fwd arm with a rev one compares
+                # `insert` against `delete` and reports a "difference" that is the alchemical direction, not
+                # a charge model — a false positive on the exact question this file answers. The fwd/rev
+                # relationship is measured separately, and correctly, by `directions` below.
+                if dx != dy:
+                    continue
                 cmp_ = _compare_offsets(ex["_offs"], ey["_offs"])
-                cmp_.update({"a": "%s/%s" % (ix, vx), "b": "%s/%s" % (iy, vy), "arms": [ax, ay]})
+                cmp_["endpoints"] = compare_endpoints(ex["_ep"], ey["_ep"])
+                cmp_.update({"a": "%s/%s" % (ix, vx), "b": "%s/%s" % (iy, vy),
+                             "arms": [ax, ay], "direction": dx})
                 rep["pairwise"].append(cmp_)
         cycle_report[cyc] = rep
+
+    # ---- ★ THE FORWARD/REVERSE PAIR, which the pose probe is structurally unable to see ----
+    # A reverse leg's endpoint A is the molecule the relaxed pose file carries NO charges for, so no probe
+    # can hit its base column. Reconstructing both endpoints makes it measurable anyway: if fwd and rev used
+    # one charge assignment, rev's A endpoint is fwd's B endpoint and vice versa.
+    dir_report = []
+    for row_a in rows:
+        for row_b in rows:
+            if row_a["leg"] != row_b["leg"] or row_a["seed"] != row_b["seed"]:
+                continue
+            if not (row_a["direction"] == "fwd" and row_b["direction"] == "rev"):
+                continue
+            for va, ea in row_a["setup_caches"].items():
+                for vb, eb in row_b["setup_caches"].items():
+                    if ea.get("status") != "READ" or eb.get("status") != "READ":
+                        continue
+                    cmp_ = compare_endpoints(ea["_ep"], eb["_ep"])
+                    dir_report.append({
+                        "fwd": "%s/%s" % (row_a["id"], va), "rev": "%s/%s" % (row_b["id"], vb),
+                        "endpoints": cmp_,
+                        "SAME_CHARGE_ASSIGNMENT_SWAPPED": bool(
+                            cmp_["A_vs_B"]["SAME"] and cmp_["B_vs_A"]["SAME"])})
 
     # ---- the per-leg verdict, stated so an absent artifact cannot render as a clean one ----
     verdicts = {}
@@ -489,12 +580,25 @@ def audit(legs, tmp, keep_vectors=False):
             continue
         for ver, ent in read.items():
             hits = [k for k, p in (ent.get("pose_charge_probes") or {}).items() if p["matched"]]
+            # A leg whose λ=0 endpoint is the record the pose file carries NO charges for (every REVERSE
+            # leg) can never be hit by a probe, and reporting that as "clean" would be the false negative
+            # this whole file exists to avoid. Say WHY there is no hit, and point at what did measure it.
+            if hits:
+                v = "SYSTEM CARRIES A POSE-FILE CHARGE SET"
+            elif row["direction"] == "rev":
+                v = ("no pose-file charge vector CAN match: this leg's λ=0 endpoint is the record the "
+                     "relaxed SDF carries no charges for — see `directions` for the endpoint reconstruction "
+                     "that does measure it")
+            else:
+                v = "no pose-file charge vector matches this System"
             verdicts["%s/%s" % (row["id"], ver)] = {
-                "verdict": ("SYSTEM CARRIES A POSE-FILE CHARGE SET" if hits
-                            else "no pose-file charge vector matches this System"),
+                "verdict": v,
                 "matching_pose_vectors": hits,
                 "n_particles_nonbonded": ent.get("n_particles_nonbonded"),
                 "alchemical_columns": ent.get("offset_columns"),
+                "alchemical_index_range": ent.get("alchemical_index_range"),
+                "endpoint_A_first_three": ent.get("endpoint_A_first_three"),
+                "endpoint_B_first_three": ent.get("endpoint_B_first_three"),
                 "banked": row["banked"]}
 
     if not keep_vectors:
@@ -502,7 +606,50 @@ def audit(legs, tmp, keep_vectors=False):
             for ent in row["setup_caches"].values():
                 ent.pop("_base", None)
                 ent.pop("_offs", None)
-    return {"legs": rows, "cycles": cycle_report, "verdicts": verdicts}
+                ent.pop("_ep", None)
+    return {"legs": rows, "cycles": cycle_report, "directions": dir_report, "verdicts": verdicts}
+
+
+# =============================================================================================================
+# part E — is any OTHER lane exposed to the same inheritance?
+# =============================================================================================================
+# `nr4a3_rbfe._sdf_mol` is shared by every alchemical lane, so "did a banked result inherit charges" is a
+# question about the POSE FILE each lane stages, not about the ternary code. The STEP 1 congeneric fan-out
+# (RUNG 4) banks 14 ΔΔG values and stages a DOCKED SDF rather than a pre-equilibrated one — and a docked file
+# is written by `nr4a3_dock.make_sdf`, which never assigns charges. That is a claim about code; this measures
+# the actual staged object instead, because the fan-out has NO setup cache configured (no
+# `RBFE_SETUP_CACHE_S3`), so its Systems were never persisted and the pose file is the only stored evidence
+# there is. If it carries no charge tag, the lane had nothing to inherit and needs no marking.
+FANOUT_POSE = "s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ligand"
+
+
+def fanout_exposure(tmp="/tmp/cpf/fanout"):
+    out = {"_what": "does the STEP 1 fan-out's staged pose file carry a charge model to inherit?",
+           "_why_no_system": "the fan-out configures no setup cache, so no hybrid System was persisted; the "
+                             "staged SDF is the only stored artifact that can answer this",
+           "files": {}}
+    b, k = _split(FANOUT_POSE)
+    try:
+        pag = _s3().get_paginator("list_objects_v2")
+        keys = [o["Key"] for page in pag.paginate(Bucket=b, Prefix=k.rstrip("/") + "/")
+                for o in page.get("Contents", []) or [] if o["Key"].endswith(".sdf")]
+    except Exception as e:  # noqa: BLE001
+        out["error"] = "%s: %s" % (type(e).__name__, e)
+        return out
+    for key in keys:
+        dest = os.path.join(tmp, os.path.basename(key))
+        try:
+            download("s3://%s/%s" % (b, key), dest)
+            recs = sdf_records(dest)
+        except Exception as e:  # noqa: BLE001
+            out["files"][key] = "UNREADABLE(%s)" % type(e).__name__
+            continue
+        out["files"][key] = {"n_records": len(recs),
+                             "n_records_carrying_charges": sum(1 for r in recs if r.get("charges")),
+                             "names": [r["name"] for r in recs[:8]]}
+    out["ANY_CHARGE_TO_INHERIT"] = any(
+        isinstance(v, dict) and v.get("n_records_carrying_charges") for v in out["files"].values())
+    return out
 
 
 def main():
@@ -541,10 +688,15 @@ def main():
                          dirs[d]["first_mtime"], dirs[d]["last_mtime"]), flush=True)
     if a.audit:
         doc.update(audit(LEGS, a.tmp))
+        doc["fanout_exposure"] = fanout_exposure(os.path.join(a.tmp, "fanout"))
         print("\n########## PER-LEG VERDICT ##########", flush=True)
         print(json.dumps(doc["verdicts"], indent=2), flush=True)
         print("\n########## CYCLE ARM COMPARISON — does ΔΔG_coop mix charge models? ##########", flush=True)
         print(json.dumps(doc["cycles"], indent=2), flush=True)
+        print("\n########## FORWARD vs REVERSE — one charge assignment, swapped? ##########", flush=True)
+        print(json.dumps(doc["directions"], indent=2), flush=True)
+        print("\n########## STEP 1 FAN-OUT — anything to inherit at all? ##########", flush=True)
+        print(json.dumps(doc["fanout_exposure"], indent=2), flush=True)
     if a.out:
         with open(a.out, "w") as fh:
             json.dump(doc, fh, indent=2, sort_keys=False)

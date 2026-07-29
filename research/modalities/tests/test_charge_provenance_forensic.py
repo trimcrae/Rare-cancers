@@ -91,7 +91,10 @@ def test_both_charge_columns_are_read_because_reading_one_is_a_false_negative(tm
                       {"lambda_electrostatics_delete": list(enumerate(lig, start=2))})
     base, offs = cpf.system_charges(_write_bz2(tmp_path, xml))
     assert base == [-0.834, 0.417, 0.0, 0.0, 0.0]
-    assert offs["lambda_electrostatics_delete"] == lig
+    # Offsets keep their PARTICLE INDEX, not just the value — that is what makes the λ=1 endpoint
+    # reconstructable, and the reverse leg measurable rather than merely unhit.
+    assert offs["lambda_electrostatics_delete"] == [(2, lig[0]), (3, lig[1]), (4, lig[2])]
+    assert cpf._qs(offs["lambda_electrostatics_delete"]) == lig
     # ...and the probe finds the pose vector in the offset column, which the base column does not contain.
     res = cpf.probe(base, offs, lig)
     assert res["matched"] is True
@@ -145,14 +148,53 @@ def test_two_arms_carrying_one_charge_set_are_distinguished_from_two_arms_that_d
     """ΔΔG_coop = ΔΔG_ternary − ΔΔG_binary cancels the charge model ONLY IF both arms used the same one. This
     is the comparison that decides it, and it needs no reference model: identical offset columns on the same
     ligand pair means the model cancels whatever it was."""
-    lig = [0.6501648, 0.1426589, -0.0927976]
+    lig = list(enumerate([0.6501648, 0.1426589, -0.0927976]))
     same = cpf._compare_offsets({"lambda_electrostatics_delete": lig},
                                 {"lambda_electrostatics_delete": list(lig)})
     assert same["ARMS_SHARE_ONE_CHARGE_SET"] is True
     diff = cpf._compare_offsets({"lambda_electrostatics_delete": lig},
-                                {"lambda_electrostatics_delete": [0.61, 0.15, -0.10]})
+                                {"lambda_electrostatics_delete": list(enumerate([0.61, 0.15, -0.10]))})
     assert diff["ARMS_SHARE_ONE_CHARGE_SET"] is False
     assert diff["columns"]["lambda_electrostatics_delete"]["max_abs_diff"] > 1e-3
+
+
+def test_the_reverse_leg_is_measured_by_reconstructing_both_endpoints_not_by_a_probe(tmp_path):
+    """★ THE GAP THE POSE PROBE CANNOT CLOSE. A hybrid stores λ=0 in the base charge and λ=1 as base+offset,
+    and a relaxed pose file only ever carries charges for the record that is endpoint A in the FORWARD
+    direction. So a reverse leg matches no probe — which is an absence of evidence, not evidence of a
+    different charge model. Reconstructing q_B makes it measurable: the reverse leg's endpoints are the
+    forward leg's, swapped. Compared as sorted multisets because a reverse hybrid does not share the
+    forward's atom ORDER."""
+    q_hi = [0.6501648, 0.1426589, -0.0927976]
+    q_lo = [0.5501648, 0.2426589, -0.1927976]
+    # fwd: base = q_hi, offset = q_lo - q_hi   |   rev (atoms deliberately in a DIFFERENT order): base = q_lo
+    fwd = _system_xml(q_hi, {"lambda_electrostatics_core":
+                             [(i, q_lo[i] - q_hi[i]) for i in range(3)]})
+    order = [2, 0, 1]
+    rev = _system_xml([q_lo[i] for i in order],
+                      {"lambda_electrostatics_core":
+                       [(j, q_hi[order[j]] - q_lo[order[j]]) for j in range(3)]})
+    ep_f = cpf.endpoint_vectors(*cpf.system_charges(_write_bz2(tmp_path, fwd, "f.xml.bz2")))
+    ep_r = cpf.endpoint_vectors(*cpf.system_charges(_write_bz2(tmp_path, rev, "r.xml.bz2")))
+    cmp_ = cpf.compare_endpoints(ep_f, ep_r)
+    assert cmp_["A_vs_B"]["SAME"] is True      # fwd's λ=0 is rev's λ=1
+    assert cmp_["B_vs_A"]["SAME"] is True      # ...and vice versa
+    assert cmp_["A_vs_A"]["SAME"] is False     # the two directions do NOT start from the same endpoint
+
+
+def test_a_reverse_leg_on_a_DIFFERENT_charge_model_is_caught(tmp_path):
+    """The negative control for the check above — otherwise it only proves the arithmetic, not the test."""
+    q_hi = [0.6501648, 0.1426589, -0.0927976]
+    q_lo = [0.5501648, 0.2426589, -0.1927976]
+    other_hi = [0.61, 0.15, -0.10]
+    fwd = _system_xml(q_hi, {"lambda_electrostatics_core": [(i, q_lo[i] - q_hi[i]) for i in range(3)]})
+    rev = _system_xml(q_lo, {"lambda_electrostatics_core": [(i, other_hi[i] - q_lo[i]) for i in range(3)]})
+    ep_f = cpf.endpoint_vectors(*cpf.system_charges(_write_bz2(tmp_path, fwd, "f2.xml.bz2")))
+    ep_r = cpf.endpoint_vectors(*cpf.system_charges(_write_bz2(tmp_path, rev, "r2.xml.bz2")))
+    cmp_ = cpf.compare_endpoints(ep_f, ep_r)
+    assert cmp_["B_vs_A"]["SAME"] is True       # the shared endpoint still agrees...
+    assert cmp_["A_vs_B"]["SAME"] is False      # ...and the re-charged one does not
+    assert cmp_["A_vs_B"]["max_abs_diff"] > 1e-3
 
 
 def test_a_leg_with_no_stored_system_is_UNMEASURED_and_never_silently_clean():
