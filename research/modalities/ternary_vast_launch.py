@@ -76,7 +76,44 @@ from protfep_vast_launch import (  # noqa: E402
 import vast_idle_guard as vig                                   # noqa: E402
 import leg_failure_breaker as lfb                                # noqa: E402
 import vast_stopped_resume_measure as _srm                      # noqa: E402
+# The ONE table trimcrae reads: name · % done · ETA · $/ns · running-or-stalled-and-why. It lives in its own
+# module and is PURE, so the board can be tested without S3, a Vast key or a clock; `collect` supplies the
+# facts it already read and prints what comes back. See `inflight_board.__doc__` for why it exists at all —
+# the short version is that the board used to be assembled BY HAND out of this job's log every time it was
+# reported, which is a second home for every number in it.
+import inflight_board as ifb                                    # noqa: E402
+import inflight_usd_per_ns as _ifn                              # noqa: E402
 from watchdog_policy import container_started_from_phase        # noqa: E402
+
+
+def _planning_usd_per_ref_gpu_h():
+    """The planning $/reference-GPU-hour, READ from the repricing artifact — never typed here.
+
+    CLAUDE.md §1: a total is DERIVED, and the ladder repricing JSON is its one home. Returns None if the
+    artifact is unreadable, and the caller then renders `—` rather than a rate nobody can trace.
+    """
+    try:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                               "vast-ladder-repricing.json")) as fh:
+            return float(json.load(fh)["plan_usd_per_reference_gpu_h"])
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _usd_per_ns_cell(gpu_name, dph_total):
+    """The board's `$/ns` cell for one live host: `$0.005119/ns · 1.50x basis`, or None.
+
+    Delegates entirely to `inflight_usd_per_ns.row()` — the one home for the rate, its multiple of basis, and
+    the PAYING/REFUSED distinction. A card that has never been benched yields UNKNOWN there and `—` here,
+    which is deliberate: a fabricated figure ranks an offer it cannot price.
+    """
+    rate = _planning_usd_per_ref_gpu_h()
+    if rate is None or gpu_name is None or dph_total is None:
+        return None
+    try:
+        return _ifn.row(gpu_name, float(dph_total), rate).get("cell")
+    except Exception:  # noqa: BLE001
+        return None
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
 
@@ -2657,6 +2694,7 @@ def collect(bucket=None, prefix=None, autostop=True):
     row_record = {}        # iid -> the unit's leg.json (or None). The VERDICT on it is `dead_instances`.
     row_advanced = {}      # iid -> committed census rose since the previous poll
     destroyed_this_pass = {}   # iid -> {"ok": bool, "why": str}
+    _board_rows = []           # one entry per LIVE leg, for the in-flight board printed at the end
 
     def _destroy(iid, why):
         """Issue the teardown AND record its OUTCOME, so the summary can say whether billing actually stopped.
@@ -2716,7 +2754,13 @@ def collect(bucket=None, prefix=None, autostop=True):
                   f"no-advance-polls={stall}")
             # The commit census is blind for the whole cold start, so pair it with the on-host phase
             # marker and log tail — that is what turns a liveness ping into a progress check.
-            mark, mark_age, tail, log_age = phase_and_log(uid, b, p)
+            # ⚠ 60 LINES, NOT 8, AND THE PRINTED TAIL IS STILL 8. The in-flight board needs two lines the
+            # driver emits ONCE at startup and never repeats — `[spot-driver] warmup_target=N ... prod_target=M`
+            # — because those are the denominator of "% complete" and this process has no MD stack to
+            # re-derive them with. At tail=8 they scroll away the moment MD starts, so the board would show
+            # `—` for every advancing leg, which is the useless-column failure again. Reading more costs
+            # nothing (one S3 GET either way, a few KB) and the operator-facing tail below is unchanged.
+            mark, mark_age, tail, log_age = phase_and_log(uid, b, p, tail=60)
             # ★★ A MARKER OLDER THAN THE HOST BELONGS TO A DIFFERENT ATTEMPT, AND SAYING SO IS THE WHOLE
             # POINT (2026-07-29, 11:37 AM ET). The phase marker and run.log live at a per-UNIT key, not a
             # per-attempt one, so a freshly rented host inherits whatever the unit's LAST attempt left there
@@ -2745,8 +2789,19 @@ def collect(bucket=None, prefix=None, autostop=True):
                   + (f"  ⚠ PREVIOUS ATTEMPT'S MARKER — older than this host ({up_h * 60.0:.0f} min); "
                      f"this leg has written nothing yet, and the phase and log lines below describe the "
                      f"attempt before it" if _mark_stale else ""))
-            for ln in tail:
+            for ln in tail[-8:]:
                 print(f"      | {ln[:170]}")
+            # ── one row for the in-flight board. Every cell is DERIVED from facts already read on this
+            # pass; nothing here re-reads S3 and nothing here is typed. `_board_log` keeps the full 60-line
+            # text so the board can find the startup target line the printed tail deliberately drops.
+            _board_log = "\n".join(tail)
+            _board_rows.append({
+                "uid": uid, "iid": iid, "log": _board_log,
+                "phase": phase, "iteration": it,
+                "advanced": bool(scalar > pprog), "no_advance_polls": stall,
+                "up_h": up_h, "gpu": i.get("gpu_name"), "dph": i.get("dph_total"),
+                "marker_stale": _mark_stale, "mark": mark, "log_age": log_age,
+            })
             # ANTI-IDLE VERDICT. Everything it needs has just been read, so this costs one extra S3 LIST.
             # It is the ONLY clause in this function that can act on a box that is `running` and looks
             # healthy — see vast_idle_guard for why GPU idleness alone is never allowed to condemn one.
@@ -2959,6 +3014,50 @@ def collect(bucket=None, prefix=None, autostop=True):
               f"up={i.get('actual_status')} committed={ph or 'none'}/{it} "
               f"gpu={i.get('gpu_name')} dph=${i.get('dph_total')}{dead}")
     print("---- END TVAST-SUMMARY ----")
+
+    # ── THE IN-FLIGHT BOARD ────────────────────────────────────────────────────────────────────────────
+    # One table, one row per GPU leg (trimcrae, 2026-07-29, after asking three times for a simpler one).
+    # Everything below is DERIVED from what this pass already read; the reporting agent copies this block
+    # instead of rebuilding a table, which is what stopped it drifting in shape and losing its ETA column.
+    #
+    # ⚠ A ROW IS NEVER DROPPED FOR BEING UNKNOWABLE. An unknown percentage or ETA renders `—` with the WHY
+    # column saying which fact was missing. Omitting the row instead would make a leg we cannot measure
+    # look like a leg that does not exist, which is the same "silent hold" failure §6 prohibits for a fleet.
+    try:
+        _rows = []
+        for _b in _board_rows:
+            _tg = ifb.parse_targets(_b["log"])
+            _spi = ifb.measured_s_per_iter(_b["log"])
+            _pct = ifb.pct_complete(_b["phase"], _b["iteration"], _tg)
+            _eta = ifb.eta_seconds(_b["phase"], _b["iteration"], _tg, _spi)
+            # WHY, in priority order: the most specific true statement about this leg, so a STALLED row can
+            # never be rendered without one (`state_of` raises if it would be).
+            _why = ""
+            if _b["marker_stale"]:
+                _why = "fresh host — the marker and log below belong to the previous attempt"
+            elif _b["phase"] is None:
+                _why = ("no committed checkpoint yet; host up %.0f min and the first warmup boundary is one "
+                        "checkpoint interval of MD after the image pull" % ((_b["up_h"] or 0) * 60.0))
+            elif _tg is None:
+                _why = "targets not in the retained log window — %% and ETA unknowable this pass"
+            elif _spi is None:
+                _why = "no openmmtools rate line in the log window — ETA unknowable, progress is real"
+            # The cold-start floor is IMPORTED, not typed. `vast_idle_guard.MIN_INSTANCE_AGE_MIN` is the one
+            # home for "too young to have proved anything either way", and the board must agree with the
+            # guard by construction — a board that called a box stalled while the guard was still shielding
+            # it would be two definitions of the same thing, free to disagree at 3 AM.
+            _cold = (_b["up_h"] or 0) * 60.0 < vig.MIN_INSTANCE_AGE_MIN
+            _state, _swhy = ifb.state_of(True, _b["advanced"], _b["no_advance_polls"], _cold,
+                                         why_not_running=_why or None)
+            _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
+                          "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),
+                          "state": _state, "why": _swhy})
+        print()
+        print("---- TVAST-BOARD ----")
+        print(ifb.render(_rows), end="")
+        print("---- END TVAST-BOARD ----")
+    except Exception as e:  # noqa: BLE001 — the board is a READOUT; it must never break a monitoring pass
+        print(f"[board] not rendered: {type(e).__name__}: {e}")
 
     try:
         # ★★ WAVE-SCOPED, NOT CUMULATIVE (trimcrae, 2026-07-27: "only add someone back if you have a real

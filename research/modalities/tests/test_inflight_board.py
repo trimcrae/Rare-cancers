@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+"""The in-flight board must be derived, must never invent a cell, and must never cry stall without a reason.
+
+Fixtures below are real lines from the 2026-07-29 ternary lane, not invented ones.
+"""
+
+import os
+import sys
+
+import pytest
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+
+import inflight_board as B    # noqa: E402
+
+# Verbatim from run 30642759739's collect output for the triangle legs.
+LOG_TRIANGLE = (
+    "[spot-driver] trajectory persistence: positions every 20 iteration(s), velocities every 0\n"
+    "[spot-driver] warmup_target=768 (ci=64) prod_target=2000 (ci=40)\n"
+    "[spot-driver] restore -> warmup@iter 256\n"
+    "INFO:\tEstimated completion in 0:14:17.742878, at 2026-Jul-29-15:51:10\n"
+    "INFO:\tIteration 274/320\n")
+
+# Verbatim from the 4 fs replicate arm r2.
+LOG_EDGE_REPS = (
+    "[spot-driver] warmup_target=1600 (ci=40) prod_target=2000 (ci=40)\n"
+    "INFO:\tEstimated completion in 0:03:12.647644, at 2026-Jul-29-15:39:32\n"
+    "INFO:\tIteration 683/704\n")
+
+
+def test_targets_are_parsed_from_the_drivers_own_line_not_recomputed():
+    assert B.parse_targets(LOG_TRIANGLE) == (768, 2000)
+    assert B.parse_targets(LOG_EDGE_REPS) == (1600, 2000)
+
+
+def test_absent_targets_yield_none_rather_than_a_default():
+    """A default here would silently turn an unknown denominator into a confident percentage."""
+    assert B.parse_targets("") is None
+    assert B.parse_targets("no such line") is None
+
+
+def test_s_per_iter_is_measured_from_the_hosts_own_estimate():
+    r = B.measured_s_per_iter(LOG_EDGE_REPS)
+    assert r is not None and 8.0 < r < 10.0, r          # 21 iters in 192.6 s -> ~9.17
+    r2 = B.measured_s_per_iter(LOG_TRIANGLE)
+    assert r2 is not None and 18.0 < r2 < 19.0, r2      # 46 iters in 857.7 s -> ~18.6
+
+
+def test_s_per_iter_is_none_rather_than_a_guess_when_the_pair_is_missing():
+    assert B.measured_s_per_iter("") is None
+    assert B.measured_s_per_iter("INFO:\tIteration 5/10") is None            # no ETA line
+    assert B.measured_s_per_iter("Estimated completion in 0:01:00") is None  # no iteration line
+
+
+def test_s_per_iter_is_none_on_a_finished_segment():
+    assert B.measured_s_per_iter("Iteration 704/704\nEstimated completion in 0:00:00") is None
+
+
+def test_percent_is_of_the_WHOLE_leg_not_of_the_current_phase():
+    """warmup 384 of 768 is 14 % of the leg, NOT 50 % — the defect this assertion exists to stop."""
+    pct = B.pct_complete("warmup", 384, (768, 2000))
+    assert abs(pct - 100.0 * 384 / 2768) < 1e-6
+    assert pct < 15.0
+
+
+def test_percent_counts_finished_warmup_once_production_starts():
+    pct = B.pct_complete("production", 1000, (768, 2000))
+    assert abs(pct - 100.0 * (768 + 1000) / 2768) < 1e-6
+
+
+def test_percent_is_none_without_targets_and_zero_before_any_commit():
+    assert B.pct_complete("warmup", 384, None) is None
+    assert B.pct_complete(None, 0, (768, 2000)) == 0.0
+
+
+def test_eta_counts_the_whole_remaining_leg():
+    secs = B.eta_seconds("warmup", 384, (768, 2000), 18.6)
+    assert abs(secs - (2768 - 384) * 18.6) < 1e-6
+
+
+def test_eta_is_none_when_the_rate_is_unknown():
+    assert B.eta_seconds("warmup", 384, (768, 2000), None) is None
+    assert B.eta_seconds("warmup", 384, None, 18.6) is None
+
+
+def test_advancing_is_running_with_no_why_needed():
+    assert B.state_of(True, True, 0, False) == (B.RUNNING, "")
+
+
+def test_cold_start_is_starting_not_stalled():
+    """The box vast_idle_guard refuses to condemn must not be called stalled by the board either."""
+    st, why = B.state_of(True, False, 5, cold_start=True)
+    assert st == B.STARTING and why
+
+
+def test_one_flat_poll_is_not_yet_a_stall():
+    st, _ = B.state_of(True, False, 1, cold_start=False)
+    assert st == B.STARTING
+
+
+def test_two_flat_polls_is_a_stall_when_a_reason_is_supplied():
+    st, why = B.state_of(True, False, 2, cold_start=False, why_not_running="GPU idle, log silent 40 min")
+    assert st == B.STALLED and "log silent" in why
+
+
+def test_a_stall_with_no_reason_RAISES_rather_than_rendering():
+    """trimcrae: 'it better have a good reason if it's going to be stalled.'"""
+    with pytest.raises(ValueError, match="refusing to render STALLED"):
+        B.state_of(True, False, 3, cold_start=False)
+    with pytest.raises(ValueError):
+        B.state_of(True, False, 3, cold_start=False, why_not_running="   ")
+
+
+def test_no_host_is_its_own_state():
+    st, why = B.state_of(False, False, 0, False, why_not_running="capacity refusal on m28164")
+    assert st == B.NO_HOST and "28164" in why
+
+
+def test_short_names_come_from_the_triangle_registry():
+    assert B.short_name("calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle") == "T3 ternary"
+    assert B.short_name("calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle") == "T2 binary"
+    assert B.short_name("calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps") == "valB r2 ternary"
+
+
+def test_render_shows_an_em_dash_never_a_blank_or_a_fabricated_cell():
+    txt = B.render([{"name": "T2 ternary", "pct": None, "eta_s": None,
+                     "usd_per_ns": None, "state": B.STARTING, "why": "pulling image"}])
+    assert "—" in txt and "T2 ternary" in txt and "pulling image" in txt
+    # the ETA column must not be silently empty — that is the "so useless" report
+    assert "  \n" not in txt
+
+
+def test_render_is_stable_across_calls():
+    rows = [{"name": "T3 binary", "pct": 2.3, "eta_s": 3600.0,
+             "usd_per_ns": "$0.004557/ns · 1.34x", "state": B.RUNNING, "why": ""}]
+    assert B.render(rows, now_epoch=1_800_000_000) == B.render(rows, now_epoch=1_800_000_000)
