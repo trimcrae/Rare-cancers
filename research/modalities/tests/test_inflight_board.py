@@ -308,3 +308,32 @@ def test_a_degenerate_driver_line_falls_through_rather_than_returning_zero():
     txt = "[timing] 0 iters in 0s = 0.0s/iter\n" + LOG_EDGE_REPS
     r = B.measured_s_per_iter(txt)
     assert r is not None and 8.0 < r < 10.0
+
+
+# ── the denominator that scrolled away (2026-07-29, 7:02 PM ET) ──────────────────────────────────────
+# `[spot-driver] warmup_target=N ... prod_target=M` is printed ONCE at driver start. `valB r2 ternary` had
+# rendered a % and an ETA all evening and then went to `—/—` at ~1500 production iterations: the line had
+# scrolled out of the retained 60-line window. Every leg does this as it ages, so the overnight board would
+# have gone blank one row at a time.
+
+def test_a_long_running_window_no_longer_carries_the_targets():
+    """The precondition, stated as a test so the fix is not aimed at an imagined cause."""
+    aged = ("[timing] 40 iters in 552s = 13.8s/iter (4.35 iters/min) at iteration 1500/2000\n"
+            "[barrier] committed checkpoint at iteration 1500/2000\n"
+            "INFO:\tIteration 1501/1540\n")
+    assert B.parse_targets(aged) is None
+    assert B.pct_complete("production", 1500, None) is None
+
+
+def test_the_collect_remembers_targets_across_polls_rather_than_recomputing_them():
+    """Pin the call site AND the direction: remembered from the driver's own line, never re-derived."""
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert 'new_state[_tg_key] = list(_tg)' in src, (
+        "targets seen in the window are no longer persisted — a long-running leg loses its denominator")
+    assert 'prev_state.get(_tg_key)' in src, (
+        "the board no longer reads back remembered targets — the row goes blank as the leg ages")
+    for banned in ("768", "1600", "2000"):
+        assert ("_tg = (%s" % banned) not in src, (
+            "a typed target is a second home for a number the driver's log owns (CLAUDE.md rule 1)")

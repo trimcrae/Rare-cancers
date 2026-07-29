@@ -159,6 +159,32 @@ jobs:
             else
               echo "::warning title=TERNARY TRIANGLE-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t2 | tr '\n' ' ')"
             fi
+            # ★★ AND A COLLECT, BECAUSE NOTHING ELSE DISPATCHES ONE (measured 2026-07-29, 7:37 PM ET).
+            #
+            # WHAT WAS FOUND. The in-flight board's own "Generated" stamp read 7:02 PM ET at 7:37 PM ET —
+            # 35 minutes stale — while the ternary workflow had run EIGHT times in that window. Every one
+            # of those was a gate. `task=collect` is the only task that writes the board, and nothing in
+            # the repo dispatches it on a cadence: every collect on 2026-07-29 was either an agent typing
+            # it or the 5-minute `post_launch_recheck` after a rental. When the agent stopped, the board
+            # froze — and a frozen board with a plausible-looking table is worse than no board, because it
+            # reads as current. That is CLAUDE.md §6's cron finding arriving through a different door: not
+            # "the schedule is throttled" but "there was never a schedule at all".
+            #
+            # ⚠ AND THE BOARD IS THE SMALLER HALF OF WHAT WAS MISSING. `collect` is also the lane's PROGRESS
+            # check and its reaper: it advances the committed-iteration census that `no_advance_polls` and
+            # the stall verdict are computed from, runs `vast_idle_guard` over every live host, and destroys
+            # boxes that are up and producing no evidence of work. CLAUDE.md §6 is explicit that the host
+            # cannot stop its own billing and the guarantee is the guard acting FROM CI — so a lane with no
+            # collect cadence has no idle-billing guarantee at all, however healthy its gates look. Six legs
+            # were billing overnight on exactly that footing.
+            #
+            # $0 and it rents nothing: S3 reads, one Vast instance list, and destroys only a box the guard
+            # condemns on a measured absence of writes.
+            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=collect 2>/tmp/t3; then
+              echo "[$(date -u '+%H:%M:%SZ')] ternary collect dispatched (tick ${n})"
+            else
+              echo "::warning title=TERNARY COLLECT DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t3 | tr '\n' ' ')"
+            fi
             # Stop early rather than sleep past the deadline and be killed mid-iteration.
             [ $(( $(date +%s) + SLEEP )) -ge "$END" ] && break
             sleep "${SLEEP}"

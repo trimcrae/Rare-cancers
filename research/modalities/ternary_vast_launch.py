@@ -3062,7 +3062,31 @@ def collect(bucket=None, prefix=None, autostop=True):
           # cannot be built now degrades to a visible UNKNOWN row naming the failure, because a
           # missing row reads as a leg that does not exist.
           try:
+              # ★★ THE TARGETS ARE REMEMBERED ONCE SEEN, BECAUSE THE LINE THAT CARRIES THEM SCROLLS AWAY
+              # (measured 2026-07-29, 7:02 PM ET). `[spot-driver] warmup_target=N ... prod_target=M` is
+              # printed ONCE, at driver start. The 60-line window was widened specifically so it would
+              # survive — and that is enough for an hour, not for a leg that runs all night. `valB r2
+              # ternary` had been rendering 72.2 % and an ETA all evening and then, at ~1500 production
+              # iterations, went to `— / —` with "targets not in the retained log window": every other cell
+              # on the row was fine, the leg was advancing, and the ONLY thing lost was the denominator.
+              # Left alone, every leg does this as it ages, so the overnight board would have gone blank one
+              # row at a time — exactly when nobody is watching it.
+              #
+              # ⚠ REMEMBERED, NOT RECOMPUTED. CLAUDE.md §1: the driver's log line is the ONE home for what
+              # this run chose, because it derives the numbers from OpenFE settings this process has no MD
+              # stack to evaluate. Re-deriving them here (or typing "triangle 2 fs = 768 + 2000") would be a
+              # second home free to disagree the next time a protocol is re-scoped. So the value is copied
+              # verbatim from what the driver said, into the lane state that already persists per poll, and
+              # read back only when the window no longer carries it. A leg whose targets have NEVER been
+              # observed still renders `—`, which is correct: nothing has told us the denominator yet.
               _tg = ifb.parse_targets(_b["log"])
+              _tg_key = "targets:%s" % _b["uid"]
+              if _tg:
+                  new_state[_tg_key] = list(_tg)
+              else:
+                  _remembered = prev_state.get(_tg_key)
+                  if _remembered and len(_remembered) == 2:
+                      _tg = (int(_remembered[0]), int(_remembered[1]))
               _spi = ifb.measured_s_per_iter(_b["log"])
               _pct = ifb.pct_complete(_b["phase"], _b["iteration"], _tg)
               _eta = ifb.eta_seconds(_b["phase"], _b["iteration"], _tg, _spi)
