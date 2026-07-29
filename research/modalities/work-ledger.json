@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-29T06:49:14Z",
-  "_generated_et": "2:49 AM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T06:50:41Z",
+  "_generated_et": "2:50 AM ET Jul 29, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-29T07:37:14Z",
-  "_stale_after_et": "3:37 AM ET Jul 29, 2026",
+  "_stale_after_utc": "2026-07-29T07:38:41Z",
+  "_stale_after_et": "3:38 AM ET Jul 29, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -1285,9 +1285,18 @@
           "why": "no committed iteration since 11:45 PM ET Jul 28, 2026",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-07-29T06:50:41Z",
+          "et": "2:50 AM ET Jul 29, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "1001840",
+          "why": "no committed iteration since 11:45 PM ET Jul 28, 2026",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 2,
+      "n_fruitless_attempts": 3,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -2439,7 +2448,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "1 host(s) up and new evidence 2 min ago (launch ledger: stage='market-gate' outcome='dispatched'). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
+        "1 host(s) up and new evidence 4 min ago (launch ledger: stage='market-gate' outcome='dispatched'). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
       ]
     },
     {
@@ -2535,7 +2544,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "2 host(s) up and this lane has produced NO new evidence for 1462 min (last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 2:26 AM ET Jul 28, 2026, threshold 90 min). A valB cohort was dead for 85 min under exactly this shape while its watchdog printed 'advancing \u2026 Leaving it alone'. NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is "
+        "2 host(s) up and this lane has produced NO new evidence for 1464 min (last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 2:26 AM ET Jul 28, 2026, threshold 90 min). A valB cohort was dead for 85 min under exactly this shape while its watchdog printed 'advancing \u2026 Leaving it alone'. NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is "
       ]
     },
     {
@@ -2678,17 +2687,17 @@
     "rung:post_submit"
   ],
   "_self": {
-    "now_et": "2:49 AM ET Jul 29, 2026",
-    "generated_et": "2:49 AM ET Jul 29, 2026",
-    "stale_after_et": "3:37 AM ET Jul 29, 2026",
+    "now_et": "2:50 AM ET Jul 29, 2026",
+    "generated_et": "2:50 AM ET Jul 29, 2026",
+    "stale_after_et": "3:38 AM ET Jul 29, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 3:37 AM ET Jul 29, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 3:38 AM ET Jul 29, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (2:47 AM ET Jul 29, 2026) refreshed the artifact to 2:49 AM ET Jul 29, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (2:48 AM ET Jul 29, 2026) refreshed the artifact to 2:50 AM ET Jul 29, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
