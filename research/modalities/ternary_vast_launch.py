@@ -2827,6 +2827,7 @@ def collect(bucket=None, prefix=None, autostop=True):
             # growing a second, weaker explanation of the same state.
             if _board_rows and _board_rows[-1].get("iid") == iid:
                 _board_rows[-1]["idle_why"] = f"{idle_verdict} — {idle_why}"
+                _board_rows[-1]["idle_working"] = (idle_verdict == vig.WORKING)
 
         msg = str(i.get("status_msg") or "").strip()
         frozen_min, new_state[str(iid)] = stall_minutes(prev_state, iid, msg, time.time())
@@ -3077,7 +3078,16 @@ def collect(bucket=None, prefix=None, autostop=True):
               # `watchdog_policy.DEFAULT_SETUP_GRACE_MIN`, so the board, the idle guard and the watchdog all
               # answer "is this leg merely slow to start?" from one number.
               _pre_first = (_b["phase"] is None and (_b["up_h"] or 0) * 60.0 < vig.SETUP_GRACE_MIN)
-              _state, _swhy = ifb.state_of(True, _b["advanced"], _b["no_advance_polls"], _cold,
+              # ★★ THE CENSUS TICKS AT CHECKPOINT BOUNDARIES; POLLS ARE FASTER THAN THAT. A warmup
+              # checkpoint lands every 64 iterations, and `collect` runs every few minutes, so "did not
+              # advance in THIS poll" is the ordinary state of a perfectly healthy leg — it is not news.
+              # Rendering it as STARTING put three legs on the 1:43 PM board in a not-running state whose
+              # own reason read `WORKING — gpu_util=91.9999% and the host is still writing`, which is the
+              # guard saying the opposite. So the idle guard's WORKING verdict counts as advancement here:
+              # it is a direct observation that this box is doing work, and it is the same authority the
+              # board already defers to for the cold-start floor and the setup grace.
+              _working = bool(_b["advanced"] or _b.get("idle_working"))
+              _state, _swhy = ifb.state_of(True, _working, _b["no_advance_polls"], _cold,
                                            why_not_running=_why or None, pre_first_commit=_pre_first)
               _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
                             "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),
