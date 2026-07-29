@@ -1951,6 +1951,35 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
     # is flat day-to-day.
     used = set(bad) | occupied
     failures = []
+
+    def _record_start_refusals(unit_id, rows):
+        """Put every host that refused THIS submit's start into the perishable 24 h window.
+
+        ★★ WHY THIS EXISTS HERE AND NOT ONLY IN `collect` (2026-07-29). Until `gpu_backend.submit` learned to
+        read the start reply, a capacity refusal was only ever discovered by the next `collect` tick — 15-35
+        minutes and one wasted launch later — so `capacity_refusal_trend` could only ever see the subset of
+        refusals that survived long enough to be nudged. Now the launcher sees them the moment they happen,
+        and a trend that misses the ones we recovered from inside a single submit is a trend that
+        systematically under-counts exactly when the fix is working.
+
+        ⛔ READOUT ONLY. `capacity_refusal_trend` returns counts and never a verdict, and nothing here reads
+        the result back — the machine is excluded for THIS submit only, by `gpu_backend`, and that exclusion
+        dies with the call. A durable per-machine count is the blacklist trimcrae struck down ("a claim about
+        a moment, not about the host"); see `capacity_refusal_trend.__doc__` and its tests.
+        Best-effort throughout: instrumentation must never break a launch that otherwise succeeded."""
+        if not rows:
+            return
+        try:
+            import capacity_refusal_trend as _crt
+            s3c, tr = _s3(), None
+            for r in rows:
+                tr = _crt.record(s3c, DEFAULT_BUCKET, r.get("machine_id"), unit_id, lane="ternary",
+                                 why=r.get("why") or "resources_unavailable on start")
+            if tr:
+                print(_crt.render(tr))
+        except Exception as _e:  # noqa: BLE001
+            print(f"[launch] (capacity-refusal trend unavailable: {type(_e).__name__}: {_e})")
+
     for j in keep:
         try:
             j.resources.exclude_machine_ids = tuple(used)
@@ -1958,6 +1987,15 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
             mid = h.extra.get("machine_id")
             if mid is not None:
                 used.add(str(mid))
+            # Hosts this submit tried and destroyed BEFORE landing. They are already $0, but they must not
+            # be silently absorbed: a launch that quietly burned through three hosts to place one unit is
+            # the market thinning, and §6 says a thinning market is a thing to SURFACE, not to swallow.
+            _ref = h.extra.get("start_refusals") or []
+            if _ref:
+                used |= {str(r["machine_id"]) for r in _ref}
+                print(f"[launch] {j.name}: {len(_ref)} host(s) refused the start before this one and were "
+                      f"destroyed ($0 each): {', '.join(str(r['machine_id']) for r in _ref)}")
+                _record_start_refusals(j.env["UNIT_ID"], _ref)
             print(f"[launch] {j.name}: instance={h.job_id} machine={mid} "
                   f"floor=${h.extra.get('min_bid')} bid=${h.extra.get('bid')} dph=${h.extra.get('dph')}")
             handles.append({"unit_id": j.env["UNIT_ID"], "instance": h.job_id,
@@ -1967,17 +2005,33 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
             # collapsed to one string and the caller had to guess between "the market had nothing under our
             # line" and "the provider 403'd us" — the ambiguity that made a correct refusal and a broken
             # launcher produce identical CI output on 2026-07-27.
-            from gpu_backend import NoQualifyingOffer
+            from gpu_backend import CapacityRefusedAtStart, NoQualifyingOffer
             market = isinstance(e, NoQualifyingOffer)
-            print(f"[launch] {j.name}: {'NOTHING AFFORDABLE' if market else 'SUBMIT FAILED'} "
+            # ★ AND NAME WHICH KIND OF "market" IT WAS. "NOTHING AFFORDABLE" and "every host we rented
+            # refused to start" are both non-faults, but they have opposite remedies — wait for a cheaper
+            # board vs. wait for CAPACITY — and printing them with one word is what made the 2026-07-29
+            # morning read as a price problem while every board snapshot was 1.04x-1.34x basis.
+            refused = isinstance(e, CapacityRefusedAtStart)
+            print(f"[launch] {j.name}: "
+                  f"{'HOSTS REFUSED TO START' if refused else 'NOTHING AFFORDABLE' if market else 'SUBMIT FAILED'} "
                   f"{type(e).__name__}: {e}")
+            if refused:
+                used |= {str(r["machine_id"]) for r in getattr(e, "refusals", [])}
+                _record_start_refusals(j.env["UNIT_ID"], getattr(e, "refusals", []))
             failures.append({"unit_id": j.env["UNIT_ID"], "error": f"{type(e).__name__}: {e}"[:400],
-                             "kind": "market" if market else "fault"})
+                             "kind": "capacity" if refused else "market" if market else "fault"})
     # WHY THIS LAUNCH CAME UP SHORT, in one word, for the caller's exit code and the ledger. A single FAULT
     # dominates: if any unit died on a provider error we cannot claim the market refused us, because we never
     # got a clean answer from it. Only when every shortfall is "nothing affordable" is this the guard working.
+    # ★ THREE KINDS NOW, IN PRECEDENCE ORDER. `capacity` sits between them because it is more specific than
+    # `market` and less alarming than `fault`: the launcher worked, the provider answered cleanly, and the
+    # board was cheap — there was simply no slot. Reporting it as `market` would print "HELD ON PRICE" over
+    # a 1.04x board, which is the 2026-07-29 misdiagnosis; reporting it as `fault` would redden the lane for
+    # the most routine failure Vast has (CLAUDE.md §6).
     if failures:
-        submit.last_failure_kind = "fault" if any(f["kind"] == "fault" for f in failures) else "market"
+        submit.last_failure_kind = ("fault" if any(f["kind"] == "fault" for f in failures) else
+                                    "capacity" if any(f["kind"] == "capacity" for f in failures) else
+                                    "market")
     # ★★ READ BACK WHAT WE JUST BOUGHT, AT THE RATE THE INSTANCE IS BILLED. The `dph` in `h.extra` above is
     # the OFFER's figure — market floor plus the disk line the SEARCH priced — and CLAUDE.md §1 is explicit
     # that it reads LOW against the real charge. One GET turns a quote into the actual rate, and the ledger
@@ -3258,6 +3312,20 @@ def main(argv=None):
                       "within the buy line ($%.6f/ns = %.2fx the ladder basis). Nothing was rented and "
                       "nothing is billing. This is the price guard doing its job; the next tick re-checks."
                       % (buy_ceiling_usd_per_ns(), MARKET_MAX_RATIO_VS_BASIS))
+                return 0
+            if kind == "capacity":
+                # ★★ THE THIRD SIGNAL, AND IT EXISTS BECAUSE NEITHER OF THE OTHER TWO WAS TRUE ON
+                # 2026-07-29. Green, like the price hold — a `resources_unavailable` is CLAUDE.md §6's
+                # routine case and reddening the lane for it is the noise that makes real alerts ignorable —
+                # but it must NOT borrow the price hold's sentence. Every board read that morning was
+                # 1.04x-1.34x basis, so "no offer was within the buy line" would have sent a reader to
+                # re-examine a market that was doing nothing wrong. The trend that makes this countable is
+                # `capacity_refusal_trend`, written by the launcher above; it is a readout and never a gate.
+                print("::warning title=TVAST NO CAPACITY::the launcher wanted %d unit(s), rented none, and "
+                      "every host it did rent answered `resources_unavailable` on start and was destroyed "
+                      "($0 billing). This is NOT a price hold — the board was read and priced fine — and "
+                      "NOT a launcher fault. It is the market having no free slot; the next tick re-checks."
+                      % getattr(submit, "last_requested", 0))
                 return 0
             print("::error title=TVAST LAUNCHER FAULT::the launcher wanted %d unit(s) and rented none, and "
                   "at least one failed on a PROVIDER/CODE error rather than on price — so we never got a "

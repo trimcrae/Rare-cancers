@@ -181,6 +181,8 @@ jobs:
           python -m pytest research/modalities/tests/test_ternary_vast_launch.py \
                            research/modalities/tests/test_ternary_vast_watchdog.py \
                            research/modalities/tests/test_ternary_launch_ledger.py \
+                           research/modalities/tests/test_vast_start_refusal.py \
+                           research/modalities/tests/test_capacity_refusal_trend.py \
                            --strict-markers -m "not committed_artifact" -q
 
   # ------------------------------------------------------------------ free: LOUD, but gates nothing

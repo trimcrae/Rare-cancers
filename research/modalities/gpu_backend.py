@@ -19,6 +19,7 @@ off-provider rather than silently.
 """
 from __future__ import annotations
 
+import dataclasses
 import json
 import os
 import re
@@ -51,6 +52,38 @@ class NoQualifyingOffer(RuntimeError):
     They need OPPOSITE responses. Nothing affordable is the guard doing its job — wait for the board, the
     work is checkpointed, nothing is wrong. A provider fault is a real defect that costs a cleared window and
     must be loud. Subclassing RuntimeError keeps every existing `except RuntimeError` working unchanged."""
+
+
+class CapacityRefusedAtStart(NoQualifyingOffer):
+    """Every host we rented answered `resources_unavailable` on start, so nothing is running and $0 is billing.
+
+    ★★ A SUBCLASS OF `NoQualifyingOffer`, DELIBERATELY (2026-07-29). Both callers of `submit` already sort
+    exceptions into "the MARKET had nothing" and "the LAUNCHER is broken" by `isinstance(e, NoQualifyingOffer)`
+    (`ternary_vast_launch.submit`, `congeneric_fanout_vast.mode_launch`). A host declining to schedule us is
+    unambiguously the first: CLAUDE.md §6 records a capacity refusal as routine, not as an alarm, and
+    `ternary-vast-watch.json._capacity_refusal` already says the answer is "pick another host". Filing it as a
+    fault would make a normal market condition fail a build; giving it its OWN top-level type would silently
+    reclassify it as a fault in both lanes, because neither has an `except` for it. So it inherits, and the
+    lanes keep working with no edit.
+
+    It carries `refusals` — one row per host that refused — so a caller with an object store can hand them to
+    `capacity_refusal_trend.record`. That module is a READOUT and can never gate; nothing here consults it."""
+
+    def __init__(self, message, refusals=()):
+        super().__init__(message)
+        self.refusals = list(refusals)
+
+
+# How many hosts a single `submit` will try before giving the unit up for this tick. See the retry loop in
+# `VastBackend.submit` for why retrying at all is the fix and why it needs no extra price gate.
+#
+# WHY 3. A refusal costs one create + one destroy and ~50 s, and it is $0 (a Vast instance that never leaves
+# `stopped` bills nothing but its disk, and the destroy is immediate). The cost of NOT retrying is a whole
+# tick: the ternary lane's launches are dispatch-driven at ~30-35 min apart, so one undetected refusal idles
+# the lane for half an hour. 3 keeps a pathological board (every top offer stale) from turning one unit's
+# submit into a minutes-long burst against a shared key that has already answered an nginx HTML 403 to a
+# four-unit launch — see `_vast_request`'s 403 note.
+_VAST_START_REFUSAL_TRIES = max(1, int(os.environ.get("VAST_START_REFUSAL_TRIES", "3") or 3))
 
 
 # ---- job / resource spec ----------------------------------------------------------------------------------
@@ -1084,8 +1117,8 @@ class VastBackend(Backend):
         offers = _vast_request("GET", "/search/asks/", key,
                                params={"q": json.dumps(q)}).get("offers", [])
         max_hr = self.hourly_usd(res)                              # cap at our routing estimate + headroom
-        offer = _select_cheapest_offer(offers, res,
-                                       max_hourly_usd=(max_hr * 2.0 if max_hr else None))
+        max_hourly = (max_hr * 2.0 if max_hr else None)
+        offer = _select_cheapest_offer(offers, res, max_hourly_usd=max_hourly)
         if offer is None:
             # TYPED, because the caller must tell this apart from a fault (see `NoQualifyingOffer`). The board
             # was READ — `len(offers)` proves it — and simply had nothing buyable within the spec. That is the
@@ -1104,7 +1137,6 @@ class VastBackend(Backend):
         # Without this a bench result cannot be matched back to the offer that produced it except by string
         # guessing — which is precisely how a leg that fell back to a Quadro RTX 8000 was tabulated as an A10
         # and helped get the 2026-07-24 grid withdrawn.
-        extra["VAST_OFFER_GPU_NAME"] = str(offer.get("gpu_name") or "")
         mode = object_store_cred_mode()
         print(f"  [cred] object-store credential: {mode}"
               + ("" if mode == "scoped" else "  ** BROAD CI KEY — see research/compute/"
@@ -1124,37 +1156,105 @@ class VastBackend(Backend):
                               flush=True)
             except Exception:  # noqa: BLE001 — an advisory check must not be able to abort a launch
                 pass
-        onstart = _vast_onstart(spec, self.self_terminate_cmd(), extra_env=extra)
-        # Rent the chosen ask: PUT /asks/{id}/ is Vast's canonical create-instance endpoint (POST /instances/
-        # 404s). On success the body carries new_contract = the instance id.
-        body = {
-            "client_id": "me",
-            "image": spec.image or "nvidia/cuda:12.4.1-base-ubuntu22.04",
-            "disk": max(40, res.disk_gb),
-            "onstart": onstart,
-            "runtype": "ssh",
-            "label": spec.name,
-            "target_state": "running",
-        }
-        if res.interruptible:                                     # interruptible => set an optimized bid $/hr
-            # Cap the bid at THIS machine's real on-demand price. Requires a separate on-demand query: the offer
-            # in hand came from a bid-type search, whose dph_base is the floor by definition, so it cannot bound
-            # anything. Best-effort — an empty map just means we bid uncapped, exactly as before.
-            od = _vast_ondemand_base_by_machine(key, res).get(str(offer.get("machine_id")))
-            bid = _vast_bid_price(offer, ondemand_base=od)
-            if bid is not None:
-                body["price"] = bid
-                if od:
-                    print(f"  [bid] ${bid}/hr (floor ${offer.get('min_bid')}, on-demand cap ${od:.4f})", flush=True)
-        created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body=body)
-        inst_id = created.get("new_contract") or created.get("id")
-        if inst_id is None:
-            raise RuntimeError(f"vast: instance create returned no id: {created}")
-        # ROBUST EXPLICIT START: creating the ask does NOT reliably launch the container — diag showed 3/4 created
-        # instances stuck at intended_status="stopped" (cpu 0%, no capacity msg) while a 4th ran, SAME code: the
-        # start PUT races Vast finishing the create, so on some hosts it's lost and the box sits stopped forever.
-        # Poll and re-issue the start until Vast reports it running (intended_status flips), bounded.
-        self._ensure_running(inst_id, key)
+        # ★★ A CAPACITY REFUSAL AT START IS ANSWERED HERE, IN THE SAME SUBMIT — NOT A TICK LATER
+        #    (measured 2026-07-29; this used to create once, ignore the answer, and hand back a Handle).
+        #
+        # WHAT THE EVIDENCE SHOWED. The ternary lane and the step-1 fan-out ask the SAME market for the same
+        # thing: a field-by-field diff of `ternary_vast_launch.resource_spec()` against
+        # `congeneric_fanout_vast.FANOUT_RES` differs in exactly ONE field — `disk_gb` 60 vs 80 — so the
+        # ternary lane's `disk_space >= 60` board is a strict SUPERSET of the fan-out's `>= 80`, and ternary
+        # asks the smaller `disk` at create. Nor is it the hosts: every machine that refused ternary that
+        # morning (29711, 28164, 12227, 41950) appears in `step1-fanout-map.json` `realised_rentals` as a
+        # host the fan-out rented and RAN on — 29711 four times up to 2.32 h, 12227 five times up to 1.92 h.
+        # The two lanes are refused by the same mechanism at similar rates; the difference is only that a
+        # 19-unit fan-out absorbs a refusal and a 2-unit lane loses its whole tick to one.
+        #
+        # SO THE FIX IS NOT IN THE ASK, IT IS IN THE RESPONSE. CLAUDE.md §6 already rules that a capacity
+        # refusal means "destroy and pick another host — do not queue, do not raise the bid", and that is
+        # what this loop does at the one moment the fact is knowable for free.
+        #
+        # ⚠ THIS ADDS NO NEW PRICE GATE AND WEAKENS NONE, and that is structural rather than a promise: every
+        # retry re-enters `_select_cheapest_offer` with the SAME `ResourceSpec`, so `res.max_usd_per_ns` —
+        # the ceiling the launcher's market gate cleared on — filters each replacement exactly as it filtered
+        # the first. `ResourceSpec.max_usd_per_ns`'s own docstring names this case: the ceiling travels with
+        # the spec so that a non-clearing offer "is never selected in the first place — INCLUDING ON EVERY
+        # FALLBACK AFTER A CAPACITY REFUSAL". A retry can therefore only ever be at or under the approved
+        # rate; if nothing under it survives the widened exclusion, this raises instead of buying.
+        #
+        # ⚠ AND IT RE-RANKS THE BOARD WE ALREADY HAVE — no second `/search/asks/` read. That keeps the API
+        # burst identical to before (the shared key answers an HTML 403 to bursts) and keeps the replacement
+        # priced off the same snapshot the gate saw.
+        refusals = []
+        while True:
+            # Rebuilt per offer: `VAST_OFFER_GPU_NAME` is the card the marketplace SAID we rented, and filing
+            # a leg under the previous candidate's card is the 2026-07-24 mislabelling incident.
+            extra["VAST_OFFER_GPU_NAME"] = str(offer.get("gpu_name") or "")
+            onstart = _vast_onstart(spec, self.self_terminate_cmd(), extra_env=extra)
+            # Rent the chosen ask: PUT /asks/{id}/ is Vast's canonical create-instance endpoint (POST
+            # /instances/ 404s). On success the body carries new_contract = the instance id.
+            body = {
+                "client_id": "me",
+                "image": spec.image or "nvidia/cuda:12.4.1-base-ubuntu22.04",
+                "disk": max(40, res.disk_gb),
+                "onstart": onstart,
+                "runtype": "ssh",
+                "label": spec.name,
+                "target_state": "running",
+            }
+            if res.interruptible:                                 # interruptible => set an optimized bid $/hr
+                # Cap the bid at THIS machine's real on-demand price. Requires a separate on-demand query: the
+                # offer in hand came from a bid-type search, whose dph_base is the floor by definition, so it
+                # cannot bound anything. Best-effort — an empty map just means we bid uncapped, as before.
+                od = _vast_ondemand_base_by_machine(key, res).get(str(offer.get("machine_id")))
+                bid = _vast_bid_price(offer, ondemand_base=od)
+                if bid is not None:
+                    body["price"] = bid
+                    if od:
+                        print(f"  [bid] ${bid}/hr (floor ${offer.get('min_bid')}, on-demand cap ${od:.4f})",
+                              flush=True)
+            created = _vast_request("PUT", f"/asks/{offer['id']}/", key, body=body)
+            inst_id = created.get("new_contract") or created.get("id")
+            if inst_id is None:
+                raise RuntimeError(f"vast: instance create returned no id: {created}")
+            # ROBUST EXPLICIT START: creating the ask does NOT reliably launch the container — diag showed 3/4
+            # created instances stuck at intended_status="stopped" (cpu 0%, no capacity msg) while a 4th ran,
+            # SAME code: the start PUT races Vast finishing the create, so on some hosts it's lost and the box
+            # sits stopped forever. Poll and re-issue the start until Vast reports it running, bounded.
+            if self._ensure_running(inst_id, key) != "refused":
+                break
+            # REFUSED. Destroy FIRST, so the meter and the disk stop before we do anything else — an
+            # unprivileged container cannot end itself, so the control plane doing it here is the only thing
+            # that can (see the class docstring). Best-effort: a failed destroy must not swallow the refusal,
+            # because `collect`'s reap is the backstop and it needs to still see the instance.
+            mid = str(offer.get("machine_id"))
+            refusals.append({"machine_id": mid, "instance": str(inst_id),
+                             "offer": offer.get("id"), "gpu_name": offer.get("gpu_name"),
+                             "why": "resources_unavailable on start"})
+            try:
+                _vast_request("DELETE", f"/instances/{inst_id}/", key)
+                print(f"  [capacity] machine {mid} refused the start — instance {inst_id} DESTROYED, "
+                      f"$0 further. Picking another host (CLAUDE.md §6: do not queue, do not raise the bid).",
+                      flush=True)
+            except Exception as e:  # noqa: BLE001 — collect's reap is the backstop; never hide the refusal
+                print(f"  [capacity] machine {mid} refused the start and destroying instance {inst_id} "
+                      f"failed ({type(e).__name__}: {e}) — collect's reap will take it.", flush=True)
+            if len(refusals) >= _VAST_START_REFUSAL_TRIES:
+                raise CapacityRefusedAtStart(
+                    f"vast: {len(refusals)} host(s) refused the start with resources_unavailable "
+                    f"(machines {', '.join(r['machine_id'] for r in refusals)}); nothing is running and "
+                    f"$0 is billing. Not a price problem — the board was read and priced.", refusals)
+            # Widen the exclusion on a COPY: `res` is the caller's object and other units may hold a
+            # reference to it (`ResourceSpec.exclude_machine_ids` documents the same hazard for the fleet
+            # loop). The ceiling rides along untouched, so the replacement is bounded by the approved rate.
+            res = dataclasses.replace(
+                res, exclude_machine_ids=tuple(sorted(set(map(str, res.exclude_machine_ids)) |
+                                                      {r["machine_id"] for r in refusals})))
+            offer = _select_cheapest_offer(offers, res, max_hourly_usd=max_hourly)
+            if offer is None:
+                raise CapacityRefusedAtStart(
+                    f"vast: {len(refusals)} host(s) refused the start with resources_unavailable "
+                    f"(machines {', '.join(r['machine_id'] for r in refusals)}) and no remaining offer of "
+                    f"{len(offers)} clears this spec's ceiling. Nothing is running, $0 is billing.", refusals)
         return Handle(backend=self.name, job_id=str(inst_id),
                       # min_bid is carried so a launcher can report the market FLOOR alongside what we bid —
                       # the premium is otherwise invisible and gets baked into the next cost estimate.
@@ -1169,6 +1269,11 @@ class VastBackend(Backend):
                              # and without it a launcher can only report the quote it was shown.
                              "gpu_name": offer.get("gpu_name"),
                              "min_bid": offer.get("min_bid"), "bid": body.get("price"),
+                             # Hosts that refused BEFORE this one, already destroyed and $0. Carried so a
+                             # caller with an object store can put them in the perishable
+                             # `capacity_refusal_trend` window — which is a READOUT and may never gate, so
+                             # nothing here reads it back. Empty on the normal path.
+                             "start_refusals": refusals,
                              "resume": spec.resume})
 
     def _ensure_running(self, inst_id, key, attempts=8, delay_s=6):
@@ -1207,11 +1312,48 @@ class VastBackend(Backend):
         the case $/ns ranking is structurally blind to, so without an explicit exclusion such a host keeps
         winning selection and keeps failing. The recovery in the meantime is the nudge the collectors already do
         (`PUT /instances/{id}/ {"state":"running"}`), which `relaunch_market_gate.EXEMPTIONS` correctly treats
-        as restarting a host we already hold rather than as a new purchase."""
+        as restarting a host we already hold rather than as a new purchase.
+
+        ★★ AND IT NOW READS THE REPLY, WHICH IT USED TO THROW AWAY (measured 2026-07-29).
+
+        `PUT /instances/<id>/ {"state": "running"}` is the SAME call the per-tick collector makes, and when
+        the machine cannot schedule us Vast answers it — HTTP 200, JSON body — with
+
+            {"success": false, "error": "resources_unavailable",
+             "msg": "Required resources are currently unavailable, state change queued."}
+
+        `_vast_request` returns that body rather than raising (only an HTTP error status raises), so the old
+        loop discarded the provider's own verdict, printed `intended=stopped` eight times, warned, and handed
+        back a Handle. The launcher then recorded `outcome: launched, n_rented: 1` and armed a watchdog for a
+        host that was never going to start. The refusal was rediscovered 15-35 minutes later by `collect`,
+        which issues the identical PUT and prints the identical error — i.e. **the fact was available at
+        rental time and thrown away**. Verbatim, run 30455581714 (9:25 AM ET) vs run 30458695218 (10:01 AM
+        ET), same instance class:
+
+            [vast] start 46197224 attempt 1..8: intended=stopped actual=None -> loading
+            [vast] WARN 46197224 did not reach intended=running after 8 attempts     <- the reply was RIGHT THERE
+            ...35 min later...
+            -> NUDGED 46199407: vast replied {'success': False, 'error': 'resources_unavailable', ...}
+
+        So this returns a VERDICT instead of None:
+          * `"running"`      — `actual == "running"`: evidence, the container is up.
+          * `"accepted"`     — `intended == "running"` only: an optimistic echo, unchanged behaviour.
+          * `"refused"`      — Vast said `resources_unavailable`. The host is declining, and CLAUDE.md §6's
+                               standing rule for that is "destroy and pick another host, do not wait it out".
+          * `"unconfirmed"`  — the attempts ran out with no answer either way (the pre-existing WARN case).
+        `submit` acts on `"refused"`; every other value keeps the previous behaviour exactly.
+        """
         import time
+        verdict = "unconfirmed"
         for i in range(attempts):
             try:
-                _vast_request("PUT", f"/instances/{inst_id}/", key, body={"state": "running"})
+                resp = _vast_request("PUT", f"/instances/{inst_id}/", key, body={"state": "running"})
+                # THE ONE LINE THIS DOCSTRING IS ABOUT. `success: false` with an error string is a normal
+                # 200 response on Vast, so it never raised and never got looked at.
+                if str((resp or {}).get("error") or "") == "resources_unavailable":
+                    print(f"[vast] start {inst_id} attempt {i + 1}: REFUSED — vast replied {str(resp)[:240]}",
+                          flush=True)
+                    return "refused"
             except Exception as e:  # noqa: BLE001 — a transient error shouldn't abort the retry loop
                 print(f"[vast] start {inst_id} attempt {i + 1}: {e}", flush=True)
             inst = next((x for x in _vast_request("GET", "/instances/", key, params={"owner": "me"})
@@ -1219,7 +1361,7 @@ class VastBackend(Backend):
             intended, actual = (inst or {}).get("intended_status"), (inst or {}).get("actual_status")
             print(f"[vast] start {inst_id} attempt {i + 1}: intended={intended} actual={actual}", flush=True)
             if actual == "running":
-                return                                            # EVIDENCE: the container is up.
+                return "running"                                  # EVIDENCE: the container is up.
             if intended == "running":
                 # NOT evidence — an echo of the request we just made. Returning here is still correct
                 # (see the judgement in the docstring: the settle-back to intended=stopped happens MINUTES
@@ -1232,9 +1374,10 @@ class VastBackend(Backend):
                       f"is what recovers that, and a host that never reaches actual=running should be "
                       f"destroyed and excluded (infinite realised $/ns is invisible to $/ns ranking).",
                       flush=True)
-                return
+                return "accepted"
             time.sleep(delay_s)
         print(f"[vast] WARN {inst_id} did not reach intended=running after {attempts} attempts", flush=True)
+        return verdict
 
     def status(self, handle: Handle) -> str:
         key = os.environ.get("VAST_API_KEY")

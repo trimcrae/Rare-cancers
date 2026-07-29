@@ -98,6 +98,16 @@ OUTCOMES = {
                         "rented, $0 spent; the lane is STALLED, not finished and not price-held.",
     "refused-on-price": "the board was read and NOTHING on it was within the buy line — the guard working, "
                         "nothing rented, nothing billing, next tick re-checks",
+    # ★★ NOT `refused-on-price`, AND CONFLATING THEM IS THE 2026-07-29 MORNING (measured that day).
+    # Between 9:25 and 10:01 AM ET the lane rented four hosts — machines 29711, 28164, 12227, 41950 — and
+    # every one answered `resources_unavailable` on start while every board read was CHEAP (1.04x, 1.09x,
+    # 1.34x basis, all far under the buy line). The lane had exactly two words available for "we rented
+    # nothing": a price hold, which was demonstrably false, and a FAULT, which was also false — the launcher
+    # worked and the provider answered cleanly. A capacity refusal is neither. It is the market having no
+    # SLOT rather than no affordable slot, and its remedy is capacity (wait, or a different provider), not
+    # a cheaper board. ⚠ ONE FACT: what was observed is that the hosts declined to start.
+    "capacity-refused": "every host we rented answered `resources_unavailable` on start and was destroyed — "
+                        "nothing is running, $0 is billing. NOT a price hold: the board was read and cheap.",
     "board-unreadable": "the market could not be read at all (provider API/auth/rate-limit) — a FAULT: we "
                         "never learned what the board cost",
     "submit-failed":    "the board was read but the provider refused the rentals — a FAULT",
@@ -352,9 +362,22 @@ def record(outcome, run_url=None, stage=None, reason=None, gate=None,
     # correctly, the launch path recorded `nothing-to-launch` for the identical state. The receipt now names
     # its withheld units, so the word can be derived from the fact instead of from the zero.
     n_withheld = int((receipt or {}).get("n_withheld") or 0) if isinstance(receipt, dict) else 0
+    # ★★ AND THE THIRD CAUSE OF A ZERO-RENTAL LAUNCH: EVERY HOST REFUSED TO START (2026-07-29).
+    # `submit` classifies each per-unit failure as `fault` / `market` / `capacity`, and only the receipt
+    # carries that word out of the process — the workflow step can only see the rent step's exit code and
+    # the launcher's annotations, which is exactly the blindness that filed a provider 403 as
+    # `rented-nothing` in the first place. When EVERY shortfall is a capacity refusal the row is neither a
+    # fault (the launcher and the provider both worked) nor a price hold (the board was cheap), so it gets
+    # its own word. Any fault among them still dominates, unchanged: we cannot claim capacity refused us if
+    # we never got a clean answer from the provider.
+    _failed = [f for f in ((receipt or {}).get("failed") or ()) if isinstance(f, dict)] \
+        if isinstance(receipt, dict) else []
+    _all_capacity = bool(_failed) and all(f.get("kind") == "capacity" for f in _failed)
     if outcome == "launched" and n_rented is not None and int(n_rented) == 0:
         if n_withheld:
             outcome = "blocked"
+        elif _all_capacity:
+            outcome = "capacity-refused"
         else:
             outcome = "nothing-to-launch" if not n_requested else "submit-failed"
     if isinstance(gate, str):
@@ -450,8 +473,12 @@ def summary_line(path=LEDGER):
     # be exactly as short an hour later. Rendering it ✅ would be the same glyph as a healthy launch, which is
     # CLAUDE.md §1's rule that a row we are paying and a row the gate refused must never render alike; ⏸ would
     # promise a retry that cannot help. 🔬 = the pipeline is fine and the CHEMISTRY is the finding — go read it.
+    # ⛔ AND A CAPACITY REFUSAL GETS ITS OWN GLYPH, for the same §1 reason. ⏸ says "the board was too
+    # expensive, wait for a price" — which on 2026-07-29 pointed every reader at a market that was 1.04x
+    # basis. 🚫 says the slot, not the price, is what we could not buy.
     mark = ("⛔ FAULT" if e["outcome"] in FAULTS else
             "🔬 MAP REFUSED" if e["outcome"] == "map-gate-refused" else
+            "🚫 NO CAPACITY" if e["outcome"] == "capacity-refused" else
             "⏸ held" if e["outcome"] == "refused-on-price" else "✅")
     bits = ["[ledger] %s — last attempt %s (%s): %s" % (mark, e.get("et", "?"), e.get("utc", "?"),
                                                         e["outcome"])]

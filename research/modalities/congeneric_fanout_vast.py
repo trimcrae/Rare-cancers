@@ -2707,6 +2707,22 @@ def mode_launch():
         _mid = h.extra.get("machine_id")
         if _mid is not None:
             used_machines.add(str(_mid))
+        # ★ AND THE HOSTS THIS SUBMIT TRIED AND DESTROYED ON THE WAY (2026-07-29). `gpu_backend.submit` now
+        # reads the start reply, so a host that answers `resources_unavailable` is destroyed and replaced
+        # inside the same call instead of being handed back as a live rental (see `CapacityRefusedAtStart`).
+        # Those machines are already $0, but the REST OF THIS WAVE should not walk straight back into them:
+        # `used_machines` is precisely the wave-scoped "do not place here" set, and it dies with the wave —
+        # which keeps this a claim about a moment, not the durable per-machine record trimcrae struck down.
+        # This lane sees refusals too, and that is measured rather than assumed: `step1-fanout-map.json`
+        # carries rentals billed 0.03 h and 0.05 h, i.e. boxes that never ran. A 19-wide fan-out simply
+        # absorbs what a 2-unit lane cannot.
+        for _r in (h.extra.get("start_refusals") or ()):
+            used_machines.add(str(_r["machine_id"]))
+        if h.extra.get("start_refusals"):
+            _lprint("[s1f] %s: %d host(s) refused the start and were destroyed ($0 each) before this one "
+                    "landed: %s — avoided for the rest of this wave."
+                    % (spec.name, len(h.extra["start_refusals"]),
+                       ", ".join(str(r["machine_id"]) for r in h.extra["start_refusals"])))
         # NO `flush=True` HERE. `_lprint` is not `print` — it flushes internally — and passing print's kwarg
         # to it raised TypeError on the FIRST SUCCESSFUL SUBMISSION, i.e. only ever on the money path.
         # Observed 2026-07-26 7:54 PM ET (autoscale run 30226203566): instance 45951628 was rented and the

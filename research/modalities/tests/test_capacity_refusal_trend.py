@@ -86,12 +86,18 @@ def test_no_summary_field_could_be_mistaken_for_a_decision():
 
 def test_the_launcher_only_READS_the_trend_it_never_branches_on_it():
     # The exact regression that would recreate the durable exclusion: an `if` on the refusal count.
+    #
+    # ★ STRENGTHENED FROM A WINDOW TO THE WHOLE FILE (2026-07-29). This used to find the FIRST mention of
+    # the module and inspect the 900 characters after it. That stopped covering anything the moment the
+    # launcher began recording refusals from a SECOND place — the rent path, once `gpu_backend.submit`
+    # learned to read the start reply and could report the hosts it destroyed — because the new site moved
+    # the first mention and pushed the old one out of the window. A guard whose coverage silently shrinks
+    # when the code it guards grows is worse than no guard, and the property it is defending is not
+    # local anyway: the launcher must NOWHERE read a refusal count, at any call site, present or future.
     src = open(LAUNCH).read()
-    i = src.index("capacity_refusal_trend")
-    window = src[i:i + 900]
-    assert "_crt.record(" in window
-    assert "n_refusals" not in window, "the launcher is reading the count — one step from branching on it"
-    assert "crt.summarize" not in window
+    assert src.count("_crt.record(") >= 1, "the launcher no longer records refusals anywhere"
+    assert "n_refusals" not in src, "the launcher is reading the count — one step from branching on it"
+    assert "crt.summarize" not in src
 
 
 def test_it_is_wired_into_the_refusal_branch_at_all():
