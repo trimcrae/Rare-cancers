@@ -1,13 +1,14 @@
+[s1f] 1 instance(s) in a terminal state do NOT hold their unit's slot (collect destroys them; their checkpoints are in S3 and a relaunch resumes): ['s1f-15-cw_ms_5acetamido_ester']
 [s1f] terminus PROVEN by 13 unit(s) (e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral) — fan-out released
-[s1f] units=19 done=14 pending=5 live=5 free_slots=14 -> submitting 1
+[s1f] units=19 done=14 pending=5 live=5 free_slots=15 -> submitting 1
 [s1f] cost of THIS submission (1 units): plan $1.56 (band $0.65-3.94) | whole remaining tranche (5 units): plan $7.82 (band $3.24-19.71)
 [s1f] wave shape: {"n_units": 5, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f]   queue e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral  (cw_ev_5oh -> cw_ev_5opropargyl, cycle_closure)
+[s1f]   queue e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral  (zaienne_cmpd19 -> cw_bio_primary_amide, bioisostere)
 [s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
-[s1f] SPEND CAP: realised $65.85 against a DERIVED ceiling of $74.91 (market_ceiling_usd(19) — the authorised band top, regenerated from the cost model, never typed) -> $9.06 headroom. 190 rental(s) counted, of which 1 are accruing wall-clock because no collect has reconciled them yet (a cap that cannot see those reads green while the lane is over).
-[s1f] SINGLE-HOST $/ns GATE: ✅ CLEAR — 1.61x the ladder basis is within the 1.92x drift line — this host is buyable at a sane rate per nanosecond
-[s1f]   board={"offers_returned": 170, "qualifying": 164, "priceable": 97, "needed": 1, "used_for_mean": 1} priced=[{"gpu": "RTX 5090", "machine_id": 29711, "min_bid_usd_h": 0.204, "usd_per_ns": 0.005486}]
+[s1f] SPEND CAP: realised $66.32 against a DERIVED ceiling of $74.91 (market_ceiling_usd(19) — the authorised band top, regenerated from the cost model, never typed) -> $8.59 headroom. 191 rental(s) counted, of which 4 are accruing wall-clock because no collect has reconciled them yet (a cap that cannot see those reads green while the lane is over).
+[s1f] SINGLE-HOST $/ns GATE: ✅ CLEAR — 1.58x the ladder basis is within the 1.92x drift line — this host is buyable at a sane rate per nanosecond
+[s1f]   board={"offers_returned": 169, "qualifying": 160, "priceable": 94, "needed": 1, "used_for_mean": 1} priced=[{"gpu": "RTX 5090", "machine_id": 29711, "min_bid_usd_h": 0.19999999999999998, "usd_per_ns": 0.005388}]
 [s1f] excluding 56 machine(s) from offer selection: ['110782', '11158', '117843', '11892', '12697', '12708', '132368', '136811', '137610', '138147', '139040', '140043', '140160', '144071', '1569', '18857', '19492', '19499', '24573', '26910', '28164', '28903', '28904', '28905', '28908', '29304', '29668', '29707', '29770', '30974', '31036', '33622', '34646', '35778', '36341', '41716', '46392', '46427', '48161', '48605', '50093', '50143', '51045', '51546', '51777', '53989', '54458', '55275', '56108', '57342', '62866', '67860', '68109', '68556', '8914', '90897']
-[s1f] host distinctness: also avoiding 5 machine(s) this lane is ALREADY renting (['16661', '28907', '29711', '45983', '9427']) — a second unit on a machine we already hold contends for one GPU, and shares that machine's fate if it is bad. A TERMINAL status does not free a machine: `exited` is routinely transient and the leg is often still advancing.
-[s1f] submitted s1f-17-cw_ev_5opropargyl -> instance 46174263 machine 144131 dph≈$0.1622222222222222/hr (floor $0.16/hr -> bid $0.1632/hr, +$0.0032/hr premium) | RENTED AT $0.003763/ns · 1.10x basis
+[s1f] host distinctness: also avoiding 5 machine(s) this lane is ALREADY renting (['144131', '16661', '28907', '45983', '9427']) — a second unit on a machine we already hold contends for one GPU, and shares that machine's fate if it is bad. A TERMINAL status does not free a machine: `exited` is routinely transient and the leg is often still advancing.
+[s1f] submitted s1f-08-cw_bio_primary_amide -> instance 46175822 machine 12976 dph≈$0.08448148148148149/hr (floor $0.083/hr -> bid $0.0847/hr, +$0.0017/hr premium) | RENTED AT $0.002522/ns · 0.74x basis
 [s1f] board-read cache over the wave: 0 hit(s), 2 real read(s) — 0 Vast /search/asks/ call(s) NOT made against the shared key (TTL 180s).
