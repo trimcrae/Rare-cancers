@@ -1684,13 +1684,36 @@ jobs:
         with: { ref: "${{ github.ref_name }}" }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
+      # ★★ WHAT DID **EVERY** ATTEMPT DIE OF? (added 2026-07-29.) The two valB_mini ternary replicates had
+      # 35 and 49 ARCHIVED attempts — 84 separately-rented hosts, each of which wrote its own run.log before
+      # the next overwrote the live one. `strip_foreign_partial_charges` landed in the MIDDLE of that series,
+      # so the archive spans both sides of a code change and can answer, from the hosts' own output, the
+      # question one traceback cannot: did the failure signature CHANGE when the fix landed? A single
+      # `--logs` dump reads only the newest attempt and is structurally blind to that.
+      #
+      # Bare runner, boto3 + rdkit, no openfe and no docker: grouping tracebacks and counting an SD tag's
+      # per-atom expansion needs neither. ~3 min, $0, read-only.
+      - name: What did EVERY archived attempt die of, and on which side of the fix?
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3 rdkit
+          mkdir -p /tmp/census
+          python research/modalities/valb_triangle_charge_forensic.py \
+            --mode triangle,triangle_smoke,edge_reps \
+            --attempts --attempts-full 80 --charge-census /tmp/census \
+            --attempts-grep '^\s*\[(rbfe|tfep)\]|cache HIT|cache MISS|INHERITED|inherited partial|pose repair|status.:..done' \
+            --out research/modalities/valb-triangle-attempt-forensic.json 2>&1 | tee /tmp/attempts.txt
       - name: Every triangle unit's FULL run.log, and both input trees pulled side by side
         run: |
           set -eo pipefail
           python -m pip install -q boto3
           mkdir -p /tmp/tridiag
+          # `edge_reps` too: the valB_mini binary arms are the only units of this shape that COMPLETED, so
+          # their run.log is the control every failure explanation has to be consistent with.
+          python research/modalities/valb_triangle_charge_forensic.py --mode triangle,edge_reps \
+            --logs 2>&1 | tee /tmp/tri_logs.txt
           python research/modalities/valb_triangle_charge_forensic.py --mode triangle \
-            --logs --fetch-caches /tmp/tridiag 2>&1 | tee /tmp/tri_logs.txt
+            --fetch-caches /tmp/tridiag 2>&1 | tee -a /tmp/tri_logs.txt
       - name: Build the endpoints from EACH tree, in the image that produced the failure
         run: |
           set -eo pipefail
@@ -1712,6 +1735,7 @@ jobs:
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/valb-triangle-charge-forensic.json
+          git add research/modalities/valb-triangle-attempt-forensic.json 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "valB triangle forensic: the gate's SDF vs the host's SDF (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -1720,6 +1744,8 @@ jobs:
       - name: Summary LAST
         run: |
           set -eo pipefail
+          echo "================ EVERY ARCHIVED ATTEMPT ================"
+          cat /tmp/attempts.txt || true
           echo "================ TRIANGLE ENDPOINT AUDIT ================"
           cat /tmp/tri_audit.txt
 
