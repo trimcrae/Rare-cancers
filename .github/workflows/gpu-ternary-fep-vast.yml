@@ -411,7 +411,11 @@ jobs:
 
           if [ "$RC" = 0 ]; then
             echo "::notice title=TVAST MARKET CLEAR::board is within both ceilings — dispatching edge-reps."
-            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=edge-reps
+            # FORWARD gpu_class. Without it a gate priced against one card class self-dispatches a
+            # launch that buys from another — the projection and the purchase would describe
+            # different markets, which is the exact mismatch the gate exists to prevent.
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
+              -f task=edge-reps -f gpu_class="${{ github.event.inputs.gpu_class }}"
             exit 0
           fi
 
@@ -1000,7 +1004,11 @@ jobs:
           echo "triangle-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
           if [ "$RC" = 0 ]; then
             echo "::notice title=TRIANGLE MARKET CLEAR::board is within BOTH the triangle's own dollar ceiling and the \$/ns buy line — dispatching task=triangle."
-            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=triangle
+            # FORWARD gpu_class. Without it a gate priced against one card class self-dispatches a
+            # launch that buys from another — the projection and the purchase would describe
+            # different markets, which is the exact mismatch the gate exists to prevent.
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
+              -f task=triangle -f gpu_class="${{ github.event.inputs.gpu_class }}"
             exit 0
           fi
           if [ "$RC" = 3 ]; then
