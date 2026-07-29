@@ -2,17 +2,17 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 6:00 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 6:15 PM ET Wed Jul 29, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-valB r2 ternary      65.6%  10:36 PM         $0.00512/ns · 1.50× basis  RUNNING   
-T3 ternary           43.6%  3:41 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
-T2 binary            63.9%  —                $0.00577/ns · 1.69× basis  RUNNING   no openmmtools rate line in the log window — ETA unknowable, progress is real
-valB r1 ternary      60.0%  —                $0.00512/ns · 1.50× basis  RUNNING   no openmmtools rate line in the log window — ETA unknowable, progress is real
-T3 binary            29.2%  11:51 PM         $0.00531/ns · 1.56× basis  RUNNING   
-T2 ternary            9.2%  5:34 PM Jul 30   $0.00356/ns · 1.04× basis  STARTING  COLD_START — instance is 10 min old, under the 15 min floor — too young to have proved anything either way
+valB r2 ternary      67.8%  10:24 PM         $0.00512/ns · 1.50× basis  RUNNING   
+T3 ternary           45.1%  3:29 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
+T2 binary            65.3%  10:13 PM         $0.00577/ns · 1.69× basis  RUNNING   
+valB r1 ternary      61.1%  11:34 PM         $0.00512/ns · 1.50× basis  RUNNING   
+T3 binary            32.1%  12:06 AM Jul 30  $0.00531/ns · 1.56× basis  RUNNING   
+T2 ternary            9.2%  5:59 PM Jul 30   $0.00356/ns · 1.04× basis  RUNNING   
 ---- END TVAST-BOARD ----
 ```
