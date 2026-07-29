@@ -1805,11 +1805,20 @@ jobs:
           git add "$BOARD"
           if ! git diff --cached --quiet -- "$BOARD"; then
             git commit -q -m "in-flight board (CI)"
+            # ⚠ NO `git stash` HERE. The first version stashed, reset, and popped — but the board file is
+            # the ONLY thing this step changes and it is already committed by the time we push, so there is
+            # nothing to stash. `git stash pop` then failed with "No stash entries found", and the following
+            # `git add` hit a path the reset had removed: `fatal: pathspec ... did not match any files`,
+            # turning a healthy collect red at 3:46 PM ET on 2026-07-29. Keep our copy in /tmp, reset onto
+            # origin, restore it, re-commit. No stash, no dependence on the working tree surviving a reset.
+            cp "$BOARD" /tmp/board-ours.md
             for a in 1 2 3 4 5; do
               git push origin "HEAD:${{ github.ref_name }}" 2>/dev/null && break
               git fetch -q origin "${{ github.ref_name }}"
-              git stash -q; git reset -q --hard "origin/${{ github.ref_name }}"; git stash pop -q || true
-              git add "$BOARD"; git commit -q -m "in-flight board (CI)" || true
+              git reset -q --hard "origin/${{ github.ref_name }}"
+              cp /tmp/board-ours.md "$BOARD"
+              git add "$BOARD"
+              git diff --cached --quiet -- "$BOARD" || git commit -q -m "in-flight board (CI)"
             done
           fi
       # ★★ RETIRE THE WATCH ENTRY OF ANY LEG THAT HAS ALREADY LANDED (2026-07-27, 7:45 PM ET).

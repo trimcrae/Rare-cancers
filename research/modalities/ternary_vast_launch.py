@@ -3089,9 +3089,18 @@ def collect(bucket=None, prefix=None, autostop=True):
               _working = bool(_b["advanced"] or _b.get("idle_working"))
               _state, _swhy = ifb.state_of(True, _working, _b["no_advance_polls"], _cold,
                                            why_not_running=_why or None, pre_first_commit=_pre_first)
+              # ★ WHY EXPLAINS ANY `—` CELL, NOT ONLY A NON-RUNNING STATE (trimcrae, 2026-07-29, 4:24 PM
+              # ET: "it's missing an ETA"). `state_of` returns ("RUNNING", "") by design — a leg that is
+              # working owes no excuse for its STATE — and the row was taking that empty string as its whole
+              # WHY, discarding the sentence that explains an unknowable % or ETA. So a RUNNING leg with no
+              # rate line in its log window rendered `—` with nothing beside it, which is the same
+              # empty-column complaint the ETA itself drew earlier. An unknown cell must always say what is
+              # missing; only a row with every cell known is allowed a blank WHY.
+              _cell_unknown = (_pct is None or _eta is None)
               _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
                             "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),
-                            "state": _state, "why": _swhy})
+                            "state": _state,
+                            "why": _swhy or (_why if _cell_unknown else "")})
           except Exception as _e:  # noqa: BLE001
               _rows.append({"name": ifb.short_name(_b.get("uid")), "pct": None, "eta_s": None,
                             "usd_per_ns": None, "state": "UNKNOWN",
