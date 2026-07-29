@@ -65,7 +65,7 @@ hand-carried total that stood while the fan-out lane alone had realised twenty t
 | Tier 2 | basin nomination | **PASSED** — *the covalent limb is no longer under review; it CLEARS* | at least one way to build a selective degrader exists, and the corrected geometry leaves **both** routes open — the covalent one included. It was briefly recorded here as possibly closed; the authoritative corrected+matched run says otherwise, and the block below carries the numbers |
 | RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
 | RUNG 2 | cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
-| RUNG 2b | 4 fs speed test | **PASSED — both stages** | every future simulation ~1.56× cheaper. The full cycle reproduces the 2 fs answer to **0.0215 kcal/mol** against a 0.7 tolerance; adopted provisionally at one seed (no replicate-SD, and system identity unrecorded) |
+| RUNG 2b | 4 fs speed test | **PASSED — both stages** | every future simulation ~1.56× cheaper. The full cycle reproduces the 2 fs answer to **0.0215 kcal/mol** against a 0.7 tolerance; adopted provisionally at one seed (no replicate-SD). **System identity is now MEASURED and passes** — same alchemical system per arm, the leftover particle-count difference is bulk solvent — but the two arms are independent cross-lane builds, **not** one system with only the timestep changed ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 45) |
 | RUNG 2 · closure | **cycle closure — fwd/rev hysteresis** | **PASSED (2026-07-27)** | the calibrator's ternary leg closes on itself, comfortably inside its preregistered ceiling. First time the criterion had both its inputs; a PATH-CLOSURE check, not an accuracy one, so it does not touch the wrong-sign FAIL below. **The numbers live once**, in the §THE FIRST FORWARD/REVERSE HYSTERESIS block below — this row deliberately does not restate them |
 | RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7**. ⚠ **The 4 replicate legs now running do NOT convert this to a PASS** — see the row below |
 | RUNG 2 · replicates | **valB_mini r1+r2 — is the FAIL quantified?** | **IN FLIGHT — and the outcome it is buying is a better-characterised FAIL, not a PASS** | 4 legs rented 4:00 PM ET. When they reduce at n=3 the gate **fails hard on the wrong sign BEFORE the replicate SD is ever consulted**, so what they buy is **INDETERMINATE → FAIL-with-an-error-bar**. A reader expecting these legs to rescue RUNG 2 would be misled; what they rescue is the *reportability* of the failure |
@@ -415,6 +415,13 @@ leg**, and all three cycle legs share one protocol hash (`35573f24b6c1…`). On 
    `CHARGE_METHOD` env while the protocol payload hashes the same env **with an `am1bcc` default**, so an unset
    variable produced a hash committing to am1bcc beside an identity record saying `null`; both now write the
    resolved value. `n_particles` and `setup_cache_version` still need the Vast lane to pass them through.
+   **✅ THE SYSTEM-IDENTITY QUESTION IS NOW ANSWERED ANYWAY — from the trajectories, since the leg records are
+   still silent (measured 2026-07-28, $0 CPU, `ternary-system-census.yml`).** Within every arm the solute is
+   identical atom-for-atom and the net charge is zero with an invariant neutralising excess; the legs differ
+   only in bulk water and the counter-ions that scale with it, worth ~3e-3 kcal/mol against this gate's 0.7.
+   The record and the arithmetic:
+   [ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md). This does **not** retire
+   the leg-record fix — a census is a manual check, and `n_particles` should still be written by the lane.
 2. **The reducer's own valB gates return INDETERMINATE** — "need ≥2 independent replicates for a cycle SD",
    n_replicates = 1. That is a different question from the timestep test (it asks whether the *calibrator* is
    certified), but it means **−0.5125 carries no replicate-SD error bar**, and this repo's standard is
@@ -422,7 +429,9 @@ leg**, and all three cycle legs share one protocol hash (`35573f24b6c1…`). On 
 
 **So: 4 fs is adopted on a single-seed agreement, and the adoption is provisional in exactly the way the gate's
 own 0.35–0.7 language anticipates — not because the agreement is marginal (it is not) but because one seed
-cannot produce the error bar the standard asks for, and the system-identity check has not yet been made.**
+cannot produce the error bar the standard asks for. The system-identity check HAS since been made and the legs
+pass it** (same alchemical system per arm; the residual difference is bulk solvent —
+[ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md)).
 
 **Why the ternary leg's ETA moved so far:** production runs at roughly **half** warmup's per-iteration cost
 (625 steps at 4 fs against warmup's 1250 at 1 fs), so a leg's finish cannot be extrapolated from its warmup
@@ -1412,8 +1421,16 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   cycle. Lane 4 pre-specified **0.7**, the repo's own assumed replicate SD, **before any number existed**.
   Ratified as written, for one reason that outranks the others: **pre-specification is the property that
   matters, and revising a threshold now — after the probe survived — would be precisely the retune this program
-  forbids.** Both arms are seed 0, hence the same starting homology model, so the comparison is not additionally
-  confounded by model choice.
+  forbids.** Both arms are seed 0, hence the same homology model *index* — and the two lanes each built their
+  own copy of it, so what is established is that the two builds have an identical atom set (measured:
+  [ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md)), not that they started
+  from bit-identical coordinates.
+  **⚠ AND THE COMPARATOR STAYS THE UNRESTRAINED r0 VALUE.** The r0 cycle now also has a **restrained** binary
+  arm ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 44), and swapping that reading in here
+  would pair a restrained arm against the 4 fs cycle's unrestrained one — measuring the restraint, not the
+  timestep. The restraint is deliberately a different Hamiltonian and is invisible to a composition census
+  (it adds a force, not atoms), so this is the one place the like-for-like pairing has to be stated rather
+  than inferred.
   **Recorded honestly: 0.7 is LENIENT, and the leniency runs in the unsafe direction.** It is an *assumption*,
   not a measurement, and today's protein-mutation benchmark showed between-setup SD is strongly regime-dependent
   (**±0.175** on a near-null perturbation vs **±1.077** on a hot spot, a 6.2× spread). A 4 fs-vs-2 fs comparison
@@ -1423,10 +1440,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   (additive, not a loosening): report the actual |Δ|, and a pass landing in the 0.35–0.7 band is
   "consistent but WEAKLY DISCRIMINATING" — adopt provisionally and require the next ternary replicate to
   confirm it, rather than treating 4 fs as settled.**
-  **✅ THE PRE-EQUILIBRATION CONFOUND IS RESOLVED (2026-07-25, $0) — the 2 fs baseline WAS pre-equilibrated, so
-  the two arms differ in the TIMESTEP ALONE and a disagreement IS attributable to it.** The caveat this replaces
-  read: *"`use_preequil` for the 2 fs baseline was never verified — only the workflow default of 0 is recorded"*,
-  and it would have made a NO-GO uninterpretable.
+  **✅ THE PRE-EQUILIBRATION CONFOUND IS RESOLVED (2026-07-25, $0) — the 2 fs baseline WAS pre-equilibrated.**
+  The caveat this replaces read: *"`use_preequil` for the 2 fs baseline was never verified — only the workflow
+  default of 0 is recorded"*, and it would have made a NO-GO uninterpretable.
+  **⚠ BUT THAT DOES NOT MAKE THE TIMESTEP THE ONLY DIFFERENCE, AND THIS ENTRY USED TO SAY IT DID
+  ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 45).** Measured 2026-07-28, $0, from the
+  committed trajectories themselves: the two arms run the **same alchemical system** — solute identical
+  atom-for-atom in every arm, and the neutralising ion excess (i.e. the solute's formal charge) invariant across
+  every build — but they are **two independently constructed builds of it**, on different lanes, providers and
+  GPUs, each with its own staging, solvation and pre-equilibration. Their ternary boxes differ by 675 bulk
+  waters and 4 ions. **A disagreement would therefore still not have been attributable to the timestep alone**;
+  the agreement is a cross-lane independent reproduction, which is a different and in one respect stronger
+  claim. Evidence, the full composition census and the ΔΔG sizing:
+  [ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md).
   **How it was settled, and why a cache listing could not do it.** A read-only setup-cache probe (added to
   `gcp-quota-check.yml`, dispatched against this branch — it writes nothing and cannot perturb the concurrent
   GCP leg) shows **three** versions coexisting for the forward leg: `v1`, `v1pe`, **`v2pe`**. So *presence* is
@@ -2106,6 +2132,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 42 | The closure triangle priced at **projected $2.49 against a $3.85 ceiling** and described as **NOT LAUNCHED — refused by the atom-map gate at 6:01 PM ET on 2026-07-27** | **Both retired the same evening, and neither by a price move.** The map gate PASSED once the smoke ran the closing edge end to end (`status=done` at 6:56 PM, dG 44.807 ± 0.582, `NaN=False`), so the refusal was the gate doing its job on incomplete evidence, not a standing defect. The $2.49/$3.85 pair was priced for a **smoke-scale** unit; the 4-leg launch at 7:51 PM is a different purchase and derives **$9.86 against a $15.40 ceiling** (1.73× basis board mean, `n_rented: 3` of 4). Do not quote the $2.49 or the $3.85 against the 4-leg triangle |
 | 43 | The forward/reverse antisymmetry detector recorded as **`antisymmetry_fwd_plus_rev_kcal: null` on all three legs** — one of "two of three systematic-error detectors were never run; one *could not* run" | **MEASURED and PASSED on 2026-07-28**: `|ΔG_fwd + ΔG_rev| = 0.325 ≤ 1.000`, once the rev leg landed on GCP (reduce [run 30353349373](https://github.com/trimcrae/Rare-cancers/actions/runs/30353349373)). The `null` is superseded as a *live* statement and retained only as the state the 2026-07-25 audit was written against. **What did NOT change:** the calibrator verdict is still `INDETERMINATE` — now for want of replicates (`n_replicates=1`) rather than for want of a detector — and cycle closure, the third detector, is still unrun. Anyone quoting "no systematic-error detector has ever returned a value" is now wrong; anyone reading the PASS as validating ΔΔG_coop is also wrong, since antisymmetry is a check the sampling can pass while the answer stays wrong |
 | 44 | The valB_mini calibrator's r0 reading **ΔΔG_coop = −0.534 kcal/mol**, abs error **1.478** (quoted in the reduce annotations of 2026-07-27/28 and in the first draft of the paper's §2.11) | **Superseded by the restrained binary re-run, NOT by a re-analysis.** The original binary arm was contaminated — its ligand left the pocket in 8 of 12 replicas — so it was re-run from scratch under a flat-bottom λ-independent pocket restraint on its own commit prefix. With the clean arm the reduction reads **−0.522**, abs error **1.466** (reduce [run 30438773820](https://github.com/trimcrae/Rare-cancers/actions/runs/30438773820), 2026-07-29). **The point is how little it moved: 0.012 kcal/mol against a ~1.47 miss, under 1 %.** The contamination was real and worth fixing, and it was NOT the cause of the wrong sign — which is a measured elimination of the most plausible benign explanation, not an argument for one. Do not quote −0.534 as the current value; do not cite the re-run as having "not mattered" either, since a null result on a named confounder is exactly what it was run to establish |
+| 45 | RUNG 2b's ratified-threshold note: *"the 2 fs baseline WAS pre-equilibrated, so **the two arms differ in the TIMESTEP ALONE** and a disagreement IS attributable to it"*, and beside it *"both arms are seed 0, hence **the same starting homology model**, so the comparison is not additionally confounded by model choice"* | **The pre-equilibration half is right and stands; the "timestep alone" half is false.** Measured 2026-07-28, $0 CPU, by a composition census of the committed trajectories themselves ([`ternary_system_census.py`](research/modalities/ternary_system_census.py), [GH run 30353705917](https://github.com/trimcrae/Rare-cancers/actions/runs/30353705917); full table in [ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md)). The two arms ran on **different lanes and object stores** — r0 on GCP/GCS, the 4 fs cycle on Vast/S3, which `ternary_vast_launch.py` says outright "never touches GCS" — each with its **own** RCSB fetch, SMARCA2 relaxation, solvation and pre-equilibration. Their ternary boxes differ by **675 waters and 4 ions** (141,968 vs 139,939 particles). What the census establishes positively is that this is **only** bulk solvent: the solute is identical atom-for-atom in every arm (ternary 7,140 = chains 2343/1925/1433/1329 + a 110-atom ligand; binary 5,215), net charge 0 throughout, and the neutralising ion excess — the solute's formal charge — is invariant at +4 ternary / +7 binary across every build, which is what a protonation or tautomer difference would have broken. Sized against the gate the solvent difference is **~3e-3 kcal/mol**, ~7× under the observed |Δ| = 0.0215 and ~230× under the 0.7 threshold, so **the PASS and the 4 fs adoption stand** — but as a *cross-lane independent reproduction*, not a controlled single-variable timestep swap, and nothing should be built on the stronger reading. Two numbers that prompted this were also misattributed and must not be quoted as the 4 fs arm's: **7,398 and 7,392** are GCP-lane builds that produced no leg result and are in no cycle; the RUNG 2b ternary leg's own analysis subset is **7,384**. |
 | 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
 
 ---

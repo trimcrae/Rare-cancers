@@ -99,6 +99,11 @@ choice like the per-replica seed, and OpenFE discards the equilibration from MBA
 a rough homology model plus finite sampling can make the starting structure matter, which is why this is
 recorded as a confound rather than argued away.)*
 
+**✅ THE OPEN CHECK ABOVE IS CLOSED — from the trajectory, not from a cache listing. See [§2d](#2d--the-particle-counts-differ-and-the-solute-does-not--measured-and-it-settles-what-2b-left-open).**
+The r0 2 fs ternary leg is the pre-equilibrated `v2pe` build, so **both** arms were pre-equilibrated and this
+particular confound is gone. §2d also shows the arms differ in more than the timestep — independently
+constructed builds, not one system with a dial turned — and sizes what that is worth.
+
 ## 2c · The stage-2 decision rule, PRE-SPECIFIED (written before the number exists)
 
 STRATEGY's RUNG 2b gate says *"ΔΔG_coop consistent with the 2 fs run within replicate SD"*. **There is no
@@ -125,6 +130,111 @@ conditioner (§2b) — one confound, not two.
 **And a limit worth stating plainly:** this is a comparison of two single cycles. A 0.7 threshold on n=1 vs
 n=1 detects a gross protocol shift and nothing finer. It cannot certify that 4 fs and 2 fs agree to within,
 say, 0.2 kcal/mol, and no claim of that kind should be built on it.
+
+## 2d · The particle counts differ, and the SOLUTE does not — MEASURED, and it settles what §2b left open
+
+**The question.** The committed ternary trajectories carry different `atom` dimensions. A bare integer cannot
+say whether that is bulk water or a different molecule, and those two readings license opposite conclusions:
+bulk water cancels out of ΔΔG_coop, a different solute means the 4 fs and 2 fs cycles are not measuring the
+same thing and may not be compared at all. So the composition was measured rather than argued about
+(`ternary_system_census.py`, `ternary-system-census.yml`, $0 CPU, no VM — it recovers the whole `openmm.System`
+that openmmtools serializes into `simulation.nc` and partitions every particle by bonded connectivity).
+
+**First, a misattribution to clear, because it changes which numbers are even relevant.** The three counts the
+question was raised about — 7,388 / 7,398 / 7,392 — all come from one **GCS** listing (GH run 30312683166,
+`mode=provenance`). **The RUNG 2b 4 fs cycle did not run there.** It ran on the Vast lane, which writes to
+**S3** and, per `ternary_vast_launch.py`'s own de-confliction note, "never touches GCS"; its reduction pulled
+the three legs from `s3://…/ternary-vast/legs/` (GH run 30208761567). The `dt4.0fs` prefixes sitting in GCS are
+**earlier GCP 4 fs attempts**, and the same provenance run lists exactly four leg-result JSONs in that bucket,
+all of them r0 — so those attempts produced no result and are in no cycle. The RUNG 2b ternary leg's real
+count is **7,384**, a fourth number, which nobody had measured.
+
+**The census ([GH run 30443804729](https://github.com/trimcrae/Rare-cancers/actions/runs/30443804729), the
+authoritative one).** `total = solute + ions + 3 × waters` closes exactly on every row, so nothing is
+unaccounted for and the water model is 3-site. *(The first run of this, 30353705917, produced the same
+measurements but reported them with two rows missing: the GCP layout puts the leg id one level up, so the
+ternary, binary and solvent legs of one cycle shared a label and overwrote each other's records. Fixed, and a
+collision is now a loud refusal — `ternary_census_targets.label_for`.)*
+
+| leg | store | total | subset | solute | chains | lig | waters | Na⁺ / Cl⁻ | net q |
+|---|---|---|---|---|---|---|---|---|---|
+| **ternary r0 fwd** `…_v2pe` | GCS | 141,968 | 7,388 | **7,140** | 2343/1925/1433/1329 | 110 | 44,860 | 126 / 122 | 0 |
+| **ternary r0 rev** `…_v2pe_dirrev` | GCS | 141,968 | 7,388 | **7,140** | 2343/1925/1433/1329 | 110 | 44,860 | 126 / 122 | 0 |
+| **ternary RUNG 2b 4 fs** `…_dt4.0fs_wu1.0_edge` | S3 | 139,939 | **7,384** | **7,140** | 2343/1925/1433/1329 | 110 | 44,185 | 124 / 120 | 0 |
+| ternary RUNG 2b 4 fs probe | S3 | 139,939 | 7,384 | **7,140** | 2343/1925/1433/1329 | 110 | 44,185 | 124 / 120 | 0 |
+| ternary GCP 4 fs `…_pe1` *(no leg result — not in any cycle)* | GCS | 143,742 | 7,392 | **7,140** | 2343/1925/1433/1329 | 110 | 45,450 | 128 / 124 | 0 |
+| binary RUNG 2b 4 fs | S3 | 90,702 | 5,376 | **5,215** | 2343/1433/1329 | 110 | 28,442 | 84 / 77 | 0 |
+| binary restrained re-run `…_wu_rst` | GCS | 94,142 | 5,384 | **5,215** | 2343/1433/1329 | 110 | 29,586 | 88 / 81 | 0 |
+| binary replicate r1 / r2 | S3 | 90,324 / 90,720 | 5,376 | **5,215** | 2343/1433/1329 | 110 | 28,316 / 28,448 | 84 / 77 | 0 |
+| solvent RUNG 2b 4 fs | S3 | 5,304 | 120 | **110** | — | 110 | 1,728 | 5 / 5 | 0 |
+
+**THE SOLUTE IS IDENTICAL ATOM-FOR-ATOM WITHIN EVERY ARM.** Ternary 7,140 = four chains of
+2343/1925/1433/1329 plus a 110-atom ligand; binary 5,215 = the same minus the 1,925-atom SMARCA2 bromodomain;
+solvent 110. Every difference in the totals is bulk water and the counter-ions that scale with it. The tool's
+own verdict, verbatim:
+
+> **SAME ALCHEMICAL SYSTEM PER ARM** — within every arm actually compared (ternary, binary) the protein chains,
+> the ligand and the net charge agree atom-for-atom, so any remaining particle-count difference is bulk
+> solvent. Arms with fewer than two censused legs are UNTESTED, not agreed: solvent.
+
+The comparison is **per arm and never pooled**: a ternary leg (4 chains), a binary leg (3) and a solvent leg (0)
+are different systems by construction, so demanding one solute across them is a category error — and an arm
+with one censused leg reports UNTESTED rather than passing, which is why `solvent` is named rather than
+quietly counted as agreement.
+
+**Two independent corroborations, because "the solute is the same" is the load-bearing claim:**
+
+1. **The neutralising ion EXCESS is invariant within an arm.** `SolventComponent()` neutralises, so Na⁺ − Cl⁻
+   *is* the solute's formal charge with the sign flipped. It is **+4 in all five ternary builds**
+   (126−122, 124−120, 128−124) and **+7 in all four binary builds** (84−77, 88−81) — across two lanes, two
+   timesteps and independent solvations. **A different protonation or tautomer state would move this number
+   and it does not**, which is the observation that discriminates the hypothesis the question raised.
+2. **The salt tracks the water at a fixed molarity.** Cl⁻ per water is 2.7196e-3 / 2.7159e-3 / 2.7283e-3 across
+   the three ternary builds and 2.7073e-3 / 2.7378e-3 in the binary ones — constant to ~0.5 %, and equal to
+   0.15 M (0.15/55.5 = 2.70e-3). So the ion count is **derived** from the water count, and the water count is
+   set by the padding-based solvation box around an independently relaxed complex. That is the mechanism, and
+   it is measured rather than assumed.
+
+**What the census CANNOT see, stated so nobody reads it as more than it is.** A λ-independent flat-bottom
+restraint adds a *force*, not atoms, so a restrained and an unrestrained leg are **identical in composition**
+and this instrument is blind to the difference by construction. Restraint state is legible only from the commit
+prefix (`_rst`) and the manifest's `RBFE_RESTRAIN` — which is exactly why those keys exist.
+
+**What this closes, and what it does not.**
+
+- **§2b's open confound is closed for the ternary arm.** The r0 2 fs ternary leg is the pre-equilibrated
+  `v2pe` build: its 141,968 particles and 7,388 subset match the *known*-`v2pe` reverse leg field for field,
+  and differ from the non-pre-equilibrated GCS builds. Both arms of the 2b comparison were pre-equilibrated.
+- **The two arms are NOT "the same system with only the timestep changed."** They are two **independently
+  constructed builds of the same system**, on different lanes, providers and GPUs, each with its own RCSB
+  fetch, its own SMARCA2 relaxation, its own solvation and its own pre-equilibration — which is precisely why
+  the water counts differ. The solute is identical; the box is not.
+- **Bulk-solvent difference, sized against the gate.** ΔΔG_coop is a difference of alchemical morphs, and bulk
+  water is present at both λ endpoints of a leg, so it cancels to first order; the morph is charge-neutral
+  (110 atoms both ends, net charge 0, neutralising excess unchanged), so the finite-size terms that scale with
+  the square of a net charge *change* are identically zero here. For a magnitude, use this cycle's own
+  measurement: replacing the **entire** environment — a 1,728-water box holding only the ligand — with the full
+  four-chain ternary assembly moves ΔG_morph by 47.7982 − 47.6131 = **0.185 kcal/mol**. The two ternary builds
+  differ by 675 waters, **1.5 %** of 44,185, with an identical solute; scaling gives **~3e-3 kcal/mol**. That is
+  ~40× below the per-leg MBAR SE (0.10–0.13), ~7× below the observed |Δ| = 0.0215, and ~230× below the 0.7
+  threshold. **This is an order-of-magnitude scaling argument anchored on a measured quantity, not a rigorous
+  bound**, and it is not offered as one.
+
+**⚠ MAY THESE LEGS BE COMBINED? Yes on system identity — and that is a narrower statement than it sounds.**
+Within each arm the alchemical system is the same, so pairing a ternary and a binary leg into one ΔΔG_coop is
+sound whichever build each came from. **This specifically clears the restrained binary re-run for use in the
+r0 cycle**, which `ternary-watch.json` flagged as needing verification before the leg was folded in — *"a
+v1-vs-v2pe mismatch is audit J.2–J.4's exact defect and the particle counts differ, so the leg's own record
+settles it."* It does: the restrained leg's solute is 5,215 atoms over chains 2343/1433/1329 plus the 110-atom
+ligand, with the same +7 neutralising excess as every other binary build, so the v1/v2pe difference here is
+**solvation, not solute**, and the ΔΔG_coop that swap produces is a difference of like systems.
+
+Three things it does **not** license: **(a)** it says nothing about *protocol* equality, which is
+`protocol_hash`'s job; **(b)** it must not be used to pair a **restrained** binary arm with an **unrestrained**
+one — the restraint is deliberately a different Hamiltonian, the census is blind to it, and such a cycle would
+measure the restraint. That is why the RUNG 2b gate's comparator stays the **unrestrained** r0 value (see
+STRATEGY.md's ratified-threshold note); **(c)** it is not a licence to pool legs into a replicate SD, which is
+a sampling question, not an identity one.
 
 ## 3 · Why the warmup checkpoint interval is per-mode — DERIVED, to be confirmed by measurement
 
