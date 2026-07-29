@@ -95,28 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-07-28T13:18:14Z",
-      "et": "9:18 AM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "market-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30362777861",
-      "gate_ratio_vs_basis": 1.569,
-      "gate_mean_usd_per_ns": 0.005352,
-      "gate_projected_usd": 2.87,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "projected $2.87 within this rung's ceiling $5.19 AND 1.57x basis is within the 1.92x drift line",
-      "gate_board_depth": {
-        "offers_returned": 175,
-        "qualifying": 175,
-        "priceable": 99,
-        "needed": 1,
-        "used_for_mean": 1
-      },
-      "reason": "board cleared both ceilings; dispatching task=edge-reps"
-    },
-    {
       "utc": "2026-07-28T13:23:08Z",
       "et": "9:23 AM ET",
       "outcome": "launched",
@@ -1661,12 +1639,79 @@
         "used_for_mean": 1
       },
       "reason": "board cleared both ceilings; dispatching task=triangle"
+    },
+    {
+      "utc": "2026-07-29T16:19:39Z",
+      "et": "12:19 PM ET",
+      "outcome": "launched",
+      "what_that_means": "hosts were actually rented",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30469821507",
+      "gate_ratio_vs_basis": 1.54,
+      "gate_mean_usd_per_ns": 0.005255,
+      "gate_projected_usd": 2.19,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.19 within this rung's ceiling $3.85 AND 1.54x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 160,
+        "qualifying": 152,
+        "priceable": 94,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "n_requested": 1,
+      "n_rented": 1,
+      "rented": [
+        {
+          "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "instance": "46208822",
+          "machine_id": 41950,
+          "gpu": "RTX 4090",
+          "dph_total_usd_h": 0.15266666666666667,
+          "usd_per_ns": 0.004557,
+          "x_basis": 1.336,
+          "over_buy_line": false
+        }
+      ],
+      "rented_max_usd_per_ns": 0.004557,
+      "rented_any_over_buy_line": false,
+      "already_live": [
+        {
+          "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "instance": 46206989,
+          "gpu": "RTX 5090",
+          "usd_per_ns": 0.005119,
+          "x_basis": 1.5,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "instance": 46205476,
+          "gpu": "RTX 5090",
+          "usd_per_ns": 0.005119,
+          "x_basis": 1.5,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "instance": 46207890,
+          "gpu": "RTX 3090",
+          "usd_per_ns": 0.004268,
+          "x_basis": 1.251,
+          "over_buy_line": false,
+          "actual_status": "running"
+        }
+      ],
+      "reason": "task=triangle; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 63,
-    "through_utc": "2026-07-28T12:20:07Z"
+    "n_total": 64,
+    "through_utc": "2026-07-28T13:18:14Z"
   }
 }
