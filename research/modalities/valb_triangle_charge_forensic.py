@@ -35,6 +35,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -88,7 +89,7 @@ def _signature(body):
     return exc, frame
 
 
-def dump_attempts(mode, per_unit=None, full=0):
+def dump_attempts(mode, per_unit=None, full=0, grep=None):
     """Every ARCHIVED attempt of every unit of `mode`: its date, its exception, and the frame that raised it.
 
     ★ WHY THIS IS THE MEASUREMENT AND A SINGLE LOG IS NOT (2026-07-29). Two of these units have 35 and 49
@@ -134,6 +135,16 @@ def dump_attempts(mode, per_unit=None, full=0):
             g["last_utc"] = when
             samples.setdefault(sig, (o["Key"], body))
             samples[sig] = (o["Key"], body)          # keep the NEWEST example of each signature
+            # ★ THE ATTEMPT THAT SUCCEEDED IS NOT THE ONE WITH A TRACEBACK — it is the big one with none, and
+            # it is only ever in the ARCHIVE (a later re-dispatch of a done unit exits on the idempotency
+            # check and overwrites the live run.log with a two-line stub). Grepping every archived attempt is
+            # the only way to read what a COMPLETED leg actually did.
+            if grep:
+                hits = [l for l in body.splitlines() if re.search(grep, l)]
+                if hits:
+                    print(f"  [grep] {o['Key'].rsplit('/', 1)[-1]} ({when}, {o['Size']} B)", flush=True)
+                    for h in hits[:40]:
+                        print("     > " + h[:220], flush=True)
         for sig, g in sorted(rec["by_signature"].items(), key=lambda kv: kv[1]["first_utc"]):
             print(f"  [sig] n={g['n']:<3} {g['first_utc']} .. {g['last_utc']}  {sig}", flush=True)
         if full:
@@ -421,6 +432,9 @@ def main(argv=None):
                          "— the before/after test across a code change. $0, read-only.")
     ap.add_argument("--attempts-full", type=int, default=0, metavar="N",
                     help="with --attempts, also print the last N lines of the newest log per signature")
+    ap.add_argument("--attempts-grep", default=None, metavar="REGEX",
+                    help="with --attempts, print every archived attempt's lines matching REGEX. This is how "
+                         "you read a leg that SUCCEEDED: its log is in the archive, never in run.log.")
     ap.add_argument("--charge-census", metavar="DIR", default=None,
                     help="per-UNIT (mode,leg,seed) census of BOTH charge levels in the stage cache and the "
                          "pre-equil cache the host actually ran, with each cache object's mtime. rdkit+boto3 "
@@ -443,7 +457,8 @@ def main(argv=None):
     if a.logs:
         report["logs"] = [rec for m in modes for rec in dump_logs(m)]
     if a.attempts:
-        report["attempts"] = [rec for m in modes for rec in dump_attempts(m, full=a.attempts_full)]
+        report["attempts"] = [rec for m in modes
+                              for rec in dump_attempts(m, full=a.attempts_full, grep=a.attempts_grep)]
     if a.charge_census:
         report["charge_census"] = charge_census(modes, a.charge_census)
     if a.fetch_caches:

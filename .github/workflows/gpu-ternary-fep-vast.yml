@@ -1677,6 +1677,7 @@ jobs:
           python research/modalities/valb_triangle_charge_forensic.py \
             --mode triangle,triangle_smoke,edge_reps \
             --attempts --attempts-full 80 --charge-census /tmp/census \
+            --attempts-grep 'INHERITED partial charges|inherited partial charge|pose repair failed|partial_charge_method|=== RESULT|dg_morph|status.:..done' \
             --out research/modalities/valb-triangle-attempt-forensic.json 2>&1 | tee /tmp/attempts.txt
       - name: Every triangle unit's FULL run.log, and both input trees pulled side by side
         run: |
