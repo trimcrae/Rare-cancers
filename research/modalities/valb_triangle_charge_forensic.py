@@ -56,6 +56,95 @@ def _split(uri):
     return b, k
 
 
+def _signature(body):
+    """The last exception line of a run.log, plus the frame that raised it. PURE, stdlib only.
+
+    A traceback's LAST `Type: message` line is the exception that ended the process; the frame above it is
+    where it came from. Together they are a stable key to group dozens of attempts by, which is what turns a
+    pile of logs into a before/after comparison.
+    """
+    lines = body.splitlines()
+    exc = None
+    frame = None
+    for i, ln in enumerate(lines):
+        s = ln.strip()
+        if s.startswith("File \"") and ", line " in s:
+            frame_candidate = s
+        else:
+            frame_candidate = None
+        if frame_candidate:
+            _last_frame = frame_candidate
+        # An exception line is unindented `Something(Error|Exception|Exit): message` at the end of a block.
+        if s and not ln.startswith(" ") and ":" in s:
+            head = s.split(":", 1)[0]
+            if head.endswith(("Error", "Exception", "Exit")) or head in ("SystemExit", "KeyboardInterrupt"):
+                exc = s
+                # the innermost frame is the LAST `File "..."` before this line
+                for back in range(i - 1, max(-1, i - 60), -1):
+                    b = lines[back].strip()
+                    if b.startswith("File \"") and ", line " in b:
+                        frame = b
+                        break
+    return exc, frame
+
+
+def dump_attempts(mode, per_unit=None, full=0):
+    """Every ARCHIVED attempt of every unit of `mode`: its date, its exception, and the frame that raised it.
+
+    ★ WHY THIS IS THE MEASUREMENT AND A SINGLE LOG IS NOT (2026-07-29). Two of these units have 35 and 49
+    archived attempts — every one a separately rented host that died. `strip_foreign_partial_charges` landed
+    mid-way through that series, so the archive spans BOTH sides of the fix. Grouping the attempts by
+    (exception, frame) and by date therefore answers, from data the hosts themselves wrote, the one question a
+    single traceback cannot: did the failure signature CHANGE when the fix landed, or has it been the same
+    thing throughout? A signature that changes proves the fix ran and moved the failure; one that does not
+    proves the fix never reached this path.
+
+    `full` prints the last N lines of the newest log per distinct signature, so the traceback itself is in the
+    record and nobody has to re-fetch it. $0, read-only.
+    """
+    import ternary_vast_launch as tv
+    s3 = _s3()
+    out = []
+    for leg, seed, direction in tv.units_for(mode):
+        dt, wdt = tv.resolve_timesteps(mode)
+        uid = tv.unit_id(leg, seed, direction, dt, wdt, mode)
+        if per_unit and per_unit not in uid:
+            continue
+        b, k = _split(tv.result_prefix_for(tv.DEFAULT_BUCKET, uid))
+        keys = []
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=b, Prefix=f"{k}/attempts/"):
+            keys.extend(page.get("Contents", []) or [])
+        keys.sort(key=lambda o: o["LastModified"])
+        rec = {"unit": uid, "n_attempts": len(keys), "by_signature": {}, "attempts": []}
+        print(f"\n########## {uid}: {len(keys)} archived attempts ##########", flush=True)
+        samples = {}
+        for o in keys:
+            try:
+                body = s3.get_object(Bucket=b, Key=o["Key"])["Body"].read().decode("utf-8", "replace")
+            except Exception as e:  # noqa: BLE001
+                print(f"  [attempts] unreadable {o['Key']}: {type(e).__name__}", flush=True)
+                continue
+            exc, frame = _signature(body)
+            sig = f"{exc} @@ {frame}"
+            when = o["LastModified"].isoformat()
+            rec["attempts"].append({"key": o["Key"].rsplit("/", 1)[-1], "utc": when,
+                                    "bytes": o["Size"], "exception": exc, "frame": frame})
+            g = rec["by_signature"].setdefault(sig, {"n": 0, "first_utc": when, "last_utc": when})
+            g["n"] += 1
+            g["last_utc"] = when
+            samples.setdefault(sig, (o["Key"], body))
+            samples[sig] = (o["Key"], body)          # keep the NEWEST example of each signature
+        for sig, g in sorted(rec["by_signature"].items(), key=lambda kv: kv[1]["first_utc"]):
+            print(f"  [sig] n={g['n']:<3} {g['first_utc']} .. {g['last_utc']}  {sig}", flush=True)
+        if full:
+            for sig, (key, body) in samples.items():
+                print(f"\n  ---- newest example of {sig}\n  ---- {key}", flush=True)
+                for ln in body.splitlines()[-full:]:
+                    print("  | " + ln, flush=True)
+        out.append(rec)
+    return out
+
+
 def dump_logs(mode, tail=0):
     """Print each unit's FULL uploaded run.log (or its last `tail` lines). $0, read-only."""
     import ternary_vast_launch as tv
@@ -96,6 +185,59 @@ def dump_logs(mode, tail=0):
                     print("     ! " + h, flush=True)
         out.append(rec)
     return out
+
+
+def charge_census(modes, dest):
+    """For EVERY unit of every mode: what charges does the SDF the host actually read carry, at BOTH levels?
+
+    ★ WHY PER-UNIT AND NOT PER-LEG. `PE_CACHE` is keyed by (leg, mode, seed), so the SAME leg has a DIFFERENT
+    relaxed SDF per mode and per seed — `calib_hi_to_lo2__ternary_vhl` has one cache for `triangle_smoke` (which
+    finished clean) and another for `triangle` (which died). A per-leg census cannot see that difference, and
+    that difference is the experiment.
+
+    ★ WHY THE MTIME. A cache written before a fix still carries what the fix removes. The object's
+    LastModified is the only thing that says which side of a code change a cached artefact was born on.
+
+    Needs boto3 + rdkit only. $0, read-only.
+    """
+    import tarfile
+    import ternary_vast_launch as tv
+    s3 = _s3()
+    os.makedirs(dest, exist_ok=True)
+    rows = []
+    for mode in modes:
+        for leg, seed, direction in tv.units_for(mode):
+            spec = tv.build_jobspec(leg, seed=seed, direction=direction, mode=mode)
+            env = getattr(spec, "env", None) or {}
+            dt, wdt = tv.resolve_timesteps(mode)
+            uid = tv.unit_id(leg, seed, direction, dt, wdt, mode)
+            row = {"unit": uid, "mode": mode, "leg": leg, "seed": seed,
+                   "arm": ("ternary" if "ternary" in leg else "binary" if "binary" in leg else "solvent")}
+            for which, uri, member in (("stage", env.get("STAGE_CACHE"), os.path.join(leg, "ligands.sdf")),
+                                       ("preequil", env.get("PE_CACHE"), "ligands.sdf")):
+                info = {"uri": uri}
+                root = os.path.join(dest, uid, which)
+                os.makedirs(root, exist_ok=True)
+                tar = os.path.join(dest, f"{uid}_{which}.tar")
+                try:
+                    b, k = _split(uri)
+                    head = s3.head_object(Bucket=b, Key=k)
+                    info["mtime"] = head["LastModified"].isoformat()
+                    info["bytes"] = head["ContentLength"]
+                    s3.download_file(b, k, tar)
+                    with tarfile.open(tar) as tf:
+                        tf.extractall(root)
+                except Exception as e:  # noqa: BLE001
+                    info["cache"] = "MISS(%s)" % type(e).__name__
+                    row[which] = info
+                    continue
+                sdf = os.path.join(root, member)
+                info["cache"] = "HIT"
+                info["records"] = audit_sdf(sdf) if os.path.exists(sdf) else "NO ligands.sdf IN TAR"
+                row[which] = info
+            rows.append(row)
+            print("[census] " + json.dumps(row), flush=True)
+    return rows
 
 
 TREES = ("stage", "asrun")
@@ -161,8 +303,17 @@ def fetch_caches(mode, dest):
 
 # ------------------------------------------------------------- part B: inside the parity image (rdkit+openfe)
 def audit_sdf(path):
-    """Per-record atom count vs the length of any inherited partial-charge array. This IS the discriminator."""
+    """Per-record atom count vs the inherited partial charges — at BOTH levels RDKit carries them.
+
+    ⚠ THE MOLECULE-LEVEL PROPERTY IS ONLY HALF THE STORY (measured 2026-07-28). RDKit's SD parser expands a
+    `atom.dprop.<name>` tag into a PER-ATOM property on every atom (`processPropertyLists`, on by default), so
+    one SD tag becomes N atom properties, and `mol.ClearProp(CHARGE_PROP)` removes the tag while leaving all N
+    of them in place. Reporting only the molecule-level tag therefore says "clean" about a file that is not,
+    which is exactly what the first version of this forensic did. One name, one home for the per-atom key:
+    `nr4a3_rbfe.PER_ATOM_CHARGE_PROP`.
+    """
     from rdkit import Chem
+    import nr4a3_rbfe as rbfe
     recs = []
     for i, m in enumerate(Chem.SDMolSupplier(path, removeHs=False)):
         if m is None:
@@ -171,8 +322,10 @@ def audit_sdf(path):
         n_ch = None
         if m.HasProp(CHARGE_PROP):
             n_ch = len(m.GetProp(CHARGE_PROP).split())
+        n_atom_ch = sum(1 for a in m.GetAtoms() if a.HasProp(rbfe.PER_ATOM_CHARGE_PROP))
         recs.append({"record": i, "name": m.GetProp("_Name") if m.HasProp("_Name") else None,
                      "n_atoms": m.GetNumAtoms(), "n_partial_charges": n_ch,
+                     "n_atoms_carrying_per_atom_charge": n_atom_ch,
                      "mismatch": (n_ch is not None and n_ch != m.GetNumAtoms())})
     return recs
 
@@ -241,8 +394,20 @@ def silent_case_probe(input_dir, leg_id):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="$0 forensic: why two closure-triangle legs died at from_rdkit")
+    # COMMA-SEPARATED, because the discriminating comparison is ACROSS lanes. The closure triangle and the
+    # valB_mini replicates die the same way and their binary arms do not; a forensic that can only see one
+    # mode at a time cannot put the two side by side, and the contrast is the evidence.
     ap.add_argument("--mode", default="triangle")
     ap.add_argument("--logs", action="store_true", help="dump every unit's full uploaded run.log (S3)")
+    ap.add_argument("--attempts", action="store_true",
+                    help="group EVERY archived attempt of every unit by (exception, raising frame) and date "
+                         "— the before/after test across a code change. $0, read-only.")
+    ap.add_argument("--attempts-full", type=int, default=0, metavar="N",
+                    help="with --attempts, also print the last N lines of the newest log per signature")
+    ap.add_argument("--charge-census", metavar="DIR", default=None,
+                    help="per-UNIT (mode,leg,seed) census of BOTH charge levels in the stage cache and the "
+                         "pre-equil cache the host actually ran, with each cache object's mtime. rdkit+boto3 "
+                         "only — no openfe, so it runs on a bare runner in ~2 min.")
     ap.add_argument("--fetch-caches", metavar="DIR", default=None,
                     help="download+extract the stage AND pre-equil caches side by side under DIR (S3)")
     ap.add_argument("--audit", metavar="DIR", default=None,
@@ -256,13 +421,19 @@ def main(argv=None):
                       "structurally blind to anything pre-equilibration introduces.",
               "mode": a.mode, "charge_prop": CHARGE_PROP}
 
+    modes = [m for m in (a.mode or "").split(",") if m.strip()]
+
     if a.logs:
-        report["logs"] = dump_logs(a.mode)
+        report["logs"] = [rec for m in modes for rec in dump_logs(m)]
+    if a.attempts:
+        report["attempts"] = [rec for m in modes for rec in dump_attempts(m, full=a.attempts_full)]
+    if a.charge_census:
+        report["charge_census"] = charge_census(modes, a.charge_census)
     if a.fetch_caches:
-        report["caches"] = fetch_caches(a.mode, a.fetch_caches)
+        report["caches"] = fetch_caches(modes[0], a.fetch_caches)
     if a.audit:
         import ternary_vast_launch as tv
-        legs = sorted({leg for leg, _s, _d in tv.units_for(a.mode)})
+        legs = sorted({leg for leg, _s, _d in tv.units_for(modes[0])})
         per = {}
         for leg in legs:
             entry = {}
