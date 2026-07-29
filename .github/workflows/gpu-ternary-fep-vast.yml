@@ -1537,6 +1537,57 @@ jobs:
           # is worse than a red build.
           python research/modalities/ternary_vast_watchdog.py --verify-armed "$MODE"
 
+  # --------------------------------------------------- free: look again ~5 min after renting, and only then
+  # ★★ THE BLIND WINDOW AFTER A RENTAL WAS THIS LANE'S LARGEST REAL LOSS (measured 2026-07-29).
+  #
+  # WHAT HAPPENS. `gpu_backend._ensure_running` files a start as `accepted` on Vast's optimistic echo
+  # (`[vast] start 46209462 attempt 1: intended=running actual=None`). Vast then settles a fraction of those
+  # boxes back to `intended=stopped` MINUTES later — documented at gpu_backend.py:1281-1300 — and the nudge
+  # that reads the real reply lives in `collect`. So between renting and the next `collect`, a box that will
+  # never run looks exactly like one that is pulling its image, and we hold a slot we do not have.
+  #
+  # THE COST, measured rather than argued. Eight ternary rentals on 2026-07-29 produced ZERO committed
+  # iterations; three of them read `up=created` / `up=loading` and never executed at all. Today's gaps
+  # between `collect` runs were 7, 13, 15, 21, 24, 27, 29 and 69 minutes. The dollars are small (~$0.50 —
+  # this is weather-scale money) but the wall-clock is not: the closure triangle spent the afternoon with
+  # arms repeatedly re-placed instead of advancing, and each re-placement restarts a ~15-40 min pull before
+  # the first checkpoint can land.
+  #
+  # WHY THE FAN-OUT DOES NOT HAVE THIS PROBLEM, which is what identified the fix. Same account, same board,
+  # same window: the fan-out's rentals averaged 1.02 h against ternary's 0.35 h, and its stopped boxes carry
+  # `status_msg: "success, running …"` — they EXECUTED. Its tick nudges and re-places in one job, so the
+  # window never opens. This job gives the ternary lane the same property using the machinery it already has.
+  #
+  # ⚠ IT DISPATCHES `collect`, WHICH ADDS NO NEW REAPING RULE. That is deliberate: a legitimately slow
+  # 20-40 minute image pull must not be reaped, and `collect` already owns that discrimination (the 15-minute
+  # cold-start floor, and `vast_idle_guard`'s inviolable rule that GPU idleness never condemns a box). Adding
+  # a second, faster discriminator here is exactly how a guard starts killing healthy hosts.
+  #
+  # ⚠ AND IT IS DELIBERATELY *NOT* IN THE `ternary-vast-mutate` CONCURRENCY GROUP. Sleeping five minutes
+  # inside `launch` would hold the mutate lock and delay a queued launch by five minutes — paying for this
+  # fix with the very latency it exists to remove. `needs: launch` gives the ordering; a separate job gives
+  # the lock back immediately.
+  #
+  # $0: five minutes of a free runner, one `gh workflow run`. Rents nothing, destroys nothing.
+  post_launch_recheck:
+    needs: launch
+    if: ${{ always() && needs.launch.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: write
+      contents: read
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Wait out the settle-back window, then dispatch one collect
+        run: |
+          set -eo pipefail
+          echo "sleeping 300 s so Vast has time to settle a falsely-accepted start back to 'stopped'"
+          sleep 300
+          gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=collect
+          echo "::notice title=POST-LAUNCH RECHECK::collect dispatched ~5 min after the rental — this is what closes the accepted-but-never-running window; it reaps nothing that collect would not reap anyway."
+
   # ------------------------------------------------------- free: empty the machine-exclusion set, on purpose
   # ★★ trimcrae, 2026-07-27 9:45 PM ET: "Clear out our blacklist then and don't add anything back unless you
   # have a real reason to." The set had reached 48 permanent machines and was the BINDING constraint on
