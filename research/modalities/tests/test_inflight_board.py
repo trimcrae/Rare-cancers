@@ -325,15 +325,22 @@ def test_a_long_running_window_no_longer_carries_the_targets():
     assert B.pct_complete("production", 1500, None) is None
 
 
-def test_the_collect_remembers_targets_across_polls_rather_than_recomputing_them():
-    """Pin the call site AND the direction: remembered from the driver's own line, never re-derived."""
+def test_the_targets_line_is_pinned_into_every_window_rather_than_remembered():
+    """Pin the call site AND the direction: read from the driver's log every poll, never a stored copy.
+
+    The line is not scrolling out of a byte window — `phase_and_log` reads the whole object. It was being
+    evicted from the KEYWORD selection (`hits[-tail:]`), which production fills at two lines per 40
+    iterations. Pinning it is one home; a copy in the lane state would be a second.
+    """
     import os
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
     src = open(path).read()
-    assert 'new_state[_tg_key] = list(_tg)' in src, (
-        "targets seen in the window are no longer persisted — a long-running leg loses its denominator")
-    assert 'prev_state.get(_tg_key)' in src, (
-        "the board no longer reads back remembered targets — the row goes blank as the leg ages")
+    assert '_targets_line = next((ln for ln in raw if "warmup_target=" in ln), None)' in src, (
+        "the startup targets line is no longer pinned — a long-running leg loses its denominator")
+    assert "lines = [_targets_line] + lines" in src, "the pinned line is not being prepended to the window"
+    assert "targets:%s" not in src, (
+        "targets are being persisted into the lane state again — that is a second home for a number the "
+        "driver's log owns (CLAUDE.md rule 1), free to go stale across a protocol re-scope")
     for banned in ("768", "1600", "2000"):
         assert ("_tg = (%s" % banned) not in src, (
             "a typed target is a second home for a number the driver's log owns (CLAUDE.md rule 1)")

@@ -1393,7 +1393,26 @@ def phase_and_log(uid, bucket=None, prefix=None, tail=8):
         # what is happening.
         keys = ("[timing]", "[barrier]", "[spot-driver]", "[tfep]", "NaN", "Traceback", "ERROR", "ABORT")
         hits = [ln for ln in raw if any(k in ln for k in keys)]
+        # ★★ THE TARGETS LINE IS PINNED, BECAUSE `hits[-tail:]` EVICTS IT AS A LEG AGES (measured
+        # 2026-07-29, 7:02 PM ET). `[spot-driver] warmup_target=N (ci=..) prod_target=M (ci=..)` is printed
+        # ONCE, at driver start, and it is the ONE home for the denominator of "% complete" — the driver
+        # computes it from OpenFE settings no reader here has an MD stack to re-derive.
+        #
+        # It is not scrolling out of a byte window: the whole object is in `log` above. It is being evicted
+        # from the KEYWORD selection, which keeps only the last `tail` matches. Production emits a
+        # `[timing]` and a `[barrier]` every 40 iterations, so ~75 lines accumulate over 1500 iterations and
+        # push the startup lines off the front. `valB r2 ternary` had rendered a percentage and an ETA all
+        # evening and then went to `— / —`: every other cell fine, the leg advancing, only the denominator
+        # gone. Every leg does this as it ages, so the overnight board would have blanked one row at a time.
+        #
+        # Pinning is the correct fix rather than a bigger `tail` (which only moves the age at which it
+        # happens) or a remembered copy in the lane state (which would be a SECOND HOME for a number this
+        # log already owns — CLAUDE.md rule 1 — and would go stale across a re-scope). One line, read from
+        # the driver's own output, on every poll.
+        _targets_line = next((ln for ln in raw if "warmup_target=" in ln), None)
         lines = (hits[-tail:] + ["--- raw tail ---"] + raw[-4:]) if hits else raw[-tail:]
+        if _targets_line and _targets_line not in lines:
+            lines = [_targets_line] + lines
         # The openmmtools per-chunk progress line, which is the ONLY thing emitted between the driver's
         # (buffered) [timing] lines during a chunk. Pulled out separately so the compact summary can carry
         # it: "Iteration 3/8" is the difference between watching a live warmup and watching a frozen log.
@@ -3062,31 +3081,10 @@ def collect(bucket=None, prefix=None, autostop=True):
           # cannot be built now degrades to a visible UNKNOWN row naming the failure, because a
           # missing row reads as a leg that does not exist.
           try:
-              # ★★ THE TARGETS ARE REMEMBERED ONCE SEEN, BECAUSE THE LINE THAT CARRIES THEM SCROLLS AWAY
-              # (measured 2026-07-29, 7:02 PM ET). `[spot-driver] warmup_target=N ... prod_target=M` is
-              # printed ONCE, at driver start. The 60-line window was widened specifically so it would
-              # survive — and that is enough for an hour, not for a leg that runs all night. `valB r2
-              # ternary` had been rendering 72.2 % and an ETA all evening and then, at ~1500 production
-              # iterations, went to `— / —` with "targets not in the retained log window": every other cell
-              # on the row was fine, the leg was advancing, and the ONLY thing lost was the denominator.
-              # Left alone, every leg does this as it ages, so the overnight board would have gone blank one
-              # row at a time — exactly when nobody is watching it.
-              #
-              # ⚠ REMEMBERED, NOT RECOMPUTED. CLAUDE.md §1: the driver's log line is the ONE home for what
-              # this run chose, because it derives the numbers from OpenFE settings this process has no MD
-              # stack to evaluate. Re-deriving them here (or typing "triangle 2 fs = 768 + 2000") would be a
-              # second home free to disagree the next time a protocol is re-scoped. So the value is copied
-              # verbatim from what the driver said, into the lane state that already persists per poll, and
-              # read back only when the window no longer carries it. A leg whose targets have NEVER been
-              # observed still renders `—`, which is correct: nothing has told us the denominator yet.
+              # The denominator comes from the driver's own startup line, which `phase_and_log` PINS into
+              # every window for exactly this reason — see the note there. Nothing is remembered or
+              # recomputed here: a persisted copy would be a second home for a number that log owns.
               _tg = ifb.parse_targets(_b["log"])
-              _tg_key = "targets:%s" % _b["uid"]
-              if _tg:
-                  new_state[_tg_key] = list(_tg)
-              else:
-                  _remembered = prev_state.get(_tg_key)
-                  if _remembered and len(_remembered) == 2:
-                      _tg = (int(_remembered[0]), int(_remembered[1]))
               _spi = ifb.measured_s_per_iter(_b["log"])
               _pct = ifb.pct_complete(_b["phase"], _b["iteration"], _tg)
               _eta = ifb.eta_seconds(_b["phase"], _b["iteration"], _tg, _spi)
