@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-29T10:01:42Z",
-  "_generated_et": "6:01 AM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T10:06:40Z",
+  "_generated_et": "6:06 AM ET Jul 29, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-29T10:49:42Z",
-  "_stale_after_et": "6:49 AM ET Jul 29, 2026",
+  "_stale_after_utc": "2026-07-29T10:54:40Z",
+  "_stale_after_et": "6:54 AM ET Jul 29, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -1451,16 +1451,16 @@
     {
       "id": "fanout-unit:e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ms_5acetamido_ester \u2014 solvent/production@1120",
+      "what": "Step-1 fan-out unit cw_ms_5acetamido_ester \u2014 solvent/production@1360",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "11001120",
-      "last_evidence_utc": "2026-07-29T10:00:48Z",
-      "last_evidence_et": "6:00 AM ET Jul 29, 2026",
+      "evidence_fingerprint": "11001360",
+      "last_evidence_utc": "2026-07-29T10:04:32Z",
+      "last_evidence_et": "6:04 AM ET Jul 29, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-07-29T11:30:48Z",
-      "next_evidence_due_et": "7:30 AM ET Jul 29, 2026",
+      "next_evidence_due_utc": "2026-07-29T11:34:32Z",
+      "next_evidence_due_et": "7:34 AM ET Jul 29, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -1566,7 +1566,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 7:30 AM ET Jul 29, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 7:34 AM ET Jul 29, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -1680,16 +1680,16 @@
     {
       "id": "fanout-unit:e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
       "scanner": "fanout_units",
-      "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 solvent/warmup@400",
+      "what": "Step-1 fan-out unit cw_ev_5opropargyl \u2014 solvent/production@160",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "10000400",
-      "last_evidence_utc": "2026-07-29T10:00:48Z",
-      "last_evidence_et": "6:00 AM ET Jul 29, 2026",
+      "evidence_fingerprint": "11000160",
+      "last_evidence_utc": "2026-07-29T10:04:32Z",
+      "last_evidence_et": "6:04 AM ET Jul 29, 2026",
       "last_evidence_what": "step1-fanout-progress.json `units[].committed_scalar` (the committed-iteration census \u2014 the only signal that condemns)",
-      "next_evidence_due_utc": "2026-07-29T11:30:48Z",
-      "next_evidence_due_et": "7:30 AM ET Jul 29, 2026",
+      "next_evidence_due_utc": "2026-07-29T11:34:32Z",
+      "next_evidence_due_et": "7:34 AM ET Jul 29, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -1777,7 +1777,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 7:30 AM ET Jul 29, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 7:34 AM ET Jul 29, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -2208,12 +2208,12 @@
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
       "state": "advancing",
-      "evidence_fingerprint": "ADVANCING|f5afbeeadf99e764|step1-fanout-progress.json `_generated_utc`",
-      "last_evidence_utc": "2026-07-29T10:00:48Z",
-      "last_evidence_et": "6:00 AM ET Jul 29, 2026",
+      "evidence_fingerprint": "ADVANCING|6b71e2c35ba834a6|step1-fanout-progress.json `_generated_utc`",
+      "last_evidence_utc": "2026-07-29T10:04:32Z",
+      "last_evidence_et": "6:04 AM ET Jul 29, 2026",
       "last_evidence_what": "step1-fanout-progress.json `_generated_utc`",
-      "next_evidence_due_utc": "2026-07-29T10:45:48Z",
-      "next_evidence_due_et": "6:45 AM ET Jul 29, 2026",
+      "next_evidence_due_utc": "2026-07-29T10:49:32Z",
+      "next_evidence_due_et": "6:49 AM ET Jul 29, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -2274,7 +2274,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 6:45 AM ET Jul 29, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 6:49 AM ET Jul 29, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -2283,7 +2283,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "7 host(s) up and new evidence 1 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
+        "5 host(s) up and new evidence 2 min ago (step1-fanout-progress.json `_generated_utc`). committed-iteration census (the strong signal)."
       ]
     },
     {
@@ -2449,7 +2449,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "no hosts and 2 unit(s) unfinished, but the last evidence is only 3 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
+        "no hosts and 2 unit(s) unfinished, but the last evidence is only 8 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
       ]
     },
     {
@@ -2545,7 +2545,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "2 host(s) up and this lane has produced NO new evidence for 1655 min (last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 2:26 AM ET Jul 28, 2026, threshold 90 min). A valB cohort was dead for 85 min under exactly this shape while its watchdog printed 'advancing \u2026 Leaving it alone'. NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is "
+        "2 host(s) up and this lane has produced NO new evidence for 1660 min (last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 2:26 AM ET Jul 28, 2026, threshold 90 min). A valB cohort was dead for 85 min under exactly this shape while its watchdog printed 'advancing \u2026 Leaving it alone'. NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is "
       ]
     },
     {
@@ -2673,17 +2673,17 @@
     "rung:post_submit"
   ],
   "_self": {
-    "now_et": "6:01 AM ET Jul 29, 2026",
-    "generated_et": "6:01 AM ET Jul 29, 2026",
-    "stale_after_et": "6:49 AM ET Jul 29, 2026",
+    "now_et": "6:06 AM ET Jul 29, 2026",
+    "generated_et": "6:06 AM ET Jul 29, 2026",
+    "stale_after_et": "6:54 AM ET Jul 29, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 6:49 AM ET Jul 29, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 6:54 AM ET Jul 29, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (5:59 AM ET Jul 29, 2026) refreshed the artifact to 6:01 AM ET Jul 29, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (6:01 AM ET Jul 29, 2026) refreshed the artifact to 6:06 AM ET Jul 29, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
