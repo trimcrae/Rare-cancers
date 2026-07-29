@@ -2,17 +2,17 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 4:04 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 4:22 PM ET Wed Jul 29, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T3 binary            13.9%  —                —                          NO HOST   no live host — checkpoint at warmup/384 is intact in S3; the next gate tick re-places it
-T3 ternary           32.1%  —                —                          NO HOST   no live host — checkpoint at production/120 is intact in S3; the next gate tick re-places it
-valB r1 ternary      51.1%  —                —                          NO HOST   no live host — checkpoint at production/240 is intact in S3; the next gate tick re-places it
-valB r2 ternary      53.3%  —                —                          NO HOST   no live host — checkpoint at production/320 is intact in S3; the next gate tick re-places it
-T2 binary            48.0%  —                —                          NO HOST   no live host — checkpoint at production/560 is intact in S3; the next gate tick re-places it
-T2 ternary            6.9%  —                —                          NO HOST   no live host — checkpoint at warmup/192 is intact in S3; the next gate tick re-places it
+valB r1 ternary      53.3%  12:49 AM Jul 30  $0.00533/ns · 1.56× basis  RUNNING   
+valB r2 ternary      54.4%  11:34 PM         $0.00512/ns · 1.50× basis  RUNNING   
+T2 binary            50.9%  —                $0.00512/ns · 1.50× basis  RUNNING   
+T2 ternary            9.2%  8:09 AM Jul 30   $0.00505/ns · 1.48× basis  RUNNING   
+T3 binary            13.9%  6:39 AM Jul 30   $0.00356/ns · 1.04× basis  RUNNING   
+T3 ternary           33.5%  3:34 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
 ---- END TVAST-BOARD ----
 ```
