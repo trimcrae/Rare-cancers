@@ -35,6 +35,15 @@ Nothing auto-fires; a push with no marker runs the $0 `test`.
   measured on a 4090).
 - **Every leg persists a strided solute trajectory** (`RBFE_POSITIONS_WRITE_PS`, default 50 ps = a
   20-iteration stride, velocities off). This is a requirement, not a nicety — see §0b.
+- **The relaxed `ligands.sdf` is a COORDINATE file and its charges are not this protocol's charges.** The
+  pre-equil cache's SDF arrives stamped with the relaxation force field's partial charges, at *two* RDKit
+  levels; stripping one and shipping the other killed every ternary leg on this lane for a day. Mechanism,
+  dates and the three failure modes have their one home in
+  [`nr4a3_rbfe.strip_foreign_partial_charges`](./nr4a3_rbfe.py); the measured per-attempt evidence is
+  committed as `valb-triangle-attempt-forensic.json` (regenerate with `task=triangle-diag`). Operational
+  consequence: **`task=triangle-diag` reads every ARCHIVED attempt, not just the newest** — a unit that has
+  been relaunched dozens of times has its whole history there, and a leg that SUCCEEDED has its log only
+  there (a later re-dispatch exits on the idempotency check and overwrites `run.log` with a two-line stub).
 
 ### 0b · Why the trajectory setting exists (do not turn it off to save space)
 `nr4a3_rbfe._protocol` sets `positions_write_frequency = None` to avoid a ~1 GB analysis `.nc`. That is the
