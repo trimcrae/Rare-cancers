@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 6:00 AM ET Jul 29, 2026
+[s1f-terminus] read at 6:05 AM ET Jul 29, 2026
 
-[s1f-terminus] 7454 object(s) under the results prefix
+[s1f-terminus] 7498 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1017 B  12:48 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral/ddg.json
@@ -36,9 +36,9 @@
   e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid   ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral         ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@1160, solvent/warmup@400
+  e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@1360, solvent/warmup@400
   e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral     ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/warmup@400
+  e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@200, solvent/warmup@400
   e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neu ddg=no  NO-TERMINUS        complex/production@1560, complex/warmup@400
 
 === TERMINUS ===
@@ -353,13 +353,13 @@
        }
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 166 offers visible (baseline ~23), 166 qualifying, 98 priceable, 5 needed
-  floors           : min $0.0933/hr, median $0.3133/hr
-  best fleet $/ns  : $0.00484/ns  ·  1.42× basis (basis $0.003412/ns)
-  projected        : $11.09 against a $19.71 ceiling
+  board depth      : 176 offers visible (baseline ~23), 176 qualifying, 103 priceable, 5 needed
+  floors           : min $0.1067/hr, median $0.2933/hr
+  best fleet $/ns  : $0.005004/ns  ·  1.47× basis (basis $0.003412/ns)
+  projected        : $11.47 against a $19.71 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
-    RTX 5090   m46427    $0.1333/hr  $0.00350/ns · 1.03× basis
     RTX 4090   m18857    $0.1200/hr  $0.00443/ns · 1.30× basis
+    RTX 4090   m132368   $0.1340/hr  $0.00487/ns · 1.43× basis
+    RTX 4090   m12227    $0.1360/hr  $0.00493/ns · 1.45× basis
     RTX 5090   m36341    $0.2000/hr  $0.00539/ns · 1.58× basis
     RTX 5090   m19492    $0.2000/hr  $0.00539/ns · 1.58× basis
-    RTX 5090   m29711    $0.2040/hr  $0.00549/ns · 1.61× basis
