@@ -1,18 +1,18 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-29T19:05:19Z",
-  "n_units": 3,
+  "utc": "2026-07-29T19:13:07Z",
+  "n_units": 1,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 5.12,
-  "ceiling_usd": 11.55,
-  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 3 legs",
+  "plan_usd": 1.71,
+  "ceiling_usd": 3.85,
+  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 1 legs",
   "breakeven_usd_per_ns": 0.009234,
   "depth": {
-    "offers_returned": 169,
+    "offers_returned": 172,
     "qualifying": 165,
-    "priceable": 105,
-    "needed": 3,
-    "used_for_mean": 3
+    "priceable": 104,
+    "needed": 1,
+    "used_for_mean": 1
   },
   "offers": [
     {
@@ -20,51 +20,41 @@
       "machine_id": 28164,
       "min_bid_usd_h": 0.062,
       "usd_per_ns": 0.004275
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 18857,
-      "min_bid_usd_h": 0.121,
-      "usd_per_ns": 0.004294
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 29717,
-      "min_bid_usd_h": 0.19999999999999998,
-      "usd_per_ns": 0.005255
     }
   ],
-  "mean_usd_per_ns": 0.004608,
-  "ratio_vs_basis": 1.351,
-  "projected_usd": 5.76,
+  "mean_usd_per_ns": 0.004275,
+  "ratio_vs_basis": 1.253,
+  "projected_usd": 1.78,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $5.76 within this rung's ceiling $11.55 AND 1.35x basis is within the 1.92x drift line",
+  "reason": "projected $1.78 within this rung's ceiling $3.85 AND 1.25x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
     "11892",
     "137041",
     "141336",
     "141396",
+    "141591",
     "19499",
     "28905",
     "29711",
     "56748",
     "56760",
+    "62866",
     "77866"
   ],
   "mode": "triangle",
   "nothing_to_launch": false,
   "units_done": [],
   "units_live": [
-    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "units_needing_host": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "units_replacing_a_dead_host": []
 }
