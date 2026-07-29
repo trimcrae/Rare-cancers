@@ -18,7 +18,10 @@ name: Replicate-standard harvest (free CI, no GPU)
 on:
   workflow_dispatch: {}
   push:
-    branches: [claude/max-effort-2dq11l]
+    # main FIRST: the fan-out lane was moved off claude/max-effort-2dq11l onto main (CLAUDE.md §7,
+    # branch drift). The old branch is kept as a trigger so anything still pushing there is not
+    # silently dropped, but main is where the lane writes now.
+    branches: [main, claude/max-effort-2dq11l]
     paths:
       - .github/workflows/replicate-standard-harvest.yml
       - research/modalities/replicate_standard_harvest.py

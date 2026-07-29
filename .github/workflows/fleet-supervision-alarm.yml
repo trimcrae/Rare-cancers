@@ -47,7 +47,7 @@ on:
     inputs:
       fleet_branch:
         description: "branch carrying the fleet's progress artifact (same meaning as in step1-fanout-autoscale.yml)"
-        default: "claude/max-effort-2dq11l"
+        default: "main"
       stale_min:
         description: "artifact age (min) that counts as unsupervised when nothing else explains it"
         default: "240"
@@ -73,7 +73,7 @@ jobs:
         with:
           # The fleet's artifact lives on the FLEET branch, never on the ref this runs from. Reading main and
           # concluding the fleet is dead is the exact mistake that was made at 9:37 AM ET on 2026-07-27.
-          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          ref: ${{ github.event.inputs.fleet_branch || 'main' }}
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
 

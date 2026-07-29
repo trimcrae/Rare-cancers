@@ -441,6 +441,23 @@ When in doubt: do it and show it.
 
 ## 7 · Repo basics
 
+- **★★ KEEP EVERYTHING SYNCED TO `main`, AND KEEP `main` CURRENT — BRANCH DRIFT IS A DATA-LOSS BUG, NOT AN
+  INCONVENIENCE (trimcrae, 2026-07-29, after it cost a day).** Long-lived feature branches that a *workflow*
+  runs from are the dangerous kind, because they hold **state as well as code**. Measured that morning:
+  `step1-fanout-autoscale.yml` checks out `fleet_branch` (default `claude/max-effort-2dq11l`) and writes its
+  map there, so `main` said the fan-out was **1 of 19 edges, $22.62** while the branch — where the lane really
+  runs — said **14 of 19, $68.98, 197 rentals**. Three separate harms, all real:
+  1. **The paper was wrong.** §2.9 was written off `main`'s artifact and understated the work by 13 computed
+     ΔΔG edges. An artifact on the wrong branch is a stale fact that reads as a current one.
+  2. **Fixes landed where nothing runs.** The exclusion-set repair (union 58 → 27), `leg_failure_breaker` and
+     `teardown_decision` all went to `main`, which that lane does not check out — so they were inert.
+  3. **Re-pointing the lane became expensive.** Flipping `fleet_branch` to `main` would have shown 13 finished
+     edges as unrun and **re-bought them** (~$46) on a lane that rents unattended.
+  So: **merge to `main` early and often; rebase working branches onto `main` before every push; never let a
+  branch a workflow runs from be the only home of an artifact.** Before writing ANY claim from a committed
+  artifact, check which ref the producing workflow actually writes to — `main` is not automatically it. If a
+  lane must run off a branch, that branch's artifacts belong on `main` too, and reconciling them is
+  **port-then-switch, never switch-then-discover**.
 - **Golden rule: never fabricate medical facts, stats, citations or patient data.** Everything clinical must be
   cited. Non-real registry data must be flagged `SAMPLE_SYNTHETIC` and bannered — AGENTS.md → "medical integrity".
 - **Citing & combining studies:** registry data uses a structured citation map (`registry.citations` +

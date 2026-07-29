@@ -54,7 +54,7 @@ on:
     inputs:
       fleet_branch:
         description: "branch whose code the rented instances run (NOT the workflow's own ref)"
-        default: "claude/max-effort-2dq11l"
+        default: "main"
       release_fanout:
         description: "1 = also attempt the terminus-gated fan-out; 0 = progress check only"
         default: "1"
@@ -94,7 +94,7 @@ jobs:
       VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
-      GIT_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+      GIT_BRANCH: ${{ github.event.inputs.fleet_branch || 'main' }}
       # ⚠ `FANOUT_WIDTH` IS DELIBERATELY NOT SET HERE ANY MORE (2026-07-27, the ramp).
       # It was `"19"` in this file, `"19"` again in fusion-cpu-extras.yml and `8` as the code default,
       # while the viable set is 18 (cw_bio_nmethyl_amide is permanently blocked). One knob, three typed
@@ -107,7 +107,7 @@ jobs:
         with:
           # Check out the FLEET's branch, not the schedule's. A scheduled run is on main; the lane's code,
           # its watch list and its committed progress trail all live on the feature branch.
-          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          ref: ${{ github.event.inputs.fleet_branch || 'main' }}
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       # pyyaml is NOT optional here. The gate below parses THIS workflow to prove `reap` is wired into
@@ -363,7 +363,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          ref: ${{ github.event.inputs.fleet_branch || 'main' }}
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       # No `pip install` — see the sibling workflow. A dependency is a way for this to fail for a reason
@@ -481,7 +481,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           set -uo pipefail
-          BR="${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}"
+          BR="${{ github.event.inputs.fleet_branch || 'main' }}"
           if gh workflow run lane-staleness-watch.yml --ref main -f fleet_branch="$BR"; then
             echo "::notice title=CROSS-LANE WATCH DISPATCHED::verdict for all five lanes will appear in lane-staleness-watch.yml"
           else

@@ -29,7 +29,7 @@ on:
         default: plan
       fleet_branch:
         description: "branch whose code the rented instances run (NOT the workflow's own ref)"
-        default: "claude/max-effort-2dq11l"
+        default: "main"
       cards:
         description: "comma-separated card names to bench (blank = every unbenched model on the board)"
         default: ""
@@ -76,7 +76,7 @@ jobs:
       VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
-      GIT_BRANCH: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+      GIT_BRANCH: ${{ github.event.inputs.fleet_branch || 'main' }}
       BENCH_CARDS: ${{ github.event.inputs.cards }}
       BENCH_MAX_USD_TOTAL: ${{ github.event.inputs.max_usd_total || '5.00' }}
       BENCH_MAX_USD_PER_CARD: ${{ github.event.inputs.max_usd_per_card || '0.60' }}
@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          ref: ${{ github.event.inputs.fleet_branch || 'main' }}
           # FULL HISTORY, NOT THE DEFAULT DEPTH 1. throughput_harvest reads the COMMITTED progress trail
           # through `git log`; on a shallow clone that returns nothing and every census number comes back
           # zero — which reads exactly like 'no leg has ever run on an unbenched card', i.e. it silently
