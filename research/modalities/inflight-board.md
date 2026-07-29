@@ -2,17 +2,17 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 5:38 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 5:49 PM ET Wed Jul 29, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-valB r2 ternary      63.3%  10:33 PM         $0.00512/ns · 1.50× basis  RUNNING   
-T3 ternary           40.8%  4:09 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
-T2 binary            59.5%  10:12 PM         $0.00577/ns · 1.69× basis  RUNNING   
-valB r1 ternary      56.7%  4:46 AM Jul 30   $0.00512/ns · 1.50× basis  RUNNING   
-T3 binary            23.1%  11:30 PM         $0.00531/ns · 1.56× basis  RUNNING   
-T2 ternary            9.2%  5:08 PM Jul 30   $0.00356/ns · 1.04× basis  RUNNING   
+valB r2 ternary      64.4%  10:24 PM         $0.00512/ns · 1.50× basis  RUNNING   
+T3 ternary           42.2%  3:42 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
+T2 binary            61.0%  11:20 PM         $0.00577/ns · 1.69× basis  RUNNING   
+valB r1 ternary      58.9%  —                $0.00512/ns · 1.50× basis  RUNNING   no openmmtools rate line in the log window — ETA unknowable, progress is real
+T3 binary            27.7%  4:05 AM Jul 30   $0.00531/ns · 1.56× basis  RUNNING   
+T2 ternary            9.2%  —                —                          NO HOST   no live host — checkpoint at warmup/256 is intact in S3; the next gate tick re-places it
 ---- END TVAST-BOARD ----
 ```
