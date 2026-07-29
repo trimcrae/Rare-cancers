@@ -1358,6 +1358,12 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      small, charge-neutral and mappable may not exist in the public literature** — large cooperativity
      differences are *produced by* large chemical changes.
   5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE, RE-SCOPED BY ITS OWN $0 PRE-GATE.**
+     **`[~]` RUNNING — AND THE FIX IS PROVEN ON THIS LANE, not merely deployed to it (2026-07-29, 12:12 PM
+     ET).** Both binary legs have written committed checkpoints (`warmup/64` → `192`), and these are the exact
+     units that died 15 and 7 times at `proto.create` on the partial-charge defect. Passing setup and
+     committing is the first direct evidence the fix holds for the triangle's own endpoints — the earlier
+     evidence was from the 4 fs replicate arms, a different morph. Progress since has been by COMMITTED
+     CENSUS, never a watchdog verdict.
      **`[~]` RUNNING 2026-07-29, 11:24 AM ET — all four legs rented in parallel on Vast.** The gate cleared at
      **1.36× basis** (`$0.004637/ns` mean, against the `$0.006539/ns` buy line) on a deep board — 163 offers,
      159 qualifying, 100 priceable — projecting **$7.73 against this rung's $15.40 ceiling**. It had been
