@@ -1683,8 +1683,12 @@ jobs:
           set -eo pipefail
           python -m pip install -q boto3
           mkdir -p /tmp/tridiag
+          # `edge_reps` too: the valB_mini binary arms are the only units of this shape that COMPLETED, so
+          # their run.log is the control every failure explanation has to be consistent with.
+          python research/modalities/valb_triangle_charge_forensic.py --mode triangle,edge_reps \
+            --logs 2>&1 | tee /tmp/tri_logs.txt
           python research/modalities/valb_triangle_charge_forensic.py --mode triangle \
-            --logs --fetch-caches /tmp/tridiag 2>&1 | tee /tmp/tri_logs.txt
+            --fetch-caches /tmp/tridiag 2>&1 | tee -a /tmp/tri_logs.txt
       - name: Build the endpoints from EACH tree, in the image that produced the failure
         run: |
           set -eo pipefail

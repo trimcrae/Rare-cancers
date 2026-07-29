@@ -346,11 +346,28 @@ def build_from(input_dir, leg_id):
         return {"ok": False, "error": "%s: %s" % (type(e).__name__, e)}
     # A build that SUCCEEDS is not automatically clean: if the inherited array happened to be the right
     # LENGTH, gufe accepts it and the leg runs on charges the protocol never assigned.
+    #
+    # ⚠ AND `HasProp(CHARGE_PROP)` IS NOT THE TEST (2026-07-29). That is the molecule-level array, and this
+    # audit reported `carries_partial_charges: 0` for legs that were dying — because the charges that killed
+    # them were the PER-ATOM ones, which is the level OpenFF reads. So this now (a) censuses both levels and
+    # (b) makes the call that actually raised: `to_openff()`, reached in production from `proto.create` ->
+    # `_validate_smcs`. An audit that stops short of the failing call cannot clear a fix.
+    import nr4a3_rbfe as rbfe
     got = {}
     for nm, lig in (("A", ligA), ("B", ligB)):
         rd = lig.to_rdkit()
-        got[nm] = {"n_atoms": rd.GetNumAtoms(),
-                   "carries_partial_charges": rd.HasProp(CHARGE_PROP)}
+        n_arr, n_atom, n_tot = rbfe.foreign_charge_census(rd)
+        rec = {"n_atoms": n_tot, "mol_level_partial_charges": n_arr,
+               "atoms_carrying_per_atom_charge": n_atom}
+        try:
+            off = lig.to_openff()
+            pc = getattr(off, "partial_charges", None)
+            rec["to_openff"] = "OK"
+            # None here is the CORRECT outcome: the protocol assigns its own charges downstream.
+            rec["openff_partial_charges_is_none"] = pc is None
+        except Exception as e:  # noqa: BLE001
+            rec["to_openff"] = "%s: %s" % (type(e).__name__, e)
+        got[nm] = rec
     return {"ok": True, **got}
 
 
