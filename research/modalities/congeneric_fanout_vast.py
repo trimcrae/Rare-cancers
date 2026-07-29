@@ -3659,6 +3659,15 @@ def mode_block():
         if not why:
             raise SystemExit("[s1f] BLOCK_REASON is required — a block with no stated reason is an edge that "
                              "silently vanishes from the map, which is the failure mode this guards against")
+        # ★ A REASON THAT IS OBVIOUSLY AN ATTEMPT TO UNBLOCK MUST NOT BLOCK (2026-07-29). The reason arrives
+        # from the same workflow input in both directions, so "unblock" typed into it is unambiguous intent
+        # — and taking it literally would re-block the unit AND overwrite its evidenced reason with the word
+        # "unblock", losing the record. Refusing costs one re-dispatch; accepting costs the reason.
+        if why.strip().lower() in ("unblock", "unblocked", "un-block", "clear", "lift"):
+            raise SystemExit(f"[s1f] BLOCK_REASON={why!r} reads as a request to UNBLOCK, not as a reason to "
+                             f"block. Refusing rather than overwriting {uid}'s recorded reason. To lift a "
+                             f"block set FANOUT_UNBLOCK=1 (the workflow does this when the reason input is "
+                             f"exactly 'unblock').")
         doc["units"][uid] = {"why": why, "evidence": os.environ.get("BLOCK_EVIDENCE") or None,
                              "utc": _utcnow()}
         print(f"[s1f] blocked {uid}: {why}")

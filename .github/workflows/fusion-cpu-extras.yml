@@ -1342,6 +1342,13 @@ jobs:
       BLOCK: ${{ github.event.inputs.fanout_mode == 'block' && '1' || '0' }}
       BLOCK_UNIT: ${{ github.event.inputs.vast_selector }}
       BLOCK_REASON: ${{ github.event.inputs.ternary_extra_args }}
+      # ★ THE UNBLOCK HALF, WHICH WAS DOCUMENTED AND NEVER WIRED (2026-07-29). `mode_block`'s docstring says
+      # "UNBLOCKING IS DELIBERATE AND MANUAL (FANOUT_UNBLOCK=1)", and nothing in this workflow ever set that
+      # variable — so a block could be applied from CI and never lifted from CI. Worse than merely missing:
+      # dispatching `block` with the reason "unblock" (the obvious guess) would have re-BLOCKED the unit and
+      # overwritten its carefully-evidenced reason with the word "unblock". `mode_block` now also refuses
+      # that string outright, so the two guards cover each other.
+      FANOUT_UNBLOCK: ${{ github.event.inputs.ternary_extra_args == 'unblock' && '1' || '0' }}
       BLOCK_EVIDENCE: ${{ github.event.inputs.cofold_output_prefix }}
       REAP_REASON: ${{ github.event.inputs.ternary_extra_args }}
       STOP: ${{ github.event.inputs.fanout_mode == 'stop' && '1' || '0' }}

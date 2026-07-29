@@ -252,3 +252,22 @@ def test_unblocking_also_re_arms_the_breaker():
     s = _src("congeneric_fanout_vast.py")
     body = s.split('if os.environ.get("FANOUT_UNBLOCK") == "1":', 1)[1].split('doc["_what"]', 1)[0]
     assert "_BREAKER_BASELINE_KEY_SUFFIX" in body and "_attempt_count(" in body
+
+
+# ---- a block that CI can apply but not lift is a one-way door -----------------------------------
+def test_the_workflow_wires_the_unblock_half():
+    """`mode_block` has always documented FANOUT_UNBLOCK=1 as the way to lift a block. Nothing set it, so
+    blocks could be applied from CI and never removed from CI."""
+    wf = open(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))))), ".github/workflows/fusion-cpu-extras.yml")).read()
+    assert "FANOUT_UNBLOCK:" in wf
+    assert "'unblock' && '1' || '0'" in wf
+
+
+def test_a_reason_that_reads_as_an_unblock_request_refuses_rather_than_blocking():
+    """The block reason and the unblock signal share one workflow input, so 'unblock' typed into it is
+    unambiguous intent. Taking it literally re-blocks the unit AND destroys its evidenced reason."""
+    s = _src("congeneric_fanout_vast.py")
+    body = s.split("def mode_block(", 1)[1]
+    assert 'why.strip().lower() in ("unblock"' in body
+    assert "Refusing rather than overwriting" in body
