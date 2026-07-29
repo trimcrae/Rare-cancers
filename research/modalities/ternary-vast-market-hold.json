@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB_mini replicates",
-  "utc": "2026-07-29T13:20:46Z",
+  "utc": "2026-07-29T13:54:13Z",
   "n_units": 1,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 1.83,
@@ -8,29 +8,40 @@
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
   "breakeven_usd_per_ns": 0.009682,
   "depth": {
-    "offers_returned": 169,
-    "qualifying": 169,
-    "priceable": 104,
+    "offers_returned": 152,
+    "qualifying": 151,
+    "priceable": 98,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers": [
     {
-      "gpu": "RTX 3090",
-      "machine_id": 28164,
-      "min_bid_usd_h": 0.050666666666666665,
-      "usd_per_ns": 0.003661
+      "gpu": "RTX 4090",
+      "machine_id": 12227,
+      "min_bid_usd_h": 0.1333333,
+      "usd_per_ns": 0.004679
     }
   ],
-  "mean_usd_per_ns": 0.003661,
-  "ratio_vs_basis": 1.073,
-  "projected_usd": 1.96,
+  "mean_usd_per_ns": 0.004679,
+  "ratio_vs_basis": 1.371,
+  "projected_usd": 2.51,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $1.96 within this rung's ceiling $5.19 AND 1.07x basis is within the 1.92x drift line",
+  "reason": "projected $2.51 within this rung's ceiling $5.19 AND 1.37x basis is within the 1.92x drift line",
+  "machines_we_already_occupy": [
+    "125565",
+    "137041",
+    "141336",
+    "141396",
+    "28164",
+    "56748",
+    "56760",
+    "62866",
+    "77866"
+  ],
   "mode": "edge_reps",
   "nothing_to_launch": false,
   "units_done": [
