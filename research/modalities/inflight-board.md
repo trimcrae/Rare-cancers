@@ -2,17 +2,17 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 4:47 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 4:59 PM ET Wed Jul 29, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-valB r2 ternary      57.8%  10:25 PM         $0.00512/ns · 1.50× basis  RUNNING   
-T3 binary            16.2%  6:37 AM Jul 30   $0.00356/ns · 1.04× basis  STALLED   WATCHING — quiet but alive: run.log 0 min old, GPU idle, no committed advance — consistent with a CPU-bound setup phase
-T3 ternary           36.4%  3:17 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
-valB r1 ternary      53.3%  11:07 PM         $0.00512/ns · 1.50× basis  STARTING  UNKNOWN — instance is not `running`; the stopped/frozen clauses own this box, not the idle guard
-T2 binary            52.3%  10:17 PM         $0.00577/ns · 1.69× basis  STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way
-T2 ternary            9.2%  —                —                          NO HOST   no live host — checkpoint at warmup/256 is intact in S3; the next gate tick re-places it
+valB r2 ternary      58.9%  10:26 PM         $0.00512/ns · 1.50× basis  RUNNING   
+T3 ternary           37.9%  4:16 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
+T2 binary            53.8%  10:08 PM         $0.00577/ns · 1.69× basis  RUNNING   
+valB r1 ternary      53.3%  —                $0.00512/ns · 1.50× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
+T2 ternary            9.2%  9:30 AM Jul 30   $0.00533/ns · 1.56× basis  STARTING  fresh host — the marker and log below belong to the previous attempt
+T3 binary                —  —                $0.00531/ns · 1.56× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ---- END TVAST-BOARD ----
 ```
