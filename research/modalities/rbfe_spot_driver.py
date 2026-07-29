@@ -321,6 +321,29 @@ def energy_probe_verdict(rows, total_kj_mol, grad=None):
                 f"{g.get('top')}. A minimiser cannot step away from a point whose derivative is not a "
                 f"number, so this reproduces on every host. Do not rent another one: fix the geometry that "
                 f"produces it (`_dedegenerate_positions`) or block the unit.")
+    # ★★ AND THE CASE THAT IS FINITE IN DOUBLE AND STILL KILLS EVERY GPU (2026-07-28, the measurement that
+    # closed `cw_bio_primary_amide`). Its worst gradient was 4.996e17 kJ/mol/nm — a NUMBER, so `n_nonfinite`
+    # was 0 and the CPU minimiser did descend it to completion — while the largest gradient on any atom NOT
+    # in a coincident pair was 3.44e5. Twelve orders of magnitude, and the two atoms carrying it were the
+    # d=0.000 A pair. Every GPU attempt died there; 25 of them, on 7 distinct cards.
+    #
+    # ⚠ THE TEST IS THE DEGENERACY, NOT A MAGNITUDE. There is no honest cutoff on |F|: a freshly solvated
+    # box legitimately carries 1e5-1e6 kJ/mol/nm on its worst atom and a minimiser is exactly the tool for
+    # that. What makes this different is not that the number is big but that it has NO PHYSICAL SCALE — it
+    # is set by how nearly equal two coordinates happen to be, so the same system re-solvated gives a
+    # different one. A threshold here would be a constant nobody could derive; the boolean "are two atoms at
+    # the same point, and is that where the force is?" is measurable and is the thing the remedy addresses.
+    if g.get("n_coincident_pairs") and g.get("top_atoms_are_coincident"):
+        _r = g.get("ratio_over_rest")
+        return (f"⛔ DETERMINISTIC: every force term's ENERGY is finite (max |E| = {hi:.6g} kJ/mol) and the "
+                f"gradient is finite — but {g['n_coincident_pairs']} pair(s) of atoms sit at the SAME "
+                f"coordinates ({g.get('coincident_atoms')}), and they carry the largest gradient in the "
+                f"system: {g.get('max_kj_mol_nm'):.6g} kJ/mol/nm against "
+                f"{g.get('max_excluding_coincident_kj_mol_nm'):.6g} on every non-degenerate atom"
+                + (f" — a factor of {_r:.3g}" if _r else "")
+                + f". That force has no physical scale; it is set by how nearly equal two coordinates are. "
+                  f"A double-precision minimiser can descend it and a GPU's does not. Do not rent another "
+                  f"host: de-degenerate the starting coordinates (`_dedegenerate_positions`).")
     if g.get("max_kj_mol_nm") is not None:
         return (f"✅ every force term is FINITE at the input coordinates (max |E| = {hi:.6g} kJ/mol, "
                 f"total = {total_kj_mol:.6g} kJ/mol) AND the gradient is finite everywhere "
@@ -338,7 +361,7 @@ def energy_probe_verdict(rows, total_kj_mol, grad=None):
 LAST_GRADIENT_PROBE = {}
 
 
-def _gradient_probe(ctx, log, tag, top_n=6):
+def _gradient_probe(ctx, log, tag, top_n=6, positions=None):
     """Per-atom |F| at the probed coordinates — the reading `_force_energy_probe` was missing.
 
     ★★ WHY IT IS A SEPARATE READING AND NOT A DETAIL OF THE ENERGY ONE. `LocalEnergyMinimizer` descends
@@ -369,14 +392,44 @@ def _gradient_probe(ctx, log, tag, top_n=6):
                "max_kj_mol_nm": (float(mag[finite].max()) if finite.any() else None),
                "argmax": (int(np.argmax(np.where(finite, mag, -1.0))) if finite.any() else None),
                "top": top}
+        # ★★ AND WHETHER THAT FORCE BELONGS TO A COORDINATE DEGENERACY (2026-07-28). A large gradient on
+        # its own is not diagnostic — a freshly solvated box legitimately carries 1e5-1e6 kJ/mol/nm on its
+        # worst atom, which is what a minimiser is FOR. What is diagnostic is a gradient that belongs to a
+        # pair of atoms at the same coordinates, because that force has no physical scale at all: it is set
+        # by how close to exactly-equal the two coordinates happen to be. Separating the two is what lets
+        # the verdict below name a REMEDY instead of a threshold.
+        if positions is not None:
+            pairs = coincident_pairs(arr_positions(positions))
+            deg = {a for p in pairs for a in p}
+            rest = [float(mag[i]) for i in range(len(mag))
+                    if i not in deg and math.isfinite(float(mag[i]))]
+            out["n_coincident_pairs"] = len(pairs)
+            out["coincident_atoms"] = sorted(deg)[:16]
+            out["max_excluding_coincident_kj_mol_nm"] = max(rest) if rest else None
+            out["top_atoms_are_coincident"] = bool(deg) and all(
+                t["atom"] in deg for t in top[:len(deg)])
+            if deg and rest and max(rest) > 0:
+                out["ratio_over_rest"] = float(mag[sorted(deg)[0]]) / max(rest)
         log(f"[grad-diag:{tag}] atoms={arr.shape[0]} non-finite gradient on {n_bad} atom(s); "
-            f"max finite |F| = {out['max_kj_mol_nm']!r} kJ/mol/nm on atom {out['argmax']}")
+            f"max finite |F| = {out['max_kj_mol_nm']!r} kJ/mol/nm on atom {out['argmax']}"
+            + (f"; {out.get('n_coincident_pairs')} coincident coordinate pair(s), max |F| over every "
+               f"NON-degenerate atom = {out.get('max_excluding_coincident_kj_mol_nm')!r}"
+               if positions is not None else ""))
         for t in top:
             log(f"[grad-diag:{tag}]   atom {t['atom']:>7} |F| = {t['f_kj_mol_nm']!r} kJ/mol/nm")
         return out
     except Exception as e:  # noqa: BLE001 — pragma: no cover
         log(f"[grad-diag:{tag}] failed: {type(e).__name__}: {e}")
         return {}
+
+
+def arr_positions(positions):
+    """`positions` as a plain list of [x, y, z] in nm, whether it arrived as a united Quantity, a numpy
+    array or a list of Vec3. Trivial, and it exists so `coincident_pairs` never has to know."""
+    if hasattr(positions, "value_in_unit"):
+        from openmm import unit as ommunit
+        positions = positions.value_in_unit(ommunit.nanometer)
+    return [[float(c) for c in p] for p in positions]
 
 
 def coincident_pairs(positions, tol_nm=1e-6):
@@ -540,7 +593,7 @@ def _force_energy_probe(system, positions, log, tag, platform_name=None):
         # The gradient, on the SAME context and the same coordinates — the reading that decides whether a
         # minimiser can take a step at all. Attached to the verdict rather than logged beside it, so a
         # finite-energy/non-finite-gradient system cannot be read as RETRY.
-        grad = _gradient_probe(ctx, log, tag)
+        grad = _gradient_probe(ctx, log, tag, positions=positions)
         LAST_GRADIENT_PROBE.clear()
         LAST_GRADIENT_PROBE.update(grad or {})
         log(f"[force-diag:{tag}] {energy_probe_verdict(rows, tot, grad)}")

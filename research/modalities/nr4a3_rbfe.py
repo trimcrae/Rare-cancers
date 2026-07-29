@@ -1801,8 +1801,21 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                     _eprobe_rows = _drv._force_energy_probe(system, positions, _plog, "hmrdiag")
                     _drv._clash_report(positions, system, _plog, "hmrdiag")
                     _etot = sum(r["energy_kj_mol"] for r in _eprobe_rows) if _eprobe_rows else 0.0
-                    _eprobe = {"rows": _eprobe_rows,
-                               "verdict": _drv.energy_probe_verdict(_eprobe_rows, _etot)}
+                    _grad_before = dict(_drv.LAST_GRADIENT_PROBE)
+                    _eprobe = {"rows": _eprobe_rows, "gradient_probe": _grad_before,
+                               "verdict": _drv.energy_probe_verdict(_eprobe_rows, _etot, _grad_before)}
+                    # ★★ THE CONTROLLED AFTER, IN THE SAME $0 RUN (2026-07-28). A diagnosis that names a
+                    # cause and a remedy is still a hypothesis until the remedy is shown to remove the
+                    # cause — and here that costs one extra force evaluation, on CPU, with no host. The
+                    # de-degenerated coordinates are re-probed and BOTH readings are recorded, so the claim
+                    # "the coincident pair carries the 1e17 gradient" is a before/after and not an argument.
+                    # ⚠ This does NOT prove the GPU leg now completes. It proves the singular force is gone;
+                    # the leg completing is a separate, later observation and must not be reported early.
+                    if _grad_before.get("n_coincident_pairs"):
+                        _fixed_pos, _ded = _drv._dedegenerate_positions(positions, _plog, "hmrdiag-after")
+                        _drv._force_energy_probe(system, _fixed_pos, _plog, "hmrdiag-after")
+                        _eprobe["dedegenerate"] = _ded
+                        _eprobe["gradient_probe_after"] = dict(_drv.LAST_GRADIENT_PROBE)
                 except Exception as _pe:  # noqa: BLE001 — an evidence hook must never break the build
                     _eprobe = {"error": "%s: %s" % (type(_pe).__name__, _pe)}
                 print("  [hmr-diag] ENERGY PROBE: %s"

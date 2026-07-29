@@ -37,6 +37,22 @@ touching a GPU. That pair is the pair handed to the `setup()` that NaN'd. So:
   * every term finite and sane -> the blow-up happened inside the minimisation trajectory, which is
     integrator/platform state rather than the staged system. RETRY.
 
+★★ AND THAT SECOND CLAUSE WAS WRONG, MEASURED 2026-07-28. It fired for this exact unit on 2026-07-27,
+the lane believed it, and re-placed the unit **25 times across 7 distinct card/driver combinations**
+(`step1-nan-forensics.json`); every attempt died at the same `LocalEnergyMinimizer.minimize` call. The
+defect in the reasoning is one word: `LocalEnergyMinimizer` does not descend ENERGIES, it descends their
+DERIVATIVE, and the probe never looked at one. This unit's worst gradient is **4.996e17 kJ/mol/nm on
+atoms 4052/4054 — the pair the clash report had already reported at d = 0.000 A and classified
+`EXCLUDED-everywhere(benign)` — against 3.44e5 kJ/mol/nm on the largest NON-degenerate atom in the same
+112 955-atom system.** Finite (so `n_nonfinite` is 0 and the double-precision CPU minimiser does complete,
+in 1308 s), twelve orders of magnitude out of band, and reproducible on every GPU this lane can rent.
+
+So the third outcome, `FIX_GEOMETRY`, exists: the system is SOUND and its STARTING POINT is degenerate.
+Collapsed into RETRY it says "rent another host"; collapsed into BLOCK it retires a computable edge.
+`rbfe_spot_driver._dedegenerate_positions` is the remedy, and the probe now records the gradient BEFORE
+and AFTER it so the claim is a controlled comparison rather than an argument.
+SUPERSEDED, retained: the RETRY verdict of 2026-07-27 for `cw_bio_primary_amide`.
+
 The wording of the verdict is `rbfe_spot_driver.energy_probe_verdict` — the same function the GPU
 leg's own failure path calls — so the CPU reproduction and the rented leg cannot produce two
 different sentences for the same evidence (CLAUDE.md rule 1: one fact, one home).
@@ -131,11 +147,12 @@ def probe_unit(unit, in_dir):
     # missing half was that `LocalEnergyMinimizer` follows the DERIVATIVE, which an exactly-coincident pair
     # leaves undefined while the energy stays finite. Both readings are recorded so neither can be quoted
     # alone. Taken on the ORIGINAL positions — `run_spot_safe`'s de-degeneration happens later, in stage 2.
-    try:
-        import rbfe_spot_driver as _drv
-        row["gradient_probe"] = dict(_drv.LAST_GRADIENT_PROBE) or None
-    except Exception as e:  # noqa: BLE001
-        row["gradient_probe"] = {"error": f"{type(e).__name__}: {e}"}
+    ep = info.get("energy_probe") or {}
+    row["gradient_probe"] = ep.get("gradient_probe") or None
+    # The controlled AFTER, from the same build: the de-degenerated coordinates re-probed. Present only
+    # when there was a degeneracy to remove, which is itself the reading.
+    row["gradient_probe_after"] = ep.get("gradient_probe_after")
+    row["dedegenerate"] = ep.get("dedegenerate")
 
     # ---- STAGE 2: RUN THE REAL MINIMISER --------------------------------------------------------
     # ★★ WHY STAGE 1 IS NOT ENOUGH, STATED PLAINLY. The energy probe evaluates ONE point: the
@@ -232,6 +249,14 @@ def verdict(row):
             f"away from a point whose derivative is not a number, so this reproduces on every host. Not a "
             f"host problem and not an unfixable edge: de-degenerate the starting coordinates "
             f"(`rbfe_spot_driver._dedegenerate_positions`) and re-place")
+    if gp.get("n_coincident_pairs") and gp.get("top_atoms_are_coincident"):
+        return "FIX_GEOMETRY", (
+            f"{gp['n_coincident_pairs']} pair(s) of atoms sit at the SAME coordinates "
+            f"({gp.get('coincident_atoms')}) and carry the largest gradient in the system — "
+            f"{gp.get('max_kj_mol_nm'):.6g} kJ/mol/nm against "
+            f"{gp.get('max_excluding_coincident_kj_mol_nm'):.6g} on every non-degenerate atom. Finite, so "
+            f"a double-precision CPU minimiser descends it; this lane's GPUs did not, 25 times on 7 cards. "
+            f"The remedy is the starting geometry, not another host and not a block")
     hi = max(abs(r["energy_kj_mol"]) for r in rows)
     # Stage 2 is what actually closes the question — a single-point reading cannot see a lambda
     # window it never visited. Its absence downgrades the answer rather than being ignored.
