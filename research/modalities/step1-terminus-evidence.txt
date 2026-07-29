@@ -1,9 +1,10 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 12:31 AM ET Jul 29, 2026
+[s1f-terminus] read at 2:48 AM ET Jul 29, 2026
 
-[s1f-terminus] 6715 object(s) under the results prefix
+[s1f-terminus] 6866 object(s) under the results prefix
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
+      1017 B  12:48 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral/ddg.json
       1030 B  4:39 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral/ddg.json
       1012 B  2:50 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral/ddg.json
       1006 B  4:49 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral/ddg.json
@@ -34,10 +35,10 @@
   e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral      ddg=no  NO-TERMINUS        complex/production@1840, complex/warmup@400
   e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid   ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral         ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        complex/production@1440, complex/warmup@400
-  e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral     ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@1280, solvent/warmup@400
-  e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=no  NO-TERMINUS        complex/production@1120, complex/warmup@400
-  e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neu ddg=no  NO-TERMINUS        complex/production@440, complex/warmup@400
+  e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral ddg=no  NO-TERMINUS        complex/production@1600, complex/warmup@400
+  e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral     ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
+  e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral           ddg=no  NO-TERMINUS        complex/production@1640, complex/warmup@400
+  e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neu ddg=no  NO-TERMINUS        complex/production@960, complex/warmup@400
 
 === TERMINUS ===
   ✅ MET — at least one unit has a ddg.json whose BOTH legs committed real production sampling.
@@ -305,17 +306,38 @@
          "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
          "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
        }
+     e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
+     ddg.json:
+       {
+         "unit_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
+         "edge_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester",
+         "leg_id": "neutral__neutral",
+         "receptor": "nr4a3",
+         "frame": "nr4a3_design:top_druggable_frame_1",
+         "ligand_a": "cw_ev_5nh2",
+         "ligand_b": "cw_ms_5acetamido_ester",
+         "ddg_bind_kcal": -1.345,
+         "ddg_bind_unc_kcal": 0.81,
+         "dg_complex_morph_kcal": -26.829477860040225,
+         "complex_unc_kcal": 0.5442075360517605,
+         "dg_solvent_morph_kcal": -25.48407108375638,
+         "solvent_unc_kcal": 0.599759878988202,
+         "n_mapped_atoms": 23,
+         "n_windows": 12,
+         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+       }
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 182 offers visible (baseline ~23), 182 qualifying, 103 priceable, 7 needed
-  floors           : min $0.0667/hr, median $0.32/hr
-  best fleet $/ns  : $0.005487/ns  ·  1.61× basis (basis $0.003412/ns)
-  projected        : $17.61 against a $27.6 ceiling
+  board depth      : 170 offers visible (baseline ~23), 170 qualifying, 102 priceable, 6 needed
+  floors           : min $0.093/hr, median $0.3067/hr
+  best fleet $/ns  : $0.005704/ns  ·  1.67× basis (basis $0.003412/ns)
+  projected        : $15.69 against a $23.65 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
-    RTX 3090   m139040   $0.0667/hr  $0.00403/ns · 1.18× basis
-    RTX 4090   m12697    $0.1333/hr  $0.00485/ns · 1.42× basis
-    RTX 5090   m36341    $0.2000/hr  $0.00539/ns · 1.58× basis
+    RTX 5090   m29707    $0.2000/hr  $0.00539/ns · 1.58× basis
     RTX 3090   m33622    $0.0930/hr  $0.00547/ns · 1.60× basis
+    RTX 5090   m29711    $0.2040/hr  $0.00549/ns · 1.61× basis
+    RTX 4090   m137626   $0.1600/hr  $0.00568/ns · 1.67× basis
     RTX 4090   m51777    $0.1733/hr  $0.00610/ns · 1.79× basis
-    RTX 3090   m26910    $0.1067/hr  $0.00621/ns · 1.82× basis
-    RTX 5090   m49598    $0.2400/hr  $0.00636/ns · 1.86× basis
+    RTX 4090   m55559    $0.1733/hr  $0.00610/ns · 1.79× basis
