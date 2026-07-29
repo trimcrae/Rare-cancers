@@ -477,6 +477,15 @@ def _build_components(openfe, rdkit_chem, leg, env, endpoints):
     # every step of `_endpoint_pose` onto a molecule whose atom count has CHANGED. Full reasoning and the
     # measurement in `nr4a3_rbfe.strip_foreign_partial_charges`; the loud log line is here because this is the
     # boundary where it would otherwise become either a dead rental or a silent protocol deviation.
+    #
+    # ⚠ AND THE STRIP IS NOT THE GUARD — THE CENSUS AFTER IT IS (2026-07-29). This block used to be the only
+    # protection, and it passed while the legs kept dying: it cleared the molecule-level array, logged
+    # "109 INHERITED partial charges ... dropped", and shipped a molecule whose ATOMS were still individually
+    # charged, because `_endpoint_pose` above had already re-added hydrogens that could not inherit one.
+    # OpenFF then refused the partial set inside `proto.create` (`Some atoms in rdmol have partial charges,
+    # but others do not`) on 37 of one unit's 49 rented hosts. `_sdf_mol` now strips at the door so nothing
+    # partial can be built in the first place; this stays as the boundary re-check, and `assert_no_foreign_
+    # charges` is what makes it a check rather than a hope.
     for _nm, _m in (("A", molA), ("B", molB)):
         _m, _n = rbfe.strip_foreign_partial_charges(_m)
         if _n:
@@ -484,6 +493,7 @@ def _build_components(openfe, rdkit_chem, leg, env, endpoints):
                   "this protocol assigns its own (partial_charge_method), and a pose file's charges are a "
                   "relaxation artefact, never the alchemical charge model."
                   % (_nm, _n, _m.GetNumAtoms()), flush=True)
+        rbfe.assert_no_foreign_charges(_m, "ternary endpoint %s" % _nm)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None
