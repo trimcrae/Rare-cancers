@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB_mini replicates",
-  "utc": "2026-07-29T16:31:22Z",
+  "utc": "2026-07-29T16:39:33Z",
   "n_units": 1,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 1.83,
@@ -8,39 +8,36 @@
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
   "breakeven_usd_per_ns": 0.009682,
   "depth": {
-    "offers_returned": 165,
-    "qualifying": 159,
-    "priceable": 102,
+    "offers_returned": 164,
+    "qualifying": 156,
+    "priceable": 98,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers": [
     {
       "gpu": "RTX 4090",
-      "machine_id": 28903,
-      "min_bid_usd_h": 0.15866666666666665,
-      "usd_per_ns": 0.005469
+      "machine_id": 141591,
+      "min_bid_usd_h": 0.13333333333333333,
+      "usd_per_ns": 0.004679
     }
   ],
-  "mean_usd_per_ns": 0.005469,
-  "ratio_vs_basis": 1.603,
-  "projected_usd": 2.93,
+  "mean_usd_per_ns": 0.004679,
+  "ratio_vs_basis": 1.371,
+  "projected_usd": 2.51,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $2.93 within this rung's ceiling $5.19 AND 1.60x basis is within the 1.92x drift line",
+  "reason": "projected $2.51 within this rung's ceiling $5.19 AND 1.37x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
     "137041",
     "141336",
     "141396",
+    "16661",
     "19499",
-    "28164",
     "29717",
-    "36507",
-    "41950",
-    "45263",
     "50113",
     "52991",
     "56748",
@@ -60,14 +57,5 @@
   "units_needing_host": [
     "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps"
   ],
-  "units_replacing_a_dead_host": [
-    {
-      "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
-      "dead_instance": 46208095,
-      "machine_id": 45263,
-      "gpu": "RTX 5090",
-      "actual_status": "exited",
-      "cur_state": "stopped"
-    }
-  ]
+  "units_replacing_a_dead_host": []
 }
