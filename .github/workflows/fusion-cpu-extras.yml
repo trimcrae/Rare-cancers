@@ -116,7 +116,16 @@ concurrency:
   # observation is the newer run of the same task on a different branch, seconds before the cancellation.
   # Two lanes on two branches are two pieces of work, so the ref belongs in the key — this is the same defect
   # class the vast_launch_mode note below records, one level up.
-  group: fusion-cpu-extras-${{ github.ref_name }}-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}-${{ github.event.inputs.fanout_mode }}
+  # ★ AND `seeds`, FOR THE SAME REASON, ONE LEVEL FURTHER (2026-07-29). `energy_probe` acquired a mode of its
+  # own — `seeds=0` asks only the ~2-minute stage-1 reading, anything else also runs the ~25-minute
+  # `sampler.setup()` repro — and those are different pieces of work. They were not in the key, so
+  # dispatching the fast one killed the slow one **65 minutes in**, and the cancellation was invisible from
+  # the slow run's own log: the jobs API had simply gone on reporting `in_progress`, which reads exactly like
+  # the stall CLAUDE.md §4 says to investigate. The discriminating observation was the run's own
+  # `conclusion: cancelled`, and the cause was the newer same-task dispatch seconds earlier. Third instance
+  # of this defect class in this one key; if a fourth appears, the key should be every input, not another
+  # named one.
+  group: fusion-cpu-extras-${{ github.ref_name }}-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}-${{ github.event.inputs.fanout_mode }}-${{ github.event.inputs.seeds }}
   cancel-in-progress: true
 
 jobs:
