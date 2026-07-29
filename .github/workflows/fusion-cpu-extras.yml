@@ -1884,6 +1884,14 @@ jobs:
       # complex is the leg that failed; probing the solvent leg would build a different system and answer a
       # different question. Reuses an existing input because workflow_dispatch caps at 25 and this file is at it.
       PROBE_LEG: ${{ github.event.inputs.ternary_script == 'solvent' && 'solvent' || 'complex' }}
+      # Stage 2 (the real `sampler.setup()` minimiser, ~25 min of CPU) answers "does the minimiser survive
+      # this system at all". Stage 1 (per-force energy + GRADIENT + the coordinate-degeneracy census, and
+      # since 2026-07-28 the before/after of the de-degeneration) answers "what is wrong with the starting
+      # point", and takes ~2 min. They are different questions, and being unable to ask the cheap one
+      # without paying 25 minutes for the expensive one is why this knob exists.
+      # Reuses `seeds` because workflow_dispatch caps at 25 inputs and this file is at the cap; the default
+      # ("1,2,3") leaves the long path ON, so no existing dispatch changes behaviour.
+      PROBE_MINIMIZE: ${{ github.event.inputs.seeds == '0' && '0' || '1' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -1908,7 +1916,7 @@ jobs:
           docker run --rm --entrypoint python \
             -v "$PWD/research/modalities:/work/research/modalities" \
             -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION \
-            -e VAST_CKPT_BUCKET -e PROBE_UNITS -e PROBE_LEG \
+            -e VAST_CKPT_BUCKET -e PROBE_UNITS -e PROBE_LEG -e PROBE_MINIMIZE \
             "docker.io/$IMG:latest" /work/research/modalities/step1_setup_energy_probe.py
       - name: Commit the probe result back to the triggering branch
         if: ${{ always() }}
