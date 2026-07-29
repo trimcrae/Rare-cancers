@@ -2,17 +2,17 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 5:03 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 5:25 PM ET Wed Jul 29, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-valB r2 ternary      60.0%  —                $0.00512/ns · 1.50× basis  RUNNING   no openmmtools rate line in the log window — ETA unknowable, progress is real
-T3 ternary           37.9%  3:32 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
-T2 binary            55.2%  —                $0.00577/ns · 1.69× basis  RUNNING   no openmmtools rate line in the log window — ETA unknowable, progress is real
-valB r1 ternary      53.3%  11:26 PM         $0.00512/ns · 1.50× basis  STARTING  COLD_START — instance is 10 min old, under the 15 min floor — too young to have proved anything either way
-T2 ternary               —  —                $0.00533/ns · 1.56× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
-T3 binary            16.2%  11:20 PM         $0.00531/ns · 1.56× basis  STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way
+valB r2 ternary      62.2%  —                $0.00512/ns · 1.50× basis  RUNNING   no openmmtools rate line in the log window — ETA unknowable, progress is real
+T3 ternary           39.3%  5:17 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
+T2 binary            58.1%  10:03 PM         $0.00577/ns · 1.69× basis  RUNNING   
+valB r1 ternary      55.6%  11:27 PM         $0.00512/ns · 1.50× basis  RUNNING   
+T3 binary            20.8%  11:14 PM         $0.00531/ns · 1.56× basis  RUNNING   
+T2 ternary            9.2%  7:41 PM Jul 30   $0.00356/ns · 1.04× basis  STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way
 ---- END TVAST-BOARD ----
 ```
