@@ -2713,6 +2713,21 @@ def collect(bucket=None, prefix=None, autostop=True):
                 # what we just tore down. Full argument and the measured dollars: teardown_decision.py.
                 blocked.add(str(i.get("machine_id")))
                 print(f"    (machine {i.get('machine_id')} has no free GPU and no bid fixes it — blocked)")
+                # ⓘ TREND, NOT A GATE. On 2026-07-29 this lane rented four hosts in 36 minutes — machines
+                # 29711, 28164, 12227, 41950 — and every one refused on start while every board read was
+                # CHEAP (1.04x-1.34x basis). CLAUDE.md §6 asks for the TREND in exactly that case, and there
+                # was none to bring: `vast_machine_blacklist.publish` correctly refuses CLASS_CAPACITY, so a
+                # sustained availability failure left no trace anywhere but four CI logs. This records the
+                # event in a PERISHABLE 24 h window so the pattern is visible. It can never withhold a
+                # rental — see capacity_refusal_trend.__doc__ and its tests.
+                try:
+                    import capacity_refusal_trend as _crt
+                    _tr = _crt.record(s3, b, i.get("machine_id"), uid, lane="ternary",
+                                      why="resources_unavailable on start")
+                    if _tr:
+                        print(_crt.render(_tr))
+                except Exception as _e:  # noqa: BLE001 — instrumentation must never break a teardown
+                    print(f"    (capacity-refusal trend unavailable: {_e})")
                 # scope="host": nothing about OUR workload enters this verdict, so every lane may act on it.
                 # Publishing here is what stops the fan-out paying its own rental to rediscover the same box.
                 try:
