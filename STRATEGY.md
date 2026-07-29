@@ -1318,17 +1318,23 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   pass while the answer stays wrong.
   **The calibrator verdict itself is still `INDETERMINATE`, and for a different reason than before:**
   `n_replicates=1`, `per_replicate_ddG_coop=[-0.522]` against `target=0.944`, so there is no replicate SD and
-  the cycle cannot be graded. Cycle closure (the redundant edge) remains unrun.
+  the cycle cannot be graded. Cycle closure (the redundant edge) is **RUNNING as of 2026-07-29, 11:24 AM ET** —
+  see step 5 below for its status and gate reading; it was the last unrun systematic-error detector.
   ⚠ **−0.522 here, −0.534 in the RUNG 2b timestep rows above, and BOTH are correct — do not "reconcile" them.**
   This line is the calibrator's CURRENT reading, which uses the restrained binary arm (Appendix A 44). RUNG 2b
   compares a 4 fs cycle against the *unrestrained* 2 fs one, so its comparator must stay **−0.534**: swapping
   in −0.522 would measure the restraint rather than the timestep, which is the whole quantity that gate exists
   to isolate. Changing either number in isolation silently breaks the other.
-  **The blocker is now r1+r2**, which are queued on the Vast lane and currently **withheld by the failure
-  breaker** (`leg_failure_breaker`) after dying on dozens of hosts — not held on price, not held on
-  capability, and not on anything GCP can supply (`GPUS_ALL_REGIONS = 1` makes GCP strictly serial). The
-  blocking fault is the partial-charge defect; its fix is on `fix/ternary-vast-deaths` and unmerged as of
-  this writing.
+  **The blocker is still r1+r2, but they are no longer blocked — both are RUNNING** (2026-07-29, 11:10 AM ET).
+  The partial-charge defect that had them dying on dozens of hosts is fixed and merged to `main`; each arm
+  holds an RTX 5090 at **$0.005119/ns · 1.50× basis**, under the buy line. It was never held on price, never
+  on capability, and never on anything GCP can supply (`GPUS_ALL_REGIONS = 1` makes GCP strictly serial) —
+  that last clause still stands and is why the closure triangle went to Vast too.
+  **Superseded, retained** (per rule 1, because the old status is quotable): "withheld by the failure breaker
+  … its fix is on `fix/ternary-vast-deaths` and unmerged as of this writing." The branch is merged; the
+  breaker's withholding of *these* units ended when the fix landed, and the four TRIANGLE units it was still
+  withholding were cleared by `task=supersede-failed leg_only=to_lo2` at 11:18 AM ET — a deliberate gesture
+  after the cause was fixed, not a loosening of the breaker, which re-arms on the next fresh `status=failed`.
 
   **Recommended next steps (spend order) — REVISED 2026-07-25 (LANE 5); steps 1, 2 and the ligand diagnostic are
   DONE, and step 4's named design was REFUTED for $0 before any spend:**
@@ -1352,6 +1358,14 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      small, charge-neutral and mappable may not exist in the public literature** — large cooperativity
      differences are *produced by* large chemical changes.
   5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE, RE-SCOPED BY ITS OWN $0 PRE-GATE.**
+     **`[~]` RUNNING 2026-07-29, 11:24 AM ET — all four legs rented in parallel on Vast.** The gate cleared at
+     **1.36× basis** (`$0.004637/ns` mean, against the `$0.006539/ns` buy line) on a deep board — 163 offers,
+     159 qualifying, 100 priceable — projecting **$7.73 against this rung's $15.40 ceiling**. It had been
+     stalled since 2026-07-28 not on price but on the partial-charge defect, which killed the four units on
+     15, 15, 7 and 21 separate hosts and left them withheld by `leg_failure_breaker`; the fix landed 10:53 AM
+     ET and the stale failed records were superseded at 11:18 AM ET. Cost of that stall being *legible*: the
+     triangle gate had no branch for the breaker's exit code, so it printed the block as `HELD on price` —
+     fixed in the same session and pinned by `tests/test_gate_exit_codes_render_distinctly.py`.
      **`[x]` BUILT AND RUNNABLE 2026-07-27 (LANE 19).** It was fully costed and fully argued and could not be
      *run*: no leg id, no third endpoint, no launcher mode, no reducer. It now has all four —
      [`valb_triangle_legs.py`](research/modalities/valb_triangle_legs.py) (the 4 new legs plus the derived
