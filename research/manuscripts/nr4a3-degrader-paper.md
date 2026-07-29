@@ -1318,10 +1318,16 @@ adopts: **a closed cycle, a small forward/reverse gap, and good MBAR overlap are
 never be presented as accuracy evidence**, and a known-answer benchmark against measured data is not
 substitutable by any number of internally consistent cycles.
 
-**The congeneric map is 14 of 19 edges computed.** A 19-edge perturbation map around the cmpd19 anchor is
-frozen (`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue inheriting the
-anchor's core coordinates atom-for-atom, so the edges are mutually comparable), and the fan-out has now
-returned ΔΔG_bind for **14** of them (single replicate each, 12 λ-windows, ~$69 of realised GPU spend across
+**The congeneric map stands at 14 computed edges of the 18 that are computable, in a 19-edge map, at the
+6:30 AM ET 2026-07-29 snapshot the table below is taken from.** The three numbers are different and all three
+are needed: 19 is the designed map, **18** is what the lane can ever deliver (one edge is excluded for a
+measured reason given below), and 14 is what had landed when this table was cut. The fan-out is still running,
+so the live counts are `n_units` / `n_computable` / `n_complete` in
+[`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json) — **that artifact governs and
+this paragraph does not.** A 19-edge perturbation map around the cmpd19 anchor is frozen
+(`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue inheriting the anchor's
+core coordinates atom-for-atom, so the edges are mutually comparable), and the fan-out had returned ΔΔG_bind
+for **14** of them at that snapshot (single replicate each, 12 λ-windows, ~$69 of realised GPU spend across
 197 rentals). More negative = predicted tighter than the cmpd19 anchor in the modeled pocket:
 
 | analogue (5-position unless noted) | ΔΔG_bind (kcal/mol) | mapped atoms |
