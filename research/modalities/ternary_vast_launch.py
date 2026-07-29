@@ -73,6 +73,7 @@ from protfep_vast_launch import (  # noqa: E402
 # gets acted on; the reasoning for the verdict itself lives in one module so a second lane cannot grow a
 # second, disagreeing definition of "this rental is doing nothing".
 import vast_idle_guard as vig                                   # noqa: E402
+import leg_failure_breaker as lfb                                # noqa: E402
 from watchdog_policy import container_started_from_phase        # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
@@ -1308,7 +1309,26 @@ def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None
         listing_error = f"{type(e).__name__}: {e}"
         print(f"[launch] could not list live instances ({listing_error}); "
               "cannot tell which units already hold a host")
-    return {"needed": [u for u in uids if u not in done and u not in live_hosts],
+    # ⛔ A UNIT THAT HAS DIED ON N HOSTS IN A ROW IS NOT `needed` — IT IS BROKEN.
+    # Measured 2026-07-29: the ternary edge_reps replicates and all four triangle legs died at rc=1 in warmup
+    # on host after host while the market gate cleared and re-rented each tick. `needed` is what the gate
+    # prices and the launcher buys, so this is the one place that can stop the loop without touching the
+    # on-host retry rule (which must stay permissive, or no fix could ever be validated).
+    # Blocked units are RETURNED, not dropped — the readout has to show them (CLAUDE.md §6).
+    _blocked = {}
+    _recs = leg_records()
+    for _u in uids:
+        if _u in done or _u in live_hosts:
+            continue
+        _rec = _recs.get(_u)
+        if (_rec or {}).get("status") != "failed":
+            continue          # cheap exit: only a failed unit can possibly be blocked, so only it costs a listing
+        _d = lfb.decide(_rec, lfb.count_attempts(_s3(), DEFAULT_BUCKET, RESULT_PREFIX, _u))
+        if _d["block"]:
+            _blocked[_u] = _d
+            print(lfb.render(_u, _d))
+    return {"needed": [u for u in uids if u not in done and u not in live_hosts and u not in _blocked],
+            "blocked": _blocked,
             "done": [u for u in uids if u in done],
             "live": [u for u in uids if u in live_hosts and u not in done],
             "live_hosts": live_hosts,
