@@ -84,6 +84,18 @@ OUTCOMES = {
     # disjunction that `rented-nothing` was retired for.
     "nothing-to-launch": "no unit needed a host, so no rental was attempted and nothing was spent. Not a "
                          "hold: the market was never consulted.",
+    # ★★ NOT `nothing-to-launch`, AND THE DISTINCTION IS THE WHOLE POINT (2026-07-29). The failure breaker
+    # withholds a unit that has died on N hosts in a row, which drops the gate's count to zero and used to
+    # land on `nothing-to-launch` — "no unit needed a host". A lane stalled on a code fault then read as a
+    # lane that had FINISHED, which is CLAUDE.md §6's named prohibition. Also not a price hold: the board is
+    # never consulted, so it must not run the hold clock or fire the hold warning, both of which exist for an
+    # expensive market rather than a broken unit.
+    # ⚠ ONE FACT. The first draft read "a code or data fault another host cannot fix" and tripped
+    # test_no_outcome_names_two_possibilities — correctly, and for a deeper reason than the wording: which
+    # of those it is has NOT been established, so naming both smuggled a guess about the cause into the one
+    # field that must only carry what was observed. What was observed is the repetition.
+    "blocked":          "units were withheld after failing on several separate hosts in a row. Nothing "
+                        "rented, $0 spent; the lane is STALLED, not finished and not price-held.",
     "refused-on-price": "the board was read and NOTHING on it was within the buy line — the guard working, "
                         "nothing rented, nothing billing, next tick re-checks",
     "board-unreadable": "the market could not be read at all (provider API/auth/rate-limit) — a FAULT: we "

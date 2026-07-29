@@ -359,6 +359,15 @@ jobs:
               --stage market-gate --gate research/modalities/ternary-vast-market-hold.json \
               --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
               --reason "every unit already done or hosted; no launch dispatched, no rental attempted" || true
+          elif [ "$RC" = 4 ]; then
+            # BLOCKED. Its own word, deliberately: exit 3 would say the lane FINISHED and exit 1 would say
+            # the market was too dear. Neither is true -- units need hosts, and we are declining to buy them
+            # because they have died on several hosts in a row. $0 spent; the readout names each unit and
+            # its failed-host count.
+            python research/modalities/ternary_launch_ledger.py --record blocked \
+              --stage market-gate --gate research/modalities/ternary-vast-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "units withheld by the failure breaker; no launch dispatched, no rental attempted" || true
           fi
           # ★★ THE SAME UNION-ON-RACE THE RENT STEP USES, AND FOR THE SAME REASON (2026-07-28).
           # This was `git pull --rebase --autostash || true` then `git push || true` — the pattern the rent
@@ -373,7 +382,8 @@ jobs:
           git add "$HOLDFILE" "$LEDGER"
           if ! git diff --cached --quiet; then
             cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
-            MSG="tvast market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) for valB_mini r1+r2 (CI)"
+            case "$RC" in 0) WORD=CLEAR;; 3) WORD=NOTHING-TO-LAUNCH;; 4) WORD=BLOCKED;; *) WORD=HOLD;; esac
+            MSG="tvast market snapshot: $WORD for valB_mini r1+r2 (CI)"
             for attempt in 1 2 3 4 5; do
               git commit -q -m "$MSG" || true
               if git push origin HEAD:"$BR" 2>/dev/null; then break; fi

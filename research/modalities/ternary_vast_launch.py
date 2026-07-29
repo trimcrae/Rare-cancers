@@ -1820,6 +1820,10 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
         obstacle, and filing it as one would corrupt the hold clock and the hold readout), and NOT a clear:
         the caller must not dispatch a launch. This is the state the lane is in whenever it is working.
       * `"hold"`  — units need renting and the board is too expensive or unreadable.
+      * `"blocked"` — units need renting but are withheld by the failure breaker (they have died on several
+        hosts in a row). NOT `nothing-to-launch`: the lane is STALLED, not finished, and saying otherwise is
+        the §6 prohibition. NOT `hold` either: the board was never consulted, so it must not run the hold
+        clock or fire the hold warning, which exist for an expensive market rather than a broken unit.
       * `"clear"` — units need renting and the board is within both ceilings.
 
     A launch is dispatched on `"clear"` and on nothing else.
@@ -1843,19 +1847,42 @@ def gate_for_mode(mode, key=None, excluded=(), max_ratio=None, legs=None):
         }
     n = len(out["needed"])
     if n == 0:
+        # ★★ A LANE THAT FINISHED AND A LANE THAT IS BLOCKED MUST NOT RENDER ALIKE (measured 2026-07-29,
+        # the failure-breaker's first live tick). The breaker removes a repeatedly-failing unit from
+        # `needed`, which drops `n` to 0 and lands here — and this branch said "every unit already done or
+        # hosted" over a mode where 2 of 4 units were blocked on repeated failure. `2 done, 0 running` did
+        # not even sum to 4, and the outcome word was `nothing-to-launch`, i.e. the lane read as FINISHED.
+        # That is precisely CLAUDE.md §6's named failure mode — a hold indistinguishable from a completion —
+        # and the fix belongs here rather than in the breaker, because ANY future reason for withholding a
+        # unit will arrive through this same branch.
+        blocked = out.get("blocked") or {}
         readout = {
             "_what": _gate_what(mode),
             "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "mode": mode, "n_units": 0, "nothing_to_launch": True, "hold": False,
+            "mode": mode, "n_units": 0, "nothing_to_launch": not blocked, "hold": False,
             "units_done": out["done"], "units_live": out["live"],
             # The rate we are ALREADY PAYING on the hosts this lane holds — the only $/ns figure that means
             # anything on a tick that is not buying. A board mean here would be pricing a market we have no
             # intention of entering, which is precisely the number that got misread as a purchase.
             "live_host_rates": [rented_rate_row(u, out["live_hosts"][u]) for u in out["live"]],
-            "reason": ("no unit of mode %s needs a host — %d done, %d already running. The market was not "
-                       "consulted because nothing is for sale to us right now; this is NOT a price hold."
-                       % (mode, len(out["done"]), len(out["live"]))),
         }
+        if blocked:
+            # NOT a price hold — the market was never consulted — so it must not borrow the price-hold
+            # vocabulary either. Its own outcome word, and every blocked unit named with its evidence.
+            readout["units_blocked"] = [
+                {"unit_id": u, "n_attempts": d.get("n_attempts"), "threshold": d.get("threshold"),
+                 "status": d.get("status"), "why": d.get("why")} for u, d in sorted(blocked.items())]
+            readout["reason"] = (
+                "⛔ %d of mode %s's units are BLOCKED on repeated failure and were NOT rented — %d done, "
+                "%d running, %d blocked. $0 spent this tick. This lane is NOT finished and NOT price-held: "
+                "it is stalled on a code/data fault that another host cannot fix. Units: %s"
+                % (len(blocked), mode, len(out["done"]), len(out["live"]), len(blocked),
+                   ", ".join("%s (%s failed hosts)" % (u, (blocked[u] or {}).get("n_attempts"))
+                             for u in sorted(blocked))))
+            return "blocked", readout
+        readout["reason"] = ("no unit of mode %s needs a host — %d done, %d already running. The market was "
+                             "not consulted because nothing is for sale to us right now; this is NOT a price "
+                             "hold." % (mode, len(out["done"]), len(out["live"])))
         return "nothing-to-launch", readout
     hold, readout = market_gate(n, key=key, excluded=excluded, max_ratio=max_ratio, mode=mode)
     readout.update({"mode": mode, "nothing_to_launch": False,
@@ -2620,9 +2647,13 @@ def main(argv=None):
             with open(a.gate_out, "w") as fh:
                 json.dump(readout, fh, indent=2)
                 fh.write("\n")
-        mark = {"clear": "✅ CLEAR", "hold": "⛔ HOLD", "nothing-to-launch": "⏭ NOTHING TO LAUNCH"}[action]
+        mark = {"clear": "✅ CLEAR", "hold": "⛔ HOLD", "nothing-to-launch": "⏭ NOTHING TO LAUNCH",
+                "blocked": "⛔ BLOCKED ON REPEATED FAILURE"}[action]
         print("[market-gate] %s — %s" % (mark, readout["reason"]))
-        return {"clear": 0, "hold": 1, "nothing-to-launch": 3}[action]
+        # 4, not 3 and not 1. A blocked lane must be distinguishable from a finished one (3) AND from a
+        # price hold (1) by the caller, because all three want different ledger words and only the price hold
+        # runs the hold clock.
+        return {"clear": 0, "hold": 1, "nothing-to-launch": 3, "blocked": 4}[action]
     if a.market_gate is not None:
         hold, readout = market_gate(a.market_gate, excluded=blocked_machine_ids())
         print(json.dumps(readout, indent=2))
