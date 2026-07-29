@@ -1,17 +1,17 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-29T15:35:16Z",
+  "utc": "2026-07-29T15:51:57Z",
   "mode": "triangle",
   "n_requested": 1,
   "n_rented": 1,
   "requested": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "rented": [
     {
-      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": "46205917",
-      "machine_id": 36507,
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": "46206989",
+      "machine_id": 50113,
       "bid": 0.204,
       "dph": 0.2022222222222222,
       "gpu": "RTX 5090",
@@ -38,19 +38,6 @@
       "over_buy_line": false
     },
     {
-      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": 46205480,
-      "machine_id": 41950,
-      "gpu": "RTX 4090",
-      "dph_total_usd_h": 0.15266666666666667,
-      "dph_base_usd_h": 0.136,
-      "cur_state": "running",
-      "actual_status": "running",
-      "usd_per_ns": 0.004557,
-      "x_basis": 1.336,
-      "over_buy_line": false
-    },
-    {
       "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
       "instance": 46205476,
       "machine_id": 52991,
@@ -62,6 +49,19 @@
       "usd_per_ns": 0.005119,
       "x_basis": 1.5,
       "over_buy_line": false
+    },
+    {
+      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": 46205917,
+      "machine_id": 36507,
+      "gpu": "RTX 5090",
+      "dph_total_usd_h": 0.22066666666666665,
+      "dph_base_usd_h": 0.204,
+      "cur_state": "running",
+      "actual_status": "loading",
+      "usd_per_ns": 0.005119,
+      "x_basis": 1.5,
+      "over_buy_line": false
     }
   ],
   "skipped": [
@@ -70,11 +70,11 @@
       "why": "running"
     },
     {
-      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
       "why": "running"
     },
     {
-      "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
       "why": "running"
     }
   ]
