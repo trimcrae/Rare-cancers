@@ -43,9 +43,17 @@ the lane believed it, and re-placed the unit **25 times across 7 distinct card/d
 defect in the reasoning is one word: `LocalEnergyMinimizer` does not descend ENERGIES, it descends their
 DERIVATIVE, and the probe never looked at one. This unit's worst gradient is **4.996e17 kJ/mol/nm on
 atoms 4052/4054 — the pair the clash report had already reported at d = 0.000 A and classified
-`EXCLUDED-everywhere(benign)` — against 3.44e5 kJ/mol/nm on the largest NON-degenerate atom in the same
-112 955-atom system.** Finite (so `n_nonfinite` is 0 and the double-precision CPU minimiser does complete,
-in 1308 s), twelve orders of magnitude out of band, and reproducible on every GPU this lane can rent.
+`EXCLUDED-everywhere(benign)` — against 6.46e5 kJ/mol/nm on the largest NON-degenerate atom of the same
+112 955-atom build.** Finite (so `n_nonfinite` is 0 and the double-precision CPU minimiser does complete,
+in 1308 s), a factor of 7.7e11 out of band, and reproducible on every GPU this lane can rent.
+⚠ Those two numbers must be quoted TOGETHER, from ONE build: the non-degenerate maximum depends on that
+build's water placement (an earlier build read 3.44e5) while the degenerate one is ~1e17 in every build.
+SUPERSEDED, retained: "3.44e5" as the comparator for 4.996e17 — different builds.
+
+★ AND THE REMEDY IS MEASURED, NOT ARGUED. Displacing ONE member of the pair by 0.01 A takes the system's
+largest gradient from 4.996e17 to 646013.18 kJ/mol/nm — which is the 646013.30 that a completely unrelated
+atom was already carrying. The singular force is gone and every other force in the box is unchanged to six
+significant figures (`gradient_probe` vs `gradient_probe_after` in `step1-setup-energy-probe.json`).
 
 So the third outcome, `FIX_GEOMETRY`, exists: the system is SOUND and its STARTING POINT is degenerate.
 Collapsed into RETRY it says "rent another host"; collapsed into BLOCK it retires a computable edge.

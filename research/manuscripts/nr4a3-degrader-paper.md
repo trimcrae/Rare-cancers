@@ -1382,13 +1382,17 @@ final: should any mapper reach the floor for this edge, it runs like the others.
 two would overstate the map's limits.** The edge to `cw_bio_primary_amide` failed repeatedly, and the cause is
 not chemistry, not the atom map (17 mapped against a provable floor of 12) and not the rented hardware: the
 solvated hybrid system as built contains two atoms at *exactly* coincident coordinates, and they carry a gradient
-of **4.996 × 10¹⁷ kJ mol⁻¹ nm⁻¹** against **3.44 × 10⁵** on the largest non-degenerate atom of the same
-112,955-atom system. That value is finite, so the potential energy of every force term is finite and a
+of **4.996 × 10¹⁷ kJ mol⁻¹ nm⁻¹** against **6.46 × 10⁵** on the largest non-degenerate atom of the same
+112,955-atom build — a factor of 7.7 × 10¹¹. That value is finite, so the potential energy of every force term is finite and a
 double-precision CPU minimiser descends it to completion; the GPU minimiser does not, and this edge died at the
 identical `LocalEnergyMinimizer` call on **25 archived attempts across 7 distinct card/driver combinations**
 before the per-attempt archive was examined. The remedy is the starting geometry — one member of each coincident
 pair is displaced by 0.01 Å, two orders of magnitude below a bond length, into a minimiser that is about to move
-it in any case — and it touches no force-field parameter, no λ schedule and no estimator. **This edge is
+it in any case — and it touches no force-field parameter, no λ schedule and no estimator. Its effect was measured
+as a before/after on the same build rather than argued: the system's largest gradient falls from 4.996 × 10¹⁷ to
+6.46013 × 10⁵ kJ mol⁻¹ nm⁻¹, which is the value an unrelated atom already carried (6.46013 × 10⁵) before the
+displacement — the singular force is removed and every other force in the box is unchanged to six significant
+figures. **This edge is
 therefore a defect that was fixed, not a scientific exclusion, and it is not counted against what the method can
 do**; at the time of writing it is held out of the map pending the fixed code reaching the execution hosts, and
 its status is whatever `blocked_units` in the live artifact says.

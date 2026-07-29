@@ -326,8 +326,16 @@ def energy_probe_verdict(rows, total_kj_mol, grad=None):
     # ★★ AND THE CASE THAT IS FINITE IN DOUBLE AND STILL KILLS EVERY GPU (2026-07-28, the measurement that
     # closed `cw_bio_primary_amide`). Its worst gradient was 4.996e17 kJ/mol/nm — a NUMBER, so `n_nonfinite`
     # was 0 and the CPU minimiser did descend it to completion — while the largest gradient on any atom NOT
-    # in a coincident pair was 3.44e5. Twelve orders of magnitude, and the two atoms carrying it were the
-    # d=0.000 A pair. Every GPU attempt died there; 25 of them, on 7 distinct cards.
+    # in a coincident pair was 6.46e5 — a factor of 7.7e11, and the two atoms carrying it were the d=0.000 A
+    # pair. Every GPU attempt died there; 25 of them, on 7 distinct cards. Displacing ONE of the two by
+    # 0.01 A drops the system maximum to 646013.18 kJ/mol/nm against the 646013.30 that atom already carried
+    # before — i.e. the singular force disappears and NOTHING ELSE IN THE BOX MOVES, to six significant
+    # figures. That before/after is the whole justification for fixing the geometry rather than blocking the
+    # edge, and it is recorded in `step1-setup-energy-probe.json` (`gradient_probe` / `gradient_probe_after`).
+    # ⚠ Quote the pair 4.996e17 / 6.46e5 TOGETHER: both come from ONE build. The non-degenerate maximum is a
+    # property of that build's water placement and moves between builds (an earlier build read 3.44e5), while
+    # the degenerate one is ~1e17 in every build. Mixing the two builds' numbers into one ratio is wrong.
+    # SUPERSEDED, retained: "3.44e5", quoted from a different build than the 4.996e17 it was compared with.
     #
     # ⚠ THE TEST IS THE DEGENERACY, NOT A MAGNITUDE. There is no honest cutoff on |F|: a freshly solvated
     # box legitimately carries 1e5-1e6 kJ/mol/nm on its worst atom and a minimiser is exactly the tool for
@@ -372,7 +380,7 @@ def _gradient_probe(ctx, log, tag, top_n=6, positions=None):
     the DERIVATIVE of the potential. An energy that is finite everywhere therefore does not certify that a
     minimiser can take a step: a pair of atoms at exactly coincident coordinates contributes a bounded
     energy (its direct nonbonded term is excluded) and a derivative with no physical scale — measured at
-    4.996e17 kJ/mol/nm against 3.44e5 on the largest non-degenerate atom of the same 112,955-atom system.
+    4.996e17 kJ/mol/nm against 6.46e5 on the largest non-degenerate atom of the same 112,955-atom build.
     The energy-only probe called that state "RETRY candidate" on 2026-07-27 and the lane then bought
     twenty-five hosts to watch it fail identically (`step1-nan-forensics.json`).
 
