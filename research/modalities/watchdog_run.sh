@@ -38,7 +38,30 @@ fi
 N=$(python3 -c "import json;d=json.load(open('$CFG'));print(len([w for w in d['watch'] if w.get('enabled')]))")
 echo "enabled watch entries: $N   (dry_run=$DRY)"
 if [ "$N" = "0" ]; then
-  echo "::notice title=WATCHDOG idle::No enabled entries in ternary-watch.json — nothing to watch."
+  # ★ AN EMPTY WATCH LIST IS EXACTLY WHEN AN ORPHAN VM IS INVISIBLE — DO NOT EXIT WITHOUT LOOKING.
+  #
+  # This early exit used to be safe only by accident: entries were never disabled, so the VM listing below
+  # always ran. Auto-reaping landed units (gcp_watch_reap) removed that accident, and the FIRST pass after
+  # the last unit landed is precisely the pass that should be asking "did that unit's VM survive it?".
+  #
+  # It matters here more than on any other lane. A GCP VM CANNOT DELETE ITSELF — the in-VM trap fires and
+  # GCE refuses it (`Required 'compute.instances.delete' permission`, measured 2026-07-27, gcp-gpu-facts.md
+  # §6), so a finished leg routinely leaves a RUNNING VM. With GPUS_ALL_REGIONS = 1 that one VM holds the
+  # project's ENTIRE GPU quota, so the next leg cannot start at all — and the exposure is wall clock, not
+  # money, which is worse here because nothing bills to notice. `gcp-reap-vms.yml` is not a backstop: it has
+  # no `schedule:` and never fires by itself.
+  #
+  # This does NOT destroy anything. A VM with no watch entry could still be a legitimate manual dispatch, and
+  # a watchdog that reaps whatever it does not recognise is a worse failure than the one it prevents. It
+  # raises a loud alert and fails the job so the workflow-failure notification fires.
+  ORPHANS=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" \
+              --format="value(name,status,zone)" 2>/dev/null)
+  if [ -n "$ORPHANS" ]; then
+    echo "::error title=WATCHDOG ORPHAN VM, NOTHING WATCHING IT::the watch list has NO enabled entries, yet a gcp-ternary VM is still up: ${ORPHANS}. A GCP VM cannot delete itself, and GPUS_ALL_REGIONS=1 means this box holds the project's only GPU, so every future leg is blocked until it is removed. Confirm it is not a live manual run, then reap it by dispatching gcp-reap-vms.yml (it has no schedule and will not fire on its own)."
+    echo "watchdog pass complete (idle list, orphan VM present)"
+    exit 1
+  fi
+  echo "::notice title=WATCHDOG idle::No enabled entries in ternary-watch.json and no gcp-ternary VM is up — nothing to watch, and nothing holding the GPU quota."
   exit 0
 fi
 

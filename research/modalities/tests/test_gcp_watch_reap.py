@@ -174,3 +174,36 @@ def test_the_workflow_can_commit_what_it_reaps():
     wf = open(WF).read()
     assert "contents: write" in wf
     assert "contents: read" not in wf
+
+
+# ============================================================================================================
+# ★ THE REAP MUST NOT BLIND THE ORPHAN CHECK.
+#
+# Before auto-reaping existed, entries stayed enabled forever, so the watchdog's VM listing always ran. The
+# reap removed that accident: the first pass after the last unit lands now sees an EMPTY list, and that is
+# exactly the pass that should ask whether the finished unit's VM survived it. A GCP VM cannot delete itself
+# and GPUS_ALL_REGIONS=1, so one orphan blocks the whole lane with nothing billing to make it noticeable.
+# ============================================================================================================
+def test_the_idle_exit_still_looks_for_an_orphan_vm():
+    src = _sh()
+    idle = src.index('if [ "$N" = "0" ]')
+    tail = src[idle:idle + 2600]
+    assert "gcloud compute instances list" in tail, \
+        "the empty-watch-list branch exits without ever checking for a VM holding the single GPU"
+
+
+def test_an_orphan_raises_an_alert_rather_than_exiting_clean():
+    src = _sh()
+    idle = src.index('if [ "$N" = "0" ]')
+    tail = src[idle:idle + 2600]
+    assert "WATCHDOG ORPHAN VM" in tail
+    assert "exit 1" in tail, "an orphan must fail the job so the workflow-failure notification fires"
+
+
+def test_the_idle_branch_never_destroys_what_it_does_not_recognise():
+    # A VM with no watch entry can still be a legitimate manual dispatch. Reaping whatever it does not
+    # recognise would be a worse failure than the one this check prevents.
+    src = _sh()
+    idle = src.index('if [ "$N" = "0" ]')
+    tail = src[idle:idle + 2600]
+    assert "instances delete" not in tail and "instances_delete" not in tail
