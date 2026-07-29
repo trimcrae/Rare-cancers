@@ -1,13 +1,7 @@
 [s1f] terminus PROVEN by 16 unit(s) (e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral) — fan-out released
-[s1f] map_edges=19 computable=18 done=16 blocked=1 (cw_bio_nmethyl_amide) pending=2 live=1 free_slots=18 -> submitting 1
-[s1f] cost of THIS submission (1 units): plan $1.56 (band $0.65-3.94) | whole remaining tranche (2 units): plan $3.13 (band $1.29-7.88)
+[s1f] map_edges=19 computable=18 done=16 blocked=1 (cw_bio_nmethyl_amide) pending=2 live=2 free_slots=17 -> submitting 0
+[s1f] cost of THIS submission (0 units): plan $0.0 (band $0.0-0.0) | whole remaining tranche (2 units): plan $3.13 (band $1.29-7.88)
 [s1f] wave shape: {"n_units": 2, "width": 19, "waves": 1, "wall_clock_h_est": 13.7}
-[s1f]   queue e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral  (cw_ms_free_acid -> cw_bio_primary_amide, cycle_closure)
-[s1f] CREDENTIAL PRE-FLIGHT: ✅ CLEAR — the inherited credential can read s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/stage/ (the leg's first command)
-[s1f] SPEND CAP: realised $69.66 against a DERIVED ceiling of $74.91 (market_ceiling_usd(19) — the authorised band top, regenerated from the cost model, never typed) -> $5.25 headroom. 198 rental(s) counted, of which 1 are accruing wall-clock because no collect has reconciled them yet (a cap that cannot see those reads green while the lane is over).
-[s1f] SINGLE-HOST $/ns GATE: ✅ CLEAR — 1.58x the ladder basis is within the 1.92x drift line — this host is buyable at a sane rate per nanosecond
-[s1f]   board={"offers_returned": 158, "qualifying": 149, "priceable": 93, "needed": 1, "used_for_mean": 1} priced=[{"gpu": "RTX 5090", "machine_id": 29711, "min_bid_usd_h": 0.19999999999999998, "usd_per_ns": 0.005388}]
-[s1f] excluding 27 machine(s) from offer selection: ['11892', '132368', '136811', '137610', '138147', '19492', '24573', '28164', '28903', '28904', '28905', '28907', '28908', '29707', '31036', '33622', '35778', '36341', '41716', '48161', '50093', '50143', '51045', '51777', '8914', '90897', '9427']
-[s1f] host distinctness: also avoiding 1 machine(s) this lane is ALREADY renting (['89294']) — a second unit on a machine we already hold contends for one GPU, and shares that machine's fate if it is bad. A TERMINAL status does not free a machine: `exited` is routinely transient and the leg is often still advancing.
-[s1f] submitted s1f-18-cw_bio_primary_amide -> instance 46190633 machine 46427 dph≈$0.13444444444444445/hr (floor $0.13333333333333333/hr -> bid $0.136/hr, +$0.0027/hr premium) | RENTED AT $0.003119/ns · 0.91x basis
-[s1f] board-read cache over the wave: 0 hit(s), 2 real read(s) — 0 Vast /search/asks/ call(s) NOT made against the shared key (TTL 180s).
+[s1f] nothing to submit (fleet already at width, or all units done)
+[s1f] PLACEMENT DECISION: fleet_at_width — all 2 pending unit(s) already have a live instance; 17 slot(s) free but nothing to put in them
+[s1f]   board looked at anyway: 161 offers, best $0.003567/ns on RTX 5090 m46427. Snapshot refreshed, so a stale timestamp on this file can only mean the TICK did not run.

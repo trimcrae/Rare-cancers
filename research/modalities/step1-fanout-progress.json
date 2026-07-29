@@ -1,7 +1,7 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-29T11:39:18Z",
-  "_generated_et": "7:39 AM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T11:40:42Z",
+  "_generated_et": "7:40 AM ET Jul 29, 2026",
   "n_units": 19,
   "n_complete": 16,
   "n_computable": 18,
@@ -13,10 +13,11 @@
       "utc": "2026-07-28T11:19:43Z"
     }
   },
-  "live_instances": 1,
+  "live_instances": 2,
   "_vast_unreadable": null,
   "instance_states": {
-    "created": 1
+    "created": 1,
+    "loading": 1
   },
   "gpu_util": [],
   "phases": {
@@ -37,7 +38,20 @@
       "gpu_util": null,
       "inet_down": 1047.1,
       "dph": 0.10260740740740741,
-      "age_min": 85
+      "age_min": 86
+    },
+    {
+      "id": 46190633,
+      "label": "s1f-18-cw_bio_primary_amide",
+      "machine_id": 46427,
+      "status": "loading",
+      "cur_state": "running",
+      "status_msg": "9c2e2d4b2327: Verifying Checksum\n9c2e2d4b2327: Download complete\n",
+      "gpu": "RTX 5090",
+      "gpu_util": null,
+      "inet_down": 783.0,
+      "dph": 0.1471111111111111,
+      "age_min": 1
     }
   ],
   "stopped_host_adjudication": {
@@ -48,7 +62,7 @@
         "label": "s1f-08-cw_bio_primary_amide",
         "machine_id": "89294",
         "gpu": "RTX 3090",
-        "age_min": 85,
+        "age_min": 86,
         "status_msg": "Successfully loaded docker.io/triskit23/nr4a3fep:latest"
       }
     ],
