@@ -1367,6 +1367,32 @@ timeout *not* to be the mechanism, so a relaunch aborts identically and buys not
 mapper-capability limit rather than a missing datum is the honest reading: an incomplete perturbation map with a
 named, reproducible reason for each hole is a different object from one silently truncated on cost.
 
+Re-measured on the production staged components on 2026-07-29, that reading holds, and one further detail
+sharpens it. A count two short of a floor is equally consistent with a search that nearly succeeded and one that
+failed and returned nonsense, so we recorded *which* atoms each mapper leaves unmapped and which element
+substitutions the returned map itself makes. The 19-atom LOMAP map reaches 19 only by mapping the ester's methyl
+**carbon** onto an amide **hydrogen** — a heavy atom onto a hydrogen. It is therefore not a near-complete map two
+atoms short but exactly the degenerate correspondence the floor exists to reject, and the two mappers that remain
+chemically sane (strict-element LOMAP, Kartograf) top out at 17 and 18. The limit is thus a property of the
+available *mappers* and not of the chemistry — the two heavy-atom graphs are isomorphic up to the single O→N
+substitution, so a complete map exists to be found — which also makes the exclusion revisitable rather than
+final: should any mapper reach the floor for this edge, it runs like the others.
+
+**A second hole has a different and non-scientific cause, and it is reported separately because conflating the
+two would overstate the map's limits.** The edge to `cw_bio_primary_amide` failed repeatedly, and the cause is
+not chemistry, not the atom map (17 mapped against a provable floor of 12) and not the rented hardware: the
+solvated hybrid system as built contains two atoms at *exactly* coincident coordinates, and they carry a gradient
+of **4.996 × 10¹⁷ kJ mol⁻¹ nm⁻¹** against **3.44 × 10⁵** on the largest non-degenerate atom of the same
+112,955-atom system. That value is finite, so the potential energy of every force term is finite and a
+double-precision CPU minimiser descends it to completion; the GPU minimiser does not, and this edge died at the
+identical `LocalEnergyMinimizer` call on **25 archived attempts across 7 distinct card/driver combinations**
+before the per-attempt archive was examined. The remedy is the starting geometry — one member of each coincident
+pair is displaced by 0.01 Å, two orders of magnitude below a bond length, into a minimiser that is about to move
+it in any case — and it touches no force-field parameter, no λ schedule and no estimator. **This edge is
+therefore a defect that was fixed, not a scientific exclusion, and it is not counted against what the method can
+do**; at the time of writing it is held out of the map pending the fixed code reaching the execution hosts, and
+its status is whatever `blocked_units` in the live artifact says.
+
 Two scope limits apply to every edge in this map, computed or not: it covers only the **charge-conserving**
 microstate of each edge (the charge-changing species need a co-alchemical or analytical charge correction that is
 not implemented), and only the **primary** receptor conformer — so it is a single-conformer *conditional* map,

@@ -3226,6 +3226,9 @@ def mode_collect():
         ddg_by_edge[u["edge_id"]] = r["ddg_bind_kcal"]
 
     closure = cycle_closure(ddg_by_edge)
+    # Read ONCE and reused for the counts and for the artifact field, so the number and the list it is
+    # derived from can never disagree inside a single file.
+    _blocked_now = _load_blocked(s3, bucket)
     out = {
         "_what": "STEP 1 FAN-OUT — cmpd19 congeneric relative binding free-energy map (RUNG 4, tranche 1)",
         "_scope": "19 map edges at their charge-conserving microstate leg, on the PRIMARY nr4a3_design "
@@ -3237,11 +3240,18 @@ def mode_collect():
                           "not established here — it rests on valA_mini + OpenFE's published benchmark for "
                           "this protocol.",
         "n_units": len(units), "n_complete": len(results),
+        # ★ AND THE DENOMINATOR A READER SHOULD ACTUALLY QUOTE (2026-07-28). `n_units` is the MAP; the map
+        # minus its permanent exclusions is what this lane can ever deliver, and the manuscript cites THIS
+        # file. Leaving the subtraction to the reader is how "1 of 19" and "two computed edges" ended up in
+        # the same paragraph of §2.9. Derived from `blocked_units` below, never typed.
+        "n_computable": len(computable_units(units, _blocked_now)),
+        "n_blocked": len([u for u in units if u["unit_id"] in _blocked_now
+                          and u["unit_id"] not in {r["unit_id"] for r in results}]),
         # ★ EDGES THAT WILL NEVER COMPLETE, NAMED WITH THEIR REASON. This lane already keeps the
         # charge-changing legs enumerable "so the paper can state exactly which species were NOT computed and
         # why"; a blocked edge is the same obligation. A map that is silently 18 of 19 is a map nobody can
         # grade.
-        "blocked_units": _load_blocked(s3, bucket),
+        "blocked_units": _blocked_now,
         "results": sorted(results, key=lambda r: r["unit_id"]),
         "cycle_closure": closure,
         "cycle_closure_note": "Internal consistency only: a closed cycle does not make the map accurate, but "

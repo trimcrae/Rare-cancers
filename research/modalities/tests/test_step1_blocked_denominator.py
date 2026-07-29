@@ -124,3 +124,15 @@ def test_the_terminus_readout_does_not_type_its_own_denominator():
     s = _src("step1_terminus_evidence.py")
     assert "18-edge" not in s
     assert "n_computable" in s
+
+
+def test_the_map_artifact_the_manuscript_cites_carries_the_denominator():
+    """§2.9 of the paper quotes this file. It stated `n_units` and `n_complete` and left the subtraction to
+    the reader, which is how "1 of its 19 edges is computed" and "this paper reports two computed edges"
+    came to sit in one paragraph. The computable count now ships with the map."""
+    s = _src("congeneric_fanout_vast.py")
+    body = s.split("def mode_collect(", 1)[1]
+    assert '"n_computable"' in body and '"n_blocked"' in body
+    assert "computable_units(units, _blocked_now)" in body
+    # ...and from the SAME read as the list it is derived from, or the count and the list can disagree.
+    assert body.count("_load_blocked(s3, bucket)") == 1
