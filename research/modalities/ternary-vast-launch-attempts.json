@@ -95,28 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-07-28T04:28:41Z",
-      "et": "12:28 AM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "triangle-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30328807503",
-      "gate_ratio_vs_basis": 1.229,
-      "gate_mean_usd_per_ns": 0.004194,
-      "gate_projected_usd": 5.25,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "projected $5.25 within this rung's ceiling $11.55 AND 1.23x basis is within the 1.92x drift line",
-      "gate_board_depth": {
-        "offers_returned": 188,
-        "qualifying": 188,
-        "priceable": 108,
-        "needed": 3,
-        "used_for_mean": 3
-      },
-      "reason": "board cleared both ceilings; dispatching task=triangle"
-    },
-    {
       "utc": "2026-07-28T04:34:56Z",
       "et": "12:34 AM ET",
       "outcome": "launched",
@@ -1648,12 +1626,34 @@
       "rented_max_usd_per_ns": 0.004578,
       "rented_any_over_buy_line": false,
       "reason": "task=edge-reps; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
+    },
+    {
+      "utc": "2026-07-29T14:57:14Z",
+      "et": "10:57 AM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "market-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30463361567",
+      "gate_ratio_vs_basis": 1.54,
+      "gate_mean_usd_per_ns": 0.005255,
+      "gate_projected_usd": 5.63,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $5.63 within this rung's ceiling $10.37 AND 1.54x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 152,
+        "qualifying": 147,
+        "priceable": 95,
+        "needed": 2,
+        "used_for_mean": 2
+      },
+      "reason": "board cleared both ceilings; dispatching task=edge-reps"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 46,
-    "through_utc": "2026-07-28T04:08:00Z"
+    "n_total": 47,
+    "through_utc": "2026-07-28T04:28:41Z"
   }
 }
