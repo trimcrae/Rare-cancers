@@ -1,7 +1,7 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-29T14:07:10Z",
-  "_generated_et": "10:07 AM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T14:08:55Z",
+  "_generated_et": "10:08 AM ET Jul 29, 2026",
   "n_units": 19,
   "n_complete": 16,
   "n_computable": 18,
@@ -39,7 +39,7 @@
       "gpu_util": null,
       "inet_down": 242.6,
       "dph": 0.17303703703703704,
-      "age_min": 109
+      "age_min": 110
     },
     {
       "id": 46193136,
@@ -52,7 +52,7 @@
       "gpu_util": 92.999908,
       "inet_down": 271.2,
       "dph": 0.2262222222222222,
-      "age_min": 108
+      "age_min": 109
     }
   ],
   "stopped_host_adjudication": {
@@ -62,13 +62,13 @@
         "label": "s1f-08-cw_bio_primary_amide",
         "machine_id": "125565",
         "gpu": "RTX 4090",
-        "age_min": 109,
+        "age_min": 110,
         "status_msg": "",
         "double_booked_behind": null,
         "machine_has_run_our_container": false,
         "klass": "host_fault",
         "remedy": "destroy and publish the machine HOST-scoped: it never executed our container",
-        "machine_excluded_now": false
+        "machine_excluded_now": true
       }
     ],
     "preempted": [],
@@ -86,7 +86,9 @@
     "host_fault_machines": [
       "125565"
     ],
-    "machines_excluded_since": []
+    "machines_excluded_since": [
+      "125565"
+    ]
   },
   "units": [
     {
@@ -257,10 +259,10 @@
       "blocked_why": null,
       "committed": "complex/production@1880",
       "committed_scalar": 1001880,
-      "committed_prev_scalar": 1001600,
+      "committed_prev_scalar": 1001880,
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 70.43,
+  "realised_usd_so_far": 70.44,
   "plan_usd_whole_tranche": 29.72
 }
