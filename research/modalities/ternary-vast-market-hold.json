@@ -1,9 +1,9 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB_mini replicates",
-  "utc": "2026-07-29T10:07:59Z",
+  "utc": "2026-07-29T10:18:18Z",
   "mode": "edge_reps",
   "n_units": 0,
-  "nothing_to_launch": true,
+  "nothing_to_launch": false,
   "hold": false,
   "units_done": [
     "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
@@ -11,5 +11,21 @@
   ],
   "units_live": [],
   "live_host_rates": [],
-  "reason": "no unit of mode edge_reps needs a host \u2014 2 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold."
+  "units_blocked": [
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "n_attempts": 35,
+      "threshold": 3,
+      "status": "failed",
+      "why": "this unit has failed on 35 separate rented hosts (threshold 3) with no intervening success. The last record is status=failed at phase None (rc=1). Buying another host tests nothing \u2014 the repetition across distinct hosts is what makes this a code/data fault rather than a bad machine. NOT permanent: fix the cause, then clear the attempt archive (leg_failure_breaker.reset_for) or supersede the failed record, and the next tick rents normally."
+    },
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "n_attempts": 49,
+      "threshold": 3,
+      "status": "failed",
+      "why": "this unit has failed on 49 separate rented hosts (threshold 3) with no intervening success. The last record is status=failed at phase None (rc=1). Buying another host tests nothing \u2014 the repetition across distinct hosts is what makes this a code/data fault rather than a bad machine. NOT permanent: fix the cause, then clear the attempt archive (leg_failure_breaker.reset_for) or supersede the failed record, and the next tick rents normally."
+    }
+  ],
+  "reason": "\u26d4 2 of mode edge_reps's units are BLOCKED on repeated failure and were NOT rented \u2014 2 done, 0 running, 2 blocked. $0 spent this tick. This lane is NOT finished and NOT price-held: it is stalled on a code/data fault that another host cannot fix. Units: calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps (35 failed hosts), calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps (49 failed hosts)"
 }
