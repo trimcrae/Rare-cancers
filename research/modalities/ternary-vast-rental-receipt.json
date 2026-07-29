@@ -1,28 +1,20 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-29T17:55:56Z",
+  "utc": "2026-07-29T18:04:46Z",
   "mode": "edge_reps",
   "n_requested": 1,
-  "n_rented": 1,
+  "n_rented": 0,
   "requested": [
     "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
   ],
-  "rented": [
+  "rented": [],
+  "failed": [
     {
       "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
-      "instance": "46215418",
-      "machine_id": 18857,
-      "bid": 0.1234,
-      "dph": 0.12322222222222222,
-      "gpu": "RTX 4090",
-      "dph_total_usd_h": 0.14006666666666667,
-      "dph_base_usd_h": 0.1234,
-      "usd_per_ns": 0.004181,
-      "x_basis": 1.225,
-      "over_buy_line": false
+      "error": "CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 1569, 29711, 12227); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.",
+      "kind": "capacity"
     }
   ],
-  "failed": [],
   "already_live": [
     {
       "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
