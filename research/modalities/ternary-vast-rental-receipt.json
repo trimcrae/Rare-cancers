@@ -1,27 +1,11 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-29T22:37:58Z",
+  "utc": "2026-07-29T22:41:47Z",
   "mode": "triangle",
-  "n_requested": 1,
-  "n_rented": 1,
-  "requested": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
-  ],
-  "rented": [
-    {
-      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": "46233933",
-      "machine_id": 45263,
-      "bid": 0.204,
-      "dph": 0.2037037037037037,
-      "gpu": "RTX 5090",
-      "dph_total_usd_h": 0.23177777777777775,
-      "dph_base_usd_h": 0.204,
-      "usd_per_ns": 0.005377,
-      "x_basis": 1.576,
-      "over_buy_line": false
-    }
-  ],
+  "n_requested": 0,
+  "n_rented": 0,
+  "requested": [],
+  "rented": [],
   "failed": [],
   "already_live": [
     {
@@ -62,6 +46,19 @@
       "usd_per_ns": 0.005775,
       "x_basis": 1.693,
       "over_buy_line": false
+    },
+    {
+      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "instance": 46233933,
+      "machine_id": 45263,
+      "gpu": "RTX 5090",
+      "dph_total_usd_h": 0.23177777777777775,
+      "dph_base_usd_h": 0.204,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005377,
+      "x_basis": 1.576,
+      "over_buy_line": false
     }
   ],
   "skipped": [
@@ -76,6 +73,11 @@
     {
       "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
       "why": "running"
+    },
+    {
+      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "why": "running"
     }
-  ]
+  ],
+  "note": "every unit for this mode is already done or running \u2014 no rental attempted (calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle: running, calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle: running, calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle: running, calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle: running)"
 }
