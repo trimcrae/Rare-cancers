@@ -1585,7 +1585,12 @@ jobs:
           set -eo pipefail
           echo "sleeping 300 s so Vast has time to settle a falsely-accepted start back to 'stopped'"
           sleep 300
-          gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=collect
+          # ⚠ `-R` IS LOAD-BEARING: this job has no `actions/checkout`, deliberately (it only sleeps and
+          # dispatches), and without a git working directory `gh` cannot infer the repository — it exits 1
+          # with `fatal: not a git repository`, which is exactly how this job failed on its first live run
+          # at 1:56 PM ET on 2026-07-29. Naming the repo is cheaper than checking out a tree we never read.
+          gh workflow run gpu-ternary-fep-vast.yml -R "${{ github.repository }}" \
+            --ref "${{ github.ref_name }}" -f task=collect
           echo "::notice title=POST-LAUNCH RECHECK::collect dispatched ~5 min after the rental — this is what closes the accepted-but-never-running window; it reaps nothing that collect would not reap anyway."
 
   # ------------------------------------------------------- free: empty the machine-exclusion set, on purpose
