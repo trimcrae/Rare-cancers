@@ -1,7 +1,7 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-29T17:03:10Z",
-  "_generated_et": "1:03 PM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T17:10:57Z",
+  "_generated_et": "1:10 PM ET Jul 29, 2026",
   "n_units": 19,
   "n_complete": 16,
   "n_computable": 18,
@@ -13,15 +13,14 @@
       "utc": "2026-07-28T11:19:43Z"
     }
   },
-  "live_instances": 3,
+  "live_instances": 2,
   "_vast_unreadable": null,
   "instance_states": {
-    "running": 2,
+    "running": 1,
     "exited": 1
   },
   "gpu_util": [
-    0.0,
-    99.999908
+    96.999908
   ],
   "phases": {
     "done": 16,
@@ -41,44 +40,31 @@
       "gpu_util": null,
       "inet_down": 709.5,
       "dph": 0.2262222222222222,
-      "age_min": 172
-    },
-    {
-      "id": 46209115,
-      "label": "s1f-18-cw_bio_primary_amide",
-      "machine_id": 29717,
-      "status": "exited",
-      "cur_state": "stopped",
-      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
-      "gpu": "RTX 5090",
-      "gpu_util": 0.0,
-      "inet_down": 643.1,
-      "dph": 0.2262222222222222,
-      "age_min": 40
+      "age_min": 180
     },
     {
       "id": 46210151,
       "label": "s1f-18-cw_bio_primary_amide",
       "machine_id": 16661,
-      "status": "running",
-      "cur_state": "running",
+      "status": "exited",
+      "cur_state": "stopped",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 3090",
-      "gpu_util": 99.999908,
+      "gpu_util": 96.999908,
       "inet_down": 882.5,
       "dph": 0.11742222222222223,
-      "age_min": 24
+      "age_min": 32
     }
   ],
   "stopped_host_adjudication": {
     "never_started": [],
     "preempted": [
       {
-        "instance": 46209115,
+        "instance": 46210151,
         "label": "s1f-18-cw_bio_primary_amide",
-        "machine_id": "29717",
-        "gpu": "RTX 5090",
-        "age_min": 40,
+        "machine_id": "16661",
+        "gpu": "RTX 3090",
+        "age_min": 32,
         "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh"
       }
     ],
@@ -169,9 +155,9 @@
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "phase": "leg-complex-running 2026-07-29T14:15:04Z",
       "blocked_why": null,
-      "committed": "complex/production@240",
-      "committed_scalar": 1000240,
-      "committed_prev_scalar": 1000200,
+      "committed": "complex/production@280",
+      "committed_scalar": 1000280,
+      "committed_prev_scalar": 1000240,
       "ddg_bind_kcal": null
     },
     {
@@ -259,12 +245,12 @@
       "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
       "phase": "boot 2026-07-29T16:49:20Z",
       "blocked_why": null,
-      "committed": "complex/production@1920",
-      "committed_scalar": 1001920,
+      "committed": "complex/production@1960",
+      "committed_scalar": 1001960,
       "committed_prev_scalar": 1001920,
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 71.73,
+  "realised_usd_so_far": 71.77,
   "plan_usd_whole_tranche": 29.72
 }
