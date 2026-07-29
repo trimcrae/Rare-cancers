@@ -3,7 +3,7 @@
   "_scope": "19 map edges at their charge-conserving microstate leg, on the PRIMARY nr4a3_design druggable frame. Charge-changing microstate legs and the conformer/paralogue frame axis are separate tranches and were NOT run \u2014 see congeneric_fanout.plan().",
   "_claim_ceiling": "CONDITIONAL relative free energies given a HYPOTHESIZED cmpd19 pose (no solved NR4A3 cocrystal) in ONE modeled opened conformer, single replicate per edge. NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is not established here \u2014 it rests on valA_mini + OpenFE's published benchmark for this protocol.",
   "n_units": 19,
-  "n_complete": 11,
+  "n_complete": 12,
   "blocked_units": {
     "e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral": {
       "why": "no available mapper reaches the provable atom-map floor of 20. LOMAP element_change=False 17; element_change=True 19, but ONLY by mapping the ester methyl CARBON onto an amide HYDROGEN (C->H), which is the degenerate correspondence the floor exists to reject; Kartograf 18. Identical maps at LOMAP budgets t20 and t300 in 0.01 s, so the MCS timeout is MEASURED not to be the mechanism. This is a statement about the MAPPERS, not about any rented host, so no rental can fix it. A complete 22-atom map provably exists (the heavy-atom graphs are isomorphic up to the single O->N substitution), so the block is revisitable: if a mapper ever returns >= 20 for this edge, lift it with FANOUT_UNBLOCK=1.",
@@ -133,6 +133,26 @@
       "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
     },
     {
+      "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5oh",
+      "leg_id": "neutral__neutral",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "zaienne_cmpd19",
+      "ligand_b": "cw_ev_5oh",
+      "ddg_bind_kcal": 0.474,
+      "ddg_bind_unc_kcal": 0.195,
+      "dg_complex_morph_kcal": -20.700872050459704,
+      "complex_unc_kcal": 0.13648130983575693,
+      "dg_solvent_morph_kcal": -21.175131027520635,
+      "solvent_unc_kcal": 0.1385819230419336,
+      "n_mapped_atoms": 21,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    },
+    {
       "unit_id": "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
       "edge_id": "e_zaienne_cmpd19__cw_ev_5opropargyl",
       "leg_id": "neutral__neutral",
@@ -247,7 +267,6 @@
       "cycle_id": "cycle_exitvector_ether",
       "status": "incomplete",
       "missing": [
-        "e_zaienne_cmpd19__cw_ev_5oh",
         "e_cw_ev_5oh__cw_ev_5opropargyl"
       ],
       "tol_kcal": 1.0
@@ -313,6 +332,14 @@
       "perturbation": "3-CO2Me -> 3-CO2H (free acid; ionizable microstate pair)"
     },
     {
+      "node": "cw_ev_5oh",
+      "edge_id": "e_zaienne_cmpd19__cw_ev_5oh",
+      "ddg_bind_kcal": 0.474,
+      "class": "exit_vector_sub",
+      "star": "star_5position",
+      "perturbation": "5-Br -> 5-OH (neutral phenol; ether/carbamate vector)"
+    },
+    {
       "node": "cw_ms_carbinol",
       "edge_id": "e_zaienne_cmpd19__cw_ms_carbinol",
       "ddg_bind_kcal": 0.582,
@@ -365,90 +392,22 @@
         "container_started": true,
         "gpu_util": 86.999916,
         "progress_advanced": true,
-        "log_age_min": 1.7724683666666665,
+        "log_age_min": 1.1033507166666667,
         "start_ages_min": [
-          727.1224685907364,
-          426.43913525740305,
-          418.6724685907364,
-          359.9224685907364,
-          357.0058019240697,
-          321.1724685907364,
-          297.5558019240697,
-          230.8724685907364
+          770.6700175603231,
+          469.9866842269897,
+          462.2200175603231,
+          403.4700175603231,
+          400.5533508936564,
+          364.7200175603231,
+          341.1033508936564,
+          274.42001756032306
         ],
-        "instance_age_min": 313
-      }
-    },
-    {
-      "instance": 46155038,
-      "label": "s1f-08-cw_bio_primary_amide",
-      "verdict": "WEDGED",
-      "why": "run.log last written 152 min ago (>= 15) with no committed progress \u2014 the host has lost its write path, so it cannot checkpoint and nothing it is doing can be recovered",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": null,
-        "progress_advanced": false,
-        "log_age_min": 152.31087879999998,
-        "start_ages_min": [
-          2073.877545662721,
-          2048.5108789960545,
-          2045.6108789960542,
-          1731.1442123293878,
-          1728.4108789960544,
-          1530.1608789960544,
-          1528.5608789960543,
-          1501.5942123293876,
-          1498.927545662721,
-          1462.8442123293876,
-          1459.227545662721,
-          1441.7108789960544,
-          1439.6608789960544,
-          1395.0108789960543,
-          1393.6442123293878,
-          1290.327545662721,
-          1288.5442123293876,
-          1271.3608789960542,
-          1268.4942123293877,
-          1143.077545662721,
-          1140.3942123293878,
-          1092.827545662721,
-          1090.327545662721,
-          1075.9942123293877,
-          1074.477545662721,
-          976.6608789960543,
-          971.7108789960544,
-          967.3608789960543,
-          826.2608789960543,
-          824.2108789960544,
-          797.927545662721,
-          795.8608789960543,
-          728.327545662721,
-          726.477545662721,
-          646.9108789960543,
-          644.327545662721,
-          451.427545662721,
-          449.5608789960543,
-          426.477545662721,
-          421.527545662721,
-          382.41087899605435,
-          381.69421232938765,
-          351.277545662721,
-          347.66087899605435,
-          313.627545662721,
-          310.86087899605434,
-          274.61087899605434,
-          272.49421232938766,
-          250.277545662721,
-          248.39421232938767,
-          161.29421232938768,
-          156.36087899605434
-        ],
-        "instance_age_min": 162
+        "instance_age_min": 356
       }
     }
   ],
-  "realised_usd": 62.46,
+  "realised_usd": 63.16,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -1807,8 +1766,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
       "machine_id": 16661,
       "rate_usd_h": 0.0952,
-      "billed_h": 5.23,
-      "usd": 0.498
+      "billed_h": 5.97,
+      "usd": 0.568
     },
     {
       "instance": "46146567",
@@ -1831,8 +1790,8 @@
       "unit_id": "e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
       "machine_id": 144131,
       "rate_usd_h": 0.2448,
-      "billed_h": 5.22,
-      "usd": 1.277
+      "billed_h": 5.93,
+      "usd": 1.452
     },
     {
       "instance": "46150179",
@@ -1879,24 +1838,32 @@
       "unit_id": "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
       "machine_id": 137626,
       "rate_usd_h": 0.1632,
-      "billed_h": 2.7,
-      "usd": 0.441
+      "billed_h": 3.42,
+      "usd": 0.558
     },
     {
       "instance": "46155042",
       "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
       "machine_id": 36507,
       "rate_usd_h": 0.2448,
-      "billed_h": 2.7,
-      "usd": 0.661
+      "billed_h": 3.42,
+      "usd": 0.836
     },
     {
       "instance": "46155276",
       "unit_id": "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
       "machine_id": 33622,
       "rate_usd_h": 0.0949,
-      "billed_h": 2.63,
-      "usd": 0.25
+      "billed_h": 3.35,
+      "usd": 0.318
+    },
+    {
+      "instance": "46163364",
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "machine_id": 33657,
+      "rate_usd_h": 0.1292,
+      "billed_h": 0.72,
+      "usd": 0.093
     }
   ],
   "plan_usd_whole_tranche": 29.72,
