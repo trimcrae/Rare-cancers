@@ -1,11 +1,11 @@
 {
   "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY tick \u2014 including the ticks that rent nothing \u2014 because a stale timestamp must only ever mean the tick did not run.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. A hold is a correct outcome; a SILENT hold is the bug.",
-  "utc": "2026-07-29T12:22:02Z",
-  "decision": "fleet_at_width",
-  "decision_why": "all 2 pending unit(s) already have a live instance; 17 slot(s) free but nothing to put in them",
-  "decision_meaning": "every pending unit already has a live instance, or the fleet is at FANOUT_WIDTH",
-  "held": false,
+  "utc": "2026-07-29T14:07:18Z",
+  "decision": "placement_disabled",
+  "decision_why": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 0 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
+  "decision_meaning": "this tick was asked to measure only \u2014 no placement was attempted",
+  "held": true,
   "n_withheld": 0,
   "n_launching_now": 0,
   "n_held": 0,
@@ -13,13 +13,13 @@
   "placed_x_basis": [],
   "spend_authorised_now_usd": 0.0,
   "ceiling_for_that_spend_usd": 0.0,
-  "binding_gate": "fleet_at_width",
-  "binding_gate_why": "all 2 pending unit(s) already have a live instance; 17 slot(s) free but nothing to put in them",
+  "binding_gate": "placement_disabled",
+  "binding_gate_why": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 0 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
   "binding_gate_scope": null,
   "price_blocks_every_unit": false,
   "first_held_utc": null,
   "held_hours": 0.0,
-  "held_reason": "all 2 pending unit(s) already have a live instance; 17 slot(s) free but nothing to put in them",
+  "held_reason": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 0 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
   "basis_usd_per_ns": 0.003412,
   "unit_usd_per_ns_ceiling": 0.006539,
   "unit_ceiling_x_basis": 1.917,
@@ -27,18 +27,18 @@
   "unit_rate_line_usd_per_ns": 0.006539,
   "which_ceiling_binds": "rate line ($0.006539/ns = 1.92x basis)",
   "board_depth": {
-    "offers_returned": 165,
-    "qualifying": 162,
-    "priceable": 99,
+    "offers_returned": 154,
+    "qualifying": 148,
+    "priceable": 92,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers_priced": [
     {
       "gpu": "RTX 5090",
-      "machine_id": 68556,
-      "min_bid": 0.1666667,
-      "usd_per_ns": 0.004579
+      "machine_id": 19499,
+      "min_bid": 0.19999999999999998,
+      "usd_per_ns": 0.005388
     }
   ],
   "board_unreadable": null,
