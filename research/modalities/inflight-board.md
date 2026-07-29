@@ -2,17 +2,17 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 4:36 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 4:43 PM ET Wed Jul 29, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-valB r2 ternary      56.7%  10:18 PM         $0.00512/ns · 1.50× basis  RUNNING   
-T2 binary            52.3%  9:06 PM          $0.00512/ns · 1.50× basis  RUNNING   
-T2 ternary            9.2%  9:08 AM Jul 30   $0.00505/ns · 1.48× basis  STALLED   UNKNOWN — instance is not `running`; the stopped/frozen clauses own this box, not the idle guard
-T3 binary            16.2%  6:08 AM Jul 30   $0.00356/ns · 1.04× basis  RUNNING   
-T3 ternary           35.0%  3:44 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
-valB r1 ternary      53.3%  —                —                          NO HOST   no live host — checkpoint at production/320 is intact in S3; the next gate tick re-places it
+valB r2 ternary      57.8%  —                $0.00512/ns · 1.50× basis  RUNNING   no openmmtools rate line in the log window — ETA unknowable, progress is real
+T3 binary            16.2%  6:23 AM Jul 30   $0.00356/ns · 1.04× basis  RUNNING   
+T3 ternary           35.0%  6:53 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
+valB r1 ternary          —  —                $0.00512/ns · 1.50× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+T2 binary                —  —                $0.00577/ns · 1.69× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+T2 ternary            9.2%  —                —                          NO HOST   no live host — checkpoint at warmup/256 is intact in S3; the next gate tick re-places it
 ---- END TVAST-BOARD ----
 ```
