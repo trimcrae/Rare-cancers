@@ -625,7 +625,7 @@ be checked rather than taken.
 
 | quantity | value | threshold / note |
 |---|---|---|
-| **ΔΔG_coop (r0)** | **−0.534 kcal/mol** | target **+0.944** → **wrong sign**, abs error **1.478** |
+| **ΔΔG_coop (r0)** | **−0.522 kcal/mol** | target **+0.944** → **wrong sign**, abs error **1.466**. Was −0.534 with the CONTAMINATED binary arm; the restrained re-run moved it 0.012 |
 | Ternary-leg ΔG_morph | 47.511 ± 0.045 kcal/mol | MBAR, 2000/2000 production iterations |
 | Min adjacent λ-overlap | 0.109 | floor 0.03 — connected, no bottleneck |
 | N_eff | 676 | — |

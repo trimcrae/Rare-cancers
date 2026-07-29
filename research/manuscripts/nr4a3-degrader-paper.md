@@ -59,7 +59,7 @@ enumerates a **reversible-covalent-preferring virtual linker library** whose cov
 unresolved liability alongside the parent warhead's own pharmacology. Two ubiquitination-geometry parameters
 are corrected against solved intact assemblies rather than assumed. **A preregistered known-answer test of the
 ternary machinery itself — measured SPR cooperativity for a linker pyridine→benzene edge on SMARCA2/VHL —
-returns the wrong sign (ΔΔG_coop = −0.534 vs a target of +0.944 kcal/mol), and does so with converged,
+returns the wrong sign (ΔΔG_coop = −0.522 vs a target of +0.944 kcal/mol), and does so with converged,
 structurally stable, forward/reverse-antisymmetric sampling, making the miss ~33× the statistical uncertainty
 and therefore systematic rather than a sampling deficit that replicates could remove.** No cooperativity or
 ternary-complex quantity in this work is therefore calibrated, and the degrader stage is reported as a
@@ -1618,8 +1618,19 @@ The pass rule was preregistered and requires *all* of: converged diagnostics, **
 `|mean − target| ≤ 1.0`, between-replicate cycle SD ≤ 0.75, mean > target/2, and a t-based 95 % CI excluding
 zero. Frozen record: [`../modalities/wurz-calib-frozen.json`](../modalities/wurz-calib-frozen.json).
 
-**Result.** The first replicate gives **ΔΔG_coop = −0.534 kcal/mol against a target of +0.944** — the **wrong
-sign**, an absolute error of **1.478 kcal/mol**, and a failure of the preregistered rule on sign alone.
+**Result.** The first replicate gives **ΔΔG_coop = −0.522 kcal/mol against a target of +0.944** — the **wrong
+sign**, an absolute error of **1.466 kcal/mol**, and a failure of the preregistered rule on sign alone.
+
+**A control that could have explained the miss was run, and it does not.** In the original edge the binary
+arm's ligand left its pocket in 8 of 12 replicas, so that ΔG was not a free energy of the intended bound state
+and the cycle built on it was not strictly a cooperativity. That arm was therefore **re-run from scratch** with
+a flat-bottom, λ-independent pocket restraint — λ-independent so it cancels exactly from ΔG(A→B), which is why
+no standard-state correction arises (this is RBFE; the ligand is never decoupled) — writing to its own commit
+prefix so it could neither resume nor overwrite the contaminated trajectory. The re-run landed, and the
+reduction moved from **−0.534 to −0.522 kcal/mol: a shift of 0.012 against a miss of ~1.47.** Removing the
+pocket-escape contamination changed the answer by **under 1 %** of the discrepancy. This is the single most
+useful thing the calibrator has produced so far, because it eliminates the most plausible benign explanation
+for the wrong sign by measurement rather than by argument.
 
 **The miss is not a sampling failure, and the evidence for that is a full diagnostic battery that passes.** The
 ternary leg reached **2000/2000** production iterations with MBAR **ΔG_morph = 47.511 ± 0.045 kcal/mol**;
@@ -1642,7 +1653,7 @@ hysteresis artifact. Per the identity argued in §2.9, a passing antisymmetry ch
 it is fully consistent with a large endpoint-state error and is **not** evidence that the cooperativity is right.
 
 **Taken together these give the load-bearing conclusion: the error is systematic, not statistical.** The
-within-run statistical uncertainty (0.045 kcal/mol) is roughly **33× smaller than the miss** (1.478 kcal/mol).
+within-run statistical uncertainty (0.045 kcal/mol) is roughly **33× smaller than the miss** (1.466 kcal/mol).
 Because replicates shrink variance and not bias, **more replicates cannot rescue this result** — a point worth
 stating plainly, since the reflex response to a failed free-energy benchmark is to add sampling. The residual
 error classes that a converged, structurally stable, antisymmetric calculation can still carry are precisely the
@@ -2204,7 +2215,7 @@ category error. The corresponding **honest expectation recorded in advance** is 
 NR4A3 a *gain* rather than imposing a paralogue *penalty* (the aligned paralogue residues are hydrocarbon and
 simply cannot donate), and that a NO-GO may be acted on at this evidence grade because stopping is the
 conservative action, whereas a **positive** result stays **exploratory** until the known-answer ternary
-control passes. **⚠ That control has since been run and did NOT pass** (§2.11: wrong sign, ΔΔG_coop = −0.534
+control passes. **⚠ That control has since been run and did NOT pass** (§2.11: wrong sign, ΔΔG_coop = −0.522
 against a preregistered +0.944, with the miss ~33× the statistical uncertainty and therefore systematic). This
 clause is consequently **in force, not pending**: any positive Tier-3 result is exploratory, and the condition
 cannot be discharged by adding replicates, because replicates shrink variance and not bias.
