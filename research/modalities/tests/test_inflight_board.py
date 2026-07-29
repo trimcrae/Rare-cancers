@@ -176,3 +176,33 @@ def test_next_day_eta_does_not_break_column_alignment():
     # every row must put STATE in the same column, which a too-narrow ETA cell breaks
     cols = [ln.index("RUNNING") for ln in body]
     assert len(set(cols)) == 1, "ETA column too narrow — a next-day stamp shifted the later cells"
+
+
+# ── a leg with no host must RENDER, not vanish (2026-07-29, 2:45 PM ET) ──────────────────────────────
+# `calib_hi_to_lo2__binary_vhl` lost its host and was absent from two consecutive boards while its three
+# siblings rendered normally. NO_HOST was defined but never emitted, because rows were built only from the
+# live-instance loop.
+
+def test_no_host_renders_with_its_checkpoint_rather_than_disappearing():
+    st, why = B.state_of(False, False, 0, False,
+                         why_not_running="no live host — checkpoint at warmup/64 is intact in S3")
+    assert st == B.NO_HOST
+    txt = B.render([{"name": "T3 binary", "pct": 2.3, "eta_s": None,
+                     "usd_per_ns": None, "state": st, "why": why}])
+    assert "T3 binary" in txt and "NO HOST" in txt and "warmup/64" in txt
+
+
+def test_a_no_host_row_still_shows_percent_because_the_checkpoint_survives():
+    """The work done is not lost when the host dies, so the % column must not reset to 0 or blank."""
+    assert B.pct_complete("warmup", 64, (768, 2000)) > 0.0
+
+
+def test_the_collect_emits_no_host_rows():
+    """Pin the call site: NO_HOST being reachable in the module is not the same as the board using it."""
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert "_expected - _hosted" in src, (
+        "collect no longer computes the set of enabled units that have no live host — a dead leg would "
+        "silently vanish from the board again")
+    assert "enabled_entries" in src, "the expectation set must come from the watch list, not a local guess"

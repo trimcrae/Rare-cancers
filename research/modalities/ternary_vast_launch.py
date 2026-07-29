@@ -3096,6 +3096,33 @@ def collect(bucket=None, prefix=None, autostop=True):
               _rows.append({"name": ifb.short_name(_b.get("uid")), "pct": None, "eta_s": None,
                             "usd_per_ns": None, "state": "UNKNOWN",
                             "why": "row could not be built: %s: %s" % (type(_e).__name__, _e)})
+        # ── AND A ROW FOR EVERY UNIT THAT HAS NO HOST AT ALL ──────────────────────────────────────────
+        # ★★ THE BOARD'S OWN DOCSTRING PROMISED THIS AND THE CODE DID NOT DO IT (2026-07-29, 2:45 PM ET).
+        # `_board_rows` is built inside the loop over LIVE instances, so a unit whose host has died produces
+        # no row at all — and `inflight_board.NO_HOST` was defined but never once emitted. Measured cost:
+        # `calib_hi_to_lo2__binary_vhl` lost its host around 2:30 PM and was ABSENT from two consecutive
+        # boards while its three siblings rendered normally. A leg with no host is the single most important
+        # thing a progress board can say, and it was the one thing this one could not.
+        #
+        # The expectation set is the WATCH LIST's enabled entries — the repo's existing answer to "which
+        # units are we supposed to be working on" — so a unit that is deliberately parked (`enabled: false`
+        # + `_parked_why`, e.g. the 5a-KS legs) correctly does NOT appear as a missing row.
+        try:
+            import ternary_vast_watchdog as _tvw
+            _expected = {e.get("unit_id") for e in _tvw.enabled_entries(_tvw.load_watch())}
+            _hosted = {r["uid"] for r in _board_rows if r.get("uid")}
+            for _uid in sorted(_expected - _hosted - set(done)):
+                _ph, _it, _ = committed_progress(_uid, b, p)
+                _tg = ifb.parse_targets("\n".join(phase_and_log(_uid, b, p, tail=60)[2]))
+                _st, _w = ifb.state_of(False, False, 0, False,
+                                       why_not_running="no live host — checkpoint at %s/%s is intact in S3; "
+                                                       "the next gate tick re-places it"
+                                                       % (_ph or "none", _it))
+                _rows.append({"name": ifb.short_name(_uid), "pct": ifb.pct_complete(_ph, _it, _tg),
+                              "eta_s": None, "usd_per_ns": None, "state": _st, "why": _w})
+        except Exception as _e:  # noqa: BLE001
+            print(f"[board] could not add no-host rows: {type(_e).__name__}: {_e}")
+
         print()
         print("---- TVAST-BOARD ----")
         print(ifb.render(_rows), end="")
