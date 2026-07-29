@@ -1,61 +1,45 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB_mini replicates",
-  "utc": "2026-07-29T16:02:52Z",
-  "n_units": 1,
-  "basis_usd_per_ns": 0.003412,
-  "plan_usd": 1.83,
-  "ceiling_usd": 5.19,
-  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
-  "breakeven_usd_per_ns": 0.009682,
-  "depth": {
-    "offers_returned": 158,
-    "qualifying": 144,
-    "priceable": 85,
-    "needed": 1,
-    "used_for_mean": 1
-  },
-  "offers": [
-    {
-      "gpu": "RTX 3090",
-      "machine_id": 28164,
-      "min_bid_usd_h": 0.050666666666666665,
-      "usd_per_ns": 0.003661
-    }
-  ],
-  "mean_usd_per_ns": 0.003661,
-  "ratio_vs_basis": 1.073,
-  "projected_usd": 1.96,
-  "max_ratio_vs_basis": 1.9166094031192507,
-  "usd_per_ns_at_max_ratio": 0.006539,
-  "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": false,
-  "hold": false,
-  "reason": "projected $1.96 within this rung's ceiling $5.19 AND 1.07x basis is within the 1.92x drift line",
-  "machines_we_already_occupy": [
-    "137041",
-    "141336",
-    "141396",
-    "19499",
-    "20243",
-    "31036",
-    "50113",
-    "52991",
-    "56748",
-    "56760",
-    "62866",
-    "77866"
-  ],
+  "utc": "2026-07-29T16:23:06Z",
   "mode": "edge_reps",
-  "nothing_to_launch": false,
+  "n_units": 0,
+  "nothing_to_launch": true,
+  "hold": false,
   "units_done": [
     "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
     "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
   ],
   "units_live": [
+    "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
     "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
   ],
-  "units_needing_host": [
-    "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps"
+  "live_host_rates": [
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "instance": 46208095,
+      "machine_id": 45263,
+      "gpu": "RTX 5090",
+      "dph_total_usd_h": 0.23177777777777775,
+      "dph_base_usd_h": 0.204,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005377,
+      "x_basis": 1.576,
+      "over_buy_line": false
+    },
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "instance": 46203979,
+      "machine_id": 62866,
+      "gpu": "RTX 5090",
+      "dph_total_usd_h": 0.22066666666666665,
+      "dph_base_usd_h": 0.204,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005119,
+      "x_basis": 1.5,
+      "over_buy_line": false
+    }
   ],
-  "units_replacing_a_dead_host": []
+  "reason": "no unit of mode edge_reps needs a host \u2014 2 done, 2 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold."
 }
