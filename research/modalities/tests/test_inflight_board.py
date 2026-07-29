@@ -256,3 +256,55 @@ def test_the_collect_emits_no_host_rows():
         "collect no longer computes the set of enabled units that have no live host — a dead leg would "
         "silently vanish from the board again")
     assert "enabled_entries" in src, "the expectation set must come from the watch list, not a local guess"
+
+
+# ── the ETA that vanished at a checkpoint barrier (2026-07-29, 6:47 PM ET) ───────────────────────────
+# trimcrae: "T2 binary should have an ETA". `calib_lo_to_lo2__binary_vhl` rendered `—` while advancing.
+# Verbatim from run 30497335853's collect: no `Estimated completion` line, because openmmtools had just
+# begun a fresh segment at the 1200 barrier — while the driver's own completed-interval measurement sat
+# two lines above it, unused.
+
+LOG_AT_A_BARRIER = (
+    "[spot-driver] warmup_target=768 (ci=64) prod_target=2000 (ci=40)\n"
+    "[timing] 40 iters in 552s = 13.8s/iter (4.35 iters/min) at iteration 1200/2000\n"
+    "[barrier] committed checkpoint at iteration 1200/2000\n"
+    "--- raw tail ---\n"
+    "[barrier] committed checkpoint at iteration 1200/2000\n"
+    "INFO:\t********************************************************************************\n"
+    "INFO:\tIteration 1201/1240\n"
+    "LAST-ITER INFO:\tIteration 1201/1240\n")
+
+
+def test_a_rate_survives_a_checkpoint_barrier_with_no_openmmtools_estimate():
+    assert B.measured_s_per_iter(LOG_AT_A_BARRIER) == pytest.approx(552.0 / 40.0)
+
+
+def test_that_leg_now_gets_an_eta_instead_of_a_dash():
+    tg = B.parse_targets(LOG_AT_A_BARRIER)
+    eta = B.eta_seconds("production", 1200, tg, B.measured_s_per_iter(LOG_AT_A_BARRIER))
+    assert eta is not None and eta == pytest.approx((2768 - 1968) * 13.8)
+
+
+def test_the_driver_line_is_derived_from_the_pair_not_the_rounded_quotient():
+    """`= 13.8s/iter` is one decimal place; 552/40 is exact. One home for the arithmetic."""
+    r = B.measured_s_per_iter("[timing] 3 iters in 100s = 33.3s/iter")
+    assert r == pytest.approx(100.0 / 3.0)
+
+
+def test_the_most_recent_completed_interval_wins():
+    txt = ("[timing] 40 iters in 800s = 20.0s/iter\n"
+           "[timing] 40 iters in 400s = 10.0s/iter\n")
+    assert B.measured_s_per_iter(txt) == pytest.approx(10.0)
+
+
+def test_the_openmmtools_pair_is_still_the_fallback_when_no_interval_has_closed():
+    """A leg early in warmup has no completed driver interval yet; the estimate must still be used."""
+    assert "[timing]" not in LOG_TRIANGLE
+    r = B.measured_s_per_iter(LOG_TRIANGLE)
+    assert r is not None and 18.0 < r < 19.0
+
+
+def test_a_degenerate_driver_line_falls_through_rather_than_returning_zero():
+    txt = "[timing] 0 iters in 0s = 0.0s/iter\n" + LOG_EDGE_REPS
+    r = B.measured_s_per_iter(txt)
+    assert r is not None and 8.0 < r < 10.0

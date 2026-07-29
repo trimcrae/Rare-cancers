@@ -72,6 +72,11 @@ STALL_POLLS = 2
 _TARGETS_RE = re.compile(r"warmup_target=(\d+).*?prod_target=(\d+)", re.S)
 _ITER_RE = re.compile(r"Iteration (\d+)/(\d+)")
 _ETA_RE = re.compile(r"Estimated completion in (\d+):(\d+):([\d.]+)")
+# The spot driver's own completed-interval measurement, e.g.
+#   [timing] 40 iters in 552s = 13.8s/iter (4.35 iters/min) at iteration 1200/2000
+# Only the count and the duration are captured: the `= 13.8s/iter` quotient is rounded to one decimal and
+# re-deriving it from the pair is both exact and one home for the arithmetic (CLAUDE.md §1).
+_DRIVER_TIMING_RE = re.compile(r"\[timing\]\s+(\d+)\s+iters?\s+in\s+([\d.]+)s")
 
 
 def parse_targets(log_text):
@@ -95,7 +100,38 @@ def measured_s_per_iter(log_text):
     card, with its actual system size — strictly better than any table lookup, and it needs no card model.
 
     Returns None rather than a guess when the pair is absent or degenerate; the caller renders `—`.
+
+    ★★ THE DRIVER'S OWN `[timing]` LINE IS TRIED FIRST, AND ADDING IT FIXED A REAL BLANK COLUMN (measured
+    2026-07-29, 6:47 PM ET — trimcrae: "T2 binary should have an ETA").
+
+    WHAT HAPPENED. `calib_lo_to_lo2__binary_vhl` rendered `—` while advancing normally. Its 60-line window,
+    verbatim:
+
+        | [timing] 40 iters in 552s = 13.8s/iter (4.35 iters/min) at iteration 1200/2000
+        | [barrier] committed checkpoint at iteration 1200/2000
+        | --- raw tail ---
+        | [barrier] committed checkpoint at iteration 1200/2000
+        | INFO:  Iteration 1201/1240
+
+    There is no `Estimated completion` line in it. openmmtools prints that estimate only once it has a few
+    iterations of the CURRENT segment behind it, and this host had just crossed the 1200 checkpoint barrier
+    and begun a fresh segment at 1201/1240 — so the pair this function required was legitimately incomplete
+    for a minute or two at every barrier. The leg's other five siblings happened to be sampled mid-segment
+    and priced fine, which is why it read as a property of that one leg.
+
+    A MEASURED RATE WAS SITTING IN THE SAME WINDOW AND WAS BEING DISCARDED. `[timing] 40 iters in 552s` is a
+    COMPLETED interval on this host, this card, this system size — strictly better evidence than a
+    remaining-time estimate, and it does not vanish at a segment boundary because it describes the interval
+    just finished. So it is the primary source and the openmmtools pair is the fallback, which still covers
+    the case the driver line cannot: a leg early in warmup that has not yet closed its first interval.
     """
+    m = None
+    for m in _DRIVER_TIMING_RE.finditer(log_text or ""):
+        pass                                 # keep the LAST — the most recently completed interval
+    if m:
+        n, secs = int(m.group(1)), float(m.group(2))
+        if n > 0 and secs > 0:
+            return secs / n
     it, eta = _ITER_RE.search(log_text or ""), _ETA_RE.search(log_text or "")
     if not it or not eta:
         return None
