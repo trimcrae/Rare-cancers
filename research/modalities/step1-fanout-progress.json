@@ -1,7 +1,7 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-29T11:40:42Z",
-  "_generated_et": "7:40 AM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T11:42:10Z",
+  "_generated_et": "7:42 AM ET Jul 29, 2026",
   "n_units": 19,
   "n_complete": 16,
   "n_computable": 18,
@@ -17,14 +17,16 @@
   "_vast_unreadable": null,
   "instance_states": {
     "created": 1,
-    "loading": 1
+    "running": 1
   },
-  "gpu_util": [],
+  "gpu_util": [
+    0.0
+  ],
   "phases": {
     "done": 16,
     "leg-complex-FAILED-rc1": 1,
     "BLOCKED-permanently-excluded": 1,
-    "leg-complex-running": 1
+    "boot": 1
   },
   "instances": [
     {
@@ -38,20 +40,20 @@
       "gpu_util": null,
       "inet_down": 1047.1,
       "dph": 0.10260740740740741,
-      "age_min": 86
+      "age_min": 88
     },
     {
       "id": 46190633,
       "label": "s1f-18-cw_bio_primary_amide",
       "machine_id": 46427,
-      "status": "loading",
+      "status": "running",
       "cur_state": "running",
-      "status_msg": "9c2e2d4b2327: Verifying Checksum\n9c2e2d4b2327: Download complete\n",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 5090",
-      "gpu_util": null,
+      "gpu_util": 0.0,
       "inet_down": 783.0,
       "dph": 0.1471111111111111,
-      "age_min": 1
+      "age_min": 3
     }
   ],
   "stopped_host_adjudication": {
@@ -62,7 +64,7 @@
         "label": "s1f-08-cw_bio_primary_amide",
         "machine_id": "89294",
         "gpu": "RTX 3090",
-        "age_min": 86,
+        "age_min": 88,
         "status_msg": "Successfully loaded docker.io/triskit23/nr4a3fep:latest"
       }
     ],
@@ -241,7 +243,7 @@
     },
     {
       "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
-      "phase": "leg-complex-running 2026-07-29T09:18:16Z",
+      "phase": "staged 2026-07-29T11:42:13Z",
       "blocked_why": null,
       "committed": "complex/production@1560",
       "committed_scalar": 1001560,
@@ -249,6 +251,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 69.66,
+  "realised_usd_so_far": 69.67,
   "plan_usd_whole_tranche": 29.72
 }
