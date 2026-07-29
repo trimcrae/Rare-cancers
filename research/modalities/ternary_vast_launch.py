@@ -2815,6 +2815,18 @@ def collect(bucket=None, prefix=None, autostop=True):
                 instance_age_min=up_h * 60.0,
                 unit_failed=crashed)
             print(f"      idle-guard: {idle_verdict} — {idle_why}")
+            # ★★ HAND THE BOARD THE GUARD'S OWN SENTENCE (2026-07-29, 1:39 PM ET). The board's `_why` chain
+            # covered a stale marker, a leg with no first checkpoint, missing targets and a missing rate —
+            # but NOT the one case that actually matters: a leg that HAS committed and then stopped
+            # advancing. That fell through with an empty reason, `state_of` refused to render an
+            # unexplained STALLED (correctly), and the `except` around the board swallowed the whole table.
+            # So the one poll where a leg genuinely stalled is the one poll that printed no board at all.
+            #
+            # `vast_idle_guard` has already composed exactly the sentence needed, from the same facts, and
+            # it is the repo's one home for "what is this rental doing" — so the board reuses it rather than
+            # growing a second, weaker explanation of the same state.
+            if _board_rows and _board_rows[-1].get("iid") == iid:
+                _board_rows[-1]["idle_why"] = f"{idle_verdict} — {idle_why}"
 
         msg = str(i.get("status_msg") or "").strip()
         frozen_min, new_state[str(iid)] = stall_minutes(prev_state, iid, msg, time.time())
@@ -3026,38 +3038,54 @@ def collect(bucket=None, prefix=None, autostop=True):
     try:
         _rows = []
         for _b in _board_rows:
-            _tg = ifb.parse_targets(_b["log"])
-            _spi = ifb.measured_s_per_iter(_b["log"])
-            _pct = ifb.pct_complete(_b["phase"], _b["iteration"], _tg)
-            _eta = ifb.eta_seconds(_b["phase"], _b["iteration"], _tg, _spi)
-            # WHY, in priority order: the most specific true statement about this leg, so a STALLED row can
-            # never be rendered without one (`state_of` raises if it would be).
-            _why = ""
-            if _b["marker_stale"]:
-                _why = "fresh host — the marker and log below belong to the previous attempt"
-            elif _b["phase"] is None:
-                _why = ("no committed checkpoint yet; host up %.0f min and the first warmup boundary is one "
-                        "checkpoint interval of MD after the image pull" % ((_b["up_h"] or 0) * 60.0))
-            elif _tg is None:
-                _why = "targets not in the retained log window — %% and ETA unknowable this pass"
-            elif _spi is None:
-                _why = "no openmmtools rate line in the log window — ETA unknowable, progress is real"
-            # The cold-start floor is IMPORTED, not typed. `vast_idle_guard.MIN_INSTANCE_AGE_MIN` is the one
-            # home for "too young to have proved anything either way", and the board must agree with the
-            # guard by construction — a board that called a box stalled while the guard was still shielding
-            # it would be two definitions of the same thing, free to disagree at 3 AM.
-            _cold = (_b["up_h"] or 0) * 60.0 < vig.MIN_INSTANCE_AGE_MIN
-            # A leg that has NEVER committed has nothing to advance from, so the poll counter cannot judge
-            # it — see `state_of`'s `pre_first_commit` note for the STALLED row this produced on the board's
-            # first live run. Both thresholds are IMPORTED: the setup grace is `vig.SETUP_GRACE_MIN`, itself
-            # `watchdog_policy.DEFAULT_SETUP_GRACE_MIN`, so the board, the idle guard and the watchdog all
-            # answer "is this leg merely slow to start?" from one number.
-            _pre_first = (_b["phase"] is None and (_b["up_h"] or 0) * 60.0 < vig.SETUP_GRACE_MIN)
-            _state, _swhy = ifb.state_of(True, _b["advanced"], _b["no_advance_polls"], _cold,
-                                         why_not_running=_why or None, pre_first_commit=_pre_first)
-            _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
-                          "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),
-                          "state": _state, "why": _swhy})
+          # ⚠ PER-ROW, NOT PER-TABLE. On 2026-07-29 a single row that could not explain its own
+          # STALLED state raised, and the table-level `except` below swallowed EVERY row — so the
+          # one poll where a leg genuinely stalled is the one poll that showed no board. A row that
+          # cannot be built now degrades to a visible UNKNOWN row naming the failure, because a
+          # missing row reads as a leg that does not exist.
+          try:
+              _tg = ifb.parse_targets(_b["log"])
+              _spi = ifb.measured_s_per_iter(_b["log"])
+              _pct = ifb.pct_complete(_b["phase"], _b["iteration"], _tg)
+              _eta = ifb.eta_seconds(_b["phase"], _b["iteration"], _tg, _spi)
+              # WHY, in priority order: the most specific true statement about this leg, so a STALLED row can
+              # never be rendered without one (`state_of` raises if it would be).
+              _why = ""
+              if _b["marker_stale"]:
+                  _why = "fresh host — the marker and log below belong to the previous attempt"
+              elif _b["phase"] is None:
+                  _why = ("no committed checkpoint yet; host up %.0f min and the first warmup boundary is one "
+                          "checkpoint interval of MD after the image pull" % ((_b["up_h"] or 0) * 60.0))
+              elif _tg is None:
+                  _why = "targets not in the retained log window — %% and ETA unknowable this pass"
+              elif _spi is None:
+                  _why = "no openmmtools rate line in the log window — ETA unknowable, progress is real"
+              else:
+                  # The genuinely-stalled case: committed before, not advancing now. The idle guard's own
+                  # sentence IS the reason; falling back to a generic string would be the unexplained stall
+                  # `state_of` exists to refuse.
+                  _why = _b.get("idle_why") or ""
+
+              # The cold-start floor is IMPORTED, not typed. `vast_idle_guard.MIN_INSTANCE_AGE_MIN` is the one
+              # home for "too young to have proved anything either way", and the board must agree with the
+              # guard by construction — a board that called a box stalled while the guard was still shielding
+              # it would be two definitions of the same thing, free to disagree at 3 AM.
+              _cold = (_b["up_h"] or 0) * 60.0 < vig.MIN_INSTANCE_AGE_MIN
+              # A leg that has NEVER committed has nothing to advance from, so the poll counter cannot judge
+              # it — see `state_of`'s `pre_first_commit` note for the STALLED row this produced on the board's
+              # first live run. Both thresholds are IMPORTED: the setup grace is `vig.SETUP_GRACE_MIN`, itself
+              # `watchdog_policy.DEFAULT_SETUP_GRACE_MIN`, so the board, the idle guard and the watchdog all
+              # answer "is this leg merely slow to start?" from one number.
+              _pre_first = (_b["phase"] is None and (_b["up_h"] or 0) * 60.0 < vig.SETUP_GRACE_MIN)
+              _state, _swhy = ifb.state_of(True, _b["advanced"], _b["no_advance_polls"], _cold,
+                                           why_not_running=_why or None, pre_first_commit=_pre_first)
+              _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
+                            "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),
+                            "state": _state, "why": _swhy})
+          except Exception as _e:  # noqa: BLE001
+              _rows.append({"name": ifb.short_name(_b.get("uid")), "pct": None, "eta_s": None,
+                            "usd_per_ns": None, "state": "UNKNOWN",
+                            "why": "row could not be built: %s: %s" % (type(_e).__name__, _e)})
         print()
         print("---- TVAST-BOARD ----")
         print(ifb.render(_rows), end="")
