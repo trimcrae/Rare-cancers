@@ -399,7 +399,7 @@ jobs:
               if git diff --cached --quiet; then break; fi
             done
           fi
-          echo "market-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host)"
+          echo "market-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
 
           if [ "$RC" = 0 ]; then
             echo "::notice title=TVAST MARKET CLEAR::board is within both ceilings — dispatching edge-reps."
@@ -412,6 +412,18 @@ jobs:
             # only print "nothing to rent", and three of them in 25 minutes is what made a working lane look
             # like a lane repeatedly buying over the buy line. Green, because nothing is wrong.
             echo "::notice title=TVAST NOTHING TO LAUNCH::every valB_mini unit is already done or already hosted — no launch dispatched and no rental attempted. The rates the lane is ALREADY paying are in research/modalities/ternary-vast-market-hold.json under live_host_rates."
+            exit 0
+          fi
+
+          if [ "$RC" = 4 ]; then
+            # ★★ THE BLOCKED PATH NEEDED ITS OWN ANNOTATION, NOT JUST ITS OWN LEDGER ROW (2026-07-29).
+            # This gate has recorded `blocked` since the breaker went live — and then fell through to the
+            # price-hold warning below, so the only line an operator actually reads said the lane was
+            # waiting on trimcrae's ≤1.5×-basis decision and would launch itself the moment the board
+            # cleared. Both halves are false for a breaker block: the market is not what stopped it, and no
+            # tick will ever clear it. Found when the triangle gate printed exactly that against four units
+            # blocked on a code fault; this gate had the same hole one branch further down.
+            echo "::warning title=TVAST BLOCKED ON REPEATED FAILURE::valB_mini units are withheld by the failure breaker after dying on several hosts each — NOT held on price, and this does NOT clear on the next tick. \$0 spent. Per-unit failed-host counts: research/modalities/ternary-vast-market-hold.json under units_blocked. Fix the cause, then task=supersede-failed with leg_only=<substring>, and re-run task=market-gate."
             exit 0
           fi
 
@@ -927,6 +939,25 @@ jobs:
               --stage triangle-gate --gate research/modalities/valb-triangle-market-hold.json \
               --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
               --reason "every triangle leg already done or hosted; no launch dispatched, no rental attempted" || true
+          elif [ "$RC" = 4 ]; then
+            # ★★ BLOCKED — AND IT HAD NO BRANCH HERE UNTIL 2026-07-29, WHICH IS WHY IT PRINTED AS A PRICE
+            # HOLD. The valB_mini gate has carried exit 4 since the breaker went live; this gate, written
+            # from the same template afterwards, stopped at 3. So when all four triangle legs went BLOCKED
+            # on the partial-charge defect (15, 15, 7 and 21 dead hosts), the launcher's own readout said
+            # "⛔ BLOCKED ON REPEATED FAILURE" one line above a job annotation reading "HELD on price …
+            # re-checks on the next tick and launches itself the moment it clears".
+            #
+            # That is not a cosmetic mismatch, and it is the same defect as CLAUDE.md §1's "a row we are
+            # paying and a row the gate refused must never render alike" seen from the other side. A price
+            # hold is SELF-CLEARING: it is a true statement that the lane is alive and waiting on a number
+            # that moves on its own. A breaker block is the opposite — nothing about the market will ever
+            # change it, and the promise of a tick that clears it is a promise that cannot be kept. A lane
+            # stalled on a code fault would have looked, in the only place an operator reads, exactly like a
+            # lane patiently waiting out an expensive hour. One glyph, one meaning.
+            python research/modalities/ternary_launch_ledger.py --record blocked \
+              --stage triangle-gate --gate research/modalities/valb-triangle-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "triangle units withheld by the failure breaker; no launch dispatched, no rental attempted" || true
           fi
           # ⛔ THE SNAPSHOT IS COMMITTED ON EVERY EVALUATION, CLEAR OR HOLD. CLAUDE.md §6's one prohibition on
           # a gate that declines to buy is that declining must never be SILENT: a fleet that never launched
@@ -939,7 +970,11 @@ jobs:
           git add "$HOLDFILE" "$LEDGER"
           if ! git diff --cached --quiet; then
             cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
-            MSG="valB triangle market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) (CI)"
+            # The commit subject is the only part of this that survives into `git log`, so it carries the
+            # same four words the ledger does — a `HOLD` subject on a breaker block would put the wrong
+            # cause into the permanent record. Mirrors the valB_mini gate's case exactly.
+            case "$RC" in 0) WORD=CLEAR;; 3) WORD=NOTHING-TO-LAUNCH;; 4) WORD=BLOCKED;; *) WORD=HOLD;; esac
+            MSG="valB triangle market snapshot: $WORD (CI)"
             for attempt in 1 2 3 4 5; do
               git commit -q -m "$MSG" || true
               if git push origin HEAD:"$BR" 2>/dev/null; then break; fi
@@ -951,7 +986,7 @@ jobs:
               if git diff --cached --quiet; then break; fi
             done
           fi
-          echo "triangle-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host)"
+          echo "triangle-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
           if [ "$RC" = 0 ]; then
             echo "::notice title=TRIANGLE MARKET CLEAR::board is within BOTH the triangle's own dollar ceiling and the \$/ns buy line — dispatching task=triangle."
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=triangle
@@ -959,6 +994,14 @@ jobs:
           fi
           if [ "$RC" = 3 ]; then
             echo "::notice title=TRIANGLE NOTHING TO LAUNCH::every triangle leg is already done or already hosted — no launch dispatched, no rental attempted."
+            exit 0
+          fi
+          if [ "$RC" = 4 ]; then
+            # Green, like the hold below, and for the same reason: the fact is recorded and a red build every
+            # tick would only bury it. But the SENTENCE is the opposite one — nothing here self-clears, and
+            # naming the remedy is the point, because the operator reading this is the only thing that will
+            # act on it.
+            echo "::warning title=TRIANGLE BLOCKED ON REPEATED FAILURE::the valB closure triangle is NOT held on price — its units are withheld by the failure breaker after dying on several hosts each. This does NOT clear on the next tick and no rental was attempted (\$0). Fix the cause, then task=supersede-failed with leg_only=to_lo2 (or leg_failure_breaker.reset_for), and re-run task=triangle-gate."
             exit 0
           fi
           # A HOLD IS A NORMAL, GREEN, VISIBLE STATE — never a red build. The snapshot is committed above,
