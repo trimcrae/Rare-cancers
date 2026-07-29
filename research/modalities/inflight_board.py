@@ -51,6 +51,20 @@ except Exception:                        # noqa: BLE001 — a missing registry m
 
 RUNNING, STALLED, STARTING, NO_HOST = "RUNNING", "STALLED", "STARTING", "NO HOST"
 
+# ★★ "WE COULD NOT SEE" IS NOT "IT IS NOT THERE" (measured 2026-07-29, 4:04 PM ET — a false emergency).
+# All six legs rendered `NO HOST` at once and read as six simultaneous deaths. They were not: the same
+# collect's gates had seen all six hosts three minutes earlier, the summary carried ZERO instance lines and
+# ZERO destroy notices, and `collect` had printed `could not list instances: RuntimeError: ...`. The Vast
+# instance list was UNREADABLE that pass — a throttle — and `collect` degrades an unreadable list to `mine =
+# []`, which the no-host branch then correctly turned into "every enabled unit has no host".
+#
+# The bug is that the two render IDENTICALLY. A death demands a relaunch and a diagnosis; an unreadable list
+# demands nothing but the next poll. CLAUDE.md §4 forbids the reassurance direction ("it's probably just a
+# throttle"), and this constant is the other direction: the board must state which of the two it observed
+# rather than picking one. `_vast_request` already retries a 403/5xx five times over ~30 s, so by the time
+# this fires the read has genuinely failed, and the honest word for the host state is UNKNOWN.
+UNKNOWN = "UNKNOWN"
+
 # CLAUDE.md §4: two consecutive checks with no advance. Not tunable per lane — a per-lane threshold is how a
 # stall detector gets quietly relaxed until it never fires.
 STALL_POLLS = 2
@@ -125,7 +139,7 @@ def eta_seconds(phase, iteration, targets, s_per_iter):
 
 
 def state_of(has_host, advanced, no_advance_polls, cold_start, why_not_running=None,
-             pre_first_commit=False):
+             pre_first_commit=False, host_list_readable=True):
     """(state, why). PURE.
 
     ⚠ REFUSES to call a leg STALLED without a reason — see the module docstring. Raising is correct: a board
@@ -148,7 +162,21 @@ def state_of(has_host, advanced, no_advance_polls, cold_start, why_not_running=N
     (`watchdog_policy.DEFAULT_SETUP_GRACE_MIN`, 90 min — the same line `vast_idle_guard` uses to decide a
     container is WEDGED rather than slow), NOT against the poll counter and not against the 15-minute
     cold-start floor. Past that grace with still nothing committed it IS a stall, and then the reason is real.
+    ★★ `host_list_readable=False` IS CHECKED BEFORE EVERYTHING ELSE, because it is a statement about the
+    OBSERVATION and every other branch here is a statement about the LEG. If the provider's instance list
+    could not be read, we do not know whether this leg has a host, whether it advanced, or how old its box
+    is — so no other verdict in this function is entitled to be rendered. See the `UNKNOWN` constant for the
+    4:04 PM ET incident that this exists to stop repeating; like STALLED, it REFUSES an empty reason, because
+    "UNKNOWN" with no cause is exactly the cell that sends a reader off to re-derive the board by hand.
     """
+    if not host_list_readable:
+        why = (why_not_running or "").strip()
+        if not why:
+            raise ValueError(
+                "refusing to render UNKNOWN with no reason: the caller knows WHY the instance list could not "
+                "be read (the provider error it caught) and that error is the entire content of this row — "
+                "without it the row is indistinguishable from the host death it exists to not be mistaken for")
+        return UNKNOWN, why
     if not has_host:
         return NO_HOST, (why_not_running or "no live instance")
     if advanced:

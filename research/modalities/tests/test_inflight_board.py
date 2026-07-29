@@ -197,6 +197,56 @@ def test_a_no_host_row_still_shows_percent_because_the_checkpoint_survives():
     assert B.pct_complete("warmup", 64, (768, 2000)) > 0.0
 
 
+# ── an unreadable instance list must not render as a host death (2026-07-29, 4:04 PM ET) ────────────
+# All six legs printed NO HOST in one board and read as six simultaneous deaths. The gates had seen all six
+# hosts three minutes earlier; the same collect had printed `could not list instances`. `mine = []` on an
+# unreadable read is the correct reap-nothing degradation, but it made "we could not see" render exactly like
+# "it is not there".
+
+def test_an_unreadable_host_list_is_UNKNOWN_not_NO_HOST():
+    st, why = B.state_of(False, False, 0, False, host_list_readable=False,
+                         why_not_running="RuntimeError: vast API GET /instances/ -> 403")
+    assert st == B.UNKNOWN, "an unreadable list must never be reported as an absent host"
+    assert st != B.NO_HOST and "403" in why
+
+
+def test_unreadable_beats_every_other_branch_including_a_claimed_host():
+    """No other verdict is entitled to render: we could not observe the host, its age, or its advance."""
+    for kwargs in ({"has_host": True, "advanced": True, "no_advance_polls": 0, "cold_start": False},
+                   {"has_host": True, "advanced": False, "no_advance_polls": 9, "cold_start": False},
+                   {"has_host": False, "advanced": False, "no_advance_polls": 0, "cold_start": True}):
+        st, _ = B.state_of(host_list_readable=False, why_not_running="throttled", **kwargs)
+        assert st == B.UNKNOWN
+
+
+def test_UNKNOWN_with_no_reason_RAISES_like_a_stall_does():
+    with pytest.raises(ValueError, match="refusing to render UNKNOWN"):
+        B.state_of(False, False, 0, False, host_list_readable=False)
+    with pytest.raises(ValueError):
+        B.state_of(False, False, 0, False, host_list_readable=False, why_not_running="  ")
+
+
+def test_readable_is_the_default_so_existing_callers_are_unchanged():
+    assert B.state_of(False, False, 0, False, why_not_running="host died")[0] == B.NO_HOST
+
+
+def test_an_unknown_row_renders_and_says_it_is_not_a_death():
+    txt = B.render([{"name": "T2 ternary", "pct": 9.2, "eta_s": None, "usd_per_ns": None,
+                     "state": B.UNKNOWN, "why": "instance list did not read this pass — NOT a host death"}])
+    assert "UNKNOWN" in txt and "NOT a host death" in txt and "NO HOST" not in txt
+
+
+def test_the_collect_passes_readability_into_the_no_host_branch():
+    """Pin the call site: UNKNOWN existing in the module is not the same as collect distinguishing the two."""
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert "_inst_unreadable" in src, "collect no longer records WHY the instance list failed to read"
+    assert "host_list_readable=(_inst_unreadable is None)" in src, (
+        "the no-host rows no longer distinguish an unreadable instance list from genuine host deaths — six "
+        "legs would again render as six simultaneous deaths on a throttled read")
+
+
 def test_the_collect_emits_no_host_rows():
     """Pin the call site: NO_HOST being reachable in the module is not the same as the board using it."""
     import os

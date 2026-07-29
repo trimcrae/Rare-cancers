@@ -2605,12 +2605,24 @@ def collect(bucket=None, prefix=None, autostop=True):
 
     key = os.environ.get("VAST_API_KEY")
     mine = []
+    # ★★ WHETHER THE LIST WAS READABLE IS ITSELF A FACT THE BOARD NEEDS (measured 2026-07-29, 4:04 PM ET).
+    # `mine = []` is the right DEGRADATION for the reap loop below — an unreadable list must reap nothing —
+    # but it is a lossy one, because an empty list means "no hosts" and an unreadable list means "we do not
+    # know", and downstream those two produced the SAME six `NO HOST` rows. Six legs appearing to die at once
+    # is a 3 AM emergency; a throttled read is nothing at all. So the error is kept, not just printed, and
+    # the board renders UNKNOWN with this text as the reason. `None` = the list was read.
+    _inst_unreadable = None
     if key:
         try:
             mine = [i for i in _vast_request("GET", "/instances/", key).get("instances", [])
                     if (i.get("label") or "").startswith(LABEL_PREFIX)]
         except Exception as e:  # noqa: BLE001
-            print(f"[collect] could not list instances: {type(e).__name__}: {e}")
+            _inst_unreadable = f"{type(e).__name__}: {e}"
+            print(f"[collect] could not list instances: {_inst_unreadable}")
+    else:
+        # No key is a different unreadability with the same consequence: we cannot see hosts, so we must not
+        # claim there are none. It is stated separately because the remedy is a missing secret, not patience.
+        _inst_unreadable = "VAST_API_KEY is not set in this environment"
 
     # ★ THE LAUNCH-ATTEMPT LEDGER, FIRST. `_last_launch.json` below is written by the LAUNCHER, so it is
     # silent about exactly the failure that misled a reader on 2026-07-27: a gate that cleared, dispatched,
@@ -3123,10 +3135,19 @@ def collect(bucket=None, prefix=None, autostop=True):
             for _uid in sorted(_expected - _hosted - set(done)):
                 _ph, _it, _ = committed_progress(_uid, b, p)
                 _tg = ifb.parse_targets("\n".join(phase_and_log(_uid, b, p, tail=60)[2]))
+                # ⚠ A UNIT IS ONLY "MISSING" IF WE COULD SEE THE HOSTS THAT ARE THERE. When the instance
+                # list did not read, EVERY enabled unit lands in this set — which is the 4:04 PM failure —
+                # so the readability of that read decides which verdict this row is even allowed to carry.
                 _st, _w = ifb.state_of(False, False, 0, False,
-                                       why_not_running="no live host — checkpoint at %s/%s is intact in S3; "
-                                                       "the next gate tick re-places it"
-                                                       % (_ph or "none", _it))
+                                       host_list_readable=(_inst_unreadable is None),
+                                       why_not_running=(
+                                           "host state UNKNOWN — the Vast instance list did not read this "
+                                           "pass (%s), so this is NOT a host death; checkpoint at %s/%s is "
+                                           "intact in S3 and the next poll re-reads"
+                                           % (_inst_unreadable, _ph or "none", _it)
+                                           if _inst_unreadable else
+                                           "no live host — checkpoint at %s/%s is intact in S3; "
+                                           "the next gate tick re-places it" % (_ph or "none", _it)))
                 _rows.append({"name": ifb.short_name(_uid), "pct": ifb.pct_complete(_ph, _it, _tg),
                               "eta_s": None, "usd_per_ns": None, "state": _st, "why": _w})
         except Exception as _e:  # noqa: BLE001
