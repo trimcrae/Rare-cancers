@@ -644,6 +644,26 @@ protein chains, 44,860 waters, 248 ions and **exactly one** ligand-sized molecul
 ranked guess. It returns `n = 110, heavy = 59`, matching an RDKit heavy-atom count taken at freeze time from an
 unrelated code path, and the ligand identified independently in the solvent box is the same species.
 
+**The charge model was read out of the simulated systems, not taken from the configuration.** `ΔΔG_coop =
+ΔΔG_ternary − ΔΔG_binary` cancels the partial-charge model only if **both arms used the same one**, and a
+`partial_charge_method = nagl` line in a run log records what was *requested*: OpenFE prefers user-supplied
+charges over its configured method, and the pre-equilibrated pose file each ternary leg reads carries a
+complete per-atom set for its λ = 0 endpoint (measured: 109 values on the `calib_hi` record, none on
+`calib_lo`). Both arms' serialized hybrid `System`s were therefore read directly from their stored setup
+caches. The ternary and binary arms' alchemical charge columns are **identical** — 109 of 109 core atoms at
+max |Δq| = 0.0 *e* for r0 and r1 and 1.9 × 10⁻⁷ *e* for r2, i.e. agreement to the last serialised digit — so
+the cancellation the cycle requires holds by measurement. Two controls fix the
+reading. **(i) What the inherited set *is*:** the binary arm ran without pre-equilibration (no pre-equilibration
+cache for it exists, and its staged pose file carries no charges at all), so it had nothing to inherit and its
+System was necessarily parameterised by the protocol — and those charges match the relaxed pose file's to
+0.0 *e*, i.e. the inherited values *are* the protocol's own NAGL values, as expected for a graph-based
+(conformer-independent) charge model that the conditioning step is written to reuse. **(ii) The reverse leg**
+cannot be probed this way, because its λ = 0 endpoint is the record the pose file carries no charges for; its
+two endpoints were reconstructed instead and are the forward leg's, swapped (3.5 × 10⁻¹⁸ and 2.3 × 10⁻⁷ *e*),
+against 0.16 *e* between the two directions' λ = 0 endpoints — so the antisymmetry check above is not
+confounded by a charge-model difference either. Full per-leg record:
+[`../modalities/charge-provenance-forensic.json`](../modalities/charge-provenance-forensic.json).
+
 **Why "systematic" is the conclusion.** Statistical uncertainty 0.045 vs a 1.478 miss is a ratio of ~33.
 Replicates reduce variance, not bias, so the residual error classes are the endpoint-state ones that main-text
 §2.9 shows a closed cycle to be structurally blind to — force field, partial-charge method, protonation/tautomer

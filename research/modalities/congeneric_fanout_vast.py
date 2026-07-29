@@ -3374,6 +3374,22 @@ def mode_collect():
                           "NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is "
                           "not established here — it rests on valA_mini + OpenFE's published benchmark for "
                           "this protocol.",
+        # ★ WAS THIS LANE TOUCHED BY THE CHARGE-INHERITANCE DEFECT? ASKED AND ANSWERED, IN THE MAP ITSELF.
+        # The ternary lane's banked legs were found to have sampled on charges inherited from their
+        # pre-equilibrated pose file (OpenFE prefers user-supplied charges over the configured
+        # partial_charge_method, and nothing stripped them before 2026-07-28T00:54Z). `nr4a3_rbfe._sdf_mol`
+        # is SHARED with this lane, so the same question lands on these ddG values — and it is settled by
+        # the staged pose file rather than argued from the code. Written here rather than into the JSON
+        # because every autoscale tick REWRITES that file; a note added to the artifact would survive until
+        # the next tick and no longer.
+        "_charge_provenance": "MEASURED CLEAN, 2026-07-29 ($0, gpu-ternary-fep-vast.yml "
+                              "task=charge-provenance): this lane stages a DOCKED sdf, and "
+                              "s3://…/nr4a3-step1-fanout/stage/ligand/docked_nr4a3.sdf carries 17 records "
+                              "and ZERO `atom.dprop.PartialCharge` tags — there was never anything here to "
+                              "inherit, so no result on this map is affected. NB this lane persists NO setup "
+                              "cache, so that pose file is the only stored artifact that can answer it: "
+                              "there is no hybrid System to fall back on. Evidence: "
+                              "research/modalities/charge-provenance-forensic.json → fanout_exposure.",
         "n_units": len(units), "n_complete": len(results),
         # ★ AND THE DENOMINATOR A READER SHOULD ACTUALLY QUOTE (2026-07-28). `n_units` is the MAP; the map
         # minus its permanent exclusions is what this lane can ever deliver, and the manuscript cites THIS

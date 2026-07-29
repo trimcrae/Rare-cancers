@@ -1723,7 +1723,10 @@ stating plainly, since the reflex response to a failed free-energy benchmark is 
 error classes that a converged, structurally stable, antisymmetric calculation can still carry are precisely the
 endpoint-state ones §2.9 showed a closed cycle to be blind to: the force field, the partial-charge method,
 protonation/tautomer assignment, **the homology substitution in the receptor model**, and error in the reference
-data itself. Two of those are concretely elevated here: the SMARCA2 bromodomain is a **sequence substitution
+data itself. The partial-charge term enters as the *absolute* accuracy of one shared model and not as a
+mismatch between the two arms: both arms' hybrid systems were read out of storage and carry the **same**
+alchemical charges to the last serialised digit, so the model cancels from the cycle as intended (SI §S11).
+Two of the classes are concretely elevated here: the SMARCA2 bromodomain is a **sequence substitution
 into a 3.73 Å SMARCA4 parent structure** followed by relaxation (SMARCA2 crystallization having failed for the
 original investigators too), and the target is derived from an SPR α-ratio whose own uncertainty is not
 propagated into the ±1.0 kcal/mol margin.

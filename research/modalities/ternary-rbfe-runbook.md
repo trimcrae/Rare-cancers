@@ -44,6 +44,17 @@ Nothing auto-fires; a push with no marker runs the $0 `test`.
   consequence: **`task=triangle-diag` reads every ARCHIVED attempt, not just the newest** — a unit that has
   been relaunched dozens of times has its whole history there, and a leg that SUCCEEDED has its log only
   there (a later re-dispatch exits on the idempotency check and overwrites `run.log` with a two-line stub).
+- **★ A `partial_charge_method = nagl` LOG LINE IS NOT EVIDENCE OF WHAT A LEG SAMPLED — read the System
+  (`task=charge-provenance`, $0).** The third failure mode above is silent: a COMPLETE inherited set raises
+  nothing and OpenFE simply prefers it, so the log keeps reporting the configured method. The stored
+  setup-cache `System` records what was actually parameterised, and reading it is a bare-runner job over both
+  object stores (~3 min, no docker, no GPU). Run it before folding any leg into a cycle whose argument is
+  *"the charge model cancels"*. **What it found on the banked valB legs (2026-07-29):** the inheritance DID
+  happen on every forward leg — and changed nothing, because the relaxed file's charges **are** the
+  protocol's NAGL charges (`ternary_preequil._build_physical_system` conditions with
+  `assign_rbfe_charges(off_lig, CHARGE_METHOD)`, and NAGL is graph-based, so the conformer is irrelevant).
+  Per-leg evidence, including the two controls that make that reading load-bearing:
+  [`charge-provenance-forensic.json`](./charge-provenance-forensic.json).
 
 ### 0b · Why the trajectory setting exists (do not turn it off to save space)
 `nr4a3_rbfe._protocol` sets `positions_write_frequency = None` to avoid a ~1 GB analysis `.nc`. That is the
