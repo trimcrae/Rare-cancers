@@ -1294,6 +1294,30 @@ def committed_progress(uid, bucket=None, prefix=None):
     return (None, 0, 0)
 
 
+def marker_predates_host(marker_age_min, instance_up_h):
+    """Does this unit's phase marker belong to an EARLIER attempt than the host we are looking at? PURE.
+
+    The marker and run.log live at a per-UNIT S3 key, never a per-attempt one, so a freshly rented host shows
+    its predecessor's marker until it writes its own. Comparing the marker's age against the instance's own
+    uptime is the whole test, and it is the same shape as `_record_is_newer_than_instance` — which exists
+    because the launch side learned this lesson first, on a stale `failed` record that would have reaped a
+    freshly launched host.
+
+    Returns False whenever it cannot tell (no marker age, or an instance with no usable start date). Failing
+    towards "not stale" is deliberate: a spurious ⚠ on a genuinely current marker would teach the reader to
+    ignore the flag, which is the same alarm-fatigue failure `reap_landed` was built to end.
+    """
+    if marker_age_min is None or instance_up_h is None:
+        return False
+    try:
+        up_min = float(instance_up_h) * 60.0
+        if up_min <= 0:
+            return False
+        return float(marker_age_min) > up_min
+    except (TypeError, ValueError):
+        return False
+
+
 def phase_and_log(uid, bucket=None, prefix=None, tail=8):
     """(phase_marker, age_minutes, log_tail_lines) for a unit, from S3. [] if not written yet.
 
@@ -2693,9 +2717,34 @@ def collect(bucket=None, prefix=None, autostop=True):
             # The commit census is blind for the whole cold start, so pair it with the on-host phase
             # marker and log tail — that is what turns a liveness ping into a progress check.
             mark, mark_age, tail, log_age = phase_and_log(uid, b, p)
+            # ★★ A MARKER OLDER THAN THE HOST BELONGS TO A DIFFERENT ATTEMPT, AND SAYING SO IS THE WHOLE
+            # POINT (2026-07-29, 11:37 AM ET). The phase marker and run.log live at a per-UNIT key, not a
+            # per-attempt one, so a freshly rented host inherits whatever the unit's LAST attempt left there
+            # until it writes its own. `calib_lo_to_lo2__ternary_vhl` was two minutes into a clean start and
+            # this line read:
+            #
+            #     phase: done 2026-07-28T10:39:56Z  (marker 1737 min old, log 1737.0 min old)
+            #     | Traceback (most recent call last):
+            #
+            # — the "done" and the traceback both belonging to yesterday's partial-charge death, printed
+            # against a leg that had not yet produced a single iteration. Read at a glance that is a finished
+            # leg, or a leg that has already crashed again; it is neither.
+            #
+            # ⚠ NOTHING IS BEING FIXED IN THE CONTROL PATH HERE, AND THAT IS THE MEASURED FINDING RATHER THAN
+            # AN ASSUMPTION. Every clause that can act was checked against this box: `reap_landed` keys on a
+            # `status == "done"` leg.json (this unit's was archived by `--supersede-failed`, so there is no
+            # record at all), the crash/reap clause is already guarded by `_record_is_newer_than_instance`,
+            # and the frozen clause keys on the VAST status message tracked across polls (`unchanged_for=0min`
+            # here), not on marker age. The idle guard abstained on its own. So this is a READOUT defect and
+            # is fixed as one — but it is exactly the class CLAUDE.md §1 legislates against, because the
+            # cheapest way for a stale fact to become a wrong decision is for it to render as a current one.
+            _mark_stale = marker_predates_host(mark_age, up_h)
             print(f"      phase: {mark or '(no marker yet — image pull / container start)'}"
                   + (f"  (marker {mark_age:.0f} min old" if mark_age is not None else "  (")
-                  + (f", log {log_age:.1f} min old" if log_age is not None else ", no log yet") + ")")
+                  + (f", log {log_age:.1f} min old" if log_age is not None else ", no log yet") + ")"
+                  + (f"  ⚠ PREVIOUS ATTEMPT'S MARKER — older than this host ({up_h * 60.0:.0f} min); "
+                     f"this leg has written nothing yet, and the phase and log lines below describe the "
+                     f"attempt before it" if _mark_stale else ""))
             for ln in tail:
                 print(f"      | {ln[:170]}")
             # ANTI-IDLE VERDICT. Everything it needs has just been read, so this costs one extra S3 LIST.
