@@ -1,7 +1,7 @@
 {
   "_snapshot_point": "START of the tick \u2014 before this tick's collect, nudge and launch",
-  "_generated_utc": "2026-07-29T14:08:55Z",
-  "_generated_et": "10:08 AM ET Jul 29, 2026",
+  "_generated_utc": "2026-07-29T14:10:34Z",
+  "_generated_et": "10:10 AM ET Jul 29, 2026",
   "n_units": 19,
   "n_complete": 16,
   "n_computable": 18,
@@ -16,11 +16,11 @@
   "live_instances": 2,
   "_vast_unreadable": null,
   "instance_states": {
-    "loading": 1,
-    "running": 1
+    "running": 2
   },
   "gpu_util": [
-    92.999908
+    91.999916,
+    0.0
   ],
   "phases": {
     "done": 16,
@@ -29,19 +29,6 @@
   },
   "instances": [
     {
-      "id": 46193061,
-      "label": "s1f-08-cw_bio_primary_amide",
-      "machine_id": 125565,
-      "status": "loading",
-      "cur_state": "stopped",
-      "status_msg": "",
-      "gpu": "RTX 4090",
-      "gpu_util": null,
-      "inet_down": 242.6,
-      "dph": 0.17303703703703704,
-      "age_min": 110
-    },
-    {
       "id": 46193136,
       "label": "s1f-18-cw_bio_primary_amide",
       "machine_id": 62866,
@@ -49,46 +36,46 @@
       "cur_state": "running",
       "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
       "gpu": "RTX 5090",
-      "gpu_util": 92.999908,
+      "gpu_util": 91.999916,
       "inet_down": 271.2,
       "dph": 0.2262222222222222,
-      "age_min": 109
+      "age_min": 111
+    },
+    {
+      "id": 46200247,
+      "label": "s1f-08-cw_bio_primary_amide",
+      "machine_id": 12697,
+      "status": "running",
+      "cur_state": "stopped",
+      "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh",
+      "gpu": "RTX 4090",
+      "gpu_util": 0.0,
+      "inet_down": 879.7,
+      "dph": 0.15822222222222224,
+      "age_min": 1
     }
   ],
   "stopped_host_adjudication": {
-    "never_started": [
+    "never_started": [],
+    "preempted": [
       {
-        "instance": 46193061,
+        "instance": 46200247,
         "label": "s1f-08-cw_bio_primary_amide",
-        "machine_id": "125565",
+        "machine_id": "12697",
         "gpu": "RTX 4090",
-        "age_min": 110,
-        "status_msg": "",
-        "double_booked_behind": null,
-        "machine_has_run_our_container": false,
-        "klass": "host_fault",
-        "remedy": "destroy and publish the machine HOST-scoped: it never executed our container",
-        "machine_excluded_now": true
+        "age_min": 1,
+        "status_msg": "success, running docker.io/triskit23/nr4a3fep_latest/ssh"
       }
     ],
-    "preempted": [],
-    "never_started_by_machine": {
-      "125565": [
-        "s1f-08-cw_bio_primary_amide"
-      ]
-    },
-    "max_units_on_one_machine": 1,
-    "n_never_started": 1,
-    "n_preempted": 0,
+    "never_started_by_machine": {},
+    "max_units_on_one_machine": 0,
+    "n_never_started": 0,
+    "n_preempted": 1,
     "n_double_booked": 0,
-    "n_host_fault": 1,
+    "n_host_fault": 0,
     "n_stopped_on_a_proven_machine": 0,
-    "host_fault_machines": [
-      "125565"
-    ],
-    "machines_excluded_since": [
-      "125565"
-    ]
+    "host_fault_machines": [],
+    "machines_excluded_since": []
   },
   "units": [
     {
@@ -165,7 +152,7 @@
     },
     {
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
-      "phase": "leg-complex-running 2026-07-29T12:16:59Z",
+      "phase": "boot 2026-07-29T14:10:32Z",
       "blocked_why": null,
       "committed": "no commit yet (boot / stage / setup / minimise)",
       "committed_scalar": 0,
@@ -263,6 +250,6 @@
       "ddg_bind_kcal": null
     }
   ],
-  "realised_usd_so_far": 70.44,
+  "realised_usd_so_far": 70.45,
   "plan_usd_whole_tranche": 29.72
 }

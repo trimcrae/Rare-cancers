@@ -489,31 +489,31 @@
     {
       "instance": 46193136,
       "label": "s1f-18-cw_bio_primary_amide",
-      "verdict": "WORKING",
-      "why": "gpu_util=92.9999% >= 5% and the host is still writing \u2014 GPU busy",
+      "verdict": "WATCHING",
+      "why": "quiet but alive: run.log 1 min old, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase",
       "evidence": {
         "instance_running": true,
         "container_started": true,
-        "gpu_util": 92.999908,
+        "gpu_util": 0.0,
         "progress_advanced": false,
-        "log_age_min": 1.4904822833333333,
+        "log_age_min": 1.0645937166666666,
         "start_ages_min": [
-          869.1238158464432,
-          858.0738158464432,
-          832.2738158464432,
-          831.4404825131098,
-          812.6904825131098,
-          792.6571491797765,
-          576.8404825131098,
-          291.1738158464432,
-          147.24048251310984,
-          97.02381584644317
+          870.7145938873291,
+          859.6645938873291,
+          833.8645938873291,
+          833.0312605539958,
+          814.2812605539958,
+          794.2479272206624,
+          578.4312605539958,
+          292.7645938873291,
+          148.83126055399578,
+          98.61459388732911
         ],
-        "instance_age_min": 110
+        "instance_age_min": 111
       }
     }
   ],
-  "realised_usd": 70.44,
+  "realised_usd": 70.45,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -2120,8 +2120,16 @@
       "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
       "machine_id": 62866,
       "rate_usd_h": 0.204,
-      "billed_h": 1.83,
-      "usd": 0.374
+      "billed_h": 1.85,
+      "usd": 0.377
+    },
+    {
+      "instance": "46200247",
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "machine_id": 12697,
+      "rate_usd_h": 0.136,
+      "billed_h": 0.02,
+      "usd": 0.002
     }
   ],
   "plan_usd_whole_tranche": 29.72,
