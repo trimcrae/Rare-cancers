@@ -123,14 +123,20 @@ def listing(root):
     out = {}
     if _is_s3(root):
         b, k = _split(root)
-        pag = _s3().get_paginator("list_objects_v2")
-        for page in pag.paginate(Bucket=b, Prefix=k.rstrip("/") + "/"):
-            for o in page.get("Contents", []) or []:
-                out[o["Key"][len(k.rstrip("/")) + 1:]] = {"bytes": o["Size"],
-                                                          "mtime": o["LastModified"].isoformat()}
+        try:
+            pag = _s3().get_paginator("list_objects_v2")
+            for page in pag.paginate(Bucket=b, Prefix=k.rstrip("/") + "/"):
+                for o in page.get("Contents", []) or []:
+                    out[o["Key"][len(k.rstrip("/")) + 1:]] = {"bytes": o["Size"],
+                                                              "mtime": o["LastModified"].isoformat()}
+        except Exception as e:  # noqa: BLE001 — one unreachable store must not cost the other's listing
+            out["_error"] = "%s: %s" % (type(e).__name__, e)
         return out
-    r = subprocess.run(["gcloud", "storage", "ls", "--recursive", "--long", root.rstrip("/") + "/"],
-                       capture_output=True, text=True)
+    try:
+        r = subprocess.run(["gcloud", "storage", "ls", "--recursive", "--long", root.rstrip("/") + "/"],
+                           capture_output=True, text=True)
+    except Exception as e:  # noqa: BLE001 — no gcloud on this runner is a FINDING (the GCS legs go
+        return {"_error": "%s: %s" % (type(e).__name__, e)}   # UNMEASURED), never a crash that loses S3
     if r.returncode:
         return {"_error": (r.stderr or "")[-400:]}
     for ln in (r.stdout or "").splitlines():
@@ -680,8 +686,15 @@ def main():
                 g["bytes"] += v["bytes"]
                 g["first_mtime"] = min(g["first_mtime"], v["mtime"])
                 g["last_mtime"] = max(g["last_mtime"], v["mtime"])
+            # A store we could not reach is a FINDING — an empty listing and an unreadable one must never
+            # render alike, because "no cache exists" is exactly the inference this section supplies.
+            if ls.get("_error"):
+                dirs["_STORE_UNREADABLE"] = ls["_error"]
             doc.setdefault("caches", {})[root] = dirs
             print("\n########## %s ##########" % root, flush=True)
+            if ls.get("_error"):
+                print("  ⚠ STORE UNREADABLE — every leg in it is UNMEASURED, not clean: %s"
+                      % ls["_error"], flush=True)
             for d in sorted(dirs):
                 print("  %-90s n=%-4d %10.1f MB  %s .. %s"
                       % (d, dirs[d]["n_objects"], dirs[d]["bytes"] / 1e6,

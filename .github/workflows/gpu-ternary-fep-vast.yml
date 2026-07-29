@@ -1793,16 +1793,15 @@ jobs:
       - if: ${{ steps.auth.outcome == 'success' }}
         continue-on-error: true
         uses: google-github-actions/setup-gcloud@v2
-      - name: What setup caches exist at all, and when was each written?
+      # ONE INVOCATION, ONE ARTIFACT. The listing is not decoration: which SETUP_CACHE_VERSION a leg was
+      # built under is only knowable from what EXISTS, and reading that off a job log that expires — while
+      # the verdict it supports is committed — is how the repo ended up inferring a leg's setup version from
+      # the ABSENCE of a directory (the defect ternary-watch.json flags by name). Both go in the same file.
+      - name: What caches exist, and what charges does every banked leg's System carry?
         run: |
           set -eo pipefail
           python -m pip install -q boto3
-          python research/modalities/charge_provenance_forensic.py --list-caches \
-            --out /tmp/caches.json 2>&1 | tee /tmp/list.txt
-      - name: Read the charges out of every banked leg's System XML
-        run: |
-          set -eo pipefail
-          python research/modalities/charge_provenance_forensic.py --audit \
+          python research/modalities/charge_provenance_forensic.py --list-caches --audit \
             --out research/modalities/charge-provenance-forensic.json 2>&1 | tee /tmp/audit.txt
       - name: Commit the forensic — provenance nobody should have to re-derive from an expiring job log
         run: |
@@ -1820,8 +1819,6 @@ jobs:
       - name: Summary LAST
         run: |
           set -eo pipefail
-          echo "================ CACHES PRESENT ================"
-          cat /tmp/list.txt || true
           echo "================ CHARGE PROVENANCE ================"
           cat /tmp/audit.txt
 
