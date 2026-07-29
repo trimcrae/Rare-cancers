@@ -602,3 +602,67 @@ anchored chemistry** — an external corroboration (independent of the de-novo s
 claim cannot rest on docking or single-frame MM-GBSA; it must come from FEP with resolved microstates and
 ensemble/opened-state controls, or be hedged. Full tables:
 [`../modalities/published-warhead-registry.md`](../modalities/published-warhead-registry.md) (Gate-2 sections).
+
+## S11. Ternary-cooperativity known-answer benchmark (`valB_mini`) — full diagnostics for main-text §2.11
+
+The main text reports that the preregistered ternary calibrator misses with the wrong sign, and argues the miss
+is systematic rather than statistical. This section carries the numbers that argument rests on, so the claim can
+be checked rather than taken.
+
+**System and target (frozen before execution).**
+
+| item | value | source |
+|---|---|---|
+| Edge | Wurz cmpd1 → cmpd4, linker pyridine N → CH | [`../modalities/wurz-calib-frozen.json`](../modalities/wurz-calib-frozen.json) |
+| Complex | SMARCA2 bromodomain / VHL ternary, template 8G1Q (3.73 Å, SMARCA4 parent) | RCSB 8G1Q, CCD `YHB` |
+| SMARCA2 model | sequence substitution from SMARCA4 BD + relaxation (SMARCA2 crystallization failed for the original investigators) | same |
+| α₁ / α₄ | 12.8 / 2.6 (**same-paper SPR**, not TR-FRET) | Wurz et al., *Nat Commun* 2023 |
+| Preregistered target | **ΔΔG_coop = −RT ln(α₄/α₁) = +0.944 kcal/mol** at 298.15 K, positive for hi→lo | frozen artifact |
+| Edge is constitutional, not a stereo null-map | `delta_N = −1`, `delta_C = +1`, 59 heavy atoms both sides | frozen artifact, `validation` block |
+| Engine | OpenFE `RelativeHybridTopologyProtocol`, 12 λ-windows, HREX + MBAR | `nr4a3_ternary_fep.py` |
+
+**Result and the diagnostic battery.** Every convergence criterion passes; the answer is still wrong.
+
+| quantity | value | threshold / note |
+|---|---|---|
+| **ΔΔG_coop (r0)** | **−0.534 kcal/mol** | target **+0.944** → **wrong sign**, abs error **1.478** |
+| Ternary-leg ΔG_morph | 47.511 ± 0.045 kcal/mol | MBAR, 2000/2000 production iterations |
+| Min adjacent λ-overlap | 0.109 | floor 0.03 — connected, no bottleneck |
+| N_eff | 676 | — |
+| Replicas visiting both end states | 12 / 12 | — |
+| ΔG(t) full-vs-final-half | 0.0023 | plateau flat |
+| Replica mixing | 0.8915 | ceiling 0.90 — passes, **recorded as marginal** |
+| Solute RMSD excursion 78.9 → 14.97 Å | **periodic wrapping, not rearrangement** | p50 2.50 Å, p90 5.91 Å; ~2 % of atoms at ~one 126.3 Å box edge; √(0.02·100² + 0.98·3²) ≈ 14.4 reproduces it |
+| Ligand-only pose RMSD | max **2.765 Å**, median **1.644 Å** | threshold 4.0 Å; ligand did not leave the interface |
+| **fwd/rev antisymmetry** | **\|ΔG_fwd + ΔG_rev\| = 0.325 kcal/mol** | preregistered ≤ 1.000 — **PASS** |
+| Cycle closure (3rd detector) | **not run** | third vertex frozen ([`../modalities/valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json)), no closed cycle produced |
+
+**Ligand identification was fail-closed, not assumed.** No committed artifact is a topology file, so the ligand
+was derived from bonded connectivity read out of the hybrid `System` inside the trajectory (HarmonicBondForce +
+the softcore CustomBondForce + constraints, where X–H bonds live). That partitions 141,968 particles into 4
+protein chains, 44,860 waters, 248 ions and **exactly one** ligand-sized molecule — a single candidate, not a
+ranked guess. It returns `n = 110, heavy = 59`, matching an RDKit heavy-atom count taken at freeze time from an
+unrelated code path, and the ligand identified independently in the solvent box is the same species.
+
+**Why "systematic" is the conclusion.** Statistical uncertainty 0.045 vs a 1.478 miss is a ratio of ~33.
+Replicates reduce variance, not bias, so the residual error classes are the endpoint-state ones that main-text
+§2.9 shows a closed cycle to be structurally blind to — force field, partial-charge method, protonation/tautomer
+assignment, the homology substitution in the receptor, and error in the reference data. The homology term and
+the SPR-derived target are the two concretely elevated here.
+
+**Caveats on the replicates still owed.** The preregistered rule needs a between-replicate cycle SD, so the
+formal verdict is INDETERMINATE rather than FAIL until ≥ 2 further replicates land. Two honest qualifications
+apply in advance: (i) the sign is already wrong with passing diagnostics, so the replicates are owed to the rule
+and are not a plausible route back to agreement; (ii) the ternary starting-model index is `seed mod n_models`
+with `n_models = 2`, so a third replicate reuses the first model's pose and the between-replicate SD
+**understates** homology-model variance — extending to five would put three of five replicates on one model and
+would require widening the ensemble first.
+
+**Seven defects were found in this gating diagnostic during development, every one reporting success while
+measuring nothing** (never wired to a dispatch path; a missing `openfe`; an unguarded lazy `mbar` import that
+deleted six other metrics; slice-MBAR never converging; a fwd/rev gap taken where it is identically zero; the
+checkpoint never opened because openmmtools expects `checkpoint.nc` while the driver writes `checkpoint.chk`;
+and a ligand-pose threshold applied first to bulk solvent and then to a four-chain assembly). Two produced
+*wrong verdicts* — a silent `diagnostics_ok = True`, then a fabricated hard FAIL. This is recorded because it is
+the main reason the benchmark's negative result is reported with its full diagnostic trail rather than as a
+single summary number.
