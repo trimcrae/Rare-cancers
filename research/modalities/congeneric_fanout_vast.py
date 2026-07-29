@@ -1542,9 +1542,19 @@ PLACEMENT_DECISIONS = {
     "fleet_at_width":    "every pending unit already has a live instance, or the fleet is at FANOUT_WIDTH",
     "terminus_hold":     "reduce/commit/upload has never been observed, so the fan-out is not released yet",
     "credential_hold":   "the object-store credential a rental would be given cannot read the staged inputs",
-    "spend_cap_hold":    "the lane's REALISED cumulative spend has reached its derived authorised ceiling — "
-                         "distinct from price_hold, which is about the RATE of one offer and clears when the "
-                         "board improves. This one does not clear on its own: it is trimcrae's call",
+    # ⚠ SUPERSEDED 2026-07-29 and retained: the tranche total no longer HOLDS placement (trimcrae: "the $75
+    # ceiling was always an estimate, not a hard cap"). Kept registered because historical ledger rows carry
+    # it and a reader must still be able to resolve what they meant. New breaches record
+    # `over_tranche_estimate_advisory` instead.
+    "spend_cap_hold":    "SUPERSEDED — the lane's REALISED cumulative spend reached its derived ceiling and "
+                         "placement was HELD. That figure is now advisory; see "
+                         "over_tranche_estimate_advisory. Historical rows only",
+    "over_tranche_estimate_advisory":
+                         "the lane's REALISED cumulative spend is past the derived TRANCHE ESTIMATE. "
+                         "ADVISORY: an estimate of what the rung was expected to cost is not a spend "
+                         "authorisation, so placement CONTINUED. Nothing here loosens a purchase gate — the "
+                         "$/ns buy line and the per-launch band ceiling refuse independently and are "
+                         "unchanged",
     "placement_disabled": "this tick was asked to measure only — no placement was attempted",
     "cost_model_red":    "the unit-list / cost-model tests failed, so nothing may be rented",
     "breaker_hold":      "every remaining unit has failed on `leg_failure_breaker.DEFAULT_THRESHOLD` or "
@@ -2438,26 +2448,38 @@ def mode_launch():
             f"{_cap_detail['n_rentals']} rental(s) counted, of which "
             f"{_cap_detail['n_accruing_unreconciled']} are accruing wall-clock because no collect has "
             f"reconciled them yet (a cap that cannot see those reads green while the lane is over).")
+    # ★★ THE TRANCHE FIGURE IS AN ESTIMATE, NOT A HARD CAP — IT WARNS, IT NO LONGER HALTS
+    # (trimcrae, 2026-07-29: *"The $75 ceiling was always an estimate, not a hard cap. Don't worry about
+    # that."*). This branch used to HOLD every pending unit on breach and demand a human decision. It does
+    # not any more.
+    #
+    # ⚠ WHAT THIS DOES **NOT** LOOSEN, because the distinction is the whole point. The gates that refuse a
+    # PURCHASE are untouched and still hard: the `$/ns` buy line (`inflight_usd_per_ns.APPROVED_USD_PER_NS`,
+    # CLAUDE.md §1) and the per-launch band ceiling (`market_ceiling_usd`) both still REFUSE below. What is
+    # now advisory is only the CUMULATIVE tranche total — a planning estimate for how much the whole rung was
+    # expected to cost, which was never a spend authorisation.
+    #
+    # ⚠ AND THE HAZARD THIS BRANCH WAS BUILT FOR IS REAL, so it is still MEASURED and still LOUD rather than
+    # deleted. Quoting its own docstring: *"Fifteen hosts each comfortably under the line is precisely the
+    # shape that drains a budget while every row reads green — the rate line answers 'is this a rate we will
+    # pay?', and nothing was answering 'have we now spent the money that was authorised?'"* That question is
+    # still answered on every tick and still recorded; the answer simply no longer stops the lane.
     if _cap_breached:
-        _lprint(f"[s1f] ⛔⛔ SPEND CAP REACHED — realised ${_cap_realised} >= ${_cap_ceiling}. "
-                f"HOLDING all {len(batch)} unit(s). Nothing was rented, nothing was dropped and NOTHING "
-                f"RUNNING WAS TOUCHED: the {len(live)} live host(s) keep working and keep checkpointing. "
-                f"This is NOT a price hold — the board is irrelevant to it and waiting will not clear it.")
+        _lprint(f"[s1f] ⚠ OVER THE TRANCHE ESTIMATE — realised ${_cap_realised} >= ${_cap_ceiling} "
+                f"(${abs(_cap_headroom)} over). CONTINUING: this figure is a planning estimate, not a spend "
+                f"authorisation, and it does not gate placement. Every unit below is still priced against "
+                f"the $/ns buy line and the per-launch ceiling, either of which will still refuse.")
         record_no_placement(
-            "spend_cap_hold",
-            f"realised cumulative spend ${_cap_realised} has reached the derived authorised ceiling "
-            f"${_cap_ceiling} for {_cap_detail['n_units_authorised']} units; {len(batch)} unit(s) held. "
-            f"Live work continues untouched. Clearing this needs a decision, not a better board.",
-            s3=s3, bucket=bucket, key=key, n_withheld=len(batch), excluded=_excl_for_snapshot)
+            "over_tranche_estimate_advisory",
+            f"realised cumulative spend ${_cap_realised} is past the derived tranche estimate "
+            f"${_cap_ceiling} for {_cap_detail['n_units_authorised']} units. ADVISORY ONLY — placement "
+            f"continued; the per-purchase rate and band gates are unchanged and still binding.",
+            s3=s3, bucket=bucket, key=key, n_withheld=0, excluded=_excl_for_snapshot)
         if pending:
-            print(f"::error title=STEP1 FAN-OUT: SPEND CAP REACHED::realised ${_cap_realised} against the "
-                  f"derived authorised ceiling ${_cap_ceiling}, with {len(pending)} unit(s) still pending. "
-                  f"Placement is HELD; running legs are untouched. This does not clear on its own — it "
-                  f"needs a decision: re-price the tranche against the current market, authorise more, or "
-                  f"stop the lane here. Snapshot: step1-fanout-market-hold.json", flush=True)
-            globals()["_MARKET_HOLD_ESCALATED"] = True
-        _write_launch_readout()
-        return
+            print(f"::warning title=STEP1 FAN-OUT: OVER THE TRANCHE ESTIMATE::realised ${_cap_realised} "
+                  f"against a derived tranche estimate of ${_cap_ceiling}, {len(pending)} unit(s) pending. "
+                  f"NOT a hold — the estimate does not gate placement (trimcrae, 2026-07-29). The $/ns buy "
+                  f"line and the per-launch ceiling still refuse independently.", flush=True)
 
     # ⛔ THE $/ns MARKET GUARD (CLAUDE.md §6). EVERY launch must clear a price gate — fleet or single unit.
     #

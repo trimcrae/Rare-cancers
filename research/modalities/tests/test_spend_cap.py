@@ -147,21 +147,51 @@ def test_an_unreadable_ledger_fails_closed():
     assert cfv.load_ledger_strict(_Missing(), "b") == {"rentals": {}}
 
 
-def test_the_cap_never_destroys_anything():
-    """STRUCTURAL: the breach branch must hold and return, never reach a teardown path.
-
-    Asserted against the source rather than by mocking a fleet, because the property being protected is
-    'this code path cannot reach a destroy', and the cheapest honest proof of that is that no destroy
-    call appears between the breach and its return. Work already executing is never touched — the gate
-    acts at the moment of renting.
-    """
+def _breach_branch():
     import inspect
     src = inspect.getsource(cfv.mode_launch)
     i = src.index("if _cap_breached:")
-    branch = src[i:src.index("# ⛔ THE $/ns MARKET GUARD", i)]
+    return src[i:src.index("# ⛔ THE $/ns MARKET GUARD", i)]
+
+
+def test_the_cap_never_destroys_anything():
+    """STRUCTURAL: the breach branch must never reach a teardown path.
+
+    Asserted against the source rather than by mocking a fleet, because the property being protected is
+    'this code path cannot reach a destroy'. Work already executing is never touched.
+    """
+    branch = _breach_branch()
     for forbidden in ("destroy", "_reap", "DELETE", ".stop("):
-        assert forbidden not in branch, f"the spend cap must not {forbidden!r} — it holds, it does not kill"
-    assert "record_no_placement(" in branch and "return" in branch
+        assert forbidden not in branch, f"the spend cap must not {forbidden!r} — it warns, it does not kill"
+
+
+def test_the_tranche_estimate_is_ADVISORY_and_does_not_hold_placement():
+    """trimcrae, 2026-07-29: *"The $75 ceiling was always an estimate, not a hard cap."*
+
+    This branch used to `return`, holding every pending unit until a human decided. It must not any more —
+    a planning estimate of what a rung was expected to cost is not a spend authorisation.
+    """
+    branch = _breach_branch()
+    assert "return" not in branch, "the tranche estimate is advisory; it must not halt placement"
+    assert "record_no_placement(" in branch, "an advisory breach must still be RECORDED, not silent"
+    assert "over_tranche_estimate_advisory" in branch
+
+
+def test_going_over_the_estimate_records_a_key_the_ledger_can_resolve():
+    """`record_no_placement` validates its key against PLACEMENT_DECISIONS, so an unregistered key raises —
+    at exactly the moment the lane crosses the estimate. That is how this landed the first time."""
+    assert "over_tranche_estimate_advisory" in cfv.PLACEMENT_DECISIONS
+    assert "spend_cap_hold" in cfv.PLACEMENT_DECISIONS, "historical ledger rows must stay resolvable"
+
+
+def test_the_advisory_does_not_loosen_a_purchase_gate():
+    """The distinction the ruling turns on: the CUMULATIVE estimate is advisory, the PER-PURCHASE gates are
+    not. Both must still refuse below this branch."""
+    import inspect
+    src = inspect.getsource(cfv.mode_launch)
+    after = src[src.index("# ⛔ THE $/ns MARKET GUARD"):]
+    assert "market_verdict" in after or "usd_per_ns" in after, \
+        "the per-purchase price gate no longer runs after the advisory branch"
 
 
 if __name__ == "__main__":  # pragma: no cover
