@@ -549,3 +549,75 @@ def test_a_timed_out_WRITE_is_NEVER_retried(monkeypatch):
     except RuntimeError as e:
         assert "unreachable" in str(e)
     assert len(calls) == 1, "a write must be attempted exactly once"
+
+
+# ── the deadline floor (trimcrae, 2026-07-29: "I just want them all done by the morning") ────────────
+# `gpu_class` could not deliver this and the reason is structural: with `require_gpu` unset, `ResourceSpec.gpu`
+# is read ONLY by `_select_cheapest_offer`'s unmeasured fallback, so any benched offer sends the decision back
+# to the $/ns ranking. T2 ternary was correctly re-placed on the board's best $/ns — an RTX 3090 — whose
+# measured 34 s/iter put its ETA ~14 h past its siblings'. The requirement was speed; nothing in the spec
+# could say so.
+
+def _o(i, gpu, bid):
+    return {"id": i, "num_gpus": 1, "gpu_ram": 24576, "min_bid": bid, "dph_total": bid, "gpu_name": gpu}
+
+
+def test_a_speed_floor_refuses_the_best_dollar_per_ns_when_it_is_too_slow():
+    """The exact 2026-07-29 board shape: the cheap 3090 wins on $/ns and must still be refused."""
+    from gpu_backend import ResourceSpec, _select_cheapest_offer
+    cheap_slow = _o(1, "NVIDIA GeForce RTX 3090", 0.068)
+    dearer_fast = _o(2, "NVIDIA GeForce RTX 5090", 0.229)
+    no_floor = ResourceSpec(gpu="any", min_vram_gb=24, min_cuda=0.0)
+    assert _select_cheapest_offer([cheap_slow, dearer_fast], no_floor)["id"] == 1, (
+        "precondition: without a floor the cheap slow card is correctly the best $/ns")
+    floored = ResourceSpec(gpu="any", min_vram_gb=24, min_cuda=0.0, min_ns_per_h=40.0)
+    assert _select_cheapest_offer([cheap_slow, dearer_fast], floored)["id"] == 2
+
+
+def test_the_floor_is_checked_against_the_validated_table_not_a_card_name():
+    """One home for card speed (CLAUDE.md §1): the admitted set must follow MEASURED_NS_PER_DAY_84K."""
+    import vast_cost_model as _vcm
+    from gpu_backend import ResourceSpec, rank_offers_by_usd_per_ns
+    names = {"RTX5090": "NVIDIA GeForce RTX 5090", "RTX4090": "NVIDIA GeForce RTX 4090",
+             "RTX3090": "NVIDIA GeForce RTX 3090", "RTXA4000": "NVIDIA RTX A4000"}
+    offers = [_o(i, n, 0.20) for i, n in enumerate(names.values(), start=1)]
+    res = ResourceSpec(gpu="any", min_vram_gb=24, min_cuda=0.0, min_ns_per_h=31.0)
+    _, capable = rank_offers_by_usd_per_ns(offers, res)
+    got = {o.get("gpu_name") for _, o in capable}
+    want = {v for k, v in names.items() if _vcm.MEASURED_NS_PER_DAY_84K[k] / 24.0 >= 31.0}
+    assert got == want and want, (got, want)
+
+
+def test_an_unbenched_card_cannot_clear_a_floor_it_has_no_throughput_for():
+    """Same reasoning as max_usd_per_ns: an offer that cannot be shown to clear must not be taken."""
+    from gpu_backend import ResourceSpec, _select_cheapest_offer
+    l4 = _o(9, "NVIDIA L4", 0.01)
+    assert _select_cheapest_offer([l4], ResourceSpec(gpu="any", min_vram_gb=24, min_cuda=0.0))["id"] == 9
+    floored = ResourceSpec(gpu="any", min_vram_gb=24, min_cuda=0.0, min_ns_per_h=31.0)
+    assert _select_cheapest_offer([l4], floored) is None
+
+
+def test_the_floor_is_off_by_default_so_no_ordinary_leg_pays_for_speed_it_did_not_ask_for():
+    from gpu_backend import ResourceSpec, _select_cheapest_offer
+    assert ResourceSpec().min_ns_per_h == 0.0
+    cheap_slow = _o(1, "NVIDIA GeForce RTX 3090", 0.068)
+    res = ResourceSpec(gpu="any", min_vram_gb=24, min_cuda=0.0)
+    assert _select_cheapest_offer([cheap_slow], res)["id"] == 1
+
+
+def test_the_ternary_lane_reads_the_floor_from_its_env():
+    import importlib
+    import os
+    import ternary_vast_launch as tv
+    old = os.environ.get("TVAST_MIN_NS_PER_H")
+    try:
+        os.environ["TVAST_MIN_NS_PER_H"] = "40"
+        assert tv.resource_spec().min_ns_per_h == 40.0
+        del os.environ["TVAST_MIN_NS_PER_H"]
+        assert tv.resource_spec().min_ns_per_h == 0.0
+    finally:
+        if old is None:
+            os.environ.pop("TVAST_MIN_NS_PER_H", None)
+        else:
+            os.environ["TVAST_MIN_NS_PER_H"] = old
+        importlib.reload(tv)

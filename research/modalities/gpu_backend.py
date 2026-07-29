@@ -136,6 +136,34 @@ class ResourceSpec:
     # tabulated as an A10, which is part of why that whole grid was withdrawn. With this set, an unavailable
     # card fails the submit cleanly instead of quietly measuring something else.
     require_gpu: bool = False
+    # ★★ A DEADLINE IS A SPEED FLOOR, AND NAMING A CARD IS NOT ONE (trimcrae, 2026-07-29: "Can we get T2
+    # ternary on a faster chip so that they're all done by tomorrow morning... At this point, I just want
+    # them all done by the morning. Don't worry about the price of the rest of these specific legs.")
+    #
+    # WHAT FAILED. The lane already had a `gpu_class` input that sets `ResourceSpec.gpu`. It could not
+    # deliver, and the reason is structural rather than a bug: with `require_gpu` False, `gpu` is consulted
+    # ONLY by `_select_cheapest_offer`'s unmeasured fallback, so the moment any benched offer qualifies the
+    # $/ns ranking decides and the requested class is never looked at. T2 ternary was re-placed on an RTX
+    # 3090 at $0.068/hr — the cheapest $/ns on the board, correctly — and its measured 34 s/iter put its ETA
+    # at 5:59 PM the NEXT DAY against ~3:30 AM for its siblings. Selection was working; it was optimising
+    # the wrong thing, because nothing in the spec expressed a deadline.
+    #
+    # WHY NOT JUST SET `require_gpu` AND NAME A 5090. Because the constraint is not "this card", it is "fast
+    # enough to land by morning", and a card name is a lossy encoding of it: it excludes every equally-fast
+    # card we have benched, it silently expires when the table gains an entry, and it invites the 2026-07-24
+    # failure of filing a result under a card that never ran. A floor in ns/hr says the actual requirement,
+    # is checked against the SAME validated throughput table the $/ns ranking already uses (CLAUDE.md §1 —
+    # one home for card speed), and needs no maintenance when a card is added.
+    #
+    # ⚠ AN UNBENCHED CARD CANNOT CLEAR A FLOOR. `ns_per_hour` returns None for a card we have never measured,
+    # and taking one would wave through exactly the slowness this exists to refuse — the same reasoning that
+    # empties `capable` when `max_usd_per_ns` admits nothing. So unbenched offers are excluded whenever this
+    # is set, and only then.
+    #
+    # 0.0 = UNSET, which is what every ordinary leg and every gate wants: this is a per-launch override for a
+    # unit that has become the critical path, not a standing policy. Leaving it on would quietly convert the
+    # lane's cost discipline into a speed preference nobody voted for.
+    min_ns_per_h: float = 0.0
     min_cuda: float = 13.0        # host DRIVER's cuda_max_good must be >= this so OpenMM's CUDA-plugin PTX can JIT.
                                   # RAISED 12.6 -> 13.0 on 2026-07-23: DIAG PROOF that the `cuda-version=12.6` env
                                   # pin did NOT actually take — the baked env's PTX is CUDA-13-class, so legs that
@@ -759,6 +787,14 @@ def rank_offers_by_usd_per_ns(offers, res: ResourceSpec, max_hourly_usd=None):
             # workstation `RTX PRO 6000 WS`. A vendor prefix is still free.
             want = _vcm.normalise_gpu_name(res.gpu)
             if want and not _vcm.normalise_gpu_name(o.get("gpu_name")).endswith(want):
+                continue
+        if res.min_ns_per_h:
+            # THE DEADLINE FILTER — hard, and applied here beside the other hard filters rather than as a
+            # ranking preference, for the reason in `ResourceSpec.min_ns_per_h`: a preference loses to $/ns
+            # every time a cheap slow card is on the board, which is the case it exists for. An unbenched
+            # card has no throughput to check and therefore cannot be shown to clear.
+            _nsph = _vcm.ns_per_hour(o.get("gpu_name"))
+            if not _nsph or _nsph < float(res.min_ns_per_h):
                 continue
         if ngpu != 1:                                             # one GPU per leg (multi-GPU costs more, no gain)
             continue

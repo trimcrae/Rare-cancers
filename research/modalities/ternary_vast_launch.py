@@ -161,6 +161,11 @@ def resource_spec(gpu=None, disk_gb=None, max_usd_per_ns=None):
         ram_gb=int(os.environ.get("TVAST_RAM_GB") or "32"),
         disk_gb=int(disk_gb or os.environ.get("TVAST_DISK_GB") or "60"),
         min_cuda=float(os.environ.get("TVAST_MIN_CUDA") or "13.0"),
+        # THE DEADLINE FLOOR. Unset by default — see `ResourceSpec.min_ns_per_h` for why naming a card class
+        # could not do this job, and why leaving a floor on standing would quietly replace the lane's cost
+        # discipline with a speed preference. Set per-launch, from the workflow's `min_ns_per_h` input, when
+        # one leg has become the critical path on a deadline the others are already inside.
+        min_ns_per_h=float(os.environ.get("TVAST_MIN_NS_PER_H") or "0"),
         interruptible=True,
         max_usd_per_ns=max_usd_per_ns,
     )
