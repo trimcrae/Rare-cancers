@@ -1318,17 +1318,45 @@ adopts: **a closed cycle, a small forward/reverse gap, and good MBAR overlap are
 never be presented as accuracy evidence**, and a known-answer benchmark against measured data is not
 substitutable by any number of internally consistent cycles.
 
-**The full congeneric map is designed and staged; 1 of its 19 edges is computed.** A 19-edge perturbation map
-around the cmpd19 anchor is frozen (`congeneric-rbfe-map.json`), its common-mode input poses are built (every
-analogue inheriting the anchor's core coordinates atom-for-atom, so the edges are mutually comparable), and the
-execution lane samples the real system at scale. The fan-out is **in progress and incomplete**: at the time of
-writing **one** edge has produced a ΔΔG — cmpd19 → `cw_ev_5cooh` (5-Br → 5-COOH, the amide-coupling exit
-vector), **ΔΔG_bind = +0.688 ± 0.197 kcal/mol** (complex-leg ΔG_morph −37.34 ± 0.13, solvent-leg −38.03 ± 0.15,
-21 mapped atoms, 12 λ-windows), i.e. the acid is predicted weaker than the anchor in the modeled pocket. **This
-paper reports two computed edges, not a map**, and the single-replicate uncertainty above is a within-run MBAR
-standard error propagated in quadrature — **not** a replicate SD, so it speaks to precision and not to
-reproducibility. Live record: [`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json),
-whose `_claim_ceiling` field governs; `research/modalities/step1-fanout-lane.md` is the lane narrative.
+**The congeneric map is 14 of 19 edges computed.** A 19-edge perturbation map around the cmpd19 anchor is
+frozen (`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue inheriting the
+anchor's core coordinates atom-for-atom, so the edges are mutually comparable), and the fan-out has now
+returned ΔΔG_bind for **14** of them (single replicate each, 12 λ-windows, ~$69 of realised GPU spend across
+197 rentals). More negative = predicted tighter than the cmpd19 anchor in the modeled pocket:
+
+| analogue (5-position unless noted) | ΔΔG_bind (kcal/mol) | mapped atoms |
+|---|---|---|
+| `cw_ev_5opropargyl` | **−1.698 ± 0.380** | 21 |
+| `cw_ms_5acetamido_ester` | −1.345 ± 0.810 | 23 |
+| `cw_bio_tetrazole` | −1.215 ± 0.317 | 15 |
+| `cw_ev_5pegamine` | −0.646 ± 1.071 | 21 |
+| `cw_ev_5alkyne` | −0.363 ± 0.047 | 21 |
+| `cw_bio_acylsulfonamide` | +0.127 ± 0.688 | 17 |
+| `cw_ms_free_acid` | +0.136 ± 0.457 | 18 |
+| `cw_bio_hydroxamic` | +0.392 ± 0.285 | 17 |
+| `cw_ev_5oh` | +0.474 ± 0.195 | 21 |
+| `cw_ms_carbinol` | +0.582 ± 0.602 | 17 |
+| `cw_ev_5cooh` | +0.688 ± 0.197 | 21 |
+| `cw_ev_5nh2` | +1.064 ± 0.118 | 21 |
+| `cw_ev_5ch2nh2` | +1.248 ± 0.139 | 21 |
+| `cw_ev_5piperazine` | +3.403 ± 0.649 | 21 |
+
+**Every uncertainty in that table is a within-run MBAR standard error propagated in quadrature — NOT a
+replicate SD.** One replicate per edge cannot report reproducibility, so these speak to precision only, and the
+ranking must be read as provisional. Live record:
+[`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json), whose `_claim_ceiling` field
+governs and states the binding limit: *conditional* relative free energies given a **hypothesized** cmpd19 pose
+(no solved NR4A3 co-crystal) in **one** modeled opened conformer.
+
+**⚠ An independent recomputation of the same edge disagrees with the §2.9 pilot by more than either stated
+uncertainty, and we report it rather than choosing between them.** The pilot above gives cmpd19 → 5-NH₂ =
+**+1.84 ± 0.36** kcal/mol; the fan-out's `cw_ev_5nh2` is the same nominal perturbation and gives **+1.064 ±
+0.118**. The gap is **≈0.78 kcal/mol**, against quadrature errors of 0.36 and 0.12. The two were computed on
+different execution lanes with different protocol settings, so this is **not** a like-for-like replicate and
+does not license a reproducibility statistic in either direction — but it is a direct, concrete illustration of
+the point this section already makes: a tight within-run MBAR error is **not** a reproducibility claim, and
+here two independent runs of one perturbation differ by several times their own error bars. Reconciling them
+(identical protocol, matched conformer, true replicates) is outstanding work, not a resolved question.
 
 **One edge is excluded for a principled, measured reason rather than a budget one, and it is worth reporting.**
 The edge to `cw_bio_nmethyl_amide` is **not** unrun — it is unrunnable by the mappers available: its complex leg
