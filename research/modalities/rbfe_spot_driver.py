@@ -278,13 +278,14 @@ def _pair_verdict(ga, gb, exc, n_custom_nb, custom_excl):
                  f"in all {n_custom_nb} custom nonbonded force(s))"
 
 
-def energy_probe_verdict(rows, total_kj_mol):
+def energy_probe_verdict(rows, total_kj_mol, grad=None):
     """The BLOCK-or-RETRY sentence for a per-force energy probe. PURE, so the rule that decides
     whether this lane keeps buying hosts for an edge is unit-tested rather than eyeballed in a log.
 
     `rows` are `_force_energy_probe`'s dicts ({force, energy_kj_mol, finite}); `total_kj_mol` is
-    the summed potential. The verdict is deliberately worded as an instruction, because the whole
-    point of the reading is that the next person (or tick) must not have to re-derive it."""
+    the summed potential; `grad` is `_gradient_probe`'s dict, or None when no gradient was taken.
+    The verdict is deliberately worded as an instruction, because the whole point of the reading is
+    that the next person (or tick) must not have to re-derive it."""
     import math
     bad = [r["force"] for r in rows if not r.get("finite", True)]
     if bad:
@@ -298,9 +299,252 @@ def energy_probe_verdict(rows, total_kj_mol):
         return ("⚠ INCONCLUSIVE: the probe evaluated no force groups, so it says nothing about the "
                 "system. Do not read this as either a block or a retry verdict.")
     hi = max(abs(r["energy_kj_mol"]) for r in rows)
-    return (f"✅ every force term is FINITE at the input coordinates (max |E| = {hi:.6g} kJ/mol, "
-            f"total = {total_kj_mol:.6g} kJ/mol). The NaN was produced DURING minimisation, not by the "
-            f"system as built — RETRY candidate, not a block candidate.")
+    # ★★ A FINITE ENERGY IS NOT A FINITE GRADIENT, AND THE MINIMISER FOLLOWS THE GRADIENT
+    # (2026-07-28 — this sentence is here because its absence cost 25 rentals).
+    #
+    # The verdict below used to end at "every force term is FINITE ... RETRY candidate, not a block
+    # candidate", and it said that about `cw_bio_primary_amide` on 2026-07-27. The lane believed it and
+    # re-placed that unit twenty-five times across seven distinct card/driver combinations; every single
+    # attempt died at the same `LocalEnergyMinimizer.minimize` call with the same message
+    # (`step1-nan-forensics.json`). The reading was not wrong — it was INCOMPLETE. "Force term" here means
+    # a force OBJECT's potential ENERGY, and `LocalEnergyMinimizer` does not descend energies, it descends
+    # their derivative. A system can hold an unremarkable energy at a point whose gradient is unusable: an
+    # excluded coincident pair contributes a bounded energy and a derivative set only by how nearly equal
+    # two coordinates are — measured here at 4.996e17 kJ/mol/nm, finite, and twelve orders of magnitude
+    # above every other atom in the same box.
+    #
+    # So a "no non-finite energy" reading may no longer be spoken as RETRY on its own. With a gradient
+    # reading attached, the verdict is decided by the gradient; without one, the honest answer is that half
+    # the question was never asked.
+    g = grad or {}
+    if g.get("n_nonfinite"):
+        return (f"⛔ DETERMINISTIC: every force term's ENERGY is finite (max |E| = {hi:.6g} kJ/mol) but the "
+                f"GRADIENT is NON-FINITE on {g['n_nonfinite']} atom(s) at the input coordinates — "
+                f"{g.get('top')}. A minimiser cannot step away from a point whose derivative is not a "
+                f"number, so this reproduces on every host. Do not rent another one: fix the geometry that "
+                f"produces it (`_dedegenerate_positions`) or block the unit.")
+    # ★★ AND THE CASE THAT IS FINITE IN DOUBLE AND STILL KILLS EVERY GPU (2026-07-28, the measurement that
+    # closed `cw_bio_primary_amide`). Its worst gradient was 4.996e17 kJ/mol/nm — a NUMBER, so `n_nonfinite`
+    # was 0 and the CPU minimiser did descend it to completion — while the largest gradient on any atom NOT
+    # in a coincident pair was 6.46e5 — a factor of 7.7e11, and the two atoms carrying it were the d=0.000 A
+    # pair. Every GPU attempt died there; 25 of them, on 7 distinct cards. Displacing ONE of the two by
+    # 0.01 A drops the system maximum to 646013.18 kJ/mol/nm against the 646013.30 that atom already carried
+    # before — i.e. the singular force disappears and NOTHING ELSE IN THE BOX MOVES, to six significant
+    # figures. That before/after is the whole justification for fixing the geometry rather than blocking the
+    # edge, and it is recorded in `step1-setup-energy-probe.json` (`gradient_probe` / `gradient_probe_after`).
+    # ⚠ Quote the pair 4.996e17 / 6.46e5 TOGETHER: both come from ONE build. The non-degenerate maximum is a
+    # property of that build's water placement and moves between builds (an earlier build read 3.44e5), while
+    # the degenerate one is ~1e17 in every build. Mixing the two builds' numbers into one ratio is wrong.
+    # SUPERSEDED, retained: "3.44e5", quoted from a different build than the 4.996e17 it was compared with.
+    #
+    # ⚠ THE TEST IS THE DEGENERACY, NOT A MAGNITUDE. There is no honest cutoff on |F|: a freshly solvated
+    # box legitimately carries 1e5-1e6 kJ/mol/nm on its worst atom and a minimiser is exactly the tool for
+    # that. What makes this different is not that the number is big but that it has NO PHYSICAL SCALE — it
+    # is set by how nearly equal two coordinates happen to be, so the same system re-solvated gives a
+    # different one. A threshold here would be a constant nobody could derive; the boolean "are two atoms at
+    # the same point, and is that where the force is?" is measurable and is the thing the remedy addresses.
+    if g.get("n_coincident_pairs") and g.get("top_atoms_are_coincident"):
+        _r = g.get("ratio_over_rest")
+        return (f"⛔ DETERMINISTIC: every force term's ENERGY is finite (max |E| = {hi:.6g} kJ/mol) and the "
+                f"gradient is finite — but {g['n_coincident_pairs']} pair(s) of atoms sit at the SAME "
+                f"coordinates ({g.get('coincident_atoms')}), and they carry the largest gradient in the "
+                f"system: {g.get('max_kj_mol_nm'):.6g} kJ/mol/nm against "
+                f"{g.get('max_excluding_coincident_kj_mol_nm'):.6g} on every non-degenerate atom"
+                + (f" — a factor of {_r:.3g}" if _r else "")
+                + f". That force has no physical scale; it is set by how nearly equal two coordinates are. "
+                  f"Measured consequence on this lane: the double-precision CPU minimiser descended it to "
+                  f"completion, and the GPU minimiser failed on every one of 25 attempts across 7 distinct "
+                  f"card/driver combinations. Do not rent another host: de-degenerate the starting "
+                  f"coordinates (`_dedegenerate_positions`).")
+    if g.get("max_kj_mol_nm") is not None:
+        return (f"✅ every force term is FINITE at the input coordinates (max |E| = {hi:.6g} kJ/mol, "
+                f"total = {total_kj_mol:.6g} kJ/mol) AND the gradient is finite everywhere "
+                f"(max |F| = {g['max_kj_mol_nm']:.6g} kJ/mol/nm on atom {g.get('argmax')}). The NaN was "
+                f"produced DURING minimisation, not by the system as built — RETRY candidate.")
+    return (f"⚠ HALF-MEASURED: every force term's ENERGY is finite at the input coordinates "
+            f"(max |E| = {hi:.6g} kJ/mol, total = {total_kj_mol:.6g} kJ/mol), but NO GRADIENT READING was "
+            f"taken and the minimiser follows the gradient, not the energy. This is NOT a retry verdict — "
+            f"see `_gradient_probe`.")
+
+
+# The most recent `_gradient_probe` reading, so a caller that only has `_force_energy_probe`'s row list
+# (nr4a3_rbfe's hmr-diag hook, step1_setup_energy_probe) can record the gradient too without every one of
+# them changing signature. Emptied and refilled on each probe; empty means "not measured", never "fine".
+LAST_GRADIENT_PROBE = {}
+
+
+def _gradient_probe(ctx, log, tag, top_n=6, positions=None):
+    """Per-atom |F| at the probed coordinates — the reading `_force_energy_probe` was missing.
+
+    ★★ WHY IT IS A SEPARATE READING AND NOT A DETAIL OF THE ENERGY ONE. `LocalEnergyMinimizer` descends
+    the DERIVATIVE of the potential. An energy that is finite everywhere therefore does not certify that a
+    minimiser can take a step: a pair of atoms at exactly coincident coordinates contributes a bounded
+    energy (its direct nonbonded term is excluded) and a derivative with no physical scale — measured at
+    4.996e17 kJ/mol/nm against 6.46e5 on the largest non-degenerate atom of the same 112,955-atom build.
+    The energy-only probe called that state "RETRY candidate" on 2026-07-27 and the lane then bought
+    twenty-five hosts to watch it fail identically (`step1-nan-forensics.json`).
+
+    Returns {"n_nonfinite", "max_kj_mol_nm", "argmax", "top"} or {} if the reading could not be taken —
+    never a fabricated zero, because "no gradient measured" and "gradient fine" have opposite consequences.
+    Non-fatal: only ever called from a diagnostic path."""
+    try:
+        import math
+        import numpy as np
+        from openmm import unit as ommunit
+        f = ctx.getState(getForces=True).getForces(asNumpy=True).value_in_unit(
+            ommunit.kilojoule_per_mole / ommunit.nanometer)
+        arr = np.asarray(f, dtype=float).reshape(-1, 3)
+        mag = np.sqrt((arr * arr).sum(axis=1))
+        finite = np.isfinite(mag)
+        n_bad = int((~finite).sum())
+        order = np.argsort(-np.where(finite, mag, np.inf))[:top_n]
+        top = [{"atom": int(i), "f_kj_mol_nm": (float(mag[i]) if math.isfinite(float(mag[i])) else None)}
+               for i in order]
+        out = {"n_nonfinite": n_bad,
+               "max_kj_mol_nm": (float(mag[finite].max()) if finite.any() else None),
+               "argmax": (int(np.argmax(np.where(finite, mag, -1.0))) if finite.any() else None),
+               "top": top}
+        # ★★ AND WHETHER THAT FORCE BELONGS TO A COORDINATE DEGENERACY (2026-07-28). A large gradient on
+        # its own is not diagnostic — a freshly solvated box legitimately carries 1e5-1e6 kJ/mol/nm on its
+        # worst atom, which is what a minimiser is FOR. What is diagnostic is a gradient that belongs to a
+        # pair of atoms at the same coordinates, because that force has no physical scale at all: it is set
+        # by how close to exactly-equal the two coordinates happen to be. Separating the two is what lets
+        # the verdict below name a REMEDY instead of a threshold.
+        if positions is not None:
+            pairs = coincident_pairs(arr_positions(positions))
+            deg = {a for p in pairs for a in p}
+            rest = [float(mag[i]) for i in range(len(mag))
+                    if i not in deg and math.isfinite(float(mag[i]))]
+            out["n_coincident_pairs"] = len(pairs)
+            out["coincident_atoms"] = sorted(deg)[:16]
+            out["max_excluding_coincident_kj_mol_nm"] = max(rest) if rest else None
+            out["top_atoms_are_coincident"] = bool(deg) and all(
+                t["atom"] in deg for t in top[:len(deg)])
+            if deg and rest and max(rest) > 0:
+                out["ratio_over_rest"] = float(mag[sorted(deg)[0]]) / max(rest)
+        log(f"[grad-diag:{tag}] atoms={arr.shape[0]} non-finite gradient on {n_bad} atom(s); "
+            f"max finite |F| = {out['max_kj_mol_nm']!r} kJ/mol/nm on atom {out['argmax']}"
+            + (f"; {out.get('n_coincident_pairs')} coincident coordinate pair(s), max |F| over every "
+               f"NON-degenerate atom = {out.get('max_excluding_coincident_kj_mol_nm')!r}"
+               if positions is not None else ""))
+        for t in top:
+            log(f"[grad-diag:{tag}]   atom {t['atom']:>7} |F| = {t['f_kj_mol_nm']!r} kJ/mol/nm")
+        return out
+    except Exception as e:  # noqa: BLE001 — pragma: no cover
+        log(f"[grad-diag:{tag}] failed: {type(e).__name__}: {e}")
+        return {}
+
+
+def arr_positions(positions):
+    """`positions` as a plain list of [x, y, z] in nm, whether it arrived as a united Quantity, a numpy
+    array or a list of Vec3. Trivial, and it exists so `coincident_pairs` never has to know."""
+    if hasattr(positions, "value_in_unit"):
+        from openmm import unit as ommunit
+        positions = positions.value_in_unit(ommunit.nanometer)
+    return [[float(c) for c in p] for p in positions]
+
+
+def coincident_pairs(positions, tol_nm=1e-6):
+    """Indices of atom pairs whose coordinates are EQUAL to within `tol_nm`. PURE.
+
+    Separate from `_clash_report`'s KDTree scan on purpose: that one reports the closest pair per atom and
+    classifies it as force-bearing or excluded, which is the right question for a steric clash and the
+    wrong one here. A coincident pair is not a clash — it is a coordinate degeneracy, and the reason it
+    matters is that the derivative of any r-dependent term at r = 0 is not a number regardless of whether
+    the pair is excluded. `tol_nm` defaults to a float-comparison epsilon, not a chemical distance: this
+    tests coordinate EQUALITY, so the literal bounds precision and does not encode a rule.
+
+    PURE STDLIB ON PURPOSE — no scipy, no numpy, no OpenMM. This function is the precondition of a rule
+    that decides whether a leg gets bought, so it has to be exercisable by the same unit suite that gates
+    the launcher, and that suite runs in an environment with no MD stack. Cell-hashing on a tol-sized grid
+    is also exactly the right algorithm for the question: coordinate equality is a hash lookup, not a
+    nearest-neighbour search."""
+    tol = float(tol_nm)
+    pts = [tuple(float(c) for c in p) for p in positions]
+    cells = {}
+    for i, (x, y, z) in enumerate(pts):
+        cells.setdefault((int(x // tol), int(y // tol), int(z // tol)), []).append(i)
+    out = set()
+    for (cx, cy, cz) in list(cells):
+        near = []
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for dz in (-1, 0, 1):
+                    near.extend(cells.get((cx + dx, cy + dy, cz + dz), ()))
+        for i in cells[(cx, cy, cz)]:
+            xi, yi, zi = pts[i]
+            for j in near:
+                if j == i:
+                    continue
+                xj, yj, zj = pts[j]
+                if (xi - xj) ** 2 + (yi - yj) ** 2 + (zi - zj) ** 2 <= tol * tol:
+                    out.add((min(i, j), max(i, j)))
+    return sorted(out)
+
+
+def _dedegenerate_positions(positions, log, tag, tol_nm=1e-6, nudge_nm=1e-3, seed=20260728):
+    """Break exactly-coincident coordinates by a tiny deterministic displacement. Returns (positions, report).
+
+    ★★ WHY THIS IS A LEGITIMATE FIX AND NOT A FUDGE. What follows immediately is
+    `sampler.setup()`'s own `LocalEnergyMinimizer` over every lambda state; the coordinates handed to it
+    are a STARTING POINT that the minimiser is about to move anyway. Displacing one member of a coincident
+    pair by 1e-3 nm (0.01 A — two orders of magnitude below any bond length) changes which point the
+    descent starts from and nothing else. No force field parameter, no lambda schedule, no thermodynamic
+    state and no estimator is touched, so it cannot bias a free energy: the quantity MBAR reduces is a
+    function of the sampled ensemble, and the ensemble is generated after minimisation and equilibration.
+
+    ⚠ IT IS ALSO NOT A CLASH FIXER. It moves ONLY pairs that are coordinate-degenerate to within a float
+    epsilon. A genuine 1.6 A contact is left exactly where it is, because that is a chemistry question the
+    minimiser is entitled to answer and this function has no business pre-empting.
+
+    Deterministic (fixed seed) so two hosts handed the same system start from the same coordinates —
+    a random nudge would make a failing leg irreproducible, which is the opposite of what this lane needs.
+    """
+    import random
+    # OpenMM is imported ONLY when the caller actually handed a united Quantity. The pure-python path is
+    # what the launcher's own unit suite exercises, and that suite runs where there is no MD stack — a
+    # top-level `from openmm import ...` would make the rule untestable in exactly the environment that
+    # gates the spend.
+    has_unit = hasattr(positions, "value_in_unit")
+    if has_unit:
+        from openmm import unit as ommunit
+        raw = positions.value_in_unit(ommunit.nanometer)
+    else:
+        raw = positions
+    xyz = [[float(c) for c in p] for p in raw]
+    pairs = coincident_pairs(xyz, tol_nm=tol_nm)
+    report = {"n_coincident_pairs": len(pairs), "pairs": pairs[:16], "nudge_nm": float(nudge_nm),
+              "tol_nm": float(tol_nm), "moved_atoms": []}
+    if not pairs:
+        log(f"[dedegen:{tag}] no coincident coordinate pairs (tol {tol_nm} nm) — positions unchanged")
+        return positions, report
+    rng = random.Random(seed)
+    moved = []
+    for _, b in pairs:                       # move the SECOND member only; the first keeps its position
+        if b in moved:
+            continue
+        v = [rng.gauss(0.0, 1.0) for _ in range(3)]
+        n = (v[0] ** 2 + v[1] ** 2 + v[2] ** 2) ** 0.5 or 1.0
+        xyz[b] = [xyz[b][k] + v[k] / n * float(nudge_nm) for k in range(3)]
+        moved.append(b)
+    report["moved_atoms"] = moved[:16]
+    report["n_moved"] = len(moved)
+    log(f"[dedegen:{tag}] {len(pairs)} coincident coordinate pair(s) at tol {tol_nm} nm "
+        f"{pairs[:6]}{' ...' if len(pairs) > 6 else ''} -> displaced {len(moved)} atom(s) by "
+        f"{nudge_nm} nm each. The pre-MD minimiser runs next and moves them again; this only ensures its "
+        f"first gradient is a number.")
+    if has_unit:
+        from openmm import unit as ommunit
+        # Rebuild in the SAME container the caller used. OpenFE hands positions either as a list of Vec3
+        # or as a numpy array, and `_get_sampler`/`Context.setPositions` accept both — but handing back the
+        # other one would be a silent type change in a hot path, and this function's whole claim is that it
+        # changes nothing except two or three coordinates.
+        if type(raw).__module__.startswith("numpy"):
+            import numpy as np
+            return (np.asarray(xyz, dtype=float) * ommunit.nanometer), report
+        from openmm import Vec3
+        return ([Vec3(*p) for p in xyz] * ommunit.nanometer), report
+    return xyz, report
 
 
 def _force_energy_probe(system, positions, log, tag, platform_name=None):
@@ -358,7 +602,13 @@ def _force_energy_probe(system, positions, log, tag, platform_name=None):
         tot = (ctx.getState(getEnergy=True)
                .getPotentialEnergy().value_in_unit(ommunit.kilojoule_per_mole))
         log(f"[force-diag:{tag}] TOTAL potential energy = {tot!r} kJ/mol")
-        log(f"[force-diag:{tag}] {energy_probe_verdict(rows, tot)}")
+        # The gradient, on the SAME context and the same coordinates — the reading that decides whether a
+        # minimiser can take a step at all. Attached to the verdict rather than logged beside it, so a
+        # finite-energy/non-finite-gradient system cannot be read as RETRY.
+        grad = _gradient_probe(ctx, log, tag, positions=positions)
+        LAST_GRADIENT_PROBE.clear()
+        LAST_GRADIENT_PROBE.update(grad or {})
+        log(f"[force-diag:{tag}] {energy_probe_verdict(rows, tot, grad)}")
         del ctx, integ
     except Exception as e:                                      # pragma: no cover
         log(f"[force-diag:{tag}] failed: {type(e).__name__}: {e}")
@@ -496,9 +746,42 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     # that's the exact namespace OpenFE's run() resolves; resolve it from the instance, don't guess.
     umod = sys.modules[type(unit).__module__]
 
+    # ★★ BREAK COORDINATE DEGENERACIES BEFORE ANYTHING READS THE POSITIONS (2026-07-28).
+    #
+    # THE INCIDENT, IN NUMBERS. Fan-out unit `e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral`
+    # burned TWENTY-FIVE container starts across SEVEN distinct card/driver combinations (RTX 4090 and
+    # 5090, drivers 580.95 through 595.71); every one died at the same line —
+    # `LocalEnergyMinimizer.minimize` inside `sampler.setup()` — with `Particle coordinate is NaN`, before
+    # any MD. Counts and hosts: `step1-nan-forensics.json`.
+    #
+    # WHAT SEPARATED IT FROM THE NINE UNITS THAT REACHED A ddG. One number, from the `[clash-diag:initial]`
+    # line every leg logs: its closest non-bonded pair sits at 0.000 A, while the successful units span
+    # 0.086-1.601 A. Not a clash — an exact coordinate DEGENERACY, and one the pair-classifier correctly
+    # calls benign for sterics, because the pair is excluded from every nonbonded force. Benign for the
+    # ENERGY is the whole trap: the minimiser descends the DERIVATIVE, and no r-dependent term has a
+    # numerically defined derivative at r = 0. That is why the per-force energy probe found everything
+    # finite and reported RETRY, and why the retry then failed twenty-five times.
+    #
+    # WHY IT IS FIXED HERE RATHER THAN BLOCKED. The alternative was to retire the edge, and the evidence
+    # does not support that: the same staged system minimises to completion over every lambda state on the
+    # CPU platform (`step1-setup-energy-probe.json`), so the system is sound and only its starting point is
+    # degenerate. `_dedegenerate_positions` moves one member of each coincident pair by 0.01 A — two orders
+    # of magnitude below a bond length, into a minimiser that is about to move it anyway — and touches no
+    # parameter, no lambda schedule and no estimator. A leg with no coincident pair is unchanged, which is
+    # every other unit in this lane.
+    _dedegen = None
+    if os.environ.get("RBFE_DEDEGENERATE", "1") == "1":
+        try:
+            positions, _dedegen = _dedegenerate_positions(positions, log, "pre-setup")
+        except Exception as _de:  # noqa: BLE001 — never let a geometry guard cost a leg
+            log(f"[dedegen] WARN skipped ({type(_de).__name__}: {_de}); positions unchanged")
+
     shared = Path(shared_basepath)
     shared.mkdir(parents=True, exist_ok=True)
     unit._prepare(True, scratch_basepath, shared)
+    if _dedegen and _dedegen.get("n_coincident_pairs"):
+        import json as _json
+        (shared / "dedegenerate.json").write_text(_json.dumps(_dedegen, indent=2))
     settings = unit._get_settings(protocol.settings)
     sim_s = settings["simulation_settings"]
     out_s = settings["output_settings"]
