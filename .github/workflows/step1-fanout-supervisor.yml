@@ -123,6 +123,42 @@ jobs:
                 echo "::warning title=STALENESS WATCH DISPATCH FAILED::tick ${n}: $(head -2 /tmp/w | tr '\n' ' ')"
               fi
             fi
+            # --- and the TERNARY lane's two gates, on the same loop and for the same reason ---------------
+            # ★★ WHY THIS IS HERE (2026-07-29). The ternary lane already re-places a dead host WITHOUT a
+            # human: `ternary_vast_watchdog.tick()`'s DIED branch calls `tv.submit` directly, behind the
+            # $/ns buy line. What it does not have is a CADENCE. Its own cron asks `*/15`; the gaps
+            # DELIVERED on 2026-07-29 were 202, 172, 163, 134, 141 and 90 minutes. So a leg whose host is
+            # capacity-refused at 12:05 can sit unplaced until the next tick lands, and on this repo that
+            # is measured in hours rather than the quarter-hour the cron requests.
+            #
+            # This loop already owns the cadence GitHub's scheduler will not deliver, and it already
+            # dispatches a second workflow on the same principle (the staleness watch above). Giving the
+            # ternary gates a ride is therefore two lines of an idiom already proven here, not a new
+            # mechanism — which is exactly why it is the change that was made.
+            #
+            # ⚠ THESE DISPATCH GATES, NOT LAUNCHES, AND THAT DISTINCTION IS THE SAFETY ARGUMENT. Neither
+            # task rents anything itself: each prices the board, and only self-dispatches a launch when it
+            # clears BOTH the rung's dollar ceiling and the $/ns buy line. A gate with nothing to place
+            # exits 3 (`nothing to launch`) and dispatches nothing at all, so a higher tick rate on a
+            # satisfied lane costs $0 and produces no rental. Double-renting is guarded four deep beneath
+            # this — `submit`'s live-host skip, fail-closed on an unreadable instance list, the failure
+            # breaker, and the gates' own exit-3 path.
+            #
+            # ⚠ AND IT CANNOT REVIVE A LEG THAT DIED ON A REAL FAULT. `watchdog_policy` refuses to relaunch
+            # a unit carrying a `status=failed` record with no live instance, deliberately — that veto is
+            # what stopped the closure triangle for a day on the partial-charge defect, and clearing it
+            # still requires a human's `task=supersede-failed` after the CAUSE is fixed. Cadence is the
+            # only thing being restored here; the breaker and the veto are untouched.
+            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=market-gate 2>/tmp/t1; then
+              echo "[$(date -u '+%H:%M:%SZ')] ternary market-gate dispatched (tick ${n})"
+            else
+              echo "::warning title=TERNARY MARKET-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t1 | tr '\n' ' ')"
+            fi
+            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=triangle-gate 2>/tmp/t2; then
+              echo "[$(date -u '+%H:%M:%SZ')] ternary triangle-gate dispatched (tick ${n})"
+            else
+              echo "::warning title=TERNARY TRIANGLE-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t2 | tr '\n' ' ')"
+            fi
             # Stop early rather than sleep past the deadline and be killed mid-iteration.
             [ $(( $(date +%s) + SLEEP )) -ge "$END" ] && break
             sleep "${SLEEP}"
