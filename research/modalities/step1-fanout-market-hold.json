@@ -1,7 +1,7 @@
 {
   "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY tick \u2014 including the ticks that rent nothing \u2014 because a stale timestamp must only ever mean the tick did not run.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. A hold is a correct outcome; a SILENT hold is the bug.",
-  "utc": "2026-07-29T14:12:21Z",
+  "utc": "2026-07-29T14:39:27Z",
   "decision": "fleet_at_width",
   "decision_why": "all 2 pending unit(s) already have a live instance; 16 slot(s) free but nothing to put in them",
   "decision_meaning": "every pending unit already has a live instance, or the fleet is at FANOUT_WIDTH",
@@ -27,18 +27,18 @@
   "unit_rate_line_usd_per_ns": 0.006539,
   "which_ceiling_binds": "rate line ($0.006539/ns = 1.92x basis)",
   "board_depth": {
-    "offers_returned": 157,
-    "qualifying": 154,
-    "priceable": 98,
+    "offers_returned": 154,
+    "qualifying": 149,
+    "priceable": 95,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers_priced": [
     {
-      "gpu": "RTX 4090",
-      "machine_id": 12697,
-      "min_bid": 0.136,
-      "usd_per_ns": 0.004934
+      "gpu": "RTX 5090",
+      "machine_id": 144071,
+      "min_bid": 0.17333333333333334,
+      "usd_per_ns": 0.004741
     }
   ],
   "board_unreadable": null,
