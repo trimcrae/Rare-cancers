@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-29T16:01:06Z",
+  "utc": "2026-07-29T16:14:45Z",
   "n_units": 1,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 1.71,
@@ -8,36 +8,37 @@
   "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 1 legs",
   "breakeven_usd_per_ns": 0.009234,
   "depth": {
-    "offers_returned": 159,
-    "qualifying": 152,
-    "priceable": 90,
+    "offers_returned": 161,
+    "qualifying": 154,
+    "priceable": 95,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers": [
     {
-      "gpu": "RTX 3090",
-      "machine_id": 28164,
-      "min_bid_usd_h": 0.061,
-      "usd_per_ns": 0.004222
+      "gpu": "RTX 5090",
+      "machine_id": 20243,
+      "min_bid_usd_h": 0.1066667,
+      "usd_per_ns": 0.003364
     }
   ],
-  "mean_usd_per_ns": 0.004222,
-  "ratio_vs_basis": 1.238,
-  "projected_usd": 1.76,
+  "mean_usd_per_ns": 0.003364,
+  "ratio_vs_basis": 0.986,
+  "projected_usd": 1.4,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $1.76 within this rung's ceiling $3.85 AND 1.24x basis is within the 1.92x drift line",
+  "reason": "projected $1.40 within this rung's ceiling $3.85 AND 0.99x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
     "137041",
     "141336",
     "141396",
+    "141591",
     "19499",
-    "20243",
-    "31036",
+    "28164",
+    "45263",
     "50113",
     "52991",
     "56748",
@@ -49,12 +50,12 @@
   "nothing_to_launch": false,
   "units_done": [],
   "units_live": [
+    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "units_needing_host": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "units_replacing_a_dead_host": []
 }
