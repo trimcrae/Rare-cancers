@@ -1302,10 +1302,18 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   data.** It is emphatically **not** evidence that ΔΔG_coop is right; antisymmetry is a check the sampling can
   pass while the answer stays wrong.
   **The calibrator verdict itself is still `INDETERMINATE`, and for a different reason than before:**
-  `n_replicates=1`, `per_replicate_ddG_coop=[-0.534]` against `target=0.944`, so there is no replicate SD and
-  the cycle cannot be graded. Cycle closure (the redundant edge) remains unrun. **The blocker is now r1+r2**,
-  which are queued on the Vast lane and currently **held on price** by the §6 market gate — not held on
-  capability, and not on anything GCP can supply (`GPUS_ALL_REGIONS = 1` makes GCP strictly serial).
+  `n_replicates=1`, `per_replicate_ddG_coop=[-0.522]` against `target=0.944`, so there is no replicate SD and
+  the cycle cannot be graded. Cycle closure (the redundant edge) remains unrun.
+  ⚠ **−0.522 here, −0.534 in the RUNG 2b timestep rows above, and BOTH are correct — do not "reconcile" them.**
+  This line is the calibrator's CURRENT reading, which uses the restrained binary arm (Appendix A 44). RUNG 2b
+  compares a 4 fs cycle against the *unrestrained* 2 fs one, so its comparator must stay **−0.534**: swapping
+  in −0.522 would measure the restraint rather than the timestep, which is the whole quantity that gate exists
+  to isolate. Changing either number in isolation silently breaks the other.
+  **The blocker is now r1+r2**, which are queued on the Vast lane and currently **withheld by the failure
+  breaker** (`leg_failure_breaker`) after dying on dozens of hosts — not held on price, not held on
+  capability, and not on anything GCP can supply (`GPUS_ALL_REGIONS = 1` makes GCP strictly serial). The
+  blocking fault is the partial-charge defect; its fix is on `fix/ternary-vast-deaths` and unmerged as of
+  this writing.
 
   **Recommended next steps (spend order) — REVISED 2026-07-25 (LANE 5); steps 1, 2 and the ligand diagnostic are
   DONE, and step 4's named design was REFUTED for $0 before any spend:**
