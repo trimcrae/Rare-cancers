@@ -1,17 +1,13 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 7:07 AM ET Jul 29, 2026
+[s1f-terminus] read at 7:38 AM ET Jul 29, 2026
 
-[s1f-terminus] 7694 object(s) under the results prefix
+[s1f-terminus] 7695 object(s) under the results prefix
 
-=== PERMANENTLY EXCLUDED — 2 of 19 map edge(s) will never be computed, so the lane's denominator is 17 ===
+=== PERMANENTLY EXCLUDED — 1 of 19 map edge(s) will never be computed, so the lane's denominator is 18 ===
   e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral
     why      : no available mapper reaches the provable atom-map floor of 20. LOMAP element_change=False 17; element_change=True 19, but ONLY by mapping the ester methyl CARBON onto an amide HYDROGEN (C->H), which is the degenerate correspondence the floor exists to reject; Kartograf 18. Identical maps at LOMAP budgets t20 and t300 in 0.01 s, so the MCS timeout is MEASURED not to be the mechanism. This is a statement about the MAPPERS, not about any rented host, so no rental can fix it. A complete 22-atom map provably exists (the heavy-atom graphs are isomorphic up to the single O->N substitution), so the block is revisitable: if a mapper ever returns >= 20 for this edge, lift it with FANOUT_UNBLOCK=1.
     evidence : research/modalities/step1-map-diag.json row zaienne_cmpd19->cw_bio_nmethyl_amide (verdict MAPPER_CANNOT_REACH_FLOOR, measured 2026-07-28 on the production staged components, with the per-mapper unmapped-atom and element-change detail); narrative in research/modalities/step1-fanout-lane.md section 7c
     recorded : 2026-07-28T11:19:43Z
-  e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral
-    why      : unblock
-    evidence : None
-    recorded : 2026-07-29T11:06:02Z
 
 === RAW ARTIFACT EVIDENCE — every ddg.json key in the object store ===
       1017 B  12:48 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral/ddg.json
@@ -41,7 +37,7 @@
   e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=no  EXCLUDED           no commits
+  e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=no  NO-TERMINUS        no commits
   e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral   ddg=no  EXCLUDED           no commits
   e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
@@ -408,10 +404,11 @@
          "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
        }
 
-=== MARKET SNAPSHOT — what the 17-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 169 offers visible (baseline ~23), 169 qualifying, 102 priceable, 1 needed
+=== MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
+  board depth      : 158 offers visible (baseline ~23), 158 qualifying, 100 priceable, 2 needed
   floors           : min $0.0507/hr, median $0.3067/hr
-  best fleet $/ns  : $0.003961/ns  ·  1.16× basis (basis $0.003412/ns)
-  projected        : $1.82 against a $3.94 ceiling
+  best fleet $/ns  : $0.004674/ns  ·  1.37× basis (basis $0.003412/ns)
+  projected        : $4.29 against a $7.88 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
     RTX 3090   m28164    $0.0507/hr  $0.00396/ns · 1.16× basis
+    RTX 5090   m29711    $0.2000/hr  $0.00539/ns · 1.58× basis
