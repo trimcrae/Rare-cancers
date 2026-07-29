@@ -202,3 +202,44 @@ def test_the_workflow_records_blocked_under_its_own_word():
         ".github", "workflows", "gpu-ternary-fep-vast.yml")).read()
     assert 'RC" = 4' in wf, "exit 4 falls through to the hold branch and is filed as a price hold"
     assert "--record blocked" in wf
+
+
+# ============================================================================================================
+# ★★ THE BREAKER MUST GATE THE PURCHASE, NOT JUST THE QUOTE.
+#
+# Measured 2026-07-29 and it cost a rental. `outstanding_units` filtered `needed`, so `gate_for_mode`
+# correctly reported `n_units 1` with r2 blocked on 49 failed hosts — and then `submit()`, which never
+# called the breaker, rebuilt its own list from `units_for(mode)` and rented BOTH r1 and r2. The receipt
+# names two instances 6 minutes after the readout said one. A guard that filters the quote and not the
+# purchase is not a guard.
+# ============================================================================================================
+def test_submit_consults_the_breaker_before_renting():
+    src = _launch_src()
+    i = src.index("def submit(")
+    body = src[i:i + 9000]
+    assert "lfb.decide(" in body, "submit() rents without ever asking the breaker"
+
+
+def test_a_blocked_unit_is_removed_from_what_submit_rents():
+    src = _launch_src()
+    i = src.index("def submit(")
+    body = src[i:i + 9000]
+    j = body.index("keep = [j for j in jobs")
+    line = body[j:body.index("\n", j)]
+    assert "_brk" in line, f"blocked units are still rented; keep-line is: {line.strip()}"
+
+
+def test_the_gate_and_the_launcher_use_the_same_breaker_verdict():
+    # Two different filters would drift, and the drift is invisible until a receipt contradicts a readout.
+    src = _launch_src()
+    assert src.count("lfb.decide(") >= 2, \
+        "the gate and the launch path must each consult the breaker"
+
+
+def test_submit_still_fails_CLOSED_on_an_unreadable_instance_list():
+    # The breaker fails OPEN; the instance-list check must keep failing CLOSED. Opposite directions, and
+    # conflating them would let an unreadable listing double-buy on top of running legs.
+    src = _launch_src()
+    i = src.index("def submit(")
+    body = src[i:i + 9000]
+    assert "REFUSING TO RENT" in body

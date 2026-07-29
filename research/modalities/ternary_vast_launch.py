@@ -1700,7 +1700,32 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
                                  note="instance list unreadable — refused to rent (would risk duplicates)")
             return []
     busy = done | inflight
-    keep = [j for j in jobs if j.env["UNIT_ID"] not in busy]
+    # ⛔ THE BREAKER GATES THE PURCHASE, NOT JUST THE QUOTE (measured 2026-07-29, and it cost a rental).
+    #
+    # `outstanding_units` filters `needed`, and `gate_for_mode` prices that — so the GATE correctly reported
+    # `n_units 1` with r2 blocked on 49 failed hosts. But this function never called it: `busy` is only
+    # `done | inflight`, so the launch the gate self-dispatched rebuilt its own list and rented BOTH r1 and
+    # r2. A guard that filters the quote and not the purchase is not a guard; the blocked unit was bought
+    # 6 minutes after the readout said it would not be.
+    #
+    # Same fail-OPEN direction as the module's other breaker call (an unreadable attempt listing must not be
+    # able to halt the lane) — deliberately opposite to the instance-list check above, which fails CLOSED
+    # because guessing wrong THERE double-buys on top of running work, whereas guessing wrong here costs at
+    # most one rental of a unit that may well now succeed.
+    _brk = {}
+    _recs_for_breaker = leg_records()
+    for _j in jobs:
+        _u = _j.env["UNIT_ID"]
+        if _u in busy:
+            continue
+        _rec = _recs_for_breaker.get(_u)
+        if (_rec or {}).get("status") != "failed":
+            continue
+        _d = lfb.decide(_rec, lfb.count_attempts(_s3(), DEFAULT_BUCKET, RESULT_PREFIX, _u))
+        if _d["block"]:
+            _brk[_u] = _d
+            print(lfb.render(_u, _d))
+    keep = [j for j in jobs if j.env["UNIT_ID"] not in busy and j.env["UNIT_ID"] not in _brk]
     # ★ WHAT THE UNITS WE ARE *NOT* RENTING ALREADY COST US, priced off the LIVE INSTANCE RECORD. Without
     # this, a tick that rents nothing has nothing to say about money at all, and the only $/ns figure
     # anywhere near it is a board mean — the substitution that made 12:39 PM ET read as a 2.032x purchase.
