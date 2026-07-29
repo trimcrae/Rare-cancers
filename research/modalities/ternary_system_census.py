@@ -201,6 +201,67 @@ def census_one(nc_path, label):
 # THE VERDICT IS TRI-STATE AND ABSENCE IS NOT AGREEMENT. Two legs whose census failed agree on nothing; a
 # comparison that reported them as matching would reproduce, inside the tool built to stop it, the exact defect
 # the provenance step was added for.
+#
+# ⚠ AND IT IS A PER-ARM COMPARISON, NEVER A POOLED ONE. The first cut pooled every leg into one `compare()` and
+# duly returned "SOLUTE DIFFERS" — on a set containing a ternary leg (4 protein chains), a binary leg (3 chains,
+# no SMARCA2) and a solvent leg (no protein at all). Those are DIFFERENT SYSTEMS BY CONSTRUCTION; demanding one
+# solute across them is a category error, and a verdict that fires on every healthy cycle gets ignored, which is
+# worse than no verdict. It is the same mistake `mode=provenance` already made and already fixed one level up.
+# ΔΔG_coop = ternary − binary, so the question that MATTERS is per arm: does the 4 fs ternary leg run the same
+# system as the 2 fs ternary leg, and likewise for binary.
+#
+# The arm comes from the LABEL — what the experiment INTENDED — not from the measured chain count, because the
+# chain count is the thing under test. Grouping by the measurement would make every comparison agree with itself
+# by construction.
+
+ARM_TOKENS = (("ternary", "ternary_vhl"), ("binary", "binary_vhl"), ("solvent", "solvent"))
+
+
+def arm_of(label):
+    """Which arm of the cooperativity cycle this leg was launched as, or None. PURE."""
+    lab = str(label or "")
+    for arm, token in ARM_TOKENS:
+        if token in lab:
+            return arm
+    return None
+
+
+def compare_by_arm(records):
+    """Run `compare` WITHIN each arm and report per arm. An unclassifiable leg is named, never pooled."""
+    groups, unclassified = {}, []
+    for r in records:
+        arm = arm_of(r.get("label"))
+        if arm is None:
+            unclassified.append(r.get("label"))
+            continue
+        groups.setdefault(arm, []).append(r)
+    out = {"arms": {arm: compare(recs) for arm, recs in sorted(groups.items())},
+           "unclassified_legs": unclassified}
+    verdicts = {arm: v["verdict"].split(" —")[0] for arm, v in out["arms"].items()}
+    out["arm_verdicts"] = verdicts
+    # AN ARM WITH ONE LEG IS UNTESTED, NOT PASSED AND NOT FAILED. Rolling "only one leg here" into either
+    # verdict is the same absence-reads-as-a-value defect the rest of this module exists to stop: a single-leg
+    # arm would otherwise read as a solute mismatch simply for having nothing to be compared against.
+    tested = [a for a in ("ternary", "binary") if out["arms"].get(a, {}).get("n_compared", 0) >= 2]
+    untested = [a for a in sorted(out["arms"]) if a not in tested]
+    out["arms_tested"], out["arms_untested"] = tested, untested
+    bad = [a for a in tested if not out["arms"][a].get("solute_identical")]
+    tail = (" Arms with fewer than two censused legs are UNTESTED, not agreed: %s." % ", ".join(untested)
+            if untested else "")
+    if not tested:
+        out["cycle_verdict"] = ("INSUFFICIENT — no arm has two censused legs to compare, so nothing is "
+                                "established about ΔΔG_coop's comparability." + tail)
+    elif bad:
+        out["cycle_verdict"] = ("SOLUTE DIFFERS WITHIN AN ARM (%s) — those legs do not describe the same "
+                                "alchemical system and must not be combined into one cycle." % ", ".join(bad)
+                                + tail)
+    else:
+        out["cycle_verdict"] = (
+            "SAME ALCHEMICAL SYSTEM PER ARM — within every arm actually compared (%s) the protein chains, the "
+            "ligand and the net charge agree atom-for-atom, so any remaining particle-count difference is bulk "
+            "solvent." % ", ".join(tested) + tail)
+    return out
+
 
 def compare(records):
     """Cross-leg composition verdict. PURE — unit-testable with hand-built records, no .nc and no openmm."""
@@ -267,7 +328,20 @@ def main(argv=None):
         label = a.label or os.path.basename(os.path.dirname(a.nc))
         rec = census_one(a.nc, label)
         safe = "".join(ch if ch.isalnum() or ch in "-_." else "_" for ch in label)
-        with open(os.path.join(a.out_dir, "census__%s.json" % safe), "w") as fh:
+        dest = os.path.join(a.out_dir, "census__%s.json" % safe)
+        # REFUSE TO OVERWRITE A DIFFERENT TRAJECTORY'S RECORD. Two legs that collide on a label used to
+        # overwrite each other in silence, and the run then printed a table that looked complete with rows
+        # missing from it (GH run 30353705917). A collision is now a loud failure, not a lost measurement.
+        if os.path.exists(dest):
+            try:
+                prior = json.load(open(dest))
+            except Exception:  # noqa: BLE001
+                prior = {}
+            if prior.get("nc") and prior.get("nc") != rec.get("nc"):
+                print("  LABEL COLLISION: %r already holds a census of %s; refusing to overwrite it with %s"
+                      % (label, prior.get("nc"), rec.get("nc")), flush=True)
+                return 2
+        with open(dest, "w") as fh:
             json.dump(rec, fh, indent=2)
         print(_fmt(rec), flush=True)
 
@@ -281,18 +355,22 @@ def main(argv=None):
         print("\n==== TERNARY SYSTEM CENSUS ====")
         for r in recs:
             print(_fmt(r))
-        verdict = compare(recs)
+        verdict = compare_by_arm(recs)
         with open(os.path.join(a.out_dir, "census_verdict.json"), "w") as fh:
             json.dump(verdict, fh, indent=2)
-        print("\n---- cross-leg verdict ----")
-        for k in ("n_solute_atoms", "n_ligand_atoms", "protein_chain_sizes", "net_charge_e",
-                  "n_particles", "n_water_molecules", "ion_mass_histogram"):
-            v = (verdict.get("fields") or {}).get(k)
-            if v is not None:
-                print("  %-22s %s" % (k, {kk: vv for kk, vv in v.items()}))
-        if verdict.get("uncensused"):
-            print("  UNCENSUSED (not agreement): %s" % verdict["uncensused"])
-        print("  VERDICT: %s" % verdict["verdict"])
+        for arm, v in sorted(verdict["arms"].items()):
+            print("\n---- %s arm (%d legs compared) ----" % (arm.upper(), v.get("n_compared", 0)))
+            for k in ("n_solute_atoms", "n_ligand_atoms", "protein_chain_sizes", "net_charge_e",
+                      "n_particles", "n_water_molecules", "ion_mass_histogram"):
+                f = (v.get("fields") or {}).get(k)
+                if f is not None:
+                    print("  %-22s %s" % (k, {kk: vv for kk, vv in f.items()}))
+            if v.get("uncensused"):
+                print("  UNCENSUSED (not agreement): %s" % v["uncensused"])
+            print("  %s" % v["verdict"])
+        if verdict.get("unclassified_legs"):
+            print("\n  UNCLASSIFIED (not pooled): %s" % verdict["unclassified_legs"])
+        print("\n==== CYCLE VERDICT: %s" % verdict["cycle_verdict"])
     return 0
 
 

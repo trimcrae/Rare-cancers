@@ -92,6 +92,55 @@ two_bad = T.compare([rec("a", status="boom"), rec("b", status="boom")])
 check(two_bad["verdict"].startswith("INSUFFICIENT"),
       "two FAILED censuses agree on nothing — they must never render as IDENTICAL")
 
+
+# --- the verdict is PER ARM, not pooled ---------------------------------------------------------------------
+# Regression for GH run 30353705917, which pooled a ternary leg (4 chains), a binary leg (3 chains) and a
+# solvent leg (0 chains) and returned "SOLUTE DIFFERS". They are different systems BY CONSTRUCTION; the real
+# question is per arm. Numbers below are the measured ones from that run.
+TERNARY_2FS = rec("GCS::calib_hi_to_lo__ternary_vhl__0_dt2.0fs_clig0_wu1.0_v2pe", solute=7140, lig=110,
+                  chains=[2343, 1925, 1433, 1329], total=141968, waters=44860,
+                  ions={"22.99": 126, "35.45": 122})
+TERNARY_4FS = rec("S3::calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge", solute=7140, lig=110,
+                  chains=[2343, 1925, 1433, 1329], total=139939, waters=44185,
+                  ions={"22.99": 124, "35.45": 120})
+BINARY_4FS = rec("S3::calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge", solute=5215, lig=110,
+                 chains=[2343, 1433, 1329], total=90702, waters=28442, ions={"22.99": 84, "35.45": 77})
+SOLVENT_4FS = rec("S3::calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge", solute=110, lig=110, chains=[],
+                  total=5304, waters=1728, ions={"22.99": 5, "35.45": 5})
+
+pooled = T.compare([TERNARY_2FS, TERNARY_4FS, BINARY_4FS, SOLVENT_4FS])
+check("SOLUTE DIFFERS" in pooled["verdict"],
+      "the POOLED comparison still (correctly) says the arms differ — that is why it must not be used")
+
+byarm = T.compare_by_arm([TERNARY_2FS, TERNARY_4FS, BINARY_4FS, SOLVENT_4FS])
+check(set(byarm["arms"]) == {"ternary", "binary", "solvent"}, "legs are grouped into ternary/binary/solvent")
+check(byarm["arms"]["ternary"]["solute_identical"] is True,
+      "REAL DATA: the 2 fs and 4 fs TERNARY legs have an identical solute (7140 atoms, same 4 chains, lig 110)")
+check(byarm["arms"]["ternary"]["solvent_identical"] is False,
+      "REAL DATA: they differ in bulk solvent (44,860 vs 44,185 waters; 248 vs 244 ions)")
+check("SAME SOLUTE, DIFFERENT SOLVENT" in byarm["arms"]["ternary"]["verdict"],
+      "the ternary arm's verdict names solvent, not solute, as what differs")
+check(byarm["cycle_verdict"].startswith("SAME ALCHEMICAL SYSTEM PER ARM"),
+      "the CYCLE verdict is driven by the per-arm result, not by pooling arms together")
+check(byarm["arms_tested"] == ["ternary"] and "binary" in byarm["arms_untested"],
+      "an arm with only ONE censused leg is reported UNTESTED — never rolled into the pass")
+check("UNTESTED" in byarm["cycle_verdict"],
+      "the cycle verdict says out loud which arms it could not test, so a partial check cannot read as a full one")
+
+check(T.arm_of("S3::calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge") == "ternary", "arm_of reads ternary")
+check(T.arm_of("GCS::calib_hi_to_lo__binary_vhl__0_dt2.0fs_clig0_wu_rst") == "binary", "arm_of reads binary")
+check(T.arm_of("nope") is None, "an unclassifiable label yields None rather than a guessed arm")
+stray = T.compare_by_arm([TERNARY_2FS, TERNARY_4FS, rec("mystery-leg")])
+check(stray["unclassified_legs"] == ["mystery-leg"],
+      "an unclassifiable leg is NAMED and never pooled into an arm it might not belong to")
+
+# a real solute difference INSIDE one arm must still fail
+bad = T.compare_by_arm([TERNARY_2FS,
+                        rec("S3::calib_hi_to_lo__ternary_vhl_r9", solute=7141, lig=110,
+                            chains=[2343, 1925, 1433, 1330], total=139939, waters=44185)])
+check(bad["cycle_verdict"].startswith("SOLUTE DIFFERS WITHIN AN ARM"),
+      "a one-atom solute difference WITHIN the ternary arm is still a hard failure")
+
 print("\n%d checks, %d failures" % (len(RUN), len(FAILS)))
 if FAILS:
     for f in FAILS:

@@ -52,6 +52,27 @@ def pick(lines, include=(), exclude=()):
     return {k: v[1] for k, v in best.items()}
 
 
+def label_for(prefix):
+    """A label that IDENTIFIES the leg, not just its last path segment. PURE.
+
+    ⚠ THE LAST SEGMENT IS NOT UNIQUE, AND ASSUMING IT WAS DESTROYED TWO MEASUREMENTS (GH run 30353705917).
+    The GCP lane's layout is `valB-6hax/commits/<leg>/<seed>_dt…_wu…[_salt]/…`, so the ternary, binary and
+    solvent legs of one cycle ALL end in the same `0_dt2.0fs_clig0_wu1.0_v2pe` segment. Labelling on that
+    segment gave three legs one name, and since each census writes `census__<label>.json` the binary and
+    solvent records were silently overwritten by the ternary one — the run reported a confident table with
+    two of its rows missing and nothing said so. The Vast lane happens not to collide (its leg id is the last
+    segment), which is exactly why the bug was invisible on one store and fatal on the other.
+
+    So the label is everything AFTER the `commits/` segment, joined by `__`.
+    """
+    parts = [p for p in prefix.split("/") if p]
+    if "commits" in parts:
+        parts = parts[parts.index("commits") + 1:]
+    else:
+        parts = parts[-2:]
+    return "__".join(parts) or prefix
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="newest committed .nc per commit prefix, from a listing")
     ap.add_argument("--listing", default="-", help="file of object paths, or - for stdin")
@@ -69,7 +90,7 @@ def main(argv=None):
     for i, (pfx, path) in enumerate(sorted(chosen.items())):
         if a.limit and i >= a.limit:
             break
-        sys.stdout.write("%s%s\t%s%s\n" % (a.label_prefix, pfx.rsplit("/", 1)[-1], a.uri_prefix, path))
+        sys.stdout.write("%s%s\t%s%s\n" % (a.label_prefix, label_for(pfx), a.uri_prefix, path))
     return 0
 
 

@@ -60,6 +60,31 @@ check(len(both) == 1 and "production" in list(both.values())[0],
 check(T.pick(["nonsense", "", "a/b/c.txt"]) == {},
       "junk lines yield nothing rather than a bogus target")
 
+
+# --- LABEL UNIQUENESS: the bug that silently destroyed two measurements ---------------------------------------
+# GH run 30353705917 labelled on the last path segment. The GCP layout is
+# `valB-6hax/commits/<leg>/<seed>_dt…`, so the ternary, binary and solvent legs of ONE cycle all end in the
+# same segment — three legs, one label, and each census overwrote the last. These are the real paths.
+GCS_ONE_CYCLE = [
+    "valB-6hax/commits/calib_hi_to_lo__ternary_vhl/0_dt2.0fs_clig0_wu1.0_v2pe/production/iter-00002000/simulation.nc",
+    "valB-6hax/commits/calib_hi_to_lo__binary_vhl/0_dt2.0fs_clig0_wu1.0_v2pe/production/iter-00002000/simulation.nc",
+    "valB-6hax/commits/calib_hi_to_lo__solvent/0_dt2.0fs_clig0_wu1.0_v2pe/production/iter-00002000/simulation.nc",
+]
+cyc = T.pick(GCS_ONE_CYCLE, include=("ternary_vhl", "binary_vhl", "solvent"))
+check(len(cyc) == 3, "the three arms of one cycle are three distinct commit prefixes")
+labels = [T.label_for(p) for p in cyc]
+check(len(set(labels)) == 3,
+      "and they get THREE DISTINCT LABELS — the last-segment label gave all three the same name and two "
+      "censuses were silently overwritten")
+check(all("calib_hi_to_lo__" in lab for lab in labels), "the label carries the leg id, not just the seed/dt dir")
+check(T.label_for("valB-6hax/commits/calib_hi_to_lo__ternary_vhl/0_dt2.0fs_clig0_wu1.0_v2pe")
+      == "calib_hi_to_lo__ternary_vhl__0_dt2.0fs_clig0_wu1.0_v2pe",
+      "everything after `commits/` is joined into the label")
+check(T.label_for("ternary-vast/commits/calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge")
+      == "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
+      "the Vast layout (leg id IS the last segment) is unchanged — which is why the bug showed on one store only")
+check(T.label_for("no/commits/here/at/all"), "a prefix without a `commits` segment still yields a label")
+
 print("\n%d checks, %d failures" % (len(RUN), len(FAILS)))
 if FAILS:
     sys.exit(1)
