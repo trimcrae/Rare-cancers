@@ -95,73 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-07-30T00:09:24Z",
-      "et": "8:09 PM ET",
-      "outcome": "launched",
-      "what_that_means": "hosts were actually rented",
-      "stage": "rent (steps.rent.outcome=success)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30501553151",
-      "gate_ratio_vs_basis": 1.35,
-      "gate_mean_usd_per_ns": 0.004607,
-      "gate_projected_usd": 1.92,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "projected $1.92 within this rung's ceiling $3.85 AND 1.35x basis is within the 1.92x drift line",
-      "gate_board_depth": {
-        "offers_returned": 185,
-        "qualifying": 178,
-        "priceable": 96,
-        "needed": 1,
-        "used_for_mean": 1
-      },
-      "n_requested": 1,
-      "n_rented": 1,
-      "rented": [
-        {
-          "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-          "instance": "46239355",
-          "machine_id": 67860,
-          "gpu": "RTX 5090",
-          "dph_total_usd_h": 0.19346666666666668,
-          "usd_per_ns": 0.004488,
-          "x_basis": 1.315,
-          "over_buy_line": false
-        }
-      ],
-      "rented_max_usd_per_ns": 0.004488,
-      "rented_any_over_buy_line": false,
-      "already_live": [
-        {
-          "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-          "instance": 46227773,
-          "gpu": "RTX 5090",
-          "usd_per_ns": 0.005306,
-          "x_basis": 1.555,
-          "over_buy_line": false,
-          "actual_status": "running"
-        },
-        {
-          "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-          "instance": 46223938,
-          "gpu": "RTX 4090",
-          "usd_per_ns": 0.004557,
-          "x_basis": 1.336,
-          "over_buy_line": false,
-          "actual_status": "running"
-        },
-        {
-          "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-          "instance": 46226730,
-          "gpu": "RTX 4090",
-          "usd_per_ns": 0.005775,
-          "x_basis": 1.693,
-          "over_buy_line": false,
-          "actual_status": "running"
-        }
-      ],
-      "reason": "task=triangle; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
-    },
-    {
       "utc": "2026-07-30T00:12:31Z",
       "et": "8:12 PM ET",
       "outcome": "nothing-to-launch",
@@ -1176,12 +1109,34 @@
         }
       ],
       "reason": "task=edge-reps; job status success; atom-map gate: passed: every leg's atom map measured complete at the production budget"
+    },
+    {
+      "utc": "2026-07-30T03:10:11Z",
+      "et": "11:10 PM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "triangle-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30510410754",
+      "gate_ratio_vs_basis": 1.54,
+      "gate_mean_usd_per_ns": 0.005255,
+      "gate_projected_usd": 2.19,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.19 within this rung's ceiling $3.85 AND 1.54x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 178,
+        "qualifying": 175,
+        "priceable": 95,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "reason": "board cleared both ceilings; dispatching task=triangle"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 295,
-    "through_utc": "2026-07-30T00:04:42Z"
+    "n_total": 296,
+    "through_utc": "2026-07-30T00:09:24Z"
   }
 }
