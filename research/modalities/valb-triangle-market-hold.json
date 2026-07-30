@@ -1,41 +1,46 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-30T09:16:39Z",
-  "n_units": 1,
+  "utc": "2026-07-30T09:24:48Z",
+  "n_units": 2,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 1.71,
-  "ceiling_usd": 3.85,
-  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 1 legs",
+  "plan_usd": 3.42,
+  "ceiling_usd": 7.7,
+  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 2 legs",
   "breakeven_usd_per_ns": 0.009234,
   "depth": {
-    "offers_returned": 190,
-    "qualifying": 188,
-    "priceable": 113,
-    "needed": 1,
-    "used_for_mean": 1
+    "offers_returned": 192,
+    "qualifying": 189,
+    "priceable": 112,
+    "needed": 2,
+    "used_for_mean": 2
   },
   "offers": [
     {
-      "gpu": "RTX 3090",
-      "machine_id": 28164,
-      "min_bid_usd_h": 0.05066667,
-      "usd_per_ns": 0.003661
+      "gpu": "RTX 4090",
+      "machine_id": 12697,
+      "min_bid_usd_h": 0.14,
+      "usd_per_ns": 0.004887
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 1569,
+      "min_bid_usd_h": 0.187,
+      "usd_per_ns": 0.004938
     }
   ],
-  "mean_usd_per_ns": 0.003661,
-  "ratio_vs_basis": 1.073,
-  "projected_usd": 1.53,
+  "mean_usd_per_ns": 0.004913,
+  "ratio_vs_basis": 1.44,
+  "projected_usd": 4.1,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $1.53 within this rung's ceiling $3.85 AND 1.07x basis is within the 1.92x drift line",
+  "reason": "projected $4.10 within this rung's ceiling $7.70 AND 1.44x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
     "137041",
     "141336",
     "141396",
-    "36341",
     "56748",
     "56760",
     "77866"
@@ -46,10 +51,9 @@
     "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "units_live": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
-  ],
+  "units_live": [],
   "units_needing_host": [
+    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "units_replacing_a_dead_host": []
