@@ -50,6 +50,7 @@ another session.
 
 from __future__ import annotations
 
+import hashlib
 import inspect
 import json
 import os
@@ -2872,6 +2873,19 @@ def collect(bucket=None, prefix=None, autostop=True):
             # pass; nothing here re-reads S3 and nothing here is typed. `_board_log` keeps the full 60-line
             # text so the board can find the startup target line the printed tail deliberately drops.
             _board_log = "\n".join(tail)
+            # ── CONTENT IDENTITY OF THE LOG, for the idle guard's condemnation 3. Hashed from the text
+            # already in hand, so this costs no S3 call. The mtime cannot serve: run_ternary_leg.sh syncs
+            # run.log from a background timer every ~120 s whether or not a byte changed, which is why a
+            # host that wedged inside a checkpoint persist billed 77 min while the guard called it alive.
+            # `first_seen` is the epoch at which THIS content first appeared; it survives across polls in
+            # the lane state, so the age is measured, never assumed from a poll count (poll cadence is not
+            # a knowable duration — CLAUDE.md §6 on throttled crons).
+            _log_id = hashlib.sha256(_board_log.encode()).hexdigest()[:16]
+            _prev_log = prev_state.get(f"logid:{uid}") or []
+            _now = time.time()
+            _first_seen = (_prev_log[1] if len(_prev_log) > 1 and _prev_log[0] == _log_id else _now)
+            new_state[f"logid:{uid}"] = [_log_id, _first_seen]
+            _log_unchanged_min = (_now - float(_first_seen)) / 60.0
             _board_rows.append({
                 "uid": uid, "iid": iid, "log": _board_log,
                 "phase": phase, "iteration": it,
@@ -2888,6 +2902,7 @@ def collect(bucket=None, prefix=None, autostop=True):
                 gpu_util=i.get("gpu_util"),
                 progress_advanced=(scalar > pprog),
                 log_age_min=log_age,
+                log_unchanged_min=_log_unchanged_min,
                 start_ages_min=vig.start_ages_min(s3, b, f"{p}/legs/{uid}/attempts/"),
                 instance_age_min=up_h * 60.0,
                 unit_failed=crashed)

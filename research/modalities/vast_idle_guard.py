@@ -150,7 +150,7 @@ def _as_float(x):
 
 
 def classify_idle(*, instance_running, container_started=True, gpu_util=None, progress_advanced=False,
-                  log_age_min=None, start_ages_min=None, instance_age_min=None,
+                  log_age_min=None, log_unchanged_min=None, start_ages_min=None, instance_age_min=None,
                   gpu_busy_pct=None, log_silence_min=None, crash_loop_starts=None,
                   crash_loop_window_min=None, min_instance_age_min=None, setup_grace_min=None,
                   unit_failed=False):
@@ -163,7 +163,12 @@ def classify_idle(*, instance_running, container_started=True, gpu_util=None, pr
                          answers it from the phase marker's own timestamp against the instance start_date.
       gpu_util           Vast's sampled GPU utilisation, percent. May be None. NEVER condemns (see docstring).
       progress_advanced  did the durable committed-iteration scalar go UP since the previous poll?
-      log_age_min        minutes since the host last PUT its run.log, or None if it never has.
+      log_age_min        minutes since the host last PUT its run.log, or None if it never has. ⚠ On a lane
+                         whose entry script syncs the log from a background TIMER, this measures the sync
+                         loop and NOT the leg — see condemnation 3.
+      log_unchanged_min  minutes for which the run.log's CONTENT has been byte-identical across polls, or
+                         None if unknown / not tracked. Unlike the mtime this cannot be advanced by a timer
+                         re-PUTting the same bytes, which is what makes it the usable wedge signal.
       start_ages_min     minutes-ago of each recorded container start (from the `attempts/` archive keys),
                          or None if the listing could not be read. An empty LIST means "read it, nothing
                          there", which is a real observation; None means "could not read", which is not.
@@ -250,6 +255,25 @@ def classify_idle(*, instance_running, container_started=True, gpu_util=None, pr
                         f"committed progress — the host has lost its write path, so it cannot checkpoint "
                         f"and nothing it is doing can be recovered")
 
+    # ---- condemnation 3: the host is still uploading, and uploading the SAME BYTES. ----
+    # ★★ THE CLAUSE ABOVE IS VACUOUS ON THIS LANE, AND THAT WAS MEASURED, NOT SUSPECTED (2026-07-30).
+    # `run_ternary_leg.sh` syncs run.log from a BACKGROUND TIMER every ~120 s, unconditionally. So its S3
+    # mtime tracks the sync loop's health, never the leg's: `log_age_min` sits at ~2 min forever, the
+    # 15-minute silence test can never be reached, and every wedge falls through to WATCHING — "quiet but
+    # alive: run.log 2 min old", which is true and useless.
+    # Host 46286994 wedged that morning INSIDE a checkpoint persist (commit-store generation fa5da1eb holds
+    # simulation.nc and nothing else; _persist writes .nc -> .chk -> manifest). It then billed for 77
+    # minutes at gpu_util 0.0 while the guard reported it healthy every poll, because the sync loop kept
+    # PUTting an unchanged file.
+    # Identical CONTENT is the honest signal, and it is exactly the "measured absence of writes" the module
+    # docstring already requires before condemning anything — a re-PUT of unchanged bytes IS an absence of
+    # writes. GPU idleness still condemns nothing: this clause needs no gpu_util at all.
+    frozen = _as_float(log_unchanged_min)
+    if frozen is not None and frozen >= log_silence_min:
+        return WEDGED, (f"run.log has been re-uploaded with byte-identical content for {frozen:.0f} min "
+                        f"(>= {log_silence_min:g}) and the committed scalar has not advanced — the sync "
+                        f"loop is alive but the leg is not writing, so nothing is being produced to save")
+
     # ---- the GPU-busy reprieve, deliberately LAST. It can only ever save a box, never condemn one. ----
     util = _as_float(gpu_util)
     if util is not None and util >= gpu_busy_pct:
@@ -259,8 +283,13 @@ def classify_idle(*, instance_running, container_started=True, gpu_util=None, pr
         return UNKNOWN, ("the container has started but no run.log has ever been uploaded — no evidence to "
                          "judge on, so leaving it alone")
 
-    return WATCHING, (f"quiet but alive: run.log {silence:.0f} min old, GPU idle, no committed advance — "
-                      f"consistent with a CPU-bound setup phase")
+    # The reason NAMES which evidence is missing, because "quiet but alive" was the sentence this guard
+    # printed over a wedged, billing host every three minutes for over an hour.
+    _content = (f", content changing (last change {frozen:.0f} min ago)" if frozen is not None
+                else ", CONTENT IDENTITY NOT TRACKED — the mtime alone cannot distinguish a writing host "
+                     "from a timer re-uploading the same bytes")
+    return WATCHING, (f"quiet but alive: run.log {silence:.0f} min old{_content}, GPU idle, no committed "
+                      f"advance — consistent with a CPU-bound setup phase")
 
 
 # ---------------------------------------------------------------------------------------------------------
