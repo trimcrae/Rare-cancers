@@ -3135,6 +3135,42 @@ def collect(bucket=None, prefix=None, autostop=True):
               # rate line in its log window rendered `—` with nothing beside it, which is the same
               # empty-column complaint the ETA itself drew earlier. An unknown cell must always say what is
               # missing; only a row with every cell known is allowed a blank WHY.
+              # ★★ A HOST TORN DOWN ON THIS VERY PASS MUST NOT RENDER AS `RUNNING` (measured 2026-07-29,
+              # 9:58 PM ET). `calib_lo_to_lo2__binary_vhl` — T2 binary, FORTY production iterations from
+              # finishing — hit a capacity refusal on machine 55559, collect destroyed it, and the
+              # TVAST-SUMMARY said so exactly as designed:
+              #
+              #   up=exited ... ▲ ADVANCING | ⛔ DESTROYED this pass (capacity refusal on machine 55559)
+              #                               — billing STOPPED, $0 further
+              #
+              # ...while the BOARD, one block below, printed `T2 binary 98.6% 10:07 PM RUNNING`. Both were
+              # reading the same pass. The board says RUNNING because `advanced` is true — the census DID
+              # rise before the box died — so the freshest evidence about the leg (it has no host) lost to
+              # the stalest (it was computing a minute ago). At 3 AM that row promises a result at 10:07 PM
+              # from a machine that no longer exists, which is the same class of defect as an unreadable
+              # instance list rendering as six deaths: the board stating something it does not know.
+              #
+              # `destroyed_this_pass` is keyed by instance id and is COMPLETE by the time the board is
+              # built — the teardown loop has already run — so this is a lookup, not a re-derivation, and
+              # the summary and the board now answer from ONE fact (CLAUDE.md §1).
+              #
+              # ⚠ THE TWO OUTCOMES ARE NOT THE SAME EVENT. A destroy that SUCCEEDED stopped the meter and
+              # leaves an ordinary no-host leg for the next gate tick to re-place. A destroy that RAISED
+              # left a dead box BILLING, which §6 is explicit the host cannot stop by itself — that is the
+              # alarming case and it must not be softened into "no host".
+              _destroyed = destroyed_this_pass.get(_b.get("iid"))
+              if _destroyed and _destroyed.get("ok"):
+                  _state, _swhy = ifb.state_of(
+                      False, False, 0, False,
+                      why_not_running="host DESTROYED this pass (%s) — billing stopped, $0 further; "
+                                      "checkpoint at %s/%s is intact in S3 and the next gate tick re-places it"
+                                      % (_destroyed.get("why"), _b["phase"] or "none", _b["iteration"]))
+                  _eta = None          # an ETA off a dead host's rate is a promise nothing can keep
+              elif _destroyed:
+                  _state, _swhy = ifb.STALLED, (
+                      "⚠ DESTROY FAILED (%s) — this box is STILL BILLING and the host cannot stop its own "
+                      "meter; only the control plane can" % _destroyed.get("why"))
+                  _eta = None
               _cell_unknown = (_pct is None or _eta is None)
               _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
                             "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),

@@ -344,3 +344,46 @@ def test_the_targets_line_is_pinned_into_every_window_rather_than_remembered():
     for banned in ("768", "1600", "2000"):
         assert ("_tg = (%s" % banned) not in src, (
             "a typed target is a second home for a number the driver's log owns (CLAUDE.md rule 1)")
+
+
+# ── a host torn down on this pass must not render RUNNING (2026-07-29, 9:58 PM ET) ───────────────────
+# T2 binary, 40 production iterations from finishing, hit a capacity refusal on machine 55559 and collect
+# destroyed it. The TVAST-SUMMARY said so ("up=exited ... ⛔ DESTROYED this pass ... billing STOPPED"); the
+# board one block below printed "T2 binary 98.6% 10:07 PM RUNNING", because `advanced` was true — the census
+# HAD risen before the box died. The freshest evidence lost to the stalest.
+
+def test_a_destroyed_host_is_no_host_not_running():
+    st, why = B.state_of(False, False, 0, False,
+                         why_not_running="host DESTROYED this pass (capacity refusal on machine 55559) — "
+                                         "billing stopped, $0 further; checkpoint at production/1960 intact")
+    assert st == B.NO_HOST and st != B.RUNNING
+    assert "1960" in why and "billing stopped" in why
+
+
+def test_a_destroyed_row_carries_no_eta():
+    """An ETA derived from a dead host's rate is a promise nothing can keep."""
+    txt = B.render([{"name": "T2 binary", "pct": 98.6, "eta_s": None, "usd_per_ns": None,
+                     "state": B.NO_HOST, "why": "host DESTROYED this pass — billing stopped"}])
+    assert "NO HOST" in txt and "—" in txt and "RUNNING" not in txt
+
+
+def test_a_failed_destroy_is_louder_than_a_successful_one():
+    """§6: the host cannot stop its own meter. A destroy that raised left a dead box BILLING."""
+    ok, _ = B.state_of(False, False, 0, False, why_not_running="host DESTROYED this pass — billing stopped")
+    assert ok == B.NO_HOST
+    bad, why = B.state_of(True, False, 2, False,
+                          why_not_running="⚠ DESTROY FAILED (capacity refusal; DELETE raised) — this box is "
+                                          "STILL BILLING")
+    assert bad == B.STALLED and "STILL BILLING" in why
+    assert ok != bad, "a stopped meter and a running one must never render alike"
+
+
+def test_the_collect_consults_the_teardown_outcome():
+    """Pin the call site: the summary and the board must answer from ONE fact, not two derivations."""
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert '_destroyed = destroyed_this_pass.get(_b.get("iid"))' in src, (
+        "the board no longer consults the teardown outcome — a destroyed host renders RUNNING again")
+    assert '_destroyed.get("ok")' in src, (
+        "the board no longer distinguishes a destroy that stopped the meter from one that raised")
