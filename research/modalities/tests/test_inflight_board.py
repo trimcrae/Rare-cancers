@@ -387,3 +387,14 @@ def test_the_collect_consults_the_teardown_outcome():
         "the board no longer consults the teardown outcome — a destroyed host renders RUNNING again")
     assert '_destroyed.get("ok")' in src, (
         "the board no longer distinguishes a destroy that stopped the meter from one that raised")
+
+
+def test_a_teardown_because_the_unit_FINISHED_does_not_invite_a_re_rental():
+    """T2 binary reached production/2000, reap_landed destroyed its host, and the row said 'the next gate
+    tick re-places it' — inviting a purchase the ladder must not make, and calling a finished leg unfinished."""
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert '_done_reason = "done" in str(_destroyed.get("why") or "").lower()' in src, (
+        "the board no longer distinguishes a done-teardown from a capacity teardown")
+    assert "nothing further is owed — this leg is FINISHED" in src

@@ -3164,11 +3164,20 @@ def collect(bucket=None, prefix=None, autostop=True):
               # alarming case and it must not be softened into "no host".
               _destroyed = destroyed_this_pass.get(_b.get("iid"))
               if _destroyed and _destroyed.get("ok"):
+                  # ⚠ A TEARDOWN BECAUSE THE UNIT FINISHED IS NOT A TEARDOWN THAT NEEDS REPLACING, and the
+                  # first version of this branch said it was (2026-07-29, 10:38 PM ET). T2 binary reached
+                  # production/2000, `reap_landed` correctly destroyed its host, and the row read "...the
+                  # next gate tick re-places it" — inviting exactly the re-rental the ladder must not make,
+                  # and telling a 3 AM reader a finished leg is still owed work. The reaper already
+                  # distinguishes the two cases in the `why` it writes; the board must not flatten them.
+                  _done_reason = "done" in str(_destroyed.get("why") or "").lower()
+                  _next = ("nothing further is owed — this leg is FINISHED"
+                           if _done_reason else "the next gate tick re-places it")
                   _state, _swhy = ifb.state_of(
                       False, False, 0, False,
                       why_not_running="host DESTROYED this pass (%s) — billing stopped, $0 further; "
-                                      "checkpoint at %s/%s is intact in S3 and the next gate tick re-places it"
-                                      % (_destroyed.get("why"), _b["phase"] or "none", _b["iteration"]))
+                                      "checkpoint at %s/%s is intact in S3 and %s"
+                                      % (_destroyed.get("why"), _b["phase"] or "none", _b["iteration"], _next))
                   _eta = None          # an ETA off a dead host's rate is a promise nothing can keep
               elif _destroyed:
                   _state, _swhy = ifb.STALLED, (
