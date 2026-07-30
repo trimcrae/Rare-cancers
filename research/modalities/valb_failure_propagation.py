@@ -304,6 +304,26 @@ def error_algebra():
                             "a measurement, and S has its own separate resolvability problem."),
         },
         {
+            "quantity": "ddG_neo-interface^m (RUNG 5's CONFIRMATORY protein-mutation cycle, pmx + GROMACS)",
+            "expression": "e(mut | ternary) - e(mut | binary)",
+            "cancellation": "NUMERICAL ONLY, and weak -- THE SAME SHAPE AS THE QUANTITY THAT FAILED",
+            "why": ("STRATEGY defines it as dG_mut^ternary - dG_mut^binary, where the binary leg is the "
+                    "target-warhead complex. That is a ternary-vs-binary contrast between systems differing "
+                    "by a whole protein -- structurally identical to ddG_coop above, which is the row with a "
+                    "measured 1.543 kcal/mol failure. The PRIMARY kill-switch S escapes this because its "
+                    "binary leg cancels ALGEBRAICALLY (same leg both sides, no target chain); this one has no "
+                    "such cancellation, because a protein MUTATION changes the target and the target is what "
+                    "the two environments differ by."),
+            "status": "IMPLICATED -- inherits the measured failure mode; not independently tested",
+            "consequence": ("⚠ IT IS NOT THE INDEPENDENT SECOND CAUSAL LINE THE LADDER TREATS IT AS. Its "
+                            "known-answer benchmark passed on a PROTEIN-MUTATION quantity, not on a "
+                            "ternary-minus-binary one, so that pass does not cover this exposure. Until it "
+                            "does, a concordance between S and this cycle is NOT two independent lines "
+                            "agreeing -- and a DISCORDANCE would be uninterpretable. The paper's headline "
+                            "causal result is already stated as not hostage to it, which is what keeps this "
+                            "from being load-bearing."),
+        },
+        {
             "quantity": "ddG_bind (RUNG 4 step-1 fan-out; the 18-edge congeneric map)",
             "expression": "e(A->B | complex) - e(A->B | solvent)",
             "cancellation": "NUMERICAL, and validated independently of anything ternary",
@@ -547,6 +567,64 @@ def narrow_sigma_leg_from_triangle_legs(triangle_mean_mbar_se=None):
     return out
 
 
+# =============================================================================================================
+# 8. THE CALL ON MODULE 3 — made 2026-07-30, after R, and deliberately NOT a gate amendment
+# =============================================================================================================
+def module3_decision():
+    """Should valB_full module 3 (paralogue discrimination, SMARCA2-vs-SMARCA4) be decoupled from the failed
+    valB_mini gate and run?
+
+    ⛔ THE GATE IS NOT AMENDED. valB_full's gate reads "the prospective ladder never runs unless the
+    cooperativity AND paralogue-discrimination modules pass." Module 1 failed on its own terms, for a cause
+    that is now diagnosed rather than mysterious, and its statistic did NOT lose discriminating power -- it
+    discriminated perfectly well and returned NO. That is the gate working. The repo's own amendment standard
+    (AMENDMENT 1: a rule may be amended only when its statistic is SHOWN to lack discriminating power,
+    demonstrated independently of whether we liked its answer) therefore does not license touching it, and R
+    supplies no licence either: R is blind to the endpoint-state class that broke valB, so it cannot vouch for
+    the pipeline the gate is guarding. Unlocking the prospective ladder here would be the retune this program
+    forbids, wearing a diagnosis as cover.
+
+    ★ BUT THE REAL FINDING IS THAT THE LADDER HAS A GAP, NOT THAT IT HAS A GATE IN THE WAY. `S` -- the flagship
+    kill-switch, the thing the whole prospective stage is gated on -- has NEVER had a known-answer calibrator.
+    valB_mini calibrated ddG_coop, a quantity `S` does not contain (its binary leg cancels algebraically). So
+    `S` was always going to be read against nothing, and the valB failure did not create that; it exposed it.
+    Closing it is not a gate amendment and does not unlock the prospective ladder: the ladder stays shut on
+    cooperativity, and what changes is only whether `S` may be read as calibrated rather than exploratory.
+
+    THE HONEST RISK, STATED BECAUSE IT IS THE STRONGEST ARGUMENT AGAINST: an S-calibrator on SMARCA2-vs-SMARCA4
+    runs on the SAME system family that carries the suspected error, and a known-answer accuracy test does NOT
+    telescope an endpoint-state error the way a cycle does -- which is exactly why valB_mini caught it. Worse,
+    the arms are asymmetric: 8G1Q is a SMARCA4 structure and SMARCA2 is the homology-substituted model, so a
+    homology-model error sits on ONE arm and does not cancel. A failure would therefore be ambiguous between
+    "the S-class quantity does not work" and "this particular benchmark inherited the same model defect."
+    That ambiguity must be preregistered, not discovered afterwards -- and it argues for choosing the system on
+    which arm is REAL, not on which is already staged."""
+    return {
+        "decision": "DO NOT AMEND THE valB_full GATE; SPECIFY AN S-CALIBRATOR AS A SEPARATE ITEM",
+        "made": "2026-07-30, after R landed",
+        "gate_status": "valB_full stays gated shut on cooperativity; the prospective NR4A matrix stays unrun",
+        "why_not_amend": ("module 1's statistic did not lack discriminating power -- it discriminated and said "
+                          "NO. The repo's amendment standard does not reach it, and R cannot vouch for the "
+                          "pipeline because R is blind to the class that broke it."),
+        "the_gap_that_is_real": ("S has never had a known-answer calibrator. valB_mini calibrated ddG_coop, "
+                                 "which S does not contain. The failure exposed this rather than causing it."),
+        "what_this_does_NOT_unlock": ("the prospective ladder, the NR4A ternary matrix, or any cooperativity "
+                                      "claim. Only whether S is readable as calibrated rather than exploratory."),
+        "preregister_before_spending": [
+            "the ambiguity: on SMARCA2-vs-SMARCA4 a FAILURE cannot distinguish 'the S-class quantity does not "
+            "work' from 'this benchmark inherited the same model defect', because 8G1Q is a SMARCA4 structure "
+            "and SMARCA2 is the homology-substituted arm -- the error sits on one arm and does not cancel",
+            "the system choice should be made on WHICH ARM IS REAL, not on what is already staged",
+            "what a PASS would and would not license (it would not revive ddG_coop)",
+        ],
+        "free_work_first": ("the prereg itself is $0, and so is a survey of paralogue-selective systems with "
+                            "a solved structure on BOTH arms. Neither needs a go."),
+        "also_recorded_today": ("the CONFIRMATORY protein-mutation cycle is ternary-minus-binary, the same "
+                                "shape as the quantity that failed -- see error_algebra. It should stop being "
+                                "described as an independent second causal line until that is addressed."),
+    }
+
+
 def build_report():
     return {
         "_what": ("the blast radius of the valB_mini FAIL, derived quantity by quantity, plus the two things "
@@ -563,6 +641,7 @@ def build_report():
         "5_s_error_bar_scope": s_error_bar_scope(),
         "6_estimator_note": estimator_note(),
         "7_narrow_sigma_leg_from_triangle_legs": narrow_sigma_leg_from_triangle_legs(),
+        "8_module3_decision": module3_decision(),
     }
 
 

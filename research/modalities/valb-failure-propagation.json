@@ -92,6 +92,14 @@
    "consequence": "survives the FAIL on algebra -- but see \u00a74: 'not implicated' is an argument, not a measurement, and S has its own separate resolvability problem."
   },
   {
+   "quantity": "ddG_neo-interface^m (RUNG 5's CONFIRMATORY protein-mutation cycle, pmx + GROMACS)",
+   "expression": "e(mut | ternary) - e(mut | binary)",
+   "cancellation": "NUMERICAL ONLY, and weak -- THE SAME SHAPE AS THE QUANTITY THAT FAILED",
+   "why": "STRATEGY defines it as dG_mut^ternary - dG_mut^binary, where the binary leg is the target-warhead complex. That is a ternary-vs-binary contrast between systems differing by a whole protein -- structurally identical to ddG_coop above, which is the row with a measured 1.543 kcal/mol failure. The PRIMARY kill-switch S escapes this because its binary leg cancels ALGEBRAICALLY (same leg both sides, no target chain); this one has no such cancellation, because a protein MUTATION changes the target and the target is what the two environments differ by.",
+   "status": "IMPLICATED -- inherits the measured failure mode; not independently tested",
+   "consequence": "\u26a0 IT IS NOT THE INDEPENDENT SECOND CAUSAL LINE THE LADDER TREATS IT AS. Its known-answer benchmark passed on a PROTEIN-MUTATION quantity, not on a ternary-minus-binary one, so that pass does not cover this exposure. Until it does, a concordance between S and this cycle is NOT two independent lines agreeing -- and a DISCORDANCE would be uninterpretable. The paper's headline causal result is already stated as not hostage to it, which is what keeps this from being load-bearing."
+  },
+  {
    "quantity": "ddG_bind (RUNG 4 step-1 fan-out; the 18-edge congeneric map)",
    "expression": "e(A->B | complex) - e(A->B | solvent)",
    "cancellation": "NUMERICAL, and validated independently of anything ternary",
@@ -180,5 +188,20 @@
   "cost": "$0 -- the MBAR SEs are already in the leg records that land with R",
   "when": "the moment all four legs are down, alongside task=triangle-reduce",
   "estimate": "NOT YET COMPUTABLE -- the triangle's ternary legs have not landed"
+ },
+ "8_module3_decision": {
+  "decision": "DO NOT AMEND THE valB_full GATE; SPECIFY AN S-CALIBRATOR AS A SEPARATE ITEM",
+  "made": "2026-07-30, after R landed",
+  "gate_status": "valB_full stays gated shut on cooperativity; the prospective NR4A matrix stays unrun",
+  "why_not_amend": "module 1's statistic did not lack discriminating power -- it discriminated and said NO. The repo's amendment standard does not reach it, and R cannot vouch for the pipeline because R is blind to the class that broke it.",
+  "the_gap_that_is_real": "S has never had a known-answer calibrator. valB_mini calibrated ddG_coop, which S does not contain. The failure exposed this rather than causing it.",
+  "what_this_does_NOT_unlock": "the prospective ladder, the NR4A ternary matrix, or any cooperativity claim. Only whether S is readable as calibrated rather than exploratory.",
+  "preregister_before_spending": [
+   "the ambiguity: on SMARCA2-vs-SMARCA4 a FAILURE cannot distinguish 'the S-class quantity does not work' from 'this benchmark inherited the same model defect', because 8G1Q is a SMARCA4 structure and SMARCA2 is the homology-substituted arm -- the error sits on one arm and does not cancel",
+   "the system choice should be made on WHICH ARM IS REAL, not on what is already staged",
+   "what a PASS would and would not license (it would not revive ddG_coop)"
+  ],
+  "free_work_first": "the prereg itself is $0, and so is a survey of paralogue-selective systems with a solved structure on BOTH arms. Neither needs a go.",
+  "also_recorded_today": "the CONFIRMATORY protein-mutation cycle is ternary-minus-binary, the same shape as the quantity that failed -- see error_algebra. It should stop being described as an independent second causal line until that is addressed."
  }
 }

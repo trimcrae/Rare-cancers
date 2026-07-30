@@ -2182,6 +2182,41 @@ dollar ceiling.
    ratio to the triangle's own per-leg MBAR SEs, giving an estimate with no homology-model and no cross-seed
    solvation term. ⚠ The ratio is **transferred, not measured on the triangle** (which has no replicates), so
    this narrows the interval and must never be reported as though the triangle had replicates.
+8. **`[x]` DECIDED 2026-07-30 (trimcrae delegated: *"You make an educated call yourself"*) — the valB_full gate
+   is NOT amended, and module 3 is NOT decoupled to unlock it.** The question was whether module 3 (paralogue
+   discrimination, SMARCA2-vs-SMARCA4) should be freed from behind the failed cooperativity gate now that `R`
+   says the ternary environment is internally clean. **It should not.** Module 1's statistic did not *lack
+   discriminating power* — it discriminated perfectly well and returned NO — so the repo's own amendment
+   standard ([AMENDMENT 1](research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated))
+   does not reach it; and `R` supplies no licence either, because `R` is **blind to the endpoint-state class
+   that broke valB**. Unlocking the prospective ladder here would be the retune this program forbids, wearing
+   a diagnosis as cover. **The prospective NR4A ternary matrix stays unrun and cooperativity claims stay
+   exploratory.**
+   **★ THE REAL FINDING IS A GAP, NOT A GATE IN THE WAY.** `S` — the flagship kill-switch the whole prospective
+   stage turns on — **has never had a known-answer calibrator**, because valB_mini calibrated `ΔΔG_coop`, a
+   quantity `S` does not contain (its binary leg cancels algebraically). The failure *exposed* that; it did not
+   cause it. Closing it is a **new item**, not a gate amendment, and it unlocks **nothing** beyond whether `S`
+   may be read as calibrated rather than exploratory. Reasoning + what must be preregistered first:
+   [`valb_failure_propagation.module3_decision`](research/modalities/valb_failure_propagation.py).
+   ⚠ **The strongest argument against, recorded because it must be preregistered rather than discovered:** an
+   S-calibrator on SMARCA2-vs-SMARCA4 runs on the **same system family carrying the suspected error**, and a
+   known-answer accuracy test does *not* telescope an endpoint-state error the way a cycle does — which is
+   precisely why valB_mini caught it. The arms are also **asymmetric**: 8G1Q is a *SMARCA4* structure and
+   SMARCA2 is the homology-substituted arm, so a homology-model error sits on **one arm and does not cancel**.
+   A failure would then be ambiguous between *"the S-class quantity does not work"* and *"this benchmark
+   inherited the same model defect."* **So the system must be chosen on which arm is REAL, not on what is
+   already staged** — and the $0 survey of paralogue-selective systems with a solved structure on *both* arms
+   leads, before any spend.
+9. **`[ ]` OPEN — stop calling the protein-mutation cycle an independent second causal line, until it is one.
+   $0.** RUNG 5's CONFIRMATORY cycle is `ΔΔG_neo-interface^m = ΔG_mut^ternary − ΔG_mut^binary` — a
+   **ternary-minus-binary contrast, structurally identical to the quantity that failed** (the PRIMARY `S`
+   escapes this only because its binary leg cancels *algebraically*; a protein mutation changes the target,
+   which is exactly what the two environments differ by). Its known-answer benchmark passed on a
+   *protein-mutation* quantity, **not** on a ternary-minus-binary one, so that pass does not cover this
+   exposure. Consequence: a concordance between `S` and this cycle is **not two independent lines agreeing**,
+   and a discordance would be uninterpretable. Derived in
+   [`valb_failure_propagation.error_algebra`](research/modalities/valb_failure_propagation.py). *Not
+   load-bearing* — the paper's headline causal result is already stated as not hostage to it.
 
 ---
 
