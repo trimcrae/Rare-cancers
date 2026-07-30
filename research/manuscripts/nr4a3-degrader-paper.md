@@ -1318,34 +1318,48 @@ adopts: **a closed cycle, a small forward/reverse gap, and good MBAR overlap are
 never be presented as accuracy evidence**, and a known-answer benchmark against measured data is not
 substitutable by any number of internally consistent cycles.
 
-**The congeneric map stands at 14 computed edges of the 18 that are computable, in a 19-edge map, at the
-6:30 AM ET 2026-07-29 snapshot the table below is taken from.** The three numbers are different and all three
-are needed: 19 is the designed map, **18** is what the lane can ever deliver (one edge is excluded for a
-measured reason given below), and 14 is what had landed when this table was cut. The fan-out is still running,
-so the live counts are `n_units` / `n_computable` / `n_complete` in
-[`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json) — **that artifact governs and
-this paragraph does not.** A 19-edge perturbation map around the cmpd19 anchor is frozen
+**The congeneric map is COMPLETE at 18 computed edges of the 18 that are computable, in a 19-edge map.** The
+three numbers are different and all three are needed: 19 is the designed map, **18** is what the lane can ever
+deliver (one edge is excluded for a measured reason given below), and 18 is what landed. The lane closed
+itself — `pending=0`, `live=0`, every unit carrying a `ddg.json` or on the blocked list — so the counts are
+final rather than a snapshot of work in progress. They remain readable as `n_units` / `n_computable` /
+`n_complete` in [`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json) — **that artifact
+governs and this paragraph does not.** A 19-edge perturbation map around the cmpd19 anchor is frozen
 (`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue inheriting the anchor's
-core coordinates atom-for-atom, so the edges are mutually comparable), and the fan-out had returned ΔΔG_bind
-for **14** of them at that snapshot (single replicate each, 12 λ-windows, ~$69 of realised GPU spend across
-197 rentals). More negative = predicted tighter than the cmpd19 anchor in the modeled pocket:
+core coordinates atom-for-atom, so the edges are mutually comparable), and the fan-out returned ΔΔG_bind for
+all 18 (single replicate each, 12 λ-windows, **$73.79** of realised GPU spend against a derived authorisation
+ceiling of $74.91).
+
+Of the 18, **15 are rooted at the cmpd19 anchor** and are the ones that can be read as "tighter or weaker than
+cmpd19"; the remaining **3 join two non-anchor nodes** and are listed separately below, because a ΔΔG measured
+between two analogues is not a statement about the anchor at all. More negative = predicted tighter than the
+cmpd19 anchor in the modeled pocket:
 
 | analogue (5-position unless noted) | ΔΔG_bind (kcal/mol) | mapped atoms |
 |---|---|---|
 | `cw_ev_5opropargyl` | **−1.698 ± 0.380** | 21 |
-| `cw_ms_5acetamido_ester` | −1.345 ± 0.810 | 23 |
 | `cw_bio_tetrazole` | −1.215 ± 0.317 | 15 |
 | `cw_ev_5pegamine` | −0.646 ± 1.071 | 21 |
 | `cw_ev_5alkyne` | −0.363 ± 0.047 | 21 |
 | `cw_bio_acylsulfonamide` | +0.127 ± 0.688 | 17 |
 | `cw_ms_free_acid` | +0.136 ± 0.457 | 18 |
 | `cw_bio_hydroxamic` | +0.392 ± 0.285 | 17 |
+| `cw_ms_5acetamido_ester` | +0.445 ± 0.572 | 21 |
 | `cw_ev_5oh` | +0.474 ± 0.195 | 21 |
 | `cw_ms_carbinol` | +0.582 ± 0.602 | 17 |
 | `cw_ev_5cooh` | +0.688 ± 0.197 | 21 |
+| `cw_bio_primary_amide` | +0.935 ± 0.500 | 17 |
 | `cw_ev_5nh2` | +1.064 ± 0.118 | 21 |
 | `cw_ev_5ch2nh2` | +1.248 ± 0.139 | 21 |
 | `cw_ev_5piperazine` | +3.403 ± 0.649 | 21 |
+
+The three non-anchor-rooted edges, which close cycles in the map rather than rank analogues against cmpd19:
+
+| edge | ΔΔG_bind (kcal/mol) | mapped atoms |
+|---|---|---|
+| `cw_ev_5oh → cw_ev_5opropargyl` | −2.928 ± 0.589 | 22 |
+| `cw_ev_5nh2 → cw_ms_5acetamido_ester` | −1.345 ± 0.810 | 23 |
+| `cw_ms_free_acid → cw_bio_primary_amide` | +2.106 ± 0.132 | 17 |
 
 **Every uncertainty in that table is a within-run MBAR standard error propagated in quadrature — NOT a
 replicate SD.** One replicate per edge cannot report reproducibility, so these speak to precision only, and the
@@ -2554,6 +2568,24 @@ absent by verification status rather than by oversight; entry 70 has no publicat
 §2.10 is a standard polymer-physics result, but the machine query for its primary source returned **no matching
 record** (all candidates were unrelated). Rather than attach a remembered citation to it, the model is described
 in Methods and the reference is left to be established from the primary literature before submission.
+
+## Appendix A — corrections to earlier drafts
+
+Superseded values are recorded here rather than left inline, so the live text carries only the current figure
+while nothing that was previously stated silently disappears.
+
+- **§2.9, `cw_ms_5acetamido_ester`: the tabulated ΔΔG_bind was −1.345 ± 0.810 kcal/mol (23 mapped atoms); it
+  is now +0.445 ± 0.572 (21 mapped atoms).** The superseded value is a real measurement, but of the wrong
+  edge: it is `cw_ev_5nh2 → cw_ms_5acetamido_ester`, which joins two analogues, and it had been placed in a
+  table whose caption reads *"more negative = predicted tighter than the cmpd19 anchor."* The anchor-rooted
+  edge `zaienne_cmpd19 → cw_ms_5acetamido_ester` is the one that belongs there. The consequence is a sign
+  change: the analogue moves from apparently the second-tightest of the series to modestly weaker than the
+  anchor. The non-anchor-rooted value is retained, correctly labelled, in the second table of §2.9. Caught by
+  regenerating the table from `step1-fanout-map.json`'s own `ranking` field, whose `ranking_note` states the
+  anchor-rooted restriction explicitly — the artifact was right and the transcription was not.
+- **§2.9 edge count: the table was cut at 14 computed edges of 18 computable, against ~$69 of GPU spend
+  across 197 rentals.** The fan-out has since closed at **18 of 18** and **$73.79**, so those figures describe
+  a run in progress and are not the final map.
 
 ## Data and software availability
 All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the
