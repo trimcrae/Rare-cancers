@@ -2,12 +2,12 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 3:46 PM ET Thu Jul 30, 2026 by `task=collect`.
+Generated 3:50 PM ET Thu Jul 30, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T3 ternary           94.2%  5:05 PM          $0.00505/ns · 1.48× basis  STARTING  COLD_START — instance is 10 min old, under the 15 min floor — too young to have proved anything either way
+T3 ternary           94.2%  5:03 PM          $0.00505/ns · 1.48× basis  STARTING  COLD_START — instance is 13 min old, under the 15 min floor — too young to have proved anything either way
 ---- END TVAST-BOARD ----
 ```
