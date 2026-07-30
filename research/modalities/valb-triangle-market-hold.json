@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-30T19:26:50Z",
+  "utc": "2026-07-30T19:27:49Z",
   "n_units": 1,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 1.71,
@@ -8,29 +8,29 @@
   "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 1 legs",
   "breakeven_usd_per_ns": 0.009234,
   "depth": {
-    "offers_returned": 228,
-    "qualifying": 98,
-    "priceable": 98,
+    "offers_returned": 193,
+    "qualifying": 87,
+    "priceable": 87,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers": [
     {
       "gpu": "RTX 5090",
-      "machine_id": 138986,
-      "min_bid_usd_h": 0.28370370370370374,
-      "usd_per_ns": 0.007418
+      "machine_id": 67860,
+      "min_bid_usd_h": 0.182,
+      "usd_per_ns": 0.004817
     }
   ],
-  "mean_usd_per_ns": 0.007418,
-  "ratio_vs_basis": 2.174,
-  "projected_usd": 3.09,
+  "mean_usd_per_ns": 0.004817,
+  "ratio_vs_basis": 1.412,
+  "projected_usd": 2.01,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": true,
-  "hold": true,
-  "reason": "2.17x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns",
+  "fails_ratio_ceiling": false,
+  "hold": false,
+  "reason": "projected $2.01 within this rung's ceiling $3.85 AND 1.41x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
     "137041",
     "141336",
