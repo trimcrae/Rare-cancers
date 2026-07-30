@@ -1,0 +1,211 @@
+{
+  "_what": "the valB synthetic closure triangle's residual R and its two component closures",
+  "_identity": "R = ddG_coop(T1) + ddG_coop(T2) - ddG_coop(T3) = R_ternary - R_binary. Zero for an exact method, and IDENTICALLY zero for any endpoint-STATE error (force field, SMARCA4->SMARCA2 homology, NAGL charges, protonation) \u2014 so a non-zero R is PATH error and nothing else.",
+  "directory": "/tmp/tri",
+  "legs_found": [
+    "calib_hi_to_lo2__binary_vhl",
+    "calib_hi_to_lo2__ternary_vhl",
+    "calib_hi_to_lo__binary_vhl",
+    "calib_hi_to_lo__ternary_vhl",
+    "calib_lo_to_lo2__binary_vhl",
+    "calib_lo_to_lo2__ternary_vhl"
+  ],
+  "duplicate_leg_records": [],
+  "restrained_records_excluded": [],
+  "comparability": {
+    "seed": [
+      "0"
+    ],
+    "protocol_hash": [
+      "\"a5ad9520f9125777474cfad1b7ad8651620a0c8b1cc9bdd4be74c7c25acc545d\""
+    ],
+    "direction": [
+      "\"fwd\""
+    ],
+    "n_particles": [
+      "141458",
+      "143562",
+      "89709",
+      "90920",
+      "null"
+    ],
+    "charge_method": [
+      "\"nagl\"",
+      "null"
+    ],
+    "setup_cache_version": [
+      "\"v1pe\"",
+      "null"
+    ],
+    "n_windows": [
+      "12"
+    ]
+  },
+  "dg_morph_kcal_by_env_and_edge": {
+    "binary": {
+      "T3": 42.70281573766114,
+      "T1": 48.00457067327676,
+      "T2": -5.545783496991003
+    },
+    "ternary": {
+      "T3": 42.448058079031895,
+      "T1": 47.470131055401,
+      "T2": -5.053273029838244
+    }
+  },
+  "ddG_coop_by_edge_kcal": {
+    "T1": -0.5344,
+    "T2": 0.4925,
+    "T3": -0.2548
+  },
+  "edge_coefficients": {
+    "T1": 1,
+    "T2": 1,
+    "T3": -1
+  },
+  "R_ternary_kcal": -0.0312,
+  "R_binary_kcal": -0.244,
+  "R_kcal": 0.2128,
+  "cancellation_risk": false,
+  "cancellation_note": "REPORT R_ternary AND R_binary SEPARATELY, never R_coop alone. R_coop = R_ternary - R_binary, so a clean-looking R_coop can be two large closures cancelling. Both come free from the same legs.",
+  "error_bar_kind": "NONE QUOTED AT n=1",
+  "error_bar_basis": "This programme's error bar is the BETWEEN-REPLICATE SD, never the MBAR SE. The triangle is an n=1 scout \u2014 one seed on every edge, which the design REQUIRES (a mixed-seed triangle is not a closure) \u2014 so no replicate SD exists and none is invented. The per-leg MBAR SEs are recorded below as provenance only; they are a LOWER bound on sigma_leg and must never be presented as the uncertainty on R.",
+  "mbar_se_kcal_per_leg_PROVENANCE_ONLY": {
+    "calib_hi_to_lo2__binary_vhl": 0.16612687286129268,
+    "calib_hi_to_lo2__ternary_vhl": 0.12469294501062994,
+    "calib_hi_to_lo__binary_vhl": 0.15106810764889006,
+    "calib_hi_to_lo__ternary_vhl": 0.11075836689255258,
+    "calib_lo_to_lo2__binary_vhl": 0.06780545974446092,
+    "calib_lo_to_lo2__ternary_vhl": 0.07139512575882306
+  },
+  "replicate_sd_kcal": null,
+  "noise_floor": {
+    "n_legs_in_R": 6,
+    "SD_R_formula": "SD(R) = sqrt(6) * sigma_leg = sqrt(3) * sigma_edge (independent legs, +-1 coefficients)",
+    "sigma_leg_is_unknown_by_a_factor_of": 15.6,
+    "sigma_leg_bounds": {
+      "lower_MBAR_SE_r0_ternary": 0.045,
+      "upper_repo_assumed_replicate_SD": 0.7,
+      "note": "the replicate SD upper bound includes homology-model sensitivity (seed s -> model s%n). A same-seed triangle removes that term, so the true value sits below 0.7 -- but nothing in this lane has measured it.",
+      "SUPERSEDED_2026_07_30": "the trailing clause of `note` is no longer true and is kept only because the 0.7 figure it explains is still the value this function is called with by default. The valB_mini n=3 replicates MEASURED the spread, and converting it through this function's own SD relation bounds sigma_leg well below 0.7. The bound, the two reasons it is an UPPER bound, and the re-graded power are derived in valb_failure_propagation.sigma_leg_now_bounded (not imported here -- that module imports this one, and the dependency must not reverse)."
+    },
+    "rows": [
+      {
+        "sigma_leg": 0.045,
+        "sigma_edge_implied": 0.0636,
+        "SD_R_analytic": 0.1102,
+        "SD_R_monte_carlo": 0.11,
+        "null_p95_abs_R": 0.2153,
+        "power_at_n1": {
+          "detect_0.500": 0.9946,
+          "detect_1.000": 1.0,
+          "detect_1.478": 1.0,
+          "detect_2.000": 1.0
+        }
+      },
+      {
+        "sigma_leg": 0.7,
+        "sigma_edge_implied": 0.9899,
+        "SD_R_analytic": 1.7146,
+        "SD_R_monte_carlo": 1.7168,
+        "null_p95_abs_R": 3.3481,
+        "power_at_n1": {
+          "detect_0.500": 0.0589,
+          "detect_1.000": 0.0904,
+          "detect_1.478": 0.1381,
+          "detect_2.000": 0.2177
+        }
+      }
+    ],
+    "_asymmetry": "A SMALL |R| is strong evidence (it bounds the path error AND the noise at once, since both would have to be small). A LARGE |R| at n=1 is AMBIGUOUS -- one draw cannot separate a systematic path error from an unlucky sample. So the n=1 scout can ADMIT the cycle but cannot convict it."
+  },
+  "sigma_leg_bounds": {
+    "lower_MBAR_SE": 0.045,
+    "upper_repo_assumed_replicate_SD": 0.7,
+    "used_for_the_verdict": 0.045,
+    "note": "the clause that stood here -- 'nothing has measured the value in between' -- was true until 2026-07-30 and is now SUPERSEDED: the valB_mini n=3 replicates bound sigma_leg ABOVE, well below 0.7. The frozen verdict below is deliberately still reported at BOTH ORIGINAL bounds; the measured reading is carried separately in `measured_sigma_addendum` so nothing preregistered moves."
+  },
+  "prereg_verdict": {
+    "prediction": "R_binary materially non-zero, R_ternary small.",
+    "registered": "2026-07-26, before any triangle leg was bought",
+    "basis": "r0 (2 fs) binary 8/12 replicas departed, RUNG-2b (4 fs) binary 7/12; both ternary arms 0/12. GH runs 30210186711 and 30210676030.",
+    "binary_legs_run": "UNRESTRAINED - restraining forfeits the r0-as-T1 reuse; see the docstring",
+    "three_leg_closure_SD": 0.0779,
+    "resolution_threshold_abs": 0.1528,
+    "sigma_leg_assumed": 0.045,
+    "power_caveat": "sigma_leg is known only to a factor of ~15; at 0.5 the power to resolve a 1.478-sized effect is ~0.22. BINARY_CANCELS at high sigma_leg means UNDERPOWERED, not cancellation.",
+    "R_ternary": -0.03120005346914212,
+    "R_binary": -0.2440285613753872,
+    "verdict": "BINARY_PATH_DEPENDENT",
+    "prediction_upheld": true
+  },
+  "prereg_verdict_at_upper_sigma": {
+    "prediction": "R_binary materially non-zero, R_ternary small.",
+    "registered": "2026-07-26, before any triangle leg was bought",
+    "basis": "r0 (2 fs) binary 8/12 replicas departed, RUNG-2b (4 fs) binary 7/12; both ternary arms 0/12. GH runs 30210186711 and 30210676030.",
+    "binary_legs_run": "UNRESTRAINED - restraining forfeits the r0-as-T1 reuse; see the docstring",
+    "three_leg_closure_SD": 1.2124,
+    "resolution_threshold_abs": 2.3764,
+    "sigma_leg_assumed": 0.7,
+    "power_caveat": "sigma_leg is known only to a factor of ~15; at 0.5 the power to resolve a 1.478-sized effect is ~0.22. BINARY_CANCELS at high sigma_leg means UNDERPOWERED, not cancellation.",
+    "R_ternary": -0.03120005346914212,
+    "R_binary": -0.2440285613753872,
+    "verdict": "UNDERPOWERED",
+    "prediction_upheld": null,
+    "why": "neither closure resolves, but at sigma_leg=0.7 this design cannot resolve an effect the size of r0's miss - absence of signal is not evidence of cancellation"
+  },
+  "measured_sigma_addendum": {
+    "_what": "reading at the MEASURED sigma_leg bound; the frozen decision above is untouched",
+    "_registered": "2026-07-30, before any triangle R existed",
+    "sigma_leg_upper_bound_measured": 0.2652,
+    "sigma_leg_upper_bound_superseded_assumption": 0.7,
+    "ambiguous_band_frozen": [
+      0.216,
+      3.3607
+    ],
+    "ambiguous_band_at_measured_bound": [
+      0.216,
+      1.2732
+    ],
+    "decision_at_measured_bound": "R_CONSISTENT_WITH_ZERO",
+    "sigma_leg_from_the_triangles_own_legs": {
+      "method": "sigma_leg(triangle) ~ ratio * mean per-leg MBAR SE of the TRIANGLE's own legs, where the ratio is the replicate-SD/MBAR-SE factor measured at n=3 on this lane",
+      "ratio_used": 3.28,
+      "_ratio_is_transferred_not_measured_here": true,
+      "current_upper_bound_from_valB": 0.2652,
+      "power_0.80_crosses_at": 0.2154,
+      "what_it_would_settle": "whether a null R clears conventional power. Below the crossing it does and the triangle answers its question; above it, it does not, amended or not.",
+      "cost": "$0 -- the MBAR SEs are already in the leg records that land with R",
+      "when": "the moment all four legs are down, alongside task=triangle-reduce",
+      "triangle_mean_mbar_se_kcal": 0.11530781298610822,
+      "sigma_leg_estimate_kcal": 0.3782,
+      "clears_conventional_power": false
+    },
+    "power_0.80_crosses_at_sigma_leg": 0.2154,
+    "5aKS_resume_verdict": {
+      "registered": "2026-07-30, while the two ternary triangle legs were still running",
+      "chain": "eps_leg ~ |R_ternary|/sqrt(3)  ->  eps_S ~ sqrt(2)*eps_leg = sqrt(2/3)*|R_ternary|",
+      "S_designed_effect_kcal": [
+        0.5,
+        1.5
+      ],
+      "S_best_case_resolvable_kcal": 1.12,
+      "sigma_leg_used": 0.2652,
+      "R_ternary_resolution_threshold": 0.9003,
+      "R_ternary_critical_for_S": 1.3717,
+      "rule": {
+        "ADMIT": "|R_ternary| below its own resolution threshold (0.900) -- no detectable non-conservative error in the ternary environment. The resume is bought.",
+        "HOLD": "|R_ternary| resolved but under 1.372 -- real path error, but not enough to swamp S. Buy the resume AND carry the measured floor as S's uncertainty, not the MBAR SE.",
+        "STOP_AND_REDRAW": "|R_ternary| at or above 1.372 -- S's inherited noise floor exceeds what S can resolve, so finishing the legs buys a number that cannot answer its own question. Per the asymmetry above this is a HOLD FOR A SECOND DRAW, never a kill on one sample."
+      },
+      "_blind_spot_stated": "closure is blind to per-endpoint state-function error, so an ADMIT verdict bounds the non-conservative class ONLY. State-function error that differs between the NR4A3 and NR4A1 pockets is invisible to R_ternary and to every other check this program has. For S that residual is a SECOND difference of a ONE-ATOM morph across two homologous pockets, which is the configuration in which it is smallest -- but small-by-argument is not measured, and this file will not pretend otherwise.",
+      "R_ternary_observed": -0.03120005346914212,
+      "verdict": "ADMIT"
+    },
+    "_5aKS_note": "S is a two-leg difference inside the TERNARY environment, so R_ternary -- not R_coop -- is what bounds its non-conservative error. A large R_ternary buys a hold and a second draw, never a kill. An ADMIT bounds the non-conservative class ONLY; closure is blind to per-endpoint state functions, so it cannot certify S.",
+    "_do_not_conflate": "`decision_at_measured_bound` is NOT the lane's verdict. The lane's verdict is `decision`, computed at the original bounds. If the two differ, that difference IS the content of STRATEGY Open decision 7 and should be surfaced, not resolved here."
+  },
+  "decision": "R_CONSISTENT_WITH_ZERO",
+  "reading": "|R| = 0.2128 kcal/mol is within the tightest plausible noise floor (0.216, at sigma_leg = 0.045). A small |R| is STRONG evidence, because it bounds the path error and the noise simultaneously \u2014 both would have to be small. READING: this workflow's ddG_coop cycle is internally self-consistent to within |R| of PATH error, so r0's 1.478 kcal/mol miss is NOT explained by path error and MORE SAMPLING WILL NOT FIX IT. The miss lives in the model or the reference data, where closure is provably blind, and the known-answer accuracy requirement stays OPEN.",
+  "honest_limit": "Closure measures INTERNAL CONSISTENCY, not accuracy, and specifically cannot see force-field error, the SMARCA4->SMARCA2 homology substitution, NAGL charge error, protonation assignment, or the fact that alpha_SPR is an APPARENT cooperativity \u2014 every one of those is a per-endpoint state function and telescopes out of any cycle. No accuracy claim may be made from this number."
+}
