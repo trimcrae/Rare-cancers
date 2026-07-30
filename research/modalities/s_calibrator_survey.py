@@ -136,43 +136,50 @@ def search_by_gene(gene, limit=50):
                        % (_GENE_ATTR_USED["errors"], last))
 
 
-def entry_genes_and_resolution(pdb_id):
-    """Gene names present in an entry, plus its resolution. Used to decide whether an entry is TERNARY."""
+def search_gene_and_e3(gene, e3, limit=25):
+    """Entries containing BOTH this gene AND this E3 component -- the JOIN done by RCSB, not by us.
+
+    ★ THIS REPLACES A PER-ENTRY GENE FETCH THAT SILENTLY RETURNED NOTHING. The first working run reported
+    `n_ternary = 0` for all ten pairs, which is not a finding: BRD4-VHL and SMARCA2-VHL ternary structures are
+    well known to exist. The cause was that the per-entry reader looked for gene names under
+    `polymer_entity.rcsb_gene_name`, while RCSB keeps them under `rcsb_entity_source_organism.rcsb_gene_name`
+    -- the very path the search probe had just proved. Every entry therefore came back with an empty gene set
+    and every intersection with E3_MARKERS was empty. Asking the SERVER for the conjunction removes the whole
+    class of error: no local join to get wrong, no schema path to guess."""
+    attr = _GENE_ATTR_USED["attribute"] or GENE_ATTRS[0]
+    q = {
+        "query": {"type": "group", "logical_operator": "and", "nodes": [
+            {"type": "terminal", "service": "text",
+             "parameters": {"attribute": attr, "operator": "exact_match", "value": gene}},
+            {"type": "terminal", "service": "text",
+             "parameters": {"attribute": attr, "operator": "exact_match", "value": e3}},
+        ]},
+        "return_type": "entry",
+        "request_options": {"paginate": {"start": 0, "rows": limit},
+                            "results_content_type": ["experimental"]},
+    }
     try:
-        e = _get(DATA + pdb_id)
-    except Exception:
-        return set(), None
-    res = None
-    r = (e.get("rcsb_entry_info") or {}).get("resolution_combined")
-    if isinstance(r, list) and r:
-        res = r[0]
-    genes = set()
-    for eid in (e.get("rcsb_entry_container_identifiers") or {}).get("polymer_entity_ids", []):
-        try:
-            pe = _get("https://data.rcsb.org/rest/v1/core/polymer_entity/%s/%s" % (pdb_id, eid))
-        except Exception:
-            continue
-        for g in (pe.get("rcsb_gene_name") or []):
-            if g.get("value"):
-                genes.add(g["value"].upper())
-    return genes, res
+        r = _post(SEARCH, q)
+    except urllib.error.HTTPError as e:
+        if e.code == 204:
+            return []
+        raise
+    return [h["identifier"] for h in r.get("result_set", [])]
 
 
-def screen_arm(gene, max_entries=25):
-    """One paralogue arm: how many deposited structures, and how many are E3-bound (ternary)."""
+def screen_arm(gene):
+    """One paralogue arm: total deposited structures, and which E3 components co-occur with it."""
     ids = search_by_gene(gene)
-    ternary, best_res, ternary_ids = 0, None, []
-    for pid in ids[:max_entries]:
-        genes, res = entry_genes_and_resolution(pid)
-        if genes & E3_MARKERS:
-            ternary += 1
-            ternary_ids.append({"pdb_id": pid, "resolution_A": res,
-                                "e3_components": sorted(genes & E3_MARKERS)})
-            if res is not None and (best_res is None or res < best_res):
-                best_res = res
-    return {"gene": gene, "n_structures": len(ids), "n_inspected": min(len(ids), max_entries),
-            "n_ternary": ternary, "best_ternary_resolution_A": best_res,
-            "ternary_entries": ternary_ids[:8],
+    hits, by_e3 = [], {}
+    for e3 in sorted(E3_MARKERS):
+        found = search_gene_and_e3(gene, e3)
+        if found:
+            by_e3[e3] = found[:6]
+            hits.extend(found)
+    uniq = sorted(set(hits))
+    return {"gene": gene, "n_structures": len(ids), "n_ternary": len(uniq),
+            "ternary_pdb_ids": uniq[:10], "e3_partners_found": sorted(by_e3),
+            "ternary_by_e3": by_e3,
             "_n_structures_is_a_floor_if_truncated": len(ids) >= 50}
 
 
@@ -218,6 +225,28 @@ def survey(candidates=None):
         "e3_markers_used": sorted(E3_MARKERS),
         "candidates": rows,
         "n_symmetric": sum(1 for r in rows if r["ternary_structure_on_BOTH_arms"]),
+        "detector_sanity": _detector_sanity(rows),
+    }
+
+
+def _detector_sanity(rows):
+    """★ AN ALL-ZERO SCREEN IS A BROKEN DETECTOR UNTIL PROVEN OTHERWISE, AND THIS FILE HAS ALREADY BEEN WRONG
+    THAT WAY ONCE. The first working run returned n_ternary = 0 for all ten pairs, and that was a schema-path
+    bug rather than a fact about the PDB. Reporting it would have said "no paralogue pair has a ternary
+    structure" -- false, and it would have killed the S-calibrator route on an artifact. So the survey grades
+    ITSELF: if not one arm anywhere finds an E3 partner, the run is REFUSED rather than reported."""
+    total = sum(r["arm_a"]["n_ternary"] + r["arm_b"]["n_ternary"] for r in rows)
+    partners = sorted({e for r in rows for arm in ("arm_a", "arm_b") for e in r[arm]["e3_partners_found"]})
+    ok = total > 0
+    return {
+        "total_ternary_entries_found": total,
+        "distinct_e3_partners_seen": partners,
+        "detector_credible": ok,
+        "verdict": ("PASS -- at least one arm found an E3 partner, so the detector is doing something"
+                    if ok else
+                    "REFUSED -- zero E3 partners across every arm of every pair. Far more likely a broken "
+                    "detector than a fact about the PDB (BRD4-VHL and SMARCA2-VHL ternary structures are "
+                    "known to exist). DO NOT read this run as evidence against the S-calibrator route."),
     }
 
 
