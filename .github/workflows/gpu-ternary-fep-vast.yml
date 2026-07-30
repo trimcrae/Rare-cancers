@@ -1817,6 +1817,16 @@ jobs:
       contents: write
       actions: write
     env:
+      # ★ ESCALATE ON THE FIRST LOST HOST ON THIS LANE (2026-07-30). The module default is 3, which is the
+      # right number when the escalated tier is the EXPENSIVE one — one preemption is routine (§6) and does
+      # not justify multiples of the bid floor. Here it is not: the on-demand board priced an RTX 5090 at
+      # $0.003677/ns, 1.08x basis, BELOW the interruptible 4080S this leg keeps re-renting at 1.48x. When the
+      # reliable tier is also the cheaper one there is nothing to protect by waiting, and waiting is what
+      # cost this leg six hosts and three hours at production/1840.
+      # Safe by construction in both directions: an escalated rental still faces the $0.006539/ns buy line
+      # (so this can never overspend, only be refused), and the counter resets to zero the moment the census
+      # advances — so the first committed segment puts the lane straight back on the cheap tier.
+      TVAST_ESCALATE_AFTER: "1"
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
