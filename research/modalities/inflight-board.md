@@ -8,6 +8,6 @@ Generated 10:50 AM ET Thu Jul 30, 2026 by `task=collect`.
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T3 ternary           92.8%  1:09 PM          $0.00356/ns · 1.04× basis  STARTING  COLD_START — instance is 10 min old, under the 15 min floor — too young to have proved anything either way
+T3 ternary           92.8%  1:10 PM          $0.00356/ns · 1.04× basis  STARTING  COLD_START — instance is 11 min old, under the 15 min floor — too young to have proved anything either way
 ---- END TVAST-BOARD ----
 ```
