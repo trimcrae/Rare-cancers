@@ -8,7 +8,6 @@ Generated 10:01 AM ET Thu Jul 30, 2026 by `task=collect`.
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T2 ternary               —  —                $0.00512/ns · 1.50× basis  NO HOST   host DESTROYED this pass (unit done) — billing stopped, $0 further; checkpoint at production/2000 is intact in S3 and nothing further is owed — this leg is FINISHED
 T3 ternary           92.8%  11:19 AM         $0.00533/ns · 1.56× basis  STARTING  WATCHING — quiet but alive: run.log 2 min old, GPU idle, no committed advance — consistent with a CPU-bound setup phase
 ---- END TVAST-BOARD ----
 ```
