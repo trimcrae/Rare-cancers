@@ -1739,10 +1739,28 @@ against a 4.0 Å threshold, so the ligand did not drift out of the interface eit
 **The forward/reverse antisymmetry check now returns a value, and it passes.** The reverse leg was for a period
 structurally unreachable (four independent callers pinned the direction to forward); with that fixed, the
 measured hysteresis is **|ΔG_fwd + ΔG_rev| = 0.325 kcal/mol against a preregistered ≤ 1.000 threshold — PASS**.
-This is the **first of the three preregistered systematic-error detectors to return any value at all**, and its
+This was the **first of the three preregistered systematic-error detectors to return any value** (cycle closure has since returned one too, below), and its
 reading is deliberately narrow: forward and reverse alchemical paths agree, so the miss is **not** a path or
 hysteresis artifact. Per the identity argued in §2.9, a passing antisymmetry check is a *precision* diagnostic;
 it is fully consistent with a large endpoint-state error and is **not** evidence that the cooperativity is right.
+
+**The third detector — cycle closure — has now also returned a value, and it points the same way.** A
+synthetic third vertex (cmpd4″) closes the triangle cmpd1 → cmpd4 → cmpd4″ → cmpd1, and the residual
+`R = ΔΔG_coop(T1) + ΔΔG_coop(T2) − ΔΔG_coop(T3)` is **0.2128 kcal/mol**, inside the tightest plausible noise
+floor (0.216 at σ_leg = 0.045) — decision `R_CONSISTENT_WITH_ZERO`
+([`../modalities/valb-triangle-reduction.json`](../modalities/valb-triangle-reduction.json)). The reading is
+that this workflow's ΔΔG_coop cycle is internally self-consistent to within |R| of **path** error, so the miss
+is **not** explained by path error and more sampling will not fix it — the same conclusion the antisymmetry
+check reaches, by an independent route. The two component closures are reported separately, never as `R` alone,
+because a small residual can be two large closures cancelling: **R_ternary = −0.0312** essentially closes,
+while **R_binary = −0.2440** is resolved against its 0.1528 threshold, upholding the prediction registered on
+2026-07-26 (`BINARY_PATH_DEPENDENT`) that the binary arm — the one whose ligand left its pocket — would carry
+the path dependence. Three limits travel with this number and none is incidental: it is **n = 1 by design**,
+since one seed per edge is what makes a closure a closure and a mixed-seed triangle is a different quantity, so
+**no error bar is quoted and none is constructed** from the per-leg MBAR SEs; at the σ_leg upper bound measured
+from the n = 3 replicates the verdict is unchanged, but at the older assumed bound the same design reads
+`UNDERPOWERED`, and that divergence is recorded rather than resolved; and closure bounds **internal
+consistency, not accuracy** — it is structurally blind to exactly the endpoint-state classes named below.
 
 **Taken together these give the load-bearing conclusion: the error is systematic, not statistical.** The
 within-run statistical uncertainty (0.045 kcal/mol) is roughly **33× smaller than the miss** (1.466 kcal/mol).
@@ -1763,12 +1781,13 @@ propagated into the ±1.0 kcal/mol margin.
 **NO-GO**. It is no longer INDETERMINATE: that earlier status existed only because the preregistered rule needs
 a between-replicate cycle SD that a single replicate cannot supply, and the replicates have now been run. The
 change is in the completeness of the evidence, not in its direction — the sign was already wrong at n = 1 and
-it is wrong in all three replicates. Of the three systematic-error detectors, **one has returned a value and
-passed** (antisymmetry), **the replicate SD has now returned** (0.375 kcal/mol, itself within its threshold),
-and **cycle closure is in progress but has produced no R** — the synthetic third vertex is frozen
-([`../modalities/valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json)) and two of its four legs
-had landed at the time of writing; the reducer refuses a partial cycle by construction, on the grounds that an
-R from an incomplete cycle is a different quantity rather than a noisier one.
+it is wrong in all three replicates. **All three systematic-error detectors have now returned a value.**
+Antisymmetry passed; the replicate SD returned 0.375 kcal/mol, itself within its threshold; and cycle closure
+completed on 2026-07-30 when the fourth and last leg landed, giving **R = 0.2128 kcal/mol**,
+`R_CONSISTENT_WITH_ZERO`. The reducer had refused every partial cycle until then by construction, on the
+grounds that an R from an incomplete cycle is a different quantity rather than a noisier one — so the value
+exists only because all four legs exist. None of the three detectors indicates a sampling or path origin for
+the miss.
 
 **One caveat on the SD, carried rather than resolved.** The same reduction reports system identity as
 INCONSISTENT because the ternary arm disagrees with *itself* across seeds: **144,447 particles at r1 against
