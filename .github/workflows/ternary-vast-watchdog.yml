@@ -45,32 +45,14 @@ on:
         required: false
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────────────────
-# ⏳ TEMPORARY DEADLINE WAIVER — trimcrae, 2026-07-29 4:47 PM ET: *"I just want them all done by the
-# morning. Don't worry about the price of the rest of these specific legs."*
-#
-# WHAT THIS CHANGES. `relaunch_market_gate` normally refuses to re-rent a dead host above the buy line
-# (`inflight_usd_per_ns.APPROVED_USD_PER_NS` = $0.006539/ns, ≈1.92x the current basis). Overnight, a thin
-# market would therefore HOLD placements — correct behaviour on any normal night, and exactly the wrong
-# behaviour when the six legs in flight have to land by morning. Raising the RATIO ceiling lets a relaunch
-# proceed at a price we would ordinarily decline.
-#
-# ⚠ WHAT IT DOES **NOT** CHANGE, deliberately:
-#   * `APPROVED_USD_PER_NS` is untouched. The buy line is a standing ruling with a test that fails if the
-#     flag and the refusal ever diverge (`tests/test_buy_line_invariant.py`); this overrides one gate's
-#     threshold, it does not redefine the line or silence the `⚠ DRIFT` flag. Rows over the line still SAY
-#     they are over it — we are choosing to pay, not pretending it is cheap.
-#   * The step-1 fan-out is a different workflow and keeps its own gating untouched.
-#   * 5a-KS stays parked, so this cannot spend on it.
-#
-# ⚠ NOT INFINITY, AND THAT IS THE POINT. 4.0x still refuses an absurd outlier — a 10x offer is far more
-# likely a mispriced or broken listing than a real one worth buying under deadline. A waiver that accepts
-# ANY price is not a deadline decision, it is an unbounded one.
-#
-# ⏱ SCOPE: this overnight run only. Remove it once the closure residual R and the replicate cycle SD have
-# landed. It is written as a visible banner rather than a quiet env line so that removing it is a decision
-# somebody actually makes.
-env:
-  RELAUNCH_MAX_RATIO_VS_BASIS: "4.0"
+# ✅ THE OVERNIGHT DEADLINE WAIVER IS REMOVED (2026-07-30, when the closure residual R landed).
+# It set RELAUNCH_MAX_RATIO_VS_BASIS=4.0, letting a relaunch buy at up to 4x basis — roughly twice the
+# $0.006539/ns buy line — because the triangle was on a deadline and a paused leg cost more than a dear
+# host. Its own banner said 'this overnight run only. Remove it once the closure residual R and the
+# replicate cycle SD have landed.' Both have: valB_mini closed at n=3, and R = 0.2128 kcal/mol is in
+# valb-triangle-reduction.json. So the waiver goes, and the lane is back on the derived DRIFT_MULTIPLE.
+# Removing it is the whole reason it was written as a banner rather than a quiet env line: a temporary
+# loosening that nobody ever takes out is just a permanent one with an apology attached.
 # ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 permissions:

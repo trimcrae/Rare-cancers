@@ -636,7 +636,7 @@ be checked rather than taken.
 | Solute RMSD excursion 78.9 → 14.97 Å | **periodic wrapping, not rearrangement** | p50 2.50 Å, p90 5.91 Å; ~2 % of atoms at ~one 126.3 Å box edge; √(0.02·100² + 0.98·3²) ≈ 14.4 reproduces it |
 | Ligand-only pose RMSD | max **2.765 Å**, median **1.644 Å** | threshold 4.0 Å; ligand did not leave the interface |
 | **fwd/rev antisymmetry** | **\|ΔG_fwd + ΔG_rev\| = 0.325 kcal/mol** | preregistered ≤ 1.000 — **PASS** |
-| Cycle closure (3rd detector) | **not run** | third vertex frozen ([`../modalities/valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json)), no closed cycle produced |
+| Cycle closure (3rd detector) | **RUN — `R` = 0.2128 kcal/mol, `R_CONSISTENT_WITH_ZERO`** | the triangle closed 2026-07-30; all four legs landed and the residual is computed in [`../modalities/valb-triangle-reduction.json`](../modalities/valb-triangle-reduction.json). Reported as its two components, never as `R_coop` alone: **`R_ternary` = −0.0312**, **`R_binary` = −0.2440**. **n = 1 by design** — one seed per edge, since a mixed-seed triangle is not a closure — so **no error bar is quoted and none is invented**; the per-leg MBAR SEs in that artifact are provenance, not uncertainty on `R`. Closure bounds INTERNAL CONSISTENCY only and is blind to every per-endpoint state function (force field, SMARCA4→SMARCA2 homology, NAGL charges, protonation) |
 
 **Ligand identification was fail-closed, not assumed.** No committed artifact is a topology file, so the ligand
 was derived from bonded connectivity read out of the hybrid `System` inside the trajectory (HarmonicBondForce +

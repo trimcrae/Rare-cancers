@@ -227,7 +227,7 @@ superposed into the NR4A3 reference frame, carrying a per-frame core-fit residua
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-30 11:45 AM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-30 5:30 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
@@ -241,20 +241,38 @@ that basis is **≈1.92×**. ⚠ **That is NOT a loosening of the 1.5× ruled th
 dollars per nanosecond.** The basis moved 22 % because the throughput table was re-anchored and widened, not
 because any price changed; see [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 40.
 
-**ONE leg is billing: the closure triangle's last ternary arm (LANE 9/20).** Everything else is off a host.
-The Step 1 fan-out (LANE 17/21) and the valB_mini replicates (LANE 19) **both closed** — the rows below say
-what they returned. The RUNG 5a-KS legs are **PARKED, not finished** — on no host, costing nothing. Both
-LANE-13 paralogue legs and all four RUNG 2b legs have reached their deliverables.
+**NOTHING IS BILLING. Every lane on this board is off a host.** The closure triangle closed at 5:11 PM ET
+on 2026-07-30 — all four legs landed and `R` is computed — which was the last owed GPU work in the fixed
+scope. The Step 1 fan-out (LANE 17/21) and the valB_mini replicates (LANE 19) closed earlier the same day —
+the rows below say what each returned. The RUNG 5a-KS legs remain **PARKED, not finished**: on no host,
+costing nothing. Both LANE-13 paralogue legs and all four RUNG 2b legs have reached their deliverables.
 
 | what | state | ETA (ET) | cost | `$/ns` vs basis |
 |---|---|---|---|---|
 | ~~**Step 1 fan-out** (LANE 17/21) — 19 congeneric RBFE edges~~ | ✅ **COMPLETE — 18 of 18 computable edges landed; the 19th is not computable and is recorded as such.** Off every host. The ranked table it produced is the paper's §2.9 | — | realised **$73.79** machine-ledgered, against the DERIVED cap **$74.91** (`market_ceiling_usd(19)`) — finished inside its ceiling with **$1.12** to spare | every unit of the lane was bought under the **$0.006539/ns** buy line, and the units that could not be were ⛔ **REFUSED — $0 spent** and re-offered on later ticks rather than dropped |
 | ~~**valB_mini r1+r2** (LANE 19) — the 4 replicate legs~~ | ✅ **CLOSED AT n=3 — and the gate FAILED on sign, so the decision is NO-GO.** Off every host. The deliverable is the **cycle SD**, which is the number this lane existed to produce | — | realised is **NOT machine-ledgered on this lane**; the floor and the reason are in [`realised-spend.json`](research/modalities/realised-spend.json)'s attested block, which is a defect register, not an accounting category | — (no host) |
 | **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | ⛔ **PARKED, NOT FINISHED, and NOT BILLING.** Both legs died at **7:27 AM ET** when a rotated S3 key left them crash-looping at `gpu_util 0.0`, and both were **destroyed at 8:20 AM ET**. Checkpoints are intact: NR4A3 at `production/800` of 2000, NR4A1 at `warmup/640` of 1600 — still in warmup, so no production sampling is at risk. Both watch entries are `enabled: false` with a `_parked_why`, deliberately, because the watchdog's recovery for a DIED unit is to **rent a new host** and a relaunch is a new purchase | **held, no ETA.** They resume **together or not at all** — `S` is a double difference over the two legs, so resuming one buys nothing | **$0 going out.** Ladder ~$12; realised to date **~$1.5**, attested but **not machine-ledgered** | ⛔ **REFUSED — $0 spent.** They died flagged at **1.51× basis** while the cheapest gradeable rtx4090-class offer was **1.71×**; `relaunch_market_gate` refuses to re-buy above the buy line, so leaving them armed would have re-rented at exactly the price the gate exists to decline, up to 8× a day |
-| **The closure triangle** (LANE 9/20) — decides whether valB's miss is fixable at all | **3 OF 4 LEGS LANDED; ONE TERNARY ARM STILL RUNNING at 94.2 % (11:41 AM ET Jul 30, `production/1840` of 2000, census ADVANCING).** Both binary legs and `calib_lo_to_lo2__ternary_vhl` are done — that last one gives ΔΔG_coop(T2) = **+0.4925 kcal/mol** | **`R` DOES NOT EXIST YET AND WILL NOT BE APPROXIMATED.** `valb_triangle_reduce.reduce_triangle` refuses a partial set by construction — *"Five legs cannot close a triangle — an R from a partial cycle is not a smaller-n R, it is a different number"* — so `task=triangle-reduce` runs only once the fourth lands. **~1:23 PM ET** | the 4-leg tranche was priced against its own **$3.85** ceiling per pass | the live leg is at **$0.00356/ns · 1.04× basis**, ⚠ **PAYING** — well under the $0.006539/ns buy line. ⚠ **THE OVERNIGHT SLIP WAS NEITHER PRICE NOR SLOW CARDS, AND THE HOST-CHURN READING IS SUPERSEDED.** The measured cause is a host that wedged INSIDE a checkpoint persist: commit-store generation `fa5da1eb` holds `simulation.nc` alone, and `_persist` writes .nc → .chk → manifest. The board counted that torn generation and read `production/1800` while the next host correctly resumed at **1760**, so the leg re-ran the same 40 iterations after every host change with the percentage RISING each time. Fixed in three places — `committed_progress` now requires the manifest, `commit_store_audit.py` names which rule refused each generation, and the idle guard condemns on byte-identical log CONTENT because its mtime test was vacuous against a 120 s timer sync |
+| ~~**The closure triangle** (LANE 9/20) — decides whether valB's miss is fixable at all~~ | ✅ **CLOSED. All four legs landed 5:11 PM ET Jul 30 and `R` is computed** — [`valb-triangle-reduction.json`](research/modalities/valb-triangle-reduction.json). Off every host | — | the 4-leg tranche was priced against its own **$3.85** ceiling per pass | every rental cleared the **$0.006539/ns** buy line; the leg that finished it ran at **$0.005049/ns · 1.48× basis**. ⚠ **THE DAY'S CHURN — SEVEN HOSTS, 11:41 AM to 4:06 PM ET, ZERO COMMITTED ITERATIONS — WAS NEITHER PRICE NOR CARD SPEED, AND BOTH EARLIER READINGS ARE SUPERSEDED.** Two measured causes. **(1)** A host wedged INSIDE a checkpoint persist: commit-store generation `fa5da1eb` holds `simulation.nc` alone, and `_persist` writes .nc → .chk → manifest — so the board counted a torn generation and read `production/1800` while the next host correctly resumed at 1760, and the leg re-ran the same 40 iterations after every host change with the percentage RISING each time. **(2)** The lane had **11 `workflow_dispatch` inputs against GitHub's cap of 10**, which is SILENT: every placement flag — card floor, bid escalation, uninterruptible tier — arrived EMPTY, so each control was chosen correctly and discarded at the door. Fixes, all with tests: `committed_progress` requires the manifest, `commit_store_audit.py` names which rule refused each generation, the idle guard condemns on byte-identical log CONTENT (its mtime test was vacuous against a 120 s timer sync), `collect` re-places a dead host in the same pass, and CI now fails a workflow that exceeds the input cap or uses GCP auth without `id-token: write` |
 | **The restrained binary re-run** (LANE 20) | **HELD ON PURPOSE, behind the triangle's `R`.** Not stalled and not forgotten: `R` is the thing that says whether re-running the binary arm restrained can help at all. **The ternary arm is NOT being re-run restrained** (audit §L.3f) | held pending `R` | **$0** | — |
 | ~~**valB_mini reverse leg r0**~~ (GCP L4 **on-demand**) | ✅ **LANDED — `production/2000` of 2000; the hysteresis it unlocked is measured in the block below** | — | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**). **A SEPARATE LEDGER**: never summed into realised or ladder spend | — |
 | ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Legs, collect and analysis all landed | — | realised **~$4–5** against a ~$4.3 projection | — |
+
+**✅ `R` HAS LANDED (5:11 PM ET, 2026-07-30) AND THE ANSWER IS THE FIRST BRANCH BELOW.** Every number here is
+a reading of [`valb-triangle-reduction.json`](research/modalities/valb-triangle-reduction.json), never typed:
+**`R = 0.2128 kcal/mol`**, decision **`R_CONSISTENT_WITH_ZERO`** — inside the tightest plausible noise floor
+(0.216 at `sigma_leg = 0.045`). Read against the mapping below, that says valB_mini's miss is an
+**ENDPOINT-STATE error, and more sampling will not fix it.**
+The two closures are reported separately as the rule requires — **`R_ternary = −0.0312`**, essentially zero,
+against **`R_binary = −0.2440`**, which carries nearly all of it — so this is not a clean `R_coop` hiding two
+large cancelling terms. The frozen pre-registered verdict at the original bounds reads
+**BINARY_PATH_DEPENDENT, prediction upheld**.
+⚠ **THREE LIMITS, NONE OF THEM SMALL PRINT.** *(a)* **n = 1 and NO error bar is quoted or invented** — the
+design requires one seed per edge, because a mixed-seed triangle is not a closure, so no replicate SD exists.
+*(b)* At the `sigma_leg` upper bound now MEASURED from the n=3 replicates (0.265) the addendum also reads
+`R_CONSISTENT_WITH_ZERO`, but at the superseded assumed 0.7 the same design reads **UNDERPOWERED** — and that
+divergence is exactly [§Open decisions](#open-decisions) 7, still trimcrae's to settle. *(c)* Closure measures
+**INTERNAL CONSISTENCY, NOT ACCURACY**: it is structurally blind to force-field error, the SMARCA4→SMARCA2
+homology substitution, NAGL charges and protonation, every one of which is a per-endpoint state function.
 
 **★ WHAT `R` DECIDES, stated the right way round.** The closure triangle exists to answer one question about
 valB_mini's **1.478 kcal/mol** miss, and the two outcomes point in opposite directions:
