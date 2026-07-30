@@ -901,7 +901,10 @@ Five load-bearing pieces:
    target–warhead complex, isolating the recruited-interface effect). A strong wedge shows a favorable NR4A3
    interface, **loss** on NR4A3→NR4A1/2 mutations, **partial gain** on reciprocal NR4A1/2→NR4A3 mutations,
    persistence across frames, and a recognizable steric/electrostatic/H-bond mechanism. Its engine is built and
-   its known-answer benchmark **passed 2026-07-25** (RUNG 5a-KS), so it gives a second, independent causal line —
+   its known-answer benchmark **passed 2026-07-25** (RUNG 5a-KS). ⚠ **BUT IT IS NOT AN INDEPENDENT SECOND
+   LINE — corrected 2026-07-30, see [Open decisions 10](#open-decisions).** `ΔG_mut^ternary − ΔG_mut^binary`
+   is a **ternary-minus-binary contrast, the same shape as the quantity valB_mini failed on**, and its
+   benchmark passed on a *protein-mutation* quantity rather than on that shape. Retained as a second line —
    but the paper's headline causal result is not hostage to it. **ADOPTED 2026-07-24 (trimcrae go).**
 4. **Separate ACCESSIBILITY from STABILITY.** Estimate `P(B_k | d, s)` (can the linker reach and hold basin *k*?)
    separately from `ΔG_coop(d, B_k, s)` (is the orientation plausible?). A favorable basin the linker rarely
@@ -2075,8 +2078,10 @@ dollar ceiling.
    already staged in-repo.
 2. **`[x]` ADOPTED — the protein-mutation wedge is demoted from primary to confirmatory.** The ligand-side double
    difference is the paper's headline causal evidence and runs on the lane Val B already has an accuracy control
-   for. The mutation cycle is kept, not deleted: its benchmark has now passed, so the paper can have two
-   independent causal lines.
+   for. The mutation cycle is kept, not deleted: its benchmark has now passed. ⚠ **The clause that stood here —
+   *"so the paper can have two independent causal lines"* — is WITHDRAWN (2026-07-30):** the mutation cycle is
+   a **ternary-minus-binary contrast, structurally the quantity that failed**, so it is a second line but not an
+   independent one. Algebra and consequences: [Open decisions 10](#open-decisions).
 3. **`[x]` DECIDED — adopt 4 fs, but TWO-STAGE**, sequenced after valB_mini's 2 fs result (RUNG 2b).
 4. **`[x]` REVERSED — the step1 fan-out was RESUMED on 2026-07-26 and is running.** The hold below is
    **superseded**; it is kept because its reasoning is still the right reasoning and would apply again to any
@@ -2157,12 +2162,27 @@ dollar ceiling.
    against a 4090 *production* rate). Every idle GCP-GPU minute is still expiring credit lost, so keeping that one
    GPU fed still matters — it just cannot be fed for more than ~411 hours in total.
 
-6. **`[ ]` OPEN — the valB_mini rescope.** Held until the reverse leg reads out. See RUNG 2, "Recommended next
-   steps".
-6. **`[ ]` OPEN — route the admits-zero gate defect for approval.** The frozen gate accepts a method that
-   predicts no cooperativity change (22 % vs 23 %). Amending a preregistered rule after a failing result needs an
-   explicit, dated, reviewer-approved defect-fix. $0.
-7. **`[ ]` OPEN — the `UNDERPOWERED` proxy. $0, LOW STAKES, and it is low-stakes because the measurement says
+6. **`[x]` CLOSED 2026-07-30 — the valB_mini rescope. `R` answered it, and the answer is that no rescope of
+   this calibrator's EDGE can help.** *(It was held until the reverse leg read out; that landed 2026-07-28, and
+   the closure triangle then produced `R`.)* Every rescope variant was a search for a better **edge** — a bigger
+   signal, a cleaner replicate SD, the P-series network. **`R ≈ 0` says the miss is an ENDPOINT-STATE error**,
+   which telescopes out of any cycle and is a property of the **model or the reference data**, not of which edge
+   sits on top of them. Changing the edge changes neither. The live successor is a **system** question, not an
+   edge question — [decision 9](#open-decisions) and its $0 survey of paralogue-selective systems with a solved
+   structure on **both** arms. *(Superseded framings retained: the P-series congeneric network, refuted for $0
+   on charge/heavy-atom grounds; and the synthetic closure triangle, which was not a rescope in the end but the
+   diagnostic that closed this item.)*
+7. **`[x]` RESOLVED 2026-07-30 — the admits-zero gate defect. It never touched valB's verdict, and it is now a
+   BINDING REQUIREMENT ON THE NEXT CALIBRATOR rather than a retrospective amendment. $0.** The frozen gate
+   accepts a method that predicts no cooperativity change (**22 % vs 23 %** — a gate you can pass by predicting
+   nothing). Two things settle it. **(a) It is moot for valB_mini**, which failed on **SIGN**, before the
+   `|mean − target| ≤ 1.0` band was ever consulted — so no amendment could change that verdict and none is
+   sought, which is exactly why this is not the forbidden retune. **(b) It is NOT moot going forward**, because
+   any future calibrator reusing this gate design inherits it. **It therefore binds the S-calibrator spec
+   ([decision 9](#open-decisions)): no accuracy band wider than the signal being calibrated, and a stated
+   null-rejection rate up front.** The 22 %/23 % measurement is the evidence for that requirement; the frozen
+   valB gate itself is left **unamended**, on the record, failed on sign.
+8. **`[x]` RESOLVED 2026-07-30 — the `UNDERPOWERED` proxy. $0, LOW STAKES, and it is low-stakes because the measurement says
    so.** `binary_departure_prereg` demotes a null closure to `UNDERPOWERED` whenever `sigma_leg > 0.2` — a
    threshold hand-set when `sigma_leg` was unknown to a factor of 15.6, i.e. a proxy chosen because the power
    itself was not computable. **It is computable now, and it VINDICATES the proxy:** bisecting the design's own
@@ -2182,7 +2202,7 @@ dollar ceiling.
    ratio to the triangle's own per-leg MBAR SEs, giving an estimate with no homology-model and no cross-seed
    solvation term. ⚠ The ratio is **transferred, not measured on the triangle** (which has no replicates), so
    this narrows the interval and must never be reported as though the triangle had replicates.
-8. **`[x]` DECIDED 2026-07-30 (trimcrae delegated: *"You make an educated call yourself"*) — the valB_full gate
+9. **`[x]` DECIDED 2026-07-30 (trimcrae delegated: *"You make an educated call yourself"*) — the valB_full gate
    is NOT amended, and module 3 is NOT decoupled to unlock it.** The question was whether module 3 (paralogue
    discrimination, SMARCA2-vs-SMARCA4) should be freed from behind the failed cooperativity gate now that `R`
    says the ternary environment is internally clean. **It should not.** Module 1's statistic did not *lack
@@ -2207,7 +2227,7 @@ dollar ceiling.
    inherited the same model defect."* **So the system must be chosen on which arm is REAL, not on what is
    already staged** — and the $0 survey of paralogue-selective systems with a solved structure on *both* arms
    leads, before any spend.
-9. **`[ ]` OPEN — stop calling the protein-mutation cycle an independent second causal line, until it is one.
+10. **`[x]` RESOLVED 2026-07-30 — the protein-mutation cycle is no longer called an independent second causal line.
    $0.** RUNG 5's CONFIRMATORY cycle is `ΔΔG_neo-interface^m = ΔG_mut^ternary − ΔG_mut^binary` — a
    **ternary-minus-binary contrast, structurally identical to the quantity that failed** (the PRIMARY `S`
    escapes this only because its binary leg cancels *algebraically*; a protein mutation changes the target,

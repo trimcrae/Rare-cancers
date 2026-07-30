@@ -693,9 +693,36 @@ def binary_departure_prereg(R_ternary=None, R_binary=None, sigma_leg=0.045):
                       "TERNARY_ONLY" if t_res else
                       "BINARY_CANCELS")
     out["prediction_upheld"] = (out["verdict"] == "BINARY_PATH_DEPENDENT")
+
+    # ── DATED DEFECT-FIX, 2026-07-30 (STRATEGY Open decision 8, trimcrae-delegated) ──────────────────────────
+    # ⛔ THE DEMOTION RULE BELOW IS UNCHANGED, AND THAT IS THE POINT. The `sigma_leg > 0.2` threshold was
+    # hand-set when sigma_leg was unknown to a factor of 15.6 -- a PROXY for "the power is too low to read a
+    # null", chosen because the power itself was not computable. It is computable now, and it VINDICATES the
+    # proxy: a conventional 0.80-power threshold for an r0-sized effect crosses at sigma_leg ~ 0.216 against
+    # the frozen 0.200, agreement to ~7%. So this fix does NOT move the threshold and cannot flip any verdict;
+    # pinned against the landed R in tests/test_valb_triangle_lane.py.
+    # WHAT IT FIXES is that "UNDERPOWERED" could not distinguish power 0.63 from power 0.05, and those warrant
+    # different responses -- one is a diagnostic worth a second draw, the other a design that cannot work.
+    # Reporting the number beside the label is the whole change. Evidence:
+    # valb_failure_propagation.frozen_rule_vs_measured_power (NOT imported: that module imports this one).
+    try:
+        _row = closure_noise_floor(sigma_leg_values=(float(sigma_leg),), trials=20000)["rows"][0]
+        out["power_to_detect_r0_sized_effect"] = _row["power_at_n1"]["detect_1.478"]
+        out["null_p95_abs_R"] = _row["null_p95_abs_R"]
+    except Exception:                       # a diagnostic annotation must never be able to break a verdict
+        out["power_to_detect_r0_sized_effect"] = None
+        out["null_p95_abs_R"] = None
+    out["_power_is_reported_not_applied"] = (
+        "the demotion rule is still the frozen sigma_leg > 0.2 proxy. This field is REPORTED so a reader can "
+        "grade an UNDERPOWERED verdict rather than take the word on trust; it does not enter the branch logic "
+        "and the threshold has not moved.")
+
     if out["verdict"] == "BINARY_CANCELS" and float(sigma_leg) > 0.2:
         out["verdict"] = "UNDERPOWERED"
         out["prediction_upheld"] = None
         out["why"] = ("neither closure resolves, but at sigma_leg=%.3g this design cannot resolve an effect the "
                       "size of r0's miss - absence of signal is not evidence of cancellation" % sigma_leg)
+        if out.get("power_to_detect_r0_sized_effect") is not None:
+            out["why"] += (" [power to detect an r0-sized effect at this sigma_leg: %.2f]"
+                           % out["power_to_detect_r0_sized_effect"])
     return out
