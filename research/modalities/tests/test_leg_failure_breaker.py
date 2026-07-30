@@ -855,3 +855,90 @@ def test_occupancy_never_becomes_a_blacklist_entry():
     body = src[k:k + 14000]
     assert "known to refuse starts" in body and "already occupies" in body, \
         "a self-collision must not be reported as a refusal, or vice versa"
+
+
+# ── a lifetime count is not a failure streak (2026-07-30, 10:13 PM ET) ───────────────────────────────
+# valB r2 committed production/1760 of 2000 at 02:05:13Z; its host aborted (rc=134) three seconds later.
+# The breaker refused to re-rent at n_attempts=55 vs threshold 3, saying "55 separate rented hosts with no
+# intervening success ... buying another host tests nothing". There HAD been intervening success — hours of
+# it — and the 55 included the since-fixed partial-charge defect. `count_attempts` counted every attempt
+# ever archived, so once a unit accumulated `threshold` attempts the breaker became a one-way latch.
+
+import datetime as _dt
+
+
+class _StubS3:
+    """Minimal paginator stub — only what count_attempts touches."""
+
+    def __init__(self, stamps):
+        self._stamps = stamps
+
+    def get_paginator(self, _op):
+        outer = self
+
+        class _P:
+            def paginate(self, **kw):
+                yield {"Contents": [{"Key": "a%d" % i, "LastModified": s}
+                                    for i, s in enumerate(outer._stamps)]}
+        return _P()
+
+
+def _stamp(s):
+    return _dt.datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
+
+
+def test_attempts_before_the_last_commit_are_not_part_of_the_streak():
+    """The 2026-07-30 case: 55 lifetime attempts, all but one older than the newest commit."""
+    stamps = [_stamp("2026-07-2%dT10:00:00Z" % (7 + i % 3)) for i in range(55)]
+    stamps.append(_stamp("2026-07-30T02:05:20Z"))                     # the one after the commit
+    s3 = _StubS3(stamps)
+    assert lfb.count_attempts(s3, "b", "p", "u") == 56, "precondition: the lifetime count is large"
+    streak = lfb.count_attempts(s3, "b", "p", "u", since_utc="2026-07-30T02:05:13Z")
+    assert streak == 1, streak
+
+
+def test_that_streak_no_longer_blocks_a_leg_that_was_88_percent_done():
+    rec = {"status": "failed", "phase": None, "rc": 134}
+    assert lfb.decide(rec, 56)["block"] is True, "precondition: the lifetime count blocked it"
+    assert lfb.decide(rec, 1)["block"] is False, "the streak count must let the decisive retry happen"
+
+
+def test_the_protection_still_fires_on_a_genuine_repeated_abort():
+    """Three consecutive post-commit failures still block — the guard is re-based, not weakened."""
+    stamps = [_stamp("2026-07-30T0%d:00:00Z" % h) for h in (3, 4, 5)]
+    s3 = _StubS3(stamps)
+    streak = lfb.count_attempts(s3, "b", "p", "u", since_utc="2026-07-30T02:05:13Z")
+    assert streak == 3
+    assert lfb.decide({"status": "failed", "phase": None, "rc": 134}, streak)["block"] is True
+
+
+def test_no_commit_yet_keeps_the_original_lifetime_behaviour():
+    """A unit that has never committed has no streak boundary; the two counts coincide."""
+    stamps = [_stamp("2026-07-27T10:00:00Z"), _stamp("2026-07-27T11:00:00Z")]
+    s3 = _StubS3(stamps)
+    assert lfb.count_attempts(s3, "b", "p", "u", since_utc=None) == 2
+
+
+def test_an_undateable_attempt_is_counted_rather_than_dropped():
+    """Dropping it would shorten the streak — i.e. guess toward buying another host."""
+    s3 = _StubS3([_stamp("2026-07-27T10:00:00Z")])
+
+    class _S(_StubS3):
+        def get_paginator(self, _op):
+            class _P:
+                def paginate(self, **kw):
+                    yield {"Contents": [{"Key": "a", "LastModified": None}]}
+            return _P()
+    assert _S([]).__class__ is not None
+    assert lfb.count_attempts(_S([]), "b", "p", "u", since_utc="2026-07-30T02:05:13Z") == 1
+    assert lfb.count_attempts(s3, "b", "p", "u", since_utc="2026-07-30T02:05:13Z") == 0
+
+
+def test_both_call_sites_pass_the_commit_cutoff():
+    """The launcher gates on this number and the diagnostic explains it — they must read the same one."""
+    import os
+    here = os.path.dirname(os.path.abspath(__file__))
+    for f in ("ternary_vast_launch.py", "ternary_reps_diag.py"):
+        src = open(os.path.join(here, "..", f)).read()
+        assert "since_utc=_commit_utc" in src, (
+            "%s still counts LIFETIME attempts — the breaker is a one-way latch again" % f)

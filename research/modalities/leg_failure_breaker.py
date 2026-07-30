@@ -240,8 +240,41 @@ def decide(record, n_attempts, threshold=DEFAULT_THRESHOLD, superseding=None):
     return out
 
 
-def count_attempts(s3, bucket, prefix, unit_id):
-    """How many archived attempts this unit has. Measured from S3, never remembered.
+def count_attempts(s3, bucket, prefix, unit_id, since_utc=None):
+    """How many archived attempts this unit has SINCE `since_utc`. Measured from S3, never remembered.
+
+    ★★ `since_utc` EXISTS BECAUSE A LIFETIME COUNT IS NOT A FAILURE STREAK, AND THE DIFFERENCE BLOCKED A LEG
+    THAT WAS 88 % DONE (measured 2026-07-30, 10:13 PM ET).
+
+    WHAT HAPPENED. `calib_hi_to_lo__ternary_vhl_r2` — valB r2 — committed production/1760 of 2000 at
+    02:05:13Z and its host aborted (rc=134) three seconds later at 02:05:16Z. The breaker refused to re-rent
+    it, at `n_attempts=55` against a threshold of 3, and said:
+
+        this unit has failed on 55 separate rented hosts (threshold 3) with no intervening success ...
+        Buying another host tests nothing — the repetition across distinct hosts is what makes this a
+        code/data fault rather than a bad machine.
+
+    Both halves of that were false for this unit. There WAS an intervening success — hours of it, from
+    warmup through 1760 production iterations. And the 55 are not repetitions of one fault: the archive
+    holds the since-FIXED partial-charge defect (`attempts[26]`: *"ValueError: Some atoms in rdmol have
+    partial charges, but others do not"*), which is precisely why later attempts got so much further.
+    Buying another host would have tested a great deal — it resumes at 1760 and either finishes in 240
+    iterations or reproduces the abort at a known point, which is the decisive experiment.
+
+    THE CAUSE, stated exactly: this function counted every object under `attempts/` for all time, so the
+    number it returns is "how many attempts has this unit EVER had", while `decide` reads it as "how many
+    times has it failed in a row". Those agree only until a unit first succeeds. After that they diverge
+    permanently, and a unit that has ever accumulated `threshold` attempts can never be retried again no
+    matter how much work it completes in between — the breaker becomes a one-way latch.
+
+    THE FIX IS A DIFFERENT DENOMINATOR, NOT A WEAKER RULE. An attempt archived BEFORE the newest commit
+    cannot be part of the current failure streak: work landed after it, so whatever it failed at was
+    survived. Counting only attempts newer than the last commit yields the consecutive-failure count
+    `decide` always meant to read. The protection is untouched where it matters — a unit that genuinely
+    aborts at the same place still reaches `threshold` consecutive post-commit failures and still blocks.
+
+    `since_utc=None` preserves the old lifetime behaviour for a unit that has never committed anything,
+    which is the case the breaker was originally written for and where the two counts coincide.
 
     Returns None when the listing fails — and `decide` treats None as "not over the threshold", i.e. it FAILS
     OPEN. That is the right direction here: an unreadable bucket must not be able to halt a lane, and the
@@ -250,11 +283,21 @@ def count_attempts(s3, bucket, prefix, unit_id):
     SPENDS money blind; here, guessing wrong merely fails to prevent one purchase.)
     """
     p = (prefix or "").rstrip("/")
+    cutoff = _epoch(since_utc)
     try:
         n = 0
         for page in s3.get_paginator("list_objects_v2").paginate(
                 Bucket=bucket, Prefix=f"{p}/legs/{unit_id}/attempts/"):
-            n += len(page.get("Contents", []) or [])
+            for o in page.get("Contents", []) or []:
+                if cutoff is None:
+                    n += 1
+                    continue
+                lm = o.get("LastModified")
+                # An attempt we cannot date is COUNTED. The streak is the thing that blocks a rental, and
+                # silently dropping an undateable attempt would shorten it — i.e. guess in the direction of
+                # buying another host. Undateable is rare; buying blind on a real fault is what costs.
+                if lm is None or lm.timestamp() > cutoff:
+                    n += 1
         return n
     except Exception as e:  # noqa: BLE001 — reported, never swallowed into a silent zero
         print(f"[breaker] could not count attempts for {unit_id}: {type(e).__name__}: {e}")

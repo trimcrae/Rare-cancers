@@ -1702,12 +1702,16 @@ def breaker_verdicts(uids, records, bucket=None, prefix=None):
             continue
         if s3 is None:
             s3 = _s3()
+        # ONE read of the commit store, used for BOTH questions it answers: whether work landed after the
+        # failed record (supersession), and where the current failure STREAK starts (`since_utc`). Attempts
+        # older than the last commit were survived and are not part of the streak — see `count_attempts`.
+        _commit_utc = lfb.newest_commit_utc(s3, b, p, u)
         d = lfb.decide(
             rec,
-            lfb.count_attempts(s3, b, p, u),
+            lfb.count_attempts(s3, b, p, u, since_utc=_commit_utc),
             superseding=lfb.superseding_evidence(
                 rec,
-                newest_commit_utc=lfb.newest_commit_utc(s3, b, p, u),
+                newest_commit_utc=_commit_utc,
                 eviction=lfb.read_eviction(s3, b, p, u)))
         if d["block"] or d.get("superseded_by"):
             out[u] = d
