@@ -1,17 +1,17 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-30T03:43:19Z",
+  "utc": "2026-07-30T03:51:19Z",
   "mode": "triangle",
   "n_units": 0,
   "nothing_to_launch": true,
   "hold": false,
   "units_done": [
-    "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "units_live": [
     "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
   "live_host_rates": [
     {
@@ -39,20 +39,7 @@
       "usd_per_ns": 0.005377,
       "x_basis": 1.576,
       "over_buy_line": false
-    },
-    {
-      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": 46227773,
-      "machine_id": 127653,
-      "gpu": "RTX 5090",
-      "dph_total_usd_h": 0.2287111111111111,
-      "dph_base_usd_h": 0.2176,
-      "cur_state": "running",
-      "actual_status": "running",
-      "usd_per_ns": 0.005306,
-      "x_basis": 1.555,
-      "over_buy_line": false
     }
   ],
-  "reason": "no unit of mode triangle needs a host \u2014 1 done, 3 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold."
+  "reason": "no unit of mode triangle needs a host \u2014 2 done, 2 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold."
 }
