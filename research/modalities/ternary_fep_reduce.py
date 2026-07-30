@@ -18,6 +18,7 @@ affinity/recruitment margins the retrospective bar checks. No number is asserted
 with no checkpoints this reduces to an empty, honest report.
 """
 import glob
+import re
 import json
 import math
 import os
@@ -680,27 +681,69 @@ def _system_identity_consistency():
             except Exception:  # noqa: BLE001
                 continue
             name = os.path.basename(f)
+            # ★★ COMPARE WITHIN A LEG, ACROSS SEEDS — NOT ACROSS LEG TYPES (measured 2026-07-30, 3:07 AM ET).
+            #
+            # This pooled every leg into one bucket per field, so `n_particles` was compared between the
+            # TERNARY leg and the BINARY leg of the same cycle. Those are different systems BY CONSTRUCTION —
+            # a ternary complex carries the E3 and its solvent, a binary one does not — so the check could
+            # never return CONSISTENT for a ΔΔG_coop cycle. The valB_mini reduction printed:
+            #
+            #   verdict: INCONSISTENT ... n_particles n_distinct=4:
+            #     90324 binary r1 | 90720 binary r2 | 141740 ternary r2 | 144447 ternary r1
+            #
+            # with the note "the cycle mixes different systems and neither ΔΔG_coop nor the fwd/rev sum is
+            # meaningful until that is resolved". Two of those four values are the binary arm and are
+            # SUPPOSED to differ from the ternary arm, so as written the guard fires on every healthy
+            # cooperativity cycle — the same cry-wolf failure that made the supervisor's handover check
+            # useless.
+            #
+            # ⚠ AND THE FLAG DOES NOT VANISH ONCE GROUPED — MEASURED, NOT ASSUMED. On this very cycle the
+            # ternary leg still disagrees with ITSELF across seeds: r1 = 144,447 vs r2 = 141,740, a 2,707
+            # particle gap, and the binary leg 90,324 vs 90,720. Grouping removes the comparison that was
+            # meaningless by construction and leaves one that is real, which is the whole point: what
+            # survives is now evidence rather than noise. Whether independently-solvated replicates SHOULD
+            # be allowed to differ in water count — and what that does to a replicate SD — is a scientific
+            # call this function does not make; it reports.
+            #
+            # THE REAL SIGNAL IS PRESERVED, because the defect it was built for lives WITHIN one leg: the
+            # 2026-07-25 incident was a 146,020-particle `v1` reverse leg against a 141,968-particle `v2pe`
+            # forward leg of the SAME morph and arm. Grouping by everything except the seed keeps exactly
+            # that comparison and drops only the across-arm one that is meaningless.
+            # ⚠ THE GROUP IS THE ARM, SO DIRECTION IS COMPARED, NOT SPLIT APART. Stripping only the seed
+            # would put `..._fwd_r0` and `..._rev_r0` in different groups — and the 2026-07-25 incident this
+            # check exists for was precisely a v1 REVERSE leg (146,020) against a v2pe FORWARD leg (141,968)
+            # of the same arm. Splitting on direction would have blinded it to its own founding case; the
+            # repo's own test for that case is what caught the mistake.
+            grp = re.sub(r"_(fwd|rev)_r\d+\.json$", "", re.sub(r"^leg_", "", name))
+            if grp == re.sub(r"^leg_", "", name):          # no fwd/rev marker — fall back to seed-stripping
+                grp = re.sub(r"_r\d+\.json$", "", grp)
             for k in _SYSTEM_IDENTITY_FIELDS:
                 v = d.get(k)
                 if v is None:
                     unknown[k].append(name)
                 else:
-                    seen[k].setdefault(str(v), []).append(name)
+                    seen[k].setdefault(grp, {}).setdefault(str(v), []).append(name)
     out = {}
     inconsistent = []
     unmeasured = []
     for k, why in _SYSTEM_IDENTITY_FIELDS.items():
-        n = len(seen[k])
-        out[k] = {"n_distinct": n, "values": {v: sorted(fs) for v, fs in seen[k].items()},
-                  "unrecorded_in": sorted(set(unknown[k])), "why_it_matters": why}
-        if n > 1:
+        # Per-leg groups; a field is INCONSISTENT only if some ONE leg disagrees with itself across seeds.
+        groups = {g: {v: sorted(fs) for v, fs in vals.items()} for g, vals in seen[k].items()}
+        worst = max((len(v) for v in groups.values()), default=0)
+        out[k] = {"n_distinct_within_a_leg": worst, "by_leg": groups,
+                  "unrecorded_in": sorted(set(unknown[k])), "why_it_matters": why,
+                  "compared": "within each leg across seeds — across-arm differences are expected and are "
+                              "NOT compared (a ternary complex and a binary one are different systems by "
+                              "construction)"}
+        if worst > 1:
             inconsistent.append(k)
-        elif n == 0 and unknown[k]:
+        elif not groups and unknown[k]:
             unmeasured.append(k)
     if inconsistent:
         verdict = "INCONSISTENT"
-        note = ("legs disagree on %s -- the cycle mixes different systems and neither ΔΔG_coop nor the fwd/rev "
-                "sum is meaningful until that is resolved" % ", ".join(inconsistent))
+        note = ("a leg disagrees with ITSELF across seeds on %s -- the replicates of that leg are different "
+                "systems, so neither ΔΔG_coop nor the fwd/rev sum is meaningful until that is resolved"
+                % ", ".join(inconsistent))
     elif unmeasured:
         verdict = "UNKNOWN"
         note = ("no leg records %s (written before system-identity was captured), so cross-leg comparability is "

@@ -1,0 +1,754 @@
+{
+ "bucket": "sagemaker-us-east-2-646605541856",
+ "counted": {
+  "production": 1840,
+  "warmup": 768
+ },
+ "fingerprint_env": {
+  "CHARGE_METHOD": "nagl",
+  "COMMIT_S3": "s3://sagemaker-us-east-2-646605541856/ternary-vast/commits/calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+  "DIRECTION": "fwd",
+  "GIT_BRANCH": "main",
+  "LEG_ID": "calib_hi_to_lo2__ternary_vhl",
+  "MD_TIMEOUT_S": "66240",
+  "NEEDS_PREEQUIL": "1",
+  "N_WINDOWS": "12",
+  "PE_CACHE": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_hi_to_lo2__ternary_vhl__seed0__nagl__ns0.5__v1.tar",
+  "PREEQUIL_NS": "0.5",
+  "PROD_CKPT_ITERS": "40",
+  "PYTHONUNBUFFERED": "1",
+  "RBFE_CONSTRAIN_LIGAND_CH": "0",
+  "RBFE_LOMAP_TIME_S": "300",
+  "RBFE_MAP_ASSERT": "1",
+  "RBFE_MIN_STEPS": "5000",
+  "RBFE_POSITIONS_WRITE_PS": "50",
+  "RBFE_REQUIRE_PRIMED_SETUP": "0",
+  "RBFE_SETUP_CACHE_S3": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache",
+  "RBFE_STRICT_PROVENANCE": "1",
+  "RBFE_TIMESTEP_FS": "2.0",
+  "RBFE_WARMUP_TIMESTEP_FS": "1.0",
+  "RESULT_S3": "s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+  "SEED": "0",
+  "SETUP_CACHE_VERSION": "v1pe",
+  "STAGE_CACHE": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo2__ternary_vhl__8G1Q__seed0__v1.tar",
+  "STAGE_REQUIRED": "0",
+  "TEMPLATE_PDB": "8G1Q",
+  "TVAST_MODE": "triangle",
+  "UNIT_ID": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+  "VAST_IMAGE_TAG": "docker.io/triskit23/ternary-fep:latest",
+  "WARMUP_CKPT_ITERS": "64"
+ },
+ "restorable": {
+  "production": 1840,
+  "warmup": 768
+ },
+ "rows": [
+  {
+   "generation": "098c00805e1c4eb5b202751d5350dc44",
+   "iteration": 1840,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "8ddea7105e1d4025b80c60a6ba4e9e94",
+   "iteration": 1800,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "fa5da1ebb05f463bae1291c28ae327a5",
+   "iteration": 1800,
+   "objects": [
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "no-manifest",
+   "why": "the manifest is absent, so _persist did not finish. The data objects present are ['simulation.nc'] \u2014 uploaded but not yet declared, which is exactly what 'manifest LAST' is for."
+  },
+  {
+   "generation": "539c79258ff74d00ac7650aa9fc0fbe9",
+   "iteration": 1760,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "16fc2de1ccca4d848615f144eb50b211",
+   "iteration": 1720,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "fa96ca32d6374b87a810ba1ac3742b71",
+   "iteration": 1680,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "89bde81e4a1149b8b47911c0b9286567",
+   "iteration": 1640,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "abe7e9a1959e4d0a995f6aee04edef90",
+   "iteration": 1600,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "9a5dc8f82b0a4fbb8b623ac8bca8fbb7",
+   "iteration": 1560,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "eaeb0cf0efc94c7a9fc6d9234719e4bd",
+   "iteration": 1520,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "d897e06bbc694dac996a1ec423642f78",
+   "iteration": 1480,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "1d9bb7334c514a7b83fcaf86e6911bf3",
+   "iteration": 1440,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "fffc748fe21442fe93836667d1dc788b",
+   "iteration": 1400,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "2f49b979fca84f26b97afcfe2639c48e",
+   "iteration": 1360,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "f14d4dc4ac094631817783edbe0c0a82",
+   "iteration": 1320,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "e1707aec103542d88adf6763cba39593",
+   "iteration": 1280,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "77710c5ee81249289c957ece27d6ce39",
+   "iteration": 1240,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "5bc5ed10fc8b4f0a8dd3989c0219f39c",
+   "iteration": 1200,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "77936f0b33714d93addb582d31e17628",
+   "iteration": 1160,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "da82666db7774f90bd59db51a91fa421",
+   "iteration": 1120,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "8a4b19be4d62409bb7d8ac08ac8673e6",
+   "iteration": 1080,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "bb75fda5e5024560a7fc08229a5e765a",
+   "iteration": 1040,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "a0feafd46a014bbcb5c1bbd5628880bb",
+   "iteration": 1000,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "8586e1aac1c64784b826c96856e884aa",
+   "iteration": 960,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "bb70bae84f654f5d84009bc2b5a01046",
+   "iteration": 920,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "087f8ba444c64f41abce1f1a807d1ded",
+   "iteration": 880,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "3b1656a16e3a4e73a1dc04be00e0e793",
+   "iteration": 840,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "4a0399f30cd34b6f96aa245685a07971",
+   "iteration": 800,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "079b2ad12f3747b3b9ed877b16ba6ea5",
+   "iteration": 760,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "40e46c282cec40e1849d37ce489deee4",
+   "iteration": 720,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "4e1ab2a8a1e64086a4174524aa20e8d9",
+   "iteration": 680,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "fd9e7efe056341d7b09e97d22a2e71fa",
+   "iteration": 640,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "087f5e45887e47d5bb8509b2da66efb0",
+   "iteration": 600,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "509dbb2860e24111948f874e6a7d6323",
+   "iteration": 560,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "bb83e9dd7e264b4fb71a6ce86feef4ce",
+   "iteration": 520,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "29deb2aaf48e4a659fceb9ea1d13893b",
+   "iteration": 480,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "549fbcb793a14da4b5ca4ea6000a155b",
+   "iteration": 440,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "01bdce096a0a46d096ec72d3295d08a3",
+   "iteration": 400,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "9de4537fc17e4916917fd4d1c520ce82",
+   "iteration": 360,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "72b0cd85f9a44cf5a5b5b0711eb306d1",
+   "iteration": 320,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "8263dbea404d45908a836c8e683a3319",
+   "iteration": 280,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "628248972c6045998dd707c04d624ed9",
+   "iteration": 240,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "117e8fbdbc7440deaf963b121f2436f3",
+   "iteration": 200,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "8e0b00134ee24ee6bfc1f52c2d3b1ed5",
+   "iteration": 160,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "d36772ace8104463928b399135cc2628",
+   "iteration": 120,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "b5d081584dbb4ab4af0d1209e3704477",
+   "iteration": 80,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "6a94ebd8544843e38b58701c8c2d3d39",
+   "iteration": 40,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "804cea1c1a95466fac0ac51911923c4f",
+   "iteration": 768,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "2b4332bd9d7046c398667d60889a97c9",
+   "iteration": 704,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "c101c97d1633401b95fa7cbf98095e1d",
+   "iteration": 640,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "2c70a8a5ede64f538f15649ba10e227c",
+   "iteration": 576,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "2e91f013983041a5975996269b91e876",
+   "iteration": 512,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "2010fab8969a4b90906fa0fd4be10840",
+   "iteration": 448,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "9b9d6024c98f45e0a9a50d65acfe1e78",
+   "iteration": 384,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "d92f5f380680461094ceae2dc0b0e780",
+   "iteration": 320,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "9c64dd7496b74c0aa2babdd17ac77841",
+   "iteration": 256,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "6239e88837a34a71b196a5d227d5204a",
+   "iteration": 192,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "d2851acf4a26454baf70acacbfdf04c9",
+   "iteration": 128,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
+  {
+   "generation": "2faeaec82f3c4776ba34bf9eaaadd210",
+   "iteration": 64,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  }
+ ],
+ "unit": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
+}

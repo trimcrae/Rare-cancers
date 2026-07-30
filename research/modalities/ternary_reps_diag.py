@@ -184,7 +184,11 @@ def diagnose(mode="edge_reps", bucket=None, prefix=None, key=None, want_console=
             _commit_utc = _lfb.newest_commit_utc(_s3c, b, p, uid)
             _evic = _lfb.read_eviction(_s3c, b, p, uid)
             _sup = _lfb.superseding_evidence(rec, newest_commit_utc=_commit_utc, eviction=_evic)
-            _brk = _lfb.decide(rec or None, _lfb.count_attempts(_s3c, b, p, uid), superseding=_sup)
+            # `since_utc` = the last commit: the streak, not the lifetime count. The diagnostic must read
+            # the SAME number the launcher gates on, or it would explain a block that is not the one taken.
+            _brk = _lfb.decide(rec or None,
+                               _lfb.count_attempts(_s3c, b, p, uid, since_utc=_commit_utc),
+                               superseding=_sup)
             breaker = {"verdict": _brk.get("verdict"), "block": _brk.get("block"),
                        "n_attempts": _brk.get("n_attempts"),
                        "record_utc": rec.get("updated_utc") or rec.get("_s3_last_modified"),

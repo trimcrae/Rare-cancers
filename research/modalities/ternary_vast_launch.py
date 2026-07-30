@@ -50,6 +50,7 @@ another session.
 
 from __future__ import annotations
 
+import hashlib
 import inspect
 import json
 import os
@@ -123,6 +124,10 @@ REPO = "https://github.com/trimcrae/Rare-cancers"
 VAST_IMAGE = os.environ.get("TVAST_IMAGE") or "docker.io/triskit23/ternary-fep:latest"
 DEFAULT_BUCKET = os.environ.get("VAST_CKPT_BUCKET") or "sagemaker-us-east-2-646605541856"
 RESULT_PREFIX = os.environ.get("TVAST_PREFIX") or "ternary-vast"
+# The object `_persist` writes LAST, and therefore the only one whose presence proves a generation is
+# complete. Named here rather than imported so this module keeps its "no MD stack needed" property; the
+# two are pinned equal by tests/test_commit_manifest_name_matches_the_store.py.
+COMMIT_MANIFEST = "COMMITTED.json"
 LABEL_PREFIX = "tvast"
 
 # Backstops. The reap normally fires on "result in S3"; these bound the pathological cases.
@@ -166,7 +171,23 @@ def resource_spec(gpu=None, disk_gb=None, max_usd_per_ns=None):
         # discipline with a speed preference. Set per-launch, from the workflow's `min_ns_per_h` input, when
         # one leg has become the critical path on a deadline the others are already inside.
         min_ns_per_h=float(os.environ.get("TVAST_MIN_NS_PER_H") or "0"),
-        interruptible=True,
+        # ★★ THE EVICTION ESCAPE HATCH — `TVAST_ON_DEMAND=1` RENTS THE UNINTERRUPTIBLE TIER (2026-07-30).
+        # Vast's community bid tier is interruptible BY DESIGN, and no bid makes it safe: `gpu_backend`
+        # records the documented rule that an on-demand renter preempts an interruptible one REGARDLESS of
+        # bid. So raising VAST_BID_FLOOR_MULT buys priority within the bid tier and nothing more — it cannot
+        # stop the eviction it is aimed at.
+        # That distinction stopped being academic on this leg: five hosts in 2.5 hours, none surviving the
+        # ~28 min it needs to stage and reach ONE 40-iteration commit boundary, so the census sat at
+        # production/1840 all afternoon while every rental was correctly priced and correctly re-placed.
+        # When mean host lifetime is below time-to-first-commit, faster recovery cannot converge — only a
+        # host that cannot be taken away can.
+        # ⚠ IT IS OFF BY DEFAULT AND MUST STAY OFF. On-demand costs multiples of the bid floor, and the whole
+        # ladder is built on interruptible pricing plus per-unit checkpointing; standing on-demand would
+        # quietly rewrite the cost model. This is for a single leg that is the critical path, and the $/ns
+        # buy line still applies to it unchanged — an on-demand offer over the line is REFUSED like any
+        # other, which is the point: it converts "we cannot keep a host" into a priced question.
+        interruptible=not (str(os.environ.get("TVAST_ON_DEMAND") or "").strip().lower()
+                           in ("1", "true", "yes")),
         max_usd_per_ns=max_usd_per_ns,
     )
 
@@ -458,6 +479,22 @@ def unit_id(leg_id, seed, direction, timestep_fs, warmup_timestep_fs, mode):
     """
     dirsuf = "" if direction == "fwd" else f"_dir{direction}"
     return (f"{leg_id}_r{seed}{dirsuf}_dt{timestep_fs}fs_wu{warmup_timestep_fs}_{mode}")
+
+
+def _mode_of_unit(uid):
+    """The MODE a unit id ends with, or None. PURE.
+
+    Matched as a LONGEST suffix against `MODES`, never split on the last underscore: `edge_reps`,
+    `triangle_smoke` and `5aks_smoke` all contain one, so a naive rsplit would return `reps`/`smoke` and
+    silently pick the wrong gate. Used to decide which gate can re-place a hostless unit, so a wrong answer
+    would wake the wrong lane's launcher.
+    """
+    if not uid:
+        return None
+    for m in sorted(MODES, key=len, reverse=True):
+        if str(uid).endswith("_" + m):
+            return m
+    return None
 
 
 def unit_label(uid):
@@ -1314,21 +1351,54 @@ def committed_progress(uid, bucket=None, prefix=None):
 
     The scalar orders production above warmup so a warmup->production transition can never read as a
     regression. Returns (None, 0, 0) when nothing is committed yet (setup / pre-equil / minimise).
+
+    ★★ IT COUNTS A GENERATION ONLY ONCE ITS `COMMITTED.json` MANIFEST EXISTS (2026-07-30). This used to
+    count a generation the moment ANY object appeared under `iter-N/`, which is NOT the rule the restorer
+    uses: `_BaseCommitStore.restore_latest` walks `list_committed`, and that returns only generations that
+    have their manifest — because `_persist` uploads the .nc, then the .chk, then "manifest LAST",
+    precisely so a torn upload is never mistaken for a durable commit.
+
+    The two rules disagreeing is not cosmetic. Measured on the closure triangle's T3 ternary leg: the board
+    printed `committed: production/1800` while the host rented seconds later printed
+    `restore -> production@iter 1760`. Both were reading the same prefix correctly. The leg then re-ran the
+    same 40 iterations, and because the BOARD's number went up each time, the rework was invisible — it
+    presented as "the host is slow", then as a wedge, and cost a morning of diagnosis pointed at hardware.
+    Reporting the frontier a host would actually resume from makes that rework show as what it is: no
+    progress. Which generations are excluded, and why, is `commit_store_audit.py`.
+
+    ⚠ Manifest PRESENCE is all a listing can prove. A generation whose manifest exists but whose
+    `system_fingerprint` belongs to another configuration is also refused by `restore_latest`, and
+    detecting that needs a GET per manifest — too expensive for a poll that runs every few minutes, so it
+    stays in the audit tool. This function is therefore still an UPPER bound on restorable progress; it is
+    simply no longer an upper bound that a half-finished upload can move.
     """
     b = bucket or DEFAULT_BUCKET
     p = (prefix or RESULT_PREFIX).rstrip("/")
     base = f"{p}/commits/{uid}"
     best = {"warmup": 0, "production": 0}
+    counted = {"warmup": 0, "production": 0}
     try:
         pag = _s3().get_paginator("list_objects_v2")
         for page in pag.paginate(Bucket=b, Prefix=f"{base}/"):
             for obj in page.get("Contents", []):
                 m = re.search(r"/(warmup|production)/iter-(\d+)/", obj["Key"])
-                if m:
-                    best[m.group(1)] = max(best[m.group(1)], int(m.group(2)))
+                if not m:
+                    continue
+                ph, it = m.group(1), int(m.group(2))
+                counted[ph] = max(counted[ph], it)
+                if obj["Key"].endswith("/" + COMMIT_MANIFEST):
+                    best[ph] = max(best[ph], it)
     except Exception as e:  # noqa: BLE001 — a listing failure must not be read as "no progress"
         print(f"[progress] could not list {base}: {type(e).__name__}: {e}")
         return (None, 0, -1)
+    # Never silent: a gap here is bytes in S3 that no host will ever resume from, and saying so is the
+    # whole point of the change above.
+    for ph in ("production", "warmup"):
+        if counted[ph] > best[ph]:
+            print(f"[progress] {uid}: {ph} has objects at iter {counted[ph]} but the newest generation "
+                  f"with a {COMMIT_MANIFEST} is {best[ph] or 'none'} — a host resuming here starts at "
+                  f"{best[ph] or 0}, not {counted[ph]}. Torn or in-flight upload; "
+                  f"commit_store_audit.py says which.")
     if best["production"]:
         return ("production", best["production"], 1_000_000 + best["production"])
     if best["warmup"]:
@@ -1702,12 +1772,16 @@ def breaker_verdicts(uids, records, bucket=None, prefix=None):
             continue
         if s3 is None:
             s3 = _s3()
+        # ONE read of the commit store, used for BOTH questions it answers: whether work landed after the
+        # failed record (supersession), and where the current failure STREAK starts (`since_utc`). Attempts
+        # older than the last commit were survived and are not part of the streak — see `count_attempts`.
+        _commit_utc = lfb.newest_commit_utc(s3, b, p, u)
         d = lfb.decide(
             rec,
-            lfb.count_attempts(s3, b, p, u),
+            lfb.count_attempts(s3, b, p, u, since_utc=_commit_utc),
             superseding=lfb.superseding_evidence(
                 rec,
-                newest_commit_utc=lfb.newest_commit_utc(s3, b, p, u),
+                newest_commit_utc=_commit_utc,
                 eviction=lfb.read_eviction(s3, b, p, u)))
         if d["block"] or d.get("superseded_by"):
             out[u] = d
@@ -2785,6 +2859,12 @@ def collect(bucket=None, prefix=None, autostop=True):
             stall = 0 if scalar > pprog else int(pstall) + 1
             new_state[f"prog:{uid}"] = [scalar, stall]
             row_advanced[iid] = bool(scalar > pprog)
+            # THE ESCALATION IS EVIDENCE-DRIVEN IN BOTH DIRECTIONS. A census that MOVED is proof the
+            # current tier can hold this leg, so the lost-host counter goes back to zero and the next
+            # re-placement is priced on the cheap tier again. Without this reset the counter would only
+            # ever rise and one bad afternoon would put a unit on on-demand permanently.
+            if scalar > pprog:
+                new_state[f"replaced:{uid}"] = 0
             print(f"      committed: {phase or 'none yet'}"
                   f"{('/' + str(it)) if phase else ''}  scalar={scalar} prev={pprog} "
                   f"no-advance-polls={stall}")
@@ -2831,6 +2911,19 @@ def collect(bucket=None, prefix=None, autostop=True):
             # pass; nothing here re-reads S3 and nothing here is typed. `_board_log` keeps the full 60-line
             # text so the board can find the startup target line the printed tail deliberately drops.
             _board_log = "\n".join(tail)
+            # ── CONTENT IDENTITY OF THE LOG, for the idle guard's condemnation 3. Hashed from the text
+            # already in hand, so this costs no S3 call. The mtime cannot serve: run_ternary_leg.sh syncs
+            # run.log from a background timer every ~120 s whether or not a byte changed, which is why a
+            # host that wedged inside a checkpoint persist billed 77 min while the guard called it alive.
+            # `first_seen` is the epoch at which THIS content first appeared; it survives across polls in
+            # the lane state, so the age is measured, never assumed from a poll count (poll cadence is not
+            # a knowable duration — CLAUDE.md §6 on throttled crons).
+            _log_id = hashlib.sha256(_board_log.encode()).hexdigest()[:16]
+            _prev_log = prev_state.get(f"logid:{uid}") or []
+            _now = time.time()
+            _first_seen = (_prev_log[1] if len(_prev_log) > 1 and _prev_log[0] == _log_id else _now)
+            new_state[f"logid:{uid}"] = [_log_id, _first_seen]
+            _log_unchanged_min = (_now - float(_first_seen)) / 60.0
             _board_rows.append({
                 "uid": uid, "iid": iid, "log": _board_log,
                 "phase": phase, "iteration": it,
@@ -2847,6 +2940,7 @@ def collect(bucket=None, prefix=None, autostop=True):
                 gpu_util=i.get("gpu_util"),
                 progress_advanced=(scalar > pprog),
                 log_age_min=log_age,
+                log_unchanged_min=_log_unchanged_min,
                 start_ages_min=vig.start_ages_min(s3, b, f"{p}/legs/{uid}/attempts/"),
                 instance_age_min=up_h * 60.0,
                 unit_failed=crashed)
@@ -2864,6 +2958,12 @@ def collect(bucket=None, prefix=None, autostop=True):
             if _board_rows and _board_rows[-1].get("iid") == iid:
                 _board_rows[-1]["idle_why"] = f"{idle_verdict} — {idle_why}"
                 _board_rows[-1]["idle_working"] = (idle_verdict == vig.WORKING)
+                # SHIELDING = the guard looked and declined to condemn. Derived from `should_destroy`, not
+                # from a list of verdict names typed here, so the board and the reaper cannot drift about
+                # which verdicts are benign. See `state_of`'s `guard_shielding` note for the STALLED row
+                # this produced on a leg the guard was actively vouching for.
+                _board_rows[-1]["idle_shielding"] = (
+                    idle_verdict == vig.WATCHING and not vig.should_destroy(idle_verdict))
 
         msg = str(i.get("status_msg") or "").strip()
         frozen_min, new_state[str(iid)] = stall_minutes(prev_state, iid, msg, time.time())
@@ -3074,6 +3174,9 @@ def collect(bucket=None, prefix=None, autostop=True):
     # look like a leg that does not exist, which is the same "silent hold" failure §6 prohibits for a fleet.
     try:
         _rows = []
+        # Units this pass has established have NO host and are NOT done. Populated by the two branches that
+        # already make that judgement, so the repair dispatch below and the board answer from one fact.
+        _hostless_units = set()
         for _b in _board_rows:
           # ⚠ PER-ROW, NOT PER-TABLE. On 2026-07-29 a single row that could not explain its own
           # STALLED state raised, and the table-level `except` below swallowed EVERY row — so the
@@ -3127,7 +3230,8 @@ def collect(bucket=None, prefix=None, autostop=True):
               # board already defers to for the cold-start floor and the setup grace.
               _working = bool(_b["advanced"] or _b.get("idle_working"))
               _state, _swhy = ifb.state_of(True, _working, _b["no_advance_polls"], _cold,
-                                           why_not_running=_why or None, pre_first_commit=_pre_first)
+                                           why_not_running=_why or None, pre_first_commit=_pre_first,
+                                           guard_shielding=bool(_b.get("idle_shielding")))
               # ★ WHY EXPLAINS ANY `—` CELL, NOT ONLY A NON-RUNNING STATE (trimcrae, 2026-07-29, 4:24 PM
               # ET: "it's missing an ETA"). `state_of` returns ("RUNNING", "") by design — a leg that is
               # working owes no excuse for its STATE — and the row was taking that empty string as its whole
@@ -3135,6 +3239,53 @@ def collect(bucket=None, prefix=None, autostop=True):
               # rate line in its log window rendered `—` with nothing beside it, which is the same
               # empty-column complaint the ETA itself drew earlier. An unknown cell must always say what is
               # missing; only a row with every cell known is allowed a blank WHY.
+              # ★★ A HOST TORN DOWN ON THIS VERY PASS MUST NOT RENDER AS `RUNNING` (measured 2026-07-29,
+              # 9:58 PM ET). `calib_lo_to_lo2__binary_vhl` — T2 binary, FORTY production iterations from
+              # finishing — hit a capacity refusal on machine 55559, collect destroyed it, and the
+              # TVAST-SUMMARY said so exactly as designed:
+              #
+              #   up=exited ... ▲ ADVANCING | ⛔ DESTROYED this pass (capacity refusal on machine 55559)
+              #                               — billing STOPPED, $0 further
+              #
+              # ...while the BOARD, one block below, printed `T2 binary 98.6% 10:07 PM RUNNING`. Both were
+              # reading the same pass. The board says RUNNING because `advanced` is true — the census DID
+              # rise before the box died — so the freshest evidence about the leg (it has no host) lost to
+              # the stalest (it was computing a minute ago). At 3 AM that row promises a result at 10:07 PM
+              # from a machine that no longer exists, which is the same class of defect as an unreadable
+              # instance list rendering as six deaths: the board stating something it does not know.
+              #
+              # `destroyed_this_pass` is keyed by instance id and is COMPLETE by the time the board is
+              # built — the teardown loop has already run — so this is a lookup, not a re-derivation, and
+              # the summary and the board now answer from ONE fact (CLAUDE.md §1).
+              #
+              # ⚠ THE TWO OUTCOMES ARE NOT THE SAME EVENT. A destroy that SUCCEEDED stopped the meter and
+              # leaves an ordinary no-host leg for the next gate tick to re-place. A destroy that RAISED
+              # left a dead box BILLING, which §6 is explicit the host cannot stop by itself — that is the
+              # alarming case and it must not be softened into "no host".
+              _destroyed = destroyed_this_pass.get(_b.get("iid"))
+              if _destroyed and _destroyed.get("ok"):
+                  # ⚠ A TEARDOWN BECAUSE THE UNIT FINISHED IS NOT A TEARDOWN THAT NEEDS REPLACING, and the
+                  # first version of this branch said it was (2026-07-29, 10:38 PM ET). T2 binary reached
+                  # production/2000, `reap_landed` correctly destroyed its host, and the row read "...the
+                  # next gate tick re-places it" — inviting exactly the re-rental the ladder must not make,
+                  # and telling a 3 AM reader a finished leg is still owed work. The reaper already
+                  # distinguishes the two cases in the `why` it writes; the board must not flatten them.
+                  _done_reason = "done" in str(_destroyed.get("why") or "").lower()
+                  _next = ("nothing further is owed — this leg is FINISHED"
+                           if _done_reason else "this pass dispatches the gate to re-place it")
+                  if not _done_reason and _b.get("uid"):
+                      _hostless_units.add(_b["uid"])
+                  _state, _swhy = ifb.state_of(
+                      False, False, 0, False,
+                      why_not_running="host DESTROYED this pass (%s) — billing stopped, $0 further; "
+                                      "checkpoint at %s/%s is intact in S3 and %s"
+                                      % (_destroyed.get("why"), _b["phase"] or "none", _b["iteration"], _next))
+                  _eta = None          # an ETA off a dead host's rate is a promise nothing can keep
+              elif _destroyed:
+                  _state, _swhy = ifb.STALLED, (
+                      "⚠ DESTROY FAILED (%s) — this box is STILL BILLING and the host cannot stop its own "
+                      "meter; only the control plane can" % _destroyed.get("why"))
+                  _eta = None
               _cell_unknown = (_pct is None or _eta is None)
               _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
                             "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),
@@ -3174,7 +3325,13 @@ def collect(bucket=None, prefix=None, autostop=True):
                                            % (_inst_unreadable, _ph or "none", _it)
                                            if _inst_unreadable else
                                            "no live host — checkpoint at %s/%s is intact in S3; "
-                                           "the next gate tick re-places it" % (_ph or "none", _it)))
+                                           "this pass dispatches the gate to re-place it"
+                                           % (_ph or "none", _it)))
+                # ⚠ ONLY when the instance list READ. If it did not, every enabled unit lands in this set
+                # and auto-replacement would rent a second host for legs that already have one — the 4:04 PM
+                # failure turned into a spend. Unreadable means UNKNOWN, and UNKNOWN never buys.
+                if _inst_unreadable is None:
+                    _hostless_units.add(_uid)
                 _rows.append({"name": ifb.short_name(_uid), "pct": ifb.pct_complete(_ph, _it, _tg),
                               "eta_s": None, "usd_per_ns": None, "state": _st, "why": _w})
         except Exception as _e:  # noqa: BLE001
@@ -3184,6 +3341,55 @@ def collect(bucket=None, prefix=None, autostop=True):
         print("---- TVAST-BOARD ----")
         print(ifb.render(_rows), end="")
         print("---- END TVAST-BOARD ----")
+
+        # ★★ DETECTION AND REPAIR IN THE SAME RUN (2026-07-30). Every no-host row above ends with "the next
+        # gate tick re-places it" — and that sentence WAS the gap. `collect` is what notices a host died;
+        # the gate is what buys a new one; they were different workflow runs, so the floor on recovery time
+        # was one tick even when the board was healthy and the money was authorised. Measured that
+        # lunchtime: the T3 ternary leg took two capacity refusals in a row and sat NO HOST for ~20 minutes
+        # across three separate runs, and each repair attempt had to be hand-dispatched to be prompt.
+        # Refusals are ROUTINE on Vast (§6: pick another host, never queue), so a recovery path that costs a
+        # tick per refusal is a recovery path that does not work unattended — which is the whole point of it.
+        #
+        # So the pass that detects the gap NAMES it, in a file the workflow reads, and the workflow
+        # self-dispatches the matching gate immediately. This does NOT decide to buy anything: the gate it
+        # wakes still prices the board, still applies the rung ceiling and the $/ns buy line, and still
+        # HOLDS if the market is bad. It only removes the waiting.
+        # ★★ ESCALATE TO THE UNINTERRUPTIBLE TIER WHEN THE CHEAP ONE DEMONSTRABLY CANNOT HOLD THE LEG.
+        # (2026-07-30.) Re-placing faster does not converge when mean host lifetime is below
+        # time-to-first-commit: this leg went through FIVE bid-tier hosts in 2.5 hours and committed
+        # nothing, every rental correctly priced and correctly re-placed. And no bid fixes it — an
+        # on-demand renter preempts an interruptible one regardless of bid.
+        # So the decision is made from EVIDENCE, per unit, and it is self-limiting in both directions:
+        # the counter rises only when a unit is found hostless AGAIN, and `advanced` resets it to zero the
+        # moment the census moves — so a leg that starts committing drops straight back to the cheap tier
+        # and the ladder's pricing is untouched for everything that is working. The escalated rental is
+        # still gated: it faces the same $0.006539/ns buy line, so this buys RELIABILITY, never an
+        # exemption. (Measured the first time it ran: an on-demand RTX 5090 priced at 1.08x basis, below
+        # the interruptible 4080S it replaced — the expensive TIER is not the expensive OFFER.)
+        _ESCALATE_AFTER = int(os.environ.get("TVAST_ESCALATE_AFTER") or "3")
+        _escalated = set()
+        for _u in sorted(_hostless_units):
+            _n = int((prev_state.get(f"replaced:{_u}") or 0)) + 1
+            new_state[f"replaced:{_u}"] = _n
+            if _n >= _ESCALATE_AFTER:
+                _escalated.add(_mode_of_unit(_u))
+                print(f"[replace] {_u} has now lost {_n} hosts without committing (>= {_ESCALATE_AFTER}) "
+                      f"-> ESCALATING this re-placement to the uninterruptible tier; it still faces the "
+                      f"buy line and drops back to the bid tier the moment the census advances")
+        _needs = sorted({_mode_of_unit(_u) for _u in _hostless_units if _mode_of_unit(_u)})
+        if _needs:
+            print(f"[replace] {len(_hostless_units)} unit(s) have no host and are not done: "
+                  f"{', '.join(sorted(_hostless_units))} -> gate mode(s) {', '.join(_needs)}")
+            try:
+                with open(os.environ.get("TVAST_REPLACE_FILE") or "/tmp/tvast-needs-replacement.txt",
+                          "w") as _fh:
+                    # "<mode> <on_demand 0|1>" — the workflow reads the second field.
+                    _fh.write("\n".join(f"{m} {1 if m in _escalated else 0}" for m in _needs) + "\n")
+            except Exception as _e:  # noqa: BLE001 — a readout must never break the monitoring pass
+                print(f"[replace] could not write the marker: {type(_e).__name__}: {_e}")
+        else:
+            print("[replace] every enabled unit either has a host or is done — nothing to re-place")
     except Exception as e:  # noqa: BLE001 — the board is a READOUT; it must never break a monitoring pass
         print(f"[board] not rendered: {type(e).__name__}: {e}")
 
@@ -3509,7 +3715,8 @@ def retire_host(match, dry_run=False):
             try:
                 _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
                 print(f"  RETIRED host {i.get('id')} (machine {i.get('machine_id')}, {i.get('gpu_name')}) "
-                      f"for {uid} — checkpoint intact, the next gate tick re-places it")
+                      f"for {uid} — checkpoint intact; the next `collect` finds it hostless and dispatches "
+                      f"the gate itself")
             except Exception as e:  # noqa: BLE001
                 print(f"  failed to retire {i.get('id')}: {e}")
                 continue
@@ -3524,7 +3731,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Ternary cooperativity FEP on Vast.ai (RUNG 2b lane)")
     ap.add_argument("--retire-host", metavar="SUBSTRING",
                     help="destroy the HOST of every unit whose id contains SUBSTRING, leaving the checkpoint "
-                         "so the next gate tick re-places it. For a host measurably underperforming its own "
+                         "so the next `collect` detects it hostless and dispatches the gate. For a host "
+                         "measurably underperforming its own "
                          "card class — see `retire_host` for the case that motivated it.")
     ap.add_argument("--mode", choices=sorted(MODES), default=os.environ.get("TVAST_MODE") or "probe")
     ap.add_argument("--timestep-fs", default=None)

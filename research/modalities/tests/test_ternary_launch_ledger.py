@@ -104,10 +104,22 @@ def test_the_committed_ledger_is_valid_and_records_the_lost_windows():
     assert rows, "the committed ledger must not be empty"
     assert all(r["outcome"] in tll.OUTCOMES for r in rows)
     lost = [r for r in rows if r["outcome"] == "refused-on-price"]
-    assert len(lost) == 2, "both 9:16 AM ET and 9:26 AM ET refusals are recorded"
-    assert {r["et"] for r in lost} == {"9:16 AM ET", "9:26 AM ET"}
-    assert all(r.get("reconstructed_from_job_log") for r in lost), \
+    # ⚠ THE SEEDED ROWS MUST BE PRESENT; THE TOTAL MUST BE FREE TO GROW (fixed 2026-07-30).
+    # This asserted `len(lost) == 2`, which made a LEGITIMATE new refusal turn CI red: the guard declining
+    # an over-line board is the system working, and a third one duly appeared and broke the build. A test
+    # that goes red when the guard does its job trains a reader to ignore red builds, which is strictly
+    # worse than the drift it was defending against. The invariant that actually matters is that the two
+    # reconstructed 2026-07-27 windows are still there and still labelled as reconstructions.
+    seeded = {r["et"]: r for r in lost if r.get("reconstructed_from_job_log")}
+    assert set(seeded) == {"9:16 AM ET", "9:26 AM ET"}, \
+        "both reconstructed 2026-07-27 refusals must remain in the ledger"
+    assert len(lost) >= 2, "refusals only accumulate; a shrinking count means rows were dropped"
+    assert all(r.get("reconstructed_from_job_log") for r in lost if r["et"] in seeded), \
         "a retroactively reconstructed row must SAY it was reconstructed, never pass as live telemetry"
+    # A LIVE refusal must NOT claim to be a reconstruction — that is the direction that would launder a
+    # made-up row into the record.
+    live = [r for r in lost if r["et"] not in seeded]
+    assert not any(r.get("reconstructed_from_job_log") for r in live)
 
 
 # ---------------------------------------------------------------- the 11:10 AM ET ledger defect

@@ -625,7 +625,8 @@ be checked rather than taken.
 
 | quantity | value | threshold / note |
 |---|---|---|
-| **ΔΔG_coop (r0)** | **−0.522 kcal/mol** | target **+0.944** → **wrong sign**, abs error **1.466**. Was −0.534 with the CONTAMINATED binary arm; the restrained re-run moved it 0.012 |
+| **ΔΔG_coop (n = 3)** | **−0.599 kcal/mol** (per-replicate **−0.5125 / −1.0097 / −0.2749**) | target **+0.944** → **wrong sign in all three**, abs error **1.543**, t-based 95 % CI **[−1.103, −0.095]** — excludes zero on the wrong side. Superseded r0-only headline: −0.522 (abs error 1.466), itself −0.534 before the CONTAMINATED binary arm was re-run restrained, a shift of 0.012 |
+| **Between-replicate cycle SD** | **0.375 kcal/mol** | PASSES its preregistered ≤ 0.75 threshold — the calibrator fails on **sign**, not on scatter. Against per-leg MBAR SEs of **0.097–0.132**, the replicate spread is ~**3×** the within-run uncertainty on the same legs |
 | Ternary-leg ΔG_morph | 47.511 ± 0.045 kcal/mol | MBAR, 2000/2000 production iterations |
 | Min adjacent λ-overlap | 0.109 | floor 0.03 — connected, no bottleneck |
 | N_eff | 676 | — |
@@ -635,7 +636,7 @@ be checked rather than taken.
 | Solute RMSD excursion 78.9 → 14.97 Å | **periodic wrapping, not rearrangement** | p50 2.50 Å, p90 5.91 Å; ~2 % of atoms at ~one 126.3 Å box edge; √(0.02·100² + 0.98·3²) ≈ 14.4 reproduces it |
 | Ligand-only pose RMSD | max **2.765 Å**, median **1.644 Å** | threshold 4.0 Å; ligand did not leave the interface |
 | **fwd/rev antisymmetry** | **\|ΔG_fwd + ΔG_rev\| = 0.325 kcal/mol** | preregistered ≤ 1.000 — **PASS** |
-| Cycle closure (3rd detector) | **not run** | third vertex frozen ([`../modalities/valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json)), no closed cycle produced |
+| Cycle closure (3rd detector) | **RUN — `R` = 0.2128 kcal/mol, `R_CONSISTENT_WITH_ZERO`** | the triangle closed 2026-07-30; all four legs landed and the residual is computed in [`../modalities/valb-triangle-reduction.json`](../modalities/valb-triangle-reduction.json). Reported as its two components, never as `R_coop` alone: **`R_ternary` = −0.0312**, **`R_binary` = −0.2440**. **n = 1 by design** — one seed per edge, since a mixed-seed triangle is not a closure — so **no error bar is quoted and none is invented**; the per-leg MBAR SEs in that artifact are provenance, not uncertainty on `R`. Closure bounds INTERNAL CONSISTENCY only and is blind to every per-endpoint state function (force field, SMARCA4→SMARCA2 homology, NAGL charges, protonation) |
 
 **Ligand identification was fail-closed, not assumed.** No committed artifact is a topology file, so the ligand
 was derived from bonded connectivity read out of the hybrid `System` inside the trajectory (HarmonicBondForce +
@@ -670,13 +671,22 @@ Replicates reduce variance, not bias, so the residual error classes are the endp
 assignment, the homology substitution in the receptor, and error in the reference data. The homology term and
 the SPR-derived target are the two concretely elevated here.
 
-**Caveats on the replicates still owed.** The preregistered rule needs a between-replicate cycle SD, so the
-formal verdict is INDETERMINATE rather than FAIL until ≥ 2 further replicates land. Two honest qualifications
-apply in advance: (i) the sign is already wrong with passing diagnostics, so the replicates are owed to the rule
-and are not a plausible route back to agreement; (ii) the ternary starting-model index is `seed mod n_models`
-with `n_models = 2`, so a third replicate reuses the first model's pose and the between-replicate SD
-**understates** homology-model variance — extending to five would put three of five replicates on one model and
-would require widening the ensemble first.
+**The replicates have landed; the caveats that were stated in advance now apply in fact.** The formal verdict
+is **FAIL** and the decision **NO-GO**; the earlier INDETERMINATE described only the absence of replicates and
+must not be quoted going forward. Both qualifications raised before the run stand: (i) the sign was already
+wrong at n = 1 with passing diagnostics, and it is wrong in all three replicates, so the replicates completed
+the *rule* rather than opening a route back to agreement; (ii) the ternary starting-model index is
+`seed mod n_models` with `n_models = 2`, so the third replicate reuses the first model's pose and the
+between-replicate SD **understates** homology-model variance — extending to five would put three of five
+replicates on one model and would require widening the ensemble first.
+
+A third qualification emerged only on reduction and is not resolved here: the reducer reports system identity
+**INCONSISTENT** because the ternary arm disagrees with itself across seeds — **144,447 particles at r1 against
+141,740 at r2**, and 90,324 against 90,720 on the binary arm. Protocol hash, charge method (`nagl`) and
+setup-cache version (`v1pe`) all agree, so this is independent solvation of one protocol rather than a second
+pipeline; but an SD taken across systems that differ in water count contains solvation variability as well as
+sampling variability, and the two are not separated. **0.375 kcal/mol is therefore an upper bound on the
+sampling-only SD**, and it is reported as one.
 
 **Seven defects were found in this gating diagnostic during development, every one reporting success while
 measuring nothing** (never wired to a dispatch path; a missing `openfe`; an unguarded lazy `mbar` import that

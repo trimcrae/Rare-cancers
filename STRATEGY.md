@@ -44,14 +44,15 @@ something like *we passed n gates*, or *we failed x gate and need to make y reme
 deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
 underneath one.*
 
-**As of 2026-07-29 6:55 AM ET · 7 gates passed · 3 failed (all caught before the spend) · 2 in flight, neither
-graded yet · 2 deliverables done · realised spend $72.47 machine-ledgered.**
+**As of 2026-07-30 11:45 AM ET · 7 gates passed · 3 failed (two caught before the spend; valB_mini's fail was
+bought deliberately and is now QUANTIFIED at n=3 — a NO-GO decision, not a defect) · 1 in flight, not graded
+yet · 3 deliverables done · realised spend $77.28 machine-ledgered.**
 
 *That spend figure is **DERIVED, never typed** — it is a reading of
 [`realised-spend.json`](research/modalities/realised-spend.json), which sums each lane's own rental ledger
 (`python3 research/modalities/realised_spend.py`). Two things it deliberately keeps apart. **(a)** A further
 **+$2.31 attested** is real money **no machine ledger counts**, because the ternary Vast lane has never had
-one — so the ledgered figure is a **FLOOR**, the best estimate is **$74.78**, and the artifact carries the
+one — so the ledgered figure is a **FLOOR**, the best estimate is **$79.59**, and the artifact carries the
 remediation that deletes the gap. ⚠ **The jump from $24.46 is a BOOKKEEPING correction, not new spending:**
 the step-1 fan-out's ledger lives on the branch that lane runs from, so `main` had been summing a copy that
 stopped at 86 rentals while the real one held 197. The money was spent days ago; `main` could not see it.
@@ -71,15 +72,16 @@ hand-carried total that stood while the fan-out lane alone had realised twenty t
 | RUNG 2b | 4 fs speed test | **PASSED — both stages** | every future simulation ~1.56× cheaper. The full cycle reproduces the 2 fs answer to **0.0215 kcal/mol** against a 0.7 tolerance; adopted provisionally at one seed (no replicate-SD). **System identity is now MEASURED and passes** — same alchemical system per arm, the leftover particle-count difference is bulk solvent — but the two arms are independent cross-lane builds, **not** one system with only the timestep changed ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 45) |
 | RUNG 2 · closure | **cycle closure — fwd/rev hysteresis** | **PASSED (2026-07-27)** | the calibrator's ternary leg closes on itself, comfortably inside its preregistered ceiling. First time the criterion had both its inputs; a PATH-CLOSURE check, not an accuracy one, so it does not touch the wrong-sign FAIL below. **The numbers live once**, in the §THE FIRST FORWARD/REVERSE HYSTERESIS block below — this row deliberately does not restate them |
 | RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7**. ⚠ **The 4 replicate legs now running do NOT convert this to a PASS** — see the row below |
-| RUNG 2 · replicates | **valB_mini r1+r2 — is the FAIL quantified?** | **IN FLIGHT — and the outcome it is buying is a better-characterised FAIL, not a PASS** | 4 legs rented 4:00 PM ET. When they reduce at n=3 the gate **fails hard on the wrong sign BEFORE the replicate SD is ever consulted**, so what they buy is **INDETERMINATE → FAIL-with-an-error-bar**. A reader expecting these legs to rescue RUNG 2 would be misled; what they rescue is the *reportability* of the failure |
+| RUNG 2 · replicates | **valB_mini r1+r2 — is the FAIL quantified?** | **GATE FAILED, AS PRE-REGISTERED — and it is now quantified.** All 4 legs landed 3:07 AM ET Jul 30; the reduction ran at n=3 | **FAIL on the SIGN, before the replicate SD is ever consulted**: per-replicate ΔΔG_coop = −0.5125 / −1.0097 / −0.2749, mean **−0.599** against a known target of **+0.944**, abs error **1.543** on a 1.0-pass / 2.0-fail band. The decision is **NO-GO** — *"CI is entirely NEGATIVE (−1.103..−0.095) — method resolves the WRONG sign of cooperativity"* · **The durable deliverable is the replicate SD: 0.375 kcal/mol**, against per-leg MBAR SEs of 0.097–0.132 — roughly 3×, which is direct evidence for the paper's standing rule that a within-run MBAR SE speaks to precision and never to reproducibility · ⚠ **One open item for trimcrae, not decided here:** the reduction flags system identity INCONSISTENT because the ternary arm disagrees with ITSELF across seeds (r1 144,447 vs r2 141,740 particles, and binary 90,324 vs 90,720). That survives the 2026-07-30 fix that stopped the check comparing the ternary arm against the binary arm — a comparison meaningless by construction. Whether independently-solvated replicates may differ in water count, and what that does to a replicate SD, is a scientific call |
 | RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
 | RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. **~$21 not spent** |
-| RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **IN PROGRESS — NO GATE REACHED YET.** Not a pass, not a fail, and it is the largest live thing in the programme | **14 edges complete** as of 6:30 AM ET Jul 29 · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it; and the one map that does reach 19 gets there only by mapping a carbon onto a hydrogen, which is the degenerate correspondence the floor exists to reject) · **1 edge held on a FIXED DEFECT, not on science** (`cw_bio_primary_amide` — two atoms of the staged hybrid system sat at exactly the same coordinates and carried a gradient 7.7e11 times the largest force on any other atom in the box; finite, so the CPU minimiser survived it and every GPU did not. Displacing one of the two by 0.01 A removes it and changes nothing else in the box to six significant figures — measured before/after, not argued. It burned 25 rentals on 7 different cards before anyone counted the attempts. The starting geometry is now de-degenerated; the edge goes back in once the execution hosts run that code) · the rest placed and sampling. The gate is the map, and the map needs the edges: nothing here can be graded until enough of them return a ΔΔG. **The honest denominator is 18 computable edges of a 19-edge map**, derived in `step1-fanout-map.json` (`n_computable`), never typed. Live state, cost and $/ns are in the IN FLIGHT board below |
+| RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **COMPLETE — the lane closed itself at 9:24 PM ET Jul 29 (`pending=0`, `live=0`, every unit carrying a `ddg.json` or on the blocked list). The MAP is delivered; the GATE on what it means is a separate judgement and is NOT claimed here** | **18 edges complete of the 18 computable**, in a 19-edge map, for **$73.79** against a derived authorisation ceiling of $74.91 · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it; and the one map that does reach 19 gets there only by mapping a carbon onto a hydrogen, which is the degenerate correspondence the floor exists to reject) · **the edge that was held on a FIXED DEFECT has since LANDED** (`cw_bio_primary_amide`, +0.935 ± 0.500 kcal/mol — two atoms of the staged hybrid system sat at exactly the same coordinates carrying a gradient 7.7e11 times the largest force on any other atom in the box; finite, so the CPU minimiser survived it and every GPU did not. Displacing one by 0.01 A removed it and changed nothing else to six significant figures. It burned 25 rentals on 7 cards before anyone counted the attempts; the de-degenerated geometry reached the execution hosts and the edge computed) · **15 of the 18 are anchor-rooted** and are the only ones readable as tighter-or-weaker than cmpd19; the other 3 join two analogues and close cycles. **The honest denominator is 18 computable edges of a 19-edge map**, derived in `step1-fanout-map.json` (`n_computable`), never typed — and the ranked table is built from that file's `ranking` field, which is restricted to anchor-rooted edges for the reason recorded in the paper's Appendix A |
 
 | deliverable | status |
 |---|---|
 | **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
 | **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
+| **The ranked congeneric ΔΔG map** — 18 computable RBFE edges, the paper's §2.9 | **DONE** (2026-07-29, `$73.79` — inside the derived `$74.91` cap) |
 
 **Nothing on this board is waiting on trimcrae.** The question that used to sit here — whether the covalent
 design route still has candidates — was answered by the corrected+matched Tier 2 run: it **clears**, and the
@@ -225,7 +227,7 @@ superposed into the NR4A3 reference frame, carrying a per-frame core-fit residua
 
 ---
 
-## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-27 6:13 PM ET**)
+## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-30 5:30 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
@@ -239,19 +241,38 @@ that basis is **≈1.92×**. ⚠ **That is NOT a loosening of the 1.5× ruled th
 dollars per nanosecond.** The basis moved 22 % because the throughput table was re-anchored and widened, not
 because any price changed; see [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 40.
 
-**Two lanes are billing: the Step 1 fan-out (LANE 17/21) and the valB_mini replicates (LANE 19).** The RUNG
-5a-KS legs are **PARKED, not finished** — they are on no host and cost nothing right now. Both LANE-13
-paralogue legs and all four RUNG 2b legs have reached their deliverables.
+**NOTHING IS BILLING. Every lane on this board is off a host.** The closure triangle closed at 5:11 PM ET
+on 2026-07-30 — all four legs landed and `R` is computed — which was the last owed GPU work in the fixed
+scope. The Step 1 fan-out (LANE 17/21) and the valB_mini replicates (LANE 19) closed earlier the same day —
+the rows below say what each returned. The RUNG 5a-KS legs remain **PARKED, not finished**: on no host,
+costing nothing. Both LANE-13 paralogue legs and all four RUNG 2b legs have reached their deliverables.
 
 | what | state | ETA (ET) | cost | `$/ns` vs basis |
 |---|---|---|---|---|
-| **Step 1 fan-out** (LANE 17/21) — 19 congeneric RBFE edges | **Billing, advancing, and PARTIALLY HELD — the hold is visible on purpose.** At the 6:08 PM tick: **8 live instances** (5 running · 2 loading · 1 exited), 1 unit done, 2 at `leg-complex-FAILED-rc1`. Of those two, **`cw_bio_nmethyl_amide` is the permanently blocked one**; `cw_bio_primary_amide` failed at 1:41 PM and has since been re-placed. Earlier ticks ran 15 live — width is not monotone, because placement is **per unit and re-decided every tick**. Host churn is routine and noted lightly per CLAUDE.md §6 | no fleet ETA — width is set by what the market sells at or under the buy line. This tick **placed 3 and HELD 7** of 10 withheld units; they are **not dropped** (the pending set is recomputed from S3 every tick) and go out as the board improves. A separate shortage is **our own filter, not the market**: 37 machines excluded before ranking | realised **$20.97**, machine-ledgered, against a DERIVED cap of **$74.91** (`market_ceiling_usd(19)`) → **$53.94 headroom**. Ladder plan for the lane **~$36 ($15–80)**; this tick authorised **$8.78** against an **$11.83** ceiling for the 3 units actually bought | placed at **$0.005388 / $0.005745 / $0.006384 per ns · 1.58× / 1.68× / 1.87× basis**, ⚠ **PAYING** — every one **under** the $0.006539/ns buy line. ⛔ the 7 **HELD** units are what we **REFUSED** to buy above it — **$0 spent** on them. Effective ceiling **binds on the rate line**, not on the dollar ceiling ($0.008594/ns, 2.52×); board 143 offers → 135 qualifying, 81 priceable, only **3** at or under the line |
-| **valB_mini r1+r2** (LANE 19) — the 4 replicate legs | **Billing, 4 of 4 hosted, 0 done.** ⚠ **This is cohort 5, and only ONE host survived from cohort 4.** At 7:42 PM ET `collect` found three of the four boxes `stopped`, nudged each, and got `resources_unavailable` back — no free GPU on those machines and no bid fixes it — so it **destroyed all three and blacklisted machines 51045 and 30974** per the standing rule (a capacity refusal means pick another host, never queue). They were re-placed within minutes: ternary r1 `46055038`, ternary r2 `46055043`, binary r2 `46055106`. **Binary r1 `46040514` is the one cohort-4 survivor** and is the furthest along at `production/120`. **A per-host rate on this lane has a half-life of about two hours**, so every rate below names its cohort ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 38) | no deadline — every leg is checkpointed in S3, which is why losing three hosts cost placement time and not work (binary r2 resumed at `warmup/256`). A replicate SD exists only once all 4 land and `task=reduce-reps` runs | derived, never typed (`rung_band_usd(4)`): plan **$7.32**, ceiling **$20.74**, 536 ns/leg. Realised is **NOT machine-ledgered on this lane** — the gap is named in [`realised-spend.json`](research/modalities/realised-spend.json) | cohort 5, off the rental receipt: **1.50× · 1.56× · 1.56× · 1.59×** basis ($0.005119 / $0.005331 / $0.005331 / $0.005433 per ns), ⚠ **PAYING** — all four **under** the $0.006539/ns buy line, and the re-placement came in *cheaper* than the cohort-4 legs it replaced. *(Cohort 4 was 1.500/1.500/1.859/1.649× and is gone.)* |
+| ~~**Step 1 fan-out** (LANE 17/21) — 19 congeneric RBFE edges~~ | ✅ **COMPLETE — 18 of 18 computable edges landed; the 19th is not computable and is recorded as such.** Off every host. The ranked table it produced is the paper's §2.9 | — | realised **$73.79** machine-ledgered, against the DERIVED cap **$74.91** (`market_ceiling_usd(19)`) — finished inside its ceiling with **$1.12** to spare | every unit of the lane was bought under the **$0.006539/ns** buy line, and the units that could not be were ⛔ **REFUSED — $0 spent** and re-offered on later ticks rather than dropped |
+| ~~**valB_mini r1+r2** (LANE 19) — the 4 replicate legs~~ | ✅ **CLOSED AT n=3 — and the gate FAILED on sign, so the decision is NO-GO.** Off every host. The deliverable is the **cycle SD**, which is the number this lane existed to produce | — | realised is **NOT machine-ledgered on this lane**; the floor and the reason are in [`realised-spend.json`](research/modalities/realised-spend.json)'s attested block, which is a defect register, not an accounting category | — (no host) |
 | **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | ⛔ **PARKED, NOT FINISHED, and NOT BILLING.** Both legs died at **7:27 AM ET** when a rotated S3 key left them crash-looping at `gpu_util 0.0`, and both were **destroyed at 8:20 AM ET**. Checkpoints are intact: NR4A3 at `production/800` of 2000, NR4A1 at `warmup/640` of 1600 — still in warmup, so no production sampling is at risk. Both watch entries are `enabled: false` with a `_parked_why`, deliberately, because the watchdog's recovery for a DIED unit is to **rent a new host** and a relaunch is a new purchase | **held, no ETA.** They resume **together or not at all** — `S` is a double difference over the two legs, so resuming one buys nothing | **$0 going out.** Ladder ~$12; realised to date **~$1.5**, attested but **not machine-ledgered** | ⛔ **REFUSED — $0 spent.** They died flagged at **1.51× basis** while the cheapest gradeable rtx4090-class offer was **1.71×**; `relaunch_market_gate` refuses to re-buy above the buy line, so leaving them armed would have re-rented at exactly the price the gate exists to decline, up to 8× a day |
-| **The closure triangle** (LANE 9/20) — decides whether valB's miss is fixable at all | **LAUNCHED AND BILLING — 4 of 4 legs hosted (3 at 7:51 PM ET, the 4th at 8:03 PM).** The path that got here, in order: the **smoke landed at 6:56 PM** (`status=done`, dG 44.807 ± 0.582, `NaN=False`, 13.7 s/iter production), the **atom-map gate then PASSED** — *every leg's atom map measured complete at the production budget* — and the price gate cleared on a **180-offer board** (174 qualifying, 97 priceable). The first pass placed 3 (`calib_lo_to_lo2__ternary_vhl` 46055583, `calib_lo_to_lo2__binary_vhl` 46055590, `calib_hi_to_lo2__ternary_vhl` 46055595) and recorded `n_requested: 4, n_rented: 3` — *visibly* unplaced rather than dropped. **A re-dispatch at 8:03 PM placed the 4th** (`calib_hi_to_lo2__binary_vhl`, 46056372) without disturbing the three running, so the triangle is **4 of 4 hosted** | no leg ETA yet — all four were at `committed=none/0` or below their first checkpoint on the 7:55 PM board. `R` exists only once all 4 land and `task=triangle-reduce` runs | **$9.86 + $1.31 = $11.17** projected, each priced against its own pass's ceiling (**$15.40** for the 4-leg tranche, **$3.85** for the single re-placement) | **1.50× / 1.69× / 1.69× / 0.90× basis** ($0.005119 / $0.005750 / $0.005775 / $0.003061 per ns), ⚠ **PAYING** — all four **under** the $0.006539/ns buy line. **The 4th is the cheapest rental of the night and is BELOW the basis itself**, which is the case for the standing rule that a capacity refusal means pick another host rather than raise the bid: waiting ~12 minutes bought the same leg at 0.90× instead of 1.73×. `rented_any_over_buy_line: false` on both passes |
+| ~~**The closure triangle** (LANE 9/20) — decides whether valB's miss is fixable at all~~ | ✅ **CLOSED. All four legs landed 5:11 PM ET Jul 30 and `R` is computed** — [`valb-triangle-reduction.json`](research/modalities/valb-triangle-reduction.json). Off every host | — | the 4-leg tranche was priced against its own **$3.85** ceiling per pass | every rental cleared the **$0.006539/ns** buy line; the leg that finished it ran at **$0.005049/ns · 1.48× basis**. ⚠ **THE DAY'S CHURN — SEVEN HOSTS, 11:41 AM to 4:06 PM ET, ZERO COMMITTED ITERATIONS — WAS NEITHER PRICE NOR CARD SPEED, AND BOTH EARLIER READINGS ARE SUPERSEDED.** Two measured causes. **(1)** A host wedged INSIDE a checkpoint persist: commit-store generation `fa5da1eb` holds `simulation.nc` alone, and `_persist` writes .nc → .chk → manifest — so the board counted a torn generation and read `production/1800` while the next host correctly resumed at 1760, and the leg re-ran the same 40 iterations after every host change with the percentage RISING each time. **(2)** The lane had **11 `workflow_dispatch` inputs against GitHub's cap of 10**, which is SILENT: every placement flag — card floor, bid escalation, uninterruptible tier — arrived EMPTY, so each control was chosen correctly and discarded at the door. Fixes, all with tests: `committed_progress` requires the manifest, `commit_store_audit.py` names which rule refused each generation, the idle guard condemns on byte-identical log CONTENT (its mtime test was vacuous against a 120 s timer sync), `collect` re-places a dead host in the same pass, and CI now fails a workflow that exceeds the input cap or uses GCP auth without `id-token: write` |
 | **The restrained binary re-run** (LANE 20) | **HELD ON PURPOSE, behind the triangle's `R`.** Not stalled and not forgotten: `R` is the thing that says whether re-running the binary arm restrained can help at all. **The ternary arm is NOT being re-run restrained** (audit §L.3f) | held pending `R` | **$0** | — |
 | ~~**valB_mini reverse leg r0**~~ (GCP L4 **on-demand**) | ✅ **LANDED — `production/2000` of 2000; the hysteresis it unlocked is measured in the block below** | — | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**). **A SEPARATE LEDGER**: never summed into realised or ladder spend | — |
 | ~~LANE 13 categorical-dynamics analysis~~ | ✅ **DONE 2:49 PM — the verdict is above.** Legs, collect and analysis all landed | — | realised **~$4–5** against a ~$4.3 projection | — |
+
+**✅ `R` HAS LANDED (5:11 PM ET, 2026-07-30) AND THE ANSWER IS THE FIRST BRANCH BELOW.** Every number here is
+a reading of [`valb-triangle-reduction.json`](research/modalities/valb-triangle-reduction.json), never typed:
+**`R = 0.2128 kcal/mol`**, decision **`R_CONSISTENT_WITH_ZERO`** — inside the tightest plausible noise floor
+(0.216 at `sigma_leg = 0.045`). Read against the mapping below, that says valB_mini's miss is an
+**ENDPOINT-STATE error, and more sampling will not fix it.**
+The two closures are reported separately as the rule requires — **`R_ternary = −0.0312`**, essentially zero,
+against **`R_binary = −0.2440`**, which carries nearly all of it — so this is not a clean `R_coop` hiding two
+large cancelling terms. The frozen pre-registered verdict at the original bounds reads
+**BINARY_PATH_DEPENDENT, prediction upheld**.
+⚠ **THREE LIMITS, NONE OF THEM SMALL PRINT.** *(a)* **n = 1 and NO error bar is quoted or invented** — the
+design requires one seed per edge, because a mixed-seed triangle is not a closure, so no replicate SD exists.
+*(b)* At the `sigma_leg` upper bound now MEASURED from the n=3 replicates (0.265) the addendum also reads
+`R_CONSISTENT_WITH_ZERO`, but at the superseded assumed 0.7 the same design reads **UNDERPOWERED** — and that
+divergence is exactly [§Open decisions](#open-decisions) 7, still trimcrae's to settle. *(c)* Closure measures
+**INTERNAL CONSISTENCY, NOT ACCURACY**: it is structurally blind to force-field error, the SMARCA4→SMARCA2
+homology substitution, NAGL charges and protonation, every one of which is a per-endpoint state function.
 
 **★ WHAT `R` DECIDES, stated the right way round.** The closure triangle exists to answer one question about
 valB_mini's **1.478 kcal/mol** miss, and the two outcomes point in opposite directions:
@@ -264,6 +285,29 @@ valB_mini's **1.478 kcal/mol** miss, and the two outcomes point in opposite dire
 [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 41 and this is the one home for the
 mapping.)* `closure_decomposition` splits `R_coop = R_ternary − R_binary` and its own rule is to report both,
 never `R_coop` alone.
+
+**★ AND `R_ternary` NOW DECIDES A SECOND THING — whether the parked RUNG 5a-KS resume is worth buying at all.**
+`S` is a two-leg difference inside the **ternary** environment, so it inherits that environment's
+non-conservative error; `R_ternary` is the only measurement in the program that bounds it. The arithmetic, the
+three branches (**ADMIT / HOLD / STOP\_AND\_REDRAW**) and the thresholds are **pre-registered before `R` landed**
+and live once, in
+[`valb_failure_propagation.s_resolvability_from_R_ternary`](research/modalities/valb_failure_propagation.py) →
+[`valb-failure-propagation.json`](research/modalities/valb-failure-propagation.json) — do not restate them here.
+Two properties of that rule that must survive being quoted: a large `R_ternary` at n=1 buys a **hold and a
+second draw, never a kill** (`closure_noise_floor`'s own asymmetry — one draw cannot convict), and an ADMIT
+bounds the **non-conservative** error class *only*, because closure is blind to per-endpoint state functions.
+
+**⚠ AND THE POWER TO READ `R` AT ALL IS NOW MEASURED RATHER THAN UNKNOWN.** `closure_noise_floor` was written
+saying `sigma_leg` is unknown to a factor of **15.6** and that *"nothing in this lane has measured it"* — the
+n=3 replicates did. Converting the landed cycle SD through the design's own SD relation bounds `sigma_leg`
+**above**, which excludes the range where the triangle was hopeless but leaves its power **mediocre rather than
+comfortable** at the worst case. Derived, never typed: `valb_failure_propagation.sigma_leg_now_bounded` /
+`power_at_measured_bound`. ⚠ **One consequence needs a $0 decision from trimcrae, and it is deliberately NOT
+taken here:** `binary_departure_prereg` demotes a null closure to `UNDERPOWERED` on a hand-set `sigma_leg > 0.2`
+proxy that the measured bound now trips — so as frozen, **a null `R` reports UNDERPOWERED and the diagnostic we
+have already paid for answers nothing.** Amending a preregistered rule after a failing result is the retune this
+program forbids, so the discrepancy is *recorded* (before `R` landed) and routed the same way as the
+admits-zero gate defect — see [§Open decisions](#open-decisions).
 
 **Committed if both billing lanes complete: ~$43** (fan-out ~$36 + valB replicates ~$7.32), against the
 lane bands quoted in the rung entries below. Every figure in this column is either the LADDER's, quoted from
@@ -2118,6 +2162,26 @@ dollar ceiling.
 6. **`[ ]` OPEN — route the admits-zero gate defect for approval.** The frozen gate accepts a method that
    predicts no cooperativity change (22 % vs 23 %). Amending a preregistered rule after a failing result needs an
    explicit, dated, reviewer-approved defect-fix. $0.
+7. **`[ ]` OPEN — the `UNDERPOWERED` proxy. $0, LOW STAKES, and it is low-stakes because the measurement says
+   so.** `binary_departure_prereg` demotes a null closure to `UNDERPOWERED` whenever `sigma_leg > 0.2` — a
+   threshold hand-set when `sigma_leg` was unknown to a factor of 15.6, i.e. a proxy chosen because the power
+   itself was not computable. **It is computable now, and it VINDICATES the proxy:** bisecting the design's own
+   power curve puts a conventional 0.80-power threshold at `sigma_leg ≈ 0.216` against the frozen **0.200** —
+   agreement to ~7 %. ⚠ **So amending it would NOT rescue a null `R`**: at the measured upper bound the power
+   is ~0.63, which a conventional threshold demotes anyway. **Proposed fix is therefore transparency, not
+   correction** — report the computed power *beside* the verdict, keeping the demotion rule, because
+   "UNDERPOWERED" currently cannot distinguish power 0.63 from 0.05 and those warrant different responses.
+   Evidence: [`valb_failure_propagation.frozen_rule_vs_measured_power`](research/modalities/valb_failure_propagation.py).
+   **Same standard as item 6 and it is why nothing was changed:** a rule may be amended only if its statistic
+   is shown to lack discriminating power, demonstrated independently of whether we like its answer — and here
+   the statistic turned out **not** to lack it. Written down **before `R` landed**.
+   **★ THE LIVE QUESTION IS NOT THIS RULE — IT IS WHERE `sigma_leg` ACTUALLY SITS.** The crossing (≈0.216) lies
+   *inside* the bounded interval [0.045, 0.265], so a null `R` is readable or not depending on the true value,
+   and the bound is an UPPER bound. **That is settleable for $0 from the triangle's OWN legs when they land** —
+   `valb_failure_propagation.narrow_sigma_leg_from_triangle_legs` applies the n=3-measured replicate-SD/MBAR-SE
+   ratio to the triangle's own per-leg MBAR SEs, giving an estimate with no homology-model and no cross-seed
+   solvation term. ⚠ The ratio is **transferred, not measured on the triangle** (which has no replicates), so
+   this narrows the interval and must never be reported as though the triangle had replicates.
 
 ---
 

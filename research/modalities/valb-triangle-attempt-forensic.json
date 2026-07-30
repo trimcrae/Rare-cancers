@@ -6,7 +6,7 @@
   "attempts": [
     {
       "unit": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "n_attempts": 22,
+      "n_attempts": 42,
       "by_signature": {
         "ValueError: Incorrect number of partial charges: 109  were provided for 110 atoms @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/gufe/components/explicitmoleculecomponent.py\", line 137, in _check_partial_charges": {
           "n": 2,
@@ -19,9 +19,14 @@
           "last_utc": "2026-07-29T16:06:24+00:00"
         },
         "None @@ None": {
-          "n": 3,
+          "n": 22,
           "first_utc": "2026-07-28T04:52:59+00:00",
-          "last_utc": "2026-07-28T06:27:24+00:00"
+          "last_utc": "2026-07-30T13:53:37+00:00"
+        },
+        "botocore.exceptions.EndpointConnectionError: Could not connect to the endpoint URL: \"https://sagemaker-us-east-2-646605541856.s3.us-east-2.amazonaws.com/ternary-vast/commits/calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle/production/iter-00001400/70d8af2fe2d4495dbc82d303ebee5a9d/simulation.nc?uploads\" @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/botocore/httpsession.py\", line 506, in send": {
+          "n": 1,
+          "first_utc": "2026-07-30T08:16:26+00:00",
+          "last_utc": "2026-07-30T08:16:26+00:00"
         }
       },
       "attempts": [
@@ -178,12 +183,152 @@
           "bytes": 6606,
           "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
           "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T164732Z.log",
+          "utc": "2026-07-29T16:47:35+00:00",
+          "bytes": 33468,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T183847Z.log",
+          "utc": "2026-07-29T18:38:48+00:00",
+          "bytes": 68424,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T185417Z.log",
+          "utc": "2026-07-29T18:54:20+00:00",
+          "bytes": 13572,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T192014Z.log",
+          "utc": "2026-07-29T19:20:16+00:00",
+          "bytes": 8700,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T202929Z.log",
+          "utc": "2026-07-29T20:29:31+00:00",
+          "bytes": 69965,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T210117Z.log",
+          "utc": "2026-07-29T21:01:20+00:00",
+          "bytes": 8009,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T211943Z.log",
+          "utc": "2026-07-29T21:19:46+00:00",
+          "bytes": 8352,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T213933Z.log",
+          "utc": "2026-07-29T21:39:36+00:00",
+          "bytes": 17748,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T215033Z.log",
+          "utc": "2026-07-29T21:50:36+00:00",
+          "bytes": 7308,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T223817Z.log",
+          "utc": "2026-07-29T22:38:19+00:00",
+          "bytes": 32617,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T001135Z.log",
+          "utc": "2026-07-30T00:11:38+00:00",
+          "bytes": 122358,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T025129Z.log",
+          "utc": "2026-07-30T02:51:31+00:00",
+          "bytes": 200129,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T081623Z.log",
+          "utc": "2026-07-30T08:16:26+00:00",
+          "bytes": 376510,
+          "exception": "botocore.exceptions.EndpointConnectionError: Could not connect to the endpoint URL: \"https://sagemaker-us-east-2-646605541856.s3.us-east-2.amazonaws.com/ternary-vast/commits/calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle/production/iter-00001400/70d8af2fe2d4495dbc82d303ebee5a9d/simulation.nc?uploads\"",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/botocore/httpsession.py\", line 506, in send"
+        },
+        {
+          "key": "run-20260730T083331Z.log",
+          "utc": "2026-07-30T08:33:33+00:00",
+          "bytes": 9787,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T090444Z.log",
+          "utc": "2026-07-30T09:04:46+00:00",
+          "bytes": 36509,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T092921Z.log",
+          "utc": "2026-07-30T09:29:24+00:00",
+          "bytes": 24005,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T111316Z.log",
+          "utc": "2026-07-30T11:13:18+00:00",
+          "bytes": 110900,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T115124Z.log",
+          "utc": "2026-07-30T11:51:28+00:00",
+          "bytes": 33835,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T135322Z.log",
+          "utc": "2026-07-30T13:53:25+00:00",
+          "bytes": 227195,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T135335Z.log",
+          "utc": "2026-07-30T13:53:37+00:00",
+          "bytes": 232,
+          "exception": null,
+          "frame": null
         }
       ]
     },
     {
       "unit": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "n_attempts": 8,
+      "n_attempts": 13,
       "by_signature": {
         "ValueError: Incorrect number of partial charges: 109  were provided for 110 atoms @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/gufe/components/explicitmoleculecomponent.py\", line 137, in _check_partial_charges": {
           "n": 2,
@@ -196,9 +341,9 @@
           "last_utc": "2026-07-29T15:31:06+00:00"
         },
         "None @@ None": {
-          "n": 1,
+          "n": 6,
           "first_utc": "2026-07-28T02:32:19+00:00",
-          "last_utc": "2026-07-28T02:32:19+00:00"
+          "last_utc": "2026-07-30T02:32:35+00:00"
         }
       },
       "attempts": [
@@ -257,17 +402,52 @@
           "bytes": 6425,
           "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
           "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T191241Z.log",
+          "utc": "2026-07-29T19:12:44+00:00",
+          "bytes": 411489,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T204219Z.log",
+          "utc": "2026-07-29T20:42:21+00:00",
+          "bytes": 145574,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T020340Z.log",
+          "utc": "2026-07-30T02:03:43+00:00",
+          "bytes": 469094,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T023219Z.log",
+          "utc": "2026-07-30T02:32:22+00:00",
+          "bytes": 169879,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T023232Z.log",
+          "utc": "2026-07-30T02:32:35+00:00",
+          "bytes": 230,
+          "exception": null,
+          "frame": null
         }
       ]
     },
     {
       "unit": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "n_attempts": 17,
+      "n_attempts": 41,
       "by_signature": {
         "None @@ None": {
-          "n": 5,
+          "n": 29,
           "first_utc": "2026-07-28T00:12:21+00:00",
-          "last_utc": "2026-07-29T15:57:19+00:00"
+          "last_utc": "2026-07-30T15:59:09+00:00"
         },
         "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
           "n": 12,
@@ -394,17 +574,185 @@
           "bytes": 18079,
           "exception": null,
           "frame": null
+        },
+        {
+          "key": "run-20260729T170034Z.log",
+          "utc": "2026-07-29T17:00:36+00:00",
+          "bytes": 74464,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T173301Z.log",
+          "utc": "2026-07-29T17:33:03+00:00",
+          "bytes": 29594,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T200003Z.log",
+          "utc": "2026-07-29T20:00:05+00:00",
+          "bytes": 153288,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T225256Z.log",
+          "utc": "2026-07-29T22:52:58+00:00",
+          "bytes": 174746,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T014432Z.log",
+          "utc": "2026-07-30T01:44:35+00:00",
+          "bytes": 160634,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T025121Z.log",
+          "utc": "2026-07-30T02:51:24+00:00",
+          "bytes": 64877,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T030339Z.log",
+          "utc": "2026-07-30T03:03:42+00:00",
+          "bytes": 5834,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T031522Z.log",
+          "utc": "2026-07-30T03:15:24+00:00",
+          "bytes": 3682,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T033836Z.log",
+          "utc": "2026-07-30T03:38:38+00:00",
+          "bytes": 32386,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T040246Z.log",
+          "utc": "2026-07-30T04:02:48+00:00",
+          "bytes": 34865,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T042917Z.log",
+          "utc": "2026-07-30T04:29:19+00:00",
+          "bytes": 8711,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T043114Z.log",
+          "utc": "2026-07-30T04:31:16+00:00",
+          "bytes": 1225,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T061751Z.log",
+          "utc": "2026-07-30T06:17:53+00:00",
+          "bytes": 97124,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T095358Z.log",
+          "utc": "2026-07-30T09:54:00+00:00",
+          "bytes": 93368,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T100230Z.log",
+          "utc": "2026-07-30T10:02:33+00:00",
+          "bytes": 232,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T105032Z.log",
+          "utc": "2026-07-30T10:50:34+00:00",
+          "bytes": 28566,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T110737Z.log",
+          "utc": "2026-07-30T11:07:40+00:00",
+          "bytes": 10118,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T112242Z.log",
+          "utc": "2026-07-30T11:22:44+00:00",
+          "bytes": 7661,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T113159Z.log",
+          "utc": "2026-07-30T11:32:02+00:00",
+          "bytes": 1225,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T114731Z.log",
+          "utc": "2026-07-30T11:47:34+00:00",
+          "bytes": 9422,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T130937Z.log",
+          "utc": "2026-07-30T13:09:40+00:00",
+          "bytes": 36236,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T144032Z.log",
+          "utc": "2026-07-30T14:40:35+00:00",
+          "bytes": 22051,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T154642Z.log",
+          "utc": "2026-07-30T15:46:58+00:00",
+          "bytes": 37982,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T155906Z.log",
+          "utc": "2026-07-30T15:59:09+00:00",
+          "bytes": 5834,
+          "exception": null,
+          "frame": null
         }
       ]
     },
     {
       "unit": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "n_attempts": 18,
+      "n_attempts": 28,
       "by_signature": {
         "None @@ None": {
-          "n": 4,
+          "n": 14,
           "first_utc": "2026-07-28T01:08:31+00:00",
-          "last_utc": "2026-07-29T16:28:35+00:00"
+          "last_utc": "2026-07-30T03:46:24+00:00"
         },
         "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
           "n": 14,
@@ -538,6 +886,76 @@
           "bytes": 1050,
           "exception": null,
           "frame": null
+        },
+        {
+          "key": "run-20260729T164625Z.log",
+          "utc": "2026-07-29T16:46:27+00:00",
+          "bytes": 18861,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T171620Z.log",
+          "utc": "2026-07-29T17:16:22+00:00",
+          "bytes": 48715,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T171626Z.log",
+          "utc": "2026-07-29T17:16:29+00:00",
+          "bytes": 230,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T191242Z.log",
+          "utc": "2026-07-29T19:12:44+00:00",
+          "bytes": 91549,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T193415Z.log",
+          "utc": "2026-07-29T19:34:18+00:00",
+          "bytes": 20322,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T201020Z.log",
+          "utc": "2026-07-29T20:10:23+00:00",
+          "bytes": 41108,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T205201Z.log",
+          "utc": "2026-07-29T20:52:03+00:00",
+          "bytes": 42847,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T205814Z.log",
+          "utc": "2026-07-29T20:58:16+00:00",
+          "bytes": 9535,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T034616Z.log",
+          "utc": "2026-07-30T03:46:18+00:00",
+          "bytes": 983036,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T034623Z.log",
+          "utc": "2026-07-30T03:46:24+00:00",
+          "bytes": 230,
+          "exception": null,
+          "frame": null
         }
       ]
     },
@@ -570,12 +988,12 @@
     },
     {
       "unit": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
-      "n_attempts": 41,
+      "n_attempts": 47,
       "by_signature": {
         "None @@ None": {
-          "n": 8,
+          "n": 14,
           "first_utc": "2026-07-27T23:47:07+00:00",
-          "last_utc": "2026-07-29T16:12:07+00:00"
+          "last_utc": "2026-07-30T06:44:10+00:00"
         },
         "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
           "n": 33,
@@ -870,6 +1288,48 @@
           "bytes": 21058,
           "exception": null,
           "frame": null
+        },
+        {
+          "key": "run-20260729T165001Z.log",
+          "utc": "2026-07-29T16:50:04+00:00",
+          "bytes": 32760,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T204000Z.log",
+          "utc": "2026-07-29T20:40:02+00:00",
+          "bytes": 313060,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T205357Z.log",
+          "utc": "2026-07-29T20:54:00+00:00",
+          "bytes": 11457,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T030710Z.log",
+          "utc": "2026-07-30T03:07:13+00:00",
+          "bytes": 477929,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T064354Z.log",
+          "utc": "2026-07-30T06:43:57+00:00",
+          "bytes": 284505,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T064407Z.log",
+          "utc": "2026-07-30T06:44:10+00:00",
+          "bytes": 231,
+          "exception": null,
+          "frame": null
         }
       ]
     },
@@ -1014,17 +1474,22 @@
     },
     {
       "unit": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
-      "n_attempts": 52,
+      "n_attempts": 61,
       "by_signature": {
         "None @@ None": {
-          "n": 14,
+          "n": 22,
           "first_utc": "2026-07-27T22:00:42+00:00",
-          "last_utc": "2026-07-29T15:27:56+00:00"
+          "last_utc": "2026-07-30T04:53:01+00:00"
         },
         "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
           "n": 38,
           "first_utc": "2026-07-28T02:12:08+00:00",
           "last_utc": "2026-07-29T11:50:29+00:00"
+        },
+        "openmm.OpenMMException: Error uploading array floatBuffer: CUDA_ERROR_LAUNCH_FAILED (719) @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openmm/openmm.py\", line 5764, in setPositions": {
+          "n": 1,
+          "first_utc": "2026-07-30T02:05:31+00:00",
+          "last_utc": "2026-07-30T02:05:31+00:00"
         }
       },
       "attempts": [
@@ -1389,6 +1854,69 @@
           "key": "run-20260729T152753Z.log",
           "utc": "2026-07-29T15:27:56+00:00",
           "bytes": 45478,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T175650Z.log",
+          "utc": "2026-07-29T17:56:52+00:00",
+          "bytes": 290963,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T181255Z.log",
+          "utc": "2026-07-29T18:12:58+00:00",
+          "bytes": 231,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T020528Z.log",
+          "utc": "2026-07-30T02:05:31+00:00",
+          "bytes": 708897,
+          "exception": "openmm.OpenMMException: Error uploading array floatBuffer: CUDA_ERROR_LAUNCH_FAILED (719)",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openmm/openmm.py\", line 5764, in setPositions"
+        },
+        {
+          "key": "run-20260730T023832Z.log",
+          "utc": "2026-07-30T02:38:33+00:00",
+          "bytes": 5924,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T031909Z.log",
+          "utc": "2026-07-30T03:19:12+00:00",
+          "bytes": 43558,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T042259Z.log",
+          "utc": "2026-07-30T04:23:01+00:00",
+          "bytes": 56737,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T043630Z.log",
+          "utc": "2026-07-30T04:36:33+00:00",
+          "bytes": 8079,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T045246Z.log",
+          "utc": "2026-07-30T04:52:48+00:00",
+          "bytes": 169692,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260730T045259Z.log",
+          "utc": "2026-07-30T04:53:01+00:00",
+          "bytes": 231,
           "exception": null,
           "frame": null
         }

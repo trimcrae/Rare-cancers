@@ -1,0 +1,184 @@
+{
+ "_what": "the blast radius of the valB_mini FAIL, derived quantity by quantity, plus the two things the n=3 result newly makes measurable: a bound on sigma_leg and the replicate-SD/MBAR-SE factor on this pipeline.",
+ "_generated_by": "research/modalities/valb_failure_propagation.py",
+ "_not_a_price": "no cost, throughput or basis is computed here; pricing.md and STRATEGY own those.",
+ "inputs_measured": {
+  "cycle_sd_kcal": 0.375,
+  "per_leg_mbar_se_kcal": [
+   0.097,
+   0.132
+  ],
+  "abs_error_kcal": 1.543,
+  "n_replicates": 3,
+  "_source": "paper \u00a72.11 (nr4a3-degrader-paper.md), reduced 2026-07-30 by the official reducer from the 4 replicate legs that landed 3:07 AM ET. Those are the narrative home; this dict is the machine copy the derivations below consume.",
+  "_cycle_sd_is_a_sigma_edge": "0.375 is the between-replicate SD of ddG_coop itself -- a per-EDGE spread (ternary minus binary), which is `sigma_edge` in closure_noise_floor's notation, NOT a per-leg sigma. \u00a71 does the conversion."
+ },
+ "1_sigma_leg_now_bounded": {
+  "what_changed": "closure_noise_floor records `sigma_leg_is_unknown_by_a_factor_of` 15.6 and says 'nothing in this lane has measured it'. The n=3 replicates measured it.",
+  "relation_used": "SD(R) = sqrt(6) * sigma_leg = sqrt(3) * sigma_edge (independent legs, +-1 coefficients)",
+  "measured_sigma_edge_kcal": 0.375,
+  "sigma_leg_upper_bound_kcal": 0.2652,
+  "sigma_leg_lower_bound_kcal": 0.045,
+  "uncertainty_factor_before": 15.6,
+  "uncertainty_factor_after": 5.9,
+  "superseded_upper_bound": 0.7,
+  "why_it_is_an_upper_bound_not_a_value": {
+   "a_homology_model_swap": "valB seed s starts from the s%n-th relaxed SMARCA2 model, so 0.375 contains model-swap variance. The triangle is single-seed by construction (same_seed_requirement), which removes that term.",
+   "b_independent_solvation": "the n=3 reduction flags system identity INCONSISTENT -- the ternary arm differs from itself in particle count across seeds -- so 0.375 also carries solvation variability. STRATEGY already reports it as an upper bound on the sampling-only SD."
+  },
+  "consequence": "the design's sigma_leg = 0.5 and 0.7 rows -- where power to resolve an r0-sized miss is 0.22 and 0.14 -- are now EXCLUDED BY MEASUREMENT. The triangle is graded against the interval [0.045, 0.2652]."
+ },
+ "1b_power_at_measured_bound": {
+  "graded_at": "the measured UPPER bound, so every figure is a worst case within the bounded interval",
+  "at_sigma_leg_upper_bound": {
+   "sigma_leg": 0.2652,
+   "sigma_edge_implied": 0.375,
+   "SD_R_analytic": 0.6496,
+   "SD_R_monte_carlo": 0.6504,
+   "null_p95_abs_R": 1.2685,
+   "power_at_n1": {
+    "detect_0.500": 0.1217,
+    "detect_1.000": 0.3439,
+    "detect_1.478": 0.6293,
+    "detect_2.000": 0.8684
+   }
+  },
+  "at_sigma_leg_lower_bound": {
+   "sigma_leg": 0.045,
+   "sigma_edge_implied": 0.0636,
+   "SD_R_analytic": 0.1102,
+   "SD_R_monte_carlo": 0.11,
+   "null_p95_abs_R": 0.2153,
+   "power_at_n1": {
+    "detect_0.500": 0.9946,
+    "detect_1.000": 1.0,
+    "detect_1.478": 1.0,
+    "detect_2.000": 1.0
+   }
+  },
+  "reading": "power to detect an r0-sized (1.478 kcal/mol) path error is 0.63 at the upper bound and 1.00 at the lower one. That interval is NOT a clean pass -- 0.63 is mediocre power and the honest statement is that the triangle's adequacy depends on where in the bounded interval the true sigma_leg sits. What the measurement DID buy is the exclusion of the range where the triangle was hopeless: the design's own 0.5 and 0.7 rows give 0.22 and 0.14, and those are now ruled out."
+ },
+ "2_frozen_rule_vs_measured_power": {
+  "frozen_proxy": "binary_departure_prereg demotes BINARY_CANCELS -> UNDERPOWERED when sigma_leg > 0.2",
+  "measured_sigma_leg_upper_bound": 0.2652,
+  "frozen_rule_fires": true,
+  "verdict_the_frozen_rule_would_return_on_a_null": "UNDERPOWERED",
+  "actual_power_to_detect_1.478_at_that_sigma": 0.6293,
+  "power_0.80_crosses_at_sigma_leg": 0.2154,
+  "frozen_proxy_sits_at": 0.2,
+  "proxy_error_vs_computed": 0.072,
+  "the_finding": "the frozen proxy (0.200) and the computed 0.80-power crossing (0.215) agree to ~7%. The hand-set number was very nearly right, which is the opposite of what a 'the proxy is misfiring' reading would have predicted.",
+  "would_amending_it_rescue_a_null_R": false,
+  "why_not": "at the measured upper bound the power is 0.63, which a conventional 0.80 threshold demotes anyway. The amendment changes the LABEL's justification, not the verdict -- so it must not be sold as unlocking the diagnostic.",
+  "action_taken_here": "NONE. Recorded before R lands; the rule is untouched.",
+  "action_proposed_to_trimcrae": "a dated defect-fix that REPORTS the computed power beside the verdict, keeping the demotion rule itself. Value is transparency: 'UNDERPOWERED' currently cannot distinguish power 0.63 from 0.05, and those warrant different responses. $0. LOW STAKES -- graded that way because the measurement says so, not to make it easy to approve.",
+  "the_honest_residual": "a null R at the upper bound is worth ~0.63 power, which does not make a null strong evidence, amended or not. The triangle can ADMIT the cycle more confidently than it can convict it -- the design's own asymmetry, not a new problem. \u26a0 AND THE VERDICT GENUINELY TURNS ON WHERE IN [0.045, 0.2652] THE TRUE sigma_leg SITS: below ~0.215 a null R clears 0.80 power and is readable; at the upper bound it is not. Since the bound is an UPPER bound, the true value is plausibly on the readable side -- but that is an argument, and \u00a77 is how it becomes a measurement."
+ },
+ "3_error_algebra": [
+  {
+   "quantity": "ddG_coop (valB_mini; the NR4A ternary cooperativity matrix it gates)",
+   "expression": "e(A->B | ternary) - e(A->B | binary)",
+   "cancellation": "NUMERICAL ONLY, and weak",
+   "why": "the two environments differ by an entire protein chain. Measured on this lane: ~144k vs ~90k particles, and the binary arm's ligand departs its pocket in 8/12 replicas where the ternary arm is 12/12 clean. Almost nothing about the two error terms is shared.",
+   "status": "MEASURED FAILURE -- abs error 1.543 kcal/mol at n=3",
+   "consequence": "NR4A ternary cooperativity scores stay EXPLORATORY. This is the claim the FAIL actually costs, and it is the only one it costs directly."
+  },
+  {
+   "quantity": "S (RUNG 5a-KS, the ligand-side causal kill-switch)",
+   "expression": "e(d0->d | ternary, NR4A3) - e(d0->d | ternary, NR4A1)",
+   "cancellation": "ALGEBRAIC on the binary and solvent legs, NUMERICAL and strong on the rest",
+   "why": "the binary leg is the construct + CRBN with no target chain, so it is the SAME leg for both species and drops out of the expression exactly -- `nr4a3_5aks_reduce` REFUSES a binary leg rather than warning, for this reason. What remains is one morph of ONE ATOM (aromatic C-H -> N) evaluated in two homologous pockets at matched ternary architecture. That is the most favourable cancellation configuration in the ladder, and the exact opposite of the contrast that failed.",
+   "status": "NOT DIRECTLY IMPLICATED by the valB FAIL",
+   "consequence": "survives the FAIL on algebra -- but see \u00a74: 'not implicated' is an argument, not a measurement, and S has its own separate resolvability problem."
+  },
+  {
+   "quantity": "ddG_bind (RUNG 4 step-1 fan-out; the 18-edge congeneric map)",
+   "expression": "e(A->B | complex) - e(A->B | solvent)",
+   "cancellation": "NUMERICAL, and validated independently of anything ternary",
+   "why": "a congeneric binary RBFE, the class valA_mini reproduced against a known answer and the cmpd19 pilot converged on the real system. It contains no ternary-vs-binary contrast at all, so valB's error term does not appear in it.",
+   "status": "UNAFFECTED",
+   "consequence": "the delivered congeneric map stands on its own gates; the FAIL does not reach it."
+  },
+  {
+   "quantity": "R_ternary / R_binary (the closure triangle)",
+   "expression": "sum of e around a closed 3-cycle, within ONE environment",
+   "cancellation": "the true terms telescope exactly; per-endpoint STATE-FUNCTION error telescopes too",
+   "why": "valb_triangle_closure verified this numerically two ways -- max |R| ~ 1e-14 over 20,000 random state-function draws. So closure sees ONLY the non-conservative part of the error and is BLIND to force field, homology model, NAGL charges, protonation and the reference data.",
+   "status": "IN FLIGHT -- the diagnostic, not a claim",
+   "consequence": "R_ternary is the only measurement in the program that speaks to the error class S is exposed to. \u00a74 is what it licenses."
+  },
+  {
+   "quantity": "the categorical axes (Tier 0 unique-residue map, Tier 1 atlas, Tier 2 basins/reach)",
+   "expression": "not a free-energy difference at all",
+   "cancellation": "n/a",
+   "why": "these are geometric and sequence-derived: exposure, divergence, reach distance, collision fraction, lysine presentation. No alchemical morph appears anywhere in them.",
+   "status": "UNAFFECTED",
+   "consequence": "the paper's selectivity spine does not route through the failed quantity. This is why the program has somewhere to stand."
+  }
+ ],
+ "4_s_resolvability_prereg": {
+  "registered": "2026-07-30, while the two ternary triangle legs were still running",
+  "chain": "eps_leg ~ |R_ternary|/sqrt(3)  ->  eps_S ~ sqrt(2)*eps_leg = sqrt(2/3)*|R_ternary|",
+  "S_designed_effect_kcal": [
+   0.5,
+   1.5
+  ],
+  "S_best_case_resolvable_kcal": 1.12,
+  "sigma_leg_used": 0.2652,
+  "R_ternary_resolution_threshold": 0.9003,
+  "R_ternary_critical_for_S": 1.3717,
+  "rule": {
+   "ADMIT": "|R_ternary| below its own resolution threshold (0.900) -- no detectable non-conservative error in the ternary environment. The resume is bought.",
+   "HOLD": "|R_ternary| resolved but under 1.372 -- real path error, but not enough to swamp S. Buy the resume AND carry the measured floor as S's uncertainty, not the MBAR SE.",
+   "STOP_AND_REDRAW": "|R_ternary| at or above 1.372 -- S's inherited noise floor exceeds what S can resolve, so finishing the legs buys a number that cannot answer its own question. Per the asymmetry above this is a HOLD FOR A SECOND DRAW, never a kill on one sample."
+  },
+  "_blind_spot_stated": "closure is blind to per-endpoint state-function error, so an ADMIT verdict bounds the non-conservative class ONLY. State-function error that differs between the NR4A3 and NR4A1 pockets is invisible to R_ternary and to every other check this program has. For S that residual is a SECOND difference of a ONE-ATOM morph across two homologous pockets, which is the configuration in which it is smallest -- but small-by-argument is not measured, and this file will not pretend otherwise.",
+  "verdict": "NOT YET MEASURED -- this is the pre-registration, not a result"
+ },
+ "5_s_error_bar_scope": {
+  "configuration": "two parked legs, seed 0, one per arm -> reduce_S returns COMPUTED_SINGLE_SEED",
+  "replicate_sd_over_mbar_se_measured": 3.28,
+  "_ratio_basis": "MEASURED on this pipeline at n=3: cycle SD 0.375 against per-leg MBAR SEs 0.097-0.132. Before today this factor was assumed; now it is not.",
+  "S_err_as_it_would_be_reported_kcal": 0.1619,
+  "S_err_after_the_measured_correction_kcal": 0.5303,
+  "resolvable_effect_as_reported_kcal": 0.3174,
+  "resolvable_effect_corrected_kcal": 1.0394,
+  "designed_effect_kcal": [
+   0.5,
+   1.5
+  ],
+  "reading": "at one seed per arm S resolves ~1.04 kcal/mol once the measured replicate/MBAR factor is applied, against a designed effect of 0.5-1.5. It can therefore see the TOP of its own effect range and not the bottom, so a null S at n=1 is uninterpretable in precisely the way valB's n=1 was.",
+  "options": {
+   "finish_as_configured": "buy the two parked legs, report S as a point estimate, and label it exploratory. Retires paper \u00a72.10(d) 'the causal test has not been run' but cannot support a null.",
+   "add_one_seed_per_arm": "two further legs give S a real replicate SD and make a null readable. \u26a0 CHECK BEFORE BUYING: the SMARCA2 lane's seed -> relaxed-model map wraps at n_models=2 (tests/test_edge_reps_seed_independence.py). Whether the 5a-KS co-fold staging has the same wrap is UNVERIFIED here and must be checked, not assumed, or the second seed re-runs the first model and buys no independence."
+  }
+ },
+ "6_estimator_note": {
+  "preregistered_estimator": "Welch-Satterthwaite over independently averaged ternary and binary arms",
+  "paired_estimator_recomputed_here": {
+   "mean_kcal": -0.599,
+   "paired_sd_kcal": 0.375,
+   "t_crit_dof2": 4.302653,
+   "ci95_half_width_kcal": 0.9315,
+   "ci95": [
+    -1.5305,
+    0.3324
+   ],
+   "includes_zero": true
+  },
+  "what_is_unaffected": "the FAIL itself. Wrong sign and |mean - target| = 1.543 on a 1.0 band are both estimator-independent.",
+  "what_is_affected": "only the reading that the method 'resolves a cooperativity change confidently', which rests on the tighter preregistered interval.",
+  "action": "record it in the paper's limitations rather than switch estimators. A referee who recomputes the paired interval should find we got there first."
+ },
+ "7_narrow_sigma_leg_from_triangle_legs": {
+  "method": "sigma_leg(triangle) ~ ratio * mean per-leg MBAR SE of the TRIANGLE's own legs, where the ratio is the replicate-SD/MBAR-SE factor measured at n=3 on this lane",
+  "ratio_used": 3.28,
+  "_ratio_is_transferred_not_measured_here": true,
+  "current_upper_bound_from_valB": 0.2652,
+  "power_0.80_crosses_at": 0.2154,
+  "what_it_would_settle": "whether a null R clears conventional power. Below the crossing it does and the triangle answers its question; above it, it does not, amended or not.",
+  "cost": "$0 -- the MBAR SEs are already in the leg records that land with R",
+  "when": "the moment all four legs are down, alongside task=triangle-reduce",
+  "estimate": "NOT YET COMPUTABLE -- the triangle's ternary legs have not landed"
+ }
+}

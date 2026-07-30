@@ -154,7 +154,27 @@ jobs:
             else
               echo "::warning title=TERNARY MARKET-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t1 | tr '\n' ' ')"
             fi
-            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=triangle-gate 2>/tmp/t2; then
+            # ★★ THE TICK CARRIES A CARD FLOOR, BECAUSE A 3090 CANNOT FINISH A CHECKPOINT INTERVAL BEFORE
+            # IT IS PREEMPTED (measured 2026-07-30). The triangle's ternary legs commit every 40 iterations
+            # and that interval is FIXED on resume — `rbfe_spot_driver` reads it from the committed .nc and
+            # overrides any request — so the only lever is s/iter. On this 146k-particle system a 3090 runs
+            # ~34 s/iter, i.e. ~23 min per interval, against host lifetimes measured at ~15-25 min. The leg
+            # therefore loses its entire interval on every preemption and the committed census never moves:
+            # `calib_hi_to_lo2__ternary_vhl` sat at production/1720 for over two hours across three hosts,
+            # and advanced on the very next cycle once it landed on a 5090.
+            #
+            # 28 ns/h is chosen to exclude that class and NOTHING ELSE. It admits RTX 5090 / 4090 / 5080 /
+            # 4080 (43.1 / 33.5 / 31.3 / 28.9 ns/h) and drops A100-PCIe and below, which are the cards whose
+            # interval exceeds a typical lifetime. A tighter floor (40, the 5090-only value used by hand
+            # earlier) narrows the board when AVAILABILITY is the binding constraint — and it was, twice
+            # this morning, when placements came back `resources_unavailable`. Wide board, fast enough
+            # cards.
+            #
+            # ⚠ WHY IT BELONGS ON THE TICK RATHER THAN A HAND DISPATCH. The agent placed this leg on a fast
+            # card by hand twice and the unmodified tick re-placed it on a 3090 both times, because the tick
+            # runs every 8 min and a hand dispatch cannot reliably win that race. A per-launch override that
+            # the automation does not carry is not a fix, it is a chore.
+            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=triangle-gate -f min_ns_per_h=28 2>/tmp/t2; then
               echo "[$(date -u '+%H:%M:%SZ')] ternary triangle-gate dispatched (tick ${n})"
             else
               echo "::warning title=TERNARY TRIANGLE-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t2 | tr '\n' ' ')"
@@ -227,16 +247,40 @@ jobs:
              -f hours="${HOURS}" -f tick_every_min="${EVERY}" \
              -f fleet_branch="${FLEET_BRANCH}" -f release_fanout="${RELEASE_FANOUT}" \
              -f watch_every_ticks="${WATCH_EVERY}" 2>/tmp/h || true
-          sleep 25   # the dispatch is async; a run does not appear in the API instantly
+          # ★★ ONE LOOK AFTER 25 s WAS NOT ENOUGH, AND IT MADE EVERY HANDOVER RED (measured 2026-07-30,
+          # 11:09 PM ET). Run 30493589020 dispatched its successor at 03:09:21Z — the API even printed the
+          # new run's URL, 30510411940 — and then failed at 03:09:46Z with "SUPERVISOR CHAIN BROKEN: no
+          # successor exists". The successor was alive the whole time and is running now; `gh run list`
+          # simply had not published it 25 seconds in.
+          #
+          # This is CLAUDE.md §6's measured Actions-API lag arriving in a new place: that rule says to read
+          # a step's timing from its COMPLETED record because a live poll manufactures stalls that are not
+          # there, and a single immediate poll here manufactures a broken chain that is not there.
+          #
+          # WHY IT MATTERS MORE THAN A COSMETIC RED. The whole point of this check is that a broken chain
+          # must be LOUD. A check that cries wolf on every successful handover destroys exactly that: both
+          # prior runs are already `failure` for this reason, so the signal a real break would raise is one
+          # nobody can pick out. Same principle as the lane's own rule that a red job meaning "correctly
+          # refused on price" must be distinguishable at a glance from a red job meaning "the launcher is
+          # broken".
+          #
+          # So: poll with backoff and only shout if it is STILL absent after ~2 minutes. A dispatched run
+          # appears well inside that; a dispatch that genuinely failed never will.
           # Confirm from the API that a successor actually EXISTS and is not this same run. A dispatch that
           # returns 0 and creates nothing is precisely how the first supervisor "ran" for six minutes while
           # dispatching zero ticks.
-          SUCC=$(gh run list --workflow=step1-fanout-supervisor.yml --limit 5 \
-                   --json databaseId,status \
-                   --jq "[.[] | select(.databaseId != ${{ github.run_id }}) | select(.status==\"queued\" or .status==\"in_progress\")] | length" 2>/dev/null || echo 0)
+          SUCC=0
+          for attempt in 1 2 3 4 5 6; do
+            SUCC=$(gh run list --workflow=step1-fanout-supervisor.yml --limit 5 \
+                     --json databaseId,status \
+                     --jq "[.[] | select(.databaseId != ${{ github.run_id }}) | select(.status==\"queued\" or .status==\"in_progress\")] | length" 2>/dev/null || echo 0)
+            [ "${SUCC:-0}" -ge 1 ] && break
+            echo "[handoff] attempt ${attempt}: successor not published by the API yet, waiting"
+            sleep 20
+          done
           if [ "${SUCC:-0}" -ge 1 ]; then
             echo "::notice title=SUPERVISOR HANDED OFF::a successor is queued or running - the cadence continues without a human."
           else
-            echo "::error title=SUPERVISOR CHAIN BROKEN::no successor exists, so tick delivery has just fallen back to GitHub's throttled schedule (MEASURED 141-220 min gaps, against this job's 8 min). The fan-out is still billing. Relaunch: gh workflow run step1-fanout-supervisor.yml --ref main"
+            echo "::error title=SUPERVISOR CHAIN BROKEN::no successor exists after ~2 min of polling, so tick delivery has just fallen back to GitHub's throttled schedule (MEASURED 141-220 min gaps, against this job's 8 min). The fan-out is still billing. Relaunch: gh workflow run step1-fanout-supervisor.yml --ref main"
             exit 1
           fi

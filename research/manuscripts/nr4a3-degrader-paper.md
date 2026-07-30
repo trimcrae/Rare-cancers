@@ -1318,34 +1318,48 @@ adopts: **a closed cycle, a small forward/reverse gap, and good MBAR overlap are
 never be presented as accuracy evidence**, and a known-answer benchmark against measured data is not
 substitutable by any number of internally consistent cycles.
 
-**The congeneric map stands at 14 computed edges of the 18 that are computable, in a 19-edge map, at the
-6:30 AM ET 2026-07-29 snapshot the table below is taken from.** The three numbers are different and all three
-are needed: 19 is the designed map, **18** is what the lane can ever deliver (one edge is excluded for a
-measured reason given below), and 14 is what had landed when this table was cut. The fan-out is still running,
-so the live counts are `n_units` / `n_computable` / `n_complete` in
-[`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json) — **that artifact governs and
-this paragraph does not.** A 19-edge perturbation map around the cmpd19 anchor is frozen
+**The congeneric map is COMPLETE at 18 computed edges of the 18 that are computable, in a 19-edge map.** The
+three numbers are different and all three are needed: 19 is the designed map, **18** is what the lane can ever
+deliver (one edge is excluded for a measured reason given below), and 18 is what landed. The lane closed
+itself — `pending=0`, `live=0`, every unit carrying a `ddg.json` or on the blocked list — so the counts are
+final rather than a snapshot of work in progress. They remain readable as `n_units` / `n_computable` /
+`n_complete` in [`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json) — **that artifact
+governs and this paragraph does not.** A 19-edge perturbation map around the cmpd19 anchor is frozen
 (`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue inheriting the anchor's
-core coordinates atom-for-atom, so the edges are mutually comparable), and the fan-out had returned ΔΔG_bind
-for **14** of them at that snapshot (single replicate each, 12 λ-windows, ~$69 of realised GPU spend across
-197 rentals). More negative = predicted tighter than the cmpd19 anchor in the modeled pocket:
+core coordinates atom-for-atom, so the edges are mutually comparable), and the fan-out returned ΔΔG_bind for
+all 18 (single replicate each, 12 λ-windows, **$73.79** of realised GPU spend against a derived authorisation
+ceiling of $74.91).
+
+Of the 18, **15 are rooted at the cmpd19 anchor** and are the ones that can be read as "tighter or weaker than
+cmpd19"; the remaining **3 join two non-anchor nodes** and are listed separately below, because a ΔΔG measured
+between two analogues is not a statement about the anchor at all. More negative = predicted tighter than the
+cmpd19 anchor in the modeled pocket:
 
 | analogue (5-position unless noted) | ΔΔG_bind (kcal/mol) | mapped atoms |
 |---|---|---|
 | `cw_ev_5opropargyl` | **−1.698 ± 0.380** | 21 |
-| `cw_ms_5acetamido_ester` | −1.345 ± 0.810 | 23 |
 | `cw_bio_tetrazole` | −1.215 ± 0.317 | 15 |
 | `cw_ev_5pegamine` | −0.646 ± 1.071 | 21 |
 | `cw_ev_5alkyne` | −0.363 ± 0.047 | 21 |
 | `cw_bio_acylsulfonamide` | +0.127 ± 0.688 | 17 |
 | `cw_ms_free_acid` | +0.136 ± 0.457 | 18 |
 | `cw_bio_hydroxamic` | +0.392 ± 0.285 | 17 |
+| `cw_ms_5acetamido_ester` | +0.445 ± 0.572 | 21 |
 | `cw_ev_5oh` | +0.474 ± 0.195 | 21 |
 | `cw_ms_carbinol` | +0.582 ± 0.602 | 17 |
 | `cw_ev_5cooh` | +0.688 ± 0.197 | 21 |
+| `cw_bio_primary_amide` | +0.935 ± 0.500 | 17 |
 | `cw_ev_5nh2` | +1.064 ± 0.118 | 21 |
 | `cw_ev_5ch2nh2` | +1.248 ± 0.139 | 21 |
 | `cw_ev_5piperazine` | +3.403 ± 0.649 | 21 |
+
+The three non-anchor-rooted edges, which close cycles in the map rather than rank analogues against cmpd19:
+
+| edge | ΔΔG_bind (kcal/mol) | mapped atoms |
+|---|---|---|
+| `cw_ev_5oh → cw_ev_5opropargyl` | −2.928 ± 0.589 | 22 |
+| `cw_ev_5nh2 → cw_ms_5acetamido_ester` | −1.345 ± 0.810 | 23 |
+| `cw_ms_free_acid → cw_bio_primary_amide` | +2.106 ± 0.132 | 17 |
 
 **Every uncertainty in that table is a within-run MBAR standard error propagated in quadrature — NOT a
 replicate SD.** One replicate per edge cannot report reproducibility, so these speak to precision only, and the
@@ -1682,8 +1696,22 @@ The pass rule was preregistered and requires *all* of: converged diagnostics, **
 `|mean − target| ≤ 1.0`, between-replicate cycle SD ≤ 0.75, mean > target/2, and a t-based 95 % CI excluding
 zero. Frozen record: [`../modalities/wurz-calib-frozen.json`](../modalities/wurz-calib-frozen.json).
 
-**Result.** The first replicate gives **ΔΔG_coop = −0.522 kcal/mol against a target of +0.944** — the **wrong
-sign**, an absolute error of **1.466 kcal/mol**, and a failure of the preregistered rule on sign alone.
+**Result, now at the preregistered n = 3.** All three replicates landed on 2026-07-30 and the reduction gives
+**ΔΔG_coop = −0.599 kcal/mol against a target of +0.944** — the **wrong sign**, an absolute error of
+**1.543 kcal/mol**, and a failure of the preregistered rule on sign alone, before the cycle-SD criterion is
+ever reached. The per-replicate values are **−0.5125, −1.0097 and −0.2749 kcal/mol**; every one of the three is
+negative, so the sign failure is not an artifact of averaging. The t-based 95 % CI is **[−1.103, −0.095]**,
+which excludes zero *on the wrong side of it*: the method resolves a cooperativity change confidently, and
+resolves it with the opposite sign to the measured one. Machine record: `valB_calibration_gate` and
+`valB_calibration_decision` in the reduction artifact (decision **NO-GO**).
+
+**The between-replicate cycle SD is 0.375 kcal/mol, and it is the durable product of this experiment.** Against
+per-leg MBAR standard errors of **0.097–0.132 kcal/mol**, the replicate spread is roughly **three times** the
+within-run uncertainty on the same legs. That is a direct, same-system measurement of the gap this paper's
+reporting rule asserts — that a within-run MBAR SE speaks to precision and never to reproducibility — and it is
+why every ΔΔG in §2.9 is reported with its uncertainty explicitly labelled as an MBAR SE rather than a
+replicate SD. The SD itself passes its own preregistered threshold (≤ 0.75); the calibrator fails on sign, not
+on scatter.
 
 **A control that could have explained the miss was run, and it does not.** In the original edge the binary
 arm's ligand left its pocket in 8 of 12 replicas, so that ΔG was not a free energy of the intended bound state
@@ -1711,10 +1739,28 @@ against a 4.0 Å threshold, so the ligand did not drift out of the interface eit
 **The forward/reverse antisymmetry check now returns a value, and it passes.** The reverse leg was for a period
 structurally unreachable (four independent callers pinned the direction to forward); with that fixed, the
 measured hysteresis is **|ΔG_fwd + ΔG_rev| = 0.325 kcal/mol against a preregistered ≤ 1.000 threshold — PASS**.
-This is the **first of the three preregistered systematic-error detectors to return any value at all**, and its
+This was the **first of the three preregistered systematic-error detectors to return any value** (cycle closure has since returned one too, below), and its
 reading is deliberately narrow: forward and reverse alchemical paths agree, so the miss is **not** a path or
 hysteresis artifact. Per the identity argued in §2.9, a passing antisymmetry check is a *precision* diagnostic;
 it is fully consistent with a large endpoint-state error and is **not** evidence that the cooperativity is right.
+
+**The third detector — cycle closure — has now also returned a value, and it points the same way.** A
+synthetic third vertex (cmpd4″) closes the triangle cmpd1 → cmpd4 → cmpd4″ → cmpd1, and the residual
+`R = ΔΔG_coop(T1) + ΔΔG_coop(T2) − ΔΔG_coop(T3)` is **0.2128 kcal/mol**, inside the tightest plausible noise
+floor (0.216 at σ_leg = 0.045) — decision `R_CONSISTENT_WITH_ZERO`
+([`../modalities/valb-triangle-reduction.json`](../modalities/valb-triangle-reduction.json)). The reading is
+that this workflow's ΔΔG_coop cycle is internally self-consistent to within |R| of **path** error, so the miss
+is **not** explained by path error and more sampling will not fix it — the same conclusion the antisymmetry
+check reaches, by an independent route. The two component closures are reported separately, never as `R` alone,
+because a small residual can be two large closures cancelling: **R_ternary = −0.0312** essentially closes,
+while **R_binary = −0.2440** is resolved against its 0.1528 threshold, upholding the prediction registered on
+2026-07-26 (`BINARY_PATH_DEPENDENT`) that the binary arm — the one whose ligand left its pocket — would carry
+the path dependence. Three limits travel with this number and none is incidental: it is **n = 1 by design**,
+since one seed per edge is what makes a closure a closure and a mixed-seed triangle is a different quantity, so
+**no error bar is quoted and none is constructed** from the per-leg MBAR SEs; at the σ_leg upper bound measured
+from the n = 3 replicates the verdict is unchanged, but at the older assumed bound the same design reads
+`UNDERPOWERED`, and that divergence is recorded rather than resolved; and closure bounds **internal
+consistency, not accuracy** — it is structurally blind to exactly the endpoint-state classes named below.
 
 **Taken together these give the load-bearing conclusion: the error is systematic, not statistical.** The
 within-run statistical uncertainty (0.045 kcal/mol) is roughly **33× smaller than the miss** (1.466 kcal/mol).
@@ -1731,13 +1777,25 @@ into a 3.73 Å SMARCA4 parent structure** followed by relaxation (SMARCA2 crysta
 original investigators too), and the target is derived from an SPR α-ratio whose own uncertainty is not
 propagated into the ±1.0 kcal/mol margin.
 
-**Status, stated without rounding up.** The calibrator's formal verdict is **INDETERMINATE**, not FAIL, and only
-because the preregistered rule requires a between-replicate cycle SD that a single replicate cannot supply. That
-distinction must not be read as encouraging: the sign is already wrong and the diagnostics already pass, so the
-replicates are owed to the *rule*, not to a plausible path back to agreement. Of the three systematic-error
-detectors, **one has now returned a value and passed** (antisymmetry), and **cycle closure remains unrun** — a
-synthetic third vertex is designed and frozen ([`../modalities/valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json))
-but has produced no closed cycle. A replicate-level caveat applies when the replicates do land: the ternary
+**Status, stated without rounding up.** The calibrator's formal verdict is **FAIL**, and the decision is
+**NO-GO**. It is no longer INDETERMINATE: that earlier status existed only because the preregistered rule needs
+a between-replicate cycle SD that a single replicate cannot supply, and the replicates have now been run. The
+change is in the completeness of the evidence, not in its direction — the sign was already wrong at n = 1 and
+it is wrong in all three replicates. **All three systematic-error detectors have now returned a value.**
+Antisymmetry passed; the replicate SD returned 0.375 kcal/mol, itself within its threshold; and cycle closure
+completed on 2026-07-30 when the fourth and last leg landed, giving **R = 0.2128 kcal/mol**,
+`R_CONSISTENT_WITH_ZERO`. The reducer had refused every partial cycle until then by construction, on the
+grounds that an R from an incomplete cycle is a different quantity rather than a noisier one — so the value
+exists only because all four legs exist. None of the three detectors indicates a sampling or path origin for
+the miss.
+
+**One caveat on the SD, carried rather than resolved.** The same reduction reports system identity as
+INCONSISTENT because the ternary arm disagrees with *itself* across seeds: **144,447 particles at r1 against
+141,740 at r2**, and 90,324 against 90,720 on the binary arm. The legs share a protocol hash, a charge method
+(`nagl`) and a setup-cache version (`v1pe`), so this is independent solvation of the same protocol rather than
+a different pipeline — but a replicate SD computed across systems that differ in water count is measuring
+solvation variability alongside sampling variability, and we do not currently separate the two. The figure is
+therefore reported as an upper bound on the sampling-only SD. A replicate-level caveat applies when the replicates do land: the ternary
 starting-model index is `seed mod n_models` at `n_models = 2`, so a third replicate returns to the first
 model's pose and the between-replicate SD **understates** homology-model variance.
 
@@ -2554,6 +2612,33 @@ absent by verification status rather than by oversight; entry 70 has no publicat
 §2.10 is a standard polymer-physics result, but the machine query for its primary source returned **no matching
 record** (all candidates were unrelated). Rather than attach a remembered citation to it, the model is described
 in Methods and the reference is left to be established from the primary literature before submission.
+
+## Appendix A — corrections to earlier drafts
+
+Superseded values are recorded here rather than left inline, so the live text carries only the current figure
+while nothing that was previously stated silently disappears.
+
+- **§2.9, `cw_ms_5acetamido_ester`: the tabulated ΔΔG_bind was −1.345 ± 0.810 kcal/mol (23 mapped atoms); it
+  is now +0.445 ± 0.572 (21 mapped atoms).** The superseded value is a real measurement, but of the wrong
+  edge: it is `cw_ev_5nh2 → cw_ms_5acetamido_ester`, which joins two analogues, and it had been placed in a
+  table whose caption reads *"more negative = predicted tighter than the cmpd19 anchor."* The anchor-rooted
+  edge `zaienne_cmpd19 → cw_ms_5acetamido_ester` is the one that belongs there. The consequence is a sign
+  change: the analogue moves from apparently the second-tightest of the series to modestly weaker than the
+  anchor. The non-anchor-rooted value is retained, correctly labelled, in the second table of §2.9. Caught by
+  regenerating the table from `step1-fanout-map.json`'s own `ranking` field, whose `ranking_note` states the
+  anchor-rooted restriction explicitly — the artifact was right and the transcription was not.
+- **§2.11 calibrator: the headline was a single replicate, ΔΔG_coop = −0.522 kcal/mol with an absolute error
+  of 1.466, and the formal verdict was INDETERMINATE.** All three preregistered replicates landed on
+  2026-07-30, so the headline is now the n = 3 mean **−0.599** (abs error **1.543**) and the verdict is
+  **FAIL / NO-GO**. The superseded single-replicate value is not withdrawn as wrong — it is r0, and it appears
+  in the live text as one of the three per-replicate figures (as **−0.5125**, the 4 fs reduction of the same
+  seed; **−0.522** was its earlier reduction and **−0.534** the 2 fs cycle that preceded the restrained
+  binary-arm re-run). What changed is that a mean of one is no longer being reported as the result. INDETERMINATE
+  must not be quoted going forward: it described the absence of replicates, and the replicates exist.
+
+- **§2.9 edge count: the table was cut at 14 computed edges of 18 computable, against ~$69 of GPU spend
+  across 197 rentals.** The fan-out has since closed at **18 of 18** and **$73.79**, so those figures describe
+  a run in progress and are not the final map.
 
 ## Data and software availability
 All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the

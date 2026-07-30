@@ -344,3 +344,100 @@ def test_the_targets_line_is_pinned_into_every_window_rather_than_remembered():
     for banned in ("768", "1600", "2000"):
         assert ("_tg = (%s" % banned) not in src, (
             "a typed target is a second home for a number the driver's log owns (CLAUDE.md rule 1)")
+
+
+# ── a host torn down on this pass must not render RUNNING (2026-07-29, 9:58 PM ET) ───────────────────
+# T2 binary, 40 production iterations from finishing, hit a capacity refusal on machine 55559 and collect
+# destroyed it. The TVAST-SUMMARY said so ("up=exited ... ⛔ DESTROYED this pass ... billing STOPPED"); the
+# board one block below printed "T2 binary 98.6% 10:07 PM RUNNING", because `advanced` was true — the census
+# HAD risen before the box died. The freshest evidence lost to the stalest.
+
+def test_a_destroyed_host_is_no_host_not_running():
+    st, why = B.state_of(False, False, 0, False,
+                         why_not_running="host DESTROYED this pass (capacity refusal on machine 55559) — "
+                                         "billing stopped, $0 further; checkpoint at production/1960 intact")
+    assert st == B.NO_HOST and st != B.RUNNING
+    assert "1960" in why and "billing stopped" in why
+
+
+def test_a_destroyed_row_carries_no_eta():
+    """An ETA derived from a dead host's rate is a promise nothing can keep."""
+    txt = B.render([{"name": "T2 binary", "pct": 98.6, "eta_s": None, "usd_per_ns": None,
+                     "state": B.NO_HOST, "why": "host DESTROYED this pass — billing stopped"}])
+    assert "NO HOST" in txt and "—" in txt and "RUNNING" not in txt
+
+
+def test_a_failed_destroy_is_louder_than_a_successful_one():
+    """§6: the host cannot stop its own meter. A destroy that raised left a dead box BILLING."""
+    ok, _ = B.state_of(False, False, 0, False, why_not_running="host DESTROYED this pass — billing stopped")
+    assert ok == B.NO_HOST
+    bad, why = B.state_of(True, False, 2, False,
+                          why_not_running="⚠ DESTROY FAILED (capacity refusal; DELETE raised) — this box is "
+                                          "STILL BILLING")
+    assert bad == B.STALLED and "STILL BILLING" in why
+    assert ok != bad, "a stopped meter and a running one must never render alike"
+
+
+def test_the_collect_consults_the_teardown_outcome():
+    """Pin the call site: the summary and the board must answer from ONE fact, not two derivations."""
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert '_destroyed = destroyed_this_pass.get(_b.get("iid"))' in src, (
+        "the board no longer consults the teardown outcome — a destroyed host renders RUNNING again")
+    assert '_destroyed.get("ok")' in src, (
+        "the board no longer distinguishes a destroy that stopped the meter from one that raised")
+
+
+def test_a_teardown_because_the_unit_FINISHED_does_not_invite_a_re_rental():
+    """T2 binary reached production/2000, reap_landed destroyed its host, and the row said 'the next gate
+    tick re-places it' — inviting a purchase the ladder must not make, and calling a finished leg unfinished."""
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert '_done_reason = "done" in str(_destroyed.get("why") or "").lower()' in src, (
+        "the board no longer distinguishes a done-teardown from a capacity teardown")
+    assert "nothing further is owed — this leg is FINISHED" in src
+
+
+# ── the guard's WATCHING is a refusal to condemn, and the board overruled it (2026-07-29, 11:12 PM ET) ──
+# valB r2 rendered STALLED with the reason "WATCHING — quiet but alive: run.log 1 min old, GPU idle, no
+# committed advance — consistent with a CPU-bound setup phase": a stall verdict whose own reason denies it.
+# The board credits only the guard's WORKING as advancement, so a leg the guard was SHIELDING fell through
+# to the poll counter and tripped it.
+
+def test_a_shielded_leg_is_not_stalled_however_high_the_poll_counter():
+    st, why = B.state_of(True, advanced=False, no_advance_polls=9, cold_start=False,
+                         why_not_running="WATCHING — quiet but alive: run.log 1 min old, GPU idle",
+                         guard_shielding=True)
+    assert st == B.STARTING, "the board must not overrule a guard that is vouching for the host"
+    assert "alive" in why
+
+
+def test_shielding_does_NOT_promote_to_running():
+    """WATCHING is the absence of evidence of death, not evidence of work — STARTING is the honest cell."""
+    st, _ = B.state_of(True, False, 5, False, why_not_running="quiet but alive", guard_shielding=True)
+    assert st == B.STARTING and st != B.RUNNING
+
+
+def test_real_advancement_still_outranks_shielding():
+    assert B.state_of(True, True, 0, False, guard_shielding=True)[0] == B.RUNNING
+
+
+def test_shielding_cannot_mute_a_stall_once_the_guard_stops_shielding():
+    """WATCHING needs a RECENT log; a silent one returns WEDGED/CRASH_LOOP, which are not shielding."""
+    st, why = B.state_of(True, False, 3, False,
+                         why_not_running="WEDGED — no write in 90 min and the GPU is idle",
+                         guard_shielding=False)
+    assert st == B.STALLED and "WEDGED" in why
+
+
+def test_the_collect_derives_shielding_from_should_destroy_not_a_typed_verdict_list():
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert "vig.should_destroy(idle_verdict)" in src and "idle_shielding" in src, (
+        "shielding is no longer derived from the guard's own destroy rule — the board and the reaper can "
+        "drift about which verdicts are benign")
+    assert "guard_shielding=bool(_b.get(\"idle_shielding\"))" in src, (
+        "the shielding flag is computed but never passed to state_of")

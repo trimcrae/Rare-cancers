@@ -1,7 +1,7 @@
 {
   "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
   "mode": "edge_reps",
-  "utc": "2026-07-29T15:46:21Z",
+  "utc": "2026-07-30T02:23:23Z",
   "units": {
     "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps": {
       "arm": "ternary",
@@ -9,28 +9,28 @@
       "breaker": {
         "verdict": "allow: no leg record \u2014 a unit that has never run must be able to run",
         "block": false,
-        "n_attempts": 40,
+        "n_attempts": 44,
         "record_utc": null,
-        "newest_commit_utc": "2026-07-29T13:28:14Z",
+        "newest_commit_utc": "2026-07-30T02:21:20Z",
         "eviction": {
           "_what": "the last time this lane destroyed this unit's host for a reason that was NOT the unit failing \u2014 read by leg_failure_breaker so a correct teardown does not accrue a strike",
           "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
-          "utc": "2026-07-29T14:00:51Z",
-          "why": "capacity refusal on machine 12227; destroy: a qualifying replacement is on the board",
-          "instance": 46199407,
-          "machine_id": 12227
+          "utc": "2026-07-29T20:47:33Z",
+          "why": "capacity refusal on machine 29717; destroy: a qualifying replacement is on the board",
+          "instance": 46226396,
+          "machine_id": 29717
         },
         "superseded_by": null
       },
       "committed": {
-        "phase": "warmup",
-        "iteration": 1024,
-        "scalar": 1024
+        "phase": "production",
+        "iteration": 1520,
+        "scalar": 1001520
       },
-      "phase_marker": "md-running 2026-07-29T14:40:46Z",
-      "phase_marker_age_min": 65.56633826096852,
-      "log_age_min": 49.56777606407801,
-      "n_attempts_archived": 41,
+      "phase_marker": "md-running 2026-07-29T20:55:36Z",
+      "phase_marker_age_min": 327.7582457582156,
+      "log_age_min": 1.8437156359354654,
+      "n_attempts_archived": 45,
       "attempts": [
         {
           "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T234704Z.log",
@@ -313,39 +313,106 @@
           "last_line": "INFO:\t********************************************************************************"
         },
         {
-          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/run.log",
-          "utc": "2026-07-29T14:56:48Z",
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260729T161205Z.log",
+          "utc": "2026-07-29T16:12:07Z",
           "bytes": 21058,
           "n_lines": 270,
           "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260729T165001Z.log",
+          "utc": "2026-07-29T16:50:04Z",
+          "bytes": 32760,
+          "n_lines": 438,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260729T204000Z.log",
+          "utc": "2026-07-29T20:40:02Z",
+          "bytes": 313060,
+          "n_lines": 4446,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260729T205357Z.log",
+          "utc": "2026-07-29T20:54:00Z",
+          "bytes": 11457,
+          "n_lines": 134,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/run.log",
+          "utc": "2026-07-30T02:21:33Z",
+          "bytes": 435021,
+          "n_lines": 6205,
+          "last_line": "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases"
         }
       ],
       "instance": {
-        "id": 46203745,
-        "machine_id": 29707,
+        "id": 46227502,
+        "machine_id": 62866,
         "label": "tvast-calib-hi-to-lo--ternary-vhl-r1-dt4p0fs-wu1p0-edge-reps",
-        "actual_status": "loading",
+        "actual_status": "running",
         "cur_state": "running",
         "intended_status": "running",
-        "status_msg": "ed090066e06c: Pull complete\n",
+        "status_msg": "success, running docker.io/triskit23/ternary-fep_latest/ssh",
         "gpu_name": "RTX 5090",
         "num_gpus": 1,
         "gpu_ram": 32607,
-        "cpu_ram": 64130,
+        "cpu_ram": 64135,
         "cpu_cores_effective": 12.0,
         "disk_space": 60.0,
-        "disk_util": -1,
-        "mem_usage": null,
-        "mem_limit": null,
-        "gpu_util": null,
+        "disk_util": 7.400000095367432,
+        "mem_usage": 2.83639808,
+        "mem_limit": 63.05087488,
+        "gpu_util": 0.0,
         "dph_total": 0.22066666666666665,
-        "start_date": 1785337285.8725598,
+        "start_date": 1785358412.5829804,
         "image_uuid": "docker.io/triskit23/ternary-fep:latest"
       },
       "instance_is_working": true,
-      "console_last_line": "Error response from daemon: No such container: C.46203745",
+      "console_last_line": "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
       "console_tail": [
-        "Error response from daemon: No such container: C.46203745"
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 10.993s.",
+        "INFO:\tEstimated completion in 0:01:28.619744, at 2026-Jul-30-02:21:13 (consuming total wall clock time 5:20:43.144431).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1514/1520",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 13.860s.",
+        "INFO:\tEstimated completion in 0:01:16.171610, at 2026-Jul-30-02:21:14 (consuming total wall clock time 5:21:36.807925).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1515/1520",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 12.909s.",
+        "INFO:\tEstimated completion in 0:01:03.506978, at 2026-Jul-30-02:21:15 (consuming total wall clock time 5:21:46.121229).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1516/1520",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 12.417s.",
+        "INFO:\tEstimated completion in 0:00:50.774017, at 2026-Jul-30-02:21:14 (consuming total wall clock time 5:21:34.126567).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1517/1520",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 13.693s.",
+        "INFO:\tEstimated completion in 0:00:38.161594, at 2026-Jul-30-02:21:15 (consuming total wall clock time 5:22:15.207404).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1518/1520",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 12.190s.",
+        "INFO:\tEstimated completion in 0:00:25.413172, at 2026-Jul-30-02:21:15 (consuming total wall clock time 5:21:54.010706).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1519/1520",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 13.569s.",
+        "INFO:\tEstimated completion in 0:00:12.728712, at 2026-Jul-30-02:21:16 (consuming total wall clock time 5:22:27.642699).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1520/1520",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 12.823s.",
+        "INFO:\tEstimated completion in 0:00:00, at 2026-Jul-30-02:21:16 (consuming total wall clock time 5:22:31.243487).",
+        "[timing] 40 iters in 509s = 12.7s/iter (4.71 iters/min) at iteration 1520/2000",
+        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases"
       ]
     },
     "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps": {
@@ -366,8 +433,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-07-28T09:10:33Z",
-      "phase_marker_age_min": 1835.9591044783592,
-      "log_age_min": 1835.9438561638196,
+      "phase_marker_age_min": 2472.9381032864253,
+      "log_age_min": 2472.9221681157746,
       "n_attempts_archived": 19,
       "attempts": [
         {
@@ -509,13 +576,13 @@
     },
     "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps": {
       "arm": "ternary",
-      "leg_record_status": null,
+      "leg_record_status": "failed",
       "breaker": {
-        "verdict": "allow: no leg record \u2014 a unit that has never run must be able to run",
-        "block": false,
-        "n_attempts": 52,
-        "record_utc": null,
-        "newest_commit_utc": "2026-07-29T15:40:52Z",
+        "verdict": "blocked: repeated failure on distinct hosts",
+        "block": true,
+        "n_attempts": 55,
+        "record_utc": "2026-07-30T02:05:16Z",
+        "newest_commit_utc": "2026-07-30T02:05:13Z",
         "eviction": {
           "_what": "the last time this lane destroyed this unit's host for a reason that was NOT the unit failing \u2014 read by leg_failure_breaker so a correct teardown does not accrue a strike",
           "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
@@ -527,14 +594,14 @@
         "superseded_by": null
       },
       "committed": {
-        "phase": "warmup",
-        "iteration": 704,
-        "scalar": 704
+        "phase": "production",
+        "iteration": 1760,
+        "scalar": 1001760
       },
-      "phase_marker": "md-running 2026-07-29T15:28:26Z",
-      "phase_marker_age_min": 18.134076364835103,
-      "log_age_min": 0.05314004818598429,
-      "n_attempts_archived": 53,
+      "phase_marker": "md-running 2026-07-30T02:05:58Z",
+      "phase_marker_age_min": 17.554720930258433,
+      "log_age_min": 15.722129027048746,
+      "n_attempts_archived": 56,
       "attempts": [
         {
           "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T220040Z.log",
@@ -901,79 +968,36 @@
           "last_line": "INFO:\t********************************************************************************"
         },
         {
-          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log",
-          "utc": "2026-07-29T15:46:33Z",
-          "bytes": 43049,
-          "n_lines": 589,
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260729T175650Z.log",
+          "utc": "2026-07-29T17:56:52Z",
+          "bytes": 290963,
+          "n_lines": 4150,
           "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260729T181255Z.log",
+          "utc": "2026-07-29T18:12:58Z",
+          "bytes": 231,
+          "n_lines": 2,
+          "last_line": "[tvast] archived the previous attempt's run.log under attempts/"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T020528Z.log",
+          "utc": "2026-07-30T02:05:31Z",
+          "bytes": 708897,
+          "n_lines": 10109,
+          "last_line": "upload: ../../../../tmp/run.log to s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log",
+          "utc": "2026-07-30T02:07:50Z",
+          "bytes": 5924,
+          "n_lines": 57,
+          "last_line": "[spot-driver] warmup_target=1600 (ci=40) prod_target=2000 (ci=40)"
         }
       ],
-      "instance": {
-        "id": 46203979,
-        "machine_id": 62866,
-        "label": "tvast-calib-hi-to-lo--ternary-vhl-r2-dt4p0fs-wu1p0-edge-reps",
-        "actual_status": "running",
-        "cur_state": "running",
-        "intended_status": "running",
-        "status_msg": "success, running docker.io/triskit23/ternary-fep_latest/ssh",
-        "gpu_name": "RTX 5090",
-        "num_gpus": 1,
-        "gpu_ram": 32607,
-        "cpu_ram": 64135,
-        "cpu_cores_effective": 12.0,
-        "disk_space": 60.0,
-        "disk_util": 1.100000023841858,
-        "mem_usage": 1.7595105279999999,
-        "mem_limit": 63.05087488,
-        "gpu_util": 98.999908,
-        "dph_total": 0.22066666666666665,
-        "start_date": 1785337502.7667682,
-        "image_uuid": "docker.io/triskit23/ternary-fep:latest"
-      },
-      "instance_is_working": true,
-      "console_last_line": "INFO:\t********************************************************************************",
-      "console_tail": [
-        "INFO:\tIteration took 9.232s.",
-        "INFO:\tEstimated completion in 0:04:31.439400, at 2026-Jul-29-15:50:12 (consuming total wall clock time 1:52:04.692244).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 738/768",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 8.305s.",
-        "INFO:\tEstimated completion in 0:04:22.285272, at 2026-Jul-29-15:50:11 (consuming total wall clock time 1:51:54.502953).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 739/768",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 9.034s.",
-        "INFO:\tEstimated completion in 0:04:13.784290, at 2026-Jul-29-15:50:11 (consuming total wall clock time 1:52:00.908088).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 740/768",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 8.540s.",
-        "INFO:\tEstimated completion in 0:04:04.869244, at 2026-Jul-29-15:50:11 (consuming total wall clock time 1:51:56.413544).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 741/768",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 8.768s.",
-        "INFO:\tEstimated completion in 0:03:56.140411, at 2026-Jul-29-15:50:11 (consuming total wall clock time 1:51:56.882793).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 742/768",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 8.930s.",
-        "INFO:\tEstimated completion in 0:03:47.520949, at 2026-Jul-29-15:50:11 (consuming total wall clock time 1:52:00.618810).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 743/768",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 8.189s.",
-        "INFO:\tEstimated completion in 0:03:38.410450, at 2026-Jul-29-15:50:10 (consuming total wall clock time 1:51:49.569031).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 744/768",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 9.559s.",
-        "INFO:\tEstimated completion in 0:03:30.167766, at 2026-Jul-29-15:50:12 (consuming total wall clock time 1:52:05.368506).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 745/768",
-        "INFO:\t********************************************************************************"
-      ]
+      "instance": null,
+      "instance_is_working": false
     },
     "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps": {
       "arm": "binary",
@@ -993,8 +1017,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-07-28T09:59:35Z",
-      "phase_marker_age_min": 1787.1816504279773,
-      "log_age_min": 1787.1497130155562,
+      "phase_marker_age_min": 2424.0084525028865,
+      "log_age_min": 2423.975824971994,
       "n_attempts_archived": 8,
       "attempts": [
         {

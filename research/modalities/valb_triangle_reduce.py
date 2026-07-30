@@ -27,7 +27,12 @@ weaker for zero saving (`valb_triangle_closure.closure_decomposition`).
 ⚠ ERROR BARS ARE REPLICATE SD, NEVER MBAR SE — AND AT n=1 THERE IS NO REPLICATE SD, SO NONE IS QUOTED.
 The MBAR SE is a LOWER bound on sigma_leg (it does not see slow modes) and this lane's assumed replicate SD of
 0.7 is an UPPER bound for a same-seed triangle (it includes the homology-model swap a same-seed design
-removes). Those differ by a factor of ~15, so the n=1 scout's own resolution is unknown by a factor of ~7. The
+removes). Those differ by a factor of ~15, so the n=1 scout's own resolution is unknown by a factor of ~7.
+★ SUPERSEDED IN PART, 2026-07-30: the 0.7 is an ASSUMPTION and the valB_mini n=3 replicates have since bounded
+sigma_leg well below it, which shrinks the AMBIGUOUS band by ~3x. The frozen verdict below still uses the
+original bounds ON PURPOSE — narrowing makes the *hopeful* branch easier to reach — and the measured reading
+is carried beside it in `measured_sigma_addendum`. Derivation: valb_failure_propagation.sigma_leg_now_bounded.
+The
 asymmetry is what makes it worth buying anyway: a SMALL |R| is strong evidence, because it bounds the path
 error AND the noise at once; a LARGE |R| at n=1 is AMBIGUOUS, because one draw cannot separate a systematic
 from an unlucky sample. So this reducer can ADMIT the cycle and cannot CONVICT it, and it says so in the
@@ -124,6 +129,63 @@ def _sd(vals):
         return None
     m = sum(v) / len(v)
     return math.sqrt(sum((x - m) ** 2 for x in v) / (len(v) - 1))
+
+
+def _measured_sigma_addendum(closures, R, mbar, sig_lo, sig_hi):
+    """The 2026-07-30 addendum: what R reads against a MEASURED sigma_leg bound, and what it licenses about
+    the parked RUNG 5a-KS resume.
+
+    ★ WHY THIS IS AN ADDENDUM AND NOT AN EDIT TO THE VERDICT ABOVE. Narrowing the upper sigma_leg bound from
+    the assumed 0.7 to the measured value shrinks the AMBIGUOUS band by a factor of ~3, which makes
+    `R_RESOLVED_PATH_ERROR` EASIER to reach -- and that is the branch under which r0's miss is *fixable*, i.e.
+    the hopeful one. A change that is free to make and that happens to favour the outcome we want is exactly
+    the change that must not be made silently to a frozen decision rule. So: the frozen `decision` above is
+    computed at the ORIGINAL bounds and is untouched, this block reports the measured reading beside it, and
+    which one to act on is STRATEGY Open decision 7 -- a human call, not one taken by whoever runs the reducer.
+
+    ★ AND IT IS WRITTEN BEFORE ANY R EXISTS. Every threshold here is derived from the valB n=3 replicates and
+    the design's own power curve; none of it can be tuned to the number this function is about to be handed."""
+    import valb_failure_propagation as FP    # local: FP imports valb_triangle_closure, so no cycle at module load
+
+    bound = FP.sigma_leg_now_bounded()
+    hi_measured = bound["sigma_leg_upper_bound_kcal"]
+    crossing = FP.power_threshold_crossing()
+
+    # sigma_leg estimated from the TRIANGLE's own legs -- no homology-model term, no cross-seed solvation term
+    ses = [x for x in mbar if x is not None]
+    own = (sum(ses) / len(ses)) if ses else None
+    narrowed = FP.narrow_sigma_leg_from_triangle_legs(own)
+
+    thresh_measured = 1.96 * math.sqrt(6.0) * hi_measured
+    thresh_lo = 1.96 * math.sqrt(6.0) * sig_lo
+    if abs(R) <= thresh_lo:
+        dec = "R_CONSISTENT_WITH_ZERO"
+    elif abs(R) > thresh_measured:
+        dec = "R_RESOLVED_PATH_ERROR"
+    else:
+        dec = "AMBIGUOUS_AT_n1"
+
+    return {
+        "_what": "reading at the MEASURED sigma_leg bound; the frozen decision above is untouched",
+        "_registered": "2026-07-30, before any triangle R existed",
+        "sigma_leg_upper_bound_measured": hi_measured,
+        "sigma_leg_upper_bound_superseded_assumption": sig_hi,
+        "ambiguous_band_frozen": [round(thresh_lo, 4), round(1.96 * math.sqrt(6.0) * sig_hi, 4)],
+        "ambiguous_band_at_measured_bound": [round(thresh_lo, 4), round(thresh_measured, 4)],
+        "decision_at_measured_bound": dec,
+        "sigma_leg_from_the_triangles_own_legs": narrowed,
+        "power_0.80_crosses_at_sigma_leg": round(crossing, 4),
+        "5aKS_resume_verdict": FP.s_resolvability_from_R_ternary(
+            R_ternary=closures["R_ternary"], sigma_leg=hi_measured),
+        "_5aKS_note": ("S is a two-leg difference inside the TERNARY environment, so R_ternary -- not R_coop "
+                       "-- is what bounds its non-conservative error. A large R_ternary buys a hold and a "
+                       "second draw, never a kill. An ADMIT bounds the non-conservative class ONLY; closure "
+                       "is blind to per-endpoint state functions, so it cannot certify S."),
+        "_do_not_conflate": ("`decision_at_measured_bound` is NOT the lane's verdict. The lane's verdict is "
+                             "`decision`, computed at the original bounds. If the two differ, that difference "
+                             "IS the content of STRATEGY Open decision 7 and should be surfaced, not resolved "
+                             "here."),
+    }
 
 
 def reduce_triangle(directory, sigma_leg=None):
@@ -229,7 +291,9 @@ def reduce_triangle(directory, sigma_leg=None):
     R = closures["R_coop"]
 
     # ---- how big does |R| have to be to mean anything -----------------------------------------------------
-    # sigma_leg is NOT measured on this lane. Both bounds are carried explicitly so no single threshold can
+    # sigma_leg was NOT measured on this lane when these bounds were frozen (it is now -- see the addendum
+    # below, which is reported separately rather than folded in here). Both bounds are carried explicitly so
+    # no single threshold can
     # be mistaken for a measured one.
     mbar = [d.get("mbar_se_kcal") for d in use.values()]
     sig_lo, sig_hi = 0.045, 0.7
@@ -259,11 +323,16 @@ def reduce_triangle(directory, sigma_leg=None):
         "noise_floor": floor,
         "sigma_leg_bounds": {"lower_MBAR_SE": sig_lo, "upper_repo_assumed_replicate_SD": sig_hi,
                              "used_for_the_verdict": sigma,
-                             "note": "unknown by a factor of ~15 on this lane; nothing has measured the "
-                                     "value in between, so the verdict is reported at BOTH bounds below."},
+                             "note": "the clause that stood here -- 'nothing has measured the value in "
+                                     "between' -- was true until 2026-07-30 and is now SUPERSEDED: the "
+                                     "valB_mini n=3 replicates bound sigma_leg ABOVE, well below 0.7. The "
+                                     "frozen verdict below is deliberately still reported at BOTH ORIGINAL "
+                                     "bounds; the measured reading is carried separately in "
+                                     "`measured_sigma_addendum` so nothing preregistered moves."},
         "prereg_verdict": prereg,
         "prereg_verdict_at_upper_sigma": tri.binary_departure_prereg(
             R_ternary=closures["R_ternary"], R_binary=closures["R_binary"], sigma_leg=sig_hi),
+        "measured_sigma_addendum": _measured_sigma_addendum(closures, R, mbar, sig_lo, sig_hi),
     })
 
     # ---- the plain-language reading, which is the actual deliverable --------------------------------------

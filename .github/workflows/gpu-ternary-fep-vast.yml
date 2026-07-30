@@ -90,16 +90,20 @@ on:
         description: "5aks-prime: S3 prefix holding the Boltz co-fold CIFs (blank = rung5aks-cofold-v1)"
         type: string
         default: ""
-      watch_minutes:
-        description: "reps-diag: also TRACE container memory vs its limit for this many minutes (blank = skip). Must be running while a ternary leg is in setup — that trace is what separates an OOM kill from a provider stop."
-        type: string
-        default: ""
       gpu_class:
         description: "override the GPU class the lane rents (blank = rtx4090, the lane default). Sets TVAST_GPU. ⚠ SOFT ONLY, and it CANNOT force a card: with require_gpu unset this value is consulted solely by the unmeasured fallback in _select_cheapest_offer, so any benched offer on the board sends the decision back to the $/ns ranking. It failed to do exactly this job on 2026-07-29 — use `min_ns_per_h` below when the requirement is speed."
         type: string
         default: ""
+      bid_floor_mult:
+        description: "multiply the interruptible BID above the market floor, to buy host RETENTION (blank = the derived tick policy). Sets VAST_BID_FLOOR_MULT — the escape hatch _vast_bid_price documents for 'a specific leg that genuinely cannot tolerate pauses'. On Vast the charge is min(bid, the machine's on-demand price), so this is capped by the real on-demand rate and cannot run away; the market gate's $/ns ceiling still refuses anything over the buy line, so too high a value fails a placement on price rather than overspending. ⚠ Use per-launch on a leg that is CHURNING, never standing: a higher bid on a stable host buys nothing and costs money."
+        type: string
+        default: ""
       min_ns_per_h:
         description: "HARD floor on the rented card's measured throughput, in ns/hr at the ternary system size (blank = no floor). Sets TVAST_MIN_NS_PER_H. This is the DEADLINE control: `40` admits the RTX 5090 class only, `31` admits 5090/4090/5080, `28` adds the 4080. Checked against `vast_cost_model.ns_per_hour` — the same validated table the $/ns ranking uses — so an unbenched card is excluded rather than guessed at. Use per-launch for a leg that has become the critical path; leaving it set turns the lane's cost discipline into a standing speed preference."
+        type: string
+        default: ""
+      on_demand:
+        description: "1 = rent the UNINTERRUPTIBLE (on-demand) tier instead of the community bid tier. Sets TVAST_ON_DEMAND. ⚠ Use for ONE leg that is the critical path and nothing else — on-demand costs multiples of the bid floor and the whole ladder is priced on interruptible rentals. It exists because no bid makes the bid tier safe: an on-demand renter preempts an interruptible one REGARDLESS of bid, so `bid_floor_mult` buys priority WITHIN the tier and cannot stop eviction. The $/ns buy line still applies unchanged — an on-demand offer over the line is REFUSED like any other."
         type: string
         default: ""
       leg_only:
@@ -108,32 +112,14 @@ on:
         default: ""
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────────────────
-# ⏳ TEMPORARY DEADLINE WAIVER — trimcrae, 2026-07-29 4:47 PM ET: *"I just want them all done by the
-# morning. Don't worry about the price of the rest of these specific legs."*
-#
-# WHAT THIS CHANGES. `relaunch_market_gate` normally refuses to re-rent a dead host above the buy line
-# (`inflight_usd_per_ns.APPROVED_USD_PER_NS` = $0.006539/ns, ≈1.92x the current basis). Overnight, a thin
-# market would therefore HOLD placements — correct behaviour on any normal night, and exactly the wrong
-# behaviour when the six legs in flight have to land by morning. Raising the RATIO ceiling lets a relaunch
-# proceed at a price we would ordinarily decline.
-#
-# ⚠ WHAT IT DOES **NOT** CHANGE, deliberately:
-#   * `APPROVED_USD_PER_NS` is untouched. The buy line is a standing ruling with a test that fails if the
-#     flag and the refusal ever diverge (`tests/test_buy_line_invariant.py`); this overrides one gate's
-#     threshold, it does not redefine the line or silence the `⚠ DRIFT` flag. Rows over the line still SAY
-#     they are over it — we are choosing to pay, not pretending it is cheap.
-#   * The step-1 fan-out is a different workflow and keeps its own gating untouched.
-#   * 5a-KS stays parked, so this cannot spend on it.
-#
-# ⚠ NOT INFINITY, AND THAT IS THE POINT. 4.0x still refuses an absurd outlier — a 10x offer is far more
-# likely a mispriced or broken listing than a real one worth buying under deadline. A waiver that accepts
-# ANY price is not a deadline decision, it is an unbounded one.
-#
-# ⏱ SCOPE: this overnight run only. Remove it once the closure residual R and the replicate cycle SD have
-# landed. It is written as a visible banner rather than a quiet env line so that removing it is a decision
-# somebody actually makes.
-env:
-  RELAUNCH_MAX_RATIO_VS_BASIS: "4.0"
+# ✅ THE OVERNIGHT DEADLINE WAIVER IS REMOVED (2026-07-30, when the closure residual R landed).
+# It set RELAUNCH_MAX_RATIO_VS_BASIS=4.0, letting a relaunch buy at up to 4x basis — roughly twice the
+# $0.006539/ns buy line — because the triangle was on a deadline and a paused leg cost more than a dear
+# host. Its own banner said 'this overnight run only. Remove it once the closure residual R and the
+# replicate cycle SD have landed.' Both have: valB_mini closed at n=3, and R = 0.2128 kcal/mol is in
+# valb-triangle-reduction.json. So the waiver goes, and the lane is back on the derived DRIFT_MULTIPLE.
+# Removing it is the whole reason it was written as a banner rather than a quiet env line: a temporary
+# loosening that nobody ever takes out is just a permanent one with an apology attached.
 # ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 permissions:
@@ -266,6 +252,8 @@ jobs:
           GIT_BRANCH: ${{ github.ref_name }}
           TVAST_GPU: ${{ github.event.inputs.gpu_class }}
           TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+          TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
+          VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
           TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
           TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
         run: |
@@ -347,6 +335,8 @@ jobs:
       # market we would not actually rent from.
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
+      VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -451,7 +441,9 @@ jobs:
             # different markets, which is the exact mismatch the gate exists to prevent.
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
               -f task=edge-reps -f gpu_class="${{ github.event.inputs.gpu_class }}" \
-              -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}"
+              -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
+              -f on_demand="${{ github.event.inputs.on_demand }}" \
+              -f bid_floor_mult="${{ github.event.inputs.bid_floor_mult }}"
             exit 0
           fi
 
@@ -960,6 +952,8 @@ jobs:
       # market we would not actually rent from.
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
+      VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1046,7 +1040,9 @@ jobs:
             # different markets, which is the exact mismatch the gate exists to prevent.
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
               -f task=triangle -f gpu_class="${{ github.event.inputs.gpu_class }}" \
-              -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}"
+              -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
+              -f on_demand="${{ github.event.inputs.on_demand }}" \
+              -f bid_floor_mult="${{ github.event.inputs.bid_floor_mult }}"
             exit 0
           fi
           if [ "$RC" = 3 ]; then
@@ -1077,6 +1073,15 @@ jobs:
     if: ${{ needs.resolve.outputs.task == 'triangle-reduce' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    # ★ `id-token: write` — this job authenticates to GCP (WIF) and the workflow-level default is
+    # `contents: write` only, which does NOT include it. The first REAL invocation of this task, on
+    # 2026-07-30 the moment the fourth leg finally landed, died instantly on
+    # "GitHub Actions did not inject $ACTIONS_ID_TOKEN_REQUEST_TOKEN". It had never been caught because
+    # `reduce_triangle` refuses a partial cycle by construction, so until all four legs existed this job
+    # had literally never run past its guard — the permission was latent for as long as the science was.
+    permissions:
+      contents: write
+      id-token: write
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1209,6 +1214,8 @@ jobs:
       TVAST_IMAGE: ${{ github.event.inputs.vast_image }}
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
+      VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:
@@ -1791,7 +1798,22 @@ jobs:
     if: ${{ needs.resolve.outputs.task == 'collect' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # `actions: write` is what lets this job REPAIR what it detects. Without it, collect could only write
+    # "the next gate tick re-places it" and exit — see the re-place step at the end of this job.
+    permissions:
+      contents: write
+      actions: write
     env:
+      # ★ ESCALATE ON THE FIRST LOST HOST ON THIS LANE (2026-07-30). The module default is 3, which is the
+      # right number when the escalated tier is the EXPENSIVE one — one preemption is routine (§6) and does
+      # not justify multiples of the bid floor. Here it is not: the on-demand board priced an RTX 5090 at
+      # $0.003677/ns, 1.08x basis, BELOW the interruptible 4080S this leg keeps re-renting at 1.48x. When the
+      # reliable tier is also the cheaper one there is nothing to protect by waiting, and waiting is what
+      # cost this leg six hosts and three hours at production/1840.
+      # Safe by construction in both directions: an escalated rental still faces the $0.006539/ns buy line
+      # (so this can never overspend, only be refused), and the counter resets to zero the moment the census
+      # advances — so the first committed segment puts the lane straight back on the cheap tier.
+      TVAST_ESCALATE_AFTER: "1"
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -1884,6 +1906,59 @@ jobs:
           done
           # A lost race is not a failure of the reap — the next collect re-derives the same answer from S3.
           echo "::warning title=REAP NOT PUSHED::the retirement could not be pushed; the next collect redoes it"
+      # ★★ REPAIR WHAT THIS PASS DETECTED, NOW — not next tick (2026-07-30).
+      # `collect` is what notices a host died; the gate is what buys a new one. They were different workflow
+      # runs, so the FLOOR on recovery was one tick even with a healthy board and money already authorised.
+      # Capacity refusals are routine on Vast (§6: pick another host, never queue), and the T3 ternary leg
+      # took two in a row at lunchtime and sat NO HOST ~20 min across three runs — each repair prompt only
+      # because a human dispatched it. A recovery path that costs a tick per refusal does not work
+      # unattended, which is the only thing it is for.
+      #
+      # ⚠ THIS DOES NOT DECIDE TO BUY. It wakes the gate; the gate re-reads the board, applies the rung's
+      # dollar ceiling AND the $/ns buy line, and HOLDS if the market is bad. Nothing here can spend past a
+      # ceiling, raise a bid, or launch a unit that already has a host — collect only names units it has
+      # established are hostless-and-not-done, and only when the Vast instance list actually READ (an
+      # unreadable list means UNKNOWN, and UNKNOWN never buys).
+      - name: Re-place any unit this pass found with no host
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eo pipefail
+          F=/tmp/tvast-needs-replacement.txt
+          if [ ! -s "$F" ]; then
+            echo "no unit needs re-placing this pass"; exit 0
+          fi
+          while read -r mode escalate; do
+            [ -n "$mode" ] || continue
+            # mode -> the gate that owns it. An unmapped mode is NOT dispatched: waking the wrong lane's
+            # launcher is worse than waiting for a tick, and a mode nobody gates is a code change, not a
+            # runtime condition, so it must be loud rather than silently handled.
+            case "$mode" in
+              triangle|triangle_smoke) TASK=triangle-gate ;;
+              edge_reps)               TASK=market-gate ;;
+              *) echo "::warning title=NO GATE FOR MODE::'$mode' has no re-placement gate; leaving it to the tick"; continue ;;
+            esac
+            # ★ BUY RETENTION ON A RE-PLACEMENT (trimcrae authorised raising the bid on these last legs).
+            # A re-placement is BY DEFINITION a leg whose previous host did not survive, so it is exactly the
+            # "specific leg that genuinely cannot tolerate pauses" that `_vast_bid_price` documents
+            # VAST_BID_FLOOR_MULT for. On Vast the cheapest bids in the interruptible tier are evicted first,
+            # and the charge is min(bid, the machine's real on-demand price) — so this cannot run away, and
+            # the gate's own $/ns ceiling still REFUSES anything over the $0.006539/ns buy line. A raised bid
+            # therefore either lands under the line or is declined on price; it can never overspend.
+            # ⚠ Deliberately NOT applied to a first placement: a higher bid on a leg that has never been
+            # interrupted buys nothing and costs money (§6).
+            # ESCALATION, decided by collect from the unit's own history of lost hosts (see the note at
+            # `_ESCALATE_AFTER`). 1 = this unit has burned >= N hosts without committing, so the cheap tier
+            # has demonstrably failed to hold it and no bid can fix that — an on-demand renter preempts an
+            # interruptible one regardless of bid. The rental is still gated on $/ns, and the counter resets
+            # to zero the moment the census advances, so this is a temporary, evidence-backed escalation.
+            OD=""; [ "${escalate:-0}" = "1" ] && OD="-f on_demand=1"
+            echo "::notice title=SELF-HEAL::mode=$mode escalate=${escalate:-0} -> dispatching $TASK (it still prices and may HOLD)"
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
+              -f task="$TASK" -f min_ns_per_h=28 -f bid_floor_mult=2.0 $OD \
+              || echo "::warning title=REPLACE DISPATCH FAILED::$TASK — the scheduled tick remains the backstop"
+          done < "$F"
+
       - name: Summary LAST
         # A CI log is read from its TAIL, so whatever a monitor needs must be the last thing printed.
         run: |
@@ -1941,6 +2016,36 @@ jobs:
             --attempts --attempts-full 80 --charge-census /tmp/census \
             --attempts-grep '^\s*\[(rbfe|tfep)\]|cache HIT|cache MISS|INHERITED|inherited partial|pose repair|status.:..done' \
             --out research/modalities/valb-triangle-attempt-forensic.json 2>&1 | tee /tmp/attempts.txt
+      # ★★ WHICH COMMITTED GENERATIONS CAN A RENTED HOST ACTUALLY RESUME FROM? (added 2026-07-30.)
+      # The board and the restorer read the same S3 prefix under different rules — the board counted any
+      # object under iter-N, the restorer accepts only a generation carrying its COMMITTED.json. On this
+      # very leg that produced `committed: production/1800` alongside `restore -> production@iter 1760`,
+      # and the 40 iterations in between were re-run after every host change with nothing saying so.
+      # committed_progress now applies the manifest rule too; this step is the finer instrument, because
+      # it ALSO reads each manifest and reports a fingerprint rejection, which a listing cannot see.
+      - name: Commit-store audit — board frontier vs the frontier a host would resume from
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          # Into the REPO, not /tmp. The first run of this step proved why: it printed the answer into a
+          # job log whose middle is unreachable through the API (the two steps after it emit ~600k
+          # characters, so every tail that fits stops short of it) and whose download host the sandbox's
+          # egress proxy 403s. An artifact nobody can read is the same as no artifact.
+          mkdir -p research/modalities/commit-audits
+          for leg in calib_hi_to_lo2__ternary_vhl calib_hi_to_lo2__binary_vhl \
+                     calib_lo_to_lo2__ternary_vhl calib_lo_to_lo2__binary_vhl; do
+            # ⚠ `cmd | tee ... || warn` DOES NOT WORK HERE and the first run proved it: the shell reads
+            # tee's status, so four consecutive TypeError tracebacks reported the step GREEN. Capture the
+            # python exit status itself, and make a failure a visible ::error.
+            if python research/modalities/commit_store_audit.py --leg "$leg" --mode triangle \
+                 --timestep-fs 2.0 --warmup-timestep-fs 1.0 \
+                 --out "research/modalities/commit-audits/$leg.json" > /tmp/one_audit.txt 2>&1; then
+              cat /tmp/one_audit.txt | tee -a /tmp/commit_audit.txt
+            else
+              echo "::error title=COMMIT AUDIT FAILED::$leg"
+              cat /tmp/one_audit.txt | tee -a /tmp/commit_audit.txt
+            fi
+          done
       - name: Every triangle unit's FULL run.log, and both input trees pulled side by side
         run: |
           set -eo pipefail
@@ -1974,6 +2079,7 @@ jobs:
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/valb-triangle-charge-forensic.json
           git add research/modalities/valb-triangle-attempt-forensic.json 2>/dev/null || true
+          git add research/modalities/commit-audits 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "valB triangle forensic: the gate's SDF vs the host's SDF (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -1986,6 +2092,9 @@ jobs:
           cat /tmp/attempts.txt || true
           echo "================ TRIANGLE ENDPOINT AUDIT ================"
           cat /tmp/tri_audit.txt
+          # LAST, so the frontier comparison is inside every tail that fits — the reason this step exists.
+          echo "================ COMMIT-STORE AUDIT ================"
+          cat /tmp/commit_audit.txt || true
 
   # ------------------------------------------------- free: which charge set did each BANKED leg actually run?
   # ★★ THE ONE QUESTION A LOG CANNOT ANSWER. `_protocol()` prints `partial_charge_method = nagl` whether or not
@@ -2107,11 +2216,11 @@ jobs:
         # deliverable path it runs unconditionally). It cannot say whether that is an out-of-memory kill on
         # the ~142k-particle system or a provider-side stop — and the remedies are opposite, so this measures
         # it rather than guessing. Needs to be running WHILE a ternary leg is in setup.
-        if: ${{ github.event.inputs.watch_minutes != '' }}
+        if: ${{ vars.TVAST_WATCH_MINUTES != '' }}
         run: |
           set -eo pipefail
           python research/modalities/ternary_reps_diag.py --mode edge_reps \
-            --watch-memory "${{ github.event.inputs.watch_minutes }}" --every 20 \
+            --watch-memory "${{ vars.TVAST_WATCH_MINUTES }}" --every 20 \
             --out research/modalities/ternary-reps-memory-trace.json 2>&1 | tee /tmp/mem.txt
       - name: Commit the forensic — evidence nobody has to re-derive from a job log GitHub will expire
         run: |
@@ -2256,6 +2365,8 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
+      VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:
@@ -2469,6 +2580,8 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
+      VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:
