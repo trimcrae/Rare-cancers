@@ -1,20 +1,28 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-30T09:45:23Z",
+  "utc": "2026-07-30T09:53:36Z",
   "mode": "triangle",
   "n_requested": 1,
-  "n_rented": 0,
+  "n_rented": 1,
   "requested": [
     "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "rented": [],
-  "failed": [
+  "rented": [
     {
       "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "error": "CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 28164, 12976, 1569); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.",
-      "kind": "capacity"
+      "instance": "46274465",
+      "machine_id": 55559,
+      "bid": 0.1768,
+      "dph": 0.17555555555555555,
+      "gpu": "RTX 4090",
+      "dph_total_usd_h": 0.19346666666666668,
+      "dph_base_usd_h": 0.1768,
+      "usd_per_ns": 0.005775,
+      "x_basis": 1.693,
+      "over_buy_line": false
     }
   ],
+  "failed": [],
   "already_live": [
     {
       "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
