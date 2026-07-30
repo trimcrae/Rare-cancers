@@ -123,6 +123,10 @@ REPO = "https://github.com/trimcrae/Rare-cancers"
 VAST_IMAGE = os.environ.get("TVAST_IMAGE") or "docker.io/triskit23/ternary-fep:latest"
 DEFAULT_BUCKET = os.environ.get("VAST_CKPT_BUCKET") or "sagemaker-us-east-2-646605541856"
 RESULT_PREFIX = os.environ.get("TVAST_PREFIX") or "ternary-vast"
+# The object `_persist` writes LAST, and therefore the only one whose presence proves a generation is
+# complete. Named here rather than imported so this module keeps its "no MD stack needed" property; the
+# two are pinned equal by tests/test_commit_manifest_name_matches_the_store.py.
+COMMIT_MANIFEST = "COMMITTED.json"
 LABEL_PREFIX = "tvast"
 
 # Backstops. The reap normally fires on "result in S3"; these bound the pathological cases.
@@ -1314,21 +1318,54 @@ def committed_progress(uid, bucket=None, prefix=None):
 
     The scalar orders production above warmup so a warmup->production transition can never read as a
     regression. Returns (None, 0, 0) when nothing is committed yet (setup / pre-equil / minimise).
+
+    ★★ IT COUNTS A GENERATION ONLY ONCE ITS `COMMITTED.json` MANIFEST EXISTS (2026-07-30). This used to
+    count a generation the moment ANY object appeared under `iter-N/`, which is NOT the rule the restorer
+    uses: `_BaseCommitStore.restore_latest` walks `list_committed`, and that returns only generations that
+    have their manifest — because `_persist` uploads the .nc, then the .chk, then "manifest LAST",
+    precisely so a torn upload is never mistaken for a durable commit.
+
+    The two rules disagreeing is not cosmetic. Measured on the closure triangle's T3 ternary leg: the board
+    printed `committed: production/1800` while the host rented seconds later printed
+    `restore -> production@iter 1760`. Both were reading the same prefix correctly. The leg then re-ran the
+    same 40 iterations, and because the BOARD's number went up each time, the rework was invisible — it
+    presented as "the host is slow", then as a wedge, and cost a morning of diagnosis pointed at hardware.
+    Reporting the frontier a host would actually resume from makes that rework show as what it is: no
+    progress. Which generations are excluded, and why, is `commit_store_audit.py`.
+
+    ⚠ Manifest PRESENCE is all a listing can prove. A generation whose manifest exists but whose
+    `system_fingerprint` belongs to another configuration is also refused by `restore_latest`, and
+    detecting that needs a GET per manifest — too expensive for a poll that runs every few minutes, so it
+    stays in the audit tool. This function is therefore still an UPPER bound on restorable progress; it is
+    simply no longer an upper bound that a half-finished upload can move.
     """
     b = bucket or DEFAULT_BUCKET
     p = (prefix or RESULT_PREFIX).rstrip("/")
     base = f"{p}/commits/{uid}"
     best = {"warmup": 0, "production": 0}
+    counted = {"warmup": 0, "production": 0}
     try:
         pag = _s3().get_paginator("list_objects_v2")
         for page in pag.paginate(Bucket=b, Prefix=f"{base}/"):
             for obj in page.get("Contents", []):
                 m = re.search(r"/(warmup|production)/iter-(\d+)/", obj["Key"])
-                if m:
-                    best[m.group(1)] = max(best[m.group(1)], int(m.group(2)))
+                if not m:
+                    continue
+                ph, it = m.group(1), int(m.group(2))
+                counted[ph] = max(counted[ph], it)
+                if obj["Key"].endswith("/" + COMMIT_MANIFEST):
+                    best[ph] = max(best[ph], it)
     except Exception as e:  # noqa: BLE001 — a listing failure must not be read as "no progress"
         print(f"[progress] could not list {base}: {type(e).__name__}: {e}")
         return (None, 0, -1)
+    # Never silent: a gap here is bytes in S3 that no host will ever resume from, and saying so is the
+    # whole point of the change above.
+    for ph in ("production", "warmup"):
+        if counted[ph] > best[ph]:
+            print(f"[progress] {uid}: {ph} has objects at iter {counted[ph]} but the newest generation "
+                  f"with a {COMMIT_MANIFEST} is {best[ph] or 'none'} — a host resuming here starts at "
+                  f"{best[ph] or 0}, not {counted[ph]}. Torn or in-flight upload; "
+                  f"commit_store_audit.py says which.")
     if best["production"]:
         return ("production", best["production"], 1_000_000 + best["production"])
     if best["warmup"]:

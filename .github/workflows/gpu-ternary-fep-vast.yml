@@ -1951,6 +1951,23 @@ jobs:
             --attempts --attempts-full 80 --charge-census /tmp/census \
             --attempts-grep '^\s*\[(rbfe|tfep)\]|cache HIT|cache MISS|INHERITED|inherited partial|pose repair|status.:..done' \
             --out research/modalities/valb-triangle-attempt-forensic.json 2>&1 | tee /tmp/attempts.txt
+      # ★★ WHICH COMMITTED GENERATIONS CAN A RENTED HOST ACTUALLY RESUME FROM? (added 2026-07-30.)
+      # The board and the restorer read the same S3 prefix under different rules — the board counted any
+      # object under iter-N, the restorer accepts only a generation carrying its COMMITTED.json. On this
+      # very leg that produced `committed: production/1800` alongside `restore -> production@iter 1760`,
+      # and the 40 iterations in between were re-run after every host change with nothing saying so.
+      # committed_progress now applies the manifest rule too; this step is the finer instrument, because
+      # it ALSO reads each manifest and reports a fingerprint rejection, which a listing cannot see.
+      - name: Commit-store audit — board frontier vs the frontier a host would resume from
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          for leg in calib_hi_to_lo2__ternary_vhl calib_hi_to_lo2__binary_vhl \
+                     calib_lo_to_lo2__ternary_vhl calib_lo_to_lo2__binary_vhl; do
+            python research/modalities/commit_store_audit.py --leg "$leg" --mode triangle \
+              --timestep-fs 2.0 --warmup-timestep-fs 1.0 \
+              --out "/tmp/commit-audit-$leg.json" || echo "::warning title=AUDIT FAILED::$leg"
+          done
       - name: Every triangle unit's FULL run.log, and both input trees pulled side by side
         run: |
           set -eo pipefail
