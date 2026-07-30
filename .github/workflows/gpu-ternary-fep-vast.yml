@@ -1091,6 +1091,15 @@ jobs:
     if: ${{ needs.resolve.outputs.task == 'triangle-reduce' }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    # ★ `id-token: write` — this job authenticates to GCP (WIF) and the workflow-level default is
+    # `contents: write` only, which does NOT include it. The first REAL invocation of this task, on
+    # 2026-07-30 the moment the fourth leg finally landed, died instantly on
+    # "GitHub Actions did not inject $ACTIONS_ID_TOKEN_REQUEST_TOKEN". It had never been caught because
+    # `reduce_triangle` refuses a partial cycle by construction, so until all four legs existed this job
+    # had literally never run past its guard — the permission was latent for as long as the science was.
+    permissions:
+      contents: write
+      id-token: write
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
