@@ -4,7 +4,7 @@
   "_claim_ceiling": "CONDITIONAL relative free energies given a HYPOTHESIZED cmpd19 pose (no solved NR4A3 cocrystal) in ONE modeled opened conformer, single replicate per edge. NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is not established here \u2014 it rests on valA_mini + OpenFE's published benchmark for this protocol.",
   "_charge_provenance": "MEASURED CLEAN, 2026-07-29 ($0, gpu-ternary-fep-vast.yml task=charge-provenance): this lane stages a DOCKED sdf, and s3://\u2026/nr4a3-step1-fanout/stage/ligand/docked_nr4a3.sdf carries 17 records and ZERO `atom.dprop.PartialCharge` tags \u2014 there was never anything here to inherit, so no result on this map is affected. NB this lane persists NO setup cache, so that pose file is the only stored artifact that can answer it: there is no hybrid System to fall back on. Evidence: research/modalities/charge-provenance-forensic.json \u2192 fanout_exposure.",
   "n_units": 19,
-  "n_complete": 17,
+  "n_complete": 18,
   "n_computable": 18,
   "n_blocked": 1,
   "blocked_units": {
@@ -109,6 +109,26 @@
       "complex_unc_kcal": 0.21810001590562517,
       "dg_solvent_morph_kcal": 18.306008899581293,
       "solvent_unc_kcal": 0.18340981435949516,
+      "n_mapped_atoms": 17,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    },
+    {
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "leg_id": "neutral__neutral",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "zaienne_cmpd19",
+      "ligand_b": "cw_bio_primary_amide",
+      "ddg_bind_kcal": 0.935,
+      "ddg_bind_unc_kcal": 0.5,
+      "dg_complex_morph_kcal": -39.664363688882986,
+      "complex_unc_kcal": 0.33426080141434916,
+      "dg_solvent_morph_kcal": -40.59943865628454,
+      "solvent_unc_kcal": 0.37221513676313034,
       "n_mapped_atoms": 17,
       "n_windows": 12,
       "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
@@ -381,11 +401,14 @@
     },
     {
       "cycle_id": "cycle_3carbonyl",
-      "status": "incomplete",
-      "missing": [
-        "e_zaienne_cmpd19__cw_bio_primary_amide"
-      ],
-      "tol_kcal": 1.0
+      "status": "VIOLATION",
+      "sum_kcal": 1.307,
+      "tol_kcal": 1.0,
+      "signed_terms": {
+        "e_zaienne_cmpd19__cw_ms_free_acid": 0.136,
+        "e_zaienne_cmpd19__cw_bio_primary_amide": 2.106,
+        "e_cw_ms_free_acid__cw_bio_primary_amide": -0.935
+      }
     }
   ],
   "cycle_closure_note": "Internal consistency only: a closed cycle does not make the map accurate, but an open one means at least one of its edges is unconverged or mis-mapped and its ddG must not be quoted.",
@@ -479,6 +502,14 @@
       "perturbation": "5-Br -> 5-COOH (amide-coupling vector; ionizable)"
     },
     {
+      "node": "cw_bio_primary_amide",
+      "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "ddg_bind_kcal": 0.935,
+      "class": "bioisostere",
+      "star": "star_3position",
+      "perturbation": "3-CO2Me -> 3-C(=O)NH2 (primary carboxamide)"
+    },
+    {
       "node": "cw_ev_5nh2",
       "edge_id": "e_zaienne_cmpd19__cw_ev_5nh2",
       "ddg_bind_kcal": 1.064,
@@ -504,92 +535,8 @@
     }
   ],
   "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this modeled conformer, conditional on the pose hypothesis.",
-  "idle_guard": [
-    {
-      "instance": 46200340,
-      "label": "s1f-08-cw_bio_primary_amide",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": null,
-        "progress_advanced": true,
-        "log_age_min": 1.7943840333333334,
-        "start_ages_min": [
-          3332.777717606227,
-          3307.41105093956,
-          3304.51105093956,
-          2990.0443842728932,
-          2987.31105093956,
-          2789.06105093956,
-          2787.4610509395598,
-          2760.494384272893,
-          2757.8277176062265,
-          2721.744384272893,
-          2718.1277176062267,
-          2700.61105093956,
-          2698.56105093956,
-          2653.91105093956,
-          2652.5443842728932,
-          2549.2277176062266,
-          2547.4443842728933,
-          2530.26105093956,
-          2527.394384272893,
-          2401.9777176062266,
-          2399.2943842728932,
-          2351.7277176062266,
-          2349.2277176062266,
-          2334.894384272893,
-          2333.3777176062267,
-          2235.56105093956,
-          2230.61105093956,
-          2226.26105093956,
-          2085.16105093956,
-          2083.11105093956,
-          2056.8277176062265,
-          2054.76105093956,
-          1987.2277176062266,
-          1985.3777176062265,
-          1905.81105093956,
-          1903.2277176062266,
-          1710.3277176062265,
-          1708.46105093956,
-          1685.3777176062265,
-          1680.4277176062267,
-          1641.31105093956,
-          1640.5943842728932,
-          1610.1777176062267,
-          1606.56105093956,
-          1572.5277176062266,
-          1569.76105093956,
-          1533.51105093956,
-          1531.3943842728934,
-          1509.1777176062267,
-          1507.2943842728932,
-          1420.1943842728933,
-          1415.26105093956,
-          1258.4777176062266,
-          1256.0943842728932,
-          1214.8277176062265,
-          1212.9943842728933,
-          1074.5777176062265,
-          1068.06105093956,
-          975.9110509395599,
-          934.2777176062266,
-          926.8443842728933,
-          879.1777176062266,
-          870.2277176062266,
-          747.9443842728932,
-          634.5777176062267,
-          633.8777176062266,
-          629.86105093956
-        ],
-        "instance_age_min": 634
-      }
-    }
-  ],
-  "realised_usd": 73.76,
+  "idle_guard": [],
+  "realised_usd": 73.79,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -2212,8 +2159,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "machine_id": 19499,
       "rate_usd_h": 0.204,
-      "billed_h": 10.57,
-      "usd": 2.156
+      "billed_h": 10.7,
+      "usd": 2.183
     },
     {
       "instance": "46203343",

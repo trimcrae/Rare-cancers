@@ -1,7 +1,7 @@
 [s1f-terminus] bucket s3://sagemaker-us-east-2-646605541856  prefix nr4a3-step1-fanout/results
-[s1f-terminus] read at 8:44 PM ET Jul 29, 2026
+[s1f-terminus] read at 8:52 PM ET Jul 29, 2026
 
-[s1f-terminus] 8504 object(s) under the results prefix
+[s1f-terminus] 8509 object(s) under the results prefix
 
 === PERMANENTLY EXCLUDED — 1 of 19 map edge(s) will never be computed, so the lane's denominator is 18 ===
   e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral
@@ -15,6 +15,7 @@
       1037 B  2:42 PM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral/ddg.json
       1030 B  4:39 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral/ddg.json
       1016 B  5:06 AM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral/ddg.json
+      1024 B  8:48 PM ET Jul 29, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral/ddg.json
       1012 B  2:50 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral/ddg.json
       1006 B  4:49 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral/ddg.json
       1015 B  7:13 AM ET Jul 28, 2026  s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine/ddg.json
@@ -38,7 +39,7 @@
   e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral      ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine  ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
-  e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=no  NO-TERMINUS        complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
+  e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral   ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral   ddg=no  EXCLUDED           no commits
   e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral       ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
   e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral ddg=YES PRODUCTION         complex/production@2000, complex/warmup@400, solvent/production@2000, solvent/warmup@400
@@ -223,6 +224,28 @@
          "dg_solvent_morph_kcal": 4.829733578121787,
          "solvent_unc_kcal": 0.6949325951088404,
          "n_mapped_atoms": 21,
+         "n_windows": 12,
+         "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+         "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+         "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+       }
+     e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral: both legs committed real production sampling: {'complex': 2000, 'solvent': 2000}
+     ddg.json:
+       {
+         "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+         "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
+         "leg_id": "neutral__neutral",
+         "receptor": "nr4a3",
+         "frame": "nr4a3_design:top_druggable_frame_1",
+         "ligand_a": "zaienne_cmpd19",
+         "ligand_b": "cw_bio_primary_amide",
+         "ddg_bind_kcal": 0.935,
+         "ddg_bind_unc_kcal": 0.5,
+         "dg_complex_morph_kcal": -39.664363688882986,
+         "complex_unc_kcal": 0.33426080141434916,
+         "dg_solvent_morph_kcal": -40.59943865628454,
+         "solvent_unc_kcal": 0.37221513676313034,
+         "n_mapped_atoms": 17,
          "n_windows": 12,
          "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
          "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
@@ -428,9 +451,9 @@
        }
 
 === MARKET SNAPSHOT — what the 18-edge release would cost RIGHT NOW (read-only; rents nothing) ===
-  board depth      : 191 offers visible (baseline ~23), 191 qualifying, 105 priceable, 1 needed
+  board depth      : 191 offers visible (baseline ~23), 191 qualifying, 107 priceable, 1 needed
   floors           : min $0.093/hr, median $0.3067/hr
-  best fleet $/ns  : $0.00313/ns  ·  0.92× basis (basis $0.003412/ns)
-  projected        : $1.43 against a $3.94 ceiling
+  best fleet $/ns  : $0.003471/ns  ·  1.02× basis (basis $0.003412/ns)
+  projected        : $1.59 against a $3.94 ceiling
   OK — under the $0.006539/ns buy line (≈1.92× basis); a release would clear the price gate.
-    RTX 5090   m1569     $0.1070/hr  $0.00313/ns · 0.92× basis
+    RTX 5090   m1569     $0.1210/hr  $0.00347/ns · 1.02× basis
