@@ -208,6 +208,83 @@ def test_narrowing_can_land_on_either_side_of_the_crossing():
     assert P.narrow_sigma_leg_from_triangle_legs(hi_se)["clears_conventional_power"] is False
 
 
+# ---- 8. the wiring into the reducer -------------------------------------------------------------------------
+# Built BEFORE R landed, because a reader written after seeing the number is not a pre-registration. The repo
+# has been bitten by the opposite failure -- a diagnostic "built but never wired to any dispatch path" -- and
+# these tests exist so the addendum cannot silently stop being emitted.
+def _addendum(R_t=0.05, R_b=0.03, ses=(0.09, 0.10, 0.11, 0.095)):
+    import valb_triangle_reduce as VR
+    return VR._measured_sigma_addendum({"R_ternary": R_t, "R_binary": R_b}, R_t - R_b, list(ses), 0.045, 0.7)
+
+
+def test_the_addendum_never_overwrites_the_frozen_decision():
+    """The narrowed band makes R_RESOLVED_PATH_ERROR easier to reach -- the HOPEFUL branch. A change that
+    favours the outcome we want must not be applied silently to the frozen rule."""
+    a = _addendum()
+    assert "NOT the lane's verdict" in a["_do_not_conflate"]
+    assert a["ambiguous_band_at_measured_bound"][1] < a["ambiguous_band_frozen"][1]
+
+
+def test_the_superseded_assumption_is_retained_not_dropped():
+    a = _addendum()
+    assert a["sigma_leg_upper_bound_superseded_assumption"] == 0.7
+    assert a["sigma_leg_upper_bound_measured"] < 0.7
+
+
+def test_the_5aks_verdict_is_driven_by_R_ternary_not_R_coop():
+    """S lives in the ternary environment. If this ever keys off R_coop, a large R_ternary cancelled by a
+    large R_binary would wrongly read as safe."""
+    safe = _addendum(R_t=0.05, R_b=0.03)["5aKS_resume_verdict"]["verdict"]
+    # same R_coop (0.02) but a large R_ternary -> must NOT read the same
+    risky = _addendum(R_t=2.00, R_b=1.98)["5aKS_resume_verdict"]["verdict"]
+    assert safe == "ADMIT"
+    assert risky == "STOP_AND_REDRAW"
+
+
+def test_the_addendum_spans_all_three_decisions():
+    assert _addendum(R_t=0.05, R_b=0.03)["decision_at_measured_bound"] == "R_CONSISTENT_WITH_ZERO"
+    assert _addendum(R_t=0.90, R_b=0.20)["decision_at_measured_bound"] == "AMBIGUOUS_AT_n1"
+    assert _addendum(R_t=2.00, R_b=0.40)["decision_at_measured_bound"] == "R_RESOLVED_PATH_ERROR"
+
+
+def test_the_addendum_consumes_the_triangles_own_mbar_ses():
+    """This is the whole point of §7 -- the estimate must move with the legs' own SEs, not be a constant."""
+    tight = _addendum(ses=(0.04, 0.04, 0.05, 0.045))["sigma_leg_from_the_triangles_own_legs"]
+    loose = _addendum(ses=(0.12, 0.13, 0.14, 0.125))["sigma_leg_from_the_triangles_own_legs"]
+    assert tight["sigma_leg_estimate_kcal"] < loose["sigma_leg_estimate_kcal"]
+    assert tight["clears_conventional_power"] is True
+    assert loose["clears_conventional_power"] is False
+
+
+def test_the_addendum_survives_legs_with_no_mbar_se():
+    """A leg record missing mbar_se_kcal must not crash the reduction -- it must degrade to 'not computable'."""
+    a = _addendum(ses=(None, None, None, None))
+    assert a["sigma_leg_from_the_triangles_own_legs"]["estimate"].startswith("NOT YET COMPUTABLE")
+
+
+# ---- 9. the memoisation must not leak a shared mutable ------------------------------------------------------
+def test_cached_derivations_hand_back_copies():
+    """These are memoised because a bisection over Monte Carlo draws is expensive. `build_report` EMBEDS the
+    returned dicts, so handing back the cached object itself would let any downstream mutation corrupt every
+    later call in the process -- a silent, order-dependent bug of exactly the kind this repo keeps finding."""
+    a = P.sigma_leg_now_bounded()
+    a["sigma_leg_upper_bound_kcal"] = 999.0
+    assert P.sigma_leg_now_bounded()["sigma_leg_upper_bound_kcal"] != 999.0
+
+    b = P.power_at_measured_bound()
+    b["graded_at"] = "clobbered"
+    assert P.power_at_measured_bound()["graded_at"] != "clobbered"
+
+
+def test_memoisation_is_deterministic_not_just_fast():
+    """Caching is only legitimate because closure_noise_floor seeds its RNG with a fixed constant. If that
+    ever changes, the cache would freeze one arbitrary draw and this test should fail."""
+    P.power_threshold_crossing.cache_clear()
+    first = P.power_threshold_crossing()
+    P.power_threshold_crossing.cache_clear()
+    assert P.power_threshold_crossing() == first
+
+
 # ---- report ------------------------------------------------------------------------------------------------
 def test_report_is_json_serialisable_and_complete():
     import json

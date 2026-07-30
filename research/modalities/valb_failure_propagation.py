@@ -32,6 +32,8 @@ WHAT THIS FILE DELIBERATELY DOES NOT DO:
   * It does not restate the n=3 result. `MEASURED` below carries the inputs it consumes WITH provenance, and
     paper §2.11 remains their narrative home.
 """
+import copy
+import functools
 import json
 import math
 import os
@@ -90,6 +92,13 @@ def sigma_leg_now_bounded():
     So the true `sigma_leg` for a same-seed triangle sits at or below the returned bound, and the whole upper
     half of the design's original range -- where the triangle was close to useless -- is now excluded by
     measurement rather than by hope."""
+    return copy.deepcopy(_sigma_leg_now_bounded_cached())
+
+
+@functools.lru_cache(maxsize=None)
+def _sigma_leg_now_bounded_cached():
+    """Memoised implementation. NEVER return this object directly -- `build_report` embeds it, and a
+    caller mutating an embedded dict would corrupt the cache for every later call in the process."""
     floor_ = closure_noise_floor()
     bounds = floor_["sigma_leg_bounds"]
     lo = bounds["lower_MBAR_SE_r0_ternary"]
@@ -130,6 +139,12 @@ def power_at_measured_bound(trials=40000):
 
     The reported power is a WORST CASE within the new interval: it is computed at the upper bound, and the two
     reasons in §1 both push the true value down, i.e. the real power is at least this."""
+    return copy.deepcopy(_power_at_measured_bound_cached(trials))
+
+
+@functools.lru_cache(maxsize=None)
+def _power_at_measured_bound_cached(trials):
+    """Memoised implementation -- see _sigma_leg_now_bounded_cached for why the public one copies."""
     b = sigma_leg_now_bounded()
     hi = b["sigma_leg_upper_bound_kcal"]
     lo = b["sigma_leg_lower_bound_kcal"]
@@ -154,8 +169,14 @@ def power_at_measured_bound(trials=40000):
 # =============================================================================================================
 # 2. A FROZEN RULE MEETS A NUMBER IT WAS WRITTEN WITHOUT -- RECORDED, NOT RETUNED
 # =============================================================================================================
+@functools.lru_cache(maxsize=None)
 def power_threshold_crossing(target_power=0.80, delta=1.478, trials=30000):
     """The sigma_leg at which power to detect an r0-sized effect crosses a conventional threshold.
+
+    MEMOISED, and safe to memoise: `closure_noise_floor` seeds its RNG with a fixed constant, so this is a
+    pure function of its arguments. Without the cache a bisection is 7 x `trials` Monte Carlo draws and the
+    callers below invoke it repeatedly -- which made the first version of this module's test suite take
+    minutes. Engineering effort is free; wasted CI minutes on every run are not.
 
     ★ THIS IS THE NUMBER THAT GRADES THE FROZEN PROXY, and it was worth computing before proposing to replace
     it. `binary_departure_prereg`'s hand-set `sigma_leg > 0.2` was chosen when sigma_leg was unknown to a
