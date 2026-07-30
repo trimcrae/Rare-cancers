@@ -1,0 +1,332 @@
+{
+ "_what": "structural screen for an S-calibrator: which paralogue pairs have a deposited TERNARY structure on BOTH arms, so that a homology-model error cannot sit on one arm only",
+ "_why": "STRATEGY Open decision 9 \u2014 the system must be chosen on WHICH ARM IS REAL, not on what is already staged, because a known-answer accuracy test does not telescope an endpoint-state error the way a cycle does",
+ "_no_pdb_id_is_typed": "every accession is returned by the RCSB search API against a gene name",
+ "_does_not_supply_selectivity": true,
+ "_binding_constraint_from_decision_7": "no accuracy band wider than the signal being calibrated; state the null-rejection rate up front",
+ "rcsb_gene_attribute_accepted": "rcsb_entity_source_organism.rcsb_gene_name.value",
+ "rcsb_gene_attributes_rejected": {},
+ "e3_markers_used": [
+  "BIRC2",
+  "CRBN",
+  "CUL2",
+  "CUL4A",
+  "DCAF1",
+  "DCAF15",
+  "DCAF16",
+  "DDB1",
+  "ELOB",
+  "ELOC",
+  "FEM1B",
+  "KEAP1",
+  "MDM2",
+  "RBX1",
+  "RNF114",
+  "TCEB1",
+  "TCEB2",
+  "VHL"
+ ],
+ "candidates": [
+  {
+   "pair": [
+    "SMARCA2",
+    "SMARCA4"
+   ],
+   "why_a_candidate": "the repo's incumbent; VHL PROTACs with reported SMARCA2 preference",
+   "arm_a": {
+    "gene": "SMARCA2",
+    "n_structures": 33,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "arm_b": {
+    "gene": "SMARCA4",
+    "n_structures": 27,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "BRD4",
+    "BRD2"
+   ],
+   "why_a_candidate": "BET family; VHL PROTACs with reported intra-family preference",
+   "arm_a": {
+    "gene": "BRD4",
+    "n_structures": 50,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": true
+   },
+   "arm_b": {
+    "gene": "BRD2",
+    "n_structures": 50,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": true
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "BRD4",
+    "BRD3"
+   ],
+   "why_a_candidate": "BET family, second pairing",
+   "arm_a": {
+    "gene": "BRD4",
+    "n_structures": 50,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": true
+   },
+   "arm_b": {
+    "gene": "BRD3",
+    "n_structures": 48,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "CDK4",
+    "CDK6"
+   ],
+   "why_a_candidate": "close kinase paralogues with reported selective degraders",
+   "arm_a": {
+    "gene": "CDK4",
+    "n_structures": 7,
+    "n_inspected": 7,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "arm_b": {
+    "gene": "CDK6",
+    "n_structures": 17,
+    "n_inspected": 17,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "IKZF1",
+    "IKZF3"
+   ],
+   "why_a_candidate": "CRBN molecular-glue neosubstrates with reported differential degradation",
+   "arm_a": {
+    "gene": "IKZF1",
+    "n_structures": 10,
+    "n_inspected": 10,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "arm_b": {
+    "gene": "IKZF3",
+    "n_structures": 4,
+    "n_inspected": 4,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "MAPK14",
+    "MAPK11"
+   ],
+   "why_a_candidate": "p38 alpha vs beta; selective degraders reported",
+   "arm_a": {
+    "gene": "MAPK14",
+    "n_structures": 50,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": true
+   },
+   "arm_b": {
+    "gene": "MAPK11",
+    "n_structures": 4,
+    "n_inspected": 4,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "FKBP12",
+    "FKBP51"
+   ],
+   "why_a_candidate": "FKBP family; selective ligands reported",
+   "arm_a": {
+    "gene": "FKBP12",
+    "n_structures": 50,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": true
+   },
+   "arm_b": {
+    "gene": "FKBP51",
+    "n_structures": 50,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": true
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "WEE1",
+    "PKMYT1"
+   ],
+   "why_a_candidate": "related kinases with selective chemistry reported",
+   "arm_a": {
+    "gene": "WEE1",
+    "n_structures": 28,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "arm_b": {
+    "gene": "PKMYT1",
+    "n_structures": 28,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "CDK9",
+    "CDK7"
+   ],
+   "why_a_candidate": "transcriptional CDKs with reported selective degraders",
+   "arm_a": {
+    "gene": "CDK9",
+    "n_structures": 23,
+    "n_inspected": 23,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "arm_b": {
+    "gene": "CDK7",
+    "n_structures": 50,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": true
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "HDAC1",
+    "HDAC2"
+   ],
+   "why_a_candidate": "class-I HDAC paralogues, reported selective chemistry",
+   "arm_a": {
+    "gene": "HDAC1",
+    "n_structures": 11,
+    "n_inspected": 11,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "arm_b": {
+    "gene": "HDAC2",
+    "n_structures": 48,
+    "n_inspected": 25,
+    "n_ternary": 0,
+    "best_ternary_resolution_A": null,
+    "ternary_entries": [],
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  }
+ ],
+ "n_symmetric": 0
+}
