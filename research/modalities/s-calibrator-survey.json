@@ -758,5 +758,43 @@
   ],
   "detector_credible": true,
   "verdict": "PASS -- at least one arm found an E3 partner, so the detector is doing something"
- }
+ },
+ "template_comparison": {
+  "8G1Q": {
+   "resolution_A": 3.73,
+   "method": "X-RAY DIFFRACTION",
+   "nonpolymer_ccd_ids": [],
+   "n_polymer_entities": 4,
+   "title": "Co-crystal structure of Compound 1 in complex with the bromodomain of human SMARCA4 and pVHL:ElonginC:ElonginB"
+  },
+  "8G1P": {
+   "resolution_A": 2.7,
+   "method": "X-RAY DIFFRACTION",
+   "nonpolymer_ccd_ids": [],
+   "n_polymer_entities": 4,
+   "title": "Co-crystal structure of Compound 11 in complex with the bromodomain of human SMARCA2 and pVHL:ElonginC:ElonginB"
+  },
+  "6HAX": {
+   "resolution_A": 2.35,
+   "method": "X-RAY DIFFRACTION",
+   "nonpolymer_ccd_ids": [],
+   "n_polymer_entities": 4,
+   "title": "Crystal structure of PROTAC 2 in complex with the bromodomain of human SMARCA2 and pVHL:ElonginC:ElonginB"
+  },
+  "6HAY": {
+   "resolution_A": 2.24,
+   "method": "X-RAY DIFFRACTION",
+   "nonpolymer_ccd_ids": [],
+   "n_polymer_entities": 4,
+   "title": "Crystal structure of PROTAC 1 in complex with the bromodomain of human SMARCA2 and pVHL:ElonginC:ElonginB"
+  },
+  "9HYB": {
+   "resolution_A": 2.84,
+   "method": "X-RAY DIFFRACTION",
+   "nonpolymer_ccd_ids": [],
+   "n_polymer_entities": 4,
+   "title": "CRYSTAL STRUCTURE OF THE SMARCA2-VCB-COMPLEX WITH PROTAC P3"
+  }
+ },
+ "_template_comparison_why": "8G1Q is the valB calibrator's frozen template and this survey finds it on the SMARCA4 arm, while 8G1P from the same deposition series is on the SMARCA2 arm. The repo carries the SMARCA4->SMARCA2 homology substitution as an unavoidable limitation, and R localised the valB miss to the MODEL or REFERENCE DATA -- the class that substitution belongs to. These rows are what a swap would be graded on: resolution and bound ligand. They do NOT assert the entries are interchangeable."
 }
