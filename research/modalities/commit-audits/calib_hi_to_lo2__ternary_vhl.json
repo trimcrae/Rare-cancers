@@ -1,7 +1,7 @@
 {
  "bucket": "sagemaker-us-east-2-646605541856",
  "counted": {
-  "production": 1800,
+  "production": 1840,
   "warmup": 768
  },
  "fingerprint_env": {
@@ -39,10 +39,22 @@
   "WARMUP_CKPT_ITERS": "64"
  },
  "restorable": {
-  "production": 1800,
+  "production": 1840,
   "warmup": 768
  },
  "rows": [
+  {
+   "generation": "098c00805e1c4eb5b202751d5350dc44",
+   "iteration": 1840,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
+  },
   {
    "generation": "8ddea7105e1d4025b80c60a6ba4e9e94",
    "iteration": 1800,
