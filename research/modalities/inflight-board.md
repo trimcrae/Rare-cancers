@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 11:58 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 12:07 AM ET Thu Jul 30, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-valB r2 ternary      97.8%  12:22 AM Jul 30  $0.00551/ns · 1.61× basis  RUNNING   
-T2 ternary           49.4%  6:25 AM Jul 30   $0.00512/ns · 1.50× basis  RUNNING   
-valB r1 ternary      92.2%  2:27 AM Jul 30   $0.00356/ns · 1.04× basis  RUNNING   
-T3 ternary           71.1%  3:35 AM Jul 30   $0.00538/ns · 1.58× basis  RUNNING   
+valB r2 ternary      98.9%  12:19 AM         $0.00551/ns · 1.61× basis  RUNNING   
+T2 ternary           50.9%  6:23 AM          $0.00512/ns · 1.50× basis  RUNNING   
+valB r1 ternary      92.2%  2:35 AM          $0.00356/ns · 1.04× basis  RUNNING   
+T3 ternary           71.1%  —                $0.00538/ns · 1.58× basis  NO HOST   host DESTROYED this pass (status frozen 49 min — the image pull is dead, not queued) — billing stopped, $0 further; checkpoint at production/1200 is intact in S3 and the next gate tick re-places it
 ---- END TVAST-BOARD ----
 ```
