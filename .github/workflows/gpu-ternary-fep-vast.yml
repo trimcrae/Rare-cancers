@@ -106,6 +106,10 @@ on:
         description: "HARD floor on the rented card's measured throughput, in ns/hr at the ternary system size (blank = no floor). Sets TVAST_MIN_NS_PER_H. This is the DEADLINE control: `40` admits the RTX 5090 class only, `31` admits 5090/4090/5080, `28` adds the 4080. Checked against `vast_cost_model.ns_per_hour` — the same validated table the $/ns ranking uses — so an unbenched card is excluded rather than guessed at. Use per-launch for a leg that has become the critical path; leaving it set turns the lane's cost discipline into a standing speed preference."
         type: string
         default: ""
+      on_demand:
+        description: "1 = rent the UNINTERRUPTIBLE (on-demand) tier instead of the community bid tier. Sets TVAST_ON_DEMAND. ⚠ Use for ONE leg that is the critical path and nothing else — on-demand costs multiples of the bid floor and the whole ladder is priced on interruptible rentals. It exists because no bid makes the bid tier safe: an on-demand renter preempts an interruptible one REGARDLESS of bid, so `bid_floor_mult` buys priority WITHIN the tier and cannot stop eviction. The $/ns buy line still applies unchanged — an on-demand offer over the line is REFUSED like any other."
+        type: string
+        default: ""
       leg_only:
         description: "launch: restrict to units whose LEG ID contains this substring (e.g. `nr4a3`). Recovers ONE preempted arm without re-renting a sibling that has a known deterministic defect."
         type: string
@@ -270,6 +274,7 @@ jobs:
           GIT_BRANCH: ${{ github.ref_name }}
           TVAST_GPU: ${{ github.event.inputs.gpu_class }}
           TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+          TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
           VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
           TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
           TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
@@ -352,6 +357,7 @@ jobs:
       # market we would not actually rent from.
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -458,6 +464,7 @@ jobs:
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
               -f task=edge-reps -f gpu_class="${{ github.event.inputs.gpu_class }}" \
               -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
+              -f on_demand="${{ github.event.inputs.on_demand }}" \
               -f bid_floor_mult="${{ github.event.inputs.bid_floor_mult }}"
             exit 0
           fi
@@ -967,6 +974,7 @@ jobs:
       # market we would not actually rent from.
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1055,6 +1063,7 @@ jobs:
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
               -f task=triangle -f gpu_class="${{ github.event.inputs.gpu_class }}" \
               -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
+              -f on_demand="${{ github.event.inputs.on_demand }}" \
               -f bid_floor_mult="${{ github.event.inputs.bid_floor_mult }}"
             exit 0
           fi
@@ -1218,6 +1227,7 @@ jobs:
       TVAST_IMAGE: ${{ github.event.inputs.vast_image }}
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
@@ -2352,6 +2362,7 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
@@ -2566,6 +2577,7 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}

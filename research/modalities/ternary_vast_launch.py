@@ -171,7 +171,23 @@ def resource_spec(gpu=None, disk_gb=None, max_usd_per_ns=None):
         # discipline with a speed preference. Set per-launch, from the workflow's `min_ns_per_h` input, when
         # one leg has become the critical path on a deadline the others are already inside.
         min_ns_per_h=float(os.environ.get("TVAST_MIN_NS_PER_H") or "0"),
-        interruptible=True,
+        # ★★ THE EVICTION ESCAPE HATCH — `TVAST_ON_DEMAND=1` RENTS THE UNINTERRUPTIBLE TIER (2026-07-30).
+        # Vast's community bid tier is interruptible BY DESIGN, and no bid makes it safe: `gpu_backend`
+        # records the documented rule that an on-demand renter preempts an interruptible one REGARDLESS of
+        # bid. So raising VAST_BID_FLOOR_MULT buys priority within the bid tier and nothing more — it cannot
+        # stop the eviction it is aimed at.
+        # That distinction stopped being academic on this leg: five hosts in 2.5 hours, none surviving the
+        # ~28 min it needs to stage and reach ONE 40-iteration commit boundary, so the census sat at
+        # production/1840 all afternoon while every rental was correctly priced and correctly re-placed.
+        # When mean host lifetime is below time-to-first-commit, faster recovery cannot converge — only a
+        # host that cannot be taken away can.
+        # ⚠ IT IS OFF BY DEFAULT AND MUST STAY OFF. On-demand costs multiples of the bid floor, and the whole
+        # ladder is built on interruptible pricing plus per-unit checkpointing; standing on-demand would
+        # quietly rewrite the cost model. This is for a single leg that is the critical path, and the $/ns
+        # buy line still applies to it unchanged — an on-demand offer over the line is REFUSED like any
+        # other, which is the point: it converts "we cannot keep a host" into a priced question.
+        interruptible=not (str(os.environ.get("TVAST_ON_DEMAND") or "").strip().lower()
+                           in ("1", "true", "yes")),
         max_usd_per_ns=max_usd_per_ns,
     )
 
