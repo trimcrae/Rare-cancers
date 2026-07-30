@@ -36,23 +36,227 @@
    "arm_a": {
     "gene": "SMARCA2",
     "n_structures": 33,
-    "n_inspected": 25,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "n_ternary": 15,
+    "ternary_pdb_ids": [
+     "6HAX",
+     "6HAY",
+     "7S4E",
+     "7Z6L",
+     "7Z76",
+     "7Z77",
+     "8G1P",
+     "9D4B",
+     "9DTY",
+     "9HYB"
+    ],
+    "e3_partners_found": [
+     "DCAF16",
+     "DDB1",
+     "ELOB",
+     "ELOC",
+     "TCEB1",
+     "TCEB2",
+     "VHL"
+    ],
+    "ternary_by_e3": {
+     "DCAF16": [
+      "9S3R"
+     ],
+     "DDB1": [
+      "9S3R"
+     ],
+     "ELOB": [
+      "6HAX",
+      "6HAY",
+      "7S4E",
+      "7Z6L",
+      "7Z76",
+      "7Z77"
+     ],
+     "ELOC": [
+      "6HAX",
+      "6HAY",
+      "7S4E",
+      "7Z6L",
+      "7Z76",
+      "7Z77"
+     ],
+     "TCEB1": [
+      "6HAX",
+      "6HAY",
+      "7S4E",
+      "7Z6L",
+      "7Z76",
+      "7Z77"
+     ],
+     "TCEB2": [
+      "6HAX",
+      "6HAY",
+      "7S4E",
+      "7Z6L",
+      "7Z76",
+      "7Z77"
+     ],
+     "VHL": [
+      "6HAX",
+      "6HAY",
+      "7S4E",
+      "7Z6L",
+      "7Z76",
+      "7Z77"
+     ]
+    },
     "_n_structures_is_a_floor_if_truncated": false
    },
    "arm_b": {
     "gene": "SMARCA4",
     "n_structures": 27,
-    "n_inspected": 25,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "n_ternary": 4,
+    "ternary_pdb_ids": [
+     "6HR2",
+     "8G1Q",
+     "8QJR",
+     "9DTX"
+    ],
+    "e3_partners_found": [
+     "ELOB",
+     "ELOC",
+     "TCEB1",
+     "TCEB2",
+     "VHL"
+    ],
+    "ternary_by_e3": {
+     "ELOB": [
+      "6HR2",
+      "8G1Q",
+      "8QJR",
+      "9DTX"
+     ],
+     "ELOC": [
+      "6HR2",
+      "8G1Q",
+      "8QJR",
+      "9DTX"
+     ],
+     "TCEB1": [
+      "6HR2",
+      "8G1Q",
+      "8QJR",
+      "9DTX"
+     ],
+     "TCEB2": [
+      "6HR2",
+      "8G1Q",
+      "8QJR",
+      "9DTX"
+     ],
+     "VHL": [
+      "6HR2",
+      "8G1Q",
+      "8QJR",
+      "9DTX"
+     ]
+    },
     "_n_structures_is_a_floor_if_truncated": false
    },
-   "ternary_structure_on_BOTH_arms": false,
-   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "ternary_structure_on_BOTH_arms": true,
+   "verdict": "SYMMETRIC \u2014 a solved ternary exists on both arms, so neither arm needs a homology substitution and a model error cannot sit on one side only",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "IKZF1",
+    "IKZF3"
+   ],
+   "why_a_candidate": "CRBN molecular-glue neosubstrates with reported differential degradation",
+   "arm_a": {
+    "gene": "IKZF1",
+    "n_structures": 10,
+    "n_ternary": 10,
+    "ternary_pdb_ids": [
+     "6H0F",
+     "8D7Z",
+     "8D80",
+     "8RQC",
+     "8TNQ",
+     "8TNR",
+     "9OUK",
+     "9Q2D",
+     "9SQ5",
+     "9Y7D"
+    ],
+    "e3_partners_found": [
+     "CRBN",
+     "DDB1"
+    ],
+    "ternary_by_e3": {
+     "CRBN": [
+      "6H0F",
+      "8D7Z",
+      "8D80",
+      "8RQC",
+      "8TNQ",
+      "8TNR"
+     ],
+     "DDB1": [
+      "6H0F",
+      "8D7Z",
+      "8D80",
+      "8TNQ",
+      "8TNR",
+      "9OUK"
+     ]
+    },
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "arm_b": {
+    "gene": "IKZF3",
+    "n_structures": 4,
+    "n_ternary": 4,
+    "ternary_pdb_ids": [
+     "9UUM",
+     "9V0A",
+     "9V0B",
+     "9V0F"
+    ],
+    "e3_partners_found": [
+     "CRBN",
+     "CUL4A",
+     "DDB1",
+     "RBX1"
+    ],
+    "ternary_by_e3": {
+     "CRBN": [
+      "9UUM",
+      "9V0A",
+      "9V0B",
+      "9V0F"
+     ],
+     "CUL4A": [
+      "9UUM",
+      "9V0A",
+      "9V0B",
+      "9V0F"
+     ],
+     "DDB1": [
+      "9UUM",
+      "9V0A",
+      "9V0B",
+      "9V0F"
+     ],
+     "RBX1": [
+      "9UUM",
+      "9V0A",
+      "9V0B",
+      "9V0F"
+     ]
+    },
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": true,
+   "verdict": "SYMMETRIC \u2014 a solved ternary exists on both arms, so neither arm needs a homology substitution and a model error cannot sit on one side only",
    "selectivity_kcal": null,
    "needs_primary_source_verification": true,
    "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
@@ -66,19 +270,112 @@
    "arm_a": {
     "gene": "BRD4",
     "n_structures": 50,
-    "n_inspected": 25,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "n_ternary": 24,
+    "ternary_pdb_ids": [
+     "5T35",
+     "6BN7",
+     "6BN8",
+     "6BN9",
+     "6BNB",
+     "6BOY",
+     "6SIS",
+     "7KHH",
+     "7ZNT",
+     "8BDS"
+    ],
+    "e3_partners_found": [
+     "CRBN",
+     "CUL2",
+     "DCAF16",
+     "DDB1",
+     "ELOB",
+     "ELOC",
+     "RBX1",
+     "TCEB1",
+     "TCEB2",
+     "VHL"
+    ],
+    "ternary_by_e3": {
+     "CRBN": [
+      "6BN7",
+      "6BN8",
+      "6BN9",
+      "6BNB",
+      "6BOY",
+      "8RQ9"
+     ],
+     "CUL2": [
+      "8R5H",
+      "8RWZ",
+      "8RX0"
+     ],
+     "DCAF16": [
+      "8G46",
+      "8OV6"
+     ],
+     "DDB1": [
+      "6BN7",
+      "6BN8",
+      "6BN9",
+      "6BNB",
+      "6BOY",
+      "8G46"
+     ],
+     "ELOB": [
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT",
+      "8BDX"
+     ],
+     "ELOC": [
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT",
+      "8BDX"
+     ],
+     "RBX1": [
+      "8R5H",
+      "8RWZ",
+      "8RX0"
+     ],
+     "TCEB1": [
+      "5T35",
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT"
+     ],
+     "TCEB2": [
+      "5T35",
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT"
+     ],
+     "VHL": [
+      "5T35",
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT"
+     ]
+    },
     "_n_structures_is_a_floor_if_truncated": true
    },
    "arm_b": {
     "gene": "BRD2",
     "n_structures": 50,
-    "n_inspected": 25,
     "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
     "_n_structures_is_a_floor_if_truncated": true
    },
    "ternary_structure_on_BOTH_arms": false,
@@ -96,109 +393,112 @@
    "arm_a": {
     "gene": "BRD4",
     "n_structures": 50,
-    "n_inspected": 25,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "n_ternary": 24,
+    "ternary_pdb_ids": [
+     "5T35",
+     "6BN7",
+     "6BN8",
+     "6BN9",
+     "6BNB",
+     "6BOY",
+     "6SIS",
+     "7KHH",
+     "7ZNT",
+     "8BDS"
+    ],
+    "e3_partners_found": [
+     "CRBN",
+     "CUL2",
+     "DCAF16",
+     "DDB1",
+     "ELOB",
+     "ELOC",
+     "RBX1",
+     "TCEB1",
+     "TCEB2",
+     "VHL"
+    ],
+    "ternary_by_e3": {
+     "CRBN": [
+      "6BN7",
+      "6BN8",
+      "6BN9",
+      "6BNB",
+      "6BOY",
+      "8RQ9"
+     ],
+     "CUL2": [
+      "8R5H",
+      "8RWZ",
+      "8RX0"
+     ],
+     "DCAF16": [
+      "8G46",
+      "8OV6"
+     ],
+     "DDB1": [
+      "6BN7",
+      "6BN8",
+      "6BN9",
+      "6BNB",
+      "6BOY",
+      "8G46"
+     ],
+     "ELOB": [
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT",
+      "8BDX"
+     ],
+     "ELOC": [
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT",
+      "8BDX"
+     ],
+     "RBX1": [
+      "8R5H",
+      "8RWZ",
+      "8RX0"
+     ],
+     "TCEB1": [
+      "5T35",
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT"
+     ],
+     "TCEB2": [
+      "5T35",
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT"
+     ],
+     "VHL": [
+      "5T35",
+      "6SIS",
+      "7KHH",
+      "7ZNT",
+      "8BDS",
+      "8BDT"
+     ]
+    },
     "_n_structures_is_a_floor_if_truncated": true
    },
    "arm_b": {
     "gene": "BRD3",
     "n_structures": 48,
-    "n_inspected": 25,
     "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
-    "_n_structures_is_a_floor_if_truncated": false
-   },
-   "ternary_structure_on_BOTH_arms": false,
-   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
-   "selectivity_kcal": null,
-   "needs_primary_source_verification": true,
-   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
-  },
-  {
-   "pair": [
-    "CDK4",
-    "CDK6"
-   ],
-   "why_a_candidate": "close kinase paralogues with reported selective degraders",
-   "arm_a": {
-    "gene": "CDK4",
-    "n_structures": 7,
-    "n_inspected": 7,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
-    "_n_structures_is_a_floor_if_truncated": false
-   },
-   "arm_b": {
-    "gene": "CDK6",
-    "n_structures": 17,
-    "n_inspected": 17,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
-    "_n_structures_is_a_floor_if_truncated": false
-   },
-   "ternary_structure_on_BOTH_arms": false,
-   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
-   "selectivity_kcal": null,
-   "needs_primary_source_verification": true,
-   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
-  },
-  {
-   "pair": [
-    "IKZF1",
-    "IKZF3"
-   ],
-   "why_a_candidate": "CRBN molecular-glue neosubstrates with reported differential degradation",
-   "arm_a": {
-    "gene": "IKZF1",
-    "n_structures": 10,
-    "n_inspected": 10,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
-    "_n_structures_is_a_floor_if_truncated": false
-   },
-   "arm_b": {
-    "gene": "IKZF3",
-    "n_structures": 4,
-    "n_inspected": 4,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
-    "_n_structures_is_a_floor_if_truncated": false
-   },
-   "ternary_structure_on_BOTH_arms": false,
-   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
-   "selectivity_kcal": null,
-   "needs_primary_source_verification": true,
-   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
-  },
-  {
-   "pair": [
-    "MAPK14",
-    "MAPK11"
-   ],
-   "why_a_candidate": "p38 alpha vs beta; selective degraders reported",
-   "arm_a": {
-    "gene": "MAPK14",
-    "n_structures": 50,
-    "n_inspected": 25,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
-    "_n_structures_is_a_floor_if_truncated": true
-   },
-   "arm_b": {
-    "gene": "MAPK11",
-    "n_structures": 4,
-    "n_inspected": 4,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
     "_n_structures_is_a_floor_if_truncated": false
    },
    "ternary_structure_on_BOTH_arms": false,
@@ -216,19 +516,43 @@
    "arm_a": {
     "gene": "FKBP12",
     "n_structures": 50,
-    "n_inspected": 25,
     "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
     "_n_structures_is_a_floor_if_truncated": true
    },
    "arm_b": {
     "gene": "FKBP51",
     "n_structures": 50,
-    "n_inspected": 25,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "n_ternary": 1,
+    "ternary_pdb_ids": [
+     "8PC2"
+    ],
+    "e3_partners_found": [
+     "ELOB",
+     "ELOC",
+     "TCEB1",
+     "TCEB2",
+     "VHL"
+    ],
+    "ternary_by_e3": {
+     "ELOB": [
+      "8PC2"
+     ],
+     "ELOC": [
+      "8PC2"
+     ],
+     "TCEB1": [
+      "8PC2"
+     ],
+     "TCEB2": [
+      "8PC2"
+     ],
+     "VHL": [
+      "8PC2"
+     ]
+    },
     "_n_structures_is_a_floor_if_truncated": true
    },
    "ternary_structure_on_BOTH_arms": false,
@@ -246,19 +570,107 @@
    "arm_a": {
     "gene": "WEE1",
     "n_structures": 28,
-    "n_inspected": 25,
-    "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "n_ternary": 1,
+    "ternary_pdb_ids": [
+     "8WDK"
+    ],
+    "e3_partners_found": [
+     "CUL2",
+     "ELOB",
+     "ELOC",
+     "RBX1",
+     "TCEB2",
+     "VHL"
+    ],
+    "ternary_by_e3": {
+     "CUL2": [
+      "8WDK"
+     ],
+     "ELOB": [
+      "8WDK"
+     ],
+     "ELOC": [
+      "8WDK"
+     ],
+     "RBX1": [
+      "8WDK"
+     ],
+     "TCEB2": [
+      "8WDK"
+     ],
+     "VHL": [
+      "8WDK"
+     ]
+    },
     "_n_structures_is_a_floor_if_truncated": false
    },
    "arm_b": {
     "gene": "PKMYT1",
     "n_structures": 28,
-    "n_inspected": 25,
     "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "CDK4",
+    "CDK6"
+   ],
+   "why_a_candidate": "close kinase paralogues with reported selective degraders",
+   "arm_a": {
+    "gene": "CDK4",
+    "n_structures": 7,
+    "n_ternary": 0,
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "arm_b": {
+    "gene": "CDK6",
+    "n_structures": 17,
+    "n_ternary": 0,
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
+    "_n_structures_is_a_floor_if_truncated": false
+   },
+   "ternary_structure_on_BOTH_arms": false,
+   "verdict": "ASYMMETRIC or ABSENT \u2014 at least one arm has no deposited ternary, so that arm would have to be modelled and a model error would NOT cancel",
+   "selectivity_kcal": null,
+   "needs_primary_source_verification": true,
+   "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
+  },
+  {
+   "pair": [
+    "MAPK14",
+    "MAPK11"
+   ],
+   "why_a_candidate": "p38 alpha vs beta; selective degraders reported",
+   "arm_a": {
+    "gene": "MAPK14",
+    "n_structures": 50,
+    "n_ternary": 0,
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
+    "_n_structures_is_a_floor_if_truncated": true
+   },
+   "arm_b": {
+    "gene": "MAPK11",
+    "n_structures": 4,
+    "n_ternary": 0,
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
     "_n_structures_is_a_floor_if_truncated": false
    },
    "ternary_structure_on_BOTH_arms": false,
@@ -276,19 +688,19 @@
    "arm_a": {
     "gene": "CDK9",
     "n_structures": 23,
-    "n_inspected": 23,
     "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
     "_n_structures_is_a_floor_if_truncated": false
    },
    "arm_b": {
     "gene": "CDK7",
     "n_structures": 50,
-    "n_inspected": 25,
     "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
     "_n_structures_is_a_floor_if_truncated": true
    },
    "ternary_structure_on_BOTH_arms": false,
@@ -306,19 +718,19 @@
    "arm_a": {
     "gene": "HDAC1",
     "n_structures": 11,
-    "n_inspected": 11,
     "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
     "_n_structures_is_a_floor_if_truncated": false
    },
    "arm_b": {
     "gene": "HDAC2",
     "n_structures": 48,
-    "n_inspected": 25,
     "n_ternary": 0,
-    "best_ternary_resolution_A": null,
-    "ternary_entries": [],
+    "ternary_pdb_ids": [],
+    "e3_partners_found": [],
+    "ternary_by_e3": {},
     "_n_structures_is_a_floor_if_truncated": false
    },
    "ternary_structure_on_BOTH_arms": false,
@@ -328,5 +740,23 @@
    "_selectivity_note": "NOT SUPPLIED BY THIS SURVEY. A calibrator needs a measured, primary-source selectivity value, and STRATEGY Open decision 7 binds it: the accuracy band may not be wider than the signal, and the null-rejection rate must be stated up front. Passing the structural screen makes a pair a CANDIDATE, not a choice."
   }
  ],
- "n_symmetric": 0
+ "n_symmetric": 2,
+ "detector_sanity": {
+  "total_ternary_entries_found": 83,
+  "distinct_e3_partners_seen": [
+   "CRBN",
+   "CUL2",
+   "CUL4A",
+   "DCAF16",
+   "DDB1",
+   "ELOB",
+   "ELOC",
+   "RBX1",
+   "TCEB1",
+   "TCEB2",
+   "VHL"
+  ],
+  "detector_credible": true,
+  "verdict": "PASS -- at least one arm found an E3 partner, so the detector is doing something"
+ }
 }
