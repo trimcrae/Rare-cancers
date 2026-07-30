@@ -2859,6 +2859,12 @@ def collect(bucket=None, prefix=None, autostop=True):
             stall = 0 if scalar > pprog else int(pstall) + 1
             new_state[f"prog:{uid}"] = [scalar, stall]
             row_advanced[iid] = bool(scalar > pprog)
+            # THE ESCALATION IS EVIDENCE-DRIVEN IN BOTH DIRECTIONS. A census that MOVED is proof the
+            # current tier can hold this leg, so the lost-host counter goes back to zero and the next
+            # re-placement is priced on the cheap tier again. Without this reset the counter would only
+            # ever rise and one bad afternoon would put a unit on on-demand permanently.
+            if scalar > pprog:
+                new_state[f"replaced:{uid}"] = 0
             print(f"      committed: {phase or 'none yet'}"
                   f"{('/' + str(it)) if phase else ''}  scalar={scalar} prev={pprog} "
                   f"no-advance-polls={stall}")
@@ -3349,6 +3355,28 @@ def collect(bucket=None, prefix=None, autostop=True):
         # self-dispatches the matching gate immediately. This does NOT decide to buy anything: the gate it
         # wakes still prices the board, still applies the rung ceiling and the $/ns buy line, and still
         # HOLDS if the market is bad. It only removes the waiting.
+        # ★★ ESCALATE TO THE UNINTERRUPTIBLE TIER WHEN THE CHEAP ONE DEMONSTRABLY CANNOT HOLD THE LEG.
+        # (2026-07-30.) Re-placing faster does not converge when mean host lifetime is below
+        # time-to-first-commit: this leg went through FIVE bid-tier hosts in 2.5 hours and committed
+        # nothing, every rental correctly priced and correctly re-placed. And no bid fixes it — an
+        # on-demand renter preempts an interruptible one regardless of bid.
+        # So the decision is made from EVIDENCE, per unit, and it is self-limiting in both directions:
+        # the counter rises only when a unit is found hostless AGAIN, and `advanced` resets it to zero the
+        # moment the census moves — so a leg that starts committing drops straight back to the cheap tier
+        # and the ladder's pricing is untouched for everything that is working. The escalated rental is
+        # still gated: it faces the same $0.006539/ns buy line, so this buys RELIABILITY, never an
+        # exemption. (Measured the first time it ran: an on-demand RTX 5090 priced at 1.08x basis, below
+        # the interruptible 4080S it replaced — the expensive TIER is not the expensive OFFER.)
+        _ESCALATE_AFTER = int(os.environ.get("TVAST_ESCALATE_AFTER") or "3")
+        _escalated = set()
+        for _u in sorted(_hostless_units):
+            _n = int((prev_state.get(f"replaced:{_u}") or 0)) + 1
+            new_state[f"replaced:{_u}"] = _n
+            if _n >= _ESCALATE_AFTER:
+                _escalated.add(_mode_of_unit(_u))
+                print(f"[replace] {_u} has now lost {_n} hosts without committing (>= {_ESCALATE_AFTER}) "
+                      f"-> ESCALATING this re-placement to the uninterruptible tier; it still faces the "
+                      f"buy line and drops back to the bid tier the moment the census advances")
         _needs = sorted({_mode_of_unit(_u) for _u in _hostless_units if _mode_of_unit(_u)})
         if _needs:
             print(f"[replace] {len(_hostless_units)} unit(s) have no host and are not done: "
@@ -3356,7 +3384,8 @@ def collect(bucket=None, prefix=None, autostop=True):
             try:
                 with open(os.environ.get("TVAST_REPLACE_FILE") or "/tmp/tvast-needs-replacement.txt",
                           "w") as _fh:
-                    _fh.write("\n".join(_needs) + "\n")
+                    # "<mode> <on_demand 0|1>" — the workflow reads the second field.
+                    _fh.write("\n".join(f"{m} {1 if m in _escalated else 0}" for m in _needs) + "\n")
             except Exception as _e:  # noqa: BLE001 — a readout must never break the monitoring pass
                 print(f"[replace] could not write the marker: {type(_e).__name__}: {_e}")
         else:

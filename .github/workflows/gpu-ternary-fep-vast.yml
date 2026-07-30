@@ -1931,7 +1931,7 @@ jobs:
           if [ ! -s "$F" ]; then
             echo "no unit needs re-placing this pass"; exit 0
           fi
-          while read -r mode; do
+          while read -r mode escalate; do
             [ -n "$mode" ] || continue
             # mode -> the gate that owns it. An unmapped mode is NOT dispatched: waking the wrong lane's
             # launcher is worse than waiting for a tick, and a mode nobody gates is a code change, not a
@@ -1950,9 +1950,15 @@ jobs:
             # therefore either lands under the line or is declined on price; it can never overspend.
             # ⚠ Deliberately NOT applied to a first placement: a higher bid on a leg that has never been
             # interrupted buys nothing and costs money (§6).
-            echo "::notice title=SELF-HEAL::mode=$mode -> dispatching $TASK (it still prices and may HOLD)"
+            # ESCALATION, decided by collect from the unit's own history of lost hosts (see the note at
+            # `_ESCALATE_AFTER`). 1 = this unit has burned >= N hosts without committing, so the cheap tier
+            # has demonstrably failed to hold it and no bid can fix that — an on-demand renter preempts an
+            # interruptible one regardless of bid. The rental is still gated on $/ns, and the counter resets
+            # to zero the moment the census advances, so this is a temporary, evidence-backed escalation.
+            OD=""; [ "${escalate:-0}" = "1" ] && OD="-f on_demand=1"
+            echo "::notice title=SELF-HEAL::mode=$mode escalate=${escalate:-0} -> dispatching $TASK (it still prices and may HOLD)"
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
-              -f task="$TASK" -f min_ns_per_h=28 -f bid_floor_mult=2.0 \
+              -f task="$TASK" -f min_ns_per_h=28 -f bid_floor_mult=2.0 $OD \
               || echo "::warning title=REPLACE DISPATCH FAILED::$TASK — the scheduled tick remains the backstop"
           done < "$F"
 

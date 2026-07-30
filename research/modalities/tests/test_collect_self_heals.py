@@ -66,6 +66,27 @@ def test_the_workflow_maps_every_mode_the_gates_actually_own():
     # documents the escape hatch for. Safe because the charge is min(bid, on-demand) AND the gate still
     # refuses anything over the buy line, so a raised bid lands under the line or is declined on price.
     assert "bid_floor_mult=2.0" in step, "a re-placement must buy retention, not re-buy the same eviction"
+    # The escalation field is decided by collect from the unit's history, not by the shell.
+    assert 'OD="-f on_demand=1"' in step
+    assert "while read -r mode escalate" in step, "the marker carries '<mode> <escalate>'"
+
+
+def test_the_escalation_counter_resets_when_the_census_advances():
+    """Evidence-driven in BOTH directions. Without the reset the counter only ever rises and one bad
+    afternoon pins a unit to the expensive tier forever."""
+    src = (Path(__file__).resolve().parents[1] / "ternary_vast_launch.py").read_text()
+    i = src.index('row_advanced[iid] = bool(scalar > pprog)')
+    assert 'new_state[f"replaced:{uid}"] = 0' in src[i:i + 800]
+
+
+def test_escalation_needs_repeated_loss_not_a_single_one():
+    src = (Path(__file__).resolve().parents[1] / "ternary_vast_launch.py").read_text()
+    assert 'TVAST_ESCALATE_AFTER") or "3"' in src, "one lost host is routine; escalation must need a pattern"
+
+
+def test_the_marker_line_carries_the_escalation_flag_for_every_mode():
+    src = (Path(__file__).resolve().parents[1] / "ternary_vast_launch.py").read_text()
+    assert 'f"{m} {1 if m in _escalated else 0}"' in src
 
 
 def test_the_collect_job_can_actually_dispatch():
