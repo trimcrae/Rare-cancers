@@ -186,7 +186,8 @@ def main(argv=None):
     spec = build_jobspec(a.leg, seed=a.seed, direction=a.direction, mode=a.mode,
                          timestep_fs=a.timestep_fs, warmup_timestep_fs=a.warmup_timestep_fs,
                          bucket=bucket, prefix=prefix)
-    env = dict(spec["env"])
+    # JobSpec is a dataclass, not a mapping — `spec["env"]` raised TypeError on the first CI run.
+    env = dict(spec.env)
     unit = env["UNIT_ID"]
     res = audit(boto3.client("s3"), bucket, f"{prefix}/commits/{unit}", env=env)
     print(render(unit, res))

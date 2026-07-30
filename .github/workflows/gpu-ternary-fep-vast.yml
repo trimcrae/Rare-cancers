@@ -1969,10 +1969,17 @@ jobs:
           mkdir -p research/modalities/commit-audits
           for leg in calib_hi_to_lo2__ternary_vhl calib_hi_to_lo2__binary_vhl \
                      calib_lo_to_lo2__ternary_vhl calib_lo_to_lo2__binary_vhl; do
-            python research/modalities/commit_store_audit.py --leg "$leg" --mode triangle \
-              --timestep-fs 2.0 --warmup-timestep-fs 1.0 \
-              --out "research/modalities/commit-audits/$leg.json" \
-              2>&1 | tee -a /tmp/commit_audit.txt || echo "::warning title=AUDIT FAILED::$leg"
+            # ⚠ `cmd | tee ... || warn` DOES NOT WORK HERE and the first run proved it: the shell reads
+            # tee's status, so four consecutive TypeError tracebacks reported the step GREEN. Capture the
+            # python exit status itself, and make a failure a visible ::error.
+            if python research/modalities/commit_store_audit.py --leg "$leg" --mode triangle \
+                 --timestep-fs 2.0 --warmup-timestep-fs 1.0 \
+                 --out "research/modalities/commit-audits/$leg.json" > /tmp/one_audit.txt 2>&1; then
+              cat /tmp/one_audit.txt | tee -a /tmp/commit_audit.txt
+            else
+              echo "::error title=COMMIT AUDIT FAILED::$leg"
+              cat /tmp/one_audit.txt | tee -a /tmp/commit_audit.txt
+            fi
           done
       - name: Every triangle unit's FULL run.log, and both input trees pulled side by side
         run: |

@@ -163,3 +163,28 @@ def test_the_board_regex_and_this_module_extract_the_same_iteration():
 def test_both_phases_are_audited(phase):
     g = csa.group_keys([_k(phase, 8, "g", "x.nc")], BASE)
     assert list(g)[0][0] == phase
+
+
+def test_the_jobspec_env_the_cli_reads_is_actually_reachable():
+    """`build_jobspec` returns a JobSpec DATACLASS. The first CI run of this module did `spec["env"]`
+    and died with TypeError on all four legs — and because the step piped through `tee`, the shell saw
+    tee's exit status and reported success, so a step that produced nothing but tracebacks was green.
+    This pins the attribute so the CLI cannot silently lose its env again, and every field the
+    fingerprint hashes is asserted present — an env missing one of them hashes a '' and would report
+    correctly stamped generations as rejected."""
+    from rbfe_spot_checkpoint import SYSTEM_FINGERPRINT_ENV
+    from ternary_vast_launch import build_jobspec
+
+    spec = build_jobspec("calib_hi_to_lo2__ternary_vhl", seed=0, direction="fwd", mode="triangle",
+                         timestep_fs="2.0", warmup_timestep_fs="1.0")
+    env = dict(spec.env)  # the exact expression main() uses
+    assert env["UNIT_ID"] == "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    # A fingerprint field the JobSpec does not set hashes as '' — which is CORRECT only so long as the
+    # container does not set it either, because then both sides hash ''. That is true today of exactly one
+    # field, and pinning the set means a future field added to the JobSpec (or to the container) trips this
+    # test instead of silently shifting the audit's fingerprint away from the host's.
+    missing = sorted(k for k in SYSTEM_FINGERPRINT_ENV if k not in env)
+    assert missing == ["RBFE_CONSTRAIN_LIGAND_CH"], (
+        f"the set of fingerprint fields absent from the JobSpec env changed to {missing}. Each one hashes "
+        "as '' here; confirm the CONTAINER also leaves it unset, or the audit will compare a different "
+        "fingerprint than the host computed.")
