@@ -1,40 +1,32 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-30T08:31:30Z",
+  "utc": "2026-07-30T09:21:08Z",
   "mode": "triangle",
   "n_requested": 1,
-  "n_rented": 1,
+  "n_rented": 0,
   "requested": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
+    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "rented": [
+  "rented": [],
+  "failed": [
+    {
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "error": "CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 12697, 1569, 125565); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.",
+      "kind": "capacity"
+    }
+  ],
+  "already_live": [
     {
       "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": "46269840",
+      "instance": 46269840,
       "machine_id": 36341,
-      "bid": 0.204,
-      "dph": 0.2022222222222222,
       "gpu": "RTX 5090",
       "dph_total_usd_h": 0.22066666666666665,
       "dph_base_usd_h": 0.204,
-      "usd_per_ns": 0.005119,
-      "x_basis": 1.5,
-      "over_buy_line": false
-    }
-  ],
-  "failed": [],
-  "already_live": [
-    {
-      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": 46261663,
-      "machine_id": 20243,
-      "gpu": "RTX 5090",
-      "dph_total_usd_h": 0.17986666666666667,
-      "dph_base_usd_h": 0.1632,
       "cur_state": "running",
       "actual_status": "running",
-      "usd_per_ns": 0.004173,
-      "x_basis": 1.223,
+      "usd_per_ns": 0.005119,
+      "x_basis": 1.5,
       "over_buy_line": false
     }
   ],
@@ -48,7 +40,7 @@
       "why": "done"
     },
     {
-      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
       "why": "running"
     }
   ]
