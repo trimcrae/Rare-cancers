@@ -1,20 +1,28 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-30T19:25:17Z",
+  "utc": "2026-07-30T19:30:51Z",
   "mode": "triangle",
   "n_requested": 1,
-  "n_rented": 0,
+  "n_rented": 1,
   "requested": [
     "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "rented": [],
-  "failed": [
+  "rented": [
     {
       "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "error": "NoQualifyingOffer: vast: no rentable verified offer for ResourceSpec(gpu='rtx4090', min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=60, min_reliability=0.9, interruptible=False, exclude_machine_ids=('8914', '141336', '56760', '77866', '56748', '28908', '141396', '137041'), max_usd_per_ns=0.006538868883711077, require_gpu=False, min_ns_per_h=33.0, min_cuda=13.0) (of 232 offers)",
-      "kind": "market"
+      "instance": "46317496",
+      "machine_id": 141591,
+      "bid": 0.136,
+      "dph": 0.13555555555555554,
+      "gpu": "RTX 4090",
+      "dph_total_usd_h": 0.15266666666666667,
+      "dph_base_usd_h": 0.136,
+      "usd_per_ns": 0.004557,
+      "x_basis": 1.336,
+      "over_buy_line": false
     }
   ],
+  "failed": [],
   "already_live": [],
   "skipped": [
     {
