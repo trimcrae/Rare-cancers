@@ -134,7 +134,10 @@ ATTESTED = [
         "usd": 0.81,
         "provider": "vast",
         "read_from": "the destroyed cohort-2 hosts' own instance records at teardown (0.09/0.27/0.18/0.27); "
-                     "STRATEGY.md Appendix A row 38. Cohort 3 is still billing and is NOT in this figure.",
+                     "STRATEGY.md Appendix A row 38. LANE 19 CLOSED at n=3 on 2026-07-30 and every host "
+                     "is gone, so this figure can no longer grow — but it also cannot be completed: the "
+                     "cohorts after the second were never ledgered and their instance records are "
+                     "unreadable now, so 0.81 is a FLOOR on this lane, not its cost.",
         "closes_when": "ternary_vast_launch writes a per-rental ledger keyed on instance id, as "
                        "congeneric_fanout_vast._LEDGER_KEY does for the fan-out",
     },
