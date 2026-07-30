@@ -31,6 +31,7 @@ both, so this runs in CI (CLAUDE.md §6).
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -64,27 +65,52 @@ CANDIDATES = [
 ]
 
 
-def _post(url, payload, timeout=60):
-    """POST, and on an HTTP error RAISE WITH THE SERVER'S OWN MESSAGE ATTACHED.
+def _post(url, payload, timeout=60, retries=3):
+    """POST to RCSB and return parsed JSON, or `None` for an explicit NO-HITS.
 
-    A bare `HTTPError: 400 Bad Request` says only that the query was rejected, not what was wrong with it —
-    and the first CI attempt at this survey died exactly that way, which turns a $0 run into a guess. RCSB
-    returns a JSON body naming the offending field; reading it makes the next attempt evidence-driven instead
-    of another guess (CLAUDE.md §4)."""
-    req = urllib.request.Request(url, data=json.dumps(payload).encode(),
-                                 headers={"Content-Type": "application/json"})
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as fh:
-            return json.load(fh)
-    except urllib.error.HTTPError as e:
-        if e.code == 204:
-            raise
+    ★ 204 IS A SUCCESS STATUS, WHICH IS EXACTLY WHY IT BIT. RCSB answers a zero-hit query with **204 No
+    Content** and an EMPTY BODY. urllib classes 2xx as success, so no HTTPError is ever raised and the `except
+    HTTPError ... if e.code == 204` guard written for it can never fire; `json.load` then dies on the empty
+    body with `Expecting value: line 1 column 1`. The plain per-gene queries never hit it because every gene
+    surveyed has structures -- it only surfaced once the AND-queries started asking genuinely empty questions
+    like SMARCA2 AND MDM2. So no-hits is handled HERE, at the transport, where both call sites inherit it.
+
+    Two further hardenings, added together because each RCSB round trip costs a CI run (the dev sandbox's proxy
+    refuses RCSB, so none of this is testable locally and iterating one bug at a time is the expensive way):
+      * an HTTP error carries the SERVER'S OWN message, since a bare `400 Bad Request` names nothing;
+      * transient 5xx / socket errors are retried, so a flaky minute does not read as a schema problem."""
+    body = json.dumps(payload).encode()
+    last = None
+    for attempt in range(retries):
+        req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
         try:
-            body = e.read().decode()[:600]
-        except Exception:
-            body = "<no body>"
-        raise urllib.error.HTTPError(e.url, e.code, "%s :: RCSB said: %s" % (e.reason, body),
-                                     e.headers, None) from None
+            with urllib.request.urlopen(req, timeout=timeout) as fh:
+                if fh.status == 204:
+                    return None                      # explicit no-hits, not an error
+                raw = fh.read().decode().strip()
+                if not raw:
+                    return None                      # empty body is the same statement
+                try:
+                    return json.loads(raw)
+                except ValueError:
+                    raise RuntimeError("RCSB returned non-JSON (%d): %s" % (fh.status, raw[:300])) from None
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 500, 502, 503, 504) and attempt < retries - 1:
+                last = e
+                time.sleep(2 ** attempt)
+                continue
+            try:
+                msg = e.read().decode()[:600]
+            except Exception:
+                msg = "<no body>"
+            raise RuntimeError("RCSB HTTP %d on %s :: %s" % (e.code, url, msg)) from None
+        except urllib.error.URLError as e:
+            if attempt < retries - 1:
+                last = e
+                time.sleep(2 ** attempt)
+                continue
+            raise
+    raise RuntimeError("RCSB unreachable after %d attempts: %s" % (retries, last))
 
 
 def _get(url, timeout=60):
@@ -123,15 +149,12 @@ def search_by_gene(gene, limit=50):
     for attr in attrs:
         try:
             r = _post(SEARCH, _gene_query(attr, gene, limit))
-        except urllib.error.HTTPError as e:
-            if e.code == 204:                  # RCSB returns 204 for "no hits" — a VALID attribute, zero hits
-                _GENE_ATTR_USED["attribute"] = attr
-                return []
-            _GENE_ATTR_USED["errors"][attr] = "%s %s" % (e.code, e.reason)
+        except RuntimeError as e:              # a rejected ATTRIBUTE; a zero-hit query returns None, not this
+            _GENE_ATTR_USED["errors"][attr] = str(e)[:200]
             last = e
             continue
         _GENE_ATTR_USED["attribute"] = attr
-        return [h["identifier"] for h in r.get("result_set", [])]
+        return [] if r is None else [h["identifier"] for h in r.get("result_set", [])]
     raise RuntimeError("no RCSB gene-name attribute was accepted; server replies: %s (last: %s)"
                        % (_GENE_ATTR_USED["errors"], last))
 
@@ -158,13 +181,8 @@ def search_gene_and_e3(gene, e3, limit=25):
         "request_options": {"paginate": {"start": 0, "rows": limit},
                             "results_content_type": ["experimental"]},
     }
-    try:
-        r = _post(SEARCH, q)
-    except urllib.error.HTTPError as e:
-        if e.code == 204:
-            return []
-        raise
-    return [h["identifier"] for h in r.get("result_set", [])]
+    r = _post(SEARCH, q)
+    return [] if r is None else [h["identifier"] for h in r.get("result_set", [])]
 
 
 def screen_arm(gene):
