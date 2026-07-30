@@ -2,12 +2,12 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 2:20 PM ET Thu Jul 30, 2026 by `task=collect`.
+Generated 2:27 PM ET Thu Jul 30, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T3 ternary               —  —                —                          NO HOST   no live host — checkpoint at production/1840 is intact in S3; this pass dispatches the gate to re-place it
+T3 ternary               —  —                $0.00505/ns · 1.48× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ---- END TVAST-BOARD ----
 ```
