@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-30T23:45:37Z",
-  "_generated_et": "7:45 PM ET Jul 30, 2026",
+  "_generated_utc": "2026-07-30T23:52:29Z",
+  "_generated_et": "7:52 PM ET Jul 30, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-31T00:33:37Z",
-  "_stale_after_et": "8:33 PM ET Jul 30, 2026",
+  "_stale_after_utc": "2026-07-31T00:40:29Z",
+  "_stale_after_et": "8:40 PM ET Jul 30, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -21,7 +21,7 @@
       "ran": true,
       "found": 15,
       "error": null,
-      "how": "scanned STRATEGY.md lines 1203-1958 for `[ ]`/`[~]`/`[!]` items; `[x]` and `[\u2013]` are not owed and are skipped"
+      "how": "scanned STRATEGY.md lines 1233-1993 for `[ ]`/`[~]`/`[!]` items; `[x]` and `[\u2013]` are not owed and are skipped"
     },
     {
       "scanner": "fanout_units",
@@ -42,7 +42,7 @@
       "ran": true,
       "found": 10,
       "error": null,
-      "how": "walked 24 schedule milestone(s) on their real `depends_on` graph; 3 unblocked with no verdict, 7 genuinely waiting on a named dependency"
+      "how": "walked 24 schedule milestone(s) on their real `depends_on` graph; 5 unblocked with no verdict, 5 genuinely waiting on a named dependency"
     },
     {
       "scanner": "lanes",
@@ -1972,7 +1972,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 4953 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 4959 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2002,7 +2002,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 4942 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 4949 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2011,16 +2011,14 @@
       "what": "Rung/milestone 'valB_full' \u2014 status 'pending', gate has returned no verdict",
       "owner": null,
       "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "blocked",
-      "evidence_fingerprint": "pending|valB_mini=in_progress",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
+      "state": "open",
+      "evidence_fingerprint": "pending|valB_mini=done",
+      "last_evidence_utc": "2026-07-30T23:52:29Z",
+      "last_evidence_et": "7:52 PM ET Jul 30, 2026",
       "last_evidence_what": "degrader-paper-schedule.json milestone 'valB_full' status='pending'",
       "next_evidence_due_utc": null,
       "next_evidence_due_et": null,
-      "blocked_by": [
-        "valB_mini is in_progress"
-      ],
+      "blocked_by": [],
       "attempts": [],
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
@@ -2029,7 +2027,7 @@
       "hosts_points_at": null,
       "cost_points_at": null,
       "price_points_at": null,
-      "blocked_cause": "external-gate",
+      "blocked_cause": null,
       "board_group": "plan",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -2044,16 +2042,14 @@
       "what": "Rung/milestone 'nrv04_feasibility_covalent' \u2014 status 'under_correction', gate has returned no verdict (a verdict LANDED and no longer stands)",
       "owner": null,
       "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "blocked",
-      "evidence_fingerprint": "under_correction|valB_mini=in_progress",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
+      "state": "open",
+      "evidence_fingerprint": "under_correction|valB_mini=done",
+      "last_evidence_utc": "2026-07-30T23:52:29Z",
+      "last_evidence_et": "7:52 PM ET Jul 30, 2026",
       "last_evidence_what": "degrader-paper-schedule.json milestone 'nrv04_feasibility_covalent' status='under_correction'",
       "next_evidence_due_utc": null,
       "next_evidence_due_et": null,
-      "blocked_by": [
-        "valB_mini is in_progress"
-      ],
+      "blocked_by": [],
       "attempts": [],
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
@@ -2062,7 +2058,7 @@
       "hosts_points_at": null,
       "cost_points_at": null,
       "price_points_at": null,
-      "blocked_cause": "external-gate",
+      "blocked_cause": null,
       "board_group": "plan",
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
@@ -2078,16 +2074,15 @@
       "owner": null,
       "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
       "state": "blocked",
-      "evidence_fingerprint": "pending|nrv04_feasibility_covalent=under_correction,step1_fanout_cmpd19=running,valB_full=pending",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
+      "evidence_fingerprint": "pending|nrv04_feasibility_covalent=under_correction,step1_fanout_cmpd19=done,valB_full=pending",
+      "last_evidence_utc": "2026-07-30T23:52:29Z",
+      "last_evidence_et": "7:52 PM ET Jul 30, 2026",
       "last_evidence_what": "degrader-paper-schedule.json milestone 'nrv04_retrospective' status='pending'",
       "next_evidence_due_utc": null,
       "next_evidence_due_et": null,
       "blocked_by": [
         "valB_full is pending",
-        "nrv04_feasibility_covalent is under_correction",
-        "step1_fanout_cmpd19 is running"
+        "nrv04_feasibility_covalent is under_correction"
       ],
       "attempts": [],
       "n_fruitless_attempts": 0,
@@ -2239,14 +2234,13 @@
       "owner": null,
       "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
       "state": "blocked",
-      "evidence_fingerprint": "pending|emc_e3_expression=done,local_ternary_fep=pending,nr4a_differential_atlas=done,nr4a_unique_residues=done,nrv04_retrospective=pending,pocket_reanalysis=done,selectivity_wedge_confirm=in_progress,step1_fanout_cmpd19=running,ternary_ensemble_refine=pending,valB_full=pending",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
+      "evidence_fingerprint": "pending|emc_e3_expression=done,local_ternary_fep=pending,nr4a_differential_atlas=done,nr4a_unique_residues=done,nrv04_retrospective=pending,pocket_reanalysis=done,selectivity_wedge_confirm=in_progress,step1_fanout_cmpd19=done,ternary_ensemble_refine=pending,valB_full=pending",
+      "last_evidence_utc": "2026-07-30T23:52:29Z",
+      "last_evidence_et": "7:52 PM ET Jul 30, 2026",
       "last_evidence_what": "degrader-paper-schedule.json milestone 'fold_results' status='pending'",
       "next_evidence_due_utc": null,
       "next_evidence_due_et": null,
       "blocked_by": [
-        "step1_fanout_cmpd19 is running",
         "nrv04_retrospective is pending",
         "local_ternary_fep is pending",
         "ternary_ensemble_refine is pending",
@@ -2810,8 +2804,8 @@
   "_dispatch_plan": [],
   "_dispatch_plan_is_a_request": "this module NEVER shells out. The workflow executes these with `gh workflow run`; each names a workflow and no price.",
   "n_by_state": {
-    "blocked": 20,
-    "open": 8,
+    "blocked": 18,
+    "open": 10,
     "done": 21,
     "dispatched": 1,
     "held": 1
@@ -2830,8 +2824,6 @@
     "plan:conditional-abfe-pose-plausibility-80-200-raw-values-t4l-discrepancy-s",
     "plan:post-submit-outward-facing-needs-trimcrae-sign-off",
     "fanout-unit:e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral",
-    "rung:valB_full",
-    "rung:nrv04_feasibility_covalent",
     "rung:nrv04_retrospective",
     "rung:local_ternary_fep",
     "rung:fold_results",
@@ -2868,17 +2860,17 @@
     "rung:post_submit"
   ],
   "_self": {
-    "now_et": "7:45 PM ET Jul 30, 2026",
-    "generated_et": "7:45 PM ET Jul 30, 2026",
-    "stale_after_et": "8:33 PM ET Jul 30, 2026",
+    "now_et": "7:52 PM ET Jul 30, 2026",
+    "generated_et": "7:52 PM ET Jul 30, 2026",
+    "stale_after_et": "8:40 PM ET Jul 30, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 8:33 PM ET Jul 30, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 8:40 PM ET Jul 30, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (7:36 PM ET Jul 30, 2026) refreshed the artifact to 7:45 PM ET Jul 30, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (7:45 PM ET Jul 30, 2026) refreshed the artifact to 7:52 PM ET Jul 30, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
