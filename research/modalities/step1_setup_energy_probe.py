@@ -37,6 +37,30 @@ touching a GPU. That pair is the pair handed to the `setup()` that NaN'd. So:
   * every term finite and sane -> the blow-up happened inside the minimisation trajectory, which is
     integrator/platform state rather than the staged system. RETRY.
 
+★★ AND THAT SECOND CLAUSE WAS WRONG, MEASURED 2026-07-28. It fired for this exact unit on 2026-07-27,
+the lane believed it, and re-placed the unit **25 times across 7 distinct card/driver combinations**
+(`step1-nan-forensics.json`); every attempt died at the same `LocalEnergyMinimizer.minimize` call. The
+defect in the reasoning is one word: `LocalEnergyMinimizer` does not descend ENERGIES, it descends their
+DERIVATIVE, and the probe never looked at one. This unit's worst gradient is **4.996e17 kJ/mol/nm on
+atoms 4052/4054 — the pair the clash report had already reported at d = 0.000 A and classified
+`EXCLUDED-everywhere(benign)` — against 6.46e5 kJ/mol/nm on the largest NON-degenerate atom of the same
+112 955-atom build.** Finite (so `n_nonfinite` is 0 and the double-precision CPU minimiser does complete,
+in 1308 s), a factor of 7.7e11 out of band, and reproducible on every GPU this lane can rent.
+⚠ Those two numbers must be quoted TOGETHER, from ONE build: the non-degenerate maximum depends on that
+build's water placement (an earlier build read 3.44e5) while the degenerate one is ~1e17 in every build.
+SUPERSEDED, retained: "3.44e5" as the comparator for 4.996e17 — different builds.
+
+★ AND THE REMEDY IS MEASURED, NOT ARGUED. Displacing ONE member of the pair by 0.01 A takes the system's
+largest gradient from 4.996e17 to 646013.18 kJ/mol/nm — which is the 646013.30 that a completely unrelated
+atom was already carrying. The singular force is gone and every other force in the box is unchanged to six
+significant figures (`gradient_probe` vs `gradient_probe_after` in `step1-setup-energy-probe.json`).
+
+So the third outcome, `FIX_GEOMETRY`, exists: the system is SOUND and its STARTING POINT is degenerate.
+Collapsed into RETRY it says "rent another host"; collapsed into BLOCK it retires a computable edge.
+`rbfe_spot_driver._dedegenerate_positions` is the remedy, and the probe now records the gradient BEFORE
+and AFTER it so the claim is a controlled comparison rather than an argument.
+SUPERSEDED, retained: the RETRY verdict of 2026-07-27 for `cw_bio_primary_amide`.
+
 The wording of the verdict is `rbfe_spot_driver.energy_probe_verdict` — the same function the GPU
 leg's own failure path calls — so the CPU reproduction and the rented leg cannot produce two
 different sentences for the same evidence (CLAUDE.md rule 1: one fact, one home).
@@ -126,6 +150,17 @@ def probe_unit(unit, in_dir):
     row["n_particles"] = info.get("n_particles")
     row["force_census"] = info.get("force_census")
     row["energy_probe"] = info.get("energy_probe")
+    # ★ THE GRADIENT AND THE COORDINATE-DEGENERACY CENSUS, ALONGSIDE THE ENERGY (2026-07-28). The energy
+    # probe alone said RETRY about this very edge and the lane then bought 25 hosts to watch it fail; the
+    # missing half was that `LocalEnergyMinimizer` follows the DERIVATIVE, which an exactly-coincident pair
+    # leaves undefined while the energy stays finite. Both readings are recorded so neither can be quoted
+    # alone. Taken on the ORIGINAL positions — `run_spot_safe`'s de-degeneration happens later, in stage 2.
+    ep = info.get("energy_probe") or {}
+    row["gradient_probe"] = ep.get("gradient_probe") or None
+    # The controlled AFTER, from the same build: the de-degenerated coordinates re-probed. Present only
+    # when there was a degeneracy to remove, which is itself the reading.
+    row["gradient_probe_after"] = ep.get("gradient_probe_after")
+    row["dedegenerate"] = ep.get("dedegenerate")
 
     # ---- STAGE 2: RUN THE REAL MINIMISER --------------------------------------------------------
     # ★★ WHY STAGE 1 IS NOT ENOUGH, STATED PLAINLY. The energy probe evaluates ONE point: the
@@ -181,8 +216,13 @@ def _minimize_repro(rbfe, openfe, Chem, unit):
 
 
 def verdict(row):
-    """(decision, why) in {BLOCK, RETRY, INCONCLUSIVE}. PURE — the rule that decides whether this
-    lane keeps buying hosts for an edge is testable, not eyeballed in a CI log.
+    """(decision, why) in {BLOCK, FIX_GEOMETRY, RETRY, INCONCLUSIVE}. PURE — the rule that decides whether
+    this lane keeps buying hosts for an edge is testable, not eyeballed in a CI log.
+
+    FIX_GEOMETRY is the outcome this function was missing on 2026-07-27, and its absence is what made the
+    answer wrong: it covers a system that is SOUND but whose STARTING POINT is degenerate. Collapsed into
+    RETRY (which is where it used to land) it says "rent another host"; collapsed into BLOCK it retires a
+    computable edge. It is neither.
 
     INCONCLUSIVE is a first-class answer and must never collapse into RETRY: 'the probe did not run'
     and 'the probe ran and the system is fine' are different states, and only the second is a licence
@@ -203,6 +243,28 @@ def verdict(row):
                          f"setup(), before a single minimisation step — {bad}. That is a property of "
                          f"the staged system and reproduces on every host, so renting another one "
                          f"buys nothing")
+    # ★★ A NON-FINITE GRADIENT IS A DETERMINISTIC FAILURE THAT NO ENERGY READING CAN SEE (2026-07-28).
+    # This function returned RETRY for `cw_bio_primary_amide` on the strength of all-finite energies, and
+    # the lane acted on it 25 times across 7 distinct cards. `LocalEnergyMinimizer` descends the
+    # derivative; an exactly-coincident coordinate pair keeps every energy finite and leaves the derivative
+    # undefined. The remedy is not a block — `_dedegenerate_positions` fixes the starting geometry — but it
+    # is emphatically not "rent another host", so the verdict must not say RETRY.
+    gp = row.get("gradient_probe") or {}
+    if gp.get("n_nonfinite"):
+        return "FIX_GEOMETRY", (
+            f"every force term's ENERGY is finite, but the GRADIENT is non-finite on "
+            f"{gp['n_nonfinite']} atom(s) at the coordinates handed to setup() — a minimiser cannot step "
+            f"away from a point whose derivative is not a number, so this reproduces on every host. Not a "
+            f"host problem and not an unfixable edge: de-degenerate the starting coordinates "
+            f"(`rbfe_spot_driver._dedegenerate_positions`) and re-place")
+    if gp.get("n_coincident_pairs") and gp.get("top_atoms_are_coincident"):
+        return "FIX_GEOMETRY", (
+            f"{gp['n_coincident_pairs']} pair(s) of atoms sit at the SAME coordinates "
+            f"({gp.get('coincident_atoms')}) and carry the largest gradient in the system — "
+            f"{gp.get('max_kj_mol_nm'):.6g} kJ/mol/nm against "
+            f"{gp.get('max_excluding_coincident_kj_mol_nm'):.6g} on every non-degenerate atom. Finite, so "
+            f"a double-precision CPU minimiser descends it; this lane's GPUs did not, 25 times on 7 cards. "
+            f"The remedy is the starting geometry, not another host and not a block")
     hi = max(abs(r["energy_kj_mol"]) for r in rows)
     # Stage 2 is what actually closes the question — a single-point reading cannot see a lambda
     # window it never visited. Its absence downgrades the answer rather than being ignored.

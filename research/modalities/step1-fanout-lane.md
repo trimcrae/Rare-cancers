@@ -477,6 +477,33 @@ budget is nowhere near binding. What separates the two settings is the element c
    change that. **⚠ A CORRECTION REGISTERED, not dropped:** the first write-up of this said element_change=True
    "maps all 22" — that was an rdkit-MCS number read as a LOMAP prediction. LOMAP returns 19.
 
+**Is the floor over-strict? Measured 2026-07-28 — no, and the 19 is worse than a near miss.** A count under a
+floor is what retires an edge, so the count alone is not enough evidence to spend that: `n_mapped = 19` against
+`floor = 20` is equally compatible with "the search nearly succeeded" and "the search failed and produced
+nonsense". `step1_map_diag` now records **which** atoms each mapper leaves unmapped and **which element
+substitutions the map itself makes**, on the production staged components. For this edge
+(`step1-map-diag.json`, row `zaienne_cmpd19->cw_bio_nmethyl_amide`):
+
+| mapper | mapped | atoms of A left unmapped | element changes the map makes |
+|---|---|---|---|
+| LOMAP `element_change=False` | 17 | `C12` (methyl C), `O13` (ester O), its 3 H | none |
+| LOMAP `element_change=True` | 19 | the 3 methyl H only | **`O->N` and `C->H`** |
+| Kartograf | 18 | `C12` and its 3 H | `O->N` |
+
+**`C->H` is the finding.** To reach 19, LOMAP has to map the ester's methyl **carbon** onto a **hydrogen** of
+the amide — a heavy atom to a hydrogen. That is not a near-complete map two atoms short; it is precisely the
+degenerate correspondence the floor exists to reject, and it would define an alchemical transformation nobody
+would run. The two mappers that stay chemically sane (strict LOMAP, Kartograf) top out at 17 and 18. So the
+floor is not over-strict here: it is the only thing standing between this lane and a nonsense perturbation.
+
+**And the exclusion is a statement about the MAPPERS, not about the chemistry — so it is revisitable.** A
+complete 22-atom map provably exists (the two heavy-atom graphs are isomorphic up to the single O→N
+substitution; `atom_map_audit.edge_bounds`). Nothing about this edge is unmappable in principle; what is
+missing is a mapper that finds it. That is a `method-watch` item, not a dead end: if a mapper ever returns ≥ 20
+here, `FANOUT_UNBLOCK=1` lifts the block and the edge runs like any other. Until then the lane's denominator is
+**18 computable edges of a 19-edge map**, derived from the block map rather than typed
+(`congeneric_fanout_vast.computable_units`).
+
 **Second-order finding, recorded and deliberately NOT acted on mid-flight.** On every bioisostere edge the
 strict map is 3–5 atoms smaller than the element-agnostic one (tetrazole 16 vs 21, hydroxamic 17 vs 20,
 acylsulfonamide 17 vs 22 by rdkit MCS). Those clear their own — lower, non-provable — floors and so *run*,

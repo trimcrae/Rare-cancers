@@ -10,7 +10,7 @@
       "leg": "complex",
       "edge": "zaienne_cmpd19->cw_bio_primary_amide",
       "n_mapped_atoms": 17,
-      "wall_s": 69.5,
+      "wall_s": 92.6,
       "n_particles": 112955,
       "force_census": [
         {
@@ -115,13 +115,13 @@
           {
             "group": 7,
             "force": "NonbondedForce",
-            "energy_kj_mol": -1091042.4044722975,
+            "energy_kj_mol": -1065781.6171352337,
             "finite": true
           },
           {
             "group": 8,
             "force": "CustomNonbondedForce",
-            "energy_kj_mol": -97.29436680488396,
+            "energy_kj_mol": -97.28747532673994,
             "finite": true
           },
           {
@@ -131,19 +131,192 @@
             "finite": true
           }
         ],
-        "verdict": "\u2705 every force term is FINITE at the input coordinates (max |E| = 1.09104e+06 kJ/mol, total = -1.06151e+06 kJ/mol). The NaN was produced DURING minimisation, not by the system as built \u2014 RETRY candidate, not a block candidate."
+        "gradient_probe": {
+          "n_nonfinite": 0,
+          "max_kj_mol_nm": 4.9964313490067046e+17,
+          "argmax": 4052,
+          "top": [
+            {
+              "atom": 4052,
+              "f_kj_mol_nm": 4.9964313490067046e+17
+            },
+            {
+              "atom": 4054,
+              "f_kj_mol_nm": 4.99643134900656e+17
+            },
+            {
+              "atom": 5188,
+              "f_kj_mol_nm": 646013.2955403135
+            },
+            {
+              "atom": 81997,
+              "f_kj_mol_nm": 645611.5311168749
+            },
+            {
+              "atom": 112894,
+              "f_kj_mol_nm": 642817.6691783039
+            },
+            {
+              "atom": 112938,
+              "f_kj_mol_nm": 642494.5174128967
+            }
+          ],
+          "n_coincident_pairs": 1,
+          "coincident_atoms": [
+            4052,
+            4054
+          ],
+          "max_excluding_coincident_kj_mol_nm": 646013.2955403135,
+          "top_atoms_are_coincident": true,
+          "ratio_over_rest": 773425467169.0282
+        },
+        "verdict": "\u26d4 DETERMINISTIC: every force term's ENERGY is finite (max |E| = 1.06578e+06 kJ/mol) and the gradient is finite \u2014 but 1 pair(s) of atoms sit at the SAME coordinates ([4052, 4054]), and they carry the largest gradient in the system: 4.99643e+17 kJ/mol/nm against 646013 on every non-degenerate atom \u2014 a factor of 7.73e+11. That force has no physical scale; it is set by how nearly equal two coordinates are. Measured consequence on this lane: the double-precision CPU minimiser descended it to completion, and the GPU minimiser failed on every one of 25 attempts across 7 distinct card/driver combinations. Do not rent another host: de-degenerate the starting coordinates (`_dedegenerate_positions`).",
+        "dedegenerate": {
+          "n_coincident_pairs": 1,
+          "pairs": [
+            [
+              4052,
+              4054
+            ]
+          ],
+          "nudge_nm": 0.001,
+          "tol_nm": 1e-06,
+          "moved_atoms": [
+            4054
+          ],
+          "n_moved": 1
+        },
+        "gradient_probe_after": {
+          "n_nonfinite": 0,
+          "max_kj_mol_nm": 646013.1832812857,
+          "argmax": 5188,
+          "top": [
+            {
+              "atom": 5188,
+              "f_kj_mol_nm": 646013.1832812857
+            },
+            {
+              "atom": 81997,
+              "f_kj_mol_nm": 645611.4779671524
+            },
+            {
+              "atom": 112894,
+              "f_kj_mol_nm": 642817.6160330041
+            },
+            {
+              "atom": 112938,
+              "f_kj_mol_nm": 642494.6239469317
+            },
+            {
+              "atom": 112893,
+              "f_kj_mol_nm": 343831.3967949847
+            },
+            {
+              "atom": 90079,
+              "f_kj_mol_nm": 261244.03298409222
+            }
+          ],
+          "n_coincident_pairs": 0,
+          "coincident_atoms": [],
+          "max_excluding_coincident_kj_mol_nm": 646013.1832812857,
+          "top_atoms_are_coincident": false
+        }
       },
-      "minimize_repro": {
-        "outcome": "completed",
-        "detail": "[spot-driver] RBFE_SETUP_ONLY=1 \u2014 sampler.setup() (incl. its pre-MD LocalEnergyMinimizer over every lambda state) COMPLETED WITHOUT A NaN on this platform. Exiting before any MD; nothing was sampled and nothing was committed.",
-        "wall_s": 988.2
+      "gradient_probe": {
+        "n_nonfinite": 0,
+        "max_kj_mol_nm": 4.9964313490067046e+17,
+        "argmax": 4052,
+        "top": [
+          {
+            "atom": 4052,
+            "f_kj_mol_nm": 4.9964313490067046e+17
+          },
+          {
+            "atom": 4054,
+            "f_kj_mol_nm": 4.99643134900656e+17
+          },
+          {
+            "atom": 5188,
+            "f_kj_mol_nm": 646013.2955403135
+          },
+          {
+            "atom": 81997,
+            "f_kj_mol_nm": 645611.5311168749
+          },
+          {
+            "atom": 112894,
+            "f_kj_mol_nm": 642817.6691783039
+          },
+          {
+            "atom": 112938,
+            "f_kj_mol_nm": 642494.5174128967
+          }
+        ],
+        "n_coincident_pairs": 1,
+        "coincident_atoms": [
+          4052,
+          4054
+        ],
+        "max_excluding_coincident_kj_mol_nm": 646013.2955403135,
+        "top_atoms_are_coincident": true,
+        "ratio_over_rest": 773425467169.0282
       },
-      "decision": "RETRY",
-      "why": "the production `sampler.setup()`, including its pre-MD LocalEnergyMinimizer over every lambda state, COMPLETED WITHOUT A NaN on a host-independent CPU build of the same staged system (988.2s), and every force term is finite at the handed-over coordinates (max |E| = 1.09104e+06 kJ/mol). The edge is not the fault, so this is a retry candidate and not a block"
+      "gradient_probe_after": {
+        "n_nonfinite": 0,
+        "max_kj_mol_nm": 646013.1832812857,
+        "argmax": 5188,
+        "top": [
+          {
+            "atom": 5188,
+            "f_kj_mol_nm": 646013.1832812857
+          },
+          {
+            "atom": 81997,
+            "f_kj_mol_nm": 645611.4779671524
+          },
+          {
+            "atom": 112894,
+            "f_kj_mol_nm": 642817.6160330041
+          },
+          {
+            "atom": 112938,
+            "f_kj_mol_nm": 642494.6239469317
+          },
+          {
+            "atom": 112893,
+            "f_kj_mol_nm": 343831.3967949847
+          },
+          {
+            "atom": 90079,
+            "f_kj_mol_nm": 261244.03298409222
+          }
+        ],
+        "n_coincident_pairs": 0,
+        "coincident_atoms": [],
+        "max_excluding_coincident_kj_mol_nm": 646013.1832812857,
+        "top_atoms_are_coincident": false
+      },
+      "dedegenerate": {
+        "n_coincident_pairs": 1,
+        "pairs": [
+          [
+            4052,
+            4054
+          ]
+        ],
+        "nudge_nm": 0.001,
+        "tol_nm": 1e-06,
+        "moved_atoms": [
+          4054
+        ],
+        "n_moved": 1
+      },
+      "decision": "FIX_GEOMETRY",
+      "why": "1 pair(s) of atoms sit at the SAME coordinates ([4052, 4054]) and carry the largest gradient in the system \u2014 4.99643e+17 kJ/mol/nm against 646013 on every non-degenerate atom. Finite, so a double-precision CPU minimiser descends it; this lane's GPUs did not, 25 times on 7 cards. The remedy is the starting geometry, not another host and not a block"
     }
   ],
   "summary": {
-    "RETRY": [
+    "FIX_GEOMETRY": [
       "zaienne_cmpd19->cw_bio_primary_amide"
     ]
   }

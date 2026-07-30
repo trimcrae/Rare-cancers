@@ -1,0 +1,273 @@
+"""A PERMANENTLY-EXCLUDED EDGE MUST RENDER AS ONE — not as done, not as still-failing, not as missing.
+
+WHY THESE TESTS EXIST (2026-07-28). The step 1 fan-out had one edge it can never compute
+(`cw_bio_nmethyl_amide`: no available mapper reaches the provable atom-map floor). The block itself worked
+— no host was rented for it — but every readout the lane produces described it wrongly, in three different
+directions at once:
+
+  * `mode_launch` printed `units=19 done=10 pending=9`. `done` was `len(units) - len(pending)`, and
+    `_pending` filters out finished AND blocked units, so the blocked edge was counted as COMPLETE. Nine
+    ddG results and "done=10" sat in the same artifact.
+  * the committed census read `phase.txt` directly, so the blocked edge wore `leg-complex-FAILED-rc1`
+    forever — character for character the string a unit wears while it is about to be re-placed.
+  * `step1_terminus_evidence` printed it as `NO-TERMINUS / no commits`, which is exactly what a unit that
+    has never been placed prints.
+
+CLAUDE.md §6 names the failure mode directly ("it does not silently drop units"), and §1 asks for one home
+per fact. So the three states — DONE, BLOCKED, OUTSTANDING — are counted by one pure function, rendered by
+one pure function, and the honest denominator is derived from the block map rather than typed.
+"""
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import congeneric_fanout_vast as cfv  # noqa: E402
+
+U = [{"unit_id": "u_done"}, {"unit_id": "u_blocked"}, {"unit_id": "u_running"}, {"unit_id": "u_cold"}]
+BLK = {"u_blocked": {"why": "no mapper reaches the provable floor", "evidence": "step1-map-diag.json"}}
+
+
+# ---- counts -----------------------------------------------------------------------------------
+def test_a_blocked_unit_is_not_counted_as_done():
+    """THE DEFECT THIS PINS, in one assertion. `len(units) - len(pending)` returned 3 here."""
+    done, blocked, outstanding = cfv.counts(U, {"u_done"}, BLK)
+    assert (done, blocked, outstanding) == (1, 1, 2)
+
+
+def test_the_three_counts_always_partition_the_map():
+    for done_ids in ({"u_done"}, set(), {"u_done", "u_blocked", "u_running", "u_cold"}):
+        d, b, o = cfv.counts(U, done_ids, BLK)
+        assert d + b + o == len(U)
+        assert min(d, b, o) >= 0
+
+
+def test_a_blocked_unit_that_nevertheless_has_a_result_counts_as_done():
+    """A result in hand is a result whatever list the unit is on — and it must not be double-counted."""
+    d, b, o = cfv.counts(U, {"u_done", "u_blocked"}, BLK)
+    assert (d, b, o) == (2, 0, 2)
+
+
+def test_no_blocks_leaves_the_old_arithmetic_untouched():
+    d, b, o = cfv.counts(U, {"u_done"}, {})
+    assert (d, b, o) == (1, 0, 3)
+
+
+# ---- the denominator --------------------------------------------------------------------------
+def test_computable_is_the_map_minus_its_permanent_exclusions():
+    got = [u["unit_id"] for u in cfv.computable_units(U, BLK)]
+    assert got == ["u_done", "u_running", "u_cold"]
+
+
+def test_computable_is_derived_from_the_block_map_not_a_constant():
+    """Adding a block must move the denominator with no edit anywhere else — the whole point of deriving
+    it. A typed '18' is the copy that goes stale the first time a block is added or lifted."""
+    assert len(cfv.computable_units(U, {})) == 4
+    assert len(cfv.computable_units(U, {"u_cold": {"why": "x"}, **BLK})) == 2
+
+
+# ---- the renderer -----------------------------------------------------------------------------
+def test_a_blocked_unit_does_not_wear_its_last_failure_marker():
+    p = cfv.unit_phase({"unit_id": "u_blocked"}, BLK, has_result=False,
+                       phase_txt="leg-complex-FAILED-rc1 2026-07-27T13:12:21Z")
+    assert p == cfv.BLOCKED_PHASE
+    assert "FAILED" not in p
+
+
+def test_a_result_outranks_a_block():
+    assert cfv.unit_phase({"unit_id": "u_blocked"}, BLK, has_result=True, phase_txt="whatever") == "done"
+
+
+def test_an_unblocked_unit_still_shows_its_real_phase():
+    assert cfv.unit_phase({"unit_id": "u_running"}, BLK, has_result=False,
+                          phase_txt="leg-complex-running 2026-07-28T09:15:16Z").startswith(
+        "leg-complex-running")
+
+
+def test_a_never_placed_unit_is_not_started_and_not_blocked():
+    assert cfv.unit_phase({"unit_id": "u_cold"}, BLK, has_result=False, phase_txt=None) == "not-started"
+
+
+def test_the_blocked_phase_string_is_not_mistakable_for_a_phase_marker():
+    """Every real marker this lane writes starts with one of these; the blocked sentinel must not, or the
+    histogram buckets an excluded edge alongside a live one again."""
+    assert not cfv.BLOCKED_PHASE.startswith(("leg-", "boot", "staged", "reduce", "done"))
+    assert "BLOCKED" in cfv.BLOCKED_PHASE
+
+
+# ---- the readouts actually use them -----------------------------------------------------------
+def _src(name):
+    return open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), name)).read()
+
+
+def test_the_launcher_reports_blocked_separately_from_done():
+    s = _src("congeneric_fanout_vast.py")
+    assert "done = len(units) - len(pending)" not in s, "the subtraction that counted a block as done"
+    assert "computable={len(computable)}" in s and "blocked={n_blocked}" in s
+
+
+def test_the_committed_census_carries_the_denominator_and_the_reason():
+    s = _src("congeneric_fanout_vast.py")
+    for field in ('"n_computable"', '"n_blocked"', '"blocked_units"', '"blocked_why"'):
+        assert field in s, f"{field} missing from the progress snapshot"
+
+
+def test_the_terminus_readout_separates_EXCLUDED_from_NO_TERMINUS():
+    s = _src("step1_terminus_evidence.py")
+    assert '"EXCLUDED"' in s
+    # ...and the release size it prices excludes them, or the lane prices a purchase it cannot make.
+    assert "u not in blocked" in s
+
+
+def test_the_terminus_readout_does_not_type_its_own_denominator():
+    """'the 18-edge release' was a string literal here. It is right today and wrong the moment a block is
+    added or lifted, which is the drift rule 1 exists to stop."""
+    s = _src("step1_terminus_evidence.py")
+    assert "18-edge" not in s
+    assert "n_computable" in s
+
+
+def test_the_map_artifact_the_manuscript_cites_carries_the_denominator():
+    """§2.9 of the paper quotes this file. It stated `n_units` and `n_complete` and left the subtraction to
+    the reader, which is how "1 of its 19 edges is computed" and "this paper reports two computed edges"
+    came to sit in one paragraph. The computable count now ships with the map."""
+    s = _src("congeneric_fanout_vast.py")
+    body = s.split("def mode_collect(", 1)[1]
+    assert '"n_computable"' in body and '"n_blocked"' in body
+    assert "computable_units(units, _blocked_now)" in body
+    # ...and from the SAME read as the list it is derived from, or the count and the list can disagree.
+    assert body.count("_load_blocked(s3, bucket)") == 1
+
+
+# ---- the consecutive-failure breaker, which this lane referenced and never called ---------------
+# `_record_exclusion` has long pointed at `leg_failure_breaker` as "the thing that stops buying the next
+# host for this unit". Nothing in the module called it. `cw_bio_primary_amide` went through that gap for 25
+# rentals on 7 distinct card/driver combinations, every one dying at the same call.
+import types  # noqa: E402
+
+
+class _FakeS3:
+    def __init__(self, attempts=0, phase=None, has_result=False, baseline=None):
+        self.attempts, self.phase, self.has_result = attempts, phase, has_result
+        self.baseline, self.put = baseline, {}
+
+    def list_objects_v2(self, **kw):
+        return {"Contents": [{"Key": f"k{i}"} for i in range(self.attempts)], "IsTruncated": False}
+
+    def head_object(self, **kw):
+        if kw["Key"].endswith("/ddg.json") and self.has_result:
+            return {}
+        raise RuntimeError("404")
+
+    def get_object(self, **kw):
+        import io
+        k = kw["Key"]
+        if k.endswith("phase.txt") and self.phase:
+            return {"Body": io.BytesIO(self.phase.encode())}
+        if k.endswith(cfv._BREAKER_BASELINE_KEY_SUFFIX) and self.baseline is not None:
+            return {"Body": io.BytesIO(json.dumps({"units": self.baseline}).encode())}
+        raise RuntimeError("404")
+
+    def put_object(self, **kw):
+        self.put[kw["Key"]] = kw["Body"]
+
+
+import json  # noqa: E402
+
+UNIT = {"unit_id": "u1", "receptor": "nr4a3", "leg_id": "neutral__neutral"}
+
+
+def test_a_unit_that_has_never_run_is_never_held():
+    d = cfv.breaker_decision(_FakeS3(attempts=0, phase=None), "b", UNIT)
+    assert d["block"] is False
+
+
+def test_one_failure_is_not_enough_to_hold():
+    d = cfv.breaker_decision(_FakeS3(attempts=1, phase="leg-complex-FAILED-rc1 2026-07-29T09:00:00Z"),
+                             "b", UNIT)
+    assert d["block"] is False
+
+
+def test_repeated_failure_across_hosts_stops_the_buying():
+    """THE 25-RENTAL DEFECT, in one assertion."""
+    import leg_failure_breaker as lfb
+    d = cfv.breaker_decision(
+        _FakeS3(attempts=lfb.DEFAULT_THRESHOLD, phase="leg-complex-FAILED-rc1 2026-07-29T09:00:00Z"),
+        "b", UNIT)
+    assert d["block"] is True
+    assert "NOT permanent" in d["why"]
+
+
+def test_a_running_unit_is_never_held_however_many_attempts_it_has():
+    """The breaker must not touch work in flight — a resumed leg legitimately has many container starts."""
+    d = cfv.breaker_decision(_FakeS3(attempts=40, phase="leg-complex-running 2026-07-29T09:00:00Z"),
+                             "b", UNIT)
+    assert d["block"] is False
+
+
+def test_a_finished_unit_is_never_held():
+    d = cfv.breaker_decision(_FakeS3(attempts=99, phase="done", has_result=True), "b", UNIT)
+    assert d["block"] is False
+
+
+def test_the_baseline_re_arms_without_destroying_the_evidence():
+    """Re-arming is an OFFSET. The archive is the only durable record that this unit was bought 25 times;
+    `leg_failure_breaker.reset_for` would delete it, and that count is cited in the block reason and in the
+    manuscript. Attempts before the baseline stop counting; the objects stay."""
+    fake = _FakeS3(attempts=27, phase="leg-complex-FAILED-rc1 2026-07-29T09:00:00Z", baseline={"u1": 26})
+    d = cfv.breaker_decision(fake, "b", UNIT, cfv._breaker_baselines(fake, "b"))
+    assert d["block"] is False
+    assert d["n_attempts"] == 1 and d["attempts_before_baseline"] == 26
+
+
+def test_an_unreadable_bucket_fails_OPEN_and_never_halts_the_lane():
+    class Dead(_FakeS3):
+        def list_objects_v2(self, **kw):
+            raise RuntimeError("s3 down")
+    d = cfv.breaker_decision(Dead(phase="leg-complex-FAILED-rc1 2026-07-29T09:00:00Z"), "b", UNIT)
+    assert d["block"] is False, "an unreadable bucket must not be able to stop the lane"
+
+
+def test_the_threshold_is_imported_not_retyped():
+    s = _src("congeneric_fanout_vast.py")
+    assert "import leg_failure_breaker as lfb" in s and "lfb.decide(" in s
+    assert "DEFAULT_THRESHOLD = " not in s, "the threshold must have one home, in leg_failure_breaker"
+
+
+def test_a_breaker_hold_is_a_NAMED_placement_outcome_and_not_silence():
+    s = _src("congeneric_fanout_vast.py")
+    assert '"breaker_hold"' in s
+    body = s.split("PLACEMENT_DECISIONS = {", 1)[1]
+    assert "breaker_hold" in body, "an unnamed hold is the silent drop CLAUDE.md section 6 forbids"
+
+
+def test_the_breaker_hold_is_tested_before_nothing_pending():
+    """'we declined to buy' and 'there is nothing to buy' are opposite facts with opposite remedies."""
+    s = _src("congeneric_fanout_vast.py")
+    body = s.split("if not batch:", 1)[1]
+    assert body.index('_dec = "breaker_hold"') < body.index('_dec, _why = "nothing_pending"')
+
+
+def test_unblocking_also_re_arms_the_breaker():
+    """Two guards that must be lifted by two separate gestures look, from outside, like one broken guard."""
+    s = _src("congeneric_fanout_vast.py")
+    body = s.split('if os.environ.get("FANOUT_UNBLOCK") == "1":', 1)[1].split('doc["_what"]', 1)[0]
+    assert "_BREAKER_BASELINE_KEY_SUFFIX" in body and "_attempt_count(" in body
+
+
+# ---- a block that CI can apply but not lift is a one-way door -----------------------------------
+def test_the_workflow_wires_the_unblock_half():
+    """`mode_block` has always documented FANOUT_UNBLOCK=1 as the way to lift a block. Nothing set it, so
+    blocks could be applied from CI and never removed from CI."""
+    wf = open(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__))))), ".github/workflows/fusion-cpu-extras.yml")).read()
+    assert "FANOUT_UNBLOCK:" in wf
+    assert "'unblock' && '1' || '0'" in wf
+
+
+def test_a_reason_that_reads_as_an_unblock_request_refuses_rather_than_blocking():
+    """The block reason and the unblock signal share one workflow input, so 'unblock' typed into it is
+    unambiguous intent. Taking it literally re-blocks the unit AND destroys its evidenced reason."""
+    s = _src("congeneric_fanout_vast.py")
+    body = s.split("def mode_block(", 1)[1]
+    assert 'why.strip().lower() in ("unblock"' in body
+    assert "Refusing rather than overwriting" in body

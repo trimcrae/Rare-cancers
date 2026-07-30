@@ -166,6 +166,14 @@ def matrix_for_unit(unit, in_dir):
 
     row["matrix"] = cells
 
+    # ---- ★★ WHICH ATOMS FAIL TO MAP, NOT JUST HOW MANY (2026-07-28). A count under the floor is the
+    #      trigger for a BLOCK, and a block retires an edge from the paper — so the count alone is not
+    #      enough evidence to spend that. `n_mapped=19 < floor=20` is compatible with two opposite readings:
+    #      a search that failed and left chemistry unmapped, or a search that succeeded and left exactly the
+    #      atoms that CANNOT map (the substituted heavy atom and the hydrogens whose environment it changes).
+    #      The identity and element of every unmapped atom separates them, and it costs nothing to record.
+    row["unmapped"] = _unmapped_detail(ligA, ligB, LomapAtomMapper, row)
+
     # ---- what PRODUCTION picks. Called positionally with no prefer_element_change, exactly as
     #      nr4a3_rbfe.run_leg / _prep_units do — this column must be the real one, not a reconstruction. ----
     t0 = time.time()
@@ -185,6 +193,53 @@ def matrix_for_unit(unit, in_dir):
     prod = row.get("production_n_mapped")
     row["production_clears_floor"] = (None if (floor is None or prod is None) else prod >= floor)
     return row
+
+
+def _atom_label(mol, i):
+    """`C7(H:3, nb=O)` — element, index, attached-H count and the elements it is bonded to. Enough to say
+    WHAT an unmapped atom is without shipping a whole molblock into the artifact."""
+    a = mol.GetAtomWithIdx(int(i))
+    nb = "".join(sorted(n.GetSymbol() for n in a.GetNeighbors()))
+    return f"{a.GetSymbol()}{i}(H:{a.GetTotalNumHs()}, nb={nb or '-'})"
+
+
+def _unmapped_detail(ligA, ligB, LomapAtomMapper, row):
+    """For the BEST map any available mapper returns, which atoms of A and B are left as dummies.
+
+    Returned per mapper so a later reader can see whether the mappers disagree about WHICH atoms are hard,
+    which is a different fact from disagreeing about how many."""
+    out = {}
+    A, B = ligA.to_rdkit(), ligB.to_rdkit()
+    cands = {"lomap_ec0": lambda: next(LomapAtomMapper(time=max(BUDGETS), threed=False,
+                                                       element_change=False).suggest_mappings(ligA, ligB)),
+             "lomap_ec1": lambda: next(LomapAtomMapper(time=max(BUDGETS), threed=False,
+                                                       element_change=True).suggest_mappings(ligA, ligB))}
+    try:
+        from kartograf import KartografAtomMapper
+        cands["kartograf"] = lambda: next(KartografAtomMapper().suggest_mappings(ligA, ligB))
+    except Exception:  # noqa: BLE001 — absent kartograf is a real answer, recorded by the caller already
+        pass
+    for name, make in cands.items():
+        try:
+            m = make().componentA_to_componentB
+        except Exception as e:  # noqa: BLE001
+            out[name] = {"error": f"{type(e).__name__}: {e}"}
+            continue
+        ua = [i for i in range(A.GetNumAtoms()) if i not in m]
+        ub = [j for j in range(B.GetNumAtoms()) if j not in set(m.values())]
+        out[name] = {
+            "n_mapped": len(m),
+            "unmapped_a": [_atom_label(A, i) for i in ua],
+            "unmapped_b": [_atom_label(B, j) for j in ub],
+            # The element substitution the map DID make, if any — an ec=True map that changes an element is
+            # doing the thing ec=False refuses to, and that is visible here rather than inferred from counts.
+            "element_changes": sorted({f"{A.GetAtomWithIdx(int(i)).GetSymbol()}->"
+                                       f"{B.GetAtomWithIdx(int(j)).GetSymbol()}"
+                                       for i, j in m.items()
+                                       if A.GetAtomWithIdx(int(i)).GetSymbol()
+                                       != B.GetAtomWithIdx(int(j)).GetSymbol()}),
+        }
+    return out
 
 
 def verdict(row):

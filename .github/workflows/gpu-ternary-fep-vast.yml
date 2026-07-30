@@ -70,9 +70,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side) || blacklist-clear ($0, snapshot the shared machine-exclusion set to the repo and then EMPTY it, shared + every lane's own list) | blacklist-snapshot ($0, snapshot ONLY — the history survives a clear, so this recovers the record if the snapshot commit ever loses its race)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-diag]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, blacklist-snapshot, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-diag, charge-provenance, retire-host]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -94,10 +94,47 @@ on:
         description: "reps-diag: also TRACE container memory vs its limit for this many minutes (blank = skip). Must be running while a ternary leg is in setup — that trace is what separates an OOM kill from a provider stop."
         type: string
         default: ""
+      gpu_class:
+        description: "override the GPU class the lane rents (blank = rtx4090, the lane default). Sets TVAST_GPU. ⚠ SOFT ONLY, and it CANNOT force a card: with require_gpu unset this value is consulted solely by the unmeasured fallback in _select_cheapest_offer, so any benched offer on the board sends the decision back to the $/ns ranking. It failed to do exactly this job on 2026-07-29 — use `min_ns_per_h` below when the requirement is speed."
+        type: string
+        default: ""
+      min_ns_per_h:
+        description: "HARD floor on the rented card's measured throughput, in ns/hr at the ternary system size (blank = no floor). Sets TVAST_MIN_NS_PER_H. This is the DEADLINE control: `40` admits the RTX 5090 class only, `31` admits 5090/4090/5080, `28` adds the 4080. Checked against `vast_cost_model.ns_per_hour` — the same validated table the $/ns ranking uses — so an unbenched card is excluded rather than guessed at. Use per-launch for a leg that has become the critical path; leaving it set turns the lane's cost discipline into a standing speed preference."
+        type: string
+        default: ""
       leg_only:
         description: "launch: restrict to units whose LEG ID contains this substring (e.g. `nr4a3`). Recovers ONE preempted arm without re-renting a sibling that has a known deterministic defect."
         type: string
         default: ""
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+# ⏳ TEMPORARY DEADLINE WAIVER — trimcrae, 2026-07-29 4:47 PM ET: *"I just want them all done by the
+# morning. Don't worry about the price of the rest of these specific legs."*
+#
+# WHAT THIS CHANGES. `relaunch_market_gate` normally refuses to re-rent a dead host above the buy line
+# (`inflight_usd_per_ns.APPROVED_USD_PER_NS` = $0.006539/ns, ≈1.92x the current basis). Overnight, a thin
+# market would therefore HOLD placements — correct behaviour on any normal night, and exactly the wrong
+# behaviour when the six legs in flight have to land by morning. Raising the RATIO ceiling lets a relaunch
+# proceed at a price we would ordinarily decline.
+#
+# ⚠ WHAT IT DOES **NOT** CHANGE, deliberately:
+#   * `APPROVED_USD_PER_NS` is untouched. The buy line is a standing ruling with a test that fails if the
+#     flag and the refusal ever diverge (`tests/test_buy_line_invariant.py`); this overrides one gate's
+#     threshold, it does not redefine the line or silence the `⚠ DRIFT` flag. Rows over the line still SAY
+#     they are over it — we are choosing to pay, not pretending it is cheap.
+#   * The step-1 fan-out is a different workflow and keeps its own gating untouched.
+#   * 5a-KS stays parked, so this cannot spend on it.
+#
+# ⚠ NOT INFINITY, AND THAT IS THE POINT. 4.0x still refuses an absurd outlier — a 10x offer is far more
+# likely a mispriced or broken listing than a real one worth buying under deadline. A waiver that accepts
+# ANY price is not a deadline decision, it is an unbounded one.
+#
+# ⏱ SCOPE: this overnight run only. Remove it once the closure residual R and the replicate cycle SD have
+# landed. It is written as a visible banner rather than a quiet env line so that removing it is a decision
+# somebody actually makes.
+env:
+  RELAUNCH_MAX_RATIO_VS_BASIS: "4.0"
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 permissions:
   contents: write
@@ -147,7 +184,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-diag) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-diag|charge-provenance|retire-host|blacklist-clear|blacklist-snapshot) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -164,12 +201,55 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       - name: Unit tests (identity round-trip, prefix keying, cost arithmetic)
+        # ★★ `-m "not committed_artifact"` — WHY THIS JOB NO LONGER ASSERTS THE CONTENT OF A DATA FILE
+        # (2026-07-28). This job is in the `needs:` of every task in this workflow, so anything red here
+        # blocks market-gate, collect, launch and stop alike. On 2026-07-28 a launch job's own ledger write
+        # evicted a row that `test_the_committed_ledger_is_valid_and_records_the_lost_windows` pins, and the
+        # entire ternary lane went down for ~90 minutes across seven consecutive red runs — not because any
+        # code was broken, but because a committed JSON file had drifted.
+        #
+        # A test of a MUTABLE ARTIFACT and a test of CODE fail for unrelated reasons and deserve unrelated
+        # blast radii. The artifact tests still run, still fail loudly, and were NOT weakened — see the
+        # `ledger-integrity` job below, which depends on nothing and is depended on by nothing.
+        # `--strict-markers` is what stops the deselection silently matching nothing after a rename.
         run: |
           set -eo pipefail
           python -m pip install -q pytest
           python -m pytest research/modalities/tests/test_ternary_vast_launch.py \
                            research/modalities/tests/test_ternary_vast_watchdog.py \
-                           research/modalities/tests/test_ternary_launch_ledger.py -q
+                           research/modalities/tests/test_ternary_launch_ledger.py \
+                           research/modalities/tests/test_vast_start_refusal.py \
+                           research/modalities/tests/test_capacity_refusal_trend.py \
+                           --strict-markers -m "not committed_artifact" -q
+
+  # ------------------------------------------------------------------ free: LOUD, but gates nothing
+  ledger-integrity:
+    # ★★ THE GUARD THAT KEEPS THIS CLASS OF FAILURE OFF THE LANE'S CRITICAL PATH (2026-07-28).
+    # Deliberately `needs: resolve` only, and named in NO other job's `needs:`. A row lost from the ledger
+    # is a real finding and must be seen — the run goes red, and `--verify` prints an `::error` naming the
+    # exact missing row and the one command that restores it — but it can no longer stop a fleet being
+    # supervised, collected or stopped. The old arrangement inverted that: the bookkeeping outranked the
+    # billing. `if: always()` so it reports on every dispatch of this workflow, including the GPU ones.
+    needs: resolve
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }   # depth 0: --verify reads the file's history
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: The committed ledger still holds every row marked to be kept
+        run: |
+          set -eo pipefail
+          python -m pip install -q pytest
+          # Read-only. It never repairs here: an auto-commit from a job that runs on every dispatch would
+          # race the lanes that are appending to this same file, and the structural fix means an evidence
+          # row can no longer be evicted in the first place. If this ever fires, `--repair` restores it by
+          # union from git history and the annotation says so.
+          python research/modalities/ternary_launch_ledger.py --verify
+          python -m pytest research/modalities/tests/test_ternary_launch_ledger.py \
+                           --strict-markers -m "committed_artifact" -q
 
   dry-run:
     needs: [resolve, test]
@@ -184,6 +264,8 @@ jobs:
       - name: Print the JobSpec that would be rented
         env:
           GIT_BRANCH: ${{ github.ref_name }}
+          TVAST_GPU: ${{ github.event.inputs.gpu_class }}
+          TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
           TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
           TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
         run: |
@@ -261,6 +343,10 @@ jobs:
       contents: write
       actions: write
     env:
+      # priced with the SAME class the launch would buy — otherwise the gate projects a
+      # market we would not actually rent from.
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
+      TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -318,19 +404,54 @@ jobs:
               --stage market-gate --gate research/modalities/ternary-vast-market-hold.json \
               --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
               --reason "every unit already done or hosted; no launch dispatched, no rental attempted" || true
+          elif [ "$RC" = 4 ]; then
+            # BLOCKED. Its own word, deliberately: exit 3 would say the lane FINISHED and exit 1 would say
+            # the market was too dear. Neither is true -- units need hosts, and we are declining to buy them
+            # because they have died on several hosts in a row. $0 spent; the readout names each unit and
+            # its failed-host count.
+            python research/modalities/ternary_launch_ledger.py --record blocked \
+              --stage market-gate --gate research/modalities/ternary-vast-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "units withheld by the failure breaker; no launch dispatched, no rental attempted" || true
           fi
-          git add research/modalities/ternary-vast-market-hold.json \
-                  research/modalities/ternary-vast-launch-attempts.json
+          # ★★ THE SAME UNION-ON-RACE THE RENT STEP USES, AND FOR THE SAME REASON (2026-07-28).
+          # This was `git pull --rebase --autostash || true` then `git push || true` — the pattern the rent
+          # step documents as having silently dropped the record of a four-host purchase. A textual 3-way
+          # rebase of two appends to one JSON array conflicts routinely between lanes, and `|| true` then
+          # swallows the conflict, drops the commit and leaves the authorisation unrecorded. It survived
+          # here, in the step that runs FAR more often than the rent step. A union keyed on
+          # (utc, outcome, run_url) cannot conflict; `--merge-from` is that union, and it is idempotent.
+          BR="${{ github.ref_name }}"
+          HOLDFILE=research/modalities/ternary-vast-market-hold.json
+          LEDGER=research/modalities/ternary-vast-launch-attempts.json
+          git add "$HOLDFILE" "$LEDGER"
           if ! git diff --cached --quiet; then
-            git commit -m "tvast market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) for valB_mini r1+r2 (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
+            cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
+            case "$RC" in 0) WORD=CLEAR;; 3) WORD=NOTHING-TO-LAUNCH;; 4) WORD=BLOCKED;; *) WORD=HOLD;; esac
+            MSG="tvast market snapshot: $WORD for valB_mini r1+r2 (CI)"
+            for attempt in 1 2 3 4 5; do
+              git commit -q -m "$MSG" || true
+              if git push origin HEAD:"$BR" 2>/dev/null; then break; fi
+              echo "[gate] push attempt $attempt lost a race; re-basing onto origin/$BR, unioning the ledger row"
+              # Onto ORIGIN, never HEAD~1: after a lost race HEAD is an ancestor of the branch, so a commit
+              # on top of it can only be rejected again as non-fast-forward. See the rent step's note.
+              git fetch -q origin "$BR"; git reset -q --hard "origin/$BR"
+              cp /tmp/hold-ours.json "$HOLDFILE"
+              python research/modalities/ternary_launch_ledger.py --merge-from /tmp/ledger-ours.json
+              git add "$HOLDFILE" "$LEDGER"
+              if git diff --cached --quiet; then break; fi
+            done
           fi
-          echo "market-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host)"
+          echo "market-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
 
           if [ "$RC" = 0 ]; then
             echo "::notice title=TVAST MARKET CLEAR::board is within both ceilings — dispatching edge-reps."
-            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=edge-reps
+            # FORWARD gpu_class. Without it a gate priced against one card class self-dispatches a
+            # launch that buys from another — the projection and the purchase would describe
+            # different markets, which is the exact mismatch the gate exists to prevent.
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
+              -f task=edge-reps -f gpu_class="${{ github.event.inputs.gpu_class }}" \
+              -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}"
             exit 0
           fi
 
@@ -339,6 +460,18 @@ jobs:
             # only print "nothing to rent", and three of them in 25 minutes is what made a working lane look
             # like a lane repeatedly buying over the buy line. Green, because nothing is wrong.
             echo "::notice title=TVAST NOTHING TO LAUNCH::every valB_mini unit is already done or already hosted — no launch dispatched and no rental attempted. The rates the lane is ALREADY paying are in research/modalities/ternary-vast-market-hold.json under live_host_rates."
+            exit 0
+          fi
+
+          if [ "$RC" = 4 ]; then
+            # ★★ THE BLOCKED PATH NEEDED ITS OWN ANNOTATION, NOT JUST ITS OWN LEDGER ROW (2026-07-29).
+            # This gate has recorded `blocked` since the breaker went live — and then fell through to the
+            # price-hold warning below, so the only line an operator actually reads said the lane was
+            # waiting on trimcrae's ≤1.5×-basis decision and would launch itself the moment the board
+            # cleared. Both halves are false for a breaker block: the market is not what stopped it, and no
+            # tick will ever clear it. Found when the triangle gate printed exactly that against four units
+            # blocked on a code fault; this gate had the same hole one branch further down.
+            echo "::warning title=TVAST BLOCKED ON REPEATED FAILURE::valB_mini units are withheld by the failure breaker after dying on several hosts each — NOT held on price, and this does NOT clear on the next tick. \$0 spent. Per-unit failed-host counts: research/modalities/ternary-vast-market-hold.json under units_blocked. Fix the cause, then task=supersede-failed with leg_only=<substring>, and re-run task=market-gate."
             exit 0
           fi
 
@@ -751,11 +884,58 @@ jobs:
               --leg-id calib_hi_to_lo2__binary_vhl \
               --out /tmp/pf/valb-triangle-map-preflight.json 2>&1 | tail -40
           cp /tmp/pf/valb-triangle-map-preflight.json research/modalities/valb-triangle-map-preflight.json
+      # ★★ AND AGAIN AGAINST THE BYTES THE HOST ACTUALLY RUNS (2026-07-27, 9:30 PM ET).
+      #
+      # THE BLINDNESS THIS CLOSES. The pre-flight above reads the STAGE cache. `run_ternary_leg.sh` copies the
+      # PRE-EQUIL cache over the top of it before the engine sees anything, so the gate and the host were
+      # grading different bytes — and on 2026-07-27 that gap passed both `calib_lo_to_lo2` legs at 7:51 PM ET
+      # which then died 8 minutes into their rentals on a deterministic
+      # `ValueError: Incorrect number of partial charges: 109 were provided for 110 atoms`, because the
+      # relaxed SDF carried a stale charge array the rebuild's atom count no longer matched. The gate could
+      # not have caught it: it called the very function that raised, on inputs the host never uses.
+      #
+      # The root cause is fixed at the engine boundary (`nr4a3_rbfe.strip_foreign_partial_charges`), so THIS
+      # failure cannot recur. This step exists for the NEXT divergence between the two trees, which is a
+      # structural hazard rather than a one-off bug: any future difference between what we grade and what we
+      # run is exactly as invisible as this one was.
+      #
+      # A pre-equil cache MISS is not a failure — the overlay is then a no-op and the tree equals the stage
+      # tree, which is the correct thing to grade when no relaxation exists yet.
+      - name: $0 ATOM-MAP PRE-FLIGHT, ON THE AS-RUN TREE (stage + pre-equil overlay)
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          mkdir -p /tmp/asrun
+          python - <<'PYEOF'
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import valb_triangle_charge_forensic as f
+          # Mirrors run_ternary_leg.sh exactly: the two tars have different layouts and are unpacked
+          # differently. That mirroring is the whole point — a check that assembles the tree its own way
+          # grades a third thing that nobody runs.
+          f.fetch_caches("triangle", "/tmp/asrun")
+          PYEOF
+          ls -la /tmp/asrun/asrun || { echo "::error::the as-run tree was not assembled"; exit 1; }
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/asrun:/tmp/asrun \
+            -e RBFE_LOMAP_TIME_S=300 -e SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/valb_map_preflight.py \
+              --input-dir /tmp/asrun/asrun \
+              --leg-id calib_lo_to_lo2__ternary_vhl \
+              --leg-id calib_lo_to_lo2__binary_vhl \
+              --leg-id calib_hi_to_lo2__ternary_vhl \
+              --leg-id calib_hi_to_lo2__binary_vhl \
+              --out /tmp/asrun/valb-triangle-map-preflight-asrun.json 2>&1 | tail -40
+          cp /tmp/asrun/valb-triangle-map-preflight-asrun.json \
+             research/modalities/valb-triangle-map-preflight-asrun.json
       - name: Commit the pre-flight record
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/valb-triangle-map-preflight.json
+          git add research/modalities/valb-triangle-map-preflight.json \
+                  research/modalities/valb-triangle-map-preflight-asrun.json
           if git diff --cached --quiet; then echo "pre-flight record unchanged"; else
             git commit -m "valB closure triangle: atom-map pre-flight for T2 and T3 (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -776,6 +956,10 @@ jobs:
       contents: write
       actions: write
     env:
+      # priced with the SAME class the launch would buy — otherwise the gate projects a
+      # market we would not actually rent from.
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
+      TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -807,26 +991,74 @@ jobs:
               --stage triangle-gate --gate research/modalities/valb-triangle-market-hold.json \
               --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
               --reason "every triangle leg already done or hosted; no launch dispatched, no rental attempted" || true
+          elif [ "$RC" = 4 ]; then
+            # ★★ BLOCKED — AND IT HAD NO BRANCH HERE UNTIL 2026-07-29, WHICH IS WHY IT PRINTED AS A PRICE
+            # HOLD. The valB_mini gate has carried exit 4 since the breaker went live; this gate, written
+            # from the same template afterwards, stopped at 3. So when all four triangle legs went BLOCKED
+            # on the partial-charge defect (15, 15, 7 and 21 dead hosts), the launcher's own readout said
+            # "⛔ BLOCKED ON REPEATED FAILURE" one line above a job annotation reading "HELD on price …
+            # re-checks on the next tick and launches itself the moment it clears".
+            #
+            # That is not a cosmetic mismatch, and it is the same defect as CLAUDE.md §1's "a row we are
+            # paying and a row the gate refused must never render alike" seen from the other side. A price
+            # hold is SELF-CLEARING: it is a true statement that the lane is alive and waiting on a number
+            # that moves on its own. A breaker block is the opposite — nothing about the market will ever
+            # change it, and the promise of a tick that clears it is a promise that cannot be kept. A lane
+            # stalled on a code fault would have looked, in the only place an operator reads, exactly like a
+            # lane patiently waiting out an expensive hour. One glyph, one meaning.
+            python research/modalities/ternary_launch_ledger.py --record blocked \
+              --stage triangle-gate --gate research/modalities/valb-triangle-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "triangle units withheld by the failure breaker; no launch dispatched, no rental attempted" || true
           fi
           # ⛔ THE SNAPSHOT IS COMMITTED ON EVERY EVALUATION, CLEAR OR HOLD. CLAUDE.md §6's one prohibition on
           # a gate that declines to buy is that declining must never be SILENT: a fleet that never launched
           # looks identical to one that finished, and the only thing that tells them apart is a hold readout
           # carrying the market snapshot that caused it.
-          git add research/modalities/valb-triangle-market-hold.json \
-                  research/modalities/ternary-vast-launch-attempts.json
+          # Union-on-race, identical to the valB_mini gate above — same artifact, same defect, same fix.
+          BR="${{ github.ref_name }}"
+          HOLDFILE=research/modalities/valb-triangle-market-hold.json
+          LEDGER=research/modalities/ternary-vast-launch-attempts.json
+          git add "$HOLDFILE" "$LEDGER"
           if ! git diff --cached --quiet; then
-            git commit -m "valB triangle market snapshot: $( [ "$RC" = 0 ] && echo CLEAR || echo HOLD ) (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
+            cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
+            # The commit subject is the only part of this that survives into `git log`, so it carries the
+            # same four words the ledger does — a `HOLD` subject on a breaker block would put the wrong
+            # cause into the permanent record. Mirrors the valB_mini gate's case exactly.
+            case "$RC" in 0) WORD=CLEAR;; 3) WORD=NOTHING-TO-LAUNCH;; 4) WORD=BLOCKED;; *) WORD=HOLD;; esac
+            MSG="valB triangle market snapshot: $WORD (CI)"
+            for attempt in 1 2 3 4 5; do
+              git commit -q -m "$MSG" || true
+              if git push origin HEAD:"$BR" 2>/dev/null; then break; fi
+              echo "[gate] push attempt $attempt lost a race; re-basing onto origin/$BR, unioning the ledger row"
+              git fetch -q origin "$BR"; git reset -q --hard "origin/$BR"
+              cp /tmp/hold-ours.json "$HOLDFILE"
+              python research/modalities/ternary_launch_ledger.py --merge-from /tmp/ledger-ours.json
+              git add "$HOLDFILE" "$LEDGER"
+              if git diff --cached --quiet; then break; fi
+            done
           fi
-          echo "triangle-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host)"
+          echo "triangle-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
           if [ "$RC" = 0 ]; then
             echo "::notice title=TRIANGLE MARKET CLEAR::board is within BOTH the triangle's own dollar ceiling and the \$/ns buy line — dispatching task=triangle."
-            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task=triangle
+            # FORWARD gpu_class. Without it a gate priced against one card class self-dispatches a
+            # launch that buys from another — the projection and the purchase would describe
+            # different markets, which is the exact mismatch the gate exists to prevent.
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
+              -f task=triangle -f gpu_class="${{ github.event.inputs.gpu_class }}" \
+              -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}"
             exit 0
           fi
           if [ "$RC" = 3 ]; then
             echo "::notice title=TRIANGLE NOTHING TO LAUNCH::every triangle leg is already done or already hosted — no launch dispatched, no rental attempted."
+            exit 0
+          fi
+          if [ "$RC" = 4 ]; then
+            # Green, like the hold below, and for the same reason: the fact is recorded and a red build every
+            # tick would only bury it. But the SENTENCE is the opposite one — nothing here self-clears, and
+            # naming the remedy is the point, because the operator reading this is the only thing that will
+            # act on it.
+            echo "::warning title=TRIANGLE BLOCKED ON REPEATED FAILURE::the valB closure triangle is NOT held on price — its units are withheld by the failure breaker after dying on several hosts each. This does NOT clear on the next tick and no rental was attempted (\$0). Fix the cause, then task=supersede-failed with leg_only=to_lo2 (or leg_failure_breaker.reset_for), and re-run task=triangle-gate."
             exit 0
           fi
           # A HOLD IS A NORMAL, GREEN, VISIBLE STATE — never a red build. The snapshot is committed above,
@@ -975,6 +1207,8 @@ jobs:
       AWS_DEFAULT_REGION: us-east-2
       GIT_BRANCH: ${{ github.ref_name }}
       TVAST_IMAGE: ${{ github.event.inputs.vast_image }}
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
+      TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:
@@ -1260,12 +1494,76 @@ jobs:
             --receipt research/modalities/ternary-vast-rental-receipt.json \
             --reason "$REASON"
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          # ★★ THE RECORD OF A PURCHASE MUST NOT BE LOST TO A MERGE (2026-07-27, 9:31 PM ET).
+          #
+          # WHAT HAPPENED. This was `git pull --rebase --autostash || true` then `git push || true`. The
+          # ledger is an APPEND-ONLY array that several lanes append to concurrently, so a rebase of our
+          # commit onto theirs conflicts routinely. It did:
+          #
+          #     error: could not apply 5c654a3e... tvast launch attempt: launched (CI)
+          #     Everything up-to-date
+          #     [ledger] no launch attempt recorded yet
+          #
+          # Both failures were swallowed by `|| true`, the commit was dropped, the repo was left mid-rebase,
+          # and the readout then reported that no launch had ever been attempted — for a run that had just
+          # rented FOUR hosts. Money was going out with no record that it had been authorised.
+          #
+          # THE FIX IS TO RE-APPEND, NOT TO RE-MERGE. A textual 3-way merge of two appends to one JSON array
+          # is exactly the conflict above. Instead each attempt takes origin's CURRENT ledger, unions our
+          # already-written row onto it, and pushes; a lost race just means the next attempt unions onto a
+          # newer file.
+          #
+          # ⚠ AND THE RECOVERY RESETS ONTO `origin/$BR`, NOT ONTO `HEAD~1` (measured 2026-07-28). It used to
+          # be `git reset --hard HEAD~1`, which leaves HEAD at the job's ORIGINAL checkout — an ANCESTOR of
+          # the branch the other lane has since advanced. Committing on top of that produces a history that
+          # does not contain theirs, so the retry push is rejected as non-fast-forward for exactly the same
+          # reason the first one was, and every one of the five attempts fails identically. Reproduced end to
+          # end in a scratch repo: push 1 rejected, recover, push 2 rejected with the same
+          # "Note about fast-forwards"; resetting onto `origin/$BR` instead pushes clean and origin ends up
+          # holding BOTH rows. The loop was therefore loud-but-useless on a real race — it could only ever
+          # reach the "NOT PERSISTED" error below.
+          #
+          # ⚠ AND THIS RETRY LOOP IS **NOT** WHAT LOST A ROW ON 2026-07-28. It was the leading suspect and
+          # it is innocent: the losing commit still contained the row written by the commit immediately
+          # before it, so its base was current and no race or stale checkout was involved. The cause was
+          # inside `record()` — the cap deleted the OLDEST row on every write once the file was full — and
+          # both the evidence and the fix have their one home in `ternary_launch_ledger.py`. Do not
+          # re-diagnose it here.
+          #
+          # AND IT FAILS LOUD. `|| true` on the record of a rental is the wrong default: a purchase nobody
+          # recorded is worse than a red build (the same argument `--verify-armed` already makes for a leg
+          # billing with nothing watching it). If every attempt fails, the row is printed IN FULL to the log
+          # so it is recoverable by hand, and the step exits non-zero.
+          BR="${{ github.ref_name }}"
+          LEDGER=research/modalities/ternary-vast-launch-attempts.json
           git add -f research/modalities/ternary-vast-rental-receipt.json 2>/dev/null || true
-          git add research/modalities/ternary-vast-launch-attempts.json
-          if ! git diff --cached --quiet -- research/modalities/ternary-vast-launch-attempts.json; then
-            git commit -m "tvast launch attempt: $OUTCOME (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
+          # ★ THE ROW IS RECORDED ONCE AND THEN UNIONED, NEVER RE-RECORDED (2026-07-28). `--record` stamps
+          # `utc` from the wall clock, so re-running it per retry mints a row with a DIFFERENT key each
+          # time — five retries that each half-succeeded could leave five rows for one launch. Keeping our
+          # copy and unioning it onto origin's is idempotent, and it preserves any other local row instead
+          # of discarding it with the checkout.
+          RECEIPT=research/modalities/ternary-vast-rental-receipt.json
+          cp "$LEDGER" /tmp/ledger-ours.json
+          cp "$RECEIPT" /tmp/receipt-ours.json 2>/dev/null || true
+          LEDGER_PUSHED=0
+          for attempt in 1 2 3 4 5; do
+            git add "$LEDGER"
+            git add -f "$RECEIPT" 2>/dev/null || true
+            if git diff --cached --quiet -- "$LEDGER"; then LEDGER_PUSHED=1; break; fi
+            git commit -q -m "tvast launch attempt: $OUTCOME (CI)"
+            if git push origin HEAD:"$BR" 2>/dev/null; then LEDGER_PUSHED=1; break; fi
+            echo "[ledger] push attempt $attempt lost a race; re-basing onto origin/$BR and unioning our row"
+            # Onto ORIGIN, not HEAD~1 — see the fast-forward note above. This takes origin's whole tree,
+            # including its ledger, so our row is put back by the union and the receipt from our copy.
+            git fetch -q origin "$BR"
+            git reset -q --hard "origin/$BR"
+            cp /tmp/receipt-ours.json "$RECEIPT" 2>/dev/null || true
+            python research/modalities/ternary_launch_ledger.py --merge-from /tmp/ledger-ours.json
+          done
+          if [ "$LEDGER_PUSHED" != 1 ]; then
+            echo "::error title=LAUNCH RECORD NOT PERSISTED::a rental may have happened and the ledger row could not be pushed. The row follows IN FULL so it can be re-applied by hand."
+            cat "$LEDGER" | tail -c 4000
+            exit 1
           fi
           echo "::notice title=TVAST launch attempt::$(python research/modalities/ternary_launch_ledger.py --print-last)"
 
@@ -1298,6 +1596,195 @@ jobs:
           # is worse than a red build.
           python research/modalities/ternary_vast_watchdog.py --verify-armed "$MODE"
 
+  # --------------------------------------------------- free: look again ~5 min after renting, and only then
+  # ★★ THE BLIND WINDOW AFTER A RENTAL WAS THIS LANE'S LARGEST REAL LOSS (measured 2026-07-29).
+  #
+  # WHAT HAPPENS. `gpu_backend._ensure_running` files a start as `accepted` on Vast's optimistic echo
+  # (`[vast] start 46209462 attempt 1: intended=running actual=None`). Vast then settles a fraction of those
+  # boxes back to `intended=stopped` MINUTES later — documented at gpu_backend.py:1281-1300 — and the nudge
+  # that reads the real reply lives in `collect`. So between renting and the next `collect`, a box that will
+  # never run looks exactly like one that is pulling its image, and we hold a slot we do not have.
+  #
+  # THE COST, measured rather than argued. Eight ternary rentals on 2026-07-29 produced ZERO committed
+  # iterations; three of them read `up=created` / `up=loading` and never executed at all. Today's gaps
+  # between `collect` runs were 7, 13, 15, 21, 24, 27, 29 and 69 minutes. The dollars are small (~$0.50 —
+  # this is weather-scale money) but the wall-clock is not: the closure triangle spent the afternoon with
+  # arms repeatedly re-placed instead of advancing, and each re-placement restarts a ~15-40 min pull before
+  # the first checkpoint can land.
+  #
+  # WHY THE FAN-OUT DOES NOT HAVE THIS PROBLEM, which is what identified the fix. Same account, same board,
+  # same window: the fan-out's rentals averaged 1.02 h against ternary's 0.35 h, and its stopped boxes carry
+  # `status_msg: "success, running …"` — they EXECUTED. Its tick nudges and re-places in one job, so the
+  # window never opens. This job gives the ternary lane the same property using the machinery it already has.
+  #
+  # ⚠ IT DISPATCHES `collect`, WHICH ADDS NO NEW REAPING RULE. That is deliberate: a legitimately slow
+  # 20-40 minute image pull must not be reaped, and `collect` already owns that discrimination (the 15-minute
+  # cold-start floor, and `vast_idle_guard`'s inviolable rule that GPU idleness never condemns a box). Adding
+  # a second, faster discriminator here is exactly how a guard starts killing healthy hosts.
+  #
+  # ⚠ AND IT IS DELIBERATELY *NOT* IN THE `ternary-vast-mutate` CONCURRENCY GROUP. Sleeping five minutes
+  # inside `launch` would hold the mutate lock and delay a queued launch by five minutes — paying for this
+  # fix with the very latency it exists to remove. `needs: launch` gives the ordering; a separate job gives
+  # the lock back immediately.
+  #
+  # $0: five minutes of a free runner, one `gh workflow run`. Rents nothing, destroys nothing.
+  post_launch_recheck:
+    needs: launch
+    if: ${{ always() && needs.launch.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: write
+      contents: read
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Wait out the settle-back window, then dispatch one collect
+        run: |
+          set -eo pipefail
+          echo "sleeping 300 s so Vast has time to settle a falsely-accepted start back to 'stopped'"
+          sleep 300
+          # ⚠ `-R` IS LOAD-BEARING: this job has no `actions/checkout`, deliberately (it only sleeps and
+          # dispatches), and without a git working directory `gh` cannot infer the repository — it exits 1
+          # with `fatal: not a git repository`, which is exactly how this job failed on its first live run
+          # at 1:56 PM ET on 2026-07-29. Naming the repo is cheaper than checking out a tree we never read.
+          gh workflow run gpu-ternary-fep-vast.yml -R "${{ github.repository }}" \
+            --ref "${{ github.ref_name }}" -f task=collect
+          echo "::notice title=POST-LAUNCH RECHECK::collect dispatched ~5 min after the rental — this is what closes the accepted-but-never-running window; it reaps nothing that collect would not reap anyway."
+
+  # ------------------------------------------------ free: retire ONE unit's host, keeping its checkpoint
+  # For a host measurably underperforming its own card class. The `$/ns` column cannot see this: it is
+  # derived from each card's TABLE throughput, so a host delivering half its class rate still renders a
+  # cheap-looking figure while the REALISED rate is double it. Full case in `retire_host.__doc__`.
+  # Destroys a HOST, never a RESULT — the commit store is in S3 and the next gate tick resumes from it.
+  retire_host:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'retire-host' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: ternary-vast-mutate
+      cancel-in-progress: false
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Retire the matching unit's host
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          SEL="${{ github.event.inputs.leg_only }}"
+          test -n "$SEL" || { echo "::error::set leg_only — refusing to retire every host at once"; exit 1; }
+          python research/modalities/ternary_vast_launch.py --retire-host "$SEL"
+
+  # ------------------------------------------------------- free: empty the machine-exclusion set, on purpose
+  # ★★ trimcrae, 2026-07-27 9:45 PM ET: "Clear out our blacklist then and don't add anything back unless you
+  # have a real reason to." The set had reached 48 permanent machines and was the BINDING constraint on
+  # placement — 2 of 2 authorised units failed with `no rentable verified offer` against a 189-offer board
+  # whose price was fine, and 4 of 5 on an earlier occasion. Its own history records at least three entries
+  # (53989, 31035, 24573) as provably wrong: every one had run this repo's container at 94-99 % GPU.
+  #
+  # SNAPSHOT FIRST, ALWAYS — the CLI refuses `--clear` without `--snapshot`. Emptying the set without
+  # recording it would destroy the only evidence of what was excluded and why.
+  #
+  # $0: two S3 reads and two S3 writes. Rents nothing, destroys nothing, touches no instance.
+  blacklist_clear:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'blacklist-clear' || needs.resolve.outputs.task == 'blacklist-snapshot' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Snapshot the exclusion set, then empty it
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          CLEAR_ARGS=""
+          if [ "${{ needs.resolve.outputs.task }}" = "blacklist-clear" ]; then
+            CLEAR_ARGS=1
+          fi
+          if [ -z "$CLEAR_ARGS" ]; then
+            # SNAPSHOT ONLY. `clear_all` keeps `history`, so a later snapshot still carries every pre-clear
+            # entry plus the CLEARED event — which is what makes the record recoverable when the commit
+            # below loses its push race, as it did at 9:55 PM ET on 2026-07-27.
+            # ★ A DATED PATH, so a later read-only snapshot can NEVER clobber the pre-clear record. Both
+            # modes used to write `...-before-clear.json`; running this task the day after a clear would
+            # have replaced the only committed copy of what was excluded with an empty one.
+            # ★ AND EVERY LANE'S OWN LIST, classified by each entry's ORIGINAL recorded reason. The shared
+            # set alone cannot answer "why is the fan-out filtering 49 machines?" — its list is its own, and
+            # reading only the shared key is what made a lane-local 41 invisible for a night.
+            # ★ `--project-retire` IS THE $0 VERIFICATION PATH. The retires themselves run inside the fan-out's
+            # LAUNCH tick, and a launch tick rents GPUs — so "just run it and look" is not a free check. This
+            # computes the same answer with the same classification functions over the live lists: zero
+            # writes, zero contact with any host, one S3 GET per key. It is what makes "the filter is N today
+            # and would be M" answerable without spending anything.
+            python research/modalities/vast_machine_blacklist.py \
+              --snapshot "research/modalities/vast-blacklist-snapshot-$(date -u +%Y-%m-%dT%H%MZ).json" \
+              --project-retire \
+              --lane-list "nr4a3-step1-fanout/results/_excluded_machines.json" \
+              --lane-list "ternary-vast/_lane_state.json" \
+              --lane-list "protfep-vast/_lane_state.json" \
+              2>&1 | tee /tmp/bl.txt
+            exit 0
+          fi
+          # ★ A DATED PATH HERE TOO. The clear used to write the fixed
+          # `vast-blacklist-snapshot-before-clear.json`, so a SECOND clear would overwrite the first clear's
+          # record — the 41-machine pre-clear snapshot, which is the only evidence of what was excluded and
+          # why, and the input to `retire_perishable_exclusions`' own justification. The CLI now refuses to
+          # overwrite an existing snapshot outright; this makes the refusal unreachable rather than fatal.
+          #
+          # ⚠⚠ AND THE LANE KEYS ARE THE REAL ONES. `nr4a3-step1-fanout/results/_lane_state.json` was a key
+          # the fan-out HAS NEVER WRITTEN — its list is `_excluded_machines.json` under `machine_ids`. On
+          # 2026-07-27 that line printed "no lane state — nothing to clear", the operator read a successful
+          # 74-entry clear, and the fan-out's own 41 machines survived it untouched: its 10:10 PM tick, five
+          # minutes later, filtered 41. `clear_lane_state` now handles both doc shapes AND reports an absent
+          # key as MISSING rather than as clean, so this class of miss cannot look like a success again.
+          python research/modalities/vast_machine_blacklist.py \
+            --snapshot "research/modalities/vast-blacklist-snapshot-$(date -u +%Y-%m-%dT%H%MZ)-before-clear.json" \
+            --clear "trimcrae 2026-07-27: the set reached 48 machines and became the binding constraint on placement (2 of 2 authorised units failed on \`no rentable verified offer\` against a 189-offer board at healthy prices). Capacity refusals were being stored as permanent host verdicts." \
+            --lane-state "ternary-vast/_lane_state.json" \
+            --lane-state "nr4a3-step1-fanout/results/_excluded_machines.json" \
+            --lane-state "protfep-vast/_lane_state.json" 2>&1 | tee /tmp/bl.txt
+      - name: Commit the snapshot — the record must outlive the set
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/vast-blacklist-snapshot-*.json
+          if git diff --cached --quiet; then echo "snapshot unchanged"; exit 0; fi
+          git commit -m "vast blacklist: snapshot of the exclusion set immediately before the clear (CI)"
+          # main takes a lot of CI commits, so three tries at 7/14/21 s is not enough — this lost all three
+          # at 9:55 PM ET and the set was cleared with its record unpushed. `rebase --abort` on failure so a
+          # half-finished rebase never leaks into the next attempt.
+          for i in 1 2 3 4 5 6; do
+            git fetch -q origin "${{ github.ref_name }}"
+            if git rebase --autostash "origin/${{ github.ref_name }}" \
+               && git push origin HEAD:"${{ github.ref_name }}"; then exit 0; fi
+            echo "[snapshot] attempt $i failed; see the git output above"
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done
+          echo "::error title=SNAPSHOT NOT PUSHED::the record did not land. It is printed in full below and by task=blacklist-snapshot, which re-derives it from the surviving history."
+          cat research/modalities/vast-blacklist-snapshot-*.json
+          exit 1
+      - name: Summary LAST
+        if: ${{ always() }}
+        run: cat /tmp/bl.txt
+
   # ------------------------------------------------------------------ free: monitor + reap
   collect:
     needs: resolve
@@ -1326,6 +1813,53 @@ jobs:
           set -eo pipefail
           python -m pip install -q boto3
           python research/modalities/ternary_vast_launch.py --collect 2>&1 | tee /tmp/board.txt
+      # ★★ THE BOARD IS COMMITTED, NOT ONLY LOGGED (2026-07-29, 3:41 PM ET).
+      #
+      # WHY. The board existed only inside this job's log, which means reading it requires an authenticated
+      # Actions log download. A scheduled Routine that fires WITHOUT connector tools — which is exactly what
+      # `create_trigger` warns it produces — therefore cannot read the one artifact it was created to report,
+      # and an hourly board post would have failed silently every hour. It is also the artifact trimcrae is
+      # most likely to want to glance at directly, and a number that lives only in a CI log is a number
+      # nobody can check.
+      #
+      # WHAT IT COSTS: one file, one commit, no GPU, no Vast call. Committed on EVERY collect including the
+      # ones where nothing changed, because a stale timestamp must mean "the collect did not run" and never
+      # "the collect ran and chose not to say" — the same rule the market-hold snapshots follow.
+      - name: Commit the in-flight board so it is readable without a log download
+        run: |
+          set -eo pipefail
+          BOARD=research/modalities/inflight-board.md
+          {
+            echo "<!-- GENERATED by gpu-ternary-fep-vast.yml task=collect. Do not edit by hand:"
+            echo "     every collect overwrites it. Source of every cell: inflight_board.py. -->"
+            echo "# In-flight board"
+            echo
+            echo "Generated $(TZ=America/New_York date '+%-I:%M %p ET %a %b %-d, %Y') by \`task=collect\`."
+            echo
+            echo '```'
+            sed -n '/---- TVAST-BOARD ----/,/---- END TVAST-BOARD ----/p' /tmp/board.txt || true
+            echo '```'
+          } > "$BOARD"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add "$BOARD"
+          if ! git diff --cached --quiet -- "$BOARD"; then
+            git commit -q -m "in-flight board (CI)"
+            # ⚠ NO `git stash` HERE. The first version stashed, reset, and popped — but the board file is
+            # the ONLY thing this step changes and it is already committed by the time we push, so there is
+            # nothing to stash. `git stash pop` then failed with "No stash entries found", and the following
+            # `git add` hit a path the reset had removed: `fatal: pathspec ... did not match any files`,
+            # turning a healthy collect red at 3:46 PM ET on 2026-07-29. Keep our copy in /tmp, reset onto
+            # origin, restore it, re-commit. No stash, no dependence on the working tree surviving a reset.
+            cp "$BOARD" /tmp/board-ours.md
+            for a in 1 2 3 4 5; do
+              git push origin "HEAD:${{ github.ref_name }}" 2>/dev/null && break
+              git fetch -q origin "${{ github.ref_name }}"
+              git reset -q --hard "origin/${{ github.ref_name }}"
+              cp /tmp/board-ours.md "$BOARD"
+              git add "$BOARD"
+              git diff --cached --quiet -- "$BOARD" || git commit -q -m "in-flight board (CI)"
+            done
+          fi
       # ★★ RETIRE THE WATCH ENTRY OF ANY LEG THAT HAS ALREADY LANDED (2026-07-27, 7:45 PM ET).
       #
       # WHY HERE AND NOT ONLY IN THE CRON WATCHDOG. `ternary-vast-watchdog.yml`'s schedule is throttled the
@@ -1388,13 +1922,36 @@ jobs:
         with: { ref: "${{ github.ref_name }}" }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
+      # ★★ WHAT DID **EVERY** ATTEMPT DIE OF? (added 2026-07-29.) The two valB_mini ternary replicates had
+      # 35 and 49 ARCHIVED attempts — 84 separately-rented hosts, each of which wrote its own run.log before
+      # the next overwrote the live one. `strip_foreign_partial_charges` landed in the MIDDLE of that series,
+      # so the archive spans both sides of a code change and can answer, from the hosts' own output, the
+      # question one traceback cannot: did the failure signature CHANGE when the fix landed? A single
+      # `--logs` dump reads only the newest attempt and is structurally blind to that.
+      #
+      # Bare runner, boto3 + rdkit, no openfe and no docker: grouping tracebacks and counting an SD tag's
+      # per-atom expansion needs neither. ~3 min, $0, read-only.
+      - name: What did EVERY archived attempt die of, and on which side of the fix?
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3 rdkit
+          mkdir -p /tmp/census
+          python research/modalities/valb_triangle_charge_forensic.py \
+            --mode triangle,triangle_smoke,edge_reps \
+            --attempts --attempts-full 80 --charge-census /tmp/census \
+            --attempts-grep '^\s*\[(rbfe|tfep)\]|cache HIT|cache MISS|INHERITED|inherited partial|pose repair|status.:..done' \
+            --out research/modalities/valb-triangle-attempt-forensic.json 2>&1 | tee /tmp/attempts.txt
       - name: Every triangle unit's FULL run.log, and both input trees pulled side by side
         run: |
           set -eo pipefail
           python -m pip install -q boto3
           mkdir -p /tmp/tridiag
+          # `edge_reps` too: the valB_mini binary arms are the only units of this shape that COMPLETED, so
+          # their run.log is the control every failure explanation has to be consistent with.
+          python research/modalities/valb_triangle_charge_forensic.py --mode triangle,edge_reps \
+            --logs 2>&1 | tee /tmp/tri_logs.txt
           python research/modalities/valb_triangle_charge_forensic.py --mode triangle \
-            --logs --fetch-caches /tmp/tridiag 2>&1 | tee /tmp/tri_logs.txt
+            --fetch-caches /tmp/tridiag 2>&1 | tee -a /tmp/tri_logs.txt
       - name: Build the endpoints from EACH tree, in the image that produced the failure
         run: |
           set -eo pipefail
@@ -1416,6 +1973,7 @@ jobs:
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/valb-triangle-charge-forensic.json
+          git add research/modalities/valb-triangle-attempt-forensic.json 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "valB triangle forensic: the gate's SDF vs the host's SDF (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -1424,8 +1982,83 @@ jobs:
       - name: Summary LAST
         run: |
           set -eo pipefail
+          echo "================ EVERY ARCHIVED ATTEMPT ================"
+          cat /tmp/attempts.txt || true
           echo "================ TRIANGLE ENDPOINT AUDIT ================"
           cat /tmp/tri_audit.txt
+
+  # ------------------------------------------------- free: which charge set did each BANKED leg actually run?
+  # ★★ THE ONE QUESTION A LOG CANNOT ANSWER. `_protocol()` prints `partial_charge_method = nagl` whether or not
+  # OpenFF then used it — OpenFF PREFERS user-supplied charges over the configured method, and until the strip
+  # landed at 2026-07-28T00:54Z every pose file handed the engine a complete charge set to prefer. The
+  # serialized hybrid `System` in each leg's SETUP CACHE records what was actually PARAMETERIZED, so the
+  # provenance of every banked ΔG is answerable from stored bytes.
+  #
+  # WHY IT IS NOT COSMETIC: ΔΔG_coop = ΔΔG_ternary − ΔΔG_binary, and the charge model cancels from that cycle
+  # ONLY IF BOTH ARMS USED THE SAME ONE. `use_preequil` is per-leg, so an arm-asymmetric inheritance is exactly
+  # the shape that breaks the cancellation — and this job's decisive comparison (the two arms' alchemical
+  # charge columns, element-wise) settles it without needing any reference charge model at all.
+  #
+  # BOTH STORES IN ONE JOB, deliberately: the r0 cycle the manuscript rests on ran on GCP (GCS) while its
+  # replicates ran on Vast (S3), and the question is precisely whether those two agree. Read-only end to end —
+  # it lists and GETs, and provisions nothing. $0, bare runner, no docker, no GPU.
+  charge_provenance:
+    needs: resolve
+    if: ${{ needs.resolve.outputs.task == 'charge-provenance' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      # Keyless WIF, same provider + SA the GCP ternary lane uses. `continue-on-error` because the GCS half is
+      # ADDITIVE: if the federation is unavailable the S3 legs must still be measured, and the GCS legs must
+      # then be reported as UNMEASURED rather than silently omitted (which would read as "clean").
+      - id: auth
+        continue-on-error: true
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+      - if: ${{ steps.auth.outcome == 'success' }}
+        continue-on-error: true
+        uses: google-github-actions/setup-gcloud@v2
+      # ONE INVOCATION, ONE ARTIFACT. The listing is not decoration: which SETUP_CACHE_VERSION a leg was
+      # built under is only knowable from what EXISTS, and reading that off a job log that expires — while
+      # the verdict it supports is committed — is how the repo ended up inferring a leg's setup version from
+      # the ABSENCE of a directory (the defect ternary-watch.json flags by name). Both go in the same file.
+      - name: What caches exist, and what charges does every banked leg's System carry?
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          python research/modalities/charge_provenance_forensic.py --list-caches --audit \
+            --out research/modalities/charge-provenance-forensic.json 2>&1 | tee /tmp/audit.txt
+      - name: Commit the forensic — provenance nobody should have to re-derive from an expiring job log
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/charge-provenance-forensic.json
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "charge provenance: which charge set each banked valB leg's System carried (CI)"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" \
+              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
+            sleep $((i * 7))
+          done
+          echo "::warning title=FORENSIC NOT PUSHED::the artifact is in the job log; re-run to commit it"
+      - name: Summary LAST
+        run: |
+          set -eo pipefail
+          echo "================ CHARGE PROVENANCE ================"
+          cat /tmp/audit.txt
 
   reps_diag:
     needs: resolve
@@ -1459,6 +2092,15 @@ jobs:
           python research/modalities/ternary_reps_diag.py --mode edge_reps --compare-stage \
             --leg calib_hi_to_lo__ternary_vhl \
             --out research/modalities/ternary-reps-stage-census.json 2>&1 | tee /tmp/census.txt
+      - name: Measure the per-arm iteration rate the checkpoint cadence is derived from
+        # $0, read-only (list + GET of leg.json), rents nothing and touches no instance. This is the ONE HOME
+        # of `ternary_vast_launch.arm_iteration_rates()`: the per-arm checkpoint interval is derived from a
+        # MEASURED seconds-per-iteration, and a measured number that is typed into a source file is one nobody
+        # re-derives when the fleet moves to a different card. Re-run this and the cadence follows.
+        run: |
+          set -eo pipefail
+          python research/modalities/ternary_arm_rates.py \
+            --out research/modalities/ternary-arm-iteration-rates.json 2>&1 | tee /tmp/rates.txt
       - name: The discriminator — container memory vs its limit across the window the ternary legs die in
         # `watch_minutes` blank = skip. The forensic above says the ternary legs die deterministically at
         # HybridTopologyFactory and that the kill takes the WHOLE CONTAINER (bash never reaches the
@@ -1476,7 +2118,7 @@ jobs:
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/ternary-reps-diag.json
-          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json; do
+          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json ternary-arm-iteration-rates.json; do
             [ -f "research/modalities/$f" ] && git add "research/modalities/$f" || true
           done
           if ! git diff --cached --quiet; then
@@ -1612,6 +2254,8 @@ jobs:
       VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
       VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
+      TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:
@@ -1823,6 +2467,8 @@ jobs:
       VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
       VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
+      TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
     steps:

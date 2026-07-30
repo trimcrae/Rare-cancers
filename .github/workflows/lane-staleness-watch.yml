@@ -42,7 +42,7 @@ on:
     inputs:
       fleet_branch:
         description: "branch carrying the STEP 1 lane's artifacts (same meaning as in step1-fanout-autoscale.yml)"
-        default: "claude/max-effort-2dq11l"
+        default: "main"
       ternary_branch:
         description: "branch carrying the TERNARY family's artifacts. NOT the same branch as the fan-out: gpu-ternary-fep-vast.yml is dispatched with ref=main and commits there, so reading these lanes off the fleet branch shows state hours old."
         default: "main"
@@ -80,7 +80,7 @@ jobs:
         with:
           # The lanes' artifacts live on the FLEET branch, never on the ref this runs from. Reading main and
           # concluding a lane is dead is the exact mistake made at 9:37 AM ET on 2026-07-27.
-          ref: ${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}
+          ref: ${{ github.event.inputs.fleet_branch || 'main' }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
@@ -243,7 +243,7 @@ jobs:
         if: ${{ always() && (github.event.inputs.write_history || '1') == '1' }}
         run: |
           set -uo pipefail
-          BR="${{ github.event.inputs.fleet_branch || 'claude/max-effort-2dq11l' }}"
+          BR="${{ github.event.inputs.fleet_branch || 'main' }}"
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           # Staged INDEPENDENTLY: `git add A B` fails atomically if one pathspec matches nothing, which
           # would drop the ledger whenever the history had not been written yet.

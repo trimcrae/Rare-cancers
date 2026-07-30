@@ -2,8 +2,11 @@
   "_what": "STEP 1 FAN-OUT \u2014 cmpd19 congeneric relative binding free-energy map (RUNG 4, tranche 1)",
   "_scope": "19 map edges at their charge-conserving microstate leg, on the PRIMARY nr4a3_design druggable frame. Charge-changing microstate legs and the conformer/paralogue frame axis are separate tranches and were NOT run \u2014 see congeneric_fanout.plan().",
   "_claim_ceiling": "CONDITIONAL relative free energies given a HYPOTHESIZED cmpd19 pose (no solved NR4A3 cocrystal) in ONE modeled opened conformer, single replicate per edge. NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is not established here \u2014 it rests on valA_mini + OpenFE's published benchmark for this protocol.",
+  "_charge_provenance": "MEASURED CLEAN, 2026-07-29 ($0, gpu-ternary-fep-vast.yml task=charge-provenance): this lane stages a DOCKED sdf, and s3://\u2026/nr4a3-step1-fanout/stage/ligand/docked_nr4a3.sdf carries 17 records and ZERO `atom.dprop.PartialCharge` tags \u2014 there was never anything here to inherit, so no result on this map is affected. NB this lane persists NO setup cache, so that pose file is the only stored artifact that can answer it: there is no hybrid System to fall back on. Evidence: research/modalities/charge-provenance-forensic.json \u2192 fanout_exposure.",
   "n_units": 19,
-  "n_complete": 14,
+  "n_complete": 18,
+  "n_computable": 18,
+  "n_blocked": 1,
   "blocked_units": {
     "e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral": {
       "why": "no available mapper reaches the provable atom-map floor of 20. LOMAP element_change=False 17; element_change=True 19, but ONLY by mapping the ester methyl CARBON onto an amide HYDROGEN (C->H), which is the degenerate correspondence the floor exists to reject; Kartograf 18. Identical maps at LOMAP budgets t20 and t300 in 0.01 s, so the MCS timeout is MEASURED not to be the mechanism. This is a statement about the MAPPERS, not about any rented host, so no rental can fix it. A complete 22-atom map provably exists (the heavy-atom graphs are isomorphic up to the single O->N substitution), so the block is revisitable: if a mapper ever returns >= 20 for this edge, lift it with FANOUT_UNBLOCK=1.",
@@ -27,6 +30,46 @@
       "dg_solvent_morph_kcal": -25.48407108375638,
       "solvent_unc_kcal": 0.599759878988202,
       "n_mapped_atoms": 23,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    },
+    {
+      "unit_id": "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
+      "edge_id": "e_cw_ev_5oh__cw_ev_5opropargyl",
+      "leg_id": "neutral__neutral",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "cw_ev_5oh",
+      "ligand_b": "cw_ev_5opropargyl",
+      "ddg_bind_kcal": -2.928,
+      "ddg_bind_unc_kcal": 0.589,
+      "dg_complex_morph_kcal": 10.66805844667915,
+      "complex_unc_kcal": 0.3518914382076908,
+      "dg_solvent_morph_kcal": 13.595669033712575,
+      "solvent_unc_kcal": 0.47242050269688185,
+      "n_mapped_atoms": 22,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    },
+    {
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "edge_id": "e_cw_ms_free_acid__cw_bio_primary_amide",
+      "leg_id": "neutral_acid__neutral",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "cw_ms_free_acid",
+      "ligand_b": "cw_bio_primary_amide",
+      "ddg_bind_kcal": 2.106,
+      "ddg_bind_unc_kcal": 0.132,
+      "dg_complex_morph_kcal": -5.779224355240758,
+      "complex_unc_kcal": 0.09787065970263985,
+      "dg_solvent_morph_kcal": -7.884769832417646,
+      "solvent_unc_kcal": 0.0885054604801525,
+      "n_mapped_atoms": 17,
       "n_windows": 12,
       "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
       "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
@@ -66,6 +109,26 @@
       "complex_unc_kcal": 0.21810001590562517,
       "dg_solvent_morph_kcal": 18.306008899581293,
       "solvent_unc_kcal": 0.18340981435949516,
+      "n_mapped_atoms": 17,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    },
+    {
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "leg_id": "neutral__neutral",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "zaienne_cmpd19",
+      "ligand_b": "cw_bio_primary_amide",
+      "ddg_bind_kcal": 0.935,
+      "ddg_bind_unc_kcal": 0.5,
+      "dg_complex_morph_kcal": -39.664363688882986,
+      "complex_unc_kcal": 0.33426080141434916,
+      "dg_solvent_morph_kcal": -40.59943865628454,
+      "solvent_unc_kcal": 0.37221513676313034,
       "n_mapped_atoms": 17,
       "n_windows": 12,
       "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
@@ -253,6 +316,26 @@
       "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
     },
     {
+      "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
+      "edge_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester",
+      "leg_id": "neutral__neutral",
+      "receptor": "nr4a3",
+      "frame": "nr4a3_design:top_druggable_frame_1",
+      "ligand_a": "zaienne_cmpd19",
+      "ligand_b": "cw_ms_5acetamido_ester",
+      "ddg_bind_kcal": 0.445,
+      "ddg_bind_unc_kcal": 0.572,
+      "dg_complex_morph_kcal": -56.546506655573275,
+      "complex_unc_kcal": 0.380493686657331,
+      "dg_solvent_morph_kcal": -56.99144356601819,
+      "solvent_unc_kcal": 0.42741492795088815,
+      "n_mapped_atoms": 21,
+      "n_windows": 12,
+      "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
+      "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD \u2014 a single replicate per edge cannot report reproducibility.",
+      "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled opened NR4A3 conformer. Not an affinity, not a selectivity claim."
+    },
+    {
       "unit_id": "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
       "edge_id": "e_zaienne_cmpd19__cw_ms_carbinol",
       "leg_id": "neutral__neutral",
@@ -296,28 +379,36 @@
   "cycle_closure": [
     {
       "cycle_id": "cycle_exitvector_aniline",
-      "status": "incomplete",
-      "missing": [
-        "e_zaienne_cmpd19__cw_ms_5acetamido_ester"
-      ],
-      "tol_kcal": 1.0
+      "status": "ok",
+      "sum_kcal": -0.726,
+      "tol_kcal": 1.0,
+      "signed_terms": {
+        "e_zaienne_cmpd19__cw_ev_5nh2": 1.064,
+        "e_zaienne_cmpd19__cw_ms_5acetamido_ester": -1.345,
+        "e_cw_ev_5nh2__cw_ms_5acetamido_ester": -0.445
+      }
     },
     {
       "cycle_id": "cycle_exitvector_ether",
-      "status": "incomplete",
-      "missing": [
-        "e_cw_ev_5oh__cw_ev_5opropargyl"
-      ],
-      "tol_kcal": 1.0
+      "status": "ok",
+      "sum_kcal": -0.756,
+      "tol_kcal": 1.0,
+      "signed_terms": {
+        "e_zaienne_cmpd19__cw_ev_5oh": 0.474,
+        "e_zaienne_cmpd19__cw_ev_5opropargyl": -2.928,
+        "e_cw_ev_5oh__cw_ev_5opropargyl": 1.698
+      }
     },
     {
       "cycle_id": "cycle_3carbonyl",
-      "status": "incomplete",
-      "missing": [
-        "e_zaienne_cmpd19__cw_bio_primary_amide",
-        "e_cw_ms_free_acid__cw_bio_primary_amide"
-      ],
-      "tol_kcal": 1.0
+      "status": "VIOLATION",
+      "sum_kcal": 1.307,
+      "tol_kcal": 1.0,
+      "signed_terms": {
+        "e_zaienne_cmpd19__cw_ms_free_acid": 0.136,
+        "e_zaienne_cmpd19__cw_bio_primary_amide": 2.106,
+        "e_cw_ms_free_acid__cw_bio_primary_amide": -0.935
+      }
     }
   ],
   "cycle_closure_note": "Internal consistency only: a closed cycle does not make the map accurate, but an open one means at least one of its edges is unconverged or mis-mapped and its ddG must not be quoted.",
@@ -379,6 +470,14 @@
       "perturbation": "3-CO2Me -> 3-C(=O)NHOH (hydroxamic acid)"
     },
     {
+      "node": "cw_ms_5acetamido_ester",
+      "edge_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester",
+      "ddg_bind_kcal": 0.445,
+      "class": "microstate_variant",
+      "star": "star_5position",
+      "perturbation": "5-Br -> 5-NHAc (neutral capped amide exit vector)"
+    },
+    {
       "node": "cw_ev_5oh",
       "edge_id": "e_zaienne_cmpd19__cw_ev_5oh",
       "ddg_bind_kcal": 0.474,
@@ -401,6 +500,14 @@
       "class": "exit_vector_sub",
       "star": "star_5position",
       "perturbation": "5-Br -> 5-COOH (amide-coupling vector; ionizable)"
+    },
+    {
+      "node": "cw_bio_primary_amide",
+      "edge_id": "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "ddg_bind_kcal": 0.935,
+      "class": "bioisostere",
+      "star": "star_3position",
+      "perturbation": "3-CO2Me -> 3-C(=O)NH2 (primary carboxamide)"
     },
     {
       "node": "cw_ev_5nh2",
@@ -428,115 +535,8 @@
     }
   ],
   "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this modeled conformer, conditional on the pose hypothesis.",
-  "idle_guard": [
-    {
-      "instance": 46165901,
-      "label": "s1f-15-cw_ms_5acetamido_ester",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": 99.999908,
-        "progress_advanced": true,
-        "log_age_min": 0.6185422833333334,
-        "start_ages_min": [
-          1359.7518758098283,
-          1315.418542476495,
-          1304.5852091431618,
-          1115.468542476495,
-          1102.3852091431618,
-          921.568542476495,
-          786.318542476495,
-          785.5018758098284,
-          700.7352091431618,
-          550.2685424764951,
-          343.53520914316175,
-          205.4185424764951,
-          203.7685424764951,
-          100.05187580982845,
-          51.76854247649511
-        ],
-        "instance_age_min": 344
-      }
-    },
-    {
-      "instance": 46181953,
-      "label": "s1f-17-cw_ev_5opropargyl",
-      "verdict": "WORKING",
-      "why": "the committed progress scalar advanced since the last poll \u2014 the GPU did work",
-      "evidence": {
-        "instance_running": true,
-        "container_started": true,
-        "gpu_util": 0.0,
-        "progress_advanced": true,
-        "log_age_min": 1.2713785999999998,
-        "start_ages_min": [
-          2313.4713787913324,
-          2307.8047121246655,
-          2192.438045457999,
-          1357.0713787913323,
-          1305.0047121246655,
-          1259.0047121246655,
-          1087.8713787913323,
-          1078.2047121246655,
-          1067.3713787913323,
-          1056.5380454579988,
-          1016.5380454579989,
-          1016.1380454579989,
-          989.4380454579989,
-          967.3713787913323,
-          813.6047121246655,
-          811.7880454579989,
-          811.6880454579989,
-          803.2213787913322,
-          770.738045457999,
-          639.0380454579989,
-          544.1380454579989,
-          527.5047121246656,
-          507.52137879133227,
-          493.37137879133223,
-          480.87137879133223,
-          419.62137879133223,
-          410.8547121246656,
-          390.87137879133223,
-          388.37137879133223,
-          375.4547121246656,
-          365.4547121246656,
-          347.5380454579989,
-          341.9880454579989,
-          202.05471212466557,
-          64.18804545799891
-        ],
-        "instance_age_min": 65
-      }
-    },
-    {
-      "instance": 46185297,
-      "label": "s1f-18-cw_bio_primary_amide",
-      "verdict": "UNKNOWN",
-      "why": "instance is not `running`; the stopped/frozen clauses own this box, not the idle guard",
-      "evidence": {
-        "instance_running": false,
-        "container_started": false,
-        "gpu_util": null,
-        "progress_advanced": false,
-        "log_age_min": 40.24040419999999,
-        "start_ages_min": [
-          634.3070710500082,
-          623.2570710500081,
-          597.4570710500082,
-          596.6237377166748,
-          577.8737377166748,
-          557.8404043833415,
-          342.0237377166748,
-          56.35707105000814
-        ],
-        "instance_age_min": 9
-      }
-    }
-  ],
-  "realised_usd": 68.98,
+  "idle_guard": [],
+  "realised_usd": 73.79,
   "realised_rentals": [
     {
       "instance": "45936074",
@@ -2015,8 +2015,8 @@
       "unit_id": "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
       "machine_id": 16661,
       "rate_usd_h": 0.0952,
-      "billed_h": 5.73,
-      "usd": 0.546
+      "billed_h": 6.62,
+      "usd": 0.63
     },
     {
       "instance": "46165976",
@@ -2087,8 +2087,8 @@
       "unit_id": "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
       "machine_id": 29711,
       "rate_usd_h": 0.204,
-      "billed_h": 1.08,
-      "usd": 0.221
+      "billed_h": 1.97,
+      "usd": 0.401
     },
     {
       "instance": "46181954",
@@ -2103,16 +2103,104 @@
       "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
       "machine_id": 12227,
       "rate_usd_h": 0.136,
-      "billed_h": 0.15,
-      "usd": 0.02
+      "billed_h": 1.07,
+      "usd": 0.145
     },
     {
       "instance": "46185297",
       "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
       "machine_id": 31035,
       "rate_usd_h": 0.1618,
-      "billed_h": 0.15,
-      "usd": 0.024
+      "billed_h": 1.12,
+      "usd": 0.181
+    },
+    {
+      "instance": "46185840",
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "machine_id": 89294,
+      "rate_usd_h": 0.0952,
+      "billed_h": 2.13,
+      "usd": 0.203
+    },
+    {
+      "instance": "46190633",
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "machine_id": 46427,
+      "rate_usd_h": 0.136,
+      "billed_h": 0.7,
+      "usd": 0.095
+    },
+    {
+      "instance": "46193061",
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "machine_id": 125565,
+      "rate_usd_h": 0.136,
+      "billed_h": 1.83,
+      "usd": 0.249
+    },
+    {
+      "instance": "46193136",
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "machine_id": 62866,
+      "rate_usd_h": 0.204,
+      "billed_h": 2.6,
+      "usd": 0.53
+    },
+    {
+      "instance": "46200247",
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "machine_id": 12697,
+      "rate_usd_h": 0.136,
+      "billed_h": 0.8,
+      "usd": 0.109
+    },
+    {
+      "instance": "46200340",
+      "unit_id": "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "machine_id": 19499,
+      "rate_usd_h": 0.204,
+      "billed_h": 10.7,
+      "usd": 2.183
+    },
+    {
+      "instance": "46203343",
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "machine_id": 20243,
+      "rate_usd_h": 0.1714,
+      "billed_h": 1.25,
+      "usd": 0.214
+    },
+    {
+      "instance": "46208072",
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "machine_id": 141591,
+      "rate_usd_h": 0.136,
+      "billed_h": 0.37,
+      "usd": 0.05
+    },
+    {
+      "instance": "46209115",
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "machine_id": 29717,
+      "rate_usd_h": 0.204,
+      "billed_h": 0.68,
+      "usd": 0.139
+    },
+    {
+      "instance": "46210151",
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "machine_id": 16661,
+      "rate_usd_h": 0.0952,
+      "billed_h": 1.75,
+      "usd": 0.167
+    },
+    {
+      "instance": "46212349",
+      "unit_id": "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "machine_id": 140160,
+      "rate_usd_h": 0.204,
+      "billed_h": 1.62,
+      "usd": 0.33
     }
   ],
   "plan_usd_whole_tranche": 29.72,

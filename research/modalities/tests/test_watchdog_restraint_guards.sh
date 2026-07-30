@@ -75,10 +75,22 @@ import json;d=json.load(open('$CFGREAL'))
 print('restraint_keyed_result_v1' in (d.get('_requires_watchdog_features') or []))")" "True"
 
 # ...and it must be declared BECAUSE a restrained entry exists — a requirement nobody needs is noise.
-chk "the real config has at least one restrain=1 entry justifying it" \
+#
+# ⚠ COUNTS EVERY ENTRY, ENABLED OR NOT — and that is the fix for a real outage, not a loosening.
+# This filtered on `if w.get('enabled')`. Landed units are now auto-disabled the moment their result is in
+# (gcp_watch_reap), so when the restrained binary leg landed at 5:33 PM ET on 2026-07-28 the last enabled
+# restrain=1 entry vanished and this went False. It is the FIRST step in the pytest job, so its failure
+# SKIPPED the actual `pytest research/modalities/tests` step — the repo's own test gate stopped executing and
+# stayed dead for 9+ commits while every merge reported green on a suite that never ran.
+#
+# The intent survives intact: a `_requires_watchdog_features` declaration that NO entry has ever needed is
+# still noise and still fails. What changed is that a FINISHED restrained entry keeps justifying it — the
+# file declares what it may ask of the watchdog, a disabled entry can be re-enabled, and the dangerous
+# direction (an entry needing a feature the watchdog LACKS) is Guard 1, which is untouched and still fires.
+chk "the real config has at least one restrain=1 entry justifying it (enabled or landed)" \
     "$(python3 -c "
 import json;d=json.load(open('$CFGREAL'))
-print(any(w.get('restrain')=='1' for w in d['watch'] if w.get('enabled')))")" "True"
+print(any(w.get('restrain')=='1' for w in d['watch']))")" "True"
 
 # ---- GUARD 2: the result-key assertion, extracted and run --------------------------------------------------
 # NB the extracted text is NOT re-indented. Re-indenting a shell block is usually harmless, but this file

@@ -959,51 +959,269 @@ def _idle_evidence(s3, bucket, unit, inst, prev_scalar):
     }, scalar
 
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ THE WAVE. A CAPACITY REFUSAL BOUNDS *THIS TICK* AND IS THEN FORGOTTEN (trimcrae, 2026-07-27: "don't add
+# anything back unless you have a real reason to"; measured 2026-07-28).
+#
+# WHY THIS LANE NEEDED ITS OWN VERSION OF THE FIX, AND WHY THE 10:05 PM CLEAR DID NOT REACH IT. The shared
+# set was emptied at 10:05 PM ET on 2026-07-27 and three `--lane-state` keys were cleared with it. This
+# lane's list was NOT one of them: the clear was pointed at `nr4a3-step1-fanout/results/_lane_state.json`,
+# a key `congeneric_fanout_vast` has never written — its list is `_EXCLUDE_KEY`,
+# `nr4a3-step1-fanout/results/_excluded_machines.json`, under `machine_ids`. So `clear_lane_state` printed
+# "no lane state — nothing to clear" and the fan-out's own 41 machines were untouched. The 10:10 PM tick,
+# five minutes after a clear that reported 74 entries removed, filtered **41** machines. It then grew to
+# 45 / 46 / 47 / 49 across the night while submits failed 1 / 2 / 4 / 2 with `no rentable verified offer`
+# against a 158-offer board — our own filter, not the market.
+#
+# AND IT WOULD HAVE REGROWN EVEN IF THE CLEAR HAD REACHED IT, because `_record_exclusion` wrote EVERY reason
+# into that permanent list. The stuck-start condemnation's reason — "cur_state=stopped with an empty
+# status_msg … (create/start race, not an image pull)" — is `CLASS_CAPACITY` by
+# `vast_machine_blacklist.classify_reason`, and the module records that verdict as one this repo has PROVEN
+# WRONG: machines 53989, 31035 and 24573 were condemned on it and every one had run this lane's container at
+# 94-99 % GPU. `publish` already refuses that class for the SHARED set. Nothing refused it here.
+#
+# WHAT REPLACES IT — the ternary lane's answer, in the shape this lane's storage takes. A capacity refusal
+# goes into `capacity_wave`, tagged with the CI run that observed it. A different run does not read it. That
+# is not a TTL and not an ageing policy — no duration is invented and nothing is dropped because it got old;
+# the entry simply has no authority outside the wave whose observation produced it, exactly as
+# `_blocked_machines` now has none outside the tick that wrote it. Within the tick it still does its job:
+# the monitor condemns a busy host and the launch step, in the SAME run, does not try to rent it again.
+#
+# ⚠ WHY `GITHUB_RUN_ID` IS THE RIGHT WAVE KEY HERE. `step1-fanout-autoscale.yml` runs `MONITOR` and then
+# `LAUNCH` as two steps of ONE job, so a refusal observed by the progress check binds the launch that
+# follows it and nothing further. Off CI there is no run id, and then the capacity block is IGNORED — which
+# is the safe direction: under-excluding costs one free failed submit, over-excluding costs capacity that
+# compounds across lanes and nights.
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def _wave_id():
+    """The identity of the current wave. PURE-ish (reads env). "" when there is no wave (not on CI)."""
+    return str(os.environ.get("FANOUT_WAVE_ID") or os.environ.get("GITHUB_RUN_ID") or "")
+
+
+def wave_capacity_ids(doc, wave=None):
+    """The capacity-refused machines that still bind, i.e. the ones THIS wave recorded. PURE.
+
+    A block from another wave is not "expired" — it was never about anything but that wave.
+    """
+    cap = (doc or {}).get("capacity_wave") or {}
+    w = _wave_id() if wave is None else str(wave or "")
+    if not w or str(cap.get("wave") or "") != w:
+        return set()
+    return {str(m) for m in (cap.get("machine_ids") or [])}
+
+
 def _load_excluded(s3, bucket):
-    """This lane's exclusions ∪ the SHARED cross-lane set of hosts that refuse to start.
+    """This lane's DURABLE exclusions ∪ the SHARED cross-lane set ∪ THIS WAVE's capacity refusals.
 
     ⚠ THE UNION IS THE POINT (2026-07-27). Before it, this lane's set held exactly one machine while the 5a-KS
     lane knew nine — so the 6:37 AM tick resumed the shakeout onto machine 46392, which that lane had already
     condemned. A host that never starts has infinite realised $/ns and is invisible to $/ns ranking, so each
     lane was paying a rental to rediscover what the other already knew. See `vast_machine_blacklist` for what
     is shared (host-scoped only) and what deliberately is not.
+
+    ⚠ AND THE THIRD TERM IS WAVE-SCOPED, NOT PERMANENT — see the block above. Returns `(ids, doc)` as before.
     """
     doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
     env = os.environ.get("FANOUT_EXCLUDE_MACHINES", "")
     ids = {str(m) for m in (doc.get("machine_ids") or [])}
     ids |= {m.strip() for m in env.split(",") if m.strip()}
+    ids |= wave_capacity_ids(doc)
     import vast_machine_blacklist as vmb
     return vmb.union(ids, s3, bucket), doc
 
 
-def _record_exclusion(s3, bucket, machine_id, why, scope="lane"):
+def unit_condemnations(doc, unit):
+    """Distinct machines this UNIT has durably condemned, from the exclusion list's own history. PURE.
+
+    Withdrawn and wave-scoped rows do not count — only entries that actually persist.
+    """
+    if not unit:
+        return set()
+    return {str(h.get("machine_id")) for h in ((doc or {}).get("history") or [])
+            if h.get("unit") == unit and h.get("action") != "withdraw"
+            and h.get("scope") != "wave" and h.get("machine_id") is not None}
+
+
+def _record_exclusion(s3, bucket, machine_id, why, scope="lane", unit=None):
     """Record a machine this lane will not re-rent. `scope="host"` ALSO publishes it cross-lane.
 
     The default is `lane` on purpose: a verdict that mixes this workload with the machine (the starved-host
     rule below) must not be exported, because `pricing.md` A.1 withdrew exactly that reasoning once already.
-    Only a failure that is about the MACHINE — it refuses starts, its container never executes — is shared."""
+    Only a failure that is about the MACHINE — it refuses starts, its container never executes — is shared.
+
+    ★★ AND THE REASON IS CLASSIFIED AT THE DOOR. A `CLASS_CAPACITY` reason never reaches `machine_ids`, never
+    reaches the shared set, and binds only the current wave — whatever `scope` the caller asked for, because
+    `scope` says who a verdict is about and the CLASS says how long it is true for, and only one of those two
+    questions was being asked here.
+
+    ★★ AND A UNIT THAT HAS CONDEMNED THE LAST N MACHINES IS NOT EVIDENCE ABOUT MACHINES (2026-07-29).
+    Measured by joining this lane's live exclusion list to the committed per-tick census: **15 durable
+    machine exclusions were produced by 10 distinct units**, and the distribution is not flat —
+    `s1f-13-cw_ms_free_acid` condemned 3 machines (138147-class instances 46031601 / 46081212 / 46004074),
+    `s1f-03-cw_ev_5alkyne` condemned 3 (46060816 / 46071019 / 46041656), and `s1f-04-cw_ev_5ch2nh2` 2 —
+    every one on the identical `gpu_util 0.0% for 2 checks` verdict. That is the same shape the ternary lane
+    hit at far greater cost: two units re-rented across **35 and 49 separate hosts**.
+
+    When one unit reports the same fault on host after host, the common factor is the UNIT. Blaming the
+    machines converts a per-unit fault into a per-machine blacklist at a rate of one good host per attempt —
+    which is a second, independent way for the filter to become the binding constraint on placement, and the
+    one `leg_failure_breaker` does not cover (it stops the SPENDING on the 4th host; it does not un-blame the
+    three already condemned, nor stop the blaming below its threshold).
+
+    The threshold is `leg_failure_breaker.DEFAULT_THRESHOLD` — imported, not re-typed, because "how many
+    distinct hosts before the unit is the suspect" is one question and must have one answer (rule 1).
+
+    Returns True if the machine was newly recorded anywhere.
+    """
+    import vast_machine_blacklist as vmb
     ids, doc = _load_excluded(s3, bucket)
     mid = str(machine_id)
-    if scope == "host":
-        import vast_machine_blacklist as vmb
+    perishable = vmb.classify_reason(why) == vmb.CLASS_CAPACITY
+
+    if not perishable and unit:
+        import leg_failure_breaker as _lfb
+        prior = unit_condemnations(doc, unit) - {mid}
+        if len(prior) >= _lfb.DEFAULT_THRESHOLD:
+            print(f"[s1f] machine {mid} deliberately NOT excluded — unit {unit} has already condemned "
+                  f"{len(prior)} distinct machine(s) ({sorted(prior)}) on its own verdicts. The common "
+                  f"factor is the UNIT, not the hosts: a per-unit fault blaming a per-machine blacklist "
+                  f"costs one good host per attempt. `breaker_decision` (this module) applies "
+                  f"leg_failure_breaker's rule and stops buying the next host for this unit; nothing more "
+                  f"is learned by retiring this one. Reason was: {why}")
+            return False
+
+    if scope == "host" and not perishable:
         vmb.publish(s3, bucket, mid, why, lane="step1_fanout")
-    if mid in ids:
-        return False
-    hist = doc.get("history") or []
+
     import datetime
-    hist.append({"machine_id": mid, "why": why,
-                 "utc": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")})
+    now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    hist = list(doc.get("history") or [])
+    out = dict(doc)
+    # ALWAYS present, even when empty: a reader (and `clear_lane_state`, which dispatches on which field the
+    # doc actually has) must be able to tell "nothing durable is excluded" from "this is not that document".
+    out["machine_ids"] = sorted({str(m) for m in (doc.get("machine_ids") or [])})
+    out.setdefault("_what", "Vast machine_ids this lane refuses to re-rent. Realised throughput is not fed "
+                            "back into $/ns ranking, so without this a bad host keeps winning selection "
+                            "(pricing.md A.1). `machine_ids` is DURABLE; `capacity_wave` binds one tick.")
+
+    if perishable:
+        w = _wave_id()
+        if not w:
+            print(f"[s1f] machine {mid} NOT recorded: {why!r} is a CAPACITY refusal — a claim about a "
+                  f"moment, not about the host — and there is no wave id to bind it to. It stays "
+                  f"selectable; a re-test costs a free failed submit.")
+            return False
+        cap = out.get("capacity_wave") or {}
+        cur = wave_capacity_ids(out, w)
+        if mid in cur:
+            return False
+        out["capacity_wave"] = {"wave": w, "utc": now,
+                                "_what": "capacity refusals observed by THIS CI run. Perishable: a later "
+                                         "run does not read them. Not a TTL — see the WAVE block above.",
+                                "machine_ids": sorted(cur | {mid}),
+                                "why": {**(cap.get("why") or {}), mid: str(why)[:400]}}
+        hist.append({"machine_id": mid, "why": why, "utc": now, "reason_class": vmb.CLASS_CAPACITY,
+                     "scope": "wave", "wave": w, "unit": unit})
+        print(f"[s1f] machine {mid} excluded for THIS WAVE ONLY (run {w}) — {why!r} is a capacity refusal, "
+              f"a claim about a moment. It is selectable again on the next tick.")
+    else:
+        if mid in ids:
+            return False
+        out["machine_ids"] = sorted(set(doc.get("machine_ids") or []) | {mid})
+        # ★ THE UNIT IS RECORDED, and that is what makes the guard above possible at all. Until now the
+        # history said WHICH machine and WHY but never WHO — so "has this unit condemned three hosts?" was
+        # unanswerable from the artifact and had to be reconstructed by joining the committed census.
+        hist.append({"machine_id": mid, "why": why, "utc": now, "reason_class": vmb.CLASS_HOST,
+                     "scope": scope, "unit": unit})
+
+    out["history"] = hist
     try:
-        s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY,
-                      Body=json.dumps({"_what": "Vast machine_ids this lane refuses to re-rent. Realised "
-                                                "throughput is not fed back into $/ns ranking, so without "
-                                                "this a bad host keeps winning selection (pricing.md A.1).",
-                                       "machine_ids": sorted(set(ids) | {mid}),
-                                       "history": hist}, indent=2).encode())
+        s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY, Body=json.dumps(out, indent=2).encode())
     except Exception as e:  # noqa: BLE001
         print(f"[s1f] could not persist exclusion of machine {mid}: {e}")
         return False
     return True
+
+
+def classify_durable_entries(doc):
+    """Split this lane's DURABLE `machine_ids` by what their own recorded history says. PURE.
+
+    Returns `{"host": [...], "capacity": [...], "unjustified": [...]}` — the third being ids on the list
+    with no surviving history row at all, i.e. entries nobody can point at a reason for.
+    """
+    import vast_machine_blacklist as vmb
+    hist = list((doc or {}).get("history") or [])
+    out = {"host": [], "capacity": [], "unjustified": []}
+    for mid in sorted({str(m) for m in ((doc or {}).get("machine_ids") or [])}):
+        rows = [h for h in hist if str(h.get("machine_id")) == mid and h.get("action") != "withdraw"]
+        if not rows:
+            out["unjustified"].append(mid)
+        elif all(vmb.classify_reason(h.get("why")) == vmb.CLASS_CAPACITY for h in rows):
+            out["capacity"].append(mid)
+        else:
+            out["host"].append(mid)
+    return out
+
+
+def retire_perishable_exclusions(s3, bucket):
+    """Take the PERISHABLE entries off this lane's durable list, judged on their OWN recorded reasons.
+
+    ⚠⚠ WITHOUT THIS, THE FIX ABOVE FIXES NOTHING THAT IS ALREADY WRONG. Classifying at the door stops the
+    NEXT capacity refusal becoming permanent; it does not touch the 49 already sitting in
+    `_excluded_machines.json`, of which the recorded reasons say the large majority are exactly that class.
+    Those are the entries that lost 1 / 2 / 4 / 2 authorised placements across the night of 2026-07-27 with
+    `no rentable verified offer` against a 158-offer board. A fix that leaves them in place would ship a
+    correct rule and an unchanged outcome.
+
+    ★ THIS IS NOT A TTL AND NOT AN AGEING POLICY — the same line `withdraw_wrong_exclusions` draws. Nothing
+    is retired for being old. An entry is retired because ITS OWN RECORDED REASON, re-read, is a claim about
+    a moment (`vast_machine_blacklist.classify_reason` -> `CLASS_CAPACITY`) and this lane now stores that
+    class wave-scoped. It is the retroactive application of the classification rule, not a clock.
+
+    Entries with NO surviving reason are retired too, and counted separately in the log. trimcrae's rule is
+    "don't add anything back unless you have a real reason to"; an entry nobody can name a reason for fails
+    that test in the only direction that is cheap to be wrong in — re-discovering a genuinely bad host costs
+    one FREE failed submit, while a wrong permanent entry is capacity lost across every lane and every night.
+
+    Returns the retired ids. Idempotent: a second call finds nothing left to retire.
+    """
+    # The SHARED set gets the same treatment in the same breath — this lane reads `local ∪ shared`, so a
+    # perishable entry over there filters our placements exactly as one of ours does, and on 2026-07-28
+    # three of the shared set's four entries were that class. It is rule-application, not an overrule of
+    # another lane's evidence; the argument is in `vast_machine_blacklist.retire_perishable.__doc__`.
+    try:
+        import vast_machine_blacklist as vmb
+        vmb.retire_perishable(s3, bucket)
+    except Exception as e:  # noqa: BLE001 — a repair must never be able to stop a launch
+        print(f"[s1f] shared-set retire skipped: {type(e).__name__}: {e}")
+
+    doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
+    if not (doc.get("machine_ids") or []):
+        return []
+    split = classify_durable_entries(doc)
+    retire = sorted(set(split["capacity"]) | set(split["unjustified"]))
+    if not retire:
+        return []
+    keep = sorted({str(m) for m in (doc.get("machine_ids") or [])} - set(retire))
+    hist = list(doc.get("history") or [])
+    hist.append({"machine_id": None, "action": "retire_perishable", "utc": _utcnow(),
+                 "why": f"RETIRED {len(retire)} entr(ies) from the durable list: "
+                        f"{len(split['capacity'])} whose own recorded reason classifies as CLASS_CAPACITY "
+                        f"(a claim about a moment, now stored wave-scoped) and "
+                        f"{len(split['unjustified'])} with no surviving reason at all.",
+                 "retired_machine_ids": retire,
+                 "retired_capacity": split["capacity"], "retired_unjustified": split["unjustified"]})
+    try:
+        s3.put_object(Bucket=bucket, Key=_EXCLUDE_KEY,
+                      Body=json.dumps({**doc, "machine_ids": keep, "history": hist}, indent=2).encode())
+    except Exception as e:  # noqa: BLE001 — this is a repair, and a repair must never fail a launch
+        print(f"[s1f] could not retire perishable exclusions: {e}")
+        return []
+    print(f"[s1f] ⚖ RETIRED {len(retire)} perishable exclusion(s) from this lane's durable list "
+          f"({len(split['capacity'])} capacity-class, {len(split['unjustified'])} with no recorded reason) "
+          f"— {len(keep)} host-scoped entr(ies) remain: {keep}. A capacity refusal is a claim about a "
+          f"moment; it now binds one wave. Retired: {retire}")
+    return retire
 
 
 def withdraw_wrong_exclusions(s3, bucket, proven_machines):
@@ -1106,6 +1324,11 @@ def mode_precheck():
 
 _BLOCKED_KEY_SUFFIX = "_blocked_units.json"
 
+# The ONE string a permanently-excluded unit is rendered with, everywhere. It deliberately does not look
+# like a phase marker: `leg-complex-FAILED-rc1` is what a unit wears while it is about to be re-placed, and
+# rendering an excluded edge the same way is what let one sit in the census overnight looking recoverable.
+BLOCKED_PHASE = "BLOCKED-permanently-excluded"
+
 
 def _load_blocked(s3, bucket):
     """Units this lane will NOT rent a host for, with the reason and the evidence. Durable, in S3.
@@ -1131,6 +1354,129 @@ def _load_blocked(s3, bucket):
         if uid:
             out.setdefault(uid, {"why": "FANOUT_BLOCK_UNITS env override", "evidence": None})
     return out
+
+
+def counts(units, done_ids, blocked):
+    """(n_done, n_blocked, n_outstanding) for a unit list. PURE — no S3, so the arithmetic is unit-tested.
+
+    ★★ WHY THIS IS A FUNCTION AND NOT A SUBTRACTION. The launcher used the map size minus the pending
+    set, which reads as obviously correct and is not: `_pending` filters out BOTH finished and blocked units, so
+    the difference is "finished OR permanently excluded" and it was printed under the word `done`. On
+    2026-07-28 the lane held nine ddG results and one blocked edge and its own readout said `done=10` — an
+    edge that will never be computed rendering as a completed one, which is exactly the silent drop
+    CLAUDE.md §6 forbids, and it made the artifact self-contradictory (10 done, 9 results, same file).
+
+    ⚠ A blocked unit that ALSO has a result counts as DONE, not blocked. A result in hand is a result
+    whatever list the unit is on, and the case is not hypothetical: a unit can be blocked after finishing,
+    or unblocked and completed later. Ordering the tests this way is what keeps the three counts summing to
+    len(units) with no unit in two buckets."""
+    done_ids, blk = set(done_ids or ()), set(blocked or ())
+    n_done = sum(1 for u in units if u["unit_id"] in done_ids)
+    n_blocked = sum(1 for u in units if u["unit_id"] not in done_ids and u["unit_id"] in blk)
+    return n_done, n_blocked, len(units) - n_done - n_blocked
+
+
+def unit_phase(unit, blocked, has_result, phase_txt):
+    """The ONE renderer of a unit's state, so every readout agrees. PURE.
+
+    Precedence is deliberate and is the whole content of the function:
+      a result       -> "done", even if the unit is also on the block list (a result in hand is a result);
+      on the block   -> BLOCKED_PHASE, NOT the last phase marker it happened to leave behind;
+      otherwise      -> whatever the phase marker says, or "not-started".
+
+    The second clause is the fix. A blocked unit's `phase.txt` still holds the failure that got it blocked
+    (`leg-complex-FAILED-rc1`), and every census, histogram and snapshot read that file directly — so a
+    permanently-excluded edge rendered identically to one that had just crashed and was about to be
+    re-placed. Overnight, that made a correctly-working guard look like an unattended failure."""
+    if has_result:
+        return "done"
+    if unit["unit_id"] in set(blocked or ()):
+        return BLOCKED_PHASE
+    return (phase_txt or "not-started")
+
+
+def computable_units(units, blocked):
+    """The lane's honest DENOMINATOR: map edges minus the ones no host can ever compute. PURE.
+
+    The map is 19 edges; what the fan-out can deliver is 19 minus the permanent exclusions, and that
+    number has to be derived from the block map rather than typed, or it drifts the moment a block is added
+    or lifted (CLAUDE.md rule 1)."""
+    blk = set(blocked or ())
+    return [u for u in units if u["unit_id"] not in blk]
+
+
+_BREAKER_BASELINE_KEY_SUFFIX = "_breaker_baseline.json"
+
+
+def _attempt_count(s3, bucket, unit_id):
+    """How many container starts this unit has paid for, counted from its own archive in S3.
+
+    Returns None when the listing fails. `leg_failure_breaker.decide` treats None as "not over the
+    threshold", i.e. it FAILS OPEN — an unreadable bucket must not be able to halt a lane, and the worst
+    case is one extra rental."""
+    try:
+        n, tok = 0, None
+        while True:
+            kw = {"Bucket": bucket, "Prefix": f"{RESULT_PREFIX}/{unit_id}/attempts/"}
+            if tok:
+                kw["ContinuationToken"] = tok
+            page = s3.list_objects_v2(**kw)
+            n += len(page.get("Contents", []) or [])
+            if not page.get("IsTruncated"):
+                return n
+            tok = page.get("NextContinuationToken")
+    except Exception as e:  # noqa: BLE001 — reported, never swallowed into a silent zero
+        print(f"[s1f-breaker] could not count attempts for {unit_id}: {type(e).__name__}: {e}")
+        return None
+
+
+def _breaker_baselines(s3, bucket):
+    """{unit_id: attempts already spent BEFORE the last time someone said the cause was fixed}.
+
+    ★★ WHY A BASELINE AND NOT A DELETE (2026-07-29). `leg_failure_breaker.reset_for` re-arms a unit by
+    DELETING its attempt archive, and for this lane that archive is the evidence — it is the only durable
+    record that `cw_bio_primary_amide` was bought 25 times on 7 distinct cards, and that count is quoted in
+    the manuscript and in the block reason. Destroying evidence to reset a counter is the wrong trade when
+    an offset does the same job: the breaker counts attempts made SINCE the baseline, the archive stays
+    whole, and the history a later reader needs is still there. Same principle as the append-only ledger —
+    add a marker, never overwrite the record."""
+    return dict(((_get_json(s3, bucket, f"{RESULT_PREFIX}/{_BREAKER_BASELINE_KEY_SUFFIX}") or {})
+                 .get("units") or {}))
+
+
+def breaker_decision(s3, bucket, unit, baselines=None):
+    """Should this lane RENT for `unit`? The shared consecutive-failure rule, on step 1's own S3 layout.
+
+    ★★ WHY THIS EXISTS AT ALL (2026-07-29). `leg_failure_breaker` was written for the ternary lane and this
+    module referenced it in a comment — "See leg_failure_breaker, which stops buying the next host for this
+    unit" — while never calling it. That sentence was false for this lane, and the gap is exactly what
+    `cw_bio_primary_amide` fell through: 25 rentals, on 7 distinct card/driver combinations, every one dying
+    at the same `LocalEnergyMinimizer` call, because nothing anywhere counted the attempts.
+
+    The DECISION is `leg_failure_breaker.decide` — imported, not re-implemented — so the threshold and the
+    wording have one home across both lanes (rule 1). Only the two lane-specific facts are supplied here:
+    where the attempt archive lives, and how to read a status out of a `phase.txt` marker (this lane writes
+    no `leg.json`).
+
+    ⚠ IT ACTS AT THE MOMENT OF RENTING AND NOWHERE ELSE. Work already executing is never touched."""
+    import leg_failure_breaker as lfb
+    uid = unit["unit_id"]
+    if _exists(s3, bucket, result_key(unit, RESULT_PREFIX)):
+        return lfb.decide({"status": "done"}, 0)
+    phase = (_get_text(s3, bucket, f"{RESULT_PREFIX}/{uid}/phase.txt") or "").strip()
+    if not phase:
+        # Never run. `decide` must let it run — a unit with no record has earned no suspicion.
+        return lfb.decide(None, None)
+    marker = phase.split()[0]
+    status = "failed" if ("FAILED" in marker or "NORESULT" in marker) else "running"
+    n = _attempt_count(s3, bucket, uid)
+    base = int((baselines or {}).get(uid, 0) or 0)
+    if n is not None:
+        n = max(0, n - base)
+    d = lfb.decide({"status": status, "phase": marker, "rc": marker.rsplit("-rc", 1)[-1]
+                    if "-rc" in marker else None}, n)
+    d["attempts_before_baseline"] = base
+    return d
 
 
 def _pending(s3, bucket, units, blocked=None):
@@ -1196,13 +1542,35 @@ PLACEMENT_DECISIONS = {
     "fleet_at_width":    "every pending unit already has a live instance, or the fleet is at FANOUT_WIDTH",
     "terminus_hold":     "reduce/commit/upload has never been observed, so the fan-out is not released yet",
     "credential_hold":   "the object-store credential a rental would be given cannot read the staged inputs",
-    "spend_cap_hold":    "the lane's REALISED cumulative spend has reached its derived authorised ceiling — "
-                         "distinct from price_hold, which is about the RATE of one offer and clears when the "
-                         "board improves. This one does not clear on its own: it is trimcrae's call",
+    # ⚠ SUPERSEDED 2026-07-29 and retained: the tranche total no longer HOLDS placement (trimcrae: "the $75
+    # ceiling was always an estimate, not a hard cap"). Kept registered because historical ledger rows carry
+    # it and a reader must still be able to resolve what they meant. New breaches record
+    # `over_tranche_estimate_advisory` instead.
+    "spend_cap_hold":    "SUPERSEDED — the lane's REALISED cumulative spend reached its derived ceiling and "
+                         "placement was HELD. That figure is now advisory; see "
+                         "over_tranche_estimate_advisory. Historical rows only",
+    "over_tranche_estimate_advisory":
+                         "the lane's REALISED cumulative spend is past the derived TRANCHE ESTIMATE. "
+                         "ADVISORY: an estimate of what the rung was expected to cost is not a spend "
+                         "authorisation, so placement CONTINUED. Nothing here loosens a purchase gate — the "
+                         "$/ns buy line and the per-launch band ceiling refuse independently and are "
+                         "unchanged",
     "placement_disabled": "this tick was asked to measure only — no placement was attempted",
     "cost_model_red":    "the unit-list / cost-model tests failed, so nothing may be rented",
+    "breaker_hold":      "every remaining unit has failed on `leg_failure_breaker.DEFAULT_THRESHOLD` or "
+                         "more separate rented hosts with nothing changing in between, so buying another "
+                         "host tests nothing. NOT permanent and NOT a scientific exclusion: fix the cause, "
+                         "then re-arm the unit (mode_block with FANOUT_UNBLOCK=1 records the current "
+                         "attempt count as the new baseline)",
     "measurement_failed": "this tick's progress check or collect did not succeed, so the fleet was neither "
                           "measured nor reaped — adding hosts to it is the wrong direction",
+    # ★ THE EIGHTH, ADDED 2026-07-28. Units cleared the price gate and STILL could not be placed, because
+    # our own exclusion set had removed the board before ranking. It is the opposite fact from `price_hold`
+    # and had no name, so for a night it wore that one's: 41 -> 49 excluded machines against a 158-offer
+    # board, submits failing 1/2/4/2, and `step1-fanout-market-hold.json` reading as an ordinary market.
+    "exclusions_hold":   "our own host-exclusion filter, not the market, is what stopped these units — the "
+                         "board returned offers we would have bought and we had removed them first. Remedy "
+                         "is to widen supply (withdraw a wrong exclusion), never to re-price",
 }
 
 
@@ -1223,6 +1591,49 @@ def _write_market_hold(doc, s3=None, bucket=None):
             json.dump(doc, fh, indent=2)
     except Exception as e:  # noqa: BLE001
         _lprint(f"[s1f] market-hold readout not written: {e}")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ "WE COULD NOT BUY" AND "WE WOULD NOT BUY" ARE OPPOSITE FACTS AND MUST NEVER PRINT THE SAME (trimcrae's
+# §6 framing; measured on this lane 2026-07-27/28).
+#
+# `no rentable verified offer` is emitted BOTH when the market has nothing we can afford AND when our own
+# filter ate the board before ranking. The remedies are opposite — wait for prices vs withdraw a wrong
+# exclusion — and for a whole night this lane printed the second as the first: 41 -> 49 excluded machines
+# against a 158-offer board at healthy prices, with the readout showing a price hold. `relaunch_market_gate`
+# has named this `hold_cause: exclusions_or_spec_not_price` since 2026-07-27; the fan-out's placement record
+# had no equivalent, so a reader of `step1-fanout-market-hold.json` could not see it without opening a log.
+#
+# THE DISCRIMINATOR IS THE SAME ONE THE RELAUNCH GATE USES, and it is an observation, not a heuristic: the
+# board RETURNED offers and NONE survived the filter while N machines are excluded. Every placement record
+# now carries the excluded count and ids unconditionally — so the number is visible on a healthy tick too,
+# and a reader can watch it grow instead of discovering it at 49.
+HOLD_CAUSE_EXCLUSIONS = "exclusions_or_spec_not_price"
+
+
+def annotate_exclusions(doc, excluded, n_wave_held=0):
+    """Stamp a placement record with what OUR OWN filter removed, and name the cause when it starved the
+    board. PURE (mutates and returns `doc`).
+
+    `n_wave_held` is the within-wave distinctness count (hosts we already hold or just rented) — it is not
+    an exclusion and is reported separately, because conflating "we will not rent this machine" with "we are
+    already ON this machine" is how a healthy 19-wide fan-out looks like an over-grown blacklist.
+    """
+    excl = sorted({str(m) for m in (excluded or ())})
+    doc["n_excluded_machines"] = len(excl)
+    doc["excluded_machine_ids"] = excl
+    doc["n_wave_held_machines"] = int(n_wave_held)
+    depth = doc.get("board_depth") or {}
+    if excl and depth.get("offers_returned") and not depth.get("qualifying"):
+        doc["hold_cause"] = HOLD_CAUSE_EXCLUSIONS
+        doc["hold_cause_why"] = (
+            f"NOT A PRICE HOLD — the board returned {depth['offers_returned']} offer(s) and NONE survived "
+            f"the host filter while {len(excl)} machine(s) are excluded ({excl[:12]}). Either the exclusion "
+            f"set has outgrown the market or the ResourceSpec is unsatisfiable; re-pricing will not fix "
+            f"either. Review the exclusions (vast_machine_blacklist, "
+            f"congeneric_fanout_vast.retire_perishable_exclusions) before touching the ceiling.")
+        _lprint(f"[s1f] ⚠ {doc['hold_cause_why']}")
+    return doc
 
 
 def record_no_placement(decision, why, *, s3=None, bucket=None, key=None, n_withheld=0, excluded=()):
@@ -1279,6 +1690,7 @@ def record_no_placement(decision, why, *, s3=None, bucket=None, key=None, n_with
             doc["board_unreadable"] = f"{type(e).__name__}: {e}"
             _lprint(f"[s1f] board snapshot unreadable this tick ({type(e).__name__}: {e}) — recorded as "
                     f"unreadable, NOT as absent.")
+    annotate_exclusions(doc, excluded)
     _lprint(f"[s1f] PLACEMENT DECISION: {decision} — {why}")
     if doc.get("offers_priced"):
         best = doc["offers_priced"][0]
@@ -1527,6 +1939,9 @@ def market_gate(n_withheld, bucket, s3, key, excluded=(), gates=()):
         _lprint(f"[s1f] BINDING GATE: {blocking[0]} — {blocking[1]}. The price reading above is recorded but "
                 f"is NOT what is stopping these units, so the price-escalation clock is NOT running.")
 
+    # OUR OWN FILTER, ON THE RECORD, EVERY PASS — including the passes that place units. See
+    # `annotate_exclusions`: the count is what turns "the market refused us" into "we refused the market".
+    annotate_exclusions(doc, excluded)
     _write_market_hold(doc, s3, bucket)
 
     if price_blocks_every_unit and held_h >= MARKET_HOLD_ESCALATE_H:
@@ -1688,8 +2103,18 @@ def mode_launch():
 
     units = default_units()
     idx_of = {u["unit_id"]: i for i, u in enumerate(units)}
-    pending = _pending(s3, bucket, units)
-    done = len(units) - len(pending)
+    _blocked = _load_blocked(s3, bucket)
+    pending = _pending(s3, bucket, units, blocked=_blocked)
+    # ★★ `done` USED TO BE THE MAP SIZE MINUS THE PENDING SET, WHICH COUNTED A BLOCK AS A FINISH
+    # (2026-07-28). `_pending` drops finished units AND blocked ones, so the subtraction silently added the
+    # permanently-excluded edge to the completion count: with nine ddG results and one block, the readout
+    # said `done=10`. That is the exact failure CLAUDE.md §6 names — an edge that will never be computed
+    # rendering as one that was — and it made the lane's own headline number unquotable, because "10 done"
+    # and "9 results" were both in the same artifact. The three states are now counted separately and the
+    # denominator that matters (`computable`) is derived, never typed.
+    _done_ids = {u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))}
+    done, n_blocked, _outstanding = counts(units, _done_ids, _blocked)
+    computable = computable_units(units, _blocked)
 
     live = _live_instances(key)
     # ⚠ AN `exited` INSTANCE DOES NOT HOLD ITS UNIT'S SLOT. Vast teardown is two-layer: the container's EXIT
@@ -1710,9 +2135,36 @@ def mode_launch():
     todo = [u for u in pending if f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
             not in live_labels]
 
+    # ★★ THE CONSECUTIVE-FAILURE BREAKER, WHICH THIS LANE REFERENCED AND NEVER CALLED (2026-07-29).
+    # `_record_exclusion` below already points at `leg_failure_breaker` as the thing that "stops buying the
+    # next host for this unit". It did not, here — nothing in this module called it — and
+    # `cw_bio_primary_amide` fell straight through the gap: 25 rentals across 7 distinct card/driver
+    # combinations, every one dying at the same `LocalEnergyMinimizer` call, because no code path anywhere
+    # counted how many times we had already paid to watch it.
+    #
+    # ⚠ HELD IS NOT DROPPED, AND IT IS NOT BLOCKED EITHER. A held unit is printed with its count and its
+    # reason, carried into the placement record, and re-armed by an explicit gesture once the cause is
+    # fixed — the same shape as a price hold. CLAUDE.md §6 forbids the silent version of this.
+    _baselines = _breaker_baselines(s3, bucket)
+    _breaker_held = []
+    _kept = []
+    for u in todo:
+        d = breaker_decision(s3, bucket, u, _baselines)
+        if d.get("block"):
+            _breaker_held.append((u, d))
+            _lprint(f"[s1f] BREAKER HOLD, not renting {u['unit_id']}: {d['why']}")
+        else:
+            _kept.append(u)
+    todo = _kept
+
     # ---- the two switches, each with a NAMED, RECORDED outcome ------------------------------------------
     # Both write the snapshot before returning, so the artifact's timestamp advances on every tick and can
     # only ever go stale by the tick itself not running. That is the whole repair.
+    # ⚖ SELF-HEAL BEFORE READING. The classification rule is only half a fix while the entries it would have
+    # refused are still sitting on the durable list from before it existed — and this lane's list was the one
+    # the 2026-07-27 clear missed entirely (see the WAVE block above). Retiring is judged on each entry's OWN
+    # recorded reason, is idempotent, and costs two S3 calls.
+    retire_perishable_exclusions(s3, bucket)
     _excl_for_snapshot, _ = _load_excluded(s3, bucket)
     if _placement == "0":
         record_no_placement(
@@ -1839,8 +2291,13 @@ def mode_launch():
     batch = todo[:slots]
 
     lo, hi = cost_estimate(len(batch))
-    _lprint(f"[s1f] units={len(units)} done={done} pending={len(pending)} live={len(live)} "
-          f"free_slots={slots} -> submitting {len(batch)}")
+    # The DENOMINATOR is the computable set, and the blocked edges are named on the same line rather than
+    # folded into `done`. "9 of 18 computable, 1 permanently excluded" and "10 of 19 done" describe the
+    # same lane and only one of them can be quoted in a paper.
+    _blk_named = ", ".join(sorted(k.split("__")[1] for k in _blocked)) if _blocked else "none"
+    _lprint(f"[s1f] map_edges={len(units)} computable={len(computable)} done={done} "
+            f"blocked={n_blocked} ({_blk_named}) pending={len(pending)} live={len(live)} "
+            f"free_slots={slots} -> submitting {len(batch)}")
     _lprint(f"[s1f] cost of THIS submission ({len(batch)} units): plan ${cost_plan(len(batch))} "
           f"(band ${lo}-{hi}) | whole remaining tranche ({len(pending)} units): "
           f"plan ${cost_plan(len(pending))} (band ${'-'.join(str(x) for x in cost_estimate(len(pending)))})")
@@ -1859,6 +2316,17 @@ def mode_launch():
             # wrong question. `n_withheld` is the count that gate held, not 0 — a held unit that reports
             # zero withheld is invisible in exactly the readout built to make holds visible.
             _dec, _why, _n_withheld = _narrowed
+        elif _breaker_held and not [u for u in pending
+                                    if u["unit_id"] not in {h["unit_id"] for h, _ in _breaker_held}
+                                    and f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]
+                                    not in live_labels]:
+            # Checked BEFORE `nothing_pending`, because a breaker hold is emphatically not "nothing left to
+            # place" — it is a lane declining to buy, which is a different fact with a different remedy.
+            _dec = "breaker_hold"
+            _why = ("; ".join(f"{h['unit_id']}: {d['n_attempts']} attempt(s) on separate hosts "
+                              f"(threshold {d['threshold']})" for h, d in _breaker_held)
+                    + ". Fix the cause, then re-arm with FANOUT_UNBLOCK=1.")
+            _n_withheld = len(_breaker_held)
         elif not pending:
             _dec, _why = "nothing_pending", ("every unit has a ddg.json in S3 or is on the blocked list — "
                                              "there is nothing left for this lane to place")
@@ -1980,26 +2448,38 @@ def mode_launch():
             f"{_cap_detail['n_rentals']} rental(s) counted, of which "
             f"{_cap_detail['n_accruing_unreconciled']} are accruing wall-clock because no collect has "
             f"reconciled them yet (a cap that cannot see those reads green while the lane is over).")
+    # ★★ THE TRANCHE FIGURE IS AN ESTIMATE, NOT A HARD CAP — IT WARNS, IT NO LONGER HALTS
+    # (trimcrae, 2026-07-29: *"The $75 ceiling was always an estimate, not a hard cap. Don't worry about
+    # that."*). This branch used to HOLD every pending unit on breach and demand a human decision. It does
+    # not any more.
+    #
+    # ⚠ WHAT THIS DOES **NOT** LOOSEN, because the distinction is the whole point. The gates that refuse a
+    # PURCHASE are untouched and still hard: the `$/ns` buy line (`inflight_usd_per_ns.APPROVED_USD_PER_NS`,
+    # CLAUDE.md §1) and the per-launch band ceiling (`market_ceiling_usd`) both still REFUSE below. What is
+    # now advisory is only the CUMULATIVE tranche total — a planning estimate for how much the whole rung was
+    # expected to cost, which was never a spend authorisation.
+    #
+    # ⚠ AND THE HAZARD THIS BRANCH WAS BUILT FOR IS REAL, so it is still MEASURED and still LOUD rather than
+    # deleted. Quoting its own docstring: *"Fifteen hosts each comfortably under the line is precisely the
+    # shape that drains a budget while every row reads green — the rate line answers 'is this a rate we will
+    # pay?', and nothing was answering 'have we now spent the money that was authorised?'"* That question is
+    # still answered on every tick and still recorded; the answer simply no longer stops the lane.
     if _cap_breached:
-        _lprint(f"[s1f] ⛔⛔ SPEND CAP REACHED — realised ${_cap_realised} >= ${_cap_ceiling}. "
-                f"HOLDING all {len(batch)} unit(s). Nothing was rented, nothing was dropped and NOTHING "
-                f"RUNNING WAS TOUCHED: the {len(live)} live host(s) keep working and keep checkpointing. "
-                f"This is NOT a price hold — the board is irrelevant to it and waiting will not clear it.")
+        _lprint(f"[s1f] ⚠ OVER THE TRANCHE ESTIMATE — realised ${_cap_realised} >= ${_cap_ceiling} "
+                f"(${abs(_cap_headroom)} over). CONTINUING: this figure is a planning estimate, not a spend "
+                f"authorisation, and it does not gate placement. Every unit below is still priced against "
+                f"the $/ns buy line and the per-launch ceiling, either of which will still refuse.")
         record_no_placement(
-            "spend_cap_hold",
-            f"realised cumulative spend ${_cap_realised} has reached the derived authorised ceiling "
-            f"${_cap_ceiling} for {_cap_detail['n_units_authorised']} units; {len(batch)} unit(s) held. "
-            f"Live work continues untouched. Clearing this needs a decision, not a better board.",
-            s3=s3, bucket=bucket, key=key, n_withheld=len(batch), excluded=_excl_for_snapshot)
+            "over_tranche_estimate_advisory",
+            f"realised cumulative spend ${_cap_realised} is past the derived tranche estimate "
+            f"${_cap_ceiling} for {_cap_detail['n_units_authorised']} units. ADVISORY ONLY — placement "
+            f"continued; the per-purchase rate and band gates are unchanged and still binding.",
+            s3=s3, bucket=bucket, key=key, n_withheld=0, excluded=_excl_for_snapshot)
         if pending:
-            print(f"::error title=STEP1 FAN-OUT: SPEND CAP REACHED::realised ${_cap_realised} against the "
-                  f"derived authorised ceiling ${_cap_ceiling}, with {len(pending)} unit(s) still pending. "
-                  f"Placement is HELD; running legs are untouched. This does not clear on its own — it "
-                  f"needs a decision: re-price the tranche against the current market, authorise more, or "
-                  f"stop the lane here. Snapshot: step1-fanout-market-hold.json", flush=True)
-            globals()["_MARKET_HOLD_ESCALATED"] = True
-        _write_launch_readout()
-        return
+            print(f"::warning title=STEP1 FAN-OUT: OVER THE TRANCHE ESTIMATE::realised ${_cap_realised} "
+                  f"against a derived tranche estimate of ${_cap_ceiling}, {len(pending)} unit(s) pending. "
+                  f"NOT a hold — the estimate does not gate placement (trimcrae, 2026-07-29). The $/ns buy "
+                  f"line and the per-launch ceiling still refuse independently.", flush=True)
 
     # ⛔ THE $/ns MARKET GUARD (CLAUDE.md §6). EVERY launch must clear a price gate — fleet or single unit.
     #
@@ -2178,6 +2658,7 @@ def mode_launch():
     # where an exception escapes the loop cannot leak it past this process.
     _board_stack = contextlib.ExitStack()
     _board_stats = _board_stack.enter_context(board_read_cache(ttl_s=_board_ttl))
+    _submit_starved = []          # units whose submit died on OUR filter, not on the market — see below
     for u in batch:
         spec = build_jobspec(u, os.environ.get("GIT_BRANCH", "main"), bucket, idx_of[u["unit_id"]],
                              exclude_machine_ids=used_machines)
@@ -2203,6 +2684,12 @@ def mode_launch():
                               f"machine(s) ({_n_excl} excluded + {_n_held} we already hold or just rented "
                               f"this wave) before ranking. Remedy is to widen supply (withdraw a wrong "
                               f"exclusion, or wait for the fleet to shrink), not to wait for prices.")
+                # ★ AND IT GOES IN THE COMMITTED RECORD, NOT ONLY THE LOG (2026-07-28). This exact line was
+                # printed on every failed submit through the night while `step1-fanout-market-hold.json`
+                # showed an ordinary price reading — so the one artifact a reader opens said "the market",
+                # and only the job log said "us". `hold_cause` is the same key `relaunch_market_gate`
+                # already sets, so both lanes now answer this question with the same word.
+                _submit_starved.append({"unit_id": u["unit_id"], "error": str(e)[:300]})
             _lprint(f"[s1f] SUBMIT FAILED {u['unit_id']}: {e}{_why_short}")
             continue
         # Print the FLOOR, the BID and the premium separately. The fan-out's cost estimate was built from a
@@ -2220,6 +2707,22 @@ def mode_launch():
         _mid = h.extra.get("machine_id")
         if _mid is not None:
             used_machines.add(str(_mid))
+        # ★ AND THE HOSTS THIS SUBMIT TRIED AND DESTROYED ON THE WAY (2026-07-29). `gpu_backend.submit` now
+        # reads the start reply, so a host that answers `resources_unavailable` is destroyed and replaced
+        # inside the same call instead of being handed back as a live rental (see `CapacityRefusedAtStart`).
+        # Those machines are already $0, but the REST OF THIS WAVE should not walk straight back into them:
+        # `used_machines` is precisely the wave-scoped "do not place here" set, and it dies with the wave —
+        # which keeps this a claim about a moment, not the durable per-machine record trimcrae struck down.
+        # This lane sees refusals too, and that is measured rather than assumed: `step1-fanout-map.json`
+        # carries rentals billed 0.03 h and 0.05 h, i.e. boxes that never ran. A 19-wide fan-out simply
+        # absorbs what a 2-unit lane cannot.
+        for _r in (h.extra.get("start_refusals") or ()):
+            used_machines.add(str(_r["machine_id"]))
+        if h.extra.get("start_refusals"):
+            _lprint("[s1f] %s: %d host(s) refused the start and were destroyed ($0 each) before this one "
+                    "landed: %s — avoided for the rest of this wave."
+                    % (spec.name, len(h.extra["start_refusals"]),
+                       ", ".join(str(r["machine_id"]) for r in h.extra["start_refusals"])))
         # NO `flush=True` HERE. `_lprint` is not `print` — it flushes internally — and passing print's kwarg
         # to it raised TypeError on the FIRST SUCCESSFUL SUBMISSION, i.e. only ever on the money path.
         # Observed 2026-07-26 7:54 PM ET (autoscale run 30226203566): instance 45951628 was rented and the
@@ -2276,6 +2779,38 @@ def mode_launch():
     _lprint(f"[s1f] board-read cache over the wave: {_board_stats['hits']} hit(s), "
             f"{_board_stats['misses']} real read(s) — {_board_stats['saved_calls']} Vast "
             f"/search/asks/ call(s) NOT made against the shared key (TTL {_board_ttl:.0f}s).")
+    if _submit_starved:
+        # ⚠ THE RECORD MUST SAY "US", NOT "THE MARKET". Written AFTER the wave so it reflects the final
+        # filter width, and it deliberately overwrites the pricing pass's record for this tick: the price
+        # reading is true and was already acted on (these units CLEARED the gate — that is why they reached
+        # submit), so the decision-relevant fact left standing is why the cleared units still did not land.
+        _starved_doc = {
+            "_what": "The step 1 fan-out cleared the price gate and then could not place units anyway, "
+                     "because its OWN host filter had removed the board before ranking.",
+            "_rule": "CLAUDE.md §6 — an exclusion-starved board must never be reported as a price hold.",
+            "utc": _utcnow(), "decision": "exclusions_hold",
+            "decision_meaning": PLACEMENT_DECISIONS["exclusions_hold"],
+            "decision_why": (f"{len(_submit_starved)} unit(s) failed with `no rentable verified offer` "
+                             f"AFTER clearing the $/ns gate, while our own filter removed "
+                             f"{len(used_machines)} machine(s) ({len(excluded)} excluded + "
+                             f"{len(used_machines) - len(excluded)} we already hold or just rented)."),
+            "held": True, "n_withheld": len(_submit_starved), "n_launching_now": len(handles),
+            "n_held": len(_submit_starved),
+            "hold_cause": HOLD_CAUSE_EXCLUSIONS,
+            "hold_cause_why": (f"Our own filter, not the market: {len(excluded)} machine(s) excluded and "
+                               f"{len(used_machines) - len(excluded)} held by this wave. Remedy is to widen "
+                               f"supply (withdraw a wrong exclusion — see "
+                               f"congeneric_fanout_vast.retire_perishable_exclusions), not to wait for "
+                               f"prices."),
+            "starved_units": _submit_starved,
+            "price_blocks_every_unit": False, "first_held_utc": None, "held_hours": 0.0,
+            "binding_gate": "exclusions", "binding_gate_why": "our own host filter",
+            "binding_gate_scope": f"{len(_submit_starved)} unit(s) that had already cleared price",
+        }
+        annotate_exclusions(_starved_doc, excluded, n_wave_held=len(used_machines) - len(excluded))
+        _lprint(f"[s1f] ⚠ EXCLUSIONS HOLD: {_starved_doc['decision_why']} Recorded as "
+                f"hold_cause={HOLD_CAUSE_EXCLUSIONS} — this is NOT a price hold.")
+        _write_market_hold(_starved_doc, s3, bucket)
     with open("step1-fanout-handles.json", "w") as f:
         json.dump(handles, f, indent=2)
     # the label -> unit map, so a later collect/monitor can name instances without re-deriving the index
@@ -2292,6 +2827,13 @@ def mode_monitor():
     """Tight-cadence PROGRESS check (not a liveness ping): per-unit phase + per-instance state, one line each."""
     bucket, s3 = _require_bucket(), _s3()
     units = default_units()
+    # ★★ A PERMANENTLY-EXCLUDED UNIT MUST NOT KEEP WEARING ITS LAST FAILURE (2026-07-28). Before this, a
+    # blocked edge sat at `leg-complex-FAILED-rc1` in every census forever — the same string a unit that
+    # just crashed and is about to be re-placed wears. Two opposite states, one label: one says "watch this,
+    # it will resume", the other says "this will never resume and here is why". The block map is loaded
+    # here so the census can say which, and so the blocked count in the snapshot comes from the artifact
+    # that actually knows rather than from a subtraction.
+    blocked = _load_blocked(s3, bucket)
     key = os.environ.get("VAST_API_KEY")
     # ⚠ THREE STATES, NOT TWO: N instances, ZERO instances, and COULD-NOT-ASK. Dropping the early `return`
     # here was right — the committed-iteration census below reads S3 and does not need the Vast key, so a
@@ -2384,6 +2926,11 @@ def mode_monitor():
             n_done += 1
             print(f"[s1f]   {u['unit_id']:56s} DONE ddG={ddg.get('ddg_bind_kcal')} "
                   f"± {ddg.get('ddg_bind_unc_kcal')}")
+            continue
+        if u["unit_id"] in blocked:
+            # Not "still failing" and not quietly missing — excluded, with the reason on the line.
+            print(f"[s1f]   {u['unit_id']:56s} {BLOCKED_PHASE:28s} "
+                  f"{(blocked[u['unit_id']] or {}).get('why')}")
             continue
         phase = _get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")
         legs = [L for L in ("complex", "solvent")
@@ -2552,7 +3099,8 @@ def mode_monitor():
                         # shared set has no expiry — see the `_dupes` / `_proven` notes above.
                         print(f"[s1f] machine {mid} deliberately NOT excluded — {why}. It stays selectable "
                               f"and is re-priced by the market gate like any other offer.")
-                    elif mid is not None and _record_exclusion(s3, bucket, mid, why, scope=_scope):
+                    elif mid is not None and _record_exclusion(s3, bucket, mid, why, scope=_scope,
+                                                              unit=i.get("label")):
                         print(f"[s1f] machine {mid} added to the lane exclusion set"
                               + (" AND published to the cross-lane shared set (host-scoped: it never "
                                  "started)" if _scope == "host" else
@@ -2643,9 +3191,13 @@ def mode_monitor():
                 _vast_request("DELETE", f"/instances/{iid}/", key)
             except Exception as e:  # noqa: BLE001
                 print(f"[s1f] destroy {iid} failed: {e}")
+            # THE UNIT, passed so the starved-host verdict can be counted against its author. This is the
+            # exact site the measurement indicted: 15 durable exclusions, 10 units, three of them condemning
+            # 3 / 3 / 2 machines apiece on this identical wording.
             if mid is not None and _record_exclusion(s3, bucket, mid,
                                                      f"gpu_util {util}% for {strikes} checks on a plain-RBFE "
-                                                     f"leg (healthy band 70-95%); instance {iid}"):
+                                                     f"leg (healthy band 70-95%); instance {iid}",
+                                                     unit=i.get("label")):
                 print(f"[s1f] machine {mid} added to the lane exclusion set")
             new_state.pop(iid, None)
         _save_ledger(s3, bucket, ledger)
@@ -2673,11 +3225,21 @@ def mode_monitor():
             utils.append(_gpu_util(i))
     phases = {}
     for u in units:
-        p = "done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX)) else \
-            (_get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt") or "not-started").split()[0]
+        p = unit_phase(u, blocked,
+                       has_result=_exists(s3, bucket, result_key(u, RESULT_PREFIX)),
+                       phase_txt=_get_text(s3, bucket,
+                                           f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")).split()[0]
         phases[p] = phases.get(p, 0) + 1
+    _n_done, _n_blocked, _n_outstanding = counts(
+        units, {u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))}, blocked)
+    _computable = computable_units(units, blocked)
     print("[s1f] ---------------- SUMMARY ----------------")
-    print(f"[s1f] units {n_done}/{len(units)} complete | live instances {len(live)} {states or '{}'}")
+    # The headline is against the COMPUTABLE denominator, with the exclusions named beside it — not folded
+    # into either the numerator or the denominator, which are the two ways to make it unquotable.
+    print(f"[s1f] units {_n_done}/{len(_computable)} computable complete "
+          f"({len(units)} map edges, {_n_blocked} permanently excluded"
+          + (f": {sorted(blocked)}" if blocked else "")
+          + f") | {_n_outstanding} outstanding | live instances {len(live)} {states or '{}'}")
     print(f"[s1f] phases {phases}")
     print(f"[s1f] gpu_util across live instances: {utils or 'n/a'}"
           + ("  <-- all idle; if unchanged next check, that is a STALL, not slowness"
@@ -2741,6 +3303,14 @@ def mode_monitor():
         "_generated_utc": _utcnow(),
         "_generated_et": _et_now(),
         "n_units": len(units), "n_complete": n_done,
+        # ★ THE HONEST DENOMINATOR, DERIVED (2026-07-28). `n_units` is the MAP; what this lane can ever
+        # deliver is the map minus its permanent exclusions, and the difference has to be visible in the
+        # artifact or every reader downstream re-derives it wrongly. `blocked_units` carries the reason and
+        # the evidence with each id, so "18, not 19" is never a bare assertion.
+        "n_computable": len(computable_units(units, blocked)),
+        "n_blocked": len([u for u in units if u["unit_id"] in blocked
+                          and not _exists(s3, bucket, result_key(u, RESULT_PREFIX))]),
+        "blocked_units": blocked,
         # ★★ NULL, NOT ZERO — AND THE REASON LIVES HERE BECAUSE 0 IS A LEGAL GOOD VALUE AND null IS NOT.
         # This is the absent-vs-good-value collapse this repo has now hit five times. `0` is a REAL, correct
         # reading (a finished fleet with everything reaped is genuinely 0 live instances), so a reader — human
@@ -2771,9 +3341,13 @@ def mode_monitor():
         # log's scrolled-off middle.
         "stopped_host_adjudication": cohort,
         "units": [{"unit_id": u["unit_id"],
-                   "phase": ("done" if _exists(s3, bucket, result_key(u, RESULT_PREFIX))
-                             else _get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")
-                             or "not-started"),
+                   "phase": unit_phase(
+                       u, blocked,
+                       has_result=_exists(s3, bucket, result_key(u, RESULT_PREFIX)),
+                       phase_txt=_get_text(s3, bucket, f"{RESULT_PREFIX}/{u['unit_id']}/phase.txt")),
+                   # The reason travels with the row. A reader holding only this file must be able to tell
+                   # a permanently-excluded edge from a stalled one WITHOUT going to another artifact.
+                   "blocked_why": (blocked.get(u["unit_id"]) or {}).get("why"),
                    # The committed-iteration census, carried into the artifact so the progress trail this
                    # file leaves is a record of ADVANCE and not just of phase labels.
                    "committed": (cur.get(u["unit_id"]) or {}).get("detail"),
@@ -2803,6 +3377,9 @@ def mode_collect():
         ddg_by_edge[u["edge_id"]] = r["ddg_bind_kcal"]
 
     closure = cycle_closure(ddg_by_edge)
+    # Read ONCE and reused for the counts and for the artifact field, so the number and the list it is
+    # derived from can never disagree inside a single file.
+    _blocked_now = _load_blocked(s3, bucket)
     out = {
         "_what": "STEP 1 FAN-OUT — cmpd19 congeneric relative binding free-energy map (RUNG 4, tranche 1)",
         "_scope": "19 map edges at their charge-conserving microstate leg, on the PRIMARY nr4a3_design "
@@ -2813,12 +3390,35 @@ def mode_collect():
                           "NOT affinities, NOT a selectivity readout, NOT a sensitivity range. Accuracy is "
                           "not established here — it rests on valA_mini + OpenFE's published benchmark for "
                           "this protocol.",
+        # ★ WAS THIS LANE TOUCHED BY THE CHARGE-INHERITANCE DEFECT? ASKED AND ANSWERED, IN THE MAP ITSELF.
+        # The ternary lane's banked legs were found to have sampled on charges inherited from their
+        # pre-equilibrated pose file (OpenFE prefers user-supplied charges over the configured
+        # partial_charge_method, and nothing stripped them before 2026-07-28T00:54Z). `nr4a3_rbfe._sdf_mol`
+        # is SHARED with this lane, so the same question lands on these ddG values — and it is settled by
+        # the staged pose file rather than argued from the code. Written here rather than into the JSON
+        # because every autoscale tick REWRITES that file; a note added to the artifact would survive until
+        # the next tick and no longer.
+        "_charge_provenance": "MEASURED CLEAN, 2026-07-29 ($0, gpu-ternary-fep-vast.yml "
+                              "task=charge-provenance): this lane stages a DOCKED sdf, and "
+                              "s3://…/nr4a3-step1-fanout/stage/ligand/docked_nr4a3.sdf carries 17 records "
+                              "and ZERO `atom.dprop.PartialCharge` tags — there was never anything here to "
+                              "inherit, so no result on this map is affected. NB this lane persists NO setup "
+                              "cache, so that pose file is the only stored artifact that can answer it: "
+                              "there is no hybrid System to fall back on. Evidence: "
+                              "research/modalities/charge-provenance-forensic.json → fanout_exposure.",
         "n_units": len(units), "n_complete": len(results),
+        # ★ AND THE DENOMINATOR A READER SHOULD ACTUALLY QUOTE (2026-07-28). `n_units` is the MAP; the map
+        # minus its permanent exclusions is what this lane can ever deliver, and the manuscript cites THIS
+        # file. Leaving the subtraction to the reader is how "1 of 19" and "two computed edges" ended up in
+        # the same paragraph of §2.9. Derived from `blocked_units` below, never typed.
+        "n_computable": len(computable_units(units, _blocked_now)),
+        "n_blocked": len([u for u in units if u["unit_id"] in _blocked_now
+                          and u["unit_id"] not in {r["unit_id"] for r in results}]),
         # ★ EDGES THAT WILL NEVER COMPLETE, NAMED WITH THEIR REASON. This lane already keeps the
         # charge-changing legs enumerable "so the paper can state exactly which species were NOT computed and
         # why"; a blocked edge is the same obligation. A map that is silently 18 of 19 is a map nobody can
         # grade.
-        "blocked_units": _load_blocked(s3, bucket),
+        "blocked_units": _blocked_now,
         "results": sorted(results, key=lambda r: r["unit_id"]),
         "cycle_closure": closure,
         "cycle_closure_note": "Internal consistency only: a closed cycle does not make the map accurate, but "
@@ -3023,6 +3623,26 @@ def mode_diag():
             emit("[s1f-diag] instance is gone from Vast — container stdout unrecoverable; the S3 leg log "
                  "above is the only record (this is why the leg now uploads its log even on failure)")
 
+    # ★★ THE ATTEMPT COUNT, NOT JUST THE LATEST ATTEMPT (2026-07-28). Everything above reports the CURRENT
+    # state of one unit: the tail of the last leg log and the instance that is running now. That is exactly
+    # the reading that let `cw_bio_primary_amide` be re-placed thirteen times — each dump showed one clean
+    # NaN traceback and nothing about the twelve before it, so every look said "unlucky host" and none said
+    # "this is the thirteenth". The per-attempt archive answers it for $0 and is appended here so the
+    # diagnosis and its history arrive in the same artifact.
+    try:
+        import step1_nan_forensics as _nf
+        # EVERY unit, not the diag's (deliberately narrow) scope: the comparison that matters is the
+        # failing unit against the ones that REACHED A ddG, and those are exactly the units `diag` filters
+        # out. A geometry band computed only over the units still in trouble compares nothing.
+        _rows = _nf.collect(all_units)
+        if _rows:
+            emit("\n" + _nf.render(_rows, _nf.geometry_comparison(_rows)))
+            with open("step1-nan-forensics.json", "w") as f:
+                json.dump({"_what": "per-attempt forensics emitted by `diag`", "units": _rows,
+                           "geometry_comparison": _nf.geometry_comparison(_rows)}, f, indent=2, default=str)
+    except Exception as e:  # noqa: BLE001 — an evidence hook must never break the diagnostic it decorates
+        emit(f"[s1f-diag] attempt forensics unavailable: {type(e).__name__}: {e}")
+
     with open("step1-fanout-diag.txt", "w") as f:
         f.write("\n".join(out_lines) + "\n")
     print(f"[s1f-diag] wrote step1-fanout-diag.txt ({len(out_lines)} blocks)")
@@ -3065,10 +3685,43 @@ def mode_block():
     if os.environ.get("FANOUT_UNBLOCK") == "1":
         removed = doc["units"].pop(uid, None)
         print(f"[s1f] unblocked {uid} (was: {removed})")
+        # ★★ UNBLOCKING IS THE GESTURE THAT MEANS "THE CAUSE IS FIXED", SO IT RE-ARMS THE BREAKER TOO
+        # (2026-07-29). Without this, lifting a block achieves nothing for any unit that has already burned
+        # `leg_failure_breaker.DEFAULT_THRESHOLD` hosts: the launcher would simply hold it on the attempt
+        # count instead, and the two guards would look like one broken one. The re-arm is an OFFSET, not a
+        # delete — the archive is the evidence that this unit was bought 25 times, it is cited in the block
+        # reason and in the manuscript, and a counter reset must not cost the record.
+        _n_now = _attempt_count(s3, bucket, uid)
+        if _n_now is None:
+            print(f"[s1f] ⚠ could not read {uid}'s attempt archive, so the breaker baseline was NOT moved. "
+                  f"The unblock stands, but the failure breaker may still hold this unit — re-run this "
+                  f"mode once the bucket reads cleanly.")
+        else:
+            _bl = _get_json(s3, bucket, f"{RESULT_PREFIX}/{_BREAKER_BASELINE_KEY_SUFFIX}") or {}
+            _bl.setdefault("units", {})
+            # UNION, never overwrite: another lane tick may have re-armed a different unit between this
+            # read and this write, and a whole-document replace would silently drop it.
+            _bl["units"] = {**(_bl.get("units") or {}), uid: _n_now}
+            _bl["_what"] = ("attempts already spent per unit at the moment someone declared its cause "
+                            "fixed. `breaker_decision` counts only attempts made SINCE this baseline, so "
+                            "the archive stays whole and the breaker still re-arms.")
+            s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/{_BREAKER_BASELINE_KEY_SUFFIX}",
+                          Body=json.dumps(_bl, indent=2).encode())
+            print(f"[s1f] failure-breaker re-armed for {uid}: baseline set to {_n_now} archived attempt(s); "
+                  f"only failures after this count towards the threshold. The archive is untouched.")
     else:
         if not why:
             raise SystemExit("[s1f] BLOCK_REASON is required — a block with no stated reason is an edge that "
                              "silently vanishes from the map, which is the failure mode this guards against")
+        # ★ A REASON THAT IS OBVIOUSLY AN ATTEMPT TO UNBLOCK MUST NOT BLOCK (2026-07-29). The reason arrives
+        # from the same workflow input in both directions, so "unblock" typed into it is unambiguous intent
+        # — and taking it literally would re-block the unit AND overwrite its evidenced reason with the word
+        # "unblock", losing the record. Refusing costs one re-dispatch; accepting costs the reason.
+        if why.strip().lower() in ("unblock", "unblocked", "un-block", "clear", "lift"):
+            raise SystemExit(f"[s1f] BLOCK_REASON={why!r} reads as a request to UNBLOCK, not as a reason to "
+                             f"block. Refusing rather than overwriting {uid}'s recorded reason. To lift a "
+                             f"block set FANOUT_UNBLOCK=1 (the workflow does this when the reason input is "
+                             f"exactly 'unblock').")
         doc["units"][uid] = {"why": why, "evidence": os.environ.get("BLOCK_EVIDENCE") or None,
                              "utc": _utcnow()}
         print(f"[s1f] blocked {uid}: {why}")
@@ -3142,7 +3795,7 @@ def mode_reap():
             continue
         if mid is None:
             print(f"[s1f-reap] {iid} has no machine_id in the listing — destroyed, but nothing to exclude")
-        elif _record_exclusion(s3, bucket, mid, why):
+        elif _record_exclusion(s3, bucket, mid, why, unit=i.get("label")):
             print(f"[s1f-reap] machine {mid} added to the lane exclusion set: {why}")
         else:
             print(f"[s1f-reap] machine {mid} was already excluded (or the write failed) — see the log above")

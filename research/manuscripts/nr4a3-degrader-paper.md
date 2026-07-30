@@ -57,7 +57,13 @@ constraint, and widening the panel confirmed the incumbent recruiters rather tha
 orientation basins that exploit the categorical terms in only a **small minority** of placements; and
 enumerates a **reversible-covalent-preferring virtual linker library** whose covalent handle is reported as an
 unresolved liability alongside the parent warhead's own pharmacology. Two ubiquitination-geometry parameters
-are corrected against solved intact assemblies rather than assumed. The **causal test of whether any designed
+are corrected against solved intact assemblies rather than assumed. **A preregistered known-answer test of the
+ternary machinery itself — measured SPR cooperativity for a linker pyridine→benzene edge on SMARCA2/VHL —
+returns the wrong sign (ΔΔG_coop = −0.522 vs a target of +0.944 kcal/mol), and does so with converged,
+structurally stable, forward/reverse-antisymmetric sampling, making the miss ~33× the statistical uncertainty
+and therefore systematic rather than a sampling deficit that replicates could remove.** No cooperativity or
+ternary-complex quantity in this work is therefore calibrated, and the degrader stage is reported as a
+prioritized candidate matrix rather than a quantitative prediction. The **causal test of whether any designed
 element creates discrimination has not been run**, and its reading is pre-registered. This is a
 **computation-only** design and feasibility
 study — **no molecule was synthesized and no wet-lab validation was performed** — whose principal unresolved
@@ -1312,16 +1318,95 @@ adopts: **a closed cycle, a small forward/reverse gap, and good MBAR overlap are
 never be presented as accuracy evidence**, and a known-answer benchmark against measured data is not
 substitutable by any number of internally consistent cycles.
 
-**The full congeneric map is designed and staged, but NOT computed.** A 19-edge perturbation map around the
-cmpd19 anchor is frozen (`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue
-inheriting the anchor's core coordinates atom-for-atom, so the edges are mutually comparable), and the execution
-lane is implemented and was demonstrated to sample the real system at scale. It was then **stopped before any
-edge produced a ΔΔG**, on cost. **No ΔΔG beyond the single pilot edge above exists, and none is claimed here** —
-this paper reports one edge, not a map. Two scope limits would apply even when the map is computed: it covers
-only the **charge-conserving** microstate of each edge (the charge-changing species need a co-alchemical or
-analytical charge correction that is not implemented), and only the **primary** receptor conformer — so it would
-be a single-conformer *conditional* map, not a paralogue-selectivity readout and not a sensitivity range. Record:
-`research/modalities/step1-fanout-lane.md`.
+**The congeneric map stands at 14 computed edges of the 18 that are computable, in a 19-edge map, at the
+6:30 AM ET 2026-07-29 snapshot the table below is taken from.** The three numbers are different and all three
+are needed: 19 is the designed map, **18** is what the lane can ever deliver (one edge is excluded for a
+measured reason given below), and 14 is what had landed when this table was cut. The fan-out is still running,
+so the live counts are `n_units` / `n_computable` / `n_complete` in
+[`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json) — **that artifact governs and
+this paragraph does not.** A 19-edge perturbation map around the cmpd19 anchor is frozen
+(`congeneric-rbfe-map.json`), its common-mode input poses are built (every analogue inheriting the anchor's
+core coordinates atom-for-atom, so the edges are mutually comparable), and the fan-out had returned ΔΔG_bind
+for **14** of them at that snapshot (single replicate each, 12 λ-windows, ~$69 of realised GPU spend across
+197 rentals). More negative = predicted tighter than the cmpd19 anchor in the modeled pocket:
+
+| analogue (5-position unless noted) | ΔΔG_bind (kcal/mol) | mapped atoms |
+|---|---|---|
+| `cw_ev_5opropargyl` | **−1.698 ± 0.380** | 21 |
+| `cw_ms_5acetamido_ester` | −1.345 ± 0.810 | 23 |
+| `cw_bio_tetrazole` | −1.215 ± 0.317 | 15 |
+| `cw_ev_5pegamine` | −0.646 ± 1.071 | 21 |
+| `cw_ev_5alkyne` | −0.363 ± 0.047 | 21 |
+| `cw_bio_acylsulfonamide` | +0.127 ± 0.688 | 17 |
+| `cw_ms_free_acid` | +0.136 ± 0.457 | 18 |
+| `cw_bio_hydroxamic` | +0.392 ± 0.285 | 17 |
+| `cw_ev_5oh` | +0.474 ± 0.195 | 21 |
+| `cw_ms_carbinol` | +0.582 ± 0.602 | 17 |
+| `cw_ev_5cooh` | +0.688 ± 0.197 | 21 |
+| `cw_ev_5nh2` | +1.064 ± 0.118 | 21 |
+| `cw_ev_5ch2nh2` | +1.248 ± 0.139 | 21 |
+| `cw_ev_5piperazine` | +3.403 ± 0.649 | 21 |
+
+**Every uncertainty in that table is a within-run MBAR standard error propagated in quadrature — NOT a
+replicate SD.** One replicate per edge cannot report reproducibility, so these speak to precision only, and the
+ranking must be read as provisional. Live record:
+[`../modalities/step1-fanout-map.json`](../modalities/step1-fanout-map.json), whose `_claim_ceiling` field
+governs and states the binding limit: *conditional* relative free energies given a **hypothesized** cmpd19 pose
+(no solved NR4A3 co-crystal) in **one** modeled opened conformer.
+
+**⚠ An independent recomputation of the same edge disagrees with the §2.9 pilot by more than either stated
+uncertainty, and we report it rather than choosing between them.** The pilot above gives cmpd19 → 5-NH₂ =
+**+1.84 ± 0.36** kcal/mol; the fan-out's `cw_ev_5nh2` is the same nominal perturbation and gives **+1.064 ±
+0.118**. The gap is **≈0.78 kcal/mol**, against quadrature errors of 0.36 and 0.12. The two were computed on
+different execution lanes with different protocol settings, so this is **not** a like-for-like replicate and
+does not license a reproducibility statistic in either direction — but it is a direct, concrete illustration of
+the point this section already makes: a tight within-run MBAR error is **not** a reproducibility claim, and
+here two independent runs of one perturbation differ by several times their own error bars. Reconciling them
+(identical protocol, matched conformer, true replicates) is outstanding work, not a resolved question.
+
+**One edge is excluded for a principled, measured reason rather than a budget one, and it is worth reporting.**
+The edge to `cw_bio_nmethyl_amide` is **not** unrun — it is unrunnable by the mappers available: its complex leg
+aborts on a provably degenerate atom map. A complete 22-atom map exists as a graph fact, giving a provable floor
+of **20** mapped atoms, and the production mappers reach **17** (LOMAP, `element_change=False`), **19** (LOMAP,
+`element_change=True`) and **18** (Kartograf). Both LOMAP budgets return in 0.01 s, which measures the MCS
+timeout *not* to be the mechanism, so a relaunch aborts identically and buys nothing. Recording this as a
+mapper-capability limit rather than a missing datum is the honest reading: an incomplete perturbation map with a
+named, reproducible reason for each hole is a different object from one silently truncated on cost.
+
+Re-measured on the production staged components on 2026-07-29, that reading holds, and one further detail
+sharpens it. A count two short of a floor is equally consistent with a search that nearly succeeded and one that
+failed and returned nonsense, so we recorded *which* atoms each mapper leaves unmapped and which element
+substitutions the returned map itself makes. The 19-atom LOMAP map reaches 19 only by mapping the ester's methyl
+**carbon** onto an amide **hydrogen** — a heavy atom onto a hydrogen. It is therefore not a near-complete map two
+atoms short but exactly the degenerate correspondence the floor exists to reject, and the two mappers that remain
+chemically sane (strict-element LOMAP, Kartograf) top out at 17 and 18. The limit is thus a property of the
+available *mappers* and not of the chemistry — the two heavy-atom graphs are isomorphic up to the single O→N
+substitution, so a complete map exists to be found — which also makes the exclusion revisitable rather than
+final: should any mapper reach the floor for this edge, it runs like the others.
+
+**A second hole has a different and non-scientific cause, and it is reported separately because conflating the
+two would overstate the map's limits.** The edge to `cw_bio_primary_amide` failed repeatedly, and the cause is
+not chemistry, not the atom map (17 mapped against a provable floor of 12) and not the rented hardware: the
+solvated hybrid system as built contains two atoms at *exactly* coincident coordinates, and they carry a gradient
+of **4.996 × 10¹⁷ kJ mol⁻¹ nm⁻¹** against **6.46 × 10⁵** on the largest non-degenerate atom of the same
+112,955-atom build — a factor of 7.7 × 10¹¹. That value is finite, so the potential energy of every force term is finite and a
+double-precision CPU minimiser descends it to completion; the GPU minimiser does not, and this edge died at the
+identical `LocalEnergyMinimizer` call on **25 archived attempts across 7 distinct card/driver combinations**
+before the per-attempt archive was examined. The remedy is the starting geometry — one member of each coincident
+pair is displaced by 0.01 Å, two orders of magnitude below a bond length, into a minimiser that is about to move
+it in any case — and it touches no force-field parameter, no λ schedule and no estimator. Its effect was measured
+as a before/after on the same build rather than argued: the system's largest gradient falls from 4.996 × 10¹⁷ to
+6.46013 × 10⁵ kJ mol⁻¹ nm⁻¹, which is the value an unrelated atom already carried (6.46013 × 10⁵) before the
+displacement — the singular force is removed and every other force in the box is unchanged to six significant
+figures. **This edge is
+therefore a defect that was fixed, not a scientific exclusion, and it is not counted against what the method can
+do**; at the time of writing it is held out of the map pending the fixed code reaching the execution hosts, and
+its status is whatever `blocked_units` in the live artifact says.
+
+Two scope limits apply to every edge in this map, computed or not: it covers only the **charge-conserving**
+microstate of each edge (the charge-changing species need a co-alchemical or analytical charge correction that is
+not implemented), and only the **primary** receptor conformer — so it is a single-conformer *conditional* map,
+not a paralogue-selectivity readout and not a sensitivity range.
 
 ### 2.10 A mechanism-first prospective degrader-design stage: categorical paralogue handles, a negative on E3 breadth, and a virtual linker library (all CPU, no GPU)
 
@@ -1578,6 +1663,91 @@ in advance in §5. Under the language this paper holds itself to, the deliverabl
 computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis
 and experimental testing* — not a hit, not a selective degrader, and no statement about efficacy, safety, a
 therapeutic window, or clinical readiness.
+
+### 2.11 The preregistered known-answer ternary-cooperativity benchmark misses, with the wrong sign, and the miss is systematic rather than statistical
+
+Every degrader claim in §2.10 rests on an alchemical machine that has never been shown to reproduce a *measured*
+ternary cooperativity. §2.9 established that internal self-checks — cycle closure, forward/reverse agreement,
+MBAR overlap — are precision diagnostics and can never substitute for a known-answer test. This section reports
+that test. **It does not pass**, and we report it in full because a benchmark disclosed only when it succeeds is
+not a benchmark.
+
+**Design, frozen before execution.** The calibrator (`valB_mini`) is the **Wurz compound 1 → compound 4** edge on
+the **SMARCA2/VHL** ternary complex: a single linker **pyridine N → CH** substitution, i.e. a genuine
+constitutional element change rather than a stereochemical null-map (checked at freeze time and recorded in the
+artifact: `delta_N = −1`, `delta_C = +1`, 59 heavy atoms on both sides). Both compounds have **same-paper SPR** cooperativities (α₁ = 12.8, α₄ = 2.6), so the
+target is fixed a priori by `ΔΔG_coop = −RT ln(α₄/α₁)` at 298.15 K = **+0.944 kcal/mol**, positive for the
+hi→lo direction. The quantity computed is the thermodynamic cycle `ΔΔG_coop = ΔΔG_alch,ternary − ΔΔG_alch,binary`.
+The pass rule was preregistered and requires *all* of: converged diagnostics, **correct positive sign**,
+`|mean − target| ≤ 1.0`, between-replicate cycle SD ≤ 0.75, mean > target/2, and a t-based 95 % CI excluding
+zero. Frozen record: [`../modalities/wurz-calib-frozen.json`](../modalities/wurz-calib-frozen.json).
+
+**Result.** The first replicate gives **ΔΔG_coop = −0.522 kcal/mol against a target of +0.944** — the **wrong
+sign**, an absolute error of **1.466 kcal/mol**, and a failure of the preregistered rule on sign alone.
+
+**A control that could have explained the miss was run, and it does not.** In the original edge the binary
+arm's ligand left its pocket in 8 of 12 replicas, so that ΔG was not a free energy of the intended bound state
+and the cycle built on it was not strictly a cooperativity. That arm was therefore **re-run from scratch** with
+a flat-bottom, λ-independent pocket restraint — λ-independent so it cancels exactly from ΔG(A→B), which is why
+no standard-state correction arises (this is RBFE; the ligand is never decoupled) — writing to its own commit
+prefix so it could neither resume nor overwrite the contaminated trajectory. The re-run landed, and the
+reduction moved from **−0.534 to −0.522 kcal/mol: a shift of 0.012 against a miss of ~1.47.** Removing the
+pocket-escape contamination changed the answer by **under 1 %** of the discrepancy. This is the single most
+useful thing the calibrator has produced so far, because it eliminates the most plausible benign explanation
+for the wrong sign by measurement rather than by argument.
+
+**The miss is not a sampling failure, and the evidence for that is a full diagnostic battery that passes.** The
+ternary leg reached **2000/2000** production iterations with MBAR **ΔG_morph = 47.511 ± 0.045 kcal/mol**;
+λ-overlap is connected with minimum adjacent overlap **0.109** (floor 0.03); **N_eff = 676**; all 12 replicas
+visit both end states; the ΔG(t) plateau is flat (full-vs-final-half **0.0023**). Replica mixing is **0.8915**
+against a 0.90 ceiling — passing, but recorded as marginal. An apparent 78.9 Å → 14.97 Å solute RMSD excursion
+is **periodic wrapping**, not a rearrangement (p50 2.50 Å, p90 5.91 Å, ~2 % of atoms displaced by ~one 126.3 Å
+box edge; √(0.02·100² + 0.98·3²) ≈ 14.4 reproduces the observed value), so the ternary assembly is
+structurally stable. A separately derived **ligand-only** pose RMSD — the ligand identified fail-closed from
+bonded connectivity inside the trajectory, a single candidate among 141,968 partitioned particles, and
+independently corroborated by an RDKit heavy-atom count from freeze time — gives **max 2.765 Å, median 1.644 Å**
+against a 4.0 Å threshold, so the ligand did not drift out of the interface either.
+
+**The forward/reverse antisymmetry check now returns a value, and it passes.** The reverse leg was for a period
+structurally unreachable (four independent callers pinned the direction to forward); with that fixed, the
+measured hysteresis is **|ΔG_fwd + ΔG_rev| = 0.325 kcal/mol against a preregistered ≤ 1.000 threshold — PASS**.
+This is the **first of the three preregistered systematic-error detectors to return any value at all**, and its
+reading is deliberately narrow: forward and reverse alchemical paths agree, so the miss is **not** a path or
+hysteresis artifact. Per the identity argued in §2.9, a passing antisymmetry check is a *precision* diagnostic;
+it is fully consistent with a large endpoint-state error and is **not** evidence that the cooperativity is right.
+
+**Taken together these give the load-bearing conclusion: the error is systematic, not statistical.** The
+within-run statistical uncertainty (0.045 kcal/mol) is roughly **33× smaller than the miss** (1.466 kcal/mol).
+Because replicates shrink variance and not bias, **more replicates cannot rescue this result** — a point worth
+stating plainly, since the reflex response to a failed free-energy benchmark is to add sampling. The residual
+error classes that a converged, structurally stable, antisymmetric calculation can still carry are precisely the
+endpoint-state ones §2.9 showed a closed cycle to be blind to: the force field, the partial-charge method,
+protonation/tautomer assignment, **the homology substitution in the receptor model**, and error in the reference
+data itself. The partial-charge term enters as the *absolute* accuracy of one shared model and not as a
+mismatch between the two arms: both arms' hybrid systems were read out of storage and carry the **same**
+alchemical charges to the last serialised digit, so the model cancels from the cycle as intended (SI §S11).
+Two of the classes are concretely elevated here: the SMARCA2 bromodomain is a **sequence substitution
+into a 3.73 Å SMARCA4 parent structure** followed by relaxation (SMARCA2 crystallization having failed for the
+original investigators too), and the target is derived from an SPR α-ratio whose own uncertainty is not
+propagated into the ±1.0 kcal/mol margin.
+
+**Status, stated without rounding up.** The calibrator's formal verdict is **INDETERMINATE**, not FAIL, and only
+because the preregistered rule requires a between-replicate cycle SD that a single replicate cannot supply. That
+distinction must not be read as encouraging: the sign is already wrong and the diagnostics already pass, so the
+replicates are owed to the *rule*, not to a plausible path back to agreement. Of the three systematic-error
+detectors, **one has now returned a value and passed** (antisymmetry), and **cycle closure remains unrun** — a
+synthetic third vertex is designed and frozen ([`../modalities/valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json))
+but has produced no closed cycle. A replicate-level caveat applies when the replicates do land: the ternary
+starting-model index is `seed mod n_models` at `n_models = 2`, so a third replicate returns to the first
+model's pose and the between-replicate SD **understates** homology-model variance.
+
+**What this costs the rest of the paper, applied rather than noted.** §5's Tier-3 reading states that a positive
+degrader-design result "stays exploratory until the known-answer ternary control passes." That control has now
+been run and has **not** passed. The consequence is therefore in force, not hypothetical: **no cooperativity or
+ternary-complex claim in this paper is calibrated**, the §2.10 degrader stage remains a prioritized candidate
+matrix rather than a quantitative prediction, and the ternary machinery's demonstrated status is *converges and
+is internally self-consistent on a real ternary system* — not *predicts measured cooperativity*. We regard
+reporting this negative at full weight as more informative than the pilot it was meant to license.
 
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
@@ -2112,7 +2282,10 @@ category error. The corresponding **honest expectation recorded in advance** is 
 NR4A3 a *gain* rather than imposing a paralogue *penalty* (the aligned paralogue residues are hydrocarbon and
 simply cannot donate), and that a NO-GO may be acted on at this evidence grade because stopping is the
 conservative action, whereas a **positive** result stays **exploratory** until the known-answer ternary
-control passes.
+control passes. **⚠ That control has since been run and did NOT pass** (§2.11: wrong sign, ΔΔG_coop = −0.522
+against a preregistered +0.944, with the miss ~33× the statistical uncertainty and therefore systematic). This
+clause is consequently **in force, not pending**: any positive Tier-3 result is exploratory, and the condition
+cannot be discharged by adding replicates, because replicates shrink variance and not bias.
 
 **Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single de-noised,
 initial-ABFE-supported foothold, not an unqualified pass.** `denovo_401` docks into the druggable release

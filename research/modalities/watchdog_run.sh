@@ -38,7 +38,30 @@ fi
 N=$(python3 -c "import json;d=json.load(open('$CFG'));print(len([w for w in d['watch'] if w.get('enabled')]))")
 echo "enabled watch entries: $N   (dry_run=$DRY)"
 if [ "$N" = "0" ]; then
-  echo "::notice title=WATCHDOG idle::No enabled entries in ternary-watch.json — nothing to watch."
+  # ★ AN EMPTY WATCH LIST IS EXACTLY WHEN AN ORPHAN VM IS INVISIBLE — DO NOT EXIT WITHOUT LOOKING.
+  #
+  # This early exit used to be safe only by accident: entries were never disabled, so the VM listing below
+  # always ran. Auto-reaping landed units (gcp_watch_reap) removed that accident, and the FIRST pass after
+  # the last unit landed is precisely the pass that should be asking "did that unit's VM survive it?".
+  #
+  # It matters here more than on any other lane. A GCP VM CANNOT DELETE ITSELF — the in-VM trap fires and
+  # GCE refuses it (`Required 'compute.instances.delete' permission`, measured 2026-07-27, gcp-gpu-facts.md
+  # §6), so a finished leg routinely leaves a RUNNING VM. With GPUS_ALL_REGIONS = 1 that one VM holds the
+  # project's ENTIRE GPU quota, so the next leg cannot start at all — and the exposure is wall clock, not
+  # money, which is worse here because nothing bills to notice. `gcp-reap-vms.yml` is not a backstop: it has
+  # no `schedule:` and never fires by itself.
+  #
+  # This does NOT destroy anything. A VM with no watch entry could still be a legitimate manual dispatch, and
+  # a watchdog that reaps whatever it does not recognise is a worse failure than the one it prevents. It
+  # raises a loud alert and fails the job so the workflow-failure notification fires.
+  ORPHANS=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" \
+              --format="value(name,status,zone)" 2>/dev/null)
+  if [ -n "$ORPHANS" ]; then
+    echo "::error title=WATCHDOG ORPHAN VM, NOTHING WATCHING IT::the watch list has NO enabled entries, yet a gcp-ternary VM is still up: ${ORPHANS}. A GCP VM cannot delete itself, and GPUS_ALL_REGIONS=1 means this box holds the project's only GPU, so every future leg is blocked until it is removed. Confirm it is not a live manual run, then reap it by dispatching gcp-reap-vms.yml (it has no schedule and will not fire on its own)."
+    echo "watchdog pass complete (idle list, orphan VM present)"
+    exit 1
+  fi
+  echo "::notice title=WATCHDOG idle::No enabled entries in ternary-watch.json and no gcp-ternary VM is up — nothing to watch, and nothing holding the GPU quota."
   exit 0
 fi
 
@@ -86,6 +109,9 @@ STALL_PASSES=3
 # session, or anyone thinking to look. RUNNING and DONE stay green so the mailbox stays quiet.
 # The entry loop is a pipeline subshell, so the flag has to live in a file, not a variable.
 ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
+# Units that reached the TERMINAL done state this pass (result + both follow-ups dispatched). Collected here
+# and reaped once at the end rather than per-entry, so one commit covers the whole pass.
+REAP=/tmp/watchdog-reap; rm -f "$REAP"; : > "$REAP"
 
 # `provisioning` defaults to spot, matching the standing rule. It is read from config rather than hardcoded so
 # a switch to on-demand is a one-line config edit -- gpu-ternary-fep-gcp.yml gates 'standard' on being
@@ -270,7 +296,13 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
           echo "REDUCE DISPATCH FAILED $TAG" >> "$ALERT"
         fi
       else
-        echo "::notice title=WATCHDOG DONE::$TAG — result JSON present and both converge+reduce already dispatched. Nothing left to do: set enabled=false in ternary-watch.json."
+        # TERMINAL. Result JSON present AND both follow-ups dispatched — there is genuinely nothing left for
+        # this unit. This branch used to print "set enabled=false in ternary-watch.json" and loop, so the entry
+        # stayed enabled until a human read a cron log; on 2026-07-28 one had sat here ~14 h. Name it for the
+        # reap instead of instructing someone. It is named ONLY here, never in the two branches above, because
+        # those still owe a dispatch and disabling the entry there would lose the reduce.
+        echo "$LEG|$DIR|$SEED" >> "$REAP"
+        echo "::notice title=WATCHDOG DONE::$TAG — result JSON present and both converge+reduce already dispatched. Nothing left to do; queuing it to be disabled in ternary-watch.json (its verdict stays on the mode=reduce run's [REDUCE-VERDICT] annotation)."
       fi
       continue
     fi
@@ -441,6 +473,48 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
       echo "DISPATCH FAILED $TAG" >> "$ALERT"
     fi
   done
+# ============================================================================================================
+# REAP THE LANDED UNITS. See gcp_watch_reap.py for why the proof is the terminal state and not merely
+# "the result exists" — reaping on the result alone would disable an entry before the pass that dispatches
+# its reducer, and the verdict would never be computed.
+#
+# WHY IT PUSHES TO main. The watch list is a REPO file and this workflow always runs main's copy (it takes no
+# `ref`), so the only way a disable survives to the next pass is a commit on main. It touches exactly one
+# path, writes only when something changed, and never re-enables anything.
+#
+# WHY A FAILED PUSH IS A WARNING, NOT AN ALERT. The cost of not reaping is a stale entry — the very state
+# that existed before this code, and one the next pass retries for free. Failing the job for it would page a
+# human about bookkeeping and, worse, would fire the workflow-failure notification that is reserved for a leg
+# actually being in trouble. A race with another push is the expected case here, not an incident.
+# ============================================================================================================
+if [ -s "$REAP" ]; then
+  REAPED=$(tr '\n' ' ' < "$REAP")
+  echo "=== reaping landed unit(s): $REAPED ==="
+  if [ "$DRY" = "1" ]; then
+    python3 research/modalities/gcp_watch_reap.py --dry-run $REAPED
+  elif python3 research/modalities/gcp_watch_reap.py \
+         --verdict-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/workflows/gpu-ternary-fep-gcp.yml" \
+         $REAPED && ! git diff --quiet -- "$CFG"; then
+    git config user.name  "github-actions[bot]"
+    git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    git add "$CFG"
+    git commit -q -m "watchdog: disable landed watch entr(ies) $REAPED" \
+      -m "Result JSON in GCS and both follow-ups dispatched — the terminal state. Auto-reaped so the lane stops reading as having unfinished work."
+    PUSHED=0
+    for try in 1 2 3; do
+      git pull --rebase --quiet origin main >/dev/null 2>&1
+      if git push --quiet origin HEAD:main >/dev/null 2>&1; then PUSHED=1; break; fi
+      sleep $((try * 4))
+    done
+    if [ "$PUSHED" = "1" ]; then
+      echo "reaped and pushed: $REAPED"
+    else
+      echo "::warning title=WATCHDOG REAP NOT PERSISTED::disabled $REAPED locally but could not push to main after 3 tries. The entry stays enabled for now; the next pass retries. This costs a stale entry, not a leg."
+    fi
+  else
+    echo "nothing to commit — the named unit(s) were already disabled."
+  fi
+fi
 echo "watchdog pass complete"
 if [ -s "$ALERT" ]; then
   echo "=== watchdog raised $(wc -l < "$ALERT" | tr -d ' ') alert(s) ==="

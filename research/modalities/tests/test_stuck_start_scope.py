@@ -41,7 +41,17 @@ def test_a_host_that_NEVER_STARTED_is_published_cross_lane():
     assert "never started" in window and '_scope = "host"' in window, (
         "the never-started condemn must publish HOST-scoped so every lane sees it — machine 1569 took ten "
         "relaunches because it did not")
-    assert "_record_exclusion(s3, bucket, mid, why, scope=_scope)" in src
+    # ⚠ ASSERT THE ARGUMENT, NOT THE LITERAL CALL TEXT (loosened 2026-07-29). This pinned the exact string
+    # `_record_exclusion(s3, bucket, mid, why, scope=_scope)`, so adding a NEW keyword to the call — `unit=`,
+    # which carries the per-unit blame guard's evidence — failed this test while the behaviour it guards was
+    # untouched. What matters is that the condemn passes the computed scope through rather than defaulting.
+    import ast
+    call = next(n for n in ast.walk(ast.parse(src))
+                if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+                and n.func.id == "_record_exclusion"
+                and any(k.arg == "scope" for k in n.keywords))
+    scope_kw = next(k for k in call.keywords if k.arg == "scope")
+    assert isinstance(scope_kw.value, ast.Name) and scope_kw.value.id == "_scope"
 
 
 def test_the_HARD_BACKSTOP_condemns_but_stays_LANE_scoped():

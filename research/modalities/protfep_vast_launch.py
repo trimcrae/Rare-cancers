@@ -43,6 +43,7 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import protfep_bench as bench  # noqa: E402
+import vast_stopped_resume_measure as _srm  # noqa: E402
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
 # The measured-throughput helpers behind the 2026-07-24 $/ns selection work. Imported rather than
 # re-derived so this lane's bid ceiling and the launcher's offer ranking can never disagree about
@@ -69,10 +70,16 @@ LABEL_PREFIX = "protfep-bench"
 # the normal path — the normal path is "leg result in S3 -> destroy".
 MAX_INSTANCE_HOURS = float(os.environ.get("PROTFEP_MAX_INSTANCE_HOURS") or "10")
 # How long a box may sit at cur_state="stopped" before the nudge is given up on and it is destroyed.
-# Sized off the observed failure: the complex leg's host sat stopped for 36 minutes with a frozen
-# image pull, so the bound has to exceed a legitimate slow pull while still being far below the
-# 10-hour runtime backstop. A stopped box bills storage only, so this is minutes of waste, not GPU-h.
-MAX_STOPPED_MIN = float(os.environ.get("PROTFEP_MAX_STOPPED_MIN") or "45")
+# ★★ NOW DERIVED FROM A MEASUREMENT (2026-07-28). The original sizing argument — "the complex leg's host sat
+# stopped for 36 minutes with a frozen image pull, so the bound has to exceed a legitimate slow pull" — is a
+# LOWER bound from one incident and says nothing about where the upper bound belongs. The upper bound is a
+# question about how often a stopped box comes back, and `vast_stopped_resume_measure` measured it across
+# every committed revision of the fleet census: 15 of 55 never-started episodes resumed, Kaplan-Meier 34 %
+# by 45 min and 61 % by 90 min, with resumes observed as late as 93.0 min. A stopped box bills storage only
+# (~$0.011-0.022/hr depending on the disk), so waiting out that distribution costs cents while destroying
+# early forfeits the staged disk. One home for the figure: `vast_stopped_resume_measure.hold_minutes()`.
+MAX_STOPPED_MIN = float(os.environ.get("PROTFEP_MAX_STOPPED_MIN")
+                        or _srm.hold_minutes(default=45))
 # How long an instance may show the SAME status_msg while cur_state is running before its image pull
 # is judged dead rather than queued. The apo leg's host pulled the same ~6 GiB image and started
 # sampling well inside this; a docker layer legitimately waits a minute or two behind its peers.
@@ -709,9 +716,21 @@ def collect(bucket=None, prefix=None, autostop=True):
     # Persist the status_msg clock for the next poll. Best-effort on purpose: failing to write a
     # monitoring aid must never fail a collect, and a lost file only costs one reset of the clock.
     try:
-        prior_blocked = set((prev_state.get("_blocked_machines") or []) if isinstance(
-            prev_state.get("_blocked_machines"), list) else [])
-        new_state["_blocked_machines"] = sorted(prior_blocked | blocked)
+        # ★★ WAVE-SCOPED, NOT CUMULATIVE — the same correction the ternary lane took on 2026-07-27, applied
+        # here because this list is the same shape and feeds the same reader. It was `prior | blocked`, a
+        # union with every previous tick, so it only ever grew. The ONLY thing that adds to `blocked` is the
+        # `resources_unavailable` branch above, i.e. the whole set is the PERISHABLE capacity class: "this
+        # machine's GPU was busy on this tick", not a property of the host. Carrying that forward is what
+        # made our own filter — not price — the binding constraint on placement across three lanes, and it
+        # would have regrown this lane's contribution to the shared set within a day of the clear.
+        # Re-testing is nearly free: a failed submit costs no rental and no billing.
+        _prior_blocked = set((prev_state.get("_blocked_machines") or []) if isinstance(
+            prev_state.get("_blocked_machines"), list) else [])   # read for the readout only; NOT re-persisted
+        new_state["_blocked_machines"] = sorted(blocked)
+        if _prior_blocked - blocked:
+            print(f"[collect] {len(_prior_blocked - blocked)} machine(s) FORGOTTEN from the block list "
+                  f"({sorted(_prior_blocked - blocked)}) — they refused on an earlier tick and are not "
+                  f"refusing now, so they are selectable again. Capacity refusals bound a wave, not a lane.")
         s3.put_object(Bucket=b, Key=f"{p}/_lane_state.json",
                       Body=json.dumps(new_state, indent=2).encode())
     except Exception as e:  # noqa: BLE001

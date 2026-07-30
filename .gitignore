@@ -26,3 +26,8 @@ research/modalities/nr4a3-orientation-basins-selftest.json
 
 # LANE 10 scratch (transient tooling and logs, not deliverables)
 scratchpad/lane10-*
+
+# The ledger's atomic-write scratch. `ternary_launch_ledger._write` writes here then `os.replace`s onto the
+# real file, so one only survives a SIGKILL mid-write — and a lane running `git add -A` would then commit a
+# half-written ledger under a name that looks deliberate.
+research/modalities/.ledger-*.tmp

@@ -46,7 +46,10 @@ on:
 
 permissions:
   id-token: write        # GCP WIF
-  contents: read
+  contents: write        # to commit the reap: a landed unit's watch entry is disabled ON main, because this
+                         # workflow takes no `ref` and always runs main's copy of ternary-watch.json, so a
+                         # disable that is not committed does not survive to the next pass. Scope in practice
+                         # is one file — gcp_watch_reap.py can only move `enabled: true -> false`.
   actions: write         # to re-dispatch gpu-ternary-fep-gcp.yml
 
 concurrency:

@@ -1,0 +1,1957 @@
+{
+  "_what": "closure-triangle from_rdkit death: the gate's SDF vs the host's SDF",
+  "_why": "the atom-map gate reads the STAGE cache; run_ternary_leg.sh step 2 overwrites ligands.sdf with the PRE-EQUIL one before the engine runs, so the gate is structurally blind to anything pre-equilibration introduces.",
+  "mode": "triangle,triangle_smoke,edge_reps",
+  "charge_prop": "atom.dprop.PartialCharge",
+  "attempts": [
+    {
+      "unit": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "n_attempts": 22,
+      "by_signature": {
+        "ValueError: Incorrect number of partial charges: 109  were provided for 110 atoms @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/gufe/components/explicitmoleculecomponent.py\", line 137, in _check_partial_charges": {
+          "n": 2,
+          "first_utc": "2026-07-27T23:58:36+00:00",
+          "last_utc": "2026-07-28T02:21:55+00:00"
+        },
+        "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
+          "n": 17,
+          "first_utc": "2026-07-28T02:22:58+00:00",
+          "last_utc": "2026-07-29T16:06:24+00:00"
+        },
+        "None @@ None": {
+          "n": 3,
+          "first_utc": "2026-07-28T04:52:59+00:00",
+          "last_utc": "2026-07-28T06:27:24+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260727T235834Z.log",
+          "utc": "2026-07-27T23:58:36+00:00",
+          "bytes": 5930,
+          "exception": "ValueError: Incorrect number of partial charges: 109  were provided for 110 atoms",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/gufe/components/explicitmoleculecomponent.py\", line 137, in _check_partial_charges"
+        },
+        {
+          "key": "run-20260728T022153Z.log",
+          "utc": "2026-07-28T02:21:55+00:00",
+          "bytes": 4207,
+          "exception": "ValueError: Incorrect number of partial charges: 109  were provided for 110 atoms",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/gufe/components/explicitmoleculecomponent.py\", line 137, in _check_partial_charges"
+        },
+        {
+          "key": "run-20260728T022256Z.log",
+          "utc": "2026-07-28T02:22:58+00:00",
+          "bytes": 6516,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T030436Z.log",
+          "utc": "2026-07-28T03:04:38+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T030539Z.log",
+          "utc": "2026-07-28T03:05:40+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T034736Z.log",
+          "utc": "2026-07-28T03:47:39+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T034900Z.log",
+          "utc": "2026-07-28T03:49:04+00:00",
+          "bytes": 6606,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T043226Z.log",
+          "utc": "2026-07-28T04:32:29+00:00",
+          "bytes": 6606,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T043407Z.log",
+          "utc": "2026-07-28T04:34:10+00:00",
+          "bytes": 6606,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T045256Z.log",
+          "utc": "2026-07-28T04:52:59+00:00",
+          "bytes": 232,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T045430Z.log",
+          "utc": "2026-07-28T04:54:33+00:00",
+          "bytes": 6606,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T062647Z.log",
+          "utc": "2026-07-28T06:26:49+00:00",
+          "bytes": 6606,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T062710Z.log",
+          "utc": "2026-07-28T06:27:12+00:00",
+          "bytes": 232,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T062722Z.log",
+          "utc": "2026-07-28T06:27:24+00:00",
+          "bytes": 232,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T062828Z.log",
+          "utc": "2026-07-28T06:28:30+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T075543Z.log",
+          "utc": "2026-07-28T07:55:45+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T075653Z.log",
+          "utc": "2026-07-28T07:56:54+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T103403Z.log",
+          "utc": "2026-07-28T10:34:04+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T103526Z.log",
+          "utc": "2026-07-28T10:35:27+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T103701Z.log",
+          "utc": "2026-07-28T10:37:04+00:00",
+          "bytes": 6607,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T103837Z.log",
+          "utc": "2026-07-28T10:38:40+00:00",
+          "bytes": 6606,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T160621Z.log",
+          "utc": "2026-07-29T16:06:24+00:00",
+          "bytes": 6606,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        }
+      ]
+    },
+    {
+      "unit": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "n_attempts": 8,
+      "by_signature": {
+        "ValueError: Incorrect number of partial charges: 109  were provided for 110 atoms @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/gufe/components/explicitmoleculecomponent.py\", line 137, in _check_partial_charges": {
+          "n": 2,
+          "first_utc": "2026-07-27T23:58:41+00:00",
+          "last_utc": "2026-07-28T01:35:47+00:00"
+        },
+        "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
+          "n": 5,
+          "first_utc": "2026-07-28T01:37:13+00:00",
+          "last_utc": "2026-07-29T15:31:06+00:00"
+        },
+        "None @@ None": {
+          "n": 1,
+          "first_utc": "2026-07-28T02:32:19+00:00",
+          "last_utc": "2026-07-28T02:32:19+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260727T235839Z.log",
+          "utc": "2026-07-27T23:58:41+00:00",
+          "bytes": 5745,
+          "exception": "ValueError: Incorrect number of partial charges: 109  were provided for 110 atoms",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/gufe/components/explicitmoleculecomponent.py\", line 137, in _check_partial_charges"
+        },
+        {
+          "key": "run-20260728T013545Z.log",
+          "utc": "2026-07-28T01:35:47+00:00",
+          "bytes": 4026,
+          "exception": "ValueError: Incorrect number of partial charges: 109  were provided for 110 atoms",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/gufe/components/explicitmoleculecomponent.py\", line 137, in _check_partial_charges"
+        },
+        {
+          "key": "run-20260728T013711Z.log",
+          "utc": "2026-07-28T01:37:13+00:00",
+          "bytes": 6334,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T022754Z.log",
+          "utc": "2026-07-28T02:28:13+00:00",
+          "bytes": 6425,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T023206Z.log",
+          "utc": "2026-07-28T02:32:19+00:00",
+          "bytes": 230,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T025705Z.log",
+          "utc": "2026-07-28T02:57:08+00:00",
+          "bytes": 6425,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T030247Z.log",
+          "utc": "2026-07-28T03:02:50+00:00",
+          "bytes": 6425,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T153104Z.log",
+          "utc": "2026-07-29T15:31:06+00:00",
+          "bytes": 6425,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        }
+      ]
+    },
+    {
+      "unit": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "n_attempts": 17,
+      "by_signature": {
+        "None @@ None": {
+          "n": 5,
+          "first_utc": "2026-07-28T00:12:21+00:00",
+          "last_utc": "2026-07-29T15:57:19+00:00"
+        },
+        "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
+          "n": 12,
+          "first_utc": "2026-07-28T01:56:52+00:00",
+          "last_utc": "2026-07-29T15:30:34+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260728T001218Z.log",
+          "utc": "2026-07-28T00:12:21+00:00",
+          "bytes": 25031,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T015339Z.log",
+          "utc": "2026-07-28T01:53:42+00:00",
+          "bytes": 103025,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T015649Z.log",
+          "utc": "2026-07-28T01:56:52+00:00",
+          "bytes": 6848,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T034719Z.log",
+          "utc": "2026-07-28T03:47:21+00:00",
+          "bytes": 6939,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T035052Z.log",
+          "utc": "2026-07-28T03:50:54+00:00",
+          "bytes": 1316,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T044517Z.log",
+          "utc": "2026-07-28T04:45:19+00:00",
+          "bytes": 6941,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T044639Z.log",
+          "utc": "2026-07-28T04:46:46+00:00",
+          "bytes": 6940,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T082654Z.log",
+          "utc": "2026-07-28T08:26:57+00:00",
+          "bytes": 6940,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T083033Z.log",
+          "utc": "2026-07-28T08:30:36+00:00",
+          "bytes": 6938,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T083707Z.log",
+          "utc": "2026-07-28T08:37:09+00:00",
+          "bytes": 1315,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T083822Z.log",
+          "utc": "2026-07-28T08:38:24+00:00",
+          "bytes": 6941,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T084647Z.log",
+          "utc": "2026-07-28T08:46:50+00:00",
+          "bytes": 6941,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T084836Z.log",
+          "utc": "2026-07-28T08:48:39+00:00",
+          "bytes": 6938,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T092647Z.log",
+          "utc": "2026-07-28T09:26:50+00:00",
+          "bytes": 6257,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T092827Z.log",
+          "utc": "2026-07-28T09:28:30+00:00",
+          "bytes": 6938,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T153032Z.log",
+          "utc": "2026-07-29T15:30:34+00:00",
+          "bytes": 6938,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T155710Z.log",
+          "utc": "2026-07-29T15:57:19+00:00",
+          "bytes": 18079,
+          "exception": null,
+          "frame": null
+        }
+      ]
+    },
+    {
+      "unit": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "n_attempts": 18,
+      "by_signature": {
+        "None @@ None": {
+          "n": 4,
+          "first_utc": "2026-07-28T01:08:31+00:00",
+          "last_utc": "2026-07-29T16:28:35+00:00"
+        },
+        "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
+          "n": 14,
+          "first_utc": "2026-07-28T01:34:42+00:00",
+          "last_utc": "2026-07-29T15:29:21+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260728T010829Z.log",
+          "utc": "2026-07-28T01:08:31+00:00",
+          "bytes": 788,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T013318Z.log",
+          "utc": "2026-07-28T01:33:21+00:00",
+          "bytes": 26514,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T013439Z.log",
+          "utc": "2026-07-28T01:34:42+00:00",
+          "bytes": 6667,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T021826Z.log",
+          "utc": "2026-07-28T02:18:29+00:00",
+          "bytes": 6758,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T022001Z.log",
+          "utc": "2026-07-28T02:20:04+00:00",
+          "bytes": 6757,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T034542Z.log",
+          "utc": "2026-07-28T03:45:45+00:00",
+          "bytes": 6757,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T034648Z.log",
+          "utc": "2026-07-28T03:46:50+00:00",
+          "bytes": 6758,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T044040Z.log",
+          "utc": "2026-07-28T04:40:42+00:00",
+          "bytes": 6758,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T044148Z.log",
+          "utc": "2026-07-28T04:41:50+00:00",
+          "bytes": 6759,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T052105Z.log",
+          "utc": "2026-07-28T05:21:08+00:00",
+          "bytes": 6759,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T052215Z.log",
+          "utc": "2026-07-28T05:22:17+00:00",
+          "bytes": 6758,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T055834Z.log",
+          "utc": "2026-07-28T05:58:37+00:00",
+          "bytes": 6758,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T055945Z.log",
+          "utc": "2026-07-28T05:59:47+00:00",
+          "bytes": 6758,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T061750Z.log",
+          "utc": "2026-07-28T06:17:52+00:00",
+          "bytes": 6758,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T061900Z.log",
+          "utc": "2026-07-28T06:19:02+00:00",
+          "bytes": 6759,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T152917Z.log",
+          "utc": "2026-07-29T15:29:21+00:00",
+          "bytes": 6759,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T162010Z.log",
+          "utc": "2026-07-29T16:20:12+00:00",
+          "bytes": 39778,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T162833Z.log",
+          "utc": "2026-07-29T16:28:35+00:00",
+          "bytes": 1050,
+          "exception": null,
+          "frame": null
+        }
+      ]
+    },
+    {
+      "unit": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke",
+      "n_attempts": 2,
+      "by_signature": {
+        "None @@ None": {
+          "n": 2,
+          "first_utc": "2026-07-27T22:56:34+00:00",
+          "last_utc": "2026-07-27T22:56:47+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260727T225633Z.log",
+          "utc": "2026-07-27T22:56:34+00:00",
+          "bytes": 174879,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T225646Z.log",
+          "utc": "2026-07-27T22:56:47+00:00",
+          "bytes": 238,
+          "exception": null,
+          "frame": null
+        }
+      ]
+    },
+    {
+      "unit": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "n_attempts": 41,
+      "by_signature": {
+        "None @@ None": {
+          "n": 8,
+          "first_utc": "2026-07-27T23:47:07+00:00",
+          "last_utc": "2026-07-29T16:12:07+00:00"
+        },
+        "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
+          "n": 33,
+          "first_utc": "2026-07-28T03:15:27+00:00",
+          "last_utc": "2026-07-29T11:51:27+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260727T234704Z.log",
+          "utc": "2026-07-27T23:47:07+00:00",
+          "bytes": 22265,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T031423Z.log",
+          "utc": "2026-07-28T03:14:24+00:00",
+          "bytes": 320629,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T031525Z.log",
+          "utc": "2026-07-28T03:15:27+00:00",
+          "bytes": 6126,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T034808Z.log",
+          "utc": "2026-07-28T03:48:10+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T034912Z.log",
+          "utc": "2026-07-28T03:49:13+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T051625Z.log",
+          "utc": "2026-07-28T05:16:27+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T051732Z.log",
+          "utc": "2026-07-28T05:17:34+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T064709Z.log",
+          "utc": "2026-07-28T06:47:11+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T064812Z.log",
+          "utc": "2026-07-28T06:48:14+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T071230Z.log",
+          "utc": "2026-07-28T07:12:32+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T071354Z.log",
+          "utc": "2026-07-28T07:13:56+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T071633Z.log",
+          "utc": "2026-07-28T07:16:34+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T071747Z.log",
+          "utc": "2026-07-28T07:17:49+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T073338Z.log",
+          "utc": "2026-07-28T07:33:40+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T073450Z.log",
+          "utc": "2026-07-28T07:34:52+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T073530Z.log",
+          "utc": "2026-07-28T07:35:32+00:00",
+          "bytes": 231,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T073645Z.log",
+          "utc": "2026-07-28T07:36:47+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T075543Z.log",
+          "utc": "2026-07-28T07:55:45+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T075653Z.log",
+          "utc": "2026-07-28T07:56:54+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T084209Z.log",
+          "utc": "2026-07-28T08:42:11+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T084314Z.log",
+          "utc": "2026-07-28T08:43:16+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T095440Z.log",
+          "utc": "2026-07-28T09:54:42+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T095605Z.log",
+          "utc": "2026-07-28T09:56:07+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T103403Z.log",
+          "utc": "2026-07-28T10:34:04+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T103526Z.log",
+          "utc": "2026-07-28T10:35:27+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T113529Z.log",
+          "utc": "2026-07-28T11:35:31+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T113644Z.log",
+          "utc": "2026-07-28T11:36:46+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T151406Z.log",
+          "utc": "2026-07-28T15:14:08+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T151521Z.log",
+          "utc": "2026-07-28T15:15:23+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T154509Z.log",
+          "utc": "2026-07-28T15:45:12+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T154643Z.log",
+          "utc": "2026-07-28T15:46:46+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T160416Z.log",
+          "utc": "2026-07-28T16:04:20+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T160649Z.log",
+          "utc": "2026-07-28T16:07:04+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T174341Z.log",
+          "utc": "2026-07-28T17:43:44+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T174513Z.log",
+          "utc": "2026-07-28T17:45:16+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T115123Z.log",
+          "utc": "2026-07-29T11:51:27+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T122406Z.log",
+          "utc": "2026-07-29T12:24:11+00:00",
+          "bytes": 33408,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T130210Z.log",
+          "utc": "2026-07-29T13:02:13+00:00",
+          "bytes": 39352,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T134433Z.log",
+          "utc": "2026-07-29T13:44:45+00:00",
+          "bytes": 45071,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T144009Z.log",
+          "utc": "2026-07-29T14:40:12+00:00",
+          "bytes": 15108,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T161205Z.log",
+          "utc": "2026-07-29T16:12:07+00:00",
+          "bytes": 21058,
+          "exception": null,
+          "frame": null
+        }
+      ]
+    },
+    {
+      "unit": "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "n_attempts": 18,
+      "by_signature": {
+        "None @@ None": {
+          "n": 18,
+          "first_utc": "2026-07-27T16:40:29+00:00",
+          "last_utc": "2026-07-28T09:10:34+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260727T164026Z.log",
+          "utc": "2026-07-27T16:40:29+00:00",
+          "bytes": 1750,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T172411Z.log",
+          "utc": "2026-07-27T17:24:15+00:00",
+          "bytes": 1928,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T173321Z.log",
+          "utc": "2026-07-27T17:33:25+00:00",
+          "bytes": 1814,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T181523Z.log",
+          "utc": "2026-07-27T18:15:25+00:00",
+          "bytes": 850,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T201848Z.log",
+          "utc": "2026-07-27T20:18:50+00:00",
+          "bytes": 219104,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T203058Z.log",
+          "utc": "2026-07-27T20:31:00+00:00",
+          "bytes": 9408,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T213830Z.log",
+          "utc": "2026-07-27T21:38:33+00:00",
+          "bytes": 438,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T050901Z.log",
+          "utc": "2026-07-28T05:09:03+00:00",
+          "bytes": 1252954,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T050914Z.log",
+          "utc": "2026-07-28T05:09:16+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T061047Z.log",
+          "utc": "2026-07-28T06:10:49+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T061057Z.log",
+          "utc": "2026-07-28T06:11:01+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T063202Z.log",
+          "utc": "2026-07-28T06:32:10+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T080049Z.log",
+          "utc": "2026-07-28T08:00:51+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T080113Z.log",
+          "utc": "2026-07-28T08:01:17+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T083547Z.log",
+          "utc": "2026-07-28T08:35:51+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T083559Z.log",
+          "utc": "2026-07-28T08:36:03+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T091020Z.log",
+          "utc": "2026-07-28T09:10:22+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T091031Z.log",
+          "utc": "2026-07-28T09:10:34+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        }
+      ]
+    },
+    {
+      "unit": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "n_attempts": 52,
+      "by_signature": {
+        "None @@ None": {
+          "n": 14,
+          "first_utc": "2026-07-27T22:00:42+00:00",
+          "last_utc": "2026-07-29T15:27:56+00:00"
+        },
+        "ValueError: Some atoms in rdmol have partial charges, but others do not. @@ File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit": {
+          "n": 38,
+          "first_utc": "2026-07-28T02:12:08+00:00",
+          "last_utc": "2026-07-29T11:50:29+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260727T220040Z.log",
+          "utc": "2026-07-27T22:00:42+00:00",
+          "bytes": 22187,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T003803Z.log",
+          "utc": "2026-07-28T00:38:05+00:00",
+          "bytes": 20454,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T021045Z.log",
+          "utc": "2026-07-28T02:10:47+00:00",
+          "bytes": 138476,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T021206Z.log",
+          "utc": "2026-07-28T02:12:08+00:00",
+          "bytes": 6127,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T112256Z.log",
+          "utc": "2026-07-28T11:22:59+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T121854Z.log",
+          "utc": "2026-07-28T12:18:57+00:00",
+          "bytes": 530,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T122029Z.log",
+          "utc": "2026-07-28T12:20:31+00:00",
+          "bytes": 1312,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T122145Z.log",
+          "utc": "2026-07-28T12:21:46+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T123354Z.log",
+          "utc": "2026-07-28T12:33:57+00:00",
+          "bytes": 6217,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T124804Z.log",
+          "utc": "2026-07-28T12:48:07+00:00",
+          "bytes": 1312,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T132711Z.log",
+          "utc": "2026-07-28T13:27:15+00:00",
+          "bytes": 231,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T132848Z.log",
+          "utc": "2026-07-28T13:28:51+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T140354Z.log",
+          "utc": "2026-07-28T14:03:57+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T143045Z.log",
+          "utc": "2026-07-28T14:30:49+00:00",
+          "bytes": 1312,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T143307Z.log",
+          "utc": "2026-07-28T14:33:10+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T143859Z.log",
+          "utc": "2026-07-28T14:39:02+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T150416Z.log",
+          "utc": "2026-07-28T15:04:19+00:00",
+          "bytes": 1312,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T150558Z.log",
+          "utc": "2026-07-28T15:06:01+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T165713Z.log",
+          "utc": "2026-07-28T16:57:16+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T165849Z.log",
+          "utc": "2026-07-28T16:58:52+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T180341Z.log",
+          "utc": "2026-07-28T18:03:44+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T180513Z.log",
+          "utc": "2026-07-28T18:05:16+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T190354Z.log",
+          "utc": "2026-07-28T19:03:57+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T190537Z.log",
+          "utc": "2026-07-28T19:05:41+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T194226Z.log",
+          "utc": "2026-07-28T19:42:29+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T194359Z.log",
+          "utc": "2026-07-28T19:44:02+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T200136Z.log",
+          "utc": "2026-07-28T20:01:39+00:00",
+          "bytes": 5535,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T200315Z.log",
+          "utc": "2026-07-28T20:03:18+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T222702Z.log",
+          "utc": "2026-07-28T22:27:05+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260728T222833Z.log",
+          "utc": "2026-07-28T22:28:36+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T001112Z.log",
+          "utc": "2026-07-29T00:11:15+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T023022Z.log",
+          "utc": "2026-07-29T02:30:25+00:00",
+          "bytes": 1313,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T023155Z.log",
+          "utc": "2026-07-29T02:31:58+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T034803Z.log",
+          "utc": "2026-07-29T03:48:05+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T035147Z.log",
+          "utc": "2026-07-29T03:51:50+00:00",
+          "bytes": 231,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T035342Z.log",
+          "utc": "2026-07-29T03:53:45+00:00",
+          "bytes": 6215,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T035621Z.log",
+          "utc": "2026-07-29T03:56:24+00:00",
+          "bytes": 6215,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T042210Z.log",
+          "utc": "2026-07-29T04:22:12+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T043830Z.log",
+          "utc": "2026-07-29T04:38:32+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T052547Z.log",
+          "utc": "2026-07-29T05:25:50+00:00",
+          "bytes": 6218,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T052725Z.log",
+          "utc": "2026-07-29T05:27:28+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T054342Z.log",
+          "utc": "2026-07-29T05:43:45+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T054513Z.log",
+          "utc": "2026-07-29T05:45:16+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T065530Z.log",
+          "utc": "2026-07-29T06:55:33+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T065656Z.log",
+          "utc": "2026-07-29T06:56:59+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T081546Z.log",
+          "utc": "2026-07-29T08:15:49+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T081722Z.log",
+          "utc": "2026-07-29T08:17:25+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T092611Z.log",
+          "utc": "2026-07-29T09:26:14+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T093201Z.log",
+          "utc": "2026-07-29T09:32:04+00:00",
+          "bytes": 1313,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T115027Z.log",
+          "utc": "2026-07-29T11:50:29+00:00",
+          "bytes": 6216,
+          "exception": "ValueError: Some atoms in rdmol have partial charges, but others do not.",
+          "frame": "File \"/opt/mamba/envs/rbfe/lib/python3.11/site-packages/openff/toolkit/utils/rdkit_wrapper.py\", line 2351, in from_rdkit"
+        },
+        {
+          "key": "run-20260729T150544Z.log",
+          "utc": "2026-07-29T15:05:47+00:00",
+          "bytes": 102682,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260729T152753Z.log",
+          "utc": "2026-07-29T15:27:56+00:00",
+          "bytes": 45478,
+          "exception": null,
+          "frame": null
+        }
+      ]
+    },
+    {
+      "unit": "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "n_attempts": 7,
+      "by_signature": {
+        "None @@ None": {
+          "n": 7,
+          "first_utc": "2026-07-27T16:55:56+00:00",
+          "last_utc": "2026-07-28T09:59:35+00:00"
+        }
+      },
+      "attempts": [
+        {
+          "key": "run-20260727T165554Z.log",
+          "utc": "2026-07-27T16:55:56+00:00",
+          "bytes": 25711,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T170554Z.log",
+          "utc": "2026-07-27T17:05:55+00:00",
+          "bytes": 18829,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T200212Z.log",
+          "utc": "2026-07-27T20:02:14+00:00",
+          "bytes": 74265,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260727T205246Z.log",
+          "utc": "2026-07-27T20:52:48+00:00",
+          "bytes": 40198,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T002155Z.log",
+          "utc": "2026-07-28T00:21:59+00:00",
+          "bytes": 22276,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T095908Z.log",
+          "utc": "2026-07-28T09:59:11+00:00",
+          "bytes": 1345082,
+          "exception": null,
+          "frame": null
+        },
+        {
+          "key": "run-20260728T095932Z.log",
+          "utc": "2026-07-28T09:59:35+00:00",
+          "bytes": 229,
+          "exception": null,
+          "frame": null
+        }
+      ]
+    }
+  ],
+  "charge_census": [
+    {
+      "unit": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "mode": "triangle",
+      "leg": "calib_lo_to_lo2__ternary_vhl",
+      "seed": 0,
+      "arm": "ternary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_lo_to_lo2__ternary_vhl__8G1Q__seed0__v1.tar",
+        "mtime": "2026-07-27T19:29:43+00:00",
+        "bytes": 1402880,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_lo",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_lo_to_lo2__ternary_vhl__seed0__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-27T23:58:18+00:00",
+        "bytes": 604160,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_lo",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    },
+    {
+      "unit": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "mode": "triangle",
+      "leg": "calib_lo_to_lo2__binary_vhl",
+      "seed": 0,
+      "arm": "binary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_lo_to_lo2__binary_vhl__8G1Q__seed0__v1.tar",
+        "mtime": "2026-07-27T19:29:58+00:00",
+        "bytes": 430080,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_lo",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_lo_to_lo2__binary_vhl__seed0__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-27T23:58:09+00:00",
+        "bytes": 440320,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_lo",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    },
+    {
+      "unit": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "mode": "triangle",
+      "leg": "calib_hi_to_lo2__ternary_vhl",
+      "seed": 0,
+      "arm": "ternary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo2__ternary_vhl__8G1Q__seed0__v1.tar",
+        "mtime": "2026-07-27T19:53:16+00:00",
+        "bytes": 1402880,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_hi_to_lo2__ternary_vhl__seed0__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-27T22:42:35+00:00",
+        "bytes": 604160,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    },
+    {
+      "unit": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "mode": "triangle",
+      "leg": "calib_hi_to_lo2__binary_vhl",
+      "seed": 0,
+      "arm": "binary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo2__binary_vhl__8G1Q__seed0__v1.tar",
+        "mtime": "2026-07-27T19:53:26+00:00",
+        "bytes": 430080,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_hi_to_lo2__binary_vhl__seed0__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-28T01:12:49+00:00",
+        "bytes": 440320,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    },
+    {
+      "unit": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke",
+      "mode": "triangle_smoke",
+      "leg": "calib_hi_to_lo2__ternary_vhl",
+      "seed": 0,
+      "arm": "ternary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo2__ternary_vhl__8G1Q__seed0__v1.tar",
+        "mtime": "2026-07-27T19:53:16+00:00",
+        "bytes": 1402880,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_hi_to_lo2__ternary_vhl__seed0__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-27T22:42:35+00:00",
+        "bytes": 604160,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo2",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    },
+    {
+      "unit": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "mode": "edge_reps",
+      "leg": "calib_hi_to_lo__ternary_vhl",
+      "seed": 1,
+      "arm": "ternary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed1__v1.tar",
+        "mtime": "2026-07-26T23:47:21+00:00",
+        "bytes": 1402880,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_hi_to_lo__ternary_vhl__seed1__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-27T20:58:59+00:00",
+        "bytes": 604160,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    },
+    {
+      "unit": "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "mode": "edge_reps",
+      "leg": "calib_hi_to_lo__binary_vhl",
+      "seed": 1,
+      "arm": "binary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo__binary_vhl__8G1Q__seed1__v1.tar",
+        "mtime": "2026-07-26T23:47:32+00:00",
+        "bytes": 430080,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_hi_to_lo__binary_vhl__seed1__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-27T18:19:52+00:00",
+        "bytes": 440320,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    },
+    {
+      "unit": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "mode": "edge_reps",
+      "leg": "calib_hi_to_lo__ternary_vhl",
+      "seed": 2,
+      "arm": "ternary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo__ternary_vhl__8G1Q__seed2__v1.tar",
+        "mtime": "2026-07-27T05:08:40+00:00",
+        "bytes": 1402880,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_hi_to_lo__ternary_vhl__seed2__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-27T20:14:17+00:00",
+        "bytes": 604160,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    },
+    {
+      "unit": "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "mode": "edge_reps",
+      "leg": "calib_hi_to_lo__binary_vhl",
+      "seed": 2,
+      "arm": "binary",
+      "stage": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_hi_to_lo__binary_vhl__8G1Q__seed2__v1.tar",
+        "mtime": "2026-07-27T05:08:50+00:00",
+        "bytes": 430080,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo",
+            "n_atoms": 59,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      },
+      "preequil": {
+        "uri": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_hi_to_lo__binary_vhl__seed2__nagl__ns0.5__v1.tar",
+        "mtime": "2026-07-27T16:47:59+00:00",
+        "bytes": 440320,
+        "cache": "HIT",
+        "records": [
+          {
+            "record": 0,
+            "name": "calib_hi",
+            "n_atoms": 109,
+            "n_partial_charges": 109,
+            "n_atoms_carrying_per_atom_charge": 109,
+            "mismatch": false
+          },
+          {
+            "record": 1,
+            "name": "calib_lo",
+            "n_atoms": 109,
+            "n_partial_charges": null,
+            "n_atoms_carrying_per_atom_charge": 0,
+            "mismatch": false
+          }
+        ]
+      }
+    }
+  ]
+}

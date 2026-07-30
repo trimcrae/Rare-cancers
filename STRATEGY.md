@@ -44,15 +44,18 @@ something like *we passed n gates*, or *we failed x gate and need to make y reme
 deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
 underneath one.*
 
-**As of 2026-07-27 6:13 PM ET · 7 gates passed · 3 failed (all caught before the spend) · 2 in flight, neither
-graded yet · 2 deliverables done · realised spend $24.46 machine-ledgered.**
+**As of 2026-07-29 6:55 AM ET · 7 gates passed · 3 failed (all caught before the spend) · 2 in flight, neither
+graded yet · 2 deliverables done · realised spend $72.47 machine-ledgered.**
 
 *That spend figure is **DERIVED, never typed** — it is a reading of
 [`realised-spend.json`](research/modalities/realised-spend.json), which sums each lane's own rental ledger
 (`python3 research/modalities/realised_spend.py`). Two things it deliberately keeps apart. **(a)** A further
 **+$2.31 attested** is real money **no machine ledger counts**, because the ternary Vast lane has never had
-one — so the ledgered figure is a **FLOOR**, the best estimate is **$26.77**, and the artifact carries the
-remediation that deletes the gap. **(b) GCP trial credit is a SEPARATE LEDGER and is never summed into
+one — so the ledgered figure is a **FLOOR**, the best estimate is **$74.78**, and the artifact carries the
+remediation that deletes the gap. ⚠ **The jump from $24.46 is a BOOKKEEPING correction, not new spending:**
+the step-1 fan-out's ledger lives on the branch that lane runs from, so `main` had been summing a copy that
+stopped at 86 rentals while the real one held 197. The money was spent days ago; `main` could not see it.
+Superseded pair registered in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 46. **(b) GCP trial credit is a SEPARATE LEDGER and is never summed into
 either** (CLAUDE.md §6): it buys wall clock, not headroom. `lint_consistency.py` rule A now holds this line
 to the artifact, so the figure cannot drift back into prose. **Superseded, retained: `$0.74 spent`** — a
 hand-carried total that stood while the fan-out lane alone had realised twenty times it
@@ -65,13 +68,13 @@ hand-carried total that stood while the fan-out lane alone had realised twenty t
 | Tier 2 | basin nomination | **PASSED** — *the covalent limb is no longer under review; it CLEARS* | at least one way to build a selective degrader exists, and the corrected geometry leaves **both** routes open — the covalent one included. It was briefly recorded here as possibly closed; the authoritative corrected+matched run says otherwise, and the block below carries the numbers |
 | RUNG 1 | accuracy control (valA_mini) | **PASSED** | our binary free-energy pipeline reproduces a known answer |
 | RUNG 2 | cmpd19 pilot | **PASSED** | the pipeline converges on the real target system |
-| RUNG 2b | 4 fs speed test | **PASSED — both stages** | every future simulation ~1.56× cheaper. The full cycle reproduces the 2 fs answer to **0.0215 kcal/mol** against a 0.7 tolerance; adopted provisionally at one seed (no replicate-SD, and system identity unrecorded) |
+| RUNG 2b | 4 fs speed test | **PASSED — both stages** | every future simulation ~1.56× cheaper. The full cycle reproduces the 2 fs answer to **0.0215 kcal/mol** against a 0.7 tolerance; adopted provisionally at one seed (no replicate-SD). **System identity is now MEASURED and passes** — same alchemical system per arm, the leftover particle-count difference is bulk solvent — but the two arms are independent cross-lane builds, **not** one system with only the timestep changed ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 45) |
 | RUNG 2 · closure | **cycle closure — fwd/rev hysteresis** | **PASSED (2026-07-27)** | the calibrator's ternary leg closes on itself, comfortably inside its preregistered ceiling. First time the criterion had both its inputs; a PATH-CLOSURE check, not an accuracy one, so it does not touch the wrong-sign FAIL below. **The numbers live once**, in the §THE FIRST FORWARD/REVERSE HYSTERESIS block below — this row deliberately does not restate them |
 | RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7**. ⚠ **The 4 replicate legs now running do NOT convert this to a PASS** — see the row below |
 | RUNG 2 · replicates | **valB_mini r1+r2 — is the FAIL quantified?** | **IN FLIGHT — and the outcome it is buying is a better-characterised FAIL, not a PASS** | 4 legs rented 4:00 PM ET. When they reduce at n=3 the gate **fails hard on the wrong sign BEFORE the replicate SD is ever consulted**, so what they buy is **INDETERMINATE → FAIL-with-an-error-bar**. A reader expecting these legs to rescue RUNG 2 would be misled; what they rescue is the *reportability* of the failure |
 | RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
 | RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. **~$21 not spent** |
-| RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **IN PROGRESS — NO GATE REACHED YET.** Not a pass, not a fail, and it is the largest live thing in the programme | **1 edge complete** (`cw_ev_5cooh`, ΔΔG **0.688 kcal/mol**) · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it) · **17 placed and sampling.** The gate is the map, and the map needs the edges: nothing here can be graded until enough of the 17 return a ΔΔG. Live state, cost and $/ns are in the IN FLIGHT board below |
+| RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **IN PROGRESS — NO GATE REACHED YET.** Not a pass, not a fail, and it is the largest live thing in the programme | **14 edges complete** as of 6:30 AM ET Jul 29 · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it; and the one map that does reach 19 gets there only by mapping a carbon onto a hydrogen, which is the degenerate correspondence the floor exists to reject) · **1 edge held on a FIXED DEFECT, not on science** (`cw_bio_primary_amide` — two atoms of the staged hybrid system sat at exactly the same coordinates and carried a gradient 7.7e11 times the largest force on any other atom in the box; finite, so the CPU minimiser survived it and every GPU did not. Displacing one of the two by 0.01 A removes it and changes nothing else in the box to six significant figures — measured before/after, not argued. It burned 25 rentals on 7 different cards before anyone counted the attempts. The starting geometry is now de-degenerated; the edge goes back in once the execution hosts run that code) · the rest placed and sampling. The gate is the map, and the map needs the edges: nothing here can be graded until enough of them return a ΔΔG. **The honest denominator is 18 computable edges of a 19-edge map**, derived in `step1-fanout-map.json` (`n_computable`), never typed. Live state, cost and $/ns are in the IN FLIGHT board below |
 
 | deliverable | status |
 |---|---|
@@ -415,6 +418,13 @@ leg**, and all three cycle legs share one protocol hash (`35573f24b6c1…`). On 
    `CHARGE_METHOD` env while the protocol payload hashes the same env **with an `am1bcc` default**, so an unset
    variable produced a hash committing to am1bcc beside an identity record saying `null`; both now write the
    resolved value. `n_particles` and `setup_cache_version` still need the Vast lane to pass them through.
+   **✅ THE SYSTEM-IDENTITY QUESTION IS NOW ANSWERED ANYWAY — from the trajectories, since the leg records are
+   still silent (measured 2026-07-28, $0 CPU, `ternary-system-census.yml`).** Within every arm the solute is
+   identical atom-for-atom and the net charge is zero with an invariant neutralising excess; the legs differ
+   only in bulk water and the counter-ions that scale with it, worth ~3e-3 kcal/mol against this gate's 0.7.
+   The record and the arithmetic:
+   [ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md). This does **not** retire
+   the leg-record fix — a census is a manual check, and `n_particles` should still be written by the lane.
 2. **The reducer's own valB gates return INDETERMINATE** — "need ≥2 independent replicates for a cycle SD",
    n_replicates = 1. That is a different question from the timestep test (it asks whether the *calibrator* is
    certified), but it means **−0.5125 carries no replicate-SD error bar**, and this repo's standard is
@@ -422,7 +432,9 @@ leg**, and all three cycle legs share one protocol hash (`35573f24b6c1…`). On 
 
 **So: 4 fs is adopted on a single-seed agreement, and the adoption is provisional in exactly the way the gate's
 own 0.35–0.7 language anticipates — not because the agreement is marginal (it is not) but because one seed
-cannot produce the error bar the standard asks for, and the system-identity check has not yet been made.**
+cannot produce the error bar the standard asks for. The system-identity check HAS since been made and the legs
+pass it** (same alchemical system per arm; the residual difference is bulk solvent —
+[ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md)).
 
 **Why the ternary leg's ETA moved so far:** production runs at roughly **half** warmup's per-iteration cost
 (625 steps at 4 fs against warmup's 1250 at 1 fs), so a leg's finish cannot be extrapolated from its warmup
@@ -693,7 +705,7 @@ build-consistency smoke (valA_mini, done).
 | Lane | Charge model | Evidence |
 |---|---|---|
 | Binary RBFE (`nr4a3_rbfe.py`) | **am1bcc** | code default; valA_mini/step0/step1_pilot all ran am1bcc |
-| Ternary FEP (`nr4a3_ternary_fep.py`) | **NAGL** | `gpu-ternary-fep-gcp.yml:34,74` default `nagl`; live valB leg log 2026-07-24 shows `CHARGE_METHOD: nagl` |
+| Ternary FEP (`nr4a3_ternary_fep.py`) | **NAGL** | **the stored hybrid `System` of every banked valB leg, read 2026-07-29** ([`charge-provenance-forensic.json`](research/modalities/charge-provenance-forensic.json)) — *not* the `gpu-ternary-fep-gcp.yml` default or the `CHARGE_METHOD: nagl` log line, which record what was requested ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 47) |
 | Endpoint / covalent MD | **NAGL** | `md_settings.py:60` `CHARGE_METHOD = "nagl"` |
 
 The split is **physically forced, not sloppiness**: AM1-BCC via AmberTools `sqm` is intractable on PROTAC-sized
@@ -701,9 +713,21 @@ ligands — measured 2026-07-22, `sqm` ran **>85 min on the 166-atom NR-V04 recr
 (`md_settings.py:53–60`). NAGL is an ML surrogate *for* am1bcc, so this is a defensible substitution, but it is a
 **different Hamiltonian** and must be handled explicitly:
 
-1. **ΔΔG_coop is SAFE.** Both morphs of the cooperativity cycle (`ternary − binary-of-the-same-PROTAC`) run
-   inside the ternary lane at the same `CHARGE_METHOD`, so the charge model cancels. The cycle's cancellation
-   argument holds *within* a lane — which is all it ever needed.
+1. **ΔΔG_coop is SAFE — and this is now MEASURED FROM THE SYSTEMS, not read off the configuration
+   (2026-07-29, $0, `task=charge-provenance`).** Both morphs of the cooperativity cycle
+   (`ternary − binary-of-the-same-PROTAC`) run inside the ternary lane at the same `CHARGE_METHOD`, so the
+   charge model cancels; the cancellation argument holds *within* a lane, which is all it ever needed.
+   ⚠ **But `CHARGE_METHOD` is what was REQUESTED, and for a while that was the only evidence there was.**
+   OpenFE prefers user-supplied charges over its configured `partial_charge_method`, and every relaxed pose
+   file on this lane carries a complete per-atom set for its λ=0 endpoint — so a `partial_charge_method = nagl`
+   log line proves nothing about what a leg actually sampled, and the failure mode it hides is silent by
+   construction ([`nr4a3_rbfe.strip_foreign_partial_charges`](research/modalities/nr4a3_rbfe.py), third
+   failure mode). Every banked valB leg's stored hybrid `System` was therefore read: the arms of r0, r1 and r2
+   carry **identical** alchemical charges (109/109 core atoms), the reverse leg's endpoints are the forward
+   leg's swapped, and the inherited set is the protocol's own NAGL set — fixed by the binary arm, which ran
+   with **nothing to inherit** and produced the same numbers. One home for the per-leg evidence:
+   [`charge-provenance-forensic.json`](research/modalities/charge-provenance-forensic.json). Superseded (the
+   configuration-only basis): [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 47.
 2. **Any CROSS-LANE subtraction is NOT safe.** A quantity built as `(ternary-lane leg) − (binary-lane leg)`
    mixes NAGL against am1bcc, and a charge-model difference is a real potential-energy-surface difference that
    does **not** cancel. Such cycles must pin one `CHARGE_METHOD` across **both** legs — this is why the
@@ -1251,7 +1275,8 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   INDEPENDENT checks — reverse legs, cycle closure — not more replicates through the same machinery.**
 
   **★ THE REVERSE LEG WAS UNREACHABLE — FOUR CALLERS PINNED IT SHUT (2026-07-25, all fixed).** The preregistered
-  forward/reverse antisymmetry check (`hysteresis <= 1.0`, still `null` on all three legs) could not be run at
+  forward/reverse antisymmetry check (`hysteresis <= 1.0` — **now MEASURED, see the ★★ result immediately
+  below; the `null` this block was written against is superseded**) could not be run at
   all, and each blocker was the same shape — *capability present in the engine, unreachable from outside*:
   (a) `MODE=converge` existed in `nr4a3_ternary_fep.main()` but no workflow could dispatch it; (b) the run
   invocation hardcoded `DIRECTION=fwd`; (c) there was no `direction` dispatch input (adding one hit GitHub's
@@ -1278,6 +1303,39 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   help; a 403 now aborts immediately with the real reason. **trimcrae granted the permission 2026-07-25 and a
   per-prefix write probe (`gcp-quota-check.yml`) confirms all four prefixes writable.**
 
+  **★★ THE REVERSE LEG LANDED AND THE ANTISYMMETRY CHECK PASSES — the detector that "could not be run" is now
+  a MEASUREMENT (2026-07-28, reduce [run 30353349373](https://github.com/trimcrae/Rare-cancers/actions/runs/30353349373)).**
+  `calib_hi_to_lo__ternary_vhl` dir=rev seed 0 reached its result on GCP L4 (free trial credit) at 4:03 PM ET
+  2026-07-27, and the reducer reports **`MEASURED |ΔG_fwd + ΔG_rev| = 0.325 ≤ 1.000 (PASS)`**. One home for the
+  number: the reduction JSON in `gs://…-rbfe-ckpt/valB-6hax/results/` and that run's `[REDUCE-VERDICT]`
+  annotation — never re-typed elsewhere.
+  **What it does and does not buy.** It is an *internal-consistency* detector, and it is the first of the three
+  systematic-error detectors to return anything at all: the forward and reverse alchemical paths agree to
+  0.325 kcal/mol, so the wrong sign on this calibrator is **not** a path/hysteresis artifact. That is a genuine
+  narrowing — it removes one of the two remaining benign explanations, exactly as the ligand-pose RMSD removed
+  drift — and it leaves the systematic where the convergence analysis put it: **in the model or the reference
+  data.** It is emphatically **not** evidence that ΔΔG_coop is right; antisymmetry is a check the sampling can
+  pass while the answer stays wrong.
+  **The calibrator verdict itself is still `INDETERMINATE`, and for a different reason than before:**
+  `n_replicates=1`, `per_replicate_ddG_coop=[-0.522]` against `target=0.944`, so there is no replicate SD and
+  the cycle cannot be graded. Cycle closure (the redundant edge) is **RUNNING as of 2026-07-29, 11:24 AM ET** —
+  see step 5 below for its status and gate reading; it was the last unrun systematic-error detector.
+  ⚠ **−0.522 here, −0.534 in the RUNG 2b timestep rows above, and BOTH are correct — do not "reconcile" them.**
+  This line is the calibrator's CURRENT reading, which uses the restrained binary arm (Appendix A 44). RUNG 2b
+  compares a 4 fs cycle against the *unrestrained* 2 fs one, so its comparator must stay **−0.534**: swapping
+  in −0.522 would measure the restraint rather than the timestep, which is the whole quantity that gate exists
+  to isolate. Changing either number in isolation silently breaks the other.
+  **The blocker is still r1+r2, but they are no longer blocked — both are RUNNING** (2026-07-29, 11:10 AM ET).
+  The partial-charge defect that had them dying on dozens of hosts is fixed and merged to `main`; each arm
+  holds an RTX 5090 at **$0.005119/ns · 1.50× basis**, under the buy line. It was never held on price, never
+  on capability, and never on anything GCP can supply (`GPUS_ALL_REGIONS = 1` makes GCP strictly serial) —
+  that last clause still stands and is why the closure triangle went to Vast too.
+  **Superseded, retained** (per rule 1, because the old status is quotable): "withheld by the failure breaker
+  … its fix is on `fix/ternary-vast-deaths` and unmerged as of this writing." The branch is merged; the
+  breaker's withholding of *these* units ended when the fix landed, and the four TRIANGLE units it was still
+  withholding were cleared by `task=supersede-failed leg_only=to_lo2` at 11:18 AM ET — a deliberate gesture
+  after the cause was fixed, not a loosening of the breaker, which re-arms on the next fresh `status=failed`.
+
   **Recommended next steps (spend order) — REVISED 2026-07-25 (LANE 5); steps 1, 2 and the ligand diagnostic are
   DONE, and step 4's named design was REFUTED for $0 before any spend:**
   1. ✅ *done, free* — the convergence analysis above, and now the **ligand-only pose RMSD** (`diagnostics_complete: TRUE`).
@@ -1300,6 +1358,20 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      small, charge-neutral and mappable may not exist in the public literature** — large cooperativity
      differences are *produced by* large chemical changes.
   5. **★ RECOMMENDED INSTEAD — a synthetic closure TRIANGLE, RE-SCOPED BY ITS OWN $0 PRE-GATE.**
+     **`[~]` RUNNING — AND THE FIX IS PROVEN ON THIS LANE, not merely deployed to it (2026-07-29, 12:12 PM
+     ET).** Both binary legs have written committed checkpoints (`warmup/64` → `192`), and these are the exact
+     units that died 15 and 7 times at `proto.create` on the partial-charge defect. Passing setup and
+     committing is the first direct evidence the fix holds for the triangle's own endpoints — the earlier
+     evidence was from the 4 fs replicate arms, a different morph. Progress since has been by COMMITTED
+     CENSUS, never a watchdog verdict.
+     **`[~]` RUNNING 2026-07-29, 11:24 AM ET — all four legs rented in parallel on Vast.** The gate cleared at
+     **1.36× basis** (`$0.004637/ns` mean, against the `$0.006539/ns` buy line) on a deep board — 163 offers,
+     159 qualifying, 100 priceable — projecting **$7.73 against this rung's $15.40 ceiling**. It had been
+     stalled since 2026-07-28 not on price but on the partial-charge defect, which killed the four units on
+     15, 15, 7 and 21 separate hosts and left them withheld by `leg_failure_breaker`; the fix landed 10:53 AM
+     ET and the stale failed records were superseded at 11:18 AM ET. Cost of that stall being *legible*: the
+     triangle gate had no branch for the breaker's exit code, so it printed the block as `HELD on price` —
+     fixed in the same session and pinned by `tests/test_gate_exit_codes_render_distinctly.py`.
      **`[x]` BUILT AND RUNNABLE 2026-07-27 (LANE 19).** It was fully costed and fully argued and could not be
      *run*: no leg id, no third endpoint, no launcher mode, no reducer. It now has all four —
      [`valb_triangle_legs.py`](research/modalities/valb_triangle_legs.py) (the 4 new legs plus the derived
@@ -1392,8 +1464,16 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   cycle. Lane 4 pre-specified **0.7**, the repo's own assumed replicate SD, **before any number existed**.
   Ratified as written, for one reason that outranks the others: **pre-specification is the property that
   matters, and revising a threshold now — after the probe survived — would be precisely the retune this program
-  forbids.** Both arms are seed 0, hence the same starting homology model, so the comparison is not additionally
-  confounded by model choice.
+  forbids.** Both arms are seed 0, hence the same homology model *index* — and the two lanes each built their
+  own copy of it, so what is established is that the two builds have an identical atom set (measured:
+  [ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md)), not that they started
+  from bit-identical coordinates.
+  **⚠ AND THE COMPARATOR STAYS THE UNRESTRAINED r0 VALUE.** The r0 cycle now also has a **restrained** binary
+  arm ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 44), and swapping that reading in here
+  would pair a restrained arm against the 4 fs cycle's unrestrained one — measuring the restraint, not the
+  timestep. The restraint is deliberately a different Hamiltonian and is invisible to a composition census
+  (it adds a force, not atoms), so this is the one place the like-for-like pairing has to be stated rather
+  than inferred.
   **Recorded honestly: 0.7 is LENIENT, and the leniency runs in the unsafe direction.** It is an *assumption*,
   not a measurement, and today's protein-mutation benchmark showed between-setup SD is strongly regime-dependent
   (**±0.175** on a near-null perturbation vs **±1.077** on a hot spot, a 6.2× spread). A 4 fs-vs-2 fs comparison
@@ -1403,10 +1483,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   (additive, not a loosening): report the actual |Δ|, and a pass landing in the 0.35–0.7 band is
   "consistent but WEAKLY DISCRIMINATING" — adopt provisionally and require the next ternary replicate to
   confirm it, rather than treating 4 fs as settled.**
-  **✅ THE PRE-EQUILIBRATION CONFOUND IS RESOLVED (2026-07-25, $0) — the 2 fs baseline WAS pre-equilibrated, so
-  the two arms differ in the TIMESTEP ALONE and a disagreement IS attributable to it.** The caveat this replaces
-  read: *"`use_preequil` for the 2 fs baseline was never verified — only the workflow default of 0 is recorded"*,
-  and it would have made a NO-GO uninterpretable.
+  **✅ THE PRE-EQUILIBRATION CONFOUND IS RESOLVED (2026-07-25, $0) — the 2 fs baseline WAS pre-equilibrated.**
+  The caveat this replaces read: *"`use_preequil` for the 2 fs baseline was never verified — only the workflow
+  default of 0 is recorded"*, and it would have made a NO-GO uninterpretable.
+  **⚠ BUT THAT DOES NOT MAKE THE TIMESTEP THE ONLY DIFFERENCE, AND THIS ENTRY USED TO SAY IT DID
+  ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 45).** Measured 2026-07-28, $0, from the
+  committed trajectories themselves: the two arms run the **same alchemical system** — solute identical
+  atom-for-atom in every arm, and the neutralising ion excess (i.e. the solute's formal charge) invariant across
+  every build — but they are **two independently constructed builds of it**, on different lanes, providers and
+  GPUs, each with its own staging, solvation and pre-equilibration. Their ternary boxes differ by 675 bulk
+  waters and 4 ions. **A disagreement would therefore still not have been attributable to the timestep alone**;
+  the agreement is a cross-lane independent reproduction, which is a different and in one respect stronger
+  claim. Evidence, the full composition census and the ΔΔG sizing:
+  [ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md).
   **How it was settled, and why a cache listing could not do it.** A read-only setup-cache probe (added to
   `gcp-quota-check.yml`, dispatched against this branch — it writes nothing and cannot perturb the concurrent
   GCP leg) shows **three** versions coexisting for the forward leg: `v1`, `v1pe`, **`v2pe`**. So *presence* is
@@ -2084,6 +2173,11 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 40 | The buy line written as a **multiple**, `1.5× basis`, in the IN FLIGHT board's `⚠ PAYING OVER THE …× LINE` marks and in row 37's closing clause *"The 1.5× threshold itself did not move"* | **Re-expressed, NOT loosened, and the distinction is the whole point** (trimcrae, 2026-07-27). The invariant is the **absolute rate `$0.006539/ns`**; against the re-anchored basis `$0.003412/ns` that is **≈1.92×**. `1.5 × $0.004359` and `1.92 × $0.003412` are the **same dollars per nanosecond** — the basis fell 22 % because the throughput table was re-anchored (the RTX 4090 anchor read ~6.7 % low) and widened (gradeable offers **132 → 229**, table **3 → 10** cards), and **no price moved**. Pinning a rule to a correctable denominator had silently made it much stricter than the one agreed; the multiple is now DERIVED from the rate (`inflight_usd_per_ns.drift_multiple()`) and `tests/test_buy_line_invariant.py` fails if the flag and the refusal ever diverge. Anyone quoting the multiple alone will reach the wrong conclusion, which is why both expressions travel together |
 | 41 | The closure triangle's reading, stated **backwards** on 2026-07-27: that a small `R` would mean the valB miss was fixable | **The mapping is the other way round, and it is now stated once, in the IN FLIGHT board's `WHAT R DECIDES` block.** `R ≈ 0` ⇒ an **endpoint-STATE** error: the bias telescopes out of any cycle and **more sampling will not fix the miss**. `R` materially non-zero ⇒ a **PATH** error, and the miss **is** fixable. Both outcomes are informative and the second argues against my own earlier reading of the departed binary arm, which is why the prediction was pre-registered before the legs ran |
 | 42 | The closure triangle priced at **projected $2.49 against a $3.85 ceiling** and described as **NOT LAUNCHED — refused by the atom-map gate at 6:01 PM ET on 2026-07-27** | **Both retired the same evening, and neither by a price move.** The map gate PASSED once the smoke ran the closing edge end to end (`status=done` at 6:56 PM, dG 44.807 ± 0.582, `NaN=False`), so the refusal was the gate doing its job on incomplete evidence, not a standing defect. The $2.49/$3.85 pair was priced for a **smoke-scale** unit; the 4-leg launch at 7:51 PM is a different purchase and derives **$9.86 against a $15.40 ceiling** (1.73× basis board mean, `n_rented: 3` of 4). Do not quote the $2.49 or the $3.85 against the 4-leg triangle |
+| 43 | The forward/reverse antisymmetry detector recorded as **`antisymmetry_fwd_plus_rev_kcal: null` on all three legs** — one of "two of three systematic-error detectors were never run; one *could not* run" | **MEASURED and PASSED on 2026-07-28**: `|ΔG_fwd + ΔG_rev| = 0.325 ≤ 1.000`, once the rev leg landed on GCP (reduce [run 30353349373](https://github.com/trimcrae/Rare-cancers/actions/runs/30353349373)). The `null` is superseded as a *live* statement and retained only as the state the 2026-07-25 audit was written against. **What did NOT change:** the calibrator verdict is still `INDETERMINATE` — now for want of replicates (`n_replicates=1`) rather than for want of a detector — and cycle closure, the third detector, is still unrun. Anyone quoting "no systematic-error detector has ever returned a value" is now wrong; anyone reading the PASS as validating ΔΔG_coop is also wrong, since antisymmetry is a check the sampling can pass while the answer stays wrong |
+| 44 | The valB_mini calibrator's r0 reading **ΔΔG_coop = −0.534 kcal/mol**, abs error **1.478** (quoted in the reduce annotations of 2026-07-27/28 and in the first draft of the paper's §2.11) | **Superseded by the restrained binary re-run, NOT by a re-analysis.** The original binary arm was contaminated — its ligand left the pocket in 8 of 12 replicas — so it was re-run from scratch under a flat-bottom λ-independent pocket restraint on its own commit prefix. With the clean arm the reduction reads **−0.522**, abs error **1.466** (reduce [run 30438773820](https://github.com/trimcrae/Rare-cancers/actions/runs/30438773820), 2026-07-29). **The point is how little it moved: 0.012 kcal/mol against a ~1.47 miss, under 1 %.** The contamination was real and worth fixing, and it was NOT the cause of the wrong sign — which is a measured elimination of the most plausible benign explanation, not an argument for one. Do not quote −0.534 as the current value; do not cite the re-run as having "not mattered" either, since a null result on a named confounder is exactly what it was run to establish |
+| 45 | RUNG 2b's ratified-threshold note: *"the 2 fs baseline WAS pre-equilibrated, so **the two arms differ in the TIMESTEP ALONE** and a disagreement IS attributable to it"*, and beside it *"both arms are seed 0, hence **the same starting homology model**, so the comparison is not additionally confounded by model choice"* | **The pre-equilibration half is right and stands; the "timestep alone" half is false.** Measured 2026-07-28, $0 CPU, by a composition census of the committed trajectories themselves ([`ternary_system_census.py`](research/modalities/ternary_system_census.py), [GH run 30353705917](https://github.com/trimcrae/Rare-cancers/actions/runs/30353705917); full table in [ternary-4fs-vast-findings.md §2d](research/compute/ternary-4fs-vast-findings.md)). The two arms ran on **different lanes and object stores** — r0 on GCP/GCS, the 4 fs cycle on Vast/S3, which `ternary_vast_launch.py` says outright "never touches GCS" — each with its **own** RCSB fetch, SMARCA2 relaxation, solvation and pre-equilibration. Their ternary boxes differ by **675 waters and 4 ions** (141,968 vs 139,939 particles). What the census establishes positively is that this is **only** bulk solvent: the solute is identical atom-for-atom in every arm (ternary 7,140 = chains 2343/1925/1433/1329 + a 110-atom ligand; binary 5,215), net charge 0 throughout, and the neutralising ion excess — the solute's formal charge — is invariant at +4 ternary / +7 binary across every build, which is what a protonation or tautomer difference would have broken. Sized against the gate the solvent difference is **~3e-3 kcal/mol**, ~7× under the observed |Δ| = 0.0215 and ~230× under the 0.7 threshold, so **the PASS and the 4 fs adoption stand** — but as a *cross-lane independent reproduction*, not a controlled single-variable timestep swap, and nothing should be built on the stronger reading. Two numbers that prompted this were also misattributed and must not be quoted as the 4 fs arm's: **7,398 and 7,392** are GCP-lane builds that produced no leg result and are in no cycle; the RUNG 2b ternary leg's own analysis subset is **7,384**. |
+| 46 | The realised-spend scoreboard at **$24.46 ledgered / $26.77 best estimate** (and every board that quoted it) | **Undercounted by ~3x, and not because anything was mis-summed — because `main` was summing the wrong copy.** The step-1 fan-out writes its ledger to `claude/max-effort-2dq11l`, the branch its workflow checks out; `main`'s copy stopped at 86 rentals while the lane's real one held **197**. Corrected to **$72.47 ledgered / $74.78 best estimate** once the artifact was ported. **No new money was spent** — this is a bookkeeping correction to figures that were wrong when written. The general lesson is now a standing rule (CLAUDE.md §7, branch drift): before quoting any committed artifact, check which ref the producing workflow actually writes to |
+| 47 | The evidence offered for "ΔΔG_coop is SAFE, the charge model cancels": **`CHARGE_METHOD` is `nagl` on both arms** — a configuration flag plus a `partial_charge_method = nagl` line in a live leg log (this table's own §Val A evidence column, 2026-07-24) | **The conclusion survives; the basis did not, and the gap it left was real rather than pedantic.** OpenFE *prefers user-supplied charges over its configured `partial_charge_method`*, and until 2026-07-28T00:54Z the relaxed pose file every leg read shipped a complete per-atom charge set — so the configured value and the parameterised value were free to differ, silently, with the log still saying `nagl`. Read from the stored setup-cache `System`s instead (2026-07-29, $0, `task=charge-provenance`): the inheritance **did** occur on every banked forward leg, and it changed nothing, because the inherited values **are** the protocol's NAGL values (the binary arm ran with nothing to inherit and produced the same numbers to 0.0 *e*). r0/r1/r2 arms carry identical alchemical charges (109/109 core atoms; max \|Δq\| 0.0 / 0.0 / 1.9 × 10⁻⁷ *e*), and the reverse leg's endpoints are the forward leg's swapped. **No banked ΔG or ΔΔG changes.** Do not cite a `CHARGE_METHOD` flag or a log line as evidence of what a leg sampled; cite [`charge-provenance-forensic.json`](research/modalities/charge-provenance-forensic.json) |
 | 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
 
 ---

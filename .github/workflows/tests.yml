@@ -132,4 +132,12 @@ jobs:
       # and the job reported "no tests ran" — a red build that looked ordinary while the guard gate in front of
       # every GPU launch had stopped checking anything. With this flag the broken file is one ERROR, the build
       # is still red, and everything else still reports. It does not excuse the bug; it stops the blast radius.
-      - run: python -m pytest research/modalities/tests -q --continue-on-collection-errors
+      # ★★ `if: always()` — THE SUITE MUST RUN EVEN IF A GUARD STEP ABOVE FAILED (measured 2026-07-29).
+      # Every guard above is a `run:` step in THIS job, so any one of them failing skips this one, and the
+      # ~3000-test suite silently stops executing while the build still goes red for an unrelated reason.
+      # That is exactly what happened: `test_watchdog_restraint_guards.sh` began failing when a landed watch
+      # entry was auto-disabled, and for 9+ commits the repo's test gate did not run at all — every merge in
+      # that window was reported green on a suite nobody executed. A guard failure and a suite failure are
+      # different facts and both must be visible on the same run; the job still fails either way.
+      - if: always()
+        run: python -m pytest research/modalities/tests -q --continue-on-collection-errors

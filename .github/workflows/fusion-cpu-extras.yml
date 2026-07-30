@@ -116,7 +116,16 @@ concurrency:
   # observation is the newer run of the same task on a different branch, seconds before the cancellation.
   # Two lanes on two branches are two pieces of work, so the ref belongs in the key — this is the same defect
   # class the vast_launch_mode note below records, one level up.
-  group: fusion-cpu-extras-${{ github.ref_name }}-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}-${{ github.event.inputs.fanout_mode }}
+  # ★ AND `seeds`, FOR THE SAME REASON, ONE LEVEL FURTHER (2026-07-29). `energy_probe` acquired a mode of its
+  # own — `seeds=0` asks only the ~2-minute stage-1 reading, anything else also runs the ~25-minute
+  # `sampler.setup()` repro — and those are different pieces of work. They were not in the key, so
+  # dispatching the fast one killed the slow one **65 minutes in**, and the cancellation was invisible from
+  # the slow run's own log: the jobs API had simply gone on reporting `in_progress`, which reads exactly like
+  # the stall CLAUDE.md §4 says to investigate. The discriminating observation was the run's own
+  # `conclusion: cancelled`, and the cause was the newer same-task dispatch seconds earlier. Third instance
+  # of this defect class in this one key; if a fourth appears, the key should be every input, not another
+  # named one.
+  group: fusion-cpu-extras-${{ github.ref_name }}-${{ github.event.inputs.task }}-${{ github.event.inputs.vast_launch_mode }}-${{ github.event.inputs.fanout_mode }}-${{ github.event.inputs.seeds }}
   cancel-in-progress: true
 
 jobs:
@@ -1333,6 +1342,13 @@ jobs:
       BLOCK: ${{ github.event.inputs.fanout_mode == 'block' && '1' || '0' }}
       BLOCK_UNIT: ${{ github.event.inputs.vast_selector }}
       BLOCK_REASON: ${{ github.event.inputs.ternary_extra_args }}
+      # ★ THE UNBLOCK HALF, WHICH WAS DOCUMENTED AND NEVER WIRED (2026-07-29). `mode_block`'s docstring says
+      # "UNBLOCKING IS DELIBERATE AND MANUAL (FANOUT_UNBLOCK=1)", and nothing in this workflow ever set that
+      # variable — so a block could be applied from CI and never lifted from CI. Worse than merely missing:
+      # dispatching `block` with the reason "unblock" (the obvious guess) would have re-BLOCKED the unit and
+      # overwritten its carefully-evidenced reason with the word "unblock". `mode_block` now also refuses
+      # that string outright, so the two guards cover each other.
+      FANOUT_UNBLOCK: ${{ github.event.inputs.ternary_extra_args == 'unblock' && '1' || '0' }}
       BLOCK_EVIDENCE: ${{ github.event.inputs.cofold_output_prefix }}
       REAP_REASON: ${{ github.event.inputs.ternary_extra_args }}
       STOP: ${{ github.event.inputs.fanout_mode == 'stop' && '1' || '0' }}
@@ -1372,7 +1388,7 @@ jobs:
           # a monitor run (which writes progress.json but not map.json) staged nothing at all and reported
           # "no readout change" while silently swallowing the error.
           staged=0
-          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt step1-fanout-market-hold.json relaunch-market-hold.json step1-fanout-launch-readout.txt; do
+          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt step1-fanout-market-hold.json relaunch-market-hold.json step1-fanout-launch-readout.txt step1-nan-forensics.json; do
             if [ -f "research/modalities/$f" ]; then
               git add -f "research/modalities/$f"; staged=1; echo "staged $f"
             else
@@ -1884,6 +1900,14 @@ jobs:
       # complex is the leg that failed; probing the solvent leg would build a different system and answer a
       # different question. Reuses an existing input because workflow_dispatch caps at 25 and this file is at it.
       PROBE_LEG: ${{ github.event.inputs.ternary_script == 'solvent' && 'solvent' || 'complex' }}
+      # Stage 2 (the real `sampler.setup()` minimiser, ~25 min of CPU) answers "does the minimiser survive
+      # this system at all". Stage 1 (per-force energy + GRADIENT + the coordinate-degeneracy census, and
+      # since 2026-07-28 the before/after of the de-degeneration) answers "what is wrong with the starting
+      # point", and takes ~2 min. They are different questions, and being unable to ask the cheap one
+      # without paying 25 minutes for the expensive one is why this knob exists.
+      # Reuses `seeds` because workflow_dispatch caps at 25 inputs and this file is at the cap; the default
+      # ("1,2,3") leaves the long path ON, so no existing dispatch changes behaviour.
+      PROBE_MINIMIZE: ${{ github.event.inputs.seeds == '0' && '0' || '1' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -1908,7 +1932,7 @@ jobs:
           docker run --rm --entrypoint python \
             -v "$PWD/research/modalities:/work/research/modalities" \
             -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION \
-            -e VAST_CKPT_BUCKET -e PROBE_UNITS -e PROBE_LEG \
+            -e VAST_CKPT_BUCKET -e PROBE_UNITS -e PROBE_LEG -e PROBE_MINIMIZE \
             "docker.io/$IMG:latest" /work/research/modalities/step1_setup_energy_probe.py
       - name: Commit the probe result back to the triggering branch
         if: ${{ always() }}

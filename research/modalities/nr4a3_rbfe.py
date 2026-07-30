@@ -56,7 +56,23 @@ def _sdf_mol(sdf_path, name, expected_smiles, rdkit_chem):
     if expected_smiles:
         em = rdkit_chem.MolFromSmiles(expected_smiles)
         want = rdkit_chem.MolToSmiles(em) if em is not None else None
-    recs = [m for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False) if m is not None]
+    # ★★ STRIP INHERITED CHARGES AT THE DOOR, not after the molecule has been rebuilt (2026-07-29).
+    # This is the ONE place a pose SDF becomes an RDKit mol for both alchemical lanes — the binary
+    # (`nr4a3_rbfe._build_components`) and the ternary (`nr4a3_ternary_fep._endpoint_pose`) — so it is the
+    # only boundary at which the charges are still in the state the file described. Downstream is too late in
+    # a way that matters: `_repair_pose` re-adds hydrogens that cannot inherit a per-atom charge, turning a
+    # COMPLETE set (which OpenFF would silently prefer over the protocol's own charge model) into a PARTIAL
+    # one (which kills the leg on a rented GPU). Full reasoning: `strip_foreign_partial_charges`.
+    recs = []
+    for m in rdkit_chem.SDMolSupplier(sdf_path, removeHs=False):
+        if m is None:
+            continue
+        m, n = strip_foreign_partial_charges(m)
+        if n:
+            print(f"  [rbfe] {os.path.basename(sdf_path)}: dropped {n} inherited partial charge(s) from record "
+                  f"{m.GetProp('_Name') if m.HasProp('_Name') else '?'} ({m.GetNumAtoms()} atoms) — a pose file "
+                  f"is a COORDINATE carrier; this protocol assigns its own charges.", flush=True)
+        recs.append(m)
     for target in (name, f"{name}_gen"):
         for m in recs:
             if m.HasProp("_Name") and m.GetProp("_Name") == target:
@@ -75,10 +91,17 @@ def _sdf_mol(sdf_path, name, expected_smiles, rdkit_chem):
 # (`valb_triangle_charge_forensic.py`) and the guard below must never disagree about the spelling.
 FOREIGN_CHARGE_PROPS = ("atom.dprop.PartialCharge", "atom.dprop.PartialCharges")
 
+# ⚠ THE SAME CHARGES, AT A SECOND LEVEL, UNDER A DIFFERENT NAME. RDKit's SD parser expands a property list
+# named `atom.dprop.<X>` into a per-ATOM property `<X>` on every atom (`processPropertyLists`, on by default),
+# and `openff.toolkit.Molecule.to_rdkit()` writes both levels too. `openff`'s `from_rdkit` reads the PER-ATOM
+# one — never the molecule-level array — so clearing only the array leaves the charges fully live. Same
+# reasoning as above: one name, one home.
+PER_ATOM_CHARGE_PROP = "PartialCharge"
+
 
 def strip_foreign_partial_charges(mol):
-    """Drop any partial-charge array a pose file carried IN, and say how many values were dropped. PURE-ish
-    (mutates and returns `mol`), no RDKit-version-specific API.
+    """Drop any partial charges a pose file carried IN — at BOTH levels RDKit stores them — and say how many
+    values were dropped. PURE-ish (mutates and returns `mol`), no RDKit-version-specific API.
 
     ★ WHY THIS EXISTS (measured 2026-07-27, the valB closure triangle). `ternary_preequil._write_relaxed`
     writes its relaxed endpoints via `openff.toolkit.Molecule.to_rdkit()`, which stamps the RELAXATION
@@ -88,27 +111,101 @@ def strip_foreign_partial_charges(mol):
     (reproduced: a 15-value array survives intact onto a 16-atom mol), so the array rides all the way to
     `SmallMoleculeComponent.from_rdkit` describing a molecule that no longer exists.
 
-    TWO failure modes, and the SECOND is the dangerous one:
-      * counts DISAGREE -> gufe raises `ValueError: Incorrect number of partial charges: 109  were provided
-        for 110 atoms` and the leg dies eight minutes into a billed rental. Loud.
-      * counts AGREE    -> gufe accepts them, and OpenFE PREFERS user-supplied charges over generating its
-        own, so the leg runs on relaxation charges while `_protocol()` reports `partial_charge_method =
-        nagl`. A ternary leg and its binary partner could then carry different charges, and ΔΔG_coop =
-        ternary − binary only cancels the charge model if BOTH sides used it. Silent.
+    ★★ AND CLEARING THE ARRAY ALONE DOES NOT REMOVE THE CHARGES — measured 2026-07-29, after the first
+    version of this function did exactly that and the legs went on dying. RDKit's SD parser turns the single
+    `atom.dprop.PartialCharge` tag into a per-ATOM `PartialCharge` double on every atom as it reads the file
+    (`Chem.SDMolSupplier`, `processPropertyLists` default-on; reproduced on a 9-atom mol: writing the tag,
+    reading it back and inspecting `atom.HasProp("PartialCharge")` returns True for all 9). `mol.ClearProp`
+    cannot see those. Worse, `_repair_pose`'s `RemoveHs -> AssignBondOrdersFromTemplate -> AddHs` keeps them on
+    the heavy atoms it preserved and cannot put them on the hydrogens it re-adds, so the mol that reaches
+    OpenFF has SOME atoms charged and some not — which is precisely the exception the ternary legs died on:
 
-    So the charges a pose file arrives with are never this protocol's charges, and the correct handling of
-    both cases is the same: remove them and let the protocol assign its own. Returns (mol, n_dropped) so the
-    caller can LOG a non-zero drop — a guard that fires silently is how the second failure mode got here.
+        openff/toolkit/utils/rdkit_wrapper.py:2351 in from_rdkit
+        ValueError: Some atoms in rdmol have partial charges, but others do not.
+
+    reached from `proto.create` -> `_validate_smcs` -> `SmallMoleculeComponent.to_openff()`. The archive of
+    every rented attempt dates the transition exactly: on `calib_hi_to_lo__ternary_vhl` r2 (49 attempts) that
+    signature first appears at 2026-07-28T02:12Z and accounts for 37 of them, and it appears in NO attempt
+    before the molecule-level strip landed at 2026-07-28T00:54Z. The strip worked; it just moved the failure
+    from the level gufe checks to the level OpenFF reads.
+
+    THREE failure modes, and the THIRD is the dangerous one:
+      * mol-level count DISAGREES -> gufe raises `ValueError: Incorrect number of partial charges: 109  were
+        provided for 110 atoms` at `SmallMoleculeComponent.from_rdkit`. Loud. (Pre-2026-07-28.)
+      * per-atom coverage is PARTIAL -> openff raises `Some atoms in rdmol have partial charges, but others do
+        not` at `to_openff()`, and the leg dies minutes into a billed rental. Loud. (2026-07-28 onward.)
+      * per-atom coverage is COMPLETE -> nothing raises at all, and OpenFF PREFERS user-supplied charges over
+        generating its own, so the leg runs on relaxation charges while `_protocol()` reports
+        `partial_charge_method = nagl`. A ternary leg and its binary partner could then carry different
+        charges, and ΔΔG_coop = ternary − binary only cancels the charge model if BOTH sides used it. Silent,
+        and it is the reason this must strip unconditionally rather than only when something is about to break.
+
+    So the charges a pose file arrives with are never this protocol's charges, and the correct handling of all
+    three cases is the same: remove them, at every level, and let the protocol assign its own. Returns
+    (mol, n_dropped) — the larger of the two levels' counts — so the caller can LOG a non-zero drop; a guard
+    that fires silently is how the third failure mode got here.
     """
     dropped = 0
+    if mol is None:
+        return mol, 0
     for key in FOREIGN_CHARGE_PROPS:
-        if mol is not None and mol.HasProp(key):
+        if mol.HasProp(key):
             try:
                 dropped = max(dropped, len(mol.GetProp(key).split()))
             except Exception:  # noqa: BLE001
                 dropped = max(dropped, 1)
             mol.ClearProp(key)
-    return mol, dropped
+    # The per-atom level. Counted separately and folded into the same return value, because a mol whose array
+    # was already cleared upstream can still be carrying a full set of per-atom charges — that is exactly the
+    # state the 2026-07-28 deaths were in, and reporting 0 for it is how it stayed invisible.
+    n_atom = 0
+    for atom in mol.GetAtoms():
+        if atom.HasProp(PER_ATOM_CHARGE_PROP):
+            atom.ClearProp(PER_ATOM_CHARGE_PROP)
+            n_atom += 1
+    return mol, max(dropped, n_atom)
+
+
+def foreign_charge_census(mol):
+    """(n_mol_level_values, n_atoms_carrying_a_per_atom_charge, n_atoms). PURE, no mutation.
+
+    The measurement `strip_foreign_partial_charges` is graded against, and the one the engine boundary asserts
+    on. Separate from the stripper on purpose: a guard that can only be tested through the thing it guards is
+    a guard nobody can prove.
+    """
+    if mol is None:
+        return 0, 0, 0
+    n_arr = 0
+    for key in FOREIGN_CHARGE_PROPS:
+        if mol.HasProp(key):
+            try:
+                n_arr = max(n_arr, len(mol.GetProp(key).split()))
+            except Exception:  # noqa: BLE001
+                n_arr = max(n_arr, 1)
+    n_atom = sum(1 for a in mol.GetAtoms() if a.HasProp(PER_ATOM_CHARGE_PROP))
+    return n_arr, n_atom, mol.GetNumAtoms()
+
+
+def assert_no_foreign_charges(mol, where):
+    """Refuse to hand OpenFE a molecule still carrying charges this protocol did not assign.
+
+    ★ WHY AN ASSERTION AND NOT A SECOND STRIP (2026-07-29). The failure this closes was not "we forgot to
+    strip" — it was "we stripped the level we knew about and shipped the level we did not", and the shipped
+    level was invisible for a day and 84 rented hosts because nothing ever checked the RESULT. A stripper
+    verifies its own assumptions; a census taken at the boundary verifies the molecule. If a third storage
+    level ever appears, this is what finds it — on a CPU, in CI, instead of on a GPU we are paying for.
+    Raises SystemExit (the lane's fail-closed convention) naming the level and the counts.
+    """
+    n_arr, n_atom, n_tot = foreign_charge_census(mol)
+    if n_arr or n_atom:
+        raise SystemExit(
+            "  ABORT: %s still carries partial charges that this protocol did not assign "
+            "(molecule-level array=%d value(s), per-atom `%s`=%d of %d atom(s)). A pose file is a COORDINATE "
+            "carrier: OpenFE prefers user-supplied charges over the configured partial_charge_method, so "
+            "running this would silently substitute a relaxation force field's charge model — and ΔΔG_coop = "
+            "ternary − binary only cancels the charge model if BOTH arms used the same one. "
+            "Fix `nr4a3_rbfe.strip_foreign_partial_charges` rather than relaxing this check."
+            % (where, n_arr, PER_ATOM_CHARGE_PROP, n_atom, n_tot))
 
 
 def _repair_pose(mol, expected_smiles, rdkit_chem):
@@ -186,6 +283,10 @@ def _build_components(openfe, rdkit_chem):
     # coincides -> LOMAP's distance filter passes and the morph shares a frame. Pose-independent 2D MCS still
     # defines the correspondence; this only fixes the geometry.
     molB = _align_pose(molB, molA, rdkit_chem)
+    # The last point at which a charge the docked pose carried in can still be caught on a CPU. `_sdf_mol`
+    # strips at the door; this proves the rebuild above did not resurrect anything.
+    for _nm, _m in (("binary endpoint A", molA), ("binary endpoint B", molB)):
+        assert_no_foreign_charges(_m, _nm)
     ligA = openfe.SmallMoleculeComponent.from_rdkit(molA)
     ligB = openfe.SmallMoleculeComponent.from_rdkit(molB)
     protein = None
@@ -1700,8 +1801,21 @@ def execute_hybrid_dag_spot_safe(proto, dag, ckpt, tag,
                     _eprobe_rows = _drv._force_energy_probe(system, positions, _plog, "hmrdiag")
                     _drv._clash_report(positions, system, _plog, "hmrdiag")
                     _etot = sum(r["energy_kj_mol"] for r in _eprobe_rows) if _eprobe_rows else 0.0
-                    _eprobe = {"rows": _eprobe_rows,
-                               "verdict": _drv.energy_probe_verdict(_eprobe_rows, _etot)}
+                    _grad_before = dict(_drv.LAST_GRADIENT_PROBE)
+                    _eprobe = {"rows": _eprobe_rows, "gradient_probe": _grad_before,
+                               "verdict": _drv.energy_probe_verdict(_eprobe_rows, _etot, _grad_before)}
+                    # ★★ THE CONTROLLED AFTER, IN THE SAME $0 RUN (2026-07-28). A diagnosis that names a
+                    # cause and a remedy is still a hypothesis until the remedy is shown to remove the
+                    # cause — and here that costs one extra force evaluation, on CPU, with no host. The
+                    # de-degenerated coordinates are re-probed and BOTH readings are recorded, so the claim
+                    # "the coincident pair carries the 1e17 gradient" is a before/after and not an argument.
+                    # ⚠ This does NOT prove the GPU leg now completes. It proves the singular force is gone;
+                    # the leg completing is a separate, later observation and must not be reported early.
+                    if _grad_before.get("n_coincident_pairs"):
+                        _fixed_pos, _ded = _drv._dedegenerate_positions(positions, _plog, "hmrdiag-after")
+                        _drv._force_energy_probe(system, _fixed_pos, _plog, "hmrdiag-after")
+                        _eprobe["dedegenerate"] = _ded
+                        _eprobe["gradient_probe_after"] = dict(_drv.LAST_GRADIENT_PROBE)
                 except Exception as _pe:  # noqa: BLE001 — an evidence hook must never break the build
                     _eprobe = {"error": "%s: %s" % (type(_pe).__name__, _pe)}
                 print("  [hmr-diag] ENERGY PROBE: %s"
