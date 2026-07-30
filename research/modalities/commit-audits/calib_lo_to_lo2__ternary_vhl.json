@@ -1,0 +1,791 @@
+{
+ "bucket": "sagemaker-us-east-2-646605541856",
+ "counted": {
+  "production": 2000,
+  "warmup": 768
+ },
+ "fingerprint_env": {
+  "CHARGE_METHOD": "nagl",
+  "COMMIT_S3": "s3://sagemaker-us-east-2-646605541856/ternary-vast/commits/calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+  "DIRECTION": "fwd",
+  "GIT_BRANCH": "main",
+  "LEG_ID": "calib_lo_to_lo2__ternary_vhl",
+  "MD_TIMEOUT_S": "66240",
+  "NEEDS_PREEQUIL": "1",
+  "N_WINDOWS": "12",
+  "PE_CACHE": "s3://sagemaker-us-east-2-646605541856/ternary-vast/preequilcache/calib_lo_to_lo2__ternary_vhl__seed0__nagl__ns0.5__v1.tar",
+  "PREEQUIL_NS": "0.5",
+  "PROD_CKPT_ITERS": "40",
+  "PYTHONUNBUFFERED": "1",
+  "RBFE_LOMAP_TIME_S": "300",
+  "RBFE_MAP_ASSERT": "1",
+  "RBFE_MIN_STEPS": "5000",
+  "RBFE_POSITIONS_WRITE_PS": "50",
+  "RBFE_PROD_ITERS": "",
+  "RBFE_REQUIRE_PRIMED_SETUP": "0",
+  "RBFE_SETUP_CACHE_S3": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache",
+  "RBFE_STRICT_PROVENANCE": "1",
+  "RBFE_TIMESTEP_FS": "2.0",
+  "RBFE_VELOCITIES_WRITE_PS": "",
+  "RBFE_WARMUP_ITERS": "",
+  "RBFE_WARMUP_TIMESTEP_FS": "1.0",
+  "RESULT_S3": "s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+  "SEED": "0",
+  "SETUP_CACHE_VERSION": "v1pe",
+  "STAGE_CACHE": "s3://sagemaker-us-east-2-646605541856/ternary-vast/stagecache/calib_lo_to_lo2__ternary_vhl__8G1Q__seed0__v1.tar",
+  "STAGE_REQUIRED": "0",
+  "TEMPLATE_PDB": "8G1Q",
+  "TVAST_MODE": "triangle",
+  "UNIT_ID": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+  "VAST_IMAGE_TAG": "docker.io/triskit23/ternary-fep:latest",
+  "WARMUP_CKPT_ITERS": "64"
+ },
+ "restorable": {},
+ "rows": [
+  {
+   "generation": "6dbde5d31fba49f58258bf13feb0c809",
+   "iteration": 2000,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "abdd410efcf04c47944eca5661081ba9",
+   "iteration": 1960,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "63c2e54077a840798da000d91dbeb2ab",
+   "iteration": 1920,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "1e9a57c1d6a24a358c5de2e3ba8c7915",
+   "iteration": 1880,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "7d73b69dc24d4f6991a1c87e973a765d",
+   "iteration": 1840,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "1e9886ef25e34a01b7e852d026d06dce",
+   "iteration": 1800,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "08df1717893349618f1f1d907e03ff24",
+   "iteration": 1760,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "c16eca98b8784e12a765d91c70d9ba18",
+   "iteration": 1720,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "8917bce49e4b483f9c9bd8f4c0078d90",
+   "iteration": 1680,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "aeb4317361ef4607933b07eed1423814",
+   "iteration": 1640,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "3a571d19db95468994a123ce52b0a0bf",
+   "iteration": 1600,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "96f8a15621964dbe9adaa0550795748c",
+   "iteration": 1560,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "3b8cfbdefc434199a76b76b64b00ec92",
+   "iteration": 1520,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "f152781b06934d33bce2433ba3d854c1",
+   "iteration": 1480,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "1981e1d22eeb4ee799925bf47337d649",
+   "iteration": 1440,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "3776c85a55c24cc796f78ca671b14124",
+   "iteration": 1400,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "ee29626ef5794e869bf7677a58eb8f5e",
+   "iteration": 1360,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "5ed8626d887248d4bd09db77cdd87b87",
+   "iteration": 1320,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "6f06b85185e149e392e667d3eeb23790",
+   "iteration": 1280,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "ab449fdef8ab4830bdb7d75bc866ead0",
+   "iteration": 1240,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "40d3a610ea334d739ab3f5ff96a594e5",
+   "iteration": 1200,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "814ee9af42e140009720e5f0523d0d85",
+   "iteration": 1160,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "e93471667682455ca5668aca442bdb31",
+   "iteration": 1120,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "93084287d2b84bb09e214816ad4948d5",
+   "iteration": 1080,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "ad80d53d4bab4491b53cdba9893f39e1",
+   "iteration": 1040,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "2d23f44739bd411c810daee7f2b002fc",
+   "iteration": 1000,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "0580a538e14041b593e3e8322447a553",
+   "iteration": 960,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "fa48f317521c4972bd964fe59d94b362",
+   "iteration": 920,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "2d2d6b09cd9d405f871cc1ae2feb73bf",
+   "iteration": 880,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "dd24bc4f32904901822b5f6b87015eee",
+   "iteration": 840,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "e7e8484995d34c62ae3eb281777fdb3a",
+   "iteration": 800,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "536fbb4670894f579cfbcf81147ce889",
+   "iteration": 760,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "cba8010d09e34260aed588e1d1d0072d",
+   "iteration": 720,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "617d2a1fc39d4d8ba7b0d04db3a5eb2c",
+   "iteration": 680,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "64f66512cac2421aa2b32f82b314a00a",
+   "iteration": 640,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "5d88dd731cec4da9b5a391a7a374e382",
+   "iteration": 600,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "93d1e8c346434ba2af74edb9d38d9fd7",
+   "iteration": 560,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "f3f3723931eb458d844f87bc58559649",
+   "iteration": 520,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "9b85878b619a42fb8ec6d12ea34d0baa",
+   "iteration": 480,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "762d4d39020c480fa53dc48ac31a39be",
+   "iteration": 440,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "71ef06d8924c42a4939d7bc0dcb86cf3",
+   "iteration": 400,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "4a02f057f3844f09ba742e06fdead3a7",
+   "iteration": 360,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "f54d11e7be5f4ac3853dd9b1349ce15e",
+   "iteration": 320,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "a70f0d2fa70a4f60a54edfe6df28f04e",
+   "iteration": 280,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "761bafe793dd4a4bb2e08f7b562ba6b1",
+   "iteration": 240,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "6aa4cfd62c9e4997b661fb95c574cc03",
+   "iteration": 200,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "d6b932827bd141d7a4d766c698bcc31d",
+   "iteration": 160,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "b54043a61cb241368ff666388b1a8a53",
+   "iteration": 120,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "a4b78ecf7e69449c918db9a24d8dbe5d",
+   "iteration": 80,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "9b2b2cc008724ba3bebc24680052f3db",
+   "iteration": 40,
+   "objects": [
+    "COMMITTED.json",
+    "checkpoint.chk",
+    "simulation.nc"
+   ],
+   "phase": "production",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "76799ed86b8a45d9988444f1a617b482",
+   "iteration": 768,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "a6016889ebf34f709abd1d88c0b9b8bc",
+   "iteration": 704,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "41023efb9aaa4042be49647fa07a8b74",
+   "iteration": 640,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "cf1c4f90c26a4f3f98b3d7335fb01174",
+   "iteration": 576,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "66e9debef60949238fc050dd62bcb422",
+   "iteration": 512,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "382c893852ae43a48056ecc86d71e181",
+   "iteration": 448,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "64e3a1105a2040da93bc4e6eb2045bcf",
+   "iteration": 384,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "cbd3ed8af17a40f28047071f713ccc70",
+   "iteration": 320,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "6a81bf073933463bbed288fb5c698f9c",
+   "iteration": 256,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "7ace5496f94f4bb8ae46a350eb10bb13",
+   "iteration": 192,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "5bba8130b3d64611a2a3e8fdec27c272",
+   "iteration": 128,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  },
+  {
+   "generation": "bafb18889ca14191a0c3667b0e41c41c",
+   "iteration": 64,
+   "objects": [
+    "COMMITTED.json",
+    "equilibration.chk",
+    "equilibration.nc"
+   ],
+   "phase": "warmup",
+   "verdict": "fingerprint-rejected",
+   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=1a5da77befcd5cb7 running=bf1221d058d4f5e0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+  }
+ ],
+ "unit": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
+}
