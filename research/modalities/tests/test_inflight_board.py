@@ -398,3 +398,46 @@ def test_a_teardown_because_the_unit_FINISHED_does_not_invite_a_re_rental():
     assert '_done_reason = "done" in str(_destroyed.get("why") or "").lower()' in src, (
         "the board no longer distinguishes a done-teardown from a capacity teardown")
     assert "nothing further is owed — this leg is FINISHED" in src
+
+
+# ── the guard's WATCHING is a refusal to condemn, and the board overruled it (2026-07-29, 11:12 PM ET) ──
+# valB r2 rendered STALLED with the reason "WATCHING — quiet but alive: run.log 1 min old, GPU idle, no
+# committed advance — consistent with a CPU-bound setup phase": a stall verdict whose own reason denies it.
+# The board credits only the guard's WORKING as advancement, so a leg the guard was SHIELDING fell through
+# to the poll counter and tripped it.
+
+def test_a_shielded_leg_is_not_stalled_however_high_the_poll_counter():
+    st, why = B.state_of(True, advanced=False, no_advance_polls=9, cold_start=False,
+                         why_not_running="WATCHING — quiet but alive: run.log 1 min old, GPU idle",
+                         guard_shielding=True)
+    assert st == B.STARTING, "the board must not overrule a guard that is vouching for the host"
+    assert "alive" in why
+
+
+def test_shielding_does_NOT_promote_to_running():
+    """WATCHING is the absence of evidence of death, not evidence of work — STARTING is the honest cell."""
+    st, _ = B.state_of(True, False, 5, False, why_not_running="quiet but alive", guard_shielding=True)
+    assert st == B.STARTING and st != B.RUNNING
+
+
+def test_real_advancement_still_outranks_shielding():
+    assert B.state_of(True, True, 0, False, guard_shielding=True)[0] == B.RUNNING
+
+
+def test_shielding_cannot_mute_a_stall_once_the_guard_stops_shielding():
+    """WATCHING needs a RECENT log; a silent one returns WEDGED/CRASH_LOOP, which are not shielding."""
+    st, why = B.state_of(True, False, 3, False,
+                         why_not_running="WEDGED — no write in 90 min and the GPU is idle",
+                         guard_shielding=False)
+    assert st == B.STALLED and "WEDGED" in why
+
+
+def test_the_collect_derives_shielding_from_should_destroy_not_a_typed_verdict_list():
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ternary_vast_launch.py")
+    src = open(path).read()
+    assert "vig.should_destroy(idle_verdict)" in src and "idle_shielding" in src, (
+        "shielding is no longer derived from the guard's own destroy rule — the board and the reaper can "
+        "drift about which verdicts are benign")
+    assert "guard_shielding=bool(_b.get(\"idle_shielding\"))" in src, (
+        "the shielding flag is computed but never passed to state_of")

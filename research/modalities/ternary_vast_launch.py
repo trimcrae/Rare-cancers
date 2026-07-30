@@ -2868,6 +2868,12 @@ def collect(bucket=None, prefix=None, autostop=True):
             if _board_rows and _board_rows[-1].get("iid") == iid:
                 _board_rows[-1]["idle_why"] = f"{idle_verdict} — {idle_why}"
                 _board_rows[-1]["idle_working"] = (idle_verdict == vig.WORKING)
+                # SHIELDING = the guard looked and declined to condemn. Derived from `should_destroy`, not
+                # from a list of verdict names typed here, so the board and the reaper cannot drift about
+                # which verdicts are benign. See `state_of`'s `guard_shielding` note for the STALLED row
+                # this produced on a leg the guard was actively vouching for.
+                _board_rows[-1]["idle_shielding"] = (
+                    idle_verdict == vig.WATCHING and not vig.should_destroy(idle_verdict))
 
         msg = str(i.get("status_msg") or "").strip()
         frozen_min, new_state[str(iid)] = stall_minutes(prev_state, iid, msg, time.time())
@@ -3131,7 +3137,8 @@ def collect(bucket=None, prefix=None, autostop=True):
               # board already defers to for the cold-start floor and the setup grace.
               _working = bool(_b["advanced"] or _b.get("idle_working"))
               _state, _swhy = ifb.state_of(True, _working, _b["no_advance_polls"], _cold,
-                                           why_not_running=_why or None, pre_first_commit=_pre_first)
+                                           why_not_running=_why or None, pre_first_commit=_pre_first,
+                                           guard_shielding=bool(_b.get("idle_shielding")))
               # ★ WHY EXPLAINS ANY `—` CELL, NOT ONLY A NON-RUNNING STATE (trimcrae, 2026-07-29, 4:24 PM
               # ET: "it's missing an ETA"). `state_of` returns ("RUNNING", "") by design — a leg that is
               # working owes no excuse for its STATE — and the row was taking that empty string as its whole

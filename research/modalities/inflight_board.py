@@ -175,7 +175,7 @@ def eta_seconds(phase, iteration, targets, s_per_iter):
 
 
 def state_of(has_host, advanced, no_advance_polls, cold_start, why_not_running=None,
-             pre_first_commit=False, host_list_readable=True):
+             pre_first_commit=False, host_list_readable=True, guard_shielding=False):
     """(state, why). PURE.
 
     ⚠ REFUSES to call a leg STALLED without a reason — see the module docstring. Raising is correct: a board
@@ -221,6 +221,30 @@ def state_of(has_host, advanced, no_advance_polls, cold_start, why_not_running=N
         return STARTING, (why_not_running or "no first checkpoint yet, and still inside the setup grace")
     if cold_start:
         return STARTING, (why_not_running or "host is inside its cold-start grace — image pull / minimise")
+    if guard_shielding:
+        # ★★ THE GUARD'S `WATCHING` IS A REFUSAL TO CONDEMN, AND THE BOARD WAS OVERRULING IT WHILE QUOTING
+        # IT (measured 2026-07-29, 11:12 PM ET). `valB r2 ternary` rendered:
+        #
+        #   valB r2 ternary  95.6%  11:58 PM  $0.00551/ns · 1.61× basis  STALLED
+        #       WATCHING — quiet but alive: run.log 1 min old, GPU idle, no committed advance —
+        #       consistent with a CPU-bound setup phase
+        #
+        # — a STALLED verdict whose own reason says the leg is alive, which is the exact shape this
+        # function exists to refuse. Same defect as the `pre_first_commit` case in production, one path
+        # over: the board credits only the guard's `WORKING` as advancement, so a leg the guard is
+        # deliberately SHIELDING fell through to the poll counter and tripped it.
+        #
+        # ⚠ WATCHING IS NOT WORKING, AND THIS DELIBERATELY DOES NOT PROMOTE IT TO `RUNNING`. `WORKING` is
+        # positive evidence — the census advanced, or the GPU is busy and the host is writing. `WATCHING`
+        # is only the ABSENCE of evidence of death: a fresh run.log and an idle GPU, which is what a
+        # CPU-bound resume looks like. STARTING is the honest cell for that — not advancing yet, and here
+        # is why.
+        #
+        # ⚠ AND IT CANNOT MUTE A REAL STALL. WATCHING requires the log to be RECENT; once it goes silent
+        # the guard returns WEDGED or CRASH_LOOP, which are destroy verdicts and are not shielding. So the
+        # only thing suppressed here is a stall call on a box the guard is actively vouching for, and the
+        # guard escalates on its own the moment that stops being true.
+        return STARTING, (why_not_running or "the idle guard is shielding this host — quiet but alive")
     if (no_advance_polls or 0) >= STALL_POLLS:
         why = why_not_running or ""
         if not why.strip():
