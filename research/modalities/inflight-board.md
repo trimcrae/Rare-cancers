@@ -2,13 +2,13 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 7:42 AM ET Thu Jul 30, 2026 by `task=collect`.
+Generated 7:50 AM ET Thu Jul 30, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T2 ternary           92.8%  8:39 AM          $0.00532/ns · 1.56× basis  RUNNING   
-T3 ternary           89.9%  —                —                          NO HOST   no live host — checkpoint at production/1720 is intact in S3; the next gate tick re-places it
+T2 ternary           92.8%  —                $0.00532/ns · 1.56× basis  NO HOST   host DESTROYED this pass (capacity refusal on machine 1569; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1800 is intact in S3 and the next gate tick re-places it
+T3 ternary           89.9%  —                $0.00503/ns · 1.47× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
 ---- END TVAST-BOARD ----
 ```
