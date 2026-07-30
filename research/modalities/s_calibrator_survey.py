@@ -244,6 +244,14 @@ def survey(candidates=None):
         "candidates": rows,
         "n_symmetric": sum(1 for r in rows if r["ternary_structure_on_BOTH_arms"]),
         "detector_sanity": _detector_sanity(rows),
+        "template_comparison": compare_templates(
+            ["8G1Q", "8G1P", "6HAX", "6HAY", "9HYB"]),
+        "_template_comparison_why": (
+            "8G1Q is the valB calibrator's frozen template and this survey finds it on the SMARCA4 arm, while "
+            "8G1P from the same deposition series is on the SMARCA2 arm. The repo carries the SMARCA4->SMARCA2 "
+            "homology substitution as an unavoidable limitation, and R localised the valB miss to the MODEL or "
+            "REFERENCE DATA -- the class that substitution belongs to. These rows are what a swap would be "
+            "graded on: resolution and bound ligand. They do NOT assert the entries are interchangeable."),
     }
 
 
@@ -266,6 +274,43 @@ def _detector_sanity(rows):
                     "detector than a fact about the PDB (BRD4-VHL and SMARCA2-VHL ternary structures are "
                     "known to exist). DO NOT read this run as evidence against the S-calibrator route."),
     }
+
+
+# =============================================================================================================
+# TEMPLATE COMPARISON -- is the homology substitution the valB lane carries actually NECESSARY?
+# =============================================================================================================
+def compare_templates(pdb_ids):
+    """Resolution and bound-ligand identity for a set of entries, so a candidate template can be graded.
+
+    ★ WHY THIS EXISTS. The survey's own output shows 8G1Q -- the valB calibrator's frozen template -- on the
+    SMARCA4 arm, while 8G1P from the SAME deposition series sits on the SMARCA2 arm. The repo has carried
+    "SMARCA2 is a homology substitution into a 3.73 A SMARCA4 structure" as an unavoidable limitation of the
+    calibrator, and R has since localised the valB miss to the MODEL or the REFERENCE DATA -- the class that
+    substitution belongs to. So whether a real SMARCA2 template exists is not a curiosity; it is a candidate
+    cause of the failure. This function fetches what is needed to grade the swap: resolution, and which
+    chemical components are actually bound.
+
+    ⚠ IT GRADES CANDIDACY, NOT EQUIVALENCE. A shared deposition series does not make two entries
+    interchangeable: the ligand may differ, the construct may differ, the resolution may be worse. Those are
+    exactly what is fetched here so the judgement is made on data. Nothing in this function asserts that
+    swapping template fixes anything."""
+    out = {}
+    for pid in pdb_ids:
+        try:
+            e = _get(DATA + pid)
+        except Exception as exc:
+            out[pid] = {"error": str(exc)[:200]}
+            continue
+        info = e.get("rcsb_entry_info") or {}
+        res = info.get("resolution_combined")
+        out[pid] = {
+            "resolution_A": (res[0] if isinstance(res, list) and res else None),
+            "method": (e.get("exptl") or [{}])[0].get("method"),
+            "nonpolymer_ccd_ids": sorted((info.get("nonpolymer_bound_components") or [])),
+            "n_polymer_entities": info.get("polymer_entity_count"),
+            "title": (e.get("struct") or {}).get("title", "")[:150],
+        }
+    return out
 
 
 def main(argv=None):
