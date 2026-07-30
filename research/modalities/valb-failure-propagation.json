@@ -64,10 +64,15 @@
   "frozen_rule_fires": true,
   "verdict_the_frozen_rule_would_return_on_a_null": "UNDERPOWERED",
   "actual_power_to_detect_1.478_at_that_sigma": 0.6293,
-  "the_discrepancy": "the frozen rule fires at sigma_leg=0.2652 and would call a null UNDERPOWERED. The power it is standing in for is 0.63 AT THAT SAME BOUND -- and since the bound is an UPPER bound, the true power is at least that. So the proxy is not clearly wrong: 0.63 is mediocre, and whether UNDERPOWERED is the right word depends on where in [0.045, 0.2652] the true sigma_leg sits. What is wrong is that a binary proxy is deciding it at all, when the power is computable.",
+  "power_0.80_crosses_at_sigma_leg": 0.2154,
+  "frozen_proxy_sits_at": 0.2,
+  "proxy_error_vs_computed": 0.072,
+  "the_finding": "the frozen proxy (0.200) and the computed 0.80-power crossing (0.215) agree to ~7%. The hand-set number was very nearly right, which is the opposite of what a 'the proxy is misfiring' reading would have predicted.",
+  "would_amending_it_rescue_a_null_R": false,
+  "why_not": "at the measured upper bound the power is 0.63, which a conventional 0.80 threshold demotes anyway. The amendment changes the LABEL's justification, not the verdict -- so it must not be sold as unlocking the diagnostic.",
   "action_taken_here": "NONE. Recorded before R lands; the rule is untouched.",
-  "action_proposed_to_trimcrae": "a dated defect-fix replacing the 0.2 proxy with a COMPUTED power threshold, so the verdict reports the actual power alongside it instead of a fire/don't-fire flag. Routed the same way as the admits-zero gate defect. $0, no spend attached, and it must be decided on the arithmetic rather than on whether we like R.",
-  "the_honest_residual": "even amended, a null R at the upper bound is worth ~0.63 power, which does not make a null strong evidence. The triangle can still ADMIT the cycle more confidently than it can convict it -- which is the design's own asymmetry, not a new problem."
+  "action_proposed_to_trimcrae": "a dated defect-fix that REPORTS the computed power beside the verdict, keeping the demotion rule itself. Value is transparency: 'UNDERPOWERED' currently cannot distinguish power 0.63 from 0.05, and those warrant different responses. $0. LOW STAKES -- graded that way because the measurement says so, not to make it easy to approve.",
+  "the_honest_residual": "a null R at the upper bound is worth ~0.63 power, which does not make a null strong evidence, amended or not. The triangle can ADMIT the cycle more confidently than it can convict it -- the design's own asymmetry, not a new problem. \u26a0 AND THE VERDICT GENUINELY TURNS ON WHERE IN [0.045, 0.2652] THE TRUE sigma_leg SITS: below ~0.215 a null R clears 0.80 power and is readable; at the upper bound it is not. Since the bound is an UPPER bound, the true value is plausibly on the readable side -- but that is an argument, and \u00a77 is how it becomes a measurement."
  },
  "3_error_algebra": [
   {
@@ -164,5 +169,16 @@
   "what_is_unaffected": "the FAIL itself. Wrong sign and |mean - target| = 1.543 on a 1.0 band are both estimator-independent.",
   "what_is_affected": "only the reading that the method 'resolves a cooperativity change confidently', which rests on the tighter preregistered interval.",
   "action": "record it in the paper's limitations rather than switch estimators. A referee who recomputes the paired interval should find we got there first."
+ },
+ "7_narrow_sigma_leg_from_triangle_legs": {
+  "method": "sigma_leg(triangle) ~ ratio * mean per-leg MBAR SE of the TRIANGLE's own legs, where the ratio is the replicate-SD/MBAR-SE factor measured at n=3 on this lane",
+  "ratio_used": 3.28,
+  "_ratio_is_transferred_not_measured_here": true,
+  "current_upper_bound_from_valB": 0.2652,
+  "power_0.80_crosses_at": 0.2154,
+  "what_it_would_settle": "whether a null R clears conventional power. Below the crossing it does and the triangle answers its question; above it, it does not, amended or not.",
+  "cost": "$0 -- the MBAR SEs are already in the leg records that land with R",
+  "when": "the moment all four legs are down, alongside task=triangle-reduce",
+  "estimate": "NOT YET COMPUTABLE -- the triangle's ternary legs have not landed"
  }
 }

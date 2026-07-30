@@ -62,14 +62,33 @@ def test_the_frozen_prereg_rule_is_not_amended_here():
     assert f["action_taken_here"].startswith("NONE")
 
 
-def test_the_discrepancy_does_not_overclaim():
-    """0.63 power is mediocre, not a refutation of the proxy. The record must say so rather than argue for a
-    change we would like."""
+def test_the_proxy_is_graded_against_the_computed_crossing_not_against_a_hunch():
+    """The first draft of this analysis assumed the proxy was misfiring. It is not -- 0.200 against a computed
+    0.80-power crossing near 0.216. This test exists so that correction cannot be silently undone."""
     f = P.frozen_rule_vs_measured_power()
     assert f["frozen_rule_fires"] is True
     assert 0.0 < f["actual_power_to_detect_1.478_at_that_sigma"] < 1.0
-    assert "not clearly" in f["the_discrepancy"] or "mediocre" in f["the_discrepancy"]
+    assert f["proxy_error_vs_computed"] < 0.15, "the proxy and the computed crossing must still agree closely"
+    assert "nearly right" in f["the_finding"]
     assert "the_honest_residual" in f
+
+
+def test_the_amendment_is_not_sold_as_a_rescue():
+    """At the measured upper bound a conventional threshold demotes anyway. If this ever flips to True without
+    the power changing, someone has oversold the fix."""
+    f = P.frozen_rule_vs_measured_power()
+    assert f["would_amending_it_rescue_a_null_R"] is False
+    assert "not the verdict" in f["why_not"]
+    assert "LOW STAKES" in f["action_proposed_to_trimcrae"]
+
+
+def test_the_power_crossing_brackets_the_measured_bound():
+    """The whole live question is whether the true sigma_leg is above or below the crossing. If the bound fell
+    below it, the question would be closed and §7 would be pointless."""
+    crossing = P.power_threshold_crossing()
+    hi = P.sigma_leg_now_bounded()["sigma_leg_upper_bound_kcal"]
+    lo = P.sigma_leg_now_bounded()["sigma_leg_lower_bound_kcal"]
+    assert lo < crossing < hi, "the crossing must sit INSIDE the bounded interval or §7 buys nothing"
 
 
 # ---- 3. the propagation table ------------------------------------------------------------------------------
@@ -164,6 +183,29 @@ def test_the_note_does_not_propose_switching_estimators():
     e = P.estimator_note()
     assert "record it" in e["action"]
     assert "estimator-independent" in e["what_is_unaffected"]
+
+
+# ---- 7. narrowing sigma_leg from the triangle's own legs ---------------------------------------------------
+def test_narrowing_is_not_computable_before_the_legs_land():
+    n = P.narrow_sigma_leg_from_triangle_legs()
+    assert n["estimate"].startswith("NOT YET COMPUTABLE")
+    assert n["cost"].startswith("$0")
+
+
+def test_narrowing_declares_the_ratio_is_transferred_not_measured():
+    """The transfer is the whole weakness. If this flag goes, the estimate starts reading as a measurement of
+    the triangle's own spread, which it is not -- the triangle has no replicates."""
+    n = P.narrow_sigma_leg_from_triangle_legs()
+    assert n["_ratio_is_transferred_not_measured_here"] is True
+
+
+def test_narrowing_can_land_on_either_side_of_the_crossing():
+    """If it could only ever clear (or only ever fail), it would not be a measurement worth taking."""
+    crossing = P.power_threshold_crossing()
+    ratio = P.s_error_bar_scope()["replicate_sd_over_mbar_se_measured"]
+    lo_se, hi_se = crossing / ratio * 0.5, crossing / ratio * 1.5
+    assert P.narrow_sigma_leg_from_triangle_legs(lo_se)["clears_conventional_power"] is True
+    assert P.narrow_sigma_leg_from_triangle_legs(hi_se)["clears_conventional_power"] is False
 
 
 # ---- report ------------------------------------------------------------------------------------------------

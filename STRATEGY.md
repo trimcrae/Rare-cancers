@@ -2141,20 +2141,26 @@ dollar ceiling.
 6. **`[ ]` OPEN — route the admits-zero gate defect for approval.** The frozen gate accepts a method that
    predicts no cooperativity change (22 % vs 23 %). Amending a preregistered rule after a failing result needs an
    explicit, dated, reviewer-approved defect-fix. $0.
-7. **`[ ]` OPEN — route the `UNDERPOWERED` proxy for the same treatment. $0, and it decides whether an
-   already-bought diagnostic reports anything.** `binary_departure_prereg` demotes a null closure to
-   `UNDERPOWERED` whenever `sigma_leg > 0.2` — a threshold hand-set when `sigma_leg` was unknown to a factor of
-   15.6, i.e. a *proxy for "the power is too low to read a null"* chosen because the power itself was not
-   computable. It is computable now (open decision's evidence:
-   [`valb_failure_propagation.frozen_rule_vs_measured_power`](research/modalities/valb_failure_propagation.py)),
-   the measured bound trips the proxy, and the power it stands in for is **mediocre rather than absent** — so
-   the proxy is not clearly *wrong*, but a binary flag is deciding something a number could report.
-   **Proposed fix:** report the computed power beside the verdict instead of the fire/don't-fire flag.
-   **Same standard as item 6 applies and is why nothing was changed:** a rule may be amended only if its
-   statistic is shown to lack discriminating power, demonstrated independently of whether we like its answer —
-   which is why this was written down **before `R` landed** rather than after. **Honest residual, stated so the
-   fix is not oversold:** even amended, a null `R` at the worst case in the bounded interval is not strong
-   evidence; the triangle can ADMIT the cycle more confidently than it can convict it.
+7. **`[ ]` OPEN — the `UNDERPOWERED` proxy. $0, LOW STAKES, and it is low-stakes because the measurement says
+   so.** `binary_departure_prereg` demotes a null closure to `UNDERPOWERED` whenever `sigma_leg > 0.2` — a
+   threshold hand-set when `sigma_leg` was unknown to a factor of 15.6, i.e. a proxy chosen because the power
+   itself was not computable. **It is computable now, and it VINDICATES the proxy:** bisecting the design's own
+   power curve puts a conventional 0.80-power threshold at `sigma_leg ≈ 0.216` against the frozen **0.200** —
+   agreement to ~7 %. ⚠ **So amending it would NOT rescue a null `R`**: at the measured upper bound the power
+   is ~0.63, which a conventional threshold demotes anyway. **Proposed fix is therefore transparency, not
+   correction** — report the computed power *beside* the verdict, keeping the demotion rule, because
+   "UNDERPOWERED" currently cannot distinguish power 0.63 from 0.05 and those warrant different responses.
+   Evidence: [`valb_failure_propagation.frozen_rule_vs_measured_power`](research/modalities/valb_failure_propagation.py).
+   **Same standard as item 6 and it is why nothing was changed:** a rule may be amended only if its statistic
+   is shown to lack discriminating power, demonstrated independently of whether we like its answer — and here
+   the statistic turned out **not** to lack it. Written down **before `R` landed**.
+   **★ THE LIVE QUESTION IS NOT THIS RULE — IT IS WHERE `sigma_leg` ACTUALLY SITS.** The crossing (≈0.216) lies
+   *inside* the bounded interval [0.045, 0.265], so a null `R` is readable or not depending on the true value,
+   and the bound is an UPPER bound. **That is settleable for $0 from the triangle's OWN legs when they land** —
+   `valb_failure_propagation.narrow_sigma_leg_from_triangle_legs` applies the n=3-measured replicate-SD/MBAR-SE
+   ratio to the triangle's own per-leg MBAR SEs, giving an estimate with no homology-model and no cross-seed
+   solvation term. ⚠ The ratio is **transferred, not measured on the triangle** (which has no replicates), so
+   this narrows the interval and must never be reported as though the triangle had replicates.
 
 ---
 

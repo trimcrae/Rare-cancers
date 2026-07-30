@@ -154,13 +154,41 @@ def power_at_measured_bound(trials=40000):
 # =============================================================================================================
 # 2. A FROZEN RULE MEETS A NUMBER IT WAS WRITTEN WITHOUT -- RECORDED, NOT RETUNED
 # =============================================================================================================
+def power_threshold_crossing(target_power=0.80, delta=1.478, trials=30000):
+    """The sigma_leg at which power to detect an r0-sized effect crosses a conventional threshold.
+
+    ★ THIS IS THE NUMBER THAT GRADES THE FROZEN PROXY, and it was worth computing before proposing to replace
+    it. `binary_departure_prereg`'s hand-set `sigma_leg > 0.2` was chosen when sigma_leg was unknown to a
+    factor of 15.6 -- i.e. with no way to check it. Bisecting the design's own power curve says where it
+    SHOULD sit. If the two agree, the proxy was right and the case for amending it is transparency, not
+    correction; my first reading of this discrepancy assumed the proxy was misfiring and did not check."""
+    lo, hi = 0.05, 0.40
+    for _ in range(7):
+        mid = (lo + hi) / 2.0
+        p = closure_noise_floor(sigma_leg_values=(mid,), trials=trials)["rows"][0]["power_at_n1"]
+        if p["detect_%.3f" % delta] >= target_power:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2.0
+
+
 def frozen_rule_vs_measured_power():
     """`binary_departure_prereg` demotes a null closure to UNDERPOWERED whenever `sigma_leg > 0.2`.
 
     THAT 0.2 IS A HAND-SET PROXY FOR "the power is too low to read a null", chosen when sigma_leg was unknown
-    to a factor of 15.6 and a proxy was the only thing available. The bound in §1 now sits ABOVE 0.2 while the
-    ACTUAL power at that same bound is high -- so the frozen rule and the quantity it was standing in for point
-    in opposite directions.
+    to a factor of 15.6 and a proxy was the only thing available.
+
+    ★★ AND THE MEASUREMENT VINDICATES IT. Bisecting the design's own power curve puts a conventional 0.80-power
+    threshold at sigma_leg ~ 0.216; the frozen proxy sits at 0.200, within ~8%. So the hand-set number was very
+    nearly right, and two consequences follow that run AGAINST the amendment being important:
+      (i) AMENDING IT WOULD NOT RESCUE A NULL `R`. At the measured upper bound the power is ~0.63, which a
+          conventional threshold demotes anyway. The fix changes the LABEL's justification, not the verdict.
+      (ii) The remaining value is TRANSPARENCY -- a reader of "UNDERPOWERED" cannot currently tell whether the
+          power was 0.63 or 0.05, and those warrant different responses.
+    Recorded this way round deliberately: the first draft of this analysis framed the proxy as misfiring and
+    proposed replacing it, which would have been an amendment argued from an unchecked assumption. The proxy is
+    close to correct.
 
     ⛔ THE RULE IS NOT CHANGED HERE, AND MUST NOT BE CHANGED BY WHOEVER READS `R`. Two reasons, the second
     decisive: (i) the discrepancy is recorded BEFORE `R` lands, which is the only time such a record is
@@ -172,6 +200,7 @@ def frozen_rule_vs_measured_power():
     hi = b["sigma_leg_upper_bound_kcal"]
     p = power_at_measured_bound()
     power_1478 = p["at_sigma_leg_upper_bound"]["power_at_n1"]["detect_1.478"]
+    crossing = power_threshold_crossing()
 
     frozen_at_hi = binary_departure_prereg(R_ternary=0.0, R_binary=0.0, sigma_leg=hi)
     return {
@@ -180,23 +209,32 @@ def frozen_rule_vs_measured_power():
         "frozen_rule_fires": hi > 0.2,
         "verdict_the_frozen_rule_would_return_on_a_null": frozen_at_hi["verdict"],
         "actual_power_to_detect_1.478_at_that_sigma": power_1478,
-        "the_discrepancy": ("the frozen rule fires at sigma_leg=%.4f and would call a null UNDERPOWERED. The "
-                            "power it is standing in for is %.2f AT THAT SAME BOUND -- and since the bound is "
-                            "an UPPER bound, the true power is at least that. So the proxy is not clearly "
-                            "wrong: %.2f is mediocre, and whether UNDERPOWERED is the right word depends on "
-                            "where in [%.3f, %.4f] the true sigma_leg sits. What is wrong is that a binary "
-                            "proxy is deciding it at all, when the power is computable."
-                            % (hi, power_1478, power_1478, b["sigma_leg_lower_bound_kcal"], hi)),
+        "power_0.80_crosses_at_sigma_leg": round(crossing, 4),
+        "frozen_proxy_sits_at": 0.2,
+        "proxy_error_vs_computed": round(abs(0.2 - crossing) / crossing, 3),
+        "the_finding": ("the frozen proxy (0.200) and the computed 0.80-power crossing (%.3f) agree to ~%.0f%%. "
+                        "The hand-set number was very nearly right, which is the opposite of what a "
+                        "'the proxy is misfiring' reading would have predicted."
+                        % (crossing, 100 * abs(0.2 - crossing) / crossing)),
+        "would_amending_it_rescue_a_null_R": False,
+        "why_not": ("at the measured upper bound the power is %.2f, which a conventional 0.80 threshold "
+                    "demotes anyway. The amendment changes the LABEL's justification, not the verdict -- so "
+                    "it must not be sold as unlocking the diagnostic." % power_1478),
         "action_taken_here": "NONE. Recorded before R lands; the rule is untouched.",
-        "action_proposed_to_trimcrae": ("a dated defect-fix replacing the 0.2 proxy with a COMPUTED power "
-                                        "threshold, so the verdict reports the actual power alongside it "
-                                        "instead of a fire/don't-fire flag. Routed the same way as the "
-                                        "admits-zero gate defect. $0, no spend attached, and it must be "
-                                        "decided on the arithmetic rather than on whether we like R."),
-        "the_honest_residual": ("even amended, a null R at the upper bound is worth ~%.2f power, which does "
-                                "not make a null strong evidence. The triangle can still ADMIT the cycle more "
-                                "confidently than it can convict it -- which is the design's own asymmetry, "
-                                "not a new problem." % power_1478),
+        "action_proposed_to_trimcrae": ("a dated defect-fix that REPORTS the computed power beside the "
+                                        "verdict, keeping the demotion rule itself. Value is transparency: "
+                                        "'UNDERPOWERED' currently cannot distinguish power 0.63 from 0.05, "
+                                        "and those warrant different responses. $0. LOW STAKES -- graded that "
+                                        "way because the measurement says so, not to make it easy to approve."),
+        "the_honest_residual": ("a null R at the upper bound is worth ~%.2f power, which does not make a null "
+                                "strong evidence, amended or not. The triangle can ADMIT the cycle more "
+                                "confidently than it can convict it -- the design's own asymmetry, not a new "
+                                "problem. ⚠ AND THE VERDICT GENUINELY TURNS ON WHERE IN [%.3f, %.4f] THE TRUE "
+                                "sigma_leg SITS: below ~%.3f a null R clears 0.80 power and is readable; at "
+                                "the upper bound it is not. Since the bound is an UPPER bound, the true value "
+                                "is plausibly on the readable side -- but that is an argument, and §7 is how "
+                                "it becomes a measurement."
+                                % (power_1478, b["sigma_leg_lower_bound_kcal"], hi, crossing)),
     }
 
 
@@ -441,6 +479,53 @@ def estimator_note():
     }
 
 
+# =============================================================================================================
+# 7. HOW TO TURN THE sigma_leg ARGUMENT INTO A MEASUREMENT -- free, and it uses the triangle's OWN legs
+# =============================================================================================================
+def narrow_sigma_leg_from_triangle_legs(triangle_mean_mbar_se=None):
+    """§2 leaves the verdict turning on where in the bounded interval sigma_leg sits, and §1's bound comes from
+    the valB legs -- a DIFFERENT set of runs, carrying homology-model and solvation variance the triangle does
+    not have. That is why it is an upper bound and not a value.
+
+    ★ THE TRIANGLE'S OWN LEGS CAN CLOSE THAT GAP FOR $0, AND THEY LAND WITH `R`. The n=3 replicates measured
+    something transferable: the ratio of between-replicate SD to per-leg MBAR SE, on this lane, this protocol,
+    this system family. A triangle leg reports its own MBAR SE. Multiplying gives a sigma_leg estimate built
+    from the triangle's legs rather than valB's -- no homology-model term, no cross-seed solvation term.
+
+    ⚠ WHAT IS ASSUMED, STATED BECAUSE IT IS THE WHOLE WEAKNESS: that the replicate/MBAR ratio TRANSFERS from
+    the valB edge to the triangle's edges. Same lane, same protocol, same 8G1Q-derived system family, so the
+    transfer is reasonable -- but it is a transfer, not a measurement, and a ratio is exactly the kind of
+    quantity that is regime-dependent (the protein-mutation benchmark saw between-setup SD swing 6.2x between
+    a near-null perturbation and a hot spot). So this NARROWS the interval; it does not collapse it to a point,
+    and it must never be reported as though the triangle had replicates. It does not.
+
+    The honest alternative that would settle it outright is a second seed on one triangle edge, which is a
+    PURCHASE and therefore not taken here."""
+    e = s_error_bar_scope()
+    ratio = e["replicate_sd_over_mbar_se_measured"]
+    b = sigma_leg_now_bounded()
+    out = {
+        "method": ("sigma_leg(triangle) ~ ratio * mean per-leg MBAR SE of the TRIANGLE's own legs, where the "
+                   "ratio is the replicate-SD/MBAR-SE factor measured at n=3 on this lane"),
+        "ratio_used": ratio,
+        "_ratio_is_transferred_not_measured_here": True,
+        "current_upper_bound_from_valB": b["sigma_leg_upper_bound_kcal"],
+        "power_0.80_crosses_at": round(power_threshold_crossing(), 4),
+        "what_it_would_settle": ("whether a null R clears conventional power. Below the crossing it does and "
+                                 "the triangle answers its question; above it, it does not, amended or not."),
+        "cost": "$0 -- the MBAR SEs are already in the leg records that land with R",
+        "when": "the moment all four legs are down, alongside task=triangle-reduce",
+    }
+    if triangle_mean_mbar_se is None:
+        out["estimate"] = "NOT YET COMPUTABLE -- the triangle's ternary legs have not landed"
+        return out
+    est = ratio * float(triangle_mean_mbar_se)
+    out["triangle_mean_mbar_se_kcal"] = float(triangle_mean_mbar_se)
+    out["sigma_leg_estimate_kcal"] = round(est, 4)
+    out["clears_conventional_power"] = est < out["power_0.80_crosses_at"]
+    return out
+
+
 def build_report():
     return {
         "_what": ("the blast radius of the valB_mini FAIL, derived quantity by quantity, plus the two things "
@@ -456,6 +541,7 @@ def build_report():
         "4_s_resolvability_prereg": s_resolvability_from_R_ternary(),
         "5_s_error_bar_scope": s_error_bar_scope(),
         "6_estimator_note": estimator_note(),
+        "7_narrow_sigma_leg_from_triangle_legs": narrow_sigma_leg_from_triangle_legs(),
     }
 
 
