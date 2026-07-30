@@ -44,9 +44,13 @@ something like *we passed n gates*, or *we failed x gate and need to make y reme
 deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
 underneath one.*
 
-**As of 2026-07-30 11:45 AM ET · 7 gates passed · 3 failed (two caught before the spend; valB_mini's fail was
-bought deliberately and is now QUANTIFIED at n=3 — a NO-GO decision, not a defect) · 1 in flight, not graded
-yet · 3 deliverables done · realised spend $77.28 machine-ledgered.**
+**As of 2026-07-30 7:45 PM ET · 7 gates passed · 3 failed (two caught before the spend; valB_mini's fail was
+bought deliberately and is now QUANTIFIED at n=3 — a NO-GO decision, not a defect) · 1 DELIVERED BUT NOT GRADED
+(the Step 1 fan-out map; ⚠ and one of its three cycles does not close) · 3 deliverables done and 1 PARTIAL ·
+NOTHING BILLING · realised spend $77.28 machine-ledgered.**
+
+*The spend figure's as-of is its artifact's, **11:43 AM ET**, and it has not moved because nothing has billed
+since: the last lane came off its host at 5:11 PM ET.*
 
 *That spend figure is **DERIVED, never typed** — it is a reading of
 [`realised-spend.json`](research/modalities/realised-spend.json), which sums each lane's own rental ledger
