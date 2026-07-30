@@ -2,17 +2,17 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 9:32 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 9:44 PM ET Wed Jul 29, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-valB r2 ternary      88.9%  10:57 PM         $0.00512/ns · 1.50× basis  RUNNING   
-T3 ternary           62.4%  3:37 AM Jul 30   $0.00456/ns · 1.34× basis  RUNNING   
-T2 binary            95.7%  10:00 PM         $0.00577/ns · 1.69× basis  RUNNING   
-valB r1 ternary      81.1%  11:57 PM         $0.00512/ns · 1.50× basis  RUNNING   
-T3 binary            72.5%  11:43 PM         $0.00531/ns · 1.56× basis  RUNNING   
-T2 ternary           32.1%  6:20 AM Jul 30   $0.00449/ns · 1.32× basis  RUNNING   
+valB r2 ternary      90.0%  11:00 PM         $0.00512/ns · 1.50× basis  RUNNING   
+T2 binary            97.1%  10:02 PM         $0.00577/ns · 1.69× basis  RUNNING   
+valB r1 ternary      82.2%  12:01 AM Jul 30  $0.00512/ns · 1.50× basis  RUNNING   
+T3 binary            75.4%  11:41 PM         $0.00531/ns · 1.56× basis  RUNNING   
+T2 ternary           35.0%  6:14 AM Jul 30   $0.00449/ns · 1.32× basis  RUNNING   
+T3 ternary           62.4%  3:49 AM Jul 30   $0.00512/ns · 1.50× basis  STARTING  fresh host — the marker and log below belong to the previous attempt
 ---- END TVAST-BOARD ----
 ```
