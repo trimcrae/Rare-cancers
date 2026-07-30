@@ -8,10 +8,10 @@ Generated 11:08 PM ET Wed Jul 29, 2026 by `task=collect`.
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T3 binary            91.3%  11:49 PM         $0.00531/ns · 1.56× basis  RUNNING   
-valB r2 ternary      95.6%  11:54 PM         $0.00551/ns · 1.61× basis  RUNNING   
-T2 ternary           43.6%  6:17 AM Jul 30   $0.00512/ns · 1.50× basis  RUNNING   
-T3 ternary               —  —                $0.00512/ns · 1.50× basis  NO HOST   host DESTROYED this pass (capacity refusal on machine 50113; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1120 is intact in S3 and the next gate tick re-places it
-valB r1 ternary          —  —                $0.00356/ns · 1.04× basis  RUNNING   targets not in the retained log window — %% and ETA unknowable this pass
+T3 binary            92.8%  11:43 PM         $0.00531/ns · 1.56× basis  RUNNING   
+valB r2 ternary      95.6%  11:55 PM         $0.00551/ns · 1.61× basis  RUNNING   
+T2 ternary           43.6%  6:18 AM Jul 30   $0.00512/ns · 1.50× basis  RUNNING   
+valB r1 ternary          —  —                $0.00356/ns · 1.04× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+T3 ternary               —  —                —                          NO HOST   no live host — checkpoint at production/1120 is intact in S3; the next gate tick re-places it
 ---- END TVAST-BOARD ----
 ```
