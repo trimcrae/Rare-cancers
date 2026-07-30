@@ -465,6 +465,22 @@ def unit_id(leg_id, seed, direction, timestep_fs, warmup_timestep_fs, mode):
     return (f"{leg_id}_r{seed}{dirsuf}_dt{timestep_fs}fs_wu{warmup_timestep_fs}_{mode}")
 
 
+def _mode_of_unit(uid):
+    """The MODE a unit id ends with, or None. PURE.
+
+    Matched as a LONGEST suffix against `MODES`, never split on the last underscore: `edge_reps`,
+    `triangle_smoke` and `5aks_smoke` all contain one, so a naive rsplit would return `reps`/`smoke` and
+    silently pick the wrong gate. Used to decide which gate can re-place a hostless unit, so a wrong answer
+    would wake the wrong lane's launcher.
+    """
+    if not uid:
+        return None
+    for m in sorted(MODES, key=len, reverse=True):
+        if str(uid).endswith("_" + m):
+            return m
+    return None
+
+
 def unit_label(uid):
     """Vast instance label. PURE. Vast caps labels at 60 chars and we match label->unit by re-deriving,
     never by parsing back — the protfep lane lost a reap to a lossy label that could not round-trip.
@@ -3136,6 +3152,9 @@ def collect(bucket=None, prefix=None, autostop=True):
     # look like a leg that does not exist, which is the same "silent hold" failure §6 prohibits for a fleet.
     try:
         _rows = []
+        # Units this pass has established have NO host and are NOT done. Populated by the two branches that
+        # already make that judgement, so the repair dispatch below and the board answer from one fact.
+        _hostless_units = set()
         for _b in _board_rows:
           # ⚠ PER-ROW, NOT PER-TABLE. On 2026-07-29 a single row that could not explain its own
           # STALLED state raised, and the table-level `except` below swallowed EVERY row — so the
@@ -3231,7 +3250,9 @@ def collect(bucket=None, prefix=None, autostop=True):
                   # distinguishes the two cases in the `why` it writes; the board must not flatten them.
                   _done_reason = "done" in str(_destroyed.get("why") or "").lower()
                   _next = ("nothing further is owed — this leg is FINISHED"
-                           if _done_reason else "the next gate tick re-places it")
+                           if _done_reason else "this pass dispatches the gate to re-place it")
+                  if not _done_reason and _b.get("uid"):
+                      _hostless_units.add(_b["uid"])
                   _state, _swhy = ifb.state_of(
                       False, False, 0, False,
                       why_not_running="host DESTROYED this pass (%s) — billing stopped, $0 further; "
@@ -3282,7 +3303,13 @@ def collect(bucket=None, prefix=None, autostop=True):
                                            % (_inst_unreadable, _ph or "none", _it)
                                            if _inst_unreadable else
                                            "no live host — checkpoint at %s/%s is intact in S3; "
-                                           "the next gate tick re-places it" % (_ph or "none", _it)))
+                                           "this pass dispatches the gate to re-place it"
+                                           % (_ph or "none", _it)))
+                # ⚠ ONLY when the instance list READ. If it did not, every enabled unit lands in this set
+                # and auto-replacement would rent a second host for legs that already have one — the 4:04 PM
+                # failure turned into a spend. Unreadable means UNKNOWN, and UNKNOWN never buys.
+                if _inst_unreadable is None:
+                    _hostless_units.add(_uid)
                 _rows.append({"name": ifb.short_name(_uid), "pct": ifb.pct_complete(_ph, _it, _tg),
                               "eta_s": None, "usd_per_ns": None, "state": _st, "why": _w})
         except Exception as _e:  # noqa: BLE001
@@ -3292,6 +3319,32 @@ def collect(bucket=None, prefix=None, autostop=True):
         print("---- TVAST-BOARD ----")
         print(ifb.render(_rows), end="")
         print("---- END TVAST-BOARD ----")
+
+        # ★★ DETECTION AND REPAIR IN THE SAME RUN (2026-07-30). Every no-host row above ends with "the next
+        # gate tick re-places it" — and that sentence WAS the gap. `collect` is what notices a host died;
+        # the gate is what buys a new one; they were different workflow runs, so the floor on recovery time
+        # was one tick even when the board was healthy and the money was authorised. Measured that
+        # lunchtime: the T3 ternary leg took two capacity refusals in a row and sat NO HOST for ~20 minutes
+        # across three separate runs, and each repair attempt had to be hand-dispatched to be prompt.
+        # Refusals are ROUTINE on Vast (§6: pick another host, never queue), so a recovery path that costs a
+        # tick per refusal is a recovery path that does not work unattended — which is the whole point of it.
+        #
+        # So the pass that detects the gap NAMES it, in a file the workflow reads, and the workflow
+        # self-dispatches the matching gate immediately. This does NOT decide to buy anything: the gate it
+        # wakes still prices the board, still applies the rung ceiling and the $/ns buy line, and still
+        # HOLDS if the market is bad. It only removes the waiting.
+        _needs = sorted({_mode_of_unit(_u) for _u in _hostless_units if _mode_of_unit(_u)})
+        if _needs:
+            print(f"[replace] {len(_hostless_units)} unit(s) have no host and are not done: "
+                  f"{', '.join(sorted(_hostless_units))} -> gate mode(s) {', '.join(_needs)}")
+            try:
+                with open(os.environ.get("TVAST_REPLACE_FILE") or "/tmp/tvast-needs-replacement.txt",
+                          "w") as _fh:
+                    _fh.write("\n".join(_needs) + "\n")
+            except Exception as _e:  # noqa: BLE001 — a readout must never break the monitoring pass
+                print(f"[replace] could not write the marker: {type(_e).__name__}: {_e}")
+        else:
+            print("[replace] every enabled unit either has a host or is done — nothing to re-place")
     except Exception as e:  # noqa: BLE001 — the board is a READOUT; it must never break a monitoring pass
         print(f"[board] not rendered: {type(e).__name__}: {e}")
 
@@ -3617,7 +3670,8 @@ def retire_host(match, dry_run=False):
             try:
                 _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
                 print(f"  RETIRED host {i.get('id')} (machine {i.get('machine_id')}, {i.get('gpu_name')}) "
-                      f"for {uid} — checkpoint intact, the next gate tick re-places it")
+                      f"for {uid} — checkpoint intact; the next `collect` finds it hostless and dispatches "
+                      f"the gate itself")
             except Exception as e:  # noqa: BLE001
                 print(f"  failed to retire {i.get('id')}: {e}")
                 continue
@@ -3632,7 +3686,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Ternary cooperativity FEP on Vast.ai (RUNG 2b lane)")
     ap.add_argument("--retire-host", metavar="SUBSTRING",
                     help="destroy the HOST of every unit whose id contains SUBSTRING, leaving the checkpoint "
-                         "so the next gate tick re-places it. For a host measurably underperforming its own "
+                         "so the next `collect` detects it hostless and dispatches the gate. For a host "
+                         "measurably underperforming its own "
                          "card class — see `retire_host` for the case that motivated it.")
     ap.add_argument("--mode", choices=sorted(MODES), default=os.environ.get("TVAST_MODE") or "probe")
     ap.add_argument("--timestep-fs", default=None)

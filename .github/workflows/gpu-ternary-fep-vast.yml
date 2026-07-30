@@ -1801,6 +1801,11 @@ jobs:
     if: ${{ needs.resolve.outputs.task == 'collect' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # `actions: write` is what lets this job REPAIR what it detects. Without it, collect could only write
+    # "the next gate tick re-places it" and exit — see the re-place step at the end of this job.
+    permissions:
+      contents: write
+      actions: write
     env:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1894,6 +1899,44 @@ jobs:
           done
           # A lost race is not a failure of the reap — the next collect re-derives the same answer from S3.
           echo "::warning title=REAP NOT PUSHED::the retirement could not be pushed; the next collect redoes it"
+      # ★★ REPAIR WHAT THIS PASS DETECTED, NOW — not next tick (2026-07-30).
+      # `collect` is what notices a host died; the gate is what buys a new one. They were different workflow
+      # runs, so the FLOOR on recovery was one tick even with a healthy board and money already authorised.
+      # Capacity refusals are routine on Vast (§6: pick another host, never queue), and the T3 ternary leg
+      # took two in a row at lunchtime and sat NO HOST ~20 min across three runs — each repair prompt only
+      # because a human dispatched it. A recovery path that costs a tick per refusal does not work
+      # unattended, which is the only thing it is for.
+      #
+      # ⚠ THIS DOES NOT DECIDE TO BUY. It wakes the gate; the gate re-reads the board, applies the rung's
+      # dollar ceiling AND the $/ns buy line, and HOLDS if the market is bad. Nothing here can spend past a
+      # ceiling, raise a bid, or launch a unit that already has a host — collect only names units it has
+      # established are hostless-and-not-done, and only when the Vast instance list actually READ (an
+      # unreadable list means UNKNOWN, and UNKNOWN never buys).
+      - name: Re-place any unit this pass found with no host
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eo pipefail
+          F=/tmp/tvast-needs-replacement.txt
+          if [ ! -s "$F" ]; then
+            echo "no unit needs re-placing this pass"; exit 0
+          fi
+          while read -r mode; do
+            [ -n "$mode" ] || continue
+            # mode -> the gate that owns it. An unmapped mode is NOT dispatched: waking the wrong lane's
+            # launcher is worse than waiting for a tick, and a mode nobody gates is a code change, not a
+            # runtime condition, so it must be loud rather than silently handled.
+            case "$mode" in
+              triangle|triangle_smoke) TASK=triangle-gate ;;
+              edge_reps)               TASK=market-gate ;;
+              *) echo "::warning title=NO GATE FOR MODE::'$mode' has no re-placement gate; leaving it to the tick"; continue ;;
+            esac
+            echo "::notice title=SELF-HEAL::mode=$mode -> dispatching $TASK (it still prices and may HOLD)"
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
+              -f task="$TASK" -f min_ns_per_h=28 \
+              || echo "::warning title=REPLACE DISPATCH FAILED::$TASK — the scheduled tick remains the backstop"
+          done < "$F"
+
       - name: Summary LAST
         # A CI log is read from its TAIL, so whatever a monitor needs must be the last thing printed.
         run: |
