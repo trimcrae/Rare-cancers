@@ -90,10 +90,6 @@ on:
         description: "5aks-prime: S3 prefix holding the Boltz co-fold CIFs (blank = rung5aks-cofold-v1)"
         type: string
         default: ""
-      watch_minutes:
-        description: "reps-diag: also TRACE container memory vs its limit for this many minutes (blank = skip). Must be running while a ternary leg is in setup — that trace is what separates an OOM kill from a provider stop."
-        type: string
-        default: ""
       gpu_class:
         description: "override the GPU class the lane rents (blank = rtx4090, the lane default). Sets TVAST_GPU. ⚠ SOFT ONLY, and it CANNOT force a card: with require_gpu unset this value is consulted solely by the unmeasured fallback in _select_cheapest_offer, so any benched offer on the board sends the decision back to the $/ns ranking. It failed to do exactly this job on 2026-07-29 — use `min_ns_per_h` below when the requirement is speed."
         type: string
@@ -2229,11 +2225,11 @@ jobs:
         # deliverable path it runs unconditionally). It cannot say whether that is an out-of-memory kill on
         # the ~142k-particle system or a provider-side stop — and the remedies are opposite, so this measures
         # it rather than guessing. Needs to be running WHILE a ternary leg is in setup.
-        if: ${{ github.event.inputs.watch_minutes != '' }}
+        if: ${{ vars.TVAST_WATCH_MINUTES != '' }}
         run: |
           set -eo pipefail
           python research/modalities/ternary_reps_diag.py --mode edge_reps \
-            --watch-memory "${{ github.event.inputs.watch_minutes }}" --every 20 \
+            --watch-memory "${{ vars.TVAST_WATCH_MINUTES }}" --every 20 \
             --out research/modalities/ternary-reps-memory-trace.json 2>&1 | tee /tmp/mem.txt
       - name: Commit the forensic — evidence nobody has to re-derive from a job log GitHub will expire
         run: |
