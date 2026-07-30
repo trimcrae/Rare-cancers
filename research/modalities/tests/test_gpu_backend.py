@@ -621,3 +621,46 @@ def test_the_ternary_lane_reads_the_floor_from_its_env():
         else:
             os.environ["TVAST_MIN_NS_PER_H"] = old
         importlib.reload(tv)
+
+
+# ── buying host retention on a churning leg (trimcrae, 2026-07-30) ───────────────────────────────────
+# T3 ternary lost hosts repeatedly at ~90% done: ~24-minute host lifetimes delivering ~40 iterations each,
+# against 280 iterations remaining — each cold start costing more wall-clock than the MD it bought. The bid
+# override is the documented lever ("a specific leg that genuinely cannot tolerate pauses may want to buy
+# retention"), and it must stay bounded on both sides.
+
+def test_the_bid_override_is_capped_by_the_real_ondemand_price():
+    """On Vast the charge is min(bid, on-demand), so the cap is what stops a raise running away."""
+    import importlib
+    import os
+    import gpu_backend as gb
+    old = os.environ.get("VAST_BID_FLOOR_MULT")
+    try:
+        os.environ["VAST_BID_FLOOR_MULT"] = "1.25"
+        importlib.reload(gb)
+        offer = {"min_bid": 0.200, "dph_base": 0.200}
+        assert gb._vast_bid_price(offer, ondemand_base=0.210) == pytest.approx(0.210), "must cap at on-demand"
+        assert gb._vast_bid_price(offer, ondemand_base=0.400) == pytest.approx(0.250), "1.25x under the cap"
+        # and never below the floor, whatever the cap says
+        assert gb._vast_bid_price(offer, ondemand_base=0.150) == pytest.approx(0.200)
+    finally:
+        if old is None:
+            os.environ.pop("VAST_BID_FLOOR_MULT", None)
+        else:
+            os.environ["VAST_BID_FLOOR_MULT"] = old
+        importlib.reload(gb)
+
+
+def test_unset_leaves_the_derived_tick_policy_alone():
+    import gpu_backend as gb
+    assert gb._VAST_BID_FLOOR_MULT is None, "the override must be OFF by default — it is a per-launch lever"
+
+
+def test_the_chosen_multiple_keeps_both_live_host_classes_under_the_buy_line():
+    """1.25x is the largest round multiple that does; 1.35x puts a 1.50x-basis host at 2.03x."""
+    import inflight_usd_per_ns as f
+    line, basis = f.APPROVED_USD_PER_NS, f.APPROVED_USD_PER_NS / f.drift_multiple()
+    for cur in (0.004557, 0.005119):          # T3 ternary's actual 1.34x and 1.50x rentals
+        assert cur * 1.25 <= line, "1.25x must stay under the buy line"
+        assert (0.005119 * 1.35) > line, "1.35x must NOT — pinning why 1.25 was chosen"
+        assert cur / basis < f.drift_multiple()
