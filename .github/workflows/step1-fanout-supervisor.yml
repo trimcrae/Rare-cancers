@@ -154,7 +154,27 @@ jobs:
             else
               echo "::warning title=TERNARY MARKET-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t1 | tr '\n' ' ')"
             fi
-            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=triangle-gate 2>/tmp/t2; then
+            # ★★ THE TICK CARRIES A CARD FLOOR, BECAUSE A 3090 CANNOT FINISH A CHECKPOINT INTERVAL BEFORE
+            # IT IS PREEMPTED (measured 2026-07-30). The triangle's ternary legs commit every 40 iterations
+            # and that interval is FIXED on resume — `rbfe_spot_driver` reads it from the committed .nc and
+            # overrides any request — so the only lever is s/iter. On this 146k-particle system a 3090 runs
+            # ~34 s/iter, i.e. ~23 min per interval, against host lifetimes measured at ~15-25 min. The leg
+            # therefore loses its entire interval on every preemption and the committed census never moves:
+            # `calib_hi_to_lo2__ternary_vhl` sat at production/1720 for over two hours across three hosts,
+            # and advanced on the very next cycle once it landed on a 5090.
+            #
+            # 28 ns/h is chosen to exclude that class and NOTHING ELSE. It admits RTX 5090 / 4090 / 5080 /
+            # 4080 (43.1 / 33.5 / 31.3 / 28.9 ns/h) and drops A100-PCIe and below, which are the cards whose
+            # interval exceeds a typical lifetime. A tighter floor (40, the 5090-only value used by hand
+            # earlier) narrows the board when AVAILABILITY is the binding constraint — and it was, twice
+            # this morning, when placements came back `resources_unavailable`. Wide board, fast enough
+            # cards.
+            #
+            # ⚠ WHY IT BELONGS ON THE TICK RATHER THAN A HAND DISPATCH. The agent placed this leg on a fast
+            # card by hand twice and the unmodified tick re-placed it on a 3090 both times, because the tick
+            # runs every 8 min and a hand dispatch cannot reliably win that race. A per-launch override that
+            # the automation does not carry is not a fix, it is a chore.
+            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=triangle-gate -f min_ns_per_h=28 2>/tmp/t2; then
               echo "[$(date -u '+%H:%M:%SZ')] ternary triangle-gate dispatched (tick ${n})"
             else
               echo "::warning title=TERNARY TRIANGLE-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t2 | tr '\n' ' ')"
