@@ -1038,11 +1038,20 @@ jobs:
             # FORWARD gpu_class. Without it a gate priced against one card class self-dispatches a
             # launch that buys from another — the projection and the purchase would describe
             # different markets, which is the exact mismatch the gate exists to prevent.
+            # RESOLVE the retention bid. A SCHEDULED tick passes bid_floor_mult blank, and the tick re-places a
+            # dead host within minutes — so an authorised hand dispatch carrying the override only lands if it
+            # hits the gap between a host dying and the next tick, and measured 2026-07-30 it does not: T3
+            # ternary was re-placed by auto ticks at 10:35 AM and 12:27/12:32/12:35 PM, ahead of two hand
+            # dispatches. retention_bid.py supplies the multiple for a NAMED churning leg; an explicit input
+            # always wins, and an empty or disabled list resolves to "" — byte-identical to the previous
+            # behaviour for every leg not named. It cannot cause a rental: the gate has already cleared.
+            BID="$(python3 research/modalities/retention_bid.py "${{ github.event.inputs.bid_floor_mult }}")"
+            echo "::notice title=TVAST RETENTION BID::$(python3 research/modalities/retention_bid.py "${{ github.event.inputs.bid_floor_mult }}" --explain)"
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
               -f task=triangle -f gpu_class="${{ github.event.inputs.gpu_class }}" \
               -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
               -f on_demand="${{ github.event.inputs.on_demand }}" \
-              -f bid_floor_mult="${{ github.event.inputs.bid_floor_mult }}"
+              -f bid_floor_mult="$BID"
             exit 0
           fi
           if [ "$RC" = 3 ]; then

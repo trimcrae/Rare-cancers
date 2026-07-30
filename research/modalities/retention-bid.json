@@ -1,0 +1,20 @@
+{
+  "_what": "Which SPECIFIC leg(s) a gate tick should buy host RETENTION for, and at what bid multiple.",
+  "_why": "trimcrae authorised raising the bid on the last ternary legs to stop them being interrupted, and gpu-ternary-fep-vast.yml exposes `bid_floor_mult` to do it -- but ONLY as a workflow_dispatch input. A scheduled gate tick always passes it blank, and the tick re-places a dead host within minutes, so a hand dispatch only lands if it hits the gap between a host dying and the next tick. Measured 2026-07-30: it does not. T3 ternary was re-placed by an auto tick at 10:35 AM four minutes before a hand dispatch carrying the override, and again at 12:27/12:32/12:35 PM. The authorised lever was therefore unreachable in practice on this lane. This file is how a tick can carry it.",
+  "_scope_is_the_whole_point": "PER-LEG, NEVER STANDING (the constraint the lever's author set, and this file keeps it). An entry names ONE leg by substring. A blank or disabled list changes nothing anywhere, and the lane's default bid policy is untouched for every leg not named here. This is deliberately NOT a lane-wide bid raise: a higher bid on a leg whose hosts are already holding buys nothing and costs money.",
+  "_bounded_on_both_sides": "A retention bid cannot run away. On Vast the charge is min(bid, the machine's on-demand price), so the real on-demand rate caps it; and the market gate's own $/ns ceiling still refuses anything over the buy line, so too high a multiple fails a placement on PRICE rather than overspending. Neither guard is weakened by this file.",
+  "_the_gate_still_decides": "This file only supplies a bid multiple to a launch the gate has ALREADY cleared. It cannot cause a rental, cannot raise a ceiling, and cannot make a held unit launch.",
+  "_expiry_is_mandatory": "Every entry carries `_retire_when`. A retention bid is a response to an OBSERVED churn pattern on one leg, not a permanent property of the lane -- leaving one armed after its leg lands would silently raise the price of whatever unit next matches the substring. Reviewed, never left to rot.",
+  "retention": [
+    {
+      "enabled": false,
+      "_retired": "2026-07-30, the same read that produced R. calib_hi_to_lo2__ternary_vhl LANDED -- all four triangle legs are down, R = 0.2128 (R_ternary -0.0312, R_binary -0.244), and units_needing_host is empty. Retired per this entry's own `_retire_when` rather than left armed, because the substring would otherwise silently raise the price of whatever unit next matches it. Kept rather than deleted so the authorisation and the churn measurement stay on the record, and so re-arming for a future churning leg is an edit to `enabled` rather than a rediscovery.",
+      "leg_substring": "calib_hi_to_lo2__ternary",
+      "mult": 1.25,
+      "_authorised_by": "trimcrae, 2026-07-30 -- 'raising the bid on the last two ternary legs to stop them being interrupted' (recorded in commit ec04f907, which built the lever this file aims)",
+      "_why_this_leg": "T3 ternary, the closure triangle's last outstanding leg and the one the lane has already identified as churning rather than slow. Measured 2026-07-30: host lifetimes of 110, 12, 5 and 3 minutes against a ~25-minute cold start, so the last three placements each DIED BEFORE FINISHING THEIR COLD START -- they billed and produced no MD. The leg needs ~43 minutes of actual MD (160 iterations at the lane's ~225 iter/h) and cannot get there by being re-placed at the market floor.",
+      "_why_1.25": "the largest round multiple that keeps this leg's ACTUAL observed rentals under the buy line. From T3's own rentals at 0.004557/ns (1.34x basis) and 0.005119/ns (1.50x), 1.25x lands them at 1.67x and 1.88x, both under the 1.92x line; 1.35x would put the 1.50x host at 2.03x, over. The reasoning is pinned by tests/test_gpu_backend.py, not just the number.",
+      "_retire_when": "calib_hi_to_lo2__ternary_vhl lands (its result JSON is in the commit store, or the triangle market-hold JSON lists it under units_done). Set enabled=false in the same edit that reads R."
+    }
+  ]
+}
