@@ -1,7 +1,7 @@
 {
   "_what": "Read-only forensics: does a Vast rental's CHARGED GPU rate move after rental, or is the apparent rise the storage line in `dph_total`?",
   "_fields": "allow-listed \u2014 see SAFE_FIELDS. Field NAMES are evidence; token/ssh/address VALUES are credentials and never appear here.",
-  "n_instances": 7,
+  "n_instances": 6,
   "instances": [
     {
       "record": {
@@ -17,7 +17,7 @@
         "actual_status": "exited",
         "intended_status": "stopped",
         "start_date": 1784933972.0675533,
-        "duration": 13793820.035726786,
+        "duration": 13786744.220488548,
         "dph_base": 0.09333333333333334,
         "dph_total": 0.16555555555555557,
         "storage_cost": 0.8666666666666666,
@@ -65,7 +65,7 @@
         "actual_status": "exited",
         "intended_status": "stopped",
         "start_date": 1785164353.6082404,
-        "duration": 2726480.0357267857,
+        "duration": 2719404.2204885483,
         "dph_base": 0.408,
         "dph_total": 0.4213333333333333,
         "storage_cost": 0.23999999999999996,
@@ -110,10 +110,10 @@
         "disk_space": 40.0,
         "is_bid": true,
         "cur_state": "stopped",
-        "actual_status": "offline",
+        "actual_status": "created",
         "intended_status": "stopped",
         "start_date": 1785165245.6545324,
-        "duration": 2756934.0357267857,
+        "duration": 2749858.2204885483,
         "dph_base": 0.136,
         "dph_total": 0.1471111111111111,
         "storage_cost": 0.19999999999999998,
@@ -156,18 +156,18 @@
         "gpu_frac": 1.0,
         "disk_space": 40.0,
         "is_bid": true,
-        "cur_state": "running",
-        "actual_status": "running",
-        "intended_status": "running",
+        "cur_state": "stopped",
+        "actual_status": "exited",
+        "intended_status": "stopped",
         "start_date": 1785165307.9670093,
-        "duration": 5004500.035726786,
+        "duration": 4997424.220488548,
         "dph_base": 0.46920000000000006,
         "dph_total": 0.4912296296296297,
         "storage_cost": 0.39653333333333335,
         "storage_total_cost": 0.02202962962962963,
         "inet_up_cost": 0.005333333333333333,
         "inet_down_cost": 0.004,
-        "min_bid": 0.8226667,
+        "min_bid": 0.992,
         "gpu_util": 0.0
       },
       "moved": null,
@@ -183,7 +183,7 @@
         "residual_usd_h": 0.0,
         "explained": true
       },
-      "live_min_bid_usd_h": 0.8226667,
+      "live_min_bid_usd_h": 0.992,
       "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
       "offer_vs_instance": {
         "offer_dph_total_usd_h": null,
@@ -208,7 +208,7 @@
         "actual_status": "exited",
         "intended_status": "stopped",
         "start_date": 1785165369.3737426,
-        "duration": 2154202.0357267857,
+        "duration": 2147126.2204885483,
         "dph_base": 0.204,
         "dph_total": 0.2151111111111111,
         "storage_cost": 0.19999999999999998,
@@ -256,7 +256,7 @@
         "actual_status": "running",
         "intended_status": "running",
         "start_date": 1785165431.9851034,
-        "duration": 13305774.035726786,
+        "duration": 13298698.220488548,
         "dph_base": 0.23120000000000002,
         "dph_total": 0.26823703703703705,
         "storage_cost": 0.6666666666666666,
@@ -289,55 +289,7 @@
         "instance_disk_line_usd_h": 0.037037037037037035,
         "instance_disk_gb": 40.0
       }
-    },
-    {
-      "record": {
-        "id": 46303850,
-        "machine_id": 33657,
-        "label": "tvast-calib-hi-to-lo2--ternary-vhl-r0-dt2p0fs-wu1p0-triangle",
-        "gpu_name": "RTX 4080S",
-        "num_gpus": 1,
-        "gpu_frac": 0.5,
-        "disk_space": 60.0,
-        "is_bid": true,
-        "cur_state": "running",
-        "actual_status": "running",
-        "intended_status": "running",
-        "start_date": 1785430062.197168,
-        "duration": 7743695.035726786,
-        "dph_base": 0.1292,
-        "dph_total": 0.14586666666666667,
-        "storage_cost": 0.19999999999999998,
-        "storage_total_cost": 0.016666666666666663,
-        "inet_up_cost": 0.00390625,
-        "inet_down_cost": 0.00390625,
-        "min_bid": 0.1458667,
-        "gpu_util": 0.0
-      },
-      "moved": null,
-      "instance": 46303850,
-      "machine_id": 33657,
-      "is_bid": true,
-      "ledger_bid_usd_h": null,
-      "lines": {
-        "gpu_usd_h": 0.1292,
-        "storage_usd_h": 0.016666666666666663,
-        "all_in_usd_h": 0.14586666666666667,
-        "inet_usd_h_not_in_total": 0.0078125,
-        "residual_usd_h": 0.0,
-        "explained": true
-      },
-      "live_min_bid_usd_h": 0.1458667,
-      "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
-      "offer_vs_instance": {
-        "offer_dph_total_usd_h": null,
-        "offer_min_bid_usd_h": null,
-        "bid_usd_h": null,
-        "instance_dph_total_usd_h": 0.14586666666666667,
-        "instance_disk_line_usd_h": 0.016666666666666663,
-        "instance_disk_gb": 60.0
-      }
     }
   ],
-  "summary": "0 of 0 gradeable live rental(s) show a GPU line differing from the bid agreed at rental (7 of 7 carry no recorded bid and cannot be graded). No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` (market floor + the disk line the search priced) \u2014 two different quantities, not a price move."
+  "summary": "0 of 0 gradeable live rental(s) show a GPU line differing from the bid agreed at rental (6 of 6 carry no recorded bid and cannot be graded). No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` (market floor + the disk line the search priced) \u2014 two different quantities, not a price move."
 }
