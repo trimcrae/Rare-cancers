@@ -62,6 +62,10 @@ def test_the_workflow_maps_every_mode_the_gates_actually_own():
     assert "edge_reps)               TASK=market-gate" in step
     assert "NO GATE FOR MODE" in step, "an unmapped mode must be loud"
     assert "min_ns_per_h=28" in step, "the card floor must ride along, or the repair re-places on a slow card"
+    # A re-placement is by definition a leg whose last host did not survive — the one case _vast_bid_price
+    # documents the escape hatch for. Safe because the charge is min(bid, on-demand) AND the gate still
+    # refuses anything over the buy line, so a raised bid lands under the line or is declined on price.
+    assert "bid_floor_mult=2.0" in step, "a re-placement must buy retention, not re-buy the same eviction"
 
 
 def test_the_collect_job_can_actually_dispatch():

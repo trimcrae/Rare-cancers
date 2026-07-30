@@ -1931,9 +1931,18 @@ jobs:
               edge_reps)               TASK=market-gate ;;
               *) echo "::warning title=NO GATE FOR MODE::'$mode' has no re-placement gate; leaving it to the tick"; continue ;;
             esac
+            # ★ BUY RETENTION ON A RE-PLACEMENT (trimcrae authorised raising the bid on these last legs).
+            # A re-placement is BY DEFINITION a leg whose previous host did not survive, so it is exactly the
+            # "specific leg that genuinely cannot tolerate pauses" that `_vast_bid_price` documents
+            # VAST_BID_FLOOR_MULT for. On Vast the cheapest bids in the interruptible tier are evicted first,
+            # and the charge is min(bid, the machine's real on-demand price) — so this cannot run away, and
+            # the gate's own $/ns ceiling still REFUSES anything over the $0.006539/ns buy line. A raised bid
+            # therefore either lands under the line or is declined on price; it can never overspend.
+            # ⚠ Deliberately NOT applied to a first placement: a higher bid on a leg that has never been
+            # interrupted buys nothing and costs money (§6).
             echo "::notice title=SELF-HEAL::mode=$mode -> dispatching $TASK (it still prices and may HOLD)"
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
-              -f task="$TASK" -f min_ns_per_h=28 \
+              -f task="$TASK" -f min_ns_per_h=28 -f bid_floor_mult=2.0 \
               || echo "::warning title=REPLACE DISPATCH FAILED::$TASK — the scheduled tick remains the backstop"
           done < "$F"
 
