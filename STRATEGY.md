@@ -265,6 +265,29 @@ valB_mini's **1.478 kcal/mol** miss, and the two outcomes point in opposite dire
 mapping.)* `closure_decomposition` splits `R_coop = R_ternary − R_binary` and its own rule is to report both,
 never `R_coop` alone.
 
+**★ AND `R_ternary` NOW DECIDES A SECOND THING — whether the parked RUNG 5a-KS resume is worth buying at all.**
+`S` is a two-leg difference inside the **ternary** environment, so it inherits that environment's
+non-conservative error; `R_ternary` is the only measurement in the program that bounds it. The arithmetic, the
+three branches (**ADMIT / HOLD / STOP\_AND\_REDRAW**) and the thresholds are **pre-registered before `R` landed**
+and live once, in
+[`valb_failure_propagation.s_resolvability_from_R_ternary`](research/modalities/valb_failure_propagation.py) →
+[`valb-failure-propagation.json`](research/modalities/valb-failure-propagation.json) — do not restate them here.
+Two properties of that rule that must survive being quoted: a large `R_ternary` at n=1 buys a **hold and a
+second draw, never a kill** (`closure_noise_floor`'s own asymmetry — one draw cannot convict), and an ADMIT
+bounds the **non-conservative** error class *only*, because closure is blind to per-endpoint state functions.
+
+**⚠ AND THE POWER TO READ `R` AT ALL IS NOW MEASURED RATHER THAN UNKNOWN.** `closure_noise_floor` was written
+saying `sigma_leg` is unknown to a factor of **15.6** and that *"nothing in this lane has measured it"* — the
+n=3 replicates did. Converting the landed cycle SD through the design's own SD relation bounds `sigma_leg`
+**above**, which excludes the range where the triangle was hopeless but leaves its power **mediocre rather than
+comfortable** at the worst case. Derived, never typed: `valb_failure_propagation.sigma_leg_now_bounded` /
+`power_at_measured_bound`. ⚠ **One consequence needs a $0 decision from trimcrae, and it is deliberately NOT
+taken here:** `binary_departure_prereg` demotes a null closure to `UNDERPOWERED` on a hand-set `sigma_leg > 0.2`
+proxy that the measured bound now trips — so as frozen, **a null `R` reports UNDERPOWERED and the diagnostic we
+have already paid for answers nothing.** Amending a preregistered rule after a failing result is the retune this
+program forbids, so the discrepancy is *recorded* (before `R` landed) and routed the same way as the
+admits-zero gate defect — see [§Open decisions](#open-decisions).
+
 **Committed if both billing lanes complete: ~$43** (fan-out ~$36 + valB replicates ~$7.32), against the
 lane bands quoted in the rung entries below. Every figure in this column is either the LADDER's, quoted from
 those entries, or the REALISED figure derived in
@@ -2118,6 +2141,20 @@ dollar ceiling.
 6. **`[ ]` OPEN — route the admits-zero gate defect for approval.** The frozen gate accepts a method that
    predicts no cooperativity change (22 % vs 23 %). Amending a preregistered rule after a failing result needs an
    explicit, dated, reviewer-approved defect-fix. $0.
+7. **`[ ]` OPEN — route the `UNDERPOWERED` proxy for the same treatment. $0, and it decides whether an
+   already-bought diagnostic reports anything.** `binary_departure_prereg` demotes a null closure to
+   `UNDERPOWERED` whenever `sigma_leg > 0.2` — a threshold hand-set when `sigma_leg` was unknown to a factor of
+   15.6, i.e. a *proxy for "the power is too low to read a null"* chosen because the power itself was not
+   computable. It is computable now (open decision's evidence:
+   [`valb_failure_propagation.frozen_rule_vs_measured_power`](research/modalities/valb_failure_propagation.py)),
+   the measured bound trips the proxy, and the power it stands in for is **mediocre rather than absent** — so
+   the proxy is not clearly *wrong*, but a binary flag is deciding something a number could report.
+   **Proposed fix:** report the computed power beside the verdict instead of the fire/don't-fire flag.
+   **Same standard as item 6 applies and is why nothing was changed:** a rule may be amended only if its
+   statistic is shown to lack discriminating power, demonstrated independently of whether we like its answer —
+   which is why this was written down **before `R` landed** rather than after. **Honest residual, stated so the
+   fix is not oversold:** even amended, a null `R` at the worst case in the bounded interval is not strong
+   evidence; the triangle can ADMIT the cycle more confidently than it can convict it.
 
 ---
 

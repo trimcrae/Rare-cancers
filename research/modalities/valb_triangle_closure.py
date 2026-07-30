@@ -249,7 +249,15 @@ def closure_noise_floor(sigma_leg_values=(0.045, 0.2, 0.5, 0.7), trials=40000, s
                              "upper_repo_assumed_replicate_SD": 0.7,
                              "note": "the replicate SD upper bound includes homology-model sensitivity (seed s "
                                      "-> model s%n). A same-seed triangle removes that term, so the true value "
-                                     "sits below 0.7 -- but nothing in this lane has measured it."},
+                                     "sits below 0.7 -- but nothing in this lane has measured it.",
+                             "SUPERSEDED_2026_07_30": "the trailing clause of `note` is no longer true and is "
+                                     "kept only because the 0.7 figure it explains is still the value this "
+                                     "function is called with by default. The valB_mini n=3 replicates "
+                                     "MEASURED the spread, and converting it through this function's own "
+                                     "SD relation bounds sigma_leg well below 0.7. The bound, the two reasons "
+                                     "it is an UPPER bound, and the re-graded power are derived in "
+                                     "valb_failure_propagation.sigma_leg_now_bounded (not imported here -- "
+                                     "that module imports this one, and the dependency must not reverse)."},
         "rows": rows,
         "_asymmetry": "A SMALL |R| is strong evidence (it bounds the path error AND the noise at once, since "
                       "both would have to be small). A LARGE |R| at n=1 is AMBIGUOUS -- one draw cannot "
