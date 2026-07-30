@@ -65,10 +65,26 @@ CANDIDATES = [
 
 
 def _post(url, payload, timeout=60):
+    """POST, and on an HTTP error RAISE WITH THE SERVER'S OWN MESSAGE ATTACHED.
+
+    A bare `HTTPError: 400 Bad Request` says only that the query was rejected, not what was wrong with it —
+    and the first CI attempt at this survey died exactly that way, which turns a $0 run into a guess. RCSB
+    returns a JSON body naming the offending field; reading it makes the next attempt evidence-driven instead
+    of another guess (CLAUDE.md §4)."""
     req = urllib.request.Request(url, data=json.dumps(payload).encode(),
                                  headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=timeout) as fh:
-        return json.load(fh)
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as fh:
+            return json.load(fh)
+    except urllib.error.HTTPError as e:
+        if e.code == 204:
+            raise
+        try:
+            body = e.read().decode()[:600]
+        except Exception:
+            body = "<no body>"
+        raise urllib.error.HTTPError(e.url, e.code, "%s :: RCSB said: %s" % (e.reason, body),
+                                     e.headers, None) from None
 
 
 def _get(url, timeout=60):
@@ -76,23 +92,48 @@ def _get(url, timeout=60):
         return json.load(fh)
 
 
-def search_by_gene(gene, limit=50):
-    """PDB entry IDs whose polymer entities carry this gene name. IDs come from RCSB, never from memory."""
-    q = {
+# Candidate attribute paths for "gene name", most-likely first. RCSB has moved this field between schema
+# sections, and the first CI attempt was rejected with a bare 400 — so rather than guess once per run, the
+# survey TRIES each and records which one the server actually accepts. `_GENE_ATTR_USED` is that record.
+GENE_ATTRS = [
+    "rcsb_entity_source_organism.rcsb_gene_name.value",
+    "rcsb_polymer_entity.rcsb_gene_name.value",
+    "rcsb_gene_name.value",
+]
+_GENE_ATTR_USED = {"attribute": None, "errors": {}}
+
+
+def _gene_query(attr, gene, limit):
+    return {
         "query": {"type": "terminal", "service": "text",
-                  "parameters": {"attribute": "rcsb_polymer_entity.rcsb_gene_name.value",
-                                 "operator": "exact_match", "value": gene}},
+                  "parameters": {"attribute": attr, "operator": "exact_match", "value": gene}},
         "return_type": "entry",
         "request_options": {"paginate": {"start": 0, "rows": limit},
                             "results_content_type": ["experimental"]},
     }
-    try:
-        r = _post(SEARCH, q)
-    except urllib.error.HTTPError as e:
-        if e.code == 204:                      # RCSB returns 204 for "no hits"
-            return []
-        raise
-    return [h["identifier"] for h in r.get("result_set", [])]
+
+
+def search_by_gene(gene, limit=50):
+    """PDB entry IDs carrying this gene name. IDs come from RCSB, never from memory.
+
+    Once one attribute path is known to work it is reused for every later call, so the probing costs at most
+    one extra request for the whole survey rather than one per gene."""
+    attrs = [_GENE_ATTR_USED["attribute"]] if _GENE_ATTR_USED["attribute"] else GENE_ATTRS
+    last = None
+    for attr in attrs:
+        try:
+            r = _post(SEARCH, _gene_query(attr, gene, limit))
+        except urllib.error.HTTPError as e:
+            if e.code == 204:                  # RCSB returns 204 for "no hits" — a VALID attribute, zero hits
+                _GENE_ATTR_USED["attribute"] = attr
+                return []
+            _GENE_ATTR_USED["errors"][attr] = "%s %s" % (e.code, e.reason)
+            last = e
+            continue
+        _GENE_ATTR_USED["attribute"] = attr
+        return [h["identifier"] for h in r.get("result_set", [])]
+    raise RuntimeError("no RCSB gene-name attribute was accepted; server replies: %s (last: %s)"
+                       % (_GENE_ATTR_USED["errors"], last))
 
 
 def entry_genes_and_resolution(pdb_id):
@@ -172,6 +213,8 @@ def survey(candidates=None):
         "_does_not_supply_selectivity": True,
         "_binding_constraint_from_decision_7": ("no accuracy band wider than the signal being calibrated; "
                                                 "state the null-rejection rate up front"),
+        "rcsb_gene_attribute_accepted": _GENE_ATTR_USED["attribute"],
+        "rcsb_gene_attributes_rejected": _GENE_ATTR_USED["errors"],
         "e3_markers_used": sorted(E3_MARKERS),
         "candidates": rows,
         "n_symmetric": sum(1 for r in rows if r["ternary_structure_on_BOTH_arms"]),
