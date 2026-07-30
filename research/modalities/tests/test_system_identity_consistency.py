@@ -85,7 +85,27 @@ def main():
     chk("it names the particle count", "n_particles" in v["note"], True)
     chk("it names the setup version", "setup_cache_version" in v["note"], True)
     chk("it records both particle counts",
-        sorted(v["fields"]["n_particles"]["values"]), ["141968", "146020"])
+        sorted(v["fields"]["n_particles"]["by_leg"]["a"]), ["141968", "146020"])
+
+    # ── the comparison that was meaningless BY CONSTRUCTION (2026-07-30, 3:07 AM ET) ──────────────
+    # The check used to pool every leg into one bucket, so a ΔΔG_coop cycle's TERNARY arm (~144k
+    # particles) was compared against its BINARY arm (~90k). Those differ because a ternary complex
+    # carries the E3 — the guard could never return CONSISTENT for the cycle it guards, and fired on
+    # every healthy run. Values below are the live valB_mini reduction.
+    v = run_case({"leg_calib__ternary_vhl_fwd_r1.json": leg(144447),
+                  "leg_calib__binary_vhl_fwd_r1.json": leg(90324)})
+    chk("ternary vs binary arm is NOT an inconsistency", v["verdict"], "CONSISTENT")
+
+    # ...but a leg disagreeing with ITSELF across seeds still is — this is the live cycle's real finding.
+    v = run_case({"leg_calib__ternary_vhl_fwd_r1.json": leg(144447),
+                  "leg_calib__ternary_vhl_fwd_r2.json": leg(141740)})
+    chk("one arm disagreeing across seeds IS an inconsistency", v["verdict"], "INCONSISTENT")
+
+    # ⚠ DIRECTION MUST STAY INSIDE THE GROUP. Grouping on the seed alone would split fwd from rev and
+    # blind the check to its own founding case, which was a v1 REVERSE leg against a v2pe FORWARD leg.
+    v = run_case({"leg_calib__ternary_vhl_fwd_r0.json": leg(141968, setup="v2pe"),
+                  "leg_calib__ternary_vhl_rev_r0.json": leg(146020, setup="v1")})
+    chk("fwd vs rev of one arm is still compared", v["verdict"], "INCONSISTENT")
 
     # the atom-set-preserving case OpenFE structurally cannot see
     v = run_case({"leg_a_fwd_r0.json": leg(charge="nagl"), "leg_a_rev_r0.json": leg(charge="am1bcc")})
