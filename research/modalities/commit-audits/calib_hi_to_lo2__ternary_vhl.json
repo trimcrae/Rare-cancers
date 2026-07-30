@@ -17,17 +17,15 @@
   "PREEQUIL_NS": "0.5",
   "PROD_CKPT_ITERS": "40",
   "PYTHONUNBUFFERED": "1",
+  "RBFE_CONSTRAIN_LIGAND_CH": "0",
   "RBFE_LOMAP_TIME_S": "300",
   "RBFE_MAP_ASSERT": "1",
   "RBFE_MIN_STEPS": "5000",
   "RBFE_POSITIONS_WRITE_PS": "50",
-  "RBFE_PROD_ITERS": "",
   "RBFE_REQUIRE_PRIMED_SETUP": "0",
   "RBFE_SETUP_CACHE_S3": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache",
   "RBFE_STRICT_PROVENANCE": "1",
   "RBFE_TIMESTEP_FS": "2.0",
-  "RBFE_VELOCITIES_WRITE_PS": "",
-  "RBFE_WARMUP_ITERS": "",
   "RBFE_WARMUP_TIMESTEP_FS": "1.0",
   "RESULT_S3": "s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
   "SEED": "0",
@@ -40,7 +38,10 @@
   "VAST_IMAGE_TAG": "docker.io/triskit23/ternary-fep:latest",
   "WARMUP_CKPT_ITERS": "64"
  },
- "restorable": {},
+ "restorable": {
+  "production": 1800,
+  "warmup": 768
+ },
  "rows": [
   {
    "generation": "8ddea7105e1d4025b80c60a6ba4e9e94",
@@ -51,8 +52,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "fa5da1ebb05f463bae1291c28ae327a5",
@@ -73,8 +74,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "16fc2de1ccca4d848615f144eb50b211",
@@ -85,8 +86,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "fa96ca32d6374b87a810ba1ac3742b71",
@@ -97,8 +98,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "89bde81e4a1149b8b47911c0b9286567",
@@ -109,8 +110,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "abe7e9a1959e4d0a995f6aee04edef90",
@@ -121,8 +122,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "9a5dc8f82b0a4fbb8b623ac8bca8fbb7",
@@ -133,8 +134,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "eaeb0cf0efc94c7a9fc6d9234719e4bd",
@@ -145,8 +146,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "d897e06bbc694dac996a1ec423642f78",
@@ -157,8 +158,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "1d9bb7334c514a7b83fcaf86e6911bf3",
@@ -169,8 +170,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "fffc748fe21442fe93836667d1dc788b",
@@ -181,8 +182,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "2f49b979fca84f26b97afcfe2639c48e",
@@ -193,8 +194,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "f14d4dc4ac094631817783edbe0c0a82",
@@ -205,8 +206,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "e1707aec103542d88adf6763cba39593",
@@ -217,8 +218,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "77710c5ee81249289c957ece27d6ce39",
@@ -229,8 +230,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "5bc5ed10fc8b4f0a8dd3989c0219f39c",
@@ -241,8 +242,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "77936f0b33714d93addb582d31e17628",
@@ -253,8 +254,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "da82666db7774f90bd59db51a91fa421",
@@ -265,8 +266,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "8a4b19be4d62409bb7d8ac08ac8673e6",
@@ -277,8 +278,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "bb75fda5e5024560a7fc08229a5e765a",
@@ -289,8 +290,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "a0feafd46a014bbcb5c1bbd5628880bb",
@@ -301,8 +302,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "8586e1aac1c64784b826c96856e884aa",
@@ -313,8 +314,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "bb70bae84f654f5d84009bc2b5a01046",
@@ -325,8 +326,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "087f8ba444c64f41abce1f1a807d1ded",
@@ -337,8 +338,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "3b1656a16e3a4e73a1dc04be00e0e793",
@@ -349,8 +350,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "4a0399f30cd34b6f96aa245685a07971",
@@ -361,8 +362,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "079b2ad12f3747b3b9ed877b16ba6ea5",
@@ -373,8 +374,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "40e46c282cec40e1849d37ce489deee4",
@@ -385,8 +386,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "4e1ab2a8a1e64086a4174524aa20e8d9",
@@ -397,8 +398,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "fd9e7efe056341d7b09e97d22a2e71fa",
@@ -409,8 +410,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "087f5e45887e47d5bb8509b2da66efb0",
@@ -421,8 +422,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "509dbb2860e24111948f874e6a7d6323",
@@ -433,8 +434,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "bb83e9dd7e264b4fb71a6ce86feef4ce",
@@ -445,8 +446,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "29deb2aaf48e4a659fceb9ea1d13893b",
@@ -457,8 +458,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "549fbcb793a14da4b5ca4ea6000a155b",
@@ -469,8 +470,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "01bdce096a0a46d096ec72d3295d08a3",
@@ -481,8 +482,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "9de4537fc17e4916917fd4d1c520ce82",
@@ -493,8 +494,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "72b0cd85f9a44cf5a5b5b0711eb306d1",
@@ -505,8 +506,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "8263dbea404d45908a836c8e683a3319",
@@ -517,8 +518,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "628248972c6045998dd707c04d624ed9",
@@ -529,8 +530,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "117e8fbdbc7440deaf963b121f2436f3",
@@ -541,8 +542,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "8e0b00134ee24ee6bfc1f52c2d3b1ed5",
@@ -553,8 +554,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "d36772ace8104463928b399135cc2628",
@@ -565,8 +566,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "b5d081584dbb4ab4af0d1209e3704477",
@@ -577,8 +578,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "6a94ebd8544843e38b58701c8c2d3d39",
@@ -589,8 +590,8 @@
     "simulation.nc"
    ],
    "phase": "production",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "804cea1c1a95466fac0ac51911923c4f",
@@ -601,8 +602,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "2b4332bd9d7046c398667d60889a97c9",
@@ -613,8 +614,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "c101c97d1633401b95fa7cbf98095e1d",
@@ -625,8 +626,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "2c70a8a5ede64f538f15649ba10e227c",
@@ -637,8 +638,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "2e91f013983041a5975996269b91e876",
@@ -649,8 +650,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "2010fab8969a4b90906fa0fd4be10840",
@@ -661,8 +662,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "9b9d6024c98f45e0a9a50d65acfe1e78",
@@ -673,8 +674,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "d92f5f380680461094ceae2dc0b0e780",
@@ -685,8 +686,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "9c64dd7496b74c0aa2babdd17ac77841",
@@ -697,8 +698,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "6239e88837a34a71b196a5d227d5204a",
@@ -709,8 +710,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "d2851acf4a26454baf70acacbfdf04c9",
@@ -721,8 +722,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   },
   {
    "generation": "2faeaec82f3c4776ba34bf9eaaadd210",
@@ -733,8 +734,8 @@
     "equilibration.nc"
    ],
    "phase": "warmup",
-   "verdict": "fingerprint-rejected",
-   "why": "restore_latest would reject it: system fingerprint MISMATCH (committed=3c8c003aa598dd53 running=009ddffbb73b97c0) -- this generation was produced by a different configuration, so restoring it would report one calculation's sampling as another's. Differing: RBFE_CONSTRAIN_LIGAND_CH: committed='0' running=''"
+   "verdict": "restorable",
+   "why": "manifest present and the fingerprint matches this configuration"
   }
  ],
  "unit": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
