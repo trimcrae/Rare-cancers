@@ -8,7 +8,7 @@ Generated 12:31 AM ET Thu Jul 30, 2026 by `task=collect`.
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T2 ternary           53.8%  6:21 AM          $0.00512/ns · 1.50× basis  RUNNING   
+T2 ternary           53.8%  6:21 AM          $0.00512/ns · 1.50× basis  STARTING  WATCHING — quiet but alive: run.log 1 min old, GPU idle, no committed advance — consistent with a CPU-bound setup phase
 valB r1 ternary      93.3%  2:38 AM          $0.00356/ns · 1.04× basis  RUNNING   
 T3 ternary               —  —                $0.00456/ns · 1.34× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 valB r2 ternary      98.9%  —                —                          NO HOST   no live host — checkpoint at production/1960 is intact in S3; the next gate tick re-places it
