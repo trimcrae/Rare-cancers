@@ -2,12 +2,12 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 12:59 PM ET Thu Jul 30, 2026 by `task=collect`.
+Generated 1:08 PM ET Thu Jul 30, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-T3 ternary               —  —                $0.00505/ns · 1.48× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+T3 ternary               —  —                $0.00505/ns · 1.48× basis  NO HOST   host DESTROYED this pass (idle guard: WEDGED — run.log last written 20 min ago (>= 15) with no committed progress — the host has lost its write path, so it cannot checkpoint and nothing it is doing can be recovered) — billing stopped, $0 further; checkpoint at production/1840 is intact in S3 and this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
