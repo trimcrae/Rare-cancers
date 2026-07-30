@@ -1,8 +1,8 @@
 {
   "_what": "measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own leg.json timing block. The one home for `ternary_vast_launch.arm_iteration_rates()`; regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`.",
   "_never_pool": "across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625) or across phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up)",
-  "generated_utc": "2026-07-29T15:46:57Z",
-  "n_leg_records": 8,
+  "generated_utc": "2026-07-30T02:23:43Z",
+  "n_leg_records": 9,
   "rates": {
     "2.0": {
       "ternary": {
@@ -68,9 +68,9 @@
         }
       },
       "ternary": {
-        "s_per_iter": 16.6,
+        "s_per_iter": 14.65,
         "source_phase": "production",
-        "n_legs": 3,
+        "n_legs": 4,
         "spread_s_per_iter": [
           7.9,
           17.0
@@ -78,22 +78,25 @@
         "units": [
           "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
           "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
-          "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe"
+          "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
+          "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
         ],
         "gpus": [
-          "NVIDIA GeForce RTX 4090"
+          "NVIDIA GeForce RTX 4090",
+          "NVIDIA GeForce RTX 5090"
         ],
         "by_gpu": {
-          "NVIDIA GeForce RTX 4090": 16.6
+          "NVIDIA GeForce RTX 4090": 16.6,
+          "NVIDIA GeForce RTX 5090": 12.7
         }
       }
     }
   },
   "phase_cross_check": {
-    "n": 5,
-    "median_warmup_over_production": 0.765,
+    "n": 6,
+    "median_warmup_over_production": 0.757,
     "range": [
-      0.734,
+      0.693,
       1.013
     ],
     "per_unit": {
@@ -101,7 +104,8 @@
       "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke": 0.993,
       "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps": 0.75,
       "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps": 0.734,
-      "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge": 0.765
+      "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge": 0.765,
+      "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps": 0.693
     },
     "_reading": "<= 1 means a production median OVERSTATES the seconds a warmup iteration costs, so deriving the interval from production is conservative \u2014 it buys a FINER cadence than strictly needed, erring toward less work at risk"
   },
@@ -233,6 +237,22 @@
       "production_median_s_per_iter": 16.6,
       "production_n": 1,
       "recorded_utc": "2026-07-25T22:07:08Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "arm": "ternary",
+      "mode": "edge_reps",
+      "status": "failed",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "n_particles": null,
+      "warmup_median_s_per_iter": 8.8,
+      "warmup_n": 3,
+      "production_median_s_per_iter": 12.7,
+      "production_n": 44,
+      "recorded_utc": "2026-07-30T02:05:18Z"
     }
   ]
 }
