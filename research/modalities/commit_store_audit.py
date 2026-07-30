@@ -29,6 +29,7 @@ import argparse
 import json
 import re
 import sys
+from pathlib import Path
 
 MANIFEST = "COMMITTED.json"
 
@@ -37,6 +38,39 @@ NO_MANIFEST = "no-manifest"
 BAD_MANIFEST = "unreadable-manifest"
 FINGERPRINT = "fingerprint-rejected"
 RESTORABLE = "restorable"
+
+
+_ENTRY_DEFAULT_RE = re.compile(r'^\s*export\s+([A-Z_0-9]+)="?\$\{\1:-([^}"]*)\}"?\s*$', re.M)
+
+
+def entrypoint_defaults(script_text):
+    """{VAR: default} for every `export VAR="${VAR:-default}"` in the leg entry script. PURE.
+
+    ★ THE HOST'S ENV IS NOT THE JOBSPEC'S ENV, AND THE DIFFERENCE IS NOT COSMETIC (measured
+    2026-07-30). `system_fingerprint_fields` renders an ABSENT variable as `''`, and `run_ternary_leg.sh`
+    exports `RBFE_CONSTRAIN_LIGAND_CH="${RBFE_CONSTRAIN_LIGAND_CH:-0}"` — so the host hashes `'0'` where a
+    JobSpec-only reconstruction hashes `''`. Those are different strings and therefore different
+    fingerprints. Audited without this overlay, EVERY generation of all four triangle legs reported
+    `fingerprint-rejected`, including three legs that had already finished and banked a ΔG — a total false
+    positive that would have read as "the checkpoints are all poisoned".
+
+    Parsed from the script rather than transcribed into a table here, because a transcribed default is a
+    second home for a fact (CLAUDE.md rule 1) and would go stale the first time the script changed.
+    """
+    return dict(_ENTRY_DEFAULT_RE.findall(script_text or ""))
+
+
+def host_env(jobspec_env, script_text, *, fields=None):
+    """The env the CONTAINER actually runs with: entry-script defaults, overridden by the JobSpec. PURE.
+
+    `fields` restricts the overlay to the variables the fingerprint hashes, so an unrelated default
+    (OPENMM_REQUIRE_CUDA, RBFE_MIN_STEPS) can never perturb it.
+    """
+    out = dict(entrypoint_defaults(script_text))
+    if fields is not None:
+        out = {k: v for k, v in out.items() if k in set(fields)}
+    out.update({k: v for k, v in dict(jobspec_env).items() if v not in (None, "")})
+    return out
 
 
 def _iter_and_gen(key: str, base: str):
@@ -187,8 +221,15 @@ def main(argv=None):
                          timestep_fs=a.timestep_fs, warmup_timestep_fs=a.warmup_timestep_fs,
                          bucket=bucket, prefix=prefix)
     # JobSpec is a dataclass, not a mapping — `spec["env"]` raised TypeError on the first CI run.
-    env = dict(spec.env)
-    unit = env["UNIT_ID"]
+    spec_env = dict(spec.env)
+    unit = spec_env["UNIT_ID"]
+    # …and the JobSpec alone is not the host's env: the entry script fills in defaults the fingerprint
+    # hashes. See entrypoint_defaults for the false positive this removes.
+    from rbfe_spot_checkpoint import SYSTEM_FINGERPRINT_ENV  # noqa: PLC0415
+
+    entry = Path(__file__).with_name("run_ternary_leg.sh")
+    env = host_env(spec_env, entry.read_text() if entry.exists() else "",
+                   fields=SYSTEM_FINGERPRINT_ENV)
     res = audit(boto3.client("s3"), bucket, f"{prefix}/commits/{unit}", env=env)
     print(render(unit, res))
     if a.out:

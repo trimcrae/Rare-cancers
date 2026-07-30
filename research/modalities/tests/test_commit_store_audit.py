@@ -179,12 +179,68 @@ def test_the_jobspec_env_the_cli_reads_is_actually_reachable():
                          timestep_fs="2.0", warmup_timestep_fs="1.0")
     env = dict(spec.env)  # the exact expression main() uses
     assert env["UNIT_ID"] == "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
-    # A fingerprint field the JobSpec does not set hashes as '' — which is CORRECT only so long as the
-    # container does not set it either, because then both sides hash ''. That is true today of exactly one
-    # field, and pinning the set means a future field added to the JobSpec (or to the container) trips this
-    # test instead of silently shifting the audit's fingerprint away from the host's.
+    # The JobSpec alone omits RBFE_CONSTRAIN_LIGAND_CH; the entry script supplies it. The overlay is what
+    # must be complete, not the JobSpec.
     missing = sorted(k for k in SYSTEM_FINGERPRINT_ENV if k not in env)
     assert missing == ["RBFE_CONSTRAIN_LIGAND_CH"], (
-        f"the set of fingerprint fields absent from the JobSpec env changed to {missing}. Each one hashes "
-        "as '' here; confirm the CONTAINER also leaves it unset, or the audit will compare a different "
-        "fingerprint than the host computed.")
+        f"the set of fingerprint fields absent from the JobSpec env changed to {missing} — check whether "
+        "run_ternary_leg.sh still supplies each one, or the audit's fingerprint will drift from the host's.")
+
+
+def test_entrypoint_defaults_parses_the_shell_form_and_nothing_else():
+    script = (
+        'export SEED="${SEED:-0}"\n'
+        'export RBFE_CONSTRAIN_LIGAND_CH="${RBFE_CONSTRAIN_LIGAND_CH:-0}"\n'
+        'export UNRELATED="${SOMETHING_ELSE:-x}"\n'   # different var on the right: not a default-for-self
+        'export PLAIN=hello\n'
+        '# export COMMENTED="${COMMENTED:-9}"\n'
+    )
+    d = csa.entrypoint_defaults(script)
+    assert d == {"SEED": "0", "RBFE_CONSTRAIN_LIGAND_CH": "0"}
+
+
+def test_host_env_overlays_the_jobspec_on_top_of_the_defaults():
+    script = 'export SEED="${SEED:-0}"\nexport RBFE_CONSTRAIN_LIGAND_CH="${RBFE_CONSTRAIN_LIGAND_CH:-0}"\n'
+    env = csa.host_env({"SEED": "2", "LEG_ID": "x"}, script)
+    assert env["SEED"] == "2", "the JobSpec wins over the default"
+    assert env["RBFE_CONSTRAIN_LIGAND_CH"] == "0", "the default fills what the JobSpec omits"
+    assert env["LEG_ID"] == "x"
+
+
+def test_host_env_can_be_restricted_to_the_fingerprint_fields():
+    script = 'export RBFE_MIN_STEPS="${RBFE_MIN_STEPS:-5000}"\nexport SEED="${SEED:-0}"\n'
+    env = csa.host_env({}, script, fields=["SEED"])
+    assert env == {"SEED": "0"}, "an unrelated default must not enter the hashed set"
+
+
+def test_an_empty_jobspec_value_does_not_erase_the_entry_default():
+    # `RBFE_WARMUP_TIMESTEP_FS: ""` in a spec means "unset", not "the empty string wins" — the shell's
+    # ${VAR:-x} treats empty exactly like absent, and host_env must match that or the hash diverges.
+    script = 'export RBFE_WARMUP_TIMESTEP_FS="${RBFE_WARMUP_TIMESTEP_FS:-1.0}"\n'
+    assert csa.host_env({"RBFE_WARMUP_TIMESTEP_FS": ""}, script)["RBFE_WARMUP_TIMESTEP_FS"] == "1.0"
+
+
+def test_the_real_entry_script_still_supplies_the_field_the_jobspec_omits():
+    """THE FOUNDING FALSE POSITIVE. Audited without this overlay, all four triangle legs reported every
+    generation `fingerprint-rejected` — including three finished legs with banked ΔG values — because the
+    host hashes RBFE_CONSTRAIN_LIGAND_CH='0' and a JobSpec-only reconstruction hashes ''."""
+    from pathlib import Path as _P
+
+    script = (_P(__file__).resolve().parents[1] / "run_ternary_leg.sh").read_text()
+    assert csa.entrypoint_defaults(script).get("RBFE_CONSTRAIN_LIGAND_CH") == "0"
+
+
+def test_the_overlay_reproduces_the_fingerprint_the_host_committed():
+    """End to end, against a fingerprint recorded by a real host: leg calib_hi_to_lo2__ternary_vhl's
+    committed generations carry 3c8c003aa598dd53. Reconstructing the env from the JobSpec plus the entry
+    script must reproduce exactly that — this is the assertion the audit's whole verdict rests on."""
+    from pathlib import Path as _P
+
+    from rbfe_spot_checkpoint import SYSTEM_FINGERPRINT_ENV, system_fingerprint
+    from ternary_vast_launch import build_jobspec
+
+    spec = build_jobspec("calib_hi_to_lo2__ternary_vhl", seed=0, direction="fwd", mode="triangle",
+                         timestep_fs="2.0", warmup_timestep_fs="1.0")
+    script = (_P(__file__).resolve().parents[1] / "run_ternary_leg.sh").read_text()
+    env = csa.host_env(dict(spec.env), script, fields=SYSTEM_FINGERPRINT_ENV)
+    assert system_fingerprint(env)[0] == "3c8c003aa598dd53"
