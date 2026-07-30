@@ -227,16 +227,40 @@ jobs:
              -f hours="${HOURS}" -f tick_every_min="${EVERY}" \
              -f fleet_branch="${FLEET_BRANCH}" -f release_fanout="${RELEASE_FANOUT}" \
              -f watch_every_ticks="${WATCH_EVERY}" 2>/tmp/h || true
-          sleep 25   # the dispatch is async; a run does not appear in the API instantly
+          # ★★ ONE LOOK AFTER 25 s WAS NOT ENOUGH, AND IT MADE EVERY HANDOVER RED (measured 2026-07-30,
+          # 11:09 PM ET). Run 30493589020 dispatched its successor at 03:09:21Z — the API even printed the
+          # new run's URL, 30510411940 — and then failed at 03:09:46Z with "SUPERVISOR CHAIN BROKEN: no
+          # successor exists". The successor was alive the whole time and is running now; `gh run list`
+          # simply had not published it 25 seconds in.
+          #
+          # This is CLAUDE.md §6's measured Actions-API lag arriving in a new place: that rule says to read
+          # a step's timing from its COMPLETED record because a live poll manufactures stalls that are not
+          # there, and a single immediate poll here manufactures a broken chain that is not there.
+          #
+          # WHY IT MATTERS MORE THAN A COSMETIC RED. The whole point of this check is that a broken chain
+          # must be LOUD. A check that cries wolf on every successful handover destroys exactly that: both
+          # prior runs are already `failure` for this reason, so the signal a real break would raise is one
+          # nobody can pick out. Same principle as the lane's own rule that a red job meaning "correctly
+          # refused on price" must be distinguishable at a glance from a red job meaning "the launcher is
+          # broken".
+          #
+          # So: poll with backoff and only shout if it is STILL absent after ~2 minutes. A dispatched run
+          # appears well inside that; a dispatch that genuinely failed never will.
           # Confirm from the API that a successor actually EXISTS and is not this same run. A dispatch that
           # returns 0 and creates nothing is precisely how the first supervisor "ran" for six minutes while
           # dispatching zero ticks.
-          SUCC=$(gh run list --workflow=step1-fanout-supervisor.yml --limit 5 \
-                   --json databaseId,status \
-                   --jq "[.[] | select(.databaseId != ${{ github.run_id }}) | select(.status==\"queued\" or .status==\"in_progress\")] | length" 2>/dev/null || echo 0)
+          SUCC=0
+          for attempt in 1 2 3 4 5 6; do
+            SUCC=$(gh run list --workflow=step1-fanout-supervisor.yml --limit 5 \
+                     --json databaseId,status \
+                     --jq "[.[] | select(.databaseId != ${{ github.run_id }}) | select(.status==\"queued\" or .status==\"in_progress\")] | length" 2>/dev/null || echo 0)
+            [ "${SUCC:-0}" -ge 1 ] && break
+            echo "[handoff] attempt ${attempt}: successor not published by the API yet, waiting"
+            sleep 20
+          done
           if [ "${SUCC:-0}" -ge 1 ]; then
             echo "::notice title=SUPERVISOR HANDED OFF::a successor is queued or running - the cadence continues without a human."
           else
-            echo "::error title=SUPERVISOR CHAIN BROKEN::no successor exists, so tick delivery has just fallen back to GitHub's throttled schedule (MEASURED 141-220 min gaps, against this job's 8 min). The fan-out is still billing. Relaunch: gh workflow run step1-fanout-supervisor.yml --ref main"
+            echo "::error title=SUPERVISOR CHAIN BROKEN::no successor exists after ~2 min of polling, so tick delivery has just fallen back to GitHub's throttled schedule (MEASURED 141-220 min gaps, against this job's 8 min). The fan-out is still billing. Relaunch: gh workflow run step1-fanout-supervisor.yml --ref main"
             exit 1
           fi
