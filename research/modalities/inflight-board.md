@@ -2,16 +2,16 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 10:40 PM ET Wed Jul 29, 2026 by `task=collect`.
+Generated 10:49 PM ET Wed Jul 29, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-valB r1 ternary      87.8%  12:14 AM Jul 30  $0.00512/ns · 1.50× basis  STARTING  WATCHING — quiet but alive: run.log 1 min old, GPU idle, no committed advance — consistent with a CPU-bound setup phase
-T3 binary            87.0%  11:43 PM         $0.00531/ns · 1.56× basis  RUNNING   
-T2 ternary           40.8%  6:18 AM Jul 30   $0.00449/ns · 1.32× basis  RUNNING   
-T3 ternary           66.8%  3:18 AM Jul 30   $0.00512/ns · 1.50× basis  STARTING  WATCHING — quiet but alive: run.log 0 min old, GPU idle, no committed advance — consistent with a CPU-bound setup phase
-valB r2 ternary      93.3%  12:34 AM Jul 30  $0.00551/ns · 1.61× basis  STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way
+valB r1 ternary      88.9%  12:15 AM Jul 30  $0.00512/ns · 1.50× basis  RUNNING   
+T3 binary            88.4%  11:44 PM         $0.00531/ns · 1.56× basis  RUNNING   
+T2 ternary           42.2%  —                $0.00449/ns · 1.32× basis  NO HOST   host DESTROYED this pass (stopped 160 min, not a capacity wait) — billing stopped, $0 further; checkpoint at production/400 is intact in S3 and the next gate tick re-places it
+T3 ternary           68.2%  —                $0.00512/ns · 1.50× basis  NO HOST   host DESTROYED this pass (capacity refusal on machine 11158; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1120 is intact in S3 and the next gate tick re-places it
+valB r2 ternary      93.3%  12:07 AM Jul 30  $0.00551/ns · 1.61× basis  STARTING  COLD_START — instance is 14 min old, under the 15 min floor — too young to have proved anything either way
 ---- END TVAST-BOARD ----
 ```
