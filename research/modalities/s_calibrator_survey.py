@@ -246,6 +246,20 @@ def survey(candidates=None):
         "detector_sanity": _detector_sanity(rows),
         "template_comparison": compare_templates(
             ["8G1Q", "8G1P", "6HAX", "6HAY", "9HYB"]),
+        "_template_finding": (
+            "MEASURED, and it CORRECTS a first reading of this survey. The homology substitution was NOT "
+            "avoidable FOR THIS LIGAND. 8G1Q's own deposition title is 'Compound 1 ... bromodomain of human "
+            "SMARCA4 and pVHL:ElonginC:ElonginB' -- Wurz compound 1, the calibrator's calib_hi, was "
+            "co-crystallised only with SMARCA4. Every deposited SMARCA2 ternary carries a DIFFERENT ligand "
+            "(8G1P = Compound 11, 6HAX = PROTAC 2, 6HAY = PROTAC 1, 9HYB = P-series P3). So keeping the "
+            "ligand whose SPR alpha values are the reference data FORCED the paralogue substitution. "
+            "WHAT THE CHOICE ACTUALLY COST, which is the finding: the calibrator is built on the LOWEST-"
+            "RESOLUTION structure in the family (3.73 A) AND on the wrong paralogue, while SMARCA2 ternaries "
+            "exist at 2.24-2.84 A. Ligand-identity and protein-identity are COUPLED here and the lane resolved "
+            "the coupling in favour of the ligand. R has since localised the valB miss to the model or the "
+            "reference data -- and both candidate causes trace to that single coupled choice. The lesson for "
+            "the S-calibrator is to pick a pair whose reference data and structure sit on the SAME protein, "
+            "rather than buying reference data at the price of a modelled arm."),
         "_template_comparison_why": (
             "8G1Q is the valB calibrator's frozen template and this survey finds it on the SMARCA4 arm, while "
             "8G1P from the same deposition series is on the SMARCA2 arm. The repo carries the SMARCA4->SMARCA2 "

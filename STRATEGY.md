@@ -2202,6 +2202,30 @@ dollar ceiling.
    ratio to the triangle's own per-leg MBAR SEs, giving an estimate with no homology-model and no cross-seed
    solvation term. ⚠ The ratio is **transferred, not measured on the triangle** (which has no replicates), so
    this narrows the interval and must never be reported as though the triangle had replicates.
+9b. **`[x]` DONE 2026-07-30 — decision 9's $0 survey RAN, and it answered more than it was asked.
+   Artifact: [`s-calibrator-survey.json`](research/modalities/s-calibrator-survey.json)
+   (generator [`s_calibrator_survey.py`](research/modalities/s_calibrator_survey.py)); every PDB ID is fetched
+   from RCSB, never typed.** Ten candidate paralogue pairs screened on whether a deposited **ternary** exists
+   on **both** arms. **2 of 10 are symmetric: SMARCA2/SMARCA4 and IKZF1/IKZF3.** The incumbent therefore
+   **survives its own screen** and decision 9 forces no system change. Two pairs would have been traps —
+   **BRD4 has 24 ternary structures while BRD2 and BRD3 have zero**, so either BET pairing puts a modelled arm
+   opposite a real one, the exact configuration decision 9 exists to avoid.
+   **★ THE FINDING THAT MATTERS MOST WAS NOT THE QUESTION ASKED, AND IT IS A CORRECTION.** A first reading of
+   this survey said the lane's SMARCA4→SMARCA2 homology substitution "was avoidable". ⚠ **It was not — not for
+   this ligand.** 8G1Q's own deposition title is *"Compound 1 … bromodomain of human **SMARCA4** and
+   pVHL:ElonginC:ElonginB"*: Wurz **compound 1**, the calibrator's `calib_hi`, was co-crystallised **only** with
+   SMARCA4. Every deposited SMARCA2 ternary carries a **different ligand** (8G1P = Compound 11, 6HAX = PROTAC 2,
+   6HAY = PROTAC 1, 9HYB = P-series P3). Keeping the ligand whose SPR α values **are** the reference data
+   therefore *forced* the substitution.
+   **What the choice cost is the real result: the calibrator is built on the LOWEST-RESOLUTION structure in the
+   family — 3.73 Å — AND on the wrong paralogue, while SMARCA2 ternaries exist at 2.24–2.84 Å.**
+   Ligand-identity and protein-identity are **coupled** here, and the lane resolved that coupling in favour of
+   the ligand. **`R` has since localised the valB miss to the model or the reference data — and both candidate
+   causes trace to that one coupled choice.** Binding consequence for the S-calibrator spec: **pick a pair
+   whose reference data and structure sit on the SAME protein**, rather than buying reference data at the price
+   of a modelled arm. *(Not established and not claimed: that a different template would change the
+   calibrator's answer. A shared deposition series does not make two entries interchangeable.)*
+
 9. **`[x]` DECIDED 2026-07-30 (trimcrae delegated: *"You make an educated call yourself"*) — the valB_full gate
    is NOT amended, and module 3 is NOT decoupled to unlock it.** The question was whether module 3 (paralogue
    discrimination, SMARCA2-vs-SMARCA4) should be freed from behind the failed cooperativity gate now that `R`
