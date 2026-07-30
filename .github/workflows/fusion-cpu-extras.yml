@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -2078,3 +2078,34 @@ jobs:
           echo "== 'true' comparison is string-to-string and the two guards are sound. If it shows an"
           echo "UNQUOTED true, the comparison is number-vs-NaN, prints false above even when ticked, and"
           echo "both guards must move to the bash-resolution pattern used by step1-fanout-autoscale.yml."
+
+  # S-CALIBRATOR SURVEY — STRATEGY Open decision 9. Which paralogue pairs have a deposited TERNARY structure on
+  # BOTH arms, so a homology-model error cannot sit on one arm only. Networked (RCSB), which the dev sandbox's
+  # egress proxy refuses, so it runs here. $0. It screens STRUCTURE only and deliberately supplies no
+  # selectivity magnitude — that needs a primary source and is gated by Open decision 7.
+  s_calibrator_survey:
+    if: ${{ github.event.inputs.task == 's_calibrator_survey' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Screen candidate paralogue pairs against RCSB (both arms must be real)
+        working-directory: research/modalities
+        run: python s_calibrator_survey.py --write
+      - name: Commit results back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/s-calibrator-survey.json
+          git commit -m "S-calibrator survey: which paralogue pairs are structurally symmetric (CI)" || {
+            echo "no changes"; exit 0; }
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
