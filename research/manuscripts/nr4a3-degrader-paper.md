@@ -1696,8 +1696,22 @@ The pass rule was preregistered and requires *all* of: converged diagnostics, **
 `|mean − target| ≤ 1.0`, between-replicate cycle SD ≤ 0.75, mean > target/2, and a t-based 95 % CI excluding
 zero. Frozen record: [`../modalities/wurz-calib-frozen.json`](../modalities/wurz-calib-frozen.json).
 
-**Result.** The first replicate gives **ΔΔG_coop = −0.522 kcal/mol against a target of +0.944** — the **wrong
-sign**, an absolute error of **1.466 kcal/mol**, and a failure of the preregistered rule on sign alone.
+**Result, now at the preregistered n = 3.** All three replicates landed on 2026-07-30 and the reduction gives
+**ΔΔG_coop = −0.599 kcal/mol against a target of +0.944** — the **wrong sign**, an absolute error of
+**1.543 kcal/mol**, and a failure of the preregistered rule on sign alone, before the cycle-SD criterion is
+ever reached. The per-replicate values are **−0.5125, −1.0097 and −0.2749 kcal/mol**; every one of the three is
+negative, so the sign failure is not an artifact of averaging. The t-based 95 % CI is **[−1.103, −0.095]**,
+which excludes zero *on the wrong side of it*: the method resolves a cooperativity change confidently, and
+resolves it with the opposite sign to the measured one. Machine record: `valB_calibration_gate` and
+`valB_calibration_decision` in the reduction artifact (decision **NO-GO**).
+
+**The between-replicate cycle SD is 0.375 kcal/mol, and it is the durable product of this experiment.** Against
+per-leg MBAR standard errors of **0.097–0.132 kcal/mol**, the replicate spread is roughly **three times** the
+within-run uncertainty on the same legs. That is a direct, same-system measurement of the gap this paper's
+reporting rule asserts — that a within-run MBAR SE speaks to precision and never to reproducibility — and it is
+why every ΔΔG in §2.9 is reported with its uncertainty explicitly labelled as an MBAR SE rather than a
+replicate SD. The SD itself passes its own preregistered threshold (≤ 0.75); the calibrator fails on sign, not
+on scatter.
 
 **A control that could have explained the miss was run, and it does not.** In the original edge the binary
 arm's ligand left its pocket in 8 of 12 replicas, so that ΔG was not a free energy of the intended bound state
@@ -1745,13 +1759,24 @@ into a 3.73 Å SMARCA4 parent structure** followed by relaxation (SMARCA2 crysta
 original investigators too), and the target is derived from an SPR α-ratio whose own uncertainty is not
 propagated into the ±1.0 kcal/mol margin.
 
-**Status, stated without rounding up.** The calibrator's formal verdict is **INDETERMINATE**, not FAIL, and only
-because the preregistered rule requires a between-replicate cycle SD that a single replicate cannot supply. That
-distinction must not be read as encouraging: the sign is already wrong and the diagnostics already pass, so the
-replicates are owed to the *rule*, not to a plausible path back to agreement. Of the three systematic-error
-detectors, **one has now returned a value and passed** (antisymmetry), and **cycle closure remains unrun** — a
-synthetic third vertex is designed and frozen ([`../modalities/valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json))
-but has produced no closed cycle. A replicate-level caveat applies when the replicates do land: the ternary
+**Status, stated without rounding up.** The calibrator's formal verdict is **FAIL**, and the decision is
+**NO-GO**. It is no longer INDETERMINATE: that earlier status existed only because the preregistered rule needs
+a between-replicate cycle SD that a single replicate cannot supply, and the replicates have now been run. The
+change is in the completeness of the evidence, not in its direction — the sign was already wrong at n = 1 and
+it is wrong in all three replicates. Of the three systematic-error detectors, **one has returned a value and
+passed** (antisymmetry), **the replicate SD has now returned** (0.375 kcal/mol, itself within its threshold),
+and **cycle closure is in progress but has produced no R** — the synthetic third vertex is frozen
+([`../modalities/valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json)) and two of its four legs
+had landed at the time of writing; the reducer refuses a partial cycle by construction, on the grounds that an
+R from an incomplete cycle is a different quantity rather than a noisier one.
+
+**One caveat on the SD, carried rather than resolved.** The same reduction reports system identity as
+INCONSISTENT because the ternary arm disagrees with *itself* across seeds: **144,447 particles at r1 against
+141,740 at r2**, and 90,324 against 90,720 on the binary arm. The legs share a protocol hash, a charge method
+(`nagl`) and a setup-cache version (`v1pe`), so this is independent solvation of the same protocol rather than
+a different pipeline — but a replicate SD computed across systems that differ in water count is measuring
+solvation variability alongside sampling variability, and we do not currently separate the two. The figure is
+therefore reported as an upper bound on the sampling-only SD. A replicate-level caveat applies when the replicates do land: the ternary
 starting-model index is `seed mod n_models` at `n_models = 2`, so a third replicate returns to the first
 model's pose and the between-replicate SD **understates** homology-model variance.
 
@@ -2583,6 +2608,15 @@ while nothing that was previously stated silently disappears.
   anchor. The non-anchor-rooted value is retained, correctly labelled, in the second table of §2.9. Caught by
   regenerating the table from `step1-fanout-map.json`'s own `ranking` field, whose `ranking_note` states the
   anchor-rooted restriction explicitly — the artifact was right and the transcription was not.
+- **§2.11 calibrator: the headline was a single replicate, ΔΔG_coop = −0.522 kcal/mol with an absolute error
+  of 1.466, and the formal verdict was INDETERMINATE.** All three preregistered replicates landed on
+  2026-07-30, so the headline is now the n = 3 mean **−0.599** (abs error **1.543**) and the verdict is
+  **FAIL / NO-GO**. The superseded single-replicate value is not withdrawn as wrong — it is r0, and it appears
+  in the live text as one of the three per-replicate figures (as **−0.5125**, the 4 fs reduction of the same
+  seed; **−0.522** was its earlier reduction and **−0.534** the 2 fs cycle that preceded the restrained
+  binary-arm re-run). What changed is that a mean of one is no longer being reported as the result. INDETERMINATE
+  must not be quoted going forward: it described the absence of replicates, and the replicates exist.
+
 - **§2.9 edge count: the table was cut at 14 computed edges of 18 computable, against ~$69 of GPU spend
   across 197 rentals.** The fan-out has since closed at **18 of 18** and **$73.79**, so those figures describe
   a run in progress and are not the final map.
