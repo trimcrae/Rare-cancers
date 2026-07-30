@@ -8,11 +8,11 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-30T16:35:04Z",
+  "_generated_utc": "2026-07-30T16:35:42Z",
   "_generated_et": "12:35 PM ET Jul 30, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-30T17:23:04Z",
+  "_stale_after_utc": "2026-07-30T17:23:42Z",
   "_stale_after_et": "1:23 PM ET Jul 30, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
@@ -1972,7 +1972,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 4522 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 4523 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2418,7 +2418,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "no hosts and 1 unit(s) unfinished, but the last evidence is only 8 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
+        "no hosts and 1 unit(s) unfinished, but the last evidence is only 1 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
       ]
     },
     {
@@ -2626,16 +2626,16 @@
     {
       "id": "lane:closure-triangle",
       "scanner": "lanes",
-      "what": "valB closure triangle, 4 legs (Vast) \u2014 ADVANCING",
+      "what": "valB closure triangle, 4 legs (Vast) \u2014 IDLE-WITHIN-GRACE",
       "owner": "gpu-ternary-fep-vast.yml",
       "owner_note": null,
-      "state": "advancing",
-      "evidence_fingerprint": "ADVANCING||launch ledger: stage='triangle-gate' outcome='dispatched'",
-      "last_evidence_utc": "2026-07-30T16:32:34Z",
-      "last_evidence_et": "12:32 PM ET Jul 30, 2026",
-      "last_evidence_what": "launch ledger: stage='triangle-gate' outcome='dispatched'",
-      "next_evidence_due_utc": "2026-07-30T17:17:34Z",
-      "next_evidence_due_et": "1:17 PM ET Jul 30, 2026",
+      "state": "dispatched",
+      "evidence_fingerprint": "IDLE-WITHIN-GRACE||valb-triangle-market-hold.json `utc`",
+      "last_evidence_utc": "2026-07-30T16:35:35Z",
+      "last_evidence_et": "12:35 PM ET Jul 30, 2026",
+      "last_evidence_what": "valb-triangle-market-hold.json `utc`",
+      "next_evidence_due_utc": "2026-07-30T17:20:35Z",
+      "next_evidence_due_et": "1:20 PM ET Jul 30, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -2732,7 +2732,7 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 1:17 PM ET Jul 30, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 1:20 PM ET Jul 30, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": null,
       "cost_points_at": null,
       "price_points_at": "valb-triangle-market-hold.json",
@@ -2741,7 +2741,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "1 host(s) up and new evidence 3 min ago (launch ledger: stage='triangle-gate' outcome='dispatched'). NO committed-iteration census in git for this lane \u2014 evidence age with hosts up is the strongest available signal, and it is weaker."
+        "no hosts and 4 unit(s) unfinished, but the last evidence is only 0 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
       ]
     },
     {
@@ -2813,8 +2813,7 @@
     "blocked": 20,
     "open": 8,
     "done": 20,
-    "dispatched": 1,
-    "advancing": 1,
+    "dispatched": 2,
     "held": 1
   },
   "blocked": [
@@ -2879,7 +2878,7 @@
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (12:27 PM ET Jul 30, 2026) refreshed the artifact to 12:35 PM ET Jul 30, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (12:34 PM ET Jul 30, 2026) refreshed the artifact to 12:35 PM ET Jul 30, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
