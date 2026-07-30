@@ -458,6 +458,36 @@
    "pattern": "1\\.528\\s*[x\u00d7]|1\\.574\\s*[x\u00d7]|\\$0\\.005214/ns|\\$0\\.005369/ns",
    "current": "valB_mini cohort 4, rented 4:51 PM ET: 1.500x / 1.500x / 1.859x / 1.649x basis (ternary-vast-rental-receipt.json)",
    "retired_by": "the 4:00 PM cohort 3 was reclaimed and re-rented at 4:51 PM ET. On this lane a per-host rate has a half-life of about two hours - STRATEGY.md Appendix A row 38"
+  },
+  {
+   "id": "tier2_term_a_seven_basins",
+   "pattern": "\\*\\*7\\*\\* (?:place|exploit)|of which \\*\\*7\\*\\* exploit|(?:all|All) (?:7|seven) (?:term-\\(a\\)|electrophile-reach) basins|0\\.019[–-]0\\.057|168 of 192|168/192",
+   "current": "Tier 2 term (a) = 3 basins (vhl|M2 10 atoms/0.057, vhl|M3 11/0.021, crbn|M17 12/0.045); reach fractions 0.021-0.057; conserved-cysteine control zero in 184 of 192 basins. nr4a3-orientation-basins.json -> tier2_gate.n_exploiting_term_a_electrophile_reach",
+   "retired_by": "the 2026-07-26 reach correction (exact three-ball kernel replacing a rule that credited a pendant with shortening the anchor-to-anchor span). Term (b) 40 and the nominal limb 28 are bit-identical across it - STRATEGY.md Appendix A row 49"
+  },
+  {
+   "id": "tier2_crbn_m0_clears_the_gate",
+   "pattern": "reaches C397 at \\*\\*11\\*\\*|25 → \\*\\*11\\*\\*|strongest basin (?:is )?among the (?:MOST|most) tractable",
+   "current": "crbn|M0's exact C397 requirement is 13 backbone atoms, so it MISSES the 12-atom gate (at-gate reach fraction 0.000). It remains the strongest NOMINATION on pose persistence (11/12) and the lysine term (7.5x). Representative -> exemplar is 33 -> 13 at the 3.0 A pendant convention",
+   "retired_by": "the same 2026-07-26 reach correction; 11 was the relaxed value. The 'most tractable' reading is withdrawn - crbn|M0 at 13 is comparable to vhl|M2 (10) and vhl|M3 (11), not ahead of them"
+  },
+  {
+   "id": "valb_miss_magnitude_and_ratio",
+   "pattern": "1\\.478|abs error \\*{0,2}1\\.466|~?33\\s*[x×] the statistical|33\\s*[x×] smaller than the miss|ΔΔG_coop = −0\\.522 vs",
+   "current": "valB_mini at the landed n=3: mean -0.599 kcal/mol, abs error 1.543, ~34x the 0.045 statistical uncertainty",
+   "retired_by": "the three preregistered replicates landing 2026-07-30. 1.466 is the r0-only reading after the restrained binary re-run; 1.478 is the reading BEFORE it, i.e. superseded twice - STRATEGY.md Appendix A rows 44 and 51"
+  },
+  {
+   "id": "linker_library_21_constructs",
+   "pattern": "21[- ]construct library|\\*\\*21 candidate molecules\\*\\*|of which 21 are retained|[Aa]ll 21 were verified|1,995 constructs",
+   "current": "54 constructs - 36 at the exemplar placement (from 3,544 enumerated) + 18 at the representative (from 1,791), RDKit-verified 54/54. nr4a3-linker-design.json -> library_summary",
+   "retired_by": "the wedge-residue fix and the representative-geometry enumeration. 21 was the pre-fix count and it contradicted STRATEGY.md's own library line - Appendix A row 48"
+  },
+  {
+   "id": "genmatched_null_degenerate_statistics",
+   "pattern": "NEVER manufactured|enrichment[^.\\n]{0,20}(?:Infinity|\\binf\\b)",
+   "current": "the generation-matched null's scramble arm is CONSISTENT WITH but UNDERPOWERED TO ESTABLISH that survival is not a funnel artifact: 0/191 controls bounds the manufactured rate at <=0.0157 (95%, rule of three) against the real campaign's own 0.0052; Fisher p = 0.5",
+   "retired_by": "a zero POINT estimate of the control rate was being read as a measured zero, which made any real survivor infinitely enriched at p=0 by construction - STRATEGY.md Appendix A row 52"
   }
  ],
  "subset_checks": [

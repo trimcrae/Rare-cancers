@@ -616,6 +616,7 @@ be checked rather than taken.
 | Edge | Wurz cmpd1 → cmpd4, linker pyridine N → CH | [`../modalities/wurz-calib-frozen.json`](../modalities/wurz-calib-frozen.json) |
 | Complex | SMARCA2 bromodomain / VHL ternary, template 8G1Q (3.73 Å, SMARCA4 parent) | RCSB 8G1Q, CCD `YHB` |
 | SMARCA2 model | sequence substitution from SMARCA4 BD + relaxation (SMARCA2 crystallization failed for the original investigators) | same |
+| What that substitution cost, measured against the deposited record | 8G1Q is the **lowest-resolution** ternary in the family at **3.73 Å**, and it is on the **SMARCA4** arm; deposited **SMARCA2** ternaries exist at **2.24 / 2.35 / 2.70 / 2.84 Å**. It was still forced: Wurz **compound 1** was co-crystallised only with SMARCA4, and every SMARCA2 ternary carries a different ligand (Compound 11, PROTAC 1, PROTAC 2, P3), so keeping the ligand whose SPR α values *are* the reference data required taking the wrong paralogue. **Ligand identity and protein identity are coupled here** — which is why the two most elevated error classes below are one decision, not two | [`../modalities/s-calibrator-survey.json`](../modalities/s-calibrator-survey.json) (accessions fetched from the RCSB search API, never typed) |
 | α₁ / α₄ | 12.8 / 2.6 (**same-paper SPR**, not TR-FRET) | Wurz et al., *Nat Commun* 2023 |
 | Preregistered target | **ΔΔG_coop = −RT ln(α₄/α₁) = +0.944 kcal/mol** at 298.15 K, positive for hi→lo | frozen artifact |
 | Edge is constitutional, not a stereo null-map | `delta_N = −1`, `delta_C = +1`, 59 heavy atoms both sides | frozen artifact, `validation` block |
@@ -665,11 +666,16 @@ against 0.16 *e* between the two directions' λ = 0 endpoints — so the antisym
 confounded by a charge-model difference either. Full per-leg record:
 [`../modalities/charge-provenance-forensic.json`](../modalities/charge-provenance-forensic.json).
 
-**Why "systematic" is the conclusion.** Statistical uncertainty 0.045 vs a 1.478 miss is a ratio of ~33.
+**Why "systematic" is the conclusion.** Statistical uncertainty 0.045 vs the n = 3 miss of 1.543 is a ratio of
+~34. *(This line read "a 1.478 miss … ~33" until 2026-07-30 — a value superseded twice over, first by the
+restrained binary re-run and then by the replicates, while the table four rows above already carried the
+current one. It is corrected here rather than dropped.)*
 Replicates reduce variance, not bias, so the residual error classes are the endpoint-state ones that main-text
 §2.9 shows a closed cycle to be structurally blind to — force field, partial-charge method, protonation/tautomer
 assignment, the homology substitution in the receptor, and error in the reference data. The homology term and
-the SPR-derived target are the two concretely elevated here.
+the SPR-derived target are the two concretely elevated here — and per the table above they are **coupled**,
+both descending from the single choice to keep Wurz compound 1 and accept its SMARCA4 template, so a
+diagnostic that localises the miss to this pair cannot go on to separate them.
 
 **The replicates have landed; the caveats that were stated in advance now apply in fact.** The formal verdict
 is **FAIL** and the decision **NO-GO**; the earlier INDETERMINATE described only the absence of replicates and

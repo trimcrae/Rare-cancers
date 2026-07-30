@@ -141,13 +141,33 @@ def test_false_positive_rate_pooling():
     assert math.isclose(fp["per_molecule_fp_rate"], 1 / 300, abs_tol=1e-6)
 
 
-def test_compare_campaigns_zero_control_survivors_means_exceeds():
+def test_zero_control_survivors_is_bounded_not_treated_as_a_measured_zero():
+    """A control that manufactured nothing bounds the funnel's rate; it does not measure it as 0.
+
+    This test previously asserted the opposite -- that 0 control survivors made `exceeds_chance` True and
+    the confound excluded. That is the zero-denominator overclaim: it also produced `p_value = 0.0` and
+    `enrichment = inf` from a single control campaign. Here the real rate (1/400 = 0.0025) sits UNDER the
+    rule-of-three bound (3/400 = 0.0075), so the honest reading is underpowered, not excluded."""
     real = {"n_generated": 200, "n_survivors": 1}
     controls = [{"n_generated": 200, "n_survivors": 0}, {"n_generated": 200, "n_survivors": 0}]
     cmp = gmn.compare_campaigns(real, controls)
     assert cmp["control_fp"]["per_molecule_fp_rate"] == 0.0
+    assert math.isclose(cmp["control_fp"]["per_molecule_fp_rate_upper95"], 3 / 400, abs_tol=1e-6)
+    assert cmp["exceeds_chance"] is False
+    assert "UNDERPOWERED" in cmp["verdict"]
+    # the degenerate statistics must not be emitted at all
+    assert cmp["p_value"] is None
+    assert cmp["enrichment"] is None
+
+
+def test_zero_control_survivors_CAN_exclude_when_the_real_rate_clears_the_bound():
+    """The bound is a real test, not a blanket refusal: a real campaign surviving far above the
+    rule-of-three ceiling does exclude the generic-funnel explanation."""
+    real = {"n_generated": 200, "n_survivors": 40}          # 0.2/molecule vs a 0.015 ceiling
+    controls = [{"n_generated": 200, "n_survivors": 0}]
+    cmp = gmn.compare_campaigns(real, controls)
     assert cmp["exceeds_chance"] is True
-    assert "NEVER manufactured" in cmp["verdict"]
+    assert "excluded" in cmp["verdict"]
 
 
 def test_compare_campaigns_within_manufactured_rate_not_excluded():

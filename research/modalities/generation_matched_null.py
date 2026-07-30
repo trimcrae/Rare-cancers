@@ -203,6 +203,15 @@ def false_positive_rate(control_reports):
     with_surv = sum(1 for r in control_reports if r.get("n_survivors", 0) > 0)
     gen = sum(r.get("n_generated", 0) for r in control_reports)
     surv = sum(r.get("n_survivors", 0) for r in control_reports)
+    # A POINT estimate of exactly zero is the trap this control is most likely to walk into: zero survivors
+    # out of a few hundred generations does NOT mean the funnel manufactures nothing, it means the rate is
+    # small and unmeasured. Carry the one-sided 95% upper bound (rule of three, 3/n for 0 events) so the
+    # zero can never be read as a measured zero. Without it, `per_molecule_fp_rate = 0` propagates into an
+    # infinite enrichment and a p-value of 0 in compare_campaigns -- numbers no single control campaign
+    # can support.
+    upper95 = None
+    if gen:
+        upper95 = round(3.0 / gen, 6) if surv == 0 else None
     return {
         "n_controls": n,
         "n_control_campaigns_with_survivor": with_surv,
@@ -210,6 +219,11 @@ def false_positive_rate(control_reports):
         "pooled_generated": gen,
         "pooled_survivors": surv,
         "per_molecule_fp_rate": (round(surv / gen, 6) if gen else None),
+        "per_molecule_fp_rate_upper95": upper95,
+        "_zero_is_not_a_measured_zero": (
+            "0 survivors in %d pooled generations bounds the manufactured per-molecule rate at <= %s "
+            "(one-sided 95%%, rule of three) -- it does not establish it is 0." % (gen, upper95)
+        ) if upper95 is not None else None,
     }
 
 
@@ -282,10 +296,27 @@ def compare_campaigns(real_report, control_reports, real_survivors=None):
         elif real_rate and real_rate > 0:
             enrichment = float("inf")   # controls manufactured nothing; real did -> unbounded enrichment
     if p_ctrl == 0 and k_real > 0:
-        # controls manufactured zero survivors; any real survivor is beyond the manufactured rate.
-        exceeds = True
-        verdict = ("real campaign produced a survivor the control objectives NEVER manufactured "
-                   "(0 control survivors) -> survival is not a generic funnel artifact")
+        # The controls manufactured zero survivors -- but a zero POINT estimate is not a measured zero, and
+        # treating it as one is what produced `p_value = 0.0` and `enrichment = inf` above. Grade the real
+        # rate against the control rate's 95% UPPER BOUND instead: only if the real rate clears that bound
+        # has the confound actually been excluded. On the landed scramble arm it does not (real 0.005236/
+        # molecule against a bound of 0.0157), so the reading is "consistent with, but underpowered to
+        # establish" -- and the one-sided Fisher p for 1/191 vs 0/191 is 0.5, not 0.
+        bound = fp.get("per_molecule_fp_rate_upper95")
+        exceeds = bool(bound is not None and real_rate is not None and real_rate > bound)
+        p_value = None          # a tail computed at p=0 is degenerate; report the bound, not a fake p
+        enrichment = None       # real_rate / 0 is not an enrichment
+        if exceeds:
+            verdict = ("real survival exceeds even the UPPER BOUND on what the control objectives could be "
+                       "manufacturing unobserved (0 control survivors, rate <= %s at 95%%) -> the generic "
+                       "funnel-artifact explanation is excluded" % bound)
+        else:
+            verdict = ("controls manufactured 0 survivors, which is CONSISTENT WITH but UNDERPOWERED TO "
+                       "ESTABLISH that survival is not a generic funnel artifact: the real per-molecule rate "
+                       "(%s) sits below the 95%% upper bound on the unobserved manufactured rate (%s), so a "
+                       "funnel manufacturing at up to that rate is not excluded. More control campaigns, not "
+                       "a different statistic, is what would settle it"
+                       % (round(real_rate, 6) if real_rate is not None else None, bound))
     elif p_value is None:
         verdict = "insufficient control data to estimate the funnel false-positive rate"
     elif exceeds:

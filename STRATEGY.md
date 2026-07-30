@@ -75,13 +75,14 @@ hand-carried total that stood while the fan-out lane alone had realised twenty t
 | RUNG 2 · replicates | **valB_mini r1+r2 — is the FAIL quantified?** | **GATE FAILED, AS PRE-REGISTERED — and it is now quantified.** All 4 legs landed 3:07 AM ET Jul 30; the reduction ran at n=3 | **FAIL on the SIGN, before the replicate SD is ever consulted**: per-replicate ΔΔG_coop = −0.5125 / −1.0097 / −0.2749, mean **−0.599** against a known target of **+0.944**, abs error **1.543** on a 1.0-pass / 2.0-fail band. The decision is **NO-GO** — *"CI is entirely NEGATIVE (−1.103..−0.095) — method resolves the WRONG sign of cooperativity"* · **The durable deliverable is the replicate SD: 0.375 kcal/mol**, against per-leg MBAR SEs of 0.097–0.132 — roughly 3×, which is direct evidence for the paper's standing rule that a within-run MBAR SE speaks to precision and never to reproducibility · ⚠ **One open item for trimcrae, not decided here:** the reduction flags system identity INCONSISTENT because the ternary arm disagrees with ITSELF across seeds (r1 144,447 vs r2 141,740 particles, and binary 90,324 vs 90,720). That survives the 2026-07-30 fix that stopped the check comparing the ternary arm against the binary arm — a comparison meaningless by construction. Whether independently-solvated replicates may differ in water count, and what that does to a replicate SD, is a scientific call |
 | RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
 | RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. **~$21 not spent** |
-| RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **COMPLETE — the lane closed itself at 9:24 PM ET Jul 29 (`pending=0`, `live=0`, every unit carrying a `ddg.json` or on the blocked list). The MAP is delivered; the GATE on what it means is a separate judgement and is NOT claimed here** | **18 edges complete of the 18 computable**, in a 19-edge map, for **$73.79** against a derived authorisation ceiling of $74.91 · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it; and the one map that does reach 19 gets there only by mapping a carbon onto a hydrogen, which is the degenerate correspondence the floor exists to reject) · **the edge that was held on a FIXED DEFECT has since LANDED** (`cw_bio_primary_amide`, +0.935 ± 0.500 kcal/mol — two atoms of the staged hybrid system sat at exactly the same coordinates carrying a gradient 7.7e11 times the largest force on any other atom in the box; finite, so the CPU minimiser survived it and every GPU did not. Displacing one by 0.01 A removed it and changed nothing else to six significant figures. It burned 25 rentals on 7 cards before anyone counted the attempts; the de-degenerated geometry reached the execution hosts and the edge computed) · **15 of the 18 are anchor-rooted** and are the only ones readable as tighter-or-weaker than cmpd19; the other 3 join two analogues and close cycles. **The honest denominator is 18 computable edges of a 19-edge map**, derived in `step1-fanout-map.json` (`n_computable`), never typed — and the ranked table is built from that file's `ranking` field, which is restricted to anchor-rooted edges for the reason recorded in the paper's Appendix A |
+| RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **COMPLETE — the lane closed itself at 9:24 PM ET Jul 29 (`pending=0`, `live=0`, every unit carrying a `ddg.json` or on the blocked list). The MAP is delivered; the GATE on what it means is a separate judgement and is NOT claimed here** | **18 edges complete of the 18 computable**, in a 19-edge map, for **$73.79** against a derived authorisation ceiling of $74.91 · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it; and the one map that does reach 19 gets there only by mapping a carbon onto a hydrogen, which is the degenerate correspondence the floor exists to reject) · **the edge that was held on a FIXED DEFECT has since LANDED** (`cw_bio_primary_amide`, +0.935 ± 0.500 kcal/mol — two atoms of the staged hybrid system sat at exactly the same coordinates carrying a gradient 7.7e11 times the largest force on any other atom in the box; finite, so the CPU minimiser survived it and every GPU did not. Displacing one by 0.01 A removed it and changed nothing else to six significant figures. It burned 25 rentals on 7 cards before anyone counted the attempts; the de-degenerated geometry reached the execution hosts and the edge computed) · **15 of the 18 are anchor-rooted** and are the only ones readable as tighter-or-weaker than cmpd19; the other 3 join two analogues and close cycles. **The honest denominator is 18 computable edges of a 19-edge map**, derived in `step1-fanout-map.json` (`n_computable`), never typed — and the ranked table is built from that file's `ranking` field, which is restricted to anchor-rooted edges for the reason recorded in the paper's Appendix A · ⚠ **AND ONE OF THE THREE CYCLES DOES NOT CLOSE — a MAP-QUALITY caveat that was landed with the map and had reached no document until 2026-07-30.** `cycle_exitvector_aniline` **R = −0.726** and `cycle_exitvector_ether` **R = −0.756** are inside the ±1.0 tolerance; **`cycle_3carbonyl` sums to R = +1.307 → VIOLATION**. The artifact's own rule is that an open cycle means at least one of its edges is unconverged or mis-mapped, so **the three edges of that loop** (`cw_ms_free_acid` +0.136, `cw_bio_primary_amide` +0.935, `cw_ms_free_acid → cw_bio_primary_amide` +2.106) **carry that reservation wherever they are quoted**. R is a property of the loop and does NOT name the guilty edge; at one replicate per edge it also cannot be separated from three unlucky single draws, which is the same want-of-replicates limit as everywhere else on this lane. Numbers live once, in `step1-fanout-map.json` → `cycle_closure` |
 
 | deliverable | status |
 |---|---|
-| **21 candidate molecules**, chemistry-verified end to end | **DONE** ($0) |
+| **The virtual linker library**, chemistry-verified end to end — **54 constructs (36 exemplar + 18 representative), RDKit-verified 54/54**, counts derived from `nr4a3-linker-design.json` → `library_summary` | **DONE** ($0). ⚠ **Superseded, retained: "21 candidate molecules"** — that was the pre-wedge-fix enumeration and it contradicted this file's own library line ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 48) |
 | **The matched molecule pair for the decisive causal test** | **DONE** ($0) — that test could not be run at all before 2026-07-26 |
-| **The ranked congeneric ΔΔG map** — 18 computable RBFE edges, the paper's §2.9 | **DONE** (2026-07-29, `$73.79` — inside the derived `$74.91` cap) |
+| **The ranked congeneric ΔΔG map** — 18 computable RBFE edges, the paper's §2.9 | **DONE** (2026-07-29, `$73.79` — inside the derived `$74.91` cap). ⚠ **One of its three cycles does NOT close** — the fan-out row above is the one home for that caveat |
+| **The generation-matched null** — the winner's-curse / generative-confound control on the de-novo funnel | **PARTIAL, and the partiality is the point ($0).** The **scrambled-objective** arm has run and manufactured **0 survivors of 191** against the real campaign's 1 of 191. ⚠ **That does NOT exclude the confound and must not be quoted as if it did:** zero events in 191 generations bounds the manufactured rate at **≤0.0157 (95 %, rule of three)**, **3× the real campaign's own 0.0052**, and Fisher for 1/191 vs 0/191 gives **p = 0.5**. The artifact's earlier `p = 0.0 / enrichment = ∞` came from reading a zero point estimate as a measured zero and is retired in place in its `_superseded` block ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 52). **The arm that actually addresses the GENERATIVE step — a fresh generation into a paralogue pocket — is UNRUN**, and it is the cheap next thing this control needs |
 
 **Nothing on this board is waiting on trimcrae.** The question that used to sit here — whether the covalent
 design route still has candidates — was answered by the corrected+matched Tier 2 run: it **clears**, and the
@@ -124,8 +125,10 @@ everywhere, so the axis rests on **burial**, not on distance.
 
 ### Library and matched pair — one real defect found and fixed
 
-**The 21-construct library survives the reach correction with ZERO casualties**, and **no construct ever
-"worked" because of the pendant-credit bug** — re-enumeration returns all 21 field-for-field identical. The
+**The library survives the reach correction with ZERO casualties**, and **no construct ever
+"worked" because of the pendant-credit bug** — re-enumeration returns every construct field-for-field
+identical. *(It was a 21-construct library at that point; the count is now 54 and the superseded value is
+[Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 48.)* The
 reason is structural: 5b's enumerator always used the exact three-ball kernel, which pre-dates the correction;
 the bug lived in `basin_geom.linker_can_visit`, consumed only by the basin search.
 
@@ -275,7 +278,8 @@ divergence is exactly [§Open decisions](#open-decisions) 7, still trimcrae's to
 homology substitution, NAGL charges and protonation, every one of which is a per-endpoint state function.
 
 **★ WHAT `R` DECIDES, stated the right way round.** The closure triangle exists to answer one question about
-valB_mini's **1.478 kcal/mol** miss, and the two outcomes point in opposite directions:
+valB_mini's miss — **1.543 kcal/mol** at the landed n=3, the one home for which is the RUNG 2 · replicates row
+in the scoreboard above — and the two outcomes point in opposite directions:
 
 - **`R` ≈ 0 ⇒ an ENDPOINT-STATE error.** The bias is a per-endpoint state function, it telescopes out of any
   cycle, and **more sampling will NOT fix the miss.**
@@ -578,8 +582,9 @@ classes:
   nucleophile.** Three measurements:
   - **Only 4 of NR4A3's 20 enumerated cysteines are unique; 16 are SHARED — and one of the shared ones is
     inside the design gate.** Term (a) is built from `unique_cysteines` **only** and summarises the conserved
-    set at the 20-atom *sampling ceiling*, never at the 12-atom gate — so *"all 7 term-(a) basins reach C397 and
-    only C397"* is a statement about **{C397, C420, C559}**, not about every cysteine. Scored over **all** of
+    set at the 20-atom *sampling ceiling*, never at the 12-atom gate — so *"all term-(a) basins reach C397 and
+    only C397"* (3 of them, post-correction) is a statement about **{C397, C420, C559}**, not about every
+    cysteine. Scored over **all** of
     them on the same 75 unbiased conformers, **C496 — whose homologue is NR4A1 C465 / NR4A2 C465 — reaches the
     ≤12-atom gate in 29/75 = 0.387** (Wilson 0.285–0.500). **What closes it is BURIAL (RSA median 0.023), not
     geometry.**
@@ -948,50 +953,58 @@ it only **nominates** — but "does this basin place an electrophile at C397 / c
 set-membership question, which cheap scoring answers reliably. A gross absence of signal is an informative
 NO-GO; it is not trusted to kill a real small wedge.
 
-### ★ Tier-2 result in full — CONFIRMED on the 12-pose run (2026-07-25, LANE 2, **$0 realized — no GPU**)
+### ★ Tier-2 result in full — the 12-pose run, at its CORRECTED exact-kernel values (LANE 2, 2026-07-25; reach correction 2026-07-26; **$0 realized — no GPU**)
 
 **GO, basis CATEGORICAL — and "weakly" is part of the verdict, not a hedge to drop when quoting it.**
 
 **★ THE FULL RUN CONFIRMED THE GATE AND CHANGED THE HEADLINE. Both must be reported.** The definitive run
-(10⁶ placements × **12** poses × VHL+CRBN, 55 min) gives **58 meta-basins / 192 basins**, of which **7** exploit
-term (a), **40** term (b), and **28** discriminate nominally — *strengthening* the preview rather than flipping
-it. But the **preview's headline did not survive**: `vhl|M2` falls from 5/6 to **6/12 = 0.50** pose persistence,
-and its "both paralogue zones bare" reads **0.008** at 12 poses. The full run instead promotes:
+(10⁶ placements × **12** poses × VHL+CRBN) gives **58 meta-basins / 192 basins**, of which **3** exploit
+term (a), **40** term (b), and **28** discriminate nominally. Every figure below is the **corrected
+exact-kernel** reading, i.e. post-2026-07-26 — ⚠ **this block carried the pre-correction table live for four
+days, with its own correction stated 50 lines further down, and the manuscript copied the stale values out of
+it. Superseded numbers are in [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 49 and are
+NOT restated here.**
 
-| meta-basin | poses | C397 reach | term (b) vs background | paralogue zones bare |
-|---|---|---|---|---|
-| **`crbn|M0`** ← strongest | **11/12 = 0.92** | **11 atoms** | **7.5×**, exceeds | 0.032 |
-| `vhl|M3` | 9/12 = 0.75 | **8 atoms** (shortest) | 1.4×, exceeds | **0.0** |
-| `vhl|M2` *(the preview headline)* | 6/12 = 0.50 | 9 atoms | 1.43×, exceeds | 0.008 |
-| `vhl|M4` | 5/12 = 0.42 | 12 atoms | exceeds | 0.031 |
-| `vhl|M14` | 3/12 = 0.25 | 12 atoms | **does NOT exceed** | 0.0 |
+| meta-basin | poses | C397 reach (exact) | at-gate reach fraction | term (b) vs background | paralogue zones bare |
+|---|---|---|---|---|---|
+| `vhl|M2` | 6/12 = 0.50 | **10 atoms** (shortest) | **0.057** | 1.43×, exceeds | 0.008 |
+| `vhl|M3` | 9/12 = 0.75 | 11 atoms | 0.021 | 1.4×, exceeds | **0.0** |
+| `crbn|M17` | 3/12 = 0.25 | 12 atoms *(at the gate)* | 0.045 | **3.87×**, exceeds | — |
+| **`crbn|M0`** ← strongest **nomination** | **11/12 = 0.92** | 13 atoms — **MISSES the gate by one** | **0.000** | **7.5×**, exceeds | 0.032 |
+| `vhl|M14` | 3/12 = 0.25 | — | 0.000 | **does NOT exceed** | 0.0 |
 
-**Three things this table says that the preview did not.**
-1. **All 7 term-(a) basins reach C397 — and only C397.** Neither C420 (18.3 Å) nor C559 (12.8 Å, RSA 0.095)
-   is reached by any basin at the 12-atom gate. **The categorical chemistry axis rests on a single residue.**
-2. **The strongest basin is now CRBN, not VHL** (`crbn|M0`, 0.92 persistence). That partly offsets — but does
-   not erase — the preview's finding that CRBN's *lysine* null is 0.81–0.96; `crbn|M0` clears background at
-   7.5×, so it is not merely riding that null.
-3. **Reach fractions are 0.019–0.057**, i.e. an electrophile reaches C397 in only **2–6 %** of a basin's
+**Three things this table says.**
+1. **All 3 term-(a) basins reach C397 — and only C397.** Shortest reach per residue across the whole run is
+   **C397 10 · C420 16 · C559 27**, so at a 12-atom gate the other two are not near-misses.
+   **The categorical chemistry axis rests on a single residue.**
+2. **★ THE STRONGEST BASIN AND THE GATE-CLEARING BASINS ARE NOT THE SAME BASINS, and that separation IS the
+   result.** `crbn|M0` leads on pose persistence (0.92) and on the *lysine* term (7.5× over background, so it
+   is not merely riding CRBN's null) — but under the exact kernel its shortest C397 requirement is **13**
+   atoms, so it does not clear the electrophile gate at all. Tier 2 passes CATEGORICAL because `vhl|M2`,
+   `vhl|M3` and `crbn|M17` clear it, **not** because the leading basin does. Anyone quoting `crbn|M0` as a
+   term-(a) basin is quoting the superseded run.
+3. **Reach fractions are 0.021–0.057**, i.e. an electrophile reaches C397 in only **2–6 %** of a basin's
    placements. This is the quantitative form of "weakly", and it is why the gate **nominates** rather than decides.
 
 *Reconciliation note, checked rather than assumed:* `best_linker_atoms` reads **19** on every meta-basin while
 the term-(a) gate is 12, which looks like a contradiction and is not — `best_linker_atoms` is the linker length
 that best supports **basin accessibility** (`P(B_k | d, s)`), whereas the gate counts
 `term_a_union[cys].max_fraction_reachable_at_gate`, whether an **electrophile** reaches that cysteine within 12
-atoms. Two different quantities; the 7 reconciles exactly against the gate block.
+atoms. Two different quantities; the 3 reconciles exactly against the gate block.
+
+Per arm, from the same definitive run (rows sum to the 58 / 3 / 40 above, which is how they are checked):
 
 | | VHL *(Lane 1 staged it only as a **sensitivity control**)* | CRBN *(Pareto front)* |
 |---|---|---|
-| meta-basins | 19 | 21 |
-| exploiting **term (a)** at the 12-atom gate | **2** | **0** |
-| shortest C397 linker | **9 atoms** | 15 atoms |
-| exploiting **term (b)** above the null | 12 | 12 |
-| enrichment over null | **2.9–11.8×** | 1.06–5.6× |
-| null: covers *any* NR4A3 lysine | 0.35–0.49 | **0.81–0.96** |
+| meta-basins | 28 | 30 |
+| exploiting **term (a)** at the 12-atom gate | **2** (`vhl\|M2`, `vhl\|M3`) | **1** (`crbn\|M17`) |
+| shortest C397 linker (exact) | **10 atoms** | 12 atoms |
+| exploiting **term (b)** above the null | 21 | 19 |
+| enrichment over null | 1.06–7.37× | 1.07–8.0× |
+| null: covers *any* NR4A3 lysine | 0.31–0.48 | 0.77–0.95 |
 
 - **The categorical terms fire in a small MINORITY of placements** — 0.5–8 % cover a unique lysine, term (a)
-  reaches gate level in 2–5 % — against the gate's **unique-lysine null of 1.0–7.5 %** (`term_b_background_null.fraction_unique_covering`, 24 arm×pose nulls). **Enrichments, not saturation.** ⚠ *Corrected 2026-07-25: an earlier "1–6.5 %" was carried over from the PREVIEW run and matched no artifact field; it also contradicted the correct 2–6 % stated above. Do not pair one range with both terms — the reach control is a different quantity, and is zero in 168/192 basins.*
+  reaches gate level in 2–6 % — against the gate's **unique-lysine null of 1.0–7.5 %** (`term_b_background_null.fraction_unique_covering`, 24 arm×pose nulls). **Enrichments, not saturation.** ⚠ *Do not pair one range with both terms — the reach control is a different quantity, and is zero in 184/192 basins.*
 - ⚠ **RETRACTED SAME DAY (2026-07-25, LANE 7): "CRBN's null is 0.81–0.96, so most of CRBN's term-(b) signal is
   background — the discrimination lives on VHL."** That inference was wrong **twice over**, and it was recorded
   here earlier today, so it is corrected rather than quietly dropped.
@@ -1013,35 +1026,48 @@ atoms. Two different quantities; the 7 reconciles exactly against the gate block
 - **`term_b_best_rank` is a best-of-N statistic, inflated by construction** (exactly piece 5's winner's-curse
   artifact), so those counts are **upper bounds**; the unbiased mean fractions lead. One CRBN basin reached
   rank 4 while scoring *below* background and was correctly excluded — **without the null it would have counted.**
-- **Strongest nomination `vhl|M2`:** 5/6 poses, C397 reachable at a **10-atom** linker, term-(b) rank 5 with a
-  unique lysine and *both* paralogue zones bare, and its interface patch (UniProt 390–412 + **572**) sits
-  *around K572 itself*. **`vhl|M0` survives 6/6 poses** with C397 at 9 atoms despite a **negative nominal Δ** —
-  under mechanism-first that does not disqualify it, and **a scalar score would have hidden it**, which is the
-  clearest vindication yet of dropping the tunable scalar.
-- **Pose-marginalisation:** top VHL meta-basin **6/6 = 1.00**; several at 0.50–0.83; top CRBN **3/4 = 0.75**.
+- **Shortest gate-clearing nomination `vhl|M2`:** 6/12 poses, C397 reachable at a **10-atom** linker (the
+  shortest anywhere in the run), term-(b) enrichment 1.43× with a unique lysine covered and *both* paralogue
+  zones bare at 0.008, and its interface patch (UniProt 390–412 + **572**) sits *around K572 itself*.
+  **`vhl|M0` survives 5/12 poses** despite a **negative nominal Δ** — under mechanism-first that does not
+  disqualify it, and **a scalar score would have hidden it**, which is the clearest vindication yet of
+  dropping the tunable scalar; note it does **not** clear the electrophile gate (C397 at 19 atoms). ⚠ *The
+  6-pose preview's "`vhl|M2` 5/6" and "`vhl|M0` 6/6 with C397 at 9 atoms" are superseded by the 12-pose run
+  and must not be quoted ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 49).*
+- **Pose-marginalisation on the 12-pose run:** top CRBN meta-basin **11/12 = 0.92** (`crbn|M0`); top VHL
+  **9/12 = 0.75** (`vhl|M3`); the rest spread down to 0.25.
 - **★ LINKER TRACTABILITY, ADDED BY RUNG 5b (2026-07-25) — and it does NOT invert the ranking, though a first
   pass said it did.** `min_linker_atoms` is a **best-of-N** over a basin's placements, and the member achieving
   it is **not** the published representative. Measured at the *representative*, C397 needs 14–25 atoms and
-  `crbn|M0` looked the least buildable (~29) — an apparent inversion of the basin ranking. Re-run with the
-  achieving placement emitted explicitly (`exemplar_placement`, $0, 71.6 min; **the gate reproduced exactly at
-  58/7/40/28 CATEGORICAL**, so the addition is purely additive):
+  `crbn|M0` looked the least buildable — an apparent inversion of the basin ranking. Re-run with the
+  achieving placement emitted explicitly (`exemplar_placement`, $0, 71.6 min), the addition is **purely
+  additive to the gate**: it reproduced the counts standing at the time exactly, and the electrophile term
+  moved later and separately, in the reach correction below. Exact-kernel figures, at the search's own 3.0 Å
+  pendant convention:
 
   | basin | C397 atoms, representative → exemplar | comfortable length |
   |---|---|---|
-  | **`crbn\|M0`** | 25 → **11** | **~15 atoms** (1.1 kT) |
-  | `vhl\|M3` | 14 → 11 | ~13–15 |
-  | `vhl\|M2` | 15 → 10 | ~12–14 |
+  | **`crbn\|M0`** | 33 → **13** | **~15 atoms** (1.1 kT) |
+  | `vhl\|M3` | 23 → 11 | ~13–15 |
+  | `vhl\|M2` | 16 → 10 | ~12–14 |
 
-  **So the strongest basin is among the MOST tractable, not the least**, and the inversion was an artifact of
-  comparing a best-of-N length against a typical placement. Both are now emitted — exemplar (optimistic),
-  representative (typical) — and neither may be quoted without saying which.
+  **So the inversion was an artifact of comparing a best-of-N length against a typical placement** — correcting
+  it leaves `crbn|M0` **comparable** to the others rather than an outlier. ⚠ It does **not** make it the most
+  tractable, and the earlier reading "the strongest basin is among the MOST tractable" is withdrawn
+  ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 49), along with the pre-correction
+  25 → 11 / 14 → 11 / 15 → 10 row values. Both placements are emitted — exemplar (optimistic), representative
+  (typical) — and **neither may be quoted without saying which, nor without its pendant convention**: at the
+  longest pendant in the sweep `crbn|M0`'s representative reads 25 rather than 33.
 - ✅ **CORRECTED 2026-07-26 (LANE 10) — the C397 reach figures are no longer lower bounds.** They previously
   were, by up to ~5 atoms: RUNG 5a's reach rule credited the pendant with shortening the **span**, which no
   pendant can do (all 576 records were audited and none was internally impossible, so it was a bound, not an
   error). The exact three-ball kernel has since replaced it and every figure was recomputed on the matched
   **10⁶** run. **The correction moved term (a) 7 → 3 and left term (b) 40 and the nominal limb 28
   bit-identical** — the values and the gate verdict are stated once, in the §WHERE WE ARE "the covalent design
-  route clears the gate" block above. Quote them from there, not as bounds.
+  route clears the gate" block above. Quote them from there, not as bounds. ⚠ **This bullet sat 50 lines below
+  a table still printing the pre-correction values, and the manuscript copied that table rather than this
+  bullet** — a correction is not delivered until the live text above it stops disagreeing with it (rule 2).
+  Both are now current; the superseded set is [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 49.
 - ⚠ **`best_linker_atoms = 19` on 188/192 basins is the scan's LAST GRID POINT**, not an optimum. Do not read it
   as a converged optimum in either direction.
 - **Exit vectors never let the linker run taut** — α = 33–100°, costing 1–3 backbone atoms of detour at minimum.
@@ -1265,7 +1291,9 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   **★ r0 IS IN, IT IS THE WRONG SIGN, AND MORE REPLICATES CANNOT FIX IT (2026-07-25). Full analysis +
   recommendation: [valB-mini-r0-verdict-2026-07-25.md](research/manuscripts/valB-mini-r0-verdict-2026-07-25.md).**
   The first complete cycle (CI 30148463967, re-dumped 30155238348) gives **ΔΔG_coop(r0) = −0.534 kcal/mol**
-  against the +0.944 target — wrong sign, 1.478 off — from legs binary **48.0046** / ternary **47.4701** /
+  against the +0.944 target — wrong sign, 1.478 off, **both of which are r0's own superseded reading and NOT
+  the lane's headline** ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 44 and 51; the
+  current values are the n=3 mean −0.599 / abs error 1.543 in the scoreboard) — from legs binary **48.0046** / ternary **47.4701** /
   solvent **47.8060**, i.e. the answer is **1.1 % of the numbers being subtracted** (the reduction's own
   `cancellation_ratio` = 0.0111). Protocol hashes are
   **consistent** across the three legs, so the cycle is *not* contaminated by a protocol mismatch; the record's
@@ -1297,8 +1325,11 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   Structurally stable: the alarming 78.9 Å → 14.97 Å solute RMSD is **periodic wrapping** (p50 2.50 Å, p90
   5.91 Å, ~2 % of atoms at ~1 box edge of 126.3 Å; √(0.02·100²+0.98·3²) ≈ 14.4 reproduces it), so the *ternary
   assembly did not rearrange* and the systematic does **not** implicate the SMARCA4→SMARCA2 starting model.
-  **Consequence: the statistical error (0.045) is ~33× smaller than the miss (1.478), so the wrong sign is
-  SYSTEMATIC — and replicates shrink variance, not bias.** Made worse for the replicate case, not better:
+  **Consequence: the statistical error (0.045) is far smaller than the miss — ~34× against the landed n=3 miss
+  of 1.543, and ~33× against the superseded 1.478 r0 read that day — so the wrong sign is
+  SYSTEMATIC, and replicates shrink variance, not bias.** *(1.478 is r0's reading and is superseded twice over,
+  [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 44 and 51; the conclusion is unchanged by
+  either correction, which is why it survives being restated at both values.)* Made worse for the replicate case, not better:
   ternary seed *s* uses the *s%n*-th relaxed SMARCA2 model, so r1/r2 are partly *different structures* and their
   spread would conflate sampling noise with homology-model sensitivity.
   **★ THE LAST OPEN DIAGNOSTIC IS NOW CLOSED — `diagnostics_complete: TRUE` (2026-07-25, run 30169056960).** The
@@ -2055,16 +2086,18 @@ NR-V04 covalent feasibility panel is **WITHDRAWN** — not merely "under correct
 produced by the frozen scoring rule, its inputs were contaminated, and no trajectory survives to re-derive from,
 so its re-run is **`[HELD]`** pending a prereg amendment. It gates nothing.
 
-**Three lanes are billing** — the **Step 1 fan-out** (19 congeneric RBFE edges), the **valB_mini replicates**
-(4 legs) and, since 7:51 PM ET, the **closure triangle** (4 of 4 legs hosted as of 8:03 PM). **Two more are held,
-deliberately and for stated reasons**: RUNG **5a-KS** behind the relaunch price gate, and the **restrained
-binary re-run** behind the closure triangle's `R` — which the triangle is now actually running to produce. Live state, ETAs, cost and `$/ns`
-for every one of them: the **IN FLIGHT** board at the top of this file, which is their one home.
+**NOTHING IS BILLING.** All three lanes that were running closed on 2026-07-30 — the **Step 1 fan-out** (19
+congeneric RBFE edges), the **valB_mini replicates** (4 legs) and the **closure triangle**, whose `R` landed at
+5:11 PM ET and was the last owed GPU work in the fixed scope. **Two lanes remain held, deliberately and for
+stated reasons**: RUNG **5a-KS** behind the relaunch price gate, and the **restrained binary re-run** behind
+the triangle's `R` — which has now landed, so what that leg is waiting on is a *reading*, not a run. Live
+state, cost and `$/ns` for every one of them: the **IN FLIGHT** board at the top of this file, which is their
+one home — ⚠ **and this paragraph must never restate it.** It said *"three lanes are billing"* for a day after
+the board said nothing was, which is a rule-1 defect in the one direction that matters, since a stale
+"currently spending" line is what an unattended fleet looks like when it is *not* being supervised.
 
 **Built and idle, awaiting a go or a decision:**
 - **The NR-V04 retrospective** — built, preregistered, never launched; next launch is a pilot, not a fan-out.
-
-*(The closure triangle left this list at 7:51 PM ET — it is billing. See its row in the table above.)*
 
 **Closed earlier:** the 5a-KS confirmatory protein-mutation benchmark **qualified** (RUNG 5a-KS), moving the
 ladder's only unscoped rung from UNPRICED to *projected*. Nothing with a GPU price launches without an explicit
@@ -2322,6 +2355,11 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 46 | The realised-spend scoreboard at **$24.46 ledgered / $26.77 best estimate** (and every board that quoted it) | **Undercounted by ~3x, and not because anything was mis-summed — because `main` was summing the wrong copy.** The step-1 fan-out writes its ledger to `claude/max-effort-2dq11l`, the branch its workflow checks out; `main`'s copy stopped at 86 rentals while the lane's real one held **197**. Corrected to **$72.47 ledgered / $74.78 best estimate** once the artifact was ported. **No new money was spent** — this is a bookkeeping correction to figures that were wrong when written. The general lesson is now a standing rule (CLAUDE.md §7, branch drift): before quoting any committed artifact, check which ref the producing workflow actually writes to |
 | 47 | The evidence offered for "ΔΔG_coop is SAFE, the charge model cancels": **`CHARGE_METHOD` is `nagl` on both arms** — a configuration flag plus a `partial_charge_method = nagl` line in a live leg log (this table's own §Val A evidence column, 2026-07-24) | **The conclusion survives; the basis did not, and the gap it left was real rather than pedantic.** OpenFE *prefers user-supplied charges over its configured `partial_charge_method`*, and until 2026-07-28T00:54Z the relaxed pose file every leg read shipped a complete per-atom charge set — so the configured value and the parameterised value were free to differ, silently, with the log still saying `nagl`. Read from the stored setup-cache `System`s instead (2026-07-29, $0, `task=charge-provenance`): the inheritance **did** occur on every banked forward leg, and it changed nothing, because the inherited values **are** the protocol's NAGL values (the binary arm ran with nothing to inherit and produced the same numbers to 0.0 *e*). r0/r1/r2 arms carry identical alchemical charges (109/109 core atoms; max \|Δq\| 0.0 / 0.0 / 1.9 × 10⁻⁷ *e*), and the reverse leg's endpoints are the forward leg's swapped. **No banked ΔG or ΔΔG changes.** Do not cite a `CHARGE_METHOD` flag or a log line as evidence of what a leg sampled; cite [`charge-provenance-forensic.json`](research/modalities/charge-provenance-forensic.json) |
 | 19 | "E3 breadth is free at the search stage — widen to the ligandable set and *some* E3 will complement NR4A3's differential surface" (availability checked, and it did not constrain) | Availability was the **wrong constraint**. Structural stageability is the binding one: of 10 recruiters, **RNF114 has no deposited structure at all**, **DCAF16**'s ligand is **34 % buried** with its partner removed (glue interface, not a handle pocket), and **DCAF15** has no partner-free liganded structure. The widening **confirmed CRBN + VHL rather than displacing them** — a real negative for the breadth argument, to be reported not absorbed |
+| 48 | The scoreboard deliverable **"21 candidate molecules, chemistry-verified end to end"** | **Stale, and it contradicted this file's own library line 56 rows above it** (*"Library is now 36 exemplar + 18 representative, RDKit-verified 54/54"*) — a one-fact-two-values defect of exactly the kind rule 1 exists to prevent, surviving because the deliverable row and the library block were edited in different passes. The live count is **54** and it is DERIVED from [`nr4a3-linker-design.json`](research/modalities/nr4a3-linker-design.json) → `library_summary.n_constructs` (36) + `library_summary_at_representative_geometry.n_constructs` (18), never typed. **21** was the pre-wedge-fix enumeration; it is not withdrawn as wrong for the run that produced it, and the manuscript's §2.10 carried it too until 2026-07-30 |
+| 49 | The Tier-2 orientation-basin figures as they stood in the **manuscript** until 2026-07-30: **7** basins exploiting term (a), `crbn|M0` reaching C397 at **11** backbone atoms and so clearing the 12-atom gate, gate-level reach fractions **0.019–0.057**, the conserved-cysteine control **zero in 168 of 192** basins (0–6.6 %), and every reach length carried as a **lower bound** | **Superseded by the 2026-07-26 reach correction, which this file had recorded and the paper had not** — the defect that let a document lag a correction by four days is the same branch/document-drift failure as row 46, in a different medium. Corrected+matched values, which are the ones in the §WHERE WE ARE block above and now in the paper: **3** basins (`vhl\|M2` 10 atoms / 0.057, `vhl\|M3` 11 / 0.021, `crbn\|M17` 12 / 0.045), `crbn\|M0` at **13** and therefore MISSING the gate at a reach fraction of **0.000**, fractions **0.021–0.057**, control zero in **184 of 192** (0.4–3.9 %), and no figure a bound. Term (b) **40** and the nominal limb **28** are bit-identical across the correction, and the Tier-2 GO is unchanged. Also withdrawn with it: the paper's claim that emitting the achieving placement left *"the strongest basin among the most tractable"* — `crbn\|M0` at 13 atoms is **comparable** to `vhl\|M2` (10) and `vhl\|M3` (11), not ahead of them |
+| 50 | The step-1 fan-out map reported as complete **with no cycle-closure readout at all**, in this file and in the paper's §2.9, while all three of `cycle_3carbonyl`'s edges were quoted unflagged | **The closures were computed and landed with the map; they had simply reached no document.** Two of three close (**−0.726**, **−0.756**, tolerance ±1.0); **`cycle_3carbonyl` sums to +1.307 — VIOLATION**, so by the artifact's own rule at least one of its three edges is unconverged or mis-mapped and all three now carry that reservation where they are quoted. Nothing about the map's counts or spend changes. Separately fixed in the same pass: `cycle_closure`'s `signed_terms` zipped the caller's **declaration-order** edge ids against `_walk_cycle`'s **walk-order** values, mislabelling which edge carried which value in every cycle where the two orders differ. `sum_kcal` is order-independent and was never wrong, which is why it went unnoticed; pinned now by `test_signed_terms_label_each_edge_with_its_OWN_ddg` |
+| 51 | The valB_mini miss quoted as **1.466** (paper §2.11) and **1.478** (SI §S11, and this file's live text in two places), with the derived ratio **"~33× the statistical uncertainty"** in the paper's abstract, §2.11, §5 and the SI — and the **abstract still reporting the r0-only headline ΔΔG_coop = −0.522** | **All superseded by the landed n = 3 replicates, and the paper's own Appendix A already said so while its abstract did not** — a document contradicting itself four sections apart, which is the failure mode rule 1 exists to catch. Live values: mean **−0.599**, abs error **1.543**, ratio **~34×**. 1.466 is the r0-only reading after the restrained binary re-run (row 44); **1.478 is the reading before it, i.e. superseded twice over**, and it was still live in the SI on 2026-07-30. Nothing about the conclusion moves — the sign was wrong at every one of the three values, which is why the correction is a bookkeeping one and is recorded rather than argued |
+| 52 | The generation-matched null's comparison block reporting **`p_value: 0.0`, `enrichment: Infinity`, `exceeds_chance: true`** and the verdict *"real campaign produced a survivor the control objectives NEVER manufactured → survival is not a generic funnel artifact"* | **Every measured count in that artifact is correct and unchanged; the statistics derived from them were not.** `false_positive_rate` returned a per-molecule control rate of exactly **0** — a point estimate from a *single* 191-molecule campaign — and `compare_campaigns` then divided by it, so any real survivor was infinitely enriched at p = 0 **by construction**, independently of the evidence. The honest reading is the **rule-of-three bound**: 0 events in 191 generations puts the manufactured rate at **≤0.0157 (one-sided 95 %)**, which is **3× the real campaign's own 0.0052**, so the confound is **narrowed, not excluded**; one-sided Fisher for 1/191 vs 0/191 is **p = 0.5**. Fixed at the source (`per_molecule_fp_rate_upper95`, and the zero branch now grades the real rate against that bound), retired in place in the artifact's `_superseded` block, and pinned by two tests — one of which previously asserted the overclaim. The artifact was also **not strict JSON** while it carried a bare `Infinity`; it is now |
 
 ---
 

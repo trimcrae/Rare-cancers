@@ -140,6 +140,25 @@ def test_a_broken_edge_is_reported_as_a_violation():
     assert res["cycle_3carbonyl"]["status"] == "ok"
 
 
+def test_signed_terms_label_each_edge_with_its_OWN_ddg():
+    """The residual is order-independent, so a mislabelled `signed_terms` sums correctly while telling the
+    reader the wrong edge carried the anomaly. That shipped: the walk reorders the loop and the values were
+    zipped against the DECLARATION order. Pin the pairing, not just the sum."""
+    ddg = _closed_ddg()
+    ddg["e_cw_ev_5oh__cw_ev_5opropargyl"] += 4.0          # make one edge distinguishable
+    res = {c["cycle_id"]: c for c in cf.cycle_closure(ddg)}
+    edges = {e["edge_id"]: e for e in cf.load_map()["edges"]}
+    for cyc in res.values():
+        terms = cyc.get("signed_terms")
+        if not terms:
+            continue
+        # every id is a real edge of that cycle, quoted at its own magnitude and no other edge's
+        for eid, v in terms.items():
+            assert eid in edges, eid
+            assert abs(abs(v) - abs(round(ddg[eid], 3))) < 1e-6, (eid, v, ddg[eid])
+        assert abs(sum(terms.values()) - cyc["sum_kcal"]) < 1e-6
+
+
 def test_missing_edges_report_incomplete_rather_than_a_fabricated_closure():
     ddg = _closed_ddg()
     del ddg["e_zaienne_cmpd19__cw_ev_5oh"]

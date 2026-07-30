@@ -588,40 +588,49 @@ def cycle_closure(ddg_by_edge, map_path=MAP_JSON):
             out.append({"cycle_id": cyc.get("cycle_id"), "status": "incomplete",
                         "missing": [i for i in ids if i not in ddg_by_edge], "tol_kcal": tol})
             continue
-        signed = _walk_cycle(ids, edges, ddg_by_edge)
-        if signed is None:
+        walked = _walk_cycle(ids, edges, ddg_by_edge)
+        if walked is None:
             out.append({"cycle_id": cyc.get("cycle_id"), "status": "not_a_loop", "edge_ids": ids,
                         "tol_kcal": tol})
             continue
+        walk_ids, signed = walked
         total = sum(signed)
         out.append({"cycle_id": cyc.get("cycle_id"), "status": "ok" if abs(total) <= tol else "VIOLATION",
                     "sum_kcal": round(total, 3), "tol_kcal": tol,
-                    "signed_terms": {i: round(v, 3) for i, v in zip(ids, signed)}})
+                    "signed_terms": {i: round(v, 3) for i, v in zip(walk_ids, signed)}})
     return out
 
 
 def _walk_cycle(ids, edges, ddg_by_edge):
-    """Order the loop's edges head-to-tail and return their signed ddG contributions (negated when an edge is
-    traversed B->A). Returns None if the ids do not actually form a closed loop."""
+    """Order the loop's edges head-to-tail and return `(ordered_ids, signed_ddG)`, the contribution negated
+    where an edge is traversed B->A. Returns None if the ids do not actually form a closed loop.
+
+    The ids are returned WITH the values, and callers must zip against those rather than against the
+    declaration order they passed in: the walk reorders the loop, so zipping the caller's `ids` against
+    `signed` silently attaches each value to whichever edge happens to sit at that index. That defect shipped
+    in `cycle_closure`'s `signed_terms` and was invisible in `sum_kcal`, which is order-independent - it
+    mislabelled which edge carried which value in every cycle whose declaration order was not its walk order."""
     remaining = list(ids)
     first = remaining.pop(0)
     start, node = edges[first]["node_a"], edges[first]["node_b"]
-    signed = [ddg_by_edge[first]]
+    order, signed = [first], [ddg_by_edge[first]]
     while remaining:
         for i, eid in enumerate(remaining):
             e = edges[eid]
             if e["node_a"] == node:
+                order.append(eid)
                 signed.append(ddg_by_edge[eid])
                 node = e["node_b"]
                 break
             if e["node_b"] == node:
+                order.append(eid)
                 signed.append(-ddg_by_edge[eid])
                 node = e["node_a"]
                 break
         else:
             return None
         remaining.pop(i)
-    return signed if node == start else None
+    return (order, signed) if node == start else None
 
 
 def rank_by_ddg(ddg_by_edge, anchor="zaienne_cmpd19", map_path=MAP_JSON):

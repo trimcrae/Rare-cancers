@@ -45,11 +45,21 @@
       "campaign_manufacture_rate": 0.0,
       "pooled_generated": 191,
       "pooled_survivors": 0,
-      "per_molecule_fp_rate": 0.0
+      "per_molecule_fp_rate": 0.0,
+      "per_molecule_fp_rate_upper95": 0.015707,
+      "_zero_is_not_a_measured_zero": "0 survivors in 191 pooled generations bounds the manufactured per-molecule rate at <= 0.015707 (one-sided 95%, rule of three) -- it does not establish it is 0."
     },
-    "p_value": 0.0,
-    "enrichment": Infinity,
-    "exceeds_chance": true,
-    "verdict": "real campaign produced a survivor the control objectives NEVER manufactured (0 control survivors) -> survival is not a generic funnel artifact"
+    "p_value": null,
+    "enrichment": null,
+    "exceeds_chance": false,
+    "verdict": "controls manufactured 0 survivors, which is CONSISTENT WITH but UNDERPOWERED TO ESTABLISH that survival is not a generic funnel artifact: the real per-molecule rate (0.005236) sits below the 95% upper bound on the unobserved manufactured rate (0.015707), so a funnel manufacturing at up to that rate is not excluded. More control campaigns, not a different statistic, is what would settle it",
+    "_superseded": {
+      "p_value": 0.0,
+      "enrichment": "Infinity (real_rate / 0)",
+      "exceeds_chance": true,
+      "verdict": "real campaign produced a survivor the control objectives NEVER manufactured (0 control survivors) -> survival is not a generic funnel artifact",
+      "why": "the control per-molecule rate was a POINT estimate of exactly 0 from a single 191-molecule campaign, and treating it as a measured 0 made any real survivor infinitely enriched at p=0 by construction. No count changed; only the statistics derived from that zero. The one-sided Fisher p for 1/191 against 0/191 is 0.5.",
+      "retired": "2026-07-30"
+    }
   }
 }

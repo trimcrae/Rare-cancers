@@ -59,9 +59,10 @@ enumerates a **reversible-covalent-preferring virtual linker library** whose cov
 unresolved liability alongside the parent warhead's own pharmacology. Two ubiquitination-geometry parameters
 are corrected against solved intact assemblies rather than assumed. **A preregistered known-answer test of the
 ternary machinery itself — measured SPR cooperativity for a linker pyridine→benzene edge on SMARCA2/VHL —
-returns the wrong sign (ΔΔG_coop = −0.522 vs a target of +0.944 kcal/mol), and does so with converged,
-structurally stable, forward/reverse-antisymmetric sampling, making the miss ~33× the statistical uncertainty
-and therefore systematic rather than a sampling deficit that replicates could remove.** No cooperativity or
+returns the wrong sign in all three preregistered replicates (ΔΔG_coop = −0.599 kcal/mol at n = 3 vs a target
+of +0.944), and does so with converged, structurally stable, forward/reverse-antisymmetric sampling and a
+closed cycle, making the miss ~34× the statistical uncertainty and therefore systematic rather than a sampling
+deficit that replicates could remove.** No cooperativity or
 ternary-complex quantity in this work is therefore calibrated, and the degrader stage is reported as a
 prioritized candidate matrix rather than a quantitative prediction. The **causal test of whether any designed
 element creates discrimination has not been run**, and its reading is pre-registered. This is a
@@ -1128,7 +1129,8 @@ advantage the decoys lack, which inflates its NR4A3 leg (hence its margin) relat
 with this, in the **metad-opened** frame — which `denovo_401` was *not* conditioned on, so neither it nor the
 decoys have a generation advantage — it does **not** clear the null (below; the paper elsewhere reads that as
 the metad frame being non-discriminating, but it is also the less-confounded specificity test). A fully clean
-specificity test would require a generation-matched decoy null (in flight, §4). On the confound's magnitude:
+specificity test would require a generation-matched decoy null; **one arm of that control has since been run,
+and it does not settle the question — see the dedicated paragraph below.** On the confound's magnitude:
 all ~191 **valid unique generated molecules** were pocket-conditioned on the *same* release frame, yet the set
 is **not enriched** over the marketed-drug decoys and only **two of ~11** multi-snapshot-tested candidates
 survive (§2.7). **The absence of broad enrichment argues against a *uniform* frame-conditioning effect, but
@@ -1164,6 +1166,28 @@ species-resolution sweep (next paragraph) then withdrew `denovo_111` on protonat
 `denovo_401` as the sole candidate advanced through the computational funnel.** A low hit-rate either way (the funnel does **not** *abundantly* yield
 de-noising survivors), with the negative control staying non-selective throughout —
 consistent with the selectivity-architecture analysis (SI §S3): a cryptic pocket that is a *fragile but not empty* place to source a margin.
+
+**The generation-matched null: one arm has run, it points the right way, and it is underpowered to exclude the
+confound it was built for.** The decoy null above controls the *scoring* step but not the *generative* one, so
+the designed control runs the **identical** generate → developability-filter → dock → multi-snapshot MM-GBSA →
+best-of-N funnel on **control objectives** and asks how often the whole procedure *manufactures* a
+confirmed-selective, above-null survivor. Of its three planned arms the **scrambled-objective** arm has run:
+`denovo_promise` is permuted so the best-of-N advanced to docking is decoupled from the divergent-handle
+objective, on the same real NR4A3 release frame and the same 191 generated molecules — which isolates the
+**winner's-curse in the selection step**. It manufactured **no survivor** (0 of 191, against 2 of 20 rescored
+reaching `confirmed_selective` and none clearing the null bar), where the real campaign produced **one** (1 of
+191, 3 of 13 rescored `confirmed_selective`). **The direction is the favourable one and the honest reading is
+that it does not establish anything:** a control campaign that manufactures zero survivors in 191 generations
+bounds the manufactured per-molecule rate at **≤ 0.0157 (one-sided 95 %, rule of three)** — three times the
+real campaign's own **0.0052** — so a funnel quietly manufacturing at up to that rate is not excluded, and the
+one-sided Fisher exact test for 1/191 against 0/191 gives **p = 0.5**. *(The committed artifact previously
+recorded this as p = 0.0 with infinite enrichment; those follow from treating a zero point estimate as a
+measured zero, and both are retired in place in the artifact's `_superseded` block. No count changed.)* What
+would settle it is more control campaigns, not a different statistic. **The arm that speaks most directly to
+the generative confound — a fresh generation into a *paralogue* pocket, where any NR4A3-selective survivor is a
+manufactured false positive — has not been run**, so §2.7's claim remains the narrow one: `denovo_401` clears a
+same-tier decoy null in its design frame, with the design-match advantage bounded but not eliminated. Record:
+[`../../results/nr4a3-generation-matched-null/nr4a3-generation-matched-null.json`](../../results/nr4a3-generation-matched-null/nr4a3-generation-matched-null.json).
 
 **Pre-FEP species resolution — resolve the exact 3D molecule before spending on FEP.** Because
 FEP presupposes a correct, well-defined species, we docked + MM-GBSA-scored **denovo_401's 16 stereoisomers**
@@ -1368,6 +1392,26 @@ ranking must be read as provisional. Live record:
 governs and states the binding limit: *conditional* relative free energies given a **hypothesized** cmpd19 pose
 (no solved NR4A3 co-crystal) in **one** modeled opened conformer.
 
+**Those three edges exist to close cycles, so the closures are reported — and one of the three does not
+close.** Per the identity argued above, closure is a precision diagnostic and can never certify accuracy; but
+the converse direction does carry information, because a cycle that fails to close means at least one of its
+edges is unconverged or mis-mapped. Two of the three cycles close comfortably: `cycle_exitvector_aniline`
+(cmpd19 → 5-NH₂ → 5-NHAc → cmpd19) at **R = −0.726** and `cycle_exitvector_ether` (cmpd19 → 5-OH →
+5-O-propargyl → cmpd19) at **R = −0.756**, both inside the preregistered ±1.0 kcal/mol tolerance.
+`cycle_3carbonyl` — cmpd19 → free acid → primary amide → cmpd19, i.e. `+0.136` and `+2.106` against the direct
+`+0.935` — sums to **R = +1.307 and is a VIOLATION** of that tolerance. Because the residual is a property of
+the loop rather than of any one edge, this does **not** identify which of the three is at fault; what it does
+establish is that **at least one of them is not converged or not consistently mapped, and all three are
+therefore quoted here under that reservation.** They remain in the tables because deleting an edge on a
+closure failure would silently truncate the map, which is exactly the failure mode the previous paragraph
+distinguishes from a named exclusion — but no ranking statement in this section should be rested on the
+3-carbonyl arm. The natural resolution is the one the section already flags as outstanding everywhere else:
+replicates. With one replicate per edge, a 1.307 residual against per-edge MBAR errors of 0.13–0.50 cannot be
+separated into "a mis-mapped edge" and "three single draws that happened to land this way", and the
+between-replicate SD measured on the *ternary* calibrator (§2.11, 0.375 kcal/mol, ≈3× its own within-run
+errors) is the closest available indication of how large that second possibility is. Machine record:
+`cycle_closure` in the same artifact.
+
 **⚠ An independent recomputation of the same edge disagrees with the §2.9 pilot by more than either stated
 uncertainty, and we report it rather than choosing between them.** The pilot above gives cmpd19 → 5-NH₂ =
 **+1.84 ± 0.36** kcal/mol; the fan-out's `cw_ev_5nh2` is the same nominal perturbation and gives **+1.064 ±
@@ -1414,8 +1458,11 @@ as a before/after on the same build rather than argued: the system's largest gra
 displacement — the singular force is removed and every other force in the box is unchanged to six significant
 figures. **This edge is
 therefore a defect that was fixed, not a scientific exclusion, and it is not counted against what the method can
-do**; at the time of writing it is held out of the map pending the fixed code reaching the execution hosts, and
-its status is whatever `blocked_units` in the live artifact says.
+do.** The de-degenerated geometry reached the execution hosts and **the edge computed**: it is the
+`cw_bio_primary_amide` row of the ranked table above (**+0.935 ± 0.500**, 17 mapped atoms), and `blocked_units`
+in the live artifact now names only the mapper-limited edge. What the episode cost is worth recording next to
+the fix, because it is the reason the archive was eventually read at all: the edge burned **25 rentals across 7
+cards** before anyone counted the attempts, each one failing at the same call for the same reason.
 
 Two scope limits apply to every edge in this map, computed or not: it covers only the **charge-conserving**
 microstate of each edge (the charge-changing species need a co-alchemical or analytical charge correction that is
@@ -1538,30 +1585,46 @@ warhead-bound target, over an ensemble of **12** warhead exit-vector poses, and 
 against NR4A3 and both paralogues superposed into **one** frame (so a paralogue difference cannot be an
 artifact of three independent searches; `nr4a3_basin_search.py`), then clustering on the interface fingerprint
 the scored terms actually depend on, gives **58 pose-marginalised meta-basins over 192 basins**. Of these,
-**7** place an electrophile within the practical 12-atom gate of a unique cysteine, **40** put the modelled
+**3** place an electrophile within the practical 12-atom gate of a unique cysteine, **40** put the modelled
 E2~Ub transfer zone over a unique lysine at a rate exceeding its own background null, and **28** discriminate
-NR4A3 nominally. The strongest is **`crbn|M0`**: it survives **11 of 12** poses, reaches C397 at **11**
-backbone atoms at its achieving placement, and clears the *lysine* term's background by **7.5×**. Four quoting
-rules constrain how any of this may be read, and each was produced by a measurement rather than by caution:
+NR4A3 nominally. The three that clear the electrophile gate are **`vhl|M2`** (C397 at **10** backbone atoms,
+gate-level reach fraction 0.057), **`vhl|M3`** (11 atoms, 0.021) and **`crbn|M17`** (12 atoms, 0.045, clearing
+the lysine background by 3.87×).
+
+**The basin that is strongest overall is not one of them, and saying so is the point of separating the two
+terms.** **`crbn|M0`** survives **11 of 12** poses and clears the *lysine* term's background by **7.5×** — the
+best nomination in the run on both counts — but under the exact reach kernel its shortest C397 requirement is
+**13** backbone atoms, so it **misses the 12-atom electrophile gate by one atom** and its gate-level reach
+fraction is **0.000**. A basin can therefore carry the transfer-zone term convincingly and the electrophile
+term not at all; the gate passes on the categorical basis because three *other* basins clear it, not because
+the leading basin does. Four quoting rules constrain how any of this may be read, and each was produced by a
+measurement rather than by caution:
 
 1. **The categorical terms fire in a small minority of placements.** Gate-level electrophile-reach fractions
-   across the seven basins are **0.019–0.057** — an electrophile reaches C397 in only **2–6 %** of a basin's
+   across the three basins are **0.021–0.057** — an electrophile reaches C397 in only **2–6 %** of a basin's
    placements — and each is itself a *maximum* over the meta-basin's member basins, i.e. the optimistic end.
    Reach is nonetheless **selective** rather than generic: the **conserved** cysteines are scored by the
-   identical rule as a control, and that control is **exactly zero in 168 of 192 basins** (0–6.6 % where it is
-   nonzero). The lysine term is held to its own separate null — a basin must exceed the background rate at
+   identical rule as a control, and that control is **exactly zero in 184 of 192 basins** (0.4–3.9 % where it
+   is nonzero). The lysine term is held to its own separate null — a basin must exceed the background rate at
    which *any* linker-feasible, clash-free placement covers a unique lysine (**1.0–7.5 %** across the 24
    arm × pose nulls), which is why the enrichment quoted for `crbn|M0` above is on the *lysine* term and must
    not be read as an electrophile-reach enrichment. So these are **enrichments, not saturation**: a basin is a region
    that *admits* the mechanism, not one that enforces it, and the gate therefore **nominates** rather than
    decides.
-2. **All seven electrophile-reach basins reach C397, and only C397**, consistent with the ensemble result
-   above and with the same consequence — the chemistry axis has no geometric fallback.
-3. **Every reported reach length is a lower bound, by up to about 5 backbone atoms.** The reach criterion
-   credits a pendant arm with shortening the *span* between the two anchors, which no pendant can do: a linker
-   must physically connect the two exit vectors whatever its branch carries. All 576 (basin × unique cysteine)
-   records were audited and **none is internally impossible**, so this is a bound rather than an error — but
-   the figures must be quoted as bounds.
+2. **All three electrophile-reach basins reach C397, and only C397**, consistent with the ensemble result
+   above and with the same consequence — the chemistry axis has no geometric fallback. Across the whole run
+   the shortest requirement per residue is **C397 10 · C420 16 · C559 27** backbone atoms, so at a 12-atom
+   gate the other two are not near-misses but out of range by 4 and 15 atoms.
+3. **The reach figures are exact, and they were not always: an earlier criterion made every one of them a
+   lower bound by up to about 5 backbone atoms.** That criterion credited a pendant arm with shortening the
+   *span* between the two anchors, which no pendant can do — a linker must physically connect the two exit
+   vectors whatever its branch carries. All 576 (basin × unique cysteine) records were audited under it and
+   **none was internally impossible**, so it was a bound rather than an error; it has since been replaced
+   throughout by the exact three-ball kernel and every figure recomputed on a matched 10⁶-placement run.
+   **The correction is the reason the electrophile count in this section is 3: it moved that term from 7 to 3,
+   while leaving the transfer-zone term at 40 and the nominal limb at 28 bit-identical** — which is itself the
+   evidence that the two terms are independent, since only the term the rule touches moved. The superseded
+   values are recorded in Appendix A, and no figure in this section is a bound.
 4. **The shortest-linker figure is a best-of-N over a basin's members, and the achieving member is not the
    published representative.** Both are now emitted — the achieving placement (optimistic) and the
    representative (typical) — and neither may be quoted without saying which. The gap is large enough to
@@ -1569,10 +1632,13 @@ rules constrain how any of this may be read, and each was produced by a measurem
    **25** backbone atoms at the representative and **11** at the achieving placement (under the search's own
    shorter 3.0 Å pendant convention the representative figure is 33; a length quoted without its pendant
    convention is not interpretable). A first pass that compared a best-of-N length against a typical
-   placement concluded
-   that linker tractability *inverts* the basin ranking; re-running with the achieving placement emitted
-   explicitly reversed that, leaving the strongest basin among the most tractable. The Tier-2 counts above
-   reproduced exactly across that re-run, so the correction is additive.
+   placement concluded that linker tractability *inverts* the basin ranking, `crbn|M0` looking the least
+   buildable of the set; emitting the achieving placement explicitly removed that apparent inversion, leaving
+   `crbn|M0` comparable to the others rather than an outlier (13 backbone atoms at the achieving placement
+   against 10 and 11 for `vhl|M2` and `vhl|M3`, all at the 3.0 Å convention). It does not make it the *most*
+   tractable, and the earlier draft of this section said so; that overstatement is withdrawn in Appendix A.
+   The representative/achieving split was purely additive to the counts — the electrophile term moved later
+   and for the separate reason given in rule 3, not in this re-run.
 
 **Two ubiquitination-geometry parameters were measured rather than assumed, and both corrected defaults this
 program was using.** *(i)* The distance an E2~Ub must span to a substrate lysine was assumed at **10 Å**; in a
@@ -1622,15 +1688,21 @@ to leave every consumed number bit-identical.
 covalency for a reason that is argued, not measured.** Enumerating linker architectures against each confirmed
 basin's exact geometric requirement — anchor-to-anchor span, both exit-vector angles, the connecting dihedral,
 worm-like-chain strain, and the integer branch positions from which a pendant of a given reach can touch
-Cys397's Sγ — gives **1,995 constructs, of which 21 are retained** by a filter **fixed before enumeration**
-(span the anchor-to-anchor floor; comfortably hold ≥25 % of the basin's members; ≤3 kT of chain strain at the
-designed placement; ≤24 backbone atoms; a per-basin cap; one construct retained per confirmed basin even on
-failure, with its failing thresholds attached, so the library cannot look clean by silently dropping the best
-basin). Every retained construct is emitted as an explicit SMILES from staged warhead chemistry (the cmpd19
+Cys397's Sγ — gives **36 retained constructs from 3,544 enumerated** at the achieving (exemplar) placement and
+a further **18 from 1,791** at the representative placement, **54 in total**, under a filter **fixed before
+enumeration** (span the anchor-to-anchor floor; comfortably hold ≥25 % of the basin's members; ≤3 kT of chain
+strain at the designed placement; ≤24 backbone atoms; a per-basin cap; one construct retained per confirmed
+basin even on failure, with its failing thresholds attached, so the library cannot look clean by silently
+dropping the best basin). *Both placements are enumerated for the reason given in rule 4 above — a construct
+drawn against a best-of-N geometry and one drawn against a typical member of the same basin are different
+molecules, and quoting either alone would misstate what is buildable.* In the event no basin needed the
+failure clause: all 54 were kept on merit (`n_kept_despite_failing` is 0 for every basin), which is a
+measurement the clause exists to make possible rather than a foregone result. Every retained construct is
+emitted as an explicit SMILES from staged warhead chemistry (the cmpd19
 methyl 5-X-indole-3-carboxylate anchor with exit vectors already in the congeneric series), a published E3
 handle (VH032 on the *tert*-leucine nitrogen, or pomalidomide on the 4-amino nitrogen), and an L-amino-acid
 branch residue that makes the pendant's stereocentre a defined **(S)** centre inherited from a catalogue
-building block rather than an unspecified one. **All 21 were verified with RDKit against the parsed molecule
+building block rather than an unspecified one. **All 54 were verified with RDKit against the parsed molecule
 rather than against the geometry that proposed them** — backbone length and branch position re-derived by
 topological shortest path between the two anchors, required cores and declared pendants matched as exact
 substructures, and any unassigned stereocentre refused. That verification is a **refusal, not a report**, and
@@ -1763,7 +1835,8 @@ from the n = 3 replicates the verdict is unchanged, but at the older assumed bou
 consistency, not accuracy** — it is structurally blind to exactly the endpoint-state classes named below.
 
 **Taken together these give the load-bearing conclusion: the error is systematic, not statistical.** The
-within-run statistical uncertainty (0.045 kcal/mol) is roughly **33× smaller than the miss** (1.466 kcal/mol).
+within-run statistical uncertainty (0.045 kcal/mol) is roughly **34× smaller than the miss** (1.543 kcal/mol at
+n = 3).
 Because replicates shrink variance and not bias, **more replicates cannot rescue this result** — a point worth
 stating plainly, since the reflex response to a failed free-energy benchmark is to add sampling. The residual
 error classes that a converged, structurally stable, antisymmetric calculation can still carry are precisely the
@@ -1776,6 +1849,26 @@ Two of the classes are concretely elevated here: the SMARCA2 bromodomain is a **
 into a 3.73 Å SMARCA4 parent structure** followed by relaxation (SMARCA2 crystallization having failed for the
 original investigators too), and the target is derived from an SPR α-ratio whose own uncertainty is not
 propagated into the ±1.0 kcal/mol margin.
+
+**Those two elevated classes are not independent — they are one design choice, and a survey of the deposited
+record measures what it cost.** Searching the PDB for ternary complexes on both arms of the SMARCA2/SMARCA4
+pair returns the calibrator's own template, **8G1Q**, on the **SMARCA4** arm, and four SMARCA2 ternaries at
+**2.24, 2.35, 2.70 and 2.84 Å** — every one of them better resolved than the 3.73 Å structure the calibrator
+is built on. The substitution was nonetheless **not avoidable for this edge**: 8G1Q's deposition is
+*"Compound 1 … bromodomain of human SMARCA4 and pVHL:ElonginC:ElonginB"*, so Wurz compound 1 — the calibrator's
+`calib_hi`, and the compound whose SPR α values **are** the reference data — was co-crystallised only with
+SMARCA4, while each deposited SMARCA2 ternary carries a **different** ligand (Compound 11, PROTAC 1, PROTAC 2,
+P3). **Ligand identity and protein identity are coupled for this system**, and keeping the ligand whose
+measurement defines the target forced taking the protein at the wrong paralogue and the worst resolution
+available. Stated as a limitation rather than a fault: the choice was the defensible one, and the consequence
+is that the calibrator's two most elevated error classes — the receptor model and the reference data — trace
+to the *same* decision, which is why a closure residual that localises the miss to those classes cannot
+separate them. It also fixes a requirement on any future calibrator: **choose a system whose reference
+measurement and whose structure sit on the same protein.** *(Not established and not claimed: that a different
+template would change this calibrator's answer. Nothing here tests the swap, and a shared deposition series
+does not make two entries interchangeable.)* Record:
+[`../modalities/s-calibrator-survey.json`](../modalities/s-calibrator-survey.json), in which every accession is
+returned by the RCSB search API rather than typed.
 
 **Status, stated without rounding up.** The calibrator's formal verdict is **FAIL**, and the decision is
 **NO-GO**. It is no longer INDETERMINATE: that earlier status existed only because the preregistered rule needs
@@ -1795,9 +1888,10 @@ INCONSISTENT because the ternary arm disagrees with *itself* across seeds: **144
 (`nagl`) and a setup-cache version (`v1pe`), so this is independent solvation of the same protocol rather than
 a different pipeline — but a replicate SD computed across systems that differ in water count is measuring
 solvation variability alongside sampling variability, and we do not currently separate the two. The figure is
-therefore reported as an upper bound on the sampling-only SD. A replicate-level caveat applies when the replicates do land: the ternary
-starting-model index is `seed mod n_models` at `n_models = 2`, so a third replicate returns to the first
-model's pose and the between-replicate SD **understates** homology-model variance.
+therefore reported as an upper bound on the sampling-only SD. A second caveat was registered in advance of the
+replicates and now applies in fact rather than in prospect: the ternary starting-model index is
+`seed mod n_models` at `n_models = 2`, so the third replicate returned to the first model's pose, and the
+between-replicate SD across the three therefore **understates** homology-model variance.
 
 **What this costs the rest of the paper, applied rather than noted.** §5's Tier-3 reading states that a positive
 degrader-design result "stays exploratory until the known-answer ternary control passes." That control has now
@@ -2180,7 +2274,12 @@ weight, with the following caveats made explicit rather than buried:
    `denovo_401` was DiffSBDD-fit to the release frame it clears the null in, while the decoys were fit to no
    pocket, and it is the best of ~200 generations / ~10 de-noised candidates. So this is a de-noised
    *foothold*, not a demonstrated specificity result** (consistent with its metad-frame failure below, the
-   frame it was *not* designed for); and (b) a **fully
+   frame it was *not* designed for). The purpose-built control for that gap — the **generation-matched null**
+   — has run one of its three arms (scrambled objective, isolating the best-of-N selection step): it
+   manufactured no survivor, but a zero out of 191 generations only bounds the manufactured rate at ≤ 0.0157
+   against the real campaign's own 0.0052, so it **narrows the confound without excluding it**, and the
+   paralogue-pocket generation arm that would speak to the generative step directly is **not run** (§2.7);
+   and (b) a **fully
    criterion-matched re-dock** (NR4A3 metad-opened) — `denovo_401` stays NR4A3-favoured (+7.44 ± 4.18), confirming
    the *direction* is not a release-frame artifact, though the magnitude is frame-dependent. **The matching
    metad-frame decoy null was then run (§2.7) and, honestly, `denovo_401` does *not* clear it**: in the biased
@@ -2340,8 +2439,9 @@ category error. The corresponding **honest expectation recorded in advance** is 
 NR4A3 a *gain* rather than imposing a paralogue *penalty* (the aligned paralogue residues are hydrocarbon and
 simply cannot donate), and that a NO-GO may be acted on at this evidence grade because stopping is the
 conservative action, whereas a **positive** result stays **exploratory** until the known-answer ternary
-control passes. **⚠ That control has since been run and did NOT pass** (§2.11: wrong sign, ΔΔG_coop = −0.522
-against a preregistered +0.944, with the miss ~33× the statistical uncertainty and therefore systematic). This
+control passes. **⚠ That control has since been run and did NOT pass** (§2.11: wrong sign in all three
+replicates, ΔΔG_coop = −0.599 at n = 3 against a preregistered +0.944, with the miss ~34× the statistical
+uncertainty and therefore systematic). This
 clause is consequently **in force, not pending**: any positive Tier-3 result is exploratory, and the condition
 cannot be discharged by adding replicates, because replicates shrink variance and not bias.
 
@@ -2350,8 +2450,9 @@ initial-ABFE-supported foothold, not an unqualified pass.** `denovo_401` docks i
 pocket (4/5 handles), stays NR4A3-favoured through multi-snapshot MM-GBSA where the single-snapshot harvest
 collapses, clears a same-tier decoy null in its design frame, is **supported by initial conditional
 three-replicate ABFE** (§2.8), and passes the in-silico developability filters. Three honest limits keep
-it short of an unqualified pass: the decoy null controls the *scoring* step only (not the generative step or
-the best-of-~200 selection); the **positive margin persists in the metad-opened frame but the candidate does
+it short of an unqualified pass: the decoy null controls the *scoring* step only, and the generation-matched
+control that addresses the rest has run one arm — favourable in direction, underpowered to exclude the
+confound, and missing the paralogue-pocket arm entirely (§2.7); the **positive margin persists in the metad-opened frame but the candidate does
 not clear the corresponding metad-frame decoy null** (itself a poor discriminator); and the ABFE is a
 *conditional receptor contrast*, not absolute engagement (the T4L
 benchmark fails, §2.8). The gate verdict: **a predicted NR4A3-favoured profile in the
@@ -2635,10 +2736,36 @@ while nothing that was previously stated silently disappears.
   seed; **−0.522** was its earlier reduction and **−0.534** the 2 fs cycle that preceded the restrained
   binary-arm re-run). What changed is that a mean of one is no longer being reported as the result. INDETERMINATE
   must not be quoted going forward: it described the absence of replicates, and the replicates exist.
+  **This entry was written before the correction reached the rest of the manuscript, and for a period the paper
+  disagreed with itself about its own headline:** the abstract still gave −0.522, §2.11 and §5 derived
+  "~33× the statistical uncertainty" from the superseded 1.466, and the SI's §S11 discussion used **1.478** —
+  the reading from *before* the restrained binary re-run, superseded twice over, four rows below a table that
+  already carried 1.543. All are now the n = 3 values and the ratio is **~34×**. The conclusion is untouched at
+  every one of the three magnitudes, since the sign is wrong in all of them; recorded because a superseded
+  number surviving in an abstract is exactly the copy that gets quoted onward.
 
 - **§2.9 edge count: the table was cut at 14 computed edges of 18 computable, against ~$69 of GPU spend
   across 197 rentals.** The fan-out has since closed at **18 of 18** and **$73.79**, so those figures describe
   a run in progress and are not the final map.
+
+- **§2.10 Tier-2 electrophile term: the count was 7 basins, `crbn|M0` was reported as reaching C397 at 11
+  backbone atoms and as therefore clearing the 12-atom gate, gate-level reach fractions were quoted as
+  0.019–0.057 across seven basins, the conserved-cysteine control as zero in 168 of 192 basins (0–6.6 %), and
+  every reach length was carried as a lower bound.** All of these came from a reach criterion that credited a
+  pendant arm with shortening the anchor-to-anchor span, which no pendant can do. Replacing it with the exact
+  three-ball kernel and recomputing on a matched 10⁶-placement, 12-pose run gives **3** basins (`vhl|M2` 10
+  atoms, `vhl|M3` 11, `crbn|M17` 12), `crbn|M0` at **13** atoms and therefore **missing** the gate with a
+  gate-level reach fraction of 0.000, fractions **0.021–0.057**, and the control zero in **184 of 192**
+  (0.4–3.9 %). **The transfer-zone term (40) and the nominal limb (28) are bit-identical across the
+  correction**, and the Tier-2 verdict is unchanged — it passes on the categorical basis either way, because
+  the three surviving basins still clear the gate. What changes is which basin clears it: the correction
+  separates the strongest *nomination* (`crbn|M0`, on the lysine term) from the basins that carry the
+  *electrophile* term, and an earlier draft's claim that the achieving-placement re-run left "the strongest
+  basin among the most tractable" is withdrawn — at the achieving placement `crbn|M0` needs 13 atoms against
+  10 and 11 for `vhl|M2`/`vhl|M3`, i.e. comparable, not leading. Live record:
+  [`../modalities/nr4a3-orientation-basins.json`](../modalities/nr4a3-orientation-basins.json) →
+  `tier2_gate`, whose `n_exploiting_term_a_electrophile_reach` governs; the superseded per-record values are
+  retained in that artifact as `*_relaxed_superseded`.
 
 ## Data and software availability
 All analysis code, input structures, generated molecules, docking/MM-GBSA/ABFE inputs and outputs, and the

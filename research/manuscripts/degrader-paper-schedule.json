@@ -86,7 +86,7 @@
  "reviewer_verdict": "research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md",
  "target_venue": "ChemRxiv (CC-BY, free) + JCIM subscription route ($0)",
  "spend_policy": "NO pre-authorization. Every GPU run waits for an explicit go at its gate with a pinned cost. Cheapest-decisive-first: never spend an expensive rung unless the previous cheaper rung's result is promising.",
- "last_reviewed": "2026-07-25",
+ "last_reviewed": "2026-07-30",
  "milestones": [
   {
    "id": "step0_rbfe_mechanics",
@@ -172,7 +172,8 @@
   {
    "id": "valB_mini",
    "title": "RUNG 2: known-answer ternary edge Wurz cmpd1 -> cmpd4 (SMARCA2-VHL, 8G1Q; ddG_coop_exp=+0.94, alpha_SPR)",
-   "status": "in_progress",
+   "status": "done",
+   "status_note": "DONE means the lane is FINISHED, not that it passed. The gate FAILED on sign and the decision is NO-GO; see result_n3 below. Left as in_progress until 2026-07-30, four days after the replicates landed.",
    "track": "gpu",
    "cost_est_usd": "REPRICED 2026-07-25 -> ~$8.8 ($3.2-$22) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: RECONCILED ~$10-16 on Vast 4090 (~64 4090-GPU-h: ~10.7 GPU-h/leg x binary+ternary x 3 replicas, from a MEASURED ~16 s/iter 4090 rate x the corrected 2400-iter leg); as-run on L4 on-demand ~$94. CORRECTED 2026-07-24: the earlier ~$3-6 / ~8.7 GPU-h-per-leg treated the live sampler's 920 iterations as a FINISHED leg; a leg is 400 equil + 2000 production = 2400 iterations at 2.5 ps/iter (nr4a3_rbfe.py:364-365), FORENSIC CONFIRMATION (GH run 30117943561, 2026-07-24): mode=forensic on calib_hi_to_lo__ternary_vhl seed 0 reports checkpoint_interval=40, analysis_last_iteration=1560, checkpoint_last_iteration=1560, TORN=false, 12 generations -> ternary production target IS 2000 iters, 1560 committed (~78%). ROOT CAUSE of the 920 confusion: 920=23x40 and 1560=39x40 are CHECKPOINT BOUNDARIES, not leg lengths; the source line 'binary_vhl leg at iter 913/920' meant 'at 913, next checkpoint 920' AND was the BINARY arm. Leg = 400 warmup + 2000 production = 2400 iters. Leg length is no longer a projection; no end-to-end dG yet. Old 65-110 also superseded. Card dominates - GPU-h-heavy. ★ 2026-07-24 LIVE-LOG CORRECTION (GH run 30123894814, VM gcp-ternary-30112102294): the calib_hi_to_lo__binary_vhl leg ran at ~28.6-38.2 s/iter (median ~33) on L4 - the SAME rate as the ternary leg's ~33 s/iter. pricing.md's 'conservative: the binary leg is a smaller box and should run faster' is REFUTED; a binary leg is a FULL-PRICE leg. This makes the shared-binary-leg identity worth MORE, not less. Also confirmed as-run: production timestep=2.0 fs with a 1.0 fs warmup override, NaN_seen=no.",
    "optimistic_days": 3,
@@ -182,11 +183,30 @@
     "valA_mini"
    ],
    "note": "Mandatory change 1C. REDESIGNED TWICE on 2026-07-17 (research/manuscripts/valB-reviewer-decision-2026-07-17.md). (a) The original hi->lo panel edge (P1->P5) is NOT congeneric; a wide RCSB search found no clean same-assay congeneric both-alpha edge. (b) The first substitute PROTAC 2 -> cis-PROTAC 2 (epimer) was RETIRED by the reviewer (Option-1 GO): a pure single-stereocenter inversion is a NULL alchemical transformation under the production complete single-topology map (identical FF params, 124/124 atoms mapped -> ddG ~ 0 by construction; verified by an endpoint-verification smoke) and needs a bespoke partial/dummy map that is NOT the production protocol. APPROVED replacement = Wurz et al. (Nat Commun 2023) SMARCA2-VHL compound 1 -> compound 4: same-paper SPR alpha 12.8 -> 2.6, a GENUINE constitutional edge (minimal linker pyridine->benzene = ring N->CH), preregistered ddG_coop_exp = -RT ln(2.6/12.8) = +0.94 kcal/mol. Staged from PDB 8G1Q (3.73 A SMARCA4-cmpd1-VHL; NOT a SMARCA2 crystal) with a mandated SMARCA4->SMARCA2 BD substitution + >=2 relaxed models + divergence check. Built + CPU-validated: wurz-calib-frozen.json, wurz_calib_freeze.py, resolver (resolved_calib_wurz), smarca2_model.py (SMARCA4->SMARCA2), ternary_pdb_stage.py assembly, 5-part $0 smoke gate (nr4a3_ternary_fep._five_part_gate), null-map guard + regression test (tests/test_null_map_guard.py). $0 PRE-SPEND GATE (GPU only when the smoke records all 5): (1) chemical identity built==published + not graph-identical after stereo removal; (2) non-null map (linker N->C, no unintended stereocenter change); (3) same atom map + E3 construct in binary & ternary; (4) 8G1Q SMARCA4->SMARCA2 relax >=2 models divergence_ok; (5) alpha_SPR label + +0.94 + SMARCA2-model limitation. DECISION RULE (the +-1.0 kcal/mol band is REMOVED; separation<1 kcal/mol makes a noisy positive point estimate INDETERMINATE): PASS requires positive sign + CI excludes zero + no fwd/rev disagreement + no collapse/escape/restraint-dominated + broad consistency with +0.94. valB_mini GATES valB_full only; NR4A ternary scores stay EXPLORATORY until valB_full passes.",
+   "result_n3": {
+    "date": "2026-07-30",
+    "n_replicates": 3,
+    "ddg_coop_kcal": -0.599,
+    "ddg_coop_per_replicate_kcal": [-0.5125, -1.0097, -0.2749],
+    "ddg_coop_exp_kcal": 0.944,
+    "abs_err_kcal": 1.543,
+    "replicate_cycle_sd_kcal": 0.375,
+    "per_leg_mbar_se_kcal": [0.097, 0.132],
+    "ci95_t_based_kcal": [-1.103, -0.095],
+    "gate_verdict": "FAIL",
+    "decision": "NO-GO",
+    "why": "wrong sign in all three replicates, so the frozen rule fails on SIGN before the cycle-SD criterion is reached. The SD (0.375) PASSES its own <=0.75 threshold - the calibrator fails on sign, not on scatter. Statistical uncertainty 0.045 is ~34x smaller than the miss, so the error is systematic and replicates cannot remove it.",
+    "durable_deliverable": "the between-replicate cycle SD, 0.375 kcal/mol, ~3x the within-run MBAR SEs on the same legs - direct evidence for the standing rule that an MBAR SE speaks to precision and never to reproducibility",
+    "open_caveat": "system identity reads INCONSISTENT because the ternary arm disagrees with ITSELF across seeds (r1 144,447 vs r2 141,740 particles; binary 90,324 vs 90,720), so 0.375 is an upper bound on the sampling-only SD",
+    "all_three_systematic_error_detectors_returned": "antisymmetry |dG_fwd + dG_rev| = 0.325 (PASS, <=1.000); replicate SD 0.375 (within threshold); cycle closure R = 0.2128, R_CONSISTENT_WITH_ZERO (valb-triangle-reduction.json). None indicates a sampling or path origin for the miss."
+   },
    "result_r0": {
+    "_superseded_by": "result_n3 - this is the single-replicate reading and its INDETERMINATE verdict described the ABSENCE of replicates, which no longer holds. Retained, not withdrawn: r0 is one of the three replicates. Do not quote -0.534 / 1.478 / INDETERMINATE as current.",
     "date": "2026-07-25",
     "ci_runs": "reduce 30148463967; per-leg dump 30155238348; convergence 30157501491",
     "ddg_coop_kcal": -0.534,
     "ddg_coop_exp_kcal": 0.944,
+    "_abs_err_is_superseded": "the r0-only miss; do not quote it as the lane's - result_n3 carries 1.543",
     "abs_err_kcal": 1.478,
     "legs_dg_morph_kcal": {
      "binary_vhl": 48.0046,
@@ -269,7 +289,20 @@
   {
    "id": "step1_fanout_cmpd19",
    "title": "RUNG 4: cmpd19 congeneric map, 19-wide once the terminus is proven (conditional hypotheses + sensitivity ranges)",
-   "status": "running",
+   "status": "done",
+   "result": {
+    "date": "2026-07-29",
+    "closed_at_et": "9:24 PM ET, pending=0 and live=0",
+    "n_units": 19,
+    "n_computable": 18,
+    "n_complete": 18,
+    "n_blocked": 1,
+    "blocked_why": "cw_bio_nmethyl_amide - no available mapper reaches the provable 20-atom floor; measured identical at LOMAP budgets t20 and t300, so it is a mapper-capability limit and no rental can fix it",
+    "realised_usd": 73.79,
+    "authorised_ceiling_usd": 74.91,
+    "cycle_closure": "2 of 3 cycles close (R = -0.726, -0.756, tolerance +-1.0); cycle_3carbonyl is a VIOLATION at R = +1.307, so at least one of its three edges (cw_ms_free_acid, cw_bio_primary_amide, and the edge joining them) is unconverged or mis-mapped and all three carry that reservation",
+    "artifact": "research/modalities/step1-fanout-map.json - the counts and spend are DERIVED from it, never typed"
+   },
    "track": "gpu",
    "cost_est_usd": "REPRICED 2026-07-25 -> ~$36 ($15-$80) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: ~$91-101 for the 19 edges (MEASURED 2026-07-24, supersedes the $12-26 estimate). ~13.7 GPU-h/edge x $0.35-0.39/hr realized bid. The old figure compounded two errors: a per-iteration rate taken from the PUBLIC TYK2 system (~5.2 s/iter) applied to the ~2.6x heavier NR4A3 cryptic-pocket complex (~13.6 s/iter, measured on 3 independent hosts), on a $0.122/hr bid basis vs the ~$0.37/hr realized. See research/compute/pricing.md section A.",
    "optimistic_days": 4,
@@ -356,6 +389,9 @@
    "id": "selectivity_wedge_confirm",
    "title": "RUNG 5a-KS: pilot-first causal KILL-SWITCH (ligand-side double difference) + optional protein-mutation cycle",
    "status": "in_progress",
+   "parked": true,
+   "parked_why": "PARKED, NOT FINISHED, and NOT BILLING since 2026-07-27. Both legs died at 7:27 AM ET on a rotated S3 key and were destroyed at 8:20 AM ET; checkpoints are intact (NR4A3 production/800 of 2000, NR4A1 warmup/640 of 1600, so no production sampling is at risk). Both watch entries are enabled:false deliberately, because the watchdog's recovery for a DIED unit is to RENT A NEW HOST and a relaunch is a new purchase that faces the buy line. They resume together or not at all - S is a double difference over the two legs.",
+   "parked_note_on_the_confirmatory_arm": "the optional protein-mutation cycle is dG_mut^ternary - dG_mut^binary, a ternary-minus-binary contrast structurally identical to the quantity valB_mini failed on, and its own benchmark passed on a protein-mutation quantity rather than on that shape. It remains a SECOND line; it is NOT an independent one (STRATEGY Open decision 10, 2026-07-30).",
    "track": "gpu",
    "cost_est_usd": "REPRICED 2026-07-25 -> ~$12 ($1.6-$45) on the measured Vast policy ($0.137 per reference-4090 GPU-hour; best-10-offer planning rate, range $0.057-$0.309). The bid rule and the offer ranking were rebuilt from measurement (charged = min(bid, on-demand), verified by renting one offer at three bid multiples; offers now ranked on all-in $/ns incl. storage, not min_bid). NOTE this fixes the $/hr axis ONLY - the GPU-hour estimate below is unchanged and keeps its stated uncertainty. Regenerate: python research/modalities/vast_cost_model.py. PRIOR TEXT: 5-25 for the PRIMARY test (REVISED 2026-07-24). The primary causal test is now the LIGAND-SIDE DOUBLE DIFFERENCE S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1) for a candidate d and a matched control d0 differing only in the element that engages the wedge. Each term is an ordinary relative alchemical quantity INSIDE one protein; it needs NO protein-mutation engine, makes NO cross-lane subtraction, and by cost lever 2 needs ONLY TERNARY LEGS (the binary and solvent legs are paralogue-independent and cancel exactly). The reciprocal PROTEIN-MUTATION cycle is retained as a CONFIRMATORY second line and remains UNPRICED. ENGINE, CORRECTED 2026-07-24 PM (a parallel session established this by RUNNING it): the perses route is OpenEye-licence-gated in its CORE mutation path (residue atom map via OEMol), so it was RETIRED and the lane was rebuilt on pmx + GROMACS (Dockerfile.pmxfep, protfep_pmx.py, gpu-protfep-vast.yml). No leg has completed on EITHER engine, so there is still no rate. Ladder, mostly free: stage-test/refcheck/bake/build-test = $0 (the hybrid construction is CPU work) -> smoke ~$0.10 -> pilot ~$1-3 (THE ABORT GATE: barstar Y29A, ref 3.4 kcal/mol verified against SKEMPI 2.0) -> full set ~$5-10, priced by protfep_reduce.price_from_legs once legs complete. Cost of establishing the perses dead end: ~$0.05. NOTE the demotion does NOT cancel this lane - the known-answer benchmark is required under either framing; what changes is that the ladder no longer stalls if it fails.",
    "optimistic_days": 4,
