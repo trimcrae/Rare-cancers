@@ -1,0 +1,880 @@
+# SOURCE: https://docs.openfree.energy/en/stable/reference/api/openmm_rfe.html
+# HTTP: 200
+
+
+ 
+
+
+ 
+
+ 
+ 
+ 
+
+ OpenMM Relative Free Energy Protocol &#8212; OpenFE documentation 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Skip to main content 
+ 
+ 
+ 
+ 
+ Back to top 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ Ctrl + K 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ OpenFE docs 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Installation
+ 
+ 
+
+
+ 
+ 
+ Tutorials
+ 
+ 
+
+
+ 
+ 
+ User Guide
+ 
+ 
+
+
+ 
+ 
+ Cookbook
+ 
+ 
+
+
+ 
+ 
+ Reference
+ 
+ 
+
+ 
+ 
+ More
+ 
+ 
+ 
+ 
+ 
+ Changelog
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Search 
+ Ctrl + K 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ GitHub 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Search 
+ Ctrl + K 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Installation
+ 
+ 
+
+
+ 
+ 
+ Tutorials
+ 
+ 
+
+
+ 
+ 
+ User Guide
+ 
+ 
+
+
+ 
+ 
+ Cookbook
+ 
+ 
+
+
+ 
+ 
+ Reference
+ 
+ 
+
+
+ 
+ 
+ Changelog
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ GitHub 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Section Navigation 
+ 
+ Python API Reference 
+ Chemical Systems and Components 
+ SmallMoleculeComponent 
+ ProteinComponent 
+ SolventComponent 
+ ChemicalSystem 
+ EasyChemicalSystemGenerator 
+ 
+ 
+ Atom Mappings 
+ LigandAtomMapper 
+ KartografAtomMapper 
+ LomapAtomMapper 
+ PersesAtomMapper 
+ LigandAtomMapping 
+ default_lomap_score() 
+ ecr_score() 
+ mcsr_score() 
+ mncar_score() 
+ atomic_number_score() 
+ hybridization_score() 
+ sulfonamides_score() 
+ heterocycles_score() 
+ transmuting_methyl_into_ring_score() 
+ transmuting_ring_sizes_score() 
+ default_perses_scorer() 
+ 
+ 
+ Ligand Network Tools 
+ LigandNetwork 
+ generate_radial_network() 
+ generate_maximal_network() 
+ generate_minimal_spanning_network() 
+ generate_minimal_redundant_network() 
+ generate_lomap_network() 
+ generate_network_from_names() 
+ generate_network_from_indices() 
+ load_orion_network() 
+ load_fepplus_network() 
+ 
+ 
+ Simulation Campaign Planning 
+ Transformation 
+ AlchemicalNetwork 
+ RBFEAlchemicalNetworkPlanner 
+ RHFEAlchemicalNetworkPlanner 
+ 
+ 
+ Defining and Executing Simulations 
+ execute_DAG() 
+ ProtocolDAG 
+ ProtocolUnitResult 
+ ProtocolUnitFailure 
+ ProtocolDAGResult 
+ Protocol 
+ ProtocolUnit 
+ ProtocolResult 
+ 
+ 
+ OpenMM Relative Free Energy Protocol 
+ RelativeHybridTopologyProtocol 
+ HybridTopologySetupUnit 
+ HybridTopologyMultiStateSimulationUnit 
+ HybridTopologyMultiStateAnalysisUnit 
+ RelativeHybridTopologyProtocolResult 
+ 
+ 
+ OpenMM Absolute Solvation Free Energy Protocol 
+ AbsoluteSolvationProtocol 
+ AHFESolventAnalysisUnit 
+ AHFESolventSetupUnit 
+ AHFESolventSimUnit 
+ AHFEVacuumAnalysisUnit 
+ AHFEVacuumSetupUnit 
+ AHFEVacuumSimUnit 
+ AbsoluteSolvationProtocolResult 
+ 
+ 
+ OpenMM Absolute Binding Free Energy Protocol 
+ AbsoluteBindingProtocol 
+ ABFEComplexAnalysisUnit 
+ ABFEComplexSetupUnit 
+ ABFEComplexSimUnit 
+ ABFESolventAnalysisUnit 
+ ABFESolventSetupUnit 
+ ABFESolventSimUnit 
+ AbsoluteBindingProtocolResult 
+ 
+ 
+ OpenMM Separated Topologies Protocol 
+ SepTopProtocol 
+ SepTopComplexSetupUnit 
+ SepTopComplexRunUnit 
+ SepTopSolventSetupUnit 
+ SepTopSolventRunUnit 
+ SepTopProtocolResult 
+ 
+ 
+ OpenMM Molecular Dynamics (MD) Protocol 
+ PlainMDProtocol 
+ PlainMDProtocolUnit 
+ PlainMDProtocolResult 
+ 
+ 
+ OpenMM Protocol Settings 
+ 
+ 
+ CLI Reference 
+ charge-molecules command 
+ plan-rhfe-network command 
+ plan-rbfe-network command 
+ quickrun command 
+ gather command 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Reference 
+ 
+ 
+ Python API Reference 
+ 
+ OpenMM Relative Free Energy Protocol 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ OpenMM Relative Free Energy Protocol # 
+ This section provides details about the OpenMM Relative Free Energy Protocol
+implemented in OpenFE. 
+ 
+ Protocol API specification # 
+ 
+ 
+ RelativeHybridTopologyProtocol 
+ Relative Free Energy calculations using a Hybrid Topology scheme using OpenMM and OpenMMTools. 
+ 
+ HybridTopologySetupUnit 
+ Setup unit for Hybrid Topology Protocol transformations. 
+ 
+ HybridTopologyMultiStateSimulationUnit 
+ Multi-state simulation (e.g. multi replica methods like hamiltonian replica exchange) unit for Hybrid Topology Protocol transformations. 
+ 
+ HybridTopologyMultiStateAnalysisUnit 
+ Analysis unit for multi-state Hybrid Topology Protocol transformations. 
+ 
+ RelativeHybridTopologyProtocolResult 
+ Protocol results with the output of a RelativeHybridTopologyProtocol. 
+ 
+ 
+ 
+ 
+ 
+ 
+ Protocol Settings # 
+ Below are the settings which can be tweaked in the protocol. The default settings (accessed using RelativeHybridTopologyProtocol.default_settings() ) will automatically populate a settings which we have found to be useful for running relative binding free energies using explicit solvent. There will however be some cases (such as when doing gas phase calculations) where you will need to tweak some of the following settings. 
+ 
+ 
+ pydantic model openfe.protocols.openmm_rfe.equil_rfe_settings. RelativeHybridTopologyProtocolSettings # 
+ Create a new model by parsing and validating input data from keyword arguments. 
+ Raises [ ValidationError ][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model. 
+ self is explicitly positional-only to allow self as a field name. 
+ 
+ 
+ field protocol_repeats : int [Required] # 
+ The number of completely independent repeats of the entire sampling
+process. The mean of the repeats defines the final estimate of FE
+difference, while the variance between repeats is used as the uncertainty. 
+ 
+
+ 
+ 
+ field forcefield_settings : OpenMMSystemGeneratorFFSettings [Required] # 
+ Parameters to set up the force field with OpenMM Force Fields. 
+ 
+
+ 
+ 
+ field thermo_settings : ThermoSettings [Required] # 
+ Settings for thermodynamic parameters. 
+ 
+
+ 
+ 
+ field solvation_settings : OpenMMSolvationSettings [Required] # 
+ Settings for solvating the system. 
+ 
+
+ 
+ 
+ field partial_charge_settings : OpenFFPartialChargeSettings [Required] # 
+ Settings for assigning partial charges to small molecules. 
+ 
+
+ 
+ 
+ field lambda_settings : LambdaSettings [Required] # 
+ Lambda protocol settings including lambda windows and lambda functions. 
+ 
+
+ 
+ 
+ field alchemical_settings : AlchemicalSettings [Required] # 
+ Alchemical protocol settings including soft core scaling. 
+ 
+
+ 
+ 
+ field simulation_settings : MultiStateSimulationSettings [Required] # 
+ Settings for alchemical sampler. 
+ 
+
+ 
+ 
+ field engine_settings : OpenMMEngineSettings [Required] # 
+ Settings specific to the OpenMM engine such as the compute platform. 
+ 
+
+ 
+ 
+ field integrator_settings : IntegratorSettings [Required] # 
+ Settings for the integrator such as timestep and barostat settings. 
+ 
+
+ 
+ 
+ field output_settings : MultiStateOutputSettings [Required] # 
+ Simulation output control settings. 
+ 
+
+ 
+
+ 
+ 
+ Protocol Specific Settings Classes # 
+ Below are Settings classes which are unique to the RelativeHybridTopologyProtocol . 
+ 
+ 
+ pydantic model openfe.protocols.openmm_rfe.equil_rfe_settings. AlchemicalSettings # 
+ Create a new model by parsing and validating input data from keyword arguments. 
+ Raises [ ValidationError ][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model. 
+ self is explicitly positional-only to allow self as a field name. 
+ 
+ 
+ field endstate_dispersion_correction : bool = False # 
+ Whether to have extra unsampled endstate windows for long range
+correction. Default False. 
+ 
+
+ 
+ 
+ field use_dispersion_correction : bool = False # 
+ Whether to use dispersion correction in the hybrid topology state.
+Default False. 
+ 
+
+ 
+ 
+ field softcore_LJ : Literal [ 'gapsys' , 'beutler' ] [Required] # 
+ Whether to use the LJ softcore function as defined by Gapsys et al.
+JCTC 2012, or the one by Beutler et al. Chem. Phys. Lett. 1994.
+Default ‘gapsys’. 
+ 
+
+ 
+ 
+ field softcore_alpha : float = 0.85 # 
+ Softcore alpha parameter. Default 0.85 
+ 
+
+ 
+ 
+ field turn_off_core_unique_exceptions : bool = False # 
+ Whether to turn off interactions for new exceptions (not just 1,4s)
+at lambda 0 and old exceptions at lambda 1 between unique atoms and core
+atoms. If False they are present in the nonbonded force. Default False. 
+ 
+
+ 
+ 
+ field explicit_charge_correction : bool = False # 
+ Whether to explicitly account for a charge difference during the
+alchemical transformation by transforming a water to a counterion
+of the opposite charge of the formal charge difference. 
+ Please note that this feature is currently in beta and poorly tested. 
+ Absolute charge changes greater than 1 are
+currently not supported. 
+ Default False. 
+ 
+
+ 
+ 
+ field explicit_charge_correction_cutoff : NanometerQuantity = <Quantity(0.8, 'nanometer')> # 
+ The minimum distance from the system solutes from which an
+alchemical water can be chosen. Default 0.8 * unit.nanometer. 
+ 
+ Constraints : 
+ 
+ func = functools.partial(<function _has_compatible_dimensionality at 0x7095074936a0>, unit=’nanometer’, convert=True) 
+ json_schema_input_type = typing.Any 
+ json_schema = {‘type’: ‘number’} 
+ return_type = PydanticUndefined 
+ when_used = always 
+ 
+ 
+ 
+ 
+
+ 
+
+ 
+ 
+ pydantic model openfe.protocols.openmm_rfe.equil_rfe_settings. LambdaSettings # 
+ Create a new model by parsing and validating input data from keyword arguments. 
+ Raises [ ValidationError ][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model. 
+ self is explicitly positional-only to allow self as a field name. 
+ 
+ 
+ field lambda_functions : str = 'default' # 
+ Key of which switching functions to use for alchemical mutation.
+Default ‘default’. 
+ 
+
+ 
+ 
+ field lambda_windows : int = 11 # 
+ Number of lambda windows to calculate. Default 11. 
+ 
+
+ 
+
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ previous 
+ ProtocolResult 
+ 
+ 
+ 
+ 
+ next 
+ RelativeHybridTopologyProtocol 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ On this page
+ 
+ 
+ 
+ Protocol API specification 
+ Protocol Settings 
+ RelativeHybridTopologyProtocolSettings 
+ protocol_repeats 
+ forcefield_settings 
+ thermo_settings 
+ solvation_settings 
+ partial_charge_settings 
+ lambda_settings 
+ alchemical_settings 
+ simulation_settings 
+ engine_settings 
+ integrator_settings 
+ output_settings 
+ 
+ 
+ 
+ 
+ Protocol Specific Settings Classes 
+ AlchemicalSettings 
+ endstate_dispersion_correction 
+ use_dispersion_correction 
+ softcore_LJ 
+ softcore_alpha 
+ turn_off_core_unique_exceptions 
+ explicit_charge_correction 
+ explicit_charge_correction_cutoff 
+ 
+ 
+ LambdaSettings 
+ lambda_functions 
+ lambda_windows 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ This Page 
+ 
+ Show Source 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ so the DOM is not blocked -->
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ © Copyright 2022, The OpenFE Development Team.
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ Created using Sphinx 7.2.6.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Built with the PyData Sphinx Theme 0.16.1.
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 

@@ -1,0 +1,937 @@
+# SOURCE: https://docs.openfree.energy/en/stable/tutorials/rbfe_python_tutorial.html
+# HTTP: 200
+
+
+ 
+
+
+ 
+
+ 
+ 
+ 
+
+ Setting up a relative binding free energy network &#8212; OpenFE documentation 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Skip to main content 
+ 
+ 
+ 
+ 
+ Back to top 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ Ctrl + K 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ OpenFE docs 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Installation
+ 
+ 
+
+
+ 
+ 
+ Tutorials
+ 
+ 
+
+
+ 
+ 
+ User Guide
+ 
+ 
+
+
+ 
+ 
+ Cookbook
+ 
+ 
+
+
+ 
+ 
+ Reference
+ 
+ 
+
+ 
+ 
+ More
+ 
+ 
+ 
+ 
+ 
+ Changelog
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Search 
+ Ctrl + K 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ GitHub 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Search 
+ Ctrl + K 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Installation
+ 
+ 
+
+
+ 
+ 
+ Tutorials
+ 
+ 
+
+
+ 
+ 
+ User Guide
+ 
+ 
+
+
+ 
+ 
+ Cookbook
+ 
+ 
+
+
+ 
+ 
+ Reference
+ 
+ 
+
+
+ 
+ 
+ Changelog
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ GitHub 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Section Navigation 
+ 
+ OpenFE Showcase: Relative Binding Free Energies in the TYK2 System 
+
+
+
+
+
+
+
+
+ Setting up a relative binding free energy network 
+ Binding Free Energies with the OpenFE CLI 
+ Setting up and running absolute binding free energy calculations 
+ Analysis of results from ABFE calculations 
+ Setting up and running absolute hydration free energy calculations 
+ Running a SepTop RBFE calculation 
+ Analysis of a network of RBFE SepTop calculations 
+ Running a Molecular Dynamics (MD) simulation of a protein-ligand complex 
+ Plotting OpenFE results against experiment using Cinnabar v0.4 
+ Generating Partial Charges with the OpenFE CLI 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Tutorials 
+ 
+ Setting up a relative binding free energy network 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ View on GitHub 
+ Download Notebook 
+ 
+ 
+ Setting up a relative binding free energy network # 
+ This tutorial gives a step-by-step process to set up a relative binding free energy (RBFE) simulation campaign using OpenFE. This tutorial is designed as an accompaniment to the CLI tutorial found in the same directory as this notebook. 
+ With the CLI, all the steps here were performed by the openfe plan-rbfe-network command. However, that command offers little room for customization. Using the Python interface gives us the ability to customize all aspects of how our simulation runs. This tutorial provides a step-by-step Python guide to reproducing the setup done in the CLI tutorial, highlighting areas where the Python interface enables customization. 
+ 
+ [1]:
+ 
+ 
+ % matplotlib inline
+ import openfe 
+ 
+ 
+ 
+ 
+ Loading the ligands # 
+ First we must load the chemical models between which we wish to calculate free energies. In this example these are initially stored in a molfile ( .sdf ) containing multiple molecules. This can be loaded using the SDMolSupplier class from rdkit and passed to openfe. 
+ 
+ [2]:
+ 
+ 
+ from rdkit import Chem 
+ supp = Chem . SDMolSupplier ( "tyk2_ligands.sdf" , removeHs = False ) 
+ ligands = [ openfe . SmallMoleculeComponent . from_rdkit ( mol ) for mol in supp ] 
+ 
+ 
+ 
+ 
+ 
+ Charging the ligands # 
+ It is recommended to use a single set of charges for each ligand to ensure reproducibility between repeats or consistent charges between different legs of a calculation involving the same ligand, like a relative binding affinity calculation for example. 
+ Here we will use some utility functions from OpenFE which can assign partial charges to a series of molecules with a variety of methods which can be configured via the OpenFFPartialChargeSettings class. In this example we will charge the ligands using the am1bcc method from ambertools which is the default charge scheme used by OpenFE. 
+ 
+ [3]:
+ 
+ 
+ from openfe.protocols.openmm_utils.omm_settings import OpenFFPartialChargeSettings 
+ from openfe.protocols.openmm_utils.charge_generation import bulk_assign_partial_charges 
+
+ charge_settings = OpenFFPartialChargeSettings ( partial_charge_method = "am1bcc" , off_toolkit_backend = "ambertools" ) 
+
+ charged_ligands = bulk_assign_partial_charges ( 
+ molecules = ligands , 
+ overwrite = False , 
+ method = charge_settings . partial_charge_method , 
+ toolkit_backend = charge_settings . off_toolkit_backend , 
+ generate_n_conformers = charge_settings . number_of_conformers , 
+ nagl_model = charge_settings . nagl_model , 
+ processors = 1 
+ ) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Generating charges: 100%|███████████████████████| 10/10 [02:59<00:00, 17.95s/it]
+ 
+ 
+ 
+ 
+ Creating the LigandNetwork # 
+ The first step is to create a LigandNetwork , which is a network with small molecules as nodes, and atom mappings, the description of how to alchemically mutate between the molecules, as its edges. 
+ The pipeline for creating a LigandNetwork can involve three components: 
+ 
+ Atom Mapper : Proposes potential atom mappings (descriptions of the alchemical change) for pairs of ligands. We will use the LomapAtomMapper . 
+ Scorer : Given an atom mapping, provides an estimate of the quality of that mapping (higher scores are better). We will use default_lomap_scorer . 
+ Network Planner : Creates the actual LigandNetwork ; different network planners provide different strategies. We will create a minimal spanning network with the generate_minimal_spanning_network method. 
+ 
+ Each of these components could be replaced by other options. 
+ 
+ [4]:
+ 
+ 
+ mapper = openfe . LomapAtomMapper ( max3d = 1.0 , element_change = False ) 
+ scorer = openfe . lomap_scorers . default_lomap_score 
+ network_planner = openfe . ligand_network_planning . generate_minimal_spanning_network 
+ 
+ 
+ 
+ The exact call signature depends on the network planner: a minimal spanning network requires a score, whereas that is optional for a radial network (but a radial network needs the central ligand to be provided). 
+ 
+ [5]:
+ 
+ 
+ ligand_network = network_planner ( 
+ ligands = charged_ligands , 
+ mappers = [ mapper ], 
+ scorer = scorer 
+ ) 
+ 
+ 
+ 
+ Now we can look at the overall structure of the LigandNetwork : 
+ 
+ [6]:
+ 
+ 
+ from openfe.utils.atommapping_network_plotting import plot_atommapping_network 
+ plot_atommapping_network ( ligand_network ) 
+ 
+ 
+ 
+ 
+ [6]:
+ 
+ 
+ 
+ 
+ 
+ 
+ We can also inspect the individual atom mappings: 
+ 
+ [7]:
+ 
+ 
+ # get the first edge; it automatically displays in a Jupyter notebook 
+ mapping = next ( iter ( ligand_network . edges )) 
+ mapping 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ To get the score for this mapping, we inspect its annotations attribute. Arbitrary annotations can be added when a mapping is created, although our network generator only includes the score. 
+ 
+ [8]:
+ 
+ 
+ # higher score is better 
+ mapping . annotations 
+ 
+ 
+ 
+ 
+ [8]:
+ 
+ 
+ 
+ 
+{'score': 0.9048374180359595}
+ 
+ 
+ You can output the ligand network to the same graphml format as we saw in the CLI tutorial with the following: 
+ 
+ [9]:
+ 
+ 
+ with open ( "ligand_network.graphml" , mode = 'w' ) as f : 
+ f . write ( ligand_network . to_graphml ()) 
+ 
+ 
+ 
+ 
+ 
+ Creating a single Transformation # 
+ The LigandNetwork only knows about the small molecules and the alchemical connections between them. It doesn’t know anything about environment (e.g., solvent) or about the Protocol that will be used during the simulation. 
+ That information in included in a Transformation . Each of these transformations corresponds to a single leg of the simulation campaign, so for each edge in the LigandNetwork , we will create two Transformation s: one for the complex and one for solvent. 
+ In practice, this will be done for each edge of the LigandNetwork in a loop, but for illustrative purposes we’ll dive into the details of creating a single transformation. In particular, we’ll create the solvent leg for the pair of molecules we selecting for the mapping above. 
+ 
+ Creating ChemicalSystem s # 
+ OpenFE describes complex molecular systems as being composed of Component s. For example, we have SmallMoleculeComponent for each small molecule in the LigandNetwork . We’ll create a SolventComponent to describe the solvent, and binding free energy calculations involve a ProteinComponent . 
+ The Component s are joined in a ChemicalSystem , which describes all the particles in the simulation. 
+ 
+ [10]:
+ 
+ 
+ # defaults are water with NaCl at 0.15 M 
+ solvent = openfe . SolventComponent () 
+ 
+ 
+ 
+ 
+ [11]:
+ 
+ 
+ protein = openfe . ProteinComponent . from_pdb_file ( "./tyk2_protein.pdb" ) 
+ 
+ 
+ 
+ 
+ [12]:
+ 
+ 
+ systemA = openfe . ChemicalSystem ({ 
+ 'ligand' : mapping . componentA , 
+ 'solvent' : solvent , 
+ 'protein' : protein 
+ }) 
+ systemB = openfe . ChemicalSystem ({ 
+ 'ligand' : mapping . componentB , 
+ 'solvent' : solvent , 
+ 'protein' : protein 
+ }) 
+ 
+ 
+ 
+ 
+ 
+ Creating a Protocol # 
+ The actual simulation is performed by a Protocol . We’ll use an OpenMM-based hybrid topology relative free energy Protocol . 
+ 
+ [13]:
+ 
+ 
+ from openfe.protocols.openmm_rfe import RelativeHybridTopologyProtocol 
+ 
+ 
+ 
+ The easiest way to customize protocol settings is to start with the default settings, and modify them. Many settings carry units with them. 
+ 
+ [14]:
+ 
+ 
+ settings = RelativeHybridTopologyProtocol . default_settings () 
+ settings . thermo_settings . temperature # display default value 
+ 
+ 
+ 
+ 
+ [14]:
+ 
+ 
+ 
+298.15 kelvin 
+ 
+ 
+ [15]:
+ 
+ 
+ from openff.units import unit 
+
+ # change the value 
+ settings . thermo_settings . temperature = 310.0 * unit . kelvin 
+ 
+ 
+ 
+ We use the default settings with an adapted solvent padding for the complex phase to avoid adding too many waters. 
+ 
+ [16]:
+ 
+ 
+ # Create a protocol for the solvent legs using default settings 
+ solvent_protocol = RelativeHybridTopologyProtocol ( RelativeHybridTopologyProtocol . default_settings ()) 
+
+ # Create a prrotocol for the complex legs with a reduced solvent padding 
+ complex_settings = RelativeHybridTopologyProtocol . default_settings () 
+ complex_settings . solvation_settings . solvent_padding = 1 * unit . nanometer 
+ complex_protocol = RelativeHybridTopologyProtocol ( complex_settings ) 
+ 
+ 
+ 
+ 
+ 
+ Creating the Transformation # 
+ Once we have the mapping, the two ChemicalSystem s, and the Protocol , creating the Transformation is easy: 
+ 
+ [17]:
+ 
+ 
+ # Here we assume we are creating a transformation for a complex leg 
+ transformation = openfe . Transformation ( 
+ systemA , 
+ systemB , 
+ complex_protocol , 
+ mapping = mapping , 
+ ) 
+ 
+ 
+ 
+ To summarize, this Transformation contains: 
+ 
+ chemical models of both sides of the alchemical transformation in systemA and systemB 
+ the correspondence of items in these two sides in mapping 
+ a description of the exact computational algorithm to use to perform the estimate in complex_protocol 
+ 
+ 
+ 
+ 
+ Creating the AlchemicalNetwork # 
+ The AlchemicalNetwork contains all the information needed to run the entire campaign. It consists of a Transformation for each leg of the campaign. We’ll loop over all the mappings, and then loop over the legs. In that inner loop, we’ll make each transformation. 
+ 
+ [18]:
+ 
+ 
+ transformations = [] 
+ for mapping in ligand_network . edges : 
+ for leg in [ 'solvent' , 'complex' ]: 
+ # use the solvent and protein created above 
+ sysA_dict = { 'ligand' : mapping . componentA , 
+ 'solvent' : solvent } 
+ sysB_dict = { 'ligand' : mapping . componentB , 
+ 'solvent' : solvent } 
+
+ if leg == 'complex' : 
+ # If this is a complex transformation we use the complex protocol 
+ # and add in the protein to the chemical states 
+ protocol = complex_protocol 
+ sysA_dict [ 'protein' ] = protein 
+ sysB_dict [ 'protein' ] = protein 
+ else : 
+ # If this is a solvent transformation we just use the solvent protocol 
+ protocol = solvent_protocol 
+
+ # we don't have to name objects, but it can make things (like filenames) more convenient 
+ sysA = openfe . ChemicalSystem ( sysA_dict , name = f " { mapping . componentA . name } _ { leg } " ) 
+ sysB = openfe . ChemicalSystem ( sysB_dict , name = f " { mapping . componentB . name } _ { leg } " ) 
+
+ prefix = "rbfe_" # prefix is only to exactly reproduce CLI 
+
+ transformation = openfe . Transformation ( 
+ stateA = sysA , 
+ stateB = sysB , 
+ mapping = mapping , 
+ protocol = protocol , # use protocol created above 
+ name = f " { prefix }{ sysA . name } _ { sysB . name } " 
+ ) 
+ transformations . append ( transformation ) 
+
+ network = openfe . AlchemicalNetwork ( transformations ) 
+ 
+ 
+ 
+ 
+ 
+ Writing the AlchemicalNetwork to disk # 
+ We’ll write out each transformation to disk, so that they can be run independently using the openfe quickrun command: 
+ 
+ [19]:
+ 
+ 
+ import pathlib 
+ # first we create the directory 
+ transformation_dir = pathlib . Path ( "transformations" ) 
+ transformation_dir . mkdir ( exist_ok = True ) 
+
+ # then we write out each transformation 
+ for transformation in network . edges : 
+ transformation . to_json ( transformation_dir / f " { transformation . name } .json" ) 
+ 
+ 
+ 
+ 
+ [20]:
+ 
+ 
+ ! ls transformations/
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+rbfe_lig_ejm_31_complex_lig_ejm_42_complex.json
+rbfe_lig_ejm_31_complex_lig_ejm_46_complex.json
+rbfe_lig_ejm_31_complex_lig_ejm_47_complex.json
+rbfe_lig_ejm_31_complex_lig_ejm_48_complex.json
+rbfe_lig_ejm_31_complex_lig_ejm_50_complex.json
+rbfe_lig_ejm_31_solvent_lig_ejm_42_solvent.json
+rbfe_lig_ejm_31_solvent_lig_ejm_46_solvent.json
+rbfe_lig_ejm_31_solvent_lig_ejm_47_solvent.json
+rbfe_lig_ejm_31_solvent_lig_ejm_48_solvent.json
+rbfe_lig_ejm_31_solvent_lig_ejm_50_solvent.json
+rbfe_lig_ejm_42_complex_lig_ejm_43_complex.json
+rbfe_lig_ejm_42_solvent_lig_ejm_43_solvent.json
+rbfe_lig_ejm_46_complex_lig_jmc_23_complex.json
+rbfe_lig_ejm_46_complex_lig_jmc_27_complex.json
+rbfe_lig_ejm_46_complex_lig_jmc_28_complex.json
+rbfe_lig_ejm_46_solvent_lig_jmc_23_solvent.json
+rbfe_lig_ejm_46_solvent_lig_jmc_27_solvent.json
+rbfe_lig_ejm_46_solvent_lig_jmc_28_solvent.json
+ 
+ 
+ Each of these individual .json files contains a Transformation , which contains all the information to run the calculation. These could be farmed out as individual jobs on a HPC cluster. These files are identical to what were created in setup stage of the CLI tutorial; for details on running them, follow from the section on running simulations in the CLI tutorial 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ previous 
+ OpenFE Showcase: Relative Binding Free Energies in the TYK2 System 
+ 
+ 
+ 
+ 
+ next 
+ Binding Free Energies with the OpenFE CLI 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ On this page
+ 
+ 
+ 
+ Loading the ligands 
+ Charging the ligands 
+ Creating the LigandNetwork 
+ Creating a single Transformation 
+ Creating ChemicalSystem s 
+ Creating a Protocol 
+ Creating the Transformation 
+ 
+ 
+ Creating the AlchemicalNetwork 
+ Writing the AlchemicalNetwork to disk 
+ 
+ 
+
+ 
+ 
+ This Page 
+ 
+ Show Source 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ so the DOM is not blocked -->
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ © Copyright 2022, The OpenFE Development Team.
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ Created using Sphinx 7.2.6.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Built with the PyData Sphinx Theme 0.16.1.
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 

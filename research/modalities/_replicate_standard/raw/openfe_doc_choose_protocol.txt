@@ -1,0 +1,918 @@
+# SOURCE: https://docs.openfree.energy/en/stable/cookbook/choose_protocol.html
+# HTTP: 200
+
+
+ 
+
+
+ 
+
+ 
+ 
+ 
+
+ Choose and Configure a Protocol &#8212; OpenFE documentation 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Skip to main content 
+ 
+ 
+ 
+ 
+ Back to top 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ Ctrl + K 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ OpenFE docs 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Installation
+ 
+ 
+
+
+ 
+ 
+ Tutorials
+ 
+ 
+
+
+ 
+ 
+ User Guide
+ 
+ 
+
+
+ 
+ 
+ Cookbook
+ 
+ 
+
+
+ 
+ 
+ Reference
+ 
+ 
+
+ 
+ 
+ More
+ 
+ 
+ 
+ 
+ 
+ Changelog
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Search 
+ Ctrl + K 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ GitHub 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ Search 
+ Ctrl + K 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Installation
+ 
+ 
+
+
+ 
+ 
+ Tutorials
+ 
+ 
+
+
+ 
+ 
+ User Guide
+ 
+ 
+
+
+ 
+ 
+ Cookbook
+ 
+ 
+
+
+ 
+ 
+ Reference
+ 
+ 
+
+
+ 
+ 
+ Changelog
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ GitHub 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Section Navigation 
+ 
+ Loading Molecules and Chemical Systems 
+ Dumping a Transformation to JSON 
+ Using jq to inspect OpenFE JSONs 
+ Choose and Configure a Protocol 
+ Planning a Ligand Network 
+ Relative Free Energy Alchemical Network Planners 
+ Loading Ligand Networks Exported by Orion or FEP+ 
+ Explicitly Defining Ligand Networks 
+ Visualizing Ligand Networks 
+ Create an Alchemical Network 
+ Assigning partial charges to an OpenFF Molecule 
+ BespokeFit: Using bespoke force field parameters with OpenFE protocols 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Cookbook 
+ 
+ Choose and Configure a Protocol 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ View on GitHub 
+ Download Notebook 
+ 
+ 
+ Choose and Configure a Protocol # 
+ A Protocol describes the simulation and sampling strategy for a free energy campaign. It is specified with subclasses of the Protocol class, and their associated ProtocolSettings subclasses. 
+ 
+ Setup # 
+ 
+ [1]:
+ 
+ 
+ from openff.units import unit 
+ 
+ 
+ 
+ 
+ 
+ Choose a Protocol # 
+ Your choice of Protocol determines how free energy sampling is performed. Here, we will be looking into the RelativeHybridTopologyProtocol : 
+ 
+ 
+ Name 
+ RelativeHybridTopologyProtocol 
+ 
+ 
+ 
+ Module 
+ openfe.protocols.openmm_rfe 
+ 
+ Settings 
+ RelativeHybridTopologyProtocolSettings 
+ 
+ MD Engine 
+ OpenMM 
+ 
+ 
+ 
+ 
+ 
+ [2]:
+ 
+ 
+ from openfe.protocols.openmm_rfe import ( 
+ RelativeHybridTopologyProtocol , 
+ RelativeHybridTopologyProtocolSettings , 
+ ) 
+ from openfe.protocols.openmm_rfe import equil_rfe_settings 
+ 
+ 
+ 
+ 
+ 
+ Configure Protocol Settings # 
+ 
+ From the Defaults # 
+ The user-configurable settings of a Protocol are stored in a separate object that inherits from ProtocolSettings . The default settings object for a protocol can be retrieved with the Protocol.default_settings class method: 
+ 
+ [3]:
+ 
+ 
+ settings = RelativeHybridTopologyProtocol . default_settings () 
+ 
+ 
+ 
+ The settings object is a Pydantic data class, and so can be edited and inspected in the usual ways. For example, you can call the object to print its contents as a dictionary: 
+ 
+ [4]:
+ 
+ 
+ settings 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+{'alchemical_settings': {'endstate_dispersion_correction': False,
+ 'explicit_charge_correction': False,
+ 'explicit_charge_correction_cutoff': {'unit': 'nanometer',
+ 'val': 0.8},
+ 'softcore_LJ': 'gapsys',
+ 'softcore_alpha': 0.85,
+ 'turn_off_core_unique_exceptions': False,
+ 'use_dispersion_correction': False},
+ 'engine_settings': {'compute_platform': 'cuda', 'gpu_device_index': None},
+ 'forcefield_settings': {'constraints': 'hbonds',
+ 'forcefields': ['amber/ff14SB.xml',
+ 'amber/tip3p_standard.xml',
+ 'amber/tip3p_HFE_multivalent.xml',
+ 'amber/phosaa10.xml'],
+ 'hydrogen_mass': 3.0,
+ 'nonbonded_cutoff': {'unit': 'nanometer', 'val': 0.9},
+ 'nonbonded_method': 'PME',
+ 'rigid_water': True,
+ 'small_molecule_forcefield': 'openff-2.2.1'},
+ 'integrator_settings': {'barostat_frequency': {'unit': 'timestep',
+ 'val': 25.0},
+ 'constraint_tolerance': 1e-06,
+ 'langevin_collision_rate': {'unit': '1 / picosecond',
+ 'val': 1.0},
+ 'n_restart_attempts': 20,
+ 'reassign_velocities': False,
+ 'remove_com': False,
+ 'timestep': {'unit': 'femtosecond', 'val': 4.0}},
+ 'lambda_settings': {'lambda_functions': 'default', 'lambda_windows': 11},
+ 'output_settings': {'checkpoint_interval': {'unit': 'nanosecond', 'val': 1.0},
+ 'checkpoint_storage_filename': 'checkpoint.chk',
+ 'forcefield_cache': 'db.json',
+ 'output_filename': 'simulation.nc',
+ 'output_indices': 'not water',
+ 'output_structure': 'hybrid_system.pdb',
+ 'positions_write_frequency': {'unit': 'picosecond',
+ 'val': 100.0},
+ 'velocities_write_frequency': None},
+ 'partial_charge_settings': {'nagl_model': None,
+ 'number_of_conformers': None,
+ 'off_toolkit_backend': 'ambertools',
+ 'partial_charge_method': 'am1bcc'},
+ 'protocol_repeats': 3,
+ 'simulation_settings': {'early_termination_target_error': {'unit': 'kilocalorie_per_mole',
+ 'val': 0.0},
+ 'equilibration_length': {'unit': 'nanosecond',
+ 'val': 1.0},
+ 'minimization_steps': 5000,
+ 'n_replicas': 11,
+ 'production_length': {'unit': 'nanosecond',
+ 'val': 5.0},
+ 'real_time_analysis_interval': {'unit': 'picosecond',
+ 'val': 250.0},
+ 'real_time_analysis_minimum_time': {'unit': 'picosecond',
+ 'val': 500.0},
+ 'sampler_method': 'repex',
+ 'sams_flatness_criteria': 'logZ-flatness',
+ 'sams_gamma0': 1.0,
+ 'time_per_iteration': {'unit': 'picosecond',
+ 'val': 2.5}},
+ 'solvation_settings': {'box_shape': 'dodecahedron',
+ 'box_size': None,
+ 'box_vectors': None,
+ 'number_of_solvent_molecules': None,
+ 'solvent_model': 'tip3p',
+ 'solvent_padding': {'unit': 'nanometer', 'val': 1.5}},
+ 'thermo_settings': {'ph': None,
+ 'pressure': {'unit': 'bar', 'val': 1},
+ 'redox_potential': None,
+ 'temperature': {'unit': 'kelvin', 'val': 298.15}}}
+ 
+ 
+ The production simulations could be lengthened from 5 ns to 10 ns: 
+ 
+ [5]:
+ 
+ 
+ settings . simulation_settings . production_length = 10.0 * unit . nanosecond 
+ 
+ 
+ 
+ 
+ 
+ From Scratch # 
+ Alternatively, settings can be specified by hand when creating the settings object: 
+ 
+ [17]:
+ 
+ 
+ settings = RelativeHybridTopologyProtocolSettings ( 
+ protocol_repeats = 3 , # Number of independent repeats of the Protocol transformation 
+ forcefield_settings = equil_rfe_settings . OpenMMSystemGeneratorFFSettings ( 
+ constraints = 'hbonds' , # 'hbonds': Use constraints for bonds involving hydrogen 
+ rigid_water = True , # True: Use constraints for bonds in water 
+ hydrogen_mass = 3.0 , # Perform hydrogen mass repartitioning 
+ forcefields = [ # OpenMM force fields to use for solvents and proteins 
+ 'amber/ff14SB.xml' , 
+ 'amber/tip3p_standard.xml' , 
+ 'amber/tip3p_HFE_multivalent.xml' , 
+ 'amber/phosaa10.xml' 
+ ], 
+
+ # Small molecule force field to use with OpenMM template generator: 
+ small_molecule_forcefield = 'openff-2.2.1' , 
+
+ # Nonbonded settings 
+ nonbonded_method = 'PME' , # Particle Mesh Ewald for long range electrostatics 
+ nonbonded_cutoff = 0.9 * unit . nm , # Cut off Lennard-Jones interactions beyond 1 nm 
+ ), 
+ thermo_settings = equil_rfe_settings . ThermoSettings ( 
+ temperature = 298.15 * unit . kelvin , # Set thermostat temperature 
+ pressure = 1 * unit . bar , # Set barostat pressure 
+ ph = None , # None: Do not keep pH constant 
+ redox_potential = None # None: Do not keep redox potential constant 
+ ), 
+ solvation_settings = equil_rfe_settings . OpenMMSolvationSettings ( 
+ solvent_model = 'tip3p' , # Solvent model to generate starting coords 
+ solvent_padding = 1.5 * unit . nm , # Total distance between periodic image starting coords 
+ box_shape = 'dodecahedron' , # Dodecahedral water box 
+ box_size = None , # Size of the water box 
+ box_vectors = None , # Box vectors 
+ number_of_solvent_molecules = None , # Number of solvent molecules 
+ ), 
+ partial_charge_settings = equil_rfe_settings . OpenFFPartialChargeSettings ( 
+ partial_charge_method = 'am1bcc' , # Partial charge method applied - am1bcc 
+ off_toolkit_backend = 'ambertools' , # Toolkit to use for partial charge assignment - ambertools 
+ number_of_conformers = None , # None: use input conformer for partial charge assignment 
+ nagl_model = None , # None: not using NAGL so no model needs to be chosen 
+ ), 
+ lambda_settings = equil_rfe_settings . LambdaSettings ( 
+ lambda_functions = 'default' , # Interpolation functions for force field parameters 
+ lambda_windows = 11 , # Split the transformation over n lambda windows 
+ ), 
+ alchemical_settings = equil_rfe_settings . AlchemicalSettings ( 
+ # False: Don't use unsampled (non-hybrid) endstates for long range correction 
+ endstate_dispersion_correction = False , 
+ use_dispersion_correction = False , # False: Don't use dispersion correction 
+ softcore_LJ = 'gapsys' , # Use LJ potential from Gapsys et al. (JCTC 2012) 
+ softcore_alpha = 0.85 , # Set soft-core Lennard-Jones potential parameter α 
+ # False: Keep all exceptions (1,4 or otherwise) at all λ 
+ tun_off_core_unique_exceptions = False , 
+
+ # Explicit charge correction settings 
+ # False: don't apply explicit charge correction using an alchemical water 
+ explicit_charge_correction = False , 
+ # Cutoff distance for choosing alchemical waters 
+ explicit_charge_correction_cutoff = 0.8 * unit . nm , 
+ ), 
+ simulation_settings = equil_rfe_settings . MultiStateSimulationSettings ( 
+ # Simulation lengths 
+ minimization_steps = 5000 , # Minimize potential energy for n steps 
+ equilibration_length = 1.0 * unit . nanosecond , # Simulation time to equilibrate for 
+ production_length = 5.0 * unit . nanosecond , # Simulation time to collect data for 
+
+ # Alchemical Space Sampling settings 
+ n_replicas = 11 , # Number of replicas sampling alchemical space 
+ sampler_method = 'repex' , # Sample lambda with Hamiltonian Replica Exchange 
+ time_per_iteration = 2.5 * unit . ps , # Time interval between state sampling (MCMC) attempts 
+
+ # SAMS sampling settings (used if sampler_method='sams') 
+ sams_flatness_criteria = 'logZ-flatness' , # Criteria for switch to asymptomatically optimal scheme 
+ sams_gamma0 = 1.0 , # Initial SAMS weight adoption rate. 
+
+ # Settings to control free energy analysis 
+ # Time interval at which to perform an analysis of the free energies 
+ real_time_analysis_interval = 250.0 * unit . picosecond , 
+ # Minimum simulation time before energy analysis is carried out 
+ real_time_analysis_minimum_time = 500.0 * unit . picosecond , 
+ # Stop simulation if this target error is reached: 
+ early_termination_target_error = 0.0 * unit . kilocalorie_per_mole , 
+ ), 
+ engine_settings = equil_rfe_settings . OpenMMEngineSettings ( 
+ compute_platform = 'cuda' , # you can set to None to let OpenMM choose the best platform for your hardware 
+ ), 
+ integrator_settings = equil_rfe_settings . IntegratorSettings ( 
+ timestep = 4.0 * unit . femtosecond , # Integration timestep 
+ langevin_collision_rate = 1.0 / unit . picosecond , # Langevin integrator collision rate γ 
+ reassign_velocities = False , # False: Velocities are not lost through MCMC moves 
+ n_restart_attempts = 20 , # Restart simulations the first n times they blow up 
+ constraint_tolerance = 1e-06 , # Tolerance for holonomic constraints 
+ barostat_frequency = 25.0 * unit . timestep , # Attempt MC volume scaling every n integration steps 
+ remove_com = False , # False: don't remove the center of mass motion 
+ ), 
+ output_settings = equil_rfe_settings . MultiStateOutputSettings ( 
+ output_filename = 'simulation.nc' , # Filename to save trajectory 
+ output_structure = 'hybrid_system.pdb' , # Filename to save starting coordinates 
+ checkpoint_storage_filename = 'checkpoint.chk' , # Filename for simulation checkpoints 
+ forcefield_cache = 'db.json' , # Cache for small molecule residue templates 
+ output_indices = 'not water' , # Do not save water positions 
+ checkpoint_interval = 1.0 * unit . ns , # Save a checkpoint every 1 nanoseconds 
+ positions_write_frequency = 100.0 * unit . picosecond , # Save position every 100 picoseconds 
+ velocities_write_frequency = None , # Don't save velocities 
+ ), 
+ ) 
+ 
+ 
+ 
+ 
+ [20]:
+ 
+ 
+ RelativeHybridTopologyProtocol . default_settings () 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+{'alchemical_settings': {'endstate_dispersion_correction': False,
+ 'explicit_charge_correction': False,
+ 'explicit_charge_correction_cutoff': {'unit': 'nanometer',
+ 'val': 0.8},
+ 'softcore_LJ': 'gapsys',
+ 'softcore_alpha': 0.85,
+ 'turn_off_core_unique_exceptions': False,
+ 'use_dispersion_correction': False},
+ 'engine_settings': {'compute_platform': 'cuda', 'gpu_device_index': None},
+ 'forcefield_settings': {'constraints': 'hbonds',
+ 'forcefields': ['amber/ff14SB.xml',
+ 'amber/tip3p_standard.xml',
+ 'amber/tip3p_HFE_multivalent.xml',
+ 'amber/phosaa10.xml'],
+ 'hydrogen_mass': 3.0,
+ 'nonbonded_cutoff': {'unit': 'nanometer', 'val': 0.9},
+ 'nonbonded_method': 'PME',
+ 'rigid_water': True,
+ 'small_molecule_forcefield': 'openff-2.2.1'},
+ 'integrator_settings': {'barostat_frequency': {'unit': 'timestep',
+ 'val': 25.0},
+ 'constraint_tolerance': 1e-06,
+ 'langevin_collision_rate': {'unit': '1 / picosecond',
+ 'val': 1.0},
+ 'n_restart_attempts': 20,
+ 'reassign_velocities': False,
+ 'remove_com': False,
+ 'timestep': {'unit': 'femtosecond', 'val': 4.0}},
+ 'lambda_settings': {'lambda_functions': 'default', 'lambda_windows': 11},
+ 'output_settings': {'checkpoint_interval': {'unit': 'nanosecond', 'val': 1.0},
+ 'checkpoint_storage_filename': 'checkpoint.chk',
+ 'forcefield_cache': 'db.json',
+ 'output_filename': 'simulation.nc',
+ 'output_indices': 'not water',
+ 'output_structure': 'hybrid_system.pdb',
+ 'positions_write_frequency': {'unit': 'picosecond',
+ 'val': 100.0},
+ 'velocities_write_frequency': None},
+ 'partial_charge_settings': {'nagl_model': None,
+ 'number_of_conformers': None,
+ 'off_toolkit_backend': 'ambertools',
+ 'partial_charge_method': 'am1bcc'},
+ 'protocol_repeats': 3,
+ 'simulation_settings': {'early_termination_target_error': {'unit': 'kilocalorie_per_mole',
+ 'val': 0.0},
+ 'equilibration_length': {'unit': 'nanosecond',
+ 'val': 1.0},
+ 'minimization_steps': 5000,
+ 'n_replicas': 11,
+ 'production_length': {'unit': 'nanosecond',
+ 'val': 5.0},
+ 'real_time_analysis_interval': {'unit': 'picosecond',
+ 'val': 250.0},
+ 'real_time_analysis_minimum_time': {'unit': 'picosecond',
+ 'val': 500.0},
+ 'sampler_method': 'repex',
+ 'sams_flatness_criteria': 'logZ-flatness',
+ 'sams_gamma0': 1.0,
+ 'time_per_iteration': {'unit': 'picosecond',
+ 'val': 2.5}},
+ 'solvation_settings': {'box_shape': 'dodecahedron',
+ 'box_size': None,
+ 'box_vectors': None,
+ 'number_of_solvent_molecules': None,
+ 'solvent_model': 'tip3p',
+ 'solvent_padding': {'unit': 'nanometer', 'val': 1.5}},
+ 'thermo_settings': {'ph': None,
+ 'pressure': {'unit': 'bar', 'val': 1},
+ 'redox_potential': None,
+ 'temperature': {'unit': 'kelvin', 'val': 298.15}}}
+ 
+ 
+ 
+ 
+ 
+ Construct the Protocol # 
+ However you produce the ProtocolSettings object, the final Protocol can be constructed from the settings object: 
+ 
+ [8]:
+ 
+ 
+ protocol = RelativeHybridTopologyProtocol ( settings ) 
+ 
+ 
+ 
+ Unlike ProtocolSettings , a Protocol instance is immutable. The only way to safely change the settings of a Protocol is to recreate it from the modified ProtocolSettings object. 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ previous 
+ Using jq to inspect OpenFE JSONs 
+ 
+ 
+ 
+ 
+ next 
+ Planning a Ligand Network 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ On this page
+ 
+ 
+ 
+ Setup 
+ Choose a Protocol 
+ Configure Protocol Settings 
+ From the Defaults 
+ From Scratch 
+ 
+ 
+ Construct the Protocol 
+ 
+ 
+
+ 
+ 
+ This Page 
+ 
+ Show Source 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ so the DOM is not blocked -->
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ © Copyright 2022, The OpenFE Development Team.
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ Created using Sphinx 7.2.6.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Built with the PyData Sphinx Theme 0.16.1.
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
