@@ -1962,11 +1962,17 @@ jobs:
         run: |
           set -eo pipefail
           python -m pip install -q boto3
+          # Into the REPO, not /tmp. The first run of this step proved why: it printed the answer into a
+          # job log whose middle is unreachable through the API (the two steps after it emit ~600k
+          # characters, so every tail that fits stops short of it) and whose download host the sandbox's
+          # egress proxy 403s. An artifact nobody can read is the same as no artifact.
+          mkdir -p research/modalities/commit-audits
           for leg in calib_hi_to_lo2__ternary_vhl calib_hi_to_lo2__binary_vhl \
                      calib_lo_to_lo2__ternary_vhl calib_lo_to_lo2__binary_vhl; do
             python research/modalities/commit_store_audit.py --leg "$leg" --mode triangle \
               --timestep-fs 2.0 --warmup-timestep-fs 1.0 \
-              --out "/tmp/commit-audit-$leg.json" || echo "::warning title=AUDIT FAILED::$leg"
+              --out "research/modalities/commit-audits/$leg.json" \
+              2>&1 | tee -a /tmp/commit_audit.txt || echo "::warning title=AUDIT FAILED::$leg"
           done
       - name: Every triangle unit's FULL run.log, and both input trees pulled side by side
         run: |
@@ -2001,6 +2007,7 @@ jobs:
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/valb-triangle-charge-forensic.json
           git add research/modalities/valb-triangle-attempt-forensic.json 2>/dev/null || true
+          git add research/modalities/commit-audits 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "valB triangle forensic: the gate's SDF vs the host's SDF (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
@@ -2013,6 +2020,9 @@ jobs:
           cat /tmp/attempts.txt || true
           echo "================ TRIANGLE ENDPOINT AUDIT ================"
           cat /tmp/tri_audit.txt
+          # LAST, so the frontier comparison is inside every tail that fits — the reason this step exists.
+          echo "================ COMMIT-STORE AUDIT ================"
+          cat /tmp/commit_audit.txt || true
 
   # ------------------------------------------------- free: which charge set did each BANKED leg actually run?
   # ★★ THE ONE QUESTION A LOG CANNOT ANSWER. `_protocol()` prints `partial_charge_method = nagl` whether or not
