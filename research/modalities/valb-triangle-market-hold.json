@@ -1,32 +1,54 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-07-30T18:12:58Z",
-  "mode": "triangle",
-  "n_units": 0,
-  "nothing_to_launch": true,
+  "utc": "2026-07-30T18:15:31Z",
+  "n_units": 1,
+  "basis_usd_per_ns": 0.003412,
+  "plan_usd": 1.71,
+  "ceiling_usd": 3.85,
+  "ceiling_basis": "top of the valB closure triangle's OWN costed range (valb_triangle_closure.price_triangle), scaled to 1 legs",
+  "breakeven_usd_per_ns": 0.009234,
+  "depth": {
+    "offers_returned": 179,
+    "qualifying": 84,
+    "priceable": 84,
+    "needed": 1,
+    "used_for_mean": 1
+  },
+  "offers": [
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 1569,
+      "min_bid_usd_h": 0.094,
+      "usd_per_ns": 0.002683
+    }
+  ],
+  "mean_usd_per_ns": 0.002683,
+  "ratio_vs_basis": 0.786,
+  "projected_usd": 1.12,
+  "max_ratio_vs_basis": 1.9166094031192507,
+  "usd_per_ns_at_max_ratio": 0.006539,
+  "fails_dollar_ceiling": false,
+  "fails_ratio_ceiling": false,
   "hold": false,
+  "reason": "projected $1.12 within this rung's ceiling $3.85 AND 0.79x basis is within the 1.92x drift line",
+  "machines_we_already_occupy": [
+    "137041",
+    "141336",
+    "141396",
+    "56748",
+    "56760",
+    "77866"
+  ],
+  "mode": "triangle",
+  "nothing_to_launch": false,
   "units_done": [
     "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
     "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "units_live": [
+  "units_live": [],
+  "units_needing_host": [
     "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
   ],
-  "live_host_rates": [
-    {
-      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": 46309802,
-      "machine_id": 33657,
-      "gpu": "RTX 4080S",
-      "dph_total_usd_h": 0.14586666666666667,
-      "dph_base_usd_h": 0.1292,
-      "cur_state": "stopped",
-      "actual_status": "running",
-      "usd_per_ns": 0.005049,
-      "x_basis": 1.48,
-      "over_buy_line": false
-    }
-  ],
-  "reason": "no unit of mode triangle needs a host \u2014 3 done, 1 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold."
+  "units_replacing_a_dead_host": []
 }
