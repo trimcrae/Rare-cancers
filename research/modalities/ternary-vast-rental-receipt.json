@@ -1,41 +1,32 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-30T14:39:57Z",
+  "utc": "2026-07-30T14:44:58Z",
   "mode": "triangle",
-  "n_requested": 1,
-  "n_rented": 1,
-  "requested": [
-    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
-  ],
-  "rented": [
+  "n_requested": 0,
+  "n_rented": 0,
+  "requested": [],
+  "rented": [],
+  "failed": [],
+  "already_live": [
     {
       "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "instance": "46293659",
+      "instance": 46293659,
       "machine_id": 28164,
-      "bid": 0.0517,
-      "dph": 0.05288888888888889,
       "gpu": "RTX 3090",
       "dph_total_usd_h": 0.06836666666666666,
       "dph_base_usd_h": 0.0517,
+      "cur_state": "running",
+      "actual_status": "running",
       "usd_per_ns": 0.00356,
       "x_basis": 1.043,
       "over_buy_line": false
     }
   ],
-  "failed": [],
-  "already_live": [],
   "skipped": [
     {
-      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "why": "done"
-    },
-    {
-      "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "why": "done"
-    },
-    {
-      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-      "why": "done"
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "why": "running"
     }
-  ]
+  ],
+  "note": "every unit for this mode is already done or running \u2014 no rental attempted (calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle: running)"
 }
