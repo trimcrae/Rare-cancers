@@ -1,0 +1,17 @@
+{
+ "_how": "OpenMM JITs its CUDA kernels with NVRTC, so the PTX ISA it emits \u2014 and hence the minimum host driver \u2014 is set by the env's own libnvrtc, read with ctypes on a runner with no GPU. Corroborated by the env's cuda-version / cuda-nvrtc / libcudart.",
+ "_unmeasured_images_keep_the_conservative_fallback": "gpu_backend.CONSERVATIVE_MIN_CUDA. An image absent from `images` below has NOT been probed and must not inherit another image's floor.",
+ "_what": "MEASURED minimum host `cuda_max_good` per container image \u2014 the one home of `ResourceSpec.min_cuda`. Written by probe_image_cuda.py from INSIDE each image; never typed by hand.",
+ "_why_it_matters": "vast-filter-ablation.json (2026-07-31 1:36 PM ET, bid tier, 1370 offers) measured this floor as the second most expensive filter the repo applies: at 13.0 the board leaves 119 offers / 52 priceable / best $0.003014/ns; at 12.6 it leaves 134 / 58 / best $0.002828/ns \u2014 6.2% better per ns, on every read, forever.",
+ "images": {
+  "ternary-fep": {
+   "cuda_nvrtc_pkg": "12.6.85",
+   "cuda_version_pkg": "12.6",
+   "cudart": "12.6",
+   "measured_utc": "2026-07-31T17:39:00Z",
+   "nvrtc": "12.6",
+   "openmm": "8.4.0",
+   "required_host_cuda": 12.6
+  }
+ }
+}

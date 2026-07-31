@@ -77,7 +77,8 @@ import vast_idle_guard as _vig  # noqa: E402
 # losing columns. See `inflight_board.__doc__` for why the merged board is a separate file from the ternary
 # lane's, and why a lane may never write another lane's rows.
 import inflight_board as _ifb  # noqa: E402
-from gpu_backend import JobSpec, ResourceSpec, _vast_request, board_read_cache, get_backend  # noqa: E402
+from gpu_backend import (  # noqa: E402
+    JobSpec, ResourceSpec, _vast_request, board_read_cache, get_backend, measured_min_cuda)
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
 BUCKET = os.environ.get("VAST_CKPT_BUCKET", "")
@@ -96,8 +97,13 @@ FEP_IMAGE = os.environ.get("FEP_IMAGE") or "docker.io/triskit23/nr4a3fep:latest"
 
 # 4090 is the $/ns winner at every system size we've benched (pricing.md section A). The RBFE hybrid box is
 # ~35k atoms, so 24 GB VRAM is ample; host RAM matters for the CPU-bound setup unit.
+# ⚠ `min_cuda` IS THIS IMAGE'S OWN MEASUREMENT, not the shared default. `FANOUT_RES` used to inherit
+# `ResourceSpec`'s constant, so a floor probed on one stack would have silently become this lane's — the same
+# error as trusting a Dockerfile line. `measured_min_cuda` returns the conservative fallback until
+# `probe_image_cuda.py` has actually run inside `nr4a3fep`, so this can only ever narrow on evidence.
 FANOUT_RES = ResourceSpec(gpu=os.environ.get("VAST_GPU_MODEL") or "rtx4090",
-                          min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80, interruptible=True)
+                          min_vram_gb=24, vcpus=8, ram_gb=32, disk_gb=80, interruptible=True,
+                          min_cuda=measured_min_cuda(FEP_IMAGE))
 
 # A unit is two legs (~5-6 GPU-h) plus boot/setup; the ceiling must clear a full unit plus a resume, and must
 # NOT reap mid-leg (a real HREX complex leg runs ~3 h).

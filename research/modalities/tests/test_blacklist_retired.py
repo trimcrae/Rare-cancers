@@ -164,3 +164,51 @@ def test_used_machines_double_rent_prevention_survives(mod, needle):
     import importlib
     import inspect
     assert needle in inspect.getsource(importlib.import_module(mod))
+
+
+# =============================================================================================================
+# THE RECEIPT — the two rows that prove the retirement actually took effect on a real board
+# =============================================================================================================
+# trimcrae asked for these to be ASSERTED rather than observed once: `exclude_machine_ids: 0 machine(s)` and
+# `min_ns_per_h: UNSET (no-op)` in `vast-filter-ablation.json` are the only place the two decisions of
+# 2026-07-31 — "just stop doing the blacklist" and the reverted 5a-KS card floor — are visible as an effect on
+# the market rather than as an intention in a diff.
+ABLATION = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "vast-filter-ablation.json")
+
+
+def test_no_lane_carries_a_standing_exclusion_set(monkeypatch):
+    """The live receipt, independent of any artifact."""
+    monkeypatch.delenv("VAST_DURABLE_EXCLUSIONS", raising=False)
+    monkeypatch.delenv("FANOUT_EXCLUDE_MACHINES", raising=False)
+    import congeneric_fanout_vast as cfv
+    import ternary_vast_launch as tv
+    assert tv.resource_spec().exclude_machine_ids == ()
+    assert cfv.FANOUT_RES.exclude_machine_ids == ()
+    # ...and the card floor is unset by default, which is the 5a-KS revert. The triangle gets its floor from
+    # `MODE_MIN_NS_PER_H` per launch, never from a standing spec — see `test_mode_card_floor.py`.
+    assert tv.resource_spec().min_ns_per_h == 0.0
+    assert cfv.FANOUT_RES.min_ns_per_h == 0.0
+
+
+@pytest.mark.skipif(not os.path.exists(ABLATION), reason="no committed ablation artifact yet")
+def test_the_committed_ablation_shows_both_filters_doing_nothing():
+    with open(ABLATION) as fh:
+        doc = json.load(fh)
+    assert doc["durable_exclusions_enabled"] is False, \
+        "an ablation taken with the blacklist switched back on is not the receipt"
+    assert doc["spec"]["n_excluded_machines"] == 0
+    for tier in doc["tiers"]:
+        rows = {r["filter"]: r for r in tier["per_filter"]}
+        ex = rows["exclude_machine_ids"]
+        assert ex["bound"] == "0 machine(s)"
+        assert ex["alone_removed"] == 0 and ex["marginal_cost_offers"] == 0, \
+            "the blacklist must remove nothing — that is what 'retired' means on a live board"
+        if not doc["spec"]["min_ns_per_h"]:
+            ns = rows["min_ns_per_h"]
+            assert ns["bound"] == "UNSET (no-op)" and ns["marginal_cost_offers"] == 0, \
+                "the 5a-KS card floor was reverted; a standing floor here would mean it came back"
+        # And the counterfactual must still be COMPUTED — the point of retiring the list is that we can see
+        # what it would have cost, not that we stop looking.
+        assert tier["retired_blacklist"]["n_retired_ids"] > 0, \
+            "the stored ids must still be read from the snapshots, or the counterfactual is vacuous"

@@ -178,17 +178,50 @@ def probe():
 
 def _main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
-    out = None
+    out, image, merge = None, os.environ.get("PROBE_IMAGE") or "", None
     for i, a in enumerate(argv):
         if a == "--json-out" and i + 1 < len(argv):
             out = argv[i + 1]
+        if a == "--image" and i + 1 < len(argv):
+            image = argv[i + 1]
+        # The ONE HOME of the floor, merged across images: `gpu_backend.measured_min_cuda` reads it, and a
+        # per-image key is what stops one image's measurement being applied to another's lane.
+        if a == "--merge-into" and i + 1 < len(argv):
+            merge = argv[i + 1]
     doc = probe()
+    doc["image"] = image
     print(json.dumps(doc, indent=1))
     print("\n=== VERDICT ===\n" + doc["verdict"])
     if out:
         with open(out, "w") as fh:
             json.dump(doc, fh, indent=1)
         print("wrote %s" % out)
+    if merge and image:
+        try:
+            with open(merge) as fh:
+                agg = json.load(fh)
+        except (OSError, ValueError):
+            agg = {}
+        agg.setdefault("_what", "MEASURED minimum host `cuda_max_good` per container image — the one home of "
+                                "`ResourceSpec.min_cuda`. Written by probe_image_cuda.py from INSIDE each "
+                                "image; never typed by hand.")
+        agg.setdefault("_how", "OpenMM JITs its CUDA kernels with NVRTC, so the PTX ISA it emits — and hence "
+                               "the minimum host driver — is set by the env's own libnvrtc, read with ctypes "
+                               "on a runner with no GPU. Corroborated by the env's cuda-version / "
+                               "cuda-nvrtc / libcudart.")
+        agg.setdefault("images", {})
+        agg["images"][image] = {
+            "required_host_cuda": doc["required_host_cuda"],
+            "nvrtc": "%s.%s" % (doc["nvrtc"]["major"], doc["nvrtc"]["minor"]),
+            "cudart": "%s.%s" % (doc["cudart"]["major"], doc["cudart"]["minor"]),
+            "cuda_version_pkg": (doc["conda_cuda_packages"].get("cuda-version") or {}).get("version"),
+            "cuda_nvrtc_pkg": (doc["conda_cuda_packages"].get("cuda-nvrtc") or {}).get("version"),
+            "openmm": (doc["conda_cuda_packages"].get("openmm") or {}).get("version"),
+            "measured_utc": __import__("time").strftime("%Y-%m-%dT%H:%M:%SZ", __import__("time").gmtime()),
+        }
+        with open(merge, "w") as fh:
+            json.dump(agg, fh, indent=1, sort_keys=True)
+        print("merged %s into %s" % (image, merge))
     return 0
 
 

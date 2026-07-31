@@ -284,26 +284,39 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: Ask the BAKED image what CUDA it needs (no GPU, no rental)
+      - name: Ask EVERY baked image what CUDA it needs (no GPU, no rental)
+        # ⚠ EVERY IMAGE, NOT JUST THE TERNARY ONE — because `ResourceSpec.min_cuda` is a SHARED default and
+        # lowering it on one image's evidence would silently lower it for lanes running a different stack.
+        # One key per image is what makes the artifact usable as a single home without over-reaching.
         run: |
           set -eo pipefail
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
-          IMG=docker.io/triskit23/ternary-fep:latest
-          docker pull -q "$IMG"
           mkdir -p /tmp/probe
-          docker run --rm --entrypoint python \
-            -v "$PWD/research/modalities:/work/research/modalities" \
-            -v /tmp/probe:/tmp/probe \
-            "$IMG" /work/research/modalities/probe_image_cuda.py \
-              --json-out /tmp/probe/ternary-fep-cuda-probe.json
-          cp /tmp/probe/ternary-fep-cuda-probe.json research/modalities/ 2>/dev/null || true
+          AGG=research/modalities/image-cuda-requirements.json
+          for IMG in ternary-fep nr4a3fep nrv04vast pmxfep bioemu; do
+            FULL="docker.io/triskit23/$IMG:latest"
+            echo "================ $FULL ================"
+            docker pull -q "$FULL" || { echo "::warning title=IMAGE UNAVAILABLE::$FULL — skipped"; continue; }
+            docker run --rm --entrypoint python \
+              -v "$PWD/research/modalities:/work/research/modalities" \
+              -v /tmp/probe:/tmp/probe \
+              "$FULL" /work/research/modalities/probe_image_cuda.py \
+                --image "$IMG" \
+                --json-out "/tmp/probe/$IMG-cuda-probe.json" \
+                --merge-into /work/research/modalities/image-cuda-requirements.json \
+              || echo "::warning title=PROBE FAILED::$FULL"
+            cp "/tmp/probe/$IMG-cuda-probe.json" research/modalities/ 2>/dev/null || true
+            docker rmi -f "$FULL" >/dev/null 2>&1 || true
+          done
+          echo "================ MERGED ================"; cat "$AGG" 2>/dev/null || echo "(none)"
       - name: Commit the probe back to this branch
         if: always()
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/ternary-fep-cuda-probe.json 2>/dev/null || true
+          git add research/modalities/image-cuda-requirements.json \
+                  research/modalities/*-cuda-probe.json 2>/dev/null || true
           git commit -m "ternary-fep image CUDA probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           for i in 1 2 3 4; do
             git pull --rebase origin "${{ github.ref_name }}" && \

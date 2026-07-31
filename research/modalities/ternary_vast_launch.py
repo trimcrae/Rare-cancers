@@ -61,7 +61,7 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
+from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend, measured_min_cuda  # noqa: E402
 # Pure policy helpers, imported rather than duplicated. `stall_minutes` and
 # `_record_is_newer_than_instance` encode two lessons that cost real money on the protfep lane (a frozen
 # image pull is only distinguishable from a queued one by how long the SAME status_msg has been showing;
@@ -166,7 +166,12 @@ def resource_spec(gpu=None, disk_gb=None, max_usd_per_ns=None):
         vcpus=int(os.environ.get("TVAST_VCPUS") or "8"),
         ram_gb=int(os.environ.get("TVAST_RAM_GB") or "32"),
         disk_gb=int(disk_gb or os.environ.get("TVAST_DISK_GB") or "60"),
-        min_cuda=float(os.environ.get("TVAST_MIN_CUDA") or "13.0"),
+        # ★★ MEASURED, NOT TYPED (2026-07-31). Was the constant 13.0 on the strength of a comment claiming
+        # the baked env's PTX was CUDA-13-class. `probe_image_cuda.py`, run inside `VAST_IMAGE` itself, says
+        # nvrtc 12.6 / cudart 12.6 / cuda-version 12.6 — the `cuda-version=12.6` pin DID take. The ablation
+        # priced the difference: 119 -> 134 offers surviving and 6.2 % better $/ns, on every read. The whole
+        # argument and the artifact are at `gpu_backend.measured_min_cuda`; `TVAST_MIN_CUDA` still overrides.
+        min_cuda=float(os.environ.get("TVAST_MIN_CUDA") or measured_min_cuda(VAST_IMAGE)),
         # THE DEADLINE FLOOR. Unset by default — see `ResourceSpec.min_ns_per_h` for why naming a card class
         # could not do this job, and why leaving a floor on standing would quietly replace the lane's cost
         # discipline with a speed preference. Set per-launch, from the workflow's `min_ns_per_h` input, when

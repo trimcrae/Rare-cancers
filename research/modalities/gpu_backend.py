@@ -86,6 +86,64 @@ class CapacityRefusedAtStart(NoQualifyingOffer):
 _VAST_START_REFUSAL_TRIES = max(1, int(os.environ.get("VAST_START_REFUSAL_TRIES", "3") or 3))
 
 
+# =============================================================================================================
+# ★★ THE HOST CUDA FLOOR — MEASURED PER IMAGE, WITH ONE HOME (2026-07-31)
+# =============================================================================================================
+# WHAT WAS WRONG. `ResourceSpec.min_cuda` was the constant **13.0**, applied TWICE per board read
+# (`_vast_offer_query`'s `cuda_max_good: {gte: ...}` and again in `rank_offers_by_usd_per_ns`), on the strength
+# of a COMMENT: *"DIAG PROOF that the `cuda-version=12.6` env pin did NOT actually take — the baked env's PTX
+# is CUDA-13-class."* Against it, `Dockerfile.ternaryfep` is `FROM nvidia/cuda:12.6.3-runtime-ubuntu22.04` and
+# pins `cuda-version=12.6`. Two documents, opposite claims, and the expensive one was enforced.
+#
+# WHAT IT COST, measured before it was changed (`vast-filter-ablation.json`, 2026-07-31 1:36 PM ET, bid tier,
+# 1370 offers returned): the CUDA floor was the second most expensive filter in the whole spec —
+#   13.0 -> 119 offers surviving, 52 priceable, best $0.003014/ns (0.883x basis)
+#   12.6 -> 134 offers surviving, 58 priceable, best $0.002828/ns (0.829x basis)   = 6.2 % better per ns
+# and the sweep is flat below 12.6, so 12.6 captures the whole gain. That is 6.2 % off every rental, forever.
+#
+# WHAT SETTLED IT — the diagnostic, not the Dockerfile line (`probe_image_cuda.py`, run INSIDE the image,
+# $0, no GPU). OpenMM JIT-compiles its CUDA kernels with NVRTC, so the PTX ISA it emits — and therefore the
+# minimum host driver — is fixed by the env's own `libnvrtc`, which `ctypes` can interrogate anywhere. The
+# baked `triskit23/ternary-fep:latest` answered: **nvrtcVersion 12.6**, `libcudart` 12.6, conda
+# `cuda-version 12.6`, `cuda-nvrtc 12.6.85`, openmm 8.4.0. The pin DID take. The comment was false for the
+# image that is actually running.
+#
+# ⚠ AND IT MAY HAVE BEEN TRUE WHEN WRITTEN. The 13.0 raise was 2026-07-23 and the image has been re-baked
+# since (`ternary-fep-bake.yml`). This measurement is of the CURRENT image, which is the only one selection
+# can land on — which is exactly why the floor must be DERIVED from a probe artifact rather than remembered:
+# a re-bake that moves the env now moves the filter with it, instead of leaving a stale constant behind.
+# SUPERSEDED, RETAINED: `min_cuda = 13.0` as a standing constant, and the "the pin did NOT take" claim.
+#
+# ⚠ PER IMAGE, NEVER SHARED BLIND. `pmxfep`, `nrv04vast`, `nr4a3fep` and `bioemu` are different stacks. An
+# image with no entry in the artifact keeps `CONSERVATIVE_MIN_CUDA`, because inheriting another image's
+# measurement is the same error as inheriting a Dockerfile's claim.
+CONSERVATIVE_MIN_CUDA = 13.0      # the fallback for an image nobody has probed — deliberately the old value
+_CUDA_REQ_ARTIFACT = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                  "image-cuda-requirements.json")
+
+
+def measured_min_cuda(image=None, default=None, path=None):
+    """The MEASURED minimum host `cuda_max_good` for `image`, or the conservative fallback.
+
+    `image` may be a bare key (`ternary-fep`) or a full reference (`docker.io/triskit23/ternary-fep:latest`) —
+    the repo writes both forms in different places and a lookup that only accepted one would silently return
+    the fallback and look like a measurement nobody had taken.
+
+    None/unknown image => `CONSERVATIVE_MIN_CUDA`, deliberately: a caller that has not said which stack it
+    runs must not inherit another stack's floor."""
+    fallback = CONSERVATIVE_MIN_CUDA if default is None else float(default)
+    if not image:
+        return fallback
+    key = str(image).rsplit("/", 1)[-1].split(":")[0]
+    try:
+        with open(path or _CUDA_REQ_ARTIFACT) as fh:
+            got = (json.load(fh).get("images") or {}).get(key) or {}
+        v = got.get("required_host_cuda")
+        return float(v) if v else fallback
+    except (OSError, ValueError, TypeError):
+        return fallback
+
+
 # ---- job / resource spec ----------------------------------------------------------------------------------
 
 @dataclass
@@ -164,15 +222,11 @@ class ResourceSpec:
     # unit that has become the critical path, not a standing policy. Leaving it on would quietly convert the
     # lane's cost discipline into a speed preference nobody voted for.
     min_ns_per_h: float = 0.0
-    min_cuda: float = 13.0        # host DRIVER's cuda_max_good must be >= this so OpenMM's CUDA-plugin PTX can JIT.
-                                  # RAISED 12.6 -> 13.0 on 2026-07-23: DIAG PROOF that the `cuda-version=12.6` env
-                                  # pin did NOT actually take — the baked env's PTX is CUDA-13-class, so legs that
-                                  # landed on driver 560.35.03 (CUDA 12.6) / 565.57.01 (12.7) hosts crashed at
-                                  # build_system with CUDA_ERROR_UNSUPPORTED_PTX_VERSION (and the mock teardown left
-                                  # them idle-billing as "running"). The legs that completed all ran on newer-driver
-                                  # hosts. Empirical fix: only take hosts whose cuda_max_good >= 13.0 (driver ~>=580),
-                                  # which can JIT this env's PTX. Fewer hosts, but they don't crash. (The robust fix is
-                                  # to genuinely rebuild the env at a lower CUDA; the pin has failed twice, so filter.)
+    # ★★ THE HOST DRIVER FLOOR — NOW MEASURED PER IMAGE, NOT ASSERTED (2026-07-31). See
+    # `measured_min_cuda` above for the whole argument; the short version is that this default is the
+    # CONSERVATIVE fallback for a caller who has not said which image it runs, and any lane that knows its
+    # image should pass `measured_min_cuda(<image>)` instead of inheriting it.
+    min_cuda: float = CONSERVATIVE_MIN_CUDA
 
 
 @dataclass

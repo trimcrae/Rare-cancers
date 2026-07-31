@@ -44,7 +44,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import protfep_bench as bench  # noqa: E402
 import vast_stopped_resume_measure as _srm  # noqa: E402
-from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend  # noqa: E402
+from gpu_backend import JobSpec, ResourceSpec, _vast_request, get_backend, measured_min_cuda  # noqa: E402
 # The measured-throughput helpers behind the 2026-07-24 $/ns selection work. Imported rather than
 # re-derived so this lane's bid ceiling and the launcher's offer ranking can never disagree about
 # what a card is worth — a second copy of the table is a second thing to forget to update.
@@ -91,9 +91,14 @@ MAX_FROZEN_MIN = float(os.environ.get("PROTFEP_MAX_FROZEN_MIN") or "15")
 # modest host spec keeps the cheap 4090 offers in play instead of filtering down to the expensive
 # high-demand hosts. min_cuda 13.0 is the repo's settled host filter: a newer driver runs older PTX
 # fine, whereas an older driver hit CUDA_ERROR_UNSUPPORTED_PTX_VERSION on this stack twice before.
+# ⚠ `min_cuda` IS THIS IMAGE'S OWN MEASUREMENT (2026-07-31). `probe_image_cuda.py` measured the TERNARY
+# image at 12.6 — the `cuda-version=12.6` pin did take there — but this lane runs `pmxfep`, a different stack,
+# and inheriting that number would be the same mistake as inheriting a Dockerfile's claim. Until the probe has
+# run inside `pmxfep`, `measured_min_cuda` returns the conservative 13.0 this line used to type.
 RES = ResourceSpec(gpu=os.environ.get("PROTFEP_GPU") or "rtx4090",
                    min_vram_gb=int(os.environ.get("PROTFEP_VRAM") or "24"),
-                   vcpus=4, ram_gb=16, disk_gb=40, min_cuda=13.0, interruptible=True)
+                   vcpus=4, ram_gb=16, disk_gb=40, interruptible=True,
+                   min_cuda=measured_min_cuda(VAST_IMAGE))
 
 # The onstart pipeline. VastBackend._vast_onstart exports forwarded S3 creds + arms the key-free
 # self-destroy EXIT trap. A background sync loop pushes the .nc + partial leg JSON to S3 every 3

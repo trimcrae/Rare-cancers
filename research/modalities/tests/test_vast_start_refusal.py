@@ -126,16 +126,24 @@ def test_the_ternary_ask_is_not_narrower_than_the_fanouts():
     t, s = tv.resource_spec(), cf.FANOUT_RES
     differing = {f.name for f in dataclasses.fields(gb.ResourceSpec)
                  if getattr(t, f.name) != getattr(s, f.name)}
-    assert differing == {"disk_gb"}, (
+    # `min_cuda` JOINED `disk_gb` ON 2026-07-31, and it is the same shape of difference: the ternary lane
+    # asks for LESS. `probe_image_cuda.py` measured `triskit23/ternary-fep` at nvrtc/cudart/cuda-version 12.6,
+    # so that lane's floor is now its image's MEASURED requirement; `nr4a3fep` has not been probed yet, so the
+    # fan-out keeps `CONSERVATIVE_MIN_CUDA`. The asymmetry is therefore evidence-based and TEMPORARY — it
+    # closes the moment the probe runs inside the other image (see `test_image_cuda_floor.py`).
+    assert differing == {"disk_gb", "min_cuda"}, (
         "a NEW difference between the two lanes' asks has appeared. Either it is the explanation for a "
         "capacity asymmetry, or it is an accidental divergence — but it must not arrive unremarked: %s"
         % {f: (getattr(t, f), getattr(s, f)) for f in differing})
     assert t.disk_gb < s.disk_gb, "the whole refutation is that ternary asks for LESS disk, not more"
+    assert t.min_cuda <= s.min_cuda, "and less driver, never more"
     # ...and the derived Vast query says the same thing: a LOWER floor admits a SUPERSET of hosts.
     qt, qs = gb._vast_offer_query(t), gb._vast_offer_query(s)
-    assert {k: v for k, v in qt.items() if k != "disk_space"} == \
-           {k: v for k, v in qs.items() if k != "disk_space"}
+    loose = {"disk_space", "cuda_max_good"}
+    assert {k: v for k, v in qt.items() if k not in loose} == \
+           {k: v for k, v in qs.items() if k not in loose}
     assert qt["disk_space"]["gte"] < qs["disk_space"]["gte"]
+    assert qt["cuda_max_good"]["gte"] <= qs["cuda_max_good"]["gte"]
 
 
 # =============================================================================================================
