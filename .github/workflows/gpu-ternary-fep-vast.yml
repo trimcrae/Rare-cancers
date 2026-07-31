@@ -2661,10 +2661,12 @@ jobs:
           if [ "$MODE" = "triangle" ]; then
             echo "READ IT AS (closure triangle): the triangle's TWO BINARY legs are the same unrestrained"
             echo "construction that departs in both cycles above, so the pre-registered prediction is that they"
-            echo "depart here too. Departure present -> the non-zero R_binary = -0.2440 is attributable to it."
-            echo "Departure ABSENT -> R_binary is ordinary path error and the restrained re-run's rationale"
-            echo "weakens. The classification rule is valb_triangle_closure.binary_departure_prereg() and it,"
-            echo "not this echo, is what decides. Both ternary legs are expected clean (0 of 12) in both cases."
+            echo "depart here too. Departure PRESENT -> the non-zero R_binary is attributable to it. Departure"
+            echo "ABSENT -> R_binary is ordinary path error and the restrained re-run's rationale weakens."
+            echo "R_binary itself is NOT reprinted here -- one home, valb-triangle-reduction.json:"
+            python -c "import json;d=json.load(open('research/modalities/valb-triangle-reduction.json'));print('  R_binary=%s  R_ternary=%s  R=%s  decision=%s'%(d['R_binary_kcal'],d['R_ternary_kcal'],d['R_kcal'],d['decision']))"
+            echo "The classification rule is valb_triangle_closure.binary_departure_prereg() and it, not this"
+            echo "echo, is what decides. Both ternary legs are expected clean in both cases."
           else
             echo "READ IT AS: binary here ALSO displaced -> the |dDDG| = 0.0215 agreement is a timestep result on a"
             echo "shared broken arm. Binary here STABLE -> the departure barely moves dG_binary and the r0 claim"
