@@ -71,7 +71,13 @@ check(not just_under["drifting"] and "⚠" not in just_under["cell"], "just unde
 # we are being charged cannot render identically to one the gate refused.
 check(just_over["drifting"] and "⚠" in just_over["cell"] and "OVER" in just_over["cell"],
       "just over the line IS flagged, and the flag says money is going out over the line")
-check("approved rate" in just_over["cell"],
+# ⚠ THIS CHECKED FOR THE WORDS "approved rate" AND THAT WAS TESTING THE LABEL, NOT THE FACT (2026-07-31).
+# The cell's job is to state the ABSOLUTE rate so the multiple cannot be misread as a loosening of the rule;
+# the English around it is presentation. When the flag was shortened — it had been repeating the whole
+# §1 re-expression ruling on every drifting row, which is a rule-1 duplication and made the board 250
+# characters wide — the number stayed and the label went, and this check failed on a change that preserved
+# everything it was protecting. It now asserts the RATE is present.
+check(f"{R.APPROVED_USD_PER_NS:.6f}" in just_over["cell"],
       "...and it states the ABSOLUTE approved rate, so the multiple cannot be misread as a loosening")
 
 print("== the multiple is present on every priced row — it is the gradeable part")

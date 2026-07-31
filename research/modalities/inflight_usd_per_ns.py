@@ -157,14 +157,23 @@ def row(gpu_name, dph_total, planning_usd_per_ref_gpu_h, storage_usd_h=0.0,
     if stance == REFUSED:
         # The multiple is what we DECLINED. `$0 spent` sits on the same line deliberately: the reader must not
         # have to remember which lanes were held in order to know whether the number in front of them is a bill.
-        cell = (f"⛔ REFUSED at ${pn:.5f}/ns · {mult:.2f}× basis — $0 spent" if over else
-                f"⛔ HELD (not on price) — best available ${pn:.5f}/ns · {mult:.2f}× basis — $0 spent")
+        cell = (f"⛔ REFUSED — {gpu_name} at ${pn:.5f}/ns · {mult:.2f}× basis — $0 spent" if over else
+                f"⛔ HELD (not on price) — best available {gpu_name} "
+                f"at ${pn:.5f}/ns · {mult:.2f}× basis — $0 spent")
     else:
-        cell = f"${pn:.5f}/ns · {mult:.2f}× basis"
+        # ★ THE CARD IS PART OF THE CELL (trimcrae, 2026-07-31). $/hr cannot show drift because a cheap slow
+        # card and an expensive fast one look identical — that is why this column is $/ns at all. But $/ns
+        # alone cannot say WHICH of those a row is, so a rate that moved is undiagnosable without going to
+        # another artifact for the card. Naming it here makes the whole diagnosis readable in one cell.
+        cell = f"{gpu_name} ${pn:.5f}/ns · {mult:.2f}× basis"
         if over:
-            cell += (f" ⚠ PAYING OVER THE {line_x:.2f}× LINE "
-                     f"(= ${APPROVED_USD_PER_NS:.6f}/ns, the approved rate — same dollars as the "
-                     f"original 1.5× line, re-expressed against a corrected basis)")
+            # Terse ON PURPOSE. This used to append ~100 characters re-explaining that the line is the same
+            # dollars as the original 1.5×, re-expressed against a corrected basis — on EVERY drifting row.
+            # That explanation is the CLAUDE.md §1 ruling, which is its one home; repeating it per row is a
+            # rule-1 duplication, and with the column now sized to its widest cell it dragged the whole
+            # board past 250 characters, so the flag it exists to make prominent became the thing that made
+            # the board unreadable. The row states the fact and the threshold; the reasoning lives once.
+            cell += f" ⚠ PAYING OVER THE {line_x:.2f}× LINE (${APPROVED_USD_PER_NS:.6f}/ns)"
     if rate_basis == RATE_FROM_OFFER:
         # Not cosmetic. An offer quote is the market floor plus the disk line the search priced, so this
         # multiple is a LOWER BOUND on what the rental will be graded at once the instance exists.

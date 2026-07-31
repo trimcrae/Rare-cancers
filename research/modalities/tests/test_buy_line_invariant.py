@@ -96,8 +96,13 @@ def test_the_row_text_states_the_absolute_rate_so_nobody_reads_it_as_a_loosening
     plan = cf._usd_per_ref_gpu_h()[1]
     ns_h = 804.06 / 24.0
     over = inf.row("RTX 4090", inf.APPROVED_USD_PER_NS * 1.2 * ns_h, plan, storage_usd_h=0.0)
-    assert "approved rate" in over["cell"]
+    # The invariant is that the ABSOLUTE rate appears, so a reader cannot take the multiple for a loosening
+    # of the rule. The line below already asserts exactly that. A companion assertion on the words
+    # "approved rate" was dropped on 2026-07-31: it pinned the LABEL rather than the fact, and it failed
+    # when the flag was shortened — a change that removed a per-row restatement of the §1 ruling (rule-1
+    # duplication, and it had pushed the board past 250 characters) while keeping the number intact.
     assert f"{inf.APPROVED_USD_PER_NS:.6f}" in over["cell"]
+    assert "×" in over["cell"], "the multiple is still shown beside the absolute rate"
 
 
 def test_the_effective_ceiling_names_which_constraint_binds_with_both_expressions():
