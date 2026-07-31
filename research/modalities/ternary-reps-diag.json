@@ -1,17 +1,17 @@
 {
   "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
   "mode": "edge_reps",
-  "utc": "2026-07-30T02:23:23Z",
+  "utc": "2026-07-31T17:56:51Z",
   "units": {
     "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps": {
       "arm": "ternary",
-      "leg_record_status": null,
+      "leg_record_status": "done",
       "breaker": {
-        "verdict": "allow: no leg record \u2014 a unit that has never run must be able to run",
+        "verdict": "allow: the unit is done",
         "block": false,
-        "n_attempts": 44,
-        "record_utc": null,
-        "newest_commit_utc": "2026-07-30T02:21:20Z",
+        "n_attempts": 2,
+        "record_utc": "2026-07-30T06:43:39Z",
+        "newest_commit_utc": "2026-07-30T06:38:18Z",
         "eviction": {
           "_what": "the last time this lane destroyed this unit's host for a reason that was NOT the unit failing \u2014 read by leg_failure_breaker so a correct teardown does not accrue a strike",
           "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
@@ -24,13 +24,13 @@
       },
       "committed": {
         "phase": "production",
-        "iteration": 1520,
-        "scalar": 1001520
+        "iteration": 2000,
+        "scalar": 1002000
       },
-      "phase_marker": "md-running 2026-07-29T20:55:36Z",
-      "phase_marker_age_min": 327.7582457582156,
-      "log_age_min": 1.8437156359354654,
-      "n_attempts_archived": 45,
+      "phase_marker": "start 2026-07-30T06:44:09Z",
+      "phase_marker_age_min": 2112.7008272767066,
+      "log_age_min": 2112.670042669773,
+      "n_attempts_archived": 48,
       "attempts": [
         {
           "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T234704Z.log",
@@ -341,79 +341,36 @@
           "last_line": "INFO:\t********************************************************************************"
         },
         {
-          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/run.log",
-          "utc": "2026-07-30T02:21:33Z",
-          "bytes": 435021,
-          "n_lines": 6205,
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T030710Z.log",
+          "utc": "2026-07-30T03:07:13Z",
+          "bytes": 477929,
+          "n_lines": 6818,
           "last_line": "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T064354Z.log",
+          "utc": "2026-07-30T06:43:57Z",
+          "bytes": 284505,
+          "n_lines": 5178,
+          "last_line": "upload: ../../../../tmp/run.log to s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/run.log"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T064407Z.log",
+          "utc": "2026-07-30T06:44:10Z",
+          "bytes": 231,
+          "n_lines": 2,
+          "last_line": "[tvast] archived the previous attempt's run.log under attempts/"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps/run.log",
+          "utc": "2026-07-30T06:44:13Z",
+          "bytes": 231,
+          "n_lines": 2,
+          "last_line": "[tvast] archived the previous attempt's run.log under attempts/"
         }
       ],
-      "instance": {
-        "id": 46227502,
-        "machine_id": 62866,
-        "label": "tvast-calib-hi-to-lo--ternary-vhl-r1-dt4p0fs-wu1p0-edge-reps",
-        "actual_status": "running",
-        "cur_state": "running",
-        "intended_status": "running",
-        "status_msg": "success, running docker.io/triskit23/ternary-fep_latest/ssh",
-        "gpu_name": "RTX 5090",
-        "num_gpus": 1,
-        "gpu_ram": 32607,
-        "cpu_ram": 64135,
-        "cpu_cores_effective": 12.0,
-        "disk_space": 60.0,
-        "disk_util": 7.400000095367432,
-        "mem_usage": 2.83639808,
-        "mem_limit": 63.05087488,
-        "gpu_util": 0.0,
-        "dph_total": 0.22066666666666665,
-        "start_date": 1785358412.5829804,
-        "image_uuid": "docker.io/triskit23/ternary-fep:latest"
-      },
-      "instance_is_working": true,
-      "console_last_line": "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
-      "console_tail": [
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 10.993s.",
-        "INFO:\tEstimated completion in 0:01:28.619744, at 2026-Jul-30-02:21:13 (consuming total wall clock time 5:20:43.144431).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1514/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 13.860s.",
-        "INFO:\tEstimated completion in 0:01:16.171610, at 2026-Jul-30-02:21:14 (consuming total wall clock time 5:21:36.807925).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1515/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 12.909s.",
-        "INFO:\tEstimated completion in 0:01:03.506978, at 2026-Jul-30-02:21:15 (consuming total wall clock time 5:21:46.121229).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1516/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 12.417s.",
-        "INFO:\tEstimated completion in 0:00:50.774017, at 2026-Jul-30-02:21:14 (consuming total wall clock time 5:21:34.126567).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1517/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 13.693s.",
-        "INFO:\tEstimated completion in 0:00:38.161594, at 2026-Jul-30-02:21:15 (consuming total wall clock time 5:22:15.207404).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1518/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 12.190s.",
-        "INFO:\tEstimated completion in 0:00:25.413172, at 2026-Jul-30-02:21:15 (consuming total wall clock time 5:21:54.010706).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1519/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 13.569s.",
-        "INFO:\tEstimated completion in 0:00:12.728712, at 2026-Jul-30-02:21:16 (consuming total wall clock time 5:22:27.642699).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1520/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 12.823s.",
-        "INFO:\tEstimated completion in 0:00:00, at 2026-Jul-30-02:21:16 (consuming total wall clock time 5:22:31.243487).",
-        "[timing] 40 iters in 509s = 12.7s/iter (4.71 iters/min) at iteration 1520/2000",
-        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases"
-      ]
+      "instance": null,
+      "instance_is_working": false
     },
     "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps": {
       "arm": "binary",
@@ -421,7 +378,7 @@
       "breaker": {
         "verdict": "allow: the unit is done",
         "block": false,
-        "n_attempts": 18,
+        "n_attempts": 11,
         "record_utc": "2026-07-28T05:08:46Z",
         "newest_commit_utc": "2026-07-28T05:06:54Z",
         "eviction": null,
@@ -433,8 +390,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-07-28T09:10:33Z",
-      "phase_marker_age_min": 2472.9381032864253,
-      "log_age_min": 2472.9221681157746,
+      "phase_marker_age_min": 4846.4917839050295,
+      "log_age_min": 4846.477924382687,
       "n_attempts_archived": 19,
       "attempts": [
         {
@@ -576,32 +533,32 @@
     },
     "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps": {
       "arm": "ternary",
-      "leg_record_status": "failed",
+      "leg_record_status": "done",
       "breaker": {
-        "verdict": "blocked: repeated failure on distinct hosts",
-        "block": true,
-        "n_attempts": 55,
-        "record_utc": "2026-07-30T02:05:16Z",
-        "newest_commit_utc": "2026-07-30T02:05:13Z",
+        "verdict": "allow: the unit is done",
+        "block": false,
+        "n_attempts": 2,
+        "record_utc": "2026-07-30T04:52:27Z",
+        "newest_commit_utc": "2026-07-30T04:50:10Z",
         "eviction": {
           "_what": "the last time this lane destroyed this unit's host for a reason that was NOT the unit failing \u2014 read by leg_failure_breaker so a correct teardown does not accrue a strike",
           "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
-          "utc": "2026-07-29T14:00:53Z",
-          "why": "capacity refusal on machine 41950; destroy: a qualifying replacement is on the board",
-          "instance": 46199473,
-          "machine_id": 41950
+          "utc": "2026-07-30T04:28:07Z",
+          "why": "capacity refusal on machine 35115; destroy: a qualifying replacement is on the board",
+          "instance": 46255007,
+          "machine_id": 35115
         },
         "superseded_by": null
       },
       "committed": {
         "phase": "production",
-        "iteration": 1760,
-        "scalar": 1001760
+        "iteration": 2000,
+        "scalar": 1002000
       },
-      "phase_marker": "md-running 2026-07-30T02:05:58Z",
-      "phase_marker_age_min": 17.554720930258433,
-      "log_age_min": 15.722129027048746,
-      "n_attempts_archived": 56,
+      "phase_marker": "start 2026-07-30T04:53:00Z",
+      "phase_marker_age_min": 2224.1544710357985,
+      "log_age_min": 2224.140528011322,
+      "n_attempts_archived": 62,
       "attempts": [
         {
           "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260727T220040Z.log",
@@ -989,11 +946,53 @@
           "last_line": "upload: ../../../../tmp/run.log to s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log"
         },
         {
-          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log",
-          "utc": "2026-07-30T02:07:50Z",
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T023832Z.log",
+          "utc": "2026-07-30T02:38:33Z",
           "bytes": 5924,
           "n_lines": 57,
           "last_line": "[spot-driver] warmup_target=1600 (ci=40) prod_target=2000 (ci=40)"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T031909Z.log",
+          "utc": "2026-07-30T03:19:12Z",
+          "bytes": 43558,
+          "n_lines": 592,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T042259Z.log",
+          "utc": "2026-07-30T04:23:01Z",
+          "bytes": 56737,
+          "n_lines": 780,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T043630Z.log",
+          "utc": "2026-07-30T04:36:33Z",
+          "bytes": 8079,
+          "n_lines": 85,
+          "last_line": "INFO:\t********************************************************************************"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T045246Z.log",
+          "utc": "2026-07-30T04:52:48Z",
+          "bytes": 169692,
+          "n_lines": 3543,
+          "last_line": "upload: ../../../../tmp/run.log to s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/attempts/run-20260730T045259Z.log",
+          "utc": "2026-07-30T04:53:01Z",
+          "bytes": 231,
+          "n_lines": 2,
+          "last_line": "[tvast] archived the previous attempt's run.log under attempts/"
+        },
+        {
+          "key": "ternary-vast/legs/calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps/run.log",
+          "utc": "2026-07-30T04:53:03Z",
+          "bytes": 231,
+          "n_lines": 2,
+          "last_line": "[tvast] archived the previous attempt's run.log under attempts/"
         }
       ],
       "instance": null,
@@ -1005,7 +1004,7 @@
       "breaker": {
         "verdict": "allow: the unit is done",
         "block": false,
-        "n_attempts": 7,
+        "n_attempts": 2,
         "record_utc": "2026-07-28T09:58:44Z",
         "newest_commit_utc": "2026-07-28T09:51:56Z",
         "eviction": null,
@@ -1017,8 +1016,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-07-28T09:59:35Z",
-      "phase_marker_age_min": 2424.0084525028865,
-      "log_age_min": 2423.975824971994,
+      "phase_marker_age_min": 4797.801158038775,
+      "log_age_min": 4797.7703919132555,
       "n_attempts_archived": 8,
       "attempts": [
         {

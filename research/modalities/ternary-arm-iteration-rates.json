@@ -1,26 +1,53 @@
 {
   "_what": "measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own leg.json timing block. The one home for `ternary_vast_launch.arm_iteration_rates()`; regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`.",
   "_never_pool": "across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625) or across phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up)",
-  "generated_utc": "2026-07-30T02:23:43Z",
-  "n_leg_records": 9,
+  "generated_utc": "2026-07-31T17:59:50Z",
+  "n_leg_records": 14,
   "rates": {
     "2.0": {
-      "ternary": {
-        "s_per_iter": 13.7,
+      "binary": {
+        "s_per_iter": 17.0,
         "source_phase": "production",
-        "n_legs": 1,
+        "n_legs": 2,
         "spread_s_per_iter": [
-          13.7,
-          13.7
+          10.3,
+          23.7
         ],
         "units": [
-          "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke"
+          "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
         ],
         "gpus": [
-          "NVIDIA GeForce RTX 4090"
+          "NVIDIA GeForce RTX 3090",
+          "NVIDIA GeForce RTX 5090"
         ],
         "by_gpu": {
-          "NVIDIA GeForce RTX 4090": 13.7
+          "NVIDIA GeForce RTX 3090": 23.7,
+          "NVIDIA GeForce RTX 5090": 10.3
+        }
+      },
+      "ternary": {
+        "s_per_iter": 18.2,
+        "source_phase": "production",
+        "n_legs": 3,
+        "spread_s_per_iter": [
+          13.7,
+          25.9
+        ],
+        "units": [
+          "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+          "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke",
+          "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle"
+        ],
+        "gpus": [
+          "NVIDIA GeForce RTX 4080 SUPER",
+          "NVIDIA GeForce RTX 4090",
+          "NVIDIA GeForce RTX 5090"
+        ],
+        "by_gpu": {
+          "NVIDIA GeForce RTX 4080 SUPER": 25.9,
+          "NVIDIA GeForce RTX 4090": 13.7,
+          "NVIDIA GeForce RTX 5090": 18.2
         }
       }
     },
@@ -68,44 +95,47 @@
         }
       },
       "ternary": {
-        "s_per_iter": 14.65,
+        "s_per_iter": 16.6,
         "source_phase": "production",
-        "n_legs": 4,
+        "n_legs": 5,
         "spread_s_per_iter": [
           7.9,
-          17.0
+          31.8
         ],
         "units": [
           "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
           "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
           "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
+          "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
           "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
         ],
         "gpus": [
+          "NVIDIA GeForce RTX 3090",
           "NVIDIA GeForce RTX 4090",
           "NVIDIA GeForce RTX 5090"
         ],
         "by_gpu": {
+          "NVIDIA GeForce RTX 3090": 31.8,
           "NVIDIA GeForce RTX 4090": 16.6,
-          "NVIDIA GeForce RTX 5090": 12.7
+          "NVIDIA GeForce RTX 5090": 12.8
         }
       }
     }
   },
   "phase_cross_check": {
     "n": 6,
-    "median_warmup_over_production": 0.757,
+    "median_warmup_over_production": 0.834,
     "range": [
-      0.693,
+      0.734,
       1.013
     ],
     "per_unit": {
       "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke": 1.013,
+      "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle": 0.903,
       "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke": 0.993,
       "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps": 0.75,
       "calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps": 0.734,
-      "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge": 0.765,
-      "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps": 0.693
+      "calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge": 0.765
     },
     "_reading": "<= 1 means a production median OVERSTATES the seconds a warmup iteration costs, so deriving the interval from production is conservative \u2014 it buys a FINER cadence than strictly needed, erring toward less work at risk"
   },
@@ -125,6 +155,38 @@
       "production_median_s_per_iter": 7.9,
       "production_n": 3,
       "recorded_utc": "2026-07-26T21:07:21Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "leg_id": "calib_hi_to_lo2__binary_vhl",
+      "arm": "binary",
+      "mode": "triangle",
+      "status": "done",
+      "timestep_fs": 2.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "n_particles": 89709,
+      "warmup_median_s_per_iter": 9.3,
+      "warmup_n": 5,
+      "production_median_s_per_iter": 10.3,
+      "production_n": 50,
+      "recorded_utc": "2026-07-30T03:46:08Z"
+    },
+    {
+      "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "leg_id": "calib_hi_to_lo2__ternary_vhl",
+      "arm": "ternary",
+      "mode": "triangle",
+      "status": "done",
+      "timestep_fs": 2.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+      "n_particles": 141458,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 25.9,
+      "production_n": 1,
+      "recorded_utc": "2026-07-30T21:09:03Z"
     },
     {
       "unit_id": "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke",
@@ -239,20 +301,68 @@
       "recorded_utc": "2026-07-25T22:07:08Z"
     },
     {
+      "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
+      "leg_id": "calib_hi_to_lo__ternary_vhl",
+      "arm": "ternary",
+      "mode": "edge_reps",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 3090",
+      "n_particles": 144447,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 31.8,
+      "production_n": 9,
+      "recorded_utc": "2026-07-30T06:43:43Z"
+    },
+    {
       "unit_id": "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps",
       "leg_id": "calib_hi_to_lo__ternary_vhl",
       "arm": "ternary",
       "mode": "edge_reps",
-      "status": "failed",
+      "status": "done",
       "timestep_fs": 4.0,
       "warmup_timestep_fs": 1.0,
       "gpu": "NVIDIA GeForce RTX 5090",
-      "n_particles": null,
-      "warmup_median_s_per_iter": 8.8,
-      "warmup_n": 3,
-      "production_median_s_per_iter": 12.7,
-      "production_n": 44,
-      "recorded_utc": "2026-07-30T02:05:18Z"
+      "n_particles": 141740,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 12.8,
+      "production_n": 1,
+      "recorded_utc": "2026-07-30T04:52:30Z"
+    },
+    {
+      "unit_id": "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "leg_id": "calib_lo_to_lo2__binary_vhl",
+      "arm": "binary",
+      "mode": "triangle",
+      "status": "done",
+      "timestep_fs": 2.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 3090",
+      "n_particles": 90920,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 23.7,
+      "production_n": 1,
+      "recorded_utc": "2026-07-30T02:32:01Z"
+    },
+    {
+      "unit_id": "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+      "leg_id": "calib_lo_to_lo2__ternary_vhl",
+      "arm": "ternary",
+      "mode": "triangle",
+      "status": "done",
+      "timestep_fs": 2.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 5090",
+      "n_particles": 143562,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 18.2,
+      "production_n": 5,
+      "recorded_utc": "2026-07-30T13:53:07Z"
     }
   ]
 }
