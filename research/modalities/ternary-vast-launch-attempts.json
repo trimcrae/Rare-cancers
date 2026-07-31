@@ -95,17 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-07-31T16:17:07Z",
-      "et": "12:17 PM ET",
-      "outcome": "nothing-to-launch",
-      "what_that_means": "no unit needed a host, so no rental was attempted and nothing was spent. Not a hold: the market was never consulted.",
-      "stage": "triangle-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30646388827",
-      "gate_hold": false,
-      "gate_reason": "no unit of mode triangle needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
-      "reason": "every triangle leg already done or hosted; no launch dispatched, no rental attempted"
-    },
-    {
       "utc": "2026-07-31T16:21:53Z",
       "et": "12:21 PM ET",
       "outcome": "dispatched",
@@ -1339,12 +1328,65 @@
         "used_for_mean": 1
       },
       "reason": "board cleared both ceilings; dispatching task=5aks"
+    },
+    {
+      "utc": "2026-07-31T18:14:56Z",
+      "et": "2:14 PM ET",
+      "outcome": "capacity-refused",
+      "what_that_means": "every host we rented answered `resources_unavailable` on start and was destroyed \u2014 nothing is running, $0 is billing. NOT a price hold: the board was read and cheap.",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30654303725",
+      "gate_ratio_vs_basis": 1.153,
+      "gate_mean_usd_per_ns": 0.003932,
+      "gate_projected_usd": 2.11,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.11 within this rung's ceiling $5.19 AND 1.15x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 114,
+        "qualifying": 112,
+        "priceable": 54,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "n_requested": 1,
+      "n_rented": 0,
+      "already_live": [
+        {
+          "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+          "instance": 46424738,
+          "gpu": "RTX 4090",
+          "usd_per_ns": 0.005327,
+          "x_basis": 1.561,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
+          "instance": 46424216,
+          "gpu": "RTX 3090",
+          "usd_per_ns": 0.004135,
+          "x_basis": 1.212,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
+          "instance": 46425466,
+          "gpu": "RTX 3090",
+          "usd_per_ns": 0.004119,
+          "x_basis": 1.207,
+          "over_buy_line": false,
+          "actual_status": "running"
+        }
+      ],
+      "reason": "task=5aks; job status success"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 1127,
-    "through_utc": "2026-07-31T16:16:43Z"
+    "n_total": 1128,
+    "through_utc": "2026-07-31T16:17:07Z"
   }
 }
