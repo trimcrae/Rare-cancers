@@ -28,7 +28,7 @@ on:
       vast_launch_mode:
         description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect | retro_* (NR-V04 retrospective holdout)"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect, cofold_audit, cofold_clash_scan, cofold_dry, cofold]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect, retro_baseline, cofold_audit, cofold_clash_scan, cofold_dry, cofold]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -1382,6 +1382,12 @@ jobs:
       RETRO_STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'retro_stage_test' && '1' || '0' }}
       RETRO: ${{ (github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') && '1' || '0' }}
       RETRO_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'retro_collect' && '1' || '0' }}
+      # ★ RE-ARM ONE UNIT'S FAILURE BREAKER, BY BASELINE (never by deleting its attempt archive — that
+      # archive is what tells three rentals from one crash-looping container, and attempt-logs/ beside it
+      # holds how each attempt died). Deliberately an explicit operator dispatch: a breaker that resets
+      # itself is not a breaker. Reuses `vast_selector` for the unit — the workflow is at the 25-input cap.
+      RETRO_BASELINE_UNIT: ${{ github.event.inputs.vast_launch_mode == 'retro_baseline' && github.event.inputs.vast_selector || '' }}
+      RETRO_BASELINE_WHY: ${{ github.event.inputs.cofold_prefix }}
       RETRO_PILOT_ONLY: ${{ github.event.inputs.vast_launch_mode == 'retro_full' && '0' || '1' }}
     steps:
       - uses: actions/checkout@v4
