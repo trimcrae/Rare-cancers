@@ -140,9 +140,25 @@ echo "[s1f-gcp] unit_id=$UNIT_ID"; sed 's/^/  /' /work/env.complex
 # compiled dependency and does not touch openfe/openmmtools/pymbar, so MBAR parity with the n=0 edges is
 # untouched. Which of the two happened is printed, because "it worked" and "it was already there" are
 # different facts and only one of them belongs in a Dockerfile change later.
-PARITY='import openfe,openmmtools,pymbar,numpy,scipy;print("PARITY",openfe.__version__,openmmtools.version.version,pymbar.__version__,numpy.__version__,scipy.__version__)'
-BASE_PARITY=$(docker run --rm "$IMAGE" /opt/mamba/envs/rbfe/bin/python -c "$PARITY" 2>/dev/null | tail -1)
-echo "[s1f-gcp] base image parity: $BASE_PARITY"
+# ⚠ THE PROBE IS READ WITH STDERR VISIBLE AND ITS FAILURE IS A DIFFERENT CAUSE FROM A MOVED STACK.
+# Measured 7:36 PM ET 2026-07-31: the first version of this probe used `openmmtools.version.version` etc.
+# and swallowed stderr with `2>/dev/null`. Both readings came back EMPTY, the comparison saw
+# "" != "" as unequal-and-unreadable, and the guard reported "MOVED the science stack" — a FALSE
+# DIAGNOSIS of a probe that had simply raised. That is CLAUDE.md §4's "an ABSENT READING is not a reading
+# of ABSENCE", committed by the very guard written to enforce provenance. Two fixes, both structural:
+#   (1) `importlib.metadata.version` rather than guessed `__version__` attribute paths — it works for the
+#       conda-installed packages here, and a missing distribution raises with a NAME in the message;
+#   (2) stderr is KEPT, and "could not measure" gets its OWN refusal (`parity-unreadable`) distinct from
+#       "measured and moved" (`parity-moved`). Conflating them is what made the first failure unreadable.
+PARITY='import importlib.metadata as m; print("PARITY " + " ".join(n + "=" + m.version(n) for n in ("openfe","openmmtools","pymbar","numpy","scipy")))'
+BASE_PARITY=$(docker run --rm "$IMAGE" /opt/mamba/envs/rbfe/bin/python -c "$PARITY" 2>/tmp/parity.err | grep -a '^PARITY ' | tail -1)
+echo "[s1f-gcp] base image parity: ${BASE_PARITY:-<UNREADABLE>}"
+if [ -z "$BASE_PARITY" ]; then
+  echo "[s1f-gcp] FATAL: could not READ the base image's versions — this is not a parity failure, it is an"
+  echo "[s1f-gcp] unreadable probe, and the two must never be conflated. Probe stderr:"
+  sed 's/^/[s1f-gcp]   /' /tmp/parity.err | head -20
+  mark "BOOTSTRAP-FAIL parity-unreadable"; exit 3
+fi
 if docker run --rm "$IMAGE" /opt/mamba/envs/rbfe/bin/python -c "from google.cloud import storage" 2>/dev/null; then
   echo "[s1f-gcp] google-cloud-storage: already in the image"
   GCSFIX=""
@@ -174,9 +190,14 @@ DEOF
   # exact class §6 says an ad-hoc environment change is. So the five versions are read BEFORE and AFTER and
   # any difference is a REFUSAL, not a warning: a replicate computed on a different stack is worse than no
   # replicate, because it looks like one.
-  NEW_PARITY=$(docker run --rm s1frep:gcs /opt/mamba/envs/rbfe/bin/python -c "$PARITY" 2>/dev/null | tail -1)
-  echo "[s1f-gcp] derived image parity: $NEW_PARITY"
-  if [ "$BASE_PARITY" != "$NEW_PARITY" ] || [ -z "$NEW_PARITY" ]; then
+  NEW_PARITY=$(docker run --rm s1frep:gcs /opt/mamba/envs/rbfe/bin/python -c "$PARITY" 2>/tmp/parity2.err | grep -a '^PARITY ' | tail -1)
+  echo "[s1f-gcp] derived image parity: ${NEW_PARITY:-<UNREADABLE>}"
+  if [ -z "$NEW_PARITY" ]; then
+    echo "[s1f-gcp] FATAL: could not READ the derived image's versions (NOT a parity failure). stderr:"
+    sed 's/^/[s1f-gcp]   /' /tmp/parity2.err | head -20
+    mark "BOOTSTRAP-FAIL parity-unreadable"; exit 3
+  fi
+  if [ "$BASE_PARITY" != "$NEW_PARITY" ]; then
     echo "[s1f-gcp] FATAL: adding google-cloud-storage MOVED the science stack"
     echo "[s1f-gcp]   before: $BASE_PARITY"
     echo "[s1f-gcp]   after : $NEW_PARITY"

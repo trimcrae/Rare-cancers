@@ -689,3 +689,28 @@ def test_the_gcs_wheel_is_installed_under_a_constraints_file():
         "`pip freeze` emits `pkg @ file:///…` for conda packages, which are not valid constraints"
     # the check must SURVIVE the constraints fix — belt AND brace, not one replacing the other
     assert "BASE_PARITY" in code and 'mark "BOOTSTRAP-FAIL parity-moved"' in code
+
+
+def test_an_unreadable_parity_probe_is_not_reported_as_a_moved_stack():
+    """★★ MEASURED 7:36 PM ET 2026-07-31, and the offender was this lane's OWN provenance guard.
+    The probe used guessed `__version__` attribute paths and swallowed stderr with 2>/dev/null. Both
+    readings came back EMPTY, the comparison saw unreadable-and-unequal, and the guard announced
+    'MOVED the science stack' — a false diagnosis of a probe that had simply raised. CLAUDE.md §4: an
+    ABSENT READING IS NOT A READING OF ABSENCE. The two causes are now separate refusals and the probe's
+    stderr is printed."""
+    code = _startup_code()
+    assert 'mark "BOOTSTRAP-FAIL parity-unreadable"' in code
+    assert 'mark "BOOTSTRAP-FAIL parity-moved"' in code
+    assert "2>/tmp/parity.err" in code and "2>/tmp/parity2.err" in code
+    assert "2>/dev/null | tail -1)" not in code.split("PARITY=")[1].split("run_leg()")[0]
+    # the MOVED branch must compare two READ values, never fire on an empty one
+    moved = code.split('FATAL: adding google-cloud-storage MOVED')[0].splitlines()[-1]
+    assert '-z "$NEW_PARITY"' not in moved, "the moved-branch must not also fire on an unreadable probe"
+
+
+def test_the_parity_probe_uses_importlib_metadata_not_guessed_attributes():
+    """`openmmtools.version.version` / `pymbar.__version__` were guesses and at least one of them raised.
+    importlib.metadata.version works for the conda-installed distributions here and names what is missing."""
+    code = _startup_code()
+    assert "importlib.metadata" in code
+    assert "openmmtools.version.version" not in code
