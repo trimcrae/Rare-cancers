@@ -1,57 +1,55 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-31T17:40:40Z",
+  "utc": "2026-07-31T17:54:48Z",
   "mode": "5aks",
-  "n_requested": 3,
-  "n_rented": 3,
+  "n_requested": 1,
+  "n_rented": 1,
   "requested": [
-    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
-    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
   "rented": [
     {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
-      "instance": "46423056",
-      "machine_id": 33657,
-      "bid": 0.1292,
-      "dph": 0.1288888888888889,
-      "gpu": "RTX 4080S",
-      "dph_total_usd_h": 0.14586666666666667,
-      "dph_base_usd_h": 0.1292,
-      "usd_per_ns": 0.005049,
-      "x_basis": 1.48,
-      "over_buy_line": false
-    },
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
-      "instance": "46423075",
-      "machine_id": 48161,
-      "bid": 0.1768,
-      "dph": 0.17437037037037037,
-      "gpu": "RTX 4090",
-      "dph_total_usd_h": 0.18457777777777779,
-      "dph_base_usd_h": 0.1768,
-      "usd_per_ns": 0.005509,
-      "x_basis": 1.615,
-      "over_buy_line": false
-    },
-    {
       "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-      "instance": "46423080",
-      "machine_id": 31035,
-      "bid": 0.1618,
-      "dph": 0.16088888888888886,
-      "gpu": "RTX 4090",
-      "dph_total_usd_h": 0.17846666666666666,
-      "dph_base_usd_h": 0.1618,
-      "usd_per_ns": 0.005327,
-      "x_basis": 1.561,
+      "instance": "46424216",
+      "machine_id": 33419,
+      "bid": 0.0683,
+      "dph": 0.06848148148148149,
+      "gpu": "RTX 3090",
+      "dph_total_usd_h": 0.07941111111111111,
+      "dph_base_usd_h": 0.0683,
+      "usd_per_ns": 0.004135,
+      "x_basis": 1.212,
       "over_buy_line": false
     }
   ],
   "failed": [],
   "already_live": [
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+      "instance": 46423075,
+      "machine_id": 48161,
+      "gpu": "RTX 4090",
+      "dph_total_usd_h": 0.18457777777777779,
+      "dph_base_usd_h": 0.1768,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005509,
+      "x_basis": 1.615,
+      "over_buy_line": false
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+      "instance": 46423056,
+      "machine_id": 33657,
+      "gpu": "RTX 4080S",
+      "dph_total_usd_h": 0.14586666666666667,
+      "dph_base_usd_h": 0.1292,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005049,
+      "x_basis": 1.48,
+      "over_buy_line": false
+    },
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
       "instance": 46419760,
@@ -67,6 +65,14 @@
     }
   ],
   "skipped": [
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+      "why": "running"
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+      "why": "running"
+    },
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
       "why": "running"
