@@ -399,6 +399,14 @@ def test_the_shipped_entries_are_exactly_what_the_builder_produces():
     for e in _by_kind(doc, "step1_fanout"):
         built = vw.step1_fanout_entry(e["unit_id"], git_branch=e["git_branch"],
                                       enabled=e["enabled"], why=e.get("_why", ""))
+        # Same allowance the paralogue block above makes, for the same reason: `enabled` and the retirement
+        # marker are LIFECYCLE. `vast_watchdog.reap` writes `_disabled_why` / `_blocked_why` when a unit's
+        # work is over, and requiring the builder to reproduce those would pin a finished lane to look
+        # unfinished forever — which is the very defect this file now guards against. What stays pinned is
+        # that every OTHER field is builder-produced rather than hand-typed.
+        for k in ("_disabled_why", "_blocked_why"):
+            if k in e:
+                built[k] = e[k]
         assert e == built, "a step1_fanout entry was hand-typed rather than produced by its builder"
 
     assert len(para) + len(_by_kind(doc, "step1_fanout")) == len(doc["watch"]), \
@@ -927,3 +935,367 @@ def test_a_running_verdict_with_a_frozen_counter_must_not_be_announced_as_advanc
         i_adv = src.index("— advancing at")
         assert "if not stall else" in src[i_adv - 400:i_adv + 400], (
             f"{mod}'s 'advancing' notice must be guarded by the stall counter")
+
+
+# ============================================================================================================
+# THE REAPER — a unit whose work is OVER retires its own watch entry, and the alarm stays trustworthy.
+#
+# ★★ THE MEASURED BUG THESE PIN (2026-07-30/31). `tick`'s DONE branch printed "Set enabled=false for this
+# entry" and nothing ever did — unlike `ternary_vast_watchdog.reap_landed`, which flips the flag. So the step 1
+# fan-out, finished on 2026-07-27, kept all 19 units armed: 18 DONE and one PERMANENTLY BLOCKED edge whose
+# leftover `leg-complex-FAILED-rc1` marker was read as a live crash, so `alerts` was never zero and `main()`
+# returns 1 on any alert. Verified against the Actions API: 47 CONSECUTIVE FAILED SCHEDULED RUNS, 2026-07-27
+# 11:37 AM ET -> 2026-07-30 7:58 PM ET, last green 2026-07-27 8:53 AM ET. CLAUDE.md §6 makes GitHub's
+# failed-run email the only supervision alarm that reaches a human with no agent in the loop, so this was
+# 100 % cry-wolf on the one channel that has to be believed before new billing lanes launch.
+#
+# The two properties that must never be traded against each other, and both are asserted below:
+#   a finished/blocked unit must go QUIET   (or the channel is noise)
+#   a genuinely failed unit must go RED     (or the channel is decoration)
+# ============================================================================================================
+def _rwatch(tmp_path, entries, extra=None):
+    """A watch file whose kinds are declared, so `watchdog_validate` treats it as a real multi-kind list."""
+    doc = {"_required_run_params_by_kind": {k: list(v.required_keys) for k, v in vw.KINDS.items()},
+           "_state_bucket": "b", "_state_prefix": "pfx", "watch": entries}
+    doc.update(extra or {})
+    p = tmp_path / "watch.json"
+    p.write_text(json.dumps(doc))
+    return str(p)
+
+
+class _FakeKind(vw.KindBase):
+    """A kind whose evidence is dictated by the test, so a whole `tick` can run with no S3 and no Vast.
+
+    Deliberately a REAL registry member rather than a monkeypatched branch: the engine must reach its verdict
+    through the same registry lookup the shipped kinds use, or the test proves nothing about the engine.
+    """
+    name = "faker"
+    label_prefix = "fake-"
+    required_keys = ("kind", "unit_id", "enabled")
+    setup_grace_min = 90.0
+    stall_ticks = 2
+    owning_workflow = None
+    LANDED, BLOCKED, FAILED, SCALAR = {}, {}, {}, {}
+
+    @staticmethod
+    def preflight(entry):
+        return []
+
+    @staticmethod
+    def label_matches(label, uid):
+        return label == f"fake-{uid}"
+
+    @staticmethod
+    def landed(entry):
+        why = _FakeKind.LANDED.get(entry["unit_id"])
+        return (True, why) if why else (False, "")
+
+    @staticmethod
+    def blocked(entry):
+        why = _FakeKind.BLOCKED.get(entry["unit_id"])
+        return (True, why) if why else (False, "")
+
+    @staticmethod
+    def probe(entry, insts):
+        uid = entry["unit_id"]
+        inst = next((i for i in insts if _FakeKind.label_matches(i.get("label"), uid)), None)
+        return vw.Evidence(has_result=_FakeKind.landed(entry)[0],
+                           has_failed_record=bool(_FakeKind.FAILED.get(uid)),
+                           failed_detail=str(_FakeKind.FAILED.get(uid) or ""),
+                           instance=inst, instance_alive=inst is not None,
+                           instance_age_min=10.0 if inst else 0.0,
+                           scalar=_FakeKind.SCALAR.get(uid, 0), scalar_label="fake")
+
+    @staticmethod
+    def relaunch_resource_spec(entry, insts):
+        return None
+
+    @staticmethod
+    def relaunch(entry, insts):
+        raise AssertionError("no test here may rent a host")
+
+
+@pytest.fixture
+def faker(monkeypatch):
+    """Register `_FakeKind` and stub every side effect `tick` has: S3 state, the Vast instance list, and the
+    market gate. What is NOT stubbed is the decision path — classify, the verdict chain, the reap."""
+    _FakeKind.LANDED, _FakeKind.BLOCKED, _FakeKind.FAILED, _FakeKind.SCALAR = {}, {}, {}, {}
+    monkeypatch.setitem(vw.KINDS, "faker", _FakeKind)
+    monkeypatch.setattr(vw, "_read_json_key", lambda b, k, default=None: default)
+    monkeypatch.setattr(vw, "_write_json_key", lambda b, k, d: True)
+    monkeypatch.setattr(vw, "_s3_or_none", lambda: None)
+    monkeypatch.setenv("VAST_API_KEY", "test-key")
+    insts = []
+    monkeypatch.setattr(vw, "_vast_request", lambda *a, **k: {"instances": insts})
+    return insts
+
+
+def _fentry(uid, enabled=True, **kw):
+    e = {"kind": "faker", "unit_id": uid, "enabled": enabled}
+    e.update(kw)
+    return e
+
+
+# ---- the unit reap: what may be retired, and what may not -------------------------------------------------
+def test_a_landed_unit_is_reaped_and_its_entry_says_it_is_FINISHED(tmp_path, faker):
+    _FakeKind.LANDED["u1"] = "result artifact s3://b/p/u1/ddg.json (mtime 2026-07-29T04:05:06Z)"
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    assert [u for u, _k, _w in vw.reap(path=path)] == ["u1"]
+    w = json.loads(open(path).read())["watch"][0]
+    assert w["enabled"] is False
+    assert "LANDED" in w["_disabled_why"] and "ddg.json" in w["_disabled_why"]
+    # The key name IS the meaning. `_parked_why` is a human promise to come back and the reaper must never
+    # make one; `_blocked_why` would file a finished unit as never-computed.
+    assert "_parked_why" not in w and "_blocked_why" not in w
+
+
+def test_a_still_running_unit_is_NEVER_reaped(tmp_path, faker):
+    """The failure that would be far worse than the red build: un-watching a GPU that is still billing."""
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    assert vw.reap(path=path) == []
+    w = json.loads(open(path).read())["watch"][0]
+    assert w["enabled"] is True and "_disabled_why" not in w and "_blocked_why" not in w
+
+
+def test_the_reaper_only_ever_disables_and_can_never_arm(tmp_path, faker):
+    """A one-way door. This is the whole argument for granting the workflow `contents: write`: the single
+    mutation it buys is `enabled: true -> false`, so a compromised or buggy pass cannot arm, rent or
+    resurrect anything — including a unit a human deliberately parked."""
+    _FakeKind.LANDED["u1"] = "landed"
+    path = _rwatch(tmp_path, [_fentry("u1", enabled=False, _parked_why="checkpointed; held on the $/ns gate")])
+    assert vw.reap(path=path) == []
+    w = json.loads(open(path).read())["watch"][0]
+    assert w["enabled"] is False and w["_parked_why"].startswith("checkpointed")
+    assert "_disabled_why" not in w
+    # and no code path in the reaper may write `enabled: True` or a parked marker at all
+    src = open(os.path.join(MOD, "vast_watchdog.py")).read()
+    body = src[src.index("def reap("):src.index("# one pass")]
+    assert '"enabled"] = False' in body and '"enabled"] = True' not in body
+    assert "_parked_why" not in body
+
+
+def test_an_unreadable_store_reaps_nothing_rather_than_guessing(tmp_path, faker, monkeypatch, capsys):
+    """Ignorance retires nothing, in the same direction as every other fail-safe in this engine: reaping on
+    an unreadable bucket would silently un-watch a billing GPU."""
+    def boom(entry):
+        raise RuntimeError("s3 down")
+    monkeypatch.setattr(_FakeKind, "landed", staticmethod(boom))
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    assert vw.reap(path=path) == []
+    assert json.loads(open(path).read())["watch"][0]["enabled"] is True
+    assert "REAP SKIPPED" in capsys.readouterr().out
+
+
+def test_a_landed_unit_that_is_ALSO_blocked_counts_as_FINISHED(tmp_path, faker):
+    """Precedence copied from the lane, not invented: `congeneric_fanout_vast.counts` — 'a blocked unit that
+    ALSO has a result counts as DONE, not blocked. A result in hand is a result whatever list the unit is
+    on.' The other order would file a computed edge under 'never computed' in every downstream reader."""
+    _FakeKind.LANDED["u1"] = "the ddg.json is there"
+    _FakeKind.BLOCKED["u1"] = "and it is also on the block list"
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    assert [k for _u, k, _w in vw.reap(path=path)] == ["_disabled_why"]
+
+
+def test_the_reap_is_byte_stable_so_a_quiet_pass_makes_no_commit(tmp_path, faker):
+    """The retire text is stamped from the ARTIFACT's evidence, never `now()`. It has to be: the workflow
+    re-merges the FLEET BRANCH's list at the top of every pass, and that copy still says `enabled: true` for
+    units that finished days ago — so the reap re-runs every tick. A clock-stamped marker would differ every
+    pass and the commit-back step would push a no-op commit every 1-3 h forever."""
+    _FakeKind.LANDED["u1"] = "result artifact s3://b/p/u1/ddg.json (mtime 2026-07-29T04:05:06Z)"
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    vw.reap(path=path)
+    first = open(path).read()
+    doc = json.loads(first)
+    doc["watch"][0]["enabled"] = True          # what the branch merge does to a retired entry
+    open(path, "w").write(json.dumps(doc))
+    vw.reap(path=path)
+    assert json.loads(open(path).read())["watch"][0]["_disabled_why"] == \
+        json.loads(first)["watch"][0]["_disabled_why"]
+
+
+# ---- the alarm: quiet on a decided outcome, red on a real failure -----------------------------------------
+def test_a_finished_lane_ticks_GREEN_and_retires_itself(tmp_path, faker):
+    """The end state this whole change exists to produce: 18 landed + 1 permanently blocked = 0 alerts."""
+    entries = [_fentry(f"u{i}") for i in range(18)] + [_fentry("blocked")]
+    for i in range(18):
+        _FakeKind.LANDED[f"u{i}"] = f"result artifact s3://b/p/u{i}/ddg.json"
+    _FakeKind.BLOCKED["blocked"] = "BLOCKED-permanently-excluded: no mapper reaches the 20-atom floor"
+    path = _rwatch(tmp_path, entries)
+    assert vw.tick(path=path) == 0
+    got = {w["unit_id"]: w for w in json.loads(open(path).read())["watch"]}
+    assert not any(w["enabled"] for w in got.values()), "a finished lane must not stay armed"
+    assert "_blocked_why" in got["blocked"] and "_disabled_why" not in got["blocked"]
+    assert "_disabled_why" in got["u0"] and "_blocked_why" not in got["u0"]
+    # and a second pass over the retired list is a clean no-op, not a resurrection
+    assert vw.tick(path=path) == 0
+
+
+def test_a_GENUINELY_failed_unit_on_a_live_lane_still_goes_RED(tmp_path, faker):
+    """The property the fix must not buy its quiet with. A crash on a unit that is NOT on any block list is
+    exactly what the failed-run email is for, and it must still fail the job and must NOT be retired."""
+    _FakeKind.FAILED["u1"] = "phase.txt='leg-complex-FAILED-rc1'"
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    assert vw.tick(path=path) == 1
+    w = json.loads(open(path).read())["watch"][0]
+    assert w["enabled"] is True, "a real failure must stay armed until a human decides otherwise"
+
+
+def test_a_permanently_blocked_unit_does_NOT_alert_even_though_its_marker_says_FAILED(tmp_path, faker):
+    """The measured case. `cw_bio_nmethyl_amide` wears `leg-complex-FAILED-rc1` forever because that is the
+    marker the aborted leg left behind — and `congeneric_fanout_vast.unit_phase` already refuses to render a
+    blocked unit that way, precisely so 'about to be re-placed' and 'will never be computed' stop looking
+    alike. This watchdog was the last reader still conflating them."""
+    _FakeKind.FAILED["u1"] = "phase.txt='leg-complex-FAILED-rc1'"
+    _FakeKind.BLOCKED["u1"] = "no mapper reaches the provable 20-atom floor; identical at t20 and t300"
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    assert vw.tick(path=path) == 0
+    w = json.loads(open(path).read())["watch"][0]
+    assert w["enabled"] is False and "20-atom" in w["_blocked_why"]
+
+
+def test_a_blocked_unit_with_a_HOST_UP_alerts_and_is_never_retired(tmp_path, faker):
+    """The one case where `blocked` must be LOUDER than a failure, not quieter: a unit the lane refuses to
+    rent for, with a box billing for it, is a real and expensive contradiction. Retiring it there would
+    un-watch a live GPU, which is the failure mode this engine exists to prevent."""
+    _FakeKind.BLOCKED["u1"] = "permanently excluded"
+    faker.append({"id": 42, "label": "fake-u1", "actual_status": "running", "start_date": time.time() - 600})
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    assert vw.tick(path=path) == 1
+    assert json.loads(open(path).read())["watch"][0]["enabled"] is True
+
+
+def test_a_blocked_unit_is_never_relaunched_even_when_it_reads_DIED(tmp_path, faker):
+    """Why the block is consulted for EVERY non-DONE verdict and not just for FAILED. A permanently-excluded
+    unit with no phase marker and no host reads DIED, and DIED RELAUNCHES — which is the unbounded loop of
+    short rentals that made the lane's block list necessary (`_load_blocked`: two hosts rented and aborted
+    inside 17 minutes). `_FakeKind.relaunch` raises, so a relaunch attempt fails this test loudly."""
+    _FakeKind.BLOCKED["u1"] = "permanently excluded"
+    path = _rwatch(tmp_path, [_fentry("u1")])
+    assert vw.tick(path=path) == 0
+
+
+def _code_of(func, cls=None, mod="vast_watchdog.py"):
+    """The SOURCE of one function with its docstring removed, so a source-text assertion is about the code
+    and not about the prose that explains it. (Both of the tests below first failed on their own comments.)"""
+    import ast
+    tree = ast.parse(open(os.path.join(MOD, mod)).read())
+    scope = tree.body
+    if cls:
+        scope = next(n.body for n in tree.body if isinstance(n, ast.ClassDef) and n.name == cls)
+    fn = next(n for n in scope if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name == func)
+    body = fn.body[1:] if ast.get_docstring(fn) else fn.body
+    return "\n".join(ast.unparse(n) for n in body)
+
+
+def test_the_DONE_branch_no_longer_merely_ADVISES(tmp_path, faker):
+    """The literal defect: advice, printed hourly, that nothing acted on. Pinned as source text as well as
+    behaviour because the behaviour could be reintroduced by deleting one call."""
+    code = _code_of("tick")
+    assert "in S3. Set enabled=false" not in code, "the DONE branch is advising again instead of reaping"
+    assert "reap(path=path, dry_run=dry_run, observed=observed)" in code
+
+
+# ---- the kind contract -----------------------------------------------------------------------------------
+def test_every_kind_implements_its_own_doneness_test(tmp_path):
+    """`landed` is deliberately NOT defaulted on `KindBase`. A kind that cannot say when its work is finished
+    would keep its units armed forever and re-create the 47-red-runs failure under a new name."""
+    for name, k in vw.KINDS.items():
+        assert "landed" in vars(k), f"kind {name} does not implement landed()"
+
+
+def test_the_engine_never_branches_on_a_KIND_STRING_to_decide_doneness():
+    """The design constraint: a kind registry over one policy. The moment the engine asks
+    `if kind == "step1_fanout"` it has a private definition of doneness for a lane it does not own."""
+    src = open(os.path.join(MOD, "vast_watchdog.py")).read()
+    body = src[src.index("def reap("):src.index("def merge_branch_watch_list")]
+    for name in vw.KINDS:
+        assert f'"{name}"' not in body, f"the reap/tick path branches on the kind string {name!r}"
+
+
+def test_each_kinds_probe_reads_has_result_FROM_its_landed_test():
+    """One fact, one place. If `probe` kept its own copy of the doneness expression, the reaper and the DONE
+    verdict could disagree — one saying finished, the other keeping the unit armed forever."""
+    src = open(os.path.join(MOD, "vast_watchdog.py")).read()
+    for cls in ("TernaryKind", "ParalogueMdKind", "Step1FanoutKind"):
+        i = src.index(f"class {cls}(")
+        j = src.index("\nclass ", i + 1) if "\nclass " in src[i + 1:] else len(src)
+        body = src[i:j]
+        p = body.index("def probe(")
+        q = body.index("def ", p + 10)
+        assert f"{cls}.landed(entry" in body[p:q], f"{cls}.probe does not read has_result from landed()"
+
+
+def test_step1_blocked_reads_the_LANES_OWN_block_list_not_a_second_copy():
+    """CLAUDE.md rule 1. The permanent-exclusion list has exactly one home — the lane's durable S3 doc, read
+    by `congeneric_fanout_vast._load_blocked` — and the watchdog must consult it rather than keep a list that
+    can drift out of agreement with the launcher that acts on it."""
+    body = _code_of("blocked", cls="Step1FanoutKind")
+    assert "_load_blocked" in body
+    assert "cw_bio_nmethyl_amide" not in body, "the blocked unit must not be hard-coded into the watchdog"
+    import congeneric_fanout_vast as L
+    assert hasattr(L, "_load_blocked") and hasattr(L, "BLOCKED_PHASE")
+
+
+def test_the_other_kinds_do_not_pretend_to_have_a_block_list():
+    """Opt-in, not inherited-by-accident: a kind must choose to be able to retire a unit unfinished."""
+    assert vw.TernaryKind.blocked({"unit_id": "x"}) == (False, "")
+    assert vw.ParalogueMdKind.blocked({"unit_id": "x"}) == (False, "")
+    assert "blocked" not in vars(vw.TernaryKind) and "blocked" not in vars(vw.ParalogueMdKind)
+    assert "blocked" in vars(vw.Step1FanoutKind)
+
+
+# ---- the persistence is real ------------------------------------------------------------------------------
+def test_the_workflow_can_actually_persist_what_the_reap_decided():
+    """A reap that prints "REAPED" while unable to write anything is a lie in the record — it would re-decide
+    the same retirement every pass forever, which is the state that produced 47 red runs. So the job needs
+    `contents: write` AND a commit step, and the write must stay scoped to the job that reaps."""
+    import yaml
+    with open(os.path.join(WF_DIR, "vast-watchdog.yml")) as fh:
+        wf = yaml.safe_load(fh)
+    assert wf["permissions"] == {"contents": "read"}, "the file-level default must stay read-only"
+    watch = wf["jobs"]["watch"]
+    assert watch["permissions"] == {"contents": "write"}, "only the reaping job may hold contents: write"
+    assert wf["jobs"]["step1-fanout-tick"]["permissions"].get("contents") == "read", \
+        "the dispatch job must not inherit the reaper's write scope"
+    steps = watch["steps"]
+    commit = [s for s in steps if "git commit" in (s.get("run") or "")]
+    assert len(commit) == 1, "exactly one step may commit the watch list back"
+    run = commit[0]["run"]
+    assert "research/modalities/vast-watch.json" in run
+    assert "git diff --cached --quiet" in run, "a pass with nothing to retire must make no commit"
+    # the push race: another workflow commits to this branch every few minutes
+    assert "--rebase" in run and "for i in 1 2 3" in run, "the ternary watchdog's push-race retry is required"
+    # `always()`, because the tick exits non-zero on an alert BY DESIGN and a pass that alerts on one unit
+    # while retiring another must still persist the retirement.
+    assert "always()" in commit[0]["if"] and "dry_run != '1'" in commit[0]["if"]
+    assert steps.index(commit[0]) > steps.index([s for s in steps if "--tick" in (s.get("run") or "")][0])
+
+
+def test_every_disabled_entry_in_the_shipped_list_declares_WHICH_kind_of_over_it_is():
+    """`enabled: false` means three different things (the list's own
+    `_disabled_why_vs_blocked_why_vs_parked_why`) and an entry carrying none of the keys — or two of them —
+    cannot be told apart by any cross-lane reader."""
+    doc = _generic()
+    keys = ("_disabled_why", "_blocked_why", "_parked_why")
+    for e in doc["watch"]:
+        if e.get("enabled"):
+            assert not any(k in e for k in keys), f"{e['unit_id']} is ENABLED but carries a retirement marker"
+            continue
+        present = [k for k in keys if e.get(k)]
+        assert len(present) == 1, f"{e['unit_id']} is disabled with markers {present}, expected exactly one"
+    assert "_disabled_why_vs_blocked_why_vs_parked_why" in doc, "the vocabulary must be documented in-file"
+
+
+def test_a_RE_ARMED_unit_stops_claiming_its_work_is_over(tmp_path, faker):
+    """`congeneric_fanout_vast._arm_watchdog` re-arms by setting `enabled: true` and popping `_disabled_why`.
+    It predates `_blocked_why` and does not pop that one — and that combination is reachable, because this
+    lane's block record says the exclusion is REVISITABLE (lift it with FANOUT_UNBLOCK=1 if a mapper ever
+    reaches the floor). An armed entry still asserting "permanently blocked" would be a contradiction that a
+    consistency guard fails on later, i.e. a brand-new cry-wolf. The reaper drops the stale claim instead,
+    and touches no `enabled` flag doing it."""
+    path = _rwatch(tmp_path, [_fentry("u1", _blocked_why="stale: this block was lifted"),
+                              _fentry("u2", _disabled_why="stale: this result was deleted")])
+    assert vw.reap(path=path) == []                     # nothing is RETIRED — neither unit's work is over
+    got = json.loads(open(path).read())["watch"]
+    assert [w["enabled"] for w in got] == [True, True], "un-staling must never change an enabled flag"
+    assert "_blocked_why" not in got[0] and "_disabled_why" not in got[1]

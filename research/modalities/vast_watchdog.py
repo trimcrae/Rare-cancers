@@ -28,8 +28,11 @@ WHAT IS SHARED AND WHAT IS PER-KIND
   shared (watchdog_policy):  DONE / FAILED / RUNNING / SETUP_STALL / STALLED / DIED, "alive is not advancing",
                              only DIED relaunches, the per-UTC-day relaunch cap, refusing on an unparseable
                              counter. One implementation, imported — never a second copy that can disagree.
-  per-kind:                  where the evidence comes from, what the scalar IS, the cold-start grace, and how
-                             to re-dispatch EXACTLY what was launched.
+  per-kind:                  where the evidence comes from, what the scalar IS, the cold-start grace, how to
+                             re-dispatch EXACTLY what was launched, and — `landed` / `blocked` — when the
+                             unit's work is OVER. See `KindBase`: a DONE branch that only PRINTS "set
+                             enabled=false" is advice nobody takes, and it left this job red for 47
+                             consecutive scheduled runs while the lane it watched was entirely finished.
 
 THE SCALAR RULE, WHICH EVERY KIND MUST SATISFY
   RUNNING requires the scalar to have INCREASED since the previous tick. A rented Vast box can sit up with a
@@ -143,12 +146,35 @@ def _write_json_key(bucket, key, doc):
         return False
 
 
-def _key_exists(bucket, key):
+def _head(bucket, key):
+    """The object's HEAD, or None if it is absent/unreadable. The ONE place this watchdog asks S3 whether a
+    result artifact exists.
+
+    IT RETURNS THE HEAD, NOT A BOOLEAN, so `landed()` can stamp a retirement with the artifact's OWN
+    `LastModified` instead of the wall clock. That is not cosmetic: `vast-watchdog.yml` re-merges the fleet
+    branch's watch list at the top of every pass, and the branch copy still says `enabled: true` for units
+    that finished days ago — so the reap re-runs on every tick. A `_disabled_why` stamped with `now()` would
+    therefore differ on every pass, and the commit-back step would push a fresh no-op commit every 1-3 h
+    forever. Stamped with the artifact's own mtime the retirement is a PURE FUNCTION of the durable store:
+    identical text, empty diff, no commit. Same idiom as `ternary_vast_watchdog.reap_landed`, which stamps
+    from `rec['updated_utc']` rather than the clock.
+    """
     try:
-        _s3().head_object(Bucket=bucket, Key=key)
-        return True
+        return _s3().head_object(Bucket=bucket, Key=key)
+    except Exception:  # noqa: BLE001 — absent and unreadable are both "no evidence of a result"
+        return None
+
+
+def _head_utc(head):
+    """`LastModified` as an ISO8601Z string, or "" if the head carries none. PURE."""
+    try:
+        return head["LastModified"].strftime("%Y-%m-%dT%H:%M:%SZ")
     except Exception:  # noqa: BLE001
-        return False
+        return ""
+
+
+def _key_exists(bucket, key):
+    return _head(bucket, key) is not None
 
 
 def _annotate(level, title, msg):
@@ -276,12 +302,51 @@ def relaunch_withheld(n_live, ok, owning, owner_failed=None):
 
 
 # =============================================================================================================
+# THE END-OF-LIFE HALF OF THE KIND CONTRACT — `landed` and `blocked`, and why they are on the KIND.
+#
+# ★★ THE BUG THIS EXISTS TO END (measured 2026-07-30/31). The DONE branch of `tick` printed "Set enabled=false
+# for this entry" and NOTHING EVER DID — unlike `ternary_vast_watchdog.reap_landed`, which actually flips the
+# flag. So the step 1 fan-out, which finished on 2026-07-27, kept all 19 of its units armed: every pass
+# classified 18 DONE and 1 FAILED, `alerts` was therefore never zero, and `main()` returns 1 on any alert. The
+# result was 47 CONSECUTIVE FAILED SCHEDULED RUNS (2026-07-27 11:37 AM ET -> 2026-07-30 7:58 PM ET, verified
+# against the Actions API; last green 2026-07-27 8:53 AM ET). CLAUDE.md §6 makes GitHub's failed-run email the
+# ONLY supervision alarm that reaches a human with no agent in the loop, and it had been firing every 1-2 h
+# regardless of fleet state — i.e. carrying zero information at exactly the moment new billing lanes are about
+# to launch. An alarm that is always red is the same end state as no alarm.
+#
+# WHY THE TEST BELONGS TO THE KIND AND NOT TO THE CALLER. `tick` must never branch on `kind` strings: this
+# engine's whole design is a kind REGISTRY over one shared policy, and the moment the engine starts asking
+# "if kind == 'step1_fanout'" it has a private, un-refusable definition of doneness for a lane it does not
+# own. Each kind already knows where its result lives — it has to, because that is what it reports as
+# `has_result`. So `landed` is THE one home of that expression and `probe` reads `has_result` FROM it: the
+# reaper and the verdict are then incapable of disagreeing about whether a unit is finished.
+#
+# `blocked` IS THE OTHER END-OF-LIFE STATE, AND IT IS NOT A FAILURE. A unit on the lane's own permanent
+# exclusion list has a DECIDED outcome, not an open alert; see Step1FanoutKind.blocked. The default here is
+# `(False, "")` so a lane with no such list is unchanged, and so a kind added later cannot accidentally
+# acquire one — a kind must OPT IN to being able to retire a unit unfinished.
+# =============================================================================================================
+class KindBase:
+    """Defaults for the end-of-life half of the kind contract. `landed` is deliberately NOT defaulted.
+
+    A missing `landed` must be LOUD, not silently False: a kind that cannot say when its work is finished
+    would keep its units armed forever and re-create the 47-red-runs failure above under a new name.
+    `tests/test_vast_watchdog.py::test_every_kind_implements_its_own_doneness_test` fails on one.
+    """
+
+    @staticmethod
+    def blocked(entry):
+        """(is_permanently_excluded, why). Lanes without a permanent-exclusion list are unchanged by this."""
+        return False, ""
+
+
+# =============================================================================================================
 # KIND: ternary  — the RUNG 2b OpenFE legs. Registered so the engine genuinely covers this lane too; the
 # SHIPPED generic watch list does not carry ternary entries, because ternary-vast-watchdog.yml already watches
 # them and two relaunchers for one unit is the hazard above. tests/test_vast_watchdog.py asserts the two lists
 # stay disjoint.
 # =============================================================================================================
-class TernaryKind:
+class TernaryKind(KindBase):
     name = "ternary"
     label_prefix = "tvast"
     # Every parameter that keys the commit prefix, plus the branch. Identical to the ternary list's
@@ -303,16 +368,42 @@ class TernaryKind:
         return tv.resource_spec()
 
     @staticmethod
+    def label_matches(label, uid):
+        """Delegated, never re-implemented: `ternary_vast_launch` owns this lane's label grammar and both
+        watchdogs must agree about which box belongs to which leg. Added so every registered kind answers
+        the liveness question the same way — `tick` needs it to refuse to retire a unit that still has a
+        host up."""
+        import ternary_vast_launch as tv
+        return bool(tv.label_matches_unit(label, uid))
+
+    @staticmethod
+    def landed(entry, recs=None):
+        """(has the durable result landed, evidence). The ONE home of this kind's doneness test.
+
+        `recs` is the same injection point `ternary_vast_watchdog.reap_landed` takes, for the same reason:
+        `probe` has already paid for the listing, so passing it back avoids a second S3 sweep per entry.
+        """
+        import ternary_vast_launch as tv
+        rec = ((tv.leg_records() if recs is None else recs) or {}).get(entry["unit_id"]) or {}
+        if rec.get("status") != "done":
+            return False, ""
+        return True, (f"leg.json status=done (dG_morph={rec.get('dg_morph_kcal')}, "
+                      f"NaN={rec.get('nan_seen')}) at {rec.get('updated_utc')}")
+
+    @staticmethod
     def probe(entry, insts):
         import ternary_vast_launch as tv
         uid = entry["unit_id"]
-        rec = (tv.leg_records() or {}).get(uid) or {}
+        recs = tv.leg_records() or {}
+        rec = recs.get(uid) or {}
         inst = next((i for i in insts if tv.label_matches_unit(i.get("label"), uid)), None)
         phase, it, scalar = tv.committed_progress(uid)
         if scalar < 0:
             return Evidence(readable=False, note="commit store unlistable this pass")
         return Evidence(
-            has_result=rec.get("status") == "done",
+            # FROM `landed`, never a second copy of the expression: the reaper and this verdict must be
+            # incapable of disagreeing about whether the unit is finished.
+            has_result=TernaryKind.landed(entry, recs=recs)[0],
             has_failed_record=rec.get("status") == "failed",
             failed_detail=f"rc={rec.get('rc')} NaN_seen={rec.get('nan_seen')} at {rec.get('updated_utc')} "
                           f"tail={(rec.get('log_tail') or [])[-3:]}",
@@ -342,7 +433,7 @@ class TernaryKind:
 #   instance -> the Vast label IS the JobSpec name, matched EXACTLY (see label_matches: a prefix match would
 #               pair the real leg with its smoke leg)
 # =============================================================================================================
-class ParalogueMdKind:
+class ParalogueMdKind(KindBase):
     name = "paralogue_md"
     label_prefix = "nr4a-pdyn"
     # Nothing here is optional. build_jobspec() reads seed/segment_ns/image/bucket/result_prefix from the
@@ -448,11 +539,25 @@ class ParalogueMdKind:
                 f"{phase}/{done_ns} ns", True, False, "")
 
     @staticmethod
+    def landed(entry):
+        """(has the durable result landed, evidence). The ONE home of this kind's doneness test — the exact
+        key the job uploads, reused from the lane's own ops module rather than re-derived, and stamped with
+        the artifact's own mtime so the retirement text is a pure function of the store."""
+        uid = entry["unit_id"]
+        key = ParalogueMdKind._ops(entry).result_key(uid)
+        head = _head(entry["bucket"], key)
+        if head is None:
+            return False, ""
+        return True, f"result artifact s3://{entry['bucket']}/{key} (mtime {_head_utc(head) or 'unknown'})"
+
+    @staticmethod
     def probe(entry, insts):
         uid = entry["unit_id"]
         bucket = entry["bucket"]
-        ops = ParalogueMdKind._ops(entry)
-        has_result = _key_exists(bucket, ops.result_key(uid))
+        # `landed` calls `_ops` and so runs its prefix guard, but the phase marker below is read from the
+        # ENTRY's prefix directly — so the guard is asserted here too rather than assumed.
+        ParalogueMdKind._ops(entry)
+        has_result = ParalogueMdKind.landed(entry)[0]
 
         # An `exited` container is NOT alive: it has stopped its own GPU billing and only CI can destroy the
         # instance, so it lingers in the listing. Counting it as alive would read a dead leg as RUNNING and
@@ -532,7 +637,7 @@ class ParalogueMdKind:
 # low-order one — phase advance can never read as a regression, and a frozen census inside a phase is still
 # caught.
 # =============================================================================================================
-class Step1FanoutKind:
+class Step1FanoutKind(KindBase):
     name = "step1_fanout"
     label_prefix = "s1f-"
     required_keys = ("kind", "unit_id", "bucket", "result_prefix", "stage_prefix", "image", "n_windows",
@@ -650,6 +755,54 @@ class Step1FanoutKind:
                 f"{head}/{census_scalar}", True, "")
 
     @staticmethod
+    def landed(entry):
+        """(has the durable result landed, evidence). The ONE home of this kind's doneness test.
+
+        The key is `congeneric_fanout.result_key`, i.e. exactly what the unit's reduce step uploads — reused
+        from the lane rather than re-derived, so the watchdog cannot end up asking about a key the driver
+        never writes (a collector in this repo already did that and would have returned a confident
+        "inconclusive" on 24 perfect legs). Stamped with the artifact's own mtime, not the clock: see `_head`.
+        """
+        uid = entry["unit_id"]
+        import congeneric_fanout as cf
+        unit = next((u for u in cf.default_units() if u["unit_id"] == uid), None)
+        if unit is None:
+            return False, ""
+        key = cf.result_key(unit, str(entry["result_prefix"]))
+        head = _head(entry["bucket"], key)
+        if head is None:
+            return False, ""
+        return True, f"result artifact s3://{entry['bucket']}/{key} (mtime {_head_utc(head) or 'unknown'})"
+
+    @staticmethod
+    def blocked(entry):
+        """(is this unit PERMANENTLY EXCLUDED by the lane, why). Read from the lane's OWN block list.
+
+        ★★ WHY A BLOCKED UNIT IS NOT A `FAILED` ONE, AND WHY THAT DISTINCTION ALREADY EXISTS.
+        `congeneric_fanout_vast._load_blocked` is the durable, S3-backed list of units this lane will not
+        rent a host for, with the reason and the evidence; `_pending` refuses to launch them, `collect`
+        writes them into `step1-fanout-map.json` as `blocked_units`, and `unit_phase` renders them as
+        `BLOCKED-permanently-excluded` rather than as the `leg-complex-FAILED-rc1` marker they left behind —
+        precisely because "about to be re-placed" and "will never be computed" wearing one string is what let
+        a correctly-working guard look like an unattended failure overnight. This watchdog was the last
+        reader still conflating them: it read `phase.txt`, saw FAILED, and alerted forever.
+        `cw_bio_nmethyl_amide` is the live case — no available mapper reaches the provable 20-atom floor, and
+        LOMAP's maps are MEASURED identical at budgets t20 and t300, so more search time provably cannot fix
+        it. That is a decided outcome, not an open alert.
+        ⛔ THIS DOES NOT WEAKEN `FAILED`. A crash on a unit that is NOT on this list still alerts and still
+        turns the run red, which is the whole point of the channel.
+        """
+        L = Step1FanoutKind._lane(entry)
+        rec = L._load_blocked(L._s3(), str(entry["bucket"])).get(entry["unit_id"])
+        if rec is None:
+            return False, ""
+        rec = rec or {}
+        return True, (f"{L.BLOCKED_PHASE} on the lane's own list "
+                      f"(s3://{entry['bucket']}/{entry['result_prefix']}/{L._BLOCKED_KEY_SUFFIX}): "
+                      f"{rec.get('why') or 'no reason recorded'}"
+                      + (f" | evidence: {rec.get('evidence')}" if rec.get("evidence") else ""))
+
+    @staticmethod
     def probe(entry, insts):
         uid, bucket = entry["unit_id"], entry["bucket"]
         L = Step1FanoutKind._lane(entry)
@@ -657,7 +810,7 @@ class Step1FanoutKind:
         unit = next((u for u in cf.default_units() if u["unit_id"] == uid), None)
         if unit is None:
             return Evidence(readable=False, note=f"{uid} is not in the frozen map")
-        has_result = _key_exists(bucket, cf.result_key(unit, str(entry["result_prefix"])))
+        has_result = Step1FanoutKind.landed(entry)[0]
         phase = L._get_text(L._s3(), bucket, f"{entry['result_prefix']}/{uid}/phase.txt")
         census, _detail = L.committed_progress(L._s3(), bucket, unit)
         scalar, label, readable, why = Step1FanoutKind.score(phase, census)
@@ -901,6 +1054,131 @@ def verify_armed(unit_ids, path=None):
 
 
 # =============================================================================================================
+# the reaper — a unit whose work is OVER retires its own watch entry
+# =============================================================================================================
+# ★★ WHY THIS EXISTS (measured 2026-07-30/31; the incident is written out in full above `KindBase`).
+# The DONE branch printed "Set enabled=false for this entry" and nothing ever did it, so a lane that finished
+# on 2026-07-27 stayed armed and its one permanently-blocked edge kept the pass non-zero: 47 consecutive
+# failed scheduled runs, i.e. the one supervision alarm that reaches a human with no agent in the loop was
+# 100 % cry-wolf. `ternary_vast_watchdog.reap_landed` already had the answer; this is the same thing over the
+# multi-kind schema, with the doneness test delegated to the kind instead of branched on in the caller.
+#
+# TWO REASONS TO RETIRE, AND THEY ARE NOT THE SAME FACT — the key name is how a reader tells them apart, and
+# the vocabulary is the repo's, not a new one (`vast-watch.json` -> `_disabled_why_vs_blocked_why_vs_parked_why`):
+#   `_disabled_why`  LANDED. The durable result artifact exists. Coverage that SUCCEEDED.
+#   `_blocked_why`   PERMANENTLY EXCLUDED by the lane's own block list. NOT finished, and never will be.
+#   `_parked_why`    (written by hand, never here) INTERRUPTED, checkpoint intact, work genuinely unfinished
+#                    and awaiting a condition. The reaper must never write this one — it is a promise to
+#                    come back, and only a human makes that.
+#
+# A ONE-WAY DOOR. Only ENABLED entries are considered and the only mutation is `enabled: true -> false`, so
+# the reaper can never arm, rent or resurrect anything. That is what makes `contents: write` on the workflow
+# a safe grant rather than a general-purpose one.
+_LANDED_KEY = "_disabled_why"
+_BLOCKED_KEY = "_blocked_why"
+
+
+def _retirement(entry, kind, observed=None):
+    """(key, why) for an entry whose work is over, or (None, "") to leave it alone. No S3 when `observed`
+    is supplied — the pass has already paid for that evidence.
+
+    PRECEDENCE IS LANDED-BEFORE-BLOCKED, and it is copied from the lane rather than invented:
+    `congeneric_fanout_vast.counts` — "a blocked unit that ALSO has a result counts as DONE, not blocked. A
+    result in hand is a result whatever list the unit is on." Ordering them the other way would file a
+    finished edge under "never computed" in every downstream reader.
+
+    IGNORANCE RETIRES NOTHING. A kind whose store cannot be read returns False (or raises, which is caught
+    here); either way the entry stays armed. Reaping on an unreadable bucket would silently un-watch a
+    billing GPU, which is strictly worse than the red build this whole change exists to fix.
+    """
+    uid = entry.get("unit_id")
+    if observed is not None:
+        state, why = observed.get(uid, (None, ""))
+        return ({"landed": _LANDED_KEY, "blocked": _BLOCKED_KEY}.get(state), why or "")
+    for state, key in (("landed", _LANDED_KEY), ("blocked", _BLOCKED_KEY)):
+        try:
+            ok, why = getattr(kind, state)(entry)
+        except Exception as e:  # noqa: BLE001 — one unreadable store must not abandon the other entries
+            print(f"::warning title=VAST WATCHDOG REAP SKIPPED::{uid} — asking {kind.name}.{state}() raised "
+                  f"{type(e).__name__}: {e}. Leaving the entry exactly as it is.")
+            return None, ""
+        if ok:
+            return key, why
+    return None, ""
+
+
+def reap(path=None, dry_run=False, observed=None):
+    """Retire the watch entry of every ENABLED unit whose work is over. Returns [(unit_id, key, why)].
+
+    `observed` is {unit_id: (state, why)} with state in ("landed", "blocked", None), gathered by the pass
+    that just ran so no second S3 sweep is needed — the same reason `ternary_vast_watchdog.reap_landed`
+    takes `recs`. A unit ABSENT from `observed` is not retired: the pass did not reach a conclusion about it
+    (unreadable progress, a probe that raised, a refused entry), and "no conclusion" must never mean "done".
+    With `observed=None` each kind is asked directly, which needs the durable store only and NOT
+    `VAST_API_KEY` — that is what makes `--reap` cheap enough to run from any lane's own workflow.
+
+    Writes the file only when something actually changed, so a steady state produces no commit and no churn.
+    """
+    doc = load_watch(path)
+    reaped, unstaled = [], []
+    for w in enabled_entries(doc):
+        kind = KINDS.get(w.get("kind"))
+        if kind is None:                      # validation refuses these long before here; belt and braces
+            continue
+        key, why = _retirement(w, kind, observed=observed)
+        if not key:
+            # ★ AN ARMED UNIT MUST NOT CLAIM TO BE RETIRED. `congeneric_fanout_vast._arm_watchdog` re-arms a
+            # unit by setting `enabled: true` and popping `_disabled_why` — it predates `_blocked_why` and
+            # does not know to pop that one. That combination is reachable: this lane's block record says the
+            # exclusion is REVISITABLE ("if a mapper ever returns >= 20 for this edge, lift it with
+            # FANOUT_UNBLOCK=1"), and a lifted block makes the unit launchable again. Rather than leave a
+            # contradiction for a CI guard to fail on later — a new cry-wolf, which is the thing being fixed
+            # here — the stale claim is simply dropped. This changes NO `enabled` flag, so the reaper stays a
+            # one-way door; it only stops an entry asserting something the store no longer supports.
+            for stale in (_LANDED_KEY, _BLOCKED_KEY):
+                if stale in w:
+                    w.pop(stale)
+                    unstaled.append((w.get("unit_id"), stale))
+            continue
+        w["enabled"] = False
+        w.pop(_LANDED_KEY, None)
+        w.pop(_BLOCKED_KEY, None)
+        w[key] = (
+            f"{'LANDED' if key == _LANDED_KEY else 'PERMANENTLY BLOCKED'}: {why} "
+            f"Auto-reaped by vast_watchdog.reap. "
+            + ("This unit is FINISHED, not parked — re-enabling it asks the engine to hunt for an instance "
+               "that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
+               if key == _LANDED_KEY else
+               "This unit is a DECIDED OUTCOME, not an open alert and not a parked one: it is on the lane's "
+               "own permanent-exclusion list, the lane's launcher will not rent a host for it, and no "
+               "rental could produce the missing result. It is NOT counted as computed anywhere — "
+               "step1-fanout-map.json carries it under `blocked_units` with `n_blocked`, which is the "
+               "honest denominator the paper quotes."))
+        reaped.append((w["unit_id"], key, why))
+
+    if not reaped and not unstaled:
+        return []
+    if dry_run:
+        if reaped:
+            print(f"[reap] DRY RUN — would retire {len(reaped)} entr(ies): "
+                  + ", ".join(f"{u} ({k})" for u, k, _ in reaped))
+        if unstaled:
+            print(f"[reap] DRY RUN — would drop {len(unstaled)} stale retirement marker(s) from re-armed "
+                  f"entr(ies): " + ", ".join(f"{u} ({k})" for u, k in unstaled))
+        return reaped
+    save_watch(doc, path)
+    for uid, stale in unstaled:
+        print(f"[reap] dropped a stale {stale} from {uid} — it is armed again, so it no longer claims its "
+              f"work is over")
+    for uid, key, why in reaped:
+        _annotate("notice", "VAST WATCHDOG REAPED A FINISHED UNIT"
+                  if key == _LANDED_KEY else "VAST WATCHDOG RETIRED A PERMANENTLY BLOCKED UNIT",
+                  f"{uid} — {why} Its watch entry is now enabled=false, so the lane no longer reads as "
+                  f"having an unfinished unit and this pass no longer alerts on it.")
+    return reaped
+
+
+# =============================================================================================================
 # one pass
 # =============================================================================================================
 def tick(path=None, dry_run=False):
@@ -967,11 +1245,16 @@ def tick(path=None, dry_run=False):
 
     alerts = 0
     verdicts = {}
+    # What this pass CONCLUDED about each unit's end of life, handed to the reaper after the loop so it needs
+    # no second S3 sweep. Default (None, "") = "no conclusion", which never retires anything: an entry the
+    # pass could not read must stay armed.
+    observed = {}
     day = time.strftime("%Y%m%d", time.gmtime())
     interlock_cache = {}
     for e in entries:
         uid = e["unit_id"]
         kind = KINDS[e["kind"]]
+        observed[uid] = (None, "")
         print(f"=============== {uid}  [{kind.name}] ===============")
         bad = kind.preflight(e)
         if bad:
@@ -1035,8 +1318,45 @@ def tick(path=None, dry_run=False):
                           f"any RUNNING verdict from this watchdog.")
 
         if verdict == "DONE":
+            # The disable itself happens ONCE after the loop (see `reap`), never here: mutating the watch
+            # document mid-iteration while `entries` is a live view of it is how a reaper skips the entry
+            # after the one it just changed. Same structure as ternary_vast_watchdog.
+            observed[uid] = ("landed", kind.landed(e)[1])
             _annotate("notice", "VAST WATCHDOG DONE",
-                      f"{uid} — the result artifact is in S3. Set enabled=false for this entry.")
+                      f"{uid} — the result artifact is in S3. Its watch entry is reaped at the end of this "
+                      f"pass, so this unit stops counting as unfinished work.")
+            continue
+
+        # ---- BLOCKED: a DECIDED OUTCOME, not an open alert. Checked for EVERY non-DONE verdict ------------
+        # Not just for FAILED, and that breadth is the safety property: a permanently-excluded unit whose
+        # phase marker happened to be missing would otherwise read DIED, and DIED RELAUNCHES — which is
+        # exactly the unbounded loop of short rentals that made the lane's block list necessary in the first
+        # place (`congeneric_fanout_vast._load_blocked`: two hosts rented and aborted within 17 minutes).
+        # So the block is consulted before any branch that can alert or spend.
+        try:
+            is_blocked, block_why = kind.blocked(e)
+        except Exception as ex:  # noqa: BLE001 — an unreadable block list must not abandon the entry
+            is_blocked, block_why = False, ""
+            print(f"[blocked] {uid} — could not read {kind.name}'s block list ({type(ex).__name__}: {ex}); "
+                  f"treating it as not blocked, which is the direction that keeps alerting.")
+        if is_blocked:
+            if ev.instance_alive:
+                # ⛔ NEVER UN-WATCH A BILLING BOX. A unit the lane refuses to rent for, with a host up, is a
+                # real and expensive contradiction — the one case where "blocked" must be LOUDER than a
+                # failure, not quieter.
+                alerts += 1
+                verdicts[uid] = "BLOCKED_BUT_BILLING"
+                _annotate("error", "VAST WATCHDOG BLOCKED UNIT HAS A HOST UP",
+                          f"{uid} is on the lane's permanent-exclusion list ({block_why}) and yet instance "
+                          f"{iid} is alive and billing for it. NOT retiring the entry — a blocked unit with "
+                          f"a live host must stay watched. {container_diag(ev)}")
+                continue
+            verdicts[uid] = "BLOCKED"
+            observed[uid] = ("blocked", block_why)
+            _annotate("notice", "VAST WATCHDOG BLOCKED",
+                      f"{uid} — {block_why} No host is up for it. This is a decided outcome, not a failure: "
+                      f"the entry is retired at the end of this pass and the unit is reported as blocked, "
+                      f"never as computed. A crash on a unit that is NOT on that list still alerts.")
             continue
         if verdict == "FAILED":
             alerts += 1
@@ -1227,6 +1547,12 @@ def tick(path=None, dry_run=False):
             _annotate("error", "VAST WATCHDOG RELAUNCH FAILED",
                       f"{uid} — died AND the relaunch raised {type(ex).__name__}: {ex}. Needs a human.")
 
+    # AFTER the loop, and reusing what this pass already established (no second S3 sweep). A unit whose work
+    # is over retires its own entry here, so the next pass — and every cross-lane reader of this file — stops
+    # counting it as unfinished. Without this the DONE branch was advice nobody took, and one blocked edge
+    # kept the job red for 47 consecutive scheduled runs.
+    reap(path=path, dry_run=dry_run, observed=observed)
+
     if not dry_run:
         _write_json_key(state_bucket, hb_key,
                         {"epoch": int(time.time()), "entries": len(entries), "verdicts": verdicts,
@@ -1326,6 +1652,11 @@ def main(argv=None):
                     help="comma-separated unit_ids that MUST be present, enabled and valid; exit non-zero "
                          "otherwise. Run it after arming, and in CI.")
     ap.add_argument("--disable", metavar="UNIT_ID", help="set enabled=false for one entry")
+    ap.add_argument("--reap", action="store_true",
+                    help="retire every enabled entry whose work is OVER — its result artifact has landed, or "
+                         "its lane has permanently blocked it. Needs the durable store only, NOT "
+                         "VAST_API_KEY, so it is cheap enough to run from any lane's own workflow; the cron "
+                         "watchdog is throttled to roughly hourly and must not be the only reaper.")
     a = ap.parse_args(argv)
     if a.merge_branch_list:
         print(merge_branch_watch_list(a.merge_branch_list, a.watch_file))
@@ -1345,6 +1676,11 @@ def main(argv=None):
                 w["enabled"] = False
         save_watch(doc, a.watch_file)
         print(f"[disable] {a.disable}")
+        return 0
+    if a.reap:
+        done = reap(path=a.watch_file, dry_run=a.dry_run)
+        print(f"[reap] {len(done)} entr(ies) retired: " + ", ".join(f"{u} ({k})" for u, k, _ in done)
+              if done else "[reap] nothing to retire")
         return 0
     alerts = tick(path=a.watch_file, dry_run=a.dry_run)
     # A non-zero exit makes GitHub send its own workflow-failure notification — the alert path that does not

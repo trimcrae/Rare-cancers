@@ -64,6 +64,11 @@ on:
         required: false
 
 permissions:
+  # READ at the file level, and it stays read: `step1-fanout-tick` below only needs `actions: write` to POST
+  # a dispatch, and the narrowest grant is the one that is not shared. The `watch` job overrides this with
+  # `contents: write` for one reason only — a landed or permanently-blocked unit must be able to retire its
+  # OWN watch entry — and that mutation is provably one-way (`enabled: true -> false`, on evidence from the
+  # durable store; `vast_watchdog.reap` never sets `enabled: true` and never writes `_parked_why`).
   contents: read
 
 concurrency:
@@ -76,6 +81,16 @@ jobs:
   watch:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      # WRITE, and ONLY so a finished or permanently-blocked unit can retire its own watch entry — the same
+      # grant, for the same reason, that ternary-vast-watchdog.yml already carries. It was `read`, which was
+      # right while this watchdog only ever observed. Its DONE branch now reaps, and a reap that prints
+      # "REAPED" into a log while being unable to persist anything is a lie in the record: it would re-decide
+      # the same retirement on every pass forever, which is exactly the state that produced 47 consecutive
+      # red scheduled runs. The single mutation this buys is one-way — `enabled: true -> false`, only on
+      # evidence read from the durable store — so the watchdog still cannot arm, rent or resurrect anything
+      # with it (tests/test_vast_watchdog.py::test_the_reaper_only_ever_disables_and_can_never_arm).
+      contents: write
     env:
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -154,7 +169,40 @@ jobs:
           # A non-zero exit is the point on an alert: it makes GitHub send its own workflow-failure
           # notification, which is the alert path that does not depend on an agent or a session. An
           # ::error:: annotation nobody opens is no better than the silent stall this exists to remove.
+          #
+          # ⚠ AND IT IS THE POINT ONLY IF GREEN STILL MEANS SOMETHING. Between 2026-07-27 11:37 AM ET and
+          # 2026-07-30 7:58 PM ET this job failed 47 consecutive scheduled runs on a lane that was entirely
+          # finished — 18 units DONE and one permanently blocked — because the DONE branch merely PRINTED
+          # "set enabled=false" and nothing did it. An alarm that fires every 1-2 h regardless of fleet state
+          # carries no information, and CLAUDE.md §6 makes this the only alarm that reaches a human with no
+          # agent in the loop. The reap below is what keeps a green tick meaningful.
           python research/modalities/vast_watchdog.py --tick $ARGS
+      - name: Persist any watch entry the pass retired
+        # `always()`: the tick exits non-zero on an alert BY DESIGN, and a pass that both alerts on one unit
+        # and retires another must still persist the retirement — otherwise the entry that is genuinely
+        # finished keeps inflating the alert count on every later pass. Same idiom, same push-race handling,
+        # as ternary-vast-watchdog.yml's own reap step; copied rather than re-invented so the two watchdogs
+        # cannot drift in how they persist.
+        #
+        # ⚠ WHAT ELSE THIS COMMIT CAN CARRY, STATED PLAINLY. The first step of this job folds the FLEET
+        # BRANCH's watch list over the checked-out one, so the staged file may also contain entries that
+        # branch armed. That is intended, not a leak: CLAUDE.md §7 — a branch a workflow runs from must never
+        # be the only home of an artifact, and that drift already cost a day on this very lane. The retire
+        # text is stamped from the ARTIFACT's own mtime rather than the clock, so a pass with nothing new to
+        # say produces a byte-identical file and therefore no commit at all.
+        if: ${{ always() && github.event.inputs.dry_run != '1' }}
+        run: |
+          set -uo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/vast-watch.json
+          if git diff --cached --quiet; then echo "no entry to retire"; exit 0; fi
+          git commit -m "vast watch: retire the entries of units that landed or are permanently blocked (watchdog)"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" \
+              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
+            sleep $((i * 7))
+          done
+          echo "::warning title=REAP NOT PUSHED::the retirement could not be pushed; the next pass redoes it"
 
   # ===========================================================================================================
   # SECOND, INDEPENDENT TRIGGER FOR THE STEP 1 FAN-OUT TICK — redundancy on a thin margin, NOT a repair.

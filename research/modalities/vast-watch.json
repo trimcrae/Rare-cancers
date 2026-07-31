@@ -5,7 +5,8 @@
   "_alive_is_not_advancing": "RUNNING requires the progress SCALAR to have increased since the previous tick. A rented Vast box can sit up with a dead container or an idle GPU and look perfectly healthy. The scalar must be durable (in the object store, surviving the instance) and MONOTONE ACROSS PHASES - the paralogue MD job's simulated-ns counter RESETS at the metad->release boundary, so the kind ranks phases and returns rank*1000000 + progress-within-phase.",
   "_capacity_refusal": "A start answered {'success': false, 'error': 'resources_unavailable'} is NOT a preemption and is NOT waited out: destroy, add the machine to the exclusion set, pick another host. That policy lives in each lane's launcher/ops module and is delegated to, never duplicated here.",
   "_relaunch_interlock": "An entry may name an owning_workflow -- a COMMA-SEPARATED LIST of every OTHER workflow that also re-rents this checkpoint prefix, not just the first one that existed (step1_fanout has two: fusion-cpu-extras.yml and step1-fanout-autoscale.yml, and the list was stale for the second until 2026-07-26). While that workflow has ANY run in flight - or cannot be queried - the engine reports DIED but WITHHOLDS the relaunch. Two relaunchers on one checkpoint prefix means two hosts writing one restart set, i.e. an interleaved trajectory that nothing reports.",
-  "_editing": "Set enabled=false when a unit is finished or deliberately parked - do NOT delete the entry, so the history of what was watched stays legible. The engine is a no-op on an empty or all-disabled list.",
+  "_editing": "An entry leaves the live set by having `enabled` set to false - do NOT delete it, so the history of what was watched stays legible. The engine is a no-op on an empty or all-disabled list. \u26a0 YOU RARELY DO THIS BY HAND ANY MORE: vast_watchdog.reap retires a unit automatically once its kind says the work is over (`landed` -> the durable result artifact exists; `blocked` -> the lane permanently excluded it), and the workflow commits the change back. Hand-editing is for the third case only, `_parked_why`, which is a human promise to come back and which the reaper must never write. Which key means what: see _disabled_why_vs_blocked_why_vs_parked_why.",
+  "_disabled_why_vs_blocked_why_vs_parked_why": "\u26d4 `enabled: false` MEANS THREE DIFFERENT THINGS AND THE KEY NAME IS HOW YOU TELL THEM APART. (1) `_disabled_why` = LANDED: the durable result artifact exists, so this is coverage that SUCCEEDED - read _do_not_re_enable_a_finished_unit before concluding anything is missing. (2) `_blocked_why` = PERMANENTLY EXCLUDED: the unit is on its lane's own durable block list (congeneric_fanout_vast._load_blocked, s3://<bucket>/<result_prefix>/_blocked_units.json), the launcher will not rent a host for it, and no rental could produce the missing result. It is a DECIDED OUTCOME, not an open alert and NOT a completed one - the live case is the step-1 edge cw_bio_nmethyl_amide, where no available atom mapper reaches the provable 20-atom floor and LOMAP's maps are MEASURED identical at budgets t20 and t300, so more search time provably cannot fix it. It is never counted as computed: step1-fanout-map.json carries it under `blocked_units` with `n_blocked`, and `n_computable` is the honest denominator. Added 2026-07-31, when this watchdog was still reading such a unit's leftover `leg-complex-FAILED-rc1` phase marker as a live failure and had therefore failed 47 consecutive scheduled runs on a lane that was entirely finished. (3) `_parked_why` (+ `_resume_point` + `_re_enable_when`) = INTERRUPTED: checkpoint intact, work genuinely unfinished, off the list only until a stated condition clears - see _parked_units_live_in_the_ternary_list_and_are_NOT_finished, and ternary-vast-watch.json's _parked_is_not_finished, which is the one home of that distinction. \u26a0 THE REAPER WRITES ONLY (1) AND (2). A promise to come back is a human's to make.",
   "_do_not_re_enable_a_finished_unit": "\u26d4 A DISABLED ENTRY WITH A _disabled_why NAMING A LANDED ARTIFACT IS COVERAGE THAT SUCCEEDED, NOT COVERAGE THAT IS MISSING. Recorded 2026-07-27 because it was proposed the other way: an hourly-check reader saw the two LANE 13 paralogue legs (nr4a-pdyn-nr4a1 / nr4a-pdyn-nr4a2) sitting enabled=false, read that as 'nothing is watching them', and asked for them to be re-registered with their old instance ids. Both had FINISHED the day before - the watchdog itself reported DONE, the result artifacts are in S3 under nr4a-paralogue-ensemble/, the ensembles were collected and the categorical-dynamics analysis ran over them (research/modalities/nr4a-paralogue-dynamics.json: 73867 placements, metad_biased + unbiased_release scopes, ensemble_census.species_with_no_frames == []). Re-enabling a finished unit asks the engine to hunt for an instance that correctly no longer exists, and the instance ids are dead the moment the leg ends, so they identify nothing. The test that discriminates 'unwatched' from 'finished' is the entry's own _disabled_why plus the result artifact - check those BEFORE concluding a gap. A genuine gap looks different: a RUNNING unit with no entry at all, which watchdog_validate.validate() plus the KINDS registry will surface loudly.",
   "_required_keys_are_enforced": "Every parameter a relaunch OF THAT KIND needs must appear on each enabled entry, because the engine re-dispatches from these values alone. For paralogue_md that includes metad_ns / release_ns / n_rep, which do NOT key the checkpoint prefix - which is exactly why they must be recorded: getting them wrong resumes the right checkpoint and then runs it to the wrong length, silently. git_branch is required for every kind and is easy to miss: a schedule only fires from the default branch, so github.ref_name inside the watchdog is 'main', and without the recorded branch a relaunch would pull main's code onto a feature branch's checkpoint. Validated by watchdog_validate.py on every pass; an incomplete entry, or one naming a kind this engine does not implement, ABORTS THE PASS rather than relaunching the wrong thing.",
   "_parked_units_live_in_the_ternary_list_and_are_NOT_finished": {
@@ -72,7 +73,7 @@
       "enabled"
     ]
   },
-  "_step1_fanout_entries_are_added_as_units_are_launched": "NOT all 19 up front. A step1_fanout entry for a unit that has never been launched is a phantom: it has no phase marker and no instance, so after the cold-start grace the engine would classify it DIED and RELAUNCH it \u2014 i.e. the watch list would start renting GPUs nobody authorised. Entries go in when the unit goes out, and flip to enabled=false when its ddg.json lands.",
+  "_step1_fanout_entries_are_added_as_units_are_launched": "NOT all 19 up front. A step1_fanout entry for a unit that has never been launched is a phantom: it has no phase marker and no instance, so after the cold-start grace the engine would classify it DIED and RELAUNCH it - i.e. the watch list would start renting GPUs nobody authorised. Entries go in when the unit goes out (congeneric_fanout_vast._arm_watchdog) and come out when vast_watchdog.reap sees the work is over - a landed ddg.json, or a place on the lane's permanent-exclusion list. Neither direction is done by hand any more.",
   "watch": [
     {
       "kind": "paralogue_md",
@@ -126,8 +127,9 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true,
-      "_why": "THE TERMINUS SHAKEOUT UNIT. This lane samples well and has produced nothing: 0 of 19 units has ever reached a ddG, so reduce->commit->upload is unproven. This is the most-advanced checkpoint of the four that survived wave 1 (complex/warmup@160 of a 400-iteration warmup), i.e. the cheapest available proof of the terminus. The other 18 are launched, and added here, once it lands one."
+      "enabled": false,
+      "_why": "THE TERMINUS SHAKEOUT UNIT. This lane samples well and has produced nothing: 0 of 19 units has ever reached a ddG, so reduce->commit->upload is unproven. This is the most-advanced checkpoint of the four that survived wave 1 (complex/warmup@160 of a 400-iteration warmup), i.e. the cheapest available proof of the terminus. The other 18 are launched, and added here, once it lands one.",
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -141,7 +143,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -155,7 +158,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -169,7 +173,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -183,7 +188,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -197,7 +203,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -211,7 +218,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -225,7 +233,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -239,7 +248,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -253,7 +263,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_blocked_why": "PERMANENTLY BLOCKED: BLOCKED-permanently-excluded on the lane's own list (s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/_blocked_units.json): no available mapper reaches the provable atom-map floor of 20. LOMAP element_change=False 17; element_change=True 19, but ONLY by mapping the ester methyl CARBON onto an amide HYDROGEN (C->H), which is the degenerate correspondence the floor exists to reject; Kartograf 18. Identical maps at LOMAP budgets t20 and t300 in 0.01 s, so the MCS timeout is MEASURED not to be the mechanism. This is a statement about the MAPPERS, not about any rented host, so no rental can fix it. A complete 22-atom map provably exists (the heavy-atom graphs are isomorphic up to the single O->N substitution), so the block is revisitable: if a mapper ever returns >= 20 for this edge, lift it with FANOUT_UNBLOCK=1. | evidence: research/modalities/step1-map-diag.json row zaienne_cmpd19->cw_bio_nmethyl_amide (verdict MAPPER_CANNOT_REACH_FLOOR, measured 2026-07-28 on the production staged components, with the per-mapper unmapped-atom and element-change detail); narrative in research/modalities/step1-fanout-lane.md section 7c Auto-reaped by vast_watchdog.reap. This unit is a DECIDED OUTCOME, not an open alert and not a parked one: it is on the lane's own permanent-exclusion list, the lane's launcher will not rent a host for it, and no rental could produce the missing result. It is NOT counted as computed anywhere \u2014 step1-fanout-map.json carries it under `blocked_units` with `n_blocked`, which is the honest denominator the paper quotes."
     },
     {
       "kind": "step1_fanout",
@@ -267,7 +278,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -281,7 +293,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -295,7 +308,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -309,7 +323,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -323,7 +338,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -337,7 +353,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -351,7 +368,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -365,7 +383,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     },
     {
       "kind": "step1_fanout",
@@ -379,7 +398,8 @@
       "owning_workflow": "fusion-cpu-extras.yml,step1-fanout-autoscale.yml",
       "exclude_machines": "",
       "max_relaunches_per_day": 6,
-      "enabled": true
+      "enabled": false,
+      "_disabled_why": "LANDED: result artifact s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral/ddg.json (mtime unknown) Auto-reaped by vast_watchdog.reap. This unit is FINISHED, not parked \u2014 re-enabling it asks the engine to hunt for an instance that correctly no longer exists (vast-watch.json -> _do_not_re_enable_a_finished_unit)."
     }
   ]
 }
