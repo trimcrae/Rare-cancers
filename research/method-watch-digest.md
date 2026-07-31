@@ -12,10 +12,10 @@ unlock blocked routes, plus **open AI/compute funding** a solo researcher could 
 *Unlocks:* predicts held-out knockdown phenotype → test EMC EWSR1::NR4A3 fusion-dependence (the degrader make-or-break)
 - 🆕 **2026-07-03** — Causal intervention validation of gene regulatory signals in scGPT. (MED:MED/42398561)
 - 🆕 **2026-05-19** — Sparse autoencoders reveal interpretable cell-type programs in single-cell foundation model representations. (MED:MED/42155660)
+- 🆕 **2026-07-30** — Assessing scale and predictive diversity in models for single-cell transcriptomics based on Geneformer. (MED:MED/42531328)
 - 🆕 **2026-07-24** — The next-generation virtual cell: From spatiotemporal transcriptomic modeling to closed-loop target discovery in complex diseases. (MED:MED/42498177)
 - 🆕 **2026-07-22** — Systematic evaluation of single-cell foundation model interpretability: attention-derived edge scores add no incremental value over gene-level features for perturbation-target prediction. (MED:MED/42482180)
 - 🆕 **2026-07-01** — STGBench: sequencing-level spatial DNA-RNA simulation for multimodal and virtual cell-oriented benchmarking of genomic alterations. (MED:MED/42418828)
-- 🆕 **2026-07-01** — PertAdapt: unlocking single-cell foundation models for genetic perturbation prediction via condition-sensitive adaptation. (MED:MED/42412811)
 
 ### AF3-class structure / ternary complex
 *Unlocks:* open ternary-complex prediction → model NR4A3–PROTAC–E3 degradability geometry
@@ -51,7 +51,7 @@ unlock blocked routes, plus **open AI/compute funding** a solo researcher could 
 - 🆕 **2026-06-09** — PPIGAN: Prediction of Protein-Protein Interactions Using Generative Adversarial Networks. (MED:MED/42261814)
 - 🆕 **2026-05-29** — Interpretable generative machine learning platform for chronological prediction of forensic paper aging via GC-IMS volatiles characterization in judicial authentication. (MED:MED/42229280)
 - 🆕 **2026-04-14** — Applications of Machine Learning, Natural Language Processing, and Generative Artificial Intelligence in Dermatology Education and Research: A Scoping Review. (MED:MED/41981908)
-- 🆕 **2026-07-29** — Property guidance for protein sequence generative models with ProteinGuide. (MED:MED/42527525)
+- 🆕 **2026-07-30** — Quantum Generative Diffusion Model: A Fully Quantum-Mechanical Model for Generating Quantum State Ensemble. (MED:MED/42531111)
 
 ### in-silico oligonucleotide / nanoparticle tumour-delivery prediction
 *Unlocks:* usable in-silico delivery/biodistribution/endosomal-escape predictor → score the B7-H3-targeted junction-siRNA/AOC delivery and re-grade the ASO route feasibility
