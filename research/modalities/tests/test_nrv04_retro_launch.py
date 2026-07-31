@@ -675,7 +675,14 @@ def test_a_blocked_unit_explains_itself():
     """CLAUDE.md §6: a block that cannot explain itself is indistinguishable from a lane that quietly
     stopped, and it must say how to clear it."""
     d = launch.retro_breaker(has_result=False, n_attempts=99)
-    assert "reset_for" in d["why"] and "NOT permanent" in d["why"]
+    assert "NOT permanent" in d["why"]
+    # ⛔ AND IT MUST PRESCRIBE THE NON-DESTRUCTIVE REMEDY (2026-07-31). This assertion used to require the
+    # string "reset_for" — i.e. it PINNED the guidance that tells the reader to delete the attempt archive,
+    # which is the evidence `retro_attempt_hosts` reads to tell three real rentals from one crash-looping
+    # container. Guidance that instructs you to destroy what the guard depends on is a defect, and a test
+    # that locks it in is worse. The remedy is a BASELINE OFFSET; the message now says so, and says why.
+    assert "BASELINE" in d["why"] and "retro_set_breaker_baseline" in d["why"]
+    assert "Do NOT use leg_failure_breaker.reset_for here" in d["why"]
 
 
 def test_a_stopped_box_is_nudged_before_it_is_ever_condemned():

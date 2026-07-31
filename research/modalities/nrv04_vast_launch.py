@@ -2743,8 +2743,12 @@ def retro_breaker(has_result, n_attempts, threshold=None, since_utc=None):
     FAILS OPEN on an unreadable count (`n_attempts is None`), for `count_attempts`' own stated reason: the
     worst case is one extra rental, whereas failing closed on a transient listing error stalls the lane.
 
-    NOT PERMANENT: clear the archive (`leg_failure_breaker.reset_for`) once the cause is fixed and the next
-    tick rents normally. A landed result clears it implicitly — a unit with a record is never in `needed`.
+    NOT PERMANENT. Fix the cause, then re-arm with a BASELINE — `retro_set_breaker_baseline` (CI:
+    `vast_launch_mode=retro_baseline`), which moves the streak anchor forward and leaves the archive whole.
+    ⛔ NOT `leg_failure_breaker.reset_for`, which re-arms by DELETING `attempts/` — and that archive is the
+    evidence `retro_attempt_hosts` reads to tell three genuine rentals from one crash-looping container.
+    An offset does the same job without destroying it. A landed result clears the block implicitly — a unit
+    with a record is never in `needed`.
     """
     import leg_failure_breaker as lfb
     threshold = lfb.DEFAULT_THRESHOLD if threshold is None else int(threshold)
@@ -2772,8 +2776,12 @@ def retro_breaker(has_result, n_attempts, threshold=None, since_utc=None):
                          "3 rentals from 1 host restarting 3 times (the marker records its container id; "
                          "`count_attempts` counts objects, not ids). The block is right either way — both "
                          "are the same fault reproducing — but do not quote this as a host count. "
-                         "NOT permanent: fix the cause, then leg_failure_breaker.reset_for() clears the "
-                         "archive and the next tick rents normally."
+                         "NOT permanent: fix the cause, then re-arm with a BASELINE — "
+                         "retro_set_breaker_baseline (CI: vast_launch_mode=retro_baseline) — which moves "
+                         "the streak anchor forward and LEAVES THE ARCHIVE WHOLE. Do NOT use "
+                         "leg_failure_breaker.reset_for here: it re-arms by deleting attempts/, which is "
+                         "the evidence retro_attempt_hosts reads to tell real rentals from a crash-loop, "
+                         "and an offset does the same job. The next tick then rents normally."
                          % (n_attempts, span, threshold, n_attempts, threshold)))
     return dict(base, block=False, verdict=lfb.ALLOW_UNDER)
 
@@ -3138,8 +3146,11 @@ def retro_gate_reasons(sup):
                               "quarantine-eligible, but the quarantine gates PURCHASES and never touches work "
                               "already executing, so this host was not stopped. " + (q.get("why") or ""))
     for b in (sup or {}).get("blocked") or ():
-        out[b.get("unit")] = ("BLOCKED by the failure breaker — %s. Counted %s.%s Clear with "
-                              "leg_failure_breaker.reset_for() once the cause is fixed."
+        out[b.get("unit")] = ("BLOCKED by the failure breaker — %s. Counted %s.%s Once the cause is fixed, "
+                              "re-arm with a BASELINE (retro_set_breaker_baseline; CI "
+                              "vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for — the "
+                              "baseline moves the streak anchor and keeps attempts/ intact, and that "
+                              "archive is what distinguishes real rentals from a crash-loop."
                               % (b.get("verdict"), b.get("counted") or "an unstated denominator",
                                  "" if not b.get("host_reading") else " HOSTS: %s." % b["host_reading"]))
     held = (sup or {}).get("held") or {}

@@ -369,6 +369,29 @@ def record_eviction(s3, bucket, prefix, unit_id, *, why, instance=None, machine_
 def reset_for(s3, bucket, prefix, unit_id):
     """Clear a unit's attempt archive so the breaker re-arms from zero. Call AFTER fixing the cause.
 
+    ⛔⛔ PREFER A BASELINE OFFSET. THIS DELETES EVIDENCE, AND ON TWO LANES THAT EVIDENCE IS LOAD-BEARING.
+    (2026-07-31 — the retro lane's remediation message pointed here, an agent followed it, and noticed only
+    because it was reading the archive at the time.)
+
+    The `attempts/` objects are not a counter. They are the durable record of what was bought and what it
+    did, and two lanes now read them for their CONTENT, not their count:
+      * `nrv04_vast_launch.retro_attempt_hosts` parses each marker's `instance=` id to tell three genuine
+        rentals from ONE crash-looping container writing three markers — the distinction that released
+        `nrv04retro-retro_noncov_nr4a2-m3-r0` on 2026-07-31 and would otherwise have cost two units.
+      * step 1 quotes the count in the manuscript and in its block reasons
+        (`congeneric_fanout_vast._breaker_baselines`).
+    An OFFSET does the same job with none of the loss, which is why both lanes have one:
+        step 1  -> `congeneric_fanout_vast._breaker_baselines`
+        retro   -> `nrv04_vast_launch.retro_set_breaker_baseline`  (CI: vast_launch_mode=retro_baseline)
+
+    WHEN THIS IS STILL THE RIGHT CALL: a lane with NO baseline mechanism, or a genuine need to reclaim the
+    objects themselves (a unit being permanently retired, a bucket being cleaned). Re-arming a unit you
+    intend to keep running is NOT one of those cases.
+
+    ⚠ IT WARNS, IT DOES NOT REFUSE. This function is shared across lanes and a hard refusal would change
+    behaviour for callers that legitimately want the delete; the warning names what is being destroyed and
+    where the offset lives, and leaves the decision with the caller.
+
     Returns the number of objects deleted. Deliberately a separate, explicit gesture rather than something
     any tick can do: a breaker that resets itself is not a breaker.
     """
@@ -377,6 +400,14 @@ def reset_for(s3, bucket, prefix, unit_id):
     for page in s3.get_paginator("list_objects_v2").paginate(
             Bucket=bucket, Prefix=f"{p}/legs/{unit_id}/attempts/"):
         keys.extend([{"Key": o["Key"]} for o in page.get("Contents", []) or []])
+    if keys:
+        print(f"[breaker] ⚠ reset_for({unit_id}) is about to DELETE {len(keys)} attempt marker(s) under "
+              f"{p}/legs/{unit_id}/attempts/. Those markers carry the per-attempt container ids that "
+              f"distinguish real rentals from one crash-looping container, so this destroys evidence to "
+              f"move a counter. If you only want the breaker re-armed, use a BASELINE OFFSET instead — "
+              f"nrv04_vast_launch.retro_set_breaker_baseline (retro) or "
+              f"congeneric_fanout_vast._breaker_baselines (step 1) — which does the same job and keeps the "
+              f"archive whole.", flush=True)
     for i in range(0, len(keys), 1000):
         s3.delete_objects(Bucket=bucket, Delete={"Objects": keys[i:i + 1000]})
     return len(keys)

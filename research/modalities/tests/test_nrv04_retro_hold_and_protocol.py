@@ -859,6 +859,50 @@ def test_incomplete_and_UNCOMPLETABLE_must_not_read_alike():
     assert "newest_leg_rec = {}" in src, "unreadable is UNKNOWN, never 'nothing is quarantined'"
 
 
+def test_reset_for_warns_about_the_evidence_it_destroys(capsys):
+    """⛔ THE GUIDANCE POINTED AT THE DESTRUCTIVE ACTION, AND THAT IS THE DEFECT (2026-07-31).
+
+    `reset_for` re-arms by DELETING `attempts/`. Those markers are not a counter — `retro_attempt_hosts`
+    parses each one's `instance=` id to tell three genuine rentals from ONE crash-looping container, which
+    is exactly what released nr4a2-m3-r0 today. The breaker's own remediation message used to send readers
+    here, so a future agent working unattended would have followed it and destroyed the evidence.
+
+    ⚠ WARNS, DOES NOT REFUSE. The function is shared across lanes and a hard refusal would change behaviour
+    for callers that legitimately want the objects gone (a unit being retired, a bucket cleaned). The
+    warning names what is being destroyed and where the offset lives; the decision stays with the caller.
+    """
+    import leg_failure_breaker as lfb
+    deleted = {}
+
+    class _S3:
+        def get_paginator(self, _op):
+            class _P:
+                def paginate(self, Bucket=None, Prefix=""):
+                    yield {"Contents": [{"Key": Prefix + "run-1.log"}, {"Key": Prefix + "run-2.log"}]}
+            return _P()
+
+        def delete_objects(self, Bucket=None, Delete=None):
+            deleted["n"] = len(Delete["Objects"])
+
+    n = lfb.reset_for(_S3(), "bkt", "pfx", "u")
+    assert n == 2 and deleted["n"] == 2, "behaviour is UNCHANGED — it still deletes"
+    warned = capsys.readouterr().out
+    assert "about to DELETE" in warned and "destroys evidence" in warned
+    assert "retro_set_breaker_baseline" in warned, "it must name the offset that does the same job"
+
+    # An EMPTY archive is not a loss, so it must not cry wolf — a linter/guard that warns on nothing gets
+    # ignored, which is lint_claims.py's founding lesson applied to an operator warning.
+    class _Empty(_S3):
+        def get_paginator(self, _op):
+            class _P:
+                def paginate(self, Bucket=None, Prefix=""):
+                    yield {"Contents": []}
+            return _P()
+
+    assert lfb.reset_for(_Empty(), "bkt", "pfx", "u") == 0
+    assert "about to DELETE" not in capsys.readouterr().out
+
+
 def test_the_breaker_re_arms_by_BASELINE_and_never_by_deleting_the_evidence():
     """★★ THE STEP-1 RULING, PORTED — and it matters more here than it did there.
 
