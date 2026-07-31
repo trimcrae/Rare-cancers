@@ -54,13 +54,28 @@ def test_a_reverse_direction_unit_still_resolves_its_mode():
 
 
 def test_the_workflow_maps_every_mode_the_gates_actually_own():
-    """The self-heal step routes mode -> gate task in shell. An unmapped mode must WARN and skip, never
-    fall through to a default — dispatching the wrong gate is a worse failure than waiting for the tick."""
+    """The self-heal step routes mode -> gate task. An unmapped mode must be LOUD and skip, never fall
+    through to a default — dispatching the wrong gate is a worse failure than waiting for the tick.
+
+    ⚠ THE INTENT IS UNCHANGED; THE MECHANISM MOVED, AND THE OLD MECHANISM IS WHY (2026-07-31). This used to
+    pin the literal shell `case` arms — `triangle|triangle_smoke) TASK=triangle-gate` and
+    `edge_reps)               TASK=market-gate`. That pinned the two entries that EXISTED and could not
+    notice the one that did not: `5aks` was absent from the case, this test passed, and when
+    `5aks_d0_to_d__ternary_nr4a3_r0` lost its host the collect printed its "no gate for mode" warning and
+    stranded a leg holding an intact `production/840` checkpoint. A test that asserts the presence of the
+    entries someone remembered cannot catch the entry they forgot.
+    So the map is now DERIVED from `ternary_vast_launch.MODE_GATE_TASK` and the completeness check lives in
+    tests/test_mode_gate_coverage.py, which asserts every LAUNCHABLE mode has a decision. What is checked
+    here is what belongs here: that the step still consults the map and still refuses to guess.
+    """
     wf = (Path(__file__).resolve().parents[3] / ".github/workflows/gpu-ternary-fep-vast.yml").read_text()
     step = wf.split("Re-place any unit this pass found with no host", 1)[1].split("- name: Summary LAST")[0]
-    assert "triangle|triangle_smoke) TASK=triangle-gate" in step
-    assert "edge_reps)               TASK=market-gate" in step
-    assert "NO GATE FOR MODE" in step, "an unmapped mode must be loud"
+    assert "--gate-task-for" in step, "the self-heal must derive the gate from the map, not re-list it"
+    assert "MODE HAS NO RE-PLACEMENT DECISION" in step, "a mode unknown to the map must be loud"
+    assert "NO RE-PLACEMENT BY DESIGN" in step, (
+        "a mode that deliberately has no gate must render DIFFERENTLY from one nobody decided about — "
+        "conflating them is how a real gap reads as an intended one")
+    assert 'GTRC" != 0' in step and "continue" in step, "an undecided mode must skip, never dispatch a guess"
     assert "min_ns_per_h=28" in step, "the card floor must ride along, or the repair re-places on a slow card"
     # A re-placement is by definition a leg whose last host did not survive — the one case _vast_bid_price
     # documents the escape hatch for. Safe because the charge is min(bid, on-demand) AND the gate still

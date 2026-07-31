@@ -70,7 +70,7 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (the FOUR ternary legs — n = 2 seeds per arm since 2026-07-30, trimcrae go, STRATEGY Open decision 11; cost is DERIVED in vast-ladder-repricing.json -> '5a-KS primary' and is deliberately NOT typed here. SUPERSEDED: '~$12, the two ternary legs') | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-converge ($0, the SAME pose/convergence diagnostic as `converge` but on the TRIANGLE's 4 legs — `converge` is pinned to RUNG 2b's `edge` legs so the published 4 fs comparison stays reproducible, and the mode rides on this input because the lane is AT GitHub's 10-input cap) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side) || blacklist-clear ($0, snapshot the shared machine-exclusion set to the repo and then EMPTY it, shared + every lane's own list) | blacklist-snapshot ($0, snapshot ONLY — the history survives a clear, so this recovers the record if the snapshot commit ever loses its race)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (the FOUR ternary legs — n = 2 seeds per arm since 2026-07-30, trimcrae go, STRATEGY Open decision 11; cost is DERIVED in vast-ladder-repricing.json -> '5a-KS primary' and is deliberately NOT typed here. SUPERSEDED: '~$12, the two ternary legs') | 5aks-gate ($0, price the 5a-KS legs that still need a host and self-dispatch task=5aks the moment the board clears — the re-placement path whose ABSENCE stranded nr4a3_r0 at production/840 on 2026-07-31) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-converge ($0, the SAME pose/convergence diagnostic as `converge` but on the TRIANGLE's 4 legs — `converge` is pinned to RUNG 2b's `edge` legs so the published 4 fs comparison stays reproducible, and the mode rides on this input because the lane is AT GitHub's 10-input cap) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side) || blacklist-clear ($0, snapshot the shared machine-exclusion set to the repo and then EMPTY it, shared + every lane's own list) | blacklist-snapshot ($0, snapshot ONLY — the history survives a clear, so this recovers the record if the snapshot commit ever loses its race)"
         type: choice
         # ⚠ A NEW OPTION HERE IS NOT DISPATCHABLE UNTIL IT REACHES THE REF GITHUB VALIDATES AGAINST — MEASURED
         # 2026-07-30. CLAUDE.md §6's "dispatch an on-main workflow with ref=<branch> and it runs the BRANCH's
@@ -80,7 +80,7 @@ on:
         # BEFORE any run was created. So a new task option must be pushed (main and the branch carried
         # identical option lists at the time, so which of the two is authoritative was not separable) before
         # it can be exercised at all — plan on pushing first rather than discovering this mid-diagnostic.
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, blacklist-snapshot, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-converge, triangle-diag, charge-provenance, retire-host]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, blacklist-snapshot, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-gate, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-converge, triangle-diag, charge-provenance, retire-host]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -178,7 +178,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-converge|triangle-diag|charge-provenance|retire-host|blacklist-clear|blacklist-snapshot) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-gate|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-converge|triangle-diag|charge-provenance|retire-host|blacklist-clear|blacklist-snapshot) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -1080,6 +1080,120 @@ jobs:
           echo "::warning title=TRIANGLE MARKET HOLD::the valB closure triangle is HELD on price. Snapshot (with the offers that caused it): research/modalities/valb-triangle-market-hold.json. Re-checks on the next tick and launches itself the moment it clears."
           exit 0
 
+  # ------------------------------------------------------------------- RUNG 5a-KS's re-placement gate
+  # ★★ WHY THIS JOB EXISTS, AND WHAT ITS ABSENCE COST (2026-07-31). RUNG 5a-KS was the mode actually running
+  # that day and it was the only running mode with NO gate. When `5aks_d0_to_d__ternary_nr4a3_r0` lost its
+  # host to a capacity refusal on machine 145841, the lane destroyed the box, stopped billing and preserved
+  # the checkpoint at `production/840` — all correct — and then printed "this pass dispatches the gate to
+  # re-place it" while dispatching nothing, because `collect`'s re-placement map had entries only for
+  # `edge_reps` and the triangle. The ledger shows the 7:39, 7:47 and 7:55 AM ET ticks each evaluating a
+  # `market-gate` and a `triangle-gate` and no 5aks gate at all. A leg with an intact checkpoint would have
+  # sat stranded until a human noticed.
+  #
+  # It is the `triangle_gate` job with `--mode 5aks` and its own snapshot file, deliberately rather than a
+  # generalised gate: the two lanes' hold artifacts are read separately and merging them would give one fact
+  # two homes. The MAP that routes a mode here is NOT duplicated in shell — see
+  # `ternary_vast_launch.MODE_GATE_TASK`, whose whole point is that the next mode cannot be added without a
+  # re-placement decision.
+  gate_5aks:
+    needs: [resolve, test]
+    if: ${{ needs.resolve.outputs.task == '5aks-gate' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: write
+    env:
+      # priced with the SAME class the launch would buy — otherwise the gate projects a
+      # market we would not actually rent from.
+      TVAST_GPU: ${{ github.event.inputs.gpu_class }}
+      TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
+      TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
+      VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
+      AWS_DEFAULT_REGION: us-east-2
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}", fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Price RUNG 5a-KS, and LAUNCH it the moment the board clears
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          RC=0
+          python research/modalities/ternary_vast_launch.py --mode 5aks --gate-for-mode \
+            --gate-out research/modalities/5aks-market-hold.json || RC=$?
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          if [ "$RC" = 0 ]; then
+            python research/modalities/ternary_launch_ledger.py --record dispatched \
+              --stage 5aks-gate --gate research/modalities/5aks-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "board cleared both ceilings; dispatching task=5aks" || true
+          elif [ "$RC" = 3 ]; then
+            python research/modalities/ternary_launch_ledger.py --record nothing-to-launch \
+              --stage 5aks-gate --gate research/modalities/5aks-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "every 5a-KS leg already done or hosted; no launch dispatched, no rental attempted" || true
+          elif [ "$RC" = 4 ]; then
+            python research/modalities/ternary_launch_ledger.py --record blocked \
+              --stage 5aks-gate --gate research/modalities/5aks-market-hold.json \
+              --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --reason "5a-KS units withheld by the failure breaker; no launch dispatched, no rental attempted" || true
+          fi
+          # The snapshot is committed on EVERY evaluation, clear or hold — CLAUDE.md §6's one prohibition is
+          # that declining to buy must never be silent. Union-on-race, identical to the two gates above.
+          BR="${{ github.ref_name }}"
+          HOLDFILE=research/modalities/5aks-market-hold.json
+          LEDGER=research/modalities/ternary-vast-launch-attempts.json
+          git add "$HOLDFILE" "$LEDGER"
+          if ! git diff --cached --quiet; then
+            cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
+            case "$RC" in 0) WORD=CLEAR;; 3) WORD=NOTHING-TO-LAUNCH;; 4) WORD=BLOCKED;; *) WORD=HOLD;; esac
+            MSG="5a-KS market snapshot: $WORD (CI)"
+            for attempt in 1 2 3 4 5; do
+              git commit -q -m "$MSG" || true
+              if git push origin HEAD:"$BR" 2>/dev/null; then break; fi
+              echo "[gate] push attempt $attempt lost a race; re-basing onto origin/$BR, unioning the ledger row"
+              git fetch -q origin "$BR"; git reset -q --hard "origin/$BR"
+              cp /tmp/hold-ours.json "$HOLDFILE"
+              python research/modalities/ternary_launch_ledger.py --merge-from /tmp/ledger-ours.json
+              git add "$HOLDFILE" "$LEDGER"
+              if git diff --cached --quiet; then break; fi
+            done
+          fi
+          echo "5aks-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
+          if [ "$RC" = 0 ]; then
+            echo "::notice title=5a-KS MARKET CLEAR::board is within BOTH the rung's dollar ceiling and the \$/ns buy line — dispatching task=5aks."
+            # FORWARD gpu_class and RESOLVE the retention bid, exactly as the triangle gate does: a gate
+            # priced against one card class must not self-dispatch a launch that buys from another.
+            BID="$(python3 research/modalities/retention_bid.py "${{ github.event.inputs.bid_floor_mult }}")"
+            echo "::notice title=TVAST RETENTION BID::$(python3 research/modalities/retention_bid.py "${{ github.event.inputs.bid_floor_mult }}" --explain)"
+            gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
+              -f task=5aks -f gpu_class="${{ github.event.inputs.gpu_class }}" \
+              -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
+              -f on_demand="${{ github.event.inputs.on_demand }}" \
+              -f bid_floor_mult="$BID"
+            exit 0
+          fi
+          if [ "$RC" = 3 ]; then
+            echo "::notice title=5a-KS NOTHING TO LAUNCH::every 5a-KS leg is already done or already hosted — no launch dispatched, no rental attempted."
+            exit 0
+          fi
+          if [ "$RC" = 4 ]; then
+            echo "::warning title=5a-KS BLOCKED ON REPEATED FAILURE::RUNG 5a-KS is NOT held on price — its units are withheld by the failure breaker after dying on several hosts each. This does NOT clear on the next tick and no rental was attempted (\$0). Fix the cause, then task=supersede-failed with leg_only, and re-run task=5aks-gate."
+            exit 0
+          fi
+          # A HOLD IS A NORMAL, GREEN, VISIBLE STATE — never a red build, and never cleared by raising a bid.
+          echo "::warning title=5a-KS MARKET HOLD::RUNG 5a-KS is HELD on price. Snapshot (with the offers that caused it): research/modalities/5aks-market-hold.json. Re-checks on the next tick and launches itself the moment it clears."
+          exit 0
+
   # ------------------------------------------------------------------------ free: the closure residual R
   # R is computed from SIX leg records: the four bought here plus r0's ternary and binary, which are FETCHED
   # rather than re-run — that reuse is the whole economy of the design. The reducer REFUSES a mixed seed, a
@@ -1947,14 +2061,28 @@ jobs:
           fi
           while read -r mode escalate; do
             [ -n "$mode" ] || continue
-            # mode -> the gate that owns it. An unmapped mode is NOT dispatched: waking the wrong lane's
-            # launcher is worse than waiting for a tick, and a mode nobody gates is a code change, not a
-            # runtime condition, so it must be loud rather than silently handled.
-            case "$mode" in
-              triangle|triangle_smoke) TASK=triangle-gate ;;
-              edge_reps)               TASK=market-gate ;;
-              *) echo "::warning title=NO GATE FOR MODE::'$mode' has no re-placement gate; leaving it to the tick"; continue ;;
-            esac
+            # mode -> the gate that owns it, DERIVED from `ternary_vast_launch.MODE_GATE_TASK` rather than
+            # re-listed here. ★★ THIS WAS A HARDCODED `case` UNTIL 2026-07-31 AND IT STRANDED A LEG. It read
+            #     triangle|triangle_smoke) TASK=triangle-gate ;;  edge_reps) TASK=market-gate ;;
+            #     *) "::warning title=NO GATE FOR MODE::…"; continue ;;
+            # so `5aks` — the mode actually running that day — fell through to a warning nobody was awake to
+            # read, while the board one line up promised "this pass dispatches the gate to re-place it".
+            # nr4a3_r0 kept an intact checkpoint at production/840 and nothing looked for a host for it. A
+            # list that must be edited in lockstep with `MODES` and is never checked against it is the same
+            # shape as NR-V04's AUTHORIZED_STAGES prose-vs-code split; the map is now beside `MODES` and
+            # tests/test_mode_gate_coverage.py fails the build if a launchable mode is missing from it.
+            #
+            # Exit codes are the discriminator, and the two "no dispatch" cases are NOT the same event:
+            #   0 -> a task on stdout, dispatch it
+            #   3 -> this mode has no re-placement BY DECISION (a finished RUNG 2b mode); say so and move on
+            #   * -> the mode is unknown to the map: that is the trap itself, so it is an ERROR, not a notice
+            TASK=""; GTRC=0
+            TASK=$(python3 research/modalities/ternary_vast_launch.py --gate-task-for "$mode" 2>/tmp/gt) || GTRC=$?
+            if [ "$GTRC" = 3 ]; then
+              echo "::notice title=NO RE-PLACEMENT BY DESIGN::$(cat /tmp/gt)"; continue
+            elif [ "$GTRC" != 0 ]; then
+              echo "::error title=MODE HAS NO RE-PLACEMENT DECISION::$(cat /tmp/gt)"; continue
+            fi
             # ★ BUY RETENTION ON A RE-PLACEMENT (trimcrae authorised raising the bid on these last legs).
             # A re-placement is BY DEFINITION a leg whose previous host did not survive, so it is exactly the
             # "specific leg that genuinely cannot tolerate pauses" that `_vast_bid_price` documents

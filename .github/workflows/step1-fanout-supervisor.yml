@@ -179,6 +179,25 @@ jobs:
             else
               echo "::warning title=TERNARY TRIANGLE-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t2 | tr '\n' ' ')"
             fi
+            # ★★ AND RUNG 5a-KS, WHICH HAD NO TICK AT ALL UNTIL 2026-07-31 — THE LANE THAT WAS ACTUALLY
+            # RUNNING WAS THE ONE NOT BEING RE-PLACED. Two lists had to be edited in lockstep for a mode to
+            # be re-placeable, this loop and `collect`'s map, and 5a-KS was in neither. When
+            # `5aks_d0_to_d__ternary_nr4a3_r0` lost its host to a capacity refusal on machine 145841, the
+            # box was destroyed and the checkpoint kept at production/840 — both correct — and then nothing
+            # went looking for a replacement host. The ledger shows the 7:39 / 7:47 / 7:55 AM ET ticks each
+            # evaluating market-gate and triangle-gate and no 5aks gate at all.
+            #
+            # NO `min_ns_per_h` FLOOR, deliberately, and unlike the triangle line above. That floor exists
+            # because a 3090 cannot finish the triangle's FIXED checkpoint interval inside a typical host
+            # lifetime. 5a-KS is not in that position — its seed-0 legs have been committing on a 3090 and a
+            # 4080S all morning — so imposing a card floor here would narrow the board, and a narrower board
+            # at the same buy line means more holds for no safety gained. Add one only if a 5a-KS leg is
+            # measured losing whole checkpoint intervals to preemption.
+            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=5aks-gate 2>/tmp/t4; then
+              echo "[$(date -u '+%H:%M:%SZ')] ternary 5aks-gate dispatched (tick ${n})"
+            else
+              echo "::warning title=TERNARY 5AKS-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t4 | tr '\n' ' ')"
+            fi
             # ★★ AND A COLLECT, BECAUSE NOTHING ELSE DISPATCHES ONE (measured 2026-07-29, 7:37 PM ET).
             #
             # WHAT WAS FOUND. The in-flight board's own "Generated" stamp read 7:02 PM ET at 7:37 PM ET —

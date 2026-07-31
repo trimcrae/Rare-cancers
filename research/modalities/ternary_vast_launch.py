@@ -465,6 +465,75 @@ MODES = {
 # carries no triangle rung, and adding one would give the same fact two homes free to disagree.
 TRIANGLE_MODES = ("triangle", "triangle_smoke")
 
+# =============================================================================================================
+# EVERY LAUNCHABLE MODE'S RE-PLACEMENT GATE — ONE HOME, AND A MODE CANNOT BE ADDED WITHOUT DECIDING
+# =============================================================================================================
+# ★★ THE DEFECT THIS CLOSES, MEASURED 2026-07-31. `5aks_d0_to_d__ternary_nr4a3_r0` lost its host to a capacity
+# refusal on machine 145841 at ~7:5x AM ET. The lane behaved correctly in every respect but one: it destroyed
+# the box, stopped billing, kept the checkpoint at `production/840`, and printed
+#     "…this pass dispatches the gate to re-place it"
+# — and then dispatched nothing, because there was no gate for `5aks` to dispatch. The re-placement map was a
+# hardcoded shell `case` in the collect job reading
+#     triangle|triangle_smoke) TASK=triangle-gate ;;  edge_reps) TASK=market-gate ;;
+#     *) echo "::warning title=NO GATE FOR MODE::…"; continue ;;
+# so the mode that was actually running that day fell through to a `::warning::` nobody was awake to read.
+# The ledger proves the consequence: the 7:39, 7:47 and 7:55 AM ticks each recorded a `market-gate` and a
+# `triangle-gate` evaluation and no 5aks one at all. The leg would have sat stranded overnight with an intact
+# checkpoint and nothing looking for a host for it.
+#
+# ⚠ WHY IT IS A MAP IN PYTHON AND NOT A `case` IN YAML. Two hardcoded lists — the shell `case` here and the
+# supervisor's tick loop — had to be edited in lockstep with `MODES` and neither was checked against it, which
+# is the same shape as NR-V04's `AUTHORIZED_STAGES` prose-vs-code split. A mode that can be LAUNCHED but not
+# RE-PLACED is a trap: it works until the first preemption and then silently stops being a lane. So the map
+# lives beside `MODES`, `gate_task_for` is its only reader, and `tests/test_mode_gate_coverage.py` fails the
+# build if a launchable mode appears in neither dict below.
+#
+# ⚠ AND THE GATE MUST PRICE THE SAME MODE. A map entry is a claim that dispatching that task prices THESE
+# units: `market-gate` runs `--mode edge_reps`, `triangle-gate` runs `--mode triangle`, `5aks-gate` runs
+# `--mode 5aks`. Pointing a mode at a gate that prices a different unit set would produce a green tick that
+# re-places nothing — the failure being fixed, wearing a map entry as a disguise.
+MODE_GATE_TASK = {
+    "edge_reps": "market-gate",
+    "triangle": "triangle-gate",
+    # A smoke maps to its parent mode's gate. This is the ESTABLISHED idiom (triangle_smoke has done so since
+    # the triangle gate existed) and its known limit is recorded rather than quietly fixed: if the parent's
+    # units are all done the gate exits 3 "nothing to launch" and the shakeout is not re-placed. That is
+    # acceptable for a ~$0.15 one-shot whose loss costs a re-dispatch, and unacceptable for a science leg —
+    # which is exactly why the science modes above each have a gate that prices their own units.
+    "triangle_smoke": "triangle-gate",
+    "5aks": "5aks-gate",
+    "5aks_smoke": "5aks-gate",
+}
+
+# Launchable modes that deliberately have NO autonomous re-placement, each with the reason. Being in this
+# dict is a DECISION, not an omission — the coverage test accepts a mode here or in the map above and
+# rejects it in neither, so adding a mode to `MODES` forces the question to be answered.
+NO_AUTOMATIC_REPLACEMENT = {
+    "probe": "RUNG 2b stage 1, landed 2026-07-26 and never to be re-bought — a gate here could only re-rent "
+             "a finished result. There is no live unit for it to re-place.",
+    "edge": "RUNG 2b stage 2, all three legs landed. Same as `probe`: finished, not parked.",
+    "smoke": "the RUNG 2b shakeout, landed. Its parent `edge` is finished too, so a gate would have nothing "
+             "to price; a re-run is a deliberate hand dispatch (and now re-runnable — see "
+             "SHAKEOUT_EVIDENCE_MAX_AGE_H).",
+}
+
+
+def gate_task_for(mode):
+    """The `task=` that re-places a dead host for `mode`, or None when the mode has none by decision. PURE.
+
+    None is a DECISION and the caller must render it as one — `collect`'s self-heal prints the recorded
+    reason rather than a bare "no gate", so an operator can tell "nobody thought about this mode" (which
+    the coverage test now makes impossible) from "this mode is finished and must not be re-bought".
+    """
+    if mode in MODE_GATE_TASK:
+        return MODE_GATE_TASK[mode]
+    if mode in NO_AUTOMATIC_REPLACEMENT:
+        return None
+    raise KeyError(
+        f"mode {mode!r} has no entry in MODE_GATE_TASK and none in NO_AUTOMATIC_REPLACEMENT. A launchable "
+        f"mode with no re-placement decision is the 2026-07-31 stranded-leg trap: it runs until its first "
+        f"preemption and then silently stops being a lane. Add it to one of the two.")
+
 # ★★ WHICH LEGS THE $0 POSE/CONVERGENCE DIAGNOSTIC ANALYSES — ONE HOME, AND IT IS HERE (2026-07-30).
 # `gpu-ternary-fep-vast.yml`'s converge job hardcoded `--mode edge` on its `--fetch-trajectories` call, so
 # the diagnostic could only ever look at the RUNG 2b legs. `unit_id` embeds BOTH the timestep and the mode,
@@ -3948,7 +4017,25 @@ def main(argv=None):
                     help="print the MODES key whose units `task=<TASK>` must analyse, then exit. Errors "
                          "(non-zero) on an unregistered task rather than guessing — guessing here yields an "
                          "empty directory and a green run.")
+    # Printed as a BARE TASK NAME so `collect`'s self-heal can do TASK=$(... --gate-task-for "$mode"), which
+    # is what replaced the hardcoded shell `case` that stranded the 5a-KS leg on 2026-07-31. Exit 0 with a
+    # task on stdout = dispatch it; exit 3 with the reason on stderr = this mode has no re-placement BY
+    # DECISION; any other non-zero = the mode is unknown to the map, which is the trap and must be loud.
+    ap.add_argument("--gate-task-for", metavar="MODE",
+                    help="print the task= that re-places a dead host for MODE, then exit")
     a = ap.parse_args(argv)
+    if a.gate_task_for:
+        try:
+            task = gate_task_for(a.gate_task_for)
+        except KeyError as e:
+            print(str(e), file=sys.stderr)
+            return 1
+        if task is None:
+            print(f"{a.gate_task_for}: no automatic re-placement BY DECISION — "
+                  f"{NO_AUTOMATIC_REPLACEMENT[a.gate_task_for]}", file=sys.stderr)
+            return 3
+        print(task)
+        return 0
     if a.converge_mode_for_task:
         print(converge_mode_for_task(a.converge_mode_for_task))
         return 0
