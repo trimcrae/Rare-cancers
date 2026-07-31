@@ -223,11 +223,19 @@ def _retro(objects=None, live=(), phases=None, have=(), prev=None, unreadable=No
 
 
 def test_the_retrospective_panel_renders_one_row_per_pending_leg():
-    """18 authorized R1 legs; a board that shows none of them is the omission this whole file exists for."""
+    """One row per pending authorized R1 leg; a board that shows none of them is the omission this whole
+    file exists for.
+
+    ⚠ THE COUNT IS DERIVED, NOT TYPED. This assertion used to read `== 18` and it fired correctly when
+    prereg AMENDMENT 4 (2026-07-31) took the panel to 16 by excluding nr4a3 co-fold seed 3 on a measured
+    input fault. The guard's intent is "the board's denominator FOLLOWS the panel", so it now says exactly
+    that — a hard-coded count re-tests the constant instead of the invariant."""
+    import nrv04_retro_panel as _panel
     names = _retro_unit_names()
-    assert len(names) == 18, "the authorized panel changed — the board's denominator must follow it"
+    assert len(names) == len(_panel.enumerate_units()) == 16, (
+        "the board's denominator must follow the authorized panel")
     rows, _ = _retro()
-    assert len(rows) == 18
+    assert len(rows) == len(names)
     assert all(r["name"] for r in rows)
 
 
@@ -280,7 +288,7 @@ def test_a_retro_leg_with_no_host_says_so_rather_than_wearing_a_cell_excuse():
 def test_a_landed_retro_leg_is_counted_not_rowed():
     names = _retro_unit_names()
     rows, _ = _retro(have=names[:3])
-    assert len(rows) == 15
+    assert len(rows) == len(names) - 3, "landed legs are counted in the note, not rowed"
 
 
 def test_a_retro_row_refuses_to_invent_a_dollars_per_ns():
