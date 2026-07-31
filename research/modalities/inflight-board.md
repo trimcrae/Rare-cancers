@@ -10,7 +10,7 @@ LEG                 % DONE  ETA (ET)         $/ns                       STATE   
 --------------------------------------------------------------------------------------------------------
 5aks_d0_to_d terna   21.3%  1:18 AM Aug 1    $0.00505/ns · 1.48× basis  RUNNING   
 5aks_d0_to_d terna   67.8%  —                $0.00391/ns · 1.15× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna    3.6%  5:12 PM          $0.00512/ns · 1.50× basis  STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way
+5aks_d0_to_d terna    3.6%  5:13 PM          $0.00512/ns · 1.50× basis  STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way
 5aks_d0_to_d terna    7.1%  4:55 PM          $0.00512/ns · 1.50× basis  STARTING  COLD_START — instance is 5 min old, under the 15 min floor — too young to have proved anything either way
 ---- END TVAST-BOARD ----
 ```
