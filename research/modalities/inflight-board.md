@@ -8,9 +8,9 @@ Generated 2:27 PM ET Fri Jul 31, 2026 by `task=collect`.
 ---- TVAST-BOARD ----
 LEG                ETA (ET)          % DONE  $/ns                               STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 5:21 PM Aug 1      30.2%  RTX 3090 $0.00414/ns · 1.21× basis RUNNING   
+5aks_d0_to_d terna 5:22 PM Aug 1      30.2%  RTX 3090 $0.00414/ns · 1.21× basis RUNNING   
 5aks_d0_to_d terna 2:59 AM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis RUNNING   
-5aks_d0_to_d terna 3:04 AM Aug 1      42.7%  RTX 3090 $0.00412/ns · 1.21× basis RUNNING   
+5aks_d0_to_d terna 3:05 AM Aug 1      42.7%  RTX 3090 $0.00412/ns · 1.21× basis RUNNING   
 5aks_d0_to_d terna —                  82.2%  RTX 3090 $0.00554/ns · 1.62× basis STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
 ---- END TVAST-BOARD ----
 ```
