@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T19:49:40Z",
+  "utc": "2026-07-31T19:51:04Z",
   "n_units": 1,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 1.83,
@@ -14,7 +14,7 @@
       "tier": "bid",
       "interruptible": true,
       "depth": {
-        "offers_returned": 110,
+        "offers_returned": 111,
         "qualifying": 108,
         "priceable": 52,
         "needed": 1,
@@ -23,14 +23,14 @@
       "offers": [
         {
           "gpu": "RTX 3090",
-          "machine_id": 33419,
-          "min_bid_usd_h": 0.06666666666666667,
-          "usd_per_ns": 0.004232
+          "machine_id": 34332,
+          "min_bid_usd_h": 0.067,
+          "usd_per_ns": 0.004248
         }
       ],
-      "mean_usd_per_ns": 0.004232,
-      "ratio_vs_basis": 1.24,
-      "projected_usd": 2.27,
+      "mean_usd_per_ns": 0.004248,
+      "ratio_vs_basis": 1.245,
+      "projected_usd": 2.28,
       "fails_dollar_ceiling": false,
       "fails_ratio_ceiling": false,
       "clears": true
@@ -39,23 +39,23 @@
       "tier": "on-demand",
       "interruptible": false,
       "depth": {
-        "offers_returned": 144,
-        "qualifying": 143,
-        "priceable": 71,
+        "offers_returned": 146,
+        "qualifying": 145,
+        "priceable": 73,
         "needed": 1,
         "used_for_mean": 1
       },
       "offers": [
         {
-          "gpu": "RTX 3090",
-          "machine_id": 68107,
-          "min_bid_usd_h": 0.11111111111111112,
-          "usd_per_ns": 0.007734
+          "gpu": "RTX 4080S",
+          "machine_id": 46392,
+          "min_bid_usd_h": 0.2022222222222222,
+          "usd_per_ns": 0.007778
         }
       ],
-      "mean_usd_per_ns": 0.007734,
-      "ratio_vs_basis": 2.267,
-      "projected_usd": 4.15,
+      "mean_usd_per_ns": 0.007778,
+      "ratio_vs_basis": 2.28,
+      "projected_usd": 4.17,
       "fails_dollar_ceiling": false,
       "fails_ratio_ceiling": true,
       "clears": false
@@ -64,11 +64,11 @@
   "chosen_tier": "bid",
   "prefer_uninterruptible": true,
   "hold": false,
-  "reason": "bid tier clears at 1.24x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.267x basis",
+  "reason": "bid tier clears at 1.245x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.28x basis",
   "tier": "bid (interruptible)",
   "interruptible": true,
   "depth": {
-    "offers_returned": 110,
+    "offers_returned": 111,
     "qualifying": 108,
     "priceable": 52,
     "needed": 1,
@@ -77,14 +77,14 @@
   "offers": [
     {
       "gpu": "RTX 3090",
-      "machine_id": 33419,
-      "min_bid_usd_h": 0.06666666666666667,
-      "usd_per_ns": 0.004232
+      "machine_id": 34332,
+      "min_bid_usd_h": 0.067,
+      "usd_per_ns": 0.004248
     }
   ],
-  "mean_usd_per_ns": 0.004232,
-  "ratio_vs_basis": 1.24,
-  "projected_usd": 2.27,
+  "mean_usd_per_ns": 0.004248,
+  "ratio_vs_basis": 1.245,
+  "projected_usd": 2.28,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "machines_we_already_occupy": [
@@ -96,7 +96,6 @@
     "29717",
     "30113",
     "33622",
-    "33657",
     "33806",
     "35777",
     "36341",
@@ -113,14 +112,5 @@
   "units_needing_host": [
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
-  "units_replacing_a_dead_host": [
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-      "dead_instance": 46429627,
-      "machine_id": 33657,
-      "gpu": "RTX 4080S",
-      "actual_status": "exited",
-      "cur_state": "stopped"
-    }
-  ]
+  "units_replacing_a_dead_host": []
 }
