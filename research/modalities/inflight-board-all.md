@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 4:46 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 4:47 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 4:46 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 4:37 PM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 4:47 PM ET Fri Jul 31, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:08 AM Aug 1      50.0%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
-5aks_d0_to_d ternary nr4a3 r0 9:06 PM            86.7%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
-5aks_d0_to_d ternary nr4a1 r1 7:28 AM Aug 1      35.6%  RTX 4080S $0.00505/ns · 1.48× basis [bid] RUNNING   
-5aks_d0_to_d ternary nr4a1 r0 5:55 AM Aug 1      30.2%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  STARTING  COLD_START — instance is 14 min old, under the 15 min floor — too young to have proved anything either way
+5aks_d0_to_d ternary nr4a3 r1 7:57 AM Aug 1      51.1%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
+5aks_d0_to_d ternary nr4a3 r0 9:15 PM            86.7%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
+5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary nr4a1 r0 7:24 AM Aug 1      30.2%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 4:46 PM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 4:46 PM ET Fri Jul 31, 2026 (2 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,20 +36,19 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 4:38 PM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 7 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 11 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 4:47 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 8 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 10 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-nr4a1 m1 r1        —                      —  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  3 consecutive board polls with no new frame (this host is 0 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker env-ready 2026-07-31T20:13:47Z — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 24 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host
-nr4a1 m2 r0        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T20:31:23Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT — it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).
-nr4a1 m2 r1        —                  smoke  — $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  39 consecutive board polls with no new frame (this host is 0 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker uploaded 2026-07-31T14:49:50Z — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 349 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host
-nr4a1 m3 r0        5:19 PM            50.0%  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
-nr4a1 m3 r1        5:03 PM            40.0%  — $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
+nr4a1 m1 r1        —                      —  —                                                                                                NO HOST   no live host — phase marker env-ready 2026-07-31T20:13:47Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT — it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).
+nr4a1 m2 r0        —                      —  — $0.1788/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase md-running 2026-07-31T20:31:23Z) — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 16 min later, so the marker is not evidence about this rental
+nr4a1 m2 r1        —                  smoke  — $0.1811/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  40 consecutive board polls with no new frame (this host is 0 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker uploaded 2026-07-31T14:49:50Z — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 358 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host
+nr4a1 m3 r0        5:01 PM            70.0%  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
+nr4a1 m3 r1        5:06 PM            60.0%  — $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
 nr4a2 m2 r0        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T20:28:05Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure on distinct hosts. Counted since this unit last banked work — a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed.
-nr4a2 m2 r1        4:46 PM            70.0%  — $0.2615/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
 nr4a2 m3 r0        —                      —  —                                                                                                NO HOST   no live host — phase marker cloned 2026-07-31T20:37:09Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure on distinct hosts. Counted since this unit last banked work — a completed leg record or a production checkpoint (2026-07-31T15:07:26Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed.
-nr4a2 m3 r1        —                      —  — $0.1819/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase md-running 2026-07-31T20:10:37Z)
+nr4a2 m3 r1        —                      —  — $0.1845/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  35 consecutive board polls with no new frame (this host is 0 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T20:10:37Z — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 37 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host
 nr4a3 m3 r0        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T19:31:54Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: INPUT QUARANTINE — this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +2.207e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6), so this is an atomic clash carried in from the co-fold, present before minimization and not removed by it. Renting another host reproduces it in seconds and tests nothing. RELEASE: regenerate this unit's co-fold — the quarantine is read from the leg record, so a clean record clears it with no edit.
 nr4a3 m3 r1        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T19:52:37Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: INPUT QUARANTINE — this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +1.791e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6), so this is an atomic clash carried in from the co-fold, present before minimization and not removed by it. Renting another host reproduces it in seconds and tests nothing. RELEASE: regenerate this unit's co-fold — the quarantine is read from the leg record, so a clean record clears it with no edit.
 ```
