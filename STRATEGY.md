@@ -1787,6 +1787,55 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   + HMR 3.0, every X–H is constrained, so all edges are already 4 fs and no 2× saving exists.
   **The "HELD by decision" line that stood here is SUPERSEDED** — the hold was reversed on 2026-07-26 and the
   lane is running; §Open decisions 4 records what retired it.
+- **`[ ]` Step 1 fan-out · REPLICATES ON THE OPEN CYCLE — the map's two open caveats share ONE fix** —
+  **~$25 (3 edges × 2 further replicates)** · Cum. ~$109. **Added 2026-07-30.** The fan-out delivered 18 edges
+  at **one replicate each**, and that single fact is what leaves two separate things unresolvable:
+  1. **`cycle_3carbonyl` does not close** (R = +1.307 against a ±1.0 tolerance). The residual is a property of
+     the LOOP, so it cannot name the guilty edge — and at n = 1 it also cannot be separated from three unlucky
+     single draws. **Its three edges therefore carry a reservation wherever they are quoted**, which is a live
+     tax on the paper's §2.9.
+  2. **The pilot and the fan-out disagree by ≈0.78 kcal/mol on the SAME nominal perturbation**
+     (`cw_ev_5nh2`: +1.84 ± 0.36 vs +1.064 ± 0.118) — several times either stated error. Different lanes and
+     settings, so it is not a like-for-like replicate and licenses no reproducibility statistic in either
+     direction; it is currently reported as an unreconciled discrepancy.
+  **What replicating the three edges of that cycle buys, and why it is one purchase not two:** it attributes
+  or dissolves the closure violation, *and* it delivers **the binary lane's first measured replicate SD**. The
+  program owns exactly one replicate SD today (0.375, on the **ternary** lane) and transfers it everywhere —
+  including into the resolvable-margin figure in §MECHANISM-FIRST and into `S`'s power. A binary-lane number
+  would stop that being a transfer.
+  **★ THIS IS BRINGING A TEST *TO* ITS FIELD STANDARD, NOT PAST IT** — the distinction CLAUDE.md §5 draws, and
+  it matters because "more replicates" is otherwise the thing that rule defaults **NO** to. The repo's own
+  stated RBFE/ABFE standard is *"converged fwd/rev + ~3 independent replicates + honest replicate-SD, not
+  MBAR-SE error bars"*; this lane shipped at **one**, and the paper says so in three places. Scope is
+  deliberately **3 edges of 18**, not the map — the open cycle is the decision-relevant subset.
+  **Price, DERIVED not typed:** `realised_usd` **$73.79** over `n_computable` **18** edges
+  ([`realised-spend.json`](research/modalities/realised-spend.json) →
+  [`step1-fanout-map.json`](research/modalities/step1-fanout-map.json)) ⇒ ~$4.10/edge × 6 edge-replicates.
+  **Gate:** the market, on the same buy line as everything else. **NO-GO reading:** if the replicated cycle
+  still fails to close, the defect is mapping or setup rather than sampling, and the three edges are
+  **withdrawn from the ranked table** rather than carried with a caveat.
+- **`[ ]` The generation-matched null's GENERATIVE arm — control (c), the one that addresses the confound
+  actually raised** — **$0 prep + PROJECTED GPU (excluded from the pinned total)** · **Added 2026-07-30.**
+  The committed control is the **scrambled-objective** arm, which isolates the winner's curse in the
+  **SELECTION** step. The reviewer's confound is the **GENERATIVE** one: `denovo_401` was generated
+  *conditioned on the NR4A3 pocket*, and the decoy null it beats was generated for no pocket at all.
+  ⚠ **The arm that ran cannot exclude it, and the arithmetic says so out loud:** 0 survivors of 191 bounds
+  the manufactured rate at **≤0.0157** (rule of three, 95 %) against the real campaign's own **0.0052** —
+  **3×** — with Fisher p = 0.5. **Narrowed, not excluded**, and the deliverable table is the one home for that.
+  **What control (c) is:** a *fresh* generation into the **NR4A1** metad-opened pocket, then the identical
+  generate → developability → dock → multi-snapshot MM-GBSA → best-of-N funnel. Any NR4A3-selective survivor
+  it produces is a manufactured false positive by construction, because the molecules were designed for a
+  different pocket. **The driver already supports it** (`nr4a3_generation_matched_null.py MODE=prep-manifest`
+  → control receptor manifest; `MODE=reduce` folds the result into the same artifact), and the control
+  receptor **exists** — `results/nr4a3-matrix/nr4a1-opened.pdb`, the criterion-matched opened NR4A1 conformer
+  §2.5 already uses. **So the $0 half is a manifest, and the paid half is one generation + one funnel pass.**
+  ⚠ **Priced PROJECTED and excluded from the pinned total**, per §Spending rules 4: the real campaign ran this
+  exact funnel, but its cost was never broken out as a ladder line, so there is no completed benchmark leg to
+  quote. Price it off the real campaign's ledger before buying it, not off this entry.
+  **Gate:** none upstream — it is a control on work already in the paper. **Reading, pre-registered here:** a
+  manufactured rate at or above the real campaign's own survival rate means the confound is **not** excluded
+  and §2.6/§2.7 keep their current hedges; materially below it means the survival is not a generic funnel
+  artifact. **Either outcome is publishable and neither unlocks anything downstream.**
 - **`[x]` TIER-0 · NR4A paralogue-UNIQUE reactive-residue map — DONE 2026-07-24 · $0 · GATE PASS/GO.** Full-length
   UniProt (P22736/P43354/Q92570/Q01844) + dual-aligner agreement + matched-model geometry
   (`nr4a_paralogue_unique_residues.py`, 15 unit tests, run on CI because the sandbox proxy blocks UniProt).
@@ -2019,6 +2068,22 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   *Sequence, cheapest-decisive-first:* smoke (~$0.10) → pilot (both legs of one direction, ~$1–3 — **the abort
   gate**) → full set (~$5–10) only if the pilot sees it.
 
+- **`[ ]` 5b · SEGMENT-GRID LIMIT — the one construct the enumeration cannot build, and it is a GRID limit not a
+  geometric one** — **$0 CPU** · **Added 2026-07-30.** On the `crbn|M0` placement the covalent series sits at
+  **14** backbone atoms and the wedge pair at **19**; a single chain carrying **both** needs **16**, and the
+  segment grid cannot build it (branch floor k = 6 against T407's k ∈ [2,3] at n = 16). **That is a property of
+  the enumerator's segment grid, not of the geometry** — which is why it is worth an hour rather than a shrug:
+  the design that would carry the categorical handle *and* the causal wedge on one molecule is currently
+  unreachable for a reason that has nothing to do with chemistry.
+  ⚠ **AND IT IS DELIBERATELY NOT A QUIET PATCH.** Re-gridding edits a **preregistered enumeration**, so it goes
+  the way every other amendment in this repo goes: a dated, recorded re-enumeration that states what the old
+  grid could and could not reach, with the library re-verified end to end (RDKit 54/54 today) and the count
+  re-derived from `nr4a3-linker-design.json` → `library_summary` rather than typed. **The existing library is
+  not invalidated by it** — every current construct remains exactly what it was; this only asks whether a
+  16-atom branch exists that the grid was never able to offer.
+  **Gate:** none. **NO-GO reading:** if the re-grid finds no admissible 16-atom branch either, the limit **is**
+  geometric after all, and *that* is the finding — it says the two mechanisms cannot be carried on one chain at
+  this placement, which is a real design constraint the paper should state rather than a gap it should leave.
 - **`[x]` 5b · Inverse linker design — DONE 2026-07-25, $0 REALIZED (1,995 enumerated → 21 retained, RDKit-verified 21/21)** — **~$0–20 (mostly $0 CPU) · Cum. ~$162.** For each confirmed basin, derive
   linker requirements (endpoint distance, exit-vector dihedral, strain, reach), enumerate a virtual library,
   filter by basin fidelity, annotate exact structures + synthetic feasibility → **~12–20 virtual constructs** (the
@@ -2314,8 +2379,16 @@ the ordering below.*
 | 3 | ~~**Settle the `S` replicate count BEFORE the market re-opens**~~ ✅ **DONE — n = 2 per arm** | **$0 to decide** | Item 3. The lane would otherwise have resumed under-powered the moment price allowed |
 | 4 | **`S` at n = 2 per arm** — the flagship kill-switch, correctly sized and now CONFIGURED | **~$23** (ladder) | The only unrun test of the program's headline causal claim, and the second seed is what makes its *likely* answer readable. Waiting on the market, not on a decision |
 | 5 | **NR-V04 retrospective, Arm E (R1 only, 18 legs)** ✅ **CLEARED TO RUN** | **≈$7.7** | A *new axis of evidence* (biological holdout), built and preregistered, with a registered MDE — CLAUDE.md §5's "default YES". The gate is reconciled to the prereg and the durable-trajectory precondition is met |
-| 6 | **A known-answer calibrator for the `S`-shaped quantity** | **unpriced** | The real gap [Open decision 9](#open-decisions) exposed. It unlocks nothing on its own and must obey decision 9b's binding requirement (reference data and structure on the **same** protein), so it follows 4 rather than leading it |
+| 6 | **Segment-grid re-enumeration** (5b) — can ONE chain carry the covalent handle and the causal wedge? | **$0** | A grid limit, not a geometric one. Either it yields the construct the design wants, or the limit IS geometric and that is itself a result the paper should state |
+| 7 | **Replicates on the open cycle** (3 of 18 fan-out edges) | **~$25** | One purchase, two open caveats: it attributes or dissolves `cycle_3carbonyl`'s violation AND gives the binary lane its first measured replicate SD, which today is transferred from the ternary lane |
+| 8 | **The generative arm of the generation-matched null** (control c) | $0 prep + **PROJECTED** | Addresses the confound actually raised (the GENERATIVE step); the arm that ran addresses the SELECTION step and bounds the manufactured rate at 3× the real campaign's own — narrowed, not excluded |
+| 9 | **A known-answer calibrator for the `S`-shaped quantity** | **unpriced** | The real gap [Open decision 9](#open-decisions) exposed. It unlocks nothing on its own and must obey decision 9b's binding requirement (reference data and structure on the **same** protein), so it follows 4 rather than leading it |
 | — | **More replicates on `ΔΔG_coop` / a rescoped valB edge** | — | **Explicitly NOT on this list.** `R` says the miss is endpoint-state; replicates shrink variance, not bias; [decision 6](#open-decisions) closed it |
+
+*(Ranks 6–8 were added on 2026-07-30 — they are not new discoveries, they are items that had been sitting as
+prose in a deliverable table or a §2.9 caveat with no rung, no price and no gate. **A caveat with nowhere to go
+is how work gets silently dropped**, which is the same failure this section's item 5 names for the
+retrospective. They now have entries in the ordered plan.)*
 
 **★ AND THE PAPER IS CLOSER TO SHIPPABLE THAN THE LADDER IMPLIES.** Ranks 1–3 are **$0**, ranks 4–5 together
 are **low tens of dollars**, and the flagship's tail (5c + 5d, priced in their own rung entries — not restated

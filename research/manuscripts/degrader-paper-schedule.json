@@ -187,12 +187,22 @@
     "date": "2026-07-30",
     "n_replicates": 3,
     "ddg_coop_kcal": -0.599,
-    "ddg_coop_per_replicate_kcal": [-0.5125, -1.0097, -0.2749],
+    "ddg_coop_per_replicate_kcal": [
+     -0.5125,
+     -1.0097,
+     -0.2749
+    ],
     "ddg_coop_exp_kcal": 0.944,
     "abs_err_kcal": 1.543,
     "replicate_cycle_sd_kcal": 0.375,
-    "per_leg_mbar_se_kcal": [0.097, 0.132],
-    "ci95_t_based_kcal": [-1.103, -0.095],
+    "per_leg_mbar_se_kcal": [
+     0.097,
+     0.132
+    ],
+    "ci95_t_based_kcal": [
+     -1.103,
+     -0.095
+    ],
     "gate_verdict": "FAIL",
     "decision": "NO-GO",
     "why": "wrong sign in all three replicates, so the frozen rule fails on SIGN before the cycle-SD criterion is reached. The SD (0.375) PASSES its own <=0.75 threshold - the calibrator fails on sign, not on scatter. Statistical uncertainty 0.045 is ~34x smaller than the miss, so the error is systematic and replicates cannot remove it.",
@@ -545,6 +555,42 @@
     "final_redteam"
    ],
    "note": "OUTWARD-FACING / irreversible - needs trimcrae sign-off (not auto). This is the finish line."
+  },
+  {
+   "id": "step1_fanout_replicates",
+   "status": "pending",
+   "track": "gpu",
+   "title": "RUNG 4: replicates on the fan-out's OPEN cycle (3 of 18 edges x 2 further replicates)",
+   "cost_est_usd": "~$25 -- DERIVED, not typed: realised_usd $73.79 over n_computable 18 edges (realised-spend.json -> step1-fanout-map.json) = ~$4.10/edge x 6 edge-replicates",
+   "why": "ONE purchase settles TWO open caveats that both trace to the map shipping at one replicate per edge. (1) cycle_3carbonyl does not close (R = +1.307 vs a +-1.0 tolerance); the residual is a property of the LOOP so it cannot name the guilty edge, and at n=1 it cannot be separated from three unlucky single draws -- so its three edges carry a reservation wherever they are quoted, which is a live tax on paper section 2.9. (2) The pilot and the fan-out disagree by ~0.78 kcal/mol on the SAME nominal perturbation (cw_ev_5nh2: +1.84 +- 0.36 vs +1.064 +- 0.118), several times either stated error. It ALSO delivers the binary lane's FIRST measured replicate SD -- the program owns exactly one (0.375, ternary lane) and transfers it everywhere, including into the resolvable-margin figure and into S's power.",
+   "field_standard_note": "This is bringing a test TO its field standard, not past it -- the distinction CLAUDE.md section 5 draws, and it matters because 'more replicates' is otherwise what that rule defaults NO to. The repo's stated RBFE standard is converged fwd/rev + ~3 independent replicates + replicate-SD error bars; this lane shipped at ONE. Scope is deliberately 3 edges of 18, not the map.",
+   "gate": "the market, on the same buy line as every other rental",
+   "no_go_reading": "if the replicated cycle still fails to close, the defect is mapping or setup rather than sampling, and the three edges are WITHDRAWN from the ranked table rather than carried with a caveat",
+   "added": "2026-07-30"
+  },
+  {
+   "id": "genmatched_null_generative_arm",
+   "status": "pending",
+   "track": "gpu",
+   "title": "RUNG 4: generation-matched null, control (c) -- a FRESH generation into the NR4A1 pocket",
+   "cost_est_usd": "$0 prep + PROJECTED GPU, EXCLUDED from the pinned total. The real campaign ran this exact funnel but its cost was never broken out as a ladder line, so there is no completed benchmark leg to quote (spending rule 4). Price it off the real campaign's ledger before buying.",
+   "why": "The committed control is the SCRAMBLED-OBJECTIVE arm, which isolates the winner's curse in the SELECTION step. The confound actually raised is the GENERATIVE one: denovo_401 was generated conditioned on the NR4A3 pocket and the decoy null it beats was generated for no pocket at all. The arm that ran CANNOT exclude it and its own arithmetic says so -- 0 survivors of 191 bounds the manufactured rate at <=0.0157 (rule of three, 95%) against the real campaign's own 0.0052, i.e. 3x, with Fisher p = 0.5. Narrowed, not excluded.",
+   "what_it_is": "a fresh DiffSBDD generation into the NR4A1 metad-opened pocket, then the IDENTICAL generate -> developability -> dock -> multi-snapshot MM-GBSA -> best-of-N funnel. Any NR4A3-selective survivor is a manufactured false positive by construction. The driver already supports it (nr4a3_generation_matched_null.py MODE=prep-manifest / MODE=reduce) and the control receptor EXISTS: results/nr4a3-matrix/nr4a1-opened.pdb, the criterion-matched opened NR4A1 conformer section 2.5 already uses. The $0 half is a manifest; the paid half is one generation plus one funnel pass.",
+   "gate": "none upstream -- it is a control on work already in the paper",
+   "reading_preregistered": "a manufactured rate at or above the real campaign's own survival rate means the confound is NOT excluded and sections 2.6/2.7 keep their current hedges; materially below it means the survival is not a generic funnel artifact. Either outcome is publishable and neither unlocks anything downstream.",
+   "added": "2026-07-30"
+  },
+  {
+   "id": "segment_grid_reenumeration",
+   "status": "pending",
+   "track": "cpu",
+   "title": "RUNG 5b (free): segment-grid re-enumeration -- can ONE chain carry the covalent handle AND the causal wedge?",
+   "cost_est_usd": "0",
+   "why": "On the crbn|M0 placement the covalent series sits at 14 backbone atoms and the wedge pair at 19; a single chain carrying BOTH needs 16, and the segment grid cannot build it (branch floor k=6 against T407's k in [2,3] at n=16). That is a property of the ENUMERATOR's grid, not of the geometry -- so the design that would carry the categorical handle and the causal wedge on one molecule is currently unreachable for a reason that has nothing to do with chemistry.",
+   "not_a_quiet_patch": "Re-gridding edits a PREREGISTERED enumeration, so it goes the way every other amendment here goes: a dated, recorded re-enumeration stating what the old grid could and could not reach, library re-verified end to end and the count re-derived from nr4a3-linker-design.json -> library_summary rather than typed. The existing library is NOT invalidated -- every current construct remains what it was.",
+   "gate": "none",
+   "no_go_reading": "if the re-grid finds no admissible 16-atom branch either, the limit IS geometric after all, and THAT is the finding: the two mechanisms cannot be carried on one chain at this placement, which is a real design constraint the paper should state rather than a gap it should leave",
+   "added": "2026-07-30"
   }
  ],
  "shelved": {
