@@ -46,7 +46,7 @@ concurrency:
 jobs:
   s1f-rep:
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    timeout-minutes: 90
     env:
       MODE: ${{ github.event.inputs.mode || 'reap' }}
       EDGE: ${{ github.event.inputs.edge || 'e_zaienne_cmpd19__cw_ms_free_acid' }}
@@ -312,17 +312,25 @@ jobs:
         if: ${{ github.event.inputs.mode == 'smoke' && env.VM_LIVE == '1' }}
         run: |
           set -uo pipefail
-          # A PROGRESS check, not a liveness ping (CLAUDE.md §4): the phase marker must MOVE.
-          LAST=""; DONE=0
-          for i in $(seq 1 55); do
+          # A PROGRESS check, not a liveness ping (CLAUDE.md §4): the phase marker must MOVE, and every
+          # transition is stamped with the elapsed seconds so the NEXT run's window is sized from a
+          # measurement rather than from a guess. (The first smoke burned 300 s waiting for a docker that
+          # did not exist; nothing in the readout said which stage was slow, which is why this prints.)
+          # 80 x 45 s = 60 min against a 90-min job timeout: the bootstrap now installs docker AND the
+          # NVIDIA container toolkit AND pulls a multi-GB image before any MD starts, and a watcher that
+          # gives up two minutes early destroys a smoke that was about to pass.
+          T0=$(date +%s); LAST="__init__"; DONE=0
+          for i in $(seq 1 80); do
             sleep 45
             P=$(gcloud storage cat "$UNIT_URI/smoke/phase.txt" 2>/dev/null | tail -1 || echo "")
             S=$(gcloud compute instances describe "$VM" --zone="$ZONE" --format="value(status)" 2>/dev/null || echo GONE)
-            echo "  [$i] status=$S phase='${P:-<none>}'"
+            EL=$(( $(date +%s) - T0 ))
+            if [ "$P" != "$LAST" ]; then echo "  [+${EL}s] PHASE -> '${P:-<none>}' (status=$S)"; LAST="$P"
+            else echo "  [+${EL}s] status=$S phase unchanged"; fi
             case "$P" in *SMOKE-OK*) DONE=1; break ;; *SMOKE-FAIL*) DONE=2; break ;; esac
             [ "$S" = GONE ] || [ "$S" = TERMINATED ] && { echo "  VM gone"; break; }
-            LAST="$P"
           done
+          echo "  watched for $(( ($(date +%s) - T0) / 60 )) min"
           echo "=== smoke log ==="
           gcloud storage cat "$UNIT_URI/smoke/run.log" 2>/dev/null | tail -80 | sed 's/^/  /' || echo "  (no log)"
           gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "smoke VM deleted" || echo "smoke VM delete no-op"
