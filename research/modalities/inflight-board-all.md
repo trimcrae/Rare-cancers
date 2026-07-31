@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:28 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:37 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 8:28 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:20 AM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:27 AM ET Fri Jul 31, 2026 (11 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna   21.3%  1:19 AM Aug 1    $0.00505/ns · 1.48× basis  RUNNING   
-5aks_d0_to_d terna   67.8%  3:10 PM          $0.00391/ns · 1.15× basis  STARTING  COLD_START — instance is 7 min old, under the 15 min floor — too young to have proved anything either way
-5aks_d0_to_d terna    3.6%  5:52 PM          $0.00512/ns · 1.50× basis  STARTING  COLD_START — instance is 7 min old, under the 15 min floor — too young to have proved anything either way
-5aks_d0_to_d terna    7.1%  4:56 PM          $0.00512/ns · 1.50× basis  STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way
+5aks_d0_to_d terna   21.3%  1:27 AM Aug 1    $0.00505/ns · 1.48× basis  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d terna   67.8%  2:52 PM          $0.00391/ns · 1.15× basis  STARTING  COLD_START — instance is 15 min old, under the 15 min floor — too young to have proved anything either way
+5aks_d0_to_d terna    3.6%  7:24 PM          $0.00512/ns · 1.50× basis  STARTING  COLD_START — instance is 14 min old, under the 15 min floor — too young to have proved anything either way
+5aks_d0_to_d terna    8.9%  4:18 PM          $0.00512/ns · 1.50× basis  RUNNING   
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 8:27 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:37 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
