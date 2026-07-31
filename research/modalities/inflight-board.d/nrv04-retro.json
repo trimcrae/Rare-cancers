@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "nrv04-retro",
-  "generated_epoch": 1785531740.523489,
-  "generated_utc": "2026-07-31T21:02:20Z",
-  "generated_et": "5:02 PM ET Fri Jul 31, 2026",
+  "generated_epoch": 1785532225.019539,
+  "generated_utc": "2026-07-31T21:10:25Z",
+  "generated_et": "5:10 PM ET Fri Jul 31, 2026",
   "note": "11 of 18 authorized R1 leg(s) landed (rows below are the rest). \u26d4 7 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
   "rows": [
     {
@@ -11,18 +11,18 @@
       "pct": 20.0,
       "pct_of": null,
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.1534/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "4 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T20:56:20Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 6 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "usd_per_ns": null,
+      "state": "NO HOST",
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T21:04:58Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T19:44:13Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
     },
     {
       "name": "nr4a1 m2 r1",
-      "pct": null,
+      "pct": 20.0,
       "pct_of": null,
-      "eta_s": null,
       "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
-      "why": "no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase md-running 2026-07-31T20:56:38Z)"
+      "why": "",
+      "eta_epoch": 1785535913.4405918
     },
     {
       "name": "nr4a2 m2 r0",
@@ -44,12 +44,12 @@
     },
     {
       "name": "nr4a2 m3 r1",
-      "pct": 20.0,
+      "pct": 40.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.1845/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785545643.6813838
+      "eta_epoch": 1785533677.019539
     },
     {
       "name": "nr4a3 m3 r0",
