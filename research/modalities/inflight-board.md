@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 1:21 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 1:29 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                ETA (ET)          % DONE  $/ns                                STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 1:51 AM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 1 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d terna 1:59 AM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 9 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
 5aks_d0_to_d terna —                  82.2%  RTX 4080S $0.00505/ns · 1.48× basis STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna —                  42.7%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna 10:52 PM           28.4%  RTX 5090 $0.00512/ns · 1.50× basis  STARTING  COLD_START — instance is 9 min old, under the 15 min floor — too young to have proved anything either way
+5aks_d0_to_d terna 9:56 PM            42.7%  RTX 4090 $0.00533/ns · 1.56× basis  RUNNING   
+5aks_d0_to_d terna 11:26 PM           28.4%  RTX 5090 $0.00512/ns · 1.50× basis  RUNNING   
 ---- END TVAST-BOARD ----
 ```
