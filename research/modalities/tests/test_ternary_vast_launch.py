@@ -1335,3 +1335,110 @@ def test_the_new_seed_one_legs_are_on_the_watch_list():
     for leg, seed, _d in tv.units_for("5aks"):
         uid = tv.unit_id(leg, seed, "fwd", tv.DEFAULT_TIMESTEP_FS, tv.DEFAULT_WARMUP_TIMESTEP_FS, "5aks")
         assert uid in watched, f"{uid} can be launched but nothing watches it"
+
+
+# ---------------------------------------------------------------- which legs the $0 pose diagnostic reads
+#
+# ★★ THE BUG THESE PIN, IN FULL. `gpu-ternary-fep-vast.yml`'s converge job hardcoded `--mode edge` on its
+# `--fetch-trajectories` call. STRATEGY.md and the guard audit both instruct that the pose diagnostic be run
+# on the CLOSURE TRIANGLE's legs and that `R_binary` NOT be interpreted without it — but the triangle runs at
+# a pinned 2 fs under mode `triangle`, and `unit_id` embeds BOTH. So the dispatch that the plan asks for would
+# have listed `..._dt4.0fs_wu1.0_edge`, a prefix the triangle never wrote, downloaded nothing, and printed a
+# clean convergence summary over zero legs: `resolve_timesteps.__doc__`'s "reports success while measuring
+# nothing" shape, arriving green.
+def test_converge_task_still_means_the_2b_edge_legs_byte_for_byte():
+    """The published RUNG 2b comparison (audit §L.3d, GH run 30210676030) must stay reproducible. Repointing
+    `task=converge` at anything else silently changes what an already-cited number was measured on."""
+    assert tv.converge_mode_for_task("converge", env={}) == "edge"
+
+
+def test_the_triangle_converge_task_reaches_the_triangles_own_units():
+    """The whole point: the mode must reconstruct the unit ids the triangle ACTUALLY wrote."""
+    mode = tv.converge_mode_for_task("triangle-converge", env={})
+    assert mode == "triangle"
+    dt, wdt = tv.resolve_timesteps(mode)
+    ids = {tv.unit_id(leg, seed, d, dt, wdt, mode) for leg, seed, d in tv.units_for(mode)}
+    assert ids == {
+        "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+        "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+        "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
+        "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
+    }
+    # and BOTH binary legs are present, because they are the arms the prereg's prediction is about
+    assert sum("__binary_" in i for i in ids) == 2
+
+
+def test_the_old_hardcoded_edge_mode_could_not_have_seen_a_single_triangle_unit():
+    """The regression stated as an identity, so it cannot be argued about. Every id the hardcoded `edge`
+    call reconstructs is disjoint from every id the triangle wrote — hence an empty directory, not a
+    partial one, and hence a green run that measured nothing rather than an obvious failure."""
+    edt, ewdt = tv.resolve_timesteps("edge")
+    edge_ids = {tv.unit_id(l, s, d, edt, ewdt, "edge") for l, s, d in tv.units_for("edge")}
+    tdt, twdt = tv.resolve_timesteps("triangle")
+    tri_ids = {tv.unit_id(l, s, d, tdt, twdt, "triangle") for l, s, d in tv.units_for("triangle")}
+    assert not (edge_ids & tri_ids)
+    assert all(i.endswith("_dt4.0fs_wu1.0_edge") for i in edge_ids)
+    assert all(i.endswith("_dt2.0fs_wu1.0_triangle") for i in tri_ids)
+
+
+def test_an_unregistered_converge_task_raises_instead_of_guessing():
+    """Adding a converge task to the workflow's options without a map entry must fail the STEP, loudly.
+    A default would put us straight back in the failure above, one rename later."""
+    with pytest.raises(ValueError):
+        tv.converge_mode_for_task("triangle-conv", env={})
+    with pytest.raises(ValueError):
+        tv.converge_mode_for_task("", env={})
+
+
+def test_the_env_override_is_validated_not_trusted():
+    """`TVAST_CONVERGE_MODE` buys a mode without spending a dispatch-input slot (the lane is AT GitHub's cap
+    of 10). A typo in it must be an error, never a silent fallback to `edge` — which would look exactly like
+    a correct run."""
+    assert tv.converge_mode_for_task("converge", env={"TVAST_CONVERGE_MODE": "triangle"}) == "triangle"
+    assert tv.converge_mode_for_task("converge", env={"TVAST_CONVERGE_MODE": "  "}) == "edge"
+    with pytest.raises(ValueError):
+        tv.converge_mode_for_task("converge", env={"TVAST_CONVERGE_MODE": "triangel"})
+
+
+def test_every_registered_converge_mode_is_a_real_mode():
+    for task, mode in tv.CONVERGE_TASK_MODES.items():
+        assert mode in tv.MODES, f"task {task} maps to unknown mode {mode}"
+
+
+# ---------------------------------------------------------------- the workflow must stay wired to the map
+def _vast_workflow_text():
+    here = os.path.abspath(__file__)                       # research/modalities/tests/<this file>
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(here))))
+    with open(os.path.join(root, ".github/workflows/gpu-ternary-fep-vast.yml")) as fh:
+        return fh.read()
+
+
+def test_the_converge_job_no_longer_hardcodes_a_mode_on_fetch_trajectories():
+    """The literal defect. `--mode edge --fetch-trajectories` is the line that made the diagnostic
+    un-runnable on any lane but RUNG 2b's."""
+    text = _vast_workflow_text()
+    assert "--mode edge --fetch-trajectories" not in text, (
+        "the converge job hardcodes `--mode edge` again — it can then only ever analyse the 4 fs RUNG 2b "
+        "legs, and any other lane's dispatch returns an empty directory and a green run")
+    assert "--converge-mode-for-task" in text, "the mode must be DERIVED from the dispatched task"
+
+
+def test_every_converge_task_in_the_workflow_has_a_registered_mode():
+    """The allowlist test in test_workflows_parse.py stops a task from silently downgrading to `test`.
+    This is the same guard one layer in: a dispatchable converge task with no mode would reach the job and
+    then have to guess which legs it is about."""
+    import re
+    text = _vast_workflow_text()
+    m = re.search(r"^\s*options: \[(.+?)\]", text, re.M)
+    assert m, "could not read the task input's options"
+    options = [o.strip() for o in m.group(1).split(",")]
+    converge_tasks = [o for o in options if "converge" in o]
+    assert converge_tasks, "no converge task is dispatchable at all"
+    assert set(converge_tasks) == set(tv.CONVERGE_TASK_MODES), (
+        f"the workflow offers {sorted(converge_tasks)} but CONVERGE_TASK_MODES registers "
+        f"{sorted(tv.CONVERGE_TASK_MODES)} — one of them will analyse the wrong legs or fail at dispatch")
+    # ...and the job's own `if:` must admit exactly those tasks, or a dispatchable one is a no-op run.
+    gate = re.search(r"\n  converge:\n(?:.*\n)*?\s*if: (.+)\n", text)
+    assert gate, "could not find the converge job's if: condition"
+    for t in converge_tasks:
+        assert f"'{t}'" in gate.group(1), f"task {t} is dispatchable but the converge job would skip it"

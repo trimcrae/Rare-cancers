@@ -456,6 +456,52 @@ MODES = {
 # carries no triangle rung, and adding one would give the same fact two homes free to disagree.
 TRIANGLE_MODES = ("triangle", "triangle_smoke")
 
+# ★★ WHICH LEGS THE $0 POSE/CONVERGENCE DIAGNOSTIC ANALYSES — ONE HOME, AND IT IS HERE (2026-07-30).
+# `gpu-ternary-fep-vast.yml`'s converge job hardcoded `--mode edge` on its `--fetch-trajectories` call, so
+# the diagnostic could only ever look at the RUNG 2b legs. `unit_id` embeds BOTH the timestep and the mode,
+# and the closure triangle runs at a pinned 2 fs under mode `triangle`
+# (`calib_{lo,hi}_to_lo2__{ternary,binary}_vhl_r0_dt2.0fs_wu1.0_triangle`), so a triangle leg looked up as
+# `edge` resolves to `..._dt4.0fs_wu1.0_edge` — a prefix that does not exist. That is exactly the failure
+# `resolve_timesteps.__doc__` names: "a mode that ran at 2 fs looked up at 4 fs returns an empty directory,
+# and an empty reduction is the 'reports success while measuring nothing' shape this lane keeps paying for."
+#
+# WHY A TASK->MODE MAP RATHER THAN AN 11th DISPATCH INPUT. GitHub caps `workflow_dispatch` at 10 inputs and
+# going over is SILENT — every `-f` then arrives empty (tests/test_workflow_dispatch_input_cap.py, "the most
+# expensive hour of 2026-07-30"). This lane sits at exactly 10. So the mode rides on the `task` input that
+# already exists, the same way `reduce`/`reduce-reps` and `triangle-reduce` do, and `task=converge` keeps
+# meaning `edge` byte-for-byte so the published RUNG 2b comparison stays reproducible.
+CONVERGE_TASK_MODES = {
+    "converge": "edge",                 # RUNG 2b's 4 fs cycle — the published comparison. DO NOT REPOINT.
+    "triangle-converge": "triangle",    # the valB closure triangle's 4 legs, 2 fs, seed 0.
+}
+
+
+def converge_mode_for_task(task, env=None):
+    """The MODES key whose units the converge job must fetch, for one dispatched task. PURE apart from env.
+
+    Raises rather than defaulting. A wrong answer here is not a crash — it is a green run that lists an S3
+    prefix nobody ever wrote, finds no `simulation.nc`, and reports a clean convergence summary over zero
+    legs. Silence is the expensive outcome on this lane, so an unknown task is a hard error.
+
+    `TVAST_CONVERGE_MODE` is the escape hatch, in the lane's own `TVAST_*` idiom: it points the diagnostic at
+    any mode without spending a dispatch-input slot. It is validated against `MODES` (an unknown value is an
+    error, never a silent fallback) and the caller is expected to say loudly that an override was in force —
+    a sticky repository variable that quietly changed what `task=converge` measures would be this same bug
+    wearing a different hat.
+    """
+    env = os.environ if env is None else env
+    override = (env.get("TVAST_CONVERGE_MODE") or "").strip()
+    if override:
+        if override not in MODES:
+            raise ValueError(f"TVAST_CONVERGE_MODE={override!r} is not a known mode; expected one of "
+                             f"{sorted(MODES)}")
+        return override
+    key = str(task or "").strip()
+    if key not in CONVERGE_TASK_MODES:
+        raise ValueError(f"no converge mode is registered for task {key!r}; expected one of "
+                         f"{sorted(CONVERGE_TASK_MODES)} (or set TVAST_CONVERGE_MODE)")
+    return CONVERGE_TASK_MODES[key]
+
 DEFAULT_TIMESTEP_FS = "4.0"
 DEFAULT_WARMUP_TIMESTEP_FS = "1.0"
 
@@ -3813,7 +3859,17 @@ def main(argv=None):
     ap.add_argument("--fetch-trajectories", metavar="DIR",
                     help="download each unit's NEWEST committed production generation (.nc/.chk) into DIR as "
                          "<leg>_sim_shared/, ready for ternary_fep_convergence.py")
+    # Printed on stdout as a BARE MODE NAME so the workflow can do MODE=$(... --converge-mode-for-task "$T").
+    # It exists so the converge job's `--mode` is derived from the dispatched task instead of hardcoded: the
+    # hardcoded `edge` meant the diagnostic could only ever see RUNG 2b's legs. See CONVERGE_TASK_MODES.
+    ap.add_argument("--converge-mode-for-task", metavar="TASK",
+                    help="print the MODES key whose units `task=<TASK>` must analyse, then exit. Errors "
+                         "(non-zero) on an unregistered task rather than guessing — guessing here yields an "
+                         "empty directory and a green run.")
     a = ap.parse_args(argv)
+    if a.converge_mode_for_task:
+        print(converge_mode_for_task(a.converge_mode_for_task))
+        return 0
     if a.gate_for_mode:
         action, readout = gate_for_mode(a.mode, excluded=blocked_machine_ids())
         print(json.dumps(readout, indent=2))
@@ -3852,6 +3908,18 @@ def main(argv=None):
             print("::warning title=TVAST CONVERGE INCOMPLETE::no committed trajectory for %s — the convergence "
                   "and pose diagnostics cannot cover %s of %d legs"
                   % (",".join(missing), len(missing), len(got)))
+        # ★★ ALL of them missing is a DIFFERENT failure from some of them missing, and it must be RED.
+        # A warning is the right weight for a partial fetch; it is the wrong weight for a fetch that got
+        # nothing, because the steps after this one then run happily over an empty directory and print a
+        # convergence summary covering zero legs. That is precisely how `--mode edge` pointed at the 2 fs
+        # triangle would have looked: green, fast, and measuring nothing. The mode/timestep mismatch is
+        # named in the message because it is the overwhelmingly likely cause — the prefix is keyed on both.
+        if got and not any(got.values()):
+            print("::error title=TVAST CONVERGE MEASURED NOTHING::mode=%s (dt=%s) matched a committed "
+                  "trajectory for 0 of %d legs. Every unit id is keyed on BOTH the timestep and the mode, so "
+                  "the usual cause is analysing one mode's legs under another's id. Nothing was analysed."
+                  % (a.mode, resolve_timesteps(a.mode, a.timestep_fs, a.warmup_timestep_fs)[0], len(got)))
+            return 1
     elif a.fetch_legs:
         legs = fetch_legs(a.fetch_legs, mode=a.mode, timestep_fs=a.timestep_fs,
                           warmup_timestep_fs=a.warmup_timestep_fs)

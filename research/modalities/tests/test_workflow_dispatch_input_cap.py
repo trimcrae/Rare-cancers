@@ -80,3 +80,45 @@ def test_the_ternary_lane_still_carries_the_inputs_placement_depends_on():
     ins = _dispatch_inputs(wf)
     for k in ("task", "min_ns_per_h", "on_demand", "bid_floor_mult", "leg_only"):
         assert k in ins, f"{k} is load-bearing for placement and must stay a dispatch input"
+
+
+def test_the_ternary_lane_is_AT_the_cap_so_a_new_knob_must_not_become_an_input():
+    """★★ THE CAP IS NOT SLACK — THIS LANE HAS NONE (2026-07-30).
+
+    It sits at exactly `MAX_DISPATCH_INPUTS`, so the next feature that wants a knob has three honest
+    options and only three: fold it into an existing input, route it through an env var / repository
+    variable, or delete an input first. It does NOT have the option of adding one — the 11th does not fail,
+    it empties every value silently, which is the incident at the top of this file.
+
+    Pinned rather than left to the generic assertion above because the generic one passes just as happily
+    at 3 inputs, and it is the *absence of headroom* that a future author needs told.
+    """
+    wf = Path(__file__).resolve().parents[3] / ".github/workflows/gpu-ternary-fep-vast.yml"
+    ins = _dispatch_inputs(wf)
+    assert len(ins) == MAX_DISPATCH_INPUTS, (
+        f"gpu-ternary-fep-vast.yml now declares {len(ins)} dispatch inputs, not {MAX_DISPATCH_INPUTS}: "
+        f"{sorted(ins)}. If this GREW, every -f flag on this lane is now silently empty. If it SHRANK, "
+        f"good — lower the number here in the same commit and say which knob moved and where to.")
+
+
+def test_the_converge_mode_did_not_buy_itself_a_dispatch_input():
+    """The pose/convergence diagnostic needed to be pointed at a mode other than RUNG 2b's `edge`. The
+    obvious fix — a `converge_mode` input — would have been the 11th on a lane already at the cap, i.e. it
+    would have silently emptied `min_ns_per_h`, `on_demand` and the rest at the same moment.
+
+    It rides on the existing `task` input instead (`ternary_vast_launch.CONVERGE_TASK_MODES`), with
+    `TVAST_CONVERGE_MODE` as the env-var escape hatch in the lane's own `TVAST_*` idiom. This asserts the
+    shape stayed that way, because "just add an input" is the reflex this file exists to interrupt.
+    """
+    wf = Path(__file__).resolve().parents[3] / ".github/workflows/gpu-ternary-fep-vast.yml"
+    ins = _dispatch_inputs(wf)
+    strays = [k for k in ins if "converge" in k.lower() or k.lower() in ("mode", "fep_mode")]
+    assert not strays, (
+        f"{strays} became dispatch input(s) on a lane already at GitHub's cap of {MAX_DISPATCH_INPUTS} — "
+        f"the converge mode belongs on the `task` input (CONVERGE_TASK_MODES) or in TVAST_CONVERGE_MODE.")
+    text = wf.read_text()
+    assert "TVAST_CONVERGE_MODE" in text, "the env-var route the fix depends on is gone"
+    # the task input is a choice list, so the converge tasks must be dispatchable from it
+    opts = (ins.get("task") or {}).get("options") or []
+    assert "converge" in opts and "triangle-converge" in opts, (
+        f"both converge tasks must stay dispatchable from the `task` input; options are {opts}")

@@ -70,9 +70,9 @@ on:
   workflow_dispatch:
     inputs:
       task:
-        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side) || blacklist-clear ($0, snapshot the shared machine-exclusion set to the repo and then EMPTY it, shared + every lane's own list) | blacklist-snapshot ($0, snapshot ONLY — the history survives a clear, so this recovers the record if the snapshot commit ever loses its race)"
+        description: "test | dry-run | prime | smoke | probe | edge | collect | reduce | converge (CPU/$0 - pull the newest committed .nc per leg from S3 and run the convergence + contact-moiety pose diagnostics in the parity image) | stop || valB_mini replicates: reps-prime ($0, stage seeds 1+2 and PROVE the atom map is complete) | edge-reps (r1+r2, 4 legs in parallel) | reps-setup-rss ($0, build BOTH arms' hybrid systems in the parity image under a memory meter — the controlled reproduction of the ternary setup death) | reps-diag ($0, why an arm commits nothing — the container's OWN console via request_logs plus every archived attempt) | reduce-reps ($0, the cycle SD across seeds) || RUNG 5a-KS: 5aks-prime ($0, stage the co-folds and seed the cache) | 5aks-smoke (~$0.15) | 5aks (~$12, the two ternary legs) | 5aks-reduce ($0, the double difference S) | supersede-failed ($0, archive-and-clear a stale status=failed leg.json once its cause is fixed — use leg_only to select) || valB CLOSURE TRIANGLE (2 fs, seed 0, binary legs UNRESTRAINED): triangle-freeze ($0, derive cmpd4\" by two independent routes and commit the freeze) | triangle-prime ($0, stage all 4 legs on CPU + prove both new atom maps) | triangle-gate ($0, price the 4 legs and self-dispatch the launch the moment the board clears) | triangle-smoke (~$0.15, the closing edge end to end) | triangle (the 4 legs, ~$6.83 plan) | triangle-reduce ($0, the closure residual R) | triangle-converge ($0, the SAME pose/convergence diagnostic as `converge` but on the TRIANGLE's 4 legs — `converge` is pinned to RUNG 2b's `edge` legs so the published 4 fs comparison stays reproducible, and the mode rides on this input because the lane is AT GitHub's 10-input cap) | triangle-diag ($0, every triangle unit's FULL run.log plus the gate's SDF vs the host's SDF side by side) || blacklist-clear ($0, snapshot the shared machine-exclusion set to the repo and then EMPTY it, shared + every lane's own list) | blacklist-snapshot ($0, snapshot ONLY — the history survives a clear, so this recovers the record if the snapshot commit ever loses its race)"
         type: choice
-        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, blacklist-snapshot, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-diag, charge-provenance, retire-host]
+        options: [test, dry-run, prime, smoke, probe, edge, collect, reduce, converge, stop, market-gate, blacklist-clear, blacklist-snapshot, reps-prime, edge-reps, reps-diag, reps-setup-rss, reduce-reps, 5aks-prime, 5aks-smoke, 5aks, 5aks-reduce, supersede-failed, triangle-freeze, triangle-prime, triangle-gate, triangle-smoke, triangle, triangle-reduce, triangle-converge, triangle-diag, charge-provenance, retire-host]
         default: test
       timestep_fs:
         description: "production MD timestep in fs (blank = 4.0, the thing RUNG 2b is testing)"
@@ -170,7 +170,7 @@ jobs:
           # nothing" shape this lane's audit is about. Gated by
           # tests/test_workflows_parse.py::test_vast_task_allowlist_matches_the_input_options.
           case "${TASK:-test}" in
-            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-diag|charge-provenance|retire-host|blacklist-clear|blacklist-snapshot) TASK="${TASK:-test}" ;;
+            test|dry-run|prime|smoke|probe|edge|collect|reduce|converge|stop|market-gate|reps-prime|edge-reps|reps-diag|reps-setup-rss|reduce-reps|5aks-prime|5aks-smoke|5aks|5aks-reduce|supersede-failed|triangle-freeze|triangle-prime|triangle-gate|triangle-smoke|triangle|triangle-reduce|triangle-converge|triangle-diag|charge-provenance|retire-host|blacklist-clear|blacklist-snapshot) TASK="${TASK:-test}" ;;
             *) echo "::warning::unrecognised task '${TASK}' -> falling back to the free 'test'"; TASK=test ;;
           esac
           echo "task=$TASK" >> "$GITHUB_OUTPUT"
@@ -2571,9 +2571,19 @@ jobs:
           test -n "$SEL" || { echo "::error::set leg_only — refusing to clear every failed record at once"; exit 1; }
           python research/modalities/ternary_vast_launch.py --supersede-failed "$SEL"
 
+  # ★★ WHICH LEGS THIS ANALYSES IS A PARAMETER, NOT A CONSTANT (2026-07-30). It used to hardcode
+  # `--mode edge` on the `--fetch-trajectories` call, so the $0 pose diagnostic could only ever see RUNG 2b's
+  # 4 fs legs — and STRATEGY.md's own instruction is to run it on the CLOSURE TRIANGLE's legs, which are a
+  # different mode at a different timestep (`..._dt2.0fs_wu1.0_triangle` vs `..._dt4.0fs_wu1.0_edge`).
+  # Dispatched at the triangle, the hardcoded call would have listed a prefix nobody ever wrote, downloaded
+  # nothing, and printed a clean summary over zero legs. The task->mode map has one home,
+  # `ternary_vast_launch.CONVERGE_TASK_MODES`, and `converge` still means `edge` byte-for-byte so the
+  # published 2b comparison stays reproducible. The mode rides on the `task` input rather than an 11th
+  # dispatch input because this lane is AT GitHub's cap of 10 and an 11th silently empties them all
+  # (tests/test_workflow_dispatch_input_cap.py).
   converge:
     needs: resolve
-    if: ${{ needs.resolve.outputs.task == 'converge' }}
+    if: ${{ needs.resolve.outputs.task == 'converge' || needs.resolve.outputs.task == 'triangle-converge' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -2593,6 +2603,13 @@ jobs:
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
+      # The `TVAST_*` escape hatch, in the lane's own idiom: it points the diagnostic at ANY mode without
+      # spending one of the 10 dispatch-input slots. Unset by default -> the task->mode map decides, so
+      # `task=converge` is unchanged. Validated against MODES (an unknown value is an ERROR, never a silent
+      # fallback) and announced loudly below, because a sticky repository variable that quietly changed what
+      # `task=converge` measures would be the very bug this job was just fixed for.
+      TVAST_CONVERGE_MODE: ${{ vars.TVAST_CONVERGE_MODE }}
+      TVAST_TASK: ${{ needs.resolve.outputs.task }}
     steps:
       - uses: actions/checkout@v4
         with: { ref: "${{ github.ref_name }}" }
@@ -2603,7 +2620,16 @@ jobs:
           set -eo pipefail
           python -m pip install -q boto3
           mkdir -p /tmp/tconv
-          python research/modalities/ternary_vast_launch.py --mode edge --fetch-trajectories /tmp/tconv 2>&1 | tail -40
+          # DERIVED FROM THE TASK, never typed here. `--converge-mode-for-task` exits non-zero on a task with
+          # no registered mode rather than guessing, so a new converge task added to the input options
+          # without a map entry fails HERE, loudly, instead of analysing the wrong legs quietly.
+          MODE=$(python research/modalities/ternary_vast_launch.py --converge-mode-for-task "$TVAST_TASK")
+          echo "MODE=$MODE" >> "$GITHUB_ENV"
+          if [ -n "${TVAST_CONVERGE_MODE:-}" ]; then
+            echo "::warning title=TVAST CONVERGE MODE OVERRIDDEN::the repository variable TVAST_CONVERGE_MODE=$TVAST_CONVERGE_MODE is in force, so task=$TVAST_TASK is NOT analysing its own legs. Clear the variable to restore the task's own mapping."
+          fi
+          echo "::notice title=TVAST converge::task=$TVAST_TASK -> mode=$MODE"
+          python research/modalities/ternary_vast_launch.py --mode "$MODE" --fetch-trajectories /tmp/tconv 2>&1 | tail -40
           echo "--- what landed ---"
           ls -laR /tmp/tconv | tail -40
       - name: Convergence + contact-moiety pose diagnostics, in the parity image
@@ -2618,19 +2644,32 @@ jobs:
             docker.io/triskit23/ternary-fep:latest \
             /work/research/modalities/ternary_fep_convergence.py 2>&1 | tail -30
           sudo chown -R "$(id -u):$(id -g)" /tmp/tconv 2>/dev/null || true
-      - name: Verdict LAST — the 4 fs cycle's pose behaviour beside r0's
+      - name: Verdict LAST — this cycle's pose behaviour beside the two on record
         run: |
           set +e
-          echo "================ 4 fs CYCLE POSE / CONVERGENCE SUMMARY ================"
+          echo "================ POSE / CONVERGENCE SUMMARY — task=$TVAST_TASK mode=$MODE ================"
           cat /tmp/tconv/ternary_convergence_summary.txt
           echo
-          echo "r0 (2 fs) for comparison — binary_vhl: contact_pose max 16.327 / med 4.333 A, 8 of 12 replicas"
-          echo "ending beyond 4.0 A, classes DISPLACED_AND_STAYED 5 / INTERMEDIATE 3 / STABLE 4; ternary_vhl"
-          echo "12/12 STABLE. See research/modalities/ternary-lane-guard-audit-2026-07-25.md sections L.3-L.3c."
+          # ★ THE BASELINES ARE READ OUT OF THEIR ONE HOME, NOT TYPED HERE (CLAUDE.md rule 1). This step
+          # used to carry its own copy of r0's numbers; a copy in a workflow is a number nobody re-checks
+          # when the audit is corrected. The audit file is checked out in this job, so print its L.3d table.
+          AUD=research/modalities/ternary-lane-guard-audit-2026-07-25.md
+          echo "ON RECORD FOR COMPARISON (verbatim from $AUD section L.3d):"
+          awk '/\*\*2 fs \(r0/{p=1} p&&/^\|/{print} p&&!/^\|/{exit}' "$AUD" \
+            || echo "  (table not found — read section L.3d by hand; do NOT substitute a remembered number)"
           echo
-          echo "READ IT AS: binary here ALSO displaced -> the |dDDG| = 0.0215 agreement is a timestep result on a"
-          echo "shared broken arm. Binary here STABLE -> the departure barely moves dG_binary and the r0 claim"
-          echo "needs softening. Either way the number to compare is the binary leg's contact_pose line."
+          if [ "$MODE" = "triangle" ]; then
+            echo "READ IT AS (closure triangle): the triangle's TWO BINARY legs are the same unrestrained"
+            echo "construction that departs in both cycles above, so the pre-registered prediction is that they"
+            echo "depart here too. Departure present -> the non-zero R_binary = -0.2440 is attributable to it."
+            echo "Departure ABSENT -> R_binary is ordinary path error and the restrained re-run's rationale"
+            echo "weakens. The classification rule is valb_triangle_closure.binary_departure_prereg() and it,"
+            echo "not this echo, is what decides. Both ternary legs are expected clean (0 of 12) in both cases."
+          else
+            echo "READ IT AS: binary here ALSO displaced -> the |dDDG| = 0.0215 agreement is a timestep result on a"
+            echo "shared broken arm. Binary here STABLE -> the departure barely moves dG_binary and the r0 claim"
+            echo "needs softening. Either way the number to compare is the binary leg's contact_pose line."
+          fi
 
   stop:
     needs: resolve
