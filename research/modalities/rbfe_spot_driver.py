@@ -25,6 +25,7 @@ warmup->production transition mechanics are already CPU-validated in rbfe_spot_c
 """
 from __future__ import annotations
 
+import contextlib
 import os
 import time
 from pathlib import Path
@@ -49,6 +50,34 @@ class _ConvergedEarly(Exception):
 
 def _autostop_enabled():
     return os.environ.get("RBFE_AUTOSTOP_CONVERGENCE") == "1"
+
+
+# ⏱ A HARD DEADLINE FOR ONE BLOCKING CALL. `signal.alarm` rather than a thread, because the thing being
+# bounded is a C-level socket read inside boto3 and only a signal interrupts that from the main thread. It is
+# restored on exit, so nesting or a later use is unaffected; on a non-main thread (tests, a future caller)
+# `signal.signal` raises ValueError and this degrades to NOT bounding the call, which is exactly the previous
+# behaviour and never worse than it.
+@contextlib.contextmanager
+def _deadline(seconds, message):
+    import signal as _sig
+    if not seconds or seconds <= 0:
+        yield
+        return
+    try:
+        def _fire(_signum, _frame):
+            raise TimeoutError(message)
+        prev = _sig.signal(_sig.SIGALRM, _fire)
+        prev_left = _sig.alarm(int(seconds))
+    except (ValueError, AttributeError):     # not the main thread, or no SIGALRM on this platform
+        yield
+        return
+    try:
+        yield
+    finally:
+        _sig.alarm(0)
+        _sig.signal(_sig.SIGALRM, prev)
+        if prev_left:
+            _sig.alarm(prev_left)
 
 
 def _live_converged(reporter, iteration, prod_target, ci, log):
@@ -889,9 +918,51 @@ def run_spot_safe(*, unit, protocol, system, positions, selection_indices, share
     # kill. Split the call so warmup is validated at warmup_checkpoint_iters and the newest warmup
     # snapshot is accepted. Semantics preserved: production first (resume production if any), else
     # warmup. The committed .nc/.chk data is unchanged — only which snapshot restore accepts widens.
-    restored = commit_store.restore_latest([PRODUCTION], shared, production_checkpoint_iters)
+    # ★★ THE RESTORE IS INSTRUMENTED AND BOUNDED, BECAUSE THIS IS WHERE TWO 5a-KS LEGS WEDGED
+    #    (measured 2026-07-31 — the diagnosis, not a hypothesis).
+    #
+    # WHAT WAS OBSERVED. `vast_idle_guard` condemned two legs as WEDGED: `run.log` re-uploaded byte-identical
+    # for 18 min, committed scalar frozen, GPU at 0 %. `ternary-diag-5aks.json` then showed the discriminating
+    # fact — the archived attempt AND the live `run.log` were BOTH exactly 5115 bytes and BOTH ended on the
+    # same line, `[spot-driver] warmup_target=... prod_target=...`. That line is printed immediately above
+    # this call, and the next output of a healthy leg is `[restore] <phase> iter ...` from inside
+    # `restore_latest`. Neither wedged attempt ever printed one. So the process was alive and hung BETWEEN
+    # those two prints — i.e. inside the S3 LIST or the first object GET — on two different hosts.
+    #
+    # That also refutes the alternatives without needing another run: the log was reaching S3 the whole time
+    # (it was being re-uploaded, byte-identical), so it is not a write-path failure; and nothing had reached
+    # openmmtools yet, so it is not the GPU being taken or throttled — an idle GPU is the CORRECT reading of a
+    # process that is downloading a checkpoint, which is exactly why `vast_idle_guard` refuses to condemn on
+    # GPU idleness and condemns on write silence instead.
+    #
+    # TWO CHANGES, and they do different jobs:
+    #   1. LOG BEFORE, so the next occurrence is a diagnosis rather than a localisation. A hang in
+    #      `list_committed` and a hang in `fetch` are different faults with different fixes, and until now
+    #      the log could not tell them apart because the first line either of them prints comes AFTER both.
+    #   2. BOUND IT. A hung network call had no timeout at all, so the leg billed at gpu_util 0 until CI
+    #      reaped it ~15 min later. CLAUDE.md §6: the host cannot stop its own billing — but it CAN stop its
+    #      own job, and a leg that dies loudly is re-placed by the gate within a tick with its checkpoint
+    #      intact. Dying beats hanging whenever the durable state is safe, and here it always is.
+    _restore_timeout_s = float(os.environ.get("RBFE_RESTORE_TIMEOUT_S") or "900")
+
+    def _restore(phases, ci, label):
+        log(f"[spot-driver] restore: trying {label} (ci={ci}, timeout={_restore_timeout_s:g}s) — "
+            f"an S3 LIST then a GET per candidate generation; the next line is either a [restore] verdict "
+            f"or this leg is wedged in the object store")
+        _t0 = time.time()
+        try:
+            with _deadline(_restore_timeout_s,
+                           f"restore of {label} produced no [restore] line within "
+                           f"{_restore_timeout_s:g}s — hung in the object store (list or fetch). The "
+                           f"committed checkpoint is intact; the gate re-places this unit on a new host."):
+                out = commit_store.restore_latest(phases, shared, ci)
+        finally:
+            log(f"[spot-driver] restore: {label} took {time.time() - _t0:.1f}s")
+        return out
+
+    restored = _restore([PRODUCTION], production_checkpoint_iters, "production")
     if restored is None:
-        restored = commit_store.restore_latest([WARMUP], shared, warmup_checkpoint_iters)
+        restored = _restore([WARMUP], warmup_checkpoint_iters, "warmup")
     restored_phase = restored[0] if restored else None
     log(f"[spot-driver] restore -> {('%s@iter %d' % (restored[0], restored[1])) if restored else 'none (fresh)'}")
 

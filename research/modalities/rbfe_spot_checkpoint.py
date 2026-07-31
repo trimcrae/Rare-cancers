@@ -397,7 +397,15 @@ class _BaseCommitStore:
         VM whose env interval differs from the committed file's from spuriously rejecting (or
         mis-accepting) a valid generation at an off-env-grid boundary."""
         for phase in phases:
-            for iteration, generation, man in self.list_committed(phase):
+            # ★ THE LIST AND THE FETCH ARE TIMED SEPARATELY, because they are different faults (2026-07-31).
+            # Two 5a-KS legs hung between the driver's `warmup_target=...` line and the first `[restore]`
+            # line below — a window in which the ONLY things that happen are this LIST and the first GET, and
+            # neither printed anything, so the log could not say which. It can now.
+            _t0 = time.time()
+            _gens = self.list_committed(phase)
+            print(f"[restore] {phase}: list_committed returned {len(_gens)} generation(s) in "
+                  f"{time.time() - _t0:.1f}s", flush=True)
+            for iteration, generation, man in _gens:
                 # PROVENANCE FIRST, before any download: the manifest alone decides whether this generation
                 # belongs to the running configuration, so a mismatch costs nothing. Rejecting falls through to
                 # the next-newest generation exactly like a validation failure, so a prefix that holds a mix of
@@ -409,7 +417,11 @@ class _BaseCommitStore:
                 with tempfile.TemporaryDirectory(dir=str(workspace)) as td:
                     td = Path(td)
                     try:
+                        _tf = time.time()
                         nc_p, chk_p = self.fetch(phase, iteration, generation, td)
+                        print(f"[restore] {phase} iter {iteration} gen {generation[:8]} fetched "
+                              f"{sum(_p.stat().st_size for _p in (nc_p, chk_p) if _p and _p.exists())} B "
+                              f"in {time.time() - _tf:.1f}s", flush=True)
                         ci = effective_interval(man, nc_p, chk_p, fallback=checkpoint_interval)
                         validate_reporter_pair(nc_p, chk_p, iteration, ci)
                     except Exception as e:  # noqa: BLE001

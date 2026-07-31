@@ -1,0 +1,264 @@
+#!/usr/bin/env python3
+"""THE SETUP TAX — how much of each rental is bought and NOT spent on science, split by line item. $0.
+
+★★ THE QUESTION (trimcrae, 2026-07-31): *"What do we have to do to get back to the good throughput we had in
+prior sessions?"* The comparison that framed it kills the obvious answer. The step 1 fan-out churned HARDER
+than 5a-KS — 208 rentals for 19 units, median 7 per unit, max 37 — and still landed 18 of 19. So churn is not
+the problem. What differs is how much of each rental is PRODUCTIVE:
+
+  * fan-out `realised_rentals`: median 1.62 h per rental, 9 % under 0.5 h.
+  * 5a-KS today: median session <= 1.00 h (an UPPER bound — it is measured rental-to-rental, so it includes
+    the hostless gap), 25 % under 0.5 h against a ~28 min time-to-first-commit.
+
+A rental shorter than time-to-first-commit buys NOTHING: it bills and commits nothing. So the tax is not a
+tidiness complaint, it is the difference between a session that banks progress and one that does not.
+
+★ WHAT THIS MEASURES, AND WHY IT CAN BE MEASURED AT ALL WITHOUT TIMESTAMPS IN THE LOG. `run.log` lines are
+bare `print`s with no clock. But two other things DO carry wall-clock:
+  1. the S3 **phase markers** the onstart writes (`mark preequil`, `mark md-running`, `mark md-done`) — their
+     `LastModified` is a real boundary, and they survive the host;
+  2. the **self-timed** lines the code already prints: `SETUP done in %.0fs`, and (since 2026-07-31)
+     `[spot-driver] restore: <label> took %.1fs`.
+Together those split a rental into: container start -> stage -> pre-equil -> MD start -> setup restore/build
+-> first commit.
+
+★ AND THE CACHE VERDICT, WHICH WAS PREVIOUSLY UNOBSERVABLE FROM ANY COMMITTED ARTIFACT. Three caches sit in
+this path and each prints its own HIT/MISS, but only into a log nobody parses:
+  * the STAGE cache      `[tvast] stage cache HIT|MISS`
+  * the PRE-EQUIL cache  `[tvast] pre-equil cache HIT|MISS`
+  * the SETUP cache      `[spot-safe] SETUP RESTORED from cache …` | `SETUP begin …` | `SETUP CACHE MISSING`
+A cache whose effectiveness is unobservable is one we cannot tell from an absent one — and the fan-out has NO
+setup cache at all and still beat us, so "we have a cache" was never evidence that we were paying less.
+
+⛔ $0 and READ-ONLY: S3 LIST + GET of logs and markers. Rents nothing, changes nothing, decides nothing.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import statistics as st
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+import ternary_vast_launch as tv  # noqa: E402
+
+# One entry per thing a run.log says about a cache. `hit` is tri-state on purpose: True / False / None, where
+# None means THE LINE WAS NEVER PRINTED — which is a different finding from a miss and must not be folded
+# into one (CLAUDE.md §4: an absent reading is not a reading of absence).
+CACHE_MARKERS = [
+    ("stage", re.compile(r"\[tvast\] stage cache (HIT|MISS)")),
+    ("preequil", re.compile(r"\[tvast\] pre-equil cache (HIT|MISS)")),
+]
+SETUP_RESTORED = re.compile(r"\[spot-safe\] SETUP RESTORED from cache (\S+)")
+SETUP_BEGIN = re.compile(r"\[spot-safe\] SETUP begin")
+SETUP_DONE = re.compile(r"\[spot-safe\] SETUP done in (\d+(?:\.\d+)?)s")
+SETUP_MISSING = re.compile(r"\[spot-safe\] SETUP CACHE MISSING at (\S+)")
+SETUP_RESTORE_FAILED = re.compile(r"\[spot-safe\] setup-cache restore failed")
+RESTORE_TOOK = re.compile(r"\[spot-driver\] restore: (\S+) took (\d+(?:\.\d+)?)s")
+RESTORE_LIST = re.compile(r"\[restore\] (\S+): list_committed returned (\d+) generation\(s\) in "
+                          r"(\d+(?:\.\d+)?)s")
+RESTORE_FETCH = re.compile(r"\[restore\] \S+ iter \d+ gen \S+ fetched (\d+) B in (\d+(?:\.\d+)?)s")
+FIRST_COMMIT = re.compile(r"\[(?:barrier|spot-safe)\].*committed checkpoint at iteration (\d+)")
+ITER_RATE = re.compile(r"\[timing\].*?(\d+(?:\.\d+)?)\s*s/iter")
+
+
+def parse_log(text):
+    """Every anchor a single attempt's run.log carries. PURE."""
+    out = {"caches": {}, "setup_seconds": None, "setup_built": False, "setup_restored_from": None,
+           "setup_cache_missing": None, "restore_seconds": {}, "restore_list": [], "restore_fetch": [],
+           "first_commit_iteration": None, "s_per_iter": None, "n_lines": len(text.splitlines())}
+    for name, rx in CACHE_MARKERS:
+        m = rx.search(text)
+        out["caches"][name] = (m.group(1) == "HIT") if m else None
+    m = SETUP_RESTORED.search(text)
+    if m:
+        out["caches"]["setup"] = True
+        out["setup_restored_from"] = m.group(1)
+    elif SETUP_MISSING.search(text):
+        out["caches"]["setup"] = False
+        out["setup_cache_missing"] = SETUP_MISSING.search(text).group(1)
+    elif SETUP_BEGIN.search(text):
+        out["caches"]["setup"] = False
+        out["setup_built"] = True
+    else:
+        out["caches"]["setup"] = None
+    if SETUP_RESTORE_FAILED.search(text):
+        out["setup_restore_failed"] = True
+    m = SETUP_DONE.search(text)
+    if m:
+        out["setup_seconds"] = float(m.group(1))
+    for m in RESTORE_TOOK.finditer(text):
+        out["restore_seconds"][m.group(1)] = float(m.group(2))
+    for m in RESTORE_LIST.finditer(text):
+        out["restore_list"].append({"phase": m.group(1), "n_gen": int(m.group(2)), "seconds": float(m.group(3))})
+    for m in RESTORE_FETCH.finditer(text):
+        out["restore_fetch"].append({"bytes": int(m.group(1)), "seconds": float(m.group(2))})
+    m = FIRST_COMMIT.search(text)
+    if m:
+        out["first_commit_iteration"] = int(m.group(1))
+    rates = [float(x) for x in ITER_RATE.findall(text)]
+    if rates:
+        out["s_per_iter"] = round(st.median(rates), 2)
+    return out
+
+
+def verdict(parsed):
+    """One sentence a person can act on. PURE.
+
+    The THREE-way split is the point. `MISS` says the cache is configured and cold — pre-bake it. `ABSENT`
+    says the line was never printed, i.e. we cannot tell, and that is a reporting defect rather than a cost.
+    Treating those alike is how a cache nobody could observe went un-examined for weeks."""
+    c = parsed["caches"]
+    bits = []
+    for k in ("stage", "preequil", "setup"):
+        v = c.get(k)
+        bits.append("%s=%s" % (k, "HIT" if v else ("MISS" if v is False else "ABSENT(unobservable)")))
+    if parsed.get("setup_cache_missing"):
+        bits.append("SETUP CACHE MISSING -> the leg FAILS FAST rather than rebuilding on the GPU")
+    if parsed.get("setup_built"):
+        bits.append("rebuilt the hybrid system ON THE RENTED GPU (%ss)" % parsed.get("setup_seconds"))
+    return " · ".join(bits)
+
+
+# =============================================================================================================
+# S3 side — logs and the phase markers that carry the only wall-clock in the system
+# =============================================================================================================
+def attempt_texts(uid, bucket, prefix, s3, limit=6):
+    """[(key, last_modified, text)] for the newest `limit` attempts of this unit, oldest first."""
+    keys = []
+    pfx = f"{prefix}/legs/{uid}/attempts/"
+    try:
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=pfx):
+            for o in page.get("Contents") or []:
+                if o["Key"].endswith(".log"):
+                    keys.append((o["Key"], o["LastModified"]))
+    except Exception:  # noqa: BLE001
+        pass
+    keys.sort(key=lambda t: t[1])
+    keys = keys[-limit:]
+    keys.append((f"{prefix}/legs/{uid}/run.log", None))
+    out = []
+    for k, lm in keys:
+        try:
+            body = s3.get_object(Bucket=bucket, Key=k)
+            out.append((k, lm or body["LastModified"], body["Body"].read().decode("utf-8", "replace")))
+        except Exception:  # noqa: BLE001
+            continue
+    return out
+
+
+def marker_times(uid, bucket, prefix, s3):
+    """{marker: LastModified} for the onstart's phase markers. These are the ONLY wall-clock boundaries that
+    survive the host, which is why the split is built on them rather than on log line order."""
+    out = {}
+    try:
+        for page in s3.get_paginator("list_objects_v2").paginate(
+                Bucket=bucket, Prefix=f"{prefix}/legs/{uid}/"):
+            for o in page.get("Contents") or []:
+                base = o["Key"].rsplit("/", 1)[-1]
+                if base.startswith("mark.") or base.startswith("phase"):
+                    out[base] = o["LastModified"]
+    except Exception:  # noqa: BLE001
+        pass
+    return out
+
+
+def measure(mode="5aks", bucket=None, prefix=None, limit=6):
+    b = bucket or tv.DEFAULT_BUCKET
+    p = (prefix or tv.RESULT_PREFIX).rstrip("/")
+    s3 = tv._s3()
+    uids = [tv.build_jobspec(l, s, d, mode=mode).env["UNIT_ID"] for (l, s, d) in tv.units_for(mode)]
+    doc = {"_what": __doc__.split("\n")[0], "mode": mode,
+           "utc": tv.time.strftime("%Y-%m-%dT%H:%M:%SZ", tv.time.gmtime()), "units": {}}
+    setup_s, restore_s = [], []
+    for uid in uids:
+        rows = []
+        for key, lm, text in attempt_texts(uid, b, p, s3, limit=limit):
+            pr = parse_log(text)
+            pr.update({"attempt": key.rsplit("/", 1)[-1], "utc": str(lm), "bytes": len(text),
+                       "verdict": verdict(pr)})
+            if pr["setup_seconds"]:
+                setup_s.append(pr["setup_seconds"])
+            for v in pr["restore_seconds"].values():
+                restore_s.append(v)
+            rows.append(pr)
+        doc["units"][uid] = {"attempts": rows, "markers": {k: str(v) for k, v in
+                                                           marker_times(uid, b, p, s3).items()}}
+    doc["totals"] = {
+        "n_attempts": sum(len(u["attempts"]) for u in doc["units"].values()),
+        "setup_build_seconds_median": (round(st.median(setup_s), 1) if setup_s else None),
+        "n_setup_builds": len(setup_s),
+        "restore_seconds_median": (round(st.median(restore_s), 1) if restore_s else None),
+    }
+    # The cache tally is the headline: how many attempts actually skipped work, versus how many we simply
+    # cannot say anything about.
+    tally = {}
+    for u in doc["units"].values():
+        for a in u["attempts"]:
+            for k, v in a["caches"].items():
+                d = tally.setdefault(k, {"HIT": 0, "MISS": 0, "ABSENT": 0})
+                d["HIT" if v else ("MISS" if v is False else "ABSENT")] += 1
+    doc["cache_tally"] = tally
+    return doc
+
+
+def render(doc):
+    L = ["=" * 104,
+         "SETUP TAX — %s  (read-only, $0)   %s" % (doc["mode"], doc["utc"]),
+         "=" * 104,
+         "CACHE TALLY across %d attempt(s) — ABSENT means the line was never printed, which is NOT a miss:"
+         % doc["totals"]["n_attempts"]]
+    for k, d in sorted((doc.get("cache_tally") or {}).items()):
+        L.append("   %-10s HIT %-4d MISS %-4d ABSENT %-4d" % (k, d["HIT"], d["MISS"], d["ABSENT"]))
+    L.append("")
+    L.append("SELF-TIMED LINE ITEMS: setup build median %ss over %d build(s); checkpoint restore median %ss"
+             % (doc["totals"]["setup_build_seconds_median"], doc["totals"]["n_setup_builds"],
+                doc["totals"]["restore_seconds_median"]))
+    for uid, u in doc["units"].items():
+        L.append("")
+        L.append("-- %s" % uid)
+        for a in u["attempts"]:
+            L.append("   %-28s %-22s %s" % (a["attempt"], a["utc"][:19], a["verdict"]))
+            if a["restore_list"]:
+                L.append("      restore LIST: %s" % a["restore_list"])
+            if a["restore_fetch"]:
+                L.append("      restore FETCH: %s" % a["restore_fetch"][:3])
+            if a["s_per_iter"]:
+                L.append("      median %s s/iter" % a["s_per_iter"])
+    return "\n".join(L)
+
+
+def _main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--mode", default="5aks")
+    ap.add_argument("--limit", type=int, default=6, help="newest N archived attempts per unit")
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--head", type=int, default=0,
+                    help="also print the first N lines of one real run.log — the anchors this parser does "
+                         "not know about are only discoverable by looking")
+    a = ap.parse_args(argv)
+    doc = measure(mode=a.mode, limit=a.limit)
+    print(render(doc))
+    if a.head:
+        b, p, s3 = tv.DEFAULT_BUCKET, tv.RESULT_PREFIX.rstrip("/"), tv._s3()
+        for uid in doc["units"]:
+            try:
+                txt = s3.get_object(Bucket=b, Key=f"{p}/legs/{uid}/run.log")["Body"].read().decode(
+                    "utf-8", "replace")
+            except Exception:  # noqa: BLE001
+                continue
+            print("\n==== first %d lines of %s run.log ====" % (a.head, uid))
+            print("\n".join(txt.splitlines()[:a.head]))
+            break
+    if a.out:
+        with open(a.out, "w") as fh:
+            json.dump(doc, fh, indent=1)
+        print("\nwrote %s" % a.out)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(_main())

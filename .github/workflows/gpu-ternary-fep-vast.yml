@@ -2398,6 +2398,22 @@ jobs:
               --out "research/modalities/ternary-diag-$M.json" 2>&1 | tee "/tmp/diag-$M.txt" || \
               echo "::warning title=DIAG FAILED::mode=$M"
           done
+      - name: THE SETUP TAX — how much of each rental is bought and not spent on science
+        # ★ trimcrae, 2026-07-31: *"What do we have to do to get back to the good throughput we had in prior
+        # sessions?"* The fan-out churned HARDER (208 rentals / 19 units) and still landed 18 of 19, so churn
+        # is not the answer; what differs is how much of each rental is PRODUCTIVE. A rental shorter than
+        # time-to-first-commit buys nothing at all, and 25 % of this lane's sessions are.
+        # `setup_tax.py` reads the three caches' own HIT/MISS lines out of the archived run.logs plus the
+        # self-timed `SETUP done in Ns` / `restore took Ns` lines. $0: S3 LIST + GET, rents nothing.
+        # `--head` prints a real log so the anchors this parser does NOT know about stay discoverable.
+        run: |
+          set -eo pipefail
+          for M in 5aks triangle; do
+            echo "================ setup tax: $M ================"
+            python research/modalities/setup_tax.py --mode "$M" --limit 6 --head 60 \
+              --out "research/modalities/setup-tax-$M.json" 2>&1 | tee "/tmp/tax-$M.txt" || \
+              echo "::warning title=SETUP TAX FAILED::mode=$M"
+          done
       - name: Are the seeds' staged inputs even the same kind of thing? — structural census across seeds
         # $0 and ~30 s. `ternary_pdb_stage` takes starting_model_index = seed % n_models with n_models=2, so
         # seed 2 is NOMINALLY the same relaxed SMARCA2 model as seed 0 — the leg that ran to completion. If
@@ -2438,6 +2454,7 @@ jobs:
           done
           # ...and every other mode's forensic, so a wedged 5a-KS leg's own last lines outlive the job log.
           git add research/modalities/ternary-diag-*.json 2>/dev/null || true
+          git add research/modalities/setup-tax-*.json 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "ternary replicate forensic: what the containers themselves said (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true

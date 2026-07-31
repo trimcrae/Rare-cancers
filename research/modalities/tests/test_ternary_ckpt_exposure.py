@@ -282,14 +282,70 @@ def test_the_jobspec_uses_the_timestep_it_was_actually_resolved_at():
     override would be a cadence for a different protocol: at 2 fs an iteration is 1250 MD steps rather than
     625 and the warmup target is 800 rather than 1600, so both inputs to the derivation change.
 
-    The discriminator is that the 2 fs table has no measured `binary` rate, so the derivation correctly
-    declines and returns the flat value — a spec built off the 4 fs table would have returned the 4 fs
-    interval instead."""
+    ★★ THIS TEST ASSERTED A VALUE AND THE VALUE WENT RED ON 2026-07-31 — and the value was the wrong thing
+    to assert, in a way worth recording rather than quietly patching.
+
+    It used to end `assert WARMUP_CKPT_ITERS == str(MODES[MODE]["warmup_ckpt_iters"])`, i.e. **64**, on the
+    stated discriminator that *"the 2 fs table has no measured `binary` rate, so the derivation correctly
+    declines and returns the flat value"*. That absence was TRANSIENT DATA: the valB closure triangle's two
+    2 fs BINARY legs landed, `ternary_arm_rates` measured them, and the reference arm the derivation needs
+    now exists at 2 fs. So the derivation legitimately stopped declining — `TESTING.md` rule 7's
+    population-assertion-on-a-data-driven-derivation, exactly.
+
+    ⚠ AND THE OLD EXPECTATION WAS NOT MERELY STALE, IT WAS INVALID AT 2 fs. `warmup_target_iters(2.0, 1.0)`
+    is **800**, and 800 / 64 = 12.5 — the flat interval does not divide the 2 fs warmup target, so a leg that
+    really ran at 64 here would sit off-grid, which is the 2026-07-21 `resume iteration 520 != expected 540`
+    class of defect. The derived 50 divides 800 exactly (16 commits). The test was pinning a number that
+    would have been a bug.
+
+    PROVENANCE WAS CHECKED BEFORE THE TEST WAS TOUCHED, because the alternative hypothesis was serious: that
+    the derivation had started feeding on today's **4 fs** 5a-KS leg records. It has not. Every unit behind
+    the 2 fs table is `…_dt2.0fs_…` and every unit behind the 4 fs table is `…_dt4.0fs_…`, and that is
+    structural rather than lucky — `arm_iteration_rates` looks the table up by the hard key
+    `f"{float(timestep_fs):.1f}"`, so a 4 fs record cannot reach a 2 fs derivation. The check is now an
+    assertion of its own, below, so the question is answered by CI rather than by a person re-deriving it.
+
+    So this asserts the PROPERTY: the cadence was derived at the timestep the spec actually runs, it divides
+    THAT timestep's warmup target, and it is not the 4 fs answer."""
     j = tv.build_jobspec(TERNARY, 1, "fwd", mode=MODE, timestep_fs="2.0", warmup_timestep_fs="1.0")
     assert j.env["RBFE_TIMESTEP_FS"] == "2.0"
-    assert j.env["WARMUP_CKPT_ITERS"] == str(tv.MODES[MODE]["warmup_ckpt_iters"])
-    assert j.env["WARMUP_CKPT_ITERS"] != tv.warmup_ckpt_iters_for(TERNARY, MODE), \
+    got = int(j.env["WARMUP_CKPT_ITERS"])
+
+    # 1. It is the answer THIS timestep's table gives, recomputed independently of build_jobspec.
+    assert got == int(tv.warmup_ckpt_iters_for(TERNARY, MODE, timestep_fs="2.0", warmup_timestep_fs="1.0"))
+
+    # 2. It is ON THE 2 fs GRID. The original defect this whole file guards is an interval that does not
+    #    divide the warmup target, which makes a leg unresumable.
+    target_2fs = tv.warmup_target_iters(2.0, 1.0)
+    assert target_2fs and target_2fs % got == 0, (
+        f"interval {got} does not divide the 2 fs warmup target {target_2fs} — off-grid, unresumable")
+
+    # 3. It is NOT the 4 fs answer, which is the actual failure mode: a spec cadenced off the wrong table.
+    assert got != int(tv.warmup_ckpt_iters_for(TERNARY, MODE)), \
         "the 2 fs spec was cadenced off the 4 fs rate table"
+
+
+def test_no_rate_table_is_fed_by_a_leg_that_ran_at_a_DIFFERENT_timestep():
+    """THE PROVENANCE CHECK, asserted rather than re-derived by hand each time it is doubted.
+
+    The hazard is specific and expensive: at 2 fs an iteration is 1250 MD steps rather than 625 and the
+    warmup target is 800 rather than 1600, so a rate measured at one timestep applied to the other yields a
+    cadence for a protocol that is not running. `ternary_arm_rates` keys the table by timestep and the
+    lookup is a hard key, but the table is DATA — it is regenerated from whatever leg records exist — so the
+    invariant belongs in CI rather than in a comment.
+    """
+    import json as _json
+    import pathlib as _pl
+    p = _pl.Path(tv.__file__).with_name("ternary-arm-iteration-rates.json")
+    if not p.exists():                       # the fallback path is "no per-arm cadence at all", not a wrong one
+        pytest.skip("no measured arm-rate table committed")
+    doc = _json.loads(p.read_text())
+    for dt, arms in (doc.get("rates") or {}).items():
+        for arm, v in arms.items():
+            for unit in v.get("units") or []:
+                assert f"_dt{dt}fs_" in unit, (
+                    f"the {dt} fs / {arm} rate is fed by {unit!r}, which did NOT run at {dt} fs — a cadence "
+                    f"derived from it would be a cadence for a different protocol")
 
 
 # -------------------------------------------------------------------------------------------------------
