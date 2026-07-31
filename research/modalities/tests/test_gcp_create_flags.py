@@ -130,5 +130,63 @@ def test_standard_branch_cap_spans_a_full_leg():
     assert seconds >= 44 * 3600, f"on-demand cap {seconds}s is shorter than a ~44 h leg"
 
 
+def test_a_detached_leg_proves_a_watcher_exists_BEFORE_it_provisions():
+    """★ THE WATCH ENTRY IS THE TEARDOWN MECHANISM, so the launcher must check for one before buying.
+
+    A GCP VM cannot delete itself (§6), and the only reaper is the watchdog's DONE branch, which loops over
+    the ENABLED entries of ternary-watch.json. `gcp_watch_reap` auto-disables a landed unit, so "no enabled
+    entry" is now the lane's RESTING state — and a detached leg launched into it would run to $MAXRUN
+    holding GPUS_ALL_REGIONS=1. Position is the whole point: after `provision` the GPU is already bought.
+    """
+    text = _text()
+    guard = text.index("gcp_launch_guard.py")
+    # ⚠ COMPARE AGAINST THE `provision` CALL, NOT THE `gcloud ... create` TEXT. `provision()` is a shell
+    # FUNCTION defined near the top of the step, so the create command sits textually ABOVE everything in
+    # the detached branch while executing only when the function is CALLED. An earlier cut of this test
+    # compared against the create text and failed a correct implementation — definition order is not
+    # execution order, and asserting on the wrong one is how a guard gets "fixed" into uselessness.
+    call = text.index("provision || { echo \"::error::no L4 Spot capacity — re-dispatch later")
+    assert guard < call, "the launch guard runs AFTER provision is called — by then the GPU is bought"
+    # it must judge main's copy: ternary-leg-watchdog.yml checks out with no `ref`, so main's watch list is
+    # the only one that will ever be read. A branch-local entry is not a watcher (CLAUDE.md §7).
+    assert "FETCH_HEAD:research/modalities/ternary-watch.json" in text, (
+        "the guard reads the checked-out watch list, not origin/main's — a leg launched from a feature "
+        "branch would be validated against a file the watchdog never reads"
+    )
+
+
+def test_the_idempotent_skip_happens_before_provisioning_too():
+    """A redundant mode=run used to provision an L4, skip on the VM after ~37 s, and then sit RUNNING and
+    idle until its cap — and that box is the one shape NEITHER reaper retires, because both spare a VM
+    created after its result was written (so a deliberate force_rerun is never destroyed). Not making the
+    purchase is the only fix that does not require weakening a reaper."""
+    text = _text()
+    runner_skip = text.index("IDEMPOTENT SKIP — NO GPU BOUGHT")
+    call = text.index("provision || { echo \"::error::no L4 Spot capacity — re-dispatch later")
+    assert runner_skip < call
+
+
+def test_the_create_labels_the_vm_with_what_it_is_running():
+    """A VM name is `gcp-ternary-<run id>` and says nothing about the calculation inside it, which is why
+    an orphan could only ever be refused or killed on AGE — and age inverts, since a healthy leg runs
+    ~44 h. The labels are what let the watchdog's orphan sweep resolve the VM's OWN result key and apply
+    the DONE branch's safe test to it."""
+    cmd = _create_invocation(_text())
+    assert "--labels=" in cmd, cmd
+    text = _text()
+    for k in ("tfep-leg", "tfep-dir", "tfep-seed", "tfep-rst", "tfep-mode"):
+        assert k in text, f"instance labels do not carry {k}; the orphan sweep cannot resolve a result key"
+
+
+def test_a_non_run_mode_does_not_inherit_the_leg_cap():
+    """The 72 h cap is sized for a ~44 h leg. A non-run mode writes no leg result object, so NEITHER reap
+    path can retire it and the cap is its only bound — lending it 72 h is lending it to the one shape that
+    cannot be cleaned up. The leg cap itself is unchanged, which the test above still checks."""
+    text = _text()
+    m = re.search(r'if \[ "\$MODE" != run \]; then\s*\n\s*MAXRUN=(\d+)s', text)
+    assert m, "no mode-scoped MAXRUN override found — a detached smoke/preequil gets the full leg cap"
+    assert int(m.group(1)) <= 8 * 3600, f"non-run cap {m.group(1)}s is too generous to bound an orphan"
+
+
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(pytest.main([__file__, "-v"]))

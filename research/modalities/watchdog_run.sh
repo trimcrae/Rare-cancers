@@ -37,33 +37,19 @@ fi
 
 N=$(python3 -c "import json;d=json.load(open('$CFG'));print(len([w for w in d['watch'] if w.get('enabled')]))")
 echo "enabled watch entries: $N   (dry_run=$DRY)"
-if [ "$N" = "0" ]; then
-  # ★ AN EMPTY WATCH LIST IS EXACTLY WHEN AN ORPHAN VM IS INVISIBLE — DO NOT EXIT WITHOUT LOOKING.
-  #
-  # This early exit used to be safe only by accident: entries were never disabled, so the VM listing below
-  # always ran. Auto-reaping landed units (gcp_watch_reap) removed that accident, and the FIRST pass after
-  # the last unit landed is precisely the pass that should be asking "did that unit's VM survive it?".
-  #
-  # It matters here more than on any other lane. A GCP VM CANNOT DELETE ITSELF — the in-VM trap fires and
-  # GCE refuses it (`Required 'compute.instances.delete' permission`, measured 2026-07-27, gcp-gpu-facts.md
-  # §6), so a finished leg routinely leaves a RUNNING VM. With GPUS_ALL_REGIONS = 1 that one VM holds the
-  # project's ENTIRE GPU quota, so the next leg cannot start at all — and the exposure is wall clock, not
-  # money, which is worse here because nothing bills to notice. `gcp-reap-vms.yml` is not a backstop: it has
-  # no `schedule:` and never fires by itself.
-  #
-  # This does NOT destroy anything. A VM with no watch entry could still be a legitimate manual dispatch, and
-  # a watchdog that reaps whatever it does not recognise is a worse failure than the one it prevents. It
-  # raises a loud alert and fails the job so the workflow-failure notification fires.
-  ORPHANS=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" \
-              --format="value(name,status,zone)" 2>/dev/null)
-  if [ -n "$ORPHANS" ]; then
-    echo "::error title=WATCHDOG ORPHAN VM, NOTHING WATCHING IT::the watch list has NO enabled entries, yet a gcp-ternary VM is still up: ${ORPHANS}. A GCP VM cannot delete itself, and GPUS_ALL_REGIONS=1 means this box holds the project's only GPU, so every future leg is blocked until it is removed. Confirm it is not a live manual run, then reap it by dispatching gcp-reap-vms.yml (it has no schedule and will not fire on its own)."
-    echo "watchdog pass complete (idle list, orphan VM present)"
-    exit 1
-  fi
-  echo "::notice title=WATCHDOG idle::No enabled entries in ternary-watch.json and no gcp-ternary VM is up — nothing to watch, and nothing holding the GPU quota."
-  exit 0
-fi
+
+# An ::error:: annotation that nobody opens is no better than the silent stall this workflow exists
+# to remove. So a stall / cap / failed dispatch also FAILS THE JOB, which makes GitHub send its own
+# workflow-failure notification out-of-band — the alert path that does not depend on an agent, a
+# session, or anyone thinking to look. RUNNING and DONE stay green so the mailbox stays quiet.
+# The entry loop is a pipeline subshell, so the flag has to live in a file, not a variable.
+# ⚠ INITIALISED HERE, ABOVE THE IDLE EXIT, DELIBERATELY. It used to be created below the `N = 0`
+# branch, which meant the one pass that most needs to raise an alarm — an idle list with a VM still
+# up — had no file to write one to. Moving it up is what lets orphan_sweep() run on a COLD pass.
+ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
+# Units that reached the TERMINAL done state this pass (result + both follow-ups dispatched). Collected here
+# and reaped once at the end rather than per-entry, so one commit covers the whole pass.
+REAP=/tmp/watchdog-reap; rm -f "$REAP"; : > "$REAP"
 
 # one live-VM listing shared by every entry (the 1-GPU quota means there is at most one anyway)
 VMS=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" \
@@ -102,16 +88,6 @@ echo "oldest live VM age: ${VMAGE} min (created ${CREATED:-<none>})"
 # cries wolf is one people stop reading, which is the failure this whole watchdog exists to avoid.
 SETUP_GRACE_MIN=75
 STALL_PASSES=3
-
-# An ::error:: annotation that nobody opens is no better than the silent stall this workflow exists
-# to remove. So a stall / cap / failed dispatch also FAILS THE JOB, which makes GitHub send its own
-# workflow-failure notification out-of-band — the alert path that does not depend on an agent, a
-# session, or anyone thinking to look. RUNNING and DONE stay green so the mailbox stays quiet.
-# The entry loop is a pipeline subshell, so the flag has to live in a file, not a variable.
-ALERT=/tmp/watchdog-alert; rm -f "$ALERT"
-# Units that reached the TERMINAL done state this pass (result + both follow-ups dispatched). Collected here
-# and reaped once at the end rather than per-entry, so one commit covers the whole pass.
-REAP=/tmp/watchdog-reap; rm -f "$REAP"; : > "$REAP"
 
 # `provisioning` defaults to spot, matching the standing rule. It is read from config rather than hardcoded so
 # a switch to on-demand is a one-line config edit -- gpu-ternary-fep-gcp.yml gates 'standard' on being
@@ -154,6 +130,121 @@ MISSING=$(python3 -c "import json;d=json.load(open('$CFG'));have=set('$WATCHDOG_
 if [ -n "$MISSING" ]; then
   echo "::error title=WATCHDOG TOO OLD FOR THIS CONFIG::$CFG requires watchdog feature(s) '$MISSING' that this copy of watchdog_run.sh does not implement (it provides '$WATCHDOG_FEATURES'). REFUSING to act. Acting anyway would measure the wrong artifact — e.g. without restraint_keyed_result_v1 a restrain=1 entry resolves the UNRESTRAINED result key, which for the r0 binary arm already exists, and reports a green DONE for a leg that never ran while its VM keeps holding the single GPU. Fix: run the watchdog from a ref whose watchdog_run.sh matches this watch list."
   exit 1
+fi
+
+# ============================================================================================================
+# ★★ ORPHAN SWEEP — the bounded reap for a VM that NO enabled entry covers.
+#
+# THE GAP. The DONE branch below reaps a finished leg's VM, and it is the ONLY thing that does — a GCP VM
+# cannot delete itself (the in-VM trap runs and GCE refuses the call, gcp-gpu-facts.md §6) and
+# gcp-reap-vms.yml has no `schedule:`. But the DONE branch lives inside the loop over ENABLED entries. Disable
+# the entry — which `gcp_watch_reap` now does automatically the moment a unit reaches its terminal state — and
+# the reap disappears with it. The pass that most needs to look at a VM is the one with nothing left to watch.
+#
+# WHY IT COULD NOT SIMPLY BE REAPED BEFORE, and why nothing here weakens that. The refusal was correct: a VM
+# name is `gcp-ternary-<GITHUB_RUN_ID>`, which says NOTHING about which calculation is inside it, so an orphan
+# could only be killed on AGE — and age inverts, because a healthy ternary leg legitimately runs ~44 h
+# (gcp-reap-vms.yml records a dry_run that would have destroyed a mid-production leg at age 860 min).
+# "A reaper that destroys a live leg is far worse than one that is late" is the governing rule and it stands.
+#
+# WHAT CHANGED IS THE EVIDENCE, NOT THE RULE. gpu-ternary-fep-gcp.yml now stamps GCE LABELS on every VM it
+# creates (`tfep-leg`, `tfep-dir`, `tfep-seed`, `tfep-rst`, `tfep-mode`), so an orphan can be asked what it is
+# and answer. That lets this sweep apply the DONE branch's OWN test, unchanged, to a VM the watch list has
+# forgotten: delete only when THAT VM's own direction- and restraint-keyed result object is ALREADY IN GCS,
+# and only when the VM predates it. Both halves matter — the first says there is no sampling left to lose, the
+# second says this VM is the one that produced it rather than a newer run.
+#
+# EVERYTHING ELSE STILL GETS THE LOUD REFUSAL: an unlabelled VM (created before labels existed, or by hand), a
+# non-`run` mode (no leg result exists for it to be judged on — its bound is the shortened --max-run-duration
+# the launcher now gives it), a missing result, an unreadable timestamp, a result that PREDATES the VM. None
+# of those is reaped here, ever. Age is never consulted.
+# ============================================================================================================
+orphan_sweep() {
+  local _vms _vm _zone _json _leg _dir _seed _rst _mode _created _ce _okey _ort _oe _e _claimed _tuple
+  _vms=$(gcloud compute instances list --filter="name~'^gcp-ternary-'" --format="value(name)" 2>/dev/null)
+  if [ -z "${_vms:-}" ]; then
+    echo "orphan sweep: no gcp-ternary VM is up"
+    return 0
+  fi
+  # tuples an ENABLED entry already covers — those VMs are the per-entry loop's business, not this sweep's.
+  _claimed=$(python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s'%(w['leg_id'],w['direction'],w['seed'],w.get('restrain','0'))) for w in d['watch'] if w.get('enabled')]" 2>/dev/null)
+  for _vm in $_vms; do
+    _zone=$(gcloud compute instances list --filter="name=$_vm" --format="value(zone.basename())" 2>/dev/null | head -1)
+    [ -z "${_zone:-}" ] && continue
+    # ONE describe, parsed in python: gcloud projection keys containing '-' are awkward to address, and a
+    # mis-addressed key would silently return empty, which here reads as "unlabelled" and would turn a
+    # reapable zombie into a permanent loud refusal.
+    _json=$(gcloud compute instances describe "$_vm" --zone="$_zone" --format="json(labels,creationTimestamp)" 2>/dev/null)
+    [ -z "${_json:-}" ] && _json='{}'
+    read -r _leg _dir _seed _rst _mode _created <<<"$(printf '%s' "$_json" | python3 -c "
+import sys,json
+try: d=json.load(sys.stdin) or {}
+except Exception: d={}
+l=d.get('labels') or {}
+print(l.get('tfep-leg','-'), l.get('tfep-dir','-'), l.get('tfep-seed','-'), l.get('tfep-rst','-'), l.get('tfep-mode','-'), d.get('creationTimestamp','-'))" 2>/dev/null)"
+    _leg=${_leg:--}; _dir=${_dir:--}; _seed=${_seed:--}; _rst=${_rst:--}; _mode=${_mode:--}; _created=${_created:--}
+
+    _tuple="$_leg|$_dir|$_seed|$_rst"
+    if printf '%s\n' "${_claimed:-}" | grep -Fxq "$_tuple" 2>/dev/null; then
+      echo "orphan sweep: $_vm is $_tuple, which an enabled entry already watches — leaving it to that entry"
+      continue
+    fi
+
+    if [ "$_leg" = "-" ] || [ "$_dir" = "-" ] || [ "$_seed" = "-" ]; then
+      echo "::error title=WATCHDOG ORPHAN VM, NOTHING WATCHING IT::$_vm ($_zone) is up, no enabled watch entry covers it, and it carries NO tfep-* labels, so this pass cannot learn which calculation is inside it. It is NOT being reaped — age is not evidence, and a healthy ternary leg legitimately runs ~44 h. A GCP VM cannot delete itself and GPUS_ALL_REGIONS=1 means this box holds the project's only GPU. Confirm it is not a live manual run (gpu-ternary-fep-gcp.yml mode=tail), then dispatch gcp-reap-vms.yml mode=reap exclude=<anything live>."
+      echo "ORPHAN VM (unlabelled) $_vm ($_zone)" >> "$ALERT"
+      continue
+    fi
+    if [ "$_mode" != "run" ]; then
+      echo "::error title=WATCHDOG ORPHAN VM (non-run mode)::$_vm ($_zone) is a mode=$_mode VM with no enabled watch entry. A non-run mode writes no leg result object, so there is no artifact that can prove it has nothing left to do and it is NOT being reaped here. Its bound is the shortened --max-run-duration the launcher gives non-run modes. Reap by hand if it is idle: gcp-reap-vms.yml mode=reap."
+      echo "ORPHAN VM (mode=$_mode) $_vm ($_zone)" >> "$ALERT"
+      continue
+    fi
+
+    # the VM's OWN result key, restraint included — the same expression the DONE branch uses, sourced from
+    # the VM's self-declaration instead of from a watch entry that no longer exists.
+    _okey="$RESULTS/leg_${_leg}_${_dir}_r${_seed}"; [ "$_rst" = "1" ] && _okey="${_okey}_rst"; _okey="${_okey}.json"
+    _ort=$(gcloud storage ls -l "$_okey" 2>/dev/null | awk 'NF>=3 && $3 ~ /^gs:/ {print $2}' | head -1)
+    if [ -z "${_ort:-}" ]; then
+      echo "::error title=WATCHDOG ORPHAN VM, RESULT NOT IN GCS::$_vm ($_zone) says it is running $_leg dir=$_dir seed=$_seed restrain=$_rst, and that leg's result object ($_okey) is NOT in GCS — so it may still be sampling and is NOT being reaped. But nothing is watching it either: with no enabled entry there is no census, no stall detection and no relaunch. Either re-enable its entry in research/modalities/ternary-watch.json ON main, or confirm it is dead and reap it (gcp-reap-vms.yml mode=reap)."
+      echo "ORPHAN VM (no result yet) $_vm ($_zone) $_leg/$_dir/r$_seed" >> "$ALERT"
+      continue
+    fi
+    _oe=0; _ce=0
+    _e=$(date -u -d "$_ort" +%s 2>/dev/null | tr -dc '0-9'); [ -n "${_e:-}" ] && _oe=$((10#$_e))
+    _e=$(date -u -d "$_created" +%s 2>/dev/null | tr -dc '0-9'); [ -n "${_e:-}" ] && _ce=$((10#$_e))
+    if [ "$_oe" = 0 ] || [ "$_ce" = 0 ]; then
+      echo "::warning title=WATCHDOG ORPHAN — REAP SKIPPED::$_vm ($_zone): its leg result exists but a timestamp could not be read (result='${_ort:-?}', created='${_created:-?}'), so this pass cannot prove the VM predates it. Sparing it; re-checked next pass. Sparing a zombie costs one pass, reaping a live leg costs hours of MD."
+      continue
+    fi
+    if [ "$_ce" -ge "$_oe" ]; then
+      echo "::notice title=WATCHDOG ORPHAN SPARED (newer than its result)::$_vm ($_zone) was created at $_created, which is NOT before $_leg/$_dir/r$_seed's result was written ($_ort). It is a different, later run against an existing result — possibly a force_rerun — so it is left alone."
+      continue
+    fi
+    if [ "$DRY" = "1" ]; then
+      echo "::warning title=WATCHDOG ORPHAN + FINISHED LEG::dry_run=1: would DELETE $_vm ($_zone). It is labelled $_leg/$_dir/r$_seed restrain=$_rst, its result object is already in GCS ($_ort) and the VM predates it ($_created), so there is no sampling left to lose."
+    elif gcloud compute instances delete "$_vm" --zone="$_zone" --quiet 2>/tmp/wd-osweep-err; then
+      echo "::warning title=WATCHDOG REAPED AN ORPHANED FINISHED LEG::deleted $_vm ($_zone). It carried labels $_leg/$_dir/r$_seed restrain=$_rst, no enabled watch entry covered it, and its own result object was already in GCS ($_ort) with the VM created earlier ($_created) — an idle box holding GPUS_ALL_REGIONS=1. Its presence also means the in-VM self-delete did NOT fire successfully (gcp-gpu-facts.md §6)."
+    else
+      echo "::error title=WATCHDOG ORPHAN REAP FAILED::$_vm ($_zone) is a finished, unwatched leg and delete failed: $(tail -2 /tmp/wd-osweep-err | tr '\n' ' '). It holds the ONLY GPU; remove it by hand (gcp-reap-vms.yml mode=reap)."
+      echo "ORPHAN REAP FAILED $_vm ($_zone)" >> "$ALERT"
+    fi
+  done
+}
+
+# ★ THE COLD PASS. An empty (or fully auto-reaped) watch list is EXACTLY when an orphan VM is invisible, so
+# this exit looks first. It used to be safe only by accident — entries were never disabled, so the VM listing
+# further down always ran — and auto-reaping landed units removed that accident.
+if [ "$N" = "0" ]; then
+  orphan_sweep
+  if [ -s "$ALERT" ]; then
+    echo "=== watchdog raised $(wc -l < "$ALERT" | tr -d ' ') alert(s) on an idle list ==="
+    cat "$ALERT"
+    echo "watchdog pass complete (idle list, orphan VM present)"
+    exit 1
+  fi
+  echo "::notice title=WATCHDOG idle::No enabled entries in ternary-watch.json and nothing unaccounted-for is holding the GPU quota."
+  exit 0
 fi
 
 python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s'%(w['leg_id'],w['seed'],w['direction'],w.get('commit_salt',''),w.get('timestep_fs','2.0'),w.get('warmup_timestep_fs',''),w.get('use_preequil','0'),w.get('charge_method','nagl'),w.get('n_windows','12'),w.get('template_pdb','8G1Q'),w.get('provisioning','spot'),w.get('max_relaunches_per_day',8),w.get('restrain','0'))) for w in d['watch'] if w.get('enabled')]" \
@@ -473,6 +564,12 @@ python3 -c "import json;d=json.load(open('$CFG'));[print('%s|%s|%s|%s|%s|%s|%s|%
       echo "DISPATCH FAILED $TAG" >> "$ALERT"
     fi
   done
+# ★ AND SWEEP AGAIN ON A NON-IDLE PASS. The per-entry loop only ever looks at a VM through the lens of an
+# ENABLED entry; a VM belonging to a unit that was disabled while it was still up is invisible to it. Running
+# the sweep here as well means the reap does not depend on the watch list being in any particular state —
+# which is the whole failure this pass exists to remove. It skips anything an enabled entry already covers,
+# so it can never race the loop above for the same box.
+orphan_sweep
 # ============================================================================================================
 # REAP THE LANDED UNITS. See gcp_watch_reap.py for why the proof is the terminal state and not merely
 # "the result exists" — reaping on the result alone would disable an entry before the pass that dispatches

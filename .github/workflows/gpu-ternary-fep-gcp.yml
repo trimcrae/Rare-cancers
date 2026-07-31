@@ -53,6 +53,10 @@ on:
 permissions:
   id-token: write
   contents: write
+  actions: write   # so a detached launch can ARM ternary-leg-watchdog.yml immediately instead of waiting on
+                   # the cron. CLAUDE.md §6: a schedule is a request, not a cadence — measured gaps on this
+                   # repo's */15 watchdog were 125-222 min, which is 125-222 min of a billing VM nobody is
+                   # looking at. The dispatch is best-effort and never fails the launch.
 
 concurrency:
   group: gcp-gpu-ternary-${{ github.event.inputs.mode || 'smoke' }}
@@ -928,6 +932,8 @@ jobs:
           gcloud storage rm --recursive "$CB/" 2>/dev/null && echo "commits wiped" || echo "(no commits to wipe)"
       - name: Provision Spot L4 VM + run ternary-FEP
         if: ${{ github.event.inputs.mode != 'tail' && github.event.inputs.mode != 'forensic' && github.event.inputs.mode != 'reduce' && github.event.inputs.mode != 'converge' && github.event.inputs.mode != 'calibchem' && github.event.inputs.mode != 'provenance' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # only used to ARM the watchdog after a detached provision
         run: |
           set -eo pipefail
           VM="gcp-ternary-${GITHUB_RUN_ID}"
@@ -1323,6 +1329,24 @@ jobs:
           else
             PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"; PROV_ROUNDS=22; MAXRUN=25200s
           fi
+          # ===== A NON-`run` MODE IS NOT A LEG, AND MUST NOT BE GIVEN A LEG'S CAP =====
+          # The 72 h on-demand cap exists for ONE reason: a full leg is 800 warmup + 2000 production iterations
+          # at ~56.5 s/iter = ~44 h of MD (ternary-watch.json `_leg_targets`), and GCP refuses to raise
+          # max-run-duration on a running instance (gcp-gpu-facts.md 3b), so the cap must be right at create.
+          # NOTHING ELSE THIS LANE RUNS IS THAT LONG -- smoke is minutes, preequil is a sub-ns relax,
+          # endpoint_smoke is a short stability probe -- and none of them writes the leg result object
+          # `leg_<leg>_<dir>_r<seed>[_rst].json`, which is what BOTH reap paths key on (the watchdog's DONE
+          # branch and the label-keyed orphan sweep). A detached non-run mode is therefore the one shape that
+          # neither the launch guard nor the orphan sweep can retire, and its ONLY bound is this cap.
+          # 25200s (7 h) is not a guess: it is the value this lane has run whole SPOT legs under, so it is
+          # demonstrably ample for every non-run mode, and it cuts that residual exposure from ~72 h to ~7 h.
+          # DELIBERATELY BELOW the `PROV_FLAGS=`/`MAXRUN=` branch lines rather than inside them, so
+          # tests/test_gcp_create_flags.py still sees exactly one STANDARD branch spanning a full leg -- the
+          # leg cap is unchanged, this only refuses to lend it to something that is not a leg.
+          if [ "$MODE" != run ]; then
+            MAXRUN=25200s
+            echo "mode=$MODE is not a science leg — capping this VM at ${MAXRUN} instead of the leg cap (no leg result object exists for a reaper to key on, so the cap is its only bound)"
+          fi
           # PUBLISH THE CAP, DO NOT LET LATER STEPS REMEMBER IT. Every operator-facing message about the
           # detached VM said "7h max-run backstop" — hardcoded, and correct only on the spot branch. The
           # on-demand branch has been 72 h since 2026-07-26, so on 2026-07-26 the launcher told the operator
@@ -1332,6 +1356,20 @@ jobs:
           # the project's only GPU until a human looked. ONE FACT, ONE PLACE: MAXRUN is assigned here and
           # every message downstream reads it. tests/test_gcp_create_flags.py fails if one hardcodes a cap again.
           echo "MAXRUN=$MAXRUN" >> "$GITHUB_ENV"
+          # ===== MAKE THE VM SELF-IDENTIFYING — a VM name carries a run id, not a leg =====
+          # WHY. The watchdog's orphan path could see a live gcp-ternary-* VM and had NO way to learn which
+          # calculation it was running: the name is `gcp-ternary-<GITHUB_RUN_ID>`. So an orphan could only ever
+          # be refused (loudly) or reaped blindly (unacceptable — a healthy leg legitimately runs ~44 h, and
+          # gcp-reap-vms.yml's own file records a dry_run that would have killed a mid-production leg at age
+          # 860 min). Labels close that gap without weakening anything: they let the sweep resolve THIS VM's OWN
+          # direction- and restraint-keyed result object and apply the SAME safe rule the DONE branch applies —
+          # delete only when that object is already in GCS, i.e. when there is no sampling left to lose.
+          # They are metadata only: nothing reads them to decide what to COMPUTE.
+          # GCE label values are [a-z0-9_-]{0,63}, so sanitise rather than trust (a bad label fails the CREATE,
+          # which would turn a bookkeeping nit into a lost launch).
+          _lbl() { printf '%s' "$1" | tr 'A-Z' 'a-z' | tr -c 'a-z0-9_-' '-' | cut -c1-63; }
+          LABELS="lane=ternary,tfep-leg=$(_lbl "$LEG_ID"),tfep-dir=$(_lbl "$DIRECTION"),tfep-seed=$(_lbl "$SEED"),tfep-rst=$(_lbl "$RESTRAIN"),tfep-mode=$(_lbl "$MODE"),tfep-run=$(_lbl "$GITHUB_RUN_ID")"
+          echo "instance labels: $LABELS"
           provision() {
             local round M Z
             for round in $(seq 1 $PROV_ROUNDS); do   # spot: ~55 min capacity-probe (wait it out); on-demand: fail fast on quota
@@ -1341,6 +1379,7 @@ jobs:
                       --zone="$Z" --machine-type="$M" \
                       $PROV_FLAGS \
                       --max-run-duration=${MAXRUN} --maintenance-policy=TERMINATE --no-restart-on-failure \
+                      --labels="$LABELS" \
                       --scopes=cloud-platform --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
                       --boot-disk-size=100GB --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
                     ZONE="$Z"; echo "ZONE=$Z" >> "$GITHUB_ENV"; echo "provisioned $M in $Z (round $round)"; return 0
@@ -1370,6 +1409,52 @@ jobs:
           # its delete is REFUSED (measured 2026-07-27, gcp-gpu-facts.md §6).
           DO_DETACH="$DETACH"; [ "$MODE" = run ] && DO_DETACH=1
           if [ "$DO_DETACH" = 1 ]; then
+            # ===== THE WATCH ENTRY IS THE TEARDOWN MECHANISM. NO ENTRY -> NO GPU. =====
+            #
+            # A DETACHED launch buys a VM and exits. Nothing on the VM can switch it off: the in-VM EXIT trap
+            # runs and GCE REFUSES the delete (`Required 'compute.instances.delete' permission`, measured
+            # 2026-07-27 on gcp-ternary-30215419909 — gcp-gpu-facts.md 6). The ONLY thing that removes a
+            # finished leg's VM is the watchdog's DONE branch in research/modalities/watchdog_run.sh, and that
+            # branch runs inside a loop over the ENABLED entries of ternary-watch.json. With no enabled entry
+            # the watchdog takes its idle exit and DELIBERATELY refuses to delete — correctly, since a watchdog
+            # that reaps what it does not recognise is worse than the failure it prevents. gcp-reap-vms.yml is
+            # not a backstop either: it has NO `schedule:` and never fires alone.
+            #
+            # So an unwatched detached leg runs to its create-time --max-run-duration cap ($MAXRUN, 72 h on the
+            # on-demand branch), holding GPUS_ALL_REGIONS=1 — every GCP GPU job on the account — and burning
+            # expiring trial credit, with a red workflow as the only signal.
+            #
+            # IT VALIDATES main's COPY, NOT THIS REF'S. ternary-leg-watchdog.yml checks out with NO `ref`, so
+            # it always reads the DEFAULT BRANCH's watch list whatever ref the leg was launched from. A watch
+            # entry that exists only on a feature branch is not a watcher — that is CLAUDE.md 7's branch-drift
+            # bug class, where the artifact lives on the one ref the running workflow does not read.
+            if [ "$MODE" = run ]; then
+              git fetch --depth=1 --quiet origin main 2>/dev/null || true
+              MAINWATCH=/tmp/ternary-watch-main.json
+              if ! git show FETCH_HEAD:research/modalities/ternary-watch.json > "$MAINWATCH" 2>/dev/null; then
+                echo "::error title=CANNOT READ main'S WATCH LIST::could not fetch research/modalities/ternary-watch.json from origin/main, so this launch cannot prove anything would reap its VM. Refusing to provision."
+                exit 1
+              fi
+              python3 research/modalities/gcp_launch_guard.py \
+                --watch "$MAINWATCH" --also-watch research/modalities/ternary-watch.json \
+                --where "origin/main's ternary-watch.json" \
+                --leg-id "$LEG_ID" --seed "$SEED" --direction "$DIRECTION" \
+                --commit-salt "$SALT" --timestep-fs "$TIMESTEP_FS" \
+                --warmup-timestep-fs "$WARMUP_TS" --use-preequil "$USE_PE" --restrain "$RESTRAIN" \
+                || exit 1
+              # ===== AND DO THE IDEMPOTENT-SKIP *BEFORE* BUYING THE GPU, NOT ON IT =====
+              # The skip already exists, but it runs INSIDE the VM: a redundant mode=run dispatch provisions an
+              # L4, prints "status=OK (idempotent-skip)" after ~37 s, and then — because the VM cannot delete
+              # itself — sits RUNNING and idle until its create-time cap. Worse, that box is the one shape
+              # neither reaper can retire: both the DONE branch and the orphan sweep spare a VM created AFTER
+              # its result was written, precisely so a deliberate force_rerun is never destroyed. So the honest
+              # fix is not another reaper, it is to not make the purchase. Same key expression as the VM-side
+              # check (direction- AND restraint-keyed), which stays in place as defence in depth.
+              if [ "$FORCE_RERUN" != 1 ] && gcloud storage ls "$RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json" >/dev/null 2>&1; then
+                echo "::notice title=IDEMPOTENT SKIP — NO GPU BOUGHT::leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json is already in GCS, so this dispatch has nothing to compute. Exiting WITHOUT provisioning — the old behaviour provisioned an L4, skipped on the VM, and left an idle box holding GPUS_ALL_REGIONS=1 until its max-run cap. Pass force_rerun=1 (with a fresh commit_salt) to recompute deliberately."
+                exit 0
+              fi
+            fi
             # FAILOVER GUARD: refuse to provision while another ternary VM is alive, so an on-demand RESUME poll can
             # never double-write the commit prefix a live spot VM owns. Only provisions once the GPU is genuinely
             # free (spot killed). Independent of the GPU quota — a belt to the quota's suspenders.
@@ -1384,6 +1469,16 @@ jobs:
             provision || { echo "::error::no L4 Spot capacity — re-dispatch later (idempotent GCS skip)"; exit 1; }
             echo "DETACHED=1" >> "$GITHUB_ENV"
             echo "DETACHED: $VM launched in $ZONE (max-run cap ${MAXRUN}). Result -> $RESULTS/. Monitor: gpu-rbfe-gcp-tail vm=$VM. This job EXITS now."
+            # ARM THE WATCHER NOW, DO NOT WAIT FOR THE CRON. CLAUDE.md 6: a `schedule:` cron does not supervise
+            # a billing fleet — GitHub throttles this repo's crons hard (ternary-leg-watchdog.yml asks for */15
+            # and delivered gaps of 125/148/177/217/222 min across the 2026-07-27 incident). So the first watch
+            # pass over a VM that has just started billing should be minutes away, not hours, and the cheapest
+            # way to guarantee that is for the launcher to dispatch it itself. BEST-EFFORT ONLY: this is an
+            # improvement in latency, never a safety dependency — the guard above is what makes the VM
+            # reapable at all, and a failed dispatch here must not fail a launch that already succeeded.
+            gh workflow run ternary-leg-watchdog.yml --ref main 2>&1 \
+              && echo "armed: dispatched ternary-leg-watchdog.yml so the first pass runs now rather than at the cron's convenience" \
+              || echo "::warning title=WATCHDOG NOT ARMED EARLY::could not dispatch ternary-leg-watchdog.yml; the VM is still watched (its enabled entry was proven above) but the first pass waits for the cron, which this repo delivers at ~2-4 h intervals."
             exit 0
           fi
 
