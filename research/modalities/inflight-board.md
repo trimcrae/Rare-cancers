@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 4:08 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 4:13 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                                                                 STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 7:54 AM Aug 1      48.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid]                                             RUNNING   
-5aks_d0_to_d ternary nr4a3 r0 8:56 PM            85.6%  RTX 3090 $0.00554/ns · 1.62× basis [bid]                                             RUNNING   
-5aks_d0_to_d ternary nr4a1 r1 —                  33.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid]                                            STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d ternary nr4a1 r0 —                      —  RTX 3090 $0.00891/ns · 2.61× basis [bid] ⚠ PAYING OVER THE 1.92× LINE ($0.006539/ns) STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary nr4a3 r1 7:59 AM Aug 1      48.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid]                                             RUNNING   
+5aks_d0_to_d ternary nr4a3 r0 9:01 PM            85.6%  RTX 3090 $0.00554/ns · 1.62× basis [bid]                                             RUNNING   
+5aks_d0_to_d ternary nr4a1 r1 9:07 AM Aug 1      33.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid]                                            STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary nr4a1 r0 8:21 PM Aug 1      30.2%  RTX 3090 $0.00891/ns · 2.61× basis [bid] ⚠ PAYING OVER THE 1.92× LINE ($0.006539/ns) STARTING  COLD_START — instance is 11 min old, under the 15 min floor — too young to have proved anything either way
 ---- END TVAST-BOARD ----
 ```
