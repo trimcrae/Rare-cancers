@@ -441,3 +441,43 @@ def test_the_collect_derives_shielding_from_should_destroy_not_a_typed_verdict_l
         "drift about which verdicts are benign")
     assert "guard_shielding=bool(_b.get(\"idle_shielding\"))" in src, (
         "the shielding flag is computed but never passed to state_of")
+
+
+def test_eta_is_the_second_column_and_there_is_no_refused_column():
+    """trimcrae, 2026-07-31: "make the ETA column be the second column and drop the refused column".
+
+    ETA is the cell a reader acts on — a progress board exists to answer "when does this land" — so it sits
+    beside the name. % DONE follows as the sanity check on it, not as a substitute.
+
+    And a refusal is NOT a separate column. It is the same $/ns with a different disposition, already
+    rendered inside the cell by `inflight_usd_per_ns.row()`. A second column would be a second home for a
+    fact that already has one, free to disagree with it — which is how a row we DECLINED came to read like
+    a row we were buying."""
+    out = B.render([{"name": "leg", "pct": 50.0, "eta_s": 3600,
+                       "usd_per_ns": "$0.005/ns · 1.5x basis", "state": "RUNNING", "why": ""}],
+                     now_epoch=1754000000)
+    head = out.splitlines()[0]
+    cols = [c for c in head.split("  ") if c.strip()]
+    assert cols[0].strip() == "LEG"
+    assert cols[1].strip() == "ETA (ET)", f"ETA must be second, header was: {head!r}"
+    assert cols[2].strip() == "% DONE"
+    assert "REFUSED" not in head, "a refusal belongs inside the $/ns cell, not in a column of its own"
+
+
+def test_a_refused_cell_does_not_break_alignment():
+    """The refused rendering is ~2x a paying cell. Against a fixed-width column it overflowed and shunted
+    STATE and WHY out of line, making the refused row the LEAST legible on the board — backwards, since a
+    refusal is the row most likely to be misread as a purchase. The width is derived from the rows."""
+    refused = "\u26d4 REFUSED at $0.007282/ns \u00b7 2.13x basis \u2014 $0 spent"
+    out = B.render([
+        {"name": "paying", "pct": 50.0, "eta_s": 3600, "usd_per_ns": "$0.005/ns \u00b7 1.5x basis",
+         "state": "RUNNING", "why": ""},
+        {"name": "declined", "pct": None, "eta_s": None, "usd_per_ns": refused,
+         "state": "NO HOST", "why": "held on price"},
+    ], now_epoch=1754000000)
+    lines = [l for l in out.splitlines() if l and not l.startswith("-")]
+    head, body = lines[0], lines[1:]
+    col = head.index("STATE")
+    for ln in body:
+        assert ln[col:col + 9].strip() in ("RUNNING", "NO HOST"), \
+            f"STATE column misaligned at {col}: {ln!r}"

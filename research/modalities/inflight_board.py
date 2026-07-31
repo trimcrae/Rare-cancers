@@ -589,8 +589,24 @@ def render(rows, now_epoch=None):
     """
     if not rows:
         return "IN-FLIGHT BOARD: no GPU legs.\n"
-    head = ("%-18s %7s  %-16s %-26s %-9s %s"
-            % ("LEG", "% DONE", "ETA (ET)", "$/ns", "STATE", "WHY (when not running)"))
+    # ★ ETA IS THE SECOND COLUMN (trimcrae, 2026-07-31). It is the cell a reader acts on — "when does this
+    # land" is the question a progress board exists to answer — so it sits beside the name rather than
+    # third behind a percentage. % DONE follows, because it is how you SANITY-CHECK the ETA, not a
+    # substitute for it.
+    #
+    # ⚠ AND THERE IS DELIBERATELY NO "REFUSED" COLUMN. A refusal is not a different quantity from a
+    # purchase, it is the same $/ns with a different disposition, and `inflight_usd_per_ns.row()` already
+    # renders that distinction inside the cell (`⚠ PAYING OVER THE …× LINE` vs `⛔ REFUSED at … — $0
+    # spent`). A separate column would be a second home for a fact that already has one, and the two would
+    # be free to disagree — which is exactly how a row we declined came to read like a row we were buying.
+    # The $/ns column is sized FROM THE ROWS, not to a constant. A refusal renders `⛔ REFUSED at
+    # $0.007282/ns · 2.13× basis — $0 spent`, roughly twice the width of a paying cell, and against a fixed
+    # 26 it overflowed and pushed STATE and WHY out of alignment — making the refused row the least legible
+    # one on the board, which is precisely backwards. A widest-cell width self-corrects as the strings
+    # change and cannot drift out of step with them.
+    w = max([len("$/ns")] + [len(str(r.get("usd_per_ns") or "—")) for r in rows])
+    fmt = "%-18s %-16s %7s  %-" + str(w) + "s %-9s %s"
+    head = fmt % ("LEG", "ETA (ET)", "% DONE", "$/ns", "STATE", "WHY (when not running)")
     out = [head, "-" * len(head)]
     for r in rows:
         pct = "—" if r.get("pct") is None else ("%.1f%%" % r["pct"])
@@ -598,8 +614,8 @@ def render(rows, now_epoch=None):
                else _fmt_eta_at(r.get("eta_epoch"), now_epoch=now_epoch))
         # 16 wide, because a next-day ETA renders "1:31 AM Jul 30" and a 12-wide column pushed every later
         # cell out of alignment on the very first live board.
-        out.append("%-18s %7s  %-16s %-26s %-9s %s"
-                   % (r.get("name", "?")[:18], pct, eta,
+        out.append(fmt
+                   % (r.get("name", "?")[:18], eta, pct,
                       r.get("usd_per_ns") or "—",
                       r.get("state", "?"),
                       r.get("why", "")))
