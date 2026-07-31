@@ -1,10 +1,10 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "nrv04-retro",
-  "generated_epoch": 1785534203.6146476,
-  "generated_utc": "2026-07-31T21:43:23Z",
-  "generated_et": "5:43 PM ET Fri Jul 31, 2026",
-  "note": "12 of 18 authorized R1 leg(s) landed (rows below are the rest). \u26d4 6 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
+  "generated_epoch": 1785534685.2713828,
+  "generated_utc": "2026-07-31T21:51:25Z",
+  "generated_et": "5:51 PM ET Fri Jul 31, 2026",
+  "note": "12 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 6 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
   "rows": [
     {
       "name": "nr4a1 m1 r1",
@@ -17,12 +17,12 @@
     },
     {
       "name": "nr4a1 m2 r1",
-      "pct": 70.0,
+      "pct": 80.0,
       "pct_of": null,
-      "eta_s": null,
       "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "2 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T21:35:48Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 7 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "state": "RUNNING",
+      "why": "",
+      "eta_epoch": 1785535649.2713828
     },
     {
       "name": "nr4a2 m2 r0",
@@ -40,25 +40,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.1785/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "STARTING",
-      "why": "32 consecutive board polls with no new frame (this host is 16 min old); phase marker md-running 2026-07-31T21:32:19Z, GPU 0.0%"
-    },
-    {
-      "name": "nr4a3 m3 r0",
-      "pct": null,
-      "pct_of": null,
-      "eta_s": null,
-      "usd_per_ns": null,
-      "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T19:31:54Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: INPUT QUARANTINE \u2014 this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +2.207e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6). MEASURED CAUSE (not inferred): the co-fold nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart \u2014 two heavy atoms on the same point, both positioned by Boltz. The staged single-point probe finds NonbondedForce carrying +2.109e15 kJ/mol already at `protein_after_pdbfixer`, before the ligand exists and before one water is placed, so ligand placement and addSolvent are excluded (nrv04_pe_stage_probe, 2026-07-31). Renting another host reproduces it in seconds and tests nothing. RELEASE: a different co-fold for this unit \u2014 the quarantine is read from the leg record, so a clean record clears it with no edit. \u26a0 THAT IS A PREREGISTRATION QUESTION, NOT A CODE FIX: the input, not the pipeline, is what would change."
-    },
-    {
-      "name": "nr4a3 m3 r1",
-      "pct": null,
-      "pct_of": null,
-      "eta_s": null,
-      "usd_per_ns": null,
-      "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T19:52:37Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: INPUT QUARANTINE \u2014 this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +1.791e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6). MEASURED CAUSE (not inferred): the co-fold nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart \u2014 two heavy atoms on the same point, both positioned by Boltz. The staged single-point probe finds NonbondedForce carrying +2.109e15 kJ/mol already at `protein_after_pdbfixer`, before the ligand exists and before one water is placed, so ligand placement and addSolvent are excluded (nrv04_pe_stage_probe, 2026-07-31). Renting another host reproduces it in seconds and tests nothing. RELEASE: a different co-fold for this unit \u2014 the quarantine is read from the leg record, so a clean record clears it with no edit. \u26a0 THAT IS A PREREGISTRATION QUESTION, NOT A CODE FIX: the input, not the pipeline, is what would change."
+      "why": "32 consecutive board polls with no new frame (this host is 24 min old); phase marker md-running 2026-07-31T21:32:19Z, GPU 0.0%"
     }
   ]
 }
