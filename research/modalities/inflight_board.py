@@ -124,6 +124,12 @@ UNKNOWN = "UNKNOWN"
 STALL_POLLS = 2
 
 _TARGETS_RE = re.compile(r"warmup_target=(\d+).*?prod_target=(\d+)", re.S)
+# The SAME driver line carries the checkpoint interval each phase RESOLVED to — `warmup_target=1600 (ci=64)
+# prod_target=2000 (ci=40)`. That is the authoritative value: `rbfe_spot_checkpoint` fixes the interval when
+# the .nc is created and `effective_interval` reads it back from the committed file, so the ENV request can
+# differ from what is running. Parsing it here means the measure-on-arrival guard tests the grid the leg is
+# ACTUALLY on rather than the one the mode asks for.
+_CKPT_IV_RE = re.compile(r"warmup_target=\d+\s*\(ci=(\d+)\).*?prod_target=\d+\s*\(ci=(\d+)\)", re.S)
 _ITER_RE = re.compile(r"Iteration (\d+)/(\d+)")
 _ETA_RE = re.compile(r"Estimated completion in (\d+):(\d+):([\d.]+)")
 # The spot driver's own completed-interval measurement, e.g.
@@ -181,6 +187,24 @@ def parse_targets(log_text):
     if not m:
         return None
     return int(m.group(1)), int(m.group(2))
+
+
+def committed_intervals(log_text):
+    """(warmup_ci, prod_ci) the running leg RESOLVED to, from the driver's own line, or None. PURE.
+
+    Not the mode's configured value: the interval is fixed when the .nc is created, so a leg resumed from an
+    older checkpoint runs the OLD grid whatever the env now says (`rbfe_spot_checkpoint.effective_interval`).
+    A guard that tested the requested grid would mis-time every resumed leg."""
+    m = _CKPT_IV_RE.search(log_text or "")
+    return (int(m.group(1)), int(m.group(2))) if m else None
+
+
+def interval_for_phase(log_text, phase):
+    """The checkpoint interval in force for `phase` on this host, or None. PURE."""
+    iv = committed_intervals(log_text)
+    if not iv:
+        return None
+    return iv[1] if str(phase or "").startswith("prod") else iv[0]
 
 
 def measured_s_per_iter(log_text):

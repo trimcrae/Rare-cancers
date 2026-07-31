@@ -3572,6 +3572,38 @@ def collect(bucket=None, prefix=None, autostop=True):
               _spi = ifb.measured_s_per_iter(_b["log"])
               _pct = ifb.pct_complete(_b["phase"], _b["iteration"], _tg)
               _eta = ifb.eta_seconds(_b["phase"], _b["iteration"], _tg, _spi)
+              # ★★ MEASURE-ON-ARRIVAL (2026-07-31). `_spi` is what THIS host, on ITS card, with the REAL
+              # 147,788-particle assembly, is actually delivering — strictly better evidence than any card
+              # table, and it has been computed here for the ETA all along without ever being TESTED.
+              # `vast_cost_model.verify_and_abandon_threshold` argued for exactly this and was wired to
+              # nothing. Costs one dict build per row: no S3 read, no API call.
+              #
+              # ⚠ REPORT-ONLY FOR NOW, DELIBERATELY. `arrival_throughput.verdict` can say ABANDON, and acting
+              # on it would make this the lane's SECOND destroyer beside `vast_idle_guard`. §6's ladder is
+              # smoke -> one real leg -> fleet, and the honest equivalent here is to publish the verdict on a
+              # live fleet first and read the numbers it produces before letting it destroy anything. The
+              # action is one line (`retire_host(uid)`) once the readout has been graded.
+              _arr = None
+              try:
+                  import arrival_throughput as _at
+                  # Every input comes from THIS host's own 60-line window or its unit id — no S3 read, no API
+                  # call, nothing remembered. The timestep is in the unit id; the checkpoint interval is the
+                  # one the driver RESOLVED to (a resumed leg runs the grid baked into its .nc, not the one
+                  # the mode requests); the quote is the same `$/ns` the board's own cell renders.
+                  _dtm = re.search(r"_dt([\d.]+)fs_", _b["uid"] or "")
+                  _dtv = float(_dtm.group(1)) if _dtm else None
+                  _exp, _expwhy = _at.expected_s_per_iter(arm_of_leg(_b["uid"]), _dtv) if _dtv \
+                      else (None, "timestep not in the unit id")
+                  _qrow = _ifn.row(_b["gpu"], float(_b["dph"]), _planning_usd_per_ref_gpu_h(),
+                                   tier=_ifn.tier_of(_b.get("is_bid"))) \
+                      if (_b.get("gpu") and _b.get("dph") and _planning_usd_per_ref_gpu_h()) else None
+                  _arr = _at.verdict(_spi, _exp, iteration=_b["iteration"],
+                                     interval=ifb.interval_for_phase(_b["log"], _b["phase"]),
+                                     quoted_usd_per_ns=(_qrow or {}).get("usd_per_ns"))
+                  _arr["expected_provenance"] = _expwhy
+              except Exception as _e:  # noqa: BLE001 — a READOUT must never break a monitoring pass
+                  _arr = {"verdict": "WATCHING", "why": "arrival check unavailable: %s: %s"
+                                                        % (type(_e).__name__, _e)}
               # WHY, in priority order: the most specific true statement about this leg, so a STALLED row can
               # never be rendered without one (`state_of` raises if it would be).
               _why = ""
@@ -3668,7 +3700,12 @@ def collect(bucket=None, prefix=None, autostop=True):
                       "meter; only the control plane can" % _destroyed.get("why"))
                   _eta = None
               _cell_unknown = (_pct is None or _eta is None)
+              # THE VERDICT IS VISIBLE WITH THE NUMBER THAT CAUSED IT, or it is a decision nobody can grade.
+              _acell = _at.cell(_arr) if _arr else "—"
+              if _acell and _acell != "—":
+                  _why = (_why + " · " if _why else "") + _acell
               _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
+                            "arrival": _arr,
                             "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"], _b.get("is_bid")),
                             "state": _state,
                             "why": _swhy or (_why if _cell_unknown else "")})

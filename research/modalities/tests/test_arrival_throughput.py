@@ -1,0 +1,203 @@
+"""MEASURE-ON-ARRIVAL: drop a host that cannot bank, and never condemn one on absence of evidence.
+
+★ WHY THIS EXISTS RATHER THAN A BETTER THROUGHPUT TABLE. Host variance dwarfs card identity on this workload:
+13 paired RTX 3090-vs-4090 measurements within 60 min, one system, span 0.50-2.67x against a 1.745x table
+prediction — and the "slow" card won 6 of 13. `vast_cost_model.verify_and_abandon_threshold` already argued
+for measuring on arrival and was wired to NOTHING (referenced only by its own unit tests).
+
+⚠ THE NEGATIVE CONTROLS ARE THE POINT. Two guards in this repo have been caught today by their own negative
+control (the durable blacklist, and a `spearman` that called a constant series a trend). A destroyer with no
+negative control is the most dangerous thing that can be added to a billing lane, so most of this file is
+cases where it must REFUSE to act.
+"""
+import os
+import sys
+
+import pytest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import arrival_throughput as at  # noqa: E402
+from inflight_usd_per_ns import APPROVED_USD_PER_NS  # noqa: E402
+
+
+# =============================================================================================================
+# ⛔ THE NEGATIVE CONTROLS — every way this must refuse to condemn
+# =============================================================================================================
+@pytest.mark.parametrize("spi", [None, 0, 0.0, "", "junk"])
+def test_no_measured_rate_is_WATCHING_never_ABANDON(spi):
+    """CLAUDE.md §4: an absent reading is not a reading of absence. A cold host that has printed no timing
+    line yet has not been shown to be slow — it has not been shown anything."""
+    v = at.verdict(spi, 16.0, iteration=100, interval=64)
+    assert v["verdict"] == at.WATCHING
+    assert "ABSENT" in v["why"]
+
+
+def test_a_cpu_bound_staging_phase_survives():
+    """The exact population on the board right now: three of four rows read STARTING / CPU-bound setup. They
+    have no timing line because MD has not begun. Condemning them would reap healthy legs mid-stage — the
+    failure `vast_idle_guard`'s inviolable rule exists to prevent."""
+    assert at.verdict(None, 16.0, iteration=0, interval=64)["verdict"] == at.WATCHING
+
+
+def test_gpu_utilisation_is_never_consulted():
+    """The inviolable rule, asserted structurally rather than trusted: this module must not even be able to
+    read GPU utilisation, so no future edit can quietly make idleness condemn a box."""
+    import inspect
+    # CODE lines only — the module docstring necessarily NAMES the rule it obeys, and a test that could not
+    # tell a prohibition from a violation would have to be silenced the first time someone documented it.
+    src = inspect.getsource(at)
+    body = src.split('"""', 2)[-1]
+    code = [ln for ln in body.splitlines()
+            if ln.strip() and not ln.lstrip().startswith("#")]
+    for forbidden in ("gpu_util", "utilization", "nvidia-smi", "gpu_busy"):
+        assert not any(forbidden in ln for ln in code), \
+            f"{forbidden!r} must never enter this decision"
+
+
+def test_an_unmeasured_expectation_cannot_condemn():
+    """No arm rate for this timestep => no slowdown, no realised $/ns. The TIME test may still fire, because
+    it needs no expectation at all — that independence is deliberate."""
+    v = at.verdict(16.0, None, iteration=100, interval=64, quoted_usd_per_ns=0.005)
+    assert v["slowdown_vs_expected"] is None and v["realised_usd_per_ns"] is None
+    assert v["verdict"] == at.KEEP
+
+
+def test_a_host_that_is_over_the_buy_line_but_WILL_bank_is_KEPT():
+    """Abandoning costs a ~28 min cold start. A host banking real work at a poor rate is a bad trade to
+    replace, so the dollar view REPORTS and the time test ACTS. If this ever flips to ABANDON, the guard has
+    started destroying hosts that were making progress."""
+    v = at.verdict(40.0, 16.0, iteration=1088, interval=64, quoted_usd_per_ns=0.005,
+                   session_s=36000.0)                      # a long session: it will reach the boundary
+    assert v["verdict"] == at.KEEP
+    assert v["realised_usd_per_ns"] > APPROVED_USD_PER_NS
+    assert "reported, not acted on" in v["why"]
+
+
+# =============================================================================================================
+# ✅ THE POSITIVE CONTROL — it must actually fire
+# =============================================================================================================
+def test_a_host_that_cannot_reach_a_boundary_is_ABANDONED():
+    """⚠ NOTE WHAT IT TAKES TO FIRE, because it is a finding in itself: the WORST rate measured today
+    (36.9 s/iter) on the real 64-iteration grid reaches its boundary in ~39 min, INSIDE a 48 min budget — so
+    this guard would not have condemned any host on today's data. Legs are not failing because MD is slow;
+    they are failing during the ~28 min cold start, before MD begins. The guard is for the genuinely
+    pathological host, and 60 s/iter is one."""
+    v = at.verdict(60.0, 16.6, iteration=1088, interval=64, quoted_usd_per_ns=0.005, session_s=3600.0)
+    assert v["verdict"] == at.ABANDON
+    assert "cannot bank" in v["why"]
+    assert v["seconds_to_next_commit"] > v["session_budget_s"]
+
+
+def test_the_same_host_on_a_short_grid_is_KEPT():
+    """The discriminator is the INTERVAL, not the card. Halve the commit interval and the identical host
+    banks fine — which is why the cadence lever and this guard are the same problem seen twice."""
+    slow = at.verdict(60.0, 16.6, iteration=1088, interval=64, session_s=3600.0)
+    fast = at.verdict(60.0, 16.6, iteration=1088, interval=8, session_s=3600.0)
+    assert slow["verdict"] == at.ABANDON and fast["verdict"] == at.KEEP
+
+
+# =============================================================================================================
+# the arithmetic
+# =============================================================================================================
+def test_the_boundary_is_the_NEXT_one_even_when_sitting_exactly_on_it():
+    """A leg that has just committed owes a full interval, not zero. Off-by-one here would report every
+    freshly-committed host as banking instantly and never condemn anything."""
+    assert at.seconds_to_next_commit(1088, 64, 1.0) == 64
+    assert at.seconds_to_next_commit(1089, 64, 1.0) == 63
+    assert at.seconds_to_next_commit(1087, 64, 1.0) == 1
+
+
+@pytest.mark.parametrize("bad", [(0, 64, 1), (100, 0, 1), (100, 64, 0), (None, 64, 1), (100, 64, None)])
+def test_degenerate_inputs_return_None_rather_than_a_number(bad):
+    it, iv, spi = bad
+    got = at.seconds_to_next_commit(it, iv, spi)
+    assert got is None or got > 0
+
+
+def test_realised_is_the_quote_REBASED_not_a_fresh_division():
+    """The unit trap (STRATEGY Appendix A 61): the buy line lives in reference-GPU nanoseconds, so dividing
+    dollars by real-assembly nanoseconds and comparing would repeat the very error that row registers. A
+    host exactly at expectation must return the quote unchanged."""
+    assert at.realised_usd_per_ns(0.005, 16.0, 16.0) == pytest.approx(0.005)
+    assert at.realised_usd_per_ns(0.005, 32.0, 16.0) == pytest.approx(0.010)
+    assert at.realised_usd_per_ns(0.005, 8.0, 16.0) == pytest.approx(0.0025)
+
+
+def test_the_buy_line_is_IMPORTED_not_re_typed():
+    """§1 — the abandon threshold and the buy line are the same test at different times, so they share one
+    home. A second copy of 0.006539 here is the rule-1 bug this repo has already paid for."""
+    import inspect
+    src = inspect.getsource(at)
+    assert "from inflight_usd_per_ns import APPROVED_USD_PER_NS" in src
+    assert "0.006539" not in src
+    assert at.verdict(1.0, 1.0)["buy_line_usd_per_ns"] == APPROVED_USD_PER_NS
+
+
+# =============================================================================================================
+# the readout — a decision nobody can see is a decision nobody can grade
+# =============================================================================================================
+def test_the_cell_carries_the_number_that_caused_the_verdict():
+    ab = at.cell(at.verdict(60.0, 16.6, iteration=1088, interval=64, session_s=3600.0))
+    assert "60.0" in ab and "CANNOT BANK" in ab
+    assert at.cell(at.verdict(None, 16.6)) == "—"
+    ok = at.cell(at.verdict(8.0, 16.6, iteration=1089, interval=64, session_s=3600.0))
+    assert "8.0" in ok and "CANNOT BANK" not in ok
+
+
+# =============================================================================================================
+# the wiring — inputs must come from THIS host's own window, not from a config the leg may not be running
+# =============================================================================================================
+def test_the_interval_is_the_one_the_driver_RESOLVED_to():
+    """`rbfe_spot_checkpoint` fixes the checkpoint interval when the .nc is CREATED, and `effective_interval`
+    reads it back from the committed file — so a resumed leg runs the OLD grid whatever the mode now asks for
+    (the 2026-07-21 `resume iteration 520 != expected 540` incident). A guard that timed the REQUESTED grid
+    would mis-time every resumed leg, which is most of them."""
+    import inflight_board as ib
+    log = "[spot-driver] warmup_target=1600 (ci=64) prod_target=2000 (ci=40)"
+    assert ib.committed_intervals(log) == (64, 40)
+    assert ib.interval_for_phase(log, "warmup") == 64
+    assert ib.interval_for_phase(log, "production") == 40
+    assert ib.committed_intervals("no such line") is None
+    assert ib.interval_for_phase("no such line", "warmup") is None
+
+
+def test_collect_feeds_the_guard_from_the_log_window_and_the_unit_id():
+    """No S3 read, no API call, nothing remembered — the guard must be free, or a per-row check would add a
+    round trip per host per pass."""
+    import inspect
+
+    import ternary_vast_launch as tv
+    src = inspect.getsource(tv)
+    assert "import arrival_throughput as _at" in src
+    assert 'ifb.interval_for_phase(_b["log"], _b["phase"])' in src, \
+        "the interval must come from the host's own resolved line"
+    assert '_dtm = re.search(r"_dt([\\d.]+)fs_", _b["uid"] or "")' in src, \
+        "the timestep must come from the unit id"
+
+
+def test_the_verdict_is_rendered_into_the_row_not_just_computed():
+    """A decision nobody can see is a decision nobody can grade — the same rule that made the tier a column."""
+    import inspect
+
+    import ternary_vast_launch as tv
+    src = inspect.getsource(tv)
+    assert '"arrival": _arr' in src, "the numbers must reach the committed artifact"
+    assert "_acell = _at.cell(_arr)" in src and "_why = (_why" in src, \
+        "and the human-readable verdict must reach the board row"
+
+
+def test_it_is_report_only_for_now_and_says_so():
+    """§6's ladder is smoke -> one real leg -> fleet. Acting on ABANDON would make this the lane's SECOND
+    destroyer beside `vast_idle_guard`; the honest step is to publish the verdict on a live fleet and read it
+    before letting it destroy anything. This test exists so enabling the action is a DELIBERATE edit that
+    fails a test named for the decision, not a quiet one."""
+    import inspect
+
+    import ternary_vast_launch as tv
+    src = inspect.getsource(tv)
+    i = src.index("import arrival_throughput as _at")
+    window = src[max(0, i - 1500):i]
+    assert "REPORT-ONLY" in window, "the posture must be stated where the call is made"
+    # the action is deliberately NOT wired yet
+    assert "retire_host(_b" not in src and "_at.ABANDON" not in src
