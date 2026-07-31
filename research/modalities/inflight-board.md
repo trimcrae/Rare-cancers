@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 2:36 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 2:43 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
-LEG                ETA (ET)          % DONE  $/ns                               STATE     WHY (when not running)
-----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 6:48 PM Aug 1      30.2%  RTX 3090 $0.00414/ns · 1.21× basis RUNNING   
-5aks_d0_to_d terna 3:08 AM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 9 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d terna 3:40 AM Aug 1      42.7%  RTX 3090 $0.00412/ns · 1.21× basis RUNNING   
-5aks_d0_to_d terna 9:25 PM            82.2%  RTX 3090 $0.00554/ns · 1.62× basis STARTING  COLD_START — instance is 14 min old, under the 15 min floor — too young to have proved anything either way
+LEG                  ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
+------------------------------------------------------------------------------------------------------------------------
+5aks_d0_to_d ternary 3:50 PM Aug 1      32.0%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   
+5aks_d0_to_d ternary —                  30.2%  RTX 4090 $0.00533/ns · 1.56× basis [bid] NO HOST   host DESTROYED this pass (idle guard: WEDGED — run.log has been re-uploaded with byte-identical content for 16 min (>= 15) and the committed scalar has not advanced — the sync loop is alive but the leg is not writing, so nothing is being produced to save) — billing stopped, $0 further; checkpoint at warmup/1088 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d ternary 2:28 AM Aug 1      44.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   
+5aks_d0_to_d ternary 8:56 PM            82.2%  RTX 3090 $0.00554/ns · 1.62× basis [bid] RUNNING   
 ---- END TVAST-BOARD ----
 ```
