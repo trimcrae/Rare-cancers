@@ -10,6 +10,7 @@ boundary. Every rental was correctly priced, correctly gated and correctly re-pl
 production/1840 all afternoon anyway. When mean host lifetime is below time-to-first-commit, faster
 recovery cannot converge.
 """
+import re
 import sys
 from pathlib import Path
 
@@ -18,9 +19,14 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import ternary_vast_launch as tv  # noqa: E402
+
 from gpu_backend import _vast_offer_query  # noqa: E402
 
 WF = Path(__file__).resolve().parents[3] / ".github/workflows/gpu-ternary-fep-vast.yml"
+
+# The launch tasks a gate may hand off to. DERIVED from the launcher's own mode registry rather than
+# typed here, so a new mode cannot silently escape this test the way `5aks` escaped the old `== 2`.
+LAUNCH_TASKS = {m.replace('_', '-') for m in tv.MODES}
 
 
 def test_default_is_still_the_cheap_interruptible_tier(monkeypatch):
@@ -76,8 +82,37 @@ def test_the_workflow_exposes_the_input_and_wires_it_everywhere_min_ns_is_wired(
            wf.count("TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}")
 
 
-def test_both_gate_self_dispatches_forward_the_tier():
+def test_every_gate_self_dispatch_forwards_the_tier():
     """The gates dispatch the launch themselves. If they drop on_demand, a gate that cleared ON-DEMAND
-    prices would hand the launch back to the interruptible tier and re-buy the eviction."""
+    prices would hand the launch back to the interruptible tier and re-buy the eviction.
+
+    ⚠ THIS COUNTED `== 2` AND THAT MADE IT A TRIPWIRE ON THE WRONG THING (2026-07-31). Adding the
+    `5aks-gate` — a third gate, correctly forwarding the tier — turned this red, so a test written to
+    protect the tier fired on a change that HONOURED it. A hard-coded count of a growing set fails on
+    every legitimate addition and says nothing about the one illegitimate one: a gate that self-dispatches
+    and DROPS the flag.
+
+    So it now asserts the property instead of the population. Every `gh workflow run` self-dispatch of a
+    *launch* task must carry the tier; the count is derived from the workflow, so a fourth gate passes and
+    a forgetful one fails — which is the failure this was always for."""
     wf = WF.read_text()
-    assert wf.count('-f on_demand="${{ github.event.inputs.on_demand }}"') == 2
+    # Self-dispatches that hand off to a LAUNCH task. A gate dispatching another gate, or a collect, is
+    # not a tier decision and is deliberately out of scope.
+    # A dispatch is a `gh workflow run` plus every backslash-continued line after it. Matching one LINE
+    # finds nothing here — the task and the tier sit on different continuation lines.
+    lines, blocks, cur = wf.splitlines(), [], None
+    for ln in lines:
+        if "gh workflow run" in ln:
+            cur = [ln]
+        elif cur is not None:
+            cur.append(ln)
+        if cur is not None and not cur[-1].rstrip().endswith("\\"):
+            blocks.append("\n".join(cur)); cur = None
+    launched = [t for b in blocks
+                for t in re.findall(r'-f task=([a-z0-9-]+)', b)
+                if t in LAUNCH_TASKS]
+    assert launched, "no gate self-dispatches a launch task any more — this test has lost its subject"
+    forwarded = wf.count('-f on_demand="${{ github.event.inputs.on_demand }}"')
+    assert forwarded == len(launched), (
+        f"{len(launched)} gate self-dispatch(es) to a launch task {sorted(set(launched))} but only "
+        f"{forwarded} forward on_demand — one of them would price on-demand and rent interruptible")
