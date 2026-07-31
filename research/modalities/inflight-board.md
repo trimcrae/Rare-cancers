@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 9:32 AM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 9:40 AM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna   71.1%  2:49 PM          $0.00391/ns · 1.15× basis  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d terna   12.4%  8:09 PM          $0.00512/ns · 1.50× basis  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d terna   19.6%  4:49 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   72.2%  2:45 PM          $0.00391/ns · 1.15× basis  RUNNING   
+5aks_d0_to_d terna   14.2%  8:10 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   21.3%  4:50 PM          $0.00512/ns · 1.50× basis  RUNNING   
 5aks_d0_to_d terna   24.9%  —                —                          NO HOST   no live host — checkpoint at warmup/896 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
