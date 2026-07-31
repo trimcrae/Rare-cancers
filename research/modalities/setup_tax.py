@@ -309,13 +309,24 @@ def commit_object_census(uid, bucket, prefix, s3, max_keys=4000):
     base = tv.commit_prefix(bucket, uid, prefix)
     key = base.split("://", 1)[-1].split("/", 1)[-1].rstrip("/") if "://" in base else base.rstrip("/")
     per_gen = collections.defaultdict(int)
+    # ⚠ WHICH FILE IS GROWING DECIDES THE WHOLE DESIGN. The pair is an openmmtools ANALYSIS file (.nc —
+    # energies every iteration, plus positions every `positions_write_frequency`) and a CHECKPOINT file
+    # (.chk — full coordinates, written every checkpoint_interval). They have completely different growth
+    # laws, and "699.5 MiB per commit" said nothing about which one it was. An incremental-commit design
+    # aimed at the wrong file would be wasted work.
+    per_ext = collections.defaultdict(int)
+    per_ext_max = collections.defaultdict(int)
     try:
         for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=key + "/"):
             for o in page.get("Contents") or []:
                 k = o["Key"]
                 if k.endswith("COMMITTED.json"):
                     continue
-                per_gen["/".join(k.split("/")[:-1])] += int(o.get("Size") or 0)
+                _sz = int(o.get("Size") or 0)
+                _ext = k.rsplit(".", 1)[-1] if "." in k.rsplit("/", 1)[-1] else "(none)"
+                per_ext[_ext] += _sz
+                per_ext_max[_ext] = max(per_ext_max[_ext], _sz)
+                per_gen["/".join(k.split("/")[:-1])] += _sz
     except Exception as e:  # noqa: BLE001
         return None, 0, f"commit store unreadable ({type(e).__name__}: {e})"
     if not per_gen:
@@ -330,9 +341,13 @@ def commit_object_census(uid, bucket, prefix, s3, max_keys=4000):
     if len(by_iter) >= 2:
         growth = {"first_iter": by_iter[0][0], "first_mib": round(by_iter[0][1] / 1048576.0, 1),
                   "last_iter": by_iter[-1][0], "last_mib": round(by_iter[-1][1] / 1048576.0, 1)}
-    return st.median(vals), len(vals), {"n": len(vals), "prefix": key, "growth": growth,
-                                        "min_mib": round(vals[0] / 1048576.0, 1),
-                                        "max_mib": round(vals[-1] / 1048576.0, 1)}
+    return st.median(vals), len(vals), {
+        "n": len(vals), "prefix": key, "growth": growth,
+        "min_mib": round(vals[0] / 1048576.0, 1),
+        "max_mib": round(vals[-1] / 1048576.0, 1),
+        "by_extension_total_mib": {k: round(v / 1048576.0, 1) for k, v in sorted(per_ext.items())},
+        "by_extension_largest_single_mib": {k: round(v / 1048576.0, 1)
+                                            for k, v in sorted(per_ext_max.items())}}
 
 
 def measure(mode="5aks", bucket=None, prefix=None, limit=6):
@@ -438,6 +453,10 @@ def render(doc):
                 L.append("     %-26s iter %d = %.1f MiB  ->  iter %d = %.1f MiB"
                          % (u.split("__")[-1][:26], g["first_iter"], g["first_mib"],
                             g["last_iter"], g["last_mib"]))
+            cs = d.get("commit_store")
+            if isinstance(cs, dict) and cs.get("by_extension_largest_single_mib"):
+                L.append("       largest single object by type: %s"
+                         % cs["by_extension_largest_single_mib"])
     cc = doc.get("commit_cost") or {}
     if cc.get("n_observed"):
         L.append("")
