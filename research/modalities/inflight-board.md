@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 4:05 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 4:06 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                                                                 STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 7:51 AM Aug 1      48.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid]                                             RUNNING   
-5aks_d0_to_d ternary nr4a3 r0 8:53 PM            85.6%  RTX 3090 $0.00554/ns · 1.62× basis [bid]                                             RUNNING   
+5aks_d0_to_d ternary nr4a3 r1 7:52 AM Aug 1      48.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid]                                             STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 1 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary nr4a3 r0 8:54 PM            85.6%  RTX 3090 $0.00554/ns · 1.62× basis [bid]                                             RUNNING   
 5aks_d0_to_d ternary nr4a1 r1 —                  33.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid]                                            STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d ternary nr4a1 r0 1:28 PM Aug 1      30.2%  RTX 3090 $0.00891/ns · 2.61× basis [bid] ⚠ PAYING OVER THE 1.92× LINE ($0.006539/ns) STARTING  fresh host — the marker and log below belong to the previous attempt
+5aks_d0_to_d ternary nr4a1 r0 —                      —  RTX 3090 $0.00891/ns · 2.61× basis [bid] ⚠ PAYING OVER THE 1.92× LINE ($0.006539/ns) STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ---- END TVAST-BOARD ----
 ```
