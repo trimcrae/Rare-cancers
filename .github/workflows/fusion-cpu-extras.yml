@@ -785,8 +785,25 @@ jobs:
             channels:
               - conda-forge
       - name: Build the full solvated system from the real co-fold (CPU, no MD; NAGL charges — no sqm)
+        if: ${{ github.event.inputs.vast_selector == '' }}
         working-directory: research/modalities
         run: python nrv04_build_smoke.py
+      # ★ STAGE-BY-STAGE SINGLE-POINT PE — the diagnostic that replaced the retired inter-chain-distance gate.
+      # Shares this job because it needs exactly the same thing: the MD env, AWS creds and a CPU. Selected by
+      # `vast_selector` (comma-sep system:seed pairs) rather than a new input — this workflow is at the 25-input
+      # cap, and the selector is already the multi-purpose one. Blank selector keeps the original smoke.
+      # $0: no GPU, no MD, no minimisation, one energy evaluation per construction stage.
+      - name: Where does the energy go non-physical? (CPU single-point PE per build stage)
+        if: ${{ github.event.inputs.vast_selector != '' }}
+        working-directory: research/modalities
+        run: python nrv04_pe_stage_probe.py --units "${{ github.event.inputs.vast_selector }}"
+      - name: Upload the PE stage probe
+        if: ${{ always() && github.event.inputs.vast_selector != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: nrv04-pe-stage-probe
+          path: research/modalities/nrv04-pe-stage-probe.json
+          if-no-files-found: ignore
 
   nrv04_input_audit:
     # LANE 8 / prereg AMENDMENT 1 criterion A1. The amendment records A1 as failing and concludes Boltz seats

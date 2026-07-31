@@ -157,8 +157,16 @@ def _residue_at_frozen_index(pdb_text, target_chain, cov_resnum, full_len=NR4A1_
     return {"construct_index": idx, "residue": None}
 
 
-def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mutation, target_chain=None):
-    """Build a solvated OpenMM system for one leg. Returns (simulation, meta). CI/Vast only."""
+def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mutation, target_chain=None,
+                 stage_probe=None):
+    """Build a solvated OpenMM system for one leg. Returns (simulation, meta). CI/Vast only.
+
+    `stage_probe(name, topology, positions, sysgen)` is called after each construction stage when supplied.
+    It exists so a diagnostic can measure THE PRODUCTION PATH rather than a re-implementation of it: the
+    2026-07-31 seed_3 investigation needs the single-point energy after PDBFixer, after the ligand is added
+    and after solvation, and a probe that rebuilt those stages itself could diverge from this function and
+    then answer about the wrong pipeline. Ignored (and costs nothing) when None, which is every real leg.
+    """
     import numpy as np  # noqa: F401
     from openmm import app, unit, HarmonicBondForce, HarmonicAngleForce, Platform
     from openff.toolkit import Molecule
@@ -301,12 +309,18 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     )
 
     modeller = app.Modeller(fixed_topology, fixed_positions)   # PDBFixer already added protein H + capped termini
+    if stage_probe:
+        stage_probe("protein_after_pdbfixer", modeller.topology, modeller.positions, sysgen)
     lig_top = lig.to_topology().to_openmm()
     lig_pos = lig.conformers[0].to_openmm()
     modeller.add(lig_top, lig_pos)
+    if stage_probe:
+        stage_probe("protein_plus_ligand", modeller.topology, modeller.positions, sysgen)
     modeller.addSolvent(sysgen.forcefield, model=MD.WATER_MODEL,
                         padding=MD.SOLVENT_PADDING_NM * unit.nanometer,
                         ionicStrength=MD.IONIC_STRENGTH_M * unit.molar)
+    if stage_probe:
+        stage_probe("solvated", modeller.topology, modeller.positions, sysgen)
 
     system = sysgen.create_system(modeller.topology)
 
