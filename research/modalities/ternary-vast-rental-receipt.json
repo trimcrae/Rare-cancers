@@ -1,26 +1,21 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-31T19:53:12Z",
+  "utc": "2026-07-31T19:59:31Z",
   "mode": "5aks",
-  "n_requested": 0,
+  "n_requested": 1,
   "n_rented": 0,
-  "requested": [],
+  "requested": [
+    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
+  ],
   "rented": [],
-  "failed": [],
-  "already_live": [
+  "failed": [
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
-      "instance": 46428144,
-      "machine_id": 30113,
-      "gpu": "RTX 4090",
-      "dph_total_usd_h": 0.17846666666666666,
-      "dph_base_usd_h": 0.1618,
-      "cur_state": "running",
-      "actual_status": "running",
-      "usd_per_ns": 0.005327,
-      "x_basis": 1.561,
-      "over_buy_line": false
-    },
+      "error": "CapacityRefusedAtStart: vast: 2 host(s) refused the start with resources_unavailable (machines 34345, 33622) and no remaining offer of 117 clears this spec's ceiling. Nothing is running, $0 is billing.",
+      "kind": "capacity"
+    }
+  ],
+  "already_live": [
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
       "instance": 46433544,
@@ -63,10 +58,6 @@
   ],
   "skipped": [
     {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
-      "why": "running"
-    },
-    {
       "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
       "why": "running"
     },
@@ -78,6 +69,5 @@
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
       "why": "running"
     }
-  ],
-  "note": "every unit for this mode is already done or running \u2014 no rental attempted (5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks: running, 5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks: running, 5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks: running, 5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks: running)"
+  ]
 }
