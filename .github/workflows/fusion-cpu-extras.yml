@@ -1294,6 +1294,43 @@ jobs:
             research/modalities/nrv04-retro-price-ledger.json
           if-no-files-found: ignore
 
+      # ★★ THE IN-FLIGHT BOARD, COMMITTED — because an artifact on a run that expires is not a board anyone
+      # can glance at. Two files, and the split is the whole write-race resolution:
+      #   * `inflight-board.d/nrv04-retro.json` is THIS LANE'S FRAGMENT and the ONLY board file this job may
+      #     write. It cannot erase the ternary or fan-out rows, because it does not contain them.
+      #   * `inflight-board-all.md` is the merged all-lane board. It is DERIVED in full from every lane's
+      #     fragment, so it is a cache and never a home: whichever lane regenerates it last rebuilds every
+      #     section from whatever fragments exist, and a concurrent overwrite loses nothing.
+      # `inflight-board.md` is deliberately NOT touched here — it has a single writer (the ternary lane's
+      # collect) which rewrites it wholesale, and a merged file at that path would be truncated to one lane
+      # every few minutes. See `inflight_board.__doc__`.
+      # `git add` each path INDEPENDENTLY: `git add A B` fails atomically if either matches nothing, which
+      # would stage neither and report "nothing to commit" while swallowing it.
+      - name: Commit the in-flight board fragment and the merged all-lane board
+        if: ${{ always() && github.event.inputs.vast_launch_mode == 'retro_collect' }}
+        run: |
+          set -e
+          # Re-merge unconditionally first: pure file reading, no creds, no provider call. If the collect
+          # above died before publishing, this still re-grades every lane's section for staleness rather
+          # than leaving a board dated at the previous tick with no sign of which lane went quiet.
+          python3 research/modalities/inflight_board.py --write
+          git config user.name "Claude"
+          git config user.email "noreply@anthropic.com"
+          staged=0
+          for f in research/modalities/inflight-board.d/nrv04-retro.json \
+                   research/modalities/inflight-board-all.md; do
+            if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
+          done
+          [ "$staged" = 1 ] || { echo "no board files to stage"; exit 0; }
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "NR-V04 retro: in-flight board fragment (CI)"
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${{ github.ref_name }}" \
+              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the in-flight board fragment"
+
   # STEP 1 FAN-OUT (RUNG 4) — the cmpd19 congeneric RBFE map, 8-wide on Vast 4090.
   # `plan` and `precheck` are free and spend nothing; `stage` is free CPU on this runner; `launch` is a DRY
   # print of exactly what it would rent; only `launch_confirm` rents instances. `collect` also reaps finished /

@@ -72,6 +72,11 @@ import congeneric_fanout as _cf  # noqa: E402  place_units / unit_usd_per_ns_cei
 # only the evidence its own artifacts carry (`_idle_evidence`). One policy, two lanes; that is the whole
 # reason the step 1 pipeline now emits the ternary lane's signal SHAPES rather than inventing its own.
 import vast_idle_guard as _vig  # noqa: E402
+# The IN-FLIGHT BOARD. This lane does not render a table of its own: it hands the facts its progress check
+# ALREADY reads to the one renderer every lane shares, which is what stopped the board drifting in shape and
+# losing columns. See `inflight_board.__doc__` for why the merged board is a separate file from the ternary
+# lane's, and why a lane may never write another lane's rows.
+import inflight_board as _ifb  # noqa: E402
 from gpu_backend import JobSpec, ResourceSpec, _vast_request, board_read_cache, get_backend  # noqa: E402
 
 REPO = "https://github.com/trimcrae/Rare-cancers"
@@ -289,6 +294,16 @@ mark done
 """
 
 
+def unit_label(unit, idx):
+    """The Vast label this unit's host carries. PURE, and the home the submit path uses.
+
+    Spelled out at nine call sites before this existed, which is eight opportunities for the reap, the
+    progress census and the board to disagree about which box belongs to which edge — and a monitor that
+    attributes a reading to the wrong rental is the silent-success class this lane's guards exist to stop.
+    """
+    return f"{LABEL_PREFIX}{idx:02d}-{unit['ligand_b']}"[:64]
+
+
 def build_jobspec(unit, branch, bucket, idx, exclude_machine_ids=()):
     """JobSpec for ONE fan-out unit (both alchemical legs + reduce on a single rented 4090).
 
@@ -297,7 +312,7 @@ def build_jobspec(unit, branch, bucket, idx, exclude_machine_ids=()):
     on the single cheapest one and contending for its GPU), and mutating a shared dataclass would make every
     already-built spec change under it."""
     import dataclasses
-    label = f"{LABEL_PREFIX}{idx:02d}-{unit['ligand_b']}"[:64]
+    label = unit_label(unit, idx)
     # The per-unit price ceiling travels WITH the spec, so the offer the launcher actually rents is bound by
     # the same number `market_gate` cleared on — see ResourceSpec.max_usd_per_ns. Without this the gate
     # prices one board and `submit` buys off another.
@@ -353,6 +368,24 @@ def _get_json(s3, bucket, key):
 def _get_text(s3, bucket, key):
     try:
         return s3.get_object(Bucket=bucket, Key=key)["Body"].read().decode("utf-8", "replace").strip()
+    except Exception:  # noqa: BLE001
+        return None
+
+
+# The board's denominator lives at the TOP of a leg log and those logs are megabytes of sampler chatter, so
+# it is read with a RANGE rather than a full GET. Not an optimisation: `mode_monitor` runs on every tick with
+# up to 19 units, and pulling whole leg logs to find one startup line would make the progress check — the one
+# step §6 says must be the LAST thing a tick loses — the slowest and most failure-prone part of it.
+_LOG_HEAD_BYTES = int(os.environ.get("FANOUT_LOG_HEAD_BYTES", "65536"))
+
+
+def _get_text_head(s3, bucket, key, nbytes=None):
+    """The first `nbytes` of an object as text, or None. A missing object and an unreadable one are both None
+    — the caller renders `—` and says which fact is missing, never a default."""
+    try:
+        body = s3.get_object(Bucket=bucket, Key=key,
+                             Range=f"bytes=0-{int(nbytes or _LOG_HEAD_BYTES) - 1}")["Body"].read()
+        return body.decode("utf-8", "replace")
     except Exception:  # noqa: BLE001
         return None
 
@@ -2921,6 +2954,236 @@ def mode_launch():
     _write_launch_readout()
 
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE IN-FLIGHT BOARD — this lane's rows, handed to the renderer every lane shares
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ⚠ NOTHING HERE RENDERS A TABLE. `inflight_board` owns the columns, the `—` discipline and the stall rule;
+# this block only supplies the facts `mode_monitor` has already read. Building a second table here is the
+# defect `inflight_board.__doc__` was written to end.
+#
+# ★ THE BOARD KEEPS ITS OWN POLL CENSUS, AND IT MUST. `_progress_prev.json` is OVERWRITTEN by this very
+# function as its last act, so anything reading it back compares a pass against itself — the trap
+# `_idle_evidence` documents. The board's counters live under their own key, written after they are read.
+_BOARD_PREV_KEY = f"{RESULT_PREFIX}/_board_prev.json"
+
+# The unit's four stages, in execution order. `committed_progress` already ranks them this way (complex
+# before solvent, warmup before production) and the scalar's `detail` string names the current one, so this
+# is the same ordering read back rather than a second opinion about it.
+_BOARD_STAGES = (("complex", "warmup"), ("complex", "production"),
+                 ("solvent", "warmup"), ("solvent", "production"))
+
+
+def board_targets(s3, bucket, uid):
+    """({leg: (warmup_target, prod_target)}, source_note) from THIS unit's own driver logs. Never typed.
+
+    ⛔ WHERE THE DENOMINATOR ACTUALLY LIVES, AND WHY IT IS OFTEN ABSENT. `rbfe_spot_driver` prints
+    `warmup_target=N … prod_target=M` at startup, computed from OpenFE settings this process has no MD stack
+    to evaluate — so it must be PARSED, never recomputed (the same rule the ternary board follows). On this
+    lane the engine's stdout goes to `/tmp/<leg>.log` and is uploaded to S3 only when the leg ENDS
+    (`_LEG` captures `rc` and then always ships the log). So a unit on its FIRST leg legitimately has no
+    target anywhere durable, and the honest board cell is `—` with that stated — not a number lifted from
+    another edge, whose per-edge timestep (congeneric-edge-timestep-table.json: 2 fs vs 4 fs) can double the
+    iteration count and would make the percentage confidently wrong.
+
+    ★ WITHIN ONE UNIT the two legs DO share a target: the driver derives it from the protocol's equilibration
+    and production lengths and the edge's timestep, none of which is leg-specific. So a landed complex log
+    supplies the solvent leg's denominator too, and the row says that is where it came from.
+    """
+    found = {}
+    for leg in ("complex", "solvent"):
+        txt = _get_text_head(s3, bucket, f"{RESULT_PREFIX}/{uid}/{leg}.log")
+        tg = _ifb.parse_targets(txt) if txt else None
+        if tg:
+            found[leg] = tg
+    if not found:
+        return {}, None
+    src = sorted(found)[0]
+    return ({leg: found.get(leg, found[src]) for leg in ("complex", "solvent")},
+            src if len(found) < 2 else None)
+
+
+def board_stage_plan(targets_by_leg):
+    """[(stage_key, target), …] over the whole unit, or None when the denominator is unknown. PURE."""
+    if not targets_by_leg:
+        return None
+    out = []
+    for leg, phase in _BOARD_STAGES:
+        tg = targets_by_leg.get(leg)
+        if not tg:
+            return None
+        out.append((f"{leg}/{phase}", tg[0] if phase == "warmup" else tg[1]))
+    return out
+
+
+def board_stage_and_iter(detail):
+    """('complex/production', 1200) from `committed_progress`'s detail string, or (None, 0). PURE."""
+    if not detail or "@" not in detail:
+        return None, 0
+    stage, _, it = detail.partition("@")
+    try:
+        return stage, int(it)
+    except ValueError:
+        return stage, 0
+
+
+def board_price_cell(inst, hold_doc):
+    """The `$/ns` cell for one unit — PAYING when a host is billing, REFUSED when the gate declined.
+
+    ★★ THE TWO MUST NEVER RENDER ALIKE (CLAUDE.md §1, trimcrae 2026-07-27: *"the $/ns column still shows
+    several rows over 1.5×. Why? Are we not stopping those runs?"*). A unit with a live host is money going
+    out at that host's billed rate. A unit with NO host on a tick whose recorded placement decision was a
+    PRICE HOLD is the opposite outcome of the same guard: `$0` spent, and the multiple on the row is what we
+    DECLINED. `inflight_usd_per_ns` owns both glyphs; this only decides which of the two facts is true here,
+    from the artifact that already recorded it (`step1-fanout-market-hold.json`).
+    """
+    if inst is not None:
+        return _ifb.usd_per_ns_cell(inst.get("gpu_name"), inst.get("dph_total"))
+    if not hold_doc or not hold_doc.get("held"):
+        return None
+    offers = hold_doc.get("offers_priced") or []
+    if not offers:
+        return None
+    best = offers[0]
+    # The hold artifact records $/ns; `inflight_usd_per_ns.row` prices from $/hr, so the rate is converted
+    # back through the SAME throughput table that produced it — no second arithmetic, and the round trip is
+    # exact. ⚠ A ZERO ns/h WOULD MAKE THAT CONVERSION SILENTLY PRODUCE `$0.00000/ns · 0.00× basis`, which is
+    # a fabricated figure wearing a refusal glyph. An unbenched card is unpriceable, so the cell is `—`.
+    nsh = _vcm_ns_per_hour(best.get("gpu"))
+    if not nsh or best.get("usd_per_ns") is None:
+        return None
+    return _ifb.usd_per_ns_cell(best.get("gpu"), float(best["usd_per_ns"]) * nsh,
+                                stance="refused", rate_basis="offer")
+
+
+def _vcm_ns_per_hour(gpu):
+    """ns/h for a card, from the ONE throughput table. 0 when unbenched (the caller then renders `—`)."""
+    try:
+        import vast_cost_model as _vcm
+        return _vcm.ns_per_hour(gpu) or 0.0
+    except Exception:  # noqa: BLE001
+        return 0.0
+
+
+MARKET_HOLD_READOUT = "step1-fanout-market-hold.json"
+
+
+def read_market_hold(path=None):
+    """The tick's last recorded placement decision, or None. Its ONE home is the artifact `_write_market_hold`
+    already commits, so the board and the launch readout can never disagree about whether price held."""
+    try:
+        with open(path or MARKET_HOLD_READOUT) as fh:
+            return json.load(fh)
+    except Exception:  # noqa: BLE001 — no record is not a hold; the $/ns cell is then `—`
+        return None
+
+
+def board_rows(s3, bucket, units, blocked, done_ids, obs, live, unreadable, prev_state, hold_doc=None):
+    """This lane's rows for the in-flight board, plus the census to persist. Returns (rows, new_state).
+
+    ⚠ A UNIT IS NEVER DROPPED FOR BEING UNMEASURABLE. An unknown `%` or ETA renders `—` with the WHY naming
+    which fact was missing; omitting the row would make a unit we cannot measure look like one that does not
+    exist. Only FINISHED and permanently-BLOCKED units are absent, and both are counted in the section note
+    so the reader can see the denominator.
+    """
+    idx = {u["unit_id"]: i for i, u in enumerate(units)}
+    by_label = {}
+    for i in (live or ()):
+        by_label[i.get("label") or ""] = i
+    hold_doc = read_market_hold() if hold_doc is None else hold_doc
+    census, rows = {}, []
+    for u in units:
+        uid = u["unit_id"]
+        if uid in done_ids or uid in (blocked or {}):
+            continue
+        o = (obs or {}).get(uid) or {}
+        stage, it = board_stage_and_iter(o.get("detail"))
+        census[uid] = {"stage": stage, "iteration": (None if o.get("unreadable") else it),
+                       "utc": _utcnow()}
+        rows.append({"unit": u, "idx": idx[uid], "obs": o, "stage": stage, "iteration": it})
+    new_state = _ifb.advance_counters(prev_state, census)
+    out = []
+    for r in rows:
+        u, uid, o = r["unit"], r["unit"]["unit_id"], r["obs"]
+        inst = by_label.get(unit_label(u, r["idx"]))
+        try:
+            targets, borrowed = board_targets(s3, bucket, uid)
+            stages = board_stage_plan(targets)
+            pct = _ifb.sequential_pct(stages, r["stage"], r["iteration"]) if stages else None
+            rate = _ifb.measured_rate_per_h((prev_state or {}).get(uid), census.get(uid))
+            remaining = _ifb.sequential_remaining(stages, r["stage"], r["iteration"]) if stages else None
+            eta_s = (remaining / rate * 3600.0) if (remaining is not None and rate) else None
+            # TWO reasons, kept apart on purpose, because conflating them is how a STALLED row ends up
+            # wearing an explanation that denies it (the `pre_first_commit` and `guard_shielding` defects
+            # the ternary board hit in production, one lane over):
+            #   cell_why  — why a `%` or an ETA cell is `—`. True of a perfectly healthy leg.
+            #   state_why — why this leg is NOT RUNNING. The only thing `state_of` may be handed as the
+            #               justification for NO HOST / UNKNOWN / STALLED.
+            cell_why = ""
+            if o.get("unreadable"):
+                cell_why = "commit store unlistable this tick — skipped, NOT counted as zero progress"
+            elif stages is None:
+                cell_why = ("no target yet: the driver prints `warmup_target=`/`prod_target=` into "
+                            "/tmp/<leg>.log on the host and this lane uploads that log only when a leg ENDS, "
+                            "so % and ETA are unknowable until this unit's first leg lands")
+            elif rate is None:
+                cell_why = ("no measured iteration rate across two board polls yet — ETA unknowable, "
+                            "progress is real (committed %s)" % (o.get("detail") or "none"))
+            elif borrowed:
+                cell_why = ("targets from this unit's %s-leg driver log — both legs share them (same "
+                            "protocol lengths, same per-edge timestep)" % borrowed)
+            age_min = _age_min(inst) if inst is not None else None
+            cold = age_min is not None and age_min < _vig.MIN_INSTANCE_AGE_MIN
+            pre_first = (r["stage"] is None and age_min is not None
+                         and age_min < _vig.SETUP_GRACE_MIN)
+            no_adv = int((new_state.get(uid) or {}).get("no_advance_polls") or 0)
+            # ADVANCEMENT, from two independent positive signals and never from the absence of one: the
+            # census actually moved since the previous poll, or the guard's own GPU-busy rule says this box
+            # is doing work. The second is load-bearing here — this lane commits every 20/40 iterations
+            # (~5-10 min) while a supervising agent may poll every 3, so "no advance THIS poll" is the
+            # ordinary state of a healthy leg. See `inflight_board.gpu_is_busy`.
+            advanced = (_ifb.advanced_since_last_poll((prev_state or {}).get(uid), census.get(uid))
+                        or _ifb.gpu_is_busy(_gpu_util(inst) if inst is not None else None))
+            if inst is None and unreadable:
+                state_why = ("host state UNKNOWN — the Vast instance list did not read this tick (%s), so "
+                             "this is NOT a host death; the committed checkpoint (%s) is intact in S3"
+                             % (unreadable, o.get("detail") or "none"))
+            elif inst is None:
+                state_why = ("no live host — the committed checkpoint (%s) is intact in S3; the next tick's "
+                             "gate re-prices this unit" % (o.get("detail") or "none"))
+            elif no_adv >= _ifb.STALL_POLLS:
+                # `None` is "the host is not telling us", NOT an idle GPU — `_gpu_util`'s own rule, and the
+                # two must not render alike because only the second is evidence of anything.
+                _u = _gpu_util(inst)
+                state_why = ("%d consecutive board polls with no committed advance; phase %s, GPU %s"
+                             % (no_adv, o.get("phase") or "none",
+                                "utilisation not reported by the host" if _u is None else "%.1f%%" % _u))
+            else:
+                state_why = cell_why
+            state, swhy = _ifb.state_of(
+                inst is not None, advanced, no_adv, bool(cold),
+                why_not_running=state_why or None, pre_first_commit=bool(pre_first),
+                host_list_readable=(not unreadable or inst is not None))
+            price = board_price_cell(inst, hold_doc)
+            eta_out = None if inst is None else eta_s
+            out.append({"name": _short_unit_name(u), "pct": pct, "eta_s": eta_out, "usd_per_ns": price,
+                        "state": state,
+                        "why": swhy or (cell_why if (pct is None or eta_out is None) else "")})
+        except Exception as e:  # noqa: BLE001
+            # ⚠ PER ROW, NOT PER TABLE. A single row that cannot be built must not take the board with it —
+            # the one tick where a leg genuinely misbehaves is the tick the board must still render.
+            out.append({"name": _short_unit_name(u), "pct": None, "eta_s": None, "usd_per_ns": None,
+                        "state": _ifb.UNKNOWN,
+                        "why": "row could not be built: %s: %s" % (type(e).__name__, e)})
+    return out, new_state
+
+
+def _short_unit_name(unit):
+    """A brief label for a fan-out unit: the ligand being perturbed TO, which is what names the edge."""
+    b = str(unit.get("ligand_b") or unit.get("unit_id") or "?")
+    rep = unit.get("replicate")
+    return f"{b} r{rep}" if rep else b
+
+
 def mode_monitor():
     """Tight-cadence PROGRESS check (not a liveness ping): per-unit phase + per-instance state, one line each."""
     bucket, s3 = _require_bucket(), _s3()
@@ -3020,9 +3283,14 @@ def mode_monitor():
     # sampler, and the one a phase marker structurally cannot answer.
     prev = (_get_json(s3, bucket, f"{RESULT_PREFIX}/_progress_prev.json") or {})
     cur, n_done = {}, 0
+    # What the IN-FLIGHT BOARD needs, captured from the reads this loop already performs rather than re-read
+    # afterwards: a second pass over S3 would be a second set of observations, free to disagree with the
+    # census printed above it (CLAUDE.md rule 1).
+    board_obs, board_done = {}, set()
     for u in units:
         ddg = _get_json(s3, bucket, result_key(u, RESULT_PREFIX))
         if ddg:
+            board_done.add(u["unit_id"])
             n_done += 1
             print(f"[s1f]   {u['unit_id']:56s} DONE ddG={ddg.get('ddg_bind_kcal')} "
                   f"± {ddg.get('ddg_bind_unc_kcal')}")
@@ -3040,6 +3308,8 @@ def mode_monitor():
         if scalar >= 0:
             cur[u["unit_id"]] = {"scalar": scalar, "detail": detail, "utc": _utcnow()}
         rate = _iter_rate(prev.get(u["unit_id"]), scalar)
+        board_obs[u["unit_id"]] = {"phase": phase, "legs": legs, "detail": detail,
+                                   "unreadable": scalar < 0}
         if scalar < 0:
             delta = "UNREADABLE (skipped, NOT counted as zero)"
         elif was is None:
@@ -3462,6 +3732,37 @@ def mode_monitor():
     with open("step1-fanout-progress.json", "w") as f:
         json.dump(snapshot, f, indent=2)
     print("[s1f] wrote step1-fanout-progress.json")
+
+    # ── THE IN-FLIGHT BOARD ────────────────────────────────────────────────────────────────────────────
+    # One row per unit, in the SAME renderer the ternary lane uses. Published as this lane's own fragment;
+    # the merged all-lane board is then regenerated from every lane's fragment. This lane never writes
+    # another lane's rows and never writes the ternary lane's file, which is the whole write-race
+    # resolution — see `inflight_board.__doc__`.
+    #
+    # LAST, and inside a catch, on purpose: a board is a REPORT of the supervision this function performs,
+    # and a reporting failure must never be able to take down the census, the guard or the reap above it.
+    try:
+        _prev_board = _get_json(s3, bucket, _BOARD_PREV_KEY) or {}
+        _rows, _new_board_state = board_rows(
+            s3, bucket, units, blocked, board_done, board_obs, live, unreadable, _prev_board)
+        _note = ("%d of %d unit(s) landed; %d permanently excluded (rows below are the rest)."
+                 % (n_done, len(units), len(blocked or {})))
+        _frag, _board = _ifb.publish(_ifb.FANOUT, _rows, note=_note)
+        # The counters are saved AFTER they are used, so "no advance since last time" compares this tick
+        # against the previous TICK and never against something this tick just wrote.
+        try:
+            s3.put_object(Bucket=bucket, Key=_BOARD_PREV_KEY,
+                          Body=json.dumps(_new_board_state, indent=2).encode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[s1f] board census save failed: {e}")
+        print(f"[s1f] wrote {os.path.basename(_frag)} + {os.path.basename(_board)}")
+        print()
+        print("---- S1F-BOARD ----")
+        print(_ifb.render(_rows), end="")
+        print("---- END S1F-BOARD ----")
+    except Exception as e:  # noqa: BLE001
+        print(f"[s1f] in-flight board not published ({type(e).__name__}: {e}) — the census above is "
+              f"unaffected; the merged board will render this lane STALE rather than dropping it.")
 
 
 def mode_collect():

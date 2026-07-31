@@ -43,3 +43,22 @@ def _isolate_ternary_rental_receipt():
         os.environ["TVAST_RECEIPT_PATH"] = os.path.join(d, "ternary-vast-rental-receipt.json")
         yield
         os.environ.pop("TVAST_RECEIPT_PATH", None)
+
+
+@pytest.fixture(autouse=True, scope="session")
+def _isolate_inflight_board():
+    """★ NOR MAY A TEST WRITE AN IN-FLIGHT BOARD INTO THE WORKING TREE (2026-07-31) — the same rule as the
+    receipt above, for the same reason, found the same way.
+
+    `congeneric_fanout_vast.mode_monitor` and `nrv04_vast_launch.retro_collect` publish their board fragment
+    as the last act of a progress check, and `tests/test_monitor_survives_unreadable_board.py` drives that
+    function against a MOCKED object store. Without this redirect the suite left
+    `research/modalities/inflight-board.d/step1-fanout.json` in the tree, carrying invented unit ids and a
+    fabricated `0 of 19 landed` note — a spend-reporting artifact assembled entirely from a mock, one
+    `git add -A` away from a branch. Redirected here rather than guarded at each call site, so a THIRD lane
+    wired to the board tomorrow inherits the protection instead of having to remember it.
+    """
+    with tempfile.TemporaryDirectory() as d:
+        os.environ["INFLIGHT_BOARD_DIR"] = d
+        yield
+        os.environ.pop("INFLIGHT_BOARD_DIR", None)

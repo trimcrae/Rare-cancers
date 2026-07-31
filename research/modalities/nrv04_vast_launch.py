@@ -1748,6 +1748,173 @@ def retro_reap(bucket, autostop=None):
 
 RETRO_COLLECT_READOUT = "nrv04-retro-collect.json"
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE IN-FLIGHT BOARD — this lane's 18 endpoint-MD legs, in the renderer every lane shares
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ⚠ NOTHING HERE RENDERS A TABLE. `inflight_board` owns the columns, the `—` discipline and the stall rule.
+# This lane supplies the facts `retro_collect` already reads; a second table built here is exactly the
+# hand-assembled board `inflight_board.__doc__` exists to end.
+#
+# ★ THE BOARD KEEPS ITS OWN POLL CENSUS. Two consecutive checks with no advance is CLAUDE.md §4's stall rule
+# and it needs a memory that survives the runner, so the counters live in S3 beside this lane's results —
+# under the BOARD's own key, never inside a file another step overwrites.
+_RETRO_BOARD_PREV_KEY = "_board_prev.json"
+# Bytes of `run.log` read from the END. The driver's frame census is the most recent thing it printed, and
+# these logs grow for hours; a full GET of 18 of them on every collect would make the progress check the
+# slowest part of the tick.
+_RETRO_LOG_TAIL_BYTES = int(os.environ.get("RETRO_LOG_TAIL_BYTES", "65536"))
+
+
+def _utcnow():
+    """The stamp every durable census in this repo carries. One spelling, so two files can be differenced."""
+    import time as _t
+    return _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime())
+
+
+def _inst_gpu_util(inst):
+    """GPU utilisation %, or None. BOTH SPELLINGS: the Vast payload carries the live figure as `gpu_util` on
+    some responses and `cur_gpu_util` on others, and reading only one silently yields None on the other —
+    a guard whose only health signal can go absent is a guard that watches nothing. None is NOT zero."""
+    for k in ("gpu_util", "cur_gpu_util"):
+        v = (inst or {}).get(k)
+        if v is not None:
+            try:
+                return float(v)
+            except (TypeError, ValueError):
+                continue
+    return None
+
+
+def _s3_tail(s3, bucket, key, nbytes=None):
+    """The last `nbytes` of an object as text, or None. Absent and unreadable are BOTH None: the caller then
+    renders `—` and names the missing fact, never a default."""
+    try:
+        body = s3.get_object(Bucket=bucket, Key=key,
+                             Range=f"bytes=-{int(nbytes or _RETRO_LOG_TAIL_BYTES)}")["Body"].read()
+        return body.decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def retro_board_price_cell(inst):
+    """The `$/ns` cell for one endpoint-MD leg. DELIBERATELY UNPRICEABLE IN $/ns, and it says so.
+
+    ⚠ `vast_cost_model.MEASURED_NS_PER_DAY_84K` is "THE ONLY THROUGHPUT TABLE" and it is a table of **84k-atom
+    RBFE** throughput — HREX across 12 windows on the fan-out's hybrid system. These legs are plain endpoint
+    MD on a ~466k-atom assembly, a different workload on a different system: nothing in this repo has measured
+    their ns/h. Running their `$/hr` through the RBFE table would emit a confident-looking `$/ns` describing a
+    calculation nobody benched, which is the substitution `vast_cost_model.card_of` was tightened to prevent
+    one level down ("worse than being unpriceable — an UNKNOWN is visibly absent, a substitution produces a
+    figure nothing downstream can distinguish from a measurement").
+
+    So the cell carries the rate this lane IS paying, which is measured, and refuses the conversion out loud.
+    The lane's price DISCIPLINE is unaffected and lives where it binds: `buy_ceiling_usd_per_ns()` on the spec
+    handed to `submit`, which refuses an offer above the approved $/ns before selection ever sees it.
+    """
+    import inflight_board as ifb
+    if inst is None:
+        return None
+    return ifb.unpriceable_usd_cell(inst.get("dph_total"),
+                                    "endpoint MD, not the 84k-atom RBFE the throughput table benches")
+
+
+def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now=None):
+    """(rows, new_state) for this lane's in-flight board. Finished legs are counted, not rowed.
+
+    ⚠ NO UNIT IS DROPPED FOR BEING UNMEASURABLE — an unknown `%` or ETA renders `—` with the WHY naming which
+    fact is missing. A unit that vanishes reads as a unit that does not exist, which on an 18-leg panel is
+    the difference between "the fan-out is running" and "13 legs are unaccounted for".
+    """
+    import inflight_board as ifb
+    import nrv04_retro_panel as retro
+    import vast_idle_guard as vig
+    import time as _t
+    now = _t.time() if now is None else now
+    by_label = {(i.get("label") or ""): i for i in (live or ())}
+    units = [retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()]
+    census, pending = {}, []
+    for name in units:
+        if name in (have or set()):
+            continue                                    # landed — counted in the note, not rowed
+        log = _s3_tail(s3, bucket, f"{RETRO_RESULT_PREFIX}/{name}/run.log")
+        frames = ifb.parse_md_frames(log) if log else None
+        # The progress SCALAR is the driver's own frame count. `phase.txt` is context around it: a phase
+        # marker says which phase was entered and can sit at `md-running` forever on a wedged box, which is
+        # precisely why it cannot be the thing "did it advance?" is asked of.
+        census[name] = {"stage": "md", "iteration": (frames[0] if frames else None), "utc": _utcnow()}
+        pending.append((name, frames, (phases or {}).get(name)))
+    new_state = ifb.advance_counters(prev_state, census)
+    rows = []
+    for name, frames, phase in pending:
+        inst = by_label.get(name)
+        try:
+            total = frames[1] if frames else None
+            pct = ifb.sequential_pct((("md", total),), "md", frames[0]) if total else None
+            rate = ifb.measured_rate_per_h((prev_state or {}).get(name), census.get(name))
+            remaining = ifb.sequential_remaining((("md", total),), "md", frames[0]) if total else None
+            eta_s = (remaining / rate * 3600.0) if (remaining is not None and rate) else None
+            # TWO reasons, kept apart: `cell_why` explains a `—` cell (true of a healthy leg), `state_why`
+            # justifies a non-RUNNING verdict. Handing the first to `state_of` is how a STALLED row ends up
+            # carrying an explanation that denies the stall — the exact defect that shipped twice on the
+            # ternary board.
+            cell_why = ""
+            if frames is None:
+                cell_why = ("no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log "
+                            "and this leg has not reached its first checkpoint (phase %s)" % (phase or "none"))
+            elif rate is None:
+                cell_why = ("no measured frame rate across two board polls yet — ETA unknowable, progress is "
+                            "real (frame %d/%d)" % (frames[0], frames[1]))
+            try:
+                age_min = max(0.0, (now - float(inst.get("start_date"))) / 60.0) if inst else None
+            except (TypeError, ValueError):
+                age_min = None
+            cold = age_min is not None and age_min < vig.MIN_INSTANCE_AGE_MIN
+            pre_first = frames is None and age_min is not None and age_min < vig.SETUP_GRACE_MIN
+            no_adv = int((new_state.get(name) or {}).get("no_advance_polls") or 0)
+            if inst is None and unreadable:
+                state_why = ("host state UNKNOWN — the Vast instance list did not read this tick (%s), so "
+                             "this is NOT a host death; phase marker %s" % (unreadable, phase or "none"))
+            elif inst is None:
+                state_why = ("no live host — phase marker %s; a re-dispatch resumes this leg from its "
+                             "checkpoint" % (phase or "none"))
+            elif no_adv >= ifb.STALL_POLLS:
+                # `None` is "the host is not telling us", NOT an idle GPU — the two must not render alike,
+                # because only the second is evidence of anything.
+                _u = _inst_gpu_util(inst)
+                state_why = ("%d consecutive board polls with no new frame; phase marker %s, GPU %s"
+                             % (no_adv, phase or "none",
+                                "utilisation not reported by the host" if _u is None else "%.1f%%" % _u))
+            else:
+                state_why = cell_why
+            # ADVANCEMENT, from two independent POSITIVE signals and never from the absence of one: the
+            # driver's own frame census moved since the previous poll, or the guard's GPU-busy rule observes
+            # this box doing work. See `inflight_board.gpu_is_busy` — a low or absent reading never condemns.
+            advanced = (ifb.advanced_since_last_poll((prev_state or {}).get(name), census.get(name))
+                        or ifb.gpu_is_busy(_inst_gpu_util(inst)))
+            state, swhy = ifb.state_of(
+                inst is not None, advanced, no_adv, bool(cold), why_not_running=state_why or None,
+                pre_first_commit=bool(pre_first),
+                host_list_readable=(not unreadable or inst is not None))
+            eta_out = None if inst is None else eta_s
+            rows.append({"name": _retro_short_name(name), "pct": pct, "eta_s": eta_out,
+                         "usd_per_ns": retro_board_price_cell(inst), "state": state,
+                         "why": swhy or (cell_why if (pct is None or eta_out is None) else "")})
+        except Exception as e:  # noqa: BLE001 — per ROW, never per table: one bad leg must not blank the board
+            rows.append({"name": _retro_short_name(name), "pct": None, "eta_s": None, "usd_per_ns": None,
+                         "state": ifb.UNKNOWN,
+                         "why": "row could not be built: %s: %s" % (type(e).__name__, e)})
+    return rows, new_state
+
+
+def _retro_short_name(unit_name):
+    """`nrv04retro-retro_noncov_nr4a2-m1-r0` -> `nr4a2 m1 r0`. The paralogue is what distinguishes the arms."""
+    import nrv04_retro_panel as retro
+    s = str(unit_name or "")
+    if s.startswith(retro.LABEL_PREFIX):
+        s = s[len(retro.LABEL_PREFIX):]
+    return s.replace("retro_noncov_", "").replace("retro_epi_", "epi ").replace("retro_cov_", "cov ") \
+            .replace("-", " ")
+
 
 def persist_retro_collect(out, bucket=None, s3=None, path=None, utc=None):
     """Write the collect readout locally AND durably to S3. Returns the S3 keys written (may be empty).
@@ -1871,6 +2038,51 @@ def retro_collect(bucket, reap=None):
 
     for unit, ph in sorted(phases.items()):          # PROGRESS first: a monitoring check must still print the
         print(f"[retro-phase] {unit}: {ph}", flush=True)   # phase markers even if the schema guard then fires
+
+    # ── THE IN-FLIGHT BOARD ────────────────────────────────────────────────────────────────────────────
+    # One row per pending leg, in the SAME renderer the ternary and fan-out lanes use. Published as THIS
+    # lane's fragment only; the merged all-lane board is then regenerated from every fragment. This lane
+    # never writes another lane's rows, which is the whole write-race resolution (`inflight_board.__doc__`).
+    #
+    # BEFORE the schema guard and the §4f verdict suppression below, and inside a catch: those two paths
+    # `return` early, and a monitoring board that disappears exactly when the science verdict is withheld is
+    # a board that is absent whenever something is wrong. A reporting failure must likewise never suppress
+    # the readout it reports on.
+    try:
+        import inflight_board as _ifb
+        import nrv04_retro_panel as _retro_lane
+        _live, _unreadable = [], None
+        try:
+            _all = _vast_request("GET", "/instances/", os.environ.get("VAST_API_KEY"),
+                                 params={"owner": "me"}).get("instances", [])
+            _live = [i for i in _all if (i.get("label") or "").startswith(_retro_lane.LABEL_PREFIX)]
+        except Exception as e:  # noqa: BLE001 — "could not ask" is NEVER "asked and the answer was none"
+            _unreadable = f"{type(e).__name__}: {e}"[:200]
+        _prev_board = {}
+        try:
+            _prev_board = json.loads(s3.get_object(
+                Bucket=bucket,
+                Key=f"{RETRO_RESULT_PREFIX}/{_RETRO_BOARD_PREV_KEY}")["Body"].read().decode())
+        except Exception:  # noqa: BLE001 — a first tick has no previous census; that is a first census
+            _prev_board = {}
+        _rows, _new_board = retro_board_rows(s3, bucket, phases, have, _live, _unreadable, _prev_board)
+        _n_expected = len(expected)
+        _frag, _board = _ifb.publish(
+            _ifb.NRV04_RETRO, _rows,
+            note="%d of %d authorized R1 leg(s) landed (rows below are the rest)." % (len(have), _n_expected))
+        try:                                          # counters saved AFTER they are read, never before
+            s3.put_object(Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/{_RETRO_BOARD_PREV_KEY}",
+                          Body=json.dumps(_new_board, indent=2).encode())
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro-board] census not saved: {e}", flush=True)
+        print(f"[retro-board] wrote {os.path.basename(_frag)} + {os.path.basename(_board)}", flush=True)
+        print("\n---- NRV04-RETRO-BOARD ----", flush=True)
+        print(_ifb.render(_rows), end="", flush=True)
+        print("---- END NRV04-RETRO-BOARD ----\n", flush=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"[retro-board] in-flight board not published ({type(e).__name__}: {e}) — the phase census "
+              f"above is unaffected; the merged board renders this lane STALE rather than dropping it.",
+              flush=True)
 
     # SCHEMA GUARD. A key-name drift between the driver and this mapping is invisible in the verdict — it
     # arrives as "every leg technically failed", which reads as a physics/stability result. So: if legs landed,

@@ -298,6 +298,16 @@ jobs:
         working-directory: research/modalities
         run: python step1_terminus_evidence.py
 
+      # ★ RE-MERGE THE ALL-LANE BOARD UNCONDITIONALLY, even when the progress check above died. The merge is
+      # pure file reading — no creds, no provider call, no GPU — and it is the ONLY step in this repo that
+      # refreshes `inflight-board-all.md`, because the ternary lane's own collect writes a single-lane file
+      # and is not allowed to merge. Without this, a tick whose monitor failed would leave the board dated
+      # at the previous tick with no indication of which lane went quiet; running it here means every lane's
+      # section is at least re-graded for staleness on every tick that runs at all.
+      - name: Re-merge the all-lane in-flight board ($0, no creds)
+        if: ${{ always() }}
+        run: python3 research/modalities/inflight_board.py --write
+
       - name: Commit the progress readout and any newly-armed watch entries
         if: ${{ always() }}
         run: |
@@ -313,12 +323,21 @@ jobs:
           # Added INDEPENDENTLY: `git add A B` fails atomically if either pathspec matches nothing, so one
           # absent file would stage neither and the step would report "nothing to commit" while swallowing it.
           staged=0
+          # ★ THE IN-FLIGHT BOARD travels with the readout. Two files, and the split is load-bearing:
+          # `inflight-board.d/step1-fanout.json` is THIS LANE'S FRAGMENT — the only board file this workflow
+          # is allowed to write, so it can never erase the ternary or NR-V04 rows. `inflight-board-all.md`
+          # is the merged all-lane board, which is DERIVED in full from every lane's fragment and is
+          # therefore safe for any lane to regenerate: whoever writes it last rebuilds every section, and no
+          # lane's rows live there. See `inflight_board.__doc__` for why the merged board cannot live at
+          # `inflight-board.md` (single-writer path, owned by the ternary lane's collect).
           for f in research/modalities/step1-fanout-progress.json \
                    research/modalities/step1-fanout-map.json \
                    research/modalities/step1-fanout-launch-readout.txt \
                    research/modalities/step1-fanout-market-hold.json \
                    research/modalities/step1-terminus-evidence.txt \
                    research/modalities/relaunch-market-hold.json \
+                   research/modalities/inflight-board.d/step1-fanout.json \
+                   research/modalities/inflight-board-all.md \
                    research/modalities/vast-watch.json; do
             if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
           done
