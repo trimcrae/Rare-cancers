@@ -93,6 +93,7 @@ SETUP_BEGIN = re.compile(r"\[spot-safe\] SETUP begin")
 SETUP_DONE = re.compile(r"\[spot-safe\] SETUP done in (\d+(?:\.\d+)?)s")
 SETUP_MISSING = re.compile(r"\[spot-safe\] SETUP CACHE MISSING at (\S+)")
 SETUP_RESTORE_FAILED = re.compile(r"\[spot-safe\] setup-cache restore failed")
+COMMIT_COST = re.compile(r"\[barrier\] commit (\S+)@(\d+) persisted ([\d.]+) MiB in ([\d.]+)s")
 RESTORE_TOOK = re.compile(r"\[spot-driver\] restore: (\S+) took (\d+(?:\.\d+)?)s")
 RESTORE_LIST = re.compile(r"\[restore\] (\S+): list_committed returned (\d+) generation\(s\) in "
                           r"(\d+(?:\.\d+)?)s")
@@ -159,6 +160,9 @@ def parse_log(text):
     if rates:
         out["s_per_iter"] = round(st.median(rates), 2)
     out["timeline"] = timeline(text)
+    out["commits"] = [{"phase": m.group(1), "iteration": int(m.group(2)),
+                       "mib": float(m.group(3)), "seconds": float(m.group(4))}
+                      for m in COMMIT_COST.finditer(text or "")]
     return out
 
 
@@ -293,6 +297,33 @@ def live_cold_start(uid, bucket, prefix, s3):
     return (t1 - t0).total_seconds(), f"container-start -> {phase}"
 
 
+def commit_object_census(uid, bucket, prefix, s3, max_keys=4000):
+    """(bytes_per_commit_median, n_generations, detail) from the REAL committed objects. $0, LIST only.
+
+    ★ WHY MEASURED RATHER THAN THE INLINE ESTIMATE. `MODES`'s comment prices a checkpoint at "an ~25 MB
+    .nc/.chk pair" and nothing has ever checked it against S3. Halving the warmup interval 64 -> 32 doubles
+    how often that pair is written, so the trade turns on the real figure — and on the WALL TIME, which the
+    bytes alone do not give (see `commit_cost`, which the driver now self-times).
+    """
+    import collections
+    base = tv.commit_prefix(bucket, uid, prefix)
+    key = base.split("://", 1)[-1].split("/", 1)[-1].rstrip("/") if "://" in base else base.rstrip("/")
+    per_gen = collections.defaultdict(int)
+    try:
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=key + "/"):
+            for o in page.get("Contents") or []:
+                k = o["Key"]
+                if k.endswith("COMMITTED.json"):
+                    continue
+                per_gen["/".join(k.split("/")[:-1])] += int(o.get("Size") or 0)
+    except Exception as e:  # noqa: BLE001
+        return None, 0, f"commit store unreadable ({type(e).__name__}: {e})"
+    if not per_gen:
+        return None, 0, f"no committed generations under {key}"
+    vals = sorted(per_gen.values())
+    return st.median(vals), len(vals), f"{len(vals)} generation(s) under {key}"
+
+
 def measure(mode="5aks", bucket=None, prefix=None, limit=6):
     b = bucket or tv.DEFAULT_BUCKET
     p = (prefix or tv.RESULT_PREFIX).rstrip("/")
@@ -313,8 +344,11 @@ def measure(mode="5aks", bucket=None, prefix=None, limit=6):
                 restore_s.append(v)
             rows.append(pr)
         _cs, _cswhy = live_cold_start(uid, b, p, s3)
+        _cb, _cn, _cwhy = commit_object_census(uid, b, p, s3)
         doc["units"][uid] = {"attempts": rows,
                              "live_cold_start_s": _cs, "live_cold_start_span": _cswhy,
+                             "commit_bytes_median": _cb, "n_generations": _cn,
+                             "commit_store": _cwhy,
                              "markers": {k: str(v) for k, v in marker_times(uid, b, p, s3).items()}}
     # THE LINE-ITEM SPLIT, medianed across every attempt that recorded one. Attempts predating the
     # timestamped marks contribute NOTHING rather than a zero — an unmeasured phase is not a fast one.
@@ -332,6 +366,15 @@ def measure(mode="5aks", bucket=None, prefix=None, limit=6):
             if (a.get("timeline") or {}).get("complete"))),
         "median_seconds": {k: round(st.median(v), 1) for k, v in sorted(spans.items())},
         "n_observations": {k: len(v) for k, v in sorted(spans.items())},
+    }
+    _cm = [c for u in doc["units"].values() for a in u["attempts"] for c in (a.get("commits") or [])]
+    doc["commit_cost"] = {
+        "n_observed": len(_cm),
+        "median_mib": (round(st.median([c["mib"] for c in _cm]), 1) if _cm else None),
+        "median_seconds": (round(st.median([c["seconds"] for c in _cm]), 1) if _cm else None),
+        "_reading": ("the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often "
+                     "this is paid, so the interval change is only worth taking while this is small against "
+                     "interval x s/iter (the MD between commits)."),
     }
     doc["totals"] = {
         "n_attempts": sum(len(u["attempts"]) for u in doc["units"].values()),
@@ -367,6 +410,21 @@ def render(doc):
         for u, v, span in sorted(live, key=lambda t: -(t[1] or 0)):
             L.append("   %-52s %6.1f min   %s" % (u.split("__")[-1][:52], v / 60.0, span))
         L.append("   median %.1f min over %d leg(s)" % (st.median([v for _, v, _ in live]) / 60.0, len(live)))
+    sizes = [(u, d["commit_bytes_median"], d.get("n_generations"))
+             for u, d in doc["units"].items() if d.get("commit_bytes_median")]
+    if sizes:
+        L.append("")
+        L.append("COMMITTED CHECKPOINT SIZE (measured from the real S3 objects):")
+        for u, v, n in sorted(sizes, key=lambda t: -(t[1] or 0)):
+            L.append("   %-52s %7.1f MiB/commit  (%d generations)"
+                     % (u.split("__")[-1][:52], v / 1048576.0, n))
+        L.append("   median %.1f MiB per commit"
+                 % (st.median([v for _, v, _ in sizes]) / 1048576.0))
+    cc = doc.get("commit_cost") or {}
+    if cc.get("n_observed"):
+        L.append("")
+        L.append("COMMIT COST (the pause, measured): median %.1f MiB in %.1fs over %d commit(s)"
+                 % (cc["median_mib"], cc["median_seconds"], cc["n_observed"]))
     cs = doc.get("cold_start_split") or {}
     L.append("")
     if cs.get("median_seconds"):

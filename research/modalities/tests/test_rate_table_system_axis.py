@@ -108,7 +108,13 @@ def test_no_live_cadence_changed(mode, leg):
                 ("triangle_smoke", "calib_hi_to_lo2__ternary_vhl"): "8",   # the smoke has its own short interval
                 ("edge_reps", "calib_hi_to_lo__ternary_vhl"): "40",
                 ("edge_reps", "calib_hi_to_lo__binary_vhl"): "64",
-                ("5aks", "5aks_d0_to_d__ternary_nr4a3"): "64"}[(mode, leg)]
+                # ⚠ 32 SINCE 2026-07-31, and this test correctly went red when it changed — which is what it
+                # is for. The change was NOT the rate-table work this module covers: it is the deliberate
+                # halving of the warmup interval (trimcrae-approved) on the finding that the "~28 min cold
+                # start" is really one checkpoint interval of MD, container start -> md-running being
+                # 0.3-0.6 min. Safety lives in `test_ckpt_cadence_is_new_legs_only.py`.
+                # SUPERSEDED, retained: "64".
+                ("5aks", "5aks_d0_to_d__ternary_nr4a3"): "32"}[(mode, leg)]
     assert tv.warmup_ckpt_iters_for(leg, mode) == expected
 
 

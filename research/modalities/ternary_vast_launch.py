@@ -355,7 +355,33 @@ MODES = {
     # rather than a silent fall-through into the crystal stager.
     "5aks": {
         "prod_iters": "", "warmup_iters": "",          # empty = full derived science length
-        "warmup_ckpt_iters": "64", "prod_ckpt_iters": "40",
+        # ★★ WARMUP INTERVAL HALVED 64 -> 32 (trimcrae, 2026-07-31). THE MEASUREMENT THAT JUSTIFIES IT, and
+        # it is not the one this lane spent the day chasing. Container start -> `md-running` is **0.3-0.6
+        # min** on all four legs (phase.txt's own timestamp against the log's `start`) — MD begins within ~30
+        # seconds because all three caches hit. The "~28 min cold start" everyone quoted is TIME TO FIRST
+        # COMMIT, and it is one checkpoint interval of MD:
+        #     nr4a3_r0  64 x 33.5 s/iter = 35.7 min      nr4a1_r0  64 x 18.3 = 19.5 min
+        #     nr4a3_r1  64 x 31.1 s/iter = 33.1 min      nr4a1_r1  64 x 17.8 = 19.0 min
+        # Against a ~1.00 h median session, a 3090 leg at 64 needs ~60 % of a whole rental to bank ANYTHING —
+        # a coin flip whether a rental produces a checkpoint at all. At 32 that is ~30 %.
+        # STRATEGY Appendix A 62 registers the retracted "cold start" reading.
+        #
+        # ⚠ NEW LEGS ONLY, AND THE RUNNING FOUR ARE UNTOUCHED — this is not a policy, it is arithmetic:
+        # `rbfe_spot_checkpoint` fixes the interval when the .nc is CREATED and `effective_interval` prefers
+        # the committed manifest, using the env only as a last-resort fallback for pre-2026-07-21 files. The
+        # four in-flight legs sit on 64-grids (1088/1152/1536 warmup, 1400 production) and keep them.
+        # Pinned by `tests/test_ckpt_cadence_is_new_legs_only.py`, which fails if a running leg's grid could
+        # move. Breaking their resume validation would cost 91 %, 58 %, 43 % and 41 % of four legs.
+        #
+        # ⚠ 32 DIVIDES THE TARGET, WHICH 64 DOES NOT ALWAYS. `warmup_target_iters(4.0, 1.0)` is 1600 and
+        # 1600/32 = 50 exactly. (At 2 fs the target is 800 and 800/64 = 12.5 — the triangle's flat 64 is
+        # ALREADY off-grid, a pre-existing gap pinned as `KNOWN_DIVISIBILITY_GAP`; 32 would close it, and it
+        # is deliberately NOT changed here because that lane is finished.)
+        #
+        # ⚠ NOT the per-arm derivation (`per_arm_ckpt` is unset for this mode and stays unset) — the rate
+        # table's card ratios are not trustworthy enough to cadence off, and that is a separate open item.
+        # SUPERSEDED, retained: `"warmup_ckpt_iters": "64"`.
+        "warmup_ckpt_iters": "32", "prod_ckpt_iters": "40",
         "max_runtime_s": 20 * 3600,
         "template_pdb": "boltz5aks",
         "stage_required": True,

@@ -370,7 +370,17 @@ class _BaseCommitStore:
             _fp, _fp_fields = system_fingerprint()
             manifest = {"schema": 2, "phase": phase, "generation": generation,
                         "system_fingerprint": _fp, "system_fingerprint_fields": _fp_fields, **v}
+            # ★★ THE COMMIT IS SELF-TIMED, BECAUSE HALVING THE INTERVAL DOUBLES HOW OFTEN IT RUNS
+            # (2026-07-31). The warmup interval is being cut 64 -> 32 to halve time-to-first-commit, and that
+            # trade is only worth taking if the WRITE is cheap: twice as many checkpoints is twice the pause.
+            # The repo's only figure was an inline "~25 MB .nc/.chk pair" estimate with no wall time attached,
+            # and a pause nobody has measured is exactly the kind of assumption this lane keeps paying for.
+            # One line per commit, into a log that is already tee'd and synced.
+            _t0 = time.time()
             self._persist(phase, iteration, generation, snap_nc, snap_chk, manifest)
+            _b = sum(_p.stat().st_size for _p in (snap_nc, snap_chk) if _p.exists())
+            print("[barrier] commit %s@%d persisted %.1f MiB in %.1fs"
+                  % (phase, iteration, _b / 1048576.0, time.time() - _t0), flush=True)
         return manifest
 
     def _persist(self, phase, iteration, generation, snap_nc, snap_chk, manifest):

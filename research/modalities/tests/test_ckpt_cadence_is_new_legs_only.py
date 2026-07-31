@@ -23,6 +23,7 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import rbfe_spot_checkpoint as spot  # noqa: E402
+import rbfe_spot_checkpoint as spot  # noqa: E402
 import ternary_vast_launch as tv  # noqa: E402
 
 
@@ -57,10 +58,47 @@ def test_the_running_legs_sit_on_their_own_grid(committed, iteration):
     assert iteration % committed == 0
 
 
-def test_the_mode_defaults_are_still_the_grids_those_legs_were_created_on():
-    """A guard on the OTHER direction: if someone lowers `MODES['5aks']` in place rather than for new legs,
-    a fresh attempt on an EXISTING commit prefix would create a second grid inside one prefix."""
+# ★★ THE INTERVAL WAS HALVED 64 -> 32 ON 2026-07-31, and these are the tests that made it safe to do.
+#
+# WHY: container start -> `md-running` is 0.3-0.6 min (measured), so the "~28 min cold start" is really TIME
+# TO FIRST COMMIT = one checkpoint interval of MD. At 64 a 3090 leg needs ~36 min to bank anything, ~60 % of a
+# ~1.00 h median session. At 32 it is ~18 min. STRATEGY Appendix A 62.
+#
+# The four legs in flight when it changed were at warmup 1088 / 1152 / 1536 and production 1400, i.e. 91 %,
+# 58 %, 43 % and 41 % of their work. Moving their grid would have made them unresumable.
+RUNNING_WHEN_CHANGED = [("warmup", 1088, 64), ("warmup", 1152, 64), ("warmup", 1536, 64),
+                        ("production", 1400, 40)]
+
+
+@pytest.mark.parametrize("phase,iteration,committed_iv", RUNNING_WHEN_CHANGED)
+def test_a_RUNNING_leg_keeps_its_grid_after_the_mode_value_changed(phase, iteration, committed_iv):
+    """THE SAFETY PROPERTY, stated over the real in-flight state rather than in the abstract. Whatever the
+    mode now asks for, a leg resumes on the interval baked into its own .nc — and its committed boundary must
+    still divide by it, which is precisely what `validate_reporter_pair` checks on resume."""
+    env_now = int(tv.MODES["5aks"]["warmup_ckpt_iters"])
+    eff = spot.effective_interval({"checkpoint_interval": committed_iv}, fallback=env_now)
+    assert eff == committed_iv, "the committed grid must win over the mode's new value"
+    assert iteration % eff == 0, (
+        f"{phase} iteration {iteration} is off a {eff}-grid — this leg would be unresumable")
+
+
+def test_the_new_value_is_on_grid_for_every_target_this_mode_can_run():
+    """`800 / 64 = 12.5` was the class of error found at 2 fs. 32 must divide the target exactly, or a fresh
+    leg lands off-grid at its LAST boundary."""
+    for dt, wdt in ((4.0, 1.0),):                       # the only timesteps 5aks runs
+        target = tv.warmup_target_iters(dt, wdt)
+        iv = int(tv.MODES["5aks"]["warmup_ckpt_iters"])
+        assert target and target % iv == 0, f"{target} % {iv} != 0 at dt={dt}"
+
+
+def test_the_per_arm_derivation_was_NOT_switched_on_for_this_mode():
+    """Explicitly out of scope while the rate table's card ratios are untrustworthy — this was a change to
+    the FLAT mode value and nothing else."""
+    assert not tv.MODES["5aks"].get("per_arm_ckpt")
+
+
+def test_the_mode_defaults_are_the_grids_a_NEW_leg_will_be_created_on():
+    """A guard on the OTHER direction: the value must be a deliberate one, not drift. SUPERSEDED, retained:
+    this asserted 64 until 2026-07-31."""
     m = tv.MODES["5aks"]
-    assert int(m["warmup_ckpt_iters"]) == 64 and int(m["prod_ckpt_iters"]) == 40, (
-        "these are the grids the in-flight 5a-KS legs' .nc files were created on. Lowering them is a change "
-        "for a NEW commit prefix only — see this module's docstring for the 2026-07-21 incident.")
+    assert int(m["warmup_ckpt_iters"]) == 32 and int(m["prod_ckpt_iters"]) == 40
