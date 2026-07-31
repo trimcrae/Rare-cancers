@@ -6,6 +6,19 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # The supervisor chain commits research artifacts to main every ~8 min, and each of
+    # those commits was rebuilding the site: 44 of the last 100 Actions runs were Pages
+    # builds, most of them cancelling each other under `concurrency: pages`. None of these
+    # paths feed the site — it is assembled from index.html/404.html/assets/data/cancers
+    # only (see the "Assemble site" step below), so ignoring them changes nothing that
+    # ships and halves this repo's Actions load. A real site change still deploys.
+    # (No `!` negations here on purpose — negation inside paths-ignore is order-sensitive
+    # and easy to get silently wrong. Editing this workflow itself no longer auto-deploys;
+    # use the workflow_dispatch trigger below for a manual republish.)
+    paths-ignore:
+      - 'research/**'
+      - '*.md'
+      - '.github/**'
   workflow_dispatch:
 
 permissions:
