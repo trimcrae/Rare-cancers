@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 10:54 AM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 11:03 AM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna   75.6%  —                $0.00391/ns · 1.15× basis  NO HOST   host DESTROYED this pass (status frozen 156 min — the image pull is dead, not queued) — billing stopped, $0 further; checkpoint at production/1120 is intact in S3 and this pass dispatches the gate to re-place it
-5aks_d0_to_d terna   23.1%  8:41 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna   33.8%  5:00 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna   28.4%  8:41 PM          $0.00449/ns · 1.32× basis  RUNNING   
+5aks_d0_to_d terna   24.9%  8:44 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   35.6%  —                $0.00512/ns · 1.50× basis  NO HOST   host DESTROYED this pass (capacity refusal on machine 29707; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at warmup/1280 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d terna       —  —                $0.00449/ns · 1.32× basis  NO HOST   host DESTROYED this pass (capacity refusal on machine 67860; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at warmup/1024 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ---- END TVAST-BOARD ----
 ```
