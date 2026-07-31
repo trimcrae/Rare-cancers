@@ -2359,8 +2359,8 @@ jobs:
         # $0: S3 list + GET, plus `request_logs` for instances still listed. Rents nothing.
         run: |
           set -eo pipefail
-          MODES=$(python3 -c "import sys;sys.path.insert(0,'research/modalities');\
-import ternary_vast_launch as t;print(' '.join(sorted({m for m in t.MODE_GATE_TASK if m!='edge_reps'})))")
+          MODES=$(python3 research/modalities/ternary_vast_launch.py --replaceable-modes)
+          MODES=$(echo "$MODES" | tr ' ' '\n' | grep -v '^edge_reps$' | tr '\n' ' ')
           echo "other re-placeable modes: $MODES"
           for M in $MODES; do
             echo "================ mode=$M ================"

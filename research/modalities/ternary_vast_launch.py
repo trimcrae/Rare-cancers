@@ -4092,7 +4092,15 @@ def main(argv=None):
     # line — a floor typed in shell is how a floor reverted on one dispatcher kept running on the other.
     ap.add_argument("--min-ns-per-h-for", metavar="MODE",
                     help="print the min_ns_per_h a re-placement of MODE should carry (0 = none), then exit")
+    # Every mode that HAS a re-placement, space-separated. Exists so a shell loop (the mode-wide forensic in
+    # `reps-diag`) iterates the SAME map that decides re-placement, instead of a second list that goes stale —
+    # which is precisely how the 5a-KS leg was stranded and then how its wedge went unexamined.
+    ap.add_argument("--replaceable-modes", action="store_true",
+                    help="print every mode with a re-placement gate, space-separated, then exit")
     a = ap.parse_args(argv)
+    if a.replaceable_modes:
+        print(" ".join(sorted(MODE_GATE_TASK)))
+        return 0
     if a.min_ns_per_h_for:
         v = mode_min_ns_per_h(a.min_ns_per_h_for)
         print("%g" % v)
