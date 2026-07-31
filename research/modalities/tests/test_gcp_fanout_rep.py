@@ -370,3 +370,28 @@ def test_the_workflow_is_valid_yaml_and_under_githubs_input_cap():
     inputs = trig["workflow_dispatch"]["inputs"]
     assert len(inputs) <= 10, f"GitHub silently drops dispatch inputs past 10; this has {len(inputs)}"
     assert d["permissions"]["id-token"] == "write"
+
+
+def test_the_env_file_has_no_export_prefix():
+    """docker's --env-file splits on the FIRST `=`, so `export FOO=1` sets a variable named `export FOO`
+    and FOO is never set. The engine would then fall back to its defaults — LEG=complex, no SEED, no commit
+    store — and report a confident result for the wrong unit with no error anywhere. Caught before the
+    first GPU dollar; this test is what stops it coming back."""
+    wf = _wf()
+    gen = [ln for ln in wf.splitlines() if "/tmp/env.complex" in ln or "/tmp/env.solvent" in ln]
+    assert gen, "the workflow no longer generates the env files"
+    for ln in gen:
+        assert "export" not in ln, f"--env-file must be plain KEY=VALUE: {ln.strip()}"
+    for ln in _startup_code().splitlines():
+        if "env.complex" in ln or "env.solvent" in ln:
+            assert "^export " not in ln, f"startup script still edits an `export ` form: {ln.strip()}"
+
+
+def test_the_smoke_lowers_the_commit_interval_so_a_commit_is_actually_forced():
+    """At the real 20/40 intervals a 2.5 ps TINY run legitimately commits nothing, and the smoke's pass
+    condition is that a generation reached GCS. Without this the pass condition would be unreachable and
+    would be "fixed" by deleting it — which is how a shakeout stops shaking anything out."""
+    code = _startup_code()
+    assert "RBFE_WARMUP_CKPT_ITERS=1" in code and "RBFE_PROD_CKPT_ITERS=1" in code
+    real = gfr.leg_env(gfr.unit_for(EDGE, 1), "complex", "b")
+    assert real["RBFE_WARMUP_CKPT_ITERS"] == "20" and real["RBFE_PROD_CKPT_ITERS"] == "40"

@@ -151,8 +151,16 @@ run_leg() {
 # THROWAWAY prefix so it can never be mistaken for science or resumed into by the real leg.
 # ========================================================================================================
 if [ "$SMOKE" = 1 ]; then
-  sed -i 's#^export RBFE_TINY=.*#export RBFE_TINY=1#; s#^export RBFE_SPOT_COMMIT_GCS=.*#export RBFE_SPOT_COMMIT_GCS='"$CKPT_URI"'/smoke#' /work/env.complex
-  grep -qE '^export RBFE_TINY=1' /work/env.complex || echo "export RBFE_TINY=1" >> /work/env.complex
+  # RBFE_TINY=1 -> 2.5 ps / 10 ps MD (the engine's own plumbing shakeout length), and a THROWAWAY commit
+  # prefix so nothing here can ever be resumed into by the real leg. The commit interval drops to 1 because
+  # the pass condition below is "a generation actually reached GCS": at the real 20/40 a run this short
+  # would legitimately commit nothing, and a green rc over an empty prefix is precisely the absent-reading-
+  # read-as-a-reading-of-absence that CLAUDE.md §4 forbids.
+  sed -i 's#^RBFE_TINY=.*#RBFE_TINY=1#
+          s#^RBFE_SPOT_COMMIT_GCS=.*#RBFE_SPOT_COMMIT_GCS='"$CKPT_URI"'/smoke#
+          s#^RBFE_WARMUP_CKPT_ITERS=.*#RBFE_WARMUP_CKPT_ITERS=1#
+          s#^RBFE_PROD_CKPT_ITERS=.*#RBFE_PROD_CKPT_ITERS=1#' /work/env.complex
+  grep -qE '^RBFE_TINY=1' /work/env.complex || echo "RBFE_TINY=1" >> /work/env.complex
   echo "[s1f-gcp] SMOKE env:"; sed 's/^/  /' /work/env.complex
   mark smoke-running
   # shellcheck disable=SC2086
