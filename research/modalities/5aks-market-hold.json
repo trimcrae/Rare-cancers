@@ -1,36 +1,42 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T14:55:37Z",
-  "n_units": 1,
+  "utc": "2026-07-31T14:55:57Z",
+  "n_units": 2,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 1.83,
-  "ceiling_usd": 5.19,
-  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
-  "breakeven_usd_per_ns": 0.009682,
+  "plan_usd": 3.66,
+  "ceiling_usd": 10.37,
+  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 2 legs",
+  "breakeven_usd_per_ns": 0.009673,
   "depth": {
-    "offers_returned": 171,
-    "qualifying": 170,
-    "priceable": 97,
-    "needed": 1,
-    "used_for_mean": 1
+    "offers_returned": 205,
+    "qualifying": 83,
+    "priceable": 83,
+    "needed": 2,
+    "used_for_mean": 2
   },
   "offers": [
     {
       "gpu": "RTX 5090",
-      "machine_id": 36507,
-      "min_bid_usd_h": 0.19999999999999998,
-      "usd_per_ns": 0.005255
+      "machine_id": 138672,
+      "min_bid_usd_h": 0.30814814814814817,
+      "usd_per_ns": 0.007599
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 141578,
+      "min_bid_usd_h": 0.30814814814814817,
+      "usd_per_ns": 0.007599
     }
   ],
-  "mean_usd_per_ns": 0.005255,
-  "ratio_vs_basis": 1.54,
-  "projected_usd": 2.82,
+  "mean_usd_per_ns": 0.007599,
+  "ratio_vs_basis": 2.227,
+  "projected_usd": 8.15,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": false,
-  "hold": false,
-  "reason": "projected $2.82 within this rung's ceiling $5.19 AND 1.54x basis is within the 1.92x drift line",
+  "fails_ratio_ceiling": true,
+  "hold": true,
+  "reason": "2.23x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns",
   "machines_we_already_occupy": [
     "12976",
     "29707",
@@ -41,12 +47,21 @@
   "nothing_to_launch": false,
   "units_done": [],
   "units_live": [
-    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
   "units_needing_host": [
-    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks"
+    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
   ],
-  "units_replacing_a_dead_host": []
+  "units_replacing_a_dead_host": [
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+      "dead_instance": 46403523,
+      "machine_id": 67860,
+      "gpu": "RTX 5090",
+      "actual_status": "exited",
+      "cur_state": "stopped"
+    }
+  ]
 }
