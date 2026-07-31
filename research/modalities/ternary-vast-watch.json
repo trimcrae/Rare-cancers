@@ -84,8 +84,9 @@
       "warmup_timestep_fs": "1.0",
       "git_branch": "main",
       "max_relaunches_per_day": 8,
-      "enabled": true,
-      "_git_branch_repointed_2026_07_31": "was 'claude/max-effort-2dq11l', which is 433 commits behind main and does not carry the lane's current code. ternary_vast_watchdog relaunches a DIED unit on the ENTRY'S OWN git_branch, not the runner's, so leaving this would have rented a host and cloned stale code unattended (CLAUDE.md section 7). Safe to repoint because a resume is guarded by SYSTEM_FINGERPRINT_ENV, which covers LEG_ID, DIRECTION, SEED, CHARGE_METHOD, SETUP_CACHE_VERSION, N_WINDOWS, RBFE_TIMESTEP_FS, RBFE_WARMUP_TIMESTEP_FS and RBFE_CONSTRAIN_LIGAND_CH -- all env, no code version -- so the parked checkpoints still match and resume byte-identically."
+      "enabled": false,
+      "_git_branch_repointed_2026_07_31": "was 'claude/max-effort-2dq11l', which is 433 commits behind main and does not carry the lane's current code. ternary_vast_watchdog relaunches a DIED unit on the ENTRY'S OWN git_branch, not the runner's, so leaving this would have rented a host and cloned stale code unattended (CLAUDE.md section 7). Safe to repoint because a resume is guarded by SYSTEM_FINGERPRINT_ENV, which covers LEG_ID, DIRECTION, SEED, CHARGE_METHOD, SETUP_CACHE_VERSION, N_WINDOWS, RBFE_TIMESTEP_FS, RBFE_WARMUP_TIMESTEP_FS and RBFE_CONSTRAIN_LIGAND_CH -- all env, no code version -- so the parked checkpoints still match and resume byte-identically.",
+      "_disabled_why": "LANDED 2026-07-26T21:07:19Z: leg.json status=done in s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke/ (dG_morph=-9.236935683736645, NaN=False). Auto-reaped by ternary_vast_watchdog.reap_landed \u2014 this unit is FINISHED, not parked."
     },
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
