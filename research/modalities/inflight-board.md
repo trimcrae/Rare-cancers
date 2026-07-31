@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 5:30 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 5:35 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 7:54 AM Aug 1      53.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   
-5aks_d0_to_d ternary nr4a3 r0 9:34 PM            87.8%  RTX 3090 $0.00554/ns · 1.62× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary nr4a1 r0 5:10 AM Aug 1      35.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   
-5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00541/ns · 1.58× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary nr4a3 r1 7:58 AM Aug 1      53.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   
+5aks_d0_to_d ternary nr4a3 r0 9:38 PM            87.8%  RTX 3090 $0.00554/ns · 1.62× basis [bid] STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 4 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary nr4a1 r0 5:14 AM Aug 1      35.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary nr4a1 r1 —                  35.6%  RTX 4090 $0.00541/ns · 1.58× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 144011; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at warmup/1280 is intact in S3 and this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
