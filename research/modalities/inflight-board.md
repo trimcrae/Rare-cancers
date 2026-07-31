@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 2:06 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 2:10 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                ETA (ET)          % DONE  $/ns                                STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna —                  82.2%  RTX 4080S $0.00505/ns · 1.48× basis STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna 5:14 PM Aug 1      30.2%  RTX 3090 $0.00414/ns · 1.21× basis  STARTING  COLD_START — instance is 12 min old, under the 15 min floor — too young to have proved anything either way
-5aks_d0_to_d terna —                  30.2%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna —                  42.7%  —                                   NO HOST   no live host — checkpoint at warmup/1536 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d terna —                  82.2%  RTX 4080S $0.00505/ns · 1.48× basis NO HOST   host DESTROYED this pass (idle guard: WEDGED — run.log has been re-uploaded with byte-identical content for 16 min (>= 15) and the committed scalar has not advanced — the sync loop is alive but the leg is not writing, so nothing is being produced to save) — billing stopped, $0 further; checkpoint at production/1360 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d terna 4:48 PM Aug 1      30.2%  RTX 3090 $0.00414/ns · 1.21× basis  STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d terna 3:26 AM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  COLD_START — instance is 10 min old, under the 15 min floor — too young to have proved anything either way
+5aks_d0_to_d terna 10:04 PM           42.7%  RTX 3090 $0.00412/ns · 1.21× basis  STARTING  fresh host — the marker and log below belong to the previous attempt
 ---- END TVAST-BOARD ----
 ```
