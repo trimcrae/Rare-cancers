@@ -1,6 +1,42 @@
 #!/usr/bin/env python3
 """MEASURE WHAT A HOST ACTUALLY DELIVERS, AND DROP THE ONES THAT CANNOT BANK. PURE decision logic.
 
+★★ THE COLD START IS NOT THE PROBLEM, AND I SAID IT WAS — MEASURED AND RETRACTED (2026-07-31, 6:47 PM ET).
+
+I reported that "legs are not failing because MD is slow; they die during the ~28 min cold start, before MD
+begins." **The mechanism in that sentence is wrong.** Reading `phase.txt`'s own timestamp against the log's
+`[tvast] <utc> start` on all four live legs:
+
+    container start -> md-running:  0.3, 0.4, 0.5, 0.6 min   (median 0.4 min)
+
+MD begins within ~30 SECONDS of the container starting, because all three caches are hitting (23 of 27
+attempts). The `ternary-4fs-vast-findings.md` budget predicted exactly this — "~15 min of that is cached and
+will not repeat" — and the cached line items (staging ~8 min, pre-equilibration 456 s, and the ~460 s
+solvate+parameterise, which is RESTORED not rebuilt) really have gone to nearly zero.
+
+WHAT THE "~28 min" ACTUALLY IS: **time to the first COMMIT**, which is dominated by one checkpoint interval
+of MD, not by setup. 64 warmup iterations x the measured rate:
+
+    leg          staging   s/iter   64 x s/iter   = first commit
+    nr4a3_r0       0.6 m     33.5      35.7 m         36.4 m
+    nr4a3_r1       0.5 m     31.1      33.1 m         33.6 m
+    nr4a1_r0       0.3 m     18.3      19.5 m         19.8 m
+    nr4a1_r1       0.4 m     17.8      19.0 m         19.4 m
+
+(plus the ~2.8 min image pull, which happens BEFORE the log's first line and is not in these figures.)
+
+⚠ WHY THE CORRECTION CHANGES THE RECOMMENDATION. A staging problem would be fixed by faster staging or a
+bigger host; this is not one. The lever is the CHECKPOINT INTERVAL — halving it halves time-to-first-commit
+directly — and that is a change for NEW legs only, because the interval is fixed when the .nc is created
+(`rbfe_spot_checkpoint.effective_interval`; `tests/test_ckpt_cadence_is_new_legs_only.py`). It also explains
+why measure-on-arrival would have condemned nobody: the MD rate is fine, the INTERVAL is long.
+
+⚠ NOT MEASURED, AND NOT CLAIMED: minimisation and the setup RESTORE both sit inside `md-running`, before the
+first `[timing]` line, so the figures above bound them together rather than separating them. The `[spot-driver]
+restore: <label> took Ns` instrumentation and the timestamped phase marks will separate them on the next
+re-placement; until one lands, "0.4 min of staging" is a statement about the SHELL phases only.
+
+
 ★★ WHY THIS AND NOT A BETTER THROUGHPUT TABLE (2026-07-31). The obvious response to "our `$/ns` uses a card
 table" is to measure the table on the real assembly. The lane's own data says that answers the wrong question:
 **host variance dwarfs card identity.** Thirteen paired RTX 3090-vs-RTX 4090 measurements taken within 60
