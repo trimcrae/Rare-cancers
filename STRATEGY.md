@@ -55,9 +55,17 @@ since: the last lane came off its host at 5:11 PM ET.*
 *That spend figure is **DERIVED, never typed** — it is a reading of
 [`realised-spend.json`](research/modalities/realised-spend.json), which sums each lane's own rental ledger
 (`python3 research/modalities/realised_spend.py`). Two things it deliberately keeps apart. **(a)** A further
-**+$2.31 attested** is real money **no machine ledger counts**, because the ternary Vast lane has never had
-one — so the ledgered figure is a **FLOOR**, the best estimate is **$79.59**, and the artifact carries the
-remediation that deletes the gap. ⚠ **The jump from $24.46 is a BOOKKEEPING correction, not new spending:**
+**+$22.31 attested** is real money **no machine ledger counts**, because the ternary Vast lane has never had
+one — so the ledgered figure is a **FLOOR**, the best estimate is **$99.59**, and the artifact carries the
+remediation that deletes the gap. ⚠ **The attested block grew on 2026-07-31 by a LEAK, not by new work:**
+five `cal-*` bench rentals were orphaned by the 2026-07-27 re-anchor sweep and ran unnoticed until they were
+found and destroyed four days later — one of them `running` at `gpu_util 0.0` for ~3.85 days. Its size is
+**a range, $20–$39, and must never be quoted as a point estimate**: no ledger covers those rentals, the
+figure assumes continuous running which was never observed, and the hosts are destroyed so it is not
+recoverable. The mechanism, which is the durable part: the sweep's ledger stopped at instance 46013005 while
+the sweep went on renting, and `vast_idle_guard` is LABEL-SCOPED — a lane that stops being dispatched stops
+being guarded, and nothing said so. One home for all of it:
+[`realised_spend.ATTESTED`](research/modalities/realised_spend.py) → `vast_bench_sweep_orphans`. ⚠ **The jump from $24.46 is a BOOKKEEPING correction, not new spending:**
 the step-1 fan-out's ledger lives on the branch that lane runs from, so `main` had been summing a copy that
 stopped at 86 rentals while the real one held 197. The money was spent days ago; `main` could not see it.
 Superseded pair registered in [§Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 46. **(b) GCP trial credit is a SEPARATE LEDGER and is never summed into

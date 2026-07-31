@@ -150,6 +150,31 @@ ATTESTED = [
                      "relaunch-gate hole; the legs' hosts are gone and cannot be re-read",
         "closes_when": "same remediation as the row above — one ledger serves every unit of the ternary lane",
     },
+    {
+        "lane": "vast_bench_sweep_orphans",
+        "what": "5 cal-* throughput-calibration rentals ORPHANED by the 2026-07-27 re-anchor sweep and not "
+                "found until 2026-07-31 — instances 46013066 / 46014321 / 46014425 / 46014544 / 46014594, "
+                "aged 5519-5537 min at reap. One (46013066) was still cur_state=running at gpu_util 0.0 "
+                "for ~3.85 days; the other four were stopped but still billing storage.",
+        "usd": 20.0,
+        "provider": "vast",
+        "read_from": "⚠ THIS FIGURE IS A LOWER BOUND WITH REAL UNCERTAINTY, AND SAYING SO IS THE POINT. It "
+                     "is age x rate ASSUMING CONTINUOUS RUNNING, which was never observed — no ledger "
+                     "covers these rentals. The rate is the one this sweep's own ledger records for its "
+                     "A100 PCIE rentals, $0.2151/hr (vast-bench-spend-ledger.json, instances 46008409 and "
+                     "46013005). A reading of the live instance record at reap gave $0.4213/hr all-in, "
+                     "which is plausibly dph_total (base + storage) against that ledger's base rate and "
+                     "would put the leak nearer $39. The boxes are destroyed and a destroyed instance "
+                     "vanishes from the Vast API, so the true figure is NOT RECOVERABLE. Quote the range "
+                     "$20-$39, never a point estimate.",
+        "closes_when": "vast_bench_sweep writes its rental ledger for EVERY rental rather than stopping "
+                       "mid-sweep. The mechanism that hid this: the bench ledger's last entry is instance "
+                       "46013005 stamped 11:27 AM ET 2026-07-27, while the sweep went on renting ids "
+                       "46013066-46014594 afterwards — so the lane's spend record died before its rentals "
+                       "did. Nothing then saw them, because vast_idle_guard is LABEL-SCOPED and runs only "
+                       "inside a lane's own collect: a lane that stops being dispatched stops being "
+                       "guarded, and nothing anywhere says so. An account-wide sweep is the real fix.",
+    },
 ]
 
 # --------------------------------------------------------------------------------------------------------
