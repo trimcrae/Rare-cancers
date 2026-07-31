@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "nrv04-retro",
-  "generated_epoch": 1785523940.0412536,
-  "generated_utc": "2026-07-31T18:52:20Z",
-  "generated_et": "2:52 PM ET Fri Jul 31, 2026",
+  "generated_epoch": 1785524408.8686786,
+  "generated_utc": "2026-07-31T19:00:08Z",
+  "generated_et": "3:00 PM ET Fri Jul 31, 2026",
   "note": "1 of 18 authorized R1 leg(s) landed (rows below are the rest). \u26d4 17 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
   "rows": [
     {
@@ -29,9 +29,9 @@
       "pct": null,
       "pct_of": "smoke",
       "eta_s": null,
-      "usd_per_ns": null,
-      "state": "NO HOST",
-      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:29:38Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "state": "STARTING",
+      "why": "26 consecutive board polls with no new frame; phase marker uploaded 2026-07-31T14:29:38Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 270 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     },
     {
       "name": "nr4a1 m2 r1",
@@ -47,9 +47,9 @@
       "pct": null,
       "pct_of": "smoke",
       "eta_s": null,
-      "usd_per_ns": null,
-      "state": "NO HOST",
-      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:38:05Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "usd_per_ns": "\u2014 $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "state": "STARTING",
+      "why": "26 consecutive board polls with no new frame; phase marker uploaded 2026-07-31T14:38:05Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 262 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     },
     {
       "name": "nr4a1 m3 r1",
@@ -58,25 +58,25 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.2289/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "STARTING",
-      "why": "25 consecutive board polls with no new frame; phase marker uploaded 2026-07-31T14:21:02Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 271 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "why": "26 consecutive board polls with no new frame; phase marker uploaded 2026-07-31T14:21:02Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 271 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     },
     {
       "name": "nr4a2 m1 r1",
-      "pct": 10.0,
+      "pct": 30.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785530430.0412536
+      "eta_epoch": 1785526050.3686786
     },
     {
       "name": "nr4a2 m2 r0",
       "pct": null,
       "pct_of": null,
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "15 consecutive board polls with no new frame; phase marker md-running 2026-07-31T17:55:56Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 41 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "usd_per_ns": null,
+      "state": "NO HOST",
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T17:55:56Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
     },
     {
       "name": "nr4a2 m2 r1",
@@ -92,9 +92,9 @@
       "pct": null,
       "pct_of": "smoke",
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "25 consecutive board polls with no new frame; phase marker md-running 2026-07-31T15:07:57Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 217 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "usd_per_ns": null,
+      "state": "NO HOST",
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T15:07:57Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
     },
     {
       "name": "nr4a2 m3 r1",
@@ -137,9 +137,9 @@
       "pct": null,
       "pct_of": "smoke",
       "eta_s": null,
-      "usd_per_ns": null,
-      "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T14:39:30Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "usd_per_ns": "\u2014 $0.2289/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "state": "STARTING",
+      "why": "26 consecutive board polls with no new frame; phase marker md-running 2026-07-31T14:39:30Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 260 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     },
     {
       "name": "nr4a3 m3 r0",
