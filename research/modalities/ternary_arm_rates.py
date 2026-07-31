@@ -69,6 +69,93 @@ def rows_from_records(recs):
     return out
 
 
+# =============================================================================================================
+# ★★ THE SYSTEM-SIZE AXIS — the third thing that may never be pooled (trimcrae-approved, 2026-07-31)
+# =============================================================================================================
+# `_never_pool` covered timestep and phase. It did NOT cover SYSTEM SIZE, and the 4 fs ternary rate was
+# therefore a median over legs spanning 141,458-147,788 particles with a 7.9-31.8 s/iter spread — a number
+# that describes no single assembly. A cadence derived from it is a cadence for a system nobody ran.
+#
+# ⚠ THE TOLERANCE IS RELATIVE AND EXPLICIT, NOT A ROUNDING. Fixed-width bins put 141,458 and 147,788 (4.5 %
+# apart, the same staged complex re-solvated) in different buckets while merging genuinely different systems
+# at the bin edges. Greedy clustering at a stated relative tolerance says what it means: "these legs are the
+# same system to within TOL".
+SYSTEM_SIZE_TOL = 0.15
+
+
+def system_buckets(values, tol=SYSTEM_SIZE_TOL):
+    """[(label, [values])] clustering particle counts that are the same system to within `tol`. PURE.
+
+    Greedy over sorted values: a value joins the open cluster while it is within `tol` of that cluster's
+    RUNNING MEDIAN, else it opens a new one. Labelled by the cluster median in thousands, so a label is a
+    fact about the members rather than a bin boundary nobody chose."""
+    vals = sorted(float(v) for v in values if v)
+    out = []
+    cur = []
+    for v in vals:
+        if cur and abs(v - statistics.median(cur)) / statistics.median(cur) > tol:
+            out.append(cur)
+            cur = []
+        cur.append(v)
+    if cur:
+        out.append(cur)
+    return [("%dk" % round(statistics.median(c) / 1000.0), c) for c in out]
+
+
+def bucket_label_for(n_particles, buckets):
+    """Which bucket a leg belongs to, or None when the leg recorded no particle count. PURE.
+
+    None is deliberate and is NOT folded into the nearest bucket: a leg with no recorded size cannot be shown
+    to belong to any system, and guessing is how the pooled rate arose in the first place."""
+    if not n_particles:
+        return None
+    for label, members in buckets:
+        if abs(float(n_particles) - statistics.median(members)) / statistics.median(members) <= SYSTEM_SIZE_TOL:
+            return label
+    return None
+
+
+def rates_by_system(rows):
+    """{timestep: {arm: {system_bucket: {...}}}} — the SAME estimator as `aggregate`, split by system size.
+
+    Kept BESIDE `aggregate` rather than replacing it, deliberately. `arm_iteration_rates` has consumers whose
+    behaviour must not change until a caller opts in by passing a size, and a silent re-keying of the live
+    cadence table is exactly the kind of change that would be discovered by a leg failing to resume.
+    """
+    out = {}
+    for r in rows:
+        dt = r.get("timestep_fs")
+        if dt is None:
+            continue
+        out.setdefault(f"{float(dt):.1f}", {}).setdefault(r["arm"], []).append(r)
+    res = {}
+    for dt, arms in sorted(out.items()):
+        res[dt] = {}
+        for arm, rs in sorted(arms.items()):
+            buckets = system_buckets([r.get("n_particles") for r in rs])
+            grouped = {}
+            for r in rs:
+                lb = bucket_label_for(r.get("n_particles"), buckets)
+                grouped.setdefault(lb or "unrecorded", []).append(r)
+            res[dt][arm] = {}
+            for lb, group in sorted(grouped.items()):
+                prod = [r["production_median_s_per_iter"] for r in group
+                        if r.get("production_median_s_per_iter")]
+                warm = [r["warmup_median_s_per_iter"] for r in group if r.get("warmup_median_s_per_iter")]
+                use, src = (prod, "production") if prod else (warm, "warmup")
+                if not use:
+                    continue
+                res[dt][arm][lb] = {
+                    "s_per_iter": round(statistics.median(use), 3),
+                    "source_phase": src, "n_legs": len(use),
+                    "spread_s_per_iter": [round(min(use), 3), round(max(use), 3)],
+                    "n_particles": sorted({r["n_particles"] for r in group if r.get("n_particles")}),
+                    "units": [r["unit_id"] for r in group],
+                    "gpus": sorted({r["gpu"] for r in group if r.get("gpu")}),
+                }
+    return res
+
+
 def aggregate(rows):
     """{timestep_fs: {arm: {...}}} — the median of the per-leg medians, per arm, PER TIMESTEP. PURE.
 
@@ -116,6 +203,18 @@ def aggregate(rows):
                 "gpus": sorted({r["gpu"] for r in rs if r.get("gpu")}),
                 "by_gpu": {g: round(statistics.median(v), 3) for g, v in sorted(per_gpu.items())},
             }
+            # ★ SAY WHEN THIS NUMBER DESCRIBES NO SINGLE ASSEMBLY. The rate stays pooled (consumers depend on
+            # it), but a pooled rate that does not ADMIT it is the defect — a reader cannot tell a measured
+            # system rate from a median across two.
+            sizes = sorted({r["n_particles"] for r in rs if r.get("n_particles")})
+            bks = system_buckets(sizes)
+            out[dt][arm]["n_particles_spread"] = [sizes[0], sizes[-1]] if sizes else None
+            out[dt][arm]["system_buckets"] = [lb for lb, _ in bks]
+            out[dt][arm]["pooled_across_systems"] = len(bks) > 1
+            out[dt][arm]["_system_warning"] = (
+                None if len(bks) <= 1 else
+                "POOLED ACROSS %d SYSTEM SIZES %s — this median describes no single assembly. Use "
+                "`rates_by_system` for a per-system figure; see `_never_pool`." % (len(bks), [lb for lb, _ in bks]))
     return out
 
 
@@ -158,11 +257,16 @@ def build(bucket=None, prefix=None, recs=None, rows=None, n_records=None):
         "_what": ("measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own "
                   "leg.json timing block. The one home for `ternary_vast_launch.arm_iteration_rates()`; "
                   "regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`."),
-        "_never_pool": ("across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625) or across "
-                        "phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up)"),
+        "_never_pool": ("across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625), across "
+                        "phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up), "
+                        "or across SYSTEM SIZE (added 2026-07-31: the 4 fs ternary rate pooled legs spanning "
+                        "141,458-147,788 particles with a 7.9-31.8 s/iter spread, so it described no single "
+                        "assembly; `rates` keeps the pooled figure for existing consumers but now FLAGS it, "
+                        "and `rates_by_system` is the split table)"),
         "generated_utc": __import__("time").strftime("%Y-%m-%dT%H:%M:%SZ", __import__("time").gmtime()),
         "n_leg_records": n_records if n_records is not None else len(rows),
         "rates": aggregate(rows),
+        "rates_by_system": rates_by_system(rows),
         "phase_cross_check": phase_cross_check(rows),
         "legs": rows,
     }

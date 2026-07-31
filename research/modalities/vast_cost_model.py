@@ -173,6 +173,32 @@ MEASURED_NS_PER_DAY_84K = {
     "RTX5060TI":      389.16,  # median of 4 hosts          385.40 / 387.78 / 390.55 / 400.01
     "RTXA4000":       246.30,  # median of 3 hosts          242.20 / 246.30 / 252.33
 }
+# ★★ WHAT THE TABLE ACTUALLY BENCHES — one home, because the docstring below used to claim otherwise
+#    (2026-07-31).
+#
+# `vast_bench_sweep` records the protocol verbatim: *"gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR,
+# 3 timed blocks ~60 s total"*. So every ns in this repo's `$/ns` is a nanosecond of **plain, single-replica
+# MD on a pure water box of 84,534 particles** — NOT a nanosecond of any lane's science. RUNG 5a-KS's ternary
+# assembly is 147,788 particles (measured, `ternary-arm-iteration-rates.json`) run as a 12-window HREX RBFE;
+# the valB ternary legs are 141,458-144,447. The protocol difference is larger than the size difference.
+#
+# ⚠ THIS IS AN INDEX, AND IT IS SOUND AS ONE — the arithmetic is what makes that true rather than the
+# intention. `basis_usd_per_ns = plan_$/ref-GPU-h / REFERENCE_NS_PER_H` and `rung_ns_per_unit = ref_gpu_h *
+# REFERENCE_NS_PER_H`, so `REFERENCE_NS_PER_H` CANCELS out of both gate tests: `ratio_vs_basis` and
+# `projected_usd` are exactly invariant to a uniform change in system size. Verified by re-deriving both under
+# a 3.37x and a 10x uniform slowdown — identical to 1e-9 (`tests/test_throughput_is_an_index.py`). Nothing has
+# ever been bought over a ceiling because of the size gap.
+#
+# ⚠ WHAT THE INDEX DOES REST ON, AND IT IS UNTESTED: that card-to-card THROUGHPUT RATIOS transfer from the
+# water box to the real assemblies. The cancellation is exact only for a UNIFORM factor. The repo already has
+# evidence that such gaps need not be uniform — the conda-env re-anchor moved RTX 4080 by 0 %, RTX 4090 by
+# +6 % and RTX 3090 by +28 %. It cannot be tested from today's data: across every 4 fs ternary leg there is
+# exactly ONE production point per card, no two cards share a leg, and the only card with several points
+# (RTX 4090: 7.9 / 16.6 / 17.0 s/iter) has them on different legs with one from a 12-iteration smoke. Closing
+# that is what a system-keyed rate table is for; until then this is a stated assumption, not a measurement.
+BENCH_PARTICLES = 84534
+BENCH_PROTOCOL = ("gpu_md_bench.py TIP3P/PME 84,534 particles, 4 fs HMR, plain single-replica MD, "
+                  "3 timed blocks ~60 s total")
 REFERENCE_CARD = "RTX4090"
 # DERIVED, never typed: whatever the reference card's entry says, divided by 24.
 REFERENCE_NS_PER_H = MEASURED_NS_PER_DAY_84K[REFERENCE_CARD] / 24.0
@@ -313,7 +339,15 @@ def throughput_provenance(gpu_name):
 
 
 def ns_per_hour(gpu_name):
-    """ns/hr for this card at the ternary system size, or None if it may not borrow a benched figure. PURE.
+    """ns/hr for this card **on the 84,534-particle water-box bench** (`BENCH_PROTOCOL`), or None if it may
+    not borrow a benched figure. PURE.
+
+    ⚠ THE DOCSTRING USED TO SAY "at the ternary system size" AND THAT WAS FALSE (corrected 2026-07-31). No
+    caller passes a system, and none ever has: this is a REFERENCE-GPU index, not a physical rate for any
+    lane's assembly. RUNG 5a-KS is 147,788 particles as a 12-window HREX RBFE; the bench is 84,534 particles
+    of plain single-replica MD. Multiplying a `$/ns` from here by a leg's REAL nanosecond target gives a
+    wrong dollar figure — the ladder never does that (`rung_ns_per_unit` is in the same reference unit, which
+    is why the two cancel), but a reader of a board row easily might.
 
     For a `CONSERVATIVE_ALIASES` entry this is a LOWER BOUND, not a measurement — ask `throughput_provenance`
     before quoting it as a rate."""
