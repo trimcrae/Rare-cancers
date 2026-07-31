@@ -859,6 +859,44 @@ def test_incomplete_and_UNCOMPLETABLE_must_not_read_alike():
     assert "newest_leg_rec = {}" in src, "unreadable is UNKNOWN, never 'nothing is quarantined'"
 
 
+def test_the_breaker_re_arms_by_BASELINE_and_never_by_deleting_the_evidence():
+    """★★ THE STEP-1 RULING, PORTED — and it matters more here than it did there.
+
+    `leg_failure_breaker.reset_for` re-arms by DELETING the attempt archive. On this lane that archive is
+    evidence twice over: `retro_attempt_hosts` reads it to tell three rentals from one crash-looping
+    container, and the sibling `attempt-logs/` prefix now holds the run.log of every attempt — the only
+    record of HOW each died. Destroying evidence to move a counter is the wrong trade when an offset does
+    the same job (`congeneric_fanout_vast._breaker_baselines`, 2026-07-29).
+
+    It is nearly free here because the streak is already anchored by `since_utc`: a baseline is one more
+    stamp that can supersede, exactly like a landed leg record or a banked checkpoint.
+    """
+    import inspect
+    # The CODE, not the docstring — which legitimately contains the word "DELETING" while explaining the
+    # thing it refuses to do. (My first version of this assertion read the prose and failed on itself.)
+    code = inspect.getsource(vl.retro_set_breaker_baseline).split('"""')[2]
+    for forbidden in ("delete_object", "delete_objects", "reset_for", "s3.delete"):
+        assert forbidden not in code, f"the baseline writer must never {forbidden}"
+    # A baseline supersedes exactly like a checkpoint does — the anchor is the NEWEST of the stamps.
+    # (Epoch seconds, not a year: 1_785_000_000 is 2026-07-25. My first draft used 1000.0 and then asserted
+    # a 1990 baseline should lose to it — 1000.0 is 1970, so the code was right and the test was wrong.)
+    rec = {"u": 1_785_000_000.0}
+    assert vl.retro_streak_since_utc(rec, "u") == vl.retro_streak_since_utc(rec, "u", None, None)
+    later = vl.retro_streak_since_utc(rec, "u", baseline_utc="2030-01-01T00:00:00Z")
+    assert later == "2030-01-01T00:00:00Z", "a later baseline wins over an older record mtime"
+    earlier = vl.retro_streak_since_utc(rec, "u", baseline_utc="1990-01-01T00:00:00Z")
+    assert earlier != "1990-01-01T00:00:00Z", "an older baseline must NOT drag the anchor backwards"
+    # Undateable is UNKNOWN — it must not supersede, and must not raise.
+    assert vl.retro_streak_since_utc(rec, "u", baseline_utc="not-a-stamp") is not None
+
+
+def test_an_unreadable_baseline_file_is_empty_not_a_blanket_clear():
+    class _Boom:
+        def get_object(self, **kw):
+            raise RuntimeError("no s3")
+    assert vl.retro_breaker_baselines(_Boom(), "bkt") == {}
+
+
 def test_gpu_util_zero_is_an_ABSENT_reading_on_this_lane_not_a_reading_of_absence():
     """★★ THE DISCRIMINATING OBSERVATION, not a suspicion (2026-07-31, 4:50 PM census vs the 4:47 board):
 

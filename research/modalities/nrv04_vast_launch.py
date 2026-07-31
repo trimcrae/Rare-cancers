@@ -2595,7 +2595,56 @@ def retro_committed_at(s3, bucket, unit):
     return _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime(newest))
 
 
-def retro_streak_since_utc(record_at, unit, committed_utc=None):
+#: Per-unit breaker BASELINE: {unit: "YYYY-MM-DDTHH:MM:SSZ"}. Attempts at or before a unit's baseline are
+#: not part of its current streak. Its S3 home; written only by an explicit operator gesture.
+RETRO_BREAKER_BASELINE_KEY = "_breaker_baseline.json"
+
+
+def retro_breaker_baselines(s3, bucket):
+    """{unit: baseline UTC stamp}, or {} if none/unreadable. Unreadable is EMPTY, never "everything is clear"."""
+    try:
+        return dict((json.loads(s3.get_object(
+            Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/{RETRO_BREAKER_BASELINE_KEY}"
+        )["Body"].read().decode()) or {}).get("units") or {})
+    except Exception:  # noqa: BLE001 — no baseline file is the normal state
+        return {}
+
+
+def retro_set_breaker_baseline(s3, bucket, unit, why, now_utc=None):
+    """Re-arm ONE unit's breaker by BASELINE, not by deletion. Returns the stamp written.
+
+    ★★ A BASELINE, NEVER A DELETE — the step-1 lane's ruling (`congeneric_fanout_vast._breaker_baselines`,
+    2026-07-29), ported here for the same reason and one more. `leg_failure_breaker.reset_for` re-arms by
+    DELETING the attempt archive, and that archive is evidence: it is what `retro_attempt_hosts` reads to
+    tell three rentals from one crash-looping container, and as of 2026-07-31 the sibling `attempt-logs/`
+    prefix holds the run.log of every attempt — the only record of HOW each one died. Destroying the
+    evidence to move a counter is the wrong trade when an offset does the same job.
+
+    It costs nothing to implement here because the streak is already anchored by `since_utc`: a baseline is
+    simply one more stamp that can supersede, exactly like a landed leg record or a banked checkpoint.
+    """
+    import time as _t
+    stamp = now_utc or _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime())
+    cur = {}
+    try:
+        cur = json.loads(s3.get_object(
+            Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/{RETRO_BREAKER_BASELINE_KEY}")["Body"].read().decode())
+    except Exception:  # noqa: BLE001
+        cur = {}
+    units = dict(cur.get("units") or {})
+    hist = list(cur.get("history") or [])
+    units[unit] = stamp
+    hist.append({"unit": unit, "utc": stamp, "why": why})
+    s3.put_object(Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/{RETRO_BREAKER_BASELINE_KEY}",
+                  Body=json.dumps({"_what": "Per-unit failure-breaker baselines. An attempt at or before a "
+                                            "unit's stamp is not part of its current streak. The attempt "
+                                            "archive and attempt-logs/ are NEVER deleted.",
+                                   "units": units, "history": hist}, indent=2).encode())
+    print(f"[retro-super] breaker BASELINE set for {unit} at {stamp} — {why}", flush=True)
+    return stamp
+
+
+def retro_streak_since_utc(record_at, unit, committed_utc=None, baseline_utc=None):
     """When this unit's CURRENT failure streak starts: the NEWEST of its last completed leg record and its
     last banked production checkpoint. `None` when it has neither, which is the case the lifetime count was
     written for. PURE.
@@ -2619,11 +2668,15 @@ def retro_streak_since_utc(record_at, unit, committed_utc=None):
     mt = (record_at or {}).get(unit)
     if mt:
         stamps.append(float(mt))
-    if committed_utc:
+    for _s in (committed_utc, baseline_utc):
+        # A banked checkpoint and an operator BASELINE supersede identically — both mean "the streak starts
+        # after this". Undateable is UNKNOWN and simply does not supersede.
+        if not _s:
+            continue
         try:
-            stamps.append(float(calendar.timegm(_t.strptime(committed_utc, "%Y-%m-%dT%H:%M:%SZ"))))
+            stamps.append(float(calendar.timegm(_t.strptime(_s, "%Y-%m-%dT%H:%M:%SZ"))))
         except (TypeError, ValueError):
-            pass                                    # undateable is UNKNOWN — it simply does not supersede
+            pass
     if not stamps:
         return None
     return _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime(max(stamps)))
@@ -2887,6 +2940,7 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
              and str(i.get("id")) not in {c["instance"] for c in out["condemned"]}}
     # ⛔ THE HOLD, ENFORCED. Supervision heals what was AUTHORISED; it does not start what nobody has agreed to
     # buy. See `RETRO_AUTHORIZED_UNITS_KEY` for the measurement that made this necessary.
+    _baselines = retro_breaker_baselines(s3, bucket)
     authorized = retro_read_authorized(s3, bucket)
     out["n_authorized"] = len(authorized)
     needed = []
@@ -2927,7 +2981,8 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
         # BANKED WORK SUPERSEDES, or a leg that is part-done can never be re-placed — the 40 % deadlock in
         # `retro_committed_at`. The checkpoint read is one prefix list per hostless unit, on a tick that is
         # already reading S3, and only for units that got this far (not done, not alive, authorised).
-        since = retro_streak_since_utc(record_at, name, retro_committed_at(s3, bucket, name))
+        since = retro_streak_since_utc(record_at, name, retro_committed_at(s3, bucket, name),
+                                       baseline_utc=_baselines.get(name))
         n_att = lfb.count_attempts(s3, bucket, RETRO_RESULT_PREFIX, name, since_utc=since)
         d = retro_breaker(has_result=False, n_attempts=n_att, since_utc=since)
         if d["block"]:
@@ -3754,6 +3809,14 @@ def main():
         return retro_launch(bucket)
     if os.environ.get("RETRO_COLLECT") == "1":
         return retro_collect(bucket)
+    if os.environ.get("RETRO_BASELINE_UNIT"):
+        # An explicit, single-unit operator gesture — deliberately NOT something a tick can do to itself
+        # (`leg_failure_breaker.reset_for.__doc__`: "a breaker that resets itself is not a breaker").
+        import boto3 as _b3
+        _u = os.environ["RETRO_BASELINE_UNIT"]
+        _why = os.environ.get("RETRO_BASELINE_WHY") or "no reason given"
+        retro_set_breaker_baseline(_b3.client("s3"), bucket, _u, _why)
+        return 0
     if os.environ.get("DISCOVER") == "1":
         discover_cofold(bucket)
         return 0
