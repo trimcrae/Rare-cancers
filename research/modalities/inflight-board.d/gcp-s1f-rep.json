@@ -1,0 +1,19 @@
+{
+  "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
+  "lane": "gcp-s1f-rep",
+  "generated_epoch": 1785539641.3528886,
+  "generated_utc": "2026-07-31T23:14:01Z",
+  "generated_et": "7:14 PM ET Fri Jul 31, 2026",
+  "note": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 NOT running. The free GCP GPU is idle \u2014 that is expiring credit unspent.",
+  "rows": [
+    {
+      "name": "zaienne_cmpd19__cw_ms_free_acid r1",
+      "pct": null,
+      "pct_of": null,
+      "eta_s": null,
+      "usd_per_ns": "\u2014",
+      "state": "IDLE \u2014 NO HOST",
+      "why": "no GCE VM and no ddg.json: this lane is holding no GPU and computing nothing. A re-dispatch of gpu-fanout-rep-gcp.yml mode=run resumes it from its last committed generation in GCS (per-leg idempotent)."
+    }
+  ]
+}
