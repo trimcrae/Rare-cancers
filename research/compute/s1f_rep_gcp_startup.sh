@@ -45,20 +45,53 @@ mark boot
 echo "[s1f-gcp] unit=$UNIT_URI smoke=$SMOKE image=$IMAGE"
 nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader || true
 
-# --- docker + the NVIDIA runtime ------------------------------------------------------------------------
-# DLVM common-cu* images ship both. VERIFY rather than assume: a CPU fallback here would produce a
-# perfectly plausible ΔG at a fraction of the speed and file it as a GPU replicate. OPENMM_REQUIRE_CUDA=1
-# in the leg env makes the engine raise instead of falling back, and this is the belt to that brace.
-if ! docker info >/dev/null 2>&1; then
-  echo "[s1f-gcp] docker not ready — waiting"; for i in $(seq 1 30); do sleep 10; docker info >/dev/null 2>&1 && break; done
+# --- docker + the NVIDIA container runtime --------------------------------------------------------------
+# ⚠ MEASURED 2026-07-31 (run 30670712574, serial console + the leg's own run.log), and it retires the
+# assumption this block was first written on:
+#     /tmp/metadata-scripts…/startup-script: line 81: docker: command not found
+#     Failed to restart docker.service: Unit docker.service not found.
+# **The DLVM `common-cu129-ubuntu-2404-nvidia-580` image ships NO DOCKER.** The first version waited 300 s
+# for a daemon that was never going to appear, then tried to configure a runtime for it. A second, separate
+# fault came out of the same run:
+#     gpg: cannot open '/dev/tty': No such device or address
+#     E: Unable to correct problems, you have held broken packages.
+# A startup script has no controlling terminal, so plain `gpg --dearmor` tries to prompt and writes no
+# keyring — after which the NVIDIA repo is unusable and apt reports it as "held broken packages", which
+# names neither cause. `--batch --yes` fixes it.
+#
+# So: DETECT, then INSTALL, and let every failure name itself in the phase marker. The driver itself is
+# already on the image (`nvidia-smi` above reported the L4 and driver 580.173.02) — only the container
+# plumbing is missing.
+echo "[s1f-gcp] docker binary: $(command -v docker 2>/dev/null || echo ABSENT) | service: $(systemctl is-active docker 2>/dev/null || echo none)"
+# The DLVM's own first-boot work holds the dpkg lock; apt would fail with a lock error that reads like a
+# repo problem. Wait for it rather than race it.
+for i in $(seq 1 60); do fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 || break; sleep 10; done
+export DEBIAN_FRONTEND=noninteractive
+if ! command -v docker >/dev/null 2>&1; then
+  echo "[s1f-gcp] installing docker.io (this image has none)"
+  apt-get update -qq && apt-get install -y -qq docker.io \
+    || { echo "[s1f-gcp] FATAL: docker.io install failed"; mark "SMOKE-FAIL docker-install"; exit 3; }
 fi
+systemctl enable --now docker >/dev/null 2>&1 || true
+for i in $(seq 1 18); do docker info >/dev/null 2>&1 && break; sleep 5; done
+docker info >/dev/null 2>&1 \
+  || { echo "[s1f-gcp] FATAL: docker daemon will not start"; mark "SMOKE-FAIL docker-daemon"; exit 3; }
+echo "[s1f-gcp] docker up: $(docker --version)"
+
 if ! docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi -L >/dev/null 2>&1; then
   echo "[s1f-gcp] --gpus all failed; installing nvidia-container-toolkit"
-  curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+  install -m 0755 -d /usr/share/keyrings
+  # --batch --yes: no tty here (measured above). Without them the keyring is silently never written.
+  curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
+    | gpg --batch --yes --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+    || { echo "[s1f-gcp] FATAL: could not write the NVIDIA keyring"; mark "SMOKE-FAIL nvidia-keyring"; exit 3; }
+  test -s /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+    || { echo "[s1f-gcp] FATAL: NVIDIA keyring is empty"; mark "SMOKE-FAIL nvidia-keyring-empty"; exit 3; }
   curl -fsSL https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
     | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
     > /etc/apt/sources.list.d/nvidia-container-toolkit.list
-  apt-get update -qq && apt-get install -y -qq nvidia-container-toolkit
+  apt-get update -qq && apt-get install -y -qq nvidia-container-toolkit \
+    || { echo "[s1f-gcp] FATAL: nvidia-container-toolkit install failed"; mark "SMOKE-FAIL nvidia-toolkit"; exit 3; }
   nvidia-ctk runtime configure --runtime=docker && systemctl restart docker && sleep 8
 fi
 docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi -L \

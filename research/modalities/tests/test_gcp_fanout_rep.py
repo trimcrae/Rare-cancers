@@ -455,3 +455,80 @@ def test_the_board_step_only_ever_stages_its_own_fragment():
     adds = re.findall(r"git add (\S+)", step)
     assert adds == ['"$F"'], adds
     assert "git add -A" not in step and "--force" not in step
+
+
+# ---- the smoke terminus, the second piece of evidence the reaper may act on ---------------------------
+
+def test_a_finished_smoke_is_reaped_on_its_own_terminal_marker():
+    """A smoke never writes a result object, so the result clause can never retire it and its only bound
+    would be the 7 h non-run cap — 7 h of the account's ONE GPU for a job that finished in twenty minutes.
+    Its terminal marker is evidence of the same kind: the container returned, nothing is left on the box."""
+    for ph in ("SMOKE-OK rc=0 commits=3", "SMOKE-FAIL no-gpu-in-docker"):
+        d = gfr.reap_decision("u", VM_T, "", vm_mode="smoke", phase=ph)
+        assert d["action"] == "reap" and d["cause"] == "smoke_terminal_marker", (ph, d)
+
+
+@pytest.mark.parametrize("ph", ["", "boot", "image-pulled", "staged", "smoke-running", None])
+def test_a_smoke_still_working_is_refused(ph):
+    d = gfr.reap_decision("u", VM_T, "", vm_mode="smoke", phase=ph)
+    assert d["action"] == "refuse" and d["cause"] == "smoke_not_terminal"
+
+
+@pytest.mark.parametrize("ph", ["SMOKE-OK", "done", "leg-complex-done", "reduce"])
+def test_a_RUN_is_never_reaped_on_a_phase_marker(ph):
+    """The dangerous direction. A run's markers are PROGRESS, and `done` is written before nothing — the
+    result OBJECT is the only thing that proves the science is banked. Reaping a run on a marker would
+    destroy live sampling on the strength of a string the box wrote about itself."""
+    d = gfr.reap_decision("u", VM_T, "", vm_mode="run", phase=ph)
+    assert d["action"] == "refuse" and d["cause"] == "no_result_object"
+
+
+def test_the_smoke_path_still_never_consults_age():
+    d = gfr.reap_decision("u", "1996-01-01T00:00:00Z", "", vm_mode="smoke", phase="boot")
+    assert d["action"] == "refuse"
+
+
+def test_the_workflow_only_reads_a_phase_for_a_smoke_labelled_vm():
+    step = _wf().split("- name: Reap finished VMs")[1].split("      - name:")[0]
+    ph = [ln for ln in step.splitlines() if "PH=$(" in ln]
+    assert ph and all('= smoke ]' in ln for ln in ph), ph
+
+
+# ---- what the first smoke measured (run 30670712574, 6:43-6:49 PM ET 2026-07-31) ----------------------
+
+def test_docker_is_installed_not_merely_waited_for():
+    """MEASURED, not assumed: the DLVM `common-cu129-ubuntu-2404-nvidia-580` image ships NO docker —
+    `line 81: docker: command not found`, `Unit docker.service not found`. The first version waited 300 s
+    for a daemon that was never going to appear. Detect, then install."""
+    code = _startup_code()
+    assert "apt-get install -y -qq docker.io" in code
+    assert "command -v docker" in code
+    i = code.index("command -v docker")
+    j = code.index("nvidia-container-toolkit")
+    assert i < j, "docker must be established before the container runtime is configured for it"
+
+
+def test_gpg_runs_in_batch_mode_because_a_startup_script_has_no_tty():
+    """`gpg: cannot open '/dev/tty'` — measured. Without --batch --yes the keyring is silently never
+    written, after which apt reports 'held broken packages', which names neither the cause nor the file."""
+    code = _startup_code()
+    assert "gpg --batch --yes --dearmor" in code
+    assert "| gpg --dearmor" not in code
+
+
+def test_the_keyring_is_verified_non_empty_before_apt_is_asked_to_trust_it():
+    """An absent reading is not a reading of absence (CLAUDE.md §4): a zero-byte keyring produces an apt
+    error about PACKAGES, three steps away from the gpg call that actually failed."""
+    assert "test -s /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg" in _startup_code()
+
+
+def test_apt_waits_for_the_dlvm_first_boot_dpkg_lock():
+    assert "/var/lib/dpkg/lock-frontend" in _startup_code()
+
+
+def test_every_bootstrap_failure_names_itself_in_the_phase_marker():
+    """A phase marker that only ever says SMOKE-FAIL forces a serial-console dig for every failure. Each
+    bootstrap step gets its own cause string, so the phase marker alone identifies the stage."""
+    code = _startup_code()
+    for cause in ("docker-install", "docker-daemon", "nvidia-keyring", "nvidia-toolkit", "no-gpu-in-docker"):
+        assert f'mark "SMOKE-FAIL {cause}' in code, cause

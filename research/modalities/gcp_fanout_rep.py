@@ -122,6 +122,7 @@ REFUSALS = (
     "result_older_than_vm",
     "unreadable_timestamp",
     "unknown_unit",
+    "smoke_not_terminal",
 )
 
 
@@ -252,7 +253,12 @@ def _parse_ts(s):
     return dt.astimezone(timezone.utc) if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
 
 
-def reap_decision(unit_id, vm_created, result_updated):
+#: The markers a SMOKE writes as its last act, one per outcome. Both are terminal: the container has
+#: returned and there is nothing left on the box. Matched as a prefix of the phase line.
+SMOKE_TERMINAL = ("SMOKE-OK", "SMOKE-FAIL")
+
+
+def reap_decision(unit_id, vm_created, result_updated, vm_mode="run", phase=None):
     """May this VM be deleted? **AGE IS NEVER CONSULTED.**
 
     The one condition that permits a delete is the ternary watchdog's DONE test, transplanted: the unit's own
@@ -271,6 +277,23 @@ def reap_decision(unit_id, vm_created, result_updated):
     if vm is None:
         return {"action": "refuse", "cause": "unreadable_timestamp", "why":
                 f"VM creationTimestamp {vm_created!r} did not parse; refusing rather than assuming an order"}
+    # ---- the SMOKE path -------------------------------------------------------------------------------
+    # A smoke writes no result object, so the clause below can never retire it and its ONLY bound would be
+    # the 7 h non-run cap — 7 h of the account's single GPU for a job that finished in twenty minutes. It
+    # does, however, write a TERMINAL marker as its last act, and that marker is evidence of the same kind
+    # as the result object: the container returned, there is nothing left on the box. Scoped strictly to
+    # `s1f-mode=smoke` VMs, because a RUN's markers are progress, not termination, and reaping a run on one
+    # would destroy live sampling.
+    if str(vm_mode) == "smoke":
+        ph = (phase or "").strip()
+        if any(ph.startswith(t) for t in SMOKE_TERMINAL):
+            return {"action": "reap", "cause": "smoke_terminal_marker", "why":
+                    f"this VM is labelled s1f-mode=smoke and its own phase marker reads {ph!r} — a terminal "
+                    f"state it writes as its last act. A smoke holds no science and never will."}
+        return {"action": "refuse", "cause": "smoke_not_terminal", "why":
+                f"s1f-mode=smoke with phase {ph or '<none>'!r}, which is not one of {SMOKE_TERMINAL}. It may "
+                f"still be pulling the image or building the system. AGE IS NOT A REASON; the create-time "
+                f"{MAX_RUN_S_NON_RUN}s cap is this VM's bound."}
     if not result_updated:
         return {"action": "refuse", "cause": "no_result_object", "why":
                 f"no result object for {unit_id} in GCS — the leg may be sampling right now. "
@@ -408,7 +431,7 @@ def _cmd_reap(a):
             d = {"action": "refuse", "cause": "unknown_unit", "why": str(e)}
             print(json.dumps(d, indent=1) if a.json else f"action={d['action']}\ncause={d['cause']}")
             return 0
-    d = reap_decision(unit_id, a.vm_created, a.result_updated)
+    d = reap_decision(unit_id, a.vm_created, a.result_updated, vm_mode=a.vm_mode, phase=a.phase)
     d["unit_id"] = unit_id
     if a.json:
         print(json.dumps(d, indent=1))
@@ -446,6 +469,8 @@ def main(argv=None):
     rp.add_argument("--replicate", type=int, default=1, help="from the VM's s1f-rep label")
     rp.add_argument("--vm-created", default="")
     rp.add_argument("--result-updated", default="")
+    rp.add_argument("--vm-mode", default="run", help="from the VM's s1f-mode label")
+    rp.add_argument("--phase", default="", help="the VM's own phase marker (smoke terminus only)")
     rp.add_argument("--json", action="store_true")
     rp.set_defaults(func=_cmd_reap)
 

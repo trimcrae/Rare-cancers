@@ -90,9 +90,9 @@ jobs:
           set -uo pipefail
           echo "=== reap sweep over ${VM_PREFIX}* ==="
           LIST=$(gcloud compute instances list --filter="name~^${VM_PREFIX}" \
-                   --format="value(name,zone,status,creationTimestamp,labels.s1f-edge,labels.s1f-rep)" 2>/dev/null || true)
+                   --format="value(name,zone,status,creationTimestamp,labels.s1f-edge,labels.s1f-rep,labels.s1f-mode)" 2>/dev/null || true)
           if [ -z "$LIST" ]; then echo "  no ${VM_PREFIX}* instances — nothing to reap"; else
-          printf '%s\n' "$LIST" | while IFS=$'\t' read -r NAME Z ST CREATED EDGE_L REP_L; do
+          printf '%s\n' "$LIST" | while IFS=$'\t' read -r NAME Z ST CREATED EDGE_L REP_L MODE_L; do
             [ -z "${NAME:-}" ] && continue
             Z="${Z##*/}"
             echo "  VM $NAME zone=$Z status=$ST created=$CREATED edge=${EDGE_L:-<unlabelled>} rep=${REP_L:-<unlabelled>}"
@@ -105,8 +105,18 @@ jobs:
             if [ -z "$KEY" ]; then echo "    ⛔ REFUSED: could not resolve a result key. Not reaped."; continue; fi
             # `updated` is the object's own last-write time. Absent object -> empty -> the predicate refuses.
             UPD=$(gcloud storage objects describe "gs://$BUCKET/$KEY" --format="value(updated)" 2>/dev/null || true)
+            # A SMOKE writes no result object, so the clause above can never retire it and its only bound
+            # would be the 7 h cap — 7 h of the account's ONE GPU for a job that finished in twenty minutes.
+            # It does write a TERMINAL marker as its last act, which is evidence of the same kind, so the
+            # predicate is given the mode label and that marker. Strictly scoped: a RUN's markers are
+            # progress, not termination, and are never consulted.
+            UURI=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$EDGE_L" --replicate "${REP_L:-1}" \
+                     --pick 0 --bucket "$BUCKET" --shell 2>/dev/null | sed -n 's/^UNIT_URI=//p')
+            PH=""
+            [ "${MODE_L:-run}" = smoke ] && PH=$(gcloud storage cat "$UURI/smoke/phase.txt" 2>/dev/null | tail -1 || true)
             OUT=$(python3 research/modalities/gcp_fanout_rep.py reap --edge-id "$EDGE_L" --replicate "${REP_L:-1}" \
-                    --vm-created "$CREATED" --result-updated "$UPD" --json)
+                    --vm-created "$CREATED" --result-updated "$UPD" \
+                    --vm-mode "${MODE_L:-run}" --phase "${PH:-}" --json)
             ACT=$(printf '%s' "$OUT" | python3 -c "import sys,json;print(json.load(sys.stdin)['action'])")
             WHY=$(printf '%s' "$OUT" | python3 -c "import sys,json;print(json.load(sys.stdin)['why'])")
             if [ "$ACT" = reap ]; then
