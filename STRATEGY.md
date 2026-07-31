@@ -2111,6 +2111,35 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      is a real and reportable constraint on the design as enumerated.
   ⚠ **The existing library is untouched and nothing in it is invalidated** — the diagnostic re-enumerates
   nothing, and a test asserts that.
+- **`[x]` 5b · THE TWO-BRANCH TEMPLATE — BUILT 2026-07-30, $0 (trimcrae: *"use your judgement"*). ONE molecule
+  CAN carry both mechanisms, there is EXACTLY ONE way to do it, and it is not free.**
+  [`linker_twobranch.py`](research/modalities/linker_twobranch.py) →
+  [`nr4a3-linker-twobranch.json`](research/modalities/nr4a3-linker-twobranch.json), 10 tests, RDKit-verified
+  **16/16**. **The preregistered enumeration is UNTOUCHED and a test asserts it is byte-identical after a full
+  run** — this is a SEPARATE artifact and an additive extension, not an amendment. **It unlocks nothing
+  downstream** and no gate, verdict or existing construct changes.
+  - **★ THE SOLUTION IS A POINT, NOT A REGION — and that is as much the finding as the molecule.** Scanning
+    every (SEG1, SEG2, SEG3, warhead) against the windows the committed library actually recorded, **exactly
+    one chain** satisfies both at the same length and placement: **n = 18, term-(a) exemplar, a2–a2–a2, the
+    5-amide warhead**, electrophile at **k = 13**, wedge at **k = 6**. Change any one segment and one of the
+    two windows breaks. A two-mechanism design here has no room to be optimised.
+  - **⚠ AND IT COSTS REAL PROPERTY SPACE — reported because it is the honest half.** Against the committed
+    single-mechanism library (same chemistry, same handles): **median +10 heavy atoms and +120 Da**, with the
+    top of the set at **1248 Da**, *above the entire committed range* (698–1099). That is well into where
+    permeability rather than affinity is the binding problem. **So this is a demonstration that the two
+    mechanisms CAN be carried on one chain — NOT a claim that the molecule is developable**, and the paper
+    must frame it that way.
+  - **Claim ceiling, in the artifact:** *constructible and window-admissible against TRANSFERRED windows*. The
+    windows come from **single**-branch records; `branch_position_window` is a function of (endpoints, target,
+    length, reach) and **not** of branch count, so the transfer is sound — **but no two-branch chain has had
+    its own window computed**, and this may never be reported as though one had. No docked pose, no strain, no
+    basin-fidelity filtering, no energetic or selectivity quantity of any kind.
+  - **Why building it was the right call rather than scope creep:** $0, additive, and the *existing* filters
+    and windows decided the outcome rather than my judgement — I put no thumb on the scale. It converts
+    *"unknown because inexpressible"* into a measured answer with a stated cost, which is what the deliverable
+    (a candidate set with an identified causal mechanism) needs in order to say whether one molecule can carry
+    both. **What it does NOT do is make the 5a-KS matched pair two-mechanism** — `S` must isolate a single
+    structural element, so the causal test article stays exactly as designed.
 - **`[x]` 5b · Inverse linker design — DONE 2026-07-25, $0 REALIZED (1,995 enumerated → 21 retained, RDKit-verified 21/21)** — **~$0–20 (mostly $0 CPU) · Cum. ~$162.** For each confirmed basin, derive
   linker requirements (endpoint distance, exit-vector dihedral, strain, reach), enumerate a virtual library,
   filter by basin fidelity, annotate exact structures + synthetic feasibility → **~12–20 virtual constructs** (the

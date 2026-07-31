@@ -1,0 +1,611 @@
+{
+ "_what": "Two-branch linker constructs: ONE molecule carrying the covalent handle AND the causal wedge.",
+ "_status": "ADDITIVE EXPLORATION. The preregistered enumeration (nr4a3-linker-design.json) is UNTOUCHED and nothing in it is invalidated; this is a separate artifact and it unlocks nothing downstream.",
+ "_why": "linker_branch_reach.py measured that no committed construct carries both mechanisms because the one-pendant TEMPLATE has no second slot -- not because of grid resolution and not because of geometry. This adds the slot.",
+ "template": "E3-NH-C(=O)-[SEG1]-C(=O)NH-CH(p_far)-C(=O)NH-[SEG2]-C(=O)NH-CH(p_near)-C(=O)NH-[SEG3]-<warhead tail>",
+ "arithmetic": {
+  "n": "11 + SEG1 + SEG2 + SEG3 + tail",
+  "k_near": "3 + SEG3 + tail",
+  "k_far": "k_near + 5 + SEG2"
+ },
+ "n_admissible_chains": 1,
+ "admissible_chains": [
+  {
+   "n_backbone_atoms": 18,
+   "placement": "term_a_exemplar",
+   "warhead": "5amide",
+   "seg1": "a2",
+   "seg2": "a2",
+   "seg3": "a2",
+   "k_far_covalent": 13,
+   "k_near_wedge": 6,
+   "covalent_window": [
+    [
+     4,
+     17
+    ],
+    [
+     5,
+     17
+    ]
+   ],
+   "wedge_window": [
+    [
+     2,
+     6
+    ]
+   ]
+  }
+ ],
+ "\u2605_the_solution_is_unique": "Exactly 1 chain satisfies both committed windows at the same length and placement. That is the finding as much as the molecule is: a two-mechanism construct here is not a design SPACE but a single point, and changing any one segment breaks one of the two windows.",
+ "n_constructs": 16,
+ "constructs": [
+  {
+   "construct_id": "2br_vhl_5amide_a2-a2-a2_cyac_me+pyr3",
+   "e3_handle": "vhl",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyac_me",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "pyr3",
+   "pendant_near_kind": "wedge",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)/C(C#N)=C/C)C(=O)NCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_vhl_5amide_a2-a2-a2_cyac_me+ph",
+   "e3_handle": "vhl",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyac_me",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "ph",
+   "pendant_near_kind": "wedge_control",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)/C(C#N)=C/C)C(=O)NCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_vhl_5amide_a2-a2-a2_cyac_ph+pyr3",
+   "e3_handle": "vhl",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyac_ph",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "pyr3",
+   "pendant_near_kind": "wedge",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)/C(C#N)=C/c7ccccc7)C(=O)NCCC(=O)N[C@@H](Cc8cccnc8)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_vhl_5amide_a2-a2-a2_cyac_ph+ph",
+   "e3_handle": "vhl",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyac_ph",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "ph",
+   "pendant_near_kind": "wedge_control",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)/C(C#N)=C/c7ccccc7)C(=O)NCCC(=O)N[C@@H](Cc8ccccc8)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_vhl_5amide_a2-a2-a2_acrylamide+pyr3",
+   "e3_handle": "vhl",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "acrylamide",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "pyr3",
+   "pendant_near_kind": "wedge",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)C=C)C(=O)NCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_vhl_5amide_a2-a2-a2_acrylamide+ph",
+   "e3_handle": "vhl",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "acrylamide",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "ph",
+   "pendant_near_kind": "wedge_control",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)C=C)C(=O)NCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_vhl_5amide_a2-a2-a2_cyanoprop+pyr3",
+   "e3_handle": "vhl",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyanoprop",
+   "pendant_far_kind": "control",
+   "pendant_near": "pyr3",
+   "pendant_near_kind": "wedge",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)[C@@H](C#N)CC)C(=O)NCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_vhl_5amide_a2-a2-a2_cyanoprop+ph",
+   "e3_handle": "vhl",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyanoprop",
+   "pendant_far_kind": "control",
+   "pendant_near": "ph",
+   "pendant_near_kind": "wedge_control",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "CC1=C(SC=N1)C2=CC=C(C=C2)CNC(=O)[C@@H]3C[C@H](CN3C(=O)[C@H](C(C)(C)C)NC(=O)CCC(=O)N[C@@H](CCNC(=O)[C@@H](C#N)CC)C(=O)NCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4)O",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_crbn_5amide_a2-a2-a2_cyac_me+pyr3",
+   "e3_handle": "crbn",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyac_me",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "pyr3",
+   "pendant_near_kind": "wedge",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)N[C@@H](CCNC(=O)/C(C#N)=C/C)C(=O)NCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_crbn_5amide_a2-a2-a2_cyac_me+ph",
+   "e3_handle": "crbn",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyac_me",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "ph",
+   "pendant_near_kind": "wedge_control",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)N[C@@H](CCNC(=O)/C(C#N)=C/C)C(=O)NCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_crbn_5amide_a2-a2-a2_cyac_ph+pyr3",
+   "e3_handle": "crbn",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyac_ph",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "pyr3",
+   "pendant_near_kind": "wedge",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)N[C@@H](CCNC(=O)/C(C#N)=C/c7ccccc7)C(=O)NCCC(=O)N[C@@H](Cc8cccnc8)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_crbn_5amide_a2-a2-a2_cyac_ph+ph",
+   "e3_handle": "crbn",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyac_ph",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "ph",
+   "pendant_near_kind": "wedge_control",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)N[C@@H](CCNC(=O)/C(C#N)=C/c7ccccc7)C(=O)NCCC(=O)N[C@@H](Cc8ccccc8)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_crbn_5amide_a2-a2-a2_acrylamide+pyr3",
+   "e3_handle": "crbn",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "acrylamide",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "pyr3",
+   "pendant_near_kind": "wedge",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)N[C@@H](CCNC(=O)C=C)C(=O)NCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_crbn_5amide_a2-a2-a2_acrylamide+ph",
+   "e3_handle": "crbn",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "acrylamide",
+   "pendant_far_kind": "electrophile",
+   "pendant_near": "ph",
+   "pendant_near_kind": "wedge_control",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)N[C@@H](CCNC(=O)C=C)C(=O)NCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_crbn_5amide_a2-a2-a2_cyanoprop+pyr3",
+   "e3_handle": "crbn",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyanoprop",
+   "pendant_far_kind": "control",
+   "pendant_near": "pyr3",
+   "pendant_near_kind": "wedge",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)N[C@@H](CCNC(=O)[C@@H](C#N)CC)C(=O)NCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  },
+  {
+   "construct_id": "2br_crbn_5amide_a2-a2-a2_cyanoprop+ph",
+   "e3_handle": "crbn",
+   "warhead_handle": "5amide",
+   "linker_segments": [
+    "a2",
+    "a2",
+    "a2"
+   ],
+   "n_backbone_atoms": 18,
+   "pendant_far": "cyanoprop",
+   "pendant_far_kind": "control",
+   "pendant_near": "ph",
+   "pendant_near_kind": "wedge_control",
+   "branch_k_covalent_from_warhead": 13,
+   "branch_k_wedge_from_warhead": 6,
+   "covalent_target": "C397 SG",
+   "wedge_target": "T407",
+   "placement": "term_a_exemplar",
+   "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCC(=O)N[C@@H](CCNC(=O)[C@@H](C#N)CC)C(=O)NCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+   "stereocentres": "(S) at BOTH branch alpha-carbons, from the L-amino-acid blocks",
+   "branch_residues": [
+    "Fmoc-L-Dab(Boc)-OH (electrophile side chain)",
+    "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH (wedge)"
+   ]
+  }
+ ],
+ "_limits": {
+  "windows_are_TRANSFERRED": "the k-windows come from SINGLE-branch records at the same target, placement and chain length. branch_position_window is a function of (endpoints, target, length, reach) and NOT of branch count, so the transfer is sound -- but no two-branch chain has had its own window computed, and this must never be reported as though one had.",
+  "not_yet_done": [
+   "RDKit validity + heavy-atom/property profile (CI, --verify)",
+   "basin-fidelity filtering",
+   "docked pose",
+   "linker strain",
+   "any energetic or selectivity quantity whatsoever"
+  ],
+  "claim_ceiling": "constructible and window-admissible against transferred windows. Nothing here is a predicted selective candidate, a binding statement or a degradation statement."
+ },
+ "rdkit_verification": {
+  "n_parsed": 16,
+  "n_failed": 0,
+  "failed": [],
+  "per_construct": [
+   {
+    "construct_id": "2br_vhl_5amide_a2-a2-a2_cyac_me+pyr3",
+    "heavy_atoms": 85,
+    "mw": 1186.36,
+    "n_stereocentres": 5
+   },
+   {
+    "construct_id": "2br_vhl_5amide_a2-a2-a2_cyac_me+ph",
+    "heavy_atoms": 85,
+    "mw": 1185.37,
+    "n_stereocentres": 5
+   },
+   {
+    "construct_id": "2br_vhl_5amide_a2-a2-a2_cyac_ph+pyr3",
+    "heavy_atoms": 90,
+    "mw": 1248.43,
+    "n_stereocentres": 5
+   },
+   {
+    "construct_id": "2br_vhl_5amide_a2-a2-a2_cyac_ph+ph",
+    "heavy_atoms": 90,
+    "mw": 1247.45,
+    "n_stereocentres": 5
+   },
+   {
+    "construct_id": "2br_vhl_5amide_a2-a2-a2_acrylamide+pyr3",
+    "heavy_atoms": 82,
+    "mw": 1147.33,
+    "n_stereocentres": 5
+   },
+   {
+    "construct_id": "2br_vhl_5amide_a2-a2-a2_acrylamide+ph",
+    "heavy_atoms": 82,
+    "mw": 1146.34,
+    "n_stereocentres": 5
+   },
+   {
+    "construct_id": "2br_vhl_5amide_a2-a2-a2_cyanoprop+pyr3",
+    "heavy_atoms": 85,
+    "mw": 1188.38,
+    "n_stereocentres": 6
+   },
+   {
+    "construct_id": "2br_vhl_5amide_a2-a2-a2_cyanoprop+ph",
+    "heavy_atoms": 85,
+    "mw": 1187.39,
+    "n_stereocentres": 6
+   },
+   {
+    "construct_id": "2br_crbn_5amide_a2-a2-a2_cyac_me+pyr3",
+    "heavy_atoms": 75,
+    "mw": 1029.04,
+    "n_stereocentres": 3
+   },
+   {
+    "construct_id": "2br_crbn_5amide_a2-a2-a2_cyac_me+ph",
+    "heavy_atoms": 75,
+    "mw": 1028.05,
+    "n_stereocentres": 3
+   },
+   {
+    "construct_id": "2br_crbn_5amide_a2-a2-a2_cyac_ph+pyr3",
+    "heavy_atoms": 80,
+    "mw": 1091.11,
+    "n_stereocentres": 3
+   },
+   {
+    "construct_id": "2br_crbn_5amide_a2-a2-a2_cyac_ph+ph",
+    "heavy_atoms": 80,
+    "mw": 1090.12,
+    "n_stereocentres": 3
+   },
+   {
+    "construct_id": "2br_crbn_5amide_a2-a2-a2_acrylamide+pyr3",
+    "heavy_atoms": 72,
+    "mw": 990.0,
+    "n_stereocentres": 3
+   },
+   {
+    "construct_id": "2br_crbn_5amide_a2-a2-a2_acrylamide+ph",
+    "heavy_atoms": 72,
+    "mw": 989.01,
+    "n_stereocentres": 3
+   },
+   {
+    "construct_id": "2br_crbn_5amide_a2-a2-a2_cyanoprop+pyr3",
+    "heavy_atoms": 75,
+    "mw": 1031.05,
+    "n_stereocentres": 4
+   },
+   {
+    "construct_id": "2br_crbn_5amide_a2-a2-a2_cyanoprop+ph",
+    "heavy_atoms": 75,
+    "mw": 1030.06,
+    "n_stereocentres": 4
+   }
+  ]
+ },
+ "cost_of_the_second_mechanism": {
+  "single_mechanism_library": {
+   "n": 54,
+   "heavy_atoms": [
+    51,
+    79
+   ],
+   "heavy_atoms_median": 71.0,
+   "mw": [
+    697.7,
+    1099.3
+   ],
+   "mw_median": 998.2
+  },
+  "two_mechanism_set": {
+   "n": 16,
+   "heavy_atoms": [
+    72,
+    90
+   ],
+   "heavy_atoms_median": 81.0,
+   "mw": [
+    989.0,
+    1248.4
+   ],
+   "mw_median": 1118.7
+  },
+  "delta_median_heavy_atoms": 10.0,
+  "delta_median_mw": 120.5,
+  "\u2605_reading": "Carrying the second mechanism costs roughly a dozen heavy atoms and ~200 Da at the median, and pushes the top of the set past 1200 Da. That is ABOVE the committed library's whole range and well into the region where oral bioavailability and cell permeability become the binding problem rather than affinity. **This set is therefore a demonstration that the two mechanisms CAN be carried on one chain, not a claim that the resulting molecule is developable** -- and the honest framing for the paper is that the architecture permits it at a real physicochemical cost, which the single-mechanism constructs do not pay.",
+  "_not_assessed": [
+   "permeability",
+   "solubility",
+   "metabolic stability",
+   "synthetic tractability at two orthogonally-protected branch residues"
+  ]
+ }
+}
