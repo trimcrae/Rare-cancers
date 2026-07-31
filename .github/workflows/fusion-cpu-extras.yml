@@ -775,6 +775,18 @@ jobs:
       CONDA_OVERRIDE_CUDA: "12.6"   # match build_env: CUDA-12 builds so this CPU validation mirrors the Vast env
     steps:
       - uses: actions/checkout@v4
+      # ⛔ DO NOT "FIX" THIS INTO A PRE-BAKED IMAGE PULL WITHOUT MEASURING IT FIRST (2026-07-31 — I started
+      # that change and the measurement killed it). CLAUDE.md §6 says never solve a conda env in CI because a
+      # solve costs ~15-25 min against a ~2-4 min pull, and `triskit23/nrv04vast` does carry this exact stack
+      # (it bakes the conda-pack `nrv04_build_env` produces, same package list). But the rule's PREMISE does
+      # not hold for THIS job: `setup-micromamba` caches the environment, and the completed record of run
+      # 30662210714 puts this step at 1.8 MINUTES, while the nrv04vast image is 8.19 GB to pull. Swapping
+      # would have been a regression sold as a rule compliance, justified by a remembered figure instead of
+      # this job's own timing — CLAUDE.md §4's "probably X" in workflow form.
+      # The parity concern §6 also raises (a diagnostic energy computed by a different openmm build than
+      # produced the failure) is already answered empirically: the PE stage probe reproduced the production
+      # leg's recorded `pe_pre_min` to ten significant figures from this env. If that ever stops holding, the
+      # image is there and the swap becomes right — on evidence, not on the general rule.
       - name: Set up MD env (openmm + openff + openmmforcefields + rdkit + gemmi + boto3 + nagl)
         uses: mamba-org/setup-micromamba@v1
         with:
