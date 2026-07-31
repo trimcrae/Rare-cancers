@@ -1,38 +1,112 @@
-name: GCP GPU — L4/T4 spot MD throughput benchmark (WIF keyless)
+name: GCP GPU — card throughput probe (L4 / T4 / P100 / V100, WIF keyless)
 
-# L4-vs-T4 cost benchmark for the "which GCP GPU going forward" decision. Keyless WIF auth (org policy blocks SA
-# keys). Measures OpenMM ns/day on the chosen GPU so the pick = cheapest (spot $/hr / throughput) = $/ns, among
-# GPUs whose VRAM fits the job (T4=16 GB vs L4=24 GB can override raw $/ns for the big complex legs).
+# ★ WHAT THIS MEASURES AND WHY THE OLD VERSION COULD NOT ANSWER IT.
 #
-#   machine=g2-standard-4  -> L4 (24 GB, built-in accelerator)
-#   machine=n1-standard-4  -> T4 (16 GB, needs --accelerator=type=nvidia-tesla-t4,count=1)
+# STRATEGY.md Open decision 5 and gcp-gpu-facts.md §1b both carry a SPEC-DERIVED table saying a P100 is faster
+# than an L4 *and* +18 % better on science-per-dollar, and a T4 is 2.2× better on science-per-dollar — every row
+# marked "do not plan on these rows yet". The bandwidth heuristic behind them is validated on ONE pair (L4 vs
+# RTX 4090) where bandwidth and FP32 move together, so it cannot tell bandwidth-bound from compute-bound, and
+# T4-vs-L4 is exactly the discriminating case. This workflow settles it by measurement.
 #
-# Reuses the repo VARIABLES/WIF already proven by gcp-smoke.yml. Teardown is unconditional (no idle billing).
-# Fixes the smoke's flaws: longer poll window, no redundant install-nvidia-driver, dumps serial tail on timeout.
+# Two things had to be built, both recorded here because each was a silent wrong-answer generator:
+#
+#  1. ACCELERATOR PARAMETERISATION. This file HARDCODED `nvidia-tesla-t4` for any `n1-*` machine and offered
+#     two machine choices, and gpu-ternary-fep-gcp.yml pins L4-only `g2-*` with no `--accelerator` at all. P100
+#     and V100 were unreachable from either. ⚠ An `n1-*` created with NO accelerator boots a CPU-only VM that
+#     runs the bench happily on the CPU platform and prints a real-looking ns/day — so the card and the machine
+#     are derived TOGETHER from one `card` input (`gcp_card_bench.CARDS`), and `OPENMM_REQUIRE_CUDA=1` makes a
+#     CPU fallback raise instead of measure.
+#
+#  2. SYSTEM SIZE. `gpu_md_bench.py` defaults to BENCH_EDGE_NM=7.1 ≈ 36k atoms and this workflow never passed
+#     the variable, so every GCP bench ever run here measured a 36k box. The lane's real ternary system is
+#     141,968 particles. A 36k probe answers a different question with the same confident-looking number.
+#     `gcp_card_bench.edge_nm_for_particles` derives the edge from the repo's one exact anchor
+#     (vast_bench_sweep: 9.5 nm ↔ 84,534 particles) — 11.29 nm ≈ 141,887 particles, within 0.06 % of the real
+#     system. BOTH sizes run in one boot: the ternary size FIRST (so a VM that dies early still yields the
+#     decision-relevant number) and 9.5 nm second, which is the protocol of
+#     `vast_cost_model.MEASURED_NS_PER_DAY_84K` and makes a GCP card commensurable with every Vast card.
+#
+# ★ TEARDOWN. GPUS_ALL_REGIONS=1 means an orphan here blocks EVERY GCP GPU job on the account, and a GCP VM
+# CANNOT DELETE ITSELF — the in-VM EXIT trap runs and GCE refuses it (gcp-gpu-facts.md §6). `gcp_launch_guard`
+# closes that for DETACHED ternary legs by requiring a watch entry. This probe is not detached and needs no
+# watch entry, because it carries two INDEPENDENT reapers neither of which is the VM itself:
+#   (a) the `if: always()` teardown step below — the control plane, same place the key lives; and
+#   (b) `--max-run-duration` + `--instance-termination-action=DELETE` at CREATE, which is GCE itself and
+#       survives the runner being cancelled, timing out or crashing. Per gcp-gpu-facts.md §6c(3) a non-leg's
+#       cap IS its only guaranteed bound, so it is set SHORT (well under the CI timeout's successor) rather
+#       than inheriting a leg's 72 h.
+# The in-VM trap is kept as best-effort only and its failure is expected, not a bug.
+#
+# ★ PRE-FLIGHT REFUSAL. It also refuses to create anything unless the project is genuinely GPU-free
+# (GPUS_ALL_REGIONS usage 0 AND no instances listed — the zombie discriminator of gcp-gpu-facts.md §2). Two
+# GPU jobs cannot coexist under the 1-GPU cap, and a probe that queues behind a live leg would report a
+# capacity failure as a card result.
 
 on:
   workflow_dispatch:
     inputs:
-      zone:    { description: "GCE zone", default: "us-central1-a", required: false }
-      machine: { description: "g2-standard-4 (L4) | n1-standard-4 (T4)", default: "g2-standard-4", required: false }
+      card:         { description: "l4 (control) | t4 | p100 | v100", default: "l4", required: true,
+                      type: choice, options: [l4, t4, p100, v100] }
+      provisioning: { description: "standard (on-demand; the probe default — a preemption mid-probe wastes the whole boot) | spot", default: "standard", required: false,
+                      type: choice, options: [standard, spot] }
+      zone:         { description: "preferred us-central1 zone; the others are still tried in the card's own order. NEVER another region — there is no quota there (gcp-gpu-facts.md §5)", default: "us-central1-a", required: false }
+      edges:        { description: "comma-separated BENCH_EDGE_NM list. Default = ternary-sized (141,887 particles) then the 84,534-particle Vast anchor.", default: "", required: false }
+      commit:       { description: "1 = commit the measurement into research/modalities/gcp-card-bench.json on the dispatched ref", default: "1", required: false }
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
+# ONE GPU, PROJECT-WIDE (gcp-gpu-facts.md §1). Every card shares one group so two probes can never overlap;
+# the pre-flight refusal covers overlap with the ternary lane, which has its own group and cannot share ours.
 concurrency:
-  group: gcp-gpu-bench-${{ github.event.inputs.machine }}
+  group: gcp-gpu-bench
   cancel-in-progress: false
 
 jobs:
   gcp-bench:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 50
     env:
-      ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
-      MACHINE: ${{ github.event.inputs.machine || 'g2-standard-4' }}
+      CARD: ${{ github.event.inputs.card || 'l4' }}
+      PROVISIONING: ${{ github.event.inputs.provisioning || 'standard' }}
+      ZONE_PREF: ${{ github.event.inputs.zone || 'us-central1-a' }}
+      EDGES_IN: ${{ github.event.inputs.edges || '' }}
+      DO_COMMIT: ${{ github.event.inputs.commit || '1' }}
+      # The create-time cap: GCE's own reaper, the only one that survives this runner dying. Sized to be
+      # comfortably longer than a probe (~15-20 min) and comfortably shorter than anything worth worrying
+      # about. ONE HOME — every message below interpolates it rather than restating a number.
+      MAXRUN_S: '3600'
     steps:
       - uses: actions/checkout@v4
+
+      - name: Resolve the card -> machine + accelerator (derived, never typed)
+        run: |
+          set -eo pipefail
+          EDGES="${EDGES_IN}"
+          if [ -z "$EDGES" ]; then
+            EDGES=$(python3 -c "import sys; sys.path.insert(0,'research/modalities'); import gcp_card_bench as g; print(g.DEFAULT_EDGES)")
+          fi
+          python3 research/modalities/gcp_card_bench.py --emit-env \
+            --card "$CARD" --zone "$ZONE_PREF" --edges "$EDGES" | tee /tmp/env.txt
+          cat /tmp/env.txt >> "$GITHUB_ENV"
+
+      - name: ECHOED DISPATCH ENV — what this run actually received
+        # ⚠ tests/test_workflow_dispatch_input_cap.py records that a workflow over GitHub's dispatch-input cap
+        # delivers EMPTY values silently, and every `-f` flag is discarded. That failure is invisible at
+        # runtime unless something prints what arrived, so this prints it. Read this block against what you
+        # dispatched BEFORE trusting any number this run produces.
+        run: |
+          echo "=== ECHOED DISPATCH ENV ==="
+          echo "  raw inputs : card='${{ github.event.inputs.card }}' provisioning='${{ github.event.inputs.provisioning }}' zone='${{ github.event.inputs.zone }}' edges='${{ github.event.inputs.edges }}' commit='${{ github.event.inputs.commit }}'"
+          echo "  CARD        = $CARD ($BENCH_GCE_NAME, ${BENCH_VRAM_GB} GB)"
+          echo "  MACHINE     = $MACHINE"
+          echo "  ACCELERATOR = ${ACCEL:-<built into the machine type>}"
+          echo "  BENCH_EDGES = $BENCH_EDGES   (dt ${BENCH_DT_FS} fs, ${BENCH_BLOCKS} blocks, ${BENCH_TARGET_S}s target, ${BENCH_WARMUP} warmup)"
+          echo "  PROVISION   = $PROVISIONING ; ZONES = $ZONES ; max-run-duration = ${MAXRUN_S}s"
+          if [ -z "${{ github.event.inputs.card }}" ] && [ -n "$GITHUB_EVENT_NAME" ]; then
+            echo "::warning title=NO CARD INPUT ARRIVED::the dispatch delivered an empty card; this run is on the DEFAULT ($CARD). If you passed -f card=..., the input was discarded."
+          fi
 
       - id: auth
         name: Authenticate to GCP (keyless, WIF)
@@ -52,125 +126,232 @@ jobs:
           gcloud config set project "$PROJECT"
           echo "authenticated as: $(gcloud config get-value account 2>/dev/null)"
 
-      - name: Provision Spot GPU VM + run MD throughput benchmark
+      - name: PRE-FLIGHT — refuse unless the single GPU is genuinely free
+        # The zombie discriminator of gcp-gpu-facts.md §2, applied as a GATE rather than a readout: usage ≥ 1
+        # means something holds the one GPU. Under GPUS_ALL_REGIONS=1 a second GPU job cannot run, and the
+        # create would fail on quota — which this workflow would then have to distinguish from a capacity
+        # stockout after the fact. Refusing before spending is cheaper and unambiguous.
         run: |
           set -eo pipefail
-          VM="gcp-bench-${GITHUB_RUN_ID}"
-          echo "VM=$VM" >> "$GITHUB_ENV"
-          ACCEL=""
-          case "$MACHINE" in
-            n1-*) ACCEL="--accelerator=type=nvidia-tesla-t4,count=1" ;;
-          esac
-          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
-            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
-          [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
-          echo "image: $IMG_FAMILY ; machine: $MACHINE ; accel: ${ACCEL:-<built-in>}"
+          echo "=== global GPU quota (THE binding cap) ==="
+          GLOB=$(gcloud compute project-info describe --format="value(quotas)" 2>/dev/null \
+                 | tr ';' '\n' | grep -i "GPUS_ALL_REGIONS" || true)
+          echo "  ${GLOB:-<could not read project-info quotas>}"
+          USAGE=$(gcloud compute project-info describe \
+                    --flatten="quotas[]" --filter="quotas.metric=GPUS_ALL_REGIONS" \
+                    --format="value(quotas.usage)" 2>/dev/null | head -1)
+          LIMIT=$(gcloud compute project-info describe \
+                    --flatten="quotas[]" --filter="quotas.metric=GPUS_ALL_REGIONS" \
+                    --format="value(quotas.limit)" 2>/dev/null | head -1)
+          echo "  GPUS_ALL_REGIONS: limit=${LIMIT:-?} usage=${USAGE:-?}"
+          echo "=== per-type quota for the requested card ==="
+          gcloud compute regions describe us-central1 --flatten="quotas[]" \
+            --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null \
+            | awk -v m="$QUOTA_METRIC" '$1==m {print "  "$1": limit="$2" usage="$3}'
+          echo "=== instances in project (any name, any zone) ==="
+          INST=$(gcloud compute instances list --format="value(name,zone,status)" 2>/dev/null || true)
+          echo "${INST:-  (none)}"
+          BAD=0
+          case "$USAGE" in ""|0|0.0) : ;; *) BAD=1 ;; esac
+          [ -n "$INST" ] && BAD=1
+          if [ "$BAD" = 1 ]; then
+            echo "::error title=REFUSING TO PROVISION — THE SINGLE GPU IS NOT FREE::GPUS_ALL_REGIONS usage='${USAGE}' and instances='${INST}'. gcp-gpu-facts.md §1: at most ONE GPU concurrently across all regions and types, so this probe cannot run beside whatever holds it, and creating anyway would fail on quota in a way indistinguishable from a capacity stockout. Wait for the holder to finish (or reap it deliberately with gcp-reap-vms.yml) and re-dispatch."
+            exit 1
+          fi
+          echo "::notice title=GPU IS FREE::GPUS_ALL_REGIONS usage=${USAGE:-0} and no instances in the project — safe to provision a ${CARD} probe."
 
-          # startup script: OpenMM via the DLVM's OWN conda (/opt/conda has a working python+ensurepip; the system
-          # py3.12 lacked venv). conda-forge = canonical CUDA build; pip fallback. Report result + FULL log to GCS
-          # (perms granted above). $B64/$MACHINE/$BUCKET/$RUNID bake in (unquoted heredoc); \$-escaped survive.
+      - name: Price probe ($0, best-effort) — Cloud Billing Catalog instead of typed list rates
+        # Best-effort ON PURPOSE. The catalog needs cloudbilling.googleapis.com enabled and its SKU
+        # descriptions are free text; an unavailable or AMBIGUOUS match must degrade to the labelled list
+        # rates in gcp_card_bench.LIST_PRICE_USD_PER_H rather than fail a probe that is otherwise fine, and
+        # must never silently substitute a guess (parse_skus treats ambiguity as "no price").
+        continue-on-error: true
+        run: |
+          set +e
+          GCP_ACCESS_TOKEN=$(gcloud auth print-access-token 2>/dev/null) \
+            python3 research/modalities/gcp_card_bench.py --fetch-prices
+          exit 0
+
+      - name: Provision the GPU VM and run the probe
+        run: |
+          set -eo pipefail
+          VM="gcp-bench-${CARD}-${GITHUB_RUN_ID}"
+          echo "VM=$VM" >> "$GITHUB_ENV"
+          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1 || true)
+          [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
+          echo "image=$IMG_FAMILY machine=$MACHINE accel=${ACCEL:-<built-in>} card=$CARD edges=$BENCH_EDGES"
+
+          # ---- startup script -------------------------------------------------------------------------
+          # OpenMM via Miniforge+mamba (conda-forge's CUDA build auto-matches the driver via the __cuda
+          # virtual package). Unchanged from the version this lane has already booted successfully — a
+          # first-ever P100/V100 boot is not the place to also debut a new environment path.
           B64=$(base64 -w0 research/modalities/gpu_md_bench.py)
           cat > /tmp/startup.sh <<SS
           #!/bin/bash
           exec > >(tee /var/log/bench.log) 2>&1
           set +e
-          # BULLETPROOF SELF-DELETE (trap on EXIT): the VM removes itself on EVERY exit path (finish, error, bail),
-          # not just via the runner-side teardown / 7h max-run. Leg runs synchronously so EXIT == leg done.
+          # BEST-EFFORT ONLY. GCE refuses this call for the default compute SA (gcp-gpu-facts.md §6), so the
+          # real reapers are the runner-side teardown and --max-run-duration. Kept because when it does work
+          # it frees the GPU minutes earlier, and its failure is expected rather than a fault.
           _self_delete() {
             local _N _Z
             _N=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
             _Z=\$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | awk -F/ '{print \$NF}')
-            echo "=== SELF-DELETE (trap on EXIT): deleting \$_N in \$_Z ==="
-            gcloud compute instances delete "\$_N" --zone="\$_Z" --quiet || echo "self-delete no-op (already gone / no perm)"
+            echo "=== SELF-DELETE (trap on EXIT, best-effort): \$_N in \$_Z ==="
+            gcloud compute instances delete "\$_N" --zone="\$_Z" --quiet || echo "self-delete refused/absent (expected — facts §6)"
           }
           trap _self_delete EXIT
-          echo "=== BENCH boot \$(date -u) ==="
+          echo "=== BENCHPHASE boot \$(date -u) card=$CARD machine=$MACHINE edges=$BENCH_EDGES ==="
+          echo "=== IN-VM ENV: CARD=$CARD MACHINE=$MACHINE ACCEL='${ACCEL:-builtin}' EDGES=$BENCH_EDGES DT=$BENCH_DT_FS BLOCKS=$BENCH_BLOCKS TARGET_S=$BENCH_TARGET_S ==="
+          echo "=== BENCHPHASE driver ==="
           for i in \$(seq 1 40); do nvidia-smi && break || { echo "waiting for GPU driver..."; sleep 10; }; done
-          nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv || true
-          # CUDA build: the pip wheel gives OpenCL (its CUDA build didn't match the driver). conda-forge openmm
-          # is compiled per-CUDA-version and mamba auto-selects the build matching THIS driver via the __cuda
-          # virtual package -> a working CUDA platform. Miniforge installer is a reliable self-contained .sh
-          # (unlike the micromamba tarball that failed) and bundles mamba (fast solver, no 25-min classic solve).
-          echo "--- Miniforge + mamba openmm (conda-forge CUDA build, auto-matched to driver) ---"
+          GPUNAME=\$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -1)
+          nvidia-smi --query-gpu=name,memory.total,driver_version,compute_cap --format=csv || true
+          echo "###BENCHCARD### \$GPUNAME ###END###"
+          echo "=== BENCHPHASE conda ==="
           curl -fsSL -o /tmp/mf.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh || echo "miniforge download FAILED"
           bash /tmp/mf.sh -b -p /tmp/mf 2>&1 | tail -5
-          /tmp/mf/bin/mamba install -y -p /tmp/mf openmm 2>&1 | tail -25
+          /tmp/mf/bin/mamba install -y -p /tmp/mf openmm 2>&1 | tail -15
           PY=/tmp/mf/bin/python
           [ -x "\$PY" ] || PY=\$(command -v python3)
           echo "bench python: \$PY (\$(\$PY --version 2>&1))"
           IMPORT=\$(\$PY -c "import openmm; print('openmm', openmm.version.version, 'platforms', [openmm.Platform.getPlatform(i).getName() for i in range(openmm.Platform.getNumPlatforms())])" 2>&1)
           echo "import: \$IMPORT"
-          LINE=""
-          if echo "\$IMPORT" | grep -q "^openmm "; then
-            echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
-            OUT=\$(BENCH_TAG=$MACHINE BENCH_REQUIRE_CUDA=1 \$PY /tmp/gpu_md_bench.py 2>&1); echo "\$OUT"
-            LINE=\$(echo "\$OUT" | grep "BENCH_RESULT" | tail -1)
+          if ! echo "\$IMPORT" | grep -q "^openmm "; then
+            for k in \$(seq 1 6); do echo "###BENCHRESULT### BENCH_RESULT tag=${CARD}_noopenmm status=NOOPENMM edge_nm=0 ###END###"; sleep 3; done
+            echo "###BENCHDONE### NOOPENMM ###END###"; exit 1
           fi
-          [ -z "\$LINE" ] && LINE="BENCH_RESULT tag=$MACHINE status=NOOPENMM"
-          # report via SERIAL console (no GCS/IAM/guest-attr): print the result sentinel-wrapped, repeated, so
-          # the workflow's serial poll can't miss it (the v3/v4 dumps confirmed the result reaches serial).
-          for k in \$(seq 1 6); do echo "###BENCHRESULT### \$LINE ###END###"; sleep 3; done
-          echo "=== BENCH-DONE \$LINE ==="
+          echo "$B64" | base64 -d > /tmp/gpu_md_bench.py
+          # SIZES RUN LARGEST-FIRST: the ternary-sized arm is the decision-relevant one, so it must be the
+          # measurement that survives a VM that dies mid-probe.
+          for E in \$(echo "$BENCH_EDGES" | tr ',' ' '); do
+            echo "=== BENCHPHASE measure edge=\$E ==="
+            OUT=\$(BENCH_EDGE_NM=\$E BENCH_TAG=${CARD}_e\$E BENCH_DT_FS=$BENCH_DT_FS \
+                   BENCH_BLOCKS=$BENCH_BLOCKS BENCH_TARGET_S=$BENCH_TARGET_S BENCH_WARMUP=$BENCH_WARMUP \
+                   OPENMM_REQUIRE_CUDA=1 \$PY /tmp/gpu_md_bench.py 2>&1)
+            echo "\$OUT" | grep -aE "\[bench\]|BENCH_RESULT|Error|error" | tail -20
+            LINE=\$(echo "\$OUT" | grep "BENCH_RESULT" | tail -1)
+            [ -z "\$LINE" ] && LINE="BENCH_RESULT tag=${CARD}_e\$E status=NORESULT"
+            for k in \$(seq 1 4); do echo "###BENCHRESULT### \$LINE edge_nm=\$E ###END###"; sleep 2; done
+          done
+          for k in \$(seq 1 6); do echo "###BENCHDONE### card=$CARD gpu=\$GPUNAME ###END###"; sleep 3; done
+          echo "=== BENCHPHASE done ==="
           SS
 
-          # Spot capacity is zone-specific + transient (ZONE_RESOURCE_POOL_EXHAUSTED = stockout). Try candidate
-          # zones until one provisions — the GCP analog of waiting out spot capacity.
-          ZONES="$ZONE us-central1-a us-central1-b us-central1-c us-central1-f"
+          # PROVISIONING. --instance-termination-action is REQUIRED whenever --max-run-duration is set, for
+          # STANDARD as well as SPOT (gcp-gpu-facts.md §3) — omitting it on the standard branch is what once
+          # made every on-demand create fail request-validation and get mislabelled "stocked out" for months.
+          case "$PROVISIONING" in
+            spot)     PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE --max-run-duration=${MAXRUN_S}s" ;;
+            *)        PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE --max-run-duration=${MAXRUN_S}s" ;;
+          esac
+
           CREATED=""
           for Z in $ZONES; do
-            echo "--- trying zone $Z ---"
+            echo "--- trying zone $Z ($MACHINE ${ACCEL:-builtin}) ---"
             if gcloud compute instances create "$VM" \
                 --zone="$Z" --machine-type="$MACHINE" $ACCEL \
-                --provisioning-model=SPOT --instance-termination-action=DELETE \
+                $PROV_FLAGS \
                 --maintenance-policy=TERMINATE --no-restart-on-failure \
                 --scopes=cloud-platform \
+                --labels=bench-card="$CARD",bench-run="$GITHUB_RUN_ID",bench-kind=cardprobe \
                 --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
                 --boot-disk-size=75GB \
                 --metadata-from-file=startup-script=/tmp/startup.sh 2>/tmp/cerr; then
               ZONE="$Z"; CREATED=1; echo "ZONE=$Z" >> "$GITHUB_ENV"; break
             fi
-            echo "  zone $Z failed:"; grep -iE "stockout|exhausted|does not have enough|not available|unsupported" /tmp/cerr | head -2 || tail -2 /tmp/cerr
+            # ECHO THE REAL ERROR (gcp-gpu-facts.md §4): labelling every non-quota failure "stocked out" is
+            # what masked a malformed request as a capacity problem. Case-insensitive — gcloud prints ERROR:.
+            echo "  zone $Z FAILED:"; grep -iaE "error|exhausted|not available|unsupported|invalid|quota|required|termination|does not have enough" /tmp/cerr | head -4 || tail -3 /tmp/cerr
+            # A create that returns non-zero can still have LEFT A VM (half-provisioned, or created then
+            # failed to start). $ZONE is only exported on success, so the teardown step would not know where
+            # to look — clean up here, where the zone is still in hand.
+            gcloud compute instances delete "$VM" --zone="$Z" --quiet 2>/dev/null && echo "  (removed a partially-created $VM in $Z)" || true
           done
-          [ -z "$CREATED" ] && { echo "::error::no Spot $MACHINE capacity in any candidate zone (transient stockout — retry later)"; exit 1; }
-          echo "VM $VM ($MACHINE) created in $ZONE; polling serial console for result marker (up to ~25 min)…"
-          RES=""; OUT=""
-          for i in $(seq 1 50); do
+          if [ -z "$CREATED" ]; then
+            echo "::error title=NO CAPACITY FOR $CARD IN ANY us-central1 ZONE::tried $ZONES with machine=$MACHINE accel='${ACCEL:-builtin}'. Read the per-zone errors above BEFORE concluding capacity — a malformed request looks identical to a stockout in a summary line (gcp-gpu-facts.md §4). us-central1 is the only region with quota (§5), so there is no other region to try."
+            exit 1
+          fi
+          echo "VM $VM ($CARD on $MACHINE) created in $ZONE, cap ${MAXRUN_S}s; polling serial console…"
+
+          # PROGRESS POLLING, not a liveness ping (CLAUDE.md §4): each pass prints the phase the VM has
+          # actually reached and how long it has been there, so a stall is visible in the log rather than
+          # inferred from silence at the end.
+          RESULTS=""; DONE=""; LASTPHASE=""; PHASE_T=$(date +%s); T0=$(date +%s)
+          for i in $(seq 1 80); do
             OUT=$(gcloud compute instances get-serial-port-output "$VM" --zone="$ZONE" 2>/dev/null || true)
-            RES=$(printf '%s' "$OUT" | grep -oE '###BENCHRESULT### .* ###END###' | tail -1 | sed -E 's/^###BENCHRESULT### //; s/ ###END###$//' || true)
-            [ -n "$RES" ] && break
-            sleep 30
+            PHASE=$(printf '%s' "$OUT" | grep -aoE 'BENCHPHASE [a-z]+( edge=[0-9.]+)?' | tail -1 || true)
+            NOW=$(date +%s)
+            if [ "$PHASE" != "$LASTPHASE" ]; then LASTPHASE="$PHASE"; PHASE_T=$NOW; fi
+            NRES=$(printf '%s' "$OUT" | grep -acE '###BENCHRESULT###' || true)
+            echo "  [t+$(( (NOW-T0)/60 ))m] phase='${PHASE:-<no serial yet>}' (held $(( (NOW-PHASE_T)/60 ))m) result-markers=$NRES"
+            DONE=$(printf '%s' "$OUT" | grep -aoE '###BENCHDONE### .* ###END###' | tail -1 || true)
+            [ -n "$DONE" ] && break
+            sleep 25
           done
-          echo "--- VM serial (tail 150) for visibility (openmm/bench detail) ---"
-          printf '%s' "$OUT" | grep -aE "conda:|creating dedicated|import:|nvidia-smi|BENCHRESULT|openmm|Solving|Preparing|Executing|error|Error|CondaError|ns_per_day|atoms=" | tail -80 || true
-          if [ -z "$RES" ]; then
-            echo "::warning::no result marker — full serial tail 200:"
-            printf '%s' "$OUT" | tail -200 || true
-            echo "::error::benchmark produced no result"; exit 1
-          fi
-          echo "RESULT_LINE=$RES" >> "$GITHUB_ENV"
-          echo "BENCH RESULT: $RES"
-
-      - name: Teardown (always — no idle billing)
-        if: always()
-        run: |
-          if [ -n "$VM" ] && [ -n "$PROJECT" ]; then
-            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "deleted $VM" || echo "delete no-op"
+          printf '%s' "$OUT" > /tmp/serial.txt
+          printf '%s' "$OUT" | grep -aoE '###BENCHRESULT### .* ###END###' \
+            | sed -E 's/^###BENCHRESULT### //; s/ ###END###$//' | sort -u > /tmp/results.txt || true
+          echo "=== serial highlights ==="
+          printf '%s' "$OUT" | grep -aE "BENCHPHASE|BENCHCARD|import:|\[bench\]|BENCH_RESULT|nvidia-smi|Tesla|NVIDIA" | tail -60 || true
+          echo "=== result lines ==="
+          cat /tmp/results.txt || true
+          if [ ! -s /tmp/results.txt ]; then
+            echo "::warning::no result marker — serial tail 120:"; printf '%s' "$OUT" | tail -120 || true
+            echo "::error title=PROBE PRODUCED NO MEASUREMENT::$CARD on $MACHINE in $ZONE"; exit 1
           fi
 
-      - name: Cost note (throughput × approx spot price)
+      - name: Teardown (always — the control plane is the only thing that can stop the meter)
         if: always()
         run: |
-          python3 - <<'PY'
-          import os, re
-          price = {"g2-standard-4": 0.24, "n1-standard-4": 0.13}   # approx us-central1 spot all-in $/hr; refine from Billing
-          m = os.environ.get("MACHINE", ""); line = os.environ.get("RESULT_LINE", "")
-          mo = re.search(r"ns_per_day=([\d.]+)", line)
-          if not mo:
-              print(f"[cost] no ns/day for {m}: {line!r}"); raise SystemExit(0)
-          nsday = float(mo.group(1)); p = price.get(m)
-          if p:
-              usd_per_ns = p / (nsday / 24.0)
-              print(f"[cost] machine={m} ns/day={nsday:.1f} spot~${p}/hr -> ${usd_per_ns:.4f}/ns (lower wins)")
-          else:
-              print(f"[cost] machine={m} ns/day={nsday:.1f} (no price)")
-          PY
+          if [ -n "$VM" ] && [ -n "$ZONE" ]; then
+            gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>&1 | tail -2 && echo "deleted $VM" || echo "delete no-op"
+          fi
+          # LABEL SWEEP. The delete above needs $ZONE, which is only exported when a create SUCCEEDS — so a
+          # VM left behind by a create that failed after allocating has no zone to delete it by. The create
+          # stamps bench-run=<run id>, so this finds THIS run's stray wherever it is, and can never touch a
+          # ternary leg or another probe. Age is never consulted (gcp-gpu-facts.md §6b): identity is.
+          STRAY=$(gcloud compute instances list --filter="labels.bench-run=${GITHUB_RUN_ID}" \
+                    --format="value(name,zone)" 2>/dev/null || true)
+          if [ -n "$STRAY" ]; then
+            echo "::warning title=STRAY VM FROM THIS RUN::$STRAY — deleting by label"
+            printf '%s\n' "$STRAY" | while read -r N Z; do
+              [ -n "$N" ] && gcloud compute instances delete "$N" --zone="$Z" --quiet 2>&1 | tail -1
+            done
+          fi
+          echo "=== instances remaining in project ==="
+          gcloud compute instances list --format="value(name,zone,status)" 2>/dev/null || echo "  (none / list failed)"
+          echo "=== GPUS_ALL_REGIONS after teardown ==="
+          gcloud compute project-info describe --flatten="quotas[]" \
+            --filter="quotas.metric=GPUS_ALL_REGIONS" \
+            --format="value(quotas.metric,quotas.limit,quotas.usage)" 2>/dev/null || true
+
+      - name: Record the measurement (derived, never typed)
+        if: always()
+        run: |
+          set +e
+          [ -s /tmp/results.txt ] || { echo "no results to record"; exit 0; }
+          while IFS= read -r LINE; do
+            [ -z "$LINE" ] && continue
+            E=$(printf '%s' "$LINE" | grep -oE 'edge_nm=[0-9.]+' | tail -1 | cut -d= -f2)
+            python3 research/modalities/gcp_card_bench.py \
+              --record "$LINE" --card "$CARD" --edge-nm "${E:-0}" \
+              --run-id "$GITHUB_RUN_ID" --zone "${ZONE:-}" --machine "$MACHINE" --provisioning "$PROVISIONING"
+          done < /tmp/results.txt
+          python3 research/modalities/gcp_card_bench.py --report
+
+      - name: Commit the artifact
+        if: always()
+        run: |
+          set +e
+          [ "$DO_COMMIT" = "1" ] || { echo "commit disabled"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/gcp-card-bench.json research/modalities/gcp-price-probe.json 2>/dev/null
+          git diff --cached --quiet && { echo "nothing to commit"; exit 0; }
+          git commit -m "GCP card probe: ${CARD} @ $BENCH_EDGES nm (run ${GITHUB_RUN_ID})" || exit 0
+          for a in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
+            sleep 5
+          done
