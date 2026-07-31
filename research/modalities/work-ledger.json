@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-31T13:57:31Z",
-  "_generated_et": "9:57 AM ET Jul 31, 2026",
+  "_generated_utc": "2026-07-31T14:06:08Z",
+  "_generated_et": "10:06 AM ET Jul 31, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-31T14:45:31Z",
-  "_stale_after_et": "10:45 AM ET Jul 31, 2026",
+  "_stale_after_utc": "2026-07-31T14:54:08Z",
+  "_stale_after_et": "10:54 AM ET Jul 31, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -47,9 +47,9 @@
     {
       "scanner": "lanes",
       "ran": true,
-      "found": 5,
+      "found": 6,
       "error": null,
-      "how": "consumed 5 lane verdict(s) from lane_staleness_watch (its thresholds are imported, never re-typed); OK verdicts become rows so the board can prove it is watching"
+      "how": "consumed 6 lane verdict(s) from lane_staleness_watch (its thresholds are imported, never re-typed); OK verdicts become rows so the board can prove it is watching"
     }
   ],
   "_scanner_coverage_is_the_claim": "a category with no scanner is invisible, and invisible looks exactly like healthy. What is and is NOT scanned is listed in work_ledger.py's module docstring; the SCANNERS tuple is the machine copy and the tests assert they agree.",
@@ -2035,7 +2035,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 5804 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 5813 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2065,7 +2065,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 5794 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 5803 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2865,22 +2865,22 @@
     {
       "id": "lane:rung-5aks",
       "scanner": "lanes",
-      "what": "RUNG 5a-KS ternary legs, NR4A3 + NR4A1 (Vast) \u2014 IDLE-UNEXPECTED",
+      "what": "RUNG 5a-KS ternary legs, NR4A3 + NR4A1 (Vast) \u2014 IDLE-WITHIN-GRACE",
       "owner": "gpu-ternary-fep-vast.yml",
       "owner_note": null,
-      "state": "open",
-      "evidence_fingerprint": "IDLE-UNEXPECTED||launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched'",
-      "last_evidence_utc": "2026-07-31T12:14:28Z",
-      "last_evidence_et": "8:14 AM ET Jul 31, 2026",
-      "last_evidence_what": "launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched'",
-      "next_evidence_due_utc": "2026-07-31T12:59:28Z",
-      "next_evidence_due_et": "8:59 AM ET Jul 31, 2026",
+      "state": "dispatched",
+      "evidence_fingerprint": "IDLE-WITHIN-GRACE||launch ledger: stage='5aks-gate' outcome='dispatched'",
+      "last_evidence_utc": "2026-07-31T14:05:47Z",
+      "last_evidence_et": "10:05 AM ET Jul 31, 2026",
+      "last_evidence_what": "launch ledger: stage='5aks-gate' outcome='dispatched'",
+      "next_evidence_due_utc": "2026-07-31T14:50:47Z",
+      "next_evidence_due_et": "10:50 AM ET Jul 31, 2026",
       "blocked_by": [],
       "attempts": [],
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "lane 'rung-5aks' is carried by gpu-ternary-fep-vast.yml but has no entry in `_LANE_ACTION`, so this module does not know which dispatch advances it. Recorded with its owner rather than dispatched at a guess \u2014 the GCP lane is quota-bound and us-central1-only, and a blind dispatch at it would waste the single GPU the whole project shares.",
+      "auto_action_why_none": "evidence is not due until 10:50 AM ET Jul 31, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": null,
       "cost_points_at": null,
       "price_points_at": null,
@@ -2889,7 +2889,37 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "NO HOSTS, 4 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 103 min (threshold 45 min; last: launch ledger: stage='rent (steps.rent.outcome=success)' outcome='launched' at 8:14 AM ET Jul 31, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from "
+        "no hosts and 4 unit(s) unfinished, but the last evidence is only 0 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
+      ]
+    },
+    {
+      "id": "lane:nrv04-retro",
+      "scanner": "lanes",
+      "what": "NR-V04 retrospective Arm E / R1, 18 endpoint-MD legs (Vast) \u2014 IDLE-UNEXPECTED",
+      "owner": "fusion-cpu-extras.yml",
+      "owner_note": null,
+      "state": "open",
+      "evidence_fingerprint": "IDLE-UNEXPECTED|17 outstanding / NO HOST:17|the lane's own tick wrote its in-flight-board fragment",
+      "last_evidence_utc": "2026-07-31T13:12:38Z",
+      "last_evidence_et": "9:12 AM ET Jul 31, 2026",
+      "last_evidence_what": "the lane's own tick wrote its in-flight-board fragment",
+      "next_evidence_due_utc": "2026-07-31T13:57:38Z",
+      "next_evidence_due_et": "9:57 AM ET Jul 31, 2026",
+      "blocked_by": [],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "lane 'nrv04-retro' is carried by fusion-cpu-extras.yml but has no entry in `_LANE_ACTION`, so this module does not know which dispatch advances it. Recorded with its owner rather than dispatched at a guess \u2014 the GCP lane is quota-bound and us-central1-only, and a blind dispatch at it would waste the single GPU the whole project shares.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": null,
+      "board_group": "nrv04-retro",
+      "first_seen_utc": "2026-07-31T14:06:08Z",
+      "unreadable": null,
+      "notes": [
+        "NO HOSTS, 17 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 54 min (threshold 45 min; last: the lane's own tick wrote its in-flight-board fragment at 9:12 AM ET Jul 31, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from finished. It is NOT f"
       ]
     },
     {
@@ -2929,7 +2959,8 @@
     "blocked": 19,
     "open": 14,
     "done": 21,
-    "held": 1
+    "held": 1,
+    "dispatched": 1
   },
   "blocked": [
     "plan:validation-b-mini-all-binding-graded-cooperativity-edge-8-8-3-2-22-cum",
@@ -2986,17 +3017,17 @@
     "rung:genmatched_null_generative_arm"
   ],
   "_self": {
-    "now_et": "9:57 AM ET Jul 31, 2026",
-    "generated_et": "9:57 AM ET Jul 31, 2026",
-    "stale_after_et": "10:45 AM ET Jul 31, 2026",
+    "now_et": "10:06 AM ET Jul 31, 2026",
+    "generated_et": "10:06 AM ET Jul 31, 2026",
+    "stale_after_et": "10:54 AM ET Jul 31, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 10:45 AM ET Jul 31, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 10:54 AM ET Jul 31, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (9:56 AM ET Jul 31, 2026) refreshed the artifact to 9:57 AM ET Jul 31, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (9:57 AM ET Jul 31, 2026) refreshed the artifact to 10:06 AM ET Jul 31, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
