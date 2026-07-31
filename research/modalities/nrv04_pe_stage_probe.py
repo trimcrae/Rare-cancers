@@ -38,6 +38,48 @@ callback; this module supplies one. A probe that rebuilt the stages itself could
 and then answer confidently about a pipeline nobody runs — the same class of error as the geometry gate.
 
 Runs on CPU in CI (MD env + AWS creds). No GPU, no MD, no Vast spend, no minimisation.
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+★★ THE ANSWER — measured 2026-07-31, 4:20 PM ET (run 30662210714, job 91260853705). THIS IS ITS ONE HOME:
+the probe writes an artifact that GitHub ages out, so the numbers live here.
+
+    stage                     n_atoms   nr4a3 seed 3 (FAILS)      nr4a3 seed 1 (CONTROL)     decades apart
+    protein_after_pdbfixer     10,914   +2.109005036357692e+15    +2.522674e+05                   9.92
+    protein_plus_ligand        11,080   +2.109005036360151e+15    +2.606874e+05                   9.91
+    solvated                  ~320,000  +2.108844375741770e+15    -3.740431e+06                   8.75
+
+READ IT IN THE ORDER THE PIPELINE RUNS, because the first row already settles it:
+
+  1. **The energy is ALREADY +2.109e15 at `protein_after_pdbfixer`** — 10,914 atoms, before the ligand exists
+     and before one water molecule has been placed. The control at the identical stage is +2.52e5, which is
+     an entirely ordinary unminimised protein. Ten orders of magnitude, same code, same image, same stage.
+  2. **Adding the ligand moves seed 3 by ~2,459 kJ/mol out of 2.1e15** (the 12th significant figure). Ligand
+     placement is EXONERATED — it cannot be the cause of something that was already there.
+  3. **Solvation DECREASES it** (2.109005e15 -> 2.108844e15) and it is the step that takes the system from
+     ~11 k atoms to ~320 k. `addSolvent` is EXONERATED, and note that the solvated figure reproduces the
+     production leg's own recorded `pe_pre_min = +2.108844e+15` to ten significant figures — the probe is
+     measuring the real failure, not a lookalike.
+
+⛔ THIS REFUTES THE PRIOR THE DIAGNOSTIC WAS COMMISSIONED UNDER, and that is worth stating plainly rather
+than quietly not mentioning: the stated prior was "~98 % of the system is placed by our solvation, not by
+Boltz, so the prior should be that the fault is ours." The prior was reasonable and it is wrong. The fault is
+in the co-folded structure (or PDBFixer's repair of it) and is fully formed before our solvation touches it.
+By this module's own decision tree above, that is the branch where a different seed or a changed input is the
+only route — a PREREGISTRATION question, not a code fix.
+
+⛔⛔ AND THE PROBE'S OWN FIRST TWO READOUTS WERE BOTH WRONG, in the SAME class of error, which is why the
+verdict is now comparative (`compare_to_control`) rather than a boundary test:
+  * run 1 reported `first_nonphysical_stage: "solvated"` because the pre-solvation stages RAISED and were
+    unmeasurable — an absent reading read as a reading of absence (`single_point_kj`, `periodic=`).
+  * run 2 reported `first_nonphysical_stage: "protein_after_pdbfixer"` for the CONTROL TOO, because the
+    `PE <= 0` boundary it applied is only meaningful for a MINIMISED SOLVATED system, and no probe stage is
+    either. A normal unminimised protein is positive. The raw magnitudes were unambiguous; the boolean on top
+    of them was not, and a reader who trusted the summary line rather than the table would have concluded
+    that the control was broken as well.
+Both were caught by looking at the numbers instead of the verdict. The fix in each case was to make the
+verdict answer the question actually asked — which here is not "is this stage physical?" (unanswerable
+without minimisation) but "does this stage DIVERGE from a co-fold known to run?" (answerable, and answered).
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════
 """
 from __future__ import annotations
 
@@ -47,11 +89,30 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-#: A solvated explicit-water system of this size is always strongly negative. Zero is the physical boundary,
-#: not a tuned cut — the same one `nrv04_vast_launch.retro_input_quarantine` uses, imported there rather than
-#: re-typed here would be circular (that module imports nothing from this one), so it is stated once in each
-#: and pinned equal by tests/test_nrv04_pe_stage_probe.py.
+#: A MINIMISED solvated explicit-water system of this size is always strongly negative, and zero is the
+#: physical boundary for one — not a tuned cut. That is the boundary
+#: `nrv04_vast_launch.retro_input_quarantine` applies to `pe_post_min_kj`; it is stated once in each module
+#: rather than imported (that module imports nothing from this one) and pinned equal by
+#: tests/test_nrv04_pe_stage_probe.py.
+#:
+#: ⛔ IT DOES NOT APPLY TO A PROBE STAGE, and applying it was this module's second wrong readout. NONE of the
+#: three stages is minimised and two are not solvated, so a positive energy is the EXPECTED reading — the
+#: control is +2.5e5 at `protein_after_pdbfixer` and runs perfectly. The constant is kept because the
+#: quarantine's boundary and this module's must not silently drift apart, not because the probe tests against
+#: it. The probe's verdict is `compare_to_control`.
 NONPHYSICAL_PE_KJ = 0.0
+
+#: How far apart, in ORDERS OF MAGNITUDE at the same construction stage, before a unit is "divergent" from a
+#: co-fold known to produce frames.
+#:
+#: ⚠ THIS IS NOT THE GEOMETRY GATE'S MISTAKE REPEATED WITH A NEW NUMBER, and the difference is testable rather
+#: than asserted: the retired 1.5 A inter-chain cut was refuted because ground truth STRADDLED it (the smallest
+#: contact in the set produced the two landed production legs). Here the observation is bimodal by ~10 decades
+#: — 9.92 / 9.91 / 8.75 for the failing unit against its control — so every value from 1 to 9 returns the same
+#: stage, and `tests/test_nrv04_pe_stage_probe.py::test_the_verdict_is_invariant_across_the_threshold` fails if
+#: that ever stops being true. A threshold whose answer does not move across four orders of magnitude of
+#: itself is a separator, not a tuning knob.
+DIVERGENCE_DECADES = 3.0
 
 
 def single_point_kj(topology, positions, sysgen, periodic=True):
@@ -111,16 +172,17 @@ def probe_unit(bucket, system_name, seed, leg_id="noncov_nr4a1", cofold_prefix=N
     stages = []
 
     def _probe(name, topo, pos, sysgen):
+        # ⛔ NO PER-STAGE VERDICT IS RECORDED HERE. An unminimised, mostly-unsolvated stage has no boundary to
+        # be judged against; the one this used to apply (`PE <= 0`) flagged the healthy CONTROL. The stage
+        # records a MEASUREMENT; `compare_to_control` records the judgement, against ground truth.
         try:
             e = single_point_kj(topo, pos, sysgen, periodic=(name == "solvated"))
-            ok = e <= NONPHYSICAL_PE_KJ
-            stages.append({"stage": name, "n_atoms": topo.getNumAtoms(),
-                           "pe_kj_per_mol": e, "physical": bool(ok)})
-            print("[pe-stage] %-12s %-22s n_atoms=%7d  PE=%+.6e kJ/mol  %s"
-                  % (tag, name, topo.getNumAtoms(), e, "ok" if ok else "** NON-PHYSICAL **"), flush=True)
+            stages.append({"stage": name, "n_atoms": topo.getNumAtoms(), "pe_kj_per_mol": e})
+            print("[pe-stage] %-12s %-22s n_atoms=%7d  PE=%+.6e kJ/mol"
+                  % (tag, name, topo.getNumAtoms(), e), flush=True)
         except Exception as exc:                      # noqa: BLE001 — a stage we cannot price is UNKNOWN
             stages.append({"stage": name, "n_atoms": topo.getNumAtoms(),
-                           "pe_kj_per_mol": None, "physical": None,
+                           "pe_kj_per_mol": None,
                            "error": "%s: %s" % (type(exc).__name__, exc)})
             print("[pe-stage] %-12s %-22s PE UNREADABLE: %s: %s"
                   % (tag, name, type(exc).__name__, exc), flush=True)
@@ -130,12 +192,66 @@ def probe_unit(bucket, system_name, seed, leg_id="noncov_nr4a1", cofold_prefix=N
                  leg.covalent, os.environ.get("COV_LIG_ATOM", "C6"), 551, leg.mutation,
                  target_chain=res["chains"]["target_chain"], stage_probe=_probe)
 
-    bad = [s for s in stages if s.get("physical") is False]
-    first = bad[0]["stage"] if bad else None
-    return {"system": system_name, "seed": seed, "cofold_prefix": base, "cif": cif,
-            "stages": stages, "first_nonphysical_stage": first,
-            "verdict": ("physical at every construction stage" if not bad else
-                        "energy first goes non-physical at: %s" % first)}
+    return {"system": system_name, "seed": seed, "cofold_prefix": base, "cif": cif, "stages": stages}
+
+
+def compare_to_control(subject, control, decades=DIVERGENCE_DECADES):
+    """Which construction stage first sends SUBJECT orders of magnitude away from a co-fold known to run? PURE.
+
+    ★★ THE QUESTION A BOUNDARY TEST COULD NOT ANSWER. "Is this stage physical?" has no answer without
+    minimisation — a real, runnable, unminimised protein is positive, so `PE <= 0` called the control broken
+    (module docstring, run 2). "Does this stage diverge from a structure we have watched produce 500 frames?"
+    is answerable from the same numbers and is the question that localises the fault.
+
+    Returns {"stages": [...], "first_divergent_stage": str|None, "verdict": str}. A stage either side of which
+    a PE is missing is UNKNOWN — never "converged", never "divergent" (CLAUDE.md §4b).
+    """
+    import math
+    by_stage = {s.get("stage"): s for s in (control or {}).get("stages") or ()}
+    rows, first = [], None
+    for s in (subject or {}).get("stages") or ():
+        name = s.get("stage")
+        c = by_stage.get(name) or {}
+        a, b = s.get("pe_kj_per_mol"), c.get("pe_kj_per_mol")
+        row = {"stage": name, "n_atoms": s.get("n_atoms"),
+               "pe_subject_kj": a, "pe_control_kj": b}
+        if a is None or b is None or a == 0.0 or b == 0.0:
+            row["decades_above_control"] = None
+            row["status"] = "unknown — %s" % ("no control at this stage" if b is None else
+                                              "subject unreadable" if a is None else "a PE of exactly zero")
+        else:
+            d = math.log10(abs(float(a))) - math.log10(abs(float(b)))
+            row["decades_above_control"] = d
+            row["sign_flip"] = (float(a) > 0) != (float(b) > 0)
+            row["status"] = "DIVERGENT" if d >= decades else "consistent with the control"
+            if d >= decades and first is None:
+                first = name
+        rows.append(row)
+    if first:
+        # ⚠ "FIRST" ONLY MEANS FIRST AMONG STAGES WE COULD READ. An unreadable earlier stage must not be
+        # silently reported as a clean one — that is precisely how run 1 concluded "solvated".
+        before = rows[:[r["stage"] for r in rows].index(first)]
+        unknown_before = [r["stage"] for r in before if r.get("decades_above_control") is None]
+        verdict = ("energy first diverges from the control at: %s — every stage AFTER it inherits the "
+                   "divergence rather than causing it" % first)
+        if unknown_before:
+            verdict += ("; ⚠ but %s could not be compared, so an EARLIER origin is not excluded"
+                        % ", ".join(unknown_before))
+        elif before:
+            verdict += "; and every stage BEFORE it is consistent with the control"
+        else:
+            # THE STRONGEST READING THIS PROBE CAN RETURN, and the one it actually returned: the divergence is
+            # present in the EARLIEST thing the pipeline builds, so nothing our code does afterwards caused it.
+            verdict += ("; and it is the FIRST stage measured, so the divergence predates everything this "
+                        "pipeline does — it is a property of the INPUT, not of the build")
+    elif any(r.get("decades_above_control") is not None for r in rows):
+        verdict = "no stage diverges from the control by >= %.1f decades" % decades
+    else:
+        verdict = "NO COMPARISON POSSIBLE — no stage could be priced for both units"
+    return {"subject": "%s:%s" % ((subject or {}).get("system"), (subject or {}).get("seed")),
+            "control": "%s:%s" % ((control or {}).get("system"), (control or {}).get("seed")),
+            "decades_threshold": decades, "stages": rows,
+            "first_divergent_stage": first, "verdict": verdict}
 
 
 def main(argv=None):
@@ -163,20 +279,36 @@ def main(argv=None):
             results.append({"system": sysname.strip(), "seed": int(sd),
                             "error": "%s: %s" % (type(e).__name__, e)})
 
+    # THE COMPARISON IS THE DELIVERABLE. Unit 1 is the subject, unit 2 the control — that is why both are the
+    # default and neither is optional. A boundary applied to the subject alone was wrong twice (see docstring).
+    priced = [r for r in results if r.get("stages")]
+    comparison = (compare_to_control(priced[0], priced[1]) if len(priced) >= 2 else
+                  {"verdict": "NO COMPARISON POSSIBLE — need a subject AND a control that both priced",
+                   "first_divergent_stage": None, "stages": []})
+
     doc = {"_what": "Single-point potential energy at each construction stage, for a failing co-fold and a "
-                    "working control. The stage at which PE first goes non-physical localises the fault.",
+                    "working control. The stage at which the subject first diverges from the control by "
+                    "orders of magnitude localises the fault.",
            "_why": "Replaces the retired inter-chain-distance gate, which was refuted by its own first run "
-                   "(nrv04_cofold_audit.CLASH_MIN_INTERCHAIN_A). PE needs no threshold: -4e6 runs, +2e15 "
-                   "does not.",
-           "nonphysical_above_kj": NONPHYSICAL_PE_KJ, "units": results}
+                   "(nrv04_cofold_audit.CLASH_MIN_INTERCHAIN_A).",
+           "_not": "There is no per-stage 'physical' verdict: no probe stage is minimised and two are not "
+                   "solvated, so a positive PE is expected and the zero boundary flagged the healthy control.",
+           "nonphysical_above_kj_POST_MIN_ONLY": NONPHYSICAL_PE_KJ,
+           "decades_threshold": DIVERGENCE_DECADES,
+           "units": results, "comparison": comparison}
     json.dump(doc, open(a.out, "w"), indent=2)
     print("\n" + json.dumps(doc, indent=2), flush=True)
 
-    # THE READING, said out loud rather than left to the reader — this is a diagnostic whose whole value is
-    # the comparison between the two units.
-    fails = {r["system"] + ":" + str(r["seed"]): r.get("first_nonphysical_stage")
-             for r in results if "stages" in r}
-    print("\n[pe-stage] first non-physical stage per unit: %s" % json.dumps(fails), flush=True)
+    # THE READING, said out loud rather than left to the reader.
+    print("\n[pe-stage] %s" % comparison["verdict"], flush=True)
+    for r in comparison.get("stages") or ():
+        d = r.get("decades_above_control")
+        print("[pe-stage]   %-22s subject=%s control=%s  %s  -> %s"
+              % (r.get("stage"),
+                 ("%+.6e" % r["pe_subject_kj"]) if r.get("pe_subject_kj") is not None else "unreadable",
+                 ("%+.6e" % r["pe_control_kj"]) if r.get("pe_control_kj") is not None else "unreadable",
+                 ("%.2f decades apart" % d) if d is not None else "not comparable",
+                 r.get("status")), flush=True)
     return 0
 
 

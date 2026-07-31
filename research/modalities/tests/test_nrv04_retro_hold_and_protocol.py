@@ -726,6 +726,56 @@ def test_the_quarantine_costs_nothing_and_is_visible(monkeypatch):
     assert [q["unit"] for q in out["quarantined"]] == [name]
     assert out["needed"] == [] and out["blocked"] == []
     assert name in vl.retro_gate_reasons(out), "a quarantined unit must carry its reason in the gate record"
+    assert out["quarantine_eligible_running"] == [], "nothing is on a host in this fixture"
+
+
+def test_a_quarantine_eligible_unit_ON_A_HOST_is_visible_but_untouched(monkeypatch):
+    """★★ THE BOARD SAID 1 QUARANTINE WHILE THE DIAGNOSIS NAMED TWO, and the missing one was mid-rental.
+
+    The quarantine check sat below `if name in done_units or name in alive: continue`, so it could only ever
+    reach a HOSTLESS unit. `m3-r0` was hostless and refused; `m3-r1` was on a host and rendered as an ordinary
+    running leg. Both draw on the same non-physical co-fold.
+
+    ⛔ AND THE FIX IS VISIBILITY, NOT ENFORCEMENT. The quarantine gates PURCHASES; CLAUDE.md §6 draws exactly
+    this boundary for the market gate ("work already executing is never touched"). So the live host must NOT
+    be condemned, must NOT be added to `quarantined`, and must NOT appear in `needed` — it simply has to say
+    what it is.
+    """
+    import json
+    a, m, r = retro.enumerate_units()[0]
+    name = retro.unit_name(a, m, r)
+    s3 = _FakeS3({f"{vl.RETRO_RESULT_PREFIX}/{vl.RETRO_AUTHORIZED_UNITS_KEY}": json.dumps({"units": [name]})})
+    inst = {"id": 999, "label": name, "actual_status": "running", "start_date": 1.0e9 - 3600}
+    monkeypatch.setattr(vl, "_vast_request", lambda *a, **k: {"instances": [inst]})
+    monkeypatch.setattr(vl, "retro_leg_records", lambda *a, **k: [(name, "k", REAL_BLOWN, 1.0)])
+    monkeypatch.setattr(vl, "_s3_list", lambda *a, **k: [])
+    out = vl.retro_supervise("bkt", s3=s3, key="k", now=1.0e9, launch=False)
+    assert [q["unit"] for q in out["quarantine_eligible_running"]] == [name]
+    assert out["quarantined"] == [], "a live host is never quarantined — the gate is on purchases"
+    assert out["condemned"] == [], "and it is certainly never condemned by this predicate"
+    assert name not in (out.get("needed") or []), "it has a host; it is not due for one"
+    why = vl.retro_gate_reasons(out)[name]
+    assert why.startswith("RUNNING"), why
+    assert "never touches work already executing" in why
+    # ⚠ IT MUST NOT READ AS A DECLINE. CLAUDE.md §1: a row we are paying for and a row the gate refused must
+    # never render alike, and this row is one we are paying for.
+    assert "INPUT QUARANTINE —" not in why.split("RUNNING")[0]
+    assert "$0" not in why
+
+
+def test_the_running_quarantine_flag_is_carried_onto_the_board_row():
+    rows, _ = vl.retro_board_rows(
+        _FakeS3({}), "bkt", {}, set(), [{"id": 7, "label": "u", "start_date": 1.0e9 - 7200}],
+        None, {}, now=1.0e9, quarantine_running={"u"})
+    # `retro_board_rows` enumerates the panel, so the synthetic label is not among its units; the guard is
+    # that the parameter exists, is honoured for a LIVE host only, and is absent by default.
+    import inspect
+    src = inspect.getsource(vl.retro_board_rows)
+    assert "quarantine_running" in inspect.signature(vl.retro_board_rows).parameters
+    assert "inst is not None and name in (quarantine_running or set())" in src, (
+        "a hostless unit already carries the quarantine through `reasons`; this branch is the live one")
+    assert "QUARANTINE-ELIGIBLE INPUT" in src
+    assert isinstance(rows, list)
 
 
 if __name__ == "__main__":

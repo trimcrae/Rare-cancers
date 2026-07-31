@@ -2582,7 +2582,8 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
     key = key or os.environ.get("VAST_API_KEY")
     now = time.time() if now is None else now
     out = {"utc": _utcnow(), "nudged": [], "condemned": [], "blocked": [], "replaced": [],
-           "held": None, "unreadable": None, "awaiting_authorization": [], "quarantined": []}
+           "held": None, "unreadable": None, "awaiting_authorization": [], "quarantined": [],
+           "quarantine_eligible_running": []}
     if not key:
         out["unreadable"] = "no VAST_API_KEY — cannot read the fleet, so nothing is nudged, condemned or bought"
         print("[retro-super] " + out["unreadable"], flush=True)
@@ -2696,6 +2697,22 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
     for a, m, r in retro.enumerate_units():
         name = retro.unit_name(a, m, r)
         if name in done_units or name in alive:
+            # ⚠ VISIBILITY ONLY, AND DELIBERATELY NOT A KILL (trimcrae's coordinator, 2026-07-31: leave the
+            # count as it is, make the reason visible). The quarantine is a PURCHASING gate — it stops us
+            # renting a host for an input no host can run — and CLAUDE.md §6 draws the same boundary for the
+            # market gate: "work already executing is never touched". A unit whose newest record is
+            # non-physical but which is on a host RIGHT NOW is therefore left alone; what was wrong is that it
+            # rendered as an ordinary running unit, so the board showed 1 QUARANTINE while the diagnosis named
+            # two units. The reason existed and was simply unreachable for anything not hostless.
+            # It clears itself: this reads the NEWEST leg record, so the moment the live leg writes a clean
+            # one the flag is gone with no edit.
+            if name in alive:
+                _aq, _aqwhy = retro_input_quarantine(newest_rec.get(name))
+                if _aq:
+                    out["quarantine_eligible_running"].append({"unit": name, "why": _aqwhy})
+                    print(f"[retro-super] ⚠ {name} is RUNNING on a host and its newest leg record is "
+                          f"quarantine-eligible — not stopped (the quarantine gates PURCHASES, never work "
+                          f"already executing), but it is expected to reproduce: {_aqwhy}", flush=True)
             continue
         if name not in authorized:
             out["awaiting_authorization"].append(name)
@@ -2818,6 +2835,13 @@ def retro_gate_reasons(sup):
                      "authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).")
     for q in (sup or {}).get("quarantined") or ():
         out[q.get("unit")] = q.get("why")
+    # A unit on a host whose newest record is already quarantine-eligible. NOT a decline — it is running and
+    # we are paying for it — so it is worded as an expectation, not a refusal. Same distinction CLAUDE.md §1
+    # draws between "⚠ PAYING" and "⛔ REFUSED": one glyph, one meaning.
+    for q in (sup or {}).get("quarantine_eligible_running") or ():
+        out[q.get("unit")] = ("RUNNING, and expected to reproduce its blow-up — its newest leg record is "
+                              "quarantine-eligible, but the quarantine gates PURCHASES and never touches work "
+                              "already executing, so this host was not stopped. " + (q.get("why") or ""))
     for b in (sup or {}).get("blocked") or ():
         out[b.get("unit")] = ("BLOCKED by the failure breaker — %s. Counted %s. Clear with "
                               "leg_failure_breaker.reset_for() once the cause is fixed."
@@ -2863,6 +2887,9 @@ def persist_retro_gate(sup, reasons, path=None, bucket=None, s3=None):
            "replaced": [h.get("unit") for h in ((sup or {}).get("replaced") or []) if isinstance(h, dict)],
            "blocked": (sup or {}).get("blocked") or [],
            "quarantined": (sup or {}).get("quarantined") or [],
+           # Separate key, never merged into `quarantined` — one is "$0, we declined to buy", the other is
+           # "we are paying for this right now and expect it to fail". Summing them would misreport spend.
+           "quarantine_eligible_running": (sup or {}).get("quarantine_eligible_running") or [],
            "awaiting_authorization": (sup or {}).get("awaiting_authorization") or [],
            "condemned": (sup or {}).get("condemned") or [],
            "nudged": (sup or {}).get("nudged") or [],
@@ -2991,7 +3018,8 @@ def _phase_marker_provenance(phase, inst):
             % ((started - marker) / 60.0))
 
 
-def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now=None, reasons=None):
+def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now=None, reasons=None,
+                     quarantine_running=None):
     """(rows, new_state) for this lane's in-flight board. Finished legs are counted, not rowed.
 
     ⚠ NO UNIT IS DROPPED FOR BEING UNMEASURABLE — an unknown `%` or ETA renders `—` with the WHY naming which
@@ -3109,6 +3137,19 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
                                 "utilisation not reported by the host" if _u is None else "%.1f%%" % _u))
             else:
                 state_why = cell_why
+            # ⚠ A UNIT ON A HOST WHOSE NEWEST RECORD IS ALREADY QUARANTINE-ELIGIBLE SAYS SO ON ITS ROW
+            # (2026-07-31). The quarantine only ever reached HOSTLESS units, so the board showed 1 QUARANTINE
+            # while the diagnosis named two — `m3-r0` was hostless and refused, `m3-r1` was mid-rental and
+            # rendered as an ordinary running leg with nothing to distinguish it. The gate is unchanged and
+            # this host is NOT stopped (it gates purchases, not executing work); what changes is that the row
+            # now carries the expectation. Appended rather than substituted, because the host-state reason is
+            # still true and still the reason for the RUNNING verdict.
+            if inst is not None and name in (quarantine_running or set()):
+                state_why = ((state_why + " · " if state_why else "")
+                             + "⚠ QUARANTINE-ELIGIBLE INPUT: this unit's newest leg record is non-physical "
+                               "(blew up at the first production step). It is not stopped — the quarantine "
+                               "gates PURCHASES, never work already executing — but this rental is expected "
+                               "to reproduce the blow-up in seconds. See retro_input_quarantine.")
             # ADVANCEMENT, from two independent POSITIVE signals and never from the absence of one: the
             # driver's own frame census moved since the previous poll, or the guard's GPU-busy rule observes
             # this box doing work. See `inflight_board.gpu_is_busy` — a low or absent reading never condemns.
@@ -3344,8 +3385,10 @@ def retro_collect(bucket, reap=None):
                 Key=f"{RETRO_RESULT_PREFIX}/{_RETRO_BOARD_PREV_KEY}")["Body"].read().decode())
         except Exception:  # noqa: BLE001 — a first tick has no previous census; that is a first census
             _prev_board = {}
-        _rows, _new_board = retro_board_rows(s3, bucket, phases, have, _live, _unreadable,
-                                             _prev_board, reasons=_gate_reasons)
+        _rows, _new_board = retro_board_rows(
+            s3, bucket, phases, have, _live, _unreadable, _prev_board, reasons=_gate_reasons,
+            quarantine_running={q.get("unit") for q
+                                in ((_sup or {}).get("quarantine_eligible_running") or ())})
         _n_expected = len(expected)
         _frag, _board = _ifb.publish(
             _ifb.NRV04_RETRO, _rows,
