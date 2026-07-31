@@ -1,21 +1,15 @@
 {
   "_what": "NR-V04 retrospective \u2014 why each hostless unit was or was not bought on this tick.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a hold is never silent, and it carries the snapshot that caused it.",
-  "utc": "2026-07-31T18:35:06Z",
+  "utc": "2026-07-31T18:41:24Z",
   "lane": "nrv04_retro",
-  "n_authorized": 1,
-  "needed": [],
-  "replaced": [],
-  "blocked": [],
-  "awaiting_authorization": [
+  "n_authorized": 17,
+  "needed": [
     "nrv04retro-retro_noncov_nr4a1-m1-r0",
-    "nrv04retro-retro_noncov_nr4a1-m1-r1",
     "nrv04retro-retro_noncov_nr4a1-m2-r0",
     "nrv04retro-retro_noncov_nr4a1-m2-r1",
     "nrv04retro-retro_noncov_nr4a1-m3-r0",
     "nrv04retro-retro_noncov_nr4a1-m3-r1",
-    "nrv04retro-retro_noncov_nr4a2-m1-r1",
-    "nrv04retro-retro_noncov_nr4a2-m2-r0",
     "nrv04retro-retro_noncov_nr4a2-m2-r1",
     "nrv04retro-retro_noncov_nr4a2-m3-r0",
     "nrv04retro-retro_noncov_nr4a2-m3-r1",
@@ -25,26 +19,46 @@
     "nrv04retro-retro_noncov_nr4a3-m3-r0",
     "nrv04retro-retro_noncov_nr4a3-m3-r1"
   ],
-  "condemned": [],
-  "nudged": [],
+  "replaced": [
+    "nrv04retro-retro_noncov_nr4a1-m2-r1",
+    "nrv04retro-retro_noncov_nr4a2-m3-r0"
+  ],
+  "blocked": [],
+  "awaiting_authorization": [],
+  "condemned": [
+    {
+      "instance": "46427503",
+      "unit": "nrv04retro-retro_noncov_nr4a1-m1-r0",
+      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
+    },
+    {
+      "instance": "46427513",
+      "unit": "nrv04retro-retro_noncov_nr4a1-m2-r0",
+      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
+    }
+  ],
+  "nudged": [
+    {
+      "instance": "46425480",
+      "unit": "nrv04retro-retro_noncov_nr4a3-m1-r0",
+      "why": "stopped 29 min, status_msg 'success, running docker.io/triskit23/nrv04vast_latest/ssh' \u2014 nudging; no strike (pull in progress or inside the grace)"
+    }
+  ],
   "fleet_unreadable": null,
   "market": null,
   "reasons": {
-    "nrv04retro-retro_noncov_nr4a1-m1-r0": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a1-m1-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a1-m2-r0": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a1-m2-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a1-m3-r0": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a1-m3-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a2-m1-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a2-m2-r0": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a2-m2-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a2-m3-r0": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a2-m3-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a3-m1-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a3-m2-r0": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a3-m2-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a3-m3-r0": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).",
-    "nrv04retro-retro_noncov_nr4a3-m3-r1": "HELD \u2014 never authorised to launch. Supervision heals only units an operator dispatch authorised; release with a retro_pilot / retro_full dispatch (md_mode=run)."
+    "nrv04retro-retro_noncov_nr4a1-m1-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a1-m2-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a1-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a1-m3-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a1-m3-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a2-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a2-m3-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a2-m3-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a3-m1-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a3-m2-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a3-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a3-m3-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
+    "nrv04retro-retro_noncov_nr4a3-m3-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
   }
 }
