@@ -2750,8 +2750,17 @@ def retro_gate_reasons(sup):
                               "leg_failure_breaker.reset_for() once the cause is fixed."
                               % (b.get("verdict"), b.get("counted") or "an unstated denominator"))
     held = (sup or {}).get("held") or {}
+    # ⛔ A UNIT WE JUST RENTED IS NOT A UNIT WE DECLINED (measured 2026-07-31, 3:25 PM ET tick). `needed` is
+    # what the tick SET OUT to buy; `replaced` is what it actually got. Reading only the first made the
+    # 40 %-done pilot print `NOT BOUGHT — none was rented` in the same tick whose submit line reads
+    # `nrv04retro-retro_noncov_nr4a3-m1-r0 -> instance 46431866 dph≈$0.2182/hr`. That is CLAUDE.md §1's
+    # named failure exactly — a row we are paying rendering identically to a row the gate refused.
+    bought = {h.get("unit") for h in ((sup or {}).get("replaced") or []) if isinstance(h, dict)}
     for name in (sup or {}).get("needed") or ():
         if name in out:
+            continue
+        if name in bought:
+            out[name] = "BOUGHT this tick — a host was rented for it; see the submit line for the rate."
             continue
         if held:
             out[name] = ("NOT BOUGHT — the market gate %s (%s). Board: %s. $0 spent, checkpoint intact, the "

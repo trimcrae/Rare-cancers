@@ -659,5 +659,15 @@ def test_a_stale_poll_count_on_a_fresh_host_says_so(monkeypatch):
     assert "%g" % vig.MIN_INSTANCE_AGE_MIN in why
 
 
+def test_a_unit_that_was_rented_does_not_render_as_declined():
+    """CLAUDE.md section 1: a row we are paying and a row the gate refused must never render alike.
+    Measured 3:25 PM ET — the pilot printed `NOT BOUGHT` in the tick that rented it instance 46431866."""
+    sup = {"needed": ["u_bought", "u_missed"],
+           "replaced": [{"unit": "u_bought", "instance": "46431866"}]}
+    r = vl.retro_gate_reasons(sup)
+    assert "BOUGHT this tick" in r["u_bought"]
+    assert "NOT BOUGHT" in r["u_missed"]
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))
