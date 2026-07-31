@@ -208,5 +208,97 @@ def test_an_empty_selector_still_authorises_nothing():
     assert vl.teardown_candidates([inst], {}, 2.0, 1, "") == []
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 3 — the breaker counted a LIFETIME, and a lifetime is not a failure streak
+#
+# MEASURED 2026-07-31, 1:40 PM ET. The pilot `nrv04retro-retro_noncov_nr4a3-m1-r0` lost its host at ~12:06 PM
+# ET and was never re-placed, across ~13 supervision ticks. The tick was firing every ~8 min and its log said
+# why on every one of them:
+#
+#   [retro-super] ⛔ BLOCKED nrv04retro-retro_noncov_nr4a3-m1-r0 — this unit has been rented 3 times
+#   (threshold 3) and has still written NO leg record.
+#
+# The S3 archive that produced the 3:
+#   attempts/run-20260731T144656Z.log  10:46 AM ET  smoke
+#   attempts/run-20260731T145006Z.log  10:50 AM ET  smoke -> wrote leg_..._s0.json at 10:53 AM ET
+#   attempts/run-20260731T160052Z.log  12:00 PM ET  the production pilot (host lost ~12:06 PM ET)
+#
+# Two of the three SUCCEEDED far enough to write a completed leg record. The consecutive-failure count is 1.
+# `leg_failure_breaker.count_attempts.__doc__` documents this exact divergence and the `since_utc` fix it got
+# for the ternary lane on 2026-07-30; this call site never received it, so the count could only grow and the
+# block was permanent by construction.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_the_breaker_denominator_is_the_streak_not_the_lifetime_count(monkeypatch):
+    """THE REGRESSION, replayed with the pilot's real timestamps."""
+    import calendar
+    a, m, r = retro.enumerate_units()[0]
+    name = retro.unit_name(a, m, r)
+    rec_epoch = calendar.timegm((2026, 7, 31, 14, 53, 10, 0, 0, 0))       # the completed smoke leg record
+    lifetime = ["run-20260731T144656Z.log", "run-20260731T145006Z.log", "run-20260731T160052Z.log"]
+
+    seen = {}
+
+    def _count(_s3, _b, _p, unit, since_utc=None):
+        seen[unit] = since_utc
+        if since_utc is None:
+            return len(lifetime)                                          # the defect: 3 >= threshold 3
+        cut = calendar.timegm(__import__("time").strptime(since_utc, "%Y-%m-%dT%H:%M:%SZ"))
+        return sum(1 for k in lifetime
+                   if calendar.timegm(__import__("time").strptime(k[4:-4], "%Y%m%dT%H%M%SZ")) > cut)
+
+    import json
+    import leg_failure_breaker as lfb
+    s3 = _FakeS3({f"{vl.RETRO_RESULT_PREFIX}/{vl.RETRO_AUTHORIZED_UNITS_KEY}": json.dumps({"units": [name]})})
+    monkeypatch.setattr(vl, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(vl, "retro_leg_records",
+                        lambda *a, **k: [(name, "k", {"mode": "smoke", "n_frames": 5}, rec_epoch)])
+    monkeypatch.setattr(vl, "_s3_list", lambda *a, **k: [])
+    monkeypatch.setattr(lfb, "count_attempts", _count)
+    out = vl.retro_supervise("bkt", s3=s3, key="k", now=1.0e9, launch=False)
+
+    assert seen[name] == "2026-07-31T14:53:10Z", "the streak must start at the newest leg record, not None"
+    assert out["blocked"] == [], "one host loss after a completed leg is not a reproducing fault"
+    assert out["needed"] == [name] and out["would_replace"] == [name]
+
+
+def test_a_unit_that_has_never_written_a_record_still_blocks_at_the_threshold():
+    """The protection the fix must NOT weaken: no record ever -> lifetime IS the streak."""
+    import leg_failure_breaker as lfb
+    d = vl.retro_breaker(has_result=False, n_attempts=lfb.DEFAULT_THRESHOLD, since_utc=None)
+    assert d["block"] is True
+    assert "never written a leg record" in d["counted"]
+
+
+def test_a_block_names_the_denominator_it_used():
+    """A bare count is unauditable: 3 lifetime attempts and 3 consecutive failures are opposite facts."""
+    import leg_failure_breaker as lfb
+    d = vl.retro_breaker(has_result=False, n_attempts=lfb.DEFAULT_THRESHOLD,
+                         since_utc="2026-07-31T14:53:10Z")
+    assert d["streak_since_utc"] == "2026-07-31T14:53:10Z"
+    assert "2026-07-31T14:53:10Z" in d["why"]
+
+
+def test_retro_streak_since_utc_is_the_newest_record_and_none_when_there_is_none():
+    import calendar
+    ep = calendar.timegm((2026, 7, 31, 14, 53, 10, 0, 0, 0))
+    assert vl.retro_streak_since_utc({"u": ep}, "u") == "2026-07-31T14:53:10Z"
+    assert vl.retro_streak_since_utc({}, "u") is None
+    assert vl.retro_streak_since_utc(None, "u") is None
+
+
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# The retro market gate must name the TIER it priced — carried from the ternary gate's 2026-07-31 finding.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_the_retro_market_gate_snapshot_stamps_its_tier(tmp_path):
+    out = tmp_path / "hold.json"
+    # An empty board is unpriceable -> a HOLD, which is the branch whose SENTENCE must carry the tier.
+    hold, doc = vl.retro_market_gate(1, offers=[], readout_path=str(out))
+    assert hold is True
+    assert doc["interruptible"] is True and "bid" in doc["tier"]
+    assert "tier" in doc["reason"], "a hold sentence with no tier is the ambiguity this closes"
+    import json as _j
+    assert _j.loads(out.read_text())["tier"] == doc["tier"], "the snapshot must carry it, not just stdout"
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))
