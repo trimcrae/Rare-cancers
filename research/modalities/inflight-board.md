@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 5:51 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 5:59 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:02 AM Aug 1      54.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 31.1 s/iter · realised $0.00773/ns (1.88x expected)
-5aks_d0_to_d ternary nr4a3 r0 9:32 PM            88.9%  RTX 3090 $0.00554/ns · 1.62× basis [bid] RUNNING   ⚠ 33.2 s/iter · realised $0.01107/ns (2.00x expected)
-5aks_d0_to_d ternary nr4a1 r0 5:16 AM Aug 1      37.3%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   18.2 s/iter
-5aks_d0_to_d ternary nr4a1 r1 5:47 AM Aug 1      35.6%  RTX 4090 $0.00537/ns · 1.57× basis [bid] STARTING  COLD_START — instance is 14 min old, under the 15 min floor — too young to have proved anything either way · 18.5 s/iter
+5aks_d0_to_d ternary nr4a3 r1 8:11 AM Aug 1      54.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.1 s/iter
+5aks_d0_to_d ternary nr4a3 r0 9:40 PM            88.9%  RTX 3090 $0.00554/ns · 1.62× basis [bid] STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 33.2 s/iter
+5aks_d0_to_d ternary nr4a1 r0 5:25 AM Aug 1      37.3%  RTX 4090 $0.00520/ns · 1.53× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 18.2 s/iter
+5aks_d0_to_d ternary nr4a1 r1 7:26 AM Aug 1      35.6%  RTX 4090 $0.00537/ns · 1.57× basis [bid] RUNNING   ⚠ 20.9 s/iter · realised $0.00675/ns (1.26x expected)
 ---- END TVAST-BOARD ----
 ```
