@@ -8,29 +8,29 @@
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
   "breakeven_usd_per_ns": 0.009682,
   "depth": {
-    "offers_returned": 201,
-    "qualifying": 80,
-    "priceable": 80,
+    "offers_returned": 169,
+    "qualifying": 167,
+    "priceable": 93,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers": [
     {
-      "gpu": "RTX 5090",
-      "machine_id": 137832,
-      "min_bid_usd_h": 0.2948148148148148,
-      "usd_per_ns": 0.007282
+      "gpu": "RTX 4090",
+      "machine_id": 12976,
+      "min_bid_usd_h": 0.112,
+      "usd_per_ns": 0.00384
     }
   ],
-  "mean_usd_per_ns": 0.007282,
-  "ratio_vs_basis": 2.134,
-  "projected_usd": 3.9,
+  "mean_usd_per_ns": 0.00384,
+  "ratio_vs_basis": 1.126,
+  "projected_usd": 2.06,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": true,
-  "hold": true,
-  "reason": "2.13x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns",
+  "fails_ratio_ceiling": false,
+  "hold": false,
+  "reason": "projected $2.06 within this rung's ceiling $5.19 AND 1.13x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
     "30113",
     "31036",
