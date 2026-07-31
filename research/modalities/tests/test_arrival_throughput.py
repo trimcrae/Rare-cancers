@@ -183,7 +183,7 @@ def test_the_verdict_is_rendered_into_the_row_not_just_computed():
     import ternary_vast_launch as tv
     src = inspect.getsource(tv)
     assert '"arrival": _arr' in src, "the numbers must reach the committed artifact"
-    assert "_acell = _at.cell(_arr)" in src and "_why = (_why" in src, \
+    assert "_acell = _at.cell(_arr)" in src and "_wtxt = (_wtxt" in src, \
         "and the human-readable verdict must reach the board row"
 
 
@@ -201,3 +201,18 @@ def test_it_is_report_only_for_now_and_says_so():
     assert "REPORT-ONLY" in window, "the posture must be stated where the call is made"
     # the action is deliberately NOT wired yet
     assert "retire_host(_b" not in src and "_at.ABANDON" not in src
+
+
+def test_the_arrival_cell_is_NOT_suppressed_on_a_healthy_row():
+    """MEASURED 5:29 PM ET 2026-07-31: the board's `why` is emitted only when `_cell_unknown` (% or ETA
+    missing), so appending the arrival verdict there hid it on exactly the rows that HAVE a delivered rate —
+    a healthy RUNNING leg. Both RUNNING rows rendered an empty `why` and the cell vanished. The verdict is
+    composed into the final string unconditionally now."""
+    import inspect
+
+    import ternary_vast_launch as tv
+    src = inspect.getsource(tv)
+    assert '"why": _wtxt}' in src, "the row must render the composed string, not the suppressed one"
+    assert '_wtxt = _swhy or (_why if _cell_unknown else "")' in src
+    i = src.index("_acell = _at.cell(_arr)")
+    assert "MUST NOT RIDE" in src[max(0, i - 900):i], "the suppression trap must be documented at the site"

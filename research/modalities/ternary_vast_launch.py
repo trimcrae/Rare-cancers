@@ -3701,14 +3701,20 @@ def collect(bucket=None, prefix=None, autostop=True):
                   _eta = None
               _cell_unknown = (_pct is None or _eta is None)
               # THE VERDICT IS VISIBLE WITH THE NUMBER THAT CAUSED IT, or it is a decision nobody can grade.
+              # ⚠ IT MUST NOT RIDE `_why`'s SUPPRESSION. `why` is emitted only when `_cell_unknown` — i.e.
+              # when % or ETA could not be computed — so appending there hid the delivered rate on exactly
+              # the rows that HAVE one: a healthy RUNNING leg. Measured on the 5:29 PM ET board, where both
+              # RUNNING rows rendered an empty `why` and the arrival cell vanished. It is composed into the
+              # final string below instead, unconditionally.
               _acell = _at.cell(_arr) if _arr else "—"
+              _wtxt = _swhy or (_why if _cell_unknown else "")
               if _acell and _acell != "—":
-                  _why = (_why + " · " if _why else "") + _acell
+                  _wtxt = (_wtxt + " · " if _wtxt else "") + _acell
               _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
                             "arrival": _arr,
                             "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"], _b.get("is_bid")),
                             "state": _state,
-                            "why": _swhy or (_why if _cell_unknown else "")})
+                            "why": _wtxt})
           except Exception as _e:  # noqa: BLE001
               _rows.append({"name": ifb.short_name(_b.get("uid")), "pct": None, "eta_s": None,
                             "usd_per_ns": None, "state": "UNKNOWN",
