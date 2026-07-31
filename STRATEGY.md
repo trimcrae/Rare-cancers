@@ -423,10 +423,14 @@ Consequences kept separate, because they are independent:
     `converge` job is `skipped` in every one — zero executions; across the newest **1000** runs, back to
     1:02 PM ET Jul 29, also zero. It has executed **once ever**, GH run 30210676030 on 2026-07-26, which is
     where the RUNG 2b column of the §L.3d table above comes from. **(2) A dispatch would have read the wrong
-    legs.** The job hardcoded `--mode edge` on its `--fetch-trajectories` call, and `unit_id` embeds *both*
-    the timestep and the mode — so it reconstructs `..._dt4.0fs_wu1.0_edge` (RUNG 2b) while the triangle
-    wrote `..._dt2.0fs_wu1.0_triangle`. The two id sets are **entirely disjoint**, not partially: it would
-    have reported RUNG 2b's pose numbers under a triangle dispatch. Fixed by deriving the mode from the
+    legs**, and that is MEASURED, not inferred. The job hardcoded `--mode edge` on its `--fetch-trajectories`
+    call, and `unit_id` embeds *both* the timestep and the mode — so it reconstructs `..._dt4.0fs_wu1.0_edge`
+    (RUNG 2b) while the triangle wrote `..._dt2.0fs_wu1.0_triangle`; the two id sets are **entirely disjoint**,
+    not partially. GH run **30599871712** (10:47 PM ET Jul 30, $0) dispatched `task=converge` and came back
+    **green in 3 m 54 s** having analysed `calib_hi_to_lo__{binary,ternary,solvent}_vhl` — the RUNG 2b legs —
+    and reproducing §L.3d's numbers exactly. **That is the dangerous shape**: not an empty report that would
+    announce itself, but a *plausible, already-published-looking* table returned under a triangle dispatch.
+    Fixed by deriving the mode from the
     dispatched task — `ternary_vast_launch.CONVERGE_TASK_MODES`, new `task=triangle-converge`; `task=converge`
     still means `edge` byte-for-byte so §L.3d stays reproducible. **Consequence, and it is the live one:
     `R_binary` is still un-cross-checked by pose data, so the bullet above is unsatisfied and the restrained
