@@ -1378,6 +1378,17 @@ CKPT_REFERENCE_ARM = "binary"
 # ~6.6-8.5 s/iter, commit-inclusive at `warmup_ckpt_iters=8` 11.4 s/iter (iterations 24->32 committed in
 # 91 s) => (11.4 - 8.5) x 8 ~= 23 s per commit. That is one reporter sync plus an ~25 MB .nc/.chk pair copied
 # and PUT to S3. ONE HOME: this constant, pointing at that section — not re-derived anywhere else.
+# ⚠ STALE BY ~28x AND KNOWN TO BE (2026-07-31). The pair is NOT ~25 MB: measured across 158 real committed
+# generations the median is **699.5 MiB**, because the `.chk` accumulates one full-coordinate frame per
+# checkpoint interval and every commit re-uploads all of them (12 replicas x 147,788 atoms x 3 x 4 B x 2 =
+# 40.6 MiB predicted per frame, 49.2-49.7 MiB observed). MAX_COMMIT_OVERHEAD_FRAC below is evaluated against
+# this number, so every overhead judgement it feeds is currently wrong in the OPTIMISTIC direction.
+#
+# NOT REPLACED WITH A GUESS (rule 1: derived, never typed). `rbfe_spot_checkpoint.commit` now self-times and
+# prints `[barrier] commit <phase>@<iter> persisted N MiB in Ns`, and `setup_tax.commit_cost` parses it; this
+# constant is re-derived the moment one commit is observed. No re-placement has happened since the
+# instrumentation landed, so no measurement exists yet. Design for removing the O(n^2) that causes it:
+# `commit-payload-design.md`.
 COMMIT_OVERHEAD_S = 23.0
 
 # ★ AND THE TOLERANCE IT IS JUDGED AGAINST, WHICH IS NOT A NEW THRESHOLD. It is the one this lane already
