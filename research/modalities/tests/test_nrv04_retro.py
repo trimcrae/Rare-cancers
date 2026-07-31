@@ -38,9 +38,18 @@ def test_unit_count_is_the_authorized_18_not_the_frozen_24():
     6 never-landing units keep `panel_complete` False forever, which prereg §4f turns into a PERMANENTLY
     suppressed R1 verdict. Losing the result is the worse half."""
     units = panel.enumerate_units()
-    assert len(units) == 18
-    assert len({panel.unit_name(*u) for u in units}) == 18, "unit names must be unique (S3 prefixes collide otherwise)"
+    # AMENDMENT 4 (2026-07-31): 16, not 18 — nr4a3 co-fold seed 3 is excluded by MEASURED INPUT FAULT
+    # (A:GLU13:O / A:LYS181:NZ at 0.181 A, PE +2.109e15 kJ/mol before the ligand or any solvent exists).
+    # Superseded, retained: the 18-of-18 panel. `include_excluded=True` still yields it, for provenance.
+    assert len(units) == 16
+    assert len(panel.enumerate_units(include_excluded=True)) == 18
+    assert len({panel.unit_name(*u) for u in units}) == 16, "unit names must be unique (S3 prefixes collide otherwise)"
     assert not any(a.covalent for a, _m, _r in units), "no covalent unit may be enumerable after AMENDMENT 3"
+    # The exclusion is scoped to ONE co-fold: nr4a3 keeps models 1-2, every other arm keeps all three.
+    from collections import Counter
+    per_arm = Counter(a.arm_id for a, _m, _r in units)
+    assert per_arm["retro_noncov_nr4a3"] == 4 and per_arm["retro_noncov_nr4a1"] == 6
+    assert not any(a.arm_id == "retro_noncov_nr4a3" and m == 3 for a, m, _r in units)
 
 
 def test_a_retired_stage_can_never_be_enumerated():

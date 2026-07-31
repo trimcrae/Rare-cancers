@@ -42,6 +42,44 @@ COFOLD_PREFIX = "nrv04-descriptive-v4"
 COFOLD_MODEL_SEEDS = (1, 2, 3)          # the co-fold model seeds available for nr4a1/nr4a2/nr4a3 alike
 MD_REPLICAS = (0, 1)                    # velocity seeds within a co-fold model (prereg 2b)
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ AMENDMENT 4 (2026-07-31, trimcrae) — ONE CO-FOLD MODEL IS EXCLUDED, BY MEASURED INPUT FAULT
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# `nrv04-descriptive-v4/nr4a3/seed_3` places two HEAVY ATOMS on top of each other:
+#
+#     A:GLU13:O  <->  A:LYS181:NZ   at   0.181 A          (both positioned by Boltz)
+#     PE at `protein_after_pdbfixer` = +2.109e15 kJ/mol over 10,914 atoms, against a control at +2.08e5
+#     -> ten decades, with NonbondedForce carrying it and BOTH clashing pairs co-fold-heavy vs co-fold-heavy
+#
+# so the Lennard-Jones term diverges, minimization cannot escape it, and the first integration step yields
+# NaN. Measured by `nrv04_pe_stage_probe` (runs 30663617181 / 30662210714); the probe's solvated figure
+# reproduces the production leg's own recorded `pe_pre_min` to TEN SIGNIFICANT FIGURES, which is what makes
+# this a diagnosis of the real failure rather than a lookalike.
+#
+# ⛔ EXCLUDED BY INPUT, NOT BY OUTCOME — this is the line that answers a selection-bias objection.
+# The fault is a static property of the predicted structure, provable BEFORE any MD is interpreted, and the
+# replicate structure is what makes the claim testable: `MD_REPLICAS` are velocity seeds WITHIN a co-fold
+# model, so r0 and r1 share an input. BOTH replicas of seed_3 died at `prod@frame0` in ~4.4 s with no frames;
+# BOTH replicas of every other co-fold produced or are producing real production frames. A thermostat seed
+# cannot rescue two atoms at 0.181 A, and that asymmetry is the evidence.
+#
+# ⚠ IT IS A DATA STRUCTURE, NOT A HAND-MAINTAINED LIST OF UNITS. Keyed on (arm_id, model_seed) — the co-fold
+# — so it drops exactly the 2 legs that draw on the bad structure and cannot silently widen. Supplying a
+# corrected co-fold for nr4a3 seed 3 is a one-line deletion here plus a further amendment; nothing else moves.
+EXCLUDED_COFOLD_MODELS = {
+    ("retro_noncov_nr4a3", 3): (
+        "AMENDMENT 4 (2026-07-31): input fault. nrv04-descriptive-v4/nr4a3/seed_3 places A:GLU13:O and "
+        "A:LYS181:NZ 0.181 A apart (both Boltz-placed heavy atoms); PE +2.109e15 kJ/mol at "
+        "protein_after_pdbfixer vs a control at +2.08e5. Ligand placement and addSolvent are EXONERATED - "
+        "the divergence is fully formed before either runs. Both replicas failed; no other co-fold's did."),
+}
+
+
+def excluded_cofold(arm_id: str, model_seed: int):
+    """(excluded, why) for one co-fold model. PURE. `why` is empty when it is not excluded."""
+    return ((arm_id, model_seed) in EXCLUDED_COFOLD_MODELS,
+            EXCLUDED_COFOLD_MODELS.get((arm_id, model_seed), ""))
+
 # celastrol electrophile / NR4A1 reactive cysteine - identical to the feasibility panel (prereg 2c).
 CELASTROL_ELECTROPHILE_ATOM = "C6"
 TARGET_COV_RESNUM = 551
@@ -140,10 +178,22 @@ def arms_for_stages(stages=AUTHORIZED_STAGES):
     return [a for a in ARMS if a.stage in stages]
 
 
-def enumerate_units(stages=AUTHORIZED_STAGES, model_seeds=COFOLD_MODEL_SEEDS, replicas=MD_REPLICAS):
+def enumerate_units(stages=AUTHORIZED_STAGES, model_seeds=COFOLD_MODEL_SEEDS, replicas=MD_REPLICAS,
+                    include_excluded=False):
     """Every independent GPU unit = (arm, cofold_model_seed, md_replica). One Vast instance each, its own
-    checkpoint prefix. 3 models x 2 replicas x len(arms) legs -> 18 for the authorized R1-only panel."""
-    return [(a, m, r) for a in arms_for_stages(stages) for m in model_seeds for r in replicas]
+    checkpoint prefix. **16** for the authorized R1-only panel after AMENDMENT 4 (nr4a3 models 1-2, nr4a1 and
+    nr4a2 models 1-3, x 2 replicas).
+
+    ⛔ THE PANEL SHRINKS HERE, IN THE ENUMERATION, AND NOWHERE ELSE. `retro_collect` builds `expected` from
+    this function, so `panel_complete` goes true because the panel HONESTLY CHANGED — not because any gate
+    predicate was loosened to let an unreachable panel pass. `nrv04_retro_gate.verdict`, prereg S4f's
+    suppression, the endpoints, alpha, the direction and the unit of independence are all untouched.
+
+    `include_excluded=True` yields the pre-amendment 18 for provenance and tests; it is never what the lane
+    runs. See `EXCLUDED_COFOLD_MODELS` for the measured cause of every exclusion.
+    """
+    return [(a, m, r) for a in arms_for_stages(stages) for m in model_seeds for r in replicas
+            if include_excluded or not excluded_cofold(a.arm_id, m)[0]]
 
 
 def unit_name(arm: RetroArm, model_seed: int, replica: int) -> str:

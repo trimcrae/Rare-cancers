@@ -161,6 +161,11 @@ operates on **model-level values** = the mean of a model's 2 replicas → **n = 
 ### 4b. Primary test — one-sided exact permutation, pooled contrast
 Statistic: `mean(E1 | NR4A1 non-covalent) − mean(E1 | NR4A2 ∪ NR4A3 non-covalent)`, on model-level values
 (3 vs 6). Directional prediction registered here, before data: **negative** (NR4A1 more stable).
+⚠ **The next two lines are SUPERSEDED by AMENDMENT 4 (2026-07-31)** — `nr4a3` seed 3 was excluded by
+measured input fault, so n is **3 / 3 / 2**, the contrast is 3 vs 5, the reference distribution is
+**C(8,3) = 56** and the minimum attainable one-sided p is **1/56 ≈ 0.0179** (still < α). The statistic,
+its direction, its endpoint, α and the unit of independence are UNCHANGED; this pointer edits no
+criterion, it only stops a retired count reading as current. Retained for the record:
 Reference distribution: **exhaustive enumeration of all C(9,3) = 84 arrangements** of the 9 model-level values.
 One-sided p, α = **0.05**. Minimum attainable p = 1/84 ≈ **0.012**.
 
@@ -327,7 +332,10 @@ units never land, `panel_complete` stays False and §4f suppresses the R1 contra
 in the panel does not merely cost an arm, it costs the primary result. **Ruling: R2 is RETIRED**, and with
 it §5c's registered composite outcome. The
 covalent confound is documented from **Leg 0** (sequence) and **Zhang 2018** (literature), never from a
-simulation this program ran. The authorized panel becomes **R1 only, 18 legs**.
+simulation this program ran. The authorized panel becomes **R1 only, 18 legs** — *that count is
+SUPERSEDED by AMENDMENT 4 (2026-07-31): 16 legs. This defect-1 ruling itself stands unchanged (R2 is
+still retired); only the R1 leg count moved, because `nr4a3` seed 3 was later excluded by measured
+input fault. Retained for the record.*
 
 **Defect 2 — the §4d extension rule cannot fire in its stated case.** Attainable p-values are k/84. The
 window (0.012, 0.05] contains exactly {0.0238, 0.0357, 0.0476}, all ≤ α and therefore already CONCORDANT;
@@ -376,7 +384,7 @@ The decision is now taken and recorded here, which is what §9's own instruction
 never silent edits to a criterion") asks for. **Every frozen criterion, the primary contrast, its direction, α,
 endpoint, threshold and unit of independence are untouched.**
 
-**What was decided.** Arm E — the matched non-covalent paralogue comparison, R1, 18 legs — **runs**. Arm F, the
+**What was decided.** Arm E — the matched non-covalent paralogue comparison, R1, 18 legs *(count SUPERSEDED by AMENDMENT 4, 2026-07-31: 16 legs)* — **runs**. Arm F, the
 free-energy arm, **stays blocked** on the valB calibration PASS exactly as §7 and addendum condition 7 say. The
 narrowing §9 describes is accepted as sufficient rather than the alternative it offered ("hold Arm E until valB
 passes").
@@ -460,3 +468,113 @@ written down.
 **This is not a retune, on the same checkable test §9's resolution used.** No retrospective leg has run and no
 outcome is known to anyone, so there is no result this limitation could have been written to accommodate. It
 also only ever **subtracts**: every clause above narrows what a result may be reported as, and none widens it.
+
+---
+
+## AMENDMENT 4 — 2026-07-31 (dated defect-fix; trimcrae DECIDED, APPLIED). The panel becomes **16 of 18**.
+
+**Authority.** §7's freeze and STRATEGY.md's requirement that amending a preregistered rule be an explicit,
+dated, approved defect-fix. The frozen text above is left **unedited**. Structure and standard follow
+**AMENDMENT 3**, which retired R2 for this same failure mode and is recorded there as having cost the primary
+result if left unfixed.
+
+**Standard applied (AMENDMENT 1's):** a rule may be amended only if the defect is demonstrated independently
+of whether we liked the answer it gave.
+
+### 4.1 The defect: two units draw on a co-fold no host can run
+
+`nrv04-descriptive-v4/nr4a3/seed_3` places two heavy atoms on the same point. Both units drawing on it —
+**`nrv04retro-retro_noncov_nr4a3-m3-r0`** and **`nrv04retro-retro_noncov_nr4a3-m3-r1`** — are therefore
+unrunnable, and while they remain enumerated `panel_complete` can never go true and **§4f suppresses the R1
+contrast permanently**. This is AMENDMENT 3 defect 1's mechanism exactly, on a different input.
+
+**The evidence, so a reader can CHECK the exclusion rather than trust it** (`nrv04_pe_stage_probe`, CI runs
+30662210714 and 30663617181):
+
+| construction stage | atoms | nr4a3 **seed 3** | nr4a3 seed 1 (control) | apart |
+|---|---|---|---|---|
+| `protein_after_pdbfixer` | 10,914 | **+2.109005036357692e+15** | +2.08e+05 | **10.0 decades** |
+| `protein_plus_ligand` | 11,080 | +2.109005036360151e+15 | +2.17e+05 | 9.99 decades |
+| `solvated` | ~316,000 | +2.108844375741770e+15 | −4.05e+06 | 8.72 decades |
+
+- **Worst heavy-atom contact: `A:GLU13:O` / `A:LYS181:NZ` at 0.181 Å.** `NonbondedForce` carries the
+  +2.109e15 kJ/mol; the bonded terms are unremarkable, so this is geometry, not connectivity.
+- **Both clashing pairs under the cutoff are co-fold heavy atom vs co-fold heavy atom** — atoms Boltz placed,
+  before our preparation touches the structure.
+- **Ligand placement and `addSolvent` are EXONERATED.** Adding the ligand moves the energy by ~2,459 kJ/mol
+  out of 2.1e15 (the 12th significant figure); solvation *decreases* it, and is the step that takes the
+  system from ~11 k to ~320 k atoms. The divergence is fully formed before either runs.
+- **The probe measures the real failure, not a lookalike:** its `solvated` figure reproduces the production
+  leg's own recorded `pe_pre_min = +2.108844e+15` to **ten significant figures**.
+- Consequence in the run: `blew_up=true`, `blow_phase="prod@frame0/5"`, `n_frames=0`, `prod_wall_s≈4.4 s`,
+  `openmm.OpenMMException: Particle coordinate is NaN` — on every host, every time.
+
+### 4.2 The exclusion is by MEASURED INPUT FAULT, not by outcome
+
+This is the line that answers a selection-bias objection, and it is checkable:
+
+1. **The fault is a static property of the input**, present in the built system *before minimization* and
+   provable **before any MD is interpreted**. No endpoint, no E1 value, no arm contrast enters the decision.
+2. **The replicate structure is what makes the claim testable.** §2b's `MD_REPLICAS` are *velocity seeds
+   within a co-fold model* — r0 and r1 share a starting structure. **Both replicas of seed_3 failed at the
+   first production step; both replicas of every other co-fold produced real production frames.** A
+   thermostat seed cannot rescue two atoms at 0.181 Å, and a fault carried by an input hits every replica
+   drawing on it. That asymmetry is the evidence, and it is the discriminator that distinguishes this case
+   from the two nr4a2 units that were merely failing (§4.5).
+3. **No result was seen, liked or disliked.** These units produced **zero frames** — there is no E1 for them,
+   so there is nothing about their outcome to have been unwelcome.
+
+### 4.3 What the panel becomes, and the statistical consequences (all of them)
+
+**Authorized panel: R1 only, 3 arms, `nr4a1`/`nr4a2` models {1,2,3} and `nr4a3` models {1,2}, × 2 replicas =
+16 legs.** Model-level n per arm: **3 / 3 / 2** (was 3 / 3 / 3). One home for the enumeration:
+`nrv04_retro_panel.EXCLUDED_COFOLD_MODELS` + `enumerate_units`.
+
+| frozen quantity | before | after | status |
+|---|---|---|---|
+| §4b primary contrast, direction, endpoint, α, unit of independence | — | — | **UNTOUCHED** |
+| §4b reference distribution | C(9,3) = **84** | C(8,3) = **56** | mechanical consequence of n |
+| §4b minimum attainable one-sided p | superseded: 1/84 ≈ **0.0119** | 1/56 ≈ **0.0179** | still **< α = 0.05** |
+| §4c pairwise NR4A1 vs NR4A2 | C(6,3) = 20, min p 0.05 | unchanged | — |
+| §4c pairwise NR4A1 vs NR4A3 | C(6,3) = 20, min p **0.05** | C(5,3) = 10, min p **0.10** | **can no longer attain α** |
+| §4c LOMO refits | 9 | 8 | — |
+| §4d extension window (0.05, 0.12] | reachable | reachable: p ∈ {0.0536, 0.0714, 0.0893, 0.1071} | **survives** |
+| §5 verdict tiers, §6 claim ceiling | — | — | **UNTOUCHED** |
+
+**Two consequences stated as losses, because that is what they are.** (a) The NR4A1-vs-NR4A3 pairwise was
+already descriptive-only under §4c and now **cannot reach α at all**; it must be reported as such and never
+as support for a verdict. (b) AMENDMENT 3 defect 4's registered MDE (≈1.5–2.0 Å at n = 3 models/arm) is
+**optimistic for the NR4A3 arm at n = 2**, so power against a paralogue difference is *lower* than
+registered. No new MDE is invented here — the honest statement is the direction, and a null R1 is
+correspondingly weaker evidence than AMENDMENT 3 already allowed.
+
+### 4.4 Does this amendment rescue a failing result? NO — stated as the integrity test
+
+1. **The excluded units have no result to rescue.** Zero frames, zero endpoints.
+2. **It cannot convert a fail into a pass.** It *removes* two legs and one model — strictly less evidence,
+   strictly less power (min attainable p rises 0.0119 → 0.0179, one pairwise test loses the ability to reach
+   α, and the MDE degrades). Every movement is in the direction of claiming **less**.
+3. **The gate was not touched to make it pass.** `panel_complete` goes true because the enumeration honestly
+   changed. `nrv04_retro_gate.verdict`, §4f's suppression rule and every threshold are unmodified;
+   `retro_collect` additionally reports `panel_completable`, `reachable_units` and `quarantined_units` so an
+   unreachable panel can never again read as a panel still in progress.
+4. **The primary contrast, its direction, its α, its endpoint, its threshold and its unit of independence are
+   all untouched** — as in AMENDMENT 3.
+
+### 4.5 Live dependency — this exclusion may not be the last
+
+Two further units, **`nrv04retro-retro_noncov_nr4a2-m2-r0`** and **`nrv04retro-retro_noncov_nr4a2-m3-r0`**,
+have repeatedly failed to bank work and are **not** excluded here, because the same test that condemned
+seed_3 exonerates their inputs: the staged probe finds no divergence (nr4a2 seed 2 reaches a **negative**
+solvated energy, −3.85e6; nr4a2 seed 3 shows **zero** contacts under the clash cutoff), and each has a
+**sibling replica on the same co-fold that landed or is running**. Their failures are therefore not input
+faults.
+
+**If either later fails on three genuinely distinct hosts, the reachable set drops again and that requires a
+further amendment.** It is not pre-written here. The dependency is made visible so that a shrinking panel can
+never happen silently: the distinct-host count is measured (`nrv04_vast_launch.retro_attempt_hosts`) rather
+than inferred from an object count, and both units' status is recorded every tick in `nrv04-retro-gate.json`.
+
+**Superseded, retained for the record: the 18-of-18 R1 panel** (AMENDMENT 3's "R1 only, 18 legs"), with
+n = 3 models/arm, C(9,3) = 84 arrangements and a minimum attainable p of 1/84 ≈ 0.0119. Registered in
+[`pinned-figures.json`](../manuscripts/pinned-figures.json).

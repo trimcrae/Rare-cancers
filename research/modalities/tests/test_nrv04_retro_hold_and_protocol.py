@@ -151,7 +151,8 @@ def test_supervision_does_not_buy_a_unit_that_was_never_authorised(monkeypatch):
     out = _supervise(monkeypatch, authorized=None)
     assert out["needed"] == []
     assert out.get("would_replace") in (None, [])
-    assert len(out["awaiting_authorization"]) == len(retro.enumerate_units()) == 18
+    # 16 post-AMENDMENT 4 (nr4a3 co-fold seed 3 excluded by measured input fault). Superseded: 18.
+    assert len(out["awaiting_authorization"]) == len(retro.enumerate_units()) == 16
 
 
 def test_supervision_still_re_places_a_unit_that_lost_its_host(monkeypatch):
@@ -359,7 +360,7 @@ def test_an_unscoped_dispatch_still_sees_the_whole_panel(monkeypatch):
     monkeypatch.setattr(vl, "presign_env_tarball", lambda *a, **k: "https://x/env.tgz")
     monkeypatch.setattr(vl, "get_backend", lambda _n: _BE())
     vl.retro_launch("bkt", authorize=False)
-    assert len(seen) == len(retro.enumerate_units()) == 18
+    assert len(seen) == len(retro.enumerate_units()) == 16   # AMENDMENT 4; superseded: 18
 
 
 # ══════════════════════════════════════════════════════════════════════════════════════════════════════════

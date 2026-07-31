@@ -36,9 +36,10 @@ def test_cofold_prefix_is_pinned_to_the_units_model_seed():
 
 def test_every_authorized_unit_gets_a_distinct_checkpoint_and_result_prefix():
     specs = [launch.build_retro_jobspec(a, m, r, "run", "br", BUCKET) for a, m, r in retro.enumerate_units()]
-    assert len(specs) == 18, "AMENDMENT 3 retired R2 — the authorized panel is R1 only"
-    assert len({s.checkpoint_uri for s in specs}) == 18, "two units sharing a checkpoint would race"
-    assert len({s.env["RESULT_S3"] for s in specs}) == 18
+    assert len(specs) == 16, ("AMENDMENT 3 retired R2 (R1 only); AMENDMENT 4 excluded nr4a3 co-fold seed 3 "
+                              "by measured input fault. Superseded, retained: 18.")
+    assert len({s.checkpoint_uri for s in specs}) == 16, "two units sharing a checkpoint would race"
+    assert len({s.env["RESULT_S3"] for s in specs}) == 16
 
 
 def test_retro_results_do_not_collide_with_the_feasibility_panels_prefix():
@@ -238,7 +239,9 @@ def test_default_pilot_rents_the_unrun_unit_when_the_pinned_one_has_landed(monke
 def test_full_fanout_is_the_whole_authorized_panel(monkeypatch):
     monkeypatch.setenv("RETRO_PILOT_ONLY", "0")
     units = launch.retro_units_to_run()
-    assert len(units) == 18
+    # DERIVED, never a typed count: AMENDMENT 4 took the panel 18 -> 16 and a hard-coded 18 here would have
+    # failed for the right reason but for the wrong test. One home: nrv04_retro_panel.enumerate_units.
+    assert len(units) == len(retro.enumerate_units()) == 16
     assert not any(a.covalent for a, _m, _r in units), (
         "a covalent unit raises in build_system BEFORE writing a leg JSON, so Vast re-runs the onstart and the "
         "box crash-loops on a live meter — and it can never complete the panel")
@@ -549,7 +552,7 @@ def test_a_launch_that_rented_nothing_does_not_report_success(monkeypatch, tmp_p
     ok = types.SimpleNamespace(submit=lambda spec: types.SimpleNamespace(job_id=1, extra={"dph": 0.05}))
     monkeypatch.setattr(launch, "get_backend", lambda _n: ok)
     assert launch.retro_launch(BUCKET) == 0
-    assert len(json.loads((tmp_path / "nrv04-retro-handles.json").read_text())) == 18
+    assert len(json.loads((tmp_path / "nrv04-retro-handles.json").read_text())) == len(retro.enumerate_units())
 
 
 def _raise_no_offer(spec):
@@ -782,8 +785,9 @@ def test_supervision_replaces_hostless_unrun_units_through_the_lanes_own_launche
             raise KeyError("none")
 
     out = launch.retro_supervise(BUCKET, s3=_S3())
-    assert len(out["needed"]) == 18, "every authorized unit is hostless and unrun in this fixture"
-    assert len(rented) == 18
+    assert len(out["needed"]) == len(retro.enumerate_units()), (
+        "every authorized unit is hostless and unrun in this fixture")
+    assert len(rented) == len(retro.enumerate_units())
 
 
 def test_a_blocked_unit_is_never_re_bought_by_the_replacer(monkeypatch, tmp_path):
@@ -819,4 +823,4 @@ def test_a_blocked_unit_is_never_re_bought_by_the_replacer(monkeypatch, tmp_path
             raise KeyError("none")
 
     out = launch.retro_supervise(BUCKET, s3=_S3())
-    assert len(out["blocked"]) == 18 and out["needed"] == []
+    assert len(out["blocked"]) == len(retro.enumerate_units()) and out["needed"] == []

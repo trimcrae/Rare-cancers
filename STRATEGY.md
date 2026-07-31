@@ -1958,7 +1958,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   RUNS, ARM F STAYS BLOCKED.** ⚠ *Superseded, retained: **"Gate: Val B-full + NR-V04 feasibility + Step 1
   fan-out"**, applied to the WHOLE item.* That wording was **this file's, not the prereg's**, and the two had
   disagreed since 2026-07-24: the prereg blocks only **Arm F** (the free-energy arm) on the valB PASS, prices
-  **Arm E** (R1, 18 legs, ≈$8) inside the standing ≲$50 autonomy threshold, and its **§9 "Dependency honesty"**
+  **Arm E** (R1, 18 legs — *(count SUPERSEDED by prereg AMENDMENT 4, 2026-07-31: **16 legs** — `nr4a3` co-fold seed 3 excluded by measured input fault)*, ≈$8) inside the standing ≲$50 autonomy threshold, and its **§9 "Dependency honesty"**
   had already argued — before any leg ran — that running Arm E is a *narrowing* rather than a gate jump,
   leaving the judgement explicitly open. **The prereg got there first; this is that judgement being taken**, and
   it is recorded as a dated addition in the prereg itself, amending no criterion. What changed since is only the
@@ -2472,7 +2472,7 @@ the ordering below.*
 | 2 | ~~**Wire the strided-trajectory requirement into `nrv04_covalent_md`**~~ ✅ **DONE 2026-07-30** | **$0** | Item 4. It was a hard precondition on the only built-and-unlaunched GPU item we own, and it is now met |
 | 3 | ~~**Settle the `S` replicate count BEFORE the market re-opens**~~ ✅ **DONE — n = 2 per arm** | **$0 to decide** | Item 3. The lane would otherwise have resumed under-powered the moment price allowed |
 | 4 | **`S` at n = 2 per arm** — the flagship kill-switch, correctly sized and now CONFIGURED | **~$23** (ladder) | The only unrun test of the program's headline causal claim, and the second seed is what makes its *likely* answer readable. Waiting on the market, not on a decision |
-| 5 | **NR-V04 retrospective, Arm E (R1 only, 18 legs)** ✅ **CLEARED TO RUN** | **≈$7.7** | A *new axis of evidence* (biological holdout), built and preregistered, with a registered MDE — CLAUDE.md §5's "default YES". The gate is reconciled to the prereg and the durable-trajectory precondition is met |
+| 5 | **NR-V04 retrospective, Arm E (R1 only, 16 legs)** ✅ **RUNNING** — *was "18 legs", superseded by prereg AMENDMENT 4 (2026-07-31): `nr4a3` co-fold seed 3 excluded by measured input fault (0.181 Å heavy-atom clash), so n = 3/3/2* | **≈$7.7** | A *new axis of evidence* (biological holdout), built and preregistered, with a registered MDE — CLAUDE.md §5's "default YES". The gate is reconciled to the prereg and the durable-trajectory precondition is met |
 | 6 | ~~**Segment-grid re-enumeration** (5b)~~ ✅ **DONE 2026-07-30 — and it refuted its own premise** | **$0** | Neither a grid limit nor geometry: the chain template carries **one pendant**. A two-branch template is constructible at n = 18 with existing segments, but that is a DESIGN change to a preregistered enumeration and is not taken here |
 | 7 | **Replicates on the open cycle** (3 of 18 fan-out edges) | **~$25** | One purchase, two open caveats: it attributes or dissolves `cycle_3carbonyl`'s violation AND gives the binary lane its first measured replicate SD, which today is transferred from the ternary lane |
 | 8 | **The generative arm of the generation-matched null** (control c) — ✅ **$0 prep DONE, launch-ready** | **PROJECTED** | Addresses the confound actually raised (the GENERATIVE step); the arm that ran addresses the SELECTION step and bounds the manufactured rate at 3× the real campaign's own — narrowed, not excluded |
@@ -2789,7 +2789,7 @@ dollar ceiling.
     n = 2 — and read a null as a bound rather than an absence. **Not proposed:** re-running the parked legs
     from scratch (their checkpoints are intact and durable) or extending them (more sampling on one seed buys
     precision that `S` does not lack).
-12. **`[x]` DECIDED 2026-07-30 (trimcrae go) — THE NR-V04 RETROSPECTIVE RUNS: ARM E (R1, 18 legs, ≈$8).
+12. **`[x]` DECIDED 2026-07-30 (trimcrae go) — THE NR-V04 RETROSPECTIVE RUNS: ARM E (R1, 18 legs, ≈$8). *(count SUPERSEDED by prereg AMENDMENT 4, 2026-07-31: **16 legs** — `nr4a3` co-fold seed 3 excluded by measured input fault)*.
     Arm F stays blocked on the valB PASS.** ⚠ **AND MY FRAMING OF THIS WAS WRONG IN A WAY WORTH
     CORRECTING: I proposed it as a scope correction I had derived, and the prereg had already made the
     same argument on 2026-07-24.** Its **§9 "Dependency honesty"** states that the gates govern the
@@ -2812,7 +2812,7 @@ dollar ceiling.
     nothing can authorise.
     **RECOMMENDED — a SCOPE correction to the gate, not an amendment to a rule, and only after the $0
     precondition below.** The argument, and it is deliberately narrow: **valB calibrates the ternary-FEP
-    cooperativity lane, and the retrospective's authorised readout (`R1`, Arm E, 18 legs) is not in that
+    cooperativity lane, and the retrospective's authorised readout (`R1`, Arm E, 18 legs — *(count SUPERSEDED by prereg AMENDMENT 4, 2026-07-31: **16 legs** — `nr4a3` co-fold seed 3 excluded by measured input fault)*) is not in that
     lane** — it is an **endpoint-MD geometric contrast reported in Ångström**, with its own registered MDE
     (leg-to-leg σ 0.855 Å, 80 % power at 1.5–2.0 Å) and its own preregistered *directional-concordance-only*
     claim ceiling. A gate that names a control which does not cover the quantity is a **scope** defect, and it

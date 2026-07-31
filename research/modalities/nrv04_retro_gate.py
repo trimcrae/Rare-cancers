@@ -16,6 +16,11 @@ THE STATISTICS, and why each choice is what it is (prereg §4):
         d = mean(E1 | NR4A1 noncov) - mean(E1 | NR4A2 u NR4A3 noncov)
     enumerating all C(9,3) = 84 arrangements. Exact, not asymptotic: with n = 3 no normal approximation is
     defensible. Minimum attainable one-sided p = 1/84 ~ 0.012 — which is WHY alpha = 0.05 is reachable here and
+    ⚠ SUPERSEDED BY PREREG AMENDMENT 4 (2026-07-31), which changed the PANEL, not this code: nr4a3 co-fold
+    seed 3 was excluded by measured input fault, so model-level n is 3/3/2, the primary contrast is 3 vs 5,
+    the enumeration is C(8,3) = 56 and the minimum attainable one-sided p is 1/56 ~ 0.0179 (still < alpha).
+    `exact_permutation_p` DERIVES C(n, |a|) from the data it is handed and therefore needed no edit — the
+    numbers above are the pre-amendment illustration, retained for the record. Do not quote them as current.
     why the pairwise tests (C(6,3) = 20, min p = 0.05) are secondary only.
 
   * DIRECTION is registered BEFORE the data: NR4A1 is predicted MORE stable, i.e. LOWER E1 plateau, i.e. d < 0.
