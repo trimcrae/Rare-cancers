@@ -227,8 +227,11 @@ mark reduce
 # for a cmpd19 congeneric edge. The thermodynamic cycle is still rbfe_edges.ddg_bind. The schema below is
 # the Vast lane's, field for field, PLUS a `provenance` block — because this draw ran on a different card
 # and any SD built from it must say so rather than have a reader reconstruct it.
+# ⚠ `-i` IS LOAD-BEARING. `python -` reads the program from stdin, and without `-i` docker does not forward
+# it: python sees EOF, exits 0 having done nothing, and the only symptom is "reduce produced no ddg.json"
+# three lines later — after both legs have already been paid for. Caught by reading, not by an outage.
 # shellcheck disable=SC2086
-docker run $DOCKER_COMMON \
+docker run -i $DOCKER_COMMON \
   -e RECEPTOR="$RECEPTOR" -e EDGE_ID="$EDGE_ID" -e LEG_ID="$LEG_ID" -e FRAME="$FRAME" \
   -e REPLICATE="$REPLICATE" -e SEED="$SEED" -e N_WINDOWS="$N_WINDOWS" -e MACHINE_TYPE="$MACHINE_TYPE" \
   -e BUCKET="$BUCKET" \

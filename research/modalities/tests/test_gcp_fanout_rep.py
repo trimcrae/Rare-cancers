@@ -582,3 +582,21 @@ def test_the_workflow_never_uses_a_label_projection():
     code = "\n".join(ln for ln in _wf().splitlines() if not ln.strip().startswith("#"))
     assert "labels.s1f-" not in code
     assert "gcp_fanout_rep.py vms" in code
+
+
+def test_the_reduce_container_gets_stdin():
+    """`python -` reads its program from stdin and `docker run` does not forward stdin without `-i`. The
+    symptom would be python exiting 0 having done nothing, surfacing three lines later as 'reduce produced
+    no ddg.json' — AFTER both legs are paid for and with the cause nowhere in the message."""
+    code = _startup_code()
+    line = [l for l in code.splitlines() if l.startswith("docker run") and "$DOCKER_COMMON" in l]
+    reduce_lines = [l for l in line if " -i " in l]
+    assert reduce_lines, "no `docker run -i` — the reduce heredoc would be swallowed"
+    assert "PYEOF" in code and "python - <<'PYEOF'" in code
+
+
+def test_the_leg_containers_do_not_need_stdin_and_run_a_file():
+    """The legs run a FILE (nr4a3_rbfe.py), so they neither need nor get `-i`. Stated so the `-i` above
+    reads as deliberate rather than as an inconsistency to be tidied away."""
+    code = _startup_code()
+    assert "python nr4a3_rbfe.py" in code
