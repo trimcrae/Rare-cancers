@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "nrv04-retro",
-  "generated_epoch": 1785532225.019539,
-  "generated_utc": "2026-07-31T21:10:25Z",
-  "generated_et": "5:10 PM ET Fri Jul 31, 2026",
+  "generated_epoch": 1785532722.1978393,
+  "generated_utc": "2026-07-31T21:18:42Z",
+  "generated_et": "5:18 PM ET Fri Jul 31, 2026",
   "note": "11 of 18 authorized R1 leg(s) landed (rows below are the rest). \u26d4 7 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
   "rows": [
     {
@@ -13,16 +13,16 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T21:04:58Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T19:44:13Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T21:04:58Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T19:44:13Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed."
     },
     {
       "name": "nr4a1 m2 r1",
-      "pct": 20.0,
+      "pct": 40.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785535913.4405918
+      "eta_epoch": 1785534213.1978393
     },
     {
       "name": "nr4a2 m2 r0",
@@ -31,7 +31,7 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T20:28:05Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T20:28:05Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed."
     },
     {
       "name": "nr4a2 m3 r0",
@@ -40,16 +40,16 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker cloned 2026-07-31T20:37:09Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T15:07:26Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
+      "why": "no live host \u2014 phase marker cloned 2026-07-31T20:37:09Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T15:07:26Z). HOSTS: 3 marker(s) resolve to 2 DISTINCT host(s) \u2014 \u26a0 FEWER DISTINCT HOSTS THAN THE THRESHOLD. These markers are substantially one host restarting (a crash-loop re-runs the onstart preamble), so this is NOT yet 'reproduced on distinct hosts' and the block may be premature.. Clear with leg_failure_breaker.reset_for() once the cause is fixed."
     },
     {
       "name": "nr4a2 m3 r1",
-      "pct": 40.0,
+      "pct": 60.0,
       "pct_of": null,
-      "usd_per_ns": "\u2014 $0.1845/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "usd_per_ns": "\u2014 $0.1636/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785533677.019539
+      "eta_epoch": 1785533718.1978393
     },
     {
       "name": "nr4a3 m3 r0",
