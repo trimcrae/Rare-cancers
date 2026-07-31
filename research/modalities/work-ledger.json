@@ -8,20 +8,20 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-07-31T01:30:50Z",
-  "_generated_et": "9:30 PM ET Jul 30, 2026",
+  "_generated_utc": "2026-07-31T01:39:04Z",
+  "_generated_et": "9:39 PM ET Jul 30, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-07-31T02:18:50Z",
-  "_stale_after_et": "10:18 PM ET Jul 30, 2026",
+  "_stale_after_utc": "2026-07-31T02:27:04Z",
+  "_stale_after_et": "10:27 PM ET Jul 30, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
       "scanner": "plan_items",
       "ran": true,
-      "found": 15,
+      "found": 18,
       "error": null,
-      "how": "scanned STRATEGY.md lines 1267-2056 for `[ ]`/`[~]`/`[!]` items; `[x]` and `[\u2013]` are not owed and are skipped"
+      "how": "scanned STRATEGY.md lines 1267-2121 for `[ ]`/`[~]`/`[!]` items; `[x]` and `[\u2013]` are not owed and are skipped"
     },
     {
       "scanner": "fanout_units",
@@ -40,9 +40,9 @@
     {
       "scanner": "rung_gates",
       "ran": true,
-      "found": 10,
+      "found": 13,
       "error": null,
-      "how": "walked 24 schedule milestone(s) on their real `depends_on` graph; 5 unblocked with no verdict, 5 genuinely waiting on a named dependency"
+      "how": "walked 27 schedule milestone(s) on their real `depends_on` graph; 8 unblocked with no verdict, 5 genuinely waiting on a named dependency"
     },
     {
       "scanner": "lanes",
@@ -219,6 +219,70 @@
       ]
     },
     {
+      "id": "plan:step-1-fan-out-replicates-on-the-open-cycle-the-map-s-two-open-caveats",
+      "scanner": "plan_items",
+      "what": "[RUNG 4] Step 1 fan-out \u00b7 REPLICATES ON THE OPEN CYCLE \u2014 the map's two open caveats share ONE fix \u2014",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "blocked",
+      "evidence_fingerprint": " ",
+      "last_evidence_utc": "2026-07-31T01:39:04Z",
+      "last_evidence_et": "9:39 PM ET Jul 30, 2026",
+      "last_evidence_what": "STRATEGY.md ORDERED PLAN marker `[ ]` (pending)",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [
+        "gate text in the plan item: **gate:**"
+      ],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": "external-gate",
+      "board_group": "plan",
+      "first_seen_utc": "2026-07-31T01:39:04Z",
+      "unreadable": null,
+      "notes": [
+        "rung: RUNG 4 \u2014 warhead map, differential atlas, retrospective gate"
+      ]
+    },
+    {
+      "id": "plan:the-generation-matched-null-s-generative-arm-control-c-the-one-that-ad",
+      "scanner": "plan_items",
+      "what": "[RUNG 4] The generation-matched null's GENERATIVE arm \u2014 control (c), the one that addresses the confound",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "blocked",
+      "evidence_fingerprint": " ",
+      "last_evidence_utc": "2026-07-31T01:39:04Z",
+      "last_evidence_et": "9:39 PM ET Jul 30, 2026",
+      "last_evidence_what": "STRATEGY.md ORDERED PLAN marker `[ ]` (pending)",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [
+        "gate text in the plan item: **gate:**"
+      ],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": "external-gate",
+      "board_group": "plan",
+      "first_seen_utc": "2026-07-31T01:39:04Z",
+      "unreadable": null,
+      "notes": [
+        "rung: RUNG 4 \u2014 warhead map, differential atlas, retrospective gate"
+      ]
+    },
+    {
       "id": "plan:nr-v04-retrospective-preregistered-holdout-held-2026-07-25-it-could-no",
       "scanner": "plan_items",
       "what": "[RUNG 4] NR-V04 retrospective \u2014 preregistered holdout \u2014 \u2605 HELD 2026-07-25: IT COULD NOT HAVE RETURNED A",
@@ -308,6 +372,39 @@
       "blocked_cause": "external-gate",
       "board_group": "plan",
       "first_seen_utc": "2026-07-31T01:23:06Z",
+      "unreadable": null,
+      "notes": [
+        "rung: RUNG 5 \u2014 mechanism-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*"
+      ]
+    },
+    {
+      "id": "plan:5b-segment-grid-limit-the-one-construct-the-enumeration-cannot-build-a",
+      "scanner": "plan_items",
+      "what": "[RUNG 5] 5b \u00b7 SEGMENT-GRID LIMIT \u2014 the one construct the enumeration cannot build, and it is a GRID limit not a",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "blocked",
+      "evidence_fingerprint": " ",
+      "last_evidence_utc": "2026-07-31T01:39:04Z",
+      "last_evidence_et": "9:39 PM ET Jul 30, 2026",
+      "last_evidence_what": "STRATEGY.md ORDERED PLAN marker `[ ]` (pending)",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [
+        "gate text in the plan item: **gate:**",
+        "gate text in the plan item: rung heading: RUNG 5 \u2014 mechanism-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*"
+      ],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": "external-gate",
+      "board_group": "plan",
+      "first_seen_utc": "2026-07-31T01:39:04Z",
       "unreadable": null,
       "notes": [
         "rung: RUNG 5 \u2014 mechanism-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*"
@@ -1971,7 +2068,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 5058 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 5066 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2001,7 +2098,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 5048 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 5056 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2326,6 +2423,99 @@
       "unreadable": null,
       "notes": [
         "title: RUNG 6: post ChemRxiv (CC-BY) + submit JCIM + send outreach emails",
+        "cost estimate on the milestone: 0 (the ladder owns the authoritative figure \u2014 vast-ladder-repricing.json)"
+      ]
+    },
+    {
+      "id": "rung:step1_fanout_replicates",
+      "scanner": "rung_gates",
+      "what": "Rung/milestone 'step1_fanout_replicates' \u2014 status 'pending', gate has returned no verdict",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "open",
+      "evidence_fingerprint": "pending|",
+      "last_evidence_utc": "2026-07-31T01:39:04Z",
+      "last_evidence_et": "9:39 PM ET Jul 30, 2026",
+      "last_evidence_what": "degrader-paper-schedule.json milestone 'step1_fanout_replicates' status='pending'",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "a rung's gate is adjudicated by running the science and writing the verdict, not by a workflow this module may dispatch. Recorded UNOWNED and left visible \u2014 which is the whole point: an unblocked rung nobody is carrying is invisible everywhere else.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": null,
+      "board_group": "plan",
+      "first_seen_utc": "2026-07-31T01:39:04Z",
+      "unreadable": null,
+      "notes": [
+        "title: RUNG 4: replicates on the fan-out's OPEN cycle (3 of 18 edges x 2 further replicates)",
+        "cost estimate on the milestone: ~$25 -- DERIVED, not typed: realised_usd $73.79 over n_compu (the ladder owns the authoritative figure \u2014 vast-ladder-repricing.json)"
+      ]
+    },
+    {
+      "id": "rung:genmatched_null_generative_arm",
+      "scanner": "rung_gates",
+      "what": "Rung/milestone 'genmatched_null_generative_arm' \u2014 status 'pending', gate has returned no verdict",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "open",
+      "evidence_fingerprint": "pending|",
+      "last_evidence_utc": "2026-07-31T01:39:04Z",
+      "last_evidence_et": "9:39 PM ET Jul 30, 2026",
+      "last_evidence_what": "degrader-paper-schedule.json milestone 'genmatched_null_generative_arm' status='pending'",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "a rung's gate is adjudicated by running the science and writing the verdict, not by a workflow this module may dispatch. Recorded UNOWNED and left visible \u2014 which is the whole point: an unblocked rung nobody is carrying is invisible everywhere else.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": null,
+      "board_group": "plan",
+      "first_seen_utc": "2026-07-31T01:39:04Z",
+      "unreadable": null,
+      "notes": [
+        "title: RUNG 4: generation-matched null, control (c) -- a FRESH generation into the NR4A1 pocket",
+        "cost estimate on the milestone: $0 prep + PROJECTED GPU, EXCLUDED from the pinned total. The (the ladder owns the authoritative figure \u2014 vast-ladder-repricing.json)"
+      ]
+    },
+    {
+      "id": "rung:segment_grid_reenumeration",
+      "scanner": "rung_gates",
+      "what": "Rung/milestone 'segment_grid_reenumeration' \u2014 status 'pending', gate has returned no verdict",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "open",
+      "evidence_fingerprint": "pending|",
+      "last_evidence_utc": "2026-07-31T01:39:04Z",
+      "last_evidence_et": "9:39 PM ET Jul 30, 2026",
+      "last_evidence_what": "degrader-paper-schedule.json milestone 'segment_grid_reenumeration' status='pending'",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "a rung's gate is adjudicated by running the science and writing the verdict, not by a workflow this module may dispatch. Recorded UNOWNED and left visible \u2014 which is the whole point: an unblocked rung nobody is carrying is invisible everywhere else.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": null,
+      "board_group": "plan",
+      "first_seen_utc": "2026-07-31T01:39:04Z",
+      "unreadable": null,
+      "notes": [
+        "title: RUNG 5b (free): segment-grid re-enumeration -- can ONE chain carry the covalent handle AND the causal wedge?",
         "cost estimate on the milestone: 0 (the ladder owns the authoritative figure \u2014 vast-ladder-repricing.json)"
       ]
     },
@@ -2803,8 +2993,8 @@
   "_dispatch_plan": [],
   "_dispatch_plan_is_a_request": "this module NEVER shells out. The workflow executes these with `gh workflow run`; each names a workflow and no price.",
   "n_by_state": {
-    "blocked": 18,
-    "open": 10,
+    "blocked": 21,
+    "open": 13,
     "done": 21,
     "dispatched": 1,
     "held": 1
@@ -2815,8 +3005,11 @@
     "plan:validation-b-full-component-calibration-cube-22-5-6-67-cum-40-module-3",
     "plan:nr-v04-covalent-feasibility-panel-result-under-correction-its-go-does-",
     "plan:step-1-fan-out-cmpd19-congeneric-map-36-15-80-19-rbfe-edges-13-7-ref-g",
+    "plan:step-1-fan-out-replicates-on-the-open-cycle-the-map-s-two-open-caveats",
+    "plan:the-generation-matched-null-s-generative-arm-control-c-the-one-that-ad",
     "plan:nr-v04-retrospective-preregistered-holdout-21-4-8-67-cum-104-full-ense",
     "plan:5a-ks-wedge-confirmation-pilot-first-kill-switch-causal-result-23-3-1-",
+    "plan:5b-segment-grid-limit-the-one-construct-the-enumeration-cannot-build-a",
     "plan:5c-explicit-ternary-ensemble-refinement-21-1-9-85-endpoint-md-24-200-l",
     "plan:5d-local-ternary-fep-21-3-1-87-3-6-ternary-comparisons-cum-169-alchemy",
     "plan:g-open-per-paralogue-120-300-only-to-make-affinity-selectivity-uncondi",
@@ -2835,9 +3028,12 @@
     "plan:validation-b-full-component-calibration-cube-22-5-6-67-cum-40-module-3",
     "plan:nr-v04-covalent-feasibility-panel-result-under-correction-its-go-does-",
     "plan:step-1-fan-out-cmpd19-congeneric-map-36-15-80-19-rbfe-edges-13-7-ref-g",
+    "plan:step-1-fan-out-replicates-on-the-open-cycle-the-map-s-two-open-caveats",
+    "plan:the-generation-matched-null-s-generative-arm-control-c-the-one-that-ad",
     "plan:nr-v04-retrospective-preregistered-holdout-held-2026-07-25-it-could-no",
     "plan:nr-v04-retrospective-preregistered-holdout-21-4-8-67-cum-104-full-ense",
     "plan:5a-ks-wedge-confirmation-pilot-first-kill-switch-causal-result-23-3-1-",
+    "plan:5b-segment-grid-limit-the-one-construct-the-enumeration-cannot-build-a",
     "plan:5c-explicit-ternary-ensemble-refinement-21-1-9-85-endpoint-md-24-200-l",
     "plan:5d-local-ternary-fep-21-3-1-87-3-6-ternary-comparisons-cum-169-alchemy",
     "plan:g-open-per-paralogue-120-300-only-to-make-affinity-selectivity-uncondi",
@@ -2856,20 +3052,23 @@
     "rung:abfe_conditional",
     "rung:fold_results",
     "rung:final_redteam",
-    "rung:post_submit"
+    "rung:post_submit",
+    "rung:step1_fanout_replicates",
+    "rung:genmatched_null_generative_arm",
+    "rung:segment_grid_reenumeration"
   ],
   "_self": {
-    "now_et": "9:30 PM ET Jul 30, 2026",
-    "generated_et": "9:30 PM ET Jul 30, 2026",
-    "stale_after_et": "10:18 PM ET Jul 30, 2026",
+    "now_et": "9:39 PM ET Jul 30, 2026",
+    "generated_et": "9:39 PM ET Jul 30, 2026",
+    "stale_after_et": "10:27 PM ET Jul 30, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 10:18 PM ET Jul 30, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 10:27 PM ET Jul 30, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (9:29 PM ET Jul 30, 2026) refreshed the artifact to 9:30 PM ET Jul 30, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (9:30 PM ET Jul 30, 2026) refreshed the artifact to 9:39 PM ET Jul 30, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
