@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 1:46 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 1:54 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                ETA (ET)          % DONE  $/ns                                STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 9:40 PM            42.7%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d terna —                      —  RTX 4080S $0.00505/ns · 1.48× basis STARTING  targets not in the retained log window — %% and ETA unknowable this pass
-5aks_d0_to_d terna —                  30.2%  RTX 4090 $0.00551/ns · 1.61× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
+5aks_d0_to_d terna 9:48 PM            42.7%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 8 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d terna —                  82.2%  RTX 4080S $0.00505/ns · 1.48× basis STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
+5aks_d0_to_d terna 2:59 AM Aug 1      30.2%  RTX 4090 $0.00551/ns · 1.61× basis  STARTING  COLD_START — instance is 14 min old, under the 15 min floor — too young to have proved anything either way
 5aks_d0_to_d terna —                  30.2%  —                                   NO HOST   no live host — checkpoint at warmup/1088 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
