@@ -1,56 +1,8 @@
 {
   "_what": "Read-only forensics: does a Vast rental's CHARGED GPU rate move after rental, or is the apparent rise the storage line in `dph_total`?",
   "_fields": "allow-listed \u2014 see SAFE_FIELDS. Field NAMES are evidence; token/ssh/address VALUES are credentials and never appear here.",
-  "n_instances": 6,
+  "n_instances": 5,
   "instances": [
-    {
-      "record": {
-        "id": 45749905,
-        "machine_id": 137041,
-        "label": "nrv04retro-retro_noncov_nr4a2-m1-r0",
-        "gpu_name": "RTX 3090",
-        "num_gpus": 1,
-        "gpu_frac": 0.125,
-        "disk_space": 60.0,
-        "is_bid": true,
-        "cur_state": "stopped",
-        "actual_status": "exited",
-        "intended_status": "stopped",
-        "start_date": 1784933972.0675533,
-        "duration": 13741893.252963066,
-        "dph_base": 0.09333333333333334,
-        "dph_total": 0.16555555555555557,
-        "storage_cost": 0.8666666666666666,
-        "storage_total_cost": 0.07222222222222222,
-        "inet_up_cost": 0.016927083333333332,
-        "inet_down_cost": 0.015625,
-        "min_bid": 0.08,
-        "gpu_util": 0.0
-      },
-      "moved": null,
-      "instance": 45749905,
-      "machine_id": 137041,
-      "is_bid": true,
-      "ledger_bid_usd_h": null,
-      "lines": {
-        "gpu_usd_h": 0.09333333333333334,
-        "storage_usd_h": 0.07222222222222222,
-        "all_in_usd_h": 0.16555555555555557,
-        "inet_usd_h_not_in_total": 0.03255208333333333,
-        "residual_usd_h": 0.0,
-        "explained": true
-      },
-      "live_min_bid_usd_h": 0.08,
-      "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
-      "offer_vs_instance": {
-        "offer_dph_total_usd_h": null,
-        "offer_min_bid_usd_h": null,
-        "bid_usd_h": null,
-        "instance_dph_total_usd_h": 0.16555555555555557,
-        "instance_disk_line_usd_h": 0.07222222222222222,
-        "instance_disk_gb": 60.0
-      }
-    },
     {
       "record": {
         "id": 46013066,
@@ -61,18 +13,18 @@
         "gpu_frac": 1.0,
         "disk_space": 40.0,
         "is_bid": true,
-        "cur_state": "stopped",
-        "actual_status": "exited",
-        "intended_status": "stopped",
+        "cur_state": "running",
+        "actual_status": "running",
+        "intended_status": "running",
         "start_date": 1785164353.6082404,
-        "duration": 2674553.252963066,
+        "duration": 2661115.654366255,
         "dph_base": 0.408,
         "dph_total": 0.4213333333333333,
         "storage_cost": 0.23999999999999996,
         "storage_total_cost": 0.01333333333333333,
         "inet_up_cost": 0.013333333333333334,
         "inet_down_cost": 0.013333333333333334,
-        "min_bid": 0.46,
+        "min_bid": 0.964,
         "gpu_util": 0.0
       },
       "moved": null,
@@ -88,7 +40,7 @@
         "residual_usd_h": 0.0,
         "explained": true
       },
-      "live_min_bid_usd_h": 0.46,
+      "live_min_bid_usd_h": 0.964,
       "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
       "offer_vs_instance": {
         "offer_dph_total_usd_h": null,
@@ -113,7 +65,7 @@
         "actual_status": "created",
         "intended_status": "stopped",
         "start_date": 1785165245.6545324,
-        "duration": 2705007.252963066,
+        "duration": 2691569.654366255,
         "dph_base": 0.136,
         "dph_total": 0.1471111111111111,
         "storage_cost": 0.19999999999999998,
@@ -160,14 +112,14 @@
         "actual_status": "exited",
         "intended_status": "stopped",
         "start_date": 1785165307.9670093,
-        "duration": 4952573.252963066,
+        "duration": 4939135.654366255,
         "dph_base": 0.46920000000000006,
         "dph_total": 0.4912296296296297,
         "storage_cost": 0.39653333333333335,
         "storage_total_cost": 0.02202962962962963,
         "inet_up_cost": 0.005333333333333333,
         "inet_down_cost": 0.004,
-        "min_bid": 1.457333,
+        "min_bid": 1.361333,
         "gpu_util": 0.0
       },
       "moved": null,
@@ -183,7 +135,7 @@
         "residual_usd_h": 0.0,
         "explained": true
       },
-      "live_min_bid_usd_h": 1.457333,
+      "live_min_bid_usd_h": 1.361333,
       "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
       "offer_vs_instance": {
         "offer_dph_total_usd_h": null,
@@ -208,7 +160,7 @@
         "actual_status": "exited",
         "intended_status": "stopped",
         "start_date": 1785165369.3737426,
-        "duration": 2102275.252963066,
+        "duration": 2088837.6543662548,
         "dph_base": 0.204,
         "dph_total": 0.2151111111111111,
         "storage_cost": 0.19999999999999998,
@@ -256,7 +208,7 @@
         "actual_status": "exited",
         "intended_status": "stopped",
         "start_date": 1785165431.9851034,
-        "duration": 13253847.252963066,
+        "duration": 13240409.654366255,
         "dph_base": 0.23120000000000002,
         "dph_total": 0.26823703703703705,
         "storage_cost": 0.6666666666666666,
@@ -291,5 +243,5 @@
       }
     }
   ],
-  "summary": "0 of 0 gradeable live rental(s) show a GPU line differing from the bid agreed at rental (6 of 6 carry no recorded bid and cannot be graded). No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` (market floor + the disk line the search priced) \u2014 two different quantities, not a price move."
+  "summary": "0 of 0 gradeable live rental(s) show a GPU line differing from the bid agreed at rental (5 of 5 carry no recorded bid and cannot be graded). No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` (market floor + the disk line the search priced) \u2014 two different quantities, not a price move."
 }
