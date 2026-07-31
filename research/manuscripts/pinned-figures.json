@@ -31,7 +31,8 @@
   "research/manuscripts/nr4a3-degrader-paper.md",
   "research/manuscripts/nr4a3-degrader-paper-SI.md",
   "research/modalities/nr4a3-nrv04-retrospective-prereg.md",
-  "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md"
+  "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md",
+  "research/compute/gcp-gpu-facts.md"
  ],
  "_marker_note": [
   "A superseded value is CLEARED when its line — or the two lines above / one below, because markdown prose",
@@ -513,6 +514,24 @@
    "pattern": "\\+\\$2\\.31 attested|best estimate is \\*\\*\\$79\\.59\\*\\*",
    "current": "Attested-only is $22.31 and the best estimate $99.59, both DERIVED from research/modalities/realised-spend.json (regenerate: realised_spend.py --write). The growth is a LEAK, not new work: five cal-* bench rentals orphaned by the 2026-07-27 re-anchor sweep, found and destroyed 2026-07-31, one of them running at gpu_util 0.0 for ~3.85 days. Its size is a RANGE, $20-$39, and must never be quoted as a point estimate -- no ledger covers those rentals, the figure assumes continuous running which was never observed, and the hosts are destroyed so it is not recoverable. One home: realised_spend.ATTESTED -> vast_bench_sweep_orphans.",
    "retired_by": "the 2026-07-31 orphan sweep. The mechanism is the durable part and is why the money was invisible twice over: the bench sweep's ledger stopped at instance 46013005 (11:27 AM ET 2026-07-27) while the sweep went on renting ids 46013066-46014594, so no ledger entry existed; and vast_idle_guard is LABEL-SCOPED, running only inside a lane's own collect, so a lane that stops being dispatched stops being guarded and nothing anywhere says so."
+  },
+  {
+   "id": "gcp_spec_card_table_p100",
+   "pattern": "~2\\.4\\s*\\|\\s*1\\.46|\\*\\*11\\.1\\*\\*\\s*\\|\\s*\\*\\*1\\.67\\*\\*|\\+18\\s*%\\s*more legs|P100 looks better than L4",
+   "current": "MEASURED 2026-07-31: the bandwidth heuristic that produced the P100 row is REFUTED — the T4 arm shows the workload is COMPUTE-bound (measured ~0.31x L4 where bandwidth predicted 1.07x and FP32 predicted 0.27x). P100 itself remains UNMEASURED, so it is unsupported rather than refuted. Independently, the spec table's $/h compared the L4's whole-VM rate against BARE GPU rates for the others; adding the n1-standard-4 host ($0.190/h) takes P100 from +18% to +3% on the table's own speeds. One home: research/modalities/gcp-card-bench.json; readable table gcp-gpu-facts.md 1c",
+   "retired_by": "the GCP card probe, 2026-07-31 (gpu-bench-gcp.yml runs 30632627483 / 30633727772) - STRATEGY.md Appendix A row 56"
+  },
+  {
+   "id": "gcp_spec_card_table_t4",
+   "pattern": "~1\\.1\\s*\\|\\s*0\\.35|20\\.3\\s*\\|\\s*3\\.05",
+   "current": "MEASURED 2026-07-31: T4 is ~0.31x the L4 at the lane's real 141,867-particle system, not ~1.1x, and delivers ~0.41x the L4's science-per-dollar, not 2.2x - wrong by ~5x in the direction that would have bought the worst card available. The figure was REFUSED by the probe's admission gate (CV 5.6% vs a 5% ceiling) and stands as a RANKING, not a rate. One home: research/modalities/gcp-card-bench.json",
+   "retired_by": "the GCP card probe, 2026-07-31 (run 30633727772, spot; on-demand was ZONE_RESOURCE_POOL_EXHAUSTED in all four us-central1 zones) - STRATEGY.md Appendix A row 56"
+  },
+  {
+   "id": "gcp_spec_card_table_v100",
+   "pattern": "~3\\.0×?\\s*\\|\\s*2\\.48",
+   "current": "UNSUPPORTED as of 2026-07-31: the V100 row came from the same bandwidth heuristic the T4 measurement refutes, and the V100 itself is still UNMEASURED. Its $/h also omitted the n1 host the card cannot run without. One home: research/modalities/gcp-card-bench.json",
+   "retired_by": "the GCP card probe, 2026-07-31 - STRATEGY.md Appendix A row 56"
   }
  ],
  "subset_checks": [

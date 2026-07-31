@@ -53,12 +53,15 @@ before diagnosing a GPU provisioning/quota problem.
   system is bandwidth-bound. P100 (HBM2, ~732 GB/s) and V100 (HBM2, ~900 GB/s) are 2.4× and 3.0× on that axis.
   Spec-derived, at approximate list prices, against ~$292 of remaining credit:
 
+  ⛔ **SUPERSEDED 2026-07-31 — every non-L4 row below is WITHDRAWN and must not be cited as current.**
+  The measurement that retired them, and what replaced it, is **§1c** below.
+
   | card | quota | ~×L4 | ~$/h | ~$/leg | legs on $292 | science/$ |
   |---|---|---|---|---|---|---|
   | L4 (current) | 1 | 1.00 | 0.71 | 31 | 9.4 | 1.41 |
-  | **P100** | **1** | ~2.4 | 1.46 | **26** | **11.1** | **1.67** |
-  | V100 | 1 | ~3.0 | 2.48 | 36 | 8.0 | 1.21 |
-  | T4 | 1 | ~1.1 | 0.35 | 14 | 20.3 | 3.05 |
+  | **P100** ⛔ *superseded* | **1** | ~2.4 | 1.46 | **26** | **11.1** | **1.67** |
+  | V100 ⛔ *superseded* | 1 | ~3.0 | 2.48 | 36 | 8.0 | 1.21 |
+  | T4 ⛔ *superseded* | 1 | ~1.1 | 0.35 | 14 | 20.3 | 3.05 |
 
 - ⚠ **SPEC-DERIVED, NOT MEASURED, AND THE T4 ROW IS THE LEAST TRUSTWORTHY.** The bandwidth heuristic is validated
   on exactly ONE pair — L4 vs Vast 4090, where it predicted the measured 3.53× to ~5% — and on that pair bandwidth
@@ -67,12 +70,91 @@ before diagnosing a GPU provisioning/quota problem.
   (8.1 vs 30 TFLOPS). If the workload is even partly compute-bound the T4 is much slower than the table implies.
   This repo has already booked one card-ratio error from spec-style reasoning (the 2.06× that compared a warmup
   rate to a production rate), so **none of these rows may be used for planning until measured.**
-- **Cheap to settle:** a short production probe (~50 iterations) per card measures s/iter directly for ~$1–2 of
-  credit, and the upside is large — if P100 holds up that is **+18 % more legs from the same money**, and the T4
-  row would be transformative if the workload really is bandwidth-bound.
+  **STATUS 2026-07-31: the harness that measures them EXISTS and has run — see §1c. The L4 control is measured;
+  the three non-L4 rows are still unmeasured, and still may not be used for planning.**
 - **NOT a flag change.** P100/V100/T4 need `n1-*` machine types plus `--accelerator type=...,count=1`; the lane
   currently pins `g2-standard-8/12/16`, which are L4-only. Setup is CPU/RAM-bound and needs ≥8 vCPU / 32 GB, and
   the container's CUDA build has to support the older compute capability. Real work, not a one-line edit.
+  **Built 2026-07-31** — `gpu-bench-gcp.yml` + [`gcp_card_bench.py`](../modalities/gcp_card_bench.py).
+
+## 1c. ★★ THE CARD PROBE — what it measures, what it MEASURED, and the size mistake it exists to avoid
+
+**The probe.** `gpu-bench-gcp.yml card=<l4|t4|p100|v100>` derives machine type and `--accelerator` together from
+one input (`gcp_card_bench.CARDS`), so an `n1-*` with no accelerator — which boots CPU-only and reports a
+perfectly plausible ns/day — is unrepresentable rather than merely discouraged; `OPENMM_REQUIRE_CUDA=1` makes a
+CPU fallback raise instead of measure, and the reported CUDA `DeviceName` is checked against the card that was
+asked for (`card_from_device`), so a measurement can never be filed under the wrong card.
+
+**⚠ THE SIZE IS THE PART THAT DECIDES WHETHER THE ANSWER IS WORTH ANYTHING.** `gpu_md_bench.py` defaults to
+`BENCH_EDGE_NM=7.1` ≈ 36k atoms, and `gpu-bench-gcp.yml` never passed the variable — so **every GCP bench ever
+run in this project measured a box four times smaller than the lane's real system**, and would have answered a
+different question with an equally confident number. The edge is now DERIVED from the repo's one exact anchor
+(`vast_bench_sweep`: 9.5 nm ↔ 84,534 particles) rather than from a typed water density:
+**11.29 nm → a measured 141,867 particles, 0.07 % from the ternary lane's real 141,968.**
+
+Both sizes run in one boot, because the boot dominates the cost and the second measurement is ~2 min:
+the **ternary size first** (a VM that dies early still yields the decision-relevant number), then **9.5 nm**,
+which is the protocol of `vast_cost_model.MEASURED_NS_PER_DAY_84K` and is what makes a GCP card commensurable
+with every Vast card. Protocol otherwise identical to the Vast anchors: TIP3P/PME, 1.0 nm cutoff, HBonds, HMR,
+4 fs, CUDA mixed precision, 3 independent timed blocks ≈ 60 s, CV-gated, physics-checked.
+
+**MEASURED — L4, the control arm.** One home: [`gcp-card-bench.json`](../modalities/gcp-card-bench.json),
+written by CI from the probe's own result lines and never hand-edited. Regenerate this table with
+`python3 research/modalities/gcp_card_bench.py --markdown-table`;
+`tests/test_gcp_card_bench.py::test_the_documented_table_is_the_measured_table` re-checks it against the
+artifact on every CI run, so the document cannot drift from the measurement.
+
+<!-- GCP-CARD-BENCH-TABLE:BEGIN -->
+| card | machine | ns/day @141,887p | ×L4 | ns/day @84,534p | $/h | $/ns @141,887p | ns per $ | ×L4 ns/$ |
+|---|---|---|---|---|---|---|---|---|
+| **L4** | `g2-standard-4` | **177.28** | **1.00×** | 298.96 | 0.708 | 0.0958 | **10.43** | **1.00×** |
+<!-- GCP-CARD-BENCH-TABLE:END -->
+
+⚠ **`$/h` IS A PUBLISHED LIST RATE, NOT AN INVOICE** (`gcp_card_bench.LIST_PRICE_USD_PER_H`). GCP exposes no
+per-run cost without a BigQuery billing export, and the Cloud Billing Catalog probe built into the workflow
+**returned nothing on 2026-07-31**, so every `$/ns` and `ns per $` here inherits that label.
+
+**Two things the L4 arm settled that are worth more than one row:**
+
+1. **REPRODUCIBLE TO 0.1 % ACROSS INDEPENDENT VMs.** Runs `30632062766` and `30632627483` (8:56 and 9:04 AM ET,
+   separate VMs, both us-central1-b) returned **177.08 / 177.28** ns/day at the ternary size and
+   **298.76 / 298.96** at the anchor size. That matters because the Vast table's whole 2026-07-27 re-anchoring
+   was about single-host draws from an unmeasured distribution (spreads of 4–14 % across marketplace hosts).
+   A dedicated GCE VM is **not** that: N = 1 here is worth far more than N = 1 there.
+2. **THE COST IS LINEAR IN PARTICLE COUNT AT THIS SCALE.** 177.28 / 298.96 = **0.593** against **0.596** for
+   pure O(N). So nothing about the smaller box was overhead- or occupancy-limited, and extrapolating between
+   these two sizes is safe. ⚠ It does **not** discriminate bandwidth-bound from compute-bound — both scale
+   linearly in N — which is exactly why the T4 arm is still the load-bearing measurement.
+
+**⚠ AND A CROSS-CHECK THAT DISAGREES WITH A LIVE REPO FIGURE — stated, not resolved.** At the *identical*
+84,534-particle protocol, `vast_cost_model.MEASURED_NS_PER_DAY_84K["RTX4090"]` = 804.06 ns/day against this
+L4's 298.96, i.e. **4090/L4 = 2.69×**. The repo's live figure is **3.53×** (pricing.md), measured a different
+way: production *ternary legs*, 2 fs, 12 HREX windows, in the `nr4a3fep` image's `rbfe` environment. Three
+confounds separate them and none is negligible — the Vast entry is a median over 6 marketplace hosts while this
+is one dedicated VM; a water box is not an alchemical hybrid topology with HREX exchange and per-iteration I/O;
+and `vast_cost_model` itself records that the environment moved throughput non-uniformly across cards
+(4080 unchanged, 4090 +6 %, 3090 +28 %). **So 3.53× is NOT retracted** — this is a same-protocol datum that
+sits beside it, and the honest reading is that the L4→4090 ratio is somewhere in 2.7–3.5× depending on which
+quantity you mean. Anyone quoting a single number should say which.
+
+## 1d. Capacity and permissions, measured 2026-07-31 (both cost a run to learn)
+
+- **`gcloud compute project-info describe` returns rc=2 for `gpu-runner@`** — so **`GPUS_ALL_REGIONS` is not
+  readable from a workflow using that service account**, even though `gcp-quota-check.yml` prints the *regional*
+  rows fine. This is why the card probe's first pre-flight failed with no refusal message: the gate aborted on
+  the reader, not on the condition. **A GPU-freeness check must therefore rest on `gcloud compute instances
+  list` (quota can only be held by an instance — §2) plus the per-type regional row, both of which work.**
+- **`ZONE_RESOURCE_POOL_EXHAUSTED` for `n1-standard-4` + `nvidia-tesla-t4` in ALL FOUR us-central1 zones**
+  (a/b/c/f), on-demand, at 9:13 AM ET (run `30633564753`). Verbatim, per zone:
+  `ERROR: (gcloud.compute.instances.create) Could not fetch resource: code: ZONE_RESOURCE_POOL_EXHAUSTED`.
+  That is the §4 discriminator doing its job: a malformed request returns `Invalid`/`required`, not this — so
+  this is **genuine capacity**, and the T4 arm is blocked by supply rather than by the harness. Corroborated
+  the same morning by an **e2-micro** create failing `ZONE_RESOURCE_POOL_EXHAUSTED` in us-central1-c
+  (`gcp-quota-check` run `30631015578`, 8:33 AM ET), i.e. the pressure is not GPU-specific.
+  ⚠ **Consequence for planning: a granted per-type quota is NOT capacity.** §1b's "we already hold quota for
+  several GPU types" remains true and remains the reason no quota request is worth filing — but holding
+  `NVIDIA_T4_GPUS = 1` bought nothing on this particular morning. Re-try later; there is no other region to
+  move to (§5).
 
 ## 3b. `max-run-duration` CANNOT be changed on a RUNNING instance — the boundary is fixed
 

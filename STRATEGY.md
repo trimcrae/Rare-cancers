@@ -2564,11 +2564,14 @@ dollar ceiling.
    scarce — money is.** And science-per-dollar is `speed / rate`, which is flat-to-worse on faster cards
    *(non-L4 rates are list-price approximations, not repo-measured)*:
 
+   ⛔ **SUPERSEDED 2026-07-31 — the non-L4 rows of BOTH tables below are WITHDRAWN, do not cite them as
+   current; the correction is beneath them and in [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 56.**
+
    | card | rel. speed | ~$/h | units/$ | leg-equivalents on $292 |
    |---|---|---|---|---|
    | **L4 (current)** | 1.0× | 0.71 | **1.41** | **9.4** |
    | A100 40 GB | ~5.2× | 3.67 | 1.41 | 9.4 |
-   | V100 | ~3.0× | 2.48 | 1.21 | 8.0 |
+   | V100 ⛔ *superseded* | ~3.0× | 2.48 | 1.21 | 8.0 |
    | H100 80 GB | ~11× | 11.0 | 1.02 | 6.7 |
 
    **★ BUT THE CENSUS CHANGED THE ANSWER, AND NO REQUEST IS NEEDED FOR ANY OF IT.** `GPUS_ALL_REGIONS = 1` caps
@@ -2577,35 +2580,56 @@ dollar ceiling.
    `NVIDIA_L4_GPUS` (A100/H100 are the only ones at 0). Nobody had looked, because the quota check only grepped
    `L4|G2|GPU` and printed the rows mid-log. Spec-derived against the ~$292:
 
+   ⛔ **SUPERSEDED 2026-07-31 — WITHDRAWN, do not cite; see beneath the table.**
+
    | card | quota | ~×L4 | ~$/h | ~$/leg | legs on $292 | science/$ |
    |---|---|---|---|---|---|---|
    | L4 (current) | 1 | 1.00 | 0.71 | 31 | 9.4 | 1.41 |
-   | **P100** | **1** | ~2.4 | 1.46 | **26** | **11.1** | **1.67** |
-   | V100 | 1 | ~3.0 | 2.48 | 36 | 8.0 | 1.21 |
-   | T4 | 1 | ~1.1 | 0.35 | 14 | 20.3 | 3.05 |
+   | **P100** ⛔ *superseded* | **1** | ~2.4 | 1.46 | **26** | **11.1** | **1.67** |
+   | V100 ⛔ *superseded* | 1 | ~3.0 | 2.48 | 36 | 8.0 | 1.21 |
+   | T4 ⛔ *superseded* | 1 | ~1.1 | 0.35 | 14 | 20.3 | 3.05 |
 
-   So **P100 looks better than L4 on BOTH axes** — faster *and* more science per dollar, i.e. **+18 % more legs
-   from the same money** — and it is available today. That is a different conclusion from "a faster card only
-   compresses calendar", which held only for cards priced in proportion to their speed.
+   ⛔ **SUPERSEDED BY MEASUREMENT, 2026-07-31 — DO NOT CITE EITHER TABLE ABOVE AS CURRENT.** The reading they
+   supported — *"P100 looks better than L4 on BOTH axes, faster and more science per dollar, i.e. **+18 % more
+   legs from the same money**"*, and the T4 at **2.2×** the L4's science-per-dollar — is **WITHDRAWN**. It was
+   never measured, it was flagged as unmeasured, and the measurement has now refuted the heuristic that
+   produced it. Retained above because it is what the plan carried for five days;
+   [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) row 56 has the correction.
 
-   ⚠ **SPEC-DERIVED, NOT MEASURED — do not plan on these rows yet.** The bandwidth heuristic is validated on
-   exactly one pair (L4 vs 4090, predicted 3.53× to ~5 %) where bandwidth and FP32 scale *together*, so it cannot
-   tell bandwidth-bound from compute-bound. **T4 vs L4 is the discriminating case** (bandwidth 320 vs 300 but FP32
-   8.1 vs 30 TFLOPS) and is therefore the least trustworthy row. This repo has already booked one card-ratio error
-   from spec reasoning. **A ~50-iteration production probe per card measures it for ~$1–2** — worth doing, and it
-   is **not a flag change**: P100/V100/T4 need `n1-*` machine types plus `--accelerator`, while the lane pins
-   L4-only `g2-*`. Details and the full caveat: [gcp-gpu-facts.md §1b](research/compute/gcp-gpu-facts.md).
-   **Sequencing gate SATISFIED, and the probe is still unbought — deliberately.** The condition was "after the
-   reverse leg", because the 1-GPU cap means a probe cannot run beside it; that leg landed 2026-07-28 and the
-   GPU has been free since (`GPUS_ALL_REGIONS` usage **0.0**, `gcp-quota-check` run 30626214303, 7:13 AM ET
-   2026-07-31). **What holds it now is that nothing would consume the answer.** A card ratio decides which card
-   the *next GCP leg* buys, and there is no queued GCP leg: the valB_mini calibrator lane has closed, and the
-   closure triangle, RUNG 5a-KS, the step-1 fan-out and NR-V04 Arm E were all sent to **Vast** — the triangle
-   explicitly so, "GCP was declined deliberately … ~7.3 SERIAL days of the only GPU" (RUNG 2b). The probe is
-   also **not a flag change**: P100/V100/T4 need `n1-*` + `--accelerator` where the lane pins L4-only `g2-*`,
-   so it means building and first-running a new provisioning path. **Buy it together with the first GCP leg
-   that is actually queued, not before** — it is ~$1–2 either way, and run then it also measures the real
-   system rather than a proxy.
+   **★★ WHAT THE PROBE MEASURED, AND WHY IT INVERTS THE TABLE.** Built and run 2026-07-31 on free trial credit
+   (`gpu-bench-gcp.yml` + [`gcp_card_bench.py`](research/modalities/gcp_card_bench.py)); one home for every
+   number is [`gcp-card-bench.json`](research/modalities/gcp-card-bench.json), and the readable table with its
+   full caveats is **[gcp-gpu-facts.md §1c](research/compute/gcp-gpu-facts.md)**. Do not copy figures here —
+   point at those.
+
+   1. **THE WORKLOAD IS COMPUTE-BOUND, NOT BANDWIDTH-BOUND — and that is the whole ballgame.** The T4 is the
+      discriminating card precisely because its two specs point opposite ways (bandwidth 320 vs the L4's 300,
+      FP32 8.1 vs 30.3 TFLOPS). Bandwidth predicts **1.07× L4**; FP32 predicts **0.27×**. **Measured: ~0.31×**
+      at the ternary system size. So every row generated by the bandwidth heuristic — P100 and V100 included —
+      rests on a premise the measurement rejects.
+   2. **THE SPEC TABLE ALSO HAD A PRICE ERROR THAT NEEDED NO MEASUREMENT AT ALL.** Its `$/h` column compares
+      the L4's **whole-VM** rate (0.71 = a g2-standard-4, which *bundles* the L4) against **bare GPU** rates
+      for the others (1.46 / 2.48 / 0.35). A P100 cannot run without a host. Adding the n1-standard-4 it needs
+      (**$0.190/h**) to the same table, with its own speed assumptions untouched, already collapses P100's
+      advantage from **+18 % to +3 %** and the T4's from **2.16× to 1.44×**. Two independent errors, both in
+      the direction that made the alternatives look good.
+   3. **THE PRACTICAL ANSWER: STAY ON THE L4.** Combining the two, the T4 delivers **~0.41×** the L4's
+      science-per-dollar where the table promised 2.2× — wrong by **~5×**, and in the direction that would have
+      sent the next GCP leg to the worst card available. The original framing of this decision — *"a faster GPU
+      would not help either, because the GCP lane is DOLLAR-bound"* — **survives, and is now measured rather
+      than assumed.**
+
+   ⚠ **WHAT IS STILL NOT MEASURED, stated so nobody over-reads this.** The T4 figure was **REFUSED by the
+   probe's own admission gate** (CV 5.6 % against a 5 % ceiling) and is reported as a *ranking*, not a rate —
+   a 3.5× discrepancy cannot be manufactured by 5.6 % of block scatter, but the number itself is provisional.
+   Capacity also intervened: `NVIDIA_T4_GPUS` on-demand returned **`ZONE_RESOURCE_POOL_EXHAUSTED` in all four
+   us-central1 zones**, so the T4 arm had to run on spot ([facts §1d](research/compute/gcp-gpu-facts.md)).
+   **A granted per-type quota is not capacity** — that is new, and it is the one respect in which "we already
+   hold quota for several GPU types" oversold itself.
+
+   **What no longer holds: "buy the probe together with the first GCP leg that is actually queued."** That was
+   right while the probe was hypothetical and the answer had no consumer. It is now bought and the answer
+   exists, so the sequencing question is closed rather than deferred.
 
    **What stands regardless: no GPU quota REQUEST is worth filing** — not more count (refused, and wouldn't have
    helped), and not a faster type (we already hold several). ⚠ This also means the quota increase I
@@ -2875,6 +2899,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 52 | The generation-matched null's comparison block reporting **`p_value: 0.0`, `enrichment: Infinity`, `exceeds_chance: true`** and the verdict *"real campaign produced a survivor the control objectives NEVER manufactured → survival is not a generic funnel artifact"* | **Every measured count in that artifact is correct and unchanged; the statistics derived from them were not.** `false_positive_rate` returned a per-molecule control rate of exactly **0** — a point estimate from a *single* 191-molecule campaign — and `compare_campaigns` then divided by it, so any real survivor was infinitely enriched at p = 0 **by construction**, independently of the evidence. The honest reading is the **rule-of-three bound**: 0 events in 191 generations puts the manufactured rate at **≤0.0157 (one-sided 95 %)**, which is **3× the real campaign's own 0.0052**, so the confound is **narrowed, not excluded**; one-sided Fisher for 1/191 vs 0/191 is **p = 0.5**. Fixed at the source (`per_molecule_fp_rate_upper95`, and the zero branch now grades the real rate against that bound), retired in place in the artifact's `_superseded` block, and pinned by two tests — one of which previously asserted the overclaim. The artifact was also **not strict JSON** while it carried a bare `Infinity`; it is now |
 | 55 | *"A single chain carrying both the covalent handle and the causal wedge needs 16 backbone atoms, and the segment grid cannot build it (branch floor k=6 against T407's k∈[2,3] at n=16). That is a **grid limit, not geometry**"* — live in three places in this file and named as a $0 re-grid | **Run against the committed enumeration on 2026-07-30 ($0), and every clause except the branch floor is FALSE.** The grid builds T407 branches at n=16 **and** C397 branches at n=16 — both targets at **three** shared lengths (16, 18, 20) — so "cannot build it at 16" is refuted by the artifact's own records. **No committed T407 window is k∈[2,3]**: the real ones are **k∈[2,6]** (exemplar) and **k∈[4,13]** (representative), and the enumerator builds at k=6, 7 and 11, all inside them. **The real blocker is that `build_smiles` takes ONE `pendant`** — its template has a single branch residue, so no choice of segments, length or placement can emit a two-mechanism molecule; every sweep over the grid was searching a space that structurally cannot contain the answer. The floor `k = 3 + SEG2 + tail` is real, is **independent of SEG1 and of chain length**, and is **architectural** — the 3 is the branch residue's own N–Cα–C and `SEG2 = 0` is refused because it would form an acylurea — so **no grid change reaches k < 4**. What would work is a **two-branch template**, constructible at **n = 18** with the segments the grid already has, i.e. the fix needs no new chemistry and was never a re-grid. Derived, never typed: `linker_branch_reach.py` → `linker-branch-reach.json`, 7 tests |
 | 54 | Pinned ladder total **~$158 mid (~$44–578)**, and RUNG 5a-KS priced at **~$12 ($1.6–45)** for **two** ternary legs | **RUNG 5a-KS went to n = 2 SEEDS PER ARM — four legs** (trimcrae go 2026-07-30, [Open decisions 11](#open-decisions)), because at one seed per arm `S` has no replicate SD and cannot report a null, which is its own pre-registered likely outcome. Current: **~$169 mid (~$46–626)**, stage **~$23 ($3.1–97)**. ⚠ **The cleanest reprice in this file's history and it is worth saying why: the market snapshot, the `$/reference-GPU-hour` rate and every other stage's GPU-hours are BYTE-IDENTICAL across it** — the whole +$11 mid is the second seed, the exact opposite of row 40's reprice where no price moved and only the yardstick did. Two collateral corrections found by regenerating rather than reading: the §Spend-summary prose had been carrying the 5a basin stage at **mid $25** where the machine registry uses **$0**, which is why its own printed arithmetic said `≈ 194` beside a pinned `~$158` and then claimed they agreed; and its quoted tool figures (**$149.4 at $0.137/ref-GPU-h**) were from an older snapshot than the committed artifact (**$138.16 at $0.1143**). ⚠ **Near-collision, stated so nobody misreads an old copy: the tool total is NOW $149.63, within $0.25 of the stale $149.4 it replaces, and they are unrelated quantities** — 2 legs at a higher rate vs 4 legs at a lower one. Derived, never typed: `vast_cost_model.py --json-out vast-ladder-repricing.json`, checked by `lint_consistency`'s `ladder_total` derivation |
+| 56 | The GCP card table's claim that **P100 is faster than L4 AND +18 % better on science-per-dollar** (`~2.4×`, `1.67`), that **T4 is 2.2× better** (`~1.1×`, `3.05`), and that **V100 is ~3.0×** — live in this file's Open decision 5 and in gcp-gpu-facts.md §1b, every row flagged SPEC-DERIVED and unplannable | **MEASURED 2026-07-31 on free trial credit, and the heuristic behind every non-L4 row is REFUTED.** The T4 was the discriminating case by construction — bandwidth 320 vs the L4's 300 predicts **1.07× L4**, FP32 8.1 vs 30.3 TFLOPS predicts **0.27×** — and it measured **~0.31×** at the lane's real 141,867-particle system. **The workload is compute-bound, so the bandwidth argument that generated the P100 and V100 rows does not hold either.** ⚠ **A SECOND, INDEPENDENT ERROR needed no measurement at all:** the `$/h` column compared the L4's WHOLE-VM rate (0.71 = a g2-standard-4, which bundles the L4) against BARE GPU rates for the others (1.46 / 2.48 / 0.35), and a P100 cannot run without a host — adding the n1-standard-4 it needs ($0.190/h), with the old speeds untouched, already takes P100 from **+18 % to +3 %** and T4 from **2.16× to 1.44×**. Both errors point the same way: they flattered the alternatives. Net: the T4 delivers **~0.41×** the L4's science-per-dollar against a promised 2.2×, **wrong by ~5× in the direction that would have bought the worst card on the board.** ⚠ **What must NOT be over-read:** the T4 number was REFUSED by the probe's own admission gate (CV 5.6 % vs a 5 % ceiling) and stands as a RANKING, not a rate — the 3.5× discrepancy cannot be manufactured by 5.6 % of scatter, but the figure is provisional; and P100/V100 remain unmeasured, so they are not *refuted*, only left without support. **What SURVIVES, now measured rather than assumed:** the original 'a faster GPU would not help — the GCP lane is DOLLAR-bound' conclusion, and 'no GPU quota request is worth filing'. Derived, never typed: `gcp_card_bench.py` → [`gcp-card-bench.json`](research/modalities/gcp-card-bench.json); readable table and full caveats in [gcp-gpu-facts.md §1c/§1d](research/compute/gcp-gpu-facts.md) |
 | 53 | The marginal axis's **best-case resolvable difference of 1.12 kcal/mol** at an assumed **replicate SD 0.7, n = 3**, quoted beside a **literature** accuracy of **~1.7 kcal/mol RMSE** — live in five places in this file (the MECHANISM-FIRST definition, the Tier-3 semantics box, the 5a-KS honest expectation, the pmx noise-structure block, the Spend-summary defence of mechanism-first) and three in the paper (§2.10, §4, §5). With it, the derived reading **"the marginal axis is a confirmation tool operating near its LIMIT"** and the Spend-summary claim that spending on it *"is a bad trade at any price"* | **The SD was never measured; the n = 3 valB_mini replicates measured it at 0.375**, and the same function on the measured value gives **0.60** — the noise floor is ~1.9× better than the plan had been assuming, so the required margin sits at **~3.3× the floor rather than ~1.8×**. In the same landing the **accuracy** stopped being a literature figure and became a measured one that is **worse**: 1.543 kcal/mol with the **wrong sign** on this exact quantity class, localised by `R` to an **endpoint-state** error that replicates cannot touch. **So the axis is UNCALIBRATED, not blunt** — the two defects have different remedies, and the plan was buying neither. ⚠ **What did NOT change, and must not be inferred:** the mechanism-first *order* (a categorical handle needs no margin, and the categorical screens are $0 — either argument alone carries it), and the fact that a better noise floor cannot make a 2.0 kcal/mol margin *exist*. Derived, never typed: `selectivity_margin_model.minimum_detectable_difference`; consequences in §WHAT THE LANDED RESULTS CHANGE |
 
 ---

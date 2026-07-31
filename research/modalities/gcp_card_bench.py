@@ -456,6 +456,44 @@ def parse_skus(payload: list, region: str = "us-central1") -> tuple[dict, list[s
 # =============================================================================================================
 # CLI
 # =============================================================================================================
+def provisional_rows(doc: dict, edge_nm: float, reference: str = "l4") -> list[dict]:
+    """PURE. Measurements the admission gate REFUSED, with the reason and the ratio they imply.
+
+    ★★ A REFUSED MEASUREMENT MUST NOT SIMPLY VANISH (CLAUDE.md §1, the rule that a guard doing its job and a
+    guard being ignored must never render alike — here in its measurement form).
+
+    `admit()` exists so an untrustworthy number never enters a rate table, and that must not be weakened. But
+    "not table-grade" and "tells us nothing" are different claims, and conflating them throws away the most
+    decision-relevant observation of 2026-07-31: the T4 was refused on CV = 5.6 % against a 5 % ceiling, while
+    reading **0.31× the L4** where the planning table claimed **1.1×**. A 3.5× discrepancy cannot be
+    manufactured by 5.6 % of block scatter, so the RANKING it implies is safe even though the RATE is not.
+
+    So refused measurements are reported here, separately, labelled, and never merged into `ratio_table`.
+    """
+    latest: dict = {}
+    for m in doc.get("measurements", []):
+        if m.get("admitted"):
+            continue
+        latest[(m.get("card"), f"{float(m.get('edge_nm', 0)):.2f}")] = m
+    key = f"{float(edge_nm):.2f}"
+    ref = latest_by_card_edge(doc).get((reference, key))
+    out = []
+    for card_key in CARDS:
+        m = latest.get((card_key, key))
+        if not m or not m.get("ns_per_day"):
+            continue
+        nsd = float(m["ns_per_day"])
+        out.append({
+            "card": card_key,
+            "ns_per_day": round(nsd, 2),
+            "x_reference": round(nsd / float(ref["ns_per_day"]), 3) if ref else None,
+            "rejected_because": m.get("rejected_because", ""),
+            "device": m.get("device", ""),
+            "provisioning": m.get("provisioning", ""),
+        })
+    return out
+
+
 def markdown_table(doc: dict, prices: dict | None = None) -> str:
     """The §1b table, GENERATED from the artifact so the document cannot drift from the measurement.
 
@@ -472,11 +510,27 @@ def markdown_table(doc: dict, prices: dict | None = None) -> str:
     for card in sorted(big, key=lambda c: -big[c]["science_per_usd"]):
         r = big[card]
         s = small.get(card)
+        # A card can legitimately have one size and not the other (a VM that died between the two arms), so
+        # the anchor cell degrades to an em dash rather than crashing the generator.
+        anchor = f"{s['ns_per_day']:.2f}" if s else "—"
         out.append(
             f"| **{card.upper()}** | `{r['machine']}` | **{r['ns_per_day']:.2f}** | "
-            f"**{r['x_reference']:.2f}×** | {s['ns_per_day']:.2f} | {r['usd_per_h']:.3f} | "
+            f"**{r['x_reference']:.2f}×** | {anchor} | {r['usd_per_h']:.3f} | "
             f"{r['usd_per_ns']:.4f} | **{r['science_per_usd']:.2f}** | "
             f"**{r['x_reference_science_per_usd']:.2f}×** |")
+    prov = provisional_rows(doc, TERNARY_EDGE_NM)
+    if prov:
+        out.append("")
+        out.append("**⚠ REFUSED BY THE ADMISSION GATE — a RANKING, not a rate.** These are not in the table "
+                   "above and must never be quoted as throughput. They are shown because "
+                   "`admit()`-refused is not the same claim as uninformative: where the implied ratio dwarfs "
+                   "the reason for refusal, the ordering it gives is still safe.")
+        out.append("")
+        out.append("| card | ns/day @141,887p (PROVISIONAL) | implied ×L4 | refused because |")
+        out.append("|---|---|---|---|")
+        for r in prov:
+            out.append(f"| {r['card'].upper()} (`{r['device']}`, {r['provisioning']}) | {r['ns_per_day']:.2f} "
+                       f"| **~{r['x_reference']:.2f}×** | {r['rejected_because']} |")
     return "\n".join(out)
 
 

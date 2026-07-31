@@ -331,6 +331,35 @@ def test_the_list_prices_are_labelled_as_list_prices():
     assert "LIST RATES, NOT AN INVOICE" in src
 
 
+def test_a_refused_measurement_is_reported_separately_and_never_merged_into_the_rate_table():
+    """★★ CLAUDE.md §1 in its measurement form: a guard doing its job and a guard being ignored must not
+    render alike — and neither must "refused" and "uninformative".
+
+    Measured 2026-07-31: the T4 was refused on CV = 5.6 % against a 5 % ceiling while reading 0.31× the L4
+    where the planning table claimed 1.1×. A 3.5× discrepancy cannot be manufactured by 5.6 % of block
+    scatter, so the RANKING is safe even though the RATE is not. Dropping the row silently would have thrown
+    away the single most decision-relevant observation of the day; promoting it into the rate table would
+    have defeated the admission gate. It goes in its own labelled block.
+    """
+    doc = {"measurements": [
+        {**gcb.parse_result_line(_GOOD), "card": "l4", "edge_nm": gcb.TERNARY_EDGE_NM, "admitted": True},
+        {**gcb.parse_result_line(_GOOD.replace("ns_per_day=95.10", "ns_per_day=30.00")
+                                 .replace("cv=0.0042", "cv=0.0900")
+                                 .replace("device=NVIDIA_L4", "device=Tesla_T4")),
+         "card": "t4", "edge_nm": gcb.TERNARY_EDGE_NM, "admitted": False,
+         "rejected_because": "cv=0.09 exceeds 5%"},
+    ]}
+    rates = gcb.ratio_table(doc, gcb.TERNARY_EDGE_NM)
+    assert {r["card"] for r in rates} == {"l4"}, "a refused measurement leaked into the RATE table"
+    prov = gcb.provisional_rows(doc, gcb.TERNARY_EDGE_NM)
+    assert [r["card"] for r in prov] == ["t4"], "a refused measurement vanished instead of being reported"
+    assert prov[0]["x_reference"] == pytest.approx(30.0 / 95.10, abs=5e-4)   # rounded to 3 dp for display
+    assert "cv" in prov[0]["rejected_because"], "the reason for refusal must travel with the row"
+    md = gcb.markdown_table(doc)
+    assert "PROVISIONAL" in md and "REFUSED BY THE ADMISSION GATE" in md, (
+        "the rendered table must mark the refused block, or a reader cannot tell it from a measurement")
+
+
 def test_the_ratio_table_omits_an_unmeasured_card_rather_than_estimating_it():
     doc = {"measurements": [
         {**gcb.parse_result_line(_GOOD), "card": "l4", "edge_nm": gcb.TERNARY_EDGE_NM},
