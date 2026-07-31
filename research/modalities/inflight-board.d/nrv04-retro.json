@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "nrv04-retro",
-  "generated_epoch": 1785524408.8686786,
-  "generated_utc": "2026-07-31T19:00:08Z",
-  "generated_et": "3:00 PM ET Fri Jul 31, 2026",
+  "generated_epoch": 1785524991.9202108,
+  "generated_utc": "2026-07-31T19:09:51Z",
+  "generated_et": "3:09 PM ET Fri Jul 31, 2026",
   "note": "1 of 18 authorized R1 leg(s) landed (rows below are the rest). \u26d4 17 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
   "rows": [
     {
@@ -13,25 +13,25 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-done 2026-07-31T14:38:24Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker md-done 2026-07-31T14:38:24Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a1 m1 r1",
       "pct": null,
       "pct_of": null,
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "22 consecutive board polls with no new frame; phase marker md-running 2026-07-31T18:39:00Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 13 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "usd_per_ns": null,
+      "state": "NO HOST",
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T18:39:00Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a1 m2 r0",
       "pct": null,
       "pct_of": "smoke",
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "26 consecutive board polls with no new frame; phase marker uploaded 2026-07-31T14:29:38Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 270 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "usd_per_ns": null,
+      "state": "NO HOST",
+      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:29:38Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a1 m2 r1",
@@ -40,34 +40,34 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:49:50Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:49:50Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a1 m3 r0",
-      "pct": null,
-      "pct_of": "smoke",
-      "eta_s": null,
+      "pct": 10.0,
+      "pct_of": null,
       "usd_per_ns": "\u2014 $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "26 consecutive board polls with no new frame; phase marker uploaded 2026-07-31T14:38:05Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 262 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "state": "RUNNING",
+      "why": "",
+      "eta_epoch": 1785530811.9202108
     },
     {
       "name": "nr4a1 m3 r1",
       "pct": null,
       "pct_of": "smoke",
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.2289/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "26 consecutive board polls with no new frame; phase marker uploaded 2026-07-31T14:21:02Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 271 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "usd_per_ns": null,
+      "state": "NO HOST",
+      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:21:02Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a2 m1 r1",
-      "pct": 30.0,
+      "pct": 60.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785526050.3686786
+      "eta_epoch": 1785525767.9202108
     },
     {
       "name": "nr4a2 m2 r0",
@@ -76,7 +76,7 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T17:55:56Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T17:55:56Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a2 m2 r1",
@@ -85,7 +85,7 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:28:02Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:28:02Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a2 m3 r0",
@@ -94,7 +94,7 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T15:07:57Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T15:07:57Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a2 m3 r1",
@@ -103,7 +103,7 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:44:43Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:44:43Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a3 m1 r0",
@@ -121,7 +121,7 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:16:33Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:16:33Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a3 m2 r0",
@@ -130,16 +130,16 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T14:25:27Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T14:25:27Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a3 m2 r1",
       "pct": null,
       "pct_of": "smoke",
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.2289/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "STARTING",
-      "why": "26 consecutive board polls with no new frame; phase marker md-running 2026-07-31T14:39:30Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 260 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "usd_per_ns": null,
+      "state": "NO HOST",
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T14:39:30Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a3 m3 r0",
@@ -148,7 +148,7 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T14:36:47Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker md-running 2026-07-31T14:36:47Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     },
     {
       "name": "nr4a3 m3 r1",
@@ -157,7 +157,7 @@
       "eta_s": null,
       "usd_per_ns": null,
       "state": "NO HOST",
-      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:41:18Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:41:18Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
     }
   ]
 }

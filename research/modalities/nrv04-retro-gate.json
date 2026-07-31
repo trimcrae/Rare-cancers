@@ -1,14 +1,15 @@
 {
   "_what": "NR-V04 retrospective \u2014 why each hostless unit was or was not bought on this tick.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a hold is never silent, and it carries the snapshot that caused it.",
-  "utc": "2026-07-31T19:00:06Z",
+  "utc": "2026-07-31T19:09:44Z",
   "lane": "nrv04_retro",
   "n_authorized": 17,
   "needed": [
     "nrv04retro-retro_noncov_nr4a1-m1-r0",
+    "nrv04retro-retro_noncov_nr4a1-m1-r1",
     "nrv04retro-retro_noncov_nr4a1-m2-r0",
     "nrv04retro-retro_noncov_nr4a1-m2-r1",
-    "nrv04retro-retro_noncov_nr4a1-m3-r0",
+    "nrv04retro-retro_noncov_nr4a1-m3-r1",
     "nrv04retro-retro_noncov_nr4a2-m2-r0",
     "nrv04retro-retro_noncov_nr4a2-m2-r1",
     "nrv04retro-retro_noncov_nr4a2-m3-r0",
@@ -19,11 +20,7 @@
     "nrv04retro-retro_noncov_nr4a3-m3-r0",
     "nrv04retro-retro_noncov_nr4a3-m3-r1"
   ],
-  "replaced": [
-    "nrv04retro-retro_noncov_nr4a1-m2-r0",
-    "nrv04retro-retro_noncov_nr4a1-m3-r0",
-    "nrv04retro-retro_noncov_nr4a3-m2-r1"
-  ],
+  "replaced": [],
   "blocked": [
     {
       "n_attempts": 3,
@@ -39,33 +36,152 @@
   "awaiting_authorization": [],
   "condemned": [
     {
-      "instance": "46427568",
-      "unit": "nrv04retro-retro_noncov_nr4a2-m2-r0",
+      "instance": "46428697",
+      "unit": "nrv04retro-retro_noncov_nr4a1-m1-r1",
       "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
     },
     {
-      "instance": "46428153",
-      "unit": "nrv04retro-retro_noncov_nr4a2-m3-r0",
+      "instance": "46428725",
+      "unit": "nrv04retro-retro_noncov_nr4a1-m3-r1",
+      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
+    },
+    {
+      "instance": "46429355",
+      "unit": "nrv04retro-retro_noncov_nr4a1-m2-r0",
+      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
+    },
+    {
+      "instance": "46429417",
+      "unit": "nrv04retro-retro_noncov_nr4a3-m2-r1",
       "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
     }
   ],
   "nudged": [],
   "fleet_unreadable": null,
-  "market": null,
+  "market": {
+    "_what": "Whether the NR-V04 retrospective may rent 14 host(s) right now, priced in $/ns.",
+    "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay; and a relaunch is a NEW PURCHASE, not a continuation.",
+    "lane": "nrv04_retro",
+    "n_hosts": 14,
+    "utc": "2026-07-31T19:07:52Z",
+    "tier": "bid (interruptible)",
+    "interruptible": true,
+    "buy_line_usd_per_ns": 0.006539,
+    "priced": true,
+    "hold": false,
+    "reason": "1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond",
+    "best_usd_per_ns": 0.005852,
+    "basis_usd_per_ns": 0.003412,
+    "ratio_vs_basis": 1.715,
+    "board_depth": {
+      "offers_returned": 148,
+      "qualifying": 148,
+      "priceable": 74,
+      "needed": 14,
+      "used_for_mean": 14
+    },
+    "offers_priced": [
+      {
+        "gpu": "RTX 5090",
+        "machine_id": 144231,
+        "min_bid_usd_h": 0.2,
+        "usd_per_ns": 0.005255
+      },
+      {
+        "gpu": "RTX 5090",
+        "machine_id": 144152,
+        "min_bid_usd_h": 0.2,
+        "usd_per_ns": 0.005255
+      },
+      {
+        "gpu": "RTX 5090",
+        "machine_id": 34670,
+        "min_bid_usd_h": 0.2,
+        "usd_per_ns": 0.005255
+      },
+      {
+        "gpu": "RTX 5090",
+        "machine_id": 29706,
+        "min_bid_usd_h": 0.2,
+        "usd_per_ns": 0.005255
+      },
+      {
+        "gpu": "RTX 4080S",
+        "machine_id": 33657,
+        "min_bid_usd_h": 0.129,
+        "usd_per_ns": 0.00527
+      },
+      {
+        "gpu": "RTX 3090",
+        "machine_id": 33622,
+        "min_bid_usd_h": 0.093,
+        "usd_per_ns": 0.005368
+      },
+      {
+        "gpu": "RTX 5090",
+        "machine_id": 19492,
+        "min_bid_usd_h": 0.208,
+        "usd_per_ns": 0.00545
+      },
+      {
+        "gpu": "RTX 4090",
+        "machine_id": 28907,
+        "min_bid_usd_h": 0.1586667,
+        "usd_per_ns": 0.005469
+      },
+      {
+        "gpu": "RTX 5090",
+        "machine_id": 90898,
+        "min_bid_usd_h": 0.22666666666666668,
+        "usd_per_ns": 0.005902
+      },
+      {
+        "gpu": "RTX 5090",
+        "machine_id": 140371,
+        "min_bid_usd_h": 0.24,
+        "usd_per_ns": 0.006359
+      },
+      {
+        "gpu": "RTX 5090",
+        "machine_id": 36341,
+        "min_bid_usd_h": 0.252,
+        "usd_per_ns": 0.006516
+      },
+      {
+        "gpu": "RTX 3090",
+        "machine_id": 56411,
+        "min_bid_usd_h": 0.1133333,
+        "usd_per_ns": 0.006654
+      },
+      {
+        "gpu": "RTX 3090",
+        "machine_id": 11858,
+        "min_bid_usd_h": 0.09333333333333334,
+        "usd_per_ns": 0.006884
+      },
+      {
+        "gpu": "RTX 4090",
+        "machine_id": 16346,
+        "min_bid_usd_h": 0.19999999999999998,
+        "usd_per_ns": 0.007036
+      }
+    ]
+  },
   "reasons": {
     "nrv04retro-retro_noncov_nr4a3-m1-r0": "BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit's last completed leg record (2026-07-31T14:53:10Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed.",
-    "nrv04retro-retro_noncov_nr4a1-m1-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a1-m2-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a1-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a1-m3-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a2-m2-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a2-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a2-m3-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a2-m3-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a3-m1-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a3-m2-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a3-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a3-m3-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a3-m3-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+    "nrv04retro-retro_noncov_nr4a1-m1-r0": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a1-m1-r1": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a1-m2-r0": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a1-m2-r1": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a1-m3-r1": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a2-m2-r0": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a2-m2-r1": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a2-m3-r0": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a2-m3-r1": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a3-m1-r1": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a3-m2-r0": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a3-m2-r1": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a3-m3-r0": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices.",
+    "nrv04retro-retro_noncov_nr4a3-m3-r1": "NOT BOUGHT \u2014 the market gate cleared but no offer was rentable (1.72x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond). Board: {\"offers_returned\": 148, \"qualifying\": 148, \"priceable\": 74, \"needed\": 14, \"used_for_mean\": 14}. $0 spent, checkpoint intact, the next tick re-prices."
   }
 }
