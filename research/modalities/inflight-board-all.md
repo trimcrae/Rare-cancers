@@ -36,12 +36,12 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 7:12 PM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 7:21 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 nr4a2 m2 r0        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T20:28:05Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure on distinct hosts. Counted since this unit last banked work — a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) — the streak is genuine: the fault reproduced across separate rentals. Once the cause is fixed, re-arm with a BASELINE (retro_set_breaker_baseline; CI vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for — the baseline moves the streak anchor and keeps attempts/ intact, and that archive is what distinguishes real rentals from a crash-loop.
-nr4a2 m3 r0        11:30 PM           20.0%  — $0.1459/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
+nr4a2 m3 r0        8:18 PM            30.0%  — $0.1459/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
 ```
 
