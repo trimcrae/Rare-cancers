@@ -802,6 +802,26 @@ def test_an_unreadable_listing_is_unknown_not_zero():
         "a failed read must never render as 'zero hosts', which would read as a cleared streak")
 
 
+def test_a_block_resting_on_fewer_distinct_hosts_than_the_threshold_is_DOWNGRADED():
+    """★★ THE RULE SAYS "DISTINCT HOSTS"; THE DENOMINATOR WAS OBJECTS. Measured 5:18 PM ET on the first tick
+    that could tell the difference: nr4a2-m3-r0 had 3 markers resolving to 2 distinct hosts, so a
+    crash-looping container had blocked it a host early. The breaker's whole argument is that repetition
+    ACROSS MACHINES makes a fault ours rather than the host's — one box restarting is not that.
+
+    ⚠ DOWNGRADE ONLY, NEVER UPGRADE, AND FAIL-SAFE ON AN UNREADABLE COUNT: an unmeasured host count must not
+    be able to release a genuine breaker.
+    """
+    import inspect
+    src = inspect.getsource(vl.retro_supervise)
+    assert 'if d.get("streak_is_genuine") is False:' in src, (
+        "explicitly False — None (unmeasurable) must keep the block")
+    assert "breaker_downgraded" in src and "needed.append(name)" in src
+    # It sits INSIDE the block path, so an allowed unit never pays for the extra reads.
+    assert src.index('d.get("streak_is_genuine") is False') > src.index('if d["block"]:')
+    # ...and the release is recorded durably, not just printed into a job log that ages out.
+    assert "breaker_downgraded" in inspect.getsource(vl.persist_retro_gate)
+
+
 def test_the_block_carries_the_measured_host_count_not_the_object_count():
     import inspect
     src = inspect.getsource(vl.retro_supervise)

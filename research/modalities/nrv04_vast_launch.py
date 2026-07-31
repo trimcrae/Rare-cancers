@@ -2856,6 +2856,29 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
                        "⚠ FEWER DISTINCT HOSTS THAN THE THRESHOLD. These markers are substantially one host "
                        "restarting (a crash-loop re-runs the onstart preamble), so this is NOT yet "
                        "'reproduced on distinct hosts' and the block may be premature."))
+            # ★★ THE RULE SAYS "DISTINCT HOSTS"; THE DENOMINATOR WAS OBJECTS. Align them — measured
+            # 2026-07-31, 5:18 PM ET, the first tick that could tell the difference: `nr4a2-m3-r0` had 3
+            # markers resolving to only 2 DISTINCT hosts, so it was blocked a host early by a container that
+            # crash-looped. `retro_breaker`'s own verdict text is `lfb.BLOCK` — "repeated failure on distinct
+            # hosts" — and its reasoning is that repetition ACROSS MACHINES is what makes a fault ours rather
+            # than the host's. One box restarting is not that.
+            #
+            # ⚠ IT DOWNGRADES, IT NEVER UPGRADES, and it only runs on the block path. A unit under the
+            # threshold is already allowed and never pays for this read; a unit over it gets one more rental
+            # and then blocks for real when the third distinct host also fails. Fail-safe by construction:
+            # `n_distinct_hosts is None` (unreadable markers, listing error) keeps the original block, because
+            # an unmeasured host count must never be able to release a genuine breaker.
+            if d.get("streak_is_genuine") is False:
+                d = dict(d, block=False,
+                         verdict="allow: %d marker(s) resolve to only %d distinct host(s) — under the "
+                                 "threshold of %d, so this is one host restarting rather than a fault "
+                                 "reproduced across machines" % (d.get("n_markers"), d.get("n_distinct_hosts"),
+                                                                 d.get("threshold")))
+                out.setdefault("breaker_downgraded", []).append(dict(d, unit=name))
+                print(f"[retro-super] ↩ NOT BLOCKED {name} — {d['verdict']}. {d.get('host_reading','')}",
+                      flush=True)
+                needed.append(name)
+                continue
             out["blocked"].append(dict(d, unit=name))
             print(f"[retro-super] ⛔ BLOCKED {name} — {d['why']}", flush=True)
             if d.get("host_reading"):
@@ -3014,6 +3037,9 @@ def persist_retro_gate(sup, reasons, path=None, bucket=None, s3=None):
            # Separate key, never merged into `quarantined` — one is "$0, we declined to buy", the other is
            # "we are paying for this right now and expect it to fail". Summing them would misreport spend.
            "quarantine_eligible_running": (sup or {}).get("quarantine_eligible_running") or [],
+           # A block the distinct-host measurement RELEASED. Recorded, because "it was blocked and then it
+           # wasn't" is exactly the history that is impossible to reconstruct from a job log later.
+           "breaker_downgraded": (sup or {}).get("breaker_downgraded") or [],
            "awaiting_authorization": (sup or {}).get("awaiting_authorization") or [],
            "condemned": (sup or {}).get("condemned") or [],
            "nudged": (sup or {}).get("nudged") or [],
