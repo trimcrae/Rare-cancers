@@ -55,6 +55,21 @@ def test_a_stage_that_cannot_be_priced_is_unknown_not_physical():
     assert '"physical": None' in src, "an unreadable stage must never be recorded as physical"
 
 
+def test_pre_solvation_stages_are_priced_without_a_cutoff():
+    """The probe's own first run measured NOTHING before solvation, and that is not a result.
+
+    `sysgen.create_system` applies the production PME + 0.9 nm cutoff, which needs a periodic box at least
+    twice the cutoff. An unsolvated topology has none, so both pre-solvation stages raised
+    "cutoff distance cannot be greater than half the periodic box size" for the FAILING unit and the CONTROL
+    alike — making `first_nonphysical_stage=solvated` an artifact of unmeasurability, not evidence about
+    solvation. CLAUDE.md §4b: an absent reading is not a reading of absence.
+    """
+    src = inspect.getsource(probe.single_point_kj)
+    assert "NoCutoff" in src
+    assert 'periodic=(name == "solvated")' in inspect.getsource(probe.probe_unit), (
+        "only the solvated stage may be priced periodically")
+
+
 if __name__ == "__main__":
     import pytest
     raise SystemExit(pytest.main([__file__, "-v"]))

@@ -54,11 +54,29 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 NONPHYSICAL_PE_KJ = 0.0
 
 
-def single_point_kj(topology, positions, sysgen):
-    """Potential energy (kJ/mol) of one construction stage. No minimisation, no dynamics. CPU platform."""
+def single_point_kj(topology, positions, sysgen, periodic=True):
+    """Potential energy (kJ/mol) of one construction stage. No minimisation, no dynamics. CPU platform.
+
+    ⚠ `periodic=False` FOR EVERY PRE-SOLVATION STAGE, and this was a real defect in the probe's first run
+    (2026-07-31, 4:14 PM ET). `sysgen.create_system` applies the panel's production `forcefield_kwargs` — PME
+    with a 0.9 nm cutoff — which require a periodic box at least twice the cutoff. An unsolvated topology has
+    no such box, so BOTH pre-solvation stages returned
+
+        OpenMMException: NonbondedForce: The cutoff distance cannot be greater than half the periodic box size
+
+    for the failing unit AND the control. That made `first_nonphysical_stage` report `solvated` for a reason
+    that had nothing to do with solvation: the earlier stages were unmeasurable, not clean. Reporting that as
+    "the fault is in solvation" would be CLAUDE.md §4b's error exactly — an absent reading read as a reading
+    of absence. An unsolvated system is priced with NO cutoff, which is the physically correct treatment for
+    a non-periodic assembly and is what makes the three stages comparable at all.
+    """
     from openmm import Platform, VerletIntegrator, unit
-    from openmm import app  # noqa: F401  (kept: import parity with the builder's namespace)
-    system = sysgen.create_system(topology)
+    from openmm import app
+    if periodic:
+        system = sysgen.create_system(topology)
+    else:
+        system = sysgen.forcefield.createSystem(topology, nonbondedMethod=app.NoCutoff,
+                                                constraints=None, rigidWater=False)
     integ = VerletIntegrator(0.001)
     ctx = None
     try:
@@ -94,7 +112,7 @@ def probe_unit(bucket, system_name, seed, leg_id="noncov_nr4a1", cofold_prefix=N
 
     def _probe(name, topo, pos, sysgen):
         try:
-            e = single_point_kj(topo, pos, sysgen)
+            e = single_point_kj(topo, pos, sysgen, periodic=(name == "solvated"))
             ok = e <= NONPHYSICAL_PE_KJ
             stages.append({"stage": name, "n_atoms": topo.getNumAtoms(),
                            "pe_kj_per_mol": e, "physical": bool(ok)})
