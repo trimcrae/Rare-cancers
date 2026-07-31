@@ -93,6 +93,36 @@ def test_enclosing_heading_clears_a_whole_retraction_section(tmp_path):
     assert _run(tmp_path, text, supersession_markers=["supersed"]) == []
 
 
+def test_a_marker_far_away_on_the_SAME_physical_line_does_not_clear(tmp_path):
+    """★★ THE REAL BUG, from the real file that hid it (2026-07-31).
+
+    Clearing was scoped to a WINDOW OF LINES. `degrader-paper-schedule.json` stores each entry as one
+    enormous single line, so that window was the whole entry — thousands of characters — and an unrelated
+    "Superseded framing:" elsewhere in the same entry FALSELY CLEARED three genuinely stale panel counts
+    ("R1, 18 legs" after prereg AMENDMENT 4 made it 16). A linter that vouches for a stale number is worse
+    than no linter: it is the exact failure class CLAUDE.md §1 built it to catch, and nobody would have
+    known if the counts had not been read by hand.
+
+    ⚠ NOTE WHAT WOULD NOT HAVE FIXED IT. Scoping to "the enclosing JSON value" is no help here — the false
+    clear happened INSIDE one string value. The unit that actually means "this retraction covers this text"
+    is ADJACENCY, so proximity is now measured in CHARACTERS from the match, not in whole lines.
+    """
+    # The real shape: one line, a legitimate marker for a DIFFERENT figure, then the stale one far later.
+    filler = "x" * 3000
+    text = ('{"note": "Superseded framing: the old gate wording named valB_full. ' + filler +
+            ' AUTHORIZED SCOPE IS ARM E ONLY -- R1, $128 legs"}\n')
+    out = _run(tmp_path, text)
+    assert len(out) == 1, "a marker 3,000 characters away is not a disclaimer of this figure"
+
+
+def test_a_nearby_marker_on_a_long_line_still_clears(tmp_path):
+    """The other direction, because over-tightening is how a linter gets switched off: a marker written
+    right beside the figure must still clear it, even on a very long line."""
+    filler = "y" * 3000
+    text = ('{"note": "' + filler + ' the ladder was $128, superseded -- see the 2026-07-25 repricing"}\n')
+    assert _run(tmp_path, text) == []
+
+
 def test_negation_lookback_is_bounded(tmp_path):
     """A 'not' far earlier in the sentence must NOT clear a later assertion."""
     text = ("It is not the market rate that changed here at all, and separately "

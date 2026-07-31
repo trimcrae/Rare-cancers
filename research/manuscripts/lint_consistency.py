@@ -85,6 +85,27 @@ REGISTRY = os.path.join(_HERE, "pinned-figures.json")
 _WINDOW_BACK = 2
 _WINDOW_FWD = 1
 
+# ★★ AND THE WINDOW IS BOUNDED IN CHARACTERS, NOT ONLY IN LINES — measured 2026-07-31, from a false clear
+# that had already happened.
+#
+# `degrader-paper-schedule.json` stores each entry as ONE ENORMOUS SINGLE LINE. A line-scoped window is
+# therefore the whole entry, thousands of characters wide, so an unrelated `"Superseded framing:"` written
+# about a different figure CLEARED three genuinely stale panel counts ("R1, 18 legs" after prereg
+# AMENDMENT 4 made it 16). The linter reported success while vouching for stale numbers — the exact class
+# CLAUDE.md §1 built it to catch, found only because the counts were read by hand.
+#
+# ⚠ SCOPING TO "THE ENCLOSING JSON VALUE" WOULD NOT HAVE FIXED IT, which is why this is a proximity bound
+# rather than a structural one: the false clear happened INSIDE a single string value. The unit that
+# actually means "this retraction covers this text" is ADJACENCY — a disclaimer belongs beside the figure
+# it disclaims — so proximity is measured from the match position outward.
+#
+# 400 chars each way is ~4-5 wrapped prose lines: comfortably more than any real markdown retraction needs
+# (the widest in this repo is a two-line wrapped lead-in, well under 200), and far below the multi-thousand
+# character entries that caused the false clear. Both directions are pinned by
+# tests/test_lint_consistency.py — one test that a distant marker does NOT clear, one that a nearby marker
+# on an equally long line still DOES, because over-tightening is how a linter gets switched off.
+_WINDOW_CHARS = 400
+
 
 def load_registry(path=REGISTRY):
     with open(path, encoding="utf-8") as fh:
@@ -126,19 +147,32 @@ def is_cleared(lines, idx, markers, line=None, start=None):
     """True if this occurrence is a correctly-marked reference to a superseded value.
 
     Three ways to clear, each answering a real writing pattern:
-      1. a marker in a small window around the line   -- "was ~$0.26 ... (superseded)"
+      1. a marker NEAR the match -- "was ~$0.26 ... (superseded)". Near means within
+         `_WINDOW_BACK`/`_WINDOW_FWD` LINES *and* `_WINDOW_CHARS` CHARACTERS of the match
+         itself. The character bound is not decoration: without it, a file that stores an
+         entry as one very long line (`degrader-paper-schedule.json`) lets a marker about
+         some other figure clear every stale number in the entry. See `_WINDOW_CHARS`.
       2. a negator immediately before the match       -- "2.10x, not 2.42x"
       3. a marker in the ENCLOSING HEADING            -- a whole section of retractions,
          e.g. "## 7. WHAT WAS BELIEVED BEFORE, AND WHICH MEASUREMENT RETIRED IT", or
          STRATEGY.md's "## Appendix A -- superseded numbers and retracted claims",
-         whose rows should not each have to repeat the disclaimer.
+         whose rows should not each have to repeat the disclaimer. This one stays
+         structural on purpose: a heading genuinely scopes everything beneath it.
     """
     if line is not None and start is not None and _locally_negated(line, start):
         return True
     lo = max(0, idx - _WINDOW_BACK)
     hi = min(len(lines), idx + _WINDOW_FWD + 1)
-    blob = "\n".join(lines[lo:hi]).lower() + "\n" + _enclosing_heading(lines, idx).lower()
-    return any(m.lower() in blob for m in markers)
+    window = lines[lo:hi]
+    # Where the match sits inside the joined window, so proximity is measured from the
+    # FIGURE and not from the start of whatever line happens to contain it.
+    offset = sum(len(l) + 1 for l in lines[lo:idx]) + (start or 0)
+    blob = "\n".join(window)
+    near = blob[max(0, offset - _WINDOW_CHARS):offset + _WINDOW_CHARS].lower()
+    if any(m.lower() in near for m in markers):
+        return True
+    heading = _enclosing_heading(lines, idx).lower()
+    return any(m.lower() in heading for m in markers)
 
 
 def _finding(rule, severity, path, line, message, detail=""):
