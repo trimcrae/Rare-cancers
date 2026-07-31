@@ -14,6 +14,13 @@ cofold_out/
 # Claude Code agent worktrees (transient, per-session)
 .claude/worktrees/
 
+# ...AND worktrees an agent checks out INTO THE REPO ROOT (`git worktree add wt-<name>`), which several have.
+# The right home is the session scratchpad, but the wrong home must not be a data-loss trap: the directory is
+# a full checkout of the repo, so a lane running `git add -A` would commit the entire tree into itself, and
+# `git clean` would delete a live agent's in-progress work. Ignoring it makes both mistakes impossible while
+# `git worktree list` still shows it and `git worktree remove` still cleans it up properly.
+wt-*/
+
 # RCSB coordinate cache for the E3 recruiter staging (re-downloadable; not an artifact)
 research/modalities/_e3_recruiter_coords/
 
