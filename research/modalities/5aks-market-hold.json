@@ -1,54 +1,54 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T18:08:14Z",
+  "utc": "2026-07-31T18:13:21Z",
   "n_units": 1,
-  "tier": "on-demand (UNINTERRUPTIBLE \u2014 small and dear by construction; NOT the market the ladder is costed on)",
-  "interruptible": false,
+  "tier": "bid (interruptible)",
+  "interruptible": true,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 1.83,
   "ceiling_usd": 5.19,
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
   "breakeven_usd_per_ns": 0.009682,
   "depth": {
-    "offers_returned": 145,
-    "qualifying": 143,
-    "priceable": 67,
+    "offers_returned": 114,
+    "qualifying": 112,
+    "priceable": 53,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers": [
     {
-      "gpu": "RTX 4080S",
-      "machine_id": 46392,
-      "min_bid_usd_h": 0.2022222222222222,
-      "usd_per_ns": 0.007778
+      "gpu": "RTX 3090",
+      "machine_id": 33622,
+      "min_bid_usd_h": 0.093,
+      "usd_per_ns": 0.005368
     }
   ],
-  "mean_usd_per_ns": 0.007778,
-  "ratio_vs_basis": 2.28,
-  "projected_usd": 4.17,
+  "mean_usd_per_ns": 0.005368,
+  "ratio_vs_basis": 1.573,
+  "projected_usd": 2.88,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": true,
-  "hold": true,
-  "reason": "2.28x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns; priced on the ON-DEMAND/UNINTERRUPTIBLE \u2014 this is NOT a reading of the interruptible market the ladder is costed on tier",
+  "fails_ratio_ceiling": false,
+  "hold": false,
+  "reason": "projected $2.88 within this rung's ceiling $5.19 AND 1.57x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
     "30113",
     "33419",
     "33657",
-    "37962"
+    "33806"
   ],
   "mode": "5aks",
   "nothing_to_launch": false,
   "units_done": [],
   "units_live": [
-    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+    "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
   "units_needing_host": [
-    "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
+    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks"
   ],
   "units_replacing_a_dead_host": []
 }
