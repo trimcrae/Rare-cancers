@@ -1,30 +1,36 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T16:51:09Z",
-  "n_units": 1,
+  "utc": "2026-07-31T16:58:59Z",
+  "n_units": 2,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 1.83,
-  "ceiling_usd": 5.19,
-  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
-  "breakeven_usd_per_ns": 0.009682,
+  "plan_usd": 3.66,
+  "ceiling_usd": 10.37,
+  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 2 legs",
+  "breakeven_usd_per_ns": 0.009673,
   "depth": {
     "offers_returned": 202,
     "qualifying": 82,
     "priceable": 82,
-    "needed": 1,
-    "used_for_mean": 1
+    "needed": 2,
+    "used_for_mean": 2
   },
   "offers": [
     {
       "gpu": "RTX 5090",
-      "machine_id": 137833,
+      "machine_id": 91334,
+      "min_bid_usd_h": 0.30814814814814817,
+      "usd_per_ns": 0.007599
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 138672,
       "min_bid_usd_h": 0.30814814814814817,
       "usd_per_ns": 0.007599
     }
   ],
   "mean_usd_per_ns": 0.007599,
   "ratio_vs_basis": 2.227,
-  "projected_usd": 4.07,
+  "projected_usd": 8.15,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
@@ -32,7 +38,6 @@
   "hold": true,
   "reason": "2.23x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns",
   "machines_we_already_occupy": [
-    "16661",
     "28904",
     "30113"
   ],
@@ -41,11 +46,11 @@
   "units_done": [],
   "units_live": [
     "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
-    "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
   "units_needing_host": [
-    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks"
+    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+    "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
   ],
   "units_replacing_a_dead_host": []
 }
