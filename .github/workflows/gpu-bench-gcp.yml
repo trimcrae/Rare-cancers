@@ -292,10 +292,19 @@ jobs:
             fi
             # ECHO THE REAL ERROR (gcp-gpu-facts.md §4): labelling every non-quota failure "stocked out" is
             # what masked a malformed request as a capacity problem. Case-insensitive — gcloud prints ERROR:.
-            echo "  zone $Z FAILED:"; grep -iaE "error|exhausted|not available|unsupported|invalid|quota|required|termination|does not have enough" /tmp/cerr | head -4 || tail -3 /tmp/cerr
+            #
+            # ★ AND AS AN ANNOTATION, NOT ONLY AS AN ECHO (2026-07-31). On the first T4 attempt these lines
+            # existed and were still unusable: three later steps each re-print a ~35-line env block, so the
+            # one line naming the cause sat ~150 lines above the end of the log. §4's rule "read the real
+            # error before concluding capacity" is only followed if the error is somewhere anyone reads.
+            ERRTXT=$(grep -iaE "error|exhausted|not available|unsupported|invalid|quota|required|termination|does not have enough" /tmp/cerr | head -4 | tr '\n' ' ')
+            [ -z "$ERRTXT" ] && ERRTXT=$(tail -3 /tmp/cerr | tr '\n' ' ')
+            echo "  zone $Z FAILED: $ERRTXT"
+            echo "::warning title=ZONE $Z CREATE FAILED ($CARD)::$ERRTXT"
             # A create that returns non-zero can still have LEFT A VM (half-provisioned, or created then
-            # failed to start). $ZONE is only exported on success, so the teardown step would not know where
-            # to look — clean up here, where the zone is still in hand.
+            # failed to start) — observed on the first T4 attempt, where gcp-bench-t4-30633051736 existed in
+            # us-central1-b in STOPPING state while every zone was reporting failure.
+            # $ZONE is only exported on success, so the teardown step would not know where to look.
             gcloud compute instances delete "$VM" --zone="$Z" --quiet 2>/dev/null && echo "  (removed a partially-created $VM in $Z)" || true
           done
           if [ -z "$CREATED" ]; then
@@ -317,6 +326,14 @@ jobs:
             echo "  [t+$(( (NOW-T0)/60 ))m] phase='${PHASE:-<no serial yet>}' (held $(( (NOW-PHASE_T)/60 ))m) result-markers=$NRES"
             DONE=$(printf '%s' "$OUT" | grep -aoE '###BENCHDONE### .* ###END###' | tail -1 || true)
             [ -n "$DONE" ] && break
+            # ★ BAIL WHEN THE VM IS GONE, rather than polling a corpse for the rest of the window. A deleted
+            # or TERMINATED instance can never emit another marker, so continuing is pure dead wall clock —
+            # and worse, it looks identical in the log to a probe that is still working.
+            ST=$(gcloud compute instances describe "$VM" --zone="$ZONE" --format="value(status)" 2>/dev/null || echo GONE)
+            case "${ST:-GONE}" in
+              RUNNING|PROVISIONING|STAGING|REPAIRING) : ;;
+              *) echo "::warning title=VM VANISHED MID-PROBE::$VM in $ZONE is now '${ST:-GONE}' with no result marker. Not polling further."; break ;;
+            esac
             sleep 25
           done
           printf '%s' "$OUT" > /tmp/serial.txt
@@ -372,6 +389,7 @@ jobs:
             python3 research/modalities/gcp_card_bench.py \
               --record "$LINE" --card "$CARD" --edge-nm "${E:-0}" \
               --run-id "$GITHUB_RUN_ID" --zone "${ZONE:-}" --machine "$MACHINE" --provisioning "$PROVISIONING"
+            touch /tmp/recorded
           done < /tmp/results.txt
           python3 research/modalities/gcp_card_bench.py --report
 
@@ -391,7 +409,16 @@ jobs:
           for f in research/modalities/gcp-card-bench.json research/modalities/gcp-price-probe.json; do
             [ -f "$f" ] && { git add "$f" && echo "staged $f"; } || echo "skip $f (not written by this run)"
           done
-          git diff --cached --quiet && { echo "::warning title=NOTHING STAGED::the probe produced measurements but no file was staged — the artifact did NOT land. Check the staging lines above."; exit 0; }
+          # ⚠ "nothing staged" is only a PROBLEM when a measurement was actually recorded. A run whose create
+          # never succeeded records nothing and legitimately has nothing to commit — warning there is a false
+          # alarm, and CLAUDE.md §1 is explicit that a guard doing its job and a guard being ignored must not
+          # render alike. /tmp/recorded is written by the record step for each admitted line.
+          if git diff --cached --quiet; then
+            [ -f /tmp/recorded ] \
+              && echo "::warning title=MEASUREMENT DID NOT LAND::the probe recorded a measurement but the stage is empty, so nothing was committed. Check the staging lines above." \
+              || echo "nothing to commit (this run recorded no measurement)"
+            exit 0
+          fi
           git commit -m "GCP card probe: ${CARD} @ $BENCH_EDGES nm (run ${GITHUB_RUN_ID})" || exit 0
           for a in 1 2 3; do
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break

@@ -456,6 +456,30 @@ def parse_skus(payload: list, region: str = "us-central1") -> tuple[dict, list[s
 # =============================================================================================================
 # CLI
 # =============================================================================================================
+def markdown_table(doc: dict, prices: dict | None = None) -> str:
+    """The §1b table, GENERATED from the artifact so the document cannot drift from the measurement.
+
+    CLAUDE.md rule 1: a table a human reads before choosing a card is exactly the kind of derived value that
+    must not be hand-carried. `tests/test_gcp_card_bench.py::test_the_documented_table_is_the_measured_table`
+    re-checks the pasted result against the artifact on every CI run.
+    """
+    out = [
+        "| card | machine | ns/day @141,887p | ×L4 | ns/day @84,534p | $/h | $/ns @141,887p | ns per $ | ×L4 ns/$ |",
+        "|---|---|---|---|---|---|---|---|---|",
+    ]
+    big = {r["card"]: r for r in ratio_table(doc, TERNARY_EDGE_NM, prices)}
+    small = {r["card"]: r for r in ratio_table(doc, ANCHOR_EDGE_NM_F, prices)}
+    for card in sorted(big, key=lambda c: -big[c]["science_per_usd"]):
+        r = big[card]
+        s = small.get(card)
+        out.append(
+            f"| **{card.upper()}** | `{r['machine']}` | **{r['ns_per_day']:.2f}** | "
+            f"**{r['x_reference']:.2f}×** | {s['ns_per_day']:.2f} | {r['usd_per_h']:.3f} | "
+            f"{r['usd_per_ns']:.4f} | **{r['science_per_usd']:.2f}** | "
+            f"**{r['x_reference_science_per_usd']:.2f}×** |")
+    return "\n".join(out)
+
+
 def _emit_env(card_key: str, zone: str, edges: str) -> int:
     card = CARDS[card_key]
     lines = [
@@ -493,6 +517,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="page the Cloud Billing Catalog using $GCP_ACCESS_TOKEN, then --parse-skus it")
     ap.add_argument("--prices-out", default=os.path.join(HERE, "gcp-price-probe.json"))
     ap.add_argument("--report", action="store_true", help="print the measured table")
+    ap.add_argument("--markdown-table", action="store_true",
+                    help="emit the gcp-gpu-facts.md §1b table, generated from the artifact")
     ap.add_argument("--artifact", default=RESULT_PATH)
     args = ap.parse_args(argv)
 
@@ -551,11 +577,15 @@ def main(argv: list[str] | None = None) -> int:
             fh.write("\n")
         print(f"[record] {args.card} @ {args.edge_nm} nm -> {args.artifact} (admitted={ok})")
 
+    prices = {}
+    pp = os.path.join(HERE, "gcp-price-probe.json")
+    if os.path.isfile(pp):
+        prices = (json.load(open(pp)) or {}).get("prices_usd_per_h") or {}
+
+    if args.markdown_table:
+        print(markdown_table(doc, prices))
+
     if args.report:
-        prices = {}
-        pp = os.path.join(HERE, "gcp-price-probe.json")
-        if os.path.isfile(pp):
-            prices = (json.load(open(pp)) or {}).get("prices_usd_per_h") or {}
         for edge in (TERNARY_EDGE_NM, ANCHOR_EDGE_NM_F):
             rows = ratio_table(doc, edge, prices)
             if not rows:

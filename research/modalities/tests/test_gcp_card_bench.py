@@ -230,7 +230,12 @@ def test_the_artifact_is_staged_one_pathspec_at_a_time():
         assert len(a.split()) == 1, (
             f"`git add {a.strip()}` stages several pathspecs at once; if any one is missing git stages NONE")
     assert "2>/dev/null" not in code, "a silenced git add is how this failure hid for a whole run"
-    assert "NOTHING STAGED" in body, "an empty stage after a real measurement must warn, not read as normal"
+    # ⚠ AND THE WARNING MUST BE CONDITIONAL ON A MEASUREMENT EXISTING. A run whose create never succeeded
+    # records nothing and legitimately has nothing to commit; warning there is a false alarm, and CLAUDE.md §1
+    # says a guard doing its job and a guard being ignored must never render alike.
+    assert "MEASUREMENT DID NOT LAND" in body, "an empty stage after a real measurement must warn"
+    assert "/tmp/recorded" in code, (
+        "the warning is unconditional, so a create-failed run (which records nothing) raises a false alarm")
 
 
 def test_the_raw_result_lines_are_echoed_at_the_end_of_the_log():
@@ -337,6 +342,50 @@ def test_the_ratio_table_omits_an_unmeasured_card_rather_than_estimating_it():
     assert {r["card"] for r in rows} == {"l4", "p100"}, "an unmeasured card must be ABSENT, not guessed"
     p100 = next(r for r in rows if r["card"] == "p100")
     assert p100["x_reference"] == pytest.approx(2.0)
+
+
+FACTS = pathlib.Path(__file__).resolve().parents[3] / "research/compute/gcp-gpu-facts.md"
+
+# The marker the measured table in gcp-gpu-facts.md §1b is fenced by, so this test reads the REAL table
+# rather than any other row in that file that happens to contain numbers.
+DOC_TABLE_BEGIN = "<!-- GCP-CARD-BENCH-TABLE:BEGIN -->"
+DOC_TABLE_END = "<!-- GCP-CARD-BENCH-TABLE:END -->"
+
+
+def test_the_documented_table_is_the_measured_table():
+    """★ ONE FACT, ONE PLACE (CLAUDE.md rule 1), enforced rather than intended.
+
+    The prose table in gcp-gpu-facts.md §1b is the thing a human reads before choosing a card. It is TYPED,
+    so it can drift from `gcp-card-bench.json` the moment anyone re-probes — and the whole point of replacing
+    the spec-derived table was that a confident-looking unmeasured number is worse than no number. This test
+    parses the fenced table out of the document and asserts every ns/day in it against the artifact.
+    """
+    p = pathlib.Path(gcb.RESULT_PATH)
+    if not p.is_file() or DOC_TABLE_BEGIN not in FACTS.read_text():
+        pytest.skip("no measurement recorded yet, or the doc table is not fenced")
+    doc = json.loads(p.read_text())
+    body = FACTS.read_text().split(DOC_TABLE_BEGIN)[1].split(DOC_TABLE_END)[0]
+    latest = gcb.latest_by_card_edge(doc)
+    checked = 0
+    for line in body.splitlines():
+        cells = [c.strip().strip("*` ") for c in line.split("|")]
+        if len(cells) < 4:
+            continue
+        card = cells[1].lower().replace("**", "")
+        if card not in gcb.CARDS:
+            continue
+        for edge in (gcb.TERNARY_EDGE_NM, float(gcb.ANCHOR_EDGE_NM)):
+            m = latest.get((card, f"{edge:.2f}"))
+            if not m:
+                continue
+            want = f"{float(m['ns_per_day']):.2f}"
+            assert want in line, (
+                f"gcp-gpu-facts.md §1b's row for {card} does not carry the measured {want} ns/day at "
+                f"{edge} nm from gcp-card-bench.json. Regenerate with "
+                f"`python3 research/modalities/gcp_card_bench.py --report` and paste, or the document is "
+                f"quoting a number the artifact does not contain.")
+            checked += 1
+    assert checked, "the fenced table matched no card row — the fence or the table shape changed"
 
 
 def test_the_artifact_if_present_is_readable_and_self_consistent():
