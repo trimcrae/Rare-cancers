@@ -78,6 +78,27 @@ Boltz placed both; nothing downstream of the prediction put them there and nothi
 separate them. `owner_of_the_fault` returns OWNER_INPUT: a different seed or a changed input, which is a
 PREREGISTRATION question and not a code fix.
 
+★★ RUN 3 — THE TWO BREAKER-BLOCKED UNITS ARE NOT INPUT FAULTS (5:16 PM ET, run 30665640363). This is what
+keeps the panel's reachable ceiling at 16/18 instead of 14/18.
+
+    solvated PE (kJ/mol)   what the leg then did
+    nr4a2 seed 2   -3.85e+06   sibling replica m2-r1 LANDED a complete production leg
+    nr4a2 seed 1   +2.78e+09   BOTH replicas (m1-r0, m1-r1) landed complete production legs
+    nr4a2 seed 3   +1.94e+07   sibling replica m3-r1 running with real frames
+    nr4a3 seed 3   +2.11e+15   never produced one frame, either replica
+
+`first_divergent_stage: null` for nr4a2 seed 2 against seed 1. nr4a2 seed 3 is clean at the stage that
+matters — `protein_after_pdbfixer` = +2.21e5, **zero contacts under the clash cutoff**, worst 1.676 A
+(E:SER72:H / E:SER111:O, an ordinary hydrogen bond), and a wholly unremarkable force decomposition
+(HarmonicBond +1.40e5, Nonbonded -5.44e4, Torsion +5.44e4, Angle +8.12e4 — no astronomic term anywhere).
+
+⛔ AND THE ROW THAT LOOKS ALARMING IS THE ONE THAT PROVES THE RULE: nr4a2 seed 1 sits at **+2.78e9**
+pre-minimisation and both of its replicas produced complete legs. So a POSITIVE pre-minimisation solvated
+energy is NOT disqualifying, and this module must never acquire a cut between 2.8e9 and 2.1e15 — the data
+does not support one, and inventing it would be the retired inter-chain-distance gate all over again.
+What separates seed 3 of nr4a3 is not its sign, it is six further orders of magnitude and two heavy atoms
+at 0.181 A.
+
 ⚠ THE CONTROL'S ENERGY IS NOT BIT-REPRODUCIBLE AND MUST NOT BE QUOTED AS IF IT WERE. Across the two runs the
 FAILING unit reproduced to ten significant figures (2.109005036e15 both times — a hard geometric fact), while
 the control moved ~20 % at an identical atom count (+2.522674e5 -> +2.082290e5), and the solvated atom count
@@ -413,7 +434,28 @@ def compare_to_control(subject, control, decades=DIVERGENCE_DECADES):
             d = math.log10(abs(float(a))) - math.log10(abs(float(b)))
             row["decades_above_control"] = d
             row["sign_flip"] = (float(a) > 0) != (float(b) > 0)
-            row["status"] = "DIVERGENT" if d >= decades else "consistent with the control"
+            # ⚠ THE TEST IS ONE-SIDED, AND SAYING SO IS THE POINT (2026-07-31, nr4a2 run). `d` is
+            # log10|subject| - log10|control|, so it can only ever flag a subject WORSE than its control.
+            # When nr4a2:2 (solvated -3.85e6, healthy) was compared against nr4a2:1 (solvated +2.78e9), every
+            # stage printed "consistent with the control" — which reads as "as good as", when in fact the
+            # subject was orders BETTER and the control was the odd one. Same family as every other defect
+            # this file records: a summary line asserting more than the number under it.
+            if d >= decades:
+                row["status"] = "DIVERGENT"
+            elif name == "solvated" and float(a) < 0 <= float(b):
+                # ★ SIGN BEATS MAGNITUDE AT THIS STAGE, and only at this stage. A solvated system's energy
+                # going NEGATIVE is the runnable signature (`NONPHYSICAL_PE_KJ` is the same physics applied
+                # post-minimisation); the control staying positive is the anomaly. Reporting that as
+                # "consistent with the control" on a -2.86-decade gap would bury the one qualitative fact in
+                # the table — which is how nr4a2:2's clean bill of health nearly read as a shrug.
+                row["status"] = ("subject reaches a NEGATIVE solvated energy (%+.3e) while the control does "
+                                 "not (%+.3e) — the runnable signature, and healthier than its yardstick"
+                                 % (float(a), float(b)))
+            elif d <= -decades:
+                row["status"] = ("subject is %.1f decades BELOW the control — healthier than its yardstick, "
+                                 "not merely consistent with it" % abs(d))
+            else:
+                row["status"] = "consistent with the control"
             if d >= decades and first is None:
                 first = name
         rows.append(row)
@@ -438,9 +480,33 @@ def compare_to_control(subject, control, decades=DIVERGENCE_DECADES):
         verdict = "no stage diverges from the control by >= %.1f decades" % decades
     else:
         verdict = "NO COMPARISON POSSIBLE — no stage could be priced for both units"
+    # ⛔ A COMPARISON IS ONLY AS GOOD AS ITS CONTROL, AND A SICK CONTROL LAUNDERS A SICK SUBJECT.
+    # This is the dangerous direction of the one-sidedness above: two inputs BOTH at 1e15 would print
+    # "consistent with the control" at every stage and return OWNER_UNDETERMINED — a clean bill of health for
+    # two broken structures. The check has to be ABSOLUTE, not relative, or it inherits the same blind spot.
+    #
+    # ⚠ AND THE ABSOLUTE SIGNAL IS DELIBERATELY WEAK, because the evidence only supports a weak one. Measured
+    # pre-minimisation solvated energies against what the leg then did:
+    #     nr4a2 seed 2   -3.85e+06   healthy sign
+    #     nr4a2 seed 1   +2.78e+09   POSITIVE — and BOTH its replicas landed complete production legs
+    #     nr4a2 seed 3   +1.94e+07   positive
+    #     nr4a3 seed 3   +2.11e+15   never produced one frame
+    # A positive pre-min solvated energy is therefore NOT disqualifying — +2.78e9 demonstrably runs — so this
+    # refuses to invent a cut between 2.8e9 and 2.1e15 that the data does not support. It reports the control's
+    # own solvated sign and says the comparison is relative, which is the honest amount of information.
+    ctl_solv = next((s.get("pe_kj_per_mol") for s in (control or {}).get("stages") or ()
+                     if s.get("stage") == "solvated"), None)
+    control_note = None
+    if ctl_solv is not None and float(ctl_solv) > 0:
+        control_note = ("⚠ THE CONTROL'S OWN solvated energy is %+.3e kJ/mol (positive). A minimised solvated "
+                        "system is strongly negative, so this control is not a pristine yardstick — read every "
+                        "'consistent with the control' below as RELATIVE to it, not as a clean bill of health. "
+                        "This is not disqualifying on its own: nr4a2 seed 1 read +2.78e+09 here and both of "
+                        "its replicas landed complete production legs." % float(ctl_solv))
     return {"subject": "%s:%s" % ((subject or {}).get("system"), (subject or {}).get("seed")),
             "control": "%s:%s" % ((control or {}).get("system"), (control or {}).get("seed")),
             "decades_threshold": decades, "stages": rows,
+            "control_solvated_kj": ctl_solv, "control_caveat": control_note,
             "first_divergent_stage": first, "verdict": verdict}
 
 
@@ -568,6 +634,8 @@ def main(argv=None):
 
     # THE READING, said out loud rather than left to the reader.
     print("\n[pe-stage] %s" % comparison["verdict"], flush=True)
+    if comparison.get("control_caveat"):
+        print("[pe-stage] %s" % comparison["control_caveat"], flush=True)
     print("[pe-stage] OWNER: %s" % doc["owner"]["owner"], flush=True)
     print("[pe-stage]   %s" % doc["owner"]["why"], flush=True)
     for r in comparison.get("stages") or ():

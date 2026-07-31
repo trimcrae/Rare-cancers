@@ -96,6 +96,81 @@ def test_the_verdict_is_invariant_across_the_threshold():
     assert 1.0 < probe.DIVERGENCE_DECADES < 9.0
 
 
+#: The nr4a2 measurement, 5:16 PM ET (run 30665640363). Both breaker-blocked units' co-folds, against the
+#: seed-1 control whose BOTH replicas landed complete production legs.
+_NR4A2_S2 = {"system": "nr4a2", "seed": 2, "stages": [
+    {"stage": "protein_after_pdbfixer", "n_atoms": 10911, "pe_kj_per_mol": 385775.29882575397},
+    {"stage": "protein_plus_ligand", "n_atoms": 11077, "pe_kj_per_mol": 395188.7538965884},
+    {"stage": "solvated", "n_atoms": 346135, "pe_kj_per_mol": -3847881.648498424}]}
+_NR4A2_S1 = {"system": "nr4a2", "seed": 1, "stages": [
+    {"stage": "protein_after_pdbfixer", "n_atoms": 10911, "pe_kj_per_mol": 881959.6142306231},
+    {"stage": "protein_plus_ligand", "n_atoms": 11077, "pe_kj_per_mol": 2783972101.010649},
+    {"stage": "solvated", "n_atoms": 345000, "pe_kj_per_mol": 2781196768.2754927}]}
+
+
+def test_the_blocked_units_cofold_is_NOT_an_input_fault():
+    """★★ THE ANSWER THAT KEEPS THE PANEL AT 16/18 RATHER THAN 14/18.
+
+    nr4a2 m2 r0 and m3 r0 are breaker-blocked. If their co-folds were clashed like nr4a3/seed_3, they would
+    be unrecoverable and the reachable ceiling would drop by two more units. They are not: seed 2 reaches a
+    strongly NEGATIVE solvated energy, no stage diverges, and separately its sibling replica m2-r1 landed a
+    complete production leg off the same co-fold (MD_REPLICAS are velocity seeds, not inputs).
+    """
+    got = probe.compare_to_control(_NR4A2_S2, _NR4A2_S1)
+    assert got["first_divergent_stage"] is None
+    assert probe.owner_of_the_fault(_NR4A2_S2, got)["owner"] == probe.OWNER_UNKNOWN
+    # The seed-3 signature for contrast — 21 orders of magnitude apart at the solvated stage.
+    assert probe.compare_to_control(_MEASURED_SUBJECT, _MEASURED_CONTROL)["first_divergent_stage"] is not None
+
+
+def test_a_subject_BELOW_its_control_is_not_merely_consistent_with_it():
+    """⚠ THE TEST IS ONE-SIDED. `d = log10|subj| - log10|ctrl|` can only flag a subject WORSE than its
+    control, so nr4a2:2 (solvated -3.85e6, healthy) against nr4a2:1 (+2.78e9) printed "consistent with the
+    control" at every stage — which reads as "as good as" when the subject is orders BETTER."""
+    rows = {r["stage"]: r for r in probe.compare_to_control(_NR4A2_S2, _NR4A2_S1)["stages"]}
+    assert "BELOW the control" in rows["protein_plus_ligand"]["status"], "-3.85 decades"
+    assert rows["protein_after_pdbfixer"]["status"] == "consistent with the control", (
+        "-0.36 decades is genuinely consistent; only an ORDERS-apart gap earns the stronger wording")
+    # ★ The solvated row is only -2.86 decades — UNDER the threshold — but the subject is NEGATIVE and the
+    # control POSITIVE. Sign is the qualitative fact at this stage and must not be buried by the magnitude
+    # test failing to clear its own bar.
+    assert "NEGATIVE solvated energy" in rows["solvated"]["status"]
+    assert "runnable signature" in rows["solvated"]["status"]
+    assert abs(rows["solvated"]["decades_above_control"]) < 3.0, (
+        "this is precisely the case the decade test does NOT catch, which is why sign is checked separately")
+
+
+def test_the_sign_rule_is_scoped_to_the_solvated_stage_only():
+    """An unsolvated stage has no such expectation — a normal unminimised protein is positive, and treating a
+    negative one there as a health signal would be inventing physics the calibration does not support."""
+    subj = {"system": "x", "seed": 1, "stages": [
+        {"stage": "protein_after_pdbfixer", "pe_kj_per_mol": -1.0e5}]}
+    ctl = {"system": "x", "seed": 2, "stages": [
+        {"stage": "protein_after_pdbfixer", "pe_kj_per_mol": 2.0e5}]}
+    got = probe.compare_to_control(subj, ctl)
+    assert got["stages"][0]["status"] == "consistent with the control"
+
+
+def test_a_sick_control_cannot_silently_launder_a_sick_subject():
+    """⛔ THE DANGEROUS DIRECTION. Two inputs BOTH at 1e15 would print "consistent" at every stage and return
+    OWNER_UNDETERMINED — a clean bill of health for two broken structures. The guard must be ABSOLUTE."""
+    got = probe.compare_to_control(_NR4A2_S2, _NR4A2_S1)
+    assert got["control_solvated_kj"] > 0
+    assert "not a pristine yardstick" in got["control_caveat"]
+    assert "RELATIVE to it" in got["control_caveat"]
+    # ...and a genuinely clean control raises no caveat.
+    assert probe.compare_to_control(_MEASURED_SUBJECT, _MEASURED_CONTROL)["control_caveat"] is None
+
+
+def test_the_caveat_does_not_invent_a_cut_the_data_cannot_support():
+    """A positive pre-min solvated energy is NOT disqualifying: nr4a2 seed 1 read +2.78e9 and BOTH its
+    replicas landed. The caveat must inform, never gate — inventing a threshold between 2.8e9 and 2.1e15 is
+    exactly the retired inter-chain gate's mistake."""
+    got = probe.compare_to_control(_NR4A2_S2, _NR4A2_S1)
+    assert got["first_divergent_stage"] is None, "the caveat must not turn into a verdict"
+    assert "both of its replicas landed" in got["control_caveat"]
+
+
 def test_a_stage_missing_from_either_side_is_unknown_not_a_verdict():
     """CLAUDE.md §4b — an absent reading is not a reading of absence, in the classifier too."""
     subj = {"system": "x", "seed": 1, "stages": [
