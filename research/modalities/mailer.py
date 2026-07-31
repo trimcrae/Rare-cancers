@@ -12,21 +12,32 @@ Two things live here so the daily status email and the weekly/monthly newsletter
 
 Pure stdlib except boto3 (only imported on the SES path). All network egress happens from a CI runner.
 
-★★ WHICH BRANCH ACTUALLY DELIVERS — MEASURED 2026-07-31, BECAUSE ONE OF THEM NEVER HAS.
+★★ THE SES BRANCH IS DEAD ON PURPOSE — IT REFUSES INSTEAD OF SENDING (2026-07-31).
 
-    SMTP  WORKS. `Sent via SMTP (smtp.gmail.com:465): trimcrae@gmail.com -> trimcrae@gmail.com`, the daily
-          email's last scheduled send (GH run 30200038716, job 89788285952, 2026-07-26). MAIL_PASSWORD is
-          set as a repo secret; any caller that does not PASS it into the step gets the other branch.
-    SES   HAS NEVER DELIVERED. The CI IAM user has no SES permissions at all:
+    SMTP  WORKS, and is the ONLY transport. `Sent via SMTP (smtp.gmail.com:465)`, the daily email's last
+          scheduled send (GH run 30200038716, job 89788285952, 2026-07-26). It is reached whenever
+          MAIL_PASSWORD is in the environment, and it still serves the WANTED weekly newsletter
+          (`method-watch.yml`, Fridays). Nothing about that changed.
+    SES   NEVER DELIVERED ONCE, AND IS NOW ALSO UNWANTED. The CI IAM user has no SES permission at all:
           `AccessDenied ... arn:aws:iam::646605541856:user/nr4a3-ci-submitter is not authorized to perform
-          ses:SendEmail` (run 30602768073) and the same on `ses:GetSendQuota` (run 30626375302). This is a
-          MISSING IAM POLICY, not the SES sandbox — a sandboxed account answers `MessageRejected: Email
-          address is not verified`, which is a different error and a different fix.
+          ses:SendEmail` (run 30602768073) and the same on `ses:GetSendQuota` (run 30626375302) — a MISSING
+          IAM POLICY, not the SES sandbox (a sandboxed account answers `MessageRejected: Email address is
+          not verified`, a different error with a different fix). Then trimcrae said, verbatim: *"You're
+          emailing me way too much. You should not be emailing me."*
 
-So `send_email` silently choosing SES is choosing a path that cannot work, and the choice is made purely by
-whether MAIL_PASSWORD reached the process. `transport_name()` exists so a caller can SAY which branch it is
-about to take instead of discovering it in a swallowed traceback. One home for the channel picture and the
-exact IAM/SES steps that would restore email: `research/compute/notification-channels.md`.
+⚠ SO `_send_ses` RAISES `SesDeliberatelyDisabled` RATHER THAN CALLING AWS, and that placement is the point.
+The dangerous property of the old code was that `send_email` SILENTLY chose SES whenever a caller forgot to
+pass MAIL_PASSWORD — which is how a step could believe it had email coverage for 159 runs while sending
+nothing. Refusing here rather than in each caller means:
+
+  * a caller that reaches this branch is TOLD, loudly, instead of getting a swallowed AccessDenied; and
+  * `step1-fanout-autoscale.yml`'s "Push the verdict to a human (SES)" step — which passes the AWS keys and
+    NOT MAIL_PASSWORD, so it lands here — stays dead even if somebody later grants the IAM policy. That
+    file belongs to another lane and is not edited from here; this is how the push path is closed anyway.
+
+`transport_name()` lets a caller SAY which branch it is about to take instead of finding out in a traceback.
+One home for the whole channel picture, and for the IAM/SES steps we are deliberately NOT taking:
+`research/compute/notification-channels.md`.
 """
 import json
 import os
@@ -47,7 +58,8 @@ def transport_name():
     Report it BEFORE sending. The measured failure (see the module docstring) was a step that passed the AWS
     keys but not MAIL_PASSWORD, took the SES branch, and had its AccessDenied swallowed into a `::warning`
     nobody read — for 159 consecutive runs. A caller that prints this cannot make that mistake silently.
-    ⚠ 'ses' means "this is the branch that has never once delivered on this account".
+    ⚠ 'ses' now means "this call will RAISE": that branch is deliberately disabled, so it is the answer to
+    "am I about to discover I have no transport", not a delivery method.
     """
     return "smtp" if os.environ.get("MAIL_PASSWORD") else "ses"
 
@@ -82,20 +94,24 @@ def _send_smtp(mail_from, mail_to, subject, text, html):
     return out
 
 
-def _send_ses(mail_from, mail_to, subject, text, html):
-    import boto3
+class SesDeliberatelyDisabled(RuntimeError):
+    """Raised instead of sending. See the module docstring — this is a decision, not a defect."""
 
-    region = _first(os.environ.get("AWS_DEFAULT_REGION"), "us-east-2")
-    ses = boto3.client("ses", region_name=region)
-    ses.send_email(
-        Source=mail_from,
-        Destination={"ToAddresses": [mail_to]},
-        Message={"Subject": {"Data": subject},
-                 "Body": {"Text": {"Data": text}, "Html": {"Data": html}}},
-    )
-    out = f"Sent via SES: {mail_from} -> {mail_to}"
-    print(out)
-    return out
+
+def _send_ses(mail_from, mail_to, subject, text, html):
+    """⛔ DISABLED 2026-07-31. Raises rather than calling AWS. Do not "fix" this by restoring the call.
+
+    Two independent reasons, either sufficient: (1) the CI IAM user has never had `ses:SendEmail`, so this
+    branch has delivered exactly zero emails in its lifetime while looking like coverage; (2) trimcrae asked
+    not to be emailed. Restoring it needs his word AND an IAM policy, in that order — the policy alone would
+    turn every currently-silent caller into a live mailer, which is the outcome this prevents.
+    """
+    raise SesDeliberatelyDisabled(
+        f"SES delivery is disabled in this repo (would have sent {subject!r} to {mail_to}). It never had "
+        f"permission — `AccessDenied` on ses:SendEmail for nr4a3-ci-submitter — and email to trimcrae is "
+        f"unwanted as of 2026-07-31. Supervision verdicts are PUBLISHED to "
+        f"research/modalities/alarm-state.json instead; see research/compute/notification-channels.md. "
+        f"If you meant to send the weekly newsletter, pass MAIL_PASSWORD so the SMTP branch is taken.")
 
 
 # ----------------------------------------------------------------------------- LLM summary (optional)

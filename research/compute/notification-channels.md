@@ -1,160 +1,176 @@
-# How an alarm reaches a human — the one home for channel status
+# Push channels — what can reach trimcrae, and why almost nothing does
 
-**This file owns the answer to "if something goes wrong at 3 AM and no agent is running, who finds out?"**
-Per CLAUDE.md §1, every other file points here rather than restating it. Workflows that carry a notification
-step link this file from their header comment; do not re-type a channel's status into a workflow comment.
+**This file owns the answer to "can this repo notify trimcrae, and how?"** Per CLAUDE.md §1, every other file
+points here rather than restating it. Workflows carrying (or having carried) a notification step link this
+file from their header; do not re-type a channel's status into a workflow comment.
 
-Measured **2026-07-31**. Every claim below has a run/job ID next to it.
+> **trimcrae, 2026-07-31, verbatim: "You're emailing me way too much. You should not be emailing me."**
 
----
+That is the governing instruction. Supervision must survive with no LLM in the loop — that was always the
+requirement, and it is a **pull** requirement. Being *told* was never part of it.
 
-## The channels, and which of them actually work
-
-| channel | status | needs | dedupes? | evidence |
-|---|---|---|---|---|
-| **GitHub Issue** (`alarm_issue.py`) | ✅ **live — this is the escalation channel** | `GITHUB_TOKEN` only | ✅ one open issue per condition, auto-closed on recovery | proven end to end 2026-07-31, see "Proof" below |
-| **Failed scheduled run** (GitHub's own email to the repo owner) | ⚠ live but **saturates** | nothing | ❌ none — one notification per run, forever | `vast-watchdog.yml` failed **38 consecutive** scheduled runs, 2026-07-28 13:42 UTC → 2026-07-31 08:44 UTC, before going green at 11:07 UTC |
-| **Email via Gmail SMTP** (`mailer._send_smtp`) | ✅ works, but **opt-in and not standing coverage** | `MAIL_PASSWORD` secret passed into the step | ❌ none | `Sent via SMTP (smtp.gmail.com:465)` — run `30200038716`, job `89788285952`, 2026-07-26 |
-| **Email via AWS SES** (`mailer._send_ses`) | ❌ **has never delivered, not once** | an IAM policy that does not exist | — | run `30602768073` job `91068780404`; probe run `30626375302` job `91142503053` |
+Measured 2026-07-31. Every claim below has a run/job ID or a file:line next to it.
 
 ---
 
-## What was actually broken (root cause, not a story)
+## 1 · The inventory — every push path this repo has
 
-`lane-staleness-watch.yml`'s mail step passed `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`,
-`AWS_DEFAULT_REGION` and `MAIL_TO` — **and not `MAIL_PASSWORD`**. `mailer.send_email` picks SMTP only when
-`MAIL_PASSWORD` is set, so every call took the SES branch, and SES answered:
+| # | path | can it reach his inbox? | status now |
+|---|---|---|---|
+| 1 | **GitHub Issue activity** — open/comment/close by anyone, including `github-actions` | **Yes**, via his GitHub notification settings | ⛔ **removed.** `issues:` permission revoked from both alarm workflows; `alarm_issue.py` deleted |
+| 2 | **Failed SCHEDULED workflow run** — GitHub emails the repo owner | **Yes**, once per failing run, no memory, no dedupe | ⚠ **still live for 9 workflows** — see §4. Removed from the 2 alarm workflows |
+| 3 | `lane-staleness-watch.yml` mail step | never delivered (SES `AccessDenied`) | ⛔ **step deleted** |
+| 4 | `step1-fanout-autoscale.yml` → "Push the verdict to a human (SES)" (`if: failure()`, ~line 435) | never delivered — passes AWS keys, **not** `MAIL_PASSWORD`, so it takes the SES branch | ⛔ **neutralised at the mailer**, see §3. The file itself belongs to another lane and was not edited |
+| 5 | `daily-degrader-email.yml` → `daily_status_email.py` | **Yes** — passes `MAIL_PASSWORD`, so Gmail SMTP, proven working | 🟡 **no cron** (removed 2026-07-26 at his request); manual dispatch only, and `mode` defaults to `dry_run` |
+| 6 | `method-watch.yml` → `email_digest.py` | **Yes** — Gmail SMTP, `cron: 0 11 * * 5` (Fridays) | ✅ **left alone deliberately** — CLAUDE.md §5 calls the weekly newsletter "the surviving cadence". This is a *wanted* email |
+
+Nothing else in the repo calls a mailer:
+`grep -rn "import mailer\|send_email(" --include=*.py --include=*.yml` returns only the rows above.
+
+---
+
+## 2 · What went wrong, and it was not a bug
+
+The escalation was rebuilt on 2026-07-31 as a GitHub Issue channel: one open issue per condition, a comment
+only when the verdict changed, auto-closed on recovery, silent on unmeasured verdicts. **It worked.** That
+was the problem — every issue write emails the repo owner, so a channel built to be *reliable* was by
+construction a channel that mailed him, and the self-test proving it worked mailed him four more times.
+
+Issues **#17** (self-test) and **#18** (a deliberately induced real condition) were the only two ever opened.
+Both are closed; no alarm issue is open.
+
+**The lesson, stated so it is not re-learned:** dedupe and auto-close were not the fault. *Choosing a push
+channel at all* was. Before building any notification, check whether the requirement is "someone must be able
+to find out" (pull) or "someone must be told" (push). It was the former.
+
+### The prior defect this replaced, for the record
+
+`lane-staleness-watch.yml`'s mail step passed `AWS_ACCESS_KEY_ID`/`SECRET`/`REGION` and `MAIL_TO` — and **not
+`MAIL_PASSWORD`**. `mailer.send_email` picks SMTP only when `MAIL_PASSWORD` is set, so every call took SES:
 
 ```
 ClientError: An error occurred (AccessDenied) when calling the SendEmail operation: User
 `arn:aws:iam::646605541856:user/nr4a3-ci-submitter' is not authorized to perform `ses:SendEmail'
-on resource `arn:aws:ses:us-east-1:646605541856:identity/trimcrae@gmail.com'
 ```
 
-`mode=probe` fails the same way one call earlier, on `ses:GetSendQuota` — so the IAM user has **no SES
-permissions at all**.
+- Run `30602768073`, job `91068780404`. `mode=probe` fails one call earlier on `ses:GetSendQuota` (run
+  `30626375302`, job `91142503053`) — the IAM user has **no SES permissions at all**.
+- It was **never the SES sandbox**, which the old comment claimed: a sandboxed account answers
+  `MessageRejected: Email address is not verified`, a different error with a different fix.
+- `MAIL_PASSWORD` has never appeared in that workflow in any commit on any branch
+  (`git log -p --all -- .github/workflows/lane-staleness-watch.yml | grep -c MAIL_PASSWORD` → `0`).
+- The exception was caught into `::warning title=LANE-WATCH MAIL NOT DELIVERED::` on **159 failing runs**. A
+  warning annotation on a run nobody opens is indistinguishable from silence.
 
-Three things follow, all of them corrections to what the repo previously believed:
-
-1. **It was never the SES sandbox.** The workflow comment said "SES may still be sandboxed on this account".
-   A sandboxed account answers `MessageRejected: Email address is not verified` — a different error with a
-   different fix. This is a **missing identity-based IAM policy**.
-2. **`MAIL_PASSWORD` has never appeared in `lane-staleness-watch.yml` in any commit on any branch**
-   (`git log -p --all -- .github/workflows/lane-staleness-watch.yml | grep -c MAIL_PASSWORD` → `0`). The
-   transport that works was sitting one env line away the entire time.
-3. **The exception was caught, so nothing was ever red about it.** It became
-   `::warning title=LANE-WATCH MAIL NOT DELIVERED::`, on **159 failing runs**, and a warning annotation on a
-   run nobody opens is indistinguishable from silence.
-
-**Net effect:** for as long as that step has existed, the only escalation reaching trimcrae without an agent
-in the loop was GitHub's failed-scheduled-run notification — and that channel was itself saturated for three
-days by the watchdog's 38 straight failures. That is this repo's own documented cry-wolf failure, live.
+So that step never delivered once, while looking like coverage — and it is now deleted rather than fixed.
 
 ---
 
-## What replaced it
+## 3 · SES is dead on purpose (⚠ this is a decision, not a to-do)
 
-`research/modalities/alarm_issue.py`, wired into `fleet-supervision-alarm.yml` and
-`lane-staleness-watch.yml`. Pure stdlib, imports nothing from the lanes it reports on, and its entire
-additional permission is `issues: write`.
+`mailer._send_ses` **raises `SesDeliberatelyDisabled` instead of calling AWS.** Two independent reasons,
+either sufficient: it has never had permission, and email to trimcrae is unwanted.
 
-- **One open issue per distinct condition** (`fleet-supervision`, `lane:<key>`), matched on an HTML marker in
-  the issue body. Dedupe reads the **issues list**, never the search API — GitHub's search index lags by
-  seconds to minutes and a dedupe that misses opens a second issue.
-- **A comment only when the verdict changes.** A body edit sends no notification; a comment does. So the
-  phone buzzes on news, not on the hourly re-confirmation of news it already had.
-- **Auto-closed on recovery**, with a `RECOVERED` comment and `state_reason: completed`. This is what makes an
-  open issue mean something.
-- **Silent on unmeasured verdicts** (`UNKNOWN`, `FRESH-API-UNREADABLE`, `TICKS-UNREADABLE`, and any verdict
-  whose `runs_readable` is false): it neither opens **nor closes**. Not opening keeps the 2026-07-27 4:18 PM
-  false alarm off a phone; not closing stops an unreadable API from silently retiring a live alarm.
-- **Self-test built in and permanent:** `alarm_issue.py --self-test fire|fire-changed|recover`, also exposed
-  as the `self_test` input on `fleet-supervision-alarm.yml`. It runs on its own key (`alarm-self-test`) so it
-  can never mask or be mistaken for a real alarm. An unexercised notification path is exactly what turned out
-  to be broken here — re-run it any time, $0.
+The refusal lives in `mailer.py` rather than in each caller, and that placement is the point. The dangerous
+property of the old code was that `send_email` *silently* chose SES whenever a caller forgot `MAIL_PASSWORD`.
+Refusing centrally means path **#4** above — in a file owned by another lane, which this work did not edit —
+stays dead **even if somebody later grants the IAM policy**. `transport_name()` lets a caller say which
+branch it is about to take instead of finding out in a swallowed traceback.
 
-Closing an alarm issue by hand does **not** silence anything: dedupe only looks at open issues, so the next
-run that still sees the condition opens a fresh one.
+**Gmail SMTP is untouched**, because the Friday newsletter is wanted.
 
-### Proof — it was fired on purpose, twice, on 2026-07-31
+<details>
+<summary><b>What restoring SES WOULD require — recorded so nobody re-derives it, NOT a task</b></summary>
 
-An unexercised notification path is exactly what turned out to be broken here, so this channel was not handed
-over on the strength of its unit tests. Both cycles ran against the live repo.
+Do not do this without trimcrae asking for it in his own words. The IAM policy alone would turn every
+currently-silent caller into a live mailer, which is exactly what §3 prevents.
 
-**A · the synthetic self-test, on its own key** (`alarm-self-test`, so it could never mask a real alarm):
+1. **Grant the CI user permission.** Inline policy on IAM user `nr4a3-ci-submitter` (account `646605541856`)
+   allowing `ses:SendEmail`, `ses:SendRawEmail`, `ses:GetSendQuota`, `ses:GetAccountSendingEnabled`,
+   `ses:ListIdentities`, `ses:VerifyEmailIdentity`.
+2. **Verify the identity, per region.** The account is presumably still in the SES sandbox, where both
+   `Source` and every `To` must be verified, and identities are **per region** — the workflows disagree
+   (`us-east-2` for the daily email, `us-east-1` for the old lane-watch step), so pick one and make them
+   agree: `aws ses verify-email-identity --email-address trimcrae@gmail.com --region us-east-1`, then click
+   the link AWS mails.
+3. **Then remove the refusal in `mailer._send_ses`** — it will not send while that raise is there.
+4. Verify with `daily-degrader-email.yml` `mode=probe`, which prints quota + verified identities.
 
-| run | input | result |
-|---|---|---|
-| `30627499609` | `self_test=fire` | **issue #17 opened** — labelled `fleet-alarm`, assigned to `trimcrae` (assignment notifies regardless of watch settings) |
-| `30627543061` | `self_test=fire` again | **no second issue**, no comment; body updated in place, `alarm-firings` 1 → 2, `first-seen-utc` preserved |
-| `30627576586` | `self_test=fire-changed` | **comment posted** (`SELF-TEST-FIRING → SELF-TEST-CHANGED`) and the title updated; still one issue |
-| `30627605498` | `self_test=recover` | **#17 closed**, `state_reason: completed`, with a `✅ RECOVERED` comment |
-
-**B · the real production path, on the real artifact, deliberately induced then reverted:**
-
-| run | input | result |
-|---|---|---|
-| `30627637908` | defaults | verdict `FRESH` → `[alarm-issue] none … verdict FRESH is OK`; **no issue, run green** |
-| `30627642129` | lane watch, defaults | 5 healthy lanes → no issue opened, no issue closed |
-| `30627731915` | `stale_min=1` | forces a genuine `STALE-CAUSE-UNKNOWN` over the real artifact → **issue #18 opened** from the real verdict JSON, titled `FLEET UNSUPERVISED [STALE-CAUSE-UNKNOWN] — the artifact is 8 min old, past the 1 min window…`, and **the run went red**, so GitHub's own channel still fired too |
-| `30627769851` | defaults (the revert) | verdict back to `FRESH` → **#18 auto-closed** with a `RECOVERED` comment |
-
-Re-run cycle A any time from the Actions tab: `fleet-supervision-alarm.yml` → `self_test`. $0.
+</details>
 
 ---
 
-## ⚠ If trimcrae wants email back — the part only he can do
+## 4 · ⚠ What can STILL email him, and what it would take to stop it
 
-Two independent things are wrong with SES and **both** must be fixed; either alone still fails.
+**A failed scheduled workflow run emails the repository owner.** This is GitHub's own behaviour, driven by
+his account notification settings — no repo credential is involved and **no change in this repo can fully
+disable it**. It is the channel that was firing every 1–2 h while `vast-watchdog.yml` was red on **38
+consecutive scheduled runs** (2026-07-28 13:42 UTC → 2026-07-31 08:44 UTC).
 
-**1 · Grant the CI user permission to send.** Attach an inline policy to IAM user
-`nr4a3-ci-submitter` (account `646605541856`):
+Workflows carrying a `schedule:` today, i.e. every one that can produce that email:
 
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [{
-    "Sid": "CiAlarmMail",
-    "Effect": "Allow",
-    "Action": ["ses:SendEmail", "ses:SendRawEmail", "ses:GetSendQuota",
-               "ses:GetAccountSendingEnabled", "ses:ListIdentities", "ses:VerifyEmailIdentity"],
-    "Resource": "*"
-  }]
-}
-```
+| workflow | cron | notes |
+|---|---|---|
+| `vast-watchdog.yml` | `*/15 * * * *` | the 38-failure saturation; green since 11:07 UTC 07-31 |
+| `ternary-vast-watchdog.yml` | `*/15 * * * *` | |
+| `ternary-leg-watchdog.yml` | `*/15 * * * *` | |
+| `fep-monitor-cron.yml` | `*/15 * * * *` | |
+| `step1-fanout-autoscale.yml` | `*/20 * * * *` | also holds push path #4 |
+| `gpu-ternary-fep-vast.yml` | `17 * * * *` | |
+| `vast-price-sample.yml` | `17 * * * *` | |
+| `credit-status.yml` | `0 12 * * *` | |
+| `method-watch.yml` | `0 11 * * 5` | also sends the wanted newsletter |
+| `fleet-supervision-alarm.yml` | `0 * * * *` | ✅ no longer fails deliberately |
+| `lane-staleness-watch.yml` | `23 * * * *` | ✅ no longer fails deliberately |
 
-```
-aws iam put-user-policy --user-name nr4a3-ci-submitter \
-  --policy-name CiAlarmMail --policy-document file://ses-send.json
-```
+The two alarm workflows are fixed at the source: they used to `exit 1` **because** it emails him, and they
+now emit an `::error` annotation instead — equally visible on the run page and in the Actions list, and it
+sends nothing. The other nine are owned by other lanes and were **not** touched; a red run there still mails
+him.
 
-**2 · Verify the identity in the right region, in SES itself.** The account is almost certainly still in the
-SES **sandbox**, where both `Source` and every `To` must be a verified identity. The workflows disagree on
-region — the daily email uses `us-east-2`, the lane watch's mail step uses `us-east-1` — and **SES identities
-are per region**, so verify in whichever region the sender will use and make them agree:
+**Two ways to close the remainder, both his to choose:**
+- **His side, and it is the only complete fix:** GitHub → Settings → Notifications → Actions → uncheck email
+  (or set to "Only notify for failed workflows I trigger"). This is the only lever that covers all nine.
+- **Repo side, partial:** stop the nine failing on conditions that are merely *reported*. That is a per-lane
+  judgement about which red runs are real CI failures and which are notifications wearing a CI costume, and
+  it belongs to those lanes' owners.
 
-```
-aws ses verify-email-identity --email-address trimcrae@gmail.com --region us-east-1
-```
+---
 
-then click the link AWS mails. (`daily-degrader-email.yml` `mode=verify` does exactly this call, and
-`mode=probe` reports quota + verified identities — both currently die at step 1 above, which is how the whole
-problem surfaced.)
+## 5 · What replaced it — the pull channel
 
-**Verify the fix, don't assume it:** dispatch `daily-degrader-email.yml` with `mode=probe`. Success prints
-the 24 h quota and the identity list. Then, and only then, is it honest to describe SES as coverage.
+`research/modalities/alarm_state.py` writes **`research/modalities/alarm-state.json`**, committed by
+`lane-staleness-watch.yml` on the supervisor's ~16 min cadence. It sends nothing, opens nothing, and cannot
+fail a run (a non-zero exit would fail a scheduled run, which is itself a push channel).
 
-**Or skip SES entirely.** Gmail SMTP already works and the secret already exists; the only reason email is
-default-off is the missing dedupe, not the transport. Set `email_on_fail=1` on a `lane-staleness-watch.yml`
-dispatch when watching something specific.
+The artifact carries its own expiry, the `work-ledger.json` pattern — **a reader who opens the file can tell
+it is dead without running anything**, no API, no process, no clock but their own:
+
+- `_generated_utc` / `_generated_et` — when it was last measured
+- `_stale_after_utc` / `_stale_after_means` — *"IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED,
+  NOTHING IS WATCHING"*. A supervision chain that has stopped cannot report that it stopped.
+- `_expected_tick_min` / `_stale_window_basis` — **the window is READ from `work-ledger.json`'s
+  `_expected_tick_min`, never typed here** (CLAUDE.md §1). If it cannot be read, the basis field says
+  `⚠ NOT DERIVED` rather than presenting a fallback as if it were derived.
+- per condition: `verdict`, `ok`, `detail`, `bad_since_et`, `bad_for_min`, `consecutive_bad_runs` — the
+  history an issue used to give for free.
+- `needs_attention` vs `unmeasured` — kept apart, because "the lane is dead" and "we could not read the
+  lane" have different fixes, and merging them teaches a reader to skim past both.
+- a row whose **source** stopped reporting is **carried over and marked**, never dropped: a row that
+  disappears reads as a row that cleared, which is this repo's most expensive defect class.
+
+**To check on things:** open `research/modalities/alarm-state.json`. Nothing will tell you to.
 
 ---
 
 ## Rules this file exists to keep
 
-- **A workflow must never advertise a notification it cannot send.** A comment or input description promising
-  delivery is documentation, and stale documentation about a safety channel is worse than none — it buys
-  false comfort (CLAUDE.md §1).
-- **Any new escalation must be exercised before it is relied on.** The one that failed here was never fired
-  on purpose even once.
-- **A channel with no dedupe is not standing coverage.** It is a per-incident tool you switch on.
+- **Do not add a push channel.** Not an issue, not an email, not a deliberately-red run. If supervision needs
+  to be visible, publish it to a committed artifact that carries its own expiry.
+- **A workflow must never advertise a notification it cannot send.** Stale documentation about a safety
+  channel is worse than none: it buys false comfort (CLAUDE.md §1).
+- **Ask which requirement you are meeting** — "someone must be able to find out" (pull) or "someone must be
+  told" (push) — *before* building. Getting that backwards is what happened here, and the resulting channel
+  was well-built and still wrong.
+- Pinned by `research/modalities/tests/test_no_push_notifications.py`: no `issues:` permission in any
+  workflow, no mail call in the alarm workflows, no verdict-conditioned `exit 1`, and the SES branch raises.

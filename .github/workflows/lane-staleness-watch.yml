@@ -35,17 +35,28 @@ name: Cross-lane staleness watch — has any lane gone stale, and is that expect
 # better than none, and it is what gets a human's attention if both dispatchers have stopped. It is NOT the
 # cadence and must never be described as one.
 #
-# ★★ HOW A RED VERDICT REACHES A HUMAN — CORRECTED 2026-07-31, BECAUSE IT DID NOT.
-# This workflow's mail step had NEVER delivered: across 159 failing runs its `send_email` call took the SES
-# branch (its env block passes the AWS keys but not `MAIL_PASSWORD`, which has never appeared in this file in
-# any commit) and SES answered `AccessDenied ... nr4a3-ci-submitter is not authorized to perform
-# ses:SendEmail` (run 30602768073, job 91068780404). The old comment blamed the SES sandbox; that was the
-# wrong diagnosis — a sandboxed account says `MessageRejected: Email address is not verified`. That left the
-# non-zero exit as the only live channel, and it was itself saturated: `vast-watchdog.yml` failed 38
-# consecutive scheduled runs into 2026-07-31. So the escalation is now a GITHUB ISSUE (`alarm_issue.py`):
-# one open issue per lane condition, a comment only when the verdict changes, auto-closed on recovery, and
-# it needs nothing but `GITHUB_TOKEN`. ONE HOME for all of this, including the IAM fix that would restore
-# email if trimcrae wants it: `research/compute/notification-channels.md`.
+# ★★★ NOTHING HERE NOTIFIES ANYBODY ANY MORE — IT PUBLISHES (trimcrae, 2026-07-31, verbatim: *"You're
+# emailing me way too much. You should not be emailing me."*). Three push channels lived in this file and all
+# three are gone:
+#
+#   1. A MAIL STEP THAT HAD NEVER DELIVERED ANYWAY. Across 159 failing runs its `send_email` took the SES
+#      branch (the env block passed the AWS keys but not `MAIL_PASSWORD`, which has never appeared in this
+#      file in ANY commit on ANY branch) and SES answered `AccessDenied ... nr4a3-ci-submitter is not
+#      authorized to perform ses:SendEmail` (run 30602768073, job 91068780404). The old comment blamed the
+#      SES sandbox — wrong diagnosis; a sandboxed account says `MessageRejected: Email address is not
+#      verified`. DELETED, not defaulted off, and `mailer._send_ses` now refuses outright.
+#   2. A GITHUB ISSUE ESCALATION, built earlier the same day and working. Every issue open, comment and close
+#      emails the repo owner, so being reliable was the same thing as mailing him. `issues: write` is revoked
+#      — the capability, not just the config.
+#   3. THE DELIBERATE `exit 1`. A red SCHEDULED run emails the owner; that was its stated purpose. Now an
+#      `::error` annotation, which is just as visible on the run page and sends nothing.
+#
+# ⚠ WHAT REPLACED THEM, AND WHY IT IS ENOUGH. The requirement was never "tell trimcrae" — it is that
+# supervision survives with no LLM in the loop. So this job now WRITES AND COMMITS the board:
+# `research/modalities/alarm-state.json` (`alarm_state.py`), carrying `_generated_utc` / `_stale_after_utc` /
+# `_stale_after_means` exactly like `work-ledger.json`, so A READER WHO OPENS THE FILE CAN TELL IT IS DEAD
+# WITHOUT RUNNING ANYTHING. The staleness window is READ from the ledger's `_expected_tick_min`, never typed.
+# The full inventory of what can and cannot reach a human: `research/compute/notification-channels.md`.
 #
 # COST: $0. GitHub-hosted minutes are free on a public repo and this job is a few seconds of stdlib Python.
 
@@ -61,9 +72,6 @@ on:
       write_history:
         description: "1 = persist the census history so the next run can age a flat census; 0 = read only"
         default: "1"
-      email_on_fail:
-        description: "1 = ALSO send the failing verdict by email. OFF BY DEFAULT and it is not the escalation channel — the GitHub Issue is (see the mail step). Email here has no dedupe, and this verdict has gone red 159 times in the recent past."
-        default: "0"
   schedule:
     # COLD START ONLY — see the header. Deliberately hourly, not */15: asking for a high frequency on a
     # throttled repo does not get you one, it only adds queue pressure to the same pool the ticks compete in.
@@ -78,15 +86,11 @@ permissions:
   # `tests/test_work_ledger.py`). Every dispatch therefore lands in a lane's OWN launcher, behind that
   # lane's §6 market gate. This job still carries NO Vast key and NO object-store credential.
   actions: write
-  # ★ THE ESCALATION CHANNEL. `issues: write` is the ENTIRE additional blast radius — `alarm_issue.py` can
-  # open, edit, comment on and close issues, and structurally nothing else (pure stdlib, no boto3, no Vast
-  # key, no import of any lane module; asserted by tests/test_alarm_issue.py).
-  # ⛔ ESCALATION BY ISSUE IS REVOKED (trimcrae, 2026-07-31: "You're emailing me way too much. You
-  # should not be emailing me"). A GitHub issue emails the repo owner on every open, comment and
-  # close, so this permission WAS the notification. Removing it is the stop: `alarm_issue.py` cannot
-  # write without it, whatever any input says. The verdict still lands in the committed artifact,
-  # which is a PULL channel — the requirement was that supervision survive with no LLM in the loop,
-  # never that anyone be paged. Do not restore this without asking him first.
+  # ⛔ NO `issues:` PERMISSION, AND THAT IS LOAD-BEARING (2026-07-31). Opening, commenting on or closing an
+  # issue emails the repo owner, and trimcrae asked not to be emailed. Revoking the CAPABILITY is deliberately
+  # blunter than a config flag: nothing can open an issue without it, whatever any later edit says. The
+  # module that used to do it is deleted, and `tests/test_no_push_notifications.py` fails CI if either
+  # the permission or a mail call comes back.
 
 concurrency:
   group: lane-staleness-watch
@@ -155,30 +159,45 @@ jobs:
             | tee /tmp/lane-staleness.log
           echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
-      # ★★ THE ESCALATION, and it runs BEFORE anything that could fail the job, because the run on which a
-      # human most needs to be told is exactly the run that is about to go red.
-      #
-      # ⚠ IT DECIDES NOTHING. `alarm_issue.py` re-derives no verdict: it reads the JSON the step above wrote
-      # and acts on each lane's `ok` / `verdict` as given. A second opinion on the same evidence is a second
-      # thing to keep in sync (CLAUDE.md §1). It receives the HEALTHY lanes too — that is the auto-close
-      # half, and without it the issue list could only ever grow.
-      - name: Escalate to a GitHub Issue (one per lane, dedup'd, self-closing)
+      # The step-1 FLEET supervision question, asked here rather than only in the hourly
+      # `fleet-supervision-alarm.yml`, for one reason: THIS job runs on the supervisor's ~16 min cadence and
+      # already commits, so it is the only place the answer can be made DURABLE. Failure is tolerated — an
+      # unavailable verdict must never cost us the lane rows, and `alarm_state.py` records the gap explicitly
+      # rather than rendering "not measured" as "fine".
+      - name: Fleet supervision verdict (for the durable board)
         if: ${{ always() }}
+        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_SERVER_URL: ${{ github.server_url }}
+        run: |
+          set +e
+          python3 research/modalities/fleet_supervision_alarm.py \
+            --progress research/modalities/step1-fanout-progress.json \
+            --json /tmp/fleet-supervision-verdict.json
+          exit 0
+
+      # ★★ THE PULL CHANNEL — publish, do not notify (trimcrae, 2026-07-31). This writes the board that a
+      # human reads WHEN THEY CHOOSE TO, and it is committed below so it survives the run.
+      #
+      # ⚠ IT DECIDES NOTHING and CANNOT FAIL THE RUN. It re-derives no verdict — it records each lane's
+      # `ok` / `verdict` as given (a second opinion on the same evidence is a second thing to keep in sync,
+      # CLAUDE.md §1) — and it always exits 0, because a non-zero exit here would fail a scheduled run, which
+      # emails the repo owner and would quietly reinstate the push channel this replaced.
+      - name: Write the alarm board (PULL — nothing is sent)
+        if: ${{ always() }}
         run: |
           set -eo pipefail
-          python3 research/modalities/alarm_issue.py \
+          python3 research/modalities/alarm_state.py \
             --lane-report /tmp/lane-staleness-verdict.json \
-            --json /tmp/alarm-issue-actions.json | tee /tmp/alarm-issue.log
+            --fleet-verdict /tmp/fleet-supervision-verdict.json \
+            --state research/modalities/alarm-state.json \
+            --ledger research/modalities/work-ledger.json \
+            --write | tee /tmp/alarm-board.log
           {
-            echo '### Escalation channel (GitHub Issue)'
+            echo '### Alarm board (committed to `research/modalities/alarm-state.json`)'
             echo ''
             echo '```'
-            cat /tmp/alarm-issue.log
+            cat /tmp/alarm-board.log
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -300,8 +319,12 @@ jobs:
           # chain has stopped WITHOUT running anything. An unpushed ledger is a ledger frozen at its last
           # commit — which reads, correctly, as a stopped supervisor. It fails loud rather than quiet.
           git add research/modalities/work-ledger.json 2>/dev/null || true
-          if git diff --cached --quiet; then echo "census history and work ledger unchanged"; exit 0; fi
-          git commit -m "lane staleness watch: census history + work ledger (CI)" || exit 0
+          # ★ THE ALARM BOARD MUST LAND, because committing it IS the notification now. Unpushed, it is a
+          # board frozen at its last commit — which a reader will correctly take as "nothing is watching",
+          # since from outside this run that is indistinguishable from the truth.
+          git add research/modalities/alarm-state.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "census history, work ledger and alarm board unchanged"; exit 0; fi
+          git commit -m "lane staleness watch: census history + work ledger + alarm board (CI)" || exit 0
           for i in 1 2 3; do
             git pull --rebase --autostash origin "$BR" && git push origin "HEAD:$BR" && exit 0
             echo "push attempt $i lost a race with a lane's own commit; retrying"
@@ -309,66 +332,12 @@ jobs:
           done
           echo "::warning title=CENSUS HISTORY / WORK LEDGER NOT PERSISTED::neither could be pushed. A stale census history CANNOT cause a false alarm (it only under-reports flatness). A stale WORK LEDGER is different: its \`_stale_after_utc\` will pass and readers will correctly conclude the supervisor chain has stopped, because from outside this run that is indistinguishable from the truth."
 
-      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
-      # EMAIL — OPT-IN, AND HONEST ABOUT WHAT IT IS (rewritten 2026-07-31 after measuring that it had never
-      # once delivered). It is NOT the escalation channel; the GitHub Issue step above is.
-      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
-      # THREE MEASURED FACTS, all with their evidence in `research/compute/notification-channels.md`:
-      #   1. SES has never been authorised for this repo's IAM user. `AccessDenied ... nr4a3-ci-submitter is
-      #      not authorized to perform ses:SendEmail` on every one of 159 failing runs. NOT the sandbox — a
-      #      sandboxed account answers `MessageRejected: Email address is not verified`. It is a missing IAM
-      #      policy, and only trimcrae can add it.
-      #   2. Gmail SMTP DOES work and is proven: `Sent via SMTP (smtp.gmail.com:465)` in the daily email's
-      #      last scheduled send (run 30200038716, job 89788285952, 2026-07-26). The `MAIL_PASSWORD` secret
-      #      exists. This step simply never passed it, so `mailer.send_email` fell to the dead SES branch —
-      #      the working transport was sitting right next to it the whole time. It is passed below now.
-      #   3. ⚠ WHICH IS WHY IT IS STILL DEFAULT-OFF. Email has no dedupe and no auto-close: this verdict went
-      #      red on 159 runs in the recent past, and 159 emails is the same cry-wolf failure that made the
-      #      red-run channel unreadable. Turn it on for a specific watch, not as standing coverage.
-      - name: Email the failing verdict (opt-in, Gmail SMTP — NOT the escalation channel)
-        if: ${{ always() && steps.watch.outputs.rc != '0' && (github.event.inputs.email_on_fail || '0') == '1' }}
-        env:
-          # The PROVEN transport first. `mailer.send_email` picks SMTP when MAIL_PASSWORD is set and SES
-          # otherwise; the AWS keys stay only so the failure mode is a clear AccessDenied rather than a
-          # NoCredentials confusion if the SMTP secret is ever removed.
-          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: us-east-1
-          MAIL_TO: trimcrae@gmail.com
-        run: |
-          set +e
-          pip install boto3 >/dev/null 2>&1
-          python3 - <<'PY'
-          import json, os, sys
-          sys.path.insert(0, "research/modalities")
-          import mailer
-          print(f"[mail] transport that will be used: {mailer.transport_name()}")
-          try:
-              v = json.load(open("/tmp/lane-staleness-verdict.json"))
-          except Exception as e:
-              print(f"no verdict file to mail ({e})"); raise SystemExit(0)
-          bad = [l for l in v["lanes"] if not l["ok"]]
-          subj = f"[lane-watch] {len(bad)} lane(s) need attention — {', '.join(l['lane'] for l in bad)}"
-          body = "\n\n".join(f"{l['verdict']}  {l['lane']} ({l['label']})\n{l['detail']}" for l in bad)
-          body += f"\n\nread at {v['now_et']}\nrun: {os.environ.get('GITHUB_SERVER_URL','')}/{os.environ.get('GITHUB_REPOSITORY','')}/actions/runs/{os.environ.get('GITHUB_RUN_ID','')}"
-          try:
-              print(mailer.send_email(subj, body, "<pre>" + body + "</pre>"))
-          except Exception as e:
-              print(f"::warning title=LANE-WATCH MAIL NOT DELIVERED::{type(e).__name__}: {e}. This is a "
-                    f"SECOND channel only — the tracking issue opened by alarm_issue.py is the escalation, "
-                    f"and it does not depend on this. Channel status + the IAM fix that would restore SES: "
-                    f"research/compute/notification-channels.md")
-          PY
-          exit 0
-
-      # The non-zero exit is deliberate and is the last step: GitHub emails the repository owner when a
-      # SCHEDULED workflow fails, and a red run is visible in the Actions list without anyone opening it.
-      - name: Fail the run if any lane needs attention
+      # ⛔ THE RUN IS NOT FAILED, DELIBERATELY (2026-07-31). This step used to `exit 1` **because** GitHub
+      # emails the repository owner when a scheduled workflow fails — that was its stated purpose, and it is
+      # exactly what trimcrae asked to stop. It fired on 159 runs. An `::error` annotation is just as visible
+      # on the run page and in the Actions list and sends nothing; the durable answer is the committed board.
+      # Restoring `exit 1` is a NOTIFICATION decision, not a CI decision, and needs trimcrae's word first.
+      - name: Say so loudly — WITHOUT notifying anyone
         if: ${{ always() && steps.watch.outputs.rc != '0' }}
         run: |
-          echo "::error title=A LANE NEEDS ATTENTION::see the job summary for the per-lane verdict"
-          exit 1
+          echo "::error title=A LANE NEEDS ATTENTION::see the job summary, and research/modalities/alarm-state.json for the durable board. This run is deliberately NOT failed: a red scheduled run emails the repo owner."
