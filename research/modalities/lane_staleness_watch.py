@@ -304,6 +304,23 @@ LANES: list[dict] = [
         "reader": "ternary_family",
     },
     {
+        # ★★ ADDED 2026-07-31 — the lane that had NO automation at all. `fusion-cpu-extras.yml` is
+        # dispatch-only and is the only workflow that runs it, `vast_idle_guard` had never been pointed at
+        # `nrv04retro-`, and nothing re-placed a hostless leg. It now ticks from
+        # `step1-fanout-supervisor.yml` (the cadence GitHub's scheduler does not deliver) via
+        # `retro_collect`, which reaps, nudges, guards, re-places and writes the fragment read here.
+        # Registering it is what makes "the retro tick stopped" LOUD instead of merely absent — the exact
+        # property this module's docstring says a discovered list silently loses.
+        "key": "nrv04-retro",
+        "artifact_source": "fleet",
+        "label": "NR-V04 retrospective Arm E / R1, 18 endpoint-MD legs (Vast)",
+        "provider": "vast",
+        "tick_workflow": "fusion-cpu-extras.yml",
+        "generation_artifact": "inflight-board.d/nrv04-retro.json",
+        "hold_artifact": "nrv04-retro-market-hold.json",
+        "reader": "nrv04_retro",
+    },
+    {
         "key": "gcp-ternary-watch",
         "artifact_source": "ternary",
         "label": "GCP ternary watch list — reverse leg now, restrained binary re-run next (us-central1 only)",
@@ -564,6 +581,64 @@ def read_ternary_family(spec: dict, watch: dict | None, watch_err: str | None,
                         f"this lane ran — so it is STARTED AND NOT FINISHED, with nothing watching it")
         if st.live_hosts is None:
             st.live_hosts = 0
+    return st
+
+
+def read_nrv04_retro(spec: dict, frag: dict | None, frag_err: str | None,
+                     hold: dict | None, hold_err: str | None) -> LaneState:
+    """The NR-V04 retrospective (Arm E / R1). Graded off the lane's own in-flight-board FRAGMENT, which its
+    tick (`nrv04_vast_launch.retro_collect`) commits on every pass.
+
+    ⚠ WHY THE FRAGMENT AND NOT A LEG COUNT. The leg records live in S3; nothing about them is in git. The
+    fragment is the only repo-visible fact, and it carries exactly the two things that matter: WHEN the tick
+    last ran (`generated_utc` — so a lane whose supervision stopped is loud rather than absent, which is the
+    whole reason this lane is registered) and WHICH units still have no host (`rows[].state`).
+
+    ⚠ `live_hosts` IS COUNTED FROM ROW STATE, NOT ASSUMED. A row is only emitted for a unit that has NOT
+    landed, so `len(rows)` is the outstanding count and the non-`NO HOST` rows are the placed ones. A landed
+    leg is deliberately not rowed (`retro_board_rows`), so this can never read a finished panel as idle —
+    `note` carries the landed count and `finished` is decided by there being no rows left.
+    """
+    st = LaneState(spec["key"], spec["label"], spec["provider"])
+    st.tick_workflow, st.generation_artifact = spec["tick_workflow"], spec["generation_artifact"]
+    if frag is None:
+        st.unreadable["board_fragment"] = frag_err or "unknown"
+        return st
+    gen = _parse_z(frag.get("generated_utc"))
+    if gen is None:
+        st.unreadable["generated_utc"] = "absent or unparseable in the board fragment"
+    else:
+        st.last_evidence_utc = gen
+        st.last_evidence_what = "the lane's own tick wrote its in-flight-board fragment"
+    rows = frag.get("rows")
+    if not isinstance(rows, list):
+        st.unreadable["rows"] = "`rows` absent or not a list"
+        return st
+    states = {}
+    for r in rows:
+        if isinstance(r, dict):
+            states[str(r.get("state"))] = states.get(str(r.get("state")), 0) + 1
+    st.host_states = states
+    st.unfinished = len(rows)
+    st.finished = (len(rows) == 0)
+    st.live_hosts = sum(n for s, n in states.items() if s not in ("NO HOST", "None"))
+    # A fingerprint, NOT a total — same discipline as read_step1: it says whether the picture CHANGED
+    # between ticks, and it is explicitly not a committed-iteration census, so it never condemns hard.
+    st.census = "%d outstanding / %s" % (len(rows), ",".join(f"{k}:{v}" for k, v in sorted(states.items())))
+    st.census_what = "outstanding legs by board state (NOT an iteration census)"
+    st.census_is_true_iteration_count = False
+    if frag.get("note"):
+        st.notes.append(str(frag["note"])[:200])
+    st.notes.append("re-placement is automatic: retro_collect nudges, guards, and re-buys hostless unrun "
+                    "units behind the same $/ns buy line, bounded by nrv04_vast_launch.retro_breaker")
+    if hold is None:
+        st.hold, st.hold_reason = False, (hold_err or "no market-hold snapshot committed — the lane has not "
+                                                      "held on price since its last tick")
+    else:
+        st.hold = bool(hold.get("hold"))
+        st.hold_kind = "price" if st.hold else None
+        st.hold_snapshot = spec.get("hold_artifact")
+        st.hold_reason = str(hold.get("reason") or "")[:240]
     return st
 
 
@@ -1005,6 +1080,10 @@ def gather(root: str, specs: list[dict] | None = None,
             # ternary reduction as absent.
             present = os.path.exists(os.path.join(current_root[0], term)) if term else None
             st = read_ternary_family(spec, watch, werr, hold, herr, ledger, lerr, present)
+        elif spec["reader"] == "nrv04_retro":
+            frag, ferr = get(spec["generation_artifact"])
+            hold, herr = get(spec.get("hold_artifact"))
+            st = read_nrv04_retro(spec, frag, ferr, hold, herr)
         elif spec["reader"] == "gcp_watch":
             watch, werr = get(spec.get("watch_file"))
             st = read_gcp_watch(spec, watch, werr)

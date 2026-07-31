@@ -225,7 +225,10 @@ def test_arms_differ_only_in_target_and_covalency(monkeypatch):
     a = _spec("retro_noncov_nr4a2", 1, 0).env
     b = _spec("retro_noncov_nr4a3", 1, 0).env
     differing = {k for k in set(a) | set(b) if a.get(k) != b.get(k)}
-    assert differing <= {"LEG_ID", "TARGET", "ENV_ASSEMBLY", "COFOLD_PREFIX_S3", "RESULT_S3"}
+    # ATTEMPT_S3 joins RESULT_S3/COFOLD_PREFIX_S3 for the same reason: it is a per-unit ADDRESS (the failure
+    # breaker's archive), not a protocol parameter. Two arms sharing one would make the breaker count both
+    # arms' rentals against each — the allowlist is what keeps that distinction explicit.
+    assert differing <= {"LEG_ID", "TARGET", "ENV_ASSEMBLY", "COFOLD_PREFIX_S3", "RESULT_S3", "ATTEMPT_S3"}
     for shared in ("PROD_NS", "EQUIL_NS", "LIGAND", "COVALENT", "MODE"):
         assert a[shared] == b[shared]
 
@@ -602,3 +605,176 @@ def test_mark_no_longer_swallows_s3_failures(pipeline_name):
     p = getattr(launch, pipeline_name)
     assert "2>/dev/null || true; }" not in p, "mark() must not swallow its own errors"
     assert "preflight" in p and "exit 4" in p
+
+
+# =============================================================================================================
+# ★★ SUPERVISION — the lane must keep running with NO agent watching it (2026-07-31).
+#
+# Before this, the retro lane had no automation of any kind: `fusion-cpu-extras.yml` is dispatch-only and is
+# the only workflow that runs it, it is absent from `lane_staleness_watch.LANES`, `vast_idle_guard` had never
+# been pointed at `nrv04retro-`, and `retro_reap` destroyed a `stopped` host with no nudge and nothing to
+# re-place it. Sixteen legs behind that is how three of four 5a-KS legs were stranded the same morning.
+# =============================================================================================================
+
+def test_breaker_blocks_a_unit_that_keeps_producing_no_record():
+    """The failure this lane must bound writes NO leg record at all — a leg dying in `build_system` raises
+    before `json.dump`. So the count is 'paid hosts with still no record'."""
+    import leg_failure_breaker as lfb
+    t = lfb.DEFAULT_THRESHOLD
+    assert launch.retro_breaker(has_result=False, n_attempts=t)["block"] is True
+    assert launch.retro_breaker(has_result=False, n_attempts=t - 1)["block"] is False
+    assert launch.retro_breaker(has_result=False, n_attempts=t + 9)["block"] is True
+
+
+def test_breaker_never_blocks_a_landed_unit_and_fails_open_when_unreadable():
+    import leg_failure_breaker as lfb
+    big = lfb.DEFAULT_THRESHOLD + 50
+    assert launch.retro_breaker(has_result=True, n_attempts=big)["block"] is False
+    # An unreadable listing must not be able to halt the lane — count_attempts' own stated direction.
+    assert launch.retro_breaker(has_result=False, n_attempts=None)["block"] is False
+
+
+def test_breaker_threshold_is_imported_not_retyped():
+    import leg_failure_breaker as lfb
+    assert launch.retro_breaker(False, 0)["threshold"] == lfb.DEFAULT_THRESHOLD
+
+
+def test_a_blocked_unit_explains_itself():
+    """CLAUDE.md §6: a block that cannot explain itself is indistinguishable from a lane that quietly
+    stopped, and it must say how to clear it."""
+    d = launch.retro_breaker(has_result=False, n_attempts=99)
+    assert "reset_for" in d["why"] and "NOT permanent" in d["why"]
+
+
+def test_a_stopped_box_is_nudged_before_it_is_ever_condemned():
+    """A fresh Vast create settles back to `stopped` AFTER provisioning, and an image pull legitimately runs
+    tens of minutes. Condemning on the first sight of `stopped` throws away a rental we already paid for."""
+    act, _why = launch.retro_stuck_decision("stopped", "", age_min=1.0, strikes=0)
+    assert act == launch.NUDGE
+
+
+def test_an_image_pull_is_never_condemned_however_long_it_takes():
+    """The empty-`status_msg` discriminator is what protects a healthy slow start — the false positive that
+    is worse than the bug it fixes."""
+    act, _ = launch.retro_stuck_decision("stopped", "659af4a131b3: Pull complete", age_min=999, strikes=9)
+    assert act == launch.NUDGE
+
+
+def test_condemnation_needs_the_stuck_signature_AND_two_consecutive_checks():
+    grace = launch._retro_stuck_grace_min()
+    assert launch.retro_stuck_decision("stopped", "", grace + 1, strikes=0)[0] == launch.NUDGE, \
+        "one unlucky sample must never destroy a rental (§4)"
+    assert launch.retro_stuck_decision("stopped", "", grace + 1, strikes=1)[0] == launch.CONDEMN
+    assert launch.retro_stuck_decision("stopped", "", grace - 1, strikes=5)[0] == launch.NUDGE
+
+
+def test_a_capacity_refusal_is_condemned_at_once_never_waited_out():
+    """CLAUDE.md §6: `resources_unavailable` means that machine's GPU is taken — destroy and launch
+    elsewhere. An unbounded nudge against a box that has refused IS waiting it out."""
+    act, why = launch.retro_stuck_decision("stopped", "anything", age_min=0.1, strikes=0, refused=True)
+    assert act == launch.CONDEMN and "resources_unavailable" in why
+
+
+def test_a_running_box_is_left_to_the_idle_guard():
+    assert launch.retro_stuck_decision("running", "", 500, 9)[0] == launch.LEAVE
+
+
+def test_the_attempt_marker_is_written_early_and_where_the_breaker_counts():
+    """The count must be HOST-written (measured, not remembered) and land in exactly the prefix
+    `leg_failure_breaker.count_attempts` globs, or the breaker silently counts zero forever."""
+    src = launch._RETRO_PIPELINE
+    assert "$ATTEMPT_S3" in src
+    assert src.index("ATTEMPT_S3") < src.index("mark staged"), \
+        "a leg that dies in staging/build must still be counted — that is the failure being bounded"
+    spec = _spec("retro_noncov_nr4a3", 2, 1)
+    assert spec.env["ATTEMPT_S3"].endswith("/legs/nrv04retro-retro_noncov_nr4a3-m2-r1/attempts")
+    assert f"/{launch.RETRO_RESULT_PREFIX}/legs/" in spec.env["ATTEMPT_S3"]
+
+
+def test_count_attempts_globs_the_prefix_the_marker_writes_to():
+    """Pins the two halves together: if either the layout or the env var moves, this fails rather than the
+    breaker silently reading an empty archive."""
+    import inspect
+    import leg_failure_breaker as lfb
+    glob = inspect.getsource(lfb.count_attempts)
+    assert '/legs/{unit_id}/attempts/' in glob
+    spec = _spec("retro_noncov_nr4a1", 1, 0)
+    unit = retro.unit_name(retro.arm_by_id("retro_noncov_nr4a1"), 1, 0)
+    assert spec.env["ATTEMPT_S3"].endswith(f"/legs/{unit}/attempts")
+
+
+def test_supervision_refuses_to_condemn_on_a_read_it_did_not_get(monkeypatch):
+    """Condemning a host is irreversible, so it must require a fleet read that actually succeeded — the
+    `not unreadable` rule the step-1 lane made load-bearing."""
+    def _boom(*a, **k):
+        raise RuntimeError("vast 403")
+    monkeypatch.setenv("VAST_API_KEY", "k")
+    monkeypatch.setattr(launch, "_vast_request", _boom)
+    out = launch.retro_supervise(BUCKET, s3=object())
+    assert out["condemned"] == [] and out["replaced"] == [] and out["unreadable"]
+
+
+def test_supervision_without_a_key_buys_and_destroys_nothing(monkeypatch):
+    monkeypatch.delenv("VAST_API_KEY", raising=False)
+    out = launch.retro_supervise(BUCKET, s3=object(), key=None)
+    assert out["unreadable"] and not out["condemned"] and not out["replaced"]
+
+
+def test_supervision_replaces_hostless_unrun_units_through_the_lanes_own_launcher(monkeypatch, tmp_path):
+    """The whole point: a hostless unit gets re-placed with no human. And it must go through `retro_launch`,
+    so it faces the same market gate and the same `$/ns` buy line as any other rental — no privileged path."""
+    import types
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("VAST_API_KEY", "k")
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")
+    monkeypatch.setattr(launch, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(launch, "presign_env_tarball", lambda b: "https://example/env.tgz")
+    monkeypatch.setattr(launch, "_s3_list", lambda *a, **k: [])
+    import leg_failure_breaker as lfb
+    monkeypatch.setattr(lfb, "count_attempts", lambda *a, **k: 0)
+    rented = []
+    monkeypatch.setattr(launch, "get_backend", lambda _n: types.SimpleNamespace(
+        submit=lambda spec: (rented.append(spec.name),
+                             types.SimpleNamespace(job_id=1, extra={"dph": 0.05}))[1]))
+
+    class _S3:
+        def get_object(self, **k):
+            raise KeyError("none")
+
+        def put_object(self, **k):
+            return {}
+
+        def head_object(self, **k):
+            raise KeyError("none")
+
+    out = launch.retro_supervise(BUCKET, s3=_S3())
+    assert len(out["needed"]) == 18, "every authorized unit is hostless and unrun in this fixture"
+    assert len(rented) == 18
+
+
+def test_a_blocked_unit_is_never_re_bought_by_the_replacer(monkeypatch, tmp_path):
+    """The breaker is what stops the re-placer turning a build defect into unbounded spend."""
+    import types
+    import leg_failure_breaker as lfb
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("VAST_API_KEY", "k")
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")
+    monkeypatch.setattr(launch, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(launch, "_s3_list", lambda *a, **k: [])
+    monkeypatch.setattr(lfb, "count_attempts", lambda *a, **k: lfb.DEFAULT_THRESHOLD)
+    monkeypatch.setattr(launch, "presign_env_tarball", lambda b: "https://example/env.tgz")
+    monkeypatch.setattr(launch, "get_backend", lambda _n: types.SimpleNamespace(
+        submit=lambda spec: (_ for _ in ()).throw(AssertionError("a blocked unit must never be rented")))) 
+
+    class _S3:
+        def get_object(self, **k):
+            raise KeyError("none")
+
+        def put_object(self, **k):
+            return {}
+
+        def head_object(self, **k):
+            raise KeyError("none")
+
+    out = launch.retro_supervise(BUCKET, s3=_S3())
+    assert len(out["blocked"]) == 18 and out["needed"] == []

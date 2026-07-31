@@ -545,8 +545,20 @@ def test_the_ok_verdict_set_matches_what_classify_actually_returns():
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 # end to end, on two complete fixture trees — the both-directions proof at the top level
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
-def _tree(path, *, progress, watch, hold, ledger, gcp=None):
+def _retro_frag(minutes_old=5, outstanding=2, note="16 of 18 authorized R1 leg(s) landed."):
+    """The NR-V04 retrospective's board fragment — the only repo-visible fact about that lane. Its
+    `generated_utc` IS the evidence that the lane's tick is still running, which is why the lane is
+    registered at all: a supervision that stops must be loud, not merely absent."""
+    ts = NOW - datetime.timedelta(minutes=minutes_old)
+    return {"lane": "nrv04-retro", "generated_utc": ts.strftime("%Y-%m-%dT%H:%M:%SZ"), "note": note,
+            "rows": [{"name": "nr4a3 m%d r0" % i, "state": "RUNNING", "why": ""} for i in range(outstanding)]}
+
+
+def _tree(path, *, progress, watch, hold, ledger, gcp=None, retro=None):
     path.mkdir(parents=True, exist_ok=True)
+    (path / "inflight-board.d").mkdir(parents=True, exist_ok=True)
+    (path / "inflight-board.d" / "nrv04-retro.json").write_text(
+        json.dumps(retro if retro is not None else _retro_frag()))
     (path / "step1-fanout-progress.json").write_text(json.dumps(progress))
     (path / "ternary-vast-watch.json").write_text(json.dumps(watch))
     if hold is not None:
@@ -592,7 +604,7 @@ def test_END_TO_END_a_healthy_and_correctly_parked_board_is_quiet(tmp_path):
     assert report["ok"] is True, [v for v in report["lanes"] if not v["ok"]]
     assert by == {"step1-fanout": "ADVANCING", "ternary-valb-reps": "PARKED-PRICE-HOLD",
                   "closure-triangle": "FINISHED", "rung-5aks": "PARKED-GATE",
-                  "gcp-ternary-watch": "TICKING"}, by
+                  "nrv04-retro": "ADVANCING", "gcp-ternary-watch": "TICKING"}, by
 
 
 # ============================================================================================================
@@ -644,3 +656,52 @@ def test_a_malformed_source_root_is_rejected(tmp_path, capsys):
     rc = lsw.main(["--root", str(tmp_path), "--no-api", "--source-root", "ternary-no-equals-sign"])
     assert rc == 2
     assert "must be SOURCE=DIR" in capsys.readouterr().err
+
+
+# ============================================================================================================
+# ★★ THE NR-V04 RETROSPECTIVE, registered 2026-07-31. It is here for ONE reason: before that day the lane had
+# no automation at all and no watcher, so "the retro tick stopped" and "the retro lane is fine" produced the
+# same output — nothing. A lane that is not named cannot go loud.
+# ============================================================================================================
+
+def test_the_retro_lane_goes_loud_when_its_tick_stops(tmp_path):
+    """The NEGATIVE CONTROL for registering it. A fragment hours old means nothing has reaped, guarded or
+    re-placed that lane in hours — exactly the silence that stranded 5a-KS legs the same morning."""
+    root = _tree(tmp_path / "retro-stale",
+                 progress=_progress(minutes_old=6, live=15),
+                 watch=_watch([_entry("edge_reps", True)]),
+                 hold=_ternary_hold(minutes_old=8, hold=True, live=0,
+                                    reason="2.4x basis", depth={"offers_returned": 5},
+                                    offers=[{"gpu": "RTX 4090"}]),
+                 ledger=_ledger((8, "market-gate", "hold", "task=edge-reps"),
+                                (300, "triangle-reduce", "success", "task=triangle-reduce")),
+                 retro=_retro_frag(minutes_old=400, outstanding=16))
+    (root / "valb-triangle-reduction.json").write_text(json.dumps({"R_kcal": 0.31}))
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    retro = next(v for v in report["lanes"] if v["lane"] == "nrv04-retro")
+    assert retro["ok"] is False, retro
+    assert report["ok"] is False
+
+
+def test_a_finished_retro_panel_is_not_read_as_an_idle_one(tmp_path):
+    """A landed leg is deliberately NOT rowed (`retro_board_rows`), so zero rows means the panel is DONE,
+    never that the fleet decayed. Getting this backwards would fire an alarm on success."""
+    spec = next(s for s in lsw.LANES if s["key"] == "nrv04-retro")
+    st = lsw.read_nrv04_retro(spec, _retro_frag(minutes_old=3, outstanding=0,
+                                                note="18 of 18 authorized R1 leg(s) landed."),
+                              None, None, "none")
+    assert st.finished is True and st.unfinished == 0
+
+
+def test_the_retro_reader_records_what_it_could_not_read_rather_than_defaulting():
+    spec = next(s for s in lsw.LANES if s["key"] == "nrv04-retro")
+    st = lsw.read_nrv04_retro(spec, None, "fragment absent", None, "none")
+    assert st.unreadable and st.finished is None and st.live_hosts is None
+
+
+def test_the_retro_census_is_not_claimed_to_be_an_iteration_count():
+    """Only a true committed-iteration census may condemn a lane hard (read_step1). This one is a board-state
+    fingerprint and must say so, or it would borrow authority it has not earned."""
+    spec = next(s for s in lsw.LANES if s["key"] == "nrv04-retro")
+    st = lsw.read_nrv04_retro(spec, _retro_frag(), None, None, "none")
+    assert st.census_is_true_iteration_count is False

@@ -224,6 +224,35 @@ jobs:
             else
               echo "::warning title=TERNARY COLLECT DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t3 | tr '\n' ' ')"
             fi
+            # ★★ AND THE NR-V04 RETROSPECTIVE (Arm E / R1, 18 endpoint-MD legs) — added 2026-07-31, and it
+            # was the lane with NO automation of any kind. Measured that morning: `fusion-cpu-extras.yml` is
+            # `workflow_dispatch`-only and is the ONLY workflow that runs the lane; the lane is absent from
+            # `lane_staleness_watch.LANES`; `vast_idle_guard` had never been run against the `nrv04retro-`
+            # namespace; and `retro_reap` destroyed a `stopped` host as `terminal-state` with no nudge and
+            # nothing to re-place it. So a preempted or capacity-refused retro leg simply stopped existing,
+            # silently, until a human dispatched `retro_full` — the same shape that left 5a-KS unplaced
+            # above, on a lane about to be sixteen legs wide.
+            #
+            # `retro_collect` IS this lane's whole tick: it reaps finished/stale hosts, nudges a box we hold
+            # back to `running` before condemning it, runs `vast_idle_guard` over every live retro host,
+            # re-places every hostless unrun unit behind the SAME market gate and `$/ns` buy line as any
+            # other rental, and refuses to re-buy a unit the failure breaker has blocked
+            # (`nrv04_vast_launch.retro_breaker` — no leg record after `leg_failure_breaker.DEFAULT_THRESHOLD`
+            # paid hosts). It also writes the lane's board fragment, so a retro section that goes stale is
+            # visible rather than merely absent.
+            #
+            # ⚠ IT CAN BUY — unlike the gates above, which only price. That is deliberate and it is the point
+            # of the change; the safety is that it buys through `retro_launch`, so there is no privileged
+            # path into this lane's wallet, and the breaker bounds how many times a broken unit can be
+            # re-bought. A tick with nothing to place rents nothing and costs $0.
+            if gh workflow run fusion-cpu-extras.yml --ref main \
+                 -f task=nrv04_vast_launch \
+                 -f vast_launch_mode=retro_collect \
+                 -f vast_ckpt_bucket=sagemaker-us-east-2-646605541856 2>/tmp/t5; then
+              echo "[$(date -u '+%H:%M:%SZ')] nrv04 retro collect+supervise dispatched (tick ${n})"
+            else
+              echo "::warning title=NRV04 RETRO TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t5 | tr '\n' ' ')"
+            fi
             # Stop early rather than sleep past the deadline and be killed mid-iteration.
             [ $(( $(date +%s) + SLEEP )) -ge "$END" ] && break
             sleep "${SLEEP}"

@@ -136,6 +136,27 @@ def _frozen_cys_by_construct(pdb_text, target_chain, cov_resnum, full_len=NR4A1_
     return target_chain, idx
 
 
+def _residue_at_frozen_index(pdb_text, target_chain, cov_resnum, full_len=NR4A1_FULL_LEN):
+    """The residue NAME sitting at the preregistered site's construct index, or None. NEVER raises.
+
+    The reporting half of `_frozen_cys_by_construct`, split out so a leg that does not NEED the site can still
+    RECORD what is there. For the retrospective's paralogue arms that string is the evidence for prereg §0's
+    central claim — NR4A3 carries THR and NR4A2 TYR where NR4A1 has Cys551 — so it belongs in the leg record
+    rather than in a traceback."""
+    from nrv04_covalent_assemble import NR4A_LBD_RESIDUES
+    idx = cov_resnum - (full_len - NR4A_LBD_RESIDUES)
+    for line in pdb_text.splitlines():
+        if line[:6].strip() not in ("ATOM", "HETATM") or line[21] != target_chain:
+            continue
+        try:
+            if int(line[22:26]) != idx:
+                continue
+        except ValueError:
+            continue
+        return {"construct_index": idx, "residue": line[17:20].strip()}
+    return {"construct_index": idx, "residue": None}
+
+
 def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mutation, target_chain=None):
     """Build a solvated OpenMM system for one leg. Returns (simulation, meta). CI/Vast only."""
     import numpy as np  # noqa: F401
@@ -162,13 +183,47 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     # marginal. `target_chain=None` (a pre-chains.json input) has no identified target, so the old geometric
     # behaviour is retained there and labelled as such.
     geom = {"chain": react_chain, "resid": react_resid, "dist_A": round(react_dist, 2)}
-    if target_chain is not None:
+    # ★★ THE FROZEN SITE IS REQUIRED ONLY WHERE IT IS USED (2026-07-31, measured on the retrospective's
+    # nr4a3 pilot — Vast 46400138, run 30634610517).
+    #
+    # `_frozen_cys_by_construct` RAISES when the residue aligned to full-length 551 is not a CYS with an SG.
+    # It was called on EVERY leg, and `react_chain`/`react_resid` are used in exactly two places: the covalent
+    # restraint, and the `C551A` mutation. A plain non-covalent leg uses neither — for it the site is a
+    # DIAGNOSTIC, and a diagnostic must never be able to kill the run it is describing.
+    #
+    # WHY THAT IS NOT A CORNER CASE HERE — IT IS THE RETROSPECTIVE'S ENTIRE DESIGN POINT. Prereg §0 (Leg 0,
+    # nrv04-cys-conservation.json): NR4A1 Cys551 is NOT conserved in NR4A2/NR4A3 — Thr and Tyr respectively.
+    # Every R1 arm is non-covalent, and two of the three are paralogues that BY CONSTRUCTION have no cysteine
+    # at that position. So the check turned the panel's central biological fact into a build failure:
+    #
+    #     [nrv04-md] target chain 'A' residue 207 (= full-length 551) is THR, not a CYS with an SG
+    #
+    # and because `nrv04_covalent_md` raises before it writes a leg JSON, the container died, Vast re-ran the
+    # onstart, and the box CRASH-LOOPED on a live meter (CLAUDE.md §6: the host cannot stop its own billing —
+    # the log shows the mock-terminate teardown failing on every cycle). Caught by §6's one-real-leg rung
+    # BEFORE the 16-unit fan-out; had the fan-out gone first, all six nr4a3 units would have done this at once.
+    #
+    # ⚠ NOTHING IS WEAKENED FOR A COVALENT LEG. When the site is actually needed the resolution and its
+    # SystemExit are unchanged, so the Lane-8 ruling (identify the site by construct arithmetic, never
+    # substitute the geometrically nearest cysteine) still binds exactly where it was written to bind. The
+    # absence is RECORDED rather than swallowed: `site_resolution` says the site was not required and what was
+    # found instead, so a non-covalent paralogue leg carries the evidence that its Cys551 is absent.
+    needs_frozen_site = bool(covalent) or mutation == "C551A"
+    if target_chain is not None and needs_frozen_site:
         react_chain, react_resid = _frozen_cys_by_construct(pdb_text, target_chain, cov_resnum)
         react_dist = _sg_electrophile_distance(pdb_text, ligand_sdf, cov_lig_atom, react_chain, react_resid)
         cys_diag["site_resolution"] = "IDENTIFIED by construct arithmetic from the preregistered residue"
         cys_diag["preregistered_resnum_fulllen"] = cov_resnum
         cys_diag["geometric_nearest_on_target"] = geom
         cys_diag["geometry_agrees_with_frozen_site"] = (geom["resid"] == react_resid)
+    elif target_chain is not None:
+        # Non-covalent, unmutated: the frozen site is not used, so it is REPORTED rather than required.
+        # `residue_at_frozen_index` is the paralogue fact prereg §0 rests on (Thr in NR4A3, Tyr in NR4A2).
+        cys_diag["site_resolution"] = ("NOT REQUIRED — this leg is non-covalent and unmutated, so the "
+                                       "preregistered Cys551 site is never used. Reported, not enforced.")
+        cys_diag["preregistered_resnum_fulllen"] = cov_resnum
+        cys_diag["residue_at_frozen_index"] = _residue_at_frozen_index(pdb_text, target_chain, cov_resnum)
+        cys_diag["geometric_nearest_on_target"] = geom
     else:
         cys_diag["site_resolution"] = ("GEOMETRIC — no identified target chain, so the frozen site could not be "
                                        "resolved by construct arithmetic; this is the rule Lane 8 demoted")

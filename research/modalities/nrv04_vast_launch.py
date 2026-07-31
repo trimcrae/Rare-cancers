@@ -171,6 +171,22 @@ $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors || true
 mark uploaded
 """
 
+# ★★ THE ATTEMPT MARKER — written by the HOST, which is what makes the breaker's count MEASURED rather than
+# remembered (`leg_failure_breaker.__doc__`: "No new state file, and nothing to drift"). Appended to the
+# retro pipeline only, in the EXACT layout `leg_failure_breaker.count_attempts` already globs
+# (`<prefix>/legs/<unit>/attempts/run-<ts>.log`), so that module is reused verbatim.
+#
+# ⚠ IT IS WRITTEN AT THE START, NOT AT THE END, and it is a MARKER rather than the log. A leg that dies in
+# `build_system` never reaches the end of the script — and that is exactly the failure the breaker exists to
+# stop re-buying. An archive written on a clean exit would count precisely the attempts that did not need
+# counting; a deferred copy of `run.log` would miss any attempt that died before the timer. One `s3 cp` of a
+# few bytes, immediately after the env is up, counts every rental we ever pay for.
+_RETRO_ATTEMPT_MARKER = r"""
+echo "attempt $(date -u +%FT%TZ) instance=${CONTAINER_ID:-unknown}" | \
+  $AWS s3 cp - "$ATTEMPT_S3/run-$(date -u +%Y%m%dT%H%M%SZ).log" || \
+  echo "[attempt] WARN could not archive the attempt marker — the failure breaker will undercount"
+"""
+
 # The pre-packed conda MD env, built once by the build_env CI job and cached here (conda-pack tar.gz).
 MDENV_KEY = os.environ.get("MDENV_KEY", "mdenv/nrv04md.tar.gz")
 
@@ -1379,6 +1395,8 @@ def cofold(bucket):
 RETRO_RESULT_PREFIX = os.environ.get("NRV04_RETRO_RESULT_PREFIX") or "nrv04-retro-results"
 
 _RETRO_PIPELINE = _PIPELINE.replace(
+    "mark env-ready\n", "mark env-ready\n" + _RETRO_ATTEMPT_MARKER.strip() + "\n"
+).replace(
     """$AWS s3 cp "$COFOLD_PREFIX_S3" /tmp/cofold/ --recursive --exclude '*' --include '*_model_0.cif'
 export COFOLD_CIF=$(find /tmp/cofold -name '*_model_0.cif' | sort | head -1)
 test -n "$COFOLD_CIF" || { echo "no co-fold CIF found under $COFOLD_PREFIX_S3"; exit 3; }
@@ -1414,6 +1432,9 @@ def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarb
         "GIT_BRANCH": branch,
         "COFOLD_PREFIX_S3": retro.cofold_prefix_s3(arm, bucket, model_seed),
         "RESULT_S3": f"s3://{bucket}/{RETRO_RESULT_PREFIX}/{name}",
+        # The breaker's evidence. The path is `leg_failure_breaker.count_attempts`' own glob, not a spelling
+        # of ours — a marker written anywhere else is a marker that module cannot count.
+        "ATTEMPT_S3": f"s3://{bucket}/{RETRO_RESULT_PREFIX}/legs/{name}/attempts",
     })
     if env_tarball_url:
         env["ENV_TARBALL_URL"] = env_tarball_url
@@ -1908,6 +1929,282 @@ def retro_reap(bucket, autostop=None):
     return len(mine), stopped
 
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# SUPERVISION — the tick that keeps this lane running WITHOUT an agent watching it
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ WHAT WAS MISSING, MEASURED 2026-07-31. `fusion-cpu-extras.yml` is `workflow_dispatch`-only and is the
+# ONLY workflow that runs this lane; the lane is absent from `lane_staleness_watch.LANES`; `vast_idle_guard`
+# is invoked from `step1-fanout-supervisor.yml` and `gpu-ternary-fep-vast.yml` and never against the
+# `nrv04retro-` namespace; and `retro_reap` destroyed a `stopped` host as `terminal-state` with no nudge and
+# nothing to re-place it afterwards. So a preempted or capacity-refused leg simply stopped existing, silently,
+# until a human dispatched `retro_full`. Sixteen legs behind that is the shape that stranded three of four
+# 5a-KS legs the same morning.
+#
+# THE FOUR THINGS A TICK MUST DO, and the order is load-bearing:
+#   1. NUDGE a `stopped` box we already hold back to `running` BEFORE condemning it — a fresh Vast create
+#      settles back to `stopped` after provisioning (`gpu_backend.py` `_VAST_START` docstring), and
+#      `relaunch_market_gate.EXEMPTIONS` correctly treats restarting a host we hold as NOT a new purchase.
+#      Bounded, because an unbounded retry against a box that has refused IS waiting it out, which §6 forbids.
+#   2. DESTROY what is provably not working — `vast_idle_guard.classify_idle`, whose inviolable rule (GPU
+#      idleness NEVER condemns) is what stops it reaping a legitimately CPU-bound build phase.
+#   3. RE-PLACE every unrun, hostless unit, behind the SAME buy line and market gate as any other rental.
+#   4. REFUSE to re-place a unit that keeps failing, so step 3 cannot turn a build defect into unbounded
+#      spend. That is `retro_breaker` below and it is not optional.
+#
+# NOTHING HERE IS A SECOND IMPLEMENTATION (rule 1): the threshold is `leg_failure_breaker.DEFAULT_THRESHOLD`,
+# the attempt count is `leg_failure_breaker.count_attempts` over the layout that module already defines, the
+# idle verdict is `vast_idle_guard.classify_idle`, the price test is `retro_market_gate` +
+# `buy_ceiling_usd_per_ns`, and the rental is `retro_launch`'s own `build_retro_jobspec`.
+RETRO_SUPERVISE_STATE_KEY = "_supervise_state.json"
+
+#: Minutes a `stopped` box may sit before a strike counts. Not a fresh number — it is the guard's own
+#: cold-start line, imported at use, because a box mid-image-pull is exactly what must NOT be condemned.
+def _retro_stuck_grace_min():
+    import vast_idle_guard as vig
+    return vig.MIN_INSTANCE_AGE_MIN
+
+
+def retro_breaker(has_result, n_attempts, threshold=None):
+    """PURE: may we rent a host for this unit? Returns a `leg_failure_breaker`-shaped verdict dict.
+
+    ⚠ WHY `leg_failure_breaker.decide` CANNOT BE CALLED DIRECTLY HERE, stated so nobody "simplifies" it back.
+    `decide` keys on `record["status"] == "failed"`. This lane's driver (`nrv04_covalent_md.run_leg`) writes
+    no `status` field at all — its record is `R1_interface`/`n_frames`/`blew_up` — so every retro record
+    lands in `decide`'s fail-open `ALLOW_UNDER` branch. Worse, the failure this breaker must stop writes NO
+    record whatsoever: a leg that dies in `build_system` raises before `json.dump`, so `decide` sees
+    `record is None` and returns `ALLOW_NO_RECORD` — allow, forever, on every tick. Pointing an autonomous
+    re-placer at that is precisely the unbounded re-buy loop `leg_failure_breaker.__doc__` was written about.
+    So the DISCRIMINATOR is adapted while the RULE, the threshold and the evidence source are reused verbatim.
+
+    THE DISCRIMINATOR FOR THIS LANE: **no result after N paid hosts.** A retro leg that works writes
+    `leg_*.json`; one that dies in staging or build writes nothing. So "attempts archived, still no record"
+    IS the consecutive-failure count, with no bookkeeping of ours to drift — `n_attempts` is measured from
+    the host-written `attempts/` archive (`leg_failure_breaker.count_attempts`), never remembered.
+
+    FAILS OPEN on an unreadable count (`n_attempts is None`), for `count_attempts`' own stated reason: the
+    worst case is one extra rental, whereas failing closed on a transient listing error stalls the lane.
+
+    NOT PERMANENT: clear the archive (`leg_failure_breaker.reset_for`) once the cause is fixed and the next
+    tick rents normally. A landed result clears it implicitly — a unit with a record is never in `needed`.
+    """
+    import leg_failure_breaker as lfb
+    threshold = lfb.DEFAULT_THRESHOLD if threshold is None else int(threshold)
+    if has_result:
+        return {"block": False, "verdict": lfb.ALLOW_DONE, "n_attempts": n_attempts, "threshold": threshold}
+    if n_attempts is None:
+        return {"block": False, "verdict": "allow: attempt count unreadable — failing OPEN (one extra "
+                                           "rental beats a lane halted by a listing error)",
+                "n_attempts": None, "threshold": threshold}
+    if n_attempts >= threshold:
+        return {"block": True, "verdict": lfb.BLOCK, "n_attempts": n_attempts, "threshold": threshold,
+                "why": ("this unit has been rented %d times (threshold %d) and has still written NO leg "
+                        "record. A retro leg that runs writes leg_*.json as its last act, so %d paid hosts "
+                        "with no record is a reproducing staging/build fault, not bad luck — buying another "
+                        "tests nothing. NOT permanent: fix the cause, then leg_failure_breaker.reset_for() "
+                        "clears the archive and the next tick rents normally."
+                        % (n_attempts, threshold, n_attempts))}
+    return {"block": False, "verdict": lfb.ALLOW_UNDER, "n_attempts": n_attempts, "threshold": threshold}
+
+
+NUDGE, CONDEMN, LEAVE = "nudge", "condemn", "leave"
+
+
+def retro_stuck_decision(cur_state, status_msg, age_min, strikes, refused=False, grace_min=None):
+    """PURE: what to do with ONE box of ours that is not `running`. Returns (action, why).
+
+    Mirrors the step-1 fan-out's escalation (`congeneric_fanout_vast`, 2026-07-27) rather than inventing one,
+    because that shape was arrived at by fixing two real bugs in it:
+      * a box still PULLING the ~6 GiB image is also not running, and advertises the pull in `status_msg`.
+        Condemning on age alone reaps healthy slow starts — the false positive that is worse than the bug.
+      * so condemnation needs BOTH the stuck signature AND two consecutive checks past the grace (§4: one
+        unlucky sample — an API blip, a listing mid-transition — must never destroy a rental).
+    `refused` short-circuits both: Vast answering `resources_unavailable` is the provider's own verdict, and
+    CLAUDE.md §6's standing rule for it is destroy and pick another host, never wait it out.
+    """
+    grace = _retro_stuck_grace_min() if grace_min is None else float(grace_min)
+    if refused:
+        return CONDEMN, ("Vast replied resources_unavailable — the machine is declining us. §6: destroy and "
+                         "pick another host, never wait it out.")
+    if (cur_state or "") == "running":
+        return LEAVE, ""
+    stuck_sig = not (status_msg or "").strip()
+    if age_min is None:
+        return NUDGE, "age unknown — nudged, never condemned on a fact we do not have"
+    if stuck_sig and age_min >= grace and int(strikes or 0) >= 1:
+        return CONDEMN, ("stopped with an EMPTY status_msg for %.0f min (grace %.0f) on two consecutive "
+                         "checks — not an image pull, a host that will not start" % (age_min, grace))
+    return NUDGE, ("stopped %.0f min, status_msg %r — nudging; %s"
+                   % (age_min, (status_msg or "")[:60],
+                      "strike recorded" if stuck_sig and age_min >= grace else "no strike (pull in progress "
+                      "or inside the grace)"))
+
+
+def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
+    """THE TICK. Nudge → condemn → re-place, and return a readout of every decision.
+
+    Runs inside `retro_collect` (after the reap, before the board) so ONE dispatch both supervises and heals.
+    Every rental it makes goes through `retro_launch`, so it faces the identical market gate and the
+    identical `buy_ceiling_usd_per_ns` on the spec — there is no privileged path into this lane's wallet.
+
+    A HOLD, A BLOCK AND A REFUSAL ARE ALL VISIBLE (CLAUDE.md §6's "holding silently" failure mode): each
+    lands in the returned dict and is printed, so a tick that bought nothing can never be mistaken for a lane
+    that finished.
+    """
+    import time
+    import boto3
+    import leg_failure_breaker as lfb
+    import nrv04_retro_panel as retro
+    import vast_idle_guard as vig
+    s3 = s3 or boto3.client("s3")
+    key = key or os.environ.get("VAST_API_KEY")
+    now = time.time() if now is None else now
+    out = {"utc": _utcnow(), "nudged": [], "condemned": [], "blocked": [], "replaced": [],
+           "held": None, "unreadable": None}
+    if not key:
+        out["unreadable"] = "no VAST_API_KEY — cannot read the fleet, so nothing is nudged, condemned or bought"
+        print("[retro-super] " + out["unreadable"], flush=True)
+        return out
+
+    try:
+        live_all = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    except Exception as e:  # noqa: BLE001 — "could not ask" is NEVER "asked and the answer was none"
+        out["unreadable"] = f"{type(e).__name__}: {e}"[:200]
+        print(f"[retro-super] fleet UNREADABLE ({out['unreadable']}) — nothing condemned, nothing bought. "
+              f"Condemning a host is irreversible and must require a read we actually got.", flush=True)
+        return out
+    mine = [i for i in live_all if (i.get("label") or "").startswith(retro.LABEL_PREFIX)]
+
+    dk = _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
+    done_units = {k.split("/")[-2] for k in dk if k.rsplit("/", 1)[-1].startswith("leg_")}
+    state = {}
+    try:
+        state = json.loads(s3.get_object(Bucket=bucket,
+                                         Key=f"{RETRO_RESULT_PREFIX}/{RETRO_SUPERVISE_STATE_KEY}"
+                                         )["Body"].read().decode())
+    except Exception:  # noqa: BLE001 — a first tick has no strikes; that is a first tick, not an error
+        state = {}
+    new_state = {}
+
+    # ── 1 + 2 · NUDGE what we hold, DESTROY what is provably not working ────────────────────────────────
+    for inst in mine:
+        label, iid = inst.get("label") or "", str(inst.get("id"))
+        if label in done_units:
+            continue                                   # finished; `retro_reap` owns that teardown
+        try:
+            age_min = max(0.0, (now - float(inst.get("start_date"))) / 60.0)
+        except (TypeError, ValueError):
+            age_min = None
+        cur = inst.get("cur_state") or inst.get("actual_status")
+        prev_strikes = int(((state.get(label) or {}).get("stuck_strikes")) or 0)
+
+        if (cur or "") != "running":
+            refused = False
+            try:                                       # the nudge IS the diagnostic: it returns the verdict
+                resp = _vast_request("PUT", f"/instances/{iid}/", key, body={"state": "running"})
+                refused = str((resp or {}).get("error") or "") == "resources_unavailable"
+            except Exception as e:  # noqa: BLE001
+                print(f"[retro-super] nudge {iid} failed: {e}", flush=True)
+            action, why = retro_stuck_decision(cur, inst.get("status_msg"), age_min, prev_strikes,
+                                               refused=refused)
+            if action == CONDEMN:
+                try:
+                    _vast_request("DELETE", f"/instances/{iid}/", key)
+                    out["condemned"].append({"instance": iid, "unit": label, "why": why})
+                    print(f"[retro-super] ⛔ DESTROYED {iid} ({label}) — {why}. Billing stopped; the "
+                          f"checkpoint is intact in S3 and the re-placer below re-prices this unit.",
+                          flush=True)
+                except Exception as e:  # noqa: BLE001
+                    print(f"[retro-super] destroy {iid} FAILED ({e}) — it may still be billing", flush=True)
+                continue                               # destroyed -> no strike to carry
+            out["nudged"].append({"instance": iid, "unit": label, "why": why})
+            print(f"[retro-super] nudged {iid} ({label}) — {why}", flush=True)
+            stuck_sig = not (inst.get("status_msg") or "").strip()
+            if stuck_sig and age_min is not None and age_min >= _retro_stuck_grace_min():
+                new_state[label] = {"stuck_strikes": prev_strikes + 1, "utc": out["utc"]}
+            continue
+
+        # RUNNING: the guard's question is not "is the GPU busy" (it never condemns on that) but "is there
+        # any positive evidence of work?" — the log's freshness, which is durable and lives in S3.
+        log_age = None
+        try:
+            h = s3.head_object(Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/{label}/run.log")
+            log_age = max(0.0, (now - h["LastModified"].timestamp()) / 60.0)
+        except Exception:  # noqa: BLE001 — absent and unreadable are BOTH unknown, never zero
+            log_age = None
+        verdict, reason = vig.classify_idle(
+            instance_running=True, gpu_util=_inst_gpu_util(inst), log_age_min=log_age,
+            instance_age_min=age_min)
+        if vig.should_destroy(verdict):
+            try:
+                _vast_request("DELETE", f"/instances/{iid}/", key)
+                out["condemned"].append({"instance": iid, "unit": label, "why": f"{verdict}: {reason}"})
+                print(f"[retro-super] ⛔ DESTROYED {iid} ({label}) — idle guard says {verdict}: {reason}",
+                      flush=True)
+            except Exception as e:  # noqa: BLE001
+                print(f"[retro-super] destroy {iid} FAILED ({e}) — it may still be billing", flush=True)
+        else:
+            print(f"[retro-super] {label} ({iid}) {verdict}: {reason}", flush=True)
+
+    try:                                               # strikes saved AFTER they are read, never before
+        s3.put_object(Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/{RETRO_SUPERVISE_STATE_KEY}",
+                      Body=json.dumps(new_state, indent=2).encode())
+    except Exception as e:  # noqa: BLE001
+        print(f"[retro-super] strike state not saved: {e}", flush=True)
+
+    # ── 4 · THE BREAKER, BEFORE ANYTHING IS BOUGHT ─────────────────────────────────────────────────────
+    alive = {(i.get("label") or "") for i in mine
+             if (i.get("actual_status") or "") in ("running", "loading", "created", "scheduling", "starting")
+             and str(i.get("id")) not in {c["instance"] for c in out["condemned"]}}
+    needed = []
+    for a, m, r in retro.enumerate_units():
+        name = retro.unit_name(a, m, r)
+        if name in done_units or name in alive:
+            continue
+        n_att = lfb.count_attempts(s3, bucket, RETRO_RESULT_PREFIX, name)
+        d = retro_breaker(has_result=False, n_attempts=n_att)
+        if d["block"]:
+            out["blocked"].append(dict(d, unit=name))
+            print(f"[retro-super] ⛔ BLOCKED {name} — {d['why']}", flush=True)
+            continue
+        needed.append(name)
+    out["needed"] = needed
+    if not needed:
+        print("[retro-super] nothing to re-place — every authorized unit has a result, a live host, or is "
+              "blocked by the breaker (see above).", flush=True)
+        return out
+
+    # ── 3 · RE-PLACE, through the lane's OWN launcher so the gate and the buy line are the same ones ────
+    if not launch:
+        out["would_replace"] = needed
+        print(f"[retro-super] would re-place {len(needed)}: {needed}", flush=True)
+        return out
+    print(f"[retro-super] re-placing {len(needed)} hostless unit(s): {needed}", flush=True)
+    prev_pilot = os.environ.get("RETRO_PILOT_ONLY")
+    os.environ["RETRO_PILOT_ONLY"] = "0"               # the tick heals the WHOLE panel, never one unit
+    try:
+        rc = retro_launch(bucket)
+    finally:
+        if prev_pilot is None:
+            os.environ.pop("RETRO_PILOT_ONLY", None)
+        else:
+            os.environ["RETRO_PILOT_ONLY"] = prev_pilot
+    out["replace_rc"] = rc
+    try:
+        out["replaced"] = json.load(open("nrv04-retro-handles.json"))
+    except Exception:  # noqa: BLE001
+        out["replaced"] = []
+    if not out["replaced"]:
+        # Distinguish the two reasons, because they call for opposite responses: a price hold re-checks
+        # itself on the next tick; a breaker block needs a human to fix a defect.
+        try:
+            out["held"] = json.load(open(RETRO_MARKET_READOUT))
+        except Exception:  # noqa: BLE001
+            out["held"] = None
+        print("[retro-super] re-placement rented NOTHING this tick — see the market snapshot above. "
+              "Every checkpoint is intact; the next tick re-checks.", flush=True)
+    return out
+
+
 RETRO_COLLECT_READOUT = "nrv04-retro-collect.json"
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -2138,6 +2435,16 @@ def retro_collect(bucket, reap=None):
             print(f"[retro-collect] WARN reap failed ({type(e).__name__}: {e}); instances may still be "
                   f"billing — check them before assuming the fleet drained", flush=True)
     s3 = boto3.client("s3")
+    # ⛔ THEN SUPERVISE: nudge what we hold, destroy what is provably not working, and re-place every
+    # hostless unrun unit behind the same buy line — so ONE dispatch both watches and heals this lane.
+    # Before this existed the tick only reaped, and a preempted leg simply stopped existing until a human
+    # noticed. Failure here must never suppress the science readout below.
+    if os.environ.get("RETRO_SUPERVISE", "1") == "1":
+        try:
+            retro_supervise(bucket, s3=s3)
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro-collect] WARN supervision failed ({type(e).__name__}: {e}); hostless units were "
+                  f"NOT re-placed this tick — dispatch retro_full if this repeats", flush=True)
     keys = [k for k in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
             if k.rsplit("/", 1)[-1].startswith("leg_")]
     legs, raw = [], []
