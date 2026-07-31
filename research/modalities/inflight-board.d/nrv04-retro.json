@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "nrv04-retro",
-  "generated_epoch": 1785538103.7013326,
-  "generated_utc": "2026-07-31T22:48:23Z",
-  "generated_et": "6:48 PM ET Fri Jul 31, 2026",
+  "generated_epoch": 1785538585.8633614,
+  "generated_utc": "2026-07-31T22:56:25Z",
+  "generated_et": "6:56 PM ET Fri Jul 31, 2026",
   "note": "14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
   "rows": [
     {
@@ -22,7 +22,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.1459/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "STARTING",
-      "why": "2 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker env-ready 2026-07-31T22:48:15Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 0 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "why": "2 consecutive board polls with no new frame (this host is 8 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T22:53:35Z, GPU utilisation reads 0.0% \u2014 NOT EVIDENCE OF IDLENESS on this lane: boxes that landed complete 500-frame legs at 217-263 ns/day reported 0.0/None while producing. Judge progress by the frame census, never by this field"
     }
   ]
 }
