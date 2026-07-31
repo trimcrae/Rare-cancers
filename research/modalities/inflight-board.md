@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 3:59 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 4:05 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
-LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
-----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:16 AM Aug 1      47.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
-5aks_d0_to_d ternary nr4a3 r0 9:09 PM            84.4%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 2 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
-5aks_d0_to_d ternary nr4a1 r0 —                  30.2%  —                                         NO HOST   no live host — checkpoint at warmup/1088 is intact in S3; this pass dispatches the gate to re-place it
+LEG                           ETA (ET)          % DONE  $/ns                                                                                 STATE     WHY (when not running)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5aks_d0_to_d ternary nr4a3 r1 7:51 AM Aug 1      48.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid]                                             RUNNING   
+5aks_d0_to_d ternary nr4a3 r0 8:53 PM            85.6%  RTX 3090 $0.00554/ns · 1.62× basis [bid]                                             RUNNING   
+5aks_d0_to_d ternary nr4a1 r1 —                  33.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid]                                            STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
+5aks_d0_to_d ternary nr4a1 r0 1:28 PM Aug 1      30.2%  RTX 3090 $0.00891/ns · 2.61× basis [bid] ⚠ PAYING OVER THE 1.92× LINE ($0.006539/ns) STARTING  fresh host — the marker and log below belong to the previous attempt
 ---- END TVAST-BOARD ----
 ```
