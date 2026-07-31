@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 11:03 AM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 11:11 AM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna   24.9%  8:44 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d terna   24.9%  8:51 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   75.6%  3:01 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   35.6%  5:07 PM          $0.00512/ns · 1.50× basis  STARTING  fresh host — the marker and log below belong to the previous attempt
 5aks_d0_to_d terna       —  —                —                          NO HOST   no live host — checkpoint at warmup/1024 is intact in S3; this pass dispatches the gate to re-place it
-5aks_d0_to_d terna   35.6%  —                —                          NO HOST   no live host — checkpoint at warmup/1280 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
