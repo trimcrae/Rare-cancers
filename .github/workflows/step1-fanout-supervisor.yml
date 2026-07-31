@@ -187,13 +187,32 @@ jobs:
             # went looking for a replacement host. The ledger shows the 7:39 / 7:47 / 7:55 AM ET ticks each
             # evaluating market-gate and triangle-gate and no 5aks gate at all.
             #
-            # NO `min_ns_per_h` FLOOR, deliberately, and unlike the triangle line above. That floor exists
-            # because a 3090 cannot finish the triangle's FIXED checkpoint interval inside a typical host
-            # lifetime. 5a-KS is not in that position — its seed-0 legs have been committing on a 3090 and a
-            # 4080S all morning — so imposing a card floor here would narrow the board, and a narrower board
-            # at the same buy line means more holds for no safety gained. Add one only if a 5a-KS leg is
-            # measured losing whole checkpoint intervals to preemption.
-            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=5aks-gate 2>/tmp/t4; then
+            # ★★ THE CARD FLOOR APPLIES HERE TOO — ADDED 2026-07-31 ON THE EVIDENCE THIS LINE ASKED FOR.
+            #
+            # SUPERSEDED, retained because its reasoning was sound and only its premise was wrong: "NO
+            # `min_ns_per_h` FLOOR, deliberately … 5a-KS is not in that position — its seed-0 legs have been
+            # committing on a 3090 and a 4080S all morning — so imposing a card floor here would narrow the
+            # board, and a narrower board at the same buy line means more holds for no safety gained. Add
+            # one only if a 5a-KS leg is measured losing whole checkpoint intervals to preemption."
+            #
+            # It has now been measured, which is exactly the trigger that text named. Board history
+            # 12:02–12:35 PM ET: the RTX 5090 leg advanced 78.9 → 82.2 % steadily (~1.1 % per 10 min) while
+            # the RTX 3090 leg sat at 40.9 % for 33 MINUTES and its ETA slipped from 5:20 PM to 4:10 AM the
+            # next day. A fourth leg held `warmup/1024` across six consecutive board reads and then moved to
+            # `warmup/1088` — exactly ONE 64-iteration interval in ~50 min.
+            #
+            # And 5a-KS is in a WORSE position than the triangle, not a better one. Its staged system is
+            # 285,133 particles against the triangle's ~146k, and its WARMUP interval is 64 iterations, not
+            # 40. Scaling the triangle's measured ~34 s/iter on a 3090 by particle count puts a 5a-KS warmup
+            # interval near 71 min and a production interval near 44 min, against host lifetimes measured at
+            # 15–25 min. (That s/iter is EXTRAPOLATED and labelled as such; the frozen-census observation
+            # above is direct and does not depend on it.) A card that cannot close an interval does not
+            # merely make no progress — it BILLS while committing nothing, so the "no safety gained"
+            # premise was inverted: the narrower board is the cheaper one.
+            #
+            # 28 ns/h is the triangle's value and is deliberately NOT re-derived here — one home, in the
+            # triangle-gate comment above.
+            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=5aks-gate -f min_ns_per_h=28 2>/tmp/t4; then
               echo "[$(date -u '+%H:%M:%SZ')] ternary 5aks-gate dispatched (tick ${n})"
             else
               echo "::warning title=TERNARY 5AKS-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t4 | tr '\n' ' ')"
