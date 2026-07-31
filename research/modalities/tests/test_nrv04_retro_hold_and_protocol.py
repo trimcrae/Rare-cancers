@@ -729,6 +729,90 @@ def test_the_quarantine_costs_nothing_and_is_visible(monkeypatch):
     assert out["quarantine_eligible_running"] == [], "nothing is on a host in this fixture"
 
 
+class _AttemptS3:
+    """Minimal S3 double serving `attempts/` markers with real bodies."""
+
+    def __init__(self, bodies):
+        self.bodies = bodies                       # {key: body_text}
+
+    def get_paginator(self, _op):
+        outer = self
+
+        class _P:
+            def paginate(self, Bucket=None, Prefix=""):
+                import datetime
+                lm = datetime.datetime(2026, 7, 31, 20, 0, tzinfo=datetime.timezone.utc)
+                yield {"Contents": [{"Key": k, "LastModified": lm}
+                                    for k in outer.bodies if k.startswith(Prefix)]}
+        return _P()
+
+    def get_object(self, Bucket=None, Key=None):
+        b = self.bodies[Key]
+        if b is None:
+            raise RuntimeError("unreadable")
+
+        class _B:
+            def read(self_inner):
+                return b.encode()
+        return type("O", (), {"__getitem__": staticmethod(lambda k: _B())})()
+
+
+def _markers(*bodies):
+    u = "nrv04retro-retro_noncov_nr4a2-m2-r0"
+    p = f"{vl.RETRO_RESULT_PREFIX}/legs/{u}/attempts/"
+    return u, _AttemptS3({f"{p}run-{i}.log": b for i, b in enumerate(bodies)})
+
+
+def test_three_markers_from_ONE_crash_looping_host_is_not_three_rentals():
+    """★★ THE MEASUREMENT THAT DECIDES WHETHER TWO UNITS ARE RECOVERABLE.
+
+    CLAUDE.md §6: a container that crash-loops never returns, so Vast restarts it and the onstart preamble
+    (`_RETRO_ATTEMPT_MARKER`) writes another marker. `count_attempts` counts OBJECTS. Reading three objects
+    as "3 paid hosts" is asserting a reading nobody took — and on this lane it is the difference between a
+    16/18 reachable panel and a 14/18 one.
+    """
+    u, s3 = _markers("attempt 2026-07-31T15:00:00Z instance=abc",
+                     "attempt 2026-07-31T15:04:00Z instance=abc",
+                     "attempt 2026-07-31T15:09:00Z instance=abc")
+    n, hosts, det = vl.retro_attempt_hosts(s3, "bkt", u)
+    assert (n, hosts) == (3, 1), "three restarts of one container are ONE rental"
+    assert det["host_ids"] == ["abc"]
+
+
+def test_three_markers_from_three_hosts_IS_a_genuine_streak():
+    u, s3 = _markers("attempt t instance=h1", "attempt t instance=h2", "attempt t instance=h3")
+    n, hosts, _ = vl.retro_attempt_hosts(s3, "bkt", u)
+    assert (n, hosts) == (3, 3)
+
+
+def test_a_marker_with_no_readable_id_is_never_credited_as_a_host():
+    """CLAUDE.md §4b — an absent reading is not a reading of absence, and it must not inflate a host count."""
+    u, s3 = _markers("attempt t instance=h1", "attempt t instance=unknown", "no id at all", None)
+    n, hosts, det = vl.retro_attempt_hosts(s3, "bkt", u)
+    assert n == 4 and hosts == 1, "only h1 is a known host; the rest are UNKNOWN, not extra hosts"
+    assert det["unreadable_markers"] == 3
+
+
+def test_an_unreadable_listing_is_unknown_not_zero():
+    class _Boom:
+        def get_paginator(self, _op):
+            raise RuntimeError("no s3")
+    n, hosts, det = vl.retro_attempt_hosts(_Boom(), "bkt", "u")
+    assert n is None and hosts is None and "error" in det, (
+        "a failed read must never render as 'zero hosts', which would read as a cleared streak")
+
+
+def test_the_block_carries_the_measured_host_count_not_the_object_count():
+    import inspect
+    src = inspect.getsource(vl.retro_supervise)
+    assert "retro_attempt_hosts(s3, bucket, name, since_utc=since)" in src
+    assert "streak_is_genuine" in src and "FEWER DISTINCT HOSTS THAN THE THRESHOLD" in src
+    # ...and only on the block path, so a healthy unit pays nothing for it.
+    assert src.index("retro_attempt_hosts") > src.index('if d["block"]:')
+    # The gate record must carry it too, or the evidence dies with the job log.
+    assert "HOSTS: %s." in inspect.getsource(vl.retro_gate_reasons)
+
+
 def test_incomplete_and_UNCOMPLETABLE_must_not_read_alike():
     """★★ "9/18 units — coverage only" invites exactly one response: WAIT, the fan-out is still running.
 

@@ -2289,6 +2289,55 @@ RETRO_SUPERVISE_STATE_KEY = "_supervise_state.json"
 RETRO_AUTHORIZED_UNITS_KEY = "_authorized_units.json"
 
 
+def retro_attempt_hosts(s3, bucket, unit, since_utc=None):
+    """(n_markers, n_distinct_hosts, host_ids) — how many attempt markers, and how many REAL RENTALS they are.
+
+    ★★ THIS TURNS A CAVEAT INTO A MEASUREMENT (2026-07-31). `leg_failure_breaker.count_attempts` counts
+    OBJECTS under `attempts/`, and the breaker's verdict was worded as a host count. Those are not the same
+    number: CLAUDE.md §6 records that a container which crash-loops never returns, so Vast restarts it and
+    `_RETRO_ATTEMPT_MARKER` runs again — one rental can write three markers. A block that says "3 paid hosts"
+    off three objects is asserting a reading it did not take, and on this lane that number decides whether two
+    units are recoverable or whether the panel's reachable ceiling drops from 16/18 to 14/18.
+
+    The marker already carries what settles it — `_RETRO_ATTEMPT_MARKER` writes
+    `attempt <UTC> instance=$CONTAINER_ID` — so this reads the bodies and counts DISTINCT ids.
+
+    ⚠ UNKNOWN IS NOT A HOST. A marker whose body cannot be read, or which predates the `instance=` field, is
+    counted in `n_markers` and NOT credited as a distinct host; `host_ids` then carries `None` so the caller
+    can see the count is a LOWER bound rather than silently reading it as exact (CLAUDE.md §4b).
+    """
+    import re as _re
+    p = f"{RETRO_RESULT_PREFIX}/legs/{unit}/attempts/"
+    cutoff = None
+    if since_utc:
+        try:
+            import leg_failure_breaker as _lfb
+            cutoff = _lfb._epoch(since_utc)
+        except Exception:  # noqa: BLE001
+            cutoff = None
+    n, hosts, unknown = 0, set(), 0
+    try:
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=p):
+            for o in page.get("Contents", []) or []:
+                lm = o.get("LastModified")
+                if cutoff is not None and lm is not None and lm.timestamp() <= cutoff:
+                    continue
+                n += 1
+                try:
+                    body = s3.get_object(Bucket=bucket, Key=o["Key"])["Body"].read().decode()
+                except Exception:  # noqa: BLE001
+                    unknown += 1
+                    continue
+                m = _re.search(r"instance=(\S+)", body)
+                if m and m.group(1) not in ("", "unknown"):
+                    hosts.add(m.group(1))
+                else:
+                    unknown += 1
+    except Exception as e:  # noqa: BLE001 — could not ask is never "asked and the answer was none"
+        return None, None, {"error": "%s: %s" % (type(e).__name__, e)}
+    return n, len(hosts), {"host_ids": sorted(hosts), "unreadable_markers": unknown}
+
+
 def retro_leg_records(s3, bucket):
     """[(unit, key, record, last_modified_epoch)] for every `leg_*.json` under this lane's prefix.
 
@@ -2788,8 +2837,29 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
         n_att = lfb.count_attempts(s3, bucket, RETRO_RESULT_PREFIX, name, since_utc=since)
         d = retro_breaker(has_result=False, n_attempts=n_att, since_utc=since)
         if d["block"]:
+            # ⛔ A BLOCK IS EXPENSIVE ENOUGH TO PAY FOR ITS OWN EVIDENCE. Only on the block path — this reads
+            # each marker's body, so it is a handful of tiny GETs for a unit we are refusing to spend on, not
+            # a per-tick cost on every healthy unit. `retro_attempt_hosts` is where the object-count /
+            # host-count distinction is measured rather than hedged.
+            _nm, _nh, _hdet = retro_attempt_hosts(s3, bucket, name, since_utc=since)
+            d = dict(d, n_markers=_nm, n_distinct_hosts=_nh, host_detail=_hdet)
+            if _nh is not None and _nm is not None:
+                d["streak_is_genuine"] = _nh >= (d.get("threshold") or lfb.DEFAULT_THRESHOLD)
+                d["host_reading"] = (
+                    "%d marker(s) resolve to %d DISTINCT host(s)%s — %s"
+                    % (_nm, _nh,
+                       "" if not (_hdet or {}).get("unreadable_markers") else
+                       " (%d marker(s) carried no readable instance id, so this is a LOWER bound)"
+                       % _hdet["unreadable_markers"],
+                       "the streak is genuine: the fault reproduced across separate rentals"
+                       if d["streak_is_genuine"] else
+                       "⚠ FEWER DISTINCT HOSTS THAN THE THRESHOLD. These markers are substantially one host "
+                       "restarting (a crash-loop re-runs the onstart preamble), so this is NOT yet "
+                       "'reproduced on distinct hosts' and the block may be premature."))
             out["blocked"].append(dict(d, unit=name))
             print(f"[retro-super] ⛔ BLOCKED {name} — {d['why']}", flush=True)
+            if d.get("host_reading"):
+                print(f"[retro-super]    hosts: {d['host_reading']}", flush=True)
             continue
         needed.append(name)
     out["needed"] = needed
@@ -2896,9 +2966,10 @@ def retro_gate_reasons(sup):
                               "quarantine-eligible, but the quarantine gates PURCHASES and never touches work "
                               "already executing, so this host was not stopped. " + (q.get("why") or ""))
     for b in (sup or {}).get("blocked") or ():
-        out[b.get("unit")] = ("BLOCKED by the failure breaker — %s. Counted %s. Clear with "
+        out[b.get("unit")] = ("BLOCKED by the failure breaker — %s. Counted %s.%s Clear with "
                               "leg_failure_breaker.reset_for() once the cause is fixed."
-                              % (b.get("verdict"), b.get("counted") or "an unstated denominator"))
+                              % (b.get("verdict"), b.get("counted") or "an unstated denominator",
+                                 "" if not b.get("host_reading") else " HOSTS: %s." % b["host_reading"]))
     held = (sup or {}).get("held") or {}
     # ⛔ A UNIT WE JUST RENTED IS NOT A UNIT WE DECLINED (measured 2026-07-31, 3:25 PM ET tick). `needed` is
     # what the tick SET OUT to buy; `replaced` is what it actually got. Reading only the first made the
