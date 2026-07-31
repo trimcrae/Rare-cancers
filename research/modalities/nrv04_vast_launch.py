@@ -1918,9 +1918,26 @@ def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, read
     return hold, doc
 
 
-def retro_launch(bucket, authorize=True):
+def retro_launch(bucket, authorize=True, only_units=None):
     """Launch retrospective units on Vast. Idempotent: skips units with a LANDED leg already in S3 or a live
     instance, so a re-dispatch RESUMES the killed/preempted ones without ever racing a checkpoint.
+
+    ⛔ `only_units` IS THE HOLD, MADE BINDING (measured 2026-07-31, 1:54 PM ET — the tick BOUGHT a held leg).
+    `retro_supervise` computes exactly which units it may re-place: authorised, hostless, unlanded, past the
+    breaker. It then printed that list and handed control to this function, which RE-DERIVED its own list
+    from the whole panel and knows nothing about the authorization record. So the readout said
+
+        ⏸ 16 unit(s) NOT re-placed — they have never been authorised to launch, so they are HELD
+
+    and eight seconds later the same job rented one of those sixteen
+    (`nrv04retro-retro_noncov_nr4a2-m2-r0 -> instance 46424247`). A hold that prints without binding is worse
+    than no hold: it reads as a guard doing its job while money goes out — CLAUDE.md §1's "a row we are
+    paying and a row the gate refused must never render alike", arriving one level up.
+
+    The defect was latent until today's breaker fix let supervision reach this call at all, which is exactly
+    why the fix ships with it. `None` means "the caller has not scoped this" (an operator dispatch, whose
+    scope is its own selector); an EMPTY set means "nothing may be bought" and is honoured as such, never
+    read as "no filter".
 
     Gated on $/ns before anything is rented (`retro_market_gate`) and again per offer inside `submit` (the
     spec's `max_usd_per_ns`). RETRO_MARKET_GATE=0 disables the board-level gate for a deliberate, recorded
@@ -1961,6 +1978,22 @@ def retro_launch(bucket, authorize=True):
                     or os.environ.get("RETRO_PILOT_REPLICA"))
 
     units = retro_units_to_run(done=skip_done | skip_live)
+    # ⛔ THE CALLER'S SCOPE BINDS HERE, BEFORE THE PILOT LOGIC, THE MARKET GATE AND EVERY SUBMIT — because
+    # every one of those is downstream of "which units are we buying". `None` = unscoped; a set = exactly
+    # these and nothing else, empty included. See the docstring for the rental this let through.
+    if only_units is not None:
+        allowed = set(only_units)
+        dropped = [retro.unit_name(a, m, r) for a, m, r in units if retro.unit_name(a, m, r) not in allowed]
+        units = [(a, m, r) for a, m, r in units if retro.unit_name(a, m, r) in allowed]
+        if dropped:
+            print(f"[retro] scoped to {len(units)} unit(s) by the caller; {len(dropped)} NOT bought this "
+                  f"dispatch: {dropped[:6]}{'…' if len(dropped) > 6 else ''}. This is the caller's hold "
+                  f"binding, not a market or breaker refusal — $0 was spent on them and nothing was dropped "
+                  f"from the panel.", flush=True)
+        if not units:
+            print("[retro] caller scoped this dispatch to NO units — nothing rented, nothing changed.",
+                  flush=True)
+            return 0
     if pilot_only and explicit and _force:
         # A NAMED unit is being re-run on purpose. Clear only its result-skip; `skip_live` is untouched, so a
         # forced re-run can still never race a host that is already writing that checkpoint.
@@ -2529,7 +2562,10 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
               f"the panel. Dispatch `retro_full` explicitly if a smoke fleet is genuinely wanted.", flush=True)
     os.environ["MODE"] = "run"
     try:
-        rc = retro_launch(bucket, authorize=False)
+        # ⛔ `only_units=needed` IS WHAT MAKES THE HOLD ABOVE BINDING RATHER THAN DECORATIVE. Without it this
+        # call re-derives the whole panel and buys anything the market will sell — which it did, at 1:54 PM
+        # ET on 2026-07-31, eight seconds after printing that sixteen units were HELD.
+        rc = retro_launch(bucket, authorize=False, only_units=set(needed))
     finally:
         if prev_pilot is None:
             os.environ.pop("RETRO_PILOT_ONLY", None)
@@ -2660,8 +2696,29 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
         try:
             total = frames[1] if frames else None
             pct = ifb.sequential_pct((("md", total),), "md", frames[0]) if total else None
+            # ★★ THE PERCENTAGE MUST NAME ITS DENOMINATOR WHEN THE DENOMINATOR IS NOT THE PROTOCOL
+            # (2026-07-31). Sixteen rows of this board rendered `100.0%` for legs that are not landed legs:
+            # their census came from a `mode=smoke` run.log, which reaches `frame 5/5` in 4-20 s. The
+            # arithmetic was correct and the EXPERIMENT was a different one, and `100.0%` is exactly the cell
+            # that gets quoted away from the banner that says so.
+            #
+            # ⚠ THE DISCRIMINATOR IS THE CENSUS'S OWN TOTAL, NOT THE UNIT'S LEG RECORD. A record is a fact
+            # about some PAST attempt; the moment a smoke-recorded unit is re-placed at mode=run its live
+            # run.log is production while its newest record is still the stale smoke one, and keying off the
+            # record would then label a real production leg `smoke`. The frame total is written by the run
+            # that is producing the number — CLAUDE.md §4b's rule, that a field's presence is never evidence
+            # of its provenance, applied to the denominator itself. One home for the expected count:
+            # `nrv04_retro_panel.expected_production_frames()`.
+            pct_of = None
+            if total and int(total) != retro.expected_production_frames():
+                pct_of = "smoke" if int(total) <= 5 else "%d fr" % int(total)
+                pct = None
             rate = ifb.measured_rate_per_h((prev_state or {}).get(name), census.get(name))
-            remaining = ifb.sequential_remaining((("md", total),), "md", frames[0]) if total else None
+            # The ETA falls with the percentage, and for the same reason: `remaining` off a 5-frame smoke
+            # total is "0 frames left" of an experiment we are not running, which would render an imminent
+            # completion time for a leg that has not started its production sampling.
+            remaining = (ifb.sequential_remaining((("md", total),), "md", frames[0])
+                         if (total and not pct_of) else None)
             eta_s = (remaining / rate * 3600.0) if (remaining is not None and rate) else None
             # TWO reasons, kept apart: `cell_why` explains a `—` cell (true of a healthy leg), `state_why`
             # justifies a non-RUNNING verdict. Handing the first to `state_of` is how a STALLED row ends up
@@ -2671,6 +2728,12 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
             if frames is None:
                 cell_why = ("no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log "
                             "and this leg has not reached its first checkpoint (phase %s)" % (phase or "none"))
+            elif pct_of:
+                cell_why = ("%% DONE withheld: the newest run.log census is frame %d/%d, and %d is not this "
+                            "panel's production frame count (%d) — that census is a %s run, so a percentage "
+                            "of it would describe a different experiment"
+                            % (frames[0], frames[1], frames[1], retro.expected_production_frames(),
+                               "smoke" if int(total) <= 5 else "non-production"))
             elif rate is None:
                 cell_why = ("no measured frame rate across two board polls yet — ETA unknowable, progress is "
                             "real (frame %d/%d)" % (frames[0], frames[1]))
@@ -2706,7 +2769,7 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
                 pre_first_commit=bool(pre_first),
                 host_list_readable=(not unreadable or inst is not None))
             eta_out = None if inst is None else eta_s
-            rows.append({"name": _retro_short_name(name), "pct": pct, "eta_s": eta_out,
+            rows.append({"name": _retro_short_name(name), "pct": pct, "pct_of": pct_of, "eta_s": eta_out,
                          "usd_per_ns": retro_board_price_cell(inst), "state": state,
                          "why": swhy or (cell_why if (pct is None or eta_out is None) else "")})
         except Exception as e:  # noqa: BLE001 — per ROW, never per table: one bad leg must not blank the board

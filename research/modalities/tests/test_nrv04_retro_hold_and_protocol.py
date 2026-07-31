@@ -175,7 +175,7 @@ def test_authorization_is_additive_and_only_an_operator_dispatch_writes_it():
     import inspect
     # supervision hands `authorize=False` to the launcher; the operator path keeps the default True.
     src = inspect.getsource(vl.retro_supervise)
-    assert "retro_launch(bucket, authorize=False)" in src
+    assert "retro_launch(bucket, authorize=False, only_units=" in src
     assert inspect.signature(vl.retro_launch).parameters["authorize"].default is True
 
 
@@ -298,6 +298,68 @@ def test_the_retro_market_gate_snapshot_stamps_its_tier(tmp_path):
     assert "tier" in doc["reason"], "a hold sentence with no tier is the ambiguity this closes"
     import json as _j
     assert _j.loads(out.read_text())["tier"] == doc["tier"], "the snapshot must carry it, not just stdout"
+
+
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 4 — the hold PRINTED and did not BIND, and the tick bought a held leg (measured 2026-07-31, 1:54 PM ET)
+#
+# The very tick that carried the DEFECT-3 fix logged, eight seconds apart:
+#   [retro-super] ⏸ 16 unit(s) NOT re-placed — they have never been authorised to launch, so they are HELD
+#   [retro-submit] nrv04retro-retro_noncov_nr4a2-m2-r0 -> instance 46424247 dph≈$0.2022/hr
+# `retro_supervise` computed `needed` and printed the hold, then called `retro_launch`, which RE-DERIVED its
+# own unit list from the whole panel and has no knowledge of the authorization record. A hold that prints
+# without binding reads as a guard doing its job while money goes out.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_supervision_scopes_the_launcher_to_exactly_the_units_it_may_re_place():
+    import inspect
+    src = inspect.getsource(vl.retro_supervise)
+    assert "only_units=set(needed)" in src, (
+        "supervision must hand the launcher its scope; without it the printed hold is decorative")
+
+
+def test_the_launcher_honours_an_explicit_scope_and_an_empty_one(monkeypatch, capsys):
+    """`None` = unscoped. A set = exactly those. EMPTY = nothing, never 'no filter'."""
+    names = [retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()]
+    seen = []
+
+    class _BE:
+        def submit(self, spec):
+            seen.append(spec.name)
+            raise RuntimeError("no offer")            # refuse everything: we assert on WHAT WAS OFFERED
+
+    monkeypatch.setenv("RETRO_PILOT_ONLY", "0")
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")      # the gate is DEFECT-3's subject, not this one
+    monkeypatch.setattr(vl, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(vl, "retro_done_units", lambda *a, **k: set())
+    monkeypatch.setattr(vl, "presign_env_tarball", lambda *a, **k: "https://x/env.tgz")
+    monkeypatch.setattr(vl, "get_backend", lambda _n: _BE())
+
+    assert vl.retro_launch("bkt", authorize=False, only_units={names[3]}) in (0, 1)
+    assert seen == [names[3]], "a scoped dispatch must offer exactly the scoped unit"
+
+    seen.clear()
+    assert vl.retro_launch("bkt", authorize=False, only_units=set()) == 0
+    assert seen == [], "an EMPTY scope means buy nothing — not 'no filter'"
+
+
+def test_an_unscoped_dispatch_still_sees_the_whole_panel(monkeypatch):
+    """The operator path must not be narrowed by the fix: only_units=None is unscoped."""
+    seen = []
+
+    class _BE:
+        def submit(self, spec):
+            seen.append(spec.name)
+            raise RuntimeError("no offer")
+
+    monkeypatch.setenv("RETRO_PILOT_ONLY", "0")
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")
+    monkeypatch.setattr(vl, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(vl, "retro_done_units", lambda *a, **k: set())
+    monkeypatch.setattr(vl, "retro_authorize_units", lambda *a, **k: {})
+    monkeypatch.setattr(vl, "presign_env_tarball", lambda *a, **k: "https://x/env.tgz")
+    monkeypatch.setattr(vl, "get_backend", lambda _n: _BE())
+    vl.retro_launch("bkt", authorize=False)
+    assert len(seen) == len(retro.enumerate_units()) == 18
 
 
 if __name__ == "__main__":

@@ -610,6 +610,19 @@ def render(rows, now_epoch=None):
     out = [head, "-" * len(head)]
     for r in rows:
         pct = "—" if r.get("pct") is None else ("%.1f%%" % r["pct"])
+        # ★★ A PERCENTAGE OF THE WRONG PROTOCOL MUST NOT RENDER AS A PERCENTAGE (2026-07-31).
+        # The NR-V04 retro board showed SIXTEEN rows at `100.0%` for legs that are not landed legs at all:
+        # their census came from a `mode=smoke` run.log, which reaches `frame 5/5` in ~4-20 s, so the
+        # arithmetic was right and the DENOMINATOR was a different experiment. A banner above the table said
+        # so, but `100.0%` is exactly the cell that gets quoted out of the table it stands in — and this repo
+        # has already had one frozen gate come within a single leg of emitting a verdict off smoke records
+        # (CLAUDE.md §4b). So a row whose progress is measured against something other than the production
+        # protocol renders that LABEL in the cell instead of a number: `smoke`, never `100.0%`.
+        # The lane decides — it is the only thing that knows which protocol produced the census — and the
+        # renderer merely refuses to print a bare percentage without one. Same shape as the `$/ns` cell's
+        # refusal to convert an unbenched workload: an UNKNOWN is visibly absent, a substitution is not.
+        if r.get("pct_of"):
+            pct = str(r["pct_of"])[:7]
         eta = (_fmt_eta(r.get("eta_s"), now_epoch=now_epoch) if r.get("eta_s") is not None
                else _fmt_eta_at(r.get("eta_epoch"), now_epoch=now_epoch))
         # 16 wide, because a next-day ETA renders "1:31 AM Jul 30" and a 12-wide column pushed every later

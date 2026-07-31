@@ -232,13 +232,33 @@ def test_the_retrospective_panel_renders_one_row_per_pending_leg():
 
 
 def test_a_retro_leg_gets_its_percent_from_the_drivers_own_frame_census():
+    # ⚠ THE TOTAL IS THE PANEL'S OWN PRODUCTION FRAME COUNT, not an arbitrary round number. Since
+    # 2026-07-31 a census whose denominator is NOT that count renders its label instead of a percentage
+    # (`retro_board_rows`, `pct_of`), so a fixture that invents a total no longer exercises this path — and
+    # pinning to the derived count is the stronger test anyway.
+    import nrv04_retro_panel as retro
     import nrv04_vast_launch as N
     name = _retro_unit_names()[0]
+    total = retro.expected_production_frames()
     objects = {f"{N.RETRO_RESULT_PREFIX}/{name}/run.log":
-               "[nrv04-md] checkpoint @ frame 250/1000 -> S3\n"}
+               "[nrv04-md] checkpoint @ frame %d/%d -> S3\n" % (total // 4, total)}
     rows, _ = _retro(objects=objects, phases={name: "md-running"})
     row = [r for r in rows if r["name"] == N._retro_short_name(name)][0]
     assert row["pct"] == pytest.approx(25.0)
+    assert row.get("pct_of") is None, "a production census must render as a percentage"
+
+
+def test_a_retro_leg_whose_census_is_a_smoke_run_renders_smoke_not_100_percent():
+    """THE REGRESSION: 16 rows of the committed 1:38 PM ET board read `100.0%` off a 5-frame smoke log."""
+    import nrv04_vast_launch as N
+    name = _retro_unit_names()[0]
+    objects = {f"{N.RETRO_RESULT_PREFIX}/{name}/run.log":
+               "[nrv04-md] checkpoint @ frame 5/5 -> S3\n"}
+    rows, _ = _retro(objects=objects, phases={name: "uploaded"})
+    row = [r for r in rows if r["name"] == N._retro_short_name(name)][0]
+    assert row["pct"] is None and row["pct_of"] == "smoke"
+    assert row["eta_s"] is None, "a smoke census must not project a production completion time"
+    assert "100.0%" not in B.render(rows)
 
 
 def test_a_retro_leg_with_no_checkpoint_yet_is_a_dash_not_a_zero_percent_promise():
@@ -479,3 +499,34 @@ def test_neither_lane_writes_the_other_lanes_file():
         assert "inflight-board.md" not in src, (
             f"{name} names the ternary lane's own board file — a second writer of a single-writer path is "
             f"the race this design exists to make impossible")
+
+
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# A PERCENTAGE OF THE WRONG PROTOCOL MUST NOT RENDER AS A PERCENTAGE (measured 2026-07-31)
+#
+# The committed NR-V04 retro board carried SIXTEEN rows reading `100.0%` for legs that are not landed legs
+# at all: their census came from a `mode=smoke` run.log, which reaches `frame 5/5` in 4-20 s. A banner above
+# the table said so — and `100.0%` is exactly the cell that gets quoted away from its banner.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+def test_a_row_whose_census_is_not_the_protocol_never_prints_a_percentage():
+    txt = B.render([{"name": "nr4a3 m1 r0", "pct": 100.0, "pct_of": "smoke", "eta_s": None,
+                     "usd_per_ns": None, "state": B.UNKNOWN, "why": "smoke census"}])
+    assert "100.0%" not in txt, "a smoke census must never render as a completion percentage"
+    assert "smoke" in txt
+
+
+def test_a_normal_row_is_unaffected():
+    txt = B.render([{"name": "x", "pct": 42.5, "eta_s": 60.0, "usd_per_ns": None,
+                     "state": B.RUNNING, "why": ""}])
+    assert "42.5%" in txt
+
+
+def test_the_retro_lane_keys_pct_of_off_the_census_total_not_a_stale_leg_record():
+    """The discriminator matters: a smoke-recorded unit re-placed at mode=run is running PRODUCTION, and
+    keying off its stale record would mislabel a real leg. See nrv04_vast_launch.retro_board_rows."""
+    here = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+    src = open(os.path.join(here, "nrv04_vast_launch.py")).read()
+    assert "retro.expected_production_frames()" in src, (
+        "the expected production frame count has one home in nrv04_retro_panel; a literal here would drift")
+    assert '"pct_of": pct_of' in src, "the retro lane no longer labels a non-production census"
