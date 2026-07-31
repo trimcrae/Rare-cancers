@@ -32,6 +32,25 @@ These rules prevent a repeat.
 6. **Real runs log an audit cross-check.** `nr4a3_fpocket_enumerate.py` prints the data-derived
    file→pocket mapping next to the naive +0/+1 assumptions, so the true convention is visible and
    auditable in the job log — and any future divergence is caught by eye, not assumed away.
+7. **★★ ASSERT THE PROPERTY, NEVER A LABEL OR A POPULATION COUNT (two of these were fixed on
+   2026-07-31, both having failed on changes that HONOURED what they existed to protect).** A test
+   that pins the *wording* of a readout, or the *size* of a growing set, has both failure modes
+   backwards: it goes red on every legitimate addition, and it stays green through the illegitimate
+   one.
+   - `tests/test_on_demand_tier.py` asserted `count(gate self-dispatches forwarding on_demand) == 2`.
+     Adding a third gate that **correctly** forwarded the flag turned the suite red on `main`; a
+     fourth gate that *dropped* it would have left the count at whatever was last typed. It now
+     derives both sides — `LAUNCH_TASKS` from `ternary_vast_launch.MODES`, and the dispatch scan
+     parses backslash-continued **blocks** (a line-based scan finds nothing, because the task and the
+     tier sit on different continuation lines).
+   - Two tests asserted `"approved rate" in cell` — the **label** on an in-flight `$/ns` cell. Both
+     now assert the **absolute rate is present**, which is the actual invariant
+     (`tests/test_buy_line_invariant.py`, `tests/test_inflight_usd_per_ns.py`, which carry the note
+     in place).
+   **The check that catches this while writing the test: run a NEGATIVE CONTROL.** Break the property
+   deliberately and confirm the test fails *with a message naming the property*, then restore and
+   byte-compare. Both fixes above were verified that way, and so was the
+   `vast_min_cuda_floor_12_6` entry in `pinned-figures.json`.
 
 ## Running the tests
 
@@ -39,6 +58,24 @@ These rules prevent a repeat.
 pip install pytest
 python -m pytest research/modalities/tests -q
 ```
+
+### ⚠ Two ways of running these that waste real time
+
+- **THE FULL SUITE IS NOT FREE: 4097 passed, 29 skipped, ~6 min 55 s** (measured 2026-07-31 in the dev
+  sandbox, `python3 -m pytest tests -q -p no:cacheprovider`). **Do not have every subagent run all of
+  it.** Run the **targeted modules** you touched while iterating, and **one full run before merging** —
+  that is what the green figure above is for. Five parallel agents each running the whole suite is
+  ~35 minutes of wall clock buying one bit of information.
+- **`until ! pgrep -f "pytest tests/"` NEVER EXITS — IT MATCHES ITSELF.** `pgrep` excludes only its own
+  PID, **not its ancestors**, and the shell running the wait loop has the literal pattern in its own
+  `argv`. Reproduced 2026-07-31: with no pytest running at all, the loop spun until `timeout` killed
+  it (rc 124), and `pgrep -af` showed the two matches were the loop's own `bash -c` processes.
+  Wait on a **completion marker in the log** instead — the pattern this repo already uses:
+  ```bash
+  <cmd> > /tmp/run.log 2>&1; echo "EXIT=$?" >> /tmp/run.log     # then poll for EXIT=
+  ```
+  or, if you must match a process name, break the literal with the bracket trick: `pgrep -f "[p]ytest
+  tests/"`.
 
 ## What's covered
 

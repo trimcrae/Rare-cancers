@@ -222,6 +222,11 @@ changes."
   renders (no thrown error), every section is present, and the outcomes filter
   works. This catches the "blank page from a render error" class of bug. Both run
   in CI (`pages.yml`) **before** deploy, so a broken page cannot go live.
+- Those two cover **the site only.** The research program's Python suite
+  (`research/modalities/tests`, thousands of tests) has its own rules, its measured
+  runtime, and two ways of running it that waste real time — all in
+  **[research/modalities/TESTING.md](research/modalities/TESTING.md)**. Read it before
+  writing a test or waiting on a run.
 
 ## Before you commit (checklist)
 

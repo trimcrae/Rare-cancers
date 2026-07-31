@@ -173,6 +173,19 @@ When in doubt: do it and show it.
   (setup→minimize→warmup→production), iteration count **up** since last time. Frozen phase + idle GPU across two
   consecutive checks = a **stall** → diagnose and fix. Every new stage is its own first-time risk. Once proven
   end-to-end, relax to a light heartbeat.
+- **★★ AN ABSENT READING IS NOT A READING OF ABSENCE — AND A POPULATED FIELD IS NOT A MEASURED ONE (both did
+  real damage on 2026-07-31, hours apart).** Two halves of one habit; the second is the dangerous one.
+  **(a)** A census row saying `targets not in the record` / `no openmmtools rate line` means the collector could
+  not READ that leg — **not** that the leg is frozen. A card floor was applied to a live lane on exactly that
+  misreading, and reverted the same hour
+  ([vast-placement-facts.md §3b](./research/compute/vast-placement-facts.md)).
+  **(b)** ⚠ **A RECORD THAT LOOKS PLAUSIBLE IS MORE DANGEROUS THAN ONE THAT LOOKS EMPTY.** 17 smoke legs
+  echoed `prod_ns: 5.0` and a filled `R1_interface` **from their ENV rather than from what ran**; a
+  completeness count believed them, `panel_complete` went true, and a frozen gate was ONE leg short of emitting
+  a fabricated verdict ([STRATEGY.md Appendix A](./STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)
+  57; the predicate that closes it is `nrv04_retro_panel.production_leg_check`). **A field's PRESENCE is never
+  evidence of its provenance** — check the thing only a real run can produce (wall time, frame count,
+  equilibration), never the thing a default can fill in.
 
 ## 5 · Scope, spend and the research program
 
@@ -370,8 +383,25 @@ When in doubt: do it and show it.
   Vast is ~23 independently-priced hosts visible at once and **the floor is flat**, so a different host today
   costs what this one will tomorrow. AWS managed spot is a *pool* with no host choice, which is why waiting is
   right there and wrong here. Implemented in `protfep_vast_launch.collect` + `ResourceSpec.exclude_machine_ids`
-  — a host that never starts has infinite realised $/ns, invisible to $/ns ranking, so without the exclusion it
-  keeps winning selection and keeps failing.
+  — a host that never starts has infinite realised $/ns, invisible to $/ns ranking, so without the skip it keeps
+  winning selection inside the same placement call and keeps failing. ⚠ **That skip is BOUNDED to the call —
+  see the no-durable-blacklist rule immediately below**, which retires the reading of this line under which the
+  same exclusion was allowed to persist across lanes and days.
+- **★★ NO DURABLE MACHINE BLACKLIST — A HOST WE REFUSED ONCE IS SELECTABLE AGAIN ON THE NEXT CALL (trimcrae,
+  2026-07-31: *"You've gotta just stop doing the blacklist. It seems like it only ever bites us in the ass and
+  clearing it always makes things better."*).** Nothing that excludes a machine may outlive the placement call
+  or the launch wave that learned it. **KEPT, because both are bounded and neither can accumulate:**
+  `used_machines` (`congeneric_fanout_vast.mode_launch`) stops one wave double-renting a host we already hold
+  and **dies with the wave**; `gpu_backend.submit`'s in-call retry skip drops a machine that just answered
+  `resources_unavailable` for the *remaining offers of that same call*, on a **copy** of the spec. **RETIRED:**
+  the cross-lane, host-scoped, never-ageing set — not because any single entry was wrong, but because it had
+  **no evidence that could ever retire one**, so it only ratcheted the board narrower; re-learning a bad host
+  costs one **free** failed submit, while over-excluding costs capacity on every lane, silently.
+  ⚠ **So when placement fails, suspect OUR FILTERS BEFORE THE MARKET** — that has been the cause every time it
+  was checked. Incidents, evidence and what is still open (a card floor, `min_cuda`, the label-scoped guard):
+  [vast-placement-facts.md §1](./research/compute/vast-placement-facts.md).
+  *Superseded, retained: the reading of the bullet above under which `exclude_machine_ids` justified a durable
+  cross-lane set — [STRATEGY.md Appendix A](./STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) 59.*
 - **★★ A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY — GATE EVERY FLEET LAUNCH ON $/ns
   (trimcrae, 2026-07-26: *"I'd rather pause until availability opens than pay double per ns"*).** The rule above
   says a *capacity refusal* on one host is never worth waiting out, because the floor is flat and another host
@@ -388,6 +418,18 @@ When in doubt: do it and show it.
   launches looks identical to one that finished — every hold must be visible in the readout with the snapshot
   that caused it), and **a ceiling nobody can clear** (if the market stays bad, that is a decision for trimcrae,
   so surface it rather than idling forever).
+- **★★ A HOLD ON PRICE MUST REPORT BOARD WIDTH, OR IT CANNOT BE TOLD FROM A FILTER BUG (2026-07-31 — this cost
+  most of a session, and it is the SECOND time the same confusion was diagnosed as an expensive market).**
+  A gate that finds one acceptable offer prints a high `$/ns` and holds — and that reads identically whether
+  the market is thin or **our own filters left one host**. Opposite remedies: one says wait, the other says
+  widen. So every hold quotes `board_depth` beside the ratio — `offers_returned → qualifying → priceable →
+  used_for_mean` (`relaunch_market_gate.price_offers` is the one home of the arithmetic).
+  **`qualifying` far below `offers_returned` is a FILTER diagnosis wearing a price label**: say so with the
+  existing `hold_cause: exclusions_or_spec_not_price` instead of holding on price. ⚠ **A low `used_for_mean`
+  is NOT a symptom** — it is `min(needed, priceable)` and equals 1 by design for a single unit.
+  **The tell: a ratio that swings ~2× within minutes.** A market floor does not move like that; a spec does.
+  Both measured instances, the discriminating fields, and the gate artifact that still does not record which
+  spec produced it: [vast-placement-facts.md §2](./research/compute/vast-placement-facts.md).
 - **★★ A RELAUNCH IS A NEW PURCHASE, NOT A CONTINUATION — SO IT FACES THE SAME CEILING (trimcrae, 2026-07-27:
   *"Why are there so many high `$/ns` rows that are flagged but you're still paying for them? The whole point
   is to pause the test if it gets that expensive."*).** The gate above is **not** scoped to fan-outs. The test
