@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T16:33:21Z",
+  "utc": "2026-07-31T16:34:07Z",
   "n_units": 3,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 5.49,
@@ -8,41 +8,41 @@
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 3 legs",
   "breakeven_usd_per_ns": 0.009676,
   "depth": {
-    "offers_returned": 162,
-    "qualifying": 160,
-    "priceable": 92,
+    "offers_returned": 195,
+    "qualifying": 79,
+    "priceable": 79,
     "needed": 3,
     "used_for_mean": 3
   },
   "offers": [
     {
-      "gpu": "RTX 4090",
-      "machine_id": 12976,
-      "min_bid_usd_h": 0.112,
-      "usd_per_ns": 0.00384
+      "gpu": "RTX 5090",
+      "machine_id": 91308,
+      "min_bid_usd_h": 0.30814814814814817,
+      "usd_per_ns": 0.007599
     },
     {
-      "gpu": "RTX 3090",
-      "machine_id": 33622,
-      "min_bid_usd_h": 0.093,
-      "usd_per_ns": 0.005368
+      "gpu": "RTX 5090",
+      "machine_id": 141578,
+      "min_bid_usd_h": 0.30814814814814817,
+      "usd_per_ns": 0.007599
     },
     {
-      "gpu": "RTX 4090",
-      "machine_id": 28904,
-      "min_bid_usd_h": 0.15866666666666665,
-      "usd_per_ns": 0.005469
+      "gpu": "RTX 4080S",
+      "machine_id": 46392,
+      "min_bid_usd_h": 0.2022222222222222,
+      "usd_per_ns": 0.007778
     }
   ],
-  "mean_usd_per_ns": 0.004892,
-  "ratio_vs_basis": 1.434,
-  "projected_usd": 7.87,
+  "mean_usd_per_ns": 0.007659,
+  "ratio_vs_basis": 2.245,
+  "projected_usd": 12.32,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": false,
-  "hold": false,
-  "reason": "projected $7.87 within this rung's ceiling $15.56 AND 1.43x basis is within the 1.92x drift line",
+  "fails_ratio_ceiling": true,
+  "hold": true,
+  "reason": "2.24x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns",
   "machines_we_already_occupy": [
     "16661"
   ],
