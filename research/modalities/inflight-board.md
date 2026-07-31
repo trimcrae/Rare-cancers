@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 7:22 AM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 7:23 AM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
 5aks_d0_to_d terna   66.7%  —                $0.00465/ns · 1.36× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna   17.8%  —                $0.00505/ns · 1.48× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  no committed checkpoint yet; host up 10 min and the first warmup boundary is one checkpoint interval of MD after the image pull
-5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  no committed checkpoint yet; host up 10 min and the first warmup boundary is one checkpoint interval of MD after the image pull
+5aks_d0_to_d terna   17.8%  2:46 AM Aug 1    $0.00505/ns · 1.48× basis  STARTING  COLD_START — instance is 12 min old, under the 15 min floor — too young to have proved anything either way
+5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  no committed checkpoint yet; host up 12 min and the first warmup boundary is one checkpoint interval of MD after the image pull
+5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  no committed checkpoint yet; host up 12 min and the first warmup boundary is one checkpoint interval of MD after the image pull
 ---- END TVAST-BOARD ----
 ```
