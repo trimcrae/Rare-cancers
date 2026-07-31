@@ -187,7 +187,27 @@ jobs:
             # went looking for a replacement host. The ledger shows the 7:39 / 7:47 / 7:55 AM ET ticks each
             # evaluating market-gate and triangle-gate and no 5aks gate at all.
             #
-            # ★★ THE CARD FLOOR APPLIES HERE TOO — ADDED 2026-07-31 ON THE EVIDENCE THIS LINE ASKED FOR.
+            # ★★ NO CARD FLOOR — I ADDED ONE 2026-07-31 AND THE DATA REFUTED IT WITHIN THE HOUR.
+            #
+            # I added `min_ns_per_h=28` on the argument that a 3090 cannot close a checkpoint interval
+            # inside a host lifetime. trimcrae pushed back — 'make sure we're considering 3090s too' — and
+            # the fan-out's own 208-rental ledger settles it. Split by rate:
+            #     <= $0.12/hr (3090-class): n=34, median lifetime 1.50 h, 62 % over 1 h, max 6.6 h
+            #     >  $0.12/hr (4090/5090) : n=174, median 1.65 h, 67 % over 1 h
+            # Cheap hosts hold essentially as long as expensive ones. CARD CLASS DOES NOT PREDICT HOST
+            # LIFETIME on this account, so the floor's premise fails and its only effect is to delete the
+            # cheapest third of an already-starved board.
+            #
+            # ⚠ AND MY OBSERVATIONAL EVIDENCE WAS MISREAD. The '3090 frozen at 40.9 % for 33 min' row also
+            # carried `targets not in the record` and `no openmmtools rate line` — the collector could not
+            # READ its progress. I took a telemetry gap for a stall, which is the same error this repo
+            # keeps paying for in the other direction.
+            #
+            # The real problem is BOARD WIDTH: the gate saw ONE offer against a census of 90 priceable.
+            # Short lifetimes look like a symptom of being forced onto whatever single host exists, not a
+            # property of the cards. Superseded reasoning retained below, per CLAUDE.md §1 rule 2.
+            #
+            # SUPERSEDED 2026-07-31, retained: the card-floor argument that briefly stood here.
             #
             # SUPERSEDED, retained because its reasoning was sound and only its premise was wrong: "NO
             # `min_ns_per_h` FLOOR, deliberately … 5a-KS is not in that position — its seed-0 legs have been
@@ -212,7 +232,7 @@ jobs:
             #
             # 28 ns/h is the triangle's value and is deliberately NOT re-derived here — one home, in the
             # triangle-gate comment above.
-            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=5aks-gate -f min_ns_per_h=28 2>/tmp/t4; then
+            if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=5aks-gate 2>/tmp/t4; then
               echo "[$(date -u '+%H:%M:%SZ')] ternary 5aks-gate dispatched (tick ${n})"
             else
               echo "::warning title=TERNARY 5AKS-GATE DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t4 | tr '\n' ' ')"
