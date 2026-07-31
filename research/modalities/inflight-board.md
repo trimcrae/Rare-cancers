@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 4:47 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 4:54 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 7:57 AM Aug 1      51.1%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
-5aks_d0_to_d ternary nr4a3 r0 9:15 PM            86.7%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
-5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
-5aks_d0_to_d ternary nr4a1 r0 7:24 AM Aug 1      30.2%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary nr4a3 r1 8:13 AM Aug 1      51.1%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
+5aks_d0_to_d ternary nr4a3 r0 9:22 PM            86.7%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
+5aks_d0_to_d ternary nr4a1 r1 9:40 AM Aug 1      35.6%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary nr4a1 r0 5:22 AM Aug 1      32.0%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   
 ---- END TVAST-BOARD ----
 ```
