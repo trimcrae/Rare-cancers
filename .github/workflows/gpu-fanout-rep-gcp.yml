@@ -1,0 +1,320 @@
+name: GCP GPU — STEP 1 fan-out REPLICATE on the free L4 (cycle_3carbonyl; WIF keyless)
+
+# ONE unit of the `[ ]` STRATEGY item "Step 1 fan-out · REPLICATES ON THE OPEN CYCLE", on the single serial
+# GCP GPU, paid for with expiring trial credit ($0 real dollars — a SEPARATE LEDGER, CLAUDE.md §6).
+# The reasoning, the key contract and the teardown predicate all live in research/modalities/gcp_fanout_rep.py;
+# this file is the plumbing and must not restate them (rule 1).
+#
+#   mode=mirror : $0 CPU. Copy the COMMON-MODE staged pose tree S3 -> GCS, byte-size verified. Idempotent.
+#                 Must run once before the first smoke. NO VM.
+#   mode=smoke  : GPU, minutes. RBFE_TINY splittest of the REAL edge in the REAL container, on an L4, writing
+#                 to a throwaway GCS prefix. Proves image pull + CUDA-in-docker + GCS read of the stage tree +
+#                 GCSCommitStore write + the engine's own setup. The §6 shakeout, before any long spend.
+#   mode=run    : GPU, detached. ONE replicate unit: complex then solvent, per-leg idempotent, continuous GCS
+#                 commits. Bounded at CREATE by --max-run-duration + --instance-termination-action=DELETE.
+#   mode=tail   : $0. VM list, quota usage, phase marker, last log lines. NO VM.
+#   mode=reap   : $0. The evidence-based teardown. Also runs at the head of EVERY dispatch (see below).
+#
+# ★★ THE REAP RUNS FIRST ON EVERY DISPATCH, and that is deliberate. gcp-gpu-facts.md §6b measured that a
+# `schedule:` cron is not a safety mechanism on this repo (delivered gaps of 125-222 min against a */15
+# request) and §6 that a GCE VM cannot delete itself. Hanging teardown off a cron would repeat both mistakes.
+# Hanging it off every dispatch means the act of touching this lane at all cleans it up, and the create-time
+# max-run cap is the bound that needs nothing alive at all.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:      { description: "mirror | smoke | run | tail | reap", default: "tail", required: true }
+      edge:      { description: "edge id, or a cycle id for mirror/plan. mode=run needs ONE edge.", default: "e_zaienne_cmpd19__cw_ms_free_acid", required: false }
+      replicate: { description: "replicate index (>=1; 0 IS the original unit, not a repeat)", default: "1", required: false }
+      zone:      { description: "GCE zone — us-central1 ONLY, quota exists nowhere else (CLAUDE.md §6)", default: "us-central1-a", required: false }
+      provisioning: { description: "standard (on-demand; the GCP default per the _gcp_cost_frame ruling — wall clock is the scarce thing here, not money) | spot", default: "standard", required: false }
+      force:     { description: "1 = provision even if the unit's ddg.json is already in GCS (overwrites)", default: "0", required: false }
+  schedule:
+    # A REQUEST, NOT A CADENCE (CLAUDE.md §6). This only ever runs the $0 reap, so a missed tick costs
+    # nothing that the create-time cap does not already bound. It is a convenience, never the guarantee.
+    - cron: "17 * * * *"
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: gcp-gpu-fanout-rep
+  cancel-in-progress: false
+
+jobs:
+  s1f-rep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      MODE: ${{ github.event.inputs.mode || 'reap' }}
+      EDGE: ${{ github.event.inputs.edge || 'e_zaienne_cmpd19__cw_ms_free_acid' }}
+      REP: ${{ github.event.inputs.replicate || '1' }}
+      ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
+      PROVISIONING: ${{ github.event.inputs.provisioning || 'standard' }}
+      FORCE: ${{ github.event.inputs.force || '0' }}
+      GITREF: ${{ github.ref_name }}
+      VM_PREFIX: gcp-s1frep-
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      S3_BUCKET: sagemaker-us-east-2-646605541856
+      IMAGE: docker.io/triskit23/nr4a3fep:latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        name: Authenticate to GCP (keyless, WIF)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/878095411563/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gpu-runner@project-a7ebde30-e2ed-4b8d-9a9.iam.gserviceaccount.com
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Resolve project
+        run: |
+          P=project-a7ebde30-e2ed-4b8d-9a9
+          gcloud config set project "$P" >/dev/null 2>&1 || true
+          echo "PROJECT=$P" >> "$GITHUB_ENV"
+          echo "BUCKET=${P}-rbfe-ckpt" >> "$GITHUB_ENV"
+
+      # ===================================================================================================
+      # REAP — FIRST, ON EVERY DISPATCH. Age is NEVER consulted; the predicate is gcp_fanout_rep.reap_decision.
+      # ===================================================================================================
+      - name: Reap finished VMs (evidence-based; age is never a reason)
+        run: |
+          set -uo pipefail
+          echo "=== reap sweep over ${VM_PREFIX}* ==="
+          LIST=$(gcloud compute instances list --filter="name~^${VM_PREFIX}" \
+                   --format="value(name,zone,status,creationTimestamp,labels.s1f-edge,labels.s1f-rep)" 2>/dev/null || true)
+          if [ -z "$LIST" ]; then echo "  no ${VM_PREFIX}* instances — nothing to reap"; else
+          printf '%s\n' "$LIST" | while IFS=$'\t' read -r NAME Z ST CREATED EDGE_L REP_L; do
+            [ -z "${NAME:-}" ] && continue
+            Z="${Z##*/}"
+            echo "  VM $NAME zone=$Z status=$ST created=$CREATED edge=${EDGE_L:-<unlabelled>} rep=${REP_L:-<unlabelled>}"
+            if [ -z "${EDGE_L:-}" ]; then
+              echo "    ⛔ REFUSED: unlabelled — cannot resolve its unit, so cannot prove its work is banked. Not reaped."
+              continue
+            fi
+            KEY=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$EDGE_L" --replicate "${REP_L:-1}" \
+                    --pick 0 --bucket "$BUCKET" --shell 2>/dev/null | sed -n 's/^RESULT_KEY=//p')
+            if [ -z "$KEY" ]; then echo "    ⛔ REFUSED: could not resolve a result key. Not reaped."; continue; fi
+            # `updated` is the object's own last-write time. Absent object -> empty -> the predicate refuses.
+            UPD=$(gcloud storage objects describe "gs://$BUCKET/$KEY" --format="value(updated)" 2>/dev/null || true)
+            OUT=$(python3 research/modalities/gcp_fanout_rep.py reap --edge-id "$EDGE_L" --replicate "${REP_L:-1}" \
+                    --vm-created "$CREATED" --result-updated "$UPD" --json)
+            ACT=$(printf '%s' "$OUT" | python3 -c "import sys,json;print(json.load(sys.stdin)['action'])")
+            WHY=$(printf '%s' "$OUT" | python3 -c "import sys,json;print(json.load(sys.stdin)['why'])")
+            if [ "$ACT" = reap ]; then
+              echo "    ✅ REAP: $WHY"
+              gcloud compute instances delete "$NAME" --zone="$Z" --quiet 2>&1 | tail -2 || \
+                echo "    ::warning::delete failed for $NAME"
+            else
+              CAU=$(printf '%s' "$OUT" | python3 -c "import sys,json;print(json.load(sys.stdin)['cause'])")
+              echo "    ⛔ REFUSED ($CAU): $WHY"
+            fi
+          done
+          fi
+          echo "=== GPU quota after the sweep (usage>=1 with no VM above = a zombie outside this lane) ==="
+          Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
+                --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)
+          for M in NVIDIA_L4_GPUS PREEMPTIBLE_NVIDIA_L4_GPUS; do
+            printf '%s\n' "$Q" | awk -v m="$M" '$1==m {print "  "m": limit="$2" usage="$3}'
+          done
+
+      # ===================================================================================================
+      # MIRROR — the COMMON-MODE inputs, S3 -> GCS. $0, no VM.
+      # ===================================================================================================
+      - name: Mirror the staged pose tree S3 -> GCS (mode=mirror; $0, NO VM)
+        if: ${{ github.event.inputs.mode == 'mirror' }}
+        run: |
+          set -eo pipefail
+          # WHY A MIRROR AND NOT A RE-STAGE. congeneric_pose_stage.py builds every analogue by MCS-core-
+          # constrained embedding onto ONE anchor pose, and all 18 landed edges read that exact tree. Running
+          # the stager again would re-embed and could land core coordinates a fraction of an angstrom
+          # elsewhere — which is invisible to any check this lane runs and fatal to calling the result a
+          # REPLICATE. So: copy the bytes, then prove they are the same bytes.
+          pip -q install awscli >/dev/null 2>&1 || pip -q install awscli
+          SRC="s3://$S3_BUCKET/nr4a3-step1-fanout/stage"
+          DST="gs://$BUCKET/nr4a3-step1-fanout/stage"
+          echo "=== source: $SRC ==="
+          aws s3 ls "$SRC/" --recursive | sed 's/^/  /'
+          mkdir -p /tmp/stage
+          aws s3 cp "$SRC/" /tmp/stage/ --recursive --only-show-errors
+          echo "=== copying to $DST ==="
+          gcloud storage cp -r /tmp/stage/* "$DST/" 2>&1 | tail -5
+          echo "=== VERIFY: per-object size, S3 vs GCS ==="
+          FAIL=0
+          while read -r _d _t SZ KEY; do
+            [ -z "${KEY:-}" ] && continue
+            REL="${KEY#nr4a3-step1-fanout/stage/}"
+            G=$(gcloud storage objects describe "$DST/$REL" --format="value(size)" 2>/dev/null || echo MISSING)
+            if [ "$G" = "$SZ" ]; then echo "  ok   $REL ($SZ B)"; else echo "  FAIL $REL s3=$SZ gcs=$G"; FAIL=1; fi
+          done < <(aws s3 ls "$SRC/" --recursive)
+          [ "$FAIL" = 0 ] || { echo "::error::mirror verification failed — a replicate MUST read byte-identical inputs"; exit 1; }
+          echo "::notice title=S1F-REP MIRROR::staged pose tree mirrored and byte-size verified into $DST"
+
+      # ===================================================================================================
+      # PLAN — resolve the unit and publish everything the create step needs.
+      # ===================================================================================================
+      - name: Resolve the unit
+        if: ${{ github.event.inputs.mode == 'smoke' || github.event.inputs.mode == 'run' || github.event.inputs.mode == 'tail' }}
+        run: |
+          set -eo pipefail
+          N=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$EDGE" --replicate "$REP" \
+                --bucket "$BUCKET" 2>/dev/null | python3 -c "import sys,json;d=json.load(sys.stdin);print(len(d) if isinstance(d,list) else 1)")
+          if [ "${MODE}" != tail ] && [ "$N" != 1 ]; then
+            echo "::error::edge='$EDGE' resolves to $N units. mode=$MODE buys ONE unit at a time — GPUS_ALL_REGIONS=1 makes this GPU strictly serial, so name a single edge id, not a cycle."
+            exit 1
+          fi
+          MODE_CAP="$MODE"; [ "$MODE" = tail ] && MODE_CAP=smoke
+          python3 research/modalities/gcp_fanout_rep.py plan --edge "$EDGE" --replicate "$REP" --pick 0 \
+            --bucket "$BUCKET" --mode-for-cap "$MODE_CAP" --shell > /tmp/plan.env
+          grep -vE '^ENV_' /tmp/plan.env | sed 's/^/  /'
+          grep -vE '^ENV_' /tmp/plan.env >> "$GITHUB_ENV"
+          echo "VM=${VM_PREFIX}${GITHUB_RUN_ID}" >> "$GITHUB_ENV"
+
+      # ===================================================================================================
+      # TAIL — $0 status. No VM.
+      # ===================================================================================================
+      - name: Tail (mode=tail — $0, NO VM)
+        if: ${{ github.event.inputs.mode == 'tail' }}
+        run: |
+          set -uo pipefail
+          echo "=== unit ==="; echo "  $UNIT_ID"
+          echo "=== live ${VM_PREFIX}* VMs ==="
+          gcloud compute instances list --filter="name~^${VM_PREFIX}" \
+            --format="table(name,zone,status,creationTimestamp)" 2>/dev/null || echo "  (none)"
+          echo "=== unit objects in GCS ==="
+          gcloud storage ls -l "$UNIT_URI/**" 2>/dev/null | sed 's/^/  /' || echo "  (nothing yet)"
+          echo "=== phase ==="
+          gcloud storage cat "$UNIT_URI/phase.txt" 2>/dev/null | sed 's/^/  /' || echo "  (no phase marker)"
+          echo "=== last 40 log lines ==="
+          gcloud storage cat "$UNIT_URI/run.log" 2>/dev/null | tail -40 | sed 's/^/  /' || echo "  (no log yet)"
+
+      # ===================================================================================================
+      # PROVISION — smoke and run share one create; they differ in the startup script and the cap.
+      # ===================================================================================================
+      - name: Provision an L4 and run (mode=smoke | mode=run)
+        if: ${{ github.event.inputs.mode == 'smoke' || github.event.inputs.mode == 'run' }}
+        run: |
+          set -eo pipefail
+          IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
+            --filter="family~'^common-cu'" --format="value(family)" --sort-by=~creationTimestamp 2>/dev/null | head -1)
+          [ -z "$IMG_FAMILY" ] && { echo "::error::no DLVM CUDA image family"; exit 1; }
+          echo "image=$IMG_FAMILY mode=$MODE unit=$UNIT_ID maxrun=$MAXRUN"
+
+          # ---- REFUSE TO BUY WHAT IS ALREADY BOUGHT --------------------------------------------------
+          # The idempotent skip lives HERE, on the control plane, not on the VM. gcp-gpu-facts.md §6c layer 4:
+          # a redundant dispatch that buys an L4 and then skips after ~37 s is the ONE shape both reapers
+          # deliberately spare (so a real force is never destroyed), so not making the purchase is the only
+          # fix that does not weaken a reaper.
+          if [ "$MODE" = run ] && [ "$FORCE" != 1 ]; then
+            if gcloud storage objects describe "gs://$BUCKET/$RESULT_KEY" --format="value(name)" >/dev/null 2>&1; then
+              echo "::notice title=S1F-REP SKIP::$UNIT_ID already has a ddg.json in GCS — not provisioning. Pass force=1 to overwrite."
+              echo "SKIPPED=1" >> "$GITHUB_ENV"; exit 0
+            fi
+          fi
+
+          # ---- REFUSE TO BUY A SECOND GPU ------------------------------------------------------------
+          # GPUS_ALL_REGIONS=1 is the binding cap (gcp-gpu-facts.md #1) and is NOT readable by this service
+          # account (§1d: project-info describe returns rc=2 for gpu-runner@). So the freeness check rests on
+          # `instances list` — quota can only be held by an instance — which does work.
+          LIVE=$(gcloud compute instances list --filter="status:(RUNNING PROVISIONING STAGING REPAIRING)" \
+                   --format="value(name)" 2>/dev/null | wc -l | tr -d ' ')
+          if [ "${LIVE:-0}" != 0 ]; then
+            echo "::error::$LIVE instance(s) already live — GPUS_ALL_REGIONS=1 means at most ONE GPU on this account. Not provisioning."
+            gcloud compute instances list --format="table(name,zone,status,creationTimestamp)" 2>/dev/null || true
+            exit 1
+          fi
+
+          # ---- REFUSE TO BUY WITHOUT INPUTS ----------------------------------------------------------
+          # A VM that boots, finds no staged tree and dies still holds the single GPU for its whole boot.
+          for F in ligand/docked_${RECEPTOR}.sdf receptor/${RECEPTOR}-opened.pdb; do
+            gcloud storage objects describe "$STAGE_URI/$F" --format="value(size)" >/dev/null 2>&1 || {
+              echo "::error::$STAGE_URI/$F is missing — run mode=mirror first (it is \$0 and takes seconds)."; exit 1; }
+          done
+          echo "staged inputs present under $STAGE_URI"
+
+          if [ "$PROVISIONING" = standard ]; then
+            PROV_FLAGS="--provisioning-model=STANDARD --instance-termination-action=DELETE"
+          else
+            PROV_FLAGS="--provisioning-model=SPOT --instance-termination-action=DELETE"
+          fi
+          # ⚠ --instance-termination-action is REQUIRED whenever --max-run-duration is set, for BOTH spot and
+          # standard (gcp-gpu-facts.md §3 — omitting it on the standard branch silently broke on-demand for
+          # months and was mislabelled "stocked out"). Both branches carry it above; the test pins that.
+
+          # ---- the VM's startup script ---------------------------------------------------------------
+          {
+            echo '#!/bin/bash'
+            echo 'set -uo pipefail'
+            for V in UNIT_URI STAGE_URI CKPT_URI IMAGE RECEPTOR GITREF BUCKET \
+                     EDGE_ID LEG_ID FRAME REPLICATE SEED N_WINDOWS; do
+              printf "%s='%s'\n" "$V" "$(eval printf '%s' "\"\${$V:-}\"")"
+            done
+            echo "MACHINE_TYPE='g2-standard-8'"
+            echo "SMOKE='$([ "$MODE" = smoke ] && echo 1 || echo 0)'"
+            cat research/compute/s1f_rep_gcp_startup.sh
+          } > /tmp/startup.sh
+          # The leg env is generated by gcp_fanout_rep.plan (which delegates to congeneric_fanout.unit_env)
+          # and injected as a file the startup script sources. Nothing about the science is typed in YAML.
+          grep -E '^ENV_COMPLEX_' /tmp/plan.env | sed 's/^ENV_COMPLEX_/export /' > /tmp/env.complex
+          grep -E '^ENV_SOLVENT_' /tmp/plan.env | sed 's/^ENV_SOLVENT_/export /' > /tmp/env.solvent
+          echo "=== complex leg env (from congeneric_fanout.unit_env) ==="; sed 's/^/  /' /tmp/env.complex
+
+          LABELS="lane=s1frep,s1f-edge=${EDGE_ID},s1f-rep=${REPLICATE},s1f-mode=${MODE}"
+          OK=0
+          for Z in "$ZONE" us-central1-b us-central1-c us-central1-f; do
+            # us-central1 ONLY — quota exists nowhere else (CLAUDE.md §6). Never add another region.
+            if gcloud compute instances create "$VM" \
+                --zone="$Z" --machine-type=g2-standard-8 \
+                $PROV_FLAGS \
+                --max-run-duration="$MAXRUN" --maintenance-policy=TERMINATE --no-restart-on-failure \
+                --labels="$LABELS" --scopes=cloud-platform \
+                --image-family="$IMG_FAMILY" --image-project=deeplearning-platform-release \
+                --boot-disk-size=150GB \
+                --metadata-from-file=startup-script=/tmp/startup.sh,s1f-env-complex=/tmp/env.complex,s1f-env-solvent=/tmp/env.solvent \
+                --metadata=s1f-unit-id="$UNIT_ID" 2>/tmp/cerr; then
+              echo "ZONE=$Z" >> "$GITHUB_ENV"; ZONE="$Z"; OK=1
+              echo "provisioned g2-standard-8 in $Z (cap $MAXRUN)"; break
+            fi
+            echo "  create failed [$Z]: $(grep -iE 'ERROR|exhausted|quota|exceeded|Invalid|required|termination' /tmp/cerr | head -1 | sed 's/^ *//')"
+          done
+          [ "$OK" = 1 ] || { echo "::error::L4 create failed in every us-central1 zone — see the real gcloud errors above (a malformed request says Invalid/required; genuine capacity says ZONE_RESOURCE_POOL_EXHAUSTED)"; exit 1; }
+          echo "VM_LIVE=1" >> "$GITHUB_ENV"
+
+      - name: Watch the smoke to its terminus (mode=smoke only)
+        if: ${{ github.event.inputs.mode == 'smoke' && env.VM_LIVE == '1' }}
+        run: |
+          set -uo pipefail
+          # A PROGRESS check, not a liveness ping (CLAUDE.md §4): the phase marker must MOVE.
+          LAST=""; DONE=0
+          for i in $(seq 1 55); do
+            sleep 45
+            P=$(gcloud storage cat "$UNIT_URI/smoke/phase.txt" 2>/dev/null | tail -1 || echo "")
+            S=$(gcloud compute instances describe "$VM" --zone="$ZONE" --format="value(status)" 2>/dev/null || echo GONE)
+            echo "  [$i] status=$S phase='${P:-<none>}'"
+            case "$P" in *SMOKE-OK*) DONE=1; break ;; *SMOKE-FAIL*) DONE=2; break ;; esac
+            [ "$S" = GONE ] || [ "$S" = TERMINATED ] && { echo "  VM gone"; break; }
+            LAST="$P"
+          done
+          echo "=== smoke log ==="
+          gcloud storage cat "$UNIT_URI/smoke/run.log" 2>/dev/null | tail -80 | sed 's/^/  /' || echo "  (no log)"
+          gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "smoke VM deleted" || echo "smoke VM delete no-op"
+          [ "$DONE" = 1 ] || { echo "::error::smoke did not reach SMOKE-OK — do NOT launch the real leg until it does"; exit 1; }
+          echo "::notice title=S1F-REP SMOKE OK::image + CUDA-in-docker + GCS stage read + GCSCommitStore write all proven on the L4"
+
+      - name: Detached launch summary (mode=run)
+        if: ${{ github.event.inputs.mode == 'run' && env.VM_LIVE == '1' }}
+        run: |
+          echo "::notice title=S1F-REP LAUNCHED::$UNIT_ID on $VM ($ZONE), cap $MAXRUN, \$0 real dollars (GCP trial credit)."
+          echo "Teardown, in order of how little must be alive:"
+          echo "  1. --max-run-duration=$MAXRUN + --instance-termination-action=DELETE — enforced by GCE, needs nothing."
+          echo "  2. this workflow's reap step, which runs FIRST on every dispatch of any mode (and hourly)."
+          echo "  3. per-leg idempotence + the GCS commit store — a boundary costs latency, never sampling."
+          echo "Monitor: gpu-fanout-rep-gcp.yml mode=tail"
