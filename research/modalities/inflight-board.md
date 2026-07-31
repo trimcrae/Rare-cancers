@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 2:00 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 2:03 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                ETA (ET)          % DONE  $/ns                                STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 9:54 PM            42.7%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 15 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d terna —                  42.7%  RTX 4090 $0.00533/ns · 1.56× basis  NO HOST   host DESTROYED this pass (idle guard: WEDGED — run.log has been re-uploaded with byte-identical content for 17 min (>= 15) and the committed scalar has not advanced — the sync loop is alive but the leg is not writing, so nothing is being produced to save) — billing stopped, $0 further; checkpoint at warmup/1536 is intact in S3 and this pass dispatches the gate to re-place it
 5aks_d0_to_d terna —                  82.2%  RTX 4080S $0.00505/ns · 1.48× basis STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna —                      —  RTX 3090 $0.00414/ns · 1.21× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
-5aks_d0_to_d terna 3:06 AM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  fresh host — the marker and log below belong to the previous attempt
+5aks_d0_to_d terna —                  30.2%  RTX 3090 $0.00414/ns · 1.21× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
+5aks_d0_to_d terna —                      —  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ---- END TVAST-BOARD ----
 ```
