@@ -1,34 +1,36 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-07-31T16:10:53Z",
+  "utc": "2026-07-31T16:23:39Z",
   "mode": "5aks",
-  "n_requested": 1,
-  "n_rented": 0,
+  "n_requested": 2,
+  "n_rented": 1,
   "requested": [
-    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
+    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+    "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
-  "rented": [],
-  "failed": [
+  "rented": [
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
-      "error": "CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 145499, 55895, 33622); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.",
+      "instance": "46416312",
+      "machine_id": 145841,
+      "bid": 0.0816,
+      "dph": 0.08148148148148149,
+      "gpu": "RTX 3090",
+      "dph_total_usd_h": 0.09271111111111112,
+      "dph_base_usd_h": 0.0816,
+      "usd_per_ns": 0.004828,
+      "x_basis": 1.415,
+      "over_buy_line": false
+    }
+  ],
+  "failed": [
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
+      "error": "CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 12976, 144231, 140160); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.",
       "kind": "capacity"
     }
   ],
   "already_live": [
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-      "instance": 46411865,
-      "machine_id": 136811,
-      "gpu": "RTX 5090",
-      "dph_total_usd_h": 0.22066666666666665,
-      "dph_base_usd_h": 0.204,
-      "cur_state": "stopped",
-      "actual_status": "running",
-      "usd_per_ns": 0.005119,
-      "x_basis": 1.5,
-      "over_buy_line": false
-    },
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
       "instance": 46407634,
@@ -57,10 +59,6 @@
     }
   ],
   "skipped": [
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-      "why": "running"
-    },
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
       "why": "running"
