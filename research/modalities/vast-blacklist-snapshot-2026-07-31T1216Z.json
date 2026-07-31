@@ -1,0 +1,388 @@
+{
+  "_what": "Full shared Vast machine-exclusion state, captured immediately before a deliberate clear.",
+  "utc": "2026-07-31T12:16:20Z",
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "key": "vast-shared/_excluded_machines.json",
+  "n_machine_ids": 2,
+  "machine_ids": [
+    "28908",
+    "8914"
+  ],
+  "history_entries_by_reason_class": {
+    "host": 15,
+    "capacity": 35,
+    "clear": 1,
+    "retire": 1
+  },
+  "history": [
+    {
+      "machine_id": "117843",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:57Z"
+    },
+    {
+      "machine_id": "12697",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:57Z"
+    },
+    {
+      "machine_id": "140043",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:57Z"
+    },
+    {
+      "machine_id": "18857",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:57Z"
+    },
+    {
+      "machine_id": "26910",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:57Z"
+    },
+    {
+      "machine_id": "28164",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:57Z"
+    },
+    {
+      "machine_id": "29668",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:57Z"
+    },
+    {
+      "machine_id": "29770",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:57Z"
+    },
+    {
+      "machine_id": "46392",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-27T14:06:58Z"
+    },
+    {
+      "machine_id": "1569",
+      "why": "never started: cur_state=stopped with an empty status_msg for 40 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T16:19:14Z"
+    },
+    {
+      "machine_id": "8914",
+      "why": "resources_unavailable on start (instance 46019465, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T17:36:58Z"
+    },
+    {
+      "machine_id": "29304",
+      "why": "resources_unavailable on start (instance 46019542, RTX 3090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T17:36:59Z"
+    },
+    {
+      "machine_id": "57342",
+      "why": "resources_unavailable on start (instance 46019545, RTX PRO 4000)",
+      "lane": "ternary",
+      "utc": "2026-07-27T17:37:00Z"
+    },
+    {
+      "machine_id": "51546",
+      "why": "resources_unavailable on start (instance 46019618, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T17:37:01Z"
+    },
+    {
+      "machine_id": "140160",
+      "why": "never started: cur_state=stopped with an empty status_msg for 76 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T17:51:37Z"
+    },
+    {
+      "machine_id": "68109",
+      "why": "resources_unavailable on start (instance 46027730, RTX 3090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T19:36:22Z"
+    },
+    {
+      "machine_id": "67860",
+      "why": "resources_unavailable on start (instance 46027803, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T19:36:24Z"
+    },
+    {
+      "machine_id": "24573",
+      "why": "resources_unavailable on start (instance 46027804, RTX 4090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T19:36:25Z"
+    },
+    {
+      "machine_id": "144071",
+      "why": "resources_unavailable on start (instance 46027855, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T19:36:26Z"
+    },
+    {
+      "machine_id": "19499",
+      "why": "never started: cur_state=stopped with an empty status_msg for 55 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T19:51:04Z"
+    },
+    {
+      "machine_id": "53989",
+      "why": "never started: cur_state=stopped with an empty status_msg for 53 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T19:55:56Z"
+    },
+    {
+      "machine_id": "34646",
+      "why": "resources_unavailable on start (instance 46035940, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T20:03:02Z"
+    },
+    {
+      "machine_id": "19492",
+      "why": "resources_unavailable on start (instance 46036026, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T20:03:04Z"
+    },
+    {
+      "machine_id": "11158",
+      "why": "resources_unavailable on start (instance 46036082, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T20:38:05Z"
+    },
+    {
+      "machine_id": "11892",
+      "why": "resources_unavailable on start (instance 46036096, RTX 4090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T20:38:07Z"
+    },
+    {
+      "machine_id": "29711",
+      "why": "resources_unavailable on start (instance 46037491, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T20:38:09Z"
+    },
+    {
+      "machine_id": "54458",
+      "why": "never started: cur_state=stopped with an empty status_msg for 61 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T20:58:50Z"
+    },
+    {
+      "machine_id": "68556",
+      "why": "never started: cur_state=stopped with an empty status_msg for 56 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T21:12:05Z"
+    },
+    {
+      "machine_id": "110782",
+      "why": "never started: cur_state=stopped with an empty status_msg for 54 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T22:06:30Z"
+    },
+    {
+      "machine_id": "145142",
+      "why": "resources_unavailable on start (instance 46040507, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T22:17:07Z"
+    },
+    {
+      "machine_id": "43159",
+      "why": "resources_unavailable on start (instance 46040659, RTX 4090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T22:17:11Z"
+    },
+    {
+      "machine_id": "139040",
+      "why": "never started: cur_state=stopped with an empty status_msg for 56 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T22:32:30Z"
+    },
+    {
+      "machine_id": "51045",
+      "why": "resources_unavailable on start (instance 46049098, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T23:42:30Z"
+    },
+    {
+      "machine_id": "30974",
+      "why": "resources_unavailable on start (instance 46049147, RTX 3090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T23:42:32Z"
+    },
+    {
+      "machine_id": "12708",
+      "why": "never started: cur_state=stopped with an empty status_msg for 54 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-27T23:52:32Z"
+    },
+    {
+      "machine_id": "31035",
+      "why": "resources_unavailable on start (instance 46055043, RTX 4090)",
+      "lane": "ternary",
+      "utc": "2026-07-27T23:55:33Z"
+    },
+    {
+      "machine_id": "35115",
+      "why": "resources_unavailable on start (instance 46056372, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-28T00:37:31Z"
+    },
+    {
+      "machine_id": "136811",
+      "why": "resources_unavailable on start (instance 46059600, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-28T01:02:55Z"
+    },
+    {
+      "machine_id": "51777",
+      "why": "resources_unavailable on start (instance 46059685, RTX 4090)",
+      "lane": "ternary",
+      "utc": "2026-07-28T01:02:57Z"
+    },
+    {
+      "machine_id": "29707",
+      "why": "resources_unavailable on start (instance 46059729, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-28T01:02:59Z"
+    },
+    {
+      "machine_id": "90898",
+      "why": "resources_unavailable on start (instance 46062103, RTX 5090)",
+      "lane": "ternary",
+      "utc": "2026-07-28T01:32:06Z"
+    },
+    {
+      "machine_id": null,
+      "why": "CLEARED 41 machine(s): trimcrae 2026-07-27: the set reached 48 machines and became the binding constraint on placement (2 of 2 authorised units failed on  against a 189-offer board at healthy prices). Capacity refusals were being stored as permanent host verdicts.",
+      "lane": "operator",
+      "utc": "2026-07-28T02:05:40Z",
+      "reason_class": "clear",
+      "cleared_machine_ids": [
+        "110782",
+        "11158",
+        "117843",
+        "11892",
+        "12697",
+        "12708",
+        "136811",
+        "139040",
+        "140043",
+        "140160",
+        "144071",
+        "145142",
+        "1569",
+        "18857",
+        "19492",
+        "19499",
+        "24573",
+        "26910",
+        "28164",
+        "29304",
+        "29668",
+        "29707",
+        "29711",
+        "29770",
+        "30974",
+        "31035",
+        "34646",
+        "35115",
+        "43159",
+        "46392",
+        "51045",
+        "51546",
+        "51777",
+        "53989",
+        "54458",
+        "57342",
+        "67860",
+        "68109",
+        "68556",
+        "8914",
+        "90898"
+      ]
+    },
+    {
+      "machine_id": "62866",
+      "why": "never started: cur_state=stopped with an empty status_msg for 48 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-28T02:08:52Z"
+    },
+    {
+      "machine_id": "46427",
+      "why": "never started: cur_state=stopped with an empty status_msg for 94 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-28T03:37:47Z"
+    },
+    {
+      "machine_id": "28908",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-28T03:38:11Z",
+      "reason_class": "host"
+    },
+    {
+      "machine_id": "49598",
+      "why": "container never started: 163 min from rental with no phase mark of its own (instance 46074335)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-28T07:08:57Z",
+      "reason_class": "host"
+    },
+    {
+      "machine_id": "49598",
+      "why": "WITHDRAWN: observed running the step 1 fan-out's container after being condemned as never-starting",
+      "lane": "step1_fanout",
+      "utc": "2026-07-28T08:38:56Z",
+      "action": "withdraw"
+    },
+    {
+      "machine_id": "8914",
+      "why": "backfilled from rung5a_ks's refuse-to-start list",
+      "lane": "rung5a_ks",
+      "utc": "2026-07-28T11:15:26Z",
+      "reason_class": "host"
+    },
+    {
+      "machine_id": "55275",
+      "why": "never started: cur_state=stopped with an empty status_msg for 112 min across 2 consecutive checks (create/start race, not an image pull)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-28T13:43:13Z"
+    },
+    {
+      "machine_id": "5750",
+      "why": "container never started: 133 min from rental with no phase mark of its own (instance 46102556)",
+      "lane": "step1_fanout",
+      "utc": "2026-07-28T13:43:25Z",
+      "reason_class": "host"
+    },
+    {
+      "machine_id": "5750",
+      "why": "WITHDRAWN: observed running the step 1 fan-out's container after being condemned as never-starting",
+      "lane": "step1_fanout",
+      "utc": "2026-07-28T13:47:08Z",
+      "action": "withdraw"
+    },
+    {
+      "machine_id": null,
+      "action": "retire_perishable",
+      "lane": "operator",
+      "utc": "2026-07-29T11:07:20Z",
+      "reason_class": "retire",
+      "why": "RETIRED 3 entr(ies) whose own recorded reason classifies as CLASS_CAPACITY \u2014 a claim about a moment, which `publish` refuses at the door and which reached this set before the guard or through backfill's synthetic label.",
+      "retired_machine_ids": [
+        "46427",
+        "55275",
+        "62866"
+      ]
+    }
+  ]
+}
