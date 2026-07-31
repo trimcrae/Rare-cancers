@@ -10,7 +10,7 @@ LEG                 % DONE  ETA (ET)         $/ns                       STATE   
 --------------------------------------------------------------------------------------------------------
 5aks_d0_to_d terna       —  —                $0.00465/ns · 1.36× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 5aks_d0_to_d terna       —  —                $0.00505/ns · 1.48× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
-5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  no committed checkpoint yet; host up 5 min and the first warmup boundary is one checkpoint interval of MD after the image pull
-5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  no committed checkpoint yet; host up 5 min and the first warmup boundary is one checkpoint interval of MD after the image pull
+5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  no committed checkpoint yet; host up 6 min and the first warmup boundary is one checkpoint interval of MD after the image pull
+5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  no committed checkpoint yet; host up 6 min and the first warmup boundary is one checkpoint interval of MD after the image pull
 ---- END TVAST-BOARD ----
 ```
