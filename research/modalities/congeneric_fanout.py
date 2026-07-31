@@ -36,6 +36,13 @@ than silently fanning out 100+ legs:
       analytical finite-size/Ewald term). Running them without it would produce numbers with an uncontrolled
       offset, so they are EXCLUDED here and `charge_changing_units()` exists to enumerate, not to launch.
 
+  AXIS 4 - INDEPENDENT REPLICATES of named edges -> +N per edge.  [TRANCHE 1R - opt-in, edge-scoped]
+      `replicate_units()` / `lane_units()`, requested by `FANOUT_REPLICATE_EDGES` + `FANOUT_REPLICATES`.
+      OFF by default and deliberately NOT map-wide: CLAUDE.md §5 defaults "more replicates" to NO, and the
+      one place it says YES is a standard-rigor result that is genuinely ambiguous AND decision-relevant —
+      which is `cycle_3carbonyl`, the cycle that does not close (see `replicate_units`). At n=0 nothing in
+      this axis exists and every unit id is byte-identical to the pre-axis lane.
+
   AXIS 3 - receptor frames -> x6 (4 NR4A3 conformers + matched NR4A1 + NR4A2 open frames).
       [TRANCHE 3 - the conformer-sensitivity + paralogue-selectivity axis, ~6x the tranche-1 cost]
       TRANCHE 1 runs the PRIMARY frame only (the frame the pilot converged on), so its output is a
@@ -185,21 +192,44 @@ def is_charge_changing(leg):
     return False
 
 
-def unit_id(edge_id, leg_id, receptor=PRIMARY_RECEPTOR, frame=PRIMARY_FRAME):
+def unit_id(edge_id, leg_id, receptor=PRIMARY_RECEPTOR, frame=PRIMARY_FRAME, replicate=0):
     """Stable, filesystem/S3/Vast-label-safe id for one fan-out unit. The frame is included ONLY when it is not
     the primary frame, so tranche-1 unit ids (and therefore their S3 result keys) stay stable if tranche 3 is
-    later added alongside them."""
+    later added alongside them.
+
+    ★★ THE REPLICATE INDEX IS OMITTED AT n=0, FOR EXACTLY THE SAME REASON THE PRIMARY FRAME IS
+    (2026-07-31, adding the replicate axis). Everything downstream of this string is CONTENT-ADDRESSED by it —
+    `result_key` (which is how `congeneric_fanout_vast._pending` decides a unit is finished),
+    `checkpoint_prefix` (the spot commit store), the Vast label, the phase marker, the attempts archive. So
+    renaming an existing unit does not "relabel" anything: it makes the lane unable to SEE the ddG it already
+    bought, and the very next unattended tick re-rents that edge. 18 of the map's 19 edges have a landed
+    `ddg.json` under the ids this function produced before the replicate axis existed, so `replicate=0` MUST
+    render byte-identically to those — pinned by
+    `tests/test_congeneric_fanout.py::test_every_existing_unit_id_is_byte_identical_after_the_replicate_axis`.
+
+    A replicate is a DIFFERENT UNIT, not a re-run of one: it gets its own result key (so it is genuinely
+    pending while n=0 stays done), its own checkpoint prefix (so it can never resume into another
+    replicate's trajectory), and its own SEED in `unit_env`.
+
+    The suffix goes LAST, after any frame qualifier, so a tranche-3 replicate reads
+    `<edge>__<leg>__nr4a1_matched_open_frame__r2` — frame first, then repeat, which is the order the axes
+    were added and the order `plan()` reports them in.
+    """
     base = f"{edge_id}__{leg_id}"
-    if receptor == PRIMARY_RECEPTOR and frame == PRIMARY_FRAME:
-        return base
-    tag = frame.split(":")[-1]
-    return f"{base}__{receptor}_{tag}"
+    if not (receptor == PRIMARY_RECEPTOR and frame == PRIMARY_FRAME):
+        tag = frame.split(":")[-1]
+        base = f"{base}__{receptor}_{tag}"
+    r = int(replicate or 0)
+    if r < 0:
+        raise ValueError(f"replicate must be >= 0, got {replicate!r}")
+    return base if r == 0 else f"{base}__r{r}"
 
 
-def _unit(edge, leg, receptor, frame, smiles):
+def _unit(edge, leg, receptor, frame, smiles, replicate=0):
     a, b = edge["node_a"], edge["node_b"]
     return {
-        "unit_id": unit_id(edge["edge_id"], leg["leg_id"], receptor, frame),
+        "unit_id": unit_id(edge["edge_id"], leg["leg_id"], receptor, frame, replicate),
+        "replicate": int(replicate or 0),
         "edge_id": edge["edge_id"],
         "leg_id": leg["leg_id"],
         "ligand_a": a,
@@ -262,8 +292,121 @@ def frame_units(receptor, frame, map_path=MAP_JSON, series_path=SERIES_JSON):
     conformer-sensitivity (NR4A3 conformers) and paralogue (NR4A1/NR4A2 matched open frames) axis. Each extra
     frame costs another full tranche-1 spend, which is why it is a separate authorization."""
     return [dict(u, receptor=receptor, frame=frame,
-                 unit_id=unit_id(u["edge_id"], u["leg_id"], receptor, frame))
+                 unit_id=unit_id(u["edge_id"], u["leg_id"], receptor, frame, u.get("replicate", 0)))
             for u in default_units(map_path, series_path)]
+
+
+# ---- TRANCHE 1R: independent replicates of named tranche-1 edges -------------------------------------------
+#
+# ★★ WHY THIS AXIS EXISTS, AND WHY IT IS EDGE-SCOPED RATHER THAN MAP-WIDE (STRATEGY rank 7).
+# Two live caveats, one experiment:
+#   1. `cycle_3carbonyl` does not close (the map's own `abort_criteria.cycle_closure_kcal_max` is the ±1.0
+#      tolerance it fails). At n=1 per edge, "one of these three edges is wrong" and "three unlucky single
+#      draws" are the same observation — `cycle_closure` cannot separate them and neither can a reader.
+#   2. This lane owns NO measured replicate SD. The program has exactly one, from the ternary lane, and it is
+#      transferred everywhere else — including onto binary RBFE edges it was never measured on.
+# Repeating the three edges of the open cycle answers both, and CLAUDE.md §5's breadth-vs-depth rule permits
+# it precisely because the standard-rigor result is AMBIGUOUS and the ambiguity is decision-relevant: it
+# decides whether those three ddG values may be quoted at all. It does NOT license replicating the map.
+#
+# ⚠ A REPLICATE IS NOT A RE-RUN. Re-running an edge at the same unit_id would (a) find the existing ddg.json
+# and skip, or (b) if forced, resume that edge's own committed trajectory and extend it — which is one
+# longer sample, not a second independent one, and would license no SD at all. That is why the index is in
+# the id, the seed is in the env, and the seed is in the resume fingerprint.
+
+def replicate_units(edge_ids, replicates=(1,), map_path=MAP_JSON, series_path=SERIES_JSON):
+    """Independent repeats of NAMED tranche-1 edges, at replicate indices > 0. PURE.
+
+    `edge_ids` may name edges directly or name a CYCLE (`cycle_3carbonyl`), which expands to that cycle's
+    edge list from the frozen map — the only thing anybody actually wants to replicate here is a cycle, and
+    re-typing its three edge ids is a transcription error waiting to happen (rule 1: point at the map).
+    Fails closed on a name that resolves to nothing, and on replicate 0 (which is not a replicate, it is the
+    original unit, and silently returning it would make a "replicate request" a no-op that reads as success).
+    """
+    reps = sorted({int(r) for r in replicates})
+    if not reps:
+        raise ValueError("no replicate indices requested")
+    if any(r < 1 for r in reps):
+        raise ValueError(f"replicate indices must be >= 1 (0 IS the original unit, not a repeat): {reps}")
+    wanted = resolve_edge_ids(edge_ids, map_path)
+    base = {u["edge_id"]: u for u in default_units(map_path, series_path)}
+    m = load_map(map_path)
+    edges = {e["edge_id"]: e for e in m.get("edges", [])}
+    smiles = smiles_registry(map_path, series_path)
+    out = []
+    for eid in wanted:
+        u0 = base.get(eid)
+        if u0 is None:      # an edge with no charge-conserving leg cannot even be in tranche 1
+            raise ValueError(f"edge {eid} is not a tranche-1 unit; it cannot be replicated")
+        leg = [lg for lg in (edges[eid].get("microstate_legs") or []) if lg["leg_id"] == u0["leg_id"]][0]
+        for r in reps:
+            out.append(_unit(edges[eid], leg, PRIMARY_RECEPTOR, PRIMARY_FRAME, smiles, replicate=r))
+    return out
+
+
+def resolve_edge_ids(names, map_path=MAP_JSON):
+    """[edge_id] for a list of edge ids and/or cycle ids, in map order, de-duplicated. PURE, fails closed.
+
+    Exact edge id wins outright; then an exact cycle id expands to its `edge_ids`. Nothing else — a
+    substring fallback would let `cycle_3` or `amide` silently select a set nobody named, and this list is
+    the thing that decides what gets rented."""
+    m = load_map(map_path)
+    edge_order = [e["edge_id"] for e in m.get("edges", [])]
+    edges, cycles = set(edge_order), {c.get("cycle_id"): (c.get("edge_ids") or []) for c in m.get("cycles", [])}
+    got, unknown = [], []
+    for n in names:
+        n = str(n).strip()
+        if not n:
+            continue
+        if n in edges:
+            got.append(n)
+        elif n in cycles:
+            got.extend(cycles[n])
+        else:
+            unknown.append(n)
+    if unknown:
+        raise ValueError(f"not an edge id or a cycle id in the frozen map: {unknown} "
+                         f"(cycles: {sorted(k for k in cycles if k)})")
+    seen, out = set(), []
+    for e in edge_order:
+        if e in got and e not in seen:
+            seen.add(e)
+            out.append(e)
+    return out
+
+
+def requested_replicates(env=None):
+    """(edge_ids, replicate_indices) this lane has been asked to repeat, from the environment. PURE-ish.
+
+    `FANOUT_REPLICATE_EDGES` — comma-separated edge ids and/or cycle ids. Empty (the default) means NO
+    replicate axis at all, and `lane_units()` is then `default_units()` object-for-object.
+    `FANOUT_REPLICATES=N` — how many FURTHER independent repeats per named edge, i.e. indices 1..N. It is a
+    COUNT OF EXTRA draws, not a total: the map already holds n=0, so `FANOUT_REPLICATES=2` takes those edges
+    to three independent samples, which is the ABFE standard CLAUDE.md §5 names ("~3 independent
+    replicates + honest replicate-SD error bars")."""
+    env = os.environ if env is None else env
+    names = [t.strip() for t in (env.get("FANOUT_REPLICATE_EDGES") or "").split(",") if t.strip()]
+    if not names:
+        return [], []
+    n = int((env.get("FANOUT_REPLICATES") or "1").strip() or "1")
+    if n < 1:
+        raise ValueError(f"FANOUT_REPLICATES must be >= 1 when FANOUT_REPLICATE_EDGES is set, got {n}")
+    return names, list(range(1, n + 1))
+
+
+def lane_units(map_path=MAP_JSON, series_path=SERIES_JSON, env=None):
+    """EVERY unit this lane may place right now: tranche 1, plus any requested replicates. PURE-ish.
+
+    ★ ONE ENUMERATION, SO DONE-DETECTION AND PLACEMENT CANNOT DISAGREE. `congeneric_fanout_vast` decides
+    "finished" by `result_key` existing and "pending" by its absence, over whatever list it is handed — so a
+    replicate that is not in that list is not pending, it is INVISIBLE, and `FANOUT_ONLY` cannot rescue it
+    (it filters the pending set and hard-fails on an empty match). With no replicate requested this returns
+    exactly `default_units()`, so every existing caller is unchanged."""
+    units = default_units(map_path, series_path)
+    names, reps = requested_replicates(env)
+    if not names:
+        return units
+    return units + replicate_units(names, reps, map_path, series_path)
 
 
 def fleet_frames(map_path=MAP_JSON):
@@ -283,7 +426,7 @@ def unit_env(unit, leg_kind, n_windows=12):
     same result namespace (the engine's own solvent leg does not use the protein)."""
     if leg_kind not in ("complex", "solvent", "reduce"):
         raise ValueError(f"leg_kind must be complex|solvent|reduce, got {leg_kind!r}")
-    return {
+    env = {
         "MODE": "reduce" if leg_kind == "reduce" else "splittest",
         "RBFE_TINY": "0",
         "LEG": leg_kind,
@@ -293,6 +436,28 @@ def unit_env(unit, leg_kind, n_windows=12):
         "N_WINDOWS": str(n_windows),
         "OPENMM_REQUIRE_CUDA": "0" if leg_kind == "reduce" else "1",
     }
+    # ★★ SEED IS EMITTED ONLY FOR A REPLICATE, AND THE ABSENCE AT n=0 IS THE LOAD-BEARING PART.
+    #
+    # `rbfe_spot_checkpoint.SYSTEM_FINGERPRINT_ENV` LISTS "SEED" and hashes it as `str(env.get(k, ""))`, so
+    # an UNSET SEED and an empty one hash identically — and that hash is what decides whether a committed
+    # generation may be restored. Every generation this lane has ever committed was written with SEED unset,
+    # i.e. against the `""` hash. Emitting `SEED=0` here would give each of them a fingerprint MISMATCH and
+    # every in-flight leg would refuse to resume after a preemption, throwing away paid GPU hours for a
+    # cosmetic default — the exact self-inflicted failure `SYSTEM_FINGERPRINT_ENV_ADDITIVE` was written to
+    # avoid. So n=0 emits nothing and hashes as it always did; n>=1 emits its index and hashes differently,
+    # which is precisely the refusal we want.
+    #
+    # SEED == the replicate index (not a derived or random value), matching the ternary lane's SEED=0/1/2.
+    # One number, one meaning: the id says `__r2`, the env says `SEED=2`, the fingerprint says `SEED: '2'`.
+    rep = int(unit.get("replicate") or 0)
+    if rep:
+        env["SEED"] = str(rep)
+        # A replicate's commit prefix is BRAND NEW, so nothing unstamped can legitimately be sitting in it —
+        # which makes the one case `fingerprint_mismatch_reason` deliberately tolerates (a manifest written
+        # before provenance stamping) impossible here, and refusing it therefore costs nothing and closes
+        # the last path by which a replicate could restore a generation it cannot prove is its own.
+        env["RBFE_STRICT_PROVENANCE"] = "1"
+    return env
 
 
 def result_key(unit, prefix):
@@ -532,11 +697,43 @@ def wave_plan(n_units, width=8, unit_h=None):
             "wall_clock_h_est": round(waves * unit_h, 1)}
 
 
-def plan(map_path=MAP_JSON, series_path=SERIES_JSON, width=8):
+def replicate_plan(map_path=MAP_JSON, series_path=SERIES_JSON, env=None):
+    """The replicate axis as a dry-run block: which units a replicate request produces, and at what cost.
+
+    Returns None when nothing was requested, so `plan()` carries the key only when it means something —
+    a permanently-present `"replicates": {"n_units": 0}` is the kind of always-there zero that stops being
+    read. PURE."""
+    names, reps = requested_replicates(env)
+    if not names:
+        return None
+    edge_ids = resolve_edge_ids(names, map_path)
+    units = replicate_units(names, reps, map_path, series_path)
+    lo, hi = cost_estimate(len(units))
+    return {
+        "requested": names,
+        "edges": edge_ids,
+        "replicate_indices": reps,
+        "n_units": len(units),
+        "units": [u["unit_id"] for u in units],
+        "seed_per_unit": {u["unit_id"]: unit_env(u, "complex").get("SEED") for u in units},
+        "cost_usd_est": [lo, hi],
+        "cost_plan_usd": cost_plan(len(units)),
+        "independence": "Each replicate is a DISTINCT unit: its own S3 result key (so it is pending while "
+                        "the n=0 edge stays done), its own checkpoint prefix, and its own SEED — which is "
+                        "part of rbfe_spot_checkpoint's resume fingerprint, so it can never restore another "
+                        "replicate's trajectory.",
+        "what_it_buys": "A replicate SD for these edges MEASURED ON THIS LANE, and the separation of 'one of "
+                        "these edges is wrong' from 'unlucky single draws' for a cycle that does not close. "
+                        "It does NOT improve accuracy and does not widen the claim ceiling.",
+    }
+
+
+def plan(map_path=MAP_JSON, series_path=SERIES_JSON, width=8, env=None):
     """Self-describing dry-run plan: what tranche 1 launches, what it deliberately does NOT, and the cost band."""
     units = default_units(map_path, series_path)
     cc = charge_changing_units(map_path, series_path)
     lo, hi = cost_estimate(len(units))
+    reps = replicate_plan(map_path, series_path, env)
     return {
         "tranche": "1 — edges x charge-conserving microstate leg, PRIMARY NR4A3 frame only",
         "n_units": len(units),
@@ -556,6 +753,11 @@ def plan(map_path=MAP_JSON, series_path=SERIES_JSON, width=8):
                                      "tranche-1 spend and a separate authorization",
         "claim_ceiling": "CONDITIONAL relative free energies on a HYPOTHESIZED cmpd19 pose in ONE modeled "
                          "opened conformer. Not affinity, not selectivity, not a sensitivity range.",
+        # Present only when a replicate was actually requested (FANOUT_REPLICATE_EDGES) — see replicate_plan.
+        **({"replicates": reps} if reps else
+           {"replicates_note": "no replicate requested (FANOUT_REPLICATE_EDGES unset); every unit above is "
+                               "n=0, single-draw, and the map's uncertainties are within-run MBAR SEs, not "
+                               "replicate SDs"}),
     }
 
 
@@ -633,6 +835,48 @@ def _walk_cycle(ids, edges, ddg_by_edge):
     return (order, signed) if node == start else None
 
 
+def pending_given(units, done_ids, blocked_ids=()):
+    """Units with no result and no block, in lane order. PURE.
+
+    ★ ONE PLACE, SO A DRY RUN AND A BILLING TICK CANNOT DISAGREE. `congeneric_fanout_vast._pending` is this
+    function plus the two S3 reads that supply its arguments — nothing else. That matters because the
+    question "would a replicate request actually be placed, and would the 18 finished edges stay finished?"
+    has to be answerable WITHOUT renting anything, and an answer computed by a second, similar-looking
+    expression would be evidence about that expression rather than about the launcher."""
+    done, blk = set(done_ids or ()), set(blocked_ids or ())
+    return [u for u in units if u["unit_id"] not in done and u["unit_id"] not in blk]
+
+
+def replicate_stats(results):
+    """{edge_id: {n, draws, mean_kcal, sd_kcal}} over ddG results that carry a `replicate` index. PURE.
+
+    `results` is the collected ddg.json list. Every result counts as one draw, INCLUDING the n=0 unit — the
+    map's own single sample is the first replicate, not a different kind of thing, and excluding it would
+    throw away a third of a three-draw set.
+
+    `sd_kcal` is the SAMPLE standard deviation (n-1) across INDEPENDENT DRAWS and is None below n=2. It is
+    reported next to, never merged with, the within-run MBAR SE each draw carries: CLAUDE.md §5 asks for
+    "honest replicate-SD, not MBAR-SE" error bars, and the two answer different questions — MBAR-SE asks how
+    well ONE trajectory was sampled, replicate SD asks whether a SECOND trajectory lands in the same place.
+    """
+    by_edge = {}
+    for r in results or ():
+        eid, v = r.get("edge_id"), r.get("ddg_bind_kcal")
+        if eid is None or v is None:
+            continue
+        by_edge.setdefault(eid, {})[int(r.get("replicate") or 0)] = float(v)
+    out = {}
+    for eid, draws in sorted(by_edge.items()):
+        vals = [draws[k] for k in sorted(draws)]
+        n = len(vals)
+        mean = sum(vals) / n
+        sd = (sum((v - mean) ** 2 for v in vals) / (n - 1)) ** 0.5 if n > 1 else None
+        out[eid] = {"n": n, "draws": {f"r{k}": round(draws[k], 3) for k in sorted(draws)},
+                    "mean_kcal": round(mean, 3),
+                    "sd_kcal": round(sd, 3) if sd is not None else None}
+    return out
+
+
 def rank_by_ddg(ddg_by_edge, anchor="zaienne_cmpd19", map_path=MAP_JSON):
     """Rank the anchor-rooted analogues by conditional relative binding free energy.
 
@@ -683,7 +927,11 @@ def fanout_width():
     env = (os.environ.get("FANOUT_WIDTH") or "").strip()
     if env:
         return int(env)
-    return len(default_units())
+    # `lane_units()`, not `default_units()`: with a replicate requested the lane has MORE units it is
+    # allowed to place, and a width derived from the map alone would cap the fleet below its own pending
+    # set — the same "code default silently narrower than the readout" defect this function exists to stop.
+    # With no replicate requested the two are identical, so nothing changes.
+    return len(lane_units())
 
 
 if __name__ == "__main__":

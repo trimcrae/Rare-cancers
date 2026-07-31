@@ -1,0 +1,157 @@
+{
+  "tranche": "1 \u2014 edges x charge-conserving microstate leg, PRIMARY NR4A3 frame only",
+  "n_units": 19,
+  "units": [
+    "e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
+    "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
+    "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
+    "e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
+    "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
+    "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
+    "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
+    "e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
+    "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+    "e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral",
+    "e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral",
+    "e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral",
+    "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
+    "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid",
+    "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
+    "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
+    "e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
+    "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
+    "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral"
+  ],
+  "by_class": {
+    "bioisostere": 5,
+    "cycle_closure": 3,
+    "exit_vector_sub": 8,
+    "microstate_variant": 3
+  },
+  "by_star": {
+    "star_3position": 8,
+    "star_5position": 11
+  },
+  "cost_usd_est": [
+    12.3,
+    74.91
+  ],
+  "cost_basis": "MEASURED ~3.6 GPU-h complex leg (Vast 4090, instance 45654998) + extrapolated solvent leg; x the realized interruptible $/hr band. Band, not a point estimate.",
+  "waves": {
+    "n_units": 19,
+    "width": 25,
+    "waves": 1,
+    "wall_clock_h_est": 13.7
+  },
+  "excluded_tranche_2_charge_changing": [
+    "e_zaienne_cmpd19__cw_ev_5cooh__neutral__anionic_carboxylate",
+    "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__cationic_ammonium",
+    "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__cationic_monoprotonated",
+    "e_zaienne_cmpd19__cw_ev_5pegamine__neutral__cationic_ammonium",
+    "e_zaienne_cmpd19__cw_bio_tetrazole__neutral__anionic_tetrazolate",
+    "e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__anionic",
+    "e_zaienne_cmpd19__cw_ms_free_acid__neutral__anionic_carboxylate",
+    "e_cw_ms_free_acid__cw_bio_primary_amide__anionic_carboxylate__neutral"
+  ],
+  "excluded_tranche_2_reason": "map microstate_policy requires a co-alchemical / analytical charge correction that nr4a3_rbfe.py does not implement",
+  "excluded_tranche_3_frames": [
+    "nr4a3:nr4a3_validation:8xtt_druggable_1",
+    "nr4a3:nr4a3_validation:8xtt_druggable_2",
+    "nr4a3:nr4a3_validation:8xtt_druggable_3",
+    "nr4a3:nr4a3_validation:release_heldout_rank4_6",
+    "nr4a1:nr4a1_antitarget:matched_open_frame",
+    "nr4a2:nr4a2_antitarget:matched_open_frame"
+  ],
+  "excluded_tranche_3_reason": "conformer-sensitivity + paralogue axis; each extra frame is another full tranche-1 spend and a separate authorization",
+  "claim_ceiling": "CONDITIONAL relative free energies on a HYPOTHESIZED cmpd19 pose in ONE modeled opened conformer. Not affinity, not selectivity, not a sensitivity range.",
+  "replicates": {
+    "requested": [
+      "cycle_3carbonyl"
+    ],
+    "edges": [
+      "e_zaienne_cmpd19__cw_bio_primary_amide",
+      "e_zaienne_cmpd19__cw_ms_free_acid",
+      "e_cw_ms_free_acid__cw_bio_primary_amide"
+    ],
+    "replicate_indices": [
+      1,
+      2
+    ],
+    "n_units": 6,
+    "units": [
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r1",
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r2",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r2",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral__r1",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral__r2"
+    ],
+    "seed_per_unit": {
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r1": "1",
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r2": "2",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1": "1",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r2": "2",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral__r1": "1",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral__r2": "2"
+    },
+    "cost_usd_est": [
+      3.88,
+      23.65
+    ],
+    "cost_plan_usd": 9.38,
+    "independence": "Each replicate is a DISTINCT unit: its own S3 result key (so it is pending while the n=0 edge stays done), its own checkpoint prefix, and its own SEED \u2014 which is part of rbfe_spot_checkpoint's resume fingerprint, so it can never restore another replicate's trajectory.",
+    "what_it_buys": "A replicate SD for these edges MEASURED ON THIS LANE, and the separation of 'one of these edges is wrong' from 'unlucky single draws' for a cycle that does not close. It does NOT improve accuracy and does not widen the claim ceiling."
+  },
+  "_generated_by": {
+    "command": "PLAN=1 FANOUT_REPLICATE_EDGES=cycle_3carbonyl FANOUT_REPLICATES=2 python3 congeneric_fanout_vast.py",
+    "spend": "$0 \u2014 PLAN makes no S3 call, no Vast call and rents nothing"
+  },
+  "placement_dry_run": {
+    "_what": "Dry run: which units LAUNCH would place. No S3 call, no Vast call, no rental.",
+    "_done_set_source": "step1-fanout-map.json",
+    "_authority": "s3://$VAST_CKPT_BUCKET/nr4a3-step1-fanout/results/<unit_id>/ddg.json is the live authority; the artifact above is a snapshot of it from the last collect tick.",
+    "n_lane_units": 25,
+    "n_done": 18,
+    "n_blocked": 1,
+    "n_would_place": 6,
+    "done_units": [
+      "e_cw_ev_5nh2__cw_ms_5acetamido_ester__neutral__neutral",
+      "e_cw_ev_5oh__cw_ev_5opropargyl__neutral__neutral",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral",
+      "e_zaienne_cmpd19__cw_bio_acylsulfonamide__neutral__neutral",
+      "e_zaienne_cmpd19__cw_bio_hydroxamic__neutral__neutral",
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral",
+      "e_zaienne_cmpd19__cw_bio_tetrazole__neutral__neutral",
+      "e_zaienne_cmpd19__cw_ev_5alkyne__neutral__neutral",
+      "e_zaienne_cmpd19__cw_ev_5ch2nh2__neutral__neutral_amine",
+      "e_zaienne_cmpd19__cw_ev_5cooh__neutral__neutral_acid",
+      "e_zaienne_cmpd19__cw_ev_5nh2__neutral__neutral",
+      "e_zaienne_cmpd19__cw_ev_5oh__neutral__neutral",
+      "e_zaienne_cmpd19__cw_ev_5opropargyl__neutral__neutral",
+      "e_zaienne_cmpd19__cw_ev_5pegamine__neutral__neutral_amine",
+      "e_zaienne_cmpd19__cw_ev_5piperazine__neutral__neutral",
+      "e_zaienne_cmpd19__cw_ms_5acetamido_ester__neutral__neutral",
+      "e_zaienne_cmpd19__cw_ms_carbinol__neutral__neutral",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid"
+    ],
+    "blocked_units": [
+      "e_zaienne_cmpd19__cw_bio_nmethyl_amide__neutral__neutral"
+    ],
+    "would_place": [
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r1",
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r2",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r2",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral__r1",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral__r2"
+    ],
+    "would_place_seeds": {
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r1": "1",
+      "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r2": "2",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1": "1",
+      "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r2": "2",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral__r1": "1",
+      "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral__r2": "2"
+    }
+  }
+}

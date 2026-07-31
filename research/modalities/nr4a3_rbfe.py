@@ -34,7 +34,16 @@ RECEPTOR = os.environ.get("RECEPTOR", "nr4a3")
 LEG = os.environ.get("LEG", "complex")
 N_WINDOWS = int(os.environ.get("N_WINDOWS", "12"))
 N_ITER = int(os.environ.get("N_ITER", "1000"))
-SEED = int(os.environ.get("SEED", "0"))
+# Replicate index / RNG seed. `or "0"` rather than a dict default, because a shell that exports `SEED=` (an
+# EMPTY string, which is what `env SEED="$SEED"` produces when the launcher did not set one) makes
+# `os.environ.get("SEED", "0")` return `""` and `int("")` raise — a crash on a rented GPU, in the setup
+# phase, for a variable this engine had never used. Unset and empty must both mean 0, exactly as
+# `rbfe_spot_checkpoint.system_fingerprint_fields` already treats them.
+SEED = int((os.environ.get("SEED") or "0").strip() or "0")
+# The env var VERBATIM, which is what the resume fingerprint hashes (unset and "" hash the same, "0" does
+# NOT hash the same as unset). Kept separate from the int so provenance records what was SET, not what was
+# parsed — the two differ exactly at the case that matters.
+SEED_ENV_RAW = os.environ.get("SEED")
 
 
 def _canon(m, rdkit_chem):
@@ -679,7 +688,82 @@ def _protocol(openfe):
         print(f"  [rbfe] forcefield_settings.constraints = {_cons_eff} | hydrogen_mass = {_hmass_eff}", flush=True)
     except Exception as _e:  # noqa: BLE001
         print(f"  [rbfe] WARN constraints diagnostic failed ({_e})", flush=True)
+    _apply_seed(s)
     return RelativeHybridTopologyProtocol(s)
+
+
+# ★★ WHAT "SEEDING" CAN AND CANNOT MEAN HERE — MEASURED AGAINST THE ACTUAL LIBRARY SOURCE, 2026-07-31.
+#
+# The fan-out's replicate axis (`congeneric_fanout.replicate_units`) exports SEED=<replicate index>. Before
+# writing anything that LOOKS like seeding, the question "how does OpenFE want a seed set?" was answered by
+# reading OpenFE's and openmmtools' source rather than by pattern-matching another lane:
+#
+#   * openfe `src/openfe/protocols/openmm_utils/omm_settings.py` — `grep -i seed` returns NOTHING. No
+#     settings group (IntegratorSettings, MultiStateSimulationSettings, OutputSettings, …) exposes a seed.
+#   * openfe `src/openfe/protocols/openmm_rfe/hybridtop_units.py::_get_integrator` builds
+#     `openmmtools.mcmc.LangevinDynamicsMove(timestep, collision_rate, n_steps, reassign_velocities,
+#     n_restart_attempts, constraint_tolerance)` — no seed argument, and `_get_sampler`'s kwargs carry none
+#     either.
+#   * openmmtools `mcmc.py::LangevinDynamicsMove._get_integrator` constructs
+#     `openmm.LangevinMiddleIntegrator(...)` and never calls `setRandomNumberSeed`, so the integrator keeps
+#     OpenMM's default seed 0 — which OpenMM documents as "a unique seed is chosen when a Context is
+#     created". The thermostat stream is therefore drawn FROM THE OS, per Context, per run.
+#   * openmmtools `multistate/replicaexchange.py` draws its replica-swap moves from the GLOBAL NumPy RNG
+#     (`np.random.randint` / `np.random.rand`, lines 324-400).
+#
+# So, stated plainly rather than papered over:
+#   1. There is NO protocol-settings seed field to set. A `hasattr(settings, "random_seed")` probe on this
+#      openfe silently sets nothing at all — it is the shape of seeding without the substance, and this
+#      function refuses to be that: it PRINTS which mechanisms it reached and which it could not.
+#   2. Two runs of the same edge are ALREADY independent draws, because the Langevin/velocity seed is
+#      OS-drawn per Context. Independence — the property a replicate SD actually requires — does not depend
+#      on anything below. What was missing from this lane was never independence; it was IDENTITY (a
+#      replicate had nowhere to land, see `congeneric_fanout.unit_id`) and RESUME ISOLATION.
+#   3. What this function CAN control honestly is the global NumPy RNG that openmmtools' replica mixing
+#      draws from. Seeding it makes the mixing stream a deterministic function of the replicate index
+#      instead of an OS draw, so replicate 1 and replicate 2 are separated by construction and not merely
+#      by luck. It does NOT make a run bit-reproducible, and this must never be claimed: the dominant
+#      stochastic source (the thermostat) remains OS-seeded and unreachable through the public API.
+def _apply_seed(settings):
+    """Seed every RNG stream this protocol can actually reach, and SAY which. Returns a report dict.
+
+    Applied only when SEED is non-zero, so the 18 landed n=0 edges keep the exact RNG behaviour they were
+    computed with (an unseeded global NumPy RNG). `nr4a3_metad.py` makes the same choice for the same
+    reason: SEED=0 keeps legacy behaviour, a non-zero SEED is the deliberate, recorded one."""
+    report = {"seed": SEED, "seed_env_raw": SEED_ENV_RAW, "applied": [], "not_available": []}
+    # FUTURE-PROOFING, NOT THE MECHANISM. If a future openfe grows a seed field, use it — but never let its
+    # absence pass silently, which is the whole failure mode this block is written against.
+    for grp in ("simulation_settings", "integrator_settings"):
+        sub = getattr(settings, grp, None)
+        for attr in ("random_seed", "sampler_seed"):
+            if sub is not None and hasattr(sub, attr):
+                try:
+                    setattr(sub, attr, SEED)
+                    report["applied"].append(f"{grp}.{attr}={SEED}")
+                except Exception as e:  # noqa: BLE001
+                    report["not_available"].append(f"{grp}.{attr} present but not settable ({e})")
+            else:
+                report["not_available"].append(f"{grp}.{attr}")
+    if not SEED:
+        print("  [rbfe][seed] SEED=0 (unset) — RNG streams left at library defaults, identical to every "
+              "n=0 unit already computed on this map.", flush=True)
+        return report
+    try:
+        import random as _random
+
+        import numpy as _np
+        _np.random.seed(SEED)
+        _random.seed(SEED)
+        report["applied"].append(f"numpy.random.seed({SEED}) + random.seed({SEED})")
+    except Exception as e:  # noqa: BLE001 — a seeding failure must never cost a rented leg
+        report["not_available"].append(f"numpy/random global seed ({e})")
+    print(f"  [rbfe][seed] SEED={SEED} applied: {report['applied'] or 'NOTHING'}", flush=True)
+    print("  [rbfe][seed] NOT reachable through the public API (measured against openfe/openmmtools "
+          f"source, see the block above): {report['not_available']}", flush=True)
+    print("  [rbfe][seed] The Langevin thermostat/velocity stream is seeded BY OPENMM from the OS on every "
+          "Context, so replicates are independent draws by construction; this run is NOT bit-reproducible "
+          "and must not be described as such.", flush=True)
+    return report
 
 
 def _chemical_systems(openfe, ligA, ligB, protein):
@@ -901,7 +985,8 @@ def run_leg():
     unc = est.get_uncertainty()
     out = {"receptor": RECEPTOR, "leg": LEG, "ligand_a": LIGAND_A, "ligand_b": LIGAND_B,
            "dg_morph_kcal": float(dg.to("kilocalorie_per_mole").m),
-           "unc_kcal": float(unc.to("kilocalorie_per_mole").m), "n_mapped_atoms": n_mapped}
+           "unc_kcal": float(unc.to("kilocalorie_per_mole").m), "n_mapped_atoms": n_mapped,
+           "seed": SEED, "seed_env_raw": SEED_ENV_RAW}
     json.dump(out, open(os.path.join(CKPT, f"leg_{RECEPTOR}_{LEG}.json"), "w"), indent=2)
     print(f"  [rbfe] LEG DONE {RECEPTOR}/{LEG}: ΔG_morph={out['dg_morph_kcal']:.2f} ± {out['unc_kcal']:.2f}",
           flush=True)
@@ -1230,6 +1315,11 @@ def run_analyze():
         return
     out = {"receptor": RECEPTOR, "leg": LEG, "ligand_a": LIGAND_A, "ligand_b": LIGAND_B,
            "dg_morph_kcal": dg, "unc_kcal": unc if unc is not None else 0.0, "n_mapped_atoms": n_mapped,
+           # Which independent draw this leg IS. Without it a collected replicate is a number with no way
+           # back to the run that produced it, and a replicate SD assembled from unlabelled draws is not
+           # auditable. `seed_env_raw` is null for every n=0 leg, which is exactly how the resume
+           # fingerprint sees it (unset != "0").
+           "seed": SEED, "seed_env_raw": SEED_ENV_RAW,
            "via": "split(setup|simulate|analyze)"}
     json.dump(out, open(os.path.join(CKPT, f"leg_{RECEPTOR}_{LEG}.json"), "w"), indent=2)
     print(f"  [rbfe][analyze] DONE {RECEPTOR}/{LEG}: ΔG_morph={dg:.2f} ± {out['unc_kcal']:.2f}", flush=True)

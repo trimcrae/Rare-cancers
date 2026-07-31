@@ -22,6 +22,13 @@ Modes (env flags, set by the CI workflow):
   DIAG=1      root-cause a failed unit: its S3 leg log + the container stdout pulled off the Vast instance.
   STOP=1      destroy every s1f-* instance (explicit cleanup; never touches other labels).
 
+REPLICATES — `FANOUT_REPLICATE_EDGES` (comma-separated edge ids, or a CYCLE id such as `cycle_3carbonyl`) +
+`FANOUT_REPLICATES=N` add N further INDEPENDENT draws of those edges to the lane's unit list. Each replicate
+is a distinct unit (`<unit_id>__r<n>`) with its own result key, its own checkpoint prefix and `SEED=<n>` —
+which `rbfe_spot_checkpoint` hashes into the resume fingerprint, so a replicate can never restore another
+replicate's trajectory. Unset (the default) means the lane is exactly the 19-unit map, byte-for-byte. Preview
+with `PLAN=1`; the arithmetic and the honesty caveats live in `congeneric_fanout.replicate_units`.
+
 SELECTIVE LAUNCH — `FANOUT_ONLY` (comma-separated unit_id / ligand substrings) launches a NAMED subset. This
 is the shakeout lever, and it exists because of an asymmetry: wave 1 proved this lane SAMPLES (three hosts at
 95-99 % GPU on the real cmpd19/NR4A3 system), but 0 of 19 units has ever produced a ddG, so the TERMINUS —
@@ -53,7 +60,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from congeneric_fanout import (  # noqa: E402
     PRIMARY_FRAME, PRIMARY_RECEPTOR, checkpoint_prefix, cost_estimate, cost_plan, cycle_closure,
-    default_units, fanout_width, plan, rank_by_ddg, result_key, unit_env, wave_plan,
+    default_units, fanout_width, lane_units, plan, rank_by_ddg, replicate_units, requested_replicates,
+    result_key, unit_env, wave_plan,
 )
 # The market guard's arithmetic is PURE and lives in the core module with the rest of the cost block, so it
 # is unit-tested without a Vast key and cannot drift from the ladder figures it is derived from.
@@ -257,14 +265,19 @@ unc = (cx.get("unc_kcal", 0.0) ** 2 + sol.get("unc_kcal", 0.0) ** 2) ** 0.5
 r = {
     "unit_id": os.environ["UNIT_ID"], "edge_id": os.environ["EDGE_ID"], "leg_id": os.environ["LEG_ID"],
     "receptor": rec, "frame": os.environ["FRAME"],
+    # WHICH INDEPENDENT DRAW THIS IS. `collect` groups replicates by edge_id and the SD it reports is only
+    # auditable if every ddG says which draw it came from. n=0 (the map's own single draw) records 0/None,
+    # so every ddg.json this lane has already produced describes itself correctly under the new schema too.
+    "replicate": int(os.environ.get("REPLICATE") or 0), "seed": os.environ.get("SEED") or None,
     "ligand_a": cx["ligand_a"], "ligand_b": cx["ligand_b"],
     "ddg_bind_kcal": round(ddg, 3), "ddg_bind_unc_kcal": round(unc, 3),
     "dg_complex_morph_kcal": cx["dg_morph_kcal"], "complex_unc_kcal": cx.get("unc_kcal"),
     "dg_solvent_morph_kcal": sol["dg_morph_kcal"], "solvent_unc_kcal": sol.get("unc_kcal"),
     "n_mapped_atoms": cx.get("n_mapped_atoms"), "n_windows": int(os.environ["N_WINDOWS"]),
     "engine": "OpenFE RelativeHybridTopologyProtocol, HREX + MBAR (nr4a3_rbfe.py, MODE=splittest)",
-    "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature. NOT a replicate SD — a "
-                        "single replicate per edge cannot report reproducibility.",
+    "uncertainty_note": "within-run MBAR standard errors, propagated in quadrature, for ONE independent "
+                        "draw. NOT a replicate SD: a replicate SD exists only for an edge this lane ran at "
+                        "more than one replicate index (see `replicate`).",
     "claim_ceiling": "CONDITIONAL relative binding free energy for a HYPOTHESIZED cmpd19 pose in ONE modeled "
                      "opened NR4A3 conformer. Not an affinity, not a selectivity claim.",
 }
@@ -299,8 +312,16 @@ def build_jobspec(unit, branch, bucket, idx, exclude_machine_ids=()):
         "RESULT_S3": result_s3, "CKPT_PREFIX": ckpt,
         "UNIT_ID": unit["unit_id"], "EDGE_ID": unit["edge_id"], "LEG_ID": unit["leg_id"],
         "FRAME": unit["frame"], "N_WINDOWS": str(N_WINDOWS),
+        # SEED and RBFE_STRICT_PROVENANCE are emitted by `unit_env` ONLY for a replicate (n>=1), and their
+        # ABSENCE at n=0 is load-bearing — `rbfe_spot_checkpoint` hashes SEED into the resume fingerprint,
+        # where unset and "0" are DIFFERENT values. See `congeneric_fanout.unit_env`. `gpu_backend
+        # ._vast_onstart` `export`s every key here, so the engine invoked further down `_LEG` inherits them
+        # without the bash needing to name them.
         **{k: v for k, v in unit_env(unit, "complex", N_WINDOWS).items()
-           if k in ("RECEPTOR", "LIGAND_A", "LIGAND_B")},
+           if k in ("RECEPTOR", "LIGAND_A", "LIGAND_B", "SEED", "RBFE_STRICT_PROVENANCE")},
+        # Likewise conditional, so a tranche-1 spec is byte-identical to the one this lane has been
+        # submitting all along.
+        **({"REPLICATE": str(unit["replicate"])} if unit.get("replicate") else {}),
     }
     return JobSpec(name=label, command=["bash", "-lc", pipeline], image=FEP_IMAGE,
                    checkpoint_uri=f"s3://{bucket}/{ckpt}", resume=True, resources=res,
@@ -1278,10 +1299,74 @@ def withdraw_wrong_exclusions(s3, bucket, proven_machines):
 
 def mode_plan():
     _w = fanout_width()
-    p = plan(width=_w)
+    # `env=os.environ` so PLAN answers the question the operator actually asked — "what would a replicate
+    # request for these edges produce?" — rather than always describing the bare map. A dry-run that cannot
+    # be pointed at the thing about to be launched is not a dry run.
+    p = plan(width=_w, env=os.environ)
     print(json.dumps(p, indent=2))
     print(f"\n[s1f] {p['n_units']} units, {_w}-wide -> {p['waves']['waves']} waves "
           f"(~{p['waves']['wall_clock_h_est']} h wall-clock), ${p['cost_usd_est'][0]}-{p['cost_usd_est'][1]}")
+    rp = p.get("replicates")
+    lane = lane_units()
+    if rp:
+        print(f"[s1f] + REPLICATES: {rp['n_units']} unit(s) over {len(rp['edges'])} edge(s) at indices "
+              f"{rp['replicate_indices']} -> ${rp['cost_usd_est'][0]}-{rp['cost_usd_est'][1]} "
+              f"(plan ${rp['cost_plan_usd']}). Lane total {len(lane)} units.")
+        for uid in rp["units"]:
+            print(f"[s1f]     {uid}   SEED={rp['seed_per_unit'][uid]}")
+    # SELF-DESCRIBING, because this file is committed and a plan that does not say what it was asked is
+    # indistinguishable from a plan for a different question.
+    p["_generated_by"] = {
+        "command": "PLAN=1 " + " ".join(f"{k}={os.environ[k]}" for k in
+                                        ("FANOUT_REPLICATE_EDGES", "FANOUT_REPLICATES", "FANOUT_WIDTH")
+                                        if os.environ.get(k)) + " python3 congeneric_fanout_vast.py",
+        "spend": "$0 — PLAN makes no S3 call, no Vast call and rents nothing",
+    }
+    p["placement_dry_run"] = _plan_placement_dry_run(lane)
+    with open("step1-fanout-plan.json", "w") as f:
+        json.dump(p, f, indent=2)
+    dr = p["placement_dry_run"]
+    print(f"[s1f] dry run vs the last collected map: {dr['n_done']} done, {dr['n_blocked']} blocked, "
+          f"{dr['n_would_place']} would be placed -> step1-fanout-plan.json")
+
+
+def _plan_placement_dry_run(lane, map_path="step1-fanout-map.json"):
+    """What LAUNCH would place, computed WITHOUT touching S3 or the Vast API. $0, rents nothing.
+
+    ⚠ THE DONE-SET HERE IS THE LAST COLLECTED ARTIFACT, NOT S3. `mode_collect` writes
+    `step1-fanout-map.json` from the real bucket, so this is a snapshot of S3 as of that tick and it is
+    named as such in the output — the live authority is always the bucket. It is the right input for the
+    question a dry run asks (would a replicate request be placed while the finished edges stay finished?)
+    and the wrong input for anything that spends money, which is why nothing downstream of here does.
+
+    The filter is `congeneric_fanout.pending_given`, the SAME function `_pending` returns from, so this
+    cannot drift away from what the launcher would actually do."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    src, done, blocked = None, set(), {}
+    for cand in (map_path, os.path.join(here, map_path)):
+        try:
+            with open(cand) as fh:
+                doc = json.load(fh)
+            src, done = cand, {r["unit_id"] for r in doc.get("results", [])}
+            blocked = doc.get("blocked_units") or {}
+            break
+        except Exception:  # noqa: BLE001 — no artifact is a legitimate state (a fresh checkout)
+            continue
+    would = _cf.pending_given(lane, done, blocked)
+    n_done, n_blocked, _out = counts(lane, done, blocked)
+    return {
+        "_what": "Dry run: which units LAUNCH would place. No S3 call, no Vast call, no rental.",
+        "_done_set_source": src or "NONE FOUND — every unit reads as unrun, which is a statement about "
+                                   "this checkout, not about the bucket",
+        "_authority": "s3://$VAST_CKPT_BUCKET/nr4a3-step1-fanout/results/<unit_id>/ddg.json is the live "
+                      "authority; the artifact above is a snapshot of it from the last collect tick.",
+        "n_lane_units": len(lane), "n_done": n_done, "n_blocked": n_blocked,
+        "n_would_place": len(would),
+        "done_units": sorted(done),
+        "blocked_units": sorted(blocked),
+        "would_place": [u["unit_id"] for u in would],
+        "would_place_seeds": {u["unit_id"]: unit_env(u, "complex").get("SEED") for u in would},
+    }
 
 
 def mode_stage():
@@ -1298,7 +1383,10 @@ def mode_precheck():
     qc = _get_json(s3, bucket, f"{STAGE_PREFIX}/stage_qc.json")
     if qc is None:
         raise SystemExit(f"[s1f] no stage_qc.json under s3://{bucket}/{STAGE_PREFIX}/ — run STAGE=1 first")
-    units = default_units()
+    # lane_units so a replicate request is precheck-ed too. Its endpoints are the same nodes as n=0's, so
+    # this can never FAIL differently — but a precheck that silently ignores part of what LAUNCH will place
+    # is a gate with a hole in it.
+    units = lane_units()
     staged = {q["node"] for q in qc.get("qc", []) if q.get("status") == "ok"}
     needed = {u["ligand_a"] for u in units} | {u["ligand_b"] for u in units}
     missing = sorted(needed - staged)
@@ -1480,19 +1568,21 @@ def breaker_decision(s3, bucket, unit, baselines=None):
 
 
 def _pending(s3, bucket, units, blocked=None):
-    """Units with no ddg.json in S3 yet AND not blocked, in map order. Blocks are announced, never silent."""
+    """Units with no ddg.json in S3 yet AND not blocked, in map order. Blocks are announced, never silent.
+
+    The FILTER itself is `congeneric_fanout.pending_given` — pure, and therefore exercisable in a dry run
+    against a known done-set. This function is the two S3 reads that supply its arguments plus the
+    announcement of every block it applies."""
     blocked = _load_blocked(s3, bucket) if blocked is None else blocked
-    out = []
+    done = {u["unit_id"] for u in units if _exists(s3, bucket, result_key(u, RESULT_PREFIX))}
     for u in units:
-        if _exists(s3, bucket, result_key(u, RESULT_PREFIX)):
+        if u["unit_id"] in done:
             continue
         b = blocked.get(u["unit_id"])
         if b:
             print(f"[s1f] BLOCKED, not launching {u['unit_id']}: {b.get('why')}"
                   + (f" (evidence: {b.get('evidence')})" if b.get("evidence") else ""))
-            continue
-        out.append(u)
-    return out
+    return _cf.pending_given(units, done, blocked)
 
 
 _LAUNCH_LOG = []
@@ -2101,7 +2191,11 @@ def mode_launch():
                  for k in ("MEASURE", "COLLECT")}
     _upstream_bad = {k: v for k, v in _upstream.items() if v != "success"}
 
-    units = default_units()
+    # ★ `lane_units`, NOT `default_units` — the replicate axis has to be VISIBLE to placement or it does not
+    # exist. `_pending` decides "pending" by the absence of a `result_key`, and `FANOUT_ONLY` filters the
+    # PENDING set and hard-fails on an empty match, so a replicate missing from this list cannot be reached
+    # by any lever: it is not held, it is invisible. With no replicate requested this is `default_units()`.
+    units = lane_units()
     idx_of = {u["unit_id"]: i for i, u in enumerate(units)}
     _blocked = _load_blocked(s3, bucket)
     pending = _pending(s3, bucket, units, blocked=_blocked)
@@ -2427,6 +2521,10 @@ def mode_launch():
     # for a spend cap means an outage reports realised $0 and full headroom — a fabricated all-clear that
     # opens the gate exactly when evidence is missing. `load_ledger_strict` raises instead, and the raise
     # HOLDS. Same rule as the unreadable board.
+    # `n_units=len(units)` is the LANE (map + any requested replicates), not the map — the ceiling is
+    # `market_ceiling_usd(n)`, i.e. the authorised band top for n units of work, so it must count the work
+    # actually authorised. With no replicate requested the two are the same number. Advisory either way:
+    # the branch below warns and does not halt.
     try:
         _cap_realised, _cap_ceiling, _cap_headroom, _cap_breached, _cap_detail = spend_cap_state(
             load_ledger_strict(s3, bucket), live_ids=[i.get("id") for i in live], n_units=len(units))
@@ -2826,7 +2924,9 @@ def mode_launch():
 def mode_monitor():
     """Tight-cadence PROGRESS check (not a liveness ping): per-unit phase + per-instance state, one line each."""
     bucket, s3 = _require_bucket(), _s3()
-    units = default_units()
+    # lane_units: a replicate that is billing must appear in the progress census like any other unit, or the
+    # only fleet-wide readout of "is this host doing work" has a blind spot exactly where new work runs.
+    units = lane_units()
     # ★★ A PERMANENTLY-EXCLUDED UNIT MUST NOT KEEP WEARING ITS LAST FAILURE (2026-07-28). Before this, a
     # blocked edge sat at `leg-complex-FAILED-rc1` in every census forever — the same string a unit that
     # just crashed and is about to be re-placed wears. Two opposite states, one label: one says "watch this,
@@ -3367,7 +3467,18 @@ def mode_monitor():
 def mode_collect():
     """Assemble the map result from finished units, run the internal-consistency checks, reap dead hosts."""
     bucket, s3 = _require_bucket(), _s3()
+    # ★★ TWO UNIT LISTS, ON PURPOSE, AND THE SPLIT IS THE POINT.
+    #   `units`      = the MAP (19). It is what the artifact's scope, n_units, cycle closure and ranking are
+    #                  about, and it must not grow when a replicate is requested — `_scope` says 19 edges,
+    #                  and a denominator that silently moved is the exact defect `n_computable` was added
+    #                  to fix.
+    #   `lane`       = everything this lane may have RENTED, replicates included. Reaping, labels and the
+    #                  live-instance bookkeeping below run off THIS one: a replicate host whose label is not
+    #                  in `label_of` is never recognised as finished and bills until the age backstop.
+    # The order is shared (lane_units() == default_units() + replicates), so the 0..18 indices — and
+    # therefore every existing label — are identical in both.
     units = default_units()
+    lane = lane_units()
     results, ddg_by_edge = [], {}
     for u in units:
         r = _get_json(s3, bucket, result_key(u, RESULT_PREFIX))
@@ -3375,6 +3486,11 @@ def mode_collect():
             continue
         results.append(r)
         ddg_by_edge[u["edge_id"]] = r["ddg_bind_kcal"]
+    # Replicate results are collected separately and DELIBERATELY kept out of `ddg_by_edge`: cycle closure
+    # and the ranking are statements about one self-consistent set of draws, and letting an r2 value
+    # overwrite the r0 one would silently re-base the published map on a different sample.
+    rep_units = [u for u in lane if u.get("replicate")]
+    rep_results = [r for r in (_get_json(s3, bucket, result_key(u, RESULT_PREFIX)) for u in rep_units) if r]
 
     closure = cycle_closure(ddg_by_edge)
     # Read ONCE and reused for the counts and for the artifact field, so the number and the list it is
@@ -3427,6 +3543,21 @@ def mode_collect():
         "ranking": rank_by_ddg(ddg_by_edge),
         "ranking_note": "anchor-rooted edges only; more negative = predicted tighter than cmpd19 in this "
                         "modeled conformer, conditional on the pose hypothesis.",
+        # ★ THE REPLICATE AXIS, REPORTED SEPARATELY FROM THE MAP IT DOES NOT REPLACE. Present only once a
+        # replicate has actually been requested, so this key appearing at all means somebody asked for one.
+        **({"replicates": {
+            "_what": "Independent repeats of NAMED edges (congeneric_fanout.replicate_units). Each is its "
+                     "own unit with its own SEED and its own checkpoint prefix, so no two draws share a "
+                     "trajectory. These values are NOT folded into cycle_closure or ranking above — those "
+                     "remain the n=0 draw set.",
+            "n_requested": len(rep_units), "n_complete": len(rep_results),
+            "units": [u["unit_id"] for u in rep_units],
+            "results": sorted(rep_results, key=lambda r: r["unit_id"]),
+            "per_edge": _cf.replicate_stats(results + rep_results),
+            "sd_note": "sd_kcal is the SAMPLE SD across independent draws (n-1), None below n=2. It is the "
+                       "quantity CLAUDE.md §5 asks for; the per-draw ddg_bind_unc_kcal is a within-run MBAR "
+                       "SE and answers a different question. Do not quote one as the other.",
+        }} if rep_units else {}),
     }
     with open("step1-fanout-map.json", "w") as f:
         json.dump(out, f, indent=2)
@@ -3436,9 +3567,13 @@ def mode_collect():
     print(f"\n[s1f] {len(results)}/{len(units)} units complete -> step1-fanout-map.json")
 
     key = os.environ.get("VAST_API_KEY")
-    finished = {r["unit_id"] for r in results}
-    idx_of = {u["unit_id"]: i for i, u in enumerate(units)}
-    label_of = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u["unit_id"] for u in units}
+    # ⚠ FROM HERE DOWN THE SUBJECT IS RENTED HOSTS, NOT THE MAP — so every one of these is built over `lane`.
+    # `label_of` is how a live instance is matched to the unit it is running and therefore how "its result is
+    # in S3, destroy it" is decided. Built over the 19 map units only, a replicate's label would resolve to
+    # None, the finished branch would never fire, and the box would bill on to the age backstop.
+    finished = {r["unit_id"] for r in (results + rep_results)}
+    idx_of = {u["unit_id"]: i for i, u in enumerate(lane)}
+    label_of = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u["unit_id"] for u in lane}
     ledger = _load_ledger(s3, bucket)
     # Consecutive-terminal-observation state, in S3 so one CI run inherits what the previous one saw.
     _terminal = _get_json(s3, bucket, f"{RESULT_PREFIX}/_terminal_state.json") or {}
@@ -3446,7 +3581,7 @@ def mode_collect():
     # The guard's OWN previous census (see `_idle_evidence` for why it cannot share monitor's).
     _idle_prev = _get_json(s3, bucket, f"{RESULT_PREFIX}/{_IDLE_PREV_KEY_SUFFIX}") or {}
     _idle_next, _idle_rows = {}, []
-    unit_by_label = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in units}
+    unit_by_label = {f"{LABEL_PREFIX}{idx_of[u['unit_id']]:02d}-{u['ligand_b']}"[:64]: u for u in lane}
     for i in (_live_instances(key) if key else []):
         lab, st = i.get("label"), (i.get("actual_status") or "")
         age_min = _age_min(i)
@@ -3583,7 +3718,7 @@ def mode_diag():
     # Default scope is units that have actually BEEN launched (a phase marker in S3, or a live instance) and
     # are not finished. Without that, diag also reports every unit of the not-yet-launched later waves as
     # "gone", which buries the one unit that actually needs diagnosing.
-    all_units = default_units()
+    all_units = lane_units()
     idx_all = {u["unit_id"]: i for i, u in enumerate(all_units)}
 
     def _launched(u):
@@ -3669,7 +3804,7 @@ def mode_block():
     why = (os.environ.get("BLOCK_REASON") or "").strip()
     if not uid:
         raise SystemExit("[s1f] BLOCK_UNIT is required (a unit_id, or a substring matching exactly one)")
-    known = [u["unit_id"] for u in default_units()]
+    known = [u["unit_id"] for u in lane_units()]
     # A SUBSTRING IS ACCEPTED ONLY WHEN IT IS UNAMBIGUOUS. The workflow's selector input is a substring
     # everywhere else, so demanding the full id here would be a trap; but resolving an ambiguous one to
     # "the first match" would block an edge nobody named. Exact match wins outright.
