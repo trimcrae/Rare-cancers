@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 5:40 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 5:42 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:04 AM Aug 1      53.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 30.9 s/iter · realised $0.00766/ns (1.86x expected)
-5aks_d0_to_d ternary nr4a3 r0 9:21 PM            88.9%  RTX 3090 $0.00554/ns · 1.62× basis [bid] RUNNING   ⚠ 33.2 s/iter · realised $0.01107/ns (2.00x expected)
-5aks_d0_to_d ternary nr4a1 r0 5:19 AM Aug 1      35.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   18.1 s/iter
-5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00537/ns · 1.57× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary nr4a3 r1 8:06 AM Aug 1      53.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 30.9 s/iter · realised $0.00766/ns (1.86x expected)
+5aks_d0_to_d ternary nr4a3 r0 9:24 PM            88.9%  RTX 3090 $0.00554/ns · 1.62× basis [bid] RUNNING   ⚠ 33.2 s/iter · realised $0.01107/ns (2.00x expected)
+5aks_d0_to_d ternary nr4a1 r0 5:22 AM Aug 1      35.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   18.1 s/iter
+5aks_d0_to_d ternary nr4a1 r1 6:53 AM Aug 1      35.6%  RTX 4090 $0.00537/ns · 1.57× basis [bid] STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way · ⚠ 20.4 s/iter · realised $0.00661/ns (1.23x expected)
 ---- END TVAST-BOARD ----
 ```
