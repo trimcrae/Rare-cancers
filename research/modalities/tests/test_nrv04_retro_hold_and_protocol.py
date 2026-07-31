@@ -729,6 +729,26 @@ def test_the_quarantine_costs_nothing_and_is_visible(monkeypatch):
     assert out["quarantine_eligible_running"] == [], "nothing is on a host in this fixture"
 
 
+def test_the_breaker_does_not_claim_a_host_count_it_has_not_measured():
+    """⚠ N MARKERS IS NOT PROVEN TO BE N HOSTS, and the old wording asserted it was.
+
+    The marker is written by the host's onstart preamble. CLAUDE.md §6: a container that crash-loops never
+    returns, and Vast restarts it — so one rental that crash-loops three times writes three markers, and
+    `count_attempts` counts OBJECTS, not container ids. The block is correct either way (both readings are
+    the same fault reproducing), but "3 paid hosts" was a claim the evidence does not support, and it is the
+    kind of claim that gets quoted into a diagnosis later.
+    """
+    d = vl.retro_breaker(has_result=False, n_attempts=3, threshold=3, since_utc="2026-07-31T14:53:39Z")
+    assert d["block"] is True
+    assert "paid hosts" not in d["why"], "do not assert a host count from an object count"
+    assert "NOT PROVEN" in d["why"] and "crash-loops" in d["why"]
+    assert "attempt markers" in d["why"]
+    # The decision itself is unchanged — this is a wording fix, not a weakening.
+    assert vl.retro_breaker(has_result=False, n_attempts=2, threshold=3)["block"] is False
+    assert vl.retro_breaker(has_result=True, n_attempts=99, threshold=3)["block"] is False
+    assert vl.retro_breaker(has_result=False, n_attempts=None, threshold=3)["block"] is False
+
+
 def test_a_quarantine_eligible_unit_ON_A_HOST_is_visible_but_untouched(monkeypatch):
     """★★ THE BOARD SAID 1 QUARANTINE WHILE THE DIAGNOSIS NAMED TWO, and the missing one was mid-rental.
 

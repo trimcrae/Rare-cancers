@@ -2566,12 +2566,19 @@ def retro_breaker(has_result, n_attempts, threshold=None, since_utc=None):
                             "rental beats a lane halted by a listing error)")
     if n_attempts >= threshold:
         return dict(base, block=True, verdict=lfb.BLOCK,
-                    why=("this unit has been rented %d times %s (threshold %d) and has still written NO leg "
-                         "record. A retro leg that runs writes leg_*.json as its last act, so %d paid hosts "
-                         "with no record is a reproducing staging/build fault, not bad luck — buying another "
-                         "tests nothing. NOT permanent: fix the cause, then leg_failure_breaker.reset_for() "
-                         "clears the archive and the next tick rents normally."
-                         % (n_attempts, span, threshold, n_attempts)))
+                    why=("%d attempt markers archived for this unit %s (threshold %d), and still NO leg "
+                         "record. The marker is written BY THE HOST once its env is up, so each one is a "
+                         "rental that booted and got that far and then produced nothing; a retro leg that "
+                         "runs writes leg_*.json as its last act. That is a reproducing staging/build "
+                         "fault, not bad luck — buying another tests nothing. "
+                         "⚠ %d MARKERS IS NOT PROVEN TO BE %d DISTINCT HOSTS: a container that crash-loops "
+                         "re-runs the preamble and writes a marker each time, so this count cannot yet tell "
+                         "3 rentals from 1 host restarting 3 times (the marker records its container id; "
+                         "`count_attempts` counts objects, not ids). The block is right either way — both "
+                         "are the same fault reproducing — but do not quote this as a host count. "
+                         "NOT permanent: fix the cause, then leg_failure_breaker.reset_for() clears the "
+                         "archive and the next tick rents normally."
+                         % (n_attempts, span, threshold, n_attempts, threshold)))
     return dict(base, block=False, verdict=lfb.ALLOW_UNDER)
 
 
