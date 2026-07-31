@@ -1,51 +1,70 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T16:43:06Z",
-  "n_units": 1,
-  "basis_usd_per_ns": 0.003412,
-  "plan_usd": 1.83,
-  "ceiling_usd": 5.19,
-  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
-  "breakeven_usd_per_ns": 0.009682,
-  "depth": {
-    "offers_returned": 203,
-    "qualifying": 84,
-    "priceable": 84,
-    "needed": 1,
-    "used_for_mean": 1
-  },
-  "offers": [
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 91334,
-      "min_bid_usd_h": 0.30814814814814817,
-      "usd_per_ns": 0.007599
-    }
-  ],
-  "mean_usd_per_ns": 0.007599,
-  "ratio_vs_basis": 2.227,
-  "projected_usd": 4.07,
-  "max_ratio_vs_basis": 1.9166094031192507,
-  "usd_per_ns_at_max_ratio": 0.006539,
-  "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": true,
-  "hold": true,
-  "reason": "2.23x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns",
-  "machines_we_already_occupy": [
-    "16661",
-    "28904",
-    "30113"
-  ],
+  "utc": "2026-07-31T16:43:53Z",
   "mode": "5aks",
-  "nothing_to_launch": false,
+  "n_units": 0,
+  "nothing_to_launch": true,
+  "hold": false,
   "units_done": [],
   "units_live": [
+    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
-  "units_needing_host": [
-    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks"
+  "live_host_rates": [
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+      "instance": 46418158,
+      "machine_id": 33657,
+      "gpu": "RTX 4080S",
+      "dph_total_usd_h": 0.14586666666666667,
+      "dph_base_usd_h": 0.1292,
+      "cur_state": "running",
+      "actual_status": "loading",
+      "usd_per_ns": 0.005049,
+      "x_basis": 1.48,
+      "over_buy_line": false
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+      "instance": 46417356,
+      "machine_id": 28904,
+      "gpu": "RTX 4090",
+      "dph_total_usd_h": 0.17846666666666666,
+      "dph_base_usd_h": 0.1618,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005327,
+      "x_basis": 1.561,
+      "over_buy_line": false
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
+      "instance": 46413401,
+      "machine_id": 16661,
+      "gpu": "RTX 3090",
+      "dph_total_usd_h": 0.11186666666666667,
+      "dph_base_usd_h": 0.0952,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005825,
+      "x_basis": 1.707,
+      "over_buy_line": false
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
+      "instance": 46417360,
+      "machine_id": 30113,
+      "gpu": "RTX 4090",
+      "dph_total_usd_h": 0.17846666666666666,
+      "dph_base_usd_h": 0.1618,
+      "cur_state": "running",
+      "actual_status": "running",
+      "usd_per_ns": 0.005327,
+      "x_basis": 1.561,
+      "over_buy_line": false
+    }
   ],
-  "units_replacing_a_dead_host": []
+  "reason": "no unit of mode 5aks needs a host \u2014 0 done, 4 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold."
 }
