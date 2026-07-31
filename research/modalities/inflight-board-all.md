@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 1:38 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 1:46 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 1:38 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 1:29 PM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 1:37 PM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 1:59 AM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 9 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d terna —                  82.2%  RTX 4080S $0.00505/ns · 1.48× basis STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
-5aks_d0_to_d terna 9:56 PM            42.7%  RTX 4090 $0.00533/ns · 1.56× basis  RUNNING   
-5aks_d0_to_d terna 11:26 PM           28.4%  RTX 5090 $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna —                  30.2%  RTX 4090 $0.00533/ns · 1.56× basis  NO HOST   host DESTROYED this pass (idle guard: WEDGED — run.log has been re-uploaded with byte-identical content for 18 min (>= 15) and the committed scalar has not advanced — the sync loop is alive but the leg is not writing, so nothing is being produced to save) — billing stopped, $0 further; checkpoint at warmup/1088 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d terna —                  82.2%  RTX 4080S $0.00505/ns · 1.48× basis NO HOST   host DESTROYED this pass (idle guard: WEDGED — run.log has been re-uploaded with byte-identical content for 18 min (>= 15) and the committed scalar has not advanced — the sync loop is alive but the leg is not writing, so nothing is being produced to save) — billing stopped, $0 further; checkpoint at production/1360 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d terna 11:06 PM           42.7%  RTX 4090 $0.00533/ns · 1.56× basis  RUNNING   
+5aks_d0_to_d terna 10:25 PM           30.2%  RTX 5090 $0.00512/ns · 1.50× basis  RUNNING   
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 1:37 PM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 1:37 PM ET Fri Jul 31, 2026 (8 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,7 +36,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 1:29 PM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 1 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 17 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 1:46 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 1 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 17 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
