@@ -204,10 +204,39 @@ def test_the_note_does_not_propose_switching_estimators():
 
 
 # ---- 7. narrowing sigma_leg from the triangle's own legs ---------------------------------------------------
-def test_narrowing_is_not_computable_before_the_legs_land():
+def test_narrowing_without_an_argument_says_so_WITHOUT_claiming_the_legs_have_not_landed():
+    """★ THE MESSAGE MUST BE ABOUT THE ARGUMENT, NOT ABOUT THE WORLD. It used to read "the triangle's ternary
+    legs have not landed" -- a claim about reality embedded in a no-argument default, which went stale the
+    moment they landed (5:11 PM ET 2026-07-30) and would have kept asserting itself forever. A function that
+    reads no artifact cannot know that fact and must not state it."""
     n = P.narrow_sigma_leg_from_triangle_legs()
-    assert n["estimate"].startswith("NOT YET COMPUTABLE")
+    assert n["estimate"].startswith("NOT COMPUTABLE FROM THE ARGUMENT GIVEN")
+    assert "have not landed" not in n["estimate"]
     assert n["cost"].startswith("$0")
+
+
+def test_the_run_result_is_recorded_AS_A_NULL_and_says_why_it_could_not_narrow():
+    """The narrowing RAN and did not narrow. That is a result and it must survive being read: the ratio's
+    numerator is valB's own replicate SD, so transferring it to a lane whose per-leg MBAR SE matches valB's
+    to within 1% reproduces valB's number by construction. If this record is dropped, the next reader will
+    re-run it and quote 0.378 as an independent narrowing."""
+    r = P.narrow_sigma_leg_from_triangle_legs()["_RUN_2026_07_30"]
+    assert r["triangle_mean_mbar_se_kcal"] > 0
+    key = [k for k in r if "DID_NOT_NARROW" in k]
+    assert key, "the null result must be stated, not left to be inferred from a number"
+    assert "circular" in r[key[0]].lower()
+
+
+def test_the_sigma_edge_vs_sigma_leg_discrepancy_is_RECORDED_AND_NOT_AMENDED():
+    """The repo's standing rule: record a discrepancy, do not re-derive a convention after seeing which way it
+    moves a decision. This one moves none -- n = 2 per arm is right under both readings -- and both live
+    figures are the conservative ones, so the honest action is to write it down and leave it."""
+    r = P.narrow_sigma_leg_from_triangle_legs()["_RUN_2026_07_30"]
+    key = [k for k in r if "DISCREPANCY" in k]
+    assert key, "the sigma_edge/sigma_leg mixing must be on the record"
+    txt = r[key[0]]
+    assert "NOT CHANGED" in txt and "CONSERVATIVE" in txt
+    assert "n = 2" in txt, "and it must say the decision it could have moved, and did not"
 
 
 def test_narrowing_declares_the_ratio_is_transferred_not_measured():
@@ -277,7 +306,7 @@ def test_the_addendum_consumes_the_triangles_own_mbar_ses():
 def test_the_addendum_survives_legs_with_no_mbar_se():
     """A leg record missing mbar_se_kcal must not crash the reduction -- it must degrade to 'not computable'."""
     a = _addendum(ses=(None, None, None, None))
-    assert a["sigma_leg_from_the_triangles_own_legs"]["estimate"].startswith("NOT YET COMPUTABLE")
+    assert a["sigma_leg_from_the_triangles_own_legs"]["estimate"].startswith("NOT COMPUTABLE FROM THE ARGUMENT")
 
 
 # ---- 9. the memoisation must not leak a shared mutable ------------------------------------------------------

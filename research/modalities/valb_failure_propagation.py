@@ -593,8 +593,48 @@ def narrow_sigma_leg_from_triangle_legs(triangle_mean_mbar_se=None):
         "cost": "$0 -- the MBAR SEs are already in the leg records that land with R",
         "when": "the moment all four legs are down, alongside task=triangle-reduce",
     }
+    out["_RUN_2026_07_30"] = {
+        "status": "RUN. All four triangle legs landed 5:11 PM ET 2026-07-30, so this is no longer pending.",
+        "triangle_mean_mbar_se_kcal": 0.11531,
+        "_from": "valb-triangle-reduction.json -> mbar_se_kcal_per_leg_PROVENANCE_ONLY, mean over its 6 legs",
+        "result_as_this_function_computes_it": 0.3782,
+        "★_IT_DID_NOT_NARROW_ANYTHING_AND_THAT_IS_THE_RESULT": (
+            "The triangle's mean per-leg MBAR SE is 0.1153 against valB's 0.1145 -- the two lanes are within "
+            "0.7% of each other. Multiplying by a ratio whose NUMERATOR is valB's own replicate SD therefore "
+            "reproduces valB's number almost exactly. So the transfer this function warned about does not "
+            "just weaken the estimate, it makes it CIRCULAR in the one direction that mattered: the ratio "
+            "carries valB's homology-model and solvation variance in its numerator, which is precisely the "
+            "term the triangle does not have and the term this was meant to remove. It cannot narrow the "
+            "bound below the bound it was derived from. Recorded as a null result rather than quoted as a "
+            "narrowing."),
+        "⚠_AND_A_QUANTITY_DISCREPANCY_THIS_EXPOSED_-_RECORDED_NOT_AMENDED": (
+            "0.3782 is labelled `sigma_leg_estimate_kcal` and compared against `power_threshold_crossing()`, "
+            "which is a sigma_LEG. But the ratio is `cycle SD / per-leg MBAR SE` -- an EDGE SD over a LEG SE "
+            "(see MEASURED['_cycle_sd_is_a_sigma_edge']) -- so multiplying a leg SE by it returns a "
+            "sigma_EDGE. The design's own relation (sigma_edge = sqrt(2)*sigma_leg) puts the sigma_leg at "
+            "0.3782/sqrt(2) = 0.2674, which is within 1% of the independent valB-derived upper bound 0.2652 "
+            "-- an agreement that is itself evidence the sqrt(2) reading is the right one, since as-labelled "
+            "the estimate EXCEEDS an upper bound, which is a contradiction. The same mixing inflates "
+            "`s_error_bar_scope`'s S error bar by sqrt(2): S's binary leg cancels ALGEBRAICALLY (lever 2, and "
+            "nr4a3_5aks_reduce REFUSES a binary leg), so treating the two arms' ddG_coop as independent "
+            "double-counts a leg that is shared. "
+            "★ DELIBERATELY NOT CHANGED HERE. Both live figures are CONSERVATIVE -- they overstate the noise "
+            "floor, which understates our resolving power in both directions -- and this program forbids "
+            "re-deriving an error-bar convention after seeing which way it moves a decision. It moves none: "
+            "n = 2 seeds per arm is the right call under BOTH readings (at n=1 the resolvable difference is "
+            "0.735 corrected or 1.039 as-quoted, and the designed effect floor is 0.5, so one seed cannot "
+            "report a null either way). It is written down so the next person to touch the error model "
+            "inherits the discrepancy rather than rediscovering it."),
+    }
     if triangle_mean_mbar_se is None:
-        out["estimate"] = "NOT YET COMPUTABLE -- the triangle's ternary legs have not landed"
+        # ⚠ THIS MESSAGE IS ABOUT THE ARGUMENT, NOT ABOUT THE WORLD. It used to read "NOT YET COMPUTABLE --
+        # the triangle's ternary legs have not landed", which was a claim about reality that went STALE the
+        # moment they did (5:11 PM ET 2026-07-30) and would have kept asserting itself indefinitely. The
+        # branch is still needed -- a reduction whose legs carry no MBAR SE must degrade rather than crash --
+        # but it now says only what it can know: no SE was supplied.
+        out["estimate"] = ("NOT COMPUTABLE FROM THE ARGUMENT GIVEN -- no triangle mean MBAR SE was supplied. "
+                           "This says nothing about whether the legs have landed; they have, and the result "
+                           "is recorded in _RUN_2026_07_30.")
         return out
     est = ratio * float(triangle_mean_mbar_se)
     out["triangle_mean_mbar_se_kcal"] = float(triangle_mean_mbar_se)
