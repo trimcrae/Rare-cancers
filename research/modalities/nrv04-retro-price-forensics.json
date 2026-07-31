@@ -2,14 +2,13 @@
   "_what": "read-only forensics on nrv04-retro-results/_price_ledger.json \u2014 what uptime_s measures, and whether the 6.5-day entry is a rental leak",
   "bucket": "sagemaker-us-east-2-646605541856",
   "ledger_key": "nrv04-retro-results/_price_ledger.json",
-  "generated_utc": "2026-07-31T16:23:54Z",
-  "generated_et": "12:23 PM ET Fri Jul 31, 2026",
-  "ledger_last_modified_utc": "2026-07-31T16:16:29Z",
-  "ledger_last_modified_et": "12:16 PM ET Fri Jul 31, 2026",
+  "generated_utc": "2026-07-31T20:39:43Z",
+  "generated_et": "4:39 PM ET Fri Jul 31, 2026",
+  "ledger_last_modified_utc": "2026-07-31T20:37:55Z",
+  "ledger_last_modified_et": "4:37 PM ET Fri Jul 31, 2026",
   "ledger_summary": {
-    "measured_legs": 18,
+    "measured_legs": 17,
     "per_leg_usd": {
-      "nrv04retro-retro_noncov_nr4a2-m1-r0": 25.8273,
       "nrv04retro-retro_noncov_nr4a3-m1-r0": 0.0297,
       "nrv04retro-retro_noncov_nr4a1-m1-r0": 0.0289,
       "nrv04retro-retro_noncov_nr4a1-m1-r1": 0.0375,
@@ -28,10 +27,19 @@
       "nrv04retro-retro_noncov_nr4a3-m3-r1": 0.0368,
       "nrv04retro-retro_noncov_nr4a2-m3-r0": 0.0494
     },
-    "measured_mean_usd_per_leg": 1.4763,
+    "measured_mean_usd_per_leg": 0.0439,
     "measured_total_so_far_usd": 26.5733,
-    "projected_panel_total_usd": 26.57,
-    "panel_units": 18
+    "leaked_usd": 25.8273,
+    "leaked_rentals": {
+      "nrv04retro-retro_noncov_nr4a2-m1-r0": {
+        "usd": 25.8273,
+        "why": "the host was alive 156.0 h, past the 6 h a whole leg can take (MAX_LEG_MIN backstop + provisioning). This is idle rental time, not the price of a leg \u2014 see the 2026-07-31 orphan, realised_spend.ATTESTED."
+      }
+    },
+    "projected_panel_total_usd": 0.79,
+    "panel_units": 18,
+    "uptime_s_means": "age of a LIVE rental at the moment a collect polled it \u2014 billed host time, NOT the leg's compute time and NOT the rental's full lifetime (it is a lower bound on that). See nrv04_vast_launch.LEAK_ABOVE_S.",
+    "measured_mean_caveat": "over whatever legs ran, at whatever MODE. It is NOT protocol-aware \u2014 check nrv04_retro_panel.production_leg_check before reading it as a production $/leg."
   },
   "ledger_raw": {
     "nrv04retro-retro_noncov_nr4a2-m1-r0": {
@@ -145,34 +153,34 @@
   },
   "s3_units": {
     "(root)": {
-      "first_write_et": "11:58 AM ET Fri Jul 31, 2026",
-      "last_write_et": "12:16 PM ET Fri Jul 31, 2026",
+      "first_write_et": "2:36 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:38 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "_authorized_units.json",
-          "bytes": 298,
-          "mtime_et": "11:58 AM ET Fri Jul 31, 2026"
+          "bytes": 986,
+          "mtime_et": "2:36 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "_board_prev.json",
-          "bytes": 2518,
-          "mtime_et": "12:16 PM ET Fri Jul 31, 2026"
+          "bytes": 1646,
+          "mtime_et": "4:38 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "_price_ledger.json",
-          "bytes": 3327,
-          "mtime_et": "12:16 PM ET Fri Jul 31, 2026"
+          "bytes": 4014,
+          "mtime_et": "4:37 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "_supervise_state.json",
           "bytes": 2,
-          "mtime_et": "12:16 PM ET Fri Jul 31, 2026"
+          "mtime_et": "4:37 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "attempts": {
       "first_write_et": "10:06 AM ET Fri Jul 31, 2026",
-      "last_write_et": "12:00 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:37 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "run-20260731T142159Z.log",
@@ -190,6 +198,16 @@
           "mtime_et": "10:35 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T193343Z.log",
+          "bytes": 47,
+          "mtime_et": "3:33 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T201756Z.log",
+          "bytes": 47,
+          "mtime_et": "4:17 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T140642Z.log",
           "bytes": 47,
           "mtime_et": "10:06 AM ET Fri Jul 31, 2026"
@@ -200,6 +218,21 @@
           "mtime_et": "10:13 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T183700Z.log",
+          "bytes": 47,
+          "mtime_et": "2:37 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T192501Z.log",
+          "bytes": 47,
+          "mtime_et": "3:25 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T201348Z.log",
+          "bytes": 47,
+          "mtime_et": "4:13 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T142238Z.log",
           "bytes": 47,
           "mtime_et": "10:22 AM ET Fri Jul 31, 2026"
@@ -208,6 +241,16 @@
           "key": "run-20260731T142628Z.log",
           "bytes": 47,
           "mtime_et": "10:26 AM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T194649Z.log",
+          "bytes": 47,
+          "mtime_et": "3:46 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T203103Z.log",
+          "bytes": 47,
+          "mtime_et": "4:31 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run-20260731T144628Z.log",
@@ -230,6 +273,26 @@
           "mtime_et": "10:30 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T190017Z.log",
+          "bytes": 47,
+          "mtime_et": "3:00 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T194929Z.log",
+          "bytes": 47,
+          "mtime_et": "3:49 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T202127Z.log",
+          "bytes": 47,
+          "mtime_et": "4:21 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T203730Z.log",
+          "bytes": 47,
+          "mtime_et": "4:37 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T141559Z.log",
           "bytes": 47,
           "mtime_et": "10:16 AM ET Fri Jul 31, 2026"
@@ -240,6 +303,11 @@
           "mtime_et": "10:18 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T201413Z.log",
+          "bytes": 47,
+          "mtime_et": "4:14 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T142458Z.log",
           "bytes": 47,
           "mtime_et": "10:25 AM ET Fri Jul 31, 2026"
@@ -248,6 +316,16 @@
           "key": "run-20260731T142750Z.log",
           "bytes": 47,
           "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T184223Z.log",
+          "bytes": 47,
+          "mtime_et": "2:42 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T192718Z.log",
+          "bytes": 47,
+          "mtime_et": "3:27 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run-20260731T142253Z.log",
@@ -275,6 +353,21 @@
           "mtime_et": "10:51 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T175537Z.log",
+          "bytes": 47,
+          "mtime_et": "1:55 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T194929Z.log",
+          "bytes": 47,
+          "mtime_et": "3:49 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T202745Z.log",
+          "bytes": 47,
+          "mtime_et": "4:27 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T142249Z.log",
           "bytes": 47,
           "mtime_et": "10:22 AM ET Fri Jul 31, 2026"
@@ -285,6 +378,16 @@
           "mtime_et": "10:25 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T194128Z.log",
+          "bytes": 47,
+          "mtime_et": "3:41 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T200946Z.log",
+          "bytes": 47,
+          "mtime_et": "4:09 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T150142Z.log",
           "bytes": 47,
           "mtime_et": "11:01 AM ET Fri Jul 31, 2026"
@@ -293,6 +396,16 @@
           "key": "run-20260731T150737Z.log",
           "bytes": 47,
           "mtime_et": "11:07 AM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T194602Z.log",
+          "bytes": 47,
+          "mtime_et": "3:46 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T203653Z.log",
+          "bytes": 47,
+          "mtime_et": "4:36 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run-20260731T143606Z.log",
@@ -310,6 +423,11 @@
           "mtime_et": "10:43 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T201016Z.log",
+          "bytes": 47,
+          "mtime_et": "4:10 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T144656Z.log",
           "bytes": 47,
           "mtime_et": "10:46 AM ET Fri Jul 31, 2026"
@@ -325,6 +443,31 @@
           "mtime_et": "12:00 PM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T181116Z.log",
+          "bytes": 47,
+          "mtime_et": "2:11 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T183937Z.log",
+          "bytes": 47,
+          "mtime_et": "2:39 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T193341Z.log",
+          "bytes": 47,
+          "mtime_et": "3:33 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T202532Z.log",
+          "bytes": 47,
+          "mtime_et": "4:25 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T202951Z.log",
+          "bytes": 47,
+          "mtime_et": "4:29 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T141314Z.log",
           "bytes": 47,
           "mtime_et": "10:13 AM ET Fri Jul 31, 2026"
@@ -333,6 +476,16 @@
           "key": "run-20260731T141501Z.log",
           "bytes": 47,
           "mtime_et": "10:15 AM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T193118Z.log",
+          "bytes": 47,
+          "mtime_et": "3:31 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T201934Z.log",
+          "bytes": 47,
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run-20260731T142159Z.log",
@@ -345,6 +498,21 @@
           "mtime_et": "10:25 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T193204Z.log",
+          "bytes": 47,
+          "mtime_et": "3:32 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T200131Z.log",
+          "bytes": 47,
+          "mtime_et": "4:01 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T201535Z.log",
+          "bytes": 47,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T141250Z.log",
           "bytes": 47,
           "mtime_et": "10:12 AM ET Fri Jul 31, 2026"
@@ -353,6 +521,31 @@
           "key": "run-20260731T143906Z.log",
           "bytes": 47,
           "mtime_et": "10:39 AM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T193321Z.log",
+          "bytes": 47,
+          "mtime_et": "3:33 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T193951Z.log",
+          "bytes": 47,
+          "mtime_et": "3:39 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T195336Z.log",
+          "bytes": 47,
+          "mtime_et": "3:53 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T200010Z.log",
+          "bytes": 47,
+          "mtime_et": "4:00 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T203259Z.log",
+          "bytes": 47,
+          "mtime_et": "4:33 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run-20260731T141159Z.log",
@@ -365,6 +558,21 @@
           "mtime_et": "10:36 AM ET Fri Jul 31, 2026"
         },
         {
+          "key": "run-20260731T192616Z.log",
+          "bytes": 47,
+          "mtime_et": "3:26 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T192933Z.log",
+          "bytes": 47,
+          "mtime_et": "3:29 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T193135Z.log",
+          "bytes": 47,
+          "mtime_et": "3:31 PM ET Fri Jul 31, 2026"
+        },
+        {
           "key": "run-20260731T143154Z.log",
           "bytes": 47,
           "mtime_et": "10:31 AM ET Fri Jul 31, 2026"
@@ -373,12 +581,22 @@
           "key": "run-20260731T143905Z.log",
           "bytes": 47,
           "mtime_et": "10:39 AM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T194044Z.log",
+          "bytes": 47,
+          "mtime_et": "3:40 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "run-20260731T194350Z.log",
+          "bytes": 47,
+          "mtime_et": "3:43 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "collect": {
       "first_write_et": "6:59 AM ET Fri Jul 31, 2026",
-      "last_write_et": "12:16 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:38 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "nrv04-retro-collect-20260731T105946Z.json",
@@ -476,76 +694,277 @@
           "mtime_et": "12:16 PM ET Fri Jul 31, 2026"
         },
         {
-          "key": "nrv04-retro-collect-latest.json",
+          "key": "nrv04-retro-collect-20260731T162425Z.json",
           "bytes": 13865,
-          "mtime_et": "12:16 PM ET Fri Jul 31, 2026"
+          "mtime_et": "12:24 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T163245Z.json",
+          "bytes": 13865,
+          "mtime_et": "12:32 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T164049Z.json",
+          "bytes": 13865,
+          "mtime_et": "12:40 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T164848Z.json",
+          "bytes": 13865,
+          "mtime_et": "12:48 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T165701Z.json",
+          "bytes": 13865,
+          "mtime_et": "12:57 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T170507Z.json",
+          "bytes": 13865,
+          "mtime_et": "1:05 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T171330Z.json",
+          "bytes": 13865,
+          "mtime_et": "1:13 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T172205Z.json",
+          "bytes": 13865,
+          "mtime_et": "1:22 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T172940Z.json",
+          "bytes": 13865,
+          "mtime_et": "1:29 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T173821Z.json",
+          "bytes": 13865,
+          "mtime_et": "1:38 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T174603Z.json",
+          "bytes": 13865,
+          "mtime_et": "1:46 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T175535Z.json",
+          "bytes": 13865,
+          "mtime_et": "1:55 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T180210Z.json",
+          "bytes": 13867,
+          "mtime_et": "2:02 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T180249Z.json",
+          "bytes": 13867,
+          "mtime_et": "2:02 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T181042Z.json",
+          "bytes": 13867,
+          "mtime_et": "2:10 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T181852Z.json",
+          "bytes": 13867,
+          "mtime_et": "2:18 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T182512Z.json",
+          "bytes": 13867,
+          "mtime_et": "2:25 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T182707Z.json",
+          "bytes": 13867,
+          "mtime_et": "2:27 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T183508Z.json",
+          "bytes": 13867,
+          "mtime_et": "2:35 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T184131Z.json",
+          "bytes": 13869,
+          "mtime_et": "2:41 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T184551Z.json",
+          "bytes": 13870,
+          "mtime_et": "2:45 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T185220Z.json",
+          "bytes": 13870,
+          "mtime_et": "2:52 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T190008Z.json",
+          "bytes": 13870,
+          "mtime_et": "3:00 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T190952Z.json",
+          "bytes": 13872,
+          "mtime_et": "3:09 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T191704Z.json",
+          "bytes": 13872,
+          "mtime_et": "3:17 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T192553Z.json",
+          "bytes": 13871,
+          "mtime_et": "3:25 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T192816Z.json",
+          "bytes": 13820,
+          "mtime_et": "3:28 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T193328Z.json",
+          "bytes": 13823,
+          "mtime_et": "3:33 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T194111Z.json",
+          "bytes": 13829,
+          "mtime_et": "3:41 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T194932Z.json",
+          "bytes": 13830,
+          "mtime_et": "3:49 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T195841Z.json",
+          "bytes": 13833,
+          "mtime_et": "3:58 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T200719Z.json",
+          "bytes": 13833,
+          "mtime_et": "4:07 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T201344Z.json",
+          "bytes": 13835,
+          "mtime_et": "4:13 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T202215Z.json",
+          "bytes": 13686,
+          "mtime_et": "4:22 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T203019Z.json",
+          "bytes": 13635,
+          "mtime_et": "4:30 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-20260731T203829Z.json",
+          "bytes": 13581,
+          "mtime_et": "4:38 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "nrv04-retro-collect-latest.json",
+          "bytes": 13581,
+          "mtime_et": "4:38 PM ET Fri Jul 31, 2026"
+        }
+      ]
+    },
+    "gate": {
+      "first_write_et": "4:38 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:38 PM ET Fri Jul 31, 2026",
+      "keys": [
+        {
+          "key": "nrv04-retro-gate-latest.json",
+          "bytes": 6803,
+          "mtime_et": "4:38 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a1-m1-r0": {
-      "first_write_et": "10:37 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:38 AM ET Fri Jul 31, 2026",
+      "first_write_et": "4:15 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:21 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a1__m1_s0.built.json",
           "bytes": 860,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m1_s0.solv.cif",
-          "bytes": 37502013,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "bytes": 37072830,
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m1_s0.system.xml",
-          "bytes": 67023749,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "bytes": 66370049,
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a1__m1_s0.json",
-          "bytes": 2817,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 2827,
+          "mtime_et": "4:17 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "phase.txt",
-          "bytes": 29,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "4:18 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5334,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 4954,
+          "mtime_et": "4:21 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m1_s0.f32",
-          "bytes": 49080,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 4908000,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m1_s0.traj.json",
-          "bytes": 18812,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 18811,
+          "mtime_et": "4:17 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a1-m1-r1": {
       "first_write_et": "10:20 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:20 AM ET Fri Jul 31, 2026",
+      "last_write_et": "4:13 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a1__m1_s1.built.json",
           "bytes": 860,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "mtime_et": "3:30 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m1_s1.solv.cif",
-          "bytes": 37057737,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 36944862,
+          "mtime_et": "3:30 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m1_s1.system.xml",
-          "bytes": 66347043,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 66175163,
+          "mtime_et": "3:30 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a1__m1_s1.ckpt.json",
+          "bytes": 278626,
+          "mtime_et": "3:44 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a1__m1_s1.state.xml",
+          "bytes": 47512836,
+          "mtime_et": "3:44 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a1__m1_s1.json",
@@ -554,44 +973,54 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 31,
+          "mtime_et": "4:13 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5336,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 0,
+          "mtime_et": "4:13 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m1_s1.f32",
-          "bytes": 49080,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 981600,
+          "mtime_et": "3:44 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m1_s1.traj.json",
-          "bytes": 18812,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 18811,
+          "mtime_et": "3:44 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a1-m2-r0": {
-      "first_write_et": "10:28 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:29 AM ET Fri Jul 31, 2026",
+      "first_write_et": "10:29 AM ET Fri Jul 31, 2026",
+      "last_write_et": "4:31 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a1__m2_s0.built.json",
           "bytes": 860,
-          "mtime_et": "10:28 AM ET Fri Jul 31, 2026"
+          "mtime_et": "3:48 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m2_s0.solv.cif",
-          "bytes": 42505481,
-          "mtime_et": "10:28 AM ET Fri Jul 31, 2026"
+          "bytes": 42503396,
+          "mtime_et": "3:47 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m2_s0.system.xml",
-          "bytes": 74575749,
-          "mtime_et": "10:28 AM ET Fri Jul 31, 2026"
+          "bytes": 74572775,
+          "mtime_et": "3:47 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a1__m2_s0.ckpt.json",
+          "bytes": 507901,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a1__m2_s0.state.xml",
+          "bytes": 54622823,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a1__m2_s0.json",
@@ -600,23 +1029,23 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:29 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "4:31 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5339,
-          "mtime_et": "10:29 AM ET Fri Jul 31, 2026"
+          "bytes": 0,
+          "mtime_et": "4:31 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m2_s0.f32",
-          "bytes": 49080,
-          "mtime_et": "10:29 AM ET Fri Jul 31, 2026"
+          "bytes": 4417200,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m2_s0.traj.json",
-          "bytes": 18812,
-          "mtime_et": "10:29 AM ET Fri Jul 31, 2026"
+          "bytes": 18811,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
         }
       ]
     },
@@ -667,23 +1096,33 @@
       ]
     },
     "nrv04retro-retro_noncov_nr4a1-m3-r0": {
-      "first_write_et": "10:37 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:38 AM ET Fri Jul 31, 2026",
+      "first_write_et": "10:38 AM ET Fri Jul 31, 2026",
+      "last_write_et": "4:39 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a1__m3_s0.built.json",
           "bytes": 860,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "mtime_et": "3:02 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m3_s0.solv.cif",
-          "bytes": 32202564,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "bytes": 32354139,
+          "mtime_et": "3:02 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m3_s0.system.xml",
-          "bytes": 58952013,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "bytes": 59182844,
+          "mtime_et": "3:02 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a1__m3_s0.ckpt.json",
+          "bytes": 303370,
+          "mtime_et": "4:30 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a1__m3_s0.state.xml",
+          "bytes": 41637992,
+          "mtime_et": "4:30 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a1__m3_s0.json",
@@ -692,44 +1131,54 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "4:38 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5335,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 1966,
+          "mtime_et": "4:39 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m3_s0.f32",
-          "bytes": 49080,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "bytes": 1472400,
+          "mtime_et": "4:30 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m3_s0.traj.json",
-          "bytes": 18812,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "bytes": 18811,
+          "mtime_et": "4:30 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a1-m3-r1": {
-      "first_write_et": "10:20 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:21 AM ET Fri Jul 31, 2026",
+      "first_write_et": "10:21 AM ET Fri Jul 31, 2026",
+      "last_write_et": "4:39 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a1__m3_s1.built.json",
           "bytes": 860,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m3_s1.solv.cif",
-          "bytes": 32284995,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 32270289,
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a1__m3_s1.system.xml",
-          "bytes": 59077679,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 59055262,
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a1__m3_s1.ckpt.json",
+          "bytes": 281033,
+          "mtime_et": "4:37 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a1__m3_s1.state.xml",
+          "bytes": 41522589,
+          "mtime_et": "4:33 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a1__m3_s1.json",
@@ -738,23 +1187,23 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:21 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "4:17 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5333,
-          "mtime_et": "10:21 AM ET Fri Jul 31, 2026"
+          "bytes": 2197,
+          "mtime_et": "4:39 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m3_s1.f32",
-          "bytes": 49080,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 1963200,
+          "mtime_et": "4:37 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a1__m3_s1.traj.json",
-          "bytes": 18812,
-          "mtime_et": "10:20 AM ET Fri Jul 31, 2026"
+          "bytes": 18811,
+          "mtime_et": "4:37 PM ET Fri Jul 31, 2026"
         }
       ]
     },
@@ -800,69 +1249,69 @@
       ]
     },
     "nrv04retro-retro_noncov_nr4a2-m1-r1": {
-      "first_write_et": "10:26 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:29 AM ET Fri Jul 31, 2026",
+      "first_write_et": "3:26 PM ET Fri Jul 31, 2026",
+      "last_write_et": "3:31 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a2__m1_s1.built.json",
           "bytes": 856,
-          "mtime_et": "10:26 AM ET Fri Jul 31, 2026"
+          "mtime_et": "3:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m1_s1.solv.cif",
-          "bytes": 32107106,
-          "mtime_et": "10:26 AM ET Fri Jul 31, 2026"
+          "bytes": 32201018,
+          "mtime_et": "3:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m1_s1.system.xml",
-          "bytes": 58820838,
-          "mtime_et": "10:26 AM ET Fri Jul 31, 2026"
+          "bytes": 58963808,
+          "mtime_et": "3:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a2__m1_s1.json",
-          "bytes": 2817,
-          "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+          "bytes": 2826,
+          "mtime_et": "3:27 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "phase.txt",
-          "bytes": 31,
-          "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "3:27 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 2518,
-          "mtime_et": "10:29 AM ET Fri Jul 31, 2026"
+          "bytes": 4589,
+          "mtime_et": "3:31 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a2__m1_s1.f32",
-          "bytes": 49020,
-          "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+          "bytes": 4902000,
+          "mtime_et": "3:26 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a2__m1_s1.traj.json",
-          "bytes": 18789,
-          "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+          "bytes": 18788,
+          "mtime_et": "3:26 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a2-m2-r0": {
       "first_write_et": "10:53 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:53 AM ET Fri Jul 31, 2026",
+      "last_write_et": "4:33 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a2__m2_s0.built.json",
           "bytes": 852,
-          "mtime_et": "10:53 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m2_s0.solv.cif",
-          "bytes": 44570819,
-          "mtime_et": "10:53 AM ET Fri Jul 31, 2026"
+          "bytes": 44456629,
+          "mtime_et": "4:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m2_s0.system.xml",
-          "bytes": 77687233,
-          "mtime_et": "10:53 AM ET Fri Jul 31, 2026"
+          "bytes": 77515988,
+          "mtime_et": "4:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a2__m2_s0.json",
@@ -871,13 +1320,13 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:53 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "4:28 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5316,
-          "mtime_et": "10:53 AM ET Fri Jul 31, 2026"
+          "bytes": 1904,
+          "mtime_et": "4:33 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a2__m2_s0.f32",
@@ -892,23 +1341,33 @@
       ]
     },
     "nrv04retro-retro_noncov_nr4a2-m2-r1": {
-      "first_write_et": "10:26 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:28 AM ET Fri Jul 31, 2026",
+      "first_write_et": "10:28 AM ET Fri Jul 31, 2026",
+      "last_write_et": "4:39 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a2__m2_s1.built.json",
           "bytes": 852,
-          "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:11 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m2_s1.solv.cif",
-          "bytes": 44487926,
-          "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+          "bytes": 44578643,
+          "mtime_et": "4:10 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m2_s1.system.xml",
-          "bytes": 77562792,
-          "mtime_et": "10:26 AM ET Fri Jul 31, 2026"
+          "bytes": 77699082,
+          "mtime_et": "4:10 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a2__m2_s1.ckpt.json",
+          "bytes": 457101,
+          "mtime_et": "4:39 PM ET Fri Jul 31, 2026"
+        },
+        {
+          "key": "ckpt_retro_noncov_nr4a2__m2_s1.state.xml",
+          "bytes": 57232223,
+          "mtime_et": "4:39 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a2__m2_s1.json",
@@ -917,44 +1376,44 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:28 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "4:10 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5315,
-          "mtime_et": "10:28 AM ET Fri Jul 31, 2026"
+          "bytes": 2320,
+          "mtime_et": "4:39 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a2__m2_s1.f32",
-          "bytes": 49020,
-          "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+          "bytes": 3921600,
+          "mtime_et": "4:39 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a2__m2_s1.traj.json",
-          "bytes": 18789,
-          "mtime_et": "10:27 AM ET Fri Jul 31, 2026"
+          "bytes": 18788,
+          "mtime_et": "4:39 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a2-m3-r0": {
-      "first_write_et": "11:05 AM ET Fri Jul 31, 2026",
-      "last_write_et": "11:10 AM ET Fri Jul 31, 2026",
+      "first_write_et": "11:07 AM ET Fri Jul 31, 2026",
+      "last_write_et": "4:37 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a2__m3_s0.built.json",
           "bytes": 860,
-          "mtime_et": "11:05 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:11 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m3_s0.solv.cif",
-          "bytes": 44394886,
-          "mtime_et": "11:05 AM ET Fri Jul 31, 2026"
+          "bytes": 44612822,
+          "mtime_et": "4:01 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m3_s0.system.xml",
-          "bytes": 77423819,
-          "mtime_et": "11:05 AM ET Fri Jul 31, 2026"
+          "bytes": 77750825,
+          "mtime_et": "3:49 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a2__m3_s0.json",
@@ -963,13 +1422,13 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 32,
-          "mtime_et": "11:07 AM ET Fri Jul 31, 2026"
+          "bytes": 28,
+          "mtime_et": "4:37 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 4095,
-          "mtime_et": "11:10 AM ET Fri Jul 31, 2026"
+          "bytes": 2022,
+          "mtime_et": "4:36 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a2__m3_s0.f32",
@@ -985,22 +1444,22 @@
     },
     "nrv04retro-retro_noncov_nr4a2-m3-r1": {
       "first_write_et": "10:44 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:44 AM ET Fri Jul 31, 2026",
+      "last_write_et": "4:39 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a2__m3_s1.built.json",
           "bytes": 860,
-          "mtime_et": "10:44 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:32 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m3_s1.solv.cif",
-          "bytes": 44622648,
-          "mtime_et": "10:44 AM ET Fri Jul 31, 2026"
+          "bytes": 44388205,
+          "mtime_et": "4:22 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a2__m3_s1.system.xml",
-          "bytes": 77765175,
-          "mtime_et": "10:44 AM ET Fri Jul 31, 2026"
+          "bytes": 77413745,
+          "mtime_et": "4:11 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a2__m3_s1.json",
@@ -1009,13 +1468,13 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:44 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "4:10 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5327,
-          "mtime_et": "10:44 AM ET Fri Jul 31, 2026"
+          "bytes": 1913,
+          "mtime_et": "4:39 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a2__m3_s1.f32",
@@ -1030,207 +1489,207 @@
       ]
     },
     "nrv04retro-retro_noncov_nr4a3-m1-r0": {
-      "first_write_et": "10:53 AM ET Fri Jul 31, 2026",
-      "last_write_et": "12:06 PM ET Fri Jul 31, 2026",
+      "first_write_et": "2:18 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:30 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a3__m1_s0.built.json",
           "bytes": 860,
-          "mtime_et": "12:01 PM ET Fri Jul 31, 2026"
+          "mtime_et": "2:18 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m1_s0.solv.cif",
-          "bytes": 42455604,
-          "mtime_et": "12:01 PM ET Fri Jul 31, 2026"
+          "bytes": 42459117,
+          "mtime_et": "2:18 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m1_s0.system.xml",
-          "bytes": 74519159,
-          "mtime_et": "12:01 PM ET Fri Jul 31, 2026"
+          "bytes": 74524494,
+          "mtime_et": "2:18 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a3__m1_s0.json",
-          "bytes": 2820,
-          "mtime_et": "10:53 AM ET Fri Jul 31, 2026"
+          "bytes": 2827,
+          "mtime_et": "4:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "phase.txt",
           "bytes": 32,
-          "mtime_et": "12:01 PM ET Fri Jul 31, 2026"
+          "mtime_et": "4:30 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 2023,
-          "mtime_et": "12:06 PM ET Fri Jul 31, 2026"
+          "bytes": 1607,
+          "mtime_et": "4:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m1_s0.f32",
-          "bytes": 49260,
-          "mtime_et": "10:53 AM ET Fri Jul 31, 2026"
+          "bytes": 492600,
+          "mtime_et": "4:29 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m1_s0.traj.json",
-          "bytes": 18875,
-          "mtime_et": "10:53 AM ET Fri Jul 31, 2026"
+          "bytes": 18874,
+          "mtime_et": "4:29 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a3-m1-r1": {
-      "first_write_et": "10:15 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:16 AM ET Fri Jul 31, 2026",
+      "first_write_et": "4:18 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:21 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a3__m1_s1.built.json",
           "bytes": 860,
-          "mtime_et": "10:16 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:21 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m1_s1.solv.cif",
-          "bytes": 42451697,
-          "mtime_et": "10:16 AM ET Fri Jul 31, 2026"
+          "bytes": 42455598,
+          "mtime_et": "4:21 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m1_s1.system.xml",
-          "bytes": 74513680,
-          "mtime_et": "10:15 AM ET Fri Jul 31, 2026"
+          "bytes": 74519184,
+          "mtime_et": "4:21 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a3__m1_s1.json",
-          "bytes": 2818,
-          "mtime_et": "10:16 AM ET Fri Jul 31, 2026"
+          "bytes": 2829,
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:16 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5336,
-          "mtime_et": "10:16 AM ET Fri Jul 31, 2026"
+          "bytes": 4955,
+          "mtime_et": "4:21 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m1_s1.f32",
-          "bytes": 49260,
-          "mtime_et": "10:16 AM ET Fri Jul 31, 2026"
+          "bytes": 4926000,
+          "mtime_et": "4:18 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m1_s1.traj.json",
-          "bytes": 18875,
-          "mtime_et": "10:16 AM ET Fri Jul 31, 2026"
+          "bytes": 18874,
+          "mtime_et": "4:19 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a3-m2-r0": {
-      "first_write_et": "10:24 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:29 AM ET Fri Jul 31, 2026",
+      "first_write_et": "4:15 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:21 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a3__m2_s0.built.json",
           "bytes": 856,
-          "mtime_et": "10:24 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:17 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m2_s0.solv.cif",
-          "bytes": 47510101,
-          "mtime_et": "10:24 AM ET Fri Jul 31, 2026"
+          "bytes": 47949767,
+          "mtime_et": "4:16 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m2_s0.system.xml",
-          "bytes": 82101062,
-          "mtime_et": "10:24 AM ET Fri Jul 31, 2026"
+          "bytes": 82760262,
+          "mtime_et": "4:16 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a3__m2_s0.json",
-          "bytes": 2814,
-          "mtime_et": "10:24 AM ET Fri Jul 31, 2026"
+          "bytes": 2823,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "phase.txt",
           "bytes": 32,
-          "mtime_et": "10:25 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 4301,
-          "mtime_et": "10:29 AM ET Fri Jul 31, 2026"
+          "bytes": 3644,
+          "mtime_et": "4:21 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m2_s0.f32",
-          "bytes": 49260,
-          "mtime_et": "10:24 AM ET Fri Jul 31, 2026"
+          "bytes": 1970400,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m2_s0.traj.json",
-          "bytes": 18875,
-          "mtime_et": "10:24 AM ET Fri Jul 31, 2026"
+          "bytes": 18874,
+          "mtime_et": "4:15 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a3-m2-r1": {
-      "first_write_et": "10:15 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:46 AM ET Fri Jul 31, 2026",
+      "first_write_et": "4:32 PM ET Fri Jul 31, 2026",
+      "last_write_et": "4:38 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a3__m2_s1.built.json",
           "bytes": 856,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:34 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m2_s1.solv.cif",
-          "bytes": 47426452,
-          "mtime_et": "10:26 AM ET Fri Jul 31, 2026"
+          "bytes": 47524142,
+          "mtime_et": "4:34 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m2_s1.system.xml",
-          "bytes": 81975393,
-          "mtime_et": "10:15 AM ET Fri Jul 31, 2026"
+          "bytes": 82121907,
+          "mtime_et": "4:34 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a3__m2_s1.json",
-          "bytes": 2816,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 2824,
+          "mtime_et": "4:32 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "phase.txt",
           "bytes": 32,
-          "mtime_et": "10:39 AM ET Fri Jul 31, 2026"
+          "mtime_et": "4:33 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 4304,
-          "mtime_et": "10:46 AM ET Fri Jul 31, 2026"
+          "bytes": 3865,
+          "mtime_et": "4:38 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m2_s1.f32",
-          "bytes": 49260,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 4433400,
+          "mtime_et": "4:32 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m2_s1.traj.json",
-          "bytes": 18875,
-          "mtime_et": "10:38 AM ET Fri Jul 31, 2026"
+          "bytes": 18874,
+          "mtime_et": "4:32 PM ET Fri Jul 31, 2026"
         }
       ]
     },
     "nrv04retro-retro_noncov_nr4a3-m3-r0": {
-      "first_write_et": "10:13 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:37 AM ET Fri Jul 31, 2026",
+      "first_write_et": "10:35 AM ET Fri Jul 31, 2026",
+      "last_write_et": "3:32 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a3__m3_s0.built.json",
           "bytes": 860,
-          "mtime_et": "10:35 AM ET Fri Jul 31, 2026"
+          "mtime_et": "3:31 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m3_s0.solv.cif",
-          "bytes": 40431898,
-          "mtime_et": "10:23 AM ET Fri Jul 31, 2026"
+          "bytes": 40999729,
+          "mtime_et": "3:31 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m3_s0.system.xml",
-          "bytes": 71484336,
-          "mtime_et": "10:13 AM ET Fri Jul 31, 2026"
+          "bytes": 72336227,
+          "mtime_et": "3:30 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a3__m3_s0.json",
@@ -1240,12 +1699,12 @@
         {
           "key": "phase.txt",
           "bytes": 32,
-          "mtime_et": "10:36 AM ET Fri Jul 31, 2026"
+          "mtime_et": "3:31 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 4143,
-          "mtime_et": "10:37 AM ET Fri Jul 31, 2026"
+          "bytes": 4699,
+          "mtime_et": "3:32 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m3_s0.f32",
@@ -1260,23 +1719,23 @@
       ]
     },
     "nrv04retro-retro_noncov_nr4a3-m3-r1": {
-      "first_write_et": "10:40 AM ET Fri Jul 31, 2026",
-      "last_write_et": "10:41 AM ET Fri Jul 31, 2026",
+      "first_write_et": "10:41 AM ET Fri Jul 31, 2026",
+      "last_write_et": "3:53 PM ET Fri Jul 31, 2026",
       "keys": [
         {
           "key": "built_retro_noncov_nr4a3__m3_s1.built.json",
           "bytes": 860,
-          "mtime_et": "10:41 AM ET Fri Jul 31, 2026"
+          "mtime_et": "3:43 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m3_s1.solv.cif",
-          "bytes": 40660517,
-          "mtime_et": "10:40 AM ET Fri Jul 31, 2026"
+          "bytes": 40588967,
+          "mtime_et": "3:43 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "built_retro_noncov_nr4a3__m3_s1.system.xml",
-          "bytes": 71827312,
-          "mtime_et": "10:40 AM ET Fri Jul 31, 2026"
+          "bytes": 71719932,
+          "mtime_et": "3:43 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "leg_retro_noncov_nr4a3__m3_s1.json",
@@ -1285,13 +1744,13 @@
         },
         {
           "key": "phase.txt",
-          "bytes": 30,
-          "mtime_et": "10:41 AM ET Fri Jul 31, 2026"
+          "bytes": 32,
+          "mtime_et": "3:52 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "run.log",
-          "bytes": 5432,
-          "mtime_et": "10:41 AM ET Fri Jul 31, 2026"
+          "bytes": 4699,
+          "mtime_et": "3:53 PM ET Fri Jul 31, 2026"
         },
         {
           "key": "traj_retro_noncov_nr4a3__m3_s1.f32",
@@ -1310,16 +1769,16 @@
     "nrv04retro-retro_noncov_nr4a1-m1-r0": {
       "panel": "nrv04_retrospective",
       "leg_id": "retro_noncov_nr4a1__m1",
-      "mode": "smoke",
+      "mode": "run",
       "prod_ns": 5.0,
       "equil_ns": 1.0,
-      "n_frames": 5,
-      "timed_ns": 0.002,
-      "prod_wall_s": 8.0,
-      "ns_per_day": 21.72,
+      "n_frames": 500,
+      "timed_ns": 5.0,
+      "prod_wall_s": 2174.7,
+      "ns_per_day": 198.65,
       "blew_up": false,
-      "record_written_et": "10:38 AM ET Fri Jul 31, 2026",
-      "record_written_epoch": 1785508707.0
+      "record_written_et": "4:17 PM ET Fri Jul 31, 2026",
+      "record_written_epoch": 1785529063.0
     },
     "nrv04retro-retro_noncov_nr4a1-m1-r1": {
       "panel": "nrv04_retrospective",
@@ -1408,16 +1867,16 @@
     "nrv04retro-retro_noncov_nr4a2-m1-r1": {
       "panel": "nrv04_retrospective",
       "leg_id": "retro_noncov_nr4a2__m1",
-      "mode": "smoke",
+      "mode": "run",
       "prod_ns": 5.0,
       "equil_ns": 1.0,
-      "n_frames": 5,
-      "timed_ns": 0.002,
-      "prod_wall_s": 7.2,
-      "ns_per_day": 24.01,
+      "n_frames": 500,
+      "timed_ns": 5.0,
+      "prod_wall_s": 2351.2,
+      "ns_per_day": 183.74,
       "blew_up": false,
-      "record_written_et": "10:27 AM ET Fri Jul 31, 2026",
-      "record_written_epoch": 1785508043.0
+      "record_written_et": "3:27 PM ET Fri Jul 31, 2026",
+      "record_written_epoch": 1785526022.0
     },
     "nrv04retro-retro_noncov_nr4a2-m2-r0": {
       "panel": "nrv04_retrospective",
@@ -1478,58 +1937,58 @@
     "nrv04retro-retro_noncov_nr4a3-m1-r0": {
       "panel": "nrv04_retrospective",
       "leg_id": "retro_noncov_nr4a3__m1",
-      "mode": "smoke",
+      "mode": "run",
       "prod_ns": 5.0,
       "equil_ns": 1.0,
-      "n_frames": 5,
-      "timed_ns": 0.002,
-      "prod_wall_s": 10.1,
-      "ns_per_day": 17.12,
+      "n_frames": 500,
+      "timed_ns": 5.0,
+      "prod_wall_s": 2014.0,
+      "ns_per_day": 214.49,
       "blew_up": false,
-      "record_written_et": "10:53 AM ET Fri Jul 31, 2026",
-      "record_written_epoch": 1785509590.0
+      "record_written_et": "4:29 PM ET Fri Jul 31, 2026",
+      "record_written_epoch": 1785529774.0
     },
     "nrv04retro-retro_noncov_nr4a3-m1-r1": {
       "panel": "nrv04_retrospective",
       "leg_id": "retro_noncov_nr4a3__m1",
-      "mode": "smoke",
+      "mode": "run",
       "prod_ns": 5.0,
       "equil_ns": 1.0,
-      "n_frames": 5,
-      "timed_ns": 0.002,
-      "prod_wall_s": 4.9,
-      "ns_per_day": 35.5,
+      "n_frames": 500,
+      "timed_ns": 5.0,
+      "prod_wall_s": 2419.6,
+      "ns_per_day": 178.54,
       "blew_up": false,
-      "record_written_et": "10:16 AM ET Fri Jul 31, 2026",
-      "record_written_epoch": 1785507394.0
+      "record_written_et": "4:19 PM ET Fri Jul 31, 2026",
+      "record_written_epoch": 1785529146.0
     },
     "nrv04retro-retro_noncov_nr4a3-m2-r0": {
       "panel": "nrv04_retrospective",
       "leg_id": "retro_noncov_nr4a3__m2",
-      "mode": "smoke",
+      "mode": "run",
       "prod_ns": 5.0,
       "equil_ns": 1.0,
-      "n_frames": 5,
-      "timed_ns": 0.002,
-      "prod_wall_s": 8.8,
-      "ns_per_day": 19.54,
+      "n_frames": 500,
+      "timed_ns": 5.0,
+      "prod_wall_s": 1799.0,
+      "ns_per_day": 240.14,
       "blew_up": false,
-      "record_written_et": "10:24 AM ET Fri Jul 31, 2026",
-      "record_written_epoch": 1785507894.0
+      "record_written_et": "4:15 PM ET Fri Jul 31, 2026",
+      "record_written_epoch": 1785528922.0
     },
     "nrv04retro-retro_noncov_nr4a3-m2-r1": {
       "panel": "nrv04_retrospective",
       "leg_id": "retro_noncov_nr4a3__m2",
-      "mode": "smoke",
+      "mode": "run",
       "prod_ns": 5.0,
       "equil_ns": 1.0,
-      "n_frames": 5,
-      "timed_ns": 0.002,
-      "prod_wall_s": 16.7,
-      "ns_per_day": 10.37,
+      "n_frames": 500,
+      "timed_ns": 5.0,
+      "prod_wall_s": 2125.6,
+      "ns_per_day": 203.23,
       "blew_up": false,
-      "record_written_et": "10:38 AM ET Fri Jul 31, 2026",
-      "record_written_epoch": 1785508727.0
+      "record_written_et": "4:32 PM ET Fri Jul 31, 2026",
+      "record_written_epoch": 1785529971.0
     },
     "nrv04retro-retro_noncov_nr4a3-m3-r0": {
       "panel": "nrv04_retrospective",
@@ -1568,13 +2027,13 @@
       "final": true,
       "means": "age of a LIVE rental at the instant a collect polled it \u2014 NOT the leg's compute time, and NOT the rental's total lifetime",
       "is_bound": "LOWER bound on that host's billed wall clock (the poll is at or before teardown)",
-      "leak_ratio": 58.9,
+      "leak_ratio": 0.2,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0289,
-      "latest_possible_rental_start_et": "12:08 PM ET Fri Jul 31, 2026",
-      "leg_mode": "smoke",
-      "leg_prod_wall_s": 8.0,
-      "leg_record_written_et": "10:38 AM ET Fri Jul 31, 2026"
+      "latest_possible_rental_start_et": "4:30 PM ET Fri Jul 31, 2026",
+      "leg_mode": "run",
+      "leg_prod_wall_s": 2174.7,
+      "leg_record_written_et": "4:17 PM ET Fri Jul 31, 2026"
     },
     "nrv04retro-retro_noncov_nr4a1-m1-r1": {
       "uptime_s": 912,
@@ -1586,7 +2045,7 @@
       "leak_ratio": 123.2,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0375,
-      "latest_possible_rental_start_et": "12:01 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:22 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 7.4,
       "leg_record_written_et": "10:20 AM ET Fri Jul 31, 2026"
@@ -1601,7 +2060,7 @@
       "leak_ratio": 95.0,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0594,
-      "latest_possible_rental_start_et": "12:00 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:21 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 10.2,
       "leg_record_written_et": "10:29 AM ET Fri Jul 31, 2026"
@@ -1616,7 +2075,7 @@
       "leak_ratio": 111.6,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0208,
-      "latest_possible_rental_start_et": "12:08 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:29 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 4.4,
       "leg_record_written_et": "10:49 AM ET Fri Jul 31, 2026"
@@ -1631,7 +2090,7 @@
       "leak_ratio": 176.1,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0392,
-      "latest_possible_rental_start_et": "12:00 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:22 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 5.4,
       "leg_record_written_et": "10:38 AM ET Fri Jul 31, 2026"
@@ -1646,7 +2105,7 @@
       "leak_ratio": 83.0,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0285,
-      "latest_possible_rental_start_et": "12:08 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:30 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 5.6,
       "leg_record_written_et": "10:21 AM ET Fri Jul 31, 2026"
@@ -1661,7 +2120,7 @@
       "leak_ratio": 150.5,
       "verdict": "UNEXPLAINED BY THE LEG \u2014 a host of this lane was alive this long. The leg's own backstop is MAX_LEG_MIN=240 min, so this is idle rental time, not compute.",
       "cost_usd_recorded": 25.8273,
-      "latest_possible_rental_start_et": "12:16 AM ET Sat Jul 25, 2026",
+      "latest_possible_rental_start_et": "4:37 AM ET Sat Jul 25, 2026",
       "leg_mode": "run",
       "leg_prod_wall_s": 3730.5,
       "leg_record_written_et": "5:27 AM ET Sun Jul 26, 2026"
@@ -1673,13 +2132,13 @@
       "final": true,
       "means": "age of a LIVE rental at the instant a collect polled it \u2014 NOT the leg's compute time, and NOT the rental's total lifetime",
       "is_bound": "LOWER bound on that host's billed wall clock (the poll is at or before teardown)",
-      "leak_ratio": 63.5,
+      "leak_ratio": 0.2,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0285,
-      "latest_possible_rental_start_et": "12:08 PM ET Fri Jul 31, 2026",
-      "leg_mode": "smoke",
-      "leg_prod_wall_s": 7.2,
-      "leg_record_written_et": "10:27 AM ET Fri Jul 31, 2026"
+      "latest_possible_rental_start_et": "4:30 PM ET Fri Jul 31, 2026",
+      "leg_mode": "run",
+      "leg_prod_wall_s": 2351.2,
+      "leg_record_written_et": "3:27 PM ET Fri Jul 31, 2026"
     },
     "nrv04retro-retro_noncov_nr4a2-m2-r0": {
       "uptime_s": 489,
@@ -1691,7 +2150,7 @@
       "leak_ratio": 122.2,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.03,
-      "latest_possible_rental_start_et": "12:08 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:29 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 4.0,
       "leg_record_written_et": "10:53 AM ET Fri Jul 31, 2026"
@@ -1706,7 +2165,7 @@
       "leak_ratio": 48.2,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0124,
-      "latest_possible_rental_start_et": "12:09 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:30 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 9.2,
       "leg_record_written_et": "10:28 AM ET Fri Jul 31, 2026"
@@ -1721,7 +2180,7 @@
       "leak_ratio": 47.5,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0494,
-      "latest_possible_rental_start_et": "12:00 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:21 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 20.5,
       "leg_record_written_et": "11:07 AM ET Fri Jul 31, 2026"
@@ -1736,7 +2195,7 @@
       "leak_ratio": 88.5,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0221,
-      "latest_possible_rental_start_et": "12:08 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:29 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 5.4,
       "leg_record_written_et": "10:44 AM ET Fri Jul 31, 2026"
@@ -1748,13 +2207,13 @@
       "final": true,
       "means": "age of a LIVE rental at the instant a collect polled it \u2014 NOT the leg's compute time, and NOT the rental's total lifetime",
       "is_bound": "LOWER bound on that host's billed wall clock (the poll is at or before teardown)",
-      "leak_ratio": 48.0,
+      "leak_ratio": 0.2,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0297,
-      "latest_possible_rental_start_et": "12:08 PM ET Fri Jul 31, 2026",
-      "leg_mode": "smoke",
-      "leg_prod_wall_s": 10.1,
-      "leg_record_written_et": "10:53 AM ET Fri Jul 31, 2026"
+      "latest_possible_rental_start_et": "4:29 PM ET Fri Jul 31, 2026",
+      "leg_mode": "run",
+      "leg_prod_wall_s": 2014.0,
+      "leg_record_written_et": "4:29 PM ET Fri Jul 31, 2026"
     },
     "nrv04retro-retro_noncov_nr4a3-m1-r1": {
       "uptime_s": 845,
@@ -1763,13 +2222,13 @@
       "final": true,
       "means": "age of a LIVE rental at the instant a collect polled it \u2014 NOT the leg's compute time, and NOT the rental's total lifetime",
       "is_bound": "LOWER bound on that host's billed wall clock (the poll is at or before teardown)",
-      "leak_ratio": 172.4,
+      "leak_ratio": 0.3,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0372,
-      "latest_possible_rental_start_et": "12:02 PM ET Fri Jul 31, 2026",
-      "leg_mode": "smoke",
-      "leg_prod_wall_s": 4.9,
-      "leg_record_written_et": "10:16 AM ET Fri Jul 31, 2026"
+      "latest_possible_rental_start_et": "4:23 PM ET Fri Jul 31, 2026",
+      "leg_mode": "run",
+      "leg_prod_wall_s": 2419.6,
+      "leg_record_written_et": "4:19 PM ET Fri Jul 31, 2026"
     },
     "nrv04retro-retro_noncov_nr4a3-m2-r0": {
       "uptime_s": 1334,
@@ -1778,13 +2237,13 @@
       "final": true,
       "means": "age of a LIVE rental at the instant a collect polled it \u2014 NOT the leg's compute time, and NOT the rental's total lifetime",
       "is_bound": "LOWER bound on that host's billed wall clock (the poll is at or before teardown)",
-      "leak_ratio": 151.6,
+      "leak_ratio": 0.7,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0818,
-      "latest_possible_rental_start_et": "11:54 AM ET Fri Jul 31, 2026",
-      "leg_mode": "smoke",
-      "leg_prod_wall_s": 8.8,
-      "leg_record_written_et": "10:24 AM ET Fri Jul 31, 2026"
+      "latest_possible_rental_start_et": "4:15 PM ET Fri Jul 31, 2026",
+      "leg_mode": "run",
+      "leg_prod_wall_s": 1799.0,
+      "leg_record_written_et": "4:15 PM ET Fri Jul 31, 2026"
     },
     "nrv04retro-retro_noncov_nr4a3-m2-r1": {
       "uptime_s": 2304,
@@ -1793,13 +2252,13 @@
       "final": true,
       "means": "age of a LIVE rental at the instant a collect polled it \u2014 NOT the leg's compute time, and NOT the rental's total lifetime",
       "is_bound": "LOWER bound on that host's billed wall clock (the poll is at or before teardown)",
-      "leak_ratio": 138.0,
+      "leak_ratio": 1.1,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.1142,
-      "latest_possible_rental_start_et": "11:38 AM ET Fri Jul 31, 2026",
-      "leg_mode": "smoke",
-      "leg_prod_wall_s": 16.7,
-      "leg_record_written_et": "10:38 AM ET Fri Jul 31, 2026"
+      "latest_possible_rental_start_et": "3:59 PM ET Fri Jul 31, 2026",
+      "leg_mode": "run",
+      "leg_prod_wall_s": 2125.6,
+      "leg_record_written_et": "4:32 PM ET Fri Jul 31, 2026"
     },
     "nrv04retro-retro_noncov_nr4a3-m3-r0": {
       "uptime_s": 1808,
@@ -1811,7 +2270,7 @@
       "leak_ratio": 410.9,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0896,
-      "latest_possible_rental_start_et": "11:46 AM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:07 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 4.4,
       "leg_record_written_et": "10:36 AM ET Fri Jul 31, 2026"
@@ -1826,62 +2285,258 @@
       "leak_ratio": 217.0,
       "verdict": "within a plausible single-leg rental (provision + run + poll lag)",
       "cost_usd_recorded": 0.0368,
-      "latest_possible_rental_start_et": "12:02 PM ET Fri Jul 31, 2026",
+      "latest_possible_rental_start_et": "4:23 PM ET Fri Jul 31, 2026",
       "leg_mode": "smoke",
       "leg_prod_wall_s": 4.0,
       "leg_record_written_et": "10:41 AM ET Fri Jul 31, 2026"
     }
   },
   "vast": {
-    "n_instances_on_account": 3,
-    "n_this_lane": 0,
+    "n_instances_on_account": 10,
+    "n_this_lane": 6,
     "census": [
       {
-        "id": 46416312,
-        "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r0-dt4p0fs-wu1p0-5aks",
-        "actual_status": null,
-        "cur_state": "running",
-        "dph_total": 0.09271111111111112,
+        "id": 46437074,
+        "label": "nrv04retro-retro_noncov_nr4a1-m1-r1",
+        "actual_status": "loading",
+        "cur_state": "stopped",
+        "dph_total": 0.22066666666666665,
         "gpu_util": null,
-        "machine_id": 145841,
-        "start_date_epoch": 1785515007.6122227,
-        "start_date_et": "12:23 PM ET Fri Jul 31, 2026",
-        "start_date_age_s": 30,
-        "start_date_age_human": "0d 0h 0m",
-        "duration_field": 812282.4597961903,
-        "duration_human": "9d 9h 38m"
+        "machine_id": 140160,
+        "start_date_epoch": 1785530285.0630445,
+        "start_date_et": "4:38 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 102,
+        "start_date_age_human": "0d 0h 1m",
+        "duration_field": 2655974.5904033184,
+        "duration_human": "30d 17h 46m"
       },
       {
-        "id": 46407634,
-        "label": "tvast-5aks-d0-to-d--ternary-nr4a3-r0-dt4p0fs-wu1p0-5aks",
+        "id": 46437106,
+        "label": "nrv04retro-retro_noncov_nr4a1-m2-r1",
+        "actual_status": "loading",
+        "cur_state": "running",
+        "dph_total": 0.22476666666666667,
+        "gpu_util": null,
+        "machine_id": 140160,
+        "start_date_epoch": 1785530303.5142608,
+        "start_date_et": "4:38 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 83,
+        "start_date_age_human": "0d 0h 1m",
+        "duration_field": 2655974.5904033184,
+        "duration_human": "30d 17h 46m"
+      },
+      {
+        "id": 46435170,
+        "label": "nrv04retro-retro_noncov_nr4a1-m3-r0",
         "actual_status": "running",
         "cur_state": "running",
         "dph_total": 0.22066666666666665,
-        "gpu_util": 81.999924,
-        "machine_id": 17551,
-        "start_date_epoch": 1785509761.0957427,
-        "start_date_et": "10:56 AM ET Fri Jul 31, 2026",
-        "start_date_age_s": 5277,
-        "start_date_age_human": "0d 1h 27m",
-        "duration_field": 2660866.4597961903,
-        "duration_human": "30d 19h 7m"
+        "gpu_util": null,
+        "machine_id": 19499,
+        "start_date_epoch": 1785528811.7624128,
+        "start_date_et": "4:13 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 1575,
+        "start_date_age_human": "0d 0h 26m",
+        "duration_field": 5235949.590403318,
+        "duration_human": "60d 14h 25m"
       },
       {
-        "id": 46413401,
+        "id": 46435174,
+        "label": "nrv04retro-retro_noncov_nr4a1-m3-r1",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.22476666666666667,
+        "gpu_util": 0.0,
+        "machine_id": 142028,
+        "start_date_epoch": 1785528814.5840828,
+        "start_date_et": "4:13 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 1572,
+        "start_date_age_human": "0d 0h 26m",
+        "duration_field": 15850879.590403318,
+        "duration_human": "183d 11h 1m"
+      },
+      {
+        "id": 46434690,
+        "label": "nrv04retro-retro_noncov_nr4a2-m2-r1",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.2614666666666666,
+        "gpu_util": 84.999916,
+        "machine_id": 90898,
+        "start_date_epoch": 1785528424.367246,
+        "start_date_et": "4:07 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 1962,
+        "start_date_age_human": "0d 0h 32m",
+        "duration_field": 1207227.7746767998,
+        "duration_human": "13d 23h 20m"
+      },
+      {
+        "id": 46434702,
+        "label": "nrv04retro-retro_noncov_nr4a2-m3-r1",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.18186666666666668,
+        "gpu_util": 99.999908,
+        "machine_id": 28903,
+        "start_date_epoch": 1785528427.7712905,
+        "start_date_et": "4:07 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 1959,
+        "start_date_age_human": "0d 0h 32m",
+        "duration_field": 603076.9625034332,
+        "duration_human": "6d 23h 31m"
+      },
+      {
+        "id": 46435979,
+        "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r0-dt4p0fs-wu1p0-5aks",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.1743111111111111,
+        "gpu_util": 0.0,
+        "machine_id": 9624,
+        "start_date_epoch": 1785529439.237674,
+        "start_date_et": "4:23 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 947,
+        "start_date_age_human": "0d 0h 15m",
+        "duration_field": 2590331.3753638268,
+        "duration_human": "29d 23h 32m"
+      },
+      {
+        "id": 46433544,
+        "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r1-dt4p0fs-wu1p0-5aks",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.14586666666666667,
+        "gpu_util": 0.0,
+        "machine_id": 33657,
+        "start_date_epoch": 1785527470.355341,
+        "start_date_et": "3:51 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 2916,
+        "start_date_age_human": "0d 0h 48m",
+        "duration_field": 7643634.590403318,
+        "duration_human": "88d 11h 13m"
+      },
+      {
+        "id": 46426406,
+        "label": "tvast-5aks-d0-to-d--ternary-nr4a3-r0-dt4p0fs-wu1p0-5aks",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.10631111111111112,
+        "gpu_util": 98.999908,
+        "machine_id": 145841,
+        "start_date_epoch": 1785522104.1545234,
+        "start_date_et": "2:21 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 8283,
+        "start_date_age_human": "0d 2h 18m",
+        "duration_field": 796933.5904033184,
+        "duration_human": "9d 5h 22m"
+      },
+      {
+        "id": 46425466,
         "label": "tvast-5aks-d0-to-d--ternary-nr4a3-r1-dt4p0fs-wu1p0-5aks",
         "actual_status": "running",
         "cur_state": "running",
-        "dph_total": 0.11186666666666667,
-        "gpu_util": 45.999958,
-        "machine_id": 16661,
-        "start_date_epoch": 1785513258.7614932,
-        "start_date_et": "11:54 AM ET Fri Jul 31, 2026",
-        "start_date_age_s": 1779,
-        "start_date_age_human": "0d 0h 29m",
-        "duration_field": 11710821.45979619,
-        "duration_human": "135d 13h 0m"
+        "dph_total": 0.07911111111111112,
+        "gpu_util": 69.999931,
+        "machine_id": 33806,
+        "start_date_epoch": 1785521426.7035236,
+        "start_date_et": "2:10 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 8960,
+        "start_date_age_human": "0d 2h 29m",
+        "duration_field": 15802333.633726358,
+        "duration_human": "182d 21h 32m"
       }
     ],
-    "still_billing_this_lane": []
+    "still_billing_this_lane": [
+      {
+        "id": 46437074,
+        "label": "nrv04retro-retro_noncov_nr4a1-m1-r1",
+        "actual_status": "loading",
+        "cur_state": "stopped",
+        "dph_total": 0.22066666666666665,
+        "gpu_util": null,
+        "machine_id": 140160,
+        "start_date_epoch": 1785530285.0630445,
+        "start_date_et": "4:38 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 102,
+        "start_date_age_human": "0d 0h 1m",
+        "duration_field": 2655974.5904033184,
+        "duration_human": "30d 17h 46m"
+      },
+      {
+        "id": 46437106,
+        "label": "nrv04retro-retro_noncov_nr4a1-m2-r1",
+        "actual_status": "loading",
+        "cur_state": "running",
+        "dph_total": 0.22476666666666667,
+        "gpu_util": null,
+        "machine_id": 140160,
+        "start_date_epoch": 1785530303.5142608,
+        "start_date_et": "4:38 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 83,
+        "start_date_age_human": "0d 0h 1m",
+        "duration_field": 2655974.5904033184,
+        "duration_human": "30d 17h 46m"
+      },
+      {
+        "id": 46435170,
+        "label": "nrv04retro-retro_noncov_nr4a1-m3-r0",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.22066666666666665,
+        "gpu_util": null,
+        "machine_id": 19499,
+        "start_date_epoch": 1785528811.7624128,
+        "start_date_et": "4:13 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 1575,
+        "start_date_age_human": "0d 0h 26m",
+        "duration_field": 5235949.590403318,
+        "duration_human": "60d 14h 25m"
+      },
+      {
+        "id": 46435174,
+        "label": "nrv04retro-retro_noncov_nr4a1-m3-r1",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.22476666666666667,
+        "gpu_util": 0.0,
+        "machine_id": 142028,
+        "start_date_epoch": 1785528814.5840828,
+        "start_date_et": "4:13 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 1572,
+        "start_date_age_human": "0d 0h 26m",
+        "duration_field": 15850879.590403318,
+        "duration_human": "183d 11h 1m"
+      },
+      {
+        "id": 46434690,
+        "label": "nrv04retro-retro_noncov_nr4a2-m2-r1",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.2614666666666666,
+        "gpu_util": 84.999916,
+        "machine_id": 90898,
+        "start_date_epoch": 1785528424.367246,
+        "start_date_et": "4:07 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 1962,
+        "start_date_age_human": "0d 0h 32m",
+        "duration_field": 1207227.7746767998,
+        "duration_human": "13d 23h 20m"
+      },
+      {
+        "id": 46434702,
+        "label": "nrv04retro-retro_noncov_nr4a2-m3-r1",
+        "actual_status": "running",
+        "cur_state": "running",
+        "dph_total": 0.18186666666666668,
+        "gpu_util": 99.999908,
+        "machine_id": 28903,
+        "start_date_epoch": 1785528427.7712905,
+        "start_date_et": "4:07 PM ET Fri Jul 31, 2026",
+        "start_date_age_s": 1959,
+        "start_date_age_human": "0d 0h 32m",
+        "duration_field": 603076.9625034332,
+        "duration_human": "6d 23h 31m"
+      }
+    ]
   }
 }
