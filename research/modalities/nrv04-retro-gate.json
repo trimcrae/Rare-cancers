@@ -1,15 +1,14 @@
 {
   "_what": "NR-V04 retrospective \u2014 why each hostless unit was or was not bought on this tick.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a hold is never silent, and it carries the snapshot that caused it.",
-  "utc": "2026-07-31T21:27:07Z",
+  "utc": "2026-07-31T21:34:51Z",
   "lane": "nrv04_retro",
   "n_authorized": 17,
   "needed": [
-    "nrv04retro-retro_noncov_nr4a1-m2-r1",
-    "nrv04retro-retro_noncov_nr4a2-m3-r0"
+    "nrv04retro-retro_noncov_nr4a1-m2-r1"
   ],
   "replaced": [
-    "nrv04retro-retro_noncov_nr4a2-m3-r0"
+    "nrv04retro-retro_noncov_nr4a1-m2-r1"
   ],
   "blocked": [
     {
@@ -68,37 +67,9 @@
     }
   ],
   "quarantine_eligible_running": [],
-  "breaker_downgraded": [
-    {
-      "n_attempts": 3,
-      "threshold": 3,
-      "streak_since_utc": "2026-07-31T15:07:26Z",
-      "counted": "since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T15:07:26Z)",
-      "block": false,
-      "verdict": "allow: 3 marker(s) resolve to only 2 distinct host(s) \u2014 under the threshold of 3, so this is one host restarting rather than a fault reproduced across machines",
-      "why": "3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T15:07:26Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINCT HOSTS: a container that crash-loops re-runs the preamble and writes a marker each time, so this count cannot yet tell 3 rentals from 1 host restarting 3 times (the marker records its container id; `count_attempts` counts objects, not ids). The block is right either way \u2014 both are the same fault reproducing \u2014 but do not quote this as a host count. NOT permanent: fix the cause, then leg_failure_breaker.reset_for() clears the archive and the next tick rents normally.",
-      "n_markers": 3,
-      "n_distinct_hosts": 2,
-      "host_detail": {
-        "host_ids": [
-          "46407496",
-          "46432876"
-        ],
-        "unreadable_markers": 0
-      },
-      "streak_is_genuine": false,
-      "host_reading": "3 marker(s) resolve to 2 DISTINCT host(s) \u2014 \u26a0 FEWER DISTINCT HOSTS THAN THE THRESHOLD. These markers are substantially one host restarting (a crash-loop re-runs the onstart preamble), so this is NOT yet 'reproduced on distinct hosts' and the block may be premature.",
-      "unit": "nrv04retro-retro_noncov_nr4a2-m3-r0"
-    }
-  ],
+  "breaker_downgraded": [],
   "awaiting_authorization": [],
-  "condemned": [
-    {
-      "instance": "46438461",
-      "unit": "nrv04retro-retro_noncov_nr4a1-m2-r1",
-      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
-    }
-  ],
+  "condemned": [],
   "nudged": [],
   "fleet_unreadable": null,
   "market": null,
@@ -107,7 +78,6 @@
     "nrv04retro-retro_noncov_nr4a3-m3-r1": "INPUT QUARANTINE \u2014 this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +1.791e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6). MEASURED CAUSE (not inferred): the co-fold nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart \u2014 two heavy atoms on the same point, both positioned by Boltz. The staged single-point probe finds NonbondedForce carrying +2.109e15 kJ/mol already at `protein_after_pdbfixer`, before the ligand exists and before one water is placed, so ligand placement and addSolvent are excluded (nrv04_pe_stage_probe, 2026-07-31). Renting another host reproduces it in seconds and tests nothing. RELEASE: a different co-fold for this unit \u2014 the quarantine is read from the leg record, so a clean record clears it with no edit. \u26a0 THAT IS A PREREGISTRATION QUESTION, NOT A CODE FIX: the input, not the pipeline, is what would change.",
     "nrv04retro-retro_noncov_nr4a1-m1-r1": "BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T19:44:13Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed.",
     "nrv04retro-retro_noncov_nr4a2-m2-r0": "BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed.",
-    "nrv04retro-retro_noncov_nr4a1-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a2-m3-r0": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
+    "nrv04retro-retro_noncov_nr4a1-m2-r1": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
   }
 }
