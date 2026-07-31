@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T16:02:20Z",
+  "utc": "2026-07-31T16:09:35Z",
   "n_units": 1,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 1.83,
@@ -8,32 +8,31 @@
   "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
   "breakeven_usd_per_ns": 0.009682,
   "depth": {
-    "offers_returned": 193,
-    "qualifying": 77,
-    "priceable": 77,
+    "offers_returned": 157,
+    "qualifying": 156,
+    "priceable": 87,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers": [
     {
       "gpu": "RTX 5090",
-      "machine_id": 141580,
-      "min_bid_usd_h": 0.30814814814814817,
-      "usd_per_ns": 0.007599
+      "machine_id": 19499,
+      "min_bid_usd_h": 0.2,
+      "usd_per_ns": 0.005255
     }
   ],
-  "mean_usd_per_ns": 0.007599,
-  "ratio_vs_basis": 2.227,
-  "projected_usd": 4.07,
+  "mean_usd_per_ns": 0.005255,
+  "ratio_vs_basis": 1.54,
+  "projected_usd": 2.82,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": true,
-  "hold": true,
-  "reason": "2.23x the ladder basis exceeds the 1.92x drift line (CLAUDE.md \u00a71) \u2014 trimcrae, 2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; need <= $0.006539/ns",
+  "fails_ratio_ceiling": false,
+  "hold": false,
+  "reason": "projected $2.82 within this rung's ceiling $5.19 AND 1.54x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
     "136811",
-    "144135",
     "16661",
     "17551"
   ],
