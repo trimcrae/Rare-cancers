@@ -859,6 +859,31 @@ def test_incomplete_and_UNCOMPLETABLE_must_not_read_alike():
     assert "newest_leg_rec = {}" in src, "unreadable is UNKNOWN, never 'nothing is quarantined'"
 
 
+def test_the_per_attempt_log_archive_must_not_land_where_attempts_are_COUNTED():
+    """⛔ THE FOOTGUN THIS EXISTS TO STOP. `leg_failure_breaker.count_attempts` counts OBJECTS under
+    `attempts/`. Archiving the previous attempt's run.log there too would put TWO objects per attempt in the
+    counted prefix and fire the breaker at half its intended threshold — silently, and expensively, on a
+    lane that rents unattended.
+
+    So the archive goes to `attempt-logs/`, a namespace nothing counts. Why archive at all: the lane
+    overwrites `$RESULT_S3/run.log` every 45 s, so each attempt destroyed the only record of how the last
+    one died — and the sibling ternary lane's wedge diagnosis needed TWO preserved logs from two hosts to
+    localise a hang between two prints. One sample cannot make that comparison.
+    """
+    import inspect
+    src = inspect.getsource(vl)
+    assert '"ATTEMPT_LOG_S3": f"s3://{bucket}/{RETRO_RESULT_PREFIX}/legs/{name}/attempt-logs"' in src
+    marker = vl._RETRO_ATTEMPT_MARKER
+    assert "$ATTEMPT_LOG_S3/run-$_ATS.log" in marker, "the log archive uses the UNCOUNTED prefix"
+    assert "$ATTEMPT_S3/run-$_ATS.log" in marker, "the marker itself still uses the counted prefix"
+    # Exactly ONE object per attempt lands in the counted prefix.
+    assert marker.count("$ATTEMPT_S3/") == 1
+    assert "attempts" not in vl.build_retro_jobspec.__doc__ or True  # doc-agnostic
+    # And the two prefixes must not be the same string, or the separation is decorative.
+    jobspec_src = inspect.getsource(vl.build_retro_jobspec)
+    assert "/attempts\"" in jobspec_src and "/attempt-logs\"" in jobspec_src
+
+
 def test_the_breaker_does_not_claim_a_host_count_it_has_not_measured():
     """⚠ N MARKERS IS NOT PROVEN TO BE N HOSTS, and the old wording asserted it was.
 

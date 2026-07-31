@@ -257,7 +257,10 @@ def test_arms_differ_only_in_target_and_covalency(monkeypatch):
     # ATTEMPT_S3 joins RESULT_S3/COFOLD_PREFIX_S3 for the same reason: it is a per-unit ADDRESS (the failure
     # breaker's archive), not a protocol parameter. Two arms sharing one would make the breaker count both
     # arms' rentals against each — the allowlist is what keeps that distinction explicit.
-    assert differing <= {"LEG_ID", "TARGET", "ENV_ASSEMBLY", "COFOLD_PREFIX_S3", "RESULT_S3", "ATTEMPT_S3"}
+    # All PATHS and identity, never a science parameter — that is what this guard is for.
+    # ATTEMPT_LOG_S3 joined 2026-07-31 (the per-attempt run.log archive; see _RETRO_ATTEMPT_MARKER).
+    assert differing <= {"LEG_ID", "TARGET", "ENV_ASSEMBLY", "COFOLD_PREFIX_S3", "RESULT_S3",
+                         "ATTEMPT_S3", "ATTEMPT_LOG_S3"}
     for shared in ("PROD_NS", "EQUIL_NS", "LIGAND", "COVALENT", "MODE"):
         assert a[shared] == b[shared]
 

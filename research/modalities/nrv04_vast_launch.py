@@ -181,9 +181,28 @@ mark uploaded
 # stop re-buying. An archive written on a clean exit would count precisely the attempts that did not need
 # counting; a deferred copy of `run.log` would miss any attempt that died before the timer. One `s3 cp` of a
 # few bytes, immediately after the env is up, counts every rental we ever pay for.
+#
+# ★★ AND IT NOW ARCHIVES THE PREVIOUS ATTEMPT'S run.log ALONGSIDE THE MARKER (2026-07-31). The lane
+# overwrites `$RESULT_S3/run.log` every 45 s and on EXIT, so until now each new attempt DESTROYED the only
+# record of how the last one died and the `attempts/` objects were ~40-byte markers carrying no content.
+#
+# WHY THAT MATTERS, from a diagnosis on a sibling lane: the ternary agent localised a wedge on `nr4a3_r0`
+# by noticing that two archived run.logs FROM DIFFERENT HOSTS were byte-identical (5115 B) and ended on the
+# same line — which placed the hang between two specific prints. That comparison needs ≥2 preserved logs.
+# This lane could not have made it: one sample is all an overwriting upload ever leaves.
+#
+# ⛔ IT GOES TO A DIFFERENT PREFIX ON PURPOSE. `leg_failure_breaker.count_attempts` counts OBJECTS under
+# `attempts/`, so adding a second object per attempt there would double the count and fire the breaker at
+# half its intended threshold — a silent, expensive footgun. `attempt-logs/` is a separate namespace that
+# nothing counts, so the marker semantics, the breaker and `retro_attempt_hosts` are all untouched.
+# Best-effort and non-fatal: a missing previous log is normal on a unit's first attempt.
 _RETRO_ATTEMPT_MARKER = r"""
+_ATS=$(date -u +%Y%m%dT%H%M%SZ)
+$AWS s3 cp "$RESULT_S3/run.log" "$ATTEMPT_LOG_S3/run-$_ATS.log" --only-show-errors >/dev/null 2>&1 \
+  && echo "[attempt] archived the PREVIOUS attempt's run.log -> attempt-logs/run-$_ATS.log" \
+  || echo "[attempt] no previous run.log to archive (first attempt, or it was never uploaded)"
 echo "attempt $(date -u +%FT%TZ) instance=${CONTAINER_ID:-unknown}" | \
-  $AWS s3 cp - "$ATTEMPT_S3/run-$(date -u +%Y%m%dT%H%M%SZ).log" || \
+  $AWS s3 cp - "$ATTEMPT_S3/run-$_ATS.log" || \
   echo "[attempt] WARN could not archive the attempt marker — the failure breaker will undercount"
 """
 
@@ -1608,6 +1627,10 @@ def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarb
         # The breaker's evidence. The path is `leg_failure_breaker.count_attempts`' own glob, not a spelling
         # of ours — a marker written anywhere else is a marker that module cannot count.
         "ATTEMPT_S3": f"s3://{bucket}/{RETRO_RESULT_PREFIX}/legs/{name}/attempts",
+        # ⛔ A SEPARATE NAMESPACE, AND THAT IS THE POINT. The per-attempt run.log archive must NOT land under
+        # `attempts/`, which `leg_failure_breaker.count_attempts` counts by object — a second object per
+        # attempt there would halve the effective breaker threshold silently. See `_RETRO_ATTEMPT_MARKER`.
+        "ATTEMPT_LOG_S3": f"s3://{bucket}/{RETRO_RESULT_PREFIX}/legs/{name}/attempt-logs",
     })
     if env_tarball_url:
         env["ENV_TARBALL_URL"] = env_tarball_url
