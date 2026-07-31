@@ -137,3 +137,41 @@ def test_the_permissive_query_selects_the_tier_and_nothing_else_of_substance():
     # board the server had already pruned.
     for k in ("cuda_max_good", "cpu_ram", "cpu_cores", "disk_space", "reliability2", "gpu_ram", "verified"):
         assert k not in q, f"{k} must be counted client-side, not pre-filtered by the server"
+
+
+# =============================================================================================================
+# ⚠ A "SAVING" IN THIS TABLE IS NOT ALWAYS A SAVING
+# =============================================================================================================
+def test_the_ram_floor_carries_its_refutation_next_to_its_gain():
+    """THE TRAP THIS CLOSES. The ablation measured relaxing `cpu_ram >= 32 GB` as worth ~35.7 % better $/ns —
+    the largest gain in the table — and that number is an ARTEFACT. Every $/ns here is computed on TABLE
+    throughput, which is a measure of MD speed and cannot see setup time at all.
+
+    `ternary-rbfe-runbook.md` §2 root-caused, by serial console, setup varying 8 min <-> 30 min on what looked
+    like one machine: the provisioner had fallen back to a 4 vCPU / 16 GB box, and openff `interchange`
+    parameterising a ~146k-atom system is CPU+RAM bound, so 16 GB swaps and runs ~4x slower. Same GPU — so the
+    $/ns is genuinely unchanged and genuinely irrelevant. Against a ~1.00 h median session, a ~4x setup
+    penalty converts a rental that banks into one that does not.
+
+    So the caveat must travel WITH the row. A future reader proposing to relax this floor will read the gain
+    column first."""
+    caveat = fa.FILTER_CAVEATS["cpu_ram(ram_gb)"]
+    assert "DO NOT RELAX" in caveat
+    assert "8 min" in caveat and "30 min" in caveat, "the measurement must travel with the verdict"
+    assert "CPU+RAM bound" in caveat
+
+
+def test_every_caveat_reaches_the_row_and_the_rendered_readout():
+    offers = [_offer(id=1, machine_id=1), _offer(id=2, machine_id=2, cpu_ram=16384)]
+    out = fa.ablate(offers, _res(), interruptible=True, n_units=1, basis=0.003412)
+    rows = {r["filter"]: r for r in out["per_filter"]}
+    assert rows["cpu_ram(ram_gb)"]["caveat"], "the row must carry it"
+    doc = {"basis_usd_per_ns": 0.003412, "buy_line_usd_per_ns": 0.006539, "n_units": 1, "tiers": [out]}
+    assert "DO NOT RELAX" in fa._render(doc), "and the human-readable readout must print it"
+
+
+def test_a_filter_with_no_caveat_is_not_given_a_fabricated_one():
+    offers = [_offer(id=1, machine_id=1)]
+    out = fa.ablate(offers, _res(), interruptible=True, n_units=1, basis=0.003412)
+    rows = {r["filter"]: r for r in out["per_filter"]}
+    assert rows["disk_space(disk_gb)"]["caveat"] is None

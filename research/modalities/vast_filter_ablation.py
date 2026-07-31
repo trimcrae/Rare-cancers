@@ -155,9 +155,35 @@ def ablate(offers, res, interruptible, n_units=1, basis=None):
             # And what dropping it would buy, in the only currency that matters.
             "usd_per_ns_improvement_pct": (round(100.0 * (fb - lb) / fb, 1)
                                            if (fb and lb and fb > 0) else None),
+            # ⚠ THE GAIN IS NOT ALWAYS A SAVING — see FILTER_CAVEATS.
+            "caveat": FILTER_CAVEATS.get(n),
         })
     out["per_filter"].sort(key=lambda r: -r["marginal_cost_offers"])
     return out
+
+
+# ★★ A FILTER'S `$/ns` "SAVING" IS COMPUTED ON **TABLE** THROUGHPUT, WHICH CANNOT SEE SETUP TIME.
+# That makes the gain column systematically WRONG for any filter that exists to protect a CPU-side phase —
+# and one of them does. Recorded here rather than in a message, because the ablation's own numbers are what
+# somebody will read when they propose relaxing a floor.
+FILTER_CAVEATS = {
+    "cpu_ram(ram_gb)": (
+        "⛔ DO NOT RELAX. The gain shown is an ARTEFACT of a metric blind to setup. `ternary-rbfe-runbook.md` "
+        "§2 root-caused, by serial console, setup varying 8 min <-> 30 min on 'the same machine': the "
+        "provisioner had silently fallen back to a 4 vCPU / 16 GB box, and openff `interchange` "
+        "parameterising a ~146k-atom system is CPU+RAM bound, so 16 GB swaps and runs ~4x slower. Same GPU, "
+        "so MD — and therefore every $/ns in this table — is UNAFFECTED. A ~4x setup penalty on a cold start "
+        "of tens of minutes, against a ~1.00 h median session, converts a rental that banks into one that "
+        "does not. This floor is doing real work."),
+    "cuda_max_good(min_cuda)": (
+        "MEASURED, and already acted on: `probe_image_cuda.py` read the baked image's own libnvrtc and the "
+        "ternary lane's floor moved 13.0 -> 12.6 (image-cuda-requirements.json). An image that has NOT been "
+        "probed keeps the conservative default."),
+    "min_ns_per_h": (
+        "A card floor is a SPEED preference, not a cost one. The 5a-KS floor was reverted on the fan-out's "
+        "208-rental ledger (3090-class held a 1.50 h median vs 1.65 h for 4090/5090-class); the triangle "
+        "keeps its own on a direct observation. One home: ternary_vast_launch.MODE_MIN_NS_PER_H."),
+}
 
 
 def _bound_of(name, res):
@@ -296,12 +322,18 @@ def _render(doc):
         L.append("    %-26s %-14s %8s %8s %10s  %s" %
                  ("filter", "bound", "alone", "LOO", "marginal", "LOO best $/ns (x basis)  gain%"))
         for r in t["per_filter"]:
+            if r.get("caveat"):
+                L.append("    " + "-" * 100)
             L.append("    %-26s %-14s %8d %8d %10d  %-12s %-8s %s"
                      % (r["filter"], r["bound"], r["alone_surviving"], r["leave_out_surviving"],
                         r["marginal_cost_offers"], r["leave_out_best_usd_per_ns"],
                         r["leave_out_ratio_vs_basis"],
                         ("+%s%%" % r["usd_per_ns_improvement_pct"]
                          if r["usd_per_ns_improvement_pct"] else "-")))
+            if r.get("caveat"):
+                for _ln in __import__("textwrap").wrap(r["caveat"], 96):
+                    L.append("        " + _ln)
+                L.append("    " + "-" * 100)
         bx = t.get("retired_blacklist")
         if bx:
             L.append("    RETIRED DURABLE BLACKLIST, counterfactual on THIS board (%d stored ids):"
