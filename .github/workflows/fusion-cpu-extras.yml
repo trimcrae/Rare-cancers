@@ -993,7 +993,18 @@ jobs:
       # workflow is at the 25-input cap, tests/test_workflow_input_cap.py).
       PREFIX: ${{ github.event.inputs.cofold_output_prefix }}
       UNIT: ${{ github.event.inputs.vast_selector }}
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Retro smoke forensics (read-only; rents nothing, destroys nothing)
+        run: |
+          pip install -q boto3
+          python research/modalities/nrv04_retro_smoke_forensics.py
       - name: phase + run.log tail + object listing
         run: |
           python3 -m pip install -q awscli >/dev/null 2>&1 || pip install -q awscli >/dev/null 2>&1 || true
