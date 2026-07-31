@@ -95,28 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-07-31T16:21:53Z",
-      "et": "12:21 PM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "5aks-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30646391837",
-      "gate_ratio_vs_basis": 1.497,
-      "gate_mean_usd_per_ns": 0.005106,
-      "gate_projected_usd": 5.47,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "projected $5.47 within this rung's ceiling $10.37 AND 1.50x basis is within the 1.92x drift line",
-      "gate_board_depth": {
-        "offers_returned": 163,
-        "qualifying": 162,
-        "priceable": 92,
-        "needed": 2,
-        "used_for_mean": 2
-      },
-      "reason": "board cleared both ceilings; dispatching task=5aks"
-    },
-    {
       "utc": "2026-07-31T16:23:40Z",
       "et": "12:23 PM ET",
       "outcome": "launched",
@@ -1381,12 +1359,34 @@
         }
       ],
       "reason": "task=5aks; job status success"
+    },
+    {
+      "utc": "2026-07-31T18:19:11Z",
+      "et": "2:19 PM ET",
+      "outcome": "dispatched",
+      "what_that_means": "the gate cleared and fired the launch workflow",
+      "stage": "5aks-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30654608569",
+      "gate_ratio_vs_basis": 1.565,
+      "gate_mean_usd_per_ns": 0.00534,
+      "gate_projected_usd": 2.86,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.86 within this rung's ceiling $5.19 AND 1.57x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 117,
+        "qualifying": 114,
+        "priceable": 52,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "reason": "board cleared both ceilings; dispatching task=5aks"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 1128,
-    "through_utc": "2026-07-31T16:17:07Z"
+    "n_total": 1129,
+    "through_utc": "2026-07-31T16:21:53Z"
   }
 }
