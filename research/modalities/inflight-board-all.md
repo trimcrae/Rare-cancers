@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 10:54 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 11:02 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 10:54 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that ca
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 10:46 AM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 10:54 AM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna   74.4%  3:23 PM          $0.00391/ns · 1.15× basis  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d terna   23.1%  8:33 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna   32.0%  5:03 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna   28.4%  8:33 PM          $0.00449/ns · 1.32× basis  RUNNING   
+5aks_d0_to_d terna   75.6%  —                $0.00391/ns · 1.15× basis  NO HOST   host DESTROYED this pass (status frozen 156 min — the image pull is dead, not queued) — billing stopped, $0 further; checkpoint at production/1120 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d terna   23.1%  8:41 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   33.8%  5:00 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   28.4%  8:41 PM          $0.00449/ns · 1.32× basis  RUNNING   
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 10:37 AM ET Fri Jul 31, 2026 — **17 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 11:02 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,7 +36,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 10:54 AM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 17 of 18 authorized R1 leg(s) landed (rows below are the rest)._
+_As of 10:54 AM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 17 of 18 authorized R1 leg(s) landed (rows below are the rest)._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
