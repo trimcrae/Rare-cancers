@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 8:35 AM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 8:44 AM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna   23.1%  1:14 AM Aug 1    $0.00505/ns · 1.48× basis  RUNNING   
-5aks_d0_to_d terna   67.8%  2:30 PM          $0.00391/ns · 1.15× basis  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d terna    5.3%  6:22 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna    8.9%  4:26 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   23.1%  1:22 AM Aug 1    $0.00505/ns · 1.48× basis  RUNNING   
+5aks_d0_to_d terna   68.9%  2:26 PM          $0.00391/ns · 1.15× basis  RUNNING   
+5aks_d0_to_d terna    7.1%  6:59 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   10.7%  4:28 PM          $0.00512/ns · 1.50× basis  RUNNING   
 ---- END TVAST-BOARD ----
 ```
