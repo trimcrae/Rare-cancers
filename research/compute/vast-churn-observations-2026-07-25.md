@@ -1,5 +1,9 @@
 # Vast churn, 2026-07-25 — three cost-model priors the 5a-KS benchmark run contradicts
 
+*Companion: [vast-placement-facts.md](./vast-placement-facts.md) covers why a rental does or does not
+**happen** — our own filters, board width, the tier — and carries a later, larger host-lifetime measurement
+(208 rentals) than the one night below.*
+
 **Status: OBSERVATIONS, not a re-derivation.** One night, one lane, ~12–20 legs. Suggestive, not
 decisive. Nothing here is a reason to change the bid yet; it is a reason to stop treating three
 numbers as settled, and it names the measurement that would settle them.
