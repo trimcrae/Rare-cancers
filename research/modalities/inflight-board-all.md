@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 5:34 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 5:43 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 5:34 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 5:30 PM ET Fri Jul 31, 2026 (5 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 5:40 PM ET Fri Jul 31, 2026 (3 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 7:54 AM Aug 1      53.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   
-5aks_d0_to_d ternary nr4a3 r0 9:34 PM            87.8%  RTX 3090 $0.00554/ns · 1.62× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary nr4a1 r0 5:10 AM Aug 1      35.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   
-5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00541/ns · 1.58× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary nr4a3 r1 8:04 AM Aug 1      53.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 30.9 s/iter · realised $0.00766/ns (1.86x expected)
+5aks_d0_to_d ternary nr4a3 r0 9:21 PM            88.9%  RTX 3090 $0.00554/ns · 1.62× basis [bid] RUNNING   ⚠ 33.2 s/iter · realised $0.01107/ns (2.00x expected)
+5aks_d0_to_d ternary nr4a1 r0 5:19 AM Aug 1      35.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   18.1 s/iter
+5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00537/ns · 1.57× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 5:26 PM ET Fri Jul 31, 2026 (8 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 5:43 PM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,7 +36,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 5:34 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 12 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 6 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 5:34 PM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 12 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 6 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
