@@ -95,17 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-07-31T10:59:02Z",
-      "et": "6:59 AM ET",
-      "outcome": "nothing-to-launch",
-      "what_that_means": "no unit needed a host, so no rental was attempted and nothing was spent. Not a hold: the market was never consulted.",
-      "stage": "market-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30625337846",
-      "gate_hold": false,
-      "gate_reason": "no unit of mode edge_reps needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
-      "reason": "every unit already done or hosted; no launch dispatched, no rental attempted"
-    },
-    {
       "utc": "2026-07-31T11:03:09Z",
       "et": "7:03 AM ET",
       "outcome": "nothing-to-launch",
@@ -894,12 +883,79 @@
       "gate_hold": false,
       "gate_reason": "no unit of mode edge_reps needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
       "reason": "every unit already done or hosted; no launch dispatched, no rental attempted"
+    },
+    {
+      "utc": "2026-07-31T14:09:06Z",
+      "et": "10:09 AM ET",
+      "outcome": "launched",
+      "what_that_means": "hosts were actually rented",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30637166414",
+      "gate_ratio_vs_basis": 1.378,
+      "gate_mean_usd_per_ns": 0.004701,
+      "gate_projected_usd": 2.52,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "projected $2.52 within this rung's ceiling $5.19 AND 1.38x basis is within the 1.92x drift line",
+      "gate_board_depth": {
+        "offers_returned": 168,
+        "qualifying": 165,
+        "priceable": 93,
+        "needed": 1,
+        "used_for_mean": 1
+      },
+      "n_requested": 1,
+      "n_rented": 1,
+      "rented": [
+        {
+          "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+          "instance": "46403523",
+          "machine_id": 67860,
+          "gpu": "RTX 5090",
+          "dph_total_usd_h": 0.19346666666666668,
+          "usd_per_ns": 0.004488,
+          "x_basis": 1.315,
+          "over_buy_line": false
+        }
+      ],
+      "rented_max_usd_per_ns": 0.004488,
+      "rented_any_over_buy_line": false,
+      "already_live": [
+        {
+          "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
+          "instance": 46394046,
+          "gpu": "RTX 5090",
+          "usd_per_ns": 0.005119,
+          "x_basis": 1.5,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+          "instance": 46394039,
+          "gpu": "RTX 4090",
+          "usd_per_ns": 0.003911,
+          "x_basis": 1.146,
+          "over_buy_line": false,
+          "actual_status": "running"
+        },
+        {
+          "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
+          "instance": 46394155,
+          "gpu": "RTX 5090",
+          "usd_per_ns": 0.005119,
+          "x_basis": 1.5,
+          "over_buy_line": false,
+          "actual_status": "running"
+        }
+      ],
+      "reason": "task=5aks; job status success"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 958,
-    "through_utc": "2026-07-31T10:58:30Z"
+    "n_total": 959,
+    "through_utc": "2026-07-31T10:59:02Z"
   }
 }
