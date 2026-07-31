@@ -501,6 +501,12 @@
    "pattern": "~?\\$158\\s*mid|\\$158\\s*\\(|mid-range\\s*\\(~?\\$44|~?\\$44[-\u2013]578|158 mid-range",
    "current": "PINNED TOTAL ~$169 mid-range (~$46-626), regenerated after RUNG 5a-KS went from 2 ternary legs to 4 (n = 2 seeds per arm, trimcrae go 2026-07-30, STRATEGY Open decision 11). Derived: vast_cost_model.py -> vast-ladder-repricing.json plus the non-tool stages in this file's ladder_total derivation",
    "retired_by": "the 5a-KS leg-count decision ONLY - the market snapshot, the $/reference-GPU-hour rate and every other stage's GPU-hours are byte-identical across the reprice, so the whole +$11 mid is the second seed per arm. STRATEGY.md Appendix A row 54"
+  },
+  {
+   "id": "two_mechanism_grid_limit",
+   "pattern": "segment grid cannot build|grid limit, not geometry|k\\s*\u2208\\s*\\[2,\\s*3\\]\\s*at\\s*n\\s*=?\\s*16|k\u2208\\[2,3\\] at n=16",
+   "current": "No single construct carries both mechanisms because build_smiles takes ONE pendant -- a chain-TEMPLATE limit, not a grid one. The grid builds both targets separately at n = 16, 18 and 20; no committed T407 window is k in [2,3]. A two-branch template is constructible at n = 18 with existing segments. One home: STRATEGY.md WHERE WE ARE 5b block; derived in linker_branch_reach.py",
+   "retired_by": "the $0 re-enumeration diagnostic run 2026-07-30 against the committed nr4a3-linker-design.json - STRATEGY.md Appendix A row 55"
   }
  ],
  "subset_checks": [

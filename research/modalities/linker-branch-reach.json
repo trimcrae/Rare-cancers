@@ -1,0 +1,261 @@
+{
+ "_what": "Why no single construct carries both the covalent electrophile and the causal wedge. Diagnostic only -- it re-enumerates nothing.",
+ "_reads": "nr4a3-linker-design.json -> virtual_library (the committed enumeration)",
+ "n_branched_constructs": 37,
+ "reach_table": {
+  "C397 SG@n18": {
+   "target": "C397 SG",
+   "n_backbone": 18,
+   "k_built": [
+    12,
+    13
+   ],
+   "window_k_min": [
+    4,
+    5
+   ],
+   "window_k_max": [
+    17
+   ],
+   "placements": [
+    "term_a_exemplar"
+   ],
+   "pendants": [
+    "acrylamide",
+    "cyac_me",
+    "cyanoprop"
+   ],
+   "n_constructs": 8
+  },
+  "T407@n18": {
+   "target": "T407",
+   "n_backbone": 18,
+   "k_built": [
+    6
+   ],
+   "window_k_min": [
+    2
+   ],
+   "window_k_max": [
+    6
+   ],
+   "placements": [
+    "term_a_exemplar"
+   ],
+   "pendants": [
+    "ph",
+    "pyr3"
+   ],
+   "n_constructs": 2
+  },
+  "T407@n19": {
+   "target": "T407",
+   "n_backbone": 19,
+   "k_built": [
+    6,
+    7
+   ],
+   "window_k_min": [
+    2
+   ],
+   "window_k_max": [
+    6,
+    7
+   ],
+   "placements": [
+    "term_a_exemplar"
+   ],
+   "pendants": [
+    "ph",
+    "pyr3"
+   ],
+   "n_constructs": 3
+  },
+  "T407@n20": {
+   "target": "T407",
+   "n_backbone": 20,
+   "k_built": [
+    6
+   ],
+   "window_k_min": [
+    2
+   ],
+   "window_k_max": [
+    7
+   ],
+   "placements": [
+    "term_a_exemplar"
+   ],
+   "pendants": [
+    "pyr3"
+   ],
+   "n_constructs": 1
+  },
+  "C397 SG@n14": {
+   "target": "C397 SG",
+   "n_backbone": 14,
+   "k_built": [
+    9
+   ],
+   "window_k_min": [
+    1
+   ],
+   "window_k_max": [
+    13
+   ],
+   "placements": [
+    "term_a_exemplar"
+   ],
+   "pendants": [
+    "acrylamide",
+    "cyac_me",
+    "cyanoprop"
+   ],
+   "n_constructs": 8
+  },
+  "C397 SG@n16": {
+   "target": "C397 SG",
+   "n_backbone": 16,
+   "k_built": [
+    6,
+    11
+   ],
+   "window_k_min": [
+    1,
+    10
+   ],
+   "window_k_max": [
+    12,
+    15
+   ],
+   "placements": [
+    "representative",
+    "term_a_exemplar"
+   ],
+   "pendants": [
+    "acrylamide",
+    "cyac_me",
+    "cyac_ph",
+    "cyanoprop"
+   ],
+   "n_constructs": 8
+  },
+  "C397 SG@n20": {
+   "target": "C397 SG",
+   "n_backbone": 20,
+   "k_built": [
+    15
+   ],
+   "window_k_min": [
+    7
+   ],
+   "window_k_max": [
+    19
+   ],
+   "placements": [
+    "representative"
+   ],
+   "pendants": [
+    "acrylamide",
+    "cyac_me",
+    "cyanoprop"
+   ],
+   "n_constructs": 4
+  },
+  "T407@n16": {
+   "target": "T407",
+   "n_backbone": 16,
+   "k_built": [
+    6,
+    11
+   ],
+   "window_k_min": [
+    4
+   ],
+   "window_k_max": [
+    13
+   ],
+   "placements": [
+    "representative"
+   ],
+   "pendants": [
+    "ph",
+    "pyr3"
+   ],
+   "n_constructs": 3
+  }
+ },
+ "chain_lengths_carrying_BOTH_targets_separately": [
+  16,
+  18,
+  20
+ ],
+ "branch_floor": {
+  "formula": "k_warhead = BRANCH_NODE_ATOMS + SEG2 + warhead_tail  (SEG1 and chain length cancel)",
+  "branch_node_atoms": 3,
+  "admissible_seg2_lengths": {
+   "a2": 2,
+   "a3": 3,
+   "a5": 5,
+   "a7": 7,
+   "a9": 9,
+   "a11": 11,
+   "m2": 5,
+   "m3": 8,
+   "m4": 11
+  },
+  "warhead_tail_atoms": {
+   "5amide": 1,
+   "5triazole": 4,
+   "5piperazine": 4
+  },
+  "achievable_k_per_warhead": {
+   "5amide": [
+    6,
+    7,
+    9,
+    11,
+    12,
+    13,
+    15
+   ],
+   "5triazole": [
+    9,
+    10,
+    12,
+    14,
+    15,
+    16,
+    18
+   ],
+   "5piperazine": [
+    9,
+    10,
+    12,
+    14,
+    15,
+    16,
+    18
+   ]
+  },
+  "floor_k": 6,
+  "_why_seg2_cannot_be_zero": "build_smiles REFUSES SEG2 = 0: the branch residue's C-terminal amide N would sit on the warhead tail's own carbonyl, making an ACYLUREA rather than two amides. That is a chemistry guard, not a grid choice.",
+  "_floor_is_architectural": "the 3 is the branch residue's own N-C(alpha)-C. A finer grid moves the floor by exactly the amount the new segment is shorter and no further, so no grid change reaches k < 4."
+ },
+ "two_pendant_minimum_length": {
+  "backbone_atoms_per_branch_node": 5,
+  "min_n_with_the_EXISTING_grid": 18,
+  "min_n_if_1_atom_segments_existed": 15,
+  "reading": "A two-pendant chain is constructible at n = 18 with the segments the grid ALREADY has. The '16' in the superseded framing is close to the in-principle floor (15), which is why the limit looked like grid resolution -- but at 18 atoms no new segment is needed at all, so the missing piece is the TEMPLATE, not the grid."
+ },
+ "verdict": {
+  "blocker": "THE CHAIN TEMPLATE CARRIES ONE PENDANT. build_smiles takes a single `pendant` and its template has a single branch residue, so no (SEG1, SEG2, length, placement) can emit a two-mechanism molecule -- there is no slot for the second one.",
+  "not_the_blocker": [
+   "grid resolution at n = 16 (the grid builds BOTH targets at 16, separately)",
+   "a T407 window of k in [2,3] (no committed record shows one; the windows are k in [2,6] and k in [4,13], and the enumerator builds inside them)"
+  ],
+  "real_but_secondary": "the k floor of 6, which is architectural (the branch residue's own N-C(alpha)-C) and not fixable by any grid change",
+  "what_would_work": "a TWO-BRANCH template; constructible at n = 18 with existing segments"
+ },
+ "_not_done_here": "Emitting a two-pendant construct edits a PREREGISTERED enumeration and is a DESIGN change rather than a defect fix, so it needs a dated recorded amendment, not a drive-by from a diagnostic. The existing library is untouched."
+}

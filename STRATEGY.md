@@ -147,9 +147,21 @@ site. Cost: 12 constructs. **Library is now 36 exemplar + 18 representative, RDK
 **The pair stands; the shared-LENGTH reading does not.** `crbn|M0` exemplar, 3-(3-pyridyl)-L-Ala vs L-Phe at
 **Thr407**, **19 backbone atoms**, **9.04 Å** E3 clearance, 64 heavy atoms, one aromatic C–H→N — every
 preserved property re-measured rather than asserted. But on that placement the covalent series sits at 14 and
-the wedge pair at 19; a single chain carrying **both** needs 16, and the segment grid cannot build it (branch
-floor k=6 against T407's k∈[2,3] at n=16). **That is a grid limit, not geometry**, and it is named as a $0
-follow-up rather than fixed quietly, because it would edit a preregistered enumeration.
+the wedge pair at 19, and **no single construct carries both.**
+**★ THE REASON WAS MEASURED 2026-07-30 AND IT IS NOT THE ONE THIS BLOCK CARRIED.** ⚠ *Superseded, retained:
+"a single chain carrying both needs 16, and the segment grid cannot build it (branch floor k=6 against T407's
+k∈[2,3] at n=16) — a grid limit, not geometry"
+([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 55).* Run against the committed
+enumeration, **every clause of that except the branch floor is false**: the grid builds T407 branches at
+n=16 **and** C397 branches at n=16, at three shared lengths (16, 18, 20); and **no recorded T407 window is
+k∈[2,3]** — the real ones are k∈[2,6] and k∈[4,13], and the enumerator builds inside them. **The blocker is
+that `build_smiles` takes ONE `pendant`** — its template has a single branch residue, so no choice of
+segments, length or placement can emit a two-mechanism molecule, because there is no second slot. The floor
+`k = 3 + SEG2 + tail` is real but **architectural** (the 3 is the branch residue's own N–Cα–C) and no grid
+change reaches below it. **What would work is a two-branch template, constructible at n = 18 with the
+segments the grid ALREADY has** — so the fix was never a re-grid. Derived, never typed:
+[`linker_branch_reach.py`](research/modalities/linker_branch_reach.py) →
+[`linker-branch-reach.json`](research/modalities/linker-branch-reach.json).
 
 ---
 
@@ -1828,7 +1840,18 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   different pocket. **The driver already supports it** (`nr4a3_generation_matched_null.py MODE=prep-manifest`
   → control receptor manifest; `MODE=reduce` folds the result into the same artifact), and the control
   receptor **exists** — `results/nr4a3-matrix/nr4a1-opened.pdb`, the criterion-matched opened NR4A1 conformer
-  §2.5 already uses. **So the $0 half is a manifest, and the paid half is one generation + one funnel pass.**
+  §2.5 already uses.
+  ✅ **THE $0 HALF IS DONE (2026-07-30): the control receptor and its manifest are staged and committed** —
+  `results/nr4a3-genmatched-control-c/`, built by `MODE=prep-manifest`. **The paid half is one generation +
+  one funnel pass**, and the lane is launch-ready rather than needing a build first.
+  ⚠ **AND STAGING IT SURFACED A TRAP THAT WOULD HAVE INVALIDATED THE CONTROL SILENTLY.** The two committed
+  NR4A1 artifacts describing this pocket **do not share a residue numbering** — the LANE-13 release ensemble
+  carries `cv_residues` in UniProt numbering, the matrix's opened conformer is renumbered — so handing one
+  artifact's numbers to the other boxes **ten wrong residues and reports success**, the same shape as the
+  positional chain split that cost the NR-V04 covalent panel its entire spend. The box is therefore **not a
+  remembered list**: it is re-derived by matching residue **IDENTITIES**, and **exactly one** alignment of 400
+  candidates reproduces all ten. One hit is a resolution; several would have been a fit, and a test fails if
+  that ever becomes true.
   ⚠ **Priced PROJECTED and excluded from the pinned total**, per §Spending rules 4: the real campaign ran this
   exact funnel, but its cost was never broken out as a ladder line, so there is no completed benchmark leg to
   quote. Price it off the real campaign's ledger before buying it, not off this entry.
@@ -1965,8 +1988,9 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   here is only that the clearance keeps the wedge **off the E3 interface**, so the shared **binary and solvent
   legs still cancel exactly** and only **ternary** legs are needed. ⚠ **The wedge pair and the covalent series
   do NOT share one molecule** — the placement hosts both, but the covalent series sits at 14 backbone atoms and
-  the wedge pair at 19, and a single chain carrying both needs 16, which the segment grid cannot build
-  (LANE 14 delta L14-7).
+  the wedge pair at 19. ⚠ *The reason this block **originally** gave — "a single chain carrying both needs 16,
+  which the segment grid cannot build (LANE 14 delta L14-7)" — is superseded; the measured blocker is the
+  one-pendant chain template, and the §WHERE WE ARE 5b block is its one home.*
   *Differs only in the wedge element:* one atom (C–H→N), identical formal charge, heavy-atom count, rotatable
   bonds and (S) centre.
   **A geometry-only pick would have been wrong**, and the preregistered rule that replaced it is worth keeping:
@@ -2068,22 +2092,25 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   *Sequence, cheapest-decisive-first:* smoke (~$0.10) → pilot (both legs of one direction, ~$1–3 — **the abort
   gate**) → full set (~$5–10) only if the pilot sees it.
 
-- **`[ ]` 5b · SEGMENT-GRID LIMIT — the one construct the enumeration cannot build, and it is a GRID limit not a
-  geometric one** — **$0 CPU** · **Added 2026-07-30.** On the `crbn|M0` placement the covalent series sits at
-  **14** backbone atoms and the wedge pair at **19**; a single chain carrying **both** needs **16**, and the
-  segment grid cannot build it (branch floor k = 6 against T407's k ∈ [2,3] at n = 16). **That is a property of
-  the enumerator's segment grid, not of the geometry** — which is why it is worth an hour rather than a shrug:
-  the design that would carry the categorical handle *and* the causal wedge on one molecule is currently
-  unreachable for a reason that has nothing to do with chemistry.
-  ⚠ **AND IT IS DELIBERATELY NOT A QUIET PATCH.** Re-gridding edits a **preregistered enumeration**, so it goes
-  the way every other amendment in this repo goes: a dated, recorded re-enumeration that states what the old
-  grid could and could not reach, with the library re-verified end to end (RDKit 54/54 today) and the count
-  re-derived from `nr4a3-linker-design.json` → `library_summary` rather than typed. **The existing library is
-  not invalidated by it** — every current construct remains exactly what it was; this only asks whether a
-  16-atom branch exists that the grid was never able to offer.
-  **Gate:** none. **NO-GO reading:** if the re-grid finds no admissible 16-atom branch either, the limit **is**
-  geometric after all, and *that* is the finding — it says the two mechanisms cannot be carried on one chain at
-  this placement, which is a real design constraint the paper should state rather than a gap it should leave.
+- **`[x]` 5b · TWO-MECHANISM REACH — DIAGNOSED 2026-07-30, $0, AND THE ANSWER REFUTES THE QUESTION.**
+  Added and closed the same day. The item asked whether a finer segment grid could build one chain carrying
+  both the covalent electrophile (→C397) and the causal wedge (→T407). **It cannot, and a finer grid was never
+  the issue.** Numbers and the refutation live once, in the §WHERE WE ARE 5b block above; the plan-level
+  consequences are here:
+  1. **The blocker is the chain TEMPLATE, not the grid** — one `pendant` slot, one branch residue. **That is a
+     one-line signature, and it means every sweep over segments and lengths was searching a space that
+     structurally cannot contain the answer.**
+  2. **A two-branch template is constructible at n = 18 with the segments already in the grid**, so the fix
+     costs no new chemistry — but it is a **DESIGN change to a preregistered enumeration**, not a defect fix,
+     so it does **not** qualify under the amendment standard that covers a statistic shown to lack
+     discriminating power. **It needs an explicit decision, and it is not taken here.**
+  3. **The pre-registered NO-GO reading half-fires, and the honest report is the half that did.** It said: *if
+     no admissible branch exists either, the limit IS geometric and that is the finding.* One exists in
+     principle; what does not exist is a template to hold it. **So the paper's statement is neither "a grid
+     limit" nor "geometry" — it is that the enumerated architecture carries one mechanism per molecule**, which
+     is a real and reportable constraint on the design as enumerated.
+  ⚠ **The existing library is untouched and nothing in it is invalidated** — the diagnostic re-enumerates
+  nothing, and a test asserts that.
 - **`[x]` 5b · Inverse linker design — DONE 2026-07-25, $0 REALIZED (1,995 enumerated → 21 retained, RDKit-verified 21/21)** — **~$0–20 (mostly $0 CPU) · Cum. ~$162.** For each confirmed basin, derive
   linker requirements (endpoint distance, exit-vector dihedral, strain, reach), enumerate a virtual library,
   filter by basin fidelity, annotate exact structures + synthetic feasibility → **~12–20 virtual constructs** (the
@@ -2379,9 +2406,9 @@ the ordering below.*
 | 3 | ~~**Settle the `S` replicate count BEFORE the market re-opens**~~ ✅ **DONE — n = 2 per arm** | **$0 to decide** | Item 3. The lane would otherwise have resumed under-powered the moment price allowed |
 | 4 | **`S` at n = 2 per arm** — the flagship kill-switch, correctly sized and now CONFIGURED | **~$23** (ladder) | The only unrun test of the program's headline causal claim, and the second seed is what makes its *likely* answer readable. Waiting on the market, not on a decision |
 | 5 | **NR-V04 retrospective, Arm E (R1 only, 18 legs)** ✅ **CLEARED TO RUN** | **≈$7.7** | A *new axis of evidence* (biological holdout), built and preregistered, with a registered MDE — CLAUDE.md §5's "default YES". The gate is reconciled to the prereg and the durable-trajectory precondition is met |
-| 6 | **Segment-grid re-enumeration** (5b) — can ONE chain carry the covalent handle and the causal wedge? | **$0** | A grid limit, not a geometric one. Either it yields the construct the design wants, or the limit IS geometric and that is itself a result the paper should state |
+| 6 | ~~**Segment-grid re-enumeration** (5b)~~ ✅ **DONE 2026-07-30 — and it refuted its own premise** | **$0** | Neither a grid limit nor geometry: the chain template carries **one pendant**. A two-branch template is constructible at n = 18 with existing segments, but that is a DESIGN change to a preregistered enumeration and is not taken here |
 | 7 | **Replicates on the open cycle** (3 of 18 fan-out edges) | **~$25** | One purchase, two open caveats: it attributes or dissolves `cycle_3carbonyl`'s violation AND gives the binary lane its first measured replicate SD, which today is transferred from the ternary lane |
-| 8 | **The generative arm of the generation-matched null** (control c) | $0 prep + **PROJECTED** | Addresses the confound actually raised (the GENERATIVE step); the arm that ran addresses the SELECTION step and bounds the manufactured rate at 3× the real campaign's own — narrowed, not excluded |
+| 8 | **The generative arm of the generation-matched null** (control c) — ✅ **$0 prep DONE, launch-ready** | **PROJECTED** | Addresses the confound actually raised (the GENERATIVE step); the arm that ran addresses the SELECTION step and bounds the manufactured rate at 3× the real campaign's own — narrowed, not excluded |
 | 9 | **A known-answer calibrator for the `S`-shaped quantity** | **unpriced** | The real gap [Open decision 9](#open-decisions) exposed. It unlocks nothing on its own and must obey decision 9b's binding requirement (reference data and structure on the **same** protein), so it follows 4 rather than leading it |
 | — | **More replicates on `ΔΔG_coop` / a rescoped valB edge** | — | **Explicitly NOT on this list.** `R` says the miss is endpoint-state; replicates shrink variance, not bias; [decision 6](#open-decisions) closed it |
 
@@ -2781,6 +2808,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 50 | The step-1 fan-out map reported as complete **with no cycle-closure readout at all**, in this file and in the paper's §2.9, while all three of `cycle_3carbonyl`'s edges were quoted unflagged | **The closures were computed and landed with the map; they had simply reached no document.** Two of three close (**−0.726**, **−0.756**, tolerance ±1.0); **`cycle_3carbonyl` sums to +1.307 — VIOLATION**, so by the artifact's own rule at least one of its three edges is unconverged or mis-mapped and all three now carry that reservation where they are quoted. Nothing about the map's counts or spend changes. Separately fixed in the same pass: `cycle_closure`'s `signed_terms` zipped the caller's **declaration-order** edge ids against `_walk_cycle`'s **walk-order** values, mislabelling which edge carried which value in every cycle where the two orders differ. `sum_kcal` is order-independent and was never wrong, which is why it went unnoticed; pinned now by `test_signed_terms_label_each_edge_with_its_OWN_ddg` |
 | 51 | The valB_mini miss quoted as **1.466** (paper §2.11) and **1.478** (SI §S11, and this file's live text in two places), with the derived ratio **"~33× the statistical uncertainty"** in the paper's abstract, §2.11, §5 and the SI — and the **abstract still reporting the r0-only headline ΔΔG_coop = −0.522** | **All superseded by the landed n = 3 replicates, and the paper's own Appendix A already said so while its abstract did not** — a document contradicting itself four sections apart, which is the failure mode rule 1 exists to catch. Live values: mean **−0.599**, abs error **1.543**, ratio **~34×**. 1.466 is the r0-only reading after the restrained binary re-run (row 44); **1.478 is the reading before it, i.e. superseded twice over**, and it was still live in the SI on 2026-07-30. Nothing about the conclusion moves — the sign was wrong at every one of the three values, which is why the correction is a bookkeeping one and is recorded rather than argued |
 | 52 | The generation-matched null's comparison block reporting **`p_value: 0.0`, `enrichment: Infinity`, `exceeds_chance: true`** and the verdict *"real campaign produced a survivor the control objectives NEVER manufactured → survival is not a generic funnel artifact"* | **Every measured count in that artifact is correct and unchanged; the statistics derived from them were not.** `false_positive_rate` returned a per-molecule control rate of exactly **0** — a point estimate from a *single* 191-molecule campaign — and `compare_campaigns` then divided by it, so any real survivor was infinitely enriched at p = 0 **by construction**, independently of the evidence. The honest reading is the **rule-of-three bound**: 0 events in 191 generations puts the manufactured rate at **≤0.0157 (one-sided 95 %)**, which is **3× the real campaign's own 0.0052**, so the confound is **narrowed, not excluded**; one-sided Fisher for 1/191 vs 0/191 is **p = 0.5**. Fixed at the source (`per_molecule_fp_rate_upper95`, and the zero branch now grades the real rate against that bound), retired in place in the artifact's `_superseded` block, and pinned by two tests — one of which previously asserted the overclaim. The artifact was also **not strict JSON** while it carried a bare `Infinity`; it is now |
+| 55 | *"A single chain carrying both the covalent handle and the causal wedge needs 16 backbone atoms, and the segment grid cannot build it (branch floor k=6 against T407's k∈[2,3] at n=16). That is a **grid limit, not geometry**"* — live in three places in this file and named as a $0 re-grid | **Run against the committed enumeration on 2026-07-30 ($0), and every clause except the branch floor is FALSE.** The grid builds T407 branches at n=16 **and** C397 branches at n=16 — both targets at **three** shared lengths (16, 18, 20) — so "cannot build it at 16" is refuted by the artifact's own records. **No committed T407 window is k∈[2,3]**: the real ones are **k∈[2,6]** (exemplar) and **k∈[4,13]** (representative), and the enumerator builds at k=6, 7 and 11, all inside them. **The real blocker is that `build_smiles` takes ONE `pendant`** — its template has a single branch residue, so no choice of segments, length or placement can emit a two-mechanism molecule; every sweep over the grid was searching a space that structurally cannot contain the answer. The floor `k = 3 + SEG2 + tail` is real, is **independent of SEG1 and of chain length**, and is **architectural** — the 3 is the branch residue's own N–Cα–C and `SEG2 = 0` is refused because it would form an acylurea — so **no grid change reaches k < 4**. What would work is a **two-branch template**, constructible at **n = 18** with the segments the grid already has, i.e. the fix needs no new chemistry and was never a re-grid. Derived, never typed: `linker_branch_reach.py` → `linker-branch-reach.json`, 7 tests |
 | 54 | Pinned ladder total **~$158 mid (~$44–578)**, and RUNG 5a-KS priced at **~$12 ($1.6–45)** for **two** ternary legs | **RUNG 5a-KS went to n = 2 SEEDS PER ARM — four legs** (trimcrae go 2026-07-30, [Open decisions 11](#open-decisions)), because at one seed per arm `S` has no replicate SD and cannot report a null, which is its own pre-registered likely outcome. Current: **~$169 mid (~$46–626)**, stage **~$23 ($3.1–97)**. ⚠ **The cleanest reprice in this file's history and it is worth saying why: the market snapshot, the `$/reference-GPU-hour` rate and every other stage's GPU-hours are BYTE-IDENTICAL across it** — the whole +$11 mid is the second seed, the exact opposite of row 40's reprice where no price moved and only the yardstick did. Two collateral corrections found by regenerating rather than reading: the §Spend-summary prose had been carrying the 5a basin stage at **mid $25** where the machine registry uses **$0**, which is why its own printed arithmetic said `≈ 194` beside a pinned `~$158` and then claimed they agreed; and its quoted tool figures (**$149.4 at $0.137/ref-GPU-h**) were from an older snapshot than the committed artifact (**$138.16 at $0.1143**). ⚠ **Near-collision, stated so nobody misreads an old copy: the tool total is NOW $149.63, within $0.25 of the stale $149.4 it replaces, and they are unrelated quantities** — 2 legs at a higher rate vs 4 legs at a lower one. Derived, never typed: `vast_cost_model.py --json-out vast-ladder-repricing.json`, checked by `lint_consistency`'s `ladder_total` derivation |
 | 53 | The marginal axis's **best-case resolvable difference of 1.12 kcal/mol** at an assumed **replicate SD 0.7, n = 3**, quoted beside a **literature** accuracy of **~1.7 kcal/mol RMSE** — live in five places in this file (the MECHANISM-FIRST definition, the Tier-3 semantics box, the 5a-KS honest expectation, the pmx noise-structure block, the Spend-summary defence of mechanism-first) and three in the paper (§2.10, §4, §5). With it, the derived reading **"the marginal axis is a confirmation tool operating near its LIMIT"** and the Spend-summary claim that spending on it *"is a bad trade at any price"* | **The SD was never measured; the n = 3 valB_mini replicates measured it at 0.375**, and the same function on the measured value gives **0.60** — the noise floor is ~1.9× better than the plan had been assuming, so the required margin sits at **~3.3× the floor rather than ~1.8×**. In the same landing the **accuracy** stopped being a literature figure and became a measured one that is **worse**: 1.543 kcal/mol with the **wrong sign** on this exact quantity class, localised by `R` to an **endpoint-state** error that replicates cannot touch. **So the axis is UNCALIBRATED, not blunt** — the two defects have different remedies, and the plan was buying neither. ⚠ **What did NOT change, and must not be inferred:** the mechanism-first *order* (a categorical handle needs no margin, and the categorical screens are $0 — either argument alone carries it), and the fact that a better noise floor cannot make a 2.0 kcal/mol margin *exist*. Derived, never typed: `selectivity_margin_model.minimum_detectable_difference`; consequences in §WHAT THE LANDED RESULTS CHANGE |
 
