@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 11:59 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 12:07 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 11:59 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that ca
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 11:56 AM ET Fri Jul 31, 2026 (4 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 12:00 PM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                               STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 2:45 PM            78.9%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
-5aks_d0_to_d terna 10:29 PM           28.4%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
-5aks_d0_to_d terna 5:20 PM            40.9%  RTX 3090 $0.00582/ns · 1.71× basis STARTING  fresh host — the marker and log below belong to the previous attempt
+5aks_d0_to_d terna 2:50 PM            78.9%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
+5aks_d0_to_d terna 9:36 PM            30.2%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
+5aks_d0_to_d terna —                      —  RTX 3090 $0.00582/ns · 1.71× basis STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 5aks_d0_to_d terna —                      —  —                                  NO HOST   no live host — checkpoint at warmup/1024 is intact in S3; this pass dispatches the gate to re-place it
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 11:51 AM ET Fri Jul 31, 2026 (8 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 11:51 AM ET Fri Jul 31, 2026 — **16 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,27 +36,27 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 11:59 AM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 1 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 17 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 12:07 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 1 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 17 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
-LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-nr4a1 m1 r0        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker md-done 2026-07-31T14:38:24Z; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m1 r1        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:20:54Z; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m2 r0        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:29:38Z; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m2 r1        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:49:50Z; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m3 r0        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:38:05Z; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m3 r1        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:21:02Z; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m1 r1        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker env-ready 2026-07-31T14:27:48Z; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m2 r0        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:53:39Z; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m2 r1        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:28:02Z; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m3 r0        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T15:07:57Z; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m3 r1        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:44:43Z; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m1 r0        —                 100.0%  — $0.2003/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  no measured frame rate across two board polls yet — ETA unknowable, progress is real (frame 5/5)
-nr4a3 m1 r1        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:16:33Z; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m2 r0        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T14:25:27Z; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m2 r1        —                 100.0%  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T14:39:30Z; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m3 r0        —                   0.0%  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T14:36:47Z; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m3 r1        —                   0.0%  —                                                                                                NO HOST   no live host — phase marker uploaded 2026-07-31T14:41:18Z; a re-dispatch resumes this leg from its checkpoint
+LEG                ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
+----------------------------------------------------------------------------------
+nr4a1 m1 r0        —                 100.0%  —    NO HOST   no live host — phase marker md-done 2026-07-31T14:38:24Z; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m1 r1        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:20:54Z; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m2 r0        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:29:38Z; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m2 r1        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:49:50Z; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m3 r0        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:38:05Z; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m3 r1        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:21:02Z; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m1 r1        —                 100.0%  —    NO HOST   no live host — phase marker env-ready 2026-07-31T14:27:48Z; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m2 r0        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:53:39Z; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m2 r1        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:28:02Z; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m3 r0        —                 100.0%  —    NO HOST   no live host — phase marker md-running 2026-07-31T15:07:57Z; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m3 r1        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:44:43Z; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m1 r0        —                      —  —    NO HOST   no live host — phase marker md-running 2026-07-31T16:01:11Z; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m1 r1        —                 100.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:16:33Z; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m2 r0        —                 100.0%  —    NO HOST   no live host — phase marker md-running 2026-07-31T14:25:27Z; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m2 r1        —                 100.0%  —    NO HOST   no live host — phase marker md-running 2026-07-31T14:39:30Z; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m3 r0        —                   0.0%  —    NO HOST   no live host — phase marker md-running 2026-07-31T14:36:47Z; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m3 r1        —                   0.0%  —    NO HOST   no live host — phase marker uploaded 2026-07-31T14:41:18Z; a re-dispatch resumes this leg from its checkpoint
 ```
 
