@@ -4103,6 +4103,28 @@ def retire_host(match, dry_run=False):
             continue
         row = {"unit_id": uid, "instance": i.get("id"), "machine_id": i.get("machine_id"),
                "gpu": i.get("gpu_name"), "dph_total": i.get("dph_total")}
+        # ★★ READ THE CHECKPOINT BEFORE DESTROYING THE HOST, AND REFUSE ON AN UNREADABLE STORE
+        #    (2026-07-31). This function's own docstring promises "it DESTROYS A HOST, NEVER A RESULT" and
+        #    "the commit store is in S3 and survives" — but it never LOOKED. It asserted the property it was
+        #    relying on. CLAUDE.md §4: an absent reading is not a reading of absence.
+        #
+        # The rule is deliberately asymmetric, because the two unknowns are not symmetric:
+        #   * NOTHING COMMITTED is a fine reason to retire — a cold host has banked no work, so retiring it
+        #     loses nothing. Refusing there would strand exactly the hosts most worth replacing.
+        #   * AN UNREADABLE STORE is a refusal. We cannot then distinguish "no work banked" from "work
+        #     banked and we cannot see it", and destroying on that is destroying blind.
+        try:
+            _ph, _it, _sc = committed_progress(uid)
+            row.update({"committed_phase": _ph, "committed_iteration": _it, "commit_store_read": True})
+            print(f"  checkpoint for {uid}: {_ph or 'none'}/{_it} (scalar {_sc}) — VERIFIED in S3 before "
+                  f"touching the host")
+        except Exception as e:  # noqa: BLE001
+            row.update({"commit_store_read": False, "commit_store_error": f"{type(e).__name__}: {e}"})
+            print(f"  ⛔ REFUSING to retire {uid}: the commit store is UNREADABLE ({type(e).__name__}: {e}). "
+                  f"That is not evidence the checkpoint is absent, and destroying on it would be destroying "
+                  f"blind. Fix the read, then retry.")
+            out.append(row)
+            continue
         if dry_run:
             print(f"  WOULD retire {row}")
         else:
