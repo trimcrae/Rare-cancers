@@ -2293,6 +2293,63 @@ def retro_record_units(s3, bucket, records=None):
     return at
 
 
+#: A minimized explicit-solvent system of this size is always strongly negative (the working legs sit near
+#: -4e6 to -5.7e6 kJ/mol). A POSITIVE post-minimization potential energy is not a slow leg or a bad host —
+#: it is atoms on top of each other, and no host can fix it. Zero is the physical boundary, not a tuned cut.
+_NONPHYSICAL_PE_KJ = 0.0
+
+
+def retro_input_quarantine(rec):
+    """(quarantined, why) — is this unit's INPUT broken in a way no further rental can fix? PURE.
+
+    ★★ ROOT-CAUSED 2026-07-31, 3:38 PM ET, on `nrv04retro-retro_noncov_nr4a3-m3-r0` — five hours of hosts,
+    md-running every time, never one banked frame, while 16 siblings on the same image and the same lane
+    banked fine. The discriminating observation is the potential energy, and it is unambiguous:
+
+        FAILING  nr4a3 m3 r0  (co-fold .../nr4a3/seed_3)
+          PE pre-min = +2.109e+15   post-min = +2.207e+15 kJ/mol
+          openmm.OpenMMException: Particle coordinate is NaN.
+          blew_up=true  blow_phase="prod@frame0/5"  n_frames=0  prod_wall_s=4.4
+
+        WORKING  nr4a3 m1 r0  (co-fold .../nr4a3/seed_1), same image, same code, same lane
+          PE pre-min = -4.025e+06  post-min = -5.667e+06 kJ/mol
+          blew_up=false  n_frames=5
+
+    +2e15 kJ/mol is ~21 orders of magnitude above physical and it is present BEFORE minimization, so it is a
+    property of the BUILT SYSTEM inherited from the co-fold: atoms overlapping badly enough that the
+    Lennard-Jones term diverges. Minimization cannot escape it (post-min is no better than pre-min), and the
+    first integration step therefore yields NaN coordinates — which is exactly `prod@frame0`, in 4.4 s, every
+    time. BOTH replicas drawing on `nr4a3/seed_3` (`m3-r0` and `m3-r1`) show it; every other model does not.
+    So the fault is the seed-3 co-folded structure, and buying a fourth host tests nothing.
+
+    ⚠ DELIBERATELY NARROW — ALL THREE CONDITIONS. A leg that blows up LATER (a transient at frame 300, a bad
+    host, a preemption mid-write) must stay eligible: `leg_failure_breaker.__doc__`'s "one failure is noise"
+    applies to those and this predicate must not swallow them. Only the conjunction — it blew up, it blew up
+    at the FIRST production step, and its minimized energy is non-physical — identifies a static property of
+    the input rather than an event during the run.
+
+    ⚠ AND IT IS DERIVED FROM THE ARTIFACT, NOT A HAND-TYPED UNIT LIST. A list would need a human to retire an
+    entry, which is the exact defect CLAUDE.md §6 retired the machine blacklist over. This releases itself:
+    regenerate the co-fold, and the next leg record has no such signature, so the unit is eligible again with
+    no edit anywhere.
+    """
+    if not (rec or {}).get("blew_up"):
+        return False, ""
+    phase = str((rec or {}).get("blow_phase") or "")
+    if not phase.startswith("prod@frame0"):
+        return False, ""
+    pe = (rec or {}).get("pe_post_min_kj")
+    if pe is None or float(pe) <= _NONPHYSICAL_PE_KJ:
+        return False, ""
+    return True, (
+        "INPUT QUARANTINE — this unit's built system is non-physical, so no host can run it. It blew up at "
+        "%s with a post-minimization potential energy of %+.3e kJ/mol; a minimized explicit-solvent system "
+        "is always strongly negative (working legs on this lane sit near -5e6), so this is an atomic clash "
+        "carried in from the co-fold, present before minimization and not removed by it. Renting another "
+        "host reproduces it in seconds and tests nothing. RELEASE: regenerate this unit's co-fold — the "
+        "quarantine is read from the leg record, so a clean record clears it with no edit." % (phase, float(pe)))
+
+
 def retro_committed_at(s3, bucket, unit):
     """When this unit last BANKED PRODUCTION WORK: the mtime of its newest production checkpoint. None if it
     has never committed one, or on a read error (unreadable is UNKNOWN, never "it committed").
@@ -2525,7 +2582,7 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
     key = key or os.environ.get("VAST_API_KEY")
     now = time.time() if now is None else now
     out = {"utc": _utcnow(), "nudged": [], "condemned": [], "blocked": [], "replaced": [],
-           "held": None, "unreadable": None, "awaiting_authorization": []}
+           "held": None, "unreadable": None, "awaiting_authorization": [], "quarantined": []}
     if not key:
         out["unreadable"] = "no VAST_API_KEY — cannot read the fleet, so nothing is nudged, condemned or bought"
         print("[retro-super] " + out["unreadable"], flush=True)
@@ -2546,6 +2603,12 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
     records = retro_leg_records(s3, bucket)
     done_units = retro_done_units(s3, bucket, records)
     record_at = retro_record_units(s3, bucket, records)
+    # The newest record PER UNIT, off the same walk — the quarantine predicate reads its energies.
+    newest_rec = {}
+    for _u, _k, _rec, _mt in records:
+        if _u not in newest_rec or _mt >= newest_rec[_u][0]:
+            newest_rec[_u] = (_mt, _rec)
+    newest_rec = {_u: _v[1] for _u, _v in newest_rec.items()}
     state = {}
     try:
         state = json.loads(s3.get_object(Bucket=bucket,
@@ -2640,6 +2703,14 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
         # ⚠ THE DENOMINATOR IS THE STREAK, NOT THE LIFETIME COUNT. Passing no `since_utc` here is what
         # blocked the pilot on every tick from 12:07 PM ET on 2026-07-31 while its host sat unreplaced —
         # `retro_streak_since_utc` holds the measurement and why a leg record is the superseding fact.
+        # ⛔ A BROKEN INPUT IS REFUSED BEFORE THE BREAKER, so it costs $0 instead of three rentals. The
+        # breaker measures REPETITION; this measures the CAUSE, and when the cause is a non-physical built
+        # system there is nothing to repeat. See `retro_input_quarantine` for the 3:38 PM ET root cause.
+        _q, _qwhy = retro_input_quarantine(newest_rec.get(name))
+        if _q:
+            out["quarantined"].append({"unit": name, "why": _qwhy})
+            print(f"[retro-super] ⛔ QUARANTINED {name} — {_qwhy}", flush=True)
+            continue
         # BANKED WORK SUPERSEDES, or a leg that is part-done can never be re-placed — the 40 % deadlock in
         # `retro_committed_at`. The checkpoint read is one prefix list per hostless unit, on a tick that is
         # already reading S3, and only for units that got this far (not done, not alive, authorised).
@@ -2745,6 +2816,8 @@ def retro_gate_reasons(sup):
     for name in (sup or {}).get("awaiting_authorization") or ():
         out[name] = ("HELD — never authorised to launch. Supervision heals only units an operator dispatch "
                      "authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).")
+    for q in (sup or {}).get("quarantined") or ():
+        out[q.get("unit")] = q.get("why")
     for b in (sup or {}).get("blocked") or ():
         out[b.get("unit")] = ("BLOCKED by the failure breaker — %s. Counted %s. Clear with "
                               "leg_failure_breaker.reset_for() once the cause is fixed."
@@ -2789,6 +2862,7 @@ def persist_retro_gate(sup, reasons, path=None, bucket=None, s3=None):
            "needed": (sup or {}).get("needed") or [],
            "replaced": [h.get("unit") for h in ((sup or {}).get("replaced") or []) if isinstance(h, dict)],
            "blocked": (sup or {}).get("blocked") or [],
+           "quarantined": (sup or {}).get("quarantined") or [],
            "awaiting_authorization": (sup or {}).get("awaiting_authorization") or [],
            "condemned": (sup or {}).get("condemned") or [],
            "nudged": (sup or {}).get("nudged") or [],

@@ -669,5 +669,64 @@ def test_a_unit_that_was_rented_does_not_render_as_declined():
     assert "NOT BOUGHT" in r["u_missed"]
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 10 — a unit whose INPUT is broken burned rentals for five hours (root-caused 3:38 PM ET).
+# nr4a3 m3 r0 reached md-running on every host and never banked a frame, while 16 siblings on the same image
+# banked fine. Discriminator, from the real records:
+#   FAILING  PE pre-min +2.109e+15 -> post-min +2.207e+15 kJ/mol, NaN at prod@frame0/5, 4.4 s
+#   WORKING  PE pre-min -4.025e+06 -> post-min -5.667e+06 kJ/mol, 5 frames
+# +2e15 is ~21 orders above physical and present BEFORE minimization -> an atomic clash carried in from the
+# co-fold (nr4a3/seed_3). Both replicas of that model show it; no other model does.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+REAL_BLOWN = {"blew_up": True, "blow_phase": "prod@frame0/5", "n_frames": 0,
+              "pe_pre_min_kj": 2108844105470635.2, "pe_post_min_kj": 2206907872488877.2}
+REAL_GOOD = {"blew_up": False, "n_frames": 5, "pe_pre_min_kj": -3987863.6, "pe_post_min_kj": -5654555.0}
+
+
+def test_the_non_physical_input_is_quarantined_with_its_evidence():
+    q, why = vl.retro_input_quarantine(REAL_BLOWN)
+    assert q is True
+    assert "prod@frame0/5" in why and "co-fold" in why and "RELEASE" in why, (
+        "a quarantine must name the phase, the cause and how to clear it")
+
+
+def test_a_healthy_leg_is_never_quarantined():
+    assert vl.retro_input_quarantine(REAL_GOOD) == (False, "")
+    assert vl.retro_input_quarantine({}) == (False, "")
+    assert vl.retro_input_quarantine(None) == (False, "")
+
+
+def test_a_LATER_blowup_stays_eligible_because_one_failure_is_noise():
+    """leg_failure_breaker's rule must survive: a transient at frame 300 is not a broken input."""
+    q, _ = vl.retro_input_quarantine(
+        {"blew_up": True, "blow_phase": "prod@frame300/500", "pe_post_min_kj": -5.6e6})
+    assert q is False
+    # ... and neither is a frame-0 blow-up whose energy was PHYSICAL (a bad host, not a bad system).
+    q2, _ = vl.retro_input_quarantine(
+        {"blew_up": True, "blow_phase": "prod@frame0/5", "pe_post_min_kj": -5.6e6})
+    assert q2 is False, "all three conditions must hold; energy is what makes it an INPUT fault"
+
+
+def test_the_quarantine_costs_nothing_and_is_visible(monkeypatch):
+    """It must be refused BEFORE the breaker (so $0, not three rentals) and appear in the readout."""
+    import json
+    a, m, r = retro.enumerate_units()[0]
+    name = retro.unit_name(a, m, r)
+    s3 = _FakeS3({f"{vl.RETRO_RESULT_PREFIX}/{vl.RETRO_AUTHORIZED_UNITS_KEY}": json.dumps({"units": [name]})})
+    monkeypatch.setattr(vl, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(vl, "retro_leg_records", lambda *a, **k: [(name, "k", REAL_BLOWN, 1.0)])
+    monkeypatch.setattr(vl, "_s3_list", lambda *a, **k: [])
+
+    def _boom(*a, **k):
+        raise AssertionError("the breaker must not be consulted for a quarantined unit")
+
+    import leg_failure_breaker as lfb
+    monkeypatch.setattr(lfb, "count_attempts", _boom)
+    out = vl.retro_supervise("bkt", s3=s3, key="k", now=1.0e9, launch=False)
+    assert [q["unit"] for q in out["quarantined"]] == [name]
+    assert out["needed"] == [] and out["blocked"] == []
+    assert name in vl.retro_gate_reasons(out), "a quarantined unit must carry its reason in the gate record"
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))
