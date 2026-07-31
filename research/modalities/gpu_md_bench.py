@@ -209,8 +209,16 @@ def main():
                   else f"[bench] attempt {attempt}/{len(ladder)} at minimize_iters={mi} FAILED "
                        f"({type(e).__name__}: {e}); no attempts left", flush=True)
     if r is None:
+        # ⚠ SPACES MUST BE UNDERSCORED HERE TOO (2026-07-31). The result line is parsed by `line.split()`
+        # then `kv.split("=", 1)`, so any value containing a space is truncated at the first one — the file
+        # already records that for `device` ('Quadro RTX 8000' -> 'Quadro') and then emitted the ONE field
+        # guaranteed to contain spaces without the same treatment. Measured cost: a P100 probe failed all
+        # three ladder attempts at both system sizes and reported `err=OpenMMException:Error`, which names
+        # the exception type and then throws away the sentence that says WHY — turning a diagnosable
+        # environment failure into a 20-minute run with no cause. Newlines collapse for the same reason.
+        _msg = " ".join(str(last).split())[:300].replace(" ", "_")
         print(f"BENCH_RESULT tag={tag} status=ERROR attempts={len(ladder)} "
-              f"err={type(last).__name__}:{last}", flush=True)
+              f"err={type(last).__name__}:{_msg}", flush=True)
         sys.exit(1)
     # Single parsable line the launcher scrapes from the serial console. The launcher parses it by
     # `line.split()` then `kv.split("=", 1)`, so ANY VALUE CONTAINING A SPACE IS SILENTLY TRUNCATED at the first

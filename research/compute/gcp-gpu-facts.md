@@ -108,7 +108,60 @@ artifact on every CI run, so the document cannot drift from the measurement.
 | card | machine | ns/day @141,887p | ×L4 | ns/day @84,534p | $/h | $/ns @141,887p | ns per $ | ×L4 ns/$ |
 |---|---|---|---|---|---|---|---|---|
 | **L4** | `g2-standard-4` | **177.28** | **1.00×** | 298.96 | 0.708 | 0.0958 | **10.43** | **1.00×** |
+
+**⚠ REFUSED BY THE ADMISSION GATE — a RANKING, not a rate.** These are not in the table above and must never be quoted as throughput. They are shown because `admit()`-refused is not the same claim as uninformative: where the implied ratio dwarfs the reason for refusal, the ordering it gives is still safe.
+
+| card | ns/day @141,887p (PROVISIONAL) | implied ×L4 | refused because |
+|---|---|---|---|
+| T4 (`Tesla_T4`, spot) | 55.63 | **~0.31×** | cv=0.0561 exceeds 5% — block-to-block scatter, not a steady-state rate |
 <!-- GCP-CARD-BENCH-TABLE:END -->
+
+### ★★ THE RESULT: THE WORKLOAD IS COMPUTE-BOUND, SO THE BANDWIDTH ARGUMENT IN §1b DOES NOT HOLD
+
+The T4 is the discriminating card **by construction**, because its two specs point opposite ways:
+
+| hypothesis | the spec ratio it rests on | predicted T4 ÷ L4 | measured |
+|---|---|---|---|
+| bandwidth-bound (§1b's premise) | 320 vs 300 GB/s | **1.07×** | — |
+| compute (FP32)-bound | 8.1 vs 30.3 TFLOPS | **0.27×** | — |
+| **what the probe found** | — | — | **~0.31×** (0.314 at 141,867 p, 0.345 at 84,534 p) |
+
+**0.31× is the FP32 prediction, not the bandwidth one.** So the heuristic that generated §1b's P100 and V100 rows
+rests on a premise this measurement rejects, and those rows are unsupported — *not* independently refuted, since
+neither card has a throughput number yet. On the decision axis the T4 delivers **~0.41×** the L4's
+science-per-dollar where §1b promised **2.2×** — wrong by ~5×, and in the direction that would have bought the
+worst card available.
+
+⚠ **AND A PRICE ERROR IN §1b THAT NEEDED NO MEASUREMENT AT ALL.** Its `$/h` column compares the L4's
+**whole-VM** rate (0.71 = a `g2-standard-4`, which *bundles* the L4) against **bare GPU** rates for the others
+(1.46 / 2.48 / 0.35). A P100 cannot run without a host. Adding the `n1-standard-4` it needs (**$0.190/h** =
+4 × $0.031611 + 15 × $0.004237), with §1b's own speed assumptions untouched, already takes P100 from **+18 % to
++3 %** and T4 from **2.16× to 1.44×**. Two independent errors, both flattering the alternatives.
+
+**PRACTICAL ANSWER: STAY ON THE L4.** Of the four cards this project holds quota for, the L4 has by far the most
+FP32 per dollar, and FP32 is what the measurement says this workload spends its time on.
+
+### ⚠ P100: IT BOOTS AND HOLDS QUOTA, BUT OPENMM WILL NOT RUN ON IT — a BLOCKER, not a slow number
+
+Run `30634431184` (spot, us-central1-c, 9:26–9:48 AM ET 2026-07-31), the first P100 ever provisioned in this
+project. The VM created, booted and was confirmed RUNNING mid-probe. **Every attempt then failed**:
+`status=ERROR attempts=3 err=OpenMMException:…` at **both** system sizes — i.e. all three rungs of
+`gpu_md_bench`'s minimise ladder (200 → 2000 → 20000) raised, twice over. That is what the ~21-minute step was
+doing: six failed system builds, not slow MD.
+
+This is precisely the risk §1b flagged and nobody had tested — *"the container's CUDA build has to support the
+older compute capability"*. P100 is **sm_60** (Pascal); the L4 is sm_89 and the T4 sm_75, and both ran fine on
+the identical conda-forge OpenMM. **So the P100's blocker is the environment, not its speed**, and it cannot be
+priced at all until that is resolved.
+
+⚠ **THE EXACT EXCEPTION WAS LOST TO A PARSER BUG, NOW FIXED.** `gpu_md_bench.py` emits `k=v` pairs that the
+launcher parses with `line.split()`, so any value containing a space is truncated at the first one — the file
+already documented this for `device` (`'Quadro RTX 8000'` → `'Quadro'`) and then emitted the ONE field
+guaranteed to contain spaces, `err=`, without the same treatment. The message therefore arrived as
+`OpenMMException:Error`, naming the exception type and discarding the sentence that says why. Fixed
+2026-07-31 (spaces underscored, message capped at 300 chars); **the next P100 attempt will report the real
+cause**, and until it does the mechanism above is the hypothesis the evidence supports, not a confirmed
+diagnosis.
 
 ⚠ **`$/h` IS A PUBLISHED LIST RATE, NOT AN INVOICE** (`gcp_card_bench.LIST_PRICE_USD_PER_H`). GCP exposes no
 per-run cost without a BigQuery billing export, and the Cloud Billing Catalog probe built into the workflow
