@@ -55,10 +55,40 @@ def test_gpu_utilisation_is_never_consulted():
             f"{forbidden!r} must never enter this decision"
 
 
+def test_a_POOLED_expectation_may_not_raise_the_dollar_flag():
+    """★ THE FALSE-POSITIVE THIS GUARD SHIPPED WITH, caught on the live board within minutes because it was
+    report-only. The arm median is pooled across a mixed fleet and the table's own RTX 4090/RTX 3090 ratio is
+    1.745, so a HEALTHY 3090 reads ~1.75x "slower than expected" against it. Two live 3090s were flagged at
+    1.86x and 2.00x; rebased on their own card they are 0.97x and 1.04x. A pooled expectation therefore
+    reports the rate and withholds the verdict."""
+    pooled = at.verdict(31.0, 16.6, iteration=1100, interval=64, quoted_usd_per_ns=0.00412,
+                        provenance=at.PROV_POOLED)
+    assert pooled["verdict"] == at.KEEP
+    assert "not comparable" in pooled["why"]
+    assert "⚠" not in at.cell(pooled)
+    # the same host against its OWN card's measured rate is unremarkable
+    card = at.verdict(31.0, 31.8, iteration=1100, interval=64, quoted_usd_per_ns=0.00412,
+                      provenance=at.PROV_CARD)
+    assert card["slowdown_vs_expected"] < 1.1 and "⚠" not in at.cell(card)
+
+
+def test_the_per_card_rate_is_read_from_by_gpu_not_the_arm_median():
+    import ternary_vast_launch as tv
+    assert tv.arm_card_rate(4.0, "ternary", "RTX 3090") == 31.8
+    assert tv.arm_card_rate(4.0, "ternary", "RTX 4090") == 16.6
+    assert tv.arm_card_rate(4.0, "ternary", "NVIDIA GeForce RTX 3090") == 31.8, "marketplace names too"
+    assert tv.arm_card_rate(4.0, "ternary", "RTX 4080S") is None, "an unbenched card has no per-card rate"
+    got, prov, _ = at.expected_s_per_iter("ternary", 4.0, card="RTX 3090")
+    assert (got, prov) == (31.8, at.PROV_CARD)
+    got, prov, note = at.expected_s_per_iter("ternary", 4.0, card="RTX 4080S")
+    assert prov == at.PROV_POOLED and "POOLED ACROSS CARDS" in note
+
+
 def test_an_unmeasured_expectation_cannot_condemn():
     """No arm rate for this timestep => no slowdown, no realised $/ns. The TIME test may still fire, because
     it needs no expectation at all — that independence is deliberate."""
-    v = at.verdict(16.0, None, iteration=100, interval=64, quoted_usd_per_ns=0.005)
+    v = at.verdict(16.0, None, iteration=100, interval=64, quoted_usd_per_ns=0.005,
+                   provenance=at.PROV_NONE)
     assert v["slowdown_vs_expected"] is None and v["realised_usd_per_ns"] is None
     assert v["verdict"] == at.KEEP
 
@@ -68,7 +98,7 @@ def test_a_host_that_is_over_the_buy_line_but_WILL_bank_is_KEPT():
     replace, so the dollar view REPORTS and the time test ACTS. If this ever flips to ABANDON, the guard has
     started destroying hosts that were making progress."""
     v = at.verdict(40.0, 16.0, iteration=1088, interval=64, quoted_usd_per_ns=0.005,
-                   session_s=36000.0)                      # a long session: it will reach the boundary
+                   session_s=36000.0, provenance=at.PROV_CARD)   # long session: it will reach the boundary
     assert v["verdict"] == at.KEEP
     assert v["realised_usd_per_ns"] > APPROVED_USD_PER_NS
     assert "reported, not acted on" in v["why"]

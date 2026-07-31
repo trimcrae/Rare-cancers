@@ -1341,6 +1341,37 @@ def arm_iteration_rates(timestep_fs, path=None):
     return {arm: float(v["s_per_iter"]) for arm, v in rates.items() if v.get("s_per_iter")}
 
 
+def arm_card_rate(timestep_fs, arm, gpu_name, path=None):
+    """Measured s/iter for THIS arm on THIS card at this timestep, or None. PURE apart from one cached read.
+
+    ★★ WHY A PER-CARD FIGURE IS NOT OPTIONAL FOR A GUARD (2026-07-31). `arm_iteration_rates` returns the arm
+    median POOLED ACROSS CARDS, and comparing a specific host to it makes every below-median card look broken
+    by construction: the table's own RTX 4090/RTX 3090 ratio is 1.745, so a perfectly healthy 3090 reads
+    ~1.75x "slower than expected". Measured on the live board the moment the arrival guard shipped — two
+    3090s flagged at 1.86x and 2.00x against the pooled median, which after rebasing on their own card is
+    1.07x and 1.15x, i.e. normal. A guard that fires on every cheap card would have condemned the whole
+    class.
+
+    `by_gpu` is written by `ternary_arm_rates.aggregate` for exactly this — it exists precisely so an arm
+    ratio can be re-checked without the card mix inside it — and nothing was reading it."""
+    p = path or _ARM_RATES_PATH
+    if p not in _ARM_RATES_CACHE:
+        arm_iteration_rates(timestep_fs, path=p)          # populates the cache, or leaves {}
+    doc = _ARM_RATES_CACHE.get(p) or {}
+    entry = ((doc.get("rates") or {}).get(f"{float(timestep_fs):.1f}") or {}).get(arm) or {}
+    by = entry.get("by_gpu") or {}
+    if not by or not gpu_name:
+        return None
+    import vast_cost_model as _v
+    want = _v.card_of(gpu_name)
+    if want is None:
+        return None
+    for k, v in by.items():                               # keys are marketplace names ("NVIDIA GeForce ...")
+        if _v.card_of(k) == want and v:
+            return float(v)
+    return None
+
+
 def arm_of_leg(leg_id):
     """binary | ternary | solvent for a leg id. PURE. ONE HOME for the arm split — `ternary_arm_rates.py`,
     `ternary_reps_diag.py`'s readout and the cadence derivation all key off this and nothing re-implements it.
@@ -3592,14 +3623,19 @@ def collect(bucket=None, prefix=None, autostop=True):
                   # the mode requests); the quote is the same `$/ns` the board's own cell renders.
                   _dtm = re.search(r"_dt([\d.]+)fs_", _b["uid"] or "")
                   _dtv = float(_dtm.group(1)) if _dtm else None
-                  _exp, _expwhy = _at.expected_s_per_iter(arm_of_leg(_b["uid"]), _dtv) if _dtv \
-                      else (None, "timestep not in the unit id")
+                  # THE CARD IS PASSED, so the expectation is like-for-like. Without it the comparison is
+                  # against a card-POOLED median and every below-median card reads as broken (measured: two
+                  # healthy 3090s flagged at 1.86x / 2.00x, which are 0.97x / 1.04x against their own card).
+                  _exp, _eprov, _expwhy = _at.expected_s_per_iter(
+                      arm_of_leg(_b["uid"]), _dtv, card=_b.get("gpu")) if _dtv \
+                      else (None, _at.PROV_NONE, "timestep not in the unit id")
                   _qrow = _ifn.row(_b["gpu"], float(_b["dph"]), _planning_usd_per_ref_gpu_h(),
                                    tier=_ifn.tier_of(_b.get("is_bid"))) \
                       if (_b.get("gpu") and _b.get("dph") and _planning_usd_per_ref_gpu_h()) else None
                   _arr = _at.verdict(_spi, _exp, iteration=_b["iteration"],
                                      interval=ifb.interval_for_phase(_b["log"], _b["phase"]),
-                                     quoted_usd_per_ns=(_qrow or {}).get("usd_per_ns"))
+                                     quoted_usd_per_ns=(_qrow or {}).get("usd_per_ns"),
+                                     provenance=_eprov)
                   _arr["expected_provenance"] = _expwhy
               except Exception as _e:  # noqa: BLE001 — a READOUT must never break a monitoring pass
                   _arr = {"verdict": "WATCHING", "why": "arrival check unavailable: %s: %s"

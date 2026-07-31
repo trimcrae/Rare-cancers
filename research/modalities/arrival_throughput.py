@@ -96,27 +96,47 @@ def realised_usd_per_ns(quoted_usd_per_ns, measured_s_per_iter, expected_s_per_i
     return q * (m / e)
 
 
-def expected_s_per_iter(arm, timestep_fs, card=None, rates=None):
-    """(seconds, provenance) this arm should take per iteration, from the lane's OWN measured table.
+# Provenance of an expectation. `CARD` is like-for-like and may license a $/ns comparison; `POOLED` is the
+# arm median across a mixed fleet and MAY NOT — see `expected_s_per_iter`.
+PROV_CARD, PROV_POOLED, PROV_NONE = "card", "pooled", "none"
 
-    Prefers a per-card figure when the table has one, because that is a like-for-like comparison. Falls back
-    to the arm median and SAYS SO — the provenance string travels with the number so a verdict can never be
-    read as more grounded than it is. `None` when the timestep was never measured: an unmeasured expectation
-    cannot condemn anything."""
+
+def expected_s_per_iter(arm, timestep_fs, card=None, rates=None):
+    """(seconds, provenance_kind, note) this arm should take per iteration, from the lane's OWN measured table.
+
+    ★★ THE PER-CARD FIGURE IS PREFERRED AND THAT IS LOAD-BEARING, NOT TIDINESS (2026-07-31). This function
+    documented a per-card preference from the day it was written and IMPLEMENTED only the pooled arm median,
+    which made every below-median card look broken by construction: the table's own RTX 4090/RTX 3090 ratio
+    is 1.745, so a healthy 3090 reads ~1.75x "slower than expected". Caught on the live board within minutes
+    of the guard shipping — two 3090s flagged at 1.86x and 2.00x, which rebased on their own card are 1.07x
+    and 1.15x. Shipping report-only is what turned that into an observation instead of a reaped fleet.
+
+    `None` when the timestep was never measured: an unmeasured expectation cannot condemn anything."""
+    if rates is None and card:
+        try:
+            from ternary_vast_launch import arm_card_rate
+            v = arm_card_rate(timestep_fs, arm, card)
+            if v:
+                return float(v), PROV_CARD, f"measured {arm} rate for {card} at {timestep_fs} fs"
+        except Exception:  # noqa: BLE001 — fall through to the pooled figure
+            pass
     if rates is None:
         try:
             from ternary_vast_launch import arm_iteration_rates
             rates = arm_iteration_rates(timestep_fs)
         except Exception:  # noqa: BLE001 — no table, no verdict
-            return None, "no measured arm-rate table"
+            return None, PROV_NONE, "no measured arm-rate table"
     v = (rates or {}).get(arm)
     if not v:
-        return None, f"no measured rate for arm={arm} at {timestep_fs} fs"
-    return float(v), f"arm median for {arm} at {timestep_fs} fs (pooled across cards)"
+        return None, PROV_NONE, f"no measured rate for arm={arm} at {timestep_fs} fs"
+    return (float(v), PROV_POOLED,
+            f"arm median for {arm} at {timestep_fs} fs — POOLED ACROSS CARDS, so a slowdown against it is "
+            f"partly the card and may not be read as this host underperforming")
 
 
 def verdict(measured_s_per_iter, expected_s_per_iter_s, iteration=None, interval=None,
-            quoted_usd_per_ns=None, session_s=None, margin=None, buy_line=None):
+            quoted_usd_per_ns=None, session_s=None, margin=None, buy_line=None,
+            provenance=PROV_CARD):
     """Whether to keep paying for this host. PURE. Returns a dict carrying every number behind the call.
 
     ⚠ THE ORDER OF THE GUARDS IS THE SAFETY ARGUMENT. Absence of evidence is checked FIRST and always returns
@@ -125,7 +145,7 @@ def verdict(measured_s_per_iter, expected_s_per_iter_s, iteration=None, interval
                                    else None),
            "expected_s_per_iter": expected_s_per_iter_s,
            "seconds_to_next_commit": None, "session_budget_s": None,
-           "realised_usd_per_ns": None, "slowdown_vs_expected": None,
+           "realised_usd_per_ns": None, "slowdown_vs_expected": None, "provenance": provenance,
            "buy_line_usd_per_ns": float(buy_line if buy_line is not None else APPROVED_USD_PER_NS)}
 
     try:
@@ -165,6 +185,14 @@ def verdict(measured_s_per_iter, expected_s_per_iter_s, iteration=None, interval
     # it can be computed; it does not trigger the action on its own, because a host may be over the line and
     # still bank real work, and abandoning that costs a ~28 min cold start for a strictly worse trade.
     r = out["realised_usd_per_ns"]
+    if r is not None and provenance != PROV_CARD:
+        # A pooled expectation cannot distinguish "this host is slow" from "this card is slower than the
+        # fleet median", and the second is not a defect. Report the rate, withhold the verdict.
+        out.update({"verdict": KEEP,
+                    "why": "delivering %.1f s/iter; no per-card expectation for this card, so the realised "
+                           "$/ns is not comparable and no slowdown verdict is offered"
+                           % float(measured_s_per_iter)})
+        return out
     if r is not None and r >= out["buy_line_usd_per_ns"]:
         out.update({"verdict": KEEP,
                     "why": ("⚠ realised $%.6f/ns is over the $%.6f/ns buy line (%.2fx slower than expected), "
@@ -185,7 +213,8 @@ def cell(v):
     if v["verdict"] == ABANDON:
         return "⛔ CANNOT BANK %.1f s/iter (%.0f min to commit)" % (
             v["measured_s_per_iter"], (v["seconds_to_next_commit"] or 0) / 60.0)
-    if v.get("realised_usd_per_ns") and v["realised_usd_per_ns"] >= v["buy_line_usd_per_ns"]:
+    if v.get("provenance") == PROV_CARD and v.get("realised_usd_per_ns") \
+            and v["realised_usd_per_ns"] >= v["buy_line_usd_per_ns"]:
         return "⚠ %.1f s/iter · realised $%.5f/ns (%.2fx expected)" % (
             v["measured_s_per_iter"], v["realised_usd_per_ns"], v["slowdown_vs_expected"] or 0)
     return "%.1f s/iter" % v["measured_s_per_iter"]
