@@ -1,70 +1,8 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T17:14:22Z",
+  "utc": "2026-07-31T17:22:43Z",
   "mode": "5aks",
-  "n_units": 0,
-  "nothing_to_launch": true,
-  "hold": false,
-  "units_done": [],
-  "units_live": [
-    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
-    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
-    "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
-    "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
-  ],
-  "live_host_rates": [
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
-      "instance": 46419726,
-      "machine_id": 33657,
-      "gpu": "RTX 4080S",
-      "dph_total_usd_h": 0.14586666666666667,
-      "dph_base_usd_h": 0.1292,
-      "cur_state": "running",
-      "actual_status": "running",
-      "usd_per_ns": 0.005049,
-      "x_basis": 1.48,
-      "over_buy_line": false
-    },
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
-      "instance": 46420578,
-      "machine_id": 37962,
-      "gpu": "RTX 5090",
-      "dph_total_usd_h": 0.22066666666666665,
-      "dph_base_usd_h": 0.204,
-      "cur_state": "running",
-      "actual_status": "running",
-      "usd_per_ns": 0.005119,
-      "x_basis": 1.5,
-      "over_buy_line": false
-    },
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
-      "instance": 46419760,
-      "machine_id": 31036,
-      "gpu": "RTX 4090",
-      "dph_total_usd_h": 0.17846666666666666,
-      "dph_base_usd_h": 0.1618,
-      "cur_state": "running",
-      "actual_status": "running",
-      "usd_per_ns": 0.005327,
-      "x_basis": 1.561,
-      "over_buy_line": false
-    },
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-      "instance": 46417360,
-      "machine_id": 30113,
-      "gpu": "RTX 4090",
-      "dph_total_usd_h": 0.17846666666666666,
-      "dph_base_usd_h": 0.1618,
-      "cur_state": "running",
-      "actual_status": "running",
-      "usd_per_ns": 0.005327,
-      "x_basis": 1.561,
-      "over_buy_line": false
-    }
-  ],
-  "reason": "no unit of mode 5aks needs a host \u2014 0 done, 4 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold."
+  "hold": true,
+  "nothing_to_launch": false,
+  "reason": "could not list live instances (RuntimeError: vast API GET /instances/ -> 403: <html>\r\n<head><title>403 Forbidden</title></head>\r\n<body>\r\n<center><h1>403 Forbidden</h1></center>\r\n</body>\r\n</html>\r\n) \u2014 so we cannot tell which units already hold a host, and every unit would look unhosted. Refusing to dispatch: renting on this would double-buy on top of running legs. The next tick re-checks."
 }
