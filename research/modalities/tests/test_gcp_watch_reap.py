@@ -184,26 +184,55 @@ def test_the_workflow_can_commit_what_it_reaps():
 # exactly the pass that should ask whether the finished unit's VM survived it. A GCP VM cannot delete itself
 # and GPUS_ALL_REGIONS=1, so one orphan blocks the whole lane with nothing billing to make it noticeable.
 # ============================================================================================================
+def _idle_branch(src):
+    """The `N = 0` branch, up to its own closing `fi`."""
+    i = src.index('if [ "$N" = "0" ]')
+    return src[i:src.index("\nfi\n", i)]
+
+
+def _orphan_sweep(src):
+    """orphan_sweep()'s body — where the idle branch's work now actually happens."""
+    i = src.index("orphan_sweep() {")
+    return src[i:src.index("\n}\n", i)]
+
+
 def test_the_idle_exit_still_looks_for_an_orphan_vm():
+    # ⚠ THE CHECK FOLLOWS THE DELEGATION. The listing used to be inline in this branch; it now lives in
+    # orphan_sweep(), which the branch calls. Asserting on the inline text would have failed a correct
+    # refactor — and, worse, an assertion scoped to a text window that no longer contains the relevant code
+    # passes vacuously in the other direction, which is how a guard quietly stops guarding.
     src = _sh()
-    idle = src.index('if [ "$N" = "0" ]')
-    tail = src[idle:idle + 2600]
-    assert "gcloud compute instances list" in tail, \
+    assert "orphan_sweep" in _idle_branch(src), \
         "the empty-watch-list branch exits without ever checking for a VM holding the single GPU"
+    assert "gcloud compute instances list" in _orphan_sweep(src)
 
 
 def test_an_orphan_raises_an_alert_rather_than_exiting_clean():
     src = _sh()
-    idle = src.index('if [ "$N" = "0" ]')
-    tail = src[idle:idle + 2600]
-    assert "WATCHDOG ORPHAN VM" in tail
-    assert "exit 1" in tail, "an orphan must fail the job so the workflow-failure notification fires"
+    sweep, idle = _orphan_sweep(src), _idle_branch(src)
+    assert "WATCHDOG ORPHAN VM" in sweep
+    assert '>> "$ALERT"' in sweep, "an unreapable orphan must trip the alert file"
+    assert "exit 1" in idle, "an orphan must fail the job so the workflow-failure notification fires"
+    assert '-s "$ALERT"' in idle, "the idle branch must decide its exit code from what the sweep raised"
 
 
 def test_the_idle_branch_never_destroys_what_it_does_not_recognise():
-    # A VM with no watch entry can still be a legitimate manual dispatch. Reaping whatever it does not
-    # recognise would be a worse failure than the one this check prevents.
-    src = _sh()
-    idle = src.index('if [ "$N" = "0" ]')
-    tail = src[idle:idle + 2600]
-    assert "instances delete" not in tail and "instances_delete" not in tail
+    """A VM the sweep cannot IDENTIFY is still never touched — the rule is bounded, not weakened.
+
+    The sweep may now delete, but only a VM that (a) carries its own tfep-* labels, (b) is mode=run,
+    (c) has its own restraint-keyed result object already in GCS, and (d) predates that object. Age is
+    never consulted, which is the property that matters: a healthy ternary leg legitimately runs ~44 h, so
+    "old" is evidence it is WORKING. This asserts the structure; the BEHAVIOUR — every refusal path issuing
+    zero deletes — is driven against a stubbed gcloud in tests/test_watchdog_orphan_sweep.sh.
+    """
+    sweep = _orphan_sweep(_sh())
+    for guard in ('[ "$_leg" = "-" ]',          # unlabelled -> refuse
+                  '[ "$_mode" != "run" ]',      # no leg result exists for it -> refuse
+                  '[ -z "${_ort:-}" ]',         # result not in GCS -> refuse
+                  '[ "$_ce" -ge "$_oe" ]'):     # VM newer than the result -> spare
+        assert guard in sweep, f"the orphan sweep lost its {guard} refusal"
+    assert "age" not in sweep.lower().split("message")[0] or "AGE_MIN" not in sweep, \
+        "the orphan sweep must never reap on age — a healthy leg legitimately runs ~44 h"
+    # and the delete must be downstream of every one of those refusals
+    assert sweep.index("instances delete") > max(sweep.index(g) for g in (
+        '[ "$_leg" = "-" ]', '[ "$_mode" != "run" ]', '[ -z "${_ort:-}" ]', '[ "$_ce" -ge "$_oe" ]'))

@@ -197,6 +197,44 @@ credit that expires 2026-10-10.
   looked at the VM list: the reap existed only in the CRASHED branch, which a DONE leg can never reach. A
   guard can be scheduled, running, and green while the thing it exists to prevent is happening.
 
+## 6c. ★★ WHAT REAPS A VM NOW — and why the launcher refuses to buy one it cannot switch off (2026-07-31)
+
+§6 established that a GCP VM cannot delete itself and §6b that `gcp-reap-vms.yml` is not a backstop. Neither said
+what the *remaining* single point of failure was, and it was this: **the watchdog's DONE branch is inside a loop
+over the ENABLED entries of `ternary-watch.json`.** `gcp_watch_reap` auto-disables a unit the moment it reaches
+its terminal state, so **"no enabled entry" is the lane's RESTING state** — both entries are disabled today. In
+that state `watchdog_run.sh` printed `WATCHDOG ORPHAN VM, NOTHING WATCHING IT` and *deliberately* refused to
+delete. A leg launched into it would have run to its create-time cap, `--max-run-duration=259200s` = **72 h
+≈ $51** of the ~$292 of expiring credit, holding `GPUS_ALL_REGIONS = 1` (#1) — i.e. every GCP GPU job on the
+account — with a red workflow as the only signal.
+
+**The gap was latent, not active, when it was found** (`gcp-quota-check` run 30626214303, 7:13 AM ET
+2026-07-31: `GPUS_ALL_REGIONS` limit 1.0 **usage 0.0**, nothing held). Four layers now close it, ordered by
+where they act. **Nothing weakens the refusal above — it is BOUNDED**, and the reason it existed still stands:
+a VM name is `gcp-ternary-<GITHUB_RUN_ID>`, so an unidentified orphan could only be killed on AGE, and age
+inverts (a healthy leg legitimately runs ~44 h; `gcp-reap-vms.yml` records a dry_run that would have destroyed
+a mid-production leg at age 860 min).
+
+1. **NO WATCHER, NO GPU.** [`gcp_launch_guard.py`](../modalities/gcp_launch_guard.py), called from the detached
+   branch of `gpu-ternary-fep-gcp.yml` **before `provision` is called**, refuses to provision a `mode=run` leg
+   unless an `enabled: true` entry reproducing it exists. **The watch entry is the teardown mechanism, not
+   bookkeeping.** It validates **`origin/main`'s** copy, because `ternary-leg-watchdog.yml` checks out with no
+   `ref` and will only ever read main's — a branch-local entry is not a watcher (CLAUDE.md §7).
+2. **The VM says what it is.** The create now stamps GCE labels `tfep-leg / -dir / -seed / -rst / -mode`, so
+   `orphan_sweep()` in `watchdog_run.sh` can resolve a forgotten VM's **own** restraint-keyed result key and
+   apply the DONE branch's test unchanged: delete only when that object is already in GCS **and** the VM
+   predates it. Unlabelled, non-`run`, no result, unreadable timestamp, or a result older than the VM — all
+   still refused loudly, none reaped, **age never consulted**. It runs on every pass, cold ones included.
+3. **A non-`run` mode is not a leg** and no longer inherits the 72 h cap (it writes no leg result, so neither
+   reap path can retire it and the cap is its only bound). The leg cap is unchanged.
+4. **The idempotent skip moved off the VM.** A redundant dispatch used to buy an L4, skip after ~37 s and sit
+   idle — the one shape BOTH reapers deliberately spare, so that a real `force_rerun` is never destroyed. Not
+   making the purchase is the only fix that does not weaken a reaper.
+
+Pinned by `tests/test_watchdog_orphan_sweep.sh` (drives the extracted sweep against a stubbed `gcloud`; every
+refusal path asserts **zero** deletes), `tests/test_gcp_launch_guard.py`, and four new checks in
+`tests/test_gcp_create_flags.py`.
+
 ## Quick command reference (all via GitHub Actions, WIF auth)
 
 - **Quota (global + regional):** dispatch `gcp-quota-check.yml`.

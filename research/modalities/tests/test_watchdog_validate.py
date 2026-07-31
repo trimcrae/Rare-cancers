@@ -113,11 +113,23 @@ def check_watchdog_field_alignment():
         print("SKIP field alignment (watchdog_run.sh not found)")
         return 0
     t = open(wf).read()
-    m = re.search(r"\[print\('([^']+)'%\((.*?)\)\) for w in", t)
+    # ⚠ PAIR THE SERIALISER WITH *ITS OWN* READER. The script now contains more than one
+    # `[print('%s|...'%(...)) for w in ...]` comprehension — orphan_sweep() builds a 4-field tuple of the
+    # legs an enabled entry already claims — and a bare `re.search` takes the FIRST, which is not the one
+    # feeding `while IFS='|' read -r LEG SEED ...`. That mismatch made this checker fail a correct file
+    # ("4 format slots, 4 values, 13 read vars"), i.e. it reported the exact defect it exists to catch while
+    # nothing was wrong. The reader is the anchor and the serialiser is the LAST comprehension before it,
+    # because they are literally piped together; this is stricter than the old search, not looser.
     r = re.search(r"read -r ([A-Z ]+); do", t)
-    if not m or not r:
-        print("FAIL field alignment: could not locate the serialise/read pair — markers changed")
+    if not r:
+        print("FAIL field alignment: could not locate the `read -r ...; do` reader — markers changed")
         return 1
+    cands = [mm for mm in re.finditer(r"\[print\('([^']+)'%\((.*?)\)\) for w in", t)
+             if mm.start() < r.start()]
+    if not cands:
+        print("FAIL field alignment: no serialiser found before the reader — markers changed")
+        return 1
+    m = cands[-1]
     n_fmt = m.group(1).count("%s")
     n_val = m.group(2).count("w[") + m.group(2).count("w.get(")
     names = r.group(1).split()
