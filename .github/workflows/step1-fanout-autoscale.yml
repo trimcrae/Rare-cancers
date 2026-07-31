@@ -489,3 +489,80 @@ jobs:
             # unwatched while everything still looks green.
             echo "::warning title=CROSS-LANE WATCH NOT DISPATCHED::the other four lanes were not checked on this tick"
           fi
+
+  # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+  # COLD-START THE SUPERVISOR IF ITS CHAIN HAS BROKEN.
+  #
+  # ★ THE GAP THIS CLOSES, measured 2026-07-31. `step1-fanout-supervisor.yml` is what actually delivers this
+  # repo's supervision cadence: a long-lived job that dispatches the tick, the two ternary gates, a collect
+  # and the cross-lane watch every ~8 min, then re-dispatches ITSELF before the 6 h job ceiling. Measured
+  # delivered gaps that day: 8.1 min median from the supervisor, against 91 min median (max 201) for
+  # `vast-watchdog`'s `*/15` cron and 134 min median (max 250) for the hourly supervision alarm. The
+  # supervisor is not a nicety — it is the difference between a dead host being re-placed in minutes and in
+  # hours, and CLAUDE.md §6 is explicit that a `schedule:` does not supervise a billing fleet.
+  #
+  # ⚠ AND NOTHING RESTARTED IT. The chain is a single linked list with one concurrency group: every link is
+  # dispatched by its predecessor, so when a handoff fails the cadence does not degrade, it STOPS. It has
+  # stopped before — a ~19 h gap between 2026-07-28T02:08Z and 2026-07-29T16:21Z, ended by trimcrae
+  # hand-dispatching. A grep across `.github/workflows/` for anything that dispatches the supervisor found
+  # only the supervisor itself. So the documented "cold-start path" for the supervisor did not exist; what
+  # existed was a cold-start path for the *tick*, which is a much slower thing.
+  #
+  # WHY HERE. This workflow's own `schedule:` is the trigger that still fires when every other mechanism is
+  # dead — throttled to hours, but alive. That makes it the correct and cheapest place to notice an absent
+  # supervisor. Bound on an outage becomes ONE cron delivery instead of unbounded.
+  #
+  # WHAT IT DELIBERATELY DOES NOT DO. It does not rent, price, reap or condemn anything, and it passes no
+  # pricing input — it only restores a CADENCE. The supervisor it starts dispatches gates, never launches; a
+  # gate with nothing to place exits 3 and rents nothing, so a spurious resurrection costs $0. Separate job
+  # with `actions: write` so the tick job — the one holding the Vast key and the object-store credentials —
+  # never gains the power to create workflow runs (same reasoning as `cross-lane-staleness-watch` above).
+  resurrect-supervisor:
+    needs: tick
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Start a supervisor if none is alive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # No actions/checkout here, so `gh` has no git remote to infer a repo from and every subcommand
+          # would die with "not a git repository". Same defect the supervisor itself once shipped with.
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -uo pipefail
+          WF=step1-fanout-supervisor.yml
+          # `queued` counts as alive on purpose: the supervisor's concurrency group is
+          # `cancel-in-progress: false`, so a successor dispatched during a handoff sits queued rather than
+          # collapsing. Treating queued as dead would stack duplicate supervisors, and two loops holding the
+          # same cadence double the dispatch rate into the one Vast API key — which is the failure the
+          # supervisor's own concurrency block exists to prevent.
+          LIVE=$(gh run list --workflow "$WF" --limit 20 \
+                   --json status --jq '[.[]|select(.status=="queued" or .status=="in_progress")]|length' 2>/dev/null)
+          # An unreadable API must not be read as "dead" — that would dispatch a supervisor on every tick
+          # during an API blip. Fail CLOSED (assume alive) and say so; a missed resurrection is recovered on
+          # the next tick, a storm of them is not.
+          if [ -z "${LIVE:-}" ]; then
+            echo "::warning title=SUPERVISOR LIVENESS UNREADABLE::gh run list returned nothing for $WF — assuming a supervisor is alive and NOT dispatching. If this repeats, the chain may be down with no cold start."
+            exit 0
+          fi
+          echo "supervisor runs queued/in-progress: $LIVE"
+          if [ "$LIVE" != "0" ]; then
+            echo "::notice title=SUPERVISOR ALIVE::$LIVE run(s) of $WF queued/in-progress — cadence is held, nothing to do."
+            exit 0
+          fi
+          # Defaults are passed EXPLICITLY rather than omitted. Omitting inputs is what silently disabled
+          # placement on seven green ticks on 2026-07-27: an absent input reads as null, and a GitHub
+          # expression comparing null against a string casts it to 0, so `!= '0'` evaluated FALSE in exactly
+          # the case it was written to allow. Naming every value here means a resurrected supervisor holds
+          # the same cadence as a hand-started one.
+          if gh workflow run "$WF" --ref main \
+               -f hours=5.5 -f tick_every_min=8 -f fleet_branch=main \
+               -f release_fanout=1 -f watch_every_ticks=2; then
+            echo "::warning title=SUPERVISOR CHAIN WAS DOWN — RESTARTED::no run of $WF was queued or in progress, so the ~8 min supervision cadence had stopped and every lane was falling back to this repo's throttled crons (measured 91-250 min). A fresh 5.5 h supervisor was dispatched. This warning is the signal that the chain broke; investigate the previous supervisor run's tail if it repeats."
+          else
+            echo "::error title=SUPERVISOR DOWN AND COULD NOT BE RESTARTED::no supervisor is alive and dispatching $WF failed. Supervision has degraded to this repo's throttled crons until a human or a later tick recovers it."
+          fi
