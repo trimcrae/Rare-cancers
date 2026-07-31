@@ -373,8 +373,14 @@ _TERMINAL_STATES = ("exited", "offline", "stopped")
 def teardown_candidates(insts, done_units, now, max_leg_s, label_prefix):
     """PURE: [(instance, why)] this lane may destroy. No API call, no clock read, no S3, so it is unit-tested.
 
+    `done_units` may be a set of unit names, or a {unit: record_mtime_epoch} MAPPING. With the mapping, a host
+    that started AFTER its unit's record was written is NOT `result-in-S3`: it is a deliberate re-run of a unit
+    whose existing record does not count (a smoke, a blown-up leg), and reaping it on the strength of the very
+    artifact it was launched to replace would make the re-run impossible. A bare set keeps the old behaviour.
+
     An instance is a candidate when, AND ONLY WHEN, its label is inside `label_prefix`'s namespace and one of:
-      * `result-in-S3`      — its unit already has a leg_*.json, so the GPU has nothing left to do;
+      * `result-in-S3`      — its unit already has a leg_*.json written AFTER this host started, so the GPU
+                              has nothing left to do;
       * `terminal-state`    — the container exited/died AND it is not merely OUTBID (an outbid interruptible box
                               looks identical to a dead one but its disk is intact and Vast resumes it, so
                               destroying it throws away a ~20-min image reload we never owed);
@@ -401,6 +407,12 @@ def teardown_candidates(insts, done_units, now, max_leg_s, label_prefix):
         except (TypeError, ValueError):
             up_s = 0
         done = label in (done_units or set())
+        if done and isinstance(done_units, dict):
+            try:                                     # a record older than the host is a record the host is
+                started = float(i.get("start_date"))  # replacing, not one it produced
+                done = float(done_units[label]) >= started
+            except (TypeError, ValueError, KeyError):
+                done = True                           # unknown timing -> keep the old, billing-safe answer
         terminal = (i.get("actual_status") or "") in _TERMINAL_STATES and not instance_outbid(i)
         extra = n not in keep
         over_age = up_s > max_leg_s
@@ -1765,13 +1777,17 @@ def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, read
     return hold, doc
 
 
-def retro_launch(bucket):
-    """Launch retrospective units on Vast. Idempotent: skips units with a result already in S3 or a live
+def retro_launch(bucket, authorize=True):
+    """Launch retrospective units on Vast. Idempotent: skips units with a LANDED leg already in S3 or a live
     instance, so a re-dispatch RESUMES the killed/preempted ones without ever racing a checkpoint.
 
     Gated on $/ns before anything is rented (`retro_market_gate`) and again per offer inside `submit` (the
     spec's `max_usd_per_ns`). RETRO_MARKET_GATE=0 disables the board-level gate for a deliberate, recorded
-    exception; the per-offer ceiling on the spec is NOT disableable, because that is the one that binds."""
+    exception; the per-offer ceiling on the spec is NOT disableable, because that is the one that binds.
+
+    `authorize` is the ladder's consent, not a flag: an OPERATOR dispatch (True, the default) records the
+    units it launches in `RETRO_AUTHORIZED_UNITS_KEY`, which is the ONLY thing `retro_supervise` is allowed to
+    re-place later. Supervision passes False — it may heal what was authorised and may never authorise more."""
     import nrv04_retro_panel as retro
     branch = os.environ.get("GIT_BRANCH", "claude/nr-v04-retrospective-testing-6ywxye")
     mode = os.environ.get("MODE", "run")
@@ -1792,8 +1808,9 @@ def retro_launch(bucket):
         try:
             import boto3
             s3 = boto3.client("s3")
-            dk = _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
-            skip_done = {k.split("/")[-2] for k in dk if k.rsplit("/", 1)[-1].startswith("leg_")}
+            # A unit is skippable only when it has a LANDED leg. A smoke record is not one — skipping on it is
+            # how a "finished" panel came to be 18 legs of 0.002 ns (`retro.production_leg_check`).
+            skip_done = retro_done_units(s3, bucket)
         except Exception as e:  # noqa: BLE001
             print(f"[retro] WARN could not list S3 results ({e}); not skipping any", flush=True)
 
@@ -1832,6 +1849,19 @@ def retro_launch(bucket):
           f"mode={mode}, dry_run={dry}, pilot_only="
           f"{os.environ.get('RETRO_PILOT_ONLY', '1')}, skip_done={len(skip_done)}, skip_live={len(skip_live)}, "
           f"to_rent={len(todo)}", flush=True)
+
+    # ⛔ AUTHORIZATION IS RECORDED HERE, BEFORE THE MARKET GATE AND BEFORE ANY RENTAL — because it records the
+    # LADDER'S CONSENT, not the purchase. An operator who dispatches these units has authorised them even if
+    # tonight's board is too thin to buy them; that is precisely the case where the next supervision tick
+    # SHOULD re-check and place them. Supervision itself never reaches this line (`authorize=False`).
+    if authorize and not dry and todo:
+        try:
+            import boto3
+            retro_authorize_units(boto3.client("s3"), bucket,
+                                  [retro.unit_name(a, m, r) for a, m, r in todo], mode=mode)
+        except Exception as e:  # noqa: BLE001
+            print(f"[retro] WARN could not record authorization ({e}); supervision will treat these units as "
+                  f"UNAUTHORIZED and will not re-place them if this dispatch's hosts die", flush=True)
 
     # ⛔ THE MARKET GATE, BEFORE A SINGLE PRESIGN OR SUBMIT. Priced at the number of hosts we are ABOUT TO RENT
     # (not the panel size), because that is the purchase being made. A hold rents nothing and drops nothing.
@@ -1915,8 +1945,10 @@ def retro_reap(bucket, autostop=None):
         print(f"[retro-reap]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
               f"dph=${i.get('dph_total')}/hr :: {msg}", flush=True)
     s3 = boto3.client("s3")
-    dk = _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
-    done_units = {k.split("/")[-2] for k in dk if k.rsplit("/", 1)[-1].startswith("leg_")}
+    # ⛔ THE LOOSE SET, ON PURPOSE, AND ONLY HERE. Stopping the meter comes first: a box that wrote ANY record
+    # is finished with its GPU whatever protocol it ran. The mtime map is what keeps that from also killing a
+    # FRESH host launched to redo a unit whose record does not count — see `teardown_candidates`.
+    done_units = retro_record_units(s3, bucket)
     max_leg_s = int(os.environ.get("MAX_LEG_MIN", "240")) * 60
     cands = teardown_candidates(mine, done_units, time.time(), max_leg_s, retro.LABEL_PREFIX)
     stopped = _reap(cands, key, tag="retro-reap")
@@ -1956,6 +1988,99 @@ def retro_reap(bucket, autostop=None):
 # idle verdict is `vast_idle_guard.classify_idle`, the price test is `retro_market_gate` +
 # `buy_ceiling_usd_per_ns`, and the rental is `retro_launch`'s own `build_retro_jobspec`.
 RETRO_SUPERVISE_STATE_KEY = "_supervise_state.json"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ THE AUTHORIZATION RECORD — what separates "lost its host" from "never authorised to start yet"
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔ MEASURED 2026-07-31. The tick above re-placed EVERY unit that was neither done nor alive. That test cannot
+# tell a preempted leg (re-place it: the work is authorised and half-paid-for) from a unit the ladder is
+# deliberately HOLDING (do not touch it: nobody has agreed to buy it). trimcrae held the 16-leg fan-out pending
+# the pilot clearing `build_system`; the first supervision tick at 10:04 AM ET re-placed all of them anyway,
+# because "unrun and hostless" describes a held unit perfectly. §6's `smoke -> one real leg -> fleet` cannot
+# survive a healer that treats "not started" as "needs restarting".
+#
+# THE FIX IS A DURABLE AUTHORIZATION RECORD, and the asymmetry is the whole point:
+#   * a HUMAN dispatch (`retro_pilot` / `retro_full`) AUTHORIZES the units it launches and records them here;
+#   * SUPERVISION may re-place ONLY units in that record. A unit outside it is `awaiting_authorization` — it
+#     is printed and returned every tick (never held silently), and it is never bought.
+# Fail-closed by construction: an empty/absent record means supervision buys NOTHING, which is the correct
+# default for a lane whose fan-out has not been authorised.
+RETRO_AUTHORIZED_UNITS_KEY = "_authorized_units.json"
+
+
+def retro_leg_records(s3, bucket):
+    """[(unit, key, record, last_modified_epoch)] for every `leg_*.json` under this lane's prefix.
+
+    ONE walk, ONE spelling of "a leg record lives here" — the launcher's skip-set, the supervisor's done-set
+    and the reaper all used to open-code `startswith("leg_")` against a raw key list, which is how three call
+    sites came to disagree about what "done" means."""
+    out = []
+    for k in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json"):
+        if not k.rsplit("/", 1)[-1].startswith("leg_"):
+            continue
+        try:
+            o = s3.get_object(Bucket=bucket, Key=k)
+            rec = json.loads(o["Body"].read().decode())
+            mt = o["LastModified"].timestamp()
+        except Exception as e:  # noqa: BLE001 — unreadable is UNKNOWN, never "conforming"
+            print(f"[retro-legs] WARN unreadable {k}: {e}", flush=True)
+            continue
+        out.append((k.split("/")[-2], k, rec, mt))
+    return out
+
+
+def retro_done_units(s3, bucket, records=None):
+    """Units with a LANDED leg — i.e. one that passes `nrv04_retro_panel.production_leg_check`.
+
+    ⛔ NOT "a leg_*.json exists". That looser test is what let 18 smoke records complete the panel; see the
+    predicate's docstring for the measurement. A unit whose only record is a smoke is UNRUN, and this function
+    is what says so to the launcher's skip-set and the supervisor's re-placer alike."""
+    import nrv04_retro_panel as retro
+    recs = retro_leg_records(s3, bucket) if records is None else records
+    return {u for u, _k, rec, _mt in recs if retro.is_production_leg(rec)}
+
+
+def retro_record_units(s3, bucket, records=None):
+    """Units with ANY leg record, conforming or not, plus the newest record mtime per unit.
+
+    Deliberately the LOOSE test, and only the REAPER uses it: a box that wrote a record has nothing left to do
+    and must stop billing whatever protocol it ran (CLAUDE.md §6 — only the control plane can stop the meter).
+    The mtime is what keeps that from reaping a FRESH host for the same unit: see `teardown_candidates`."""
+    recs = retro_leg_records(s3, bucket) if records is None else records
+    at = {}
+    for u, _k, _rec, mt in recs:
+        at[u] = max(at.get(u, 0.0), mt)
+    return at
+
+
+def retro_read_authorized(s3, bucket):
+    """Units a human dispatch has authorised to run. Absent record -> empty set (fail closed, never 'all')."""
+    try:
+        doc = json.loads(s3.get_object(Bucket=bucket,
+                                       Key=f"{RETRO_RESULT_PREFIX}/{RETRO_AUTHORIZED_UNITS_KEY}"
+                                       )["Body"].read().decode())
+    except Exception:  # noqa: BLE001 — no record yet is not an error, it is "nothing authorised"
+        return set()
+    u = doc.get("units", doc)
+    return set(u) if isinstance(u, (list, set, dict)) else set()
+
+
+def retro_authorize_units(s3, bucket, names, mode="run"):
+    """Record `names` as authorised to run. Called ONLY from an operator-dispatched launch — never from the
+    supervision tick, which is exactly the privilege it must not have. Additive: authorising a pilot does not
+    de-authorise a fan-out that was authorised earlier."""
+    have = retro_read_authorized(s3, bucket)
+    doc = {"units": sorted(have | set(names)), "utc": _utcnow(), "last_mode": mode,
+           "_what": "Units an OPERATOR dispatch authorised. nrv04_vast_launch.retro_supervise re-places only "
+                    "these; anything else is awaiting_authorization and is never bought unattended."}
+    try:
+        s3.put_object(Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/{RETRO_AUTHORIZED_UNITS_KEY}",
+                      Body=json.dumps(doc, indent=2).encode())
+        print(f"[retro-auth] authorised {len(names)} unit(s); {len(doc['units'])} authorised in total",
+              flush=True)
+    except Exception as e:  # noqa: BLE001 — a bookkeeping failure must not abort a launch already paid for
+        print(f"[retro-auth] WARN authorization record not saved: {e}", flush=True)
+    return doc
 
 #: Minutes a `stopped` box may sit before a strike counts. Not a fresh number — it is the guard's own
 #: cold-start line, imported at use, because a box mid-image-pull is exactly what must NOT be condemned.
@@ -2059,7 +2184,7 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
     key = key or os.environ.get("VAST_API_KEY")
     now = time.time() if now is None else now
     out = {"utc": _utcnow(), "nudged": [], "condemned": [], "blocked": [], "replaced": [],
-           "held": None, "unreadable": None}
+           "held": None, "unreadable": None, "awaiting_authorization": []}
     if not key:
         out["unreadable"] = "no VAST_API_KEY — cannot read the fleet, so nothing is nudged, condemned or bought"
         print("[retro-super] " + out["unreadable"], flush=True)
@@ -2074,8 +2199,7 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
         return out
     mine = [i for i in live_all if (i.get("label") or "").startswith(retro.LABEL_PREFIX)]
 
-    dk = _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
-    done_units = {k.split("/")[-2] for k in dk if k.rsplit("/", 1)[-1].startswith("leg_")}
+    done_units = retro_done_units(s3, bucket)
     state = {}
     try:
         state = json.loads(s3.get_object(Bucket=bucket,
@@ -2155,10 +2279,17 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
     alive = {(i.get("label") or "") for i in mine
              if (i.get("actual_status") or "") in ("running", "loading", "created", "scheduling", "starting")
              and str(i.get("id")) not in {c["instance"] for c in out["condemned"]}}
+    # ⛔ THE HOLD, ENFORCED. Supervision heals what was AUTHORISED; it does not start what nobody has agreed to
+    # buy. See `RETRO_AUTHORIZED_UNITS_KEY` for the measurement that made this necessary.
+    authorized = retro_read_authorized(s3, bucket)
+    out["n_authorized"] = len(authorized)
     needed = []
     for a, m, r in retro.enumerate_units():
         name = retro.unit_name(a, m, r)
         if name in done_units or name in alive:
+            continue
+        if name not in authorized:
+            out["awaiting_authorization"].append(name)
             continue
         n_att = lfb.count_attempts(s3, bucket, RETRO_RESULT_PREFIX, name)
         d = retro_breaker(has_result=False, n_attempts=n_att)
@@ -2168,9 +2299,17 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
             continue
         needed.append(name)
     out["needed"] = needed
+    if out["awaiting_authorization"]:
+        # VISIBLE, EVERY TICK. CLAUDE.md §6's "holding silently" failure mode: a lane that never launches must
+        # not look like a lane that finished. This says which units are held and what would release them.
+        print(f"[retro-super] ⏸ {len(out['awaiting_authorization'])} unit(s) NOT re-placed — they have never "
+              f"been authorised to launch, so they are HELD, not hostless: "
+              f"{out['awaiting_authorization']}. Supervision heals units an operator dispatch authorised; it "
+              f"does not open a fan-out. Release them with a `retro_pilot` / `retro_full` dispatch "
+              f"(md_mode=run), which is what writes {RETRO_AUTHORIZED_UNITS_KEY}.", flush=True)
     if not needed:
-        print("[retro-super] nothing to re-place — every authorized unit has a result, a live host, or is "
-              "blocked by the breaker (see above).", flush=True)
+        print("[retro-super] nothing to re-place — every authorized unit has a result, a live host, is "
+              "blocked by the breaker, or is awaiting authorization (see above).", flush=True)
         return out
 
     # ── 3 · RE-PLACE, through the lane's OWN launcher so the gate and the buy line are the same ones ────
@@ -2178,16 +2317,30 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
         out["would_replace"] = needed
         print(f"[retro-super] would re-place {len(needed)}: {needed}", flush=True)
         return out
-    print(f"[retro-super] re-placing {len(needed)} hostless unit(s): {needed}", flush=True)
+    print(f"[retro-super] re-placing {len(needed)} hostless AUTHORIZED unit(s): {needed}", flush=True)
     prev_pilot = os.environ.get("RETRO_PILOT_ONLY")
+    prev_mode = os.environ.get("MODE")
     os.environ["RETRO_PILOT_ONLY"] = "0"               # the tick heals the WHOLE panel, never one unit
+    # ⛔ AND IT HEALS AT THE PANEL'S PROTOCOL, NEVER AT AN AMBIENT DEFAULT (measured 2026-07-31). This tick is
+    # dispatched by `step1-fanout-supervisor.yml`, which passes no `md_mode`, so `fusion-cpu-extras.yml`'s
+    # choice input defaulted to `smoke` and every leg supervision bought ran 500 steps with no equilibration.
+    # The protocol a heal runs is a property of the PANEL (prereg §2b), not of whichever workflow woke us.
+    if prev_mode not in (None, "run"):
+        print(f"[retro-super] MODE={prev_mode!r} in the environment is IGNORED for re-placement — a heal runs "
+              f"the preregistered production protocol (mode=run) or it produces an artifact that cannot enter "
+              f"the panel. Dispatch `retro_full` explicitly if a smoke fleet is genuinely wanted.", flush=True)
+    os.environ["MODE"] = "run"
     try:
-        rc = retro_launch(bucket)
+        rc = retro_launch(bucket, authorize=False)
     finally:
         if prev_pilot is None:
             os.environ.pop("RETRO_PILOT_ONLY", None)
         else:
             os.environ["RETRO_PILOT_ONLY"] = prev_pilot
+        if prev_mode is None:
+            os.environ.pop("MODE", None)
+        else:
+            os.environ["MODE"] = prev_mode
     out["replace_rc"] = rc
     try:
         out["replaced"] = json.load(open("nrv04-retro-handles.json"))
@@ -2447,13 +2600,22 @@ def retro_collect(bucket, reap=None):
                   f"NOT re-placed this tick — dispatch retro_full if this repeats", flush=True)
     keys = [k for k in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
             if k.rsplit("/", 1)[-1].startswith("leg_")]
-    legs, raw = [], []
+    legs, raw, nonconforming = [], [], []
     for k in keys:
         try:
             d = json.loads(s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode())
         except Exception as e:  # noqa: BLE001
             print(f"[retro-collect] WARN unreadable {k}: {e}", flush=True); continue
         raw.append({"key": k, "leg": d.get("leg_id"), "seed": d.get("seed")})
+        # ⛔ THE PROTOCOL CHECK, BEFORE THE RECORD IS MAPPED. A `leg_*.json` proves a leg WROTE something, not
+        # that the preregistered protocol RAN — `retro.production_leg_check` is where that distinction lives
+        # and why. A non-conforming record is recorded and reported, never deleted and never counted.
+        _ok, _why = retro.production_leg_check(d)
+        if not _ok:
+            nonconforming.append({"key": k, "unit": k.split("/")[-2], "leg_id": d.get("leg_id"),
+                                  "mode": d.get("mode"), "n_frames": d.get("n_frames"),
+                                  "timed_ns": d.get("timed_ns"), "why": _why})
+            continue
         leg_id = d.get("leg_id") or ""
         arm_id, _, mtag = leg_id.partition("__m")
         # ⚠ THE DRIVER'S KEYS ARE `R1_interface` / `R2_recruitment` / `R3_lys` (nrv04_covalent_md.run_leg's
@@ -2503,10 +2665,15 @@ def retro_collect(bucket, reap=None):
     missing = sorted(expected - have)
     out = {"n_legs": len(legs), "expected_units": len(expected), "missing_units": missing,
            "panel_complete": not missing, "authorized_stages": list(retro.AUTHORIZED_STAGES),
-           "retired_stages": list(retro.RETIRED_STAGES), "phases": phases, "legs": legs, "raw_keys": raw}
+           "retired_stages": list(retro.RETIRED_STAGES), "phases": phases, "legs": legs, "raw_keys": raw,
+           "nonconforming_records": nonconforming}
 
     for unit, ph in sorted(phases.items()):          # PROGRESS first: a monitoring check must still print the
         print(f"[retro-phase] {unit}: {ph}", flush=True)   # phase markers even if the schema guard then fires
+    # SAID OUT LOUD, EVERY TICK. A record that exists but does not count is the failure mode that produced a
+    # "18 of 18 landed" board off 18 smoke legs; silence about it is what made that readable as progress.
+    for nc in nonconforming:
+        print(f"[retro-collect] ⛔ NOT A LANDED LEG {nc['unit']}: {nc['why']} (key {nc['key']})", flush=True)
 
     # ── THE IN-FLIGHT BOARD ────────────────────────────────────────────────────────────────────────────
     # One row per pending leg, in the SAME renderer the ternary and fan-out lanes use. Published as THIS
@@ -2538,7 +2705,12 @@ def retro_collect(bucket, reap=None):
         _n_expected = len(expected)
         _frag, _board = _ifb.publish(
             _ifb.NRV04_RETRO, _rows,
-            note="%d of %d authorized R1 leg(s) landed (rows below are the rest)." % (len(have), _n_expected))
+            note="%d of %d authorized R1 leg(s) landed (rows below are the rest).%s"
+                 % (len(have), _n_expected,
+                    "" if not nonconforming else
+                    " ⛔ %d further record(s) exist but are NOT landed legs (%s) — they do not count toward "
+                    "the panel and cannot reach the frozen gate."
+                    % (len(nonconforming), nonconforming[0]["why"].split(" — ")[0])))
         try:                                          # counters saved AFTER they are read, never before
             s3.put_object(Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/{_RETRO_BOARD_PREV_KEY}",
                           Body=json.dumps(_new_board, indent=2).encode())
@@ -2569,7 +2741,11 @@ def retro_collect(bucket, reap=None):
     if missing:
         out["verdict"] = None
         out["note"] = ("panel INCOMPLETE (%d/%d units) — prereg §4f forbids computing the paralogue contrast "
-                       "before every leg has landed. Coverage only." % (len(have), len(expected)))
+                       "before every leg has landed. Coverage only.%s"
+                       % (len(have), len(expected),
+                          "" if not nonconforming else
+                          " %d record(s) exist that are NOT landed legs (see nonconforming_records)."
+                          % len(nonconforming)))
         print(f"[retro-collect] {len(have)}/{len(expected)} units landed; contrast NOT computed (prereg §4f)",
               flush=True)
     else:
