@@ -2616,6 +2616,7 @@ def retro_collect(bucket, reap=None):
                                   "mode": d.get("mode"), "n_frames": d.get("n_frames"),
                                   "timed_ns": d.get("timed_ns"), "why": _why})
             continue
+        _done_ok, _done_why = retro.completed_production_check(d)
         leg_id = d.get("leg_id") or ""
         arm_id, _, mtag = leg_id.partition("__m")
         # ⚠ THE DRIVER'S KEYS ARE `R1_interface` / `R2_recruitment` / `R3_lys` (nrv04_covalent_md.run_leg's
@@ -2637,7 +2638,12 @@ def retro_collect(bucket, reap=None):
             "e3_mean_contacts": r2.get("mean_contacts"),
             "e4_lys_min_A": r3.get("min_A"),            # prereg §3: E2-E4 reported alongside E1 in every result
             "blew_up": bool(d.get("blew_up")),
-            "technical_failure": bool(d.get("blew_up")) or (r1.get("plateau_A") is None),
+            # A leg of the right protocol that did not FINISH is a prereg §4e technical failure — it stays in
+            # the panel and the frozen gate counts it against MAX_FAILED_LEGS_PER_ARM. That is deliberately a
+            # different thing from a smoke record, which is not a leg of this panel at all and is dropped above.
+            "complete": _done_ok,
+            "incomplete_why": None if _done_ok else _done_why,
+            "technical_failure": bool(d.get("blew_up")) or (r1.get("plateau_A") is None) or not _done_ok,
             "source_key": k,
         }
         legs.append(rec)

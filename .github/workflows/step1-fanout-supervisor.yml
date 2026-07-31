@@ -245,9 +245,17 @@ jobs:
             # of the change; the safety is that it buys through `retro_launch`, so there is no privileged
             # path into this lane's wallet, and the breaker bounds how many times a broken unit can be
             # re-bought. A tick with nothing to place rents nothing and costs $0.
+            # ⚠ `md_mode` IS PASSED EXPLICITLY, and it is not cosmetic. `fusion-cpu-extras.yml`'s `md_mode`
+            # is a `choice` input whose default is **smoke**, so omitting it here set `MODE=smoke` on the
+            # tick — and on 2026-07-31 the tick's re-placer then bought 16 legs that ran 500 steps with ZERO
+            # equilibration and wrote leg records the collector counted as landed
+            # (`nrv04_retro_panel.production_leg_check`). The launcher now pins `MODE=run` for a heal
+            # regardless of what the dispatcher says; this line makes the dispatcher agree, so the two can
+            # never drift back apart silently.
             if gh workflow run fusion-cpu-extras.yml --ref main \
                  -f task=nrv04_vast_launch \
                  -f vast_launch_mode=retro_collect \
+                 -f md_mode=run \
                  -f vast_ckpt_bucket=sagemaker-us-east-2-646605541856 2>/tmp/t5; then
               echo "[$(date -u '+%H:%M:%SZ')] nrv04 retro collect+supervise dispatched (tick ${n})"
             else

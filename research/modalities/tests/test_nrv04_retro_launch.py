@@ -6,10 +6,12 @@ it does. The co-fold model is the unit of independence in the frozen statistics 
 globbed a system directory instead of a pinned model prefix would quietly corrupt the model-level means the
 verdict is computed from — and nothing downstream would notice.
 """
+import io
 import json
 import os
 import re
 import sys
+from datetime import datetime
 
 import pytest
 
@@ -160,6 +162,30 @@ def test_force_flag_rides_inside_the_selector_not_a_26th_input(raw, expect_sel, 
     assert launch.retro_pilot_force(raw) == (expect_sel, expect_force)
 
 
+
+class _LandedS3:
+    """S3 that returns a CONFORMING production leg record for any `leg_*.json` key.
+
+    ★ 2026-07-31: "a leg_*.json exists" stopped meaning "the unit landed" — `nrv04_retro_panel`'s
+    `production_leg_check` is the test now, because 17 SMOKE records (mode=smoke, n_frames=5, timed_ns=0.002)
+    completed the panel and reached the frozen gate. A fixture that wants a unit to read as LANDED must
+    therefore hand back a record the driver would actually have written for `mode=run`."""
+
+    LANDED = {"panel": "nrv04_retrospective", "mode": "run", "prod_ns": 5.0, "equil_ns": 1.0,
+              "n_frames": 500, "timed_ns": 5.0, "prod_wall_s": 3730.5, "ns_per_day": 115.8,
+              "blew_up": False, "R1_interface": {"plateau_A": 3.681, "stable": False},
+              "R2_recruitment": {"mean_contacts": 1979.4}, "R3_lys": {"min_A": 31.2}}
+
+    def get_object(self, Bucket=None, Key=None, **k):
+        if Key and Key.rsplit("/", 1)[-1].startswith("leg_"):
+            return {"Body": io.BytesIO(json.dumps(dict(self.LANDED, leg_id=Key)).encode()),
+                    "LastModified": datetime(2026, 7, 26, 9, 27)}
+        raise KeyError(Key)
+
+    def put_object(self, **k):
+        return {}
+
+
 def test_an_explicit_pilot_that_gets_skipped_fails_the_job(monkeypatch, tmp_path):
     """The exact shape of the 2026-07-31 stall: the operator NAMES a unit, it is skipped for having a result,
     and the run goes green having rented nothing. That must fail — §6's 'holding silently' failure mode."""
@@ -173,7 +199,7 @@ def test_an_explicit_pilot_that_gets_skipped_fails_the_job(monkeypatch, tmp_path
     landed_key = f"{launch.RETRO_RESULT_PREFIX}/nrv04retro-retro_noncov_nr4a2-m1-r0/leg_x.json"
     monkeypatch.setattr(launch, "_s3_list", lambda *a, **k: [landed_key])
     import boto3
-    monkeypatch.setattr(boto3, "client", lambda *a, **k: types.SimpleNamespace())
+    monkeypatch.setattr(boto3, "client", lambda *a, **k: _LandedS3())
     rented = []
     monkeypatch.setattr(launch, "get_backend", lambda _n: types.SimpleNamespace(
         submit=lambda spec: (rented.append(spec.name),
@@ -200,7 +226,7 @@ def test_default_pilot_rents_the_unrun_unit_when_the_pinned_one_has_landed(monke
     monkeypatch.setattr(launch, "_s3_list", lambda *a, **k: [
         f"{launch.RETRO_RESULT_PREFIX}/nrv04retro-retro_noncov_nr4a2-m1-r0/leg_x.json"])
     import boto3
-    monkeypatch.setattr(boto3, "client", lambda *a, **k: types.SimpleNamespace())
+    monkeypatch.setattr(boto3, "client", lambda *a, **k: _LandedS3())
     rented = []
     monkeypatch.setattr(launch, "get_backend", lambda _n: types.SimpleNamespace(
         submit=lambda spec: (rented.append(spec.name),
@@ -738,7 +764,15 @@ def test_supervision_replaces_hostless_unrun_units_through_the_lanes_own_launche
                              types.SimpleNamespace(job_id=1, extra={"dph": 0.05}))[1]))
 
     class _S3:
+        """Serves the AUTHORIZATION record for all 18 units — i.e. an operator dispatch has already agreed to
+        buy them. WITHOUT it supervision now buys nothing: that is the 2026-07-31 regression, pinned in
+        tests/test_nrv04_retro_hold_and_protocol.py. Here we test the other half — that an AUTHORISED unit
+        which lost its host is still healed with no human."""
+
         def get_object(self, **k):
+            if str(k.get("Key", "")).endswith(launch.RETRO_AUTHORIZED_UNITS_KEY):
+                names = [retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()]
+                return {"Body": io.BytesIO(json.dumps({"units": names}).encode())}
             raise KeyError("none")
 
         def put_object(self, **k):
@@ -767,7 +801,15 @@ def test_a_blocked_unit_is_never_re_bought_by_the_replacer(monkeypatch, tmp_path
         submit=lambda spec: (_ for _ in ()).throw(AssertionError("a blocked unit must never be rented")))) 
 
     class _S3:
+        """Serves the AUTHORIZATION record for all 18 units — i.e. an operator dispatch has already agreed to
+        buy them. WITHOUT it supervision now buys nothing: that is the 2026-07-31 regression, pinned in
+        tests/test_nrv04_retro_hold_and_protocol.py. Here we test the other half — that an AUTHORISED unit
+        which lost its host is still healed with no human."""
+
         def get_object(self, **k):
+            if str(k.get("Key", "")).endswith(launch.RETRO_AUTHORIZED_UNITS_KEY):
+                names = [retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()]
+                return {"Body": io.BytesIO(json.dumps({"units": names}).encode())}
             raise KeyError("none")
 
         def put_object(self, **k):
