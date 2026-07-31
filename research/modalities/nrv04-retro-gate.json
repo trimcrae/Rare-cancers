@@ -1,57 +1,36 @@
 {
   "_what": "NR-V04 retrospective \u2014 why each hostless unit was or was not bought on this tick.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a hold is never silent, and it carries the snapshot that caused it.",
-  "utc": "2026-07-31T19:41:08Z",
+  "utc": "2026-07-31T19:49:28Z",
   "lane": "nrv04_retro",
   "n_authorized": 17,
   "needed": [
-    "nrv04retro-retro_noncov_nr4a1-m2-r0",
+    "nrv04retro-retro_noncov_nr4a1-m1-r1",
     "nrv04retro-retro_noncov_nr4a1-m2-r1",
     "nrv04retro-retro_noncov_nr4a1-m3-r0",
     "nrv04retro-retro_noncov_nr4a1-m3-r1",
     "nrv04retro-retro_noncov_nr4a2-m2-r0",
     "nrv04retro-retro_noncov_nr4a2-m2-r1",
-    "nrv04retro-retro_noncov_nr4a2-m3-r0",
     "nrv04retro-retro_noncov_nr4a2-m3-r1"
   ],
   "replaced": [
-    "nrv04retro-retro_noncov_nr4a1-m2-r0",
+    "nrv04retro-retro_noncov_nr4a1-m1-r1",
     "nrv04retro-retro_noncov_nr4a1-m3-r0",
-    "nrv04retro-retro_noncov_nr4a2-m2-r1",
-    "nrv04retro-retro_noncov_nr4a2-m3-r0"
+    "nrv04retro-retro_noncov_nr4a1-m3-r1",
+    "nrv04retro-retro_noncov_nr4a2-m2-r0"
   ],
-  "blocked": [
+  "blocked": [],
+  "quarantined": [
     {
-      "n_attempts": 4,
-      "threshold": 3,
-      "streak_since_utc": "2026-07-31T14:36:07Z",
-      "counted": "since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:36:07Z)",
-      "block": true,
-      "verdict": "blocked: repeated failure on distinct hosts",
-      "why": "this unit has been rented 4 times since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:36:07Z) (threshold 3) and has still written NO leg record. A retro leg that runs writes leg_*.json as its last act, so 4 paid hosts with no record is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. NOT permanent: fix the cause, then leg_failure_breaker.reset_for() clears the archive and the next tick rents normally.",
-      "unit": "nrv04retro-retro_noncov_nr4a3-m3-r0"
+      "unit": "nrv04retro-retro_noncov_nr4a3-m3-r0",
+      "why": "INPUT QUARANTINE \u2014 this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +2.207e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6), so this is an atomic clash carried in from the co-fold, present before minimization and not removed by it. Renting another host reproduces it in seconds and tests nothing. RELEASE: regenerate this unit's co-fold \u2014 the quarantine is read from the leg record, so a clean record clears it with no edit."
     }
   ],
   "awaiting_authorization": [],
   "condemned": [
     {
-      "instance": "46432259",
-      "unit": "nrv04retro-retro_noncov_nr4a1-m2-r0",
-      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
-    },
-    {
-      "instance": "46432291",
-      "unit": "nrv04retro-retro_noncov_nr4a1-m3-r1",
-      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
-    },
-    {
-      "instance": "46432310",
-      "unit": "nrv04retro-retro_noncov_nr4a2-m3-r0",
-      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
-    },
-    {
-      "instance": "46432312",
-      "unit": "nrv04retro-retro_noncov_nr4a2-m3-r1",
+      "instance": "46432846",
+      "unit": "nrv04retro-retro_noncov_nr4a1-m3-r0",
       "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
     }
   ],
@@ -59,14 +38,13 @@
   "fleet_unreadable": null,
   "market": null,
   "reasons": {
-    "nrv04retro-retro_noncov_nr4a3-m3-r0": "BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:36:07Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed.",
-    "nrv04retro-retro_noncov_nr4a1-m2-r0": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate.",
+    "nrv04retro-retro_noncov_nr4a3-m3-r0": "INPUT QUARANTINE \u2014 this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +2.207e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6), so this is an atomic clash carried in from the co-fold, present before minimization and not removed by it. Renting another host reproduces it in seconds and tests nothing. RELEASE: regenerate this unit's co-fold \u2014 the quarantine is read from the leg record, so a clean record clears it with no edit.",
+    "nrv04retro-retro_noncov_nr4a1-m1-r1": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate.",
     "nrv04retro-retro_noncov_nr4a1-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
     "nrv04retro-retro_noncov_nr4a1-m3-r0": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate.",
-    "nrv04retro-retro_noncov_nr4a1-m3-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a2-m2-r0": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
-    "nrv04retro-retro_noncov_nr4a2-m2-r1": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate.",
-    "nrv04retro-retro_noncov_nr4a2-m3-r0": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate.",
+    "nrv04retro-retro_noncov_nr4a1-m3-r1": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate.",
+    "nrv04retro-retro_noncov_nr4a2-m2-r0": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate.",
+    "nrv04retro-retro_noncov_nr4a2-m2-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold).",
     "nrv04retro-retro_noncov_nr4a2-m3-r1": "NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
   }
 }

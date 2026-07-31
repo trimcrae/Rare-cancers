@@ -1,29 +1,35 @@
 {
-  "_what": "Whether the NR-V04 retrospective may rent 8 host(s) right now, priced in $/ns.",
+  "_what": "Whether the NR-V04 retrospective may rent 7 host(s) right now, priced in $/ns.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay; and a relaunch is a NEW PURCHASE, not a continuation.",
   "lane": "nrv04_retro",
-  "n_hosts": 8,
-  "utc": "2026-07-31T19:40:46Z",
+  "n_hosts": 7,
+  "utc": "2026-07-31T19:48:54Z",
   "tier": "bid (interruptible)",
   "interruptible": true,
   "buy_line_usd_per_ns": 0.006539,
   "priced": true,
   "hold": false,
-  "reason": "1.65x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond",
-  "best_usd_per_ns": 0.005616,
+  "reason": "1.60x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond",
+  "best_usd_per_ns": 0.005457,
   "basis_usd_per_ns": 0.003412,
-  "ratio_vs_basis": 1.646,
+  "ratio_vs_basis": 1.6,
   "board_depth": {
-    "offers_returned": 155,
-    "qualifying": 155,
-    "priceable": 81,
-    "needed": 8,
-    "used_for_mean": 8
+    "offers_returned": 161,
+    "qualifying": 161,
+    "priceable": 83,
+    "needed": 7,
+    "used_for_mean": 7
   },
   "offers_priced": [
     {
       "gpu": "RTX 5090",
-      "machine_id": 34670,
+      "machine_id": 144231,
+      "min_bid_usd_h": 0.2,
+      "usd_per_ns": 0.005255
+    },
+    {
+      "gpu": "RTX 5090",
+      "machine_id": 34641,
       "min_bid_usd_h": 0.2,
       "usd_per_ns": 0.005255
     },
@@ -40,22 +46,10 @@
       "usd_per_ns": 0.005368
     },
     {
-      "gpu": "RTX 4080S",
-      "machine_id": 33657,
-      "min_bid_usd_h": 0.132,
-      "usd_per_ns": 0.005377
-    },
-    {
       "gpu": "RTX 4090",
-      "machine_id": 30113,
-      "min_bid_usd_h": 0.162,
-      "usd_per_ns": 0.005573
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 36341,
-      "min_bid_usd_h": 0.22,
-      "usd_per_ns": 0.00574
+      "machine_id": 9427,
+      "min_bid_usd_h": 0.16,
+      "usd_per_ns": 0.005478
     },
     {
       "gpu": "RTX 4090",
@@ -64,10 +58,10 @@
       "usd_per_ns": 0.005767
     },
     {
-      "gpu": "RTX 5090",
-      "machine_id": 13856,
-      "min_bid_usd_h": 0.252,
-      "usd_per_ns": 0.006596
+      "gpu": "RTX 4090",
+      "machine_id": 31035,
+      "min_bid_usd_h": 0.17,
+      "usd_per_ns": 0.005824
     }
   ]
 }
