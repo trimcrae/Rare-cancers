@@ -1,0 +1,533 @@
+{
+ "_what": "WHICH OF OUR OWN FILTERS IS EATING THE BOARD \u2014 an offers-surviving count per filter, off ONE board read.",
+ "durable_exclusions_enabled": false,
+ "retired_blacklist_ids": [
+  "110782",
+  "11158",
+  "117843",
+  "11892",
+  "12697",
+  "12708",
+  "136811",
+  "139040",
+  "140043",
+  "140160",
+  "144071",
+  "145142",
+  "1569",
+  "18857",
+  "19492",
+  "19499",
+  "24573",
+  "26910",
+  "28164",
+  "28908",
+  "29304",
+  "29668",
+  "29707",
+  "29711",
+  "29770",
+  "30974",
+  "31035",
+  "34646",
+  "35115",
+  "43159",
+  "46392",
+  "46427",
+  "51045",
+  "51546",
+  "51777",
+  "53989",
+  "54458",
+  "55275",
+  "57342",
+  "62866",
+  "67860",
+  "68109",
+  "68556",
+  "8914",
+  "90898"
+ ],
+ "retired_blacklist_sources": [
+  {
+   "snapshot": "vast-blacklist-snapshot-2026-07-28T1116Z.json",
+   "n": 4
+  },
+  {
+   "snapshot": "vast-blacklist-snapshot-2026-07-29T1034Z.json",
+   "n": 5
+  },
+  {
+   "snapshot": "vast-blacklist-snapshot-2026-07-29T1038Z.json",
+   "n": 5
+  },
+  {
+   "snapshot": "vast-blacklist-snapshot-2026-07-29T1406Z.json",
+   "n": 2
+  },
+  {
+   "snapshot": "vast-blacklist-snapshot-2026-07-29T1648Z.json",
+   "n": 2
+  },
+  {
+   "snapshot": "vast-blacklist-snapshot-2026-07-31T1216Z.json",
+   "n": 2
+  },
+  {
+   "snapshot": "vast-blacklist-snapshot-before-clear.json",
+   "n": 41
+  }
+ ],
+ "utc": "2026-07-31T17:36:57Z",
+ "lane": "ternary",
+ "n_units": 1,
+ "spec": {
+  "gpu": "rtx4090",
+  "min_vram_gb": 24,
+  "vcpus": 8,
+  "ram_gb": 32,
+  "disk_gb": 60,
+  "min_reliability": 0.9,
+  "min_cuda": 13.0,
+  "min_ns_per_h": 0.0,
+  "n_excluded_machines": 0
+ },
+ "basis_usd_per_ns": 0.003412,
+ "buy_line_usd_per_ns": 0.006538868883711077,
+ "tiers": [
+  {
+   "tier": "bid (interruptible)",
+   "offers_returned": 1370,
+   "full_spec": {
+    "surviving": 119,
+    "priceable": 52,
+    "best_usd_per_ns": 0.003014,
+    "ratio_vs_basis": 0.883,
+    "rows": [
+     {
+      "gpu": "RTX 4090",
+      "machine_id": 143255,
+      "price_usd_h": 0.08,
+      "usd_per_ns": 0.003014
+     }
+    ]
+   },
+   "per_filter": [
+    {
+     "filter": "rentable",
+     "bound": "-",
+     "alone_surviving": 465,
+     "alone_removed": 905,
+     "leave_out_surviving": 442,
+     "leave_out_priceable": 219,
+     "marginal_cost_offers": 323,
+     "leave_out_best_usd_per_ns": 0.001752,
+     "leave_out_ratio_vs_basis": 0.514,
+     "usd_per_ns_improvement_pct": 41.9
+    },
+    {
+     "filter": "gpu_ram(min_vram_gb)",
+     "bound": ">= 24 GB",
+     "alone_surviving": 662,
+     "alone_removed": 708,
+     "leave_out_surviving": 187,
+     "leave_out_priceable": 70,
+     "marginal_cost_offers": 68,
+     "leave_out_best_usd_per_ns": 0.003014,
+     "leave_out_ratio_vs_basis": 0.883,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "cuda_max_good(min_cuda)",
+     "bound": ">= 13.0",
+     "alone_surviving": 1125,
+     "alone_removed": 245,
+     "leave_out_surviving": 143,
+     "leave_out_priceable": 62,
+     "marginal_cost_offers": 24,
+     "leave_out_best_usd_per_ns": 0.002828,
+     "leave_out_ratio_vs_basis": 0.829,
+     "usd_per_ns_improvement_pct": 6.2
+    },
+    {
+     "filter": "cpu_ram(ram_gb)",
+     "bound": ">= 32 GB",
+     "alone_surviving": 861,
+     "alone_removed": 509,
+     "leave_out_surviving": 140,
+     "leave_out_priceable": 71,
+     "marginal_cost_offers": 21,
+     "leave_out_best_usd_per_ns": 0.001937,
+     "leave_out_ratio_vs_basis": 0.568,
+     "usd_per_ns_improvement_pct": 35.7
+    },
+    {
+     "filter": "reliability2",
+     "bound": ">= 0.9",
+     "alone_surviving": 1337,
+     "alone_removed": 33,
+     "leave_out_surviving": 125,
+     "leave_out_priceable": 55,
+     "marginal_cost_offers": 6,
+     "leave_out_best_usd_per_ns": 0.003014,
+     "leave_out_ratio_vs_basis": 0.883,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "disk_space(disk_gb)",
+     "bound": ">= 60 GB",
+     "alone_surviving": 1324,
+     "alone_removed": 46,
+     "leave_out_surviving": 123,
+     "leave_out_priceable": 56,
+     "marginal_cost_offers": 4,
+     "leave_out_best_usd_per_ns": 0.003014,
+     "leave_out_ratio_vs_basis": 0.883,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "cpu_cores(vcpus)",
+     "bound": ">= 8",
+     "alone_surviving": 1310,
+     "alone_removed": 60,
+     "leave_out_surviving": 121,
+     "leave_out_priceable": 53,
+     "marginal_cost_offers": 2,
+     "leave_out_best_usd_per_ns": 0.003014,
+     "leave_out_ratio_vs_basis": 0.883,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "verified",
+     "bound": "-",
+     "alone_surviving": 1370,
+     "alone_removed": 0,
+     "leave_out_surviving": 119,
+     "leave_out_priceable": 52,
+     "marginal_cost_offers": 0,
+     "leave_out_best_usd_per_ns": 0.003014,
+     "leave_out_ratio_vs_basis": 0.883,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "num_gpus_1",
+     "bound": "-",
+     "alone_surviving": 1370,
+     "alone_removed": 0,
+     "leave_out_surviving": 119,
+     "leave_out_priceable": 52,
+     "marginal_cost_offers": 0,
+     "leave_out_best_usd_per_ns": 0.003014,
+     "leave_out_ratio_vs_basis": 0.883,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "min_ns_per_h",
+     "bound": "UNSET (no-op)",
+     "alone_surviving": 1370,
+     "alone_removed": 0,
+     "leave_out_surviving": 119,
+     "leave_out_priceable": 52,
+     "marginal_cost_offers": 0,
+     "leave_out_best_usd_per_ns": 0.003014,
+     "leave_out_ratio_vs_basis": 0.883,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "exclude_machine_ids",
+     "bound": "0 machine(s)",
+     "alone_surviving": 1370,
+     "alone_removed": 0,
+     "leave_out_surviving": 119,
+     "leave_out_priceable": 52,
+     "marginal_cost_offers": 0,
+     "leave_out_best_usd_per_ns": 0.003014,
+     "leave_out_ratio_vs_basis": 0.883,
+     "usd_per_ns_improvement_pct": 0.0
+    }
+   ],
+   "retired_blacklist": {
+    "n_retired_ids": 45,
+    "surviving_without_blacklist": 119,
+    "priceable_without_blacklist": 52,
+    "surviving_with_blacklist": 119,
+    "priceable_with_blacklist": 52,
+    "offers_it_would_remove": 0,
+    "best_usd_per_ns_without": 0.003014,
+    "best_usd_per_ns_with": 0.003014,
+    "ratio_vs_basis_without": 0.883,
+    "ratio_vs_basis_with": 0.883,
+    "usd_per_ns_penalty_pct": 0.0,
+    "best_offer_without": {
+     "gpu": "RTX 4090",
+     "machine_id": 143255,
+     "price_usd_h": 0.08,
+     "usd_per_ns": 0.003014
+    },
+    "best_offer_with": {
+     "gpu": "RTX 4090",
+     "machine_id": 143255,
+     "price_usd_h": 0.08,
+     "usd_per_ns": 0.003014
+    }
+   },
+   "cuda_sweep": [
+    {
+     "min_cuda": 0.0,
+     "surviving": 143,
+     "priceable": 62,
+     "best_usd_per_ns": 0.002828,
+     "ratio_vs_basis": 0.829,
+     "best_offer": {
+      "gpu": "RTX 5090",
+      "machine_id": 35043,
+      "price_usd_h": 0.1,
+      "usd_per_ns": 0.002828
+     }
+    },
+    {
+     "min_cuda": 12.0,
+     "surviving": 143,
+     "priceable": 62,
+     "best_usd_per_ns": 0.002828,
+     "ratio_vs_basis": 0.829,
+     "best_offer": {
+      "gpu": "RTX 5090",
+      "machine_id": 35043,
+      "price_usd_h": 0.1,
+      "usd_per_ns": 0.002828
+     }
+    },
+    {
+     "min_cuda": 12.4,
+     "surviving": 137,
+     "priceable": 59,
+     "best_usd_per_ns": 0.002828,
+     "ratio_vs_basis": 0.829,
+     "best_offer": {
+      "gpu": "RTX 5090",
+      "machine_id": 35043,
+      "price_usd_h": 0.1,
+      "usd_per_ns": 0.002828
+     }
+    },
+    {
+     "min_cuda": 12.6,
+     "surviving": 134,
+     "priceable": 58,
+     "best_usd_per_ns": 0.002828,
+     "ratio_vs_basis": 0.829,
+     "best_offer": {
+      "gpu": "RTX 5090",
+      "machine_id": 35043,
+      "price_usd_h": 0.1,
+      "usd_per_ns": 0.002828
+     }
+    },
+    {
+     "min_cuda": 12.8,
+     "surviving": 130,
+     "priceable": 57,
+     "best_usd_per_ns": 0.002828,
+     "ratio_vs_basis": 0.829,
+     "best_offer": {
+      "gpu": "RTX 5090",
+      "machine_id": 35043,
+      "price_usd_h": 0.1,
+      "usd_per_ns": 0.002828
+     }
+    },
+    {
+     "min_cuda": 13.0,
+     "surviving": 119,
+     "priceable": 52,
+     "best_usd_per_ns": 0.003014,
+     "ratio_vs_basis": 0.883,
+     "best_offer": {
+      "gpu": "RTX 4090",
+      "machine_id": 143255,
+      "price_usd_h": 0.08,
+      "usd_per_ns": 0.003014
+     }
+    }
+   ]
+  },
+  {
+   "tier": "on-demand (uninterruptible)",
+   "offers_returned": 1826,
+   "full_spec": {
+    "surviving": 140,
+    "priceable": 71,
+    "best_usd_per_ns": 0.006066,
+    "ratio_vs_basis": 1.778,
+    "rows": [
+     {
+      "gpu": "RTX 3090 Ti",
+      "machine_id": 140972,
+      "price_usd_h": 0.0963,
+      "usd_per_ns": 0.006066
+     }
+    ]
+   },
+   "per_filter": [
+    {
+     "filter": "rentable",
+     "bound": "-",
+     "alone_surviving": 636,
+     "alone_removed": 1190,
+     "leave_out_surviving": 534,
+     "leave_out_priceable": 268,
+     "marginal_cost_offers": 394,
+     "leave_out_best_usd_per_ns": 0.005291,
+     "leave_out_ratio_vs_basis": 1.551,
+     "usd_per_ns_improvement_pct": 12.8
+    },
+    {
+     "filter": "gpu_ram(min_vram_gb)",
+     "bound": ">= 24 GB",
+     "alone_surviving": 836,
+     "alone_removed": 990,
+     "leave_out_surviving": 215,
+     "leave_out_priceable": 95,
+     "marginal_cost_offers": 75,
+     "leave_out_best_usd_per_ns": 0.004124,
+     "leave_out_ratio_vs_basis": 1.209,
+     "usd_per_ns_improvement_pct": 32.0
+    },
+    {
+     "filter": "cpu_ram(ram_gb)",
+     "bound": ">= 32 GB",
+     "alone_surviving": 1031,
+     "alone_removed": 795,
+     "leave_out_surviving": 177,
+     "leave_out_priceable": 100,
+     "marginal_cost_offers": 37,
+     "leave_out_best_usd_per_ns": 0.006066,
+     "leave_out_ratio_vs_basis": 1.778,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "cuda_max_good(min_cuda)",
+     "bound": ">= 13.0",
+     "alone_surviving": 1455,
+     "alone_removed": 371,
+     "leave_out_surviving": 163,
+     "leave_out_priceable": 83,
+     "marginal_cost_offers": 23,
+     "leave_out_best_usd_per_ns": 0.005466,
+     "leave_out_ratio_vs_basis": 1.602,
+     "usd_per_ns_improvement_pct": 9.9
+    },
+    {
+     "filter": "reliability2",
+     "bound": ">= 0.9",
+     "alone_surviving": 1777,
+     "alone_removed": 49,
+     "leave_out_surviving": 147,
+     "leave_out_priceable": 74,
+     "marginal_cost_offers": 7,
+     "leave_out_best_usd_per_ns": 0.006066,
+     "leave_out_ratio_vs_basis": 1.778,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "cpu_cores(vcpus)",
+     "bound": ">= 8",
+     "alone_surviving": 1719,
+     "alone_removed": 107,
+     "leave_out_surviving": 144,
+     "leave_out_priceable": 74,
+     "marginal_cost_offers": 4,
+     "leave_out_best_usd_per_ns": 0.006066,
+     "leave_out_ratio_vs_basis": 1.778,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "disk_space(disk_gb)",
+     "bound": ">= 60 GB",
+     "alone_surviving": 1749,
+     "alone_removed": 77,
+     "leave_out_surviving": 141,
+     "leave_out_priceable": 72,
+     "marginal_cost_offers": 1,
+     "leave_out_best_usd_per_ns": 0.006066,
+     "leave_out_ratio_vs_basis": 1.778,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "verified",
+     "bound": "-",
+     "alone_surviving": 1826,
+     "alone_removed": 0,
+     "leave_out_surviving": 140,
+     "leave_out_priceable": 71,
+     "marginal_cost_offers": 0,
+     "leave_out_best_usd_per_ns": 0.006066,
+     "leave_out_ratio_vs_basis": 1.778,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "num_gpus_1",
+     "bound": "-",
+     "alone_surviving": 1826,
+     "alone_removed": 0,
+     "leave_out_surviving": 140,
+     "leave_out_priceable": 71,
+     "marginal_cost_offers": 0,
+     "leave_out_best_usd_per_ns": 0.006066,
+     "leave_out_ratio_vs_basis": 1.778,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "min_ns_per_h",
+     "bound": "UNSET (no-op)",
+     "alone_surviving": 1826,
+     "alone_removed": 0,
+     "leave_out_surviving": 140,
+     "leave_out_priceable": 71,
+     "marginal_cost_offers": 0,
+     "leave_out_best_usd_per_ns": 0.006066,
+     "leave_out_ratio_vs_basis": 1.778,
+     "usd_per_ns_improvement_pct": 0.0
+    },
+    {
+     "filter": "exclude_machine_ids",
+     "bound": "0 machine(s)",
+     "alone_surviving": 1826,
+     "alone_removed": 0,
+     "leave_out_surviving": 140,
+     "leave_out_priceable": 71,
+     "marginal_cost_offers": 0,
+     "leave_out_best_usd_per_ns": 0.006066,
+     "leave_out_ratio_vs_basis": 1.778,
+     "usd_per_ns_improvement_pct": 0.0
+    }
+   ],
+   "retired_blacklist": {
+    "n_retired_ids": 45,
+    "surviving_without_blacklist": 140,
+    "priceable_without_blacklist": 71,
+    "surviving_with_blacklist": 140,
+    "priceable_with_blacklist": 71,
+    "offers_it_would_remove": 0,
+    "best_usd_per_ns_without": 0.006066,
+    "best_usd_per_ns_with": 0.006066,
+    "ratio_vs_basis_without": 1.778,
+    "ratio_vs_basis_with": 1.778,
+    "usd_per_ns_penalty_pct": 0.0,
+    "best_offer_without": {
+     "gpu": "RTX 3090 Ti",
+     "machine_id": 140972,
+     "price_usd_h": 0.0963,
+     "usd_per_ns": 0.006066
+    },
+    "best_offer_with": {
+     "gpu": "RTX 3090 Ti",
+     "machine_id": 140972,
+     "price_usd_h": 0.0963,
+     "usd_per_ns": 0.006066
+    }
+   }
+  }
+ ]
+}
