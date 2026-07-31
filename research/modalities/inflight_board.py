@@ -99,6 +99,12 @@ except Exception:                        # noqa: BLE001 — a missing registry m
 
 RUNNING, STALLED, STARTING, NO_HOST = "RUNNING", "STALLED", "STARTING", "NO HOST"
 
+# A sentinel, not `None`: `None` is a REAL value here meaning "the record was read and `is_bid`
+# was absent" -> UNKNOWN tier. "Caller did not pass the argument at all" has to stay
+# distinguishable from it, or every legacy call site would start printing `[tier?]` on rows where
+# no tier claim is being made.
+_MISSING = object()
+
 # ★★ "WE COULD NOT SEE" IS NOT "IT IS NOT THERE" (measured 2026-07-29, 4:04 PM ET — a false emergency).
 # All six legs rendered `NO HOST` at once and read as six simultaneous deaths. They were not: the same
 # collect's gates had seen all six hosts three minutes earlier, the summary carried ZERO instance lines and
@@ -605,7 +611,26 @@ def render(rows, now_epoch=None):
     # one on the board, which is precisely backwards. A widest-cell width self-corrects as the strings
     # change and cannot drift out of step with them.
     w = max([len("$/ns")] + [len(str(r.get("usd_per_ns") or "—")) for r in rows])
-    fmt = "%-18s %-16s %7s  %-" + str(w) + "s %-9s %s"
+    # ★★ THE LEG COLUMN IS SIZED FROM THE ROWS TOO, AND FOR A HARDER REASON THAN ALIGNMENT (2026-07-31).
+    # It was a fixed 18 with a `[:18]` truncation, and RUNG 5a-KS's four unit ids share a 20-character prefix:
+    # `5aks_d0_to_d__ternary_nr4a1_r0…` / `…nr4a3_r0…` / `…nr4a3_r1…`. So all four rows rendered as the
+    # identical string `5aks_d0_to_d terna` — the arm and the replicate, the ONLY things that tell the four
+    # legs apart, were exactly what the truncation removed.
+    #
+    # That is not cosmetic and it did real damage the same day: reading that board, two condemned legs were
+    # reported as "both on the nr4a3 arm", which made an arm-specific hang the leading hypothesis. The
+    # committed `5aks-market-hold.json` snapshots — machine-written, untruncated — say the two were
+    # `nr4a1_r1` and `nr4a3_r0`, one from EACH arm, and that host losses ran 7 to 7 across the arms all day.
+    # An hour of diagnosis was aimed at a pattern that the board had manufactured.
+    #
+    # Same principle as CLAUDE.md §1's "a row we are paying and a row the gate refused must never render
+    # alike": rows that are DIFFERENT must not render the SAME. A width taken from the actual names cannot
+    # collide, and it self-corrects when the next mode's ids are longer still.
+    # Minimum 18 = the OLD fixed width, kept so short-named lanes render exactly as before; the max is
+    # what removes the truncation. Never below 18, or a one-word name collapses the header spacing the
+    # column separator is parsed from.
+    lw = max([18] + [len(str(r.get("name") or "?")) for r in rows])
+    fmt = "%-" + str(lw) + "s %-16s %7s  %-" + str(w) + "s %-9s %s"
     head = fmt % ("LEG", "ETA (ET)", "% DONE", "$/ns", "STATE", "WHY (when not running)")
     out = [head, "-" * len(head)]
     for r in rows:
@@ -628,7 +653,7 @@ def render(rows, now_epoch=None):
         # 16 wide, because a next-day ETA renders "1:31 AM Jul 30" and a 12-wide column pushed every later
         # cell out of alignment on the very first live board.
         out.append(fmt
-                   % (r.get("name", "?")[:18], eta, pct,
+                   % (r.get("name", "?"), eta, pct,
                       r.get("usd_per_ns") or "—",
                       r.get("state", "?"),
                       r.get("why", "")))
@@ -656,7 +681,7 @@ def planning_usd_per_ref_gpu_h(root=None):
         return None
 
 
-def usd_per_ns_cell(gpu_name, dph_total, stance=None, rate_basis=None, root=None):
+def usd_per_ns_cell(gpu_name, dph_total, stance=None, rate_basis=None, root=None, is_bid=_MISSING):
     """One row's `$/ns` cell, or None. Delegates ENTIRELY to `inflight_usd_per_ns.row()`.
 
     That module is the one home for the rate, its multiple of the ladder basis, and — load-bearing since
@@ -674,6 +699,15 @@ def usd_per_ns_cell(gpu_name, dph_total, stance=None, rate_basis=None, root=None
         kw["stance"] = stance
     if rate_basis is not None:
         kw["rate_basis"] = rate_basis
+    # ★ THE TIER RIDES THE SAME PATH AS THE STANCE, and is derived by that module rather than here
+    # (trimcrae, 2026-07-31: "Update the status table to show on demand / interruptible too."). `is_bid` is
+    # the Vast instance record's own field — already in `vast_rate_forensics._FIELDS`, so the collect pass
+    # has it in hand and nothing new is requested from the API.
+    # ⚠ `is_bid` ABSENT MUST RENDER AS UNKNOWN, NOT AS BID. A caller that never read the record passes None
+    # and gets `[tier?]`; only an explicit False renders `[ON-DEMAND]`. `tier_of` is what encodes that, so
+    # the "absent is not bid" rule has one home and cannot be re-decided by a truthiness test here.
+    if is_bid is not _MISSING:
+        kw["tier"] = _ifn.tier_of(is_bid)
     try:
         return _ifn.row(gpu_name, float(dph_total), rate, **kw).get("cell")
     except Exception:  # noqa: BLE001

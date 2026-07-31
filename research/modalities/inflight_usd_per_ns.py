@@ -123,9 +123,51 @@ def basis_usd_per_ns(planning_usd_per_ref_gpu_h):
     return float(planning_usd_per_ref_gpu_h) / vcm.REFERENCE_NS_PER_H
 
 
+# ★★ WHICH TIER THIS ROW IS RENTING ON (trimcrae, 2026-07-31: *"Update the status table to show on demand /
+# interruptible too."*). It belongs in THIS cell rather than in a column each lane formats for itself, for the
+# same reason the rate does: one home, one rendering, no two lanes free to disagree about what a tier looks
+# like. It also became load-bearing the same day, when the gate started PREFERRING the uninterruptible tier
+# whenever it clears both ceilings — a policy that can buy the dearer tier, on a board that could not show
+# which rows took it, is the unreadable-hold failure one level up: a rising ladder spend with no attributable
+# cause.
+#
+# ⚠ ABSENT IS NOT BID. `TIER_UNKNOWN` is a THIRD value, never a default to interruptible. The instance
+# record's `is_bid` may be missing, or the record may not have been read at all, and CLAUDE.md §4 is explicit
+# that an absent reading is not a reading of absence. A row that silently claims "bid" when nobody looked is
+# how a ledger becomes fiction — and it would understate exactly the spend this column exists to attribute.
+TIER_BID = "bid"                 # interruptible: cheap, preemptible
+TIER_ONDEMAND = "on-demand"      # uninterruptible: dearer, cannot be preempted
+TIER_UNKNOWN = "unknown"         # we did not look, or the field was absent — NOT a synonym for bid
+
+# Terse on purpose: this column is already the widest on the board and `inflight_board.render()` sizes it from
+# the rows, so every character here costs width on every row.
+_TIER_TAG = {TIER_BID: "[bid]", TIER_ONDEMAND: "[ON-DEMAND]", TIER_UNKNOWN: "[tier?]"}
+
+
+def tier_of(is_bid):
+    """`is_bid` from a Vast instance record -> one of the three tiers. PURE.
+
+    Deliberately NOT truthiness: `None` (absent) and `False` (on-demand) are opposite answers and truthiness
+    collapses them into the same branch — which is precisely the "absent is not bid" error, arriving through
+    a `if is_bid:` that looks harmless."""
+    if is_bid is None:
+        return TIER_UNKNOWN
+    if isinstance(is_bid, str):
+        v = is_bid.strip().lower()
+        if v in ("true", "1", "yes"):
+            return TIER_BID
+        if v in ("false", "0", "no"):
+            return TIER_ONDEMAND
+        return TIER_UNKNOWN
+    return TIER_BID if bool(is_bid) else TIER_ONDEMAND
+
+
 def row(gpu_name, dph_total, planning_usd_per_ref_gpu_h, storage_usd_h=0.0,
-        stance=PAYING, rate_basis=RATE_FROM_INSTANCE):
+        stance=PAYING, rate_basis=RATE_FROM_INSTANCE, tier=None):
     """One board row's $/ns cell. Returns a dict; `cell` is the string to paste.
+
+    `tier` is one of `TIER_BID` / `TIER_ONDEMAND` / `TIER_UNKNOWN` (or None = do not render a tier at all,
+    which is what a REFUSED row wants: nothing was rented, so there is no tier we are on).
 
     `None` throughput (a card never benched) yields UNKNOWN rather than a guessed number — the same choice
     `usd_per_ns` makes, and for the same reason: a fabricated figure ranks an offer it cannot price.
@@ -139,8 +181,9 @@ def row(gpu_name, dph_total, planning_usd_per_ref_gpu_h, storage_usd_h=0.0,
                          f"cannot say whether money is going out is the defect this argument closes")
     nsh = vcm.ns_per_hour(gpu_name)
     if not nsh:
-        return {"gpu": gpu_name, "usd_per_ns": None, "multiple": None, "stance": stance,
-                "cell": f"$/ns UNKNOWN — {gpu_name} is not in the throughput table, so it cannot be graded"}
+        return {"gpu": gpu_name, "usd_per_ns": None, "multiple": None, "stance": stance, "tier": tier,
+                "cell": (f"$/ns UNKNOWN — {gpu_name} is not in the throughput table, so it cannot be graded"
+                         + (" " + _TIER_TAG.get(tier, _TIER_TAG[TIER_UNKNOWN]) if tier else ""))}
     pn = vcm.usd_per_ns(float(dph_total), float(storage_usd_h), nsh)
     basis = basis_usd_per_ns(planning_usd_per_ref_gpu_h)
     mult = pn / basis
@@ -166,6 +209,10 @@ def row(gpu_name, dph_total, planning_usd_per_ref_gpu_h, storage_usd_h=0.0,
         # alone cannot say WHICH of those a row is, so a rate that moved is undiagnosable without going to
         # another artifact for the card. Naming it here makes the whole diagnosis readable in one cell.
         cell = f"{gpu_name} ${pn:.5f}/ns · {mult:.2f}× basis"
+        if tier:
+            # After the rate, before the drift flag: the flag must stay the last and most prominent thing on
+            # a drifting row, which is the whole reason it was made terse.
+            cell += " " + _TIER_TAG.get(tier, _TIER_TAG[TIER_UNKNOWN])
         if over:
             # Terse ON PURPOSE. This used to append ~100 characters re-explaining that the line is the same
             # dollars as the original 1.5×, re-expressed against a corrected basis — on EVERY drifting row.
@@ -179,7 +226,7 @@ def row(gpu_name, dph_total, planning_usd_per_ref_gpu_h, storage_usd_h=0.0,
         # multiple is a LOWER BOUND on what the rental will be graded at once the instance exists.
         cell += " (offer quote — floor + the search's disk line, so a LOWER BOUND on the billed rate)"
     return {"gpu": gpu_name, "ns_per_h": nsh, "usd_per_ns": pn, "basis": basis, "multiple": mult,
-            "stance": stance, "rate_basis": rate_basis,
+            "stance": stance, "rate_basis": rate_basis, "tier": tier,
             # `drifting` is kept as the plain "this rate is over the line" fact, unchanged, so existing
             # callers keep working. `paying_over_line` is the one that means "money is going out at it".
             "drifting": over,

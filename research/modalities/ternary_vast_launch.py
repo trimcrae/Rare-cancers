@@ -102,18 +102,22 @@ def _planning_usd_per_ref_gpu_h():
         return None
 
 
-def _usd_per_ns_cell(gpu_name, dph_total):
-    """The board's `$/ns` cell for one live host: `$0.005119/ns · 1.50x basis`, or None.
+def _usd_per_ns_cell(gpu_name, dph_total, is_bid=None):
+    """The board's `$/ns` cell for one live host: `$0.005119/ns · 1.50x basis [bid]`, or None.
 
-    Delegates entirely to `inflight_usd_per_ns.row()` — the one home for the rate, its multiple of basis, and
-    the PAYING/REFUSED distinction. A card that has never been benched yields UNKNOWN there and `—` here,
-    which is deliberate: a fabricated figure ranks an offer it cannot price.
+    Delegates entirely to `inflight_usd_per_ns.row()` — the one home for the rate, its multiple of basis, the
+    PAYING/REFUSED distinction and, since 2026-07-31, the TIER. A card that has never been benched yields
+    UNKNOWN there and `—` here, which is deliberate: a fabricated figure ranks an offer it cannot price.
+
+    `is_bid` is passed straight through to `tier_of`, which is where "absent is not bid" is decided. This
+    function must never test it itself — a truthiness check here would collapse `None` (we did not look) and
+    `False` (uninterruptible) into the same branch, and those are opposite answers.
     """
     rate = _planning_usd_per_ref_gpu_h()
     if rate is None or gpu_name is None or dph_total is None:
         return None
     try:
-        return _ifn.row(gpu_name, float(dph_total), rate).get("cell")
+        return _ifn.row(gpu_name, float(dph_total), rate, tier=_ifn.tier_of(is_bid)).get("cell")
     except Exception:  # noqa: BLE001
         return None
 
@@ -2640,6 +2644,80 @@ def _gate_what(mode=None):
     return "ternary lane $/ns market gate (CLAUDE.md §6) for %s" % what
 
 
+# =============================================================================================================
+# ★★ TIER PREFERENCE — TAKE THE UNINTERRUPTIBLE HOST WHENEVER IT CLEARS BOTH CEILINGS (trimcrae, 2026-07-31)
+# =============================================================================================================
+# HIS WORDS: *"Maybe add a new rule where if anything on-demand comes in under the buy line, we just take it
+# to avoid the outage."*
+#
+# THE OUTAGE HE MEANS, measured. 24 rentals across 4 legs in 6.73 h that day (7:12 AM - 1:56 PM ET,
+# reconstructed from the git history of `ternary-vast-rental-receipt.json`): median session 60 min, mean 76,
+# min 12, max 270; 25 % under 30 min, 50 % under 60 min — and those are UPPER bounds, because the
+# reconstruction measures rental-to-rental and so includes the hostless gap. Against the step 1 fan-out's
+# 208-rental baseline (median 1.62 h, 9 % under 0.5 h) this lane churns about twice as fast. A ternary leg
+# needs ~28 min to stage and reach its first commit boundary, so **a quarter of the day's rentals died before
+# buying a single checkpoint**: they billed and produced nothing.
+#
+# WHY A BID CANNOT FIX IT AND ONLY THIS TIER CAN. Vast's documented rule is that an on-demand renter preempts
+# an interruptible one REGARDLESS of bid. `VAST_BID_FLOOR_MULT` therefore buys priority WITHIN the cheap tier
+# and cannot stop the eviction it is aimed at. The uninterruptible tier is the only thing that can.
+#
+# WHY IT IS AFFORDABLE NOW AND WAS NOT THIS MORNING. `vast-filter-ablation.json` (1:36 PM ET) priced both
+# boards in the same minute: bid best 0.883x basis, on-demand best 1.778x — BOTH under the 1.9166x line.
+# Earlier the same day on-demand priced 2.13-2.25x and was correctly refused. So the rule is a PREFERENCE
+# among offers that already clear, evaluated fresh every tick, not a standing decision to pay more.
+#
+# ⛔ WHAT IT DOES NOT DO, and the review will look for exactly this: it does not move, soften or bypass either
+# ceiling. `choose_tier` can only ever select a block whose `clears` is True, and `clears` is computed by
+# `_price_tier` from the SAME dollar band and the SAME `$/ns` buy line as before. An on-demand board over the
+# line is refused as it always was; a tranche over the rung's band is refused as it always was. Exhaustively
+# pinned by `tests/test_tier_preference.py`.
+TIER_BID, TIER_ONDEMAND = "bid", "on-demand"
+
+# Off switch, because a behaviour change this consequential must not require editing the gate to undo.
+PREFER_UNINTERRUPTIBLE = str(os.environ.get("TVAST_PREFER_ONDEMAND") or "1").strip().lower() \
+    not in ("0", "false", "no", "off")
+
+
+def _tier_failure(blk):
+    """Which ceiling this tier hit, in words. PURE. A refusal that does not NAME its ceiling is the
+    unreadable-hold failure CLAUDE.md §1 already made this repo fix once — and the two ceilings mean
+    different things ('was this authorised' vs 'is this a rate we will pay at all'), so they never merge."""
+    if blk.get("board_error"):
+        return "board unreadable (%s)" % blk["board_error"]
+    why = []
+    if blk.get("fails_dollar_ceiling"):
+        why.append("over the rung's dollar ceiling (projected $%s)" % blk.get("projected_usd"))
+    if blk.get("fails_ratio_ceiling"):
+        # "drift line" is the repo-wide name for this ceiling (CLAUDE.md §1) and the word every other
+        # readout uses. A refusal that invents a synonym is a refusal a reader has to translate.
+        why.append("over the $/ns drift line (the buy line) at %sx basis" % blk.get("ratio_vs_basis"))
+    return "; ".join(why) or "no priceable offer"
+
+
+def choose_tier(bid, ondemand, prefer_uninterruptible=None):
+    """(tier, hold, why) given both tiers' priced blocks. PURE — no network, no env beyond the default.
+
+    THE WHOLE RULE, in four lines of logic and one paragraph of reason. `clears` is the conjunction of both
+    ceilings, computed once in `_price_tier`, so this function cannot accidentally admit a block that failed
+    one of them — the property `tests/test_tier_preference.py` checks exhaustively."""
+    prefer = PREFER_UNINTERRUPTIBLE if prefer_uninterruptible is None else bool(prefer_uninterruptible)
+    if prefer and (ondemand or {}).get("clears"):
+        return TIER_ONDEMAND, False, (
+            "on-demand clears BOTH ceilings at %sx basis, so we take it: an uninterruptible host cannot be "
+            "preempted, and preemption — not price — is what has been costing this lane (25%% of the day's "
+            "rentals died before their first checkpoint). bid tier was %sx."
+            % ((ondemand or {}).get("ratio_vs_basis"), (bid or {}).get("ratio_vs_basis")))
+    if (bid or {}).get("clears"):
+        return TIER_BID, False, (
+            "bid tier clears at %sx basis; on-demand was NOT taken because it is %s"
+            % ((bid or {}).get("ratio_vs_basis"),
+               ("disabled by TVAST_PREFER_ONDEMAND=0" if not prefer else _tier_failure(ondemand or {}))))
+    return None, True, (
+        "HOLD — neither tier clears. bid: %s. on-demand: %s."
+        % (_tier_failure(bid or {}), _tier_failure(ondemand or {})))
+
+
 def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max_ratio=None, mode=None):
     """(hold, readout) for renting `n_units` legs of this rung right now. Reads the LIVE board.
 
@@ -2676,64 +2754,80 @@ def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max
     # not: the market was fine and the expensive tier was being priced.
     # Same principle as CLAUDE.md §1's "a row we are paying and a row the gate refused must never render
     # alike", one level up: two holds about DIFFERENT MARKETS must not render alike either.
-    tier = "bid (interruptible)" if res.interruptible else "on-demand (UNINTERRUPTIBLE — small and dear by " \
-                                                          "construction; NOT the market the ladder is costed on)"
+    cap = MARKET_MAX_RATIO_VS_BASIS if max_ratio is None else float(max_ratio)
     out = {"_what": _gate_what(mode),
            "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "n_units": n_units,
-           "tier": tier, "interruptible": bool(res.interruptible),
            "basis_usd_per_ns": round(basis, 6), "plan_usd": plan_usd, "ceiling_usd": ceiling,
-           "ceiling_basis": ceiling_basis,
+           "ceiling_basis": ceiling_basis, "max_ratio_vs_basis": cap,
+           "usd_per_ns_at_max_ratio": round(cap * basis, 6),
            "breakeven_usd_per_ns": round(ceiling / (ns_unit * n_units), 6)}
-    try:
-        offers = _vast_request("GET", "/search/asks/", key or os.environ["VAST_API_KEY"],
-                               params={"q": json.dumps(_vast_offer_query(res))}).get("offers", [])
-        measured, capable = rank_offers_by_usd_per_ns(offers, res)
-    except Exception as e:  # noqa: BLE001
-        out.update({"hold": True, "reason": "could not read the board (%s: %s) — an unreadable market is "
-                                            "not a cheap one" % (type(e).__name__, e)})
-        return True, out
-    take = measured[:max(1, int(n_units))]
-    # The MEAN over the n cheapest, not the single best: a fleet of n buys the n best offers, and pricing it
-    # off the one cheapest host would flatter a thin board exactly when thinness is what we are detecting.
-    best = (sum(u for u, _p, _o in take) / len(take)) if take else None
-    out["depth"] = {"offers_returned": len(offers), "qualifying": len(capable),
-                    "priceable": len(measured), "needed": n_units, "used_for_mean": len(take)}
-    out["offers"] = [{"gpu": o.get("gpu_name"), "machine_id": o.get("machine_id"),
-                      "min_bid_usd_h": p, "usd_per_ns": round(u, 6)} for u, p, o in take]
-    if best is None:
-        out.update({"hold": True, "reason": "board offered nothing priceable (no benched card, or no offer)"})
-        return True, out
-    projected = round(best * ns_unit * n_units, 2)
-    ratio = best / basis
-    cap = MARKET_MAX_RATIO_VS_BASIS if max_ratio is None else float(max_ratio)
-    over_dollars = projected > ceiling
-    over_ratio = ratio > cap
-    out.update({"mean_usd_per_ns": round(best, 6), "ratio_vs_basis": round(ratio, 3),
-                "projected_usd": projected, "max_ratio_vs_basis": cap,
-                "usd_per_ns_at_max_ratio": round(cap * basis, 6),
-                "fails_dollar_ceiling": over_dollars, "fails_ratio_ceiling": over_ratio})
-    hold = over_dollars or over_ratio
+
+    def _price_tier(interruptible):
+        """One tier's board, priced against BOTH ceilings. `clears` is their conjunction and is the ONLY
+        thing `choose_tier` may select on, so a preference can never admit a block that failed a ceiling."""
+        import dataclasses as _dc
+        r = _dc.replace(res, interruptible=interruptible)
+        blk = {"tier": TIER_BID if interruptible else TIER_ONDEMAND, "interruptible": bool(interruptible)}
+        try:
+            offers = _vast_request("GET", "/search/asks/", key or os.environ["VAST_API_KEY"],
+                                   params={"q": json.dumps(_vast_offer_query(r))}).get("offers", [])
+            measured, capable = rank_offers_by_usd_per_ns(offers, r)
+        except Exception as e:  # noqa: BLE001 — an unreadable board is NOT a cheap one, but nor is it a
+            # reason to refuse the OTHER tier: `choose_tier` treats it as "not an option", never as a veto.
+            blk.update({"clears": False, "board_error": "%s: %s" % (type(e).__name__, e)})
+            return blk
+        take = measured[:max(1, int(n_units))]
+        # The MEAN over the n cheapest, not the single best: a fleet of n buys the n best offers, and pricing
+        # it off the one cheapest host would flatter a thin board exactly when thinness is what we detect.
+        best = (sum(u for u, _p, _o in take) / len(take)) if take else None
+        blk["depth"] = {"offers_returned": len(offers), "qualifying": len(capable),
+                        "priceable": len(measured), "needed": n_units, "used_for_mean": len(take)}
+        blk["offers"] = [{"gpu": o.get("gpu_name"), "machine_id": o.get("machine_id"),
+                          "min_bid_usd_h": p, "usd_per_ns": round(u, 6)} for u, p, o in take]
+        if best is None:
+            blk.update({"clears": False, "board_error": None,
+                        "reason": "board offered nothing priceable (no benched card, or no offer)"})
+            return blk
+        projected = round(best * ns_unit * n_units, 2)
+        ratio = best / basis
+        blk.update({"mean_usd_per_ns": round(best, 6), "ratio_vs_basis": round(ratio, 3),
+                    "projected_usd": projected,
+                    "fails_dollar_ceiling": projected > ceiling, "fails_ratio_ceiling": ratio > cap})
+        blk["clears"] = not (blk["fails_dollar_ceiling"] or blk["fails_ratio_ceiling"])
+        return blk
+
+    # ⚠ AN EXPLICIT `TVAST_ON_DEMAND=1` IS STILL AN OPERATOR OVERRIDE AND STILL WINS. It now means "price
+    # ONLY the uninterruptible tier", which is what it always meant; the new rule is what happens when nobody
+    # has forced a tier. Keeping the override is what lets a human pin a tier for a one-off without editing
+    # policy, and it is why the forced case must not silently acquire a bid-tier fallback.
+    forced_od = not res.interruptible
+    bid_blk = None if forced_od else _price_tier(True)
+    od_blk = _price_tier(False)
+    tier, hold, why = choose_tier(bid_blk or {"clears": False, "board_error": "not priced (TVAST_ON_DEMAND=1)"},
+                                  od_blk, prefer_uninterruptible=True if forced_od else None)
+
+    # BOTH boards go in the snapshot, not just the winner's. A reader who cannot see the tier we did NOT buy
+    # cannot grade why we paid the dearer one — and that is precisely the question a rising ladder spend
+    # raises. Same discipline as the $/ns column: the number that explains a decision travels with it.
+    out["tiers"] = {TIER_BID: bid_blk, TIER_ONDEMAND: od_blk}
+    out["chosen_tier"] = tier
+    out["prefer_uninterruptible"] = PREFER_UNINTERRUPTIBLE
     out["hold"] = hold
-    if not hold:
-        out["reason"] = ("projected $%.2f within this rung's ceiling $%.2f AND %.2fx basis is within the %.2fx "
-                         "drift line" % (projected, ceiling, ratio, cap))
-    else:
-        why = []
-        if over_dollars:
-            why.append("projected $%.2f exceeds this rung's own ceiling $%.2f" % (projected, ceiling))
-        if over_ratio:
-            # Named explicitly, because "it was inside the dollar band" is exactly the argument that would
-            # otherwise buy at double per ns while pointing at a green authorisation.
-            why.append("%.2fx the ladder basis exceeds the %.2fx drift line (CLAUDE.md §1) — trimcrae, "
-                       "2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; "
-                       "need <= $%.6f/ns" % (ratio, cap, cap * basis))
-        # The tier rides on EVERY hold sentence, not just in a field — the sentence is what gets quoted into
-        # a status report, and a 2.2x quoted with no tier is how "the on-demand tier is dear" became "the
-        # market is at 2x basis".
-        why.append("priced on the %s tier" % ("bid/interruptible" if res.interruptible
-                                              else "ON-DEMAND/UNINTERRUPTIBLE — this is NOT a reading of the "
-                                                   "interruptible market the ladder is costed on"))
-        out["reason"] = "; ".join(why)
+    out["reason"] = why
+
+    # LEGACY TOP-LEVEL FIELDS, mirrored from the CHOSEN tier (or from the cheaper-clearing view on a hold) so
+    # every existing reader — the launcher's readout, `relaunch_market_gate`, the board, the tests — keeps
+    # working unchanged. They are a PROJECTION of `tiers`, never a second home: nothing writes them
+    # independently, and `tier`/`interruptible` say which block they came from.
+    src = (out["tiers"].get(tier) if tier else None) or od_blk or bid_blk or {}
+    out["tier"] = ("bid (interruptible)" if src.get("interruptible") else
+                   "on-demand (UNINTERRUPTIBLE — cannot be preempted; taken only when it clears BOTH "
+                   "ceilings, per trimcrae 2026-07-31)")
+    out["interruptible"] = bool(src.get("interruptible"))
+    for k in ("depth", "offers", "mean_usd_per_ns", "ratio_vs_basis", "projected_usd",
+              "fails_dollar_ceiling", "fails_ratio_ceiling"):
+        if k in src:
+            out[k] = src[k]
     return hold, out
 
 
@@ -3209,6 +3303,13 @@ def collect(bucket=None, prefix=None, autostop=True):
                 "phase": phase, "iteration": it,
                 "advanced": bool(scalar > pprog), "no_advance_polls": stall,
                 "up_h": up_h, "gpu": i.get("gpu_name"), "dph": i.get("dph_total"),
+                # ★ WHICH TIER THIS HOST IS ON (trimcrae, 2026-07-31: "Update the status table to show on
+                # demand / interruptible too."). `is_bid` is the instance record's OWN field — already in
+                # `vast_rate_forensics._FIELDS`, so this costs nothing extra from the API. `.get` yields None
+                # when the field is absent, and `inflight_usd_per_ns.tier_of` renders None as UNKNOWN rather
+                # than as bid: an absent reading is not a reading of absence (CLAUDE.md §4), and the tier this
+                # column exists to attribute spend to is exactly the one a silent default would hide.
+                "is_bid": i.get("is_bid"),
                 "marker_stale": _mark_stale, "mark": mark, "log_age": log_age,
             })
             # ANTI-IDLE VERDICT. Everything it needs has just been read, so this costs one extra S3 LIST.
@@ -3568,7 +3669,7 @@ def collect(bucket=None, prefix=None, autostop=True):
                   _eta = None
               _cell_unknown = (_pct is None or _eta is None)
               _rows.append({"name": ifb.short_name(_b["uid"]), "pct": _pct, "eta_s": _eta,
-                            "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"]),
+                            "usd_per_ns": _usd_per_ns_cell(_b["gpu"], _b["dph"], _b.get("is_bid")),
                             "state": _state,
                             "why": _swhy or (_why if _cell_unknown else "")})
           except Exception as _e:  # noqa: BLE001
@@ -4097,7 +4198,21 @@ def main(argv=None):
     # which is precisely how the 5a-KS leg was stranded and then how its wedge went unexamined.
     ap.add_argument("--replaceable-modes", action="store_true",
                     help="print every mode with a re-placement gate, space-separated, then exit")
+    # `1` when the gate snapshot named the UNINTERRUPTIBLE tier, else `0`. The gate's self-dispatch reads it
+    # so the launch buys the tier the gate priced and cleared; forwarding the operator input instead would let
+    # a gate that cleared on-demand dispatch a bid launch, i.e. price one market and buy another.
+    # Fails CLOSED to `0`: an unreadable snapshot must not silently buy the dearer tier.
+    ap.add_argument("--gate-chose-on-demand", metavar="HOLD_JSON",
+                    help="print 1 if that gate snapshot chose the on-demand tier, else 0, then exit")
     a = ap.parse_args(argv)
+    if a.gate_chose_on_demand:
+        try:
+            with open(a.gate_chose_on_demand) as _fh:
+                _d = json.load(_fh)
+            print("1" if (_d.get("chosen_tier") == TIER_ONDEMAND and not _d.get("hold")) else "0")
+        except Exception:  # noqa: BLE001 — fail closed, and say nothing more than the answer
+            print("0")
+        return 0
     if a.replaceable_modes:
         print(" ".join(sorted(MODE_GATE_TASK)))
         return 0

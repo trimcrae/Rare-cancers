@@ -447,10 +447,15 @@ jobs:
             # FORWARD gpu_class. Without it a gate priced against one card class self-dispatches a
             # launch that buys from another — the projection and the purchase would describe
             # different markets, which is the exact mismatch the gate exists to prevent.
+            # ...and FORWARD THE TIER THE GATE CLEARED, for exactly the same reason (2026-07-31). The gate
+            # prices both boards and prefers the uninterruptible one whenever it clears both ceilings; a
+            # dispatch that forwarded the operator input instead would price on-demand and buy bid.
+            OD="$(python3 research/modalities/ternary_vast_launch.py --gate-chose-on-demand research/modalities/ternary-vast-market-hold.json)"
+            echo "::notice title=TVAST TIER::gate chose $( [ "$OD" = 1 ] && echo ON-DEMAND\ \(uninterruptible\) || echo bid\ \(interruptible\) )"
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
               -f task=edge-reps -f gpu_class="${{ github.event.inputs.gpu_class }}" \
               -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
-              -f on_demand="${{ github.event.inputs.on_demand }}" \
+              -f on_demand="$OD" \
               -f bid_floor_mult="${{ github.event.inputs.bid_floor_mult }}"
             exit 0
           fi
@@ -1055,10 +1060,17 @@ jobs:
             # behaviour for every leg not named. It cannot cause a rental: the gate has already cleared.
             BID="$(python3 research/modalities/retention_bid.py "${{ github.event.inputs.bid_floor_mult }}")"
             echo "::notice title=TVAST RETENTION BID::$(python3 research/modalities/retention_bid.py "${{ github.event.inputs.bid_floor_mult }}" --explain)"
+            # ★★ THE LAUNCH BUYS THE TIER THE GATE PRICED AND CLEARED (trimcrae, 2026-07-31). The gate now
+            # prices BOTH boards and prefers the uninterruptible tier whenever it clears both ceilings; if the
+            # dispatch below still forwarded the operator input, a gate that cleared on-demand would
+            # self-dispatch a BID launch — the projection and the purchase describing different markets, which
+            # is the exact mismatch the gate exists to prevent (the same argument as forwarding `gpu_class`).
+            OD="$(python3 research/modalities/ternary_vast_launch.py --gate-chose-on-demand research/modalities/valb-triangle-market-hold.json)"
+            echo "::notice title=TVAST TIER::gate chose $( [ "$OD" = 1 ] && echo ON-DEMAND\ \(uninterruptible\) || echo bid\ \(interruptible\) )"
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
               -f task=triangle -f gpu_class="${{ github.event.inputs.gpu_class }}" \
               -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
-              -f on_demand="${{ github.event.inputs.on_demand }}" \
+              -f on_demand="$OD" \
               -f bid_floor_mult="$BID"
             exit 0
           fi
@@ -1175,10 +1187,17 @@ jobs:
             # priced against one card class must not self-dispatch a launch that buys from another.
             BID="$(python3 research/modalities/retention_bid.py "${{ github.event.inputs.bid_floor_mult }}")"
             echo "::notice title=TVAST RETENTION BID::$(python3 research/modalities/retention_bid.py "${{ github.event.inputs.bid_floor_mult }}" --explain)"
+            # ★★ THE LAUNCH BUYS THE TIER THE GATE PRICED AND CLEARED (trimcrae, 2026-07-31). The gate now
+            # prices BOTH boards and prefers the uninterruptible tier whenever it clears both ceilings; if the
+            # dispatch below still forwarded the operator input, a gate that cleared on-demand would
+            # self-dispatch a BID launch — the projection and the purchase describing different markets, which
+            # is the exact mismatch the gate exists to prevent (the same argument as forwarding `gpu_class`).
+            OD="$(python3 research/modalities/ternary_vast_launch.py --gate-chose-on-demand research/modalities/5aks-market-hold.json)"
+            echo "::notice title=TVAST TIER::gate chose $( [ "$OD" = 1 ] && echo ON-DEMAND\ \(uninterruptible\) || echo bid\ \(interruptible\) )"
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
               -f task=5aks -f gpu_class="${{ github.event.inputs.gpu_class }}" \
               -f min_ns_per_h="${{ github.event.inputs.min_ns_per_h }}" \
-              -f on_demand="${{ github.event.inputs.on_demand }}" \
+              -f on_demand="$OD" \
               -f bid_floor_mult="$BID"
             exit 0
           fi
@@ -2097,7 +2116,18 @@ jobs:
             # has demonstrably failed to hold it and no bid can fix that — an on-demand renter preempts an
             # interruptible one regardless of bid. The rental is still gated on $/ns, and the counter resets
             # to zero the moment the census advances, so this is a temporary, evidence-backed escalation.
-            OD=""; [ "${escalate:-0}" = "1" ] && OD="-f on_demand=1"
+            # ⛔⛔ THE ESCALATION COUNTER NO LONGER CHOOSES THE TIER — THE GATE DOES (trimcrae, 2026-07-31:
+            # *"add a new rule where if anything on-demand comes in under the buy line, we just take it to
+            # avoid the outage"*). `market_gate` now prices BOTH boards on EVERY evaluation and prefers the
+            # uninterruptible tier whenever it clears both ceilings, so a second mechanism that also picks a
+            # tier can only disagree with it — and two deciders disagreeing about what to buy is the defect,
+            # not a belt and braces. This line used to append `-f on_demand=1` once a unit had burned
+            # `TVAST_ESCALATE_AFTER` hosts.
+            # SUBORDINATE, NOT DELETED: the counter still runs and still PRINTS, because "this unit has lost
+            # N hosts without committing" is a real signal worth seeing in the readout. It simply no longer
+            # forces a purchase. SUPERSEDED, retained: `OD=""; [ "$escalate" = "1" ] && OD="-f on_demand=1"`.
+            OD=""
+            [ "${escalate:-0}" = "1" ] && echo "::notice title=ESCALATION SIGNAL (advisory)::mode=$mode has lost enough hosts to trip TVAST_ESCALATE_AFTER — the GATE decides the tier now and already prefers on-demand whenever it clears both ceilings, so no tier is forced here."
             # ★★ THE CARD FLOOR IS PER-MODE AND DERIVED, NOT TYPED (2026-07-31). This line used to read
             # `-f min_ns_per_h=28` unconditionally, so a floor argued for the closure triangle was applied to
             # RUNG 5a-KS too — and went on being applied after trimcrae REVERTED the 5a-KS floor on the

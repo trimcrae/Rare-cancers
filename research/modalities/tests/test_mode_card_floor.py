@@ -54,7 +54,7 @@ def test_5aks_has_no_card_floor_and_the_reason_is_recorded():
 
 def test_the_self_heal_dispatch_derives_the_floor_instead_of_typing_it():
     wf = WF.read_text()
-    blk = wf[wf.index("Re-place any unit this pass found with no host"):][:6000]
+    blk = wf[wf.index("Re-place any unit this pass found with no host"):][:9000]
     # The `gh workflow run` line only — the comment ABOVE it quotes the retired form on purpose (rule 1:
     # never silently drop a superseded value), so matching the whole block would fail on its own history.
     cmd = blk[blk.index("gh workflow run gpu-ternary-fep-vast.yml"):][:400]

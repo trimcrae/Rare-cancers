@@ -112,7 +112,18 @@ def test_every_gate_self_dispatch_forwards_the_tier():
                 for t in re.findall(r'-f task=([a-z0-9-]+)', b)
                 if t in LAUNCH_TASKS]
     assert launched, "no gate self-dispatches a launch task any more — this test has lost its subject"
-    forwarded = wf.count('-f on_demand="${{ github.event.inputs.on_demand }}"')
+    # ★★ THE SOURCE OF THE TIER CHANGED ON 2026-07-31, THE PROPERTY DID NOT. It used to be the operator's
+    # `on_demand` dispatch input, forwarded verbatim. Since `market_gate` began pricing BOTH boards and
+    # PREFERRING the uninterruptible tier whenever it clears both ceilings, the operator input is no longer
+    # the answer — the gate's own decision is, read back out of the snapshot it just committed
+    # (`--gate-chose-on-demand`). Forwarding the input now would be the very bug this test guards: pricing
+    # on-demand and renting interruptible.
+    forwarded = wf.count('-f on_demand="$OD"')
     assert forwarded == len(launched), (
         f"{len(launched)} gate self-dispatch(es) to a launch task {sorted(set(launched))} but only "
-        f"{forwarded} forward on_demand — one of them would price on-demand and rent interruptible")
+        f"{forwarded} forward the tier the gate cleared — one of them would price on-demand and rent "
+        f"interruptible")
+    assert wf.count("--gate-chose-on-demand") == len(launched), (
+        "every such dispatch must READ the decision from the gate's own snapshot, not re-derive it")
+    assert '-f on_demand="${{ github.event.inputs.on_demand }}"' not in wf, (
+        "the operator input is no longer the tier decision — the gate prices both boards and chooses")
