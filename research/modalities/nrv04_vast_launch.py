@@ -1554,7 +1554,8 @@ if _RETRO_PIPELINE == _PIPELINE or "assemble_unit" not in _RETRO_PIPELINE:
                        "re-sync _RETRO_PIPELINE with the covalent staging block before launching any leg")
 
 
-def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=None):
+def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=None,
+                        exclude=()):
     """PURE: the JobSpec for one retrospective unit (arm, co-fold model, MD replica). No I/O -> unit-tested."""
     import nrv04_retro_panel as retro
     name = retro.unit_name(arm, model_seed, replica)
@@ -1579,7 +1580,7 @@ def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarb
         # ⛔ the binding buy line travels WITH the spec — see `buy_ceiling_usd_per_ns`. Every rental this lane
         # makes (fan-out, resume, cold single unit) is refused above the approved $/ns at SELECTION, which is
         # what CLAUDE.md §6's "a relaunch is a new purchase" actually requires.
-        resources=endpoint_md_resources(max_usd_per_ns=buy_ceiling_usd_per_ns()),
+        resources=endpoint_md_resources(max_usd_per_ns=buy_ceiling_usd_per_ns(), exclude=exclude),
         max_runtime_s=int(os.environ.get("MAX_RUNTIME_S", "43200")),
         env=env,
     )
@@ -2089,13 +2090,31 @@ def retro_launch(bucket, authorize=True, only_units=None):
     env_url = None if dry else presign_env_tarball(bucket)
     be = None if dry else get_backend("vast")
     handles, refused = [], []
+    # ★★ THE WAVE REMEMBERS WHICH HOSTS JUST REFUSED IT — MEASURED 2026-07-31, 2:36 PM ET FAN-OUT.
+    #
+    # 11 of 16 units failed to place against a board of 89 PRICEABLE offers, which cannot be thinness. The
+    # per-offer submit lines say why: 33 refusal events across only EIGHT distinct machines, and
+    #     machine 29706 refused ALL 11 units · 33657 refused 8 · 34670 refused 6
+    # — three dead hosts account for 25 of the 33. `gpu_backend.submit`'s refusal skip is scoped to ONE CALL,
+    # so all 16 units independently start at the top of the SAME $/ns ranking, hit the SAME stale hosts, and
+    # burn their whole `_VAST_START_REFUSAL_TRIES` budget on them. Unit 16 re-discovers what unit 1 learned.
+    #
+    # ⚠ THIS IS NOT A BLACKLIST, AND THE DISTINCTION IS THE ONE CLAUDE.md §6 DRAWS EXPLICITLY. That rule
+    # retires the cross-lane, never-ageing, host-scoped set — "no evidence could ever retire an entry, so it
+    # only ratcheted the board narrower" — while KEEPING two bounded forms: `used_machines`, which "dies with
+    # the wave", and submit's in-call skip, which lasts "the remaining offers of that same call". What was
+    # missing is exactly the middle of those two. This set is built from refusals THIS WAVE just measured,
+    # is passed only to the specs this wave builds, and is discarded when `retro_launch` returns — it cannot
+    # accumulate and cannot outlive the call, and re-learning a host costs one FREE failed submit next wave.
+    wave_refused = set()
     for arm, model_seed, replica in units:
         name = retro.unit_name(arm, model_seed, replica)
         if not dry and name in skip_done:
             print(f"[skip] {name} — result already in S3", flush=True); continue
         if not dry and name in skip_live:
             print(f"[skip] {name} — live instance already running", flush=True); continue
-        spec = build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=env_url)
+        spec = build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=env_url,
+                                   exclude=tuple(sorted(wave_refused)))
         if dry:
             print(f"[retro-dry] {spec.name}: gpu={spec.resources.gpu} cofold={spec.env['COFOLD_PREFIX_S3']} "
                   f"covalent={spec.env['COVALENT']} max_usd_per_ns={spec.resources.max_usd_per_ns} "
@@ -2106,6 +2125,13 @@ def retro_launch(bucket, authorize=True, only_units=None):
         except Exception as e:  # noqa: BLE001 — one unit must not abort the other 17
             # A per-offer ceiling refusal arrives here as "no offer qualifies". Name it as a REFUSAL rather
             # than an error: $0 was spent and the unit is untouched, which is the opposite of a failed launch.
+            # WHAT THIS UNIT LEARNED, HANDED TO THE NEXT ONE. `CapacityRefusedAtStart` carries one row per
+            # host that declined; without this the next unit re-tries the same dead hosts (29706 refused all
+            # 11 units in the 2:36 PM ET wave). Bounded to this call — see `wave_refused` above.
+            for _r in getattr(e, "refusals", ()) or ():
+                _m = str((_r or {}).get("machine_id") or "").strip()
+                if _m:
+                    wave_refused.add(_m)
             refused.append(spec.name)
             print(f"[retro-submit] ⛔ {spec.name} NOT RENTED — {type(e).__name__}: {e}. If the board simply had "
                   f"nothing at or under ${spec.resources.max_usd_per_ns:.6f}/ns, this is the buy line doing its "
@@ -2267,43 +2293,94 @@ def retro_record_units(s3, bucket, records=None):
     return at
 
 
-def retro_streak_since_utc(record_at, unit):
-    """When this unit's CURRENT failure streak starts: the mtime of its newest leg record, as a UTC stamp.
-    `None` when it has never written one, which is the case the lifetime count was written for. PURE.
+def retro_committed_at(s3, bucket, unit):
+    """When this unit last BANKED PRODUCTION WORK: the mtime of its newest production checkpoint. None if it
+    has never committed one, or on a read error (unreadable is UNKNOWN, never "it committed").
 
-    ★★ THIS IS THE BREAKER'S DENOMINATOR, AND ITS ABSENCE IS WHAT STRANDED THE PILOT FOR ~1 h 45 min
-    (measured 2026-07-31, 1:40 PM ET). `retro_supervise` called `leg_failure_breaker.count_attempts` with no
-    `since_utc`, so it got the LIFETIME attempt count while `retro_breaker` reads it as "how many times has
-    this unit failed IN A ROW". `count_attempts.__doc__` documents exactly that divergence, and documents
-    fixing it for the ternary lane on 2026-07-30 after it blocked a leg that was 88 % done — this call site
-    never got the fix. The evidence for the retro lane, from S3:
+    ★★ THIS IS `KIND_COMMIT` FOR THIS LANE, AND OMITTING IT DEADLOCKED A LEG THAT WAS 40 % DONE
+    (measured 2026-07-31, 3:17 PM ET — my own defect, one level in from the one it replaced).
 
-        nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a3-m1-r0/attempts/
-          run-20260731T144656Z.log   10:46 AM ET   smoke attempt
-          run-20260731T145006Z.log   10:50 AM ET   smoke attempt -> WROTE leg_..._s0.json at 10:53 AM ET
-          run-20260731T160052Z.log   12:00 PM ET   the production pilot
+    The first version of `retro_streak_since_utc` anchored the streak at the unit's newest LEG RECORD. For
+    `nrv04retro-retro_noncov_nr4a3-m1-r0` that record is the SMOKE leg written at 10:53 AM ET, and the board
+    read:
 
-    Three objects, threshold three, so `3 >= 3` blocked it on every 8-minute tick from 12:07 PM ET onward.
-    But attempt 2 SUCCEEDED — a leg record is written as the LAST act of a leg — so the streak is ONE, and
-    the one failure was a host loss, not a fault: that attempt persisted a 71.1 MiB built system at 12:01:45
-    PM ET, minimized (`PE pre-min -4.025e+06 -> post-min -5.667e+06 kJ/mol`), entered `md-running`, and its
-    run.log simply stopped syncing at 12:06 PM ET. A build fault cannot write a built system.
+        40.0% · NO HOST · THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure on
+        distinct hosts. Counted since this unit's last completed leg record (2026-07-31T14:53:10Z).
 
-    WHY THE LEG RECORD IS THE RIGHT SUPERSEDING FACT, against the three `leg_failure_breaker.__doc__`
-    rejects. It rejects `phase.txt` and `run.log` mtime because BOTH are written on the way IN by every
-    attempt, so a crash-looping unit renews them forever and the discriminator is true on every tick. A
-    `leg_*.json` is the opposite: `nrv04_covalent_md.run_leg` writes it after production finishes, so only an
-    attempt that RAN TO COMPLETION can produce one. It is this lane's analogue of `KIND_COMMIT`.
+    A unit that is 40 % through production has by definition not completed a leg record and never will while
+    it is refused a host, so that anchor can never advance and the block is permanent. I replaced an
+    un-advanceable COUNTER with an un-advanceable ANCHOR — the identical shape, and exactly what
+    `leg_failure_breaker.__doc__` already records for the ternary leg blocked at 88 % done with
+    `n_attempts=55`.
 
-    SELF-LIMITING, exactly as there: superseding evidence buys one more rental. If that rental dies without
-    writing a record, the streak grows from the same stamp and the block re-applies at the same count.
-    Nothing is reset and `leg_failure_breaker.reset_for` remains the only way to clear the archive.
+    ⚠ AND THE FIX IS NOT A HIGHER THRESHOLD, which only delays the same deadlock by three rentals. The
+    honest question is `leg_failure_breaker`'s own: **is the failure still the NEWEST fact about this unit?**
+    A production checkpoint written after an attempt started proves that attempt BANKED WORK, which is
+    superseding evidence in precisely the sense `KIND_COMMIT` means.
+
+    WHY THIS OBJECT AND NOT ANOTHER. `nrv04_covalent_md._save_ckpt` writes `ckpt_<leg>_s<seed>.ckpt.json`
+    (with the portable `.state.xml`) every `CKPT_EVERY_FRAMES` frames and mirrors it to S3, and
+    `_load_resume` only accepts it when `phase == "production"` and `0 < done_frames < frames`. So its
+    existence means real production frames are banked and resumable — it cannot be produced by a leg that
+    died in staging or build, and `_rm_ckpt` deletes it when the leg FINISHES, so it never lingers to
+    forgive a later failure. That is the opposite of the three candidates `leg_failure_breaker.__doc__`
+    rejects (`phase.txt`, `run.log` mtime, a bare `committed > 0`), each of which is renewed by an attempt on
+    its way IN and so would forgive a crash-loop forever.
+
+    SELF-LIMITING, unchanged: superseding evidence buys one more rental. If that rental banks nothing, the
+    checkpoint stops moving, the streak grows from the same stamp, and the block re-applies at the same count.
     """
     import time as _t
-    mt = (record_at or {}).get(unit)
-    if not mt:
+    newest = None
+    try:
+        for k in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/{unit}/", suffix=".ckpt.json"):
+            if not k.rsplit("/", 1)[-1].startswith("ckpt_"):
+                continue
+            try:
+                mt = s3.head_object(Bucket=bucket, Key=k)["LastModified"].timestamp()
+            except Exception:  # noqa: BLE001 — one unreadable object must not hide another's evidence
+                continue
+            newest = mt if newest is None else max(newest, mt)
+    except Exception as e:  # noqa: BLE001 — reported, never swallowed into "it never committed"
+        print(f"[retro-commit] could not list checkpoints for {unit}: {type(e).__name__}: {e}", flush=True)
         return None
-    return _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime(float(mt)))
+    if newest is None:
+        return None
+    return _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime(newest))
+
+
+def retro_streak_since_utc(record_at, unit, committed_utc=None):
+    """When this unit's CURRENT failure streak starts: the NEWEST of its last completed leg record and its
+    last banked production checkpoint. `None` when it has neither, which is the case the lifetime count was
+    written for. PURE.
+
+    ⚠ THE MAX OF THE TWO, NOT THE LEG RECORD ALONE. Either one is superseding evidence — a finished leg and
+    a banked production checkpoint both prove the unit worked after the attempt that preceded them — so the
+    streak starts at whichever is later. Anchoring on the leg record alone is what deadlocked a leg at 40 %;
+    see `retro_committed_at` for the measurement and why a checkpoint is the right `KIND_COMMIT` analogue.
+
+    ★★ THE ORIGINAL DEFECT THIS FUNCTION EXISTS FOR, retained (measured 2026-07-31, 1:40 PM ET).
+    `retro_supervise` called `leg_failure_breaker.count_attempts` with no `since_utc`, so it got the LIFETIME
+    attempt count while `retro_breaker` reads it as "how many times has this unit failed IN A ROW".
+    `count_attempts.__doc__` documents that divergence and the fix it received for the ternary lane on
+    2026-07-30; this call site never got it. The pilot's archive held three objects — two smoke attempts at
+    10:46 and 10:50 AM ET, the second of which SUCCEEDED and wrote a leg record at 10:53, and the production
+    pilot at 12:00 PM ET — so `3 >= 3` blocked it on every 8-minute tick while its host sat unreplaced.
+    """
+    import calendar
+    import time as _t
+    stamps = []
+    mt = (record_at or {}).get(unit)
+    if mt:
+        stamps.append(float(mt))
+    if committed_utc:
+        try:
+            stamps.append(float(calendar.timegm(_t.strptime(committed_utc, "%Y-%m-%dT%H:%M:%SZ"))))
+        except (TypeError, ValueError):
+            pass                                    # undateable is UNKNOWN — it simply does not supersede
+    if not stamps:
+        return None
+    return _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime(max(stamps)))
 
 
 def retro_read_authorized(s3, bucket):
@@ -2372,8 +2449,10 @@ def retro_breaker(has_result, n_attempts, threshold=None, since_utc=None):
     """
     import leg_failure_breaker as lfb
     threshold = lfb.DEFAULT_THRESHOLD if threshold is None else int(threshold)
-    span = ("since this unit's last completed leg record (%s)" % since_utc) if since_utc else \
-           "over this unit's whole life — it has never written a leg record, so lifetime IS the streak"
+    span = ("since this unit last banked work — a completed leg record or a production checkpoint (%s)"
+            % since_utc) if since_utc else \
+           ("over this unit's whole life — it has never written a leg record NOR banked a production "
+            "checkpoint, so lifetime IS the streak")
     base = {"n_attempts": n_attempts, "threshold": threshold,
             "streak_since_utc": since_utc, "counted": span}
     if has_result:
@@ -2561,7 +2640,10 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
         # ⚠ THE DENOMINATOR IS THE STREAK, NOT THE LIFETIME COUNT. Passing no `since_utc` here is what
         # blocked the pilot on every tick from 12:07 PM ET on 2026-07-31 while its host sat unreplaced —
         # `retro_streak_since_utc` holds the measurement and why a leg record is the superseding fact.
-        since = retro_streak_since_utc(record_at, name)
+        # BANKED WORK SUPERSEDES, or a leg that is part-done can never be re-placed — the 40 % deadlock in
+        # `retro_committed_at`. The checkpoint read is one prefix list per hostless unit, on a tick that is
+        # already reading S3, and only for units that got this far (not done, not alive, authorised).
+        since = retro_streak_since_utc(record_at, name, retro_committed_at(s3, bucket, name))
         n_att = lfb.count_attempts(s3, bucket, RETRO_RESULT_PREFIX, name, since_utc=since)
         d = retro_breaker(has_result=False, n_attempts=n_att, since_utc=since)
         if d["block"]:
@@ -2925,8 +3007,22 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
                 # `None` is "the host is not telling us", NOT an idle GPU — the two must not render alike,
                 # because only the second is evidence of anything.
                 _u = _inst_gpu_util(inst)
-                state_why = ("%d consecutive board polls with no new frame; phase marker %s%s, GPU %s"
-                             % (no_adv, phase or "none", _phase_marker_provenance(phase, inst),
+                # ⚠ THE POLL COUNT IS A UNIT-LIFETIME FIGURE AND MUST NOT READ AS ONE RENTAL'S (2026-07-31,
+                # 3:17 PM ET). `no_advance_polls` accumulates on the UNIT and survives every re-placement, so
+                # `nr4a1 m1 r1` rendered "22 consecutive board polls with no new frame" — the wedge signature
+                # — on a host that was ONE MINUTE OLD. Twenty-one of those polls were other rentals'. Same
+                # family as the phase-marker defect fixed alongside it: a fact about the unit presented as a
+                # fact about this rental. The host's own age is the discriminator, and it is stated here so
+                # nobody has to infer it.
+                _age = "age unknown" if age_min is None else "this host is %.0f min old" % age_min
+                _pre = ("" if (age_min is None or not cold) else
+                        " — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and "
+                        "survives re-placement, and this host is still inside the %g min cold-start floor, "
+                        "so this is a fresh host carrying an old count, not a wedge"
+                        % vig.MIN_INSTANCE_AGE_MIN)
+                state_why = ("%d consecutive board polls with no new frame (%s)%s; phase marker %s%s, GPU %s"
+                             % (no_adv, _age, _pre, phase or "none",
+                                _phase_marker_provenance(phase, inst),
                                 "utilisation not reported by the host" if _u is None else "%.1f%%" % _u))
             else:
                 state_why = cell_why

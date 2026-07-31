@@ -487,5 +487,177 @@ def test_the_workflow_commits_the_hold_and_gate_artifacts_not_just_uploads_them(
     assert "nrv04-retro-gate.json" in step, "the per-tick gate record is not committed"
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 7 — I REPLACED AN UN-ADVANCEABLE COUNTER WITH AN UN-ADVANCEABLE ANCHOR (measured 3:17 PM ET).
+#
+#   nr4a3 m1 r0: 40.0% · NO HOST · THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure
+#   on distinct hosts. Counted since this unit's last completed leg record (2026-07-31T14:53:10Z).
+#
+# 200 of 500 production frames banked and refused a host. The anchor was the last COMPLETED leg record — a
+# smoke leg from 10:53 AM ET — and a unit that is part-done has by definition not completed one and never
+# will while blocked. Same shape as the lifetime-count bug, one level in.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_a_banked_checkpoint_supersedes_the_streak_anchor():
+    import calendar
+    rec = calendar.timegm((2026, 7, 31, 14, 53, 10, 0, 0, 0))          # the stale SMOKE leg record
+    # No commit -> the leg record is the anchor (the previously-shipped behaviour, still correct).
+    assert vl.retro_streak_since_utc({"u": rec}, "u") == "2026-07-31T14:53:10Z"
+    # A production checkpoint written LATER must move the anchor forward.
+    assert vl.retro_streak_since_utc({"u": rec}, "u", "2026-07-31T18:35:00Z") == "2026-07-31T18:35:00Z"
+    # An OLDER checkpoint must not drag it backwards.
+    assert vl.retro_streak_since_utc({"u": rec}, "u", "2026-07-31T10:00:00Z") == "2026-07-31T14:53:10Z"
+    # A commit with no leg record at all still anchors.
+    assert vl.retro_streak_since_utc({}, "u", "2026-07-31T18:35:00Z") == "2026-07-31T18:35:00Z"
+    # Neither -> None, i.e. lifetime IS the streak (the case the breaker was written for).
+    assert vl.retro_streak_since_utc({}, "u") is None
+    # An undateable stamp is UNKNOWN and simply does not supersede.
+    assert vl.retro_streak_since_utc({"u": rec}, "u", "not-a-stamp") == "2026-07-31T14:53:10Z"
+
+
+def test_the_40_percent_deadlock_is_broken_end_to_end(monkeypatch):
+    """Replay the live board state: stale smoke record + a fresh production checkpoint + 3 attempts."""
+    import calendar, json
+    a, m, r = retro.enumerate_units()[0]
+    name = retro.unit_name(a, m, r)
+    rec = calendar.timegm((2026, 7, 31, 14, 53, 10, 0, 0, 0))
+    seen = {}
+
+    def _count(_s3, _b, _p, unit, since_utc=None):
+        seen[unit] = since_utc
+        return 0 if since_utc == "2026-07-31T18:35:00Z" else 3      # 3 lifetime attempts since the record
+
+    import leg_failure_breaker as lfb
+    s3 = _FakeS3({f"{vl.RETRO_RESULT_PREFIX}/{vl.RETRO_AUTHORIZED_UNITS_KEY}": json.dumps({"units": [name]})})
+    monkeypatch.setattr(vl, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(vl, "retro_leg_records",
+                        lambda *a, **k: [(name, "k", {"mode": "smoke", "n_frames": 5}, rec)])
+    monkeypatch.setattr(vl, "_s3_list", lambda *a, **k: [])
+    monkeypatch.setattr(vl, "retro_committed_at", lambda *a, **k: "2026-07-31T18:35:00Z")
+    monkeypatch.setattr(lfb, "count_attempts", _count)
+    out = vl.retro_supervise("bkt", s3=s3, key="k", now=1.0e9, launch=False)
+    assert seen[name] == "2026-07-31T18:35:00Z", "the banked checkpoint must anchor the streak"
+    assert out["blocked"] == [], "a leg with banked frames must not be refused a host"
+    assert out["would_replace"] == [name]
+
+
+def test_retro_committed_at_only_counts_a_production_checkpoint():
+    """It must not be fooled by the built-system snapshot or the leg record, which any attempt can write."""
+    import datetime as _dt
+
+    class _S3:
+        def __init__(self, keys):
+            self.keys = keys
+
+        def head_object(self, Bucket, Key):
+            return {"LastModified": _dt.datetime(2026, 7, 31, 18, 35, 0, tzinfo=_dt.timezone.utc)}
+
+    def _list(_s3, _b, _prefix, suffix=None, **_k):
+        return [k for k in _s3.keys if suffix is None or k.endswith(suffix)]
+
+    import nrv04_vast_launch as N
+    keys = [f"{N.RETRO_RESULT_PREFIX}/u/built_x.built.json",
+            f"{N.RETRO_RESULT_PREFIX}/u/leg_x.json",
+            f"{N.RETRO_RESULT_PREFIX}/u/ckpt_x_s0.ckpt.json"]
+    import unittest.mock as _mock
+    with _mock.patch.object(N, "_s3_list", _list):
+        assert N.retro_committed_at(_S3(keys), "b", "u") == "2026-07-31T18:35:00Z"
+        assert N.retro_committed_at(_S3(keys[:2]), "b", "u") is None, (
+            "a built-system snapshot and a leg record are not banked production frames")
+
+
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 8 — 11 of 16 units failed to place against 89 PRICEABLE offers, because the wave never learned.
+# 33 refusal events, EIGHT distinct machines: 29706 refused all 11 units, 33657 refused 8, 34670 refused 6.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_a_host_that_refused_one_unit_is_skipped_for_the_rest_of_the_same_wave(monkeypatch):
+    import gpu_backend as gb
+    seen_excludes = []
+
+    class _BE:
+        def __init__(self):
+            self.n = 0
+
+        def submit(self, spec):
+            seen_excludes.append(tuple(spec.resources.exclude_machine_ids))
+            self.n += 1
+            if self.n <= 2:
+                raise gb.CapacityRefusedAtStart(
+                    "refused", [{"machine_id": "29706"}, {"machine_id": "33657"}])
+            raise RuntimeError("no offer")          # later units: assert on what they were OFFERED
+
+    monkeypatch.setenv("RETRO_PILOT_ONLY", "0")
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")
+    monkeypatch.setattr(vl, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(vl, "retro_done_units", lambda *a, **k: set())
+    monkeypatch.setattr(vl, "presign_env_tarball", lambda *a, **k: "https://x/env.tgz")
+    monkeypatch.setattr(vl, "get_backend", lambda _n: _BE())
+    vl.retro_launch("bkt", authorize=False)
+
+    assert seen_excludes[0] == (), "the first unit has learned nothing yet"
+    assert set(seen_excludes[1]) == {"29706", "33657"}, "unit 2 must skip what unit 1 measured"
+    assert set(seen_excludes[-1]) == {"29706", "33657"}, "and so must every later unit in the wave"
+
+
+def test_the_wave_refusal_set_does_not_outlive_the_call(monkeypatch):
+    """CLAUDE.md §6: nothing that excludes a machine may outlive the wave that learned it."""
+    import gpu_backend as gb
+    seen = []
+
+    class _BE:
+        def submit(self, spec):
+            seen.append(tuple(spec.resources.exclude_machine_ids))
+            raise gb.CapacityRefusedAtStart("refused", [{"machine_id": "29706"}])
+
+    monkeypatch.setenv("RETRO_PILOT_ONLY", "0")
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")
+    monkeypatch.setattr(vl, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(vl, "retro_done_units", lambda *a, **k: set())
+    monkeypatch.setattr(vl, "presign_env_tarball", lambda *a, **k: "https://x/env.tgz")
+    monkeypatch.setattr(vl, "get_backend", lambda _n: _BE())
+    vl.retro_launch("bkt", authorize=False)
+    first_wave_last = seen[-1]
+    assert "29706" in first_wave_last
+    seen.clear()
+    vl.retro_launch("bkt", authorize=False)         # a FRESH wave must start from nothing
+    assert seen[0] == (), "a new wave must re-learn; the set is not allowed to persist"
+
+
+def test_no_durable_exclusion_state_is_introduced():
+    """The retired defect is a set with no evidence that can retire an entry. Ours is a local."""
+    import inspect
+    src = inspect.getsource(vl.retro_launch)
+    assert "wave_refused = set()" in src, "the set must be a local, created per call"
+    assert "exclude=tuple(sorted(wave_refused))" in src
+    import vast_machine_blacklist as vmb
+    assert vmb.DURABLE_EXCLUSIONS_ENABLED is False, "the durable blacklist must stay retired"
+
+
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 9 — a UNIT-lifetime poll count rendered as a wedge on a ONE-MINUTE-OLD host (3:17 PM ET).
+#   nr4a1 m1 r1: "22 consecutive board polls with no new frame" — 21 of them belonged to earlier rentals.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_a_stale_poll_count_on_a_fresh_host_says_so(monkeypatch):
+    import nrv04_vast_launch as N
+    import nrv04_retro_panel as R
+    import inflight_board as ifb
+    import vast_idle_guard as vig
+    a, m, r = R.enumerate_units()[0]
+    name = R.unit_name(a, m, r)
+    now = 1.0e9
+    inst = {"id": 9, "label": name, "start_date": now - 60.0, "actual_status": "running"}  # 1 min old
+
+    class _S3:
+        def get_object(self, Bucket, Key):
+            raise KeyError(Key)
+
+    prev = {name: {"stage": "md", "iteration": None, "no_advance_polls": ifb.STALL_POLLS + 19}}
+    rows, _ = N.retro_board_rows(_S3(), "b", {name: "md-running 2026-07-31T18:39:00Z"}, set(), [inst],
+                                 None, prev, now=now)
+    why = [x for x in rows if x["name"] == N._retro_short_name(name)][0]["why"]
+    assert "this host is 1 min old" in why, "the host's own age must be stated, not inferred"
+    assert "PREDATE THIS RENTAL" in why, "a fresh host carrying an old count must not read as a wedge"
+    assert "%g" % vig.MIN_INSTANCE_AGE_MIN in why
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))
