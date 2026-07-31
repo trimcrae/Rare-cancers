@@ -15,20 +15,20 @@ Merged 5:43 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 5:40 PM ET Fri Jul 31, 2026 (3 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 5:43 PM ET Fri Jul 31, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:04 AM Aug 1      53.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 30.9 s/iter · realised $0.00766/ns (1.86x expected)
-5aks_d0_to_d ternary nr4a3 r0 9:21 PM            88.9%  RTX 3090 $0.00554/ns · 1.62× basis [bid] RUNNING   ⚠ 33.2 s/iter · realised $0.01107/ns (2.00x expected)
-5aks_d0_to_d ternary nr4a1 r0 5:19 AM Aug 1      35.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   18.1 s/iter
-5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00537/ns · 1.57× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary nr4a3 r1 8:06 AM Aug 1      53.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 30.9 s/iter · realised $0.00766/ns (1.86x expected)
+5aks_d0_to_d ternary nr4a3 r0 9:24 PM            88.9%  RTX 3090 $0.00554/ns · 1.62× basis [bid] RUNNING   ⚠ 33.2 s/iter · realised $0.01107/ns (2.00x expected)
+5aks_d0_to_d ternary nr4a1 r0 5:22 AM Aug 1      35.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   18.1 s/iter
+5aks_d0_to_d ternary nr4a1 r1 6:53 AM Aug 1      35.6%  RTX 4090 $0.00537/ns · 1.57× basis [bid] STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way · ⚠ 20.4 s/iter · realised $0.00661/ns (1.23x expected)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 5:43 PM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 5:43 PM ET Fri Jul 31, 2026 (1 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,15 +36,15 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 5:34 PM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 12 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 6 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 5:43 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 12 of 18 authorized R1 leg(s) landed (rows below are the rest). ⛔ 6 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 nr4a1 m1 r1        —                  20.0%  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T21:04:58Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure on distinct hosts. Counted since this unit last banked work — a completed leg record or a production checkpoint (2026-07-31T19:44:13Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) — the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed.
-nr4a1 m2 r1        —                  70.0%  — $0.1527/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  no measured frame rate across two board polls yet — ETA unknowable, progress is real (frame 350/500)
+nr4a1 m2 r1        —                  70.0%  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  2 consecutive board polls with no new frame (this host is 0 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T21:35:48Z — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 7 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host
 nr4a2 m2 r0        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T20:28:05Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure on distinct hosts. Counted since this unit last banked work — a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) — the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed.
-nr4a2 m3 r0        —                      —  — $0.1785/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  32 consecutive board polls with no new frame (this host is 8 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T21:32:19Z, GPU 0.0%
+nr4a2 m3 r0        —                      —  — $0.1785/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  32 consecutive board polls with no new frame (this host is 16 min old); phase marker md-running 2026-07-31T21:32:19Z, GPU 0.0%
 nr4a3 m3 r0        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T19:31:54Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: INPUT QUARANTINE — this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +2.207e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6). MEASURED CAUSE (not inferred): the co-fold nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart — two heavy atoms on the same point, both positioned by Boltz. The staged single-point probe finds NonbondedForce carrying +2.109e15 kJ/mol already at `protein_after_pdbfixer`, before the ligand exists and before one water is placed, so ligand placement and addSolvent are excluded (nrv04_pe_stage_probe, 2026-07-31). Renting another host reproduces it in seconds and tests nothing. RELEASE: a different co-fold for this unit — the quarantine is read from the leg record, so a clean record clears it with no edit. ⚠ THAT IS A PREREGISTRATION QUESTION, NOT A CODE FIX: the input, not the pipeline, is what would change.
 nr4a3 m3 r1        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T19:52:37Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: INPUT QUARANTINE — this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +1.791e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6). MEASURED CAUSE (not inferred): the co-fold nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart — two heavy atoms on the same point, both positioned by Boltz. The staged single-point probe finds NonbondedForce carrying +2.109e15 kJ/mol already at `protein_after_pdbfixer`, before the ligand exists and before one water is placed, so ligand placement and addSolvent are excluded (nrv04_pe_stage_probe, 2026-07-31). Renting another host reproduces it in seconds and tests nothing. RELEASE: a different co-fold for this unit — the quarantine is read from the leg record, so a clean record clears it with no edit. ⚠ THAT IS A PREREGISTRATION QUESTION, NOT A CODE FIX: the input, not the pipeline, is what would change.
 ```
