@@ -1,37 +1,37 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "nrv04-retro",
-  "generated_epoch": 1785528439.1278293,
-  "generated_utc": "2026-07-31T20:07:19Z",
-  "generated_et": "4:07 PM ET Fri Jul 31, 2026",
+  "generated_epoch": 1785528824.8137007,
+  "generated_utc": "2026-07-31T20:13:44Z",
+  "generated_et": "4:13 PM ET Fri Jul 31, 2026",
   "note": "2 of 18 authorized R1 leg(s) landed (rows below are the rest). \u26d4 16 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
   "rows": [
     {
       "name": "nr4a1 m1 r0",
-      "pct": 70.0,
+      "pct": 90.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785529216.1278293
+      "eta_epoch": 1785529018.3137007
     },
     {
       "name": "nr4a1 m1 r1",
       "pct": 20.0,
       "pct_of": null,
       "eta_s": null,
-      "usd_per_ns": null,
-      "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T19:28:59Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "state": "STARTING",
+      "why": "3 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T19:28:59Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 44 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     },
     {
       "name": "nr4a1 m2 r0",
-      "pct": 50.0,
+      "pct": 80.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785529300.794496
+      "eta_epoch": 1785529082.8137007
     },
     {
       "name": "nr4a1 m2 r1",
@@ -47,18 +47,18 @@
       "pct": 20.0,
       "pct_of": null,
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.1785/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "STARTING",
-      "why": "6 consecutive board polls with no new frame (this host is 1 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T19:49:45Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 17 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "why": "7 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T19:49:45Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 24 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     },
     {
       "name": "nr4a1 m3 r1",
       "pct": null,
       "pct_of": "smoke",
       "eta_s": null,
-      "usd_per_ns": null,
-      "state": "NO HOST",
-      "why": "no live host \u2014 phase marker uploaded 2026-07-31T14:21:02Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "usd_per_ns": "\u2014 $0.2248/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "state": "STARTING",
+      "why": "36 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker uploaded 2026-07-31T14:21:02Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 353 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     },
     {
       "name": "nr4a2 m2 r0",
@@ -76,7 +76,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.2615/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "STARTING",
-      "why": "32 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T19:41:47Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 25 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "why": "32 consecutive board polls with no new frame (this host is 7 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T20:10:04Z, GPU 0.0%"
     },
     {
       "name": "nr4a2 m3 r0",
@@ -85,52 +85,52 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.1785/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "STARTING",
-      "why": "32 consecutive board polls with no new frame (this host is 26 min old); phase marker md-running 2026-07-31T19:46:31Z, GPU 0.0%"
+      "why": "32 consecutive board polls with no new frame (this host is 33 min old); phase marker md-running 2026-07-31T19:46:31Z, GPU 0.0%"
     },
     {
       "name": "nr4a2 m3 r1",
       "pct": null,
-      "pct_of": "smoke",
+      "pct_of": null,
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.1819/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "STARTING",
-      "why": "35 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker uploaded 2026-07-31T14:44:43Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 322 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
+      "why": "35 consecutive board polls with no new frame (this host is 7 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T20:10:37Z, GPU 0.0%"
     },
     {
       "name": "nr4a3 m1 r0",
       "pct": 90.0,
       "pct_of": null,
       "eta_s": null,
-      "usd_per_ns": null,
-      "state": "NO HOST",
-      "why": "no live host \u2014 phase marker md-running 2026-07-31T19:34:01Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
+      "usd_per_ns": "\u2014 $0.1811/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "state": "STARTING",
+      "why": "2 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T19:34:01Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 40 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     },
     {
       "name": "nr4a3 m1 r1",
-      "pct": 70.0,
+      "pct": 80.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.1846/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785528956.1278293
+      "eta_epoch": 1785529596.8137007
     },
     {
       "name": "nr4a3 m2 r0",
-      "pct": 70.0,
+      "pct": 90.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.2071/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785529990.1278293
+      "eta_epoch": 1785529017.8137007
     },
     {
       "name": "nr4a3 m2 r1",
-      "pct": 20.0,
+      "pct": 40.0,
       "pct_of": null,
       "usd_per_ns": "\u2014 $0.2095/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
       "why": "",
-      "eta_epoch": 1785532575.1278293
+      "eta_epoch": 1785529982.8137007
     },
     {
       "name": "nr4a3 m3 r0",
