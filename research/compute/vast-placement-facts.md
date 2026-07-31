@@ -19,7 +19,7 @@ hypothesis should be the filter**, because it has been the cause every time it h
 | # | the filter | what it did | where the evidence lives (one home each — do not restate here) |
 |---|---|---|---|
 | 1a | the **durable machine blacklist** | grew until it, not price, decided placement; authorised units failed to place against a healthy, wide board | `vast_exclusion_census.__doc__`; `congeneric_fanout_vast.withdraw_wrong_exclusions.__doc__` and `.retire_perishable_exclusions.__doc__`; the wave-scoped comment in `ternary_vast_launch.collect`; `vast_machine_blacklist.__doc__` (which parked the hazard before it happened) |
-| 1b | **`min_cuda` = 13.0** | **MEASURED too high** — the image JITs against NVRTC 12.6, so the floor excludes hosts it can actually use. Value not yet changed: **§4** | `research/modalities/ternary-fep-cuda-probe.json` (`required_host_cuda`); board cost in `vast-filter-ablation.json` → `cuda_sweep` |
+| 1b | **`min_cuda` as a global 13.0** | **MEASURED too high and FIXED** — `ternary-fep` JITs against NVRTC 12.6, so the floor was refusing hosts it can run on. Now looked up **per image**: **§4** | `research/modalities/image-cuda-requirements.json` (the one home); probe `ternary-fep-cuda-probe.json`; board cost in `vast-filter-ablation.json` → `cuda_sweep` |
 | 1c | a **card floor** (`min_ns_per_h`) | deleted the cheapest cards on a premise its own lane's 208-rental ledger refutes, and roughly doubled the gate's reported price — **see §3** | this file §3; `step1-fanout-supervisor.yml` 5aks-gate block |
 | 1d | **`vast_idle_guard` is LABEL-SCOPED** | runs only inside a lane's own collect, so a lane that stops being dispatched stops being guarded, and nothing says so — two orphaned rentals billed for days | `realised_spend.ATTESTED` → `vast_bench_sweep_orphans.closes_when` and `nrv04_retro_orphan.closes_when`; STRATEGY.md Appendix A 58 |
 | 1e | **truncated board pagination** | the query carried no `limit`, so every gate and every submit decided on a small fraction of the market — and it manufactured apparent price volatility (§2) | `gpu_backend._vast_offer_query` (the `_VAST_SEARCH_LIMIT` block, with the paired-read numbers) |
@@ -231,10 +231,11 @@ this is where the row will be looked at again.
 
 ---
 
-## 4. `min_cuda` — MEASURED 2026-07-31, and the value in force is TOO HIGH (not yet changed)
+## 4. `min_cuda` — MEASURED, APPLIED, and now a PER-IMAGE value (2026-07-31)
 
-**Status: the question is answered, the edit is not made.** Recorded here so the next session neither
-re-asks it nor assumes it was applied.
+**Status: CLOSED.** It is written up rather than deleted because the *shape* of the answer is the reusable
+part: a filter this expensive should be measured from the artifact it constrains, never asserted from a
+Dockerfile line.
 
 **The question was** whether the CUDA-13-class PTX that justified raising the floor from 12.6 to 13.0 on
 2026-07-23 is actually present in *this* image. It could not be settled from the Dockerfile: `FROM
@@ -252,22 +253,30 @@ its `verdict` are the one home — `research/modalities/ternary-fep-cuda-probe.j
 **What the extra 0.4 costs**, from the live `cuda_sweep` in `research/modalities/vast-filter-ablation.json`
 (bid tier, one board read, 2026-07-31 1:36 PM ET): the board's surviving offers fall from **134 at 12.6 to
 119 at 13.0**, priceable from 58 to 52, and the best achievable rate moves from **0.829× to 0.883× basis**.
-`cuda_max_good` is a **server-side** query term (`_vast_offer_query`) *and* a client-side filter, so it prunes
-harder than any other single spec field, and it moves `offers_returned` itself — the §2 field that reads as
-"the market is narrow" rather than as "we asked for a narrow market".
+⚠ `cuda_max_good` is applied **twice** — a server-side query term (`_vast_offer_query`) *and* a client-side
+filter — so unlike a card floor it moves **`offers_returned` itself**, the §2 field that then reads as "the
+market is narrow" rather than as "we asked for a narrow market". *(Where it ranks against the other filters
+is `vast-filter-ablation.json` → `per_filter`; it is not the largest, and no ranking is restated here.)*
 
-⚠ **`gpu_backend.ResourceSpec.min_cuda` is still 13.0**, deliberately: the probe's own docstring says acting
-on the verdict is a separate reviewed edit, "because the whole point is that this constant should move only on
-evidence". **The evidence now exists.** The pending change is `13.0 → 12.6` in `ResourceSpec.min_cuda` (and
-the `TVAST_MIN_CUDA` default), with a real leg watched through `build_system` on a 12.6-driver host before
-the lane is left unattended — that is the failure mode the raise was reacting to, and nothing in this probe
-rules it out for a *different* image.
+**What was applied** (`881a34d0`) is better than the edit this section originally asked for, and the
+difference is the lesson: `min_cuda` **stopped being a constant**. The floor is now looked up **per container
+image** from `research/modalities/image-cuda-requirements.json` — written by the probe, never typed —
+via `gpu_backend.measured_min_cuda(image)`, and held by `tests/test_image_cuda_floor.py`.
+**`ternary-fep` → 12.6.** An image nobody has probed does **not** inherit another image's floor: it falls back
+to `gpu_backend.CONSERVATIVE_MIN_CUDA`, which is deliberately the old **13.0**, so an unmeasured stack stays
+safe and its cost stays visible as itself. *Superseded, retained: `min_cuda = 13.0` as a standing constant,
+and the "the `cuda-version=12.6` pin did NOT take" claim it rested on.*
+
+⚠ **One thing the probe does not settle, and it is the reason the fallback is conservative:** a probe reads
+what an image *contains*, so it transfers to no other image. The 2026-07-23 crash it overturns was real; what
+was wrong was generalising one env's floor into a global constant. **A newly-probed image still deserves one
+leg watched through `build_system` before the lane is left unattended.**
 
 ⚠ **Not registered as a superseded figure, on purpose.** An entry retiring `cuda_max_good ≥ 12.6` was added to
 `pinned-figures.json` earlier the same day and **removed once the probe landed**: 12.6 is the value the
 measurement supports, so pinning it as retired would make CI flag a true statement — the one failure mode that
 registry's own README forbids. What survives is the one-home repair: [pricing.md §E](./pricing.md) no longer
-names a value, it points at `ResourceSpec.min_cuda`.
+names a value, it points at the code.
 
 ---
 
@@ -299,8 +308,10 @@ Per CLAUDE.md §1 rule 1, these have exactly one home and it is not here:
 
 ## 6. Open at the end of 2026-07-31 — the short list
 
-1. **`ResourceSpec.min_cuda` 13.0 → 12.6 is measured but not applied** (§4), with a `build_system` watch on a
-   12.6-driver leg before the lane is left unattended.
+1. **Only ONE image has been probed** (`ternary-fep`, §4). Every other stack — `nrv04vast`, `pmxfep`,
+   `nr4a3fep`, `bioemu`, `protfep` — is still on `CONSERVATIVE_MIN_CUDA = 13.0` and is paying the ~6 %
+   `$/ns` penalty §4 measures, for want of a $0 probe run. *(Closed 2026-07-31: `min_cuda` for `ternary-fep`
+   itself, applied in `881a34d0`.)*
 2. **A gate artifact still records no spec** — `gpu_class`, `min_ns_per_h`, `on_demand`, `bid_floor_mult`
    (§2b). Until it does, a committed hold cannot be attributed to the tier or floor that produced it, and the
    §2c tier effect makes that a ~2× ambiguity.
