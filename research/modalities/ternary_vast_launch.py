@@ -751,10 +751,18 @@ AWSC=$(command -v aws || echo /opt/mamba/envs/rbfe/bin/aws)
 # destroyed on every transition. The run.log carried exactly two clocks, `start` and `EXIT`, which means the
 # ~28 min cold start could be measured as a TOTAL and never split.
 #
-# WHY THAT TOTAL IS THE MOST EXPENSIVE UNKNOWN ON THIS LANE. Median session is ~1.00 h, so a 28 min cold
-# start is ~47 % of every rental, and any session shorter than it banks NOTHING — 25 % of today's rentals.
-# Measure-on-arrival showed the MD itself is fine (the worst host today still reaches a commit boundary in
-# ~39 min of a 48 min budget), so the cold start is the constraint and nobody could see inside it.
+# WHY THAT TOTAL IS THE MOST EXPENSIVE UNKNOWN ON THIS LANE. Median session is ~1.00 h, so a cold start of
+# tens of minutes is a large fraction of every rental, and any session shorter than it banks NOTHING — 25 %
+# of today's rentals. Measure-on-arrival showed the MD itself is fine (the worst host today still reaches a
+# commit boundary in ~39 min of a 48 min budget), so the cold start is the constraint.
+#
+# ⚠ AND THE "~28 min" THIS LANE KEEPS QUOTING IS INHERITED, NOT MEASURED ON IT. Its one home is the
+# `ternary-4fs-vast-findings.md` cold-start budget, which is a MEASURED ~25 min TOTAL — 2.8 min image pull,
+# ~8 min staging, 456 s pre-equilibration, ~6 min setup — and which says **~15 min of that is cached and
+# will not repeat**. `setup_tax.py` then measured the caches HITTING on 23 of 27 attempts. So the expected
+# cold start on this lane is nearer ~10 min than ~28, and the ~28 has never been measured on a 5a-KS leg with
+# warm caches. Which of those two the lane is actually paying is exactly what the marks below now record —
+# do not re-quote either figure as if it were this lane's measurement until one attempt has produced a split.
 #
 # One `echo` per transition, into a file that is already being tee'd and synced. It costs nothing and it
 # makes every future attempt yield a complete line-item split: image pull -> stage -> pre-equil -> MD start.

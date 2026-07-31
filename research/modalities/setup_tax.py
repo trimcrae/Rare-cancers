@@ -71,9 +71,15 @@ ITER_RATE = re.compile(r"\[timing\].*?(\d+(?:\.\d+)?)\s*s/iter")
 #     staging -> preequil  STAGE download (or rebuild on a miss)
 #     preequil -> md-running   PRE-EQUILIBRATION
 #     md-running -> first [timing]   run_ternary_leg + setup restore/build + minimise + warmup to first rate
-# Why it is the most expensive unknown on this lane: median session ~1.00 h, so 28 min is ~47 % of every
-# rental, and any session shorter than it banks NOTHING (25 % of today's). Measure-on-arrival showed MD itself
-# is fine, so this is the constraint.
+# Why it is the most expensive unknown on this lane: median session ~1.00 h, so a cold start of tens of
+# minutes is a large fraction of every rental, and any session shorter than it banks NOTHING (25 % of
+# today's). Measure-on-arrival showed MD itself is fine, so this is the constraint.
+#
+# ⚠ THE "~28 min" IS INHERITED, NOT MEASURED HERE. Its one home is `ternary-4fs-vast-findings.md`'s cold-start
+# budget: a MEASURED ~25 min total (2.8 min image pull, ~8 min staging, 456 s pre-equil, ~6 min setup) of
+# which **~15 min is cached and will not repeat** — and the cache tally below says the caches ARE hitting on
+# 23 of 27 attempts. So the expected warm-cache cold start is nearer ~10 min. Nobody has measured which the
+# lane actually pays; that is what `timeline` exists to settle.
 PHASE_MARK = re.compile(r"\[tvast\] (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z) phase=(\S+)")
 START_TS = re.compile(r"\[tvast\] (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z) start ")
 EXIT_TS = re.compile(r"\[tvast\] (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z) EXIT ")
