@@ -50,9 +50,12 @@ really do refuse every start. It is that the set has **no evidence that can reti
 out, and a TTL was correctly refused for want of a measurement), so it is a ratchet: monotone in a quantity
 that shrinks the board, on a market where the cost of re-learning is one free failed submit.
 
-**Implemented the same day**, not just written down: `vast_filter_ablation.json` reports
-`durable_exclusions_enabled: false` with **45 ids retired** (sources listed per snapshot in that artifact),
-and `tests/test_blacklist_retired.py` holds it there.
+**Implemented the same day**, not just written down. One home for the decision:
+**`vast_machine_blacklist.DURABLE_EXCLUSIONS_ENABLED = False`** — reads return empty, writes are refused, and
+`tests/test_blacklist_retired.py` holds it there. `VAST_DURABLE_EXCLUSIONS=1` restores the old behaviour
+exactly, which is what makes the change reversible; it is an escape hatch for a diagnosis, **not** a setting
+to leave on. `vast-filter-ablation.json` records `durable_exclusions_enabled: false` with **45 ids retired**,
+sourced per snapshot in that artifact.
 ⚠ **And an honest counterpoint that must travel with it:** on *that particular* board read the retired set
 would have removed **0 offers** and cost **0 %** on `$/ns` (`vast-filter-ablation.json` →
 `tiers[].retired_blacklist`). **That is not evidence the set was harmless** — its harm is intermittent by
@@ -82,7 +85,7 @@ Every gate in this repo emits `board_depth` / `depth`. It is computed once, in
 
 | field | what it counts | what a low value means |
 |---|---|---|
-| `offers_returned` | rows the **server-side query** returned (`gpu_backend._vast_offer_query`: verified, rentable, 1 GPU, VRAM/RAM/cores/disk/reliability/`cuda_max_good` floors, `type` bid-vs-on-demand, `limit`) | the *query* is narrow — a spec floor or the tier, not the market |
+| `offers_returned` | rows the **server-side query** returned (`gpu_backend._vast_offer_query`: verified, rentable, 1 GPU, VRAM/RAM/cores/disk/reliability/`cuda_max_good` floors, `type` bid-vs-on-demand, `limit`). ⚠ **already spec-filtered — it is NOT the size of the board**, see §2c | the *query* is narrow — a spec floor or the tier, not the market |
 | `qualifying` | of those, how many survived the **client-side** hard filters in `gpu_backend.rank_offers_by_usd_per_ns` (exclusions, `require_gpu`, `min_ns_per_h`, `num_gpus`, VRAM slack, `cuda_max_good`, hourly cap) | **our filters ate the board** — this is the exclusion/card-floor signal |
 | `priceable` | of those, how many carry a **benched** card, so a `$/ns` can be formed at all | the board is full of cards we have never measured; see [pricing.md §A.3](./pricing.md) |
 | `used_for_mean` | how many of the cheapest `priceable` offers the reported mean was taken over — `min(needed, priceable)`, where `needed` is the number of hosts about to be bought | ⚠ **not a symptom.** For a single unit this is 1 **by design**, and a mean over one offer is a high-variance statistic in any market |
@@ -116,12 +119,17 @@ The two signatures alternate all afternoon, **at one point 56 seconds apart** �
 ⚠ **Which spec, is NOT established, and this file does not guess.** The `5aks-gate` job's price depends on
 four workflow inputs — `gpu_class`, `min_ns_per_h`, `on_demand`, `bid_floor_mult`
 (`gpu-ternary-fep-vast.yml`, the `5aks-gate` job `env:`) — and **the artifact it writes records none of
-them**, so a committed row cannot be attributed to the spec that produced it. Two live candidates, and they
-are not exclusive: the ternary lane's self-heal re-placement path dispatches every gate with a hard-coded
+them**, so a committed row cannot be attributed to the spec that produced it. Two candidates, not exclusive:
+the ternary lane's self-heal re-placement path dispatches every gate with a hard-coded
 `-f min_ns_per_h=28 -f bid_floor_mult=2.0` and conditionally `-f on_demand=1`, while the supervisor's
-`5aks-gate` dispatch passes no floor; and the query's `type` field is `bid` vs `on-demand` depending on the
-tier, which changes `offers_returned` as well as the rate. **The discriminating observation** is to read
-those four inputs off the runs behind each stream — the CLEAR stream's run ids are in
+`5aks-gate` dispatch passes no floor. **§2c narrows it, and the narrowing turns on WHERE each filter acts.**
+`min_ns_per_h` is **client-side only** (`rank_offers_by_usd_per_ns`), so a card floor **cannot move
+`offers_returned` at all** — it can only depress `qualifying`. The expensive stream shows **both**: 201
+returned against 169 (*higher*) and 80 qualifying against 167 (lower). The **tier** does move both, and in the
+right directions — measured on one board read, on-demand returned **more** rows than bid and cost **~2×** per
+nanosecond. So the tier is the only one of the two candidates that accounts for the whole signature. That is a
+mechanism, not an attribution of these rows. **The discriminating observation** for them is still to
+read those four inputs off the runs behind each stream — the CLEAR stream's run ids are in
 `ternary-vast-launch-attempts.json` (e.g. `30649738323` for the 1:09 PM ET row) — or, better, to record the
 spec in the gate artifact so the question cannot be asked again.
 
@@ -136,12 +144,22 @@ Run the same afternoon (`vast_filter_ablation.py` → **`research/modalities/vas
 board read at **1:36 PM ET 2026-07-31**, $0, rents nothing). It is the one home of these numbers; two results
 are worth carrying here because they change how a hold is read.
 
-**(i) Our own spec removes the overwhelming majority of the board.** On the bid tier: **1370 offers returned →
-119 surviving the full spec → 52 priceable.** So `board_depth`'s first-to-second column drop is the normal
-case, not an alarm — what matters is *which* filter is responsible, and the artifact's `per_filter` block
-gives each one's `marginal_cost_offers` and the `$/ns` improvement from leaving it out. The two worth
-re-examining on that read were `cuda_max_good ≥ 13.0` (§4) and `cpu_ram ≥ 32 GB`, whose leave-out improved the
-best rate materially; `reliability2`, `disk_space`, `cpu_cores` and `verified` each cost almost nothing.
+⚠⚠ **ITS `offers_returned` IS NOT THE GATE'S `offers_returned`, AND CONFLATING THEM WILL MISLEAD YOU.** The
+ablation issues a deliberately **permissive** query — `num_gpus=1` server-side and nothing else
+(`permissive_query`, `limit` 3000) — so every filter can be counted client-side against the same list. A
+gate's query has already applied the VRAM / RAM / cores / disk / reliability / `cuda_max_good` floors before it
+counts. **So the ablation's number is the whole single-GPU board; the gate's is what survived the server
+query.** That is why one reads ~1370 and the other ~170 on the same afternoon, with no disagreement between
+them.
+
+**(i) Our own spec removes the overwhelming majority of the single-GPU board.** Bid tier: **1370 offers →
+119 surviving the full spec → 52 priceable.** So a large drop is the *normal* case, not an alarm — what matters
+is **which** filter is responsible, and `per_filter` gives each one's `marginal_cost_offers` (offers only that
+filter removes) and the `$/ns` improvement from leaving it out. On that read the two worth re-examining were
+`cuda_max_good ≥ 13.0` (§4, ~6 % better without it) and `cpu_ram ≥ 32 GB` (~36 % better without it — but that
+floor is bought deliberately, because ternary setup is RAM-bound and a 16 GB box swaps; see
+`ternary_vast_launch`'s HOST SPEC note). `reliability2`, `disk_space`, `cpu_cores` and `verified` each cost
+essentially nothing and are free to keep.
 
 **(ii) ⭐ THE TIER, NOT THE MARKET, IS WORTH ~2× — measured on the SAME board read:**
 
