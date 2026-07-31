@@ -859,6 +859,49 @@ def test_incomplete_and_UNCOMPLETABLE_must_not_read_alike():
     assert "newest_leg_rec = {}" in src, "unreadable is UNKNOWN, never 'nothing is quarantined'"
 
 
+def test_gpu_util_zero_is_an_ABSENT_reading_on_this_lane_not_a_reading_of_absence():
+    """★★ THE DISCRIMINATING OBSERVATION, not a suspicion (2026-07-31, 4:50 PM census vs the 4:47 board):
+
+        nr4a1-m3-r0  gpu_util=None   board: 50 % through production
+        nr4a1-m3-r1  gpu_util=0.0    board: 40 % through production
+
+    Both LANDED as complete 500-frame production legs — 1645.1 s (262.6 ns/day) and 1989.5 s (217.1 ns/day).
+    A 288,137-atom system does not do 200+ ns/day on a CPU, so those boxes were on their GPUs and working
+    while the field read 0.0 and None. The ternary boxes in the SAME census read 89-99 %, so the census is
+    fine — these hosts do not report.
+
+    Rendering that as a flat "GPU 0.0%" invites the one inference the data forbids. Nothing safety-critical
+    moves: `vast_idle_guard` already refuses to condemn on GPU idleness.
+    """
+    assert vl._retro_gpu_util_reading(None) == "utilisation not reported by the host"
+    zero = vl._retro_gpu_util_reading(0.0)
+    assert "NOT EVIDENCE OF IDLENESS" in zero and "frame census" in zero
+    assert zero == vl._retro_gpu_util_reading(0), "int 0 and float 0.0 must read alike"
+    # A real, positive reading is still reported plainly — this is not a blanket suppression.
+    assert vl._retro_gpu_util_reading(88.5) == "88.5%"
+
+
+def test_the_checkpoint_interval_override_is_PER_UNIT_and_off_by_default():
+    """(1) APPROVED single-unit trial. 50 frames is ~2.8-4 min of production at the landed legs' measured
+    3.3-4.8 s/frame; nr4a1-m1-r1's post-resume host lifetime is ~2 min, so it can never bank. 25 frames
+    (~1.4-2 min) is the SMALLEST change that could plausibly bank work and half the upload penalty of 10 —
+    each checkpoint is a ~45 MB state.xml, which is exactly why this is not a lane default."""
+    import nrv04_retro_panel as _panel
+    assert vl.retro_ckpt_every_for("nrv04retro-retro_noncov_nr4a1-m1-r1") == 25
+    # EXACTLY one unit is overridden; every other unit keeps the driver's default.
+    others = [_panel.unit_name(*u) for u in _panel.enumerate_units()
+              if _panel.unit_name(*u) != "nrv04retro-retro_noncov_nr4a1-m1-r1"]
+    assert all(vl.retro_ckpt_every_for(u) is None for u in others)
+    assert len(vl.RETRO_CKPT_EVERY_OVERRIDES) == 1
+    # It reaches the leg only through the jobspec env, so an un-overridden unit carries no key at all.
+    a, m, r = next(u for u in _panel.enumerate_units()
+                   if _panel.unit_name(*u) == "nrv04retro-retro_noncov_nr4a1-m1-r1")
+    assert vl.build_retro_jobspec(a, m, r, "run", "br", "bkt").env["CKPT_EVERY_FRAMES"] == "25"
+    a2, m2, r2 = next(u for u in _panel.enumerate_units()
+                      if _panel.unit_name(*u) == "nrv04retro-retro_noncov_nr4a1-m2-r0")
+    assert "CKPT_EVERY_FRAMES" not in vl.build_retro_jobspec(a2, m2, r2, "run", "br", "bkt").env
+
+
 def test_the_per_attempt_log_archive_must_not_land_where_attempts_are_COUNTED():
     """⛔ THE FOOTGUN THIS EXISTS TO STOP. `leg_failure_breaker.count_attempts` counts OBJECTS under
     `attempts/`. Archiving the previous attempt's run.log there too would put TWO objects per attempt in the

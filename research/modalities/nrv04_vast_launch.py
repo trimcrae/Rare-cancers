@@ -1634,6 +1634,9 @@ def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarb
     })
     if env_tarball_url:
         env["ENV_TARBALL_URL"] = env_tarball_url
+    _ck = retro_ckpt_every_for(name)
+    if _ck:
+        env["CKPT_EVERY_FRAMES"] = str(_ck)
     pipeline = _RETRO_PIPELINE.replace("{repo}", REPO)
     return JobSpec(
         name=name,
@@ -2310,6 +2313,74 @@ RETRO_SUPERVISE_STATE_KEY = "_supervise_state.json"
 # Fail-closed by construction: an empty/absent record means supervision buys NOTHING, which is the correct
 # default for a lane whose fan-out has not been authorised.
 RETRO_AUTHORIZED_UNITS_KEY = "_authorized_units.json"
+
+
+#: PER-UNIT checkpoint-interval overrides, {unit_name: frames}. Empty = every unit uses the driver's
+#: `CKPT_EVERY_FRAMES` default of 50.
+#:
+#: ★★ WHY THIS EXISTS, AND WHY IT IS PER-UNIT RATHER THAN A LANE DEFAULT (trimcrae's coordinator APPROVED
+#: a single-unit trial, 2026-07-31). `nrv04retro-retro_noncov_nr4a1-m1-r1` resumes at frame 100/500, runs
+#: ~2 min, and loses its host before the next 50-frame checkpoint — so every attempt redoes 100->150 and
+#: banks NOTHING, the streak anchor never advances, and the breaker counts it out. Measured against the
+#: landed legs: 500 frames in 1645-2420 s = 3.3-4.8 s/frame, so 50 frames is ~2.8-4 min of production —
+#: LONGER than this unit's post-resume host lifetime.
+#:
+#: ⚠ 25, NOT 10, AND THAT IS THE POINT OF THE EXPERIMENT. 25 frames is ~1.4-2 min: the SMALLEST change that
+#: could plausibly bank work, and half the upload penalty of 10. Each checkpoint uploads a ~45 MB
+#: `state.xml` plus a ~272 KB `.ckpt.json`, so halving the interval doubles that traffic — which is exactly
+#: why this is not a lane-wide default. If 25 banks a checkpoint where 50 could not, the lane-wide trade
+#: becomes a decision with evidence and a measured price behind it instead of a guess.
+RETRO_CKPT_EVERY_OVERRIDES = {
+    "nrv04retro-retro_noncov_nr4a1-m1-r1": 25,
+}
+
+
+def retro_ckpt_every_for(unit):
+    """Frames between production checkpoints for ONE unit, or None to use the driver default. PURE.
+
+    `RETRO_CKPT_EVERY` in the environment overrides the table for a one-off dispatch without editing code."""
+    env = os.environ.get("RETRO_CKPT_EVERY")
+    if env:
+        try:
+            return max(1, int(env))
+        except ValueError:
+            pass
+    return RETRO_CKPT_EVERY_OVERRIDES.get(unit)
+
+
+def _retro_gpu_util_reading(u):
+    """How to render `gpu_util` FOR THIS LANE. PURE.
+
+    ★★ ON THIS LANE THE FIELD IS NOT A WORK SIGNAL, AND 0.0 MUST NOT RENDER AS A MEASUREMENT
+    (measured 2026-07-31, 4:50 PM ET census vs the 4:47 PM board — the discriminating observation, not a
+    suspicion):
+
+        nrv04retro-…-nr4a1-m3-r0   gpu_util=None   while the board showed it 50 % through production
+        nrv04retro-…-nr4a1-m3-r1   gpu_util=0.0    while the board showed it 40 % through production
+
+    Both then LANDED as complete 500-frame production legs — 1645.1 s (262.6 ns/day) and 1989.5 s
+    (217.1 ns/day). A 288,137-atom system does not do 200+ ns/day on a CPU. So those boxes were on their
+    GPUs and working, and the field said 0.0 and None anyway.
+
+    ⛔ WHAT THIS REFUTES, so nobody re-opens it: OpenMM had NOT fallen back to the CPU platform. The retro
+    onstart exports `OPENMM_REQUIRE_CUDA=1`, and `nrv04_covalent_md._select_platform` turns a missing CUDA
+    into a hard SystemExit rather than a slow fallback; the live run.log lists CUDA among the loaded
+    platforms. Code, log and throughput all agree, and the ternary boxes reading 89-99 % in the SAME census
+    show the census itself is fine — it is these hosts that do not report.
+
+    So `0.0` here is an ABSENT reading, not a reading of absence (CLAUDE.md §4b), and rendering it as
+    "GPU 0.0%" invites exactly the inference the data does not support. Nothing SAFETY-critical changes:
+    `vast_idle_guard`'s inviolable rule already refuses to condemn on GPU idleness and
+    `inflight_board.gpu_is_busy` already declines to read low utilisation as evidence — this is the READOUT
+    catching up with what the guards already knew.
+    """
+    if u is None:
+        return "utilisation not reported by the host"
+    if float(u) <= 0.0:
+        return ("utilisation reads 0.0% — NOT EVIDENCE OF IDLENESS on this lane: boxes that landed complete "
+                "500-frame legs at 217-263 ns/day reported 0.0/None while producing. Judge progress by the "
+                "frame census, never by this field")
+    return "%.1f%%" % u
 
 
 def retro_attempt_hosts(s3, bucket, unit, since_utc=None):
@@ -3307,7 +3378,7 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
                 state_why = ("%d consecutive board polls with no new frame (%s)%s; phase marker %s%s, GPU %s"
                              % (no_adv, _age, _pre, phase or "none",
                                 _phase_marker_provenance(phase, inst),
-                                "utilisation not reported by the host" if _u is None else "%.1f%%" % _u))
+                                _retro_gpu_util_reading(_u)))
             else:
                 state_why = cell_why
             # ⚠ A UNIT ON A HOST WHOSE NEWEST RECORD IS ALREADY QUARANTINE-ELIGIBLE SAYS SO ON ITS ROW
