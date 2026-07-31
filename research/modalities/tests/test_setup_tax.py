@@ -144,3 +144,43 @@ def test_the_timeline_rides_the_ordinary_parse_so_every_attempt_carries_it():
 def test_a_malformed_stamp_does_not_take_the_parse_down():
     assert tax.timeline("[tvast] not-a-date phase=staging")["spans"] == {}
     assert tax.parse_log("[tvast] not-a-date phase=staging")["timeline"]["complete"] is False
+
+
+# =============================================================================================================
+# THE LIVE COLD START — measurable NOW, without waiting for a re-placement
+# =============================================================================================================
+class _S3:
+    def __init__(self, objs):
+        self.objs = objs
+
+    def get_object(self, Bucket=None, Key=None):  # noqa: N803
+        import io
+        if Key not in self.objs:
+            raise KeyError(Key)
+        return {"Body": io.BytesIO(self.objs[Key].encode())}
+
+
+def test_the_current_phase_start_survives_even_though_the_history_does_not():
+    """`mark()` OVERWRITES phase.txt, so the history is gone — but the CURRENT phase's start time is still
+    there, and the log has always carried `[tvast] <utc> start`. For a leg that has reached `md-running` the
+    difference is its whole cold start, on the attempt that is billing now. That is how the headline question
+    gets answered without waiting for a re-placement."""
+    s3 = _S3({"pfx/legs/u/phase.txt": "md-running 2026-07-31T12:24:00Z\n",
+              "pfx/legs/u/run.log": "[tvast] 2026-07-31T12:00:00Z start unit=u leg=l seed=0 dir=fwd\n"})
+    secs, span = tax.live_cold_start("u", "b", "pfx", s3)
+    assert secs == 1440.0 and "md-running" in span
+
+
+@pytest.mark.parametrize("objs,expect", [
+    ({}, "no phase.txt"),
+    ({"pfx/legs/u/phase.txt": "md-running 2026-07-31T12:24:00Z"}, "no run.log"),
+    ({"pfx/legs/u/phase.txt": "md-running", "pfx/legs/u/run.log": "[tvast] 2026-07-31T12:00:00Z start x"},
+     "absent"),
+    ({"pfx/legs/u/phase.txt": "md-running nonsense",
+      "pfx/legs/u/run.log": "[tvast] 2026-07-31T12:00:00Z start x"}, "unparseable"),
+])
+def test_a_missing_clock_returns_None_and_says_which(objs, expect):
+    """Never a zero. An unmeasured cold start reported as 0 min would be the most flattering possible lie
+    about the exact number this whole thread turns on."""
+    secs, why = tax.live_cold_start("u", "b", "pfx", _S3(objs))
+    assert secs is None and expect in why

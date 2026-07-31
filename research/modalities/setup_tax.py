@@ -223,6 +223,40 @@ def marker_times(uid, bucket, prefix, s3):
     return out
 
 
+def live_cold_start(uid, bucket, prefix, s3):
+    """(seconds, detail) from container start to the CURRENT phase, for the attempt running RIGHT NOW.
+
+    ★ WHY THIS EXISTS WHEN `timeline` ALREADY DOES THE SPLIT (2026-07-31). `timeline` reads the phase marks
+    the log now carries — but only attempts started AFTER those marks were timestamped have them, so the
+    headline question ("is this lane's cold start ~10 min or ~28?") would have to wait for a re-placement.
+    It does not: `mark()` has ALWAYS written `<phase> <utc>` into `phase.txt`, and the log has ALWAYS carried
+    `[tvast] <utc> start`. The history was destroyed at each transition, but the CURRENT phase's start time
+    survives — so for a leg that has reached `md-running`, the difference is its whole cold start, measured,
+    on the attempt that is billing now.
+
+    Returns (None, why) when either clock is missing — never a zero."""
+    import datetime as _dt
+    base = f"{prefix}/legs/{uid}"
+    try:
+        ph = s3.get_object(Bucket=bucket, Key=f"{base}/phase.txt")["Body"].read().decode(errors="replace")
+        phase, _, pts = ph.strip().partition(" ")
+    except Exception as e:  # noqa: BLE001
+        return None, f"no phase.txt ({type(e).__name__})"
+    try:
+        log = s3.get_object(Bucket=bucket, Key=f"{base}/run.log")["Body"].read().decode(errors="replace")
+    except Exception as e:  # noqa: BLE001
+        return None, f"no run.log ({type(e).__name__})"
+    m = START_TS.search(log)
+    if not m or not pts.strip():
+        return None, "start or phase timestamp absent"
+    try:
+        t0 = _dt.datetime.strptime(m.group(1), "%Y-%m-%dT%H:%M:%SZ")
+        t1 = _dt.datetime.strptime(pts.strip(), "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        return None, "unparseable timestamp"
+    return (t1 - t0).total_seconds(), f"container-start -> {phase}"
+
+
 def measure(mode="5aks", bucket=None, prefix=None, limit=6):
     b = bucket or tv.DEFAULT_BUCKET
     p = (prefix or tv.RESULT_PREFIX).rstrip("/")
@@ -242,8 +276,10 @@ def measure(mode="5aks", bucket=None, prefix=None, limit=6):
             for v in pr["restore_seconds"].values():
                 restore_s.append(v)
             rows.append(pr)
-        doc["units"][uid] = {"attempts": rows, "markers": {k: str(v) for k, v in
-                                                           marker_times(uid, b, p, s3).items()}}
+        _cs, _cswhy = live_cold_start(uid, b, p, s3)
+        doc["units"][uid] = {"attempts": rows,
+                             "live_cold_start_s": _cs, "live_cold_start_span": _cswhy,
+                             "markers": {k: str(v) for k, v in marker_times(uid, b, p, s3).items()}}
     # THE LINE-ITEM SPLIT, medianed across every attempt that recorded one. Attempts predating the
     # timestamped marks contribute NOTHING rather than a zero — an unmeasured phase is not a fast one.
     spans = {}
@@ -287,6 +323,14 @@ def render(doc):
          % doc["totals"]["n_attempts"]]
     for k, d in sorted((doc.get("cache_tally") or {}).items()):
         L.append("   %-10s HIT %-4d MISS %-4d ABSENT %-4d" % (k, d["HIT"], d["MISS"], d["ABSENT"]))
+    live = [(u, d["live_cold_start_s"], d.get("live_cold_start_span"))
+            for u, d in doc["units"].items() if d.get("live_cold_start_s")]
+    if live:
+        L.append("")
+        L.append("LIVE COLD START (container start -> current phase, on the attempt billing NOW):")
+        for u, v, span in sorted(live, key=lambda t: -(t[1] or 0)):
+            L.append("   %-52s %6.1f min   %s" % (u.split("__")[-1][:52], v / 60.0, span))
+        L.append("   median %.1f min over %d leg(s)" % (st.median([v for _, v, _ in live]) / 60.0, len(live)))
     cs = doc.get("cold_start_split") or {}
     L.append("")
     if cs.get("median_seconds"):
