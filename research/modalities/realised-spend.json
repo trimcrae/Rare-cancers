@@ -1,8 +1,8 @@
 {
  "_what": "Realised spend, DERIVED from each lane's own ledger. STRATEGY.md's scoreboard quotes this SNAPSHOT and lint_consistency.py holds it to it; the figure is never typed fresh.",
  "_generated_by": "research/modalities/realised_spend.py --write",
- "_as_of_utc": "2026-07-31T16:18:22Z",
- "_as_of_et": "12:18 PM ET Jul 31, 2026",
+ "_as_of_utc": "2026-07-31T16:24:38Z",
+ "_as_of_et": "12:24 PM ET Jul 31, 2026",
  "realised_usd_ledgered": 77.28,
  "realised_usd_ledgered_meaning": "real dollars, counted by a machine from observed billed hours. The authoritative figure, and a FLOOR on total spend while any lane below has no ledger.",
  "lanes": [
@@ -26,7 +26,7 @@
   }
  ],
  "unreadable_lanes": [],
- "attested_unledgered_usd": 48.14,
+ "attested_unledgered_usd": 48.89,
  "attested_unledgered_meaning": "real dollars no machine ledger counts, because these lanes have never had one. A DEFECT REGISTER, not an accounting category \u2014 each entry names the remediation that deletes it.",
  "attested_unledgered": [
   {
@@ -60,9 +60,17 @@
    "provider": "vast",
    "read_from": "MEASURED, both halves, from the instance's own record at reap \u2014 but NOT a precise figure, and saying so is the point. Span: start_date -> destroy, 561615 s, the value the lane's own S3 ledger froze at that poll (s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/_price_ledger.json; dumped into research/modalities/nrv04-retro-price-forensics.json). Rate: $0.16555555555555557/hr, logged verbatim by retro-reap in run 30625438729 job 91139494243 at 10:59:45 UTC, one second before the same pass destroyed it ('auto-stopped 45749905 \u2014 result-in-S3'). \u26a0 THE UNCERTAINTY IS WHETHER THE METER RAN THE WHOLE TIME. The host's last S3 write is 11:20 AM ET Sun Jul 26 and its last observed state was `exited` after a container start failure, so 25.83 assumes Vast billed the rented rate for the ~4.8 idle days as well \u2014 which is the repo's own measured position (CLAUDE.md \u00a76: only the control plane stops the meter; a crash-looping container never returns) but was never measured for the `exited` state specifically. If the meter stopped at the exit the figure is as low as $6.68 (the 40.3 h to its last write). The host is destroyed and a destroyed instance vanishes from the Vast API, so the true figure is NOT RECOVERABLE. Quote the range $6.68-$25.83; 25.83 is the reading the lane's own ledger produces.",
    "closes_when": "nrv04_vast_launch writes a per-RENTAL ledger keyed on instance id, committed to the repo the way step1-fanout-map.json is, instead of an S3-only per-LABEL file no machine ledger reads. Two defects made this invisible for five days and both are now closed in code: the ledger row carried no instance id, start_date or status, so reconstructing it needed CI logs that expire (fixed: _update_price_ledger records provenance); and a rental outliving any plausible leg was averaged into the per-leg mean instead of being called a leak (fixed: ledger_entry_reading + LEAK_ABOVE_S, pinned by tests/test_price_ledger_uptime_semantics.py). What remains is that nothing dispatches this lane's collect on a cadence \u2014 the same 'a lane that stops being dispatched stops being guarded' as the row above."
+  },
+  {
+   "lane": "nrv04_retro_smoke_fanout",
+   "what": "LANE 11 / RUNG 4 \u2014 the 17 rentals of the 2026-07-31 smoke fan-out, the legs STRATEGY.md Appendix A row 57 withdraws (mode=smoke, 2 ps after zero equilibration \u2014 not panel legs). Rentals of 7-38 min at $0.18-$0.20/hr. Listed separately from nrv04_retro_orphan above because the two have different provenance and different error direction; together they are this lane's whole outlay and sum to the $26.5733 its own S3 ledger reports, which is the cross-check that says nothing is missing.",
+   "usd": 0.75,
+   "provider": "vast",
+   "read_from": "the per-label rows of s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/_price_ledger.json read 12:07 PM ET 2026-07-31 (17 rows, $0.0124-$0.1142, summing to $0.7460), dumped into research/modalities/nrv04-retro-price-forensics.json. \u26a0 THIS IS A FLOOR, and for the OPPOSITE reason to the row above. Those rows were frozen by the same defect that hid the orphan, running the other way: `final` latched on the mere existence of a leg_*.json, and every one of these units already had one, so each cost froze at the FIRST poll after launch \u2014 minutes \u2014 while its host went on billing. The hosts are destroyed, so the excess is not recoverable. Fixed in nrv04_vast_launch._finalizable (a result must postdate the rental), pinned by tests/test_price_ledger_uptime_semantics.py.",
+   "closes_when": "same remediation as the row above \u2014 a per-RENTAL ledger keyed on instance id, committed to the repo, replaces the S3-only per-LABEL file. Both entries then delete themselves together."
   }
  ],
- "realised_usd_best_estimate": 125.42,
+ "realised_usd_best_estimate": 126.17,
  "realised_usd_best_estimate_meaning": "ledgered + attested. Quote it only with the split; the attested part is a citation of a past reading, not a live measurement.",
  "free_credit_separate_ledger": {
   "gcp": {

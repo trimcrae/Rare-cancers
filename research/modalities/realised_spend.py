@@ -211,6 +211,30 @@ ATTESTED = [
                        "nothing dispatches this lane's collect on a cadence — the same 'a lane that stops "
                        "being dispatched stops being guarded' as the row above.",
     },
+    {
+        "lane": "nrv04_retro_smoke_fanout",
+        "what": "LANE 11 / RUNG 4 — the 17 rentals of the 2026-07-31 smoke fan-out, the legs STRATEGY.md "
+                "Appendix A row 57 withdraws (mode=smoke, 2 ps after zero equilibration — not panel legs). "
+                "Rentals of 7-38 min at $0.18-$0.20/hr. Listed separately from nrv04_retro_orphan above "
+                "because the two have different provenance and different error direction; together they are "
+                "this lane's whole outlay and sum to the $26.5733 its own S3 ledger reports, which is the "
+                "cross-check that says nothing is missing.",
+        "usd": 0.75,
+        "provider": "vast",
+        "read_from": "the per-label rows of s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/"
+                     "_price_ledger.json read 12:07 PM ET 2026-07-31 (17 rows, $0.0124-$0.1142, summing to "
+                     "$0.7460), dumped into research/modalities/nrv04-retro-price-forensics.json. ⚠ THIS IS "
+                     "A FLOOR, and for the OPPOSITE reason to the row above. Those rows were frozen by the "
+                     "same defect that hid the orphan, running the other way: `final` latched on the mere "
+                     "existence of a leg_*.json, and every one of these units already had one, so each cost "
+                     "froze at the FIRST poll after launch — minutes — while its host went on billing. The "
+                     "hosts are destroyed, so the excess is not recoverable. Fixed in "
+                     "nrv04_vast_launch._finalizable (a result must postdate the rental), pinned by "
+                     "tests/test_price_ledger_uptime_semantics.py.",
+        "closes_when": "same remediation as the row above — a per-RENTAL ledger keyed on instance id, "
+                       "committed to the repo, replaces the S3-only per-LABEL file. Both entries then "
+                       "delete themselves together.",
+    },
 ]
 
 # --------------------------------------------------------------------------------------------------------
