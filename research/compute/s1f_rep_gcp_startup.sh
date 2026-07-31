@@ -219,6 +219,47 @@ DOCKER_COMMON="--rm --gpus all --network host -v /work:/work -w $CODE
   -e INPUT_DIR=/work/in -e OUTPUT_DIR=/work/out -e CKPT_DIR=/work/out
   -e UNIT_ID=$UNIT_ID"
 
+# ★ THE DISCRIMINATING PROBE, run in the LEG'S OWN CONTAINER with the LEG'S OWN env -----------------------
+# Measured 7:51 PM ET 2026-07-31: the leg raised `openmm.OpenMMException: No compatible CUDA device is
+# available` at openmmtools' first `openmm.Context(...)` — on a boot whose bootstrap check
+# (`docker run --gpus all nvidia/cuda:…base nvidia-smi -L`) had PASSED, and after a smoke on the same
+# machinery had produced a real ΔG. So "the host has a GPU" and "this container's OpenMM can open it" are
+# DIFFERENT propositions and the bootstrap check only established the first.
+#
+# This probe closes that gap by asking the exact question, in the exact image, under the exact flags: can
+# THIS process construct a CUDA context? It costs seconds, it runs before any leg is paid for, and its
+# failure is a BOOTSTRAP-FAIL — i.e. terminal, reapable, and named — instead of a leg that dies minutes in
+# and leaves the VM holding the account's only GPU on a refusal.
+gpu_probe() {
+  # shellcheck disable=SC2086
+  docker run $DOCKER_COMMON --env-file /work/env.complex "$IMAGE" \
+    /opt/mamba/envs/rbfe/bin/python -c '
+import os, openmm
+print("[probe] CUDA_VISIBLE_DEVICES=", os.environ.get("CUDA_VISIBLE_DEVICES", "<unset>"))
+print("[probe] OPENMM_PLUGIN_DIR=", os.environ.get("OPENMM_PLUGIN_DIR", "<unset>"))
+print("[probe] loaded plugins:", openmm.pluginLoadedLibNames)
+print("[probe] load failures:", openmm.Platform.getPluginLoadFailures())
+print("[probe] platforms:", [openmm.Platform.getPlatform(i).getName()
+                             for i in range(openmm.Platform.getNumPlatforms())])
+p = openmm.Platform.getPlatformByName("CUDA")
+s = openmm.System(); s.addParticle(1.0)
+c = openmm.Context(s, openmm.VerletIntegrator(0.001), p)
+print("[probe] CUDA CONTEXT OK device=", p.getPropertyValue(c, "DeviceName"))
+' 2>&1
+}
+echo "[s1f-gcp] --- CUDA probe in the leg container ---"
+if ! gpu_probe | tee /tmp/probe.log | sed 's/^/[s1f-gcp]   /'; then
+  echo "[s1f-gcp] FATAL: the leg container cannot build a CUDA context (see the probe output above)."
+  "$GS" storage cp /tmp/probe.log "$PREFIX/cuda_probe.log" >/dev/null 2>&1 || true
+  mark "BOOTSTRAP-FAIL cuda-not-in-leg-container"; exit 3
+fi
+grep -q "CUDA CONTEXT OK" /tmp/probe.log || {
+  echo "[s1f-gcp] FATAL: probe returned 0 without a CUDA context — refusing rather than measuring on CPU."
+  "$GS" storage cp /tmp/probe.log "$PREFIX/cuda_probe.log" >/dev/null 2>&1 || true
+  mark "BOOTSTRAP-FAIL cuda-not-in-leg-container"; exit 3; }
+"$GS" storage cp /tmp/probe.log "$PREFIX/cuda_probe.log" >/dev/null 2>&1 || true
+mark cuda-probe-ok
+
 run_leg() {
   L="$1"
   if "$GS" storage cp "$UNIT_URI/leg_${RECEPTOR}_${L}.json" "/work/out/leg_${RECEPTOR}_${L}.json" >/dev/null 2>&1; then

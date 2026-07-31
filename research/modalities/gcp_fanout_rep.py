@@ -267,6 +267,18 @@ SMOKE_TERMINAL = ("SMOKE-OK", "SMOKE-FAIL")
 #: a `run`, where a phase marker is otherwise progress and must never license a delete.
 BOOTSTRAP_TERMINAL = ("BOOTSTRAP-FAIL",)
 
+#: ★ A LEG THAT FAILED IS ALSO TERMINAL, AND SAFELY SO — measured 7:51 PM ET 2026-07-31, when a leg raised
+#: `openmm.OpenMMException: No compatible CUDA device is available` and its VM then sat on the account's ONE
+#: GPU with its container already exited. The refusal was conservative and WRONG here for a specific,
+#: checkable reason: this lane's checkpoints are CONTINUOUS. `GCSCommitStore` writes every generation to GCS
+#: as it is produced (manifest last), so by the time a leg's failure marker exists, everything it banked is
+#: already durable and off the box. Deleting the VM therefore loses nothing a relaunch cannot resume, which
+#: is the whole design. ⚠ This is safe ONLY because of that continuity — a lane that synced at the end
+#: instead would lose real sampling here, which is why the rule and the upload mode travel together.
+LEG_TERMINAL_PREFIXES = ("leg-",)
+LEG_TERMINAL_SUFFIXES = ("-NORESULT",)
+LEG_TERMINAL_CONTAINS = ("-FAILED-",)
+
 
 def reap_decision(unit_id, vm_created, result_updated, vm_mode="run", phase=None):
     """May this VM be deleted? **AGE IS NEVER CONSULTED.**
@@ -294,6 +306,14 @@ def reap_decision(unit_id, vm_created, result_updated, vm_mode="run", phase=None
                 f"this VM's own phase marker reads {ph!r} — a PRE-MD failure, written only on paths that "
                 f"exit before any leg starts. No sampling began and no checkpoint exists, so there is "
                 f"nothing this delete can destroy."}
+    # ---- a FAILED leg — ANY mode, and safe because the commit store is continuous -----------------------
+    if any(ph.startswith(p) for p in LEG_TERMINAL_PREFIXES) and (
+            any(c in ph for c in LEG_TERMINAL_CONTAINS)
+            or any(ph.split()[0].endswith(sfx) for sfx in LEG_TERMINAL_SUFFIXES)):
+        return {"action": "reap", "cause": "leg_failed_terminal", "why":
+                f"this VM's own phase marker reads {ph!r} — the leg RAISED and its container has exited. "
+                f"Every generation it banked is already in GCS (the commit store uploads as it writes), so "
+                f"a relaunch resumes from the last committed iteration and this delete loses nothing."}
     # ---- the SMOKE path -------------------------------------------------------------------------------
     # A smoke writes no result object, so the clause below can never retire it and its ONLY bound would be
     # the 7 h non-run cap — 7 h of the account's single GPU for a job that finished in twenty minutes. It

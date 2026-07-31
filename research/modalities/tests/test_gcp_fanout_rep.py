@@ -714,3 +714,48 @@ def test_the_parity_probe_uses_importlib_metadata_not_guessed_attributes():
     code = _startup_code()
     assert "importlib.metadata" in code
     assert "openmmtools.version.version" not in code
+
+
+# ---- the CUDA gap the first real leg found (7:51 PM ET 2026-07-31) -------------------------------------
+
+@pytest.mark.parametrize("ph,cause", [
+    ("leg-complex-FAILED-rc1", "leg_failed_terminal"),
+    ("leg-solvent-FAILED-rc3", "leg_failed_terminal"),
+    ("leg-complex-NORESULT", "leg_failed_terminal"),
+])
+def test_a_failed_leg_is_terminal_and_reapable(ph, cause):
+    """MEASURED: a leg raised, its container exited, and its VM sat on the account's ONE GPU because the
+    only run-mode evidence was a ddg.json that would now never exist. Safe to reap ONLY because this lane's
+    commit store is CONTINUOUS — every generation is already in GCS by the time the failure marker is
+    written, so a relaunch resumes and the delete loses nothing."""
+    d = gfr.reap_decision("u", VM_T, "", vm_mode="run", phase=f"{ph} 2026-07-31T23:51:24Z")
+    assert d["action"] == "reap" and d["cause"] == cause
+
+
+@pytest.mark.parametrize("ph", ["leg-complex-running", "leg-complex-done", "reduce", "done", "staged"])
+def test_a_live_or_finishing_leg_is_still_refused(ph):
+    """The boundary that matters: `-running` and `-done` are PROGRESS. Only a raise (-FAILED-) or an empty
+    exit (-NORESULT) is terminal, and neither can be reached while sampling continues."""
+    d = gfr.reap_decision("u", VM_T, "", vm_mode="run", phase=f"{ph} 2026-07-31T23:51:24Z")
+    assert d["action"] == "refuse" and d["cause"] == "no_result_object"
+
+
+def test_a_cuda_probe_runs_in_the_leg_container_before_any_leg_is_paid_for():
+    """'the host has a GPU' and 'THIS container's OpenMM can open it' are different propositions. The
+    bootstrap check (`docker run --gpus all … nvidia-smi -L`) established only the first, PASSED, and the
+    leg then raised `No compatible CUDA device is available` at openmmtools' first Context. The probe asks
+    the exact question in the exact image under the exact flags, before any leg starts, and its failure is
+    a BOOTSTRAP-FAIL — terminal, reapable and named."""
+    code = _startup_code()
+    assert "gpu_probe()" in code and "CUDA CONTEXT OK" in code
+    assert 'mark "BOOTSTRAP-FAIL cuda-not-in-leg-container"' in code
+    assert "getPluginLoadFailures" in code, "a silent plugin load failure is the likeliest mechanism"
+    # it must run BEFORE the first leg
+    assert code.index("gpu_probe()") < code.index("run_leg complex")
+
+
+def test_the_probe_refuses_a_zero_exit_without_a_cuda_context():
+    """An absent reading is not a reading of absence: a probe that exits 0 having printed no context must
+    not be read as success — that is how a CPU fallback gets filed as a GPU replicate."""
+    code = _startup_code()
+    assert 'grep -q "CUDA CONTEXT OK" /tmp/probe.log ||' in code
