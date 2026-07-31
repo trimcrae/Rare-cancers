@@ -2222,8 +2222,11 @@ panel's three data-invalidating defects would each have been correctable for **$
 **Measured against the source on 2026-07-30, ten months of that requirement had produced nothing on the one
 driver that needed it: `nrv04_covalent_md.py` had no trajectory reporter at all** — it reduces in-loop and
 discards positions, which is the exact mechanism `nrv04_result_forensics` recorded as
-`trajectory_objects_found: 0`. Every endpoint-MD lane that *does* comply (`nr4a3_md`, `nr4a3_metad`,
-`nr4a3_md_release`, `nr4a_paralogue_release`) carries a `DCDReporter`; the one that lost everything did not.
+`trajectory_objects_found: 0`. Every other endpoint-MD lane at least writes one — `nr4a3_md`, `nr4a3_metad`,
+`nr4a3_md_release` and `nr4a_paralogue_release` all attach a `DCDReporter` into the job's output directory, and
+`nr4a_paralogue_release` documents an explicit strided heavy-atom persist. ⚠ **Stated at what was actually
+checked: that is a reporter, not an audited end-to-end persist for all four** — the claim here is only that the
+lane which lost everything had no reporter at all.
 **And the NR-V04 retrospective SHARES THAT DRIVER**, so the 18-leg holdout would have repeated the
 irrecoverability that retired the panel it descends from.
 
