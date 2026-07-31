@@ -214,6 +214,32 @@ def test_the_refusal_gate_cannot_fail_for_a_reason_that_is_not_a_refusal():
     assert "rc=" in body, "each probe must report its exit code, or the next failure is a belief again"
 
 
+def test_the_artifact_is_staged_one_pathspec_at_a_time():
+    """★ MEASURED, run 30632062766 (8:56 AM ET 2026-07-31). `git add a.json b.json` is ATOMIC — with
+    b.json absent it fails with "pathspec did not match any files" and stages NEITHER. The price-probe
+    artifact is written only when the billing catalog succeeds, so the absent-file case is the NORMAL one.
+    The L4 measurement was therefore recorded, reported, and silently not committed, and the step printed
+    "nothing to commit" as though there had been nothing to commit.
+    """
+    body = _step_body(_wf_text(), "Commit the artifact")
+    # comments legitimately QUOTE the broken form as evidence, so match executable lines only
+    code = "\n".join(ln for ln in body.splitlines() if not ln.strip().startswith("#"))
+    adds = re.findall(r"git add ([^\n&|;]*)", code)
+    assert adds, "no `git add` found — extraction is wrong or the step was rewritten"
+    for a in adds:
+        assert len(a.split()) == 1, (
+            f"`git add {a.strip()}` stages several pathspecs at once; if any one is missing git stages NONE")
+    assert "2>/dev/null" not in code, "a silenced git add is how this failure hid for a whole run"
+    assert "NOTHING STAGED" in body, "an empty stage after a real measurement must warn, not read as normal"
+
+
+def test_the_raw_result_lines_are_echoed_at_the_end_of_the_log():
+    """The raw BENCH_RESULT lines are the primary record. When the commit failed they survived only in a
+    section of the log 150 lines above the failure, which is not somewhere anyone looks."""
+    body = _step_body(_wf_text(), "Record the measurement")
+    assert "RAW BENCH_RESULT LINES" in body and "cat /tmp/results.txt" in body
+
+
 def test_the_run_echoes_what_it_was_dispatched_with():
     """tests/test_workflow_dispatch_input_cap.py records that an over-cap workflow silently delivers EMPTY
     inputs. That is invisible unless something prints what arrived."""

@@ -195,8 +195,10 @@ jobs:
         continue-on-error: true
         run: |
           set +e
-          GCP_ACCESS_TOKEN=$(gcloud auth print-access-token 2>/dev/null) \
-            python3 research/modalities/gcp_card_bench.py --fetch-prices
+          TOKEN=$(gcloud auth print-access-token 2>/tmp/toker)
+          TRC=$?
+          echo "access token: rc=$TRC len=${#TOKEN} $( [ "$TRC" != 0 ] && head -1 /tmp/toker )"
+          GCP_ACCESS_TOKEN="$TOKEN" python3 research/modalities/gcp_card_bench.py --fetch-prices
           exit 0
 
       - name: Provision the GPU VM and run the probe
@@ -359,6 +361,11 @@ jobs:
         run: |
           set +e
           [ -s /tmp/results.txt ] || { echo "no results to record"; exit 0; }
+          # Re-echo the RAW lines here, at the end of the log. They are the only primary record of a
+          # measurement, and on 2026-07-31 the commit step silently failed to land the artifact — at which
+          # point the numbers survived only in a section of the log 150 lines above the failure.
+          echo "=== RAW BENCH_RESULT LINES (primary record) ==="
+          cat /tmp/results.txt
           while IFS= read -r LINE; do
             [ -z "$LINE" ] && continue
             E=$(printf '%s' "$LINE" | grep -oE 'edge_nm=[0-9.]+' | tail -1 | cut -d= -f2)
@@ -375,8 +382,16 @@ jobs:
           [ "$DO_COMMIT" = "1" ] || { echo "commit disabled"; exit 0; }
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/gcp-card-bench.json research/modalities/gcp-price-probe.json 2>/dev/null
-          git diff --cached --quiet && { echo "nothing to commit"; exit 0; }
+          # ⚠ ONE PATHSPEC PER `git add`, AND NEVER 2>/dev/null (measured, run 30632062766, 8:56 AM ET
+          # 2026-07-31). `git add a.json b.json` is ATOMIC: with b.json absent it fails with "pathspec did
+          # not match any files" and stages NEITHER — so the L4 measurement was recorded, reported, and then
+          # silently not committed, and the step reported "nothing to commit" as if there had been nothing.
+          # gcp-price-probe.json is written only when the billing catalog succeeds, so the absent-file case
+          # is the NORMAL one, not an edge case.
+          for f in research/modalities/gcp-card-bench.json research/modalities/gcp-price-probe.json; do
+            [ -f "$f" ] && { git add "$f" && echo "staged $f"; } || echo "skip $f (not written by this run)"
+          done
+          git diff --cached --quiet && { echo "::warning title=NOTHING STAGED::the probe produced measurements but no file was staged — the artifact did NOT land. Check the staging lines above."; exit 0; }
           git commit -m "GCP card probe: ${CARD} @ $BENCH_EDGES nm (run ${GITHUB_RUN_ID})" || exit 0
           for a in 1 2 3; do
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
