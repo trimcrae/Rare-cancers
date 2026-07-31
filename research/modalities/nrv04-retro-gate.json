@@ -1,16 +1,14 @@
 {
   "_what": "NR-V04 retrospective \u2014 why each hostless unit was or was not bought on this tick.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a hold is never silent, and it carries the snapshot that caused it.",
-  "utc": "2026-07-31T20:55:43Z",
+  "utc": "2026-07-31T21:02:18Z",
   "lane": "nrv04_retro",
   "n_authorized": 17,
   "needed": [
-    "nrv04retro-retro_noncov_nr4a1-m1-r1",
-    "nrv04retro-retro_noncov_nr4a1-m2-r1"
+    "nrv04retro-retro_noncov_nr4a1-m1-r1"
   ],
   "replaced": [
-    "nrv04retro-retro_noncov_nr4a1-m1-r1",
-    "nrv04retro-retro_noncov_nr4a1-m2-r1"
+    "nrv04retro-retro_noncov_nr4a1-m1-r1"
   ],
   "blocked": [
     {
@@ -46,13 +44,7 @@
   ],
   "quarantine_eligible_running": [],
   "awaiting_authorization": [],
-  "condemned": [
-    {
-      "instance": "46437921",
-      "unit": "nrv04retro-retro_noncov_nr4a1-m2-r1",
-      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
-    }
-  ],
+  "condemned": [],
   "nudged": [],
   "fleet_unreadable": null,
   "market": null,
@@ -61,7 +53,6 @@
     "nrv04retro-retro_noncov_nr4a3-m3-r1": "INPUT QUARANTINE \u2014 this unit's built system is non-physical, so no host can run it. It blew up at prod@frame0/5 with a post-minimization potential energy of +1.791e+15 kJ/mol; a minimized explicit-solvent system is always strongly negative (working legs on this lane sit near -5e6). MEASURED CAUSE (not inferred): the co-fold nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart \u2014 two heavy atoms on the same point, both positioned by Boltz. The staged single-point probe finds NonbondedForce carrying +2.109e15 kJ/mol already at `protein_after_pdbfixer`, before the ligand exists and before one water is placed, so ligand placement and addSolvent are excluded (nrv04_pe_stage_probe, 2026-07-31). Renting another host reproduces it in seconds and tests nothing. RELEASE: a different co-fold for this unit \u2014 the quarantine is read from the leg record, so a clean record clears it with no edit. \u26a0 THAT IS A PREREGISTRATION QUESTION, NOT A CODE FIX: the input, not the pipeline, is what would change.",
     "nrv04retro-retro_noncov_nr4a2-m2-r0": "BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed.",
     "nrv04retro-retro_noncov_nr4a2-m3-r0": "BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T15:07:26Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed.",
-    "nrv04retro-retro_noncov_nr4a1-m1-r1": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate.",
-    "nrv04retro-retro_noncov_nr4a1-m2-r1": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
+    "nrv04retro-retro_noncov_nr4a1-m1-r1": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
   }
 }

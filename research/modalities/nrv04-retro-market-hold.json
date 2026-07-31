@@ -1,37 +1,31 @@
 {
-  "_what": "Whether the NR-V04 retrospective may rent 2 host(s) right now, priced in $/ns.",
+  "_what": "Whether the NR-V04 retrospective may rent 1 host(s) right now, priced in $/ns.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay; and a relaunch is a NEW PURCHASE, not a continuation.",
   "lane": "nrv04_retro",
-  "n_hosts": 2,
-  "utc": "2026-07-31T20:55:34Z",
+  "n_hosts": 1,
+  "utc": "2026-07-31T21:02:14Z",
   "tier": "bid (interruptible)",
   "interruptible": true,
   "buy_line_usd_per_ns": 0.006539,
   "priced": true,
   "hold": false,
-  "reason": "1.46x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond",
-  "best_usd_per_ns": 0.004978,
+  "reason": "1.38x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond",
+  "best_usd_per_ns": 0.004701,
   "basis_usd_per_ns": 0.003412,
-  "ratio_vs_basis": 1.459,
+  "ratio_vs_basis": 1.378,
   "board_depth": {
-    "offers_returned": 177,
-    "qualifying": 177,
-    "priceable": 93,
-    "needed": 2,
-    "used_for_mean": 2
+    "offers_returned": 182,
+    "qualifying": 182,
+    "priceable": 95,
+    "needed": 1,
+    "used_for_mean": 1
   },
   "offers_priced": [
     {
       "gpu": "RTX 4090",
-      "machine_id": 132368,
+      "machine_id": 24317,
       "min_bid_usd_h": 0.134,
       "usd_per_ns": 0.004701
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 36341,
-      "min_bid_usd_h": 0.19999999999999998,
-      "usd_per_ns": 0.005255
     }
   ]
 }
