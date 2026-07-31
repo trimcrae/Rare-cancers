@@ -50,6 +50,7 @@ another session.
 
 from __future__ import annotations
 
+import calendar
 import hashlib
 import inspect
 import json
@@ -233,6 +234,9 @@ MODES = {
     "smoke": {
         "prod_iters": "12", "warmup_iters": "8", "warmup_ckpt_iters": "8", "prod_ckpt_iters": "4",
         "max_runtime_s": 3 * 3600,
+        # See SHAKEOUT_EVIDENCE_MAX_AGE_H: this mode's product is an OBSERVATION about today, not a result,
+        # so a stale `done` record must not suppress a re-run the way a production unit's correctly does.
+        "shakeout": True,
         "legs": [("calib_hi_to_lo__ternary_vhl", 0, "fwd")],
     },
     # ---------------------------------------------------------------------------------------------------
@@ -376,6 +380,8 @@ MODES = {
         "max_runtime_s": 4 * 3600,
         "template_pdb": "boltz5aks",
         "stage_required": True,
+        # ⚠ THIS IS THE MODE THE STALE-CERTIFICATE DEFECT WAS MEASURED ON — see SHAKEOUT_EVIDENCE_MAX_AGE_H.
+        "shakeout": True,
         "legs": [("5aks_d0_to_d__ternary_nr4a3", 0, "fwd")],
     },
     # ---------------------------------------------------------------------------------------------------
@@ -447,6 +453,9 @@ MODES = {
         "prod_iters": "12", "warmup_iters": "8", "warmup_ckpt_iters": "8", "prod_ckpt_iters": "4",
         "max_runtime_s": 3 * 3600,
         "timestep_fs": "2.0", "warmup_timestep_fs": "1.0",
+        # See SHAKEOUT_EVIDENCE_MAX_AGE_H. This one had already landed (2026-07-27T22:56:27Z), so it was
+        # equally unable to re-run and equally unable to say so.
+        "shakeout": True,
         "legs": [("calib_hi_to_lo2__ternary_vhl", 0, "fwd")],
     },
 }
@@ -1853,6 +1862,66 @@ def breaker_verdicts(uids, records, bucket=None, prefix=None):
     return out
 
 
+# =============================================================================================================
+# A SHAKEOUT'S EVIDENCE HAS A SHELF LIFE. A PRODUCTION UNIT'S RESULT DOES NOT.
+# =============================================================================================================
+# ★★ THE DEFECT THIS CLOSES, MEASURED 2026-07-31 ON THIS LANE AND SEEN THE SAME MORNING ON NR-V04.
+# `task=5aks-smoke` was dispatched at 7:01 AM ET to shake the 5a-KS pipeline out before the four real legs.
+# It rented NOTHING and reported green. The ledger row is unambiguous —
+#     outcome "nothing-to-launch" … "no unit of mode 5aks_smoke needs a host — 1 done, 0 already running"
+#     n_requested 0, n_rented 0, PAID $0
+# — because `outstanding_units` found the smoke unit's `leg.json` already `status=done` in S3, written by the
+# smoke of **2026-07-26**, five days earlier. The launch job nonetheless printed
+# `[verify-armed] 5aks_smoke: all 1 unit(s) present and enabled`, which reads exactly like a shakeout that
+# passed. NR-V04's Arm E pilot printed its own version of the same thing the same morning
+# (`[skip] … — result already in S3`), so this is a SHAPE, not a one-lane slip.
+#
+# ⚠ THE IDEMPOTENT SKIP ITSELF IS CORRECT AND MUST NOT BE REMOVED. For a PRODUCTION unit, "a done result is
+# already in S3" is exactly the right reason not to rent: it is what makes a spot re-dispatch RESUME rather
+# than pay twice, and deleting it would re-buy landed work on every tick (CLAUDE.md §6, and the 13-edge
+# near-miss in §7). The bug is narrower: a SHAKEOUT is keyed the same way as a result.
+#
+# WHY A SHAKEOUT IS DIFFERENT IN KIND. Its product is not the ΔG — `smoke`'s ΔG is meaningless by
+# construction and this file already says so. Its product is the OBSERVATION that today's image, today's
+# credential, today's stage cache and today's commit store work together on a real host. That observation is
+# about a moment. Stored as a durable artifact with no expiry it becomes a CERTIFICATE, and a certificate
+# that never expires turns §6's `smoke -> one real leg -> fleet` ladder into a permanent no-op after its
+# first success — the "reports success while measuring nothing" shape the ladder exists to prevent.
+#
+# THE SHELF LIFE IS A JUDGEMENT CALL AND IS NAMED AS ONE. Six hours: long enough that a smoke followed by its
+# real legs inside one working session does not re-rent, short enough that a shakeout standing in front of a
+# spend is always evidence about the pipeline being bought into rather than about last week's. It is not
+# derived from anything measured, so it is a constant with a rationale rather than a computed value.
+SHAKEOUT_EVIDENCE_MAX_AGE_H = 6.0
+
+
+def is_shakeout(mode):
+    """True when `mode` is a plumbing shakeout rather than a science unit. PURE."""
+    return bool((MODES.get(mode) or {}).get("shakeout"))
+
+
+def shakeout_evidence_is_stale(record, now_utc=None, max_age_h=None):
+    """True when a shakeout's `done` record is too old to still be evidence about today's pipeline. PURE.
+
+    `record` is a `leg.json` dict as returned by `leg_records`, which stamps `_s3_last_modified` from the S3
+    object itself. A record with NO usable timestamp is treated as STALE, deliberately: the only way to be
+    wrong in that direction is to re-run a ~$0.15 shakeout, while being wrong in the other direction is
+    exactly the silent no-op above. Cheap side, safe side.
+    """
+    if not isinstance(record, dict):
+        return False
+    stamp = record.get("_s3_last_modified") or record.get("updated_utc")
+    if not stamp:
+        return True
+    try:
+        t = time.strptime(str(stamp), "%Y-%m-%dT%H:%M:%SZ")
+    except (ValueError, TypeError):
+        return True
+    now = time.time() if now_utc is None else now_utc
+    age_h = (now - calendar.timegm(t)) / 3600.0
+    return age_h > (SHAKEOUT_EVIDENCE_MAX_AGE_H if max_age_h is None else max_age_h)
+
+
 def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None, key=None):
     """Which of this mode's units still need a host — the ONE answer both the gate and `submit` use.
 
@@ -1870,7 +1939,20 @@ def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None
     jobs = [build_jobspec(l, s, d, mode=mode, timestep_fs=timestep_fs,
                           warmup_timestep_fs=warmup_timestep_fs) for (l, s, d) in specs]
     uids = [j.env["UNIT_ID"] for j in jobs]
-    done = {u for u, d in leg_records().items() if d.get("status") == "done"}
+    _recs = leg_records()
+    done = {u for u, d in _recs.items() if d.get("status") == "done"}
+    # ⏳ A SHAKEOUT'S CERTIFICATE EXPIRES — see `shakeout_evidence_is_stale` for the measured defect. Scoped
+    # to shakeout modes, so no real result can ever be expired by this. It is printed rather than done
+    # quietly: a smoke that suddenly rents again must be legible, not mysterious.
+    if is_shakeout(mode):
+        for _u in list(done):
+            if _u in uids and shakeout_evidence_is_stale(_recs.get(_u)):
+                done.discard(_u)
+                print(f"[launch] ⏳ {_u}: this is a SHAKEOUT and its `done` record "
+                      f"({(_recs.get(_u) or {}).get('_s3_last_modified')}) is older than "
+                      f"{SHAKEOUT_EVIDENCE_MAX_AGE_H} h, so it is NOT evidence about today's pipeline. "
+                      f"Treating the unit as needing a host — a stale certificate must not stand in for a "
+                      f"shakeout that never ran.")
     live_hosts, dead_hosts, occupied = {}, {}, set()
     listing_error = None
     try:

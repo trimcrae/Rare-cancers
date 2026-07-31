@@ -450,11 +450,14 @@ def _annotate(level, title, msg):
 # WHY IT IS SAFE. It only ever moves `enabled: true -> false`, and only on a `status == "done"` record. It
 # cannot arm anything, cannot rent anything, and cannot silence a unit that has not produced its result.
 # =============================================================================================================
-def reap_landed(path=None, bucket=None, prefix=None, dry_run=False, recs=None):
-    """Disable every enabled watch entry whose leg has already landed a done result in S3.
+def reap_landed(path=None, bucket=None, prefix=None, dry_run=False, recs=None, live_uids=None):
+    """Disable every enabled watch entry whose leg has landed a done result in S3 AND holds no host.
 
     Returns the list of unit ids reaped. Writes the watch file only when something actually changed, so a
     steady state produces no commit and no churn.
+
+    `live_uids` is an injection point in the same spirit as `recs` — pass the unit ids known to hold a live
+    instance and no API call is made. Left None, one read is done, and a read that fails reaps NOTHING.
     """
     b = bucket or tv.DEFAULT_BUCKET
     p = (prefix or tv.RESULT_PREFIX).rstrip("/")
@@ -467,11 +470,44 @@ def reap_landed(path=None, bucket=None, prefix=None, dry_run=False, recs=None):
                   f"({type(e).__name__}: {e}) — leaving every watch entry exactly as it is.")
             return []
 
+    # ⛔ NEVER DISARM A UNIT THAT STILL HOLDS A HOST (2026-07-31). `reap_landed` keyed on the leg record
+    # ALONE, so "a done result exists" was sufficient to set enabled=false — regardless of whether a box was
+    # up. That is safe only while a done record and a live host cannot coexist, and they can, in two ways:
+    #   (a) NORMALLY, for one tick — a leg writes leg.json and its host lingers until teardown. Reaping then
+    #       is merely early; the next pass reaps it once the box is gone, so nothing is lost by waiting.
+    #   (b) DANGEROUSLY — a unit is re-armed and rented while a STALE done record from an earlier run is
+    #       still in S3. That is precisely what the shakeout shelf life in `ternary_vast_launch`
+    #       (`shakeout_evidence_is_stale`) now makes possible on purpose, and without this guard the very
+    #       next watchdog pass would disable the entry while the host billed — a leg billing with nothing
+    #       watching it, which this whole file exists to prevent and which `--verify-armed` calls "worse
+    #       than a red build".
+    # The two halves had to change together: making a shakeout re-runnable without this would have converted
+    # a silent no-op into a silent UNWATCHED RENTAL, which is strictly worse than the bug being fixed.
+    #
+    # FAIL CLOSED. If the instance list cannot be read we do NOT reap — same discipline as the unreadable
+    # leg-record branch above: no evidence is never a licence to act.
+    _candidates = [w.get("unit_id") for w in enabled_entries(doc)
+                   if ((recs or {}).get(w.get("unit_id")) or {}).get("status") == "done"]
+    if _candidates and live_uids is None:
+        try:
+            live_uids = set(tv.unit_hosts(_candidates).get("live") or {})
+        except Exception as e:  # noqa: BLE001
+            print(f"::warning title=TVAST REAP SKIPPED::could not list live instances "
+                  f"({type(e).__name__}: {e}) — refusing to disarm any entry, because a unit that still "
+                  f"holds a host would be left billing with nothing watching it.")
+            return []
+    live_uids = set(live_uids or ())
+
     reaped = []
     for w in enabled_entries(doc):
         uid = w.get("unit_id")
         rec = (recs or {}).get(uid) or {}
         if rec.get("status") != "done":
+            continue
+        if uid in live_uids:
+            print(f"[reap] holding {uid} on the watch list: its result is in S3 but a host is STILL UP. "
+                  f"Disarming now would leave a billing box unwatched; the next pass reaps it once the "
+                  f"instance is gone.")
             continue
         reaped.append(uid)
         w["enabled"] = False
