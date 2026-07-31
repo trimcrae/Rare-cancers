@@ -228,6 +228,36 @@
       "max_relaunches_per_day": 8,
       "enabled": false,
       "_disabled_why": "LANDED 2026-07-30T03:46:06Z: leg.json status=done in s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle/ (dG_morph=42.70281573766114, NaN=False). Auto-reaped by ternary_vast_watchdog.reap_landed \u2014 this unit is FINISHED, not parked."
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
+      "leg_id": "5aks_d0_to_d__ternary_nr4a3",
+      "seed": 1,
+      "direction": "fwd",
+      "mode": "5aks",
+      "timestep_fs": "4.0",
+      "warmup_timestep_fs": "1.0",
+      "git_branch": "claude/max-effort-2dq11l",
+      "max_relaunches_per_day": 8,
+      "enabled": false,
+      "_parked_why": "PARKED WITH ITS SEED-0 SIBLING and for the SAME market reason - this is the SECOND SEED added on 2026-07-30 when RUNG 5a-KS moved to n = 2 per arm (trimcrae go, STRATEGY Open decision 11). It is a COLD START, not a resume: there is no checkpoint, because this leg has never run. It is listed here rather than left unwatched so that a lane which launches four legs does not have two of them uncovered - assumed-but-absent coverage is how ternary-leg-watchdog.yml sat UNPARSEABLE for days while everyone believed it was watching.",
+      "_resume_point": "NONE - never launched. A watchdog DIED verdict on this unit means a fresh start, not a resume, so it forfeits whatever the host had done rather than re-entering a trajectory.",
+      "_re_enable_when": "the same condition as its seed-0 sibling: the best achievable $/ns for an rtx4090-class host is at or under the buy line. All four legs of this mode re-enable TOGETHER - S is a double difference over both arms, and a replicate SD needs both seeds, so a partial re-enable buys a number that still cannot report a null."
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
+      "leg_id": "5aks_d0_to_d__ternary_nr4a1",
+      "seed": 1,
+      "direction": "fwd",
+      "mode": "5aks",
+      "timestep_fs": "4.0",
+      "warmup_timestep_fs": "1.0",
+      "git_branch": "claude/max-effort-2dq11l",
+      "max_relaunches_per_day": 8,
+      "enabled": false,
+      "_parked_why": "PARKED WITH ITS SEED-0 SIBLING and for the SAME market reason - this is the SECOND SEED added on 2026-07-30 when RUNG 5a-KS moved to n = 2 per arm (trimcrae go, STRATEGY Open decision 11). It is a COLD START, not a resume: there is no checkpoint, because this leg has never run. It is listed here rather than left unwatched so that a lane which launches four legs does not have two of them uncovered - assumed-but-absent coverage is how ternary-leg-watchdog.yml sat UNPARSEABLE for days while everyone believed it was watching.",
+      "_resume_point": "NONE - never launched. A watchdog DIED verdict on this unit means a fresh start, not a resume, so it forfeits whatever the host had done rather than re-entering a trajectory.",
+      "_re_enable_when": "the same condition as its seed-0 sibling: the best achievable $/ns for an rtx4090-class host is at or under the buy line. All four legs of this mode re-enable TOGETHER - S is a double difference over both arms, and a replicate SD needs both seeds, so a partial re-enable buys a number that still cannot report a null."
     }
   ]
 }

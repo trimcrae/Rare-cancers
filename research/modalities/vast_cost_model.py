@@ -677,7 +677,13 @@ LADDER_REFERENCE_GPU_H = {
     # the 4 fs edge is the corrected 2 fs edge x 0.643, not x 0.5
     "ternary_4fs_recalibration (1 matched edge)": (round(_t(56.0, 72.0)[0] * TERNARY_4FS_CONVERSION, 1),
                                                   round(_t(56.0, 72.0)[1] * TERNARY_4FS_CONVERSION, 1)),
-    "5a-KS primary (ligand-side double difference)": _t(28.0, 144.0),
+    # ★ 2026-07-30: FOUR ternary legs, not two — n = 2 SEEDS PER ARM (trimcrae go, STRATEGY Open decision 11).
+    # At one seed per arm S has NO replicate SD and resolves only the TOP of its own designed 0.5-1.5 kcal/mol
+    # effect (valb_failure_propagation.s_error_bar_scope), so the PRE-REGISTERED LIKELY OUTCOME — a null —
+    # would have been uninterpretable, exactly as valB_mini's n=1 was. Doubling the leg count is what buys a
+    # readable bound. The per-leg basis is unchanged; only the COUNT moved, which is why this is a GPU-hour
+    # edit and not a reprice.
+    "5a-KS primary (ligand-side double difference, 2 seeds x 2 arms)": _t(56.0, 288.0),
     "5c ensemble refinement (24-200 endpoint-MD legs)": (24 * ENDPOINT_MD_REF_GPU_H_PER_LEG,
                                                         200 * ENDPOINT_MD_REF_GPU_H_PER_LEG),
     "local within-basin FEP (3-6 ternary comparisons)": _t(56.0, 260.0),

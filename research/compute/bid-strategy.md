@@ -278,17 +278,17 @@ own work estimates** (pricing.md §B/C) — this reprices them, it does not re-d
 | `valB_full` (2–3 ternary edges + CRL-MD) | 130.7–252 | **21.87** | 6.18–72.60 |
 | `nrv04_retrospective` (3 ternary legs + shared pair) | 98–252 | **20.00** | 4.64–72.60 |
 | `ternary_4fs_recalibration` | 42–54 | **5.49** | 1.99–15.56 |
-| `5a-KS` primary (ligand-side double difference) | 32.7–168 | **11.47** | 1.55–48.40 |
+| `5a-KS` primary (ligand-side double difference, 2 seeds × 2 arms) | 65.3–336 | **22.93** | 3.09–96.80 |
 | `5c` ensemble refinement (24–200 endpoint-MD legs) | 33.12–276 | **17.67** | 1.57–79.52 |
 | local within-basin FEP | 65.3–303.3 | **21.07** | 3.09–87.38 |
-| **TOTAL (stages this tool prices)** | | **~$138** | **$35–483** |
+| **TOTAL (stages this tool prices)** | | **~$150** | **$37–531** |
 
 *(Repriced 2026-07-27 from the re-anchored throughput table — pricing.md Appendix T. The **~$166** / **$42–519**
 this table carried is superseded; the GPU-hours are unchanged, only the `$/reference-GPU-hour` moved.)*
 
 ⚠ **This is not the ladder total.** It covers only the nine alchemical/MD stages the cost model reprices. The
 whole gated ladder — adding step0, `valA_mini`, the measured `$8` covalent panel, and the CPU-dominated 5a/5b —
-is **~$158 (~$44–578)** *(the **~$185 (~$51–614)** this line carried is superseded — pricing.md Appendix T)*;
+is **~$169 (~$46–626)** *(the **~$158 (~$44–578)** this line carried is superseded — RUNG 5a-KS went from 2 ternary legs to 4, STRATEGY Appendix A row 54; and the **~$185 (~$51–614)** before that — pricing.md Appendix T)*;
 [STRATEGY.md → Spend summary](../../STRATEGY.md) carries the derivation and is
 authoritative. *(This table previously omitted the `5c` row, which is where a stray `~$128` total for the whole
 ladder came from. Fixed 2026-07-25.)*

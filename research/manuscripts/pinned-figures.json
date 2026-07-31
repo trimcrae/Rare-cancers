@@ -115,9 +115,9 @@
     ]
    },
    "_non_tool_note": "[low, mid, high]. valA_mini's mid is its REALIZED ~$0 on GCP credit, not the midpoint of its 0-15 band; step0 uses the midpoint of 1-2.",
-   "expect_mid": 158,
-   "expect_low": 44,
-   "expect_high": 578,
+   "expect_mid": 169,
+   "expect_low": 46,
+   "expect_high": 626,
    "tolerance_usd": 1.0,
    "must_appear_in": [
     "STRATEGY.md",
@@ -187,9 +187,9 @@
     "valB_full (2-3 ternary edges + CRL-MD)": "valB_full",
     "nrv04_retrospective (3 ternary legs + shared binary/solvent)": "nrv04_retrospective",
     "ternary_4fs_recalibration (1 matched edge)": "ternary_4fs_recalibration",
-    "5a-KS primary (ligand-side double difference)": "5a-KS",
     "5c ensemble refinement (24-200 endpoint-MD legs)": "5c",
-    "local within-basin FEP (3-6 ternary comparisons)": "within-basin FEP"
+    "local within-basin FEP (3-6 ternary comparisons)": "within-basin FEP",
+    "5a-KS primary (ligand-side double difference, 2 seeds x 2 arms)": "5a-KS"
    },
    "tolerance_usd": 1.0
   }
@@ -341,9 +341,10 @@
   },
   {
    "id": "ladder_total_169",
-   "pattern": "\\$169\\s*mid|~\\$169\\b|\\$47[\u2013-]561",
+   "pattern": "\\$169\\s*mid\\s*\\(~?\\$47|\\$47[\u2013-]561",
    "current": "~$185 mid (~$51\u2013614)",
-   "retired_by": "The as-run ternary leg is 2800 iterations, not 2400 (verified 2026-07-25 against rbfe_spot_driver._iters_from_time: warmup iterations derive from the WARMUP integrator at 1 fs, so 1 ns of equilibration is 800 iterations of 1250 steps, not 400). Every 2 fs ternary stage was understated ~17%. Net of 5a completing at $0, the total moves 169 -> 185."
+   "retired_by": "The as-run ternary leg is 2800 iterations, not 2400 (verified 2026-07-25 against rbfe_spot_driver._iters_from_time: warmup iterations derive from the WARMUP integrator at 1 fs, so 1 ns of equilibration is 800 iterations of 1250 steps, not 400). Every 2 fs ternary stage was understated ~17%. Net of 5a completing at $0, the total moves 169 -> 185.",
+   "_narrowed_2026_07_30": "This entry's pattern used to include a bare `~$169`, and on 2026-07-30 the pinned total RETURNED to ~$169 for an unrelated reason (RUNG 5a-KS 2 legs -> 4). Two different quantities landed on one number, so the old pattern began flagging correct current statements. Narrowed to the historical BAND ($47-561), which the current ~$169 (~$46-626) does not share. The 2026-07-25 supersession itself is unchanged and still recorded in STRATEGY.md Appendix A."
   },
   {
    "id": "triangle_n1_59",
@@ -494,6 +495,12 @@
    "pattern": "(?:best-case\\s+)?resolvabl\\w*[^.\\n]{0,45}1\\.12|1\\.12[^.\\n]{0,25}resolvabl|replicate SD 0\\.7, n\\s*=\\s*3|SD 0\\.7, n\\s*=\\s*3\\)|the method resolves 1\\.12|against ~?1\\.12|operating near its limit, not a discovery tool",
    "current": "best-case resolvable difference 0.60 kcal/mol = minimum_detectable_difference(0.375, 3) on the MEASURED replicate SD, beside a MEASURED accuracy of 1.543 kcal/mol wrong-sign. The axis is UNCALIBRATED, not near its resolution limit. One home: STRATEGY.md section MECHANISM-FIRST, MARGINAL bullet",
    "retired_by": "the n=3 valB_mini replicates measuring the replicate SD at 0.375 (2026-07-30); 0.7 had never been measured by anything in this program. Accuracy stopped being a literature ~1.7 RMSE and became the measured 1.543 wrong-sign miss on this exact quantity class - STRATEGY.md Appendix A row 53"
+  },
+  {
+   "id": "ladder_total_158_two_leg_5aks",
+   "pattern": "~?\\$158\\s*mid|\\$158\\s*\\(|mid-range\\s*\\(~?\\$44|~?\\$44[-\u2013]578|158 mid-range",
+   "current": "PINNED TOTAL ~$169 mid-range (~$46-626), regenerated after RUNG 5a-KS went from 2 ternary legs to 4 (n = 2 seeds per arm, trimcrae go 2026-07-30, STRATEGY Open decision 11). Derived: vast_cost_model.py -> vast-ladder-repricing.json plus the non-tool stages in this file's ladder_total derivation",
+   "retired_by": "the 5a-KS leg-count decision ONLY - the market snapshot, the $/reference-GPU-hour rate and every other stage's GPU-hours are byte-identical across the reprice, so the whole +$11 mid is the second seed per arm. STRATEGY.md Appendix A row 54"
   }
  ],
  "subset_checks": [

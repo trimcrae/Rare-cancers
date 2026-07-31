@@ -258,7 +258,7 @@ costing nothing. Both LANE-13 paralogue legs and all four RUNG 2b legs have reac
 |---|---|---|---|---|
 | ~~**Step 1 fan-out** (LANE 17/21) — 19 congeneric RBFE edges~~ | ✅ **COMPLETE — 18 of 18 computable edges landed; the 19th is not computable and is recorded as such.** Off every host. The ranked table it produced is the paper's §2.9 | — | realised **$73.79** machine-ledgered, against the DERIVED cap **$74.91** (`market_ceiling_usd(19)`) — finished inside its ceiling with **$1.12** to spare | every unit of the lane was bought under the **$0.006539/ns** buy line, and the units that could not be were ⛔ **REFUSED — $0 spent** and re-offered on later ticks rather than dropped |
 | ~~**valB_mini r1+r2** (LANE 19) — the 4 replicate legs~~ | ✅ **CLOSED AT n=3 — and the gate FAILED on sign, so the decision is NO-GO.** Off every host. The deliverable is the **cycle SD**, which is the number this lane existed to produce | — | realised is **NOT machine-ledgered on this lane**; the floor and the reason are in [`realised-spend.json`](research/modalities/realised-spend.json)'s attested block, which is a defect register, not an accounting category | — (no host) |
-| **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | ⛔ **PARKED, NOT FINISHED, and NOT BILLING.** Both legs died at **7:27 AM ET** when a rotated S3 key left them crash-looping at `gpu_util 0.0`, and both were **destroyed at 8:20 AM ET**. Checkpoints are intact: NR4A3 at `production/800` of 2000, NR4A1 at `warmup/640` of 1600 — still in warmup, so no production sampling is at risk. Both watch entries are `enabled: false` with a `_parked_why`, deliberately, because the watchdog's recovery for a DIED unit is to **rent a new host** and a relaunch is a new purchase | **held, no ETA.** They resume **together or not at all** — `S` is a double difference over the two legs, so resuming one buys nothing | **$0 going out.** Ladder ~$12; realised to date **~$1.5**, attested but **not machine-ledgered** | ⛔ **REFUSED — $0 spent.** They died flagged at **1.51× basis** while the cheapest gradeable rtx4090-class offer was **1.71×**; `relaunch_market_gate` refuses to re-buy above the buy line, so leaving them armed would have re-rented at exactly the price the gate exists to decline, up to 8× a day |
+| **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | ⛔ **PARKED, NOT FINISHED, and NOT BILLING — and RE-SPECIFIED 2026-07-30 to FOUR legs (n = 2 seeds per arm; [Open decisions 11](#open-decisions)). The two new units are cold starts, are on the watch list, and are parked with the others.** The two original legs died at **7:27 AM ET** when a rotated S3 key left them crash-looping at `gpu_util 0.0`, and both were **destroyed at 8:20 AM ET**. Checkpoints are intact: NR4A3 at `production/800` of 2000, NR4A1 at `warmup/640` of 1600 — still in warmup, so no production sampling is at risk. Both watch entries are `enabled: false` with a `_parked_why`, deliberately, because the watchdog's recovery for a DIED unit is to **rent a new host** and a relaunch is a new purchase | **held, no ETA.** All four resume **together or not at all** — `S` is a double difference over the two arms and its replicate SD needs both seeds, so a partial resume buys a number that still cannot report a null | **$0 going out.** Ladder **~$23** at four legs (the ~$12 two-leg figure is superseded — [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 54); realised to date **~$1.5**, attested but **not machine-ledgered** | ⛔ **REFUSED — $0 spent.** They died flagged at **1.51× basis** while the cheapest gradeable rtx4090-class offer was **1.71×**; `relaunch_market_gate` refuses to re-buy above the buy line, so leaving them armed would have re-rented at exactly the price the gate exists to decline, up to 8× a day |
 | ~~**The closure triangle** (LANE 9/20) — decides whether valB's miss is fixable at all~~ | ✅ **CLOSED. All four legs landed 5:11 PM ET Jul 30 and `R` is computed** — [`valb-triangle-reduction.json`](research/modalities/valb-triangle-reduction.json). Off every host | — | the 4-leg tranche was priced against its own **$3.85** ceiling per pass | every rental cleared the **$0.006539/ns** buy line; the leg that finished it ran at **$0.005049/ns · 1.48× basis**. ⚠ **THE DAY'S CHURN — SEVEN HOSTS, 11:41 AM to 4:06 PM ET, ZERO COMMITTED ITERATIONS — WAS NEITHER PRICE NOR CARD SPEED, AND BOTH EARLIER READINGS ARE SUPERSEDED.** Two measured causes. **(1)** A host wedged INSIDE a checkpoint persist: commit-store generation `fa5da1eb` holds `simulation.nc` alone, and `_persist` writes .nc → .chk → manifest — so the board counted a torn generation and read `production/1800` while the next host correctly resumed at 1760, and the leg re-ran the same 40 iterations after every host change with the percentage RISING each time. **(2)** The lane had **11 `workflow_dispatch` inputs against GitHub's cap of 10**, which is SILENT: every placement flag — card floor, bid escalation, uninterruptible tier — arrived EMPTY, so each control was chosen correctly and discarded at the door. Fixes, all with tests: `committed_progress` requires the manifest, `commit_store_audit.py` names which rule refused each generation, the idle guard condemns on byte-identical log CONTENT (its mtime test was vacuous against a 120 s timer sync), `collect` re-places a dead host in the same pass, and CI now fails a workflow that exceeds the input cap or uses GCP auth without `id-token: write` |
 | **The restrained binary re-run** (LANE 20) | **HELD ON PURPOSE, behind the triangle's `R`.** Not stalled and not forgotten: `R` is the thing that says whether re-running the binary arm restrained can help at all. **The ternary arm is NOT being re-run restrained** (audit §L.3f) | held pending `R` | **$0** | — |
 | ~~**valB_mini reverse leg r0**~~ (GCP L4 **on-demand**) | ✅ **LANDED — `production/2000` of 2000; the hysteresis it unlocked is measured in the block below** | — | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**). **A SEPARATE LEDGER**: never summed into realised or ladder spend | — |
@@ -1843,8 +1843,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   **Arm E: 18 legs ≈ $7.7** at the measured $0.43/leg.
   *(Original entry retained below for the frozen gate wording.)*
 - **`[ ]` NR-V04 retrospective — preregistered holdout** — **~$21 ($4.8–67) · Cum. ~$104.** Full ensembles
-  through the pipeline, no tuning, epimer control; report directional concordance only. **Gate:** Val B-full +
-  NR-V04 feasibility + Step 1 fan-out. **It no longer gates the causal kill-switch** (lever 4).
+  through the pipeline, no tuning, epimer control; report directional concordance only.
+  **★ GATE RECONCILED TO THE PREREG, 2026-07-30 (trimcrae go; [Open decisions 12](#open-decisions)) — ARM E
+  RUNS, ARM F STAYS BLOCKED.** ⚠ *Superseded, retained: **"Gate: Val B-full + NR-V04 feasibility + Step 1
+  fan-out"**, applied to the WHOLE item.* That wording was **this file's, not the prereg's**, and the two had
+  disagreed since 2026-07-24: the prereg blocks only **Arm F** (the free-energy arm) on the valB PASS, prices
+  **Arm E** (R1, 18 legs, ≈$8) inside the standing ≲$50 autonomy threshold, and its **§9 "Dependency honesty"**
+  had already argued — before any leg ran — that running Arm E is a *narrowing* rather than a gate jump,
+  leaving the judgement explicitly open. **The prereg got there first; this is that judgement being taken**, and
+  it is recorded as a dated addition in the prereg itself, amending no criterion. What changed since is only the
+  premise: `step1_fanout` **completed** and the feasibility panel was **WITHDRAWN**, so two of the three listed
+  gates stopped being pending and became unreachable. **HARD PRECONDITION, met:** the shared driver now persists
+  a durable trajectory (`md_analysis_traj.py`) — do not launch 18 legs on a build without it.
+  **It no longer gates the causal kill-switch** (lever 4).
   **GO/NO-GO:** at least directionally concordant with the NR4A1-degraded / NR4A2·3-spared outcome → GO to the
   prospective ladder; discordant → the ladder is not justified, publish the honest negative. **Interpret with the
   covalent confound explicit:** NR4A1 Cys551 is unique to NR4A1 (NR4A3 T579), so a concordant result may be
@@ -1882,7 +1893,10 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   expressed" as the reason.** Matched 3-paralogue scoring **over the warhead-pose ensemble**; cluster into ~3–8
   basins/ligase; score with the two **categorical** terms (a) and (b) above, then the cheap counterfactual screen
   to nominate marginal wedges.
-- **`[~]` 5a-KS · Wedge confirmation — pilot-first KILL-SWITCH + causal RESULT** — **~$12 ($1.6–45) · Cum. ~$141.**
+- **`[~]` 5a-KS · Wedge confirmation — pilot-first KILL-SWITCH + causal RESULT** — **~$23 ($3.1–97) · Cum. ~$152.**
+  ★ **FOUR ternary legs — n = 2 SEEDS PER ARM (trimcrae go, 2026-07-30; [Open decisions 11](#open-decisions)).**
+  ⚠ *Superseded, retained: **~$12 ($1.6–45) · Cum. ~$141**, which was the TWO-leg configuration — at one seed
+  per arm `S` has no replicate SD and cannot report a null, which is its own pre-registered likely outcome.*
   **`[~]`, not `[ ]`: both ternary legs HAVE run and their checkpoints are durable** (NR4A3 `production/800` of
   2000, NR4A1 `warmup/640` of 1600). They are **PARKED, not finished** — see the IN FLIGHT board for why, and
   for the price condition that re-enables them. `[ ]` would say no work exists; it does, and it is banked.
@@ -2005,19 +2019,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   *Sequence, cheapest-decisive-first:* smoke (~$0.10) → pilot (both legs of one direction, ~$1–3 — **the abort
   gate**) → full set (~$5–10) only if the pilot sees it.
 
-- **`[x]` 5b · Inverse linker design — DONE 2026-07-25, $0 REALIZED (1,995 enumerated → 21 retained, RDKit-verified 21/21)** — **~$0–20 (mostly $0 CPU) · Cum. ~$151.** For each confirmed basin, derive
+- **`[x]` 5b · Inverse linker design — DONE 2026-07-25, $0 REALIZED (1,995 enumerated → 21 retained, RDKit-verified 21/21)** — **~$0–20 (mostly $0 CPU) · Cum. ~$162.** For each confirmed basin, derive
   linker requirements (endpoint distance, exit-vector dihedral, strain, reach), enumerate a virtual library,
   filter by basin fidelity, annotate exact structures + synthetic feasibility → **~12–20 virtual constructs** (the
   reviewer's "24–36" now bounds this virtual set, not a hand-built grid). For basins carrying the covalent handle,
   the library enumerates the **electrophile position on the linker** as a design variable, and **prefers
   reversible-covalent** chemistry.
 - **`[ ]` 5c · Explicit ternary-ensemble refinement** — **~$21 ($1.9–85; endpoint MD, 24–~200 legs at ~1.38 ref
-  GPU-h each) · Cum. ~$172.** *(The biggest swing item — the leg COUNT, not the rate, dominates its uncertainty.)*
+  GPU-h each) · Cum. ~$183.** *(The biggest swing item — the leg COUNT, not the rate, dominates its uncertainty.)*
   Replicated ternary + full CRL/E2~Ub MD across target states, linker conformers, and in-basin poses; matched
   NR4A1/2/3; separate accessibility from stability; robust constraint-satisfaction filtering → **~4–8 constructs**
   nondominated under scenario + model uncertainty. Add a constraint: **which lysine the ubiquitin actually
   reaches**, reported per construct as a distribution over unique-vs-conserved sites, not just "a lysine is near".
-- **`[ ]` 5d · Local ternary FEP** — **~$21 ($3.1–87; 3–6 ternary comparisons) · Cum. ~$158.** Alchemy **only**
+- **`[ ]` 5d · Local ternary FEP** — **~$21 ($3.1–87; 3–6 ternary comparisons) · Cum. ~$169.** Alchemy **only**
   within a retained basin (both endpoints plausibly bound, modest congeneric change). Refines the matched final
   series → **~6–12** with ≥2 mechanistic wedges, ≥2 linker architectures, VHL/CRBN only where both survive,
   explicit negative controls. **Deliverable** = the prioritized, structure-defined, retrosynthetically annotated
@@ -2042,18 +2056,38 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 
 ## Spend summary
 
-**PINNED TOTAL: ~$158 mid-range (~$44–578)**, GO at every gate, priceable stages only.
-*(Superseded, retained: **~$185 mid (~$51–614)** — retired 2026-07-27 when the throughput table was re-anchored
-and the ladder regenerated; the GPU-hours did not change, the `$/reference-GPU-hour` did. pricing.md Appendix T.)*
+**PINNED TOTAL: ~$169 mid-range (~$46–626)**, GO at every gate, priceable stages only.
+*(Superseded, retained: **~$158 mid (~$44–578)** — retired 2026-07-30 when RUNG 5a-KS went from **2 ternary legs
+to 4** (n = 2 seeds per arm; [Open decisions 11](#open-decisions)). ⚠ **That reprice is the cleanest in this
+file's history and it is worth saying why: the market snapshot, the `$/reference-GPU-hour` rate and every other
+stage's GPU-hours are BYTE-IDENTICAL across it**, so the entire **+$11 mid** is the second seed per arm and
+nothing else — the opposite of the 2026-07-27 reprice, where no price moved and only the yardstick did. And
+that earlier one is retained too: **~$185 mid (~$51–614)**, retired 2026-07-27 when the throughput table was
+re-anchored; the GPU-hours did not change, the `$/reference-GPU-hour` did. pricing.md Appendix T.)*
 
-**How it is built** — regenerate the alchemical/MD stages with `python research/modalities/vast_cost_model.py`
+**How it is built** — regenerate the alchemical/MD stages with
+`python research/modalities/vast_cost_model.py --json-out vast-ladder-repricing.json`
 (JSON: [`vast-ladder-repricing.json`](research/modalities/vast-ladder-repricing.json)); the tool prices 9 stages
-at **$149.4 ($38.2–466.4)** on the measured **$0.137/ref-GPU-h** policy. The ladder figure adds the stages the
-tool does not cover: step0 ~$1–2 (mid $1.5), valA_mini ~$0–15 (**realized ~$0** on GCP credit), the ~$8 measured
-covalent panel, 5a basin ~$0–50 (mid $25), 5b linker ~$0–20 (mid $10). `149.4 + 1.5 + 0 + 8 + 25 + 10 ≈ 194`;
-low `38.2 + 1 + 0 + 8 + 0 + 0 ≈ 47`; high `466.4 + 2 + 15 + 8 + 50 + 20 ≈ 561`. The per-step `Cum.` chain above
-ends on the same ~$158, and [pricing.md §C](research/compute/pricing.md) carries the same chain — all three must
-agree.
+at **$149.63 ($36.58–531.46)** at the committed snapshot's **$0.1143/ref-GPU-h**. The ladder figure adds the
+stages the tool does not cover, at the **[low, mid, high] the machine registry uses** — step0 ~$1–2 (mid
+**$1.5**), valA_mini ~$0–15 (mid **$0**, its *realized* cost on GCP credit rather than the band's midpoint), the
+~$8 measured covalent panel, 5a basin ~$0–50 (mid **$0**, realized), 5b linker ~$0–20 (mid **$10**):
+`149.63 + 1.5 + 0 + 8 + 0 + 10 ≈ 169`; low `36.58 + 1 + 0 + 8 + 0 + 0 ≈ 46`; high
+`531.46 + 2 + 15 + 8 + 50 + 20 ≈ 626`. [pricing.md §C](research/compute/pricing.md) and
+[bid-strategy.md §6](research/compute/bid-strategy.md) carry the same total — all three must agree, and
+[`lint_consistency.py`](research/manuscripts/lint_consistency.py) recomputes it from
+[`pinned-figures.json`](research/manuscripts/pinned-figures.json) → `derivations.ladder_total` rather than
+trusting any of them.
+
+⚠ **TWO THINGS THIS PARAGRAPH GOT WRONG UNTIL 2026-07-30, both found by regenerating rather than reading.**
+**(a)** It stated the 5a basin stage at **mid $25** while the machine registry has always used **$0** — so its
+own printed arithmetic came out at **`≈ 194`** beside a pinned total of `~$158`, and the sentence that followed
+asserted the chain *"ends on the same ~$158"*. A doc contradicting itself inside four lines, which is precisely
+what rule 1 exists to catch; the registry was right and the prose was wrong. **(b)** The tool figures quoted
+here (**$149.4 at $0.137/ref-GPU-h**) were from an older market snapshot than the committed artifact, which
+carried **$138.16 at $0.1143**. ⚠ **Beware a near-collision when reading old copies of this file: the tool total
+is NOW $149.63, which is within $0.25 of the stale $149.4 it replaces, and the two have nothing to do with each
+other** — the old one was 2 legs at a higher rate, the new one is 4 legs at a lower one.
 
 **Excluded from the total:** (a) the 5a-KS **confirmatory** protein-mutation wedge and its reciprocal cycle —
 engine qualified, but the NR4A cost is a particle-count projection, not a measured rate; (b) Optional/HELD
@@ -2087,8 +2121,8 @@ it is worth confirming, and §MECHANISM-FIRST says on what condition.
 | **2b · 4 fs adoption + matched re-calibration** | 1 ternary edge @4 fs | **~$4.4** ($1.6–11) | ~$17 |
 | 3 · Val B cube (SMARCA2/4 module) + NR-V04 feas. (DONE) | 2–3 ternary edges + CRL-MD; covalent panel | ~$22.5 + ~$8 (range $14–75) | ~$48 |
 | 4 · fan-out + atlas + **unique-residue map** (both $0) + NR-V04 retro | ≈19 RBFE edges + NR4A1/2/3 ternary **legs** | **~$36** + ~$21 (range $20–147) | ~$104 |
-| 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference | ~$0–50 + ~$12 (range $2–95) | ~$141 |
-| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$18) + within-basin FEP (~$21) | ~$49 (range $5–187) | ~$158 |
+| 5a · mechanism-first basin search + **KILL-SWITCH** | basin ($0–50, multi-E3, CPU) + ligand-side double difference, **4 ternary legs (n = 2 seeds × 2 arms)** | ~$0–50 + **~$23** ($3.1–97) | ~$152 |
+| 5 (if GO) · linker + ensemble refine + local FEP | inverse-linker ($0–20) + ensemble MD (~$18) + within-basin FEP (~$21) | ~$49 (range $5–187) | ~$169 |
 | Confirmatory protein-mutation cycle (optional) | 1–3 mutation directions | **~$4.6 PROJECTED** | *(excl.)* |
 | Optional ΔG_open / ABFE (HELD) | — | +$200–500 | *(excl.)* |
 
@@ -2131,7 +2165,7 @@ RUNG5  basin_search($0–50, multi-E3, pose-marginalised, CATEGORICAL terms)    
           │           claim to resolve a paralogue-scale difference. It does NOT gate
           │           the ladder — the ligand-side double difference does.
           │
-       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep         (Cum ~$158)
+       inverse_linker($0) ──► ternary_ensemble_refine ──► local_ternary_fep         (Cum ~$169)
           │
 RUNG6  fold ──► redteam ──► post/submit                                             ($0)
 
@@ -2149,7 +2183,12 @@ implemented. Per rule 1 nothing here restates a figure that has a home elsewhere
 home and carries only the CONSEQUENCE.*
 
 **The one-line reading. The program's blocker is no longer precision and is no longer money — it is that the
-flagship quantity `S` has never had a known answer, and, as parked, cannot report its own most likely result.**
+flagship quantity `S` has never had a known answer, and, as it was parked, could not have reported its own most
+likely result.** ✅ **Both halves of that are now acted on** (2026-07-30, trimcrae go): the lane is re-specified
+to **n = 2 seeds per arm**, so a null becomes a *bound* rather than a shrug; and the calibrator question is
+split so the free half — *can a null be READ?* — no longer waits behind the paid half
+([§Open decisions 11 and 13](#open-decisions)). **Nothing is bought: the four legs stay parked behind the
+market gate.** What is left below is the reasoning, and the parts that are still open are marked as such.
 
 ### 1 · The axis the plan demoted was demoted on an assumption that has since been measured
 
@@ -2208,11 +2247,13 @@ measures sampling scatter *within one pose* and the pose stays a stated conditio
 not a reason to stay at n = 1: **an error bar that covers one of two error sources beats no error bar at all**,
 and n = 1 covers neither.
 
-**The parked row on the IN FLIGHT board is therefore parked for TWO reasons and lists one.** The price gate is
+**The parked row on the IN FLIGHT board was therefore parked for TWO reasons and listed one.** The price gate is
 real and its refusal was correct. But `s_resolvability_from_R_ternary` reads **ADMIT** on the landed
-`R_ternary` — the *science* gate says buy — so if the market opens tomorrow the lane would resume **in the
-configuration this item says is under-powered.** Settling the count is therefore **more urgent than the price**,
-and it is [§Open decisions 11](#open-decisions).
+`R_ternary` — the *science* gate says buy — so if the market had opened the lane would have resumed **in the
+configuration this item calls under-powered.** ✅ **SETTLED 2026-07-30 (trimcrae go): n = 2 seeds per arm.** The
+lane now declares four legs, the ladder is regenerated, the stage-cache seeder covers every declared seed and
+both new units are watched — all still `enabled: false` behind the price gate, re-enabling together.
+[§Open decisions 11](#open-decisions) carries the reasoning and what was NOT chosen.
 
 ### 4 · ✅ FIXED — a REQUIREMENT this file adopted had never been implemented on the driver whose loss created it
 
@@ -2244,15 +2285,18 @@ exactly that, atom by atom); an analysis nobody anticipated over a dropped sidec
 `select_analysis_atoms(all_heavy=True)` is there for a leg that can afford the bytes. **The cheap 95 %,
 labelled as such in the file's own manifest**, beats a complete record that stays unwritten.
 
-### 5 · The NR-V04 retrospective's own gate can no longer be satisfied by anything
+### 5 · ✅ RESOLVED — the NR-V04 retrospective's own gate could no longer be satisfied by anything
 
 Its **Gate** reads *"Val B-full + NR-V04 feasibility + Step 1 fan-out."* The fan-out is **DONE**; the
 feasibility panel is **WITHDRAWN**, not merely paused; and valB_full sits behind a module-1 gate that
 [§Open decisions 9](#open-decisions) has just **declined to amend, correctly**. Two of the three preconditions
 are therefore not pending — they are **unreachable**. An item that is "built, preregistered and idle" behind a
 gate that cannot fire is not being held; it is being **abandoned without saying so**, which is the failure mode
-this file's own §Current front paragraph was corrected for. **It needs a decision either way**, and it is
-[§Open decisions 12](#open-decisions).
+this file's own §Current front paragraph was corrected for. **It needed a decision either way**, and it got one:
+✅ **2026-07-30 (trimcrae go) — Arm E RUNS, Arm F stays blocked on the valB PASS.** ⚠ **And my framing was wrong
+in a way worth keeping: I proposed this as a scope correction I had derived, and the prereg's own §9
+"Dependency honesty" had made the same argument on 2026-07-24** and left the judgement open — so no criterion
+is amended and none needed to be. [§Open decisions 12](#open-decisions).
 
 ### 6 · Ranking what is left by DECISION VALUE PER DOLLAR — not by dollars
 
@@ -2267,9 +2311,9 @@ the ordering below.*
 |---|---|---|---|
 | 1 | **Re-anchor the paper's resolvability argument on the measured SD** | **$0** | The paper currently states the *assumed* SD in §2.10/§4/§5 while **reporting the measured one in §2.11** — one fact, two values, in one document. Done in this pass |
 | 2 | ~~**Wire the strided-trajectory requirement into `nrv04_covalent_md`**~~ ✅ **DONE 2026-07-30** | **$0** | Item 4. It was a hard precondition on the only built-and-unlaunched GPU item we own, and it is now met |
-| 3 | **Settle the `S` replicate count BEFORE the market re-opens** | **$0 to decide** | Item 3. The lane will otherwise resume in the under-powered configuration the moment price allows |
-| 4 | **`S` at n ≥ 2 per arm** — the flagship kill-switch, correctly sized | **≈2× the parked ~$12** | The only unrun test of the program's headline causal claim, and the increment is what makes its *likely* answer readable. [Open decision 11](#open-decisions) |
-| 5 | **NR-V04 retrospective, Arm E (R1 only, 18 legs)** | **≈$7.7** | A *new axis of evidence* (biological holdout), built and preregistered, with a registered MDE — CLAUDE.md §5's "default YES". Blocked only by item 5's dead gate |
+| 3 | ~~**Settle the `S` replicate count BEFORE the market re-opens**~~ ✅ **DONE — n = 2 per arm** | **$0 to decide** | Item 3. The lane would otherwise have resumed under-powered the moment price allowed |
+| 4 | **`S` at n = 2 per arm** — the flagship kill-switch, correctly sized and now CONFIGURED | **~$23** (ladder) | The only unrun test of the program's headline causal claim, and the second seed is what makes its *likely* answer readable. Waiting on the market, not on a decision |
+| 5 | **NR-V04 retrospective, Arm E (R1 only, 18 legs)** ✅ **CLEARED TO RUN** | **≈$7.7** | A *new axis of evidence* (biological holdout), built and preregistered, with a registered MDE — CLAUDE.md §5's "default YES". The gate is reconciled to the prereg and the durable-trajectory precondition is met |
 | 6 | **A known-answer calibrator for the `S`-shaped quantity** | **unpriced** | The real gap [Open decision 9](#open-decisions) exposed. It unlocks nothing on its own and must obey decision 9b's binding requirement (reference data and structure on the **same** protein), so it follows 4 rather than leading it |
 | — | **More replicates on `ΔΔG_coop` / a rescoped valB edge** | — | **Explicitly NOT on this list.** `R` says the miss is endpoint-state; replicates shrink variance, not bias; [decision 6](#open-decisions) closed it |
 
@@ -2509,7 +2553,17 @@ dollar ceiling.
    and a discordance would be uninterpretable. Derived in
    [`valb_failure_propagation.error_algebra`](research/modalities/valb_failure_propagation.py). *Not
    load-bearing* — the paper's headline causal result is already stated as not hostage to it.
-11. **`[ ]` OPEN — HOW MANY SEEDS PER ARM DOES `S` GET? This is trimcrae's, because it is a multi-leg GPU
+11. **`[x]` DECIDED 2026-07-30 (trimcrae go) — `S` GETS n = 2 SEEDS PER ARM (4 ternary legs).**
+    The lane is re-specified and the ladder regenerated: `ternary_vast_launch.MODES['5aks']` declares four
+    legs, `vast_cost_model` prices four, the stage-cache seeder now seeds **every declared seed** (it seeded
+    only seed 0, and `5aks` sets `stage_required: True`, so a seed-1 leg would have died on a cache MISS on a
+    rented host), and both new units are on the watch list rather than launching unwatched. **Nothing is
+    bought yet** — all four stay `enabled: false` behind the relaunch price gate and re-enable **together**,
+    because a partial re-enable buys a number that still cannot report a null.
+    ⚠ *The two parked seed-0 legs are untouched and resume byte-identically from `production/800` and
+    `warmup/640`; the seed-1 legs are cold starts.* The question, as it stood:
+
+    **`[~]` HOW MANY SEEDS PER ARM DOES `S` GET? This is trimcrae's, because it is a multi-leg GPU
     spend; everything else about it is settled and free.** ⚠ **It must be settled BEFORE the market re-opens,
     not after**: the relaunch price gate is the only thing currently holding the lane, and `R_ternary` already
     reads **ADMIT** on the science gate — so the next cheap offer resumes 5a-KS in the **n = 1 per arm**
@@ -2535,7 +2589,23 @@ dollar ceiling.
     n = 2 — and read a null as a bound rather than an absence. **Not proposed:** re-running the parked legs
     from scratch (their checkpoints are intact and durable) or extending them (more sampling on one seed buys
     precision that `S` does not lack).
-12. **`[ ]` OPEN — DOES THE NR-V04 RETROSPECTIVE RUN, OR IS IT FORMALLY RETIRED? It cannot stay "idle".**
+12. **`[x]` DECIDED 2026-07-30 (trimcrae go) — THE NR-V04 RETROSPECTIVE RUNS: ARM E (R1, 18 legs, ≈$8).
+    Arm F stays blocked on the valB PASS.** ⚠ **AND MY FRAMING OF THIS WAS WRONG IN A WAY WORTH
+    CORRECTING: I proposed it as a scope correction I had derived, and the prereg had already made the
+    same argument on 2026-07-24.** Its **§9 "Dependency honesty"** states that the gates govern the
+    free-energy arm, that Arm E asserts no free energy, and that running Arm E is a *narrowing* rather
+    than a gate jump — then names the alternative (hold Arm E until valB passes) and leaves the
+    judgement open. So no criterion is amended and no amendment was needed; the decision is recorded as
+    a **dated addition** in the prereg, which is what §9 itself asks for. The gate wording that
+    conflicted was **this file's**, and it is reconciled in the RUNG 4 entry. What genuinely changed
+    since 2026-07-24 is the premise: `step1_fanout` completed and the feasibility panel was WITHDRAWN,
+    so two of three gates became **unreachable** rather than pending. **Integrity test, checkable
+    rather than rhetorical: the panel has never run, so no result exists that this could have been
+    motivated by disliking** — the distinction from [decision 9](#open-decisions), where a real NO
+    existed and the gate was correctly left standing. **Precondition met** (durable trajectory).
+    The question, as it stood:
+
+    **`[~]` DOES THE NR-V04 RETROSPECTIVE RUN, OR IS IT FORMALLY RETIRED? It cannot stay "idle".**
     Its gate names **valB_full** and the **NR-V04 feasibility panel**; the first is behind a module-1 gate
     [decision 9](#open-decisions) has just declined to amend, and the second is **WITHDRAWN**. Neither is
     coming. Leaving it listed as built-and-awaiting-a-go is the *appearance* of a plan for ~$7.7 of work that
@@ -2638,6 +2708,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 50 | The step-1 fan-out map reported as complete **with no cycle-closure readout at all**, in this file and in the paper's §2.9, while all three of `cycle_3carbonyl`'s edges were quoted unflagged | **The closures were computed and landed with the map; they had simply reached no document.** Two of three close (**−0.726**, **−0.756**, tolerance ±1.0); **`cycle_3carbonyl` sums to +1.307 — VIOLATION**, so by the artifact's own rule at least one of its three edges is unconverged or mis-mapped and all three now carry that reservation where they are quoted. Nothing about the map's counts or spend changes. Separately fixed in the same pass: `cycle_closure`'s `signed_terms` zipped the caller's **declaration-order** edge ids against `_walk_cycle`'s **walk-order** values, mislabelling which edge carried which value in every cycle where the two orders differ. `sum_kcal` is order-independent and was never wrong, which is why it went unnoticed; pinned now by `test_signed_terms_label_each_edge_with_its_OWN_ddg` |
 | 51 | The valB_mini miss quoted as **1.466** (paper §2.11) and **1.478** (SI §S11, and this file's live text in two places), with the derived ratio **"~33× the statistical uncertainty"** in the paper's abstract, §2.11, §5 and the SI — and the **abstract still reporting the r0-only headline ΔΔG_coop = −0.522** | **All superseded by the landed n = 3 replicates, and the paper's own Appendix A already said so while its abstract did not** — a document contradicting itself four sections apart, which is the failure mode rule 1 exists to catch. Live values: mean **−0.599**, abs error **1.543**, ratio **~34×**. 1.466 is the r0-only reading after the restrained binary re-run (row 44); **1.478 is the reading before it, i.e. superseded twice over**, and it was still live in the SI on 2026-07-30. Nothing about the conclusion moves — the sign was wrong at every one of the three values, which is why the correction is a bookkeeping one and is recorded rather than argued |
 | 52 | The generation-matched null's comparison block reporting **`p_value: 0.0`, `enrichment: Infinity`, `exceeds_chance: true`** and the verdict *"real campaign produced a survivor the control objectives NEVER manufactured → survival is not a generic funnel artifact"* | **Every measured count in that artifact is correct and unchanged; the statistics derived from them were not.** `false_positive_rate` returned a per-molecule control rate of exactly **0** — a point estimate from a *single* 191-molecule campaign — and `compare_campaigns` then divided by it, so any real survivor was infinitely enriched at p = 0 **by construction**, independently of the evidence. The honest reading is the **rule-of-three bound**: 0 events in 191 generations puts the manufactured rate at **≤0.0157 (one-sided 95 %)**, which is **3× the real campaign's own 0.0052**, so the confound is **narrowed, not excluded**; one-sided Fisher for 1/191 vs 0/191 is **p = 0.5**. Fixed at the source (`per_molecule_fp_rate_upper95`, and the zero branch now grades the real rate against that bound), retired in place in the artifact's `_superseded` block, and pinned by two tests — one of which previously asserted the overclaim. The artifact was also **not strict JSON** while it carried a bare `Infinity`; it is now |
+| 54 | Pinned ladder total **~$158 mid (~$44–578)**, and RUNG 5a-KS priced at **~$12 ($1.6–45)** for **two** ternary legs | **RUNG 5a-KS went to n = 2 SEEDS PER ARM — four legs** (trimcrae go 2026-07-30, [Open decisions 11](#open-decisions)), because at one seed per arm `S` has no replicate SD and cannot report a null, which is its own pre-registered likely outcome. Current: **~$169 mid (~$46–626)**, stage **~$23 ($3.1–97)**. ⚠ **The cleanest reprice in this file's history and it is worth saying why: the market snapshot, the `$/reference-GPU-hour` rate and every other stage's GPU-hours are BYTE-IDENTICAL across it** — the whole +$11 mid is the second seed, the exact opposite of row 40's reprice where no price moved and only the yardstick did. Two collateral corrections found by regenerating rather than reading: the §Spend-summary prose had been carrying the 5a basin stage at **mid $25** where the machine registry uses **$0**, which is why its own printed arithmetic said `≈ 194` beside a pinned `~$158` and then claimed they agreed; and its quoted tool figures (**$149.4 at $0.137/ref-GPU-h**) were from an older snapshot than the committed artifact (**$138.16 at $0.1143**). ⚠ **Near-collision, stated so nobody misreads an old copy: the tool total is NOW $149.63, within $0.25 of the stale $149.4 it replaces, and they are unrelated quantities** — 2 legs at a higher rate vs 4 legs at a lower one. Derived, never typed: `vast_cost_model.py --json-out vast-ladder-repricing.json`, checked by `lint_consistency`'s `ladder_total` derivation |
 | 53 | The marginal axis's **best-case resolvable difference of 1.12 kcal/mol** at an assumed **replicate SD 0.7, n = 3**, quoted beside a **literature** accuracy of **~1.7 kcal/mol RMSE** — live in five places in this file (the MECHANISM-FIRST definition, the Tier-3 semantics box, the 5a-KS honest expectation, the pmx noise-structure block, the Spend-summary defence of mechanism-first) and three in the paper (§2.10, §4, §5). With it, the derived reading **"the marginal axis is a confirmation tool operating near its LIMIT"** and the Spend-summary claim that spending on it *"is a bad trade at any price"* | **The SD was never measured; the n = 3 valB_mini replicates measured it at 0.375**, and the same function on the measured value gives **0.60** — the noise floor is ~1.9× better than the plan had been assuming, so the required margin sits at **~3.3× the floor rather than ~1.8×**. In the same landing the **accuracy** stopped being a literature figure and became a measured one that is **worse**: 1.543 kcal/mol with the **wrong sign** on this exact quantity class, localised by `R` to an **endpoint-state** error that replicates cannot touch. **So the axis is UNCALIBRATED, not blunt** — the two defects have different remedies, and the plan was buying neither. ⚠ **What did NOT change, and must not be inferred:** the mechanism-first *order* (a categorical handle needs no margin, and the categorical screens are $0 — either argument alone carries it), and the fact that a better noise floor cannot make a 2.0 kcal/mol margin *exist*. Derived, never typed: `selectivity_margin_model.minimum_detectable_difference`; consequences in §WHAT THE LANDED RESULTS CHANGE |
 
 ---

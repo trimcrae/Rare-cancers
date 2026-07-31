@@ -462,6 +462,24 @@ def s_error_bar_scope():
                     "effect range and not the bottom, so a null S at n=1 is uninterpretable in precisely the "
                     "way valB's n=1 was."
                     % (resolvable_corrected, lo_eff, hi_eff)),
+        "_decided_2026_07_30": {
+            "decision": "n = 2 SEEDS PER ARM -- four ternary legs, not two (trimcrae go; STRATEGY Open decision 11)",
+            "why": "at one seed per arm S resolves only the TOP of its own designed 0.5-1.5 kcal/mol effect, so "
+                   "the PRE-REGISTERED LIKELY OUTCOME -- a null -- would have been uninterpretable. The second "
+                   "seed is what turns a null into a BOUND.",
+            "implemented_in": ["ternary_vast_launch.MODES['5aks'].legs (4 units)",
+                               "ternary_vast_launch.seed_stage_cache (seeds EVERY declared seed; it seeded only "
+                               "seed 0, and 5aks sets stage_required=True, so a seed-1 leg would have died on a "
+                               "cache MISS on a rented host)",
+                               "vast_cost_model.LADDER_REFERENCE_GPU_H (4 legs -> ladder total ~$169)",
+                               "ternary-vast-watch.json (both new units watched, all four parked together)"],
+            "not_chosen": "n = 3 per arm -- the second seed buys most of the readability and the third is the "
+                          "shallow part of a 1/sqrt(n) curve, i.e. the deepening past field standard CLAUDE.md "
+                          "section 5 defaults against.",
+            "still_gated_on": "the market. All four units stay enabled=false behind the relaunch price gate and "
+                              "re-enable TOGETHER -- a partial re-enable buys a number that still cannot report "
+                              "a null.",
+        },
         "options": {
             "finish_as_configured": ("buy the two parked legs, report S as a point estimate, and label it "
                                      "exploratory. Retires paper §2.10(d) 'the causal test has not been run' "

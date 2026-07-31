@@ -311,7 +311,7 @@ mutation-cycle stages have a **qualified engine with a particle-count-projected 
 | local within-basin FEP | 3–6 ternary **comparisons** (ternary legs only, B.0-1), 56–260 ref GPU-h | **~$22** ($3–80) | REPRICED 2026-07-25 |
 | `ternary_prospective_matrix` (now 5a–5d ladder) | ~4–12 constructs via 5c/5d | **folded into 5c+5d above** | MEASURED-derived |
 
-**★ Whole gated ladder ≈ ~$158 mid-range (~$44–578) for the PRICEABLE stages, GO at every gate** *(the
+**★ Whole gated ladder ≈ ~$169 mid-range (~$46–626) for the PRICEABLE stages, GO at every gate** *(the **~$158 (~$44–578)** carried here until 2026-07-30 is superseded: RUNG 5a-KS went from 2 ternary legs to 4 — n = 2 seeds per arm — and NOTHING else moved, same market snapshot and same rate; STRATEGY Appendix A row 54)* *(the
 **~$185 (~$51–614)** that stood here is superseded — Appendix T)* — repriced
 2026-07-25 onto the measured Vast policy (**$0.137 per reference GPU-hour**, best-10-offer planning rate; range
 $0.057 best offer .. $0.309 median). Regenerate the alchemical/MD stages with

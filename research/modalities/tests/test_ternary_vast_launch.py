@@ -1277,3 +1277,61 @@ def test_every_teardown_in_collect_records_its_outcome():
         f"every teardown after the dedupe must go through _destroy so its outcome reaches the summary; "
         f"found {len(raw)} raw DELETE call(s): {raw}")
     assert "destroyed_this_pass[iid]" in body
+
+
+# ---- RUNG 5a-KS at n = 2 seeds per arm (trimcrae go, 2026-07-30; STRATEGY Open decision 11) ----------------
+#
+# The lane went from 2 ternary legs to 4 because at one seed per arm `S` has no replicate SD and cannot
+# report a null -- its own pre-registered likely outcome. That change has one sharp edge: the stage cache is
+# keyed PER SEED and `5aks` sets `stage_required: True`, so a seed whose cache was never seeded is not a slow
+# path, it is a dead rented host. These tests guard that edge, and one of them guards a bug that was written
+# and caught during the change itself.
+
+def test_5aks_declares_two_seeds_per_arm_and_both_arms_at_each_seed():
+    """S is a DOUBLE difference: a seed present on one arm and missing on the other contributes nothing and
+    silently unbalances the replicate SD."""
+    units = tv.units_for("5aks")
+    by_seed = {}
+    for leg_id, seed, _dir in units:
+        by_seed.setdefault(seed, set()).add(leg_id)
+    assert sorted(by_seed) == [0, 1], "n = 2 seeds per arm is the decided configuration"
+    assert by_seed[0] == by_seed[1], "every seed must carry BOTH arms, or S loses its pairing"
+    assert len(units) == 4
+
+
+def test_every_declared_seed_gets_its_OWN_stage_cache_key():
+    """★ THE BUG THIS CATCHES WAS WRITTEN DURING THE n=2 CHANGE AND CAUGHT BY READING THE CODE BACK.
+    `seed_stage_cache` filters units by seed and then built the key with the CALLER's filter value rather
+    than the unit's own seed. That was invisible while the filter was a single number; the moment the filter
+    became `None` ("every declared seed") it would have written every leg to a seed-None key, leaving BOTH
+    real seeds with a cache MISS -- which `stage_required` turns into a dead rented host, not a slow path."""
+    keys = {(leg, seed): tv.stage_cache_key(leg, "5aks", seed=seed, bucket="b", prefix="p")
+            for leg, seed, _d in tv.units_for("5aks")}
+    assert len(set(keys.values())) == len(keys), "each (leg, seed) must map to a DISTINCT cache key"
+    for (leg, seed), uri in keys.items():
+        other = tv.stage_cache_key(leg, "5aks", seed=1 - seed, bucket="b", prefix="p")
+        assert uri != other, f"{leg}: seed {seed} and {1 - seed} share a cache key"
+
+
+def test_seed_zero_units_are_untouched_so_the_parked_checkpoints_still_resume():
+    """The two parked legs hold intact checkpoints. If anything about their identity moved, a resume would
+    either start over (losing production/800) or silently resume a different configuration."""
+    units = dict(((l, s), d) for l, s, d in tv.units_for("5aks"))
+    assert ("5aks_d0_to_d__ternary_nr4a3", 0) in units
+    assert ("5aks_d0_to_d__ternary_nr4a1", 0) in units
+    for leg in ("5aks_d0_to_d__ternary_nr4a3", "5aks_d0_to_d__ternary_nr4a1"):
+        uid = tv.unit_id(leg, 0, "fwd", tv.DEFAULT_TIMESTEP_FS, tv.DEFAULT_WARMUP_TIMESTEP_FS, "5aks")
+        assert uid == f"{leg}_r0_dt4.0fs_wu1.0_5aks", "the parked units' identity strings must not move"
+
+
+def test_the_new_seed_one_legs_are_on_the_watch_list():
+    """A lane that launches four legs and watches two has two uncovered -- and assumed-but-absent coverage is
+    how ternary-leg-watchdog.yml sat unparseable for days while everyone believed it was watching."""
+    import json
+    here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(here, "ternary-vast-watch.json")) as fh:
+        watch = json.load(fh)
+    watched = {e["unit_id"] for e in watch["watch"]}
+    for leg, seed, _d in tv.units_for("5aks"):
+        uid = tv.unit_id(leg, seed, "fwd", tv.DEFAULT_TIMESTEP_FS, tv.DEFAULT_WARMUP_TIMESTEP_FS, "5aks")
+        assert uid in watched, f"{uid} can be launched but nothing watches it"

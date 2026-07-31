@@ -346,8 +346,27 @@ MODES = {
         "max_runtime_s": 20 * 3600,
         "template_pdb": "boltz5aks",
         "stage_required": True,
+        # ★★ FOUR LEGS — n = 2 SEEDS PER ARM (trimcrae go, 2026-07-30; STRATEGY Open decision 11). At ONE seed
+        # per arm `S` has no replicate SD at all and resolves only the TOP of its own designed 0.5-1.5 kcal/mol
+        # effect (valb_failure_propagation.s_error_bar_scope), so the PRE-REGISTERED LIKELY OUTCOME — a null —
+        # would have been uninterpretable, which is valB_mini's n=1 defect on the lane that was meant to have
+        # learned it. The second seed is what turns a null into a BOUND.
+        #
+        # ⚠ THE SEEDS ARE INDEPENDENT SAMPLING, NOT INDEPENDENT STRUCTURES, AND THAT IS BY DESIGN. The
+        # `starting_model_index = SEED % n_models` wrap that makes valB's seeds different STRUCTURES lives in
+        # `ternary_pdb_stage` behind `target_acc == "P51532"` (the SMARCA4 template) and cannot reach this
+        # lane, which stages from ONE co-fold per species on purpose (`nr4a3_5aks_stage`: both endpoints from
+        # one pose, so the alchemical transformation does not absorb a pose difference). `nr4a3_ternary_fep`
+        # seeds each replica's sampler, so seed 1 is a genuinely independent trajectory from the same start.
+        # Consequence to declare rather than hide: an `S` replicate SD measures sampling scatter WITHIN one
+        # co-fold pose, and the pose stays a stated conditional.
+        #
+        # Seed 0's two legs are PARKED with intact checkpoints and resume byte-identically — nothing above
+        # them changed (`per_arm_ckpt` is still off for this mode, deliberately). Seeds 1 are cold starts.
         "legs": [("5aks_d0_to_d__ternary_nr4a3", 0, "fwd"),
-                 ("5aks_d0_to_d__ternary_nr4a1", 0, "fwd")],
+                 ("5aks_d0_to_d__ternary_nr4a1", 0, "fwd"),
+                 ("5aks_d0_to_d__ternary_nr4a3", 1, "fwd"),
+                 ("5aks_d0_to_d__ternary_nr4a1", 1, "fwd")],
     },
     # A 12-iteration end-to-end shakeout of the 5a-KS legs specifically: proves the pre-seeded stage cache,
     # the co-fold-derived complex.pdb, the aza-scan endpoint build and the commit store all work on a real
@@ -3607,34 +3626,47 @@ def stage_cache_key(leg_id, mode, seed=0, bucket=None, prefix=None):
     return spec.env["STAGE_CACHE"]
 
 
-def seed_stage_cache(staged_dir, mode="5aks", seed=0, bucket=None, prefix=None, dry_run=False):
+def seed_stage_cache(staged_dir, mode="5aks", seed=None, bucket=None, prefix=None, dry_run=False):
     """Upload CI-staged leg inputs (`<staged_dir>/<leg_id>/{complex.pdb,ligands.sdf,...}`) into this lane's
     stage cache, in the `tar -C $IN -cf stage.tar <LEG_ID>` shape the on-host extractor expects.
 
     Refuses to upload a leg whose directory is missing either file the engine mounts: a tar carrying a
     complex and no ligands would be a cache HIT that skips staging and then dies inside the engine, which
     is strictly worse than a miss.
+
+    ★ `seed=None` (the default, and what both prime jobs pass) seeds EVERY seed the mode declares, not just
+    seed 0. This changed on 2026-07-30 when `5aks` went to n = 2 seeds per arm: the stage-cache key is
+    seed-scoped, so a seed-1 leg would have MISSED — and `5aks` sets `stage_required: True`, making a miss a
+    hard failure on a rented host rather than a silent fall-through. The staged directory is keyed by LEG ID
+    and carries no seed, which is correct here: 5a-KS is one co-fold per species by design, so every seed of
+    a leg starts from the same structure and differs only in its sampler seed. Pass an explicit `seed` only
+    to re-seed one.
     """
     import subprocess
     import tempfile
     out = []
+    want = {sd for (_l, sd, _d) in units_for(mode)} if seed is None else {seed}
     for (leg_id, sd, _dir) in units_for(mode):
-        if sd != seed:
+        if sd not in want:
             continue
         src = os.path.join(staged_dir, leg_id)
         need = [f for f in ("complex.pdb", "ligands.sdf") if not os.path.isfile(os.path.join(src, f))]
         if need:
             raise SystemExit(f"[seed-stage] {leg_id}: staged dir {src} is missing {need} — refusing to seed a "
                              f"cache that would HIT and then fail inside the engine")
-        uri = stage_cache_key(leg_id, mode, seed=seed, bucket=bucket, prefix=prefix)
+        # ★ THE KEY IS PER-SEED, so it must use THIS unit's seed (`sd`), not the caller's filter. Passing
+        # `seed=seed` here was correct only while `seed` was a single value; with `seed=None` meaning "every
+        # declared seed" it would have written every leg to the seed-None key and left BOTH real seeds
+        # missing — a silent cache miss that `stage_required` turns into a dead rented host.
+        uri = stage_cache_key(leg_id, mode, seed=sd, bucket=bucket, prefix=prefix)
         tar = os.path.join(tempfile.mkdtemp(), "stage.tar")
         subprocess.run(["tar", "-C", staged_dir, "-cf", tar, leg_id], check=True)
         size = os.path.getsize(tar)
-        print(f"[seed-stage] {leg_id}: {size} B -> {uri}")
+        print(f"[seed-stage] {leg_id} r{sd}: {size} B -> {uri}")
         if not dry_run:
             b, k = _split_uri(uri)
             _s3().upload_file(tar, b, k)
-        out.append({"leg_id": leg_id, "uri": uri, "bytes": size, "uploaded": not dry_run})
+        out.append({"leg_id": leg_id, "seed": sd, "uri": uri, "bytes": size, "uploaded": not dry_run})
     if not out:
         raise SystemExit(f"[seed-stage] mode {mode!r} has no leg at seed {seed} — nothing to seed")
     return out

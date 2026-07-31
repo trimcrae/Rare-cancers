@@ -366,3 +366,42 @@ models and re-runs the same frozen test at larger n. Defects 1, 3 and 4 all **ti
 one tier condition is demoted to a diagnostic (removing a clause that could never bite is neutral to the
 verdict and honest about the tier's real content), and the null's licensed claim is narrowed. Net: the
 retrospective can claim **less** after this amendment than before it.
+
+---
+
+## §9 RESOLUTION — 2026-07-30 (dated addition; trimcrae go). Arm E RUNS. No criterion is amended.
+
+**This is not an amendment.** §9 posed the question and named both remedies; it did not decide between them.
+The decision is now taken and recorded here, which is what §9's own instruction ("dated additions to this file,
+never silent edits to a criterion") asks for. **Every frozen criterion, the primary contrast, its direction, α,
+endpoint, threshold and unit of independence are untouched.**
+
+**What was decided.** Arm E — the matched non-covalent paralogue comparison, R1, 18 legs — **runs**. Arm F, the
+free-energy arm, **stays blocked** on the valB calibration PASS exactly as §7 and addendum condition 7 say. The
+narrowing §9 describes is accepted as sufficient rather than the alternative it offered ("hold Arm E until valB
+passes").
+
+**Why, and the reasoning is §9's own.** The gates that STRATEGY.md RUNG 4 listed govern a *free-energy*
+quantity. Arm E asserts no free energy: it is an endpoint-MD geometric contrast reported in Ångström, with its
+own registered MDE (leg-to-leg σ **0.855 Å**, 80 % power only at 1.5–2.0 Å) and its own claim ceiling of
+**directional concordance only** (§5a/§6). A calibration of the ternary-FEP cooperativity lane is not what
+would license it, and is not what its absence withholds. What has changed since 2026-07-24 is only the
+factual premise §9 was written against: `step1_fanout` has since **completed**, and the feasibility panel has
+been **WITHDRAWN** rather than merely delayed — so two of the three listed gates are no longer *pending*, they
+are unreachable, and "held" had quietly become "abandoned without saying so".
+
+**⚠ THE INTEGRITY TEST, STATED BECAUSE THIS IS THE SHAPE OF THE RETUNE THIS PROGRAM FORBIDS.** Loosening a gate
+after a failing result is exactly what AMENDMENT 1's standard exists to prevent. It does not reach here, for a
+reason that is checkable rather than rhetorical: **the retrospective has never run, so there is no result this
+decision could have been motivated by disliking.** Nothing about the verdict this panel will return is known to
+anyone at the time of writing. That is precisely the distinction from STRATEGY Open decision 9, where a real NO
+existed on valB module 1 and the gate was correctly left standing.
+
+**A HARD PRECONDITION, and it is met.** The shared driver (`nrv04_covalent_md`) had no trajectory reporter at
+all until 2026-07-30 — it reduced in-loop and discarded positions, which is why the parent covalent panel's
+three analysis defects cost a full re-run instead of a $0 re-derivation. `md_analysis_traj.py` is now wired into
+it, persisting an analysis-atom trajectory (every CA, every Cys SG, every Lys NZ, every non-polymer heavy atom)
+and mirroring it to S3 on the existing per-checkpoint hook. **Do not launch these 18 legs on a build that lacks
+it**; the whole value of a holdout is that its result can be re-derived rather than re-bought.
+
+**Sequencing is unchanged and still binding:** pilot **one** leg to completion first (§7), then fan out.
