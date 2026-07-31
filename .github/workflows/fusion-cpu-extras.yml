@@ -28,7 +28,7 @@ on:
       vast_launch_mode:
         description: "nrv04_vast_launch: discover | stage_test | collect | monitor | diag | stop_all | dry | pilot | full | probe_offers | bench | bench_collect | retro_* (NR-V04 retrospective holdout)"
         type: choice
-        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect, cofold_audit, cofold_dry, cofold]
+        options: [discover, stage_test, collect, monitor, diag, stop_all, dry, pilot, full, probe_offers, bench, bench_collect, firm, firm_collect, firm_stop, retro_stage_test, retro_dry, retro_pilot, retro_full, retro_collect, cofold_audit, cofold_clash_scan, cofold_dry, cofold]
         default: discover
       vast_ckpt_bucket:
         description: "nrv04_vast_launch: reused S3 bucket holding the co-fold outputs + checkpoints"
@@ -1365,10 +1365,15 @@ jobs:
           set -o pipefail
           pip install -q boto3 >/dev/null 2>&1 || echo "boto3 install failed"
           case "${{ github.event.inputs.vast_launch_mode }}" in
-            stage_test|retro_stage_test|cofold_audit)
+            stage_test|retro_stage_test|cofold_audit|cofold_clash_scan)
               pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed" ;;
           esac
-          if [ "${{ github.event.inputs.vast_launch_mode }}" = "cofold_audit" ]; then
+          if [ "${{ github.event.inputs.vast_launch_mode }}" = "cofold_clash_scan" ]; then
+            # $0 GEOMETRY PRE-FLIGHT. Grades every co-fold the panel will consume for a steric impossibility
+            # BEFORE a rental is spent on it — the cheap half of the 2026-07-31 seed_3 diagnosis. Exit 2 means
+            # at least one input cannot be integrated by any host, which is a red build on purpose.
+            python nrv04_cofold_audit.py --bucket "$VAST_CKPT_BUCKET" --clash-scan
+          elif [ "${{ github.event.inputs.vast_launch_mode }}" = "cofold_audit" ]; then
             python nrv04_cofold_audit.py --bucket "$VAST_CKPT_BUCKET" --completed-panel
           else
             python nrv04_vast_launch.py

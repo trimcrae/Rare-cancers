@@ -187,6 +187,124 @@ def completed_panel_chain_split(bucket, prefix="nrv04-covalent-results"):
                            "readouts describe a different interface than intended."}
 
 
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# CLASH SCAN — a $0 pre-flight that catches a co-fold no host can run, BEFORE it costs rentals
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ WHY, measured 2026-07-31. `nrv04retro-retro_noncov_nr4a3-m3-r0` took hosts for five hours, reached
+# `md-running` every time, and never banked one frame. Its leg record:
+#     blew_up=true  blow_phase="prod@frame0/5"  pe_pre_min=+2.108844e+15  pe_post_min=+2.206908e+15 kJ/mol
+# against a WORKING sibling on the same image and lane (`nr4a3 m1 r0`): pe_pre_min=-4.025e+06,
+# post-min=-5.667e+06. +2e15 kJ/mol is ~21 orders above physical, is present BEFORE minimization and is not
+# reduced by it, so it is a property of the BUILT SYSTEM inherited from the co-fold: atoms close enough that
+# the Lennard-Jones term diverges. The first integration step then yields NaN — `prod@frame0`, in 4.4 s.
+# BOTH replicas drawing on `nr4a3/seed_3` show it and no other model does.
+#
+# `nrv04_vast_launch.retro_input_quarantine` stops such a unit being re-bought, but only AFTER a leg record
+# exists — i.e. after it has already been paid for at least once. This scan is the cheap half: pure geometry
+# on the co-fold CIF, no OpenMM, no MD env, no GPU, so an unexercised input can be graded for $0 before any
+# rental. The other sixteen units of this panel have run and are empirically fine; this is what stops a
+# SECOND seed_3 from being discovered the expensive way.
+#
+# ⚠ THE MEASURE IS THE MINIMUM INTER-CHAIN HEAVY-ATOM DISTANCE, and it is chosen because it needs no bond
+# perception. Atoms within one chain can legitimately be 1.2-1.6 A apart (they are bonded); atoms in
+# DIFFERENT chains are non-bonded in this assembly, so a real structure keeps them at van der Waals contact
+# (>= ~2.2 A for heavy atoms). A pair at a fraction of an angstrom is a steric impossibility, and it is
+# exactly what an LJ term at 1e15 kJ/mol reports.
+CLASH_MIN_INTERCHAIN_A = 1.5   # generous: real vdW contact is ~3.0-3.5 A, real H-bond heavy-atom ~2.6-3.2 A
+
+
+def min_interchain_distance(cif_path):
+    """(min_distance_A, atom_count, n_chains, which_pair) for a co-fold CIF. Heavy atoms only. gemmi + numpy.
+
+    PURE given the file. Returns min_distance None when there are fewer than two chains to compare.
+    """
+    import gemmi
+    import numpy as np
+    st = gemmi.read_structure(cif_path)
+    st.remove_alternative_conformations()
+    st.remove_hydrogens()
+    chains = []
+    for model in st:
+        for ch in model:
+            pts = [[a.pos.x, a.pos.y, a.pos.z] for res in ch for a in res]
+            if pts:
+                chains.append((ch.name, np.asarray(pts, dtype=float)))
+        break                                        # model 0 only — the co-fold's single predicted pose
+    n_atoms = int(sum(len(p) for _n, p in chains))
+    if len(chains) < 2:
+        return None, n_atoms, len(chains), None
+    best, pair = None, None
+    for i in range(len(chains)):
+        for j in range(i + 1, len(chains)):
+            a, b = chains[i][1], chains[j][1]
+            # Chunked so a 5k x 5k pair does not allocate a 200 MB matrix in one go.
+            for k in range(0, len(a), 512):
+                d = np.sqrt(((a[k:k + 512, None, :] - b[None, :, :]) ** 2).sum(-1)).min()
+                if best is None or d < best:
+                    best, pair = float(d), "%s|%s" % (chains[i][0], chains[j][0])
+    return best, n_atoms, len(chains), pair
+
+
+def clash_scan(bucket, prefix=None, systems=None, seeds=None):
+    """Grade every (system, seed) co-fold under `prefix` for a steric impossibility. Returns the readout dict.
+
+    Enumerated from `nrv04_retro_panel` rather than a typed list, so the scan covers exactly the panel's
+    inputs and follows it automatically if the panel changes (CLAUDE.md rule 1).
+    """
+    import boto3
+    import nrv04_retro_panel as retro
+    prefix = (prefix or retro.COFOLD_PREFIX).rstrip("/")
+    systems = list(systems or sorted({a.cofold_system for a in retro.ARMS})) if hasattr(retro, "ARMS") else \
+        list(systems or ("nr4a1", "nr4a2", "nr4a3"))
+    seeds = list(seeds or retro.COFOLD_MODEL_SEEDS)
+    s3 = boto3.client("s3")
+    rows, bad = [], []
+    for sysname in systems:
+        for seed in seeds:
+            pfx = "%s/%s/seed_%d/" % (prefix, sysname, seed)
+            got = _s3_first_cif(s3, bucket, pfx)
+            if not got:
+                rows.append({"system": sysname, "seed": seed, "prefix": pfx, "cif": None,
+                             "why": "no *_model_0.cif under this prefix"})
+                continue
+            key, lm = got
+            dest = "/tmp/clashscan_%s_s%d.cif" % (sysname, seed)
+            try:
+                s3.download_file(bucket, key, dest)
+                dmin, n_atoms, n_chains, pair = min_interchain_distance(dest)
+            except Exception as e:                    # noqa: BLE001 — unreadable is UNKNOWN, never "clean"
+                rows.append({"system": sysname, "seed": seed, "prefix": pfx, "cif": key,
+                             "why": "unreadable: %s: %s" % (type(e).__name__, e)})
+                continue
+            clash = dmin is not None and dmin < CLASH_MIN_INTERCHAIN_A
+            row = {"system": sysname, "seed": seed, "cif": key,
+                   "last_modified": lm.strftime("%Y-%m-%dT%H:%M:%SZ") if lm else None,
+                   "min_interchain_A": (round(dmin, 3) if dmin is not None else None),
+                   "closest_pair": pair, "n_atoms": n_atoms, "n_chains": n_chains,
+                   "clash": bool(clash)}
+            rows.append(row)
+            if clash:
+                bad.append(row)
+            print("[clash-scan] %-6s seed %d: min inter-chain %s A  (%s)  atoms=%d chains=%d  %s"
+                  % (sysname, seed,
+                     ("%.3f" % dmin) if dmin is not None else "n/a", pair, n_atoms, n_chains,
+                     "\u26d4 CLASH" if clash else "ok"), flush=True)
+    out = {"_what": "Minimum inter-chain heavy-atom distance per co-fold — a $0 pre-flight for a system no "
+                    "host can integrate.",
+           "_rule": "A pair below %.1f A is non-bonded atoms inside van der Waals contact, which is what an "
+                    "LJ term at 1e15 kJ/mol reports. See nrv04_vast_launch.retro_input_quarantine."
+                    % CLASH_MIN_INTERCHAIN_A,
+           "prefix": prefix, "threshold_A": CLASH_MIN_INTERCHAIN_A, "rows": rows,
+           "n_clashing": len(bad), "clashing": [(r["system"], r["seed"]) for r in bad]}
+    if bad:
+        print("[clash-scan] \u26d4 %d co-fold(s) are sterically impossible and cannot be integrated: %s"
+              % (len(bad), out["clashing"]), flush=True)
+    else:
+        print("[clash-scan] every co-fold in the panel's input set is physically integrable.", flush=True)
+    return out
+
+
 def _cli(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Audit which E3 proteins are actually in the NR-V04 co-folds.")
@@ -194,9 +312,20 @@ def _cli(argv=None):
                     help="also audit the completed feasibility panel's leg JSONs for the chain-split question")
     ap.add_argument("--bucket", default=os.environ.get("VAST_CKPT_BUCKET", ""))
     ap.add_argument("--prefixes", default=",".join(COFOLD_PREFIXES))
+    ap.add_argument("--clash-scan", action="store_true",
+                    help="$0 geometry pre-flight: min inter-chain heavy-atom distance per panel co-fold")
+    ap.add_argument("--clash-prefix", default=None, help="co-fold prefix to scan (default: the panel's)")
     args = ap.parse_args(argv)
     if not args.bucket:
         raise SystemExit("set --bucket or $VAST_CKPT_BUCKET")
+    # The clash scan is its own job and must not be gated behind the provenance audit's UniProt fetch:
+    # geometry is readable from S3 alone, and a scan that needs open internet is a scan that cannot run
+    # wherever the launcher does.
+    if args.clash_scan:
+        res = clash_scan(args.bucket, prefix=args.clash_prefix)
+        json.dump(res, open("nrv04-cofold-clash-scan.json", "w"), indent=2)
+        print(json.dumps(res, indent=2, default=str), flush=True)
+        return 2 if res["n_clashing"] else 0
     audit(args.bucket, tuple(p for p in args.prefixes.split(",") if p))
     if args.completed_panel:
         res = completed_panel_chain_split(args.bucket)
