@@ -2346,6 +2346,28 @@ jobs:
           python -m pip install -q boto3
           python research/modalities/ternary_reps_diag.py --mode edge_reps \
             --out research/modalities/ternary-reps-diag.json 2>&1 | tee /tmp/diag.txt
+      - name: ...and the SAME forensic for every OTHER re-placeable mode, not just the reps arm
+        # ★★ WHY THIS IS NOT AN `edge_reps` TOOL (2026-07-31). The idle guard condemned two 5a-KS legs as
+        # WEDGED — `run.log` re-uploaded byte-identical for 18 min with the committed scalar frozen — and the
+        # only thing that can say WHY is this diagnostic: the `attempts/` archive holds the last lines the
+        # container actually wrote, and those lines survive the host being destroyed. It was pinned to
+        # `--mode edge_reps`, so the lane that was actually running was the one it could not see. Exactly the
+        # shape of the `collect` re-placement map that stranded a 5a-KS leg two days earlier.
+        #
+        # The mode list is DERIVED from `MODE_GATE_TASK` — the same map that decides which modes are
+        # re-placeable at all — so a new mode is covered without anybody remembering to edit a second list.
+        # $0: S3 list + GET, plus `request_logs` for instances still listed. Rents nothing.
+        run: |
+          set -eo pipefail
+          MODES=$(python3 -c "import sys;sys.path.insert(0,'research/modalities');\
+import ternary_vast_launch as t;print(' '.join(sorted({m for m in t.MODE_GATE_TASK if m!='edge_reps'})))")
+          echo "other re-placeable modes: $MODES"
+          for M in $MODES; do
+            echo "================ mode=$M ================"
+            python research/modalities/ternary_reps_diag.py --mode "$M" \
+              --out "research/modalities/ternary-diag-$M.json" 2>&1 | tee "/tmp/diag-$M.txt" || \
+              echo "::warning title=DIAG FAILED::mode=$M"
+          done
       - name: Are the seeds' staged inputs even the same kind of thing? — structural census across seeds
         # $0 and ~30 s. `ternary_pdb_stage` takes starting_model_index = seed % n_models with n_models=2, so
         # seed 2 is NOMINALLY the same relaxed SMARCA2 model as seed 0 — the leg that ran to completion. If
@@ -2384,6 +2406,8 @@ jobs:
           for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json ternary-arm-iteration-rates.json; do
             [ -f "research/modalities/$f" ] && git add "research/modalities/$f" || true
           done
+          # ...and every other mode's forensic, so a wedged 5a-KS leg's own last lines outlive the job log.
+          git add research/modalities/ternary-diag-*.json 2>/dev/null || true
           if ! git diff --cached --quiet; then
             git commit -m "ternary replicate forensic: what the containers themselves said (CI)"
             git pull --rebase --autostash origin "${{ github.ref_name }}" || true
