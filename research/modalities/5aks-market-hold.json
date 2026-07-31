@@ -1,43 +1,38 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-07-31T16:21:53Z",
-  "n_units": 2,
+  "utc": "2026-07-31T16:25:04Z",
+  "n_units": 1,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 3.66,
-  "ceiling_usd": 10.37,
-  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 2 legs",
-  "breakeven_usd_per_ns": 0.009673,
+  "plan_usd": 1.83,
+  "ceiling_usd": 5.19,
+  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
+  "breakeven_usd_per_ns": 0.009682,
   "depth": {
-    "offers_returned": 163,
-    "qualifying": 162,
-    "priceable": 92,
-    "needed": 2,
-    "used_for_mean": 2
+    "offers_returned": 162,
+    "qualifying": 159,
+    "priceable": 89,
+    "needed": 1,
+    "used_for_mean": 1
   },
   "offers": [
     {
       "gpu": "RTX 3090",
-      "machine_id": 145841,
-      "min_bid_usd_h": 0.08,
-      "usd_per_ns": 0.004958
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 144231,
-      "min_bid_usd_h": 0.2,
-      "usd_per_ns": 0.005255
+      "machine_id": 33622,
+      "min_bid_usd_h": 0.067,
+      "usd_per_ns": 0.003948
     }
   ],
-  "mean_usd_per_ns": 0.005106,
-  "ratio_vs_basis": 1.497,
-  "projected_usd": 5.47,
+  "mean_usd_per_ns": 0.003948,
+  "ratio_vs_basis": 1.157,
+  "projected_usd": 2.12,
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "hold": false,
-  "reason": "projected $5.47 within this rung's ceiling $10.37 AND 1.50x basis is within the 1.92x drift line",
+  "reason": "projected $2.12 within this rung's ceiling $5.19 AND 1.16x basis is within the 1.92x drift line",
   "machines_we_already_occupy": [
+    "145841",
     "16661",
     "17551"
   ],
@@ -46,10 +41,10 @@
   "units_done": [],
   "units_live": [
     "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
   ],
   "units_needing_host": [
-    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
   "units_replacing_a_dead_host": []
