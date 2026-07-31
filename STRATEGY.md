@@ -416,6 +416,21 @@ Consequences kept separate, because they are independent:
   small, the departure's bias is a per-endpoint state function, telescopes out of any cycle, and therefore largely
   cancels from ΔΔG_coop too. **Run the pose diagnostic on the triangle's legs when they land** (`mode=converge` /
   `task=converge`, $0) and do not interpret `R_binary` without it.
+  - **⛔ STATUS OF THAT DIAGNOSTIC — MEASURED 2026-07-30, 10:50 PM ET: IT HAS NEVER RUN ON THE TRIANGLE, AND
+    UNTIL IT WAS FIXED IT COULD NOT HAVE. This is the single home for that fact.** Two findings, both from
+    the Actions API and the workflow source rather than from memory. **(1) It was never dispatched.** Across
+    the **137** `gpu-ternary-fep-vast.yml` runs from the legs landing (5:11 PM ET Jul 30) to 10:27 PM ET, the
+    `converge` job is `skipped` in every one — zero executions; across the newest **1000** runs, back to
+    1:02 PM ET Jul 29, also zero. It has executed **once ever**, GH run 30210676030 on 2026-07-26, which is
+    where the RUNG 2b column of the §L.3d table above comes from. **(2) A dispatch would have read the wrong
+    legs.** The job hardcoded `--mode edge` on its `--fetch-trajectories` call, and `unit_id` embeds *both*
+    the timestep and the mode — so it reconstructs `..._dt4.0fs_wu1.0_edge` (RUNG 2b) while the triangle
+    wrote `..._dt2.0fs_wu1.0_triangle`. The two id sets are **entirely disjoint**, not partially: it would
+    have reported RUNG 2b's pose numbers under a triangle dispatch. Fixed by deriving the mode from the
+    dispatched task — `ternary_vast_launch.CONVERGE_TASK_MODES`, new `task=triangle-converge`; `task=converge`
+    still means `edge` byte-for-byte so §L.3d stays reproducible. **Consequence, and it is the live one:
+    `R_binary` is still un-cross-checked by pose data, so the bullet above is unsatisfied and the restrained
+    binary re-run's gate is this diagnostic, not `R`** (`R` has landed).
 - **★ DECIDED 2026-07-26 (trimcrae delegated: "it's your call"): run the triangle's binary legs UNRESTRAINED.**
   Three reasons, the first on its own decisive:
   1. **Comparability.** The triangle's economy is **r0 reused as T1** — `price_triangle` buys **4 legs, not 6**
