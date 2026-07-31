@@ -455,9 +455,16 @@ defaults; the code of record is `research/modalities/gpu_backend.py` (`VAST_BID_
   expensive habit this file used to endorse: best-to-median spread on the live board is **5.43×**.
 - **Ask for the disk the job needs.** Storage bills continuously, running *or paused*; at the cheap end of the
   board it is 42% of all-in cost, and halving it beats the entire bid change.
-- **Pin OpenMM to CUDA 12.6** + filter `cuda_max_good ≥ 12.6`. An unpinned env pulls a too-new CUDA-13+ OpenMM
-  whose PTX won't JIT on any host driver (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION`). Control our build, don't chase
-  bleeding-edge hosts. Also filter `reliability2 ≥ 0.90`, require ≥24 GB VRAM, rank offers by `min_bid`.
+- **Pin OpenMM's CUDA in the image, and filter the host driver to match.** An unpinned env pulls a too-new
+  CUDA-13+ OpenMM whose PTX won't JIT on an older host driver (`CUDA_ERROR_UNSUPPORTED_PTX_VERSION`) — control
+  our build, don't chase bleeding-edge hosts. ⚠ **The driver floor is NOT restated here: its one home is
+  `gpu_backend.ResourceSpec.min_cuda`**, which carries the value in force and the diag proof behind it.
+  *Superseded, retained: this line previously named a filter of `cuda_max_good ≥ 12.6`; the code was raised
+  above that on 2026-07-23 and this doc did not follow.* **Whether the raised floor is right for the ternary
+  image is an OPEN question** — [vast-placement-facts.md §4](./vast-placement-facts.md) states it and names
+  the $0 diagnostic. Also filter `reliability2 ≥ 0.90` and require ≥24 GB VRAM. *Superseded, retained: this
+  line also used to end "rank offers by `min_bid`" — which contradicted the `$/ns` ranking bullet two above it
+  in this same list. That bullet is the rule; ranking is not restated here.*
 - **OpenFE image** `triskit23/nr4a3fep:latest` (public) — openfe ≥1.12 + ambertools/am1bcc + lomap/kartograf +
   OpenMM CUDA 12.6; the enabler for `nr4a3_rbfe.py` + `nr4a3_ternary_fep.py` on Vast (the covalent-MD `nrv04vast`
   image has OpenMM only). Built by the `fep_bake` task.
