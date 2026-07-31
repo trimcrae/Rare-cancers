@@ -346,12 +346,12 @@
    "remaining_days": 5,
    "parallel_ok": false,
    "depends_on": [
-    "valB_full",
-    "nrv04_feasibility_covalent",
     "step1_fanout_cmpd19"
    ],
    "note": "2026-07-24 REVISION: this NO LONGER GATES the causal kill-switch (cost lever 4) - the wedge's validation need is a matched-pair control, not a cooperativity cube, so selectivity_wedge_confirm is decoupled and can fire before this is bought. INTERPRET WITH THE COVALENT CONFOUND EXPLICIT: NR4A1 Cys551 is unique to NR4A1 (NR4A3 T579, nr4a-paralogue-unique-residues.json), so a concordant result may be recovering TARGET ENGAGEMENT rather than ternary cooperativity - which is why this is the biological holdout and SMARCA2/4 is the method calibrator. Full NR4A1/2/3 ensembles through the physics + ubiquitination pipeline, NO tuning, preregistered scoring (fixed on Val B-full), VHL-inactive epimer negative control. Report DIRECTIONAL CONCORDANCE/DISCORDANCE - NEVER 'recovered degradation'. GO/NO-GO: at least directionally concordant with NR4A1-degraded / NR4A2.NR4A3-spared -> GO to the matrix. Discordant -> matrix NOT justified; publish the honest negative.",
-   "depends_on_note_2026_07_24": "The nrv04_feasibility_covalent dependency is UNDER CORRECTION (wrong chain split), so this rung's stated gate is not currently satisfied by it. The retrospective's own prereg is frozen (nr4a3-nrv04-retrospective-prereg.md) and its inputs were regenerated clean (nrv04-descriptive-v4, the v3 set carried 14-3-3 epsilon in place of Elongin B)."
+   "depends_on_note_2026_07_24": "The nrv04_feasibility_covalent dependency is UNDER CORRECTION (wrong chain split), so this rung's stated gate is not currently satisfied by it. The retrospective's own prereg is frozen (nr4a3-nrv04-retrospective-prereg.md) and its inputs were regenerated clean (nrv04-descriptive-v4, the v3 set carried 14-3-3 epsilon in place of Elongin B).",
+   "gate": "AUTHORIZED SCOPE IS ARM E ONLY -- R1, 18 legs (trimcrae go, 2026-07-30; STRATEGY.md Open decision 12, and the prereg's own section 9 RESOLUTION, which is the one home for the reasoning). Arm E asserts no free energy, so the cooperativity control does not cover its quantity. ARM F (alchemical ddG_coop) REMAINS BLOCKED on a valB PASS and is not authorized by this entry.",
+   "depends_on_corrected_2026_07_30": "SUPERSEDED depends_on: ['valB_full', 'nrv04_feasibility_covalent', 'step1_fanout_cmpd19']. Two of those three became UNREACHABLE rather than pending -- valB_full sits behind a module-1 gate Open decision 9 declined to amend, and nrv04_feasibility_covalent was WITHDRAWN, not merely corrected. A dependency that can never be satisfied is not a gate, it is a retirement, and leaving it here made the machine mirror read BLOCKED for work that has an explicit go. That is what work_ledger's rung_gates scanner walks, so the lane was invisible to the autonomous supervisor. STRATEGY.md's RUNG 4 entry was reconciled to the prereg on 2026-07-30; this mirror was not, and this field is that correction."
   },
   {
    "id": "nr4a_differential_atlas",
