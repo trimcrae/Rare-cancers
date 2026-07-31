@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 2:59 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 3:07 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
-LEG                  ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
-------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary —                  32.0%  RTX 3090 $0.00414/ns · 1.21× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 33419; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at warmup/1152 is intact in S3 and this pass dispatches the gate to re-place it
-5aks_d0_to_d ternary 2:44 AM Aug 1      44.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary 8:59 PM            82.2%  RTX 3090 $0.00554/ns · 1.62× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary 5:58 AM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis [bid] STARTING  COLD_START — instance is 15 min old, under the 15 min floor — too young to have proved anything either way
+LEG                  ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
+-------------------------------------------------------------------------------------------------------------------------
+5aks_d0_to_d ternary 8:11 AM Aug 1      45.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
+5aks_d0_to_d ternary 8:44 PM            83.3%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
+5aks_d0_to_d ternary 10:31 AM Aug 1     30.2%  RTX 4090 $0.00533/ns · 1.56× basis [bid]  RUNNING   
+5aks_d0_to_d ternary —                      —  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ---- END TVAST-BOARD ----
 ```
