@@ -321,7 +321,18 @@ def commit_object_census(uid, bucket, prefix, s3, max_keys=4000):
     if not per_gen:
         return None, 0, f"no committed generations under {key}"
     vals = sorted(per_gen.values())
-    return st.median(vals), len(vals), f"{len(vals)} generation(s) under {key}"
+    # ⚠ IS THE PAYLOAD FLAT OR GROWING? An openmmtools .nc accumulates the trajectory, so a later commit may
+    # re-upload far more than an early one — and that decides whether "MiB per commit" is a constant or a
+    # curve. Reported as (first, last) by ITERATION, not by size, so the growth is visible.
+    by_iter = sorted(((int(k.split("/iter-")[1].split("/")[0]), v)
+                      for k in per_gen for v in [per_gen[k]] if "/iter-" in k))
+    growth = None
+    if len(by_iter) >= 2:
+        growth = {"first_iter": by_iter[0][0], "first_mib": round(by_iter[0][1] / 1048576.0, 1),
+                  "last_iter": by_iter[-1][0], "last_mib": round(by_iter[-1][1] / 1048576.0, 1)}
+    return st.median(vals), len(vals), {"n": len(vals), "prefix": key, "growth": growth,
+                                        "min_mib": round(vals[0] / 1048576.0, 1),
+                                        "max_mib": round(vals[-1] / 1048576.0, 1)}
 
 
 def measure(mode="5aks", bucket=None, prefix=None, limit=6):
@@ -420,6 +431,13 @@ def render(doc):
                      % (u.split("__")[-1][:52], v / 1048576.0, n))
         L.append("   median %.1f MiB per commit"
                  % (st.median([v for _, v, _ in sizes]) / 1048576.0))
+        for u, d in doc["units"].items():
+            g = (d.get("commit_store") or {})
+            g = g.get("growth") if isinstance(g, dict) else None
+            if g:
+                L.append("     %-26s iter %d = %.1f MiB  ->  iter %d = %.1f MiB"
+                         % (u.split("__")[-1][:26], g["first_iter"], g["first_mib"],
+                            g["last_iter"], g["last_mib"]))
     cc = doc.get("commit_cost") or {}
     if cc.get("n_observed"):
         L.append("")
