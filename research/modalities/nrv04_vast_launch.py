@@ -1825,8 +1825,30 @@ def retro_stage_test(bucket):
 RETRO_MARKET_READOUT = "nrv04-retro-market-hold.json"
 
 
-def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, readout_path=None):
+def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, readout_path=None, price=True):
     """(hold, doc) — may this lane rent `n_hosts` right now? Reads the LIVE board unless `offers` is given.
+
+    ⛔ `price=False` IS THE "NOTHING TO BUY" EVALUATION, AND IT EXISTS BECAUSE THIS SNAPSHOT HAD NEVER ONCE
+    BEEN COMMITTED (measured 2026-07-31). `nrv04-retro-market-hold.json` was declared in three places — this
+    module's `RETRO_MARKET_READOUT`, `fusion-cpu-extras.yml`'s artifact list, and
+    `lane_staleness_watch.LANES`' `hold_artifact` — and `git cat-file -e origin/main:…` failed on it while
+    all four other lanes' hold artifacts existed and were minutes old. Two independent causes, both read from
+    the code rather than inferred:
+
+      (a) The commit step staged only the board fragment and the merged board. This file appeared solely in
+          the `actions/upload-artifact` list — an ephemeral run artifact, not a commit — so even the ticks
+          that DID price the board (run 30653531960 printed `[retro-market] ✅ CLEAR`) never put it on main.
+      (b) Worse, and this is the one that explains the ten silent declines: the gate's ONLY production call
+          site is inside `retro_launch`, behind `if not dry and todo and RETRO_MARKET_GATE == "1"`, and
+          `retro_supervise` RETURNS before calling `retro_launch` whenever `needed` is empty. On every one of
+          the ticks that declined to re-place the pilot, the breaker had emptied `needed` — so the gate never
+          ran and there was nothing to write. The visibility mechanism was structurally unreachable on
+          exactly the code path where a decline needed explaining.
+
+    So the snapshot is now written on EVERY tick, which is the ternary lane's contract: a file that only
+    appears when the lane is buying cannot distinguish "the gate ran and was happy" from "the gate never
+    ran". `price=False` records the evaluation WITHOUT reading the board, because there is no purchase to
+    price — and says so in `reason` rather than emitting a hold nobody caused.
 
     ★★ CLAUDE.md §6, BOTH HALVES, and they are one decision here:
       * "A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY — gate every fleet launch on $/ns." Priced
@@ -1870,6 +1892,23 @@ def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, read
            "lane": "nrv04_retro", "n_hosts": n_hosts, "utc": rmg._utcnow(),
            "tier": tier, "interruptible": bool(res.interruptible),
            "buy_line_usd_per_ns": round(buy_ceiling_usd_per_ns(), 6)}
+    if not price:
+        doc.update({"priced": False, "hold": False, "best_usd_per_ns": None,
+                    "basis_usd_per_ns": None, "ratio_vs_basis": None, "board_depth": None,
+                    "offers_priced": [],
+                    "reason": "NOT PRICED — no unit needed a host this tick, so there was no purchase to "
+                              "price. This is an EVALUATION, not a hold: nothing was refused and nothing "
+                              "was bought. Which units were skipped, and why, is in "
+                              + RETRO_GATE_READOUT + "."})
+        try:
+            with open(readout_path or RETRO_MARKET_READOUT, "w") as fh:
+                json.dump(doc, fh, indent=2)
+                fh.write("\n")
+        except OSError as e:
+            print(f"[retro-market] readout not written: {e}", flush=True)
+        print(f"[retro-market] — NOT PRICED this tick ({doc['reason'].split('.')[0]}). Tier that WOULD be "
+              f"priced: {tier}.", flush=True)
+        return False, doc
     if offers is None:
         try:
             from gpu_backend import _vast_offer_query
@@ -1898,7 +1937,8 @@ def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, read
             reason, "bid/interruptible" if res.interruptible else "ON-DEMAND/UNINTERRUPTIBLE",
             "" if res.interruptible else " — this is NOT a reading of the interruptible market the ladder "
                                          "is costed on")
-    doc.update({"hold": hold, "reason": reason, "best_usd_per_ns": (round(best, 6) if best else None),
+    doc.update({"priced": True,
+                "hold": hold, "reason": reason, "best_usd_per_ns": (round(best, 6) if best else None),
                 "basis_usd_per_ns": round(basis, 6), "ratio_vs_basis": ratio,
                 "board_depth": depth, "offers_priced": rows})
     try:
@@ -2594,6 +2634,98 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
 
 RETRO_COLLECT_READOUT = "nrv04-retro-collect.json"
 
+#: The per-tick record of WHY each hostless unit was or was not bought. Its one home; committed every tick.
+RETRO_GATE_READOUT = "nrv04-retro-gate.json"
+
+
+def retro_gate_reasons(sup):
+    """{unit: one-sentence REASON it was not bought this tick}, from a `retro_supervise` readout. PURE.
+
+    ★★ A DECLINE THAT DOES NOT SAY WHY IS INDISTINGUISHABLE FROM A BROKEN RE-PLACER (measured 2026-07-31).
+    The pilot `nrv04retro-retro_noncov_nr4a3-m1-r0` was hostless from 12:07 PM to 2:02 PM ET — 1 h 55 min
+    across TEN consecutive ticks of a supervisor that runs every 8 minutes and is permitted to buy. Every one
+    of those ticks declined, and every board row it wrote said only
+
+        no live host — phase marker md-running 2026-07-31T16:01:11Z; a re-dispatch resumes this leg from
+        its checkpoint
+
+    which is a description of the STATE, not a reason for the DECISION. The reason (the breaker was blocking
+    the unit on a lifetime attempt count) existed only in a job log that GitHub ages out, so from the durable
+    record a correctly-refusing gate and a dead re-placer looked identical — which is why it took a human
+    noticing rather than the board saying so. CLAUDE.md §6: a hold must be visible, with the snapshot that
+    caused it, and the ternary lane satisfies that by committing its market snapshot on EVERY evaluation,
+    clear or hold.
+
+    So this maps every unit the tick did not buy to the reason it did not, and `retro_collect` both commits it
+    (`RETRO_GATE_READOUT`) and threads it into the board row's `why`.
+    """
+    out = {}
+    for name in (sup or {}).get("awaiting_authorization") or ():
+        out[name] = ("HELD — never authorised to launch. Supervision heals only units an operator dispatch "
+                     "authorised; release with a retro_pilot / retro_full dispatch (md_mode=run).")
+    for b in (sup or {}).get("blocked") or ():
+        out[b.get("unit")] = ("BLOCKED by the failure breaker — %s. Counted %s. Clear with "
+                              "leg_failure_breaker.reset_for() once the cause is fixed."
+                              % (b.get("verdict"), b.get("counted") or "an unstated denominator"))
+    held = (sup or {}).get("held") or {}
+    for name in (sup or {}).get("needed") or ():
+        if name in out:
+            continue
+        if held:
+            out[name] = ("NOT BOUGHT — the market gate %s (%s). Board: %s. $0 spent, checkpoint intact, the "
+                         "next tick re-prices."
+                         % ("HELD on price" if held.get("hold") else "cleared but no offer was rentable",
+                            held.get("reason") or "no reason recorded", json.dumps(held.get("board_depth"))))
+        else:
+            out[name] = ("NOT BOUGHT — it was due for a host this tick and none was rented; see the tick's "
+                         "submit lines for the per-offer refusal (a capacity refusal is not a price hold).")
+    if (sup or {}).get("unreadable"):
+        for name in list(out) or ():
+            out[name] = "fleet UNREADABLE (%s) — nothing was condemned or bought" % sup["unreadable"]
+    return out
+
+
+def persist_retro_gate(sup, reasons, path=None, bucket=None, s3=None):
+    """Write the per-tick gate record locally (committed by CI) and durably to S3. Returns the local path.
+
+    Written on EVERY tick, including one that bought everything it wanted — the ternary lane's property that
+    a CLEAR evaluation is recorded too, because a snapshot that only appears on a hold cannot distinguish
+    "the gate ran and was happy" from "the gate never ran"."""
+    doc = {"_what": "NR-V04 retrospective — why each hostless unit was or was not bought on this tick.",
+           "_rule": "CLAUDE.md §6 — a hold is never silent, and it carries the snapshot that caused it.",
+           "utc": _utcnow(), "lane": "nrv04_retro",
+           "n_authorized": (sup or {}).get("n_authorized"),
+           "needed": (sup or {}).get("needed") or [],
+           "replaced": [h.get("unit") for h in ((sup or {}).get("replaced") or []) if isinstance(h, dict)],
+           "blocked": (sup or {}).get("blocked") or [],
+           "awaiting_authorization": (sup or {}).get("awaiting_authorization") or [],
+           "condemned": (sup or {}).get("condemned") or [],
+           "nudged": (sup or {}).get("nudged") or [],
+           "fleet_unreadable": (sup or {}).get("unreadable"),
+           # The market snapshot the decision was taken against — tier included, so a dear ON-DEMAND read
+           # can never be mistaken for the interruptible market the ladder is costed on.
+           "market": (sup or {}).get("held"),
+           "reasons": reasons}
+    local = path or RETRO_GATE_READOUT
+    try:
+        with open(local, "w") as fh:
+            json.dump(doc, fh, indent=2)
+            fh.write("\n")
+    except OSError as e:
+        print(f"[retro-gate] WARN local record not written to {local}: {e}", flush=True)
+    if bucket:
+        try:
+            if s3 is None:
+                import boto3
+                s3 = boto3.client("s3")
+            s3.put_object(Bucket=bucket, Key=f"{RETRO_RESULT_PREFIX}/gate/nrv04-retro-gate-latest.json",
+                          Body=json.dumps(doc, indent=2).encode())
+        except Exception as e:  # noqa: BLE001 — a persistence failure is reported, never swallowed
+            print(f"[retro-gate] WARN not persisted to S3: {e}", flush=True)
+    for u, why in sorted(reasons.items()):
+        print(f"[retro-gate] {u}: {why}", flush=True)
+    return local
+
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
 # THE IN-FLIGHT BOARD — this lane's 18 endpoint-MD legs, in the renderer every lane shares
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -2664,7 +2796,37 @@ def retro_board_price_cell(inst):
                                     "endpoint MD, not the 84k-atom RBFE the throughput table benches")
 
 
-def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now=None):
+def _phase_marker_provenance(phase, inst):
+    """' (from a PREVIOUS host…)' when the phase marker predates the host currently holding this unit. PURE.
+
+    ★★ AN OLD MARKER ON A FRESH HOST IS NOT A WEDGE (CLAUDE.md §4 — an absent reading is not a reading of
+    absence, and a populated field is not a measured one). `phase.txt` is written by whichever attempt was
+    last in the unit's prefix and SURVIVES that host's death, so a leg re-placed at 2:02 PM ET still shows
+    `md-running 16:01:11Z` from the host it lost at 12:07 PM. Read without provenance that is a two-hour
+    wedge; read with it, it is a normal cold start. The discriminator is the instance's own `start_date`,
+    which is the only fact that can date the marker against the rental it is being read beside.
+    """
+    import calendar
+    import re as _re
+    import time as _t
+    if inst is None or not phase:
+        return ""
+    m = _re.search(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)", str(phase))
+    if not m:
+        return ""
+    try:
+        marker = calendar.timegm(_t.strptime(m.group(1), "%Y-%m-%dT%H:%M:%SZ"))
+        started = float(inst.get("start_date"))
+    except (TypeError, ValueError):
+        return ""                                   # undateable is UNKNOWN — never asserted either way
+    if marker >= started:
+        return ""
+    return (" — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit "
+            "now started %.0f min later, so the marker is not evidence about this rental"
+            % ((started - marker) / 60.0))
+
+
+def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now=None, reasons=None):
     """(rows, new_state) for this lane's in-flight board. Finished legs are counted, not rowed.
 
     ⚠ NO UNIT IS DROPPED FOR BEING UNMEASURABLE — an unknown `%` or ETA renders `—` with the WHY naming which
@@ -2727,7 +2889,8 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
             cell_why = ""
             if frames is None:
                 cell_why = ("no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log "
-                            "and this leg has not reached its first checkpoint (phase %s)" % (phase or "none"))
+                            "and this leg has not reached its first checkpoint (phase %s)%s"
+                            % (phase or "none", _phase_marker_provenance(phase, inst)))
             elif pct_of:
                 cell_why = ("%% DONE withheld: the newest run.log census is frame %d/%d, and %d is not this "
                             "panel's production frame count (%d) — that census is a %s run, so a percentage "
@@ -2748,14 +2911,22 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
                 state_why = ("host state UNKNOWN — the Vast instance list did not read this tick (%s), so "
                              "this is NOT a host death; phase marker %s" % (unreadable, phase or "none"))
             elif inst is None:
+                # ⛔ THE DECISION, NOT JUST THE STATE. "no live host" describes the row; it does not say
+                # whether the re-placer declined, why, or whether it is even trying. Ten consecutive rows
+                # carrying only the former is how a blocked pilot went unnoticed for 1 h 55 min — see
+                # `retro_gate_reasons`.
                 state_why = ("no live host — phase marker %s; a re-dispatch resumes this leg from its "
-                             "checkpoint" % (phase or "none"))
+                             "checkpoint. THIS TICK: %s"
+                             % (phase or "none",
+                                (reasons or {}).get(name)
+                                or "no gate decision recorded for this unit — if that persists, the "
+                                   "re-placer is not evaluating it at all, which is a defect, not a hold"))
             elif no_adv >= ifb.STALL_POLLS:
                 # `None` is "the host is not telling us", NOT an idle GPU — the two must not render alike,
                 # because only the second is evidence of anything.
                 _u = _inst_gpu_util(inst)
-                state_why = ("%d consecutive board polls with no new frame; phase marker %s, GPU %s"
-                             % (no_adv, phase or "none",
+                state_why = ("%d consecutive board polls with no new frame; phase marker %s%s, GPU %s"
+                             % (no_adv, phase or "none", _phase_marker_provenance(phase, inst),
                                 "utilisation not reported by the host" if _u is None else "%.1f%%" % _u))
             else:
                 state_why = cell_why
@@ -2837,6 +3008,8 @@ def retro_collect(bucket, reap=None):
 
     This is also the lane's SUPERVISION TICK: it reaps first (the control plane is the only thing that can stop
     the meter — CLAUDE.md §6) and persists its readout to S3 last."""
+    import time as _t
+    _tick_started = _t.time()
     import boto3
     import nrv04_retro_panel as retro
     import nrv04_retro_gate as gate
@@ -2853,12 +3026,36 @@ def retro_collect(bucket, reap=None):
     # hostless unrun unit behind the same buy line — so ONE dispatch both watches and heals this lane.
     # Before this existed the tick only reaped, and a preempted leg simply stopped existing until a human
     # noticed. Failure here must never suppress the science readout below.
+    _sup, _gate_reasons = None, {}
     if os.environ.get("RETRO_SUPERVISE", "1") == "1":
         try:
-            retro_supervise(bucket, s3=s3)
+            _sup = retro_supervise(bucket, s3=s3)
         except Exception as e:  # noqa: BLE001
             print(f"[retro-collect] WARN supervision failed ({type(e).__name__}: {e}); hostless units were "
                   f"NOT re-placed this tick — dispatch retro_full if this repeats", flush=True)
+            _gate_reasons = {"_tick": "supervision RAISED (%s: %s) — nothing was re-placed and the reason "
+                                      "is a crash, not a refusal" % (type(e).__name__, e)}
+    # ⛔ THE DECISION IS RECORDED WHETHER OR NOT IT SPENT ANYTHING — see `retro_gate_reasons` for the ten
+    # silent declines that made this necessary. Never allowed to abort the science readout below.
+    try:
+        if _sup is not None:
+            _gate_reasons = retro_gate_reasons(_sup)
+        # ⛔ THE MARKET SNAPSHOT EXISTS ON EVERY TICK, CLEAR OR HOLD — the ternary lane's contract, and the
+        # property this lane only DECLARED until 2026-07-31 (see `retro_market_gate`'s `price` docstring for
+        # the two causes, both read from the code). `retro_launch` writes it whenever it actually priced a
+        # purchase; when supervision had nothing to buy, nothing priced it, so record THAT rather than
+        # leaving the file to age or vanish. `os.path.getmtime` is the discriminator: a file this tick wrote
+        # is newer than this tick started.
+        _priced_this_tick = False
+        try:
+            _priced_this_tick = os.path.getmtime(RETRO_MARKET_READOUT) >= _tick_started
+        except OSError:
+            _priced_this_tick = False
+        if not _priced_this_tick:
+            retro_market_gate(max(1, len((_sup or {}).get("needed") or [])), price=False)
+        persist_retro_gate(_sup, _gate_reasons, bucket=bucket, s3=s3)
+    except Exception as e:  # noqa: BLE001
+        print(f"[retro-collect] WARN gate record not written ({type(e).__name__}: {e})", flush=True)
     keys = [k for k in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
             if k.rsplit("/", 1)[-1].startswith("leg_")]
     legs, raw, nonconforming = [], [], []
@@ -2968,7 +3165,8 @@ def retro_collect(bucket, reap=None):
                 Key=f"{RETRO_RESULT_PREFIX}/{_RETRO_BOARD_PREV_KEY}")["Body"].read().decode())
         except Exception:  # noqa: BLE001 — a first tick has no previous census; that is a first census
             _prev_board = {}
-        _rows, _new_board = retro_board_rows(s3, bucket, phases, have, _live, _unreadable, _prev_board)
+        _rows, _new_board = retro_board_rows(s3, bucket, phases, have, _live, _unreadable,
+                                             _prev_board, reasons=_gate_reasons)
         _n_expected = len(expected)
         _frag, _board = _ifb.publish(
             _ifb.NRV04_RETRO, _rows,

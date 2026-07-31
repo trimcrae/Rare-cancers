@@ -362,5 +362,130 @@ def test_an_unscoped_dispatch_still_sees_the_whole_panel(monkeypatch):
     assert len(seen) == len(retro.enumerate_units()) == 18
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 5 — TEN SILENT DECLINES. The re-placer refused the pilot on every tick from 12:07 PM to 2:02 PM ET
+# (1 h 55 min) and no durable artifact said why: each board row carried only "no live host — phase marker X",
+# which describes the STATE, not the DECISION. From the committed record a correctly-refusing gate and a dead
+# re-placer are indistinguishable — which is why a human had to notice.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_every_unbought_unit_gets_a_reason():
+    sup = {"awaiting_authorization": ["u_held"],
+           "blocked": [{"unit": "u_blocked", "verdict": "blocked: repeated failure on distinct hosts",
+                        "counted": "since this unit's last completed leg record (2026-07-31T14:53:10Z)"}],
+           "needed": ["u_needed"],
+           "held": {"hold": True, "reason": "2.4x the ladder basis exceeds the 1.92x drift line",
+                    "board_depth": {"offers_returned": 3, "qualifying": 3, "priceable": 1,
+                                    "needed": 1, "used_for_mean": 1}}}
+    r = vl.retro_gate_reasons(sup)
+    assert set(r) == {"u_held", "u_blocked", "u_needed"}, "a unit with no reason is a silent decline"
+    assert "never authorised" in r["u_held"]
+    assert "2026-07-31T14:53:10Z" in r["u_blocked"], "a block must name the denominator it counted over"
+    assert "HELD on price" in r["u_needed"] and "offers_returned" in r["u_needed"], (
+        "a price hold must carry the board snapshot that caused it")
+
+
+def test_the_gate_record_is_written_even_when_the_tick_bought_everything(tmp_path):
+    """A snapshot that only appears on a hold cannot tell 'the gate ran and was happy' from 'it never ran'."""
+    out = tmp_path / "gate.json"
+    vl.persist_retro_gate({"needed": [], "n_authorized": 2, "replaced": [{"unit": "u"}]}, {},
+                          path=str(out))
+    import json as _j
+    d = _j.loads(out.read_text())
+    assert d["replaced"] == ["u"] and d["n_authorized"] == 2 and "utc" in d
+
+
+def test_the_board_row_carries_the_tick_s_decision_not_just_the_state(monkeypatch):
+    import nrv04_vast_launch as N
+    import nrv04_retro_panel as R
+    a, m, r = R.enumerate_units()[0]
+    name = R.unit_name(a, m, r)
+
+    class _S3:
+        def get_object(self, Bucket, Key):
+            raise KeyError(Key)
+
+    rows, _ = N.retro_board_rows(_S3(), "b", {name: "md-running 2026-07-31T16:01:11Z"}, set(), [], None, {},
+                                 reasons={name: "BLOCKED by the failure breaker — counted 3 attempts"})
+    row = [x for x in rows if x["name"] == N._retro_short_name(name)][0]
+    assert "THIS TICK:" in row["why"] and "BLOCKED by the failure breaker" in row["why"]
+
+
+def test_a_row_with_no_recorded_decision_says_that_is_a_defect(monkeypatch):
+    """Silence must read as a defect, not as a hold — the whole point of the record."""
+    import nrv04_vast_launch as N
+    import nrv04_retro_panel as R
+    a, m, r = R.enumerate_units()[0]
+    name = R.unit_name(a, m, r)
+
+    class _S3:
+        def get_object(self, Bucket, Key):
+            raise KeyError(Key)
+
+    rows, _ = N.retro_board_rows(_S3(), "b", {name: "uploaded 2026-07-31T14:20:54Z"}, set(), [], None, {})
+    row = [x for x in rows if x["name"] == N._retro_short_name(name)][0]
+    assert "not evaluating it at all" in row["why"]
+
+
+# ── an OLD phase marker on a FRESH host is not a wedge (CLAUDE.md §4) ─────────────────────────────────────
+def test_a_marker_older_than_the_host_is_labelled_as_a_previous_hosts():
+    inst = {"start_date": __import__("calendar").timegm((2026, 7, 31, 18, 1, 0, 0, 0, 0))}
+    s = vl._phase_marker_provenance("md-running 2026-07-31T16:01:11Z", inst)
+    assert "PREVIOUS host" in s and "120 min later" in s
+
+
+def test_a_marker_written_by_the_current_host_is_not_labelled():
+    inst = {"start_date": __import__("calendar").timegm((2026, 7, 31, 16, 0, 0, 0, 0, 0))}
+    assert vl._phase_marker_provenance("md-running 2026-07-31T16:01:11Z", inst) == ""
+
+
+def test_no_host_and_an_undateable_marker_assert_nothing_either_way():
+    assert vl._phase_marker_provenance("md-running 2026-07-31T16:01:11Z", None) == ""
+    assert vl._phase_marker_provenance("staged", {"start_date": 1.0}) == ""
+    assert vl._phase_marker_provenance("md-running 2026-07-31T16:01:11Z", {"start_date": "?"}) == ""
+
+
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 6 — `nrv04-retro-market-hold.json` HAD NEVER BEEN COMMITTED, in a repo where three files declare it
+# exists (RETRO_MARKET_READOUT, the workflow's artifact list, lane_staleness_watch.LANES' hold_artifact).
+# Verified 2026-07-31: `git cat-file -e origin/main:research/modalities/nrv04-retro-market-hold.json` fails
+# while ternary-vast / 5aks / step1-fanout / valb-triangle all exist and were minutes old.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_the_market_snapshot_is_written_even_when_there_is_nothing_to_price(tmp_path):
+    """Cause (b): the gate's only production call site is inside retro_launch, and retro_supervise returns
+    before reaching it whenever `needed` is empty — which is every tick that declined the pilot."""
+    out = tmp_path / "hold.json"
+    hold, doc = vl.retro_market_gate(1, price=False, readout_path=str(out))
+    assert hold is False, "no purchase to price is not a refusal"
+    assert doc["priced"] is False and "NOT PRICED" in doc["reason"]
+    assert doc["tier"] and doc["interruptible"] is True, "the tier is stamped even on a no-price evaluation"
+    import json as _j
+    assert _j.loads(out.read_text())["priced"] is False, "the snapshot must exist on disk, not just in stdout"
+
+
+def test_a_priced_evaluation_is_marked_priced(tmp_path):
+    _h, doc = vl.retro_market_gate(1, offers=[], readout_path=str(tmp_path / "h.json"))
+    assert doc["priced"] is True, "priced and not-priced must be distinguishable in the artifact"
+
+
+def test_the_collect_tick_guarantees_a_snapshot_every_tick():
+    """Cause (a) + (b) together: the artifact must be produced by the collect path, not only by a purchase."""
+    import inspect
+    src = inspect.getsource(vl.retro_collect)
+    assert "retro_market_gate(" in src and "price=False" in src, (
+        "retro_collect must record the evaluation when nothing priced the board")
+    assert "getmtime(RETRO_MARKET_READOUT)" in src, (
+        "the discriminator must be whether THIS tick wrote it, not whether the file exists")
+
+
+def test_the_workflow_commits_the_hold_and_gate_artifacts_not_just_uploads_them():
+    """Cause (a): the file appeared only in actions/upload-artifact — an ephemeral run artifact."""
+    import os as _os
+    root = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "..", "..")
+    wf = open(_os.path.join(root, ".github", "workflows", "fusion-cpu-extras.yml")).read()
+    step = wf.split("Commit the in-flight board fragment", 1)[1].split("\n  step1_fanout:", 1)[0]
+    assert "nrv04-retro-market-hold.json" in step, "the hold snapshot is still upload-only, never committed"
+    assert "nrv04-retro-gate.json" in step, "the per-tick gate record is not committed"
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))

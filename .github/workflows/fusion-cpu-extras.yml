@@ -1389,6 +1389,7 @@ jobs:
             research/modalities/nrv04-retro-handles.json
             research/modalities/nrv04-retro-collect.json
             research/modalities/nrv04-retro-market-hold.json
+            research/modalities/nrv04-retro-gate.json
             research/modalities/nrv04-retro-price-ledger.json
           if-no-files-found: ignore
 
@@ -1414,17 +1415,57 @@ jobs:
           python3 research/modalities/inflight_board.py --write
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
+          # ★★ COMMIT THE FRAGMENT, THEN REGENERATE THE MERGE — NEVER REBASE A GENERATED FILE (2026-07-31).
+          # `inflight-board-all.md` is written by EVERY lane's tick, so two lanes committing within the same
+          # minute always produce a content conflict in it. The old loop staged both files in one commit and
+          # rebased, which conflicted, aborted, and then failed the remaining three attempts with "Pulling is
+          # not possible because you have unmerged files" — the retry could never succeed because the working
+          # tree stayed unmerged. Measured on the 1:37 and 1:54 PM ET ticks: both computed a correct board and
+          # pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that
+          # looks current is the failure this file's own §6 comment calls worse than no board.
+          #
+          # The merged file is DERIVED from the per-lane fragments, so it must never be merged — it must be
+          # RE-DERIVED after the rebase, from whatever fragments main then holds. The fragment itself is
+          # single-writer and cannot conflict, so a fragment-only commit always rebases cleanly.
+          # ⚠ AND THE FRAGMENT ITSELF CAN RACE. It is single-writer only across LANES; two ticks of THIS lane
+          # (the supervisor's, and an agent's manual dispatch) overlap regularly, and run 30653531960 hit
+          # `CONFLICT (content)` on the fragment as well as on the merged file. Ours is always the newer
+          # census, so on a fragment conflict we re-apply OUR copy rather than attempting a textual merge of
+          # a generated JSON — the same "re-apply your own copy" shape the ternary gate step uses.
+          F=research/modalities/inflight-board.d/nrv04-retro.json
+          G=research/modalities/nrv04-retro-gate.json
+          H=research/modalities/nrv04-retro-market-hold.json
+          [ -f "$F" ] || { echo "no board fragment to stage"; exit 0; }
+          cp "$F" /tmp/frag.json
+          [ -f "$G" ] && cp "$G" /tmp/gate.json
+          [ -f "$H" ] && cp "$H" /tmp/hold.json
           staged=0
-          for f in research/modalities/inflight-board.d/nrv04-retro.json \
-                   research/modalities/inflight-board-all.md; do
-            if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
-          done
-          [ "$staged" = 1 ] || { echo "no board files to stage"; exit 0; }
+          for f in "$F" "$G" "$H"; do [ -f "$f" ] && { git add -f "$f"; staged=1; }; done
+          [ "$staged" = 1 ] || { echo "nothing to stage"; exit 0; }
           git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -q -m "NR-V04 retro: in-flight board fragment (CI)"
-          for i in 1 2 3 4; do
-            git pull --rebase origin "${{ github.ref_name }}" \
-              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
+          git commit -q -m "NR-V04 retro: in-flight board fragment + gate record (CI)"
+          # Five attempts, matching the ternary gate step. A monitoring artifact that fails to write is worse
+          # than one that is missing, because the stale copy reads as current — which is exactly what
+          # happened at 2:02 PM ET, when the merged board said the pilot was hostless while the fragment
+          # already said STARTING.
+          for i in 1 2 3 4 5; do
+            git fetch -q origin "${{ github.ref_name }}" || true
+            if ! git rebase FETCH_HEAD; then
+              # Re-apply OUR copies of the generated files and continue; never hand-merge generated JSON.
+              cp /tmp/frag.json "$F"
+              [ -f /tmp/gate.json ] && cp /tmp/gate.json "$G"
+              [ -f /tmp/hold.json ] && cp /tmp/hold.json "$H"
+              # The merged board is DERIVED — take main's copy, then regenerate below.
+              git checkout --theirs research/modalities/inflight-board-all.md 2>/dev/null || true
+              git add -f "$F" research/modalities/inflight-board-all.md
+              [ -f "$G" ] && git add -f "$G"
+              [ -f "$H" ] && git add -f "$H"
+              GIT_EDITOR=true git rebase --continue || { git rebase --abort || true; sleep $((2**i)); continue; }
+            fi
+            python3 research/modalities/inflight_board.py --write
+            git add -f research/modalities/inflight-board-all.md
+            git diff --cached --quiet || git commit -q -m "in-flight board: merge all lanes (CI)"
+            git push origin "HEAD:${{ github.ref_name }}" && exit 0
             sleep $((2**i))
           done
           echo "::warning::could not push the in-flight board fragment"
