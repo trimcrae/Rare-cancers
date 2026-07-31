@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 1:37 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 1:46 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                ETA (ET)          % DONE  $/ns                                STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna —                  30.2%  RTX 4090 $0.00533/ns · 1.56× basis  NO HOST   host DESTROYED this pass (idle guard: WEDGED — run.log has been re-uploaded with byte-identical content for 18 min (>= 15) and the committed scalar has not advanced — the sync loop is alive but the leg is not writing, so nothing is being produced to save) — billing stopped, $0 further; checkpoint at warmup/1088 is intact in S3 and this pass dispatches the gate to re-place it
-5aks_d0_to_d terna —                  82.2%  RTX 4080S $0.00505/ns · 1.48× basis NO HOST   host DESTROYED this pass (idle guard: WEDGED — run.log has been re-uploaded with byte-identical content for 18 min (>= 15) and the committed scalar has not advanced — the sync loop is alive but the leg is not writing, so nothing is being produced to save) — billing stopped, $0 further; checkpoint at production/1360 is intact in S3 and this pass dispatches the gate to re-place it
-5aks_d0_to_d terna 11:06 PM           42.7%  RTX 4090 $0.00533/ns · 1.56× basis  RUNNING   
-5aks_d0_to_d terna 10:25 PM           30.2%  RTX 5090 $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna 9:40 PM            42.7%  RTX 4090 $0.00533/ns · 1.56× basis  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d terna —                      —  RTX 4080S $0.00505/ns · 1.48× basis STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d terna —                  30.2%  RTX 4090 $0.00551/ns · 1.61× basis  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
+5aks_d0_to_d terna —                  30.2%  RTX 4090 $0.00533/ns · 1.56× basis  NO HOST   host DESTROYED this pass (capacity refusal on machine 31035; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at warmup/1088 is intact in S3 and this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
