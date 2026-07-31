@@ -55,6 +55,30 @@ def test_workflow_dispatch_inputs_under_github_cap(path):
         f"inputs instead of removing a capability.")
 
 
+def test_new_selectors_ride_existing_inputs_instead_of_adding_a_26th():
+    """★ THE CAP IS SPENT — so a capability added after 2026-07-24 must arrive as an ENV mapping off an
+    existing input, never as a new one. This pins the three that already do it, so the next person removing
+    one of them (or "just adding an input for it") fails here rather than at a 422 on the next dispatch.
+
+    `vast_selector` is the worked example and now feeds FOUR consumers across mutually exclusive modes:
+    diag (which instance to dump), stop_all (which to destroy), step1_fanout (which units to launch) and
+    retro_pilot (WHICH UNIT to pilot — added 2026-07-31, when the pilot turned out to be hardcoded to the one
+    unit of 18 that had already landed and so could never rent anything)."""
+    path = os.path.join(_WORKFLOW_DIR, "fusion-cpu-extras.yml")
+    with open(path) as f:
+        doc = yaml.safe_load(f)
+    on = doc.get("on", doc.get(True))
+    inputs = on["workflow_dispatch"]["inputs"]
+    assert len(inputs) == GITHUB_MAX_DISPATCH_INPUTS, (
+        "the control plane is AT the cap; if this changed, re-read the rule before adding an input")
+    for name in ("RETRO_PILOT_UNIT", "DIAG_FILTER", "VAST_KILL"):
+        assert name not in inputs, f"{name} is an ENV mapping, not a workflow_dispatch input"
+    env = doc["jobs"]["nrv04_vast_launch"]["env"]
+    assert "vast_selector" in env["RETRO_PILOT_UNIT"], (
+        "retro_pilot's unit selector must ride `vast_selector` — the workflow has no free input slot, and "
+        "without it the pilot falls back to a hardcoded unit it can never re-run")
+
+
 def test_the_control_plane_workflow_keeps_headroom_visible():
     """fusion-cpu-extras is the Vast control plane and sits nearest the cap, so its count is asserted
     explicitly — a reader should be able to see how many slots are left without running anything."""

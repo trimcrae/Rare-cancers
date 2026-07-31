@@ -1433,15 +1433,145 @@ def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarb
     )
 
 
-def retro_units_to_run():
-    """Pilot-one-leg-first (prereg §7). The pilot is `retro_noncov_nr4a2` m1 r0 — NOT an NR4A1 leg. The abort
-    information here is not biological, it is structural: the assembler has read NR4A1 co-folds many times but
-    has NEVER read an NR4A2/NR4A3 one, so a paralogue leg is the one that can actually fail. Picking NR4A1
-    would prove nothing new and leave the real risk unexercised."""
+#: The prereg §7 pilot: `retro_noncov_nr4a2` m1 r0 — NOT an NR4A1 leg. Its one home, because
+#: `retro_pilot_unit` and the tests both need it and a second copy is how a pilot silently moves arm.
+RETRO_DEFAULT_PILOT = ("retro_noncov_nr4a2", 1, 0)
+
+
+def retro_pilot_force(sel):
+    """PURE: does this selector ask for an ALREADY-LANDED unit to be re-run? Returns (selector_without_flag, bool).
+
+    Folded into the selector string rather than given its own `workflow_dispatch` input because
+    `fusion-cpu-extras.yml` is AT GitHub's hard 25-input cap and a 26th 422s the entire workflow
+    (`tests/test_workflow_input_cap.py`). Spelling: a leading `!` or a standalone `force` token —
+    `!nr4a2 m1 r0` / `nr4a2 m1 r0 force`.
+
+    Forcing only ever clears the *result-in-S3* skip. It NEVER clears the live-instance skip (two hosts sharing
+    one checkpoint prefix is a race, not a re-run) and it deletes nothing: the re-run overwrites its own
+    `leg_*.json` in place. To keep the old object byte-for-byte instead, point the lane at a fresh
+    `NRV04_RETRO_RESULT_PREFIX` — that is the non-destructive path and the one to use when the landed result is
+    evidence about something."""
+    raw = (sel or "").strip()
+    if not raw:
+        return "", False
+    force = raw.startswith("!")
+    raw = raw.lstrip("!").strip()
+    toks = raw.split()
+    kept = [t for t in toks if t.lower() != "force"]
+    return " ".join(kept), (force or len(kept) != len(toks))
+
+
+def _parse_retro_pilot_selector(sel, units):
+    """PURE: resolve a human-typed unit selector against the AUTHORIZED unit list. Returns (arm, model, replica).
+
+    Accepted, because a selector nobody can type from memory is a selector nobody uses:
+      `nrv04retro-retro_noncov_nr4a3-m2-r1` · `retro_noncov_nr4a3 m2 r1` · `nr4a3:m2:r1` · `nr4a3-2-1` · `nr4a3`
+    (bare arm = that arm's first authorized unit). Separators `-`, `:`, `_`(only around m/r), whitespace and
+    commas are equivalent; the `m`/`r` prefixes are optional but must not be reordered.
+
+    ⛔ THE MEMBERSHIP CHECK IS THE POINT, NOT THE PARSING. It resolves against `units` — what
+    `enumerate_units()` authorizes — never against `ARMS`. `arm_by_id` happily returns `retro_cov_nr4a1`, the
+    arm AMENDMENT 3 RETIRED for being unbuildable and crash-looping on a live meter, and the epimer R3 arms
+    that no GO covers. Before this function the pilot was `arm_by_id(os.environ["RETRO_PILOT_ARM"])` with no
+    such check, so one env var could have rented a retired unit past the authorization. Refuse loudly instead.
+    """
+    raw, _forced = retro_pilot_force(sel)
+    toks = [t for t in raw.replace(",", " ").replace(":", " ").replace("-", " ").split() if t]
+    # `retro_noncov_nr4a3` survives the split intact (underscores are untouched); `nrv04retro` is a namespace
+    # prefix, not a token, so drop it when someone pastes a whole Vast label.
+    if toks and toks[0] == "nrv04retro":
+        toks = toks[1:]
+    if not toks:
+        raise SystemExit("[retro-pilot] empty unit selector")
+
+    def _num(tok, letter):
+        t = tok.lower()
+        t = t[1:] if t.startswith(letter) else t
+        return int(t) if t.isdigit() else None
+
+    head = toks[0].lower()
+    cand = [(a, m, r) for a, m, r in units
+            if head in (a.arm_id.lower(), a.target.lower(), a.cofold_system.lower())]
+    if not cand:
+        raise SystemExit(
+            f"[retro-pilot] {raw!r} names no AUTHORIZED unit. Authorized arms: "
+            f"{sorted({a.arm_id for a, _m, _r in units})} (or their targets). A retired/conditional arm is "
+            f"deliberately unreachable from here — see nrv04_retro_panel.RETIRED_STAGES.")
+    model = _num(toks[1], "m") if len(toks) > 1 else None
+    replica = _num(toks[2], "r") if len(toks) > 2 else None
+    if model is not None:
+        cand = [c for c in cand if c[1] == model]
+    if replica is not None:
+        cand = [c for c in cand if c[2] == replica]
+    if not cand:
+        raise SystemExit(f"[retro-pilot] {raw!r} resolves to no authorized unit (model={model}, replica={replica}). "
+                         f"Authorized model seeds/replicas come from nrv04_retro_panel, not from this string.")
+    return cand[0]
+
+
+def retro_pilot_unit(done=(), selector=None, arm_id=None, model=None, replica=None):
+    """PURE: the ONE unit a `retro_pilot` dispatch runs, given the units that already have a result.
+
+    ★★ WHY THIS IS NOT A CONSTANT (measured 2026-07-31, run 30633508333 + the 6:56 AM ET `md_mode=smoke`
+    dispatch). The pilot was hardcoded to `retro_noncov_nr4a2` m1 r0 and that is the ONE unit of 18 that had
+    already landed, so `retro_launch` printed `[skip] … result already in S3`, `to_rent=0`, rented nothing, and
+    returned 0 — indistinguishable in the Actions list from a pilot that succeeded. A pilot pinned to a
+    finished unit can never prove a pipeline, so the lane could not take §6's `smoke → one real leg → fleet`
+    first step AT ALL, and the 17 remaining legs stayed unbuyable behind it. The fix is that the pilot is a
+    SELECTION over unrun units, not a constant:
+
+      1. an explicit selector (`RETRO_PILOT_UNIT`, or the legacy `RETRO_PILOT_ARM`/`_MODEL`/`_REPLICA`) wins —
+         it is honoured even if that unit is already done, because "re-run exactly this one" is a real need;
+      2. else the prereg §7 default, if it is still unrun;
+      3. else the first unrun unit **of the default pilot's arm**, then the first unrun unit anywhere. The arm
+         preference keeps prereg §7's intent (the pilot exercises a PARALOGUE — the staging path the assembler
+         had never read) rather than silently falling back to the NR4A1 arm the prereg excluded.
+
+    Returns None when every authorized unit already has a result — the caller says so instead of renting.
+    """
+    import nrv04_retro_panel as retro
+    units = retro.enumerate_units()
+    done = set(done or ())
+
+    if selector:
+        return _parse_retro_pilot_selector(selector, units)
+    if arm_id or model is not None or replica is not None:
+        # legacy triple; routed through the same membership check so it cannot reach a retired arm either
+        parts = [arm_id or RETRO_DEFAULT_PILOT[0]]
+        parts.append(f"m{RETRO_DEFAULT_PILOT[1] if model is None else model}")
+        parts.append(f"r{RETRO_DEFAULT_PILOT[2] if replica is None else replica}")
+        return _parse_retro_pilot_selector(" ".join(parts), units)
+
+    d_arm, d_model, d_replica = RETRO_DEFAULT_PILOT
+    unrun = [(a, m, r) for a, m, r in units if retro.unit_name(a, m, r) not in done]
+    if not unrun:
+        return None
+    for a, m, r in unrun:
+        if a.arm_id == d_arm and m == d_model and r == d_replica:
+            return (a, m, r)
+    for a, m, r in unrun:                                  # same arm as the prereg pilot -> still a paralogue
+        if a.arm_id == d_arm:
+            return (a, m, r)
+    return unrun[0]
+
+
+def retro_units_to_run(done=()):
+    """Pilot-one-leg-first (prereg §7), else the whole authorized panel.
+
+    `done` = unit names that must not be piloted again (results already in S3, or a live host). Passing it is
+    what makes the pilot ADVANCE instead of skipping forever; `retro_launch` supplies it from the same two
+    lookups it uses for `skip_done`/`skip_live`, so the pilot and the fan-out can never disagree about what
+    has landed."""
     import nrv04_retro_panel as retro
     if os.environ.get("RETRO_PILOT_ONLY", "1") == "1":
-        arm = retro.arm_by_id(os.environ.get("RETRO_PILOT_ARM", "retro_noncov_nr4a2"))
-        return [(arm, int(os.environ.get("RETRO_PILOT_MODEL", "1")), int(os.environ.get("RETRO_PILOT_REPLICA", "0")))]
+        pick = retro_pilot_unit(
+            done=done,
+            selector=os.environ.get("RETRO_PILOT_UNIT"),
+            arm_id=os.environ.get("RETRO_PILOT_ARM"),
+            model=(int(os.environ["RETRO_PILOT_MODEL"]) if os.environ.get("RETRO_PILOT_MODEL") else None),
+            replica=(int(os.environ["RETRO_PILOT_REPLICA"]) if os.environ.get("RETRO_PILOT_REPLICA") else None),
+        )
+        return [pick] if pick else []
     return retro.enumerate_units()
 
 
@@ -1625,8 +1755,10 @@ def retro_launch(bucket):
     branch = os.environ.get("GIT_BRANCH", "claude/nr-v04-retrospective-testing-6ywxye")
     mode = os.environ.get("MODE", "run")
     dry = os.environ.get("DRY_RUN", "0") == "1"
-    units = retro_units_to_run()
 
+    # ⚠ ORDER MATTERS: what has already landed is looked up BEFORE the units are chosen, because the PILOT's
+    # choice depends on it (`retro_pilot_unit`). Reversing these two — which is how this lane shipped — pins the
+    # pilot to a unit that may already be finished, and every dispatch then skips it and rents nothing.
     skip_done, skip_live = set(), set()
     if not dry:
         vk = os.environ.get("VAST_API_KEY")
@@ -1644,9 +1776,39 @@ def retro_launch(bucket):
         except Exception as e:  # noqa: BLE001
             print(f"[retro] WARN could not list S3 results ({e}); not skipping any", flush=True)
 
+    pilot_only = os.environ.get("RETRO_PILOT_ONLY", "1") == "1"
+    _sel, _force = retro_pilot_force(os.environ.get("RETRO_PILOT_UNIT"))
+    explicit = bool(_sel or os.environ.get("RETRO_PILOT_ARM") or os.environ.get("RETRO_PILOT_MODEL")
+                    or os.environ.get("RETRO_PILOT_REPLICA"))
+
+    units = retro_units_to_run(done=skip_done | skip_live)
+    if pilot_only and explicit and _force:
+        # A NAMED unit is being re-run on purpose. Clear only its result-skip; `skip_live` is untouched, so a
+        # forced re-run can still never race a host that is already writing that checkpoint.
+        for _a, _m, _r in units:
+            skip_done.discard(retro.unit_name(_a, _m, _r))
+        print(f"[retro] FORCE: {[retro.unit_name(a, m, r) for a, m, r in units]} will re-run even though a "
+              f"result exists; its leg_*.json is OVERWRITTEN in place (nothing is deleted). Use a fresh "
+              f"NRV04_RETRO_RESULT_PREFIX instead if the existing object must be preserved.", flush=True)
+    if not units:
+        # Only reachable in pilot mode with every authorized unit already landed. Say it — a pilot that finds
+        # nothing left to pilot is the fan-out's cue, not a failure, and it must not read as one.
+        print("[retro] pilot: every authorized unit already has a result in S3 — nothing to pilot. The next "
+              "step is `retro_full` (idempotent) or `retro_collect`, not another pilot.", flush=True)
+        return 0
+
     todo = [(a, m, r) for a, m, r in units
             if dry or (retro.unit_name(a, m, r) not in skip_done and retro.unit_name(a, m, r) not in skip_live)]
-    print(f"[retro] {len(units)} unit(s), mode={mode}, dry_run={dry}, pilot_only="
+    if not dry and pilot_only and explicit and not todo:
+        # The operator NAMED a unit and it was skipped. Returning 0 here is how this lane spent the morning
+        # looking like a pilot that worked: green run, `to_rent=0`, no host, no leg. Fail instead.
+        print(f"[retro] ⛔ the selected pilot unit(s) {[retro.unit_name(a, m, r) for a, m, r in units]} were "
+              f"SKIPPED (result already in S3, or a live host holds the checkpoint) — nothing was rented. "
+              f"Prefix `!` to the selector (or append ` force`) to re-run one that already has a result; a "
+              f"live host is never overridden. Failing so this cannot read as a pilot that ran.", flush=True)
+        return 1
+    print(f"[retro] {len(units)} unit(s) [{', '.join(retro.unit_name(a, m, r) for a, m, r in units)[:200]}], "
+          f"mode={mode}, dry_run={dry}, pilot_only="
           f"{os.environ.get('RETRO_PILOT_ONLY', '1')}, skip_done={len(skip_done)}, skip_live={len(skip_live)}, "
           f"to_rent={len(todo)}", flush=True)
 

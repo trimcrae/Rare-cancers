@@ -55,7 +55,7 @@ on:
         description: "cofold mode: comma-sep diffusion seeds = the ternary ensemble per system"
         default: "1,2,3"
       vast_selector:
-        description: "instance id or label substring. diag mode: which instance to dump (blank = every instance on the account, which buries the one you want). stop_all mode: which to DESTROY — BLANK DESTROYS EVERY INSTANCE ON THE ACCOUNT, including other sessions' live work. step1_fanout launch/launch_confirm: comma-separated unit_id or ligand substrings to launch (blank = every pending unit up to the width) — this is the shakeout lever that runs ONE unit to the unproven ddG terminus before the rest fan out."
+        description: "instance id or label substring. diag mode: which instance to dump (blank = every instance on the account, which buries the one you want). stop_all mode: which to DESTROY — BLANK DESTROYS EVERY INSTANCE ON THE ACCOUNT, including other sessions' live work. step1_fanout launch/launch_confirm: comma-separated unit_id or ligand substrings to launch (blank = every pending unit up to the width) — this is the shakeout lever that runs ONE unit to the unproven ddG terminus before the rest fan out. retro_pilot: WHICH UNIT to pilot, e.g. 'nr4a3 m2 r1' / 'retro_noncov_nr4a2:m1:r0' / a whole nrv04retro- label (blank = the first UNRUN authorized unit, preferring the prereg §7 paralogue arm); prefix '!' to re-run one that already has a result. nrv04_s3_tail: blank = the retro result prefix."
         default: ""
       md_mode:
         description: "nrv04_vast_launch pilot/full: smoke (minimize+500 steps, cents) | run (5ns, priced)"
@@ -989,19 +989,58 @@ jobs:
       VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
       AWS_DEFAULT_REGION: us-east-2
       VAST_CKPT_BUCKET: ${{ github.event.inputs.vast_ckpt_bucket }}
+      # `cofold_output_prefix` names the prefix; `vast_selector` may name a UNIT under it (no new input — the
+      # workflow is at the 25-input cap, tests/test_workflow_input_cap.py).
       PREFIX: ${{ github.event.inputs.cofold_output_prefix }}
+      UNIT: ${{ github.event.inputs.vast_selector }}
     steps:
       - name: phase + run.log tail + object listing
         run: |
           python3 -m pip install -q awscli >/dev/null 2>&1 || pip install -q awscli >/dev/null 2>&1 || true
+          # `&&` alone would be the step's last command on the blank-UNIT path and return 1 under bash -e.
+          P="${PREFIX}"
+          if [ -n "$UNIT" ]; then P="${PREFIX%/}/${UNIT}"; fi
+          echo "=== prefix: s3://${VAST_CKPT_BUCKET}/${P}/ ==="
           echo "=== phase.txt ==="
-          aws s3 cp "s3://${VAST_CKPT_BUCKET}/${PREFIX}/phase.txt" - 2>/dev/null || echo "(no phase.txt yet)"
+          aws s3 cp "s3://${VAST_CKPT_BUCKET}/${P}/phase.txt" - 2>/dev/null || echo "(no phase.txt yet)"
           echo "=== objects (mtime, size) ==="
-          aws s3 ls "s3://${VAST_CKPT_BUCKET}/${PREFIX}/" --recursive --human-readable 2>/dev/null | tail -40 \
+          aws s3 ls "s3://${VAST_CKPT_BUCKET}/${P}/" --recursive --human-readable 2>/dev/null | tail -60 \
             || echo "(prefix empty)"
           echo "=== run.log (tail 60) ==="
-          aws s3 cp "s3://${VAST_CKPT_BUCKET}/${PREFIX}/run.log" /tmp/run.log 2>/dev/null \
+          aws s3 cp "s3://${VAST_CKPT_BUCKET}/${P}/run.log" /tmp/run.log 2>/dev/null \
             && tail -60 /tmp/run.log || echo "(no run.log yet)"
+          # ★ THE LEG RECORD ITSELF. `retro_collect` reads leg_*.json but prints only the coverage summary
+          # (`legs` is stripped from its stdout dump), so "a result landed" was visible while WHAT landed was
+          # not. A smoke leg and a 6 ns production leg are both "a result"; only these fields tell them apart:
+          #   mode=run · prod_ns=5.0 · equil_ns=1.0 · n_frames=500 · timed_ns≈5.0   (md_settings.py: 4 fs, HMR,
+          #   10 ps frame stride -> 1,250,000 prod steps / 2,500 = 500 frames)
+          # versus a smoke, which is equil_steps=0 / prod_steps=500 / stride=100 -> n_frames=5, timed_ns=0.002
+          # (nrv04_covalent_md.run_leg). `panel` and `leg_id` say which panel wrote it, so a leg that drifted in
+          # from the withdrawn covalent panel is identifiable rather than merely assumed absent.
+          echo "=== leg_*.json (the frozen leg record) ==="
+          aws s3 cp "s3://${VAST_CKPT_BUCKET}/${P}/" /tmp/legs/ --recursive \
+            --exclude '*' --include 'leg_*.json' --only-show-errors 2>/dev/null || true
+          if ls /tmp/legs/*.json >/dev/null 2>&1; then
+            for f in /tmp/legs/*.json; do
+              echo "--- $f ---"
+              python3 - "$f" <<'PYEOF'
+          import json, sys
+          d = json.load(open(sys.argv[1]))
+          keys = ("panel", "leg_id", "seed", "mode", "prod_ns", "equil_ns", "n_frames", "timed_ns",
+                  "ns_per_day", "prod_wall_s", "blew_up", "blow_phase", "covalent", "mutation",
+                  "chain_split", "analysis_traj", "pe_pre_min_kj", "pe_post_min_kj")
+          for k in keys:
+              print(f"  {k} = {json.dumps(d.get(k))}")
+          print("  meta.n_atoms =", json.dumps((d.get("meta") or {}).get("n_atoms")))
+          print("  md_settings =", json.dumps(d.get("md_settings")))
+          for r in ("R1_interface", "R2_recruitment", "R3_lys"):
+              print(f"  {r} = {json.dumps(d.get(r))}")
+          print("  ALL TOP-LEVEL KEYS =", sorted(d))
+          PYEOF
+            done
+          else
+            echo "(no leg_*.json under this prefix)"
+          fi
 
   nrv04_ffcache_status:
     # Fast diagnostic (~30s): print the ffcache object's LastModified + size so we can tell whether charge_cache
@@ -1252,6 +1291,12 @@ jobs:
       # undispatchable — see tests/test_workflow_input_cap.py.
       DIAG_FILTER: ${{ github.event.inputs.vast_selector }}
       VAST_KILL: ${{ github.event.inputs.vast_selector }}
+      # ...and a THIRD consumer, for the same reason and by the same rule: `retro_pilot` needs to say WHICH
+      # unit to pilot, the workflow is AT the 25-input cap, and diag/stop_all/retro_pilot are mutually
+      # exclusive modes. Blank = `retro_pilot_unit` picks the first UNRUN authorized unit (prereg §7 arm
+      # first). Before 2026-07-31 the pilot was HARDCODED to `retro_noncov_nr4a2` m1 r0 — the one unit of 18
+      # that had already landed — so every retro_pilot dispatch skipped it, rented nothing and went green.
+      RETRO_PILOT_UNIT: ${{ github.event.inputs.vast_selector }}
       RETRO_STAGE_TEST: ${{ github.event.inputs.vast_launch_mode == 'retro_stage_test' && '1' || '0' }}
       RETRO: ${{ (github.event.inputs.vast_launch_mode == 'retro_dry' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') && '1' || '0' }}
       RETRO_COLLECT: ${{ github.event.inputs.vast_launch_mode == 'retro_collect' && '1' || '0' }}

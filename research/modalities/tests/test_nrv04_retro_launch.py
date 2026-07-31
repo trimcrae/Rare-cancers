@@ -67,15 +67,146 @@ def test_specs_are_spot_safe_and_resumable():
     assert spec.checkpoint_uri
 
 
+def _clear_pilot_env(monkeypatch):
+    monkeypatch.setenv("RETRO_PILOT_ONLY", "1")
+    for v in ("RETRO_PILOT_UNIT", "RETRO_PILOT_ARM", "RETRO_PILOT_MODEL", "RETRO_PILOT_REPLICA"):
+        monkeypatch.delenv(v, raising=False)
+
+
 def test_pilot_is_a_paralogue_leg_not_nr4a1(monkeypatch):
     """The pilot's abort information is structural: the assembler has never read an NR4A2/NR4A3 co-fold.
     Piloting NR4A1 would leave the only real staging risk unexercised."""
-    monkeypatch.setenv("RETRO_PILOT_ONLY", "1")
-    monkeypatch.delenv("RETRO_PILOT_ARM", raising=False)
+    _clear_pilot_env(monkeypatch)
     units = launch.retro_units_to_run()
     assert len(units) == 1
     arm, model, replica = units[0]
     assert arm.target in ("NR4A2", "NR4A3") and not arm.covalent
+
+
+# =============================================================================================================
+# ★★ THE PILOT MUST BE ABLE TO POINT AT A UNIT THAT HAS NOT RUN (regression, 2026-07-31).
+#
+# `retro_units_to_run` returned the CONSTANT `retro_noncov_nr4a2` m1 r0. That was the one unit of 18 with a
+# result already in S3 (run 30633508333 / job 91165301927: `1 of 18 authorized R1 leg(s) landed`, and that unit
+# is the one absent from `missing_units`). So every `retro_pilot` dispatch printed
+# `[skip] … result already in S3`, `to_rent=0`, rented nothing and returned 0 — a green run indistinguishable
+# from a pilot that worked. The lane could not take §6's first ladder step at all, and the other 17 legs stayed
+# blocked behind a pilot that could never run.
+# =============================================================================================================
+
+def test_pilot_advances_past_a_unit_that_already_landed(monkeypatch):
+    _clear_pilot_env(monkeypatch)
+    landed = {retro.unit_name(*u) for u in [(retro.arm_by_id("retro_noncov_nr4a2"), 1, 0)]}
+    units = launch.retro_units_to_run(done=landed)
+    assert len(units) == 1
+    assert retro.unit_name(*units[0]) not in landed, "a pilot pinned to a finished unit can never run"
+
+
+def test_pilot_keeps_the_prereg_paralogue_arm_when_it_advances(monkeypatch):
+    """Advancing must not silently fall back to NR4A1 — prereg §7 picked a paralogue on purpose."""
+    _clear_pilot_env(monkeypatch)
+    arm2 = retro.arm_by_id("retro_noncov_nr4a2")
+    landed = {retro.unit_name(arm2, 1, 0)}
+    (arm, model, replica), = launch.retro_units_to_run(done=landed)
+    assert arm.arm_id == "retro_noncov_nr4a2" and (model, replica) == (1, 1)
+
+
+def test_pilot_returns_nothing_when_every_unit_has_landed(monkeypatch):
+    _clear_pilot_env(monkeypatch)
+    everything = {retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()}
+    assert launch.retro_units_to_run(done=everything) == []
+
+
+@pytest.mark.parametrize("sel", [
+    "nrv04retro-retro_noncov_nr4a3-m2-r1",
+    "retro_noncov_nr4a3 m2 r1",
+    "retro_noncov_nr4a3:m2:r1",
+    "nr4a3-m2-r1",
+    "nr4a3 2 1",
+    "NR4A3,m2,r1",
+])
+def test_selector_spellings_all_resolve_to_the_same_unit(monkeypatch, sel):
+    _clear_pilot_env(monkeypatch)
+    monkeypatch.setenv("RETRO_PILOT_UNIT", sel)
+    (arm, model, replica), = launch.retro_units_to_run()
+    assert (arm.arm_id, model, replica) == ("retro_noncov_nr4a3", 2, 1)
+
+
+def test_a_bare_arm_selector_takes_that_arms_first_authorized_unit(monkeypatch):
+    _clear_pilot_env(monkeypatch)
+    monkeypatch.setenv("RETRO_PILOT_UNIT", "nr4a1")
+    (arm, model, replica), = launch.retro_units_to_run()
+    assert (arm.arm_id, model, replica) == ("retro_noncov_nr4a1", 1, 0)
+
+
+@pytest.mark.parametrize("sel", ["retro_cov_nr4a1", "retro_epi_nr4a1", "retro_epi_nr4a3", "nr4a4", "nr4a3 m9 r0"])
+def test_selector_cannot_reach_an_unauthorized_unit(monkeypatch, sel):
+    """AMENDMENT 3 retired R2 and R3 is conditional. `arm_by_id` returns those arms happily, so a selector that
+    resolved against ARMS instead of `enumerate_units()` would let one env var rent a unit no GO covers — and
+    a retired covalent unit crash-loops on a live meter (nrv04_retro_panel.arms_for_stages)."""
+    _clear_pilot_env(monkeypatch)
+    monkeypatch.setenv("RETRO_PILOT_UNIT", sel)
+    with pytest.raises(SystemExit):
+        launch.retro_units_to_run()
+
+
+@pytest.mark.parametrize("raw,expect_sel,expect_force", [
+    ("", "", False),
+    ("nr4a3 m2 r1", "nr4a3 m2 r1", False),
+    ("!nr4a3 m2 r1", "nr4a3 m2 r1", True),
+    ("nr4a3 m2 r1 force", "nr4a3 m2 r1", True),
+])
+def test_force_flag_rides_inside_the_selector_not_a_26th_input(raw, expect_sel, expect_force):
+    assert launch.retro_pilot_force(raw) == (expect_sel, expect_force)
+
+
+def test_an_explicit_pilot_that_gets_skipped_fails_the_job(monkeypatch, tmp_path):
+    """The exact shape of the 2026-07-31 stall: the operator NAMES a unit, it is skipped for having a result,
+    and the run goes green having rented nothing. That must fail — §6's 'holding silently' failure mode."""
+    import types
+    monkeypatch.chdir(tmp_path)
+    _clear_pilot_env(monkeypatch)
+    monkeypatch.setenv("RETRO_PILOT_UNIT", "nr4a2 m1 r0")
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")
+    monkeypatch.setattr(launch, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(launch, "presign_env_tarball", lambda b: "https://example/env.tgz")
+    landed_key = f"{launch.RETRO_RESULT_PREFIX}/nrv04retro-retro_noncov_nr4a2-m1-r0/leg_x.json"
+    monkeypatch.setattr(launch, "_s3_list", lambda *a, **k: [landed_key])
+    import boto3
+    monkeypatch.setattr(boto3, "client", lambda *a, **k: types.SimpleNamespace())
+    rented = []
+    monkeypatch.setattr(launch, "get_backend", lambda _n: types.SimpleNamespace(
+        submit=lambda spec: (rented.append(spec.name),
+                             types.SimpleNamespace(job_id=1, extra={"dph": 0.05}))[1]))
+
+    assert launch.retro_launch(BUCKET) == 1, "a named pilot that rented nothing must not go green"
+    assert rented == []
+
+    # ...and `!` re-runs it on purpose, overwriting its own leg_*.json — nothing is deleted.
+    monkeypatch.setenv("RETRO_PILOT_UNIT", "!nr4a2 m1 r0")
+    assert launch.retro_launch(BUCKET) == 0
+    assert rented == ["nrv04retro-retro_noncov_nr4a2-m1-r0"]
+
+
+def test_default_pilot_rents_the_unrun_unit_when_the_pinned_one_has_landed(monkeypatch, tmp_path):
+    """End-to-end of the fix: no selector, the prereg unit already landed -> the pilot rents the NEXT unrun
+    paralogue unit instead of rendering a green no-op."""
+    import types
+    monkeypatch.chdir(tmp_path)
+    _clear_pilot_env(monkeypatch)
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")
+    monkeypatch.setattr(launch, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(launch, "presign_env_tarball", lambda b: "https://example/env.tgz")
+    monkeypatch.setattr(launch, "_s3_list", lambda *a, **k: [
+        f"{launch.RETRO_RESULT_PREFIX}/nrv04retro-retro_noncov_nr4a2-m1-r0/leg_x.json"])
+    import boto3
+    monkeypatch.setattr(boto3, "client", lambda *a, **k: types.SimpleNamespace())
+    rented = []
+    monkeypatch.setattr(launch, "get_backend", lambda _n: types.SimpleNamespace(
+        submit=lambda spec: (rented.append(spec.name),
+                             types.SimpleNamespace(job_id=7, extra={"dph": 0.05}))[1]))
+    assert launch.retro_launch(BUCKET) == 0
+    assert rented == ["nrv04retro-retro_noncov_nr4a2-m1-r1"]
 
 
 def test_full_fanout_is_the_whole_authorized_panel(monkeypatch):
