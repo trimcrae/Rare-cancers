@@ -1369,9 +1369,10 @@ jobs:
               pip install -q gemmi rdkit >/dev/null 2>&1 || echo "gemmi/rdkit install failed" ;;
           esac
           if [ "${{ github.event.inputs.vast_launch_mode }}" = "cofold_clash_scan" ]; then
-            # $0 GEOMETRY PRE-FLIGHT. Grades every co-fold the panel will consume for a steric impossibility
-            # BEFORE a rental is spent on it — the cheap half of the 2026-07-31 seed_3 diagnosis. Exit 2 means
-            # at least one input cannot be integrated by any host, which is a red build on purpose.
+            # $0 GEOMETRY CENSUS over every co-fold the panel consumes. ⛔ NOT A GATE: its threshold was
+            # refuted the first time it ran (nrv04_cofold_audit.CLASH_MIN_INTERCHAIN_A) — the smallest
+            # inter-chain contact in the set belongs to the co-fold that produced the two landed production
+            # legs. Kept as context beside the real discriminator, the built system's potential energy.
             python nrv04_cofold_audit.py --bucket "$VAST_CKPT_BUCKET" --clash-scan
           elif [ "${{ github.event.inputs.vast_launch_mode }}" = "cofold_audit" ]; then
             python nrv04_cofold_audit.py --bucket "$VAST_CKPT_BUCKET" --completed-panel

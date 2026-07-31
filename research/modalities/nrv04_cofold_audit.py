@@ -211,7 +211,37 @@ def completed_panel_chain_split(bucket, prefix="nrv04-covalent-results"):
 # DIFFERENT chains are non-bonded in this assembly, so a real structure keeps them at van der Waals contact
 # (>= ~2.2 A for heavy atoms). A pair at a fraction of an angstrom is a steric impossibility, and it is
 # exactly what an LJ term at 1e15 kJ/mol reports.
-CLASH_MIN_INTERCHAIN_A = 1.5   # generous: real vdW contact is ~3.0-3.5 A, real H-bond heavy-atom ~2.6-3.2 A
+# ⛔⛔ THE THRESHOLD BELOW IS REFUTED. IT IS KEPT AS A REPORTED NUMBER AND IS NOT A GATE.
+#
+# MEASURED 2026-07-31, 4:01 PM ET, the first time this scan ran — against ground truth I already had.
+# Nine co-folds, min inter-chain heavy-atom distance vs whether the leg actually ran:
+#
+#     nr4a1 seed_1  1.310 A   RAN            nr4a2 seed_1  1.055 A   RAN — the TWO LANDED 500-frame legs
+#     nr4a1 seed_2  2.283 A   RAN            nr4a2 seed_2  1.639 A   RAN
+#     nr4a1 seed_3  2.049 A   RAN            nr4a2 seed_3  2.109 A   RAN
+#     nr4a3 seed_1  1.775 A   RAN            nr4a3 seed_2  1.933 A   RAN
+#     nr4a3 seed_3  1.365 A   ** BLEW UP, PE +2.1e15 kJ/mol, NaN at prod@frame0 **
+#
+# NO THRESHOLD SEPARATES THEM, and not because the cut is mistuned — the ORDER is wrong. The smallest
+# contact in the whole set (nr4a2 seed_1, 1.055 A) produced the best results on the lane, and the one input
+# that cannot be integrated sits at 1.365 A, ABOVE two that work. A 1.5 A gate flagged three co-folds, two of
+# which have landed production legs.
+#
+# WHAT THIS REFUTES, precisely: the hypothesis that the clash driving PE to 1e15 is the closest INTER-CHAIN
+# contact in the co-fold. It is not. Candidates it cannot see, and which the next diagnostic must: an
+# intra-chain overlap (excluded here by construction), a contact involving the ligand or ions, or an overlap
+# introduced by the BUILD rather than present in the co-fold — note the co-fold is ~5,570 atoms while the
+# built system is ~315,000, so ~98 % of the system is placed by addHydrogens/addSolvent and is not examined
+# by any measurement in this file.
+#
+# THE CORRECT DISCRIMINATOR IS THE ONE THE FAILURE ITSELF REPORTS: the single-point potential energy of the
+# BUILT system. It is unambiguous (-4e6 works, +2e15 does not), it needs no threshold tuning, and it is
+# already obtainable for $0 on CPU via `nrv04_build_smoke`'s pull -> assemble -> build path plus one
+# `context.getState(getEnergy=True)` — no minimisation, no MD, no GPU. That is the pre-flight to build; this
+# geometry census stays as context beside it, never as a gate.
+#
+# Superseded, retained per CLAUDE.md §1 rule 2: this constant was briefly a GATE that exited 2.
+CLASH_MIN_INTERCHAIN_A = 1.5   # REPORTED ONLY — refuted as a discriminator, see above
 
 
 def min_interchain_distance(cif_path):
@@ -277,31 +307,35 @@ def clash_scan(bucket, prefix=None, systems=None, seeds=None):
                 rows.append({"system": sysname, "seed": seed, "prefix": pfx, "cif": key,
                              "why": "unreadable: %s: %s" % (type(e).__name__, e)})
                 continue
-            clash = dmin is not None and dmin < CLASH_MIN_INTERCHAIN_A
+            # REPORTED, NOT A VERDICT — the threshold is refuted (see CLASH_MIN_INTERCHAIN_A).
+            below = dmin is not None and dmin < CLASH_MIN_INTERCHAIN_A
             row = {"system": sysname, "seed": seed, "cif": key,
                    "last_modified": lm.strftime("%Y-%m-%dT%H:%M:%SZ") if lm else None,
                    "min_interchain_A": (round(dmin, 3) if dmin is not None else None),
                    "closest_pair": pair, "n_atoms": n_atoms, "n_chains": n_chains,
-                   "clash": bool(clash)}
+                   "below_reported_threshold": bool(below),
+                   "_note": "below_reported_threshold is CONTEXT, not a verdict: this measure does not "
+                            "separate runnable from non-runnable co-folds (see CLASH_MIN_INTERCHAIN_A)."}
             rows.append(row)
-            if clash:
+            if below:
                 bad.append(row)
             print("[clash-scan] %-6s seed %d: min inter-chain %s A  (%s)  atoms=%d chains=%d  %s"
                   % (sysname, seed,
                      ("%.3f" % dmin) if dmin is not None else "n/a", pair, n_atoms, n_chains,
-                     "\u26d4 CLASH" if clash else "ok"), flush=True)
-    out = {"_what": "Minimum inter-chain heavy-atom distance per co-fold — a $0 pre-flight for a system no "
-                    "host can integrate.",
-           "_rule": "A pair below %.1f A is non-bonded atoms inside van der Waals contact, which is what an "
-                    "LJ term at 1e15 kJ/mol reports. See nrv04_vast_launch.retro_input_quarantine."
-                    % CLASH_MIN_INTERCHAIN_A,
-           "prefix": prefix, "threshold_A": CLASH_MIN_INTERCHAIN_A, "rows": rows,
-           "n_clashing": len(bad), "clashing": [(r["system"], r["seed"]) for r in bad]}
-    if bad:
-        print("[clash-scan] \u26d4 %d co-fold(s) are sterically impossible and cannot be integrated: %s"
-              % (len(bad), out["clashing"]), flush=True)
-    else:
-        print("[clash-scan] every co-fold in the panel's input set is physically integrable.", flush=True)
+                     "(below the reported %.1f A line — CONTEXT ONLY)" % CLASH_MIN_INTERCHAIN_A
+                     if below else ""), flush=True)
+    out = {"_what": "Minimum inter-chain heavy-atom distance per co-fold — a geometry CENSUS, not a gate.",
+           "_refuted": "This measure does NOT separate runnable from non-runnable co-folds. Measured "
+                       "2026-07-31: nr4a2 seed_1 has the SMALLEST contact in the set (1.055 A) and produced "
+                       "the two landed 500-frame production legs, while the one input that cannot be "
+                       "integrated (nr4a3 seed_3) sits ABOVE it at 1.365 A. The correct discriminator is the "
+                       "single-point potential energy of the BUILT system (-4e6 runs, +2e15 does not).",
+           "prefix": prefix, "reported_threshold_A": CLASH_MIN_INTERCHAIN_A, "rows": rows,
+           "n_below_reported_threshold": len(bad),
+           "below_reported_threshold": [(r["system"], r["seed"]) for r in bad]}
+    print("[clash-scan] CENSUS ONLY — this measure is refuted as a runnability test; %d co-fold(s) sit below "
+          "the reported %.1f A line and that predicts nothing: %s"
+          % (len(bad), CLASH_MIN_INTERCHAIN_A, out["below_reported_threshold"]), flush=True)
     return out
 
 
@@ -325,7 +359,7 @@ def _cli(argv=None):
         res = clash_scan(args.bucket, prefix=args.clash_prefix)
         json.dump(res, open("nrv04-cofold-clash-scan.json", "w"), indent=2)
         print(json.dumps(res, indent=2, default=str), flush=True)
-        return 2 if res["n_clashing"] else 0
+        return 0        # CENSUS, never a gate — the threshold is refuted (CLASH_MIN_INTERCHAIN_A)
     audit(args.bucket, tuple(p for p in args.prefixes.split(",") if p))
     if args.completed_panel:
         res = completed_panel_chain_split(args.bucket)
