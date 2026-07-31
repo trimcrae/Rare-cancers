@@ -495,9 +495,13 @@ def _ckpt_paths(out_dir, leg_id, seed):
             os.path.join(out_dir, f"ckpt_{leg_id}_s{seed}.ckpt.json"))
 
 
-def _save_ckpt(sim, state_path, cj_path, state, result_s3):
+def _save_ckpt(sim, state_path, cj_path, state, result_s3, traj=None):
     """Persist the simulation state (portable XML) + accumulated-readout JSON, then mirror both to S3 so a
-    re-dispatched (preempted) leg can resume. Atomic local writes; S3 mirror is best-effort."""
+    re-dispatched (preempted) leg can resume. Atomic local writes; S3 mirror is best-effort.
+
+    `traj` (a `md_analysis_traj.TrajWriter`) is mirrored on the SAME hook, deliberately: a trajectory that only
+    reaches S3 at clean exit is lost to precisely the preemption it is being kept for, and 17 of this panel's
+    18 legs exited cleanly while leaving nothing to re-derive from."""
     tmp = state_path + ".tmp"
     sim.saveState(tmp); os.replace(tmp, state_path)
     tmpj = cj_path + ".tmp"
@@ -505,6 +509,8 @@ def _save_ckpt(sim, state_path, cj_path, state, result_s3):
     if result_s3:
         _s3_cp(state_path, f"{result_s3}/{os.path.basename(state_path)}")
         _s3_cp(cj_path, f"{result_s3}/{os.path.basename(cj_path)}")
+    if traj is not None:
+        traj.mirror(_s3_cp)
 
 
 def _load_resume(state_path, cj_path, result_s3, leg_id, seed):
@@ -743,6 +749,23 @@ def run_leg(env):
                 "per_frame_contacts": per_frame_contacts, "iface_rmsds": iface_rmsds, "lys_frames": lys_frames,
                 "timed_ns_accum": _done_frames * stride * dt_ns, "wall_accum": _wall_accum + (time.time() - _t0)}
 
+    # ★ THE DURABLE TRAJECTORY — STRATEGY.md RUNG 3's adopted requirement, wired here because this is the
+    # driver whose absence of one made three analysis defects uncorrectable and forced a whole panel to be
+    # re-run. Every readout below (the chain split, the reactive-Cys search, the Lys/proxy separation) becomes
+    # a $0 re-derivation instead of a re-rental. See md_analysis_traj for what it does and does NOT persist.
+    import md_analysis_traj as MT
+    _traj_idx, _traj_lab = MT.select_analysis_atoms(topology.atoms(),
+                                                    all_heavy=env.get("TRAJ_ALL_HEAVY") == "1")
+    traj = MT.TrajWriter(os.path.join(out_dir, f"traj_{leg_id}_s{seed}"), _traj_idx, _traj_lab,
+                         units="nm", frame_stride_steps=stride, dt_ps=dt_ns * 1000.0,
+                         stride_frames=int(env.get("TRAJ_STRIDE_FRAMES", "1")),
+                         enabled=env.get("TRAJ_DISABLE") != "1", s3_prefix=result_s3,
+                         extra={"leg_id": leg_id, "seed": seed, "mode": mode,
+                                "chain_split": {"target": sorted(target_chains), "e3": sorted(e3_chains)}}
+                         ).start(resume_frames=_done_frames)
+    print(f"[nrv04-md] analysis trajectory: {len(_traj_idx)} atoms, {traj.frame_bytes} B/frame "
+          f"-> {os.path.basename(traj.blob_path)} (enabled={traj.enabled})", flush=True)
+
     _t0 = time.time(); _resumed_from = _done_frames
     for _k in range(_done_frames, frames):
         if blew_up:
@@ -758,9 +781,10 @@ def run_leg(env):
         cur_iface = [pos[i] for i in iface]
         iface_rmsds.append(_aligned_iface_rmsd(cur_e3ca, ref_e3ca, cur_iface, ref_iface))
         lys_frames.append([pos[i] for i in lys_nz])
+        traj.append(pos, _k)                               # BEFORE the counter bump: _k is this frame's index
         _done_frames += 1
         if _done_frames % ckpt_every == 0 and _done_frames < frames:     # continuous checkpoint -> S3
-            _save_ckpt(sim, state_path, cj_path, _ckpt_state(), result_s3)
+            _save_ckpt(sim, state_path, cj_path, _ckpt_state(), result_s3, traj)
             print(f"[nrv04-md] checkpoint @ frame {_done_frames}/{frames} -> S3", flush=True)
 
     _wall_accum += max(1e-6, time.time() - _t0)                # active-compute wall (excludes idle/preemption gaps)
@@ -804,10 +828,16 @@ def run_leg(env):
               "blew_up": blew_up, "blow_phase": blow_phase,    # numerical-stability outcome (covalent-pull strain)
               "pe_pre_min_kj": round(e_pre, 1), "pe_post_min_kj": round(e_min, 1),
               "ns_per_day": ns_per_day, "timed_ns": round(_timed_ns, 5), "prod_wall_s": round(_prod_wall_s, 1),
-              "n_frames": len(per_frame_contacts), "R1_interface": r1, "R2_recruitment": r2, "R3_lys": r3}
+              "n_frames": len(per_frame_contacts), "R1_interface": r1, "R2_recruitment": r2, "R3_lys": r3,
+              # The durable trajectory's own receipt. It is IN THE RESULT, not just in the log, so a leg that
+              # silently failed to persist coordinates is visible in the same artifact the collector reads —
+              # the panel that had no trajectory also had nothing that SAID it had none.
+              "analysis_traj": traj.summary()}
     out = os.path.join(out_dir, f"leg_{leg_id}_s{seed}.json")
     json.dump(result, open(out, "w"), indent=2)
-    print(f"[nrv04-md] wrote {out}: recruited={r2['recruited']} stable={r1['stable']}", flush=True)
+    print(f"[nrv04-md] wrote {out}: recruited={r2['recruited']} stable={r1['stable']} "
+          f"traj_frames={traj.n_written}", flush=True)
+    traj.mirror(_s3_cp)                                        # final push BEFORE the checkpoint is dropped
     _rm_ckpt(state_path, cj_path, result_s3)                   # leg finished -> drop the checkpoint (a re-dispatch
     return result                                             # should re-run cleanly, not resume a completed leg)
 

@@ -467,11 +467,29 @@ def s_error_bar_scope():
                                      "exploratory. Retires paper §2.10(d) 'the causal test has not been run' "
                                      "but cannot support a null."),
             "add_one_seed_per_arm": ("two further legs give S a real replicate SD and make a null readable. "
-                                     "⚠ CHECK BEFORE BUYING: the SMARCA2 lane's seed -> relaxed-model map "
-                                     "wraps at n_models=2 (tests/test_edge_reps_seed_independence.py). "
-                                     "Whether the 5a-KS co-fold staging has the same wrap is UNVERIFIED here "
-                                     "and must be checked, not assumed, or the second seed re-runs the first "
-                                     "model and buys no independence."),
+                                     "✅ THE CHECK THIS OPTION OWED IS DONE (2026-07-30, $0, source-read): a "
+                                     "second seed on the 5a-KS lane IS independent sampling. The wrap that "
+                                     "motivated the warning is ternary_pdb_stage's "
+                                     "`starting_model_index = SEED % n_models`, which is gated on "
+                                     "`target_acc == 'P51532'` -- the SMARCA4 template -- so it cannot reach a "
+                                     "5a-KS leg, which stages through nr4a3_5aks_stage against a CRBN co-fold; "
+                                     "and nr4a3_ternary_fep seeds each replica's sampler. ⚠ WHAT IT DOES NOT "
+                                     "BUY, by construction: 5a-KS is ONE co-fold per species (both endpoints "
+                                     "staged from one pose, deliberately), so an S replicate SD measures "
+                                     "sampling scatter WITHIN one pose and the pose stays a stated "
+                                     "conditional. That is a limit to declare, not a reason to stay at n = 1, "
+                                     "which covers neither error source."),
+        },
+        "_check_resolved": {
+            "question": "does a second seed on the 5a-KS lane re-run the first starting model?",
+            "answer": "NO -- the seed -> relaxed-model wrap is SMARCA4-template-gated and does not reach this "
+                      "lane; the second seed is genuinely independent SAMPLING",
+            "evidence": ["ternary_pdb_stage.py: `if target_acc == 'P51532'` guards the model-index wrap",
+                         "nr4a3_5aks_stage.py docstring: BOTH ENDPOINTS COME FROM ONE POSE (one co-fold/species)",
+                         "nr4a3_ternary_fep.py: per-replica sampler seeding, `SEED=0/1/2 are genuinely "
+                         "independent`"],
+            "residual_limit": "co-fold-POSE uncertainty is not sampled by any seed count on this lane",
+            "date": "2026-07-30",
         },
     }
 

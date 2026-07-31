@@ -135,5 +135,57 @@ class TestCategoricalAxes(unittest.TestCase):
             self.assertLessEqual(v["deg_paralogue"], FAST["paralogue_ceiling"] + 1e-9, k)
 
 
+class TestResolvableMarginIsDerivedFromTheMEASUREDReplicateSD(unittest.TestCase):
+    """★ THE FIGURE THIS PROGRAM STEERED BY FOR A MONTH WAS COMPUTED AT AN SD NOTHING HAD MEASURED.
+
+    STRATEGY.md's MECHANISM-FIRST bullet quotes a best-case resolvable difference, and that one number carried
+    the demotion of the induced-interface axis to 'a confirmation tool operating near its limit', the Tier-3
+    kill-switch semantics, the 5a-KS 'a null is likely' expectation, and the Spend-summary defence of
+    mechanism-first. It was `minimum_detectable_difference(0.7, 3)` — and 0.7 was an ASSUMPTION. The n=3
+    valB_mini replicates measured the replicate SD at 0.375, which is the value below.
+
+    These tests exist so the live figure can never again be a typed one: they pin the arithmetic, the
+    measured input, and the DIRECTION of the correction, so an edit that quietly reinstates 0.7 (or types a
+    round number next to it) fails here rather than in a strategy re-read months later."""
+
+    MEASURED_CYCLE_SD = 0.375        # valb_failure_propagation.MEASURED['cycle_sd_kcal'], n = 3
+    SUPERSEDED_SD = 0.7              # never measured by anything in this program
+
+    def test_the_live_resolvable_figure_is_what_the_model_computes(self):
+        self.assertAlmostEqual(smm.minimum_detectable_difference(self.MEASURED_CYCLE_SD, 3), 0.60, places=2,
+                               msg="STRATEGY.md/paper state 0.60 — it must be this function's output, not prose")
+
+    def test_the_measured_sd_agrees_with_the_module_that_measured_it(self):
+        """One fact, one place: the SD used here must be the one valb_failure_propagation actually landed."""
+        import valb_failure_propagation as P
+        self.assertAlmostEqual(P.MEASURED["cycle_sd_kcal"], self.MEASURED_CYCLE_SD, places=3)
+
+    def test_the_correction_improves_the_noise_floor_by_the_ratio_of_the_SDs(self):
+        """MDD is linear in the SD, so the whole correction is 0.7/0.375 — worth pinning because it is the
+        reason the required margin moved from ~1.8x the floor to ~3.3x."""
+        old = smm.minimum_detectable_difference(self.SUPERSEDED_SD, 3)
+        new = smm.minimum_detectable_difference(self.MEASURED_CYCLE_SD, 3)
+        self.assertAlmostEqual(old / new, self.SUPERSEDED_SD / self.MEASURED_CYCLE_SD, places=6)
+        self.assertGreater(old, new, "the measured SD is the SMALLER one — precision improved")
+
+    def test_a_2p0_margin_now_sits_above_3x_the_floor(self):
+        """The strategic claim the correction licenses, asserted rather than narrated. ⚠ It is a claim about
+        PRECISION only — accuracy is measured separately at 1.543 kcal/mol wrong-sign and is not improved by
+        anything in this module."""
+        ratio = 2.0 / smm.minimum_detectable_difference(self.MEASURED_CYCLE_SD, 3)
+        self.assertGreater(ratio, 3.0)
+        self.assertLess(2.0 / smm.minimum_detectable_difference(self.SUPERSEDED_SD, 3), 2.0,
+                        "and the superseded figure really did put it under 2x, which is why it read as marginal")
+
+    def test_S_at_one_seed_per_arm_cannot_resolve_the_bottom_of_its_own_designed_effect(self):
+        """The 5a-KS design consequence, in one assertion: at n = 1 the resolvable difference sits ABOVE the
+        low end of the pair's expected 0.5-1.5 kcal/mol effect, so the pre-registered likely outcome (a null)
+        is uninterpretable — and at n = 2 it does not."""
+        at_n1 = smm.minimum_detectable_difference(self.MEASURED_CYCLE_SD, 1)
+        at_n2 = smm.minimum_detectable_difference(self.MEASURED_CYCLE_SD, 2)
+        self.assertGreater(at_n1, 1.0, "n=1 cannot see an effect at the top of the range either, comfortably")
+        self.assertLess(at_n2, at_n1, "a second seed per arm is what buys the bound")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

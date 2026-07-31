@@ -165,11 +165,29 @@ def test_the_correction_widens_rather_than_narrows():
     assert e["S_err_after_the_measured_correction_kcal"] > e["S_err_as_it_would_be_reported_kcal"]
 
 
-def test_the_second_seed_option_carries_its_unverified_warning():
-    """The seed -> model wrap is a real trap on the SMARCA2 lane and is UNVERIFIED for 5a-KS. If this text is
-    dropped, someone buys a second seed that re-runs the first model."""
-    opt = P.s_error_bar_scope()["options"]["add_one_seed_per_arm"]
-    assert "UNVERIFIED" in opt
+def test_the_second_seed_option_records_the_RESOLVED_wrap_check_with_its_evidence():
+    """The seed -> model wrap is a real trap on the SMARCA2 lane, and this option used to carry it as
+    UNVERIFIED for 5a-KS. It was checked against the source on 2026-07-30 and the answer is NO — the wrap is
+    SMARCA4-template-gated and cannot reach this lane. What this test now pins is the *resolution plus its
+    evidence*, because an answer with no citation rots into a belief: if the guard in ternary_pdb_stage is ever
+    widened, the evidence line stops being true and someone must re-check before buying a second seed."""
+    e = P.s_error_bar_scope()
+    opt, res = e["options"]["add_one_seed_per_arm"], e["_check_resolved"]
+    assert "UNVERIFIED" not in opt, "the check is done; leaving the old warning live invites a re-check that costs nothing to skip"
+    assert res["answer"].startswith("NO"), "a second seed does NOT re-run the first starting model"
+    assert any("P51532" in ev for ev in res["evidence"]), "the gate that makes the wrap unreachable must be cited"
+
+
+def test_the_second_seed_option_still_states_what_replicates_do_NOT_cover():
+    """The load-bearing half. 5a-KS is ONE co-fold per species by design, so no number of seeds samples
+    co-fold-POSE uncertainty. Dropping that caveat would let an S replicate SD be read as a total uncertainty,
+    which is the same over-read that a within-run MBAR SE gets everywhere else in this program."""
+    e = P.s_error_bar_scope()
+    assert "pose" in e["_check_resolved"]["residual_limit"].lower()
+    assert "ONE co-fold per species" in e["options"]["add_one_seed_per_arm"]
+    assert "n = 1" in e["options"]["add_one_seed_per_arm"], (
+        "and it must still say n = 1 covers NEITHER source — the caveat is a reason to declare a limit, "
+        "not a reason to stay at one seed")
 
 
 # ---- 6. the estimator note ---------------------------------------------------------------------------------

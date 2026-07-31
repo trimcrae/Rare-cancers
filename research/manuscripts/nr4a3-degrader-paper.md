@@ -1486,14 +1486,28 @@ negative. **Every result below was computed on CPU; no GPU was used and none is 
 molecule that was made, a binding measurement, or a degradation result: the output is a set of **predicted
 selective candidates** and the geometric hypotheses behind them.
 
-**Why the search was re-ordered: the induced-interface axis sits at the method's own resolution limit.** A
-useful degradation window needs on the order of **2.0 kcal/mol** of true induced-interface margin (median over
-27 potency scenarios, range 1.75–2.25; `selectivity_margin_model.py`), against a best-case **resolvable**
-difference of **1.12 kcal/mol** at the replicate scatter this program assumes (SD 0.7, n = 3) and a
-field-standard relative-FE accuracy near 1.7 kcal/mol RMSE. Replicates shrink *precision*, not *accuracy*, so
-more sampling does not close that gap. We therefore treat the induced-interface (**marginal**) axis as a
-confirmation tool operating near its limit rather than a discovery tool, and searched first on **categorical**
-differences — positions at which NR4A1/NR4A2 are structurally *incapable* rather than merely disfavoured.
+**Why the search was re-ordered: the induced-interface axis is uncalibrated, and at the time it was also
+believed to be unresolvable.** A useful degradation window needs on the order of **2.0 kcal/mol** of true
+induced-interface margin (median over 27 potency scenarios, range 1.75–2.25; `selectivity_margin_model.py`).
+When the search was re-ordered, that was set against a best-case **resolvable** difference of 1.12 kcal/mol —
+a figure computed at a replicate scatter the program had **assumed** rather than measured, and a
+field-standard relative-FE accuracy near 1.7 kcal/mol RMSE taken from the literature. **Both inputs have since
+been measured on this pipeline, and they move in opposite directions.** The replicate scatter is
+**0.375 kcal/mol** (§2.11, the between-replicate SD of the ternary calibrator at n = 3), which puts the
+best-case resolvable difference at **0.60 kcal/mol**, not 1.12 — so the required margin is ~3.3× the noise
+floor rather than ~1.8×. The accuracy, meanwhile, is no longer a literature number: the one known-answer test
+of this exact quantity class **misses by 1.543 kcal/mol with the wrong sign** (§2.11), and a redundant-cycle
+diagnostic localises that miss to a **per-endpoint state function**, which replicates cannot remove.
+
+Two caveats travel with the measured scatter and we state them rather than absorbing them: it was measured on
+the **SMARCA2/VHL** calibrator and is transferred to NR4A, and it is an **upper** bound on sampling-only
+scatter because the replicates also differ in their relaxed homology model and in independent solvation. The
+net reading is therefore not that the induced-interface axis is *blunt* but that it is **uncalibrated** — a
+different deficiency with a different remedy, since more sampling addresses precision and only a known-answer
+benchmark addresses accuracy. We accordingly treat the induced-interface (**marginal**) axis as a confirmation
+tool whose accuracy is unestablished rather than as a discovery tool, and searched first on **categorical**
+differences — positions at which NR4A1/NR4A2 are structurally *incapable* rather than merely disfavoured,
+which require no thermodynamic margin at all and so do not depend on either figure above.
 
 **Full-length paralogue alignment gives two categorical handles, and their paralogue side is a sequence fact
 rather than a model output.** Aligning full-length UniProt NR4A3/NR4A1/NR4A2 with two independent aligners and
@@ -2245,9 +2259,11 @@ weight, with the following caveats made explicit rather than buried:
    result. Accordingly the ternary is **not** written off as a selectivity lever here, and §2.10 reports the
    stage that actually interrogates it: paralogue discrimination is searched first on **categorical** handles
    (a nucleophile and lysines the paralogues do not possess), because the induced-interface margin the co-fold
-   was being asked about needs ~2.0 kcal/mol against a best-case resolvable ~1.12 and is therefore not
-   decidable by any tier this paper runs, let alone by a structure-only classifier. That search **nominates**;
-   it does not settle the question, and the causal test remains unrun.
+   was being asked about needs ~2.0 kcal/mol and is not decidable by any tier this paper runs, let alone by a
+   structure-only classifier. *(That re-ordering was originally argued against a best-case resolvable ~1.12
+   kcal/mol; **that figure is superseded** — §2.10 carries the measured replacement and the reason the
+   conclusion here is unchanged, which is that the binding limit is accuracy rather than resolution.)* That
+   search **nominates**; it does not settle the question, and the causal test remains unrun.
    Degradation selectivity therefore rests, on current evidence, on the **binder** margin plus those
    nominated categorical handles (plus
    **pharmacokinetics** for NR4A2: CNS exposure is an additional design concern given NR4A2's established
@@ -2431,9 +2447,15 @@ position, so the bond cannot form on them at all. The Tier-3 double difference i
 alchemical quantity: it models no bond in either leg and can only ever see the pre-covalent complex, so it is
 **structurally incapable of testing the categorical mechanism**. What it tests is the **marginal**
 induced-interface wedge. Its expected effect for the designed pair is bounded by roughly one partly-buried
-hydrogen bond (~0.5–1.5 kcal/mol) against a best-case resolvable ~1.12, so **a null is the likely outcome**,
+hydrogen bond (~0.5–1.5 kcal/mol), so **a null is a likely outcome**,
 and the reading is fixed in advance: *a null means the marginal wedge is absent and the claim rests on the
-categorical axis alone; the program stops only if the categorical axis has also failed.* Writing that down
+categorical axis alone; the program stops only if the categorical axis has also failed.* *(This rule was
+registered against a best-case resolvable ~1.12 kcal/mol — a figure since **superseded** by the measured
+replicate scatter of §2.10, at which the expected effect straddles the resolution rather than sitting under it.
+**The rule is unchanged**, and the correction runs in the direction that makes it stronger: at an adequate
+replicate count a null now **bounds** the marginal wedge instead of merely failing to find it. We note in the
+same breath that the test as currently configured — one seed per arm — would **not** deliver that bound, which
+is a design condition on running it, not a licence to read a single-seed null as one.)* Writing that down
 before the run is the point — without it, a predictable null becomes a verdict on the whole program through a
 category error. The corresponding **honest expectation recorded in advance** is that the designed pair offers
 NR4A3 a *gain* rather than imposing a paralogue *penalty* (the aligned paralogue residues are hydrocarbon and

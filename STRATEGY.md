@@ -576,9 +576,29 @@ classes:
 - **MARGINAL** — the paralogue is thermodynamically disfavoured. This is the induced-interface wedge. A useful
   degradation window needs **~2.0 kcal/mol** of true margin (median over 27 potency scenarios, range 1.75–2.25;
   [`selectivity_margin_model.py`](research/modalities/selectivity_margin_model.py)), against a best-case
-  **resolvable** difference of **1.12 kcal/mol** (replicate SD 0.7, n = 3) and a method accuracy of ~1.7 kcal/mol
-  RMSE — which does not even cover the NAGL ternary lane. Replicates shrink precision, not accuracy. **This axis
-  is a confirmation tool operating near its limit, not a discovery tool.**
+  **resolvable** difference of **0.60 kcal/mol** and a **measured** accuracy of **1.543 kcal/mol, wrong sign**.
+  **★★ BOTH HALVES OF THAT SENTENCE CHANGED ON 2026-07-30, IN OPPOSITE DIRECTIONS, AND THIS IS THE ONE HOME FOR
+  THE CURRENT PAIR.** ⚠ **Superseded, retained: a resolvable difference of `1.12 kcal/mol` at `replicate SD 0.7,
+  n = 3`, beside a *literature* accuracy of ~1.7 kcal/mol RMSE** ([Appendix
+  A](#appendix-a--superseded-numbers-and-retracted-claims) 53).
+  - **PRECISION improved, because the replicate SD stopped being assumed.** 0.60 is
+    `minimum_detectable_difference(0.375, 3)` — **DERIVED, never typed**
+    ([`selectivity_margin_model.minimum_detectable_difference`](research/modalities/selectivity_margin_model.py))
+    off the **measured** cycle SD whose one home is the RUNG 2 · replicates row of the scoreboard. The retired
+    1.12 was the same function at **SD 0.7 — a number nothing in this program had ever measured.** Two caveats
+    that travel with it and must not be dropped: the SD was measured on the **SMARCA2/VHL** calibrator and is
+    *transferred* to NR4A exactly as the cost bases are, and it is an **upper** bound on sampling-only scatter
+    because it also carries model-swap and independent-solvation variance
+    (`valb_failure_propagation.sigma_leg_now_bounded`).
+  - **ACCURACY got worse, and it is no longer a literature figure.** The one known-answer test of this exact
+    quantity class missed by **1.543 kcal/mol with the wrong sign**, and `R` localises that to an
+    **endpoint-state** error — so replicates cannot touch it.
+  - **★ SO THE BINDING CONSTRAINT ON THIS AXIS HAS MOVED FROM PRECISION TO ACCURACY.** The axis is no longer
+    "near its resolution limit" — the margin it must detect is now **~3.3× the measured noise floor** rather
+    than ~1.8×. What it lacks is a calibrated known answer for the *form* the program actually uses. **This
+    axis is an UNCALIBRATED confirmation tool, not a blunt one** — a different defect, with a different
+    remedy (a calibrator, not more sampling), and [§WHAT THE LANDED RESULTS CHANGE](#-what-the-landed-results-change-about-the-remaining-plan)
+    carries what follows from it.
 - **CATEGORICAL** — ⚠ **NARROWED 2026-07-25/26 (Lane 13, $0, before any flagship spend): the paralogue is
   structurally incapable *AT THE ALIGNED POSITION* — which is NOT the same as "a covalent bond cannot form on
   it at all", and this file asserted the stronger claim.** The sequence fact is exact and unchanged: NR4A1 and
@@ -937,13 +957,27 @@ survives causal testing."* The *decision* to commit the flagship is cheap, not a
 > But Tier 3's `S` is a **NON-COVALENT** double difference — it models no bond in either leg, so it can only
 > ever see the **pre-covalent complex**. **It is therefore structurally incapable of testing the categorical
 > mechanism.** What `S` tests is the **MARGINAL** (induced-interface, thermodynamic) wedge — the axis this file
-> already describes as *"a confirmation tool operating near its limit, not a discovery tool"* (a useful window
-> needs ~2.0 kcal/mol against ~1.12 resolvable).
+> **previously** described as *"a confirmation tool operating near its limit, not a discovery tool"* — a
+> characterisation that **no longer** stands and is **superseded** by measurement ([Appendix
+> A](#appendix-a--superseded-numbers-and-retracted-claims) 53); §MECHANISM-FIRST carries the current reading and
+> this box does not restate it.
 > **So: `S` ≈ 0 ⇒ the MARGINAL wedge is absent, and the claim rests on the CATEGORICAL axis alone. STOP only if
-> the categorical axis has ALSO failed.** Writing this down *before* the run is deliberate — a null is in fact
-> the **likely** outcome for the recommended pair (its expected NR4A3 gain is bounded by roughly one partly
-> buried H-bond, ~0.5–1.5 kcal/mol, against 1.12 resolvable), and a pre-registered reading is the only thing
+> the categorical axis has ALSO failed.** Writing this down *before* the run is deliberate — a null is a
+> **plausible** outcome for the recommended pair (its expected NR4A3 gain is bounded by roughly one partly
+> buried H-bond, ~0.5–1.5 kcal/mol), and a pre-registered reading is the only thing
 > that stops a predictable null being read after the fact as a verdict on the whole program.
+>
+> ⚠ **AMENDED 2026-07-30 8:21 PM ET — THE DECISION RULE ABOVE IS UNTOUCHED; ONE SUPPORTING FIGURE IT QUOTED IS
+> SUPERSEDED, AND THE CHANGE MAKES A NULL *MORE* INFORMATIVE, NOT LESS.** The box was written against a
+> best-case resolvable difference that was **assumed**, and against which the pair's own expected effect sat
+> *below* resolution — so a null could not be told apart from a wedge the method simply could not see, and
+> "likely" above was doing double duty for both. On the **measured** replicate SD the resolvable difference is
+> the figure now carried in §MECHANISM-FIRST, and the pair's expected effect straddles it instead of sitting
+> under it. **Consequence, and it is the whole reason this note exists: at an adequate replicate count a null
+> now BOUNDS the marginal wedge rather than merely failing to find one** — which is what turns the pre-registered
+> reading from an excuse into a result. It also makes the replicate count a *design* question rather than a
+> formality; [§Open decisions 11](#open-decisions) is where that is settled. Nothing here loosens the STOP
+> condition, and nothing here was changed after seeing an `S` — **no `S` has been computed.**
 
 | tier | test | cost | status |
 |---|---|---|---|
@@ -1721,11 +1755,16 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   reading as ubiquitination-competent (~2–4 Å) when the true separation is **~30–49 Å**. Independently
   cross-checked: `warhead_only` reported `min_A` 2.34/2.44 against a t=0 distance of **25.21 Å**.
 
-  **★ HIGHEST-LEVERAGE INFRASTRUCTURE CHANGE FOR THE WHOLE TERNARY PROGRAM (adopted as a requirement, 2026-07-25):
-  every MD driver must persist a strided heavy-atom TRAJECTORY.** Tens of MB against the ~112 MB System XML the
-  driver *already* uploads — and every analysis defect above (wrong chain split, chain-blind cysteine search, the
-  R3 unit error) would then have been correctable for **$0** instead of costing a re-run. This is the concrete,
-  general lesson from a panel that produced three data-invalidating defects and left nothing to re-derive from.
+  **★ HIGHEST-LEVERAGE INFRASTRUCTURE CHANGE FOR THE WHOLE TERNARY PROGRAM (adopted as a requirement, 2026-07-25;
+  ✅ IMPLEMENTED 2026-07-30): every MD driver must persist a strided TRAJECTORY.** Tens of MB against the ~112 MB
+  System XML the driver *already* uploads — and every analysis defect above (wrong chain split, chain-blind
+  cysteine search, the R3 unit error) would then have been correctable for **$0** instead of costing a re-run.
+  This is the concrete, general lesson from a panel that produced three data-invalidating defects and left
+  nothing to re-derive from. **The requirement stood unimplemented for the whole of that period and the
+  retrospective would have inherited the gap** — what shipped, why it is an *analysis-atom* closure rather than
+  every heavy atom, and what that does and does not buy, is in
+  [§WHAT THE LANDED RESULTS CHANGE](#-what-the-landed-results-change-about-the-remaining-plan) 4,
+  which is the one home; code: [`md_analysis_traj.py`](research/modalities/md_analysis_traj.py).
 
 ### RUNG 4 — warhead map, differential atlas, retrospective gate
 
@@ -1872,8 +1911,17 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   compensation *in any paralogue*, so `S` would have been ≈0 **by construction**. Rule now: **NR4A3 must present
   a donor and both paralogues must not.**
   **Honest expectation, recorded BEFORE the run:** NR4A1 offers *absence*, not a penalty, so the expected effect
-  is an **NR4A3 gain bounded by roughly one partly-buried H-bond (~0.5–1.5 kcal/mol) against 1.12 resolvable —
-  i.e. A NULL IS LIKELY.** Fallback fully enumerated and RDKit-verified: `vhl|M3` representative, 11 atoms,
+  is an **NR4A3 gain bounded by roughly one partly-buried H-bond (~0.5–1.5 kcal/mol)** — an effect that
+  **straddles** the resolvable difference now carried in §MECHANISM-FIRST instead of sitting under it, so **a
+  null is PLAUSIBLE and, at an adequate replicate count, INFORMATIVE.** ⚠ *The clause that stood here —
+  "against 1.12 resolvable — i.e. A NULL IS LIKELY" — quoted a resolvable figure that has since been measured,
+  and is superseded ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 53). The pre-registered
+  READING of a null is unchanged; only its informativeness moved.* ⚠ **And the replicate count is now the
+  binding design question, not the price:** as parked, the lane is **one seed per arm**, at which `S` resolves
+  only the TOP of its own expected range — see [§WHAT THE LANDED RESULTS
+  CHANGE](#-what-the-landed-results-change-about-the-remaining-plan) 3 and [§Open
+  decisions 11](#open-decisions).
+  Fallback fully enumerated and RDKit-verified: `vhl|M3` representative, 11 atoms,
   T407, 10.3 Å — **C52H65N9O9S vs C53H66N8O9S** *(per `nr4a3-linker-library-chem.json`; an earlier C₄₇H₅₅N₉O₉S / C₄₈H₅₆N₈O₉S with "66 heavy atoms" disagreed with the artifact and is superseded — the equal-heavy-atom property holds, the formulae were wrong).*
   *Remaining confounds:* modelled rotamer; double conditionality; unmeasured linker-conformer populations. **Evidence grade:** a NO-GO may be taken on
   valB_mini-grade evidence (stopping is the conservative action), but a POSITIVE result stays **exploratory**
@@ -1922,7 +1970,8 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   1. **A single leg does not determine a number.** Y29A's mean walked 2.851 → 3.951 → 4.025 → 4.424 as
      replicates landed, and its error against the reference *grew* (0.549 → 1.024). Replicates are mandatory.
   2. **The wedge's own regime is the well-determined one.** The wedge measures a *small* induced-interface
-     difference (~1.12 kcal/mol best-case resolvable) — exactly where this engine reproduces to ±0.18, not the
+     difference (the best-case resolvable figure lives once, in §MECHANISM-FIRST — this line deliberately does
+     not restate it, and the value it **originally** carried is retired there) — exactly where this engine reproduces to ±0.18, not the
      ±1.08 the hot spot suggests. Encouraging for the wedge, and it means **the right validation for 5a-KS is a
      benchmark sized like the wedge**, not a hot-spot knockout. **That benchmark does not exist yet**, and until
      it does the confirmatory line may not claim to resolve a paralogue-scale difference.
@@ -2020,9 +2069,15 @@ matter what we bid. Dominant uncertainties, in order: the **ensemble-MD leg coun
 
 **What survives every reprice.** The six cost levers are **ratios** — 4 fs halving force evaluations, the exact
 binary/solvent cancellation, sequential stopping — so they are independent of $/hr and of system heaviness. And
-**none of this weakens the mechanism-first case**: the argument was never that GPU work is expensive in the
-absolute, but that spending it on an axis needing ~2.0 kcal/mol when the method resolves 1.12 is a bad trade at
-*any* price, and the $0 categorical screens dominate either way.
+**none of this weakens the mechanism-first case** — but ⚠ **one of the two arguments that used to carry it has
+been retired by measurement and must not be re-quoted.** The *precision* argument — *"spending on an axis
+needing ~2.0 kcal/mol when the method resolves 1.12 is a bad trade at any price"* — **no longer holds**, because
+the resolvable difference was assumed and is now measured (§MECHANISM-FIRST; [Appendix
+A](#appendix-a--superseded-numbers-and-retracted-claims) 53). **Two arguments survive intact and they are
+sufficient on their own:** (i) a **categorical** handle needs *no* margin at all, so it is not competing with
+the marginal axis for resolution; and (ii) the categorical screens are **$0 CPU** and therefore dominate on
+cost at any noise floor. What the correction does change is the marginal axis's **rank**, not its **order** —
+it is worth confirming, and §MECHANISM-FIRST says on what condition.
 
 | Rung | GPU work | Step $ (low–high) | Cum. (mid) |
 |---|---|---|---|
@@ -2083,6 +2138,149 @@ RUNG6  fold ──► redteam ──► post/submit                             
 OPTIONAL/HELD (explicit nod only): dg_open_paralogue, abfe_conditional (incl. the λ-repair)
 ```
 
+## ★★ WHAT THE LANDED RESULTS CHANGE ABOUT THE REMAINING PLAN
+
+*Written 2026-07-30 8:21 PM ET, with nothing billing and the fixed scope closed.
+Everything above this line records what happened. **This section is the only place that says what it means for
+what is still UNBOUGHT**, and it exists because most of what follows is a correction to a load-bearing INPUT of
+the plan rather than a new piece of work: with the fixed scope closed and nothing billing, the remaining ladder
+was still being steered on three numbers that had never been measured and one requirement that was never
+implemented. Per rule 1 nothing here restates a figure that has a home elsewhere — each item points at its
+home and carries only the CONSEQUENCE.*
+
+**The one-line reading. The program's blocker is no longer precision and is no longer money — it is that the
+flagship quantity `S` has never had a known answer, and, as parked, cannot report its own most likely result.**
+
+### 1 · The axis the plan demoted was demoted on an assumption that has since been measured
+
+§MECHANISM-FIRST is the home for the numbers; the strategic consequence is here, and it is a **re-rank, not a
+re-order**:
+
+- **Mechanism-first survives untouched.** A categorical handle needs no margin at all, and the categorical
+  screens are $0 — either argument alone is sufficient, and Tier 0/1/2 all passed on that basis.
+- **But the marginal axis was written off as a *discovery* tool for a reason that no longer holds**, and the
+  §Spend summary paragraph that quoted it is corrected in place. Its problem was never really resolution; the
+  measured accuracy failure is a *different* defect with a *different* remedy. **Remedy for a blunt tool: more
+  sampling. Remedy for an uncalibrated one: a calibrator.** The plan has been buying neither.
+- **⚠ The correction cuts against my own reading as well as for it, and both halves must be carried.** A better
+  noise floor does **not** make a 2.0 kcal/mol induced-interface margin *exist* — that is a property of the
+  designed molecule, not of the instrument. It only means that **if** one exists, this pipeline can now be
+  shown to resolve it.
+
+### 2 · The FAIL was measured on the WORST-cancelling form of the quantity; the flagship uses the BEST-cancelling one
+
+The algebra already lives in [`valb_failure_propagation.error_algebra`](research/modalities/valb_failure_propagation.py)
+and is **not restated here**. What had not been drawn out of it is the planning consequence: `ΔΔG_coop` — the
+quantity that failed at 1.543 kcal/mol — differences two environments **that differ by a whole protein chain**,
+while `S` differences **one morph of one atom across two homologous pockets at matched ternary architecture**.
+They are opposite ends of the same cancellation spectrum, and the program measured the bad end and then priced
+the good end as though the result transferred.
+
+**⚠ THIS IS NOT A LICENCE AND MUST NEVER BE QUOTED AS ONE.** *"Not implicated"* is an **argument**, not a
+measurement — the file's own words. A per-endpoint error that differs **between the NR4A3 and NR4A1 pockets**
+cancels from neither `S` nor anything else this program runs, and no check we own can see it
+(`s_resolvability_from_R_ternary._blind_spot_stated`). The correct conclusion is narrow and it is enough:
+**the valB FAIL is not a reason to leave `S` unbought — it is a reason `S` needs its own known answer.**
+
+### 3 · ★ 5a-KS AS PARKED CANNOT REPORT ITS OWN MOST LIKELY RESULT — a DESIGN defect, and only the PRICE one is on the board
+
+[`valb_failure_propagation.s_error_bar_scope`](research/modalities/valb_failure_propagation.py) computes it and
+is the one home: at **one seed per arm** — which is exactly what the two parked legs are — `S` resolves only the
+**top** of its own designed effect range. The pre-registered expectation is that the effect sits **inside** that
+range. **So the configuration that is parked buys, in its likely case, a number that cannot answer its own
+question — the identical defect as valB_mini at n = 1, on the lane that was supposed to have learned it.**
+
+**★ THE $0 CHECK THAT ITEM OWED IS NOW DONE, AND THE ANSWER IS FAVOURABLE.** `s_error_bar_scope` flagged
+*"CHECK BEFORE BUYING: whether the 5a-KS co-fold staging has the same seed→model wrap is UNVERIFIED here and
+must be checked, not assumed, or the second seed re-runs the first model and buys no independence."* Checked
+against the source rather than assumed:
+
+- The wrap that motivated the warning is **`ternary_pdb_stage.py`'s `starting_model_index = SEED % n_models`,
+  and it is gated on `target_acc == "P51532"`** — the SMARCA4 template, i.e. the valB calibrator's homology
+  substitution. **It cannot reach a 5a-KS leg**, which stages through `nr4a3_5aks_stage` against a CRBN co-fold.
+- 5a-KS is **one co-fold per species BY DESIGN** (`nr4a3_5aks_stage` docstring: both endpoints are staged from
+  one pose, deliberately, so the alchemical transformation does not have to absorb a pose difference).
+- `nr4a3_ternary_fep` seeds each replica's sampler, so **a second seed is genuinely independent SAMPLING**.
+
+**Consequence, stated in both directions.** A second seed **does** buy a real replicate SD — the blocker is
+cost, not machinery. It **does not** buy co-fold-pose independence, by construction, so an `S` replicate SD
+measures sampling scatter *within one pose* and the pose stays a stated conditional. That is a limit to declare,
+not a reason to stay at n = 1: **an error bar that covers one of two error sources beats no error bar at all**,
+and n = 1 covers neither.
+
+**The parked row on the IN FLIGHT board is therefore parked for TWO reasons and lists one.** The price gate is
+real and its refusal was correct. But `s_resolvability_from_R_ternary` reads **ADMIT** on the landed
+`R_ternary` — the *science* gate says buy — so if the market opens tomorrow the lane would resume **in the
+configuration this item says is under-powered.** Settling the count is therefore **more urgent than the price**,
+and it is [§Open decisions 11](#open-decisions).
+
+### 4 · ✅ FIXED — a REQUIREMENT this file adopted had never been implemented on the driver whose loss created it
+
+RUNG 3 records *"the highest-leverage infrastructure change for the whole ternary program (adopted as a
+requirement, 2026-07-25): every MD driver must persist a strided heavy-atom TRAJECTORY"*, because the NR-V04
+panel's three data-invalidating defects would each have been correctable for **$0** instead of costing a re-run.
+**Measured against the source on 2026-07-30, ten months of that requirement had produced nothing on the one
+driver that needed it: `nrv04_covalent_md.py` had no trajectory reporter at all** — it reduces in-loop and
+discards positions, which is the exact mechanism `nrv04_result_forensics` recorded as
+`trajectory_objects_found: 0`. Every endpoint-MD lane that *does* comply (`nr4a3_md`, `nr4a3_metad`,
+`nr4a3_md_release`, `nr4a_paralogue_release`) carries a `DCDReporter`; the one that lost everything did not.
+**And the NR-V04 retrospective SHARES THAT DRIVER**, so the 18-leg holdout would have repeated the
+irrecoverability that retired the panel it descends from.
+
+**✅ BUILT AND WIRED 2026-07-30, $0** — [`md_analysis_traj.py`](research/modalities/md_analysis_traj.py),
+mirrored to S3 on the driver's existing per-checkpoint hook (upload-as-written, per CLAUDE.md's checkpoint
+rule) and with its own receipt in every leg's result JSON, so a leg that silently failed to persist coordinates
+is visible in the artifact the collector already reads. 11 tests, all runnable in the dev sandbox.
+**⚠ IT IS DELIBERATELY NOT A FULL HEAVY-ATOM TRAJECTORY, and the honest version of that is the point:** full
+heavy-atom on a ~466k-atom solvated assembly is ~2.8 MB/frame, i.e. hundreds of MB per leg — outside the "tens
+of MB against the ~112 MB System XML the driver already uploads" the requirement was costed at, which is
+plausibly why it was adopted and never done. What ships instead is the **closure of the atoms every readout in
+this lane consumes** — every protein CA, every Cys SG, every Lys NZ, every non-polymer heavy atom — at ~1k
+atoms and single-digit MB per leg. **All three historical defects become $0 re-derivations** (a test asserts
+exactly that, atom by atom); an analysis nobody anticipated over a dropped sidechain does not, and
+`select_analysis_atoms(all_heavy=True)` is there for a leg that can afford the bytes. **The cheap 95 %,
+labelled as such in the file's own manifest**, beats a complete record that stays unwritten.
+
+### 5 · The NR-V04 retrospective's own gate can no longer be satisfied by anything
+
+Its **Gate** reads *"Val B-full + NR-V04 feasibility + Step 1 fan-out."* The fan-out is **DONE**; the
+feasibility panel is **WITHDRAWN**, not merely paused; and valB_full sits behind a module-1 gate that
+[§Open decisions 9](#open-decisions) has just **declined to amend, correctly**. Two of the three preconditions
+are therefore not pending — they are **unreachable**. An item that is "built, preregistered and idle" behind a
+gate that cannot fire is not being held; it is being **abandoned without saying so**, which is the failure mode
+this file's own §Current front paragraph was corrected for. **It needs a decision either way**, and it is
+[§Open decisions 12](#open-decisions).
+
+### 6 · Ranking what is left by DECISION VALUE PER DOLLAR — not by dollars
+
+*Cheapest-decisive-first is a rule about **decisiveness ÷ cost**, and the ladder has lately been ordered on the
+denominator alone. The lane that spent the most this month (~$74, the fan-out) returned a **single-conformer,
+single-replicate, one-cycle-open** map that the paper can only report as provisional, while the three items
+that could change what the program CONCLUDES cost $0, $0 and low-tens-of-dollars and are unbought. That is not
+an argument the fan-out was wrong — it is §2.9 and it is real — it is an argument about **ordering**, and it is
+the ordering below.*
+
+| rank | what | $ | why it ranks here |
+|---|---|---|---|
+| 1 | **Re-anchor the paper's resolvability argument on the measured SD** | **$0** | The paper currently states the *assumed* SD in §2.10/§4/§5 while **reporting the measured one in §2.11** — one fact, two values, in one document. Done in this pass |
+| 2 | ~~**Wire the strided-trajectory requirement into `nrv04_covalent_md`**~~ ✅ **DONE 2026-07-30** | **$0** | Item 4. It was a hard precondition on the only built-and-unlaunched GPU item we own, and it is now met |
+| 3 | **Settle the `S` replicate count BEFORE the market re-opens** | **$0 to decide** | Item 3. The lane will otherwise resume in the under-powered configuration the moment price allows |
+| 4 | **`S` at n ≥ 2 per arm** — the flagship kill-switch, correctly sized | **≈2× the parked ~$12** | The only unrun test of the program's headline causal claim, and the increment is what makes its *likely* answer readable. [Open decision 11](#open-decisions) |
+| 5 | **NR-V04 retrospective, Arm E (R1 only, 18 legs)** | **≈$7.7** | A *new axis of evidence* (biological holdout), built and preregistered, with a registered MDE — CLAUDE.md §5's "default YES". Blocked only by item 5's dead gate |
+| 6 | **A known-answer calibrator for the `S`-shaped quantity** | **unpriced** | The real gap [Open decision 9](#open-decisions) exposed. It unlocks nothing on its own and must obey decision 9b's binding requirement (reference data and structure on the **same** protein), so it follows 4 rather than leading it |
+| — | **More replicates on `ΔΔG_coop` / a rescoped valB edge** | — | **Explicitly NOT on this list.** `R` says the miss is endpoint-state; replicates shrink variance, not bias; [decision 6](#open-decisions) closed it |
+
+**★ AND THE PAPER IS CLOSER TO SHIPPABLE THAN THE LADDER IMPLIES.** Ranks 1–3 are **$0**, ranks 4–5 together
+are **low tens of dollars**, and the flagship's tail (5c + 5d, priced in their own rung entries — not restated
+here) is gated behind a causal result that rank 4 either delivers or honestly bounds. **Nothing on this list is
+a multi-hundred-dollar commitment**, and no item above needs the prospective NR4A ternary matrix that
+[decision 9](#open-decisions) correctly left locked. ⚠ **The corollary is a stopping condition, and it is worth
+stating because "state of the art" can drift into "never finish":** once rank 4 reads out, **every result the
+paper's current claims rest on has either landed or been honestly bounded** — what remains after that is the
+tail that a *positive* `S` would unlock, and a paper reporting a bounded null does not wait for it.
+
+---
+
 ## Current front
 
 Rungs 0–1 are done. The Tier-0 unique-residue map and the differential atlas are done ($0, both PASS). The
@@ -2102,6 +2300,16 @@ the board said nothing was, which is a rule-1 defect in the one direction that m
 
 **Built and idle, awaiting a go or a decision:**
 - **The NR-V04 retrospective** — built, preregistered, never launched; next launch is a pilot, not a fan-out.
+  ⚠ **"Awaiting a go" overstates it, and the correction is the point:** its own gate names two preconditions
+  that are **unreachable**, and its driver does not meet a requirement this file adopted. Both are in
+  [§WHAT THE LANDED RESULTS CHANGE](#-what-the-landed-results-change-about-the-remaining-plan) 4–5;
+  the decision is [§Open decisions 12](#open-decisions).
+
+**★ WHAT IS ACTUALLY NEXT is not on this page.** This section says what is *idle*; it has never said what to do
+first, and while the fixed scope was closing that gap did not matter. It does now — nothing is billing, so the
+next thing to happen is a *choice* rather than a result landing. The ranked list, the reasoning and the prices
+are in [§WHAT THE LANDED RESULTS CHANGE](#-what-the-landed-results-change-about-the-remaining-plan) 6,
+which is their one home; **this paragraph deliberately does not restate the order.**
 
 **Closed earlier:** the 5a-KS confirmatory protein-mutation benchmark **qualified** (RUNG 5a-KS), moving the
 ladder's only unscoped rung from UNPRICED to *projected*. Nothing with a GPU price launches without an explicit
@@ -2298,6 +2506,69 @@ dollar ceiling.
    and a discordance would be uninterpretable. Derived in
    [`valb_failure_propagation.error_algebra`](research/modalities/valb_failure_propagation.py). *Not
    load-bearing* — the paper's headline causal result is already stated as not hostage to it.
+11. **`[ ]` OPEN — HOW MANY SEEDS PER ARM DOES `S` GET? This is trimcrae's, because it is a multi-leg GPU
+    spend; everything else about it is settled and free.** ⚠ **It must be settled BEFORE the market re-opens,
+    not after**: the relaunch price gate is the only thing currently holding the lane, and `R_ternary` already
+    reads **ADMIT** on the science gate — so the next cheap offer resumes 5a-KS in the **n = 1 per arm**
+    configuration that
+    [§WHAT THE LANDED RESULTS CHANGE](#-what-the-landed-results-change-about-the-remaining-plan) 3
+    shows cannot report its own likely answer.
+    **RECOMMENDED — n = 2 per arm (4 legs; the 2 parked legs plus 2 more), for roughly double the parked
+    ladder figure.** The reasoning is this repo's own litmus test, applied to the *design* instead of the
+    sequence: *is there a result the extra pair could return that changes what we do?* **Yes — a readable
+    null.** The pre-registered expectation is that the effect sits inside the range `S` can only half-resolve
+    at n = 1, so the increment is what converts the **likely** outcome from an uninterpretable non-result into
+    a **publishable bounded negative** — the same argument that made valB-mini "the highest-value dollar in
+    the plan", now applied to the test valB-mini was supposed to certify. The $0 machinery check is **done**
+    and favourable (item 3); the seeds are genuinely independent.
+    **The alternatives, stated fairly.** *(a) Finish as parked (n = 1, ~$12 total, ~$1.5 already banked):*
+    cheapest, retires the paper's *"the causal test has not been run"*, and is enough **if** `S` comes back
+    large. Its failure mode is the likely case. *(b) n = 3 per arm (6 legs):* the repo's stated replicate
+    standard, and it brings the resolvable difference down to the figure in §MECHANISM-FIRST — but the second
+    seed buys most of the readability and the third is the shallow part of a `1/√n` curve, so it is the
+    "deepening past field standard" CLAUDE.md §5 defaults against. *(c) Don't buy:* defensible only if the
+    paper is content to ship with its headline causal test unrun, which contradicts the North Star.
+    **What I would do, and would not do without a nod:** buy (b)-minus — the 2 parked legs plus 2 more, at
+    n = 2 — and read a null as a bound rather than an absence. **Not proposed:** re-running the parked legs
+    from scratch (their checkpoints are intact and durable) or extending them (more sampling on one seed buys
+    precision that `S` does not lack).
+12. **`[ ]` OPEN — DOES THE NR-V04 RETROSPECTIVE RUN, OR IS IT FORMALLY RETIRED? It cannot stay "idle".**
+    Its gate names **valB_full** and the **NR-V04 feasibility panel**; the first is behind a module-1 gate
+    [decision 9](#open-decisions) has just declined to amend, and the second is **WITHDRAWN**. Neither is
+    coming. Leaving it listed as built-and-awaiting-a-go is the *appearance* of a plan for ~$7.7 of work that
+    nothing can authorise.
+    **RECOMMENDED — a SCOPE correction to the gate, not an amendment to a rule, and only after the $0
+    precondition below.** The argument, and it is deliberately narrow: **valB calibrates the ternary-FEP
+    cooperativity lane, and the retrospective's authorised readout (`R1`, Arm E, 18 legs) is not in that
+    lane** — it is an **endpoint-MD geometric contrast reported in Ångström**, with its own registered MDE
+    (leg-to-leg σ 0.855 Å, 80 % power at 1.5–2.0 Å) and its own preregistered *directional-concordance-only*
+    claim ceiling. A gate that names a control which does not cover the quantity is a **scope** defect, and it
+    reads as one in the direction that matters: this is a *biological holdout*, i.e. exactly the kind of **new
+    axis of evidence** CLAUDE.md §5 defaults YES to. ⚠ **The integrity test it must pass, stated because the
+    repo forbids the retune this could be mistaken for:** amending a gate after a failing result is forbidden
+    — **but there is no result here to rescue.** The retrospective has never run, so no verdict exists that
+    this correction could be motivated by disliking. That is the difference between this and
+    [decision 9](#open-decisions), where a real NO existed and the gate was correctly left standing.
+    **HARD PRECONDITION — ✅ NOW MET, $0.** The shared driver had to persist a durable trajectory first, because
+    launching 18 legs on a driver that discards positions repeats, exactly, what made the parent panel
+    unrecoverable. Built and wired 2026-07-30 (item 4 above), so **this decision is no longer blocked on
+    engineering — only on the call.** **If the decision is no, retire it explicitly** with the reason on the
+    record — a named retirement is a result; an indefinite hold is not.
+13. **`[x]` SPLIT 2026-07-30 — the "`S` has no calibrator" gap is TWO items, and the free half is now DONE.**
+    [Decision 9](#open-decisions) recorded the gap as one thing and left it unsequenced, which is why it never
+    acquired a rung. It separates cleanly:
+    - **(a) Can a null `S` be READ? — a power/MDE question, $0, and it needs no known answer at all.** It is
+      arithmetic on measurements this program already owns, and it is what item 3 above just did. **Done.**
+      This is the half that actually gates the 5a-KS spend, and it was never the expensive half.
+    - **(b) Can a non-null `S` be called CALIBRATED? — a known-answer question, and it is the paid one.** It
+      stays deferred, behind [decision 9b](#open-decisions)'s binding requirement (pick a pair whose reference
+      data and structure sit on the **same** protein) and [decision 7](#open-decisions)'s (no accuracy band
+      wider than the signal being calibrated). ⚠ **It does not gate item 11**, and conflating the two is what
+      made the gap look unaffordable: a *bounded null* needs (a) only, and a bounded null is the
+      pre-registered likely outcome.
+    **Consequence for the ladder:** `S` may be bought and read as a **bound** now; it may not be reported as
+    calibrated until (b) exists. Both statements can be true in the same paper, and saying so is cheaper and
+    more honest than waiting for (b) to buy (a)'s answer.
 
 ---
 
@@ -2364,6 +2635,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 50 | The step-1 fan-out map reported as complete **with no cycle-closure readout at all**, in this file and in the paper's §2.9, while all three of `cycle_3carbonyl`'s edges were quoted unflagged | **The closures were computed and landed with the map; they had simply reached no document.** Two of three close (**−0.726**, **−0.756**, tolerance ±1.0); **`cycle_3carbonyl` sums to +1.307 — VIOLATION**, so by the artifact's own rule at least one of its three edges is unconverged or mis-mapped and all three now carry that reservation where they are quoted. Nothing about the map's counts or spend changes. Separately fixed in the same pass: `cycle_closure`'s `signed_terms` zipped the caller's **declaration-order** edge ids against `_walk_cycle`'s **walk-order** values, mislabelling which edge carried which value in every cycle where the two orders differ. `sum_kcal` is order-independent and was never wrong, which is why it went unnoticed; pinned now by `test_signed_terms_label_each_edge_with_its_OWN_ddg` |
 | 51 | The valB_mini miss quoted as **1.466** (paper §2.11) and **1.478** (SI §S11, and this file's live text in two places), with the derived ratio **"~33× the statistical uncertainty"** in the paper's abstract, §2.11, §5 and the SI — and the **abstract still reporting the r0-only headline ΔΔG_coop = −0.522** | **All superseded by the landed n = 3 replicates, and the paper's own Appendix A already said so while its abstract did not** — a document contradicting itself four sections apart, which is the failure mode rule 1 exists to catch. Live values: mean **−0.599**, abs error **1.543**, ratio **~34×**. 1.466 is the r0-only reading after the restrained binary re-run (row 44); **1.478 is the reading before it, i.e. superseded twice over**, and it was still live in the SI on 2026-07-30. Nothing about the conclusion moves — the sign was wrong at every one of the three values, which is why the correction is a bookkeeping one and is recorded rather than argued |
 | 52 | The generation-matched null's comparison block reporting **`p_value: 0.0`, `enrichment: Infinity`, `exceeds_chance: true`** and the verdict *"real campaign produced a survivor the control objectives NEVER manufactured → survival is not a generic funnel artifact"* | **Every measured count in that artifact is correct and unchanged; the statistics derived from them were not.** `false_positive_rate` returned a per-molecule control rate of exactly **0** — a point estimate from a *single* 191-molecule campaign — and `compare_campaigns` then divided by it, so any real survivor was infinitely enriched at p = 0 **by construction**, independently of the evidence. The honest reading is the **rule-of-three bound**: 0 events in 191 generations puts the manufactured rate at **≤0.0157 (one-sided 95 %)**, which is **3× the real campaign's own 0.0052**, so the confound is **narrowed, not excluded**; one-sided Fisher for 1/191 vs 0/191 is **p = 0.5**. Fixed at the source (`per_molecule_fp_rate_upper95`, and the zero branch now grades the real rate against that bound), retired in place in the artifact's `_superseded` block, and pinned by two tests — one of which previously asserted the overclaim. The artifact was also **not strict JSON** while it carried a bare `Infinity`; it is now |
+| 53 | The marginal axis's **best-case resolvable difference of 1.12 kcal/mol** at an assumed **replicate SD 0.7, n = 3**, quoted beside a **literature** accuracy of **~1.7 kcal/mol RMSE** — live in five places in this file (the MECHANISM-FIRST definition, the Tier-3 semantics box, the 5a-KS honest expectation, the pmx noise-structure block, the Spend-summary defence of mechanism-first) and three in the paper (§2.10, §4, §5). With it, the derived reading **"the marginal axis is a confirmation tool operating near its LIMIT"** and the Spend-summary claim that spending on it *"is a bad trade at any price"* | **The SD was never measured; the n = 3 valB_mini replicates measured it at 0.375**, and the same function on the measured value gives **0.60** — the noise floor is ~1.9× better than the plan had been assuming, so the required margin sits at **~3.3× the floor rather than ~1.8×**. In the same landing the **accuracy** stopped being a literature figure and became a measured one that is **worse**: 1.543 kcal/mol with the **wrong sign** on this exact quantity class, localised by `R` to an **endpoint-state** error that replicates cannot touch. **So the axis is UNCALIBRATED, not blunt** — the two defects have different remedies, and the plan was buying neither. ⚠ **What did NOT change, and must not be inferred:** the mechanism-first *order* (a categorical handle needs no margin, and the categorical screens are $0 — either argument alone carries it), and the fact that a better noise floor cannot make a 2.0 kcal/mol margin *exist*. Derived, never typed: `selectivity_margin_model.minimum_detectable_difference`; consequences in §WHAT THE LANDED RESULTS CHANGE |
 
 ---
 

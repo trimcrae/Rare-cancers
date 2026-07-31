@@ -2,8 +2,12 @@
 
 > **Lane doc (LANE 13).** Tier 2's GO was won on the **CATEGORICAL** basis: NR4A3 carries reactive residues
 > both paralogues lack, so the paralogues are structurally *incapable* rather than merely disfavoured. That
-> basis matters because the **marginal** axis needs ~2.0 kcal/mol against ~1.12 resolvable and is explicitly
-> *"a confirmation tool operating near its limit, not a discovery tool."*
+> basis matters because the **marginal** axis needs ~2.0 kcal/mol against a resolvable difference this lane doc
+> **originally** put at ~1.12, calling it *"a confirmation tool operating near its limit, not a discovery tool."*
+> ⚠ **Both quotations are SUPERSEDED and retained only as the framing this lane ran under** — the replicate SD
+> was measured on 2026-07-30 and the current pair lives once, in STRATEGY.md §MECHANISM-FIRST (Appendix A row
+> 53). **Nothing in this lane's result depends on either**: it is a categorical, geometric measurement, and the
+> quotation appears here only to say why the categorical basis was worth testing.
 >
 > The NR4A3 side of the categorical case is now well characterised over 100 conformers. **The paralogue side
 > had only ever been tested on ONE static opened conformer each**, and STRATEGY.md names the matched paralogue
