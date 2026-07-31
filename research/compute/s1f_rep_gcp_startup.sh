@@ -10,6 +10,14 @@
 #     (1) --max-run-duration + --instance-termination-action=DELETE, set at CREATE, enforced by GCE;
 #     (2) the reap step at the head of every gpu-fanout-rep-gcp.yml dispatch, whose predicate is
 #         gcp_fanout_rep.reap_decision — evidence, never age.
+# ⚠ AND THE SECOND PIECE OF EVIDENCE IT OWES: `BOOTSTRAP-FAIL <cause>`. Measured 2026-07-31 7:20 PM ET, on
+# the first real leg: the parity guard refused, this script exited 3 — and the VM kept holding the account's
+# ONE GPU with nothing on it, because a run writes no ddg.json and the reaper's only run-mode evidence was
+# that object. Its bound was the 48 h create-time cap, for a job that died in four minutes. So every
+# PRE-MD failure now marks `BOOTSTRAP-FAIL`, which is a DISTINCT prefix from the smoke's own SMOKE-OK /
+# SMOKE-FAIL precisely so it is unambiguous in either mode: it can only be written before `run_leg` is ever
+# called, so no sampling has started and no checkpoint exists, and the reaper may act on it in ANY mode.
+#
 # What this script DOES owe the reaper is the evidence it keys on: the unit's ddg.json in GCS. That upload
 # is the last thing it does, and everything before it is checkpointed so a boundary loses latency, not work.
 #
@@ -70,12 +78,12 @@ export DEBIAN_FRONTEND=noninteractive
 if ! command -v docker >/dev/null 2>&1; then
   echo "[s1f-gcp] installing docker.io (this image has none)"
   apt-get update -qq && apt-get install -y -qq docker.io \
-    || { echo "[s1f-gcp] FATAL: docker.io install failed"; mark "SMOKE-FAIL docker-install"; exit 3; }
+    || { echo "[s1f-gcp] FATAL: docker.io install failed"; mark "BOOTSTRAP-FAIL docker-install"; exit 3; }
 fi
 systemctl enable --now docker >/dev/null 2>&1 || true
 for i in $(seq 1 18); do docker info >/dev/null 2>&1 && break; sleep 5; done
 docker info >/dev/null 2>&1 \
-  || { echo "[s1f-gcp] FATAL: docker daemon will not start"; mark "SMOKE-FAIL docker-daemon"; exit 3; }
+  || { echo "[s1f-gcp] FATAL: docker daemon will not start"; mark "BOOTSTRAP-FAIL docker-daemon"; exit 3; }
 echo "[s1f-gcp] docker up: $(docker --version)"
 
 if ! docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi -L >/dev/null 2>&1; then
@@ -84,39 +92,39 @@ if ! docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi -
   # --batch --yes: no tty here (measured above). Without them the keyring is silently never written.
   curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
     | gpg --batch --yes --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-    || { echo "[s1f-gcp] FATAL: could not write the NVIDIA keyring"; mark "SMOKE-FAIL nvidia-keyring"; exit 3; }
+    || { echo "[s1f-gcp] FATAL: could not write the NVIDIA keyring"; mark "BOOTSTRAP-FAIL nvidia-keyring"; exit 3; }
   test -s /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-    || { echo "[s1f-gcp] FATAL: NVIDIA keyring is empty"; mark "SMOKE-FAIL nvidia-keyring-empty"; exit 3; }
+    || { echo "[s1f-gcp] FATAL: NVIDIA keyring is empty"; mark "BOOTSTRAP-FAIL nvidia-keyring-empty"; exit 3; }
   curl -fsSL https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
     | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
     > /etc/apt/sources.list.d/nvidia-container-toolkit.list
   apt-get update -qq && apt-get install -y -qq nvidia-container-toolkit \
-    || { echo "[s1f-gcp] FATAL: nvidia-container-toolkit install failed"; mark "SMOKE-FAIL nvidia-toolkit"; exit 3; }
+    || { echo "[s1f-gcp] FATAL: nvidia-container-toolkit install failed"; mark "BOOTSTRAP-FAIL nvidia-toolkit"; exit 3; }
   nvidia-ctk runtime configure --runtime=docker && systemctl restart docker && sleep 8
 fi
 docker run --rm --gpus all nvidia/cuda:12.4.1-base-ubuntu22.04 nvidia-smi -L \
-  || { echo "[s1f-gcp] FATAL: no GPU inside docker"; mark "SMOKE-FAIL no-gpu-in-docker"; exit 3; }
+  || { echo "[s1f-gcp] FATAL: no GPU inside docker"; mark "BOOTSTRAP-FAIL no-gpu-in-docker"; exit 3; }
 mark docker-gpu-ok
 
 # --- the image: PULL, DON'T SOLVE (CLAUDE.md §6) --------------------------------------------------------
 # The SAME image the Vast fan-out runs, so openfe/openmmtools/pymbar are the versions that produced the
 # n=0 edges this replicate is meant to be commensurable with.
-docker pull "$IMAGE" || { echo "[s1f-gcp] FATAL: image pull failed"; mark "SMOKE-FAIL image-pull"; exit 3; }
+docker pull "$IMAGE" || { echo "[s1f-gcp] FATAL: image pull failed"; mark "BOOTSTRAP-FAIL image-pull"; exit 3; }
 mark image-pulled
 
 # --- the repo code (the image supplies the ENV, the checkout supplies the CODE) --------------------------
 mkdir -p /work && cd /work
 curl -Ls "https://github.com/trimcrae/Rare-cancers/archive/refs/heads/${GITREF}.tar.gz" | tar xz
 CODE=$(echo /work/Rare-cancers-*/research/modalities)
-test -f "$CODE/nr4a3_rbfe.py" || { echo "[s1f-gcp] FATAL: no engine at $CODE"; mark "SMOKE-FAIL no-code"; exit 3; }
+test -f "$CODE/nr4a3_rbfe.py" || { echo "[s1f-gcp] FATAL: no engine at $CODE"; mark "BOOTSTRAP-FAIL no-code"; exit 3; }
 
 # --- the COMMON-MODE staged inputs, from GCS ------------------------------------------------------------
 # A byte-verified mirror of the tree every n=0 edge read (gpu-fanout-rep-gcp.yml mode=mirror). This lane
 # never re-stages: re-embedding the poses would move the shared core and quietly stop this being a replicate.
 mkdir -p /work/in /work/out
 "$GS" storage cp -r "$STAGE_URI/*" /work/in/ >/dev/null 2>&1
-test -s "/work/in/ligand/docked_${RECEPTOR}.sdf"  || { echo "[s1f-gcp] FATAL: staged ligand SDF missing"; mark "SMOKE-FAIL no-ligand"; exit 3; }
-test -s "/work/in/receptor/${RECEPTOR}-opened.pdb" || { echo "[s1f-gcp] FATAL: staged receptor PDB missing"; mark "SMOKE-FAIL no-receptor"; exit 3; }
+test -s "/work/in/ligand/docked_${RECEPTOR}.sdf"  || { echo "[s1f-gcp] FATAL: staged ligand SDF missing"; mark "BOOTSTRAP-FAIL no-ligand"; exit 3; }
+test -s "/work/in/receptor/${RECEPTOR}-opened.pdb" || { echo "[s1f-gcp] FATAL: staged receptor PDB missing"; mark "BOOTSTRAP-FAIL no-receptor"; exit 3; }
 mark staged
 
 # --- the per-leg env, written by congeneric_fanout.unit_env on the control plane -------------------------
@@ -147,7 +155,7 @@ RUN /opt/mamba/envs/rbfe/bin/pip install --no-cache-dir google-cloud-storage
 DEOF
   BASE_IMAGE="$IMAGE"
   docker build -q --build-arg BASE="$BASE_IMAGE" -t s1frep:gcs -f /work/Dockerfile.gcs /work \
-    || { echo "[s1f-gcp] FATAL: could not add google-cloud-storage"; mark "SMOKE-FAIL no-gcs-lib"; exit 3; }
+    || { echo "[s1f-gcp] FATAL: could not add google-cloud-storage"; mark "BOOTSTRAP-FAIL no-gcs-lib"; exit 3; }
   # ★★ PARITY IS THE SCIENTIFIC ARGUMENT (CLAUDE.md §6), SO PROVE IT RATHER THAN HOPE.
   # `pip install google-cloud-storage` drags in protobuf/grpcio/requests and is free to UPGRADE a shared
   # dependency while it is there. If it moved numpy, scipy, pymbar, openmmtools or openfe, this replicate
@@ -163,7 +171,7 @@ DEOF
     echo "[s1f-gcp]   after : $NEW_PARITY"
     echo "[s1f-gcp] Fix by adding google-cloud-storage to research/compute/Dockerfile.nr4a3fep and re-baking"
     echo "[s1f-gcp] ONCE, which is what CLAUDE.md §6 prescribes for a genuinely missing dep."
-    mark "SMOKE-FAIL parity-moved"; exit 3
+    mark "BOOTSTRAP-FAIL parity-moved"; exit 3
   fi
   IMAGE=s1frep:gcs
   GCSFIX="google-cloud-storage added on top of $BASE_IMAGE; openfe/openmmtools/pymbar/numpy/scipy VERIFIED unmoved ($NEW_PARITY)"

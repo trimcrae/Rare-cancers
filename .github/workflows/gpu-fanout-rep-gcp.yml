@@ -118,8 +118,15 @@ jobs:
             # progress, not termination, and are never consulted.
             UURI=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$EDGE_L" --replicate "${REP_L:-1}" \
                      --pick 0 --bucket "$BUCKET" --shell 2>/dev/null | sed -n 's/^UNIT_URI=//p')
-            PH=""
-            [ "${MODE_L:-run}" = smoke ] && PH=$(gcloud storage cat "$UURI/smoke/phase.txt" 2>/dev/null | tail -1 || true)
+            # The phase is read in BOTH modes now. A `run` writes its markers at $UURI/phase.txt and a
+            # smoke at $UURI/smoke/phase.txt; the predicate decides what each one licenses. Reading it only
+            # for smokes is the gap the first real leg found: a run that died in bootstrap had no evidence
+            # any reaper could act on and sat on the account's ONE GPU until its 48 h cap.
+            if [ "${MODE_L:-run}" = smoke ]; then
+              PH=$(gcloud storage cat "$UURI/smoke/phase.txt" 2>/dev/null | tail -1 || true)
+            else
+              PH=$(gcloud storage cat "$UURI/phase.txt" 2>/dev/null | tail -1 || true)
+            fi
             OUT=$(python3 research/modalities/gcp_fanout_rep.py reap --edge-id "$EDGE_L" --replicate "${REP_L:-1}" \
                     --vm-created "$CREATED" --result-updated "$UPD" \
                     --vm-mode "${MODE_L:-run}" --phase "${PH:-}" --json)

@@ -257,6 +257,16 @@ def _parse_ts(s):
 #: returned and there is nothing left on the box. Matched as a prefix of the phase line.
 SMOKE_TERMINAL = ("SMOKE-OK", "SMOKE-FAIL")
 
+#: ★★ TERMINAL IN **EVERY** MODE — the gap the first real leg found, at 7:20 PM ET 2026-07-31.
+#: The parity guard refused, the startup script exited 3, and the VM went on holding the account's ONE GPU
+#: with nothing running on it: a `run` writes no ddg.json, so the result-object clause could never retire it,
+#: and its only bound was the 48 h create-time cap — for a job that had died in four minutes.
+#: `BOOTSTRAP-FAIL` is a DISTINCT prefix from the smoke's own SMOKE-OK/SMOKE-FAIL for exactly that reason:
+#: it is written ONLY on paths that exit BEFORE `run_leg` is ever called, in either mode. So no sampling has
+#: started, no checkpoint exists, and reaping on it can never destroy work — which is what lets it apply to
+#: a `run`, where a phase marker is otherwise progress and must never license a delete.
+BOOTSTRAP_TERMINAL = ("BOOTSTRAP-FAIL",)
+
 
 def reap_decision(unit_id, vm_created, result_updated, vm_mode="run", phase=None):
     """May this VM be deleted? **AGE IS NEVER CONSULTED.**
@@ -277,6 +287,13 @@ def reap_decision(unit_id, vm_created, result_updated, vm_mode="run", phase=None
     if vm is None:
         return {"action": "refuse", "cause": "unreadable_timestamp", "why":
                 f"VM creationTimestamp {vm_created!r} did not parse; refusing rather than assuming an order"}
+    # ---- the BOOTSTRAP path — ANY mode ----------------------------------------------------------------
+    ph = (phase or "").strip()
+    if any(ph.startswith(t) for t in BOOTSTRAP_TERMINAL):
+        return {"action": "reap", "cause": "bootstrap_terminal_marker", "why":
+                f"this VM's own phase marker reads {ph!r} — a PRE-MD failure, written only on paths that "
+                f"exit before any leg starts. No sampling began and no checkpoint exists, so there is "
+                f"nothing this delete can destroy."}
     # ---- the SMOKE path -------------------------------------------------------------------------------
     # A smoke writes no result object, so the clause below can never retire it and its ONLY bound would be
     # the 7 h non-run cap — 7 h of the account's single GPU for a job that finished in twenty minutes. It
@@ -285,7 +302,6 @@ def reap_decision(unit_id, vm_created, result_updated, vm_mode="run", phase=None
     # `s1f-mode=smoke` VMs, because a RUN's markers are progress, not termination, and reaping a run on one
     # would destroy live sampling.
     if str(vm_mode) == "smoke":
-        ph = (phase or "").strip()
         if any(ph.startswith(t) for t in SMOKE_TERMINAL):
             return {"action": "reap", "cause": "smoke_terminal_marker", "why":
                     f"this VM is labelled s1f-mode=smoke and its own phase marker reads {ph!r} — a terminal "

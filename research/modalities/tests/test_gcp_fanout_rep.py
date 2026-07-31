@@ -489,10 +489,12 @@ def test_the_smoke_path_still_never_consults_age():
     assert d["action"] == "refuse"
 
 
-def test_the_workflow_only_reads_a_phase_for_a_smoke_labelled_vm():
+def test_the_workflow_reads_the_right_phase_object_per_mode():
+    """SUPERSEDED the smoke-only read (7:20 PM ET 2026-07-31): reading a phase only for smokes left a
+    run that died in bootstrap with no evidence any reaper could act on."""
     step = _wf().split("- name: Reap finished VMs")[1].split("      - name:")[0]
-    ph = [ln for ln in step.splitlines() if "PH=$(" in ln]
-    assert ph and all('= smoke ]' in ln for ln in ph), ph
+    assert '= smoke ]; then' in step
+    assert '"$UURI/smoke/phase.txt"' in step and '"$UURI/phase.txt"' in step
 
 
 # ---- what the first smoke measured (run 30670712574, 6:43-6:49 PM ET 2026-07-31) ----------------------
@@ -532,7 +534,7 @@ def test_every_bootstrap_failure_names_itself_in_the_phase_marker():
     bootstrap step gets its own cause string, so the phase marker alone identifies the stage."""
     code = _startup_code()
     for cause in ("docker-install", "docker-daemon", "nvidia-keyring", "nvidia-toolkit", "no-gpu-in-docker"):
-        assert f'mark "SMOKE-FAIL {cause}' in code, cause
+        assert f'mark "BOOTSTRAP-FAIL {cause}' in code, cause
 
 
 # ---- reading a VM's labels ----------------------------------------------------------------------------
@@ -611,12 +613,12 @@ def test_adding_the_gcs_wheel_cannot_silently_move_the_science_stack():
     difference REFUSES."""
     code = _startup_code()
     assert "BASE_PARITY" in code and "NEW_PARITY" in code
-    assert 'mark "SMOKE-FAIL parity-moved"' in code
+    assert 'mark "BOOTSTRAP-FAIL parity-moved"' in code
     for pkg in ("openfe", "openmmtools", "pymbar", "numpy", "scipy"):
         assert pkg in code, pkg
     # the refusal must be a refusal, not a warning
     seg = code.split("NEW_PARITY=")[1]
-    assert "exit 3" in seg.split("mark \"SMOKE-FAIL parity-moved\"")[1][:40] or "exit 3" in seg
+    assert "exit 3" in seg
 
 
 def test_the_provenance_string_names_the_base_image_not_the_derived_one():
@@ -627,3 +629,49 @@ def test_the_provenance_string_names_the_base_image_not_the_derived_one():
     i, j = code.index("GCSFIX=\"google-cloud-storage"), code.index("IMAGE=s1frep:gcs")
     assert "$BASE_IMAGE" in code[i:i+200]
     assert j < i, "IMAGE is reassigned before GCSFIX is built — GCSFIX must name BASE_IMAGE explicitly"
+
+
+# ---- the gap the first real leg found (7:20 PM ET 2026-07-31) -----------------------------------------
+
+@pytest.mark.parametrize("mode", ["run", "smoke"])
+def test_a_bootstrap_failure_is_terminal_in_every_mode(mode):
+    """★★ MEASURED. The parity guard refused on the first real leg, the startup script exited 3 — and the VM
+    kept holding the account's ONE GPU with nothing on it. A `run` writes no ddg.json, so the result-object
+    clause could never retire it, and its only bound was the 48 h create-time cap, for a job that died in
+    four minutes. BOOTSTRAP-FAIL is written only on paths that exit BEFORE run_leg is called, so no sampling
+    started and no checkpoint exists — which is precisely what makes it safe to act on in run mode."""
+    d = gfr.reap_decision("u", VM_T, "", vm_mode=mode, phase="BOOTSTRAP-FAIL parity-moved")
+    assert d["action"] == "reap" and d["cause"] == "bootstrap_terminal_marker"
+
+
+@pytest.mark.parametrize("ph", ["leg-complex-running", "staged", "reduce", "done", "SMOKE-OK rc=0"])
+def test_a_run_is_still_never_reaped_on_anything_but_a_bootstrap_marker(ph):
+    """The dangerous direction is unchanged: a run's progress markers, and even a SMOKE-OK string a run
+    could never legitimately write, must not license a delete. Only the result OBJECT proves banked work."""
+    d = gfr.reap_decision("u", VM_T, "", vm_mode="run", phase=ph)
+    assert d["action"] == "refuse" and d["cause"] == "no_result_object"
+
+
+def test_the_bootstrap_prefix_is_distinct_from_the_smoke_markers():
+    """They must not overlap: SMOKE-* is smoke-scoped, BOOTSTRAP-* is mode-independent. A shared prefix
+    would make a run reapable on a smoke's terminus string."""
+    assert not set(gfr.BOOTSTRAP_TERMINAL) & set(gfr.SMOKE_TERMINAL)
+    for b in gfr.BOOTSTRAP_TERMINAL:
+        assert not any(b.startswith(s) or s.startswith(b) for s in gfr.SMOKE_TERMINAL)
+
+
+def test_every_pre_md_failure_in_the_script_uses_the_bootstrap_prefix():
+    """The reaper can only act on markers the script actually writes. Anything pre-MD still saying
+    SMOKE-FAIL would be invisible to the run-mode path and would strand a VM again."""
+    code = _startup_code()
+    pre_md = code.split('if [ "$SMOKE" = 1 ]; then')[0]
+    assert "SMOKE-FAIL" not in pre_md, "a pre-MD path still marks SMOKE-FAIL; use BOOTSTRAP-FAIL"
+    for cause in ("docker-install", "docker-daemon", "nvidia-keyring", "nvidia-toolkit",
+                  "no-gpu-in-docker", "image-pull", "no-code", "no-ligand", "no-receptor",
+                  "no-gcs-lib", "parity-moved"):
+        assert f'mark "BOOTSTRAP-FAIL {cause}' in code, cause
+
+
+def test_the_reap_step_reads_a_phase_in_both_modes():
+    step = _wf().split("- name: Reap finished VMs")[1].split("      - name:")[0]
+    assert '"$UURI/phase.txt"' in step and '"$UURI/smoke/phase.txt"' in step
