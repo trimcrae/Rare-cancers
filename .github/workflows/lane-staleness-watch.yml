@@ -81,7 +81,12 @@ permissions:
   # ★ THE ESCALATION CHANNEL. `issues: write` is the ENTIRE additional blast radius — `alarm_issue.py` can
   # open, edit, comment on and close issues, and structurally nothing else (pure stdlib, no boto3, no Vast
   # key, no import of any lane module; asserted by tests/test_alarm_issue.py).
-  issues: write
+  # ⛔ ESCALATION BY ISSUE IS REVOKED (trimcrae, 2026-07-31: "You're emailing me way too much. You
+  # should not be emailing me"). A GitHub issue emails the repo owner on every open, comment and
+  # close, so this permission WAS the notification. Removing it is the stop: `alarm_issue.py` cannot
+  # write without it, whatever any input says. The verdict still lands in the committed artifact,
+  # which is a PULL channel — the requirement was that supervision survive with no LLM in the loop,
+  # never that anyone be paged. Do not restore this without asking him first.
 
 concurrency:
   group: lane-staleness-watch
