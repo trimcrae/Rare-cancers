@@ -397,6 +397,9 @@ When in doubt: do it and show it.
   the cross-lane, host-scoped, never-ageing set — not because any single entry was wrong, but because it had
   **no evidence that could ever retire one**, so it only ratcheted the board narrower; re-learning a bad host
   costs one **free** failed submit, while over-excluding costs capacity on every lane, silently.
+  One home for the decision: **`vast_machine_blacklist.DURABLE_EXCLUSIONS_ENABLED = False`**, held by
+  `tests/test_blacklist_retired.py`, reversible via `VAST_DURABLE_EXCLUSIONS=1` — **which is an escape hatch
+  for a diagnosis, not a setting to leave on.**
   ⚠ **So when placement fails, suspect OUR FILTERS BEFORE THE MARKET** — that has been the cause every time it
   was checked. Incidents, evidence and what is still open (a card floor, `min_cuda`, the label-scoped guard):
   [vast-placement-facts.md §1](./research/compute/vast-placement-facts.md).

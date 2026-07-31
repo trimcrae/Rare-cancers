@@ -539,12 +539,6 @@
    "pattern": "~3\\.0×?\\s*\\|\\s*2\\.48",
    "current": "UNSUPPORTED as of 2026-07-31: the V100 row came from the same bandwidth heuristic the T4 measurement refutes, and the V100 itself is still UNMEASURED. Its $/h also omitted the n1 host the card cannot run without. One home: research/modalities/gcp-card-bench.json",
    "retired_by": "the GCP card probe, 2026-07-31 - STRATEGY.md Appendix A row 56"
-  },
-  {
-   "id": "vast_min_cuda_floor_12_6",
-   "pattern": "cuda_max_good\\s*(?:>=|≥)\\s*12\\.6",
-   "current": "The host-driver floor is NOT a doc figure: its ONE home is gpu_backend.ResourceSpec.min_cuda, which carries the value in force and the diag proof behind it. The code was raised above 12.6 on 2026-07-23 (CUDA_ERROR_UNSUPPORTED_PTX_VERSION on driver-12.6/12.7 hosts) and pricing.md kept quoting the retired value. Whether the raised floor is right for the ternary image is OPEN: research/compute/vast-placement-facts.md section 4 names the $0 diagnostic.",
-   "retired_by": "the min_cuda raise of 2026-07-23, found still uncorrected in pricing.md on 2026-07-31 - research/compute/vast-placement-facts.md section 4"
   }
  ],
  "subset_checks": [

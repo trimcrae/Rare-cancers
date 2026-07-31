@@ -64,12 +64,17 @@ python -m pytest research/modalities/tests -q
 - **THE FULL SUITE IS NOT FREE: 4097 passed, 29 skipped, ~6 min 55 s** (measured 2026-07-31 in the dev
   sandbox, `python3 -m pytest tests -q -p no:cacheprovider`). **Do not have every subagent run all of
   it.** Run the **targeted modules** you touched while iterating, and **one full run before merging** —
-  that is what the green figure above is for. Five parallel agents each running the whole suite is
-  ~35 minutes of wall clock buying one bit of information.
+  that is what the green figure above is for. **And they contend:** with two agents' suites live at once
+  in this sandbox, `ps` showed them at **54.6 % and 96.4 % CPU** — concurrent full runs take each other's
+  throughput, so N agents do not cost N × 7 min, they cost more.
 - **`until ! pgrep -f "pytest tests/"` NEVER EXITS — IT MATCHES ITSELF.** `pgrep` excludes only its own
   PID, **not its ancestors**, and the shell running the wait loop has the literal pattern in its own
   `argv`. Reproduced 2026-07-31: with no pytest running at all, the loop spun until `timeout` killed
   it (rc 124), and `pgrep -af` showed the two matches were the loop's own `bash -c` processes.
+  **The same trap kills, not just waits:** `pkill -f "pytest tests -q…"` issued to clear a stale run
+  **also killed the replacement launched in the same command** (both exited 144, measured minutes later
+  the same day) — the new process matched the pattern the moment it started. If you must pattern-kill,
+  kill by **PID**, or make the replacement's argv deliberately different.
   Wait on a **completion marker in the log** instead — the pattern this repo already uses:
   ```bash
   <cmd> > /tmp/run.log 2>&1; echo "EXIT=$?" >> /tmp/run.log     # then poll for EXIT=
