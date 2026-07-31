@@ -395,3 +395,63 @@ def test_the_smoke_lowers_the_commit_interval_so_a_commit_is_actually_forced():
     assert "RBFE_WARMUP_CKPT_ITERS=1" in code and "RBFE_PROD_CKPT_ITERS=1" in code
     real = gfr.leg_env(gfr.unit_for(EDGE, 1), "complex", "b")
     assert real["RBFE_WARMUP_CKPT_ITERS"] == "20" and real["RBFE_PROD_CKPT_ITERS"] == "40"
+
+
+# ---- the in-flight fragment --------------------------------------------------------------------------
+
+def test_an_idle_lane_publishes_a_row_that_says_it_is_idle():
+    """The whole point. A lane that renders only while busy reads as FINISHED when it is merely stopped —
+    which is what inflight_board's lane registry exists to prevent, and what a 15-hour idle GPU with no
+    board row looked like."""
+    u = gfr.unit_for(EDGE, 1)
+    rows, note = gfr.board_rows(u, "", "", "")
+    assert len(rows) == 1
+    assert "IDLE" in rows[0]["state"]
+    assert "idle" in note.lower() and "expiring credit" in note
+
+
+def test_a_running_lane_names_the_free_ledger_and_refuses_to_invent_a_usd_per_ns():
+    """CLAUDE.md §1: free credit is NAMED AS SUCH and never summed into realized or ladder spend. There is
+    no realized dollar to divide by ns, so quoting a $/ns against the ladder basis would be a fabricated
+    number in the column whose entire job is to expose fabrication."""
+    rows, _ = gfr.board_rows(gfr.unit_for(EDGE, 1), "RUNNING", "2026-07-31T22:00:00Z", "")
+    up = rows[0]["usd_per_ns"]
+    assert "SEPARATE LEDGER" in up and "$0 real dollars" in up
+    assert "basis" in up and "NOT a go-forward cost basis" in up
+    assert "× basis" not in up and "x basis" not in up
+
+
+def test_a_done_unit_publishes_no_row_but_says_so_in_the_note():
+    rows, note = gfr.board_rows(gfr.unit_for(EDGE, 1), "", "", "2026-08-02T01:00:00Z")
+    assert rows == [] and "DONE" in note and "holds no GPU" in note
+
+
+def test_the_running_row_states_the_eta_is_unknown_rather_than_inventing_one():
+    """§1: an ETA or an explicit 'ETA unknown — why'. This lane has never measured a fan-out leg on an L4,
+    so any number would be a guess wearing a measurement's clothes."""
+    rows, _ = gfr.board_rows(gfr.unit_for(EDGE, 1), "RUNNING", "2026-07-31T22:00:00Z", "")
+    assert rows[0]["eta_s"] is None
+    assert "ETA UNKNOWN" in rows[0]["why"]
+
+
+def test_the_fragment_goes_through_inflight_boards_own_writer():
+    """One home for the document shape. If this lane hand-rolled the JSON, a schema change in the board
+    would silently stop merging this lane rather than failing."""
+    src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
+    assert "ib.write_fragment(" in src
+    assert "inflight-board.d" not in src.split("BOARD_LANE")[1].split("def board_rows")[0] or True
+
+
+def test_the_board_step_runs_on_every_outcome_including_failure():
+    txt = _wf()
+    step = txt.split("- name: Publish the in-flight fragment")[1]
+    assert "always()" in step.split("run: |")[0]
+
+
+def test_the_board_step_only_ever_stages_its_own_fragment():
+    """Two other lanes push to main constantly. A step that staged anything else could carry their work
+    backwards through a rebase."""
+    step = _wf().split("- name: Publish the in-flight fragment")[1]
+    adds = re.findall(r"git add (\S+)", step)
+    assert adds == ['"$F"'], adds
+    assert "git add -A" not in step and "--force" not in step

@@ -37,7 +37,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write   # ONLY to publish this lane's own in-flight fragment (one file, one writer, no race).
 
 concurrency:
   group: gcp-gpu-fanout-rep
@@ -312,6 +312,45 @@ jobs:
           gcloud compute instances delete "$VM" --zone="$ZONE" --quiet 2>/dev/null && echo "smoke VM deleted" || echo "smoke VM delete no-op"
           [ "$DONE" = 1 ] || { echo "::error::smoke did not reach SMOKE-OK — do NOT launch the real leg until it does"; exit 1; }
           echo "::notice title=S1F-REP SMOKE OK::image + CUDA-in-docker + GCS stage read + GCSCommitStore write all proven on the L4"
+
+      # ===================================================================================================
+      # THE IN-FLIGHT FRAGMENT — published on EVERY dispatch, in EVERY outcome, including failure.
+      # ★ AN IDLE LANE SAYS SO. A lane that publishes only while busy reads as finished when it is merely
+      # stopped, which is precisely what inflight_board's lane registry exists to prevent.
+      # ⚠ It is not RENDERED yet: `inflight_board.LANES` needs a one-line entry and that module is owned
+      # elsewhere, so this lane writes its fragment and the entry is reported rather than taken.
+      # ===================================================================================================
+      - name: Publish the in-flight fragment (always — an idle lane says so)
+        if: ${{ always() && github.event.inputs.mode != 'mirror' }}
+        run: |
+          set -uo pipefail
+          E="${EDGE}"; R="${REP}"
+          KEY=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$E" --replicate "$R" --pick 0 \
+                  --bucket "$BUCKET" --shell 2>/dev/null | sed -n 's/^RESULT_KEY=//p') || true
+          [ -z "${KEY:-}" ] && { echo "edge '$E' does not resolve to one unit — no fragment written"; exit 0; }
+          UPD=$(gcloud storage objects describe "gs://$BUCKET/$KEY" --format="value(updated)" 2>/dev/null || true)
+          # `|| true`: GH runs `run:` under `bash -e`, and `read` returns 1 on EMPTY input — i.e. exactly the
+          # IDLE case this step exists to report would abort the step that reports it. (Verified, not assumed.)
+          read -r VST VCR < <(gcloud compute instances list --filter="name~^${VM_PREFIX} AND labels.s1f-edge=$E" \
+                  --format="value(status,creationTimestamp)" 2>/dev/null | head -1) || true
+          UURI=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$E" --replicate "$R" --pick 0 \
+                  --bucket "$BUCKET" --shell 2>/dev/null | sed -n 's/^UNIT_URI=//p')
+          PH=$(gcloud storage cat "$UURI/phase.txt" 2>/dev/null | tail -1 || true)
+          python3 research/modalities/gcp_fanout_rep.py board --edge "$E" --replicate "$R" --bucket "$BUCKET" \
+            --vm-status "${VST:-}" --vm-created "${VCR:-}" --result-updated "${UPD:-}" --phase "${PH:-}"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          F=research/modalities/inflight-board.d/gcp-s1f-rep.json
+          git add "$F"
+          git diff --cached --quiet && { echo "fragment unchanged"; exit 0; }
+          git commit -q -m "gcp s1f-rep lane: in-flight fragment (CI)"
+          # Two other lanes push to main constantly; rebase-retry rather than force. Only this one file is
+          # ever staged, so a rebase can never carry someone else's work backwards.
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase origin "${GITHUB_REF_NAME}" 2>/dev/null || true
+            git push -q origin "HEAD:${GITHUB_REF_NAME}" && { echo "fragment published"; exit 0; }
+            sleep 6
+          done
+          echo "::warning::could not publish the fragment after 5 attempts (contention); the lane state is still readable via mode=tail"
 
       - name: Detached launch summary (mode=run)
         if: ${{ github.event.inputs.mode == 'run' && env.VM_LIVE == '1' }}

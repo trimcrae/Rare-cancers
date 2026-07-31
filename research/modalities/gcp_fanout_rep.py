@@ -288,6 +288,60 @@ def reap_decision(unit_id, vm_created, result_updated):
             f"{vm.isoformat()} — the science is banked in GCS and there is no sampling left to lose"}
 
 
+# ---- the in-flight board fragment ---------------------------------------------------------------------
+
+#: The lane id this fragment is published under.
+#:
+#: ⚠ NOT YET IN `inflight_board.LANES`, and that is a REPORTED gap, not an oversight. `merge_board` iterates
+#: that registry and never the fragments it happens to find — deliberately, so a lane that has never
+#: published still renders a section saying so. Until a one-line entry is added there (that module is owned
+#: by another agent, so this lane does not edit it) the fragment below is written and simply not rendered.
+#: It is written anyway because the alternative is worse in exactly the way that registry exists to prevent:
+#: a lane with no artifact at all is indistinguishable from a lane with nothing to say.
+BOARD_LANE = "gcp-s1f-rep"
+
+#: What this lane costs. Free credit NAMED AS SUCH (CLAUDE.md §1), and no `$/ns` against the Vast ladder
+#: basis, because there is no realized dollar to divide: this is a different ledger, not a cheap rate on
+#: the same one. The L4 list rate is shown only so the row is not blank, and carries pricing.md's standing
+#: refusal to treat it as a go-forward cost basis.
+BOARD_USD_PER_NS = ("— $0 real dollars (GCP trial credit, a SEPARATE LEDGER, expires 2026-10-10). "
+                    "L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted "
+                    "against the ladder because no ladder dollar is being spent.")
+
+
+def board_rows(unit, vm_status, vm_created, result_updated, phase=None):
+    """This lane's rows for the all-lane board. PURE.
+
+    ★ AN IDLE LANE SAYS SO. The row is emitted in every state, including "nothing running" — a lane that
+    renders only while busy looks finished when it is merely stopped, which is the failure the board's own
+    docstring is built around."""
+    name = f"{unit['edge_id'].replace('e_', '', 1)} r{unit['replicate']}"
+    if result_updated:
+        return [], (f"{unit['unit_id']} is DONE — ddg.json in GCS at {result_updated}. Nothing running; "
+                    f"this lane holds no GPU.")
+    live = str(vm_status or "").upper() in ("RUNNING", "PROVISIONING", "STAGING", "REPAIRING")
+    if live:
+        row = {"name": name, "pct": None, "pct_of": None, "eta_s": None,
+               "usd_per_ns": BOARD_USD_PER_NS, "state": "RUNNING",
+               "why": (f"GCE L4, {vm_status}, created {vm_created}. phase='{phase or '<none>'}'. "
+                       f"ETA UNKNOWN — this lane has no measured L4 rate for a fan-out leg yet; the first "
+                       f"one produces it. Bounded at CREATE by --max-run-duration={MAX_RUN_S_RUN}s.")}
+        return [row], f"{unit['unit_id']} running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)."
+    row = {"name": name, "pct": None, "pct_of": None, "eta_s": None,
+           "usd_per_ns": "—", "state": "IDLE — NO HOST",
+           "why": ("no GCE VM and no ddg.json: this lane is holding no GPU and computing nothing. "
+                   "A re-dispatch of gpu-fanout-rep-gcp.yml mode=run resumes it from its last committed "
+                   "generation in GCS (per-leg idempotent).")}
+    return [row], f"{unit['unit_id']} NOT running. The free GCP GPU is idle — that is expiring credit unspent."
+
+
+def write_board(unit, vm_status, vm_created, result_updated, phase=None, root=None):
+    """Publish the fragment through inflight_board's own writer, so the document shape has one home."""
+    import inflight_board as ib
+    rows, note = board_rows(unit, vm_status, vm_created, result_updated, phase=phase)
+    return ib.write_fragment(BOARD_LANE, rows, note=note, root=root)
+
+
 # ---- CLI ----------------------------------------------------------------------------------------------
 
 def _shell(d):
@@ -364,6 +418,15 @@ def _cmd_reap(a):
     return 0
 
 
+def _cmd_board(a):
+    unit = unit_for(a.edge, a.replicate)
+    path = write_board(unit, a.vm_status, a.vm_created, a.result_updated, phase=a.phase)
+    print(f"wrote {path}")
+    with open(path) as fh:
+        print(fh.read())
+    return 0
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -385,6 +448,16 @@ def main(argv=None):
     rp.add_argument("--result-updated", default="")
     rp.add_argument("--json", action="store_true")
     rp.set_defaults(func=_cmd_reap)
+
+    bd = sub.add_parser("board", help="publish this lane's in-flight fragment (an IDLE lane says so)")
+    bd.add_argument("--edge", required=True)
+    bd.add_argument("--replicate", type=int, default=1)
+    bd.add_argument("--bucket", default=None)
+    bd.add_argument("--vm-status", default="")
+    bd.add_argument("--vm-created", default="")
+    bd.add_argument("--result-updated", default="")
+    bd.add_argument("--phase", default="")
+    bd.set_defaults(func=_cmd_board)
 
     a = p.parse_args(argv)
     return a.func(a)
