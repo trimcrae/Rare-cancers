@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 11:02 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 11:10 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 11:02 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that ca
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 10:54 AM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 11:03 AM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna   75.6%  —                $0.00391/ns · 1.15× basis  NO HOST   host DESTROYED this pass (status frozen 156 min — the image pull is dead, not queued) — billing stopped, $0 further; checkpoint at production/1120 is intact in S3 and this pass dispatches the gate to re-place it
-5aks_d0_to_d terna   23.1%  8:41 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna   33.8%  5:00 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna   28.4%  8:41 PM          $0.00449/ns · 1.32× basis  RUNNING   
+5aks_d0_to_d terna   24.9%  8:44 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna       —  —                $0.00512/ns · 1.50× basis  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d terna       —  —                —                          NO HOST   no live host — checkpoint at warmup/1024 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d terna   35.6%  —                —                          NO HOST   no live host — checkpoint at warmup/1280 is intact in S3; this pass dispatches the gate to re-place it
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 11:02 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 11:10 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,11 +36,11 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 10:54 AM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 17 of 18 authorized R1 leg(s) landed (rows below are the rest)._
+_As of 10:54 AM ET Fri Jul 31, 2026 — **16 min ago, STALE (> 15 min)**. Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 17 of 18 authorized R1 leg(s) landed (rows below are the rest)._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-nr4a2 m3 r0              —  —                — $0.1825/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase none)
+nr4a2 m3 r0              —  —                — $0.1825/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) UNKNOWN   lane last reported 16 min ago — this row is THAT report, not a current reading; it then read: STARTING — no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase none)
 ```
 
