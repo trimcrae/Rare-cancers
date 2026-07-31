@@ -20,7 +20,7 @@ hypothesis should be the filter**, because it has been the cause every time it h
 |---|---|---|---|
 | 1a | the **durable machine blacklist** | grew until it, not price, decided placement; authorised units failed to place against a healthy, wide board | `vast_exclusion_census.__doc__`; `congeneric_fanout_vast.withdraw_wrong_exclusions.__doc__` and `.retire_perishable_exclusions.__doc__`; the wave-scoped comment in `ternary_vast_launch.collect`; `vast_machine_blacklist.__doc__` (which parked the hazard before it happened) |
 | 1b | **`min_cuda` = 13.0** | **MEASURED too high** — the image JITs against NVRTC 12.6, so the floor excludes hosts it can actually use. Value not yet changed: **§4** | `research/modalities/ternary-fep-cuda-probe.json` (`required_host_cuda`); board cost in `vast-filter-ablation.json` → `cuda_sweep` |
-| 1c | a **card floor** (`min_ns_per_h`) | deleted the cheapest cards from an already-starved board, on a premise its own lane's ledger refutes — **see §3** | this file §3; `step1-fanout-supervisor.yml` 5aks-gate block |
+| 1c | a **card floor** (`min_ns_per_h`) | deleted the cheapest cards on a premise its own lane's 208-rental ledger refutes, and roughly doubled the gate's reported price — **see §3** | this file §3; `step1-fanout-supervisor.yml` 5aks-gate block |
 | 1d | **`vast_idle_guard` is LABEL-SCOPED** | runs only inside a lane's own collect, so a lane that stops being dispatched stops being guarded, and nothing says so — two orphaned rentals billed for days | `realised_spend.ATTESTED` → `vast_bench_sweep_orphans.closes_when` and `nrv04_retro_orphan.closes_when`; STRATEGY.md Appendix A 58 |
 | 1e | **truncated board pagination** | the query carried no `limit`, so every gate and every submit decided on a small fraction of the market — and it manufactured apparent price volatility (§2) | `gpu_backend._vast_offer_query` (the `_VAST_SEARCH_LIMIT` block, with the paired-read numbers) |
 
@@ -63,10 +63,10 @@ exactly the reading that let it grow.
 
 ## 2. BOARD WIDTH IS A DIFFERENT DIAGNOSIS FROM PRICE — AND THE READOUT MUST SAY WHICH
 
-**The failure mode.** A market gate that finds one acceptable offer reports a high `$/ns` and holds. That
-reads as *"the market is expensive, wait for it to open"* — but it is equally consistent with *"our filters
-left one host, and we are pricing the only survivor."* Those have opposite remedies: one says wait, the other
-says widen. **They are indistinguishable from the price alone.**
+**The failure mode.** A market gate prices the **cheapest surviving offer(s)** and holds if that is above the
+buy line. A high number there reads as *"the market is expensive, wait for it to open"* — but it is equally
+consistent with *"our filters removed the cheap end, and we are pricing what is left."* Those have opposite
+remedies: one says wait, the other says widen. **They are indistinguishable from the price alone.**
 
 **This has now been measured twice, on two different mechanisms, and diagnosed wrongly the first time on both
 occasions.** The 2026-07-27 instance — a gate reading two very different multiples of basis minutes apart,
