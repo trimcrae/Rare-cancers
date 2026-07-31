@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -967,6 +967,48 @@ jobs:
               echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
             done
           fi
+
+  nrv04_retro_price_forensics:
+    # READ-ONLY forensics on the retrospective lane's _price_ledger.json (CLAUDE.md §4: get the observation,
+    # do not narrate the plausible story). Answers what `uptime_s` is measured FROM, by reading the ledger,
+    # the lane's S3 object mtimes and the LIVE Vast census in one pass — the census being the control that
+    # pins `start_date` to the rental start on this account rather than to a host machine's uptime.
+    # $0: S3 list/get + one Vast GET. It destroys, launches and stops nothing.
+    if: ${{ github.event.inputs.task == 'nrv04_retro_price_forensics' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: sagemaker-us-east-2-646605541856
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q boto3
+      - name: ledger + S3 mtimes + live Vast census
+        run: |
+          python research/modalities/nrv04_retro_price_forensics.py \
+            --bucket "$VAST_CKPT_BUCKET" \
+            --out research/modalities/nrv04-retro-price-forensics.json
+      - name: commit the report
+        run: |
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/nrv04-retro-price-forensics.json || true
+          git diff --cached --quiet || git commit -m "NR-V04 retro price-ledger forensics (CI)"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+          git push origin "HEAD:${GITHUB_REF_NAME}" || echo "::warning::could not push the forensics report"
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: nrv04-retro-price-forensics
+          path: research/modalities/nrv04-retro-price-forensics.json
+          if-no-files-found: warn
 
   nrv04_s3_tail:
     # ~30 s progress check on ANY Vast job that follows the repo's phase-marker + run.log convention: prints
