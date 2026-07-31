@@ -3480,14 +3480,60 @@ def retro_collect(bucket, reap=None):
         return 1
     if missing:
         out["verdict"] = None
+        # ★★ "INCOMPLETE" AND "UNCOMPLETABLE" MUST NOT READ ALIKE (2026-07-31). "8/18 units — coverage only"
+        # invites exactly one response: wait, the fan-out is still running. That is right for a unit between
+        # hosts and WRONG for a unit whose input no host can run — and this panel now has two of the latter
+        # (`retro_input_quarantine`, root-caused to a 0.181 A clash Boltz placed in nr4a3/seed_3). While they
+        # are counted in `expected`, `panel_complete` can never go true and prereg §4f suppresses the R1
+        # verdict PERMANENTLY.
+        #
+        # ⚠ THIS IS NOT A NEW FAILURE MODE, IT IS AMENDMENT 3's, RECURRING. That amendment retired R2 for
+        # precisely this: 6 units that could never land held `panel_complete` False forever and "it costs the
+        # primary result" (`nrv04_retro_panel`, the AUTHORIZED_STAGES block). The remedy then was a
+        # PREREGISTRATION AMENDMENT on measured evidence, and the remedy now is the same kind of decision —
+        # which is trimcrae's, not this collector's. What the collector owes is to say so instead of
+        # rendering a permanent block as a progress report.
+        # The NEWEST record per unit, off the shared walk the supervisor uses — not the `legs` list above,
+        # which has already dropped every non-conforming record, and a quarantined unit's record is exactly
+        # one of those (it blew up at frame 0, so it never carried the protocol). Same source as
+        # `retro_supervise`, so the collector and the supervisor cannot disagree about what is quarantined.
+        newest_leg_rec = {}
+        try:
+            for _u, _k, _r, _mt in retro_leg_records(s3, bucket):
+                if _u not in newest_leg_rec or _mt >= newest_leg_rec[_u][0]:
+                    newest_leg_rec[_u] = (_mt, _r)
+            newest_leg_rec = {_u: _v[1] for _u, _v in newest_leg_rec.items()}
+        except Exception as e:  # noqa: BLE001 — unreadable is UNKNOWN, never "nothing is quarantined"
+            print("[retro-collect] WARN could not read leg records for the quarantine census: %s: %s"
+                  % (type(e).__name__, e), flush=True)
+            newest_leg_rec = {}
+        blocked_units = sorted(u for u in missing if retro_input_quarantine(newest_leg_rec.get(u))[0])
+        ceiling = len(expected) - len(blocked_units)
+        out["quarantined_units"] = blocked_units
+        out["reachable_units"] = ceiling
+        out["panel_completable"] = not blocked_units
         out["note"] = ("panel INCOMPLETE (%d/%d units) — prereg §4f forbids computing the paralogue contrast "
-                       "before every leg has landed. Coverage only.%s"
+                       "before every leg has landed. Coverage only.%s%s"
                        % (len(have), len(expected),
                           "" if not nonconforming else
                           " %d record(s) exist that are NOT landed legs (see nonconforming_records)."
-                          % len(nonconforming)))
+                          % len(nonconforming),
+                          "" if not blocked_units else
+                          " ⛔ AND IT CANNOT COMPLETE AS ENUMERATED: %d unit(s) are INPUT-QUARANTINED (%s), so "
+                          "the reachable ceiling is %d/%d and §4f suppresses the R1 verdict PERMANENTLY, not "
+                          "until the fan-out finishes. This is AMENDMENT 3's failure mode recurring (units "
+                          "that can never land holding panel_complete False), and it needs the same remedy: a "
+                          "PREREGISTRATION decision by trimcrae — amend the enumerated co-fold seeds, or "
+                          "supply a different input for these units. No amount of further compute changes it."
+                          % (len(blocked_units), ", ".join(_retro_short_name(u) for u in blocked_units),
+                             ceiling, len(expected))))
         print(f"[retro-collect] {len(have)}/{len(expected)} units landed; contrast NOT computed (prereg §4f)",
               flush=True)
+        if blocked_units:
+            print("[retro-collect] ⛔ UNCOMPLETABLE AS ENUMERATED — %d input-quarantined unit(s) cap the panel "
+                  "at %d/%d. §4f suppression is PERMANENT until a preregistration decision changes the "
+                  "enumerated inputs. %s" % (len(blocked_units), ceiling, len(expected), out["note"]),
+                  flush=True)
     else:
         out["verdict"] = gate.verdict(legs)
         print("[retro-collect] panel complete — frozen gate applied", flush=True)

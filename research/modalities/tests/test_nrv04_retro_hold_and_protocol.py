@@ -729,6 +729,31 @@ def test_the_quarantine_costs_nothing_and_is_visible(monkeypatch):
     assert out["quarantine_eligible_running"] == [], "nothing is on a host in this fixture"
 
 
+def test_incomplete_and_UNCOMPLETABLE_must_not_read_alike():
+    """★★ "9/18 units — coverage only" invites exactly one response: WAIT, the fan-out is still running.
+
+    That is right for a unit between hosts and wrong for a unit whose input no host can run. Two units
+    (nr4a3 m3 r0/r1) are input-quarantined on a 0.181 A clash Boltz placed in nr4a3/seed_3, so while they
+    are enumerated, `panel_complete` can NEVER go true and prereg §4f suppresses the R1 verdict PERMANENTLY
+    rather than until the fan-out finishes.
+
+    This is AMENDMENT 3's failure mode recurring — `nrv04_retro_panel`'s AUTHORIZED_STAGES block records
+    that 6 never-landable R2 units held panel_complete False and "it costs the primary result". That needed
+    a preregistration amendment, and so does this. The collector's job is to SAY so, not to decide it.
+    """
+    import inspect
+    src = inspect.getsource(vl.retro_collect)
+    assert "panel_completable" in src and "reachable_units" in src
+    assert "AMENDMENT 3" in src, "the precedent is what makes this a known remedy rather than a novel crisis"
+    assert "PREREGISTRATION decision by trimcrae" in src, (
+        "the collector must name whose decision it is, and must not take it")
+    # The census reads the NEWEST leg record per unit — the same source the supervisor quarantines from, so
+    # the two cannot disagree — and never the `legs` list, which has already dropped non-conforming records
+    # (a quarantined unit's record is exactly one of those: it blew up at frame 0).
+    assert "retro_leg_records(s3, bucket)" in src
+    assert "newest_leg_rec = {}" in src, "unreadable is UNKNOWN, never 'nothing is quarantined'"
+
+
 def test_the_breaker_does_not_claim_a_host_count_it_has_not_measured():
     """⚠ N MARKERS IS NOT PROVEN TO BE N HOSTS, and the old wording asserted it was.
 
