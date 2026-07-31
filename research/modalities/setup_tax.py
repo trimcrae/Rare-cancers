@@ -63,6 +63,20 @@ RESTORE_LIST = re.compile(r"\[restore\] (\S+): list_committed returned (\d+) gen
 RESTORE_FETCH = re.compile(r"\[restore\] \S+ iter \d+ gen \S+ fetched (\d+) B in (\d+(?:\.\d+)?)s")
 FIRST_COMMIT = re.compile(r"\[(?:barrier|spot-safe)\].*committed checkpoint at iteration (\d+)")
 ITER_RATE = re.compile(r"\[timing\].*?(\d+(?:\.\d+)?)\s*s/iter")
+# ★★ THE COLD-START SPLIT (2026-07-31). `mark()` used to write its timestamp ONLY to `phase.txt`, which it
+# OVERWRITES — so S3 held the current phase and the history was destroyed at every transition, and the run.log
+# carried exactly two clocks (`start`, `EXIT`). The ~28 min cold start could be measured as a TOTAL and never
+# split. It now echoes `[tvast] <utc> phase=<name>` into the log, so these line items record themselves:
+#     start -> staging     container boot + onstart preamble
+#     staging -> preequil  STAGE download (or rebuild on a miss)
+#     preequil -> md-running   PRE-EQUILIBRATION
+#     md-running -> first [timing]   run_ternary_leg + setup restore/build + minimise + warmup to first rate
+# Why it is the most expensive unknown on this lane: median session ~1.00 h, so 28 min is ~47 % of every
+# rental, and any session shorter than it banks NOTHING (25 % of today's). Measure-on-arrival showed MD itself
+# is fine, so this is the constraint.
+PHASE_MARK = re.compile(r"\[tvast\] (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z) phase=(\S+)")
+START_TS = re.compile(r"\[tvast\] (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z) start ")
+EXIT_TS = re.compile(r"\[tvast\] (\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z) EXIT ")
 
 
 def parse_log(text):
@@ -102,7 +116,44 @@ def parse_log(text):
     rates = [float(x) for x in ITER_RATE.findall(text)]
     if rates:
         out["s_per_iter"] = round(st.median(rates), 2)
+    out["timeline"] = timeline(text)
     return out
+
+
+def timeline(text):
+    """[(phase, utc)] plus the derived per-phase seconds, from the log's OWN stamps. PURE.
+
+    Returns `{"marks": [...], "spans": {from->to: seconds}, "complete": bool}`. `complete` is False for any
+    attempt logged before the phase marks were timestamped (everything up to 2026-07-31) — those legs cannot
+    be split retroactively and must not be silently reported as having a zero-length phase."""
+    import datetime as _dt
+
+    def _p(t):
+        return _dt.datetime.strptime(t, "%Y-%m-%dT%H:%M:%SZ")
+
+    marks = []
+    m = START_TS.search(text or "")
+    if m:
+        marks.append(("container-start", m.group(1)))
+    marks += [(g2, g1) for g1, g2 in PHASE_MARK.findall(text or "")]
+    m = EXIT_TS.search(text or "")
+    if m:
+        marks.append(("exit", m.group(1)))
+    # de-duplicate consecutive repeats (a phase re-marked on a container restart) while keeping order
+    seen, ordered = set(), []
+    for name, ts in marks:
+        if (name, ts) in seen:
+            continue
+        seen.add((name, ts))
+        ordered.append((name, ts))
+    spans = {}
+    for (n1, t1), (n2, t2) in zip(ordered, ordered[1:]):
+        try:
+            spans["%s->%s" % (n1, n2)] = (_p(t2) - _p(t1)).total_seconds()
+        except ValueError:
+            continue
+    return {"marks": ordered, "spans": spans,
+            "complete": len([n for n, _ in ordered if n not in ("container-start", "exit")]) >= 2}
 
 
 def verdict(parsed):
@@ -187,6 +238,23 @@ def measure(mode="5aks", bucket=None, prefix=None, limit=6):
             rows.append(pr)
         doc["units"][uid] = {"attempts": rows, "markers": {k: str(v) for k, v in
                                                            marker_times(uid, b, p, s3).items()}}
+    # THE LINE-ITEM SPLIT, medianed across every attempt that recorded one. Attempts predating the
+    # timestamped marks contribute NOTHING rather than a zero — an unmeasured phase is not a fast one.
+    spans = {}
+    for u in doc["units"].values():
+        for a in u["attempts"]:
+            tl = a.get("timeline") or {}
+            if not tl.get("complete"):
+                continue
+            for k, v in (tl.get("spans") or {}).items():
+                spans.setdefault(k, []).append(v)
+    doc["cold_start_split"] = {
+        "n_attempts_with_a_split": len(set(
+            id(a) for u in doc["units"].values() for a in u["attempts"]
+            if (a.get("timeline") or {}).get("complete"))),
+        "median_seconds": {k: round(st.median(v), 1) for k, v in sorted(spans.items())},
+        "n_observations": {k: len(v) for k, v in sorted(spans.items())},
+    }
     doc["totals"] = {
         "n_attempts": sum(len(u["attempts"]) for u in doc["units"].values()),
         "setup_build_seconds_median": (round(st.median(setup_s), 1) if setup_s else None),
@@ -213,6 +281,16 @@ def render(doc):
          % doc["totals"]["n_attempts"]]
     for k, d in sorted((doc.get("cache_tally") or {}).items()):
         L.append("   %-10s HIT %-4d MISS %-4d ABSENT %-4d" % (k, d["HIT"], d["MISS"], d["ABSENT"]))
+    cs = doc.get("cold_start_split") or {}
+    L.append("")
+    if cs.get("median_seconds"):
+        L.append("COLD-START SPLIT (median over %d attempt(s) that recorded one):"
+                 % cs.get("n_attempts_with_a_split", 0))
+        for k, v in cs["median_seconds"].items():
+            L.append("   %-34s %6.1f min   (n=%d)" % (k, v / 60.0, cs["n_observations"][k]))
+    else:
+        L.append("COLD-START SPLIT: no attempt has recorded one yet — phase marks became timestamped on "
+                 "2026-07-31, so only attempts started after that can be split.")
     L.append("")
     L.append("SELF-TIMED LINE ITEMS: setup build median %ss over %d build(s); checkpoint restore median %ss"
              % (doc["totals"]["setup_build_seconds_median"], doc["totals"]["n_setup_builds"],

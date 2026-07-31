@@ -92,3 +92,55 @@ def test_it_never_raises_on_a_log_it_does_not_understand(text):
     would take the whole forensic down with it."""
     p = tax.parse_log(text)
     assert set(p["caches"].values()) == {None}
+
+
+# =============================================================================================================
+# THE COLD-START SPLIT — the most expensive unknown on this lane, and it was unmeasurable by construction
+# =============================================================================================================
+# `mark()` wrote its timestamp ONLY to `phase.txt`, which it OVERWRITES, so the history was destroyed at every
+# transition and the run.log carried exactly two clocks: `start` and `EXIT`. The ~28 min cold start could be
+# measured as a TOTAL and never split. Median session is ~1.00 h, so that is ~47 % of every rental, and any
+# session shorter than it banks NOTHING — 25 % of today's. Measure-on-arrival showed the MD itself is fine
+# (the worst host today still reaches a commit boundary in ~39 min of a 48 min budget), so this is the
+# constraint. `mark()` now echoes `[tvast] <utc> phase=<name>` and the line items record themselves.
+FULL = """[tvast] 2026-07-31T12:00:00Z start unit=x leg=y seed=0 dir=fwd dt=4.0fs warmup_dt=1.0fs
+[tvast] 2026-07-31T12:00:30Z phase=start
+[tvast] 2026-07-31T12:01:10Z phase=staging
+[tvast] 2026-07-31T12:06:40Z phase=preequil
+[tvast] 2026-07-31T12:13:20Z phase=md-running
+[tvast] 2026-07-31T12:58:00Z EXIT rc=0
+"""
+
+
+def test_the_split_is_derived_from_the_logs_OWN_stamps():
+    tl = tax.timeline(FULL)
+    assert tl["complete"] is True
+    s = tl["spans"]
+    assert s["staging->preequil"] == 330.0            # 5.5 min of STAGE
+    assert s["preequil->md-running"] == 400.0         # 6.7 min of PRE-EQUIL
+    assert s["container-start->start"] == 30.0
+
+
+def test_a_log_from_BEFORE_the_marks_were_timestamped_is_incomplete_not_zero():
+    """The retroactive trap: every attempt logged before 2026-07-31 has no phase marks. Reporting those as
+    zero-length phases would invent a split that was never measured — the same shape as
+    `pooled_across_systems` reporting a median that describes no assembly."""
+    tl = tax.timeline("[tvast] 2026-07-31T12:00:00Z start unit=x\n[tvast] 2026-07-31T12:58:00Z EXIT rc=0\n")
+    assert tl["complete"] is False
+    assert "staging->preequil" not in tl["spans"]
+
+
+def test_a_container_restart_does_not_double_count_a_phase():
+    """Vast re-runs onstart on a restart, so a phase can be marked twice in one log. Identical marks collapse;
+    a genuinely repeated phase at a NEW time is kept, because that is a real second pass through it."""
+    dup = FULL + "[tvast] 2026-07-31T12:01:10Z phase=staging\n"
+    assert len(tax.timeline(dup)["marks"]) == len(tax.timeline(FULL)["marks"])
+
+
+def test_the_timeline_rides_the_ordinary_parse_so_every_attempt_carries_it():
+    assert tax.parse_log(FULL)["timeline"]["complete"] is True
+
+
+def test_a_malformed_stamp_does_not_take_the_parse_down():
+    assert tax.timeline("[tvast] not-a-date phase=staging")["spans"] == {}
+    assert tax.parse_log("[tvast] not-a-date phase=staging")["timeline"]["complete"] is False

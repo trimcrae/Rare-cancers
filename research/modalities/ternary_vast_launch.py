@@ -746,7 +746,20 @@ exec > >(tee /tmp/run.log) 2>&1
 echo "[tvast] $(date -u +%FT%TZ) start unit=$UNIT_ID leg=$LEG_ID seed=$SEED dir=$DIRECTION dt=${RBFE_TIMESTEP_FS}fs warmup_dt=${RBFE_WARMUP_TIMESTEP_FS}fs"
 
 AWSC=$(command -v aws || echo /opt/mamba/envs/rbfe/bin/aws)
-mark() { printf '%s %s\n' "$1" "$(date -u +%FT%TZ)" | $AWSC s3 cp - "$RESULT_S3/phase.txt" >/dev/null 2>&1 || true
+# ★★ THE PHASE MARK IS ECHOED INTO THE LOG, WITH ITS TIMESTAMP (2026-07-31). It was written ONLY to
+# `phase.txt`, which `mark` OVERWRITES — so S3 held the current phase and its start time, and the history was
+# destroyed on every transition. The run.log carried exactly two clocks, `start` and `EXIT`, which means the
+# ~28 min cold start could be measured as a TOTAL and never split.
+#
+# WHY THAT TOTAL IS THE MOST EXPENSIVE UNKNOWN ON THIS LANE. Median session is ~1.00 h, so a 28 min cold
+# start is ~47 % of every rental, and any session shorter than it banks NOTHING — 25 % of today's rentals.
+# Measure-on-arrival showed the MD itself is fine (the worst host today still reaches a commit boundary in
+# ~39 min of a 48 min budget), so the cold start is the constraint and nobody could see inside it.
+#
+# One `echo` per transition, into a file that is already being tee'd and synced. It costs nothing and it
+# makes every future attempt yield a complete line-item split: image pull -> stage -> pre-equil -> MD start.
+mark() { echo "[tvast] $(date -u +%FT%TZ) phase=$1"
+         printf '%s %s\n' "$1" "$(date -u +%FT%TZ)" | $AWSC s3 cp - "$RESULT_S3/phase.txt" >/dev/null 2>&1 || true
          $AWSC s3 cp /tmp/run.log "$RESULT_S3/run.log" >/dev/null 2>&1 || true; }
 # WHICH FAILURES ARE THE HOST'S FAULT, AND WHICH ARE OURS. This distinction decides whether the watchdog
 # relaunches, so it has to be made here where the phase is known — not inferred later from a log.
