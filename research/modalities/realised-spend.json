@@ -1,8 +1,8 @@
 {
  "_what": "Realised spend, DERIVED from each lane's own ledger. STRATEGY.md's scoreboard quotes this SNAPSHOT and lint_consistency.py holds it to it; the figure is never typed fresh.",
  "_generated_by": "research/modalities/realised_spend.py --write",
- "_as_of_utc": "2026-07-31T13:05:33Z",
- "_as_of_et": "9:05 AM ET Jul 31, 2026",
+ "_as_of_utc": "2026-07-31T16:18:22Z",
+ "_as_of_et": "12:18 PM ET Jul 31, 2026",
  "realised_usd_ledgered": 77.28,
  "realised_usd_ledgered_meaning": "real dollars, counted by a machine from observed billed hours. The authoritative figure, and a FLOOR on total spend while any lane below has no ledger.",
  "lanes": [
@@ -26,7 +26,7 @@
   }
  ],
  "unreadable_lanes": [],
- "attested_unledgered_usd": 22.31,
+ "attested_unledgered_usd": 48.14,
  "attested_unledgered_meaning": "real dollars no machine ledger counts, because these lanes have never had one. A DEFECT REGISTER, not an accounting category \u2014 each entry names the remediation that deletes it.",
  "attested_unledgered": [
   {
@@ -52,9 +52,17 @@
    "provider": "vast",
    "read_from": "\u26a0 THIS FIGURE IS A LOWER BOUND WITH REAL UNCERTAINTY, AND SAYING SO IS THE POINT. It is age x rate ASSUMING CONTINUOUS RUNNING, which was never observed \u2014 no ledger covers these rentals. The rate is the one this sweep's own ledger records for its A100 PCIE rentals, $0.2151/hr (vast-bench-spend-ledger.json, instances 46008409 and 46013005). A reading of the live instance record at reap gave $0.4213/hr all-in, which is plausibly dph_total (base + storage) against that ledger's base rate and would put the leak nearer $39. The boxes are destroyed and a destroyed instance vanishes from the Vast API, so the true figure is NOT RECOVERABLE. Quote the range $20-$39, never a point estimate.",
    "closes_when": "vast_bench_sweep writes its rental ledger for EVERY rental rather than stopping mid-sweep. The mechanism that hid this: the bench ledger's last entry is instance 46013005 stamped 11:27 AM ET 2026-07-27, while the sweep went on renting ids 46013066-46014594 afterwards \u2014 so the lane's spend record died before its rentals did. Nothing then saw them, because vast_idle_guard is LABEL-SCOPED and runs only inside a lane's own collect: a lane that stops being dispatched stops being guarded, and nothing anywhere says so. An account-wide sweep is the real fix."
+  },
+  {
+   "lane": "nrv04_retro_orphan",
+   "what": "LANE 11 / RUNG 4 \u2014 instance 45749905, the ONE genuine Arm E leg's host (nrv04retro-retro_noncov_nr4a2-m1-r0), rented 6:59 PM ET Fri Jul 24 2026 and not destroyed until 6:59 AM ET Fri Jul 31 2026. 156.0 h = 6.50 days of rental against a leg that computed for 1.04 h (its own record: prod_wall_s 3730.5). Same class as the cal-* orphans above and found the same day: a lane stopped being dispatched, so nothing reaped its host.",
+   "usd": 25.83,
+   "provider": "vast",
+   "read_from": "MEASURED, both halves, from the instance's own record at reap \u2014 but NOT a precise figure, and saying so is the point. Span: start_date -> destroy, 561615 s, the value the lane's own S3 ledger froze at that poll (s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/_price_ledger.json; dumped into research/modalities/nrv04-retro-price-forensics.json). Rate: $0.16555555555555557/hr, logged verbatim by retro-reap in run 30625438729 job 91139494243 at 10:59:45 UTC, one second before the same pass destroyed it ('auto-stopped 45749905 \u2014 result-in-S3'). \u26a0 THE UNCERTAINTY IS WHETHER THE METER RAN THE WHOLE TIME. The host's last S3 write is 11:20 AM ET Sun Jul 26 and its last observed state was `exited` after a container start failure, so 25.83 assumes Vast billed the rented rate for the ~4.8 idle days as well \u2014 which is the repo's own measured position (CLAUDE.md \u00a76: only the control plane stops the meter; a crash-looping container never returns) but was never measured for the `exited` state specifically. If the meter stopped at the exit the figure is as low as $6.68 (the 40.3 h to its last write). The host is destroyed and a destroyed instance vanishes from the Vast API, so the true figure is NOT RECOVERABLE. Quote the range $6.68-$25.83; 25.83 is the reading the lane's own ledger produces.",
+   "closes_when": "nrv04_vast_launch writes a per-RENTAL ledger keyed on instance id, committed to the repo the way step1-fanout-map.json is, instead of an S3-only per-LABEL file no machine ledger reads. Two defects made this invisible for five days and both are now closed in code: the ledger row carried no instance id, start_date or status, so reconstructing it needed CI logs that expire (fixed: _update_price_ledger records provenance); and a rental outliving any plausible leg was averaged into the per-leg mean instead of being called a leak (fixed: ledger_entry_reading + LEAK_ABOVE_S, pinned by tests/test_price_ledger_uptime_semantics.py). What remains is that nothing dispatches this lane's collect on a cadence \u2014 the same 'a lane that stops being dispatched stops being guarded' as the row above."
   }
  ],
- "realised_usd_best_estimate": 99.59,
+ "realised_usd_best_estimate": 125.42,
  "realised_usd_best_estimate_meaning": "ledgered + attested. Quote it only with the split; the attested part is a citation of a past reading, not a live measurement.",
  "free_credit_separate_ledger": {
   "gcp": {

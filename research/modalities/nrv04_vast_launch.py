@@ -249,8 +249,11 @@ def _vast_instance_logs(key, iid, tail=400):
 
 
 def leg_cost_usd(uptime_s, dph_total):
-    """PURE (unit-tested): measured $ a leg cost = wall-clock hours on the rented instance x the ACTUAL bid rate
-    paid (dph_total, the interruptible bid we won — NOT dph_base on-demand). Returns None if inputs are missing."""
+    """PURE (unit-tested): $ = wall-clock hours a rented instance was ALIVE x the ACTUAL bid rate paid
+    (dph_total, the interruptible bid we won — NOT dph_base on-demand). Returns None if inputs are missing.
+
+    ⚠ THIS IS RENTAL TIME, NOT LEG TIME. See `_update_price_ledger` and `ledger_entry_reading` — the
+    2026-07-31 finding was one row of 156.0 h against a leg that computed for 1.04 h."""
     try:
         return round((float(uptime_s) / 3600.0) * float(dph_total), 4)
     except (TypeError, ValueError):
@@ -259,16 +262,105 @@ def leg_cost_usd(uptime_s, dph_total):
 
 _PRICE_LEDGER_KEY_SUFFIX = "_price_ledger.json"
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ⚠ WHAT `uptime_s` IS — READ THIS BEFORE QUOTING A ROW OF THIS LEDGER
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# MEASURED 2026-07-31, from the ledger, the CI logs and the live Vast census (nrv04_retro_price_forensics.py;
+# report: nrv04-retro-price-forensics.json). `uptime_s` is written as `now - instance.start_date` at whatever
+# poll happened to see the instance. It is therefore:
+#
+#   • NOT the leg's compute time. Row `nrv04retro-retro_noncov_nr4a2-m1-r0` read 561615 s = 156.0 h against a
+#     leg whose own record says prod_wall_s 3730.5 = 1.04 h — 150.5x. That was NOT a units bug: instance
+#     45749905 really was rented 6:59 PM ET Fri Jul 24 and really was destroyed 6:59 AM ET Fri Jul 31, six and
+#     a half days later, at $0.16556/hr (run 30625438729, job 91139494243, 10:59:45-46 UTC). The leg finished
+#     on 07-26 and the host was never reaped, because nothing dispatched this lane's collect for five days.
+#   • NOT the whole rental either — it is an age at ONE observation, so it is a LOWER bound on billed
+#     wall clock (the poll is at or before teardown) and never an upper one.
+#   • MEASURED ON `start_date`, which IS the rental start on this account: the same census that showed the
+#     6.5-day row showed three sibling hosts rented 14/31/72 min earlier reading start_date ages of
+#     14m/31m/1h12m, while their `duration` field (the HOST MACHINE's uptime, the field
+#     `congeneric_fanout_vast._age_min` exists to avoid) read 135d/1958d/30d. So the field means what it says.
+#
+# The failure this must never repeat is a READER's, not the arithmetic's: a row of this ledger is billed
+# rental time and answers "what did this host cost", never "how long did the science take".
+#
+# A rental that outlives any plausible leg. The lane's own hang-guard is MAX_LEG_MIN (240 min default), so a
+# whole leg — provision + stage + run + one poll of lag — cannot approach this. A row above it is idle
+# rental, i.e. money with no science, and must be reported as a LEAK rather than averaged into a $/leg.
+LEAK_ABOVE_S = 6 * 3600
+
+
+def ledger_entry_reading(entry, leak_above_s=LEAK_ABOVE_S):
+    """PURE (unit-tested). Classify ONE ledger row, so a reader cannot mistake rental time for leg time.
+
+    Returns {"kind": "leg"|"leak"|"unknown", "hours", "usd", "why"}. `leak` means the rental outlived any
+    plausible leg and its dollars are idle-host dollars — real money, but not the price of a leg, so
+    `_update_price_ledger` keeps it OUT of the per-leg mean and reports it separately."""
+    up = entry.get("uptime_s")
+    usd = entry.get("cost_usd")
+    if up is None:
+        return {"kind": "unknown", "hours": None, "usd": usd,
+                "why": "no uptime recorded — no host was ever observed for this label"}
+    hours = round(float(up) / 3600.0, 4)
+    if float(up) > leak_above_s:
+        return {"kind": "leak", "hours": hours, "usd": usd,
+                "why": (f"the host was alive {hours:.1f} h, past the {leak_above_s / 3600:.0f} h a whole leg "
+                        f"can take (MAX_LEG_MIN backstop + provisioning). This is idle rental time, not the "
+                        f"price of a leg — see the 2026-07-31 orphan, realised_spend.ATTESTED.")}
+    return {"kind": "leg", "hours": hours, "usd": usd,
+            "why": "rental age is consistent with one leg (provision + run + poll lag)"}
+
+
+def _finalizable(label, done_units, start_date, done_mtimes=None):
+    """PURE (unit-tested). May this label's cost be FROZEN at the current observation?
+
+    Only if its result was written by THIS rental. `final` used to latch on the mere existence of a
+    `leg_*.json`, so re-renting a unit that already had a result froze the cost at the first poll after
+    launch — minutes — while the host went on billing for hours. That is the same field over-reporting in one
+    direction (the 6.5-day orphan) and under-reporting in the other, and it is why 17 rows of the
+    retrospective ledger read $0.01-$0.11 for rentals that were still running.
+
+    `done_mtimes` maps label -> the epoch its result was written. Absent (or absent for this label) we cannot
+    tell an old result from a new one, so we keep the old behaviour and finalize — the ledger must not stall
+    forever just because a caller did not pass mtimes."""
+    if label not in done_units:
+        return False
+    if not done_mtimes or label not in done_mtimes:
+        return True
+    try:
+        return float(done_mtimes[label]) >= float(start_date)
+    except (TypeError, ValueError):
+        return True
+
 
 def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledger.json",
-                         result_prefix=None, n_units=None):
-    """Maintain a per-leg measured-cost ledger ACROSS collect() polls (the deliverable = a MEASURED price). For
-    each instance we see, record uptime x dph_total; once its leg has a result in S3 we FINALIZE that cost (an
-    instance is torn down right after, so the last live observation is the billed wall-clock to within one poll).
-    The ledger is PERSISTED IN S3 (each collect runs on a fresh ephemeral runner, so a local file would reset every
-    poll and only ever see one leg) -> finalized legs accumulate into the true 18-leg panel mean + total.
-    Returns a summary: finalized per-leg costs, measured mean $/leg, and the projected full-panel (18-unit) total."""
+                         result_prefix=None, n_units=None, done_mtimes=None):
+    """Maintain a per-RENTAL measured-cost ledger ACROSS collect() polls (the deliverable = a MEASURED price).
+    For each instance we see, record `now - start_date` x dph_total; once its result is in S3 we FREEZE that
+    cost. The ledger is PERSISTED IN S3 (each collect runs on a fresh ephemeral runner, so a local file would
+    reset every poll and only ever see one leg) -> frozen rentals accumulate into the panel mean + total.
+
+    ⚠ A ROW IS RENTAL TIME, NOT LEG TIME — the block above `LEAK_ABOVE_S` is the one home for what that means
+    and for the 2026-07-31 measurement behind it. Two consequences are implemented here rather than left to
+    the reader, because leaving them to the reader is what went wrong:
+
+      1. A row whose rental outlived any plausible leg is reported as a LEAK, not averaged into $/leg
+         (`ledger_entry_reading`). One 6.5-day orphan dragged an 18-row mean to $1.4763/leg while the 17
+         genuine rows were $0.01-$0.11 — a mean 20x the thing it claimed to measure.
+      2. A cost is frozen only when the result was written by THIS rental (`_finalizable` + `done_mtimes`),
+         so re-renting a unit that already had a result can no longer freeze the price at minutes while the
+         host bills for hours.
+
+    Each row also carries its PROVENANCE — instance id, start_date, the moment observed, the status seen —
+    because reconstructing the orphan above needed CI logs that expire, and the ledger itself said nothing.
+
+    Returns a summary: per-rental costs, measured mean $/leg over NON-leak rows, and the projected panel total."""
     import time
+    # `retro_reap` already passes a {unit: newest_record_mtime} MAPPING (retro_record_units) — the same map
+    # `teardown_candidates` uses to avoid reaping a fresh host for a stale record. Reuse it rather than
+    # re-listing S3: one home for "when did this unit's result land".
+    if done_mtimes is None and isinstance(done_units, dict):
+        done_mtimes = done_units
     ledger = {}
     # Keyed on the CALLER's prefix so the retrospective's ledger cannot land in — or be read from — the
     # covalent panel's, which would mix two panels' per-leg costs into one mean.
@@ -293,8 +385,9 @@ def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledge
         label = i.get("label")
         if not label:
             continue
+        start_date = i.get("start_date")
         try:
-            up_s = now - float(i.get("start_date") or now)
+            up_s = now - float(start_date or now)
         except (TypeError, ValueError):
             up_s = 0
         cost = leg_cost_usd(up_s, i.get("dph_total"))
@@ -302,18 +395,44 @@ def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledge
         if prev.get("final"):
             continue                                            # already finalized; don't overwrite
         ledger[label] = {"uptime_s": round(up_s), "dph_total": i.get("dph_total"),
-                         "cost_usd": cost, "final": label in done_units}
-    finals = {k: v["cost_usd"] for k, v in ledger.items() if v.get("final") and v.get("cost_usd") is not None}
+                         "cost_usd": cost,
+                         "final": _finalizable(label, done_units, start_date, done_mtimes),
+                         # PROVENANCE. Without these, answering "which host was this, and when?" needs CI
+                         # logs, which expire — exactly the dig the 2026-07-31 orphan required.
+                         "instance_id": i.get("id"), "start_date": start_date,
+                         "observed_at": round(now),
+                         "status": i.get("actual_status") or i.get("cur_state")}
+    rows = {k: v for k, v in ledger.items() if v.get("final") and v.get("cost_usd") is not None}
+    readings = {k: ledger_entry_reading(v) for k, v in rows.items()}
+    legs = {k: v["cost_usd"] for k, v in rows.items() if readings[k]["kind"] == "leg"}
+    leaks = {k: v["cost_usd"] for k, v in rows.items() if readings[k]["kind"] == "leak"}
     n_units = len(units_to_run()) if n_units is None else int(n_units)
-    mean = round(sum(finals.values()) / len(finals), 4) if finals else None
+    # The mean is over LEG rows only. A leak is real money — it stays in the total below and in
+    # `leaked_usd` — but pricing a panel off a row that is 150x a leg projects a fantasy.
+    mean = round(sum(legs.values()) / len(legs), 4) if legs else None
     summary = {
-        "measured_legs": len(finals),
-        "per_leg_usd": finals,
+        "measured_legs": len(legs),
+        "per_leg_usd": legs,
         "measured_mean_usd_per_leg": mean,
-        "measured_total_so_far_usd": round(sum(finals.values()), 4) if finals else 0.0,
+        # Every frozen row, leaks included: this is money that left the account.
+        "measured_total_so_far_usd": round(sum(rows[k]["cost_usd"] for k in rows), 4) if rows else 0.0,
+        "leaked_usd": round(sum(leaks.values()), 4) if leaks else 0.0,
+        "leaked_rentals": {k: {"usd": v, "why": readings[k]["why"]} for k, v in leaks.items()},
         "projected_panel_total_usd": round(mean * n_units, 2) if mean is not None else None,
         "panel_units": n_units,
+        "uptime_s_means": "age of a LIVE rental at the moment a collect polled it — billed host time, NOT "
+                          "the leg's compute time and NOT the rental's full lifetime (it is a lower bound "
+                          "on that). See nrv04_vast_launch.LEAK_ABOVE_S.",
+        # ⚠ A price is only a price for the PROTOCOL that ran. This ledger sees instances, not leg records,
+        # so it cannot tell a 5 ns production leg from a 2 ps smoke — and on 2026-07-31 the retrospective's
+        # 17 non-leak rows were ALL smoke (nrv04_retro_panel.production_leg_check). Anyone projecting a
+        # panel cost off this mean must first check the mode, or they price 5 ns at the cost of 2 ps.
+        "measured_mean_caveat": "over whatever legs ran, at whatever MODE. It is NOT protocol-aware — check "
+                                "nrv04_retro_panel.production_leg_check before reading it as a production "
+                                "$/leg.",
     }
+    for k, v in sorted(leaks.items()):
+        print(f"[price] ⚠ LEAK {k}: ${v} over {readings[k]['hours']:.1f} h — {readings[k]['why']}", flush=True)
     doc = {"ledger": ledger, "summary": summary}
     json.dump(doc, open(path, "w"), indent=2)
     if s3c is not None:                                        # persist so the next poll accumulates, not resets

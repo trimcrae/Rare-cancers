@@ -175,6 +175,42 @@ ATTESTED = [
                        "inside a lane's own collect: a lane that stops being dispatched stops being "
                        "guarded, and nothing anywhere says so. An account-wide sweep is the real fix.",
     },
+    {
+        "lane": "nrv04_retro_orphan",
+        "what": "LANE 11 / RUNG 4 — instance 45749905, the ONE genuine Arm E leg's host "
+                "(nrv04retro-retro_noncov_nr4a2-m1-r0), rented 6:59 PM ET Fri Jul 24 2026 and not destroyed "
+                "until 6:59 AM ET Fri Jul 31 2026. 156.0 h = 6.50 days of rental against a leg that computed "
+                "for 1.04 h (its own record: prod_wall_s 3730.5). Same class as the cal-* orphans above and "
+                "found the same day: a lane stopped being dispatched, so nothing reaped its host.",
+        "usd": 25.83,
+        "provider": "vast",
+        "read_from": "MEASURED, both halves, from the instance's own record at reap — but NOT a precise "
+                     "figure, and saying so is the point. Span: start_date -> destroy, 561615 s, the value "
+                     "the lane's own S3 ledger froze at that poll "
+                     "(s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/_price_ledger.json; dumped "
+                     "into research/modalities/nrv04-retro-price-forensics.json). Rate: $0.16555555555555557"
+                     "/hr, logged verbatim by retro-reap in run 30625438729 job 91139494243 at 10:59:45 UTC, "
+                     "one second before the same pass destroyed it ('auto-stopped 45749905 — result-in-S3'). "
+                     "⚠ THE UNCERTAINTY IS WHETHER THE METER RAN THE WHOLE TIME. The host's last S3 write is "
+                     "11:20 AM ET Sun Jul 26 and its last observed state was `exited` after a container "
+                     "start failure, so 25.83 assumes Vast billed the rented rate for the ~4.8 idle days as "
+                     "well — which is the repo's own measured position (CLAUDE.md §6: only the control plane "
+                     "stops the meter; a crash-looping container never returns) but was never measured for "
+                     "the `exited` state specifically. If the meter stopped at the exit the figure is as low "
+                     "as $6.68 (the 40.3 h to its last write). The host is destroyed and a destroyed "
+                     "instance vanishes from the Vast API, so the true figure is NOT RECOVERABLE. Quote the "
+                     "range $6.68-$25.83; 25.83 is the reading the lane's own ledger produces.",
+        "closes_when": "nrv04_vast_launch writes a per-RENTAL ledger keyed on instance id, committed to the "
+                       "repo the way step1-fanout-map.json is, instead of an S3-only per-LABEL file no "
+                       "machine ledger reads. Two defects made this invisible for five days and both are "
+                       "now closed in code: the ledger row carried no instance id, start_date or status, so "
+                       "reconstructing it needed CI logs that expire (fixed: _update_price_ledger records "
+                       "provenance); and a rental outliving any plausible leg was averaged into the per-leg "
+                       "mean instead of being called a leak (fixed: ledger_entry_reading + LEAK_ABOVE_S, "
+                       "pinned by tests/test_price_ledger_uptime_semantics.py). What remains is that "
+                       "nothing dispatches this lane's collect on a cadence — the same 'a lane that stops "
+                       "being dispatched stops being guarded' as the row above.",
+    },
 ]
 
 # --------------------------------------------------------------------------------------------------------
