@@ -127,38 +127,65 @@ jobs:
           echo "authenticated as: $(gcloud config get-value account 2>/dev/null)"
 
       - name: PRE-FLIGHT — refuse unless the single GPU is genuinely free
-        # The zombie discriminator of gcp-gpu-facts.md §2, applied as a GATE rather than a readout: usage ≥ 1
-        # means something holds the one GPU. Under GPUS_ALL_REGIONS=1 a second GPU job cannot run, and the
-        # create would fail on quota — which this workflow would then have to distinguish from a capacity
-        # stockout after the fact. Refusing before spending is cheaper and unambiguous.
+        # The zombie discriminator of gcp-gpu-facts.md §2, applied as a GATE rather than a readout: something
+        # holding the one GPU means this probe cannot run beside it, and creating anyway would fail on quota
+        # in a way indistinguishable from a capacity stockout afterwards.
+        #
+        # ★★ A GATE THAT ERRORS MUST NEVER RENDER LIKE A GATE THAT REFUSED (measured here, 2026-07-31, run
+        # 30631788507). The first version of this step ran under `set -eo pipefail` and read the global cap
+        # with `gcloud compute project-info describe`. The step exited non-zero with NO refusal annotation and
+        # the probe never provisioned — and the GPU was demonstrably free at that moment (the same run's
+        # teardown step listed ZERO instances, and gcp-reap-vms run 30631014002 eleven minutes earlier said
+        # `no instances in project`). So the failure was the READER, not the condition. Two consequences,
+        # both applied below:
+        #   * `set +e` and an explicit rc for every probe, so a permission/API failure is REPORTED as one
+        #     instead of aborting the step and looking like a refusal. Only the explicit gate exits 1.
+        #   * the gate rests on the checks that are PROVEN to work in this project — `instances list` (the
+        #     definitive zombie test of facts §2: quota can only be held by an instance) and the per-type
+        #     `regions describe` row, both of which returned real values in run 30631014002. The global
+        #     `project-info` row is printed as a readout with its rc, so the next run says plainly whether
+        #     gpu-runner@ may read it, rather than leaving it a belief.
         run: |
-          set -eo pipefail
-          echo "=== global GPU quota (THE binding cap) ==="
-          GLOB=$(gcloud compute project-info describe --format="value(quotas)" 2>/dev/null \
-                 | tr ';' '\n' | grep -i "GPUS_ALL_REGIONS" || true)
-          echo "  ${GLOB:-<could not read project-info quotas>}"
-          USAGE=$(gcloud compute project-info describe \
-                    --flatten="quotas[]" --filter="quotas.metric=GPUS_ALL_REGIONS" \
-                    --format="value(quotas.usage)" 2>/dev/null | head -1)
-          LIMIT=$(gcloud compute project-info describe \
-                    --flatten="quotas[]" --filter="quotas.metric=GPUS_ALL_REGIONS" \
-                    --format="value(quotas.limit)" 2>/dev/null | head -1)
-          echo "  GPUS_ALL_REGIONS: limit=${LIMIT:-?} usage=${USAGE:-?}"
-          echo "=== per-type quota for the requested card ==="
-          gcloud compute regions describe us-central1 --flatten="quotas[]" \
-            --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null \
-            | awk -v m="$QUOTA_METRIC" '$1==m {print "  "$1": limit="$2" usage="$3}'
-          echo "=== instances in project (any name, any zone) ==="
-          INST=$(gcloud compute instances list --format="value(name,zone,status)" 2>/dev/null || true)
-          echo "${INST:-  (none)}"
-          BAD=0
-          case "$USAGE" in ""|0|0.0) : ;; *) BAD=1 ;; esac
-          [ -n "$INST" ] && BAD=1
-          if [ "$BAD" = 1 ]; then
-            echo "::error title=REFUSING TO PROVISION — THE SINGLE GPU IS NOT FREE::GPUS_ALL_REGIONS usage='${USAGE}' and instances='${INST}'. gcp-gpu-facts.md §1: at most ONE GPU concurrently across all regions and types, so this probe cannot run beside whatever holds it, and creating anyway would fail on quota in a way indistinguishable from a capacity stockout. Wait for the holder to finish (or reap it deliberately with gcp-reap-vms.yml) and re-dispatch."
+          set +e
+          echo "=== GPUS_ALL_REGIONS (the binding cap) — readout, with its exit code ==="
+          GLOB=$(gcloud compute project-info describe --flatten="quotas[]" \
+                   --filter="quotas.metric=GPUS_ALL_REGIONS" \
+                   --format="value(quotas.metric,quotas.limit,quotas.usage)" 2>/tmp/pierr)
+          PIRC=$?
+          if [ "$PIRC" = 0 ] && [ -n "$GLOB" ]; then
+            echo "  $GLOB"
+            USAGE=$(printf '%s' "$GLOB" | awk '{print $3}')
+          else
+            USAGE=""
+            echo "  <unreadable: rc=$PIRC> $(head -2 /tmp/pierr 2>/dev/null | tr '\n' ' ')"
+            echo "::warning title=GLOBAL QUOTA UNREADABLE::gcloud compute project-info describe returned rc=$PIRC / empty for GPUS_ALL_REGIONS, so the global cap could not be read directly. This does NOT block the probe: quota can only be held by an INSTANCE (gcp-gpu-facts.md §2), and the instance list plus the per-type regional row below are the checks this gate actually rests on."
+          fi
+          echo "=== per-type quota for the requested card (us-central1) ==="
+          REG=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
+                  --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/tmp/rgerr)
+          RGRC=$?
+          TYPE_ROW=$(printf '%s\n' "$REG" | awk -v m="$QUOTA_METRIC" '$1==m {print $0}')
+          echo "  rc=$RGRC  ${TYPE_ROW:-<no row for $QUOTA_METRIC>}"
+          TYPE_USAGE=$(printf '%s' "$TYPE_ROW" | awk '{print $3}')
+          echo "=== instances in project (any name, any zone) — the definitive zombie test ==="
+          INST=$(gcloud compute instances list --format="value(name,zone,status)" 2>/tmp/ilerr)
+          ILRC=$?
+          echo "  rc=$ILRC"
+          printf '%s\n' "${INST:-  (none)}"
+          BAD=""
+          if [ "$ILRC" != 0 ]; then
+            BAD="the instance list itself failed (rc=$ILRC: $(head -1 /tmp/ilerr 2>/dev/null))"
+          elif [ -n "$INST" ]; then
+            BAD="an instance exists: $(printf '%s' "$INST" | tr '\n' ';')"
+          else
+            case "$USAGE" in ""|0|0.0|0.00) : ;; *) BAD="GPUS_ALL_REGIONS usage=$USAGE" ;; esac
+            case "$TYPE_USAGE" in ""|0|0.0|0.00) : ;; *) BAD="${QUOTA_METRIC} usage=$TYPE_USAGE" ;; esac
+          fi
+          if [ -n "$BAD" ]; then
+            echo "::error title=REFUSING TO PROVISION — THE SINGLE GPU IS NOT FREE::$BAD. gcp-gpu-facts.md §1: at most ONE GPU concurrently across ALL regions and types, so this probe cannot run beside whatever holds it, and creating anyway would fail on quota in a way indistinguishable from a capacity stockout. Wait for the holder to finish, or reap it deliberately with gcp-reap-vms.yml, then re-dispatch."
             exit 1
           fi
-          echo "::notice title=GPU IS FREE::GPUS_ALL_REGIONS usage=${USAGE:-0} and no instances in the project — safe to provision a ${CARD} probe."
+          echo "::notice title=GPU IS FREE::no instances in the project, ${QUOTA_METRIC} usage=${TYPE_USAGE:-0}, GPUS_ALL_REGIONS usage=${USAGE:-<unreadable>} — safe to provision a ${CARD} probe."
 
       - name: Price probe ($0, best-effort) — Cloud Billing Catalog instead of typed list rates
         # Best-effort ON PURPOSE. The catalog needs cloudbilling.googleapis.com enabled and its SKU

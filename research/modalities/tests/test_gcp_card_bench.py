@@ -181,6 +181,39 @@ def test_the_probe_refuses_to_provision_when_the_single_gpu_is_not_free():
     assert pre < create, "the quota check must run BEFORE the create, not beside it"
 
 
+def _step_body(text: str, title_fragment: str) -> str:
+    """The `run:` body of the step whose name contains `title_fragment`. Extraction, not transcription."""
+    i = text.index(title_fragment)
+    j = text.index("run: |", i)
+    k = text.find("\n      - name:", j)
+    return text[j:k if k != -1 else len(text)]
+
+
+def test_the_refusal_gate_cannot_fail_for_a_reason_that_is_not_a_refusal():
+    """★★ MEASURED 2026-07-31, run 30631788507. The first version of the pre-flight ran under
+    `set -eo pipefail` and read the global cap with `gcloud compute project-info describe`. The step exited
+    non-zero with NO refusal annotation, the probe never provisioned — and the GPU was demonstrably free
+    (that same run's teardown listed zero instances; gcp-reap-vms run 30631014002 said `no instances in
+    project` eleven minutes earlier). The READER failed, not the condition, and an errored gate rendered
+    exactly like a refusing one.
+
+    So: the gate step must not abort on a readout, and the ONLY `exit 1` in it must be the refusal.
+    """
+    body = _step_body(_wf_text(), "PRE-FLIGHT — refuse unless the single GPU is genuinely free")
+    assert "set +e" in body, (
+        "the pre-flight runs under errexit again — a permission or API failure in a READOUT will abort the "
+        "step and be indistinguishable from a refusal")
+    assert not re.search(r"^\s*set -e", body, re.M), "errexit is back in the gate"
+    exits = re.findall(r"exit 1", body)
+    assert len(exits) == 1, f"the gate has {len(exits)} exit-1 paths; exactly one — the refusal — is allowed"
+    assert "REFUSING TO PROVISION" in body.split("exit 1")[0], "the single exit 1 is not the refusal"
+    # and it must gate on the check that is PROVEN to work here, not only on the one that failed
+    assert "instances list" in body, (
+        "quota can only be held by an instance (gcp-gpu-facts.md §2) — the instance list is the definitive "
+        "zombie test and must be part of the gate")
+    assert "rc=" in body, "each probe must report its exit code, or the next failure is a belief again"
+
+
 def test_the_run_echoes_what_it_was_dispatched_with():
     """tests/test_workflow_dispatch_input_cap.py records that an over-cap workflow silently delivers EMPTY
     inputs. That is invisible unless something prints what arrived."""
