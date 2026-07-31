@@ -149,7 +149,147 @@ def single_point_kj(topology, positions, sysgen, periodic=True):
         del ctx, integ
 
 
-def probe_unit(bucket, system_name, seed, leg_id="noncov_nr4a1", cofold_prefix=None):
+def decompose_by_force(system, positions):
+    """{force: energy_kj} for one already-built system. WHICH TERM CARRIES THE ENERGY NAMES THE FIX.
+
+    ★★ THE QUESTION `compare_to_control` LEAVES OPEN. Knowing the divergence is present at
+    `protein_after_pdbfixer` says WHEN; it does not say WHAT, and the two candidates need opposite responses:
+
+      * `NonbondedForce` -> atoms on top of each other. The LJ r^-12 term diverges, which is the only ordinary
+        way to reach 1e15 kJ/mol, and it points at GEOMETRY.
+      * `HarmonicBondForce` / `HarmonicAngleForce` -> a bond or angle spanning a distance it should not, i.e.
+        a CONNECTIVITY error — two residues wrongly joined, a chain break stitched shut. Geometry would be
+        innocent and no amount of re-seeding would help.
+
+    Mutates force groups on the system it is handed, so hand it a throwaway.
+    """
+    from openmm import Context, Platform, VerletIntegrator, unit
+    forces = list(system.getForces())
+    for i, f in enumerate(forces):
+        f.setForceGroup(min(i, 31))
+    integ = VerletIntegrator(0.001)
+    ctx = None
+    out = {}
+    try:
+        ctx = Context(system, integ, Platform.getPlatformByName("CPU"))
+        ctx.setPositions(positions)
+        for i, f in enumerate(forces):
+            e = ctx.getState(getEnergy=True, groups={min(i, 31)}).getPotentialEnergy().value_in_unit(
+                unit.kilojoule_per_mole)
+            out["%s[%d]" % (type(f).__name__, i)] = e
+    finally:
+        del ctx, integ
+    return out
+
+
+def cofold_atom_keys(complex_pdb):
+    """{(chain, resSeq, atom_name)} present in the RAW co-fold PDB — i.e. placed by Boltz, not by our prep.
+
+    The co-fold is heavy-atoms-only (see `nrv04_covalent_md.build_system`), so every hydrogen in the fixed
+    topology is ours by construction and every heavy atom NOT in this set was added by `addMissingAtoms`.
+    """
+    keys = set()
+    with open(complex_pdb) as fh:
+        for ln in fh:
+            if ln.startswith(("ATOM  ", "HETATM")):
+                keys.add((ln[21], ln[22:26].strip(), ln[12:16].strip()))
+    return keys
+
+
+def _bonded_within_3(topology):
+    """{frozenset({i, j})} for every 1-2 and 1-3 pair — these are SUPPOSED to be close and are excluded."""
+    adj = {}
+    for b in topology.bonds():
+        i, j = b[0].index, b[1].index
+        adj.setdefault(i, set()).add(j)
+        adj.setdefault(j, set()).add(i)
+    pairs = set()
+    for i, ns in adj.items():
+        for j in ns:
+            pairs.add(frozenset((i, j)))
+            for k in adj.get(j, ()):
+                if k != i:
+                    pairs.add(frozenset((i, k)))
+    return pairs
+
+
+def close_contacts(topology, positions, cofold_keys=None, cutoff_a=1.1, limit=25, scan_a=2.5):
+    """The non-bonded atom pairs closer than `cutoff_a`, each annotated with WHO PLACED IT.
+
+    ⛔ THE PROVENANCE COLUMN IS THE WHOLE POINT, and it is the difference between a decision for trimcrae and
+    a bug for me. `compare_to_control` localises the fault to "the co-fold, or PDBFixer's repair of it" — one
+    stage, two owners. If the offending pair is two Boltz-placed HEAVY atoms, the predicted structure is bad
+    and re-seeding is the only route (a preregistration question). If either atom was added by our own
+    `addMissingAtoms` / `addMissingHydrogens`, the input may be fine and the PREP is placing an atom on top of
+    something — ours, in code, and fixable without touching the panel's design.
+    """
+    import numpy as np
+    from openmm import unit
+    xyz = np.array(positions.value_in_unit(unit.angstrom), dtype=float)
+    atoms = list(topology.atoms())
+    excluded = _bonded_within_3(topology)
+    # ⚠ THE SCAN IS WIDER THAN THE CLASH CUTOFF ON PURPOSE. If nothing sits under `cutoff_a` this must still
+    # return the closest pairs it DID find, because "no contact under 1.1 A" is itself decision-relevant — it
+    # would mean the 1e15 is not a steric overlap at all. Returning an empty list instead would leave
+    # `owner_of_the_fault` at UNDETERMINED for want of evidence that exists.
+    # Cell list at the scan radius: 11 k atoms all-pairs is ~121 M distances, which is neither necessary nor kind.
+    cell = max(float(scan_a), float(cutoff_a), 1e-6)
+    keys = np.floor(xyz / cell).astype(np.int64)
+    buckets = {}
+    for idx, k in enumerate(map(tuple, keys)):
+        buckets.setdefault(k, []).append(idx)
+    seen, hits = set(), []
+    offs = [(dx, dy, dz) for dx in (-1, 0, 1) for dy in (-1, 0, 1) for dz in (-1, 0, 1)]
+    for k, members in buckets.items():
+        near = [n for o in offs for n in buckets.get((k[0] + o[0], k[1] + o[1], k[2] + o[2]), ())]
+        for i in members:
+            for j in near:
+                if j <= i:
+                    continue
+                p = frozenset((i, j))
+                if p in seen or p in excluded:
+                    continue
+                seen.add(p)
+                d = float(np.linalg.norm(xyz[i] - xyz[j]))
+                if d < cell:
+                    hits.append((d, i, j))
+    hits.sort()
+    n_under_cutoff = sum(1 for d, _i, _j in hits if d < cutoff_a)
+
+    # ⛔ THE PROVENANCE IS A STRUCTURED FLAG, NEVER A SUBSTRING OF THE PROSE (caught by this module's own test
+    # before it ever ran, 2026-07-31). The first version derived `both_from_cofold` with
+    # `"co-fold" in description`, and the hydrogen description reads "...the co-fold is heavy-atoms-only" —
+    # so every PDBFixer hydrogen matched and was attributed to Boltz. That single boolean is what
+    # `owner_of_the_fault` uses to decide between a code fix and a preregistration decision, so the bug would
+    # have routed a fixable clash to trimcrae with a confident explanation attached.
+    SRC_COFOLD, SRC_PREP, SRC_UNKNOWN = "cofold", "prep", "unknown"
+
+    def _who(a):
+        if a.element is not None and a.element.symbol == "H":
+            return SRC_PREP, "OURS (hydrogen added by PDBFixer; the co-fold is heavy-atoms-only)"
+        if cofold_keys is None:
+            return SRC_UNKNOWN, "unknown — no raw co-fold supplied to compare against"
+        key = (a.residue.chain.id, str(a.residue.id), a.name)
+        return ((SRC_COFOLD, "co-fold (placed by Boltz)") if key in cofold_keys else
+                (SRC_PREP, "OURS (heavy atom added by PDBFixer)"))
+
+    def _lbl(a):
+        return "%s:%s%s:%s" % (a.residue.chain.id, a.residue.name, a.residue.id, a.name)
+
+    out = []
+    for d, i, j in hits[:limit]:
+        s1, w1 = _who(atoms[i])
+        s2, w2 = _who(atoms[j])
+        out.append({"distance_a": round(d, 4), "atom_1": _lbl(atoms[i]), "atom_2": _lbl(atoms[j]),
+                    "placed_by_1": w1, "placed_by_2": w2, "source_1": s1, "source_2": s2,
+                    # UNKNOWN is not co-fold. Without a raw structure to compare against, nothing may be
+                    # attributed to Boltz — that attribution is the one that ends in a decision for trimcrae.
+                    "under_clash_cutoff": bool(d < cutoff_a),
+                    "both_from_cofold": (s1 == SRC_COFOLD and s2 == SRC_COFOLD)})
+    return out, n_under_cutoff
+
+
+def probe_unit(bucket, system_name, seed, leg_id="noncov_nr4a1", cofold_prefix=None, localise=False):
     """Build ONE (system, seed) through the production builder, recording PE at each stage.
 
     `leg_id` selects the panel leg whose ligand/covalent flags are used. The retrospective's legs are all
@@ -170,6 +310,33 @@ def probe_unit(bucket, system_name, seed, leg_id="noncov_nr4a1", cofold_prefix=N
     res = assemble_leg(cif, leg, LIGANDS[leg.ligand], "/tmp/pestage_%s" % tag)
 
     stages = []
+    localised = {}
+    cofold_keys = cofold_atom_keys(os.path.join(res["out"], "complex.pdb")) if localise else None
+
+    def _localise(name, topo, pos, sysgen):
+        """WHICH FORCE and WHICH ATOMS, at the stage the divergence is first present. Non-fatal by design —
+        this is an explanation of a failure and must never become one."""
+        from openmm import app
+        try:
+            sysd = sysgen.forcefield.createSystem(topo, nonbondedMethod=app.NoCutoff, constraints=None,
+                                                  rigidWater=False)
+            by_force = decompose_by_force(sysd, pos)
+        except Exception as exc:  # noqa: BLE001
+            by_force = {"error": "%s: %s" % (type(exc).__name__, exc)}
+        try:
+            contacts, n_total = close_contacts(topo, pos, cofold_keys=cofold_keys)
+        except Exception as exc:  # noqa: BLE001
+            contacts, n_total = [{"error": "%s: %s" % (type(exc).__name__, exc)}], None
+        localised[name] = {"energy_by_force_kj": by_force, "n_close_contacts": n_total,
+                           "worst_contacts": contacts}
+        print("[pe-stage]   force decomposition at %s:" % name, flush=True)
+        for k, v in sorted(by_force.items(), key=lambda kv: -abs(kv[1]) if isinstance(kv[1], float) else 0):
+            print("[pe-stage]     %-28s %s" % (k, ("%+.6e kJ/mol" % v) if isinstance(v, float) else v),
+                  flush=True)
+        print("[pe-stage]   %s non-bonded pair(s) under the contact cutoff; worst:"
+              % ("?" if n_total is None else n_total), flush=True)
+        for c in contacts[:10]:
+            print("[pe-stage]     %s" % json.dumps(c), flush=True)
 
     def _probe(name, topo, pos, sysgen):
         # ⛔ NO PER-STAGE VERDICT IS RECORDED HERE. An unminimised, mostly-unsolvated stage has no boundary to
@@ -186,13 +353,18 @@ def probe_unit(bucket, system_name, seed, leg_id="noncov_nr4a1", cofold_prefix=N
                            "error": "%s: %s" % (type(exc).__name__, exc)})
             print("[pe-stage] %-12s %-22s PE UNREADABLE: %s: %s"
                   % (tag, name, type(exc).__name__, exc), flush=True)
+        # Only the FIRST stage is localised: it is where the divergence is already present, and every later
+        # stage inherits it, so decomposing them would re-describe the same 1e15 three times.
+        if localise and name == "protein_after_pdbfixer":
+            _localise(name, topo, pos, sysgen)
 
     build_system(os.path.join(res["out"], "complex.pdb"),
                  os.path.join(res["out"], "ligand.sdf"),
                  leg.covalent, os.environ.get("COV_LIG_ATOM", "C6"), 551, leg.mutation,
                  target_chain=res["chains"]["target_chain"], stage_probe=_probe)
 
-    return {"system": system_name, "seed": seed, "cofold_prefix": base, "cif": cif, "stages": stages}
+    return {"system": system_name, "seed": seed, "cofold_prefix": base, "cif": cif, "stages": stages,
+            "localised": localised or None}
 
 
 def compare_to_control(subject, control, decades=DIVERGENCE_DECADES):
@@ -254,6 +426,75 @@ def compare_to_control(subject, control, decades=DIVERGENCE_DECADES):
             "first_divergent_stage": first, "verdict": verdict}
 
 
+#: The three answers this diagnostic can return, and who has to act on each. Named constants rather than
+#: prose, because "report a fork" is the failure mode: a diagnostic that ends in a menu has not decided.
+OWNER_INPUT = "trimcrae — PREREGISTRATION"
+OWNER_CODE = "me — a code fix in our prep"
+OWNER_UNKNOWN = "UNDETERMINED"
+
+
+def owner_of_the_fault(subject, comparison):
+    """{"owner", "why", "action"} — who fixes this. PURE, from the localisation the probe already took.
+
+    ★★ THE STAGE ANSWER ALONE DOES NOT ASSIGN OWNERSHIP, and stopping at it would have been a fork dressed as
+    a finding. `protein_after_pdbfixer` is the output of TWO things: Boltz's predicted coordinates and our own
+    PDBFixer repair of them. The discriminators are already measured:
+
+      * `HarmonicBondForce`/`HarmonicAngleForce` carrying the energy -> CONNECTIVITY, not geometry. Ours to
+        fix, and re-seeding would not touch it.
+      * `NonbondedForce` carrying it, with the worst contact between TWO CO-FOLD HEAVY ATOMS -> the predicted
+        structure has atoms on top of each other before we touch it. No code change reaches that; a different
+        seed or input is the only route, and that is a preregistration question.
+      * `NonbondedForce` carrying it, with an atom OUR prep added -> `addMissingAtoms`/`addMissingHydrogens`
+        placed something into an occupied position. Ours, in code.
+    """
+    loc = ((subject or {}).get("localised") or {}).get("protein_after_pdbfixer") or {}
+    forces = {k: v for k, v in (loc.get("energy_by_force_kj") or {}).items() if isinstance(v, float)}
+    contacts = [c for c in (loc.get("worst_contacts") or ()) if "distance_a" in c]
+    if not comparison.get("first_divergent_stage"):
+        return {"owner": OWNER_UNKNOWN, "action": "no action — nothing diverged",
+                "why": "no stage diverged from the control, so there is no fault to assign"}
+    if not forces or not contacts:
+        return {"owner": OWNER_UNKNOWN,
+                "action": "re-run the probe with localisation enabled",
+                "why": "the divergence is localised to a STAGE but not to a force or an atom pair, and that "
+                       "stage has two owners (Boltz's coordinates and our PDBFixer repair). An unlocalised "
+                       "answer cannot choose between them — CLAUDE.md §4b, an absent reading is not a reading "
+                       "of absence."}
+    dominant = max(forces.items(), key=lambda kv: abs(kv[1]))
+    clashes = [c for c in contacts if c.get("under_clash_cutoff")]
+    if dominant[0].startswith("Nonbonded") and not clashes:
+        # A nonbonded blow-up with NO overlapping pair is not the story anyone expects, and it must not be
+        # narrated as one. Say what was measured and stop.
+        return {"owner": OWNER_UNKNOWN,
+                "action": "investigate the nonbonded term without assuming a steric overlap",
+                "why": "%s carries %+.3e kJ/mol, but the closest non-bonded pair is %.3f A and NOTHING is "
+                       "under the clash cutoff. An r^-12 divergence is the usual route to this magnitude and "
+                       "it is not present here, so the cause is something else (charges, an exclusion, a "
+                       "parameter) and calling it a clash would be a story, not a diagnosis."
+                       % (dominant[0], dominant[1], contacts[0]["distance_a"])}
+    if not dominant[0].startswith("Nonbonded"):
+        return {"owner": OWNER_CODE, "action": "fix the connectivity in our prep",
+                "why": "%s carries the energy (%+.3e kJ/mol), so this is a bonded-term problem — a bond or "
+                       "angle spanning a distance it should not. That is connectivity, not geometry, and a "
+                       "different seed would not change it." % (dominant[0], dominant[1])}
+    ours = [c for c in clashes if not c.get("both_from_cofold")]
+    if ours:
+        return {"owner": OWNER_CODE, "action": "fix the prep that places these atoms",
+                "why": "%s dominates and %d of the %d clashing pairs involve an atom OUR prep placed, not one "
+                       "Boltz did — worst %.3f A, %s / %s. The predicted structure is not exonerated, but a "
+                       "code fix is available and must be tried before any re-seeding decision."
+                       % (dominant[0], len(ours), len(clashes), ours[0]["distance_a"],
+                          ours[0]["atom_1"], ours[0]["atom_2"])}
+    return {"owner": OWNER_INPUT,
+            "action": "a different seed or a changed input — a preregistration amendment, not a code change",
+            "why": "%s dominates (%+.3e kJ/mol) and every one of the %d clashing pairs is between two CO-FOLD "
+                   "HEAVY ATOMS — atoms Boltz placed, before our prep touches the structure. Worst %.3f A "
+                   "(%s / %s). Nothing in this pipeline can separate them; the predicted structure itself is "
+                   "unrunnable." % (dominant[0], dominant[1], len(clashes), clashes[0]["distance_a"],
+                                    clashes[0]["atom_1"], clashes[0]["atom_2"])}
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
@@ -263,6 +504,12 @@ def main(argv=None):
     ap.add_argument("--units", default=os.environ.get("PE_PROBE_UNITS", "nr4a3:3,nr4a3:1"),
                     help="comma-sep system:seed pairs; default = the failing seed_3 then its working sibling")
     ap.add_argument("--out", default="nrv04-pe-stage-probe.json")
+    # ⛔ ON BY DEFAULT. The stage answer localises the fault to "the co-fold, or PDBFixer's repair of it" —
+    # one stage, TWO OWNERS — and which of those it is decides whether this is a bug I fix or a decision only
+    # trimcrae can take. Making the discriminator opt-in would mean routinely stopping one measurement short
+    # of the thing that matters, which is exactly the habit CLAUDE.md §2 exists to break.
+    ap.add_argument("--no-localise", dest="localise", action="store_false", default=True,
+                    help="skip the force decomposition and contact provenance (the discriminator)")
     a = ap.parse_args(argv)
     if not a.bucket:
         raise SystemExit("set --bucket or $VAST_CKPT_BUCKET")
@@ -272,7 +519,7 @@ def main(argv=None):
         sysname, _, sd = pair.partition(":")
         print("\n=== %s seed %s ===" % (sysname, sd), flush=True)
         try:
-            results.append(probe_unit(a.bucket, sysname.strip(), int(sd)))
+            results.append(probe_unit(a.bucket, sysname.strip(), int(sd), localise=a.localise))
         except Exception as e:                        # noqa: BLE001 — one unit must not abort the comparison
             print("[pe-stage] %s seed %s FAILED to build: %s: %s" % (sysname, sd, type(e).__name__, e),
                   flush=True)
@@ -299,8 +546,12 @@ def main(argv=None):
     json.dump(doc, open(a.out, "w"), indent=2)
     print("\n" + json.dumps(doc, indent=2), flush=True)
 
+    doc["owner"] = owner_of_the_fault(priced[0] if priced else {}, comparison)
+
     # THE READING, said out loud rather than left to the reader.
     print("\n[pe-stage] %s" % comparison["verdict"], flush=True)
+    print("[pe-stage] OWNER: %s" % doc["owner"]["owner"], flush=True)
+    print("[pe-stage]   %s" % doc["owner"]["why"], flush=True)
     for r in comparison.get("stages") or ():
         d = r.get("decades_above_control")
         print("[pe-stage]   %-22s subject=%s control=%s  %s  -> %s"

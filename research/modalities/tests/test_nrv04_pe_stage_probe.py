@@ -143,6 +143,163 @@ def test_pre_solvation_stages_are_priced_without_a_cutoff():
         "only the solvated stage may be priced periodically")
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# LOCALISATION — the stage has TWO OWNERS, and choosing between them is the point.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+_CMP = {"first_divergent_stage": "protein_after_pdbfixer"}
+
+
+def _loc(forces, contacts):
+    return {"localised": {"protein_after_pdbfixer": {"energy_by_force_kj": forces,
+                                                     "worst_contacts": contacts}}}
+
+
+def test_two_cofold_heavy_atoms_in_contact_is_trimcraes_decision():
+    got = probe.owner_of_the_fault(
+        _loc({"NonbondedForce[3]": 2.1e15, "HarmonicBondForce[0]": 1.0e4},
+             [{"distance_a": 0.02, "atom_1": "A:LEU10:CB", "atom_2": "B:VAL9:CG1",
+               "both_from_cofold": True, "under_clash_cutoff": True}]), _CMP)
+    assert got["owner"] == probe.OWNER_INPUT
+    assert "preregistration" in got["action"]
+
+
+def test_a_contact_involving_an_atom_OUR_PREP_ADDED_is_mine_to_fix():
+    """The predicted structure is not exonerated, but a code fix must be tried before a re-seed decision."""
+    got = probe.owner_of_the_fault(
+        _loc({"NonbondedForce[3]": 2.1e15},
+             [{"distance_a": 0.02, "atom_1": "A:LEU10:HB2", "atom_2": "B:VAL9:CG1",
+               "both_from_cofold": False, "under_clash_cutoff": True}]), _CMP)
+    assert got["owner"] == probe.OWNER_CODE
+
+
+def test_a_BONDED_term_carrying_the_energy_is_connectivity_and_a_reseed_would_not_help():
+    got = probe.owner_of_the_fault(
+        _loc({"HarmonicBondForce[0]": 2.1e15, "NonbondedForce[3]": 1.0e4},
+             [{"distance_a": 0.02, "atom_1": "A:LEU10:CB", "atom_2": "B:VAL9:CG1",
+               "both_from_cofold": True, "under_clash_cutoff": True}]), _CMP)
+    assert got["owner"] == probe.OWNER_CODE
+    assert "connectivity" in got["why"]
+
+
+def test_an_unlocalised_divergence_never_assigns_an_owner():
+    """⛔ THE FAILURE THIS GUARDS. `protein_after_pdbfixer` is the output of Boltz AND of our repair; naming
+    it without the force/atom evidence would be a coin-flip wearing a diagnosis."""
+    got = probe.owner_of_the_fault({"localised": None}, _CMP)
+    assert got["owner"] == probe.OWNER_UNKNOWN
+    assert probe.owner_of_the_fault({}, {"first_divergent_stage": None})["owner"] == probe.OWNER_UNKNOWN
+
+
+def test_the_localiser_is_on_by_default():
+    """Stopping one measurement short of the discriminator is the habit CLAUDE.md §2 exists to break."""
+    src = inspect.getsource(probe.main)
+    assert '"--no-localise"' in src and "default=True" in src
+    assert inspect.signature(probe.probe_unit).parameters["localise"].default is False, (
+        "the library default stays off — main() opts in, so an unrelated caller pays nothing")
+
+
+# ── the contact finder, exercised without openmm (numpy + duck-typed topology) ─────────────────────────────
+class _FakeElem:
+    def __init__(self, symbol):
+        self.symbol = symbol
+
+
+class _FakeAtom:
+    def __init__(self, index, name, resname, resid, chain, symbol):
+        self.index, self.name = index, name
+        self.element = _FakeElem(symbol) if symbol else None
+        self.residue = type("R", (), {"name": resname, "id": resid,
+                                      "chain": type("C", (), {"id": chain})()})()
+
+
+class _FakeTop:
+    def __init__(self, atoms, bonds):
+        self._a, self._b = atoms, bonds
+
+    def atoms(self):
+        return list(self._a)
+
+    def bonds(self):
+        return [(self._a[i], self._a[j]) for i, j in self._b]
+
+
+class _FakePos:
+    def __init__(self, arr):
+        self.arr = arr
+
+    def value_in_unit(self, _u):
+        return self.arr
+
+
+def _stub_openmm(monkeypatch):
+    import types
+    monkeypatch.setitem(sys.modules, "openmm",
+                        types.SimpleNamespace(unit=types.SimpleNamespace(angstrom="A")))
+
+
+def test_close_contacts_finds_the_clash_excludes_bonded_and_names_who_placed_it(monkeypatch):
+    import numpy as np
+    _stub_openmm(monkeypatch)
+    atoms = [_FakeAtom(0, "CB", "LEU", "10", "A", "C"),     # co-fold heavy atom
+             _FakeAtom(1, "CG1", "VAL", "9", "B", "C"),     # co-fold heavy atom, 0.4 A away -> the clash
+             _FakeAtom(2, "CA", "LEU", "10", "A", "C"),     # bonded 1-2 to CB and CLOSE — must be excluded
+             _FakeAtom(3, "HB2", "LEU", "10", "A", "H")]    # a PDBFixer hydrogen, 0.5 A from atom 1
+    pos = _FakePos(np.array([[0.0, 0, 0], [0.4, 0, 0], [0.1, 0, 0], [0.9, 0, 0]]))
+    top = _FakeTop(atoms, [(0, 2)])
+    keys = {("A", "10", "CB"), ("B", "9", "CG1"), ("A", "10", "CA")}
+    hits, n = close_or_skip(top, pos, keys)
+    pairs = {(h["atom_1"], h["atom_2"]) for h in hits}
+    assert ("A:LEU10:CB", "B:VAL9:CG1") in pairs, "the real clash must be found"
+    assert not any("LEU10:CA" in a and "LEU10:CB" in b for a, b in pairs), "a 1-2 bonded pair is not a clash"
+    worst = [h for h in hits if h["atom_2"] == "B:VAL9:CG1" and h["atom_1"] == "A:LEU10:CB"][0]
+    assert worst["both_from_cofold"] is True
+    # ⛔ THE REGRESSION THIS PINS. The first implementation derived `both_from_cofold` by testing whether the
+    # PROSE contained "co-fold" — and the hydrogen's prose reads "...the co-fold is heavy-atoms-only", so
+    # every PDBFixer hydrogen was attributed to Boltz. That boolean is what `owner_of_the_fault` uses to
+    # choose between a code fix and a preregistration decision for trimcrae.
+    h_pair = [h for h in hits if "HB2" in h["atom_1"] or "HB2" in h["atom_2"]]
+    assert h_pair and h_pair[0]["both_from_cofold"] is False, "a hydrogen is ours — the co-fold has none"
+    assert "prep" in (h_pair[0]["source_1"], h_pair[0]["source_2"])
+    assert "PDBFixer" in (h_pair[0]["placed_by_1"] + h_pair[0]["placed_by_2"])
+    assert n >= len(hits)
+
+
+def test_with_no_raw_cofold_nothing_may_be_attributed_to_boltz(monkeypatch):
+    """UNKNOWN is not co-fold. Attributing to Boltz is the attribution that ends in trimcrae's inbox."""
+    import numpy as np
+    _stub_openmm(monkeypatch)
+    atoms = [_FakeAtom(0, "CB", "LEU", "10", "A", "C"), _FakeAtom(1, "CG1", "VAL", "9", "B", "C")]
+    pos = _FakePos(np.array([[0.0, 0, 0], [0.3, 0, 0]]))
+    hits, _ = probe.close_contacts(_FakeTop(atoms, []), pos, cofold_keys=None, cutoff_a=1.0)
+    assert hits[0]["both_from_cofold"] is False
+    assert hits[0]["source_1"] == "unknown"
+    # ...and an unknown-provenance contact must not be sold as a preregistration decision.
+    got = probe.owner_of_the_fault(_loc({"NonbondedForce[3]": 2.1e15}, hits), _CMP)
+    assert got["owner"] != probe.OWNER_INPUT
+
+
+def test_a_heavy_atom_absent_from_the_raw_cofold_is_attributed_to_our_prep(monkeypatch):
+    import numpy as np
+    _stub_openmm(monkeypatch)
+    atoms = [_FakeAtom(0, "CB", "LEU", "10", "A", "C"), _FakeAtom(1, "OXT", "VAL", "9", "B", "O")]
+    pos = _FakePos(np.array([[0.0, 0, 0], [0.3, 0, 0]]))
+    hits, _ = close_or_skip(_FakeTop(atoms, []), pos, {("A", "10", "CB")})   # OXT is NOT in the co-fold
+    assert hits[0]["both_from_cofold"] is False
+    assert "heavy atom added by PDBFixer" in hits[0]["placed_by_2"]
+
+
+def test_cofold_atom_keys_reads_the_raw_heavy_atom_record(tmp_path):
+    p = tmp_path / "complex.pdb"
+    p.write_text("ATOM      1  CB  LEU A  10      11.000  2.000  3.000  1.00  0.00           C\n"
+                 "HETATM    2  C1  LIG B   1       1.000  2.000  3.000  1.00  0.00           C\n"
+                 "TER\n")
+    keys = probe.cofold_atom_keys(str(p))
+    assert ("A", "10", "CB") in keys and ("B", "1", "C1") in keys
+
+
+def close_or_skip(top, pos, keys):
+    return probe.close_contacts(top, pos, cofold_keys=keys, cutoff_a=1.0)
+
+
 if __name__ == "__main__":
     import pytest
     raise SystemExit(pytest.main([__file__, "-v"]))
