@@ -186,6 +186,65 @@ def leg_env(arm: RetroArm, model_seed: int, replica: int, mode: str = "run",
     return env
 
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ WHAT COUNTS AS A LANDED LEG — the predicate, with ONE home (CLAUDE.md rule 1)
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔ MEASURED 2026-07-31 (fusion-cpu-extras run 30642442241, job 91195498091). `retro_collect` counted a unit as
+# LANDED on the mere EXISTENCE of a `leg_*.json` under its prefix. `nrv04_covalent_md.run_leg` writes that same
+# record for a SMOKE leg — `mode == "smoke"` sets `equil_steps, prod_steps, stride = 0, 500, 100`, i.e. ZERO
+# equilibration and 5 frames spanning 0.002 ns — and it fills `prod_ns` / `equil_ns` from the ENV rather than
+# from what actually ran, so a smoke record still reads `prod_ns: 5.0, equil_ns: 1.0` and is indistinguishable
+# from a production leg on those fields alone. The measured smoke record for
+# `nrv04retro-retro_noncov_nr4a1-m1-r1` was: mode=smoke, n_frames=5, timed_ns=0.002, prod_wall_s=7.4 —
+# and a fully-populated `R1_interface: {plateau_A: 1.09, stable: true}`, which is exactly the field the frozen
+# gate scores. 18 such records drove `panel_complete` TRUE and the prereg §4f suppression OFF.
+#
+# So "a result exists" is NOT "the preregistered protocol ran". This predicate is that distinction, it lives
+# beside the frozen panel spec it enforces, and every caller — the collector's coverage, the launcher's
+# skip-set, the supervisor's done-set — imports it rather than re-spelling `startswith("leg_")`.
+#: Fraction of PROD_NS the timed production must reach for a leg to count. Not a science threshold — a
+#: protocol-identity check. A resumed leg finishes at PROD_NS exactly; the slack only absorbs float rounding.
+PRODUCTION_TIMED_NS_TOLERANCE = 0.02
+
+
+def expected_production_frames(prod_ns: float = PROD_NS) -> int:
+    """Frames a conforming production leg writes. DERIVED from the canonical md_settings, never typed: the
+    driver strides at `frame_stride_steps()` over `prod_ns / TIMESTEP_NS` steps (nrv04_covalent_md.run_leg)."""
+    import md_settings as MD
+    return max(1, int(prod_ns / MD.TIMESTEP_NS) // MD.frame_stride_steps())
+
+
+def production_leg_check(rec: dict, prod_ns: float = PROD_NS) -> tuple:
+    """PURE: is this leg record a COMPLETED run of the preregistered protocol? -> (ok: bool, why: str).
+
+    `ok` is what may enter the panel, the coverage count and the frozen gate. Everything else is an artifact
+    that exists — it is reported, never deleted (rule 1.2) — but it is NOT a landed leg."""
+    if not isinstance(rec, dict):
+        return False, "not a leg record"
+    mode = rec.get("mode")
+    if mode != "run":
+        return False, (f"mode={mode!r}, not 'run' — a smoke leg runs 500 steps with NO equilibration "
+                       f"(nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint")
+    if rec.get("blew_up"):
+        return False, f"blew_up at {rec.get('blow_phase')!r} — an unstable leg is a technical failure"
+    timed = rec.get("timed_ns")
+    if not isinstance(timed, (int, float)):
+        return False, f"timed_ns={timed!r} — the record does not say how much sampling it actually did"
+    if timed < prod_ns * (1.0 - PRODUCTION_TIMED_NS_TOLERANCE):
+        return False, (f"timed_ns={timed} vs the preregistered prod_ns={prod_ns} — the leg stopped early; "
+                       f"`prod_ns` in the record is the REQUEST, `timed_ns` is what ran")
+    want = expected_production_frames(prod_ns)
+    got = rec.get("n_frames")
+    if got != want:
+        return False, f"n_frames={got!r}, expected {want} for {prod_ns} ns at the canonical frame stride"
+    return True, "conforms: mode=run, %s ns timed, %d frames, no blow-up" % (timed, want)
+
+
+def is_production_leg(rec: dict, prod_ns: float = PROD_NS) -> bool:
+    """`production_leg_check` reduced to its boolean, for call sites that do not report the reason."""
+    return production_leg_check(rec, prod_ns=prod_ns)[0]
+
+
 def panel_manifest(stages=AUTHORIZED_STAGES) -> dict:
     """Self-describing manifest of exactly what would run (no I/O, no spend) - the thing to eyeball before a
     fan-out and to attach to the result."""

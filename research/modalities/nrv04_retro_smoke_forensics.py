@@ -120,7 +120,7 @@ def main():
     print("\n=== LANE PRICE LEDGER (nrv04retro- namespace) ===", flush=True)
     try:
         led = json.loads(s3.get_object(Bucket=BUCKET,
-                                       Key=f"{PREFIX}/nrv04-price-ledger.json")["Body"].read().decode())
+                                       Key=f"{PREFIX}/_price_ledger.json")["Body"].read().decode())
         L = led.get("ledger", led)
         tot = 0.0
         for lbl, v in sorted(L.items()):
