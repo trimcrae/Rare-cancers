@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 11:12 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 11:19 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,7 +15,7 @@ Merged 11:12 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that ca
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 11:11 AM ET Fri Jul 31, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 11:11 AM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
@@ -28,7 +28,7 @@ LEG                 % DONE  ETA (ET)         $/ns                       STATE   
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 11:12 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 11:18 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,11 +36,11 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 10:54 AM ET Fri Jul 31, 2026 — **18 min ago, STALE (> 15 min)**. Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 17 of 18 authorized R1 leg(s) landed (rows below are the rest)._
+_As of 10:54 AM ET Fri Jul 31, 2026 — **24 min ago, STALE (> 15 min)**. Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 17 of 18 authorized R1 leg(s) landed (rows below are the rest)._
 
 ```
-LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
---------------------------------------------------------------------------------------------------------
-nr4a2 m3 r0              —  —                — $0.1825/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) UNKNOWN   lane last reported 18 min ago — this row is THAT report, not a current reading; it then read: STARTING — no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase none)
+LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nr4a2 m3 r0        —                      —  — $0.1825/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) UNKNOWN   lane last reported 24 min ago — this row is THAT report, not a current reading; it then read: STARTING — no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase none)
 ```
 
