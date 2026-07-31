@@ -881,8 +881,40 @@ def rank_offers_by_usd_per_ns(offers, res: ResourceSpec, max_hourly_usd=None):
                           min_reliability=res.min_reliability, min_cuda=res.min_cuda)
     # On-demand offers are billed at dph_total and carry no meaningful min_bid, so hand the scorer the rate we
     # would actually be charged rather than letting it derive a bid that nobody would pay.
-    scored = [(_vcm.score_offer(o, job, billed_usd_h=(None if res.interruptible else p)), p, o)
-              for p, o in capable]
+    # ★★ SCORE AT THE RATE WE WILL ACTUALLY BID — NOT AT THE ONE THE POLICY WOULD HAVE CHOSEN
+    #    (measured 2026-07-31; this is how a 2.61x rental cleared a 1.92x ceiling).
+    #
+    # WHAT HAPPENED. `collect`'s self-heal dispatches every re-placement with `bid_floor_mult=2.0` — the
+    # retention bid trimcrae authorised for churning legs — which sets `VAST_BID_FLOOR_MULT` and makes
+    # `_vast_bid_price` return TWICE the market floor. But this line passed `billed_usd_h=None` for an
+    # interruptible offer, so `score_offer` re-derived a bid from `vast_cost_model.recommended_bid` (floor
+    # plus a small staleness tick) and never saw the multiplier. The ceiling was therefore evaluated against
+    # a price we were never going to pay.
+    #
+    # THE CONTROLLED REPRODUCTION, on the exact offer from `ternary-vast-rental-receipt.json`
+    # (machine 34345, RTX 3090, `min_bid`/`dph_total` $0.08148):
+    #     VAST_BID_FLOOR_MULT unset -> scored $0.005338/ns, bid $0.0831/hr, SELECTED
+    #     VAST_BID_FLOOR_MULT=2.0   -> scored $0.005338/ns, bid $0.1630/hr, SELECTED   <- identical score
+    # and the instance then billed `dph_base` $0.16 + storage = $0.1711/hr = **$0.00891/ns, 2.612x basis**,
+    # against a $0.006539/ns cap. The score did not move because it could not see the multiplier.
+    #
+    # ⚠ THIS IS THE §1 RULING'S OWN CASE: "the flag and the refusal are the same number". The board flagged
+    # `⚠ PAYING OVER THE 1.92x LINE` on a rental this function had just approved. One number, one decision.
+    #
+    # `_vast_bid_price(o)` is the one home of "what will this offer cost per hour", multiplier included and
+    # capped at the machine's on-demand price exactly as Vast charges it. Passing it makes the cap bind on
+    # the real rate for BOTH tiers, so the on-demand branch is unchanged (it already passed its own price).
+    # ⚠ ONLY FOR AN OFFER THAT ACTUALLY CARRIES `min_bid`. A real bid-tier offer always does; one that does
+    # not is either an on-demand row or a synthetic fixture, and for those the previous `None` (let
+    # `score_offer` derive it) is preserved EXACTLY. Widening it would change which offers are priceable at
+    # all — and that silently moved a model-preference fallback in `_select_cheapest_offer`, which is a
+    # different decision from the one being fixed here.
+    def _billed(p, o):
+        if not res.interruptible:
+            return p
+        return _vast_bid_price(o) if o.get("min_bid") is not None else None
+
+    scored = [(_vcm.score_offer(o, job, billed_usd_h=_billed(p, o)), p, o) for p, o in capable]
     measured = sorted(((s.usd_per_ns, p, o) for s, p, o in scored if s is not None),
                       key=lambda t: (t[0], t[1]))
     # THE BINDING CEILING (see ResourceSpec.max_usd_per_ns). Applied to the SCORED figure — storage priced at
