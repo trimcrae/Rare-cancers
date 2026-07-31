@@ -147,6 +147,27 @@ def test_git_branch_is_recorded_because_a_schedule_only_fires_from_main(tmp_path
     assert e.get("git_branch")
 
 
+def test_no_shipped_watch_entry_points_at_a_stale_branch():
+    """A relaunch clones the ENTRY'S OWN `git_branch`, not the runner's (tick(), the `git_branch=e.get(...)`
+    argument). So a stale branch on a watch entry is not a bookkeeping detail — it is the code an unattended
+    rental will actually execute.
+
+    Measured 2026-07-31: 10 of the 18 shipped entries pointed at three different abandoned branches
+    (`claude/max-effort-2dq11l`, `-4fs`, `claude/max-effort-3hgq45`), the first of them 433 commits behind
+    main. All four RUNG 5a-KS legs were among them, parked and one market tick away from being re-enabled.
+    Repointing was safe precisely because a resume is guarded by SYSTEM_FINGERPRINT_ENV, which is env-only
+    and carries no code version — so the checkpoints still matched.
+
+    This pins the invariant rather than the incident: whatever branch a lane runs from, it must be one this
+    repo still maintains. `main` is that branch (CLAUDE.md section 7 — keep everything synced to main, and
+    never let a branch a workflow runs from be the only home of an artifact)."""
+    doc = json.load(open(REAL_WATCH))
+    stale = [(e["unit_id"], e.get("git_branch"))
+             for e in doc["watch"] if e.get("git_branch") != "main"]
+    assert not stale, (
+        "watch entries point at a branch other than main, and a relaunch would clone it: " + repr(stale))
+
+
 def test_arm_does_not_rewrite_the_config_guards_required_key_list(tmp_path):
     """Arming is an append. A launch job that silently replaced `_prefix_keying_params` with whatever its
     code version believed is exactly how a guard stops guarding."""
