@@ -1852,10 +1852,23 @@ def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, read
     import relaunch_market_gate as rmg
     res = endpoint_md_resources()                 # UNCAPPED — see the docstring
     n_hosts = max(1, int(n_hosts))
+    # ★★ THE TIER IS PART OF THE READOUT, BECAUSE A HOLD THAT DOES NOT NAME IT IS UNREADABLE. Carried from
+    # the ternary gate's 2026-07-31 finding rather than re-derived: there, two boards were writing one
+    # snapshot file — bid-tier ticks clearing at 1.13-1.54x interleaved with on-demand ticks holding at
+    # 2.04-2.28x — and read from a distance that said "the market doubled". It had not; the UNINTERRUPTIBLE
+    # tier is small and dear by construction and was simply the one being priced. This lane writes a single
+    # snapshot path too (`RETRO_MARKET_READOUT`), so it can acquire the identical ambiguity the moment
+    # anything here ever prices on-demand — and a property that only holds while a field happens to be
+    # constant is not a property. Same principle as CLAUDE.md §1's "a row we are paying and a row the gate
+    # refused must never render alike", one level up: two holds about DIFFERENT MARKETS must not either.
+    tier = "bid (interruptible)" if res.interruptible else \
+           "on-demand (UNINTERRUPTIBLE — small and dear by construction; NOT the market the ladder is " \
+           "costed on)"
     doc = {"_what": "Whether the NR-V04 retrospective may rent %d host(s) right now, priced in $/ns." % n_hosts,
            "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay; and a relaunch "
                     "is a NEW PURCHASE, not a continuation.",
            "lane": "nrv04_retro", "n_hosts": n_hosts, "utc": rmg._utcnow(),
+           "tier": tier, "interruptible": bool(res.interruptible),
            "buy_line_usd_per_ns": round(buy_ceiling_usd_per_ns(), 6)}
     if offers is None:
         try:
@@ -1876,6 +1889,15 @@ def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, read
     if doc.get("board_error"):
         reason = (f"could not read the board ({doc['board_error']}) — an unreadable market is not a cheap one, "
                   f"and this gate exists precisely for the case where nobody is awake to check")
+    # The tier rides on the hold SENTENCE, not only in a field — the sentence is what gets quoted into a
+    # status report, and a ratio quoted with no tier is how "the on-demand tier is dear" became "the market
+    # is at 2x basis" on the ternary lane. Only on a hold: a CLEAR verdict bought at this tier is not a
+    # number anyone will misread, and appending it everywhere is noise that trains the eye to skip it.
+    if hold:
+        reason = "%s; priced on the %s tier%s" % (
+            reason, "bid/interruptible" if res.interruptible else "ON-DEMAND/UNINTERRUPTIBLE",
+            "" if res.interruptible else " — this is NOT a reading of the interruptible market the ladder "
+                                         "is costed on")
     doc.update({"hold": hold, "reason": reason, "best_usd_per_ns": (round(best, 6) if best else None),
                 "basis_usd_per_ns": round(basis, 6), "ratio_vs_basis": ratio,
                 "board_depth": depth, "offers_priced": rows})
@@ -2172,6 +2194,45 @@ def retro_record_units(s3, bucket, records=None):
     return at
 
 
+def retro_streak_since_utc(record_at, unit):
+    """When this unit's CURRENT failure streak starts: the mtime of its newest leg record, as a UTC stamp.
+    `None` when it has never written one, which is the case the lifetime count was written for. PURE.
+
+    ★★ THIS IS THE BREAKER'S DENOMINATOR, AND ITS ABSENCE IS WHAT STRANDED THE PILOT FOR ~1 h 45 min
+    (measured 2026-07-31, 1:40 PM ET). `retro_supervise` called `leg_failure_breaker.count_attempts` with no
+    `since_utc`, so it got the LIFETIME attempt count while `retro_breaker` reads it as "how many times has
+    this unit failed IN A ROW". `count_attempts.__doc__` documents exactly that divergence, and documents
+    fixing it for the ternary lane on 2026-07-30 after it blocked a leg that was 88 % done — this call site
+    never got the fix. The evidence for the retro lane, from S3:
+
+        nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a3-m1-r0/attempts/
+          run-20260731T144656Z.log   10:46 AM ET   smoke attempt
+          run-20260731T145006Z.log   10:50 AM ET   smoke attempt -> WROTE leg_..._s0.json at 10:53 AM ET
+          run-20260731T160052Z.log   12:00 PM ET   the production pilot
+
+    Three objects, threshold three, so `3 >= 3` blocked it on every 8-minute tick from 12:07 PM ET onward.
+    But attempt 2 SUCCEEDED — a leg record is written as the LAST act of a leg — so the streak is ONE, and
+    the one failure was a host loss, not a fault: that attempt persisted a 71.1 MiB built system at 12:01:45
+    PM ET, minimized (`PE pre-min -4.025e+06 -> post-min -5.667e+06 kJ/mol`), entered `md-running`, and its
+    run.log simply stopped syncing at 12:06 PM ET. A build fault cannot write a built system.
+
+    WHY THE LEG RECORD IS THE RIGHT SUPERSEDING FACT, against the three `leg_failure_breaker.__doc__`
+    rejects. It rejects `phase.txt` and `run.log` mtime because BOTH are written on the way IN by every
+    attempt, so a crash-looping unit renews them forever and the discriminator is true on every tick. A
+    `leg_*.json` is the opposite: `nrv04_covalent_md.run_leg` writes it after production finishes, so only an
+    attempt that RAN TO COMPLETION can produce one. It is this lane's analogue of `KIND_COMMIT`.
+
+    SELF-LIMITING, exactly as there: superseding evidence buys one more rental. If that rental dies without
+    writing a record, the streak grows from the same stamp and the block re-applies at the same count.
+    Nothing is reset and `leg_failure_breaker.reset_for` remains the only way to clear the archive.
+    """
+    import time as _t
+    mt = (record_at or {}).get(unit)
+    if not mt:
+        return None
+    return _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime(float(mt)))
+
+
 def retro_read_authorized(s3, bucket):
     """Units a human dispatch has authorised to run. Absent record -> empty set (fail closed, never 'all')."""
     try:
@@ -2208,8 +2269,13 @@ def _retro_stuck_grace_min():
     return vig.MIN_INSTANCE_AGE_MIN
 
 
-def retro_breaker(has_result, n_attempts, threshold=None):
+def retro_breaker(has_result, n_attempts, threshold=None, since_utc=None):
     """PURE: may we rent a host for this unit? Returns a `leg_failure_breaker`-shaped verdict dict.
+
+    ⚠ `n_attempts` MUST BE A STREAK, NOT A LIFETIME COUNT. `since_utc` is carried here only so the verdict
+    can SAY which denominator produced the number — the caller measures it (`retro_streak_since_utc`, whose
+    docstring holds the 2026-07-31 incident this parameter exists because of). A verdict that prints a bare
+    count is unauditable: 3 lifetime attempts and 3 consecutive failures are opposite facts.
 
     ⚠ WHY `leg_failure_breaker.decide` CANNOT BE CALLED DIRECTLY HERE, stated so nobody "simplifies" it back.
     `decide` keys on `record["status"] == "failed"`. This lane's driver (`nrv04_covalent_md.run_leg`) writes
@@ -2233,21 +2299,25 @@ def retro_breaker(has_result, n_attempts, threshold=None):
     """
     import leg_failure_breaker as lfb
     threshold = lfb.DEFAULT_THRESHOLD if threshold is None else int(threshold)
+    span = ("since this unit's last completed leg record (%s)" % since_utc) if since_utc else \
+           "over this unit's whole life — it has never written a leg record, so lifetime IS the streak"
+    base = {"n_attempts": n_attempts, "threshold": threshold,
+            "streak_since_utc": since_utc, "counted": span}
     if has_result:
-        return {"block": False, "verdict": lfb.ALLOW_DONE, "n_attempts": n_attempts, "threshold": threshold}
+        return dict(base, block=False, verdict=lfb.ALLOW_DONE)
     if n_attempts is None:
-        return {"block": False, "verdict": "allow: attempt count unreadable — failing OPEN (one extra "
-                                           "rental beats a lane halted by a listing error)",
-                "n_attempts": None, "threshold": threshold}
+        return dict(base, block=False,
+                    verdict="allow: attempt count unreadable — failing OPEN (one extra "
+                            "rental beats a lane halted by a listing error)")
     if n_attempts >= threshold:
-        return {"block": True, "verdict": lfb.BLOCK, "n_attempts": n_attempts, "threshold": threshold,
-                "why": ("this unit has been rented %d times (threshold %d) and has still written NO leg "
-                        "record. A retro leg that runs writes leg_*.json as its last act, so %d paid hosts "
-                        "with no record is a reproducing staging/build fault, not bad luck — buying another "
-                        "tests nothing. NOT permanent: fix the cause, then leg_failure_breaker.reset_for() "
-                        "clears the archive and the next tick rents normally."
-                        % (n_attempts, threshold, n_attempts))}
-    return {"block": False, "verdict": lfb.ALLOW_UNDER, "n_attempts": n_attempts, "threshold": threshold}
+        return dict(base, block=True, verdict=lfb.BLOCK,
+                    why=("this unit has been rented %d times %s (threshold %d) and has still written NO leg "
+                         "record. A retro leg that runs writes leg_*.json as its last act, so %d paid hosts "
+                         "with no record is a reproducing staging/build fault, not bad luck — buying another "
+                         "tests nothing. NOT permanent: fix the cause, then leg_failure_breaker.reset_for() "
+                         "clears the archive and the next tick rents normally."
+                         % (n_attempts, span, threshold, n_attempts)))
+    return dict(base, block=False, verdict=lfb.ALLOW_UNDER)
 
 
 NUDGE, CONDEMN, LEAVE = "nudge", "condemn", "leave"
@@ -2318,7 +2388,12 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
         return out
     mine = [i for i in live_all if (i.get("label") or "").startswith(retro.LABEL_PREFIX)]
 
-    done_units = retro_done_units(s3, bucket)
+    # ONE walk of the leg records, shared by the done-set and by the breaker's denominator below. Two walks
+    # could disagree about what landed and what the streak is measured from, which is the class of bug
+    # `retro_leg_records` was factored out to end.
+    records = retro_leg_records(s3, bucket)
+    done_units = retro_done_units(s3, bucket, records)
+    record_at = retro_record_units(s3, bucket, records)
     state = {}
     try:
         state = json.loads(s3.get_object(Bucket=bucket,
@@ -2410,8 +2485,12 @@ def retro_supervise(bucket, s3=None, key=None, now=None, launch=True):
         if name not in authorized:
             out["awaiting_authorization"].append(name)
             continue
-        n_att = lfb.count_attempts(s3, bucket, RETRO_RESULT_PREFIX, name)
-        d = retro_breaker(has_result=False, n_attempts=n_att)
+        # ⚠ THE DENOMINATOR IS THE STREAK, NOT THE LIFETIME COUNT. Passing no `since_utc` here is what
+        # blocked the pilot on every tick from 12:07 PM ET on 2026-07-31 while its host sat unreplaced —
+        # `retro_streak_since_utc` holds the measurement and why a leg record is the superseding fact.
+        since = retro_streak_since_utc(record_at, name)
+        n_att = lfb.count_attempts(s3, bucket, RETRO_RESULT_PREFIX, name, since_utc=since)
+        d = retro_breaker(has_result=False, n_attempts=n_att, since_utc=since)
         if d["block"]:
             out["blocked"].append(dict(d, unit=name))
             print(f"[retro-super] ⛔ BLOCKED {name} — {d['why']}", flush=True)
