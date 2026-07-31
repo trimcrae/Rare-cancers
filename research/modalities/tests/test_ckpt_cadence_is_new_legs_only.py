@@ -82,6 +82,24 @@ def test_a_RUNNING_leg_keeps_its_grid_after_the_mode_value_changed(phase, iterat
         f"{phase} iteration {iteration} is off a {eff}-grid — this leg would be unresumable")
 
 
+def test_the_halving_was_REVERTED_on_the_measured_upload_cost():
+    """⛔ 64 -> 32 was approved CONDITIONALLY — "the arithmetic assumes the write is cheap and I have not
+    verified that" — and the measurement refuted the condition. The `.nc` is CUMULATIVE: 76.3 MiB at iteration
+    40 grows to 5461.8 MiB at 1720 on one leg, median 699.5 MiB per commit across 158 real generations, i.e.
+    28x the "~25 MB pair" `COMMIT_OVERHEAD_S = 23.0` was measured on. Halving the interval doubles the commit
+    COUNT while each carries the cumulative payload, so a late-warmup commit of ~1.3 GiB against 586 s of MD
+    would blow this lane's own `MAX_COMMIT_OVERHEAD_FRAC = 0.05`.
+
+    Reverting cost nothing: the in-flight legs resume on their own baked-in 64 grids regardless, so 32 was
+    inert for the current campaign. Re-apply only once `commit_cost` carries a measured pause."""
+    assert int(tv.MODES["5aks"]["warmup_ckpt_iters"]) == 64
+    src = open(tv.__file__).read()
+    i = src.index('"5aks": {')
+    blk = src[i:i + 4000]
+    assert "5461.8 MiB" in blk and "699.5 MiB" in blk, "the measurement must travel with the reverted value"
+    assert "REVERTED" in blk
+
+
 def test_the_new_value_is_on_grid_for_every_target_this_mode_can_run():
     """`800 / 64 = 12.5` was the class of error found at 2 fs. 32 must divide the target exactly, or a fresh
     leg lands off-grid at its LAST boundary."""
@@ -101,4 +119,4 @@ def test_the_mode_defaults_are_the_grids_a_NEW_leg_will_be_created_on():
     """A guard on the OTHER direction: the value must be a deliberate one, not drift. SUPERSEDED, retained:
     this asserted 64 until 2026-07-31."""
     m = tv.MODES["5aks"]
-    assert int(m["warmup_ckpt_iters"]) == 32 and int(m["prod_ckpt_iters"]) == 40
+    assert int(m["warmup_ckpt_iters"]) == 64 and int(m["prod_ckpt_iters"]) == 40

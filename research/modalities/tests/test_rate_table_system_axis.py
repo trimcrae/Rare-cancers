@@ -114,7 +114,7 @@ def test_no_live_cadence_changed(mode, leg):
                 # start" is really one checkpoint interval of MD, container start -> md-running being
                 # 0.3-0.6 min. Safety lives in `test_ckpt_cadence_is_new_legs_only.py`.
                 # SUPERSEDED, retained: "64".
-                ("5aks", "5aks_d0_to_d__ternary_nr4a3"): "32"}[(mode, leg)]
+                ("5aks", "5aks_d0_to_d__ternary_nr4a3"): "64"}[(mode, leg)]
     assert tv.warmup_ckpt_iters_for(leg, mode) == expected
 
 

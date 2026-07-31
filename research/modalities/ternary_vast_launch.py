@@ -380,8 +380,42 @@ MODES = {
         #
         # ⚠ NOT the per-arm derivation (`per_arm_ckpt` is unset for this mode and stays unset) — the rate
         # table's card ratios are not trustworthy enough to cadence off, and that is a separate open item.
-        # SUPERSEDED, retained: `"warmup_ckpt_iters": "64"`.
-        "warmup_ckpt_iters": "32", "prod_ckpt_iters": "40",
+        # ⛔⛔ AND THEN REVERTED TO 64 THE SAME EVENING, ON THE MEASUREMENT THE APPROVAL WAS CONDITIONED ON.
+        # trimcrae's instruction was explicit: *"Price the upload, do not assume it … If the write is slow
+        # enough that 32 costs more in pauses than it saves in banked work, say so and stop; the arithmetic
+        # above assumes the write is cheap and I have not verified that."* It is not cheap.
+        #
+        # WHAT THE REAL S3 OBJECTS SAY (`setup-tax-5aks.json`, measured 7:25 PM ET, 158 committed
+        # generations across the four legs). The `.nc` is CUMULATIVE — every commit re-uploads the whole
+        # trajectory so far, so the payload is a curve, not a constant:
+        #     nr4a3_r0   iter   40 =  76.3 MiB  ->  iter 1720 = 5461.8 MiB   (72x)
+        #     nr4a1_r1   iter   64 = 106.6 MiB  ->  iter 1600 = 1353.7 MiB
+        #     nr4a1_r0   iter   64 = 105.6 MiB  ->  iter 1600 = 1341.3 MiB
+        #     nr4a3_r1   iter   40 =  77.0 MiB  ->  iter 1600 =  984.4 MiB
+        # Median across all generations: **699.5 MiB per commit** — 28x the "~25 MB .nc/.chk pair" that
+        # `COMMIT_OVERHEAD_S = 23.0` was measured on, which makes that constant stale by a large factor.
+        #
+        # WHY THAT KILLS THE TRADE. Halving the interval doubles the NUMBER of commits while each one carries
+        # the cumulative payload, so total upload roughly DOUBLES (~17.5 GiB more per leg over warmup alone).
+        # A late-warmup commit is ~1.3 GiB; against 32 x 18.3 s/iter = 586 s of MD between commits, any
+        # upload slower than ~30 s puts the overhead past this lane's OWN tolerance,
+        # `MAX_COMMIT_OVERHEAD_FRAC = 0.05` — and at 1.3 GiB that is nearly certain.
+        #
+        # ⚠ REVERTING COSTS NOTHING RIGHT NOW, which is why this is the safe direction. The four legs in
+        # flight resume on the 64-grids baked into their own .nc files whatever this value says
+        # (`effective_interval`), so 32 was INERT for the current campaign and would only have applied to a
+        # genuinely fresh leg. No banked work is affected either way.
+        #
+        # WHAT WOULD SETTLE IT: `rbfe_spot_checkpoint.commit` now self-times and prints
+        # `[barrier] commit <phase>@<iter> persisted N MiB in Ns`, and `setup_tax` parses it into
+        # `commit_cost`. One re-placement produces the number. If the pause turns out small against the MD
+        # between commits, 32 becomes correct and this comment is the evidence trail for re-applying it.
+        #
+        # ★ AND THE LARGER PRIZE THIS UNCOVERED: a commit that re-uploads the entire trajectory every time
+        # makes total bytes O(n^2) in the number of commits. That, not the interval, is the expensive
+        # property — and fixing it would make a SHORTER interval nearly free.
+        # SUPERSEDED, retained: the 2026-07-31 change to `"32"`.
+        "warmup_ckpt_iters": "64", "prod_ckpt_iters": "40",
         "max_runtime_s": 20 * 3600,
         "template_pdb": "boltz5aks",
         "stage_required": True,
