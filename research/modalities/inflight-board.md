@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 12:00 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 12:08 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                ETA (ET)          % DONE  $/ns                               STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 2:50 PM            78.9%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
-5aks_d0_to_d terna 9:36 PM            30.2%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
-5aks_d0_to_d terna —                      —  RTX 3090 $0.00582/ns · 1.71× basis STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d terna 2:49 PM            80.0%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
+5aks_d0_to_d terna 9:44 PM            30.2%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
+5aks_d0_to_d terna —                  40.9%  RTX 3090 $0.00582/ns · 1.71× basis STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
 5aks_d0_to_d terna —                      —  —                                  NO HOST   no live host — checkpoint at warmup/1024 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
