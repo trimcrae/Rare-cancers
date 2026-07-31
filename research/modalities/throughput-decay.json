@@ -1,0 +1,72 @@
+{
+ "n": 18,
+ "span_hours": 7.3,
+ "pooled": {
+  "rho": 0.721,
+  "p": 0.00125,
+  "s_per_iter_range": [
+   6.85,
+   36.9
+  ],
+  "fold": 5.39
+ },
+ "by_card": {
+  "RTX 3090": {
+   "n": 4,
+   "rho": 0.8,
+   "p": 0.33385,
+   "values": [
+    9.1,
+    17.9,
+    36.9,
+    33.55
+   ],
+   "window": [
+    "16:00Z",
+    "19:31Z"
+   ]
+  },
+  "RTX 4080S": {
+   "n": 1,
+   "note": "too few to test"
+  },
+  "RTX 4090": {
+   "n": 9,
+   "rho": 0.35,
+   "p": 0.3672,
+   "values": [
+    18.2,
+    18.2,
+    13.8,
+    24.2,
+    12.6,
+    13.8,
+    18.0,
+    31.0,
+    30.6
+   ],
+   "window": [
+    "14:04Z",
+    "19:31Z"
+   ]
+  },
+  "RTX 5090": {
+   "n": 4,
+   "rho": 0.8,
+   "p": 0.33015,
+   "values": [
+    8.1,
+    6.85,
+    9.1,
+    12.35
+   ],
+   "window": [
+    "12:13Z",
+    "15:40Z"
+   ]
+  }
+ },
+ "verdict": "POOLED TREND IS REAL (rho +0.721, p 0.0013) BUT IS EXPLAINED BY CARD MIX: no individual card shows a significant trend (RTX 3090 p=0.33, RTX 4090 p=0.37, RTX 5090 p=0.33). Fast cards were rented early and slow ones late. A residual within-card trend is NOT excluded \u2014 every card points the same way \u2014 but n is 3-9 per card and every p is far from significant, so this is a POWER limit, not evidence of absence.",
+ "_what": "IS THE LANE'S THROUGHPUT DECAYING THROUGH THE DAY, OR IS THAT A COMPOSITION ARTIFACT? $0, read-only.",
+ "_phase_refutation": "phase is REFUTED twice: phase_cross_check warmup/production = 0.834 (range 0.734-1.013, n=6) caps any phase effect at ~1.2-1.36x against an observed 2.5-4.6x, AND ternary_nr4a1_r1 rose 8.1 -> 36.9 s/iter while the committed forensic still showed it at warmup/1152 \u2014 no transition occurred."
+}
