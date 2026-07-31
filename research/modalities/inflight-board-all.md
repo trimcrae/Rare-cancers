@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:03 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:11 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 8:03 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 7:55 AM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:03 AM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna   67.8%  —                $0.00465/ns · 1.36× basis  NO HOST   host DESTROYED this pass (capacity refusal on machine 145841; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/840 is intact in S3 and this pass dispatches the gate to re-place it
-5aks_d0_to_d terna   19.6%  1:04 AM Aug 1    $0.00505/ns · 1.48× basis  RUNNING   
-5aks_d0_to_d terna    5.3%  3:03 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna    1.8%  3:55 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   19.6%  1:12 AM Aug 1    $0.00505/ns · 1.48× basis  RUNNING   
+5aks_d0_to_d terna    7.1%  3:03 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna    3.6%  —                $0.00512/ns · 1.50× basis  NO HOST   host DESTROYED this pass (capacity refusal on machine 30182; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at warmup/128 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d terna   67.8%  —                —                          NO HOST   no live host — checkpoint at production/840 is intact in S3; this pass dispatches the gate to re-place it
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 8:03 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:11 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
