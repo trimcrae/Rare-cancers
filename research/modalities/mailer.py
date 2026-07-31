@@ -11,6 +11,22 @@ Two things live here so the daily status email and the weekly/monthly newsletter
                                                     can fall back to a deterministic summary and never break.
 
 Pure stdlib except boto3 (only imported on the SES path). All network egress happens from a CI runner.
+
+★★ WHICH BRANCH ACTUALLY DELIVERS — MEASURED 2026-07-31, BECAUSE ONE OF THEM NEVER HAS.
+
+    SMTP  WORKS. `Sent via SMTP (smtp.gmail.com:465): trimcrae@gmail.com -> trimcrae@gmail.com`, the daily
+          email's last scheduled send (GH run 30200038716, job 89788285952, 2026-07-26). MAIL_PASSWORD is
+          set as a repo secret; any caller that does not PASS it into the step gets the other branch.
+    SES   HAS NEVER DELIVERED. The CI IAM user has no SES permissions at all:
+          `AccessDenied ... arn:aws:iam::646605541856:user/nr4a3-ci-submitter is not authorized to perform
+          ses:SendEmail` (run 30602768073) and the same on `ses:GetSendQuota` (run 30626375302). This is a
+          MISSING IAM POLICY, not the SES sandbox — a sandboxed account answers `MessageRejected: Email
+          address is not verified`, which is a different error and a different fix.
+
+So `send_email` silently choosing SES is choosing a path that cannot work, and the choice is made purely by
+whether MAIL_PASSWORD reached the process. `transport_name()` exists so a caller can SAY which branch it is
+about to take instead of discovering it in a swallowed traceback. One home for the channel picture and the
+exact IAM/SES steps that would restore email: `research/compute/notification-channels.md`.
 """
 import json
 import os
@@ -23,6 +39,17 @@ def _first(*vals, default=""):
         if v:
             return v
     return default
+
+
+def transport_name():
+    """Which branch `send_email` would take, from the environment alone — 'smtp' or 'ses'.
+
+    Report it BEFORE sending. The measured failure (see the module docstring) was a step that passed the AWS
+    keys but not MAIL_PASSWORD, took the SES branch, and had its AccessDenied swallowed into a `::warning`
+    nobody read — for 159 consecutive runs. A caller that prints this cannot make that mistake silently.
+    ⚠ 'ses' means "this is the branch that has never once delivered on this account".
+    """
+    return "smtp" if os.environ.get("MAIL_PASSWORD") else "ses"
 
 
 def send_email(subject, text_body, html_body, mail_to=None, mail_from=None):

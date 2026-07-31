@@ -33,8 +33,17 @@ name: Fleet supervision alarm — is anything actually watching the billing GPUs
 # from memory, and so a genuinely dead scheduler is visible rather than assumed.
 #
 # WHY IT FAILS THE RUN RATHER THAN JUST PRINTING. A non-zero exit on a SCHEDULED workflow makes GitHub email
-# the repository owner. That is the only channel here that reaches a human who is not already looking at the
-# Actions tab — which, during the incident, nobody was.
+# the repository owner. That is one channel that reaches a human who is not already looking at the Actions
+# tab — which, during the incident, nobody was.
+#
+# ★★ AND IT IS NOT ENOUGH ON ITS OWN — MEASURED 2026-07-31. A red run notifies once per run, forever, with no
+# memory: `vast-watchdog.yml` failed on 38 CONSECUTIVE scheduled runs (2026-07-28 13:42 UTC -> 2026-07-31
+# 08:44 UTC) before recovering, which is this repo's own documented cry-wolf failure happening live. The
+# email escalation that was supposed to be the backstop had never delivered even once — see
+# `research/compute/notification-channels.md`, which is the ONE home for what reaches a human and what does
+# not. So this workflow now also escalates through `alarm_issue.py`: ONE open issue per condition, a comment
+# only when the verdict changes, and AUTO-CLOSED on recovery, so an open issue means a live problem. It needs
+# nothing but `GITHUB_TOKEN`, which is the one credential we are certain of.
 
 on:
   schedule:
@@ -51,6 +60,9 @@ on:
       stale_min:
         description: "artifact age (min) that counts as unsupervised when nothing else explains it"
         default: "240"
+      self_test:
+        description: "off | fire | fire-changed | recover — exercise the ISSUE ESCALATION CHANNEL end to end on its own key (`alarm-self-test`), touching no lane. A notification path that has not been exercised is exactly the thing that turned out to be broken on 2026-07-31."
+        default: "off"
 
 permissions:
   contents: read
@@ -59,6 +71,10 @@ permissions:
   # repo — which on 2026-07-27 at 4:18 PM ET was misreported as "the SCHEDULER is not delivering" over a
   # 2.8-min-old artifact. The classifier no longer draws that conclusion, and this stops the read failing.
   actions: read
+  # ★ THE ESCALATION CHANNEL. `issues: write` is the ENTIRE additional blast radius — `alarm_issue.py` can
+  # open, edit, comment on and close issues, and structurally nothing else (pure stdlib, no boto3, no Vast
+  # key, no import of any lane module; asserted by tests/test_alarm_issue.py).
+  issues: write
 
 concurrency:
   group: fleet-supervision-alarm
@@ -80,16 +96,54 @@ jobs:
       # NO `pip install`. Not an optimisation — a dependency is a way for this to fail for a reason unrelated
       # to the fleet, and a supervision alarm that can fail for unrelated reasons is noise.
       - name: Is anything measuring the fleet?
+        id: check
+        if: ${{ (github.event.inputs.self_test || 'off') == 'off' }}
         working-directory: research/modalities
         # A token is a HEADER, not a dependency — the "no pip install" property above is untouched, and the
         # script still falls back to an anonymous read (plus a retry ladder) if this is ever absent.
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
+          set +e
           python3 fleet_supervision_alarm.py \
             --progress step1-fanout-progress.json \
             --stale-min "${{ github.event.inputs.stale_min || '240' }}" \
             --json /tmp/fleet-supervision-verdict.json
+          echo "rc=$?" >> "$GITHUB_OUTPUT"
+
+      # ★★ THE ESCALATION. `always()`, and BEFORE the run is failed, because the run on which a human most
+      # needs to be told is exactly the run that is about to go red. It is deliberately its own step rather
+      # than a flag on the check above: the check must be able to fail without taking the notification with
+      # it, which is the same separation-of-failure-domains argument as the header's "shares no code".
+      #
+      # ⚠ IT DOES NOT DECIDE ANYTHING. `alarm_issue.py` re-derives no verdict — it reads the JSON the check
+      # wrote and acts on `ok` / `verdict` / `runs_readable` as given. A second opinion on the same evidence
+      # is a second thing to keep in sync (CLAUDE.md §1), and the check already separates a measured outage
+      # from an unreadable API.
+      - name: Escalate to a GitHub Issue (dedup'd, self-closing — needs only GITHUB_TOKEN)
+        if: ${{ always() }}
+        working-directory: research/modalities
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          SELF_TEST: ${{ github.event.inputs.self_test || 'off' }}
+        run: |
+          set -eo pipefail
+          if [ "$SELF_TEST" != "off" ]; then
+            ARGS="--self-test $SELF_TEST"
+          else
+            ARGS="--fleet-verdict /tmp/fleet-supervision-verdict.json"
+          fi
+          python3 alarm_issue.py $ARGS --json /tmp/alarm-issue-actions.json | tee /tmp/alarm-issue.log
+          {
+            echo '### Escalation channel (GitHub Issue)'
+            echo ''
+            echo '```'
+            cat /tmp/alarm-issue.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # ★ ALWAYS, and AFTER the check: the verdict must be readable whether or not the alarm fired, otherwise
       # the alarm has the same "silence is ambiguous" defect it was built to remove.
@@ -101,3 +155,13 @@ jobs:
           cat /tmp/fleet-supervision-verdict.json >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || \
             echo '{"verdict": "ALARM ITSELF FAILED — the check did not produce a verdict file"}' >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      # The non-zero exit is deliberate and is the LAST step, so the escalation above always gets to run:
+      # GitHub emails the repository owner when a SCHEDULED workflow fails, and a red run is visible in the
+      # Actions list without anyone opening it. Kept as a SECOND channel — see the header for why it is not
+      # sufficient on its own.
+      - name: Fail the run if the fleet is unsupervised
+        if: ${{ always() && steps.check.outputs.rc != '' && steps.check.outputs.rc != '0' }}
+        run: |
+          echo "::error title=FLEET UNSUPERVISED::see the job summary for the verdict and the tracking issue"
+          exit 1

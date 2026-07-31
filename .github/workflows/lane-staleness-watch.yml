@@ -35,6 +35,18 @@ name: Cross-lane staleness watch — has any lane gone stale, and is that expect
 # better than none, and it is what gets a human's attention if both dispatchers have stopped. It is NOT the
 # cadence and must never be described as one.
 #
+# ★★ HOW A RED VERDICT REACHES A HUMAN — CORRECTED 2026-07-31, BECAUSE IT DID NOT.
+# This workflow's mail step had NEVER delivered: across 159 failing runs its `send_email` call took the SES
+# branch (its env block passes the AWS keys but not `MAIL_PASSWORD`, which has never appeared in this file in
+# any commit) and SES answered `AccessDenied ... nr4a3-ci-submitter is not authorized to perform
+# ses:SendEmail` (run 30602768073, job 91068780404). The old comment blamed the SES sandbox; that was the
+# wrong diagnosis — a sandboxed account says `MessageRejected: Email address is not verified`. That left the
+# non-zero exit as the only live channel, and it was itself saturated: `vast-watchdog.yml` failed 38
+# consecutive scheduled runs into 2026-07-31. So the escalation is now a GITHUB ISSUE (`alarm_issue.py`):
+# one open issue per lane condition, a comment only when the verdict changes, auto-closed on recovery, and
+# it needs nothing but `GITHUB_TOKEN`. ONE HOME for all of this, including the IAM fix that would restore
+# email if trimcrae wants it: `research/compute/notification-channels.md`.
+#
 # COST: $0. GitHub-hosted minutes are free on a public repo and this job is a few seconds of stdlib Python.
 
 on:
@@ -50,8 +62,8 @@ on:
         description: "1 = persist the census history so the next run can age a flat census; 0 = read only"
         default: "1"
       email_on_fail:
-        description: "1 = also try SES on a failing verdict (see the mail step's caveat); 0 = log only"
-        default: "1"
+        description: "1 = ALSO send the failing verdict by email. OFF BY DEFAULT and it is not the escalation channel — the GitHub Issue is (see the mail step). Email here has no dedupe, and this verdict has gone red 159 times in the recent past."
+        default: "0"
   schedule:
     # COLD START ONLY — see the header. Deliberately hourly, not */15: asking for a high frequency on a
     # throttled repo does not get you one, it only adds queue pressure to the same pool the ticks compete in.
@@ -66,6 +78,10 @@ permissions:
   # `tests/test_work_ledger.py`). Every dispatch therefore lands in a lane's OWN launcher, behind that
   # lane's §6 market gate. This job still carries NO Vast key and NO object-store credential.
   actions: write
+  # ★ THE ESCALATION CHANNEL. `issues: write` is the ENTIRE additional blast radius — `alarm_issue.py` can
+  # open, edit, comment on and close issues, and structurally nothing else (pure stdlib, no boto3, no Vast
+  # key, no import of any lane module; asserted by tests/test_alarm_issue.py).
+  issues: write
 
 concurrency:
   group: lane-staleness-watch
@@ -133,6 +149,33 @@ jobs:
             $([ "${{ github.event.inputs.write_history || '1' }}" = "1" ] && echo --write-history) \
             | tee /tmp/lane-staleness.log
           echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      # ★★ THE ESCALATION, and it runs BEFORE anything that could fail the job, because the run on which a
+      # human most needs to be told is exactly the run that is about to go red.
+      #
+      # ⚠ IT DECIDES NOTHING. `alarm_issue.py` re-derives no verdict: it reads the JSON the step above wrote
+      # and acts on each lane's `ok` / `verdict` as given. A second opinion on the same evidence is a second
+      # thing to keep in sync (CLAUDE.md §1). It receives the HEALTHY lanes too — that is the auto-close
+      # half, and without it the issue list could only ever grow.
+      - name: Escalate to a GitHub Issue (one per lane, dedup'd, self-closing)
+        if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+        run: |
+          set -eo pipefail
+          python3 research/modalities/alarm_issue.py \
+            --lane-report /tmp/lane-staleness-verdict.json \
+            --json /tmp/alarm-issue-actions.json | tee /tmp/alarm-issue.log
+          {
+            echo '### Escalation channel (GitHub Issue)'
+            echo ''
+            echo '```'
+            cat /tmp/alarm-issue.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # ★ ALWAYS, and AFTER the check: the verdict must be readable whether or not anything fired, otherwise
       # this alarm has the same "silence is ambiguous" defect it was built to remove.
@@ -261,13 +304,32 @@ jobs:
           done
           echo "::warning title=CENSUS HISTORY / WORK LEDGER NOT PERSISTED::neither could be pushed. A stale census history CANNOT cause a false alarm (it only under-reports flatness). A stale WORK LEDGER is different: its \`_stale_after_utc\` will pass and readers will correctly conclude the supervisor chain has stopped, because from outside this run that is indistinguishable from the truth."
 
-      # ⚠ SES MAY STILL BE SANDBOXED ON THIS ACCOUNT. Say so rather than assuming delivery: a notification
-      # channel believed to work and silently not working is worse than none, because it buys false comfort.
-      # The NON-ZERO EXIT below is the channel that is known to reach a human — GitHub emails the repository
-      # owner when a scheduled workflow fails — and this mail is belt-and-braces on top of it.
-      - name: Mail the failing verdict (best effort)
-        if: ${{ always() && steps.watch.outputs.rc != '0' && (github.event.inputs.email_on_fail || '1') == '1' }}
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # EMAIL — OPT-IN, AND HONEST ABOUT WHAT IT IS (rewritten 2026-07-31 after measuring that it had never
+      # once delivered). It is NOT the escalation channel; the GitHub Issue step above is.
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # THREE MEASURED FACTS, all with their evidence in `research/compute/notification-channels.md`:
+      #   1. SES has never been authorised for this repo's IAM user. `AccessDenied ... nr4a3-ci-submitter is
+      #      not authorized to perform ses:SendEmail` on every one of 159 failing runs. NOT the sandbox — a
+      #      sandboxed account answers `MessageRejected: Email address is not verified`. It is a missing IAM
+      #      policy, and only trimcrae can add it.
+      #   2. Gmail SMTP DOES work and is proven: `Sent via SMTP (smtp.gmail.com:465)` in the daily email's
+      #      last scheduled send (run 30200038716, job 89788285952, 2026-07-26). The `MAIL_PASSWORD` secret
+      #      exists. This step simply never passed it, so `mailer.send_email` fell to the dead SES branch —
+      #      the working transport was sitting right next to it the whole time. It is passed below now.
+      #   3. ⚠ WHICH IS WHY IT IS STILL DEFAULT-OFF. Email has no dedupe and no auto-close: this verdict went
+      #      red on 159 runs in the recent past, and 159 emails is the same cry-wolf failure that made the
+      #      red-run channel unreadable. Turn it on for a specific watch, not as standing coverage.
+      - name: Email the failing verdict (opt-in, Gmail SMTP — NOT the escalation channel)
+        if: ${{ always() && steps.watch.outputs.rc != '0' && (github.event.inputs.email_on_fail || '0') == '1' }}
         env:
+          # The PROVEN transport first. `mailer.send_email` picks SMTP when MAIL_PASSWORD is set and SES
+          # otherwise; the AWS keys stay only so the failure mode is a clear AccessDenied rather than a
+          # NoCredentials confusion if the SMTP secret is ever removed.
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
@@ -278,6 +340,8 @@ jobs:
           python3 - <<'PY'
           import json, os, sys
           sys.path.insert(0, "research/modalities")
+          import mailer
+          print(f"[mail] transport that will be used: {mailer.transport_name()}")
           try:
               v = json.load(open("/tmp/lane-staleness-verdict.json"))
           except Exception as e:
@@ -287,11 +351,12 @@ jobs:
           body = "\n\n".join(f"{l['verdict']}  {l['lane']} ({l['label']})\n{l['detail']}" for l in bad)
           body += f"\n\nread at {v['now_et']}\nrun: {os.environ.get('GITHUB_SERVER_URL','')}/{os.environ.get('GITHUB_REPOSITORY','')}/actions/runs/{os.environ.get('GITHUB_RUN_ID','')}"
           try:
-              import mailer
               print(mailer.send_email(subj, body, "<pre>" + body + "</pre>"))
           except Exception as e:
-              print(f"::warning title=LANE-WATCH MAIL NOT DELIVERED::{type(e).__name__}: {e}. SES may still be "
-                    f"sandboxed on this account; the run's non-zero exit is the channel that does reach a human.")
+              print(f"::warning title=LANE-WATCH MAIL NOT DELIVERED::{type(e).__name__}: {e}. This is a "
+                    f"SECOND channel only — the tracking issue opened by alarm_issue.py is the escalation, "
+                    f"and it does not depend on this. Channel status + the IAM fix that would restore SES: "
+                    f"research/compute/notification-channels.md")
           PY
           exit 0
 
