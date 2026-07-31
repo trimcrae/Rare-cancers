@@ -76,6 +76,31 @@ additional permission is `issues: write`.
 Closing an alarm issue by hand does **not** silence anything: dedupe only looks at open issues, so the next
 run that still sees the condition opens a fresh one.
 
+### Proof — it was fired on purpose, twice, on 2026-07-31
+
+An unexercised notification path is exactly what turned out to be broken here, so this channel was not handed
+over on the strength of its unit tests. Both cycles ran against the live repo.
+
+**A · the synthetic self-test, on its own key** (`alarm-self-test`, so it could never mask a real alarm):
+
+| run | input | result |
+|---|---|---|
+| `30627499609` | `self_test=fire` | **issue #17 opened** — labelled `fleet-alarm`, assigned to `trimcrae` (assignment notifies regardless of watch settings) |
+| `30627543061` | `self_test=fire` again | **no second issue**, no comment; body updated in place, `alarm-firings` 1 → 2, `first-seen-utc` preserved |
+| `30627576586` | `self_test=fire-changed` | **comment posted** (`SELF-TEST-FIRING → SELF-TEST-CHANGED`) and the title updated; still one issue |
+| `30627605498` | `self_test=recover` | **#17 closed**, `state_reason: completed`, with a `✅ RECOVERED` comment |
+
+**B · the real production path, on the real artifact, deliberately induced then reverted:**
+
+| run | input | result |
+|---|---|---|
+| `30627637908` | defaults | verdict `FRESH` → `[alarm-issue] none … verdict FRESH is OK`; **no issue, run green** |
+| `30627642129` | lane watch, defaults | 5 healthy lanes → no issue opened, no issue closed |
+| `30627731915` | `stale_min=1` | forces a genuine `STALE-CAUSE-UNKNOWN` over the real artifact → **issue #18 opened** from the real verdict JSON, titled `FLEET UNSUPERVISED [STALE-CAUSE-UNKNOWN] — the artifact is 8 min old, past the 1 min window…`, and **the run went red**, so GitHub's own channel still fired too |
+| `30627769851` | defaults (the revert) | verdict back to `FRESH` → **#18 auto-closed** with a `RECOVERED` comment |
+
+Re-run cycle A any time from the Actions tab: `fleet-supervision-alarm.yml` → `self_test`. $0.
+
 ---
 
 ## ⚠ If trimcrae wants email back — the part only he can do
