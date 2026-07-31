@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 10:14 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 10:22 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 10:14 AM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that ca
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 10:05 AM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 10:14 AM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna       —  —                $0.00391/ns · 1.15× basis  RUNNING   targets not in the retained log window — %% and ETA unknowable this pass
-5aks_d0_to_d terna   17.8%  8:19 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna   24.9%  4:56 PM          $0.00512/ns · 1.50× basis  RUNNING   
-5aks_d0_to_d terna   24.9%  —                —                          NO HOST   no live host — checkpoint at warmup/896 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d terna   73.3%  3:26 PM          $0.00391/ns · 1.15× basis  RUNNING   
+5aks_d0_to_d terna   19.6%  8:21 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   26.7%  4:58 PM          $0.00512/ns · 1.50× basis  RUNNING   
+5aks_d0_to_d terna   24.9%  9:31 PM          $0.00449/ns · 1.32× basis  STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 10:13 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 10:22 AM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,27 +36,27 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 9:12 AM ET Fri Jul 31, 2026 — **61 min ago, STALE (> 15 min)**. Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 1 of 18 authorized R1 leg(s) landed (rows below are the rest)._
+_As of 9:12 AM ET Fri Jul 31, 2026 — **70 min ago, STALE (> 15 min)**. Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 1 of 18 authorized R1 leg(s) landed (rows below are the rest)._
 
 ```
 LEG                 % DONE  ETA (ET)         $/ns                       STATE     WHY (when not running)
 --------------------------------------------------------------------------------------------------------
-nr4a1 m1 r0              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m1 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m2 r0              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m2 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m3 r0              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a1 m3 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m1 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m2 r0              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m2 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m3 r0              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a2 m3 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m1 r0              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m1 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m2 r0              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m2 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m3 r0              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
-nr4a3 m3 r1              —  —                —                          UNKNOWN   lane last reported 61 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m1 r0              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m1 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m2 r0              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m2 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m3 r0              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a1 m3 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m1 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m2 r0              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m2 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m3 r0              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a2 m3 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m1 r0              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m1 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m2 r0              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m2 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m3 r0              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
+nr4a3 m3 r1              —  —                —                          UNKNOWN   lane last reported 70 min ago — this row is THAT report, not a current reading; it then read: NO HOST — no live host — phase marker none; a re-dispatch resumes this leg from its checkpoint
 ```
 
