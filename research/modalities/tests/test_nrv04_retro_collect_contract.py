@@ -49,7 +49,13 @@ def test_driver_still_writes_the_readout_keys_this_collector_reads():
 def _driver_shaped_leg(arm_id, model_seed, replica, plateau):
     leg = {k: None for k in _driver_result_keys()}
     leg.update({"panel": "nrv04_retrospective", "leg_id": f"{arm_id}__m{model_seed}", "seed": replica,
-                "mode": "run", "blew_up": False,
+                # ★ 2026-07-31: the PROTOCOL fields are part of "driver-shaped", not decoration. A record is a
+                # landed leg only if `nrv04_retro_panel.production_leg_check` passes it — 17 records that had
+                # `mode: run`'s neighbours (`prod_ns: 5.0`) but were smokes underneath completed this panel and
+                # reached the frozen gate. `timed_ns` is what ran; `prod_ns` is only what was asked for.
+                "mode": "run", "prod_ns": retro.PROD_NS, "equil_ns": retro.EQUIL_NS,
+                "timed_ns": retro.PROD_NS, "n_frames": retro.expected_production_frames(),
+                "prod_wall_s": 3730.5, "ns_per_day": 115.8, "blew_up": False,
                 "R1_interface": {"rmsd_series_mean": plateau, "plateau_A": plateau, "stable": plateau < 4.0},
                 "R2_recruitment": {"frames": 500, "frac_frames_in_contact": 1.0, "mean_contacts": 1979.4,
                                    "recruited": True},

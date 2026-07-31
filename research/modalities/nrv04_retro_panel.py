@@ -199,11 +199,23 @@ def leg_env(arm: RetroArm, model_seed: int, replica: int, mode: str = "run",
 # and a fully-populated `R1_interface: {plateau_A: 1.09, stable: true}`, which is exactly the field the frozen
 # gate scores. 18 such records drove `panel_complete` TRUE and the prereg §4f suppression OFF.
 #
-# So "a result exists" is NOT "the preregistered protocol ran". This predicate is that distinction, it lives
-# beside the frozen panel spec it enforces, and every caller — the collector's coverage, the launcher's
-# skip-set, the supervisor's done-set — imports it rather than re-spelling `startswith("leg_")`.
-#: Fraction of PROD_NS the timed production must reach for a leg to count. Not a science threshold — a
-#: protocol-identity check. A resumed leg finishes at PROD_NS exactly; the slack only absorbs float rounding.
+# So "a result exists" is NOT "the preregistered protocol ran". These predicates are that distinction, they
+# live beside the frozen panel spec they enforce, and every caller — the collector's coverage, the launcher's
+# skip-set, the supervisor's done-set — imports them rather than re-spelling `startswith("leg_")`.
+#
+# ★★ AND IT IS **TWO** QUESTIONS, NOT ONE. Collapsing them silently disarms prereg §4e:
+#
+#   1. `production_leg_check` — WHICH PROTOCOL RAN. `mode` and the frozen sampling lengths. This governs PANEL
+#      MEMBERSHIP: a smoke is not a leg of this panel at all, so its unit stays MISSING and §4f keeps the
+#      contrast suppressed until a real leg lands.
+#   2. `completed_production_check` — DID IT FINISH. Blow-ups and truncated production. This is a SCIENTIFIC
+#      OUTCOME the frozen gate already scores (`technical_failure`, `MAX_FAILED_LEGS_PER_ARM`,
+#      `underpowered_arms`), so it must NOT remove the unit from the panel — do that and an arm that genuinely
+#      melts becomes an eternally-incomplete panel instead of the "underpowered arm" §4e registers.
+#
+# The 2026-07-31 smoke records fail (1). A blown-up 5 ns leg passes (1) and fails (2), which is exactly right.
+#: Fraction of PROD_NS the timed production must reach to count as FINISHED. Not a science threshold — a
+#: completion check. A resumed leg finishes at PROD_NS exactly; the slack only absorbs float rounding.
 PRODUCTION_TIMED_NS_TOLERANCE = 0.02
 
 
@@ -214,30 +226,45 @@ def expected_production_frames(prod_ns: float = PROD_NS) -> int:
     return max(1, int(prod_ns / MD.TIMESTEP_NS) // MD.frame_stride_steps())
 
 
-def production_leg_check(rec: dict, prod_ns: float = PROD_NS) -> tuple:
-    """PURE: is this leg record a COMPLETED run of the preregistered protocol? -> (ok: bool, why: str).
+def production_leg_check(rec: dict, prod_ns: float = PROD_NS, equil_ns: float = EQUIL_NS) -> tuple:
+    """PURE: was this record produced by a run of the PREREGISTERED protocol? -> (ok: bool, why: str).
 
-    `ok` is what may enter the panel, the coverage count and the frozen gate. Everything else is an artifact
-    that exists — it is reported, never deleted (rule 1.2) — but it is NOT a landed leg."""
+    Membership only — see the block above. `ok` is what may enter the panel and its coverage count; anything
+    else is an artifact that exists and is reported, never deleted (rule 1.2), but is not a leg of this panel.
+    Whether the leg then SUCCEEDED is `completed_production_check`, and the frozen gate scores that."""
     if not isinstance(rec, dict):
         return False, "not a leg record"
     mode = rec.get("mode")
     if mode != "run":
         return False, (f"mode={mode!r}, not 'run' — a smoke leg runs 500 steps with NO equilibration "
                        f"(nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint")
+    for field, want in (("prod_ns", prod_ns), ("equil_ns", equil_ns)):
+        got = rec.get(field)
+        if got is not None and abs(float(got) - want) > 1e-9:
+            return False, f"{field}={got!r}, not the preregistered {want} — a different protocol was requested"
+    return True, f"protocol of record: mode=run, prod_ns={prod_ns}, equil_ns={equil_ns}"
+
+
+def completed_production_check(rec: dict, prod_ns: float = PROD_NS) -> tuple:
+    """PURE: did a panel leg REACH the end of its production run? -> (ok: bool, why: str).
+
+    A False here is a TECHNICAL FAILURE (prereg §4e), not an absent leg: the unit stays in the panel and the
+    frozen gate counts it against `MAX_FAILED_LEGS_PER_ARM`."""
+    if not isinstance(rec, dict):
+        return False, "not a leg record"
     if rec.get("blew_up"):
-        return False, f"blew_up at {rec.get('blow_phase')!r} — an unstable leg is a technical failure"
+        return False, f"blew_up at {rec.get('blow_phase')!r}"
     timed = rec.get("timed_ns")
     if not isinstance(timed, (int, float)):
-        return False, f"timed_ns={timed!r} — the record does not say how much sampling it actually did"
+        return False, "timed_ns missing — the record does not say how much sampling it actually did"
     if timed < prod_ns * (1.0 - PRODUCTION_TIMED_NS_TOLERANCE):
-        return False, (f"timed_ns={timed} vs the preregistered prod_ns={prod_ns} — the leg stopped early; "
-                       f"`prod_ns` in the record is the REQUEST, `timed_ns` is what ran")
+        return False, (f"timed_ns={timed} against prod_ns={prod_ns} — production stopped early; `prod_ns` is "
+                       f"the REQUEST, `timed_ns` is what ran")
     want = expected_production_frames(prod_ns)
     got = rec.get("n_frames")
     if got != want:
         return False, f"n_frames={got!r}, expected {want} for {prod_ns} ns at the canonical frame stride"
-    return True, "conforms: mode=run, %s ns timed, %d frames, no blow-up" % (timed, want)
+    return True, f"complete: {timed} ns timed over {want} frames"
 
 
 def is_production_leg(rec: dict, prod_ns: float = PROD_NS) -> bool:
