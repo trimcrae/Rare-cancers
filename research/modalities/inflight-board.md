@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 3:09 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 3:15 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                  ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 -------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary 8:12 AM Aug 1      45.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
-5aks_d0_to_d ternary 8:46 PM            83.3%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
-5aks_d0_to_d ternary 11:17 AM Aug 1     30.2%  RTX 4090 $0.00533/ns · 1.56× basis [bid]  RUNNING   
-5aks_d0_to_d ternary —                      —  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary 8:19 AM Aug 1      45.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
+5aks_d0_to_d ternary 8:52 PM            83.3%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
+5aks_d0_to_d ternary 1:06 PM Aug 1      30.2%  RTX 4090 $0.00533/ns · 1.56× basis [bid]  RUNNING   
+5aks_d0_to_d ternary —                  32.0%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
 ---- END TVAST-BOARD ----
 ```
