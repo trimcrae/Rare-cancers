@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 3:25 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 3:32 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                  ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 -------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary 7:57 AM Aug 1      46.7%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
-5aks_d0_to_d ternary 9:02 PM            83.3%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
-5aks_d0_to_d ternary 12:48 PM Aug 1     30.2%  RTX 4090 $0.00533/ns · 1.56× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary 7:37 AM Aug 1      32.0%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary 8:04 AM Aug 1      46.7%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary 8:43 PM            84.4%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  RUNNING   
+5aks_d0_to_d ternary 12:55 PM Aug 1     30.2%  RTX 4090 $0.00533/ns · 1.56× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary 7:35 AM Aug 1      32.0%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
 ---- END TVAST-BOARD ----
 ```
