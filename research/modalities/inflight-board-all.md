@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 7:40 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 7:45 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,7 +15,7 @@ Merged 7:40 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 7:37 PM ET Fri Jul 31, 2026 (4 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 7:37 PM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
@@ -28,7 +28,7 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 7:40 PM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 7:40 PM ET Fri Jul 31, 2026 (5 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,12 +36,12 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 7:37 PM ET Fri Jul 31, 2026 (3 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 7:45 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 nr4a2 m2 r0        —                      —  —                                                                                                NO HOST   no live host — phase marker md-running 2026-07-31T20:28:05Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure on distinct hosts. Counted since this unit last banked work — a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) — the streak is genuine: the fault reproduced across separate rentals. Once the cause is fixed, re-arm with a BASELINE (retro_set_breaker_baseline; CI vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for — the baseline moves the streak anchor and keeps attempts/ intact, and that archive is what distinguishes real rentals from a crash-loop.
-nr4a2 m3 r0        7:49 PM            70.0%  — $0.1459/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
+nr4a2 m3 r0        7:49 PM            90.0%  — $0.1459/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
 ```
 
