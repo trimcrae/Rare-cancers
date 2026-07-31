@@ -336,7 +336,8 @@ def test_every_variable_the_startup_script_needs_is_exported_by_the_workflow():
     exported = set(re.findall(r"[A-Z_]+", block)) | {"MACHINE_TYPE", "SMOKE"}
     needed = set(re.findall(r'"\$(?:\{)?([A-Z][A-Z0-9_]*)', _startup()))
     # Variables the script defines itself, or that come from docker/env files rather than the header.
-    local = {"GS", "PREFIX", "HB", "UNIT_ID", "CODE", "IMAGE", "DOCKER_COMMON", "MD", "GCSFIX", "NC", "L"}
+    local = {"GS", "PREFIX", "HB", "UNIT_ID", "CODE", "IMAGE", "DOCKER_COMMON", "MD", "GCSFIX", "NC", "L",
+             "PARITY", "BASE_PARITY", "NEW_PARITY", "BASE_IMAGE"}
     missing = needed - exported - local
     assert not missing, f"the startup script reads {sorted(missing)} but the workflow never sets them"
 
@@ -600,3 +601,29 @@ def test_the_leg_containers_do_not_need_stdin_and_run_a_file():
     reads as deliberate rather than as an inconsistency to be tidied away."""
     code = _startup_code()
     assert "python nr4a3_rbfe.py" in code
+
+
+def test_adding_the_gcs_wheel_cannot_silently_move_the_science_stack():
+    """★★ PARITY IS THE SCIENTIFIC ARGUMENT (CLAUDE.md §6), so it is PROVEN, not hoped for.
+    `pip install google-cloud-storage` drags in protobuf/grpcio/requests and is free to upgrade a shared
+    dependency while it is there. A replicate computed on a moved openfe/openmmtools/pymbar/numpy/scipy is
+    worse than no replicate, because it still looks like one. Versions are read before and after and any
+    difference REFUSES."""
+    code = _startup_code()
+    assert "BASE_PARITY" in code and "NEW_PARITY" in code
+    assert 'mark "SMOKE-FAIL parity-moved"' in code
+    for pkg in ("openfe", "openmmtools", "pymbar", "numpy", "scipy"):
+        assert pkg in code, pkg
+    # the refusal must be a refusal, not a warning
+    seg = code.split("NEW_PARITY=")[1]
+    assert "exit 3" in seg.split("mark \"SMOKE-FAIL parity-moved\"")[1][:40] or "exit 3" in seg
+
+
+def test_the_provenance_string_names_the_base_image_not_the_derived_one():
+    """A one-word ordering bug in a PROVENANCE string is still a provenance bug: `IMAGE` used to be
+    reassigned before the message was built, so it claimed the wheel was installed on top of the image the
+    wheel had just created."""
+    code = _startup_code()
+    i, j = code.index("GCSFIX=\"google-cloud-storage"), code.index("IMAGE=s1frep:gcs")
+    assert "$BASE_IMAGE" in code[i:i+200]
+    assert j < i, "IMAGE is reassigned before GCSFIX is built — GCSFIX must name BASE_IMAGE explicitly"

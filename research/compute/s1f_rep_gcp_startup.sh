@@ -132,20 +132,41 @@ echo "[s1f-gcp] unit_id=$UNIT_ID"; sed 's/^/  /' /work/env.complex
 # compiled dependency and does not touch openfe/openmmtools/pymbar, so MBAR parity with the n=0 edges is
 # untouched. Which of the two happened is printed, because "it worked" and "it was already there" are
 # different facts and only one of them belongs in a Dockerfile change later.
+PARITY='import openfe,openmmtools,pymbar,numpy,scipy;print("PARITY",openfe.__version__,openmmtools.version.version,pymbar.__version__,numpy.__version__,scipy.__version__)'
+BASE_PARITY=$(docker run --rm "$IMAGE" /opt/mamba/envs/rbfe/bin/python -c "$PARITY" 2>/dev/null | tail -1)
+echo "[s1f-gcp] base image parity: $BASE_PARITY"
 if docker run --rm "$IMAGE" /opt/mamba/envs/rbfe/bin/python -c "from google.cloud import storage" 2>/dev/null; then
   echo "[s1f-gcp] google-cloud-storage: already in the image"
   GCSFIX=""
 else
-  echo "[s1f-gcp] google-cloud-storage: NOT in the image — installing the wheel into a derived layer"
+  echo "[s1f-gcp] google-cloud-storage: NOT in the image — adding the wheel in a derived layer"
   cat > /work/Dockerfile.gcs <<'DEOF'
 ARG BASE
 FROM ${BASE}
 RUN /opt/mamba/envs/rbfe/bin/pip install --no-cache-dir google-cloud-storage
 DEOF
-  docker build -q --build-arg BASE="$IMAGE" -t s1frep:gcs -f /work/Dockerfile.gcs /work \
+  BASE_IMAGE="$IMAGE"
+  docker build -q --build-arg BASE="$BASE_IMAGE" -t s1frep:gcs -f /work/Dockerfile.gcs /work \
     || { echo "[s1f-gcp] FATAL: could not add google-cloud-storage"; mark "SMOKE-FAIL no-gcs-lib"; exit 3; }
+  # ★★ PARITY IS THE SCIENTIFIC ARGUMENT (CLAUDE.md §6), SO PROVE IT RATHER THAN HOPE.
+  # `pip install google-cloud-storage` drags in protobuf/grpcio/requests and is free to UPGRADE a shared
+  # dependency while it is there. If it moved numpy, scipy, pymbar, openmmtools or openfe, this replicate
+  # would no longer be running the stack that produced the n=0 edges — a silent protocol deviation, and the
+  # exact class §6 says an ad-hoc environment change is. So the five versions are read BEFORE and AFTER and
+  # any difference is a REFUSAL, not a warning: a replicate computed on a different stack is worse than no
+  # replicate, because it looks like one.
+  NEW_PARITY=$(docker run --rm s1frep:gcs /opt/mamba/envs/rbfe/bin/python -c "$PARITY" 2>/dev/null | tail -1)
+  echo "[s1f-gcp] derived image parity: $NEW_PARITY"
+  if [ "$BASE_PARITY" != "$NEW_PARITY" ] || [ -z "$NEW_PARITY" ]; then
+    echo "[s1f-gcp] FATAL: adding google-cloud-storage MOVED the science stack"
+    echo "[s1f-gcp]   before: $BASE_PARITY"
+    echo "[s1f-gcp]   after : $NEW_PARITY"
+    echo "[s1f-gcp] Fix by adding google-cloud-storage to research/compute/Dockerfile.nr4a3fep and re-baking"
+    echo "[s1f-gcp] ONCE, which is what CLAUDE.md §6 prescribes for a genuinely missing dep."
+    mark "SMOKE-FAIL parity-moved"; exit 3
+  fi
   IMAGE=s1frep:gcs
-  GCSFIX="google-cloud-storage was pip-installed on top of $IMAGE"
+  GCSFIX="google-cloud-storage added on top of $BASE_IMAGE; openfe/openmmtools/pymbar/numpy/scipy VERIFIED unmoved ($NEW_PARITY)"
 fi
 mark env-ok
 
