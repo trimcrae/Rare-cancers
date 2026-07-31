@@ -57,3 +57,34 @@ def test_the_columns_still_line_up_when_names_differ_in_length():
     # every row's ETA cell must start at the same column, or the widest name has broken the table
     starts = {ln.index("$") if "$" in ln else None for ln in lines[1:] if "$" in ln}
     assert len(starts) == 1, "the $/ns column drifted: %r" % starts
+
+
+# =============================================================================================================
+# ...and the SHORTENER upstream of the column, which collapsed them a second time
+# =============================================================================================================
+def test_short_name_keeps_the_paralogue_and_the_replicate():
+    """`render()`'s truncation was only half of it. `short_name` returned `f"{uid.split('__')[0]} {env}"`, so
+    all four 5a-KS units became the single string `5aks_d0_to_d ternary` BEFORE the column ever saw them — on
+    the one lane whose entire experiment is the nr4a1 vs nr4a3 comparison. A shortener that drops the
+    discriminator cannot be rescued by a wider column, so both had to change."""
+    names = [ib.short_name(n) for n in FIVE_AKS]
+    assert len(set(names)) == 4, names
+    for n, s in zip(FIVE_AKS, names):
+        assert ("nr4a1" in s) == ("nr4a1" in n), s
+        assert s.endswith("r0") == ("_r0_" in n), s
+
+
+def test_short_name_did_not_regress_the_lanes_that_already_read_well():
+    """The triangle's T2/T3 identity and the replicates' `valB rN` labels were already distinguishing, and
+    they come from `valb_triangle_legs` rather than from a table typed here. Nothing about them changes."""
+    assert ib.short_name("calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps") == "valB r1 ternary"
+    assert ib.short_name("calib_hi_to_lo__binary_vhl_r2_dt4.0fs_wu1.0_edge_reps") == "valB r2 binary"
+
+
+def test_the_rendered_board_distinguishes_four_5aks_rows_end_to_end():
+    """The property that actually failed in production: name -> short_name -> column, all three together."""
+    rows = [{"name": ib.short_name(n), "pct": 30.2, "usd_per_ns": "RTX 4090 $0.005/ns · 1.5x basis [bid]",
+             "state": "STARTING", "why": "", "eta_s": 3600} for n in FIVE_AKS]
+    body = [ln for ln in ib.render(rows).splitlines()[2:] if ln.strip()]
+    firsts = [ln.split("  ")[0].strip() for ln in body]
+    assert len(set(firsts)) == 4, firsts

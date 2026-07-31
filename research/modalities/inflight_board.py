@@ -548,6 +548,25 @@ def short_name(unit_id):
     seed = m.group(1) if m else "?"
     if "edge_reps" in uid or "edge" in uid:
         return f"valB r{seed} {env}"
+    # ★★ THE FALLBACK MUST CARRY WHAT DISTINGUISHES THE UNITS, AND IT DID NOT (2026-07-31).
+    # It returned `f"{uid.split('__')[0]} {env}"`, so all FOUR RUNG 5a-KS units — which differ only in the
+    # paralogue (`nr4a1` vs `nr4a3`) and the replicate (`r0` vs `r1`) — rendered as the single string
+    # `5aks_d0_to_d ternary`. Both discriminators were dropped, on a lane where the whole experiment IS the
+    # nr4a1/nr4a3 comparison.
+    #
+    # The cost was real and it was paid the same day: reading that board, two legs the idle guard had
+    # condemned were reported as "both on the nr4a3 arm", which made an arm-specific hang the leading
+    # hypothesis. The machine-written `5aks-market-hold.json` snapshots say the two were `nr4a1_r1` and
+    # `nr4a3_r0` — one from EACH arm — and that host losses ran 7 to 7 across the arms. An hour of diagnosis
+    # went at a pattern the renderer had invented.
+    #
+    # (`render()` also truncated the column to 18 characters, which collapsed them a second time. Both had to
+    # go; a shortener that drops the discriminator cannot be rescued by a wider column.)
+    m2 = re.search(r"__(?:ternary|binary|solvent)_([A-Za-z0-9]+)_r(\d+)", uid)
+    if m2:
+        return f"{uid.split('__')[0]} {env} {m2.group(1)} r{m2.group(2)}"
+    if seed != "?":
+        return f"{uid.split('__')[0]} {env} r{seed}"
     return f"{uid.split('__')[0]} {env}"
 
 
