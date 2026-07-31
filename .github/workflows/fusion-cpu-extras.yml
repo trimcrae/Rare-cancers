@@ -1001,10 +1001,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Retro smoke forensics (read-only; rents nothing, destroys nothing)
-        run: |
-          pip install -q boto3
-          python research/modalities/nrv04_retro_smoke_forensics.py
       - name: phase + run.log tail + object listing
         run: |
           python3 -m pip install -q awscli >/dev/null 2>&1 || pip install -q awscli >/dev/null 2>&1 || true
@@ -1052,6 +1048,10 @@ jobs:
           else
             echo "(no leg_*.json under this prefix)"
           fi
+      - name: Retro smoke forensics (read-only; rents nothing, destroys nothing)
+        run: |
+          pip install -q boto3
+          python research/modalities/nrv04_retro_smoke_forensics.py
 
   nrv04_ffcache_status:
     # Fast diagnostic (~30s): print the ffcache object's LastModified + size so we can tell whether charge_cache
