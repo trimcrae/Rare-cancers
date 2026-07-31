@@ -1074,14 +1074,28 @@ def _load_excluded(s3, bucket):
     is shared (host-scoped only) and what deliberately is not.
 
     ⚠ AND THE THIRD TERM IS WAVE-SCOPED, NOT PERMANENT — see the block above. Returns `(ids, doc)` as before.
+
+    ⛔⛔ SUPERSEDED 2026-07-31 (trimcrae: *"You've gotta just stop doing the blacklist. It seems like it only
+    ever bites us in the ass and clearing it always makes things better."*). BOTH stored terms — this lane's
+    durable `machine_ids` and the shared cross-lane set — are now dropped, and so is the wave block, because
+    it lives inside the same retired object and a run-scoped set read from a durable artifact is exactly the
+    thing that turned out to accumulate. The `doc` is still READ and still RETURNED, so `unit_condemnations`,
+    the placement record and `vast_exclusion_census` keep working on the historical artifact; nothing
+    consumes it for SELECTION. The switch and the evidence have one home, `vast_machine_blacklist`.
+
+    What survives, and deliberately: `FANOUT_EXCLUDE_MACHINES`, an explicit per-dispatch operator input that
+    nothing persists and nothing re-reads; `used_machines` at the fleet loop (double-rent prevention, not
+    exclusion); and `gpu_backend.submit`'s in-call skip of a machine that just answered
+    `resources_unavailable`, which is bounded to that placement call and dies with it.
     """
     doc = _get_json(s3, bucket, _EXCLUDE_KEY) or {}
     env = os.environ.get("FANOUT_EXCLUDE_MACHINES", "")
-    ids = {str(m) for m in (doc.get("machine_ids") or [])}
-    ids |= {m.strip() for m in env.split(",") if m.strip()}
-    ids |= wave_capacity_ids(doc)
+    ids = {m.strip() for m in env.split(",") if m.strip()}
     import vast_machine_blacklist as vmb
-    return vmb.union(ids, s3, bucket), doc
+    if vmb.durable_enabled():
+        ids |= {str(m) for m in (doc.get("machine_ids") or [])}
+        ids |= wave_capacity_ids(doc)
+    return (vmb.union(ids, s3, bucket) if vmb.durable_enabled() else sorted(ids)), doc
 
 
 def unit_condemnations(doc, unit):
@@ -1126,8 +1140,18 @@ def _record_exclusion(s3, bucket, machine_id, why, scope="lane", unit=None):
     distinct hosts before the unit is the suspect" is one question and must have one answer (rule 1).
 
     Returns True if the machine was newly recorded anywhere.
+
+    ⛔⛔ RETIRED WITH THE LIST IT WRITES TO (trimcrae, 2026-07-31). A read path that returns nothing while the
+    write path keeps growing the object is the worst of both worlds: the starvation would return silently the
+    moment anyone flipped the switch back, inheriting a set nobody reviewed. So this now returns False without
+    writing. Nothing else changes — the caller's own logging, the failure breaker and `vast_idle_guard` are
+    untouched, and they are what actually stop money going to a bad host.
     """
     import vast_machine_blacklist as vmb
+    if not vmb.durable_enabled():
+        print(f"[s1f] NOT recording an exclusion for machine {machine_id} ({str(why)[:120]!r}): "
+              f"{vmb._RETIRED_NOTE}", flush=True)
+        return False
     ids, doc = _load_excluded(s3, bucket)
     mid = str(machine_id)
     perishable = vmb.classify_reason(why) == vmb.CLASS_CAPACITY

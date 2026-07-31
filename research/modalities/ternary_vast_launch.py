@@ -518,6 +518,34 @@ NO_AUTOMATIC_REPLACEMENT = {
 }
 
 
+# ★★ THE CARD FLOOR IS PER-MODE, AND IT HAS EXACTLY ONE HOME (2026-07-31).
+#
+# `collect`'s self-heal used to dispatch `-f min_ns_per_h=28` to WHATEVER gate the map returned, so a floor
+# argued for the closure triangle was silently applied to RUNG 5a-KS as well — including after trimcrae
+# reverted the 5a-KS floor on the supervisor tick. Two dispatchers disagreeing about one lane's card policy is
+# how a reverted decision keeps running.
+#
+# WHY 5a-KS HAS NO FLOOR, and the evidence that settled it: the step 1 fan-out's own 208-rental ledger shows
+# 3090-class hosts (<= $0.12/hr) held a **1.50 h median with 62 % over an hour**, against 1.65 h / 67 % for the
+# 4090/5090 class. Card class does not predict host lifetime here, so a floor buys narrowness and not
+# retention — and trimcrae asked explicitly that 3090s stay in the pool.
+#
+# WHY THE TRIANGLE KEEPS ITS FLOOR: a different, direct observation — `calib_hi_to_lo2__ternary_vhl` sat at
+# production/1720 for over two hours across three hosts and advanced on the very next cycle once it landed on
+# a 5090. That is a measurement of THAT unit's interval against THAT card, and it is not transferable.
+#
+# 0 = unset, which is what `resource_spec` already means by it.
+MODE_MIN_NS_PER_H = {
+    "triangle": 28.0,
+    "triangle_smoke": 28.0,
+}
+
+
+def mode_min_ns_per_h(mode):
+    """The card floor a re-placement of `mode` should carry, as a float (0 = none). PURE."""
+    return float(MODE_MIN_NS_PER_H.get(mode) or 0.0)
+
+
 def gate_task_for(mode):
     """The `task=` that re-places a dead host for `mode`, or None when the mode has none by decision. PURE.
 
@@ -1447,6 +1475,18 @@ def blocked_machine_ids(bucket=None, prefix=None):
     list — because the two lanes kept separate sets and neither could see the other's. A capacity refusal is a
     property of the machine, so every lane may act on it; see `vast_machine_blacklist` for the scope split.
     """
+    # ⛔ RETIRED (trimcrae, 2026-07-31: "You've gotta just stop doing the blacklist"). The switch and the
+    # evidence live in `vast_machine_blacklist` — one home. Checked HERE as well as inside `union` because
+    # this function's own `except` fallback returns `local`, i.e. the lane's durable ids, on any error
+    # reaching the shared set: without this line a transient S3 blip would quietly re-enable the very list
+    # that has been starving the board. Bounded protection is untouched — `submit`'s in-call capacity-refusal
+    # skip and the `used` set that stops two legs of one wave landing on one box.
+    try:
+        import vast_machine_blacklist as _vmb0
+        if not _vmb0.durable_enabled():
+            return []
+    except Exception:  # noqa: BLE001 — if the module cannot even be imported, exclude nothing
+        return []
     b = bucket or DEFAULT_BUCKET
     p = (prefix or RESULT_PREFIX).rstrip("/")
     local, s3 = [], None
@@ -2621,8 +2661,21 @@ def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max
     res = resource_spec()
     if excluded:
         res.exclude_machine_ids = tuple(str(m) for m in excluded)
+    # ★★ THE TIER IS PART OF THE READOUT, BECAUSE A HOLD THAT DOES NOT NAME IT IS UNREADABLE
+    #    (measured 2026-07-31 — the misreading this closes).
+    # `collect`'s self-heal escalates a unit that has burned `_ESCALATE_AFTER` hosts to `on_demand=1`, so on a
+    # churning lane MOST gate ticks price the UNINTERRUPTIBLE tier — which is small and dear by construction.
+    # The committed 5a-KS snapshots that day therefore interleave two series: bid-tier ticks clearing at
+    # 1.13-1.54x, and on-demand ticks holding at 2.04-2.28x, both writing the same file and both printing the
+    # same "RUNG 5a-KS is HELD on price". Read from a distance that says the MARKET is at 2x basis. It was
+    # not: the market was fine and the expensive tier was being priced.
+    # Same principle as CLAUDE.md §1's "a row we are paying and a row the gate refused must never render
+    # alike", one level up: two holds about DIFFERENT MARKETS must not render alike either.
+    tier = "bid (interruptible)" if res.interruptible else "on-demand (UNINTERRUPTIBLE — small and dear by " \
+                                                          "construction; NOT the market the ladder is costed on)"
     out = {"_what": _gate_what(mode),
            "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "n_units": n_units,
+           "tier": tier, "interruptible": bool(res.interruptible),
            "basis_usd_per_ns": round(basis, 6), "plan_usd": plan_usd, "ceiling_usd": ceiling,
            "ceiling_basis": ceiling_basis,
            "breakeven_usd_per_ns": round(ceiling / (ns_unit * n_units), 6)}
@@ -2669,6 +2722,12 @@ def market_gate(n_units, key=None, excluded=(), entry=None, legs_in_entry=3, max
             why.append("%.2fx the ladder basis exceeds the %.2fx drift line (CLAUDE.md §1) — trimcrae, "
                        "2026-07-26: \"I'd rather pause until availability opens than pay double per ns\"; "
                        "need <= $%.6f/ns" % (ratio, cap, cap * basis))
+        # The tier rides on EVERY hold sentence, not just in a field — the sentence is what gets quoted into
+        # a status report, and a 2.2x quoted with no tier is how "the on-demand tier is dear" became "the
+        # market is at 2x basis".
+        why.append("priced on the %s tier" % ("bid/interruptible" if res.interruptible
+                                              else "ON-DEMAND/UNINTERRUPTIBLE — this is NOT a reading of the "
+                                                   "interruptible market the ladder is costed on"))
         out["reason"] = "; ".join(why)
     return hold, out
 
@@ -4023,7 +4082,16 @@ def main(argv=None):
     # DECISION; any other non-zero = the mode is unknown to the map, which is the trap and must be loud.
     ap.add_argument("--gate-task-for", metavar="MODE",
                     help="print the task= that re-places a dead host for MODE, then exit")
+    # The card floor that mode's re-placement should carry, printed separately so the shell can pass it
+    # through verbatim. It is DERIVED from `MODE_MIN_NS_PER_H` rather than typed into a `gh workflow run`
+    # line — a floor typed in shell is how a floor reverted on one dispatcher kept running on the other.
+    ap.add_argument("--min-ns-per-h-for", metavar="MODE",
+                    help="print the min_ns_per_h a re-placement of MODE should carry (0 = none), then exit")
     a = ap.parse_args(argv)
+    if a.min_ns_per_h_for:
+        v = mode_min_ns_per_h(a.min_ns_per_h_for)
+        print("%g" % v)
+        return 0
     if a.gate_task_for:
         try:
             task = gate_task_for(a.gate_task_for)

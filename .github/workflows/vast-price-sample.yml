@@ -23,7 +23,7 @@ on:
         description: "gpu_name substring to sample"
         default: "rtx4090"
       mode:
-        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | census (why a qualifying board cannot be priced) | exclusions (what OUR OWN filter is removing, and what re-admitting it would buy) | bidsem (pay-your-bid probe, <$0.01) | forensics (read-only: does a LIVE rental's rate move after rental?)"
+        description: "sample (hourly series) | intel (one-shot docs + matched market + storage) | census (why a qualifying board cannot be priced) | exclusions (what OUR OWN filter is removing, and what re-admitting it would buy) | filters (offers-surviving count PER HARD FILTER, bid vs on-demand, + the CUDA-floor sweep and the retired blacklist counterfactual) | imagecuda ($0: what CUDA the BAKED ternary-fep image actually requires — the evidence min_cuda is set from) | bidsem (pay-your-bid probe, <$0.01) | forensics (read-only: does a LIVE rental's rate move after rental?)"
         default: "sample"
 
 permissions:
@@ -213,6 +213,104 @@ jobs:
           git add research/modalities/vast-exclusion-census.json 2>/dev/null || true
           git commit -m "vast exclusion census $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
           git push origin HEAD:${{ github.ref_name }}
+
+  filters:
+    # ★ READ-ONLY ($0). WHICH OF OUR OWN HARD FILTERS IS EATING THE BOARD.
+    #
+    # The third sibling of `census` and `exclusions`, and the one that was missing when it mattered
+    # (trimcrae, 2026-07-31: *"the floor being 2x over baseline would be quite unusual. Make sure we aren't
+    # filtering too many options out."*). `census` says the board could not be PRICED; `exclusions` says the
+    # blacklist ate it; NEITHER says which of `min_cuda` / VRAM / host RAM / cores / disk / reliability /
+    # `min_ns_per_h` is doing the pruning. Without that, a narrow board reads as a thin market — and those
+    # two call for OPPOSITE actions (§6 waits a thin market out; an over-tight filter is fixed).
+    #
+    # Every count comes off ONE permissive read per tier, because `/search/asks/` is a rotating sample
+    # (`gpu_backend._vast_request`: two reads 20 s apart share ~174 machines). It also prices the bid and
+    # on-demand tiers SEPARATELY and labels them — conflating the two is what made a hold priced against the
+    # small, dear uninterruptible tier read as a statement about the market the ladder is costed on.
+    #
+    # Rents nothing, changes no filter, and never touches the buy line.
+    if: ${{ github.event.inputs.mode == 'filters' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Ablate every hard filter against one live board (read-only, rents nothing)
+        working-directory: research/modalities
+        # Same input-reuse idiom as `census`/`exclusions`: `gpu` carries the card floor to include in the
+        # FULL spec when it is a bare number, so no new workflow input is needed (dispatch validates inputs
+        # against the DEFAULT branch, and a new input is one more thing that can differ between refs).
+        run: |
+          F="${{ github.event.inputs.gpu }}"
+          case "$F" in (''|*[!0-9.]*) F=0 ;; esac
+          python vast_filter_ablation.py --lane ternary --units 1 --min-ns-per-h "$F"
+      - name: Commit the ablation back to this branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/vast-filter-ablation.json 2>/dev/null || true
+          git commit -m "vast filter ablation $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${{ github.ref_name }}" && \
+              git push origin HEAD:${{ github.ref_name }} && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the filter ablation"
+
+  imagecuda:
+    # ★ READ-ONLY ($0), AND IT IS THE EVIDENCE `min_cuda` SHOULD BE SET FROM.
+    #
+    # `ResourceSpec.min_cuda = 13.0` is enforced twice per board read and is, by the ablation above, the
+    # single most expensive filter this repo applies. Its justification is a COMMENT claiming the baked env's
+    # PTX is CUDA-13-class, while `Dockerfile.ternaryfep` is `FROM nvidia/cuda:12.6.3-...` and pins
+    # `cuda-version=12.6`. One of those is wrong and the expensive one is the one being enforced.
+    #
+    # `probe_image_cuda.py` asks the ENV rather than the Dockerfile: OpenMM JIT-compiles its CUDA kernels with
+    # NVRTC, so the PTX ISA it emits — and therefore the minimum host driver — is fixed by the env's own
+    # libnvrtc, which `ctypes` can read on a runner with no GPU.
+    #
+    # Pulls the image rather than solving an env (CLAUDE.md §6) and mounts the repo's `research/modalities`
+    # so the probe is the CHECKED-OUT copy, not the stale one baked at build time. `--entrypoint python`
+    # bypasses the image's autoteardown ENTRYPOINT, which is for billed GPU legs and not a $0 probe.
+    if: ${{ github.event.inputs.mode == 'imagecuda' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ask the BAKED image what CUDA it needs (no GPU, no rental)
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          IMG=docker.io/triskit23/ternary-fep:latest
+          docker pull -q "$IMG"
+          mkdir -p /tmp/probe
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/probe:/tmp/probe \
+            "$IMG" /work/research/modalities/probe_image_cuda.py \
+              --json-out /tmp/probe/ternary-fep-cuda-probe.json
+          cp /tmp/probe/ternary-fep-cuda-probe.json research/modalities/ 2>/dev/null || true
+      - name: Commit the probe back to this branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/ternary-fep-cuda-probe.json 2>/dev/null || true
+          git commit -m "ternary-fep image CUDA probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
+          for i in 1 2 3 4; do
+            git pull --rebase origin "${{ github.ref_name }}" && \
+              git push origin HEAD:${{ github.ref_name }} && exit 0
+            sleep $((2**i))
+          done
+          echo "::warning::could not push the image CUDA probe"
 
   bidsem:
     # The one experiment that DOES rent: settle whether an interruptible rental is billed at your bid or at a

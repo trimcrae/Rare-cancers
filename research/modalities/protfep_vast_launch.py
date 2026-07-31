@@ -308,7 +308,18 @@ def blocked_machine_ids(bucket=None, prefix=None):
     Recorded by collect() and consumed here so a host that cannot schedule us stops winning
     selection. It is the availability term the $/ns ranking has no way to express: a machine that
     never starts has infinite realised cost per ns, yet reads as the cheapest offer on the board.
+
+    ⛔ RETIRED (trimcrae, 2026-07-31: "You've gotta just stop doing the blacklist. It seems like it only
+    ever bites us in the ass and clearing it always makes things better."). Returns [] unless
+    `VAST_DURABLE_EXCLUSIONS=1`; the switch and the evidence have one home, in `vast_machine_blacklist`.
+    Bounded protection is unchanged: `submit`'s in-call capacity-refusal skip, and `used_machines` below.
     """
+    try:
+        import vast_machine_blacklist as _vmb0
+        if not _vmb0.durable_enabled():
+            return []
+    except Exception:  # noqa: BLE001 — no module, no exclusions
+        return []
     try:
         import boto3
     except ImportError:

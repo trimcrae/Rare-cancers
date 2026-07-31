@@ -20,6 +20,20 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+import pytest  # noqa: E402
+
+
+# ⛔⛔ THESE TESTS PIN THE **RETIRED** DURABLE EXCLUSION LIST, DELIBERATELY (2026-07-31).
+# trimcrae retired it that day — *"You've gotta just stop doing the blacklist. It seems like it only ever
+# bites us in the ass and clearing it always makes things better."* — and `vast_machine_blacklist` now reads
+# and writes NOTHING unless `VAST_DURABLE_EXCLUSIONS=1`. The machinery below (capacity-vs-host classification,
+# wave scoping, the per-unit condemnation guard, clear/snapshot/retire) is kept and kept TESTED rather than
+# deleted, because the retirement is a switch and a switch that flips back into untested code is a trap. The
+# behaviour that is now live by default is pinned separately, in `test_blacklist_retired.py`.
+@pytest.fixture(autouse=True)
+def _durable_exclusions_on(monkeypatch):
+    monkeypatch.setenv("VAST_DURABLE_EXCLUSIONS", "1")
+
 
 def _monitor_src() -> str:
     import congeneric_fanout_vast as cfv

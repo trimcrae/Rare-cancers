@@ -2098,9 +2098,18 @@ jobs:
             # interruptible one regardless of bid. The rental is still gated on $/ns, and the counter resets
             # to zero the moment the census advances, so this is a temporary, evidence-backed escalation.
             OD=""; [ "${escalate:-0}" = "1" ] && OD="-f on_demand=1"
-            echo "::notice title=SELF-HEAL::mode=$mode escalate=${escalate:-0} -> dispatching $TASK (it still prices and may HOLD)"
+            # ★★ THE CARD FLOOR IS PER-MODE AND DERIVED, NOT TYPED (2026-07-31). This line used to read
+            # `-f min_ns_per_h=28` unconditionally, so a floor argued for the closure triangle was applied to
+            # RUNG 5a-KS too — and went on being applied after trimcrae REVERTED the 5a-KS floor on the
+            # supervisor tick, because that revert only touched the other dispatcher. Two dispatchers
+            # disagreeing about one lane's card policy is how a reverted decision keeps running.
+            # `ternary_vast_launch.MODE_MIN_NS_PER_H` is the one home; the evidence for each entry is beside
+            # it. 0 => the input is passed empty, which is `resource_spec`'s own "unset".
+            NSF="$(python3 research/modalities/ternary_vast_launch.py --min-ns-per-h-for "$mode" 2>/dev/null || echo 0)"
+            [ "$NSF" = "0" ] && NSF=""
+            echo "::notice title=SELF-HEAL::mode=$mode escalate=${escalate:-0} min_ns_per_h='${NSF:-none}' -> dispatching $TASK (it still prices and may HOLD)"
             gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" \
-              -f task="$TASK" -f min_ns_per_h=28 -f bid_floor_mult=2.0 $OD \
+              -f task="$TASK" -f min_ns_per_h="$NSF" -f bid_floor_mult=2.0 $OD \
               || echo "::warning title=REPLACE DISPATCH FAILED::$TASK — the scheduled tick remains the backstop"
           done < "$F"
 

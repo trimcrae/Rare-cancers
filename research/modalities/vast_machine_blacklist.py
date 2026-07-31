@@ -88,16 +88,72 @@ _REQUIRED = object()
 _LANE_LIST_FIELDS = ("_blocked_machines", "machine_ids")
 
 
+# =============================================================================================================
+# ⛔⛔ THE DURABLE EXCLUSION LIST IS RETIRED — OFF BY DEFAULT, AT THE READ PATH
+#     (trimcrae, 2026-07-31: *"You've gotta just stop doing the blacklist. It seems like it only ever bites us
+#     in the ass and clearing it always makes things better."*)
+# =============================================================================================================
+# THE EVIDENCE, so this is recorded rather than asserted:
+#   * The cumulative version reached **33 lane-local + 41 shared** entries and made OUR OWN FILTER, not price,
+#     the binding constraint on placement — 2 of 2 authorised units failed with `no rentable verified offer`
+#     against a 189-offer board at healthy prices.
+#   * `vast-blacklist-snapshot-before-clear.json` captured **41 machine ids** immediately before the
+#     deliberate wipe of 2026-07-28, of which 32 were a single synthesised backfill reason.
+#   * Every clear on record improved placement. Nothing on record shows the list paying for itself.
+#
+# THE COUNTER-ARGUMENT THIS FILE WAS BUILT ON — "a host that never starts has infinite realised $/ns, which is
+# invisible to $/ns ranking, so without exclusion it keeps winning selection and keeps failing" — is REAL, and
+# it is fully served by the IN-CALL retry skip in `gpu_backend.VastBackend.submit`: after a
+# `resources_unavailable`, that call widens `exclude_machine_ids` on a COPY of the spec and re-selects, so the
+# refusing machine cannot win again inside the placement that just met it. That skip is bounded to the call and
+# dies with it. What has repeatedly starved the board is the DURABLE list, not the bounded one.
+#
+# ⚠ WHAT IS DELIBERATELY UNTOUCHED, because removing it would cause real harm:
+#   * `used_machines` (`congeneric_fanout_vast`, `protfep_vast_launch`, `ternary_vast_launch`) — do not put two
+#     legs of the same wave on one box. That is DOUBLE-RENT prevention, not exclusion.
+#   * the in-call retry skip described above (`gpu_backend`).
+#   * per-dispatch operator env hatches (`FANOUT_EXCLUDE_MACHINES`, `BENCH_EXCLUDE_MACHINES`) — explicit input
+#     for one run, which nothing persists and nothing re-reads.
+#
+# ⚠ AND WHY THIS IS A SWITCH RATHER THAN A DELETION. No S3 object is deleted and no history is dropped: the
+# writers stop, the readers return nothing, and `snapshot`/`lane_list_report`/`vast_exclusion_census` still
+# read the stored artifact so the record and the census tooling stay legible. Setting
+# `VAST_DURABLE_EXCLUSIONS=1` restores the previous behaviour exactly, which is what makes this reversible
+# without an archaeology exercise if the evidence ever changes.
+DURABLE_EXCLUSIONS_ENABLED = False        # the DEFAULT, and the one home of the decision
+
+def durable_enabled():
+    """Whether the durable exclusion list may be read or written, consulted AT CALL TIME.
+
+    A function rather than a module constant because the constant would freeze at import, and the tests that
+    pin the retired machinery (so it still works if the evidence ever changes) must be able to turn it on
+    without reloading half the package. Env absent => the default above, i.e. OFF."""
+    v = os.environ.get("VAST_DURABLE_EXCLUSIONS")
+    if v is None:
+        return DURABLE_EXCLUSIONS_ENABLED
+    return str(v).strip().lower() in ("1", "true", "yes", "on")
+
+_RETIRED_NOTE = ("the durable machine-exclusion list is RETIRED (trimcrae, 2026-07-31) — reads return nothing "
+                 "and writes are refused; set VAST_DURABLE_EXCLUSIONS=1 to restore. Bounded protection is "
+                 "unchanged: the in-call capacity-refusal skip in gpu_backend.submit, and used_machines.")
+
+
 def _utcnow():
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
 
-def load(s3, bucket, key=None):
+def load(s3, bucket, key=None, force=False):
     """(sorted machine_ids, doc) from the shared set. ([], {}) on any failure — never raises.
+
+    ⛔ RETURNS NO IDS WHILE THE DURABLE LIST IS RETIRED (see the block above). `force=True` reads the stored
+    object anyway and is for the REPORTING paths only — `snapshot`, the exclusion census, the operator
+    clear/retire commands — so the historical artifact stays readable while nothing consumes it for selection.
 
     An unreadable shared set must degrade to the lane's own list, not to a refusal: this is an OPTIMISATION
     (do not re-rent a known-bad host), and an optimisation that can block a launch is a liability."""
     if s3 is None or not bucket:
+        return [], {}
+    if not (force or durable_enabled()):
         return [], {}
     try:
         doc = json.loads(s3.get_object(Bucket=bucket, Key=key or SHARED_KEY)["Body"].read())
@@ -107,7 +163,14 @@ def load(s3, bucket, key=None):
 
 
 def union(local_ids, s3=None, bucket=None, key=None):
-    """The lane's own ids ∪ the shared host-scoped ids. Never raises; falls back to `local_ids`."""
+    """The lane's own ids ∪ the shared host-scoped ids. Never raises; falls back to `local_ids`.
+
+    ⛔ THE ONE FUNNEL BOTH DURABLE HOMES PASS THROUGH, which is why the retirement is enforced here: the
+    ternary/protfep lanes reach it via `blocked_machine_ids`, the fan-out via `_load_excluded`. While the
+    list is retired this returns `[]` — dropping the SHARED ids *and* the caller's own durable ids, because
+    both are the thing being retired and honouring one of them would leave the starvation in place."""
+    if not durable_enabled():
+        return []
     shared, _ = load(s3, bucket, key)
     return sorted({str(m) for m in (local_ids or [])} | set(shared))
 
@@ -115,8 +178,14 @@ def union(local_ids, s3=None, bucket=None, key=None):
 def publish(s3, bucket, machine_id, why, lane, key=None):
     """Add a HOST-SCOPED machine to the shared set. Returns True if it was newly added.
 
+    ⛔ REFUSES WHILE THE LIST IS RETIRED — a read path that returns nothing but a write path that keeps
+    growing the object is the worst of both, because the starvation returns silently the moment anyone flips
+    the switch back on and inherits a set nobody reviewed.
+
     Callers pass `scope="host"` deliberately at each site; this function does not guess, because the whole
     value of the split is that somebody looked at the reason and decided it was about the machine."""
+    if not durable_enabled():
+        return False
     if s3 is None or not bucket or machine_id is None:
         return False
     # ★ A CAPACITY REFUSAL IS NOT A REAL REASON FOR A PERMANENT ENTRY (trimcrae, 2026-07-27). It is the
@@ -236,7 +305,7 @@ def withdraw(s3, bucket, machine_id, why, lane, key=None, only_lane=True):
     """
     if s3 is None or not bucket or machine_id is None:
         return False
-    ids, doc = load(s3, bucket, key)
+    ids, doc = load(s3, bucket, key, force=True)
     mid = str(machine_id)
     if mid not in ids:
         return False
@@ -470,11 +539,11 @@ def main(argv=None):
         for k in (a.lane_state or []):
             removed += clear_lane_state(s3, bucket, k)
         print(f"[blacklist] TOTAL cleared: {len(removed)} entr(ies)")
-        ids_after, _ = load(s3, bucket)
+        ids_after, _ = load(s3, bucket, force=True)
         print(f"[blacklist] shared set now holds {len(ids_after)} machine(s)")
         return 0
 
-    ids, doc = load(s3, bucket)
+    ids, doc = load(s3, bucket, force=True)
     print(json.dumps({"bucket": bucket, "key": SHARED_KEY, "machine_ids": ids,
                       "history": doc.get("history") or []}, indent=2))
     return 0
@@ -487,7 +556,7 @@ def snapshot(s3, bucket, key=None):
     the input to any later question about whether clearing was right. Never delete state you have not first
     written down somewhere durable.
     """
-    ids, doc = load(s3, bucket, key)
+    ids, doc = load(s3, bucket, key, force=True)
     hist = list(doc.get("history") or [])
     by_class = {}
     for h in hist:
@@ -563,7 +632,7 @@ def retire_perishable(s3, bucket, key=None, lane="operator"):
 
     Returns the retired ids. Idempotent.
     """
-    ids, doc = load(s3, bucket, key)
+    ids, doc = load(s3, bucket, key, force=True)
     if not ids:
         return []
     hist = list(doc.get("history") or [])
@@ -638,7 +707,7 @@ def clear_all(s3, bucket, why, lane="operator", key=None):
     The clear is itself appended to `history`, so the record shows an EVENT rather than a gap — a set that
     silently became empty is indistinguishable from one that was never written.
     """
-    ids, doc = load(s3, bucket, key)
+    ids, doc = load(s3, bucket, key, force=True)
     hist = list(doc.get("history") or [])
     hist.append({"machine_id": None, "why": f"CLEARED {len(ids)} machine(s): {why}", "lane": lane,
                  "utc": _utcnow(), "reason_class": "clear", "cleared_machine_ids": ids})

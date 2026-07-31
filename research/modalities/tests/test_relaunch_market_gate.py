@@ -348,8 +348,19 @@ def test_the_kinds_specs_are_the_lanes_own_not_a_shared_default():
 
 
 # =============================================================================================================
-# the shared machine blacklist
+# the shared machine blacklist — ⛔ RETIRED 2026-07-31, and these tests pin the RETIRED machinery
 # =============================================================================================================
+# trimcrae that day: *"You've gotta just stop doing the blacklist. It seems like it only ever bites us in the
+# ass and clearing it always makes things better."* The durable list is now inert at the read path unless
+# `VAST_DURABLE_EXCLUSIONS=1`, so the three tests below turn it on deliberately: the scope split they check
+# (host crosses lanes, lane-scoped does not) is still CORRECT and still worth keeping green, because the
+# retirement is a switch and a switch that flips back into untested code is a trap. What is live by default
+# is pinned in `test_blacklist_retired.py`.
+@pytest.fixture
+def _durable_exclusions_on(monkeypatch):
+    monkeypatch.setenv("VAST_DURABLE_EXCLUSIONS", "1")
+
+
 class _FakeS3:
     def __init__(self):
         self.store = {}
@@ -363,7 +374,7 @@ class _FakeS3:
         self.store[Key] = Body
 
 
-def test_a_host_scoped_exclusion_crosses_lanes():
+def test_a_host_scoped_exclusion_crosses_lanes(_durable_exclusions_on):
     """The 6:37 AM defect: the fan-out rented machine 46392 while the 5a-KS lane already knew it refuses
     starts. A host that never starts has infinite realised $/ns and is invisible to $/ns ranking, so without
     the union every lane pays a rental to rediscover the same box.
@@ -385,7 +396,7 @@ def test_a_host_scoped_exclusion_crosses_lanes():
     assert vmb.union(["28164"], s3, "bkt") == ["28164", "46392"]
 
 
-def test_the_shared_set_never_blocks_a_launch_when_unreadable():
+def test_the_shared_set_never_blocks_a_launch_when_unreadable(_durable_exclusions_on):
     """An optimisation that can fail a rental is a liability. Falling back to the lane's own list is exactly
     the previous behaviour."""
     class _Broken:
@@ -397,7 +408,7 @@ def test_the_shared_set_never_blocks_a_launch_when_unreadable():
     assert vmb.load(None, None) == ([], {})
 
 
-def test_lane_scoped_exclusions_are_not_shared(monkeypatch):
+def test_lane_scoped_exclusions_are_not_shared(monkeypatch, _durable_exclusions_on):
     """`pricing.md` A.1 WITHDREW the broad 'exclude any low-util machine' rule because a metadynamics leg's
     low utilisation was PLUMED's CPU-side bias and the same host ran at 74 % unbiased. Sharing a lane-scoped
     verdict would re-adopt the withdrawn rule by the back door."""
