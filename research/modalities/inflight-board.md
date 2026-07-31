@@ -8,9 +8,9 @@ Generated 12:16 PM ET Fri Jul 31, 2026 by `task=collect`.
 ---- TVAST-BOARD ----
 LEG                ETA (ET)          % DONE  $/ns                               STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d terna 2:48 PM            81.1%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
-5aks_d0_to_d terna —                  30.2%  RTX 5090 $0.00512/ns · 1.50× basis NO HOST   host DESTROYED this pass (capacity refusal on machine 136811; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at warmup/1088 is intact in S3 and this pass dispatches the gate to re-place it
-5aks_d0_to_d terna 3:37 AM Aug 1      40.9%  RTX 3090 $0.00582/ns · 1.71× basis RUNNING   
+5aks_d0_to_d terna 2:49 PM            81.1%  RTX 5090 $0.00512/ns · 1.50× basis RUNNING   
+5aks_d0_to_d terna 3:24 AM Aug 1      40.9%  RTX 3090 $0.00582/ns · 1.71× basis RUNNING   
 5aks_d0_to_d terna —                      —  —                                  NO HOST   no live host — checkpoint at warmup/1024 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d terna —                  30.2%  —                                  NO HOST   no live host — checkpoint at warmup/1088 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
