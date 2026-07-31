@@ -148,10 +148,21 @@ if docker run --rm "$IMAGE" /opt/mamba/envs/rbfe/bin/python -c "from google.clou
   GCSFIX=""
 else
   echo "[s1f-gcp] google-cloud-storage: NOT in the image — adding the wheel in a derived layer"
+  # ⚠ MEASURED 7:20 PM ET 2026-07-31: an UNCONSTRAINED `pip install google-cloud-storage` MOVES the science
+  # stack. The parity check below caught it and refused, which is the guard working — but a check that
+  # refuses still leaves the lane unable to run. The right tool is a pip CONSTRAINTS file built from the
+  # env's OWN `pip list --format=freeze`: it forbids pip from changing any package that is already
+  # installed, so the install either lands additively or FAILS. Parity then holds by CONSTRUCTION and the
+  # check below becomes the belt to that brace rather than the only thing standing between us and a silent
+  # protocol deviation. (`pip list --format=freeze` and not `pip freeze`: the latter emits
+  # `pkg @ file:///…` direct references for conda-installed packages, which are not valid constraints.)
   cat > /work/Dockerfile.gcs <<'DEOF'
 ARG BASE
 FROM ${BASE}
-RUN /opt/mamba/envs/rbfe/bin/pip install --no-cache-dir google-cloud-storage
+RUN P=/opt/mamba/envs/rbfe/bin/python \
+ && $P -m pip list --format=freeze 2>/dev/null | grep -E '^[A-Za-z0-9._-]+==' > /tmp/constraints.txt \
+ && echo "constraints: $(wc -l < /tmp/constraints.txt) pinned packages" \
+ && $P -m pip install --no-cache-dir -c /tmp/constraints.txt google-cloud-storage
 DEOF
   BASE_IMAGE="$IMAGE"
   docker build -q --build-arg BASE="$BASE_IMAGE" -t s1frep:gcs -f /work/Dockerfile.gcs /work \

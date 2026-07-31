@@ -675,3 +675,17 @@ def test_every_pre_md_failure_in_the_script_uses_the_bootstrap_prefix():
 def test_the_reap_step_reads_a_phase_in_both_modes():
     step = _wf().split("- name: Reap finished VMs")[1].split("      - name:")[0]
     assert '"$UURI/phase.txt"' in step and '"$UURI/smoke/phase.txt"' in step
+
+
+def test_the_gcs_wheel_is_installed_under_a_constraints_file():
+    """MEASURED 7:20 PM ET 2026-07-31: an unconstrained `pip install google-cloud-storage` MOVES the science
+    stack, and the parity check refused — correctly, but a refusal still leaves the lane unable to run. A
+    constraints file built from the env's own `pip list --format=freeze` forbids pip from changing anything
+    already installed, so the install either lands additively or fails. Parity by CONSTRUCTION; the check is
+    then the belt to that brace."""
+    code = _startup_code()
+    assert "-c /tmp/constraints.txt google-cloud-storage" in code
+    assert "pip list --format=freeze" in code, \
+        "`pip freeze` emits `pkg @ file:///…` for conda packages, which are not valid constraints"
+    # the check must SURVIVE the constraints fix — belt AND brace, not one replacing the other
+    assert "BASE_PARITY" in code and 'mark "BOOTSTRAP-FAIL parity-moved"' in code
