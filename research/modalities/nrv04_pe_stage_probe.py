@@ -64,8 +64,26 @@ READ IT IN THE ORDER THE PIPELINE RUNS, because the first row already settles it
 than quietly not mentioning: the stated prior was "~98 % of the system is placed by our solvation, not by
 Boltz, so the prior should be that the fault is ours." The prior was reasonable and it is wrong. The fault is
 in the co-folded structure (or PDBFixer's repair of it) and is fully formed before our solvation touches it.
-By this module's own decision tree above, that is the branch where a different seed or a changed input is the
-only route — a PREREGISTRATION question, not a code fix.
+
+★★ AND THEN LOCALISED TO ONE ATOM PAIR — 4:42 PM ET, run 30663617181, job 91265356509. `protein_after_pdbfixer`
+has TWO owners (Boltz's coordinates and our PDBFixer repair of them), so naming the stage was not yet an
+answer. The force decomposition and the contact provenance settle it:
+
+    NonbondedForce dominates:  +2.109e+15 kJ/mol   (not a bonded term -> geometry, not connectivity)
+    clashing pairs under the cutoff:  2, and BOTH are co-fold heavy atom vs co-fold heavy atom
+    worst:  A:GLU13:O  <->  A:LYS181:NZ   at   0.181 A
+
+0.181 A between a carbonyl oxygen and a lysine side-chain nitrogen is two atoms occupying the same point.
+Boltz placed both; nothing downstream of the prediction put them there and nothing in this pipeline can
+separate them. `owner_of_the_fault` returns OWNER_INPUT: a different seed or a changed input, which is a
+PREREGISTRATION question and not a code fix.
+
+⚠ THE CONTROL'S ENERGY IS NOT BIT-REPRODUCIBLE AND MUST NOT BE QUOTED AS IF IT WERE. Across the two runs the
+FAILING unit reproduced to ten significant figures (2.109005036e15 both times — a hard geometric fact), while
+the control moved ~20 % at an identical atom count (+2.522674e5 -> +2.082290e5), and the solvated atom count
+moved too (316,243 -> 314,183). PDBFixer's hydrogen placement and `addSolvent`'s water packing are not
+deterministic. This changes nothing about the reading — the gap is ten decades and the classifier's answer is
+invariant from 1 to 9 — but it means the control is a ~1e5 SCALE, not a value.
 
 ⛔⛔ AND THE PROBE'S OWN FIRST TWO READOUTS WERE BOTH WRONG, in the SAME class of error, which is why the
 verdict is now comparative (`compare_to_control`) rather than a boundary test:

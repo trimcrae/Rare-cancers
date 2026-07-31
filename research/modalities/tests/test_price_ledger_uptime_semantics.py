@@ -26,6 +26,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from nrv04_vast_launch import (  # noqa: E402
     LEAK_ABOVE_S,
     _finalizable,
+    _ledger_row_key,
+    _ledger_row_unit,
     ledger_entry_reading,
     leg_cost_usd,
 )
@@ -102,3 +104,37 @@ def test_final_still_latches_when_no_mtimes_are_available():
 
 def test_not_done_is_never_final():
     assert _finalizable("u", {}, 1_785_000_000.0, {}) is False
+
+
+# ---- the THIRD way it lied: a ledger keyed on the UNIT drops every re-rental ------------------------------
+
+def test_a_row_is_one_RENTAL_not_one_unit():
+    """★★ THE DEFECT THAT MADE THE PANEL'S REALIZED SPEND DESCRIBE THE WRONG EXPERIMENT (2026-07-31).
+
+    `_update_price_ledger`'s docstring says "a per-RENTAL measured-cost ledger" and the code wrote
+    `ledger[label]`. One row per unit, for all time — and `if prev.get("final"): continue` never rewrites a
+    finalized row, so the row was whichever rental was live when the unit first landed a result.
+
+    Measured consequence, from the ledger itself at 4:39 PM ET: all 18 rows `final: true`, `instance_id:
+    null`, uptimes 443-2304 s. Those are the SMOKE rentals. The production fan-out launched 2:36 PM ET, ran
+    for hours across up to 13 concurrent hosts, and contributed NOTHING — while
+    `measured_total_so_far_usd` sat there fully populated and entirely plausible. CLAUDE.md §4b: a field's
+    presence is never evidence of its provenance.
+    """
+    assert _ledger_row_key("unit-a", 111) != _ledger_row_key("unit-a", 222), (
+        "two rentals of the same unit must occupy two rows, or the second is free")
+    assert _ledger_row_key("unit-a", 111) != _ledger_row_key("unit-b", 111)
+
+
+def test_a_legacy_row_keeps_its_bare_label_key_so_money_is_not_double_counted():
+    """Pre-existing rows have no instance_id. Re-keying them would change the identity of rows already
+    quoted and risk the same dollars appearing under two keys."""
+    assert _ledger_row_key("unit-a", None) == "unit-a"
+    assert _ledger_row_key("unit-a", "") == "unit-a"
+
+
+def test_every_row_resolves_to_its_unit_for_aggregation():
+    """`per_leg_usd` must still answer "what did this LEG cost" — the sum over its rentals."""
+    assert _ledger_row_unit("unit-a#111", {"unit": "unit-a"}) == "unit-a"
+    assert _ledger_row_unit("unit-a#111") == "unit-a", "recoverable from the key when the row predates `unit`"
+    assert _ledger_row_unit("unit-a", {}) == "unit-a"

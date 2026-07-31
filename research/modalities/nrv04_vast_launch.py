@@ -333,6 +333,35 @@ def _finalizable(label, done_units, start_date, done_mtimes=None):
         return True
 
 
+def _ledger_row_key(label, instance_id):
+    """The identity of a LEDGER ROW: one RENTAL, not one unit.
+
+    ★★ KEYING ON THE UNIT MADE EVERY RE-RENTAL INVISIBLE, AND THE PANEL'S REALIZED SPEND DESCRIBED THE WRONG
+    EXPERIMENT (measured 2026-07-31, 4:39 PM ET). This function's docstring says "a per-RENTAL measured-cost
+    ledger" and the code wrote `ledger[label]`, so a unit contributed exactly ONE row for all time — and
+    because `if prev.get("final"): continue` never rewrites a finalized row, that row was whichever rental
+    happened to be live when the unit first landed a result.
+
+    What that produced, from the ledger itself: all 18 rows `final: true`, `instance_id: null`,
+    `observed_at: null` (they predate the provenance fields and were never touched again), uptimes of
+    443-2304 s. Those are the SMOKE rentals. The production fan-out launched at 2:36 PM ET ran for hours
+    across up to 13 concurrent hosts and contributed NOTHING, so `measured_total_so_far_usd` was a
+    fully-populated, entirely plausible figure for a run nobody was asking about — CLAUDE.md §4b exactly: a
+    field's presence is never evidence of its provenance.
+
+    ⚠ LEGACY ROWS KEEP THEIR BARE-LABEL KEY. They have no `instance_id` to key on, and re-keying them would
+    change the identity of rows already quoted and risk double-counting the same money under two keys. They
+    stay as they are, are still summed, and are distinguishable by their null `instance_id`.
+    """
+    return "%s#%s" % (label, instance_id) if instance_id not in (None, "") else str(label)
+
+
+def _ledger_row_unit(key, row=None):
+    """Which UNIT a ledger row belongs to — from the row where present, else the key's label half."""
+    u = (row or {}).get("unit")
+    return u if u else str(key).split("#", 1)[0]
+
+
 def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledger.json",
                          result_prefix=None, n_units=None, done_mtimes=None):
     """Maintain a per-RENTAL measured-cost ledger ACROSS collect() polls (the deliverable = a MEASURED price).
@@ -391,21 +420,27 @@ def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledge
         except (TypeError, ValueError):
             up_s = 0
         cost = leg_cost_usd(up_s, i.get("dph_total"))
-        prev = ledger.get(label, {})
+        key = _ledger_row_key(label, i.get("id"))
+        prev = ledger.get(key, {})
         if prev.get("final"):
             continue                                            # already finalized; don't overwrite
-        ledger[label] = {"uptime_s": round(up_s), "dph_total": i.get("dph_total"),
-                         "cost_usd": cost,
-                         "final": _finalizable(label, done_units, start_date, done_mtimes),
-                         # PROVENANCE. Without these, answering "which host was this, and when?" needs CI
-                         # logs, which expire — exactly the dig the 2026-07-31 orphan required.
-                         "instance_id": i.get("id"), "start_date": start_date,
-                         "observed_at": round(now),
-                         "status": i.get("actual_status") or i.get("cur_state")}
+        ledger[key] = {"uptime_s": round(up_s), "dph_total": i.get("dph_total"),
+                       "cost_usd": cost,
+                       "final": _finalizable(label, done_units, start_date, done_mtimes),
+                       # PROVENANCE. Without these, answering "which host was this, and when?" needs CI
+                       # logs, which expire — exactly the dig the 2026-07-31 orphan required.
+                       "instance_id": i.get("id"), "start_date": start_date,
+                       "unit": label,
+                       "observed_at": round(now),
+                       "status": i.get("actual_status") or i.get("cur_state")}
     rows = {k: v for k, v in ledger.items() if v.get("final") and v.get("cost_usd") is not None}
     readings = {k: ledger_entry_reading(v) for k, v in rows.items()}
-    legs = {k: v["cost_usd"] for k, v in rows.items() if readings[k]["kind"] == "leg"}
+    # PER RENTAL (the row), then aggregated PER UNIT (what a reader means by "what did this leg cost").
+    rental_legs = {k: v["cost_usd"] for k, v in rows.items() if readings[k]["kind"] == "leg"}
     leaks = {k: v["cost_usd"] for k, v in rows.items() if readings[k]["kind"] == "leak"}
+    legs = {}
+    for k, v in rental_legs.items():
+        legs[_ledger_row_unit(k, rows[k])] = round(legs.get(_ledger_row_unit(k, rows[k]), 0.0) + v, 4)
     n_units = len(units_to_run()) if n_units is None else int(n_units)
     # The mean is over LEG rows only. A leak is real money — it stays in the total below and in
     # `leaked_usd` — but pricing a panel off a row that is 150x a leg projects a fantasy.
@@ -414,6 +449,12 @@ def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledge
         "measured_legs": len(legs),
         "per_leg_usd": legs,
         "measured_mean_usd_per_leg": mean,
+        # ⚠ RENTALS, NOT UNITS. `per_leg_usd` sums every rental a unit consumed; these say how many that was.
+        # A unit re-placed six times costs six rentals, and until 2026-07-31 five of them were dropped on the
+        # floor by a ledger keyed on the unit — see `_ledger_row_key`.
+        "rentals_counted": len(rental_legs) + len(leaks),
+        "per_rental_usd": rental_legs,
+        "legacy_rows_without_instance_id": sorted(k for k in rows if "#" not in k),
         # Every frozen row, leaks included: this is money that left the account.
         "measured_total_so_far_usd": round(sum(rows[k]["cost_usd"] for k in rows), 4) if rows else 0.0,
         "leaked_usd": round(sum(leaks.values()), 4) if leaks else 0.0,
@@ -2344,10 +2385,15 @@ def retro_input_quarantine(rec):
     return True, (
         "INPUT QUARANTINE — this unit's built system is non-physical, so no host can run it. It blew up at "
         "%s with a post-minimization potential energy of %+.3e kJ/mol; a minimized explicit-solvent system "
-        "is always strongly negative (working legs on this lane sit near -5e6), so this is an atomic clash "
-        "carried in from the co-fold, present before minimization and not removed by it. Renting another "
-        "host reproduces it in seconds and tests nothing. RELEASE: regenerate this unit's co-fold — the "
-        "quarantine is read from the leg record, so a clean record clears it with no edit." % (phase, float(pe)))
+        "is always strongly negative (working legs on this lane sit near -5e6). MEASURED CAUSE (not inferred): "
+        "the co-fold nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart — two heavy atoms on the same "
+        "point, both positioned by Boltz. The staged single-point probe finds NonbondedForce carrying "
+        "+2.109e15 kJ/mol already at `protein_after_pdbfixer`, before the ligand exists and before one water "
+        "is placed, so ligand placement and addSolvent are excluded (nrv04_pe_stage_probe, 2026-07-31). "
+        "Renting another host reproduces it in seconds and tests nothing. RELEASE: a different co-fold for "
+        "this unit — the quarantine is read from the leg record, so a clean record clears it with no edit. "
+        "⚠ THAT IS A PREREGISTRATION QUESTION, NOT A CODE FIX: the input, not the pipeline, is what would "
+        "change." % (phase, float(pe)))
 
 
 def retro_committed_at(s3, bucket, unit):
