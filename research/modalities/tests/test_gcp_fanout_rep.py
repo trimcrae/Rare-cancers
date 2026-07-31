@@ -532,3 +532,53 @@ def test_every_bootstrap_failure_names_itself_in_the_phase_marker():
     code = _startup_code()
     for cause in ("docker-install", "docker-daemon", "nvidia-keyring", "nvidia-toolkit", "no-gpu-in-docker"):
         assert f'mark "SMOKE-FAIL {cause}' in code, cause
+
+
+# ---- reading a VM's labels ----------------------------------------------------------------------------
+
+GCLOUD_JSON = """[
+ {"name":"gcp-s1frep-1","zone":"https://www.googleapis.com/compute/v1/projects/p/zones/us-central1-a",
+  "status":"RUNNING","creationTimestamp":"2026-07-31T15:42:10.787-07:00",
+  "labels":{"lane":"s1frep","s1f-edge":"e_zaienne_cmpd19__cw_ms_free_acid","s1f-rep":"1","s1f-mode":"run"}},
+ {"name":"gcp-s1frep-2","zone":"z/us-central1-b","status":"STAGING","creationTimestamp":"t"}
+]"""
+
+
+def test_hyphenated_labels_survive_the_read():
+    """⚠ THE FAILURE THIS PREVENTS IS A SILENT ONE. gcloud's projection grammar and its filter grammar are
+    different parsers, and a hyphen in a label key is where they diverge. This reaper's correct response to
+    an unlabelled VM is to REFUSE — so a projection that returned empty would give a teardown that declines
+    to work forever while every log line says it ran, which is the exact shape of gcp-gpu-facts.md §6b's
+    scheduled-running-and-green watchdog. JSON has one grammar and the label is a dict lookup."""
+    rows = [r.split("\t") for r in gfr.vm_rows(GCLOUD_JSON)]
+    assert rows[0][4] == "e_zaienne_cmpd19__cw_ms_free_acid"
+    assert rows[0][5] == "1" and rows[0][6] == "run"
+    assert rows[0][1] == "us-central1-a", "the zone must be the basename, not the full self-link URL"
+
+
+def test_an_unlabelled_vm_yields_empty_fields_which_the_predicate_then_refuses():
+    rows = [r.split("\t") for r in gfr.vm_rows(GCLOUD_JSON)]
+    assert rows[1][4] == "" and rows[1][5] == "" and rows[1][6] == ""
+    assert gfr.reap_decision("", rows[1][3], "x")["action"] == "refuse"
+
+
+def test_no_instances_yields_no_rows():
+    assert gfr.vm_rows("[]") == [] and gfr.vm_rows(None) == []
+
+
+def test_the_field_order_matches_what_the_workflow_reads():
+    assert gfr.VM_FIELDS == ("name", "zone", "status", "creationTimestamp",
+                             "s1f-edge", "s1f-rep", "s1f-mode")
+    assert len(gfr.vm_rows(GCLOUD_JSON)[0].split("\t")) == len(gfr.VM_FIELDS)
+    step = _wf().split("- name: Reap finished VMs")[1].split("      - name:")[0]
+    read = [ln for ln in step.splitlines() if "read -r" in ln][0]
+    got = read.split("read -r")[1].split(";")[0].split()
+    assert got == ["NAME", "Z", "ST", "CREATED", "EDGE_L", "REP_L", "MODE_L"], got
+
+
+def test_the_workflow_never_uses_a_label_projection():
+    """One grep that keeps the fix from being undone by a 'simplification'. Comments are stripped first —
+    the prose that explains the hazard has to be free to name it."""
+    code = "\n".join(ln for ln in _wf().splitlines() if not ln.strip().startswith("#"))
+    assert "labels.s1f-" not in code
+    assert "gcp_fanout_rep.py vms" in code

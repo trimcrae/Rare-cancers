@@ -311,6 +311,36 @@ def reap_decision(unit_id, vm_created, result_updated, vm_mode="run", phase=None
             f"{vm.isoformat()} — the science is banked in GCS and there is no sampling left to lose"}
 
 
+# ---- reading a VM's labels -----------------------------------------------------------------------------
+
+#: The order `vms` emits, and the order the workflow's `read` consumes.
+VM_FIELDS = ("name", "zone", "status", "creationTimestamp", "s1f-edge", "s1f-rep", "s1f-mode")
+
+
+def vm_rows(gcloud_json):
+    """TSV rows from `gcloud compute instances list --format=json`. PURE.
+
+    ⚠ WHY NOT `--format="value(labels.s1f-edge)"`. gcloud's projection grammar and its filter grammar are
+    different parsers, and a HYPHEN in a label key is exactly where they diverge — a projection can return
+    EMPTY for a label the filter matches perfectly well. That matters here more than anywhere else in the
+    lane, because this reaper's correct and deliberate response to an unlabelled VM is to **REFUSE**. An
+    empty projection would therefore produce a teardown that declines to work, forever, while every log line
+    says it ran: the identical shape to the watchdog that was scheduled, running and green while a finished
+    leg held the only GPU (gcp-gpu-facts.md §6b). JSON has ONE grammar and the label is a dict lookup.
+    """
+    if isinstance(gcloud_json, str):
+        gcloud_json = json.loads(gcloud_json or "[]")
+    out = []
+    for v in gcloud_json or []:
+        labels = v.get("labels") or {}
+        out.append("\t".join([
+            v.get("name", ""), (v.get("zone") or "").split("/")[-1], v.get("status", ""),
+            v.get("creationTimestamp", ""), labels.get("s1f-edge", ""), labels.get("s1f-rep", ""),
+            labels.get("s1f-mode", ""),
+        ]))
+    return out
+
+
 # ---- the in-flight board fragment ---------------------------------------------------------------------
 
 #: The lane id this fragment is published under.
@@ -450,6 +480,12 @@ def _cmd_board(a):
     return 0
 
 
+def _cmd_vms(a):
+    for ln in vm_rows(sys.stdin.read()):
+        print(ln)
+    return 0
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -483,6 +519,9 @@ def main(argv=None):
     bd.add_argument("--result-updated", default="")
     bd.add_argument("--phase", default="")
     bd.set_defaults(func=_cmd_board)
+
+    vm = sub.add_parser("vms", help="TSV of gcp-s1frep VMs, read from `instances list --format=json` on stdin")
+    vm.set_defaults(func=_cmd_vms)
 
     a = p.parse_args(argv)
     return a.func(a)

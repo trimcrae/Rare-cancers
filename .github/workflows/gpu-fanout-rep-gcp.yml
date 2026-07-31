@@ -89,8 +89,14 @@ jobs:
         run: |
           set -uo pipefail
           echo "=== reap sweep over ${VM_PREFIX}* ==="
-          LIST=$(gcloud compute instances list --filter="name~^${VM_PREFIX}" \
-                   --format="value(name,zone,status,creationTimestamp,labels.s1f-edge,labels.s1f-rep,labels.s1f-mode)" 2>/dev/null || true)
+          # ⚠ LABELS ARE READ OUT OF **JSON**, NEVER OUT OF A `value(labels.s1f-edge)` PROJECTION.
+          # gcloud's projection grammar and its filter grammar are different parsers and a HYPHEN in a label
+          # key is where they diverge — a projection can return EMPTY for a label the filter matches fine.
+          # This reaper's correct response to an unlabelled VM is to REFUSE, so an empty projection would
+          # give a teardown that politely declines to work forever while every log line says it ran. The
+          # parsing has one home: gcp_fanout_rep.vm_rows (see its docstring).
+          LIST=$(gcloud compute instances list --filter="name~^${VM_PREFIX}" --format=json 2>/dev/null \
+                   | python3 research/modalities/gcp_fanout_rep.py vms || true)
           if [ -z "$LIST" ]; then echo "  no ${VM_PREFIX}* instances — nothing to reap"; else
           printf '%s\n' "$LIST" | while IFS=$'\t' read -r NAME Z ST CREATED EDGE_L REP_L MODE_L; do
             [ -z "${NAME:-}" ] && continue
@@ -341,8 +347,9 @@ jobs:
           UPD=$(gcloud storage objects describe "gs://$BUCKET/$KEY" --format="value(updated)" 2>/dev/null || true)
           # `|| true`: GH runs `run:` under `bash -e`, and `read` returns 1 on EMPTY input — i.e. exactly the
           # IDLE case this step exists to report would abort the step that reports it. (Verified, not assumed.)
-          read -r VST VCR < <(gcloud compute instances list --filter="name~^${VM_PREFIX} AND labels.s1f-edge=$E" \
-                  --format="value(status,creationTimestamp)" 2>/dev/null | head -1) || true
+          # Same hazard, same fix: match the label in python off JSON, not in a gcloud projection.
+          read -r _N _Z VST VCR _ <<<"$(gcloud compute instances list --filter="name~^${VM_PREFIX}" --format=json 2>/dev/null \
+                  | python3 research/modalities/gcp_fanout_rep.py vms | awk -F'\t' -v e="$E" '$5==e {print $1, $2, $3, $4; exit}')" || true
           UURI=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$E" --replicate "$R" --pick 0 \
                   --bucket "$BUCKET" --shell 2>/dev/null | sed -n 's/^UNIT_URI=//p')
           PH=$(gcloud storage cat "$UURI/phase.txt" 2>/dev/null | tail -1 || true)
