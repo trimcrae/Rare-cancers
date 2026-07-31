@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 4:21 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 4:29 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:07 AM Aug 1      48.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary nr4a3 r0 9:10 PM            85.6%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary nr4a1 r1 8:10 AM Aug 1      33.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
-5aks_d0_to_d ternary nr4a1 r0 —                  30.2%  —                                         NO HOST   no live host — checkpoint at warmup/1088 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d ternary nr4a3 r1 8:00 AM Aug 1      50.0%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   
+5aks_d0_to_d ternary nr4a3 r0 9:20 PM            85.6%  RTX 3090 $0.00554/ns · 1.62× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary nr4a1 r1 9:27 AM Aug 1      33.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase
+5aks_d0_to_d ternary nr4a1 r0 —                      —  RTX 4090 $0.00520/ns · 1.53× basis [bid]  STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ---- END TVAST-BOARD ----
 ```
