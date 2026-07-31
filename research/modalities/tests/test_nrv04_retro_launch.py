@@ -6,7 +6,9 @@ it does. The co-fold model is the unit of independence in the frozen statistics 
 globbed a system directory instead of a pinned model prefix would quietly corrupt the model-level means the
 verdict is computed from — and nothing downstream would notice.
 """
+import json
 import os
+import re
 import sys
 
 import pytest
@@ -32,9 +34,9 @@ def test_cofold_prefix_is_pinned_to_the_units_model_seed():
 
 def test_every_authorized_unit_gets_a_distinct_checkpoint_and_result_prefix():
     specs = [launch.build_retro_jobspec(a, m, r, "run", "br", BUCKET) for a, m, r in retro.enumerate_units()]
-    assert len(specs) == 24
-    assert len({s.checkpoint_uri for s in specs}) == 24, "two units sharing a checkpoint would race"
-    assert len({s.env["RESULT_S3"] for s in specs}) == 24
+    assert len(specs) == 18, "AMENDMENT 3 retired R2 — the authorized panel is R1 only"
+    assert len({s.checkpoint_uri for s in specs}) == 18, "two units sharing a checkpoint would race"
+    assert len({s.env["RESULT_S3"] for s in specs}) == 18
 
 
 def test_retro_results_do_not_collide_with_the_feasibility_panels_prefix():
@@ -78,7 +80,11 @@ def test_pilot_is_a_paralogue_leg_not_nr4a1(monkeypatch):
 
 def test_full_fanout_is_the_whole_authorized_panel(monkeypatch):
     monkeypatch.setenv("RETRO_PILOT_ONLY", "0")
-    assert len(launch.retro_units_to_run()) == 24
+    units = launch.retro_units_to_run()
+    assert len(units) == 18
+    assert not any(a.covalent for a, _m, _r in units), (
+        "a covalent unit raises in build_system BEFORE writing a leg JSON, so Vast re-runs the onstart and the "
+        "box crash-loops on a live meter — and it can never complete the panel")
 
 
 def test_arms_differ_only_in_target_and_covalency(monkeypatch):
@@ -178,6 +184,284 @@ def test_pipelines_stream_stdout_to_s3_for_a_post_mortem(pipeline_name):
     crash is indistinguishable from a slow leg — which is exactly what happened."""
     p = getattr(launch, pipeline_name)
     assert "tee -a /tmp/run.log" in p and "run.log" in p
+
+
+# =============================================================================================================
+# ⛔ THE BUY LINE — this lane rented at ANY price until 2026-07-31
+# =============================================================================================================
+def test_the_submitted_spec_carries_the_approved_buy_line():
+    """`TERNARY_RES` never set `max_usd_per_ns`, so it defaulted to None and the ceiling clause in
+    `gpu_backend.rank_offers_by_usd_per_ns` was INERT: this lane had no price refusal at all."""
+    from inflight_usd_per_ns import APPROVED_USD_PER_NS
+    for spec in (_spec(), launch.build_jobspec(
+            __import__("nrv04_covalent_panel").PANEL[0], 0, "run", "br", BUCKET)):
+        assert spec.resources.max_usd_per_ns == APPROVED_USD_PER_NS, (
+            "every endpoint-MD rental must face the repo's approved $/ns (CLAUDE.md §1/§6)")
+
+
+def test_the_buy_line_is_derived_from_the_one_home_never_typed():
+    """CLAUDE.md §1: the invariant is an ABSOLUTE $/ns and the multiple of the ladder basis derives from it. A
+    literal here would silently become a different rule the next time the throughput table is re-anchored."""
+    import inspect
+    from inflight_usd_per_ns import APPROVED_USD_PER_NS
+    assert launch.buy_ceiling_usd_per_ns() == APPROVED_USD_PER_NS
+    src = inspect.getsource(launch.buy_ceiling_usd_per_ns)
+    assert "APPROVED_USD_PER_NS" in src
+    assert not re.search(r"return\s+\d", src), "the ceiling must be imported, never a literal"
+
+
+def test_the_gate_facing_spec_is_UNCAPPED_so_it_can_see_the_expensive_offers():
+    """`ResourceSpec.max_usd_per_ns`'s own contract: a market gate must SEE the offers above the line in order
+    to report how far above it the board sits. Only the spec handed to `submit` carries the cap."""
+    assert launch.TERNARY_RES.max_usd_per_ns is None
+    assert launch.endpoint_md_resources().max_usd_per_ns is None
+    assert launch.endpoint_md_resources(max_usd_per_ns=0.5).max_usd_per_ns == 0.5
+
+
+def test_this_lanes_own_historical_rate_band_is_mostly_above_the_line():
+    """Not decoration — this is the measurement that makes the ceiling load-bearing rather than theoretical.
+    The lane's recorded rentals are $0.10-0.21/hr on an RTX 3090 (prereg §7 / the 15-leg S3 ledger). Priced
+    per NANOSECOND against the repo's approved rate, most of that band is a refusal."""
+    import vast_cost_model as vcm
+    from inflight_usd_per_ns import APPROVED_USD_PER_NS
+    ns_h = vcm.ns_per_hour("RTX 3090")
+    assert ns_h, "the 3090 must be in the throughput table or this lane cannot be graded at all"
+    assert vcm.usd_per_ns(0.10, 0.0, ns_h) < APPROVED_USD_PER_NS, "the bottom of the band still clears"
+    assert vcm.usd_per_ns(0.21, 0.0, ns_h) > APPROVED_USD_PER_NS, "the top of the band must be refused"
+
+
+def test_the_card_stays_a_hint_so_a_faster_card_can_clear_the_same_line():
+    """`require_gpu` must stay False: ranking is by $/ns, so a 4090 that clears the line beats a 3090 that does
+    not. Making the card hard here would turn a price ceiling into an availability deadlock."""
+    assert _spec().resources.require_gpu is False
+
+
+# =============================================================================================================
+# ⛔ THE CI-SIDE REAPER — scoped, and it must never reach another lane
+# =============================================================================================================
+_NOW = 1_000_000.0
+
+
+def _inst(iid, label, status="running", age_s=60, **kw):
+    d = {"id": iid, "label": label, "actual_status": status, "start_date": _NOW - age_s}
+    d.update(kw)
+    return d
+
+
+def test_the_reaper_sees_a_finished_RETRO_leg_as_done():
+    """THE BUG: `collect()` derived `done_units` from `RESULT_PREFIX` (the COVALENT panel's prefix) while the
+    retrospective writes to `RETRO_RESULT_PREFIX`. A finished retro leg was therefore never recognised and
+    never torn down — it billed to the 240-min backstop, or indefinitely if the container crash-looped."""
+    assert launch.RETRO_RESULT_PREFIX != launch.RESULT_PREFIX
+    done = {"nrv04retro-retro_noncov_nr4a2-m1-r0"}
+    insts = [_inst(1, "nrv04retro-retro_noncov_nr4a2-m1-r0"),
+             _inst(2, "nrv04retro-retro_noncov_nr4a3-m1-r0")]
+    got = launch.teardown_candidates(insts, done, _NOW, 240 * 60, retro.LABEL_PREFIX)
+    assert [(i["id"], w) for i, w in got] == [(1, "result-in-S3")]
+
+
+def test_the_reaper_can_never_reach_another_lanes_instances():
+    """THE OTHER BUG, and the dangerous one: `collect()` listed `owner=me` — EVERY instance on an account that
+    is shared across concurrent sessions — and applied its over-age backstop to all of them. Running the NR-V04
+    collect while a sibling lane was billing would have destroyed that lane's hosts."""
+    stale = 99_999
+    insts = [_inst(1, "nrv04retro-retro_noncov_nr4a2-m1-r0", age_s=stale),
+             _inst(2, "nrv04cov-cov_nr4a1-s0", age_s=stale),
+             _inst(3, "ternary-calib_hi_to_lo__ternary_vhl", age_s=stale),
+             _inst(4, "s1f-edge-7", status="exited", age_s=stale),
+             _inst(5, "bench-rtx4090-9p5nm", status="exited", age_s=stale),
+             _inst(6, None, age_s=stale)]
+    got = launch.teardown_candidates(insts, set(), _NOW, 240 * 60, retro.LABEL_PREFIX)
+    assert [i["id"] for i, _w in got] == [1], "only the retro-labelled host may be a candidate"
+    cov = launch.teardown_candidates(insts, set(), _NOW, 240 * 60, "nrv04cov-")
+    assert [i["id"] for i, _w in cov] == [2]
+
+
+@pytest.mark.parametrize("selector", ["", None, "   "])
+def test_an_absent_label_selector_reaps_NOTHING(selector):
+    """FAIL CLOSED. No selector means no authority — never a fallback to 'everything'. A reaper that destroys
+    the wrong box is worse than one that is late."""
+    insts = [_inst(1, "nrv04retro-x", age_s=99_999), _inst(2, "someone-elses-lane", age_s=99_999)]
+    assert launch.teardown_candidates(insts, {"nrv04retro-x"}, _NOW, 240 * 60, selector) == []
+
+
+def test_an_outbid_box_is_not_mistaken_for_a_dead_one():
+    """An outbid interruptible instance looks exactly like a dead one ('stopped') but its disk is intact and
+    Vast resumes it. Destroying it buys a ~20-min image reload we never owed. Over-age still reaps it."""
+    outbid = _inst(1, "nrv04retro-a", status="stopped", is_bid=True,
+                   intended_status="running", min_bid=0.30, price=0.10)
+    assert launch.teardown_candidates([outbid], set(), _NOW, 240 * 60, retro.LABEL_PREFIX) == []
+    old = launch.teardown_candidates([dict(outbid, start_date=_NOW - 99_999)], set(), _NOW,
+                                     240 * 60, retro.LABEL_PREFIX)
+    assert len(old) == 1 and "backstop" in old[0][1]
+
+
+def test_a_duplicate_instance_on_one_label_is_reaped_but_the_running_one_is_kept():
+    """Two instances under one label double-compute the leg and clobber its S3 checkpoint."""
+    insts = [_inst(1, "nrv04retro-a", status="created", age_s=10),
+             _inst(2, "nrv04retro-a", status="running", age_s=500)]
+    got = launch.teardown_candidates(insts, set(), _NOW, 240 * 60, retro.LABEL_PREFIX)
+    assert [i["id"] for i, _w in got] == [1]
+
+
+def test_retro_reap_refuses_without_a_key_instead_of_silently_doing_nothing(monkeypatch, capsys):
+    monkeypatch.delenv("VAST_API_KEY", raising=False)
+    n, stopped = launch.retro_reap(BUCKET)
+    assert (n, stopped) == (0, [])
+    assert "cannot stop its own billing" in capsys.readouterr().out
+
+
+# =============================================================================================================
+# ⛔ THE MARKET GATE — a thin, expensive market is a reason to PAUSE, not to pay
+# =============================================================================================================
+def _offer(mid, gpu="RTX 4090", min_bid=0.10):
+    return {"machine_id": mid, "id": mid, "gpu_name": gpu, "min_bid": min_bid, "dph_base": min_bid * 2,
+            "num_gpus": 1, "gpu_ram": 24576, "cuda_max_good": 13.0, "reliability2": 0.99, "rentable": True,
+            "storage_cost": 0.10, "inet_down": 500.0, "inet_up": 500.0, "cpu_cores_effective": 8.0,
+            "cpu_ram": 64000, "disk_space": 200.0}
+
+
+def test_the_market_gate_holds_on_an_expensive_board(tmp_path):
+    hold, doc = launch.retro_market_gate(18, offers=[_offer(i, min_bid=3.0) for i in range(20)],
+                                         readout_path=str(tmp_path / "hold.json"))
+    assert hold is True
+    assert doc["best_usd_per_ns"] > doc["buy_line_usd_per_ns"]
+    assert json.loads((tmp_path / "hold.json").read_text())["hold"] is True, (
+        "a hold that exists only in a job log is a SILENT hold — indistinguishable from a finished fleet")
+
+
+def test_the_market_gate_clears_a_cheap_board(tmp_path):
+    hold, doc = launch.retro_market_gate(18, offers=[_offer(i, min_bid=0.02) for i in range(30)],
+                                         readout_path=str(tmp_path / "hold.json"))
+    assert hold is False and doc["best_usd_per_ns"] < doc["buy_line_usd_per_ns"]
+
+
+def test_the_market_gate_prices_the_FLEET_not_the_single_best_offer(tmp_path):
+    """A fan-out of N buys the N CHEAPEST offers, not the best one N times. One cheap offer on an otherwise
+    expensive, shallow board must not clear an 18-wide launch."""
+    board = [_offer(0, min_bid=0.02)] + [_offer(i, min_bid=3.0) for i in range(1, 20)]
+    one, _ = launch.retro_market_gate(1, offers=board, readout_path=str(tmp_path / "a.json"))
+    many, doc = launch.retro_market_gate(18, offers=board, readout_path=str(tmp_path / "b.json"))
+    assert one is False, "the single cheap host is buyable"
+    assert many is True, "eighteen of them are not"
+    assert doc["board_depth"]["used_for_mean"] > 1
+
+
+def test_an_unreadable_board_is_a_HOLD_not_a_launch(tmp_path, monkeypatch):
+    """CLAUDE.md §6 discipline: an unreadable market is not a cheap one, and this gate exists precisely for
+    the case where nobody is awake to check."""
+    monkeypatch.delenv("VAST_API_KEY", raising=False)
+    hold, doc = launch.retro_market_gate(18, offers=None, key="", readout_path=str(tmp_path / "h.json"))
+    assert hold is True and "board" in doc["reason"].lower()
+    assert doc["board_error"], "the refusal must say it was for lack of evidence, not for a price"
+
+
+def test_the_gate_and_the_spec_ceiling_are_the_same_number():
+    """If the board-level gate cleared on one figure and `submit` bound a different one, a launch could pass
+    the gate and still rent above the line."""
+    import relaunch_market_gate as rmg
+    from inflight_usd_per_ns import APPROVED_USD_PER_NS
+    assert rmg.RELAUNCH_MAX_RATIO_VS_BASIS == pytest.approx(rmg.DRIFT_MULTIPLE)
+    assert launch.buy_ceiling_usd_per_ns() == APPROVED_USD_PER_NS
+    _hold, _r, basis, _why = rmg.verdict(APPROVED_USD_PER_NS)
+    assert _hold is False, "a rental exactly AT the approved rate must CLEAR (documented boundary rule)"
+    assert rmg.verdict(APPROVED_USD_PER_NS * 1.01)[0] is True
+
+
+def test_a_launch_that_rented_nothing_does_not_report_success(monkeypatch, tmp_path):
+    """CLAUDE.md §6's 'holding silently' failure mode: a fan-out that rents zero hosts renders in the Actions
+    list identically to one that finished. If the buy line refuses every offer, that must be LOUD."""
+    import types
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("RETRO_PILOT_ONLY", "0")
+    monkeypatch.setenv("RETRO_MARKET_GATE", "0")     # isolate the per-offer refusal from the board gate
+    monkeypatch.setenv("VAST_API_KEY", "")
+    monkeypatch.setattr(launch, "_vast_request", lambda *a, **k: {"instances": []})
+    monkeypatch.setattr(launch, "presign_env_tarball", lambda b: "https://example/env.tgz")
+    monkeypatch.setattr(launch, "_s3_list", lambda *a, **k: [])
+    import boto3
+    monkeypatch.setattr(boto3, "client", lambda *a, **k: types.SimpleNamespace())
+
+    refuse = types.SimpleNamespace(submit=_raise_no_offer)
+    monkeypatch.setattr(launch, "get_backend", lambda _n: refuse)
+    assert launch.retro_launch(BUCKET) == 1, "every unit refused -> the job must FAIL, not go green"
+
+    ok = types.SimpleNamespace(submit=lambda spec: types.SimpleNamespace(job_id=1, extra={"dph": 0.05}))
+    monkeypatch.setattr(launch, "get_backend", lambda _n: ok)
+    assert launch.retro_launch(BUCKET) == 0
+    assert len(json.loads((tmp_path / "nrv04-retro-handles.json").read_text())) == 18
+
+
+def _raise_no_offer(spec):
+    raise RuntimeError("no offer qualifies under the ceiling")
+
+
+# =============================================================================================================
+# ⛔ THE VERDICT MUST SURVIVE THE RUNNER
+# =============================================================================================================
+class _FakeS3:
+    def __init__(self):
+        self.put = {}
+
+    def put_object(self, Bucket, Key, Body):        # noqa: N803 — boto3's own signature
+        self.put[Key] = json.loads(Body.decode())
+
+
+def test_the_collect_verdict_is_persisted_durably(tmp_path, monkeypatch):
+    """It was written to a file on an ephemeral GitHub runner and thrown away: the workflow's upload step did
+    not run in retro_collect mode and did not list the file. A paid-for panel's only deliverable cannot have a
+    home that disappears with the runner."""
+    monkeypatch.chdir(tmp_path)
+    s3 = _FakeS3()
+    out = {"panel_complete": True, "verdict": {"tier": "CONCORDANT"}}
+    keys = launch.persist_retro_collect(out, bucket=BUCKET, s3=s3, utc="20260731T120000Z")
+    assert len(keys) == 2 and all(k.startswith(f"{launch.RETRO_RESULT_PREFIX}/collect/") for k in keys)
+    assert any(k.endswith("-latest.json") for k in keys), "a stable pointer for readers"
+    assert any("20260731T120000Z" in k for k in keys), (
+        "a timestamped copy, so re-running a collect cannot erase what an earlier one said")
+    assert all(s3.put[k]["verdict"]["tier"] == "CONCORDANT" for k in keys)
+    assert json.loads((tmp_path / launch.RETRO_COLLECT_READOUT).read_text())["panel_complete"] is True
+
+
+def test_the_persisted_verdict_cannot_be_mistaken_for_a_leg_json(tmp_path, monkeypatch):
+    """`retro_collect`, `retro_launch`'s skip set and the reaper all key off `leg_*.json` under the result
+    prefix. A readout that matched would be parsed as a leg."""
+    monkeypatch.chdir(tmp_path)                      # the local write must not land in the repo
+    s3 = _FakeS3()
+    launch.persist_retro_collect({}, bucket=BUCKET, s3=s3)
+    for k in s3.put:
+        assert not k.rsplit("/", 1)[-1].startswith("leg_")
+
+
+# =============================================================================================================
+# the preregistration itself
+# =============================================================================================================
+def test_the_starting_structure_asymmetry_is_a_registered_dated_limitation():
+    """Pre-spend audit §6 gate 3 asked for EITHER a dated registered limitation OR a preregistered
+    admissibility criterion. The limitation is what is registered; no new criterion was invented."""
+    p = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                     "nr4a3-nrv04-retrospective-prereg.md")
+    txt = open(p, encoding="utf-8").read()
+    assert "§2a/§2c LIMITATION — 2026-07-31" in txt, "the addition must be DATED"
+    assert "1.05" in txt and "nr4a2/seed_1" in txt, "the pilot's measured overlap must be named"
+    assert "No criterion is amended" in txt
+    for direction in ("A NULL R1", "A POSITIVE"):
+        assert direction in txt, "both a null and a positive must have their interpretation stated"
+
+
+def test_the_machine_mirror_agrees_with_the_panel_module():
+    """CLAUDE.md §1 — the JSON mirror and the code cannot disagree about what is authorized."""
+    p = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                     "nrv04-retrospective-prereg.json")
+    d = json.load(open(p, encoding="utf-8"))
+    assert tuple(d["panel"]["authorized_stages"]) == retro.AUTHORIZED_STAGES
+    assert tuple(d["panel"]["retired_stages"]) == retro.RETIRED_STAGES
+    assert d["panel"]["n_units_authorized"] == len(retro.enumerate_units())
+    assert d["panel"]["label_prefix"] == retro.LABEL_PREFIX
+    import nrv04_retro_gate as gate
+    lo, hi = gate.EXTENSION_P_WINDOW
+    assert f"({lo}, {hi}]" in d["statistics"]["extension_rule"]["trigger"]
+    assert "leave-one-model-out" not in d["verdict_tiers"]["CONCORDANT"]
 
 
 @pytest.mark.parametrize("pipeline_name", ["_PIPELINE", "_RETRO_PIPELINE", "_COFOLD_PIPELINE"])

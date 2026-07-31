@@ -2,11 +2,32 @@
   "_title": "NR-V04 retrospective biological holdout \u2014 machine-readable PREREGISTRATION freeze",
   "_doc": "nr4a3-nrv04-retrospective-prereg.md (authoritative prose; this file is the machine mirror \u2014 keep in sync)",
   "_frozen": "2026-07-24, before any retrospective leg ran",
+  "_amendments_applied": {
+    "_note": "This mirror carries the CURRENT machine values. The prose file's frozen §0-§9 is deliberately left unedited; its dated amendments are the corrections, and each superseded value is retained beside its replacement here (CLAUDE.md §1.2).",
+    "AMENDMENT_3": {
+      "dated": "2026-07-25 (trimcrae-delegated, APPLIED); applied in code 2026-07-31",
+      "defect_1": "R2 RETIRED — authorized panel becomes R1 only, 18 legs (was R1+R2, 24)",
+      "defect_2": "extension p-window becomes (0.05, 0.12] (was (0.012, 0.05])",
+      "defect_3": "LOMO demoted from the CONCORDANT conjunction to a reported diagnostic; the LOMO-predicated WEAKLY_CONCORDANT branch struck as unreachable",
+      "defect_4": "MDE registered: leg-to-leg sigma 0.855 A, 80% power only at 1.5-2.0 A; a null R1 may NOT be reported as localising NR-V04 selectivity to warhead reactivity"
+    },
+    "SECTION_9_RESOLUTION": {
+      "dated": "2026-07-30 (trimcrae go)",
+      "decision": "Arm E (R1, 18 legs) RUNS; Arm F stays BLOCKED on the valB calibration PASS. No criterion amended.",
+      "hard_precondition": "the analysis-atom trajectory reporter (md_analysis_traj.py) must be wired into nrv04_covalent_md — do not launch on a build that lacks it"
+    },
+    "STARTING_STRUCTURE_LIMITATION": {
+      "dated": "2026-07-31",
+      "decision": "registered as a dated LIMITATION, not a new admissibility criterion",
+      "see": "the prose file's '§2a/§2c LIMITATION' dated addition"
+    }
+  },
   "_enforced_by": [
-    "nrv04_retro_panel.py (panel + units + leg env)",
+    "nrv04_retro_panel.py (panel + units + leg env + AUTHORIZED_STAGES/RETIRED_STAGES)",
     "nrv04_retro_gate.py (endpoint, statistics, verdict tiers)",
     "nrv04_retro_blind.py (arm-label blinding + key commitment)",
-    "tests/test_nrv04_retro.py (all of the above, offline)"
+    "tests/test_nrv04_retro.py (all of the above, offline)",
+    "tests/test_nrv04_retro_launch.py (the Vast lane: unit count, buy line, reaper scoping)"
   ],
   "_scope": "Arm E (ensemble endpoint MD) ONLY. Arm F (alchemical ddG_coop) is BLOCKED on the valB calibration PASS per nr4a3-ternary-calib-prereg-addendum-2026-07-19.md condition 7 and is not authorized by this document.",
   "known_answer": {
@@ -74,9 +95,13 @@
     ],
     "legs_per_arm": 6,
     "authorized_stages": [
-      "R1",
+      "R1"
+    ],
+    "retired_stages": [
       "R2"
     ],
+    "label_prefix": "nrv04retro-",
+    "_authorized_stages_note": "CURRENT value, post-AMENDMENT 3 defect 1 (2026-07-25). The prose §2b above it is the FROZEN 2026-07-24 text and is deliberately left unedited; the amendment is the dated correction. Code home: nrv04_retro_panel.AUTHORIZED_STAGES / RETIRED_STAGES.",
     "arms": [
       {
         "arm_id": "retro_noncov_nr4a1",
@@ -108,7 +133,10 @@
         "ligand": "nrv04",
         "target": "NR4A1",
         "covalent": true,
-        "cofold_system": "nr4a1"
+        "cofold_system": "nr4a1",
+        "status": "RETIRED by AMENDMENT 3 defect 1 (2026-07-25) — unbuildable and blocking",
+        "retired_evidence": "C6->Cys551 measures 34.42 / 29.87 / 39.11 A on nrv04-descriptive-v4/nr4a1/seed_{1,2,3} against the 8.0 A A1 limit (0 of 3 pass), so nrv04_covalent_md.build_system raises before a leg JSON is written; the 6 units never land, panel_complete stays False and prereg §4f then suppresses the R1 verdict permanently",
+        "enumerable": false
       },
       {
         "arm_id": "retro_epi_nr4a1",
@@ -135,7 +163,7 @@
         "cofold_system": "neg_inactive_nr4a3"
       }
     ],
-    "n_units_authorized": 24
+    "n_units_authorized": 18
   },
   "protocol": {
     "source_of_truth": "md_settings.py (canonical) \u2014 identical to the covalent feasibility panel, so its legs remain a cross-check",
@@ -199,9 +227,10 @@
       "covalency_decomposition": "mean(E1 | retro_cov_nr4a1) - mean(E1 | retro_noncov_nr4a1); reported with no significance claim at n=3 vs 3"
     },
     "extension_rule": {
-      "trigger": "predicted sign AND p in (0.012, 0.05]",
+      "trigger": "predicted sign AND p in (0.05, 0.12]",
       "action": "generate 3 additional co-fold models per paralogue, re-run R1 at n = 6 models/arm (C(18,6) = 18564)",
-      "restriction": "the ONLY pre-authorized extension; may NOT be invoked on a wrong-sign result"
+      "restriction": "the ONLY pre-authorized extension; may NOT be invoked on a wrong-sign result",
+      "_superseded_window": "(0.012, 0.05] — retired by AMENDMENT 3 defect 2 (2026-07-25): attainable p is k/84, so that window held only {0.0238, 0.0357, 0.0476}, all <= alpha and therefore already CONCORDANT, while the smallest attainable p above alpha (0.0595) sat outside it. The rule could never fire in the case its own text names. Code home: nrv04_retro_gate.EXTENSION_P_WINDOW."
     },
     "technical_failure": {
       "rerun": "a NaN/blow-up leg is re-run ONCE from a fresh velocity seed",
@@ -211,11 +240,13 @@
     "no_interim_analysis": "the paralogue contrast is computed ONCE, after all R1+R2 legs land. Per-leg liveness/convergence monitoring is required; looking at the arm ordering before the panel completes is not permitted."
   },
   "verdict_tiers": {
-    "CONCORDANT": "d < 0 AND p <= 0.05 AND NR4A1 mean below BOTH paralogue means AND sign survives leave-one-model-out AND no arm underpowered",
-    "WEAKLY_CONCORDANT": "d < 0 and NR4A1 below both, but p > 0.05 or the sign fails leave-one-model-out",
+    "CONCORDANT": "d < 0 AND p <= 0.05 AND NR4A1 mean below BOTH paralogue means AND no arm underpowered",
+    "WEAKLY_CONCORDANT": "d < 0 and NR4A1 below both, but p > 0.05",
     "DISCORDANT": "d >= 0, or a paralogue is below NR4A1 with p <= 0.05 in the reverse direction",
     "INDETERMINATE": "any arm underpowered, or a protocol deviation voided legs",
-    "go_condition_for_rung5": "CONCORDANT"
+    "go_condition_for_rung5": "CONCORDANT",
+    "leave_one_model_out": "REPORTED robustness diagnostic — computed and emitted on every verdict, but NOT part of any tier's conjunction (AMENDMENT 3 defect 3, 2026-07-25)",
+    "_superseded_conjunction": "CONCORDANT previously also required 'sign survives leave-one-model-out', and WEAKLY_CONCORDANT previously also fired on 'or the sign fails leave-one-model-out'. Retired by AMENDMENT 3 defect 3: an adversarial search found 228,543 configurations reaching p <= alpha with the correct ordering and ZERO of them failed LOMO, so the clause could never be false when the others held and the LOMO-predicated WEAKLY_CONCORDANT branch was unreachable code. The CONCORDANT set is UNCHANGED by construction. Code home: nrv04_retro_gate.verdict."
   },
   "honest_failure_semantics": {
     "discordance_does_not_falsify": "NR-V04 selectivity may arise from the covalent warhead chemistry alone (Leg 0 shows this is SUFFICIENT, since the paralogues lack the cysteine entirely) or downstream at ubiquitination",
@@ -250,7 +281,7 @@
         "id": "R2",
         "legs": 6,
         "usd": "~3",
-        "status": "runs with R1 in the same fan-out"
+        "status": "RETIRED by AMENDMENT 3 defect 1 — not run, not enumerable, $0. (Superseded status: 'runs with R1 in the same fan-out'.)"
       },
       {
         "id": "R3",
@@ -271,8 +302,8 @@
         "status": "BLOCKED on the valB calibration PASS"
       }
     ],
-    "authorized_now_usd": "~11 (R1 + R2), inside the standing <=$50 autonomy threshold",
-    "sequencing": "pilot ONE leg to completion first (the assembler has never read an NR4A2/NR4A3 co-fold), then fan the remaining 23 out fully parallel \u2014 no short-circuit value remains once the lane is proven"
+    "authorized_now_usd": "R1 ONLY. Cost has its home in the prose \u00a77 R1 row (~$8); the measured-realized 18-leg figure is in nrv04-retrospective-prespend-audit-2026-07-25.md \u00a75b. Inside the standing <=$50 autonomy threshold. (Superseded: '~11 (R1 + R2)' \u2014 retired with R2 by AMENDMENT 3 defect 1.)",
+    "sequencing": "pilot ONE leg to completion first (the assembler has never read an NR4A2/NR4A3 co-fold), then fan the remaining 17 out fully parallel \u2014 no short-circuit value remains once the lane is proven. (Superseded: 'the remaining 23', which counted the retired R2 arm.)"
   },
   "blinding": {
     "mechanism": "leg results carry opaque HMAC tokens (nrv04_retro_blind.py); the key file's SHA-256 is committed at launch so a post-hoc swap is detectable",

@@ -88,6 +88,13 @@ def leg_env(leg: Leg, seed: int, mode: str = "run", prod_ns: float = 5.0, equil_
     return env
 
 
+#: The Vast label / S3 checkpoint namespace for THIS panel. Its ONE home (CLAUDE.md rule 1): the CI-side
+#: reaper's label selector is derived from it, so a rename cannot leave a reaper matching a stale prefix — or,
+#: worse, a sibling lane's boxes. Disjoint from `nrv04_retro_panel.LABEL_PREFIX` ("nrv04retro-"), and neither
+#: is a prefix of the other.
+LABEL_PREFIX = "nrv04cov-"
+
+
 def unit_name(leg: Leg, seed: int) -> str:
     """Stable per-unit name (used for the Vast label + the S3 checkpoint prefix so units never collide)."""
-    return f"nrv04cov-{leg.leg_id}-s{seed}"
+    return f"{LABEL_PREFIX}{leg.leg_id}-s{seed}"

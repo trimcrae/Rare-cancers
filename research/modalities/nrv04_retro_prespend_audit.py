@@ -64,7 +64,8 @@ LEG_RESULT_PREFIXES = ("nrv04-covalent-results", "nrv04-covalent-results-chainfi
 
 
 def audit_cofold_inputs(s3, bucket, out):
-    """A + B: every co-fold model the authorized (R1+R2) legs would actually stage."""
+    """A + B: every co-fold model the AUTHORIZED legs would actually stage (R1 since AMENDMENT 3;
+    the set of co-fold SYSTEMS is unchanged by the retirement, since retro_cov_nr4a1 shared nr4a1)."""
     lbd_offset, off_prov = resolve_lbd_offset()
     out["lbd_offset"] = lbd_offset
     out["lbd_offset_provenance"] = off_prov
@@ -117,7 +118,11 @@ def audit_cofold_inputs(s3, bucket, out):
     out["cofold_models"] = rows
 
     # --- the R2 (covalent) arm's admissibility, decided by the SAME gate the driver applies ----------------
-    cov_arms = [a for a in retro.arms_for_stages() if a.covalent]
+    # ⚠ SCANS `retro.ARMS`, NOT `arms_for_stages()`. This measurement IS the evidence that retired R2
+    # (AMENDMENT 3 defect 1), so it must survive the retirement: sourcing it from the AUTHORIZED stages would
+    # return an empty set the day the arm was retired and report `0 of 0` — which reads as "nothing to see"
+    # rather than "0 of 3 models are inside the 8.0 A limit". A retired arm's evidence must stay measurable.
+    cov_arms = [a for a in retro.ARMS if a.covalent]
     cov_rows = [r for r in rows if r["system"] in {a.cofold_system for a in cov_arms}]
     dists = [r.get("frozen_site_C551_dist_A") for r in cov_rows]
     dists = [d for d in dists if d is not None]
@@ -130,6 +135,7 @@ def audit_cofold_inputs(s3, bucket, out):
                                   for r in cov_rows},
         "n_models_passing_A1": sum(1 for d in dists if d <= MAX_COVALENT_TETHER_A),
         "n_models": len(cov_rows),
+        "stage_retired": [a.arm_id for a in cov_arms if a.stage in retro.RETIRED_STAGES],
         "verdict": ("EVERY covalent-arm model FAILS the A1 tether gate — build_system RAISES, so these legs "
                     "cannot run at all" if dists and min(dists) > MAX_COVALENT_TETHER_A else "see per-model"),
     }
@@ -196,9 +202,11 @@ def main(argv=None):
     out = {"bucket": args.bucket, "panel": "nrv04_retrospective",
            "prereg": "nr4a3-nrv04-retrospective-prereg.md",
            "authorized_stages": list(retro.AUTHORIZED_STAGES),
+           "retired_stages": list(retro.RETIRED_STAGES),
            "note": ("Reads the artifacts the legs would actually stage, not the prefixes the code names. "
                     "$0: read-only S3 + CPU. Nothing is launched.")}
-    print("[retro-audit] A/B — co-fold inputs for the authorized (R1+R2) legs", flush=True)
+    print(f"[retro-audit] A/B — co-fold inputs for the authorized {list(retro.AUTHORIZED_STAGES)} "
+          f"legs (retired: {list(retro.RETIRED_STAGES)})", flush=True)
     try:
         audit_cofold_inputs(s3, args.bucket, out)
     except Exception as e:                                                  # noqa: BLE001

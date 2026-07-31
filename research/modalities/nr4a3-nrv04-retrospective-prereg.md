@@ -405,3 +405,58 @@ and mirroring it to S3 on the existing per-checkpoint hook. **Do not launch thes
 it**; the whole value of a holdout is that its result can be re-derived rather than re-bought.
 
 **Sequencing is unchanged and still binding:** pilot **one** leg to completion first (§7), then fan out.
+
+---
+
+## §2a/§2c LIMITATION — 2026-07-31 (dated addition). The t = 0 starting-structure asymmetry. **No criterion is amended.**
+
+**What this is, and what it deliberately is not.** The pre-spend audit
+([`nrv04-retrospective-prespend-audit-2026-07-25.md`](./nrv04-retrospective-prespend-audit-2026-07-25.md) §4,
+§6 gate 3) measured a starting-structure asymmetry across the R1 arms and asked for **either** a dated
+registered limitation **or** a preregistered admissibility criterion on ligand placement. **The limitation is
+what is registered here.** No new admissibility rule is invented, no model is excluded, no threshold is set,
+and nothing about the panel, the endpoint, the direction, α or the unit of independence changes. Inventing a
+placement criterion at this point would be a *new* preregistered gate written by the same hand that has seen
+the starting structures — which is precisely the shape of decision this program refuses to make informally.
+
+**The measurement, cited from its home rather than restated.** Every per-model figure lives in the audit's §4
+table (warhead↔target and warhead↔E3 contact counts at 4.5 Å and minimum warhead–target distances, on all 9
+pinned `nrv04-descriptive-v4` models, measured with the same kernels the assembler and driver use). Two facts
+from it are load-bearing for how a result may be read:
+
+1. **The asymmetry runs AGAINST the registered hypothesis direction.** The two **spared** paralogues begin
+   with the warhead **more** engaged with their own target, and **less** draped over the E3, than the
+   **degraded** paralogue does. The prereg predicts NR4A1 will be the *more stable* arm; the starting
+   structures, if anything, favour the paralogues on the same axis.
+2. **The designated pilot unit starts inside a hard clash.** `nrv04-descriptive-v4/nr4a2/seed_1` — the
+   `retro_noncov_nr4a2` m1 leg that `retro_units_to_run()` pilots — carries a **1.05 Å** heavy-atom
+   warhead–target overlap, well inside a covalent bond length. Minimization must resolve that clash, and that
+   relaxation will dominate its early interface RMSD.
+
+**Why §2a/§2c does not already cover it.** Those sections ground protocol-matching in "one co-fold prefix, one
+code path". That is a statement about the **procedure**, and it is true. It is not a statement about the
+**structures**, which are independent Boltz-2 diffusion outputs and are not matched to each other in ligand
+placement. The arms are protocol-matched and *not* placement-matched, and until now only the first half was
+written down.
+
+**What this does to the interpretation, stated in both directions before the data exist.**
+
+- **A NULL R1 is weakened as evidence about ternary geometry.** It was already bounded by the registered MDE
+  (AMENDMENT 3 defect 4). It is now additionally confounded: a difference this design would have needed to
+  detect could be masked by a t = 0 asymmetry pointing the other way. A null therefore licenses only what
+  AMENDMENT 3 already permits — *"the workflow did not resolve a paralogue difference of the magnitude this
+  design can detect"* — and may **not** be read as evidence that no such difference exists.
+- **A POSITIVE (CONCORDANT) R1 is NOT explained away by this, and that asymmetry between the two cases is the
+  point.** The starting structures are tilted **against** the registered direction, so a concordant result is
+  obtained *despite* the tilt, not because of it. The honest weakening of a positive is different and
+  narrower: because the arms differ in starting placement, a concordant result cannot be attributed to
+  *ternary interface energetics alone* — relaxation from a different starting placement is an alternative
+  mechanism for the same ordering, and any CONCORDANT report must say so. This does not license a stronger
+  claim than §5a and §6 already allow; it adds a caveat to that claim.
+- **The pilot leg's own E1 is expected to be atypical** and must not be used to form an impression of the arm
+  ordering — which prereg §4f forbids in any case. Its purpose is to prove the staging path, not to preview a
+  result.
+
+**This is not a retune, on the same checkable test §9's resolution used.** No retrospective leg has run and no
+outcome is known to anyone, so there is no result this limitation could have been written to accommodate. It
+also only ever **subtracts**: every clause above narrows what a result may be reported as, and none widens it.

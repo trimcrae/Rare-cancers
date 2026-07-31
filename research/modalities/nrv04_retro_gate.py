@@ -24,6 +24,35 @@ THE STATISTICS, and why each choice is what it is (prereg §4):
 
   * E1 (interface-RMSD plateau) is the ONLY endpoint the verdict turns on. E2-E4 are computed and reported
     alongside it — including when they disagree — but cannot change the tier.
+
+★★ AMENDMENT 3 (2026-07-25, trimcrae-delegated, APPLIED IN CODE 2026-07-31) — defects 2 and 3.
+
+Both were measured by EXHAUSTIVE ENUMERATION over the frozen decision rule, before any retrospective leg ran,
+so neither can have been motivated by a result nobody has seen. What each changed, and the two things they
+deliberately did NOT change:
+
+  * defect 2 — EXTENSION_P_WINDOW. Attainable p-values on the primary contrast are exactly k/84. The frozen
+    window (0.012, 0.05] therefore contained only {0.0238, 0.0357, 0.0476}, ALL of which are <= alpha and so
+    already CONCORDANT, while the smallest attainable p strictly above alpha (5/84 = 0.0595) fell OUTSIDE it.
+    The rule could never fire in the case its own text names ("right sign, n=3 cannot resolve it"). The
+    window is now (0.05, 0.12] — the p in {5..10}/84 band — still triggered by the p-value alone and still
+    unavailable to a wrong-sign result. This is a LOOSENING IN FORM and buys no claim: `extension_triggered`
+    is a reported field the tier assignment never reads, and it fires only in the region that is NOT
+    CONCORDANT, so it can add work to an ambiguous result and can never promote one.
+
+  * defect 3 — LOMO. An adversarial search over 400,000 configurations found 228,543 that reached p <= alpha
+    with the correct ordering; ZERO of them then failed LOMO. So the clause could not be false when the other
+    conditions held, and the WEAKLY_CONCORDANT branch predicated on it ("p <= alpha but the sign fails LOMO")
+    was unreachable code. LOMO is RETAINED as a reported robustness diagnostic — `leave_one_model_out` is
+    still computed and still emitted on every verdict — and REMOVED from the CONCORDANT conjunction. The
+    CONCORDANT set is UNCHANGED by construction; the tier is now honest about what it actually tests.
+
+  ⚠ UNTOUCHED, and they are the ones that would matter: the primary contrast, its registered direction, alpha,
+    the endpoint, the 4.0 A threshold, and the unit of independence.
+
+  SUPERSEDED, retained for the record: EXTENSION_P_WINDOW = (0.012, 0.05); CONCORDANT additionally required
+  `lomo["survives"]`; WEAKLY_CONCORDANT additionally fired on "correct ordering and p <= alpha, but the sign
+  fails leave-one-model-out".
 """
 from __future__ import annotations
 
@@ -33,10 +62,23 @@ from itertools import combinations
 ALPHA = 0.05                      # one-sided significance level for the primary test
 STABLE_PLATEAU_A = 4.0            # E2 threshold — inherited unchanged from nrv04_readouts.INTERFACE_RMSD_STABLE_A
 MAX_FAILED_LEGS_PER_ARM = 1       # prereg §4e: >1 technical failure in an arm -> that arm is underpowered
-EXTENSION_P_WINDOW = (0.012, 0.05)  # prereg §4d: right sign but unresolvable at n=3 -> extend to 6 models
+# prereg §4d as corrected by AMENDMENT 3 defect 2: right sign but unresolvable at n=3 -> extend to 6 models.
+# HALF-OPEN AND IT MATTERS: `lo < p <= hi`, so p == 0.05 (== ALPHA, already CONCORDANT) does NOT trigger and
+# p == 0.12 does. See the module docstring for why the old (0.012, 0.05] could never fire.
+EXTENSION_P_WINDOW = (0.05, 0.12)
+
+# ★ AMENDMENT 3 defect 4 — the MINIMUM DETECTABLE EFFECT, registered. Its measurement lives in
+# nrv04-retrospective-prespend-audit-2026-07-25.md §3d (Monte-Carlo through THIS frozen decision rule against a
+# leg-to-leg SD measured on 6 committed same-model feasibility groups); these constants are its code home,
+# because a preregistered criterion has to be enforceable by the module that emits the claim.
+MEASURED_LEG_SIGMA_A = 0.855      # leg-to-leg SD of E1, Å
+REGISTERED_MDE_A = (1.5, 2.0)     # 80 % power band: 1.5 Å optimistic (sigma_model = 0) to 2.0 Å realistic
 
 PRIMARY_ARM = "retro_noncov_nr4a1"
 POOLED_ARMS = ("retro_noncov_nr4a2", "retro_noncov_nr4a3")
+# RETIRED with stage R2 (AMENDMENT 3 defect 1) — no covalent leg can be enumerated any more, so the
+# `covalency_decomposition` block below is permanently None. It is retained rather than deleted because the
+# amendment retires the ARM, not this reporting path, and a historical leg set could still be re-scored.
 COVALENT_ARM = "retro_cov_nr4a1"
 
 TIER_CONCORDANT = "CONCORDANT"
@@ -193,12 +235,19 @@ def verdict(legs):
     # reverse-direction check: is a paralogue significantly MORE stable than NR4A1?
     reverse = exact_permutation_p(primary_vals, pooled_vals, alternative="greater")
 
-    if prim["stat"] < 0 and below_both and prim["p"] <= ALPHA and lomo["survives"]:
-        tier, reason = TIER_CONCORDANT, "correct ordering, p <= %.2f, sign survives leave-one-model-out" % ALPHA
+    # ★★ LOMO IS NOT IN THIS CONJUNCTION — AMENDMENT 3 defect 3. It is computed above and reported below as a
+    # robustness diagnostic; it is not a tier condition, because 228,543 of 228,543 configurations that reached
+    # this branch also survived it. A condition that can never be false is not a test, and leaving it here made
+    # the tier look like it had four independent requirements when it had three.
+    if prim["stat"] < 0 and below_both and prim["p"] <= ALPHA:
+        tier, reason = TIER_CONCORDANT, "correct ordering, p <= %.2f (LOMO reported, not gating)" % ALPHA
     elif prim["stat"] < 0 and below_both:
+        # The only remaining route to WEAK is p > alpha. The LOMO-predicated branch that stood here — "correct
+        # ordering and p <= alpha, but the sign fails leave-one-model-out" — is STRUCTURALLY unreachable now
+        # that LOMO left the conjunction above (that case is CONCORDANT), which is precisely what AMENDMENT 3
+        # meant by striking it as unreachable.
         tier = TIER_WEAK
-        reason = ("correct ordering but p = %.4f > %.2f" % (prim["p"], ALPHA)) if prim["p"] > ALPHA \
-            else "correct ordering and p <= alpha, but the sign fails leave-one-model-out"
+        reason = "correct ordering but p = %.4f > %.2f" % (prim["p"], ALPHA)
     else:
         tier = TIER_DISCORDANT
         reason = ("NR4A1 is not the most stable arm" if not below_both else
@@ -220,13 +269,33 @@ def verdict(legs):
         "pairwise_caveat": "min attainable one-sided p for a 3-vs-3 pairwise test is 0.05 (C(6,3)=20); these "
                            "are descriptive support, never the verdict (prereg §4c).",
         "leave_one_model_out": lomo,
+        "leave_one_model_out_role": "REPORTED robustness diagnostic only — NOT a tier condition (AMENDMENT 3 "
+                                    "defect 3: 228,543 configurations reached p <= alpha with the correct "
+                                    "ordering and zero failed LOMO, so the clause could never bite).",
         "reverse_direction": {k: (round(v, 6) if isinstance(v, float) else v) for k, v in reverse.items()},
         "covalency_decomposition": cov,
         "extension_triggered": extend,
-        "extension_rule": "prereg §4d: right sign but p in (%.3f, %.2f] -> generate 3 more co-fold models per "
-                          "paralogue and re-run R1 at n=6. May NOT be invoked on a wrong-sign result." % (lo, hi),
+        "extension_rule": "prereg §4d as corrected by AMENDMENT 3 defect 2: right sign but p in (%.2f, %.2f] "
+                          "-> generate 3 more co-fold models per paralogue and re-run R1 at n=6. May NOT be "
+                          "invoked on a wrong-sign result." % (lo, hi),
+        # ★ AMENDMENT 3 defect 4 — travels WITH the verdict, because the over-claim it forbids is made when a
+        # null is read, and a reader who has to go and find the MDE in another file will not.
+        "registered_mde": {
+            "measured_leg_sigma_A": MEASURED_LEG_SIGMA_A,
+            "mde_80pct_power_A": list(REGISTERED_MDE_A),
+            "source": "nrv04-retrospective-prespend-audit-2026-07-25.md §3d — Monte-Carlo through THIS frozen "
+                      "decision rule; false-positive rate at delta=0 is 0.048, so the test is valid, just blunt",
+            "null_licenses": "the workflow did not resolve a paralogue difference of the magnitude this design "
+                             "can detect (>= ~%.1f-%.1f A in interface-RMSD plateau at n = 3 models/arm)"
+                             % REGISTERED_MDE_A,
+            "null_may_NOT_claim": "that NR-V04's selectivity is localised to warhead reactivity. That "
+                                  "localisation stands on Leg 0 (Cys551 unique to NR4A1) and Zhang 2018 and "
+                                  "must be stated as such. AMENDMENT 3 defect 4 also retires prereg §5c's "
+                                  "registered composite outcome, whose R2 half no longer exists.",
+        },
         "claim_ceiling": "directional concordance/discordance ONLY. No ddG, alpha, cooperativity, affinity or "
-                         "degradation claim; Arm E computes no free energy (prereg §6).",
+                         "degradation claim; Arm E computes no free energy (prereg §6). A null is bounded by "
+                         "`registered_mde` (AMENDMENT 3 defect 4), not by the absence of an effect.",
     })
     return out
 

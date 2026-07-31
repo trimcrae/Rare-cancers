@@ -15,7 +15,7 @@ selectivity. It DECOMPOSES:
   R1 (PRIMARY) : NR4A1 vs NR4A2 vs NR4A3, all NON-COVALENT  -> does the ternary workflow discriminate paralogues
                  with the warhead-reactivity confound held OFF? (the contrast a prospective, non-covalent NR4A3
                  degrader campaign actually depends on)
-  R2           : NR4A1 covalent vs NR4A1 non-covalent        -> how much of the phenotype is warhead chemistry
+  R2           : NR4A1 covalent vs NR4A1 non-covalent        -> RETIRED by AMENDMENT 3 (see RETIRED_STAGES)
   R3           : epimer arms                                 -> CONDITIONAL (prereg 5d); needs new co-folds
 
 There is deliberately NO covalent NR4A2/NR4A3 leg and none may be added - there is no cysteine to bond to, so
@@ -71,8 +71,11 @@ ARMS = (
              role="primary matched non-covalent arm - spared paralogue", controls_for=("E1",)),
     RetroArm("retro_noncov_nr4a3", "nrv04", "NR4A3", False, "nr4a3", "R1",
              role="primary matched non-covalent arm - spared paralogue (the design target)", controls_for=("E1",)),
+    # RETIRED by AMENDMENT 3 defect 1 — kept in the frozen table (a preregistered arm is never silently
+    # deleted) but UNENUMERABLE: `arms_for_stages` raises on stage "R2". See RETIRED_STAGES.
     RetroArm("retro_cov_nr4a1", "nrv04", "NR4A1", True, "nr4a1", "R2",
-             role="covalency decomposition: the ONLY paralogue with the reactive Cys551", controls_for=("R2",)),
+             role="RETIRED (AMENDMENT 3): covalency decomposition — unbuildable, 0/3 models inside the 8.0 A "
+                  "adduct limit", controls_for=("R2",)),
     # --- R3, conditional (prereg 5d): the epimer co-folds exist for NR4A1 only; nr4a2/nr4a3 need generating.
     RetroArm("retro_epi_nr4a1", "nrv04_epimer", "NR4A1", False, "neg_inactive", "R3",
              role="VHL-inactive epimer specificity control", controls_for=("R3",)),
@@ -82,9 +85,34 @@ ARMS = (
              role="epimer control - REQUIRES a new co-fold", controls_for=("R3",)),
 )
 
-AUTHORIZED_STAGES = ("R1", "R2")        # prereg 7: R3 and Arm F are conditional / blocked
+# ★★ R2 IS RETIRED — AMENDMENT 3 DEFECT 1 (2026-07-25), APPLIED IN CODE 2026-07-31.
+#
+# The amendment is not a style note, it is load-bearing twice over, and until this constant changed it was
+# PROSE ONLY while `AUTHORIZED_STAGES` still said ("R1", "R2"):
+#   (a) the 6 covalent units are UNBUILDABLE. `nrv04_covalent_md.build_system` raises on the C6->Cys551
+#       adduct BEFORE a leg JSON is written (measured 34.42 / 29.87 / 39.11 A on the exact pinned models
+#       nrv04-descriptive-v4/nr4a1/seed_{1,2,3}, against A1's 8.0 A limit: 0 of 3 pass). Vast re-runs the
+#       onstart after the container dies, so each of those 6 rentals crash-loops and bills until a control
+#       plane reaps it.
+#   (b) far worse, they BLOCK THE RESULT. `nrv04_vast_launch.retro_collect` builds `expected` from
+#       `enumerate_units()`, so 6 units that can never land keep `panel_complete` False forever and prereg
+#       S4f (no interim analysis) then suppresses the R1 verdict PERMANENTLY. Leaving R2 in does not merely
+#       cost an arm, it costs the primary result.
+#
+# So the authorized panel is R1 ONLY, 18 legs. The covalent confound is documented from Leg 0 (sequence:
+# Cys551 unique to NR4A1) and Zhang 2018 (literature) — never from a simulation this program ran.
+#
+# SUPERSEDED, retained for the record: AUTHORIZED_STAGES was ("R1", "R2") and enumerate_units() yielded 24.
+AUTHORIZED_STAGES = ("R1",)             # prereg 7 + AMENDMENT 3 defect 1: R2 retired, R3/Arm F conditional/blocked
+RETIRED_STAGES = ("R2",)                # never enumerable — see `arms_for_stages`, which REFUSES to yield these
 PRIMARY_ARM = "retro_noncov_nr4a1"
 PARALOGUE_ARMS = ("retro_noncov_nr4a2", "retro_noncov_nr4a3")
+
+#: The Vast label / S3 checkpoint namespace for this panel. Its ONE home (CLAUDE.md rule 1): the reaper's
+#: label selector is derived from it, so a lane rename can never leave a reaper matching the old prefix — or,
+#: worse, matching a SIBLING lane's boxes. `nrv04_covalent_panel.unit_name` owns "nrv04cov-"; the two
+#: namespaces are disjoint and neither is a prefix of the other.
+LABEL_PREFIX = "nrv04retro-"
 
 
 def arm_by_id(arm_id: str) -> RetroArm:
@@ -95,18 +123,32 @@ def arm_by_id(arm_id: str) -> RetroArm:
 
 
 def arms_for_stages(stages=AUTHORIZED_STAGES):
+    """Arms in `stages`, with a RETIRED stage refused rather than silently dropped.
+
+    Refusing loudly is the point. A retired stage that merely returns an empty list would let
+    `--stages R1,R2` print a 18-unit manifest labelled as if it covered R2, and a caller could re-authorize
+    the crash-looping covalent arm by passing one string. AMENDMENT 3 retired R2 on measured evidence; it is
+    not a runtime option."""
+    bad = [s for s in stages if s in RETIRED_STAGES]
+    if bad:
+        raise ValueError(
+            f"stage(s) {bad} are RETIRED by AMENDMENT 3 (2026-07-25) and can never be enumerated: the "
+            f"C6->Cys551 adduct measures 34.42 / 29.87 / 39.11 A against an 8.0 A admissibility limit, so "
+            f"nrv04_covalent_md.build_system raises before a leg JSON is written — those units crash-loop on "
+            f"a billing host and keep panel_complete False, which suppresses the R1 verdict permanently. "
+            f"Authorized stages: {list(AUTHORIZED_STAGES)}.")
     return [a for a in ARMS if a.stage in stages]
 
 
 def enumerate_units(stages=AUTHORIZED_STAGES, model_seeds=COFOLD_MODEL_SEEDS, replicas=MD_REPLICAS):
     """Every independent GPU unit = (arm, cofold_model_seed, md_replica). One Vast instance each, its own
-    checkpoint prefix. 3 models x 2 replicas x len(arms) legs."""
+    checkpoint prefix. 3 models x 2 replicas x len(arms) legs -> 18 for the authorized R1-only panel."""
     return [(a, m, r) for a in arms_for_stages(stages) for m in model_seeds for r in replicas]
 
 
 def unit_name(arm: RetroArm, model_seed: int, replica: int) -> str:
     """Stable per-unit name (Vast label + S3 checkpoint prefix, so units never collide)."""
-    return f"nrv04retro-{arm.arm_id}-m{model_seed}-r{replica}"
+    return f"{LABEL_PREFIX}{arm.arm_id}-m{model_seed}-r{replica}"
 
 
 def cofold_prefix_s3(arm: RetroArm, bucket: str, model_seed: int) -> str:
@@ -155,17 +197,21 @@ def panel_manifest(stages=AUTHORIZED_STAGES) -> dict:
         "panel": "nrv04_retrospective",
         "prereg": "nr4a3-nrv04-retrospective-prereg.md",
         "stages": list(stages),
+        "retired_stages": list(RETIRED_STAGES),
         "cofold_prefix": COFOLD_PREFIX,
         "cofold_model_seeds": list(COFOLD_MODEL_SEEDS),
         "md_replicas": list(MD_REPLICAS),
         "n_units": len(units),
         "units_per_arm": per_arm,
+        "label_prefix": LABEL_PREFIX,
         "primary_contrast": {"arm": PRIMARY_ARM, "vs_pooled": list(PARALOGUE_ARMS),
                              "endpoint": "E1 interface-RMSD plateau (A), lower = more stable",
                              "predicted_sign": "negative (NR4A1 more stable)"},
         "sampling_ns": {"equil": EQUIL_NS, "prod": PROD_NS},
         "honesty": "Arm E (ensemble endpoint MD) only - NO free energy is computed here. The alchemical "
-                   "ddG_coop arm (Arm F) is BLOCKED on the valB calibration PASS (calib addendum condition 7).",
+                   "ddG_coop arm (Arm F) is BLOCKED on the valB calibration PASS (calib addendum condition 7). "
+                   "R2 (the covalent decomposition) is RETIRED by AMENDMENT 3 defect 1: unbuildable on every "
+                   "available input, and while enumerable it blocked the R1 verdict entirely.",
     }
 
 

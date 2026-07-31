@@ -76,12 +76,18 @@ workflow runs the branch's version of the file + code).
    → pilot is retro_noncov_nr4a2 m1 r0 ON PURPOSE: the abort information is STRUCTURAL, and the
      assembler had never read a paralogue co-fold. Piloting NR4A1 leaves the real risk unexercised.
 
-# 2. CHECK PROGRESS (not liveness) — prints per-leg phase markers + the chain split each leg used
+# 2. CHECK PROGRESS (not liveness) — prints per-leg phase markers + the chain split each leg used,
+#    REAPS this lane's finished/stale hosts, and persists its readout to S3 + the run's artifacts
    vast_launch_mode=retro_collect
-   → refuses to compute the paralogue contrast until ALL 24 units land (prereg no-interim-analysis rule)
+   → refuses to compute the paralogue contrast until every AUTHORIZED unit lands (prereg §4f,
+     no interim analysis). The count is `nrv04_retro_panel.enumerate_units()` — do NOT re-type it here.
+   → this is also the SUPERVISION TICK. While the fleet is billing, dispatch it yourself on the cadence
+     the work needs; a `schedule:` cron does not supervise a billing fleet (CLAUDE.md §6).
 
-# 3. FAN OUT the remaining 23 (~$11) once the pilot completes end-to-end
+# 3. FAN OUT the rest once the pilot completes end-to-end
    vast_launch_mode=retro_full    md_mode=run
+   → gated on $/ns before anything is rented, and again per offer inside submit. A HOLD rents nothing,
+     drops nothing and writes `nrv04-retro-market-hold.json`; re-dispatch when the board improves.
 
 # 4. CORRECTED FEASIBILITY RE-RUN (~$6) — independent of the above, can run in parallel
    vast_launch_mode=full   cofold_prefix=nrv04-covalent-cofold
@@ -101,11 +107,21 @@ workflow runs the branch's version of the file + code).
    → refuses a prefix that already has objects: co-folds are a preregistered panel's inputs
 ```
 
-**Cost ledger for what remains:** retrospective 24 legs ≈ **$11**; corrected feasibility 14 legs ≈ **$6**;
-R3 co-folds ≈ **$1**. All under the ≲$50 autonomy threshold. Provider: **Vast** for everything.
+**Cost ledger for what remains:** the retrospective's authorized panel (R1 only — see the note below);
+corrected feasibility 14 legs ≈ **$6**; R3 co-folds ≈ **$1**. All under the ≲$50 autonomy threshold. Provider:
+**Vast** for everything.
+
+> **⚠ UPDATED 2026-07-31 — THE PANEL IS SMALLER THAN THIS FILE ORIGINALLY SAID.** AMENDMENT 3 defect 1 (dated
+> 2026-07-25, applied in code 2026-07-31) **RETIRED the covalent R2 arm**: it is unbuildable on every available
+> input, and while it stayed enumerable its 6 never-landing units kept `panel_complete` False and suppressed
+> the R1 verdict permanently. The authorized panel is **R1 only**. Per rule 1 the count is not re-typed here —
+> `nrv04_retro_panel.enumerate_units()` owns it and `nrv04-retrospective-prereg.json` mirrors it; the
+> corresponding cost is the prereg §7 **R1** row. **Superseded, retained for the record:** the "**24 legs ≈
+> $11**" and "**fan out the remaining 23**" figures above and below, which counted the retired arm.
 
 Basis: the measured endpoint-MD leg, **~$0.43/leg on a 3090** from the completed 15-leg feasibility ledger
-(`research/compute/pricing.md`). That basis **survives the 2026-07-25 repricing** — 24 × $0.43 ≈ $10.3. Note the
+(`research/compute/pricing.md`). That basis **survives the 2026-07-25 repricing** — the retired 24-leg panel
+came to ≈ $10.3 on it. Note the
 **"4090 default / 3090 fallback" card rule was RETIRED on 2026-07-25**: rank *offers* on all-in `$/ns`, not
 cards (a 3090 offer at $0.015/hr beats a 4090 at $0.13/hr despite being 2.10× slower). The launcher's offer
 selection was untouched by that change, so every command above still runs as written.
@@ -142,7 +158,7 @@ selection was untouched by that change, so every command above still runs as wri
 
 - **The co-fold model, not the leg, is the unit of independence.** Two MD replicas of one model share a
   starting structure. The gate collapses to model-level means (n=3/arm) before testing — permuting legs would
-  fake independence. Do not "improve" this by using all 24 legs as samples.
+  fake independence. Do not "improve" this by using every leg as a sample.
 - **The one-sided direction is registered** (NR4A1 predicted *more* stable = lower E1 plateau). It is
   hard-coded. Do not flip it after seeing data.
 - **`nrv04-descriptive-v3` and `nrv04-shakeout` are contaminated** and must never be a panel source. Staging

@@ -1234,8 +1234,12 @@ jobs:
       PILOT_SEED: ${{ github.event.inputs.pilot_seed }}
       # --- NR-V04 RETROSPECTIVE holdout (prereg: nr4a3-nrv04-retrospective-prereg.md) ---
       # retro_stage_test: free CI proof the assembler handles NR4A2/NR4A3 co-folds; retro_dry: print the fan-out;
-      # retro_pilot: ONE paralogue leg (the only untested staging path); retro_full: the 24-unit panel;
-      # retro_collect: gather leg JSONs and apply the frozen gate (refuses a verdict on an incomplete panel).
+      # retro_pilot: ONE paralogue leg (the only untested staging path); retro_full: the AUTHORIZED panel —
+      # R1 only, 18 legs, since AMENDMENT 3 defect 1 retired the covalent R2 arm (nrv04_retro_panel owns the
+      # count; do not re-type it here);
+      # retro_collect: gather leg JSONs, REAP this lane's finished/stale hosts (the control plane is the only
+      # thing that can stop the meter — CLAUDE.md §6), apply the frozen gate when the panel is complete, and
+      # persist the readout to S3 + this workflow's artifacts.
       # Boltz co-folding ON VAST — the lane that removes the SageMaker-by-default path (see
       # research/compute/provider-deviation-2026-07-24.md). COFOLD_OUTPUT_PREFIX must be FRESH.
       COFOLD: ${{ (github.event.inputs.vast_launch_mode == 'cofold' || github.event.inputs.vast_launch_mode == 'cofold_dry') && '1' || '0' }}
@@ -1271,14 +1275,23 @@ jobs:
           else
             python nrv04_vast_launch.py
           fi
+      # `retro_collect` is included deliberately. Its `nrv04-retro-collect.json` IS the deliverable of a
+      # paid-for 18-leg panel, and before 2026-07-31 this step did not run in that mode and did not list the
+      # file, so every collect wrote its verdict to an ephemeral runner and threw it away. The launcher also
+      # persists it to S3 (the durable home); this is the second copy, so neither is the only one.
+      # `nrv04-retro-market-hold.json` travels with it because CLAUDE.md §6 requires a price hold to be
+      # VISIBLE — a fleet that never launched must not look like one that finished.
       - name: Upload Vast handles
-        if: ${{ always() && (github.event.inputs.vast_launch_mode == 'pilot' || github.event.inputs.vast_launch_mode == 'full' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full') }}
+        if: ${{ always() && (github.event.inputs.vast_launch_mode == 'pilot' || github.event.inputs.vast_launch_mode == 'full' || github.event.inputs.vast_launch_mode == 'retro_pilot' || github.event.inputs.vast_launch_mode == 'retro_full' || github.event.inputs.vast_launch_mode == 'retro_collect') }}
         uses: actions/upload-artifact@v4
         with:
           name: nrv04-vast-handles
           path: |
             research/modalities/nrv04-vast-handles.json
             research/modalities/nrv04-retro-handles.json
+            research/modalities/nrv04-retro-collect.json
+            research/modalities/nrv04-retro-market-hold.json
+            research/modalities/nrv04-retro-price-ledger.json
           if-no-files-found: ignore
 
   # STEP 1 FAN-OUT (RUNG 4) — the cmpd19 congeneric RBFE map, 8-wide on Vast 4090.

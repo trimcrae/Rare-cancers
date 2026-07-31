@@ -73,9 +73,14 @@ def p_lattice(n_primary=3, n_pooled=6):
 
 
 def extension_rule_reachability():
-    """4d fires on p in (0.012, 0.05]; CONCORDANT needs p <= 0.05. Which attainable p-values are in the window,
-    and are any of them ALSO outside the CONCORDANT region (i.e. does the rule ever fire in the case its own
-    text describes — 'the ordering is right but n = 3 cannot resolve it')?"""
+    """§4d fires on p in `gate.EXTENSION_P_WINDOW`; CONCORDANT needs p <= alpha. Which attainable p-values are
+    in the window, and are any of them OUTSIDE the CONCORDANT region — i.e. does the rule ever fire in the case
+    its own text describes ('the ordering is right but n = 3 cannot resolve it')?
+
+    ⚠ THE WINDOW IS READ FROM THE GATE, NEVER TYPED HERE. This function's original docstring hard-coded
+    `(0.012, 0.05]`, which is the window AMENDMENT 3 defect 2 retired on exactly this measurement — so a typed
+    copy would have gone on describing a rule the code no longer runs. Re-running this audit after the
+    amendment must produce a DIFFERENT, correct finding, not the same sentence."""
     total, lattice = p_lattice()
     lo, hi = gate.EXTENSION_P_WINDOW
     in_window = [round(p, 6) for p in lattice if lo < p <= hi]
@@ -91,12 +96,21 @@ def extension_rule_reachability():
         "attainable_p_that_are_right_sign_but_unresolvable (p > alpha)": unresolvable[:6],
         "next_p_above_alpha": round(unresolvable[0], 6) if unresolvable else None,
         "rule_fires_only_on_results_that_already_pass": len(also_concordant) == len(in_window) and bool(in_window),
-        "finding": ("The extension rule's stated trigger is 'the ordering is right but n = 3 models cannot "
-                    "resolve it', which requires p > alpha. Every attainable p inside its window is <= alpha, "
-                    "so on the 84-point lattice the rule fires ONLY on results the same run already grades "
-                    "CONCORDANT, and NEVER on the unresolvable case it was written for (the smallest "
-                    "attainable p above alpha is outside the window)."
-                    if len(also_concordant) == len(in_window) and in_window else "see values"),
+        "finding": (
+            # DEGENERATE — the pre-AMENDMENT-3 state, kept so a regression re-states it rather than going quiet.
+            "The extension rule's stated trigger is 'the ordering is right but n = 3 models cannot "
+            "resolve it', which requires p > alpha. Every attainable p inside its window is <= alpha, "
+            "so on the 84-point lattice the rule fires ONLY on results the same run already grades "
+            "CONCORDANT, and NEVER on the unresolvable case it was written for (the smallest "
+            "attainable p above alpha is outside the window)."
+            if in_window and len(also_concordant) == len(in_window) else
+            "NOT REACHABLE AT ALL: no attainable p = k/84 falls inside the window."
+            if not in_window else
+            # HEALTHY — every triggering p is above alpha, i.e. exactly the unresolvable case.
+            "REACHABLE AND CORRECTLY SCOPED: %d attainable p-value(s) fall inside the window and %d of them "
+            "are <= alpha, so the rule fires on the right-sign-but-unresolvable band its text describes and "
+            "cannot fire on a result the same run already grades CONCORDANT."
+            % (len(in_window), len(also_concordant))),
     }
 
 

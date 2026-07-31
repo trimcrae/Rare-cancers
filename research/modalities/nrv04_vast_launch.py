@@ -53,6 +53,50 @@ _LIGAND_TO_SYSTEM = {"nrv04": "nr4a1", "nrv04_epimer": "neg_inactive", "celastro
 # host RAM is. The extra RAM costs cents/hr and buys legs that finish.
 TERNARY_RES = ResourceSpec(gpu="rtx3090", min_vram_gb=24, vcpus=4, ram_gb=48, disk_gb=60, interruptible=True)
 
+
+# =============================================================================================================
+# ⛔ THE BUY LINE — this lane rented at ANY price until 2026-07-31
+# =============================================================================================================
+# WHAT WAS WRONG, measured rather than asserted. `TERNARY_RES` never set `max_usd_per_ns`, so it defaulted to
+# `None` and the ceiling clause in `gpu_backend.rank_offers_by_usd_per_ns` was INERT — the lane had no price
+# refusal of any kind. Its own recorded rentals are $0.10-0.21/hr on an RTX 3090 (prereg §7 / the 15-leg S3
+# ledger). Against the repo's approved rate that band is mostly ABOVE the line: with the 3090's measured
+# throughput the line falls at ~$0.126/hr, so $0.13-0.21/hr is 1.98x-3.21x the ladder basis. CLAUDE.md §1's
+# ruling is that a row printing `⚠ DRIFT` is a row we do not buy, and §6 extends that to EVERY rental of a new
+# host — "resume and cold single unit included".
+#
+# WHY A FUNCTION AND NOT A CONSTANT ON `TERNARY_RES` (`ResourceSpec.max_usd_per_ns`'s own contract): the two
+# callers want opposite things. A market GATE must SEE the expensive offers in order to report how far above
+# the line the board sits; only the spec handed to `submit` carries the cap. So the default here is UNSET and
+# the cap is added at jobspec-build time.
+#
+# DERIVED, NEVER TYPED (CLAUDE.md §1 + lint_derived_thresholds.py): the invariant is the absolute
+# `inflight_usd_per_ns.APPROVED_USD_PER_NS`, and the multiple of the ladder basis falls out of it. A literal
+# here would be a number that silently changes meaning the next time the throughput table is re-anchored.
+def buy_ceiling_usd_per_ns():
+    """The highest $/ns this lane may PAY for one host. Imported, never re-typed."""
+    from inflight_usd_per_ns import APPROVED_USD_PER_NS
+    return APPROVED_USD_PER_NS
+
+
+def endpoint_md_resources(max_usd_per_ns=None, exclude=(), gpu=None):
+    """The endpoint-MD `ResourceSpec`, optionally carrying the binding per-offer buy line.
+
+    Handing the ceiling to `submit`'s spec makes overpaying STRUCTURALLY impossible rather than procedurally
+    discouraged: `rank_offers_by_usd_per_ns` drops every offer above the cap before selection sees it —
+    including on every fallback after a `resources_unavailable` capacity refusal, which is exactly where a
+    launcher that re-checked one chosen offer would leak.
+
+    Note `gpu` stays a HINT (`require_gpu` is False): ranking is by $/ns, so a 4090 that clears the line wins
+    over a 3090 that does not. That is the intended behaviour — the card is not the decision, the offer is."""
+    import dataclasses
+    spec = dataclasses.replace(TERNARY_RES, max_usd_per_ns=max_usd_per_ns)
+    if gpu:
+        spec.gpu = gpu
+    if exclude:
+        spec.exclude_machine_ids = tuple(str(m) for m in exclude)
+    return spec
+
 # Boot image. Vast's cheap 4090 hosts have catastrophically slow BOOT-TIME PROVISIONING (Vast apt-installs
 # python3/openssh/systemd from archive.ubuntu.com at container start — ~40 min on these hosts, diag-confirmed
 # across 4+ hosts; it's Vast's own container init, not our onstart). A Vast-READY base image (ssh + python +
@@ -200,7 +244,8 @@ def leg_cost_usd(uptime_s, dph_total):
 _PRICE_LEDGER_KEY_SUFFIX = "_price_ledger.json"
 
 
-def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledger.json"):
+def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledger.json",
+                         result_prefix=None, n_units=None):
     """Maintain a per-leg measured-cost ledger ACROSS collect() polls (the deliverable = a MEASURED price). For
     each instance we see, record uptime x dph_total; once its leg has a result in S3 we FINALIZE that cost (an
     instance is torn down right after, so the last live observation is the billed wall-clock to within one poll).
@@ -209,7 +254,9 @@ def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledge
     Returns a summary: finalized per-leg costs, measured mean $/leg, and the projected full-panel (18-unit) total."""
     import time
     ledger = {}
-    ledger_key = f"{RESULT_PREFIX}/{_PRICE_LEDGER_KEY_SUFFIX}"
+    # Keyed on the CALLER's prefix so the retrospective's ledger cannot land in — or be read from — the
+    # covalent panel's, which would mix two panels' per-leg costs into one mean.
+    ledger_key = f"{result_prefix or RESULT_PREFIX}/{_PRICE_LEDGER_KEY_SUFFIX}"
     s3c = None
     def _unwrap(obj):                                          # the persisted doc is {"ledger":..., "summary":...}
         return obj.get("ledger", obj) if isinstance(obj, dict) else {}
@@ -241,7 +288,7 @@ def _update_price_ledger(insts, done_units, bucket=None, path="nrv04-price-ledge
         ledger[label] = {"uptime_s": round(up_s), "dph_total": i.get("dph_total"),
                          "cost_usd": cost, "final": label in done_units}
     finals = {k: v["cost_usd"] for k, v in ledger.items() if v.get("final") and v.get("cost_usd") is not None}
-    n_units = len(units_to_run())
+    n_units = len(units_to_run()) if n_units is None else int(n_units)
     mean = round(sum(finals.values()) / len(finals), 4) if finals else None
     summary = {
         "measured_legs": len(finals),
@@ -286,16 +333,112 @@ def diag():
         print(_vast_instance_logs(key, i.get("id")), flush=True)
 
 
-def collect(bucket, autostop=None):
+# =============================================================================================================
+# CI-SIDE TEARDOWN — the ONE decision function, and its label selector is a hard precondition
+# =============================================================================================================
+# ★★ CLAUDE.md §6: THE HOST CANNOT STOP ITS OWN BILLING — ONLY THE CONTROL PLANE CAN. The EXIT trap and
+# `autoteardown.py` stop the JOB, not the METER, and a container that crash-loops never returns at all, so
+# neither ever fires. The guarantee has to be a CI-side reap, where the API key lives.
+#
+# ⛔ AND A REAPER THAT DESTROYS THE WRONG BOX IS WORSE THAN ONE THAT IS LATE. Until 2026-07-31 `collect`
+# listed `owner=me` — EVERY instance on an account that is shared across concurrent sessions — and applied its
+# over-age backstop to all of them, so running the NR-V04 collect while another lane was billing would destroy
+# that lane's hosts past a 240-min cap it never agreed to. `stop_all` already carries this warning in prose;
+# the reaper did not carry it in code.
+#
+# So the selector is a PRECONDITION, not a filter: an empty or missing `label_prefix` returns NO candidates at
+# all rather than falling back to "everything". Fail closed. The two lanes' namespaces are disjoint and neither
+# prefixes the other (`nrv04_covalent_panel.LABEL_PREFIX` = "nrv04cov-",
+# `nrv04_retro_panel.LABEL_PREFIX` = "nrv04retro-"), and both are DERIVED from the panel modules that mint the
+# labels so a rename cannot leave a reaper matching a stale — or a sibling's — prefix.
+_TERMINAL_STATES = ("exited", "offline", "stopped")
+
+
+def teardown_candidates(insts, done_units, now, max_leg_s, label_prefix):
+    """PURE: [(instance, why)] this lane may destroy. No API call, no clock read, no S3, so it is unit-tested.
+
+    An instance is a candidate when, AND ONLY WHEN, its label is inside `label_prefix`'s namespace and one of:
+      * `result-in-S3`      — its unit already has a leg_*.json, so the GPU has nothing left to do;
+      * `terminal-state`    — the container exited/died AND it is not merely OUTBID (an outbid interruptible box
+                              looks identical to a dead one but its disk is intact and Vast resumes it, so
+                              destroying it throws away a ~20-min image reload we never owed);
+      * `duplicate-instance`— a second live instance under one label double-computes the leg and clobbers its
+                              checkpoint; keep a `running` one, else the newest;
+      * over-age            — the crashed/hung backstop.
+    """
+    prefix = (label_prefix or "").strip()
+    if not prefix:
+        return []                       # FAIL CLOSED — no selector means no authority, never "everything"
+    mine = [i for i in insts if (i.get("label") or "").startswith(prefix)]
+    by_label = {}
+    for n, i in enumerate(mine):
+        by_label.setdefault(i.get("label"), []).append((n, i))
+    keep = set()
+    for _lab, grp in by_label.items():
+        keep.add(sorted(grp, key=lambda t: ((t[1].get("actual_status") != "running"),
+                                            -(t[1].get("start_date") or 0)))[0][0])
+    out = []
+    for n, i in enumerate(mine):
+        label = i.get("label")
+        try:
+            up_s = now - float(i.get("start_date") or now)
+        except (TypeError, ValueError):
+            up_s = 0
+        done = label in (done_units or set())
+        terminal = (i.get("actual_status") or "") in _TERMINAL_STATES and not instance_outbid(i)
+        extra = n not in keep
+        over_age = up_s > max_leg_s
+        if done:
+            out.append((i, "result-in-S3"))
+        elif terminal:
+            out.append((i, "terminal-state"))
+        elif extra:
+            out.append((i, "duplicate-instance"))
+        elif over_age:
+            out.append((i, f"exceeded {int(max_leg_s // 60)}min (idle/crashed backstop)"))
+    return out
+
+
+def _reap(candidates, key, tag="collect"):
+    """Destroy each candidate, throttled under Vast's ~3 req/s DELETE limit. Returns the ids destroyed."""
+    import time
+    stopped = []
+    for n, (i, why) in enumerate(candidates):
+        if n:
+            time.sleep(0.5)
+        try:
+            _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
+            stopped.append(i.get("id"))
+            print(f"[{tag}] auto-stopped {i.get('id')} ({i.get('label')}) — {why}", flush=True)
+        except Exception as e:  # noqa: BLE001 — don't let one failed DELETE abort the sweep
+            print(f"[{tag}] WARN auto-stop {i.get('id')} failed: {e}", flush=True)
+    return stopped
+
+
+def collect(bucket, autostop=None, result_prefix=None, label_prefix=None, n_units=None):
     """Monitor the panel run: list MY Vast instances (confirm running / torn down — no idle bleed) and the leg
     JSONs already in the result prefix. Prints a status board so we can watch the pilot + fan-out from CI.
     AUTO-STOP (default on, AUTOSTOP=0 disables): destroys any instance whose unit already has a leg_*.json in S3
     — the CI-side anti-idle-GPU teardown, so the API key stays on the trusted CI runner, never on the untrusted
-    community hosts. Returns (n_up, n_results) so a monitor loop can decide when the fleet has drained."""
+    community hosts. Returns (n_up, n_results) so a monitor loop can decide when the fleet has drained.
+
+    `result_prefix` / `label_prefix` / `n_units` default to the COVALENT feasibility panel's. The retrospective
+    passes its own — see `retro_reap`. Getting these two out of sync is not cosmetic: reading `done_units` from
+    the covalent prefix while watching retro instances means a finished retro leg is NEVER seen as done and
+    never reaped, which is precisely the state this lane was in before 2026-07-31."""
     import boto3
+    from nrv04_covalent_panel import LABEL_PREFIX as _COV_LABEL_PREFIX
     autostop = (os.environ.get("AUTOSTOP", "1") == "1") if autostop is None else autostop
+    result_prefix = result_prefix or RESULT_PREFIX
+    label_prefix = label_prefix or _COV_LABEL_PREFIX
     key = os.environ.get("VAST_API_KEY")
-    insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
+    all_insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", []) if key else []
+    # ⛔ SCOPE FIRST. Everything below — the board, the price ledger and the reaper — sees only this lane's
+    # labels, so a concurrent session's hosts are neither reported as ours nor reachable by our teardown.
+    insts = [i for i in all_insts if (i.get("label") or "").startswith(label_prefix)]
+    if len(all_insts) != len(insts):
+        print(f"[collect] {len(all_insts)} instance(s) on the account; {len(insts)} carry the {label_prefix!r} "
+              f"label and are IN SCOPE. The rest belong to other lanes and are not touched.", flush=True)
     print(f"[collect] Vast instances up: {len(insts)}", flush=True)
     for i in insts:
         msg = (i.get("status_msg") or "").strip().replace("\n", " ")[-90:]
@@ -303,10 +446,10 @@ def collect(bucket, autostop=None):
               f"dph=${i.get('dph_total')}/hr :: {msg}", flush=True)
     s3 = boto3.client("s3")
     phases = {}
-    for pk in _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix="phase.txt"):
+    for pk in _s3_list(s3, bucket, f"{result_prefix}/", suffix="phase.txt"):
         unit = pk.split("/")[-2]
         phases[unit] = s3.get_object(Bucket=bucket, Key=pk)["Body"].read().decode().strip()
-    keys = _s3_list(s3, bucket, f"{RESULT_PREFIX}/", suffix=".json")
+    keys = _s3_list(s3, bucket, f"{result_prefix}/", suffix=".json")
     done_units = {k.split("/")[-2] for k in keys if k.rsplit("/", 1)[-1].startswith("leg_")}
     results = []
     for k in keys:                                             # ONLY the completed leg_*.json are 'results';
@@ -340,49 +483,14 @@ def collect(bucket, autostop=None):
     stopped = []
     if autostop and key:                                       # CI-side anti-idle teardown (key stays on CI)
         import time
-        now = time.time()
-        max_leg_s = int(os.environ.get("MAX_LEG_MIN", "240")) * 60   # backstop: a real leg finishes well under this;
-        # (240 min: a 6 ns leg at the MEASURED ~44-61 ns/day = ~2.3-2.6 h + ~20 min load ~= 155 min, so 240 leaves
-        #  margin for a spot-wait; the earlier 100 was PREMATURELY killing healthy legs — checkpoints made them
-        #  recoverable but a re-dispatch was needed. Do NOT drop this below ~180.)
-        # A label with >1 live instance is a DUPLICATE (relaunching a leg whose 'exited' container lingered under
-        # the mock teardown, then Vast re-scheduled the old one) -> two instances double-compute the same leg and
-        # clobber its S3 checkpoint. Keep ONE per label (a 'running' one, else the newest) and reap the rest.
-        _by_label = {}
-        for i in insts:
-            _by_label.setdefault(i.get("label"), []).append(i)
-        _keep_ids = set()
-        for _lab, _grp in _by_label.items():
-            _best = sorted(_grp, key=lambda x: ((x.get("actual_status") != "running"), -(x.get("start_date") or 0)))[0]
-            _keep_ids.add(id(_best))
-        _terminal = ("exited", "offline", "stopped")           # dead containers (mock teardown never destroyed them)
-        _stop_throttle = 0
-        for i in insts:                                             # a crashed/idle instance (driver failed at build,
-            label = i.get("label")                                  # teardown fell through) would otherwise bleed
-            try:
-                up_s = now - float(i.get("start_date") or now)
-            except (TypeError, ValueError):
-                up_s = 0
-            done = label in done_units
-            over_age = up_s > max_leg_s
-            # An outbid interruptible box looks exactly like a dead one ("stopped"), but its disk is intact
-            # and Vast resumes it automatically when our bid regains priority. Destroying it throws that away
-            # and buys a ~20-min image reload we never owed. Over-age still reaps it, so this cannot leak.
-            terminal = (i.get("actual_status") or "") in _terminal and not instance_outbid(i)
-            extra = id(i) not in _keep_ids                         # a duplicate (not the kept instance for its label)
-            if done or over_age or terminal or extra:
-                if _stop_throttle:
-                    time.sleep(0.5)                                # stay under Vast's ~3 req/s DELETE limit
-                _stop_throttle += 1
-                try:
-                    _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
-                    stopped.append(i.get("id"))
-                    why = ("result-in-S3" if done else "terminal-state" if terminal else "duplicate-instance"
-                           if extra else f"exceeded {max_leg_s // 60}min (idle/crashed backstop)")
-                    print(f"[collect] auto-stopped {i.get('id')} ({label}) — {why}", flush=True)
-                except Exception as e:  # noqa: BLE001
-                    print(f"[collect] WARN auto-stop {i.get('id')} failed: {e}", flush=True)
-    price = _update_price_ledger(insts, done_units, bucket=bucket)   # MEASURED per-leg $ ledger (S3-persisted)
+        # backstop: a real leg finishes well under this. (240 min: a 6 ns leg at the MEASURED ~44-61 ns/day =
+        # ~2.3-2.6 h + ~20 min load ~= 155 min, so 240 leaves margin for a spot-wait; the earlier 100 was
+        # PREMATURELY killing healthy legs — checkpoints made them recoverable but a re-dispatch was needed.
+        # Do NOT drop this below ~180.)
+        max_leg_s = int(os.environ.get("MAX_LEG_MIN", "240")) * 60
+        stopped = _reap(teardown_candidates(insts, done_units, time.time(), max_leg_s, label_prefix), key)
+    price = _update_price_ledger(insts, done_units, bucket=bucket,   # MEASURED per-leg $ ledger (S3-persisted)
+                                 result_prefix=result_prefix, n_units=n_units)
     status = {
         "vast_instances": [{"id": i.get("id"), "status": i.get("actual_status"), "label": i.get("label"),
                             "is_bid": i.get("is_bid"), "dph_total": i.get("dph_total"),
@@ -488,7 +596,8 @@ def build_jobspec(leg, seed, mode, branch, bucket, env_tarball_url=None):
         image=VAST_IMAGE,
         checkpoint_uri=s3_checkpoint_uri(name, bucket=bucket),
         resume=True,
-        resources=TERNARY_RES,
+        # ⛔ the binding buy line travels WITH the spec — see `buy_ceiling_usd_per_ns`
+        resources=endpoint_md_resources(max_usd_per_ns=buy_ceiling_usd_per_ns()),
         max_runtime_s=int(os.environ.get("MAX_RUNTIME_S", "43200")),
         env=env,
     )
@@ -1315,7 +1424,10 @@ def build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarb
         image=VAST_IMAGE,
         checkpoint_uri=s3_checkpoint_uri(name, bucket=bucket),
         resume=True,
-        resources=TERNARY_RES,
+        # ⛔ the binding buy line travels WITH the spec — see `buy_ceiling_usd_per_ns`. Every rental this lane
+        # makes (fan-out, resume, cold single unit) is refused above the approved $/ns at SELECTION, which is
+        # what CLAUDE.md §6's "a relaunch is a new purchase" actually requires.
+        resources=endpoint_md_resources(max_usd_per_ns=buy_ceiling_usd_per_ns()),
         max_runtime_s=int(os.environ.get("MAX_RUNTIME_S", "43200")),
         env=env,
     )
@@ -1428,9 +1540,87 @@ def retro_stage_test(bucket):
     return 0
 
 
+RETRO_MARKET_READOUT = "nrv04-retro-market-hold.json"
+
+
+def retro_market_gate(n_hosts, bucket=None, s3=None, offers=None, key=None, readout_path=None):
+    """(hold, doc) — may this lane rent `n_hosts` right now? Reads the LIVE board unless `offers` is given.
+
+    ★★ CLAUDE.md §6, BOTH HALVES, and they are one decision here:
+      * "A THIN, EXPENSIVE MARKET IS A REASON TO PAUSE, NOT TO PAY — gate every fleet launch on $/ns." Priced
+        at `n_hosts`, because a fan-out of N buys the N CHEAPEST offers, not the single best one N times. The
+        best offer on a 5-deep board says nothing about what the 18th rental costs.
+      * "A RELAUNCH IS A NEW PURCHASE, so it faces the same ceiling" — which is why this runs on the pilot and
+        on a 1-unit resume too, not only on the fan-out. Neither `relaunch_market_gate.EXEMPTIONS` case
+        applies: nothing here restarts an instance we already hold, and the checkpoints are S3 objects with no
+        lifecycle expiry (`relaunch_market_gate --durability-probe`).
+
+    NOTHING IS REIMPLEMENTED (rule 1). `relaunch_market_gate.price_offers` delegates to the SAME
+    `gpu_backend.rank_offers_by_usd_per_ns` the renting path calls, and `relaunch_market_gate.verdict` owns the
+    comparison against the ladder basis, so a board this gate prices is a board the launcher would actually buy
+    from and the two can never disagree.
+
+    ⚠ THE SPEC HANDED HERE IS UNCAPPED ON PURPOSE (`ResourceSpec.max_usd_per_ns`): a gate must SEE the
+    expensive offers in order to say how far above the line the board sits. The cap lives on the spec handed to
+    `submit`, where it binds the offer actually bought — including on every fallback after a capacity refusal.
+    The two are the same number by construction, `buy_ceiling_usd_per_ns()`.
+
+    A HOLD IS NEVER SILENT (the failure mode §6 names as worse than the problem): the snapshot that caused it
+    is written to `nrv04-retro-market-hold.json`, printed, and annotated with `::notice::`."""
+    import relaunch_market_gate as rmg
+    res = endpoint_md_resources()                 # UNCAPPED — see the docstring
+    n_hosts = max(1, int(n_hosts))
+    doc = {"_what": "Whether the NR-V04 retrospective may rent %d host(s) right now, priced in $/ns." % n_hosts,
+           "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay; and a relaunch "
+                    "is a NEW PURCHASE, not a continuation.",
+           "lane": "nrv04_retro", "n_hosts": n_hosts, "utc": rmg._utcnow(),
+           "buy_line_usd_per_ns": round(buy_ceiling_usd_per_ns(), 6)}
+    if offers is None:
+        try:
+            from gpu_backend import _vast_offer_query
+            api = key or os.environ.get("VAST_API_KEY")
+            if not api:
+                raise RuntimeError("no VAST_API_KEY — the board cannot be read")
+            offers = (_vast_request("GET", "/search/asks/", api,
+                                    params={"q": json.dumps(_vast_offer_query(res))}) or {}).get("offers", [])
+        except Exception as e:  # noqa: BLE001 — an UNREADABLE market is not a cheap one. Refuse, and say why.
+            offers, doc["board_error"] = None, f"{type(e).__name__}: {e}"
+    if offers is None:
+        best, depth, rows = None, {"offers_returned": 0, "qualifying": 0, "priceable": 0,
+                                   "needed": n_hosts, "used_for_mean": 0}, []
+    else:
+        best, depth, rows = rmg.price_offers(offers, res, n_hosts=n_hosts)
+    hold, ratio, basis, reason = rmg.verdict(best)
+    if doc.get("board_error"):
+        reason = (f"could not read the board ({doc['board_error']}) — an unreadable market is not a cheap one, "
+                  f"and this gate exists precisely for the case where nobody is awake to check")
+    doc.update({"hold": hold, "reason": reason, "best_usd_per_ns": (round(best, 6) if best else None),
+                "basis_usd_per_ns": round(basis, 6), "ratio_vs_basis": ratio,
+                "board_depth": depth, "offers_priced": rows})
+    try:
+        with open(readout_path or RETRO_MARKET_READOUT, "w") as fh:
+            json.dump(doc, fh, indent=2)
+            fh.write("\n")
+    except OSError as e:
+        print(f"[retro-market] readout not written: {e}", flush=True)
+    if hold:
+        print(f"[retro-market] ⛔ HELD ON PRICE — {reason}. NOTHING was rented, nothing was dropped, and every "
+              f"checkpoint is untouched in S3; re-dispatch to re-check. Board: {json.dumps(depth)}", flush=True)
+        print(f"::notice title=NR-V04 RETRO HELD ON PRICE::{n_hosts} host(s) refused — best achievable "
+              f"{ratio}x the ladder basis against a buy line of ${doc['buy_line_usd_per_ns']}/ns. "
+              f"Snapshot: {RETRO_MARKET_READOUT}.", flush=True)
+    else:
+        print(f"[retro-market] ✅ CLEAR — {reason}. Board: {json.dumps(depth)}", flush=True)
+    return hold, doc
+
+
 def retro_launch(bucket):
     """Launch retrospective units on Vast. Idempotent: skips units with a result already in S3 or a live
-    instance, so a re-dispatch RESUMES the killed/preempted ones without ever racing a checkpoint."""
+    instance, so a re-dispatch RESUMES the killed/preempted ones without ever racing a checkpoint.
+
+    Gated on $/ns before anything is rented (`retro_market_gate`) and again per offer inside `submit` (the
+    spec's `max_usd_per_ns`). RETRO_MARKET_GATE=0 disables the board-level gate for a deliberate, recorded
+    exception; the per-offer ceiling on the spec is NOT disableable, because that is the one that binds."""
     import nrv04_retro_panel as retro
     branch = os.environ.get("GIT_BRANCH", "claude/nr-v04-retrospective-testing-6ywxye")
     mode = os.environ.get("MODE", "run")
@@ -1454,12 +1644,24 @@ def retro_launch(bucket):
         except Exception as e:  # noqa: BLE001
             print(f"[retro] WARN could not list S3 results ({e}); not skipping any", flush=True)
 
+    todo = [(a, m, r) for a, m, r in units
+            if dry or (retro.unit_name(a, m, r) not in skip_done and retro.unit_name(a, m, r) not in skip_live)]
+    print(f"[retro] {len(units)} unit(s), mode={mode}, dry_run={dry}, pilot_only="
+          f"{os.environ.get('RETRO_PILOT_ONLY', '1')}, skip_done={len(skip_done)}, skip_live={len(skip_live)}, "
+          f"to_rent={len(todo)}", flush=True)
+
+    # ⛔ THE MARKET GATE, BEFORE A SINGLE PRESIGN OR SUBMIT. Priced at the number of hosts we are ABOUT TO RENT
+    # (not the panel size), because that is the purchase being made. A hold rents nothing and drops nothing.
+    if not dry and todo and os.environ.get("RETRO_MARKET_GATE", "1") == "1":
+        hold, _gdoc = retro_market_gate(len(todo), bucket=bucket)
+        if hold:
+            print("[retro] launch HELD — see the snapshot above. The panel is unchanged and every checkpoint "
+                  "is intact; re-dispatch when the board improves.", flush=True)
+            return 0
+
     env_url = None if dry else presign_env_tarball(bucket)
     be = None if dry else get_backend("vast")
-    print(f"[retro] {len(units)} unit(s), mode={mode}, dry_run={dry}, pilot_only="
-          f"{os.environ.get('RETRO_PILOT_ONLY', '1')}, skip_done={len(skip_done)}, skip_live={len(skip_live)}",
-          flush=True)
-    handles = []
+    handles, refused = [], []
     for arm, model_seed, replica in units:
         name = retro.unit_name(arm, model_seed, replica)
         if not dry and name in skip_done:
@@ -1469,24 +1671,143 @@ def retro_launch(bucket):
         spec = build_retro_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=env_url)
         if dry:
             print(f"[retro-dry] {spec.name}: gpu={spec.resources.gpu} cofold={spec.env['COFOLD_PREFIX_S3']} "
-                  f"covalent={spec.env['COVALENT']} -> {spec.env['RESULT_S3']}", flush=True)
+                  f"covalent={spec.env['COVALENT']} max_usd_per_ns={spec.resources.max_usd_per_ns} "
+                  f"-> {spec.env['RESULT_S3']}", flush=True)
             continue
-        h = be.submit(spec)
+        try:
+            h = be.submit(spec)
+        except Exception as e:  # noqa: BLE001 — one unit must not abort the other 17
+            # A per-offer ceiling refusal arrives here as "no offer qualifies". Name it as a REFUSAL rather
+            # than an error: $0 was spent and the unit is untouched, which is the opposite of a failed launch.
+            refused.append(spec.name)
+            print(f"[retro-submit] ⛔ {spec.name} NOT RENTED — {type(e).__name__}: {e}. If the board simply had "
+                  f"nothing at or under ${spec.resources.max_usd_per_ns:.6f}/ns, this is the buy line doing its "
+                  f"job: $0 spent, checkpoint intact, re-dispatch to retry.", flush=True)
+            continue
         print(f"[retro-submit] {spec.name} -> instance {h.job_id} dph≈${h.extra.get('dph')}/hr", flush=True)
         handles.append({"unit": spec.name, "arm": arm.arm_id, "model": model_seed, "replica": replica,
                         "instance": h.job_id})
     if handles:
         json.dump(handles, open("nrv04-retro-handles.json", "w"), indent=2)
+    if refused:
+        print(f"::notice title=NR-V04 RETRO — {len(refused)} UNIT(S) NOT RENTED::{sorted(refused)}. Nothing was "
+              f"spent on them and their checkpoints are intact.", flush=True)
+    # ⛔ A LAUNCH THAT RENTED NOTHING MUST NOT REPORT SUCCESS. `todo` was non-empty and not one unit started, so
+    # the run looks identical to a completed fan-out in the Actions list — the exact "holding silently" failure
+    # CLAUDE.md §6 names as worse than the problem it solves. A PARTIAL launch is a real launch and stays green.
+    if not dry and todo and not handles:
+        print(f"[retro] ⛔ {len(todo)} unit(s) were due and NONE was rented. Failing the job so this cannot "
+              f"read as a finished fan-out.", flush=True)
+        return 1
     return 0
 
 
-def retro_collect(bucket):
+def retro_reap(bucket, autostop=None):
+    """CI-side teardown for the RETROSPECTIVE lane. Returns (n_in_scope, stopped_ids).
+
+    ⛔ THE TWO BUGS THIS EXISTS TO CLOSE, both measured in `nrv04_vast_launch` before 2026-07-31:
+      1. `collect()` derived `done_units` from `RESULT_PREFIX` (the COVALENT panel's `nrv04-covalent-results`)
+         while the retrospective writes to `RETRO_RESULT_PREFIX` (`nrv04-retro-results`). A finished retro leg
+         was therefore never seen as done and never reaped — it billed until the 240-min backstop, or forever
+         if the container crash-looped and kept resetting nothing.
+      2. `collect()` had NO label selector, so running it while a sibling lane was billing destroyed that
+         lane's hosts past a cap it never agreed to.
+    Both are structural here: the prefix and the label namespace are passed together and the selector is a hard
+    precondition of `teardown_candidates` (empty selector -> zero candidates, never "everything")."""
+    import boto3
+    import nrv04_retro_panel as retro
+    autostop = (os.environ.get("AUTOSTOP", "1") == "1") if autostop is None else autostop
+    key = os.environ.get("VAST_API_KEY")
+    if not (autostop and key):
+        print("[retro-reap] skipped (AUTOSTOP=0 or no VAST_API_KEY) — NOTE: with no control-plane reap the "
+              "host cannot stop its own billing (CLAUDE.md §6).", flush=True)
+        return 0, []
+    import time
+    all_insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    mine = [i for i in all_insts if (i.get("label") or "").startswith(retro.LABEL_PREFIX)]
+    print(f"[retro-reap] {len(all_insts)} instance(s) on the account; {len(mine)} carry {retro.LABEL_PREFIX!r} "
+          f"and are IN SCOPE. Other lanes are never touched.", flush=True)
+    for i in mine:
+        msg = (i.get("status_msg") or "").strip().replace("\n", " ")[-90:]
+        print(f"[retro-reap]   id={i.get('id')} status={i.get('actual_status')} label={i.get('label')} "
+              f"dph=${i.get('dph_total')}/hr :: {msg}", flush=True)
+    s3 = boto3.client("s3")
+    dk = _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
+    done_units = {k.split("/")[-2] for k in dk if k.rsplit("/", 1)[-1].startswith("leg_")}
+    max_leg_s = int(os.environ.get("MAX_LEG_MIN", "240")) * 60
+    cands = teardown_candidates(mine, done_units, time.time(), max_leg_s, retro.LABEL_PREFIX)
+    stopped = _reap(cands, key, tag="retro-reap")
+    # The MEASURED per-leg $ ledger, keyed on THIS lane's prefix so it cannot mix with the covalent panel's.
+    try:
+        _update_price_ledger(mine, done_units, bucket=bucket, path="nrv04-retro-price-ledger.json",
+                             result_prefix=RETRO_RESULT_PREFIX, n_units=len(retro.enumerate_units()))
+    except Exception as e:  # noqa: BLE001 — a cost ledger must never break a teardown
+        print(f"[retro-reap] WARN price ledger not updated: {e}", flush=True)
+    return len(mine), stopped
+
+
+RETRO_COLLECT_READOUT = "nrv04-retro-collect.json"
+
+
+def persist_retro_collect(out, bucket=None, s3=None, path=None, utc=None):
+    """Write the collect readout locally AND durably to S3. Returns the S3 keys written (may be empty).
+
+    ⛔ WHY THIS EXISTS. The verdict is the entire deliverable of a paid-for 18-leg panel, and until 2026-07-31
+    it lived ONLY as a file on an ephemeral GitHub runner: `fusion-cpu-extras.yml`'s upload step lists the
+    `*-handles.json` and does not even run in `retro_collect` mode, so every collect threw its own output away
+    and the only surviving copy was whatever a human happened to scroll past in a job log that GitHub truncates.
+    A result that expensive cannot have a home that disappears when the runner does.
+
+    S3 is the DURABLE home — the same bucket the leg JSONs, the checkpoints and this file's own price ledger
+    already use, and deliberately NOT a feature branch (CLAUDE.md §7: an artifact whose only home is a branch a
+    workflow runs from is a data-loss bug). Two keys, on purpose: a timestamped one that is never overwritten,
+    so re-running a collect cannot erase what an earlier one said, and a `-latest` pointer for readers."""
+    import time
+    txt = json.dumps(out, indent=2)
+    local = path or RETRO_COLLECT_READOUT
+    try:
+        with open(local, "w") as fh:
+            fh.write(txt + "\n")
+    except OSError as e:
+        print(f"[retro-collect] WARN local readout not written to {local}: {e}", flush=True)
+    if not bucket:
+        return []
+    if s3 is None:
+        import boto3
+        s3 = boto3.client("s3")
+    stamp = utc or time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+    base = f"{RETRO_RESULT_PREFIX}/collect"
+    written = []
+    for k in (f"{base}/nrv04-retro-collect-{stamp}.json", f"{base}/nrv04-retro-collect-latest.json"):
+        try:
+            s3.put_object(Bucket=bucket, Key=k, Body=txt.encode())
+            written.append(k)
+        except Exception as e:  # noqa: BLE001 — a persistence failure must be LOUD, never silent
+            print(f"[retro-collect] WARN verdict NOT persisted to s3://{bucket}/{k}: {e}", flush=True)
+    if written:
+        print(f"[retro-collect] verdict persisted -> " + ", ".join(f"s3://{bucket}/{k}" for k in written),
+              flush=True)
+    return written
+
+
+def retro_collect(bucket, reap=None):
     """Pull every landed retrospective leg JSON, map it onto the frozen leg-record schema, and — only when the
     panel is COMPLETE — apply the frozen gate. Prereg §4f forbids an interim look at the arm ordering, so an
-    incomplete panel reports coverage ONLY and refuses to compute the contrast."""
+    incomplete panel reports coverage ONLY and refuses to compute the contrast.
+
+    This is also the lane's SUPERVISION TICK: it reaps first (the control plane is the only thing that can stop
+    the meter — CLAUDE.md §6) and persists its readout to S3 last."""
     import boto3
     import nrv04_retro_panel as retro
     import nrv04_retro_gate as gate
+    # ⛔ REAP FIRST, so the meter stops at the earliest point in the tick rather than after the (slower) S3
+    # walk below. Scoped to this lane's label namespace; other lanes are unreachable from here.
+    if (os.environ.get("RETRO_REAP", "1") == "1") if reap is None else reap:
+        try:
+            retro_reap(bucket)
+        except Exception as e:  # noqa: BLE001 — a reap failure must not suppress the science readout
+            print(f"[retro-collect] WARN reap failed ({type(e).__name__}: {e}); instances may still be "
+                  f"billing — check them before assuming the fleet drained", flush=True)
     s3 = boto3.client("s3")
     keys = [k for k in _s3_list(s3, bucket, f"{RETRO_RESULT_PREFIX}/", suffix=".json")
             if k.rsplit("/", 1)[-1].startswith("leg_")]
@@ -1535,11 +1856,18 @@ def retro_collect(bucket):
         except Exception as e:  # noqa: BLE001
             phases[unit] = "unreadable: %s" % e
 
+    # `expected` follows AUTHORIZED_STAGES, which AMENDMENT 3 defect 1 reduced to R1 only. That is what makes
+    # `panel_complete` reachable at all: while the retired covalent arm was still enumerable, its 6 units could
+    # never land (build_system raises before a leg JSON is written), so `missing` was permanently non-empty and
+    # prereg §4f suppressed the R1 verdict FOREVER.
     expected = {retro.unit_name(a, m, r) for a, m, r in retro.enumerate_units()}
-    have = {f"nrv04retro-{l['arm_id']}-m{l['cofold_model_seed']}-r{l['replica']}" for l in legs}
+    # LABEL_PREFIX, not a typed "nrv04retro-": this reconstruction must agree with `unit_name` by construction,
+    # or every landed leg silently reads as missing.
+    have = {f"{retro.LABEL_PREFIX}{l['arm_id']}-m{l['cofold_model_seed']}-r{l['replica']}" for l in legs}
     missing = sorted(expected - have)
     out = {"n_legs": len(legs), "expected_units": len(expected), "missing_units": missing,
-           "panel_complete": not missing, "phases": phases, "legs": legs, "raw_keys": raw}
+           "panel_complete": not missing, "authorized_stages": list(retro.AUTHORIZED_STAGES),
+           "retired_stages": list(retro.RETIRED_STAGES), "phases": phases, "legs": legs, "raw_keys": raw}
 
     for unit, ph in sorted(phases.items()):          # PROGRESS first: a monitoring check must still print the
         print(f"[retro-phase] {unit}: {ph}", flush=True)   # phase markers even if the schema guard then fires
@@ -1555,7 +1883,7 @@ def retro_collect(bucket):
             "R2_recruitment / R3_lys) still match what this collector reads. Verdict suppressed." % len(landed))
         print("[retro-collect] FATAL " + out["schema_mismatch"], flush=True)
         out["verdict"] = None
-        json.dump(out, open("nrv04-retro-collect.json", "w"), indent=2)
+        persist_retro_collect(out, bucket=bucket, s3=s3)
         return 1
     if missing:
         out["verdict"] = None
@@ -1566,7 +1894,7 @@ def retro_collect(bucket):
     else:
         out["verdict"] = gate.verdict(legs)
         print("[retro-collect] panel complete — frozen gate applied", flush=True)
-    json.dump(out, open("nrv04-retro-collect.json", "w"), indent=2)
+    persist_retro_collect(out, bucket=bucket, s3=s3)
     print(json.dumps({k: v for k, v in out.items() if k not in ("legs", "raw_keys", "phases")}, indent=2),
           flush=True)
     return 0
