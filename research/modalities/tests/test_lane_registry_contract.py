@@ -191,7 +191,12 @@ def existence_problems(spec: dict) -> list[str]:
                 f"lane's hold/generation state silently stops being measured. This is the 2026-07-31 "
                 f"`nrv04-retro-market-hold.json` shape: 1 h 55 m of a supervisor declining to buy with the "
                 f"reason recorded nowhere. Either commit the producer's output or set the field to None, "
-                f"which is this registry's existing way of saying 'deliberately absent, stated not faked'.")
+                f"which is this registry's existing way of saying 'deliberately absent, stated not faked'."
+                f"\n    SECOND DIAGNOSIS, and it is not a reason to relax this check: a lane re-pointed at a "
+                f"long-lived branch would have its artifacts land THERE and vanish from main, which reads "
+                f"here as an absent artifact. That is CLAUDE.md §7's branch-drift data-loss bug — main said "
+                f"the fan-out was 1 of 19 edges while the branch held 14 — so a red here is CORRECT for it "
+                f"too. The remedy is port-then-switch, never widening this test's search path.")
     return out
 
 
