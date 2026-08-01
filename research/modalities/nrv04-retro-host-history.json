@@ -2,551 +2,9 @@
  "_what": "Supervision-tick lines naming a retro unit's hosts \u2014 the rental death certificates.",
  "repo": "trimcrae/Rare-cancers",
  "unit": "nrv04retro-retro_noncov_nr4a2-m2-r0",
- "hosts": [
-  "frozen",
-  "panel_complete"
- ],
- "runs_scanned": 58,
+ "hosts": [],
+ "runs_scanned": 55,
  "hits": [
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:59:21.9458123Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:59:22.0214344Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:23.6862639Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:23.6874310Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:25.3940928Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:25.3941980Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:25.3954625Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:25.3955459Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:26.0385521Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:26.0863596Z _As of 5:59 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 12 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 6 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30668428481,
-   "job": 91280722925,
-   "created_utc": "2026-07-31T21:58:57Z",
-   "action": null,
-   "line": "2026-07-31T21:59:29.2762281Z _As of 5:59 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 12 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 6 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:07:33.6031673Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:07:33.7804895Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:37.4484586Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:37.4497216Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:41.2883851Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:41.2885500Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:41.2895758Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:41.2896619Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:42.5332747Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:42.5792267Z _As of 6:07 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30668896153,
-   "job": 91282148035,
-   "created_utc": "2026-07-31T22:07:07Z",
-   "action": null,
-   "line": "2026-07-31T22:07:45.6999418Z _As of 6:07 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:15:45.3271910Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:15:54.7475987Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Once the cause is fixed, re-arm with a BASELINE (retro_set_breaker_baseline; CI vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for \u2014 the baseline moves the streak anchor and keeps attempts/"
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:15:57.8248866Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:15:57.8259099Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:16:00.7310175Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:16:00.7311811Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:16:00.7319601Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:16:00.7320160Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:16:01.8243153Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:16:01.8655662Z _As of 6:15 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30669354080,
-   "job": 91283517041,
-   "created_utc": "2026-07-31T22:15:16Z",
-   "action": null,
-   "line": "2026-07-31T22:16:05.6924047Z _As of 6:15 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:23:55.6985003Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:23:55.8758669Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Once the cause is fixed, re-arm with a BASELINE (retro_set_breaker_baseline; CI vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for \u2014 the baseline moves the streak anchor and keeps attempts/"
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:23:59.6560461Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:23:59.6570928Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:24:03.2501784Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:24:03.2509079Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:24:03.2519957Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:24:03.2520727Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:24:04.4787954Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:24:04.5257238Z _As of 6:24 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30669790772,
-   "job": 91284877457,
-   "created_utc": "2026-07-31T22:23:26Z",
-   "action": null,
-   "line": "2026-07-31T22:24:09.2000447Z _As of 6:24 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:31:58.5700560Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:31:58.6619631Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Once the cause is fixed, re-arm with a BASELINE (retro_set_breaker_baseline; CI vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for \u2014 the baseline moves the streak anchor and keeps attempts/"
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:00.7177122Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:00.7185986Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:03.0207152Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:03.0207941Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:03.0214329Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:03.0214827Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:03.8322533Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:03.8799527Z _As of 6:32 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30670227081,
-   "job": 91286188028,
-   "created_utc": "2026-07-31T22:31:35Z",
-   "action": null,
-   "line": "2026-07-31T22:32:07.4853356Z _As of 6:32 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:40:17.4391660Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:40:30.0310981Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Once the cause is fixed, re-arm with a BASELINE (retro_set_breaker_baseline; CI vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for \u2014 the baseline moves the streak anchor and keeps attempts/"
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:33.8638537Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:33.8656557Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:37.5162308Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:37.5163616Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:37.5172868Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:37.5173691Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:38.7113129Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:38.7577800Z _As of 6:40 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30670642518,
-   "job": 91287448371,
-   "created_utc": "2026-07-31T22:39:46Z",
-   "action": null,
-   "line": "2026-07-31T22:40:42.2851383Z _As of 6:40 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 13 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 5 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:48:16.9370317Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T22:48:21.8267778Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Once the cause is fixed, re-arm with a BASELINE (retro_set_breaker_baseline; CI vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for \u2014 the baseline moves the streak anchor and keeps attempts/"
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:23.3860995Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:23.3873822Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:24.6466094Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:24.6467289Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:24.6469558Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:24.6470147Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:25.2538454Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:25.2992480Z _As of 6:48 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30671049185,
-   "job": 91288659901,
-   "created_utc": "2026-07-31T22:47:55Z",
-   "action": null,
-   "line": "2026-07-31T22:48:29.0859727Z _As of 6:48 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
   {
    "run": 30671455818,
    "job": 91289860485,
@@ -587,13 +45,6 @@
    "job": 91289860485,
    "created_utc": "2026-07-31T22:56:04Z",
    "action": null,
-   "line": "2026-07-31T22:56:27.0063646Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30671455818,
-   "job": 91289860485,
-   "created_utc": "2026-07-31T22:56:04Z",
-   "action": null,
    "line": "2026-07-31T22:56:27.0065307Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -602,27 +53,6 @@
    "created_utc": "2026-07-31T22:56:04Z",
    "action": null,
    "line": "2026-07-31T22:56:27.0065723Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30671455818,
-   "job": 91289860485,
-   "created_utc": "2026-07-31T22:56:04Z",
-   "action": null,
-   "line": "2026-07-31T22:56:27.7318962Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30671455818,
-   "job": 91289860485,
-   "created_utc": "2026-07-31T22:56:04Z",
-   "action": null,
-   "line": "2026-07-31T22:56:27.7698538Z _As of 6:56 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30671455818,
-   "job": 91289860485,
-   "created_utc": "2026-07-31T22:56:04Z",
-   "action": null,
-   "line": "2026-07-31T22:56:31.1225191Z _As of 6:56 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30671853838,
@@ -664,13 +94,6 @@
    "job": 91291058308,
    "created_utc": "2026-07-31T23:04:13Z",
    "action": null,
-   "line": "2026-07-31T23:04:48.6101385Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30671853838,
-   "job": 91291058308,
-   "created_utc": "2026-07-31T23:04:13Z",
-   "action": null,
    "line": "2026-07-31T23:04:48.6103816Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -679,27 +102,6 @@
    "created_utc": "2026-07-31T23:04:13Z",
    "action": null,
    "line": "2026-07-31T23:04:48.6104443Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30671853838,
-   "job": 91291058308,
-   "created_utc": "2026-07-31T23:04:13Z",
-   "action": null,
-   "line": "2026-07-31T23:04:49.6878715Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30671853838,
-   "job": 91291058308,
-   "created_utc": "2026-07-31T23:04:13Z",
-   "action": null,
-   "line": "2026-07-31T23:04:49.7235123Z _As of 7:04 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30671853838,
-   "job": 91291058308,
-   "created_utc": "2026-07-31T23:04:13Z",
-   "action": null,
-   "line": "2026-07-31T23:04:52.9522028Z _As of 7:04 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30672237458,
@@ -741,13 +143,6 @@
    "job": 91292197424,
    "created_utc": "2026-07-31T23:12:25Z",
    "action": null,
-   "line": "2026-07-31T23:12:50.0075819Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30672237458,
-   "job": 91292197424,
-   "created_utc": "2026-07-31T23:12:25Z",
-   "action": null,
    "line": "2026-07-31T23:12:50.0080139Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -756,27 +151,6 @@
    "created_utc": "2026-07-31T23:12:25Z",
    "action": null,
    "line": "2026-07-31T23:12:50.0081219Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30672237458,
-   "job": 91292197424,
-   "created_utc": "2026-07-31T23:12:25Z",
-   "action": null,
-   "line": "2026-07-31T23:12:50.6889800Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30672237458,
-   "job": 91292197424,
-   "created_utc": "2026-07-31T23:12:25Z",
-   "action": null,
-   "line": "2026-07-31T23:12:50.7386998Z _As of 7:12 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30672237458,
-   "job": 91292197424,
-   "created_utc": "2026-07-31T23:12:25Z",
-   "action": null,
-   "line": "2026-07-31T23:12:53.6077288Z _As of 7:12 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30672611967,
@@ -818,13 +192,6 @@
    "job": 91293309993,
    "created_utc": "2026-07-31T23:20:33Z",
    "action": null,
-   "line": "2026-07-31T23:21:04.9030016Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30672611967,
-   "job": 91293309993,
-   "created_utc": "2026-07-31T23:20:33Z",
-   "action": null,
    "line": "2026-07-31T23:21:04.9032926Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -833,34 +200,6 @@
    "created_utc": "2026-07-31T23:20:33Z",
    "action": null,
    "line": "2026-07-31T23:21:04.9033691Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30672611967,
-   "job": 91293309993,
-   "created_utc": "2026-07-31T23:20:33Z",
-   "action": null,
-   "line": "2026-07-31T23:21:05.5716274Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30672611967,
-   "job": 91293309993,
-   "created_utc": "2026-07-31T23:20:33Z",
-   "action": null,
-   "line": "2026-07-31T23:21:05.6195272Z _As of 7:21 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30672611967,
-   "job": 91293309993,
-   "created_utc": "2026-07-31T23:20:33Z",
-   "action": null,
-   "line": "2026-07-31T23:21:09.4060934Z _As of 7:21 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30672611967,
-   "job": 91293309993,
-   "created_utc": "2026-07-31T23:20:33Z",
-   "action": null,
-   "line": "2026-07-31T23:21:15.3421134Z _As of 7:21 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30672989547,
@@ -902,13 +241,6 @@
    "job": 91294442435,
    "created_utc": "2026-07-31T23:28:43Z",
    "action": null,
-   "line": "2026-07-31T23:29:18.8239281Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30672989547,
-   "job": 91294442435,
-   "created_utc": "2026-07-31T23:28:43Z",
-   "action": null,
    "line": "2026-07-31T23:29:18.8242671Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -917,27 +249,6 @@
    "created_utc": "2026-07-31T23:28:43Z",
    "action": null,
    "line": "2026-07-31T23:29:18.8243777Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30672989547,
-   "job": 91294442435,
-   "created_utc": "2026-07-31T23:28:43Z",
-   "action": null,
-   "line": "2026-07-31T23:29:20.0074974Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30672989547,
-   "job": 91294442435,
-   "created_utc": "2026-07-31T23:28:43Z",
-   "action": null,
-   "line": "2026-07-31T23:29:20.0567293Z _As of 7:29 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30672989547,
-   "job": 91294442435,
-   "created_utc": "2026-07-31T23:28:43Z",
-   "action": null,
-   "line": "2026-07-31T23:29:23.1226604Z _As of 7:29 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30673368773,
@@ -979,13 +290,6 @@
    "job": 91295539184,
    "created_utc": "2026-07-31T23:36:51Z",
    "action": null,
-   "line": "2026-07-31T23:37:22.8230072Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30673368773,
-   "job": 91295539184,
-   "created_utc": "2026-07-31T23:36:51Z",
-   "action": null,
    "line": "2026-07-31T23:37:22.8231193Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -994,27 +298,6 @@
    "created_utc": "2026-07-31T23:36:51Z",
    "action": null,
    "line": "2026-07-31T23:37:22.8231472Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30673368773,
-   "job": 91295539184,
-   "created_utc": "2026-07-31T23:36:51Z",
-   "action": null,
-   "line": "2026-07-31T23:37:23.7617992Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30673368773,
-   "job": 91295539184,
-   "created_utc": "2026-07-31T23:36:51Z",
-   "action": null,
-   "line": "2026-07-31T23:37:23.7929010Z _As of 7:37 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30673368773,
-   "job": 91295539184,
-   "created_utc": "2026-07-31T23:36:51Z",
-   "action": null,
-   "line": "2026-07-31T23:37:27.5893527Z _As of 7:37 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30673726816,
@@ -1056,13 +339,6 @@
    "job": 91296585923,
    "created_utc": "2026-07-31T23:45:02Z",
    "action": null,
-   "line": "2026-07-31T23:45:32.5039641Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30673726816,
-   "job": 91296585923,
-   "created_utc": "2026-07-31T23:45:02Z",
-   "action": null,
    "line": "2026-07-31T23:45:32.5043049Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1071,27 +347,6 @@
    "created_utc": "2026-07-31T23:45:02Z",
    "action": null,
    "line": "2026-07-31T23:45:32.5043714Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30673726816,
-   "job": 91296585923,
-   "created_utc": "2026-07-31T23:45:02Z",
-   "action": null,
-   "line": "2026-07-31T23:45:33.3274625Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30673726816,
-   "job": 91296585923,
-   "created_utc": "2026-07-31T23:45:02Z",
-   "action": null,
-   "line": "2026-07-31T23:45:33.4870064Z _As of 7:45 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30673726816,
-   "job": 91296585923,
-   "created_utc": "2026-07-31T23:45:02Z",
-   "action": null,
-   "line": "2026-07-31T23:45:37.4102054Z _As of 7:45 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 14 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 4 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30674084518,
@@ -1133,13 +388,6 @@
    "job": 91297623108,
    "created_utc": "2026-07-31T23:53:10Z",
    "action": null,
-   "line": "2026-07-31T23:53:39.1030596Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30674084518,
-   "job": 91297623108,
-   "created_utc": "2026-07-31T23:53:10Z",
-   "action": null,
    "line": "2026-07-31T23:53:39.1033857Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1148,27 +396,6 @@
    "created_utc": "2026-07-31T23:53:10Z",
    "action": null,
    "line": "2026-07-31T23:53:39.1034766Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30674084518,
-   "job": 91297623108,
-   "created_utc": "2026-07-31T23:53:10Z",
-   "action": null,
-   "line": "2026-07-31T23:53:39.7584318Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30674084518,
-   "job": 91297623108,
-   "created_utc": "2026-07-31T23:53:10Z",
-   "action": null,
-   "line": "2026-07-31T23:53:39.8055366Z _As of 7:53 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30674084518,
-   "job": 91297623108,
-   "created_utc": "2026-07-31T23:53:10Z",
-   "action": null,
-   "line": "2026-07-31T23:53:43.4154782Z _As of 7:53 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30674443363,
@@ -1210,13 +437,6 @@
    "job": 91298662451,
    "created_utc": "2026-08-01T00:01:20Z",
    "action": null,
-   "line": "2026-08-01T00:01:54.3786864Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30674443363,
-   "job": 91298662451,
-   "created_utc": "2026-08-01T00:01:20Z",
-   "action": null,
    "line": "2026-08-01T00:01:54.3790304Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1225,27 +445,6 @@
    "created_utc": "2026-08-01T00:01:20Z",
    "action": null,
    "line": "2026-08-01T00:01:54.3791171Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30674443363,
-   "job": 91298662451,
-   "created_utc": "2026-08-01T00:01:20Z",
-   "action": null,
-   "line": "2026-08-01T00:01:55.5858635Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30674443363,
-   "job": 91298662451,
-   "created_utc": "2026-08-01T00:01:20Z",
-   "action": null,
-   "line": "2026-08-01T00:01:55.6319786Z _As of 8:01 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30674443363,
-   "job": 91298662451,
-   "created_utc": "2026-08-01T00:01:20Z",
-   "action": null,
-   "line": "2026-08-01T00:01:59.6817710Z _As of 8:01 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30674815159,
@@ -1287,13 +486,6 @@
    "job": 91299741768,
    "created_utc": "2026-08-01T00:09:28Z",
    "action": null,
-   "line": "2026-08-01T00:09:49.3125867Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30674815159,
-   "job": 91299741768,
-   "created_utc": "2026-08-01T00:09:28Z",
-   "action": null,
    "line": "2026-08-01T00:09:49.3128016Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1302,27 +494,6 @@
    "created_utc": "2026-08-01T00:09:28Z",
    "action": null,
    "line": "2026-08-01T00:09:49.3128987Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30674815159,
-   "job": 91299741768,
-   "created_utc": "2026-08-01T00:09:28Z",
-   "action": null,
-   "line": "2026-08-01T00:09:49.9399598Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30674815159,
-   "job": 91299741768,
-   "created_utc": "2026-08-01T00:09:28Z",
-   "action": null,
-   "line": "2026-08-01T00:09:49.9895393Z _As of 8:09 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30674815159,
-   "job": 91299741768,
-   "created_utc": "2026-08-01T00:09:28Z",
-   "action": null,
-   "line": "2026-08-01T00:09:53.6495291Z _As of 8:09 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30674961939,
@@ -1364,13 +535,6 @@
    "job": 91300156165,
    "created_utc": "2026-08-01T00:12:47Z",
    "action": null,
-   "line": "2026-08-01T00:13:21.0218176Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30674961939,
-   "job": 91300156165,
-   "created_utc": "2026-08-01T00:12:47Z",
-   "action": null,
    "line": "2026-08-01T00:13:21.0221079Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1379,27 +543,6 @@
    "created_utc": "2026-08-01T00:12:47Z",
    "action": null,
    "line": "2026-08-01T00:13:21.0222217Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30674961939,
-   "job": 91300156165,
-   "created_utc": "2026-08-01T00:12:47Z",
-   "action": null,
-   "line": "2026-08-01T00:13:22.2063470Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30674961939,
-   "job": 91300156165,
-   "created_utc": "2026-08-01T00:12:47Z",
-   "action": null,
-   "line": "2026-08-01T00:13:22.2520547Z _As of 8:13 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30674961939,
-   "job": 91300156165,
-   "created_utc": "2026-08-01T00:12:47Z",
-   "action": null,
-   "line": "2026-08-01T00:13:26.8304703Z _As of 8:13 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675174481,
@@ -1441,13 +584,6 @@
    "job": 91300775976,
    "created_utc": "2026-08-01T00:17:38Z",
    "action": null,
-   "line": "2026-08-01T00:18:01.8928545Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675174481,
-   "job": 91300775976,
-   "created_utc": "2026-08-01T00:17:38Z",
-   "action": null,
    "line": "2026-08-01T00:18:01.8931250Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1456,27 +592,6 @@
    "created_utc": "2026-08-01T00:17:38Z",
    "action": null,
    "line": "2026-08-01T00:18:01.8931847Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675174481,
-   "job": 91300775976,
-   "created_utc": "2026-08-01T00:17:38Z",
-   "action": null,
-   "line": "2026-08-01T00:18:02.6676713Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675174481,
-   "job": 91300775976,
-   "created_utc": "2026-08-01T00:17:38Z",
-   "action": null,
-   "line": "2026-08-01T00:18:02.7147324Z _As of 8:18 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675174481,
-   "job": 91300775976,
-   "created_utc": "2026-08-01T00:17:38Z",
-   "action": null,
-   "line": "2026-08-01T00:18:05.7616566Z _As of 8:18 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675232244,
@@ -1623,13 +738,6 @@
    "job": 91301089921,
    "created_utc": "2026-08-01T00:20:10Z",
    "action": null,
-   "line": "2026-08-01T00:20:43.7309171Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675278082,
-   "job": 91301089921,
-   "created_utc": "2026-08-01T00:20:10Z",
-   "action": null,
    "line": "2026-08-01T00:20:43.7312559Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1638,27 +746,6 @@
    "created_utc": "2026-08-01T00:20:10Z",
    "action": null,
    "line": "2026-08-01T00:20:43.7313469Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675278082,
-   "job": 91301089921,
-   "created_utc": "2026-08-01T00:20:10Z",
-   "action": null,
-   "line": "2026-08-01T00:20:44.5973598Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675278082,
-   "job": 91301089921,
-   "created_utc": "2026-08-01T00:20:10Z",
-   "action": null,
-   "line": "2026-08-01T00:20:44.6440908Z _As of 8:20 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675278082,
-   "job": 91301089921,
-   "created_utc": "2026-08-01T00:20:10Z",
-   "action": null,
-   "line": "2026-08-01T00:20:47.8517222Z _As of 8:20 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675390870,
@@ -1700,13 +787,6 @@
    "job": 91301445360,
    "created_utc": "2026-08-01T00:22:56Z",
    "action": null,
-   "line": "2026-08-01T00:23:31.5014941Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675390870,
-   "job": 91301445360,
-   "created_utc": "2026-08-01T00:22:56Z",
-   "action": null,
    "line": "2026-08-01T00:23:31.5018536Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1715,27 +795,6 @@
    "created_utc": "2026-08-01T00:22:56Z",
    "action": null,
    "line": "2026-08-01T00:23:31.5019139Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675390870,
-   "job": 91301445360,
-   "created_utc": "2026-08-01T00:22:56Z",
-   "action": null,
-   "line": "2026-08-01T00:23:32.7086637Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675390870,
-   "job": 91301445360,
-   "created_utc": "2026-08-01T00:22:56Z",
-   "action": null,
-   "line": "2026-08-01T00:23:32.7549596Z _As of 8:23 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675390870,
-   "job": 91301445360,
-   "created_utc": "2026-08-01T00:22:56Z",
-   "action": null,
-   "line": "2026-08-01T00:23:36.6800481Z _As of 8:23 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675463521,
@@ -1777,13 +836,6 @@
    "job": 91301660040,
    "created_utc": "2026-08-01T00:24:40Z",
    "action": null,
-   "line": "2026-08-01T00:25:12.3934796Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675463521,
-   "job": 91301660040,
-   "created_utc": "2026-08-01T00:24:40Z",
-   "action": null,
    "line": "2026-08-01T00:25:12.3937501Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1792,27 +844,6 @@
    "created_utc": "2026-08-01T00:24:40Z",
    "action": null,
    "line": "2026-08-01T00:25:12.3938209Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675463521,
-   "job": 91301660040,
-   "created_utc": "2026-08-01T00:24:40Z",
-   "action": null,
-   "line": "2026-08-01T00:25:13.5765314Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675463521,
-   "job": 91301660040,
-   "created_utc": "2026-08-01T00:24:40Z",
-   "action": null,
-   "line": "2026-08-01T00:25:13.6227540Z _As of 8:25 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675463521,
-   "job": 91301660040,
-   "created_utc": "2026-08-01T00:24:40Z",
-   "action": null,
-   "line": "2026-08-01T00:25:16.9987098Z _As of 8:25 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675511024,
@@ -1854,13 +885,6 @@
    "job": 91301800422,
    "created_utc": "2026-08-01T00:25:46Z",
    "action": null,
-   "line": "2026-08-01T00:26:19.3277089Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675511024,
-   "job": 91301800422,
-   "created_utc": "2026-08-01T00:25:46Z",
-   "action": null,
    "line": "2026-08-01T00:26:19.3279733Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1869,27 +893,6 @@
    "created_utc": "2026-08-01T00:25:46Z",
    "action": null,
    "line": "2026-08-01T00:26:19.3280439Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675511024,
-   "job": 91301800422,
-   "created_utc": "2026-08-01T00:25:46Z",
-   "action": null,
-   "line": "2026-08-01T00:26:20.5957764Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675511024,
-   "job": 91301800422,
-   "created_utc": "2026-08-01T00:25:46Z",
-   "action": null,
-   "line": "2026-08-01T00:26:20.6439582Z _As of 8:26 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675511024,
-   "job": 91301800422,
-   "created_utc": "2026-08-01T00:25:46Z",
-   "action": null,
-   "line": "2026-08-01T00:26:24.5190501Z _As of 8:26 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675638105,
@@ -1931,13 +934,6 @@
    "job": 91302187061,
    "created_utc": "2026-08-01T00:28:54Z",
    "action": null,
-   "line": "2026-08-01T00:29:16.2902207Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675638105,
-   "job": 91302187061,
-   "created_utc": "2026-08-01T00:28:54Z",
-   "action": null,
    "line": "2026-08-01T00:29:16.2905146Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -1946,27 +942,6 @@
    "created_utc": "2026-08-01T00:28:54Z",
    "action": null,
    "line": "2026-08-01T00:29:16.2905921Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675638105,
-   "job": 91302187061,
-   "created_utc": "2026-08-01T00:28:54Z",
-   "action": null,
-   "line": "2026-08-01T00:29:16.9084978Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675638105,
-   "job": 91302187061,
-   "created_utc": "2026-08-01T00:28:54Z",
-   "action": null,
-   "line": "2026-08-01T00:29:16.9562715Z _As of 8:29 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675638105,
-   "job": 91302187061,
-   "created_utc": "2026-08-01T00:28:54Z",
-   "action": null,
-   "line": "2026-08-01T00:29:20.1755435Z _As of 8:29 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675756528,
@@ -2008,13 +983,6 @@
    "job": 91302531921,
    "created_utc": "2026-08-01T00:31:44Z",
    "action": null,
-   "line": "2026-08-01T00:32:19.9767608Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675756528,
-   "job": 91302531921,
-   "created_utc": "2026-08-01T00:31:44Z",
-   "action": null,
    "line": "2026-08-01T00:32:19.9773052Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2023,27 +991,6 @@
    "created_utc": "2026-08-01T00:31:44Z",
    "action": null,
    "line": "2026-08-01T00:32:19.9773957Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675756528,
-   "job": 91302531921,
-   "created_utc": "2026-08-01T00:31:44Z",
-   "action": null,
-   "line": "2026-08-01T00:32:21.1972463Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675756528,
-   "job": 91302531921,
-   "created_utc": "2026-08-01T00:31:44Z",
-   "action": null,
-   "line": "2026-08-01T00:32:21.2469576Z _As of 8:32 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675756528,
-   "job": 91302531921,
-   "created_utc": "2026-08-01T00:31:44Z",
-   "action": null,
-   "line": "2026-08-01T00:32:25.4381641Z _As of 8:32 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675789952,
@@ -2085,13 +1032,6 @@
    "job": 91302633196,
    "created_utc": "2026-08-01T00:32:32Z",
    "action": null,
-   "line": "2026-08-01T00:33:06.3070052Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675789952,
-   "job": 91302633196,
-   "created_utc": "2026-08-01T00:32:32Z",
-   "action": null,
    "line": "2026-08-01T00:33:06.3074572Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2100,27 +1040,6 @@
    "created_utc": "2026-08-01T00:32:32Z",
    "action": null,
    "line": "2026-08-01T00:33:06.3075367Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675789952,
-   "job": 91302633196,
-   "created_utc": "2026-08-01T00:32:32Z",
-   "action": null,
-   "line": "2026-08-01T00:33:07.6935579Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675789952,
-   "job": 91302633196,
-   "created_utc": "2026-08-01T00:32:32Z",
-   "action": null,
-   "line": "2026-08-01T00:33:07.7430294Z _As of 8:33 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675789952,
-   "job": 91302633196,
-   "created_utc": "2026-08-01T00:32:32Z",
-   "action": null,
-   "line": "2026-08-01T00:33:11.0112546Z _As of 8:33 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675811920,
@@ -2162,13 +1081,6 @@
    "job": 91302717627,
    "created_utc": "2026-08-01T00:33:05Z",
    "action": null,
-   "line": "2026-08-01T00:33:49.3793415Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675811920,
-   "job": 91302717627,
-   "created_utc": "2026-08-01T00:33:05Z",
-   "action": null,
    "line": "2026-08-01T00:33:49.3797533Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2177,27 +1089,6 @@
    "created_utc": "2026-08-01T00:33:05Z",
    "action": null,
    "line": "2026-08-01T00:33:49.3798319Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675811920,
-   "job": 91302717627,
-   "created_utc": "2026-08-01T00:33:05Z",
-   "action": null,
-   "line": "2026-08-01T00:33:50.4089929Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675811920,
-   "job": 91302717627,
-   "created_utc": "2026-08-01T00:33:05Z",
-   "action": null,
-   "line": "2026-08-01T00:33:50.4502827Z _As of 8:33 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675811920,
-   "job": 91302717627,
-   "created_utc": "2026-08-01T00:33:05Z",
-   "action": null,
-   "line": "2026-08-01T00:33:54.2129490Z _As of 8:33 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675845366,
@@ -2267,13 +1158,6 @@
    "job": 91302806107,
    "created_utc": "2026-08-01T00:33:56Z",
    "action": null,
-   "line": "2026-08-01T00:34:22.6340560Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675845366,
-   "job": 91302806107,
-   "created_utc": "2026-08-01T00:33:56Z",
-   "action": null,
    "line": "2026-08-01T00:34:22.6343993Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2282,27 +1166,6 @@
    "created_utc": "2026-08-01T00:33:56Z",
    "action": null,
    "line": "2026-08-01T00:34:22.6344925Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675845366,
-   "job": 91302806107,
-   "created_utc": "2026-08-01T00:33:56Z",
-   "action": null,
-   "line": "2026-08-01T00:34:23.2697988Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675845366,
-   "job": 91302806107,
-   "created_utc": "2026-08-01T00:33:56Z",
-   "action": null,
-   "line": "2026-08-01T00:34:23.3175581Z _As of 8:34 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675845366,
-   "job": 91302806107,
-   "created_utc": "2026-08-01T00:33:56Z",
-   "action": null,
-   "line": "2026-08-01T00:34:26.5604139Z _As of 8:34 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675904520,
@@ -2344,13 +1207,6 @@
    "job": 91302978055,
    "created_utc": "2026-08-01T00:35:18Z",
    "action": null,
-   "line": "2026-08-01T00:35:46.9658162Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675904520,
-   "job": 91302978055,
-   "created_utc": "2026-08-01T00:35:18Z",
-   "action": null,
    "line": "2026-08-01T00:35:46.9661072Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2359,27 +1215,6 @@
    "created_utc": "2026-08-01T00:35:18Z",
    "action": null,
    "line": "2026-08-01T00:35:46.9661731Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675904520,
-   "job": 91302978055,
-   "created_utc": "2026-08-01T00:35:18Z",
-   "action": null,
-   "line": "2026-08-01T00:35:47.7966707Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675904520,
-   "job": 91302978055,
-   "created_utc": "2026-08-01T00:35:18Z",
-   "action": null,
-   "line": "2026-08-01T00:35:47.8424649Z _As of 8:35 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675904520,
-   "job": 91302978055,
-   "created_utc": "2026-08-01T00:35:18Z",
-   "action": null,
-   "line": "2026-08-01T00:35:52.0784638Z _As of 8:35 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30675998184,
@@ -2456,13 +1291,6 @@
    "job": 91303255480,
    "created_utc": "2026-08-01T00:37:32Z",
    "action": null,
-   "line": "2026-08-01T00:38:04.1195741Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30675998184,
-   "job": 91303255480,
-   "created_utc": "2026-08-01T00:37:32Z",
-   "action": null,
    "line": "2026-08-01T00:38:04.1197893Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2471,27 +1299,6 @@
    "created_utc": "2026-08-01T00:37:32Z",
    "action": null,
    "line": "2026-08-01T00:38:04.1198417Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30675998184,
-   "job": 91303255480,
-   "created_utc": "2026-08-01T00:37:32Z",
-   "action": null,
-   "line": "2026-08-01T00:38:04.8764632Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30675998184,
-   "job": 91303255480,
-   "created_utc": "2026-08-01T00:37:32Z",
-   "action": null,
-   "line": "2026-08-01T00:38:04.9245198Z _As of 8:38 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30675998184,
-   "job": 91303255480,
-   "created_utc": "2026-08-01T00:37:32Z",
-   "action": null,
-   "line": "2026-08-01T00:38:07.6393837Z _As of 8:38 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676178872,
@@ -2533,13 +1340,6 @@
    "job": 91303800338,
    "created_utc": "2026-08-01T00:42:04Z",
    "action": null,
-   "line": "2026-08-01T00:42:30.2379345Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676178872,
-   "job": 91303800338,
-   "created_utc": "2026-08-01T00:42:04Z",
-   "action": null,
    "line": "2026-08-01T00:42:30.2382780Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2548,27 +1348,6 @@
    "created_utc": "2026-08-01T00:42:04Z",
    "action": null,
    "line": "2026-08-01T00:42:30.2383483Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676178872,
-   "job": 91303800338,
-   "created_utc": "2026-08-01T00:42:04Z",
-   "action": null,
-   "line": "2026-08-01T00:42:30.9891102Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676178872,
-   "job": 91303800338,
-   "created_utc": "2026-08-01T00:42:04Z",
-   "action": null,
-   "line": "2026-08-01T00:42:31.0363025Z _As of 8:42 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676178872,
-   "job": 91303800338,
-   "created_utc": "2026-08-01T00:42:04Z",
-   "action": null,
-   "line": "2026-08-01T00:42:35.0043484Z _As of 8:42 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676309260,
@@ -2610,13 +1389,6 @@
    "job": 91304189212,
    "created_utc": "2026-08-01T00:45:13Z",
    "action": null,
-   "line": "2026-08-01T00:45:50.6184692Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676309260,
-   "job": 91304189212,
-   "created_utc": "2026-08-01T00:45:13Z",
-   "action": null,
    "line": "2026-08-01T00:45:50.6187122Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2625,27 +1397,6 @@
    "created_utc": "2026-08-01T00:45:13Z",
    "action": null,
    "line": "2026-08-01T00:45:50.6187720Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676309260,
-   "job": 91304189212,
-   "created_utc": "2026-08-01T00:45:13Z",
-   "action": null,
-   "line": "2026-08-01T00:45:51.8559367Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676309260,
-   "job": 91304189212,
-   "created_utc": "2026-08-01T00:45:13Z",
-   "action": null,
-   "line": "2026-08-01T00:45:51.9034937Z _As of 8:45 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676309260,
-   "job": 91304189212,
-   "created_utc": "2026-08-01T00:45:13Z",
-   "action": null,
-   "line": "2026-08-01T00:45:55.9913851Z _As of 8:45 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676398778,
@@ -2687,13 +1438,6 @@
    "job": 91304458774,
    "created_utc": "2026-08-01T00:47:25Z",
    "action": null,
-   "line": "2026-08-01T00:48:04.7477159Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676398778,
-   "job": 91304458774,
-   "created_utc": "2026-08-01T00:47:25Z",
-   "action": null,
    "line": "2026-08-01T00:48:04.7480316Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2702,27 +1446,6 @@
    "created_utc": "2026-08-01T00:47:25Z",
    "action": null,
    "line": "2026-08-01T00:48:04.7480898Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676398778,
-   "job": 91304458774,
-   "created_utc": "2026-08-01T00:47:25Z",
-   "action": null,
-   "line": "2026-08-01T00:48:05.8985163Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676398778,
-   "job": 91304458774,
-   "created_utc": "2026-08-01T00:47:25Z",
-   "action": null,
-   "line": "2026-08-01T00:48:05.9428154Z _As of 8:48 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676398778,
-   "job": 91304458774,
-   "created_utc": "2026-08-01T00:47:25Z",
-   "action": null,
-   "line": "2026-08-01T00:48:12.7424244Z _As of 8:48 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676490004,
@@ -2764,13 +1487,6 @@
    "job": 91304735142,
    "created_utc": "2026-08-01T00:49:47Z",
    "action": null,
-   "line": "2026-08-01T00:50:20.5255199Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676490004,
-   "job": 91304735142,
-   "created_utc": "2026-08-01T00:49:47Z",
-   "action": null,
    "line": "2026-08-01T00:50:20.5258842Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2779,27 +1495,6 @@
    "created_utc": "2026-08-01T00:49:47Z",
    "action": null,
    "line": "2026-08-01T00:50:20.5259861Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676490004,
-   "job": 91304735142,
-   "created_utc": "2026-08-01T00:49:47Z",
-   "action": null,
-   "line": "2026-08-01T00:50:21.7301036Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676490004,
-   "job": 91304735142,
-   "created_utc": "2026-08-01T00:49:47Z",
-   "action": null,
-   "line": "2026-08-01T00:50:21.7777892Z _As of 8:50 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676490004,
-   "job": 91304735142,
-   "created_utc": "2026-08-01T00:49:47Z",
-   "action": null,
-   "line": "2026-08-01T00:50:25.4806999Z _As of 8:50 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676509058,
@@ -2841,13 +1536,6 @@
    "job": 91304819764,
    "created_utc": "2026-08-01T00:50:13Z",
    "action": null,
-   "line": "2026-08-01T00:51:03.0301784Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676509058,
-   "job": 91304819764,
-   "created_utc": "2026-08-01T00:50:13Z",
-   "action": null,
    "line": "2026-08-01T00:51:03.0305531Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2856,27 +1544,6 @@
    "created_utc": "2026-08-01T00:50:13Z",
    "action": null,
    "line": "2026-08-01T00:51:03.0306509Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676509058,
-   "job": 91304819764,
-   "created_utc": "2026-08-01T00:50:13Z",
-   "action": null,
-   "line": "2026-08-01T00:51:04.7961802Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676509058,
-   "job": 91304819764,
-   "created_utc": "2026-08-01T00:50:13Z",
-   "action": null,
-   "line": "2026-08-01T00:51:04.8434093Z _As of 8:51 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676509058,
-   "job": 91304819764,
-   "created_utc": "2026-08-01T00:50:13Z",
-   "action": null,
-   "line": "2026-08-01T00:51:08.7942736Z _As of 8:51 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676583681,
@@ -2918,13 +1585,6 @@
    "job": 91305012643,
    "created_utc": "2026-08-01T00:52:06Z",
    "action": null,
-   "line": "2026-08-01T00:52:42.5764582Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676583681,
-   "job": 91305012643,
-   "created_utc": "2026-08-01T00:52:06Z",
-   "action": null,
    "line": "2026-08-01T00:52:42.5767996Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -2933,27 +1593,6 @@
    "created_utc": "2026-08-01T00:52:06Z",
    "action": null,
    "line": "2026-08-01T00:52:42.5768490Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676583681,
-   "job": 91305012643,
-   "created_utc": "2026-08-01T00:52:06Z",
-   "action": null,
-   "line": "2026-08-01T00:52:43.6798023Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676583681,
-   "job": 91305012643,
-   "created_utc": "2026-08-01T00:52:06Z",
-   "action": null,
-   "line": "2026-08-01T00:52:43.7164191Z _As of 8:52 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676583681,
-   "job": 91305012643,
-   "created_utc": "2026-08-01T00:52:06Z",
-   "action": null,
-   "line": "2026-08-01T00:52:47.3502521Z _As of 8:52 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676681248,
@@ -2995,13 +1634,6 @@
    "job": 91305309256,
    "created_utc": "2026-08-01T00:54:29Z",
    "action": null,
-   "line": "2026-08-01T00:55:02.6534801Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676681248,
-   "job": 91305309256,
-   "created_utc": "2026-08-01T00:54:29Z",
-   "action": null,
    "line": "2026-08-01T00:55:02.6537324Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3010,27 +1642,6 @@
    "created_utc": "2026-08-01T00:54:29Z",
    "action": null,
    "line": "2026-08-01T00:55:02.6537992Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676681248,
-   "job": 91305309256,
-   "created_utc": "2026-08-01T00:54:29Z",
-   "action": null,
-   "line": "2026-08-01T00:55:03.8393306Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676681248,
-   "job": 91305309256,
-   "created_utc": "2026-08-01T00:54:29Z",
-   "action": null,
-   "line": "2026-08-01T00:55:03.8849666Z _As of 8:55 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676681248,
-   "job": 91305309256,
-   "created_utc": "2026-08-01T00:54:29Z",
-   "action": null,
-   "line": "2026-08-01T00:55:07.9878108Z _As of 8:55 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676770516,
@@ -3072,13 +1683,6 @@
    "job": 91305574321,
    "created_utc": "2026-08-01T00:56:46Z",
    "action": null,
-   "line": "2026-08-01T00:57:22.9317436Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676770516,
-   "job": 91305574321,
-   "created_utc": "2026-08-01T00:56:46Z",
-   "action": null,
    "line": "2026-08-01T00:57:22.9319739Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3087,27 +1691,6 @@
    "created_utc": "2026-08-01T00:56:46Z",
    "action": null,
    "line": "2026-08-01T00:57:22.9320361Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676770516,
-   "job": 91305574321,
-   "created_utc": "2026-08-01T00:56:46Z",
-   "action": null,
-   "line": "2026-08-01T00:57:24.0542907Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676770516,
-   "job": 91305574321,
-   "created_utc": "2026-08-01T00:56:46Z",
-   "action": null,
-   "line": "2026-08-01T00:57:24.0931408Z _As of 8:57 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676770516,
-   "job": 91305574321,
-   "created_utc": "2026-08-01T00:56:46Z",
-   "action": null,
-   "line": "2026-08-01T00:57:27.3129532Z _As of 8:57 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676833822,
@@ -3149,13 +1732,6 @@
    "job": 91305761899,
    "created_utc": "2026-08-01T00:58:22Z",
    "action": null,
-   "line": "2026-08-01T00:58:47.8951145Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676833822,
-   "job": 91305761899,
-   "created_utc": "2026-08-01T00:58:22Z",
-   "action": null,
    "line": "2026-08-01T00:58:47.8954609Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3164,34 +1740,6 @@
    "created_utc": "2026-08-01T00:58:22Z",
    "action": null,
    "line": "2026-08-01T00:58:47.8955386Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676833822,
-   "job": 91305761899,
-   "created_utc": "2026-08-01T00:58:22Z",
-   "action": null,
-   "line": "2026-08-01T00:58:48.5048431Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676833822,
-   "job": 91305761899,
-   "created_utc": "2026-08-01T00:58:22Z",
-   "action": null,
-   "line": "2026-08-01T00:58:48.5512271Z _As of 8:58 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676833822,
-   "job": 91305761899,
-   "created_utc": "2026-08-01T00:58:22Z",
-   "action": null,
-   "line": "2026-08-01T00:58:51.1965004Z _As of 8:58 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676833822,
-   "job": 91305761899,
-   "created_utc": "2026-08-01T00:58:22Z",
-   "action": null,
-   "line": "2026-08-01T00:58:57.3187795Z _As of 8:58 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676845884,
@@ -3233,13 +1781,6 @@
    "job": 91305829599,
    "created_utc": "2026-08-01T00:58:41Z",
    "action": null,
-   "line": "2026-08-01T00:59:27.0855172Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676845884,
-   "job": 91305829599,
-   "created_utc": "2026-08-01T00:58:41Z",
-   "action": null,
    "line": "2026-08-01T00:59:27.0858287Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3248,48 +1789,6 @@
    "created_utc": "2026-08-01T00:58:41Z",
    "action": null,
    "line": "2026-08-01T00:59:27.0859348Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676845884,
-   "job": 91305829599,
-   "created_utc": "2026-08-01T00:58:41Z",
-   "action": null,
-   "line": "2026-08-01T00:59:27.7136649Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676845884,
-   "job": 91305829599,
-   "created_utc": "2026-08-01T00:58:41Z",
-   "action": null,
-   "line": "2026-08-01T00:59:27.7595331Z _As of 8:59 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676845884,
-   "job": 91305829599,
-   "created_utc": "2026-08-01T00:58:41Z",
-   "action": null,
-   "line": "2026-08-01T00:59:31.7479849Z _As of 8:59 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676845884,
-   "job": 91305829599,
-   "created_utc": "2026-08-01T00:58:41Z",
-   "action": null,
-   "line": "2026-08-01T00:59:36.4914817Z _As of 8:59 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676845884,
-   "job": 91305829599,
-   "created_utc": "2026-08-01T00:58:41Z",
-   "action": null,
-   "line": "2026-08-01T00:59:45.1967610Z _As of 8:59 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676845884,
-   "job": 91305829599,
-   "created_utc": "2026-08-01T00:58:41Z",
-   "action": null,
-   "line": "2026-08-01T01:00:02.4711976Z _As of 8:59 PM ET Fri Jul 31, 2026 (1 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676868181,
@@ -3331,13 +1830,6 @@
    "job": 91305951661,
    "created_utc": "2026-08-01T00:59:17Z",
    "action": null,
-   "line": "2026-08-01T01:00:32.9360790Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676868181,
-   "job": 91305951661,
-   "created_utc": "2026-08-01T00:59:17Z",
-   "action": null,
    "line": "2026-08-01T01:00:32.9364527Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3346,27 +1838,6 @@
    "created_utc": "2026-08-01T00:59:17Z",
    "action": null,
    "line": "2026-08-01T01:00:32.9365421Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676868181,
-   "job": 91305951661,
-   "created_utc": "2026-08-01T00:59:17Z",
-   "action": null,
-   "line": "2026-08-01T01:00:33.5421290Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676868181,
-   "job": 91305951661,
-   "created_utc": "2026-08-01T00:59:17Z",
-   "action": null,
-   "line": "2026-08-01T01:00:33.5913178Z _As of 9:00 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676868181,
-   "job": 91305951661,
-   "created_utc": "2026-08-01T00:59:17Z",
-   "action": null,
-   "line": "2026-08-01T01:00:36.4442983Z _As of 9:00 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30676961726,
@@ -3408,13 +1879,6 @@
    "job": 91306128131,
    "created_utc": "2026-08-01T01:01:28Z",
    "action": null,
-   "line": "2026-08-01T01:01:57.8127940Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30676961726,
-   "job": 91306128131,
-   "created_utc": "2026-08-01T01:01:28Z",
-   "action": null,
    "line": "2026-08-01T01:01:57.8130951Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3423,27 +1887,6 @@
    "created_utc": "2026-08-01T01:01:28Z",
    "action": null,
    "line": "2026-08-01T01:01:57.8131778Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30676961726,
-   "job": 91306128131,
-   "created_utc": "2026-08-01T01:01:28Z",
-   "action": null,
-   "line": "2026-08-01T01:01:58.4524539Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30676961726,
-   "job": 91306128131,
-   "created_utc": "2026-08-01T01:01:28Z",
-   "action": null,
-   "line": "2026-08-01T01:01:58.5005122Z _As of 9:01 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30676961726,
-   "job": 91306128131,
-   "created_utc": "2026-08-01T01:01:28Z",
-   "action": null,
-   "line": "2026-08-01T01:02:01.7340298Z _As of 9:01 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677047429,
@@ -3485,13 +1928,6 @@
    "job": 91306382527,
    "created_utc": "2026-08-01T01:03:39Z",
    "action": null,
-   "line": "2026-08-01T01:04:10.2605770Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677047429,
-   "job": 91306382527,
-   "created_utc": "2026-08-01T01:03:39Z",
-   "action": null,
    "line": "2026-08-01T01:04:10.2607886Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3500,27 +1936,6 @@
    "created_utc": "2026-08-01T01:03:39Z",
    "action": null,
    "line": "2026-08-01T01:04:10.2608408Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677047429,
-   "job": 91306382527,
-   "created_utc": "2026-08-01T01:03:39Z",
-   "action": null,
-   "line": "2026-08-01T01:04:11.0056205Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677047429,
-   "job": 91306382527,
-   "created_utc": "2026-08-01T01:03:39Z",
-   "action": null,
-   "line": "2026-08-01T01:04:11.0542724Z _As of 9:04 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677047429,
-   "job": 91306382527,
-   "created_utc": "2026-08-01T01:03:39Z",
-   "action": null,
-   "line": "2026-08-01T01:04:14.3290437Z _As of 9:04 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677134085,
@@ -3562,13 +1977,6 @@
    "job": 91306623958,
    "created_utc": "2026-08-01T01:05:52Z",
    "action": null,
-   "line": "2026-08-01T01:06:19.1847777Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677134085,
-   "job": 91306623958,
-   "created_utc": "2026-08-01T01:05:52Z",
-   "action": null,
    "line": "2026-08-01T01:06:19.1850568Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3577,27 +1985,6 @@
    "created_utc": "2026-08-01T01:05:52Z",
    "action": null,
    "line": "2026-08-01T01:06:19.1851175Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677134085,
-   "job": 91306623958,
-   "created_utc": "2026-08-01T01:05:52Z",
-   "action": null,
-   "line": "2026-08-01T01:06:20.0183123Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677134085,
-   "job": 91306623958,
-   "created_utc": "2026-08-01T01:05:52Z",
-   "action": null,
-   "line": "2026-08-01T01:06:20.0535989Z _As of 9:06 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677134085,
-   "job": 91306623958,
-   "created_utc": "2026-08-01T01:05:52Z",
-   "action": null,
-   "line": "2026-08-01T01:06:23.5623695Z _As of 9:06 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677172865,
@@ -3639,13 +2026,6 @@
    "job": 91306733743,
    "created_utc": "2026-08-01T01:06:51Z",
    "action": null,
-   "line": "2026-08-01T01:07:15.4730683Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677172865,
-   "job": 91306733743,
-   "created_utc": "2026-08-01T01:06:51Z",
-   "action": null,
    "line": "2026-08-01T01:07:15.4732900Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3654,27 +2034,6 @@
    "created_utc": "2026-08-01T01:06:51Z",
    "action": null,
    "line": "2026-08-01T01:07:15.4733484Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677172865,
-   "job": 91306733743,
-   "created_utc": "2026-08-01T01:06:51Z",
-   "action": null,
-   "line": "2026-08-01T01:07:16.2438492Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677172865,
-   "job": 91306733743,
-   "created_utc": "2026-08-01T01:06:51Z",
-   "action": null,
-   "line": "2026-08-01T01:07:16.2897460Z _As of 9:07 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677172865,
-   "job": 91306733743,
-   "created_utc": "2026-08-01T01:06:51Z",
-   "action": null,
-   "line": "2026-08-01T01:07:19.2571904Z _As of 9:07 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677276522,
@@ -3716,13 +2075,6 @@
    "job": 91307033613,
    "created_utc": "2026-08-01T01:09:26Z",
    "action": null,
-   "line": "2026-08-01T01:09:50.8387099Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677276522,
-   "job": 91307033613,
-   "created_utc": "2026-08-01T01:09:26Z",
-   "action": null,
    "line": "2026-08-01T01:09:50.8390620Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3731,27 +2083,6 @@
    "created_utc": "2026-08-01T01:09:26Z",
    "action": null,
    "line": "2026-08-01T01:09:50.8392217Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677276522,
-   "job": 91307033613,
-   "created_utc": "2026-08-01T01:09:26Z",
-   "action": null,
-   "line": "2026-08-01T01:09:51.6183782Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677276522,
-   "job": 91307033613,
-   "created_utc": "2026-08-01T01:09:26Z",
-   "action": null,
-   "line": "2026-08-01T01:09:51.6657843Z _As of 9:09 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677276522,
-   "job": 91307033613,
-   "created_utc": "2026-08-01T01:09:26Z",
-   "action": null,
-   "line": "2026-08-01T01:09:54.8396087Z _As of 9:09 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677361136,
@@ -3793,13 +2124,6 @@
    "job": 91307270794,
    "created_utc": "2026-08-01T01:11:40Z",
    "action": null,
-   "line": "2026-08-01T01:12:03.3310104Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677361136,
-   "job": 91307270794,
-   "created_utc": "2026-08-01T01:11:40Z",
-   "action": null,
    "line": "2026-08-01T01:12:03.3313279Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3808,27 +2132,6 @@
    "created_utc": "2026-08-01T01:11:40Z",
    "action": null,
    "line": "2026-08-01T01:12:03.3314115Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677361136,
-   "job": 91307270794,
-   "created_utc": "2026-08-01T01:11:40Z",
-   "action": null,
-   "line": "2026-08-01T01:12:03.9656316Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677361136,
-   "job": 91307270794,
-   "created_utc": "2026-08-01T01:11:40Z",
-   "action": null,
-   "line": "2026-08-01T01:12:04.0139285Z _As of 9:12 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677361136,
-   "job": 91307270794,
-   "created_utc": "2026-08-01T01:11:40Z",
-   "action": null,
-   "line": "2026-08-01T01:12:07.8834988Z _As of 9:12 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677444536,
@@ -3870,13 +2173,6 @@
    "job": 91307497944,
    "created_utc": "2026-08-01T01:13:51Z",
    "action": null,
-   "line": "2026-08-01T01:14:27.1846803Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677444536,
-   "job": 91307497944,
-   "created_utc": "2026-08-01T01:13:51Z",
-   "action": null,
    "line": "2026-08-01T01:14:27.1849294Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3885,27 +2181,6 @@
    "created_utc": "2026-08-01T01:13:51Z",
    "action": null,
    "line": "2026-08-01T01:14:27.1849941Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677444536,
-   "job": 91307497944,
-   "created_utc": "2026-08-01T01:13:51Z",
-   "action": null,
-   "line": "2026-08-01T01:14:28.3782446Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677444536,
-   "job": 91307497944,
-   "created_utc": "2026-08-01T01:13:51Z",
-   "action": null,
-   "line": "2026-08-01T01:14:28.4242461Z _As of 9:14 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677444536,
-   "job": 91307497944,
-   "created_utc": "2026-08-01T01:13:51Z",
-   "action": null,
-   "line": "2026-08-01T01:14:32.2765094Z _As of 9:14 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677489120,
@@ -3947,13 +2222,6 @@
    "job": 91307615643,
    "created_utc": "2026-08-01T01:15:01Z",
    "action": null,
-   "line": "2026-08-01T01:15:30.6089767Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677489120,
-   "job": 91307615643,
-   "created_utc": "2026-08-01T01:15:01Z",
-   "action": null,
    "line": "2026-08-01T01:15:30.6092716Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -3962,27 +2230,6 @@
    "created_utc": "2026-08-01T01:15:01Z",
    "action": null,
    "line": "2026-08-01T01:15:30.6093508Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677489120,
-   "job": 91307615643,
-   "created_utc": "2026-08-01T01:15:01Z",
-   "action": null,
-   "line": "2026-08-01T01:15:31.6500902Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677489120,
-   "job": 91307615643,
-   "created_utc": "2026-08-01T01:15:01Z",
-   "action": null,
-   "line": "2026-08-01T01:15:31.6976628Z _As of 9:15 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677489120,
-   "job": 91307615643,
-   "created_utc": "2026-08-01T01:15:01Z",
-   "action": null,
-   "line": "2026-08-01T01:15:34.7434711Z _As of 9:15 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677532084,
@@ -4024,13 +2271,6 @@
    "job": 91307730480,
    "created_utc": "2026-08-01T01:16:02Z",
    "action": null,
-   "line": "2026-08-01T01:16:27.8059003Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677532084,
-   "job": 91307730480,
-   "created_utc": "2026-08-01T01:16:02Z",
-   "action": null,
    "line": "2026-08-01T01:16:27.8061457Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -4039,27 +2279,6 @@
    "created_utc": "2026-08-01T01:16:02Z",
    "action": null,
    "line": "2026-08-01T01:16:27.8062089Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677532084,
-   "job": 91307730480,
-   "created_utc": "2026-08-01T01:16:02Z",
-   "action": null,
-   "line": "2026-08-01T01:16:28.5900691Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677532084,
-   "job": 91307730480,
-   "created_utc": "2026-08-01T01:16:02Z",
-   "action": null,
-   "line": "2026-08-01T01:16:28.6363030Z _As of 9:16 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677532084,
-   "job": 91307730480,
-   "created_utc": "2026-08-01T01:16:02Z",
-   "action": null,
-   "line": "2026-08-01T01:16:32.2387872Z _As of 9:16 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677626611,
@@ -4101,13 +2320,6 @@
    "job": 91307993439,
    "created_utc": "2026-08-01T01:18:35Z",
    "action": null,
-   "line": "2026-08-01T01:19:06.4278112Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677626611,
-   "job": 91307993439,
-   "created_utc": "2026-08-01T01:18:35Z",
-   "action": null,
    "line": "2026-08-01T01:19:06.4280274Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -4116,27 +2328,6 @@
    "created_utc": "2026-08-01T01:18:35Z",
    "action": null,
    "line": "2026-08-01T01:19:06.4280707Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677626611,
-   "job": 91307993439,
-   "created_utc": "2026-08-01T01:18:35Z",
-   "action": null,
-   "line": "2026-08-01T01:19:07.3596961Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677626611,
-   "job": 91307993439,
-   "created_utc": "2026-08-01T01:18:35Z",
-   "action": null,
-   "line": "2026-08-01T01:19:07.4938271Z _As of 9:19 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677626611,
-   "job": 91307993439,
-   "created_utc": "2026-08-01T01:18:35Z",
-   "action": null,
-   "line": "2026-08-01T01:19:12.0975363Z _As of 9:19 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30677710476,
@@ -4178,13 +2369,6 @@
    "job": 91308225162,
    "created_utc": "2026-08-01T01:20:47Z",
    "action": null,
-   "line": "2026-08-01T01:21:24.5288012Z   \"panel_complete\": false,"
-  },
-  {
-   "run": 30677710476,
-   "job": 91308225162,
-   "created_utc": "2026-08-01T01:20:47Z",
-   "action": null,
    "line": "2026-08-01T01:21:24.5290606Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
   },
   {
@@ -4193,34 +2377,6 @@
    "created_utc": "2026-08-01T01:20:47Z",
    "action": null,
    "line": "2026-08-01T01:21:24.5291130Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30677710476,
-   "job": 91308225162,
-   "created_utc": "2026-08-01T01:20:47Z",
-   "action": null,
-   "line": "2026-08-01T01:21:25.3215308Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677710476,
-   "job": 91308225162,
-   "created_utc": "2026-08-01T01:20:47Z",
-   "action": null,
-   "line": "2026-08-01T01:21:25.3549494Z _As of 9:21 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677710476,
-   "job": 91308225162,
-   "created_utc": "2026-08-01T01:20:47Z",
-   "action": null,
-   "line": "2026-08-01T01:21:28.7068326Z _As of 9:21 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677787131,
-   "job": 91308454652,
-   "created_utc": "2026-08-01T01:23:00Z",
-   "action": null,
-   "line": "2026-08-01T01:23:13.1262924Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
   },
   {
    "run": 30677795356,
@@ -4244,95 +2400,11 @@
    "line": "2026-08-01T01:23:47.1662021Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   },
   {
-   "run": 30677795356,
-   "job": 91308480356,
-   "created_utc": "2026-08-01T01:23:11Z",
-   "action": null,
-   "line": "2026-08-01T01:23:48.3328743Z [retro-collect] panel complete \u2014 frozen gate applied"
-  },
-  {
-   "run": 30677795356,
-   "job": 91308480356,
-   "created_utc": "2026-08-01T01:23:11Z",
-   "action": null,
-   "line": "2026-08-01T01:23:48.7653832Z   \"panel_complete\": true,"
-  },
-  {
-   "run": 30677795356,
-   "job": 91308480356,
-   "created_utc": "2026-08-01T01:23:11Z",
-   "action": null,
-   "line": "2026-08-01T01:23:48.7700037Z       \"source\": \"nrv04-retrospective-prespend-audit-2026-07-25.md \\u00a73d \\u2014 Monte-Carlo through THIS frozen decision rule; false-positive rate at delta=0 is 0.048, so the test is valid, just blunt\","
-  },
-  {
-   "run": 30677795356,
-   "job": 91308480356,
-   "created_utc": "2026-08-01T01:23:11Z",
-   "action": null,
-   "line": "2026-08-01T01:23:49.9852265Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30677795356,
-   "job": 91308480356,
-   "created_utc": "2026-08-01T01:23:11Z",
-   "action": null,
-   "line": "2026-08-01T01:23:50.0328888Z _As of 9:23 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30677795356,
-   "job": 91308480356,
-   "created_utc": "2026-08-01T01:23:11Z",
-   "action": null,
-   "line": "2026-08-01T01:23:54.0198640Z _As of 9:23 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
    "run": 30678021347,
    "job": 91309133424,
    "created_utc": "2026-08-01T01:29:31Z",
    "action": null,
    "line": "2026-08-01T01:29:59.0775489Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
-  },
-  {
-   "run": 30678021347,
-   "job": 91309133424,
-   "created_utc": "2026-08-01T01:29:31Z",
-   "action": null,
-   "line": "2026-08-01T01:30:00.2419827Z [retro-collect] panel complete \u2014 frozen gate applied"
-  },
-  {
-   "run": 30678021347,
-   "job": 91309133424,
-   "created_utc": "2026-08-01T01:29:31Z",
-   "action": null,
-   "line": "2026-08-01T01:30:00.6944655Z   \"panel_complete\": true,"
-  },
-  {
-   "run": 30678021347,
-   "job": 91309133424,
-   "created_utc": "2026-08-01T01:29:31Z",
-   "action": null,
-   "line": "2026-08-01T01:30:00.6995277Z       \"source\": \"nrv04-retrospective-prespend-audit-2026-07-25.md \\u00a73d \\u2014 Monte-Carlo through THIS frozen decision rule; false-positive rate at delta=0 is 0.048, so the test is valid, just blunt\","
-  },
-  {
-   "run": 30678021347,
-   "job": 91309133424,
-   "created_utc": "2026-08-01T01:29:31Z",
-   "action": null,
-   "line": "2026-08-01T01:30:01.9194236Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
-  },
-  {
-   "run": 30678021347,
-   "job": 91309133424,
-   "created_utc": "2026-08-01T01:29:31Z",
-   "action": null,
-   "line": "2026-08-01T01:30:01.9665234Z _As of 9:30 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30678021347,
-   "job": 91309133424,
-   "created_utc": "2026-08-01T01:29:31Z",
-   "action": null,
-   "line": "2026-08-01T01:30:06.0321205Z _As of 9:30 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
   },
   {
    "run": 30678090426,
@@ -4342,54 +2414,40 @@
    "line": "2026-08-01T01:31:56.9871876Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   },
   {
-   "run": 30678090426,
-   "job": 91309328159,
-   "created_utc": "2026-08-01T01:31:20Z",
+   "run": 30678387134,
+   "job": 91310212703,
+   "created_utc": "2026-08-01T01:39:31Z",
    "action": null,
-   "line": "2026-08-01T01:31:58.1139734Z [retro-collect] panel complete \u2014 frozen gate applied"
+   "line": "2026-08-01T01:40:00.1078995Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   },
   {
-   "run": 30678090426,
-   "job": 91309328159,
-   "created_utc": "2026-08-01T01:31:20Z",
+   "run": 30678682279,
+   "job": 91311072870,
+   "created_utc": "2026-08-01T01:47:40Z",
    "action": null,
-   "line": "2026-08-01T01:31:58.5121696Z   \"panel_complete\": true,"
+   "line": "2026-08-01T01:48:13.3152382Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   },
   {
-   "run": 30678090426,
-   "job": 91309328159,
-   "created_utc": "2026-08-01T01:31:20Z",
+   "run": 30678962271,
+   "job": 91311908683,
+   "created_utc": "2026-08-01T01:55:51Z",
    "action": null,
-   "line": "2026-08-01T01:31:58.5179588Z       \"source\": \"nrv04-retrospective-prespend-audit-2026-07-25.md \\u00a73d \\u2014 Monte-Carlo through THIS frozen decision rule; false-positive rate at delta=0 is 0.048, so the test is valid, just blunt\","
+   "line": "2026-08-01T01:56:19.2353253Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   },
   {
-   "run": 30678090426,
-   "job": 91309328159,
-   "created_utc": "2026-08-01T01:31:20Z",
+   "run": 30679243422,
+   "job": 91312771861,
+   "created_utc": "2026-08-01T02:04:00Z",
    "action": null,
-   "line": "2026-08-01T01:31:59.6614604Z \u001b[36;1m# pushed neither, so the COMMITTED board went stale while the job stayed green. A frozen board that\u001b[0m"
+   "line": "2026-08-01T02:04:28.8715409Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   },
   {
-   "run": 30678090426,
-   "job": 91309328159,
-   "created_utc": "2026-08-01T01:31:20Z",
+   "run": 30679286778,
+   "job": 91312902708,
+   "created_utc": "2026-08-01T02:05:14Z",
    "action": null,
-   "line": "2026-08-01T01:31:59.7077957Z _As of 9:31 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30678090426,
-   "job": 91309328159,
-   "created_utc": "2026-08-01T01:31:20Z",
-   "action": null,
-   "line": "2026-08-01T01:32:03.8893995Z _As of 9:31 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
-  },
-  {
-   "run": 30678090426,
-   "job": 91309328159,
-   "created_utc": "2026-08-01T01:31:20Z",
-   "action": null,
-   "line": "2026-08-01T01:32:09.7322109Z _As of 9:31 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate._"
+   "line": "2026-08-01T02:05:38.2016977Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   }
  ],
- "bytes_scanned": 3653891
+ "bytes_scanned": 3488536
 }

@@ -1,0 +1,201 @@
+{
+ "_what": "The EMITTED NR-V04 retrospective R1 verdict, copied verbatim from the lane's durable collect readout. NOT the preregistered scoring description \u2014 that is nrv04-retro-criteria-audit.json, which says what the test WOULD do, not what it DID.",
+ "_scorer": "nrv04_retro_gate.verdict (frozen), applied by nrv04_vast_launch.retro_collect. Nothing in this file is recomputed here.",
+ "_amendment": "The authorized panel is AMENDMENT 4's: 16 legs, model-level n = 3 / 3 / 2. Read every reference set below against \u00a74.3, not against the pre-amendment enumeration.",
+ "source_key": "s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/collect/nrv04-retro-collect-latest.json",
+ "source_last_modified_utc": "2026-08-01T02:05:39Z",
+ "source_bytes": 17472,
+ "panel_complete": true,
+ "nonconforming_records": [
+  {
+   "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a3-m3-r0/leg_retro_noncov_nr4a3__m3_s0.json",
+   "unit": "nrv04retro-retro_noncov_nr4a3-m3-r0",
+   "leg_id": "retro_noncov_nr4a3__m3",
+   "mode": "smoke",
+   "n_frames": 0,
+   "timed_ns": 0.0,
+   "why": "mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint"
+  },
+  {
+   "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a3-m3-r1/leg_retro_noncov_nr4a3__m3_s1.json",
+   "unit": "nrv04retro-retro_noncov_nr4a3-m3-r1",
+   "leg_id": "retro_noncov_nr4a3__m3",
+   "mode": "smoke",
+   "n_frames": 0,
+   "timed_ns": 0.0,
+   "why": "mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint"
+  }
+ ],
+ "verdict": {
+  "prereg": "nr4a3-nrv04-retrospective-prereg.md",
+  "endpoint": "E1 interface-RMSD plateau (A); lower = more stable",
+  "model_level_means": {
+   "retro_noncov_nr4a1": {
+    "1": 3.3355,
+    "2": 5.1555,
+    "3": 3.802
+   },
+   "retro_noncov_nr4a2": {
+    "1": 3.59,
+    "2": 4.87,
+    "3": 6.0705
+   },
+   "retro_noncov_nr4a3": {
+    "1": 4.142,
+    "2": 3.2285
+   }
+  },
+  "technical_failures": {
+   "retro_noncov_nr4a1": 0,
+   "retro_noncov_nr4a2": 0,
+   "retro_noncov_nr4a3": 0
+  },
+  "underpowered_arms": [],
+  "tier": "DISCORDANT",
+  "reason": "NR4A1 is not the most stable arm",
+  "primary": {
+   "stat": -0.282533,
+   "p": 0.392857,
+   "n_arrangements": 56,
+   "min_attainable_p": 0.017857,
+   "alternative": "less"
+  },
+  "arm_means": {
+   "retro_noncov_nr4a1": 4.0977,
+   "retro_noncov_nr4a2": 4.8435,
+   "retro_noncov_nr4a3": 3.6852
+  },
+  "nr4a1_below_both_paralogues": false,
+  "pairwise_secondary": {
+   "retro_noncov_nr4a2": {
+    "stat": -0.745833,
+    "p": 0.3,
+    "n_arrangements": 20,
+    "min_attainable_p": 0.05,
+    "alternative": "less"
+   },
+   "retro_noncov_nr4a3": {
+    "stat": 0.412417,
+    "p": 0.7,
+    "n_arrangements": 10,
+    "min_attainable_p": 0.1,
+    "alternative": "less"
+   }
+  },
+  "pairwise_caveat": "descriptive support, never the verdict (prereg \u00a74c). Min attainable one-sided p per test: retro_noncov_nr4a2 = 0.05 (C(6,3) = 20 arrangements); retro_noncov_nr4a3 = 0.1 (C(5,3) = 10 arrangements) \u2014 \u26d4 ABOVE \u03b1 = 0.05, so this comparison CANNOT ATTAIN SIGNIFICANCE at any observed ordering and is UNRESOLVABLE, not null",
+  "leave_one_model_out": {
+   "observed_stat": -0.2825,
+   "refits": [
+    {
+     "dropped": "retro_noncov_nr4a1:m1",
+     "stat": 0.0985,
+     "sign_kept": false
+    },
+    {
+     "dropped": "retro_noncov_nr4a1:m2",
+     "stat": -0.8115,
+     "sign_kept": true
+    },
+    {
+     "dropped": "retro_noncov_nr4a1:m3",
+     "stat": -0.1347,
+     "sign_kept": true
+    },
+    {
+     "dropped": "retro_noncov_nr4a2:m1",
+     "stat": -0.4801,
+     "sign_kept": true
+    },
+    {
+     "dropped": "retro_noncov_nr4a2:m2",
+     "stat": -0.1601,
+     "sign_kept": true
+    },
+    {
+     "dropped": "retro_noncov_nr4a2:m3",
+     "stat": 0.14,
+     "sign_kept": false
+    },
+    {
+     "dropped": "retro_noncov_nr4a3:m1",
+     "stat": -0.3421,
+     "sign_kept": true
+    },
+    {
+     "dropped": "retro_noncov_nr4a3:m2",
+     "stat": -0.5705,
+     "sign_kept": true
+    }
+   ],
+   "survives": false
+  },
+  "leave_one_model_out_role": "REPORTED robustness diagnostic only \u2014 NOT a tier condition (AMENDMENT 3 defect 3: 228,543 configurations reached p <= alpha with the correct ordering and zero failed LOMO, so the clause could never bite).",
+  "reverse_direction": {
+   "stat": -0.282533,
+   "p": 0.625,
+   "n_arrangements": 56,
+   "min_attainable_p": 0.017857,
+   "alternative": "greater"
+  },
+  "covalency_decomposition": null,
+  "extension_triggered": false,
+  "extension_rule": "prereg \u00a74d as corrected by AMENDMENT 3 defect 2: right sign but p in (0.05, 0.12] -> generate 3 more co-fold models per paralogue and re-run R1 at n=6. May NOT be invoked on a wrong-sign result.",
+  "registered_mde": {
+   "measured_leg_sigma_A": 0.855,
+   "mde_80pct_power_A": [
+    1.5,
+    2.0
+   ],
+   "source": "nrv04-retrospective-prespend-audit-2026-07-25.md \u00a73d \u2014 Monte-Carlo through THIS frozen decision rule; false-positive rate at delta=0 is 0.048, so the test is valid, just blunt",
+   "null_licenses": "the workflow did not resolve a paralogue difference of the magnitude this design can detect (>= ~1.5-2.0 A in interface-RMSD plateau at n = 3 models/arm)",
+   "null_may_NOT_claim": "that NR-V04's selectivity is localised to warhead reactivity. That localisation stands on Leg 0 (Cys551 unique to NR4A1) and Zhang 2018 and must be stated as such. AMENDMENT 3 defect 4 also retires prereg \u00a75c's registered composite outcome, whose R2 half no longer exists."
+  },
+  "claim_ceiling": "directional concordance/discordance ONLY. No ddG, alpha, cooperativity, affinity or degradation claim; Arm E computes no free energy (prereg \u00a76). A null is bounded by `registered_mde` (AMENDMENT 3 defect 4), not by the absence of an effect."
+ },
+ "headline": {
+  "tier": "DISCORDANT",
+  "reason": "NR4A1 is not the most stable arm",
+  "primary": {
+   "stat": -0.282533,
+   "p": 0.392857,
+   "n_arrangements": 56,
+   "min_attainable_p": 0.017857,
+   "alternative": "less"
+  },
+  "arm_means": {
+   "retro_noncov_nr4a1": 4.0977,
+   "retro_noncov_nr4a2": 4.8435,
+   "retro_noncov_nr4a3": 3.6852
+  },
+  "nr4a1_below_both_paralogues": false,
+  "pairwise_secondary": {
+   "retro_noncov_nr4a2": {
+    "stat": -0.745833,
+    "p": 0.3,
+    "n_arrangements": 20,
+    "min_attainable_p": 0.05,
+    "alternative": "less"
+   },
+   "retro_noncov_nr4a3": {
+    "stat": 0.412417,
+    "p": 0.7,
+    "n_arrangements": 10,
+    "min_attainable_p": 0.1,
+    "alternative": "less"
+   }
+  },
+  "pairwise_caveat": "descriptive support, never the verdict (prereg \u00a74c). Min attainable one-sided p per test: retro_noncov_nr4a2 = 0.05 (C(6,3) = 20 arrangements); retro_noncov_nr4a3 = 0.1 (C(5,3) = 10 arrangements) \u2014 \u26d4 ABOVE \u03b1 = 0.05, so this comparison CANNOT ATTAIN SIGNIFICANCE at any observed ordering and is UNRESOLVABLE, not null",
+  "reverse_direction": {
+   "stat": -0.282533,
+   "p": 0.625,
+   "n_arrangements": 56,
+   "min_attainable_p": 0.017857,
+   "alternative": "greater"
+  },
+  "extension_triggered": false,
+  "leave_one_model_out_role": "REPORTED robustness diagnostic only \u2014 NOT a tier condition (AMENDMENT 3 defect 3: 228,543 configurations reached p <= alpha with the correct ordering and zero failed LOMO, so the clause could never bite).",
+  "claim_ceiling": "directional concordance/discordance ONLY. No ddG, alpha, cooperativity, affinity or degradation claim; Arm E computes no free energy (prereg \u00a76). A null is bounded by `registered_mde` (AMENDMENT 3 defect 4), not by the absence of an effect.",
+  "alpha": 0.05,
+  "alpha_source": "nrv04_retro_gate.ALPHA (frozen), not a field of the readout"
+ }
+}
