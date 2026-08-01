@@ -1,0 +1,1095 @@
+{
+ "_what": "derivation behind selectivity-resolution-options.md \u2014 what would resolve paralogue selectivity in-silico, what it costs, and which of the two problems each option solves",
+ "_scorer": "nrv04_retro_gate (frozen, imported not reimplemented)",
+ "_costs_from": "vast_cost_model bases x vast-ladder-repricing.json planning rate",
+ "_not_an_amendment": "no preregistered criterion is proposed, changed or re-scored here",
+ "alpha": 0.05,
+ "landed_panel": {
+  "source": "nrv04-retro-verdict.json",
+  "model_level_values": {
+   "retro_noncov_nr4a1": [
+    3.3355,
+    5.1555,
+    3.802
+   ],
+   "retro_noncov_nr4a2": [
+    3.59,
+    4.87,
+    6.0705
+   ],
+   "retro_noncov_nr4a3": [
+    4.142,
+    3.2285
+   ]
+  },
+  "models_per_arm": {
+   "retro_noncov_nr4a1": 3,
+   "retro_noncov_nr4a2": 3,
+   "retro_noncov_nr4a3": 2
+  },
+  "pooled_within_arm_model_level_SD_A": 1.0278,
+  "df": 5,
+  "_what_this_SD_is": "the spread of MODEL-level values inside an arm \u2014 the noise the permutation test actually competes against. It is NOT the registered leg-to-leg sigma (0.855 A, `nrv04_retro_gate.MEASURED_LEG_SIGMA_A`), which is measured between velocity replicas of ONE model and is therefore a different and smaller quantity.",
+  "observed_primary_stat_A": -0.282533,
+  "observed_pairwise_nr4a3_stat_A": 0.412417,
+  "observed_pairwise_nr4a2_stat_A": -0.745833,
+  "tier": "DISCORDANT"
+ },
+ "planning_rates": {
+  "plan_usd_per_reference_gpu_h": 0.1143,
+  "best_usd_per_reference_gpu_h": 0.0473,
+  "median_usd_per_reference_gpu_h": 0.2881,
+  "source": "vast-ladder-repricing.json"
+ },
+ "ref_gpu_h_bases": {
+  "endpoint_md_leg": 1.38,
+  "ternary_leg": [
+   10.883,
+   14.0
+  ],
+  "_source": "vast_cost_model.ENDPOINT_MD_REF_GPU_H_PER_LEG and LADDER_REFERENCE_GPU_H['valB_mini (1 ternary edge, 3 replicas)'] / 6 legs"
+ },
+ "binding_constraint": {
+  "primary_contrast": {
+   "shape": "3 vs 5 models",
+   "n_arrangements": 56,
+   "min_attainable_p": 0.017857,
+   "reaches_alpha": true,
+   "verdict": "NOISE-LIMITED, not structurally limited \u2014 the design CAN reach alpha"
+  },
+  "pairwise_nr4a1_vs_nr4a3": {
+   "shape": "3 vs 2 models",
+   "n_arrangements": 10,
+   "min_attainable_p": 0.1,
+   "reaches_alpha": false,
+   "verdict": "STRUCTURALLY UNRESOLVABLE \u2014 no data can produce a p at or below alpha",
+   "smallest_n3_that_reaches_alpha_against_n1": 3
+  },
+  "pairwise_nr4a1_vs_nr4a2": {
+   "shape": "3 vs 3 models",
+   "min_attainable_p": 0.05,
+   "reaches_alpha": true,
+   "verdict": "reaches alpha only at PERFECT separation (floor == alpha exactly)"
+  },
+  "_the_distinction": "these are TWO problems. An option that fixes one is silent on the other, and an option that raises primary power to 0.9 while leaving NR4A1-vs-NR4A3 at C(5,3) leaves that comparison STRUCTURALLY UNRESOLVABLE, in those words."
+ },
+ "replicates_do_not_move_the_bound": {
+  "2_replicas_per_model": {
+   "n_legs": 16,
+   "primary_n_arrangements": 56,
+   "primary_min_attainable_p": 0.017857,
+   "pairwise_nr4a3_n_arrangements": 10,
+   "pairwise_nr4a3_min_attainable_p": 0.1,
+   "tier": "DISCORDANT"
+  },
+  "8_replicas_per_model": {
+   "n_legs": 64,
+   "primary_n_arrangements": 56,
+   "primary_min_attainable_p": 0.017857,
+   "pairwise_nr4a3_n_arrangements": 10,
+   "pairwise_nr4a3_min_attainable_p": 0.1,
+   "tier": "DISCORDANT"
+  },
+  "20_replicas_per_model": {
+   "n_legs": 160,
+   "primary_n_arrangements": 56,
+   "primary_min_attainable_p": 0.017857,
+   "pairwise_nr4a3_n_arrangements": 10,
+   "pairwise_nr4a3_min_attainable_p": 0.1,
+   "tier": "DISCORDANT"
+  },
+  "100_replicas_per_model": {
+   "n_legs": 800,
+   "primary_n_arrangements": 56,
+   "primary_min_attainable_p": 0.017857,
+   "pairwise_nr4a3_n_arrangements": 10,
+   "pairwise_nr4a3_min_attainable_p": 0.1,
+   "tier": "DISCORDANT"
+  }
+ },
+ "variance_decomposition": {
+  "sigma_model_level_A": 1.0278,
+  "sigma_leg_A": 0.855,
+  "replicas_per_model": 2,
+  "variance_from_replicates": 0.3655,
+  "variance_between_models": 0.6909,
+  "admissible": true,
+  "sigma_between_models_A": 0.8312,
+  "floor_at_infinite_replicates_A": 0.8312,
+  "fraction_of_model_level_variance_replicates_can_remove": 0.346
+ },
+ "effect_to_noise": {
+  "sigma_model_measured_A": 1.0278,
+  "observed_primary_separation_A": 0.282533,
+  "observed_pairwise_nr4a3_separation_A": 0.412417,
+  "primary_separation_in_sigma": 0.275,
+  "pairwise_separation_in_sigma": 0.401,
+  "_reading": "n needed for a fixed power scales as (sigma/delta)^2, so an effect this small relative to sigma is not reachable by any affordable n. The design question is therefore about the READOUT and the CONTROL, not about buying more of this one."
+ },
+ "structural_bound_primary_by_n": {
+  "2": {
+   "contrast": "2 vs 4",
+   "n_arrangements": 15,
+   "min_attainable_p": 0.066667,
+   "reaches_alpha": false
+  },
+  "3": {
+   "contrast": "3 vs 6",
+   "n_arrangements": 84,
+   "min_attainable_p": 0.011905,
+   "reaches_alpha": true
+  },
+  "4": {
+   "contrast": "4 vs 8",
+   "n_arrangements": 495,
+   "min_attainable_p": 0.00202,
+   "reaches_alpha": true
+  },
+  "5": {
+   "contrast": "5 vs 10",
+   "n_arrangements": 3003,
+   "min_attainable_p": 0.000333,
+   "reaches_alpha": true
+  },
+  "6": {
+   "contrast": "6 vs 12",
+   "n_arrangements": 18564,
+   "min_attainable_p": 5.4e-05,
+   "reaches_alpha": true
+  },
+  "7": {
+   "contrast": "7 vs 14",
+   "n_arrangements": 116280,
+   "min_attainable_p": 9e-06,
+   "reaches_alpha": true
+  },
+  "8": {
+   "contrast": "8 vs 16",
+   "n_arrangements": 735471,
+   "min_attainable_p": 1e-06,
+   "reaches_alpha": true
+  },
+  "9": {
+   "contrast": "9 vs 18",
+   "n_arrangements": 4686825,
+   "min_attainable_p": 0.0,
+   "reaches_alpha": true
+  },
+  "10": {
+   "contrast": "10 vs 20",
+   "n_arrangements": 30045015,
+   "min_attainable_p": 0.0,
+   "reaches_alpha": true
+  }
+ },
+ "structural_bound_pairwise_by_n": {
+  "2": {
+   "contrast": "2 vs 2",
+   "n_arrangements": 6,
+   "min_attainable_p": 0.166667,
+   "reaches_alpha": false
+  },
+  "3": {
+   "contrast": "3 vs 3",
+   "n_arrangements": 20,
+   "min_attainable_p": 0.05,
+   "reaches_alpha": true
+  },
+  "4": {
+   "contrast": "4 vs 4",
+   "n_arrangements": 70,
+   "min_attainable_p": 0.014286,
+   "reaches_alpha": true
+  },
+  "5": {
+   "contrast": "5 vs 5",
+   "n_arrangements": 252,
+   "min_attainable_p": 0.003968,
+   "reaches_alpha": true
+  },
+  "6": {
+   "contrast": "6 vs 6",
+   "n_arrangements": 924,
+   "min_attainable_p": 0.001082,
+   "reaches_alpha": true
+  },
+  "7": {
+   "contrast": "7 vs 7",
+   "n_arrangements": 3432,
+   "min_attainable_p": 0.000291,
+   "reaches_alpha": true
+  },
+  "8": {
+   "contrast": "8 vs 8",
+   "n_arrangements": 12870,
+   "min_attainable_p": 7.8e-05,
+   "reaches_alpha": true
+  },
+  "9": {
+   "contrast": "9 vs 9",
+   "n_arrangements": 48620,
+   "min_attainable_p": 2.1e-05,
+   "reaches_alpha": true
+  },
+  "10": {
+   "contrast": "10 vs 10",
+   "n_arrangements": 184756,
+   "min_attainable_p": 5e-06,
+   "reaches_alpha": true
+  }
+ },
+ "structural_bound_paired_by_n": {
+  "3": {
+   "n_arrangements": 8,
+   "min_attainable_p": 0.125,
+   "reaches_alpha": false
+  },
+  "4": {
+   "n_arrangements": 16,
+   "min_attainable_p": 0.0625,
+   "reaches_alpha": false
+  },
+  "5": {
+   "n_arrangements": 32,
+   "min_attainable_p": 0.03125,
+   "reaches_alpha": true
+  },
+  "6": {
+   "n_arrangements": 64,
+   "min_attainable_p": 0.015625,
+   "reaches_alpha": true
+  },
+  "7": {
+   "n_arrangements": 128,
+   "min_attainable_p": 0.007812,
+   "reaches_alpha": true
+  },
+  "8": {
+   "n_arrangements": 256,
+   "min_attainable_p": 0.003906,
+   "reaches_alpha": true
+  },
+  "9": {
+   "n_arrangements": 512,
+   "min_attainable_p": 0.001953,
+   "reaches_alpha": true
+  },
+  "10": {
+   "n_arrangements": 1024,
+   "min_attainable_p": 0.000977,
+   "reaches_alpha": true
+  }
+ },
+ "exact_size_under_exchangeability": {
+  "_what": "P(p <= alpha) at delta = 0, computed exactly from the p-lattice rather than simulated. An UPPER bound on the CONCORDANT rate, since the tier's other conditions only remove cases. Read the delta=0 row of the power tables against THIS, not against alpha.",
+  "as_run_primary_3_vs_5": 0.035714,
+  "balanced_primary_by_n": {
+   "3": 0.047619,
+   "4": 0.048485,
+   "5": 0.04995,
+   "6": 0.049989
+  },
+  "pairwise_by_n": {
+   "2": 0.0,
+   "3": 0.05,
+   "4": 0.042857,
+   "5": 0.047619,
+   "6": 0.049784
+  }
+ },
+ "power_primary": {
+  "_none_means": "the exact enumeration exceeds MAX_EXACT_ARRANGEMENTS \u2014 no sampled substitute is reported in its place",
+  "_mc_error": "Monte-Carlo. SE ~ sqrt(p(1-p)/n_sims); n_sims is traded against enumeration size by `_sims_for`, so a large design is noisier. Compare the delta=0 row to `exact_size_under_exchangeability`.",
+  "measured_model_level=1.0278 | AS-RUN 3/3/2": {
+   "0.0": 0.0357,
+   "0.25": 0.0607,
+   "0.5": 0.1082,
+   "0.75": 0.1685,
+   "1.0": 0.246,
+   "1.5": 0.4442,
+   "2.0": 0.662,
+   "2.5": 0.8283,
+   "3.0": 0.9293
+  },
+  "measured_model_level=1.0278 | balanced n=3": {
+   "0.0": 0.048,
+   "0.25": 0.0897,
+   "0.5": 0.1507,
+   "0.75": 0.2303,
+   "1.0": 0.3237,
+   "1.5": 0.5645,
+   "2.0": 0.7738,
+   "2.5": 0.9085,
+   "3.0": 0.9728
+  },
+  "measured_model_level=1.0278 | balanced n=4": {
+   "0.0": 0.049,
+   "0.25": 0.1025,
+   "0.5": 0.1802,
+   "0.75": 0.288,
+   "1.0": 0.4185,
+   "1.5": 0.7007,
+   "2.0": 0.8968,
+   "2.5": 0.98,
+   "3.0": 0.998
+  },
+  "measured_model_level=1.0278 | balanced n=5": {
+   "0.0": 0.0458,
+   "0.25": 0.0991,
+   "0.5": 0.2057,
+   "0.75": 0.3544,
+   "1.0": 0.5255,
+   "1.5": 0.8056,
+   "2.0": 0.9482,
+   "2.5": 0.9932,
+   "3.0": 1.0
+  },
+  "measured_model_level=1.0278 | balanced n=6": {
+   "0.0": 0.0567,
+   "0.25": 0.1067,
+   "0.5": 0.23,
+   "0.75": 0.41,
+   "1.0": 0.59,
+   "1.5": 0.8867,
+   "2.0": 0.9833,
+   "2.5": 0.9967,
+   "3.0": 1.0
+  },
+  "registered_leg_sigma=0.8550 | AS-RUN 3/3/2": {
+   "0.0": 0.0357,
+   "0.25": 0.0698,
+   "0.5": 0.1318,
+   "0.75": 0.2137,
+   "1.0": 0.3235,
+   "1.5": 0.585,
+   "2.0": 0.8023,
+   "2.5": 0.93,
+   "3.0": 0.9802
+  },
+  "registered_leg_sigma=0.8550 | balanced n=3": {
+   "0.0": 0.048,
+   "0.25": 0.1032,
+   "0.5": 0.1837,
+   "0.75": 0.2885,
+   "1.0": 0.4155,
+   "1.5": 0.701,
+   "2.0": 0.8885,
+   "2.5": 0.9728,
+   "3.0": 0.9958
+  },
+  "registered_leg_sigma=0.8550 | balanced n=4": {
+   "0.0": 0.049,
+   "0.25": 0.1163,
+   "0.5": 0.2195,
+   "0.75": 0.3633,
+   "1.0": 0.5375,
+   "1.5": 0.8397,
+   "2.0": 0.97,
+   "2.5": 0.998,
+   "3.0": 0.9998
+  },
+  "registered_leg_sigma=0.8550 | balanced n=5": {
+   "0.0": 0.0458,
+   "0.25": 0.1119,
+   "0.5": 0.2538,
+   "0.75": 0.461,
+   "1.0": 0.6517,
+   "1.5": 0.9099,
+   "2.0": 0.9857,
+   "2.5": 1.0,
+   "3.0": 1.0
+  },
+  "registered_leg_sigma=0.8550 | balanced n=6": {
+   "0.0": 0.0567,
+   "0.25": 0.14,
+   "0.5": 0.29,
+   "0.75": 0.5133,
+   "1.0": 0.7333,
+   "1.5": 0.9567,
+   "2.0": 0.9933,
+   "2.5": 1.0,
+   "3.0": 1.0
+  }
+ },
+ "power_pairwise_nr4a1_vs_nr4a3": {
+  "_none_means": "the exact enumeration exceeds MAX_EXACT_ARRANGEMENTS \u2014 no sampled substitute is reported in its place",
+  "_mc_error": "Monte-Carlo. SE ~ sqrt(p(1-p)/n_sims); n_sims is traded against enumeration size by `_sims_for`, so a large design is noisier. Compare the delta=0 row to `exact_size_under_exchangeability`.",
+  "measured_model_level=1.0278 | n=3": {
+   "0.0": 0.0548,
+   "0.25": 0.0843,
+   "0.5": 0.1293,
+   "0.75": 0.1845,
+   "1.0": 0.255,
+   "1.5": 0.4258,
+   "2.0": 0.5992,
+   "2.5": 0.7668,
+   "3.0": 0.877
+  },
+  "measured_model_level=1.0278 | n=4": {
+   "0.0": 0.039,
+   "0.25": 0.079,
+   "0.5": 0.136,
+   "0.75": 0.2045,
+   "1.0": 0.295,
+   "1.5": 0.5188,
+   "2.0": 0.7378,
+   "2.5": 0.886,
+   "3.0": 0.9595
+  },
+  "measured_model_level=1.0278 | n=5": {
+   "0.0": 0.042,
+   "0.25": 0.0833,
+   "0.5": 0.154,
+   "0.75": 0.2562,
+   "1.0": 0.3927,
+   "1.5": 0.6737,
+   "2.0": 0.8728,
+   "2.5": 0.9655,
+   "3.0": 0.9942
+  },
+  "measured_model_level=1.0278 | n=6": {
+   "0.0": 0.049,
+   "0.25": 0.103,
+   "0.5": 0.1895,
+   "0.75": 0.3155,
+   "1.0": 0.463,
+   "1.5": 0.7498,
+   "2.0": 0.9315,
+   "2.5": 0.9895,
+   "3.0": 0.9998
+  },
+  "measured_model_level=1.0278 | AS-RUN 3 vs 2": {
+   "0.0": 0.0,
+   "0.25": 0.0,
+   "0.5": 0.0,
+   "0.75": 0.0,
+   "1.0": 0.0,
+   "1.5": 0.0,
+   "2.0": 0.0,
+   "2.5": 0.0,
+   "3.0": 0.0
+  },
+  "registered_leg_sigma=0.8550 | n=3": {
+   "0.0": 0.0548,
+   "0.25": 0.0905,
+   "0.5": 0.1512,
+   "0.75": 0.2263,
+   "1.0": 0.3182,
+   "1.5": 0.5323,
+   "2.0": 0.7385,
+   "2.5": 0.8785,
+   "3.0": 0.9553
+  },
+  "registered_leg_sigma=0.8550 | n=4": {
+   "0.0": 0.039,
+   "0.25": 0.0885,
+   "0.5": 0.161,
+   "0.75": 0.2565,
+   "1.0": 0.38,
+   "1.5": 0.6633,
+   "2.0": 0.8658,
+   "2.5": 0.96,
+   "3.0": 0.9932
+  },
+  "registered_leg_sigma=0.8550 | n=5": {
+   "0.0": 0.042,
+   "0.25": 0.0965,
+   "0.5": 0.1925,
+   "0.75": 0.336,
+   "1.0": 0.509,
+   "1.5": 0.8087,
+   "2.0": 0.9537,
+   "2.5": 0.9942,
+   "3.0": 0.9995
+  },
+  "registered_leg_sigma=0.8550 | n=6": {
+   "0.0": 0.049,
+   "0.25": 0.1192,
+   "0.5": 0.2362,
+   "0.75": 0.4025,
+   "1.0": 0.5885,
+   "1.5": 0.8785,
+   "2.0": 0.9825,
+   "2.5": 0.9998,
+   "3.0": 1.0
+  },
+  "registered_leg_sigma=0.8550 | AS-RUN 3 vs 2": {
+   "0.0": 0.0,
+   "0.25": 0.0,
+   "0.5": 0.0,
+   "0.75": 0.0,
+   "1.0": 0.0,
+   "1.5": 0.0,
+   "2.0": 0.0,
+   "2.5": 0.0,
+   "3.0": 0.0
+  }
+ },
+ "budget_allocation_at_fixed_legs": {
+  "_what": "the SAME legs, split differently between models and replicates. sigma_between is held at the decomposition's estimate and sigma_leg at the registered value.",
+  "_delta_A": 1.0,
+  "6_legs_per_arm": {
+   "1_replicas_x_6_models": {
+    "replicas_per_model": 1,
+    "models_per_arm": 6,
+    "legs_per_arm": 6,
+    "sigma_model_A": 1.1924,
+    "primary_min_attainable_p": 5.4e-05,
+    "pairwise_min_attainable_p": 0.001082,
+    "pairwise_can_reach_alpha": true,
+    "power_primary": 0.5033,
+    "power_pairwise": 0.3895
+   },
+   "2_replicas_x_3_models": {
+    "replicas_per_model": 2,
+    "models_per_arm": 3,
+    "legs_per_arm": 6,
+    "sigma_model_A": 1.0278,
+    "primary_min_attainable_p": 0.011905,
+    "pairwise_min_attainable_p": 0.05,
+    "pairwise_can_reach_alpha": true,
+    "power_primary": 0.3387,
+    "power_pairwise": 0.2607
+   }
+  },
+  "8_legs_per_arm": {
+   "1_replicas_x_8_models": {
+    "replicas_per_model": 1,
+    "models_per_arm": 8,
+    "legs_per_arm": 8,
+    "sigma_model_A": 1.1924,
+    "primary_min_attainable_p": 1e-06,
+    "pairwise_min_attainable_p": 7.8e-05,
+    "pairwise_can_reach_alpha": true,
+    "power_primary": null,
+    "power_pairwise": 0.5097
+   },
+   "2_replicas_x_4_models": {
+    "replicas_per_model": 2,
+    "models_per_arm": 4,
+    "legs_per_arm": 8,
+    "sigma_model_A": 1.0278,
+    "primary_min_attainable_p": 0.00202,
+    "pairwise_min_attainable_p": 0.014286,
+    "pairwise_can_reach_alpha": true,
+    "power_primary": 0.4235,
+    "power_pairwise": 0.2923
+   },
+   "4_replicas_x_2_models": {
+    "replicas_per_model": 4,
+    "models_per_arm": 2,
+    "legs_per_arm": 8,
+    "sigma_model_A": 0.9347,
+    "primary_min_attainable_p": 0.066667,
+    "pairwise_min_attainable_p": 0.166667,
+    "pairwise_can_reach_alpha": false,
+    "power_primary": 0.0,
+    "power_pairwise": 0.0
+   }
+  }
+ },
+ "price_of_resolving_the_OBSERVED_effect": {
+  "_what": "if the true paralogue difference is the size this panel measured, how many models per arm would 80 % power need \u2014 and what would that cost? The answer is the one that reframes the whole question.",
+  "_method": "normal approximation (`n_models_for_power_normal`) because the exact enumeration is unrunnable at this n; it is a LOWER bound on the exact requirement",
+  "normal_approximation_cross_check": {
+   "n=3": {
+    "delta_the_approximation_calls_80pct_A": 2.087,
+    "exact_permutation_power_there": 0.6445
+   },
+   "n=4": {
+    "delta_the_approximation_calls_80pct_A": 1.807,
+    "exact_permutation_power_there": 0.666
+   },
+   "n=5": {
+    "delta_the_approximation_calls_80pct_A": 1.616,
+    "exact_permutation_power_there": 0.7232
+   },
+   "n=6": {
+    "delta_the_approximation_calls_80pct_A": 1.475,
+    "exact_permutation_power_there": 0.7375
+   }
+  },
+  "pairwise_nr4a1_vs_nr4a3": {
+   "observed_separation_A": 0.4124,
+   "models_per_arm_needed": 77,
+   "legs_at_2_arms_x_2_replicas": 308,
+   "cost": {
+    "n_units": 308,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 425.04,
+    "plan_usd": 48.58,
+    "range_usd": [
+     20.1,
+     122.45
+    ]
+   }
+  },
+  "primary_pooled": {
+   "observed_separation_A": 0.2825,
+   "models_per_arm_needed": 123,
+   "legs_at_3_arms_x_2_replicas": 738,
+   "cost": {
+    "n_units": 738,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 1018.44,
+    "plan_usd": 116.41,
+    "range_usd": [
+     48.17,
+     293.41
+    ]
+   }
+  },
+  "_the_finding": "\u26a0 THIS IS AFFORDABLE, AND THAT IS THE PROBLEM. At endpoint-MD prices a panel large enough to resolve the separation actually observed costs low hundreds of dollars, not thousands \u2014 so 'we cannot afford the resolution' is FALSE and must not be written. What the money would buy is a statistically resolved sub-Angstrom difference in an interface-RMSD plateau, and the prereg's own claim ceiling (section 6) permits only DIRECTIONAL CONCORDANCE from it: no quantitative link between that plateau and degradation selectivity has ever been established. Buying resolution on an uncalibrated readout buys a precise number nobody can interpret. That is why the recommended sequence spends its first dollars on a POSITIVE CONTROL rather than on n."
+ },
+ "options": [
+  {
+   "option": "A1 restore NR4A3 to n = 3",
+   "engine": "endpoint MD (nrv04_covalent_md lane)",
+   "gpu_legs": 2,
+   "attacks": "STRUCTURAL and NOISE (n enters both)",
+   "buys": "primary reference set C(9,3) = 84, min attainable p 0.0119; NR4A1-vs-NR4A3 pairwise C(6,3) = 20, min attainable p 0.0500",
+   "cannot_buy": "nothing about the endpoint's effect-size-to-noise ratio",
+   "cost": {
+    "n_units": 2,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 2.76,
+    "plan_usd": 0.32,
+    "range_usd": [
+     0.13,
+     0.8
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "new_models": 1,
+   "design": {
+    "models_per_arm": 3,
+    "primary_min_attainable_p": 0.011905,
+    "pairwise_min_attainable_p": 0.05,
+    "pairwise_can_reach_alpha": true
+   },
+   "cofold_generation_usd_ESTIMATE_not_derived": [
+    0.0,
+    50.0
+   ]
+  },
+  {
+   "option": "A2 balanced n = 6/arm",
+   "engine": "endpoint MD (nrv04_covalent_md lane)",
+   "gpu_legs": 20,
+   "attacks": "STRUCTURAL and NOISE (n enters both)",
+   "buys": "primary reference set C(18,6) = 18564, min attainable p 0.0001; NR4A1-vs-NR4A3 pairwise C(12,6) = 924, min attainable p 0.0011",
+   "cannot_buy": "nothing about the endpoint's effect-size-to-noise ratio",
+   "cost": {
+    "n_units": 20,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 27.6,
+    "plan_usd": 3.15,
+    "range_usd": [
+     1.31,
+     7.95
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "new_models": 10,
+   "design": {
+    "models_per_arm": 6,
+    "primary_min_attainable_p": 5.4e-05,
+    "pairwise_min_attainable_p": 0.001082,
+    "pairwise_can_reach_alpha": true
+   },
+   "cofold_generation_usd_ESTIMATE_not_derived": [
+    0.0,
+    50.0
+   ]
+  },
+  {
+   "option": "A3 balanced n = 10/arm",
+   "engine": "endpoint MD (nrv04_covalent_md lane)",
+   "gpu_legs": 44,
+   "attacks": "STRUCTURAL and NOISE (n enters both)",
+   "buys": "primary reference set C(30,10) = 30045015, min attainable p 0.0000; NR4A1-vs-NR4A3 pairwise C(20,10) = 184756, min attainable p 0.0000",
+   "cannot_buy": "nothing about the endpoint's effect-size-to-noise ratio",
+   "cost": {
+    "n_units": 44,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 60.72,
+    "plan_usd": 6.94,
+    "range_usd": [
+     2.87,
+     17.49
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "new_models": 22,
+   "design": {
+    "models_per_arm": 10,
+    "primary_min_attainable_p": 0.0,
+    "pairwise_min_attainable_p": 5e-06,
+    "pairwise_can_reach_alpha": true
+   },
+   "cofold_generation_usd_ESTIMATE_not_derived": [
+    0.0,
+    50.0
+   ]
+  },
+  {
+   "option": "B1 4 replicas/model",
+   "engine": "endpoint MD (nrv04_covalent_md lane)",
+   "gpu_legs": 16,
+   "attacks": "NOISE only",
+   "buys": "a quieter model-level value, bounded below by sigma_between (see `variance_decomposition`)",
+   "cannot_buy": "\u26d4 CANNOT move ANY reference set. NR4A1-vs-NR4A3 stays at C(5,3) = 10, min attainable p 0.10 > alpha \u2014 structurally unresolvable at any replicate count, which `replicates_do_not_move_the_bound` demonstrates on the frozen scorer at 100 replicas/model",
+   "cost": {
+    "n_units": 16,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 22.08,
+    "plan_usd": 2.52,
+    "range_usd": [
+     1.04,
+     6.36
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "design": {
+    "models_per_arm": [
+     3,
+     3,
+     2
+    ],
+    "replicas_per_model": 4,
+    "primary_min_attainable_p": 0.017857,
+    "pairwise_min_attainable_p": 0.1,
+    "pairwise_can_reach_alpha": false
+   }
+  },
+  {
+   "option": "B2 6 replicas/model",
+   "engine": "endpoint MD (nrv04_covalent_md lane)",
+   "gpu_legs": 32,
+   "attacks": "NOISE only",
+   "buys": "a quieter model-level value, bounded below by sigma_between (see `variance_decomposition`)",
+   "cannot_buy": "\u26d4 CANNOT move ANY reference set. NR4A1-vs-NR4A3 stays at C(5,3) = 10, min attainable p 0.10 > alpha \u2014 structurally unresolvable at any replicate count, which `replicates_do_not_move_the_bound` demonstrates on the frozen scorer at 100 replicas/model",
+   "cost": {
+    "n_units": 32,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 44.16,
+    "plan_usd": 5.05,
+    "range_usd": [
+     2.09,
+     12.72
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "design": {
+    "models_per_arm": [
+     3,
+     3,
+     2
+    ],
+    "replicas_per_model": 6,
+    "primary_min_attainable_p": 0.017857,
+    "pairwise_min_attainable_p": 0.1,
+    "pairwise_can_reach_alpha": false
+   }
+  },
+  {
+   "option": "C0 re-derive E2/E3/E4 signal-to-noise from the 16 LANDED legs",
+   "engine": "CPU/CI only \u2014 no GPU",
+   "gpu_legs": 0,
+   "attacks": "NOISE (endpoint selection)",
+   "buys": "the measured effect-size-to-noise of every already-computed endpoint, from data already bought. `nrv04_covalent_md` writes R1_interface / R2_recruitment / R3_lys into every leg JSON, and the frozen collector reads only R1 \u2014 so E2/E3/E4 exist for all 16 legs and have never been looked at.",
+   "cannot_buy": "\u26d4 a RESULT. Choosing an endpoint on the same data that will then test it is endpoint-shopping; this is a CALIBRATION input to a new preregistration, tested on NEW models. It also cannot move any reference set.",
+   "cost": {
+    "n_units": 0,
+    "ref_gpu_h_per_unit": 0.0,
+    "ref_gpu_h_total": 0.0,
+    "plan_usd": 0.0,
+    "range_usd": [
+     0.0,
+     0.0
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "precondition": "an S3 census must first confirm the 16 leg JSONs (and any analysis trajectories) are present \u2014 an absent reading is not a reading of absence."
+  },
+  {
+   "option": "C1 ternary ddG_coop (Arm F) as the readout",
+   "engine": "ternary FEP lane (nr4a3_ternary_fep)",
+   "gpu_legs": null,
+   "cost_is_the_ladder_row": "nrv04_retrospective (3 ternary legs + shared binary/solvent)",
+   "attacks": "NOISE (a readout with a physical scale and a stated error bar)",
+   "buys": "a free-energy quantity with replicate SDs, on the paralogue-panel identity (N ternary legs + one shared binary + one shared solvent, pricing.md B.0 identity 1)",
+   "cannot_buy": "\u26d4 nothing structural \u2014 the same n models give the same reference set. AND it is BLOCKED: prereg section 1 / calibration addendum condition 7 hold Arm F behind a valB PASS, and valB module 1 returned NO (STRATEGY Open decision 9).",
+   "cost": {
+    "n_units": 1,
+    "ref_gpu_h_per_unit": [
+     98.0,
+     252.0
+    ],
+    "ref_gpu_h_total": 175.0,
+    "plan_usd": 20.0,
+    "range_usd": [
+     4.64,
+     72.6
+    ],
+    "_source": "vast-ladder-repricing.json -> ladder['nrv04_retrospective (3 ternary legs + shared binary/solvent)']"
+   },
+   "crosses_50usd_review_gate": true,
+   "blocked_by": "valB calibration condition 7 \u2014 not a spend decision, a preregistration one"
+  },
+  {
+   "option": "C2 buried-surface-area / full-sidechain contact readouts",
+   "engine": "endpoint MD, re-run with TRAJ_ALL_HEAVY=1",
+   "gpu_legs": 16,
+   "attacks": "NOISE (endpoint selection)",
+   "buys": "endpoints that need sidechain heavy atoms",
+   "cannot_buy": "\u26d4 NOT re-derivable from what we hold. `md_analysis_traj.select_analysis_atoms` persists CA + Cys SG + Lys NZ + non-polymer heavy atoms only, and says so \u2014 a BSA or sidechain-contact readout therefore costs a FULL re-run of the panel, not an analysis pass.",
+   "cost": {
+    "n_units": 16,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 22.08,
+    "plan_usd": 2.52,
+    "range_usd": [
+     1.04,
+     6.36
+    ]
+   },
+   "crosses_50usd_review_gate": false
+  },
+  {
+   "option": "D1 endpoint-MD positive control on SMARCA2-vs-SMARCA4 (same E1 readout, known-selective pair)",
+   "engine": "endpoint MD (nrv04_covalent_md lane)",
+   "gpu_legs": 24,
+   "attacks": "the MISSING POSITIVE CONTROL \u2014 neither of the two problems, and that is the point",
+   "buys": "the thing that is actually missing: evidence that THIS readout can detect paralogue selectivity where the answer is known. Structures are solved on BOTH arms (s-calibrator-survey.json: SMARCA2 15 ternaries, SMARCA4 4), so neither arm is a homology model \u2014 the asymmetry that makes 8G1Q a weak calibrator does not apply to a structure-matched endpoint panel.",
+   "cannot_buy": "\u26d4 nothing about NR4A. A pass licenses 'the readout can discriminate a known paralogue pair'; it does NOT license a paralogue claim for NR4A3, and a FAIL does not distinguish 'the readout is blunt' from 'this pair is hard'.",
+   "cost": {
+    "n_units": 24,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 33.12,
+    "plan_usd": 3.79,
+    "range_usd": [
+     1.57,
+     9.54
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "note": "distinct from valB_full module 3, which is an ALCHEMICAL cooperativity module behind the valB gate. This is the endpoint-MD lane at endpoint-MD prices and asserts no free energy, so condition 7 does not reach it \u2014 the same argument the prereg's section 9 RESOLUTION used to run Arm E.",
+   "design": {
+    "arms": 2,
+    "models_per_arm": 6,
+    "replicas_per_model": 2,
+    "pairwise_min_attainable_p": 0.001082,
+    "pairwise_can_reach_alpha": true
+   },
+   "unresolved_and_it_must_be_preregistered": "\u26a0 'SYMMETRIC' in the survey means a deposited TERNARY EXISTS on each arm \u2014 it does NOT mean a matched-ligand crystal PAIR exists, and STRATEGY Open decision 9b measured why that matters: the ligand whose reference selectivity data we would calibrate against (Wurz compound 1) was co-crystallised ONLY with SMARCA4, and every deposited SMARCA2 ternary carries a DIFFERENT ligand. So the arms can be matched on ligand (one arm modelled) or matched on protein (ligand confounded with paralogue) \u2014 not both from crystals alone. An endpoint-MD panel escapes this only by CO-FOLDING one ligand onto both real paralogue sequences, using the deposited ternaries to validate each arm's co-fold rather than to supply it. That is a design decision, it is the same coupling decision 9b identified, and it belongs in the preregistration \u2014 not in a launch script.",
+   "existing_plumbing_and_its_limit": "`smarca2_model.py` exists but builds SMARCA2 by homology MUTATION from the 3.73 A 8G1Q SMARCA4 chain \u2014 the asymmetric configuration this option is meant to avoid. New staging is therefore required. Engineering is free; the point is that it is not already built."
+  },
+  {
+   "option": "D2 endpoint-MD positive control on IKZF1-vs-IKZF3 (CRBN glue)",
+   "engine": "endpoint MD (nrv04_covalent_md lane)",
+   "gpu_legs": 24,
+   "attacks": "the MISSING POSITIVE CONTROL (second, independent system)",
+   "buys": "the only other structurally SYMMETRIC pair the $0 survey found (IKZF1 10 ternaries, IKZF3 4), on a different E3 and a glue rather than a PROTAC",
+   "cannot_buy": "\u26d4 the same limits as D1, plus: no primary-source selectivity value is in the repo yet, and STRATEGY Open decision 7 binds \u2014 the accuracy band may not be wider than the signal being calibrated.",
+   "cost": {
+    "n_units": 24,
+    "ref_gpu_h_per_unit": 1.38,
+    "ref_gpu_h_total": 33.12,
+    "plan_usd": 3.79,
+    "range_usd": [
+     1.57,
+     9.54
+    ]
+   },
+   "crosses_50usd_review_gate": false
+  },
+  {
+   "option": "E1 PAIRED (matched-model) design + sign-flip permutation",
+   "engine": "design change, no new engine",
+   "gpu_legs": 0,
+   "attacks": "NOISE (cancels between-model structural variance) \u2014 and CHANGES the reference set",
+   "buys": "the dominant noise term cancels if models are matched across arms by construction",
+   "cannot_buy": "\u26d4 at small n the reference set gets SMALLER, not bigger: 2**3 = 8 arrangements is a floor of 0.125, WORSE than the unpaired C(6,3) = 20. It only overtakes at n >= 5.",
+   "cost": {
+    "n_units": 0,
+    "ref_gpu_h_per_unit": 0.0,
+    "ref_gpu_h_total": 0.0,
+    "plan_usd": 0.0,
+    "range_usd": [
+     0.0,
+     0.0
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "paired_floor_by_n": {
+    "3": 0.125,
+    "4": 0.0625,
+    "5": 0.03125,
+    "6": 0.015625,
+    "7": 0.007812,
+    "8": 0.003906
+   },
+   "smallest_n_pairs_reaching_alpha": 5,
+   "precondition": "the arms are NOT currently placement-matched (prereg section 2a/2c LIMITATION, 2026-07-31), so pairing must be built into the co-fold generation, not asserted afterwards."
+  },
+  {
+   "option": "E2 REALLOCATE the same leg budget: 1 replica x more models",
+   "engine": "design change, no new engine, no extra legs",
+   "gpu_legs": 0,
+   "attacks": "STRUCTURAL, at zero marginal GPU cost",
+   "buys": "the same 16 legs bought 8 models at 2 replicas. At 1 replica they buy 16 models, and the reference set is a function of MODELS alone \u2014 so the pairwise leaves the unresolvable region without one extra GPU-hour. See `budget_allocation`.",
+   "cannot_buy": "\u26d4 a quieter per-model value \u2014 each model-level value is then a single leg, so sigma_model rises from sqrt(s_b^2 + s_leg^2/2) to sqrt(s_b^2 + s_leg^2). Whether the n gain beats the noise loss is what `budget_allocation` computes; it is not free.",
+   "cost": {
+    "n_units": 0,
+    "ref_gpu_h_per_unit": 0.0,
+    "ref_gpu_h_total": 0.0,
+    "plan_usd": 0.0,
+    "range_usd": [
+     0.0,
+     0.0
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "cofold_generation_usd_ESTIMATE_not_derived": [
+    0.0,
+    50.0
+   ],
+   "the_real_price_and_it_is_not_dollars": "\u26a0 THE REPLICATE STRUCTURE IS WHAT MADE AMENDMENT 4's EXCLUSION CHECKABLE. Its section 4.2 discriminator was that BOTH replicas of nr4a3 seed_3 failed at the first production step while both replicas of every other co-fold produced frames \u2014 'a thermostat seed cannot rescue two atoms at 0.181 A'. At one replica per model there is no sibling, so an input fault and a host-side death are no longer distinguishable from the run record, and every exclusion would have to rest on the staged-probe energy alone. That is a real loss of auditability bought with the statistical gain, and it must be preregistered as such, not discovered later."
+  },
+  {
+   "option": "E3 parametric test (mixed model / t) instead of exact permutation",
+   "engine": "analysis change",
+   "gpu_legs": 0,
+   "attacks": "STRUCTURAL (a parametric p has no combinatorial floor)",
+   "buys": "p is unbounded below, so no design is structurally unresolvable",
+   "cannot_buy": "\u26d4 credibility, if adopted now. Swapping the test AFTER a failed result on the same data is precisely the retune AMENDMENT 1's standard forbids, and n = 2-3 does not support a normal approximation \u2014 which is WHY the prereg chose exact permutation. Only admissible as a preregistered primary on a NEW panel, with its own false-positive rate measured first.",
+   "cost": {
+    "n_units": 0,
+    "ref_gpu_h_per_unit": 0.0,
+    "ref_gpu_h_total": 0.0,
+    "plan_usd": 0.0,
+    "range_usd": [
+     0.0,
+     0.0
+    ]
+   },
+   "crosses_50usd_review_gate": false
+  },
+  {
+   "option": "F1 a second co-fold ARCHITECTURE (DeepTernary / Protenix / IntFold) as a model source",
+   "engine": "co-fold inference",
+   "gpu_legs": 0,
+   "attacks": "STRUCTURAL \u2014 more models, and more INDEPENDENT ones than re-seeding one generator",
+   "buys": "models whose independence is architectural rather than a diffusion seed, which is the assumption prereg section 4a's unit of independence actually rests on",
+   "cannot_buy": "\u26d4 any selectivity signal of its own \u2014 method-watch.md is explicit that generator scores never rank selectivity, and DeepTernary is adopted as a conditional GENERATOR only. It also cannot fix a blunt endpoint.",
+   "cost": {
+    "n_units": 0,
+    "ref_gpu_h_per_unit": 0.0,
+    "ref_gpu_h_total": 0.0,
+    "plan_usd": 0.0,
+    "range_usd": [
+     0.0,
+     0.0
+    ]
+   },
+   "crosses_50usd_review_gate": false,
+   "cofold_generation_usd_ESTIMATE_not_derived": [
+    0.0,
+    50.0
+   ],
+   "honest_not_yet": "no watched capability MEASURES paralogue selectivity. The method-watch row that would change this answer \u2014 'reliable structure-based generative + selectivity scoring' \u2014 has NOT fired."
+  }
+ ],
+ "recommended_sequence": {
+  "_litmus": "CLAUDE.md section 6 \u2014 serialize ONLY when one result could cancel the rest. It can, twice, so this is serial by decision value and not by physics.",
+  "steps": [
+   {
+    "step": 1,
+    "name": "re-derive the endpoints we already own (E2/E3/E4) + an S3 census",
+    "gpu_legs": 0,
+    "cost": {
+     "n_units": 0,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 0.0,
+     "plan_usd": 0.0,
+     "range_usd": [
+      0.0,
+      0.0
+     ]
+    },
+    "decides": "which readout the rest of the sequence uses, and whether any of them has a separation-to-noise worth designing around",
+    "could_cancel_the_rest": true,
+    "cumulative_plan_usd": 0.0,
+    "cumulative_range_usd": [
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "step": 2,
+    "name": "positive control: the chosen readout on a known-selective, structure-matched paralogue pair, at 2 arms x 6 models x 2 replicas",
+    "gpu_legs": 24,
+    "cost": {
+     "n_units": 24,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 33.12,
+     "plan_usd": 3.79,
+     "range_usd": [
+      1.57,
+      9.54
+     ]
+    },
+    "decides": "whether this workflow can detect paralogue selectivity AT ALL where the answer is known \u2014 the positive control the program does not currently have",
+    "could_cancel_the_rest": true,
+    "cumulative_plan_usd": 3.79,
+    "cumulative_range_usd": [
+     1.57,
+     9.54
+    ]
+   },
+   {
+    "step": 3,
+    "name": "re-panel NR4A1/2/3 on the validated design, freshly preregistered, at 3 arms x 6 models x 2 replicas",
+    "gpu_legs": 36,
+    "cost": {
+     "n_units": 36,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 49.68,
+     "plan_usd": 5.68,
+     "range_usd": [
+      2.35,
+      14.31
+     ]
+    },
+    "decides": "the NR4A paralogue question itself, on a design whose power and reference sets were fixed BEFORE the data",
+    "could_cancel_the_rest": false,
+    "runs_only_if": "step 2 PASSES. A null at step 2 makes step 3 uninterpretable, not merely weak.",
+    "cumulative_plan_usd": 9.47,
+    "cumulative_range_usd": [
+     3.92,
+     23.85
+    ]
+   }
+  ],
+  "total_plan_usd": 9.47,
+  "total_range_usd": [
+   3.92,
+   23.85
+  ],
+  "cofold_generation_usd_ESTIMATE_not_derived": [
+   0.0,
+   50.0
+  ],
+  "crosses_50usd_review_gate": false,
+  "_measured_cross_check": "the NR-V04 retrospective's own realised mean was $0.0979/leg over 17 measured legs with a $1.57 projected panel total (`nrv04-retro-price-forensics.json` -> ledger_summary), against the $0.158/leg this planning rate derives. The plan figure is the CONSERVATIVE one. \u26a0 That same ledger records $25.83 of LEAKED rental against $1.57 of compute \u2014 on this lane the dominant cost has been supervision, not GPU-hours, and no design change touches that."
+ },
+ "total_if_every_option_ran": {
+  "_warning": "NOT a plan and NOT a recommendation \u2014 the options are alternatives, and the memo recommends a sequence, not the sum.",
+  "plan_usd": 48.08,
+  "range_usd": [
+   16.26,
+   143.36
+  ]
+ }
+}
