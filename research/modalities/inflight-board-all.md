@@ -15,12 +15,12 @@ Merged 7:10 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 7:01 PM ET Sat Aug 1, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 7:10 PM ET Sat Aug 1, 2026 (0 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 1:48 AM Aug 2      87.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   55.5 s/iter · no like-for-like expectation (not measured on this system)
+5aks_d0_to_d ternary nr4a1 r1 1:56 AM Aug 2      87.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 55.5 s/iter · no like-for-like expectation (not measured on this system)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
