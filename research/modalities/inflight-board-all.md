@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:33 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:34 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,15 +15,15 @@ Merged 8:33 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:26 PM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:33 PM ET Fri Jul 31, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:13 AM Aug 1      62.2%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.2 s/iter
-5aks_d0_to_d ternary nr4a3 r0 —                  94.4%  RTX 3090 $0.00554/ns · 1.62× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 145841; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1800 is intact in S3 and this pass dispatches the gate to re-place it · 33.2 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:22 AM Aug 1     48.9%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.3 s/iter · realised $0.00855/ns (1.64x expected)
-5aks_d0_to_d ternary nr4a1 r1 10:56 AM Aug 1     47.8%  RTX 4090 $0.00537/ns · 1.57× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · ⚠ 27.8 s/iter · realised $0.00898/ns (1.67x expected)
+5aks_d0_to_d ternary nr4a3 r1 8:21 AM Aug 1      62.2%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.2 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:30 AM Aug 1     48.9%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.3 s/iter · realised $0.00855/ns (1.64x expected)
+5aks_d0_to_d ternary nr4a1 r1 1:42 PM Aug 1      47.8%  RTX 4090 $0.00537/ns · 1.57× basis [bid] RUNNING   ⚠ 32.8 s/iter · realised $0.01062/ns (1.98x expected)
+5aks_d0_to_d ternary nr4a3 r0 —                  94.4%  —                                        NO HOST   no live host — checkpoint at production/1800 is intact in S3; this pass dispatches the gate to re-place it
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
@@ -36,12 +36,12 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 8:33 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 8:34 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-nr4a2 m2 r0        —                      —  — $0.1459/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase md-running 2026-08-01T00:27:41Z)
+nr4a2 m2 r0        —                      —  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  15 consecutive board polls with no new frame (this host is 0 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-08-01T00:27:41Z — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 7 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host
 ```
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
