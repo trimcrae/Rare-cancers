@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T16:57:35Z",
+ "utc": "2026-08-01T17:02:07Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -958,18 +958,24 @@
      "caches": {
       "stage": true,
       "preequil": true,
-      "setup": null
+      "setup": true
      },
      "setup_seconds": null,
      "setup_built": false,
-     "setup_restored_from": null,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
      "setup_cache_missing": null,
      "restore_seconds": {},
-     "restore_list": [],
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 46,
+       "seconds": 2.9
+      }
+     ],
      "restore_fetch": [],
      "first_commit_iteration": null,
      "s_per_iter": null,
-     "n_lines": 18,
+     "n_lines": 58,
      "timeline": {
       "marks": [
        [
@@ -1007,11 +1013,11 @@
       "complete": true
      },
      "commits": [],
-     "checkpoint_interval": null,
+     "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 16:56:02+00:00",
-     "bytes": 1267,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=ABSENT(unobservable)"
+     "utc": "2026-08-01 17:01:56+00:00",
+     "bytes": 5583,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
    "live_cold_start_s": 72.0,
@@ -1819,7 +1825,7 @@
      ],
      "first_commit_iteration": 1080,
      "s_per_iter": 56.3,
-     "n_lines": 912,
+     "n_lines": 932,
      "timeline": {
       "marks": [
        [
@@ -1884,8 +1890,8 @@
      ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 16:56:39+00:00",
-     "bytes": 65817,
+     "utc": "2026-08-01 17:00:42+00:00",
+     "bytes": 67221,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -1965,9 +1971,9 @@
    "ABSENT": 5
   },
   "setup": {
-   "HIT": 20,
+   "HIT": 21,
    "MISS": 0,
-   "ABSENT": 8
+   "ABSENT": 7
   }
  },
  "line_items": {
@@ -2100,7 +2106,7 @@
     },
     "md_running_to_first_commit": null,
     "first_commit_is_derived": true,
-    "checkpoint_interval": null,
+    "checkpoint_interval": 40,
     "s_per_iter": null,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
