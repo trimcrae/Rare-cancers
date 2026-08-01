@@ -280,8 +280,16 @@ jobs:
           gcloud storage ls -l "$UNIT_URI/**" 2>/dev/null | sed 's/^/  /' || echo "  (nothing yet)"
           echo "=== phase ==="
           gcloud storage cat "$UNIT_URI/phase.txt" 2>/dev/null | sed 's/^/  /' || echo "  (no phase marker)"
-          echo "=== last 40 log lines ==="
-          gcloud storage cat "$UNIT_URI/run.log" 2>/dev/null | tail -40 | sed 's/^/  /' || echo "  (no log yet)"
+          echo "=== last 25 wrapper log lines (carries the 120 s heartbeat + GPU counters) ==="
+          gcloud storage cat "$UNIT_URI/run.log" 2>/dev/null | tail -25 | sed 's/^/  /' || echo "  (no log yet)"
+          # ★ THE LEG'S OWN LOG, LIVE. It is shipped on the same 120 s heartbeat, so this is where
+          # `Iteration n/2000` shows up — the one reading that makes a PROGRESS check possible between
+          # commit markers, which are ~23 min apart in production (CLAUDE.md §4).
+          for L in complex solvent; do
+            echo "=== last 20 lines of the $L leg's own log ==="
+            gcloud storage cat "$UNIT_URI/$L.log" 2>/dev/null | grep -aE 'Iteration|timing|barrier|Error|Exception' \
+              | tail -20 | sed 's/^/  /' || echo "  (not started, or nothing shipped yet)"
+          done
 
       # ===================================================================================================
       # FORENSIC — $0, no VM. Everything mode=tail cannot show: the DERIVED per-leg checkpoint census, the

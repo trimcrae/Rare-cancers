@@ -42,9 +42,35 @@ mark() {
 #     exits when that shell is gone. (2) a hard TTL past the VM's own max-run cap. A heartbeat that outlives
 #     its job keeps a log object fresh forever and would defeat any silence-based guard built on it later —
 #     the Vast lane paid to learn that (congeneric_fanout_vast._PREAMBLE) and it is copied here on purpose.
+#
+# ★★ AND IT SHIPS THE **LEG'S** LOG AND THE GPU COUNTERS, NOT JUST THE WRAPPER'S (2026-08-01).
+# `run_leg` redirects the engine to `/tmp/<leg>.log` and uploads it only AFTER `docker run` returns, so
+# between `PHASE leg-complex-running` and the first `COMMITTED.json` there was NO live signal at all — and
+# on the complex leg those are ~23 min apart in production and longer across a system rebuild. Measured
+# that morning: a resumed leg sat 56 min with nothing readable, and "healthy" and "wedged" were literally
+# indistinguishable from outside the box. CLAUDE.md §4 requires a PROGRESS check — GPU busy, phase moved,
+# iteration count up — and none of the three was observable. Two lines fix it, and engineering is free:
+#   * the in-flight leg log goes up on the same 120 s tick, so `mode=tail` sees `Iteration n/2000` live;
+#   * `nvidia-smi` utilisation/memory is appended to run.log each tick, so "the GPU is busy" is a READING
+#     rather than an inference. ⚠ It is diagnostic ONLY: GPU idleness must never condemn a box (CLAUDE.md
+#     §6 — the same rule `vast_idle_guard` is built on), because a legitimately CPU-bound OpenFE system
+#     build reads 0 % for many minutes.
 _hb() { _p="$1"; _end=$(( $(date +%s) + 190000 ))
   while kill -0 "$_p" 2>/dev/null && [ "$(date +%s)" -lt "$_end" ]; do
-    sleep 120; "$GS" storage cp /tmp/run.log "$PREFIX/run.log" >/dev/null 2>&1 || true
+    sleep 120
+    echo "[s1f-gcp] hb $(date -u +%FT%TZ) gpu=$(nvidia-smi --query-gpu=utilization.gpu,memory.used \
+      --format=csv,noheader 2>/dev/null | tr '\n' ' ')" >> /tmp/run.log
+    "$GS" storage cp /tmp/run.log "$PREFIX/run.log" >/dev/null 2>&1 || true
+    # The leg's own stdout, WHILE it is running.
+    # ⚠ THE CHANNEL IS A FILE, NOT A SHELL VARIABLE, AND THAT IS NOT STYLE. This loop is a BACKGROUND
+    # SUBSHELL forked before `run_leg` ever executes, so it holds a COPY of the environment as it was at
+    # fork time: a `_LEGLOG=...` assigned in the parent afterwards is invisible here forever, and the
+    # upload would silently never happen while every line of it looked correct. A file is read fresh each
+    # tick. (Caught by reading, not by an outage — which is the only way this one could have been caught.)
+    _lg=$(cat /tmp/_leglog 2>/dev/null || true)
+    if [ -n "${_lg}" ] && [ -s "${_lg}" ]; then
+      "$GS" storage cp "${_lg}" "$PREFIX/$(basename "${_lg}")" >/dev/null 2>&1 || true
+    fi
   done; }
 _hb "$$" & HB=$!
 trap '_rc=$?; kill "$HB" 2>/dev/null || true; "$GS" storage cp /tmp/run.log "$PREFIX/run.log" >/dev/null 2>&1 || true; exit $_rc' EXIT
@@ -266,12 +292,17 @@ run_leg() {
     echo "[s1f-gcp] leg $L already in GCS — idempotent skip"; return 0
   fi
   mark "leg-$L-running"
+  # Tell the heartbeat which file is the LIVE leg log, so it ships while the leg runs rather than only
+  # after it returns (see _hb). Cleared below whatever the outcome, so a finished leg's log is never
+  # re-uploaded as if it were in flight.
+  : > "/tmp/$L.log"; echo "/tmp/$L.log" > /tmp/_leglog
   # set -e is deliberately NOT armed around the engine: the log must ship even (especially) when the leg
   # fails. The Vast lane lost a diagnostic exactly this way and the fix is copied rather than re-derived.
   # shellcheck disable=SC2086
   docker run $DOCKER_COMMON --env-file "/work/env.$L" "$IMAGE" \
       /opt/mamba/envs/rbfe/bin/python nr4a3_rbfe.py > "/tmp/$L.log" 2>&1
   rc=$?
+  : > /tmp/_leglog          # the leg has returned; stop shipping its log as if it were in flight
   tail -80 "/tmp/$L.log" || true
   "$GS" storage cp "/tmp/$L.log" "$PREFIX/$L.log" >/dev/null 2>&1 || true
   if [ "$rc" -ne 0 ]; then
