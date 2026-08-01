@@ -245,3 +245,14 @@ def test_a_replaced_ledger_row_keeps_its_predecessor():
     """Rule 1.2: never silently drop a superseded number, and a spend ledger is the last place to start."""
     body = SRC[SRC.index("def _ledger_record"):SRC.index("def _plan_rate")]
     assert 'setdefault("corrections"' in body
+
+
+def test_the_cofold_restores_finished_work_from_S3_before_it_runs():
+    """⛔ THE GAP THAT MADE PREEMPTION EXPENSIVE. Every completed (arm, seed) is already durable in S3, but a
+    replacement host started from an EMPTY output directory, so the runner's per-seed skip could never fire
+    and a preemption cost the whole batch instead of the seed in flight. The restore also recovers the MSA,
+    which is the expensive part — a host that died during weight download hands its MSA to its successor."""
+    assert "s3 sync \"$RESULT_S3/\" \"$OUTPUT_DIR/\"" in L._COFOLD_PIPELINE
+    i_restore = L._COFOLD_PIPELINE.index("s3 sync \"$RESULT_S3/\" \"$OUTPUT_DIR/\"")
+    i_run = L._COFOLD_PIPELINE.index("selcal_cofold_run.py")
+    assert i_restore < i_run, "the restore must happen BEFORE the runner decides what to skip"

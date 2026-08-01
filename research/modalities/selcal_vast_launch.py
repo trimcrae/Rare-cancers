@@ -243,6 +243,14 @@ mark cloned
 export OUTPUT_DIR=/tmp/selcal_cofold_out SELCAL_INPUTS_DIR=/tmp/selcal_cofold_out/inputs
 mkdir -p "$SELCAL_INPUTS_DIR"
 $AWS s3 cp "$COFOLD_INPUTS_S3" "$SELCAL_INPUTS_DIR/" --recursive --only-show-errors
+# ★★ CROSS-HOST RESUME — this is the checkpoint rule applied where it actually bites. Every completed
+# (arm, seed) is already durable in S3; without this line a replacement host starts from an EMPTY output
+# directory, so the runner's per-seed skip can never fire and a preemption costs the whole batch instead of
+# the seed that was in flight. It also restores the MSA, which is the expensive part: `boltz_results_*/msa/`
+# and `processed/` are written before inference, so a host that died during weight download hands its MSA to
+# its successor rather than making it redo eight minutes of ColabFold queries.
+$AWS s3 sync "$RESULT_S3/" "$OUTPUT_DIR/" --exclude 'inputs/*' --exclude 'run.log' --exclude 'phase.txt' --only-show-errors || true
+echo "[cofold] $(date -u +%FT%TZ) restored $(find "$OUTPUT_DIR" -name '*.cif' 2>/dev/null | wc -l) finished CIF(s) and $(find "$OUTPUT_DIR" -path '*/msa/*' 2>/dev/null | wc -l) MSA file(s) from S3"
 # CONTINUOUS UPLOAD, per the standing rule: sync every 60 s so a preemption after prediction N leaves
 # predictions 1..N durable rather than losing the batch.
 ( while true; do $AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --exclude 'inputs/*' --only-show-errors || true; sleep 60; done ) &
