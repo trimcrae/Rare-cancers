@@ -210,10 +210,18 @@ jobs:
               "gpu_name": "RTX 4090", "uptime_h": 2.03, "dph_total": 0.18402222222222223,
               "spend_so_far_usd": 0.374, "start_date": 1785593399.623523, "occupies_slot": True}]}))
           PY
+          # ⚠ `set +e` AND `PIPESTATUS`, MEASURED 1:12 PM ET 2026-08-01 — WITHOUT THEM THIS SELF-TEST HAD THE
+          # DEFECT IT EXISTS TO CATCH. GitHub runs steps under `bash -e`, the reaper correctly returns 2 when
+          # a DELETE fails, and 2 is the EXPECTED result here — so the step aborted on that line and the
+          # pass/fail interpretation below never executed. The run was green, the annotation never appeared,
+          # and nothing said the check had not finished. A guard that stops silently is indistinguishable
+          # from a guard that passed, which is the whole complaint.
+          set +e
           python3 vast_account_reaper.py --root . --arm \
             --census /tmp/selftest-census.json \
             --json /tmp/selftest-plan.json \
             --ledger /tmp/selftest-ledger.jsonl | tee /tmp/selftest.log
+          echo "self-test reaper exit code: ${PIPESTATUS[0]} (2 = a DELETE was attempted and failed, which is EXPECTED against an already-destroyed id)"
           echo "--- self-test ledger (this is the ordering the real path uses) ---"
           cat /tmp/selftest-ledger.jsonl
           # ★ WHAT COUNTS AS A PASS, STATED SO NOBODY HAS TO REMEMBER IT. The DELETE is EXPECTED to fail —
