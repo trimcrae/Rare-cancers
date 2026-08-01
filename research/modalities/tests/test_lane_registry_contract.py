@@ -57,6 +57,11 @@ THE FOUR FIELDS ARE NOT THE SAME KIND OF THING, AND TREATING THEM ALIKE WOULD MA
                                           `ternary-watch.json` — `gcp_launch_guard.py` and
                                           `watchdog_validate.py` only validate and read it. So: must EXIST and
                                           must be READ somewhere outside this registry, i.e. not an orphan.
+                                          ⚠ AND IT COULD NOT HONESTLY BE GRADED THE OTHER WAY: the producer
+                                          idioms below cannot tell a READ-path constant from a WRITE-path one
+                                          (`gcp_watch_reap.DEFAULT_PATH = "research/modalities/
+                                          ternary-watch.json"` matches "assigned to a name" and is a reader),
+                                          so applying rule 2 here would pass on evidence that proves nothing.
 """
 from __future__ import annotations
 
@@ -130,7 +135,13 @@ def _corpus() -> tuple[tuple[str, int, str, bool], ...]:
 # A failure prints every candidate site it found, so a new idiom is a five-second diagnosis and a one-line
 # addition rather than a mystery.
 PRODUCER_IDIOMS: tuple[tuple[str, re.Pattern], ...] = (
-    ("open-for-write", re.compile(r"open\s*\([^)]*['\"]w")),
+    # ⚠ `.*?` AND NOT `[^)]*`, WHICH IS WHAT THIS WAS FIRST WRITTEN AS. A character class excluding `)`
+    # cannot cross a nested call, so it silently missed `open(os.path.join(OUT, "x.json"), "w")` — the
+    # single most common write in this package. No lane artifact happened to use that shape, so every rule
+    # here still passed: a FALSE NEGATIVE that would have gone red on the next lane rather than on this
+    # commit. Caught by sweeping the repo for "written to X" claims and finding one the checker called
+    # unproduced while `nr4a3_fpocket_enumerate.py:157` plainly writes it.
+    ("open-for-write", re.compile(r"open\s*\(.*['\"]w['\"]")),
     ("an output flag", re.compile(r"--(?:gate-)?out\b|--json\b")),
     ("git add", re.compile(r"\bgit\s+add\b")),
     # `RETRO_MARKET_READOUT = "..."`, `OUT = os.path.join(HERE, "...")`, and the shell `F=research/...`
