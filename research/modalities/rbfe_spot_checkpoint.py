@@ -68,11 +68,11 @@ def _sampler_iteration(sampler) -> int:
     return int(sampler._iteration)
 
 
-# ★ THE FILL SENTINEL, AND WHY THE THRESHOLD IS NOT A JUDGEMENT CALL. netCDF-4's default fill for f4 is
-# 9.9692e+36 and for f8 9.9692e+36 as well; a real molecular coordinate in the md unit system (nm) is at
-# most a box edge, i.e. single-digit nm, and even a pathological unwrapped coordinate is far under a metre.
-# 1e6 nm = 1 mm sits ~30 orders of magnitude below the sentinel and ~6 above anything physical, so this
-# cannot reject a genuine frame — which is the property that makes it safe to add to a live commit path.
+# ★ THE FILL SENTINEL, AND WHY THE THRESHOLD IS NOT A JUDGEMENT CALL. netCDF-4's default fill for f4/f8 is
+# 9.9692e+36; a real molecular coordinate in the md unit system (nm) is at most a box edge, i.e. single-digit
+# nm, and even a pathological unwrapped coordinate is far under a metre. 1e6 nm = 1 mm sits ~30 orders of
+# magnitude below the sentinel and ~6 above anything physical, so this cannot reject a genuine frame — which
+# is the property that makes it safe to add to a live commit path.
 FILL_MAGNITUDE_NM = 1.0e6
 
 
@@ -88,11 +88,22 @@ def _positions_array(sampler_state):
         return p
 
 
-def positions_look_like_fill(pos) -> bool:
-    """True when `pos` cannot be real coordinates: absent, empty, masked, non-finite, or absurdly large.
+def positions_are_unusable(pos) -> bool:
+    """True when `pos` cannot be a real molecular frame: absent, empty, masked, non-finite, absurdly large,
+    or SPATIALLY DEGENERATE (every atom at the same point — in practice, all-zero).
 
-    Pure numpy so it is unit-testable without the MD stack. Deliberately conservative in ONE direction:
-    it must never call a genuine frame fill, because it now gates every commit."""
+    ★★ THE LAST CLAUSE IS THE ONE THAT WAS MEASURED, AND IT IS THE DANGEROUS CASE (2026-08-01, GH runs
+    30675511441 / 30675795333). Asked for a checkpoint frame that DOES NOT EXIST, openmmtools does not raise
+    and does not return fill: it returns an unmasked array of ZEROS. Two deliberately-broken checkpoints —
+    one with the resume frame at the wrong index (`iteration` dim length 1 while the reader asked for index
+    4), one with no frame written anywhere (dim length 0) — both produced `max |coordinate| = 0.0`, mask
+    False, and both passed `validate_reporter_pair` unchanged, including the fill-magnitude clause. Resuming
+    from such a file starts every replica with all atoms at the origin. Zeros are the failure signature that
+    a magnitude test can never see, because they look like perfectly ordinary small coordinates.
+
+    Pure numpy so it is unit-testable without the MD stack. Conservative in ONE direction by construction: a
+    real system of more than one atom cannot have zero spatial extent, so this cannot reject a genuine frame
+    — which is what makes it safe on a live commit path."""
     import numpy as np
     if pos is None:
         return True
@@ -104,7 +115,14 @@ def positions_look_like_fill(pos) -> bool:
     d = np.asarray(np.ma.getdata(a), dtype="f8")
     if not np.all(np.isfinite(d)):
         return True
-    return bool(np.max(np.abs(d)) > FILL_MAGNITUDE_NM)
+    if np.max(np.abs(d)) > FILL_MAGNITUDE_NM:
+        return True
+    if not np.any(d):
+        return True                       # every coordinate exactly zero — the observed signature
+    # more than one atom, and all of them at the same point: no real configuration does this.
+    if d.ndim >= 2 and d.shape[0] > 1 and float(np.max(np.ptp(d, axis=0))) == 0.0:
+        return True
+    return False
 
 
 def validate_reporter_pair(nc_path: Path, chk_path: Path, expected_iteration: int,
@@ -142,20 +160,22 @@ def validate_reporter_pair(nc_path: Path, chk_path: Path, expected_iteration: in
         if len(sstates) != len(sidx):
             raise RuntimeError(f"replica count mismatch: {len(sstates)} states vs {len(sidx)} "
                                "state-indices (openmmtools #759 inconsistency signature)")
-        # ★★ A FRAME THAT READS IS NOT A FRAME THAT WAS WRITTEN (measured 2026-08-01, GH run
-        # 30675219443). netCDF-4 hands back FILL values for a chunk that was never written, so every
-        # check above succeeds on a checkpoint whose frame does not exist: `read_sampler_states` returns
-        # the right NUMBER of replicas, `read_energies` returns an array, the counts agree — and the
-        # coordinates are ~1e37 nm. A deliberately-broken checkpoint (the last frame rewritten at index 0,
-        # the naive prune) passed this function unchanged. That matters well beyond pruning: it is the
-        # difference between "validation rejects a bad upload" being the commit path's safety net and
-        # being a slogan. So the frame is now checked for CONTENT, not just readability.
+        # ★★ A FRAME THAT READS IS NOT A FRAME THAT WAS WRITTEN (measured 2026-08-01, GH runs 30675511441
+        # and 30675795333). Every check above succeeds on a checkpoint whose resume frame DOES NOT EXIST:
+        # `read_last_iteration(last_checkpoint=True)` is arithmetic on the ANALYSIS file and never consults
+        # the checkpoint at all, and `read_sampler_states` for a missing frame returns neither an error nor
+        # fill but an unmasked array of ZEROS — right replica count, right shape, `read_energies` fine,
+        # counts agreeing. Two deliberately-broken checkpoints passed this function unchanged. Resuming from
+        # one starts every replica with all atoms at the origin, silently. That is not a pruning problem: it
+        # is the difference between "validation rejects a bad upload" being this path's safety net and being
+        # a slogan. So the frame is now checked for CONTENT.
         for _i, _st in enumerate(sstates):
-            if positions_look_like_fill(_positions_array(_st)):
+            if positions_are_unusable(_positions_array(_st)):
                 raise RuntimeError(
-                    f"checkpoint frame at iteration {expected_iteration} replica {_i} reads as FILL, "
-                    "not coordinates — the frame was never written (netCDF-4 returns fill for an "
-                    "unwritten chunk, which is why the reads above all succeeded)")
+                    f"checkpoint frame at iteration {expected_iteration} replica {_i} is not a real "
+                    "molecular frame (absent, masked, non-finite, fill-magnitude, or every atom at the "
+                    "same point) — the frame was never written at the index the reader asks for, which "
+                    "is why every read above still succeeded")
     finally:
         rep.close()
     return {

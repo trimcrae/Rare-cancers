@@ -98,7 +98,7 @@ def _passing_resume(ci=2, target=8):
         "before": {"iteration_dim": 5, "frames_with_data": [0, 1, 2, 3, 4], "bytes": 1000},
         "after": {"iteration_dim": 5, "frames_with_data": [4], "bytes": 200},
         "restored_chk_report": {"frames_with_data": [4]},
-        "shrink_x": 5.0, "naive_prune_rejected": True, "empty_prune_rejected": True,
+        "shrink_x": 5.0, "naive_rejected": True, "empty_rejected": True,
         "pruned_commit_ok": True, "restore_ok": True,
         "from_storage_iteration": target,
         "max_delta_vs_unpruned_resume_nm": 0.0, "max_delta_vs_live_state_nm": 1e-7,
@@ -135,11 +135,11 @@ def test_control_1_is_IGNORED_on_a_single_frame_source_because_it_degenerates():
     """⚠ MEASURED THE HARD WAY (GH 30675219443/30675511441). "Write the last frame at index 0" IS the
     correct file when the source holds exactly one frame at index 0. Gating on control #1 there reports a
     blind validator when what actually happened is a degenerate control — two runs were spent on it."""
-    b = dict(_passing_resume(), naive_prune_rejected=False)
+    b = dict(_passing_resume(), naive_rejected=False)
     b["before"] = dict(b["before"], frames_with_data=[0])
     assert cpr.resume_checks(b)["a_BROKEN_checkpoint_is_REJECTED"], \
         "on a single-frame source only control #2 may gate"
-    multi = dict(_passing_resume(), naive_prune_rejected=False)
+    multi = dict(_passing_resume(), naive_rejected=False)
     assert not cpr.resume_checks(multi)["a_BROKEN_checkpoint_is_REJECTED"], \
         "on a multi-frame source control #1 must still gate"
 
@@ -147,7 +147,7 @@ def test_control_1_is_IGNORED_on_a_single_frame_source_because_it_degenerates():
 def test_control_2_gates_on_every_source_because_it_cannot_degenerate():
     """A checkpoint with no frame anywhere is broken regardless of how many frames the source had."""
     for frames in ([0], [0, 1, 2, 3, 4]):
-        b = dict(_passing_resume(), empty_prune_rejected=False)
+        b = dict(_passing_resume(), empty_rejected=False)
         b["before"] = dict(b["before"], frames_with_data=frames)
         assert not cpr.resume_checks(b)["a_BROKEN_checkpoint_is_REJECTED"]
 
@@ -155,7 +155,7 @@ def test_control_2_gates_on_every_source_because_it_cannot_degenerate():
 def test_a_failed_negative_control_is_INCONCLUSIVE_not_merely_unsafe():
     """If the naive index-0 prune VALIDATED, the validator is not reading the frame — so the good prune's
     pass is meaningless too. That is a different statement from 'pruning is unsafe' and must read as one."""
-    b = dict(_passing_resume(), naive_prune_rejected=False)
+    b = dict(_passing_resume(), naive_rejected=False)
     doc = {"resume": b, "resume_checks": cpr.resume_checks(b)}
     assert cpr.verdict(doc).startswith("INCONCLUSIVE")
 

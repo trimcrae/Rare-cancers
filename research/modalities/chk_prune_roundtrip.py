@@ -433,57 +433,51 @@ def resume_semantics(ci=2, target=8, extend_by=2, workdir=None):
 
     out["before"] = chk_frame_report(wchk)
 
-    # ---- C. NEGATIVE CONTROL first: does the harness have any power at all? ---------------------
-    # Two separate questions, kept separate because the first run conflated them and the answer differed:
-    #   (i)  does `validate_reporter_pair` REJECT the naive index-0 prune?
-    #   (ii) if it were accepted, what would a resume from it actually produce?
-    # (ii) is the one that says whether a bad prune is dangerous; (i) is whether the commit path's safety
-    # net would catch it. Both are recorded.
-    nd = work / "naive"
-    nd.mkdir()
-    shutil.copy2(wnc, nd / wnc.name)
-    naive_prune(wchk, nd / wchk.name)
-    out["naive_report"] = chk_frame_report(nd / wchk.name)
-    try:
-        spot.validate_reporter_pair(nd / wnc.name, nd / wchk.name, target, ci)
-        out["naive_prune_rejected"] = False
-        out["naive_prune_note"] = ("⚠ the naive index-0 prune VALIDATED — the validator read the frame "
-                                   "successfully because netCDF-4 returns FILL for an unwritten chunk")
-    except Exception as e:  # noqa: BLE001 — this is the expected path
-        out["naive_prune_rejected"] = True
-        out["naive_prune_error"] = f"{type(e).__name__}: {e}"
-    # what a resume off the broken file would actually hand back — the evidence for how dangerous
-    # an accepted bad prune would be. Report-only; never gates.
-    try:
-        nrep = MultiStateReporter(str(nd / wnc.name), open_mode="r+", checkpoint_storage=wchk.name)
+    # ---- C. NEGATIVE CONTROLS first: does the harness have any power at all? --------------------
+    # Two separate questions per control, kept separate because they had DIFFERENT answers:
+    #   (i)  does `validate_reporter_pair` REJECT the broken checkpoint?
+    #   (ii) if it were accepted, what would a resume off it actually hand back?
+    # (ii) is what says how dangerous an accepted bad prune is; (i) is whether the commit path's safety net
+    # would catch it. Both are recorded for BOTH controls — recording (ii) for only one of them is how the
+    # zeros-not-fill mechanism stayed hidden for two runs.
+    def _control(tag, builder, note):
+        cd = work / tag
+        cd.mkdir()
+        shutil.copy2(wnc, cd / wnc.name)
+        builder(wchk, cd / wchk.name)
+        out[f"{tag}_report"] = chk_frame_report(cd / wchk.name)
         try:
-            out["naive_last_iteration_checkpoint"] = int(nrep.read_last_iteration(last_checkpoint=True))
-            nst = nrep.read_sampler_states(iteration=target)
-            npos = [np.ma.asarray(spot._positions_array(s)) for s in (nst or [])]
-            out["naive_frame_max_abs_nm"] = (float(max(float(np.max(np.abs(np.ma.getdata(p)))) for p in npos))
-                                             if npos else None)
-            out["naive_frame_is_masked"] = bool(any(np.ma.getmaskarray(p).any() for p in npos)) if npos else None
-            out["naive_frame_looks_like_fill"] = bool(
-                any(spot.positions_look_like_fill(p) for p in npos)) if npos else None
-        finally:
-            nrep.close()
-    except Exception as e:  # noqa: BLE001
-        out["naive_resume_probe_error"] = f"{type(e).__name__}: {e}"
+            spot.validate_reporter_pair(cd / wnc.name, cd / wchk.name, target, ci)
+            out[f"{tag}_rejected"] = False
+            out[f"{tag}_note"] = note
+        except Exception as e:  # noqa: BLE001 — this is the expected path
+            out[f"{tag}_rejected"] = True
+            out[f"{tag}_error"] = f"{type(e).__name__}: {e}"
+        try:
+            crep = MultiStateReporter(str(cd / wnc.name), open_mode="r+", checkpoint_storage=wchk.name)
+            try:
+                out[f"{tag}_last_iteration_checkpoint"] = int(crep.read_last_iteration(last_checkpoint=True))
+                cst = crep.read_sampler_states(iteration=target)
+                cpos = [np.ma.asarray(spot._positions_array(s)) for s in (cst or [])]
+                if cpos:
+                    dat = [np.ma.getdata(x) for x in cpos]
+                    out[f"{tag}_frame_max_abs_nm"] = float(max(float(np.max(np.abs(x))) for x in dat))
+                    out[f"{tag}_frame_all_zero"] = bool(all(not np.any(x) for x in dat))
+                    out[f"{tag}_frame_is_masked"] = bool(any(np.ma.getmaskarray(x).any() for x in cpos))
+                    out[f"{tag}_frame_is_unusable"] = bool(any(spot.positions_are_unusable(x) for x in cpos))
+                else:
+                    out[f"{tag}_frame_max_abs_nm"] = None
+            finally:
+                crep.close()
+        except Exception as e:  # noqa: BLE001
+            out[f"{tag}_resume_probe_error"] = f"{type(e).__name__}: {e}"
 
-    # control #2: no frame anywhere. Unambiguous even when the source holds a single frame.
-    ed = work / "empty"
-    ed.mkdir()
-    shutil.copy2(wnc, ed / wnc.name)
-    empty_prune(wchk, ed / wchk.name)
-    out["empty_report"] = chk_frame_report(ed / wchk.name)
-    try:
-        spot.validate_reporter_pair(ed / wnc.name, ed / wchk.name, target, ci)
-        out["empty_prune_rejected"] = False
-        out["empty_prune_note"] = ("⚠ a checkpoint with NO frame at all VALIDATED — the validator is "
-                                   "reading fill and calling it coordinates")
-    except Exception as e:  # noqa: BLE001 — expected
-        out["empty_prune_rejected"] = True
-        out["empty_prune_error"] = f"{type(e).__name__}: {e}"
+    _control("naive", naive_prune,
+             "\u26a0 the index-0 prune VALIDATED \u2014 the reader was handed something it accepted for a "
+             "frame that is not at the index it asked for")
+    _control("empty", empty_prune,
+             "\u26a0 a checkpoint with NO frame anywhere VALIDATED \u2014 the validator is accepting "
+             "whatever the reader returns for a missing frame")
 
     # ---- B. the real round-trip, through the real store -----------------------------------------
     p_chk, kept = _pruned_copy(wchk, work / "pruned")
@@ -708,9 +702,9 @@ def resume_checks(b):
     # has no such degeneracy, which is why the gating check is an OR over the two.
     n_src = len(before.get("frames_with_data") or [])
     naive_is_meaningful = n_src > 1
-    controls = [bool(b.get("empty_prune_rejected"))]
+    controls = [bool(b.get("empty_rejected"))]
     if naive_is_meaningful:
-        controls.append(bool(b.get("naive_prune_rejected")))
+        controls.append(bool(b.get("naive_rejected")))
     return {
         # the harness has power at all
         "a_BROKEN_checkpoint_is_REJECTED": all(controls) and bool(controls),
@@ -839,12 +833,12 @@ def _main(argv=None):
         print("  %-20s dim=%s frames=%s bytes=%s payload_frac=%s"
               % (lbl, rep.get("iteration_dim"), rep.get("frames_with_data"), rep.get("bytes"),
                  rep.get("payload_fraction")), flush=True)
-    for k in ("naive_prune_rejected", "naive_prune_error", "naive_prune_note",
-              "naive_last_iteration_checkpoint", "naive_frame_max_abs_nm", "naive_frame_is_masked",
-              "naive_frame_looks_like_fill", "naive_resume_probe_error",
-              "empty_prune_rejected", "empty_prune_error", "empty_prune_note"):
-        if k in r:
-            print("  %-32s %s" % (k, str(r[k])[:220]), flush=True)
+    for tag in ("naive", "empty"):
+        for suffix in ("rejected", "error", "note", "last_iteration_checkpoint", "frame_max_abs_nm",
+                       "frame_all_zero", "frame_is_masked", "frame_is_unusable", "resume_probe_error"):
+            k = f"{tag}_{suffix}"
+            if k in r:
+                print("  %-34s %s" % (k, str(r[k])[:200]), flush=True)
     print("\n=== CHECKS ===", flush=True)
     for k, v in sorted((doc.get("resume_checks") or {}).items()):
         print("  [%s] %s" % ("PASS" if v else "FAIL", k), flush=True)
