@@ -500,12 +500,49 @@ def test_an_absent_mols_dir_is_NOT_ok(tmp_path):
 
 def test_a_cache_that_cannot_be_ASKED_about_is_not_a_clean_cache(tmp_path):
     """Not being able to import Boltz is an ABSENT reading. The expensive mistake is certifying a short cache,
-    so the unreadable case fails closed."""
+    so the integrity check never returns ok on a cache it could not examine."""
     import selcal_cofold_run as CR
     (tmp_path / "mols").mkdir()
     ok, detail = CR.ccd_cache_integrity(str(tmp_path))     # boltz is not installed in CI
     assert ok is False
-    assert "UNKNOWN" in detail["why"] or "not found" in detail["why"] or "mols" in detail["why"]
+    assert detail["state"] in ("unverifiable", "cold", "truncated")
+
+
+def test_COLD_is_not_TRUNCATED_and_only_TRUNCATED_may_refuse_a_run(tmp_path, monkeypatch):
+    """⛔ CONFLATING THEM WOULD BREAK THE VERY FIRST RUN. A cache with no populated `mols/` has simply never
+    been fetched — Boltz pulls it lazily inside `predict`, which is the normal cold path and is how this guard
+    bootstraps its own S3 cache. The MEASURED failure is the other one: a directory that EXISTS and is SHORT,
+    which Boltz never repairs because it only downloads what it thinks is absent."""
+    import pytest
+    import selcal_cofold_run as CR
+    monkeypatch.setattr(CR, "_s3_sync", lambda *a, **k: True)
+    # cold -> proceeds
+    monkeypatch.setattr(CR, "repair_ccd_cache", lambda c: (False, {"state": "cold", "why": "never fetched"}))
+    assert CR.preflight_ccd(str(tmp_path), cache_s3=None)["state"] == "cold"
+    # truncated -> refuses
+    monkeypatch.setattr(CR, "repair_ccd_cache",
+                        lambda c: (False, {"state": "truncated", "why": "CCD component CYS not found!"}))
+    with pytest.raises(SystemExit) as e:
+        CR.preflight_ccd(str(tmp_path), cache_s3=None)
+    assert "re-pull, never a run" in str(e.value)
+
+
+def test_a_cold_cache_is_never_BANKED_either(tmp_path, monkeypatch):
+    """A cache is uploaded because it VERIFIED, never because it is present — a cold or short one banked to
+    the shared prefix would poison every future host of this lane."""
+    import selcal_cofold_run as CR
+    calls = []
+    monkeypatch.setattr(CR, "_s3_sync", lambda src, dst, extra=(): calls.append((src, dst)) or True)
+    monkeypatch.setattr(CR, "repair_ccd_cache", lambda c: (False, {"state": "cold", "why": "never fetched"}))
+    CR.preflight_ccd(str(tmp_path), cache_s3="s3://b/cache/")
+    assert not [c for c in calls if c[1].startswith("s3://")], "a cold cache must not be banked: %s" % calls
+    calls.clear()
+    monkeypatch.setattr(CR, "ccd_cache_integrity", lambda c: (False, {"state": "truncated"}))
+    CR.bank_ccd_if_verified(str(tmp_path), "s3://b/cache/")
+    assert not calls, "the post-run bank must be gated on verification too"
+    monkeypatch.setattr(CR, "ccd_cache_integrity", lambda c: (True, {"state": "ok"}))
+    CR.bank_ccd_if_verified(str(tmp_path), "s3://b/cache/")
+    assert calls == [(str(tmp_path), "s3://b/cache/")]
 
 
 def test_the_repair_PURGES_rather_than_asking_again(tmp_path):
@@ -524,10 +561,11 @@ def test_a_still_short_cache_REFUSES_TO_RUN_rather_than_burning_six_seeds(tmp_pa
     prediction. This is the arm that returned rc=1 with no models and no explanation."""
     import pytest
     import selcal_cofold_run as CR
-    monkeypatch.setattr(CR, "repair_ccd_cache", lambda c: (False, {"why": "still short"}))
+    monkeypatch.setattr(CR, "repair_ccd_cache",
+                        lambda c: (False, {"state": "truncated", "why": "CCD component CYS not found!"}))
     with pytest.raises(SystemExit) as e:
         CR.preflight_ccd(str(tmp_path), cache_s3=None)
-    assert "must be a re-pull, never a run" in str(e.value)
+    assert "re-pull, never a run" in str(e.value)
 
 
 def test_the_cache_is_only_BANKED_to_S3_AFTER_the_check_passes(tmp_path, monkeypatch):
@@ -537,7 +575,8 @@ def test_the_cache_is_only_BANKED_to_S3_AFTER_the_check_passes(tmp_path, monkeyp
     import selcal_cofold_run as CR
     calls = []
     monkeypatch.setattr(CR, "_s3_sync", lambda src, dst, extra=(): calls.append((src, dst)) or True)
-    monkeypatch.setattr(CR, "repair_ccd_cache", lambda c: (False, {"why": "still short"}))
+    monkeypatch.setattr(CR, "repair_ccd_cache",
+                        lambda c: (False, {"state": "truncated", "why": "CCD component CYS not found!"}))
     with pytest.raises(SystemExit):
         CR.preflight_ccd(str(tmp_path), cache_s3="s3://b/cache/")
     uploads = [c for c in calls if c[1].startswith("s3://")]

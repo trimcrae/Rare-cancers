@@ -88,21 +88,30 @@ def ccd_cache_integrity(cache_dir):
     mol_dir = os.path.join(str(cache_dir), "mols")
     detail = {"cache_dir": str(cache_dir), "mol_dir": mol_dir, "mol_dir_exists": os.path.isdir(mol_dir),
               "n_pkl_present": len(glob.glob(os.path.join(mol_dir, "*.pkl")))}
+    # ★★ COLD IS NOT TRUNCATED, AND CONFLATING THEM WOULD BREAK THE VERY FIRST RUN. A cache with no `mols/`
+    # at all has simply never been populated — Boltz fetches it lazily on the first `predict`, which is the
+    # normal cold path and must be allowed. The measured failure is the OTHER one: a directory that EXISTS
+    # and is SHORT, which Boltz will never repair because it only downloads what it thinks is absent. Only
+    # `truncated` may refuse a run; `cold` proceeds and is re-verified after the first prediction.
     try:
         from boltz.data.mol import load_canonicals
     except Exception as e:  # noqa: BLE001
+        detail["state"] = "unverifiable"
         detail["why"] = ("cannot import boltz.data.mol.load_canonicals (%s: %s) — the requirement is UNKNOWN, "
                          "which is an absent reading, not a clean cache" % (type(e).__name__, e))
         return False, detail
-    if not os.path.isdir(mol_dir):
-        detail["why"] = "no mols/ directory at all — nothing has been downloaded yet"
+    if not os.path.isdir(mol_dir) or not detail["n_pkl_present"]:
+        detail["state"] = "cold"
+        detail["why"] = "no populated mols/ directory — nothing has been downloaded yet (the normal cold path)"
         return False, detail
     try:
         mols = load_canonicals(mol_dir)
     except Exception as e:  # noqa: BLE001 — this IS the failure being pre-empted
+        detail["state"] = "truncated"
         detail["why"] = "%s: %s" % (type(e).__name__, e)
         detail["missing_examples"] = _missing_canonicals(mol_dir)[:12]
         return False, detail
+    detail["state"] = "ok"
     detail["n_canonicals_loaded"] = len(mols)
     detail["why"] = ""
     return True, detail
@@ -183,21 +192,50 @@ def preflight_ccd(cache_dir, cache_s3=None):
     ok, detail = ccd_cache_integrity(cache_dir)
     print("[selcal-cofold] CCD preflight: ok=%s %s" % (ok, json.dumps(detail)), flush=True)
     if not ok:
-        print("[selcal-cofold] ⛔ the CCD cache is SHORT — repairing BEFORE inference rather than discovering "
-              "it inside Boltz's loader once per seed. %s" % detail.get("why"), flush=True)
+        print("[selcal-cofold] the CCD cache is %r — %s. Repairing BEFORE inference rather than discovering "
+              "it inside Boltz's loader once per seed." % (detail.get("state"), detail.get("why")), flush=True)
         ok, detail = repair_ccd_cache(cache_dir)
         print("[selcal-cofold] CCD after repair: ok=%s %s" % (ok, json.dumps(detail)), flush=True)
+    if not ok and detail.get("state") == "truncated":
+        # ⛔ THE ONLY STATE THAT REFUSES A RUN, and it is the one that was MEASURED. Boltz only downloads what
+        # it thinks is absent, so a short directory that survived a purge and re-pull will not fix itself:
+        # every prediction dies in ~7 s inside load_canonicals and the arm returns rc=1 with no models and no
+        # explanation. Six silent failures are strictly worse than one loud refusal.
+        raise SystemExit("[selcal-cofold] ⛔ REFUSING TO RUN: the Boltz CCD cache is still TRUNCATED after a "
+                         "purge and re-pull (%s). A partial cache must be a re-pull, never a run."
+                         % detail.get("why"))
     if not ok:
-        raise SystemExit("[selcal-cofold] ⛔ REFUSING TO RUN: the Boltz CCD cache is still incomplete after a "
-                         "purge and re-pull (%s). A partial cache must be a re-pull, never a run — every "
-                         "prediction would die in ~7 s inside load_canonicals and the arm would return "
-                         "rc=1 with no models and no explanation." % detail.get("why"))
-    if cache_s3:
-        # Banked EARLY, while it is known good: a host that dies during inference still leaves its verified
-        # cache for its successor, which is the same reasoning as the MSA restore.
+        # `cold` (never populated) and `unverifiable` (boltz not importable here) both PROCEED: the cold path
+        # is how a first-ever run legitimately begins — Boltz fetches lazily inside `predict` — and refusing
+        # it would mean this guard could never bootstrap its own cache. The per-seed re-check below is what
+        # catches a lazy fetch that lands short, so proceeding costs one seed, not six.
+        print("[selcal-cofold] ⚠ proceeding with a %r cache: Boltz will fetch it lazily on the first "
+              "prediction, and the per-seed re-check catches a short landing. This is NOT the measured "
+              "failure mode, which is a directory that exists and is short." % detail.get("state"), flush=True)
+    if ok and cache_s3:
+        # ⚠ GATED ON `ok`, WHICH IS THE WHOLE SAFETY ARGUMENT. Banking a cold or truncated cache would poison
+        # every future host of this lane, turning a one-host accident into a permanent property of the prefix.
+        # Banked EARLY when it IS good: a host that then dies during inference still leaves its verified cache
+        # for its successor — the same reasoning as the MSA restore.
         print("[selcal-cofold] cache VERIFIED — banking it to %s so the next host restores instead of "
-              "re-pulling" % cache_s3, flush=True)
+              "re-pulling ~3 GB" % cache_s3, flush=True)
         _s3_sync(str(cache_dir), cache_s3)
+    return detail
+
+
+def bank_ccd_if_verified(cache_dir, cache_s3=None):
+    """Re-verify and bank after the run — the cold path's cache only exists once Boltz has fetched it.
+
+    Same gate as the preflight's: a cache is uploaded because it VERIFIED, never because it is present."""
+    if not cache_s3:
+        return None
+    ok, detail = ccd_cache_integrity(cache_dir)
+    if ok:
+        print("[selcal-cofold] post-run cache verified — banking to %s" % cache_s3, flush=True)
+        _s3_sync(str(cache_dir), cache_s3)
+    else:
+        print("[selcal-cofold] post-run cache is %r — NOT banking it. A shared cache is populated from a "
+              "verified local one or not at all." % detail.get("state"), flush=True)
     return detail
 
 
@@ -284,6 +322,9 @@ def main():
     # ⚠ PER-ARM FILENAME. Both arms' hosts sync into the SAME `$RESULT_S3`, so a single
     # `cofold-provenance.json` is a file the two of them overwrite in turn — leaving the panel with a
     # provenance record for whichever host happened to finish last and none at all for the other.
+    # The cold path's cache only exists once Boltz has fetched it, so the bank happens here too — gated on the
+    # same verification, never on mere presence.
+    bank_ccd_if_verified(cache_dir, os.environ.get("BOLTZ_CACHE_S3"))
     _tag = "-".join(s for s, _g in _systems()) or "all"
     with open(os.path.join(out_dir, "cofold-provenance-%s.json" % _tag), "w") as fh:
         json.dump(prov, fh, indent=2)
