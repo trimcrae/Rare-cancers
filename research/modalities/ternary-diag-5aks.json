@@ -1,7 +1,7 @@
 {
   "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
   "mode": "5aks",
-  "utc": "2026-08-01T21:48:36Z",
+  "utc": "2026-08-01T22:04:47Z",
   "units": {
     "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
       "arm": "ternary",
@@ -31,8 +31,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T03:36:35Z",
-      "phase_marker_age_min": 1091.9933154066405,
-      "log_age_min": 1091.977248009046,
+      "phase_marker_age_min": 1108.1846382339795,
+      "log_age_min": 1108.168835914135,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -207,8 +207,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T18:26:57Z",
-      "phase_marker_age_min": 201.65577214161556,
-      "log_age_min": 201.65659454663594,
+      "phase_marker_age_min": 217.86234669685365,
+      "log_age_min": 217.8633341352145,
       "n_attempts_archived": 34,
       "attempts": [
         {
@@ -481,8 +481,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T12:19:53Z",
-      "phase_marker_age_min": 568.7773042122523,
-      "log_age_min": 568.7446937799454,
+      "phase_marker_age_min": 585.0037843386332,
+      "log_age_min": 584.9713352719942,
       "n_attempts_archived": 8,
       "attempts": [
         {
@@ -553,14 +553,14 @@
         "block": false,
         "n_attempts": 0,
         "record_utc": null,
-        "newest_commit_utc": "2026-08-01T21:25:56Z",
+        "newest_commit_utc": "2026-08-01T22:04:32Z",
         "eviction": {
           "_what": "the last time this lane destroyed this unit's host for a reason that was NOT the unit failing \u2014 read by leg_failure_breaker so a correct teardown does not accrue a strike",
           "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-          "utc": "2026-08-01T14:02:50Z",
-          "why": "capacity refusal on machine 9624; destroy: a qualifying replacement is on the board",
-          "instance": 46500074,
-          "machine_id": 9624
+          "utc": "2026-08-01T22:04:36Z",
+          "why": "capacity refusal on machine 33806; destroy: a qualifying replacement is on the board",
+          "instance": 46508665,
+          "machine_id": 33806
         },
         "superseded_by": null
       },
@@ -569,12 +569,12 @@
       },
       "committed": {
         "phase": "production",
-        "iteration": 1480,
-        "scalar": 1001480
+        "iteration": 1520,
+        "scalar": 1001520
       },
       "phase_marker": "md-running 2026-08-01T14:13:03Z",
-      "phase_marker_age_min": 455.6151530146599,
-      "log_age_min": 0.766544493039449,
+      "phase_marker_age_min": 471.8489395340284,
+      "log_age_min": 0.8013052741686503,
       "n_attempts_archived": 19,
       "attempts": [
         {
@@ -705,78 +705,14 @@
         },
         {
           "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/run.log",
-          "utc": "2026-08-01T21:47:56Z",
-          "bytes": 174562,
-          "n_lines": 2460,
-          "last_line": "INFO:\t********************************************************************************"
+          "utc": "2026-08-01T22:04:08Z",
+          "bytes": 180150,
+          "n_lines": 2539,
+          "last_line": "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases"
         }
       ],
-      "instance": {
-        "id": 46508665,
-        "machine_id": 33806,
-        "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r1-dt4p0fs-wu1p0-5aks",
-        "actual_status": "running",
-        "cur_state": "running",
-        "intended_status": "running",
-        "status_msg": "success, running docker.io/triskit23/ternary-fep_latest/ssh",
-        "gpu_name": "RTX 3090",
-        "num_gpus": 1,
-        "gpu_ram": 24576,
-        "cpu_ram": 128688,
-        "cpu_cores_effective": 16.0,
-        "disk_space": 60.0,
-        "disk_util": 6.099999904632568,
-        "mem_usage": 5.0845450240000005,
-        "mem_limit": 89.45401856000001,
-        "gpu_util": 99.999908,
-        "dph_total": 0.07911111111111112,
-        "start_date": 1785593527.8925643,
-        "image_uuid": "docker.io/triskit23/ternary-fep:latest"
-      },
-      "instance_is_working": true,
-      "console_last_line": "INFO:\t********************************************************************************",
-      "console_tail": [
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 52.068s.",
-        "INFO:\tEstimated completion in 0:20:12.726964, at 2026-Aug-01-22:02:41 (consuming total wall clock time 23:16:28.408416).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1499/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 56.871s.",
-        "INFO:\tEstimated completion in 0:19:19.535158, at 2026-Aug-01-22:02:44 (consuming total wall clock time 23:18:48.259068).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1500/1520",
-        "INFO:\t********************************************************************************",
-        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
-        "INFO:\tReached a solution to within tolerance with adaptive",
-        "INFO:\tSolution found within tolerance!",
-        "INFO:\tFinal gradient norm: 1.44e-08",
-        "INFO:\tIteration took 50.374s.",
-        "INFO:\tEstimated completion in 0:18:19.478213, at 2026-Aug-01-22:02:35 (consuming total wall clock time 23:12:40.344157).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1501/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 60.434s.",
-        "INFO:\tEstimated completion in 0:17:29.445095, at 2026-Aug-01-22:02:45 (consuming total wall clock time 23:19:15.607627).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1502/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 48.982s.",
-        "INFO:\tEstimated completion in 0:16:29.096277, at 2026-Aug-01-22:02:34 (consuming total wall clock time 23:12:03.685595).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1503/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 59.141s.",
-        "INFO:\tEstimated completion in 0:15:37.244834, at 2026-Aug-01-22:02:41 (consuming total wall clock time 23:16:40.714528).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1504/1520",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 48.923s.",
-        "INFO:\tEstimated completion in 0:14:37.974074, at 2026-Aug-01-22:02:31 (consuming total wall clock time 23:10:07.537019).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1505/1520",
-        "INFO:\t********************************************************************************"
-      ]
+      "instance": null,
+      "instance_is_working": false
     }
   }
 }

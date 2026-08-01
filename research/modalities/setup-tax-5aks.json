@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T21:49:12Z",
+ "utc": "2026-08-01T22:05:30Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -1769,8 +1769,8 @@
       }
      ],
      "first_commit_iteration": 1080,
-     "s_per_iter": 56.0,
-     "n_lines": 2462,
+     "s_per_iter": 55.95,
+     "n_lines": 2541,
      "timeline": {
       "marks": [
        [
@@ -1877,8 +1877,8 @@
      ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 21:47:56+00:00",
-     "bytes": 174548,
+     "utc": "2026-08-01 22:04:08+00:00",
+     "bytes": 180136,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -1886,10 +1886,10 @@
    "live_cold_start_span": "container-start -> md-running",
    "md_to_first_commit_s": 2623.0,
    "md_to_first_commit_span": "md-running -> first commit of this attempt",
-   "commit_bytes_median": 1282327515.0,
-   "n_generations": 62,
+   "commit_bytes_median": 1309493200,
+   "n_generations": 63,
    "commit_store": {
-    "n": 62,
+    "n": 63,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
@@ -1898,14 +1898,14 @@
      "last_mib": 1353.7
     },
     "min_mib": 106.6,
-    "max_mib": 5348.2,
+    "max_mib": 5499.3,
     "by_extension_total_mib": {
-     "chk": 52241.2,
-     "nc": 63494.2
+     "chk": 54114.3,
+     "nc": 67120.5
     },
     "by_extension_largest_single_mib": {
-     "chk": 1825.0,
-     "nc": 3523.2
+     "chk": 1873.1,
+     "nc": 3626.3
     }
    },
    "markers": {
@@ -2194,10 +2194,10 @@
      "staging->preequil": 0.07,
      "preequil->md-running": 0.07
     },
-    "md_running_to_first_commit": 37.33,
+    "md_running_to_first_commit": 37.3,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
-    "s_per_iter": 56.0,
+    "s_per_iter": 55.95,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
    },
@@ -2425,7 +2425,7 @@
    "md_running_to_first_commit": {
     "median_min": 17.34,
     "min_min": 6.07,
-    "max_min": 37.33,
+    "max_min": 37.3,
     "n": 16,
     "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly.",
     "measured_median_min": 43.72,
