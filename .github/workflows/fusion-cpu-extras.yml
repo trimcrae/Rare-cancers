@@ -1123,6 +1123,26 @@ jobs:
         run: |
           pip install -q boto3
           python research/modalities/nrv04_retro_smoke_forensics.py
+      # ★ PER-ATTEMPT forensics: WHAT killed each rental, from `legs/<unit>/attempt-logs/`. The smoke
+      # forensics above answers "is this record a smoke or a production leg"; this answers "why did the last
+      # three rentals bank nothing", which is the question a breaker verdict cannot reach. Read-only.
+      # Units come from `vast_selector` (full `nrv04retro-...` names, comma/space separated); blank = the
+      # AMENDMENT 4 §4.5 dependency pair. Non-retro dispatches of this task simply report the default pair.
+      - name: Retro per-attempt forensics (read-only)
+        env:
+          RETRO_FORENSIC_UNITS: ${{ github.event.inputs.vast_selector }}
+        run: |
+          pip install -q boto3
+          python research/modalities/nrv04_retro_unit_forensics.py
+      - name: Commit the forensic artifact
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nrv04-retro-unit-forensics.json || true
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "NR-V04 retro: per-attempt forensics for the AMENDMENT 4 §4.5 dependency unit (CI)"
+          git pull --rebase origin "${{ github.ref_name }}" || true
+          git push origin HEAD:"${{ github.ref_name }}"
 
   nrv04_ffcache_status:
     # Fast diagnostic (~30s): print the ffcache object's LastModified + size so we can tell whether charge_cache
