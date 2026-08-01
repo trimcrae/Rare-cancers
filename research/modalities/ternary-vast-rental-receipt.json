@@ -1,20 +1,28 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-08-01T12:02:30Z",
+  "utc": "2026-08-01T12:11:13Z",
   "mode": "5aks",
   "n_requested": 1,
-  "n_rented": 0,
+  "n_rented": 1,
   "requested": [
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
-  "rented": [],
-  "failed": [
+  "rented": [
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-      "error": "CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 137510, 12976, 33419); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.",
-      "kind": "capacity"
+      "instance": "46500074",
+      "machine_id": 9624,
+      "bid": 0.1632,
+      "dph": 0.16148148148148148,
+      "gpu": "RTX 4090",
+      "dph_total_usd_h": 0.1743111111111111,
+      "dph_base_usd_h": 0.1632,
+      "usd_per_ns": 0.005203,
+      "x_basis": 1.525,
+      "over_buy_line": false
     }
   ],
+  "failed": [],
   "already_live": [
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
