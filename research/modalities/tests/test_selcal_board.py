@@ -202,3 +202,21 @@ def test_a_stale_fragment_renders_STALE_rather_than_vanishing(tmp_path):
 def test_a_never_published_lane_still_renders_a_section(tmp_path):
     text = IB.merge_board(now_epoch=T0, root=str(tmp_path))
     assert "SENSITIVITY CONTROL" in text
+
+
+def test_an_unattributable_host_does_not_render_as_NO_HOST():
+    """⚠ The committed census records instances WITHOUT their labels, so `--from-census` cannot say which
+    arm a host serves. "I cannot attribute it" must never render as "there is none" (§4) — that is the same
+    absent-reading-as-absence error one column over."""
+    rows = B.board_rows(_census(**{ARMS[0]: [1]}), None, hosts=(), now=T0, unattributed_hosts=2)
+    r = [x for x in rows if x["name"].startswith(ARMS[0])][0]
+    assert "No host" not in r["why"]
+    assert "UNATTRIBUTABLE" in r["why"] and "2 host(s)" in r["why"]
+
+
+def test_unread_arrivals_are_not_reported_as_zero_intervals():
+    """`arrivals=None` means the timestamps were never READ. Saying "0 intervals measured" would imply a
+    measurement nobody attempted, and the next tick would look like progress when nothing had changed."""
+    rows = B.board_rows(_census(**{ARMS[0]: [1, 2, 3, 4]}), None, now=T0)
+    r = [x for x in rows if x["name"].startswith(ARMS[0])][0]
+    assert r["eta_s"] is None and "NOT READ" in r["why"] and "not a rate of zero" in r["why"]

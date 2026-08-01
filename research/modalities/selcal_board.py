@@ -112,7 +112,7 @@ def quoted_rate(intervals, min_intervals=MIN_RATE_INTERVALS, window=RATE_WINDOW)
                     "(selcal_board.RATE_WINDOW)" % (len(used), n))}
 
 
-def board_rows(census, arrivals, hosts=(), now=None, seeds=None):
+def board_rows(census, arrivals, hosts=(), now=None, seeds=None, unattributed_hosts=0):
     """One row per arm. PURE — `census` and `arrivals` are already-measured readings.
 
     `census`  as `_cofold_census` returns it: {'per_arm': {arm_id: [seed, ...]}, ...}.
@@ -195,8 +195,13 @@ def board_rows(census, arrivals, hosts=(), now=None, seeds=None):
         if live:
             why += (" Host(s): %s." % ", ".join("%s %s" % (h.get("id"), h.get("actual_status"))
                                                 for h in live))
-        elif left and readable:
+        elif left and readable and not unattributed_hosts:
             why += " No host wearing this arm's label is live."
+        elif left and readable:
+            # ⚠ NOT "no host". The committed census records instances without their labels, so a host cannot
+            # be attributed to an arm from it alone — and "unattributable" must not render as "absent" (§4).
+            why += (" %d host(s) are live on this lane but the committed census carries no label, so which "
+                    "arm they serve is UNATTRIBUTABLE from this source." % unattributed_hosts)
         why += (" %d/%d seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns "
                 "denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
                 % (n_done, n_tot))
@@ -269,9 +274,8 @@ def publish_from_census(root=None, census_path=None, now=None):
     import selcal_vast_launch as L
     with open(census_path or L.COFOLD_CENSUS) as fh:
         cen = json.load(fh)
-    hosts = [{"id": i.get("id"), "actual_status": i.get("status"), "label": ""}
-             for i in (cen.get("instances") or [])]
-    rows = board_rows(cen, None, hosts=hosts, now=now)
+    n_hosts = len(cen.get("instances") or [])
+    rows = board_rows(cen, None, hosts=(), now=now, unattributed_hosts=n_hosts)
     return IB.publish(LANE, rows, now_epoch=_now(now), note=note_for(cen, rows), root=root)
 
 
