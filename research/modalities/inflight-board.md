@@ -2,14 +2,14 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 8:08 AM ET Sat Aug 1, 2026 by `task=collect`.
+Generated 8:17 AM ET Sat Aug 1, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:29 AM            98.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   31.2 s/iter
-5aks_d0_to_d ternary nr4a1 r0 12:26 PM           87.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 35.1 s/iter
-5aks_d0_to_d ternary nr4a1 r1 —                  67.8%  —                                         NO HOST   no live host — checkpoint at production/840 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d ternary nr4a3 r1 8:17 AM           100.0%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   31.0 s/iter
+5aks_d0_to_d ternary nr4a1 r0 12:35 PM           87.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 35.1 s/iter
+5aks_d0_to_d ternary nr4a1 r1 —                  67.8%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
 ---- END TVAST-BOARD ----
 ```
