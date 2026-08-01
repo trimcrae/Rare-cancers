@@ -1,104 +1,8 @@
 {
   "_what": "Read-only forensics: does a Vast rental's CHARGED GPU rate move after rental, or is the apparent rise the storage line in `dph_total`?",
   "_fields": "allow-listed \u2014 see SAFE_FIELDS. Field NAMES are evidence; token/ssh/address VALUES are credentials and never appear here.",
-  "n_instances": 4,
+  "n_instances": 2,
   "instances": [
-    {
-      "record": {
-        "id": 46508454,
-        "machine_id": 35778,
-        "label": "selcal-cofold-selcal-smarca-cofold-v1-smarca2",
-        "gpu_name": "RTX 4090",
-        "num_gpus": 1,
-        "gpu_frac": 1.0,
-        "disk_space": 80.0,
-        "is_bid": true,
-        "cur_state": "running",
-        "actual_status": "running",
-        "intended_status": "running",
-        "start_date": 1785593344.0244074,
-        "duration": 603944.5091497898,
-        "dph_base": 0.1618,
-        "dph_total": 0.18402222222222223,
-        "storage_cost": 0.19999999999999998,
-        "storage_total_cost": 0.02222222222222222,
-        "inet_up_cost": 0.00390625,
-        "inet_down_cost": 0.0026041666666666665,
-        "min_bid": 0.1586667,
-        "gpu_util": 0.0
-      },
-      "moved": null,
-      "instance": 46508454,
-      "machine_id": 35778,
-      "is_bid": true,
-      "ledger_bid_usd_h": null,
-      "lines": {
-        "gpu_usd_h": 0.1618,
-        "storage_usd_h": 0.02222222222222222,
-        "all_in_usd_h": 0.18402222222222223,
-        "inet_usd_h_not_in_total": 0.006510416666666666,
-        "residual_usd_h": 0.0,
-        "explained": true
-      },
-      "live_min_bid_usd_h": 0.1586667,
-      "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
-      "offer_vs_instance": {
-        "offer_dph_total_usd_h": null,
-        "offer_min_bid_usd_h": null,
-        "bid_usd_h": null,
-        "instance_dph_total_usd_h": 0.18402222222222223,
-        "instance_disk_line_usd_h": 0.02222222222222222,
-        "instance_disk_gb": 80.0
-      }
-    },
-    {
-      "record": {
-        "id": 46508511,
-        "machine_id": 35777,
-        "label": "selcal-cofold-selcal-smarca-cofold-v1-smarca4",
-        "gpu_name": "RTX 4090",
-        "num_gpus": 1,
-        "gpu_frac": 1.0,
-        "disk_space": 80.0,
-        "is_bid": true,
-        "cur_state": "running",
-        "actual_status": "running",
-        "intended_status": "running",
-        "start_date": 1785593399.623523,
-        "duration": 603960.5091497898,
-        "dph_base": 0.1618,
-        "dph_total": 0.18402222222222223,
-        "storage_cost": 0.19999999999999998,
-        "storage_total_cost": 0.02222222222222222,
-        "inet_up_cost": 0.00390625,
-        "inet_down_cost": 0.0026041666666666665,
-        "min_bid": 0.1586667,
-        "gpu_util": 0.0
-      },
-      "moved": null,
-      "instance": 46508511,
-      "machine_id": 35777,
-      "is_bid": true,
-      "ledger_bid_usd_h": null,
-      "lines": {
-        "gpu_usd_h": 0.1618,
-        "storage_usd_h": 0.02222222222222222,
-        "all_in_usd_h": 0.18402222222222223,
-        "inet_usd_h_not_in_total": 0.006510416666666666,
-        "residual_usd_h": 0.0,
-        "explained": true
-      },
-      "live_min_bid_usd_h": 0.1586667,
-      "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
-      "offer_vs_instance": {
-        "offer_dph_total_usd_h": null,
-        "offer_min_bid_usd_h": null,
-        "bid_usd_h": null,
-        "instance_dph_total_usd_h": 0.18402222222222223,
-        "instance_disk_line_usd_h": 0.02222222222222222,
-        "instance_disk_gb": 80.0
-      }
-    },
     {
       "record": {
         "id": 46508665,
@@ -113,7 +17,7 @@
         "actual_status": "running",
         "intended_status": "running",
         "start_date": 1785593527.8925643,
-        "duration": 15813705.07370615,
+        "duration": 15814392.736793995,
         "dph_base": 0.068,
         "dph_total": 0.07911111111111112,
         "storage_cost": 0.1333333333333333,
@@ -161,15 +65,15 @@
         "actual_status": "running",
         "intended_status": "running",
         "start_date": 1785597965.6425705,
-        "duration": 2590903.07370615,
+        "duration": 2591590.736793995,
         "dph_base": 0.1632,
         "dph_total": 0.1743111111111111,
         "storage_cost": 0.1333333333333333,
         "storage_total_cost": 0.011111111111111108,
         "inet_up_cost": 0.013020833333333334,
         "inet_down_cost": 0.013020833333333334,
-        "min_bid": 0.16,
-        "gpu_util": 0.0
+        "min_bid": 0.1743111,
+        "gpu_util": 99.999908
       },
       "moved": null,
       "instance": 46514055,
@@ -184,7 +88,7 @@
         "residual_usd_h": 0.0,
         "explained": true
       },
-      "live_min_bid_usd_h": 0.16,
+      "live_min_bid_usd_h": 0.1743111,
       "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
       "offer_vs_instance": {
         "offer_dph_total_usd_h": null,
@@ -196,5 +100,5 @@
       }
     }
   ],
-  "summary": "0 of 0 gradeable live rental(s) show a GPU line differing from the bid agreed at rental (4 of 4 carry no recorded bid and cannot be graded). No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` (market floor + the disk line the search priced) \u2014 two different quantities, not a price move."
+  "summary": "0 of 0 gradeable live rental(s) show a GPU line differing from the bid agreed at rental (2 of 2 carry no recorded bid and cannot be graded). No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` (market floor + the disk line the search priced) \u2014 two different quantities, not a price move."
 }
