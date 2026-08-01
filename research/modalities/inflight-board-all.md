@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 4:34 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 4:35 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,12 +15,12 @@ Merged 4:34 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 4:34 PM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 4:26 PM ET Sat Aug 1, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 1:50 AM Aug 2      83.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   55.6 s/iter · no like-for-like expectation (not measured on this system)
+5aks_d0_to_d ternary nr4a1 r1 1:42 AM Aug 2      83.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 55.6 s/iter · no like-for-like expectation (not measured on this system)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
@@ -33,7 +33,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 4:34 PM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 4:26 PM ET Sat Aug 1, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -53,13 +53,13 @@ cw_ms_free_acid__cw_bio_primary_amide r1 —                      —  —      
 
 ## SENSITIVITY CONTROL — SMARCA2/4 co-fold panel (instrument calibration, not a result)
 
-_As of 4:19 PM ET Sat Aug 1, 2026 — **16 min ago, STALE (> 15 min)**. Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
+_As of 4:35 PM ET Sat Aug 1, 2026 (0 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
 
 ```
-LEG                    ETA (ET)          % DONE  $/ns                                           STATE     WHY (when not running)
---------------------------------------------------------------------------------------------------------------------------------
-selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD          UNKNOWN   lane last reported 16 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. Host(s): 46533501 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
-selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD          UNKNOWN   lane last reported 16 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
-selcal-smarca2-m1-r0   —                      —  — MD leg: no benched ns rate for this lane yet UNKNOWN   lane last reported 16 min ago — this row is THAT report, not a current reading; it then read: RUNNING — instance 46533501 running, rented 2026-08-01T20:08:17Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+LEG                    ETA (ET)          % DONE  $/ns                                           STATE           WHY (when not running)
+--------------------------------------------------------------------------------------------------------------------------------------
+selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD          DONE            all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
+selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD          DONE            all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
+selcal-smarca2-m1-r0   —                0/24 la  — MD leg: no benched ns rate for this lane yet ENDED — no host instance 46533501 is no longer on the account, so this leg ended — landed, preempted or reaped. Rented 2026-08-01T20:08:17Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
 ```
 
