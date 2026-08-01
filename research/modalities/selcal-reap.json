@@ -2,7 +2,7 @@
   "_what": "What the sensitivity-control lane's reaper destroyed, and what it SPARED and why. Written on every tick, destroying nothing included — a reaper with no artifact is indistinguishable from a reaper that never ran.",
   "_rule": "CLAUDE.md §6 — the host cannot stop its own billing, only the control plane can; and GPU idleness NEVER condemns a box, only banked work / a host-written terminus / a terminal state does.",
   "lane": "selcal",
-  "utc": "2026-08-01T22:13:38Z",
+  "utc": "2026-08-01T22:16:52Z",
   "stop_all": false,
   "cofold_prefix": "selcal-smarca-cofold-v1",
   "s3_census_readable": true,
@@ -21,13 +21,32 @@
     "selcal-smarca4-m4-r1",
     "selcal-smarca4-m5-r1"
   ],
-  "destroyed": [],
+  "destroyed": [
+    {
+      "instance": "46541764",
+      "label": "selcal-smarca2-m6-r0",
+      "status": "offline",
+      "uptime_min": 10.5,
+      "dph_total": 0.23177777777777775,
+      "host_phase": null,
+      "why": "terminal state 'offline' — Vast still lists and bills it and it is not coming back (evidence: the instance record, not S3)"
+    },
+    {
+      "instance": "46541819",
+      "label": "selcal-smarca4-m5-r0",
+      "status": "offline",
+      "uptime_min": 9.7,
+      "dph_total": 0.2358777777777778,
+      "host_phase": null,
+      "why": "terminal state 'offline' — Vast still lists and bills it and it is not coming back (evidence: the instance record, not S3)"
+    }
+  ],
   "spared": [
     {
       "instance": "46539055",
       "label": "selcal-smarca2-m4-r1",
       "status": "running",
-      "uptime_min": 46.1,
+      "uptime_min": 49.3,
       "dph_total": 0.17875555555555556,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m4-r1; status 'running'."
@@ -36,7 +55,7 @@
       "instance": "46539069",
       "label": "selcal-smarca2-m5-r0",
       "status": "running",
-      "uptime_min": 45.9,
+      "uptime_min": 49.1,
       "dph_total": 0.1896111111111111,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m5-r0; status 'running'."
@@ -45,7 +64,7 @@
       "instance": "46539144",
       "label": "selcal-smarca4-m2-r0",
       "status": "running",
-      "uptime_min": 44.8,
+      "uptime_min": 48.0,
       "dph_total": 0.18186666666666668,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m2-r0; status 'running'."
@@ -54,7 +73,7 @@
       "instance": "46539157",
       "label": "selcal-smarca4-m3-r0",
       "status": "running",
-      "uptime_min": 44.6,
+      "uptime_min": 47.9,
       "dph_total": 0.16866666666666666,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m3-r0; status 'running'."
@@ -63,7 +82,7 @@
       "instance": "46539178",
       "label": "selcal-smarca4-m3-r1",
       "status": "running",
-      "uptime_min": 44.4,
+      "uptime_min": 47.6,
       "dph_total": 0.17846666666666666,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m3-r1; status 'running'."
@@ -72,7 +91,7 @@
       "instance": "46539197",
       "label": "selcal-smarca4-m4-r0",
       "status": "running",
-      "uptime_min": 44.2,
+      "uptime_min": 47.4,
       "dph_total": 0.19346666666666668,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m4-r0; status 'running'."
@@ -81,7 +100,7 @@
       "instance": "46541719",
       "label": "selcal-smarca2-m1-r1",
       "status": "loading",
-      "uptime_min": 7.8,
+      "uptime_min": 11.0,
       "dph_total": 0.07786666666666667,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m1-r1; status 'loading'."
@@ -89,17 +108,17 @@
     {
       "instance": "46541725",
       "label": "selcal-smarca2-m2-r0",
-      "status": "loading",
-      "uptime_min": 7.8,
+      "status": "created",
+      "uptime_min": 11.0,
       "dph_total": 0.07886666666666667,
       "host_phase": null,
-      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m2-r0; status 'loading'."
+      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m2-r0; status 'created'."
     },
     {
       "instance": "46541732",
       "label": "selcal-smarca2-m2-r1",
       "status": "loading",
-      "uptime_min": 7.7,
+      "uptime_min": 10.9,
       "dph_total": 0.07986666666666667,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m2-r1; status 'loading'."
@@ -108,7 +127,7 @@
       "instance": "46541734",
       "label": "selcal-smarca2-m3-r1",
       "status": "loading",
-      "uptime_min": 7.7,
+      "uptime_min": 10.9,
       "dph_total": 0.08096666666666666,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m3-r1; status 'loading'."
@@ -116,35 +135,26 @@
     {
       "instance": "46541737",
       "label": "selcal-smarca2-m4-r0",
-      "status": "loading",
-      "uptime_min": 7.6,
+      "status": "created",
+      "uptime_min": 10.8,
       "dph_total": 0.08196666666666666,
       "host_phase": null,
-      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m4-r0; status 'loading'."
+      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m4-r0; status 'created'."
     },
     {
       "instance": "46541739",
       "label": "selcal-smarca2-m5-r1",
       "status": "created",
-      "uptime_min": 7.5,
+      "uptime_min": 10.7,
       "dph_total": 0.16656666666666667,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m5-r1; status 'created'."
     },
     {
-      "instance": "46541764",
-      "label": "selcal-smarca2-m6-r0",
-      "status": "created",
-      "uptime_min": 7.3,
-      "dph_total": 0.23177777777777775,
-      "host_phase": null,
-      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m6-r0; status 'created'."
-    },
-    {
       "instance": "46541769",
       "label": "selcal-smarca2-m6-r1",
       "status": "created",
-      "uptime_min": 7.1,
+      "uptime_min": 10.4,
       "dph_total": 0.22066666666666665,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca2-m6-r1; status 'created'."
@@ -153,7 +163,7 @@
       "instance": "46541777",
       "label": "selcal-smarca4-m1-r0",
       "status": "loading",
-      "uptime_min": 7.0,
+      "uptime_min": 10.3,
       "dph_total": 0.22066666666666665,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m1-r0; status 'loading'."
@@ -162,25 +172,16 @@
       "instance": "46541793",
       "label": "selcal-smarca4-m2-r1",
       "status": "running",
-      "uptime_min": 6.8,
+      "uptime_min": 10.0,
       "dph_total": 0.22476666666666667,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m2-r1; status 'running'."
     },
     {
-      "instance": "46541819",
-      "label": "selcal-smarca4-m5-r0",
-      "status": "running",
-      "uptime_min": 6.5,
-      "dph_total": 0.2358777777777778,
-      "host_phase": null,
-      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m5-r0; status 'running'."
-    },
-    {
       "instance": "46541822",
       "label": "selcal-smarca4-m6-r0",
       "status": "running",
-      "uptime_min": 6.4,
+      "uptime_min": 9.7,
       "dph_total": 0.16966666666666666,
       "host_phase": null,
       "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m6-r0; status 'running'."
@@ -188,15 +189,15 @@
     {
       "instance": "46541823",
       "label": "selcal-smarca4-m6-r1",
-      "status": "loading",
-      "uptime_min": 6.4,
+      "status": "running",
+      "uptime_min": 9.6,
       "dph_total": 0.0669388888888889,
       "host_phase": null,
-      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m6-r1; status 'loading'."
+      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m6-r1; status 'running'."
     }
   ],
   "destroy_failed": [],
-  "n_destroyed": 0,
-  "n_spared": 19,
+  "n_destroyed": 2,
+  "n_spared": 17,
   "n_destroy_failed": 0
 }
