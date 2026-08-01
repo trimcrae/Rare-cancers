@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 8:33 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 8:34 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
 5aks_d0_to_d ternary nr4a3 r1 8:21 AM Aug 1      62.2%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.2 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:30 AM Aug 1     48.9%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.3 s/iter · realised $0.00855/ns (1.64x expected)
-5aks_d0_to_d ternary nr4a1 r1 1:42 PM Aug 1      47.8%  RTX 4090 $0.00537/ns · 1.57× basis [bid] RUNNING   ⚠ 32.8 s/iter · realised $0.01062/ns (1.98x expected)
+5aks_d0_to_d ternary nr4a1 r0 10:31 AM Aug 1     48.9%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.3 s/iter · realised $0.00855/ns (1.64x expected)
+5aks_d0_to_d ternary nr4a1 r1 1:43 PM Aug 1      47.8%  RTX 4090 $0.00537/ns · 1.57× basis [bid] RUNNING   ⚠ 32.8 s/iter · realised $0.01062/ns (1.98x expected)
 5aks_d0_to_d ternary nr4a3 r0 —                  94.4%  —                                        NO HOST   no live host — checkpoint at production/1800 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
