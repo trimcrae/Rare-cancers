@@ -17,7 +17,7 @@
         "actual_status": "running",
         "intended_status": "running",
         "start_date": 1785521426.7035236,
-        "duration": 15756453.052884579,
+        "duration": 15748531.147366047,
         "dph_base": 0.068,
         "dph_total": 0.07911111111111112,
         "storage_cost": 0.1333333333333333,
@@ -25,7 +25,7 @@
         "inet_up_cost": 0.0390625,
         "inet_down_cost": 0.0390625,
         "min_bid": 0.06666667,
-        "gpu_util": 90.999916
+        "gpu_util": 99.999908
       },
       "moved": null,
       "instance": 46425466,
@@ -53,54 +53,6 @@
     },
     {
       "record": {
-        "id": 46435979,
-        "machine_id": 9624,
-        "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r0-dt4p0fs-wu1p0-5aks",
-        "gpu_name": "RTX 4090",
-        "num_gpus": 1,
-        "gpu_frac": 0.125,
-        "disk_space": 60.0,
-        "is_bid": true,
-        "cur_state": "running",
-        "actual_status": "running",
-        "intended_status": "running",
-        "start_date": 1785529439.237674,
-        "duration": 2544450.794522047,
-        "dph_base": 0.1632,
-        "dph_total": 0.1743111111111111,
-        "storage_cost": 0.1333333333333333,
-        "storage_total_cost": 0.011111111111111108,
-        "inet_up_cost": 0.013020833333333334,
-        "inet_down_cost": 0.013020833333333334,
-        "min_bid": 0.16,
-        "gpu_util": 99.999908
-      },
-      "moved": null,
-      "instance": 46435979,
-      "machine_id": 9624,
-      "is_bid": true,
-      "ledger_bid_usd_h": null,
-      "lines": {
-        "gpu_usd_h": 0.1632,
-        "storage_usd_h": 0.011111111111111108,
-        "all_in_usd_h": 0.1743111111111111,
-        "inet_usd_h_not_in_total": 0.026041666666666668,
-        "residual_usd_h": 0.0,
-        "explained": true
-      },
-      "live_min_bid_usd_h": 0.16,
-      "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
-      "offer_vs_instance": {
-        "offer_dph_total_usd_h": null,
-        "offer_min_bid_usd_h": null,
-        "bid_usd_h": null,
-        "instance_dph_total_usd_h": 0.1743111111111111,
-        "instance_disk_line_usd_h": 0.011111111111111108,
-        "instance_disk_gb": 60.0
-      }
-    },
-    {
-      "record": {
         "id": 46455209,
         "machine_id": 33419,
         "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r1-dt4p0fs-wu1p0-5aks",
@@ -113,7 +65,7 @@
         "actual_status": "running",
         "intended_status": "running",
         "start_date": 1785546049.7877204,
-        "duration": 15814035.157690048,
+        "duration": 15813320.292685986,
         "dph_base": 0.0683,
         "dph_total": 0.07941111111111111,
         "storage_cost": 0.1333333333333333,
@@ -121,7 +73,7 @@
         "inet_up_cost": 0.0390625,
         "inet_down_cost": 0.0390625,
         "min_bid": 0.06666667,
-        "gpu_util": 69.999931
+        "gpu_util": 99.999908
       },
       "moved": null,
       "instance": 46455209,
@@ -144,6 +96,54 @@
         "bid_usd_h": null,
         "instance_dph_total_usd_h": 0.07941111111111111,
         "instance_disk_line_usd_h": 0.011111111111111108,
+        "instance_disk_gb": 60.0
+      }
+    },
+    {
+      "record": {
+        "id": 46494183,
+        "machine_id": 33657,
+        "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r0-dt4p0fs-wu1p0-5aks",
+        "gpu_name": "RTX 4080S",
+        "num_gpus": 1,
+        "gpu_frac": 0.5,
+        "disk_space": 60.0,
+        "is_bid": true,
+        "cur_state": "running",
+        "actual_status": "running",
+        "intended_status": "running",
+        "start_date": 1785581336.448653,
+        "duration": 7589832.104043007,
+        "dph_base": 0.1292,
+        "dph_total": 0.14586666666666667,
+        "storage_cost": 0.19999999999999998,
+        "storage_total_cost": 0.016666666666666663,
+        "inet_up_cost": 0.00390625,
+        "inet_down_cost": 0.00390625,
+        "min_bid": 0.1266667,
+        "gpu_util": 0.0
+      },
+      "moved": null,
+      "instance": 46494183,
+      "machine_id": 33657,
+      "is_bid": true,
+      "ledger_bid_usd_h": null,
+      "lines": {
+        "gpu_usd_h": 0.1292,
+        "storage_usd_h": 0.016666666666666663,
+        "all_in_usd_h": 0.14586666666666667,
+        "inet_usd_h_not_in_total": 0.0078125,
+        "residual_usd_h": 0.0,
+        "explained": true
+      },
+      "live_min_bid_usd_h": 0.1266667,
+      "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
+      "offer_vs_instance": {
+        "offer_dph_total_usd_h": null,
+        "offer_min_bid_usd_h": null,
+        "bid_usd_h": null,
+        "instance_dph_total_usd_h": 0.14586666666666667,
+        "instance_disk_line_usd_h": 0.016666666666666663,
         "instance_disk_gb": 60.0
       }
     }

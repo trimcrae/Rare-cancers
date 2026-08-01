@@ -1,43 +1,31 @@
 {
   "_what": "Every live offer priced BOTH ways \u2014 as the launcher's `dph\u2248` quote reads it, and as the $/ns market gate actually consumes it \u2014 to establish whether the offer-quote under-read reaches the PURCHASE DECISION or only the readout.",
-  "utc": "2026-08-01T09:24:28Z",
+  "utc": "2026-08-01T11:36:30Z",
   "basis_usd_per_ns": 0.003412,
   "drift_multiple": 1.9166094031192507,
   "board_depth": {
-    "offers_returned": 189,
-    "qualifying": 189,
-    "priceable": 113
+    "offers_returned": 200,
+    "qualifying": 200,
+    "priceable": 116
   },
   "quote_derived": {
-    "n": 113,
-    "best_usd_per_ns": 0.00381,
-    "best_multiple": 1.117,
-    "best19_mean_usd_per_ns": 0.004843,
-    "best19_mean_multiple": 1.419,
-    "n_under_1.9166094031192507x": 35
+    "n": 116,
+    "best_usd_per_ns": 0.004046,
+    "best_multiple": 1.186,
+    "best19_mean_usd_per_ns": 0.00496,
+    "best19_mean_multiple": 1.454,
+    "n_under_1.9166094031192507x": 33
   },
   "gate_derived": {
-    "n": 113,
-    "best_usd_per_ns": 0.004465,
-    "best_multiple": 1.309,
-    "best19_mean_usd_per_ns": 0.005685,
-    "best19_mean_multiple": 1.666,
-    "n_under_1.9166094031192507x": 18
+    "n": 116,
+    "best_usd_per_ns": 0.004851,
+    "best_multiple": 1.422,
+    "best19_mean_usd_per_ns": 0.005875,
+    "best19_mean_multiple": 1.722,
+    "n_under_1.9166094031192507x": 16
   },
   "n_offers_quote_clears_but_gate_refuses": 17,
   "offers_quote_clears_but_gate_refuses": [
-    {
-      "machine_id": 15191,
-      "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.12,
-      "offer_dph_total_usd_h": 0.12029629629629629,
-      "storage_cost_usd_gb_month": 0.02666666666666667,
-      "quote_usd_per_ns": 0.006264,
-      "gate_usd_per_ns": 0.006697,
-      "quote_multiple": 1.836,
-      "gate_multiple": 1.963,
-      "understated_by_pct": 6.47
-    },
     {
       "machine_id": 32560,
       "gpu": "RTX 3090",
@@ -63,31 +51,7 @@
       "understated_by_pct": 12.49
     },
     {
-      "machine_id": 140088,
-      "gpu": "RTX 5090",
-      "min_bid_usd_h": 0.2666667,
-      "offer_dph_total_usd_h": 0.26814818148148145,
-      "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.00622,
-      "gate_usd_per_ns": 0.006828,
-      "quote_multiple": 1.823,
-      "gate_multiple": 2.001,
-      "understated_by_pct": 8.9
-    },
-    {
       "machine_id": 26628,
-      "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.19999999999999998,
-      "offer_dph_total_usd_h": 0.2022222222222222,
-      "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.006036,
-      "gate_usd_per_ns": 0.006933,
-      "quote_multiple": 1.769,
-      "gate_multiple": 2.032,
-      "understated_by_pct": 12.94
-    },
-    {
-      "machine_id": 2107,
       "gpu": "RTX 4090",
       "min_bid_usd_h": 0.19999999999999998,
       "offer_dph_total_usd_h": 0.2022222222222222,
@@ -111,19 +75,31 @@
       "understated_by_pct": 12.94
     },
     {
-      "machine_id": 57952,
-      "gpu": "RTX 5090",
-      "min_bid_usd_h": 0.27999999999999997,
-      "offer_dph_total_usd_h": 0.28148148148148144,
-      "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.00653,
-      "gate_usd_per_ns": 0.007152,
-      "quote_multiple": 1.914,
-      "gate_multiple": 2.096,
-      "understated_by_pct": 8.7
+      "machine_id": 34105,
+      "gpu": "RTX 4090",
+      "min_bid_usd_h": 0.19999999999999998,
+      "offer_dph_total_usd_h": 0.2022222222222222,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.006036,
+      "gate_usd_per_ns": 0.006933,
+      "quote_multiple": 1.769,
+      "gate_multiple": 2.032,
+      "understated_by_pct": 12.94
     },
     {
-      "machine_id": 137831,
+      "machine_id": 145373,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.26666666666666666,
+      "offer_dph_total_usd_h": 0.2688888888888889,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.006238,
+      "gate_usd_per_ns": 0.007006,
+      "quote_multiple": 1.828,
+      "gate_multiple": 2.054,
+      "understated_by_pct": 10.97
+    },
+    {
+      "machine_id": 91334,
       "gpu": "RTX 5090",
       "min_bid_usd_h": 0.27999999999999997,
       "offer_dph_total_usd_h": 0.28148148148148144,
@@ -159,6 +135,30 @@
       "understated_by_pct": 8.7
     },
     {
+      "machine_id": 137831,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.27999999999999997,
+      "offer_dph_total_usd_h": 0.28148148148148144,
+      "storage_cost_usd_gb_month": 0.1333333333333333,
+      "quote_usd_per_ns": 0.00653,
+      "gate_usd_per_ns": 0.007152,
+      "quote_multiple": 1.914,
+      "gate_multiple": 2.096,
+      "understated_by_pct": 8.7
+    },
+    {
+      "machine_id": 56070,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.2666667,
+      "offer_dph_total_usd_h": 0.2696296629629629,
+      "storage_cost_usd_gb_month": 0.2666666666666666,
+      "quote_usd_per_ns": 0.006255,
+      "gate_usd_per_ns": 0.007184,
+      "quote_multiple": 1.833,
+      "gate_multiple": 2.106,
+      "understated_by_pct": 12.93
+    },
+    {
       "machine_id": 24039,
       "gpu": "RTX 3090",
       "min_bid_usd_h": 0.10666666666666667,
@@ -171,19 +171,7 @@
       "understated_by_pct": 22.23
     },
     {
-      "machine_id": 141902,
-      "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.12,
-      "offer_dph_total_usd_h": 0.12148148148148148,
-      "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.006326,
-      "gate_usd_per_ns": 0.007337,
-      "quote_multiple": 1.854,
-      "gate_multiple": 2.151,
-      "understated_by_pct": 13.78
-    },
-    {
-      "machine_id": 56748,
+      "machine_id": 56764,
       "gpu": "A100 PCIE",
       "min_bid_usd_h": 0.13333333333333333,
       "offer_dph_total_usd_h": 0.13555555555555554,
@@ -207,19 +195,31 @@
       "understated_by_pct": 13.48
     },
     {
-      "machine_id": 56716,
+      "machine_id": 15569,
       "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.12,
-      "offer_dph_total_usd_h": 0.12222222222222222,
-      "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.006364,
-      "gate_usd_per_ns": 0.007737,
-      "quote_multiple": 1.865,
-      "gate_multiple": 2.268,
-      "understated_by_pct": 17.74
+      "min_bid_usd_h": 0.10666666666666667,
+      "offer_dph_total_usd_h": 0.11,
+      "storage_cost_usd_gb_month": 0.3,
+      "quote_usd_per_ns": 0.005728,
+      "gate_usd_per_ns": 0.00761,
+      "quote_multiple": 1.679,
+      "gate_multiple": 2.231,
+      "understated_by_pct": 24.73
     },
     {
-      "machine_id": 137559,
+      "machine_id": 53164,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.26666666666666666,
+      "offer_dph_total_usd_h": 0.27185185185185184,
+      "storage_cost_usd_gb_month": 0.46666666666666673,
+      "quote_usd_per_ns": 0.006306,
+      "gate_usd_per_ns": 0.007719,
+      "quote_multiple": 1.848,
+      "gate_multiple": 2.263,
+      "understated_by_pct": 18.3
+    },
+    {
+      "machine_id": 140084,
       "gpu": "RTX 5090",
       "min_bid_usd_h": 0.26666666666666666,
       "offer_dph_total_usd_h": 0.2725925925925926,
@@ -233,30 +233,6 @@
   ],
   "rows": [
     {
-      "machine_id": 35115,
-      "gpu": "RTX 5090",
-      "min_bid_usd_h": 0.162,
-      "offer_dph_total_usd_h": 0.16422222222222221,
-      "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.00381,
-      "gate_usd_per_ns": 0.004465,
-      "quote_multiple": 1.117,
-      "gate_multiple": 1.309,
-      "understated_by_pct": 14.68
-    },
-    {
-      "machine_id": 12227,
-      "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.1333333,
-      "offer_dph_total_usd_h": 0.1355555222222222,
-      "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.004046,
-      "gate_usd_per_ns": 0.004851,
-      "quote_multiple": 1.186,
-      "gate_multiple": 1.422,
-      "understated_by_pct": 16.59
-    },
-    {
       "machine_id": 24317,
       "gpu": "RTX 4090",
       "min_bid_usd_h": 0.1333333,
@@ -269,43 +245,19 @@
       "understated_by_pct": 16.59
     },
     {
-      "machine_id": 145841,
-      "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.08,
-      "offer_dph_total_usd_h": 0.08148148148148149,
-      "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.004243,
-      "gate_usd_per_ns": 0.005158,
-      "quote_multiple": 1.244,
-      "gate_multiple": 1.512,
-      "understated_by_pct": 17.74
-    },
-    {
-      "machine_id": 33657,
-      "gpu": "RTX 4080S",
-      "min_bid_usd_h": 0.12666666666666668,
-      "offer_dph_total_usd_h": 0.1288888888888889,
+      "machine_id": 49876,
+      "gpu": "RTX 4090",
+      "min_bid_usd_h": 0.143,
+      "offer_dph_total_usd_h": 0.1452222222222222,
       "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.004461,
-      "gate_usd_per_ns": 0.005384,
-      "quote_multiple": 1.308,
-      "gate_multiple": 1.578,
-      "understated_by_pct": 17.14
+      "quote_usd_per_ns": 0.004335,
+      "gate_usd_per_ns": 0.005154,
+      "quote_multiple": 1.271,
+      "gate_multiple": 1.511,
+      "understated_by_pct": 15.9
     },
     {
-      "machine_id": 55534,
-      "gpu": "RTX 5090",
-      "min_bid_usd_h": 0.19999999999999998,
-      "offer_dph_total_usd_h": 0.2022222222222222,
-      "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.004691,
-      "gate_usd_per_ns": 0.005388,
-      "quote_multiple": 1.375,
-      "gate_multiple": 1.579,
-      "understated_by_pct": 12.93
-    },
-    {
-      "machine_id": 29711,
+      "machine_id": 36518,
       "gpu": "RTX 5090",
       "min_bid_usd_h": 0.19999999999999998,
       "offer_dph_total_usd_h": 0.2022222222222222,
@@ -329,22 +281,46 @@
       "understated_by_pct": 12.93
     },
     {
-      "machine_id": 33622,
-      "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.093,
-      "offer_dph_total_usd_h": 0.09374074074074074,
-      "storage_cost_usd_gb_month": 0.06666666666666665,
-      "quote_usd_per_ns": 0.004881,
-      "gate_usd_per_ns": 0.005468,
-      "quote_multiple": 1.431,
-      "gate_multiple": 1.603,
-      "understated_by_pct": 10.73
+      "machine_id": 17551,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.2,
+      "offer_dph_total_usd_h": 0.20222222222222222,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.004691,
+      "gate_usd_per_ns": 0.005388,
+      "quote_multiple": 1.375,
+      "gate_multiple": 1.579,
+      "understated_by_pct": 12.93
     },
     {
-      "machine_id": 31035,
+      "machine_id": 29707,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.2,
+      "offer_dph_total_usd_h": 0.20222222222222222,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.004691,
+      "gate_usd_per_ns": 0.005388,
+      "quote_multiple": 1.375,
+      "gate_multiple": 1.579,
+      "understated_by_pct": 12.93
+    },
+    {
+      "machine_id": 33657,
+      "gpu": "RTX 4080S",
+      "min_bid_usd_h": 0.129,
+      "offer_dph_total_usd_h": 0.1312222222222222,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.004542,
+      "gate_usd_per_ns": 0.00547,
+      "quote_multiple": 1.331,
+      "gate_multiple": 1.603,
+      "understated_by_pct": 16.96
+    },
+    {
+      "machine_id": 28905,
       "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.1586667,
-      "offer_dph_total_usd_h": 0.1608889222222222,
+      "min_bid_usd_h": 0.15866666666666665,
+      "offer_dph_total_usd_h": 0.16088888888888886,
       "storage_cost_usd_gb_month": 0.19999999999999998,
       "quote_usd_per_ns": 0.004802,
       "gate_usd_per_ns": 0.005641,
@@ -353,28 +329,52 @@
       "understated_by_pct": 14.87
     },
     {
-      "machine_id": 33414,
-      "gpu": "RTX 5090",
-      "min_bid_usd_h": 0.213,
-      "offer_dph_total_usd_h": 0.21596296296296297,
+      "machine_id": 2217,
+      "gpu": "RTX 4090",
+      "min_bid_usd_h": 0.156,
+      "offer_dph_total_usd_h": 0.15896296296296297,
       "storage_cost_usd_gb_month": 0.2666666666666666,
-      "quote_usd_per_ns": 0.00501,
-      "gate_usd_per_ns": 0.005883,
-      "quote_multiple": 1.468,
-      "gate_multiple": 1.724,
-      "understated_by_pct": 14.84
+      "quote_usd_per_ns": 0.004745,
+      "gate_usd_per_ns": 0.005788,
+      "quote_multiple": 1.391,
+      "gate_multiple": 1.697,
+      "understated_by_pct": 18.02
     },
     {
-      "machine_id": 27250,
+      "machine_id": 4590,
       "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.18000000000000002,
-      "offer_dph_total_usd_h": 0.1814814814814815,
+      "min_bid_usd_h": 0.156,
+      "offer_dph_total_usd_h": 0.15896296296296297,
+      "storage_cost_usd_gb_month": 0.2666666666666666,
+      "quote_usd_per_ns": 0.004745,
+      "gate_usd_per_ns": 0.005788,
+      "quote_multiple": 1.391,
+      "gate_multiple": 1.697,
+      "understated_by_pct": 18.02
+    },
+    {
+      "machine_id": 145841,
+      "gpu": "RTX 3090",
+      "min_bid_usd_h": 0.09333333333333334,
+      "offer_dph_total_usd_h": 0.09481481481481482,
       "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.005417,
-      "gate_usd_per_ns": 0.006079,
-      "quote_multiple": 1.588,
-      "gate_multiple": 1.782,
-      "understated_by_pct": 10.89
+      "quote_usd_per_ns": 0.004937,
+      "gate_usd_per_ns": 0.005884,
+      "quote_multiple": 1.447,
+      "gate_multiple": 1.725,
+      "understated_by_pct": 16.09
+    },
+    {
+      "machine_id": 12227,
+      "gpu": "RTX 4090",
+      "min_bid_usd_h": 0.167,
+      "offer_dph_total_usd_h": 0.16922222222222222,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.005051,
+      "gate_usd_per_ns": 0.005901,
+      "quote_multiple": 1.481,
+      "gate_multiple": 1.73,
+      "understated_by_pct": 14.4
     },
     {
       "machine_id": 51777,
@@ -389,22 +389,10 @@
       "understated_by_pct": 14.1
     },
     {
-      "machine_id": 55559,
-      "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.17333333333333334,
-      "offer_dph_total_usd_h": 0.17555555555555555,
-      "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.00524,
-      "gate_usd_per_ns": 0.0061,
-      "quote_multiple": 1.536,
-      "gate_multiple": 1.788,
-      "understated_by_pct": 14.1
-    },
-    {
       "machine_id": 21222,
       "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.10666666666666667,
-      "offer_dph_total_usd_h": 0.10740740740740741,
+      "min_bid_usd_h": 0.1066667,
+      "offer_dph_total_usd_h": 0.10740744074074074,
       "storage_cost_usd_gb_month": 0.06666666666666665,
       "quote_usd_per_ns": 0.005593,
       "gate_usd_per_ns": 0.006211,
@@ -413,52 +401,28 @@
       "understated_by_pct": 9.95
     },
     {
-      "machine_id": 2217,
-      "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.173,
-      "offer_dph_total_usd_h": 0.17596296296296296,
-      "storage_cost_usd_gb_month": 0.2666666666666666,
-      "quote_usd_per_ns": 0.005252,
-      "gate_usd_per_ns": 0.00632,
-      "quote_multiple": 1.539,
-      "gate_multiple": 1.852,
-      "understated_by_pct": 16.9
-    },
-    {
-      "machine_id": 56108,
-      "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.173,
-      "offer_dph_total_usd_h": 0.17596296296296296,
-      "storage_cost_usd_gb_month": 0.2666666666666666,
-      "quote_usd_per_ns": 0.005252,
-      "gate_usd_per_ns": 0.00632,
-      "quote_multiple": 1.539,
-      "gate_multiple": 1.852,
-      "understated_by_pct": 16.9
-    },
-    {
-      "machine_id": 4590,
-      "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.173,
-      "offer_dph_total_usd_h": 0.17596296296296296,
-      "storage_cost_usd_gb_month": 0.2666666666666666,
-      "quote_usd_per_ns": 0.005252,
-      "gate_usd_per_ns": 0.00632,
-      "quote_multiple": 1.539,
-      "gate_multiple": 1.852,
-      "understated_by_pct": 16.9
-    },
-    {
-      "machine_id": 15191,
+      "machine_id": 145934,
       "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.12,
-      "offer_dph_total_usd_h": 0.12029629629629629,
-      "storage_cost_usd_gb_month": 0.02666666666666667,
-      "quote_usd_per_ns": 0.006264,
-      "gate_usd_per_ns": 0.006697,
-      "quote_multiple": 1.836,
-      "gate_multiple": 1.963,
-      "understated_by_pct": 6.47
+      "min_bid_usd_h": 0.09333333333333334,
+      "offer_dph_total_usd_h": 0.09555555555555556,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.004976,
+      "gate_usd_per_ns": 0.006284,
+      "quote_multiple": 1.458,
+      "gate_multiple": 1.842,
+      "understated_by_pct": 20.82
+    },
+    {
+      "machine_id": 140371,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.24,
+      "offer_dph_total_usd_h": 0.24296296296296296,
+      "storage_cost_usd_gb_month": 0.2666666666666666,
+      "quote_usd_per_ns": 0.005636,
+      "gate_usd_per_ns": 0.006537,
+      "quote_multiple": 1.652,
+      "gate_multiple": 1.916,
+      "understated_by_pct": 13.78
     },
     {
       "machine_id": 32560,
@@ -485,31 +449,7 @@
       "understated_by_pct": 12.49
     },
     {
-      "machine_id": 140088,
-      "gpu": "RTX 5090",
-      "min_bid_usd_h": 0.2666667,
-      "offer_dph_total_usd_h": 0.26814818148148145,
-      "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.00622,
-      "gate_usd_per_ns": 0.006828,
-      "quote_multiple": 1.823,
-      "gate_multiple": 2.001,
-      "understated_by_pct": 8.9
-    },
-    {
       "machine_id": 26628,
-      "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.19999999999999998,
-      "offer_dph_total_usd_h": 0.2022222222222222,
-      "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.006036,
-      "gate_usd_per_ns": 0.006933,
-      "quote_multiple": 1.769,
-      "gate_multiple": 2.032,
-      "understated_by_pct": 12.94
-    },
-    {
-      "machine_id": 2107,
       "gpu": "RTX 4090",
       "min_bid_usd_h": 0.19999999999999998,
       "offer_dph_total_usd_h": 0.2022222222222222,
@@ -533,19 +473,31 @@
       "understated_by_pct": 12.94
     },
     {
-      "machine_id": 57952,
-      "gpu": "RTX 5090",
-      "min_bid_usd_h": 0.27999999999999997,
-      "offer_dph_total_usd_h": 0.28148148148148144,
-      "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.00653,
-      "gate_usd_per_ns": 0.007152,
-      "quote_multiple": 1.914,
-      "gate_multiple": 2.096,
-      "understated_by_pct": 8.7
+      "machine_id": 34105,
+      "gpu": "RTX 4090",
+      "min_bid_usd_h": 0.19999999999999998,
+      "offer_dph_total_usd_h": 0.2022222222222222,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.006036,
+      "gate_usd_per_ns": 0.006933,
+      "quote_multiple": 1.769,
+      "gate_multiple": 2.032,
+      "understated_by_pct": 12.94
     },
     {
-      "machine_id": 137831,
+      "machine_id": 145373,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.26666666666666666,
+      "offer_dph_total_usd_h": 0.2688888888888889,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.006238,
+      "gate_usd_per_ns": 0.007006,
+      "quote_multiple": 1.828,
+      "gate_multiple": 2.054,
+      "understated_by_pct": 10.97
+    },
+    {
+      "machine_id": 91334,
       "gpu": "RTX 5090",
       "min_bid_usd_h": 0.27999999999999997,
       "offer_dph_total_usd_h": 0.28148148148148144,
@@ -581,6 +533,30 @@
       "understated_by_pct": 8.7
     },
     {
+      "machine_id": 137831,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.27999999999999997,
+      "offer_dph_total_usd_h": 0.28148148148148144,
+      "storage_cost_usd_gb_month": 0.1333333333333333,
+      "quote_usd_per_ns": 0.00653,
+      "gate_usd_per_ns": 0.007152,
+      "quote_multiple": 1.914,
+      "gate_multiple": 2.096,
+      "understated_by_pct": 8.7
+    },
+    {
+      "machine_id": 56070,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.2666667,
+      "offer_dph_total_usd_h": 0.2696296629629629,
+      "storage_cost_usd_gb_month": 0.2666666666666666,
+      "quote_usd_per_ns": 0.006255,
+      "gate_usd_per_ns": 0.007184,
+      "quote_multiple": 1.833,
+      "gate_multiple": 2.106,
+      "understated_by_pct": 12.93
+    },
+    {
       "machine_id": 24039,
       "gpu": "RTX 3090",
       "min_bid_usd_h": 0.10666666666666667,
@@ -593,19 +569,7 @@
       "understated_by_pct": 22.23
     },
     {
-      "machine_id": 141902,
-      "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.12,
-      "offer_dph_total_usd_h": 0.12148148148148148,
-      "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.006326,
-      "gate_usd_per_ns": 0.007337,
-      "quote_multiple": 1.854,
-      "gate_multiple": 2.151,
-      "understated_by_pct": 13.78
-    },
-    {
-      "machine_id": 56748,
+      "machine_id": 56764,
       "gpu": "A100 PCIE",
       "min_bid_usd_h": 0.13333333333333333,
       "offer_dph_total_usd_h": 0.13555555555555554,
@@ -641,6 +605,18 @@
       "understated_by_pct": 13.48
     },
     {
+      "machine_id": 15569,
+      "gpu": "RTX 3090",
+      "min_bid_usd_h": 0.10666666666666667,
+      "offer_dph_total_usd_h": 0.11,
+      "storage_cost_usd_gb_month": 0.3,
+      "quote_usd_per_ns": 0.005728,
+      "gate_usd_per_ns": 0.00761,
+      "quote_multiple": 1.679,
+      "gate_multiple": 2.231,
+      "understated_by_pct": 24.73
+    },
+    {
       "machine_id": 55081,
       "gpu": "RTX 5090",
       "min_bid_usd_h": 0.29333333333333333,
@@ -653,16 +629,16 @@
       "understated_by_pct": 10.41
     },
     {
-      "machine_id": 56716,
-      "gpu": "RTX 3090",
-      "min_bid_usd_h": 0.12,
-      "offer_dph_total_usd_h": 0.12222222222222222,
-      "storage_cost_usd_gb_month": 0.19999999999999998,
-      "quote_usd_per_ns": 0.006364,
-      "gate_usd_per_ns": 0.007737,
-      "quote_multiple": 1.865,
-      "gate_multiple": 2.268,
-      "understated_by_pct": 17.74
+      "machine_id": 53164,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.26666666666666666,
+      "offer_dph_total_usd_h": 0.27185185185185184,
+      "storage_cost_usd_gb_month": 0.46666666666666673,
+      "quote_usd_per_ns": 0.006306,
+      "gate_usd_per_ns": 0.007719,
+      "quote_multiple": 1.848,
+      "gate_multiple": 2.263,
+      "understated_by_pct": 18.3
     },
     {
       "machine_id": 129810,
@@ -677,7 +653,7 @@
       "understated_by_pct": 8.34
     },
     {
-      "machine_id": 137559,
+      "machine_id": 140084,
       "gpu": "RTX 5090",
       "min_bid_usd_h": 0.26666666666666666,
       "offer_dph_total_usd_h": 0.2725925925925926,
@@ -687,18 +663,6 @@
       "quote_multiple": 1.853,
       "gate_multiple": 2.315,
       "understated_by_pct": 19.92
-    },
-    {
-      "machine_id": 54280,
-      "gpu": "RTX 4090",
-      "min_bid_usd_h": 0.24,
-      "offer_dph_total_usd_h": 0.24148148148148146,
-      "storage_cost_usd_gb_month": 0.1333333333333333,
-      "quote_usd_per_ns": 0.007208,
-      "gate_usd_per_ns": 0.007953,
-      "quote_multiple": 2.113,
-      "gate_multiple": 2.331,
-      "understated_by_pct": 9.37
     },
     {
       "machine_id": 29668,
@@ -711,13 +675,49 @@
       "quote_multiple": 2.05,
       "gate_multiple": 2.341,
       "understated_by_pct": 12.42
+    },
+    {
+      "machine_id": 42715,
+      "gpu": "RTX 3090",
+      "min_bid_usd_h": 0.13333333333333333,
+      "offer_dph_total_usd_h": 0.1348148148148148,
+      "storage_cost_usd_gb_month": 0.1333333333333333,
+      "quote_usd_per_ns": 0.00702,
+      "gate_usd_per_ns": 0.008063,
+      "quote_multiple": 2.058,
+      "gate_multiple": 2.363,
+      "understated_by_pct": 12.94
+    },
+    {
+      "machine_id": 46959,
+      "gpu": "RTX 5090",
+      "min_bid_usd_h": 0.3253333333333333,
+      "offer_dph_total_usd_h": 0.32755555555555554,
+      "storage_cost_usd_gb_month": 0.19999999999999998,
+      "quote_usd_per_ns": 0.007599,
+      "gate_usd_per_ns": 0.008429,
+      "quote_multiple": 2.227,
+      "gate_multiple": 2.471,
+      "understated_by_pct": 9.85
+    },
+    {
+      "machine_id": 138269,
+      "gpu": "RTX 4090",
+      "min_bid_usd_h": 0.24,
+      "offer_dph_total_usd_h": 0.2437037037037037,
+      "storage_cost_usd_gb_month": 0.3333333333333333,
+      "quote_usd_per_ns": 0.007274,
+      "gate_usd_per_ns": 0.008641,
+      "quote_multiple": 2.132,
+      "gate_multiple": 2.533,
+      "understated_by_pct": 15.82
     }
   ],
   "n_fleet": 19,
   "quote_understates_gate_by_pct": {
-    "min": 5.74,
-    "median": 11.64,
-    "max": 29.53
+    "min": 6.26,
+    "median": 12.42,
+    "max": 34.93
   },
   "verdict": "THE GATE IS NOT READING THE QUOTE. Its $/ns is uniformly ABOVE the quote-derived figure, because `vast_cost_model.score_offer` prices `recommended_bid(min_bid)` plus storage at the disk THIS LANE allocates, and never reads `dph_total`. The under-read reached the human-facing board only."
 }
