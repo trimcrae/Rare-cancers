@@ -15,7 +15,7 @@ Merged 9:15 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 9:07 PM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 9:07 PM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
@@ -36,12 +36,12 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 9:14 PM ET Fri Jul 31, 2026 (1 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 9:15 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-nr4a2 m2 r0        —                  70.0%  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   no measured frame rate across two board polls yet — ETA unknowable, progress is real (frame 350/500)
+nr4a2 m2 r0        9:17 PM            80.0%  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
 ```
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
