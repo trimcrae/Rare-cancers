@@ -436,6 +436,23 @@ def test_the_cofold_watch_reaps_on_EVERY_tick_not_only_at_completion():
         "every supervision tick must leave a dated census, or a frozen lane reads as a quiet one"
 
 
+def test_a_supervision_tick_PUBLISHES_not_merely_writes():
+    """⛔ THE STALENESS BUG WEARING A DIFFERENT HAT. The workflow's commit step is a separate step, so it runs
+    only after the python process exits: a 58-minute watch that faithfully rewrites the census every 3 minutes
+    still leaves the lane's census frozen on `main` for 58 minutes — the 77-minute silence of 2026-08-01 with
+    a different number on it. A file the outside world cannot see is not a heartbeat."""
+    import ast
+    for fn in ("mode_cofold_watch", "mode_watch"):
+        loops = [n for n in ast.walk(_fn(fn)) if isinstance(n, ast.While)]
+        assert len(loops) == 1, fn
+        tick = [ast.dump(s) for s in loops[0].body]
+        assert any("'_tick_publish'" in s for s in tick), \
+            "%s must publish its heartbeat every tick, not only when the job ends" % fn
+    body = SRC[SRC.index("def _tick_publish"):SRC.index("def mode_cofold_watch")]
+    assert "reset" in body and "--hard" in body, "last writer wins — a snapshot merge describes no instant"
+    assert "never raises" in body or "Never raises" in body
+
+
 def test_a_cofold_label_is_resolved_by_the_NAME_BUILDER_not_by_splitting_on_dashes():
     """The prefix itself contains dashes (`selcal-cofold-selcal-smarca-cofold-v1-smarca2`), so a
     split-on-dash reader mis-assigns the arm — and a mis-assigned arm is a host reaped for work banked

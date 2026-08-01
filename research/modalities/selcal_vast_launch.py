@@ -1340,6 +1340,55 @@ def self_dispatch(mode, inputs=None, ref=None):
         return False
 
 
+def _tick_publish(paths, message, branch=None):
+    """Commit + push these artifacts from INSIDE a long-running supervision loop. Never raises.
+
+    ⛔ A LONG WATCH ONLY COMMITS WHEN IT ENDS, AND THAT IS THE STALENESS BUG WEARING A DIFFERENT HAT. The
+    workflow's commit step is a separate step, so it runs only after this python process exits: a 58-minute
+    watch that faithfully rewrites the census every 3 minutes still leaves the LANE's census frozen on `main`
+    for 58 minutes — indistinguishable from the 77-minute silence on 2026-08-01 that this whole fix exists to
+    end. Writing a file the outside world cannot see is not a heartbeat.
+
+    ⚠ LAST WRITER WINS, exactly as the workflow's commit step does it, and for the same reason: these are
+    regenerated snapshots with more than one writer, and merging two censuses taken at different instants
+    produces a census that describes no instant. So: keep our bytes, reset to the remote, lay them back,
+    commit, push. `git reset --hard` is safe here — this module is already imported, and a CI checkout has no
+    other uncommitted work.
+
+    Best-effort by construction: supervision must never die because a push raced."""
+    import subprocess
+    branch = branch or os.environ.get("GIT_BRANCH") or "main"
+    root = os.path.dirname(os.path.dirname(HERE))
+    keep = {}
+    for p in paths:
+        if os.path.exists(p):
+            with open(p, "rb") as fh:
+                keep[p] = fh.read()
+    if not keep:
+        return False
+
+    def g(*a):
+        return subprocess.run(["git", "-C", root, *a], capture_output=True, text=True)
+    try:
+        for attempt in range(3):
+            if g("fetch", "origin", branch).returncode:
+                return False
+            g("reset", "--hard", "origin/%s" % branch)
+            for p, b in keep.items():
+                with open(p, "wb") as fh:
+                    fh.write(b)
+            g("add", *sorted(keep))
+            g("-c", "user.name=Claude", "-c", "user.email=noreply@anthropic.com",
+              "commit", "--allow-empty", "-m", message)
+            if g("push", "origin", "HEAD:%s" % branch).returncode == 0:
+                return True
+            time.sleep(2 * (attempt + 1))
+    except Exception as e:  # noqa: BLE001 — a failed heartbeat must not stop the supervision it reports on
+        print("[selcal-tick-publish] could not publish (%s: %s) — the watch continues" % (type(e).__name__, e),
+              flush=True)
+    return False
+
+
 def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
     """Supervise the co-fold hosts from CI until every (arm, seed) has landed — then REAP them.
 
@@ -1394,6 +1443,12 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
                                                   if rental_uptime_s(i) is not None else None)}
                                   for i in mine]})
         _write(COFOLD_CENSUS, cen)
+        # ★★ AND PUBLISHED, not merely written. The workflow's commit step runs only after this process
+        # exits, so without this a 58-minute watch leaves the lane's census frozen on `main` for 58 minutes —
+        # which is the 77-minute silence of 2026-08-01 with a different number on it.
+        _tick_publish([COFOLD_CENSUS, REAP_READOUT, PRICE_LEDGER],
+                      "selcal cofold_watch: supervision tick (models %s, %d host(s))"
+                      % (cen["n_models_per_arm"], len(mine)))
         if cen["complete"]:
             print("[selcal-cofold-watch] ✅ every (arm, seed) has a co-fold — reaping the hosts.", flush=True)
             mode_reap(bucket, stop_all=True, cofold_prefix=prefix)
@@ -1472,6 +1527,11 @@ def mode_watch(bucket=None, minutes=None):
             mode_reap(bucket)
             return 0
         mode_reap(bucket)
+        # Published per tick for the same reason as the co-fold watch: a heartbeat nobody outside the runner
+        # can see is not a heartbeat.
+        _tick_publish([REAP_READOUT, PRICE_LEDGER, COLLECT_READOUT],
+                      "selcal watch: supervision tick (%d/%d landed, %d host(s))"
+                      % (len(done), len(SP.enumerate_units()), len(mine)))
         time.sleep(float(os.environ.get("SELCAL_WATCH_INTERVAL_S", "180")))
     return 0
 
