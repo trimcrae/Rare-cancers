@@ -817,3 +817,17 @@ def test_the_tick_does_not_target_the_ternary_gcp_lane():
     failures stop being read. Reported for its owner; not depended on here."""
     sup = _sup()
     assert "gh workflow run gpu-ternary-fep-gcp.yml" not in sup
+
+
+def test_the_cron_is_a_backstop_that_names_the_supervisor_as_the_real_cadence():
+    """CLAUDE.md §6: a `*/N` cron is a REQUEST, not a cadence, and the delivered gaps have their one home
+    in fleet-supervision-alarm.yml. This entry must say so and must point at the loop that actually ticks
+    the lane, or the next reader plans safety around a number GitHub does not honour."""
+    txt = _wf()
+    # Anchor on the YAML KEY (two-space indent, own line), not the bare word — the file's own header
+    # discusses `schedule:` crons at length and a loose split lands in the prose instead of the block.
+    sched = txt.split("\n  schedule:\n")[1].split("\npermissions:")[0]
+    assert "REQUEST, NOT A CADENCE" in sched
+    assert "step1-fanout-supervisor.yml" in sched
+    assert "fleet-supervision-alarm.yml" in sched
+    assert "cron:" in sched

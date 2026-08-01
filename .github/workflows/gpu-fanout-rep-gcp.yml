@@ -31,9 +31,22 @@ on:
       provisioning: { description: "standard (on-demand; the GCP default per the _gcp_cost_frame ruling — wall clock is the scarce thing here, not money) | spot", default: "standard", required: false }
       force:     { description: "1 = provision even if the unit's ddg.json is already in GCS (overwrites)", default: "0", required: false }
   schedule:
-    # A REQUEST, NOT A CADENCE (CLAUDE.md §6). This only ever runs the $0 reap, so a missed tick costs
-    # nothing that the create-time cap does not already bound. It is a convenience, never the guarantee.
-    - cron: "17 * * * *"
+    # ⚠ A REQUEST, NOT A CADENCE (CLAUDE.md §6) — GitHub throttles this repo's schedules to a small
+    # fraction of what the cron asks for, and the gaps actually delivered are MEASURED by
+    # fleet-supervision-alarm.yml, which is their one home. Do not read `*/10` as "every ten minutes".
+    #
+    # THE REAL CADENCE IS `step1-fanout-supervisor.yml`, whose long-lived loop dispatches this lane
+    # `mode=reap` every ~8 min alongside the ternary gates and the NR-V04 retro tick. This entry is the
+    # BACKSTOP for the window where that loop is between generations — measured 2026-08-01: the running
+    # supervisor and its queued successor were both pinned to SHAs predating the tick, so the loop could
+    # not pick it up for one full generation. An hourly cron over that window left the lane's board row
+    # reading STALE (> 15 min) for most of a 48 h leg, which is the condition this lane exists to make
+    # visible rather than to embody.
+    #
+    # Asking for more costs nothing and is bounded by what the mode can do: `reap` has no provisioning
+    # path (the create step is gated on an explicit smoke|run allowlist), so every extra tick is a read,
+    # a possible evidence-based delete, and one JSON fragment. $0, and it can never buy.
+    - cron: "*/10 * * * *"
 
 permissions:
   id-token: write
