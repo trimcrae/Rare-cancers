@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "triangle",
- "utc": "2026-08-01T12:20:33Z",
+ "utc": "2026-08-01T14:56:13Z",
  "units": {
   "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle": {
    "attempts": [
@@ -239,6 +239,8 @@
    ],
    "live_cold_start_s": 3.0,
    "live_cold_start_span": "container-start -> start",
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "phase.txt says 'start', not md-running \u2014 this boundary is not in the record",
    "commit_bytes_median": 1384304192.5,
    "n_generations": 62,
    "commit_store": {
@@ -501,6 +503,8 @@
    ],
    "live_cold_start_s": 4.0,
    "live_cold_start_span": "container-start -> start",
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "phase.txt says 'start', not md-running \u2014 this boundary is not in the record",
    "commit_bytes_median": 1037250598.5,
    "n_generations": 62,
    "commit_store": {
@@ -763,6 +767,8 @@
    ],
    "live_cold_start_s": 2.0,
    "live_cold_start_span": "container-start -> start",
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "phase.txt says 'start', not md-running \u2014 this boundary is not in the record",
    "commit_bytes_median": 1899671956,
    "n_generations": 63,
    "commit_store": {
@@ -1025,6 +1031,8 @@
    ],
    "live_cold_start_s": 1.0,
    "live_cold_start_span": "container-start -> start",
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "phase.txt says 'start', not md-running \u2014 this boundary is not in the record",
    "commit_bytes_median": 466656171.0,
    "n_generations": 62,
    "commit_store": {
@@ -1472,7 +1480,13 @@
     "min_min": 6.87,
     "max_min": 17.27,
     "n": 14,
-    "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly."
+    "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly.",
+    "measured_median_min": null,
+    "measured_n_units": 0,
+    "measured_how": "the first commit object's S3 LastModified minus the `md-running` timestamp in phase.txt \u2014 a real wall clock, on units currently inside md-running. None means no unit is in that phase right now, which is NOT the same as a fast segment.",
+    "of_which_setup_build_min": 2.4,
+    "of_which_setup_restore_min": null,
+    "_residual_is": "what remains after those two is minimisation + the warmup iterations to the first checkpoint, PLUS anything else in the window that times nothing. A RESIDUAL, not a measurement of minimisation \u2014 do not quote it as one."
    },
    "md_running_to_md_done": {
     "median_min": null,

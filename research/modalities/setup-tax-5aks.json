@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T12:20:29Z",
+ "utc": "2026-08-01T14:56:09Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -429,6 +429,8 @@
    ],
    "live_cold_start_s": 1.0,
    "live_cold_start_span": "container-start -> start",
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "phase.txt says 'start', not md-running \u2014 this boundary is not in the record",
    "commit_bytes_median": 1471793317,
    "n_generations": 75,
    "commit_store": {
@@ -457,157 +459,6 @@
   },
   "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {},
-     "restore_list": [],
-     "restore_fetch": [],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 245,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T17:41:31Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260731T180126Z.log",
-     "utc": "2026-07-31 18:01:31+00:00",
-     "bytes": 19183,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {},
-     "restore_list": [],
-     "restore_fetch": [],
-     "first_commit_iteration": null,
-     "s_per_iter": 18.0,
-     "n_lines": 394,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T18:01:24Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260731T184534Z.log",
-     "utc": "2026-07-31 18:45:40+00:00",
-     "bytes": 29659,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {},
-     "restore_list": [],
-     "restore_fetch": [],
-     "first_commit_iteration": null,
-     "s_per_iter": 30.6,
-     "n_lines": 396,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T18:45:32Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260731T200559Z.log",
-     "utc": "2026-07-31 20:06:02+00:00",
-     "bytes": 30349,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {
-      "production": 0.4,
-      "warmup": 38.3
-     },
-     "restore_list": [
-      {
-       "phase": "production",
-       "n_gen": 0,
-       "seconds": 0.4
-      },
-      {
-       "phase": "warmup",
-       "n_gen": 17,
-       "seconds": 2.4
-      }
-     ],
-     "restore_fetch": [
-      {
-       "bytes": 973278055,
-       "seconds": 34.6
-      }
-     ],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 147,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T20:05:58Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260731T202628Z.log",
-     "utc": "2026-07-31 20:26:29+00:00",
-     "bytes": 12534,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
     {
      "caches": {
       "stage": true,
@@ -759,8 +610,8 @@
       }
      ],
      "first_commit_iteration": 1480,
-     "s_per_iter": 35.1,
-     "n_lines": 831,
+     "s_per_iter": 34.8,
+     "n_lines": 1258,
      "timeline": {
       "marks": [
        [
@@ -815,41 +666,343 @@
        "iteration": 1560,
        "mib": 2311.2,
        "seconds": 17.3
+      },
+      {
+       "phase": "production",
+       "iteration": 1600,
+       "mib": 2461.8,
+       "seconds": 13.9
+      },
+      {
+       "phase": "production",
+       "iteration": 1640,
+       "mib": 2612.5,
+       "seconds": 16.9
       }
      ],
      "checkpoint_interval": 40,
+     "attempt": "run-20260801T131053Z.log",
+     "utc": "2026-08-01 13:10:54+00:00",
+     "bytes": 90321,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": true
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
+     "setup_cache_missing": null,
+     "restore_seconds": {
+      "production": 75.3
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 41,
+       "seconds": 3.1
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 2739394603,
+       "seconds": 68.8
+      }
+     ],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 233,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T13:10:52Z"
+       ],
+       [
+        "start",
+        "2026-08-01T13:10:53Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T13:11:08Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T13:11:09Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T13:11:11Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T13:11:13Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 1.0,
+       "start->cloned": 15.0,
+       "cloned->staging": 1.0,
+       "staging->preequil": 2.0,
+       "preequil->md-running": 2.0
+      },
+      "complete": true
+     },
+     "commits": [],
+     "checkpoint_interval": 40,
+     "attempt": "run-20260801T135724Z.log",
+     "utc": "2026-08-01 13:57:26+00:00",
+     "bytes": 18415,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": true
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
+     "setup_cache_missing": null,
+     "restore_seconds": {
+      "production": 54.6
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 41,
+       "seconds": 2.5
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 2739394603,
+       "seconds": 46.9
+      }
+     ],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 113,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T13:57:23Z"
+       ],
+       [
+        "start",
+        "2026-08-01T13:57:25Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T13:57:40Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T13:57:42Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T13:57:44Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T13:57:47Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 2.0,
+       "start->cloned": 15.0,
+       "cloned->staging": 2.0,
+       "staging->preequil": 2.0,
+       "preequil->md-running": 3.0
+      },
+      "complete": true
+     },
+     "commits": [],
+     "checkpoint_interval": 40,
+     "attempt": "run-20260801T141338Z.log",
+     "utc": "2026-08-01 14:13:40+00:00",
+     "bytes": 9985,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": true
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
+     "setup_cache_missing": null,
+     "restore_seconds": {
+      "production": 50.8
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 41,
+       "seconds": 2.6
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 2739394603,
+       "seconds": 42.7
+      }
+     ],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 258,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T14:13:38Z"
+       ],
+       [
+        "start",
+        "2026-08-01T14:13:39Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T14:13:54Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T14:13:55Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T14:13:58Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T14:14:00Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 1.0,
+       "start->cloned": 15.0,
+       "cloned->staging": 1.0,
+       "staging->preequil": 3.0,
+       "preequil->md-running": 2.0
+      },
+      "complete": true
+     },
+     "commits": [],
+     "checkpoint_interval": 40,
+     "attempt": "run-20260801T144906Z.log",
+     "utc": "2026-08-01 14:49:07+00:00",
+     "bytes": 20164,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": true
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
+     "setup_cache_missing": null,
+     "restore_seconds": {
+      "production": 198.6
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 41,
+       "seconds": 9.7
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 2739394603,
+       "seconds": 184.3
+      }
+     ],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 74,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T14:49:05Z"
+       ],
+       [
+        "start",
+        "2026-08-01T14:49:07Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T14:49:22Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T14:49:23Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T14:49:25Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T14:49:28Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 2.0,
+       "start->cloned": 15.0,
+       "cloned->staging": 1.0,
+       "staging->preequil": 2.0,
+       "preequil->md-running": 3.0
+      },
+      "complete": true
+     },
+     "commits": [],
+     "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 12:20:08+00:00",
-     "bytes": 60377,
+     "utc": "2026-08-01 14:55:32+00:00",
+     "bytes": 7259,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
-   "live_cold_start_s": 21.0,
+   "live_cold_start_s": 23.0,
    "live_cold_start_span": "container-start -> md-running",
-   "commit_bytes_median": 909274419.0,
-   "n_generations": 66,
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "no commit object written since this attempt reached md-running (still inside it)",
+   "commit_bytes_median": 935529411.0,
+   "n_generations": 68,
    "commit_store": {
-    "n": 66,
+    "n": 68,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
      "first_mib": 106.0,
-     "last_iter": 1600,
-     "last_mib": 1341.3
+     "last_iter": 1640,
+     "last_mib": 2612.5
     },
     "min_mib": 81.0,
-    "max_mib": 2311.2,
+    "max_mib": 2612.5,
     "by_extension_total_mib": {
-     "chk": 55478.9,
-     "nc": 4599.6
+     "chk": 59425.5,
+     "nc": 5727.3
     },
     "by_extension_largest_single_mib": {
-     "chk": 1902.0,
-     "nc": 409.2
+     "chk": 1997.1,
+     "nc": 615.4
     }
    },
    "markers": {
-    "phase.txt": "2026-08-01 10:49:42+00:00"
+    "phase.txt": "2026-08-01 14:49:29+00:00"
    }
   },
   "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks": {
@@ -1088,6 +1241,8 @@
    ],
    "live_cold_start_s": 3.0,
    "live_cold_start_span": "container-start -> start",
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "phase.txt says 'start', not md-running \u2014 this boundary is not in the record",
    "commit_bytes_median": 793140353,
    "n_generations": 75,
    "commit_store": {
@@ -1116,99 +1271,6 @@
   },
   "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks": {
    "attempts": [
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r1__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {
-      "production": 0.3
-     },
-     "restore_list": [
-      {
-       "phase": "production",
-       "n_gen": 0,
-       "seconds": 0.3
-      }
-     ],
-     "restore_fetch": [],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 53,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T21:14:23Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260731T212827Z.log",
-     "utc": "2026-07-31 21:28:30+00:00",
-     "bytes": 5262,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r1__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {
-      "production": 0.7,
-      "warmup": 23.5
-     },
-     "restore_list": [
-      {
-       "phase": "production",
-       "n_gen": 0,
-       "seconds": 0.7
-      },
-      {
-       "phase": "warmup",
-       "n_gen": 20,
-       "seconds": 5.3
-      }
-     ],
-     "restore_fetch": [
-      {
-       "bytes": 1146513158,
-       "seconds": 17.3
-      }
-     ],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 84,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T21:28:26Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260731T213712Z.log",
-     "utc": "2026-07-31 21:37:13+00:00",
-     "bytes": 7951,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
     {
      "caches": {
       "stage": true,
@@ -1554,9 +1616,9 @@
        "seconds": 45.5
       }
      ],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 121,
+     "first_commit_iteration": 880,
+     "s_per_iter": 25.9,
+     "n_lines": 1191,
      "timeline": {
       "marks": [
        [
@@ -1593,20 +1655,184 @@
       },
       "complete": true
      },
+     "commits": [
+      {
+       "phase": "production",
+       "iteration": 880,
+       "mib": 3080.9,
+       "seconds": 34.4
+      },
+      {
+       "phase": "production",
+       "iteration": 920,
+       "mib": 3232.1,
+       "seconds": 37.0
+      },
+      {
+       "phase": "production",
+       "iteration": 960,
+       "mib": 3383.2,
+       "seconds": 50.9
+      },
+      {
+       "phase": "production",
+       "iteration": 1000,
+       "mib": 3534.4,
+       "seconds": 41.9
+      },
+      {
+       "phase": "production",
+       "iteration": 1040,
+       "mib": 3685.6,
+       "seconds": 43.6
+      }
+     ],
+     "checkpoint_interval": 40,
+     "attempt": "run-20260801T135449Z.log",
+     "utc": "2026-08-01 13:54:56+00:00",
+     "bytes": 84902,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": null
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": null,
+     "setup_cache_missing": null,
+     "restore_seconds": {},
+     "restore_list": [],
+     "restore_fetch": [],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 18,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T13:54:43Z"
+       ],
+       [
+        "start",
+        "2026-08-01T13:54:55Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T13:55:37Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T13:55:38Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T13:55:40Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T13:55:42Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 12.0,
+       "start->cloned": 42.0,
+       "cloned->staging": 1.0,
+       "staging->preequil": 2.0,
+       "preequil->md-running": 2.0
+      },
+      "complete": true
+     },
+     "commits": [],
+     "checkpoint_interval": null,
+     "attempt": "run-20260801T141237Z.log",
+     "utc": "2026-08-01 14:12:39+00:00",
+     "bytes": 1267,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=ABSENT(unobservable)"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": true
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r1__nagl__v1pe",
+     "setup_cache_missing": null,
+     "restore_seconds": {
+      "production": 144.5
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 26,
+       "seconds": 4.0
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 3864664862,
+       "seconds": 136.1
+      }
+     ],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 266,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T14:12:36Z"
+       ],
+       [
+        "start",
+        "2026-08-01T14:12:38Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T14:12:53Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T14:12:55Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T14:12:59Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T14:13:03Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 2.0,
+       "start->cloned": 15.0,
+       "cloned->staging": 2.0,
+       "staging->preequil": 4.0,
+       "preequil->md-running": 4.0
+      },
+      "complete": true
+     },
      "commits": [],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 12:20:18+00:00",
-     "bytes": 10313,
+     "utc": "2026-08-01 14:55:19+00:00",
+     "bytes": 20525,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
-   "live_cold_start_s": 22.0,
+   "live_cold_start_s": 27.0,
    "live_cold_start_span": "container-start -> md-running",
-   "commit_bytes_median": 955115636.5,
-   "n_generations": 46,
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "no commit object written since this attempt reached md-running (still inside it)",
+   "commit_bytes_median": 1036591895,
+   "n_generations": 51,
    "commit_store": {
-    "n": 46,
+    "n": 51,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
@@ -1615,53 +1841,53 @@
      "last_mib": 1353.7
     },
     "min_mib": 106.6,
-    "max_mib": 2929.7,
+    "max_mib": 3685.6,
     "by_extension_total_mib": {
-     "chk": 28804.1,
-     "nc": 19496.5
+     "chk": 34807.4,
+     "nc": 30409.5
     },
     "by_extension_largest_single_mib": {
-     "chk": 1243.4,
-     "nc": 1873.2
+     "chk": 1296.7,
+     "nc": 2388.9
     }
    },
    "markers": {
-    "phase.txt": "2026-08-01 12:12:20+00:00"
+    "phase.txt": "2026-08-01 14:13:05+00:00"
    }
   }
  },
  "cold_start_split": {
-  "n_attempts_with_a_split": 8,
+  "n_attempts_with_a_split": 14,
   "median_seconds": {
-   "cloned->staging": 1.5,
+   "cloned->staging": 1.0,
    "container-start->start": 2.0,
    "md-done->done": 4.0,
    "md-running->md-done": 3671.0,
-   "preequil->md-running": 3.5,
-   "staging->preequil": 3.5,
-   "start->cloned": 15.5
+   "preequil->md-running": 3.0,
+   "staging->preequil": 2.5,
+   "start->cloned": 15.0
   },
   "n_observations": {
-   "cloned->staging": 8,
-   "container-start->start": 8,
+   "cloned->staging": 14,
+   "container-start->start": 14,
    "md-done->done": 1,
    "md-running->md-done": 1,
-   "preequil->md-running": 8,
-   "staging->preequil": 8,
-   "start->cloned": 8
+   "preequil->md-running": 14,
+   "staging->preequil": 14,
+   "start->cloned": 14
   }
  },
  "commit_cost": {
-  "n_observed": 26,
-  "median_mib": 2091.6,
-  "median_seconds": 24.4,
+  "n_observed": 33,
+  "median_mib": 2324.9,
+  "median_seconds": 25.9,
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
   "n_attempts": 28,
   "setup_build_seconds_median": null,
   "n_setup_builds": 0,
-  "restore_seconds_median": 21.6
+  "restore_seconds_median": 47.7
  },
  "cache_tally": {
   "stage": {
@@ -1675,65 +1901,13 @@
    "ABSENT": 5
   },
   "setup": {
-   "HIT": 22,
+   "HIT": 21,
    "MISS": 0,
-   "ABSENT": 6
+   "ABSENT": 7
   }
  },
  "line_items": {
   "rows": [
-   {
-    "attempt": "run-20260731T180126Z.log",
-    "complete_timeline": false,
-    "provision_to_container": null,
-    "container_to_md_running": null,
-    "setup_breakdown": {},
-    "md_running_to_first_commit": null,
-    "first_commit_is_derived": true,
-    "checkpoint_interval": 40,
-    "s_per_iter": null,
-    "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
-   },
-   {
-    "attempt": "run-20260731T184534Z.log",
-    "complete_timeline": false,
-    "provision_to_container": null,
-    "container_to_md_running": null,
-    "setup_breakdown": {},
-    "md_running_to_first_commit": 12.0,
-    "first_commit_is_derived": true,
-    "checkpoint_interval": 40,
-    "s_per_iter": 18.0,
-    "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
-   },
-   {
-    "attempt": "run-20260731T200559Z.log",
-    "complete_timeline": false,
-    "provision_to_container": null,
-    "container_to_md_running": null,
-    "setup_breakdown": {},
-    "md_running_to_first_commit": 20.4,
-    "first_commit_is_derived": true,
-    "checkpoint_interval": 40,
-    "s_per_iter": 30.6,
-    "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
-   },
-   {
-    "attempt": "run-20260731T202628Z.log",
-    "complete_timeline": false,
-    "provision_to_container": null,
-    "container_to_md_running": null,
-    "setup_breakdown": {},
-    "md_running_to_first_commit": null,
-    "first_commit_is_derived": true,
-    "checkpoint_interval": 40,
-    "s_per_iter": null,
-    "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
-   },
    {
     "attempt": "run-20260801T102814Z.log",
     "complete_timeline": false,
@@ -1767,7 +1941,7 @@
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run.log",
+    "attempt": "run-20260801T131053Z.log",
     "complete_timeline": true,
     "provision_to_container": null,
     "container_to_md_running": 0.35,
@@ -1778,38 +1952,88 @@
      "staging->preequil": 0.03,
      "preequil->md-running": 0.05
     },
-    "md_running_to_first_commit": 23.4,
+    "md_running_to_first_commit": 23.2,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
-    "s_per_iter": 35.1,
+    "s_per_iter": 34.8,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run-20260731T212827Z.log",
-    "complete_timeline": false,
+    "attempt": "run-20260801T135724Z.log",
+    "complete_timeline": true,
     "provision_to_container": null,
-    "container_to_md_running": null,
-    "setup_breakdown": {},
+    "container_to_md_running": 0.35,
+    "setup_breakdown": {
+     "container-start->start": 0.02,
+     "start->cloned": 0.25,
+     "cloned->staging": 0.02,
+     "staging->preequil": 0.03,
+     "preequil->md-running": 0.03
+    },
     "md_running_to_first_commit": null,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
     "s_per_iter": null,
     "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
+    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run-20260731T213712Z.log",
-    "complete_timeline": false,
+    "attempt": "run-20260801T141338Z.log",
+    "complete_timeline": true,
     "provision_to_container": null,
-    "container_to_md_running": null,
-    "setup_breakdown": {},
+    "container_to_md_running": 0.4,
+    "setup_breakdown": {
+     "container-start->start": 0.03,
+     "start->cloned": 0.25,
+     "cloned->staging": 0.03,
+     "staging->preequil": 0.03,
+     "preequil->md-running": 0.05
+    },
     "md_running_to_first_commit": null,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
     "s_per_iter": null,
     "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
+    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
+   },
+   {
+    "attempt": "run-20260801T144906Z.log",
+    "complete_timeline": true,
+    "provision_to_container": null,
+    "container_to_md_running": 0.37,
+    "setup_breakdown": {
+     "container-start->start": 0.02,
+     "start->cloned": 0.25,
+     "cloned->staging": 0.02,
+     "staging->preequil": 0.05,
+     "preequil->md-running": 0.03
+    },
+    "md_running_to_first_commit": null,
+    "first_commit_is_derived": true,
+    "checkpoint_interval": 40,
+    "s_per_iter": null,
+    "md_running_to_md_done": null,
+    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
+   },
+   {
+    "attempt": "run.log",
+    "complete_timeline": true,
+    "provision_to_container": null,
+    "container_to_md_running": 0.38,
+    "setup_breakdown": {
+     "container-start->start": 0.03,
+     "start->cloned": 0.25,
+     "cloned->staging": 0.02,
+     "staging->preequil": 0.03,
+     "preequil->md-running": 0.05
+    },
+    "md_running_to_first_commit": null,
+    "first_commit_is_derived": true,
+    "checkpoint_interval": 40,
+    "s_per_iter": null,
+    "md_running_to_md_done": null,
+    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
    {
     "attempt": "run-20260801T001500Z.log",
@@ -1870,7 +2094,7 @@
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run.log",
+    "attempt": "run-20260801T135449Z.log",
     "complete_timeline": true,
     "provision_to_container": null,
     "container_to_md_running": 0.37,
@@ -1880,6 +2104,44 @@
      "cloned->staging": 0.02,
      "staging->preequil": 0.03,
      "preequil->md-running": 0.03
+    },
+    "md_running_to_first_commit": 17.27,
+    "first_commit_is_derived": true,
+    "checkpoint_interval": 40,
+    "s_per_iter": 25.9,
+    "md_running_to_md_done": null,
+    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
+   },
+   {
+    "attempt": "run-20260801T141237Z.log",
+    "complete_timeline": true,
+    "provision_to_container": null,
+    "container_to_md_running": 0.98,
+    "setup_breakdown": {
+     "container-start->start": 0.2,
+     "start->cloned": 0.7,
+     "cloned->staging": 0.02,
+     "staging->preequil": 0.03,
+     "preequil->md-running": 0.03
+    },
+    "md_running_to_first_commit": null,
+    "first_commit_is_derived": true,
+    "checkpoint_interval": null,
+    "s_per_iter": null,
+    "md_running_to_md_done": null,
+    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
+   },
+   {
+    "attempt": "run.log",
+    "complete_timeline": true,
+    "provision_to_container": null,
+    "container_to_md_running": 0.45,
+    "setup_breakdown": {
+     "container-start->start": 0.03,
+     "start->cloned": 0.25,
+     "cloned->staging": 0.03,
+     "staging->preequil": 0.07,
+     "preequil->md-running": 0.07
     },
     "md_running_to_first_commit": null,
     "first_commit_is_derived": true,
@@ -2104,17 +2366,23 @@
     "why_none": "NOT MEASURED \u2014 provisioning and the image pull precede the container's first log line, so the container's own log cannot see them. Reported as None rather than 0 so the split cannot quietly exonerate the one segment nobody has measured."
    },
    "container_to_md_running": {
-    "median_min": 0.42,
+    "median_min": 0.39,
     "min_min": 0.35,
     "max_min": 8.2,
-    "n": 8
+    "n": 14
    },
    "md_running_to_first_commit": {
-    "median_min": 16.13,
+    "median_min": 16.7,
     "min_min": 6.07,
     "max_min": 37.0,
-    "n": 15,
-    "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly."
+    "n": 14,
+    "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly.",
+    "measured_median_min": null,
+    "measured_n_units": 0,
+    "measured_how": "the first commit object's S3 LastModified minus the `md-running` timestamp in phase.txt \u2014 a real wall clock, on units currently inside md-running. None means no unit is in that phase right now, which is NOT the same as a fast segment.",
+    "of_which_setup_build_min": null,
+    "of_which_setup_restore_min": 0.8,
+    "_residual_is": "what remains after those two is minimisation + the warmup iterations to the first checkpoint, PLUS anything else in the window that times nothing. A RESIDUAL, not a measurement of minimisation \u2014 do not quote it as one."
    },
    "md_running_to_md_done": {
     "median_min": 61.18,
@@ -2122,7 +2390,7 @@
     "max_min": 61.18,
     "n": 1
    },
-   "verdict": "TIME TO THE FIRST COMMIT DOMINATES: 16.1 min median against 0.4 min of in-container setup (38x). The setup cache, the stage fetch and the pre-equil restore are NOT the tax \u2014 they total under a minute on most attempts. The only levers on the dominant term are the CHECKPOINT INTERVAL and the card's s/iter, which is what makes the .chk payload work load-bearing: at 25.88x smaller commits a shorter interval becomes affordable. Provisioning is still unmeasured and could be material."
+   "verdict": "TIME TO THE FIRST COMMIT DOMINATES: 16.7 min median against 0.4 min of in-container setup (43x). The setup cache, the stage fetch and the pre-equil restore are NOT the tax \u2014 they total under a minute on most attempts. The only levers on the dominant term are the CHECKPOINT INTERVAL and the card's s/iter, which is what makes the .chk payload work load-bearing: at 25.88x smaller commits a shorter interval becomes affordable. Provisioning is still unmeasured and could be material."
   }
  }
 }
