@@ -225,13 +225,17 @@ def test_the_switch_is_forwarded_into_the_leg_command():
     assert 'RBFE_PRUNE_CHK="$RBFE_PRUNE_CHK"' in src
 
 
-def test_the_workflow_exposes_the_switch_and_defaults_it_empty():
+def test_the_switch_is_a_REPOSITORY_VARIABLE_and_never_a_dispatch_input():
+    """★★ MEASURED THE HARD WAY. Adding it as a dispatch input made this lane declare 11, and the 11th does
+    not fail — it silently EMPTIES every `-f` value on the lane (test_workflow_dispatch_input_cap, whose
+    own docstring lists the three honest options: fold into an existing input, use an env/repo variable, or
+    delete one first). `vars.*` costs no input, and unset reads as empty, which is the safe default."""
     import pathlib
     import yaml
     wf = pathlib.Path(__file__).resolve().parents[3] / ".github/workflows/gpu-ternary-fep-vast.yml"
     d = yaml.safe_load(wf.read_text())
-    inp = d[True]["workflow_dispatch"]["inputs"]["prune_chk"]
-    assert inp["default"] == "", "a non-empty default would opt every dispatch in"
+    ins = d[True]["workflow_dispatch"]["inputs"]
+    assert "prune_chk" not in ins, "this lane has no input headroom — route it through vars.* instead"
     body = wf.read_text()
-    assert body.count("TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}") >= 7, \
+    assert body.count("TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}") >= 7, \
         "every job that launches or prices a leg must forward it, or the setting depends on which job ran"

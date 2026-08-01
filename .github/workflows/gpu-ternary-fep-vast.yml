@@ -114,10 +114,6 @@ on:
         description: "1 = rent the UNINTERRUPTIBLE (on-demand) tier instead of the community bid tier. Sets TVAST_ON_DEMAND. ⚠ Use for ONE leg that is the critical path and nothing else — on-demand costs multiples of the bid floor and the whole ladder is priced on interruptible rentals. It exists because no bid makes the bid tier safe: an on-demand renter preempts an interruptible one REGARDLESS of bid, so `bid_floor_mult` buys priority WITHIN the tier and cannot stop eviction. The $/ns buy line still applies unchanged — an on-demand offer over the line is REFUSED like any other."
         type: string
         default: ""
-      prune_chk:
-        description: "1 = commit a SINGLE-FRAME checkpoint. Sets TVAST_PRUNE_CHK. Kills the O(n²): the .chk re-uploads every frame ever written while a resume reads only the LAST — 1231.1 MiB per commit against the 47.6 MiB that is ever read (commit-payload-design.md). Proven offline BEFORE it was wired — bit-identical coordinates, the UNMODIFIED commit/restore path, a pruned chain, and 25.88x on a REAL committed 5a-KS pair (GH 30676071569, $0, no rental). ⚠ DEFAULT OFF ON PURPOSE: a leg already in flight must not pick this up on a resume. Turn it on for a FRESH leg."
-        type: string
-        default: ""
       leg_only:
         description: "launch: restrict to units whose LEG ID contains this substring (e.g. `nr4a3`). Recovers ONE preempted arm without re-renting a sibling that has a known deterministic defect."
         type: string
@@ -265,7 +261,7 @@ jobs:
           TVAST_GPU: ${{ github.event.inputs.gpu_class }}
           TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
           TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
-          TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}
+          TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}
           VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
           TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
           TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
@@ -349,7 +345,14 @@ jobs:
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
-      TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}
+      # ★★ A REPOSITORY VARIABLE, NOT A DISPATCH INPUT — this lane is AT GitHub's 10-input cap, and the
+      # 11th input does not fail, it silently EMPTIES every `-f` value (test_workflow_dispatch_input_cap;
+      # the full suite caught exactly that when this was first added as an input). `vars.*` costs no input.
+      # Unset -> empty -> the launcher's own "0" -> chk_prune's False: three independent defaults, all of
+      # which must be overridden before a byte is pruned, because the failure being guarded against is a
+      # leg at 91 % picking this up on a RESUME. What it does: commit a SINGLE-FRAME .chk — 1231.1 MiB per
+      # commit down to the 47.6 MiB a resume actually reads (proven offline, GH 30676071569, $0).
+      TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -972,7 +975,7 @@ jobs:
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
-      TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}
+      TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1128,7 +1131,7 @@ jobs:
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
-      TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}
+      TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1373,7 +1376,7 @@ jobs:
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
-      TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}
+      TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
@@ -2600,7 +2603,7 @@ jobs:
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
-      TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}
+      TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
@@ -2826,7 +2829,7 @@ jobs:
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
-      TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}
+      TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       TVAST_TIMESTEP_FS: ${{ github.event.inputs.timestep_fs }}
       TVAST_WARMUP_TIMESTEP_FS: ${{ github.event.inputs.warmup_timestep_fs }}
