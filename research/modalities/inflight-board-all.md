@@ -46,7 +46,7 @@ nr4a2 m2 r0        —                  30.0%  — $0.2207/hr (no measured ns/h:
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 8:54 PM ET Fri Jul 31, 2026 (5 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
+_As of 8:59 PM ET Fri Jul 31, 2026 (0 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
 
 ```
 LEG                                ETA (ET)          % DONE  $/ns                                                                                                                                                                                                                     STATE     WHY (when not running)
