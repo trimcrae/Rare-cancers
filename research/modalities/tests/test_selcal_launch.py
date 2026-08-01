@@ -76,8 +76,8 @@ def test_the_bill_is_recorded_BEFORE_the_delete():
     assert i_ledger < i_delete, "the ledger row must be written before the instance is destroyed"
 
 
-def test_the_ledger_records_duration_and_rate_not_just_an_id():
-    assert '"dph_total"' in SRC and '"duration_s"' in SRC and '"billed_usd"' in SRC
+def test_the_ledger_records_uptime_and_rate_not_just_an_id():
+    assert '"dph_total"' in SRC and '"uptime_s"' in SRC and '"billed_usd"' in SRC
 
 
 # =============================================================================================================
@@ -215,3 +215,33 @@ def test_every_artifact_the_workflow_commits_is_one_something_writes():
 if __name__ == "__main__":
     import pytest
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+# =============================================================================================================
+# the ledger's uptime field — the mistake that printed a six-figure row for an eight-minute box
+# =============================================================================================================
+def test_rental_uptime_comes_from_start_date_not_duration():
+    """⛔ `instance["duration"]` is the HOST MACHINE's uptime. Reading it as the rental's produced a ledger row
+    of 2,303,739,360 s and $117,708.76 for a box that lived ~8 minutes. A spend ledger that can print that is
+    worse than no ledger, because the number looks authoritative."""
+    import time as _t
+    now = _t.time()
+    inst = {"start_date": now - 600.0, "duration": 2303739360.0}
+    assert abs(L.rental_uptime_s(inst, now=now) - 600.0) < 1.0
+    assert "duration" not in SRC[SRC.index("def _ledger_record"):SRC.index("def _plan_rate")] or \
+        "never `duration`" in SRC
+
+
+def test_an_unmeasurable_uptime_is_UNKNOWN_not_zero():
+    """Defaulting to zero would silently price a real rental at $0 — an absent reading reported as a reading
+    of absence, in the one artifact where that is most expensive."""
+    assert L.rental_uptime_s({}) is None
+    assert L.rental_uptime_s({"start_date": 0}) is None
+    body = SRC[SRC.index("def _ledger_record"):SRC.index("def _plan_rate")]
+    assert "billed_usd_absent_why" in body and "UNKNOWN, not zero" in body
+
+
+def test_a_replaced_ledger_row_keeps_its_predecessor():
+    """Rule 1.2: never silently drop a superseded number, and a spend ledger is the last place to start."""
+    body = SRC[SRC.index("def _ledger_record"):SRC.index("def _plan_rate")]
+    assert 'setdefault("corrections"' in body

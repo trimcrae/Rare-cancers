@@ -432,17 +432,44 @@ def _ledger_load():
             "lane": LANE, "rentals": []}
 
 
+#: How long THIS RENTAL has been alive, in seconds.
+#: ⛔ NOT `instance["duration"]`. THAT FIELD IS THE HOST MACHINE'S UPTIME, and reading it as the rental's is a
+#: measured, expensive mistake — `nrv04_vast_launch`'s ledger comment records a census where three hosts rented
+#: 14/31/72 min earlier had `duration` reading 135 d / 1958 d / 30 d. This lane made exactly that error on its
+#: first rental: instance 46504822 was alive ~8 minutes and the ledger row said 2,303,739,360 s and
+#: **$117,708.76**. A spend ledger that can print a six-figure row for an eight-minute box is worse than no
+#: ledger, because the number looks authoritative. The rental's own clock is `start_date` (epoch seconds), which
+#: the same census verified against three known rental times.
+#: SUPERSEDED, RETAINED: the `duration`-based row above, and its $117,708.7568. It is kept in the ledger's
+#: `corrections` list rather than deleted (CLAUDE.md rule 1.2 — never silently drop a superseded number).
+def rental_uptime_s(inst, now=None):
+    """PURE: seconds this RENTAL has been alive, from `start_date`. None when it cannot be measured — and an
+    absent reading is reported as one rather than defaulted to zero, which would silently price a real
+    rental at $0."""
+    try:
+        sd = float(inst.get("start_date"))
+    except (TypeError, ValueError):
+        return None
+    if sd <= 0:
+        return None
+    return max(0.0, (time.time() if now is None else float(now)) - sd)
+
+
 def _ledger_record(inst, why):
     """Append one rental to the committed ledger. Called immediately BEFORE the destroy call."""
     led = _ledger_load()
     iid = str(inst.get("id"))
     dph = float(inst.get("dph_total") or 0.0)
-    dur_s = float(inst.get("duration") or 0.0)
+    dur_s = rental_uptime_s(inst)
     gpu = inst.get("gpu_name")
     row = {"instance": iid, "label": inst.get("label"), "machine_id": inst.get("machine_id"),
-           "gpu_name": gpu, "dph_total": round(dph, 5), "duration_s": round(dur_s, 1),
-           "billed_usd": round(dph * dur_s / 3600.0, 4), "is_bid": inst.get("is_bid"),
-           "destroyed_utc": _utcnow(), "why": why}
+           "gpu_name": gpu, "dph_total": round(dph, 5),
+           "uptime_s": (round(dur_s, 1) if dur_s is not None else None),
+           "uptime_source": "start_date (the RENTAL's clock) — never `duration`, which is the HOST's uptime",
+           "billed_usd": (round(dph * dur_s / 3600.0, 4) if dur_s is not None else None),
+           "billed_usd_absent_why": (None if dur_s is not None else
+                                     "start_date unreadable on this record — the cost is UNKNOWN, not zero"),
+           "is_bid": inst.get("is_bid"), "destroyed_utc": _utcnow(), "why": why}
     try:
         import inflight_usd_per_ns as IU
         import vast_cost_model as vcm
@@ -452,12 +479,22 @@ def _ledger_record(inst, why):
                                         tier=IU.tier_of(inst.get("is_bid")))["cell"]
     except Exception as e:  # noqa: BLE001 — a ledger row must land even if the $/ns cell cannot be rendered
         row["usd_per_ns_cell"] = "unavailable (%s)" % type(e).__name__
+    # A row REPLACED rather than appended keeps its predecessor: rule 1.2 forbids silently dropping a
+    # superseded number, and a ledger is the last place to start.
+    prior = [r for r in led.get("rentals", []) if r.get("instance") == iid]
+    if prior:
+        led.setdefault("corrections", []).extend(prior)
     led["rentals"] = [r for r in led.get("rentals", []) if r.get("instance") != iid] + [row]
-    led["total_billed_usd"] = round(sum(r.get("billed_usd") or 0.0 for r in led["rentals"]), 4)
+    priced = [r for r in led["rentals"] if r.get("billed_usd") is not None]
+    led["total_billed_usd"] = round(sum(r["billed_usd"] for r in priced), 4)
     led["n_rentals"] = len(led["rentals"])
+    led["n_rentals_unpriced"] = len(led["rentals"]) - len(priced)
     _write(PRICE_LEDGER, led)
-    print("[selcal-ledger] %s (%s) billed $%.4f over %.1f min at $%.4f/hr — recorded BEFORE the delete"
-          % (iid, inst.get("label"), row["billed_usd"], dur_s / 60.0, dph), flush=True)
+    print("[selcal-ledger] %s (%s) billed %s over %s at $%.4f/hr — recorded BEFORE the delete"
+          % (iid, inst.get("label"),
+             ("$%.4f" % row["billed_usd"]) if row["billed_usd"] is not None else "UNKNOWN",
+             ("%.1f min" % (dur_s / 60.0)) if dur_s is not None else "an unmeasurable uptime", dph),
+          flush=True)
     return row
 
 

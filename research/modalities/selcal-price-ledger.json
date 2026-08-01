@@ -9,14 +9,32 @@
       "machine_id": 9427,
       "gpu_name": "RTX 4090",
       "dph_total": 0.18394,
+      "uptime_s": 478.0,
+      "uptime_source": "RECONSTRUCTED from the launch record (selcal-gate-record.json, rented 2026-08-01T13:17:37Z) and the reap timestamp (2026-08-01T13:25:35Z), because the original row read the wrong field and the instance is gone.",
+      "billed_usd": 0.0244,
+      "is_bid": true,
+      "destroyed_utc": "2026-08-01T13:25:35Z",
+      "why": "terminal status exited (cur_state=stopped ~4 min in; no phase marker was ever written because the pipeline was silent until after pip install — fixed the same hour)",
+      "usd_per_ns_cell": "RTX 4090 $0.00549/ns · 1.61x basis [bid]"
+    }
+  ],
+  "total_billed_usd": 0.0244,
+  "n_rentals": 1,
+  "corrections": [
+    {
+      "instance": "46504822",
+      "label": "selcal-cofold-selcal-smarca-cofold-v1",
+      "machine_id": 9427,
+      "gpu_name": "RTX 4090",
+      "dph_total": 0.18394,
       "duration_s": 2303739360.3,
       "billed_usd": 117708.7568,
       "is_bid": true,
       "destroyed_utc": "2026-08-01T13:25:35Z",
       "why": "terminal status exited",
-      "usd_per_ns_cell": "RTX 4090 $0.00549/ns · 1.61× basis [bid]"
+      "usd_per_ns_cell": "RTX 4090 $0.00549/ns · 1.61× basis [bid]",
+      "_retracted": "`duration_s` was read from the Vast instance record's `duration` field, which is the HOST MACHINE's uptime, not this rental's. Instance 46504822 was alive ~8 minutes; the row said 2,303,739,360 s and $117,708.7568. Retained per CLAUDE.md rule 1.2 (never silently drop a superseded number) and replaced by a `start_date`-derived row."
     }
   ],
-  "total_billed_usd": 117708.7568,
-  "n_rentals": 1
+  "n_rentals_unpriced": 0
 }
