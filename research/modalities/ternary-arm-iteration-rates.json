@@ -1,8 +1,8 @@
 {
   "_what": "measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own leg.json timing block. The one home for `ternary_vast_launch.arm_iteration_rates()`; regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`.",
   "_never_pool": "across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625), across phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up), or across SYSTEM SIZE (added 2026-07-31: the 4 fs ternary rate pooled legs spanning 141,458-147,788 particles with a 7.9-31.8 s/iter spread, so it described no single assembly; `rates` keeps the pooled figure for existing consumers but now FLAGS it, and `rates_by_system` is the split table)",
-  "generated_utc": "2026-08-01T12:13:51Z",
-  "n_leg_records": 15,
+  "generated_utc": "2026-08-01T12:20:43Z",
+  "n_leg_records": 16,
   "rates": {
     "2.0": {
       "binary": {
@@ -126,9 +126,9 @@
         "_system_warning": null
       },
       "ternary": {
-        "s_per_iter": 16.8,
+        "s_per_iter": 17.0,
         "source_phase": "production",
-        "n_legs": 6,
+        "n_legs": 7,
         "spread_s_per_iter": [
           7.9,
           31.8
@@ -136,6 +136,7 @@
         "units": [
           "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
           "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
+          "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
           "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
           "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
           "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
@@ -147,16 +148,16 @@
           "NVIDIA GeForce RTX 5090"
         ],
         "by_gpu": {
-          "NVIDIA GeForce RTX 3090": 31.8,
+          "NVIDIA GeForce RTX 3090": 31.45,
           "NVIDIA GeForce RTX 4090": 16.8,
           "NVIDIA GeForce RTX 5090": 12.8
         },
         "n_particles_spread": [
           141740,
-          147788
+          149308
         ],
         "system_buckets": [
-          "144k"
+          "146k"
         ],
         "pooled_across_systems": false,
         "_system_warning": null
@@ -273,10 +274,10 @@
         }
       },
       "ternary": {
-        "146k": {
-          "s_per_iter": 15.35,
+        "148k": {
+          "s_per_iter": 17.9,
           "source_phase": "production",
-          "n_legs": 4,
+          "n_legs": 5,
           "spread_s_per_iter": [
             7.9,
             31.8
@@ -284,11 +285,13 @@
           "n_particles": [
             141740,
             144447,
-            147788
+            147788,
+            149308
           ],
           "units": [
             "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
             "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
+            "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
             "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
             "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
           ],
@@ -319,14 +322,15 @@
     }
   },
   "phase_cross_check": {
-    "n": 6,
-    "median_warmup_over_production": 0.834,
+    "n": 7,
+    "median_warmup_over_production": 0.765,
     "range": [
-      0.734,
+      0.678,
       1.013
     ],
     "per_unit": {
       "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke": 1.013,
+      "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks": 0.678,
       "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle": 0.903,
       "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle_smoke": 0.993,
       "calib_hi_to_lo__binary_vhl_r1_dt4.0fs_wu1.0_edge_reps": 0.75,
@@ -367,6 +371,22 @@
       "production_median_s_per_iter": 7.9,
       "production_n": 3,
       "recorded_utc": "2026-07-26T21:07:21Z"
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
+      "leg_id": "5aks_d0_to_d__ternary_nr4a3",
+      "arm": "ternary",
+      "mode": "5aks",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 3090",
+      "n_particles": 149308,
+      "warmup_median_s_per_iter": 21.1,
+      "warmup_n": 1,
+      "production_median_s_per_iter": 31.1,
+      "production_n": 50,
+      "recorded_utc": "2026-08-01T12:19:28Z"
     },
     {
       "unit_id": "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",

@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T12:13:41Z",
+ "utc": "2026-08-01T12:20:29Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -760,7 +760,7 @@
      ],
      "first_commit_iteration": 1480,
      "s_per_iter": 35.1,
-     "n_lines": 766,
+     "n_lines": 831,
      "timeline": {
       "marks": [
        [
@@ -819,8 +819,8 @@
      ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 12:12:05+00:00",
-     "bytes": 55814,
+     "utc": "2026-08-01 12:20:08+00:00",
+     "bytes": 60377,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -854,39 +854,6 @@
   },
   "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks": {
    "attempts": [
-    {
-     "caches": {
-      "stage": true,
-      "preequil": false,
-      "setup": false
-     },
-     "setup_seconds": 242.0,
-     "setup_built": true,
-     "setup_restored_from": null,
-     "setup_cache_missing": null,
-     "restore_seconds": {},
-     "restore_list": [],
-     "restore_fetch": [],
-     "first_commit_iteration": 64,
-     "s_per_iter": 6.85,
-     "n_lines": 1737,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T11:12:36Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260731T121501Z.log",
-     "utc": "2026-07-31 12:15:04+00:00",
-     "bytes": 119237,
-     "verdict": "stage=HIT \u00b7 preequil=MISS \u00b7 setup=MISS \u00b7 rebuilt the hybrid system ON THE RENTED GPU (242.0s)"
-    },
     {
      "caches": {
       "stage": true,
@@ -1034,7 +1001,7 @@
      "restore_fetch": [],
      "first_commit_iteration": 1600,
      "s_per_iter": 31.1,
-     "n_lines": 10601,
+     "n_lines": 13902,
      "timeline": {
       "marks": [
        [
@@ -1047,38 +1014,104 @@
      },
      "commits": [],
      "checkpoint_interval": 40,
-     "attempt": "run.log",
-     "utc": "2026-08-01 12:12:14+00:00",
-     "bytes": 743061,
+     "attempt": "run-20260801T121939Z.log",
+     "utc": "2026-08-01 12:19:41+00:00",
+     "bytes": 893810,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": null,
+      "preequil": null,
+      "setup": null
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": null,
+     "setup_cache_missing": null,
+     "restore_seconds": {},
+     "restore_list": [],
+     "restore_fetch": [],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 2,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T12:19:38Z"
+       ]
+      ],
+      "spans": {},
+      "complete": false
+     },
+     "commits": [],
+     "checkpoint_interval": null,
+     "attempt": "run-20260801T121951Z.log",
+     "utc": "2026-08-01 12:19:53+00:00",
+     "bytes": 226,
+     "verdict": "stage=ABSENT(unobservable) \u00b7 preequil=ABSENT(unobservable) \u00b7 setup=ABSENT(unobservable)"
+    },
+    {
+     "caches": {
+      "stage": null,
+      "preequil": null,
+      "setup": null
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": null,
+     "setup_cache_missing": null,
+     "restore_seconds": {},
+     "restore_list": [],
+     "restore_fetch": [],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 2,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T12:19:50Z"
+       ]
+      ],
+      "spans": {},
+      "complete": false
+     },
+     "commits": [],
+     "checkpoint_interval": null,
+     "attempt": "run.log",
+     "utc": "2026-08-01 12:19:56+00:00",
+     "bytes": 226,
+     "verdict": "stage=ABSENT(unobservable) \u00b7 preequil=ABSENT(unobservable) \u00b7 setup=ABSENT(unobservable)"
     }
    ],
-   "live_cold_start_s": 29.0,
-   "live_cold_start_span": "container-start -> md-running",
-   "commit_bytes_median": 780066459.5,
-   "n_generations": 74,
+   "live_cold_start_s": 3.0,
+   "live_cold_start_span": "container-start -> start",
+   "commit_bytes_median": 793140353,
+   "n_generations": 75,
    "commit_store": {
-    "n": 74,
+    "n": 75,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
      "first_mib": 77.0,
-     "last_iter": 1960,
-     "last_mib": 1822.1
+     "last_iter": 2000,
+     "last_mib": 1858.5
     },
     "min_mib": 77.0,
-    "max_mib": 1822.1,
+    "max_mib": 1858.5,
     "by_extension_total_mib": {
-     "chk": 54909.0,
-     "nc": 4872.1
+     "chk": 56635.2,
+     "nc": 5004.4
     },
     "by_extension_largest_single_mib": {
-     "chk": 1692.4,
-     "nc": 129.8
+     "chk": 1726.2,
+     "nc": 132.3
     }
    },
    "markers": {
-    "phase.txt": "2026-07-31 18:14:01+00:00"
+    "phase.txt": "2026-08-01 12:19:54+00:00"
    }
   },
   "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks": {
@@ -1499,18 +1532,31 @@
      "caches": {
       "stage": true,
       "preequil": true,
-      "setup": null
+      "setup": true
      },
      "setup_seconds": null,
      "setup_built": false,
-     "setup_restored_from": null,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r1__nagl__v1pe",
      "setup_cache_missing": null,
-     "restore_seconds": {},
-     "restore_list": [],
-     "restore_fetch": [],
+     "restore_seconds": {
+      "production": 51.9
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 21,
+       "seconds": 2.3
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 3072062431,
+       "seconds": 45.5
+      }
+     ],
      "first_commit_iteration": null,
      "s_per_iter": null,
-     "n_lines": 18,
+     "n_lines": 121,
      "timeline": {
       "marks": [
        [
@@ -1548,11 +1594,11 @@
       "complete": true
      },
      "commits": [],
-     "checkpoint_interval": null,
+     "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 12:12:21+00:00",
-     "bytes": 1267,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=ABSENT(unobservable)"
+     "utc": "2026-08-01 12:20:18+00:00",
+     "bytes": 10313,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
    "live_cold_start_s": 22.0,
@@ -1612,26 +1658,26 @@
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
-  "n_attempts": 27,
-  "setup_build_seconds_median": 242.0,
-  "n_setup_builds": 1,
-  "restore_seconds_median": 19.6
+  "n_attempts": 28,
+  "setup_build_seconds_median": null,
+  "n_setup_builds": 0,
+  "restore_seconds_median": 21.6
  },
  "cache_tally": {
   "stage": {
-   "HIT": 24,
+   "HIT": 23,
    "MISS": 0,
-   "ABSENT": 3
+   "ABSENT": 5
   },
   "preequil": {
    "HIT": 23,
-   "MISS": 1,
-   "ABSENT": 3
+   "MISS": 0,
+   "ABSENT": 5
   },
   "setup": {
-   "HIT": 21,
-   "MISS": 1,
-   "ABSENT": 5
+   "HIT": 22,
+   "MISS": 0,
+   "ABSENT": 6
   }
  },
  "line_items": {
@@ -1837,7 +1883,7 @@
     },
     "md_running_to_first_commit": null,
     "first_commit_is_derived": true,
-    "checkpoint_interval": null,
+    "checkpoint_interval": 40,
     "s_per_iter": null,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
@@ -1958,19 +2004,6 @@
     "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run-20260731T121501Z.log",
-    "complete_timeline": false,
-    "provision_to_container": null,
-    "container_to_md_running": null,
-    "setup_breakdown": {},
-    "md_running_to_first_commit": 4.57,
-    "first_commit_is_derived": true,
-    "checkpoint_interval": 40,
-    "s_per_iter": 6.85,
-    "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
-   },
-   {
     "attempt": "run-20260731T151118Z.log",
     "complete_timeline": false,
     "provision_to_container": null,
@@ -2023,7 +2056,7 @@
     "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run.log",
+    "attempt": "run-20260801T121939Z.log",
     "complete_timeline": false,
     "provision_to_container": null,
     "container_to_md_running": null,
@@ -2032,6 +2065,32 @@
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
     "s_per_iter": 31.1,
+    "md_running_to_md_done": null,
+    "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
+   },
+   {
+    "attempt": "run-20260801T121951Z.log",
+    "complete_timeline": false,
+    "provision_to_container": null,
+    "container_to_md_running": null,
+    "setup_breakdown": {},
+    "md_running_to_first_commit": null,
+    "first_commit_is_derived": true,
+    "checkpoint_interval": null,
+    "s_per_iter": null,
+    "md_running_to_md_done": null,
+    "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
+   },
+   {
+    "attempt": "run.log",
+    "complete_timeline": false,
+    "provision_to_container": null,
+    "container_to_md_running": null,
+    "setup_breakdown": {},
+    "md_running_to_first_commit": null,
+    "first_commit_is_derived": true,
+    "checkpoint_interval": null,
+    "s_per_iter": null,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
    }
@@ -2051,10 +2110,10 @@
     "n": 8
    },
    "md_running_to_first_commit": {
-    "median_min": 14.23,
-    "min_min": 4.57,
+    "median_min": 16.13,
+    "min_min": 6.07,
     "max_min": 37.0,
-    "n": 16,
+    "n": 15,
     "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly."
    },
    "md_running_to_md_done": {
@@ -2063,7 +2122,7 @@
     "max_min": 61.18,
     "n": 1
    },
-   "verdict": "TIME TO THE FIRST COMMIT DOMINATES: 14.2 min median against 0.4 min of in-container setup (34x). The setup cache, the stage fetch and the pre-equil restore are NOT the tax \u2014 they total under a minute on most attempts. The only levers on the dominant term are the CHECKPOINT INTERVAL and the card's s/iter, which is what makes the .chk payload work load-bearing: at 25.88x smaller commits a shorter interval becomes affordable. Provisioning is still unmeasured and could be material."
+   "verdict": "TIME TO THE FIRST COMMIT DOMINATES: 16.1 min median against 0.4 min of in-container setup (38x). The setup cache, the stage fetch and the pre-equil restore are NOT the tax \u2014 they total under a minute on most attempts. The only levers on the dominant term are the CHECKPOINT INTERVAL and the card's s/iter, which is what makes the .chk payload work load-bearing: at 25.88x smaller commits a shorter interval becomes affordable. Provisioning is still unmeasured and could be material."
   }
  }
 }
