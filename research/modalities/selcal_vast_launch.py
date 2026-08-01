@@ -691,9 +691,27 @@ def mode_cofold_collect(bucket=None, cofold_prefix=None):
               % (i.get("id"), i.get("actual_status"), i.get("gpu_util"), i.get("dph_total"),
                  ("%.1f min" % (_up / 60.0)) if _up is not None else "unmeasurable"), flush=True)
     print("[selcal-cofold-progress] run.log tail:\n  " + "\n  ".join(tail), flush=True)
+    # ★ THE WRITE SIGNAL — the only thing that discriminates a working host from a wedged one here.
+    # CLAUDE.md §6: GPU idleness NEVER condemns a box; only a measured absence of WRITES does. Boltz spends
+    # its first minutes on MSA-server queries, which are network-bound and legitimately leave the GPU at 0 %,
+    # so "gpu_util 0.0" is not evidence of a stall. What IS evidence is nothing new landing in S3.
+    objs = []
+    try:
+        page = s3.list_objects_v2(Bucket=bucket, Prefix="%s/" % prefix, MaxKeys=1000)
+        objs = page.get("Contents") or []
+    except Exception as e:  # noqa: BLE001
+        print("[selcal-cofold-progress] could not list S3 (%s) — an absent reading" % type(e).__name__,
+              flush=True)
+    newest = max((o["LastModified"] for o in objs), default=None)
     cen = _cofold_census(s3, bucket, prefix)
     cen["phase"] = ph
     cen["log_tail"] = tail
+    cen["n_s3_objects"] = len(objs)
+    cen["newest_object_utc"] = newest.strftime("%Y-%m-%dT%H:%M:%SZ") if newest else None
+    cen["newest_object_age_min"] = (round((time.time() - newest.timestamp()) / 60.0, 1) if newest else None)
+    print("[selcal-cofold-progress] S3 under the prefix: %d object(s), newest %s (%s min old) — this is the "
+          "WRITE signal, and it is what a stall verdict must rest on"
+          % (len(objs), cen["newest_object_utc"], cen["newest_object_age_min"]), flush=True)
     # ⛔ `duration` is the HOST's uptime, not the rental's — see `rental_uptime_s`. This row printed 10,184 min
     # for a box two minutes old before it was fixed.
     cen["instances"] = [{"id": i.get("id"), "status": i.get("actual_status"), "gpu_util": i.get("gpu_util"),
