@@ -115,7 +115,19 @@ jobs:
       # than on the thing it guards — which on 2026-07-27 blocked every tick, so no readout committed and
       # the terminus release of the 18 held edges could never fire. It passed locally only because the dev
       # sandbox happens to have PyYAML.
-      - run: pip install -q boto3 pytest pyyaml
+      #
+      # ★★ AND `numpy` FOR THE SAME REASON, FOUR DAYS LATER, ON THIS SAME LINE (2026-08-01). Two tests in
+      # `test_congeneric_fanout.py` `import numpy as np` to assert what `_apply_seed` actually reaches — they
+      # landed 07-31 03:05 UTC in "make a controlled independent replicate runnable at all", and from that
+      # commit onward the cost gate has failed on `ModuleNotFoundError: No module named 'numpy'`. The
+      # launcher reads `steps.costgate.outcome` and, seeing `failure`, records `decision: cost_model_red`
+      # and refuses to place — so a MONEY GATE was held shut by a missing TEST dependency, and the readout
+      # blamed the cost model. Reproduced in a venv holding exactly `boto3 pytest pyyaml`; it passes in the
+      # dev sandbox, which is precisely how the PyYAML instance hid too.
+      # ⚠ The reason nothing was lost is luck, not design: the map happens to stand at 18 of 19 with 0
+      # pending, so every refusal held zero units. `tests/test_gate_deps_cover_the_gated_tests.py` now
+      # derives this list from what the gated modules actually import, so the third instance cannot happen.
+      - run: pip install -q boto3 pytest pyyaml numpy
 
       # ★★ MEASUREMENT COMES BEFORE THE LAUNCH GATE, AND THAT ORDER IS THE WHOLE POINT (2026-07-27, 12 PM ET).
       #

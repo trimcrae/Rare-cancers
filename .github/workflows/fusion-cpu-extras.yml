@@ -1697,7 +1697,11 @@ jobs:
         run: |
           # pyyaml because the suite parses workflow YAML to prove `reap` is wired into the launcher's
           # mode table. Without it the GATE fails on its own dependency instead of on what it guards.
-          pip install -q pytest pyyaml
+          # numpy for the two `_apply_seed` tests added 2026-07-31, for exactly the same reason — the
+          # sibling gate in step1-fanout-autoscale.yml had been recording `cost_model_red` on every tick
+          # since, and this copy was one dispatch away from the same. Derived, not remembered:
+          # `tests/test_gate_deps_cover_the_gated_tests.py` reads what the gated file imports.
+          pip install -q pytest pyyaml numpy
           python -m pytest research/modalities/tests/test_congeneric_fanout.py -q
       - name: Step 1 fan-out — ${{ github.event.inputs.fanout_mode }}
         working-directory: research/modalities
