@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "selcal-cofold",
-  "generated_epoch": 1785623829.745408,
-  "generated_utc": "2026-08-01T22:37:09Z",
-  "generated_et": "6:37 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785624022.177012,
+  "generated_utc": "2026-08-01T22:40:22Z",
+  "generated_et": "6:40 PM ET Sat Aug 1, 2026",
   "note": "12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once.",
   "rows": [
     {
@@ -13,7 +13,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539069 running, 46543865 loading, 46543878 created, 46543890 running, 46543892 running, 46543897 running, 46543909 loading, 46543911 running, 46543924 loading. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46543865 running, 46543878 created, 46543890 running, 46543892 exited, 46543897 running, 46543909 loading, 46543911 running, 46543924 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
     },
     {
       "name": "selcal_smarca4 co-fold",
@@ -22,7 +22,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46539157 running, 46539178 running, 46541793 exited, 46543932 loading, 46543935 loading, 46543943 running, 46543953 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46539157 running, 46539178 running, 46543932 loading, 46543935 loading, 46543943 running, 46543953 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
     },
     {
       "name": "selcal-smarca2-m1-r1",
@@ -31,7 +31,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.1785/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
-      "why": "instance 46543865 loading, rented 2026-08-01T22:35:13Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
+      "why": "instance 46543865 running, rented 2026-08-01T22:35:13Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
     },
     {
       "name": "selcal-smarca2-m2-r0",
@@ -58,7 +58,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.1935/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
-      "why": "instance 46543892 running, rented 2026-08-01T22:35:27Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
+      "why": "instance 46543892 exited, rented 2026-08-01T22:35:27Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
     },
     {
       "name": "selcal-smarca2-m4-r0",
@@ -94,7 +94,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 $0.1799/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
       "state": "RUNNING",
-      "why": "instance 46543924 loading, rented 2026-08-01T22:35:43Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
+      "why": "instance 46543924 running, rented 2026-08-01T22:35:43Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
     },
     {
       "name": "selcal-smarca4-m1-r0",
