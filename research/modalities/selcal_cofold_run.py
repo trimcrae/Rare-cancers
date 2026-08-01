@@ -33,6 +33,19 @@ import selcal_stage as ST  # noqa: E402
 SYSTEMS = (("smarca2", "SMARCA2"), ("smarca4", "SMARCA4"))
 
 
+def _systems():
+    """Which arms THIS host produces. Scoped by `$SELCAL_SYSTEMS` so the two arms can run on two hosts.
+
+    ★ WHY THEY FAN OUT (CLAUDE.md §6's litmus test): *"is there a result this shard could return that would
+    make me NOT run the rest?"* For the two ARMS the answer is NO — a sensitivity control needs both, and one
+    arm's co-folds say nothing about whether to buy the other's. Parallel costs the same GPU-dollars as
+    serial, so serialising them would be pure wall-clock for zero decision value. (This is NOT the same
+    question as the MD ladder's smoke -> one real leg -> fleet, where the answer IS yes and the rungs stay
+    serial.)"""
+    want = [w.strip() for w in (os.environ.get("SELCAL_SYSTEMS") or "").split(",") if w.strip()]
+    return [(sysname, gene) for sysname, gene in SYSTEMS if not want or sysname in want]
+
+
 def _seeds():
     raw = os.environ.get("SELCAL_SEEDS") or ",".join(str(s) for s in SP.COFOLD_MODEL_SEEDS)
     return [int(s) for s in raw.replace(" ", "").split(",") if s]
@@ -72,7 +85,7 @@ def main():
 
     boltz_spec = os.environ.get("BOLTZ_SPEC", "boltz")
     results, t0 = [], time.time()
-    for system, gene in SYSTEMS:
+    for system, gene in _systems():
         yml = os.path.join(inputs_dir, "%s.yaml" % system)
         if not os.path.exists(yml):
             raise SystemExit("[selcal-cofold] missing input %s" % yml)

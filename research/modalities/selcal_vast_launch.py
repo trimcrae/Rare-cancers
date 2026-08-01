@@ -290,16 +290,22 @@ def build_leg_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarbal
     )
 
 
-def build_cofold_jobspec(branch, bucket, cofold_prefix=None, exclude=()):
-    """PURE: the JobSpec for the ONE co-fold host that produces every structural input."""
+def build_cofold_jobspec(branch, bucket, cofold_prefix=None, exclude=(), systems=None):
+    """PURE: the JobSpec for ONE co-fold host. `systems` scopes it to a subset of the arms.
+
+    ★ ONE HOST PER ARM. §6's litmus test — "is there a result this shard could return that would make me NOT
+    run the rest?" — is NO for the two arms: the control needs both, and parallel costs the same GPU-dollars
+    as serial, so serialising buys only wall-clock. Measured on the first attempt: ~11 min per (arm, seed)
+    including a fresh MSA, i.e. ~2.2 h for 12 sequential predictions against ~1.1 h split two ways."""
     import dataclasses
     prefix = (cofold_prefix or SP.COFOLD_PREFIX).strip("/")
     res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=64, disk_gb=80, interruptible=True,
                        max_usd_per_ns=buy_ceiling_usd_per_ns())
     if exclude:
         res = dataclasses.replace(res, exclude_machine_ids=tuple(str(m) for m in exclude))
+    tag = "-".join(sorted(systems)) if systems else "all"
     return JobSpec(
-        name="selcal-cofold-%s" % prefix,
+        name="selcal-cofold-%s-%s" % (prefix, tag),
         command=["bash", "-lc", _COFOLD_PIPELINE.replace("{repo}", REPO)],
         image=COFOLD_IMAGE,
         checkpoint_uri="s3://%s/%s" % (bucket, prefix),
@@ -311,7 +317,8 @@ def build_cofold_jobspec(branch, bucket, cofold_prefix=None, exclude=()):
         env={"GIT_BRANCH": branch, "RESULT_S3": "s3://%s/%s" % (bucket, prefix),
              "COFOLD_INPUTS_S3": cofold_inputs_s3(bucket, prefix),
              "BOLTZ_SPEC": BOLTZ_SPEC,
-             "SELCAL_SEEDS": ",".join(str(s) for s in SP.COFOLD_MODEL_SEEDS)},
+             "SELCAL_SEEDS": ",".join(str(s) for s in SP.COFOLD_MODEL_SEEDS),
+             "SELCAL_SYSTEMS": ",".join(sorted(systems)) if systems else ""},
     )
 
 
@@ -616,29 +623,55 @@ def mode_cofold(bucket=None, cofold_prefix=None):
         market_gate(1, bucket=bucket, price=False, what="co-fold")
         return 0
     import dataclasses
-    spec = build_cofold_jobspec(branch, bucket, prefix)
+    # ONE HOST PER ARM THAT STILL NEEDS MODELS. A live host already covering an arm is not re-rented.
+    live, _mine = _live_labels()
+    need = sorted({a.cofold_system for a in SP.ARMS
+                   if len(done["per_arm"].get(a.arm_id, [])) < len(SP.COFOLD_MODEL_SEEDS)})
+    specs = [build_cofold_jobspec(branch, bucket, prefix, systems=[sysname]) for sysname in need]
+    specs = [sp for sp in specs if sp.name not in live]
+    if not specs:
+        print("[selcal-cofold] every incomplete arm already has a live host — nothing to rent.", flush=True)
+        _record_gate("nothing-to-buy", [], extra={"why": "a live host already covers each incomplete arm",
+                                                  "census": done})
+        market_gate(1, bucket=bucket, price=False, what="co-fold")
+        return 0
     # UNCAPPED copy for the gate — a gate must SEE the expensive offers to report how far above the line the
     # board sits. The cap stays on the spec handed to `submit`, where it binds the offer actually bought.
-    hold, _doc = market_gate(1, bucket=bucket,
-                             res=dataclasses.replace(spec.resources, max_usd_per_ns=None),
-                             what="co-fold")
+    hold, _doc = market_gate(len(specs), bucket=bucket,
+                             res=dataclasses.replace(specs[0].resources, max_usd_per_ns=None),
+                             what="co-fold (%d arm host(s))" % len(specs))
     if hold:
-        _record_gate("held-on-price", ["selcal-cofold"], extra={"why": "market gate held the co-fold rental"})
+        _record_gate("held-on-price", [sp.name for sp in specs],
+                     extra={"why": "market gate held the co-fold rental"})
         return 0
     be = get_backend("vast")
-    try:
-        h = be.submit(spec)
-    except Exception as e:  # noqa: BLE001
-        _record_gate("refused", ["selcal-cofold"], extra={"why": "%s: %s" % (type(e).__name__, e)})
-        print("[selcal-cofold] ⛔ NOT RENTED — %s: %s. If the board simply had nothing at or under "
-              "$%.6f/ns, this is the buy line doing its job: $0 spent."
-              % (type(e).__name__, e, spec.resources.max_usd_per_ns), flush=True)
-        return 1
-    print("[selcal-cofold] %s -> instance %s dph≈$%s/hr -> %s"
-          % (spec.name, h.job_id, h.extra.get("dph"), spec.env["RESULT_S3"]), flush=True)
-    _write(HANDLES, [{"unit": spec.name, "instance": h.job_id, "kind": "cofold", "utc": _utcnow()}])
-    _record_gate("rented", [spec.name], extra={"instance": h.job_id})
-    return 0
+    handles, refused, wave_refused = [], [], set()
+    for spec in specs:
+        if wave_refused:
+            spec = dataclasses.replace(
+                spec, resources=dataclasses.replace(spec.resources,
+                                                    exclude_machine_ids=tuple(sorted(wave_refused))))
+        try:
+            h = be.submit(spec)
+        except Exception as e:  # noqa: BLE001
+            for ref in getattr(e, "refusals", ()) or ():
+                mid = str((ref or {}).get("machine_id") or "").strip()
+                if mid:
+                    wave_refused.add(mid)
+            refused.append(spec.name)
+            print("[selcal-cofold] ⛔ %s NOT RENTED — %s: %s. If the board simply had nothing at or under "
+                  "$%.6f/ns, this is the buy line doing its job: $0 spent."
+                  % (spec.name, type(e).__name__, e, spec.resources.max_usd_per_ns), flush=True)
+            continue
+        print("[selcal-cofold] %s -> instance %s dph≈$%s/hr -> %s"
+              % (spec.name, h.job_id, h.extra.get("dph"), spec.env["RESULT_S3"]), flush=True)
+        handles.append({"unit": spec.name, "instance": h.job_id, "kind": "cofold", "utc": _utcnow(),
+                        "systems": spec.env["SELCAL_SYSTEMS"]})
+    if handles:
+        _write(HANDLES, handles)
+    _record_gate("rented" if handles else "refused", [h["unit"] for h in handles],
+                 extra={"refused": refused, "wave_refused_machines": sorted(wave_refused)})
+    return 0 if handles else 1
 
 
 def _cofold_census(s3, bucket, prefix):
