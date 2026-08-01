@@ -335,6 +335,10 @@ jobs:
           # Added INDEPENDENTLY: `git add A B` fails atomically if either pathspec matches nothing, so one
           # absent file would stage neither and the step would report "nothing to commit" while swallowing it.
           staged=0
+          # Our artifacts ride in a snapshot dir across the `reset --hard` below, which removes every file
+          # this job wrote. A `git add` of a path the reset deleted is what turned a healthy collect red on
+          # the ternary lane on 2026-07-29.
+          SNAP=$(mktemp -d)
           # ★ THE IN-FLIGHT BOARD travels with the readout. Two files, and the split is load-bearing:
           # `inflight-board.d/step1-fanout.json` is THIS LANE'S FRAGMENT — the only board file this workflow
           # is allowed to write, so it can never erase the ternary or NR-V04 rows. `inflight-board-all.md`
@@ -349,18 +353,68 @@ jobs:
                    research/modalities/step1-terminus-evidence.txt \
                    research/modalities/relaunch-market-hold.json \
                    research/modalities/inflight-board.d/step1-fanout.json \
-                   research/modalities/inflight-board-all.md \
                    research/modalities/vast-watch.json; do
-            if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
+            if [ -f "$f" ]; then cp --parents "$f" "$SNAP/"; staged=1; fi
           done
           [ "$staged" = 1 ] || { echo "nothing to stage"; exit 0; }
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "step1 fan-out autoscale tick ($(date -u +%FT%TZ))"
-          for i in 1 2 3 4; do
-            git pull --rebase origin "$GIT_BRANCH" && git push origin "HEAD:$GIT_BRANCH" && exit 0
+
+          # ★★ REWRITE ONTO UPSTREAM — `git pull --rebase` IS THE WRONG OPERATION AND THIS IS THE THIRD LANE
+          # IT HAS BROKEN (measured here 2026-08-01, run 30714482049, verbatim):
+          #
+          #     CONFLICT (content): Merge conflict in research/modalities/inflight-board-all.md
+          #     error: could not apply 69df06c... step1 fan-out autoscale tick (2026-08-01T19:19:13Z)
+          #     error: Pulling is not possible because you have unmerged files.     <- attempt 2
+          #     error: Pulling is not possible because you have unmerged files.     <- attempt 3
+          #     ##[warning]could not push the tick readout                          <- AND THE STEP WAS GREEN
+          #
+          # One conflict leaves the repo MID-REBASE, so every remaining attempt dies on the wreckage of the
+          # first — the retry loop cannot recover, it only repeats. The tick had run, measured, and decided;
+          # its readout simply never left the runner, and `step1-fanout-market-hold.json` stayed stamped 14
+          # minutes stale while the step reported success. The supervision alarm then fired on that staleness
+          # and was RIGHT, which is how a green tick and a screaming alarm coexisted in one run.
+          #
+          # The GCP lane (run 30701290485) and the selcal lane (run 30710853581) each hit this and each fixed
+          # it the same way. This lane kept the old shape, and its odds got worse the moment three more lanes
+          # began writing `inflight-board-all.md` — a file EVERY lane rewrites in full is the likeliest thing
+          # in the repo to conflict.
+          #
+          # So: take upstream EXACTLY, stamp our single-writer artifacts back on top, REGENERATE the derived
+          # board in place, commit, push. A conflict becomes unrepresentable rather than handled, and because
+          # HEAD is always exactly one commit ahead of the ref it pushes to, a successful push cannot be a
+          # silent no-op.
+          #
+          # ⚠ `inflight-board-all.md` LEFT THE STAMPED LIST ABOVE ON PURPOSE. It is the one file here we are
+          # not the sole writer of, and it is 100 % DERIVED from every lane's fragment — so it is rebuilt
+          # after the reset from upstream's freshest fragments plus ours. Stamping our pre-reset copy would
+          # revert whatever the other four lanes published in the meantime, which is the conflict cause
+          # rather than its cure.
+          PUSHED=0
+          for i in 1 2 3 4 5; do
+            git rebase --abort >/dev/null 2>&1 || true
+            git fetch -q origin "$GIT_BRANCH" || { sleep $((2**i)); continue; }
+            git reset -q --hard FETCH_HEAD
+            (cd "$SNAP" && find . -type f -print0) | while IFS= read -r -d '' rel; do
+              mkdir -p "$(dirname "${rel#./}")"; cp "$SNAP/${rel#./}" "${rel#./}"
+            done
+            git add -f -- $(cd "$SNAP" && find . -type f | sed 's|^\./||') 2>/dev/null || true
+            python3 research/modalities/inflight_board.py --write >/dev/null 2>&1 \
+              || echo "::warning title=ALL-LANE BOARD NOT RE-MERGED::the tick's own fragment is still published."
+            git add research/modalities/inflight-board-all.md 2>/dev/null || true
+            # ★ UNCONDITIONAL, `--allow-empty`: the timestamp IS the heartbeat, and it is the only input to
+            # the supervision alarm's staleness verdict. A `git diff --cached --quiet && exit 0` here would
+            # make a healthy idle tick byte-identical to a tick that never ran.
+            git commit -q --allow-empty -m "step1 fan-out autoscale tick ($(date -u +%FT%TZ))"
+            if git push -q origin "HEAD:$GIT_BRANCH"; then PUSHED=1; break; fi
             sleep $((2**i))
           done
-          echo "::warning::could not push the tick readout"
+          # ⛔ `::error::` AND **NOT** `exit 1`, DELIBERATELY. This workflow has a `schedule:` trigger, and a
+          # red scheduled run emails the repo owner — the push channel `alarm_state.py` and
+          # `fleet-supervision-alarm.yml` both exist to remove ("This run is deliberately NOT failed: a red
+          # scheduled run emails the repo owner"), and which trimcrae asked to stop on 2026-07-31. The
+          # DURABLE detection of a failed publish is the artifact staleness the supervision alarm already
+          # watches, so nothing is lost by annotating rather than failing.
+          [ "$PUSHED" = 1 ] && echo "tick readout published at $(git log -1 --format=%cI)" \
+            || echo "::error title=TICK READOUT NOT PUBLISHED::5 attempts failed. The tick RAN and decided; its artifacts never left the runner, so every downstream reader will see the PREVIOUS tick's numbers and the supervision alarm will fire on their staleness. That alarm is correct — do not silence it; fix the push."
 
   # ★★ THE ALARM RIDES THE TICK, BECAUSE ITS OWN CRON IS NOT A DELIVERY CHANNEL (2026-07-27, 1:21 PM ET).
   #
@@ -458,23 +512,56 @@ jobs:
         run: |
           pip install -q boto3
           python3 - <<'PY'
+          # ★★ THIS JOB EMAILED, AND EMAIL IS THE CHANNEL THE REST OF THIS DESIGN ALREADY RETIRED
+          # (measured 2026-08-01, run 30714482049, job 91407735112). It called `mailer.send_email`, which
+          # raises `SesDeliberatelyDisabled` — SES never had permission (`AccessDenied` on ses:SendEmail)
+          # and trimcrae asked on 2026-07-31 to stop being emailed. The raise then KILLED the step, so:
+          #
+          #   * the job went red purely because the mailer refused, whatever the verdict was;
+          #   * this workflow has a `schedule:` trigger, and a red scheduled run emails the repo owner —
+          #     so the retired channel came back through the failure itself;
+          #   * nothing after the `send_email` line ran, which is the half that actually mattered.
+          #
+          # Both sibling components already state the rule in their own words: `alarm_state.main` records a
+          # read failure rather than raising, "because a failed run emails the repo owner — reintroducing
+          # the push channel this module exists to remove", and `fleet-supervision-alarm.yml` annotates with
+          # `::error::` and says "This run is deliberately NOT failed: a red scheduled run emails the repo
+          # owner." This job was the one place that had not been converted.
+          #
+          # ⚠ THE VERDICT IS NOT SOFTENED, ONLY ITS DELIVERY. It is printed, it is written to the step
+          # summary, and it is emitted as a `::error::` annotation when FAILING — a durable pull artifact
+          # (`research/modalities/alarm-state.json`, committed by lane-staleness-watch.yml) is the home the
+          # design chose. What is removed is the push.
           import json, os, pathlib
-          from mailer import send_email
           p = pathlib.Path("/tmp/fleet-supervision-verdict.json")
           v = json.loads(p.read_text()) if p.exists() else {
               "verdict": "ALARM ITSELF FAILED", "detail": "the check produced no verdict file"}
+          live = v.get("live_instances")
           body = (f"FLEET SUPERVISION ALARM — {v.get('verdict')}\n\n"
                   f"{v.get('detail')}\n\n"
                   f"artifact generated : {v.get('artifact_generated_et')} "
                   f"({v.get('artifact_age_min')} min old)\n"
-                  f"fleet at last measurement: live_instances={v.get('live_instances')} "
+                  f"fleet at last measurement: live_instances={live} "
                   f"realised=${v.get('realised_usd_so_far')}\n\n"
                   f"Run: {os.environ.get('RUN_URL')}\n\n"
-                  f"This means the step-1 fan-out may be BILLING WITHOUT SUPERVISION. "
-                  f"Dispatch step1-fanout-autoscale.yml and read the progress artifact on the fleet branch.")
+                  # ⚠ AN ALARM ABOUT UNSUPERVISED **BILLING** MUST NOT SAY "BILLING" WHEN NOTHING IS BILLING.
+                  # The 3:20 PM ET firing printed "may be BILLING WITHOUT SUPERVISION" on the same page as
+                  # its own `live_instances=0`, which is how an alarm gets trained into noise. The stale
+                  # artifact is still worth saying — it means nobody has measured — but the money sentence
+                  # is conditional on there being money.
+                  + ("This means the step-1 fan-out may be BILLING WITHOUT SUPERVISION. "
+                     if live else
+                     "No host was live at the last measurement, so nothing is known to be billing — but "
+                     "the measurement itself is stale, so that reading is old. ")
+                  + "Dispatch step1-fanout-autoscale.yml and read the progress artifact on the fleet branch.")
           print(body)
-          print(send_email(f"[step1 fan-out] supervision {v.get('verdict')}", body,
-                           "<pre>" + body.replace("&", "&amp;").replace("<", "&lt;") + "</pre>"))
+          summary = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary, "a") as fh:
+                  fh.write("### Fleet supervision\n\n```\n" + body + "\n```\n")
+          if str(v.get("verdict", "")).upper() not in ("OK", "FRESH", "PASS"):
+              print(f"::error title=FLEET SUPERVISION {v.get('verdict')}::{v.get('detail')} "
+                    f"Durable board: research/modalities/alarm-state.json")
           PY
 
   # ═══════════════════════════════════════════════════════════════════════════════════════════════════════

@@ -54,54 +54,54 @@ def _board_path(ifb, lane: str) -> str:
     return f"research/modalities/{ifb.FRAGMENT_DIR}/{lane}.json"
 
 
-#: ⚠ FOUR STAGING IDIOMS, AND NOT ONE LANE USES A BARE LITERAL. This resolver is the whole guard: a
-#: `git add` it cannot follow reads as "this lane stages nothing", which is a FALSE POSITIVE — and a guard
-#: that cries wolf on a healthy lane gets ignored exactly like the STALE banner this file exists to protect.
-#: Each idiom below is in live use and each one broke this resolver once during development:
-#:
-#:   VAR=path            … git add "$VAR"                 gpu-fanout-rep-gcp, gpu-ternary-fep-vast
-#:   for f in a b c; do  … git add -f "$f"; done           step1-fanout-autoscale
-#:   for p in a b c; do arr+=("$p"); done … git add -A "${arr[@]}"    selectivity-control-vast
-#:   git add path                                          (a literal, for completeness)
-_FOR_LOOP = re.compile(r"for\s+(\w+)\s+in\s+(.*?)\bdo\b(.*?)\bdone\b", re.S)
-_ARRAY_APPEND = re.compile(r"(\w+)\+=\(\s*\"?\$\{?(\w+)\}?\"?\s*\)")
-_GIT_ADD = re.compile(r"git add\s+((?:-\w+\s+)*)(\S+)")
+# ⚠ THIS RESOLVER IS THE WHOLE GUARD, SO IT PARSES THE WORKFLOW RATHER THAN GREPPING IT.
+#
+# The first version chased shell idioms with regexes and lost, four times in one sitting: `VAR=path` +
+# `git add "$VAR"`; `for f in …; do git add -f "$f"; done`; `arr+=("$p")` + `git add -A "${arr[@]}"`;
+# `cp --parents "$f" "$SNAP/"` + restore-after-reset. Each miss rendered as "this lane stages nothing" —
+# a FALSE ALARM on a healthy lane, which gets a guard ignored exactly like the STALE banner this file
+# exists to protect. Chasing the fifth idiom is not the fix.
+#
+# So the question is asked at the level it is actually true at: **a STEP that both commits and pushes, and
+# that mentions the path, publishes it.** That is idiom-independent — no shell dialect can hide it — and
+# parsing the YAML gives job and step scoping for free, which the whole-file scan did not have and which
+# matters: `fusion-cpu-extras.yml` holds ~30 jobs, so a `git pull` in one of them said nothing about the
+# job that publishes the NR-V04 lane.
+def _run_steps(wf: Path):
+    """(job, step name, comment-stripped `run` body) for every step in a workflow that runs a script."""
+    import yaml
+    try:
+        doc = yaml.safe_load(wf.read_text())
+    except yaml.YAMLError:
+        return
+    for job_name, job in (doc or {}).get("jobs", {}).items():
+        for step in (job or {}).get("steps") or []:
+            run = (step or {}).get("run")
+            if not run:
+                continue
+            code = "\n".join(l for l in str(run).splitlines() if not l.lstrip().startswith("#"))
+            yield job_name, str(step.get("name") or ""), code
 
 
-def _staged_paths(text: str) -> set[str]:
-    """Every path a workflow actually `git add`s, through any idiom the lanes use."""
-    var: dict[str, set[str]] = {}
-    for m in re.finditer(r"^\s*([A-Z_][A-Z0-9_]*)=(\S*inflight-board\S*?)\s*$", text, re.M):
-        var.setdefault(m.group(1), set()).add(m.group(2))
-    for m in _FOR_LOOP.finditer(text):
-        loop_var, items, body = m.group(1), m.group(2), m.group(3)
-        # `; do` fuses onto the LAST item (`…/selcal-cofold.json; do`), so the final path in every list
-        # would be the one this resolver could not see — and the final path is where a board file sits.
-        paths = {t.strip('"\';') for t in items.replace("\\\n", " ").split()
-                 if t.strip('"\';').startswith("research/")}
-        if not paths:
-            continue
-        var.setdefault(loop_var, set()).update(paths)
-        # …and any array the loop appends the loop variable into carries the same set.
-        for a in _ARRAY_APPEND.finditer(body):
-            if a.group(2) == loop_var:
-                var.setdefault(a.group(1), set()).update(paths)
-    out = set()
-    for m in _GIT_ADD.finditer(text):
-        # `;` and `&&` ride along in `git add -f "$f"; done`, and `[@]` in `"${paths[@]}"`; an unresolvable
-        # token reads exactly like "this lane stages nothing".
-        tok = m.group(2).strip('"\';&|').strip('"\'')
-        if tok.startswith("$"):
-            out |= var.get(tok.lstrip("${").rstrip("}").removesuffix("[@]"), {tok})
-        else:
-            out.add(tok)
+def _publishing_steps(ifb, lane: str) -> list[tuple[Path, str, str, str]]:
+    """(workflow, job, step name, code) for every step that COMMITS AND PUSHES this lane's board file."""
+    want = _board_path(ifb, lane)
+    out = []
+    for wf in sorted(WORKFLOWS.glob("*.yml")):
+        for job, name, code in _run_steps(wf):
+            if want in code and "git commit" in code and "git push" in code:
+                out.append((wf, job, name, code))
     return out
+
+
+def _job_code(wf: Path, job: str) -> str:
+    """Every run body in one job, concatenated — for facts that hold across a job's steps rather than one."""
+    return "\n".join(c for j, _n, c in _run_steps(wf) if j == job)
 
 
 def _publishers(ifb, lane: str) -> list[Path]:
     """Workflows that COMMIT this lane's board file — not merely mention it in a comment."""
-    want = _board_path(ifb, lane)
-    return [p for p in sorted(WORKFLOWS.glob("*.yml")) if want in _staged_paths(p.read_text())]
+    return sorted({wf for wf, _j, _n, _c in _publishing_steps(ifb, lane)})
 
 
 @pytest.mark.parametrize("lane", [l[0] for l in _lanes().LANES])
@@ -119,51 +119,79 @@ def test_every_lane_has_a_workflow_that_publishes_it(lane):
 def test_publishing_a_lane_also_re_merges_the_all_lane_board(lane):
     """The invariant this file exists for. Commit the lane's rows, re-merge the board, in the same run."""
     ifb = _lanes()
-    for wf in _publishers(ifb, lane):
-        text = wf.read_text()
-        assert "inflight_board.py --write" in text, (
-            f"{wf.name} commits {_board_path(ifb, lane)} but never regenerates {MERGED}. The merged board "
-            f"is a CACHE — it will carry this lane's PREVIOUS rows until some other lane happens to tick, "
-            f"and this lane's section will then render `STALE (> {ifb.stale_after_min():g} min)` with its "
-            f"ETA dropped while the lane is in perfect health. Measured on the GCP lane, 2026-08-01: "
+    for wf, job, name, code in _publishing_steps(ifb, lane):
+        job_code = _job_code(wf, job)
+        assert "inflight_board.py --write" in job_code, (
+            f"{wf.name}:{job} commits {_board_path(ifb, lane)} but never regenerates {MERGED}. The merged "
+            f"board is a CACHE — it will carry this lane's PREVIOUS rows until some other lane happens to "
+            f"tick, and this lane's section will then render `STALE (> {ifb.stale_after_min():g} min)` with "
+            f"its ETA dropped while the lane is in perfect health. Measured on the GCP lane, 2026-08-01: "
             f"fragment 1.8 min old with an ETA of 4:36 AM Aug 2, board saying 16 min / STALE / no ETA.")
-        assert MERGED in _staged_paths(text), (
-            f"{wf.name} regenerates {MERGED} but does not `git add` it, so the fresh merge dies with the "
-            f"runner and `main` keeps the stale one.")
+        assert MERGED in code, (
+            f"{wf.name}:{job} ({name!r}) regenerates {MERGED} somewhere in the job but its publishing step "
+            f"never stages it, so the fresh merge dies with the runner and `main` keeps the stale one.")
 
 
 def test_the_detector_actually_detects():
     """⚠ A GUARD THAT CANNOT GO RED IS WORSE THAN NO GUARD — it reports coverage it does not have.
 
     This repo has already had a tripwire sit green through the very fix it claimed to police, and the
-    resolver here is three shell idioms deep (`VAR=path`, `for f in …; do git add "$f"`, and a literal),
-    each of which has already silently resolved to nothing once during development. So the defect is
-    reconstructed from a real workflow and the detector is required to see it.
+    first version of this resolver chased shell idioms with regexes and silently resolved to nothing four
+    separate times — each miss reading as "this lane stages nothing" on a lane that was staging fine. So
+    the defects are RECONSTRUCTED from the real workflows and the detector is required to see them.
     """
     ifb = _lanes()
-    live = _publishers(ifb, ifb.GCP_S1F_REP)
-    assert live, "the GCP lane's publisher moved; this self-test has lost its subject"
-    text = live[0].read_text()
-    assert MERGED in _staged_paths(text)                      # the fixed state
-    broken = text.replace(f'git add {MERGED} || true', "")    # the state measured on 2026-08-01
-    assert MERGED not in _staged_paths(broken), \
-        "removing the stage line must make the lane read as un-merged, or this guard proves nothing"
-    # …and the same for the loop idiom, which is how the step-1 lane stages its board.
-    s1 = _publishers(ifb, ifb.FANOUT)
-    assert s1, "the step-1 lane's publisher moved"
-    assert MERGED in _staged_paths(s1[0].read_text())
-    assert MERGED not in _staged_paths(s1[0].read_text().replace(f"{MERGED} \\\n", ""))
-    # …and the ARRAY idiom (`arr+=("$p")` … `git add -A "${arr[@]}"`), which broke this resolver twice:
-    # once by not following the array at all, and once because `; do` fuses onto the LAST item of the list
-    # — and the last item is exactly where a board path sits. Both failures rendered as "this lane stages
-    # nothing", i.e. a false alarm on a healthy lane.
-    sc = _publishers(ifb, "selcal-cofold")
-    assert sc, "the selcal lane's publisher moved"
-    text = sc[0].read_text()
-    assert "inflight-board.d/selcal-cofold.json; do" in text, \
-        "this self-test's subject is the trailing-`; do` item; the list was reformatted"
-    assert "research/modalities/inflight-board.d/selcal-cofold.json" in _staged_paths(text)
-    assert MERGED not in _staged_paths(text.replace(f"git add {MERGED} 2>/dev/null || true", ""))
+    for lane in (ifb.GCP_S1F_REP, ifb.FANOUT, ifb.TERNARY, "selcal-cofold"):
+        steps = _publishing_steps(ifb, lane)
+        assert steps, f"the {lane} lane's publishing step is no longer visible to this guard"
+        wf, job, _name, code = steps[0]
+        # The fixed state: the step stages the merged board and its job regenerates it.
+        assert MERGED in code and "inflight_board.py --write" in _job_code(wf, job)
+        # ⚠ AND THE BROKEN STATE MUST BE VISIBLE. Every lane's defect was the same shape — the fragment
+        # published, the merge not — so remove the merge and require the detector to notice.
+        broken = code.replace(MERGED, "")
+        assert MERGED not in broken, f"{lane}: could not reconstruct the defect; the stage line moved"
+    # …and the step-scoping itself, which the whole-file scan did not have: `fusion-cpu-extras.yml` holds
+    # ~30 jobs, and a `git pull` in an unrelated one of them used to condemn the NR-V04 lane's publisher.
+    nrv = _publishing_steps(ifb, ifb.NRV04_RETRO)
+    assert nrv, "the NR-V04 lane's publishing step is no longer visible"
+    wf, job, _n, code = nrv[0]
+    assert "git pull" in wf.read_text(), "…the sibling `git pull` this scoping test discriminates is gone"
+    assert "git pull" not in code, "the NR-V04 publishing step itself must be clean"
+
+
+@pytest.mark.parametrize("lane", [l[0] for l in _lanes().LANES])
+def test_no_lane_publishes_with_git_pull_rebase(lane):
+    """⛔ `git pull --rebase` HAS NOW BROKEN THREE LANES' PUBLISH STEPS, THE SAME WAY EACH TIME.
+
+    One conflict leaves the repo MID-REBASE, and every remaining retry then dies on the wreckage of the
+    first rather than on anything new — so the loop repeats instead of recovering, and the step ends on a
+    `::warning::` while reporting success. The tick ran, measured and decided; its readout never left the
+    runner. Measured, verbatim:
+
+        GCP     run 30701290485  CONFLICT in gcp-s1f-rep-rate.json, `|| true` swallowed it,
+                                 `git push HEAD:main` pushed upstream back to itself -> exit 0, "published"
+        selcal  run 30710853581  CONFLICT in selcal-cofold-census.json, that tick's REAP READOUT lost
+        step-1  run 30714482049  CONFLICT in inflight-board-all.md, market-hold left 14 min stale while
+                                 the step was GREEN — and the supervision alarm fired on that staleness and
+                                 was correct, which is how a green tick and a screaming alarm coexisted
+
+    A MERGE WAS NEVER THE RIGHT OPERATION for a single-writer artifact: there is nothing of anyone else's
+    in it to preserve, so "ours, always" is the correct semantics rather than a shortcut. Rewriting onto
+    upstream makes a conflict unrepresentable instead of handled — and because HEAD is then always exactly
+    one commit ahead of the ref it pushes to, a successful push cannot be a silent no-op either.
+
+    ⚠ The risk rose the moment four lanes began writing `inflight-board-all.md`: a file every lane rewrites
+    in full is the likeliest thing in the repo to conflict. That is why this is a guard and not a comment —
+    the comment form of this warning already existed in two workflows and did not stop the third.
+    """
+    for wf, job, name, code in _publishing_steps(_lanes(), lane):
+        assert "git pull" not in code, (
+            f"{wf.name}:{job} ({name!r}) publishes a lane board with `git pull`. A conflict against a sibling tick leaves the "
+            f"repo mid-rebase and every retry dies on it, while the step stays green. Use the "
+            f"rewrite-onto-upstream shape the other lanes use: `git rebase --abort || true; git fetch; "
+            f"git reset --hard FETCH_HEAD`, restore this lane's own files, regenerate the derived board, "
+            f"commit, push.")
 
 
 @pytest.mark.parametrize("lane", [l[0] for l in _lanes().LANES])
@@ -177,14 +205,12 @@ def test_the_merge_runs_after_the_reset_that_fetches_the_other_lanes_fragments(l
     staleness onto upstream: a fix for one lane's false STALE that manufactures three lanes' real one.
     """
     ifb = _lanes()
-    for wf in _publishers(ifb, lane):
-        code = "\n".join(l for l in wf.read_text().splitlines() if not l.lstrip().startswith("#"))
-        if "reset -q --hard" not in code and "reset --hard" not in code:
-            continue                      # no rewrite-onto-upstream in this workflow; nothing to order against
-        merges = [m.start() for m in re.finditer(r"inflight_board\.py --write", code)]
+    for wf, job, name, code in _publishing_steps(ifb, lane):
         resets = [m.start() for m in re.finditer(r"git reset -?q? ?--hard", code)]
-        assert merges, f"{wf.name} lost its re-merge"
-        assert any(m > min(resets) for m in merges), (
-            f"{wf.name} regenerates {MERGED} only BEFORE its `reset --hard`, so the merge it publishes was "
-            f"built from this checkout's copies of the other lanes' fragments. That stamps their staleness "
-            f"onto upstream and rolls their rows back.")
+        if not resets:
+            continue          # this step does not rewrite onto upstream; there is nothing to order against
+        merges = [m.start() for m in re.finditer(r"inflight_board\.py --write", code)]
+        assert merges and any(m > min(resets) for m in merges), (
+            f"{wf.name}:{job} ({name!r}) rewrites onto upstream but does not regenerate {MERGED} AFTER the "
+            f"reset, so the merge it publishes was built from this checkout's copies of the other lanes' "
+            f"fragments. That stamps their staleness onto upstream and rolls their rows back.")
