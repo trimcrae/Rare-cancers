@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-08-01T15:42:02Z",
-  "_generated_et": "11:42 AM ET Aug 1, 2026",
+  "_generated_utc": "2026-08-01T15:43:39Z",
+  "_generated_et": "11:43 AM ET Aug 1, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-08-01T16:30:02Z",
-  "_stale_after_et": "12:30 PM ET Aug 1, 2026",
+  "_stale_after_utc": "2026-08-01T16:31:39Z",
+  "_stale_after_et": "12:31 PM ET Aug 1, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -47,9 +47,9 @@
     {
       "scanner": "lanes",
       "ran": true,
-      "found": 6,
+      "found": 7,
       "error": null,
-      "how": "consumed 6 lane verdict(s) from lane_staleness_watch (its thresholds are imported, never re-typed); OK verdicts become rows so the board can prove it is watching"
+      "how": "consumed 7 lane verdict(s) from lane_staleness_watch (its thresholds are imported, never re-typed); OK verdicts become rows so the board can prove it is watching"
     }
   ],
   "_scanner_coverage_is_the_claim": "a category with no scanner is invisible, and invisible looks exactly like healthy. What is and is NOT scanned is listed in work_ledger.py's module docstring; the SCANNERS tuple is the machine copy and the tests assert they agree.",
@@ -2035,7 +2035,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 7349 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 7351 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2065,7 +2065,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 7339 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 7340 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2889,7 +2889,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "no hosts and 4 unit(s) unfinished, but the last evidence is only 1 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
+        "no hosts and 4 unit(s) unfinished, but the last evidence is only 2 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
       ]
     },
     {
@@ -2920,6 +2920,36 @@
       "unreadable": null,
       "notes": [
         "every unit of this lane is landed; silence is the correct state and nothing is billing."
+      ]
+    },
+    {
+      "id": "lane:selcal-cofold",
+      "scanner": "lanes",
+      "what": "Selectivity control \u2014 SMARCA2/4 co-fold panel (Vast) \u2014 TICKING",
+      "owner": "selectivity-control-vast.yml",
+      "owner_note": null,
+      "state": "advancing",
+      "evidence_fingerprint": "TICKING|selcal_smarca2:6,selcal_smarca4:0|selcal-cofold-census.json `phase` (the tick's own completion stamp)",
+      "last_evidence_utc": "2026-08-01T14:41:08Z",
+      "last_evidence_et": "10:41 AM ET Aug 1, 2026",
+      "last_evidence_what": "selcal-cofold-census.json `phase` (the tick's own completion stamp)",
+      "next_evidence_due_utc": "2026-08-01T15:26:08Z",
+      "next_evidence_due_et": "11:26 AM ET Aug 1, 2026",
+      "blocked_by": [],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "lane 'selcal-cofold' is carried by selectivity-control-vast.yml but has no entry in `_LANE_ACTION`, so this module does not know which dispatch advances it. Recorded with its owner rather than dispatched at a guess \u2014 the GCP lane is quota-bound and us-central1-only, and a blind dispatch at it would waste the single GPU the whole project shares.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": null,
+      "board_group": "selcal-cofold",
+      "first_seen_utc": "2026-08-01T15:43:39Z",
+      "unreadable": null,
+      "notes": [
+        "6 unit(s) on the watch list and host liveness is not knowable from git for this provider, so this lane is graded on whether its watchdog (selectivity-control-vast.yml) is still delivering completed runs \u2014 see `supervision` below, which is the verdict that matters for this lane."
       ]
     },
     {
@@ -2960,7 +2990,8 @@
     "open": 13,
     "done": 22,
     "held": 1,
-    "dispatched": 1
+    "dispatched": 1,
+    "advancing": 1
   },
   "blocked": [
     "plan:validation-b-mini-all-binding-graded-cooperativity-edge-8-8-3-2-22-cum",
@@ -3017,17 +3048,17 @@
     "rung:genmatched_null_generative_arm"
   ],
   "_self": {
-    "now_et": "11:42 AM ET Aug 1, 2026",
-    "generated_et": "11:42 AM ET Aug 1, 2026",
-    "stale_after_et": "12:30 PM ET Aug 1, 2026",
+    "now_et": "11:43 AM ET Aug 1, 2026",
+    "generated_et": "11:43 AM ET Aug 1, 2026",
+    "stale_after_et": "12:31 PM ET Aug 1, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 12:30 PM ET Aug 1, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 12:31 PM ET Aug 1, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (11:32 AM ET Aug 1, 2026) refreshed the artifact to 11:42 AM ET Aug 1, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (11:41 AM ET Aug 1, 2026) refreshed the artifact to 11:43 AM ET Aug 1, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
