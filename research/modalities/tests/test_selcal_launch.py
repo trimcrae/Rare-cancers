@@ -193,6 +193,24 @@ def test_heartbeat_commits_are_allow_empty_and_ungated():
     assert "diff --cached --quiet" not in executable
 
 
+def test_the_commit_step_cannot_LOSE_a_tick_to_a_merge_conflict():
+    """★★ MEASURED 2026-08-01 (run 30710853581). These artifacts have MORE THAN ONE WRITER: a `cofold_watch`
+    tick and a `cofold_collect` tick both wrote selcal-cofold-census.json, `git pull --rebase` hit
+    `CONFLICT (content)`, the `|| true` swallowed it, the repo was left mid-rebase and the push printed
+    "Everything up-to-date". The tick's REAP READOUT was committed and then silently lost, and a supervision
+    job reported failure for a reason that had nothing to do with the fleet it was watching.
+
+    They are regenerated snapshots, so last-writer-wins is the CORRECT rule, not a compromise — reset to the
+    remote and lay our copies on top, so no merge can occur at all."""
+    wf = open(WORKFLOW).read()
+    executable = "\n".join(ln for ln in wf.splitlines() if not ln.strip().startswith("#"))
+    assert "pull --rebase" not in executable, \
+        "a rebase can conflict on a multi-writer snapshot and silently drop the tick"
+    assert executable.count('git reset --hard "origin/${{ github.ref_name }}"') == 2
+    assert executable.count("cp --parents") == 2, "our fresh copies must be stashed BEFORE the reset"
+    assert "push race on attempt" in wf, "the push must retry, or an ordinary race still drops a tick"
+
+
 def test_the_workflow_runs_the_guards_before_any_rental():
     wf = open(WORKFLOW).read()
     gpu = wf[wf.index("  gpu:"):]

@@ -192,10 +192,26 @@ jobs:
                    research/modalities/selcal-stage-test.json; do
             [ -e "$p" ] && paths+=("$p")
           done
-          [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
-          git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
-          git pull --rebase origin ${{ github.ref_name }} || true
-          git push origin HEAD:${{ github.ref_name }}
+          # ★★ LAST WRITER WINS, BY CONSTRUCTION — these artifacts have MORE THAN ONE WRITER, and a
+          # merge of two snapshots is meaningless. Measured 2026-08-01 (run 30710853581): a `cofold_watch`
+          # tick and a `cofold_collect` tick both wrote selcal-cofold-census.json, `git pull --rebase` hit
+          # `CONFLICT (content)`, the `|| true` swallowed it, the repo was left mid-rebase, and the push
+          # printed "Everything up-to-date" — so that tick's REAP READOUT was committed and then silently
+          # lost, and the supervision job failed for a reason that had nothing to do with its fleet.
+          # So: stash our fresh copies, reset to the remote, lay them back on top, commit, push. No merge is
+          # possible. The retry covers the ordinary race where another job pushed between fetch and push.
+          tmp=$(mktemp -d)
+          for p in "${paths[@]}"; do cp --parents "$p" "$tmp/"; done
+          for attempt in 1 2 3 4 5; do
+            git fetch origin ${{ github.ref_name }}
+            git reset --hard "origin/${{ github.ref_name }}"
+            for p in "${paths[@]}"; do cp "$tmp/$p" "$p"; done
+            [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
+            git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
+            git push origin HEAD:${{ github.ref_name }} && break
+            echo "[selcal-commit] push race on attempt $attempt — re-basing our snapshots onto the new tip"
+            sleep $((attempt * 3))
+          done
 
   gpu:
     if: ${{ contains(fromJSON('["cofold","cofold_watch","smoke","leg","launch","watch","reap","stop"]'), github.event.inputs.mode) }}
@@ -264,7 +280,23 @@ jobs:
                    research/modalities/selcal-reap.json; do
             [ -e "$p" ] && paths+=("$p")
           done
-          [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
-          git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
-          git pull --rebase origin ${{ github.ref_name }} || true
-          git push origin HEAD:${{ github.ref_name }}
+          # ★★ LAST WRITER WINS, BY CONSTRUCTION — these artifacts have MORE THAN ONE WRITER, and a
+          # merge of two snapshots is meaningless. Measured 2026-08-01 (run 30710853581): a `cofold_watch`
+          # tick and a `cofold_collect` tick both wrote selcal-cofold-census.json, `git pull --rebase` hit
+          # `CONFLICT (content)`, the `|| true` swallowed it, the repo was left mid-rebase, and the push
+          # printed "Everything up-to-date" — so that tick's REAP READOUT was committed and then silently
+          # lost, and the supervision job failed for a reason that had nothing to do with its fleet.
+          # So: stash our fresh copies, reset to the remote, lay them back on top, commit, push. No merge is
+          # possible. The retry covers the ordinary race where another job pushed between fetch and push.
+          tmp=$(mktemp -d)
+          for p in "${paths[@]}"; do cp --parents "$p" "$tmp/"; done
+          for attempt in 1 2 3 4 5; do
+            git fetch origin ${{ github.ref_name }}
+            git reset --hard "origin/${{ github.ref_name }}"
+            for p in "${paths[@]}"; do cp "$tmp/$p" "$p"; done
+            [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
+            git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
+            git push origin HEAD:${{ github.ref_name }} && break
+            echo "[selcal-commit] push race on attempt $attempt — re-basing our snapshots onto the new tip"
+            sleep $((attempt * 3))
+          done
