@@ -1,16 +1,16 @@
 {
  "_what": "cross-lane, ACCOUNT-KEYED alarm: is any host billing whose lane has stopped reporting? Keyed on the Vast account because a lane-scoped watcher structurally cannot see a host whose lane stopped. REPORT-ONLY: this never destroys, stops, reaps, nudges or rents.",
- "generated_utc": "2026-08-01T15:50:35Z",
- "generated_et": "11:50 AM ET Aug 1, 2026",
+ "generated_utc": "2026-08-01T15:58:13Z",
+ "generated_et": "11:58 AM ET Aug 1, 2026",
  "thresholds": {
   "lane_silent_min": 40.0,
   "census_stale_min": 45.0,
   "future_skew_min": 5.0
  },
  "report_only": true,
- "census_utc": "2026-08-01T15:47:03Z",
- "census_et": "11:47 AM ET Aug 1, 2026",
- "census_age_min": 3.5,
+ "census_utc": "2026-08-01T15:50:04Z",
+ "census_et": "11:50 AM ET Aug 1, 2026",
+ "census_age_min": 8.2,
  "census_n_instances": 4,
  "graded": true,
  "lanes": [
@@ -29,7 +29,7 @@
    "last_report_utc": "2026-08-01T15:49:59Z",
    "last_report_et": "11:49 AM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (_generated_utc) in step1-fanout-progress.json",
-   "silent_for_min": 0.6,
+   "silent_for_min": 8.2,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -57,9 +57,9 @@
      "cur_state": "running",
      "intended_status": "running",
      "gpu_name": "RTX 3090",
-     "uptime_h": 1.582,
+     "uptime_h": 1.633,
      "dph_total": 0.07911111111111112,
-     "spend_so_far_usd": 0.1252,
+     "spend_so_far_usd": 0.1292,
      "occupies_slot": true,
      "terminal_but_listed": false
     },
@@ -72,9 +72,9 @@
      "cur_state": "running",
      "intended_status": "running",
      "gpu_name": "RTX 4090",
-     "uptime_h": 0.35,
+     "uptime_h": 0.4,
      "dph_total": 0.1743111111111111,
-     "spend_so_far_usd": 0.061,
+     "spend_so_far_usd": 0.0697,
      "occupies_slot": true,
      "terminal_but_listed": false
     }
@@ -82,12 +82,12 @@
    "last_report_utc": "2026-08-01T15:32:13Z",
    "last_report_et": "11:32 AM ET Aug 1, 2026",
    "freshness_basis": "git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent)",
-   "silent_for_min": 18.4,
+   "silent_for_min": 26.0,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "SUPERVISED",
    "ok": true,
-   "detail": "2 instance(s) up and the lane reported 18 min ago (11:32 AM ET Aug 1, 2026, via git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent)) \u2014 inside the 40 min window. Something is watching this money."
+   "detail": "2 instance(s) up and the lane reported 26 min ago (11:32 AM ET Aug 1, 2026, via git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent)) \u2014 inside the 40 min window. Something is watching this money."
   },
   {
    "lane": "nrv04-retro",
@@ -101,10 +101,10 @@
    "n_live": 0,
    "n_terminal_but_listed": 0,
    "instances": [],
-   "last_report_utc": "2026-08-01T15:48:55Z",
-   "last_report_et": "11:48 AM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T15:57:02Z",
+   "last_report_et": "11:57 AM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (generated_utc) in inflight-board.d/nrv04-retro.json",
-   "silent_for_min": 1.7,
+   "silent_for_min": 1.2,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -154,9 +154,9 @@
      "cur_state": "running",
      "intended_status": "running",
      "gpu_name": "RTX 4090",
-     "uptime_h": 1.633,
+     "uptime_h": 1.684,
      "dph_total": 0.18402222222222223,
-     "spend_so_far_usd": 0.3005,
+     "spend_so_far_usd": 0.3099,
      "occupies_slot": true,
      "terminal_but_listed": false
     },
@@ -169,9 +169,9 @@
      "cur_state": "running",
      "intended_status": "running",
      "gpu_name": "RTX 4090",
-     "uptime_h": 1.618,
+     "uptime_h": 1.668,
      "dph_total": 0.18402222222222223,
-     "spend_so_far_usd": 0.2977,
+     "spend_so_far_usd": 0.3069,
      "occupies_slot": true,
      "terminal_but_listed": false
     }
@@ -179,12 +179,12 @@
    "last_report_utc": "2026-08-01T14:41:08Z",
    "last_report_et": "10:41 AM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (phase) in selcal-cofold-census.json",
-   "silent_for_min": 69.5,
+   "silent_for_min": 77.1,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "UNSUPERVISED-BILLING",
    "ok": false,
-   "detail": "2 instance(s) [46508454, 46508511] wear this lane's prefix and the lane has not reported for 69 min (threshold 40); last report 10:41 AM ET Aug 1, 2026 via in-file stamp (phase) in selcal-cofold-census.json. MONEY IS MOVING AND NOTHING IS WATCHING IT. The lane's own supervisor cannot report this \u2014 when it stalls, the only thing that would notice is the thing that stopped, which is why this check is keyed on the ACCOUNT. Check selectivity-control-vast.yml for a run that is `in_progress` but producing no ticks. \u26a0 THIS MODULE HAS NOT ACTED AND WILL NOT: it never destroys, stops or rents. Only the control plane may end a rental (`vast_idle_guard.py`), and only on a measured absence of WRITES \u2014 never on GPU idleness."
+   "detail": "2 instance(s) [46508454, 46508511] wear this lane's prefix and the lane has not reported for 77 min (threshold 40); last report 10:41 AM ET Aug 1, 2026 via in-file stamp (phase) in selcal-cofold-census.json. MONEY IS MOVING AND NOTHING IS WATCHING IT. The lane's own supervisor cannot report this \u2014 when it stalls, the only thing that would notice is the thing that stopped, which is why this check is keyed on the ACCOUNT. Check selectivity-control-vast.yml for a run that is `in_progress` but producing no ticks. \u26a0 THIS MODULE HAS NOT ACTED AND WILL NOT: it never destroys, stops or rents. Only the control plane may end a rental (`vast_idle_guard.py`), and only on a measured absence of WRITES \u2014 never on GPU idleness."
   },
   {
    "lane": "protfep-bench",
