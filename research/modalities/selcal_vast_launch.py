@@ -926,17 +926,35 @@ def mode_stage_test(bucket=None, cofold_prefix=None):
 # =============================================================================================================
 # renting MD legs
 # =============================================================================================================
-def _live_labels(key=None):
+def _live_labels_checked(key=None):
+    """(READABLE, live-by-label, mine) — the same read as `_live_labels`, plus whether it succeeded.
+
+    ★★ AN ABSENT READING IS NOT A READING OF ABSENCE (CLAUDE.md §4). `_live_labels` returns an empty list
+    both when the account genuinely holds no host AND when the control plane did not answer, and those two
+    are opposite instructions: one says "there is nothing to supervise, stop", the other says "you are blind,
+    keep watching". A caller that cannot tell them apart will eventually act on the wrong one — and in
+    `mode_cofold_watch` that meant a single Vast API blip could end supervision of a host that was still
+    billing, silently, down a path that does not re-arm.
+
+    Callers that only ever SKIP work on a live host (the launchers) are unharmed by the conflation and keep
+    using the 2-tuple; only the supervision loop needs the third value."""
     try:
         live = _vast_request("GET", "/instances/", key or os.environ.get("VAST_API_KEY"),
                              params={"owner": "me"}).get("instances", [])
     except Exception as e:  # noqa: BLE001
-        print("[selcal] WARN could not list live instances (%s); not skipping any" % e, flush=True)
-        return {}, []
+        print("[selcal] WARN could not list live instances (%s); not skipping any. This is UNREADABLE, "
+              "not empty — no caller may read it as 'nothing is billing'." % e, flush=True)
+        return False, {}, []
     alive = ("running", "loading", "created", "scheduling", "starting")
-    return ({i.get("label"): i for i in live
+    return (True,
+            {i.get("label"): i for i in live
              if i.get("label") and (i.get("actual_status") or "") in alive},
             [i for i in live if str(i.get("label") or "").startswith(SP.LABEL_PREFIX)])
+
+
+def _live_labels(key=None):
+    _readable, live, mine = _live_labels_checked(key)
+    return live, mine
 
 
 def _done_units(s3, bucket):
@@ -1406,8 +1424,15 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
     s3 = boto3.client("s3")
     minutes = float(minutes or os.environ.get("WATCH_MINUTES") or 55)
     interval = float(os.environ.get("SELCAL_WATCH_INTERVAL_S", "180"))
-    t_end = time.time() + minutes * 60
-    prev_objs, stalls = None, 0
+    t_start = time.time()
+    t_end = t_start + minutes * 60
+    # ★★ A WATCH MAY NOT DECLARE "NO HOST" ON ITS FIRST LOOK. `mode_cofold` self-dispatches this watch the
+    # moment it has submitted, and a dispatched run takes tens of seconds to reach python — but a Vast
+    # instance is not necessarily LISTED the instant `submit` returns either. So the first ticks race the
+    # rental, and a watch that exits on tick 1 hands a host that is about to appear to nobody. Two readable
+    # observations AND a grace window: neither alone is evidence.
+    grace_s = float(os.environ.get("SELCAL_WATCH_GRACE_S", "300"))
+    prev_objs, stalls, no_host_strikes = None, 0, 0
     while time.time() < t_end:
         cen = _cofold_census(s3, bucket, prefix)
         try:
@@ -1424,7 +1449,7 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
         # says so per host instead of per panel. It runs BEFORE `mine` is read so the loop's own liveness
         # test sees the post-reap board rather than counting a box it has just destroyed.
         mode_reap(bucket, cofold_prefix=prefix)
-        _live, mine = _live_labels()
+        readable, _live, mine = _live_labels_checked()
         age_min = (round((time.time() - newest.timestamp()) / 60.0, 1) if newest else None)
         print("[selcal-cofold-watch] %s | models %s | %d S3 object(s), newest %s min old | hosts %s"
               % (time.strftime("%H:%M:%SZ", time.gmtime()), cen["n_models_per_arm"], len(objs), age_min,
@@ -1452,14 +1477,51 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
         if cen["complete"]:
             print("[selcal-cofold-watch] ✅ every (arm, seed) has a co-fold — reaping the hosts.", flush=True)
             mode_reap(bucket, stop_all=True, cofold_prefix=prefix)
+            # ⛔ AND VERIFY THE REAP BEFORE EXITING. "I asked the control plane to destroy them" is not
+            # "they are destroyed", and this is the one exit path taken on the happy day — so a reap that
+            # half-worked would leave a host billing at the exact moment supervision stops. Same rule as
+            # everywhere else: check the thing only the real outcome can produce.
+            left_readable, _l, left = _live_labels_checked()
+            if left:
+                print("[selcal-cofold-watch] ⚠ the panel is complete but %d host(s) survived the reap — "
+                      "re-arming rather than exiting on top of a billing box." % len(left), flush=True)
+                if not self_dispatch("cofold_watch", {"watch_minutes": str(int(minutes))}):
+                    print("::error title=SELCAL SUPERVISION NOT RE-ARMED::the panel is complete, %d host(s) "
+                          "survived the reap, and this watch could not dispatch its successor. Dispatch "
+                          "`stop` by hand." % len(left), flush=True)
+            elif not left_readable:
+                print("[selcal-cofold-watch] ⚠ the reap ran but the control plane did not answer, so whether "
+                      "any host survived is UNKNOWN — re-arming, because an unreadable board is not an empty "
+                      "one (CLAUDE.md §4).", flush=True)
+                self_dispatch("cofold_watch", {"watch_minutes": str(int(minutes))})
             # ADVANCE THE LADDER: `stage_test` is $0 and rents nothing, and it is the rung that catches a
             # staging fault for free before any MD host is bought.
             self_dispatch("stage_test")
             return 0
-        if not mine:
-            print("[selcal-cofold-watch] ⛔ no co-fold host is alive and the set is incomplete — the lane "
-                  "needs a re-launch. Exiting so this cannot read as a finished watch.", flush=True)
-            return 1
+        # ★★ THE PATH THAT COST THE 2026-08-01 SUPERVISION GAP ITS DIAGNOSIS. It used to read `if not mine:
+        # return 1` — an immediate, unconditional exit with NO re-arm, three lines below a docstring saying
+        # this function "re-arms itself". Both were true of DIFFERENT paths, which is why reading the
+        # docstring instead of the code produced a wrong story. Two independent defects lived here:
+        #   (a) `mine` is empty when the API FAILS as well as when no host exists (§4), so one Vast blip
+        #       ended supervision of a host that was still billing;
+        #   (b) it fired on a single observation, so it also raced `mode_cofold`'s own rental.
+        # Now: only a READABLE, REPEATED, post-grace absence counts, and the exit still says the lane needs a
+        # re-launch — but `supervisor_resurrect.py` is what makes that recoverable without an agent, because
+        # nothing INSIDE a loop can be responsible for the case where the loop is gone.
+        if not mine and readable and (time.time() - t_start) > grace_s:
+            no_host_strikes += 1
+            if no_host_strikes >= 2:
+                print("[selcal-cofold-watch] ⛔ no co-fold host is alive on two consecutive READABLE checks "
+                      "and the set is incomplete — the lane needs a re-launch. Exiting so this cannot read "
+                      "as a finished watch. Nothing is billing, so nothing is left unwatched.", flush=True)
+                return 1
+            print("[selcal-cofold-watch] no host on this check — one strike, not a verdict. A single "
+                  "observation is not evidence a fleet is gone.", flush=True)
+        elif not mine and not readable:
+            print("[selcal-cofold-watch] ⚠ the control plane did not answer this tick, so 'no host' is "
+                  "UNREADABLE, not empty — continuing to watch rather than exiting blind.", flush=True)
+        else:
+            no_host_strikes = 0
         # THE WRITE SIGNAL is what a stall verdict rests on, not gpu_util. Two consecutive ticks with no new
         # object AND nothing newer than the interval is a real absence of work.
         stalls = stalls + 1 if (prev_objs is not None and len(objs) == prev_objs
@@ -1471,8 +1533,20 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
                   % age_min, flush=True)
         time.sleep(interval)
     # ⛔ A WATCH THAT SIMPLY EXITS TURNS A SUPERVISED FLEET INTO AN UNSUPERVISED ONE. Re-arm.
-    _live, mine = _live_labels()
-    if mine:
+    # ⚠ AND AN UNREADABLE BOARD RE-ARMS TOO. `_live_labels` alone cannot tell "no host" from "no answer", so
+    # the window-elapsed exit had the same §4 hole as the early one: an API blip in this one call would end
+    # the chain permanently while a host billed. Re-arming costs a $0 run that exits in ~30 s if there is
+    # genuinely nothing to watch; not re-arming costs an unwatched meter.
+    readable, _live, mine = _live_labels_checked()
+    if not readable:
+        print("[selcal-cofold-watch] ⚠ window elapsed and the control plane did not answer — re-arming, "
+              "because an unreadable board is not an empty one.", flush=True)
+        if not self_dispatch("cofold_watch", {"watch_minutes": str(int(minutes))}):
+            print("::error title=SELCAL SUPERVISION NOT RE-ARMED::the window elapsed, the host board was "
+                  "unreadable, and this watch could not dispatch its successor. Dispatch `cofold_watch` "
+                  "(or `stop`) by hand.", flush=True)
+            return 1
+    elif mine:
         print("[selcal-cofold-watch] window elapsed with %d host(s) still billing — re-arming supervision "
               "rather than leaving them unwatched." % len(mine), flush=True)
         if not self_dispatch("cofold_watch", {"watch_minutes": str(int(minutes))}):

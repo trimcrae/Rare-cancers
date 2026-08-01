@@ -692,3 +692,114 @@ def test_the_supervisor_re_arms_rather_than_leaving_hosts_unwatched():
     assert "SELCAL SUPERVISION NOT RE-ARMED" in body, \
         "a failed re-arm must be LOUD — a silent one is the unattended-rental leak with extra steps"
     assert 'self_dispatch("stage_test")' in body, "on completion the ladder must advance to the $0 rung"
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ THE WATCH'S EXIT PATHS, EXECUTED — not read (2026-08-01)
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# The test directly above asserts the re-arm exists IN THE SOURCE, and it passed all day while a billing host
+# went unwatched — because `self_dispatch("cofold_watch"` really was in the text, on the window-elapsed path,
+# while a DIFFERENT path returned 1 without it. A source-text assertion cannot tell two paths apart, and
+# believing it is the same mistake as believing the docstring (CLAUDE.md §4: a populated field is not a
+# measured one; here, a present string is not an executed branch). So these RUN the loop.
+def _watch_env(monkeypatch, *, complete, hosts, readable=True, ticks=1):
+    """Drive `mode_cofold_watch` for `ticks` iterations against a scripted control plane. Returns the log."""
+    import types
+    calls = {"dispatch": [], "reap": [], "log": []}
+    seen = {"n": 0}
+
+    class _S3:
+        def list_objects_v2(self, **_kw):
+            return {"Contents": []}
+    monkeypatch.setitem(sys.modules, "boto3", types.SimpleNamespace(client=lambda _n: _S3()))
+    monkeypatch.setattr(L, "_cofold_census",
+                        lambda *_a, **_k: {"complete": complete, "n_models_per_arm": {}, "per_arm": {}})
+    monkeypatch.setattr(L, "mode_reap", lambda *a, **k: calls["reap"].append(k) or 0)
+    monkeypatch.setattr(L, "_write", lambda *a, **k: None)
+    monkeypatch.setattr(L, "_tick_publish", lambda *a, **k: True)
+    monkeypatch.setattr(L, "self_dispatch", lambda m, i=None, **k: calls["dispatch"].append(m) or True)
+    monkeypatch.setattr(L, "rental_uptime_s", lambda _i: 60.0)
+
+    def _checked(_key=None):
+        seen["n"] += 1
+        h = hosts(seen["n"]) if callable(hosts) else hosts
+        r = readable(seen["n"]) if callable(readable) else readable
+        return r, {}, list(h)
+    monkeypatch.setattr(L, "_live_labels_checked", _checked)
+    monkeypatch.setattr(L.time, "sleep", lambda _s: None)
+    real_print = print
+    monkeypatch.setattr("builtins.print", lambda *a, **k: calls["log"].append(" ".join(str(x) for x in a)))
+    try:
+        rc = L.mode_cofold_watch(bucket="b", minutes=ticks * 0.05, cofold_prefix="p")
+    finally:
+        monkeypatch.setattr("builtins.print", real_print)
+    calls["rc"] = rc
+    return calls
+
+
+def test_control_an_UNREADABLE_host_board_never_ends_a_watch(monkeypatch):
+    """⛔ THE §4 BUG. `mine` is empty when the API FAILS as well as when nothing is billing. The old code
+    exited — with no re-arm — on the first empty list, so ONE Vast blip retired supervision of a host that
+    was still on the meter. An absent reading is not a reading of absence."""
+    monkeypatch.setenv("SELCAL_WATCH_GRACE_S", "0")
+    c = _watch_env(monkeypatch, complete=False, hosts=[], readable=False, ticks=3)
+    assert not any("no co-fold host is alive on two consecutive" in l for l in c["log"])
+    assert any("UNREADABLE, not empty" in l for l in c["log"])
+    # and when the window ends blind, it re-arms rather than exiting on a board it could not read
+    assert "cofold_watch" in c["dispatch"]
+
+
+def test_control_a_single_no_host_reading_is_a_strike_not_a_verdict(monkeypatch):
+    """The race the brief named: `mode_cofold` dispatches this watch the moment it submits, so the first
+    looks can legitimately precede the instance appearing. One observation must not end supervision."""
+    monkeypatch.setenv("SELCAL_WATCH_GRACE_S", "0")
+    c = _watch_env(monkeypatch, complete=False, hosts=lambda n: [] if n == 1 else [{"id": 1}], ticks=3)
+    assert any("one strike, not a verdict" in l for l in c["log"])
+    assert c["rc"] == 0  # never took the early exit
+
+
+def test_control_a_repeated_readable_absence_does_end_the_watch(monkeypatch):
+    """The guard must still FIRE when it should — a watch that can never exit is its own bug, and with no
+    host there is nothing left unwatched."""
+    monkeypatch.setenv("SELCAL_WATCH_GRACE_S", "0")
+    c = _watch_env(monkeypatch, complete=False, hosts=[], readable=True, ticks=4)
+    assert c["rc"] == 1
+    assert any("two consecutive READABLE checks" in l for l in c["log"])
+
+
+def test_control_the_grace_window_covers_the_rental_race(monkeypatch):
+    """Inside the grace window a missing host is never even a strike, however many ticks pass."""
+    monkeypatch.setenv("SELCAL_WATCH_GRACE_S", "9999")
+    c = _watch_env(monkeypatch, complete=False, hosts=[], readable=True, ticks=4)
+    assert c["rc"] == 0 and not any("two consecutive READABLE" in l for l in c["log"])
+
+
+def test_control_completion_with_a_SURVIVING_host_re_arms(monkeypatch):
+    """The happy path is the dangerous one: it is taken on every successful panel, and it exits. If the
+    stop_all reap did not actually destroy the box, supervision would end on top of a billing host."""
+    c = _watch_env(monkeypatch, complete=True, hosts=[{"id": 46524315}], ticks=1)
+    assert c["rc"] == 0
+    assert "cofold_watch" in c["dispatch"], "a surviving host must keep a supervisor"
+    assert "stage_test" in c["dispatch"]
+
+
+def test_control_completion_with_a_CLEAN_reap_does_not_re_arm(monkeypatch):
+    """...and the negative control for it: when the hosts really are gone, a second watch is pure noise and
+    a duplicate supervisor is its own hazard."""
+    c = _watch_env(monkeypatch, complete=True, hosts=[], ticks=1)
+    assert c["rc"] == 0
+    assert c["dispatch"] == ["stage_test"], "nothing is billing — exactly one $0 rung should be armed"
+
+
+def test_live_labels_reports_readability_without_changing_its_callers(monkeypatch):
+    """The 2-tuple spelling stays for the launchers (which only ever SKIP on a live host and are unharmed by
+    the conflation); only the supervision loop needs the third value."""
+    monkeypatch.setattr(L, "_vast_request", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
+    ok, live, mine = L._live_labels_checked("k")
+    assert ok is False and live == {} and mine == []
+    assert L._live_labels("k") == ({}, [])
+    monkeypatch.setattr(L, "_vast_request",
+                        lambda *a, **k: {"instances": [{"label": SP.LABEL_PREFIX + "x",
+                                                        "actual_status": "running"}]})
+    ok, live, mine = L._live_labels_checked("k")
+    assert ok is True and len(mine) == 1
