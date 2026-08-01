@@ -216,7 +216,17 @@ ACCOUNT_LANES: list[dict] = [
         "label": "Step 1 congeneric RBFE fan-out (Vast)",
         "label_prefixes": ("s1f-",),
         "prefix_source": "congeneric_fanout_vast.LABEL_PREFIX",
-        "fragment": "step1-fanout-progress.json",
+        # ★★ THE BOARD FRAGMENT IS THE HEARTBEAT, FOR EVERY LANE (2026-08-01). This keyed on
+        # step1-fanout-progress.json (written only by the autoscale tick), which stopped being this lane's heartbeat when the in-flight board
+        # became universal — so the alarm graded a file the lane no longer writes on every tick and
+        # declared UNSUPERVISED-BILLING while the lane was reporting normally. Measured that evening:
+        # the alarm's source last moved 6:32/6:39 PM while each lane's board fragment had moved at
+        # 8:43/8:44 PM — the lanes had reported ~2 HOURS more recently than the alarm believed.
+        # `nrv04-retro` was already on its board fragment; the others were not. One rule, one site.
+        # ⚠ AND IT UPGRADES THE STAMP. A board fragment carries an in-file `generated_epoch`, which this
+        # module already prefers over git commit time — its own words: "WEAKER: a refactor touching the
+        # file moves this without any tick having run, so it can only make the lane look fresher".
+        "fragment": "inflight-board.d/step1-fanout.json",
         "time_keys": ("_generated_utc",),
         "time_mode": "iso",
         "tick_workflow": "step1-fanout-autoscale.yml",
@@ -232,7 +242,17 @@ ACCOUNT_LANES: list[dict] = [
         "label": "Ternary FEP lanes — valB reps, closure triangle, rung 5a-KS (Vast)",
         "label_prefixes": ("tvast",),
         "prefix_source": "ternary_vast_launch.LABEL_PREFIX",
-        "fragment": "ternary-vast-watch.json",
+        # ★★ THE BOARD FRAGMENT IS THE HEARTBEAT, FOR EVERY LANE (2026-08-01). This keyed on
+        # ternary-vast-watch.json (a watch LIST, rewritten only when an entry is retired), which stopped being this lane's heartbeat when the in-flight board
+        # became universal — so the alarm graded a file the lane no longer writes on every tick and
+        # declared UNSUPERVISED-BILLING while the lane was reporting normally. Measured that evening:
+        # the alarm's source last moved 6:32/6:39 PM while each lane's board fragment had moved at
+        # 8:43/8:44 PM — the lanes had reported ~2 HOURS more recently than the alarm believed.
+        # `nrv04-retro` was already on its board fragment; the others were not. One rule, one site.
+        # ⚠ AND IT UPGRADES THE STAMP. A board fragment carries an in-file `generated_epoch`, which this
+        # module already prefers over git commit time — its own words: "WEAKER: a refactor touching the
+        # file moves this without any tick having run, so it can only make the lane look fresher".
+        "fragment": "inflight-board.d/ternary.json",
         "time_keys": ("_generated_utc", "utc", "generated_utc"),
         "time_mode": "iso",
         "tick_workflow": "gpu-ternary-fep-vast.yml",
@@ -280,7 +300,17 @@ ACCOUNT_LANES: list[dict] = [
         "label": "Selectivity control — SMARCA2/4 co-fold panel (Vast)",
         "label_prefixes": ("selcal-",),
         "prefix_source": "selcal_panel.LABEL_PREFIX",
-        "fragment": "selcal-cofold-census.json",
+        # ★★ THE BOARD FRAGMENT IS THE HEARTBEAT, FOR EVERY LANE (2026-08-01). This keyed on
+        # selcal-cofold-census.json (the CO-FOLD phase's census, frozen once that phase finished), which stopped being this lane's heartbeat when the in-flight board
+        # became universal — so the alarm graded a file the lane no longer writes on every tick and
+        # declared UNSUPERVISED-BILLING while the lane was reporting normally. Measured that evening:
+        # the alarm's source last moved 6:32/6:39 PM while each lane's board fragment had moved at
+        # 8:43/8:44 PM — the lanes had reported ~2 HOURS more recently than the alarm believed.
+        # `nrv04-retro` was already on its board fragment; the others were not. One rule, one site.
+        # ⚠ AND IT UPGRADES THE STAMP. A board fragment carries an in-file `generated_epoch`, which this
+        # module already prefers over git commit time — its own words: "WEAKER: a refactor touching the
+        # file moves this without any tick having run, so it can only make the lane look fresher".
+        "fragment": "inflight-board.d/selcal-cofold.json",
         "time_keys": ("phase",),
         "time_mode": "iso_in_string",
         "tick_workflow": "selectivity-control-vast.yml",

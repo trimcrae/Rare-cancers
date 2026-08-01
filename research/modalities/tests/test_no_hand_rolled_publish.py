@@ -247,3 +247,49 @@ def test_the_converted_lanes_stay_converted():
                     ("selectivity-control-vast.yml", "gpu")):
         code = "\n".join(c for j, _n, c in _run_steps(WORKFLOWS / wf) if j == job)
         assert "git pull" not in code, f"{wf}:{job} has regressed to `git pull` in a publishing job"
+
+
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE SAME GENERATOR, ONE LEVEL UP: TWO REGISTRIES THAT NAME THE SAME FACT
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+def test_the_orphan_alarm_grades_each_lane_by_its_BOARD_FRAGMENT():
+    """★★ A LANE'S HEARTBEAT HAS ONE HOME, AND BOTH REGISTRIES MUST NAME IT (measured 2026-08-01, 4:37 PM ET).
+
+    `account_orphan_alarm.ACCOUNT_LANES` says which artifact proves a lane reported; `inflight_board.LANES`
+    says where that lane publishes. They drifted, and the alarm declared **UNSUPERVISED-BILLING** on two
+    lanes that were reporting perfectly well:
+
+        lane           alarm's source                 last moved   the lane's REAL heartbeat        moved
+        ternary-vast   ternary-vast-watch.json        6:32 PM      inflight-board.d/ternary.json    8:43 PM
+        selcal-cofold  selcal-cofold-census.json      6:39 PM      inflight-board.d/selcal-…json    8:44 PM
+
+    Both had reported ~2 HOURS more recently than the alarm believed — because a watch LIST is rewritten
+    only when an entry is retired, and a co-fold census freezes when that phase finishes. `nrv04-retro` was
+    ALREADY keyed on its board fragment; the other three were not. One rule, applied at one site — the same
+    generator as every other bug fixed that day.
+
+    ⚠ AND A FALSE `UNSUPERVISED-BILLING` IS NOT A HARMLESS ALARM. It is the loudest verdict this module has,
+    reserved for money moving with nothing watching it. Firing it on healthy lanes is how the real one stops
+    being believed — the failure mode this whole session has been about.
+    """
+    import sys
+    sys.path.insert(0, str(MODALITIES))
+    import account_orphan_alarm as A
+    import inflight_board as ifb
+
+    #: alarm lane id -> board lane id, where the two registries use different names for one lane.
+    ALIAS = {"ternary-vast": ifb.TERNARY}
+    board_ids = {l[0] for l in ifb.LANES}
+    for lane in A.ACCOUNT_LANES:
+        frag, lid = lane.get("fragment"), lane.get("lane")
+        if frag is None:
+            continue                       # a lane with no artifact at all is a separate, declared state
+        want_id = ALIAS.get(lid, lid)
+        if want_id not in board_ids:
+            continue                       # not a board lane; nothing to reconcile
+        assert frag == f"{ifb.FRAGMENT_DIR}/{want_id}.json", (
+            f"the alarm grades lane {lid!r} by {frag!r}, but that lane's heartbeat is its board fragment "
+            f"`{ifb.FRAGMENT_DIR}/{want_id}.json` — the artifact its tick writes EVERY time, carrying an "
+            f"in-file `generated_epoch` this module already prefers over git commit time. Grading anything "
+            f"else makes the lane look silent when it is not, and UNSUPERVISED-BILLING is the loudest "
+            f"verdict here.")
