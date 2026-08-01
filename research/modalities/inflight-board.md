@@ -2,13 +2,13 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 9:14 AM ET Sat Aug 1, 2026 by `task=collect`.
+Generated 9:22 AM ET Sat Aug 1, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r0 —                      —  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
-5aks_d0_to_d ternary nr4a1 r1 4:43 PM            71.1%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 25.9 s/iter · realised $0.00802/ns (1.54x expected)
+5aks_d0_to_d ternary nr4a1 r0 12:58 PM           90.0%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 36.0 s/iter
+5aks_d0_to_d ternary nr4a1 r1 4:51 PM            71.1%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 25.9 s/iter · realised $0.00802/ns (1.54x expected)
 ---- END TVAST-BOARD ----
 ```
