@@ -603,11 +603,39 @@ def _cofold_census(s3, bucket, prefix):
 
 
 def mode_cofold_collect(bucket=None, cofold_prefix=None):
+    """A PROGRESS check on the co-fold host, not a liveness ping (CLAUDE.md §4).
+
+    An unproven pipeline is checked every 3-6 min and every check must show that work MOVED: which phase the
+    host is in, whether its GPU is busy, and how many predictions have actually landed. "An instance is up" is
+    not evidence of work, and a census alone cannot tell a host that is mid-prediction from one that died
+    twenty minutes ago."""
     import boto3
     bucket = bucket or BUCKET
     prefix = (cofold_prefix or SP.COFOLD_PREFIX).strip("/")
     s3 = boto3.client("s3")
+    try:
+        ph = s3.get_object(Bucket=bucket, Key="%s/phase.txt" % prefix)["Body"].read().decode(
+            "utf-8", "replace").strip()
+    except Exception as e:  # noqa: BLE001 — an ABSENT reading, reported as one
+        ph = "(unreadable: %s)" % type(e).__name__
+    try:
+        raw = s3.get_object(Bucket=bucket, Key="%s/run.log" % prefix)["Body"].read()
+        tail = raw.decode("utf-8", "replace").splitlines()[-25:]
+    except Exception as e:  # noqa: BLE001
+        tail = ["(run.log unreadable: %s — an absent reading is not a reading of absence)" % type(e).__name__]
+    _live, mine = _live_labels()
+    print("[selcal-cofold-progress] phase=%r" % ph, flush=True)
+    for i in mine:
+        print("[selcal-cofold-progress] instance %s status=%s gpu_util=%s dph=%s uptime=%.1f min"
+              % (i.get("id"), i.get("actual_status"), i.get("gpu_util"), i.get("dph_total"),
+                 float(i.get("duration") or 0) / 60.0), flush=True)
+    print("[selcal-cofold-progress] run.log tail:\n  " + "\n  ".join(tail), flush=True)
     cen = _cofold_census(s3, bucket, prefix)
+    cen["phase"] = ph
+    cen["log_tail"] = tail
+    cen["instances"] = [{"id": i.get("id"), "status": i.get("actual_status"), "gpu_util": i.get("gpu_util"),
+                         "dph_total": i.get("dph_total"), "uptime_min": round(float(i.get("duration") or 0)/60, 1)}
+                        for i in mine]
     cen.update({"_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
                 "utc": _utcnow(), "bucket": bucket})
     _write(COFOLD_CENSUS, cen)
