@@ -462,8 +462,11 @@ def checkpoint_marks(rows, legs=SCIENCE_LEGS):
     return out
 
 
-def interval_rates(marks_for_leg):
+def interval_rates(marks_for_leg, with_phase=False):
     """[(from_iter, to_iter, seconds, s_per_iter)] between CONSECUTIVE commits of one phase. PURE.
+
+    `with_phase=True` appends the phase, because WHICH PHASE a rate was measured in is part of the rate
+    (see `_PHASE_CROSS_NOTE`) and a caller that loses it can publish a warmup number as a production one.
 
     ⚠ Never across a phase boundary: warmup→production restarts the iteration counter, so a pair spanning
     it would divide a real duration by a negative or meaningless iteration delta. Same reason
@@ -481,9 +484,10 @@ def interval_rates(marks_for_leg):
             secs = (t1 - t0).total_seconds()
             if secs <= 0:
                 continue
-            out.append((i0, i1, secs, secs / (i1 - i0)))
-    out.sort()
-    return out
+            out.append((i0, i1, secs, secs / (i1 - i0), phase))
+    # PRODUCTION after WARMUP whatever the raw integers say — the counter restarts at the boundary.
+    out.sort(key=lambda t: ({"warmup": 0, "production": 1}.get(t[4], -1), t[0]))
+    return out if with_phase else [t[:4] for t in out]
 
 
 def quoted_rate(marks_for_leg, window=RATE_WINDOW, min_intervals=MIN_RATE_INTERVALS):
@@ -493,7 +497,7 @@ def quoted_rate(marks_for_leg, window=RATE_WINDOW, min_intervals=MIN_RATE_INTERV
              "why": str}. `spread` is max/min over the window — reported, never used to suppress the
     number, because a reader who can see the spread can grade the ETA and a hidden refusal teaches nothing.
     """
-    iv = interval_rates(marks_for_leg)
+    iv = interval_rates(marks_for_leg, with_phase=True)
     n = len(iv)
     if n < min_intervals:
         return {"s_per_iter": None, "n_intervals": n, "n_used": 0, "spread": None,
@@ -501,12 +505,31 @@ def quoted_rate(marks_for_leg, window=RATE_WINDOW, min_intervals=MIN_RATE_INTERV
                         f"{min_intervals} (gcp_fanout_rep.MIN_RATE_INTERVALS). "
                         f"The next commit moves it toward the threshold.")}
     used = iv[-int(window):] if window else iv
-    rates = [r for *_x, r in used]
+    rates = [t[3] for t in used]
     s = sum(rates) / len(rates)
-    return {"s_per_iter": s, "n_intervals": n, "n_used": len(used),
+    # ⚠ WHICH PHASE THE RATE WAS MEASURED IN IS PART OF THE RATE. See `_PHASE_CROSS_NOTE`. The MOST RECENT
+    # interval's phase is the one quoted: a window that straddles the boundary is dominated by the phase the
+    # leg is actually in now, and that is the one the projection is about to be applied from.
+    phase = used[-1][4]
+    return {"s_per_iter": s, "n_intervals": n, "n_used": len(used), "phase": phase,
             "spread": (max(rates) / min(rates)) if min(rates) > 0 else None,
-            "why": (f"mean of the trailing {len(used)} of {n} completed commit intervals "
+            "why": (f"mean of the trailing {len(used)} of {n} completed {phase or '?'} commit intervals "
                     f"(gcp_fanout_rep.RATE_WINDOW)")}
+
+
+#: ★★ A WARMUP RATE IS NOT A PRODUCTION RATE, AND THIS REPO HAS ALREADY PAID FOR THAT ONE.
+#: pricing.md's 2026-07-26 correction: an L4 card ratio was published off **33.91 s/iter measured during
+#: WARMUP** and the same leg's consecutive PRODUCTION iterations measured **56.5 s/iter** — a 1.67x
+#: understatement, which propagated into a per-leg dollar figure before it was caught. Production adds the
+#: online MBAR analysis and the full trajectory write that warmup does not do, so the direction is known
+#: even where the magnitude is not.
+#: So an ETA whose rate came from one phase and whose remaining work is mostly the other is a LOWER BOUND
+#: and must say so in the cell. It is not suppressed — a lower bound is genuinely useful and "unknown" is
+#: not — but it is never presented as a symmetric estimate.
+_PHASE_CROSS_NOTE = ("⚠ LOWER BOUND: the rate was measured in {measured} and the work left is mostly "
+                     "{remaining}. pricing.md's 2026-07-26 correction measured an L4 warmup at 33.91 "
+                     "s/iter against 56.5 s/iter in production on the same leg — 1.67x — so this ETA can "
+                     "only move later, never earlier. The first {remaining} commit intervals replace it.")
 
 
 def leg_stage(marks_for_leg):
@@ -538,7 +561,14 @@ def unit_stages(targets):
             ("solvent-warmup", w), ("solvent-production", p))
 
 
-def unit_progress(marks, targets, legs_done=(), leg_rates=None):
+def _phase_cross(rate_phase, remaining_phase):
+    """The lower-bound caveat, or "" when the rate and the remaining work are the same phase. PURE."""
+    if not rate_phase or not remaining_phase or rate_phase == remaining_phase:
+        return ""
+    return " " + _PHASE_CROSS_NOTE.format(measured=rate_phase, remaining=remaining_phase)
+
+
+def unit_progress(marks, targets, legs_done=(), leg_rates=None, rate_phases=None):
     """% done and ETA for one unit, from the DURABLE census alone. PURE.
 
     Returns a dict; every refusal names itself rather than rendering as an absent number:
@@ -555,6 +585,7 @@ def unit_progress(marks, targets, legs_done=(), leg_rates=None):
     stages = unit_stages(targets)
     legs_done = tuple(legs_done or ())
     leg_rates = dict(leg_rates or {})
+    rate_phases = dict(rate_phases or {})
     if not stages:
         return {"pct": None, "pct_of": None, "eta_s": None, "eta_scope": None, "stage": None,
                 "iteration": None,
@@ -597,6 +628,10 @@ def unit_progress(marks, targets, legs_done=(), leg_rates=None):
                            f"production {p}))",
                 "eta_why": f"no measured rate for the {cur_leg} leg yet"}
     rem_leg = sequential_remaining((("warmup", w), ("production", p)), phase, it or 0)
+    # Which phase the REMAINING work of this leg is mostly in. A leg that has finished warmup has all of
+    # its production ahead of it, so a warmup-measured rate is being projected across the boundary.
+    rem_phase = "production" if (phase == "production" or (phase == "warmup" and (it or 0) >= w)) else phase
+    cross = _phase_cross(rate_phases.get(cur_leg), rem_phase)
     others = [lg for lg in SCIENCE_LEGS if lg not in legs_done and lg != cur_leg]
     if others and not all(leg_rates.get(lg) for lg in others):
         return {"pct": pct, "pct_of": None, "eta_s": rem_leg * rate, "eta_scope": f"{cur_leg} leg",
@@ -605,13 +640,14 @@ def unit_progress(marks, targets, legs_done=(), leg_rates=None):
                            f"production {p}))",
                 "eta_why": (f"scoped to the {cur_leg} leg: {', '.join(others)} has no measured L4 rate of "
                             f"its own and the two legs solvate different systems, so projecting the unit "
-                            f"off this rate would be a fabricated number")}
+                            f"off this rate would be a fabricated number.{cross}")}
     eta = rem_leg * rate + sum((w + p) * leg_rates[lg] for lg in others)
     return {"pct": pct, "pct_of": None, "eta_s": eta, "eta_scope": "unit",
             "stage": stage_key, "iteration": it,
             "pct_why": f"{int(banked)} of {total} committed iterations (unit = 2 legs x (warmup {w} + "
                        f"production {p}))",
-            "eta_why": f"every remaining leg has its own measured rate; {int(rem_unit)} iterations left"}
+            "eta_why": (f"every remaining leg has its own measured rate; {int(rem_unit)} iterations "
+                        f"left.{cross}")}
 
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -1159,12 +1195,13 @@ def tick(facts, root=None):
         order.append(u["unit_id"])
         marks = checkpoint_marks(parse_ls_long(f.get("ls") or "")) if f.get("ls_readable", True) else None
         targets = parse_targets(f.get("targets_line") or "")
-        rates = {}
+        rates, phases = {}, {}
         for lg in SCIENCE_LEGS:
             q = quoted_rate((marks or {}).get(lg) or [])
             if q["s_per_iter"]:
-                rates[lg] = q["s_per_iter"]
-        prog = unit_progress(marks or {}, targets, legs_done=f.get("legs_done") or (), leg_rates=rates)
+                rates[lg], phases[lg] = q["s_per_iter"], q.get("phase")
+        prog = unit_progress(marks or {}, targets, legs_done=f.get("legs_done") or (), leg_rates=rates,
+                             rate_phases=phases)
         prog["rates"] = {lg: quoted_rate((marks or {}).get(lg) or []) for lg in SCIENCE_LEGS}
         # ★ THE MEASUREMENT IS RECORDED BY THE SAME PASS THAT READS IT. A rate produced only by a
         # hand-dispatched forensic run is a rate that goes stale the moment nobody dispatches one — which
@@ -1300,9 +1337,9 @@ def _census(ls_text, targets_line="", legs_done=()):
     marks = checkpoint_marks(parse_ls_long(ls_text))
     targets = parse_targets(targets_line or "")
     rates = {lg: quoted_rate(marks.get(lg) or []) for lg in SCIENCE_LEGS}
-    prog = unit_progress(marks, targets,
-                         legs_done=legs_done,
-                         leg_rates={lg: r["s_per_iter"] for lg, r in rates.items() if r["s_per_iter"]})
+    prog = unit_progress(marks, targets, legs_done=legs_done,
+                         leg_rates={lg: r["s_per_iter"] for lg, r in rates.items() if r["s_per_iter"]},
+                         rate_phases={lg: r.get("phase") for lg, r in rates.items()})
     return {
         "targets": list(targets) if targets else None,
         "legs": {lg: {"stage": leg_stage(marks.get(lg) or [])[0],

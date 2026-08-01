@@ -244,6 +244,56 @@ error this section exists to prevent.**
 or ladder spend (CLAUDE.md §6), expiring 2026-10-10 — and the L4 list rate is **not** a go-forward cost basis
 ([pricing.md](./pricing.md)). The artifact records hours and iterations and no `$`.
 
+### The one planning consequence, and the measurement that would settle it
+
+The complex leg alone is the wall-clock figure in the table; the **unit** is that leg **plus** the solvent
+leg, and the solvent leg has no measured L4 rate yet. `gcp_fanout_rep.MAX_RUN_S_RUN` is 48 h, fixed at CREATE
+and **unraisable on a running instance** (§3b). So whether one VM can span a whole unit turns entirely on the
+solvent number — which is why `unit_progress` refuses to project the unit off the complex rate and scopes its
+ETA to the leg that has one. **If it does not span, the cost is a boundary, not sampling**: the commit store
+is continuous and the leg is per-leg idempotent, so a resumed unit re-enters at its last committed generation
+and the loss is detection latency. The solvent leg's first three commit intervals close this question, and
+the artifact will carry them the moment they exist.
+
+## 1f. ⚠ THE WARMUP→PRODUCTION TRANSITION KILLED AN L4 LEG — localised, NOT yet mechanised (2026-08-01)
+
+Recorded here because it is a measured property of an L4 run in this project and the next occurrence must not
+start the diagnosis over. `e_zaienne_cmpd19__cw_ms_free_acid` r1, VM `gcp-s1frep-30674349470`
+(us-central1-a, on-demand, created 8:00 PM ET 2026-07-31):
+
+```
+INFO:   Iteration 400/400
+INFO:   Iteration took 38.535s.
+[timing] 20 iters in 700s = 35.0s/iter (1.71 iters/min) at iteration 400/400
+[barrier] commit warmup@400 persisted 541.5 MiB in 4.5s
+[barrier] committed checkpoint at iteration 400/400
+[spot-driver] PRODUCTION created from warmup; run -> 2000
+Traceback (most recent call last):
+  ... multistatesampler._compute_energies -> energy_context_cache.get_context
+  ... states.create_context -> openmm.Context(system, integrator, platform)
+openmm.OpenMMException: No compatible CUDA device is available
+```
+
+**WHAT IS ESTABLISHED.** The warmup phase **completed** (400/400, committed and durable) and the exception
+came **16 s later, at the first CUDA context creation of the production phase**. It is not a device that
+vanished from the host: the same process had done 3 h 53 m of successful CUDA work, its last iteration taking
+38.5 s, and it wrote a 541 MiB checkpoint seconds before. The boot-time probe had passed explicitly
+(`[probe] CUDA CONTEXT OK device= NVIDIA L4`), so the `BOOTSTRAP-FAIL cuda-not-in-leg-container` guard added
+earlier that evening was working and this is a **different** failure from the one it closes.
+
+**WHAT IS NOT ESTABLISHED — and this section will not guess it.** Whether the cause is a driver/ECC/Xid event,
+a context or memory limit reached when the production phase builds a second set of contexts over a
+112,953-atom hybrid system × 12 replicas, or something else. Nothing in the leg's own log discriminates them,
+and the only readings that would — `nvidia-smi -q`, the kernel ring buffer — live on the **host**, which the
+reaper correctly destroyed 96 s later.
+
+**WHAT WILL SETTLE IT, already armed.** `s1f_rep_gcp_startup.sh` now captures a post-mortem (`nvidia-smi -q`,
+`dmesg | grep -iE 'xid|nvrm|nvidia|out of memory'`, memory, container exit codes) to
+`<unit>/postmortem_<leg>.txt` on **any** leg failure, before the VM is reaped. And the resume is the
+controlled reproduction: it restores warmup@400 and re-enters **the same transition within minutes**, so
+"transient" and "systematic" separate on the next attempt at a cost of minutes rather than hours.
+`gcp_fanout_rep.MAX_NOPROGRESS_LAUNCHES` bounds it at three.
+
 ## 1d. Capacity and permissions, measured 2026-07-31 (both cost a run to learn)
 
 - **`gcloud compute project-info describe` returns rc=2 for `gpu-runner@`** — so **`GPUS_ALL_REGIONS` is not

@@ -1236,3 +1236,40 @@ def test_the_documented_section_never_quotes_the_card_probe_as_this_lanes_rate()
     assert "supersedes nothing" in sec or "supersedes the other" in sec
     assert "SEPARATE LEDGER" in sec and "go-forward cost basis" in sec
     assert "**not** a go-forward cost basis" in sec, "the refusal must be stated, not merely referenced"
+
+
+def test_a_warmup_rate_projected_onto_production_is_labelled_a_LOWER_BOUND():
+    """★★ THE ERROR CLASS THIS REPO HAS ALREADY PAID FOR. pricing.md's 2026-07-26 correction: an L4 card
+    ratio was published off 33.91 s/iter measured in WARMUP against 56.5 s/iter in PRODUCTION on the same
+    leg — 1.67x — and it propagated into a per-leg dollar figure before it was caught. Production adds the
+    online MBAR analysis and the trajectory write that warmup does not, so the DIRECTION is known even
+    where the magnitude is not, and an ETA that crosses the boundary can only move later."""
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    q = gfr.quoted_rate(marks["complex"])
+    assert q["phase"] == "warmup", "which phase a rate was measured in IS part of the rate"
+    p = gfr.unit_progress(marks, (400, 2000), leg_rates={"complex": q["s_per_iter"]},
+                          rate_phases={"complex": q["phase"]})
+    assert p["eta_s"] is not None, "the caveat annotates the ETA — it never suppresses it"
+    assert "LOWER BOUND" in p["eta_why"] and "1.67x" in p["eta_why"]
+    assert "only move later, never earlier" in p["eta_why"]
+    # Same phase on both sides -> no caveat, because there is nothing being crossed.
+    same = gfr.unit_progress(
+        gfr.checkpoint_marks(gfr.parse_ls_long(_ls(
+            ("complex", "production", 40, "2026-08-02T00:00:00Z"),
+            ("complex", "production", 80, "2026-08-02T00:20:00Z"),
+            ("complex", "production", 120, "2026-08-02T00:40:00Z"),
+            ("complex", "production", 160, "2026-08-02T01:00:00Z")))),
+        (400, 2000), leg_rates={"complex": 30.0}, rate_phases={"complex": "production"})
+    assert "LOWER BOUND" not in same["eta_why"]
+
+
+def test_interval_rates_never_spans_the_phase_boundary():
+    """warmup→production restarts the iteration counter, so a pair spanning it would divide a real
+    duration by a meaningless iteration delta."""
+    iv = gfr.interval_rates(gfr.checkpoint_marks(gfr.parse_ls_long(_ls(
+        ("complex", "warmup", 380, "2026-08-01T03:38:11Z"),
+        ("complex", "warmup", 400, "2026-08-01T03:50:00Z"),
+        ("complex", "production", 40, "2026-08-01T04:10:00Z"),
+        ("complex", "production", 80, "2026-08-01T04:30:00Z"))))["complex"], with_phase=True)
+    assert [t[4] for t in iv] == ["warmup", "production"], "production sorts last, whatever the integers"
+    assert all(t[1] > t[0] for t in iv)
