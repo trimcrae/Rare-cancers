@@ -20,76 +20,6 @@ import chk_prune_roundtrip as cpr  # noqa: E402
 
 
 # ---------------------------------------------------------------------------------------------
-# the chunk arithmetic IS the mechanism: one iteration per chunk, or an unwritten frame costs bytes
-# ---------------------------------------------------------------------------------------------
-def test_chunking_puts_exactly_one_iteration_per_chunk():
-    ch = cpr._chunk_for((25, 12, 147788, 3), 4)
-    assert ch[0] == 1, "a chunk spanning >1 iteration would materialise frames we are trying to drop"
-
-
-def test_a_chunk_is_kept_under_the_budget_at_the_real_shape():
-    # 1 x 12 x 147788 x 3 x 4 B = 21.3 MiB, over the budget -> the replica axis must be split.
-    ch = cpr._chunk_for((25, 12, 147788, 3), 4, budget_bytes=8 << 20)
-    n = 4
-    for c in ch:
-        n *= c
-    assert n <= (8 << 20), f"chunk {ch} = {n} B exceeds the budget"
-    assert ch[-2:] == (147788, 3), "the trailing (atom, spatial) axes must stay contiguous for read speed"
-
-
-def test_source_chunking_is_preserved_apart_from_the_iteration_axis():
-    ch = cpr._chunk_for((25, 12, 100, 3), 4, src_chunking=(5, 6, 50, 3))
-    assert ch == (1, 6, 50, 3)
-
-
-def test_no_chunk_for_a_scalar():
-    assert cpr._chunk_for((), 4) is None
-
-
-# ---------------------------------------------------------------------------------------------
-# netCDF4 is not uniform across variable kinds — the bug that killed the first run (GH 30674942072)
-# ---------------------------------------------------------------------------------------------
-class _FakeVar:
-    def __init__(self, dtype, chunking=None, filters=None):
-        self.dtype = dtype
-        self._chunking, self._filters = chunking, filters
-
-    def chunking(self):
-        if self._chunking is None:
-            raise RuntimeError("not chunked")
-        return self._chunking
-
-    def filters(self):
-        if self._filters is None:
-            raise RuntimeError("no filters")
-        return self._filters
-
-
-def test_a_VLEN_string_variable_is_recognised_as_one():
-    """openmmtools checkpoints carry a VLEN `str` variable whose `dtype` is the Python TYPE, not a numpy
-    dtype. Treating it as numeric asked netCDF4 for compression and chunking it cannot do, and killed the
-    prune four lines in."""
-    assert cpr._is_vlen(_FakeVar(str))
-    assert not cpr._is_vlen(_FakeVar("f4"))
-
-
-def test_itemsize_survives_a_dtype_that_is_not_a_numpy_dtype():
-    assert cpr._itemsize("f4") == 4
-    assert cpr._itemsize("f8") == 8
-    assert cpr._itemsize(str) >= 1          # must not raise — that was the exact crash
-    assert cpr._itemsize(object(), default=8) == 8
-
-
-def test_chunking_and_filters_report_None_rather_than_raising():
-    """A variable that is neither chunked nor filtered raises rather than returning empty in some netCDF4
-    versions. The prune must survive it: correctness of the copy comes before layout fidelity."""
-    v = _FakeVar("f4")
-    assert cpr._chunking(v) is None
-    assert cpr._filters(v) == {}
-    assert cpr._chunking(_FakeVar("f4", chunking=[1, 2])) == [1, 2]
-
-
-# ---------------------------------------------------------------------------------------------
 # the verdict must be driven by the checks, and must refuse when the harness has no power
 # ---------------------------------------------------------------------------------------------
 def _passing_resume(ci=2, target=8):
@@ -327,19 +257,16 @@ def test_pair_targets_on_an_empty_listing_returns_nothing_rather_than_raising():
 # ---------------------------------------------------------------------------------------------
 # the experiment must not be able to touch a live file
 # ---------------------------------------------------------------------------------------------
-def test_nothing_in_the_module_opens_a_path_for_writing_that_it_did_not_create():
-    """`prune_to_last_frame` and `naive_prune` open the SOURCE read-only. Pinned as source text because the
-    consequence of getting it wrong is corrupting a running leg's reporter, and there is no cheap runtime
-    assertion for 'did not write to the file I was given'."""
+def test_the_controls_never_open_the_SOURCE_for_writing():
+    """`naive_prune` and `empty_prune` deliberately build BROKEN checkpoints. They must build them from a
+    read-only handle on the source, because a control that could corrupt what it is measuring against is
+    worse than no control. (The real prune lives in `chk_prune` and is pinned there.)"""
     src = open(cpr.__file__).read()
-    body = src[src.index("def prune_to_last_frame"):src.index("# PART A")]
-    # every writer (the real prune and both negative controls) opens the SOURCE read-only...
-    n = body.count("def prune_to_last_frame") + body.count("def naive_prune") + body.count("def empty_prune")
-    assert n == 3
-    assert body.count('Dataset(str(src_chk), "r")') == n
-    # ...and only ever opens a DESTINATION for writing.
-    assert body.count('Dataset(str(dst_chk), "w"') == n
-    assert '"a"' not in body and '"r+"' not in body, "the source must never be opened for writing"
+    body = src[src.index("def empty_prune"):src.index("# PART A")]
+    assert body.count("def empty_prune") + body.count("def naive_prune") == 2
+    assert body.count('Dataset(str(src_chk), "r")') == 2
+    assert body.count('Dataset(str(dst_chk), "w"') == 2
+    assert '"a"' not in body and '"r+"' not in body
 
 
 def test_the_module_documents_that_it_rents_nothing():

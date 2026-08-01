@@ -438,11 +438,31 @@ class _BaseCommitStore:
             shutil.copy2(chk_path, snap_chk)
             fsync_file(snap_nc)
             fsync_file(snap_chk)
+            # ★★ KILL THE O(n²), ON THE SNAPSHOT, OPT-IN. The .chk accumulates one full-coordinate frame
+            # per interval and every commit re-uploads all of them, while a resume reads only the LAST —
+            # 1231.1 MiB per commit by the end of a warmup against ~47.6 MiB of frame that is ever read
+            # (`commit-payload-design.md`). Pruning here and not at the reporter is the whole safety
+            # argument: the live files were already copied above, so a bug can only produce a bad UPLOAD,
+            # and `prune_snapshot` validates the pruned bytes before adopting them and silently keeps the
+            # unpruned snapshot otherwise. DEFAULT OFF (`RBFE_PRUNE_CHK`), so legs already in flight are
+            # unaffected by this landing mid-run as a fact about the code, not a promise about sequencing.
+            prune_info = None
+            import chk_prune as _chk_prune   # local: a sibling module, imported where it is used so an
+            if _chk_prune.prune_enabled():   # entry that vendors only part of the tree still imports this
+                prune_info = _chk_prune.prune_snapshot(snap_chk, snap_nc, iteration, checkpoint_interval)
+                fsync_file(snap_chk)
             v = validate_reporter_pair(snap_nc, snap_chk, iteration, checkpoint_interval)
             generation = uuid.uuid4().hex
             _fp, _fp_fields = system_fingerprint()
             manifest = {"schema": 2, "phase": phase, "generation": generation,
                         "system_fingerprint": _fp, "system_fingerprint_fields": _fp_fields, **v}
+            # PROVENANCE FOR THE PRUNE, on the manifest itself. A generation that was pruned and one that
+            # was not are indistinguishable by size alone once the interval changes, and a restore that
+            # cannot say which it is holding cannot diagnose anything about it later.
+            if prune_info is not None:
+                manifest["chk_pruned"] = bool(prune_info.get("pruned"))
+                if prune_info.get("error"):
+                    manifest["chk_prune_error"] = prune_info["error"]
             # ★★ THE COMMIT IS SELF-TIMED, BECAUSE HALVING THE INTERVAL DOUBLES HOW OFTEN IT RUNS
             # (2026-07-31). The warmup interval is being cut 64 -> 32 to halve time-to-first-commit, and that
             # trade is only worth taking if the WRITE is cheap: twice as many checkpoints is twice the pause.

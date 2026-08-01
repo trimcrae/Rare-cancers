@@ -1,8 +1,11 @@
-# Killing the O(n²) commit — design, for review before it is built
+# Killing the O(n²) commit — measured, answered, and wired behind a switch
 
-**Status: DESIGN ONLY. Nothing in the commit path has been changed.** trimcrae asked to see the design first
-if the file format fought the obvious approach. It does, but not in the way that matters — the measurement
-below says a byte-level incremental upload is neither possible nor *necessary*.
+**Status: RUNG 1 ANSWERED — `PRUNING IS SAFE` (GH run 30676071569, $0, no rental). The prune is now in
+`commit()` behind `RBFE_PRUNE_CHK`, DEFAULT OFF.** Nothing prunes until a dispatch asks, so the four legs
+in flight when this landed are unaffected as a property of the code rather than a promise about sequencing.
+The experiment is [`chk_prune_roundtrip.py`](./chk_prune_roundtrip.py); the prune itself has one home in
+[`chk_prune.py`](./chk_prune.py), which the commit path and the experiment both import — so what was proven
+and what runs cannot drift apart.
 
 ---
 
@@ -81,17 +84,26 @@ commit(phase, iteration, nc, chk, interval):
 → ~1.2 GiB. At interval 32 it becomes ~2.4 GiB total — *less than a quarter of what interval 64 costs today*,
 which is what would make the halving free.
 
-### What has to be proven before it goes near a billing leg
+### What had to be proven before it went near a billing leg — all four, measured
 
-1. **openmmtools accepts a single-frame `.chk` on resume.** Its checkpoint reader indexes frames by
-   `iteration // checkpoint_interval`; a pruned file must either preserve that indexing or the restore path
-   must be taught the offset. **This is the load-bearing unknown and the reason this is a design and not a
-   diff.**
-2. **`validate_reporter_pair` still means what it means.** It checks the `.chk`'s last full frame against the
-   expected iteration. It must keep failing on a genuinely bad pair, not merely pass because there is one
-   frame.
-3. **`effective_interval` / `read_checkpoint_interval` still read the interval** from a pruned file.
-4. **A real resume from a pruned chain**, offline, before any rental.
+Run **GH 30676071569**, on `triskit23/ternary-fep` (the parity image), CPU only, $0, no rental.
+
+| # | question | answer |
+|---|---|---|
+| 1 | does openmmtools accept a single-frame `.chk` on resume? | **yes** — `from_storage` resumed at the right iteration, not 0, and the coordinates were **bit-identical** to an unpruned resume of the same run (`max Δ = 0.0 nm`) |
+| 2 | does `validate_reporter_pair` still mean what it means? | **now it does — it did not before**; see §5 |
+| 3 | does `effective_interval` / `read_checkpoint_interval` still read the interval? | **yes**, 64 read back from the pruned real pair |
+| 4 | a real resume from a pruned CHAIN, offline? | **yes** — prune → commit → restore → resume → run on → prune → commit → restore → resume |
+
+Measured alongside, and the reason the answer is trusted rather than assumed:
+
+* **Storage mechanism, at the real 5a-KS shape** (12 × 147,788 × 3): 6 frames = 121.8 MiB → 1 frame =
+  20.3 MiB, **6.0×**, against a **contiguous negative control at 1.0×**. The saving is the chunking, not the
+  measurement.
+* **A REAL committed 5a-KS warmup pair** (`5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks`, iter 1600,
+  interval 64): **1231.1 MiB → 47.6 MiB, 25.88×, in ~4 s.** That is the whole §1 table's largest `.chk`
+  reduced to the one frame anything ever reads, and it lands within 3 % of the 49 MiB predicted above.
+* **Two deliberately-broken checkpoints are rejected**, which is what makes the pass mean anything.
 
 ### Ladder (CLAUDE.md §6, in full)
 
@@ -120,3 +132,49 @@ so it is stale by ~28×, and `MAX_COMMIT_OVERHEAD_FRAC = 0.05` is being evaluate
 been observed yet** — the four legs are running code from before the instrumentation, and there has been no
 re-placement in ~2 h. Per §1 the constant will be **derived from that measurement, not typed**, so it stays at
 23.0 with this note attached rather than being replaced by a guess.
+
+
+---
+
+## 5. ★★ WHAT THE NEGATIVE CONTROL FOUND, WHICH MATTERS MORE THAN THE PRUNE
+
+Three runs returned `INCONCLUSIVE` before the verdict, all on the same check: a checkpoint built so that the
+resume frame **does not exist** passed `validate_reporter_pair` unchanged. The instrumented run
+(**GH 30675795333**) says why, and it is not what the first two hypotheses assumed:
+
+```
+source .chk        dim=5 frames=[0,1,2,3,4]
+control#1 index-0  dim=1 frames=[0]      <- reader asked for index 4
+control#2 no-frame dim=0 frames=[]       <- reader asked for index 4
+naive_last_iteration_checkpoint  8       <- returned 8 on BOTH broken files
+naive_frame_max_abs_nm           0.0
+naive_frame_is_masked            False
+```
+
+1. **`read_last_iteration(last_checkpoint=True)` is arithmetic on the ANALYSIS file** —
+   `last_iteration // interval * interval`. It never consults the checkpoint, so it returns the expected
+   iteration whatever the `.chk` contains, including nothing.
+2. **`read_sampler_states(iteration=N)` for a frame that does not exist raises nothing and returns no fill.**
+   It returns an **unmasked array of ZEROS**, at the right shape, with the right replica count, alongside a
+   working `read_energies`.
+
+So the frame-magnitude check added after the first failure could not see it either: zeros are
+indistinguishable from ordinary small coordinates by magnitude. **This is not a pruning problem.** It means
+`commit()`'s "the pair is VALIDATED before it is persisted" and `restore_latest`'s "a bad generation is
+rejected and we fall back" were both resting on *readability* rather than *content* — and a resume from such
+a generation would start every replica with all atoms at the origin, silently.
+
+Closed by `rbfe_spot_checkpoint.positions_are_unusable`, consulted per replica inside
+`validate_reporter_pair`: a frame is unusable if it is absent, empty, masked, non-finite, at fill magnitude,
+or **spatially degenerate** (every atom of a >1-atom system at the same point). Like the magnitude sentinel,
+the degeneracy clause is *incapable* of a false reject, which is what makes it safe on a live commit path.
+Pinned by [`tests/test_checkpoint_fill_guard.py`](./tests/test_checkpoint_fill_guard.py).
+
+---
+
+## 6. Where it goes next
+
+`mode=smoke` → **one FRESH leg** with `RBFE_PRUNE_CHK=1` → wider. No leg already in flight runs this: the
+switch is off by default, and the four sitting at 91 %, 59 %, 46 % and 44 % are not resumed into it.
+Re-testing interval **32** belongs after the payload is flat, not before — at 25.88× the halving costs
+~2.4 GiB of `.chk` across a warmup instead of 61.0 GiB, which is what would make it free.
