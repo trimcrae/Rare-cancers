@@ -247,6 +247,32 @@ def test_provenance_is_CARD_only_where_the_figure_describes_one_system():
     assert checked >= 5, f"only {checked} figures checked — the table is too small to prove the property"
 
 
+def test_the_RESIDUAL_gap_is_bounded_and_named_rather_than_silent():
+    """⚠ WHAT THIS CHANGE DOES **NOT** CLOSE, stated here because a gap nobody can see is a gap nobody fixes.
+
+    `ternary_vast_launch.collect` calls `expected_s_per_iter(arm_of_leg(uid), dt, card=...)` and does NOT pass
+    the unit id, so the live board's protection comes from the weaker of the two rules — "this figure pools
+    several systems, so it describes none of them". Measured against the real table that covers 4 fs ternary
+    on the 3090 and 4090 (both `nr4a3`+`vhl`) and therefore every live `nr4a1`/`nr4a3` row on those cards. It
+    does NOT cover a card whose figure happens to be single-system: the 5090's 4 fs ternary rate is `vhl`
+    only, so an `nr4a1` leg landing there is still graded against `vhl`.
+
+    ONE ARGUMENT CLOSES IT — `expected_s_per_iter(..., unit_id=_b["uid"])` at that call site — and the exact
+    check is already built, tested and proven below. This test asserts the SHAPE of the gap, so it will start
+    failing the moment the argument lands and the assertion can be deleted with the gap."""
+    single = {c for c in ("RTX 3090", "RTX 4090", "RTX 5090")
+              if len(at.contributing_systems(4.0, "ternary", card=c)) == 1}
+    foreign = "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
+    for card in single:
+        # without the id: the figure is single-system, so nothing here can tell it is the WRONG system
+        assert at.expected_s_per_iter("ternary", 4.0, card=card)[1] == at.PROV_CARD
+        # with the id: closed, on every card
+        assert at.expected_s_per_iter("ternary", 4.0, card=card, unit_id=foreign)[1] == at.PROV_OFFSYSTEM
+    # and the id closes the multi-system cards too, so passing it is never a regression
+    for card in {"RTX 3090", "RTX 4090", "RTX 5090"} - single:
+        assert at.expected_s_per_iter("ternary", 4.0, card=card, unit_id=foreign)[1] == at.PROV_OFFSYSTEM
+
+
 def test_an_UNREAD_composition_keeps_the_provenance_it_earned():
     """CLAUDE.md §4a: an absent reading is not a reading of absence. If the leg records cannot be read, that
     is NOT evidence the expectation is off-system — and it is equally not evidence it is fine, so the note

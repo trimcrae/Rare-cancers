@@ -78,6 +78,14 @@ WHAT CHANGED, AND WHAT DELIBERATELY DID NOT.
     table, no card and no expectation, so the host-to-host spread that actually matters (0.50-2.67x on ONE
     system, against a 1.745x card prediction) is measured exactly as before — and now without a systematic
     system offset drowning it.
+⚠ WHAT IS NOT CLOSED, AND IT IS ONE ARGUMENT WIDE. `ternary_vast_launch.collect` calls
+`expected_s_per_iter(arm_of_leg(uid), dt, card=...)` without the unit id, so the live board gets the weaker
+of the two rules below — "this figure pools several systems, so it describes none of them". That covers 4 fs
+ternary on the 3090 and 4090 (both `nr4a3`+`vhl`) and therefore every live `nr4a1` row on those cards. It
+does NOT cover the 5090, whose 4 fs ternary figure is `vhl`-only: single-system, wrong system, and without
+the leg's id nothing here can tell. Passing `unit_id=_b["uid"]` at that call site closes it on every card;
+the exact check is built and pinned by `tests/test_arrival_throughput.py`, which fails when the gap shuts.
+
 SUPERSEDED, RETAINED (CLAUDE.md §1.2): until this ruling, any per-card expectation licensed a realised-$/ns
 comparison, so `nr4a1 r1` — quoted $0.00412/ns, 1.21x basis — printed `⚠ realised $0.00889/ns`, i.e. ~2.6x
 "drift" on a lane where an offset is arithmetic. That reading no longer stands and must not be quoted.
