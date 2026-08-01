@@ -108,8 +108,18 @@ def test_the_per_card_rate_is_read_from_by_gpu_not_the_arm_median():
 
     probe = differing[0]
     assert tv.arm_card_rate(4.0, "ternary", probe) != pooled, "arm_card_rate fell back to the pooled median"
-    got, prov, _ = at.expected_s_per_iter("ternary", 4.0, card=probe)
-    assert (got, prov) == (float(by_gpu[probe]), at.PROV_CARD)
+    got, prov, note = at.expected_s_per_iter("ternary", 4.0, card=probe)
+    # ★ RE-EXPRESSED 2026-08-01, NOT WEAKENED. This used to assert `prov == PROV_CARD` outright, which
+    # conflated two independent claims: "the VALUE came from `by_gpu`" (this test's subject) and "that value
+    # is a like-for-like expectation" (the system question, which `by_gpu` cannot answer — see
+    # `test_a_figure_pooled_across_SYSTEMS_may_not_raise_the_dollar_flag`). The wiring claim is asserted
+    # unconditionally; the provenance claim is DERIVED from the table's own composition, so a re-generated
+    # artifact moves the expectation with it instead of turning the build red for the lane working.
+    assert got == float(by_gpu[probe]), "the VALUE must be the per-card figure whatever its provenance"
+    single_system = len(at.contributing_systems(4.0, "ternary", card=probe)) == 1
+    assert prov == (at.PROV_CARD if single_system else at.PROV_OFFSYSTEM)
+    if not single_system:
+        assert "UNVALIDATED" in note and "POOLED ACROSS SYSTEMS" in note
 
     # An UNBENCHED card must have no per-card rate at all — a guard that guessed one could condemn a host on
     # a number nobody measured. Chosen as a card absent from the table rather than named, for the same
@@ -121,7 +131,11 @@ def test_the_per_card_rate_is_read_from_by_gpu_not_the_arm_median():
     assert unbenched, f"every candidate card is benched ({benched}) — pick another for the negative control"
     assert tv.arm_card_rate(4.0, "ternary", unbenched) is None, "an unbenched card has no per-card rate"
     got, prov, note = at.expected_s_per_iter("ternary", 4.0, card=unbenched)
-    assert prov == at.PROV_POOLED and "POOLED ACROSS CARDS" in note
+    # The pooled-across-CARDS fact must survive verbatim even when the system check downgrades on top of it —
+    # two defects in one figure, and a note that reported only the newer one would delete the older evidence.
+    assert got == float(pooled) and "POOLED ACROSS CARDS" in note
+    assert prov == (at.PROV_POOLED if len(at.contributing_systems(4.0, "ternary")) == 1
+                    else at.PROV_OFFSYSTEM)
 
 
 def test_an_unmeasured_expectation_cannot_condemn():
