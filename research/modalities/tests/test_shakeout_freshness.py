@@ -175,8 +175,86 @@ def test_both_branches_print_both_stamps_so_a_SKIP_is_as_legible_as_an_EXPIRY():
     """A shakeout that skips is the dangerous outcome — it reads as a shakeout that passed. Until this was
     measured, the skip printed nothing at all and the expiry printed only the object mtime, i.e. only the
     field that was making the wrong call."""
-    src = open(tv.__file__).read()
-    body = src[src.index("    if is_shakeout(mode):"):src.index("    live_hosts, dead_hosts, occupied")]
+    body = _fn_bodies()["done_units"]
     assert "content_updated_utc=" in body and "s3_object_mtime=" in body
     assert "SHAKEOUT certificate accepted as current" in body, "the skip branch must announce itself"
-    assert body.count("_st") >= 3, "both branches must print the same stamp pair"
+    assert body.count("{st}") >= 2, "both branches must print the same stamp pair"
+
+
+# ── ONE DECIDER OF "ALREADY DONE" (measured 2026-08-01) ──────────────────────────────────────────────────
+#
+# ★★ THE SHAKEOUT RUNG STAYED INERT THROUGH ITS OWN FIX. The expiry was added to the gate's copy of the
+# `done` set and not to `submit`'s, so the gate correctly decided the unit needed a host and `submit` then
+# printed `[launch] skipping (already done, no rental)` and rented nothing. BOTH runs were green. This is
+# the same drift `test_the_gate_and_the_launcher_share_ONE_breaker_call_site` exists to stop for the
+# failure breaker, on the fact sitting immediately next to it.
+
+def _launch_src():
+    return open(tv.__file__).read()
+
+
+def _fn_bodies():
+    import ast
+    src = _launch_src()
+    return {n.name: ast.get_source_segment(src, n) or ""
+            for n in ast.walk(ast.parse(src)) if isinstance(n, ast.FunctionDef)}
+
+
+def test_the_gate_and_the_launcher_share_ONE_done_decision():
+    b = _fn_bodies()
+    for fn in ("outstanding_units", "submit"):
+        assert "done_units(" in b[fn], f"{fn} decides 'already done' on its own again"
+
+
+def test_only_NON_RENTING_readers_may_compute_a_done_set_of_their_own():
+    """Not a count — a count is the brittle-proxy shape that turned a healthy build red an hour earlier in
+    this same session. The property is about WHICH functions, and why each exception is legitimate:
+
+      * `done_units`   — the one home; this IS the shared decision.
+      * `collect`      — a read-only reporter. It builds a board, rents nothing, and must show a stale
+                         shakeout as done because that is what is stored.
+      * `retire_host`  — destroys a box whose leg finished. Applying the expiry here would INVERT it:
+                         a shakeout whose certificate went stale would stop its host being retired, i.e.
+                         keep paying for an idle box. Opposite direction, deliberately excluded.
+    """
+    import ast
+    src = _launch_src()
+    tree = ast.parse(src)
+    fns = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]
+    offenders = set()
+    for n in ast.walk(tree):
+        if not isinstance(n, (ast.SetComp, ast.DictComp)):
+            continue
+        seg = ast.get_source_segment(src, n) or ""
+        if '"done"' not in seg or "status" not in seg:
+            continue
+        owner = next((f.name for f in fns if f.lineno < n.lineno <= (f.end_lineno or 0)), "<module>")
+        offenders.add(owner)
+    assert offenders <= {"done_units", "collect", "retire_host"}, (
+        f"{sorted(offenders - {'done_units', 'collect', 'retire_host'})} computes its own done set. If it "
+        "can cause or prevent a RENTAL it must call `done_units`; if it genuinely cannot, add it here with "
+        "the reason, the way the three above are justified.")
+
+
+def test_the_expiry_lives_in_the_shared_function_not_at_a_call_site():
+    b = _fn_bodies()
+    assert "shakeout_evidence_is_stale(" in b["done_units"]
+    for fn in ("outstanding_units", "submit"):
+        assert "shakeout_evidence_is_stale(" not in b[fn], \
+            f"{fn} re-implements the expiry instead of inheriting it"
+
+
+def test_a_science_mode_is_never_expired_by_the_shared_function():
+    """The blast radius, checked on the shared path rather than on the old per-call-site one: expiring a
+    REAL result would re-buy landed science."""
+    recs = {"u1": {"status": "done", "updated_utc": _stamp(24 * 30)}}
+    assert tv.done_units("5aks", records=recs, uids=["u1"]) == {"u1"}
+    assert tv.done_units("5aks_smoke", records=recs, uids=["u1"]) == set()
+
+
+def test_the_expiry_is_scoped_to_the_units_this_dispatch_is_about():
+    """A stale record for some OTHER unit must not be silently dropped from the returned set — the caller
+    uses it for reporting as well as for renting."""
+    recs = {"mine": {"status": "done", "updated_utc": _stamp(24 * 30)},
+            "theirs": {"status": "done", "updated_utc": _stamp(24 * 30)}}
+    assert tv.done_units("5aks_smoke", records=recs, uids=["mine"]) == {"theirs"}

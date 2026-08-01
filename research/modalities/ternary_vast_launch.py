@@ -2230,6 +2230,47 @@ def shakeout_evidence_is_stale(record, now_utc=None, max_age_h=None):
     return age_h > (SHAKEOUT_EVIDENCE_MAX_AGE_H if max_age_h is None else max_age_h)
 
 
+def done_units(mode, records=None, uids=None):
+    """Unit ids whose stored result counts as DONE for `mode` — THE ONE ANSWER both the gate and `submit`
+    use, so that "already done, no rental" cannot mean two different things in one dispatch.
+
+    ★★ WHY THIS IS A FUNCTION AND NOT TWO SET COMPREHENSIONS (measured 2026-08-01). It WAS two. The
+    shakeout expiry below was added to the gate's copy (`outstanding_units`) and not to `submit`'s, so the
+    gate correctly decided the unit needed a host and `submit` then printed
+    `[launch] skipping (already done, no rental)` and rented nothing — the shakeout rung stayed inert
+    THROUGH ITS OWN FIX, and the run was green both times. Exactly the drift
+    `test_the_gate_and_the_launcher_share_ONE_breaker_call_site` exists to stop for the failure breaker;
+    the same discipline now applies to the fact next to it.
+
+    ⏳ THE SHAKEOUT CLAUSE. Scoped to shakeout modes, so no real result can ever be expired by it — that
+    would re-buy landed science. `uids` limits the expiry to the units this dispatch is actually about.
+    """
+    recs = leg_records() if records is None else records
+    done = {u for u, d in (recs or {}).items() if (d or {}).get("status") == "done"}
+    if not is_shakeout(mode):
+        return done
+    scope = set(uids) if uids is not None else set(done)
+    for u in list(done):
+        if u not in scope:
+            continue
+        r = recs.get(u) or {}
+        # BOTH STAMPS, ALWAYS, IN BOTH BRANCHES. A shakeout that SKIPS is the dangerous outcome — it reads
+        # as a shakeout that passed — and it used to print nothing at all, while the expiry printed only
+        # the object mtime, i.e. only the field that was making the wrong call.
+        st = f"content_updated_utc={r.get('updated_utc')} s3_object_mtime={r.get('_s3_last_modified')}"
+        if shakeout_evidence_is_stale(r):
+            done.discard(u)
+            print(f"[launch] ⏳ {u}: this is a SHAKEOUT and its `done` record is older than "
+                  f"{SHAKEOUT_EVIDENCE_MAX_AGE_H} h, so it is NOT evidence about today's pipeline ({st}). "
+                  f"Treating the unit as needing a host — a stale certificate must not stand in for a "
+                  f"shakeout that never ran.")
+        else:
+            print(f"[launch] ✅ {u}: SHAKEOUT certificate accepted as current "
+                  f"(< {SHAKEOUT_EVIDENCE_MAX_AGE_H} h; {st}). Not renting. ⚠ Freshness is measured in "
+                  f"TIME, not in CODE — this does not certify anything committed since that stamp.")
+    return done
+
+
 def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None, key=None):
     """Which of this mode's units still need a host — the ONE answer both the gate and `submit` use.
 
@@ -2248,29 +2289,7 @@ def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None
                           warmup_timestep_fs=warmup_timestep_fs) for (l, s, d) in specs]
     uids = [j.env["UNIT_ID"] for j in jobs]
     _recs = leg_records()
-    done = {u for u, d in _recs.items() if d.get("status") == "done"}
-    # ⏳ A SHAKEOUT'S CERTIFICATE EXPIRES — see `shakeout_evidence_is_stale` for the measured defect. Scoped
-    # to shakeout modes, so no real result can ever be expired by this. It is printed rather than done
-    # quietly: a smoke that suddenly rents again must be legible, not mysterious.
-    if is_shakeout(mode):
-        for _u in list(done):
-            if _u not in uids:
-                continue
-            _r = _recs.get(_u) or {}
-            # BOTH STAMPS, ALWAYS, IN BOTH BRANCHES. A shakeout that SKIPS is the dangerous outcome (it
-            # reads as a shakeout that passed), and until 2026-08-01 the skip printed nothing at all while
-            # the expiry printed only the object mtime — the very field that was making the wrong call.
-            _st = (f"content_updated_utc={_r.get('updated_utc')} s3_object_mtime={_r.get('_s3_last_modified')}")
-            if shakeout_evidence_is_stale(_r):
-                done.discard(_u)
-                print(f"[launch] ⏳ {_u}: this is a SHAKEOUT and its `done` record is older than "
-                      f"{SHAKEOUT_EVIDENCE_MAX_AGE_H} h, so it is NOT evidence about today's pipeline "
-                      f"({_st}). Treating the unit as needing a host — a stale certificate must not stand "
-                      f"in for a shakeout that never ran.")
-            else:
-                print(f"[launch] ✅ {_u}: SHAKEOUT certificate accepted as current "
-                      f"(< {SHAKEOUT_EVIDENCE_MAX_AGE_H} h; {_st}). Not renting. ⚠ Freshness is measured in "
-                      f"TIME, not in CODE — this does not certify anything committed since that stamp.")
+    done = done_units(mode, records=_recs, uids=uids)
     live_hosts, dead_hosts, occupied = {}, {}, set()
     listing_error = None
     try:
@@ -2417,7 +2436,7 @@ def submit(mode="probe", dry_run=False, timestep_fs=None, warmup_timestep_fs=Non
         submit.last_requested = 0
         return []
 
-    done = {u for u, d in leg_records().items() if d.get("status") == "done"}
+    done = done_units(mode, uids=[j.env["UNIT_ID"] for j in jobs])
     inflight = set()
     live_hosts, dead_hosts = {}, {}
     key = os.environ.get("VAST_API_KEY")
