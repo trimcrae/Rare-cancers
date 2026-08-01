@@ -76,6 +76,9 @@ on:
       census_stale_min:
         description: "minutes after which the account census stops being evidence at all"
         default: ""
+      self_test:
+        description: "prove the ARMED path reaches the Vast API, against a hard-coded already-destroyed id"
+        default: "false"
   schedule:
     # A REQUEST, NOT A CADENCE — see the header. Off-the-hour and deliberately not more frequent than hourly:
     # asking for a high frequency on a throttled repo does not get you one, it only adds queue pressure to
@@ -169,6 +172,47 @@ jobs:
             | tee /tmp/arm.log
           echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # ★★ HAS ANYONE EVER WATCHED THE ARMED PATH REACH THE API? — the self-test, and why it is hard-coded
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # THE PROBLEM THIS SOLVES. A healthy account has nothing terminal in it, so the `Arm and destroy` step
+      # above is SKIPPED on almost every run — which means the credential, the endpoint, the ledger ordering
+      # and the failure path can all rot for weeks and every run still says `success`. That is the precise
+      # shape of the four failures this whole workflow exists to fix: selcal's `mode=reap` ran, exited
+      # SUCCESS, and destroyed nothing. A guard nobody has watched fail is not known to work (CLAUDE.md §4).
+      #
+      # ⚠ THE TARGET IS HARD-CODED HERE AND MUST STAY THAT WAY. An input that let a caller hand this job a
+      # census would be an ARBITRARY-DESTROY surface on a workflow that holds VAST_API_KEY — strictly worse
+      # than the bug being fixed. `46508511` is the selcal host that sat `exited` with zero models on
+      # 2026-08-01 and was confirmed GONE from `GET /instances/` by 1:00 PM ET that day. Vast does not reuse
+      # instance ids, so a DELETE on it is a real, production-path API call that cannot reach a live host.
+      #
+      # It writes to /tmp, so neither the committed plan nor the committed ledger is touched, and it never
+      # fails the run — a self-test that can break the reaper is worse than no self-test.
+      - name: Self-test — prove the ARMED path reaches the Vast API (hard-coded dead id, /tmp only)
+        if: ${{ github.event.inputs.self_test == 'true' }}
+        working-directory: research/modalities
+        run: |
+          set -uo pipefail
+          python3 - <<'PY' > /tmp/selftest-census.json
+          import datetime, json
+          now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+          # The one selcal host that sat `exited` with zero models, confirmed gone from the account by
+          # 1:00 PM ET 2026-08-01. Vast does not reuse instance ids.
+          print(json.dumps({"utc": now, "n_instances": 1, "instances": [{
+              "id": 46508511, "machine_id": 35777,
+              "label": "selcal-cofold-selcal-smarca-cofold-v1-smarca4",
+              "actual_status": "exited", "cur_state": "exited", "intended_status": "running",
+              "gpu_name": "RTX 4090", "uptime_h": 2.03, "dph_total": 0.18402222222222223,
+              "spend_so_far_usd": 0.374, "start_date": 1785593399.623523, "occupies_slot": True}]}))
+          PY
+          python3 vast_account_reaper.py --root . --arm \
+            --census /tmp/selftest-census.json \
+            --json /tmp/selftest-plan.json \
+            --ledger /tmp/selftest-ledger.jsonl | tee /tmp/selftest.log
+          echo "--- self-test ledger (this is the ordering the real path uses) ---"
+          cat /tmp/selftest-ledger.jsonl
+
       - name: Verdict (readable on a red run too)
         if: ${{ always() }}
         run: |
@@ -178,6 +222,17 @@ jobs:
             echo '```'
             cat /tmp/arm.log 2>/dev/null || cat /tmp/plan.log 2>/dev/null || echo 'THE REAPER ITSELF FAILED — no plan was produced. Nothing was destroyed, and nothing is clearing terminal hosts until this is fixed.'
             echo '```'
+            if [ -s /tmp/selftest.log ]; then
+              echo ''
+              echo '<details><summary>ARMED-PATH SELF-TEST (hard-coded already-destroyed id — proves the credential, the endpoint and the latch-before-DELETE ordering)</summary>'
+              echo ''
+              echo '```'
+              cat /tmp/selftest.log
+              echo '--- ledger ---'
+              cat /tmp/selftest-ledger.jsonl 2>/dev/null
+              echo '```'
+              echo '</details>'
+            fi
             echo ''
             echo '<details><summary>full plan JSON</summary>'
             echo ''
