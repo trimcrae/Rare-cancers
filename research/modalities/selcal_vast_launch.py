@@ -1758,6 +1758,46 @@ def mode_diag(bucket=None):
         keys = _s3_list(s3, bucket, "%s/" % pfx, limit=60)
         print("[selcal-diag] s3://%s/%s/ -> %d object(s): %s"
               % (bucket, pfx, len(keys), keys[:20]), flush=True)
+
+    # ★★ THE BANKED LOG OF A LEG WHOSE HOST IS GONE — THE COMMONEST FORENSIC NEED, AND NEITHER `diag` NOR
+    # `status` COVERED IT (2026-08-01). Both loops above iterate LIVE instances, so the moment a leg dies —
+    # which is exactly when someone runs a diagnostic — this mode printed "this lane owns no instances right
+    # now" and an object listing, and stopped. Measured on this lane's first MD leg: the listing showed
+    # `attempts/run-20260801T193746Z.log` and `attempts/run-20260801T193835Z.log`, 49 s apart, i.e. restart
+    # churn — and the one thing that says WHY was sitting in S3 unread, because nothing offered to read it.
+    #
+    # ⚠ `request_logs` CANNOT ANSWER THIS. The container is destroyed, so the control plane has no stdout to
+    # return; S3 is the only surviving witness. An attempt log that does not exist is an ABSENT READING and
+    # is reported as one — a leg can die before writing anything, and "no log" must not read as "no error".
+    print("=" * 100, flush=True)
+    print("[selcal-diag] ---- BANKED LOGS for units with NO live host (S3 is the only witness) ----",
+          flush=True)
+    live_units = {str(i.get("label") or "") for i in mine}
+    try:
+        with open(HANDLES) as _fh:
+            _handles = json.load(_fh)
+    except Exception:  # noqa: BLE001 — no handles file means nothing was ever rented, which is a fact
+        _handles = []
+    for h in (_handles if isinstance(_handles, list) else ()):
+        unit = h.get("unit")
+        if not unit or any(unit in lbl for lbl in live_units):
+            continue
+        base = "%s/%s" % (SP.RESULT_PREFIX.strip("/"), unit)
+        attempts = _s3_list(s3, bucket, "%s/legs/%s/attempts/" % (SP.RESULT_PREFIX.strip("/"), unit),
+                            limit=20)
+        print("[selcal-diag] %s: rented %s on instance %s; %d attempt log(s) %s"
+              % (unit, h.get("utc"), h.get("instance"), len(attempts),
+                 "— MORE THAN ONE MEANS THE CONTAINER RESTARTED, which is a crash loop and not a "
+                 "preemption" if len(attempts) > 1 else ""), flush=True)
+        for k in ["%s/phase.txt" % base, "%s/run.log" % base] + attempts:
+            try:
+                body = s3.get_object(Bucket=bucket, Key=k)["Body"].read().decode("utf-8", "replace")
+            except Exception as e:  # noqa: BLE001
+                print("  [%s] NOT READABLE (%s) — an absent reading, not evidence of a clean run"
+                      % (k, type(e).__name__), flush=True)
+                continue
+            tail = body if len(body) < 4000 else "…\n" + body[-4000:]
+            print("  ---- %s (%d bytes) ----\n%s" % (k, len(body), tail), flush=True)
     return 0
 
 
