@@ -258,6 +258,222 @@ def test_the_cofold_restores_finished_work_from_S3_before_it_runs():
     assert i_restore < i_run, "the restore must happen BEFORE the runner decides what to skip"
 
 
+# =============================================================================================================
+# ★★ THE REAPER — the incident of 2026-08-01, in the form that fails if it comes back
+# =============================================================================================================
+# Run 30707211425 (`reap`, 12:01 PM ET) completed SUCCESS, printed `0 destroyed, 2 kept running` and destroyed
+# nothing while two hosts billed at $0.184/hr — one of them with all six of its models already durable in S3
+# and its own pipeline finished 80 minutes earlier. The reaper had no predicate that could ever fire for a
+# co-fold host: `landed and label in done` reduces to `label in done`, and `done` only ever holds MD LEG unit
+# names. A guard nobody has watched fail is not known to work, so each control below is a case with a KNOWN
+# right answer, and two of them are cases where the right answer is DO NOT REAP.
+_SM2 = "selcal-cofold-selcal-smarca-cofold-v1-smarca2"
+_SM4 = "selcal-cofold-selcal-smarca-cofold-v1-smarca4"
+_BOTH = ("smarca2", "smarca4")
+
+
+def _inst(label, status="running", iid="1", gpu_util=0.0):
+    return {"id": iid, "label": label, "actual_status": status, "gpu_util": gpu_util,
+            "dph_total": 0.18402222222222223, "start_date": 1.0}
+
+
+def _fn(name):
+    """The named function's AST node. Tests below assert on CODE, never on the prose beside it — a substring
+    scan of the source fails on the very comment that explains why a pattern is banned, which is a test that
+    forbids writing down its own reason."""
+    import ast
+    for node in ast.walk(ast.parse(SRC)):
+        if isinstance(node, ast.FunctionDef) and node.name == name:
+            return node
+    raise AssertionError("no function %r in selcal_vast_launch.py" % name)
+
+
+def _fn_code(name):
+    """The function's executable body, docstring removed."""
+    import ast
+    node = _fn(name)
+    body = node.body[1:] if ast.get_docstring(node) else node.body
+    return "\n".join(ast.dump(b) for b in body)
+
+
+def test_control_a_host_whose_arm_is_DONE_is_reaped():
+    """46508454: `running`, `gpu_util 0.0`, six of six models banked. Keeping it buys nothing — it was scoped
+    to smarca2 by `SELCAL_SYSTEMS` at launch, so it cannot contribute to the arm that is short."""
+    reap, why = L.reap_decision(_inst(_SM2, iid="46508454"), done_units=set(),
+                                cofold_complete_systems=("smarca2",), s3_readable=True)
+    assert reap is True
+    assert "work banked, no remaining role" in why and "smarca2" in why
+
+
+def test_control_a_host_MID_WORK_with_models_still_to_produce_is_SPARED():
+    """The control that matters most: the same instance record, `gpu_util 0.0`, differing ONLY in whether its
+    arm's models are in S3. A reaper that destroys this one is worse than the bug it replaced."""
+    reap, why = L.reap_decision(_inst(_SM4, iid="46508511"), done_units=set(),
+                                cofold_complete_systems=("smarca2",), s3_readable=True)
+    assert reap is False
+    assert "SPARED" in why and "still owe models" in why
+
+
+def test_control_a_TERMINAL_host_is_reaped():
+    """`exited`/`stopped`/`offline`/`error`: Vast still LISTS and BILLS it and it is not coming back."""
+    for status in ("exited", "stopped", "offline", "error"):
+        reap, why = L.reap_decision(_inst(_SM4, status=status), done_units=set(),
+                                    cofold_complete_systems=(), s3_readable=True)
+        assert reap is True, "a %r host must be reaped" % status
+        assert "terminal state" in why and status in why
+
+
+def test_control_an_UNREADABLE_census_reaps_nothing_on_banked_work():
+    """An absent reading is not a reading of absence. With no census, neither S3-derived branch may fire —
+    not the banked-work one AND not the host-terminus one — however complete the caller claims the arms are."""
+    for label in (_SM2, _SM4, "selcal-smarca2-m1-r0"):
+        reap, why = L.reap_decision(_inst(label), done_units={label}, cofold_complete_systems=_BOTH,
+                                    s3_readable=False, host_phase="done rc=0 x instance=1")
+        assert reap is False, "%s must be spared when the census is unreadable" % label
+        assert "absent reading is not a reading of absence" in why
+
+
+def test_an_unreadable_census_still_reaps_a_TERMINAL_host():
+    """The one deliberate exception, and the reason is that its evidence never came from S3: an S3 outage is
+    exactly when a dead box must not be left billing for hours."""
+    reap, why = L.reap_decision(_inst(_SM4, status="exited"), done_units=set(),
+                                cofold_complete_systems=(), s3_readable=False)
+    assert reap is True and "terminal state" in why
+
+
+def test_a_host_that_reported_its_own_terminus_is_reaped_even_with_NOTHING_banked():
+    """46508511 measured: `done rc=1`, 0 of 6 models, and Vast reporting it `running` again after a restart.
+    Nothing is banked, so the banked-work branch cannot fire — and without this branch the box bills forever
+    for a run that already returned."""
+    reap, why = L.reap_decision(_inst(_SM4, iid="46508511"), done_units=set(), cofold_complete_systems=(),
+                                s3_readable=True,
+                                host_phase="done rc=1 2026-08-01T15:23:39Z instance=46508511 attempt=x")
+    assert reap is True and "host reported its terminus" in why
+
+
+def test_a_phase_marker_naming_ANOTHER_instance_condemns_nobody():
+    """Both arms' co-fold hosts write to the SAME `$RESULT_S3`, so the shared `phase.txt` describes whichever
+    wrote last. A marker naming a different box is a fossil, and reaping on it would destroy a live host on
+    the strength of its neighbour's death."""
+    reap, why = L.reap_decision(_inst(_SM4, iid="46508511"), done_units=set(), cofold_complete_systems=(),
+                                s3_readable=True,
+                                host_phase="done rc=0 2026-08-01T14:41:08Z instance=46508454 attempt=x")
+    assert reap is False and "SPARED" in why
+
+
+def test_the_reaper_NEVER_reads_gpu_util():
+    """⛔ INVIOLABLE (CLAUDE.md §6). Both hosts in the incident read `gpu_util: 0.0`, INCLUDING the one that
+    had just produced all six of its models, so idleness cannot tell a finished box from a working one. Only
+    a measured absence of banked work / a host-written terminus / a terminal state may condemn."""
+    assert "gpu_util" not in _fn_code("reap_decision")
+    # ...and behaviourally: two records identical except for gpu_util must decide identically.
+    busy = L.reap_decision(_inst(_SM2, gpu_util=99.0), set(), ("smarca2",), True)
+    idle = L.reap_decision(_inst(_SM2, gpu_util=0.0), set(), ("smarca2",), True)
+    assert busy == idle
+    busy = L.reap_decision(_inst(_SM4, gpu_util=99.0), set(), ("smarca2",), True)
+    idle = L.reap_decision(_inst(_SM4, gpu_util=0.0), set(), ("smarca2",), True)
+    assert busy == idle and idle[0] is False
+
+
+def test_the_dead_disjunct_that_caused_the_incident_cannot_come_back():
+    """`landed and label in done` reduces to `label in done`, and `done` only ever holds MD LEG unit names —
+    so the co-fold disjunct was unreachable BY CONSTRUCTION. The invariant is therefore behavioural, not
+    textual: a co-fold host must be reapable with an EMPTY `done_units`, which is the only state it can ever
+    actually be observed in."""
+    reap, _why = L.reap_decision(_inst(_SM2), done_units=set(), cofold_complete_systems=("smarca2",),
+                                 s3_readable=True)
+    assert reap is True, "a co-fold host must be reapable without ever appearing in the MD leg set"
+    body = SRC[SRC.index("def mode_reap"):SRC.index("def mode_watch")]
+    assert "reap_decision(" in body, "mode_reap must delegate to the pure, tested classifier"
+    assert "_cofold_census(" in body, "the reap must consult the co-fold census, not just the MD leg set"
+
+
+def test_the_reap_leaves_a_durable_record_of_what_it_SPARED_too():
+    """A reaper that only printed is how a run could succeed, destroy nothing and leave no trace — the lane's
+    census was silent for 77 minutes and an ACCOUNT-level alarm, not this lane, is what noticed."""
+    body = SRC[SRC.index("def mode_reap"):SRC.index("def mode_watch")]
+    assert "_write(REAP_READOUT" in body
+    assert '"spared"' in body and '"destroyed"' in body and '"s3_census_readable"' in body
+
+
+def test_a_failed_DELETE_is_loud_because_the_host_is_still_billing():
+    body = SRC[SRC.index("def mode_reap"):SRC.index("def mode_watch")]
+    assert "SELCAL REAP COULD NOT DESTROY" in body and "destroy_failed" in body
+
+
+def test_the_cofold_watch_reaps_on_EVERY_tick_not_only_at_completion():
+    """The second half of the leak: the reap sat inside `if cen["complete"]`, so a fleet with one arm finished
+    and one arm short kept BOTH hosts — the finished arm's box billed 85+ minutes with its work already
+    durable. A host scoped to a finished arm cannot contribute to the missing one.
+
+    Asserted on the AST, so the reap must be a statement of the LOOP BODY itself — not merely present
+    somewhere in the function, which a call nested back inside the completeness branch would also satisfy."""
+    import ast
+    loops = [n for n in ast.walk(_fn("mode_cofold_watch")) if isinstance(n, ast.While)]
+    assert len(loops) == 1
+    tick = [ast.dump(s) for s in loops[0].body]                 # DIRECT statements of the tick, not nested
+    assert any("'mode_reap'" in s for s in tick), \
+        "the reap must run on EVERY tick, as a statement of the loop body — not inside `if cen['complete']`"
+    assert any("'_write'" in s and "COFOLD_CENSUS" in s for s in tick), \
+        "every supervision tick must leave a dated census, or a frozen lane reads as a quiet one"
+
+
+def test_a_cofold_label_is_resolved_by_the_NAME_BUILDER_not_by_splitting_on_dashes():
+    """The prefix itself contains dashes (`selcal-cofold-selcal-smarca-cofold-v1-smarca2`), so a
+    split-on-dash reader mis-assigns the arm — and a mis-assigned arm is a host reaped for work banked
+    somewhere else."""
+    assert L.cofold_label_systems(_SM2) == ("smarca2",)
+    assert L.cofold_label_systems(_SM4) == ("smarca4",)
+    assert L.cofold_label_systems("selcal-smarca2-m1-r0") == ()
+    assert L.cofold_label_systems("") == ()
+    both = L.build_cofold_jobspec("main", "b").name
+    assert set(L.cofold_label_systems(both)) == set(_BOTH)
+
+
+def test_a_BOTH_ARM_cofold_host_is_spared_until_BOTH_arms_are_complete():
+    """The `all` host covers two arms; reaping it when one is done would abandon the other mid-flight."""
+    both = L.build_cofold_jobspec("main", "b").name
+    reap, _why = L.reap_decision(_inst(both), done_units=set(), cofold_complete_systems=("smarca2",),
+                                 s3_readable=True)
+    assert reap is False
+    reap, why = L.reap_decision(_inst(both), done_units=set(), cofold_complete_systems=_BOTH,
+                                s3_readable=True)
+    assert reap is True and "work banked" in why
+
+
+def test_a_landed_MD_leg_still_reaps_its_own_host():
+    """The branch that already worked must keep working — the fix must not trade one class of leak for
+    another."""
+    reap, why = L.reap_decision(_inst("selcal-smarca2-m1-r0"), done_units={"selcal-smarca2-m1-r0"},
+                                cofold_complete_systems=(), s3_readable=True)
+    assert reap is True and "work banked" in why
+    reap, _why = L.reap_decision(_inst("selcal-smarca2-m1-r0"), done_units=set(),
+                                 cofold_complete_systems=(), s3_readable=True)
+    assert reap is False, "an MD host with no landed record is mid-work and must be spared"
+
+
+def test_stop_all_still_takes_everything():
+    reap, why = L.reap_decision(_inst(_SM4), done_units=set(), cofold_complete_systems=(), s3_readable=True,
+                                stop_all=True)
+    assert reap is True and "stop_all" in why
+
+
+def test_the_terminal_set_is_imported_rather_than_re_typed():
+    """Two sets already existed and disagreed. The union is built from the importable one with the delta
+    named, not minted as a third differently-wrong copy (CLAUDE.md rule 1)."""
+    from nrv04_vast_launch import _TERMINAL_STATES
+    assert set(_TERMINAL_STATES).issubset(set(L._terminal_states()))
+    assert "error" in L._terminal_states()
+    assert "running" not in L._terminal_states() and "loading" not in L._terminal_states()
+
+
+def test_the_per_host_phase_marker_exists_because_the_shared_one_is_ambiguous():
+    """Both arms write to the same `$RESULT_S3`, so `phase.txt` is a single file they overwrite in turn."""
+    assert 'phase-${CONTAINER_ID:-unknown}.txt' in L._COFOLD_PIPELINE
+    body = SRC[SRC.index("def _host_phase"):SRC.index("def mode_reap")]
+    assert "phase-%s.txt" in body and 'instance=%s' in body
+
+
 def test_the_supervisor_re_arms_rather_than_leaving_hosts_unwatched():
     """A watch has a finite window; when it ends the hosts do NOT stop, because a host cannot end its own
     billing — only the control plane can. A watch that simply exits therefore converts a supervised fleet

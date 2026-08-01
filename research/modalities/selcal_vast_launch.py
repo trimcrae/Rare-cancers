@@ -60,6 +60,7 @@ COLLECT_READOUT = os.path.join(HERE, "selcal-collect.json")
 VERDICT_READOUT = os.path.join(HERE, "selcal-verdict.json")
 COFOLD_CENSUS = os.path.join(HERE, "selcal-cofold-census.json")
 STAGE_TEST_READOUT = os.path.join(HERE, "selcal-stage-test.json")
+REAP_READOUT = os.path.join(HERE, "selcal-reap.json")
 HANDLES = os.path.join(HERE, "selcal-handles.json")
 
 #: The co-fold host's image and the pinned Boltz. Both imported from the lane that already proved them on
@@ -229,7 +230,19 @@ pip install --quiet $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu
   { echo "[cofold] boltz install FAILED"; echo "boltz-install-failed $(date -u +%FT%TZ) $_HOST0" | $AWS s3 cp - "$RESULT_S3/phase.txt" || true; exit 3; }
 echo "[cofold] $(date -u +%FT%TZ) boltz installed"
 _HOST="instance=${CONTAINER_ID:-unknown} attempt=$(date -u +%Y%m%dT%H%M%SZ)"
-mark() { echo "$1 $(date -u +%FT%TZ) $_HOST" | $AWS s3 cp - "$RESULT_S3/phase.txt" || echo "[mark] WARN could not write phase '$1'"; }
+# ★★ A PER-HOST MARKER BESIDE THE SHARED ONE — AND IT IS WHAT MAKES THE REAP ATTRIBUTABLE (measured
+# 2026-08-01). BOTH arms' co-fold hosts write to the SAME `$RESULT_S3`, so `phase.txt` is a single file the
+# two of them overwrite in turn: at 11:04 AM ET it named 46508454, at 12:11 PM ET it named 46508511, and at
+# no moment did it say anything about the OTHER host. A reaper reading only that file therefore has terminus
+# evidence for at most one box and an ABSENT reading for the rest — and an absent reading is not a reading of
+# absence (CLAUDE.md §4), so it cannot spare or condemn on it. `phase-$CONTAINER_ID.txt` is one small object
+# per host that says, unambiguously, what THAT host last did. `reap_decision` reads it and nothing else for
+# the host-reported-terminus branch.
+mark() {
+  _m="$1 $(date -u +%FT%TZ) $_HOST"
+  echo "$_m" | $AWS s3 cp - "$RESULT_S3/phase.txt" || echo "[mark] WARN could not write phase '$1'"
+  echo "$_m" | $AWS s3 cp - "$RESULT_S3/phase-${CONTAINER_ID:-unknown}.txt" || true
+}
 exec > >(tee -a /tmp/run.log) 2>&1
 ( while true; do $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true; sleep 45; done ) &
 LOGSYNC_PID=$!
@@ -1029,40 +1042,208 @@ def mode_status(bucket=None):
     return 0
 
 
-def mode_reap(bucket=None, stop_all=False):
-    """Destroy this lane's finished / terminal hosts — recording the bill BEFORE the DELETE.
+#: ★ THE STATES AN INSTANCE NEVER WORKS AGAIN FROM. The union of the two sets already in this repo —
+#: `nrv04_vast_launch._TERMINAL_STATES` ("exited", "offline", "stopped"), IMPORTED rather than re-typed, plus
+#: `congeneric_fanout_vast`'s "error". The two disagreed before this lane existed and neither is importable
+#: as one name, so the union is built here with both origins named rather than silently minted as a third,
+#: differently-wrong copy (CLAUDE.md rule 1).
+#: ⚠ A TERMINAL READING IS A READING OF *THIS INSTANT*, NOT A DURABLE FACT. Measured 2026-08-01: instance
+#: 46508511 read `exited` at 11:04 AM ET and `running` at 12:01 PM ET — the container had restarted. So this
+#: is evaluated against the instance record fetched by the reap itself, and NEVER against a status quoted from
+#: a committed artifact, which is how the 12:01 PM reap came to be judged on a 57-minute-old `exited`.
+def _terminal_states():
+    from nrv04_vast_launch import _TERMINAL_STATES
+    return tuple(sorted(set(_TERMINAL_STATES) | {"error"}))
+
+
+def cofold_label_systems(label, prefix=None):
+    """PURE: which co-fold ARM(S) a Vast label covers, or () when the label is not one of this lane's.
+
+    ⛔ DERIVED FROM THE NAME-BUILDER, NEVER PARSED OUT OF THE STRING. The label is
+    `selcal-cofold-selcal-smarca-cofold-v1-smarca2`: the co-fold PREFIX itself contains dashes, so a
+    split-on-dash reader mis-assigns the arm — and a mis-assigned arm is a host reaped for work that is banked
+    somewhere else. `build_cofold_jobspec` is the only thing that mints these names, so it is the only thing
+    asked what one means."""
+    out = {}
+    for arm in SP.ARMS:
+        out[build_cofold_jobspec("main", "b", prefix, systems=[arm.cofold_system]).name] = (arm.cofold_system,)
+    out[build_cofold_jobspec("main", "b", prefix).name] = tuple(sorted(a.cofold_system for a in SP.ARMS))
+    return out.get(str(label or ""), ())
+
+
+def reap_decision(inst, done_units, cofold_complete_systems, s3_readable, host_phase="", stop_all=False,
+                  prefix=None):
+    """PURE: (reap, why) for ONE instance. No API call, no S3, no clock — so every branch is unit-tested.
+
+    ⛔ THE BUG THIS REPLACES, measured on run 30707211425 (12:01 PM ET, `0 destroyed, 2 kept running` while
+    two hosts billed at $0.184/hr): the predicate was
+
+        landed = label in done or label.startswith("selcal-cofold")
+        why    = ... "result landed in S3" if landed and label in done else ...
+
+    and `landed and label in done` reduces to `label in done`, so the `or label.startswith("selcal-cofold")`
+    disjunct was ALGEBRAICALLY DEAD — whenever it was the only true one, the conjunction's other operand was
+    False. `done_units` comes from `_done_units`, which only ever holds MD LEG unit names parsed out of
+    `leg_*.json` keys; a co-fold host's label cannot appear in it at any time, for any reason. So the reaper
+    had no predicate that could EVER fire for a co-fold host, and it never consulted the co-fold census at
+    all. Only `stop_all` and a terminal status could reach the DELETE.
+
+    ⚠ NO BRANCH HERE MAY READ `gpu_util`, AND THAT IS INVIOLABLE (CLAUDE.md §6). Both hosts in the incident
+    read `gpu_util: 0.0` — INCLUDING the one that had just produced all six of its models — so GPU idleness
+    cannot distinguish a finished box from a working one, and it never condemns a box. Only banked work, a
+    host-written terminus, or a terminal state does. `tests/test_selcal_launch.py` fails if `gpu_util`ever
+    appears in this function.
+
+    The four reasons, each meaning something different in the readout:
+      * `operator stop_all`   — a human/`stop` dispatch asked for everything.
+      * `terminal state`      — Vast still LISTS and BILLS an `exited`/`stopped`/`offline`/`error` box; it is
+                                not coming back. Evidence: the instance record itself, so this branch survives
+                                an S3 outage, which is exactly when a box must not be left billing.
+      * `work banked, no remaining role` — its own arm/unit is COMPLETE in S3. Keeping it buys nothing: it
+                                cannot contribute to another arm, because `SELCAL_SYSTEMS` scoped it to its
+                                own at launch.
+      * `host reported its terminus` — this host's OWN phase marker says `done rc=…`. The co-fold pipeline
+                                writes that and then `exit $RC`, so the process tree is over whatever the rc.
+                                This is the case that catches a host whose work FAILED: nothing is banked, so
+                                the branch above cannot fire, and the box would otherwise bill forever.
+
+    `s3_readable=False` (the census could not be read) DISABLES the two S3-derived branches entirely — an
+    absent reading is not a reading of absence, and the remedy for an unreadable census is to read it again,
+    not to destroy hosts on the strength of not knowing. The terminal branch is unaffected on purpose: its
+    evidence never came from S3."""
+    label = str(inst.get("label") or "")
+    status = str(inst.get("actual_status") or "")
+    iid = str(inst.get("id") or "")
+    if stop_all:
+        return True, "operator stop_all — every host this lane owns"
+    if status in _terminal_states():
+        return True, ("terminal state %r — Vast still lists and bills it and it is not coming back "
+                      "(evidence: the instance record, not S3)" % status)
+    systems = cofold_label_systems(label, prefix)
+    if not s3_readable:
+        return False, ("SPARED — the co-fold census could not be read, so nothing is reaped on banked work. "
+                       "An absent reading is not a reading of absence; the terminal branch is unaffected and "
+                       "this host is not in a terminal state (%r)." % status)
+    if systems:
+        short = [s for s in systems if s not in set(cofold_complete_systems or ())]
+        if not short:
+            return True, ("work banked, no remaining role — every model for arm(s) %s is measured in S3 and "
+                          "this host was scoped to those arms at launch, so it cannot contribute to any "
+                          "other" % ", ".join(systems))
+    elif label in set(done_units or ()):
+        return True, ("work banked, no remaining role — this unit's production-conforming leg record is in "
+                      "S3 (selcal_panel.production_leg_check)")
+    # ★ THE HOST'S OWN TERMINUS. It must NAME THIS INSTANCE: the two arms' co-fold hosts share one
+    # `$RESULT_S3`, so the shared `phase.txt` describes whichever wrote last and says nothing about the other.
+    # `phase-<id>.txt` is per host. A marker naming a DIFFERENT instance is a fossil and condemns nobody.
+    ph = str(host_phase or "")
+    if ph.startswith("done rc=") and iid and ("instance=%s" % iid) in ph:
+        return True, ("host reported its terminus — its own phase marker reads %r, and the pipeline writes "
+                      "that immediately before `exit`, so this container's work is over whatever the rc. "
+                      "Nothing it can still produce is being bought." % ph[:90])
+    if systems:
+        return False, ("SPARED — arm(s) %s still owe models (%s complete) and this host has not reported a "
+                       "terminus. Mid-work hosts are never reaped on idleness."
+                       % (", ".join(systems), ", ".join(sorted(cofold_complete_systems or ())) or "none"))
+    return False, ("SPARED — no landed leg in S3 and no host-written terminus for %s; status %r."
+                   % (label or "(unlabelled)", status))
+
+
+def _host_phase(s3, bucket, prefix, instance_id):
+    """This host's OWN co-fold phase marker, or "" when there is none.
+
+    Falls back to the SHARED `phase.txt` only when that file names this very instance — the two arms
+    overwrite it in turn, so it is evidence about at most one of them and a fossil for the rest."""
+    for keyname in ("%s/phase-%s.txt" % (prefix, instance_id), "%s/phase.txt" % prefix):
+        try:
+            ph = s3.get_object(Bucket=bucket, Key=keyname)["Body"].read().decode("utf-8", "replace").strip()
+        except Exception:  # noqa: BLE001 — an ABSENT marker is absent, not a terminus
+            continue
+        if ("instance=%s" % instance_id) in ph:
+            return ph
+    return ""
+
+
+def mode_reap(bucket=None, stop_all=False, cofold_prefix=None):
+    """Destroy this lane's finished / terminal hosts — recording the bill BEFORE the DELETE, and leaving a
+    DURABLE record of what it reaped AND what it spared.
 
     ⛔ THE HOST CANNOT STOP ITS OWN BILLING; only the control plane can (CLAUDE.md §6, measured). The EXIT
     trap and `autoteardown.py` stop the JOB, not the METER, and a crash-looping container never returns at
-    all — so the reap is this function's job, from CI, where the key lives."""
+    all — so the reap is this function's job, from CI, where the key lives.
+
+    ★★ AND IT WRITES `selcal-reap.json` ON EVERY TICK, buying nothing included. A reap that only printed was
+    how run 30707211425 could succeed, destroy nothing and leave no trace of the decision: the lane's census
+    had been silent for 77 minutes and an ACCOUNT-level alarm, not this lane, is what noticed two idle hosts.
+    A reaper with no artifact is indistinguishable from a reaper that never ran."""
     bucket = bucket or BUCKET
+    prefix = (cofold_prefix or SP.COFOLD_PREFIX).strip("/")
     key = os.environ.get("VAST_API_KEY")
     _live, mine = _live_labels(key)
     import boto3
     s3 = boto3.client("s3")
-    done, _records = _done_units(s3, bucket)
-    stopped, kept = [], []
+    # ★ THE S3 READ IS FALLIBLE AND ITS FAILURE IS A DISTINCT STATE, not an empty result. `_done_units` and
+    # `_cofold_census` both page S3; if that throws, "no unit is done" and "we could not find out" would
+    # otherwise look identical — and the first of those is a reason to spare while the second is a reason to
+    # go and read again.
+    s3_readable, done, census = True, set(), None
+    try:
+        done, _records = _done_units(s3, bucket)
+        census = _cofold_census(s3, bucket, prefix)
+    except Exception as e:  # noqa: BLE001
+        s3_readable = False
+        print("[selcal-reap] ⚠ the S3 census is UNREADABLE (%s: %s) — nothing will be reaped on banked work. "
+              "An absent reading is not a reading of absence. Terminal hosts are still destroyed, because "
+              "their evidence is the instance record." % (type(e).__name__, e), flush=True)
+    complete_systems = tuple(sorted(
+        arm.cofold_system for arm in SP.ARMS
+        if census and len(census["per_arm"].get(arm.arm_id, [])) >= len(SP.COFOLD_MODEL_SEEDS)))
+    stopped, kept, failed = [], [], []
     for inst in mine:
-        label = str(inst.get("label") or "")
-        status = (inst.get("actual_status") or "")
-        landed = label in done or label.startswith("selcal-cofold")
-        terminal = status in ("exited", "offline", "error")
-        why = ("operator stop_all" if stop_all else
-               "result landed in S3" if landed and label in done else
-               "terminal status %s" % status if terminal else "")
-        if not why:
-            kept.append({"label": label, "status": status, "gpu_util": inst.get("gpu_util")})
+        label, iid = str(inst.get("label") or ""), str(inst.get("id") or "")
+        ph = _host_phase(s3, bucket, prefix, iid) if s3_readable else ""
+        reap, why = reap_decision(inst, done, complete_systems, s3_readable, host_phase=ph,
+                                  stop_all=stop_all, prefix=prefix)
+        row = {"instance": iid, "label": label, "status": inst.get("actual_status"),
+               "uptime_min": (round(rental_uptime_s(inst) / 60.0, 1)
+                              if rental_uptime_s(inst) is not None else None),
+               "dph_total": inst.get("dph_total"), "host_phase": ph or None, "why": why}
+        if not reap:
+            kept.append(row)
+            print("[selcal-reap] SPARED %s (%s) — %s" % (iid, label, why), flush=True)
             continue
         # ⛔ LEDGER FIRST. The DELETE is the last moment this record exists; a rental that bills and leaves no
         # trace has already happened on this account (instance 46459452, overnight).
         _ledger_record(inst, why)
         try:
             _vast_request("DELETE", "/instances/%s/" % inst.get("id"), key, body={})
-            stopped.append(inst.get("id"))
-            print("[selcal-reap] destroyed %s (%s) — %s" % (inst.get("id"), label, why), flush=True)
+            stopped.append(row)
+            print("[selcal-reap] DESTROYED %s (%s) — %s" % (iid, label, why), flush=True)
         except Exception as e:  # noqa: BLE001
-            print("[selcal-reap] WARN could not destroy %s: %s" % (inst.get("id"), e), flush=True)
-    print("[selcal-reap] %d destroyed, %d kept running: %s" % (len(stopped), len(kept), kept), flush=True)
+            row["destroy_error"] = "%s: %s" % (type(e).__name__, e)
+            failed.append(row)
+            print("[selcal-reap] ⛔ WARN could not destroy %s: %s — IT IS STILL BILLING" % (iid, e), flush=True)
+    doc = {"_what": "What the sensitivity-control lane's reaper destroyed, and what it SPARED and why. "
+                    "Written on every tick, destroying nothing included — a reaper with no artifact is "
+                    "indistinguishable from a reaper that never ran.",
+           "_rule": "CLAUDE.md §6 — the host cannot stop its own billing, only the control plane can; and "
+                    "GPU idleness NEVER condemns a box, only banked work / a host-written terminus / a "
+                    "terminal state does.",
+           "lane": LANE, "utc": _utcnow(), "stop_all": bool(stop_all), "cofold_prefix": prefix,
+           "s3_census_readable": s3_readable,
+           "cofold_arms_complete": list(complete_systems),
+           "cofold_models_per_arm": (census or {}).get("n_models_per_arm"),
+           "md_units_landed": sorted(done),
+           "destroyed": stopped, "spared": kept, "destroy_failed": failed,
+           "n_destroyed": len(stopped), "n_spared": len(kept), "n_destroy_failed": len(failed)}
+    _write(REAP_READOUT, doc)
+    print("[selcal-reap] %d destroyed, %d spared, %d destroy-failed. Arms complete in S3: %s. Readout: %s"
+          % (len(stopped), len(kept), len(failed), list(complete_systems) or "none",
+             os.path.basename(REAP_READOUT)), flush=True)
+    if failed:
+        print("::error title=SELCAL REAP COULD NOT DESTROY::%d host(s) were judged reapable and the DELETE "
+              "failed — they are STILL BILLING. See %s."
+              % (len(failed), os.path.basename(REAP_READOUT)), flush=True)
     return 0
 
 
@@ -1133,15 +1314,37 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
             objs = page.get("Contents") or []
         except Exception:  # noqa: BLE001
             objs = []
-        _live, mine = _live_labels()
         newest = max((o["LastModified"] for o in objs), default=None)
+        # ★★ REAP ON EVERY TICK, NOT ONLY AT COMPLETION — THIS IS THE SECOND HALF OF THE 2026-08-01 LEAK.
+        # The reap below used to sit inside `if cen["complete"]`, so a fleet where ONE arm had finished and
+        # the other had not kept BOTH hosts: the finished arm's box billed for 85+ minutes with all six of
+        # its models already durable in S3, because the panel as a whole was incomplete. That is backwards —
+        # a host scoped to a finished arm cannot contribute to the missing one, and `reap_decision` is what
+        # says so per host instead of per panel. It runs BEFORE `mine` is read so the loop's own liveness
+        # test sees the post-reap board rather than counting a box it has just destroyed.
+        mode_reap(bucket, cofold_prefix=prefix)
+        _live, mine = _live_labels()
         age_min = (round((time.time() - newest.timestamp()) / 60.0, 1) if newest else None)
         print("[selcal-cofold-watch] %s | models %s | %d S3 object(s), newest %s min old | hosts %s"
               % (time.strftime("%H:%M:%SZ", time.gmtime()), cen["n_models_per_arm"], len(objs), age_min,
                  [(i.get("id"), i.get("actual_status"), i.get("gpu_util")) for i in mine]), flush=True)
+        # ⚠ THE LANE'S OWN STALENESS SIGNAL, WRITTEN EVERY TICK. Its census went silent for 77 minutes on
+        # 2026-08-01 while two hosts billed, and an ACCOUNT-level alarm — not this lane — is what noticed. A
+        # supervision loop that only prints leaves nothing a later reader can date.
+        cen.update({"_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
+                    "utc": _utcnow(), "bucket": bucket, "written_by": "cofold_watch tick",
+                    "n_s3_objects": len(objs),
+                    "newest_object_utc": (newest.strftime("%Y-%m-%dT%H:%M:%SZ") if newest else None),
+                    "newest_object_age_min": age_min,
+                    "instances": [{"id": i.get("id"), "status": i.get("actual_status"),
+                                   "gpu_util": i.get("gpu_util"), "dph_total": i.get("dph_total"),
+                                   "uptime_min": (round(rental_uptime_s(i) / 60.0, 1)
+                                                  if rental_uptime_s(i) is not None else None)}
+                                  for i in mine]})
+        _write(COFOLD_CENSUS, cen)
         if cen["complete"]:
             print("[selcal-cofold-watch] ✅ every (arm, seed) has a co-fold — reaping the hosts.", flush=True)
-            mode_reap(bucket, stop_all=True)
+            mode_reap(bucket, stop_all=True, cofold_prefix=prefix)
             # ADVANCE THE LADDER: `stage_test` is $0 and rents nothing, and it is the rung that catches a
             # staging fault for free before any MD host is bought.
             self_dispatch("stage_test")

@@ -188,6 +188,7 @@ jobs:
                    research/modalities/selcal-collect.json \
                    research/modalities/selcal-verdict.json \
                    research/modalities/selcal-cofold-census.json \
+                   research/modalities/selcal-reap.json \
                    research/modalities/selcal-stage-test.json; do
             [ -e "$p" ] && paths+=("$p")
           done
@@ -258,7 +259,9 @@ jobs:
                    research/modalities/selcal-price-ledger.json \
                    research/modalities/selcal-handles.json \
                    research/modalities/selcal-collect.json \
-                   research/modalities/selcal-verdict.json; do
+                   research/modalities/selcal-verdict.json \
+                   research/modalities/selcal-cofold-census.json \
+                   research/modalities/selcal-reap.json; do
             [ -e "$p" ] && paths+=("$p")
           done
           [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
