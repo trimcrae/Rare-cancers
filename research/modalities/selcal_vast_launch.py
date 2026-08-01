@@ -182,18 +182,35 @@ $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors || true
 mark uploaded
 """
 
+# ★★ IT TALKS FROM THE FIRST SECOND, AND THAT IS A FIX, NOT A STYLE CHOICE (measured 2026-08-01, instance
+# 46504822). The first version of this pipeline was SILENT until after `pip install` — apt redirected to
+# /dev/null, pip on `--quiet` — so when the host went `cur_state: stopped` four minutes in, the container log
+# held Vast's own provisioning and NOTHING of ours. That makes two very different stories indistinguishable:
+# "the job never started" and "the job was three minutes into a pip install when the box was preempted". An
+# absent reading is not a reading of absence (CLAUDE.md §4), and a pipeline that cannot be told apart from a
+# dead one is a pipeline that costs a diagnostic every time it is interrupted.
+#
+# So: `awscli` is installed FIRST and on its own (seconds, not minutes), the S3 preflight mark happens
+# immediately after it, and every subsequent stage echoes a timestamped line. The slow install — boltz plus
+# the cuequivariance wheels — happens AFTER there is somewhere to report from.
 _COFOLD_PIPELINE = r"""
 set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
+echo "[cofold] $(date -u +%FT%TZ) onstart begins on ${CONTAINER_ID:-unknown}"
 apt-get update -q >/dev/null 2>&1 || true
 apt-get install -y -q --no-install-recommends git curl ca-certificates >/dev/null 2>&1 || true
-pip install --quiet awscli $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu12 || \
-  { echo "[cofold] pip install FAILED"; exit 3; }
+echo "[cofold] $(date -u +%FT%TZ) apt done; installing awscli (fast) so this host can REPORT before it works"
+pip install --quiet awscli || { echo "[cofold] awscli install FAILED"; exit 3; }
 AWS=$(command -v aws || echo /opt/conda/bin/aws)
+_HOST0="instance=${CONTAINER_ID:-unknown}"
+echo "boot $(date -u +%FT%TZ) $_HOST0" | $AWS s3 cp - "$RESULT_S3/phase.txt" || {
+  echo "[cofold] FATAL cannot write to $RESULT_S3 — refusing to run an unmonitorable job"; exit 4; }
+echo "[cofold] $(date -u +%FT%TZ) phase=boot written; installing $BOLTZ_SPEC (slow: torch wheels)"
+pip install --quiet $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu12 || \
+  { echo "[cofold] boltz install FAILED"; echo "boltz-install-failed $(date -u +%FT%TZ) $_HOST0" | $AWS s3 cp - "$RESULT_S3/phase.txt" || true; exit 3; }
+echo "[cofold] $(date -u +%FT%TZ) boltz installed"
 _HOST="instance=${CONTAINER_ID:-unknown} attempt=$(date -u +%Y%m%dT%H%M%SZ)"
 mark() { echo "$1 $(date -u +%FT%TZ) $_HOST" | $AWS s3 cp - "$RESULT_S3/phase.txt" || echo "[mark] WARN could not write phase '$1'"; }
-echo "preflight $(date -u +%FT%TZ) $_HOST" | $AWS s3 cp - "$RESULT_S3/phase.txt" || {
-  echo "[preflight] FATAL cannot write to $RESULT_S3 — refusing to run an unmonitorable job"; exit 4; }
 exec > >(tee -a /tmp/run.log) 2>&1
 ( while true; do $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors >/dev/null 2>&1 || true; sleep 45; done ) &
 LOGSYNC_PID=$!
