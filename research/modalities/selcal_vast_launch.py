@@ -680,15 +680,20 @@ def mode_cofold_collect(bucket=None, cofold_prefix=None):
     _live, mine = _live_labels()
     print("[selcal-cofold-progress] phase=%r" % ph, flush=True)
     for i in mine:
-        print("[selcal-cofold-progress] instance %s status=%s gpu_util=%s dph=%s uptime=%.1f min"
+        _up = rental_uptime_s(i)
+        print("[selcal-cofold-progress] instance %s status=%s gpu_util=%s dph=%s uptime=%s"
               % (i.get("id"), i.get("actual_status"), i.get("gpu_util"), i.get("dph_total"),
-                 float(i.get("duration") or 0) / 60.0), flush=True)
+                 ("%.1f min" % (_up / 60.0)) if _up is not None else "unmeasurable"), flush=True)
     print("[selcal-cofold-progress] run.log tail:\n  " + "\n  ".join(tail), flush=True)
     cen = _cofold_census(s3, bucket, prefix)
     cen["phase"] = ph
     cen["log_tail"] = tail
+    # ⛔ `duration` is the HOST's uptime, not the rental's — see `rental_uptime_s`. This row printed 10,184 min
+    # for a box two minutes old before it was fixed.
     cen["instances"] = [{"id": i.get("id"), "status": i.get("actual_status"), "gpu_util": i.get("gpu_util"),
-                         "dph_total": i.get("dph_total"), "uptime_min": round(float(i.get("duration") or 0)/60, 1)}
+                         "dph_total": i.get("dph_total"),
+                         "uptime_min": (round(rental_uptime_s(i) / 60.0, 1)
+                                        if rental_uptime_s(i) is not None else None)}
                         for i in mine]
     cen.update({"_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
                 "utc": _utcnow(), "bucket": bucket})
