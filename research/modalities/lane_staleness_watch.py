@@ -116,6 +116,7 @@ import datetime
 import hashlib
 import json
 import os
+import re
 import sys
 
 ET = datetime.timezone(datetime.timedelta(hours=-4))  # EDT. CLAUDE.md §1: always US Eastern, 12-hour.
@@ -326,6 +327,25 @@ LANES: list[dict] = [
         "generation_artifact": "inflight-board.d/nrv04-retro.json",
         "hold_artifact": "nrv04-retro-market-hold.json",
         "reader": "nrv04_retro",
+    },
+    {
+        # ★★ ADDED 2026-08-01, THE DAY IT FAILED — the lane that was registered with NOTHING. Built that
+        # morning, it appeared in no cross-lane watcher, so when its tick stopped at 10:14 AM ET with two
+        # hosts rented (one of which had `exited` by 10:54 AM) there was nothing that could have said so.
+        # Registering it is what turns "the selcal tick stopped" into a LOUD verdict instead of an absence —
+        # the exact property this registry's docstring says a discovered list silently loses. See
+        # `read_selcal` for why its hosts are not knowable from git and which module covers that side.
+        "key": "selcal-cofold",
+        "artifact_source": "ternary",
+        "label": "Selectivity control — SMARCA2/4 co-fold panel (Vast)",
+        "provider": "vast",
+        "tick_workflow": "selectivity-control-vast.yml",
+        # Deliberately absent, stated not faked: `selcal-cofold-census.json` carries no `_generated_utc`, so
+        # `fleet_supervision_alarm`'s FULL generation-advance test cannot run against it and claiming it
+        # would be claiming a check that did not happen. `supervision_for` reports the REDUCED question.
+        "generation_artifact": None,
+        "hold_artifact": "selcal-market-hold.json",
+        "reader": "selcal",
     },
     {
         "key": "gcp-ternary-watch",
@@ -646,6 +666,89 @@ def read_nrv04_retro(spec: dict, frag: dict | None, frag_err: str | None,
         st.hold_kind = "price" if st.hold else None
         st.hold_snapshot = spec.get("hold_artifact")
         st.hold_reason = str(hold.get("reason") or "")[:240]
+    return st
+
+
+def read_selcal(spec: dict, census: dict | None, census_err: str | None,
+                hold: dict | None, hold_err: str | None) -> LaneState:
+    """The selectivity-control co-fold lane (SMARCA2/4), graded off `selcal-cofold-census.json`.
+
+    ★★ WHY THIS LANE IS HERE AT ALL (2026-08-01). It was built that morning and registered with NOTHING. On
+    the day it went live it rented two hosts, stopped reporting at 10:14 AM ET, and nothing noticed for 40+
+    minutes — by 10:54 AM one of the two had already `exited` while the other still ran. Its watch job was
+    `in_progress` with a successor `pending`, so its supervisor LOOKED alive while producing no ticks. This
+    module could not have caught it, because an unregistered lane does not render as unwatched — it renders
+    as nothing at all, which is exactly the property the registry docstring says a discovered list loses.
+
+    ⚠ ITS HOST COUNT IS NOT IN GIT, AND THAT IS STATED RATHER THAN GUESSED. The co-fold census carries a
+    `phase` string naming ONE instance and no host list; `selcal-market-hold.json`'s `n_hosts` is what the
+    gate wanted to BUY, not what is up, and reading it as a host count would be a populated field masquerading
+    as a measured one (§4). So `hosts_knowable` is False and this lane is graded on whether its tick is
+    DELIVERING, exactly like the GCP lane — grading it UNKNOWN on every run instead would be an alarm that is
+    always red, which is the same end state as no alarm.
+
+    ★ THE HOST SIDE IS COVERED, BUT NOT BY THIS MODULE. `account_orphan_alarm.py` reads the same lane from the
+    VAST ACCOUNT (`ternary-vast-account-census.json`), where the hosts are visible whatever this lane commits,
+    and alarms on the pair "stale lane WITH hosts". The two are complementary by construction and neither is
+    sufficient alone: this one knows what the lane is SUPPOSED to be doing, that one knows what the account is
+    actually holding. Deliberately no import in either direction — an alarm that shares a dependency with the
+    thing it watches dies with it, and that module is the backstop for THIS module's driver stalling.
+
+    ⚠ THE FRESHNESS STAMP IS EXTRACTED FROM `phase`, NOT FROM A TIMESTAMP KEY, because the census has none:
+    `"done rc=0 2026-08-01T14:41:08Z instance=46508454 attempt=20260801T144027Z"`. That IS a real tick stamp —
+    only a run that executed writes it — which is why it is read rather than defaulted. It is also why this
+    lane declares `generation_artifact: None`: `fleet_supervision_alarm`'s FULL generation-advance test keys
+    on `_generated_utc`, which this artifact does not have, so claiming the strong test would be claiming a
+    check that cannot run. The registry's existing "deliberately absent, stated not faked" convention is used
+    instead, and `supervision_for` reports the REDUCED question with its own label.
+    """
+    st = LaneState(spec["key"], spec["label"], spec["provider"])
+    st.tick_workflow, st.generation_artifact = spec["tick_workflow"], spec.get("generation_artifact")
+    st.hosts_knowable = False
+    st.notes.append("host liveness is NOT in git for this lane (the co-fold census carries no host list, and "
+                    "the gate's `n_hosts` is what it wanted to buy, not what is up) — graded on whether its "
+                    "tick is delivering; the ACCOUNT-keyed view of its hosts is account_orphan_alarm.py")
+
+    if census is None:
+        st.unreadable["progress"] = census_err or "unknown"
+    else:
+        phase = census.get("phase")
+        stamp = None
+        if isinstance(phase, str):
+            m = re.search(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z", phase)
+            stamp = _parse_z(m.group(0)) if m else None
+        if stamp is None:
+            st.unreadable["progress"] = ("`phase` in selcal-cofold-census.json carries no parseable ISO-Z "
+                                         "stamp, so when this lane last ticked cannot be read")
+        else:
+            st.last_evidence_utc = stamp
+            st.last_evidence_what = "selcal-cofold-census.json `phase` (the tick's own completion stamp)"
+            if isinstance(phase, str):
+                st.notes.append(f"last tick phase: {phase[:120]}")
+
+        missing = census.get("missing")
+        complete = census.get("complete")
+        if isinstance(missing, list) and isinstance(complete, bool):
+            # `complete` is the writer's own verdict and `missing` is its evidence; they are read TOGETHER so
+            # a disagreement surfaces instead of one silently winning.
+            st.unfinished = len(missing)
+            st.finished = complete and not missing
+            if complete and missing:
+                st.warnings.append(f"⚠ the co-fold census says `complete: true` while still listing "
+                                   f"{len(missing)} missing model(s) — the writer's verdict and its own "
+                                   f"evidence disagree, and neither is believed over the other here")
+            per_arm = census.get("n_models_per_arm")
+            if isinstance(per_arm, dict):
+                st.census = ",".join(f"{k}:{v}" for k, v in sorted(per_arm.items()))
+                st.census_what = "models landed per arm (NOT an iteration census)"
+                st.census_is_true_iteration_count = False
+                st.notes.append(f"models per arm: {st.census}")
+        else:
+            st.unreadable["unfinished"] = ("`missing` / `complete` absent or of the wrong type in "
+                                           "selcal-cofold-census.json")
+
+    _apply_hold(st, hold, hold_err, held_key="hold", reason_key="reason",
+                depth_key="board_depth", offers_key="offers_priced", source=spec.get("hold_artifact"))
     return st
 
 
@@ -1091,6 +1194,10 @@ def gather(root: str, specs: list[dict] | None = None,
             frag, ferr = get(spec["generation_artifact"])
             hold, herr = get(spec.get("hold_artifact"))
             st = read_nrv04_retro(spec, frag, ferr, hold, herr)
+        elif spec["reader"] == "selcal":
+            census, cerr = get("selcal-cofold-census.json")
+            hold, herr = get(spec.get("hold_artifact"))
+            st = read_selcal(spec, census, cerr, hold, herr)
         elif spec["reader"] == "gcp_watch":
             watch, werr = get(spec.get("watch_file"))
             st = read_gcp_watch(spec, watch, werr)

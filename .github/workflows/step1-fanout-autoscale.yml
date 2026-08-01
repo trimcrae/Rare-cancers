@@ -585,3 +585,64 @@ jobs:
           else
             echo "::error title=SUPERVISOR DOWN AND COULD NOT BE RESTARTED::no supervisor is alive and dispatching $WF failed. Supervision has degraded to this repo's throttled crons until a human or a later tick recovers it."
           fi
+
+  # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+  # ★★ THE ACCOUNT-KEYED ALARM GETS A RIDE HERE, FOR THE SAME REASON `resurrect-supervisor` DOES (2026-08-01)
+  # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+  # WHY THIS JOB EXISTS. On 2026-08-01 the selectivity-control lane rented two hosts, stopped reporting at
+  # 10:14 AM ET, and nothing noticed for 40+ minutes — by 10:54 AM one of the two had already `exited`. Its
+  # watch job was still `in_progress` with a successor `pending`, so the supervisor LOOKED alive while
+  # producing no ticks.
+  #
+  # The structural gap is that every lane's liveness is watched by THAT LANE'S OWN supervisor, so when the
+  # supervisor stalls the only thing that would notice is the thing that stopped. `lane-staleness-watch.yml`
+  # inherits exactly that failure — its real cadence is `step1-fanout-supervisor.yml`'s in-job loop — and it
+  # did not know the selcal lane existed at all.
+  #
+  # ★ SO THE DRIVER MUST NOT BE A LANE SUPERVISOR, and this job is the repo's existing answer to that
+  # requirement: `resurrect-supervisor` above is already a watchdog that does not depend on what it watches,
+  # dispatched from a tick rather than from the supervisor it restarts. The account alarm is dispatched the
+  # same way, and for the stronger reason that it watches the ACCOUNT — including lanes this workflow has
+  # never heard of.
+  #
+  # ⚠ THIS IS A RIDE, NOT INDEPENDENCE. If the autoscale workflow itself stops, the alarm loses this driver
+  # and falls back to its own throttled cron. Two weak drivers that fail for DIFFERENT reasons is the honest
+  # description and the alarm's own header says so; neither is a heartbeat.
+  #
+  # ⚠ `if: always()` — SO IT ALSO FIRES WHEN THE TICK FAILS, which is precisely when supervision is most
+  # likely to be down: on 2026-07-27 the 11:37 AM tick died on its FIRST step and measured nothing while its
+  # `always()` steps kept the commit trail moving.
+  #
+  # ⚠ EVERY TICK, NOT `WATCH_EVERY`. Unlike the account CENSUS dispatch in `step1-fanout-supervisor.yml`,
+  # which is throttled because it is a heavy read against one shared Vast API key, this alarm makes NO API
+  # call at all — it reads two committed files with stdlib Python. There is nothing to rate-limit, so
+  # throttling it would only add latency to the one check that can see an unwatched host.
+  #
+  # It dispatches a REPORT-ONLY workflow: the alarm rents, destroys and reaps nothing (pinned by AST in
+  # `tests/test_account_orphan_alarm.py`), so this job changes nothing about the tick's "it does not buy"
+  # property. COST: $0.
+  account-orphan-alarm:
+    needs: tick
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch the account-keyed cross-lane alarm
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # No actions/checkout here, so `gh` has no git remote to infer a repo from and every subcommand
+          # would die with "not a git repository" — the same defect the supervisor once shipped with.
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -uo pipefail
+          if gh workflow run account-orphan-alarm.yml --ref main -f branch=main; then
+            echo "::notice title=ACCOUNT ALARM DISPATCHED::the account-keyed cross-lane alarm was dispatched — it asks the one question no lane-scoped watcher can: is any host billing whose lane has stopped reporting?"
+          else
+            # Never fatal, and never silent: a tick that quietly stopped dispatching the alarm would leave
+            # every lane's hosts unwatched by anything outside their own supervisors — the exact shape being
+            # fixed. Falls back to the alarm's own throttled cron until a later tick recovers it.
+            echo "::warning title=ACCOUNT ALARM DISPATCH FAILED::the cross-lane alarm was not dispatched, so it is running on its throttled cron alone. A host whose lane has stalled would go unnoticed for longer."
+          fi

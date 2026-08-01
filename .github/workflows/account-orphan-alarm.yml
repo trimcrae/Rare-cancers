@@ -1,0 +1,181 @@
+name: Account-keyed cross-lane alarm — is any host billing that nobody is watching?
+
+# WHAT THIS IS, in one sentence: the only check in the repo that is keyed on the VAST ACCOUNT rather than on
+# a lane, so it can see a host whose owning lane has stopped reporting — including a lane that did not exist
+# when this workflow was written.
+#
+# ★★ WHY IT EXISTS, measured 2026-08-01. The selectivity-control lane rented two hosts. Its own census
+# stopped ticking at 10:14 AM ET. At 10:54 AM ET the account census showed:
+#
+#     46508454  RTX 4090  running  selcal-cofold-selcal-smarca-cofold-v1-smarca2
+#     46508511  RTX 4090  exited   selcal-cofold-selcal-smarca-cofold-v1-smarca4
+#
+# ONE HOST HAD EXITED AND NOTHING NOTICED FOR 40+ MINUTES. The lane's watch job was still `in_progress` with
+# a successor `pending`, so the supervisor LOOKED alive while producing no ticks.
+#
+# ★★ THE STRUCTURAL GAP THIS CLOSES. Every lane's liveness is watched by that lane's OWN supervisor, so when
+# the supervisor stalls the only thing that would notice is the thing that stopped. `lane-staleness-watch.yml`
+# has the same hole by construction — its real cadence comes from `step1-fanout-supervisor.yml`'s in-job loop,
+# so it inherits that loop's single point of failure — and a lane built this morning was not registered with
+# it at all, so it rendered as nothing rather than as unwatched.
+#
+# Same shape as four earlier incidents, all in CLAUDE.md: the retro tick that could reap but never launch; the
+# GCP lane idle 15 h because nothing queued work; the account census itself running only from a hand-dispatched
+# diagnostic; a heartbeat guard that would have made a dead lane render as an idle one. EVERY ONE WAS "THE
+# GUARD EXISTED AND NOTHING DROVE IT."
+#
+# ⚠ REPORT-ONLY, AND THAT IS WHAT MAKES IT SAFE TO RUN ON EVERY LANE. It never destroys, stops, reaps, nudges,
+# rents or bids — `tests/test_account_orphan_alarm.py` walks the module's AST and fails if a destructive verb
+# or an HTTP call ever appears. Noticing is safe on a lane whose semantics the watcher does not understand;
+# ACTING is not. Every destructive act stays in the lanes' own `collect` paths and in `vast_idle_guard.py`,
+# which is the one thing CLAUDE.md §6 permits to condemn a box — and only on a measured absence of WRITES,
+# never on GPU idleness.
+#
+# ⚠ IT CARRIES NO VAST KEY, NO S3 CREDENTIAL AND NO `pip install`. It reads two committed files with stdlib
+# Python. A supervision alarm that can fail for reasons unrelated to the fleet is noise, and a dead credential
+# is one of the failures it exists to report.
+#
+# ★★ THE `schedule:` BELOW IS A REQUEST, NOT A CADENCE — CLAUDE.md §6: "A `schedule:` CRON DOES NOT SUPERVISE
+# A BILLING FLEET." This repo throttles schedules hard. **The delivered gaps are MEASURED AND PRINTED BY
+# `fleet-supervision-alarm.yml`, which is their ONE HOME** (§1) — do not re-type a remembered figure into this
+# comment, which is exactly how a stale "~55-65 min" survived into two files and made a normal silence look
+# like an outage. What is safe to say here is the shape: measured delivery has run in the low hundreds of
+# minutes against a requested */15-*/20, and on the day it was measured 25 of the last 30 step-1 autoscale
+# runs were `workflow_dispatch` — an agent remembering. When the agent stopped, supervision stopped.
+#
+# So delivery deliberately does NOT rest on the cron alone. The second driver is the tail of
+# `step1-fanout-autoscale.yml` under `if: always()`, alongside its existing `resurrect-supervisor` job — the
+# repo's established precedent for a watchdog that does not depend on what it watches. ⚠ THAT IS A RIDE, NOT
+# INDEPENDENCE, and it is written down as such: if the autoscale workflow itself stops, this loses that
+# driver and falls back to the throttled cron. Two weak drivers that fail for different reasons are the honest
+# description; neither is a heartbeat and this file never claims one.
+#
+# ⛔ NOTHING HERE NOTIFIES ANYBODY. No mail, no issues, no push channel — trimcrae asked for none, and
+# `issues:` is deliberately absent from `permissions` so the capability does not exist rather than merely
+# being switched off. The run is NOT failed on an alarm either: a red SCHEDULED run emails the repo owner,
+# which is the very channel that was removed from `lane-staleness-watch.yml`. The durable answer is the
+# committed artifact plus an `::error` annotation, which is just as visible on the run page and sends nothing.
+#
+# COST: $0. GitHub-hosted minutes are free on a public repo and this is a few seconds of stdlib Python. No GPU.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "branch carrying the account census and the lane fragments"
+        default: "main"
+      lane_silent_min:
+        description: "minutes a lane HOLDING HOSTS may go without reporting before that is an alarm"
+        default: ""
+      census_stale_min:
+        description: "minutes after which the account census stops being evidence at all"
+        default: ""
+  schedule:
+    # A REQUEST, NOT A CADENCE — see the header. Deliberately hourly and off-the-hour: asking for a high
+    # frequency on a throttled repo does not get you one, it only adds queue pressure to the same pool the
+    # billing ticks compete in, and starving a tick to feed its watcher is a net loss.
+    - cron: "41 * * * *"
+
+permissions:
+  contents: write     # the durable artifact is committed back — that commit IS the heartbeat
+  # ⛔ NO `issues:`, NO `actions: write`. This workflow reads and reports. It dispatches nothing and opens
+  # nothing, so it needs neither, and revoking the CAPABILITY is blunter than a config flag: nothing can grow
+  # a notification or a dispatch path here without this line changing first.
+
+concurrency:
+  group: account-orphan-alarm
+  cancel-in-progress: false
+
+jobs:
+  alarm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || 'main' }}
+          # ★ FULL HISTORY IS LOAD-BEARING, NOT A DEFAULT. The weak freshness basis is `git log -1` on a
+          # lane's fragment, which returns NOTHING under a shallow clone — and a lane whose freshness cannot
+          # be read while it holds hosts is graded LANE-UNKNOWN. A shallow checkout would therefore turn every
+          # stamp-less lane permanently red, which is an alarm nobody reads.
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      # NO `pip install`. Not an optimisation — a dependency is a way for this to fail for a reason unrelated
+      # to the fleet, and `test_it_imports_nothing_from_any_lane` asserts the module is pure stdlib and
+      # imports nothing from any lane (including `lane_staleness_watch`, since this is the backstop for the
+      # case where THAT watcher's driver has stalled).
+      - name: Is any host billing that nobody is watching?
+        id: alarm
+        working-directory: research/modalities
+        run: |
+          set +e
+          python3 account_orphan_alarm.py \
+            --root . \
+            --json account-orphan-alarm.json \
+            ${{ github.event.inputs.lane_silent_min && format('--lane-silent-min {0}', github.event.inputs.lane_silent_min) || '' }} \
+            ${{ github.event.inputs.census_stale_min && format('--census-stale-min {0}', github.event.inputs.census_stale_min) || '' }} \
+            | tee /tmp/alarm.log
+          echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      # ★ ALWAYS, and AFTER the check: the verdict must be readable whether or not anything fired, otherwise
+      # this alarm has the same "silence is ambiguous" defect it was built to remove.
+      - name: Verdict (readable on a red run too)
+        if: ${{ always() }}
+        run: |
+          {
+            echo '### Account-keyed cross-lane alarm'
+            echo ''
+            echo '```'
+            cat /tmp/alarm.log 2>/dev/null || echo 'THE ALARM ITSELF FAILED — no verdict was produced. Nothing is watching the account until this is fixed.'
+            echo '```'
+            echo ''
+            echo '<details><summary>full JSON</summary>'
+            echo ''
+            echo '```json'
+            cat research/modalities/account-orphan-alarm.json 2>/dev/null || echo '{"verdict": "ALARM ITSELF FAILED"}'
+            echo '```'
+            echo ''
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # ★★ `--allow-empty`, AND NEVER GUARDED BY `git diff --cached --quiet`. THE TIMESTAMP IS THE HEARTBEAT.
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # A verdict that has not CHANGED is not a verdict that was not TAKEN, and those are opposite facts. The
+      # `git diff --cached --quiet` idiom — which reads as harmless housekeeping and is used elsewhere in this
+      # repo — silently converts the second into the first: a healthy fleet produces a byte-identical report
+      # every hour, the guard skips the commit, and the artifact's commit date freezes. A reader (or
+      # `lane_staleness_watch`, or this very module's own git fallback) then sees a file that has not moved
+      # for hours and correctly concludes the watcher has stopped — while it is in fact running perfectly.
+      # That landmine was found in three lanes. Committing unconditionally makes the commit trail itself the
+      # proof of life: no commit for N hours means THIS ALARM has stopped, which is knowable from outside.
+      - name: Commit the durable artifact — the commit IS the heartbeat
+        if: ${{ always() }}
+        run: |
+          set -uo pipefail
+          BR="${{ github.event.inputs.branch || 'main' }}"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/account-orphan-alarm.json 2>/dev/null || true
+          # --allow-empty: see the block above. An unchanged verdict still commits, because the STAMP is the
+          # signal and a frozen stamp must mean exactly one thing — this alarm is not running.
+          git commit --allow-empty -m "account-keyed cross-lane alarm: ${{ steps.alarm.outputs.rc == '0' && 'all supervised' || 'ATTENTION' }} (CI)" || exit 0
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$BR" && git push origin "HEAD:$BR" && exit 0
+            echo "push attempt $i lost a race with a lane's own commit; retrying"
+            sleep $((i * 7))
+          done
+          # Loud, because an unpushed heartbeat is indistinguishable from a stopped one — which is the exact
+          # ambiguity this alarm exists to remove, turned on itself.
+          echo "::warning title=ALARM HEARTBEAT NOT PERSISTED::the verdict could not be pushed, so the artifact's commit date is frozen. From outside this run that is indistinguishable from the alarm having stopped."
+
+      # ⛔ THE RUN IS DELIBERATELY NOT FAILED. GitHub emails the repository owner when a SCHEDULED workflow
+      # fails, and trimcrae asked for no notification channels — that is why the `exit 1` was removed from
+      # `lane-staleness-watch.yml` after firing on 159 runs. An `::error` annotation is just as visible on the
+      # run page and in the Actions list and sends nothing. Restoring `exit 1` is a NOTIFICATION decision, not
+      # a CI decision, and needs trimcrae's word first.
+      - name: Say so loudly — WITHOUT notifying anyone
+        if: ${{ always() && steps.alarm.outputs.rc != '0' }}
+        run: |
+          echo "::error title=A HOST MAY BE BILLING UNWATCHED::see the job summary and research/modalities/account-orphan-alarm.json. Either a lane holding hosts has stopped reporting, an instance wears a prefix no registered lane claims, or the account census could not be trusted. This run is deliberately NOT failed: a red scheduled run emails the repo owner. NOTHING HAS BEEN DESTROYED OR STOPPED — this alarm is report-only."

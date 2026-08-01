@@ -493,8 +493,12 @@ def test_it_imports_nothing_from_the_lanes_it_watches():
             imported.update(a.name.split(".")[0] for a in node.names)
         elif isinstance(node, ast.ImportFrom) and node.module:
             imported.add(node.module.split(".")[0])
-    allowed = {"argparse", "datetime", "hashlib", "json", "os", "sys", "ast", "fleet_supervision_alarm",
-               "__future__"}
+    # `re` joined the list on 2026-08-01 with the selcal lane: its co-fold census has no timestamp KEY, only
+    # an ISO-Z stamp embedded in `phase`, and extracting that real tick stamp is strictly better than falling
+    # back to a weaker signal. Still stdlib, so the property this test defends — nothing here can be taken
+    # down by the lanes it watches — is untouched.
+    allowed = {"argparse", "datetime", "hashlib", "json", "os", "re", "sys", "ast",
+               "fleet_supervision_alarm", "__future__"}
     assert imported <= allowed, f"unexpected imports: {imported - allowed}"
     for banned in ("boto3", "congeneric_fanout", "ternary_vast_launch", "vast_cost_model", "requests"):
         assert not any(banned in i for i in imported), f"must not import {banned}"
@@ -554,11 +558,36 @@ def _retro_frag(minutes_old=5, outstanding=2, note="16 of 18 authorized R1 leg(s
             "rows": [{"name": "nr4a3 m%d r0" % i, "state": "RUNNING", "why": ""} for i in range(outstanding)]}
 
 
-def _tree(path, *, progress, watch, hold, ledger, gcp=None, retro=None):
+def _selcal_census(minutes_old=5, missing=1, complete=False):
+    """The selectivity-control lane's co-fold census. ⚠ IT HAS NO TIMESTAMP KEY — its only tick stamp is the
+    ISO-Z embedded in `phase`, which is why `read_selcal` extracts one. Fixture mirrors the real artifact's
+    shape exactly, because a fixture that invented a `generated_utc` would test a lane that does not exist."""
+    ts = NOW - datetime.timedelta(minutes=minutes_old)
+    return {"prefix": "selcal-smarca-cofold-v1",
+            "per_arm": {"selcal_smarca2": [1, 2, 3], "selcal_smarca4": [1, 2, 3]},
+            "missing": [{"arm": "selcal_smarca4", "seed": i, "n_cif": 0, "why": "absent"}
+                        for i in range(missing)],
+            "complete": complete,
+            "n_models_per_arm": {"selcal_smarca2": 3, "selcal_smarca4": 3},
+            "phase": "done rc=0 %s instance=46508454 attempt=20260801T144027Z"
+                     % ts.strftime("%Y-%m-%dT%H:%M:%SZ")}
+
+
+def _selcal_hold(hold=False, reason="1.69x the ladder basis is within the 1.92x drift line"):
+    return {"lane": "selcal", "utc": NOW.strftime("%Y-%m-%dT%H:%M:%SZ"), "hold": hold, "reason": reason,
+            "board_depth": {"offers_returned": 136, "qualifying": 136, "priceable": 68},
+            "offers_priced": [{"gpu": "RTX 5090", "machine_id": 28759}]}
+
+
+def _tree(path, *, progress, watch, hold, ledger, gcp=None, retro=None, selcal=None, selcal_hold=None):
     path.mkdir(parents=True, exist_ok=True)
     (path / "inflight-board.d").mkdir(parents=True, exist_ok=True)
     (path / "inflight-board.d" / "nrv04-retro.json").write_text(
         json.dumps(retro if retro is not None else _retro_frag()))
+    (path / "selcal-cofold-census.json").write_text(
+        json.dumps(selcal if selcal is not None else _selcal_census()))
+    (path / "selcal-market-hold.json").write_text(
+        json.dumps(selcal_hold if selcal_hold is not None else _selcal_hold()))
     (path / "step1-fanout-progress.json").write_text(json.dumps(progress))
     (path / "ternary-vast-watch.json").write_text(json.dumps(watch))
     if hold is not None:
@@ -604,7 +633,58 @@ def test_END_TO_END_a_healthy_and_correctly_parked_board_is_quiet(tmp_path):
     assert report["ok"] is True, [v for v in report["lanes"] if not v["ok"]]
     assert by == {"step1-fanout": "ADVANCING", "ternary-valb-reps": "PARKED-PRICE-HOLD",
                   "closure-triangle": "FINISHED", "rung-5aks": "PARKED-GATE",
-                  "nrv04-retro": "ADVANCING", "gcp-ternary-watch": "TICKING"}, by
+                  "nrv04-retro": "ADVANCING", "selcal-cofold": "TICKING",
+                  "gcp-ternary-watch": "TICKING"}, by
+
+
+def test_selcal_reads_its_tick_stamp_out_of_phase_and_never_defaults_it(tmp_path):
+    """The selcal lane's census has NO timestamp key — only an ISO-Z inside `phase`. Reading it is what makes
+    "the selcal tick stopped at 10:14 AM ET" knowable at all; defaulting it would have rendered the lane that
+    failed on 2026-08-01 as either permanently fresh or permanently dead, both lies."""
+    root = _tree(tmp_path / "selcal",
+                 progress=_progress(minutes_old=6, live=15),
+                 watch=_watch([_entry("edge_reps", True)]),
+                 hold=_ternary_hold(minutes_old=8, live=2),
+                 ledger=_ledger((8, "market-gate", "launched", "task=edge-reps")),
+                 selcal=_selcal_census(minutes_old=42))
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    st = next(v for v in report["lanes"] if v["lane"] == "selcal-cofold")["state"]
+    assert st["last_evidence_utc"] == (NOW - datetime.timedelta(minutes=42)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    assert "phase" in st["last_evidence_what"]
+    # ★ AND ITS HOSTS ARE NOT CLAIMED TO BE KNOWN. The gate's `n_hosts` is what it wanted to BUY; reading it
+    # as a host count is a populated field masquerading as a measured one (§4). `account_orphan_alarm.py`
+    # supplies the account-side host count instead, and the two do not import each other.
+    assert st["hosts_knowable_from_git"] is False
+
+
+def test_selcal_with_an_unparseable_phase_is_unknown_not_fresh(tmp_path):
+    """Absent is never a legal good value: a census whose `phase` carries no stamp must not read as a lane
+    that just ticked."""
+    bad = _selcal_census()
+    bad["phase"] = "running (no timestamp here)"
+    root = _tree(tmp_path / "badphase",
+                 progress=_progress(minutes_old=6, live=15),
+                 watch=_watch([_entry("edge_reps", True)]),
+                 hold=_ternary_hold(minutes_old=8, live=2),
+                 ledger=_ledger((8, "market-gate", "launched", "task=edge-reps")),
+                 selcal=bad)
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    v = next(x for x in report["lanes"] if x["lane"] == "selcal-cofold")
+    assert v["verdict"] == "UNKNOWN" and v["ok"] is False
+
+
+def test_selcal_complete_true_while_still_missing_models_is_surfaced_not_resolved(tmp_path):
+    """The writer's verdict and its own evidence disagreeing is a fact worth reporting, and neither is
+    believed over the other — silently preferring `complete` would let a half-finished panel read as done."""
+    root = _tree(tmp_path / "contradiction",
+                 progress=_progress(minutes_old=6, live=15),
+                 watch=_watch([_entry("edge_reps", True)]),
+                 hold=_ternary_hold(minutes_old=8, live=2),
+                 ledger=_ledger((8, "market-gate", "launched", "task=edge-reps")),
+                 selcal=_selcal_census(missing=2, complete=True))
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    st = next(v for v in report["lanes"] if v["lane"] == "selcal-cofold")["state"]
+    assert any("disagree" in w for w in (st["warnings"] or [])), st["warnings"]
 
 
 # ============================================================================================================
