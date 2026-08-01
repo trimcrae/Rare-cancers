@@ -1,7 +1,7 @@
 {
  "_what": "cross-lane, ACCOUNT-KEYED alarm: is any host billing whose lane has stopped reporting? Keyed on the Vast account because a lane-scoped watcher structurally cannot see a host whose lane stopped. REPORT-ONLY: this never destroys, stops, reaps, nudges or rents.",
- "generated_utc": "2026-08-01T17:51:47Z",
- "generated_et": "1:51 PM ET Aug 1, 2026",
+ "generated_utc": "2026-08-01T18:00:10Z",
+ "generated_et": "2:00 PM ET Aug 1, 2026",
  "thresholds": {
   "lane_silent_min": 40.0,
   "census_stale_min": 45.0,
@@ -10,7 +10,7 @@
  "report_only": true,
  "census_utc": "2026-08-01T17:43:02Z",
  "census_et": "1:43 PM ET Aug 1, 2026",
- "census_age_min": 8.8,
+ "census_age_min": 17.1,
  "census_n_instances": 3,
  "graded": true,
  "lanes": [
@@ -26,10 +26,10 @@
    "n_live": 0,
    "n_terminal_but_listed": 0,
    "instances": [],
-   "last_report_utc": "2026-08-01T17:51:10Z",
-   "last_report_et": "1:51 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T17:59:22Z",
+   "last_report_et": "1:59 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (_generated_utc) in step1-fanout-progress.json",
-   "silent_for_min": 0.6,
+   "silent_for_min": 0.8,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -82,12 +82,12 @@
    "last_report_utc": "2026-08-01T17:02:00Z",
    "last_report_et": "1:02 PM ET Aug 1, 2026",
    "freshness_basis": "git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent)",
-   "silent_for_min": 49.8,
+   "silent_for_min": 58.2,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "UNSUPERVISED-BILLING",
    "ok": false,
-   "detail": "2 instance(s) [46508665, 46514055] wear this lane's prefix and the lane has not reported for 50 min (threshold 40); last report 1:02 PM ET Aug 1, 2026 via git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent). MONEY IS MOVING AND NOTHING IS WATCHING IT. The lane's own supervisor cannot report this \u2014 when it stalls, the only thing that would notice is the thing that stopped, which is why this check is keyed on the ACCOUNT. Check gpu-ternary-fep-vast.yml for a run that is `in_progress` but producing no ticks. \u26a0 THIS MODULE HAS NOT ACTED AND WILL NOT: it never destroys, stops or rents. Only the control plane may end a rental (`vast_idle_guard.py`), and only on a measured absence of WRITES \u2014 never on GPU idleness."
+   "detail": "2 instance(s) [46508665, 46514055] wear this lane's prefix and the lane has not reported for 58 min (threshold 40); last report 1:02 PM ET Aug 1, 2026 via git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent). MONEY IS MOVING AND NOTHING IS WATCHING IT. The lane's own supervisor cannot report this \u2014 when it stalls, the only thing that would notice is the thing that stopped, which is why this check is keyed on the ACCOUNT. Check gpu-ternary-fep-vast.yml for a run that is `in_progress` but producing no ticks. \u26a0 THIS MODULE HAS NOT ACTED AND WILL NOT: it never destroys, stops or rents. Only the control plane may end a rental (`vast_idle_guard.py`), and only on a measured absence of WRITES \u2014 never on GPU idleness."
   },
   {
    "lane": "nrv04-retro",
@@ -101,10 +101,10 @@
    "n_live": 0,
    "n_terminal_but_listed": 0,
    "instances": [],
-   "last_report_utc": "2026-08-01T17:51:27Z",
-   "last_report_et": "1:51 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T17:59:38Z",
+   "last_report_et": "1:59 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (generated_utc) in inflight-board.d/nrv04-retro.json",
-   "silent_for_min": 0.3,
+   "silent_for_min": 0.5,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -161,15 +161,15 @@
      "terminal_but_listed": true
     }
    ],
-   "last_report_utc": "2026-08-01T17:41:58Z",
-   "last_report_et": "1:41 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T17:56:09Z",
+   "last_report_et": "1:56 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (phase) in selcal-cofold-census.json",
-   "silent_for_min": 9.8,
+   "silent_for_min": 4.0,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "SUPERVISED",
    "ok": true,
-   "detail": "1 instance(s) up and the lane reported 10 min ago (1:41 PM ET Aug 1, 2026, via in-file stamp (phase) in selcal-cofold-census.json) \u2014 inside the 40 min window. Something is watching this money. \u26a0 1 instance(s) are TERMINAL BUT STILL LISTED (46523481): they have not been destroyed. Not alarmed because the lane IS reporting and its own tick owns the reap \u2014 but surfaced, because nothing else surfaces them."
+   "detail": "1 instance(s) up and the lane reported 4 min ago (1:56 PM ET Aug 1, 2026, via in-file stamp (phase) in selcal-cofold-census.json) \u2014 inside the 40 min window. Something is watching this money. \u26a0 1 instance(s) are TERMINAL BUT STILL LISTED (46523481): they have not been destroyed. Not alarmed because the lane IS reporting and its own tick owns the reap \u2014 but surfaced, because nothing else surfaces them."
   },
   {
    "lane": "protfep-bench",
