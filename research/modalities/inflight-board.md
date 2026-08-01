@@ -2,13 +2,13 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 9:54 AM ET Sat Aug 1, 2026 by `task=collect`.
+Generated 9:55 AM ET Sat Aug 1, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 4:46 PM            73.3%  RTX 4090 $0.00520/ns · 1.53× basis [bid] STALLED   UNKNOWN — instance is not `running`; the stopped/frozen clauses own this box, not the idle guard · ⚠ 25.7 s/iter · realised $0.00797/ns (1.53x expected)
+5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   targets not in the retained log window — %% and ETA unknowable this pass
 5aks_d0_to_d ternary nr4a1 r0 —                  90.0%  —                                        NO HOST   no live host — checkpoint at production/1640 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
