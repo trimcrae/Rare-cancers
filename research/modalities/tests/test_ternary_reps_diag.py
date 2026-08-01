@@ -54,3 +54,48 @@ def test_the_console_path_is_imported_rather_than_re_implemented():
     assert "from nrv04_vast_launch import _vast_instance_logs" in src
     assert "request_logs" not in src.split('"""', 2)[-1].split("def console")[-1].split("\ndef ")[0] \
         .replace("`request_logs`", ""), "the endpoint must be called through the reviewed helper"
+
+
+# ── the status.json breadcrumb (added 2026-08-01, after it cost a rung) ──────────────────────────────────
+#
+# ★★ WHAT IT COST. The 5a-KS prune smoke rented instance 46459452 at 10:02 PM ET, billed, and produced
+# NOTHING: `n_attempts_archived` unchanged at 61, `log_age_min` still counting from 2026-07-26, `leg.json`
+# untouched, `instance` gone by morning. `run_ternary_leg.sh` archives the previous run.log and calls
+# `mark start` at the very top, so a unit whose archive count AND log age are both unchanged never reached
+# the script's first line — and this diagnostic, reading run.log / leg.json / attempts / commits / the
+# instance record, printed a picture IDENTICAL to "no rental ever happened". `status.json` is the only
+# thing `fail()` writes in that window, and for `fail cuda-probe` it is the ONLY record at all, because that
+# branch deliberately writes no leg.json so the launcher re-places the unit elsewhere.
+
+def test_the_diag_reads_the_status_breadcrumb():
+    src = open(diag.__file__).read()
+    assert "def status_breadcrumb(" in src
+    assert "status.json" in src
+    body = src[src.index("def diagnose("):]
+    assert "status_breadcrumb(uid" in body, "the breadcrumb must be collected per unit, not just defined"
+
+
+def test_the_breadcrumb_is_in_the_committed_record_not_only_the_console():
+    """The console scrolls and needs an authenticated log download; the JSON artifact is what a later
+    session reads. A field that exists only in stdout is a field nobody will have."""
+    src = open(diag.__file__).read()
+    body = src[src.index("def diagnose("):]
+    assert '"status_breadcrumb": crumb' in body
+
+
+def test_an_ABSENT_breadcrumb_is_labelled_rather_than_omitted():
+    """§4: an absent reading is not a reading of absence. 'no status.json' and 'a status.json saying
+    cuda-probe' are opposite diagnoses, and a key that only appears on failure lets a reader mistake a
+    missing collector for a healthy unit."""
+    src = open(diag.__file__).read()
+    assert '{"_absent"' in src
+    body = src[src.index("def diagnose("):]
+    assert "status.json: ABSENT" in body, "the absent case must print, not fall through silently"
+
+
+def test_the_breadcrumb_never_raises_because_a_diagnostic_must_not_die_on_a_missing_key():
+    """A healthy unit has no status.json at all, which is the common case — so the reader must return the
+    absence rather than propagate the S3 404."""
+    src = open(diag.__file__).read()
+    fn = src[src.index("def status_breadcrumb("):src.index("def console(")]
+    assert "except Exception" in fn and "return {\"_absent\"" in fn

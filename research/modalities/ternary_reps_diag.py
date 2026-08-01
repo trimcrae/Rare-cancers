@@ -131,6 +131,33 @@ def attempt_logs(uid, bucket=None, prefix=None):
     return out
 
 
+def status_breadcrumb(uid, bucket=None, prefix=None):
+    """The `status.json` a host writes from `fail()`, or None.
+
+    ★★ THE ONLY THING A HOST LEAVES WHEN IT DIES BEFORE PRODUCING A LOG (added 2026-08-01, after it cost a
+    rung). `run_ternary_leg.sh` archives the previous `run.log` and calls `mark start` at the very top, so a
+    unit whose archive count and log age are BOTH unchanged after a rental never reached the first line of
+    the script. That is precisely the case this diagnostic could not see: it read `run.log`, `leg.json`, the
+    `attempts/` archive, the commit store and the instance record — every one of which is unchanged — and
+    printed a picture identical to "no rental ever happened".
+
+    ⚠ AND `fail cuda-probe` WRITES THIS AND DELIBERATELY NO `leg.json`, precisely so the unit reads DIED and
+    the launcher re-places it elsewhere. So for the one failure mode that is designed to be silent in
+    `leg.json`, this file is the ONLY record that the attempt happened at all. A breadcrumb nothing reads is
+    not a breadcrumb.
+    """
+    b = bucket or tv.DEFAULT_BUCKET
+    p_ = (prefix or tv.RESULT_PREFIX).rstrip("/")
+    key = f"{p_}/legs/{uid}/status.json"
+    try:
+        o = tv._s3().get_object(Bucket=b, Key=key)
+        d = json.loads(o["Body"].read().decode(errors="replace"))
+        d["_s3_last_modified"] = o["LastModified"].strftime("%Y-%m-%dT%H:%M:%SZ")
+        return d
+    except Exception as e:  # noqa: BLE001 — absent is the normal case for a healthy unit
+        return {"_absent": f"{type(e).__name__}"}
+
+
 def console(iid, key=None, tail=600):
     """The container's own console for a still-listed instance, via the reviewed `request_logs` path.
 
@@ -196,7 +223,9 @@ def diagnose(mode="edge_reps", bucket=None, prefix=None, key=None, want_console=
                        "eviction": _evic, "superseded_by": _sup}
         except Exception as e:  # noqa: BLE001 — a diagnostic must never crash the board it prints
             breaker = {"error": f"{type(e).__name__}: {e}"}
+        crumb = status_breadcrumb(uid, b, p)
         u = {"arm": arm, "leg_record_status": rec.get("status"), "breaker": breaker,
+             "status_breadcrumb": crumb,
              "committed": {"phase": phase, "iteration": it, "scalar": scalar},
              "phase_marker": marker, "phase_marker_age_min": marker_age, "log_age_min": log_age,
              "n_attempts_archived": len(atts),
@@ -223,6 +252,14 @@ def diagnose(mode="edge_reps", bucket=None, prefix=None, key=None, want_console=
               f"phase_marker={marker!r} ({'%.0f min old' % marker_age if marker_age is not None else 'n/a'})"
               f"  log {'%.1f min old' % log_age if log_age is not None else 'n/a'}")
         print(f"  attempts archived: {len(atts)}")
+        # ⚠ PRINTED EVEN WHEN ABSENT, and the absence is labelled. "no status.json" and "a status.json
+        # saying cuda-probe" are opposite diagnoses, and a field that only appears on failure lets a reader
+        # mistake a missing collector for a healthy unit (CLAUDE.md §4).
+        if crumb.get("_absent"):
+            print(f"  status.json: ABSENT ({crumb['_absent']}) — no host-side failure breadcrumb")
+        else:
+            print(f"  status.json: status={crumb.get('status')!r} phase={crumb.get('phase')!r} "
+                  f"rc={crumb.get('rc')} utc={crumb.get('utc')} (s3 {crumb.get('_s3_last_modified')})")
         print(f"  BREAKER: {breaker.get('verdict') or breaker.get('error')}  block={breaker.get('block')}  "
               f"record={breaker.get('record_utc')}  newest_commit={breaker.get('newest_commit_utc')}  "
               f"evicted={(breaker.get('eviction') or {}).get('utc')}  "
