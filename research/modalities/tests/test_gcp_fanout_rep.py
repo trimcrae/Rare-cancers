@@ -1312,7 +1312,9 @@ def test_a_hostless_lane_is_never_stalled_and_an_unmeasured_leg_refuses():
 
 def test_a_flagged_row_never_renders_as_RUNNING():
     """Same principle as CLAUDE.md §1's paying-vs-refused rule: 'advancing' and 'up but producing nothing'
-    want opposite responses, and printing both as RUNNING is what made 63 minutes of silence unreadable."""
+    want opposite responses, and printing both as RUNNING leaves every minute of a leg's silence
+    unreadable. (The '63 minutes' this test was first written against was an ET mis-conversion and is
+    withdrawn — the rendering rule stands on its own.)"""
     st = gfr.stall_verdict(MARKS, "2026-08-01T12:41:01Z", "2026-08-01T18:00:00Z", live=True)
     rows, note = gfr.board_rows(gfr.unit_for(EDGE, 1), "RUNNING", "x", "", stall=st)
     assert rows[0]["state"] == "⚠ NO NEW COMMIT" and "committed NOTHING" in note
@@ -1321,8 +1323,9 @@ def test_a_flagged_row_never_renders_as_RUNNING():
 
 
 def test_the_stall_flag_reaches_no_reaper_and_no_launcher():
-    """⚠ THE BOUNDARY. The cost of a false stall FLAG is a line in a readout; the cost of a false stall
-    REAP is destroyed sampling. `reap_decision` keys only on the unit's own terminal evidence and
+    """⚠ THE BOUNDARY, and the retracted anecdote above is exactly why it matters: the first stall this
+    detector was written for turned out to be a clock error on the reader's side. The cost of a false stall
+    FLAG is a line in a readout; the cost of a false stall REAP is destroyed sampling. `reap_decision` keys only on the unit's own terminal evidence and
     `feed_decision` on landed results and banked progress — neither may ever consult this."""
     src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
     for fn in ("def reap_decision(", "def feed_decision("):

@@ -45,11 +45,16 @@ mark() {
 #
 # ★★ AND IT SHIPS THE **LEG'S** LOG AND THE GPU COUNTERS, NOT JUST THE WRAPPER'S (2026-08-01).
 # `run_leg` redirects the engine to `/tmp/<leg>.log` and uploads it only AFTER `docker run` returns, so
-# between `PHASE leg-complex-running` and the first `COMMITTED.json` there was NO live signal at all — and
-# on the complex leg those are ~23 min apart in production and longer across a system rebuild. Measured
-# that morning: a resumed leg sat 56 min with nothing readable, and "healthy" and "wedged" were literally
-# indistinguishable from outside the box. CLAUDE.md §4 requires a PROGRESS check — GPU busy, phase moved,
-# iteration count up — and none of the three was observable. Two lines fix it, and engineering is free:
+# between `PHASE leg-complex-running` and the first `COMMITTED.json` there is NO live signal at all — and
+# on the complex leg those are ~23-39 min apart, longer still across a system rebuild or a resume's
+# checkpoint fetch. Over that whole window "healthy" and "wedged" produce the identical observation from
+# outside the box. CLAUDE.md §4 requires a PROGRESS check — GPU busy, phase moved, iteration count up —
+# and none of the three was observable. Two lines fix it, and engineering is free:
+#
+# ⚠ RETRACTED, IN THE SAME COMMIT THAT MADE IT: this comment first said "measured that morning: a resumed
+# leg sat 56 min with nothing readable". That number was an ET mis-conversion of a leg that was ~19 min
+# old — the gap it describes is real and is the reason for this code, but 56 min was never measured and
+# must not be quoted. Superseded, retained (CLAUDE.md §1.2).
 #   * the in-flight leg log goes up on the same 120 s tick, so `mode=tail` sees `Iteration n/2000` live;
 #   * `nvidia-smi` utilisation/memory is appended to run.log each tick, so "the GPU is busy" is a READING
 #     rather than an inference. ⚠ It is diagnostic ONLY: GPU idleness must never condemn a box (CLAUDE.md

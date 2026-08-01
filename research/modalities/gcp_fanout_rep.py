@@ -655,11 +655,18 @@ def unit_progress(marks, targets, legs_done=(), leg_rates=None, rate_phases=None
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
 #
 # ★★ THE LANE COULD START WORK AND END WORK AND NOT NOTICE IT STOPPING (2026-08-01, found by trying to
-# answer the question by hand and being unable to). A resumed leg ran 63 min past `PHASE
-# leg-complex-running` with no new committed generation — and "healthy, rebuilding a 12-replica
-# 112,953-atom system from a 541 MiB checkpoint" and "wedged" produce the SAME observation from outside the
-# box. CLAUDE.md §4 requires a PROGRESS check, and a lane whose only progress signal arrives every ~23 min
-# cannot have one unless something is watching the gap.
+# answer "is this leg progressing?" by hand and having no reading that could answer it). Between `PHASE
+# leg-complex-running` and the first `COMMITTED.json` the lane emits nothing, and on the complex leg those
+# are ~23-39 min apart — longer across a system rebuild or a resume's checkpoint fetch. Over that window
+# "healthy, rebuilding a 12-replica 112,953-atom system from a 541 MiB checkpoint" and "wedged" produce
+# the SAME observation from outside the box. CLAUDE.md §4 requires a PROGRESS check, and a lane whose only
+# progress signal arrives on that cadence cannot have one unless something watches the gap.
+#
+# ⚠ RETRACTED, IN THE SAME COMMIT THAT MADE IT: this docstring first said "a resumed leg ran 63 min past
+# PHASE leg-complex-running with no new committed generation". It had run ~19 min; 63 was an ET
+# mis-conversion of my own and was never measured. The GAP is real and independently motivates this code —
+# but the number is withdrawn and must not be quoted. Superseded, retained (CLAUDE.md §1.2). It is also
+# the reason the threshold below is derived from the leg's OWN interval rather than from that anecdote.
 #
 # ⚠ IT FLAGS; IT NEVER CONDEMNS. No reap path consults this and no launch decision reads it. That is
 # deliberate and it is the same boundary `vast_idle_guard` draws: the cost of a false stall flag is a line
