@@ -10,31 +10,6 @@
    "prefix": "nrv04-retro-results",
    "result_objects": [
     {
-     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/traj_retro_noncov_nr4a2__m2_s0.f32",
-     "size": 49020,
-     "mtime": "2026-07-31T14:53:32Z"
-    },
-    {
-     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/traj_retro_noncov_nr4a2__m2_s0.traj.json",
-     "size": 18789,
-     "mtime": "2026-07-31T14:53:34Z"
-    },
-    {
-     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json",
-     "size": 2810,
-     "mtime": "2026-07-31T14:53:39Z"
-    },
-    {
-     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/phase.txt",
-     "size": 32,
-     "mtime": "2026-08-01T00:38:46Z"
-    },
-    {
-     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/built_retro_noncov_nr4a2__m2_s0.system.xml",
-     "size": 77695541,
-     "mtime": "2026-08-01T00:40:36Z"
-    },
-    {
      "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/built_retro_noncov_nr4a2__m2_s0.solv.cif",
      "size": 44576279,
      "mtime": "2026-08-01T00:40:41Z"
@@ -45,47 +20,72 @@
      "mtime": "2026-08-01T00:40:46Z"
     },
     {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/traj_retro_noncov_nr4a2__m2_s0.f32",
+     "size": 4902000,
+     "mtime": "2026-08-01T01:21:05Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/traj_retro_noncov_nr4a2__m2_s0.traj.json",
+     "size": 18788,
+     "mtime": "2026-08-01T01:21:09Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json",
+     "size": 2819,
+     "mtime": "2026-08-01T01:21:22Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/phase.txt",
+     "size": 32,
+     "mtime": "2026-08-01T01:22:04Z"
+    },
+    {
      "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/run.log",
-     "size": 1993,
-     "mtime": "2026-08-01T00:43:01Z"
+     "size": 4666,
+     "mtime": "2026-08-01T01:23:14Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/built_retro_noncov_nr4a2__m2_s0.system.xml",
+     "size": 77572231,
+     "mtime": "2026-08-01T01:23:50Z"
     }
    ],
    "leg_records": [
     {
      "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json",
-     "size": 2810,
-     "mtime": "2026-07-31T14:53:39Z",
+     "size": 2819,
+     "mtime": "2026-08-01T01:21:22Z",
      "error": null,
      "panel": "nrv04_retrospective",
      "leg_id": "retro_noncov_nr4a2__m2",
      "seed": 0,
-     "mode": "smoke",
+     "mode": "run",
      "prod_ns": 5.0,
      "equil_ns": 1.0,
-     "n_frames": 5,
-     "timed_ns": 0.002,
-     "ns_per_day": 43.33,
-     "prod_wall_s": 4.0,
+     "n_frames": 500,
+     "timed_ns": 5.0,
+     "ns_per_day": 200.84,
+     "prod_wall_s": 2151.0,
      "blew_up": false,
      "blow_phase": null,
-     "pe_pre_min_kj": -3781890.3,
-     "pe_post_min_kj": -5950712.1,
+     "pe_pre_min_kj": -3800180.0,
+     "pe_post_min_kj": -5956506.2,
      "production_leg_check": {
-      "pass": false,
-      "why": "mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint"
+      "pass": true,
+      "why": "protocol of record: mode=run, prod_ns=5.0, equil_ns=1.0"
      }
     }
    ],
-   "has_production_leg": false,
+   "has_production_leg": true,
    "checkpoints": [],
    "banked_frames": 0,
-   "phase_txt": "md-running 2026-08-01T00:38:44Z",
+   "phase_txt": "md-running 2026-08-01T01:22:02Z",
    "phase_txt_error": null,
    "run_log": {
-    "bytes": 1993,
-    "sha256": "856bfb404780f1ee",
-    "frame_ceiling": null,
-    "frames_total": null,
+    "bytes": 4666,
+    "sha256": "c18c9c15790d562f",
+    "frame_ceiling": 450,
+    "frames_total": 500,
     "tail": [
      "[attempt] archived the PREVIOUS attempt's run.log -> attempt-logs/run-20260801T003822Z.log",
      "Completed 256.0 KiB/478.2 KiB (208.2 KiB/s) with 1 file(s) remaining",
@@ -97,11 +97,37 @@
      "[nrv04-md] reloaded OpenMM plugins from ['/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins']; platforms now: ['Reference', 'CPU', 'CUDA', 'CPU', 'CUDA', 'CPU', 'CUDA']",
      "[nrv04-md] persisted built-system snapshot (345823 atoms) -> S3 ok=True",
      "[nrv04-md] chain split: target=['A'] e3=['E', 'F', 'G'] target_lys_nz=13",
-     "[nrv04-md] covalent=False pull=8.6 \u00c5  PE pre-min=-3.8e+06 post-min=-5.957e+06 kJ/mol"
+     "[nrv04-md] covalent=False pull=8.6 \u00c5  PE pre-min=-3.8e+06 post-min=-5.957e+06 kJ/mol",
+     "[nrv04-md] analysis trajectory: 817 atoms, 9804 B/frame -> traj_retro_noncov_nr4a2__m2_s0.f32 (enabled=True)",
+     "[nrv04-md] checkpoint @ frame 50/500 -> S3",
+     "[nrv04-md] checkpoint @ frame 100/500 -> S3",
+     "[nrv04-md] checkpoint @ frame 150/500 -> S3",
+     "[nrv04-md] checkpoint @ frame 200/500 -> S3",
+     "[nrv04-md] checkpoint @ frame 250/500 -> S3",
+     "[nrv04-md] checkpoint @ frame 300/500 -> S3",
+     "[nrv04-md] checkpoint @ frame 350/500 -> S3",
+     "[nrv04-md] checkpoint @ frame 400/500 -> S3",
+     "[nrv04-md] checkpoint @ frame 450/500 -> S3",
+     "[nrv04-md] production throughput: 200.84 ns/day (5.0000 ns in 2151.0s active, 500/500 frames, resumed_from=0, blew_up=False)",
+     "[nrv04-md] wrote /tmp/out/leg_retro_noncov_nr4a2__m2_s0.json: recruited=True stable=False traj_frames=500",
+     "[teardown] releasing GPU via mock-terminate self (job-exit)",
+     "[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!",
+     "Completed 2.8 KiB/2.8 KiB (486 Bytes/s) with 1 file(s) remaining",
+     "upload: ../../../../tmp/out/leg_retro_noncov_nr4a2__m2_s0.json to s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json",
+     "[attempt] archived the PREVIOUS attempt's run.log -> attempt-logs/run-20260801T012140Z.log",
+     "Completed 256.0 KiB/478.2 KiB (209.4 KiB/s) with 1 file(s) remaining",
+     "Completed 478.2 KiB/478.2 KiB (340.5 KiB/s) with 1 file(s) remaining",
+     "download: s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a2/seed_2/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif to ../../../../tmp/cofold/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+     "[nrv04-md] covalent Cys = chain A resid 222 (S\u03b3 8.60 \u00c5 from the warhead electrophile; preregistered full-length resnum 551); {\"global_nearest\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}, \"n_cys_sg_total\": 12, \"target_chain\": \"A\", \"n_cys_sg_on_target\": 5, \"search\": \"restricted to the identified degradation-target chain 'A'\", \"target_nearest\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}, \"global_nearest_is_off_target\": false, \"site_resolution\": \"NOT REQUIRED \\u2014 this leg is non-covalent and unmutated, so the preregistered Cys551 site is never used. Reported, not enforced.\", \"preregistered_resnum_fulllen\": 551, \"residue_at_frozen_index\": {\"construct_index\": 207, \"residue\": \"TYR\"}, \"geometric_nearest_on_target\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}}",
+     "[nrv04-md] WARN reactive S\u03b3 is 8.6 \u00c5 from the electrophile (>8.0 \u00c5) \u2014 noncovalent leg, so this is descriptive only, but the warhead is not seated in this target's pocket"
     ],
     "signals": [
      "Fontconfig error: Cannot load default config file: File not found",
-     "[nrv04-md] reloaded OpenMM plugins from ['/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins']; platforms now: ['Reference', 'CPU', 'CUDA', 'CPU', 'CUDA', 'CPU', 'CUDA']"
+     "[nrv04-md] reloaded OpenMM plugins from ['/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins']; platforms now: ['Reference', 'CPU', 'CUDA', 'CPU', 'CUDA', 'CPU', 'CUDA']",
+     "[nrv04-md] analysis trajectory: 817 atoms, 9804 B/frame -> traj_retro_noncov_nr4a2__m2_s0.f32 (enabled=True)",
+     "[nrv04-md] checkpoint @ frame 50/500 -> S3",
+     "[nrv04-md] production throughput: 200.84 ns/day (5.0000 ns in 2151.0s active, 500/500 frames, resumed_from=0, blew_up=False)",
+     "[nrv04-md] wrote /tmp/out/leg_retro_noncov_nr4a2__m2_s0.json: recruited=True stable=False traj_frames=500"
     ]
    },
    "run_log_error": null,
@@ -201,9 +227,17 @@
      "error": null,
      "body": "attempt 2026-08-01T00:38:24Z instance=46453675",
      "instance": "46453675"
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260801T012140Z.log",
+     "size": 47,
+     "mtime": "2026-08-01T01:21:44Z",
+     "error": null,
+     "body": "attempt 2026-08-01T01:21:42Z instance=46453675",
+     "instance": "46453675"
     }
    ],
-   "n_markers": 12,
+   "n_markers": 13,
    "distinct_hosts": [
     "46404796",
     "46405434",
@@ -275,6 +309,58 @@
      "phase_words": [],
      "signals": [],
      "tail": []
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempt-logs/run-20260801T012140Z.log",
+     "size": 3188,
+     "mtime": "2026-08-01T01:21:43Z",
+     "error": null,
+     "sha256": "50aa5629ca3e2258",
+     "n_lines": 27,
+     "last_line": "upload: ../../../../tmp/out/leg_retro_noncov_nr4a2__m2_s0.json to s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json",
+     "frame_ceiling": 450,
+     "frames_total": 500,
+     "phase_words": [
+      "production",
+      "resumed_from"
+     ],
+     "signals": [
+      "Fontconfig error: Cannot load default config file: File not found",
+      "[nrv04-md] reloaded OpenMM plugins from ['/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins']; platforms now: ['Reference', 'CPU', 'CUDA', 'CPU', 'CUDA', 'CPU', 'CUDA']",
+      "[nrv04-md] analysis trajectory: 817 atoms, 9804 B/frame -> traj_retro_noncov_nr4a2__m2_s0.f32 (enabled=True)",
+      "[nrv04-md] checkpoint @ frame 50/500 -> S3",
+      "[nrv04-md] production throughput: 200.84 ns/day (5.0000 ns in 2151.0s active, 500/500 frames, resumed_from=0, blew_up=False)",
+      "[nrv04-md] wrote /tmp/out/leg_retro_noncov_nr4a2__m2_s0.json: recruited=True stable=False traj_frames=500"
+     ],
+     "tail": [
+      "[attempt] archived the PREVIOUS attempt's run.log -> attempt-logs/run-20260801T003822Z.log",
+      "Completed 256.0 KiB/478.2 KiB (208.2 KiB/s) with 1 file(s) remaining",
+      "Completed 478.2 KiB/478.2 KiB (337.8 KiB/s) with 1 file(s) remaining",
+      "download: s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a2/seed_2/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif to ../../../../tmp/cofold/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+      "Fontconfig error: Cannot load default config file: File not found",
+      "[nrv04-md] covalent Cys = chain A resid 222 (S\u03b3 8.60 \u00c5 from the warhead electrophile; preregistered full-length resnum 551); {\"global_nearest\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}, \"n_cys_sg_total\": 12, \"target_chain\": \"A\", \"n_cys_sg_on_target\": 5, \"search\": \"restricted to the identified degradation-target chain 'A'\", \"target_nearest\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}, \"global_nearest_is_off_target\": false, \"site_resolution\": \"NOT REQUIRED \\u2014 this leg is non-covalent and unmutated, so the preregistered Cys551 site is never used. Reported, not enforced.\", \"preregistered_resnum_fulllen\": 551, \"residue_at_frozen_index\": {\"construct_index\": 207, \"residue\": \"TYR\"}, \"geometric_nearest_on_target\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}}",
+      "[nrv04-md] WARN reactive S\u03b3 is 8.6 \u00c5 from the electrophile (>8.0 \u00c5) \u2014 noncovalent leg, so this is descriptive only, but the warhead is not seated in this target's pocket",
+      "[nrv04-md] reloaded OpenMM plugins from ['/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins']; platforms now: ['Reference', 'CPU', 'CUDA', 'CPU', 'CUDA', 'CPU', 'CUDA']",
+      "[nrv04-md] persisted built-system snapshot (345823 atoms) -> S3 ok=True",
+      "[nrv04-md] chain split: target=['A'] e3=['E', 'F', 'G'] target_lys_nz=13",
+      "[nrv04-md] covalent=False pull=8.6 \u00c5  PE pre-min=-3.8e+06 post-min=-5.957e+06 kJ/mol",
+      "[nrv04-md] analysis trajectory: 817 atoms, 9804 B/frame -> traj_retro_noncov_nr4a2__m2_s0.f32 (enabled=True)",
+      "[nrv04-md] checkpoint @ frame 50/500 -> S3",
+      "[nrv04-md] checkpoint @ frame 100/500 -> S3",
+      "[nrv04-md] checkpoint @ frame 150/500 -> S3",
+      "[nrv04-md] checkpoint @ frame 200/500 -> S3",
+      "[nrv04-md] checkpoint @ frame 250/500 -> S3",
+      "[nrv04-md] checkpoint @ frame 300/500 -> S3",
+      "[nrv04-md] checkpoint @ frame 350/500 -> S3",
+      "[nrv04-md] checkpoint @ frame 400/500 -> S3",
+      "[nrv04-md] checkpoint @ frame 450/500 -> S3",
+      "[nrv04-md] production throughput: 200.84 ns/day (5.0000 ns in 2151.0s active, 500/500 frames, resumed_from=0, blew_up=False)",
+      "[nrv04-md] wrote /tmp/out/leg_retro_noncov_nr4a2__m2_s0.json: recruited=True stable=False traj_frames=500",
+      "[teardown] releasing GPU via mock-terminate self (job-exit)",
+      "[teardown] WARNING self-terminate failed ([Errno 2] No such file or directory: 'mock-terminate'); instance may idle \u2014 check the provider!",
+      "Completed 2.8 KiB/2.8 KiB (486 Bytes/s) with 1 file(s) remaining",
+      "upload: ../../../../tmp/out/leg_retro_noncov_nr4a2__m2_s0.json to s3://sagemaker-us-east-2-646605541856/nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json"
+     ]
     }
    ],
    "identical_log_groups": {
@@ -284,10 +370,12 @@
      "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempt-logs/run-20260801T003822Z.log"
     ]
    },
-   "frame_ceilings": [],
+   "frame_ceilings": [
+    450
+   ],
    "frame_ceiling_rising": false,
-   "fault": "dies-in-staging",
-   "fault_why": "phase stopped at 'md-running 2026-08-01T00:38:44Z' with no production frame"
+   "fault": "landed",
+   "fault_why": "a conforming leg record exists for this attempt's unit"
   }
  }
 }

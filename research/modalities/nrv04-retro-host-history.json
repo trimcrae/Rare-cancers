@@ -3,855 +3,8 @@
  "repo": "trimcrae/Rare-cancers",
  "unit": "nrv04retro-retro_noncov_nr4a2-m2-r0",
  "hosts": [],
- "runs_scanned": 51,
+ "runs_scanned": 59,
  "hits": [
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": null,
-   "line": "2026-07-31T19:40:44.9980720Z [retro-super] re-placing 8 hostless AUTHORIZED unit(s): ['nrv04retro-retro_noncov_nr4a1-m2-r0', 'nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a1-m3-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0', 'nrv04retro-retro_noncov_nr4a2-m2-r1', 'nrv04retro-retro_noncov_nr4a2-m3-r0', 'nrv04retro-retro_noncov_nr4a2-m3-r1']"
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": null,
-   "line": "2026-07-31T19:40:46.0786333Z [retro] 8 unit(s) [nrv04retro-retro_noncov_nr4a1-m2-r0, nrv04retro-retro_noncov_nr4a1-m2-r1, nrv04retro-retro_noncov_nr4a1-m3-r0, nrv04retro-retro_noncov_nr4a1-m3-r1, nrv04retro-retro_noncov_nr4a2-m2-r0, nrv04retro-retr], mode=run, dry_run=False, pilot_only=0, skip_done=2, skip_live=11, to_rent=8"
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": "submit",
-   "line": "2026-07-31T19:40:59.7168591Z [retro-submit] \u26d4 nrv04retro-retro_noncov_nr4a2-m2-r0 NOT RENTED \u2014 CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 30113, 29717, 90898); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.. If the board simply had nothing at or under $0.006539/ns, this is the buy line doing its job: $0 spent, checkpoint intact, re-dispatch to retry."
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": null,
-   "line": "2026-07-31T19:41:08.4155872Z ##[notice]['nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0', 'nrv04retro-retro_noncov_nr4a2-m3-r1']. Nothing was spent on them and their checkpoints are intact."
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": "submit",
-   "line": "2026-07-31T19:41:08.5263708Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": null,
-   "line": "2026-07-31T19:41:10.0838420Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T17:55:56Z"
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": null,
-   "line": "2026-07-31T19:41:10.0860920Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": null,
-   "line": "2026-07-31T19:41:11.2432744Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": null,
-   "line": "2026-07-31T19:41:11.2481205Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30659982249,
-   "job": 91253647334,
-   "created_utc": "2026-07-31T19:40:15Z",
-   "action": null,
-   "line": "2026-07-31T19:41:11.2481708Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": null,
-   "line": "2026-07-31T19:48:51.9267321Z [retro-super] re-placing 7 hostless AUTHORIZED unit(s): ['nrv04retro-retro_noncov_nr4a1-m1-r1', 'nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a1-m3-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0', 'nrv04retro-retro_noncov_nr4a2-m2-r1', 'nrv04retro-retro_noncov_nr4a2-m3-r1']"
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": null,
-   "line": "2026-07-31T19:48:54.5331835Z [retro] 7 unit(s) [nrv04retro-retro_noncov_nr4a1-m1-r1, nrv04retro-retro_noncov_nr4a1-m2-r1, nrv04retro-retro_noncov_nr4a1-m3-r0, nrv04retro-retro_noncov_nr4a1-m3-r1, nrv04retro-retro_noncov_nr4a2-m2-r0, nrv04retro-retr], mode=run, dry_run=False, pilot_only=0, skip_done=2, skip_live=12, to_rent=7"
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": "submit",
-   "line": "2026-07-31T19:49:13.8085226Z [retro-submit] nrv04retro-retro_noncov_nr4a2-m2-r0 -> instance 46433424 dph\u2248$0.09374074074074074/hr"
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": "submit",
-   "line": "2026-07-31T19:49:28.2758830Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": null,
-   "line": "2026-07-31T19:49:30.8229735Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: env-ready 2026-07-31T19:49:28Z"
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": null,
-   "line": "2026-07-31T19:49:30.8244983Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": null,
-   "line": "2026-07-31T19:49:32.9817068Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": null,
-   "line": "2026-07-31T19:49:32.9854020Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30660490244,
-   "job": 91255301036,
-   "created_utc": "2026-07-31T19:48:25Z",
-   "action": null,
-   "line": "2026-07-31T19:49:32.9854404Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": null,
-   "line": "2026-07-31T19:57:05.7185353Z [retro-reap]   id=46433424 status=exited label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.10045555555555555/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": "auto-stopped",
-   "line": "2026-07-31T19:57:13.8724888Z [retro-reap] auto-stopped 46433424 (nrv04retro-retro_noncov_nr4a2-m2-r0) \u2014 terminal-state"
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": null,
-   "line": "2026-07-31T19:57:22.2434814Z [retro-super] re-placing 10 hostless AUTHORIZED unit(s): ['nrv04retro-retro_noncov_nr4a1-m1-r1', 'nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a1-m3-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0', 'nrv04retro-retro_noncov_nr4a2-m2-r1', 'nrv04retro-retro_noncov_nr4a2-m3-r1', 'nrv04retro-retro_noncov_nr4a3-m1-r0', 'nrv04retro-retro_noncov_nr4a3-m2-r0', 'nrv04retro-retro_noncov_nr4a3-m2-r1']"
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": null,
-   "line": "2026-07-31T19:57:25.2244465Z [retro] 10 unit(s) [nrv04retro-retro_noncov_nr4a1-m1-r1, nrv04retro-retro_noncov_nr4a1-m2-r1, nrv04retro-retro_noncov_nr4a1-m3-r0, nrv04retro-retro_noncov_nr4a1-m3-r1, nrv04retro-retro_noncov_nr4a2-m2-r0, nrv04retro-retr], mode=run, dry_run=False, pilot_only=0, skip_done=2, skip_live=7, to_rent=10"
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": "submit",
-   "line": "2026-07-31T19:57:59.3713416Z [retro-submit] nrv04retro-retro_noncov_nr4a2-m2-r0 -> instance 46434042 dph\u2248$0.1792222222222222/hr"
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": "submit",
-   "line": "2026-07-31T19:58:34.8293523Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": null,
-   "line": "2026-07-31T19:58:38.8248230Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T19:49:46Z"
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": null,
-   "line": "2026-07-31T19:58:38.8296011Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": null,
-   "line": "2026-07-31T19:58:41.9940164Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": null,
-   "line": "2026-07-31T19:58:41.9982921Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30660997748,
-   "job": 91256934499,
-   "created_utc": "2026-07-31T19:56:35Z",
-   "action": null,
-   "line": "2026-07-31T19:58:41.9983770Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:06:11.8449279Z [retro-reap]   id=46434042 status=loading label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.19716666666666666/hr ::"
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": "DESTROY",
-   "line": "2026-07-31T20:06:21.5237418Z [retro-super] \u26d4 DESTROYED 46434042 (nrv04retro-retro_noncov_nr4a2-m2-r0) \u2014 Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out.. Billing stopped; the checkpoint is intact in S3 and the re-placer below re-prices this unit."
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:06:25.4795088Z [retro-super] re-placing 8 hostless AUTHORIZED unit(s): ['nrv04retro-retro_noncov_nr4a1-m1-r1', 'nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a1-m3-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0', 'nrv04retro-retro_noncov_nr4a2-m2-r1', 'nrv04retro-retro_noncov_nr4a2-m3-r1', 'nrv04retro-retro_noncov_nr4a3-m1-r0']"
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:06:28.5797868Z [retro] 8 unit(s) [nrv04retro-retro_noncov_nr4a1-m1-r1, nrv04retro-retro_noncov_nr4a1-m2-r1, nrv04retro-retro_noncov_nr4a1-m3-r0, nrv04retro-retro_noncov_nr4a1-m3-r1, nrv04retro-retro_noncov_nr4a2-m2-r0, nrv04retro-retr], mode=run, dry_run=False, pilot_only=0, skip_done=2, skip_live=10, to_rent=8"
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": "submit",
-   "line": "2026-07-31T20:07:02.2465621Z [retro-submit] \u26d4 nrv04retro-retro_noncov_nr4a2-m2-r0 NOT RENTED \u2014 CapacityRefusedAtStart: vast: 2 host(s) refused the start with resources_unavailable (machines 31035, 12164) and no remaining offer of 168 clears this spec's ceiling. Nothing is running, $0 is billing.. If the board simply had nothing at or under $0.006539/ns, this is the buy line doing its job: $0 spent, checkpoint intact, re-dispatch to retry."
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:07:12.4800470Z ##[notice]['nrv04retro-retro_noncov_nr4a1-m1-r1', 'nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0', 'nrv04retro-retro_noncov_nr4a3-m1-r0']. Nothing was spent on them and their checkpoints are intact."
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": "submit",
-   "line": "2026-07-31T20:07:12.8214634Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:07:16.6399827Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T19:49:46Z"
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:07:16.6439635Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:07:19.6772001Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:07:19.6799530Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30661522932,
-   "job": 91258636325,
-   "created_utc": "2026-07-31T20:04:45Z",
-   "action": null,
-   "line": "2026-07-31T20:07:19.6800144Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": null,
-   "line": "2026-07-31T20:13:21.9744696Z [retro-super] re-placing 6 hostless AUTHORIZED unit(s): ['nrv04retro-retro_noncov_nr4a1-m1-r1', 'nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a1-m3-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0', 'nrv04retro-retro_noncov_nr4a3-m1-r0']"
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": null,
-   "line": "2026-07-31T20:13:23.3915548Z [retro] 6 unit(s) [nrv04retro-retro_noncov_nr4a1-m1-r1, nrv04retro-retro_noncov_nr4a1-m2-r1, nrv04retro-retro_noncov_nr4a1-m3-r0, nrv04retro-retro_noncov_nr4a1-m3-r1, nrv04retro-retro_noncov_nr4a2-m2-r0, nrv04retro-retr], mode=run, dry_run=False, pilot_only=0, skip_done=2, skip_live=12, to_rent=6"
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": "submit",
-   "line": "2026-07-31T20:13:39.4567609Z [retro-submit] \u26d4 nrv04retro-retro_noncov_nr4a2-m2-r0 NOT RENTED \u2014 CapacityRefusedAtStart: vast: 3 host(s) refused the start with resources_unavailable (machines 17551, 33657, 33622); nothing is running and $0 is billing. Not a price problem \u2014 the board was read and priced.. If the board simply had nothing at or under $0.006539/ns, this is the buy line doing its job: $0 spent, checkpoint intact, re-dispatch to retry."
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": null,
-   "line": "2026-07-31T20:13:42.3027956Z ##[notice]['nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0']. Nothing was spent on them and their checkpoints are intact."
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": "submit",
-   "line": "2026-07-31T20:13:42.3462852Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: NOT BOUGHT \u2014 it was due for a host this tick and none was rented; see the tick's submit lines for the per-offer refusal (a capacity refusal is not a price hold)."
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": null,
-   "line": "2026-07-31T20:13:43.7200741Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T19:49:46Z"
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": null,
-   "line": "2026-07-31T20:13:43.7233841Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": null,
-   "line": "2026-07-31T20:13:45.0152875Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": null,
-   "line": "2026-07-31T20:13:45.0213959Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30662024652,
-   "job": 91260271761,
-   "created_utc": "2026-07-31T20:12:55Z",
-   "action": null,
-   "line": "2026-07-31T20:13:45.0214665Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": null,
-   "line": "2026-07-31T20:21:44.6554624Z [retro-super] re-placing 4 hostless AUTHORIZED unit(s): ['nrv04retro-retro_noncov_nr4a1-m1-r1', 'nrv04retro-retro_noncov_nr4a1-m2-r0', 'nrv04retro-retro_noncov_nr4a1-m2-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0']"
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": null,
-   "line": "2026-07-31T20:21:47.7151693Z [retro] 4 unit(s) [nrv04retro-retro_noncov_nr4a1-m1-r1, nrv04retro-retro_noncov_nr4a1-m2-r0, nrv04retro-retro_noncov_nr4a1-m2-r1, nrv04retro-retro_noncov_nr4a2-m2-r0], mode=run, dry_run=False, pilot_only=0, skip_done=5, skip_live=10, to_rent=4"
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": "submit",
-   "line": "2026-07-31T20:22:09.3825799Z [retro-submit] nrv04retro-retro_noncov_nr4a2-m2-r0 -> instance 46435856 dph\u2248$0.2022222222222222/hr"
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": "submit",
-   "line": "2026-07-31T20:22:09.5720468Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": null,
-   "line": "2026-07-31T20:22:13.4196136Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T19:49:46Z"
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": null,
-   "line": "2026-07-31T20:22:13.4230921Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": null,
-   "line": "2026-07-31T20:22:16.3107690Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": null,
-   "line": "2026-07-31T20:22:16.3170668Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30662540324,
-   "job": 91261899272,
-   "created_utc": "2026-07-31T20:21:03Z",
-   "action": null,
-   "line": "2026-07-31T20:22:16.3171505Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30663040602,
-   "job": 91263509258,
-   "created_utc": "2026-07-31T20:29:13Z",
-   "action": null,
-   "line": "2026-07-31T20:29:43.8119912Z [retro-reap]   id=46435856 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
-  },
-  {
-   "run": 30663040602,
-   "job": 91263509258,
-   "created_utc": "2026-07-31T20:29:13Z",
-   "action": null,
-   "line": "2026-07-31T20:29:51.5309291Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46435856) COLD_START: instance is 8 min old, under the 15 min floor \u2014 too young to have proved anything either way"
-  },
-  {
-   "run": 30663040602,
-   "job": 91263509258,
-   "created_utc": "2026-07-31T20:29:13Z",
-   "action": null,
-   "line": "2026-07-31T20:30:17.1727044Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30663040602,
-   "job": 91263509258,
-   "created_utc": "2026-07-31T20:29:13Z",
-   "action": null,
-   "line": "2026-07-31T20:30:17.1754490Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30663040602,
-   "job": 91263509258,
-   "created_utc": "2026-07-31T20:29:13Z",
-   "action": null,
-   "line": "2026-07-31T20:30:19.4166845Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30663040602,
-   "job": 91263509258,
-   "created_utc": "2026-07-31T20:29:13Z",
-   "action": null,
-   "line": "2026-07-31T20:30:19.4207041Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30663040602,
-   "job": 91263509258,
-   "created_utc": "2026-07-31T20:29:13Z",
-   "action": null,
-   "line": "2026-07-31T20:30:19.4208034Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": null,
-   "line": "2026-07-31T20:37:48.1365511Z [retro-reap]   id=46435856 status=exited label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": "auto-stopped",
-   "line": "2026-07-31T20:37:52.7221659Z [retro-reap] auto-stopped 46435856 (nrv04retro-retro_noncov_nr4a2-m2-r0) \u2014 terminal-state"
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T20:37:59.3964223Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 this unit has been rented 3 times since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3) and has still written NO leg record. A retro leg that runs writes leg_*.json as its last act, so 3 paid hosts with no record is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. NOT permanent: fix the cause, then leg_failure_breaker.reset_for() clears the archive and the next tick rents normally."
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": "breaker",
-   "line": "2026-07-31T20:38:02.4439749Z [retro] scoped to 3 unit(s) by the caller; 15 NOT bought this dispatch: ['nrv04retro-retro_noncov_nr4a1-m1-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m1-r0', 'nrv04retro-retro_noncov_nr4a2-m1-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0']\u2026. This is the caller's hold binding, not a market or breaker refusal \u2014 $0 was spent on them and nothing was dropped from the panel."
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T20:38:24.9141303Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": null,
-   "line": "2026-07-31T20:38:28.0047870Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": null,
-   "line": "2026-07-31T20:38:28.0058574Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": null,
-   "line": "2026-07-31T20:38:30.0416594Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": null,
-   "line": "2026-07-31T20:38:30.0428150Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30663571699,
-   "job": 91265219951,
-   "created_utc": "2026-07-31T20:37:22Z",
-   "action": null,
-   "line": "2026-07-31T20:38:30.0428419Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30664098586,
-   "job": 91266903671,
-   "created_utc": "2026-07-31T20:45:33Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T20:47:23.0325602Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 this unit has been rented 3 times since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3) and has still written NO leg record. A retro leg that runs writes leg_*.json as its last act, so 3 paid hosts with no record is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. NOT permanent: fix the cause, then leg_failure_breaker.reset_for() clears the archive and the next tick rents normally."
-  },
-  {
-   "run": 30664098586,
-   "job": 91266903671,
-   "created_utc": "2026-07-31T20:45:33Z",
-   "action": "breaker",
-   "line": "2026-07-31T20:47:28.6531910Z [retro] scoped to 4 unit(s) by the caller; 14 NOT bought this dispatch: ['nrv04retro-retro_noncov_nr4a1-m1-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r0', 'nrv04retro-retro_noncov_nr4a1-m3-r1', 'nrv04retro-retro_noncov_nr4a2-m1-r0', 'nrv04retro-retro_noncov_nr4a2-m1-r1', 'nrv04retro-retro_noncov_nr4a2-m2-r0']\u2026. This is the caller's hold binding, not a market or breaker refusal \u2014 $0 was spent on them and nothing was dropped from the panel."
-  },
-  {
-   "run": 30664098586,
-   "job": 91266903671,
-   "created_utc": "2026-07-31T20:45:33Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T20:47:39.9846018Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30664098586,
-   "job": 91266903671,
-   "created_utc": "2026-07-31T20:45:33Z",
-   "action": null,
-   "line": "2026-07-31T20:47:41.6636489Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30664098586,
-   "job": 91266903671,
-   "created_utc": "2026-07-31T20:45:33Z",
-   "action": null,
-   "line": "2026-07-31T20:47:41.6656888Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30664098586,
-   "job": 91266903671,
-   "created_utc": "2026-07-31T20:45:33Z",
-   "action": null,
-   "line": "2026-07-31T20:47:42.5421024Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30664098586,
-   "job": 91266903671,
-   "created_utc": "2026-07-31T20:45:33Z",
-   "action": null,
-   "line": "2026-07-31T20:47:42.5476945Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30664098586,
-   "job": 91266903671,
-   "created_utc": "2026-07-31T20:45:33Z",
-   "action": null,
-   "line": "2026-07-31T20:47:42.5477642Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30664606775,
-   "job": 91268548058,
-   "created_utc": "2026-07-31T20:53:42Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T20:55:31.5471256Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30664606775,
-   "job": 91268548058,
-   "created_utc": "2026-07-31T20:53:42Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T20:55:43.4229463Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30664606775,
-   "job": 91268548058,
-   "created_utc": "2026-07-31T20:53:42Z",
-   "action": null,
-   "line": "2026-07-31T20:55:46.9410182Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30664606775,
-   "job": 91268548058,
-   "created_utc": "2026-07-31T20:53:42Z",
-   "action": null,
-   "line": "2026-07-31T20:55:46.9427576Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30664606775,
-   "job": 91268548058,
-   "created_utc": "2026-07-31T20:53:42Z",
-   "action": null,
-   "line": "2026-07-31T20:55:49.2035084Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30664606775,
-   "job": 91268548058,
-   "created_utc": "2026-07-31T20:53:42Z",
-   "action": null,
-   "line": "2026-07-31T20:55:49.2054427Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30664606775,
-   "job": 91268548058,
-   "created_utc": "2026-07-31T20:53:42Z",
-   "action": null,
-   "line": "2026-07-31T20:55:49.2054952Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30665099088,
-   "job": 91270142944,
-   "created_utc": "2026-07-31T21:01:52Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:02:12.8776973Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30665099088,
-   "job": 91270142944,
-   "created_utc": "2026-07-31T21:01:52Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:02:18.2197563Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30665099088,
-   "job": 91270142944,
-   "created_utc": "2026-07-31T21:01:52Z",
-   "action": null,
-   "line": "2026-07-31T21:02:19.9100362Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30665099088,
-   "job": 91270142944,
-   "created_utc": "2026-07-31T21:01:52Z",
-   "action": null,
-   "line": "2026-07-31T21:02:19.9111265Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30665099088,
-   "job": 91270142944,
-   "created_utc": "2026-07-31T21:01:52Z",
-   "action": null,
-   "line": "2026-07-31T21:02:20.7334486Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30665099088,
-   "job": 91270142944,
-   "created_utc": "2026-07-31T21:01:52Z",
-   "action": null,
-   "line": "2026-07-31T21:02:20.7345706Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30665099088,
-   "job": 91270142944,
-   "created_utc": "2026-07-31T21:01:52Z",
-   "action": null,
-   "line": "2026-07-31T21:02:20.7346205Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30665588754,
-   "job": 91271750707,
-   "created_utc": "2026-07-31T21:10:01Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:10:22.5931049Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30665588754,
-   "job": 91271750707,
-   "created_utc": "2026-07-31T21:10:01Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:10:22.7287297Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30665588754,
-   "job": 91271750707,
-   "created_utc": "2026-07-31T21:10:01Z",
-   "action": null,
-   "line": "2026-07-31T21:10:24.3529734Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30665588754,
-   "job": 91271750707,
-   "created_utc": "2026-07-31T21:10:01Z",
-   "action": null,
-   "line": "2026-07-31T21:10:24.3548179Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30665588754,
-   "job": 91271750707,
-   "created_utc": "2026-07-31T21:10:01Z",
-   "action": null,
-   "line": "2026-07-31T21:10:26.0942426Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30665588754,
-   "job": 91271750707,
-   "created_utc": "2026-07-31T21:10:01Z",
-   "action": null,
-   "line": "2026-07-31T21:10:26.0954727Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30665588754,
-   "job": 91271750707,
-   "created_utc": "2026-07-31T21:10:01Z",
-   "action": null,
-   "line": "2026-07-31T21:10:26.0955253Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30666078739,
-   "job": 91273318490,
-   "created_utc": "2026-07-31T21:18:11Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:18:35.3524203Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30666078739,
-   "job": 91273318490,
-   "created_utc": "2026-07-31T21:18:11Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:18:39.5388198Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30666078739,
-   "job": 91273318490,
-   "created_utc": "2026-07-31T21:18:11Z",
-   "action": null,
-   "line": "2026-07-31T21:18:41.3953624Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30666078739,
-   "job": 91273318490,
-   "created_utc": "2026-07-31T21:18:11Z",
-   "action": null,
-   "line": "2026-07-31T21:18:41.3973820Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30666078739,
-   "job": 91273318490,
-   "created_utc": "2026-07-31T21:18:11Z",
-   "action": null,
-   "line": "2026-07-31T21:18:43.4146760Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30666078739,
-   "job": 91273318490,
-   "created_utc": "2026-07-31T21:18:11Z",
-   "action": null,
-   "line": "2026-07-31T21:18:43.4165973Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30666078739,
-   "job": 91273318490,
-   "created_utc": "2026-07-31T21:18:11Z",
-   "action": null,
-   "line": "2026-07-31T21:18:43.4167281Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30666560909,
-   "job": 91274874503,
-   "created_utc": "2026-07-31T21:26:20Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:26:49.1209900Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30666560909,
-   "job": 91274874503,
-   "created_utc": "2026-07-31T21:26:20Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:27:07.7623654Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30666560909,
-   "job": 91274874503,
-   "created_utc": "2026-07-31T21:26:20Z",
-   "action": null,
-   "line": "2026-07-31T21:27:11.4558759Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30666560909,
-   "job": 91274874503,
-   "created_utc": "2026-07-31T21:26:20Z",
-   "action": null,
-   "line": "2026-07-31T21:27:11.4571864Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30666560909,
-   "job": 91274874503,
-   "created_utc": "2026-07-31T21:26:20Z",
-   "action": null,
-   "line": "2026-07-31T21:27:15.4241285Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30666560909,
-   "job": 91274874503,
-   "created_utc": "2026-07-31T21:26:20Z",
-   "action": null,
-   "line": "2026-07-31T21:27:15.4259297Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30666560909,
-   "job": 91274874503,
-   "created_utc": "2026-07-31T21:26:20Z",
-   "action": null,
-   "line": "2026-07-31T21:27:15.4260166Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
   {
    "run": 30667057823,
    "job": 91276428983,
@@ -2685,7 +1838,1057 @@
    "created_utc": "2026-08-01T00:42:04Z",
    "action": null,
    "line": "2026-08-01T00:42:30.2383483Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676309260,
+   "job": 91304189212,
+   "created_utc": "2026-08-01T00:45:13Z",
+   "action": null,
+   "line": "2026-08-01T00:45:36.7707274Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676309260,
+   "job": 91304189212,
+   "created_utc": "2026-08-01T00:45:13Z",
+   "action": null,
+   "line": "2026-08-01T00:45:42.6230609Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) COLD_START: instance is 8 min old, under the 15 min floor \u2014 too young to have proved anything either way"
+  },
+  {
+   "run": 30676309260,
+   "job": 91304189212,
+   "created_utc": "2026-08-01T00:45:13Z",
+   "action": null,
+   "line": "2026-08-01T00:45:47.0554863Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676309260,
+   "job": 91304189212,
+   "created_utc": "2026-08-01T00:45:13Z",
+   "action": null,
+   "line": "2026-08-01T00:45:47.0565799Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676309260,
+   "job": 91304189212,
+   "created_utc": "2026-08-01T00:45:13Z",
+   "action": null,
+   "line": "2026-08-01T00:45:50.6183906Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676309260,
+   "job": 91304189212,
+   "created_utc": "2026-08-01T00:45:13Z",
+   "action": null,
+   "line": "2026-08-01T00:45:50.6187122Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676309260,
+   "job": 91304189212,
+   "created_utc": "2026-08-01T00:45:13Z",
+   "action": null,
+   "line": "2026-08-01T00:45:50.6187720Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676398778,
+   "job": 91304458774,
+   "created_utc": "2026-08-01T00:47:25Z",
+   "action": null,
+   "line": "2026-08-01T00:47:51.7995420Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676398778,
+   "job": 91304458774,
+   "created_utc": "2026-08-01T00:47:25Z",
+   "action": null,
+   "line": "2026-08-01T00:47:56.8765927Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) COLD_START: instance is 10 min old, under the 15 min floor \u2014 too young to have proved anything either way"
+  },
+  {
+   "run": 30676398778,
+   "job": 91304458774,
+   "created_utc": "2026-08-01T00:47:25Z",
+   "action": null,
+   "line": "2026-08-01T00:48:00.5306850Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676398778,
+   "job": 91304458774,
+   "created_utc": "2026-08-01T00:47:25Z",
+   "action": null,
+   "line": "2026-08-01T00:48:00.5314599Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676398778,
+   "job": 91304458774,
+   "created_utc": "2026-08-01T00:47:25Z",
+   "action": null,
+   "line": "2026-08-01T00:48:04.7476517Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676398778,
+   "job": 91304458774,
+   "created_utc": "2026-08-01T00:47:25Z",
+   "action": null,
+   "line": "2026-08-01T00:48:04.7480316Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676398778,
+   "job": 91304458774,
+   "created_utc": "2026-08-01T00:47:25Z",
+   "action": null,
+   "line": "2026-08-01T00:48:04.7480898Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676490004,
+   "job": 91304735142,
+   "created_utc": "2026-08-01T00:49:47Z",
+   "action": null,
+   "line": "2026-08-01T00:50:08.2250555Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676490004,
+   "job": 91304735142,
+   "created_utc": "2026-08-01T00:49:47Z",
+   "action": null,
+   "line": "2026-08-01T00:50:13.7821056Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) COLD_START: instance is 12 min old, under the 15 min floor \u2014 too young to have proved anything either way"
+  },
+  {
+   "run": 30676490004,
+   "job": 91304735142,
+   "created_utc": "2026-08-01T00:49:47Z",
+   "action": null,
+   "line": "2026-08-01T00:50:17.4889177Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676490004,
+   "job": 91304735142,
+   "created_utc": "2026-08-01T00:49:47Z",
+   "action": null,
+   "line": "2026-08-01T00:50:17.4902303Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676490004,
+   "job": 91304735142,
+   "created_utc": "2026-08-01T00:49:47Z",
+   "action": null,
+   "line": "2026-08-01T00:50:20.5254360Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676490004,
+   "job": 91304735142,
+   "created_utc": "2026-08-01T00:49:47Z",
+   "action": null,
+   "line": "2026-08-01T00:50:20.5258842Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676490004,
+   "job": 91304735142,
+   "created_utc": "2026-08-01T00:49:47Z",
+   "action": null,
+   "line": "2026-08-01T00:50:20.5259861Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676509058,
+   "job": 91304819764,
+   "created_utc": "2026-08-01T00:50:13Z",
+   "action": null,
+   "line": "2026-08-01T00:50:49.9987773Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676509058,
+   "job": 91304819764,
+   "created_utc": "2026-08-01T00:50:13Z",
+   "action": null,
+   "line": "2026-08-01T00:50:55.7374572Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) COLD_START: instance is 13 min old, under the 15 min floor \u2014 too young to have proved anything either way"
+  },
+  {
+   "run": 30676509058,
+   "job": 91304819764,
+   "created_utc": "2026-08-01T00:50:13Z",
+   "action": null,
+   "line": "2026-08-01T00:50:59.6951748Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676509058,
+   "job": 91304819764,
+   "created_utc": "2026-08-01T00:50:13Z",
+   "action": null,
+   "line": "2026-08-01T00:50:59.6965747Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676509058,
+   "job": 91304819764,
+   "created_utc": "2026-08-01T00:50:13Z",
+   "action": null,
+   "line": "2026-08-01T00:51:03.0300948Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676509058,
+   "job": 91304819764,
+   "created_utc": "2026-08-01T00:50:13Z",
+   "action": null,
+   "line": "2026-08-01T00:51:03.0305531Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676509058,
+   "job": 91304819764,
+   "created_utc": "2026-08-01T00:50:13Z",
+   "action": null,
+   "line": "2026-08-01T00:51:03.0306509Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676583681,
+   "job": 91305012643,
+   "created_utc": "2026-08-01T00:52:06Z",
+   "action": null,
+   "line": "2026-08-01T00:52:30.3944149Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676583681,
+   "job": 91305012643,
+   "created_utc": "2026-08-01T00:52:06Z",
+   "action": null,
+   "line": "2026-08-01T00:52:35.5945323Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) COLD_START: instance is 15 min old, under the 15 min floor \u2014 too young to have proved anything either way"
+  },
+  {
+   "run": 30676583681,
+   "job": 91305012643,
+   "created_utc": "2026-08-01T00:52:06Z",
+   "action": null,
+   "line": "2026-08-01T00:52:39.5361280Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676583681,
+   "job": 91305012643,
+   "created_utc": "2026-08-01T00:52:06Z",
+   "action": null,
+   "line": "2026-08-01T00:52:39.5371181Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676583681,
+   "job": 91305012643,
+   "created_utc": "2026-08-01T00:52:06Z",
+   "action": null,
+   "line": "2026-08-01T00:52:42.5763869Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676583681,
+   "job": 91305012643,
+   "created_utc": "2026-08-01T00:52:06Z",
+   "action": null,
+   "line": "2026-08-01T00:52:42.5767996Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676583681,
+   "job": 91305012643,
+   "created_utc": "2026-08-01T00:52:06Z",
+   "action": null,
+   "line": "2026-08-01T00:52:42.5768490Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676681248,
+   "job": 91305309256,
+   "created_utc": "2026-08-01T00:54:29Z",
+   "action": null,
+   "line": "2026-08-01T00:54:48.2915487Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676681248,
+   "job": 91305309256,
+   "created_utc": "2026-08-01T00:54:29Z",
+   "action": null,
+   "line": "2026-08-01T00:54:54.4557483Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WATCHING: quiet but alive: run.log 0 min old, CONTENT IDENTITY NOT TRACKED \u2014 the mtime alone cannot distinguish a writing host from a timer re-uploading the same bytes, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase"
+  },
+  {
+   "run": 30676681248,
+   "job": 91305309256,
+   "created_utc": "2026-08-01T00:54:29Z",
+   "action": null,
+   "line": "2026-08-01T00:54:58.9986532Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676681248,
+   "job": 91305309256,
+   "created_utc": "2026-08-01T00:54:29Z",
+   "action": null,
+   "line": "2026-08-01T00:54:58.9999576Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676681248,
+   "job": 91305309256,
+   "created_utc": "2026-08-01T00:54:29Z",
+   "action": null,
+   "line": "2026-08-01T00:55:02.6533964Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676681248,
+   "job": 91305309256,
+   "created_utc": "2026-08-01T00:54:29Z",
+   "action": null,
+   "line": "2026-08-01T00:55:02.6537324Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676681248,
+   "job": 91305309256,
+   "created_utc": "2026-08-01T00:54:29Z",
+   "action": null,
+   "line": "2026-08-01T00:55:02.6537992Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676770516,
+   "job": 91305574321,
+   "created_utc": "2026-08-01T00:56:46Z",
+   "action": null,
+   "line": "2026-08-01T00:57:10.2841924Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676770516,
+   "job": 91305574321,
+   "created_utc": "2026-08-01T00:56:46Z",
+   "action": null,
+   "line": "2026-08-01T00:57:15.8507944Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WORKING: gpu_util=97.9999% >= 5% and the host is still writing \u2014 GPU busy"
+  },
+  {
+   "run": 30676770516,
+   "job": 91305574321,
+   "created_utc": "2026-08-01T00:56:46Z",
+   "action": null,
+   "line": "2026-08-01T00:57:19.6439619Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676770516,
+   "job": 91305574321,
+   "created_utc": "2026-08-01T00:56:46Z",
+   "action": null,
+   "line": "2026-08-01T00:57:19.6445237Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676770516,
+   "job": 91305574321,
+   "created_utc": "2026-08-01T00:56:46Z",
+   "action": null,
+   "line": "2026-08-01T00:57:22.9316927Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676770516,
+   "job": 91305574321,
+   "created_utc": "2026-08-01T00:56:46Z",
+   "action": null,
+   "line": "2026-08-01T00:57:22.9319739Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676770516,
+   "job": 91305574321,
+   "created_utc": "2026-08-01T00:56:46Z",
+   "action": null,
+   "line": "2026-08-01T00:57:22.9320361Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676833822,
+   "job": 91305761899,
+   "created_utc": "2026-08-01T00:58:22Z",
+   "action": null,
+   "line": "2026-08-01T00:58:42.5476503Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676833822,
+   "job": 91305761899,
+   "created_utc": "2026-08-01T00:58:22Z",
+   "action": null,
+   "line": "2026-08-01T00:58:44.9886924Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WORKING: gpu_util=97.9999% >= 5% and the host is still writing \u2014 GPU busy"
+  },
+  {
+   "run": 30676833822,
+   "job": 91305761899,
+   "created_utc": "2026-08-01T00:58:22Z",
+   "action": null,
+   "line": "2026-08-01T00:58:46.7082598Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676833822,
+   "job": 91305761899,
+   "created_utc": "2026-08-01T00:58:22Z",
+   "action": null,
+   "line": "2026-08-01T00:58:46.7092498Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676833822,
+   "job": 91305761899,
+   "created_utc": "2026-08-01T00:58:22Z",
+   "action": null,
+   "line": "2026-08-01T00:58:47.8950332Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676833822,
+   "job": 91305761899,
+   "created_utc": "2026-08-01T00:58:22Z",
+   "action": null,
+   "line": "2026-08-01T00:58:47.8954609Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676833822,
+   "job": 91305761899,
+   "created_utc": "2026-08-01T00:58:22Z",
+   "action": null,
+   "line": "2026-08-01T00:58:47.8955386Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676845884,
+   "job": 91305829599,
+   "created_utc": "2026-08-01T00:58:41Z",
+   "action": null,
+   "line": "2026-08-01T00:59:22.7019103Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676845884,
+   "job": 91305829599,
+   "created_utc": "2026-08-01T00:58:41Z",
+   "action": null,
+   "line": "2026-08-01T00:59:24.0307633Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WATCHING: quiet but alive: run.log 0 min old, CONTENT IDENTITY NOT TRACKED \u2014 the mtime alone cannot distinguish a writing host from a timer re-uploading the same bytes, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase"
+  },
+  {
+   "run": 30676845884,
+   "job": 91305829599,
+   "created_utc": "2026-08-01T00:58:41Z",
+   "action": null,
+   "line": "2026-08-01T00:59:25.7432888Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676845884,
+   "job": 91305829599,
+   "created_utc": "2026-08-01T00:58:41Z",
+   "action": null,
+   "line": "2026-08-01T00:59:25.7445727Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676845884,
+   "job": 91305829599,
+   "created_utc": "2026-08-01T00:58:41Z",
+   "action": null,
+   "line": "2026-08-01T00:59:27.0854436Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676845884,
+   "job": 91305829599,
+   "created_utc": "2026-08-01T00:58:41Z",
+   "action": null,
+   "line": "2026-08-01T00:59:27.0858287Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676845884,
+   "job": 91305829599,
+   "created_utc": "2026-08-01T00:58:41Z",
+   "action": null,
+   "line": "2026-08-01T00:59:27.0859348Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676868181,
+   "job": 91305951661,
+   "created_utc": "2026-08-01T00:59:17Z",
+   "action": null,
+   "line": "2026-08-01T01:00:27.6154980Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676868181,
+   "job": 91305951661,
+   "created_utc": "2026-08-01T00:59:17Z",
+   "action": null,
+   "line": "2026-08-01T01:00:29.9195256Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WATCHING: quiet but alive: run.log 0 min old, CONTENT IDENTITY NOT TRACKED \u2014 the mtime alone cannot distinguish a writing host from a timer re-uploading the same bytes, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase"
+  },
+  {
+   "run": 30676868181,
+   "job": 91305951661,
+   "created_utc": "2026-08-01T00:59:17Z",
+   "action": null,
+   "line": "2026-08-01T01:00:31.7009295Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676868181,
+   "job": 91305951661,
+   "created_utc": "2026-08-01T00:59:17Z",
+   "action": null,
+   "line": "2026-08-01T01:00:31.7020292Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676868181,
+   "job": 91305951661,
+   "created_utc": "2026-08-01T00:59:17Z",
+   "action": null,
+   "line": "2026-08-01T01:00:32.9359878Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676868181,
+   "job": 91305951661,
+   "created_utc": "2026-08-01T00:59:17Z",
+   "action": null,
+   "line": "2026-08-01T01:00:32.9364527Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676868181,
+   "job": 91305951661,
+   "created_utc": "2026-08-01T00:59:17Z",
+   "action": null,
+   "line": "2026-08-01T01:00:32.9365421Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30676961726,
+   "job": 91306128131,
+   "created_utc": "2026-08-01T01:01:28Z",
+   "action": null,
+   "line": "2026-08-01T01:01:52.0574187Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30676961726,
+   "job": 91306128131,
+   "created_utc": "2026-08-01T01:01:28Z",
+   "action": null,
+   "line": "2026-08-01T01:01:54.5586115Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WORKING: gpu_util=97.9999% >= 5% and the host is still writing \u2014 GPU busy"
+  },
+  {
+   "run": 30676961726,
+   "job": 91306128131,
+   "created_utc": "2026-08-01T01:01:28Z",
+   "action": null,
+   "line": "2026-08-01T01:01:56.4332549Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30676961726,
+   "job": 91306128131,
+   "created_utc": "2026-08-01T01:01:28Z",
+   "action": null,
+   "line": "2026-08-01T01:01:56.4340097Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30676961726,
+   "job": 91306128131,
+   "created_utc": "2026-08-01T01:01:28Z",
+   "action": null,
+   "line": "2026-08-01T01:01:57.8127315Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30676961726,
+   "job": 91306128131,
+   "created_utc": "2026-08-01T01:01:28Z",
+   "action": null,
+   "line": "2026-08-01T01:01:57.8130951Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30676961726,
+   "job": 91306128131,
+   "created_utc": "2026-08-01T01:01:28Z",
+   "action": null,
+   "line": "2026-08-01T01:01:57.8131778Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677047429,
+   "job": 91306382527,
+   "created_utc": "2026-08-01T01:03:39Z",
+   "action": null,
+   "line": "2026-08-01T01:04:03.9740475Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677047429,
+   "job": 91306382527,
+   "created_utc": "2026-08-01T01:03:39Z",
+   "action": null,
+   "line": "2026-08-01T01:04:06.6493953Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WORKING: gpu_util=97.9999% >= 5% and the host is still writing \u2014 GPU busy"
+  },
+  {
+   "run": 30677047429,
+   "job": 91306382527,
+   "created_utc": "2026-08-01T01:03:39Z",
+   "action": null,
+   "line": "2026-08-01T01:04:08.5060012Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677047429,
+   "job": 91306382527,
+   "created_utc": "2026-08-01T01:03:39Z",
+   "action": null,
+   "line": "2026-08-01T01:04:08.5071538Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677047429,
+   "job": 91306382527,
+   "created_utc": "2026-08-01T01:03:39Z",
+   "action": null,
+   "line": "2026-08-01T01:04:10.2605273Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677047429,
+   "job": 91306382527,
+   "created_utc": "2026-08-01T01:03:39Z",
+   "action": null,
+   "line": "2026-08-01T01:04:10.2607886Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677047429,
+   "job": 91306382527,
+   "created_utc": "2026-08-01T01:03:39Z",
+   "action": null,
+   "line": "2026-08-01T01:04:10.2608408Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677134085,
+   "job": 91306623958,
+   "created_utc": "2026-08-01T01:05:52Z",
+   "action": null,
+   "line": "2026-08-01T01:06:11.6668535Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677134085,
+   "job": 91306623958,
+   "created_utc": "2026-08-01T01:05:52Z",
+   "action": null,
+   "line": "2026-08-01T01:06:14.9883219Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WORKING: gpu_util=69.9999% >= 5% and the host is still writing \u2014 GPU busy"
+  },
+  {
+   "run": 30677134085,
+   "job": 91306623958,
+   "created_utc": "2026-08-01T01:05:52Z",
+   "action": null,
+   "line": "2026-08-01T01:06:17.3161246Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677134085,
+   "job": 91306623958,
+   "created_utc": "2026-08-01T01:05:52Z",
+   "action": null,
+   "line": "2026-08-01T01:06:17.3167127Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677134085,
+   "job": 91306623958,
+   "created_utc": "2026-08-01T01:05:52Z",
+   "action": null,
+   "line": "2026-08-01T01:06:19.1847138Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677134085,
+   "job": 91306623958,
+   "created_utc": "2026-08-01T01:05:52Z",
+   "action": null,
+   "line": "2026-08-01T01:06:19.1850568Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677134085,
+   "job": 91306623958,
+   "created_utc": "2026-08-01T01:05:52Z",
+   "action": null,
+   "line": "2026-08-01T01:06:19.1851175Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677172865,
+   "job": 91306733743,
+   "created_utc": "2026-08-01T01:06:51Z",
+   "action": null,
+   "line": "2026-08-01T01:07:08.8645250Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677172865,
+   "job": 91306733743,
+   "created_utc": "2026-08-01T01:06:51Z",
+   "action": null,
+   "line": "2026-08-01T01:07:11.8245171Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WORKING: gpu_util=69.9999% >= 5% and the host is still writing \u2014 GPU busy"
+  },
+  {
+   "run": 30677172865,
+   "job": 91306733743,
+   "created_utc": "2026-08-01T01:06:51Z",
+   "action": null,
+   "line": "2026-08-01T01:07:13.8128128Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677172865,
+   "job": 91306733743,
+   "created_utc": "2026-08-01T01:06:51Z",
+   "action": null,
+   "line": "2026-08-01T01:07:13.8140830Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677172865,
+   "job": 91306733743,
+   "created_utc": "2026-08-01T01:06:51Z",
+   "action": null,
+   "line": "2026-08-01T01:07:15.4730163Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677172865,
+   "job": 91306733743,
+   "created_utc": "2026-08-01T01:06:51Z",
+   "action": null,
+   "line": "2026-08-01T01:07:15.4732900Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677172865,
+   "job": 91306733743,
+   "created_utc": "2026-08-01T01:06:51Z",
+   "action": null,
+   "line": "2026-08-01T01:07:15.4733484Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677276522,
+   "job": 91307033613,
+   "created_utc": "2026-08-01T01:09:26Z",
+   "action": null,
+   "line": "2026-08-01T01:09:44.2771822Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677276522,
+   "job": 91307033613,
+   "created_utc": "2026-08-01T01:09:26Z",
+   "action": null,
+   "line": "2026-08-01T01:09:47.2447295Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WATCHING: quiet but alive: run.log 0 min old, CONTENT IDENTITY NOT TRACKED \u2014 the mtime alone cannot distinguish a writing host from a timer re-uploading the same bytes, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase"
+  },
+  {
+   "run": 30677276522,
+   "job": 91307033613,
+   "created_utc": "2026-08-01T01:09:26Z",
+   "action": null,
+   "line": "2026-08-01T01:09:49.2780161Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677276522,
+   "job": 91307033613,
+   "created_utc": "2026-08-01T01:09:26Z",
+   "action": null,
+   "line": "2026-08-01T01:09:49.2792674Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677276522,
+   "job": 91307033613,
+   "created_utc": "2026-08-01T01:09:26Z",
+   "action": null,
+   "line": "2026-08-01T01:09:50.8386349Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677276522,
+   "job": 91307033613,
+   "created_utc": "2026-08-01T01:09:26Z",
+   "action": null,
+   "line": "2026-08-01T01:09:50.8390620Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677276522,
+   "job": 91307033613,
+   "created_utc": "2026-08-01T01:09:26Z",
+   "action": null,
+   "line": "2026-08-01T01:09:50.8392217Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677361136,
+   "job": 91307270794,
+   "created_utc": "2026-08-01T01:11:40Z",
+   "action": null,
+   "line": "2026-08-01T01:11:57.0371862Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677361136,
+   "job": 91307270794,
+   "created_utc": "2026-08-01T01:11:40Z",
+   "action": null,
+   "line": "2026-08-01T01:11:59.5148391Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WATCHING: quiet but alive: run.log 0 min old, CONTENT IDENTITY NOT TRACKED \u2014 the mtime alone cannot distinguish a writing host from a timer re-uploading the same bytes, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase"
+  },
+  {
+   "run": 30677361136,
+   "job": 91307270794,
+   "created_utc": "2026-08-01T01:11:40Z",
+   "action": null,
+   "line": "2026-08-01T01:12:01.2892230Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677361136,
+   "job": 91307270794,
+   "created_utc": "2026-08-01T01:11:40Z",
+   "action": null,
+   "line": "2026-08-01T01:12:01.2902826Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677361136,
+   "job": 91307270794,
+   "created_utc": "2026-08-01T01:11:40Z",
+   "action": null,
+   "line": "2026-08-01T01:12:03.3309376Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677361136,
+   "job": 91307270794,
+   "created_utc": "2026-08-01T01:11:40Z",
+   "action": null,
+   "line": "2026-08-01T01:12:03.3313279Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677361136,
+   "job": 91307270794,
+   "created_utc": "2026-08-01T01:11:40Z",
+   "action": null,
+   "line": "2026-08-01T01:12:03.3314115Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677444536,
+   "job": 91307497944,
+   "created_utc": "2026-08-01T01:13:51Z",
+   "action": null,
+   "line": "2026-08-01T01:14:13.5591566Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677444536,
+   "job": 91307497944,
+   "created_utc": "2026-08-01T01:13:51Z",
+   "action": null,
+   "line": "2026-08-01T01:14:19.5146879Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WORKING: gpu_util=97.9999% >= 5% and the host is still writing \u2014 GPU busy"
+  },
+  {
+   "run": 30677444536,
+   "job": 91307497944,
+   "created_utc": "2026-08-01T01:13:51Z",
+   "action": null,
+   "line": "2026-08-01T01:14:23.8024759Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677444536,
+   "job": 91307497944,
+   "created_utc": "2026-08-01T01:13:51Z",
+   "action": null,
+   "line": "2026-08-01T01:14:23.8037251Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677444536,
+   "job": 91307497944,
+   "created_utc": "2026-08-01T01:13:51Z",
+   "action": null,
+   "line": "2026-08-01T01:14:27.1845931Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677444536,
+   "job": 91307497944,
+   "created_utc": "2026-08-01T01:13:51Z",
+   "action": null,
+   "line": "2026-08-01T01:14:27.1849294Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677444536,
+   "job": 91307497944,
+   "created_utc": "2026-08-01T01:13:51Z",
+   "action": null,
+   "line": "2026-08-01T01:14:27.1849941Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677489120,
+   "job": 91307615643,
+   "created_utc": "2026-08-01T01:15:01Z",
+   "action": null,
+   "line": "2026-08-01T01:15:19.5163015Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677489120,
+   "job": 91307615643,
+   "created_utc": "2026-08-01T01:15:01Z",
+   "action": null,
+   "line": "2026-08-01T01:15:24.0364864Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WATCHING: quiet but alive: run.log 1 min old, CONTENT IDENTITY NOT TRACKED \u2014 the mtime alone cannot distinguish a writing host from a timer re-uploading the same bytes, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase"
+  },
+  {
+   "run": 30677489120,
+   "job": 91307615643,
+   "created_utc": "2026-08-01T01:15:01Z",
+   "action": null,
+   "line": "2026-08-01T01:15:27.5925051Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677489120,
+   "job": 91307615643,
+   "created_utc": "2026-08-01T01:15:01Z",
+   "action": null,
+   "line": "2026-08-01T01:15:27.5932323Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677489120,
+   "job": 91307615643,
+   "created_utc": "2026-08-01T01:15:01Z",
+   "action": null,
+   "line": "2026-08-01T01:15:30.6089112Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677489120,
+   "job": 91307615643,
+   "created_utc": "2026-08-01T01:15:01Z",
+   "action": null,
+   "line": "2026-08-01T01:15:30.6092716Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677489120,
+   "job": 91307615643,
+   "created_utc": "2026-08-01T01:15:01Z",
+   "action": null,
+   "line": "2026-08-01T01:15:30.6093508Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677532084,
+   "job": 91307730480,
+   "created_utc": "2026-08-01T01:16:02Z",
+   "action": null,
+   "line": "2026-08-01T01:16:21.5662572Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677532084,
+   "job": 91307730480,
+   "created_utc": "2026-08-01T01:16:02Z",
+   "action": null,
+   "line": "2026-08-01T01:16:24.3189986Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WATCHING: quiet but alive: run.log 0 min old, CONTENT IDENTITY NOT TRACKED \u2014 the mtime alone cannot distinguish a writing host from a timer re-uploading the same bytes, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase"
+  },
+  {
+   "run": 30677532084,
+   "job": 91307730480,
+   "created_utc": "2026-08-01T01:16:02Z",
+   "action": null,
+   "line": "2026-08-01T01:16:26.2659357Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677532084,
+   "job": 91307730480,
+   "created_utc": "2026-08-01T01:16:02Z",
+   "action": null,
+   "line": "2026-08-01T01:16:26.2672214Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677532084,
+   "job": 91307730480,
+   "created_utc": "2026-08-01T01:16:02Z",
+   "action": null,
+   "line": "2026-08-01T01:16:27.8058445Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677532084,
+   "job": 91307730480,
+   "created_utc": "2026-08-01T01:16:02Z",
+   "action": null,
+   "line": "2026-08-01T01:16:27.8061457Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677532084,
+   "job": 91307730480,
+   "created_utc": "2026-08-01T01:16:02Z",
+   "action": null,
+   "line": "2026-08-01T01:16:27.8062089Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677626611,
+   "job": 91307993439,
+   "created_utc": "2026-08-01T01:18:35Z",
+   "action": null,
+   "line": "2026-08-01T01:18:58.2165002Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677626611,
+   "job": 91307993439,
+   "created_utc": "2026-08-01T01:18:35Z",
+   "action": null,
+   "line": "2026-08-01T01:19:01.8004124Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WORKING: gpu_util=85.9999% >= 5% and the host is still writing \u2014 GPU busy"
+  },
+  {
+   "run": 30677626611,
+   "job": 91307993439,
+   "created_utc": "2026-08-01T01:18:35Z",
+   "action": null,
+   "line": "2026-08-01T01:19:04.3787780Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T00:38:44Z"
+  },
+  {
+   "run": 30677626611,
+   "job": 91307993439,
+   "created_utc": "2026-08-01T01:18:35Z",
+   "action": null,
+   "line": "2026-08-01T01:19:04.3793235Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677626611,
+   "job": 91307993439,
+   "created_utc": "2026-08-01T01:18:35Z",
+   "action": null,
+   "line": "2026-08-01T01:19:06.4277591Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677626611,
+   "job": 91307993439,
+   "created_utc": "2026-08-01T01:18:35Z",
+   "action": null,
+   "line": "2026-08-01T01:19:06.4280274Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677626611,
+   "job": 91307993439,
+   "created_utc": "2026-08-01T01:18:35Z",
+   "action": null,
+   "line": "2026-08-01T01:19:06.4280707Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677710476,
+   "job": 91308225162,
+   "created_utc": "2026-08-01T01:20:47Z",
+   "action": null,
+   "line": "2026-08-01T01:21:16.6989334Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677710476,
+   "job": 91308225162,
+   "created_utc": "2026-08-01T01:20:47Z",
+   "action": null,
+   "line": "2026-08-01T01:21:20.1808493Z [retro-super] nrv04retro-retro_noncov_nr4a2-m2-r0 (46453675) WATCHING: quiet but alive: run.log 0 min old, CONTENT IDENTITY NOT TRACKED \u2014 the mtime alone cannot distinguish a writing host from a timer re-uploading the same bytes, GPU idle, no committed advance \u2014 consistent with a CPU-bound setup phase"
+  },
+  {
+   "run": 30677710476,
+   "job": 91308225162,
+   "created_utc": "2026-08-01T01:20:47Z",
+   "action": null,
+   "line": "2026-08-01T01:21:22.5823402Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-done 2026-08-01T01:21:13Z"
+  },
+  {
+   "run": 30677710476,
+   "job": 91308225162,
+   "created_utc": "2026-08-01T01:20:47Z",
+   "action": null,
+   "line": "2026-08-01T01:21:22.5829610Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
+  },
+  {
+   "run": 30677710476,
+   "job": 91308225162,
+   "created_utc": "2026-08-01T01:20:47Z",
+   "action": null,
+   "line": "2026-08-01T01:21:24.5287377Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\""
+  },
+  {
+   "run": 30677710476,
+   "job": 91308225162,
+   "created_utc": "2026-08-01T01:20:47Z",
+   "action": null,
+   "line": "2026-08-01T01:21:24.5290606Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
+  },
+  {
+   "run": 30677710476,
+   "job": 91308225162,
+   "created_utc": "2026-08-01T01:20:47Z",
+   "action": null,
+   "line": "2026-08-01T01:21:24.5291130Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
+  },
+  {
+   "run": 30677795356,
+   "job": 91308480356,
+   "created_utc": "2026-08-01T01:23:11Z",
+   "action": null,
+   "line": "2026-08-01T01:23:35.6166907Z [retro-reap]   id=46453675 status=running label=nrv04retro-retro_noncov_nr4a2-m2-r0 dph=$0.22066666666666665/hr :: success, running docker.io/triskit23/nrv04vast_latest/ssh"
+  },
+  {
+   "run": 30677795356,
+   "job": 91308480356,
+   "created_utc": "2026-08-01T01:23:11Z",
+   "action": "auto-stopped",
+   "line": "2026-08-01T01:23:38.6485464Z [retro-reap] auto-stopped 46453675 (nrv04retro-retro_noncov_nr4a2-m2-r0) \u2014 result-in-S3"
+  },
+  {
+   "run": 30677795356,
+   "job": 91308480356,
+   "created_utc": "2026-08-01T01:23:11Z",
+   "action": null,
+   "line": "2026-08-01T01:23:47.1662021Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   }
  ],
- "bytes_scanned": 3765137
+ "bytes_scanned": 3763307
 }
