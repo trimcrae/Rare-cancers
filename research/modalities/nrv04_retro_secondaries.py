@@ -559,13 +559,18 @@ def reproduces_emitted_verdict(admitted, model_means):
     }
 
 
-def e4_outliers(secondaries, ratio=4.0):
-    """FLAG ONLY. Legs whose E4 distribution sits a factor of `ratio` away from their arm's median leg.
+def e4_outliers(secondaries, census_doc=None, ratio=4.0):
+    """FLAG ONLY. Legs whose E4 distribution sits a factor of `ratio` away from their arm's median leg,
+    each carried with the two record-level facts that DISCRIMINATE a driver-revision artifact from a real
+    geometry — when the record was written, and whether it carries a trajectory receipt.
 
     ⚠ It changes nothing. E4 is descriptive-only and never a gate (prereg §3), so an outlier is neither
-    excluded, down-weighted, nor allowed to move any number — it is NAMED, with the fields that would
-    discriminate a real geometry from an artifact, so the next reader starts from the observation rather
-    than from a story."""
+    excluded, down-weighted, nor corrected — every E4 figure in this document is computed over ALL legs.
+    What is added is the OBSERVATION, so the next reader starts from evidence rather than from a story
+    (CLAUDE.md §4). The like-for-like subset is reported BESIDE the arm figure, clearly labelled, never
+    in place of it (rule 1.2: a superseded reading is marked, never silently dropped)."""
+    prov = {r["unit"]: r for r in ((census_doc or {}).get("per_record") or [])}
+    written = sorted(r["record_written_utc"] for r in prov.values() if r.get("record_written_utc"))
     out = []
     for arm in secondaries["arms"]:
         rows = [r for r in secondaries["per_leg"] if r["arm_id"] == arm and r["e4_median_A"] is not None]
@@ -574,16 +579,55 @@ def e4_outliers(secondaries, ratio=4.0):
         meds = sorted(r["e4_median_A"] for r in rows)
         centre = meds[len(meds) // 2]
         for r in rows:
-            if centre and (r["e4_median_A"] * ratio < centre or r["e4_median_A"] > centre * ratio):
-                out.append({"unit": r["unit"], "arm_id": arm,
-                            "e4_min_A": r["e4_min_A"], "e4_median_A": r["e4_median_A"],
-                            "e4_max_A": r["e4_max_A"],
-                            "arm_median_leg_e4_median_A": centre,
-                            "ratio_to_arm_median": round(centre / r["e4_median_A"], 2) if r["e4_median_A"] else None})
+            if not (centre and (r["e4_median_A"] * ratio < centre or r["e4_median_A"] > centre * ratio)):
+                continue
+            p = prov.get(r["unit"], {})
+            entry = {"unit": r["unit"], "arm_id": arm,
+                     "e4_min_A": r["e4_min_A"], "e4_median_A": r["e4_median_A"],
+                     "e4_max_A": r["e4_max_A"],
+                     "arm_median_leg_e4_median_A": centre,
+                     "ratio_to_arm_median": round(centre / r["e4_median_A"], 2) if r["e4_median_A"] else None,
+                     "record_written_utc": p.get("record_written_utc"),
+                     "has_trajectory_receipt": p.get("measured_traj_written_frames") is not None,
+                     "is_oldest_record_on_the_lane": bool(written) and p.get("record_written_utc") == written[0],
+                     # E1/E2/E3 for the same leg, so a reader can see the scope of the anomaly rather than
+                     # assume it. The R3 path is the only one the driver rescales (`_lys_A`), and a contact
+                     # count at a 4.5 Å cutoff could not reach the thousands if the coordinates were in nm.
+                     "same_leg_e1_plateau_A": r["e1_plateau_A"],
+                     "same_leg_e3_mean_contacts": r["e3_mean_contacts"]}
+            entry["discriminating_observations"] = [
+                o for o in (
+                    "OLDEST RECORD ON THE LANE (%s); every other leg record was written later"
+                    % entry["record_written_utc"] if entry["is_oldest_record_on_the_lane"] else None,
+                    "NO analysis_traj RECEIPT — the durable-trajectory writer had not yet been added to the "
+                    "driver when this leg ran, so the record predates that revision"
+                    if not entry["has_trajectory_receipt"] else None,
+                    "E1 and E3 for the SAME leg are in range with the rest of the panel (%s Å, %s contacts "
+                    "at a 4.5 Å cutoff — a contact count in the thousands is impossible on nm coordinates), "
+                    "so the anomaly is confined to the R3 readout"
+                    % (entry["same_leg_e1_plateau_A"], entry["same_leg_e3_mean_contacts"]),
+                ) if o]
+            out.append(entry)
+    subsets = {}
+    if out and prov:
+        newest_free = {o["unit"] for o in out}
+        for arm in sorted({o["arm_id"] for o in out}):
+            rows = [r for r in secondaries["per_leg"]
+                    if r["arm_id"] == arm and r["e4_median_A"] is not None and r["unit"] not in newest_free]
+            if rows:
+                subsets[arm] = {
+                    "_label": "LIKE-FOR-LIKE SUBSET, reported BESIDE the arm figure and never in place of "
+                              "it. The arm's E4 in `secondaries` is computed over ALL legs and is unchanged.",
+                    "n_legs": len(rows),
+                    "excluded_units": sorted(u for u in newest_free
+                                             if any(r["arm_id"] == arm for r in secondaries["per_leg"]
+                                                    if r["unit"] == u)),
+                    "mean_of_min_A": round(sum(r["e4_min_A"] for r in rows) / len(rows), 4),
+                    "mean_of_median_A": round(sum(r["e4_median_A"] for r in rows) / len(rows), 4)}
     return {"_role": "FLAG ONLY — E4 is descriptive, never a gate (prereg §3). No leg is excluded, "
-                     "re-weighted or corrected on the strength of this list, and no E4 number elsewhere in "
-                     "this document is computed with outliers removed.",
-            "ratio": ratio, "outliers": out}
+                     "re-weighted or corrected on the strength of this list, and every E4 number in "
+                     "`secondaries` is computed over ALL legs.",
+            "ratio": ratio, "outliers": out, "like_for_like_subsets": subsets}
 
 
 # =============================================================================================================
@@ -621,7 +665,7 @@ def build(census_doc, admitted, model_means):
         "s3_census": census_doc,
         "reproduces_emitted_verdict": reproduces_emitted_verdict(admitted, model_means),
         "secondaries": sec,
-        "e4_outliers": e4_outliers(sec),
+        "e4_outliers": e4_outliers(sec, census_doc),
         "frozen_scorer_probes": frozen_scorer_probes(model_means),
     }
 
