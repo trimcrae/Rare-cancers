@@ -1134,11 +1134,21 @@ jobs:
         run: |
           pip install -q boto3
           python research/modalities/nrv04_retro_unit_forensics.py
+      # ★ THE RENTAL DEATH CERTIFICATES. S3 cannot tell "the host died" from "we destroyed the host" — both
+      # leave a truncated run.log and no leg record — and the remedies are opposite. The supervision tick
+      # prints the reason it acted, so the tick log is where that distinction lives.
+      - name: Retro host history from the supervision ticks (read-only)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RETRO_HISTORY_UNIT: ${{ github.event.inputs.vast_selector }}
+          RETRO_HISTORY_HOSTS: ${{ github.event.inputs.ternary_extra_args }}
+        run: python research/modalities/nrv04_retro_host_history.py
       - name: Commit the forensic artifact
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nrv04-retro-unit-forensics.json || true
+          git add research/modalities/nrv04-retro-unit-forensics.json \
+                  research/modalities/nrv04-retro-host-history.json || true
           git diff --cached --quiet && { echo "no change"; exit 0; }
           git commit -m "NR-V04 retro: per-attempt forensics for the AMENDMENT 4 §4.5 dependency unit (CI)"
           git pull --rebase origin "${{ github.ref_name }}" || true
