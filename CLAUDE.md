@@ -292,9 +292,29 @@ When in doubt: do it and show it.
   reliable** (vanished twice within ~25 min even with `durable:true`); **`ScheduleWakeup` did not fire** outside
   `/loop` dynamic mode.
 
-### CI environments
+### Environments — CI *and* every rented host
 
-- **★★ NEVER SOLVE A CONDA ENV IN CI — THE STACKS ARE PRE-BAKED. PULL, DON'T SOLVE (trimcrae, 2026-07-25.)**
+- **★★ NEVER BUILD AN ENVIRONMENT ON A MACHINE WE ARE PAYING FOR — ANYWHERE. THE STACKS ARE PRE-BAKED.
+  PULL, DON'T SOLVE (trimcrae, 2026-07-25; scope corrected 2026-08-01 after the framing below hid it).**
+  ⚠ **THIS RULE USED TO READ "…IN CI" AND SAT UNDER A HEADING THAT SAID "CI environments", AND THAT IS
+  EXACTLY HOW IT WAS MISSED.** On 2026-08-01 the selectivity-control co-fold lane was found renting an
+  RTX 4090 and then, on that billing host, running `apt-get install`, `pip install boltz==2.2.1
+  cuequivariance-torch cuequivariance-ops-torch-cu12`, and a **~3 GB** `download_boltz2` fetch — a full
+  environment build off the stock upstream `pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime`, before one
+  second of science. The agent had cited §6 correctly all day and still did not fire on this, because the
+  rule was filed as a *CI* rule and this was a *GPU* host. **A rule filed where it cannot fire is absent.**
+  The reasoning was always scope-independent and is STRONGER on a rented GPU than in CI: a CI runner is
+  free and a 4090 is not, so the measured "~15–25 min solve vs ~2–4 min pull" is 15–25 min of *billed* time.
+  It also removes the most dangerous phase from the rental — three of four dead hosts on that lane died
+  inside the fetch window, and a truncated CCD reached inference and failed six seeds at 7.2 s each on a
+  missing **cysteine**. ★ An image pull is retried by the runtime, digest-verified and layer-cached; a
+  bespoke in-container download has no integrity guarantee, and a failed *pull* means the job never starts
+  rather than half-starting and dying with `rc=1` and no attribution. **So: a new lane's first question is
+  "which baked image?", never "what do I install?"** — and if no image fits, bake one (below) rather than
+  solving on the host. Superseded, retained: the "IN CI" phrasing and its CI-only heading.
+  ⚠ Corollary, same incident: when a host-side environment problem appears, the fix is the image, **not** a
+  cache workaround. An S3 cache for the missing data was proposed and was the wrong answer — Docker Hub
+  credentials and eight `Dockerfile.*` siblings already existed.
   Docker Hub account `triskit23`, `secrets.DOCKERHUB_TOKEN` already wired. One image per stack, each with a
   `Dockerfile.*` in `research/compute/`:
 
