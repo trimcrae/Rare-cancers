@@ -345,13 +345,15 @@ jobs:
       TVAST_GPU: ${{ github.event.inputs.gpu_class }}
       TVAST_MIN_NS_PER_H: ${{ github.event.inputs.min_ns_per_h }}
       TVAST_ON_DEMAND: ${{ github.event.inputs.on_demand }}
-      # ★★ A REPOSITORY VARIABLE, NOT A DISPATCH INPUT — this lane is AT GitHub's 10-input cap, and the
-      # 11th input does not fail, it silently EMPTIES every `-f` value (test_workflow_dispatch_input_cap;
-      # the full suite caught exactly that when this was first added as an input). `vars.*` costs no input.
-      # Unset -> empty -> the launcher's own "0" -> chk_prune's False: three independent defaults, all of
-      # which must be overridden before a byte is pruned, because the failure being guarded against is a
-      # leg at 91 % picking this up on a RESUME. What it does: commit a SINGLE-FRAME .chk — 1231.1 MiB per
-      # commit down to the 47.6 MiB a resume actually reads (proven offline, GH 30676071569, $0).
+      # ★★ A KILL SWITCH, NOT AN ENABLE — and a repository variable rather than a dispatch input, because
+      # this lane is AT GitHub's 10-input cap and the 11th input does not fail, it silently EMPTIES every
+      # `-f` value (test_workflow_dispatch_input_cap caught exactly that). `vars.*` costs no input.
+      #
+      # WHAT ENABLES THE PRUNE IS `ternary_vast_launch.PRUNE_ELIGIBLE_MODES`, a tuple in code with a test
+      # that fails when it changes — NOT this variable. A variable is global, stays set until someone
+      # remembers to unset it, and this lane SELF-DISPATCHES (`5aks-gate` fires `task=5aks`, which resumes
+      # a stranded leg), so it could never have expressed "on for one experiment". Set it to `0` to force
+      # the prune off everywhere without a deploy; that is the only direction worth a remote control.
       TVAST_PRUNE_CHK: ${{ vars.TVAST_PRUNE_CHK }}
       VAST_BID_FLOOR_MULT: ${{ github.event.inputs.bid_floor_mult }}
       VAST_API_KEY: ${{ secrets.VAST_API_KEY }}

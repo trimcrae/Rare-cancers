@@ -1517,13 +1517,14 @@ def _divisors_up_to(n, cap):
 # against an unpruned resume of the same run, the UNMODIFIED commit/restore path, a pruned CHAIN, and
 # 25.88x on a real committed 5a-KS pair (GH 30676071569, $0, no rental).
 #
-# ⚠ WHY AN ALLOWLIST AND NOT JUST `TVAST_PRUNE_CHK`. The switch reaches this lane as a REPOSITORY VARIABLE
-# (the lane is at GitHub's 10-input cap, so it cannot be a dispatch input), and a repository variable is
-# GLOBAL to every run of every workflow. This lane also SELF-DISPATCHES: `5aks-gate` fires `task=5aks` the
-# moment the board clears, which re-places a stranded leg -- and that leg RESUMES. So "set the variable for
-# one experiment" is not a thing the switch alone can express, and the promise that the four legs at
+# ⚠ WHY AN ALLOWLIST AND NOT A REPOSITORY VARIABLE. The switch could only reach this lane as a repository
+# variable (the lane is at GitHub's 10-input cap, so it cannot be a dispatch input), and a repository
+# variable is GLOBAL to every run of every workflow. This lane also SELF-DISPATCHES: `5aks-gate` fires
+# `task=5aks` the moment the board clears, which re-places a stranded leg -- and that leg RESUMES. So "set
+# the variable for one experiment" is not a thing a variable can express: the promise that the four legs at
 # 94/64/51/49 % are untouched would have rested on nobody dispatching the wrong task for as long as the
-# variable stayed set. It now rests on this tuple instead, which is the kind of promise a test can hold.
+# variable stayed set. It rests on this tuple instead, which a test can hold, and `TVAST_PRUNE_CHK` is
+# demoted to a kill switch -- see `prune_chk_for_mode`.
 #
 # ⚠ AND IT IS ONE VARIABLE AT A TIME (CLAUDE.md §6). Widen this by exactly one rung, after the rung below
 # it has been observed reaching its real success terminus -- never as a convenience while something else is
@@ -1537,13 +1538,22 @@ PRUNE_ELIGIBLE_MODES = ("5aks_smoke",)
 
 
 def prune_chk_for_mode(mode, env=None):
-    """`"1"` only when the operator asked AND `mode` is at or below the ladder rung the prune has reached.
+    """`"1"` iff `mode` is at or below the ladder rung the prune has reached, and nobody has forced it off.
+
+    ★ THE ALLOWLIST IS THE ENABLE; `TVAST_PRUNE_CHK` IS ONLY A KILL SWITCH. The first design had it the
+    other way round -- allowlist AND a repository variable set to 1 -- and that was worse in the direction
+    that matters, because the variable is the part nobody can constrain: it is GLOBAL, it stays set until
+    someone remembers to unset it, and it therefore has to be trusted for as long as it exists. Membership
+    in this tuple is a commit, with a test that fails when it changes, which is a far better fit for "one
+    rung at a time" than a value living in repository settings. Setting `TVAST_PRUNE_CHK=0` forces it off
+    everywhere without a deploy, which is the only direction worth having a remote control for.
 
     Returns the string the jobspec carries, because that is what a host reads. Never raises on an unknown
     mode -- an unknown mode is simply not on the allowlist, which is the safe answer."""
     env = os.environ if env is None else env
-    asked = str(env.get("TVAST_PRUNE_CHK", "")).strip() in ("1", "true", "TRUE", "yes")
-    return "1" if (asked and mode in PRUNE_ELIGIBLE_MODES) else "0"
+    if str(env.get("TVAST_PRUNE_CHK", "")).strip() in ("0", "false", "FALSE", "no"):
+        return "0"
+    return "1" if mode in PRUNE_ELIGIBLE_MODES else "0"
 
 
 def warmup_ckpt_iters_for(leg_id, mode, sizing=None, timestep_fs=None, warmup_timestep_fs=None):
