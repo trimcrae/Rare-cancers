@@ -28,10 +28,16 @@ import urllib.request
 REPO = os.environ.get("GITHUB_REPOSITORY") or "trimcrae/Rare-cancers"
 API = "https://api.github.com"
 WORKFLOW = os.environ.get("RETRO_HISTORY_WORKFLOW") or "fusion-cpu-extras.yml"
-N_RUNS = int(os.environ.get("RETRO_HISTORY_RUNS") or "40")
+N_RUNS = int(os.environ.get("RETRO_HISTORY_RUNS") or "70")
 OUT_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nrv04-retro-host-history.json")
 
 #: Lines that say something happened TO a host. Each is a distinct cause and they must not be merged.
+#:
+#: ⚠ IT IS A CLASSIFIER, NOT A FILTER (2026-08-01). The first version used this as the *inclusion* test and
+#: returned 0 hits over 30 scanned ticks — which reads as "nothing ever happened to these hosts" and is
+#: exactly the absent-reading-as-reading-of-absence trap (CLAUDE.md §4b). The reap's own per-instance census
+#: line (`[retro-reap]   id=<id> status=... label=...`) matches none of these words, so the evidence was
+#: being discarded by the very tool sent to find it. Every line naming a host is now kept; this only labels.
 _ACTION_RE = re.compile(
     r"(auto-stopped|destroy|DESTROY|nudge|NUDGE|condemn|CONDEMN|idle-guard|idle_guard|"
     r"resources_unavailable|outbid|OUTBID|preempt|terminal-state|result-in-S3|duplicate-instance|"
@@ -79,15 +85,18 @@ def main(argv=None):
                 text = text.decode("utf-8", "replace")
             except Exception as e:  # noqa: BLE001
                 print(f"[host-history] job {job['id']}: logs unreadable: {e}")
+                out["unreadable_jobs"] = out.get("unreadable_jobs", 0) + 1
                 continue
+            # PROOF THE LOG WAS ACTUALLY READ. Without this, "0 hits" and "0 bytes fetched" render alike.
+            out["bytes_scanned"] = out.get("bytes_scanned", 0) + len(text)
             for ln in text.splitlines():
                 if not any(n in ln for n in needles):
                     continue
-                if not _ACTION_RE.search(ln):
-                    continue
+                m = _ACTION_RE.search(ln)
                 out["hits"].append({"run": run["id"], "job": job["id"],
-                                    "created_utc": run.get("created_at"), "line": ln.strip()[:600]})
-    out["hits"].sort(key=lambda h: h["line"][:30])
+                                    "created_utc": run.get("created_at"),
+                                    "action": m.group(1) if m else None, "line": ln.strip()[:600]})
+    out["hits"].sort(key=lambda h: (h["created_utc"] or "", h["line"][:30]))
     print(json.dumps(out, indent=1)[:200000], flush=True)
     print(f"[host-history] {out['runs_scanned']} tick job(s) scanned, {len(out['hits'])} matching line(s)")
     try:
