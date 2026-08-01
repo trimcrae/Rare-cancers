@@ -137,7 +137,10 @@
     "R_ternary": -0.03120005346914212,
     "R_binary": -0.2440285613753872,
     "verdict": "BINARY_PATH_DEPENDENT",
-    "prediction_upheld": true
+    "prediction_upheld": true,
+    "power_to_detect_r0_sized_effect": 1.0,
+    "null_p95_abs_R": 0.215,
+    "_power_is_reported_not_applied": "the demotion rule is still the frozen sigma_leg > 0.2 proxy. This field is REPORTED so a reader can grade an UNDERPOWERED verdict rather than take the word on trust; it does not enter the branch logic and the threshold has not moved."
   },
   "prereg_verdict_at_upper_sigma": {
     "prediction": "R_binary materially non-zero, R_ternary small.",
@@ -152,7 +155,10 @@
     "R_binary": -0.2440285613753872,
     "verdict": "UNDERPOWERED",
     "prediction_upheld": null,
-    "why": "neither closure resolves, but at sigma_leg=0.7 this design cannot resolve an effect the size of r0's miss - absence of signal is not evidence of cancellation"
+    "power_to_detect_r0_sized_effect": 0.1426,
+    "null_p95_abs_R": 3.3437,
+    "_power_is_reported_not_applied": "the demotion rule is still the frozen sigma_leg > 0.2 proxy. This field is REPORTED so a reader can grade an UNDERPOWERED verdict rather than take the word on trust; it does not enter the branch logic and the threshold has not moved.",
+    "why": "neither closure resolves, but at sigma_leg=0.7 this design cannot resolve an effect the size of r0's miss - absence of signal is not evidence of cancellation [power to detect an r0-sized effect at this sigma_leg: 0.14]"
   },
   "measured_sigma_addendum": {
     "_what": "reading at the MEASURED sigma_leg bound; the frozen decision above is untouched",
@@ -177,6 +183,14 @@
       "what_it_would_settle": "whether a null R clears conventional power. Below the crossing it does and the triangle answers its question; above it, it does not, amended or not.",
       "cost": "$0 -- the MBAR SEs are already in the leg records that land with R",
       "when": "the moment all four legs are down, alongside task=triangle-reduce",
+      "_RUN_2026_07_30": {
+        "status": "RUN. All four triangle legs landed 5:11 PM ET 2026-07-30, so this is no longer pending.",
+        "triangle_mean_mbar_se_kcal": 0.11531,
+        "_from": "valb-triangle-reduction.json -> mbar_se_kcal_per_leg_PROVENANCE_ONLY, mean over its 6 legs",
+        "result_as_this_function_computes_it": 0.3782,
+        "\u2605_IT_DID_NOT_NARROW_ANYTHING_AND_THAT_IS_THE_RESULT": "The triangle's mean per-leg MBAR SE is 0.1153 against valB's 0.1145 -- the two lanes are within 0.7% of each other. Multiplying by a ratio whose NUMERATOR is valB's own replicate SD therefore reproduces valB's number almost exactly. So the transfer this function warned about does not just weaken the estimate, it makes it CIRCULAR in the one direction that mattered: the ratio carries valB's homology-model and solvation variance in its numerator, which is precisely the term the triangle does not have and the term this was meant to remove. It cannot narrow the bound below the bound it was derived from. Recorded as a null result rather than quoted as a narrowing.",
+        "\u26a0_AND_A_QUANTITY_DISCREPANCY_THIS_EXPOSED_-_RECORDED_NOT_AMENDED": "0.3782 is labelled `sigma_leg_estimate_kcal` and compared against `power_threshold_crossing()`, which is a sigma_LEG. But the ratio is `cycle SD / per-leg MBAR SE` -- an EDGE SD over a LEG SE (see MEASURED['_cycle_sd_is_a_sigma_edge']) -- so multiplying a leg SE by it returns a sigma_EDGE. The design's own relation (sigma_edge = sqrt(2)*sigma_leg) puts the sigma_leg at 0.3782/sqrt(2) = 0.2674, which is within 1% of the independent valB-derived upper bound 0.2652 -- an agreement that is itself evidence the sqrt(2) reading is the right one, since as-labelled the estimate EXCEEDS an upper bound, which is a contradiction. The same mixing inflates `s_error_bar_scope`'s S error bar by sqrt(2): S's binary leg cancels ALGEBRAICALLY (lever 2, and nr4a3_5aks_reduce REFUSES a binary leg), so treating the two arms' ddG_coop as independent double-counts a leg that is shared. \u2605 DELIBERATELY NOT CHANGED HERE. Both live figures are CONSERVATIVE -- they overstate the noise floor, which understates our resolving power in both directions -- and this program forbids re-deriving an error-bar convention after seeing which way it moves a decision. It moves none: n = 2 seeds per arm is the right call under BOTH readings (at n=1 the resolvable difference is 0.735 corrected or 1.039 as-quoted, and the designed effect floor is 0.5, so one seed cannot report a null either way). It is written down so the next person to touch the error model inherits the discrepancy rather than rediscovering it."
+      },
       "triangle_mean_mbar_se_kcal": 0.11530781298610822,
       "sigma_leg_estimate_kcal": 0.3782,
       "clears_conventional_power": false
