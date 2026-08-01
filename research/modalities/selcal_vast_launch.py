@@ -231,7 +231,13 @@ SYNC_PID=$!
 mark predicting
 cd /tmp/repo/research/modalities
 set +e
-python selcal_cofold_run.py 2>&1 | tail -400
+# ⛔ NO `| tail`, AND `-u` IS NOT OPTIONAL. `python … | tail -400` buffers the ENTIRE run and prints nothing
+# until the process exits, so a 1-hour job is invisible for an hour — measured 2026-08-01 on instance
+# 46505536, where the streamed run.log sat frozen on the `free -g` output while the phase marker already said
+# `predicting`. That is a manufactured stall: CLAUDE.md §4 says unexpected silence must be investigated, so a
+# fake one burns a real diagnostic. `-u` unbuffers Python's own stdout for the same reason — a pipe makes it
+# block-buffered, and the tee that feeds run.log IS a pipe.
+python -u selcal_cofold_run.py 2>&1
 RC=$?
 set -e
 kill $SYNC_PID 2>/dev/null || true
