@@ -1932,9 +1932,10 @@ paralogues at all and a "three paralogues, same treatment" comparison would meas
 than ternary assembly. The authorized panel is therefore the **non-covalent** arms only, one per paralogue,
 protocol-matched down to a single co-fold prefix and one code path — the contrast a prospective non-covalent
 campaign would actually depend on. The covalent arm was retired on measured evidence (the C6→Cys551 adduct
-measures 34.4 / 29.9 / 39.1 Å against an 8.0 Å admissibility limit, so it is unbuildable on every available
-input), and no covalent NR4A2/NR4A3 leg exists or may be added — there is no cysteine to bond to, and
-modelling one would be fabricating chemistry.
+measures **34.42 / 29.87 / 39.11 Å** on the three pinned NR4A1 co-fold models against an **8.0 Å**
+admissibility limit — 0 of 3 pass, so it is unbuildable on every available input), and no covalent
+NR4A2/NR4A3 leg exists or may be added — there is no cysteine to bond to, and modelling one would be
+fabricating chemistry.
 
 **Result on the registered primary: DISCORDANT.** The primary endpoint **E1** is the interface-RMSD plateau
 (Å) — the mean RMSD of the E3∩target interface heavy atoms over the final 50 % of production frames, against
@@ -1953,8 +1954,10 @@ falsify a ternary-first thesis: NR-V04's selectivity may arise from the covalent
 which the sequence result is sufficient to explain — or downstream at ubiquitination rather than at ternary
 formation. Nor is the null a finding of no difference: the design's registered 80 % power band is a
 **1.5–2.0 Å** separation in interface-RMSD plateau, so what it licenses is *the workflow did not resolve a
-paralogue difference of the magnitude this design can detect*, and nothing stronger. No ΔΔG, α, cooperativity,
-affinity or degradation claim follows; this arm computes no free energy.
+paralogue difference of the magnitude this design can detect*, and nothing stronger. That band is itself an
+**upper bound on the delivered power**: it was computed for the registered 3-models-per-arm design, and the
+amendment that took NR4A3 to n = 2 deliberately registered no replacement, so the panel as run is blunter
+still. No ΔΔG, α, cooperativity, affinity or degradation claim follows; this arm computes no free energy.
 
 **The three preregistered SECONDARY endpoints, now reported.** Prereg §3 registered three secondaries and
 promised they would be "reported alongside [E1] in every result, including when they disagree with E1". They
