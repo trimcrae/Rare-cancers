@@ -1,0 +1,192 @@
+{
+ "_what": "NR-V04 retrospective \u2014 per-attempt forensics for one unit and its comparison sibling.",
+ "_rule": "CLAUDE.md \u00a74 \u2014 the mechanism, from the artifact, before any decision.",
+ "bucket": "sagemaker-us-east-2-646605541856",
+ "prefix": "nrv04-retro-results",
+ "units": {
+  "nrv04retro-retro_noncov_nr4a2-m2-r0": {
+   "unit": "nrv04retro-retro_noncov_nr4a2-m2-r0",
+   "bucket": "sagemaker-us-east-2-646605541856",
+   "prefix": "nrv04-retro-results",
+   "result_objects": [
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/traj_retro_noncov_nr4a2__m2_s0.f32",
+     "size": 49020,
+     "mtime": "2026-07-31T14:53:32Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/traj_retro_noncov_nr4a2__m2_s0.traj.json",
+     "size": 18789,
+     "mtime": "2026-07-31T14:53:34Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json",
+     "size": 2810,
+     "mtime": "2026-07-31T14:53:39Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/phase.txt",
+     "size": 32,
+     "mtime": "2026-07-31T20:28:07Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/built_retro_noncov_nr4a2__m2_s0.system.xml",
+     "size": 77515988,
+     "mtime": "2026-07-31T20:29:44Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/built_retro_noncov_nr4a2__m2_s0.solv.cif",
+     "size": 44456629,
+     "mtime": "2026-07-31T20:29:49Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/built_retro_noncov_nr4a2__m2_s0.built.json",
+     "size": 852,
+     "mtime": "2026-07-31T20:29:54Z"
+    },
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/run.log",
+     "size": 1904,
+     "mtime": "2026-07-31T20:33:57Z"
+    }
+   ],
+   "leg_records": [
+    {
+     "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json",
+     "size": 2810,
+     "mtime": "2026-07-31T14:53:39Z",
+     "error": null,
+     "panel": "nrv04_retrospective",
+     "leg_id": "retro_noncov_nr4a2__m2",
+     "seed": 0,
+     "mode": "smoke",
+     "prod_ns": 5.0,
+     "equil_ns": 1.0,
+     "n_frames": 5,
+     "timed_ns": 0.002,
+     "ns_per_day": 43.33,
+     "prod_wall_s": 4.0,
+     "blew_up": false,
+     "blow_phase": null,
+     "pe_pre_min_kj": -3781890.3,
+     "pe_post_min_kj": -5950712.1,
+     "production_leg_check": {
+      "pass": false,
+      "why": "mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint"
+     }
+    }
+   ],
+   "has_production_leg": false,
+   "checkpoints": [],
+   "banked_frames": 0,
+   "phase_txt": "md-running 2026-07-31T20:28:05Z",
+   "phase_txt_error": null,
+   "run_log": {
+    "bytes": 1904,
+    "sha256": "0a9749295b354d21",
+    "frame_ceiling": null,
+    "frames_total": null,
+    "tail": [
+     "Completed 256.0 KiB/478.2 KiB (205.5 KiB/s) with 1 file(s) remaining",
+     "Completed 478.2 KiB/478.2 KiB (334.9 KiB/s) with 1 file(s) remaining",
+     "download: s3://sagemaker-us-east-2-646605541856/nrv04-descriptive-v4/nr4a2/seed_2/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif to ../../../../tmp/cofold/boltz_results_nr4a2-nrv04-ternary/predictions/nr4a2-nrv04-ternary/nr4a2-nrv04-ternary_model_0.cif",
+     "Fontconfig error: Cannot load default config file: File not found",
+     "[nrv04-md] covalent Cys = chain A resid 222 (S\u03b3 8.60 \u00c5 from the warhead electrophile; preregistered full-length resnum 551); {\"global_nearest\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}, \"n_cys_sg_total\": 12, \"target_chain\": \"A\", \"n_cys_sg_on_target\": 5, \"search\": \"restricted to the identified degradation-target chain 'A'\", \"target_nearest\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}, \"global_nearest_is_off_target\": false, \"site_resolution\": \"NOT REQUIRED \\u2014 this leg is non-covalent and unmutated, so the preregistered Cys551 site is never used. Reported, not enforced.\", \"preregistered_resnum_fulllen\": 551, \"residue_at_frozen_index\": {\"construct_index\": 207, \"residue\": \"TYR\"}, \"geometric_nearest_on_target\": {\"chain\": \"A\", \"resid\": 222, \"dist_A\": 8.6}}",
+     "[nrv04-md] WARN reactive S\u03b3 is 8.6 \u00c5 from the electrophile (>8.0 \u00c5) \u2014 noncovalent leg, so this is descriptive only, but the warhead is not seated in this target's pocket",
+     "[nrv04-md] reloaded OpenMM plugins from ['/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins']; platforms now: ['Reference', 'CPU', 'CUDA', 'CPU', 'CUDA', 'CPU', 'CUDA']",
+     "[nrv04-md] persisted built-system snapshot (344909 atoms) -> S3 ok=True",
+     "[nrv04-md] chain split: target=['A'] e3=['E', 'F', 'G'] target_lys_nz=13",
+     "[nrv04-md] covalent=False pull=8.6 \u00c5  PE pre-min=-3.481e+06 post-min=-5.941e+06 kJ/mol"
+    ],
+    "signals": [
+     "Fontconfig error: Cannot load default config file: File not found",
+     "[nrv04-md] reloaded OpenMM plugins from ['/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins', '/opt/mamba/envs/md/lib/plugins']; platforms now: ['Reference', 'CPU', 'CUDA', 'CPU', 'CUDA', 'CPU', 'CUDA']"
+    ]
+   },
+   "run_log_error": null,
+   "attempt_markers": [
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260731T142253Z.log",
+     "size": 47,
+     "mtime": "2026-07-31T14:22:55Z",
+     "error": null,
+     "body": "attempt 2026-07-31T14:22:53Z instance=46404796",
+     "instance": "46404796"
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260731T143106Z.log",
+     "size": 47,
+     "mtime": "2026-07-31T14:31:08Z",
+     "error": null,
+     "body": "attempt 2026-07-31T14:31:06Z instance=46405434",
+     "instance": "46405434"
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260731T143801Z.log",
+     "size": 47,
+     "mtime": "2026-07-31T14:38:04Z",
+     "error": null,
+     "body": "attempt 2026-07-31T14:38:01Z instance=46405434",
+     "instance": "46405434"
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260731T145005Z.log",
+     "size": 47,
+     "mtime": "2026-07-31T14:50:07Z",
+     "error": null,
+     "body": "attempt 2026-07-31T14:50:05Z instance=46406781",
+     "instance": "46406781"
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260731T145156Z.log",
+     "size": 47,
+     "mtime": "2026-07-31T14:51:58Z",
+     "error": null,
+     "body": "attempt 2026-07-31T14:51:56Z instance=46406781",
+     "instance": "46406781"
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260731T175537Z.log",
+     "size": 47,
+     "mtime": "2026-07-31T17:55:38Z",
+     "error": null,
+     "body": "attempt 2026-07-31T17:55:37Z instance=46424247",
+     "instance": "46424247"
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260731T194929Z.log",
+     "size": 47,
+     "mtime": "2026-07-31T19:49:30Z",
+     "error": null,
+     "body": "attempt 2026-07-31T19:49:29Z instance=46433424",
+     "instance": "46433424"
+    },
+    {
+     "key": "nrv04-retro-results/legs/nrv04retro-retro_noncov_nr4a2-m2-r0/attempts/run-20260731T202745Z.log",
+     "size": 47,
+     "mtime": "2026-07-31T20:27:47Z",
+     "error": null,
+     "body": "attempt 2026-07-31T20:27:45Z instance=46435856",
+     "instance": "46435856"
+    }
+   ],
+   "n_markers": 8,
+   "distinct_hosts": [
+    "46404796",
+    "46405434",
+    "46406781",
+    "46424247",
+    "46433424",
+    "46435856"
+   ],
+   "n_distinct_hosts": 6,
+   "unreadable_markers": 0,
+   "attempt_logs": [],
+   "identical_log_groups": {},
+   "frame_ceilings": [],
+   "frame_ceiling_rising": false,
+   "fault": "dies-in-staging",
+   "fault_why": "phase stopped at 'md-running 2026-07-31T20:28:05Z' with no production frame"
+  }
+ }
+}
