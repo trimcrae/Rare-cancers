@@ -1,24 +1,27 @@
 {
   "_what": "Per-tick record of the sensitivity-control lane's placement decision. Written on EVERY tick, buying or not — a silent decline is indistinguishable from a broken re-placer.",
   "lane": "selcal",
-  "utc": "2026-08-01T22:35:59Z",
+  "utc": "2026-08-01T22:50:22Z",
   "decision": "rented",
   "units": [
-    "selcal-smarca2-m1-r1",
     "selcal-smarca2-m2-r0",
-    "selcal-smarca2-m2-r1",
     "selcal-smarca2-m3-r1",
-    "selcal-smarca2-m4-r0",
     "selcal-smarca2-m5-r1",
-    "selcal-smarca2-m6-r0",
-    "selcal-smarca2-m6-r1",
-    "selcal-smarca4-m1-r0",
-    "selcal-smarca4-m2-r1",
-    "selcal-smarca4-m5-r0",
-    "selcal-smarca4-m6-r1"
+    "selcal-smarca4-m2-r1"
   ],
-  "refused": [],
-  "wave_refused_machines": [],
+  "refused": [
+    "selcal-smarca4-m1-r0"
+  ],
+  "wave_refused_machines": [
+    "11892",
+    "140160",
+    "144152",
+    "19499",
+    "29706",
+    "31035",
+    "51777",
+    "9427"
+  ],
   "units_without_cofold": [],
   "mode": "run",
   "pilot": false
