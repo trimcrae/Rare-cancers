@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "selcal-cofold",
-  "generated_epoch": 1785621838.455106,
-  "generated_utc": "2026-08-01T22:03:58Z",
-  "generated_et": "6:03 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785622031.5128515,
+  "generated_utc": "2026-08-01T22:07:11Z",
+  "generated_et": "6:07 PM ET Sat Aug 1, 2026",
   "note": "12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once.",
   "rows": [
     {
@@ -13,7 +13,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539017 running, 46539055 running, 46539069 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539017 running, 46539055 running, 46539069 running, 46541719 loading, 46541725 loading, 46541732 loading, 46541734 loading, 46541737 loading, 46541739 loading, 46541764 loading, 46541769 loading. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
     },
     {
       "name": "selcal_smarca4 co-fold",
@@ -22,12 +22,12 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539134 running, 46539144 running, 46539157 running, 46539178 running, 46539197 running, 46539228 running, 46539246 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539134 running, 46539144 running, 46539157 running, 46539178 running, 46539197 running, 46539228 running, 46541777 None, 46541793 None. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
     },
     {
       "name": "selcal-smarca2-m1-r0",
       "pct": null,
-      "pct_of": "2/24 landed",
+      "pct_of": "3/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "ENDED \u2014 no host",
