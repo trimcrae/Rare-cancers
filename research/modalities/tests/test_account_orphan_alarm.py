@@ -240,6 +240,34 @@ def test_a_lane_whose_freshness_is_unreadable_while_holding_hosts_is_unknown():
     assert lane["verdict"] == "LANE-UNKNOWN" and lane["ok"] is False and rep["ok"] is False
 
 
+def test_a_future_stamp_is_disbelieved_rather_than_read_as_perfectly_fresh():
+    """★ FOUND BY RUNNING THE NEGATIVE CONTROLS, NOT BY REVIEW. A stamp ahead of `now` yields a NEGATIVE age,
+    and a negative age passes `age >= lane_silent_min` forever — so the lane reads as permanently fresh and
+    this alarm goes permanently silent for it. That is failing OPEN in the one module whose whole job is to
+    fail closed, and it is reachable by a skewed clock, a mis-zoned stamp, or a field populated from ENV
+    rather than from what ran (§4)."""
+    rep = A.build_report(_census([_inst(1, "selcal-cofold-a")]), None,
+                         _reads(**{"selcal-cofold": _fresh(-120)}), NOW)
+    lane = next(l for l in rep["lanes"] if l["lane"] == "selcal-cofold")
+    assert lane["verdict"] == "LANE-UNKNOWN" and rep["ok"] is False
+    assert "FUTURE" in lane["detail"]
+
+
+def test_small_clock_skew_is_tolerated_rather_than_alarmed():
+    """CI runners and git commit times drift by seconds to a couple of minutes. Firing on that would be an
+    alarm nobody reads, so the tolerance is real — it is only large skew that is disbelieved."""
+    rep = A.build_report(_census([_inst(1, "selcal-cofold-a")]), None,
+                         _reads(**{"selcal-cofold": _fresh(-1)}), NOW)
+    assert next(l for l in rep["lanes"] if l["lane"] == "selcal-cofold")["verdict"] == "SUPERVISED"
+    assert rep["ok"] is True
+
+
+def test_a_future_stamp_on_a_lane_with_NO_hosts_is_still_quiet():
+    """The pair rule survives the new branch: nothing is billing, so nothing is at stake."""
+    rep = A.build_report(_census([]), None, _reads(**{"selcal-cofold": _fresh(-999)}), NOW)
+    assert rep["ok"] is True
+
+
 def test_a_lane_with_no_fragment_holding_hosts_is_unwatchable_and_loud():
     """A lane that commits no tick artifact at all is stated, not faked — and while it holds hosts that is an
     alarm, because 'I cannot tell' about billing money is worse news than 'it is stale', not better."""

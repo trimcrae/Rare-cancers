@@ -155,6 +155,17 @@ DEFAULT_LANE_SILENT_MIN = 40.0
 #: this the census is not treated as a weaker reading — it is not treated as a reading at all.
 DEFAULT_CENSUS_STALE_MIN = 45.0
 
+#: How far a lane's stamp may sit IN THE FUTURE before it stops being believable.
+#: ⚠ WHY THIS EXISTS AT ALL — CAUGHT BY RUNNING THE NEGATIVE CONTROLS, not by review. A stamp ahead of `now`
+#: produces a NEGATIVE age, and a negative age passes `age >= lane_silent_min` forever: the lane reads as
+#: permanently fresh and this alarm goes permanently silent for it. That is the dangerous direction and it is
+#: reachable three ways that have nothing to do with malice — a skewed runner clock, a stamp written from a
+#: different timezone as though it were UTC, or a field populated from ENV rather than from what ran (the
+#: exact defect CLAUDE.md §4 records: 17 smoke legs echoed `prod_ns: 5.0` from their ENV and a completeness
+#: count believed them). A small tolerance absorbs honest CI/commit-time skew; past it, the stamp is not a
+#: reading and the lane is graded UNKNOWN rather than fresh.
+DEFAULT_FUTURE_SKEW_MIN = 5.0
+
 #: Instance states that are TERMINAL but STILL LIST. Today's host was `exited` and was invisible to every
 #: lane-scoped check.
 #: ⚠ THIS MODULE DOES NOT CLAIM TO KNOW WHETHER A TERMINAL INSTANCE IS STILL BILLING, and must not: that
@@ -458,7 +469,8 @@ ALARM_VERDICTS = {"UNSUPERVISED-BILLING", "ORPHAN-HOST", "UNWATCHABLE-BILLING", 
 
 def classify_lane(spec: dict, rows: list[dict], stamp: datetime.datetime | None, basis: str | None,
                   why_not: str | None, now: datetime.datetime, *,
-                  lane_silent_min: float = DEFAULT_LANE_SILENT_MIN) -> dict:
+                  lane_silent_min: float = DEFAULT_LANE_SILENT_MIN,
+                  future_skew_min: float = DEFAULT_FUTURE_SKEW_MIN) -> dict:
     """One lane + the boxes wearing its prefix -> one verdict. ORDER IS THE DISCRIMINATION:
 
         no hosts        FIRST and unconditionally OK. A lane with nothing billing costs nothing while it is
@@ -486,6 +498,7 @@ def classify_lane(spec: dict, rows: list[dict], stamp: datetime.datetime | None,
         "freshness_basis": basis,
         "silent_for_min": round(age, 1) if age is not None else None,
         "threshold_min": lane_silent_min,
+        "future_skew_tolerance_min": future_skew_min,
     }
 
     # ── 1. no hosts: OK whatever the age. THE HALF OF THE PAIR THAT BUYS THE SILENCE. ──
@@ -515,6 +528,20 @@ def classify_lane(spec: dict, rows: list[dict], stamp: datetime.datetime | None,
                        f"be read ({why_not or 'unknown'}), so 'billing and watched' cannot be separated from "
                        f"'billing and abandoned'. Not graded OK — guessing is precisely where this costs "
                        f"money.")
+        return v
+
+    # ── 3b. a stamp from the FUTURE is not a fresh lane, it is an unbelievable reading ──
+    # It must be checked BEFORE the staleness branch, because a negative age passes that branch silently and
+    # would make this alarm permanently quiet for the lane — failing open, in the one place the whole module
+    # is supposed to fail closed.
+    if age is not None and age < -future_skew_min:
+        v["verdict"], v["ok"] = "LANE-UNKNOWN", False
+        v["detail"] = (f"{len(rows)} instance(s) wear this lane's prefix and its last report is stamped "
+                       f"{_et(stamp)}, which is {-age:.0f} min IN THE FUTURE (tolerance "
+                       f"{future_skew_min:.0f} min). A future stamp is not a fresh lane — it is a reading "
+                       f"that cannot be believed, from a skewed clock, a mis-zoned timestamp, or a field "
+                       f"populated from ENV rather than from what ran. Graded UNKNOWN rather than fresh "
+                       f"because a negative age would otherwise silence this alarm for this lane forever.")
         return v
 
     # ── 4. ★ THE ALARM: stale AND holding hosts ──
@@ -553,7 +580,8 @@ def classify_lane(spec: dict, rows: list[dict], stamp: datetime.datetime | None,
 def build_report(census: dict | None, census_err: str | None, lane_reads: dict, now: datetime.datetime, *,
                  lanes: list[dict] | None = None,
                  lane_silent_min: float = DEFAULT_LANE_SILENT_MIN,
-                 census_stale_min: float = DEFAULT_CENSUS_STALE_MIN) -> dict:
+                 census_stale_min: float = DEFAULT_CENSUS_STALE_MIN,
+                 future_skew_min: float = DEFAULT_FUTURE_SKEW_MIN) -> dict:
     """PURE. The whole verdict, from already-loaded state.
 
     `lane_reads` maps lane key -> `(stamp, basis, why_not)`, so every filesystem and git touch happens in the
@@ -571,7 +599,8 @@ def build_report(census: dict | None, census_err: str | None, lane_reads: dict, 
                   "Keyed on the Vast account because a lane-scoped watcher structurally cannot see a host "
                   "whose lane stopped. REPORT-ONLY: this never destroys, stops, reaps, nudges or rents."),
         "generated_utc": _z(now), "generated_et": _et(now),
-        "thresholds": {"lane_silent_min": lane_silent_min, "census_stale_min": census_stale_min},
+        "thresholds": {"lane_silent_min": lane_silent_min, "census_stale_min": census_stale_min,
+                       "future_skew_min": future_skew_min},
         "report_only": True,
     }
 
@@ -632,7 +661,8 @@ def build_report(census: dict | None, census_err: str | None, lane_reads: dict, 
     for spec in lanes:
         stamp, basis, why_not = lane_reads.get(spec["key"], (None, None, "no read was attempted"))
         lane_verdicts.append(classify_lane(spec, by_lane[spec["key"]], stamp, basis, why_not, now,
-                                           lane_silent_min=lane_silent_min))
+                                           lane_silent_min=lane_silent_min,
+                                           future_skew_min=future_skew_min))
     rep["lanes"] = lane_verdicts
 
     # ── orphans: a box whose prefix NO registered lane claims ──
@@ -714,6 +744,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--now", default=None, help="ISO8601Z override, for tests")
     ap.add_argument("--lane-silent-min", type=float, default=DEFAULT_LANE_SILENT_MIN)
     ap.add_argument("--census-stale-min", type=float, default=DEFAULT_CENSUS_STALE_MIN)
+    ap.add_argument("--future-skew-min", type=float, default=DEFAULT_FUTURE_SKEW_MIN,
+                    help="how far a lane stamp may sit in the future before it is disbelieved")
     ap.add_argument("--no-git", action="store_true", help="disable the weak git-commit-time freshness basis")
     a = ap.parse_args(argv)
 
@@ -726,7 +758,8 @@ def main(argv: list[str] | None = None) -> int:
     census, census_err = load_json(census_path)
     reads = {s["key"]: read_lane_freshness(a.root, s, use_git=not a.no_git) for s in ACCOUNT_LANES}
     rep = build_report(census, census_err, reads, now,
-                       lane_silent_min=a.lane_silent_min, census_stale_min=a.census_stale_min)
+                       lane_silent_min=a.lane_silent_min, census_stale_min=a.census_stale_min,
+                       future_skew_min=a.future_skew_min)
 
     if a.out:
         os.makedirs(os.path.dirname(os.path.abspath(a.out)) or ".", exist_ok=True)
