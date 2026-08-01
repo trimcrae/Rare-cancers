@@ -1524,10 +1524,15 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
             # staging fault for free before any MD host is bought.
             self_dispatch("stage_test")
             return 0
-        # ★★ THE PATH THAT COST THE 2026-08-01 SUPERVISION GAP ITS DIAGNOSIS. It used to read `if not mine:
-        # return 1` — an immediate, unconditional exit with NO re-arm, three lines below a docstring saying
-        # this function "re-arms itself". Both were true of DIFFERENT paths, which is why reading the
-        # docstring instead of the code produced a wrong story. Two independent defects lived here:
+        # ★★ THE PATH THAT COST THE 2026-08-01 SUPERVISION GAP ITS DIAGNOSIS, AND IT WAS EXERCISED THAT DAY.
+        # MEASURED, run 30710853581 job 91397937573: `MODE: cofold_watch`, `WATCH_MINUTES: 58`, and the
+        # `Rent` step ran 17:41:12Z -> 17:44:17Z and FAILED — 3.1 minutes into a 58-minute window, with the
+        # commit step succeeding. The only non-zero return reachable that early was this one; the re-arm
+        # below was never REACHED, because it is lexically after the loop and this returned from inside it.
+        # It used to read `if not mine: return 1` — an immediate, unconditional exit with NO re-arm, a few
+        # lines above a docstring saying this function "re-arms itself". Both were true of DIFFERENT paths,
+        # which is why reading the docstring instead of the code produced a wrong story. Two defects lived
+        # here:
         #   (a) `mine` is empty when the API FAILS as well as when no host exists (§4), so one Vast blip
         #       ended supervision of a host that was still billing;
         #   (b) it fired on a single observation, so it also raced `mode_cofold`'s own rental.
