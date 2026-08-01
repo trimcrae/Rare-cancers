@@ -646,3 +646,43 @@ jobs:
             # fixed. Falls back to the alarm's own throttled cron until a later tick recovers it.
             echo "::warning title=ACCOUNT ALARM DISPATCH FAILED::the cross-lane alarm was not dispatched, so it is running on its throttled cron alone. A host whose lane has stalled would go unnoticed for longer."
           fi
+
+  # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+  # ★★ AND THE CENTRAL REAPER GETS THE SAME RIDE — BECAUSE NOTICING WITHOUT ACTING IS WHAT KEPT FAILING
+  # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+  # The job above dispatches the account-keyed ALARM, which is report-only by design. On 2026-08-01 that
+  # alarm fired ATTENTION unattended, correctly, every ~8 min — and two selcal hosts kept billing anyway,
+  # because every teardown path in the repo is PRIVATE TO A LANE and four of them were broken at once:
+  # ternary reaped a live re-run off a five-day-old `done` record; NR-V04 retro's `retro_reap` never fired;
+  # the GCP reaper worked and nothing relaunched; selcal's `mode=reap` ran, exited SUCCESS, and destroyed
+  # neither a finished host nor a terminal one.
+  #
+  # `vast-account-reaper.yml` is the one thing that ACTS, on a narrow predicate, keyed on the ACCOUNT. It is
+  # dispatched from here for exactly the reason `resurrect-supervisor` and the alarm are: A LANE SUPERVISOR
+  # MUST NOT BE THE DRIVER OF THE THING THAT COVERS FOR LANE SUPERVISORS. Its own `schedule:` is the other
+  # weak driver; two that fail for different reasons is the honest description and neither is a heartbeat.
+  #
+  # ⚠ `if: always()` — so it also fires when the tick FAILS, which is precisely when a host is most likely to
+  # be left behind. COST: $0, and it only ever reduces spend.
+  account-reaper:
+    needs: tick
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch the account-keyed central reaper
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # No actions/checkout here, so `gh` has no git remote to infer a repo from and every subcommand
+          # would die with "not a git repository" — the same defect the supervisor once shipped with.
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -uo pipefail
+          if gh workflow run vast-account-reaper.yml --ref main -f branch=main -f arm=true; then
+            echo "::notice title=ACCOUNT REAPER DISPATCHED::the one central thing that destroys hosts on a terminal state, or on work verifiably banked, was dispatched. It never reaps on gpu_util, on age, or on a stale census."
+          else
+            echo "::warning title=ACCOUNT REAPER DISPATCH FAILED::the central reaper was not dispatched, so it is running on its throttled cron alone. A terminal or finished host would keep billing for longer."
+          fi

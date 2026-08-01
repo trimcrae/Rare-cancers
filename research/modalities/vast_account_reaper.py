@@ -111,6 +111,7 @@ import ast
 import datetime
 import json
 import os
+import re
 import sys
 
 import account_orphan_alarm as AOA
@@ -275,6 +276,252 @@ def _dt(epoch: float | None) -> datetime.datetime | None:
         return datetime.datetime.fromtimestamp(float(epoch), datetime.timezone.utc)
     except (TypeError, ValueError, OSError, OverflowError):
         return None
+
+
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# RULE 2 — "work banked and no remaining role", on evidence a lane cannot fake by accident
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ THE ATTRIBUTION PROBLEM IS THE WHOLE DIFFICULTY, AND IT IS WHY THIS DOES NOT MAP LABELS TO UNITS.
+#
+# Every lane's own reaper answers "is this host's unit done?" by decoding the Vast label back into a unit id.
+# That decode is a LOSSY REVERSE MAPPING — `protfep_vast_launch.label_matches_leg`'s own docstring says
+# "matching has to go leg_id -> label, never the reverse", because the label flattens underscores, lowercases
+# and truncates to 60 chars — and getting it wrong is exactly the class of bug that has cost money here twice
+# (protfep's smoke label never matched its leg id, so its crash-looping host billed unattended; ternary's
+# `finished` matched a five-day-old record and destroyed a live re-run).
+#
+# A CENTRAL reaper must not re-implement eight lanes' worth of that decode. So it does not decode anything:
+# it requires the completion record to NAME THE INSTANCE ID. That convention already exists in this repo and
+# is not invented here —
+#     nrv04's `_RETRO_ATTEMPT_MARKER` writes `attempt <UTC> instance=$CONTAINER_ID`
+#       (`nrv04_vast_launch.retro_attempt_hosts` parses exactly this to count DISTINCT rentals),
+#     the selcal phase marker writes `done rc=0 2026-08-01T14:41:08Z instance=46508454 attempt=…`
+#       (`account_orphan_alarm` and `lane_staleness_watch` both already extract from it).
+# — so attribution is EXACT rather than decoded, and a lane opts into RULE 2 by writing a marker it already
+# knows how to write. A lane that does not is simply never reaped by RULE 2; it is still covered by RULE 1.
+#
+# ⚠ AND THE MARKER ALONE IS NOT ENOUGH. Four conditions, ALL required, any failure SPARES:
+#   (a) the marker names THIS instance id                        -> exact attribution, no decode
+#   (b) its phase token is terminal and its rc is 0              -> the host itself said it finished cleanly
+#   (c) its stamp is NEWER than the instance's `start_date`      -> the 46459452 guard
+#   (d) the OBJECT STORE, listed by this module, holds >= 1 object under the lane's output prefix whose
+#       store-reported `LastModified` falls inside THIS rental's lifetime
+#                                                                -> work is BANKED, measured not claimed
+#
+# ⚠ (d) IS DELIBERATELY SCOPED TO THE LANE PREFIX, NOT TO A UNIT SUB-PATH DERIVED FROM THE LABEL. Deriving
+# that sub-path would reintroduce the lossy decode this design exists to avoid, and a broader prefix can only
+# make (d) EASIER to pass — it never lets through a case that (a)+(b)+(c) had rejected. What (d) is actually
+# guarding is "said done, banked nothing", and a lane-wide prefix catches that perfectly well.
+#
+# ⚠ AND (d) READS `LastModified` FROM THE STORE, NEVER A COUNT OUT OF A JSON FILE. §4b: a census row saying
+# `n_models_per_arm: 6` is a CLAIM; an object with an mtime is a MEASUREMENT. 17 smoke legs once echoed
+# `prod_ns: 5.0` from their ENV and a completeness count believed them.
+
+#: `<phase> rc=<n> <ISO-Z> instance=<id> …` — the shared marker convention described above.
+_PHASE_RE = re.compile(r"(?P<phase>[A-Za-z_][\w-]*)\s+rc=(?P<rc>-?\d+)\s+"
+                       r"(?P<utc>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z)\s+"
+                       r"instance=(?P<instance>\S+)")
+
+#: Phase tokens that mean "this container's run is over". NOT a synonym for "succeeded" — `rc` carries that.
+DONE_PHASES = ("done", "finished", "complete", "completed")
+
+#: One row per lane that has opted into RULE 2 by committing an instance-named completion marker.
+#:
+#: ⚠ AN EMPTY REGISTRY IS A CORRECT STATE, NOT A BROKEN ONE. RULE 2 then never fires and RULE 1 still covers
+#: every lane. That is the intended failure direction for a rule that destroys: opting in is explicit.
+#:
+#: FIELDS
+#:   lane          matches `account_orphan_alarm.ACCOUNT_LANES[*].key`, so the two readouts line up.
+#:   record        repo-visible JSON artifact holding the marker. Committed, so this needs no S3 to READ the
+#:                 marker — S3 is needed only for (d).
+#:   marker_keys   keys to try, in order, for the marker string.
+#:   output_uri    where this lane's outputs land, as `s3://bucket/prefix`. `{bucket}` is filled from
+#:                 `VAST_CKPT_BUCKET`; `{…}` fields named `record:<key>` are filled from the record itself,
+#:                 which is a LOCATION (verifying at a location is still a measurement) and never a claim
+#:                 about how much work was done.
+WORK_RECORDS: list[dict] = [
+    {
+        "lane": "selcal-cofold",
+        "label_prefixes": ("selcal-",),
+        "record": "selcal-cofold-census.json",
+        "marker_keys": ("phase",),
+        "output_uri": "s3://{bucket}/{record:prefix}",
+        "why_registered": ("this lane's phase marker already carries `instance=<id>`, and it is the lane "
+                           "whose host 46508454 finished at 10:41 AM ET with six models banked and then "
+                           "billed for another hour and a half while its own `mode=reap` ran and exited "
+                           "success."),
+    },
+]
+
+DEFAULT_BUCKET_ENV = "VAST_CKPT_BUCKET"
+
+
+def parse_phase_marker(text) -> tuple[dict | None, str]:
+    """`(marker, why_not)` from a `done rc=0 <ISO-Z> instance=<id>` string. PURE, and NEVER guesses.
+
+    A string that does not match returns None with a reason. Half-parsing it — taking the stamp but not the
+    instance, say — would produce an attribution nobody measured, which is the defect §4b names."""
+    if not isinstance(text, str) or not text.strip():
+        return None, "the marker field is absent or not a string"
+    m = _PHASE_RE.search(text)
+    if not m:
+        return None, (f"the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention "
+                      f"({text[:90]!r}) — without an instance id there is no exact attribution, and this "
+                      f"module will not decode a Vast label back into a unit to get one")
+    stamp = parse_z(m.group("utc"))
+    if stamp is None:
+        return None, f"the marker's timestamp {m.group('utc')!r} is unparseable"
+    try:
+        rc = int(m.group("rc"))
+    except (TypeError, ValueError):
+        return None, f"the marker's rc {m.group('rc')!r} is not an integer"
+    return {"phase": m.group("phase").lower(), "rc": rc, "instance": m.group("instance"),
+            "utc": _z(stamp), "et": _et(stamp), "epoch": stamp.timestamp()}, ""
+
+
+def _spare(why: str, **kw) -> dict:
+    d = {"banked": False, "why": why}
+    d.update(kw)
+    return d
+
+
+def gather_banked_evidence(inst: dict, *, root: str = HERE, records=None, lister=None,
+                           bucket: str | None = None) -> dict | None:
+    """RULE 2's evidence for ONE instance, or None when no registered lane claims its label.
+
+    `lister(uri) -> [(key, mtime_epoch)]` is injected so every branch is testable with no boto3, no
+    credential and no network — the property that let the alarm's controls find real bugs before CI did.
+
+    ★ FAIL CLOSED EVERYWHERE. Unreadable record, unmatched marker, wrong instance, non-zero rc, stale stamp,
+    unlistable store: every one returns evidence that does NOT say `banked: True`, and `classify_instance`
+    reaps only on `banked is True`.
+    """
+    records = WORK_RECORDS if records is None else records
+    label = str(inst.get("label") or "")
+    spec = None
+    for r in records:
+        if any(label.startswith(p) for p in r.get("label_prefixes") or ()):
+            spec = r
+            break
+    if spec is None:
+        return None
+
+    ev: dict = {"lane": spec["lane"], "record": spec.get("record"), "banked": False}
+
+    doc, err = load_json(os.path.join(root, spec["record"]))
+    if doc is None:
+        return _spare(f"RULE 2 needs this lane's completion record and it could not be read ({err}). An "
+                      f"absent reading is not a reading of absence (§4) — SPARE.", **ev)
+
+    marker, why = None, "no marker key was declared"
+    for k in spec.get("marker_keys") or ():
+        marker, why = parse_phase_marker(doc.get(k))
+        if marker:
+            break
+    if not marker:
+        return _spare(f"RULE 2 could not read an instance-named completion marker from "
+                      f"{spec['record']}: {why} — SPARE.", **ev)
+    ev["marker"] = marker
+
+    # ── (a) EXACT ATTRIBUTION ────────────────────────────────────────────────────────────────────────────
+    if str(marker["instance"]) != str(inst.get("id")):
+        return _spare(f"the lane's latest completion marker names instance {marker['instance']}, not this "
+                      f"one ({inst.get('id')}). A marker for a DIFFERENT rental is not evidence about this "
+                      f"host, and this module will not decode a label into a unit to find a better one — "
+                      f"SPARE.", **ev)
+
+    # ── (b) TERMINAL PHASE, CLEAN EXIT ───────────────────────────────────────────────────────────────────
+    if marker["phase"] not in DONE_PHASES:
+        return _spare(f"the marker for this host reads phase={marker['phase']!r}, which is not a terminal "
+                      f"phase ({DONE_PHASES}) — the run has not declared itself over. SPARE.", **ev)
+    if marker["rc"] != 0:
+        return _spare(f"the marker for this host reads rc={marker['rc']}, so the run ended in FAILURE. RULE 2 "
+                      f"is 'work banked', and a failed run has banked nothing to justify a reap on those "
+                      f"grounds. If the container is genuinely finished it will go terminal and RULE 1 clears "
+                      f"it — which is the rule that cannot be wrong. SPARE.", **ev)
+
+    # ── (c) THE 46459452 GUARD ───────────────────────────────────────────────────────────────────────────
+    ours, attribution_why = record_is_newer_than_instance(marker["epoch"], inst)
+    ev["attribution_why"] = attribution_why
+    if not ours:
+        return _spare(f"RULE 2 will not act on this record: {attribution_why}", **ev)
+
+    # ── (d) WORK ACTUALLY BANKED — MEASURED FROM THE STORE ───────────────────────────────────────────────
+    uri, uri_why = _output_uri(spec, doc, bucket)
+    ev["output_uri"] = uri
+    if not uri:
+        return _spare(f"RULE 2 cannot verify banked output because this lane's output location could not be "
+                      f"resolved ({uri_why}). Nothing is destroyed on an unverified claim — SPARE.", **ev)
+    if lister is None:
+        return _spare(f"RULE 2 is DISABLED for this run: no object-store lister is available, so 'work "
+                      f"banked' cannot be MEASURED and would have to be taken from a JSON field. A populated "
+                      f"field is not a measured one (§4b) — SPARE. RULE 1 is unaffected.",
+                      **dict(ev, banked=None))
+    try:
+        objs = lister(uri)
+    except Exception as e:                                        # noqa: BLE001 — could not ask != none found
+        return _spare(f"RULE 2 could not list {uri} ({type(e).__name__}: {e}). 'I could not ask' is not 'the "
+                      f"answer was none' (§4) — SPARE.", **dict(ev, banked=None))
+
+    start = float(inst.get("start_date") or 0.0)
+    end = marker["epoch"] + 900.0            # 15 min of slack for an upload finishing after the marker
+    inside = [(k, m) for (k, m) in (objs or []) if m is not None and start <= float(m) <= end]
+    ev["n_objects_under_prefix"] = len(objs or [])
+    ev["n_objects_written_by_this_rental"] = len(inside)
+    if not inside:
+        return _spare(f"the host's marker says done rc=0, but the object store holds NO object under {uri} "
+                      f"whose LastModified falls inside this rental's lifetime "
+                      f"({_et(_dt(start))} .. {_et(_dt(end))}) — so nothing was banked and 'work banked' is "
+                      f"not true. SPARE (RULE 1 still clears it once it goes terminal).", **ev)
+
+    newest = max(inside, key=lambda t: t[1])
+    ev["banked"] = True
+    ev["newest_object"] = {"key": newest[0], "mtime_utc": _z(_dt(newest[1])), "mtime_et": _et(_dt(newest[1]))}
+    ev["why"] = (f"marker `{marker['phase']} rc={marker['rc']}` names THIS instance ({marker['instance']}) at "
+                 f"{marker['et']}, and {len(inside)} object(s) under {uri} carry a store-reported "
+                 f"LastModified inside this rental's lifetime — newest {newest[0]} at "
+                 f"{ev['newest_object']['mtime_et']}. The work is BANKED (measured from the store, not read "
+                 f"out of a JSON field) and this host has no remaining role.")
+    return ev
+
+
+def _output_uri(spec: dict, doc: dict, bucket: str | None) -> tuple[str | None, str]:
+    """PURE. Resolve the lane's declared `output_uri` template. `{bucket}` from env/arg, `{record:<key>}` from
+    the record. A missing piece returns None WITH A REASON rather than a half-built URI — listing the wrong
+    prefix would silently answer a different question."""
+    tpl = spec.get("output_uri")
+    if not tpl:
+        return None, "the registry row declares no `output_uri`"
+    b = bucket or os.environ.get(DEFAULT_BUCKET_ENV) or ""
+    if "{bucket}" in tpl and not b:
+        return None, f"no bucket: ${DEFAULT_BUCKET_ENV} is unset and none was passed"
+    out = tpl.replace("{bucket}", b)
+    for m in re.findall(r"\{record:([^}]+)\}", out):
+        val = doc.get(m)
+        if not isinstance(val, str) or not val.strip():
+            return None, f"the record has no usable `{m}` to locate the outputs"
+        out = out.replace("{record:%s}" % m, val.strip().strip("/"))
+    return out.rstrip("/"), ""
+
+
+def s3_lister(uri: str):
+    """`[(key, mtime_epoch)]` under an `s3://bucket/prefix`. The ONLY object-store read in this module.
+
+    ⚠ IT RETURNS `LastModified`, WHICH IS WHY IT IS NOT `object_store.ObjectStore.list` — that returns keys
+    only, and a key without an mtime cannot answer "did THIS rental write it", which is the entire question
+    RULE 2 (d) asks. Imported lazily so a plan, a dry run and every test run with no boto3."""
+    import boto3
+    body = uri.split("://", 1)[1] if "://" in uri else uri
+    bucket, _, prefix = body.partition("/")
+    cl = boto3.client("s3", endpoint_url=os.environ.get("OBJECT_STORE_ENDPOINT") or None,
+                      region_name=os.environ.get("OBJECT_STORE_REGION") or os.environ.get(
+                          "AWS_DEFAULT_REGION") or None)
+    out = []
+    for page in cl.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=prefix):
+        for o in page.get("Contents") or []:
+            lm = o.get("LastModified")
+            out.append((o["Key"], lm.timestamp() if lm is not None else None))
+    return out
 
 
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -568,6 +815,11 @@ def render(plan: dict, result: dict | None = None) -> str:
         L.append(f"    from {n}")
     if plan.get("rule_1_disabled"):
         L.append(f"⚠ {plan['rule_1_disabled']}")
+    if plan.get("rule_2_lanes") is not None:
+        _r2 = plan["rule_2_lanes"] or "(none — RULE 2 is inert; RULE 1 covers every lane)"
+        L.append(f"RULE 2 lanes registered: {_r2}")
+    if plan.get("rule_2_disabled"):
+        L.append(f"⚠ {plan['rule_2_disabled']}")
     L.append("")
     if not plan.get("graded"):
         L.append(f"⛔ FAIL-CLOSED — {plan.get('verdict')}: {plan.get('detail')}")
@@ -607,6 +859,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--now", default=None, help="ISO8601Z override, for tests")
     ap.add_argument("--census-stale-min", type=float, default=DEFAULT_CENSUS_STALE_MIN)
     ap.add_argument("--future-skew-min", type=float, default=DEFAULT_FUTURE_SKEW_MIN)
+    ap.add_argument("--no-object-store", action="store_true",
+                    help="do not read the object store. RULE 2 then cannot MEASURE 'work banked' and is "
+                         "disabled; RULE 1 is unaffected.")
     a = ap.parse_args(argv)
 
     now = parse_z(a.now) if a.now else datetime.datetime.now(datetime.timezone.utc)
@@ -618,10 +873,27 @@ def main(argv: list[str] | None = None) -> int:
     census, census_err = load_json(census_path)
     terminal, notes = terminal_states_from_source(a.root)
 
+    # ⚠ RULE 2's lister is resolved HERE, once, and passed in — so `build_plan` stays pure and every branch
+    # of the predicate is reachable in a test with no boto3, no credential and no network.
+    lister = None if a.no_object_store else s3_lister
+    banked = {}
+    if isinstance(census, dict) and isinstance(census.get("instances"), list):
+        for inst in census["instances"]:
+            if not isinstance(inst, dict):
+                continue
+            ev = gather_banked_evidence(inst, root=a.root, lister=lister)
+            if ev is not None:
+                banked[str(inst.get("id"))] = ev
+
     plan = build_plan(census, census_err, now, terminal=terminal, terminal_notes=notes,
-                      banked_by_instance=None,
+                      banked_by_instance=banked,
                       census_stale_min=a.census_stale_min, future_skew_min=a.future_skew_min,
                       armed=a.arm)
+    plan["rule_2_lanes"] = [r["lane"] for r in WORK_RECORDS]
+    if lister is None:
+        plan["rule_2_disabled"] = ("RULE 2 IS DISABLED for this run: --no-object-store, so 'work banked' "
+                                   "could only be taken from a JSON field, and a populated field is not a "
+                                   "measured one (§4b). RULE 1 is unaffected.")
     result = execute(plan, now, armed=a.arm, ledger_path=a.ledger, destroy=vast_destroy)
     plan["execution"] = result
 

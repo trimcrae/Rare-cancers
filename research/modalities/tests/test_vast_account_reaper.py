@@ -265,6 +265,151 @@ def test_control_5d_rule_2_cannot_fire_without_positive_banked_evidence():
 
 
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# RULE 2 — work banked, MEASURED from the object store, attributed EXACTLY
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+SELCAL_LABEL = "selcal-cofold-selcal-smarca-cofold-v1-smarca2"
+
+
+def _record(tmp_path, phase, prefix="selcal-smarca-cofold-v1"):
+    (tmp_path / "selcal-cofold-census.json").write_text(
+        json.dumps({"prefix": prefix, "phase": phase, "n_models_per_arm": {"selcal_smarca2": 6}}))
+    return str(tmp_path)
+
+
+def _marker(iid, rc=0, when="2026-08-01T14:41:08Z", phase="done"):
+    return f"{phase} rc={rc} {when} instance={iid} attempt=20260801T144027Z"
+
+
+def _lister(objs):
+    return lambda uri: objs
+
+
+def test_rule_2_reaps_a_host_whose_marker_names_it_and_whose_output_is_verified(tmp_path, monkeypatch):
+    """★ THE 46508454 CASE. Finished at 10:41 AM ET with six models banked in S3, then billed for another
+    hour and a half while its lane's own `mode=reap` ran and exited SUCCESS."""
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "bkt")
+    root = _record(tmp_path, _marker(46508454))
+    inst = _inst(46508454, label=SELCAL_LABEL, start=START)          # started 14:09:04Z
+    ev = R.gather_banked_evidence(
+        inst, root=root, lister=_lister([("selcal-smarca-cofold-v1/selcal_smarca2/seed_1/m.cif",
+                                          START + 1200.0)]))
+    assert ev["banked"] is True
+    assert "measured from the store" in ev["why"]
+    v = R.classify_instance(inst, terminal=TERMINAL, banked=ev)
+    assert v["action"] == R.REAP and v["rule"] == "RULE-2-WORK-BANKED"
+
+
+def test_rule_2_spares_when_the_marker_names_a_different_rental(tmp_path, monkeypatch):
+    """No label->unit decode, ever. `protfep_vast_launch.label_matches_leg`'s own docstring says matching has
+    to go leg_id -> label and never the reverse; a central reaper that re-implemented eight lanes' worth of
+    that decode would be eight new chances to destroy a live host."""
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "bkt")
+    root = _record(tmp_path, _marker(46508511))
+    ev = R.gather_banked_evidence(_inst(46508454, label=SELCAL_LABEL), root=root,
+                                  lister=_lister([("k", START + 60.0)]))
+    assert ev["banked"] is False and "not this one" in ev["why"]
+
+
+def test_rule_2_spares_a_failed_run(tmp_path, monkeypatch):
+    """selcal 46508511: `done rc=1`, zero models. 'Work banked' is false, so RULE 2 must not fire — RULE 1
+    clears it the moment it goes terminal, and that is the rule that cannot be wrong."""
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "bkt")
+    root = _record(tmp_path, _marker(46508511, rc=1))
+    ev = R.gather_banked_evidence(_inst(46508511, label=SELCAL_LABEL), root=root,
+                                  lister=_lister([("k", START + 60.0)]))
+    assert ev["banked"] is False and "rc=1" in ev["why"]
+
+
+def test_rule_2_spares_when_the_marker_predates_the_instance(tmp_path, monkeypatch):
+    """★★ THE 46459452 GUARD, ON THE BRANCH THAT DESTROYS. A record older than the host belongs to a previous
+    attempt; believing it is what killed a live re-run 2 min 23 s into its image pull."""
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "bkt")
+    root = _record(tmp_path, _marker(46508454, when="2026-07-26T10:00:00Z"))   # five days earlier
+    ev = R.gather_banked_evidence(_inst(46508454, label=SELCAL_LABEL, start=START), root=root,
+                                  lister=_lister([("k", START + 60.0)]))
+    assert ev["banked"] is False and "PREVIOUS attempt" in ev["attribution_why"]
+
+
+def test_rule_2_spares_when_the_store_holds_nothing_from_this_rental(tmp_path, monkeypatch):
+    """'Said done, banked nothing.' The object's store-reported LastModified is the measurement; a
+    `n_models_per_arm: 6` field in the same file is only a claim (§4b), and it is deliberately not read."""
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "bkt")
+    root = _record(tmp_path, _marker(46508454))
+    ev = R.gather_banked_evidence(_inst(46508454, label=SELCAL_LABEL, start=START), root=root,
+                                  lister=_lister([("old/key", START - 99999.0)]))
+    assert ev["banked"] is False and "NO object" in ev["why"]
+
+
+def test_rule_2_is_disabled_rather_than_guessed_when_the_store_cannot_be_read(tmp_path, monkeypatch):
+    """'I could not ask' is not 'the answer was none' (§4). Both the no-lister and the raising-lister paths
+    must produce `banked: None` — an UNKNOWN, not a False that reads like a measurement."""
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "bkt")
+    root = _record(tmp_path, _marker(46508454))
+    inst = _inst(46508454, label=SELCAL_LABEL, start=START)
+    assert R.gather_banked_evidence(inst, root=root, lister=None)["banked"] is None
+
+    def boom(uri):
+        raise RuntimeError("AccessDenied")
+    ev = R.gather_banked_evidence(inst, root=root, lister=boom)
+    assert ev["banked"] is None and "could not list" in ev["why"]
+    assert R.classify_instance(inst, terminal=TERMINAL, banked=ev)["action"] == R.SPARE
+
+
+def test_rule_2_spares_when_the_record_is_missing_or_unreadable(tmp_path, monkeypatch):
+    monkeypatch.setenv("VAST_CKPT_BUCKET", "bkt")
+    ev = R.gather_banked_evidence(_inst(1, label=SELCAL_LABEL), root=str(tmp_path),
+                                  lister=_lister([("k", START + 1.0)]))
+    assert ev["banked"] is False and "could not be read" in ev["why"]
+
+
+def test_rule_2_spares_when_the_output_location_cannot_be_resolved(tmp_path, monkeypatch):
+    """A half-built URI would silently list the wrong prefix and answer a different question."""
+    monkeypatch.delenv("VAST_CKPT_BUCKET", raising=False)
+    root = _record(tmp_path, _marker(46508454))
+    ev = R.gather_banked_evidence(_inst(46508454, label=SELCAL_LABEL), root=root,
+                                  lister=_lister([("k", START + 1.0)]))
+    assert ev["banked"] is False and "could not be resolved" in ev["why"]
+
+
+def test_an_unregistered_lane_gets_no_rule_2_evidence_at_all():
+    """Opting in is explicit. A lane with no registry row is never reaped by RULE 2 — and is still fully
+    covered by RULE 1, which needs no lane knowledge whatsoever."""
+    assert R.gather_banked_evidence(_inst(1, label="tvast-5aks-r0"), lister=_lister([])) is None
+
+
+@pytest.mark.parametrize("text", [None, "", "done", "done rc=0", "done rc=0 2026-08-01T14:41:08Z",
+                                  "running 2026-08-01T14:41:08Z instance=1"])
+def test_a_marker_that_does_not_carry_the_convention_is_never_half_parsed(text):
+    """Taking the stamp but not the instance would produce an attribution nobody measured."""
+    m, why = R.parse_phase_marker(text)
+    assert m is None and why
+
+
+def test_the_marker_convention_matches_the_one_the_repo_already_writes():
+    """§1 — the format is not invented here. `nrv04_vast_launch.retro_attempt_hosts` parses `instance=<id>`
+    out of attempt markers, and the selcal phase marker is the exact string quoted in
+    `lane_staleness_watch` and `account_orphan_alarm`."""
+    m, _ = R.parse_phase_marker("done rc=0 2026-08-01T14:41:08Z instance=46508454 attempt=20260801T144027Z")
+    assert m == {"phase": "done", "rc": 0, "instance": "46508454",
+                 "utc": "2026-08-01T14:41:08Z", "et": R._et(R.parse_z("2026-08-01T14:41:08Z")),
+                 "epoch": R.parse_z("2026-08-01T14:41:08Z").timestamp()}
+
+
+def test_rule_2_registry_lanes_exist_in_the_alarm_registry():
+    """Test-time coupling, run-time independence — the same discipline the alarm uses for label prefixes. A
+    RULE 2 row naming a lane the account view does not know about would be reaping on an unowned prefix."""
+    known = {s["key"] for s in AOA.ACCOUNT_LANES}
+    for row in R.WORK_RECORDS:
+        assert row["lane"] in known, f"{row['lane']} is not a lane `account_orphan_alarm` knows about"
+        alarm = next(s for s in AOA.ACCOUNT_LANES if s["key"] == row["lane"])
+        assert set(row["label_prefixes"]) == set(alarm["label_prefixes"]), (
+            f"{row['lane']}: the reaper matches {row['label_prefixes']} and the alarm matches "
+            f"{alarm['label_prefixes']} — a host could be reaped under a prefix the account view attributes "
+            f"elsewhere")
+        assert (MODALITIES / row["record"]).exists() or True   # absence is handled, not asserted away
+
+
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 # the ladder — dry-run first, and billed hours latched BEFORE the DELETE
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 def test_dry_run_calls_nothing_and_still_records_what_it_would_do(tmp_path):

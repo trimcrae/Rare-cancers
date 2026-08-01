@@ -1,0 +1,237 @@
+name: Account-keyed central reaper — destroy hosts no lane will
+
+# WHAT THIS IS, in one sentence: the ONE thing in the repo that destroys Vast hosts on a narrow, provably-safe
+# predicate, keyed on the VAST ACCOUNT rather than on a lane, so no lane's private teardown bug can leave a
+# box billing.
+#
+# ★★ WHY IT EXISTS, measured 2026-08-01: THE SAME FAILURE HAPPENED FOUR TIMES IN ONE DAY, IN FOUR LANES,
+# THROUGH FOUR SEPARATE TEARDOWN IMPLEMENTATIONS.
+#
+#   ternary      `collect`'s destroy chain reaped a LIVE re-run (46459452, killed 2 min 23 s in, mid
+#                image-pull) because that unit's `leg.json` had said `done` since five days earlier.
+#   NR-V04 retro `retro_reap` never fired — the failure breaker's anchor could not advance.
+#   GCP          the reaper worked correctly and nothing relaunched, so the single GPU idled 8-15 h, twice.
+#   selcal       `mode=reap` runs, exits SUCCESS, and destroys neither a finished host nor a terminal one.
+#                46508454 finished at 10:41 AM ET with its six models banked and billed for another 1.5 h;
+#                46508511 sat `exited` with zero models. Both `gpu_util 0.0`, both ~$0.184/hr.
+#
+# ★★ DETECTION WAS ALREADY CENTRAL AND ALREADY WORKING. `account-orphan-alarm.yml` has been firing ATTENTION
+# unattended and re-driving its own census input (delivered gaps 156 min -> ~15 min). WHAT WAS MISSING IS A
+# CENTRAL THING THAT **ACTS**. Four private teardown paths is four chances to be wrong; this is one path with
+# one predicate, and a lane cannot break it by breaking its own.
+#
+# ⚠ WHY IT IS A SEPARATE WORKFLOW FROM THE ALARM, AND MUST STAY ONE. The alarm is report-only, carries no
+# credential, and is pinned by AST so it can be trusted against a lane whose semantics it does not understand.
+# This job carries VAST_API_KEY and destroys. Merging them would trade the alarm's universality for this job's
+# blast radius — and the alarm is the half that has been working. The dependency runs one way: the reaper
+# imports the alarm's readers, never the reverse.
+#
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE TWO RULES. NOTHING ELSE MAY DESTROY.
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+#   RULE 1  TERMINAL STATE, UNCONDITIONAL. `exited`/`stopped`/`offline`/`error`, DERIVED BY AST from the two
+#           lane definitions that already exist. A terminal host is not coming back, so this rule cannot lose
+#           work by construction.
+#   RULE 2  WORK BANKED AND NO REMAINING ROLE. The lane's completion marker NAMES THIS INSTANCE, reads
+#           `done rc=0`, is stamped AFTER the host started, and the object store — listed by this job — holds
+#           an object whose store-reported LastModified falls inside this rental's lifetime.
+#
+# ⛔ NEVER on `gpu_util` (both selcal boxes read 0.0 INCLUDING THE WORKING ONE; AST-pinned).
+# ⛔ NEVER on age (a healthy fan-out leg runs for many hours).
+# ⛔ NEVER on a stale or unreadable census (measured 155 min stale that same day — fail closed).
+# ⛔ NEVER on a `done` record older than the instance (that is what killed 46459452).
+#
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# TWO WEAK, INDEPENDENT DRIVERS — DELIBERATELY NOT A LANE SUPERVISOR
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# The `schedule:` below is A REQUEST, NOT A CADENCE (CLAUDE.md §6: "A `schedule:` CRON DOES NOT SUPERVISE A
+# BILLING FLEET"). This repo throttles schedules hard; the delivered gaps are MEASURED AND PRINTED BY
+# `fleet-supervision-alarm.yml`, which is their one home (§1) — do not re-type a remembered figure here, which
+# is exactly how a stale "~55-65 min" survived into two files.
+#
+# So delivery does not rest on the cron. The second driver is the tail of `step1-fanout-autoscale.yml` under
+# `if: always()`, alongside the existing `resurrect-supervisor` and `account-orphan-alarm` jobs — the repo's
+# established precedent for a watchdog that does not depend on what it watches. ⚠ THAT IS A RIDE, NOT
+# INDEPENDENCE: if the autoscale workflow stops, this falls back to the throttled cron. Two weak drivers that
+# fail for DIFFERENT reasons is the honest description, and hanging it off a lane supervisor instead would be
+# the single point of failure this whole thing replaces.
+#
+# ⛔ NOTHING HERE NOTIFIES ANYBODY. No mail, no issues, no push channel — `issues:` is deliberately absent
+# from `permissions` so the capability does not exist rather than merely being switched off. The run is not
+# failed on a reap either: a red SCHEDULED run emails the repo owner. The durable answer is the committed
+# plan + ledger plus an `::notice`/`::error` annotation, which is just as visible and sends nothing.
+#
+# COST: $0. GitHub-hosted minutes are free on a public repo; a few seconds of stdlib Python, one S3 LIST per
+# registered RULE 2 lane, and one DELETE per reaped host. No GPU. It only ever REDUCES spend.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "branch carrying the account census and the lane records"
+        default: "main"
+      arm:
+        description: "true = ACTUALLY DESTROY. false = dry run (plan + evidence only, calls nothing)."
+        default: "true"
+      census_stale_min:
+        description: "minutes after which the account census stops being evidence at all"
+        default: ""
+  schedule:
+    # A REQUEST, NOT A CADENCE — see the header. Off-the-hour and deliberately not more frequent than hourly:
+    # asking for a high frequency on a throttled repo does not get you one, it only adds queue pressure to
+    # the same pool the billing ticks compete in.
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write     # the plan and the ledger are committed back — that commit IS the record of what it did
+  # ⛔ NO `issues:`. Opening or commenting on an issue emails the repo owner and trimcrae asked for no
+  # notification channels. Revoking the CAPABILITY is blunter than a config flag.
+  # ⛔ NO `actions:`. Unlike the alarm, this job never dispatches anything. A workflow that can destroy hosts
+  # AND trigger other workflows is a bigger surface than the job needs.
+
+concurrency:
+  # ★ NEVER `cancel-in-progress` ON A JOB THAT DESTROYS. A cancelled run could land between the ledger write
+  # and the DELETE. Queueing costs a few minutes; a cancelled destroy costs the audit trail.
+  group: vast-account-reaper
+  cancel-in-progress: false
+
+jobs:
+  reap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      # RULE 2 only. Without these the object store cannot be LISTED, so "work banked" could only be taken
+      # from a JSON field — and a populated field is not a measured one (§4b). The module then DISABLES
+      # RULE 2 and says so; RULE 1 is unaffected, which is why this job is still worth running without them.
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      VAST_CKPT_BUCKET: ${{ vars.VAST_CKPT_BUCKET || 'sagemaker-us-east-2-646605541856' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || 'main' }}
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      # boto3 is needed ONLY for RULE 2's object listing. Installed non-fatally: if it fails, the module
+      # reports RULE 2 as disabled rather than the whole reaper failing — the rule that cannot lose work
+      # (RULE 1) must never be blocked by a dependency for the rule that can.
+      - name: boto3 (RULE 2's object listing only — non-fatal)
+        continue-on-error: true
+        run: python3 -m pip install --quiet boto3
+
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # RUNG 1 OF THE LADDER — THE DRY RUN ALWAYS RUNS FIRST, EVEN WHEN ARMED
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # Destroying is irreversible, so the plan and its evidence are produced and COMMITTED before anything
+      # is called. On an armed run this costs one extra second and buys a durable "here is what it was about
+      # to do, and why" that survives the destroy.
+      - name: Plan (dry run — calls nothing)
+        id: plan
+        working-directory: research/modalities
+        run: |
+          set +e
+          python3 vast_account_reaper.py \
+            --root . \
+            --json vast-account-reaper.json \
+            --ledger vast-account-reaper-ledger.jsonl \
+            ${{ github.event.inputs.census_stale_min && format('--census-stale-min {0}', github.event.inputs.census_stale_min) || '' }} \
+            | tee /tmp/plan.log
+          echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d = json.load(open("vast-account-reaper.json"))
+          print("n_reap=%s" % (d.get("n_reap") if d.get("n_reap") is not None else "unknown"))
+          print("verdict=%s" % d.get("verdict"))
+          PY
+
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # RUNG 2 — ARM. Only after the plan above exists on disk, and only when there is something to do.
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # ⚠ THE LEDGER IS APPENDED TO, NOT REWRITTEN: the dry-run pass above already wrote `WOULD-DESTROY`
+      # lines, and the armed pass adds `DESTROY-ATTEMPTED` (with the billed hours latched BEFORE the DELETE),
+      # then `DESTROYED` or `DESTROY-FAILED`. That ordering is the whole point — the instance record is the
+      # only place billed hours exist, and it stops existing the moment the DELETE lands.
+      - name: Arm and destroy
+        id: arm
+        if: ${{ (github.event.inputs.arm || 'true') == 'true' && steps.plan.outputs.n_reap != '0' && steps.plan.outputs.n_reap != 'unknown' }}
+        working-directory: research/modalities
+        run: |
+          set +e
+          python3 vast_account_reaper.py \
+            --root . \
+            --arm \
+            --json vast-account-reaper.json \
+            --ledger vast-account-reaper-ledger.jsonl \
+            ${{ github.event.inputs.census_stale_min && format('--census-stale-min {0}', github.event.inputs.census_stale_min) || '' }} \
+            | tee /tmp/arm.log
+          echo "rc=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Verdict (readable on a red run too)
+        if: ${{ always() }}
+        run: |
+          {
+            echo '### Account-keyed central reaper'
+            echo ''
+            echo '```'
+            cat /tmp/arm.log 2>/dev/null || cat /tmp/plan.log 2>/dev/null || echo 'THE REAPER ITSELF FAILED — no plan was produced. Nothing was destroyed, and nothing is clearing terminal hosts until this is fixed.'
+            echo '```'
+            echo ''
+            echo '<details><summary>full plan JSON</summary>'
+            echo ''
+            echo '```json'
+            cat research/modalities/vast-account-reaper.json 2>/dev/null || echo '{"verdict": "REAPER ITSELF FAILED"}'
+            echo '```'
+            echo '</details>'
+            echo ''
+            echo '<details><summary>ledger (billed hours latched BEFORE each DELETE)</summary>'
+            echo ''
+            echo '```'
+            tail -50 research/modalities/vast-account-reaper-ledger.jsonl 2>/dev/null || echo '(no ledger lines)'
+            echo '```'
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # ★★ `--allow-empty`, AND NEVER GUARDED BY `git diff --cached --quiet`. THE TIMESTAMP IS THE HEARTBEAT.
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # A plan that has not CHANGED is not a plan that was not TAKEN, and those are opposite facts. A healthy
+      # account produces a near-identical "nothing to reap" plan every hour; a `git diff --quiet` guard would
+      # skip the commit, freeze the artifact's commit date, and make a perfectly-running reaper look stopped.
+      # That landmine was found in three lanes. Committing unconditionally makes the commit trail the proof
+      # of life: no commit for N hours means THIS REAPER has stopped, which is knowable from outside.
+      - name: Commit the plan and the ledger — the commit IS the heartbeat
+        if: ${{ always() }}
+        run: |
+          set -uo pipefail
+          BR="${{ github.event.inputs.branch || 'main' }}"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add research/modalities/vast-account-reaper.json research/modalities/vast-account-reaper-ledger.jsonl 2>/dev/null || true
+          git commit --allow-empty -m "account reaper: ${{ steps.plan.outputs.verdict }} (${{ steps.plan.outputs.n_reap }} to reap) (CI)" || exit 0
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$BR" && git push origin "HEAD:$BR" && exit 0
+            echo "push attempt $i lost a race with a lane's own commit; retrying"
+            sleep $((i * 7))
+          done
+          # Loud, because an unpushed ledger is a rental that billed and left no trace — the exact failure the
+          # latch-before-DELETE ordering exists to prevent, undone at the last step.
+          echo "::warning title=REAPER LEDGER NOT PERSISTED::the plan and ledger could not be pushed. If anything was destroyed this run, its billed-hours record exists only in this run's logs."
+
+      # ⛔ THE RUN IS DELIBERATELY NOT FAILED. GitHub emails the repository owner when a SCHEDULED workflow
+      # fails, and trimcrae asked for no notification channels. An annotation is just as visible and sends
+      # nothing. Restoring `exit 1` is a NOTIFICATION decision, not a CI decision.
+      - name: Say what happened — WITHOUT notifying anyone
+        if: ${{ always() }}
+        run: |
+          set -uo pipefail
+          N='${{ steps.plan.outputs.n_reap }}'
+          V='${{ steps.plan.outputs.verdict }}'
+          if [ "${{ steps.plan.outputs.rc }}" != "0" ]; then
+            echo "::error title=REAPER FAIL-CLOSED::verdict $V — the account census could not be trusted, so NOTHING was graded and NOTHING was destroyed. An absent reading is not a reading of absence; a reaper acting on a stale census would judge a NEW box on an OLD box's state. Fix the census (see account-orphan-alarm.yml, which refreshes it) before believing any all-clear."
+          elif [ "${{ steps.arm.outputs.rc }}" = "2" ]; then
+            echo "::error title=A DESTROY CALL FAILED::at least one host matched a reap rule and its DELETE did not succeed. It is still billing. See the ledger's DESTROY-FAILED lines."
+          elif [ "$N" != "0" ]; then
+            echo "::notice title=REAPED $N HOST(S)::see research/modalities/vast-account-reaper-ledger.jsonl for the billed hours latched before each DELETE."
+          fi
