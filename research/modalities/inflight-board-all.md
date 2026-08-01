@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 10:02 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 10:03 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,13 +15,13 @@ Merged 10:02 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 9:55 AM ET Sat Aug 1, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 10:02 AM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   targets not in the retained log window — %% and ETA unknowable this pass
-5aks_d0_to_d ternary nr4a1 r0 —                  90.0%  —                                        NO HOST   no live host — checkpoint at production/1640 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00520/ns · 1.53× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 9624; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1040 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d ternary nr4a1 r0 —                  90.0%  RTX 4090 $0.00520/ns · 1.53× basis [bid] STARTING  no openmmtools rate line in the log window — ETA unknowable, progress is real
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
