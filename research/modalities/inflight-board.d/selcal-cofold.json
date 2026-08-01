@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "selcal-cofold",
-  "generated_epoch": 1785622807.7582812,
-  "generated_utc": "2026-08-01T22:20:07Z",
-  "generated_et": "6:20 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785623000.1844606,
+  "generated_utc": "2026-08-01T22:23:20Z",
+  "generated_et": "6:23 PM ET Sat Aug 1, 2026",
   "note": "12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once.",
   "rows": [
     {
@@ -13,7 +13,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539055 running, 46539069 running, 46541719 loading, 46541725 created, 46541732 loading, 46541734 loading, 46541737 running, 46541739 created, 46541769 created. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539055 running, 46539069 running, 46541719 loading, 46541725 created, 46541732 loading, 46541734 loading, 46541737 running, 46541739 created, 46541769 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
     },
     {
       "name": "selcal_smarca4 co-fold",
@@ -22,12 +22,12 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46539157 running, 46539178 running, 46539197 running, 46541777 loading, 46541793 running, 46541822 running, 46541823 exited. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46539157 running, 46539178 running, 46541777 loading, 46541793 running, 46541822 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
     },
     {
       "name": "selcal-smarca2-m1-r1",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -36,7 +36,7 @@
     {
       "name": "selcal-smarca2-m2-r0",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -45,7 +45,7 @@
     {
       "name": "selcal-smarca2-m2-r1",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -54,7 +54,7 @@
     {
       "name": "selcal-smarca2-m3-r1",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -63,7 +63,7 @@
     {
       "name": "selcal-smarca2-m4-r0",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -72,7 +72,7 @@
     {
       "name": "selcal-smarca2-m5-r1",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -81,7 +81,7 @@
     {
       "name": "selcal-smarca2-m6-r0",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "ENDED \u2014 no host",
@@ -90,16 +90,16 @@
     {
       "name": "selcal-smarca2-m6-r1",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
-      "why": "instance 46541769 created, rented 2026-08-01T22:06:30Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
+      "why": "instance 46541769 running, rented 2026-08-01T22:06:30Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
     },
     {
       "name": "selcal-smarca4-m1-r0",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -108,7 +108,7 @@
     {
       "name": "selcal-smarca4-m2-r1",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -117,7 +117,7 @@
     {
       "name": "selcal-smarca4-m5-r0",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "ENDED \u2014 no host",
@@ -126,7 +126,7 @@
     {
       "name": "selcal-smarca4-m6-r0",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
       "state": "RUNNING",
@@ -135,11 +135,11 @@
     {
       "name": "selcal-smarca4-m6-r1",
       "pct": null,
-      "pct_of": "6/24 landed",
+      "pct_of": "7/24 landed",
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
-      "state": "RUNNING",
-      "why": "instance 46541823 exited, rented 2026-08-01T22:07:16Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
+      "state": "ENDED \u2014 no host",
+      "why": "instance 46541823 is no longer on the account, so this leg ended \u2014 landed, preempted or reaped. Rented 2026-08-01T22:07:16Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
     }
   ]
 }
