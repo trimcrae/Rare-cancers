@@ -1915,6 +1915,97 @@ matrix rather than a quantitative prediction, and the ternary machinery's demons
 is internally self-consistent on a real ternary system* — not *predicts measured cooperativity*. We regard
 reporting this negative at full weight as more informative than the pilot it was meant to license.
 
+### 2.12 The NR-V04 retrospective holdout returns DISCORDANT on the registered primary, and its three preregistered secondary endpoints are reported alongside it
+
+§2.11 tested whether the alchemical machinery reproduces a measured *cooperativity*. This section reports the
+other half of the same question — whether the **ensemble ternary workflow discriminates paralogues at all**
+— on the one system where the answer is already known. NR-V04 (Wang 2024) degrades NR4A1 while sparing NR4A2
+and NR4A3, so it is a biological holdout for exactly the discrimination every selectivity statement in this
+paper depends on. The panel was preregistered in full — endpoints, direction, α, the unit of independence
+and the tier definitions — before any leg ran
+([`../modalities/nr4a3-nrv04-retrospective-prereg.md`](../modalities/nr4a3-nrv04-retrospective-prereg.md),
+scored by the frozen `nrv04_retro_gate.py`).
+
+**Design, and the confound it deliberately holds off.** NR4A1's Cys551 is **not conserved** in NR4A2 or NR4A3
+(Tyr and Thr respectively, no cysteine within ±5 residues), so celastrol cannot form its covalent adduct on the
+paralogues at all and a "three paralogues, same treatment" comparison would measure warhead chemistry rather
+than ternary assembly. The authorized panel is therefore the **non-covalent** arms only, one per paralogue,
+protocol-matched down to a single co-fold prefix and one code path — the contrast a prospective non-covalent
+campaign would actually depend on. The covalent arm was retired on measured evidence (the C6→Cys551 adduct
+measures 34.4 / 29.9 / 39.1 Å against an 8.0 Å admissibility limit, so it is unbuildable on every available
+input), and no covalent NR4A2/NR4A3 leg exists or may be added — there is no cysteine to bond to, and
+modelling one would be fabricating chemistry.
+
+**Result on the registered primary: DISCORDANT.** The primary endpoint **E1** is the interface-RMSD plateau
+(Å) — the mean RMSD of the E3∩target interface heavy atoms over the final 50 % of production frames, against
+the starting interface, lower being more stable. Sixteen legs landed across 8 co-fold models
+(n = 3 / 3 / 2 after a preregistered amendment excluded one NR4A3 co-fold on a **measured input fault**: two
+heavy atoms placed 0.181 Å apart, a potential energy ten decades above control, both replicas dead at frame 0).
+Arm means are **NR4A1 4.0977 Å, NR4A2 4.8435 Å, NR4A3 3.6852 Å** — NR4A1 is *not* the most stable arm, which
+is the tier's stated criterion. The pooled one-sided exact permutation statistic is **−0.2825 Å at
+p = 0.3929** over the **C(8,3) = 56**-arrangement reference set (α = 0.05, minimum attainable p 0.0179). The
+emitted verdict, with its leave-one-model-out refits, its reverse-direction check and its registered
+minimum-detectable-effect bound, is the one home for these numbers:
+[`../modalities/nrv04-retro-verdict.json`](../modalities/nrv04-retro-verdict.json).
+
+**What that does and does not license** is fixed by the prereg and we do not widen it. Discordance does **not**
+falsify a ternary-first thesis: NR-V04's selectivity may arise from the covalent warhead chemistry alone —
+which the sequence result is sufficient to explain — or downstream at ubiquitination rather than at ternary
+formation. Nor is the null a finding of no difference: the design's registered 80 % power band is a
+**1.5–2.0 Å** separation in interface-RMSD plateau, so what it licenses is *the workflow did not resolve a
+paralogue difference of the magnitude this design can detect*, and nothing stronger. No ΔΔG, α, cooperativity,
+affinity or degradation claim follows; this arm computes no free energy.
+
+**The three preregistered SECONDARY endpoints, now reported.** Prereg §3 registered three secondaries and
+promised they would be "reported alongside [E1] in every result, including when they disagree with E1". They
+were not: the frozen scorer never reads them, and the criteria audit recorded the omission in as many words.
+They are reported here, computed from the same 16 landed legs by the same frozen kernels, and read back from
+the stored leg records rather than from a collector's summary
+([`../modalities/nrv04-retro-secondaries.json`](../modalities/nrv04-retro-secondaries.json); per-leg tables and
+the provenance census in **SI §S12**).
+
+| id | preregistered definition | NR4A1 | NR4A2 | NR4A3 | reading |
+|---|---|---|---|---|---|
+| **E2** *(secondary)* | **stable fraction** — fraction of an arm's **legs** with plateau **< 4.0 Å** (threshold frozen before the feasibility panel ran) | **0.6667** (4/6) | **0.3333** (2/6) | **0.75** (3/4) | orders the arms **NR4A3 > NR4A1 > NR4A2** — the same ordering as E1, and likewise not the registered prediction. E2 **agrees with the primary's discordance**; it does not soften it |
+| **E3** *(secondary)* | mean interface **contact count** over production (heavy-atom pairs within 4.5 Å) | **1571.62** | **2210.43** | **2125.25** | the degraded paralogue is the **least** contacted arm, not the most. Registered in advance as a **known weak discriminator** — the feasibility panel showed co-fold seeds contact in all arms — so it is reported and never gating |
+| **E4** *(descriptive)* | Lys-Nζ **presentation distance distribution**: per frame, the minimum target-Lys-Nζ → catalytic-proxy distance | mean-of-min **34.52 Å**, mean-of-median **38.51 Å** | mean-of-min **24.84 Å**, mean-of-median **28.91 Å** | mean-of-min **31.13 Å**, mean-of-median **34.11 Å** | every arm sits **tens of Ångström** from the catalytic proxy, with no arm distinguished. **Descriptive only, never a gate** — no distance cutoff quantitatively predicts degradation, so no threshold is applied to E4 anywhere |
+
+**⛔ None of the three was promoted, and that is a decision rather than an omission.** E1 is the registered
+primary and, in the prereg's own words, *"the only one the verdict of §5 turns on"*. No secondary is allowed to
+become a verdict, a tier condition or a substitute primary; none carries a p-value or a significance test in
+the artifact or here; and the emitted tier is unchanged. E2 in particular is **not** leaned on: its motivating
+observation ("recruiter_active 3/3 vs epimer 1/3") was **withdrawn** in 2026-07-24 forensics that found the
+panel behind it had scored the Elongin C interface rather than VHL↔NR4A1 — the endpoint and its 4.0 Å
+threshold are unchanged and were frozen before the panel ran, but E2 no longer has a demonstrated
+discrimination behind it. We state the restraint explicitly so it cannot later be mistaken for oversight:
+**gating on the friendliest endpoint is precisely the kind of retune this program forbids**, and reporting
+these three was owed regardless of how they came out.
+
+**Two limits of the secondary tests are structural, and both are stronger than "did not reach significance".**
+First, the **NR4A1-vs-NR4A3 pairwise comparison is a non-measurement rather than a null.** At 3 versus 2
+co-fold models the exact reference set holds **10** arrangements, so the smallest attainable one-sided p is
+**0.10** — above α. The rejection region is empty: the test's exact size is **0.0** and its power against a
+true separation δ of **any** magnitude is **exactly 0.0**. Its observed p of 0.70 could not have been small,
+and it is reported as a comparison that could not have detected a difference of any size. Second,
+**replicates could not have rescued either test.** Feeding the frozen scorer the landed panel at 2, 8, 20 and
+100 legs per co-fold model — 16 legs through 800 — returns an **identical** reference set, statistic and
+p-value at every count, because the scorer collapses a model's legs to their mean *before* the enumeration:
+the unit of independence is the co-fold model, so the reference set is sized by models and replicates cannot
+move it. What replicates *can* buy is bounded and small — the model-level σ the test competes against is
+**1.0278 Å** and its irreducible between-model floor is 0.8312 Å, a ceiling of ~19 % on the noise infinitely
+many replicates could remove. That σ has one home and the distinction matters: it is **not** the registered
+leg-to-leg 0.855 Å nor the criteria audit's 1.1497 Å, and quoting either overstates the design's power
+([`../modalities/selectivity-resolution-options.md`](../modalities/selectivity-resolution-options.md) §1a,
+`which_sigma`).
+
+**What this costs the rest of the paper, applied rather than noted.** The retrospective **was** the positive
+control for selectivity detection — the one experiment meant to show that this workflow can discriminate
+paralogues where the answer is already known — and it did not resolve. Together with §2.11's failed
+cooperativity calibrator, the program therefore has **no demonstrated positive control** for either half of
+the selectivity question, and every paralogue-selectivity statement in this paper is correspondingly
+predictive rather than validated. A method calibrator on a structure-matched paralogue pair remains unrun and
+is named as the gap.
+
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
 `gpu-*-aws.yml`). Structure: AlphaFold2 (AFDB) + fpocket (file→pocket mapping derived from data,

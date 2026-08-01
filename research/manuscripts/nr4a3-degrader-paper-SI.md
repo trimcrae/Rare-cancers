@@ -702,3 +702,238 @@ and a ligand-pose threshold applied first to bulk solvent and then to a four-cha
 *wrong verdicts* — a silent `diagnostics_ok = True`, then a fabricated hard FAIL. This is recorded because it is
 the main reason the benchmark's negative result is reported with its full diagnostic trail rather than as a
 single summary number.
+
+---
+
+## S12. NR-V04 retrospective holdout — the preregistered secondary endpoints E2/E3/E4, per leg, with the provenance census behind them
+
+Main-text §2.12 reports that the retrospective returned **DISCORDANT** on the registered primary and that its
+three preregistered secondaries are reported alongside it. This section carries the per-leg numbers, the
+census that grades them against what only a real production leg can produce, and the two re-derivations through the frozen
+scorer that fix how the secondary tests may be read. Everything below is regenerated, never typed:
+[`../modalities/nrv04_retro_secondaries.py`](../modalities/nrv04_retro_secondaries.py) →
+[`../modalities/nrv04-retro-secondaries.json`](../modalities/nrv04-retro-secondaries.json), which imports the
+**frozen** scorer ([`../modalities/nrv04_retro_gate.py`](../modalities/nrv04_retro_gate.py)) and the **frozen**
+panel predicate ([`../modalities/nrv04_retro_panel.py`](../modalities/nrv04_retro_panel.py)) rather than
+re-implementing either. Tests: `../modalities/tests/test_nrv04_retro_secondaries.py`.
+
+### S12.1 Why this section exists — a promise that was made and not kept
+
+Prereg §3 registers four endpoints and states of the three secondaries: *"E2–E4 are reported alongside [E1] in
+every result, including when they disagree with E1."* They were not. The frozen scorer imports E2's threshold
+constant and never reads it; E3 and E4 do not appear in the verdict at all; and the criteria audit
+([`../modalities/nrv04-retro-criteria-audit.json`](../modalities/nrv04-retro-criteria-audit.json) →
+`criterion_by_criterion`) recorded the gap in as many words — *"prereg §3's promise that E2-E4 are 'reported
+alongside it in every result' is unimplemented in the verdict output"*. It stayed unimplemented after the panel
+completed. Reporting them was owed on the prereg's own terms, **independently of how they came out**, and that
+ordering is the point: the analysis below was written and its no-promotion rule pinned by test before any
+secondary value was looked at.
+
+### S12.2 ⛔ The restraint, stated so it cannot later be read as an oversight
+
+**E1 is the registered primary and, in the prereg's words, "the only one the verdict of §5 turns on."** None of
+E2, E3 or E4 is promoted to a verdict, a tier condition or a substitute primary. Concretely, and enforced
+rather than asserted:
+
+- **No secondary carries a significance test.** No p-value, reference set, minimum attainable p or tier is
+  computed on E2, E3 or E4 — in the artifact or here. A test asserts this by scanning the emitted document for
+  those tokens.
+- **The frozen verdict function is unreachable from the secondary path.** An AST check holds
+  `nrv04_retro_gate.verdict` to exactly one call site in the module — the replicate-invariance probe, which
+  re-runs the **primary** rule on E1 unchanged.
+- **E2's threshold is read from the frozen constant, never re-typed**, and any leg whose own recorded `stable`
+  flag disagreed with the frozen 4.0 Å would be named rather than averaged in (none did).
+- **No threshold exists for E3 or E4 anywhere**, and none may be introduced.
+
+If a secondary looks better-behaved than the primary, that is a fact to state and explicitly not to act on.
+**Gating on the friendliest endpoint is precisely the retune this program forbids**, and it is worth being
+concrete about what was on offer: E2 orders the arms exactly as E1 does, so promoting it would not even have
+changed the direction of the answer — the refusal costs nothing here, which is why it is recorded now, while
+it is cheap, rather than argued later when it might not be.
+
+### S12.3 The panel that produced these numbers, and the census that grades it
+
+**Sixteen landed legs, eight co-fold models, n = 3 / 3 / 2** (AMENDMENT 4 excluded one NR4A3 co-fold on a
+measured input fault, before any endpoint was read). Two further records exist under the lane prefix and are
+**not** legs of this panel: both are `mode='smoke'` — 500 steps with zero equilibration — and both are listed
+in the emitted verdict's `nonconforming_records`. They are excluded here by the **same frozen predicate**
+(`nrv04_retro_panel.production_leg_check`), reported rather than deleted, and enter no statistic.
+
+The census grades every stored record on the fields **only a real run can produce**, never on fields an
+environment default can fill. That split is not pedantry: 17 smoke records once echoed `prod_ns: 5.0` and a
+fully-populated `R1_interface` from their environment, drove a completeness count to "18 of 18 landed", and
+came within one leg of a fabricated verdict. A census that reads the echo and calls it provenance reproduces
+that failure exactly.
+
+| | fields | why |
+|---|---|---|
+| **MEASURED** — a run had to happen | `n_frames` · `timed_ns` · `prod_wall_s` · `ns_per_day` · `pe_pre_min_kj` / `pe_post_min_kj` · `R2_recruitment.frames` · `analysis_traj.written_frames` · `chain_split` | written from what executed |
+| **ECHOED** — a default fills them | `mode` · `prod_ns` · `equil_ns` · `leg_id` · `seed` | written from the job's environment |
+
+**Census result: 18 leg records found under the lane prefix, 16 admitted, 2 rejected (both smoke), no missing
+unit, and all 16 admitted legs corroborated.** Every admitted leg shows **500 frames, 5.0 ns timed,
+1645–3731 s of measured production wall clock**, and a `ns_per_day` that reproduces `timed_ns / prod_wall_s`
+to the printed digit. Fifteen of the sixteen also carry an independent 500-frame durable-trajectory receipt.
+The corroboration checks are deliberately **measured-against-measured**: the readout kernel's own frame count
+against the driver's, the trajectory writer's against both, and the throughput figure against the two
+measurements it is derived from. No environment field is an input to any of them.
+
+**The census independently reproduces the emitted verdict.** Collapsing the S3-read legs to model-level means
+by the prereg's own rule returns, model by model, exactly the `model_level_means` in
+[`../modalities/nrv04-retro-verdict.json`](../modalities/nrv04-retro-verdict.json) — agreement to the fourth
+decimal on all eight models. That is what makes "reported from the 16 landed legs" a statement about stored
+artifacts rather than about a collector's summary; a disagreement would have named the arm and model.
+
+**One thing the artifacts cannot establish, stated rather than papered over.** Equilibration leaves **no
+positive receipt**: `equil_ns` is an environment echo, and the only equilibration-specific field the driver
+writes is negative (`blow_phase` = `equil@<n>steps/<m>` on a NaN). What the records do carry is the
+minimization pair `pe_pre_min_kj` / `pe_post_min_kj` — a real built-and-minimized system, the step
+equilibration follows. So the census reports "1 ns equilibration ran" as **unverified from the artifacts**,
+not as checked. A related trap was diagnosed and discarded in the same pass: a unit's S3 write span looks like
+a free wall-clock check and is not one, because the driver **deletes** a finished leg's checkpoint objects and
+continuous upload overwrites keys, so a *clean* leg's surviving object timestamps span only its final flush.
+Nine of the sixteen legs showed a span shorter than their own measured production wall time; all nine were
+500-frame 5.0 ns legs with 500-frame trajectory receipts. Grading on the span would have condemned real legs,
+so the span is reported with that caveat and never graded.
+
+### S12.4 E2 — stable fraction (secondary, reported, not gating)
+
+**Definition, as written in the prereg:** the fraction of an arm's **legs** whose interface-RMSD plateau is
+**< 4.0 Å** (kernel `nrv04_readouts.interface_rmsd_stable().stable`; threshold frozen before the feasibility
+panel ran and not re-tuned). The unit is the **leg**, as registered — the model-level split is reported beside
+it and does not replace it, and no test is run on either.
+
+| arm | legs < 4.0 Å | **stable fraction** | per-leg plateau (Å) | model-level stable fraction |
+|---|---|---|---|---|
+| NR4A1 (non-cov) | 4 / 6 | **0.6667** | 3.501 · 3.170 · 5.379 · 4.932 · 3.748 · 3.856 | m1 1.0 · m2 0.0 · m3 1.0 |
+| NR4A2 (non-cov) | 2 / 6 | **0.3333** | 3.681 · 3.499 · 5.480 · 4.260 · 4.409 · 7.732 | m1 1.0 · m2 0.0 · m3 0.0 |
+| NR4A3 (non-cov) | 3 / 4 | **0.75** | 3.883 · 4.401 · 2.522 · 3.935 | m1 0.5 · m2 1.0 |
+
+**Reading.** E2 orders the arms **NR4A3 > NR4A1 > NR4A2**, the same ordering as the primary E1 and likewise
+not the registered prediction. E2 therefore **agrees with the primary's discordance** rather than softening
+it. No leg's recorded `stable` flag disagreed with the frozen threshold.
+
+⚠ **E2's motivating observation is WITHDRAWN and is not leaned on.** The result that motivated registering a
+stable-fraction endpoint — "recruiter_active 3/3 vs epimer 1/3 in the feasibility panel" — was retracted on
+2026-07-24 when forensics established that the panel behind it had scored the **Elongin C** interface rather
+than VHL↔NR4A1
+([`../modalities/nrv04-cofold-chain-forensics-2026-07-24.md`](../modalities/nrv04-cofold-chain-forensics-2026-07-24.md)).
+The endpoint and its 4.0 Å threshold are **unchanged** — they were frozen before the panel ran and are not
+re-tuned here — but **E2 no longer has a demonstrated discrimination behind it.** It is reported; nothing is
+built on it.
+
+### S12.5 E3 — mean interface contact count (secondary, explicitly never gating)
+
+**Definition:** the mean number of E3∩target heavy-atom pairs within **4.5 Å**, averaged over production
+frames (kernel `nrv04_readouts.recruitment().mean_contacts`).
+
+| arm | **arm mean contacts** | per-leg | model-level (mean of replicas) | range |
+|---|---|---|---|---|
+| NR4A1 (non-cov) | **1571.62** | 2567.45 · 2462.56 · 1007.37 · 1646.52 · 821.48 · 924.34 | m1 2515.01 · m2 1326.95 · m3 872.91 | 821–2567 |
+| NR4A2 (non-cov) | **2210.43** | 2863.71 · 2914.54 · 694.41 · 1028.50 · 2735.50 · 3025.91 | m1 2889.13 · m2 861.46 · m3 2880.71 | 694–3026 |
+| NR4A3 (non-cov) | **2125.25** | 2428.77 · 2564.62 · 2016.12 · 1491.49 | m1 2496.70 · m2 1753.81 | 1491–2565 |
+
+**Reading, at its true weight.** The degraded paralogue is the **least** contacted arm, not the most — the
+opposite of what a naive recruitment reading would predict. That is reported and nothing is done with it,
+for a reason registered in advance: E3 was designated a **known weak discriminator** in the prereg itself,
+because the feasibility panel showed co-fold seeds contacting in *all* arms, and its derived binary
+(`recruited`) had already been retired for **zero variance** (1.0 on all 18 legs of that panel). The
+continuous `mean_contacts` does vary — by a factor of ~4 *within* single arms, comparable to the between-arm
+spread — so an arm ordering on E3 at this n is not interpretable, and we do not interpret it.
+
+### S12.6 E4 — Lys-Nζ presentation distance distribution (descriptive only, never a gate)
+
+**Definition:** for each production frame, the **minimum** distance from any target Lys-Nζ to the catalytic
+proxy; E4 is that distribution's min / median / max across frames (kernel
+`nrv04_readouts.lys_presentation()`). **No threshold is applied to E4 anywhere**, because — as the ternary
+prereg §6.3 registers — no distance cutoff quantitatively predicts degradation.
+
+| arm | mean-of-min (Å) | mean-of-median (Å) | arm min-of-min (Å) | arm max-of-max (Å) | legs with no surface Lys |
+|---|---|---|---|---|---|
+| NR4A1 (non-cov) | **34.52** | **38.51** | 32.64 | 46.72 | 0 |
+| NR4A2 (non-cov) | **24.84** | **28.91** | 2.45 | 42.39 | 0 |
+| NR4A3 (non-cov) | **31.13** | **34.11** | 29.70 | 39.07 | 0 |
+
+**Reading.** In every arm and on all but one leg, the closest target lysine sits **tens of Ångström** from the
+catalytic proxy across the whole trajectory, and no arm is distinguished. Taken descriptively, the modelled
+assemblies do not present a lysine in a geometry that any of these arms would make special — which is
+consistent with the primary's failure to discriminate, and is not evidence for it.
+
+**One leg is an outlier, and it is a driver-revision artifact rather than a geometry.** `retro_noncov_nr4a2`
+m1 r0 reports 2.45 / 2.91 / 3.34 Å, a factor **11.7** below its arm's median leg. Three record-level
+observations discriminate the two explanations and all point the same way: it is the **oldest record on the
+lane** (written 2026-07-26; every other leg record was written 2026-07-31 or later), it is the **only** record
+carrying **no trajectory receipt** — i.e. it predates the driver revision that added the durable-trajectory
+writer *and* the nanometre→Ångström rescale on the Lys path — and its **E1 (3.681 Å) and E3 (2863.71
+contacts) are squarely in range**, where a contact count in the thousands at a 4.5 Å cutoff is impossible on
+nanometre coordinates. The anomaly is therefore confined to the R3 readout of one pre-fix record.
+**Nothing is corrected and nothing is excluded**: E4 is descriptive, so every figure in the table above is
+computed over all legs. The like-for-like subset is reported beside it and never in place of it — NR4A2 over
+its five post-revision legs gives mean-of-min **29.31 Å**, mean-of-median **34.11 Å**, which is where the
+other two arms already sit.
+
+### S12.7 Two re-derivations through the frozen scorer that fix how the secondary tests may be read
+
+Both re-run the frozen rule unchanged; neither proposes a new one, moves a threshold, or promotes anything.
+
+**(a) The NR4A1-vs-NR4A3 pairwise test is a NON-MEASUREMENT, not a null.** A one-sided exact permutation test
+on n_a vs n_b model-level values can only return a p in {1/C, 2/C, …, 1} with C = C(n_a+n_b, n_a). At
+**3 versus 2** models, C = **10** and the smallest attainable one-sided p is **0.10 — above α = 0.05.** The
+rejection region is therefore **empty**, and two consequences follow *by construction, before any data*:
+
+| quantity | value |
+|---|---|
+| reference set | **10** arrangements (C(5,3)) |
+| minimum attainable one-sided p | **0.10** |
+| α | 0.05 — **not attainable at any observed ordering** |
+| exact size | **0.0** |
+| power against a true separation δ of **any** magnitude | **exactly 0.0** |
+| observed statistic / p | +0.4124 Å / **0.70** |
+
+This is stronger than the language such a result usually attracts. "Unresolvable" and "did not reach
+significance" both suggest an experiment that *could* have come out the other way; this one could not, at any
+effect size whatever. The observed p of 0.70 is not evidence of similarity between NR4A1 and NR4A3 — it is
+the arithmetic of an enumeration that had no significant outcome available to it. The companion
+NR4A1-vs-NR4A2 pairwise **is** a real (blunt) test by contrast: at 3 vs 3 it attains exactly α = 0.05 at
+perfect separation, and its observed p = 0.30 is a genuine null at that design's power. The two are reported
+differently for that reason, and the emitted verdict's own `pairwise_caveat` derives the floor **per test**
+rather than quoting one number for both.
+
+**(b) Replicates could not have helped either test — demonstrated on the frozen scorer, not argued.** The
+reflex response to p = 0.39 is "run more replicates". Feeding the frozen scorer the landed panel at 2, 8, 20
+and 100 legs per co-fold model returns:
+
+| legs per model | total legs | reference set | primary statistic | primary p | NR4A1-vs-NR4A3 reference set / p |
+|---|---|---|---|---|---|
+| 2 (as run) | 16 | 56 | −0.2825 | 0.3929 | 10 / 0.70 |
+| 8 | 64 | 56 | −0.2825 | 0.3929 | 10 / 0.70 |
+| 20 | 160 | 56 | −0.2825 | 0.3929 | 10 / 0.70 |
+| 100 | 800 | 56 | −0.2825 | 0.3929 | 10 / 0.70 |
+
+**Identical at every count**, because `model_level_values` collapses a model's legs to their mean *before* the
+enumeration: prereg §4a fixes the unit of independence as the **co-fold model**, so the reference set is sized
+by the number of models and no number of replicates can move it. A fiftyfold increase in GPU spend would
+return the same p to the last digit.
+
+What replicates *can* buy is a reduction in the replicate component of model-level noise, and that is bounded.
+The σ the test actually competes against is the **model-level** one, and three different σ are in circulation
+for this panel — the registered leg-to-leg 0.855 Å, the criteria audit's same-quantity-smaller-sample
+1.1497 Å, and the model-level 1.0278 Å derived from the landed panel's own model means. **Only the last is the
+one the test competes against**; quoting a leg-to-leg σ overstates power and understates the cost of resolving
+anything. Its irreducible between-model floor is 0.8312 Å, so moving from 2 replicates per model to infinitely
+many removes at most **≈19 %** of the noise and nothing structural. Those figures have one home and are not
+re-derived here:
+[`../modalities/selectivity-resolution-options.md`](../modalities/selectivity-resolution-options.md) §1a and
+`which_sigma` in its artifact.
+
+### S12.8 What the secondaries change about the paper's conclusions
+
+**Nothing about the verdict, and one thing about its weight.** The tier stays **DISCORDANT** on E1, the
+registered claim ceiling is unchanged (directional concordance/discordance only; no ΔΔG, α, cooperativity,
+affinity or degradation claim; this arm computes no free energy), and no secondary was promoted. What the
+secondaries add is that the discordance is **not an artifact of the primary endpoint's choice**: E2, computed
+on the same legs by the same kernel with a threshold frozen in advance, orders the arms the same way E1 does;
+E3 orders them in a way that is worse for the registered prediction, not better; and E4 finds no arm
+distinguished at all. A reader entitled to ask whether a different registered endpoint would have told a
+different story now has the answer, from the endpoints that were registered rather than from ones chosen
+afterwards.
