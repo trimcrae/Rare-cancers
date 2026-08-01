@@ -10,6 +10,6 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 ----------------------------------------------------------------------------------------------------------------------------------
 5aks_d0_to_d ternary nr4a3 r1 8:34 AM            97.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   31.5 s/iter
 5aks_d0_to_d ternary nr4a1 r1 1:55 AM Aug 2      67.8%  RTX 3090 $0.00414/ns · 1.21× basis [bid]  RUNNING   ⚠ 56.0 s/iter · realised $0.00729/ns (1.76x expected)
-5aks_d0_to_d ternary nr4a1 r0 12:30 PM           86.7%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 34.8 s/iter
+5aks_d0_to_d ternary nr4a1 r0 12:30 PM           86.7%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 34.8 s/iter
 ---- END TVAST-BOARD ----
 ```
