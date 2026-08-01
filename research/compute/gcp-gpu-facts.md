@@ -190,6 +190,60 @@ and `vast_cost_model` itself records that the environment moved throughput non-u
 sits beside it, and the honest reading is that the L4→4090 ratio is somewhere in 2.7–3.5× depending on which
 quantity you mean. Anyone quoting a single number should say which.
 
+## 1e. ★★ THE FIRST STEP-1 FAN-OUT LEG EVER TIMED ON AN L4 — and why it is NOT the §1c number
+
+§1c measures a **card**: a plain TIP3P water box, one simulation, no alchemy. This measures a **leg of the
+actual science**: a 12-window HREX RBFE complex leg of `e_zaienne_cmpd19__cw_ms_free_acid` r1, the
+`nr4a3fep` container, on a `g2-standard-8` L4, on GCP trial credit. Until 2026-08-01 no fan-out leg had ever
+been timed on an L4 at all — `gcp_fanout_rep.MAX_RUN_S_RUN`'s own comment calls its 48 h cap an ESTIMATE for
+exactly that reason — so **this is what makes an L4 fan-out leg priceable in hours instead of guessed.**
+
+One home: [`gcp-s1f-rep-rate.json`](../modalities/gcp-s1f-rep-rate.json), written by CI from the unit's own
+`COMMITTED.json` markers and never hand-edited. It stores the **raw marker series**, so every figure below
+is a quotient that can be recomputed if `RATE_WINDOW` or the arithmetic changes. Regenerate this table with
+`python3 research/modalities/gcp_fanout_rep.py rate --markdown-table`;
+`tests/test_gcp_fanout_rep.py::test_the_documented_table_is_the_measured_table` re-checks it against the
+artifact on every CI run, so the document cannot drift from the measurement.
+
+<!-- GCP-S1F-REP-RATE-TABLE:BEGIN -->
+| leg | commits | last committed | s / HREX iteration | leg wall-clock h | ns/day per replica | ns/day aggregate (12 windows) |
+|---|---|---|---|---|---|---|
+| **complex** | 20 | warmup 400 | **35.19** | 23.5 | 6.14 | 73.66 |
+| **solvent** | 0 | — | — *(0 completed commit interval(s); this lane quotes a rate at 3 (gcp_fanout_rep.MIN_RATE_INTERVALS). The next commit moves it toward the threshold.)* | — | — | — |
+
+*2.50 ps of MD per replica per iteration, derived from the run's own `warmup_target=400 prod_target=2000` line and `nr4a3_rbfe.py`'s protocol lengths (1.0 ns equilibration / 5.0 ns production).*
+<!-- GCP-S1F-REP-RATE-TABLE:END -->
+
+**⚠ IT IS A REALIZED WALL-CLOCK RATE, NOT A BARE MD THROUGHPUT.** Each interval brackets 20 HREX iterations
+**and** the GCS commit barrier that closes them (`[barrier] commit warmup@400 persisted 541.5 MiB in 4.5s`).
+That is the right quantity for an ETA and for GPU-hours-per-leg — those are what the lane actually spends —
+and the wrong one to put beside a single-simulation benchmark without saying so.
+
+**⚠ THE RATE SETTLES; THE FIRST INTERVALS DO NOT.** The opening interval ran at **18.1 s/iter** and the last
+ten sit within 1.7 % of each other. A rate quoted off one interval would have promised a landing roughly
+twice too early, which is why `gcp_fanout_rep.MIN_RATE_INTERVALS` is a number in the code and the ETA cell
+refuses below it and **renders above it**.
+
+### How it compares to §1c's L4 — a DIFFERENT QUANTITY, and it supersedes nothing
+
+| | §1c card probe | this leg |
+|---|---|---|
+| system | TIP3P water box, **141,887** particles | alchemical hybrid NR4A3+ligand, **112,953** atoms (`[clash-diag:initial]`) |
+| sampling | one simulation | **12** HREX replicas + the full 12×12 energy matrix each iteration |
+| I/O | none | trajectory + a ~540 MiB checkpoint committed to GCS every 20 iterations |
+| ns/day | **177.28** | see the aggregate column above |
+
+§1c established that cost is **linear in particle count** at this scale (0.593 measured vs 0.596 for pure
+O(N)), so the water box scaled to this leg's 112,953 atoms would be ≈ **222.7 ns/day**. The measured
+aggregate is roughly **a third** of that, and the gap is the HREX energy matrix, the softcore hybrid
+topology, and the commit barrier — i.e. **the protocol overhead is about 3×**, which is a fact neither
+measurement could give on its own. **Neither number supersedes the other; quoting one for the other is the
+error this section exists to prevent.**
+
+**⚠ NO DOLLARS, DELIBERATELY.** This ran on GCP trial credit — a SEPARATE LEDGER, never summed into realized
+or ladder spend (CLAUDE.md §6), expiring 2026-10-10 — and the L4 list rate is **not** a go-forward cost basis
+([pricing.md](./pricing.md)). The artifact records hours and iterations and no `$`.
+
 ## 1d. Capacity and permissions, measured 2026-07-31 (both cost a run to learn)
 
 - **`gcloud compute project-info describe` returns rc=2 for `gpu-runner@`** — so **`GPUS_ALL_REGIONS` is not

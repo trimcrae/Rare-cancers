@@ -870,6 +870,22 @@ def feed_decision(queue, done, live_instances, attempts=None, progress=None,
         return {"action": "idle", "unit_id": None, "cause": "queue_complete",
                 "why": (f"every unit in the queue has a ddg.json in GCS ({len(done)} of {len(queue)}). "
                         f"Nothing left to buy; the lane is finished, not stopped.")}
+    # ★★ RESUME BEFORE START — the most-advanced unbanked unit wins, and map order is only the tiebreak.
+    # (2026-08-01, caught by the first real tick: map order alone would have started a COLD edge while
+    # `…cw_ms_free_acid__…__r1` sat on 400 committed iterations and 6.2 GiB of durable checkpoints.)
+    # Three reasons, and the first is the one that matters:
+    #   1. On a strictly serial GPU (GPUS_ALL_REGIONS = 1) a partially-sampled unit that keeps losing the
+    #      queue is a partial that never lands — the "unrecorded partial gets restarted from zero" failure,
+    #      arrived at by a different route. Banked MD is credit already spent; finishing it is the cheapest
+    #      path to a result the lane can produce.
+    #   2. A resume re-enters the leg exactly where it stopped, so it is also the launch that tests the
+    #      failure the unit stopped ON — the highest-information one to run next (CLAUDE.md §6's
+    #      early-abort rule, applied to a queue rather than a fan-out).
+    #   3. It cannot starve the cold units: a resumed unit either lands (leaves the queue) or trips the
+    #      no-progress breaker (holds), and both hand the GPU to the next one.
+    # ⚠ An UNREADABLE census sorts as 0, not as "most advanced" — a listing that did not answer must never
+    # win the queue on the strength of not having been read.
+    remaining.sort(key=lambda u: (-(progress.get(u) or 0), queue.index(u)))
     unit = remaining[0]
     a = attempts.get(unit) or {}
     count = int(a.get("count") or 0)
@@ -934,12 +950,18 @@ BOARD_USD_PER_NS = ("— $0 real dollars (GCP trial credit, a SEPARATE LEDGER, e
                     "against the ladder because no ladder dollar is being spent.")
 
 
-def _progress_cells(progress):
+def _progress_cells(progress, live=True):
     """(pct, pct_of, eta_s, sentence) for a row, from `unit_progress`'s output. PURE.
 
     ★ % DONE AND ETA ARE ANSWERED SEPARATELY, AND THAT SEPARATION IS THE FIX. The percentage is two
     integers out of the store and needs no rate; the ETA needs a rate and says which input it is missing
-    when it has none. The old row left BOTH blank on the strength of the second one's excuse."""
+    when it has none. The old row left BOTH blank on the strength of the second one's excuse.
+
+    ⚠ `live=False` SUPPRESSES THE ETA BUT NOT THE PERCENTAGE, AND SAYS THE REMAINING HOURS ANYWAY.
+    A wall-clock completion time for a unit holding no GPU would be a promise about a machine nobody has
+    rented — but the WORK left is a measured quantity whatever the host situation, so it is reported as a
+    duration ("~19.5 h of L4 wall clock left") rather than as a time of day. Rendering an absolute ETA
+    there is the mistake; rendering nothing is the other one."""
     if not progress:
         return None, None, None, ("% DONE UNKNOWN and ETA UNKNOWN — no committed-checkpoint census was "
                                   "read this tick, so neither cell has an input. The store was not "
@@ -948,12 +970,17 @@ def _progress_cells(progress):
     if progress.get("pct") is None:
         bits.append("% DONE UNKNOWN — " + str(progress.get("pct_why") or ""))
     else:
-        bits.append(str(progress.get("pct_why") or ""))
-    if progress.get("eta_s") is None:
-        bits.append("ETA UNKNOWN — " + str(progress.get("eta_why") or ""))
+        bits.append(str(progress.get("pct_why") or "") + ".")
+    eta = progress.get("eta_s")
+    if eta is None:
+        bits.append("ETA UNKNOWN — " + str(progress.get("eta_why") or "") + ".")
+    elif live:
+        bits.append(f"ETA is for the {progress.get('eta_scope')} — {progress.get('eta_why') or ''}.")
     else:
-        bits.append(f"ETA is for the {progress.get('eta_scope')}: {progress.get('eta_why') or ''}")
-    return progress.get("pct"), progress.get("pct_of"), progress.get("eta_s"), " ".join(b for b in bits if b)
+        bits.append(f"NO ETA while it holds no host, but the work left IS measured: ~{eta / 3600.0:.1f} h "
+                    f"of L4 wall clock for the {progress.get('eta_scope')} once one is running "
+                    f"({progress.get('eta_why') or ''}).")
+    return progress.get("pct"), progress.get("pct_of"), (eta if live else None), " ".join(b for b in bits if b)
 
 
 def board_rows(unit, vm_status, vm_created, result_updated, phase=None, progress=None, feed=None):
@@ -975,8 +1002,8 @@ def board_rows(unit, vm_status, vm_created, result_updated, phase=None, progress
                "why": f"ddg.json in GCS at {result_updated}. Holding no GPU; nothing left to buy."}
         return [row], (f"{unit['unit_id']} is DONE — ddg.json in GCS at {result_updated}. Nothing running; "
                        f"this lane holds no GPU.")
-    pct, pct_of, eta_s, psent = _progress_cells(progress)
     live = str(vm_status or "").upper() in ("RUNNING", "PROVISIONING", "STAGING", "REPAIRING")
+    pct, pct_of, eta_s, psent = _progress_cells(progress, live=live)
     if live:
         row = {"name": name, "pct": pct, "pct_of": pct_of, "eta_s": eta_s,
                "usd_per_ns": BOARD_USD_PER_NS, "state": "RUNNING",

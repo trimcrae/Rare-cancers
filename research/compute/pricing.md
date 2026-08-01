@@ -16,6 +16,15 @@ session; will be updated on completion) · `ESTIMATED` (derived/extrapolated —
 **★ GO-FORWARD LANE (trimcrae, 2026-07-24): ALL production runs are on Vast.** GCP L4 / SageMaker / Modal are
 **NOT** the cost basis going forward. **Never quote the L4-on-demand figure as a go-forward cost.**
 
+> **L4 THROUGHPUT, WHEN YOU NEED IT FOR HOURS RATHER THAN DOLLARS.** That refusal is about *money*; a leg still
+> takes the wall clock it takes, and the free-credit lane has to be sized in hours. Two measured L4 numbers
+> exist and they answer different questions — a card benchmark and a real step-1 fan-out leg, differing by the
+> HREX/alchemy/commit-barrier overhead between them. Both live in
+> [gcp-gpu-facts.md](./gcp-gpu-facts.md) §1c and §1e, derived from
+> [`gcp-card-bench.json`](../modalities/gcp-card-bench.json) and
+> [`gcp-s1f-rep-rate.json`](../modalities/gcp-s1f-rep-rate.json). No figure is restated here (rule 1), and
+> **neither one becomes a cost basis by being measured** — GCP trial credit is a SEPARATE LEDGER (CLAUDE.md §6).
+
 **⚠ THE "RTX 4090 DEFAULT, 3090 FALLBACK" RULE IS RETIRED (2026-07-25).** It rested on a **withdrawn** bench
 (the 2026-07-24 23:08 grid — single 0.9–4.5 s windows, which also ranked a 4080 SUPER above a 4090 and a
 mislabelled Quadro RTX 8000 as cheapest per ns) and on the assumption that the two cards cost about the same per

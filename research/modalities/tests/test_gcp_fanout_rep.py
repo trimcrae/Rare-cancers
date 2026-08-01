@@ -1145,3 +1145,73 @@ def test_the_artifact_stores_the_RAW_markers_so_every_figure_stays_recomputable(
 
 def test_nothing_is_written_when_there_is_nothing_measured(tmp_path):
     assert gfr.load_rate_artifact(root=str(tmp_path)) is None
+
+
+def test_a_partially_sampled_unit_outranks_a_cold_one():
+    """RESUME BEFORE START. Map order alone would have started a COLD edge while
+    `…cw_ms_free_acid__…__r1` sat on 400 committed iterations and 6.2 GiB of durable checkpoints — the
+    'unrecorded partial gets restarted from zero' failure, reached by a different route. On a strictly
+    serial GPU a partial that keeps losing the queue is a partial that never lands."""
+    d = gfr.feed_decision(QUEUE, done=[], live_instances=0, progress={QUEUE[1]: 400})
+    assert d["unit_id"] == QUEUE[1], "the unit with banked work wins, not the first in map order"
+    # ...and with nothing banked anywhere, map order is the tiebreak, unchanged.
+    assert gfr.feed_decision(QUEUE, [], 0, progress={})["unit_id"] == QUEUE[0]
+    # ...and the MOST advanced wins among several.
+    d = gfr.feed_decision(QUEUE, [], 0, progress={QUEUE[1]: 400, QUEUE[2]: 900})
+    assert d["unit_id"] == QUEUE[2]
+
+
+def test_an_unreadable_census_never_wins_the_queue_by_not_having_been_read():
+    """`None` sorts as 0, not as 'most advanced'. A listing that did not answer must not outrank a unit
+    with measured banked work."""
+    d = gfr.feed_decision(QUEUE, [], 0, progress={QUEUE[0]: None, QUEUE[1]: 400})
+    assert d["unit_id"] == QUEUE[1]
+
+
+def test_a_hostless_row_reports_the_WORK_left_but_never_a_wall_clock_eta():
+    """A completion time for a unit holding no GPU would be a promise about a machine nobody has rented.
+    The work remaining is measured whatever the host situation, so it renders as a DURATION."""
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    prog = gfr.unit_progress(marks, (400, 2000), leg_rates={"complex": 35.19})
+    rows, _ = gfr.board_rows(gfr.unit_for(EDGE, 1), "", "", "", progress=prog)
+    assert rows[0]["eta_s"] is None, "no host, no wall-clock ETA"
+    assert rows[0]["pct"] is not None, "the percentage is banked work and does not depend on a host"
+    assert "h of L4 wall clock" in rows[0]["why"] and "once one is running" in rows[0]["why"]
+    assert "ETA is for the" not in rows[0]["why"], \
+        "a hostless row must not claim an ETA it is not rendering — that contradiction is the bug"
+    live, _ = gfr.board_rows(gfr.unit_for(EDGE, 1), "RUNNING", "x", "", progress=prog)
+    assert live[0]["eta_s"] is not None and "ETA is for the complex leg" in live[0]["why"]
+
+
+FACTS = os.path.join(REPO, "research", "compute", "gcp-gpu-facts.md")
+
+
+def test_the_documented_table_is_the_measured_table():
+    """The document cannot drift from the measurement. Same guard `test_gcp_card_bench.py` puts on §1c:
+    the table in gcp-gpu-facts.md §1e is REGENERATED from the artifact, never hand-edited, so a figure
+    that no longer follows from the committed markers fails CI instead of surviving as a quotable number.
+    Regenerate with `gcp_fanout_rep.py rate --markdown-table`."""
+    doc = gfr.load_rate_artifact()
+    if doc is None:
+        pytest.skip("no leg measured on an L4 yet — nothing to document")
+    rep = gfr.rate_report(gfr.marks_from_artifact(doc),
+                          tuple(doc["derived"]["targets"] or ()) or None,
+                          n_windows=doc["derived"]["n_windows"])
+    want = gfr.rate_markdown_table(rep).strip()
+    md = open(FACTS).read()
+    got = md.split("<!-- GCP-S1F-REP-RATE-TABLE:BEGIN -->")[1] \
+            .split("<!-- GCP-S1F-REP-RATE-TABLE:END -->")[0].strip()
+    assert got == want, ("gcp-gpu-facts.md §1e has drifted from gcp-s1f-rep-rate.json. Regenerate:\n"
+                         "  python3 research/modalities/gcp_fanout_rep.py rate --markdown-table\n"
+                         f"--- artifact says ---\n{want}\n--- document says ---\n{got}")
+
+
+def test_the_documented_section_never_quotes_the_card_probe_as_this_lanes_rate():
+    """§1c's 177.28 ns/day is a water box with no alchemy, no HREX and no commit barrier. Quoting one for
+    the other is the exact error §1e exists to prevent, so the section must SAY they are different
+    quantities and must not claim either supersedes the other."""
+    sec = open(FACTS).read().split("## 1e.")[1].split("## 1d.")[0]
+    assert "DIFFERENT QUANTIT" in sec.upper()
+    assert "supersedes nothing" in sec or "supersedes the other" in sec
+    assert "SEPARATE LEDGER" in sec and "go-forward cost basis" in sec
+    assert "**not** a go-forward cost basis" in sec, "the refusal must be stated, not merely referenced"
