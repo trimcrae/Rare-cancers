@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T15:48:04Z",
+ "utc": "2026-08-01T15:51:03Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -955,9 +955,9 @@
        "seconds": 46.6
       }
      ],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 259,
+     "first_commit_iteration": 1720,
+     "s_per_iter": 28.3,
+     "n_lines": 298,
      "timeline": {
       "marks": [
        [
@@ -994,38 +994,45 @@
       },
       "complete": true
      },
-     "commits": [],
+     "commits": [
+      {
+       "phase": "production",
+       "iteration": 1720,
+       "mib": 2913.8,
+       "seconds": 32.3
+      }
+     ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 15:47:02+00:00",
-     "bytes": 20199,
+     "utc": "2026-08-01 15:51:04+00:00",
+     "bytes": 22945,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
    "live_cold_start_s": 24.0,
    "live_cold_start_span": "container-start -> md-running",
-   "md_to_first_commit_s": null,
-   "md_to_first_commit_span": "no commit object written since this attempt reached md-running (still inside it)",
-   "commit_bytes_median": 951583266,
-   "n_generations": 69,
+   "md_to_first_commit_s": 1341.0,
+   "md_to_first_commit_span": "md-running -> first commit of this attempt",
+   "commit_bytes_median": 962430660.5,
+   "n_generations": 70,
    "commit_store": {
-    "n": 69,
+    "n": 70,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
      "first_mib": 106.0,
-     "last_iter": 1680,
-     "last_mib": 2763.2
+     "last_iter": 1720,
+     "last_mib": 2913.8
     },
     "min_mib": 81.0,
-    "max_mib": 2763.2,
+    "max_mib": 2913.8,
     "by_extension_total_mib": {
-     "chk": 61470.2,
-     "nc": 6445.8
+     "chk": 63562.4,
+     "nc": 7267.4
     },
     "by_extension_largest_single_mib": {
-     "chk": 2044.7,
-     "nc": 718.5
+     "chk": 2092.2,
+     "nc": 821.6
     }
    },
    "markers": {
@@ -1807,7 +1814,7 @@
      ],
      "first_commit_iteration": 1080,
      "s_per_iter": 56.4,
-     "n_lines": 545,
+     "n_lines": 560,
      "timeline": {
       "marks": [
        [
@@ -1860,8 +1867,8 @@
      ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 15:47:50+00:00",
-     "bytes": 40085,
+     "utc": "2026-08-01 15:49:52+00:00",
+     "bytes": 41138,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -1918,9 +1925,9 @@
   }
  },
  "commit_cost": {
-  "n_observed": 36,
-  "median_mib": 2468.9,
-  "median_seconds": 28.4,
+  "n_observed": 37,
+  "median_mib": 2476.1,
+  "median_seconds": 30.2,
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
@@ -2074,10 +2081,10 @@
      "staging->preequil": 0.03,
      "preequil->md-running": 0.03
     },
-    "md_running_to_first_commit": null,
+    "md_running_to_first_commit": 18.87,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
-    "s_per_iter": null,
+    "s_per_iter": 28.3,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
@@ -2418,15 +2425,15 @@
     "n": 15
    },
    "md_running_to_first_commit": {
-    "median_min": 17.27,
+    "median_min": 17.34,
     "min_min": 6.07,
     "max_min": 37.6,
-    "n": 15,
+    "n": 16,
     "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly.",
-    "measured_median_min": 43.72,
-    "measured_n_units": 1,
+    "measured_median_min": 33.03,
+    "measured_n_units": 2,
     "measured_how": "the first commit object's S3 LastModified minus the `md-running` timestamp in phase.txt \u2014 a real wall clock, on units currently inside md-running. None means no unit is in that phase right now, which is NOT the same as a fast segment.",
-    "measured_over_derived": 2.53,
+    "measured_over_derived": 1.9,
     "_reading": "a ratio near 1.0 says the segment really is one checkpoint interval of MD and nothing else, so the CHECKPOINT INTERVAL is the whole lever. Materially above 1.0 says the window also holds fixed cost the reconstruction cannot see \u2014 setup restore/build and minimisation are the candidates, and `of_which` below carries the two that time themselves.",
     "of_which_setup_build_min": null,
     "of_which_setup_restore_min": 0.86,
