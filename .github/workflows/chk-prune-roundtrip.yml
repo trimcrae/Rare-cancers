@@ -1,0 +1,167 @@
+name: RUNG 1 — can a pruned .chk still be resumed from? ($0, CPU, no rental)
+
+# WHY. `commit-payload-design.md` measured the O(n²) in the commit path: the openmmtools CHECKPOINT file
+# accumulates one full-coordinate frame per checkpoint interval (≈49 MiB each at the 5a-KS shape) and every
+# commit re-uploads all of them — 1.2 GiB per commit by the end of a 1600-iteration warmup, 15.6 GiB over the
+# warmup. A resume reads only the LAST frame. Everything earlier is re-sent forever and never read.
+#
+# The proposed fix is to keep only the last frame. Its ONE load-bearing unknown is whether openmmtools still
+# resumes, because its checkpoint reader indexes frames by `iteration // checkpoint_interval` — so a naive
+# "keep one frame" file puts the newest data at index 0 while the reader looks for it at index 25.
+#
+# This workflow answers that, offline, before any host is rented. It runs `chk_prune_roundtrip.py` inside the
+# PRE-BAKED parity image (§6: pull, don't solve — and analysing an openmmtools file with a different
+# openmmtools than produced it is a protocol deviation):
+#
+#   A. storage mechanism at the REAL 5a-KS shape (12 × 147,788 × 3) — does an unwritten HDF5 chunk cost
+#      bytes? With its own negative control (a contiguous layout, where it must NOT save).
+#   B. resume semantics on a genuine 3-replica openmmtools run: prune → the real `LocalCommitStore.commit`
+#      → the real `restore_latest` → `from_storage` → keep running → prune → commit → restore again.
+#   C. negative control: the naive index-0 prune MUST be rejected. If it is not, the harness has no power
+#      and the verdict says INCONCLUSIVE rather than pass.
+#   D. optional, needs S3: the same prune against a REAL committed 5a-KS warmup pair, so the fresh leg is
+#      not the first time the prune meets the 12-replica layout.
+#
+# ⛔ IT CANNOT TOUCH A LIVE LEG. Everything happens on copies in a temp dir; nothing is written back to any
+# object store; no GPU, no VM, no Vast rental. $0 by construction.
+
+on:
+  workflow_dispatch:
+    inputs:
+      real_pair:
+        description: "also prune a REAL committed pair from S3 (part D): yes | no"
+        default: "yes"
+        required: false
+      phase:
+        description: "which committed phase to pull for part D (warmup is where the O(n2) lives; production .nc are GiB-scale)"
+        default: "warmup"
+        required: false
+      target:
+        description: "iterations to run in part B (must be a multiple of interval; 8 gives 5 checkpoint frames)"
+        default: "8"
+        required: false
+      interval:
+        description: "checkpoint interval for part B"
+        default: "2"
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chk-prune-roundtrip
+  cancel-in-progress: false
+
+jobs:
+  roundtrip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      IMG: docker.io/triskit23/ternary-fep:latest
+      OUT: /tmp/prune
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+
+      - name: Pull the parity image (never solve the env — §6)
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          docker pull "$IMG"
+          mkdir -p "$OUT" /tmp/real
+          df -h / | tail -1
+
+      - name: "Part D prep — find ONE real committed pair and download it"
+        if: ${{ github.event.inputs.real_pair != 'no' }}
+        run: |
+          set -eo pipefail
+          B="${VAST_CKPT_BUCKET:-sagemaker-us-east-2-646605541856}"
+          P="${TVAST_PREFIX:-ternary-vast}"
+          PH="${{ github.event.inputs.phase }}"; PH="${PH:-warmup}"
+          # `awk`, never `head`, downstream of a listing: head closes the pipe and pipefail turns the
+          # diagnostic into a dead step (the census workflow paid for this twice).
+          aws s3 ls --recursive "s3://$B/$P/commits/" | awk '{print $4}' > /tmp/keys.txt || true
+          echo "objects listed: $(wc -l < /tmp/keys.txt)"
+          # Target selection is a REPO FILE (pure stdlib, unit-tested), not shell.
+          python research/modalities/chk_prune_roundtrip.py --pair-targets /tmp/keys.txt \
+            --uri-prefix "s3://$B/" --phase "$PH" --limit 1 > /tmp/targets.tsv || true
+          echo "--- targets ---"; cat /tmp/targets.tsv
+          if [ ! -s /tmp/targets.tsv ]; then
+            echo "NO committed $PH pair found under s3://$B/$P/commits/ — part D will be reported ABSENT,"
+            echo "which the verdict names explicitly rather than treating as a pass."
+            exit 0
+          fi
+          DIR=$(awk 'NR==1{print $3}' /tmp/targets.tsv)
+          echo "pulling $DIR"
+          aws s3 cp "$DIR/" /tmp/real/gen/ --recursive --only-show-errors
+          ls -la /tmp/real/gen/
+          du -sh /tmp/real/gen/
+          df -h / | tail -1
+
+      - name: "Parts A+B+C (+D if present) — the experiment"
+        id: exp
+        run: |
+          set -eo pipefail
+          REAL=""
+          [ -f /tmp/real/gen/COMMITTED.json ] && REAL="--real-dir /tmp/real/gen"
+          set +e
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v "$OUT:/tmp/prune" -v /tmp/real:/tmp/real \
+            -w /work/research/modalities \
+            -e OPENMM_CPU_THREADS=2 \
+            "$IMG" /work/research/modalities/chk_prune_roundtrip.py \
+              --interval "${{ github.event.inputs.interval || '2' }}" \
+              --target "${{ github.event.inputs.target || '8' }}" \
+              --out /tmp/prune/chk-prune-roundtrip.json $REAL 2>&1 | grep -av "^Warning:"
+          RC=${PIPESTATUS[0]}
+          set -e
+          sudo chown -R "$(id -u):$(id -g)" "$OUT" 2>/dev/null || true
+          echo "rc=$RC" >> "$GITHUB_OUTPUT"
+          echo "EXPERIMENT EXIT CODE: $RC (0 = PRUNING IS SAFE)"
+
+      - name: The verdict, on its own, at the end of the log
+        if: always()
+        run: |
+          set +e
+          python - <<'PY'
+          import json, pathlib
+          p = pathlib.Path("/tmp/prune/chk-prune-roundtrip.json")
+          if not p.is_file():
+              print("NO VERDICT ARTIFACT — the experiment did not reach a conclusion. That is an absent "
+                    "reading, not a reading of absence: it does NOT mean pruning is unsafe, it means this "
+                    "run failed before deciding. Read the step log above.")
+              raise SystemExit(0)
+          d = json.loads(p.read_text())
+          print("=== VERDICT ===")
+          print(d.get("verdict", "(none)"))
+          st = (d.get("storage") or {})
+          if st:
+              print("\nstorage at the real 5a-KS shape: %s frames -> 1 frame = %.1f MiB -> %.1f MiB (%sx); "
+                    "contiguous control %sx (must be ~1x)"
+                    % (st.get("n_frames"), st.get("all_frames_unlimited", 0) / 1048576.0,
+                       st.get("one_frame_unlimited_chunked", 0) / 1048576.0,
+                       st.get("shrink_chunked_x"), st.get("shrink_contiguous_x")))
+          for r in d.get("real_pairs") or []:
+              print("\nREAL pair %s @ iter %s (interval %s): %.1f MiB -> %.1f MiB (%sx) in %ss"
+                    % (r.get("phase"), r.get("iteration"), r.get("interval"),
+                       (r.get("before") or {}).get("bytes", 0) / 1048576.0,
+                       (r.get("after") or {}).get("bytes", 0) / 1048576.0,
+                       r.get("shrink_x"), r.get("prune_seconds")))
+          PY
+
+      - name: Upload the record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chk-prune-roundtrip
+          path: /tmp/prune/*.json
+          if-no-files-found: warn
+
+      - name: Fail the run if the experiment did not say SAFE
+        if: always()
+        run: |
+          test "${{ steps.exp.outputs.rc }}" = "0"
