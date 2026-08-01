@@ -1,19 +1,47 @@
 {
   "_what": "NR-V04 retrospective \u2014 why each hostless unit was or was not bought on this tick.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a hold is never silent, and it carries the snapshot that caused it.",
-  "utc": "2026-08-01T00:35:42Z",
+  "utc": "2026-08-01T00:38:00Z",
   "lane": "nrv04_retro",
   "n_authorized": 17,
-  "needed": [],
-  "replaced": [],
+  "needed": [
+    "nrv04retro-retro_noncov_nr4a2-m2-r0"
+  ],
+  "replaced": [
+    "nrv04retro-retro_noncov_nr4a2-m2-r0"
+  ],
   "blocked": [],
   "quarantined": [],
   "quarantine_eligible_running": [],
-  "breaker_downgraded": [],
+  "breaker_downgraded": [
+    {
+      "n_attempts": 3,
+      "threshold": 3,
+      "streak_since_utc": "2026-08-01T00:19:23Z",
+      "counted": "since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-08-01T00:19:23Z)",
+      "block": false,
+      "verdict": "allow: 3 marker(s) resolve to only 2 distinct host(s) \u2014 under the threshold of 3, so this is one host restarting rather than a fault reproduced across machines",
+      "why": "3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-08-01T00:19:23Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINCT HOSTS: a container that crash-loops re-runs the preamble and writes a marker each time, so this count cannot yet tell 3 rentals from 1 host restarting 3 times (the marker records its container id; `count_attempts` counts objects, not ids). The block is right either way \u2014 both are the same fault reproducing \u2014 but do not quote this as a host count. NOT permanent: fix the cause, then re-arm with a BASELINE \u2014 retro_set_breaker_baseline (CI: vast_launch_mode=retro_baseline) \u2014 which moves the streak anchor forward and LEAVES THE ARCHIVE WHOLE. Do NOT use leg_failure_breaker.reset_for here: it re-arms by deleting attempts/, which is the evidence retro_attempt_hosts reads to tell real rentals from a crash-loop, and an offset does the same job. The next tick then rents normally.",
+      "n_markers": 3,
+      "n_distinct_hosts": 2,
+      "host_detail": {
+        "host_ids": [
+          "46452555",
+          "46453432"
+        ],
+        "unreadable_markers": 0
+      },
+      "streak_is_genuine": false,
+      "host_reading": "3 marker(s) resolve to 2 DISTINCT host(s) \u2014 \u26a0 FEWER DISTINCT HOSTS THAN THE THRESHOLD. These markers are substantially one host restarting (a crash-loop re-runs the onstart preamble), so this is NOT yet 'reproduced on distinct hosts' and the block may be premature.",
+      "unit": "nrv04retro-retro_noncov_nr4a2-m2-r0"
+    }
+  ],
   "awaiting_authorization": [],
   "condemned": [],
   "nudged": [],
   "fleet_unreadable": null,
   "market": null,
-  "reasons": {}
+  "reasons": {
+    "nrv04retro-retro_noncov_nr4a2-m2-r0": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
+  }
 }
