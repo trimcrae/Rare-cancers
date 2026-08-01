@@ -221,6 +221,59 @@ def board_rows(census, arrivals, hosts=(), now=None, seeds=None, unattributed_ho
     return rows
 
 
+def md_rows(handles, hosts=(), landed=None, n_units=None, now=None):
+    """One row per MD leg this lane has RENTED. PURE.
+
+    ★★ WHY THIS EXISTS (2026-08-01, ~6 minutes after the lane's first MD leg started billing). This module
+    emitted exactly one row per co-fold ARM, because when it was written co-folds were all this lane had —
+    its own docstring says so ("the lane's MD legs, when they run, are a different rung"). So the moment the
+    first MD host was rented, the board showed two DONE co-fold rows and **nothing at all for the leg that
+    was actually spending money**. A billing leg with no board row is the precise failure the whole in-flight
+    board exists to prevent, and it is how a fabricated ETA for this lane survived six consecutive reports.
+
+    `handles`  `selcal-handles.json` — [{unit, arm, model, replica, instance, utc}], written at rental.
+    `hosts`    live instances as the control plane reported them; `None` means UNREADABLE, not empty.
+    `landed`   how many units have a banked result, or None if that was not measured.
+
+    ⚠ THE HANDLES FILE IS A RECORD OF A PURCHASE, NOT OF A RUNNING LEG. A handle whose instance is gone
+    means the leg ENDED — landed, preempted or reaped — and the row says exactly that rather than implying
+    it is still running (§4: a populated field is not a measured one).
+    """
+    now = _now(now)
+    rows = []
+    live_by_id = None if hosts is None else {str(h.get("id")): h for h in (hosts or ())}
+    for h in handles or ():
+        inst = str(h.get("instance") or "")
+        host = None if live_by_id is None else live_by_id.get(inst)
+        started = h.get("utc")
+        if live_by_id is None:
+            state = IB.UNKNOWN
+            why = ("the instance list could not be READ this tick, so whether this leg still holds a host "
+                   "is unknown. An absent reading is not a reading of absence (CLAUDE.md §4).")
+        elif host is not None:
+            state = IB.RUNNING
+            why = "instance %s %s, rented %s." % (inst, host.get("actual_status") or "?", started)
+        else:
+            state = "ENDED — no host"
+            why = ("instance %s is no longer on the account, so this leg ended — landed, preempted or "
+                   "reaped. Rented %s. Which of the three it was is in the lane's collect, not here: this "
+                   "row reports host state and must not guess an outcome." % (inst, started))
+        # ⚠ NO $/ns IS INVENTED. `inflight_usd_per_ns.row()` is the one home for that cell and it needs the
+        # instance record plus a measured ns rate; this lane has never benched an MD leg, so there is no
+        # like-for-like ns denominator yet. A `—` that names its reason beats a number nobody can grade.
+        rows.append({
+            "name": h.get("unit") or "selcal MD leg",
+            "pct": None,
+            "pct_of": None if landed is None else ("%d/%d landed" % (landed, n_units or 0)),
+            "eta_s": None,
+            "usd_per_ns": "— MD leg: no benched ns rate for this lane yet",
+            "state": state,
+            "why": why + (" ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no "
+                          "measured s/iter to project from; the first one that lands supplies it."),
+        })
+    return rows
+
+
 def note_for(census, rows):
     """The one-line lane note under the heading. Derived from the same census the rows are."""
     per_arm = (census or {}).get("per_arm") or {}
@@ -259,9 +312,26 @@ def cofold_arrivals(s3, bucket, prefix):
     return out
 
 
-def publish(census, arrivals, hosts=(), now=None, root=None):
-    """Write the fragment and regenerate the merged board. The one call the lane's tick makes."""
+def read_handles(path=None):
+    """`selcal-handles.json`, or [] — never an exception. A board that dies on a missing file renders the
+    lane as ABSENT, which is the opposite of what a missing handles file means (no leg has been rented)."""
+    try:
+        import selcal_vast_launch as L
+        with open(path or L.HANDLES) as fh:
+            doc = json.load(fh)
+        return doc if isinstance(doc, list) else []
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def publish(census, arrivals, hosts=(), now=None, root=None, handles=None, landed=None, n_units=None):
+    """Write the fragment and regenerate the merged board. The one call the lane's tick makes.
+
+    ⚠ CO-FOLD ROWS **AND** MD ROWS. Until 2026-08-01 this published only the co-fold arms, so the lane's
+    first MD rental billed with no row on the board at all — see `md_rows`."""
     rows = board_rows(census, arrivals, hosts=hosts, now=now)
+    rows += md_rows(read_handles() if handles is None else handles,
+                    hosts=hosts, landed=landed, n_units=n_units, now=now)
     return IB.publish(LANE, rows, now_epoch=_now(now), note=note_for(census, rows), root=root)
 
 

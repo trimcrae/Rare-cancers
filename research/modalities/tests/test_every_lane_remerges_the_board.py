@@ -245,3 +245,51 @@ def test_a_step_that_refreshes_sibling_fragments_restores_its_own(lane):
             f"{wf.name}:{job} ({name!r}) refreshes {ifb.FRAGMENT_DIR}/ from upstream but never restores its "
             f"own {own} afterwards — so it publishes upstream's older copy of the fragment this very run "
             f"just wrote, and the lane freezes on the board while its collect runs fine.")
+
+
+def test_the_supervisor_of_the_billing_legs_publishes_a_board_fragment():
+    """★★ THE LOOP THAT WATCHES THE LEGS COSTING LADDER DOLLARS MUST WRITE A BOARD ROW (2026-08-01).
+
+    `selcal_vast_launch.mode_cofold_watch` published a fragment on every tick. `mode_watch` — the loop
+    supervising the MD legs, i.e. the ones that spend ladder dollars — published only a COMMIT heartbeat.
+    So six minutes after the lane's first MD host started billing, the all-lane board carried that lane's
+    44-minute-old CO-FOLD rows under a STALE banner and had no row at all for the leg actually running.
+
+    A billing leg with no board row is the failure the whole board exists to prevent, and it is how a
+    subagent's prose ETA for this lane sat in the ETA column for six consecutive reports.
+    """
+    import inspect
+    import sys
+    sys.path.insert(0, str(MODALITIES))
+    import selcal_vast_launch as L
+    for fn in (L.mode_watch, L.mode_cofold_watch):
+        src = inspect.getsource(fn)
+        assert "_publish_board" in src, (
+            f"{fn.__name__} supervises hosts but never writes a board fragment, so its lane renders STALE "
+            f"on the all-lane board for the whole window while it is in fact watching perfectly well — and "
+            f"any leg it holds has no row at all.")
+
+
+def test_the_selcal_board_emits_a_row_for_a_rented_md_leg():
+    """The rows themselves, across all three host states. `md_rows` is PURE, so this needs no network.
+
+    ⚠ AN ENDED LEG MUST NOT RENDER AS RUNNING, AND AN UNREADABLE HOST LIST MUST NOT RENDER AS ENDED — the
+    handles file records a PURCHASE, not a running leg (§4)."""
+    import sys
+    sys.path.insert(0, str(MODALITIES))
+    import selcal_board as B
+    h = [{"unit": "selcal-smarca2-m1-r0", "arm": "selcal_smarca2", "instance": "46531433",
+          "utc": "2026-08-01T19:37:26Z"}]
+    live = B.md_rows(h, hosts=[{"id": 46531433, "actual_status": "running"}], landed=0, n_units=24)
+    assert len(live) == 1 and live[0]["state"] == "RUNNING"
+    assert live[0]["name"] == "selcal-smarca2-m1-r0" and live[0]["pct_of"] == "0/24 landed"
+    assert "46531433" in live[0]["why"]
+    # …the host is gone: ENDED, and the row refuses to say WHICH ending.
+    gone = B.md_rows(h, hosts=[], landed=0, n_units=24)[0]
+    assert gone["state"].startswith("ENDED") and "must not guess an outcome" in gone["why"]
+    # …the list could not be read: UNKNOWN, never ENDED.
+    unread = B.md_rows(h, hosts=None)[0]
+    assert unread["state"] == _lanes().UNKNOWN
+    assert "absent reading is not a reading of absence" in unread["why"]
+    # …and no $/ns is invented for a lane that has never benched an MD leg.
+    assert "—" in live[0]["usd_per_ns"] and "no benched ns rate" in live[0]["usd_per_ns"]

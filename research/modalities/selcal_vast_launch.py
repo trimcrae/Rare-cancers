@@ -1411,7 +1411,7 @@ def _tick_publish(paths, message, branch=None):
     return False
 
 
-def _publish_board(s3, bucket, prefix, census, hosts):
+def _publish_board(s3, bucket, prefix, census, hosts, landed=None, n_units=None):
     """Publish this lane's in-flight board fragment. Returns the paths to commit; NEVER raises.
 
     Separate from `_tick_publish` on purpose: the census is this lane's own record and the board is a
@@ -1420,7 +1420,9 @@ def _publish_board(s3, bucket, prefix, census, hosts):
     try:
         import selcal_board as B
         arrivals = B.cofold_arrivals(s3, bucket, prefix)
-        frag, board = B.publish(census, arrivals, hosts=hosts)
+        # ⚠ `landed`/`n_units` ride along so the MD rows can carry a real `N/M landed` denominator. Left
+        # as None they render UNKNOWN rather than 0 — an unmeasured count is not a count of zero (§4).
+        frag, board = B.publish(census, arrivals, hosts=hosts, landed=landed, n_units=n_units)
         return [frag, board]
     except Exception as e:  # noqa: BLE001
         print("[selcal-board] could not publish the in-flight fragment (%s: %s) — the watch continues, and "
@@ -1632,9 +1634,24 @@ def mode_watch(bucket=None, minutes=None):
             mode_reap(bucket)
             return 0
         mode_reap(bucket)
+        # ★★ AND THE IN-FLIGHT BOARD, WHICH THIS LOOP DID NOT WRITE AT ALL (2026-08-01, ~6 min after the
+        # lane's first MD host started billing). `mode_cofold_watch` publishes a board fragment on every
+        # tick; this loop — the one that supervises the legs that COST LADDER DOLLARS — published only a
+        # commit heartbeat. So the all-lane board carried this lane's 44-minute-old CO-FOLD rows, marked
+        # STALE, while an MD leg ran underneath with no row of its own. A billing leg with no board row is
+        # the exact failure the board exists to prevent, and it is how a prose ETA for this lane survived
+        # six consecutive reports.
+        try:
+            _cen = _cofold_census(s3, bucket, SP.COFOLD_PREFIX.strip("/"))
+        except Exception as _e:  # noqa: BLE001 — the co-fold rows degrade; the MD rows are the point here
+            print("[selcal-watch] co-fold census unread for the board (%s) — its rows will say so" % _e,
+                  flush=True)
+            _cen = {}
+        board_paths = _publish_board(s3, bucket, SP.COFOLD_PREFIX.strip("/"), _cen, mine,
+                                     landed=len(done), n_units=len(SP.enumerate_units()))
         # Published per tick for the same reason as the co-fold watch: a heartbeat nobody outside the runner
         # can see is not a heartbeat.
-        _tick_publish([REAP_READOUT, PRICE_LEDGER, COLLECT_READOUT],
+        _tick_publish([REAP_READOUT, PRICE_LEDGER, COLLECT_READOUT] + board_paths,
                       "selcal watch: supervision tick (%d/%d landed, %d host(s))"
                       % (len(done), len(SP.enumerate_units()), len(mine)))
         time.sleep(float(os.environ.get("SELCAL_WATCH_INTERVAL_S", "180")))

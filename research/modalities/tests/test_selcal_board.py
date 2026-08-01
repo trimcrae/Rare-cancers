@@ -179,10 +179,24 @@ def test_the_fragment_round_trips_through_the_board(tmp_path):
     """End to end: publish, then read it back through the real renderer. A fragment the merger cannot read
     is a lane that renders as ABSENT — which is the failure, not a symptom of it."""
     ep = [T0 + 600 * i for i in range(4)]
+    # ⚠ `handles=[]` EXPLICITLY. Since 2026-08-01 `publish` also emits one row per RENTED MD LEG, read
+    # from `selcal-handles.json` when the caller does not supply them — so an unpinned call here would pick
+    # up whatever the live lane happens to hold and this test would pass or fail on the fleet's state.
+    # The MD rows have their own coverage in test_every_lane_remerges_the_board.py; this test is about the
+    # CO-FOLD rows round-tripping through the real renderer.
     frag, board = B.publish(_census(**{a: [1, 2, 3, 4] for a in ARMS}),
-                            _arr(**{a: ep for a in ARMS}), hosts=[], now=T0, root=str(tmp_path))
+                            _arr(**{a: ep for a in ARMS}), hosts=[], now=T0, root=str(tmp_path),
+                            handles=[])
     doc = IB.read_fragment(B.LANE, str(tmp_path))
     assert doc and len(doc["rows"]) == len(ARMS)
+
+    # …and with a leg rented, the fragment carries it ALONGSIDE the arms rather than replacing them.
+    frag2, _b2 = B.publish(_census(**{a: [1, 2, 3, 4] for a in ARMS}),
+                           _arr(**{a: ep for a in ARMS}), hosts=[], now=T0, root=str(tmp_path),
+                           handles=[{"unit": "selcal-smarca2-m1-r0", "instance": "1", "utc": "x"}])
+    doc2 = IB.read_fragment(B.LANE, str(tmp_path))
+    assert len(doc2["rows"]) == len(ARMS) + 1
+    assert any(r["name"] == "selcal-smarca2-m1-r0" for r in doc2["rows"])
     text = open(board).read()
     assert "SENSITIVITY CONTROL" in text and ARMS[0] in text
     assert os.path.basename(frag) == "%s.json" % B.LANE
