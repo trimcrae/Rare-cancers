@@ -300,8 +300,15 @@ jobs:
           echo "=== unit: $UURI ==="
           gcloud storage ls -l "$UURI/**" 2>/dev/null > /tmp/ls.txt || true
           echo "objects listed: $(grep -c 'gs://' /tmp/ls.txt || echo 0)"
+          # ⚠ THE TARGET LINE IS FETCHED FIRST AND HANDED IN. Without it the census has no DENOMINATOR and
+          # prints `pct: null` with "the driver's target line has not been read" — which is TRUE and reads
+          # as a defect in the very diagnostic you ran to rule one out. `tick` always passes it; forensic
+          # must too, or the two disagree about a lane that is fine.
+          gcloud storage cat "$UURI/complex.log" 2>/dev/null > /tmp/complex.log || true
+          TGT=$({ grep -aE 'warmup_target=' /tmp/complex.log || true; } | head -1)
           echo "=== DERIVED census (gcp_fanout_rep census; smoke prefix excluded) ==="
-          python3 research/modalities/gcp_fanout_rep.py census --json < /tmp/ls.txt
+          echo "  targets from: ${TGT:-<no target line in complex.log>}"
+          python3 research/modalities/gcp_fanout_rep.py census --json --targets-line "${TGT:-}" < /tmp/ls.txt
           echo "=== the two result JSONs the reduce needs ==="
           for L in complex solvent; do
             gcloud storage objects describe "$UURI/leg_${RECEPTOR}_${L}.json" \
@@ -316,7 +323,6 @@ jobs:
           # actual failure evidence never ran. A diagnostic that stops early is worse than none, because
           # its silence reads as "nothing there".
           echo "=== driver target line + the rate lines it prints ==="
-          gcloud storage cat "$UURI/complex.log" 2>/dev/null > /tmp/complex.log || true
           { grep -aE 'warmup_target=|prod_target=|\[timing\]' /tmp/complex.log || true; } | head -20 | sed 's/^/  /'
           echo "=== system size / setup lines ==="
           { grep -aiE 'particles|atoms|n_replicas|n_windows|hybrid|solvat|padding|box' /tmp/complex.log || true; } \
