@@ -87,7 +87,10 @@ jobs:
           ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - run: python -m pip install -q boto3 awscli
+      # numpy is needed by `selcal_stage.cofold_input_audit` (and its tests). Measured, not assumed:
+      # run 30701222404 failed three audit tests on `ModuleNotFoundError: No module named 'numpy'`,
+      # which is a runner-provisioning fact, not a property of the code under test.
+      - run: python -m pip install -q boto3 awscli numpy
 
       # ---- precondition 1: the reference number, fetched on a runner with real internet ---------------------
       - name: Reference selectivity (primary sources) — precondition 1
@@ -208,7 +211,10 @@ jobs:
           ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - run: python -m pip install -q boto3 awscli
+      # numpy is needed by `selcal_stage.cofold_input_audit` (and its tests). Measured, not assumed:
+      # run 30701222404 failed three audit tests on `ModuleNotFoundError: No module named 'numpy'`,
+      # which is a runner-provisioning fact, not a property of the code under test.
+      - run: python -m pip install -q boto3 awscli numpy
 
       - name: The sensitivity-control guards hold (before any rental)
         run: |
