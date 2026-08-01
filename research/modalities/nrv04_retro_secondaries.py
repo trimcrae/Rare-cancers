@@ -63,14 +63,37 @@ ENV_ECHOED_FIELDS = ("mode", "prod_ns", "equil_ns", "leg_id", "seed")
 #: ⚠ AN ADMITTED GAP, STATED RATHER THAN PAPERED OVER (CLAUDE.md §4b). Equilibration leaves **no positive
 #: receipt** in the leg record: `equil_ns` is an ENV echo, and the only equilibration-specific field the
 #: driver writes is the NEGATIVE one — `blow_phase`, which names an `equil@<n>steps/<m>` chunk when the 4 fs
-#: HMR integrator NaN'd during equilibration (`nrv04_covalent_md.run_leg`). So "equilibration ran" is
-#: corroborated INDIRECTLY, by the leg's wall-clock span exceeding its own measured production wall time,
-#: never asserted from `equil_ns`. `census` reports that span per unit and this string travels with it.
+#: HMR integrator NaN'd during equilibration (`nrv04_covalent_md.run_leg`). There is also a *structural*
+#: receipt: the minimization energies `pe_pre_min_kj` / `pe_post_min_kj` prove the system was built and
+#: minimized, which is the step equilibration follows. That is as far as the artifacts go, and this module
+#: says so rather than dressing an ENV echo as a verification.
 EQUIL_EVIDENCE_NOTE = (
     "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or "
-    "frame count. Positive evidence is INDIRECT — the unit's S3 write span minus its measured `prod_wall_s` "
-    "is the time available for staging + minimization + equilibration — and the only direct equilibration "
-    "field is negative (`blow_phase` = 'equil@…' on a NaN). Reported as a gap, never as a verification.")
+    "frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj — "
+    "a real built-and-minimized system — and (b) the only direct equilibration field, which is negative: "
+    "`blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported "
+    "as a gap, never as a verification.")
+
+#: ⛔ WHY THE S3 WRITE SPAN IS REPORTED BUT NEVER GRADED (root-caused 2026-08-01 from the driver's source,
+#: after this module's first pass flagged 9 of 16 legs on it). A unit's S3 span looks like a free wall-clock
+#: check — first object written to last — and it is NOT one, in two independent ways, both of which shorten
+#: it for a leg that finished CLEANLY:
+#:   1. `nrv04_covalent_md._rm_ckpt` DELETES the checkpoint objects from S3 the moment a leg finishes
+#:      ("leg finished -> drop the checkpoint"), so the earliest-written objects of a successful leg are gone
+#:      before any census can list them;
+#:   2. continuous upload (`s3_upload_mode="Continuous"`) OVERWRITES the same keys — traj blob, phase.txt,
+#:      run.log — so each surviving object carries the mtime of its LAST write, not its first.
+#: Measured consequence on this panel: 9 legs showed a span SHORTER than their own `prod_wall_s`, and every
+#: one of the 9 was a 500-frame / 5.0 ns leg with a 500-frame trajectory receipt. Grading on the span would
+#: therefore have condemned real legs — the exact "an absent reading is not a reading of absence" failure,
+#: pointed the other way. The span is kept as REPORTED CONTEXT with this caveat attached; the corroboration
+#: verdict rests only on fields the run itself wrote into the record.
+S3_SPAN_NOTE = (
+    "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall "
+    "clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous "
+    "upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a "
+    "span far shorter than its own measured prod_wall_s — 9 of the 16 landed legs do, all of them 500-frame "
+    "5.0 ns legs. Corroboration is decided on the record's own measured fields instead.")
 
 
 # =============================================================================================================
@@ -411,6 +434,7 @@ def census(s3, bucket=BUCKET, prefix=PREFIX):
             span_s = round((span["last"] - span["first"]).total_seconds(), 1)
         traj = d.get("analysis_traj") or {}
         r2 = d.get("R2_recruitment") or {}
+        meta = d.get("meta") or {}
         row = {
             "unit": unit, "key": k, "arm_id": arm_id,
             "cofold_model_seed": int(mtag) if mtag.isdigit() else None,
@@ -422,8 +446,14 @@ def census(s3, bucket=BUCKET, prefix=PREFIX):
             "measured_readout_frames": r2.get("frames"),
             "measured_traj_written_frames": traj.get("written_frames"),
             "measured_traj_bytes": traj.get("bytes"),
-            "measured_unit_s3_span_s": span_s,
-            "measured_unit_s3_objects": span.get("n_objects"),
+            # The topology the readouts were actually computed against — written by the run, not requestable
+            # from ENV. `target_lys_nz` is the size of the atom set E4's distribution is taken over, so an
+            # E4 outlier can be checked against it rather than guessed at.
+            "measured_chain_split": d.get("chain_split"),
+            "measured_n_atoms": meta.get("n_atoms"),
+            "reported_unit_s3_span_s": span_s,
+            "reported_unit_s3_objects": span.get("n_objects"),
+            "reported_unit_s3_span_note": S3_SPAN_NOTE,
             # ── ECHOED: an ENV default fills these ───────────────────────────────────────────────────────
             "env_echoed": {f: d.get(f) for f in ENV_ECHOED_FIELDS},
             # ── the two verdicts, kept apart (nrv04_retro_panel: membership ≠ completion) ────────────────
@@ -432,22 +462,35 @@ def census(s3, bucket=BUCKET, prefix=PREFIX):
             "blew_up": bool(d.get("blew_up")), "blow_phase": d.get("blow_phase"),
         }
         # CORROBORATION: does the measured evidence agree with the ENV echo? A leg that says mode='run' and
-        # shows 5 frames in 7 s is the 2026-07-31 failure wearing a production label.
+        # shows 5 frames in 7 s is the 2026-07-31 failure wearing a production label. ⛔ EVERY CHECK BELOW
+        # COMPARES TWO THINGS THE RUN ITSELF WROTE — no ENV field is an input to any of them, and the S3
+        # span is deliberately absent (see S3_SPAN_NOTE: it would condemn clean legs).
         checks = []
         want_frames = retro.expected_production_frames(retro.PROD_NS)
         if d.get("n_frames") != want_frames:
             checks.append("n_frames=%r != %d expected at the canonical stride" % (d.get("n_frames"), want_frames))
         if r2.get("frames") is not None and r2.get("frames") != d.get("n_frames"):
-            checks.append("R2_recruitment.frames=%r != n_frames=%r" % (r2.get("frames"), d.get("n_frames")))
+            checks.append("R2_recruitment.frames=%r != n_frames=%r (the readout kernel counted a different "
+                          "number of production frames than the driver recorded)"
+                          % (r2.get("frames"), d.get("n_frames")))
+        if traj.get("written_frames") is not None and traj.get("written_frames") != d.get("n_frames"):
+            checks.append("analysis_traj.written_frames=%r != n_frames=%r (the durable trajectory does not "
+                          "match the scored trajectory)" % (traj.get("written_frames"), d.get("n_frames")))
         if isinstance(prod_wall, (int, float)) and prod_wall < 600:
-            checks.append("prod_wall_s=%r — under 10 minutes of measured production wall clock" % prod_wall)
-        if span_s is not None and isinstance(prod_wall, (int, float)) and span_s < prod_wall:
-            checks.append("unit S3 span %ss is SHORTER than the leg's own prod_wall_s %ss" % (span_s, prod_wall))
+            checks.append("prod_wall_s=%r — under 10 minutes of measured production wall clock, which no "
+                          "5 ns leg on this lane's cards has achieved" % prod_wall)
+        # ns/day is DERIVED by the driver from timed_ns and prod_wall_s. Recomputing it is a measured-vs-
+        # measured identity: it fails if any of the three was written from something other than the run.
+        nspd, timed = d.get("ns_per_day"), d.get("timed_ns")
+        if all(isinstance(x, (int, float)) for x in (nspd, timed, prod_wall)) and prod_wall > 0:
+            want_nspd = timed / (prod_wall / 86400.0)
+            row["measured_ns_per_day_recomputed"] = round(want_nspd, 2)
+            if abs(want_nspd - nspd) > max(0.05, 0.001 * abs(nspd)):
+                checks.append("ns_per_day=%r but timed_ns/prod_wall_s gives %.2f — the throughput field does "
+                              "not follow from the two measurements it is derived from" % (nspd, want_nspd))
         row["corroboration_failures"] = checks
         row["measured_corroborates_env_echo"] = not checks
         row["equilibration_evidence"] = EQUIL_EVIDENCE_NOTE
-        if span_s is not None and isinstance(prod_wall, (int, float)):
-            row["measured_non_production_wall_s"] = round(span_s - prod_wall, 1)
         rows.append(row)
         if ok:
             admitted.append({"arm_id": arm_id, "unit": unit,
@@ -476,6 +519,7 @@ def census(s3, bucket=BUCKET, prefix=PREFIX):
         "measured_fields": list(MEASURED_FIELDS),
         "env_echoed_fields": list(ENV_ECHOED_FIELDS),
         "equilibration_evidence": EQUIL_EVIDENCE_NOTE,
+        "s3_span_evidence": S3_SPAN_NOTE,
         "all_admitted_legs_corroborated": all(r["measured_corroborates_env_echo"]
                                               for r in rows if r["admitted_to_panel"]),
         "legs_failing_corroboration": [r["unit"] for r in rows
@@ -483,6 +527,63 @@ def census(s3, bucket=BUCKET, prefix=PREFIX):
         "rejected_records": rejected,
         "per_record": rows,
     }, admitted
+
+
+def reproduces_emitted_verdict(admitted, model_means):
+    """★ THE INTEGRITY CHECK THE CENSUS EXISTS FOR. Collapse the S3-read legs to model-level E1 means by
+    prereg §4a and compare them, model by model, with the means in the EMITTED verdict. PURE.
+
+    If the two disagree, then either the collector and this census saw different objects or one of them
+    mapped a key wrongly — and the paper would be quoting a number nothing supports. Agreement is what makes
+    "reported from the 16 landed legs" a statement about stored artifacts rather than about a readout."""
+    got = {}
+    for leg in admitted:
+        v = (leg.get("R1_interface") or {}).get("plateau_A")
+        if v is None or leg.get("cofold_model_seed") is None:
+            continue
+        got.setdefault(leg["arm_id"], {}).setdefault(int(leg["cofold_model_seed"]), []).append(float(v))
+    got = {a: {m: round(sum(v) / len(v), 4) for m, v in sorted(ms.items())} for a, ms in sorted(got.items())}
+    want = {a: {int(m): round(float(v), 4) for m, v in ms.items()} for a, ms in model_means.items()}
+    diffs = []
+    for a in sorted(set(got) | set(want)):
+        for m in sorted(set(got.get(a, {})) | set(want.get(a, {}))):
+            g, w = got.get(a, {}).get(m), want.get(a, {}).get(m)
+            if g is None or w is None or abs(g - w) > 5e-4:
+                diffs.append({"arm": a, "model": m, "from_s3_legs": g, "in_emitted_verdict": w})
+    return {
+        "_what": "model-level E1 means recomputed from the S3 leg records, against the EMITTED verdict's own "
+                 "`model_level_means`. The verdict is authoritative; this is the check that the census read "
+                 "the same panel.",
+        "from_s3_legs": got, "in_emitted_verdict": want,
+        "agree": not diffs, "disagreements": diffs,
+    }
+
+
+def e4_outliers(secondaries, ratio=4.0):
+    """FLAG ONLY. Legs whose E4 distribution sits a factor of `ratio` away from their arm's median leg.
+
+    ⚠ It changes nothing. E4 is descriptive-only and never a gate (prereg §3), so an outlier is neither
+    excluded, down-weighted, nor allowed to move any number — it is NAMED, with the fields that would
+    discriminate a real geometry from an artifact, so the next reader starts from the observation rather
+    than from a story."""
+    out = []
+    for arm in secondaries["arms"]:
+        rows = [r for r in secondaries["per_leg"] if r["arm_id"] == arm and r["e4_median_A"] is not None]
+        if len(rows) < 3:
+            continue
+        meds = sorted(r["e4_median_A"] for r in rows)
+        centre = meds[len(meds) // 2]
+        for r in rows:
+            if centre and (r["e4_median_A"] * ratio < centre or r["e4_median_A"] > centre * ratio):
+                out.append({"unit": r["unit"], "arm_id": arm,
+                            "e4_min_A": r["e4_min_A"], "e4_median_A": r["e4_median_A"],
+                            "e4_max_A": r["e4_max_A"],
+                            "arm_median_leg_e4_median_A": centre,
+                            "ratio_to_arm_median": round(centre / r["e4_median_A"], 2) if r["e4_median_A"] else None})
+    return {"_role": "FLAG ONLY — E4 is descriptive, never a gate (prereg §3). No leg is excluded, "
+                     "re-weighted or corrected on the strength of this list, and no E4 number elsewhere in "
+                     "this document is computed with outliers removed.",
+            "ratio": ratio, "outliers": out}
 
 
 # =============================================================================================================
@@ -500,6 +601,7 @@ def _landed_model_means(path=VERDICT_JSON):
 
 def build(census_doc, admitted, model_means):
     """The committed document. PURE given its inputs."""
+    sec = secondary_endpoints(admitted)
     return {
         "_what": "The PREREGISTERED SECONDARY ENDPOINTS E2, E3 and E4 of the NR-V04 retrospective (prereg §3), "
                  "reported from the 16 landed legs — the report prereg §3 promised and "
@@ -517,7 +619,9 @@ def build(census_doc, admitted, model_means):
         "prereg": "nr4a3-nrv04-retrospective-prereg.md",
         "amendment": "AMENDMENT 4 (2026-07-31): 16 legs, model-level n = 3 / 3 / 2.",
         "s3_census": census_doc,
-        "secondaries": secondary_endpoints(admitted),
+        "reproduces_emitted_verdict": reproduces_emitted_verdict(admitted, model_means),
+        "secondaries": sec,
+        "e4_outliers": e4_outliers(sec),
         "frozen_scorer_probes": frozen_scorer_probes(model_means),
     }
 
@@ -558,10 +662,14 @@ def main(argv=None):
             print("%-42s %-6s %7s %9s %9s %8s %9s  %s%s"
                   % (r["unit"], r["env_echoed"].get("mode"), r["measured"].get("n_frames"),
                      r["measured"].get("timed_ns"), r["measured"].get("prod_wall_s"),
-                     r.get("measured_unit_s3_span_s"), r.get("measured_traj_written_frames"),
+                     r.get("reported_unit_s3_span_s"), r.get("measured_traj_written_frames"),
                      "yes" if r["admitted_to_panel"] else "NO",
                      "" if r["measured_corroborates_env_echo"] else
                      "  ⚠ %s" % "; ".join(r["corroboration_failures"])), flush=True)
+        rep = doc.get("reproduces_emitted_verdict") or {}
+        print("\n[retro-secondaries] model-level E1 recomputed from the S3 legs %s the emitted verdict%s"
+              % ("AGREES WITH" if rep.get("agree") else "⛔ DISAGREES WITH",
+                 "" if rep.get("agree") else ": %s" % rep.get("disagreements")), flush=True)
     with open(args.out, "w") as fh:
         json.dump(doc, fh, indent=2, default=str)
     print("\n[retro-secondaries] wrote %s" % args.out, flush=True)
