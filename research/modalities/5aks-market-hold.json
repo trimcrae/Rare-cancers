@@ -1,55 +1,49 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-08-01T14:11:39Z",
-  "n_units": 2,
+  "utc": "2026-08-01T14:12:14Z",
+  "n_units": 1,
   "basis_usd_per_ns": 0.003412,
-  "plan_usd": 3.66,
-  "ceiling_usd": 10.37,
-  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 2 legs",
+  "plan_usd": 1.83,
+  "ceiling_usd": 5.19,
+  "ceiling_basis": "top of this rung's OWN ladder band, scaled to 1 legs",
   "max_ratio_vs_basis": 1.9166094031192507,
   "usd_per_ns_at_max_ratio": 0.006539,
-  "breakeven_usd_per_ns": 0.009673,
+  "breakeven_usd_per_ns": 0.009682,
   "tiers": {
     "bid": {
       "tier": "bid",
       "interruptible": true,
       "depth": {
-        "offers_returned": 120,
-        "qualifying": 120,
+        "offers_returned": 119,
+        "qualifying": 119,
         "priceable": 61,
-        "needed": 2,
-        "used_for_mean": 2
+        "needed": 1,
+        "used_for_mean": 1
       },
       "offers": [
         {
           "gpu": "RTX 3090",
-          "machine_id": 34334,
+          "machine_id": 34332,
           "min_bid_usd_h": 0.067,
-          "usd_per_ns": 0.004248
-        },
-        {
-          "gpu": "RTX 4090",
-          "machine_id": 10029,
-          "min_bid_usd_h": 0.16,
-          "usd_per_ns": 0.00534
+          "usd_per_ns": 0.007756
         }
       ],
-      "mean_usd_per_ns": 0.004794,
-      "ratio_vs_basis": 1.405,
-      "projected_usd": 5.14,
+      "mean_usd_per_ns": 0.007756,
+      "ratio_vs_basis": 2.273,
+      "projected_usd": 4.16,
       "fails_dollar_ceiling": false,
-      "fails_ratio_ceiling": false,
-      "clears": true
+      "fails_ratio_ceiling": true,
+      "clears": false
     },
     "on-demand": {
       "tier": "on-demand",
       "interruptible": false,
       "depth": {
-        "offers_returned": 155,
-        "qualifying": 155,
-        "priceable": 78,
-        "needed": 2,
-        "used_for_mean": 2
+        "offers_returned": 152,
+        "qualifying": 151,
+        "priceable": 75,
+        "needed": 1,
+        "used_for_mean": 1
       },
       "offers": [
         {
@@ -57,55 +51,44 @@
           "machine_id": 46392,
           "min_bid_usd_h": 0.2022222222222222,
           "usd_per_ns": 0.007778
-        },
-        {
-          "gpu": "RTX 4080S",
-          "machine_id": 34731,
-          "min_bid_usd_h": 0.2022222222222222,
-          "usd_per_ns": 0.007778
         }
       ],
       "mean_usd_per_ns": 0.007778,
       "ratio_vs_basis": 2.28,
-      "projected_usd": 8.34,
+      "projected_usd": 4.17,
       "fails_dollar_ceiling": false,
       "fails_ratio_ceiling": true,
       "clears": false
     }
   },
-  "chosen_tier": "bid",
+  "chosen_tier": null,
   "prefer_uninterruptible": true,
-  "hold": false,
-  "reason": "bid tier clears at 1.405x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.28x basis",
-  "tier": "bid (interruptible)",
-  "interruptible": true,
+  "hold": true,
+  "reason": "HOLD \u2014 neither tier clears. bid: over the $/ns drift line (the buy line) at 2.273x basis. on-demand: over the $/ns drift line (the buy line) at 2.28x basis.",
+  "tier": "on-demand (UNINTERRUPTIBLE \u2014 cannot be preempted; taken only when it clears BOTH ceilings, per trimcrae 2026-07-31)",
+  "interruptible": false,
   "depth": {
-    "offers_returned": 120,
-    "qualifying": 120,
-    "priceable": 61,
-    "needed": 2,
-    "used_for_mean": 2
+    "offers_returned": 152,
+    "qualifying": 151,
+    "priceable": 75,
+    "needed": 1,
+    "used_for_mean": 1
   },
   "offers": [
     {
-      "gpu": "RTX 3090",
-      "machine_id": 34334,
-      "min_bid_usd_h": 0.067,
-      "usd_per_ns": 0.004248
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 10029,
-      "min_bid_usd_h": 0.16,
-      "usd_per_ns": 0.00534
+      "gpu": "RTX 4080S",
+      "machine_id": 46392,
+      "min_bid_usd_h": 0.2022222222222222,
+      "usd_per_ns": 0.007778
     }
   ],
-  "mean_usd_per_ns": 0.004794,
-  "ratio_vs_basis": 1.405,
-  "projected_usd": 5.14,
+  "mean_usd_per_ns": 0.007778,
+  "ratio_vs_basis": 2.28,
+  "projected_usd": 4.17,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": false,
+  "fails_ratio_ceiling": true,
   "machines_we_already_occupy": [
+    "33806",
     "35777",
     "35778"
   ],
@@ -115,10 +98,11 @@
     "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks"
   ],
-  "units_live": [],
-  "units_needing_host": [
-    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+  "units_live": [
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
+  ],
+  "units_needing_host": [
+    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
   ],
   "units_replacing_a_dead_host": []
 }
