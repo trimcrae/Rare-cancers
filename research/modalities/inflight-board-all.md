@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:52 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:55 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,7 +15,7 @@ Merged 8:52 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:50 PM ET Fri Jul 31, 2026 (3 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:50 PM ET Fri Jul 31, 2026 (5 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
@@ -28,7 +28,7 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 8:26 PM ET Fri Jul 31, 2026 — **27 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:26 PM ET Fri Jul 31, 2026 — **29 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,21 +36,21 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 8:52 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 8:55 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-nr4a2 m2 r0        —                  10.0%  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  2 consecutive board polls with no new frame (this host is 15 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-08-01T00:38:44Z, GPU utilisation reads 0.0% — NOT EVIDENCE OF IDLENESS on this lane: boxes that landed complete 500-frame legs at 217-263 ns/day reported 0.0/None while producing. Judge progress by the frame census, never by this field
+nr4a2 m2 r0        9:13 PM            20.0%  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   
 ```
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 8:23 PM ET Fri Jul 31, 2026 — **29 min ago, STALE (> 15 min)**. Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
+_As of 8:54 PM ET Fri Jul 31, 2026 (1 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
 
 ```
 LEG                                ETA (ET)          % DONE  $/ns                                                                                                                                                                                                                     STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-zaienne_cmpd19__cw_ms_free_acid r1 —                      —  — $0 real dollars (GCP trial credit, a SEPARATE LEDGER, expires 2026-10-10). L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent. UNKNOWN   lane last reported 29 min ago — this row is THAT report, not a current reading; it then read: RUNNING — GCE L4, RUNNING, created 2026-07-31T17:00:17.886-07:00. phase='leg-complex-running 2026-08-01T00:05:36Z'. ETA UNKNOWN — this lane has no measured L4 rate for a fan-out leg yet; the first one produces it. Bounded at CREATE by --max-run-duration=172800s.
+zaienne_cmpd19__cw_ms_free_acid r1 —                      —  — $0 real dollars (GCP trial credit, a SEPARATE LEDGER, expires 2026-10-10). L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent. RUNNING   GCE L4, RUNNING, created 2026-07-31T17:00:17.886-07:00. phase='leg-complex-running 2026-08-01T00:05:36Z'. ETA UNKNOWN — this lane has no measured L4 rate for a fan-out leg yet; the first one produces it. Bounded at CREATE by --max-run-duration=172800s.
 ```
 
