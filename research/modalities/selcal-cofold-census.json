@@ -83,7 +83,7 @@
     "selcal_smarca2": 0,
     "selcal_smarca4": 0
   },
-  "phase": "predicting 2026-08-01T13:59:15Z instance=46507225 attempt=20260801T135857Z",
+  "phase": "boot 2026-08-01T14:11:03Z instance=46508511",
   "log_tail": [
     "|                                         |                        |               MIG M. |",
     "|=========================================+========================+======================|",
@@ -112,25 +112,25 @@
     "Downloading the Boltz-2 weights to /root/.boltz/boltz2_conf.ckpt. You may change the cache directory with the --cache flag."
   ],
   "n_s3_objects": 27,
-  "newest_object_utc": "2026-08-01T14:02:05Z",
-  "newest_object_age_min": 0.6,
+  "newest_object_utc": "2026-08-01T14:11:07Z",
+  "newest_object_age_min": 1.2,
   "instances": [
     {
-      "id": 46507225,
-      "status": "exited",
-      "gpu_util": 0.0,
-      "dph_total": 0.1678148148148148,
-      "uptime_min": 10.4
+      "id": 46508454,
+      "status": "running",
+      "gpu_util": null,
+      "dph_total": 0.18402222222222223,
+      "uptime_min": 3.3
     },
     {
-      "id": 46507228,
-      "status": "loading",
-      "gpu_util": null,
-      "dph_total": 0.18394074074074074,
-      "uptime_min": 10.4
+      "id": 46508511,
+      "status": "running",
+      "gpu_util": 0.0,
+      "dph_total": 0.18402222222222223,
+      "uptime_min": 2.3
     }
   ],
   "_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
-  "utc": "2026-08-01T14:02:39Z",
+  "utc": "2026-08-01T14:12:20Z",
   "bucket": "sagemaker-us-east-2-646605541856"
 }
