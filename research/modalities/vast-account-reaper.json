@@ -1,8 +1,8 @@
 {
  "_what": "ACCOUNT-KEYED CENTRAL REAPER \u2014 the one thing in the repo that destroys Vast hosts on a narrow, provably-safe predicate, keyed on the account so no lane's private teardown bug can leave a box billing. RULE 1: terminal state, unconditional. RULE 2: unit recorded done AND its output verified present in the object store, attributed to THIS rental by timestamp. Nothing else may destroy.",
- "generated_utc": "2026-08-01T18:00:09Z",
- "generated_et": "2:00 PM ET Aug 1, 2026",
- "mode": "ARMED",
+ "generated_utc": "2026-08-01T18:08:58Z",
+ "generated_et": "2:08 PM ET Aug 1, 2026",
+ "mode": "DRY-RUN",
  "thresholds": {
   "census_stale_min": 20.0,
   "future_skew_min": 5.0
@@ -23,29 +23,12 @@
   "a stale or unreadable census",
   "a `done` record older than the instance"
  ],
- "census_utc": "2026-08-01T17:43:02Z",
- "census_et": "1:43 PM ET Aug 1, 2026",
- "census_age_min": 17.1,
+ "census_utc": "2026-08-01T17:59:28Z",
+ "census_et": "1:59 PM ET Aug 1, 2026",
+ "census_age_min": 9.5,
  "census_n_instances": 3,
  "graded": true,
- "reap": [
-  {
-   "instance": 46523481,
-   "machine_id": 9427,
-   "label": "selcal-cofold-selcal-smarca-cofold-v1-smarca4",
-   "gpu_name": "RTX 4090",
-   "actual_status": "running",
-   "cur_state": "stopped",
-   "uptime_h": 0.067,
-   "dph_total": 0.19431111111111113,
-   "spend_so_far_usd": 0.013,
-   "start_date": 1785605943.5462494,
-   "start_et": "1:39 PM ET Aug 1, 2026",
-   "action": "REAP",
-   "rule": "RULE-1-TERMINAL",
-   "why": "actual_status='running' cur_state='stopped' is TERMINAL (derived set: ['error', 'exited', 'offline', 'stopped']). A terminal host is not coming back, so anything it produced is already in the object store or was never written \u2014 THIS RULE CANNOT LOSE WORK BY CONSTRUCTION. It still appears in `GET /instances/`, and a host cannot end its own rental (\u00a76: only the control plane can), so it persists until something destroys it. Nothing did: the owning lane's `mode=reap` ran, exited SUCCESS, and destroyed neither this nor a finished host."
-  }
- ],
+ "reap": [],
  "spare": [
   {
    "instance": 46508665,
@@ -54,9 +37,9 @@
    "gpu_name": "RTX 3090",
    "actual_status": "running",
    "cur_state": "running",
-   "uptime_h": 3.515,
+   "uptime_h": 3.789,
    "dph_total": 0.07911111111111112,
-   "spend_so_far_usd": 0.2781,
+   "spend_so_far_usd": 0.2998,
    "start_date": 1785593527.8925643,
    "start_et": "10:12 AM ET Aug 1, 2026",
    "action": "SPARE",
@@ -70,33 +53,49 @@
    "gpu_name": "RTX 4090",
    "actual_status": "running",
    "cur_state": "running",
-   "uptime_h": 2.283,
+   "uptime_h": 2.556,
    "dph_total": 0.1743111111111111,
-   "spend_so_far_usd": 0.398,
+   "spend_so_far_usd": 0.4455,
    "start_date": 1785597965.6425705,
    "start_et": "11:26 AM ET Aug 1, 2026",
    "action": "SPARE",
    "rule": "NO-RULE-FIRED",
    "why": "not terminal, and no verified banked-work evidence attributes a completed unit to this rental. SPARED. \u26a0 NOTE WHAT IS *NOT* A REASON TO REAP HERE: this box may read `gpu_util: 0.0` and may have been up for many hours, and NEITHER is evidence of anything \u2014 both selcal boxes read 0.0 including the one that was working, and a healthy fan-out leg legitimately runs for many hours. Only the two rules above may destroy."
+  },
+  {
+   "instance": 46524315,
+   "machine_id": 48161,
+   "label": "selcal-cofold-selcal-smarca-cofold-v1-smarca4",
+   "gpu_name": "RTX 4090",
+   "actual_status": "running",
+   "cur_state": "running",
+   "uptime_h": 0.125,
+   "dph_total": 0.19235555555555556,
+   "spend_so_far_usd": 0.024,
+   "start_date": 1785606719.6710126,
+   "start_et": "1:51 PM ET Aug 1, 2026",
+   "action": "SPARE",
+   "rule": "NO-RULE-FIRED",
+   "evidence": {
+    "banked": false,
+    "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('predicting 2026-08-01T17:56:09Z instance=46524315 attempt=20260801T175554Z') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE.",
+    "lane": "selcal-cofold",
+    "record": "selcal-cofold-census.json"
+   },
+   "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('predicting 2026-08-01T17:56:09Z instance=46524315 attempt=20260801T175554Z') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE."
   }
  ],
- "n_reap": 1,
+ "n_reap": 0,
  "ok": true,
- "verdict": "REAP",
- "detail": "3 instance(s) graded; 1 match a reap rule (RULE-1-TERMINAL), 2 spared. ARMED \u2014 these will be destroyed.",
+ "verdict": "NOTHING-TO-REAP",
+ "detail": "3 instance(s) graded; 0 match a reap rule (none), 3 spared. DRY-RUN \u2014 nothing will be destroyed.",
  "rule_2_lanes": [
   "selcal-cofold"
  ],
  "execution": {
-  "mode": "ARMED",
+  "mode": "DRY-RUN",
   "destroyed": [],
-  "failed": [
-   {
-    "instance": 46523481,
-    "rule": "RULE-1-TERMINAL",
-    "error": "RuntimeError: vast API DELETE /instances/46523481/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46523481 not found.\"}"
-   }
-  ],
+  "failed": [],
   "ledger": "vast-account-reaper-ledger.jsonl"
  }
 }
