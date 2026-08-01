@@ -15,7 +15,7 @@ Merged 3:29 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 3:29 PM ET Sat Aug 1, 2026 (0 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 3:29 PM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
@@ -33,7 +33,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 3:21 PM ET Sat Aug 1, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 3:29 PM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -53,12 +53,12 @@ cw_ms_free_acid__cw_bio_primary_amide r1 —                      —  —      
 
 ## SENSITIVITY CONTROL — SMARCA2/4 co-fold panel (instrument calibration, not a result)
 
-_As of 2:59 PM ET Sat Aug 1, 2026 — **30 min ago, STALE (> 15 min)**. Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
+_As of 2:59 PM ET Sat Aug 1, 2026 — **31 min ago, STALE (> 15 min)**. Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
 
 ```
 LEG                    ETA (ET)          % DONE  $/ns                                  STATE     WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------------
-selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD UNKNOWN   lane last reported 30 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
-selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD UNKNOWN   lane last reported 30 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
+selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD UNKNOWN   lane last reported 31 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
+selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD UNKNOWN   lane last reported 31 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
 ```
 
