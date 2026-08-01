@@ -783,26 +783,47 @@ def _sup():
     return open(SUP).read()
 
 
-def test_the_supervisor_ticks_this_lane():
+def test_the_supervisor_ticks_this_lane_AND_lets_it_feed_itself():
     """The fragment is written on every dispatch of every mode — which is worth nothing while NOTHING
-    DISPATCHES THE LANE. Its first render read STALE within half an hour, and a leg bounded at 48 h would
-    have read STALE for its whole life."""
+    DISPATCHES THE LANE. Its first render read STALE within half an hour.
+
+    SUPERSEDED, and this is the correction: this test used to assert `-f mode=reap`, with the rationale
+    "the only mode that reads and reaps but cannot buy". That was the DEFECT dressed as a safety property.
+    A tick that can end work and never start it guarantees the GPU idles the moment a unit finishes —
+    measured 2026-08-01: the leg raised at 11:50 PM ET, the reap step destroyed the VM 96 s later, and
+    nothing relaunched for 8 h 11 m while every tick reported it. The tick is now `autofeed`."""
     sup = _sup()
     assert "gh workflow run gpu-fanout-rep-gcp.yml" in sup
     blk = sup.split("gh workflow run gpu-fanout-rep-gcp.yml")[1][:400]
-    assert "-f mode=reap" in blk, "the tick must be mode=reap — the only mode that reads and reaps but cannot buy"
+    assert "-f mode=autofeed" in blk
+    assert "-f edge=" not in blk and "-f replicate=" not in blk, \
+        "autofeed picks its own unit from the queue; pinning one edge here is a second home for that " \
+        "choice and would strand the other two units the moment this one landed"
 
 
-def test_the_tick_mode_has_no_path_to_a_rental():
-    """⚠ THE LOAD-BEARING SAFETY CLAIM. An 8-minute dispatch that could provision would be an 8-minute
-    dispatch that could double-buy. `mode=reap` must not satisfy the create step's `if:` under any reading."""
+def test_what_stops_the_tick_running_away_is_the_predicate_not_a_missing_code_path():
+    """⚠ THE LOAD-BEARING SAFETY CLAIM, RESTATED WHERE IT NOW LIVES. An 8-minute dispatch that can
+    provision must be stopped by something testable rather than by which `if:` happens to be written
+    where. Three refusals in `feed_decision`, plus the create step's own independent live-instance check,
+    plus this workflow's concurrency group — and a `launch` is the ONLY action that reaches a create."""
+    for cause, kwargs in (("gpu_busy", dict(live_instances=1)),
+                          ("no_progress_breaker",
+                           dict(live_instances=0,
+                                attempts={QUEUE[0]: {"iteration": 5, "count": gfr.MAX_NOPROGRESS_LAUNCHES}},
+                                progress={QUEUE[0]: 5}))):
+        assert gfr.feed_decision(QUEUE, [], **kwargs)["cause"] == cause
+        assert gfr.feed_decision(QUEUE, [], **kwargs)["action"] != "launch"
+    assert gfr.feed_decision(QUEUE, QUEUE, 0)["action"] == "idle"
     wf = _wf()
     gate = wf.split("- name: Provision an L4 and run")[1].split("run: |")[0]
-    assert "if:" in gate
     cond = gate.split("if:")[1].split("\n")[0]
     assert "'smoke'" in cond and "'run'" in cond
-    assert "reap" not in cond and "!=" not in cond, \
-        "the create gate must be an explicit smoke|run allowlist, never a not-equals denylist"
+    assert "autofeed" not in cond and "!=" not in cond, \
+        "the create gate stays an explicit smoke|run allowlist — autofeed reaches it ONLY by setting " \
+        "MODE=run after feed_decision returned launch, so there is one create path, not two"
+    body = wf.split("- name: Provision an L4 and run")[1]
+    assert 'LIVE=$(gcloud compute instances list' in body and 'if [ "${LIVE:-0}" != 0 ]' in body, \
+        "the create step must re-check GPU freeness itself — the feeder's check is not the only one"
 
 
 def test_the_tick_still_reaps_and_still_publishes():

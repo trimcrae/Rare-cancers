@@ -905,10 +905,12 @@ def feed_decision(queue, done, live_instances, attempts=None, progress=None,
                             f"and an unattended feeder that kept buying would spend the credit balance on "
                             f"it. Holding. Clear it by fixing the cause, or by dispatching mode=run "
                             f"explicitly, which is not gated on this breaker.")}
+    banked = progress.get(unit)
     return {"action": "launch", "unit_id": unit, "cause": "next_in_queue",
-            "why": (f"{unit} is the first unit of {QUEUE_CYCLE} r{QUEUE_REPLICATE} with no ddg.json in "
-                    f"GCS, no GCE instance is live, and it is under the "
-                    f"{max_noprogress}-launch no-progress breaker (attempt {count + 1}).")}
+            "why": (f"{unit} leads {QUEUE_CYCLE} r{QUEUE_REPLICATE}'s unlanded units "
+                    f"({'RESUMING from committed iteration %d' % banked if banked else 'a COLD start'}"
+                    f"; most-advanced-first, map order as the tiebreak), no GCE instance is live, and it "
+                    f"is under the {max_noprogress}-launch no-progress breaker (attempt {count + 1}).")}
 
 
 def next_attempt(attempt, iteration_now):
