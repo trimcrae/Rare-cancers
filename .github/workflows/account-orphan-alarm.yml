@@ -78,9 +78,16 @@ on:
 
 permissions:
   contents: write     # the durable artifact is committed back — that commit IS the heartbeat
-  # ⛔ NO `issues:`, NO `actions: write`. This workflow reads and reports. It dispatches nothing and opens
-  # nothing, so it needs neither, and revoking the CAPABILITY is blunter than a config flag: nothing can grow
-  # a notification or a dispatch path here without this line changing first.
+  # ⛔ NO `issues:`. Opening, commenting on or closing an issue emails the repo owner, and trimcrae asked for
+  # no notification channels. Revoking the CAPABILITY is blunter than a config flag: nothing can grow a
+  # notification path here without this line changing first.
+  #
+  # ★★ `actions: write` EXISTS FOR EXACTLY ONE THING — REFRESHING THIS ALARM'S OWN INPUT. See the
+  # "drive its own input" step for the measurement that forced it. It is NOT a general dispatch permission:
+  # the only workflow this job may trigger is the read-only account census, and the alarm MODULE itself stays
+  # incapable of dispatching anything (`test_report_only_no_destructive_call` walks its AST). Nothing here
+  # can rent, bid, destroy or reap.
+  actions: write
 
 concurrency:
   group: account-orphan-alarm
@@ -139,6 +146,55 @@ jobs:
             echo ''
             echo '</details>'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # ★★ DRIVE ITS OWN INPUT — OTHERWISE THIS ALARM HAS THE VERY DEPENDENCY IT WAS BUILT TO REMOVE
+      # ═══════════════════════════════════════════════════════════════════════════════════════════════════
+      # ⚠ MEASURED ON THE FIRST CI RUN, 11:42 AM ET 2026-08-01, and it is the reason this step exists. The
+      # run came back CENSUS-STALE: `ternary-vast-account-census.json` was 48 min old, past the 45 min window
+      # after which it stops being evidence of what the account holds. Checking its git history explains why —
+      # it had been committed THREE times in total, at 8:13, 8:20 and 10:56 AM ET, i.e. a delivered gap of
+      # 156 MINUTES.
+      #
+      # The census writer is `gpu-ternary-fep-vast.yml -f task=reps-diag`, dispatched from
+      # `step1-fanout-supervisor.yml`'s in-job loop on its WATCH_EVERY slot. So without this step the alarm
+      # depends on A LANE SUPERVISOR for its own input — precisely the dependency it exists to remove — and
+      # it would sit in CENSUS-STALE for most of every day, correctly refusing to grade and therefore seeing
+      # nothing. A monitor that is blind two-thirds of the time is not a monitor. The supervisor's own comment
+      # already named this shape: "the one detector that can find a 5-day orphan only ran when somebody
+      # already suspected one."
+      #
+      # ⚠ WHAT IT DISPATCHES IS A READ, AND THAT BOUNDARY IS THE WHOLE JUSTIFICATION. The census step of
+      # `reps-diag` is, in that workflow's own words, "$0: one GET, destroys nothing" — it reads
+      # `GET /instances/` and archived logs. It rents nothing, bids nothing, destroys nothing and reaps
+      # nothing, which is the same basis on which `step1-fanout-supervisor.yml` already dispatches it. This
+      # job may trigger that ONE workflow and nothing else.
+      #
+      # ⚠ ONLY WHEN THE CENSUS IS THE PROBLEM. Gated on the verdict actually being CENSUS-STALE or
+      # CENSUS-UNKNOWN, so a healthy run adds no API load and a lane-level alarm does not trigger a refresh
+      # that would not help. The Vast API is one shared key and over-polling it would blind the very gates
+      # that depend on it (CLAUDE.md §6).
+      #
+      # ⚠ AND IT NEVER FAILS THE RUN. A refresh that could not be dispatched is a warning; the next tick
+      # retries, and the alarm's own verdict is already committed above either way.
+      - name: If the census is what is stale, refresh it — do not depend on a lane supervisor for input
+        if: ${{ always() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -uo pipefail
+          V=$(python3 -c "import json;print(json.load(open('research/modalities/account-orphan-alarm.json')).get('verdict',''))" 2>/dev/null || echo "")
+          case "$V" in
+            CENSUS-STALE|CENSUS-UNKNOWN) ;;
+            *) echo "verdict is ${V:-unreadable} — the census is not the problem, not refreshing it"; exit 0;;
+          esac
+          echo "verdict $V — the account census is the blocker, so this alarm refreshes its OWN input rather than waiting for a lane supervisor's WATCH_EVERY slot"
+          if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=reps-diag; then
+            echo "::notice title=ACCOUNT CENSUS REFRESH DISPATCHED::the census was $V, so a read-only census refresh (one GET, destroys nothing) was dispatched. The next tick of this alarm will grade against a fresh account view."
+          else
+            echo "::warning title=CENSUS REFRESH DISPATCH FAILED::the account census is $V and could not be refreshed, so this alarm stays blind until a lane supervisor happens to refresh it. Measured delivered gap for that path: see the first-run note in this file."
+          fi
 
       # ═══════════════════════════════════════════════════════════════════════════════════════════════════
       # ★★ `--allow-empty`, AND NEVER GUARDED BY `git diff --cached --quiet`. THE TIMESTAMP IS THE HEARTBEAT.
