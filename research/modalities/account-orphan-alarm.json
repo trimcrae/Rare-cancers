@@ -1,17 +1,17 @@
 {
  "_what": "cross-lane, ACCOUNT-KEYED alarm: is any host billing whose lane has stopped reporting? Keyed on the Vast account because a lane-scoped watcher structurally cannot see a host whose lane stopped. REPORT-ONLY: this never destroys, stops, reaps, nudges or rents.",
- "generated_utc": "2026-08-01T18:49:11Z",
- "generated_et": "2:49 PM ET Aug 1, 2026",
+ "generated_utc": "2026-08-01T18:50:34Z",
+ "generated_et": "2:50 PM ET Aug 1, 2026",
  "thresholds": {
   "lane_silent_min": 40.0,
   "census_stale_min": 45.0,
   "future_skew_min": 5.0
  },
  "report_only": true,
- "census_utc": "2026-08-01T18:32:10Z",
- "census_et": "2:32 PM ET Aug 1, 2026",
- "census_age_min": 17.0,
- "census_n_instances": 3,
+ "census_utc": "2026-08-01T18:48:27Z",
+ "census_et": "2:48 PM ET Aug 1, 2026",
+ "census_age_min": 2.1,
+ "census_n_instances": 1,
  "graded": true,
  "lanes": [
   {
@@ -26,8 +26,8 @@
    "n_live": 0,
    "n_terminal_but_listed": 0,
    "instances": [],
-   "last_report_utc": "2026-08-01T18:48:19Z",
-   "last_report_et": "2:48 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T18:49:40Z",
+   "last_report_et": "2:49 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (_generated_utc) in step1-fanout-progress.json",
    "silent_for_min": 0.9,
    "threshold_min": 40.0,
@@ -44,8 +44,8 @@
    "label_prefixes": [
     "tvast"
    ],
-   "n_instances": 2,
-   "n_live": 2,
+   "n_instances": 1,
+   "n_live": 1,
    "n_terminal_but_listed": 0,
    "instances": [
     {
@@ -57,24 +57,9 @@
      "cur_state": "running",
      "intended_status": "running",
      "gpu_name": "RTX 3090",
-     "uptime_h": 4.334,
+     "uptime_h": 4.605,
      "dph_total": 0.07911111111111112,
-     "spend_so_far_usd": 0.3429,
-     "occupies_slot": true,
-     "terminal_but_listed": false
-    },
-    {
-     "instance": 46514055,
-     "machine_id": 9624,
-     "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r0-dt4p0fs-wu1p0-5aks",
-     "lane": "ternary-vast",
-     "actual_status": "running",
-     "cur_state": "running",
-     "intended_status": "running",
-     "gpu_name": "RTX 4090",
-     "uptime_h": 3.102,
-     "dph_total": 0.1743111111111111,
-     "spend_so_far_usd": 0.5407,
+     "spend_so_far_usd": 0.3643,
      "occupies_slot": true,
      "terminal_but_listed": false
     }
@@ -82,12 +67,12 @@
    "last_report_utc": "2026-08-01T18:32:29Z",
    "last_report_et": "2:32 PM ET Aug 1, 2026",
    "freshness_basis": "git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent)",
-   "silent_for_min": 16.7,
+   "silent_for_min": 18.1,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "SUPERVISED",
    "ok": true,
-   "detail": "2 instance(s) up and the lane reported 17 min ago (2:32 PM ET Aug 1, 2026, via git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent)) \u2014 inside the 40 min window. Something is watching this money."
+   "detail": "1 instance(s) up and the lane reported 18 min ago (2:32 PM ET Aug 1, 2026, via git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent)) \u2014 inside the 40 min window. Something is watching this money."
   },
   {
    "lane": "nrv04-retro",
@@ -104,7 +89,7 @@
    "last_report_utc": "2026-08-01T18:48:42Z",
    "last_report_et": "2:48 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (generated_utc) in inflight-board.d/nrv04-retro.json",
-   "silent_for_min": 0.5,
+   "silent_for_min": 1.9,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -141,35 +126,19 @@
    "label_prefixes": [
     "selcal-"
    ],
-   "n_instances": 1,
-   "n_live": 1,
+   "n_instances": 0,
+   "n_live": 0,
    "n_terminal_but_listed": 0,
-   "instances": [
-    {
-     "instance": 46524315,
-     "machine_id": 48161,
-     "label": "selcal-cofold-selcal-smarca-cofold-v1-smarca4",
-     "lane": "selcal-cofold",
-     "actual_status": "running",
-     "cur_state": "running",
-     "intended_status": "running",
-     "gpu_name": "RTX 4090",
-     "uptime_h": 0.67,
-     "dph_total": 0.19235555555555556,
-     "spend_so_far_usd": 0.1289,
-     "occupies_slot": true,
-     "terminal_but_listed": false
-    }
-   ],
+   "instances": [],
    "last_report_utc": "2026-08-01T18:33:07Z",
    "last_report_et": "2:33 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (phase) in selcal-cofold-census.json",
-   "silent_for_min": 16.1,
+   "silent_for_min": 17.5,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
-   "verdict": "SUPERVISED",
+   "verdict": "IDLE",
    "ok": true,
-   "detail": "1 instance(s) up and the lane reported 16 min ago (2:33 PM ET Aug 1, 2026, via in-file stamp (phase) in selcal-cofold-census.json) \u2014 inside the 40 min window. Something is watching this money."
+   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
   },
   {
    "lane": "protfep-bench",
