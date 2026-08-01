@@ -8,7 +8,7 @@ Generated 9:46 AM ET Sat Aug 1, 2026 by `task=collect`.
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 4:37 PM            73.3%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 25.7 s/iter · realised $0.00797/ns (1.53x expected)
+5aks_d0_to_d ternary nr4a1 r1 4:38 PM            73.3%  RTX 4090 $0.00520/ns · 1.53× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · ⚠ 25.7 s/iter · realised $0.00797/ns (1.53x expected)
 5aks_d0_to_d ternary nr4a1 r0 —                  90.0%  —                                        NO HOST   no live host — checkpoint at production/1640 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
