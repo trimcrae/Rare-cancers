@@ -53,6 +53,16 @@ definition is not an empty one (§4).
 have destroyed EVERY FRESH RENTAL — a reaper that reaps the healthiest event in the system. Neither repo
 definition contains it; it is an EARLY lifecycle state. `test_created_is_never_terminal` pins it.
 
+⚠⚠ AND THE UNION IS A SET OF **STRINGS**, WHICH MUST NOT BE APPLIED NAKED — ONE EXCEPTION, MEASURED.
+`stopped`/`offline` can mean OUTBID-PAUSED rather than dead: Vast preserves the data and resumes
+automatically when priority returns, which is why `nrv04_vast_launch` never uses its `_TERMINAL_STATES`
+without `and not instance_outbid(i)`. A previous reaper here DID apply it naked, discarded a preserved disk,
+and forced a ~6 GiB re-pull — "a covalent leg sat at frame 100 for ~3 h, re-bought+reloading repeatedly."
+So `outbid_pause` guards RULE 1 for exactly those two states, and `exited`/`error` are unaffected (a
+container that exited on its own was never paused). **SUPERSEDED, retained: this header's first version said
+RULE 1 "cannot lose work by construction" without qualification. That is true of `exited`/`error`; for an
+outbid `stopped` it is false — the science is safe in the object store, but the STAGED DISK is not.**
+
 **RULE 2 — WORK BANKED AND NO REMAINING ROLE.** A host whose lane records its unit `done` AND whose output is
 verifiably present in the object store. This is the rule that catches a host like selcal's 46508454, which
 finished at 10:41 AM ET with its six models banked in S3 and then billed for another hour and a half.
@@ -228,6 +238,64 @@ def is_terminal(inst: dict, terminal: frozenset[str]) -> bool:
     a = str(inst.get("actual_status") or "").strip().lower()
     c = str(inst.get("cur_state") or "").strip().lower()
     return a in terminal or c in terminal
+
+
+#: The two members of the derived terminal set that CAN mean "PAUSED BY THE MARKET" rather than "dead".
+#: `exited` is not one of them and never can be — see `outbid_pause`.
+_PAUSABLE_STATES = ("stopped", "offline")
+
+
+def outbid_pause(inst: dict) -> tuple[bool | None, str]:
+    """`(is_paused_not_dead, why)` for a `stopped`/`offline` box. True/None both SPARE; only False reaps.
+
+    ★★ THIS IS A CORRECTION TO RULE 1, FOUND BY READING THE LANE'S OWN EVIDENCE RATHER THAN BY REVIEW, AND IT
+    MATTERS BECAUSE THE UNCORRECTED RULE HAD ALREADY COST REAL TIME ONCE. Vast's docs are explicit that losing
+    the auction is a PAUSE, not a death: "Data preserved when paused but instance not functional. Resume
+    automatically when priority returns." A previous reaper in this repo listed `stopped` in its terminal set
+    and DELETEd it — discarding a preserved disk and forcing a fresh ~6 GiB image pull on the re-rent. That
+    self-inflicted ~20-minute reload is the whole evidential basis for bidding `floor x 1.9`, and the
+    2026-07-23 note it produced reads: "a covalent leg sat at frame 100 for ~3 h, re-bought+reloading
+    repeatedly." **Re-bought. It never had to be.**
+    (`nrv04_vast_launch.instance_outbid`, 2026-07-25 — which is why THAT lane's `_TERMINAL_STATES` is used
+    with `and not instance_outbid(i)` and never on its own.)
+
+    ⚠ SO THE HEADER'S "RULE 1 CANNOT LOSE WORK BY CONSTRUCTION" IS TRUE OF `exited`/`error` AND IS **NOT**
+    TRUE OF AN OUTBID `stopped`. What that case loses is not science — the object store holds the science,
+    by the continuous-upload contract — but it loses the staged disk, which is real money in re-staging.
+    Stated rather than quietly assumed, because "the union of the two lane definitions" is a set of STRINGS
+    and one of those lanes never applies it without this predicate.
+
+    ⚠ THE DISCRIMINATION IS NOT RE-IMPLEMENTED HERE (§1). `instance_outbid` already decides it on DATA — is
+    it interruptible at all, did the container exit on its own, do WE still intend it running, has the
+    machine's clearing price risen above our standing bid — and it is imported LAZILY so that a broken lane
+    module degrades this reaper to MORE conservative (spare every pausable state) rather than to wrong.
+    """
+    a = str(inst.get("actual_status") or "").strip().lower()
+    c = str(inst.get("cur_state") or "").strip().lower()
+    if a not in _PAUSABLE_STATES and c not in _PAUSABLE_STATES:
+        return False, "not a pausable state — the market cannot be the reason it is in this state"
+    try:
+        from nrv04_vast_launch import instance_outbid
+    except Exception as e:                                        # noqa: BLE001 — a broken lane must not
+        return None, (f"cannot tell whether this box is outbid-PAUSED or dead: the predicate that decides it "
+                      f"on data (`nrv04_vast_launch.instance_outbid`) could not be imported "
+                      f"({type(e).__name__}: {e}). Losing an auction preserves the disk and resumes "
+                      f"automatically; DELETEing it discards that disk and forces a ~6 GiB re-pull. SPARE — "
+                      f"'I could not ask' is not 'the answer was no' (§4).")
+    try:
+        paused = bool(instance_outbid(inst))
+    except Exception as e:                                        # noqa: BLE001
+        return None, (f"`instance_outbid` raised ({type(e).__name__}: {e}), so paused-vs-dead is unknown. "
+                      f"SPARE.")
+    if paused:
+        return True, ("this box is PAUSED because someone outbid us, not dead: Vast preserves the data and "
+                      "resumes automatically when priority returns. DELETEing it would discard a preserved "
+                      "disk and force a fresh ~6 GiB image pull — the self-inflicted ~20-minute reload that "
+                      "made a covalent leg sit at frame 100 for ~3 h, re-bought and reloading repeatedly. "
+                      "SPARE.")
+    return False, ("`instance_outbid` says the market is NOT why this box is stopped (not interruptible, or "
+                   "the container exited on its own, or we no longer intend it running, or our bid still "
+                   "clears) — so it is dead rather than paused, and nothing resumes it.")
 
 
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -561,6 +629,15 @@ def classify_instance(inst: dict, *, terminal: frozenset[str], banked=None) -> d
 
     # ── RULE 1 ──────────────────────────────────────────────────────────────────────────────────────────
     if is_terminal(inst, terminal):
+        # ⚠ ONE EXCEPTION, AND IT IS MEASURED: `stopped`/`offline` can mean OUTBID-PAUSED rather than dead,
+        # in which case Vast preserves the disk and resumes automatically. `exited` can never be that.
+        paused, paused_why = outbid_pause(inst)
+        if paused is not False:
+            v["action"], v["rule"] = SPARE, ("RULE-1-HELD-OUTBID-PAUSED" if paused
+                                             else "RULE-1-HELD-PAUSED-UNKNOWN")
+            v["why"] = (f"terminal-looking (actual_status={inst.get('actual_status')!r} "
+                        f"cur_state={inst.get('cur_state')!r}) BUT NOT REAPED: {paused_why}")
+            return v
         v["action"], v["rule"] = REAP, "RULE-1-TERMINAL"
         v["why"] = (
             f"actual_status={inst.get('actual_status')!r} cur_state={inst.get('cur_state')!r} is TERMINAL "

@@ -142,6 +142,54 @@ def test_control_1_terminal_host_is_reaped_on_either_field(status, cur):
     assert "CANNOT LOSE WORK BY CONSTRUCTION" in plan["reap"][0]["why"]
 
 
+def test_an_outbid_PAUSED_box_is_terminal_looking_and_must_NOT_be_reaped():
+    """★★ THE ONE EXCEPTION TO RULE 1, AND IT IS MEASURED. Vast's docs: losing the auction PAUSES the
+    instance — "Data preserved when paused but instance not functional. Resume automatically when priority
+    returns." A previous reaper in this repo listed `stopped` as terminal and DELETEd it, discarding a
+    preserved disk and forcing a fresh ~6 GiB pull; the note that produced reads "a covalent leg sat at frame
+    100 for ~3 h, re-bought+reloading repeatedly." That is why `nrv04_vast_launch` never uses its
+    `_TERMINAL_STATES` without `and not instance_outbid(i)`, and why the union of two lane definitions is a
+    set of STRINGS that must not be applied naked."""
+    outbid = _inst(1, status="stopped", cur="stopped", is_bid=True, intended_status="running",
+                   min_bid=0.30, price=0.18)
+    v = R.classify_instance(outbid, terminal=TERMINAL)
+    assert v["action"] == R.SPARE
+    assert v["rule"] == "RULE-1-HELD-OUTBID-PAUSED"
+    assert "preserved disk" in v["why"]
+
+
+def test_a_stopped_box_that_is_NOT_outbid_is_still_reaped():
+    """The exception is narrow. An on-demand rental cannot be outbid at all, so a `stopped` one is dead."""
+    v = R.classify_instance(_inst(2, status="stopped", cur="stopped", is_bid=False), terminal=TERMINAL)
+    assert v["action"] == R.REAP and v["rule"] == "RULE-1-TERMINAL"
+
+
+def test_an_exited_box_is_reaped_even_when_it_is_an_interruptible_rental():
+    """`exited` can NEVER mean outbid — the container ran and left. `instance_outbid` says so itself, and if
+    this ever changed the reaper would silently stop clearing the exact state that started all of this."""
+    v = R.classify_instance(_inst(3, status="exited", cur="exited", is_bid=True,
+                                  intended_status="running", min_bid=0.9, price=0.1), terminal=TERMINAL)
+    assert v["action"] == R.REAP and v["rule"] == "RULE-1-TERMINAL"
+
+
+def test_when_the_outbid_predicate_cannot_be_reached_a_pausable_box_is_spared(monkeypatch):
+    """Degrade to MORE conservative, never to wrong. If the lane module that owns the paused-vs-dead
+    discrimination is broken, this reaper must stop clearing pausable states — not guess."""
+    import builtins
+    real = builtins.__import__
+
+    def blocked(name, *a, **kw):
+        if name == "nrv04_vast_launch":
+            raise ImportError("simulated broken lane module")
+        return real(name, *a, **kw)
+
+    monkeypatch.setattr(builtins, "__import__", blocked)
+    v = R.classify_instance(_inst(4, status="stopped", cur="stopped"), terminal=TERMINAL)
+    assert v["action"] == R.SPARE and v["rule"] == "RULE-1-HELD-PAUSED-UNKNOWN"
+    # ...and `exited` is unaffected, because the whole degradation is scoped to pausable states.
+    assert R.classify_instance(_inst(5, status="exited"), terminal=TERMINAL)["action"] == R.REAP
+
+
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 # CONTROL 2 — a host mid-work is spared
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -470,7 +518,14 @@ def test_the_cli_defaults_to_dry_run(monkeypatch, tmp_path):
     one flag away from an irreversible accident."""
     monkeypatch.setattr(R, "vast_destroy", lambda i: pytest.fail("the CLI must not destroy without --arm"))
     out = tmp_path / "plan.json"
-    rc = R.main(["--root", str(MODALITIES), "--now", "2026-08-01T16:10:00Z", "--json", str(out)])
+    # ⚠ A PINNED CENSUS, NOT THE COMMITTED ONE. Reading the live artifact made this test's verdict depend on
+    # how long ago CI last refreshed it — it went red on a `--now` that had drifted into the census's past,
+    # which is the fleet moving, not the CLI breaking. `--root` still points at the real modalities dir
+    # because the terminal set is AST-derived from the lane sources there.
+    cen = tmp_path / "census.json"
+    cen.write_text(json.dumps(_census([_inst(1)])))
+    rc = R.main(["--root", str(MODALITIES), "--census", str(cen), "--now", "2026-08-01T16:10:00Z",
+                 "--json", str(out)])
     assert rc == 0
     doc = json.loads(out.read_text())
     assert doc["mode"] == "DRY-RUN"
