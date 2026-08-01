@@ -67,6 +67,25 @@ HANDLES = os.path.join(HERE, "selcal-handles.json")
 from nrv04_vast_launch import BOLTZ_SPEC, COFOLD_IMAGE  # noqa: E402,E401
 
 
+def exclude_machines():
+    """Machine ids this dispatch must not rent, from `$SELCAL_EXCLUDE_MACHINES`.
+
+    ★★ BOUNDED TO THE CALL, ON PURPOSE, AND IT IS NOT A BLACKLIST. CLAUDE.md §6 RETIRED the durable,
+    cross-lane, never-ageing host set — not because any entry was wrong but because nothing could ever retire
+    one, so it only ratcheted the board narrower. What it KEPT is the bounded form: an exclusion learned by a
+    wave and discarded with it. This is that, made explicit for an operator who has just MEASURED a bad host:
+    it lives in one dispatch's env, is recorded in that dispatch's gate record, and is gone on the next one.
+    Re-learning a bad host costs one FREE failed submit; over-excluding costs capacity on every lane,
+    silently.
+
+    The measurement that motivated it (2026-08-01): three consecutive co-fold rentals — 46504822, 46507225,
+    46507228 — all landed on machine 9427 and all were stopped by the host within ~4-11 min, one of them
+    mid-way through downloading the Boltz weights with the MSA already complete in S3. The one rental on a
+    different machine (46506726) ran normally until it was stopped deliberately."""
+    raw = (os.environ.get("SELCAL_EXCLUDE_MACHINES") or "").replace(" ", "")
+    return tuple(m for m in raw.split(",") if m)
+
+
 def _utcnow():
     return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
@@ -627,7 +646,12 @@ def mode_cofold(bucket=None, cofold_prefix=None):
     live, _mine = _live_labels()
     need = sorted({a.cofold_system for a in SP.ARMS
                    if len(done["per_arm"].get(a.arm_id, [])) < len(SP.COFOLD_MODEL_SEEDS)})
-    specs = [build_cofold_jobspec(branch, bucket, prefix, systems=[sysname]) for sysname in need]
+    _excl = exclude_machines()
+    if _excl:
+        print("[selcal-cofold] this dispatch EXCLUDES machine(s) %s — a measured, call-bounded exception, "
+              "not a durable blacklist (see `exclude_machines`)." % list(_excl), flush=True)
+    specs = [build_cofold_jobspec(branch, bucket, prefix, systems=[sysname], exclude=_excl)
+             for sysname in need]
     specs = [sp for sp in specs if sp.name not in live]
     if not specs:
         print("[selcal-cofold] every incomplete arm already has a live host — nothing to rent.", flush=True)
@@ -670,7 +694,8 @@ def mode_cofold(bucket=None, cofold_prefix=None):
     if handles:
         _write(HANDLES, handles)
     _record_gate("rented" if handles else "refused", [h["unit"] for h in handles],
-                 extra={"refused": refused, "wave_refused_machines": sorted(wave_refused)})
+                 extra={"refused": refused, "wave_refused_machines": sorted(wave_refused),
+                        "excluded_machines_this_dispatch": list(_excl)})
     return 0 if handles else 1
 
 
@@ -909,7 +934,8 @@ def mode_launch(bucket=None, only=None, mode="run", pilot=False, cofold_prefix=N
     handles, refused, wave_refused = [], [], set()
     for arm, m, r in todo:
         spec = build_leg_jobspec(arm, m, r, mode, branch, bucket, env_tarball_url=env_url,
-                                 exclude=tuple(sorted(wave_refused)), cofold_prefix=prefix)
+                                 exclude=tuple(sorted(wave_refused | set(exclude_machines()))),
+                                 cofold_prefix=prefix)
         try:
             h = be.submit(spec)
         except Exception as e:  # noqa: BLE001 — one unit must not abort the rest

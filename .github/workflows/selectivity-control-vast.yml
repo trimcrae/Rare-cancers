@@ -48,6 +48,10 @@ on:
         description: "cofold: S3 prefix for the Boltz outputs (blank = the frozen selcal_panel.COFOLD_PREFIX)"
         type: string
         default: ""
+      exclude_machines:
+        description: "comma-separated Vast machine ids this ONE dispatch must not rent (a measured, call-bounded exception — never a durable blacklist)"
+        type: string
+        default: ""
       watch_minutes:
         description: "watch: how long one supervision job runs (default 55)"
         type: string
@@ -207,6 +211,7 @@ jobs:
       MODE: ${{ github.event.inputs.mode }}
       UNITS: ${{ github.event.inputs.units }}
       SELCAL_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+      SELCAL_EXCLUDE_MACHINES: ${{ github.event.inputs.exclude_machines }}
       WATCH_MINUTES: ${{ github.event.inputs.watch_minutes }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # ★ MEASURED, NOT GUESSED (run 30701341003): the board was 154 offers / 154 qualifying / 77 priceable
