@@ -80,7 +80,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("fusion-cpu-extras.yml", "nrv04_input_audit"),
     ("fusion-cpu-extras.yml", "nrv04_retro_prespend"),
     ("fusion-cpu-extras.yml", "nrv04_s3_tail"),
-    ("fusion-cpu-extras.yml", "nrv04_vast_launch"),
     ("fusion-cpu-extras.yml", "run"),
     ("fusion-cpu-extras.yml", "step1_fanout"),
     ("fusion-cpu-extras.yml", "vast_price_history"),

@@ -17,6 +17,7 @@ artifacts, so neither can come back quietly.
   `nrv04retro-retro_noncov_nr4a1-m1-r1` (job 91195498091) is reproduced verbatim below.
 """
 import os
+import pathlib
 import sys
 
 import pytest
@@ -1144,13 +1145,27 @@ def test_the_retro_fragment_commit_is_unconditional():
     in their stamp.
 
     ⚠ COMMENTS ARE STRIPPED BEFORE ASSERTING, so the prose above the step may still NAME what it forbids.
+
+    ⚠ SCOPED TO THE STEP BY ITS BOUNDARY, NOT BY `git commit` (2026-08-01). This used to take everything
+    after the step's name and cut it at the first `git commit`. When the step moved to
+    `publish_artifacts.sh` there was no `git commit` left in it, so the cut never happened and the scan ran
+    on into LATER steps — and tripped on an unrelated `git diff --cached --quiet` belonging to a different
+    artifact entirely. A scoping bug that reads as a heartbeat violation is worse than no test: it accuses
+    the one step that is provably correct.
     """
     step = _fusion_wf().split("- name: Commit the in-flight board fragment and the merged all-lane board")[1]
+    step = step.split("      - name: ")[0]          # …to the NEXT step, whatever this one ends with
     code = "\n".join(l for l in step.splitlines() if not l.strip().startswith("#"))
-    head = code.split("git commit")[0]
-    assert "git diff --cached --quiet" not in head, (
+    assert "git diff --cached --quiet" not in code, (
         "the fragment commit must never be skipped on 'no content change' — the timestamp IS the heartbeat")
-    assert "git commit -q --allow-empty" in code, (
+    # ⛔ AND THE FLAG SPELLING OF THE SAME LANDMINE. `PUBLISH_IF_CHANGED=1` is right for an EVENT publish
+    # and would be this exact defect on a heartbeat, arriving through an env var instead of a `git diff`.
+    assert "PUBLISH_IF_CHANGED" not in code, (
+        "this fragment is the lane's heartbeat — suppressing an unchanged tick makes a healthy idle lane "
+        "byte-identical to a dead one, which is the landmine by another name")
+    prim = (pathlib.Path(__file__).resolve().parents[3]
+            / "research/compute/publish_artifacts.sh").read_text()
+    assert "git commit -q --allow-empty" in prim, (
         "--allow-empty is unconditional in BOTH directions: it can neither silently skip (the landmine) nor "
         "fail red on a genuine no-diff (what a naive guard-removal would do)")
 

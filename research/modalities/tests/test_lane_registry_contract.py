@@ -147,8 +147,18 @@ PRODUCER_IDIOMS: tuple[tuple[str, re.Pattern], ...] = (
     # `RETRO_MARKET_READOUT = "..."`, `OUT = os.path.join(HERE, "...")`, and the shell `F=research/...`
     # that a later `git add "$F"` commits.
     ("assigned to a name", re.compile(r"^(?:[A-Za-z_][A-Za-z0-9_]*\s*=|[A-Z_]+=)")),
-    # A bare path on its own line: the `path:`/`git add` multi-line lists in the workflows.
-    ("a committed/uploaded path list", re.compile(r"^research/modalities/\S+$")),
+    # A bare path on its own line: the `path:`/`git add` multi-line lists in the workflows, AND the
+    # argument lists handed to `research/compute/publish_artifacts.sh`.
+    # ⚠ THE TRAILING ` \` IS THE WHOLE POINT OF THE SECOND GROUP (2026-08-01). Every publish converted to
+    # the primitive spells its artifacts as continued shell arguments —
+    #     bash research/compute/publish_artifacts.sh "$BRANCH" \
+    #       "message" \
+    #       research/modalities/inflight-board.d/nrv04-retro.json
+    # — so all but the LAST path carries a continuation. Without it this rule reported "NOTHING IN THE REPO
+    # PRODUCES IT" for a file being committed on every tick, which is a false alarm that would fire once per
+    # converted lane and get the whole guard ignored. `research/` rather than `research/modalities/` because
+    # the same lists carry `research/compute/gcp-gpu-facts.md`.
+    ("a committed/uploaded path list", re.compile(r"^research/\S+(?:\s*\\)?$")),
 )
 
 
