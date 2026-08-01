@@ -1,19 +1,31 @@
 {
   "_what": "NR-V04 retrospective \u2014 why each hostless unit was or was not bought on this tick.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a hold is never silent, and it carries the snapshot that caused it.",
-  "utc": "2026-08-01T00:33:42Z",
+  "utc": "2026-08-01T00:34:19Z",
   "lane": "nrv04_retro",
   "n_authorized": 17,
-  "needed": [],
-  "replaced": [],
+  "needed": [
+    "nrv04retro-retro_noncov_nr4a2-m2-r0"
+  ],
+  "replaced": [
+    "nrv04retro-retro_noncov_nr4a2-m2-r0"
+  ],
   "blocked": [],
   "quarantined": [],
   "quarantine_eligible_running": [],
   "breaker_downgraded": [],
   "awaiting_authorization": [],
-  "condemned": [],
+  "condemned": [
+    {
+      "instance": "46452555",
+      "unit": "nrv04retro-retro_noncov_nr4a2-m2-r0",
+      "why": "Vast replied resources_unavailable \u2014 the machine is declining us. \u00a76: destroy and pick another host, never wait it out."
+    }
+  ],
   "nudged": [],
   "fleet_unreadable": null,
   "market": null,
-  "reasons": {}
+  "reasons": {
+    "nrv04retro-retro_noncov_nr4a2-m2-r0": "BOUGHT this tick \u2014 a host was rented for it; see the submit line for the rate."
+  }
 }

@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "nrv04-retro",
-  "generated_epoch": 1785544427.2290425,
-  "generated_utc": "2026-08-01T00:33:47Z",
-  "generated_et": "8:33 PM ET Fri Jul 31, 2026",
+  "generated_epoch": 1785544461.7102966,
+  "generated_utc": "2026-08-01T00:34:21Z",
+  "generated_et": "8:34 PM ET Fri Jul 31, 2026",
   "note": "15 of 16 authorized R1 leg(s) landed (rows below are the rest). \u26d4 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') \u2014 they do not count toward the panel and cannot reach the frozen gate.",
   "rows": [
     {
@@ -11,9 +11,9 @@
       "pct": null,
       "pct_of": null,
       "eta_s": null,
-      "usd_per_ns": "\u2014 $0.1459/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
-      "state": "RUNNING",
-      "why": "no frame census yet: the driver prints `checkpoint @ frame N/M` into run.log and this leg has not reached its first checkpoint (phase md-running 2026-08-01T00:27:41Z)"
+      "usd_per_ns": "\u2014 $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "state": "STARTING",
+      "why": "15 consecutive board polls with no new frame (this host is 0 min old) \u2014 \u26a0 MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-08-01T00:27:41Z \u2014 \u26a0 that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 7 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host"
     }
   ]
 }
