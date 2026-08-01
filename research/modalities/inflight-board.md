@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 10:12 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 10:20 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:08 AM Aug 1      67.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   30.8 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:12 AM Aug 1     55.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.0 s/iter · realised $0.00845/ns (1.62x expected)
-5aks_d0_to_d ternary nr4a1 r1 1:51 AM Aug 2      50.0%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.3 s/iter · realised $0.00719/ns (1.74x expected)
-5aks_d0_to_d ternary nr4a3 r0 —                      —  —                                        NO HOST   no live host — checkpoint at production/1880 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d ternary nr4a3 r1 8:16 AM Aug 1      67.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   30.8 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:19 AM Aug 1     55.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.0 s/iter · realised $0.00845/ns (1.62x expected)
+5aks_d0_to_d ternary nr4a1 r1 1:22 AM Aug 2      51.1%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.3 s/iter · realised $0.00719/ns (1.74x expected)
+5aks_d0_to_d ternary nr4a3 r0 —                      —  RTX 4090 $0.00456/ns · 1.34× basis [bid] STARTING  fresh host — the marker and log below belong to the previous attempt
 ---- END TVAST-BOARD ----
 ```
