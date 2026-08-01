@@ -587,6 +587,50 @@ jobs:
           fi
 
   # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+  # ★★ AND THE SAME WATCHDOG, GENERALISED TO EVERY OTHER LANE'S SUPERVISION LOOP (2026-08-01)
+  # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+  # `resurrect-supervisor` above restarts exactly ONE loop: step 1's. On 2026-08-01 the same shape — a
+  # supervisor that looks healthy while supervising nothing — was diagnosed FOUR times in one day, and the
+  # fourth was a `cofold_watch` that can exit down two paths which never re-arm, leaving a co-fold host
+  # billing with nothing watching it. A per-lane fix would have been the fifth copy of one idea.
+  #
+  # ⚠ A SEPARATE JOB, NOT A SECOND STEP IN `resurrect-supervisor`. That job deliberately has no
+  # `actions/checkout` (so `gh` cannot infer a repo from a git remote), and this one needs the checkout to
+  # read the account alarm's committed report. Adding a checkout there would change the environment of a
+  # guard that is currently working — the specific fix must not be weakened to deliver the general one.
+  #
+  # ★ WHAT IT KEYS ON, and this is the whole design: the Actions API's own `queued`/`in_progress` state,
+  # NEVER an artifact's freshness. Measured at 2:25 PM ET today — the selcal census was 24 min stale while
+  # its host billed (the alarm's `UNSUPERVISED-BILLING` signature exactly) and its watch was ALIVE at 36+
+  # minutes, because that run predated the lane's per-tick publish. A staleness-keyed resurrector would have
+  # put a second supervisor on a lane that already had one. Full reasoning + the four controls:
+  # `supervisor_resurrect.py` and `tests/test_supervisor_resurrect.py`.
+  #
+  # ⚠ `if: always()` — it must also fire when the tick FAILS, which is when a loop is most likely to be gone.
+  # COST: $0. It can only dispatch modes that are AST-pinned unable to rent.
+  resurrect-lane-watch:
+    needs: tick
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Restart any lane whose host is billing with no watch loop alive
+        env:
+          # `github.token` carries `actions: write` from this job's permissions block — the tick job, which
+          # holds the Vast key and the object-store credentials, never gains the power to create runs.
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 research/modalities/supervisor_resurrect.py --ref main
+
+  # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
   # ★★ THE ACCOUNT-KEYED ALARM GETS A RIDE HERE, FOR THE SAME REASON `resurrect-supervisor` DOES (2026-08-01)
   # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
   # WHY THIS JOB EXISTS. On 2026-08-01 the selectivity-control lane rented two hosts, stopped reporting at
