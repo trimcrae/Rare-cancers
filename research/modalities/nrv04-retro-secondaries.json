@@ -1,0 +1,127 @@
+{
+  "_what": "OFFLINE PROBE ONLY \u2014 no S3 census, no E2/E3/E4. Not the deliverable.",
+  "frozen_scorer_probes": {
+    "_role": "REPORTED. Re-runs the FROZEN primary/pairwise rule unchanged; proposes no new rule, moves no threshold, and promotes nothing.",
+    "pairwise_power": {
+      "retro_noncov_nr4a2": {
+        "n_models_nr4a1": 3,
+        "n_models_paralogue": 3,
+        "n_arrangements": 20,
+        "attainable_p_values": [
+          0.05,
+          0.1,
+          0.15,
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4,
+          0.45,
+          0.5,
+          0.55,
+          0.6
+        ],
+        "min_attainable_p": 0.05,
+        "alpha": 0.05,
+        "alpha_attainable": true,
+        "exact_size": null,
+        "power_against_any_delta": null,
+        "observed": {
+          "stat": -0.745833,
+          "p": 0.3,
+          "n_arrangements": 20,
+          "min_attainable_p": 0.05,
+          "alternative": "less"
+        },
+        "reading": "MEASURED, blunt: \u03b1 is attainable (min p = 0.05 \u2264 \u03b1 = 0.05), so the observed p is a real null at this design's power."
+      },
+      "retro_noncov_nr4a3": {
+        "n_models_nr4a1": 3,
+        "n_models_paralogue": 2,
+        "n_arrangements": 10,
+        "attainable_p_values": [
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "min_attainable_p": 0.1,
+        "alpha": 0.05,
+        "alpha_attainable": false,
+        "exact_size": 0.0,
+        "power_against_any_delta": 0.0,
+        "observed": {
+          "stat": 0.412417,
+          "p": 0.7,
+          "n_arrangements": 10,
+          "min_attainable_p": 0.1,
+          "alternative": "less"
+        },
+        "reading": "\u26d4 NON-MEASUREMENT, NOT A NULL. min attainable one-sided p = 0.1 > \u03b1 = 0.05, so the rejection region is EMPTY: exact size 0.0 and power exactly 0.0 against a true effect \u03b4 of ANY magnitude. The observed p = 0.7 could not have been small; this test could not have detected a difference of any size. 'Unresolvable' and 'did not reach significance' both understate it \u2014 nothing was measured."
+      }
+    },
+    "replicate_invariance": {
+      "_what": "the FROZEN scorer re-run on the landed model means at k legs per co-fold model",
+      "rows": [
+        {
+          "legs_per_model": 2,
+          "n_legs_total": 16,
+          "tier": "DISCORDANT",
+          "n_arrangements": 56,
+          "min_attainable_p": 0.017857,
+          "stat": -0.282533,
+          "p": 0.392857,
+          "pairwise_nr4a3_n_arrangements": 10,
+          "pairwise_nr4a3_p": 0.7
+        },
+        {
+          "legs_per_model": 8,
+          "n_legs_total": 64,
+          "tier": "DISCORDANT",
+          "n_arrangements": 56,
+          "min_attainable_p": 0.017857,
+          "stat": -0.282533,
+          "p": 0.392857,
+          "pairwise_nr4a3_n_arrangements": 10,
+          "pairwise_nr4a3_p": 0.7
+        },
+        {
+          "legs_per_model": 20,
+          "n_legs_total": 160,
+          "tier": "DISCORDANT",
+          "n_arrangements": 56,
+          "min_attainable_p": 0.017857,
+          "stat": -0.282533,
+          "p": 0.392857,
+          "pairwise_nr4a3_n_arrangements": 10,
+          "pairwise_nr4a3_p": 0.7
+        },
+        {
+          "legs_per_model": 100,
+          "n_legs_total": 800,
+          "tier": "DISCORDANT",
+          "n_arrangements": 56,
+          "min_attainable_p": 0.017857,
+          "stat": -0.282533,
+          "p": 0.392857,
+          "pairwise_nr4a3_n_arrangements": 10,
+          "pairwise_nr4a3_p": 0.7
+        }
+      ],
+      "identical_across_k": true,
+      "mechanism": "nrv04_retro_gate.model_level_values collapses a model's legs to their mean BEFORE the enumeration (prereg \u00a74a: the unit of independence is the CO-FOLD MODEL, not the leg), so the reference set is sized by the number of MODELS and replicates cannot move it.",
+      "what_replicates_CAN_buy": "only a reduction in the replicate component of model-level noise, which is bounded. That ceiling is DERIVED in selectivity_resolution_options.variance_decomposition and reported in selectivity-resolution-options.md \u2014 its one home; not re-derived here."
+    },
+    "which_sigma": {
+      "_pointer": "\u03c3 has ONE home and it is not here: selectivity-resolution-options.md \u00a71a / selectivity-resolution-options.json \u2192 `which_sigma`, derived by selectivity_resolution_options.py from this same landed panel.",
+      "the_one_the_test_competes_against": "MODEL-LEVEL \u03c3 \u2014 the pooled within-arm SD of the model means (df 5). It is neither the registered leg-to-leg \u03c3 (smaller, optimistic, frozen in nrv04_retro_gate.MEASURED_LEG_SIGMA_A) nor the criteria-audit's same-quantity-smaller-sample figure (nrv04-retro-criteria-audit.json \u2192 measured_noise).",
+      "why_it_matters_here": "quoting a leg-to-leg \u03c3 overstates power; the replicate-invariance row above and the bounded noise cut are the two halves of why more replicates buy nothing structural."
+    }
+  }
+}
