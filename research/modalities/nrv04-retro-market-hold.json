@@ -3,16 +3,29 @@
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay; and a relaunch is a NEW PURCHASE, not a continuation.",
   "lane": "nrv04_retro",
   "n_hosts": 1,
-  "utc": "2026-08-01T00:17:58Z",
+  "utc": "2026-08-01T00:20:33Z",
   "tier": "bid (interruptible)",
   "interruptible": true,
   "buy_line_usd_per_ns": 0.006539,
-  "priced": false,
+  "priced": true,
   "hold": false,
-  "best_usd_per_ns": null,
-  "basis_usd_per_ns": null,
-  "ratio_vs_basis": null,
-  "board_depth": null,
-  "offers_priced": [],
-  "reason": "NOT PRICED \u2014 no unit needed a host this tick, so there was no purchase to price. This is an EVALUATION, not a hold: nothing was refused and nothing was bought. Which units were skipped, and why, is in nrv04-retro-gate.json."
+  "reason": "1.27x the ladder basis is within the 1.92x drift line \u2014 this host is buyable at a sane rate per nanosecond",
+  "best_usd_per_ns": 0.004332,
+  "basis_usd_per_ns": 0.003412,
+  "ratio_vs_basis": 1.27,
+  "board_depth": {
+    "offers_returned": 199,
+    "qualifying": 199,
+    "priceable": 113,
+    "needed": 1,
+    "used_for_mean": 1
+  },
+  "offers_priced": [
+    {
+      "gpu": "RTX 3090",
+      "machine_id": 33622,
+      "min_bid_usd_h": 0.074,
+      "usd_per_ns": 0.004332
+    }
+  ]
 }
