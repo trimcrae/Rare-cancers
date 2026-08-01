@@ -538,3 +538,65 @@ def test_the_retro_lane_keys_pct_of_off_the_census_total_not_a_stale_leg_record(
     assert "retro.expected_production_frames()" in src, (
         "the expected production frame count has one home in nrv04_retro_panel; a literal here would drift")
     assert '"pct_of": pct_of' in src, "the retro lane no longer labels a non-production census"
+
+
+# ── the heartbeat: the ternary lane's OWN board fragment (coordinator ruling, 2026-08-01) ─────────────────
+#
+# The GCP lane's audit found the same defect there first and it is recorded at the line it governs; this is
+# the ternary lane's copy of the rule, pinned where the ternary lane's tests live.
+def _tvast_wf():
+    import pathlib
+    return (pathlib.Path(__file__).resolve().parents[3]
+            / ".github/workflows/gpu-ternary-fep-vast.yml").read_text()
+
+
+def test_the_ternary_boards_commit_is_unconditional():
+    """★★ **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.** Ruled 2026-08-01 on measured volume (1,591
+    commits on `main` in 24 h, 1,392 of them fragment churn, `.git` at 267 MB) — KEPT, because that history
+    is load-bearing and THIS lane supplied two of the proofs: the `5aks-market-hold.json` series exposed two
+    differently-configured gates writing one file, and the `ternary-vast-rental-receipt.json` series is the
+    only reason the lane's session-length distribution exists, since it records no `billed_h`.
+
+    The forbidden shape is a `git diff --cached --quiet -- "$BOARD"` guard around the commit. It never fires
+    while the generation stamp is in the file, which is precisely what makes it a LANDMINE and not a bug: it
+    does nothing until someone stabilises the timestamp as an "optimisation", and from that moment a healthy
+    IDLE lane commits nothing and renders byte-identically to a DEAD one.
+
+    Comments are stripped before the assertion so the prose above the code can still NAME what it forbids —
+    a rule you may not write down is a rule the next author re-derives from scratch."""
+    step = _tvast_wf().split("- name: Commit the in-flight board so it is readable without a log download")[1]
+    step = step.split("- name: ")[0]
+    code = "\n".join(l for l in step.splitlines() if not l.strip().startswith("#"))
+    assert 'git diff --cached --quiet -- "$BOARD"' not in code, \
+        "the board commit must never be skipped on 'no content change' — the timestamp IS the heartbeat"
+    assert code.count("git commit -q --allow-empty") == 2, \
+        "--allow-empty in BOTH the first commit and the rebase-retry, so the step can neither silently " \
+        "skip (the old landmine) nor fail red on a no-diff (the naive fix)"
+
+
+def test_only_the_lanes_OWN_heartbeat_is_unconditional_not_every_artifact():
+    """⚠ THE BOUNDARY, because over-applying this is its own defect. Guards on ORDINARY artifacts — gate
+    records, forensics JSON, reduction outputs — are fine to skip: nobody infers liveness from them. The
+    rule is about a lane's own heartbeat fragment, and this lane still has many legitimate skip-guards."""
+    code = "\n".join(l for l in _tvast_wf().splitlines() if not l.strip().startswith("#"))
+    assert code.count("git diff --cached --quiet") >= 10, \
+        "the ordinary-artifact skip guards are correct and must not be swept away with the heartbeat one"
+
+
+def test_the_ternary_board_carries_a_fresh_stamp_on_every_write():
+    """The heartbeat only works if every write carries a NEW timestamp. The stamp is generated in the step
+    itself from `date`, so it cannot be memoised — but it must also not be moved into the rendered block,
+    which `inflight_board.render` produces from the rows alone and would be constant for an idle lane."""
+    step = _tvast_wf().split("- name: Commit the in-flight board so it is readable without a log download")[1]
+    step = step.split("- name: ")[0]
+    assert "date '+%-I:%M %p ET" in step, "the stamp must be generated at write time, not carried in"
+    assert "$BOARD" in step
+
+
+def test_an_idle_lane_and_a_dead_lane_differ_only_by_that_stamp():
+    """The property the ruling protects, stated as a test rather than as prose. `render` is PURE given the
+    rows, so an idle lane's board text is byte-identical tick after tick — the ONLY thing separating
+    'idle and reporting' from 'stopped reporting' is a fresh timestamp outside that block."""
+    rows = [{"leg": "nr4a3_r0", "state": "IDLE", "pct": None, "why": "no host"}]
+    assert B.render(rows, now_epoch=1_800_000_000) == B.render(rows, now_epoch=1_800_000_000)
+    assert B.render([], now_epoch=1_800_000_000) == B.render([], now_epoch=1_800_000_000)

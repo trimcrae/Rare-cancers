@@ -2026,24 +2026,40 @@ jobs:
           } > "$BOARD"
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add "$BOARD"
-          if ! git diff --cached --quiet -- "$BOARD"; then
-            git commit -q -m "in-flight board (CI)"
-            # ⚠ NO `git stash` HERE. The first version stashed, reset, and popped — but the board file is
-            # the ONLY thing this step changes and it is already committed by the time we push, so there is
-            # nothing to stash. `git stash pop` then failed with "No stash entries found", and the following
-            # `git add` hit a path the reset had removed: `fatal: pathspec ... did not match any files`,
-            # turning a healthy collect red at 3:46 PM ET on 2026-07-29. Keep our copy in /tmp, reset onto
-            # origin, restore it, re-commit. No stash, no dependence on the working tree surviving a reset.
-            cp "$BOARD" /tmp/board-ours.md
-            for a in 1 2 3 4 5; do
-              git push origin "HEAD:${{ github.ref_name }}" 2>/dev/null && break
-              git fetch -q origin "${{ github.ref_name }}"
-              git reset -q --hard "origin/${{ github.ref_name }}"
-              cp /tmp/board-ours.md "$BOARD"
-              git add "$BOARD"
-              git diff --cached --quiet -- "$BOARD" || git commit -q -m "in-flight board (CI)"
-            done
-          fi
+          # ★★ COMMIT UNCONDITIONALLY. **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.**
+          # (Coordinator ruling, 2026-08-01, on measured volume: 1,591 commits on `main` in 24 h, 1,392 of
+          # them fragment churn, `.git` at 267 MB — KEPT, because that history is load-bearing and this
+          # lane supplied two of the proofs: the `5aks-market-hold.json` series is what exposed two
+          # differently-configured gates writing one file, and the `ternary-vast-rental-receipt.json`
+          # series is the only reason the lane's session-length distribution exists at all, since it
+          # records no `billed_h`.)
+          #
+          # ⚠ THESE TWO LINES USED TO BE GUARDED BY `git diff --cached --quiet -- "$BOARD"`, and that is
+          # the shape the ruling forbids. It never fired in practice — the generation stamp changes every
+          # tick, so the file always differs — which is exactly what made it a LANDMINE rather than a bug:
+          # it does nothing until someone stabilises the timestamp as an "optimisation", and from that
+          # moment a healthy IDLE lane commits nothing and renders byte-identically to a DEAD one. **The
+          # timestamp IS the heartbeat**, and it is the only input to a staleness readout. Distinguishing
+          # those two states is most of what 2026-07-31 turned on.
+          #
+          # `--allow-empty` in BOTH places, so the step can neither silently skip (the old landmine) nor
+          # fail red on a no-diff (the naive fix). Publishing is unconditional in both directions.
+          git commit -q --allow-empty -m "in-flight board (CI)"
+          # ⚠ NO `git stash` HERE. The first version stashed, reset, and popped — but the board file is
+          # the ONLY thing this step changes and it is already committed by the time we push, so there is
+          # nothing to stash. `git stash pop` then failed with "No stash entries found", and the following
+          # `git add` hit a path the reset had removed: `fatal: pathspec ... did not match any files`,
+          # turning a healthy collect red at 3:46 PM ET on 2026-07-29. Keep our copy in /tmp, reset onto
+          # origin, restore it, re-commit. No stash, no dependence on the working tree surviving a reset.
+          cp "$BOARD" /tmp/board-ours.md
+          for a in 1 2 3 4 5; do
+            git push origin "HEAD:${{ github.ref_name }}" 2>/dev/null && break
+            git fetch -q origin "${{ github.ref_name }}"
+            git reset -q --hard "origin/${{ github.ref_name }}"
+            cp /tmp/board-ours.md "$BOARD"
+            git add "$BOARD"
+            git commit -q --allow-empty -m "in-flight board (CI)"
+          done
       # ★★ RETIRE THE WATCH ENTRY OF ANY LEG THAT HAS ALREADY LANDED (2026-07-27, 7:45 PM ET).
       #
       # WHY HERE AND NOT ONLY IN THE CRON WATCHDOG. `ternary-vast-watchdog.yml`'s schedule is throttled the
