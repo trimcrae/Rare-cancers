@@ -148,16 +148,28 @@ _MD_FRAME_RE = re.compile(r"frame\s+(\d+)\s*/\s*(\d+)|(\d+)\s*/\s*(\d+)\s+frames
 # is simply absent from the output is indistinguishable from a lane with nothing running, which is the
 # "reads as complete" failure the whole multi-lane section of the docstring exists to end.
 TERNARY, FANOUT, NRV04_RETRO = "ternary", "step1-fanout", "nrv04-retro"
+#: The free GCP L4. A lane on a SEPARATE LEDGER (CLAUDE.md §6: trial credit is never summed into realized or
+#: ladder spend), which is exactly why it must still appear here — a lane nobody can see is a lane nobody
+#: notices has stopped, and this one sat idle ~15 h on 2026-07-31 because its watch entries had gone
+#: `enabled: false` on landing and nothing queued new work. Its rows carry `—` for `$/ns`: no ladder dollar
+#: is spent, so there is no ratio to quote, and the L4 list price is NOT a go-forward basis (pricing.md).
+GCP_S1F_REP = "gcp-s1f-rep"
 
 #: lane id -> (heading, what it rents, which launcher publishes it). Kept as data so a fourth lane is one
 #: entry plus a `write_fragment` call, and cannot be added by editing the renderer.
+#: ⚠ HEADINGS CARRY NO COUNTS. `NRV04_RETRO`'s used to read "18 endpoint-MD legs" and went stale the moment
+#: AMENDMENT 4 reduced the panel to 16 — while the body two lines below it, derived from
+#: `enumerate_units()`, correctly said "of 16". One fact, one home (§1): the count belongs to the writer
+#: that derives it, never to a heading typed once and never revisited.
 LANES = (
     (TERNARY, "TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs",
      "ternary_vast_launch.py task=collect"),
     (FANOUT, "STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)",
      "congeneric_fanout_vast.py MONITOR=1"),
-    (NRV04_RETRO, "NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs",
+    (NRV04_RETRO, "NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs",
      "nrv04_vast_launch.py RETRO_COLLECT=1"),
+    (GCP_S1F_REP, "GCP L4 — step-1 fan-out replicate (free trial credit)",
+     "gcp_fanout_rep.py board"),
 )
 
 #: The ternary lane's fragment: the file its own collect writes wholesale. NOT the merged board — see the
