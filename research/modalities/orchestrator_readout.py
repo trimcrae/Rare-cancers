@@ -107,13 +107,29 @@ def lane_rows() -> list[dict]:
     md = _read("research/modalities/inflight-board-all.md")
     if not isinstance(md, str):
         return [{"lane": "(none)", "unreadable": "inflight-board-all.md absent"}]
-    out, lane, header = [], None, None
+    out, lane, cur = [], None, None
+    in_fence = False
     for line in md.splitlines():
         if line.startswith("## "):
-            lane, header = line[3:].strip(), None
+            lane, cur = line[3:].strip(), None
+            in_fence = False
         elif line.startswith("_As of") and lane:
-            header = line.strip("_ ")
-            out.append({"lane": lane, "as_of": header, "stale": "STALE" in header})
+            cur = {"lane": lane, "as_of": line.strip("_ "), "stale": "STALE" in line, "legs": []}
+            out.append(cur)
+        elif line.startswith("```"):
+            in_fence = not in_fence
+        elif in_fence and cur is not None and line.strip() \
+                and not line.startswith(("LEG", "---", "IN-FLIGHT BOARD:")):
+            # ★★ THE LEG ROWS THEMSELVES, VERBATIM (2026-08-01). This function used to return only the
+            # section HEADERS, so anyone reporting per-leg state had to transcribe the rows by hand — and a
+            # hand-copied row is a row that survives on inertia. Measured that afternoon, in one session:
+            # a leg reported RUNNING at 98.9% had already LANDED (its ETA was 11 min in the past and the row
+            # was simply gone from the board); a prose ETA invented by a subagent sat in the ETA column for
+            # six consecutive reports; and a `.chk` smoke was carried as "status unknown" for hours. Each
+            # was a transcription artifact, not a fleet problem.
+            # So the rows come out of the artifact verbatim. **A leg absent from the board is a leg that
+            # LANDED or was never there — never one to carry forward from a previous report.**
+            cur["legs"].append(line.rstrip())
     return out
 
 
