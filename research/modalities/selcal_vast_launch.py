@@ -759,6 +759,17 @@ def mode_cofold(bucket=None, cofold_prefix=None):
                         "systems": spec.env["SELCAL_SYSTEMS"]})
     if handles:
         _write(HANDLES, handles)
+        # ★★ A RENTAL IS BORN UNSUPERVISED UNLESS SOMETHING ARMS THE WATCH — and on 2026-08-01 nothing did.
+        # Two co-fold hosts were rented at 10:10 AM ET, the lane's census went silent at 11:04 AM ET, and the
+        # first thing to notice the two idle boxes was an ACCOUNT-level alarm at 12:04 PM ET. CLAUDE.md §6:
+        # a `schedule:` cron does not supervise a billing fleet, and while a fleet is billing supervision is
+        # somebody's job. `cofold_watch` is a $0 supervision mode that reaps on every tick, so arming it here
+        # does not breach `self_dispatch`'s rule that a renting rung stays a deliberate dispatch — it is the
+        # watch that is armed automatically, never the purchase.
+        if not self_dispatch("cofold_watch"):
+            print("::error title=SELCAL CO-FOLD UNSUPERVISED::%d host(s) were just rented and the watch could "
+                  "not be armed. Dispatch `cofold_watch` (or `stop`) by hand — nothing else will reap them."
+                  % len(handles), flush=True)
     _record_gate("rented" if handles else "refused", [h["unit"] for h in handles],
                  extra={"refused": refused, "wave_refused_machines": sorted(wave_refused),
                         "excluded_machines_this_dispatch": list(_excl)})
@@ -1023,6 +1034,12 @@ def mode_launch(bucket=None, only=None, mode="run", pilot=False, cofold_prefix=N
                         "instance": h.job_id, "utc": _utcnow()})
     if handles:
         _write(HANDLES, handles)
+        # Same rule as the co-fold rental above: the MD legs' supervisor is armed by the thing that bought
+        # them, because a fleet whose watch depends on an agent being awake is not supervised.
+        if not self_dispatch("watch"):
+            print("::error title=SELCAL LEGS UNSUPERVISED::%d MD host(s) were just rented and the watch could "
+                  "not be armed. Dispatch `watch` (or `stop`) by hand — nothing else will reap them."
+                  % len(handles), flush=True)
     _record_gate("rented" if handles else "refused",
                  [h["unit"] for h in handles],
                  extra={"refused": refused, "wave_refused_machines": sorted(wave_refused),

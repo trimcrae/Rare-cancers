@@ -570,6 +570,20 @@ def test_the_cofold_jobspec_hands_the_host_an_explicit_cache_and_its_S3_home():
     assert '"--cache", cache_dir' in src, "the verified directory must be the one boltz is told to use"
 
 
+def test_a_RENTAL_arms_its_own_supervisor():
+    """★★ A rental is born unsupervised unless something arms the watch, and on 2026-08-01 nothing did: two
+    co-fold hosts rented at 10:10 AM ET, the lane's census silent from 11:04 AM ET, and the first thing to
+    notice the two idle boxes was an ACCOUNT-level alarm at 12:04 PM ET. It is the WATCH that is armed
+    automatically, never the purchase — `self_dispatch`'s rule that a renting rung stays a deliberate
+    dispatch is intact, because `cofold_watch`/`watch` rent nothing and reap on every tick."""
+    for fn, mode, warn in (("mode_cofold(", "cofold_watch", "SELCAL CO-FOLD UNSUPERVISED"),
+                           ("mode_launch", "watch", "SELCAL LEGS UNSUPERVISED")):
+        body = SRC[SRC.index("def %s" % fn):]
+        body = body[:body.index("\ndef ", 10)]
+        assert 'self_dispatch("%s")' % mode in body, "%s must arm its supervisor" % fn
+        assert warn in body, "a failed arm must be LOUD — the hosts are already billing"
+
+
 def test_a_host_only_TOUCHES_its_own_arms_outputs():
     """⛔ smarca2's six models are BANKED and preregistered inputs of every MD leg. A host restoring the whole
     prefix pulls them down, gives them fresh local mtimes, and its continuous sync re-uploads them — churning
