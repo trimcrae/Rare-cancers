@@ -1,7 +1,7 @@
 {
   "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
   "mode": "5aks",
-  "utc": "2026-08-01T22:21:01Z",
+  "utc": "2026-08-01T22:37:45Z",
   "units": {
     "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
       "arm": "ternary",
@@ -31,8 +31,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T03:36:35Z",
-      "phase_marker_age_min": 1124.4138208587965,
-      "log_age_min": 1124.3978004455566,
+      "phase_marker_age_min": 1141.1479802966119,
+      "log_age_min": 1141.1326242089272,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -207,8 +207,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T18:26:57Z",
-      "phase_marker_age_min": 234.0758288383484,
-      "log_age_min": 234.0763626654943,
+      "phase_marker_age_min": 250.8405159076055,
+      "log_age_min": 250.84198697010677,
       "n_attempts_archived": 34,
       "attempts": [
         {
@@ -481,8 +481,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T12:19:53Z",
-      "phase_marker_age_min": 601.1920908411344,
-      "log_age_min": 601.1593437870343,
+      "phase_marker_age_min": 618.0041188478469,
+      "log_age_min": 617.972097170353,
       "n_attempts_archived": 8,
       "attempts": [
         {
@@ -573,8 +573,8 @@
         "scalar": 1001520
       },
       "phase_marker": "md-running 2026-08-01T22:10:27Z",
-      "phase_marker_age_min": 10.645597318808237,
-      "log_age_min": 0.6963254769643148,
+      "phase_marker_age_min": 27.48319447437922,
+      "log_age_min": 1.40114875237147,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -712,9 +712,9 @@
         },
         {
           "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/run.log",
-          "utc": "2026-08-01T22:20:25Z",
-          "bytes": 8272,
-          "n_lines": 89,
+          "utc": "2026-08-01T22:36:33Z",
+          "bytes": 14698,
+          "n_lines": 179,
           "last_line": "INFO:\t********************************************************************************"
         }
       ],
@@ -732,7 +732,7 @@
         "cpu_ram": 128688,
         "cpu_cores_effective": 16.0,
         "disk_space": 60.0,
-        "disk_util": 6.099999904632568,
+        "disk_util": 6.199999809265137,
         "mem_usage": 5.0069504,
         "mem_limit": 89.45401856000001,
         "gpu_util": 99.999908,
@@ -743,45 +743,45 @@
       "instance_is_working": true,
       "console_last_line": "INFO:\t********************************************************************************",
       "console_tail": [
-        "[spot-driver] restore: trying production (ci=40, timeout=900s) \u2014 an S3 LIST then a GET per candidate generation; the next line is either a [restore] verdict or this leg is wedged in the object store",
-        "[restore] production: list_committed returned 38 generation(s) in 5.5s",
-        "[restore] production iter 1520 gen dffbbd78 fetched 5766479233 B in 146.0s",
-        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
-        "[restore] production iter 1520 gen dffbbd78 OK (interval=40) -> simulation.nc, checkpoint.chk",
-        "[spot-driver] restore: production took 158.0s",
-        "[spot-driver] restore -> production@iter 1520",
-        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
-        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
-        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
-        "Please cite the following:",
-        "        Friedrichs MS, Eastman P, Vaidyanathan V, Houston M, LeGrand S, Beberg AL, Ensign DL, Bruns CM, and Pande VS. Accelerating molecular dynamic simulations on graphics processing unit. J. Comput. Chem. 30:864, 2009. DOI: 10.1002/jcc.21209",
-        "        Eastman P and Pande VS. OpenMM: A hardware-independent framework for molecular simulations. Comput. Sci. Eng. 12:34, 2010. DOI: 10.1109/MCSE.2010.27",
-        "        Eastman P and Pande VS. Efficient nonbonded interactions for molecular dynamics on a graphics processing unit. J. Comput. Chem. 31:1268, 2010. DOI: 10.1002/jcc.21413",
-        "        Eastman P and Pande VS. Constant constraint matrix approximation: A robust, parallelizable constraint method for molecular simulations. J. Chem. Theor. Comput. 6:434, 2010. DOI: 10.1021/ct900463w",
-        "        Chodera JD and Shirts MR. Replica exchange and expanded ensemble simulations as Gibbs multistate: Simple improvements for enhanced mixing. J. Chem. Phys., 135:194110, 2011. DOI:10.1063/1.3660669",
-        "[spot-driver] resume PRODUCTION at iter 1520 (interval=40, target=2000)",
+        "INFO:\tIteration took 60.494s.",
+        "INFO:\tEstimated completion in 0:22:30.451677, at 2026-Aug-01-22:54:07 (consuming total wall clock time 1 day, 0:22:59.358995).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1521/1560",
+        "INFO:\tIteration 1537/1560",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 68.365s.",
-        "INFO:\tEstimated completion in 0:44:26.250473, at 2026-Aug-01-23:02:11 (consuming total wall clock time 1 day, 5:37:30.018911).",
+        "INFO:\tIteration took 56.535s.",
+        "INFO:\tEstimated completion in 0:21:34.544007, at 2026-Aug-01-22:54:08 (consuming total wall clock time 1 day, 0:23:23.854408).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1522/1560",
+        "INFO:\tIteration 1538/1560",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 62.238s.",
-        "INFO:\tEstimated completion in 0:41:21.477012, at 2026-Aug-01-23:00:09 (consuming total wall clock time 1 day, 4:17:51.161542).",
+        "INFO:\tIteration took 47.113s.",
+        "INFO:\tEstimated completion in 0:20:27.050099, at 2026-Aug-01-22:53:48 (consuming total wall clock time 1 day, 0:10:09.007009).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1523/1560",
+        "INFO:\tIteration 1539/1560",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 45.338s.",
-        "INFO:\tEstimated completion in 0:36:09.961289, at 2026-Aug-01-22:55:42 (consuming total wall clock time 1 day, 1:24:50.259743).",
+        "INFO:\tIteration took 58.525s.",
+        "INFO:\tEstimated completion in 0:19:34.315401, at 2026-Aug-01-22:53:53 (consuming total wall clock time 1 day, 0:13:54.858391).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1524/1560",
+        "INFO:\tIteration 1540/1560",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 63.385s.",
-        "INFO:\tEstimated completion in 0:35:53.955627, at 2026-Aug-01-22:56:30 (consuming total wall clock time 1 day, 1:55:38.077168).",
+        "INFO:\tIteration took 49.081s.",
+        "INFO:\tEstimated completion in 0:18:31.557134, at 2026-Aug-01-22:53:40 (consuming total wall clock time 1 day, 0:05:01.456482).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1525/1560",
+        "INFO:\tIteration 1541/1560",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 60.972s.",
+        "INFO:\tEstimated completion in 0:17:40.859769, at 2026-Aug-01-22:53:50 (consuming total wall clock time 1 day, 0:11:42.170495).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1542/1560",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 48.934s.",
+        "INFO:\tEstimated completion in 0:16:39.379448, at 2026-Aug-01-22:53:37 (consuming total wall clock time 1 day, 0:03:32.885520).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1543/1560",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration took 59.461s.",
+        "INFO:\tEstimated completion in 0:15:46.770677, at 2026-Aug-01-22:53:44 (consuming total wall clock time 1 day, 0:08:00.132679).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1544/1560",
         "INFO:\t********************************************************************************"
       ]
     }
