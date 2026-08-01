@@ -178,3 +178,39 @@ def test_the_destroy_calls_pass_the_INSTANCE_not_just_its_id():
     for call in ("_destroy(iid, why, inst=i, unit_id=uid)",
                  "inst=i, unit_id=uid)"):
         assert call in src
+
+
+# ── AND THE TWO DELETEs THAT DID NOT GO THROUGH `_destroy` (2026-08-01) ─────────────────────────────────
+#
+# ★★ "EVERY TEARDOWN RECORDS" WAS TRUE OF THE FUNCTION AND FALSE OF THE FILE. `collect`'s dedupe loop runs
+# BEFORE `_destroy` is defined, so it carried its own `_vast_request("DELETE", ...)`; `stop_all` is a
+# separate function entirely. Both destroy hosts this account rented and paid for — a DUPLICATE is by
+# definition a second rental of a unit we were already billing for, and `task=stop` is taken when the whole
+# lane is being torn down, i.e. exactly the rentals someone will ask about afterwards. Neither left a row.
+#
+# Enforced by ENUMERATION rather than by naming the two known sites, because the defect was a NEW delete
+# path appearing without anyone remembering this rule.
+
+def test_every_DELETE_of_an_instance_in_this_file_records_first():
+    """Enumerated, not listed: the failure mode is a delete path added later, and a test naming today's
+    three sites would pass while the fourth silently spends."""
+    src = _launch_src()
+    needle = '_vast_request("DELETE", f"/instances/'
+    sites = [i for i in range(len(src)) if src.startswith(needle, i)]
+    assert len(sites) >= 3, "the DELETE sites moved — re-derive this test rather than deleting it"
+    for i in sites:
+        # the record must be the nearest preceding ledger call, within the same short block
+        window = src[max(0, i - 900):i]
+        assert "_tbl.record(" in window, (
+            "an instance DELETE with no billed-hours row before it, near:\n"
+            + src[max(0, i - 300):i + 120])
+
+
+def test_the_dedupe_and_stop_all_rows_are_distinguishable_by_reason():
+    """`reason` is the only field that separates a clean retirement from a double rental from a lane-wide
+    stop, and `record` keys idempotency on (instance, reason) — so reusing one label would collapse two
+    genuinely different events into one row."""
+    src = _launch_src()
+    assert 'reason="duplicate"' in src
+    assert 'reason="stop_all"' in src
+    assert 'reason="retire_host"' in src

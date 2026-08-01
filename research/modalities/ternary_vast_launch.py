@@ -3438,6 +3438,15 @@ def collect(bucket=None, prefix=None, autostop=True):
             print(f"  DUPLICATE {lab}: {len(group)} instances; keeping {group[0].get('id')}, "
                   f"destroying {[g.get('id') for g in group[1:]]}")
             for d_ in group[1:]:
+                # ★ RECORDED, LIKE EVERY OTHER TEARDOWN (2026-08-01). This loop runs BEFORE `_destroy` is
+                # defined, so it had its own DELETE and therefore its own hole in the billed-hours ledger —
+                # and a duplicate is a host we genuinely rented and genuinely paid for, which is the whole
+                # reason destroying it is worth doing. Before the ledger, the money spent on a double
+                # rental left no trace anywhere once this line ran.
+                try:
+                    _tbl.record(d_, unit_id=lab, reason="duplicate")
+                except Exception as _e:  # noqa: BLE001 — the ledger must never block a teardown
+                    print(f"    [ledger] could not record duplicate {d_.get('id')}: {type(_e).__name__}: {_e}")
                 try:
                     _vast_request("DELETE", f"/instances/{d_.get('id')}/", key)
                 except Exception as e:  # noqa: BLE001
@@ -4430,12 +4439,21 @@ def _known_unit_ids():
 
 
 def stop_all():
-    """Destroy every instance of this lane (anti-idle backstop)."""
+    """Destroy every instance of this lane (anti-idle backstop).
+
+    ★ AND RECORD WHAT EACH ONE COST FIRST (2026-08-01). `task=stop` is the path taken when something has
+    gone wrong enough that the whole lane is being torn down — i.e. precisely the rentals whose cost someone
+    will want afterwards — and it was the last DELETE in this file with no ledger row. Recorded BEFORE the
+    DELETE, because after it the rate, `start_date` and machine are unrecoverable."""
     key = os.environ["VAST_API_KEY"]
     n = 0
     for i in _vast_request("GET", "/instances/", key).get("instances", []):
         if (i.get("label") or "").startswith(LABEL_PREFIX):
             print(f"destroying {i.get('id')} ({i.get('label')})")
+            try:
+                _tbl.record(i, unit_id=i.get("label"), reason="stop_all")
+            except Exception as e:  # noqa: BLE001 — the ledger must never block a teardown
+                print(f"  [ledger] could not record {i.get('id')}: {type(e).__name__}: {e}")
             try:
                 _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
                 n += 1
