@@ -319,12 +319,29 @@ jobs:
             # finding as the ternary `collect` block above: a guard that exists but has no cadence is not a
             # guarantee, it is a guarantee-shaped absence.
             #
-            # ⚠ IT CANNOT BUY, and that is the difference from the retro tick above. `mode=reap` has no
-            # provisioning path at all: the create step is gated `if: mode == smoke || mode == run`, so this
-            # dispatch can only READ (VM list, GCS object timestamps, the quota rows), DELETE a VM the
-            # predicate condemns on evidence, and rewrite one JSON fragment. There is no route from this
-            # tick to a rental, on GCP or anywhere else. A tick with nothing to do prints
+            # ★★ SUPERSEDED 2026-08-01, DELIBERATELY: THIS TICK NOW BUYS, AND IT HAD TO.
+            # This block used to say "⚠ IT CANNOT BUY ... there is no route from this tick to a rental",
+            # and treated that as the safety property. It was instead the DEFECT. A tick that can end work
+            # and never start it guarantees the GPU idles the moment a unit finishes — measured the next
+            # morning: the leg raised at 11:50 PM ET, this lane's reap step correctly destroyed the VM 96 s
+            # later, and then NOTHING relaunched for 8 h 11 m while every 8-minute tick honestly reported
+            # an idle GPU and acted on none of it. The reap half of "reap+board" was doing its job; the
+            # missing half was the whole problem. So `mode=autofeed`, which reaps FIRST and then decides.
+            #
+            # ⚠ WHAT STOPS IT RUNNING AWAY IS A PREDICATE, NOT AN ABSENT CODE PATH — and a predicate is the
+            # stronger of the two, because it is PURE and unit-tested rather than a property of which `if:`
+            # happens to be written where. `gcp_fanout_rep.feed_decision` refuses on: ANY live GCE instance
+            # in the project (GPUS_ALL_REGIONS = 1 — this lane, the ternary lane, anything); a unit whose
+            # ddg.json is already in GCS; and a no-progress breaker that holds after
+            # MAX_NOPROGRESS_LAUNCHES launches which bank no new committed generation. The create step then
+            # re-checks the live-instance count independently, and this workflow's own
+            # `concurrency: gcp-gpu-fanout-rep` serialises the ticks — so two guards, plus a queue, stand
+            # between an 8-minute cadence and a second GPU. A tick with nothing to do still prints
             # "no gcp-s1frep-* instances - nothing to reap" and costs $0.
+            #
+            # ⚠ AND WHAT IT SPENDS IS FREE CREDIT ON A SEPARATE LEDGER (CLAUDE.md §6) — GCP trial credit,
+            # expiring 2026-10-10, never summed into realized or ladder spend. There is still no route from
+            # this tick to a Vast rental or to a real dollar.
             #
             # ⚠ IT TARGETS ONLY THIS LANE'S OWN WORKFLOW, DELIBERATELY. `gpu-ternary-fep-gcp.yml` runs its
             # launch guard BEFORE its idempotent skip, so a redundant dispatch of already-landed work exits
@@ -332,11 +349,13 @@ jobs:
             # 7:31 AM ET 2026-07-31. Putting THAT workflow on an 8-minute tick would manufacture a stream of
             # false failures, and a lane that always has a red run is a lane whose real failures stop being
             # read. The ordering is reported for its owner to fix; this tick does not depend on it.
+            # ⚠ NO `-f edge=` / `-f replicate=`. `autofeed` chooses the unit itself from the queue
+            # (`gcp_fanout_rep.queue_units`) — most-advanced-unbanked first, map order as the tiebreak —
+            # so pinning one edge here would be a second home for that choice and would silently strand
+            # the other two units of the cycle the moment this one landed.
             if gh workflow run gpu-fanout-rep-gcp.yml --ref main \
-                 -f mode=reap \
-                 -f edge=e_zaienne_cmpd19__cw_ms_free_acid \
-                 -f replicate=1 2>/tmp/t6; then
-              echo "[$(date -u '+%H:%M:%SZ')] gcp s1f-rep reap+board dispatched (tick ${n})"
+                 -f mode=autofeed 2>/tmp/t6; then
+              echo "[$(date -u '+%H:%M:%SZ')] gcp s1f-rep autofeed (reap -> decide -> launch) dispatched (tick ${n})"
             else
               echo "::warning title=GCP S1F-REP TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t6 | tr '\n' ' ')"
             fi
