@@ -271,3 +271,60 @@ def test_the_interval_comes_from_the_drivers_RESOLVED_line_not_the_modes_config(
     src = open(tax.__file__).read()
     assert "interval_for_phase(text" in src
     assert "_ib" in src, "the interval parser has one home in inflight_board and must be imported, not retyped"
+
+
+# ── THE DOMINANT SEGMENT IS NOW MEASURED AS WELL AS DERIVED (2026-08-01) ────────────────────────────────
+#
+# `md_running_to_first_commit` is this module's biggest term and the one its verdict turns on, and it was
+# RECONSTRUCTED — checkpoint_interval x s_per_iter — because `[barrier] commit` carries a persist duration
+# and no wall clock. A reconstruction nobody ever checks against a clock is one nobody can grade.
+#
+# There is a clock: S3 stamps every commit generation with `LastModified`, and `phase.txt` carries the
+# `md-running` boundary. `md_to_first_commit` reads the first object written after that mark.
+
+def test_the_measured_value_lands_BESIDE_the_derived_one_not_in_a_second_block():
+    """CLAUDE.md §1. Two dicts holding the same segment by two routes is how they start disagreeing with
+    nobody noticing which is quoted."""
+    agg = tax.line_items({"u": {"attempts": [_att((_MARKS, _SPANS), ci=40, spi=55.5)],
+                                "md_to_first_commit_s": 1800.0}})["aggregate"]
+    seg = agg["md_running_to_first_commit"]
+    assert seg["measured_median_min"] == 30.0
+    assert seg["measured_n_units"] == 1
+    assert seg["derived"], "the derived value must survive — it is the only one available retrospectively"
+    assert "md_window_split" not in agg
+
+
+def test_no_unit_inside_md_running_reads_as_UNKNOWN_never_as_fast():
+    """`phase.txt` is OVERWRITTEN, so a unit contributes a measurement only while it is inside md-running.
+    Zero units is 'we cannot see it right now', which is not a small number (§4a)."""
+    agg = tax.line_items({"u": {"attempts": [_att((_MARKS, _SPANS), ci=40, spi=55.5)]}})["aggregate"]
+    seg = agg["md_running_to_first_commit"]
+    assert seg["measured_median_min"] is None and seg["measured_n_units"] == 0
+    assert "NOT the same as a fast segment" in seg["measured_how"]
+
+
+def test_the_two_self_timed_pieces_inside_the_window_are_reported_so_a_reader_can_subtract():
+    att = _att((_MARKS, _SPANS), ci=40, spi=55.5)
+    att["setup_seconds"] = 240.0
+    att["restore_seconds"] = {"warmup": 30.0}
+    seg = tax.line_items({"u": {"attempts": [att]}})["aggregate"]["md_running_to_first_commit"]
+    assert seg["of_which_setup_build_min"] == 4.0
+    assert seg["of_which_setup_restore_min"] == 0.5
+    assert "RESIDUAL, not a measurement of minimisation" in seg["_residual_is"]
+
+
+def test_an_unprinted_line_item_is_None_not_zero():
+    seg = tax.line_items({"u": {"attempts": [_att((_MARKS, _SPANS), ci=40, spi=55.5)]}}
+                         )["aggregate"]["md_running_to_first_commit"]
+    assert seg["of_which_setup_build_min"] is None and seg["of_which_setup_restore_min"] is None
+
+
+def test_md_to_first_commit_refuses_a_phase_txt_that_is_not_md_running():
+    """The boundary is only in the record while the unit is inside that phase — `phase.txt` is overwritten.
+    A leg that has moved on must return 'cannot measure', never a span against the wrong mark."""
+    class _S3:
+        def get_object(self, Bucket, Key):
+            import io
+            return {"Body": io.BytesIO(b"md-done 2026-08-01T02:00:00Z")}
+    s, why = tax.md_to_first_commit("u", "b", "p", _S3())
+    assert s is None and "md-done" in why and "not md-running" in why

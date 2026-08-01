@@ -359,6 +359,66 @@ def commit_object_census(uid, bucket, prefix, s3, max_keys=4000):
                                             for k, v in sorted(per_ext_max.items())}}
 
 
+def md_to_first_commit(uid, bucket, prefix, s3):
+    """Seconds from THIS attempt's `md-running` mark to the first commit object it wrote. (s, detail).
+
+    ★★ THE ONE LINE ITEM THE SPLIT COULD NOT SEE, AND IT IS THE BIG ONE (added 2026-08-01). `timeline`
+    splits the SHELL phases — start -> cloned -> staging -> preequil -> md-running — and those total under
+    half a minute on a warm cache. Everything expensive happens AFTER the last of them: the setup
+    restore-or-build, minimisation, and the warmup iterations up to the first checkpoint. The module's own
+    docstring bounds those three TOGETHER and says so ("the figures above bound them together rather than
+    separating them"), because `[timing]` and `[barrier]` lines are bare prints with no clock.
+
+    But the COMMIT OBJECTS have one: S3 stamps every generation with `LastModified`. So the first commit
+    written after the `md-running` mark is a real wall-clock boundary that survives the host, and
+    `md-running -> first commit` is measurable today for every attempt, live or archived.
+
+    That closes the split arithmetically, because the two self-timed pieces inside it are already parsed:
+
+        md_to_first_commit
+          - setup_seconds     (`[spot-safe] SETUP done in Ns`, a BUILD — only on a cache miss)
+          - restore_seconds   (`[spot-driver] restore: <label> took Ns`, a cache HIT)
+          = minimisation + warmup-to-first-commit          <- the residual, reported as such
+
+    ⚠ THE RESIDUAL IS A RESIDUAL AND IS LABELLED ONE. It is not a measurement of minimisation; it is what
+    is left when the two timed pieces are removed, so it also absorbs anything else unaccounted for in that
+    window. Naming it "minimisation" would be exactly the fabricated-provenance mistake §4b warns about.
+
+    None, never 0, when either clock is missing — an unmeasured phase is not a fast one."""
+    import datetime as _dt
+    base = f"{prefix}/legs/{uid}"
+    try:
+        ph = s3.get_object(Bucket=bucket, Key=f"{base}/phase.txt")["Body"].read().decode(errors="replace")
+        phase, _, pts = ph.strip().partition(" ")
+    except Exception as e:  # noqa: BLE001
+        return None, f"no phase.txt ({type(e).__name__})"
+    if not pts.strip():
+        return None, "phase.txt carries no timestamp"
+    try:
+        t_md = _dt.datetime.strptime(pts.strip(), "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc)
+    except ValueError:
+        return None, "unparseable phase timestamp"
+    if phase != "md-running":
+        # ⚠ NOT AN ERROR AND NOT A ZERO. `phase.txt` is overwritten, so it holds the CURRENT phase only —
+        # a leg that has moved on to `md-done` no longer carries the md-running boundary, and one that has
+        # not reached md-running has no MD to time. Both are "cannot measure", stated.
+        return None, f"phase.txt says {phase!r}, not md-running — this boundary is not in the record"
+    cpref = tv.commit_prefix(bucket, uid, prefix)
+    key = cpref.split("://", 1)[-1].split("/", 1)[-1].rstrip("/") if "://" in cpref else cpref.rstrip("/")
+    first = None
+    try:
+        for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=key + "/"):
+            for o in page.get("Contents") or []:
+                lm = o["LastModified"]
+                if lm > t_md and (first is None or lm < first):
+                    first = lm
+    except Exception as e:  # noqa: BLE001
+        return None, f"commit store unreadable ({type(e).__name__})"
+    if first is None:
+        return None, "no commit object written since this attempt reached md-running (still inside it)"
+    return (first - t_md).total_seconds(), "md-running -> first commit of this attempt"
+
+
 def measure(mode="5aks", bucket=None, prefix=None, limit=6):
     b = bucket or tv.DEFAULT_BUCKET
     p = (prefix or tv.RESULT_PREFIX).rstrip("/")
@@ -380,8 +440,10 @@ def measure(mode="5aks", bucket=None, prefix=None, limit=6):
             rows.append(pr)
         _cs, _cswhy = live_cold_start(uid, b, p, s3)
         _cb, _cn, _cwhy = commit_object_census(uid, b, p, s3)
+        _mfc, _mfcwhy = md_to_first_commit(uid, b, p, s3)
         doc["units"][uid] = {"attempts": rows,
                              "live_cold_start_s": _cs, "live_cold_start_span": _cswhy,
+                             "md_to_first_commit_s": _mfc, "md_to_first_commit_span": _mfcwhy,
                              "commit_bytes_median": _cb, "n_generations": _cn,
                              "commit_store": _cwhy,
                              "markers": {k: str(v) for k, v in marker_times(uid, b, p, s3).items()}}
@@ -520,6 +582,52 @@ def line_items(units):
         "checkpoint_interval x s_per_iter — the `[barrier] commit` line carries a persist duration but no "
         "wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own "
         "two measured quantities rather than read directly.")
+    # ★★ AND NOW THE SAME SEGMENT, MEASURED (2026-08-01). The reconstruction above is the only figure this
+    # module has ever had for its DOMINANT term, and the verdict below turns on it — so a way to check it
+    # against a real clock is worth more than another estimate.
+    #
+    # There IS one: S3 stamps every commit generation with `LastModified`, and `phase.txt` carries the
+    # `md-running` boundary. The first object written after that mark is a wall-clock end to the segment.
+    # `md_to_first_commit` does that read; this folds the result in BESIDE the derived value rather than
+    # into a second block, so the segment keeps one home (CLAUDE.md §1) and the two readings are visibly
+    # the same quantity by two routes.
+    #
+    # ⚠ THE MEASURED ONE IS NARROWER, WHICH IS WHY IT DOES NOT REPLACE THE DERIVED ONE. `phase.txt` is
+    # OVERWRITTEN, so it holds the CURRENT phase only: a unit contributes a measurement exactly while it is
+    # inside `md-running`. The derived figure covers every archived attempt and is the only one available
+    # retrospectively. Disagreement between them is a finding, not an error — it means the window holds
+    # something neither the interval nor s/iter accounts for.
+    _meas = [u.get("md_to_first_commit_s") for u in (units or {}).values()
+             if isinstance(u.get("md_to_first_commit_s"), (int, float))]
+    _meas_med = round(st.median(_meas) / 60.0, 2) if _meas else None
+    agg["md_running_to_first_commit"]["measured_median_min"] = _meas_med
+    agg["md_running_to_first_commit"]["measured_n_units"] = len(_meas)
+    agg["md_running_to_first_commit"]["measured_how"] = (
+        "the first commit object's S3 LastModified minus the `md-running` timestamp in phase.txt — a real "
+        "wall clock, on units currently inside md-running. None means no unit is in that phase right now, "
+        "which is NOT the same as a fast segment.")
+    if _meas_med is not None and agg["md_running_to_first_commit"]["median_min"]:
+        _d = agg["md_running_to_first_commit"]["median_min"]
+        agg["md_running_to_first_commit"]["measured_over_derived"] = round(_meas_med / _d, 2) if _d else None
+        agg["md_running_to_first_commit"]["_reading"] = (
+            "a ratio near 1.0 says the segment really is one checkpoint interval of MD and nothing else, "
+            "so the CHECKPOINT INTERVAL is the whole lever. Materially above 1.0 says the window also "
+            "holds fixed cost the reconstruction cannot see — setup restore/build and minimisation are the "
+            "candidates, and `of_which` below carries the two that time themselves.")
+    # The two self-timed pieces INSIDE that window, so a reader can subtract them rather than guess.
+    # Medians of what the logs actually printed; None where no attempt printed one, never 0.
+    _builds = [a["setup_seconds"] for u in (units or {}).values() for a in (u.get("attempts") or [])
+               if a.get("setup_seconds")]
+    _restores = [v for u in (units or {}).values() for a in (u.get("attempts") or [])
+                 for v in (a.get("restore_seconds") or {}).values() if v]
+    agg["md_running_to_first_commit"]["of_which_setup_build_min"] = (
+        round(st.median(_builds) / 60.0, 2) if _builds else None)
+    agg["md_running_to_first_commit"]["of_which_setup_restore_min"] = (
+        round(st.median(_restores) / 60.0, 2) if _restores else None)
+    agg["md_running_to_first_commit"]["_residual_is"] = (
+        "what remains after those two is minimisation + the warmup iterations to the first checkpoint, "
+        "PLUS anything else in the window that times nothing. A RESIDUAL, not a measurement of "
+        "minimisation — do not quote it as one.")
     setup = agg["container_to_md_running"]["median_min"]
     first = agg["md_running_to_first_commit"]["median_min"]
     if setup is not None and first is not None:
@@ -556,6 +664,20 @@ def render(doc):
                 L.append("   %-30s %7.1f  (%.1f-%.1f)  n=%d%s"
                          % (seg, d["median_min"], d["min_min"], d["max_min"], d["n"],
                             "  [DERIVED]" if d.get("derived") else ""))
+                # ★ THE MEASURED CROSS-CHECK, PRINTED UNDER THE DERIVED VALUE IT CHECKS. A reconstruction
+                # that nobody ever compares against a clock is a reconstruction nobody can grade — and the
+                # verdict below turns on exactly this segment.
+                if d.get("measured_median_min") is not None:
+                    L.append("      MEASURED (S3 commit stamps, n=%d unit(s)): %.1f min   ratio %.2fx the "
+                             "derived value" % (d.get("measured_n_units", 0), d["measured_median_min"],
+                                                d.get("measured_over_derived") or 0.0))
+                elif "measured_median_min" in d:
+                    L.append("      MEASURED: none this pass — %s" % (d.get("measured_how") or "")[-120:])
+                for lbl, k in (("of which setup BUILD", "of_which_setup_build_min"),
+                               ("of which setup RESTORE", "of_which_setup_restore_min")):
+                    if k in d:
+                        L.append("      %-24s %s" % (lbl, "—  (no attempt printed one)" if d[k] is None
+                                                     else "%.1f min" % d[k]))
         L += ["", "   " + (li.get("verdict") or "")]
         L.append("")
     for k, d in sorted((doc.get("cache_tally") or {}).items()):
