@@ -1,11 +1,11 @@
 {
- "_what": "The FIRST measured throughput of a step-1 fan-out RBFE leg on a GCE L4. Written by CI from the unit's own COMMITTED.json markers; NEVER hand-edited. Regenerate the documented table with `gcp_fanout_rep.py rate --markdown-table`.",
+ "_what": "The FIRST measured throughput of a step-1 fan-out RBFE leg on a GCE L4. Written by CI from the unit's own COMMITTED.json markers; NEVER hand-edited. gcp-gpu-facts.md \u00a71e's table is regenerated from this file BY THIS WRITE (`sync_rate_table_doc`), so the two cannot be authored by different events; `rate --sync-doc` re-applies it.",
  "_ledger": "GCP trial credit \u2014 a SEPARATE LEDGER, never summed into realized or ladder spend (CLAUDE.md \u00a76), expires 2026-10-10. No dollars are recorded here on purpose: the L4 list rate is NOT a go-forward cost basis (pricing.md).",
  "_caveat": "A REALIZED WALL-CLOCK rate: each interval brackets 20 HREX iterations AND the GCS commit barrier that closes them. Right for an ETA and for GPU-hours-per-leg; wrong to compare against a bare single-simulation MD benchmark.",
  "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
  "card": "nvidia-l4",
  "machine_type": "g2-standard-8",
- "measured_utc": "2026-08-01T13:49:36Z",
+ "measured_utc": "2026-08-01T13:55:23Z",
  "marks": [
   [
    "complex",
@@ -18,6 +18,12 @@
    "production",
    80,
    "2026-08-01T13:30:27Z"
+  ],
+  [
+   "complex",
+   "production",
+   120,
+   "2026-08-01T13:54:16Z"
   ],
   [
    "complex",
@@ -153,15 +159,15 @@
   "ps_per_iteration_per_replica": 2.5,
   "legs": {
    "complex": {
-    "commits": 22,
+    "commits": 23,
     "stage": "production",
-    "iteration": 80,
-    "s_per_iteration": 35.255,
+    "iteration": 120,
+    "s_per_iteration": 35.36,
     "rate_phase": "production",
-    "n_intervals": 20,
+    "n_intervals": 21,
     "n_used": 5,
-    "spread": 1.0114122681883027,
-    "why": "mean of the trailing 5 of 20 completed production commit intervals (gcp_fanout_rep.RATE_WINDOW)",
+    "spread": 1.0192582025677606,
+    "why": "mean of the trailing 5 of 21 completed production commit intervals (gcp_fanout_rep.RATE_WINDOW)",
     "intervals": [
      {
       "from": 20,
@@ -282,11 +288,17 @@
       "to": 80,
       "seconds": 1407.0,
       "s_per_iter": 35.175
+     },
+     {
+      "from": 80,
+      "to": 120,
+      "seconds": 1429.0,
+      "s_per_iter": 35.725
      }
     ],
-    "leg_hours": 23.503333333333334,
-    "ns_per_day_per_replica": 6.1267905261665,
-    "ns_per_day_aggregate": 73.521486313998
+    "leg_hours": 23.573333333333334,
+    "ns_per_day_per_replica": 6.108597285067874,
+    "ns_per_day_aggregate": 73.30316742081449
    },
    "solvent": {
     "commits": 0,
