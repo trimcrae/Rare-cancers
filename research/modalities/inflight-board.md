@@ -9,8 +9,8 @@ Generated 10:12 PM ET Fri Jul 31, 2026 by `task=collect`.
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
 5aks_d0_to_d ternary nr4a3 r1 8:08 AM Aug 1      67.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   30.8 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:11 AM Aug 1     55.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.0 s/iter · realised $0.00845/ns (1.62x expected)
+5aks_d0_to_d ternary nr4a1 r0 10:12 AM Aug 1     55.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.0 s/iter · realised $0.00845/ns (1.62x expected)
 5aks_d0_to_d ternary nr4a1 r1 1:51 AM Aug 2      50.0%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.3 s/iter · realised $0.00719/ns (1.74x expected)
-5aks_d0_to_d ternary nr4a3 r0 —                      —  RTX 4090 $0.00374/ns · 1.10× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 12976; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1880 is intact in S3 and this pass dispatches the gate to re-place it
+5aks_d0_to_d ternary nr4a3 r0 —                      —  —                                        NO HOST   no live host — checkpoint at production/1880 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
