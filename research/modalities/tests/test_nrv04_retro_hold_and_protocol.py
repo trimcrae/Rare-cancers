@@ -1078,5 +1078,47 @@ def test_the_running_quarantine_flag_is_carried_onto_the_board_row():
     assert isinstance(rows, list)
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# DEFECT 10 — the hostless row PROMISED a resume that no artifact backed (measured 2026-08-01).
+#   `nrv04retro-retro_noncov_nr4a2-m2-r0` carried "a re-dispatch resumes this leg from its checkpoint" on
+#   every tick for ~11 hours while its `ckpt_*.ckpt.json` set was EMPTY: its hosts' containers exited inside
+#   the preregistered 1 ns equilibration, before any production frame existed to checkpoint. The row read as
+#   "it will pick up where it left off" when every rental was in fact starting from zero — CLAUDE.md §4b,
+#   a populated field is not a measured one, in prose form.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def _hostless_row(s3, phase="md-running 2026-07-31T20:28:05Z"):
+    import nrv04_retro_panel as R
+    a, m, r = R.enumerate_units()[0]
+    name = R.unit_name(a, m, r)
+    rows, _ = vl.retro_board_rows(s3, "bkt", {name: phase}, set(), [], None, {},
+                                  reasons={name: "BOUGHT this tick"})
+    return [x for x in rows if x["name"] == vl._retro_short_name(name)][0]
+
+
+def test_a_hostless_row_never_promises_a_resume_it_cannot_evidence(monkeypatch):
+    monkeypatch.setattr(vl, "retro_committed_at", lambda *a, **k: None)
+    why = _hostless_row(_FakeS3({}))["why"]
+    assert "NOTHING BANKED THAT WE CAN READ" in why
+    assert "RESTARTS this leg from zero" in why
+    assert "RESUMES it from the production checkpoint" not in why, (
+        "with no checkpoint object, a resume is a claim, not a description")
+
+
+def test_a_hostless_row_names_the_checkpoint_when_one_really_is_banked(monkeypatch):
+    monkeypatch.setattr(vl, "retro_committed_at", lambda *a, **k: "2026-08-01T01:02:03Z")
+    why = _hostless_row(_FakeS3({}))["why"]
+    assert "RESUMES it from the production checkpoint banked 2026-08-01T01:02:03Z" in why
+    assert "NOTHING BANKED" not in why
+
+
+def test_the_resume_claim_is_measured_not_templated():
+    """The guard against the fix being written back out as a constant string."""
+    import inspect
+    src = inspect.getsource(vl.retro_board_rows)
+    assert "retro_committed_at(s3, bucket, name)" in src, (
+        "the row must ASK whether work is banked; the old text asserted it unconditionally")
+    assert "a re-dispatch resumes this leg from its checkpoint" not in src
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))

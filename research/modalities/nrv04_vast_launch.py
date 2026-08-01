@@ -3418,9 +3418,27 @@ def retro_board_rows(s3, bucket, phases, have, live, unreadable, prev_state, now
                 # whether the re-placer declined, why, or whether it is even trying. Ten consecutive rows
                 # carrying only the former is how a blocked pilot went unnoticed for 1 h 55 min — see
                 # `retro_gate_reasons`.
-                state_why = ("no live host — phase marker %s; a re-dispatch resumes this leg from its "
-                             "checkpoint. THIS TICK: %s"
-                             % (phase or "none",
+                #
+                # ⚠ AND "resumes from its checkpoint" IS A CLAIM, SO IT IS MEASURED (2026-08-01). This row
+                # asserted a resume on EVERY tick for `nrv04retro-retro_noncov_nr4a2-m2-r0`, whose
+                # `ckpt_*.ckpt.json` set is EMPTY: its hosts' containers exited inside the preregistered
+                # 1 ns equilibration, before any production frame existed to checkpoint, so every rental
+                # started from zero. A template reassurance no artifact backs is CLAUDE.md §4b's "a
+                # populated field is not a measured one" in prose form — and here it hid the whole failure,
+                # because a reader saw a leg that would pick up where it left off. `retro_committed_at` is
+                # the one home of "has this unit banked production work", so it is ASKED, never assumed.
+                # ⚠ It returns `None` both for "no checkpoint exists" and for "the listing failed" (it
+                # prints the failure), so the negative branch says *readable* rather than claiming absence
+                # — the fail-safe direction: it warns where the old text reassured.
+                _ck = retro_committed_at(s3, bucket, name)
+                _resume = ("a re-dispatch RESUMES it from the production checkpoint banked %s" % _ck
+                           if _ck else
+                           "⚠ NOTHING BANKED THAT WE CAN READ — retro_committed_at found no production "
+                           "checkpoint (it answers the same way when the listing fails, and prints that), "
+                           "so a re-dispatch RESTARTS this leg from zero and the next host must survive the "
+                           "whole leg before any state is durable")
+                state_why = ("no live host — phase marker %s; %s. THIS TICK: %s"
+                             % (phase or "none", _resume,
                                 (reasons or {}).get(name)
                                 or "no gate decision recorded for this unit — if that persists, the "
                                    "re-placer is not evaluating it at all, which is a defect, not a hold"))
