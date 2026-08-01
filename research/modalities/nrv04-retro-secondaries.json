@@ -8,7 +8,7 @@
     "_what": "S3 census of the NR-V04 retrospective lane's stored leg records, graded on MEASURED provenance rather than on ENV-echoed fields (CLAUDE.md \u00a74b).",
     "bucket": "sagemaker-us-east-2-646605541856",
     "prefix": "nrv04-retro-results",
-    "n_objects_under_prefix": 476,
+    "n_objects_under_prefix": 477,
     "n_leg_records_found": 18,
     "n_admitted_to_panel": 16,
     "n_rejected": 2,
@@ -47,19 +47,10 @@
       "leg_id",
       "seed"
     ],
-    "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-    "all_admitted_legs_corroborated": false,
-    "legs_failing_corroboration": [
-      "nrv04retro-retro_noncov_nr4a2-m1-r1",
-      "nrv04retro-retro_noncov_nr4a3-m2-r0",
-      "nrv04retro-retro_noncov_nr4a1-m1-r0",
-      "nrv04retro-retro_noncov_nr4a3-m1-r1",
-      "nrv04retro-retro_noncov_nr4a3-m2-r1",
-      "nrv04retro-retro_noncov_nr4a2-m2-r1",
-      "nrv04retro-retro_noncov_nr4a1-m3-r1",
-      "nrv04retro-retro_noncov_nr4a1-m2-r0",
-      "nrv04retro-retro_noncov_nr4a1-m2-r1"
-    ],
+    "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification.",
+    "s3_span_evidence": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
+    "all_admitted_legs_corroborated": true,
+    "legs_failing_corroboration": [],
     "rejected_records": [
       {
         "key": "nrv04-retro-results/nrv04retro-retro_noncov_nr4a3-m3-r0/leg_retro_noncov_nr4a3__m3_s0.json",
@@ -100,8 +91,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": null,
         "measured_traj_bytes": null,
-        "measured_unit_s3_span_s": 21139.0,
-        "measured_unit_s3_objects": 7,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 248792,
+        "reported_unit_s3_span_s": 21139.0,
+        "reported_unit_s3_objects": 7,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -115,10 +120,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
+        "measured_ns_per_day_recomputed": 115.8,
         "corroboration_failures": [],
         "measured_corroborates_env_echo": true,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 17408.5
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a3-m3-r0",
@@ -139,8 +144,22 @@
         "measured_readout_frames": null,
         "measured_traj_written_frames": 0,
         "measured_traj_bytes": 0,
-        "measured_unit_s3_span_s": 17785.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 15
+        },
+        "measured_n_atoms": 314186,
+        "reported_unit_s3_span_s": 17785.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "smoke",
           "prod_ns": 5.0,
@@ -154,13 +173,13 @@
         "completed_why": "blew_up at 'prod@frame0/5'",
         "blew_up": true,
         "blow_phase": "prod@frame0/5",
+        "measured_ns_per_day_recomputed": 0.0,
         "corroboration_failures": [
           "n_frames=0 != 500 expected at the canonical stride",
-          "prod_wall_s=4.4 \u2014 under 10 minutes of measured production wall clock"
+          "prod_wall_s=4.4 \u2014 under 10 minutes of measured production wall clock, which no 5 ns leg on this lane's cards has achieved"
         ],
         "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 17780.6
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a3-m3-r1",
@@ -181,8 +200,22 @@
         "measured_readout_frames": null,
         "measured_traj_written_frames": 0,
         "measured_traj_bytes": 0,
-        "measured_unit_s3_span_s": 18753.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 15
+        },
+        "measured_n_atoms": 315931,
+        "reported_unit_s3_span_s": 18753.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "smoke",
           "prod_ns": 5.0,
@@ -196,13 +229,13 @@
         "completed_why": "blew_up at 'prod@frame0/5'",
         "blew_up": true,
         "blow_phase": "prod@frame0/5",
+        "measured_ns_per_day_recomputed": 0.0,
         "corroboration_failures": [
           "n_frames=0 != 500 expected at the canonical stride",
-          "prod_wall_s=4.0 \u2014 under 10 minutes of measured production wall clock"
+          "prod_wall_s=4.0 \u2014 under 10 minutes of measured production wall clock, which no 5 ns leg on this lane's cards has achieved"
         ],
         "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 18749.0
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a2-m1-r1",
@@ -223,8 +256,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4902000,
-        "measured_unit_s3_span_s": 307.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 250269,
+        "reported_unit_s3_span_s": 307.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -238,12 +285,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 307.0s is SHORTER than the leg's own prod_wall_s 2351.2s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -2044.2
+        "measured_ns_per_day_recomputed": 183.74,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a3-m2-r0",
@@ -264,8 +309,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4926000,
-        "measured_unit_s3_span_s": 380.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 15
+        },
+        "measured_n_atoms": 366345,
+        "reported_unit_s3_span_s": 380.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -279,12 +338,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 380.0s is SHORTER than the leg's own prod_wall_s 1799.0s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -1419.0
+        "measured_ns_per_day_recomputed": 240.13,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a1-m1-r0",
@@ -305,8 +362,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4908000,
-        "measured_unit_s3_span_s": 373.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 286737,
+        "reported_unit_s3_span_s": 373.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -320,12 +391,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 373.0s is SHORTER than the leg's own prod_wall_s 2174.7s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -1801.7
+        "measured_ns_per_day_recomputed": 198.65,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a3-m1-r1",
@@ -346,8 +415,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4926000,
-        "measured_unit_s3_span_s": 175.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 15
+        },
+        "measured_n_atoms": 329614,
+        "reported_unit_s3_span_s": 175.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -361,12 +444,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 175.0s is SHORTER than the leg's own prod_wall_s 2419.6s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -2244.6
+        "measured_ns_per_day_recomputed": 178.54,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a3-m1-r0",
@@ -387,8 +468,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4926000,
-        "measured_unit_s3_span_s": 7904.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 15
+        },
+        "measured_n_atoms": 329661,
+        "reported_unit_s3_span_s": 7904.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -402,10 +497,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
+        "measured_ns_per_day_recomputed": 214.5,
         "corroboration_failures": [],
         "measured_corroborates_env_echo": true,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 5890.0
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a3-m2-r1",
@@ -426,8 +521,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4926000,
-        "measured_unit_s3_span_s": 332.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 15
+        },
+        "measured_n_atoms": 367113,
+        "reported_unit_s3_span_s": 332.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -441,12 +550,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 332.0s is SHORTER than the leg's own prod_wall_s 2125.6s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -1793.6
+        "measured_ns_per_day_recomputed": 203.24,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a2-m2-r1",
@@ -467,8 +574,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4902000,
-        "measured_unit_s3_span_s": 103.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 345841,
+        "reported_unit_s3_span_s": 103.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -482,12 +603,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 103.0s is SHORTER than the leg's own prod_wall_s 1774.9s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -1671.9
+        "measured_ns_per_day_recomputed": 243.39,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a1-m3-r0",
@@ -508,8 +627,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4908000,
-        "measured_unit_s3_span_s": 6755.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 251675,
+        "reported_unit_s3_span_s": 6755.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -523,10 +656,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
+        "measured_ns_per_day_recomputed": 262.6,
         "corroboration_failures": [],
         "measured_corroborates_env_echo": true,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 5109.9
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a1-m3-r1",
@@ -547,8 +680,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4908000,
-        "measured_unit_s3_span_s": 347.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 251025,
+        "reported_unit_s3_span_s": 347.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -562,12 +709,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 347.0s is SHORTER than the leg's own prod_wall_s 1989.5s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -1642.5
+        "measured_ns_per_day_recomputed": 217.14,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a1-m2-r0",
@@ -588,8 +733,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4908000,
-        "measured_unit_s3_span_s": 294.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 330000,
+        "reported_unit_s3_span_s": 294.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -603,12 +762,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 294.0s is SHORTER than the leg's own prod_wall_s 1666.1s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -1372.1
+        "measured_ns_per_day_recomputed": 259.29,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a2-m3-r1",
@@ -629,8 +786,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4902000,
-        "measured_unit_s3_span_s": 2720.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 342562,
+        "reported_unit_s3_span_s": 2720.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -644,10 +815,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
+        "measured_ns_per_day_recomputed": 213.46,
         "corroboration_failures": [],
         "measured_corroborates_env_echo": true,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 696.2
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a1-m2-r1",
@@ -668,8 +839,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4908000,
-        "measured_unit_s3_span_s": 439.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 329973,
+        "reported_unit_s3_span_s": 439.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -683,12 +868,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
-        "corroboration_failures": [
-          "unit S3 span 439.0s is SHORTER than the leg's own prod_wall_s 1847.1s"
-        ],
-        "measured_corroborates_env_echo": false,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": -1408.1
+        "measured_ns_per_day_recomputed": 233.88,
+        "corroboration_failures": [],
+        "measured_corroborates_env_echo": true,
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a1-m1-r1",
@@ -709,8 +892,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4908000,
-        "measured_unit_s3_span_s": 11896.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 287262,
+        "reported_unit_s3_span_s": 11896.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -724,10 +921,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
+        "measured_ns_per_day_recomputed": 218.59,
         "corroboration_failures": [],
         "measured_corroborates_env_echo": true,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 9919.7
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a2-m3-r0",
@@ -748,8 +945,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4902000,
-        "measured_unit_s3_span_s": 3537.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 345307,
+        "reported_unit_s3_span_s": 3537.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -763,10 +974,10 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
+        "measured_ns_per_day_recomputed": 151.81,
         "corroboration_failures": [],
         "measured_corroborates_env_echo": true,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 691.3
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       },
       {
         "unit": "nrv04retro-retro_noncov_nr4a2-m2-r0",
@@ -787,8 +998,22 @@
         "measured_readout_frames": 500,
         "measured_traj_written_frames": 500,
         "measured_traj_bytes": 4902000,
-        "measured_unit_s3_span_s": 2589.0,
-        "measured_unit_s3_objects": 8,
+        "measured_chain_split": {
+          "target": [
+            "A"
+          ],
+          "e3": [
+            "E",
+            "F",
+            "G"
+          ],
+          "explicit": true,
+          "target_lys_nz": 13
+        },
+        "measured_n_atoms": 345823,
+        "reported_unit_s3_span_s": 2589.0,
+        "reported_unit_s3_objects": 8,
+        "reported_unit_s3_span_note": "REPORTED, NOT GRADED. A unit's S3 write span is neither an upper nor a lower bound on the leg's wall clock: nrv04_covalent_md._rm_ckpt DELETES the checkpoint objects when a leg finishes, and continuous upload overwrites keys so each object carries its LAST write time. A clean leg can therefore show a span far shorter than its own measured prod_wall_s \u2014 9 of the 16 landed legs do, all of them 500-frame 5.0 ns legs. Corroboration is decided on the record's own measured fields instead.",
         "env_echoed": {
           "mode": "run",
           "prod_ns": 5.0,
@@ -802,12 +1027,49 @@
         "completed_why": "complete: 5.0 ns timed over 500 frames",
         "blew_up": false,
         "blow_phase": null,
+        "measured_ns_per_day_recomputed": 200.84,
         "corroboration_failures": [],
         "measured_corroborates_env_echo": true,
-        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. Positive evidence is INDIRECT \u2014 the unit's S3 write span minus its measured `prod_wall_s` is the time available for staging + minimization + equilibration \u2014 and the only direct equilibration field is negative (`blow_phase` = 'equil@\u2026' on a NaN). Reported as a gap, never as a verification.",
-        "measured_non_production_wall_s": 438.0
+        "equilibration_evidence": "NO DIRECT RECEIPT: `equil_ns` is echoed from ENV and the driver writes no equilibration wall time or frame count. What the artifacts DO carry is (a) the minimization pair pe_pre_min_kj / pe_post_min_kj \u2014 a real built-and-minimized system \u2014 and (b) the only direct equilibration field, which is negative: `blow_phase` = 'equil@<n>steps/<m>' when the 4 fs HMR integrator NaN'd during equilibration. Reported as a gap, never as a verification."
       }
     ]
+  },
+  "reproduces_emitted_verdict": {
+    "_what": "model-level E1 means recomputed from the S3 leg records, against the EMITTED verdict's own `model_level_means`. The verdict is authoritative; this is the check that the census read the same panel.",
+    "from_s3_legs": {
+      "retro_noncov_nr4a1": {
+        "1": 3.3355,
+        "2": 5.1555,
+        "3": 3.802
+      },
+      "retro_noncov_nr4a2": {
+        "1": 3.59,
+        "2": 4.87,
+        "3": 6.0705
+      },
+      "retro_noncov_nr4a3": {
+        "1": 4.142,
+        "2": 3.2285
+      }
+    },
+    "in_emitted_verdict": {
+      "retro_noncov_nr4a1": {
+        "1": 3.3355,
+        "2": 5.1555,
+        "3": 3.802
+      },
+      "retro_noncov_nr4a2": {
+        "1": 3.59,
+        "2": 4.87,
+        "3": 6.0705
+      },
+      "retro_noncov_nr4a3": {
+        "1": 4.142,
+        "2": 3.2285
+      }
+    },
+    "agree": true,
+    "disagreements": []
   },
   "secondaries": {
     "_role": "PREREGISTERED SECONDARIES, REPORTED. None of E2/E3/E4 is a verdict, a tier condition or a substitute primary; E1 is the registered primary and the only endpoint the verdict turns on. Gating on the friendliest endpoint is precisely the retune this program forbids.",
@@ -1308,6 +1570,21 @@
         "e4_max_A": 34.08,
         "e4_note": null,
         "e2_threshold_agrees": true
+      }
+    ]
+  },
+  "e4_outliers": {
+    "_role": "FLAG ONLY \u2014 E4 is descriptive, never a gate (prereg \u00a73). No leg is excluded, re-weighted or corrected on the strength of this list, and no E4 number elsewhere in this document is computed with outliers removed.",
+    "ratio": 4.0,
+    "outliers": [
+      {
+        "unit": "nrv04retro-retro_noncov_nr4a2-m1-r0",
+        "arm_id": "retro_noncov_nr4a2",
+        "e4_min_A": 2.45,
+        "e4_median_A": 2.91,
+        "e4_max_A": 3.34,
+        "arm_median_leg_e4_median_A": 34.13,
+        "ratio_to_arm_median": 11.73
       }
     ]
   },
