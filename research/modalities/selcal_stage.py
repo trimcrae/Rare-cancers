@@ -255,26 +255,39 @@ def identify_chains(pdb_path: str, contract: dict) -> dict:
     pair is a check."""
     census = chain_census(pdb_path)
     by_chain = {c["chain"]: c["residues"] for c in census}
-    missing = [cid for cid in contract if cid not in by_chain]
-    extra = [cid for cid in by_chain if cid not in contract]
-    if missing or extra:
-        raise ValueError("co-fold chains do not match the contract: missing=%s unexpected=%s census=%s "
-                         "contract=%s" % (missing, extra, census, sorted(contract)))
-    bad = [(cid, by_chain[cid], contract[cid]["n_residues"]) for cid in contract
-           if by_chain[cid] != int(contract[cid]["n_residues"])]
-    if bad:
-        raise ValueError("co-fold chain lengths disagree with the contract (chain, found, expected): %s. "
-                         "A chain of the wrong length means the co-fold is not the system that was "
-                         "specified; assembling it anyway would produce readouts about something else."
-                         % bad)
-    target = [cid for cid, spec in contract.items() if spec.get("role") == "target"]
-    if len(target) != 1:
-        raise ValueError("the contract must name exactly one target chain, found %s" % target)
-    e3 = sorted(cid for cid in contract if cid != target[0])
-    return {"target_chain": target[0], "e3_chains": e3, "census": census,
-            "e3_roles": {cid: contract[cid]["role"] for cid in e3},
+    want = {cid: int(spec["n_residues"]) for cid, spec in contract.items()}
+    remap = None
+    if set(by_chain) != set(want) or any(by_chain[c] != want[c] for c in want):
+        # ★ A PURE RELABELLING IS NOT A MISMATCH — but it is only safe to say so because the contract's
+        # residue counts are a BIJECTION, enforced at build time (`build_cofold_inputs` refuses to emit a
+        # contract with two equal counts). So if the multiset of counts matches exactly, the mapping is
+        # UNIQUE and derived from the data rather than assumed (TESTING.md rule 1); anything else raises.
+        # This exists because a co-folder is free to rename chains — the ids in the YAML are a request, not
+        # a guarantee — and failing on that would be failing on a convention, not on a fault.
+        inv = {}
+        for cid, n in want.items():
+            inv.setdefault(n, []).append(cid)
+        if (sorted(by_chain.values()) == sorted(want.values())
+                and all(len(v) == 1 for v in inv.values())):
+            remap = {found: inv[n][0] for found, n in by_chain.items()}
+        else:
+            raise ValueError(
+                "co-fold chains do not match the contract and cannot be uniquely re-mapped by residue "
+                "count. census=%s contract=%s. A chain of the wrong length means the co-fold is not the "
+                "system that was specified; assembling it anyway would produce readouts about something "
+                "else." % (census, want))
+    target_ids = [cid for cid, spec in contract.items() if spec.get("role") == "target"]
+    if len(target_ids) != 1:
+        raise ValueError("the contract must name exactly one target chain, found %s" % target_ids)
+    back = {v: k for k, v in (remap or {}).items()}          # contract id -> the id actually in the file
+    target = back.get(target_ids[0], target_ids[0])
+    e3 = sorted(back.get(cid, cid) for cid in contract if cid != target_ids[0])
+    return {"target_chain": target, "e3_chains": e3, "census": census,
+            "e3_roles": {back.get(cid, cid): contract[cid]["role"]
+                         for cid in contract if cid != target_ids[0]},
             "verified_against": "cofold-inputs.json chain_contract",
-            "target_gene": contract[target[0]].get("gene")}
+            "chain_relabelling": remap,
+            "target_gene": contract[target_ids[0]].get("gene")}
 
 
 def assemble_unit(cif_path: str, leg_id: str, contract: dict, out_dir: str,

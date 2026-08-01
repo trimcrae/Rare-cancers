@@ -58,11 +58,12 @@ def test_a_chain_of_the_wrong_length_RAISES_rather_than_being_accepted(tmp_path)
     """The whole identification argument rests on the length. A co-fold whose target chain is not the length
     the construct implies is not the system that was specified, and assembling it would produce readouts
     about something else — silently."""
+    # 5 is not any contract length, so the multiset cannot match and no relabelling can rescue it.
     p = _pdb({"A": 5, "E": 2, "F": 4}, str(tmp_path / "wrong.pdb"))
     try:
         ST.identify_chains(p, CONTRACT)
     except ValueError as e:
-        assert "disagree with the contract" in str(e)
+        assert "uniquely re-mapped" in str(e)
     else:
         raise AssertionError("a wrong-length chain must RAISE, not be accepted")
 
@@ -178,3 +179,29 @@ def test_audit_ignores_intra_residue_bonds(tmp_path):
 if __name__ == "__main__":
     import pytest
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+def test_a_pure_relabelling_is_remapped_by_the_bijection_not_refused(tmp_path):
+    """A co-folder is free to rename chains — the ids in the YAML are a request, not a guarantee. Because
+    the contract's residue counts are a BIJECTION (enforced when it is built), a relabelling has exactly one
+    consistent mapping, so it is derived from the data rather than assumed (TESTING.md rule 1)."""
+    p = _pdb({"B": 3, "C": 2, "D": 4}, str(tmp_path / "relabelled.pdb"))
+    got = ST.identify_chains(p, CONTRACT)
+    assert got["target_chain"] == "B"          # the 3-residue chain is the contract's target
+    assert got["e3_chains"] == ["C", "D"]
+    assert got["chain_relabelling"] == {"B": "A", "C": "E", "D": "F"}
+    assert got["e3_roles"]["C"] == "VHL" and got["e3_roles"]["D"] == "ElonginB"
+
+
+def test_an_ambiguous_relabelling_still_RAISES(tmp_path):
+    """Two chains of the same length make the mapping non-unique. Guessing there is exactly the silent
+    mis-mapping that scored Elongin C as a degradation target on a sibling panel."""
+    ambiguous = {"A": {"role": "target", "gene": "X", "n_residues": 3},
+                 "E": {"role": "VHL", "n_residues": 3}}
+    p = _pdb({"B": 3, "C": 3}, str(tmp_path / "ambig.pdb"))
+    try:
+        ST.identify_chains(p, ambiguous)
+    except ValueError as e:
+        assert "uniquely re-mapped" in str(e)
+    else:
+        raise AssertionError("an ambiguous relabelling must RAISE")
