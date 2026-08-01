@@ -76,6 +76,7 @@ from protfep_vast_launch import (  # noqa: E402
 # gets acted on; the reasoning for the verdict itself lives in one module so a second lane cannot grow a
 # second, disagreeing definition of "this rental is doing nothing".
 import vast_idle_guard as vig                                   # noqa: E402
+import ternary_billed_ledger as _tbl                            # noqa: E402
 import leg_failure_breaker as lfb                                # noqa: E402
 import vast_stopped_resume_measure as _srm                      # noqa: E402
 # The ONE table trimcrae reads: name · % done · ETA · $/ns · running-or-stalled-and-why. It lives in its own
@@ -3399,12 +3400,23 @@ def collect(bucket=None, prefix=None, autostop=True):
     destroyed_this_pass = {}   # iid -> {"ok": bool, "why": str}
     _board_rows = []           # one entry per LIVE leg, for the in-flight board printed at the end
 
-    def _destroy(iid, why):
+    def _destroy(iid, why, inst=None, unit_id=None):
         """Issue the teardown AND record its OUTCOME, so the summary can say whether billing actually stopped.
 
         Every teardown in this function goes through here. A destroy that raises used to print one line deep
         in the per-instance detail and then render, in the summary, exactly like a successful one — i.e. a box
-        still on the meter looked identical to a box that is off it."""
+        still on the meter looked identical to a box that is off it.
+
+        ★★ AND IT IS WHERE THE BILLED HOURS ARE RECORDED (2026-08-01). Destroy is the LAST moment the
+        instance record exists — after this the rate, the start_date and the machine are unrecoverable, and
+        this lane's only per-rental artifact (`ternary-vast-rental-receipt.json`) is overwritten by the next
+        launch. That is how a rental could bill and leave no trace: the prune smoke's instance 46459452 did
+        exactly that overnight. Recorded BEFORE the DELETE, because a row written only on success would miss
+        precisely the boxes whose teardown failed — the ones still on the meter."""
+        try:
+            _tbl.record(inst or {"id": iid}, unit_id=unit_id, reason=why)
+        except Exception as _e:  # noqa: BLE001 — the ledger must never be able to block a teardown
+            print(f"    [ledger] could not record rental {iid}: {type(_e).__name__}: {_e}")
         try:
             _vast_request("DELETE", f"/instances/{iid}/", key)
             destroyed_this_pass[iid] = {"ok": True, "why": why}
@@ -3581,12 +3593,13 @@ def collect(bucket=None, prefix=None, autostop=True):
                f"idle guard: {idle_verdict} — {idle_why}" if vig.should_destroy(idle_verdict) else None)
         if autostop and why:
             print(f"    -> destroying {iid} ({why})")
-            _destroy(iid, why)
+            _destroy(iid, why, inst=i, unit_id=uid)
         elif (i.get("actual_status") != "running" and i.get("cur_state") == "running"
               and frozen_min > MAX_FROZEN_MIN):
             print(f"    -> destroying {iid} (status frozen {frozen_min:.0f} min at {msg[:60]!r}; "
                   f"the image pull is dead, not queued)")
-            _destroy(iid, f"status frozen {frozen_min:.0f} min — the image pull is dead, not queued")
+            _destroy(iid, f"status frozen {frozen_min:.0f} min — the image pull is dead, not queued",
+                     inst=i, unit_id=uid)
         elif i.get("cur_state") == "stopped":
             # A stopped box has two causes that demand OPPOSITE actions, and only the start response
             # separates them. Re-issue the start (idempotent) and read the reply.
@@ -3702,14 +3715,14 @@ def collect(bucket=None, prefix=None, autostop=True):
                                   f"before this host started ({_pre!r}) — refusing to credit an eviction "
                                   f"on a guess)")
                     _destroy(iid, f"capacity refusal on machine {i.get('machine_id')}; "
-                                  f"{_td.get('verdict')}")
+                                  f"{_td.get('verdict')}", inst=i, unit_id=uid)
                 else:
                     # VISIBLE, with the snapshot that caused it (CLAUDE.md §6) — a silent hold is
                     # indistinguishable from a lane that finished.
                     held_boxes.append({"instance": iid, "machine_id": i.get("machine_id"), **_td})
             elif up_h * 60 > MAX_STOPPED_MIN:
                 print(f"    -> destroying {iid} (stopped {up_h * 60:.0f} min, not a capacity wait)")
-                _destroy(iid, f"stopped {up_h * 60:.0f} min, not a capacity wait")
+                _destroy(iid, f"stopped {up_h * 60:.0f} min, not a capacity wait", inst=i, unit_id=uid)
 
     # ONE COMPACT LINE PER UNIT, LAST. GitHub truncates a job log from the tail, and this board's per-instance
     # detail is long enough that on a busy poll the verdict scrolls out of a 25-line fetch — which is exactly
@@ -4396,6 +4409,10 @@ def retire_host(match, dry_run=False):
             print(f"  WOULD retire {row}")
         else:
             try:
+                try:
+                    _tbl.record(i, unit_id=uid, reason="retire_host")
+                except Exception as _e:  # noqa: BLE001 — never block a retirement on bookkeeping
+                    print(f"  [ledger] could not record rental {i.get('id')}: {type(_e).__name__}: {_e}")
                 _vast_request("DELETE", f"/instances/{i.get('id')}/", key)
                 print(f"  RETIRED host {i.get('id')} (machine {i.get('machine_id')}, {i.get('gpu_name')}) "
                       f"for {uid} — checkpoint intact; the next `collect` finds it hostless and dispatches "
