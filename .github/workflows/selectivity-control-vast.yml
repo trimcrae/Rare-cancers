@@ -1,0 +1,235 @@
+name: ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) — Vast
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# WHY THIS LANE EXISTS — and what it is NOT
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# The NR-V04 retrospective returned tier DISCORDANT (p = 0.3929) — a NON-RESOLUTION. The deeper problem it
+# exposed is that **the program has no positive control showing this workflow can detect paralogue selectivity
+# at all**. NR-V04 cannot become one at any n: it is covalency-confounded (Cys551 is unique to NR4A1), so its
+# non-covalent arm has no guaranteed true effect. The method calibrator that would answer the question —
+# valB_full module 3, SMARCA2-vs-SMARCA4 — has never been run.
+#
+# ⛔ THIS IS AN INSTRUMENT CALIBRATION, NOT A SELECTIVITY RESULT. It asks whether the endpoint-MD readout can
+# detect a difference it is KNOWN TO CONTAIN. A PASS licenses exactly one sentence — "the readout discriminates
+# a known paralogue pair" — and NOTHING about NR4A3, about degradation, or about any therapeutic claim.
+# The design is `research/modalities/selectivity-resolution-options.md` §2-D; it is not re-derived here.
+#
+# LADDER, cheapest-decisive-first — nothing auto-fires (CLAUDE.md §6):
+#   refs        -> $0  CPU  precondition 1: fetch the MEASURED primary-source reference selectivity
+#   selftest    -> $0  CPU  the lane's pure helpers + a dry-run JobSpec (rents nothing)
+#   manifest    -> $0  CPU  the frozen panel + its DERIVED ladder cost
+#   cofold_dry  -> $0  CPU  print the exact co-fold JobSpec. Rents nothing.
+#   cofold      -> ~$0.3-1  ONE Vast host: Boltz-2 co-folds, both arms x 6 model seeds
+#   cofold_collect -> $0    what actually landed in S3
+#   stage_test  -> $0  CPU  assemble a leg from a REAL co-fold CIF, in the production image
+#   smoke       -> ~$0.10   ONE host, toy lengths, the whole chain (image + staging + MD + S3)
+#   leg         -> ~$0.16   ONE REAL leg — the step a green smoke can NOT skip (the smoke has no MD env)
+#   launch      -> the remaining legs, fanned out (no result cancels another once the pilot has landed)
+#   status / watch / collect / gate_tick / reap / stop -> $0
+#
+# PROVIDER, NAMED: **Vast**, via `selcal_vast_launch.py` on top of the shared `gpu_backend`. Every rental faces
+# the §1 buy line (`inflight_usd_per_ns.APPROVED_USD_PER_NS`) on the spec handed to `submit`, AND the board-level
+# `$/ns` gate before anything is rented — resume and cold single unit included (CLAUDE.md §6).
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "refs | selftest | manifest | cofold_dry | cofold | cofold_collect | stage_test | smoke | leg | launch | status | watch | collect | gate_tick | reap | stop"
+        type: choice
+        options: [refs, selftest, manifest, cofold_dry, cofold, cofold_collect, stage_test, smoke, leg, launch, status, watch, collect, gate_tick, reap, stop]
+        default: selftest
+      units:
+        description: "leg/launch: restrict to these unit names (comma-separated; blank = the lane decides)"
+        type: string
+        default: ""
+      cofold_prefix:
+        description: "cofold: S3 prefix for the Boltz outputs (blank = the frozen selcal_panel.COFOLD_PREFIX)"
+        type: string
+        default: ""
+      watch_minutes:
+        description: "watch: how long one supervision job runs (default 55)"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+# PER-MODE, not workflow-wide: a long `watch` must not cancel or block the `collect` that has to run beside it,
+# and neither is a partial mutation of the other. Same reasoning as LANE 13's.
+concurrency:
+  group: selcal-${{ github.event.inputs.mode || 'selftest' }}
+  cancel-in-progress: false
+
+env:
+  SELCAL_LANE: selcal
+
+jobs:
+  cpu:
+    # Everything that spends $0. Kept in one job because they share a checkout and a python, and because a
+    # separate job per mode is how a workflow acquires eleven near-identical copies of the same three steps.
+    if: ${{ contains(fromJSON('["refs","selftest","manifest","cofold_dry","cofold_collect","stage_test","status","collect","gate_tick"]'), github.event.inputs.mode || 'selftest') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+      MODE: ${{ github.event.inputs.mode || 'selftest' }}
+      UNITS: ${{ github.event.inputs.units }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python -m pip install -q boto3 awscli
+
+      # ---- precondition 1: the reference number, fetched on a runner with real internet ---------------------
+      - name: Reference selectivity (primary sources) — precondition 1
+        if: ${{ env.MODE == 'refs' }}
+        run: python3 research/modalities/selcal_reference_selectivity.py
+
+      # ---- the lane's own guards. They run on EVERY $0 mode, because they are what stops a mis-specified
+      # ---- panel, an unpriced ladder row or a mis-signed criterion reaching a GPU.
+      - name: The sensitivity-control guards hold
+        if: ${{ env.MODE != 'refs' }}
+        run: |
+          set -eo pipefail
+          python3 -m pip install -q pytest
+          python3 -m pytest research/modalities/tests/test_selcal_panel.py \
+                            research/modalities/tests/test_selcal_gate.py \
+                            research/modalities/tests/test_selcal_stage.py \
+                            research/modalities/tests/test_selcal_launch.py -q
+
+      - name: Dry-run JobSpec (no rental, no network)
+        if: ${{ env.MODE == 'selftest' }}
+        run: python3 research/modalities/selcal_vast_launch.py --mode dry
+
+      - name: Frozen panel + DERIVED ladder cost
+        if: ${{ env.MODE == 'manifest' }}
+        run: python3 research/modalities/selcal_vast_launch.py --mode manifest
+
+      - name: Co-fold JobSpec, printed (rents nothing)
+        if: ${{ env.MODE == 'cofold_dry' }}
+        run: python3 research/modalities/selcal_vast_launch.py --mode cofold_dry
+
+      - name: What the co-fold actually produced
+        if: ${{ env.MODE == 'cofold_collect' }}
+        run: python3 research/modalities/selcal_vast_launch.py --mode cofold_collect
+
+      - name: Status board (instances + S3 phase + run.log tail)
+        if: ${{ env.MODE == 'status' }}
+        run: python3 research/modalities/selcal_vast_launch.py --mode status
+
+      # A DURABLE PER-TICK GATE RECORD. A silent decline is indistinguishable from a broken re-placer — that
+      # cost 1 h 55 m of unnoticed outage on a sibling lane, so the snapshot is written on EVERY tick,
+      # including the ticks with nothing to buy.
+      - name: Market gate tick (records the decision even when it is "nothing to buy")
+        if: ${{ env.MODE == 'gate_tick' }}
+        run: python3 research/modalities/selcal_vast_launch.py --mode gate_tick
+
+      - name: Collect the landed legs and SCORE them against the frozen criterion
+        if: ${{ env.MODE == 'collect' }}
+        run: python3 research/modalities/selcal_vast_launch.py --mode collect
+
+      # ---- staging in the PRODUCTION image. gemmi + rdkit live in ternary-fep, which is byte-for-byte the env
+      # ---- the legs run in — PULL, DO NOT SOLVE (CLAUDE.md §6). Mount the checked-out modalities dir so the
+      # ---- code that runs is this branch's, not the copy baked at build time.
+      - name: Assemble a leg from a REAL co-fold CIF (free CI, no GPU)
+        if: ${{ env.MODE == 'stage_test' }}
+        run: |
+          set -eo pipefail
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u triskit23 --password-stdin
+          docker run --rm --entrypoint python \
+            -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -w /work/research/modalities \
+            docker.io/triskit23/ternary-fep:latest \
+            /work/research/modalities/selcal_vast_launch.py --mode stage_test
+
+      # ⚠ A HEARTBEAT FRAGMENT COMMIT IS `--allow-empty`, ALWAYS. Guarding it with `git diff --cached --quiet`
+      # is the landmine found in three lanes: THE TIMESTAMP IS THE STALENESS SIGNAL, so a tick that changes no
+      # bytes must still leave a dated commit or a frozen lane reads as a quiet one.
+      - name: Commit whatever landed
+        if: ${{ always() && env.MODE != 'selftest' }}
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          paths=()
+          for p in research/modalities/selcal-reference-selectivity.json \
+                   research/modalities/selcal-market-hold.json \
+                   research/modalities/selcal-gate-record.json \
+                   research/modalities/selcal-price-ledger.json \
+                   research/modalities/selcal-collect.json \
+                   research/modalities/selcal-verdict.json \
+                   research/modalities/selcal-cofold-census.json \
+                   research/modalities/selcal-stage-test.json; do
+            [ -e "$p" ] && paths+=("$p")
+          done
+          [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
+          git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
+          git pull --rebase origin ${{ github.ref_name }} || true
+          git push origin HEAD:${{ github.ref_name }}
+
+  gpu:
+    if: ${{ contains(fromJSON('["cofold","smoke","leg","launch","watch","reap","stop"]'), github.event.inputs.mode) }}
+    runs-on: ubuntu-latest
+    # `watch` is the supervision job: CLAUDE.md §6 is explicit that a `schedule:` cron does NOT supervise a
+    # billing fleet, so supervision is a long-running job that makes a PROGRESS check every 3 min.
+    timeout-minutes: 70
+    env:
+      VAST_API_KEY: ${{ secrets.VAST_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      VAST_S3_ACCESS_KEY_ID: ${{ secrets.VAST_S3_ACCESS_KEY_ID }}
+      VAST_S3_SECRET_ACCESS_KEY: ${{ secrets.VAST_S3_SECRET_ACCESS_KEY }}
+      VAST_S3_SCOPED_STS: ${{ vars.VAST_S3_SCOPED_STS }}
+      AWS_DEFAULT_REGION: us-east-2
+      GIT_BRANCH: ${{ github.ref_name }}
+      MODE: ${{ github.event.inputs.mode }}
+      UNITS: ${{ github.event.inputs.units }}
+      SELCAL_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+      WATCH_MINUTES: ${{ github.event.inputs.watch_minutes }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python -m pip install -q boto3 awscli
+
+      - name: The sensitivity-control guards hold (before any rental)
+        run: |
+          set -eo pipefail
+          python3 -m pip install -q pytest
+          python3 -m pytest research/modalities/tests/test_selcal_panel.py \
+                            research/modalities/tests/test_selcal_gate.py \
+                            research/modalities/tests/test_selcal_stage.py \
+                            research/modalities/tests/test_selcal_launch.py -q
+
+      - name: Rent
+        run: python3 research/modalities/selcal_vast_launch.py --mode "$MODE"
+
+      - name: Commit whatever landed
+        if: ${{ always() }}
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          paths=()
+          for p in research/modalities/selcal-market-hold.json \
+                   research/modalities/selcal-gate-record.json \
+                   research/modalities/selcal-price-ledger.json \
+                   research/modalities/selcal-handles.json \
+                   research/modalities/selcal-collect.json \
+                   research/modalities/selcal-verdict.json; do
+            [ -e "$p" ] && paths+=("$p")
+          done
+          [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
+          git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
+          git pull --rebase origin ${{ github.ref_name }} || true
+          git push origin HEAD:${{ github.ref_name }}
