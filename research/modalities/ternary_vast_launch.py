@@ -4148,6 +4148,25 @@ def collect(bucket=None, prefix=None, autostop=True):
         print(ifb.render(_rows), end="")
         print("---- END TVAST-BOARD ----")
 
+        # ★★ THE SAME ROWS, ALSO AS STRUCTURED CELLS (2026-08-01). This lane was the only one that published
+        # its board as TEXT ONLY: `merge_board` transcludes the rendered block verbatim, which is right for
+        # the merged document — the block is the rows' one home and re-deriving it there could disagree with
+        # it. But it left every OTHER consumer with a fixed-width table to parse, and the consumer that
+        # matters is the one that reports to trimcrae. On 2026-08-01 that meant leg state was transcribed by
+        # hand out of this block, and a hand-copied row is a row that survives on inertia: a leg reported
+        # RUNNING at 98.9% had already landed, and the ETA quoted for it was 11 minutes in the past.
+        #
+        # ⚠ THIS IS ONE DERIVATION, TWO SERIALIZATIONS — NOT A SECOND HOME (CLAUDE.md §1). Both come from
+        # `_rows`, in this call, so they cannot drift; the fragment is the same object the other three lanes
+        # already publish. `write_fragment`, deliberately NOT `publish`: the merged board transcludes this
+        # lane from `inflight-board.md`, which the WORKFLOW writes from the block above after this process
+        # exits, so merging here would merge against the previous collect's text. The workflow re-merges
+        # once it has written that file — that is the correct merge point and the only one.
+        try:
+            print(f"[board] fragment -> {ifb.write_fragment(ifb.TERNARY, _rows)}")
+        except Exception as _e:  # noqa: BLE001
+            print(f"[board] could not write the structured fragment: {type(_e).__name__}: {_e}")
+
         # ★★ DETECTION AND REPAIR IN THE SAME RUN (2026-07-30). Every no-host row above ends with "the next
         # gate tick re-places it" — and that sentence WAS the gap. `collect` is what notices a host died;
         # the gate is what buys a new one; they were different workflow runs, so the floor on recovery time

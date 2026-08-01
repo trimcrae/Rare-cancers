@@ -1143,11 +1143,25 @@ BOARD_LANE = "gcp-s1f-rep"
 
 #: What this lane costs. Free credit NAMED AS SUCH (CLAUDE.md §1), and no `$/ns` against the Vast ladder
 #: basis, because there is no realized dollar to divide: this is a different ledger, not a cheap rate on
-#: the same one. The L4 list rate is shown only so the row is not blank, and carries pricing.md's standing
-#: refusal to treat it as a go-forward cost basis.
-BOARD_USD_PER_NS = ("— $0 real dollars (GCP trial credit, a SEPARATE LEDGER, expires 2026-10-10). "
-                    "L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted "
-                    "against the ladder because no ladder dollar is being spent.")
+#: the same one.
+#:
+#: ★★ A CELL, NOT A PARAGRAPH (2026-08-01). This was three sentences long, and `inflight_board.render`
+#: sizes the `$/ns` column to its widest cell — so one lane's footnote set the width of that column for the
+#: WHOLE board, pushing STATE and WHY far off to the right and making every other lane's rows harder to
+#: read than this one's. The same string then blew out the markdown table
+#: (`orchestrator_readout.board_table`), which is the form trimcrae actually reads.
+#: The reasoning did not disappear: it is the lane's `note`, rendered ONCE in the section header where a
+#: standing fact belongs, instead of being repeated on every row of a per-row column (CLAUDE.md §1 — the
+#: ledger rule has one home, and `BOARD_LEDGER_NOTE` is it).
+BOARD_USD_PER_NS = "— free GCP trial credit (separate ledger)"
+
+#: The standing ledger caveat, for the lane's section note. Kept beside the cell it was extracted from so
+#: the pair cannot drift, and carrying pricing.md's standing refusal to treat the L4 list rate as a
+#: go-forward basis — the thing a reader could otherwise wrongly infer from a free row.
+BOARD_LEDGER_NOTE = ("$0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is "
+                     "never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost "
+                     "basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is "
+                     "being spent.")
 
 
 def _progress_cells(progress, live=True):
@@ -1275,23 +1289,46 @@ def queue_board(entries, feed=None):
                 f"The free GCP GPU is idle — that is expiring credit unspent.")
     else:
         note = f"{head} No feed decision was recorded this tick. The free GCP GPU is idle."
-    return rows, note
+    # The ledger caveat is a fact about the LANE, so it is stated once here rather than repeated in every
+    # row's `$/ns` cell — see `BOARD_USD_PER_NS` for the width damage that repetition did.
+    return rows, f"{note} {BOARD_LEDGER_NOTE}"
 
 
+# ★★ `publish`, NOT `write_fragment` — A LANE THAT ONLY WRITES ITS FRAGMENT RENDERS ITSELF STALE
+# (measured 2026-08-01, 2:44 PM ET). Both functions below called `ib.write_fragment`, which writes
+# `inflight-board.d/gcp-s1f-rep.json` and NOTHING else; the merged `inflight-board-all.md` is regenerated
+# only by whoever calls `write_merged_board`, and the other two lanes get that for free because they call
+# `ib.publish`. So this lane's fragment was 1.8 min old and carrying an ETA of 4:36 AM Aug 2 while the
+# merged board showed the lane at **16 min ago, STALE (> 15 min)** with a blank ETA — because `stale_rows`
+# had, correctly, refused to project a completion time from a reading nobody had re-taken.
+#
+# ⚠ THE DAMAGE IS THE CLASS OF ERROR, NOT THE 16 MINUTES. STALE is this board's alarm for "a lane stopped
+# reporting while it was billing" (CLAUDE.md §6: the schedules are throttled and an agent has been
+# dispatching ticks by hand, so that condition is real and must be visible). A lane that raises that alarm
+# about ITSELF, on every tick, from full health, is an alarm being trained into background noise — and the
+# blank ETA is the same defect one cell over: the safety rule that stops a stale rate becoming a promise
+# fired against a rate measured 100 seconds earlier.
+#
+# The merged board is DERIVED IN FULL from every lane's fragment, so any lane may safely regenerate it —
+# whoever writes it last rebuilds every section and no lane's rows live there (`inflight_board.__doc__`).
+# In CI this in-process merge is then discarded by the publish step's `reset --hard FETCH_HEAD` and redone
+# against upstream's fragments; both are needed, and the workflow comment says why.
 def write_board(unit, vm_status, vm_created, result_updated, phase=None, root=None, progress=None,
                 feed=None):
     """Publish the fragment through inflight_board's own writer, so the document shape has one home."""
     import inflight_board as ib
     rows, note = board_rows(unit, vm_status, vm_created, result_updated, phase=phase, progress=progress,
                             feed=feed)
-    return ib.write_fragment(BOARD_LANE, rows, note=note, root=root)
+    frag, _board = ib.publish(BOARD_LANE, rows, note=note, root=root)
+    return frag
 
 
 def write_queue_board(entries, feed=None, root=None):
     """Publish the WHOLE queue's fragment through inflight_board's own writer."""
     import inflight_board as ib
     rows, note = queue_board(entries, feed=feed)
-    return ib.write_fragment(BOARD_LANE, rows, note=note, root=root)
+    frag, _board = ib.publish(BOARD_LANE, rows, note=note, root=root)
+    return frag
 
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════

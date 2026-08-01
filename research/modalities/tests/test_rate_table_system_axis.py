@@ -14,6 +14,7 @@ MEASURED count for the 5a-KS assembly is 147,788, from a leg record of the same 
 So this is a guard for the day a genuinely different system lands, plus an honest label on the pooled figure.
 It is not a correction to a live rate.
 """
+import json
 import os
 import statistics
 import sys
@@ -93,6 +94,40 @@ def test_the_never_pool_note_names_all_three_axes():
 # =============================================================================================================
 # ⚠ NOTHING THE TRIANGLE OR THE REPLICATES DEPEND ON MAY MOVE
 # =============================================================================================================
+#: ★★ THE RATES THIS TEST PINS AGAINST ARE FROZEN HERE, AND THAT IS THE WHOLE POINT (2026-08-01).
+#:
+#: This test used to call `warmup_ckpt_iters_for` against the LIVE `ternary-arm-iteration-rates.json` — an
+#: artifact a CI job (`ternary replicate forensic`) rewrites every few minutes as more legs report. Measured
+#: history of the ternary arm's pooled median at 4 fs, from that file's own git log:
+#:
+#:     07-31 01:06  14.65      08-01 12:13  16.8       08-01 18:34  17.45   <- this test went red here
+#:     08-01 02:27  16.6       08-01 18:17  17.0
+#:
+#: The derivation is `budget = 64 x 10.9 = 697.6 s`, largest divisor of 1600 that fits. At 17.0 s/iter
+#: `40 x 17.0 = 680.0` fits and the answer is 40; at 17.45, `40 x 17.45 = 698.0` misses by **0.4 seconds**
+#: and it drops to 32. So a test whose name is `no_live_cadence_changed` was going red because a measurement
+#: moved by 0.45 s/iter — not because any code changed, and not because any leg's resume was at risk.
+#:
+#: ⚠ THAT IS A FLAPPING TEST, WHICH IS WORSE THAN A MISSING ONE. It will cross that boundary in both
+#: directions as the median wanders, and a suite that is red for a reason nobody acted on is a suite whose
+#: red stops meaning anything — the same "alarm trained into noise" failure as a healthy lane reporting
+#: itself STALE. And it obscured the property actually worth pinning: that the DERIVATION is unchanged.
+#: So the rates are frozen at the values these expectations were computed from, and the live table gets its
+#: own test below — an INVARIANT (divides the target, fits the budget), which cannot flap because it does
+#: not care what the measurement is.
+FROZEN_RATES = {"rates": {"4.0": {"binary": {"s_per_iter": 10.9}, "solvent": {"s_per_iter": 1.7},
+                                 "ternary": {"s_per_iter": 17.0}}}}
+
+
+@pytest.fixture()
+def frozen_rates(monkeypatch, tmp_path):
+    p = tmp_path / "arm-rates.json"
+    p.write_text(json.dumps(FROZEN_RATES))
+    monkeypatch.setattr(tv, "_ARM_RATES_PATH", str(p))
+    monkeypatch.setattr(tv, "_ARM_RATES_CACHE", {})
+    return p
+
+
 @pytest.mark.parametrize("mode,leg", [
     ("triangle", "calib_hi_to_lo2__ternary_vhl"),
     ("triangle_smoke", "calib_hi_to_lo2__ternary_vhl"),
@@ -100,7 +135,7 @@ def test_the_never_pool_note_names_all_three_axes():
     ("edge_reps", "calib_hi_to_lo__binary_vhl"),
     ("5aks", "5aks_d0_to_d__ternary_nr4a3"),
 ])
-def test_no_live_cadence_changed(mode, leg):
+def test_no_live_cadence_changed(mode, leg, frozen_rates):
     """The whole risk of touching this table. `aggregate` gained FIELDS only — the `s_per_iter` every consumer
     reads is byte-identical, and `rates_by_system` is a new key nothing consumes yet. These assert the
     resolved cadence, which is the thing that would break a running leg's resume."""
@@ -116,6 +151,34 @@ def test_no_live_cadence_changed(mode, leg):
                 # SUPERSEDED, retained: "64".
                 ("5aks", "5aks_d0_to_d__ternary_nr4a3"): "64"}[(mode, leg)]
     assert tv.warmup_ckpt_iters_for(leg, mode) == expected
+
+
+@pytest.mark.parametrize("mode,leg", [
+    ("edge_reps", "calib_hi_to_lo__ternary_vhl"),
+    ("5aks", "5aks_d0_to_d__ternary_nr4a3"),
+])
+def test_the_live_cadence_obeys_the_derivation_whatever_the_measurement_says(mode, leg):
+    """The live table, checked as an INVARIANT rather than a pin — so it can never flap.
+
+    Two properties, and between them they are the whole safety argument for a derived cadence:
+      * it DIVIDES the warmup target exactly, or a resumed leg's committed grid does not line up;
+      * it fits inside the reference arm's exposure budget, so this can only ever REFINE a cadence.
+    Neither depends on what the median currently is, which is exactly why they belong on the live file.
+    """
+    s = tv.MODES[mode]
+    got = int(tv.warmup_ckpt_iters_for(leg, mode))
+    ref = int(s.get("warmup_ckpt_iters") or 64)
+    assert got <= ref, "the derivation may only refine a cadence, never coarsen it past the mode's own value"
+    dt, wdt = tv.resolve_timesteps(mode, None, None)
+    target = tv.warmup_target_iters(dt, wdt)
+    if not (target and s.get("per_arm_ckpt")):
+        return
+    assert target % got == 0, f"{got} does not divide the warmup target {target}: a resume would misalign"
+    rates = tv.arm_iteration_rates(dt)
+    arm, refarm = tv.arm_of_leg(leg), tv.CKPT_REFERENCE_ARM
+    if rates.get(arm) and rates.get(refarm) and arm != refarm:
+        assert got * rates[arm] <= ref * rates[refarm] + 1e-9, \
+            "the interval must fit inside the reference arm's exposure budget"
 
 
 def test_the_committed_artifact_still_answers_the_query_its_consumer_makes():

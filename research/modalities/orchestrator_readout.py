@@ -133,6 +133,178 @@ def lane_rows() -> list[dict]:
     return out
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE BOARD, IN THE FORM IT IS ACTUALLY READ IN
+#
+# ★★ THE TOOL EMITS THE PRESENTATION FORMAT, BECAUSE THE HAND STEP IS WHERE THE ERRORS WERE (trimcrae,
+# 2026-08-01: *"That board formatting is bad."*). Everything above this line returns STRUCTURE, and every
+# consumer of it had to turn that structure into the markdown table trimcrae actually reads. That last hand
+# step is not a formatting nicety — it is the same transcription gap that put a landed leg on the board as
+# RUNNING at 98.9% with an ETA eleven minutes in the past, and a subagent's invented ETA in the ETA column
+# for six consecutive reports. A row is only as trustworthy as the last hand that touched it, so the last
+# hand is removed: `board_table()` returns the finished markdown.
+#
+# ⚠ IT READS THE FRAGMENTS, NOT `inflight-board-all.md`. The merged board is a CACHE, regenerated only by
+# whichever lane happens to call `inflight_board --write`, so a lane can be perfectly healthy and still
+# render STALE there because nobody re-merged. Measured 2026-08-01, 2:44 PM ET: the GCP lane's fragment was
+# 1.8 min old and carried an ETA of 4:36 AM Aug 2 while the merged board showed that lane at "16 min ago,
+# STALE (> 15 min)" with a blank ETA. Both were fixed at the source (`gcp_fanout_rep` now calls `ib.publish`,
+# and the ternary and GCP workflows re-merge after their reset) — but a report must not be able to inherit
+# that class of lag at all, so this reads each lane's own fragment and applies the staleness rule itself.
+# The rule is still `inflight_board`'s: `stale_after_min()` and `stale_rows()` are imported, never restated.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+#: How much of a `WHY` survives into a table cell. Long enough for the operative clause — every lane writes
+#: the reason first and the justification after — and short enough that the row stays one line on a phone.
+WHY_CLIP = 150
+
+
+def _ifb():
+    """`inflight_board`, imported lazily so this module stays usable where the lane code is absent."""
+    import sys
+    if str(REPO / "research" / "modalities") not in sys.path:
+        sys.path.insert(0, str(REPO / "research" / "modalities"))
+    import inflight_board  # noqa: PLC0415
+    return inflight_board
+
+
+def _cell(s: str, clip: int | None = None) -> str:
+    """One markdown table cell. `|` is escaped and a clipped cell SAYS it was clipped.
+
+    ⚠ ONLY `WHY` IS EVER CLIPPED. The `$/ns` cell carries the distinction between `⚠ PAYING OVER THE …×
+    LINE` and `⛔ REFUSED at … — $0 spent`, which CLAUDE.md §1 requires never to render alike, and the STATE
+    cell carries the verdict; truncating either could make a refusal read as a purchase. A clipped cell ends
+    in `…` so a reader can never mistake a partial reason for a complete one.
+    """
+    s = " ".join(str(s if s is not None else "—").split()).replace("|", "\\|")
+    if clip and len(s) > clip:
+        cut = s[:clip].rsplit(" ", 1)[0]
+        s = (cut or s[:clip]) + "…"
+    return s or "—"
+
+
+def _parse_rendered_block(block: str) -> list[dict] | None:
+    """Cells recovered from a block `inflight_board.render()` produced, or None if it cannot be read.
+
+    ⚠ A BRIDGE, NOT A SECOND HOME. The ternary lane published its board as fixed-width TEXT ONLY until
+    2026-08-01; it now writes `inflight-board.d/ternary.json` from the same rows in the same call, and this
+    parse exists only for the window before that fragment reaches `main`, and for any future lane that
+    renders before it publishes. **The column offsets are DERIVED from the header line, never typed** —
+    `render()` sizes its LEG and `$/ns` columns from the rows themselves, so any constant here would be
+    wrong the first time a unit id got longer. Returns None rather than guessing if the header is not there,
+    because a lane that cannot be parsed must say so and never render as empty.
+    """
+    lines = [ln for ln in (block or "").splitlines() if ln.strip()]
+    head = next((ln for ln in lines if ln.startswith("LEG") and "ETA (ET)" in ln), None)
+    if head is None:
+        return None
+    try:
+        starts = [0] + [head.index(lbl) for lbl in ("ETA (ET)", "% DONE", "$/ns", "STATE", "WHY")]
+    except ValueError:
+        return None
+    if starts != sorted(starts):
+        return None
+    edges = starts + [10**6]
+    out = []
+    for ln in lines[lines.index(head) + 1:]:
+        if set(ln.strip()) <= {"-"} or ln.startswith("IN-FLIGHT BOARD:"):
+            continue
+        c = [ln[edges[i]:edges[i + 1]].strip() for i in range(6)]
+        out.append({"name": c[0], "_eta_text": c[1], "_pct_text": c[2],
+                    "usd_per_ns": c[3], "state": c[4], "why": c[5]})
+    return out
+
+
+def _lane_cells(now: float) -> list[dict]:
+    """Every lane's rows as CELLS, with each lane's staleness already applied. One dict per row.
+
+    Iterates `inflight_board.LANES`, never the fragments that happen to exist, so a lane that has published
+    nothing renders a row saying so — an absent lane and an idle lane are opposite facts (`_absent_lane_
+    section` exists for the same reason) and this table must not be the place they finally render alike.
+    """
+    ifb = _ifb()
+    limit = ifb.stale_after_min()
+    out: list[dict] = []
+    for lane, _heading, writer in ifb.LANES:
+        doc = _read(f"research/modalities/{ifb.FRAGMENT_DIR}/{lane}.json")
+        rows, age, source = None, None, f"{ifb.FRAGMENT_DIR}/{lane}.json"
+        if isinstance(doc, dict) and doc.get("rows") is not None:
+            rows = doc.get("rows") or []
+            age = max(0.0, (now - float(doc.get("generated_epoch") or 0.0)) / 60.0)
+        elif lane == ifb.TERNARY:
+            # The pre-fragment bridge described in `_parse_rendered_block`.
+            md = _read(f"research/modalities/{ifb.TERNARY_BOARD_MD}")
+            if isinstance(md, str):
+                m = ifb._TERNARY_BLOCK_RE.search(md)
+                stamp = ifb._TERNARY_STAMP_RE.search(md)
+                rows = _parse_rendered_block(m.group(1)) if m else None
+                source = f"{ifb.TERNARY_BOARD_MD} (text, pre-fragment)"
+                if stamp:
+                    try:
+                        import calendar
+                        t = time.strptime(f"{stamp.group(1)} {stamp.group(2)}", "%I:%M %p %b %d, %Y")
+                        age = max(0.0, (now - (calendar.timegm(t) - ifb.ET_OFFSET_H * 3600.0)) / 60.0)
+                    except ValueError:
+                        age = None
+        if rows is None:
+            out.append({"lane": lane, "name": lane, "eta": "—", "pct": "—", "usd": "—",
+                        "state": ifb.UNKNOWN, "stale": True,
+                        "why": f"no readable fragment on origin/main ({source}); published by `{writer}`"})
+            continue
+        stale = age is not None and age > limit
+        if stale:
+            rows = ifb.stale_rows(rows, age)
+        if not rows:
+            out.append({"lane": lane, "name": "—", "eta": "—", "pct": "—", "usd": "—",
+                        "state": "no GPU legs", "stale": False,
+                        "why": f"lane is idle, not absent — fragment is {age:.0f} min old"
+                               if age is not None else "lane is idle, not absent"})
+            continue
+        for r in rows:
+            pct = r.get("_pct_text")
+            if pct is None:
+                pct = (str(r["pct_of"])[:7] if r.get("pct_of") else
+                       ("—" if r.get("pct") is None else "%.1f%%" % r["pct"]))
+            eta = r.get("_eta_text")
+            if eta is None:
+                eta = (ifb._fmt_eta(r["eta_s"], now_epoch=now) if r.get("eta_s") is not None
+                       else ifb._fmt_eta_at(r.get("eta_epoch"), now_epoch=now))
+            out.append({"lane": lane, "name": r.get("name") or "?", "eta": eta, "pct": pct,
+                        "usd": r.get("usd_per_ns") or "—", "state": r.get("state") or "?",
+                        "stale": stale, "why": r.get("why") or ""})
+    return out
+
+
+def board_table(now_epoch: float | None = None) -> str:
+    """The in-flight board as the markdown table it is read as. Nothing here is remembered or transcribed.
+
+    Every cell traces to a lane's committed fragment on `origin/main` this call; a lane that cannot be read
+    gets a row saying so. CLAUDE.md §1 requires a `$/ns` and its multiple of the ladder basis on every GPU
+    row — those are the lane's own cells, carried through untouched, because the arithmetic's one home is
+    `inflight_usd_per_ns.row()` and a board that re-derived it would be free to disagree with the gate that
+    actually refuses a rental.
+    """
+    now = time.time() if now_epoch is None else now_epoch
+    ifb = _ifb()
+    cells = _lane_cells(now)
+    lines = [f"**In flight** — every cell derived {ifb.et_stamp(now)} from each lane's committed fragment.",
+             "",
+             "| Lane | Leg | ETA (ET) | % done | $/ns vs basis | State | Why |",
+             "|---|---|---|---:|---|---|---|"]
+    for c in cells:
+        lines.append("| %s | %s | %s | %s | %s | %s | %s |" % (
+            _cell(c["lane"]), _cell(c["name"]), _cell(c["eta"]), _cell(c["pct"]),
+            _cell(c["usd"]), _cell(c["state"]), _cell(c["why"], WHY_CLIP)))
+    n_stale = sum(1 for c in cells if c.get("stale"))
+    lines += ["", f"_Why cells are clipped at {WHY_CLIP} chars (`…`); the full text is in "
+                  f"`research/modalities/inflight-board-all.md`._"]
+    if n_stale:
+        lines.append(f"_⚠ {n_stale} row(s) come from a lane that has not reported inside "
+                     f"{ifb.stale_after_min():g} min — those are a PAST report, and their ETA is dropped "
+                     f"rather than re-projected from a rate nobody has re-measured._")
+    return "\n".join(lines) + "\n"
+
+
 def agents_alive(minutes: int = 45, expect: dict[str, list[str]] | None = None) -> dict:
     """Whether each named SUBAGENT is working, evidenced by ITS OWN work LANDING.
 
@@ -194,7 +366,14 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--prior-unknowns", default="",
                     help="comma-separated row keys that were UNKNOWN in the previous report")
+    ap.add_argument("--table", action="store_true",
+                    help="print the in-flight board as the markdown table it is reported as, and nothing "
+                         "else — this is the form that goes in a message, so it is generated rather than "
+                         "assembled by hand from the JSON below")
     a = ap.parse_args()
+    if a.table:
+        print(board_table(), end="")
+        return
     r = report({s for s in a.prior_unknowns.split(",") if s})
     print(json.dumps(r, indent=1))
     if r["escalate"]:

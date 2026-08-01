@@ -699,7 +699,15 @@ def render(rows, now_epoch=None):
     # what removes the truncation. Never below 18, or a one-word name collapses the header spacing the
     # column separator is parsed from.
     lw = max([18] + [len(str(r.get("name") or "?")) for r in rows])
-    fmt = "%-" + str(lw) + "s %-16s %7s  %-" + str(w) + "s %-9s %s"
+    # ★★ AND THE STATE COLUMN, FOR THE THIRD TIME AND THE SAME REASON (2026-08-01). It was a fixed `%-9s`,
+    # and the states in live use are longer than nine characters: `HELD — NOT BUYING` is seventeen, so it
+    # overflowed with NO separating space and rendered as `HELD — NOT BUYING the reason` — the state and the
+    # first words of the WHY fused into one unparseable cell, on precisely the rows that explain why we are
+    # NOT spending money. `$/ns` had this exact defect against a fixed 26 and `LEG` against a fixed 18; a
+    # width taken from the actual cells self-corrects and cannot drift out of step with them.
+    # Minimum 9 = the old fixed width, so nothing that fitted before moves.
+    sw = max([9] + [len(str(r.get("state") or "?")) for r in rows])
+    fmt = "%-" + str(lw) + "s %-16s %7s  %-" + str(w) + "s %-" + str(sw) + "s %s"
     head = fmt % ("LEG", "ETA (ET)", "% DONE", "$/ns", "STATE", "WHY (when not running)")
     out = [head, "-" * len(head)]
     for r in rows:

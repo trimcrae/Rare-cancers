@@ -418,9 +418,18 @@ def test_a_running_lane_names_the_free_ledger_and_refuses_to_invent_a_usd_per_ns
     number in the column whose entire job is to expose fabrication."""
     rows, _ = gfr.board_rows(gfr.unit_for(EDGE, 1), "RUNNING", "2026-07-31T22:00:00Z", "")
     up = rows[0]["usd_per_ns"]
-    assert "SEPARATE LEDGER" in up and "$0 real dollars" in up
-    assert "basis" in up and "NOT a go-forward cost basis" in up
+    assert "free GCP trial credit" in up and "separate ledger" in up.lower()
     assert "× basis" not in up and "x basis" not in up
+    # ★★ AND THE CELL IS A CELL. `inflight_board.render` sizes the `$/ns` column to its WIDEST entry, so a
+    # three-sentence cell here set that column's width for every lane's rows, not just this one's — and it
+    # blew out `orchestrator_readout.board_table`, the form actually reported. (2026-08-01.)
+    assert len(up) <= 60, f"the $/ns cell sets the column width for the whole board; keep it a cell: {up!r}"
+    # ⚠ NOTHING WAS DROPPED — the caveat moved to the lane NOTE, which is rendered once in the section
+    # header where a standing fact belongs. This half of the assertion is what makes the move a relocation
+    # rather than a deletion, so the reasoning cannot be quietly lost the next time the cell is shortened.
+    _rows, note = gfr.queue_board([{"unit": gfr.unit_for(EDGE, 1), "vm_status": "RUNNING"}])
+    assert "SEPARATE LEDGER" in note and "$0 real dollars" in note
+    assert "NOT a go-forward cost basis" in note and "never summed into realized or ladder spend" in note
 
 
 def test_a_done_unit_still_renders_a_row_at_100_pct_rather_than_vanishing():
@@ -446,10 +455,19 @@ def test_the_running_row_says_UNKNOWN_and_why_when_no_census_was_read():
 
 def test_the_fragment_goes_through_inflight_boards_own_writer():
     """One home for the document shape. If this lane hand-rolled the JSON, a schema change in the board
-    would silently stop merging this lane rather than failing."""
+    would silently stop merging this lane rather than failing.
+
+    ★★ AND IT MUST BE `publish`, NOT `write_fragment` (2026-08-01). `write_fragment` writes this lane's
+    fragment and NOTHING else; `publish` also regenerates `inflight-board-all.md`, which is the only thing
+    that dates a lane's section. With `write_fragment`, this lane's fragment was 1.8 min old and carrying an
+    ETA of 4:36 AM Aug 2 while the merged board rendered the lane at "16 min ago, STALE (> 15 min)" with a
+    blank ETA — because the merge had last run when some OTHER lane happened to tick. STALE is the alarm for
+    "a lane went quiet while it was billing"; a healthy lane raising it about itself every tick is that
+    alarm being trained into noise, and the dropped ETA is the same defect one cell over."""
     src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
-    assert "ib.write_fragment(" in src
-    assert "inflight-board.d" not in src.split("BOARD_LANE")[1].split("def board_rows")[0] or True
+    assert "ib.publish(" in src, "the lane must re-merge the all-lane board, not only write its fragment"
+    assert "ib.write_fragment(" not in src, \
+        "a bare write_fragment leaves the merged board dated at whenever another lane last ticked"
 
 
 def test_the_board_step_runs_on_every_outcome_including_failure():
@@ -473,9 +491,32 @@ def test_the_board_step_only_ever_stages_this_lanes_own_files():
 
     That distinction IS the guard. 'Stage only our own files' was always a proxy for 'never carry another
     writer's work backwards through the rewrite'; a file we regenerate in place cannot do that, and a file
-    we stamp from a stale checkout can — which is why $D must never acquire a /tmp round trip."""
+    we stamp from a stale checkout can — which is why $D must never acquire a /tmp round trip.
+
+    FOUR now, and the fourth is the same KIND as $D (2026-08-01):
+
+      inflight-board-all.md    — EVERY lane writes it, so it is never stamped either. It is DERIVED IN FULL
+                                 from every lane's fragment, so regenerating it after the reset reads
+                                 upstream's freshest ternary / step1-fanout / nrv04-retro fragments plus the
+                                 one we just stamped. Regenerating it BEFORE the reset would merge this
+                                 checkout's stale copies of the other three and stamp their staleness onto
+                                 upstream — turning a fix for one lane's false STALE into three lanes' real
+                                 one. The ordering assertion below is that argument, enforced.
+    """
     step = _wf().split("- name: Publish the in-flight fragment")[1]
-    assert re.findall(r"git add (\S+)", step) == ['"$F"', '"$R"', '"$D"'], step
+    assert re.findall(r"git add (\S+)", step) == [
+        '"$F"', '"$R"', '"$D"', "research/modalities/inflight-board-all.md"], step
+    # ⚠ ORDER IS THE SAFETY PROPERTY, NOT A STYLE POINT: the re-merge must come after the reset that puts
+    # upstream's sibling fragments in the tree, and before the commit that publishes it.
+    code = "\n".join(l for l in step.splitlines() if not l.lstrip().startswith("#"))
+    i_reset = code.index("git reset -q --hard FETCH_HEAD")
+    i_merge = code.index("inflight_board.py --write")
+    i_commit = code.index("git commit")
+    assert i_reset < i_merge < i_commit, \
+        "the all-lane merge must run AFTER the reset (so it sees upstream's other fragments) and BEFORE " \
+        "the commit that publishes it"
+    assert 'cp /tmp/pub_merged' not in step and "inflight-board-all.md" not in step.split("cp \"$F\"")[0], \
+        "the merged board has every lane as a writer: stamping it from /tmp would revert their rows"
     assert re.search(r'^\s*F=research/modalities/inflight-board\.d/gcp-s1f-rep\.json\s*$', step, re.M)
     assert re.search(r'^\s*R=research/modalities/gcp-s1f-rep-rate\.json\s*$', step, re.M)
     assert re.search(r'^\s*D=research/compute/gcp-gpu-facts\.md\s*$', step, re.M)
@@ -929,7 +970,7 @@ def test_the_fragment_timestamp_always_advances():
     or derived `now_epoch` — a fragment republished with an old timestamp is a lane reporting someone
     else's past as its present."""
     src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
-    call = src.split("def write_board(")[1].split("ib.write_fragment(")[1].split(")")[0]
+    call = src.split("def write_board(")[1].split("ib.publish(")[1].split(")")[0]
     assert "now_epoch" not in call, "write_board must let inflight_board stamp it with time.time()"
     import time as _t
     a = gfr.board_rows(gfr.unit_for(EDGE, 1), "", "", "")
