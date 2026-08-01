@@ -173,7 +173,19 @@ DEFAULT_FUTURE_SKEW_MIN = 5.0
 #: been destroyed, and that the host cannot destroy itself — CLAUDE.md §6, "THE HOST CANNOT STOP ITS OWN
 #: BILLING — ONLY THE CONTROL PLANE CAN". So a terminal instance is an object that only the control plane can
 #: clear, sitting in the account, and the reason to surface it is that nothing else does.
-TERMINAL_STATES = ("exited", "stopped", "offline", "created", "inactive")
+#:
+#: ⚠ IT IS THE UNION OF THE TWO DEFINITIONS THE REPO ALREADY HAS, NOT A NEW ONE (§1):
+#:     `congeneric_fanout_vast._TERMINAL` = ("exited", "offline", "error")
+#:     `nrv04_vast_launch._TERMINAL_STATES` = ("exited", "offline", "stopped")
+#: Neither can be IMPORTED here — this module must not depend on a lane (see the header) — so it is typed
+#: once and `test_terminal_states_cover_both_repo_definitions` asserts it stays a superset of both. Same
+#: test-time-coupling / run-time-independence discipline as the label prefixes.
+#:
+#: ⚠ AND `created` IS DELIBERATELY **NOT** HERE, having briefly been. It is an EARLY lifecycle state — a
+#: freshly-rented box on its way up — so calling it terminal would print "TERMINAL BUT STILL LISTED" against
+#: every new rental, i.e. cry wolf on the healthiest event in the system. Neither repo definition includes it
+#: and there was no evidence for it; it was a guess, which is exactly what §4 forbids.
+TERMINAL_STATES = ("exited", "stopped", "offline", "error")
 
 _ISO_Z = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z")
 

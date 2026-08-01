@@ -196,6 +196,43 @@ def test_a_running_instance_is_not_flagged_terminal():
     assert A.instance_row(_inst(1, "x"), None)["terminal_but_listed"] is False
 
 
+@pytest.mark.parametrize("early", ["created", "loading"])
+def test_an_instance_still_COMING_UP_is_not_flagged_terminal(early):
+    """★ A REAL BUG THIS CAUGHT. `created` was briefly in `TERMINAL_STATES` — a guess, with no evidence and
+    against both of the repo's own definitions. It is an EARLY lifecycle state, so every freshly-rented box
+    would have printed "TERMINAL BUT STILL LISTED": crying wolf on the healthiest event in the system, which
+    is how a readout stops being read."""
+    assert A.instance_row(_inst(1, "x", status=early, cur=early), None)["terminal_but_listed"] is False
+
+
+def test_terminal_states_cover_both_repo_definitions():
+    """§1 — ONE FACT, ONE PLACE, ENFORCED WITHOUT AN IMPORT. Two modules already define what "terminal" means
+    on Vast, and this module may not import either (it must not depend on a lane it watches). So the set is
+    typed once and checked here, where importing is free: if a lane ever widens its definition and this is not
+    widened with it, an instance that lane considers dead would silently render as live."""
+    # ⚠ READ BY AST, NOT BY IMPORT, and that is not fussiness: `congeneric_fanout_vast._TERMINAL` is a
+    # FUNCTION-LOCAL, so `getattr` on the imported module returns None and an import-based check would have
+    # silently compared against nothing — passing vacuously while proving zero. AST finds the assignment at
+    # any scope, and it also means neither lane has to be importable for this to hold.
+    union = set()
+    for mod_name, const in (("congeneric_fanout_vast", "_TERMINAL"),
+                            ("nrv04_vast_launch", "_TERMINAL_STATES")):
+        src = (MODALITIES / f"{mod_name}.py").read_text()
+        found = None
+        for node in ast.walk(ast.parse(src)):
+            if isinstance(node, ast.Assign) and any(
+                    isinstance(t, ast.Name) and t.id == const for t in node.targets) and \
+                    isinstance(node.value, (ast.Tuple, ast.List)):
+                found = {e.value for e in node.value.elts
+                         if isinstance(e, ast.Constant) and isinstance(e.value, str)}
+                break
+        assert found, f"{mod_name}.{const} is missing — the definition this test compares against moved"
+        union |= found
+    assert union <= set(A.TERMINAL_STATES), (
+        f"{sorted(union - set(A.TERMINAL_STATES))} are terminal to a lane but not to this alarm — an instance "
+        f"the lane considers dead would render here as live")
+
+
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 # (d) NEGATIVE CONTROL — an unreadable or stale census is UNKNOWN, never all-clear
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
