@@ -15,7 +15,7 @@ Merged 8:33 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:26 PM ET Fri Jul 31, 2026 (7 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:26 PM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
@@ -28,7 +28,7 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 8:26 PM ET Fri Jul 31, 2026 (7 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:26 PM ET Fri Jul 31, 2026 (8 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -46,7 +46,7 @@ nr4a2 m2 r0        —                      —  — $0.1459/hr (no measured ns/
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 8:23 PM ET Fri Jul 31, 2026 (9 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
+_As of 8:23 PM ET Fri Jul 31, 2026 (10 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
 
 ```
 LEG                                ETA (ET)          % DONE  $/ns                                                                                                                                                                                                                     STATE     WHY (when not running)
