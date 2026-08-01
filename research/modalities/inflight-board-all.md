@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:18 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:20 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 8:18 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:10 PM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:18 PM ET Fri Jul 31, 2026 (3 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:21 AM Aug 1      61.1%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.3 s/iter
-5aks_d0_to_d ternary nr4a3 r0 10:23 PM           93.3%  RTX 3090 $0.00554/ns · 1.62× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 33.2 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:21 AM Aug 1     47.8%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.2 s/iter · realised $0.00852/ns (1.64x expected)
-5aks_d0_to_d ternary nr4a1 r1 9:43 AM Aug 1      47.8%  RTX 4090 $0.00537/ns · 1.57× basis [bid] RUNNING   ⚠ 25.9 s/iter · realised $0.00839/ns (1.56x expected)
+5aks_d0_to_d ternary nr4a3 r1 8:05 AM Aug 1      62.2%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.2 s/iter
+5aks_d0_to_d ternary nr4a3 r0 10:09 PM           94.4%  RTX 3090 $0.00554/ns · 1.62× basis [bid] RUNNING   33.2 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:29 AM Aug 1     47.8%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.2 s/iter · realised $0.00852/ns (1.64x expected)
+5aks_d0_to_d ternary nr4a1 r1 —                      —  RTX 4090 $0.00537/ns · 1.57× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 8:01 PM ET Fri Jul 31, 2026 — **16 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:01 PM ET Fri Jul 31, 2026 — **19 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,11 +36,11 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — 18 endpoint-MD legs
 
-_As of 8:18 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 8:20 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
-LEG                ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
-----------------------------------------------------------------------------------
-nr4a2 m2 r0        —                      —  —    NO HOST   no live host — phase marker md-running 2026-07-31T20:28:05Z; a re-dispatch resumes this leg from its checkpoint. THIS TICK: BLOCKED by the failure breaker — blocked: repeated failure on distinct hosts. Counted since this unit last banked work — a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) — the streak is genuine: the fault reproduced across separate rentals. Once the cause is fixed, re-arm with a BASELINE (retro_set_breaker_baseline; CI vast_launch_mode=retro_baseline), NOT leg_failure_breaker.reset_for — the baseline moves the streak anchor and keeps attempts/ intact, and that archive is what distinguishes real rentals from a crash-loop.
+LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+nr4a2 m2 r0        —                      —  — $0.1459/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  15 consecutive board polls with no new frame (this host is 0 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-07-31T20:28:05Z — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 233 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host
 ```
 
