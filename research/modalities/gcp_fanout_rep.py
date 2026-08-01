@@ -498,18 +498,27 @@ def quoted_rate(marks_for_leg, window=RATE_WINDOW, min_intervals=MIN_RATE_INTERV
     number, because a reader who can see the spread can grade the ETA and a hidden refusal teaches nothing.
     """
     iv = interval_rates(marks_for_leg, with_phase=True)
+    # ★★ NEVER MIX PHASES INSIDE ONE WINDOW. The moment production banks its first interval a trailing-5
+    # window would hold 4 warmup samples and 1 production one, report the mean as `production`, understate
+    # the production rate — and, worse, DROP the lower-bound caveat exactly when it starts mattering,
+    # because the caveat fires on `rate phase != remaining phase`. So the window is scoped to the CURRENT
+    # phase, and when that phase is too young to quote, the PREVIOUS phase's rate is quoted and LABELLED as
+    # the previous phase, which is what keeps the caveat armed.
+    cur = iv[-1][4] if iv else None
+    same = [t for t in iv if t[4] == cur]
+    if len(same) >= min_intervals:
+        iv = same
     n = len(iv)
     if n < min_intervals:
-        return {"s_per_iter": None, "n_intervals": n, "n_used": 0, "spread": None,
+        return {"s_per_iter": None, "n_intervals": n, "n_used": 0, "spread": None, "phase": cur,
                 "why": (f"{n} completed commit interval(s); this lane quotes a rate at "
                         f"{min_intervals} (gcp_fanout_rep.MIN_RATE_INTERVALS). "
                         f"The next commit moves it toward the threshold.")}
     used = iv[-int(window):] if window else iv
     rates = [t[3] for t in used]
     s = sum(rates) / len(rates)
-    # ⚠ WHICH PHASE THE RATE WAS MEASURED IN IS PART OF THE RATE. See `_PHASE_CROSS_NOTE`. The MOST RECENT
-    # interval's phase is the one quoted: a window that straddles the boundary is dominated by the phase the
-    # leg is actually in now, and that is the one the projection is about to be applied from.
+    # ⚠ WHICH PHASE THE RATE WAS MEASURED IN IS PART OF THE RATE. See `_PHASE_CROSS_NOTE`. Every interval
+    # in `used` now shares a phase by construction, so this is the window's phase and not a guess about it.
     phase = used[-1][4]
     return {"s_per_iter": s, "n_intervals": n, "n_used": len(used), "phase": phase,
             "spread": (max(rates) / min(rates)) if min(rates) > 0 else None,
@@ -816,7 +825,8 @@ def rate_report(marks, targets, n_windows=N_WINDOWS, lengths_ns=None, window=RAT
         q = quoted_rate(m, window=window)
         s = q["s_per_iter"]
         row = {"commits": len(m), "stage": leg_stage(m)[0], "iteration": leg_stage(m)[1],
-               "s_per_iteration": s, "n_intervals": q["n_intervals"], "n_used": q["n_used"],
+               "s_per_iteration": s, "rate_phase": q.get("phase"),
+               "n_intervals": q["n_intervals"], "n_used": q["n_used"],
                "spread": q["spread"], "why": q["why"],
                "intervals": [{"from": a0, "to": b0, "seconds": sec, "s_per_iter": r}
                              for a0, b0, sec, r in interval_rates(m)]}
@@ -838,15 +848,16 @@ def rate_report(marks, targets, n_windows=N_WINDOWS, lengths_ns=None, window=RAT
 def rate_markdown_table(report):
     """The table that goes in gcp-gpu-facts.md §1e. DERIVED — regenerate, never hand-edit."""
     ps = report.get("ps_per_iteration_per_replica")
-    head = ("| leg | commits | last committed | s / HREX iteration | leg wall-clock h | "
-            "ns/day per replica | ns/day aggregate (%s windows) |" % report.get("n_windows"))
+    head = ("| leg | commits | last committed | s / HREX iteration *(phase measured in)* | "
+            "leg wall-clock h | ns/day per replica | ns/day aggregate (%s windows) |"
+            % report.get("n_windows"))
     out = [head, "|---|---|---|---|---|---|---|"]
     for leg, r in (report.get("legs") or {}).items():
         s = r.get("s_per_iteration")
         out.append("| **%s** | %d | %s | %s | %s | %s | %s |" % (
             leg, r.get("commits") or 0,
             (f"{r.get('stage')} {r.get('iteration')}" if r.get("stage") else "—"),
-            (f"**{s:.2f}**" if s else "— *(%s)*" % r.get("why", "")),
+(f"**{s:.2f}** *({r.get('rate_phase') or '?'})*" if s else "— *(%s)*" % r.get("why", "")),
             (f"{r['leg_hours']:.1f}" if r.get("leg_hours") else "—"),
             (f"{r['ns_per_day_per_replica']:.2f}" if r.get("ns_per_day_per_replica") else "—"),
             (f"{r['ns_per_day_aggregate']:.2f}" if r.get("ns_per_day_aggregate") else "—")))

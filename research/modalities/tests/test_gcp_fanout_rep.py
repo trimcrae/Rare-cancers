@@ -1360,3 +1360,40 @@ def test_the_phase_marker_timestamp_is_parsed_and_a_bare_marker_refuses():
     assert gfr.phase_started("leg-complex-running 2026-08-01T12:41:01Z") == "2026-08-01T12:41:01Z"
     assert gfr.phase_started("leg-complex-running") is None
     assert gfr.phase_started("") is None
+
+
+def test_a_rate_window_never_mixes_warmup_and_production_intervals():
+    """★★ The moment production banks its first interval, a trailing-5 window would hold 4 warmup samples
+    and 1 production one, report the mean as `production`, understate the production rate — and DROP the
+    lower-bound caveat exactly when it starts mattering, because that caveat fires on
+    `rate phase != remaining phase`. The window is scoped to the current phase; when that phase is too
+    young to quote, the PREVIOUS phase's rate is quoted and LABELLED as the previous phase, which is what
+    keeps the caveat armed. (This is the state the live leg was in at 9:20 AM ET 2026-08-01: 19 warmup
+    intervals banked and exactly one production MARKER, i.e. zero production intervals.)"""
+    one_prod = MEASURED_WARMUP + [("complex", "production", 40, "2026-08-01T13:07:00Z")]
+    m = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*one_prod)))["complex"]
+    q = gfr.quoted_rate(m)
+    assert q["phase"] == "warmup", "one production MARKER is zero production INTERVALS"
+    assert 34.0 < q["s_per_iter"] < 36.0
+    # Once production has enough of its own, the window switches wholesale and the label follows.
+    prod = MEASURED_WARMUP + [("complex", "production", 40 * k, "2026-08-01T%02d:00:00Z" % (13 + k))
+                              for k in range(1, 8)]
+    m2 = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*prod)))["complex"]
+    q2 = gfr.quoted_rate(m2)
+    assert q2["phase"] == "production" and q2["n_used"] == gfr.RATE_WINDOW
+    assert abs(q2["s_per_iter"] - 3600.0 / 40) < 1e-6, "purely production intervals, no warmup contamination"
+    # ...and the caveat correctly STANDS DOWN once the rate and the remaining work share a phase.
+    p2 = gfr.unit_progress(gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*prod))), (400, 2000),
+                           leg_rates={"complex": q2["s_per_iter"]}, rate_phases={"complex": q2["phase"]})
+    assert "LOWER BOUND" not in p2["eta_why"]
+
+
+def test_the_artifact_and_the_table_both_name_the_phase_the_rate_came_from():
+    doc = gfr.load_rate_artifact()
+    if doc is None:
+        pytest.skip("no leg measured on an L4 yet")
+    rep = gfr.rate_report(gfr.marks_from_artifact(doc),
+                          tuple(doc["derived"]["targets"] or ()) or None,
+                          n_windows=doc["derived"]["n_windows"])
+    assert rep["legs"]["complex"]["rate_phase"] in ("warmup", "production")
+    assert "(phase measured in)" in gfr.rate_markdown_table(rep)

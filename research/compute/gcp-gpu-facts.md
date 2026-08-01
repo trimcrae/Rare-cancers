@@ -206,9 +206,9 @@ is a quotient that can be recomputed if `RATE_WINDOW` or the arithmetic changes.
 artifact on every CI run, so the document cannot drift from the measurement.
 
 <!-- GCP-S1F-REP-RATE-TABLE:BEGIN -->
-| leg | commits | last committed | s / HREX iteration | leg wall-clock h | ns/day per replica | ns/day aggregate (12 windows) |
+| leg | commits | last committed | s / HREX iteration *(phase measured in)* | leg wall-clock h | ns/day per replica | ns/day aggregate (12 windows) |
 |---|---|---|---|---|---|---|
-| **complex** | 20 | warmup 400 | **35.19** | 23.5 | 6.14 | 73.66 |
+| **complex** | 21 | production 40 | **35.19** *(warmup)* | 23.5 | 6.14 | 73.66 |
 | **solvent** | 0 | — | — *(0 completed commit interval(s); this lane quotes a rate at 3 (gcp_fanout_rep.MIN_RATE_INTERVALS). The next commit moves it toward the threshold.)* | — | — | — |
 
 *2.50 ps of MD per replica per iteration, derived from the run's own `warmup_target=400 prod_target=2000` line and `nr4a3_rbfe.py`'s protocol lengths (1.0 ns equilibration / 5.0 ns production).*
