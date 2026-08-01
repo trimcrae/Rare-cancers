@@ -803,3 +803,21 @@ def test_live_labels_reports_readability_without_changing_its_callers(monkeypatc
                                                         "actual_status": "running"}]})
     ok, live, mine = L._live_labels_checked("k")
     assert ok is True and len(mine) == 1
+
+
+def test_a_container_written_artifact_cannot_lock_the_commit_step_out():
+    """⛔ MEASURED, runs 30712764070 / 30712792573 (2026-08-01). `stage_test` runs in the `ternary-fep`
+    container, which writes into the bind-mounted `research/modalities` as ROOT; the commit step runs as
+    `runner` and died on `cp: cannot create regular file 'research/modalities/selcal-stage-test.json':
+    Permission denied`. Under `set -e` that failed the whole step, so the $0 staging shakeout that gates the
+    first MD rental could never bank its result — and once that file is TRACKED, `git reset --hard` fails on
+    it before the cp is even reached. The normalisation must therefore come FIRST, and must not be able to
+    fail the step it protects."""
+    wf = open(WORKFLOW).read()
+    blocks = wf.split('name: Commit whatever landed')[1:]
+    assert len(blocks) == 2, "both the cpu and gpu commit steps must be covered"
+    for b in blocks:
+        head = b.split('paths=()')[0]
+        assert "chown -R" in head, "ownership is not normalised before the commit step touches the files"
+        assert "|| true" in head, "the normalisation must not be able to fail the step it protects"
+        assert head.index("chown") < head.index('git config'), "chown must precede everything else"

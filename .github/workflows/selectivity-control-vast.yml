@@ -186,6 +186,15 @@ jobs:
         if: ${{ always() && env.MODE != 'selftest' }}
         run: |
           set -eo pipefail
+          # ⛔ A CONTAINER STEP WRITES AS ROOT, AND THIS STEP RUNS AS `runner`. MEASURED, runs 30712764070 and
+          # 30712792573 (2026-08-01, both `stage_test`): the `ternary-fep` container writes
+          # `selcal-stage-test.json` into the bind-mounted `research/modalities` owned by root:root 644, and
+          # the `cp` below then died with `cp: cannot create regular file … Permission denied`. `set -e` made
+          # that the whole step, so the rung the co-fold watch advances to could never bank its result — the
+          # $0 staging shakeout that gates the first MD rental was structurally unable to finish.
+          # Worse once the file is TRACKED: `git reset --hard` would fail on it too, before the cp is reached.
+          # So the ownership is normalised FIRST, and it cannot itself fail the step.
+          sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           paths=()
           for p in research/modalities/selcal-reference-selectivity.json \
@@ -277,6 +286,15 @@ jobs:
         if: ${{ always() }}
         run: |
           set -eo pipefail
+          # ⛔ A CONTAINER STEP WRITES AS ROOT, AND THIS STEP RUNS AS `runner`. MEASURED, runs 30712764070 and
+          # 30712792573 (2026-08-01, both `stage_test`): the `ternary-fep` container writes
+          # `selcal-stage-test.json` into the bind-mounted `research/modalities` owned by root:root 644, and
+          # the `cp` below then died with `cp: cannot create regular file … Permission denied`. `set -e` made
+          # that the whole step, so the rung the co-fold watch advances to could never bank its result — the
+          # $0 staging shakeout that gates the first MD rental was structurally unable to finish.
+          # Worse once the file is TRACKED: `git reset --hard` would fail on it too, before the cp is reached.
+          # So the ownership is normalised FIRST, and it cannot itself fail the step.
+          sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           paths=()
           for p in research/modalities/selcal-market-hold.json \
