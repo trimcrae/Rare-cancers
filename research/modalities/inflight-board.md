@@ -2,13 +2,13 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 10:10 AM ET Sat Aug 1, 2026 by `task=collect`.
+Generated 10:11 AM ET Sat Aug 1, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
-LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r0 —                  90.0%  RTX 4090 $0.00520/ns · 1.53× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 19781; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1640 is intact in S3 and this pass dispatches the gate to re-place it · ⚠ 29.4 s/iter · realised $0.00909/ns (1.75x expected)
-5aks_d0_to_d ternary nr4a1 r1 —                      —  —                                        NO HOST   no live host — checkpoint at production/1040 is intact in S3; this pass dispatches the gate to re-place it
+LEG                           ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
+---------------------------------------------------------------------------------------------
+5aks_d0_to_d ternary nr4a1 r0 —                  90.0%  —    NO HOST   no live host — checkpoint at production/1640 is intact in S3; this pass dispatches the gate to re-place it
+5aks_d0_to_d ternary nr4a1 r1 —                      —  —    NO HOST   no live host — checkpoint at production/1040 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
