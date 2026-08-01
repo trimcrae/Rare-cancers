@@ -300,6 +300,46 @@ jobs:
             else
               echo "::warning title=NRV04 RETRO TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t5 | tr '\n' ' ')"
             fi
+            # ★★ AND THE GCP L4 STEP-1 FAN-OUT REPLICATE LANE — added 2026-08-01, for the reason every other
+            # entry above was added, arriving through yet another door.
+            #
+            # WHAT WAS FOUND. The lane's board fragment is written by `gpu-fanout-rep-gcp.yml` on every
+            # dispatch of every mode — which is the correct place for it and is worth nothing on its own,
+            # because NOTHING DISPATCHES THE LANE. Its first render read `STALE (> 15 min)` within half an
+            # hour, and a leg bounded at 48 h whose fragment refreshes only when a human types something
+            # would read STALE for essentially its whole life. The row is honest about it ("this row is
+            # THAT report, not a current reading"), and honest staleness is still staleness.
+            #
+            # ⚠ AND THE BOARD IS AGAIN THE SMALLER HALF. `mode=reap` is also this lane's TEARDOWN: it runs
+            # `gcp_fanout_rep.reap_decision` over every `gcp-s1frep-*` VM and deletes the ones whose own
+            # evidence says the work is banked or the container is gone. That predicate was written to close
+            # three measured 48 h holds on 2026-07-31 — and it only ever runs "on every dispatch of every
+            # mode", so with nothing dispatching, NOTHING REAPS. The 48 h hold that was fixed inside the
+            # lane simply reappeared one layer up, at scheduling. This closes that loop, and it is the same
+            # finding as the ternary `collect` block above: a guard that exists but has no cadence is not a
+            # guarantee, it is a guarantee-shaped absence.
+            #
+            # ⚠ IT CANNOT BUY, and that is the difference from the retro tick above. `mode=reap` has no
+            # provisioning path at all: the create step is gated `if: mode == smoke || mode == run`, so this
+            # dispatch can only READ (VM list, GCS object timestamps, the quota rows), DELETE a VM the
+            # predicate condemns on evidence, and rewrite one JSON fragment. There is no route from this
+            # tick to a rental, on GCP or anywhere else. A tick with nothing to do prints
+            # "no gcp-s1frep-* instances - nothing to reap" and costs $0.
+            #
+            # ⚠ IT TARGETS ONLY THIS LANE'S OWN WORKFLOW, DELIBERATELY. `gpu-ternary-fep-gcp.yml` runs its
+            # launch guard BEFORE its idempotent skip, so a redundant dispatch of already-landed work exits
+            # with a red `::error` rather than a green "already done" - which is exactly what happened at
+            # 7:31 AM ET 2026-07-31. Putting THAT workflow on an 8-minute tick would manufacture a stream of
+            # false failures, and a lane that always has a red run is a lane whose real failures stop being
+            # read. The ordering is reported for its owner to fix; this tick does not depend on it.
+            if gh workflow run gpu-fanout-rep-gcp.yml --ref main \
+                 -f mode=reap \
+                 -f edge=e_zaienne_cmpd19__cw_ms_free_acid \
+                 -f replicate=1 2>/tmp/t6; then
+              echo "[$(date -u '+%H:%M:%SZ')] gcp s1f-rep reap+board dispatched (tick ${n})"
+            else
+              echo "::warning title=GCP S1F-REP TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t6 | tr '\n' ' ')"
+            fi
             # Stop early rather than sleep past the deadline and be killed mid-iteration.
             [ $(( $(date +%s) + SLEEP )) -ge "$END" ] && break
             sleep "${SLEEP}"

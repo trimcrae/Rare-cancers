@@ -759,3 +759,61 @@ def test_the_probe_refuses_a_zero_exit_without_a_cuda_context():
     not be read as success — that is how a CPU fallback gets filed as a GPU replicate."""
     code = _startup_code()
     assert 'grep -q "CUDA CONTEXT OK" /tmp/probe.log ||' in code
+
+
+# ---- the periodic tick (added 2026-08-01, after the lane's first render read STALE) --------------------
+
+SUP = os.path.join(REPO, ".github", "workflows", "step1-fanout-supervisor.yml")
+
+
+def _sup():
+    return open(SUP).read()
+
+
+def test_the_supervisor_ticks_this_lane():
+    """The fragment is written on every dispatch of every mode — which is worth nothing while NOTHING
+    DISPATCHES THE LANE. Its first render read STALE within half an hour, and a leg bounded at 48 h would
+    have read STALE for its whole life."""
+    sup = _sup()
+    assert "gh workflow run gpu-fanout-rep-gcp.yml" in sup
+    blk = sup.split("gh workflow run gpu-fanout-rep-gcp.yml")[1][:400]
+    assert "-f mode=reap" in blk, "the tick must be mode=reap — the only mode that reads and reaps but cannot buy"
+
+
+def test_the_tick_mode_has_no_path_to_a_rental():
+    """⚠ THE LOAD-BEARING SAFETY CLAIM. An 8-minute dispatch that could provision would be an 8-minute
+    dispatch that could double-buy. `mode=reap` must not satisfy the create step's `if:` under any reading."""
+    wf = _wf()
+    gate = wf.split("- name: Provision an L4 and run")[1].split("run: |")[0]
+    assert "if:" in gate
+    cond = gate.split("if:")[1].split("\n")[0]
+    assert "'smoke'" in cond and "'run'" in cond
+    assert "reap" not in cond and "!=" not in cond, \
+        "the create gate must be an explicit smoke|run allowlist, never a not-equals denylist"
+
+
+def test_the_tick_still_reaps_and_still_publishes():
+    """The two things the tick exists to do. The reap step carries no `if:` at all and the board step is
+    `always()` — so `mode=reap` runs both."""
+    wf = _wf()
+    reap = wf.split("- name: Reap finished VMs")[1].split("run: |")[0]
+    assert "if:" not in reap
+    board = wf.split("- name: Publish the in-flight fragment")[1].split("run: |")[0]
+    assert "always()" in board and "!= 'mirror'" in board
+
+
+def test_the_supervisors_concurrency_group_is_untouched():
+    """It cancels a SECOND supervisor while the first is alive, which is correct: duplicate supervisors
+    dispatching the same lanes is a double-buy risk. Adding a tick must never widen it."""
+    sup = _sup()
+    assert "group: step1-fanout-supervisor" in sup
+    assert "cancel-in-progress: false" in sup
+
+
+def test_the_tick_does_not_target_the_ternary_gcp_lane():
+    """`gpu-ternary-fep-gcp.yml` runs its launch guard BEFORE its idempotent skip, so a redundant dispatch
+    of landed work exits red rather than green (measured 7:31 AM ET 2026-07-31). On an 8-minute tick that
+    manufactures a stream of false failures, and a lane that always has a red run is a lane whose real
+    failures stop being read. Reported for its owner; not depended on here."""
+    sup = _sup()
+    assert "gh workflow run gpu-ternary-fep-gcp.yml" not in sup
