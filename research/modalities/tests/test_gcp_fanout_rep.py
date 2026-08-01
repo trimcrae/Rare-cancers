@@ -465,10 +465,33 @@ def test_the_board_step_only_ever_stages_this_lanes_own_files():
     Two files now: the fragment (every tick) and the machine-written rate artifact (whenever the tick saw
     new markers). Both are written ONLY by this lane, so there is still exactly one writer per file."""
     step = _wf().split("- name: Publish the in-flight fragment")[1]
-    adds = re.findall(r"git add (\S+)", step)
-    assert adds == ["research/modalities/inflight-board.d/gcp-s1f-rep.json",
-                    "research/modalities/gcp-s1f-rep-rate.json"], adds
+    assert re.findall(r"git add (\S+)", step) == ['"$F"', '"$R"'], step
+    assert re.search(r'^\s*F=research/modalities/inflight-board\.d/gcp-s1f-rep\.json\s*$', step, re.M)
+    assert re.search(r'^\s*R=research/modalities/gcp-s1f-rep-rate\.json\s*$', step, re.M)
     assert "git add -A" not in step and "--force" not in step
+
+
+def test_the_publish_rewrites_onto_upstream_and_never_merges():
+    """★★ A PUBLISH THAT DID NOT HAPPEN MUST NEVER READ LIKE ONE (measured 2026-08-01, run 30701290485):
+    `git pull --rebase` conflicted against a sibling tick 30 s earlier, `2>/dev/null || true` swallowed it,
+    the rebase was left MID-CONFLICT, and `git push HEAD:main` pushed the upstream commit back to itself —
+    a no-op that exits 0 and printed `fragment published` while main's fragment stayed 67 s old.
+
+    This lane is the SOLE writer of both files, so 'ours, always' is the correct semantics rather than a
+    shortcut, and a rewrite-onto-upstream makes a conflict unrepresentable instead of handled."""
+    step = _wf().split("- name: Publish the in-flight fragment")[1].split("- name: Detached launch")[0]
+    code = "\n".join(l for l in step.splitlines() if not l.lstrip().startswith("#"))
+    assert "git pull" not in code, "a merge is the wrong operation for a single-writer file"
+    assert "git pull --rebase" in step, "and the incident that retired it stays in the comment"
+    assert "git reset -q --hard FETCH_HEAD" in step and "git rebase --abort" in step
+    assert "PUBLISHED=1" in step and 'if [ "$PUBLISHED" = 1 ]' in step, \
+        "success must be tracked explicitly, not inferred from falling out of the loop"
+    warn = step.split('if [ "$PUBLISHED" = 1 ]')[1]
+    assert "::warning" in warn and "NOT PUBLISHED" in warn
+    # the files are held OUTSIDE the checkout, because `reset --hard` would otherwise destroy them
+    assert "cp \"$F\" /tmp/pub_fragment.json" in step
+    i_cp, i_reset = step.index("/tmp/pub_fragment.json"), step.index("git reset -q --hard")
+    assert i_cp < i_reset, "the copy must happen BEFORE the reset that would delete it"
 
 
 # ---- the smoke terminus, the second piece of evidence the reaper may act on ---------------------------

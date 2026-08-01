@@ -508,42 +508,66 @@ jobs:
             > /tmp/publish.env || echo "::warning::tick failed; publishing whatever fragment exists"
           sed 's/^/  /' /tmp/publish.env || true
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          # The fragment ALWAYS; the rate artifact whenever the tick refreshed it. The measurement is
-          # machine-written from the unit's own COMMITTED.json markers and is the ONE home of this lane's
-          # L4 throughput (rule 1) — a rate that only a hand-dispatched run produces is a rate that goes
-          # stale the moment nobody dispatches one, which is the failure this lane is a correction for.
-          git add research/modalities/inflight-board.d/gcp-s1f-rep.json
-          git add research/modalities/gcp-s1f-rep-rate.json 2>/dev/null || true
-          # ★★ COMMIT UNCONDITIONALLY. **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.**
-          # (Coordinator ruling, 2026-08-01, on measured volume: 1,591 commits on `main` in 24 h, 1,392 of
-          # them fragment churn, `.git` at 267 MB — KEPT, because that history is load-bearing and was used
-          # for real diagnoses all day: the 5aks market-hold series revealed two differently-configured
-          # gates writing one file, the rental-receipt series reconstructed 27 rentals on a lane that
-          # records no billed_h, and this directory's nrv04-retro series produced the exact
-          # `STARTING → NO HOST ×10 ticks → STARTING` timeline that made "hostless for 1 h 55 m" a
-          # measurement instead of an impression. None of it was reconstructable elsewhere.)
+          F=research/modalities/inflight-board.d/gcp-s1f-rep.json
+          R=research/modalities/gcp-s1f-rep-rate.json
+          cp "$F" /tmp/pub_fragment.json
+          [ -f "$R" ] && cp "$R" /tmp/pub_rate.json
+
+          # ★★ RECONCILE BY REWRITING, NEVER BY MERGING — AND THE PREVIOUS VERSION SILENTLY PUBLISHED
+          # NOTHING (measured 2026-08-01, run 30701290485, verbatim):
+          #     Auto-merging research/modalities/gcp-s1f-rep-rate.json
+          #     CONFLICT (content): Merge conflict in research/modalities/gcp-s1f-rep-rate.json
+          #     CONFLICT (content): Merge conflict in .../inflight-board.d/gcp-s1f-rep.json
+          #     fragment published
+          # `git pull --rebase` hit a conflict against a sibling tick 30 s earlier, `2>/dev/null || true`
+          # swallowed it, the rebase was left MID-CONFLICT, and `git push HEAD:main` then pushed the
+          # upstream commit back to itself — a no-op that exits 0. The step printed `fragment published`
+          # and main's newest fragment stayed 67 s old. That is the lane's heartbeat dying while every log
+          # line says it is alive, which is the precise failure the block below spends twenty lines
+          # protecting against, arriving through the one door it did not cover.
           #
-          # ⚠ THIS LINE USED TO BE `git diff --cached --quiet && { echo "fragment unchanged"; exit 0; }`,
-          # and that is the ONE quieting the ruling names as forbidden. It never fired in practice — the
-          # timestamp changes every tick, so the file always differs — which is exactly what makes it a
-          # LANDMINE rather than a bug: it does nothing until someone "optimises" the fragment to omit or
-          # stabilise `generated_epoch`, and from that moment the lane goes silent and a healthy IDLE lane
-          # renders byte-identically to a DEAD one. **The timestamp IS the heartbeat**: it is the only
-          # input to `_As of … STALE (> 15 min)`, and suppressing the commit that carries it is the single
-          # most-repeated failure of this whole session — an absent reading passing as a reading of absence,
-          # in a fourth place.
-          #
-          # `--allow-empty` so the step can neither silently skip (the old bug) nor fail red on a no-diff
-          # (the naive fix). Publishing is unconditional in both directions.
-          git commit -q --allow-empty -m "gcp s1f-rep lane: in-flight fragment (CI)"
-          # Two other lanes push to main constantly; rebase-retry rather than force. Only this one file is
-          # ever staged, so a rebase can never carry someone else's work backwards.
+          # A MERGE WAS NEVER THE RIGHT OPERATION. This lane is the SOLE writer of both files, so there is
+          # nothing of anyone else's in them to preserve and "ours, always" is not a shortcut — it is the
+          # correct semantics. So: take upstream EXACTLY, stamp our two files back on top, commit, push.
+          # A conflict is now unrepresentable rather than handled, and because HEAD is always exactly one
+          # commit ahead of the ref it pushes to, a successful push can never be a silent no-op.
+          # `reset --hard` is safe here and nowhere else: this is a throwaway CI checkout and the two files
+          # are held in /tmp across it.
+          PUBLISHED=0
           for i in 1 2 3 4 5; do
-            git pull -q --rebase origin "${GITHUB_REF_NAME}" 2>/dev/null || true
-            git push -q origin "HEAD:${GITHUB_REF_NAME}" && { echo "fragment published"; exit 0; }
+            git rebase --abort >/dev/null 2>&1 || true
+            git fetch -q origin "${GITHUB_REF_NAME}" || { sleep 6; continue; }
+            git reset -q --hard FETCH_HEAD
+            cp /tmp/pub_fragment.json "$F"
+            [ -f /tmp/pub_rate.json ] && cp /tmp/pub_rate.json "$R"
+            git add "$F"
+            [ -f "$R" ] && git add "$R"
+            # ★★ COMMIT UNCONDITIONALLY. **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.**
+            # (Coordinator ruling, 2026-08-01, on measured volume: 1,591 commits on `main` in 24 h, 1,392
+            # of them fragment churn, `.git` at 267 MB — KEPT, because that history is load-bearing and was
+            # used for real diagnoses all day: the 5aks market-hold series revealed two differently-
+            # configured gates writing one file, the rental-receipt series reconstructed 27 rentals on a
+            # lane that records no billed_h, and this directory's nrv04-retro series produced the exact
+            # `STARTING -> NO HOST x10 ticks -> STARTING` timeline that made "hostless for 1 h 55 m" a
+            # measurement instead of an impression. None of it was reconstructable elsewhere.)
+            #
+            # NEVER guard this with `git diff --cached --quiet && exit 0`. It never fires in practice — the
+            # timestamp changes every tick — which is exactly what makes it a LANDMINE rather than a bug:
+            # it does nothing until someone "optimises" the fragment to omit or stabilise
+            # `generated_epoch`, and from that moment the lane goes silent and a healthy IDLE lane renders
+            # byte-identically to a DEAD one. **The timestamp IS the heartbeat**: it is the only input to
+            # `_As of ... STALE (> 15 min)`.
+            git commit -q --allow-empty -m "gcp s1f-rep lane: in-flight fragment (CI)"
+            if git push -q origin "HEAD:${GITHUB_REF_NAME}"; then PUBLISHED=1; break; fi
             sleep 6
           done
-          echo "::warning::could not publish the fragment after 5 attempts (contention); the lane state is still readable via mode=tail"
+          if [ "$PUBLISHED" = 1 ]; then
+            echo "fragment published at $(git log -1 --format=%cI)"
+          else
+            # ⚠ A WARNING, NOT A GREEN "published". The whole point of the incident above is that a publish
+            # which did not happen must never read like one.
+            echo "::warning title=S1F-REP FRAGMENT NOT PUBLISHED::5 attempts lost the race for ${GITHUB_REF_NAME}. The board will read STALE until the next tick lands — which is the honest signal, not a bug to hide. Lane state is still readable via mode=tail."
+          fi
 
       - name: Detached launch summary (mode=run)
         if: ${{ env.MODE == 'run' && env.VM_LIVE == '1' }}
