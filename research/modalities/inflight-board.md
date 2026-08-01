@@ -2,14 +2,14 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 6:14 AM ET Sat Aug 1, 2026 by `task=collect`.
+Generated 6:22 AM ET Sat Aug 1, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:19 AM            93.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.2 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:28 AM           84.4%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.2 s/iter · realised $0.00853/ns (1.64x expected)
-5aks_d0_to_d ternary nr4a1 r1 2:17 AM Aug 2      64.4%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 56.4 s/iter · realised $0.00733/ns (1.77x expected)
+5aks_d0_to_d ternary nr4a3 r1 8:27 AM            93.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.2 s/iter
+5aks_d0_to_d ternary nr4a1 r0 —                  84.4%  RTX 4090 $0.00520/ns · 1.53× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 9624; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1440 is intact in S3 and this pass dispatches the gate to re-place it · ⚠ 27.2 s/iter · realised $0.00853/ns (1.64x expected)
+5aks_d0_to_d ternary nr4a1 r1 2:25 AM Aug 2      64.4%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 56.4 s/iter · realised $0.00733/ns (1.77x expected)
 ---- END TVAST-BOARD ----
 ```
