@@ -78,10 +78,18 @@ ALARM_REPORT = "account-orphan-alarm.json"
 #: This module's own readout. A decision nobody can date is a decision nobody can audit.
 READOUT = "supervisor-resurrect.json"
 
-#: How old the alarm's report may be before its host counts stop being believable. The report is dispatched
-#: from every step-1 tick (measured delivered gaps are in `fleet-supervision-alarm.yml`, their one home), so a
-#: report older than this means the thing that produces it has itself stopped — in which case this module
-#: knows nothing about live hosts and must not act on the last thing it saw.
+#: How old the alarm's report may be before its host counts stop being believable. A report older than this
+#: means the thing that refreshes it has itself stopped — in which case this module knows nothing about live
+#: hosts and must not act on the last thing it saw.
+#:
+#: ★ MEASURED, NOT GUESSED: over the 30 most recent commits of `account-orphan-alarm.json` on `main`
+#: (2026-08-01) the DELIVERED gaps were median 7.3 min, p90 8.9, max 9.2 — the alarm rides every step-1 tick.
+#: 25 min is ~2.7x the worst delivered gap, so ordinary jitter (and the throttling CLAUDE.md §6 warns about)
+#: cannot trip it, while a genuinely stopped refresher does. Re-measure with:
+#:   git log origin/main --format=%at -30 -- research/modalities/account-orphan-alarm.json
+#: ⚠ THE FAILURE THIS BOUNDS IS REAL AND WAS SEEN TODAY: at 2:39 PM ET the committed report still said the
+#: selcal lane held 1 live host, seven minutes after that host had been reaped. Acting on a memory of the
+#: account is not acting on the account.
 REPORT_STALE_MIN = 25.0
 
 #: US Eastern, the only timezone this repo reports in (CLAUDE.md §1). EDT = UTC-4.
