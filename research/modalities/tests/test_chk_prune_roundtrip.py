@@ -98,7 +98,7 @@ def _passing_resume(ci=2, target=8):
         "before": {"iteration_dim": 5, "frames_with_data": [0, 1, 2, 3, 4], "bytes": 1000},
         "after": {"iteration_dim": 5, "frames_with_data": [4], "bytes": 200},
         "restored_chk_report": {"frames_with_data": [4]},
-        "shrink_x": 5.0, "naive_prune_rejected": True,
+        "shrink_x": 5.0, "naive_prune_rejected": True, "empty_prune_rejected": True,
         "pruned_commit_ok": True, "restore_ok": True,
         "from_storage_iteration": target,
         "max_delta_vs_unpruned_resume_nm": 0.0, "max_delta_vs_live_state_nm": 1e-7,
@@ -129,6 +129,27 @@ def test_every_single_check_is_load_bearing():
         doc = dict(base)
         doc["resume_checks"] = dict(base["resume_checks"], **{name: False})
         assert not cpr.verdict(doc).startswith("PRUNING IS SAFE"), f"{name} does not affect the verdict"
+
+
+def test_control_1_is_IGNORED_on_a_single_frame_source_because_it_degenerates():
+    """⚠ MEASURED THE HARD WAY (GH 30675219443/30675511441). "Write the last frame at index 0" IS the
+    correct file when the source holds exactly one frame at index 0. Gating on control #1 there reports a
+    blind validator when what actually happened is a degenerate control — two runs were spent on it."""
+    b = dict(_passing_resume(), naive_prune_rejected=False)
+    b["before"] = dict(b["before"], frames_with_data=[0])
+    assert cpr.resume_checks(b)["a_BROKEN_checkpoint_is_REJECTED"], \
+        "on a single-frame source only control #2 may gate"
+    multi = dict(_passing_resume(), naive_prune_rejected=False)
+    assert not cpr.resume_checks(multi)["a_BROKEN_checkpoint_is_REJECTED"], \
+        "on a multi-frame source control #1 must still gate"
+
+
+def test_control_2_gates_on_every_source_because_it_cannot_degenerate():
+    """A checkpoint with no frame anywhere is broken regardless of how many frames the source had."""
+    for frames in ([0], [0, 1, 2, 3, 4]):
+        b = dict(_passing_resume(), empty_prune_rejected=False)
+        b["before"] = dict(b["before"], frames_with_data=frames)
+        assert not cpr.resume_checks(b)["a_BROKEN_checkpoint_is_REJECTED"]
 
 
 def test_a_failed_negative_control_is_INCONCLUSIVE_not_merely_unsafe():
@@ -312,10 +333,12 @@ def test_nothing_in_the_module_opens_a_path_for_writing_that_it_did_not_create()
     assertion for 'did not write to the file I was given'."""
     src = open(cpr.__file__).read()
     body = src[src.index("def prune_to_last_frame"):src.index("# PART A")]
-    # both writers (the real prune and its negative control) open the SOURCE read-only...
-    assert body.count('Dataset(str(src_chk), "r")') == 2
-    # ...and only ever open a DESTINATION for writing.
-    assert body.count('Dataset(str(dst_chk), "w"') == 2
+    # every writer (the real prune and both negative controls) opens the SOURCE read-only...
+    n = body.count("def prune_to_last_frame") + body.count("def naive_prune") + body.count("def empty_prune")
+    assert n == 3
+    assert body.count('Dataset(str(src_chk), "r")') == n
+    # ...and only ever opens a DESTINATION for writing.
+    assert body.count('Dataset(str(dst_chk), "w"') == n
     assert '"a"' not in body and '"r+"' not in body, "the source must never be opened for writing"
 
 

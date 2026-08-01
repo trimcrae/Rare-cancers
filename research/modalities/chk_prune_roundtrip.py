@@ -258,12 +258,43 @@ def prune_to_last_frame(src_chk, dst_chk, keep_index=None):
     return keep
 
 
+def empty_prune(src_chk, dst_chk):
+    """⚠ NEGATIVE CONTROL #2 — the structure with NO frame at all: every dimension and variable preserved,
+    nothing per-iteration written.
+
+    Unambiguous by construction, unlike the index-0 control (which degenerates into the CORRECT prune
+    whenever the source happens to hold a single frame). Whatever the reader does with the index, there is
+    no data anywhere, so an acceptance here means the validator is reading fill and calling it coordinates."""
+    import netCDF4
+    with netCDF4.Dataset(str(src_chk), "r") as src, \
+            netCDF4.Dataset(str(dst_chk), "w", format="NETCDF4") as dst:
+        for name in src.ncattrs():
+            dst.setncattr(name, src.getncattr(name))
+        for dname, dim in src.dimensions.items():
+            dst.createDimension(dname, None if dim.isunlimited() else len(dim))
+        for vname, var in src.variables.items():
+            nv = dst.createVariable(vname, var.datatype, var.dimensions)
+            for a in var.ncattrs():
+                if a != "_FillValue":
+                    nv.setncattr(a, var.getncattr(a))
+            if var.dimensions and var.dimensions[0] == "iteration":
+                continue                          # <-- the point: no frame is ever written
+            if var.shape:
+                nv[...] = var[...]
+            else:
+                _copy_scalar(var, nv)
+
+
 def naive_prune(src_chk, dst_chk):
-    """⚠ NEGATIVE CONTROL — the obvious-but-wrong prune: a single-frame file with the newest data at index 0.
+    """⚠ NEGATIVE CONTROL #1 — the obvious-but-wrong prune: a single-frame file with the newest data at
+    index 0.
 
     This is what "just keep the last checkpoint" produces if you do not think about the reader's
-    `iteration // checkpoint_interval` arithmetic. It MUST be rejected by `validate_reporter_pair`; if it is
-    accepted, the validator is not actually checking the frame and part B's pass means nothing."""
+    `iteration // checkpoint_interval` arithmetic. It MUST be rejected by `validate_reporter_pair`.
+
+    ⚠ IT IS NOT A VALID CONTROL ON A SINGLE-FRAME SOURCE. If the source holds exactly one frame at index 0,
+    "write the last frame at index 0" IS the correct file, and an acceptance proves nothing either way. The
+    caller must check `source_frames` before drawing any conclusion — which is why `empty_prune` exists."""
     import netCDF4
 
     rep = chk_frame_report(src_chk)
@@ -438,6 +469,21 @@ def resume_semantics(ci=2, target=8, extend_by=2, workdir=None):
             nrep.close()
     except Exception as e:  # noqa: BLE001
         out["naive_resume_probe_error"] = f"{type(e).__name__}: {e}"
+
+    # control #2: no frame anywhere. Unambiguous even when the source holds a single frame.
+    ed = work / "empty"
+    ed.mkdir()
+    shutil.copy2(wnc, ed / wnc.name)
+    empty_prune(wchk, ed / wchk.name)
+    out["empty_report"] = chk_frame_report(ed / wchk.name)
+    try:
+        spot.validate_reporter_pair(ed / wnc.name, ed / wchk.name, target, ci)
+        out["empty_prune_rejected"] = False
+        out["empty_prune_note"] = ("⚠ a checkpoint with NO frame at all VALIDATED — the validator is "
+                                   "reading fill and calling it coordinates")
+    except Exception as e:  # noqa: BLE001 — expected
+        out["empty_prune_rejected"] = True
+        out["empty_prune_error"] = f"{type(e).__name__}: {e}"
 
     # ---- B. the real round-trip, through the real store -----------------------------------------
     p_chk, kept = _pruned_copy(wchk, work / "pruned")
@@ -656,9 +702,18 @@ def resume_checks(b):
     frac = before.get("payload_fraction")
     header_dominated = frac is not None and frac < 0.5
     shrink = b.get("shrink_x") or 0.0
+    # ⚠ CONTROL #1 IS ONLY MEANINGFUL ON A MULTI-FRAME SOURCE. "Write the last frame at index 0" IS the
+    # correct file when the source holds one frame at index 0, so on such a source an acceptance is not
+    # evidence of a blind validator — it is evidence of a degenerate control. Control #2 (no frame at all)
+    # has no such degeneracy, which is why the gating check is an OR over the two.
+    n_src = len(before.get("frames_with_data") or [])
+    naive_is_meaningful = n_src > 1
+    controls = [bool(b.get("empty_prune_rejected"))]
+    if naive_is_meaningful:
+        controls.append(bool(b.get("naive_prune_rejected")))
     return {
         # the harness has power at all
-        "naive_prune_was_REJECTED": bool(b.get("naive_prune_rejected")),
+        "a_BROKEN_checkpoint_is_REJECTED": all(controls) and bool(controls),
         # the index arithmetic the reader depends on is untouched
         "iteration_dim_preserved": (after.get("iteration_dim") is not None
                                     and after.get("iteration_dim") == before.get("iteration_dim")),
@@ -704,9 +759,10 @@ def verdict(doc):
     real = doc.get("real_pairs") or []
     if not b:
         return "INCONCLUSIVE — the resume experiment did not run to a verdict; see `resume`."
-    if not b.get("naive_prune_was_REJECTED"):
-        return ("INCONCLUSIVE — the negative control PASSED validation, so the harness cannot tell a broken "
-                "prune from a good one and no conclusion may be drawn from the rest.")
+    if not b.get("a_BROKEN_checkpoint_is_REJECTED"):
+        return ("INCONCLUSIVE — a deliberately-broken checkpoint PASSED validation, so the harness cannot "
+                "tell a broken prune from a good one and no conclusion may be drawn from the rest. See "
+                "`resume.naive_*` and `resume.empty_*`.")
     rc = {}
     for r in real:
         for k, v in (r.get("checks") or {}).items():
@@ -772,6 +828,23 @@ def _main(argv=None):
     doc = run_all(ci=a.interval, target=a.target, extend_by=a.extend_by, skip_storage=a.skip_storage,
                   real_dirs=a.real_dir)
     print(json.dumps(doc, indent=1, default=str), flush=True)
+    # ★ A COMPACT TAIL, because the artifact is not reachable from the dev sandbox (the egress proxy 403s
+    # GitHub's artifact blob host) and the full JSON is ~1400 log lines. Everything needed to diagnose a
+    # failure has to be inside the last screen of the log.
+    r = doc.get("resume") or {}
+    print("\n=== SOURCE + CONTROLS ===", flush=True)
+    for lbl, key in (("source .chk", "before"), ("good prune", "after"),
+                     ("control#1 index-0", "naive_report"), ("control#2 no-frame", "empty_report")):
+        rep = r.get(key) or {}
+        print("  %-20s dim=%s frames=%s bytes=%s payload_frac=%s"
+              % (lbl, rep.get("iteration_dim"), rep.get("frames_with_data"), rep.get("bytes"),
+                 rep.get("payload_fraction")), flush=True)
+    for k in ("naive_prune_rejected", "naive_prune_error", "naive_prune_note",
+              "naive_last_iteration_checkpoint", "naive_frame_max_abs_nm", "naive_frame_is_masked",
+              "naive_frame_looks_like_fill", "naive_resume_probe_error",
+              "empty_prune_rejected", "empty_prune_error", "empty_prune_note"):
+        if k in r:
+            print("  %-32s %s" % (k, str(r[k])[:220]), flush=True)
     print("\n=== CHECKS ===", flush=True)
     for k, v in sorted((doc.get("resume_checks") or {}).items()):
         print("  [%s] %s" % ("PASS" if v else "FAIL", k), flush=True)
