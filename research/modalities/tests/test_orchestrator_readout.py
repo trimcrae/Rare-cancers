@@ -116,7 +116,12 @@ def test_a_pipe_in_a_cell_cannot_break_the_table(monkeypatch):
     _install(monkeypatch, {ifb.FANOUT: _frag(ifb.FANOUT, [dict(ROW_PAYING, why="a|b|c", name="x|y")])})
     out = orc.board_table(now_epoch=NOW)
     body = [l for l in out.splitlines() if l.startswith("|") and not set(l) <= set("|-: ")]
-    assert body and all(l.count("|") - l.count("\\|") == 8 for l in body), \
+    # 9 pipes = 8 columns. ⚠ DERIVED FROM THE HEADER, not typed: this was a hard-coded 8 and broke the
+    # moment the Cost column was added — a test that must be edited whenever a column is added is a test
+    # that discourages completing the table, which is exactly how the ETA came to be missing.
+    header = next(l for l in out.splitlines() if l.startswith("| Lane |"))
+    want = header.count("|")
+    assert body and all(l.count("|") - l.count("\\|") == want for l in body), \
         "every row must have exactly the header's cell count once escapes are discounted"
 
 

@@ -168,6 +168,30 @@ def _ifb():
     return inflight_board
 
 
+#: ★★ COST IS PART OF THE FORMAT, NOT AN EXTRA (CLAUDE.md §1) — AND ITS ABSENCE IS WHY THE ETA KEPT
+#: DISAPPEARING (trimcrae, 2026-08-01: *"We somehow lost the ETA from the supposedly procedurally generated
+#: table."*). The generated table carried ETA, % done and `$/ns` but NOT cost, which §1 requires on every
+#: in-flight row. So each time I reported I hand-built a table to add the cost column — and the hand-built
+#: one dropped the ETA. The transcription this module exists to end came back through the one column it
+#: did not emit. A generated artifact that is missing a required field will be rebuilt by hand, every time.
+#:
+#: ⚠ THE CELL IS A POINTER, NEVER A TYPED FIGURE. §1: a cost has one home and everywhere else links to it.
+#: The ladder JSON owns priced rungs and pricing.md owns the evidence; quoting a dollar amount here would
+#: be a second home free to drift, which is the defect the whole rule exists for.
+_LANE_COST = {
+    "gcp-s1f-rep": "$0 — free GCP trial credit (SEPARATE LEDGER, expires 2026-10-10)",
+}
+
+
+def _cost_cell(lane, row):
+    """What this row costs — as a POINTER to the figure's one home, or the lane's own declaration."""
+    if row and row.get("cost"):
+        return str(row["cost"])                       # a lane that knows its own cost wins
+    if lane in _LANE_COST:
+        return _LANE_COST[lane]
+    return "ladder — see vast-ladder-repricing.json"
+
+
 def _cell(s: str, clip: int | None = None) -> str:
     """One markdown table cell. `|` is escaped and a clipped cell SAYS it was clipped.
 
@@ -248,6 +272,7 @@ def _lane_cells(now: float) -> list[dict]:
                         age = None
         if rows is None:
             out.append({"lane": lane, "name": lane, "eta": "—", "pct": "—", "usd": "—",
+                        "cost": _cost_cell(lane, None),
                         "state": ifb.UNKNOWN, "stale": True,
                         "why": f"no readable fragment on origin/main ({source}); published by `{writer}`"})
             continue
@@ -256,6 +281,7 @@ def _lane_cells(now: float) -> list[dict]:
             rows = ifb.stale_rows(rows, age)
         if not rows:
             out.append({"lane": lane, "name": "—", "eta": "—", "pct": "—", "usd": "—",
+                        "cost": _cost_cell(lane, None),
                         "state": "no GPU legs", "stale": False,
                         "why": f"lane is idle, not absent — fragment is {age:.0f} min old"
                                if age is not None else "lane is idle, not absent"})
@@ -263,13 +289,18 @@ def _lane_cells(now: float) -> list[dict]:
         for r in rows:
             pct = r.get("_pct_text")
             if pct is None:
-                pct = (str(r["pct_of"])[:7] if r.get("pct_of") else
+                # ⚠ NO `[:7]`. That truncation is `inflight_board.render`'s FIXED-WIDTH convention and has
+                # no business in a markdown cell, which has no width to protect — it rendered the selcal
+                # leg's real denominator `0/24 landed` as the meaningless `0/24 la`. Same defect class as
+                # the fixed column widths: a constant applied where the layout does not need one.
+                pct = (str(r["pct_of"]) if r.get("pct_of") else
                        ("—" if r.get("pct") is None else "%.1f%%" % r["pct"]))
             eta = r.get("_eta_text")
             if eta is None:
                 eta = (ifb._fmt_eta(r["eta_s"], now_epoch=now) if r.get("eta_s") is not None
                        else ifb._fmt_eta_at(r.get("eta_epoch"), now_epoch=now))
             out.append({"lane": lane, "name": r.get("name") or "?", "eta": eta, "pct": pct,
+                        "cost": _cost_cell(lane, r),
                         "usd": r.get("usd_per_ns") or "—", "state": r.get("state") or "?",
                         "stale": stale, "why": r.get("why") or ""})
     return out
@@ -289,12 +320,12 @@ def board_table(now_epoch: float | None = None) -> str:
     cells = _lane_cells(now)
     lines = [f"**In flight** — every cell derived {ifb.et_stamp(now)} from each lane's committed fragment.",
              "",
-             "| Lane | Leg | ETA (ET) | % done | $/ns vs basis | State | Why |",
-             "|---|---|---|---:|---|---|---|"]
+             "| Lane | Leg | ETA (ET) | % done | Cost | $/ns vs basis | State | Why |",
+             "|---|---|---|---:|---|---|---|---|"]
     for c in cells:
-        lines.append("| %s | %s | %s | %s | %s | %s | %s |" % (
+        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % (
             _cell(c["lane"]), _cell(c["name"]), _cell(c["eta"]), _cell(c["pct"]),
-            _cell(c["usd"]), _cell(c["state"]), _cell(c["why"], WHY_CLIP)))
+            _cell(c["cost"]), _cell(c["usd"]), _cell(c["state"]), _cell(c["why"], WHY_CLIP)))
     n_stale = sum(1 for c in cells if c.get("stale"))
     lines += ["", f"_Why cells are clipped at {WHY_CLIP} chars (`…`); the full text is in "
                   f"`research/modalities/inflight-board-all.md`._"]
