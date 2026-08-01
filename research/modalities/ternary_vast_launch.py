@@ -1585,8 +1585,35 @@ def _divisors_up_to(n, cap):
 #
 # LADDER POSITION: rung 2 of 3 — the plumbing shakeout only.
 #   rung 1  offline round-trip .................. DONE (GH 30676071569)
-#   rung 2  `5aks_smoke` ........................ HERE  <- the only member of this set
+#   rung 2  `5aks_smoke` ........................ LAUNCHED, NOT PASSED — and now HELD, see below
 #   rung 3  one genuinely FRESH production leg .. requires a fresh unit to exist; never a resume
+#
+# ⛔⛔ BOTH REMAINING RUNGS ARE HELD FOR WANT OF A SUBJECT (2026-08-01). Two separate blockers, one of
+# which was mistaken for the other and cost a rental.
+#
+# RUNG 2 — the smoke unit is EXHAUSTED, and that is a different failure from the one it looked like.
+#   The 2026-07-31 10:02 PM ET attempt produced nothing, and the visible cause was our own reaper
+#   destroying it 2 min 23 s in on a five-day-old `done` record (fixed — see `finished_record` in
+#   `collect`). But fixing that does NOT make the rung runnable, because of a second, independent fact:
+#   `MODES["5aks_smoke"]` is `warmup_iters=8, prod_iters=12`, and this unit's commit store already stands
+#   at `production/12` — its target. `run_to_target`'s loop is `while _sampler_iteration(sampler) <
+#   target_iteration:`, so a resume at target never enters the body, never reaches `on_boundary`, and
+#   therefore NEVER COMMITS — and the prune fires at commit. A re-run would restore, write `leg.json` and
+#   exit having emitted no `[prune]` line at all. That is code, not inference.
+#
+#   Giving it a subject needs one of three things, and two of them are forbidden here:
+#     * supersede the `done` record — `supersede-failed` refuses a `status=done` leg.json BY DESIGN;
+#     * raise the smoke's iteration count — a SECOND change riding with the prune, which is exactly what
+#       the "one variable at a time" note above forbids;
+#     * a COMMIT SALT for this lane, which is the clean answer and the one the GCP lane already has
+#       ("pair with a fresh commit_salt so it does not resume stale checkpoints"). `commit_prefix` here
+#       is keyed on the unit id alone, so there is no way to ask for a fresh store. Building it means
+#       touching prefix keying — the thing `_required_keys_are_enforced` exists to protect — so it is
+#       work for a moment when this lane is NOT billing, not a change to make with legs in flight.
+#
+# RUNG 3 — no fresh 5a-KS leg is due. All four exist: nr4a3 r0 and r1 have landed, nr4a1 r0 and r1 are
+#   running. A leg bought only to exercise this feature is the spend §5 forbids, so the rung waits for a
+#   leg the science needs anyway rather than manufacturing one.
 PRUNE_ELIGIBLE_MODES = ("5aks_smoke",)
 
 
