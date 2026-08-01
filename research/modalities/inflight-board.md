@@ -8,9 +8,9 @@ Generated 8:42 PM ET Fri Jul 31, 2026 by `task=collect`.
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:04 AM Aug 1      63.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   31.0 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:14 AM Aug 1     50.0%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 27.1 s/iter · realised $0.00849/ns (1.63x expected)
-5aks_d0_to_d ternary nr4a1 r1 —                  48.9%  RTX 4090 $0.00537/ns · 1.57× basis [bid]  NO HOST   host DESTROYED this pass (capacity refusal on machine 11892; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/160 is intact in S3 and this pass dispatches the gate to re-place it · ⚠ 26.3 s/iter · realised $0.00851/ns (1.58x expected)
+5aks_d0_to_d ternary nr4a3 r1 8:04 AM Aug 1      63.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 31.0 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:15 AM Aug 1     50.0%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 27.1 s/iter · realised $0.00849/ns (1.63x expected)
 5aks_d0_to_d ternary nr4a3 r0 —                      —  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary nr4a1 r1 —                  48.9%  —                                         NO HOST   no live host — checkpoint at production/160 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
 ```
