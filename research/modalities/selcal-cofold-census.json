@@ -54,47 +54,21 @@
     "selcal_smarca2": 6,
     "selcal_smarca4": 0
   },
-  "phase": "deps-ready 2026-08-01T17:41:58Z instance=46523481 attempt=20260801T174158Z",
-  "log_tail": [
-    "| NVIDIA-SMI 580.82.09              Driver Version: 580.82.09      CUDA Version: 13.0     |",
-    "+-----------------------------------------+------------------------+----------------------+",
-    "| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |",
-    "| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |",
-    "|                                         |                        |               MIG M. |",
-    "|=========================================+========================+======================|",
-    "|   0  NVIDIA GeForce RTX 4090        On  |   00000000:81:00.0 Off |                  Off |",
-    "|  0%   55C    P8             20W /  450W |       1MiB /  24564MiB |      0%      Default |",
-    "|                                         |                        |                  N/A |",
-    "+-----------------------------------------+------------------------+----------------------+",
-    "",
-    "+-----------------------------------------------------------------------------------------+",
-    "| Processes:                                                                              |",
-    "|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |",
-    "|        ID   ID                                                               Usage      |",
-    "|=========================================================================================|",
-    "|  No running processes found                                                             |",
-    "+-----------------------------------------------------------------------------------------+",
-    "               total        used        free      shared  buff/cache   available",
-    "Mem:             377           4         179           0         193         367",
-    "Swap:              0           0           0",
-    "Filesystem      Size  Used Avail Use% Mounted on",
-    "overlay         120G  2.9G  118G   3% /",
-    "overlay         120G  2.9G  118G   3% /",
-    "overlay         120G  2.9G  118G   3% /"
-  ],
-  "n_s3_objects": 170,
-  "newest_object_utc": "2026-08-01T17:42:46Z",
-  "newest_object_age_min": 11.6,
+  "phase": "predicting 2026-08-01T17:56:09Z instance=46524315 attempt=20260801T175554Z",
+  "log_tail": [],
+  "n_s3_objects": 171,
+  "newest_object_utc": "2026-08-01T17:56:11Z",
+  "newest_object_age_min": 0.3,
   "instances": [
     {
       "id": 46524315,
-      "status": "loading",
-      "gpu_util": null,
+      "status": "running",
+      "gpu_util": 0.0,
       "dph_total": 0.19235555555555556,
-      "uptime_min": 2.4
+      "uptime_min": 4.5
     }
   ],
   "_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
-  "utc": "2026-08-01T17:54:24Z",
+  "utc": "2026-08-01T17:56:30Z",
   "bucket": "sagemaker-us-east-2-646605541856"
 }
