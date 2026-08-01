@@ -829,9 +829,9 @@ frames (kernel `nrv04_readouts.recruitment().mean_contacts`).
 
 | arm | **arm mean contacts** | per-leg | model-level (mean of replicas) | range |
 |---|---|---|---|---|
-| NR4A1 (non-cov) | **1571.62** | 2567.45 · 2462.56 · 1007.37 · 1646.52 · 821.48 · 924.34 | m1 2515.01 · m2 1326.95 · m3 872.91 | 821–2567 |
-| NR4A2 (non-cov) | **2210.43** | 2863.71 · 2914.54 · 694.41 · 1028.50 · 2735.50 · 3025.91 | m1 2889.13 · m2 861.46 · m3 2880.71 | 694–3026 |
-| NR4A3 (non-cov) | **2125.25** | 2428.77 · 2564.62 · 2016.12 · 1491.49 | m1 2496.70 · m2 1753.81 | 1491–2565 |
+| NR4A1 (non-cov) | **1571.62** | 2567.45 · 2462.56 · 1007.37 · 1646.52 · 821.48 · 924.34 | m1 2515.005 · m2 1326.945 · m3 872.91 | 821–2567 |
+| NR4A2 (non-cov) | **2210.43** | 2863.71 · 2914.54 · 694.41 · 1028.50 · 2735.50 · 3025.91 | m1 2889.125 · m2 861.455 · m3 2880.705 | 694–3026 |
+| NR4A3 (non-cov) | **2125.25** | 2428.77 · 2564.62 · 2016.12 · 1491.49 | m1 2496.695 · m2 1753.805 | 1491–2565 |
 
 **Reading, at its true weight.** The degraded paralogue is the **least** contacted arm, not the most — the
 opposite of what a naive recruitment reading would predict. That is reported and nothing is done with it,
