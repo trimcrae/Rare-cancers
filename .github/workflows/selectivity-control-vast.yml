@@ -205,6 +205,13 @@ jobs:
       SELCAL_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
       WATCH_MINUTES: ${{ github.event.inputs.watch_minutes }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # ★ MEASURED, NOT GUESSED (run 30701341003): the board was 154 offers / 154 qualifying / 77 priceable
+      # and the gate CLEARED at 0.87x basis — and the submit still failed, because three consecutive hosts
+      # answered `resources_unavailable`. CLAUDE.md §6 is explicit that a capacity refusal means PICK ANOTHER
+      # HOST, and `gpu_backend.submit`'s in-call skip is exactly that. The default budget of 3 is too small
+      # against a board this deep, so a healthy market read as a failed launch. A refused start bills $0, and
+      # this is NOT a blacklist: the skip lives on a copy of the spec and dies with the call.
+      VAST_START_REFUSAL_TRIES: "8"
     steps:
       - uses: actions/checkout@v4
         with:
