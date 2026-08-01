@@ -154,6 +154,13 @@ TERNARY, FANOUT, NRV04_RETRO = "ternary", "step1-fanout", "nrv04-retro"
 #: `enabled: false` on landing and nothing queued new work. Its rows carry `—` for `$/ns`: no ladder dollar
 #: is spent, so there is no ratio to quote, and the L4 list price is NOT a go-forward basis (pricing.md).
 GCP_S1F_REP = "gcp-s1f-rep"
+#: ★★ THE LANE THAT WAS INVISIBLE HERE ALL DAY (2026-08-01). `grep -ci selcal inflight-board-all.md` -> 0
+#: while it rented hosts, so it had no derived progress figure and no derived ETA — and into that vacuum a
+#: PROSE estimate ("~3:05 PM ET for 6 models", invented from a FAILURE run whose seeds died at 7.2 s each)
+#: was quoted in the ETA column beside genuinely derived numbers and carried across six reports. A lane
+#: nobody can see is a lane whose numbers get made up. Its rows carry `—` for `$/ns` on purpose: a co-fold
+#: integrates no dynamics, so there is no ns denominator and a ratio here would be fabricated.
+SELCAL_COFOLD = "selcal-cofold"
 
 #: lane id -> (heading, what it rents, which launcher publishes it). Kept as data so a fourth lane is one
 #: entry plus a `write_fragment` call, and cannot be added by editing the renderer.
@@ -175,6 +182,8 @@ LANES = (
      # have gone stale unnoticed. A publisher name nobody can run is the same defect as a declared
      # artifact nothing writes, one field over.
      "gcp_fanout_rep.py tick"),
+    (SELCAL_COFOLD, "SENSITIVITY CONTROL — SMARCA2/4 co-fold panel (instrument calibration, not a result)",
+     "selcal_board.py"),
 )
 
 #: The ternary lane's fragment: the file its own collect writes wholesale. NOT the merged board — see the

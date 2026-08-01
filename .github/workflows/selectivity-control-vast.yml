@@ -22,6 +22,7 @@ name: ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) — Vast
 #   cofold_dry  -> $0  CPU  print the exact co-fold JobSpec. Rents nothing.
 #   cofold      -> ~$0.3-1  ONE Vast host: Boltz-2 co-folds, both arms x 6 model seeds
 #   cofold_collect -> $0    what actually landed in S3
+#   board       -> $0  CPU  publish this lane's in-flight board fragment (% DONE derived, ETA derived or ABSENT)
 #   stage_test  -> $0  CPU  assemble a leg from a REAL co-fold CIF, in the production image
 #   smoke       -> ~$0.10   ONE host, toy lengths, the whole chain (image + staging + MD + S3)
 #   leg         -> ~$0.16   ONE REAL leg — the step a green smoke can NOT skip (the smoke has no MD env)
@@ -36,9 +37,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "refs | selftest | manifest | diag | stage_prep | cofold_dry | cofold | cofold_watch | cofold_collect | stage_test | smoke | leg | launch | status | watch | collect | gate_tick | reap | stop"
+        description: "refs | selftest | manifest | diag | stage_prep | cofold_dry | cofold | cofold_watch | cofold_collect | board | stage_test | smoke | leg | launch | status | watch | collect | gate_tick | reap | stop"
         type: choice
-        options: [refs, selftest, manifest, diag, stage_prep, cofold_dry, cofold, cofold_watch, cofold_collect, stage_test, smoke, leg, launch, status, watch, collect, gate_tick, reap, stop]
+        options: [refs, selftest, manifest, diag, stage_prep, cofold_dry, cofold, cofold_watch, cofold_collect, board, stage_test, smoke, leg, launch, status, watch, collect, gate_tick, reap, stop]
         default: selftest
       units:
         description: "leg/launch: restrict to these unit names (comma-separated; blank = the lane decides)"
@@ -74,7 +75,7 @@ jobs:
   cpu:
     # Everything that spends $0. Kept in one job because they share a checkout and a python, and because a
     # separate job per mode is how a workflow acquires eleven near-identical copies of the same three steps.
-    if: ${{ contains(fromJSON('["refs","selftest","manifest","stage_prep","cofold_dry","cofold_collect","stage_test","status","collect","gate_tick","diag"]'), github.event.inputs.mode || 'selftest') }}
+    if: ${{ contains(fromJSON('["refs","selftest","manifest","stage_prep","cofold_dry","cofold_collect","board","stage_test","status","collect","gate_tick","diag"]'), github.event.inputs.mode || 'selftest') }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -138,6 +139,12 @@ jobs:
         if: ${{ env.MODE == 'cofold_collect' }}
         run: python3 research/modalities/selcal_vast_launch.py --mode cofold_collect
 
+      # $0. The lane's row on the ALL-LANE board: `% DONE` is a count of models that exist, the ETA is
+      # refused until enough arrival intervals are measured, and neither is ever a prose estimate.
+      - name: Publish this lane's in-flight board fragment
+        if: ${{ env.MODE == 'board' }}
+        run: python3 research/modalities/selcal_board.py
+
       - name: Root-cause diagnostic (container log + S3 inventory)
         if: ${{ env.MODE == 'diag' }}
         run: python3 research/modalities/selcal_vast_launch.py --mode diag
@@ -189,7 +196,9 @@ jobs:
                    research/modalities/selcal-verdict.json \
                    research/modalities/selcal-cofold-census.json \
                    research/modalities/selcal-reap.json \
-                   research/modalities/selcal-stage-test.json; do
+                   research/modalities/selcal-stage-test.json \
+                   research/modalities/inflight-board.d/selcal-cofold.json \
+                   research/modalities/inflight-board-all.md; do
             [ -e "$p" ] && paths+=("$p")
           done
           # ★★ LAST WRITER WINS, BY CONSTRUCTION — these artifacts have MORE THAN ONE WRITER, and a
@@ -277,7 +286,9 @@ jobs:
                    research/modalities/selcal-collect.json \
                    research/modalities/selcal-verdict.json \
                    research/modalities/selcal-cofold-census.json \
-                   research/modalities/selcal-reap.json; do
+                   research/modalities/selcal-reap.json \
+                   research/modalities/inflight-board.d/selcal-cofold.json \
+                   research/modalities/inflight-board-all.md; do
             [ -e "$p" ] && paths+=("$p")
           done
           # ★★ LAST WRITER WINS, BY CONSTRUCTION — these artifacts have MORE THAN ONE WRITER, and a

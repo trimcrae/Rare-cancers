@@ -857,6 +857,10 @@ def mode_cofold_collect(bucket=None, cofold_prefix=None):
     cen.update({"_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
                 "utc": _utcnow(), "bucket": bucket})
     _write(COFOLD_CENSUS, cen)
+    # ⚠ THE BOARD REFRESHES ON THE $0 TICK TOO, not only inside a watch. Otherwise the lane's fragment goes
+    # STALE whenever supervision is between windows — and a stale fragment is right at the moment nobody is
+    # watching, wrong at the moment a $0 collect just measured the truth.
+    _publish_board(s3, bucket, prefix, cen, mine)
     print(json.dumps(cen, indent=2))
     if not cen["complete"]:
         print("::notice title=SELCAL CO-FOLDS INCOMPLETE::%d (arm, seed) missing — %s"
@@ -1407,6 +1411,23 @@ def _tick_publish(paths, message, branch=None):
     return False
 
 
+def _publish_board(s3, bucket, prefix, census, hosts):
+    """Publish this lane's in-flight board fragment. Returns the paths to commit; NEVER raises.
+
+    Separate from `_tick_publish` on purpose: the census is this lane's own record and the board is a
+    SHARED, derived artifact, so a fault in the board renderer must not be able to stop the lane recording
+    what it measured — and a supervision loop must never die of a reporting bug."""
+    try:
+        import selcal_board as B
+        arrivals = B.cofold_arrivals(s3, bucket, prefix)
+        frag, board = B.publish(census, arrivals, hosts=hosts)
+        return [frag, board]
+    except Exception as e:  # noqa: BLE001
+        print("[selcal-board] could not publish the in-flight fragment (%s: %s) — the watch continues, and "
+              "the board will render this lane STALE rather than absent" % (type(e).__name__, e), flush=True)
+        return []
+
+
 def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
     """Supervise the co-fold hosts from CI until every (arm, seed) has landed — then REAP them.
 
@@ -1471,7 +1492,12 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
         # ★★ AND PUBLISHED, not merely written. The workflow's commit step runs only after this process
         # exits, so without this a 58-minute watch leaves the lane's census frozen on `main` for 58 minutes —
         # which is the 77-minute silence of 2026-08-01 with a different number on it.
-        _tick_publish([COFOLD_CENSUS, REAP_READOUT, PRICE_LEDGER],
+        # ⚠ AND THE IN-FLIGHT BOARD, ON THE SAME TICK. A lane whose progress is not on the all-lane board has
+        # no derived % and no derived ETA anywhere, and today that vacuum was filled with a prose estimate
+        # quoted beside real numbers for six reports (`selcal_board`). Best-effort: a board write must never
+        # end the supervision it describes.
+        board_paths = _publish_board(s3, bucket, prefix, cen, mine)
+        _tick_publish([COFOLD_CENSUS, REAP_READOUT, PRICE_LEDGER] + board_paths,
                       "selcal cofold_watch: supervision tick (models %s, %d host(s))"
                       % (cen["n_models_per_arm"], len(mine)))
         if cen["complete"]:
