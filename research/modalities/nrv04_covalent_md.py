@@ -190,7 +190,8 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     # disagreement (nearest = C566 at ~9 A vs frozen C551 at ~28 A) is what made an inadmissible input look
     # marginal. `target_chain=None` (a pre-chains.json input) has no identified target, so the old geometric
     # behaviour is retained there and labelled as such.
-    geom = {"chain": react_chain, "resid": react_resid, "dist_A": round(react_dist, 2)}
+    geom = {"chain": react_chain, "resid": react_resid,
+            "dist_A": None if react_dist is None else round(react_dist, 2)}
     # ★★ THE FROZEN SITE IS REQUIRED ONLY WHERE IT IS USED (2026-07-31, measured on the retrospective's
     # nr4a3 pilot — Vast 46400138, run 30634610517).
     #
@@ -235,13 +236,25 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     else:
         cys_diag["site_resolution"] = ("GEOMETRIC — no identified target chain, so the frozen site could not be "
                                        "resolved by construct arithmetic; this is the rule Lane 8 demoted")
+    # ⚠ EVERY USE OF `react_dist` BELOW MUST TOLERATE "NOT MEASURED". It is None when the ligand carries no
+    # locatable electrophile (see `_reactive_cys_by_geometry`), which is the sensitivity control's normal
+    # state — and an unmeasured distance formatted or compared as a float is a TypeError that kills the leg
+    # just as dead as the ValueError this whole change exists to stop.
+    _dist_txt = "NOT MEASURED (no locatable electrophile)" if react_dist is None else f"{react_dist:.2f} Å"
     print(f"[nrv04-md] covalent Cys = chain {react_chain} resid {react_resid} "
-          f"(Sγ {react_dist:.2f} Å from the warhead electrophile; preregistered full-length resnum "
+          f"(Sγ {_dist_txt} from the warhead electrophile; preregistered full-length resnum "
           f"{cov_resnum}); {json.dumps(cys_diag)}", flush=True)
     # FAIL CLOSED on an un-modellable tether. The panel's warhead_only legs tethered celastrol to an ElonginC
     # cysteine 12.44 Å away — the co-fold had not posed free celastrol in the NR4A1 pocket at all — and the only
     # consequence was a WARN line. A covalent leg whose adduct partner is that far away is not the system the
     # prereg describes, so it must stop rather than produce numbers about something else.
+    # ★ A COVALENT LEG WITH NO MEASURABLE TETHER IS STILL A HARD STOP — `react_dist is None` means the
+    # electrophile could not be located, and a covalent leg cannot be built without one. It fails here with a
+    # reason rather than later with a TypeError; `_covalent_indices` would raise anyway, but not legibly.
+    if covalent and react_dist is None:
+        raise SystemExit(
+            "[nrv04-md] this leg is COVALENT but the ligand carries no locatable electrophile, so no adduct "
+            "can be built and no tether can be measured. Diagnostics: %s" % json.dumps(cys_diag))
     if covalent and react_dist > MAX_COVALENT_TETHER_A:
         raise SystemExit(
             f"[nrv04-md] the PREREGISTERED covalent Cys ({react_chain}:{react_resid} = full-length {cov_resnum}) "
@@ -250,11 +263,21 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
             f"in this target's pocket, so a covalent leg cannot be built from it — re-fold the input rather than "
             f"stretching the restraint. Diagnostics: {json.dumps(cys_diag)}. "
             f"(Override with NRV04_MAX_TETHER_A only if the deviation is recorded in the prereg.)")
-    if react_dist > MAX_COVALENT_TETHER_A:
+    if react_dist is not None and react_dist > MAX_COVALENT_TETHER_A:
         print(f"[nrv04-md] WARN reactive Sγ is {react_dist:.1f} Å from the electrophile "
               f"(>{MAX_COVALENT_TETHER_A} Å) — noncovalent leg, so this is descriptive only, but the warhead is "
               f"not seated in this target's pocket", flush=True)
     if mutation == "C551A":                                    # the panel's 'C551A' = knock out the reactive Cys
+        # ⚠ THE ONLY REMAINING PATH THAT CAN SEE A NULL SITE. `needs_frozen_site` resolves it by construct
+        # arithmetic whenever a target chain is identified, so this fires only for a legacy `target_chain=None`
+        # input whose geometric search also could not run. Mutating "chain None residue None" would silently
+        # knock out nothing and produce a leg labelled C551A that is not mutated — a fabricated arm.
+        if react_chain is None or react_resid is None:
+            raise SystemExit(
+                "[nrv04-md] mutation=C551A was requested but the reactive Cys could not be identified "
+                "(no identified target chain, and no locatable electrophile for the geometric fallback). "
+                "A leg labelled C551A that was never mutated would be a fabricated arm. Diagnostics: %s"
+                % json.dumps(cys_diag))
         from nrv04_covalent_stage import mutate_cys_to_ala
         pdb_text = mutate_cys_to_ala(pdb_text, react_chain, react_resid)
     tmp_pdb = complex_pdb + ".staged.pdb"
@@ -327,7 +350,8 @@ def build_system(complex_pdb, ligand_sdf, covalent, cov_lig_atom, cov_resnum, mu
     meta = {"n_atoms": modeller.topology.getNumAtoms(),
             "protein_heavy_atoms": n_before, "after_addH": n_after_h, "charge_method": charge_used,
             "reactive_cys": {"chain": react_chain, "resid": react_resid,
-                             "sg_electrophile_dist_A": round(react_dist, 2), "search": cys_diag}}
+                             "sg_electrophile_dist_A": (None if react_dist is None
+                                                       else round(react_dist, 2)), "search": cys_diag}}
     if covalent:
         cov_pair = _covalent_indices(modeller.topology, ligand_sdf, cov_lig_atom, react_resid, react_chain)
         _add_covalent_restraint(system, cov_pair)
@@ -499,7 +523,41 @@ def _reactive_cys_by_geometry(pdb_text, ligand_sdf, cov_lig_atom, target_chain=N
     malformed. Raises if the requested chain carries no cysteine at all."""
     from rdkit import Chem
     mol = Chem.SDMolSupplier(ligand_sdf, removeHs=False)[0]
-    c6_idx, _ = _electrophile_and_neighbour(mol, cov_lig_atom)
+    # ★★ A LIGAND WITH NO ELECTROPHILE IS A FACT ABOUT THE LIGAND, NOT A BUILD FAILURE (2026-08-01).
+    #
+    # This is the SAME defect, one call earlier, as the `_frozen_cys_by_construct` fix recorded in
+    # `build_system` on 2026-07-31 — and it has the same remedy for the same stated reason: the geometry here
+    # is a DIAGNOSTIC ("Geometry is kept only as a diagnostic", `build_system`), and **a diagnostic must never
+    # be able to kill the run it is describing.**
+    #
+    # MEASURED, on the sensitivity control's first MD leg (Vast 46531433, $0.0154, 2026-08-01):
+    #
+    #     ValueError: no enone (C=C-C=O) found — cannot locate the celastrol electrophile
+    #
+    # That control stages PRT3789 (CCD A1BB4), a NON-COVALENT SMARCA2 degrader — by design, and by the same
+    # design its driver is `nrv04_covalent_md` verbatim, because "a sensitivity control that ran a modified
+    # driver would calibrate a readout the program does not use" (`selcal_vast_launch.__doc__`). So a ligand
+    # with no enone is not a misconfiguration to reject; it is the control's whole point, and the celastrol
+    # warhead search must report its absence rather than raise on it.
+    #
+    # ⚠ NOTHING IS WEAKENED FOR A COVALENT LEG. The electrophile is still REQUIRED wherever it is USED —
+    # `_covalent_indices` (the restraint) and `_sg_electrophile_distance` (the frozen-site distance) call
+    # `_electrophile_and_neighbour` directly and their ValueError is unchanged. Only this diagnostic degrades,
+    # and it degrades VISIBLY: `electrophile` in the returned diagnostics says the search could not be run and
+    # why, so a non-covalent leg carries the evidence instead of a silent zero.
+    try:
+        c6_idx, _ = _electrophile_and_neighbour(mol, cov_lig_atom)
+    except (ValueError, RuntimeError) as e:
+        # `None`, NOT NaN: the leg JSON is serialized with json.dump, and NaN is not valid strict JSON —
+        # a distance that cannot be measured must read as absent, not as a token every parser disagrees on.
+        return None, None, None, {
+            "target_chain": target_chain,
+            "site_resolution": "NOT ATTEMPTED — the ligand carries no locatable electrophile",
+            "electrophile": ("ABSENT: %s. This search anchors on the celastrol enone; a ligand without one "
+                             "cannot be measured against a cysteine Sγ, and that is a fact about the ligand "
+                             "rather than a fault in the assembly. The covalent restraint and the frozen-site "
+                             "distance still REQUIRE it and still raise — see build_system." % e),
+            "nearest_cys": None, "global_nearest_cys": None}
     conf = mol.GetConformer()
     ep = conf.GetAtomPosition(c6_idx)                          # electrophile xyz (Å, same frame as complex.pdb)
     cands = []                                                 # (dist, chain, resid) for every CYS Sγ
