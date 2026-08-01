@@ -301,6 +301,21 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # ⛔ A WEDGED `pending` RUN IS A SUPERVISION OUTAGE THAT LOOKS LIKE HEALTH — which is exactly this
+      # workflow's subject. MEASURED 2026-08-01: a selcal `mode=launch` sat `pending` for 19 minutes with
+      # `total_count: 0` jobs, holding the `selcal-launch` concurrency group, while its group was free, the
+      # repo had 5 runs in flight and 0 queued. `launch` is what RE-PLACES A HOST THAT DIED, so the lane
+      # ticked, reaped and rendered perfectly healthy while every re-placement it asked for was swallowed.
+      # Cancelling it released the group instantly — the next launch went straight to `in_progress`.
+      # ⚠ It cancels ONLY runs with ZERO jobs, which is why it cannot destroy work: no job means no step ran,
+      # nothing was rented and no checkpoint exists. See `stuck_run_guard`'s docstring for the ruled-out
+      # alternatives and `tests/test_stuck_run_guard.py` for the boundary that must not widen.
+      - name: Clear any run wedged `pending` with zero jobs (it blocks re-placement)
+        if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 research/modalities/stuck_run_guard.py || true
+
       # The census history is the ONLY state this workflow keeps, and it is used for one thing: knowing how
       # long a committed-iteration census has been bit-identical. A failed push is SAFE BY CONSTRUCTION and
       # deliberately does not fail the job — see `update_history`'s docstring and
@@ -320,7 +335,8 @@ jobs:
             "lane staleness watch: census history + work ledger + alarm board (CI)" \
             research/modalities/lane-staleness-history.json \
             research/modalities/work-ledger.json \
-            research/modalities/alarm-state.json
+            research/modalities/alarm-state.json \
+            research/modalities/stuck-run-guard.json
       # ⛔ THE RUN IS NOT FAILED, DELIBERATELY (2026-07-31). This step used to `exit 1` **because** GitHub
       # emails the repository owner when a scheduled workflow fails — that was its stated purpose, and it is
       # exactly what trimcrae asked to stop. It fired on 159 runs. An `::error` annotation is just as visible

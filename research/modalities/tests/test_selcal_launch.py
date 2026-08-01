@@ -24,8 +24,8 @@ import selcal_vast_launch as L  # noqa: E402
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = open(os.path.join(HERE, "selcal_vast_launch.py")).read()
-WORKFLOW = os.path.join(os.path.dirname(os.path.dirname(HERE)),
-                        ".github", "workflows", "selectivity-control-vast.yml")
+REPO = os.path.dirname(os.path.dirname(HERE))
+WORKFLOW = os.path.join(REPO, ".github", "workflows", "selectivity-control-vast.yml")
 
 
 # =============================================================================================================
@@ -184,13 +184,19 @@ def test_workflow_parses_and_exposes_the_whole_ladder():
 def test_heartbeat_commits_are_allow_empty_and_ungated():
     """⚠ THE LANDMINE, found in three lanes: `git diff --cached --quiet` around a heartbeat commit. The
     TIMESTAMP is the staleness signal, so a tick that changes no bytes must still leave a dated commit."""
+    # ⚠ RE-POINTED 2026-08-01, when this step was converted to `publish_artifacts.sh`. This used to assert
+    # the literal `git commit --allow-empty` IN THIS FILE, which is a test of the implementation rather than
+    # of the rule — and it broke the moment the implementation moved to its one home, blocking a launch that
+    # would have re-placed five units. The RULE is unchanged and now lives in the primitive, where
+    # `tests/test_publish_does_not_revert_another_jobs_artifact.py::test_the_heartbeat_commit_still_happens…`
+    # holds it for every caller at once. What this test still owns is that this workflow USES that home.
     wf = open(WORKFLOW).read()
-    assert "git commit --allow-empty" in wf
-    # COMMENTS ARE STRIPPED FIRST. The workflow DOCUMENTS this landmine in a comment, and a naive substring
-    # check would fail on the warning against the very thing it is warning about — a test that forbids
-    # writing down why the rule exists.
     executable = "\n".join(ln for ln in wf.splitlines() if not ln.strip().startswith("#"))
+    assert executable.count("publish_artifacts.sh") == 2, \
+        "both commit steps must publish through the primitive that guarantees the heartbeat commit"
     assert "diff --cached --quiet" not in executable
+    prim = open(os.path.join(REPO, "research", "compute", "publish_artifacts.sh")).read()
+    assert "git commit -q --allow-empty" in prim, "the primitive must still make the heartbeat unconditional"
 
 
 def test_the_commit_step_cannot_LOSE_a_tick_to_a_merge_conflict():
@@ -201,14 +207,23 @@ def test_the_commit_step_cannot_LOSE_a_tick_to_a_merge_conflict():
     job reported failure for a reason that had nothing to do with the fleet it was watching.
 
     They are regenerated snapshots, so last-writer-wins is the CORRECT rule, not a compromise — reset to the
-    remote and lay our copies on top, so no merge can occur at all."""
+    remote and lay our copies on top, so no merge can occur at all.
+
+    ⚠ RE-POINTED 2026-08-01. The snapshot/reset/restore/retry this used to assert line-by-line now lives in
+    `research/compute/publish_artifacts.sh`, which is the one home for it and is tested directly. Asserting
+    the inlined shell here did not make the lane safer — it made the CONVERSION break the lane, because this
+    file is run by the pre-rental guards step, so three stale string assertions failed a `launch` and left
+    five units un-replaced. The property is the same; the home moved."""
     wf = open(WORKFLOW).read()
     executable = "\n".join(ln for ln in wf.splitlines() if not ln.strip().startswith("#"))
     assert "pull --rebase" not in executable, \
         "a rebase can conflict on a multi-writer snapshot and silently drop the tick"
-    assert executable.count('git reset --hard "origin/${{ github.ref_name }}"') == 2
-    assert executable.count("cp --parents") == 2, "our fresh copies must be stashed BEFORE the reset"
-    assert "push race on attempt" in wf, "the push must retry, or an ordinary race still drops a tick"
+    assert executable.count("publish_artifacts.sh") == 2, \
+        "both commit steps must go through the primitive rather than re-implementing the dance"
+    prim = open(os.path.join(REPO, "research", "compute", "publish_artifacts.sh")).read()
+    assert "git reset -q --hard FETCH_HEAD" in prim, "rewrite onto upstream, so no merge is possible"
+    assert "cp --parents" in prim, "our fresh copies must be snapshotted BEFORE the reset"
+    assert "push race on attempt" in prim, "the push must retry, or an ordinary race still drops a tick"
 
 
 def test_the_workflow_runs_the_guards_before_any_rental():
@@ -817,7 +832,10 @@ def test_a_container_written_artifact_cannot_lock_the_commit_step_out():
     blocks = wf.split('name: Commit whatever landed')[1:]
     assert len(blocks) == 2, "both the cpu and gpu commit steps must be covered"
     for b in blocks:
-        head = b.split('paths=()')[0]
+        head = b.split('publish_artifacts.sh')[0]
         assert "chown -R" in head, "ownership is not normalised before the commit step touches the files"
         assert "|| true" in head, "the normalisation must not be able to fail the step it protects"
-        assert head.index("chown") < head.index('git config'), "chown must precede everything else"
+        # ⚠ THE ORDERING IS THE WHOLE POINT and survives the move to the primitive unchanged: the publish
+        # resets the working tree, and `git reset --hard` fails on a root-owned TRACKED file before any
+        # copy-back is reached. So the chown must precede the publish call, not merely precede the copy.
+        assert head.index("chown") < len(head), "chown must precede the publish"
