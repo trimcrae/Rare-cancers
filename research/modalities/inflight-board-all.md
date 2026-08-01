@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:34 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:35 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 8:34 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:33 PM ET Fri Jul 31, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:34 PM ET Fri Jul 31, 2026 (2 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
 5aks_d0_to_d ternary nr4a3 r1 8:21 AM Aug 1      62.2%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.2 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:30 AM Aug 1     48.9%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.3 s/iter · realised $0.00855/ns (1.64x expected)
-5aks_d0_to_d ternary nr4a1 r1 1:42 PM Aug 1      47.8%  RTX 4090 $0.00537/ns · 1.57× basis [bid] RUNNING   ⚠ 32.8 s/iter · realised $0.01062/ns (1.98x expected)
+5aks_d0_to_d ternary nr4a1 r0 10:31 AM Aug 1     48.9%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.3 s/iter · realised $0.00855/ns (1.64x expected)
+5aks_d0_to_d ternary nr4a1 r1 1:43 PM Aug 1      47.8%  RTX 4090 $0.00537/ns · 1.57× basis [bid] RUNNING   ⚠ 32.8 s/iter · realised $0.01062/ns (1.98x expected)
 5aks_d0_to_d ternary nr4a3 r0 —                  94.4%  —                                        NO HOST   no live host — checkpoint at production/1800 is intact in S3; this pass dispatches the gate to re-place it
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 8:26 PM ET Fri Jul 31, 2026 (8 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:26 PM ET Fri Jul 31, 2026 (10 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,17 +36,17 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 8:34 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 8:35 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 15 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 3 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-nr4a2 m2 r0        —                      —  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  15 consecutive board polls with no new frame (this host is 0 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-08-01T00:27:41Z — ⚠ that marker was written by a PREVIOUS host and survived it; the host holding this unit now started 7 min later, so the marker is not evidence about this rental, GPU utilisation not reported by the host
+nr4a2 m2 r0        —                      —  — $0.2207/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) STARTING  15 consecutive board polls with no new frame (this host is 1 min old) — ⚠ MOST OF THOSE POLLS PREDATE THIS RENTAL: the counter is on the unit and survives re-placement, and this host is still inside the 15 min cold-start floor, so this is a fresh host carrying an old count, not a wedge; phase marker md-running 2026-08-01T00:35:06Z, GPU utilisation reads 0.0% — NOT EVIDENCE OF IDLENESS on this lane: boxes that landed complete 500-frame legs at 217-263 ns/day reported 0.0/None while producing. Judge progress by the frame census, never by this field
 ```
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 8:23 PM ET Fri Jul 31, 2026 (10 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
+_As of 8:23 PM ET Fri Jul 31, 2026 (12 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
 
 ```
 LEG                                ETA (ET)          % DONE  $/ns                                                                                                                                                                                                                     STATE     WHY (when not running)
