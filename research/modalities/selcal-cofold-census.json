@@ -83,18 +83,12 @@
     "selcal_smarca2": 0,
     "selcal_smarca4": 0
   },
-  "phase": "predicting 2026-08-01T13:34:14Z instance=46505536 attempt=20260801T133350Z",
+  "phase": "predicting 2026-08-01T13:47:38Z instance=46506726 attempt=20260801T134725Z",
   "log_tail": [
-    "Sat Aug  1 13:33:52 2026       ",
-    "+-----------------------------------------------------------------------------------------+",
-    "| NVIDIA-SMI 580.126.09             Driver Version: 580.126.09     CUDA Version: 13.0     |",
-    "+-----------------------------------------+------------------------+----------------------+",
-    "| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |",
-    "| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |",
     "|                                         |                        |               MIG M. |",
     "|=========================================+========================+======================|",
-    "|   0  NVIDIA GeForce RTX 4090        On  |   00000000:03:00.0 Off |                  Off |",
-    "|  0%   46C    P8             28W /  450W |       1MiB /  24564MiB |      0%      Default |",
+    "|   0  NVIDIA GeForce RTX 4090        On  |   00000000:C2:00.0 Off |                  Off |",
+    "|  0%   25C    P8             12W /  400W |       1MiB /  24564MiB |      0%      Default |",
     "|                                         |                        |                  N/A |",
     "+-----------------------------------------+------------------------+----------------------+",
     "",
@@ -106,22 +100,30 @@
     "|  No running processes found                                                             |",
     "+-----------------------------------------------------------------------------------------+",
     "               total        used        free      shared  buff/cache   available",
-    "Mem:              94           1          66           0          26          91",
-    "Swap:              7           0           7"
+    "Mem:            1007         220          58          96         729         684",
+    "Swap:              7           0           7",
+    "[selcal-cofold] ligand PRT3789 (A1BB4) | {'smarca2': 121, 'smarca4': 122}",
+    "[selcal-cofold] smarca2 seed 1: boltz predict /tmp/selcal_cofold_out/inputs/smarca2.yaml --use_msa_server --out_dir /tmp/selcal_cofold_out/smarca2/seed_1 --no_kernels --seed 1",
+    "Seed set to 1",
+    "MSA server enabled: https://api.colabfold.com",
+    "MSA server authentication: no credentials provided",
+    "Downloading the CCD data to /root/.boltz/mols.tar. This may take a bit of time. You may change the cache directory with the --cache flag.",
+    "Extracting the CCD data to /root/.boltz/mols. This may take a bit of time. You may change the cache directory with the --cache flag.",
+    "Downloading the Boltz-2 weights to /root/.boltz/boltz2_conf.ckpt. You may change the cache directory with the --cache flag."
   ],
   "n_s3_objects": 22,
-  "newest_object_utc": "2026-08-01T13:44:26Z",
-  "newest_object_age_min": 1.9,
+  "newest_object_utc": "2026-08-01T13:48:58Z",
+  "newest_object_age_min": 0.3,
   "instances": [
     {
       "id": 46506726,
       "status": "running",
       "gpu_util": 0.0,
       "dph_total": 0.19902222222222224,
-      "uptime_min": 1.1
+      "uptime_min": 4.0
     }
   ],
   "_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
-  "utc": "2026-08-01T13:46:21Z",
+  "utc": "2026-08-01T13:49:15Z",
   "bucket": "sagemaker-us-east-2-646605541856"
 }
