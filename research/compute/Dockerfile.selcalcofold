@@ -1,0 +1,82 @@
+# syntax=docker/dockerfile:1
+# ==============================================================================================================
+# THE CO-FOLD IMAGE — Boltz-2 plus its ~3 GB of CCD data and weights, BAKED, so a rented GPU predicts instead
+# of building an environment. Pushed as `triskit23/selcalcofold`; baked by .github/workflows/selcal-cofold-bake.yml.
+#
+# WHAT IT REPLACES. Until this image the co-fold lane rented `pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime`
+# — a STOCK UPSTREAM image — and then, on the billing host, ran `apt-get install`, `pip install awscli`,
+# `pip install boltz==2.2.1 cuequivariance-torch cuequivariance-ops-torch-cu12`, and a `download_boltz2()`
+# fetch of the CCD + both checkpoints, before one second of science. CLAUDE.md §6: NEVER SOLVE AN ENV IN CI —
+# PULL, DON'T SOLVE. ~15–25 min of build against a ~2–4 min pull, and here the build is at RTX 4090 rates.
+#
+# ★★ WHY AN IMAGE AND NOT AN S3 CACHE OF THE SAME BYTES. Both make the ~3 GB local; they are not equivalent,
+# and the difference is exactly the failure this lane measured on 2026-08-01:
+#   1. AN IMAGE PULL IS DIGEST-VERIFIED, RETRIED AND LAYER-CACHED BY THE CONTAINER RUNTIME. `download_boltz2`
+#      is a bespoke fetch with NO integrity guarantee — which is how a `mols/` directory missing CYS, a
+#      canonical amino acid, reached inference and killed six seeds at ~7 s each with rc=1 and no attribution
+#      (research/modalities/selcal-cofold-census.json; selcal_cofold_run.ccd_cache_integrity's header).
+#   2. A FAILED PULL MEANS THE JOB NEVER STARTS. That is strictly better than a partial fetch that half-starts
+#      and dies seven seconds into inference: an instance that never came up costs nothing and is unambiguous,
+#      whereas the truncated cache burned a rental AND a diagnostic.
+#   3. THE BYTES ARE VERIFIED ONCE, AT BUILD TIME, ON A FREE RUNNER — not re-verified per rental on a GPU. A
+#      short bake FAILS THE BUILD (see the verification below) and therefore cannot ship; a short S3 cache is
+#      discovered by a host that is already billing.
+#   4. An S3 restore also re-downloads whenever the banked objects are newer than the local copies (`aws s3
+#      sync` compares mtime), so the "cache" quietly becomes a 3 GB transfer again. A layer does not.
+#   The S3 cache (`BOLTZ_CACHE_S3`) is KEPT as the fallback for a host whose image ever arrives short — belt
+#   and braces, not the primary path.
+#
+# ⚠ PARITY: THE INSTALL IS THE ONE THE HOST WAS ALREADY DOING. Same base image, same pin, same three wheels,
+# same order — moved from the meter to the runner, not changed. `boltz==2.2.1` is written out here because a
+# Dockerfile cannot import Python; it must stay equal to `selcal_vast_launch.BOLTZ_SPEC`, and
+# tests/test_selcal_launch.py fails if the two drift.
+#
+# ⚠ NO REPO CODE IS BAKED IN, deliberately (CLAUDE.md §6: the image supplies the ENV, the checkout supplies the
+# CODE). The on-host pipeline `git clone`s the repo at `$GIT_BRANCH` and runs `selcal_cofold_run.py` from
+# there, so a copy baked here would be a second, stale copy of the same file — and the only way it could ever
+# matter is by being run by mistake. The build-time verification below needs that module, so it BIND-MOUNTS it
+# for one RUN step instead: used, never persisted.
+# ==============================================================================================================
+FROM pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# awscli FIRST and on its own, mirroring the pipeline's ordering rationale: the thing that lets a host REPORT
+# must never sit behind the thing that takes minutes.
+RUN pip install --no-cache-dir awscli
+
+# The pinned science stack. `--no-cache-dir` keeps pip's wheel cache out of the layer (it is GBs on torch).
+RUN pip install --no-cache-dir "boltz==2.2.1" cuequivariance-torch cuequivariance-ops-torch-cu12
+
+# ==============================================================================================================
+# THE CACHE, BAKED — and VERIFIED so a short bake cannot ship
+# ==============================================================================================================
+# An explicit, absolute cache dir for the same reason the runner insists on one: with the default `~/.boltz`
+# the location depends on `$HOME` inside the container, so a check could certify a directory Boltz never
+# reads. `selcal_vast_launch._COFOLD_PIPELINE` exports this same path.
+ENV BOLTZ_CACHE=/opt/boltz_cache
+RUN mkdir -p "$BOLTZ_CACHE" && \
+    python -c "from pathlib import Path; from boltz.main import download_boltz2; download_boltz2(Path('$BOLTZ_CACHE'))"
+
+# ★★ THE BUILD ASSERTS WHAT THE 7-SECOND FAILURE PROVED IT MUST. Three checks, run with the repo's OWN
+# predicate — `selcal_cofold_run.verify_baked_cache`, which calls Boltz's `load_canonicals`/`load_molecules`,
+# the exact functions that raised `ValueError: CCD component CYS not found!`:
+#   * the CCD component count clears the floor MEASURED on the live host (selcal_cofold_run.CCD_MIN_COMPONENTS,
+#     whose one home cites research/modalities/selcal-cofold-census.json),
+#   * CYS specifically resolves — the exact component whose absence cost the smarca4 arm,
+#   * both checkpoints (structure + affinity) are present and non-trivial in size.
+# A re-spelled copy of those checks would be a second home for the requirement and could certify a cache the
+# loader still refuses, so the module is bind-mounted for this step rather than duplicated (nothing persists).
+RUN --mount=type=bind,source=research/modalities/selcal_cofold_run.py,target=/tmp/verify/selcal_cofold_run.py \
+    python -c "import sys; sys.path.insert(0, '/tmp/verify'); \
+import selcal_cofold_run as CR; sys.exit(CR.verify_baked_cache('$BOLTZ_CACHE'))"
+
+# Where the on-host pipeline clones the repo to; the code arrives at run time, never from this image.
+WORKDIR /work
+ENV BACKEND=vast
+# No ENTRYPOINT: this lane's JobSpec supplies `bash -lc <pipeline>` as the command, exactly as it did against
+# the stock pytorch image, and the auto-teardown wrapper is invoked by the MD lane's pipeline rather than here.
+CMD ["python", "-c", "import boltz, os; print('boltz', boltz.__version__ if hasattr(boltz, '__version__') else 'installed', 'cache', os.environ.get('BOLTZ_CACHE'))"]

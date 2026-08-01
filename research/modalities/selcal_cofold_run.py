@@ -117,6 +117,72 @@ def ccd_cache_integrity(cache_dir):
     return True, detail
 
 
+#: How many `mols/*.pkl` a COMPLETE Boltz-2 CCD download contains. MEASURED, not chosen: the one host that
+#: completed the fetch reported `n_pkl_present: 45227` after its repair, recorded in
+#: research/modalities/selcal-cofold-census.json — which is that number's one home; this is a named reference
+#: to it, and `tests/test_selcal_launch.py` fails if the two drift apart.
+#: ⚠ IT IS A FLOOR, NOT AN EQUALITY. The CCD only grows upstream, so a later release legitimately carries more
+#: components; what is diagnostic is a directory that is SHORT, which is the measured failure.
+#: ⚠ AND IT IS A BUILD-TIME ASSERTION ONLY. The RUNTIME verdict stays `load_canonicals` — Boltz's own
+#: predicate, the one that actually failed — because a re-spelled requirement can drift from the one the
+#: loader demands and would then certify a cache that still dies (CLAUDE.md rule 1).
+CCD_MIN_COMPONENTS = 45227
+
+#: The two checkpoints `download_boltz2` fetches beside the CCD. Named here so the bake can prove they landed
+#: whole rather than as the 0-byte stubs a killed transfer leaves.
+CCD_CHECKPOINTS = ("boltz2_conf.ckpt", "boltz2_aff.ckpt")
+
+
+def verify_baked_cache(cache_dir, min_components=None):
+    """BUILD-TIME gate: return 0 only if this cache is one a rented GPU can predict from. Non-zero FAILS the
+    docker build, which is the entire point — a short bake must never become an image.
+
+    ★ WHY THIS RUNS IN THE BAKE AND NOT ONLY ON THE HOST. The host-side `preflight_ccd` already refuses a
+    truncated cache, but it refuses it on a machine that is already billing, after a pull, a clone and a
+    restore. Verifying the same bytes once on a free runner turns that into a build that simply does not
+    publish. The checks are deliberately the same predicate plus two things the runtime verdict does not
+    assert: a completeness FLOOR, and CYS by name — the component whose absence killed six seeds at ~7 s each
+    on 2026-08-01."""
+    floor = CCD_MIN_COMPONENTS if min_components is None else int(min_components)
+    ok, detail = ccd_cache_integrity(cache_dir)
+    print("[bake-verify] %s" % json.dumps(detail), flush=True)
+    problems = []
+    if not ok:
+        problems.append("Boltz's own load_canonicals refuses this cache: %s (state=%s)"
+                        % (detail.get("why"), detail.get("state")))
+    n = int(detail.get("n_pkl_present") or 0)
+    if n < floor:
+        problems.append("mols/ holds %d component(s), below the measured floor of %d — this download is SHORT, "
+                        "which is exactly the state that reaches inference and dies at ~7 s per seed"
+                        % (n, floor))
+    # CYS BY NAME, through the exact call that raised. `load_canonicals` covers it, but naming it makes the
+    # assertion legible next to the incident it exists for, and survives a future change to what "canonical"
+    # means upstream.
+    mol_dir = os.path.join(str(cache_dir), "mols")
+    try:
+        from boltz.data.mol import load_molecules
+        load_molecules(mol_dir, ["CYS"])
+        print("[bake-verify] CYS resolves through boltz.data.mol.load_molecules", flush=True)
+    except Exception as e:  # noqa: BLE001 — this IS the measured failure, reproduced as a build gate
+        problems.append("CYS does not resolve (%s: %s) — a canonical amino acid missing from mols/ is an "
+                        "INCOMPLETE DOWNLOAD, not an exotic-ligand problem" % (type(e).__name__, e))
+    for ck in CCD_CHECKPOINTS:
+        p = os.path.join(str(cache_dir), ck)
+        sz = os.path.getsize(p) if os.path.exists(p) else 0
+        print("[bake-verify] %s: %s byte(s)" % (ck, sz), flush=True)
+        if sz < 1_000_000:
+            problems.append("%s is %d byte(s) — absent or a stub left by a killed transfer" % (ck, sz))
+    if problems:
+        for p in problems:
+            print("[bake-verify] ⛔ %s" % p, flush=True)
+        print("[bake-verify] ⛔ REFUSING TO PUBLISH THIS IMAGE. A short cache that ships is a rental that dies "
+              "at 7 seconds; a failed build costs nothing.", flush=True)
+        return 1
+    print("[bake-verify] ✅ cache complete: %d components (floor %d), CYS resolves, both checkpoints present."
+          % (n, floor), flush=True)
+    return 0
+
+
 def _missing_canonicals(mol_dir):
     """Which canonical components are absent — for the READOUT only. The verdict is `load_canonicals`."""
     try:
@@ -184,7 +250,21 @@ def preflight_ccd(cache_dir, cache_s3=None):
     then upload. A restored cache is never trusted on the strength of having been restored.
 
     Raises SystemExit when the cache is still short after a repair: six seeds failing at 7 s each, silently,
-    is strictly worse than one loud refusal before the first prediction."""
+    is strictly worse than one loud refusal before the first prediction.
+
+    ★★ THE LOCAL CACHE IS CHECKED FIRST, AND A GOOD ONE SHORT-CIRCUITS THE RESTORE. Since the lane runs a
+    BAKED image (`triskit23/selcalcofold`), the ~3 GB is already a verified layer on disk, and syncing S3 over
+    it would re-download the whole thing whenever the banked objects happen to be newer than the image's file
+    mtimes — `aws s3 sync` compares mtime, so the "cache" silently becomes a 3 GB transfer on a billing host,
+    which is the cost this image exists to remove. Skipping the restore does NOT weaken the safety argument
+    below: nothing is banked here, and the thing that decides is still `ccd_cache_integrity`."""
+    ok, detail = ccd_cache_integrity(cache_dir)
+    if ok:
+        detail["source"] = "already complete before any restore (the baked image layer)"
+        print("[selcal-cofold] CCD preflight: the cache at %s ALREADY verifies (%s components) — no S3 "
+              "restore, no ~3 GB pull. %s" % (cache_dir, detail.get("n_pkl_present"), json.dumps(detail)),
+              flush=True)
+        return detail
     if cache_s3:
         print("[selcal-cofold] restoring the Boltz cache from %s (~3 GB — this is the step that killed three "
               "of four hosts when it was a cold download)" % cache_s3, flush=True)

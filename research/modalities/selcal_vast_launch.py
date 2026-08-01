@@ -63,9 +63,35 @@ STAGE_TEST_READOUT = os.path.join(HERE, "selcal-stage-test.json")
 REAP_READOUT = os.path.join(HERE, "selcal-reap.json")
 HANDLES = os.path.join(HERE, "selcal-handles.json")
 
-#: The co-fold host's image and the pinned Boltz. Both imported from the lane that already proved them on
-#: Vast, so a Boltz bump moves the two together instead of leaving this one on a version nobody re-validated.
-from nrv04_vast_launch import BOLTZ_SPEC, COFOLD_IMAGE  # noqa: E402,E401
+#: The pinned Boltz, imported from the lane that already proved it on Vast, so a Boltz bump moves the two
+#: together instead of leaving this one on a version nobody re-validated.
+from nrv04_vast_launch import BOLTZ_SPEC  # noqa: E402,E401
+
+# =============================================================================================================
+# ★★ THE CO-FOLD IMAGE — BAKED, because a rented GPU must predict, not build an environment
+# =============================================================================================================
+# `triskit23/selcalcofold` (research/compute/Dockerfile.selcalcofold, baked by selcal-cofold-bake.yml) ships
+# Boltz `BOLTZ_SPEC` + the cuequivariance wheels + awscli AND the ~3 GB CCD/weights cache as verified layers.
+# What it replaces: this lane used to rent the STOCK `pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime` and then
+# apt-get, pip-install and `download_boltz2` on the meter. CLAUDE.md §6 prices that at ~15-25 min of build
+# against a ~2-4 min pull — and three of the four hosts that died on this lane died inside that window, one of
+# them leaving a `mols/` directory without CYS that reached inference and killed six seeds at ~7 s each.
+#
+# ⛔ IT IS THIS LANE'S OWN CONSTANT, NOT A REPOINTED SHARED ONE. `nrv04_vast_launch.COFOLD_IMAGE` also feeds
+# the NR-V04 covalent lane's ternary co-fold (`nrv04_ternary.py`), whose pipeline still does its own installs
+# and has never been run against this image. Repointing the shared name would change that lane's environment
+# as a side effect of a change made for this one — a provider/env deviation nobody chose, which is the exact
+# failure `research/compute/provider-deviation-2026-07-24.md` records. Divergence is deliberate and cheap; the
+# two lanes can re-converge once the NR-V04 pipeline is also stripped and re-validated against a bake.
+#
+# ⚠ THE FALLBACK IS THE OLD IMAGE, NOT A FAILURE. `$SELCAL_COFOLD_IMAGE` overrides, so a bad bake is one env
+# var away from being backed out without a code change.
+SELCAL_COFOLD_IMAGE = os.environ.get("SELCAL_COFOLD_IMAGE") or "docker.io/triskit23/selcalcofold:latest"
+
+#: Where the image bakes the Boltz CCD + weights. Must equal `ENV BOLTZ_CACHE` in Dockerfile.selcalcofold —
+#: a check that verified a different directory than Boltz reads would be worse than no check, and
+#: tests/test_selcal_launch.py fails if the two drift.
+BAKED_BOLTZ_CACHE = "/opt/boltz_cache"
 
 
 def exclude_machines():
@@ -210,25 +236,30 @@ mark uploaded
 # absent reading is not a reading of absence (CLAUDE.md §4), and a pipeline that cannot be told apart from a
 # dead one is a pipeline that costs a diagnostic every time it is interrupted.
 #
-# So: `awscli` is installed FIRST and on its own (seconds, not minutes), the S3 preflight mark happens
-# immediately after it, and every subsequent stage echoes a timestamped line. The slow install — boltz plus
-# the cuequivariance wheels — happens AFTER there is somewhere to report from.
+# ★★ AND THE INSTALL IT USED TO BE SILENT THROUGH IS GONE. `SELCAL_COFOLD_IMAGE` ships boltz, the
+# cuequivariance wheels, awscli and the ~3 GB CCD/weights cache as verified layers, so this script's first act
+# is to REPORT and its second is to work. What used to sit between them — an apt-get, two pip installs and a
+# bespoke 3 GB fetch, all at RTX 4090 rates — is now a digest-verified pull that the container runtime retries
+# for us, and a bake that FAILS THE BUILD rather than shipping a `mols/` without CYS.
+#
+# ⚠ THE PREFLIGHT STAYS, AND THAT IS THE POINT OF KEEPING IT. It now guards a different thing: not "did the
+# download finish" but "did the image arrive whole". If a baked cache is ever short, `preflight_ccd` must fail
+# LOUDLY at second zero rather than silently re-downloading 3 GB and pretending the image was fine.
 _COFOLD_PIPELINE = r"""
 set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
-echo "[cofold] $(date -u +%FT%TZ) onstart begins on ${CONTAINER_ID:-unknown}"
-apt-get update -q >/dev/null 2>&1 || true
-apt-get install -y -q --no-install-recommends git curl ca-certificates >/dev/null 2>&1 || true
-echo "[cofold] $(date -u +%FT%TZ) apt done; installing awscli (fast) so this host can REPORT before it works"
-pip install --quiet awscli || { echo "[cofold] awscli install FAILED"; exit 3; }
+echo "[cofold] $(date -u +%FT%TZ) onstart begins on ${CONTAINER_ID:-unknown} (baked image: boltz + CCD are layers, not a build)"
 AWS=$(command -v aws || echo /opt/conda/bin/aws)
 _HOST0="instance=${CONTAINER_ID:-unknown}"
 echo "boot $(date -u +%FT%TZ) $_HOST0" | $AWS s3 cp - "$RESULT_S3/phase.txt" || {
   echo "[cofold] FATAL cannot write to $RESULT_S3 — refusing to run an unmonitorable job"; exit 4; }
-echo "[cofold] $(date -u +%FT%TZ) phase=boot written; installing $BOLTZ_SPEC (slow: torch wheels)"
-pip install --quiet $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu12 || \
-  { echo "[cofold] boltz install FAILED"; echo "boltz-install-failed $(date -u +%FT%TZ) $_HOST0" | $AWS s3 cp - "$RESULT_S3/phase.txt" || true; exit 3; }
-echo "[cofold] $(date -u +%FT%TZ) boltz installed"
+# ⛔ FAIL LOUDLY IF THE IMAGE IS NOT THE BAKED ONE. A stock pytorch image would otherwise reach `predicting`
+# and die there, minutes in, looking like a science failure instead of a wrong-image failure.
+command -v boltz >/dev/null 2>&1 || {
+  echo '[cofold] FATAL no boltz on PATH — this is not the baked image (expected triskit23/selcalcofold)'
+  echo "wrong-image $(date -u +%FT%TZ) $_HOST0" | $AWS s3 cp - "$RESULT_S3/phase.txt" || true
+  exit 3; }
+echo "[cofold] $(date -u +%FT%TZ) phase=boot written; boltz already installed at $(command -v boltz)"
 _HOST="instance=${CONTAINER_ID:-unknown} attempt=$(date -u +%Y%m%dT%H%M%SZ)"
 # ★★ A PER-HOST MARKER BESIDE THE SHARED ONE — AND IT IS WHAT MAKES THE REAP ATTRIBUTABLE (measured
 # 2026-08-01). BOTH arms' co-fold hosts write to the SAME `$RESULT_S3`, so `phase.txt` is a single file the
@@ -286,13 +317,17 @@ echo "[cofold] $(date -u +%FT%TZ) restored $(find "$OUTPUT_DIR" -name '*.cif' 2>
 ( while true; do $AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" "${_SYNC_ARGS[@]}" --only-show-errors || true; sleep 60; done ) &
 SYNC_PID=$!
 echo "[cofold] $(date -u +%FT%TZ) disk before inference:"; df -h / /root /tmp 2>/dev/null || true
-# ★★ THE CCD/WEIGHTS CACHE IS RESTORED AND VERIFIED BEFORE INFERENCE (measured 2026-08-01). The restore
-# itself happens inside `selcal_cofold_run.preflight_ccd`, which is also what VERIFIES it — the two must not
-# be separated, because a cache that has been restored is not thereby known to be complete, and the smarca4
-# arm died on exactly that assumption: `ValueError: CCD component CYS not found!`, six seeds, ~7 s each,
-# rc=1, no models. The pipeline's job is only to say WHERE the cache lives and where it is banked.
-export BOLTZ_CACHE=/tmp/boltz_cache
+# ★★ THE CCD/WEIGHTS CACHE IS VERIFIED BEFORE INFERENCE (measured 2026-08-01). It now arrives BAKED — a
+# digest-verified image layer whose completeness was asserted at build time — so the expected path is
+# "verify, proceed", with no download at all. The verification is NOT thereby redundant: `preflight_ccd` is
+# what turns "the image arrived short" into a loud refusal at second zero instead of six seeds dying at ~7 s
+# each inside Boltz's loader (`ValueError: CCD component CYS not found!`, rc=1, no models). `BOLTZ_CACHE_S3`
+# remains as the fallback the repair path uses if that ever happens.
+# ⚠ THE PATH IS THE IMAGE'S. `$BOLTZ_CACHE` must name the directory the bake populated (Dockerfile.selcalcofold
+# `ENV BOLTZ_CACHE`), or the check verifies a directory Boltz never reads and the baked 3 GB is re-fetched.
+export BOLTZ_CACHE=${BOLTZ_CACHE:-{baked_cache}}
 mkdir -p "$BOLTZ_CACHE"
+echo "[cofold] $(date -u +%FT%TZ) baked CCD cache at $BOLTZ_CACHE: $(ls "$BOLTZ_CACHE/mols" 2>/dev/null | wc -l) component(s)"
 mark predicting
 cd /tmp/repo/research/modalities
 set +e
@@ -312,6 +347,16 @@ $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors || true
 mark "done rc=$RC"
 exit $RC
 """
+
+
+def _cofold_script():
+    """The co-fold pipeline with its two placeholders resolved. PURE.
+
+    Both substitutions exist so the values have ONE home apiece (CLAUDE.md rule 1): the repo URL is `REPO`,
+    and the baked cache path is `BAKED_BOLTZ_CACHE`, which must equal `ENV BOLTZ_CACHE` in
+    Dockerfile.selcalcofold — a shell literal here would be a second copy of a path whose whole job is to be
+    the same directory the bake populated."""
+    return _COFOLD_PIPELINE.replace("{repo}", REPO).replace("{baked_cache}", BAKED_BOLTZ_CACHE)
 
 
 # =============================================================================================================
@@ -384,8 +429,8 @@ def build_cofold_jobspec(branch, bucket, cofold_prefix=None, exclude=(), systems
     tag = "-".join(sorted(systems)) if systems else "all"
     return JobSpec(
         name="selcal-cofold-%s-%s" % (prefix, tag),
-        command=["bash", "-lc", _COFOLD_PIPELINE.replace("{repo}", REPO)],
-        image=COFOLD_IMAGE,
+        command=["bash", "-lc", _cofold_script()],
+        image=SELCAL_COFOLD_IMAGE,
         checkpoint_uri="s3://%s/%s" % (bucket, prefix),
         # resume=False on the CHECKPOINT channel, but the RUNNER resumes per (system, seed) by inspecting its
         # own output dir — see selcal_cofold_run. The continuous sync is what makes a preemption cheap.

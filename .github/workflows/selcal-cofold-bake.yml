@@ -1,0 +1,133 @@
+name: Co-fold image bake (DockerHub)
+
+# Build research/compute/Dockerfile.selcalcofold and push it to Docker Hub as triskit23/selcalcofold.
+#
+# WHY: until this image the co-fold lane rented a STOCK `pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime` and
+# then ran apt-get, two pip installs and a ~3 GB `download_boltz2()` fetch ON THE BILLING GPU before one
+# second of science. CLAUDE.md §6 — NEVER SOLVE AN ENV IN CI, PULL DON'T SOLVE — prices that at ~15-25 min of
+# build against a ~2-4 min pull. Three of the four hosts that died on this lane on 2026-08-01 died inside that
+# window, and one left a `mols/` directory without CYS that reached inference and killed six seeds at ~7 s each.
+#
+# THE BUILD IS THE GATE. Dockerfile.selcalcofold runs `download_boltz2` at build time and then asserts, with
+# the repo's own predicate (`selcal_cofold_run.verify_baked_cache` -> Boltz's `load_canonicals`), that the CCD
+# clears the measured component floor, that CYS resolves by name, and that both checkpoints are whole. A short
+# bake FAILS THE BUILD instead of becoming an image that dies at 7 seconds on a rented GPU.
+#
+# Run: Actions -> "Co-fold image bake (DockerHub)" -> Run workflow. Touches no GPU and no live rental; the only
+# cost is runner minutes. Expect ~25-40 min, dominated by the torch layers and the ~3 GB CCD/weights fetch.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "image tag to push (in addition to the git-sha tag)"
+        default: "latest"
+        required: false
+      push:
+        description: "push to Docker Hub? '0' builds and verifies only"
+        default: "1"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  bake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      DOCKERHUB_USER: triskit23
+      IMAGE: triskit23/selcalcofold
+    steps:
+      - uses: actions/checkout@v4
+
+      # The CUDA/torch base is ~7 GB and the CCD + weights another ~3 GB, so the default runner disk is the
+      # binding constraint, not time. Reclaim before the first layer rather than diagnosing a "no space left"
+      # at 80 % of a 30-minute build.
+      - name: Free up runner disk (the torch base + the ~3 GB CCD/weights are large)
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+                      /opt/hostedtoolcache/CodeQL /usr/local/share/boost || true
+          docker system prune -af || true
+          df -h / | tail -1
+
+      # Log in even for a public image: anonymous pulls share the runner IP and get rate-limited.
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
+
+      # BuildKit is required: the build-time verification BIND-MOUNTS research/modalities/selcal_cofold_run.py
+      # for one RUN step so the check uses the repo's real predicate without baking a stale copy of the code
+      # into the image (CLAUDE.md §6: the image supplies the ENV, the checkout supplies the CODE).
+      - name: Build the co-fold image (download_boltz2 + the completeness assertions run HERE)
+        env:
+          DOCKER_BUILDKIT: "1"
+        run: |
+          set -euo pipefail
+          SHA_TAG="${GITHUB_SHA::12}"
+          docker build \
+            -f research/compute/Dockerfile.selcalcofold \
+            -t "docker.io/${IMAGE}:${{ github.event.inputs.tag }}" \
+            -t "docker.io/${IMAGE}:${SHA_TAG}" \
+            .
+          df -h / | tail -1
+
+      # ★ THE SAME CHECK AGAIN, FROM OUTSIDE THE BUILD, AGAINST THE MOUNTED CHECKOUT. The in-build assertion
+      # can only ever run the code that was in the build context; this one runs the code on the branch, which
+      # is what the rented host will `git clone`. If the two ever disagree, the disagreement is the finding.
+      # The `-v "$PWD/research/modalities:/work/research/modalities"` shape is the one every other lane uses.
+      - name: Verify the BAKED cache through the checkout's own predicate
+        env:
+          TAG: ${{ github.event.inputs.tag }}
+        run: |
+          set -euo pipefail
+          cat > /tmp/verify_mounted.py <<'PY'
+          import os, sys
+          sys.path.insert(0, "/work/research/modalities")
+          import selcal_cofold_run as CR
+          sys.exit(CR.verify_baked_cache(os.environ["BOLTZ_CACHE"]))
+          PY
+          docker run --rm \
+            -v "$PWD/research/modalities:/work/research/modalities" \
+            -v /tmp/verify_mounted.py:/tmp/verify_mounted.py \
+            --entrypoint python \
+            "docker.io/${IMAGE}:${TAG}" /tmp/verify_mounted.py
+
+      # The launcher's own contract, asserted against the artifact rather than against itself: the image must
+      # carry the pinned Boltz the lane records in provenance, and `$BOLTZ_CACHE` must be the directory the
+      # pipeline exports. A mismatch here means every host silently re-downloads 3 GB into a different path.
+      - name: The image matches the launcher's pin and cache path
+        env:
+          TAG: ${{ github.event.inputs.tag }}
+        run: |
+          set -euo pipefail
+          cat > /tmp/read_pins.py <<'PY'
+          import sys
+          sys.path.insert(0, "research/modalities")
+          import selcal_vast_launch as L
+          print("%s\n%s" % (L.BOLTZ_SPEC.split("==")[-1], L.BAKED_BOLTZ_CACHE))
+          PY
+          pip install -q boto3 numpy >/dev/null 2>&1 || true
+          PINS=$(python3 /tmp/read_pins.py)
+          SPEC=$(echo "$PINS" | sed -n 1p)
+          CACHE=$(echo "$PINS" | sed -n 2p)
+          echo "[bake] the lane pins boltz==$SPEC and exports BOLTZ_CACHE=$CACHE"
+          cat > /tmp/match.py <<'PY'
+          import importlib.metadata as md, os, sys
+          got, want, cache = md.version("boltz"), sys.argv[1], sys.argv[2]
+          print("[bake] image carries boltz", got, "with BOLTZ_CACHE", os.environ.get("BOLTZ_CACHE"))
+          assert got == want, "image has boltz %s, the lane pins %s" % (got, want)
+          assert os.environ.get("BOLTZ_CACHE") == cache, \
+              "image caches at %r, the lane exports %r" % (os.environ.get("BOLTZ_CACHE"), cache)
+          assert os.path.isdir(os.path.join(cache, "mols")), "no mols/ in the baked cache"
+          PY
+          docker run --rm -v /tmp/match.py:/tmp/match.py --entrypoint python \
+            "docker.io/${IMAGE}:${TAG}" /tmp/match.py "$SPEC" "$CACHE"
+
+      - name: Push
+        if: ${{ github.event.inputs.push != '0' }}
+        run: |
+          set -euo pipefail
+          SHA_TAG="${GITHUB_SHA::12}"
+          docker push "docker.io/${IMAGE}:${{ github.event.inputs.tag }}"
+          docker push "docker.io/${IMAGE}:${SHA_TAG}"
+          echo "[baked] docker.io/${IMAGE}:${{ github.event.inputs.tag }}  (also :${SHA_TAG})"

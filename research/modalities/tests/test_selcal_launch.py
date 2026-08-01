@@ -618,9 +618,58 @@ def test_the_cache_is_only_BANKED_to_S3_AFTER_the_check_passes(tmp_path, monkeyp
     assert not uploads, "a SHORT cache must never be uploaded: %s" % uploads
     assert calls and calls[0][0] == "s3://b/cache/", "the restore must still have been attempted first"
     calls.clear()
-    monkeypatch.setattr(CR, "ccd_cache_integrity", lambda c: (True, {"why": ""}))
+    # A cache that is NOT already good locally: the restore must happen, then the verify, then the bank.
+    # (Sequenced deliberately — a locally-complete cache short-circuits the restore, which is the next test.)
+    seq = iter([(False, {"state": "cold", "why": "no populated mols/"}), (True, {"why": ""}), (True, {"why": ""})])
+    monkeypatch.setattr(CR, "ccd_cache_integrity", lambda c: next(seq))
     CR.preflight_ccd(str(tmp_path), cache_s3="s3://b/cache/")
     assert [c[1] for c in calls] == [str(tmp_path), "s3://b/cache/"], "restore, verify, THEN bank"
+
+
+def test_a_cache_that_ALREADY_verifies_is_not_re_restored_from_S3(tmp_path, monkeypatch):
+    """★★ THE BAKED IMAGE'S WHOLE SAVING, AND `aws s3 sync` WOULD HAVE THROWN IT AWAY. The ~3 GB now arrives
+    as a verified image layer, but sync compares MTIMES: objects banked after the image was built are 'newer'
+    than every file in the layer, so an unconditional restore silently re-downloads the entire cache onto a
+    billing host — the exact cost this image exists to remove. A cache that already passes Boltz's own
+    predicate is therefore used as-is: no restore, and nothing banked (nothing changed to bank)."""
+    import selcal_cofold_run as CR
+    calls = []
+    monkeypatch.setattr(CR, "_s3_sync", lambda src, dst, extra=(): calls.append((src, dst)) or True)
+    monkeypatch.setattr(CR, "ccd_cache_integrity", lambda c: (True, {"why": "", "n_pkl_present": 45227}))
+    detail = CR.preflight_ccd(str(tmp_path), cache_s3="s3://b/cache/")
+    assert not calls, "a complete baked cache must trigger neither a restore nor a bank: %s" % calls
+    assert "baked" in detail.get("source", ""), "the readout must say WHERE the good cache came from"
+
+
+def test_the_bake_asserts_the_measured_component_floor_and_CYS_by_name():
+    """⛔ THE BUILD IS THE GATE. A short bake must fail the build, not become an image that dies at ~7 s on a
+    rented GPU. The floor is the count MEASURED on the one host that completed the fetch — `n_pkl_present:
+    45227`, recorded in selcal-cofold-census.json — and this test is what keeps the constant and its
+    measurement from drifting apart (CLAUDE.md rule 1: one fact, one place)."""
+    import re as _re
+    import selcal_cofold_run as CR
+    raw = open(os.path.join(HERE, "selcal-cofold-census.json")).read()
+    measured = [int(n) for n in _re.findall(r'n_pkl_present\\?":\s*(\d+)', raw) if int(n)]
+    assert measured, "the census no longer records a completed CCD download — the floor lost its evidence"
+    assert CR.CCD_MIN_COMPONENTS == max(measured), \
+        "CCD_MIN_COMPONENTS %d != the measured %s" % (CR.CCD_MIN_COMPONENTS, measured)
+    src = open(os.path.join(HERE, "selcal_cofold_run.py")).read()
+    assert 'load_molecules(mol_dir, ["CYS"])' in src, "CYS must be asserted BY NAME — it is the one that failed"
+    assert "boltz2_conf.ckpt" in src and "boltz2_aff.ckpt" in src, "both checkpoints must be proven whole"
+
+
+def test_the_bake_verification_FAILS_on_a_short_cache(tmp_path, monkeypatch):
+    """The gate is only a gate if it returns non-zero. A build step that prints a complaint and exits 0 ships
+    the image anyway."""
+    import selcal_cofold_run as CR
+    monkeypatch.setattr(CR, "ccd_cache_integrity",
+                        lambda c: (False, {"state": "truncated", "why": "CCD component CYS not found!",
+                                           "n_pkl_present": 12}))
+    assert CR.verify_baked_cache(str(tmp_path)) != 0
+    # ...and a cache that passes every predicate but is one component short still fails.
+    monkeypatch.setattr(CR, "ccd_cache_integrity",
+                        lambda c: (True, {"why": "", "n_pkl_present": CR.CCD_MIN_COMPONENTS - 1}))
+    assert CR.verify_baked_cache(str(tmp_path)) != 0
 
 
 def test_the_boltz_cache_lives_outside_the_run_prefix_and_is_keyed_on_the_spec():
@@ -692,3 +741,91 @@ def test_the_supervisor_re_arms_rather_than_leaving_hosts_unwatched():
     assert "SELCAL SUPERVISION NOT RE-ARMED" in body, \
         "a failed re-arm must be LOUD — a silent one is the unattended-rental leak with extra steps"
     assert 'self_dispatch("stage_test")' in body, "on completion the ladder must advance to the $0 rung"
+
+
+# =============================================================================================================
+# ★★ THE BAKED CO-FOLD IMAGE — a rented GPU must predict, not build an environment (CLAUDE.md §6)
+# =============================================================================================================
+DOCKERFILE = os.path.join(os.path.dirname(os.path.dirname(HERE)), "research", "compute",
+                          "Dockerfile.selcalcofold")
+
+
+def test_the_cofold_host_PULLS_its_environment_and_does_not_BUILD_it():
+    """⛔ THE MEASURED COST. The lane used to rent a STOCK pytorch image and then apt-get, pip-install boltz +
+    two cuequivariance wheels, and fetch ~3 GB of CCD/weights — all on an RTX 4090 at $/hr, before one second
+    of science. §6 prices a build at ~15-25 min against a ~2-4 min pull, and three of the four hosts that died
+    on this lane on 2026-08-01 died inside that window."""
+    spec = L.build_cofold_jobspec("main", "bkt")
+    assert spec.image == L.SELCAL_COFOLD_IMAGE
+    assert "selcalcofold" in spec.image, "the co-fold host must pull the baked image"
+    p = L._cofold_script()
+    assert "pip install" not in p, "the environment is a layer, not a step on the meter"
+    assert "apt-get install" not in p, "the apt packages are baked"
+    assert "download_boltz2" not in p, "the CCD/weights are baked layers, not a bespoke fetch on a billing host"
+
+
+def test_a_WRONG_image_fails_loudly_at_second_zero():
+    """A stock image would otherwise reach `predicting` and die minutes in, looking like a science failure
+    instead of a wrong-image failure."""
+    p = L._cofold_script()
+    assert "command -v boltz" in p and "not the baked image" in p
+    i_check, i_run = p.index("command -v boltz"), p.index("selcal_cofold_run.py")
+    assert i_check < i_run
+
+
+def test_the_TRUNCATED_preflight_SURVIVES_the_image_change():
+    """⚠ BELT AND BRACES, AND THE REASON IS THE WHOLE INCIDENT. The image makes a short cache unlikely; it
+    does not make it impossible. If a baked cache ever arrives short, that must FAIL LOUDLY rather than
+    silently re-downloading 3 GB and pretending the image was fine."""
+    src = open(os.path.join(HERE, "selcal_cofold_run.py")).read()
+    assert "REFUSING TO RUN" in src and "truncated" in src
+    assert "preflight_ccd" in L._cofold_script() or "selcal_cofold_run.py" in L._cofold_script()
+    assert "export BOLTZ_CACHE=" in L._cofold_script()
+
+
+def test_the_image_and_the_launcher_agree_on_the_pin_and_the_cache_path():
+    """A cache dir that differs from the baked one means the check verifies a directory Boltz never reads AND
+    the baked 3 GB is re-fetched — the two failures this image exists to prevent, in one typo."""
+    df = open(DOCKERFILE).read()
+    assert '"%s"' % L.BOLTZ_SPEC in df or L.BOLTZ_SPEC in df, \
+        "Dockerfile.selcalcofold must install exactly %s" % L.BOLTZ_SPEC
+    assert "ENV BOLTZ_CACHE=%s" % L.BAKED_BOLTZ_CACHE in df
+    assert "cuequivariance-torch" in df and "cuequivariance-ops-torch-cu12" in df
+    assert "verify_baked_cache" in df, "a short bake must fail the BUILD, not a rental"
+
+
+def test_the_image_does_NOT_bake_the_repo_code():
+    """CLAUDE.md §6: the image supplies the ENV, the checkout supplies the CODE. The on-host pipeline clones
+    the repo at `$GIT_BRANCH`, so a baked copy of research/modalities would be a second, stale copy whose only
+    possible effect is being run by mistake. The build-time check BIND-MOUNTS the one module it needs."""
+    df = open(DOCKERFILE).read()
+    assert "COPY research/modalities" not in df
+    assert "--mount=type=bind" in df and "selcal_cofold_run.py" in df
+
+
+def test_the_NRV04_covalent_lane_keeps_its_own_image():
+    """⛔ DIVERGENCE ON PURPOSE. `nrv04_vast_launch.COFOLD_IMAGE` also feeds the NR-V04 ternary co-fold, whose
+    pipeline still does its own installs and has never been run against the baked image. Repointing the shared
+    name would change that lane's environment as a side effect of a change made for this one — a provider/env
+    deviation nobody chose (research/compute/provider-deviation-2026-07-24.md)."""
+    import nrv04_vast_launch as N
+    assert N.COFOLD_IMAGE != L.SELCAL_COFOLD_IMAGE
+    assert "selcalcofold" not in N.COFOLD_IMAGE
+    assert N.build_cofold_jobspec("br", "bkt", "p").image == N.COFOLD_IMAGE
+    assert "pip install" in N._COFOLD_PIPELINE, "that lane still builds its env; it is untouched here"
+    assert L.BOLTZ_SPEC == N.BOLTZ_SPEC, "the PIN stays shared — a Boltz bump must move both lanes together"
+
+
+def test_the_bake_workflow_exists_and_pushes_the_image_the_lane_pulls():
+    import yaml
+    wf = os.path.join(os.path.dirname(os.path.dirname(HERE)), ".github", "workflows",
+                      "selcal-cofold-bake.yml")
+    doc = yaml.safe_load(open(wf))
+    steps = doc["jobs"]["bake"]["steps"]
+    body = open(wf).read()
+    assert doc["jobs"]["bake"]["env"]["IMAGE"] in L.SELCAL_COFOLD_IMAGE
+    assert "DOCKERHUB_TOKEN" in body and "triskit23" in body
+    assert any("verify_baked_cache" in (s.get("run") or "") for s in steps), \
+        "the bake must re-verify the cache from OUTSIDE the build"
+    assert '-v "$PWD/research/modalities:/work/research/modalities"' in body, \
+        "§6: the image supplies the ENV, the mounted checkout supplies the CODE"
