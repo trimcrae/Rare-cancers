@@ -252,18 +252,13 @@ jobs:
       - name: Commit the ablation back to this branch
         if: always()
         run: |
-          set -e
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/vast-filter-ablation.json 2>/dev/null || true
-          git commit -m "vast filter ablation $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
-          for i in 1 2 3 4; do
-            git pull --rebase origin "${{ github.ref_name }}" && \
-              git push origin HEAD:${{ github.ref_name }} && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the filter ablation"
-
+          # ⛔ ONE HOME FOR THE PUBLISH (2026-08-01). This hand-rolled `git pull --rebase` + retry, the shape
+          # that silently failed to publish on three lanes: a conflict leaves the repo mid-rebase, every retry
+          # dies on it, and the step ends on a warning while reporting SUCCESS. See publish_artifacts.sh.
+          BR="${{ github.ref_name }}"
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "vast filter ablation $(date -u +%FT%TZ)" \
+            research/modalities/vast-filter-ablation.json
   imagecuda:
     # ★ READ-ONLY ($0), AND IT IS THE EVIDENCE `min_cuda` SHOULD BE SET FROM.
     #

@@ -144,7 +144,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("vast-price-sample.yml", "bidsem"),
     ("vast-price-sample.yml", "census"),
     ("vast-price-sample.yml", "exclusions"),
-    ("vast-price-sample.yml", "filters"),
     ("vast-price-sample.yml", "forensics"),
     ("vast-price-sample.yml", "imagecuda"),
     ("vast-price-sample.yml", "intel"),
