@@ -138,6 +138,122 @@ def test_the_per_card_rate_is_read_from_by_gpu_not_the_arm_median():
                     else at.PROV_OFFSYSTEM)
 
 
+# =============================================================================================================
+# ⛔ THE SYSTEM AXIS — an expectation measured on a different molecule cannot be "drift" (2026-08-01)
+# =============================================================================================================
+# trimcrae: "If it's a bigger molecule than our estimates are based on, it's gonna be more expensive. It's
+# more important that we rank based on relative price per ns than actual." The offset cancels out of a
+# RANKING (every offer scored against one table) and does NOT cancel in a realised-vs-quoted comparison.
+def test_an_off_system_expectation_asserts_neither_drift_nor_the_buy_line():
+    """★ THE LIVE FALSE POSITIVE THIS FIXES. `nr4a1 r1` quoted $0.00412/ns (1.21x basis) printed
+    `⚠ realised $0.00889/ns` — ~2.6x "drift" — against a 4 fs ternary expectation with no `nr4a1` leg in it.
+    The delivered rate is still stated; what is withheld is the claim that it MEANS anything."""
+    v = at.verdict(40.0, 16.6, iteration=1088, interval=64, quoted_usd_per_ns=0.00412,
+                   session_s=36000.0, provenance=at.PROV_OFFSYSTEM)
+    assert v["verdict"] == at.KEEP
+    assert v["realised_usd_per_ns"] > APPROVED_USD_PER_NS, "the arithmetic is unchanged — only the claim is"
+    assert "UNVALIDATED" in v["why"] and "no drift and no buy-line comparison is asserted" in v["why"]
+    assert "⚠" not in at.cell(v) and "drift" not in at.cell(v).lower()
+    assert "40.0 s/iter" in at.cell(v), "the measured rate is the one thing that IS evidence — keep showing it"
+
+
+def test_the_off_system_cell_never_renders_like_a_graded_one():
+    """CLAUDE.md §1's `⚠ PAYING` vs `⛔ REFUSED` rule, one axis over: a row we CANNOT grade and a row that
+    PASSED must not render alike. An off-system row says so even when it is fast, or a reader would take a
+    silent cell for a cleared one."""
+    fast = at.cell(at.verdict(8.0, 16.6, iteration=1089, interval=64, quoted_usd_per_ns=0.004,
+                              provenance=at.PROV_OFFSYSTEM))
+    slow = at.cell(at.verdict(40.0, 16.6, iteration=1089, interval=64, quoted_usd_per_ns=0.004,
+                              session_s=36000.0, provenance=at.PROV_OFFSYSTEM))
+    graded = at.cell(at.verdict(8.0, 16.6, iteration=1089, interval=64, quoted_usd_per_ns=0.004,
+                                provenance=at.PROV_CARD))
+    assert "no like-for-like expectation" in fast and "no like-for-like expectation" in slow
+    assert "no like-for-like expectation" not in graded
+
+
+@pytest.mark.parametrize("uid,want", [
+    ("5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks", "nr4a1"),
+    ("5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke", "nr4a3"),
+    ("calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps", "vhl"),
+    ("calib_hi_to_lo__binary_vhl_r0_dt4.0fs_wu1.0_edge", "vhl"),
+    ("5aks_d0_to_d__ternary_nr4a3", "nr4a3"),                    # the truncated `leg_id` form
+    ("calib_hi_to_lo__solvent_r0_dt4.0fs_wu1.0_edge", None),     # the solvent arm carries no system token
+    ("", None), (None, None),
+])
+def test_the_system_token_is_read_from_the_unit_id(uid, want):
+    """⚠ IDENTITY, NOT SIZE. `nr4a1` and `nr4a3` are two assemblies of nearly equal particle count, so
+    `ternary_arm_rates.system_buckets` merges them at its 15 % tolerance and `pooled_across_systems` reads
+    FALSE on a figure pooled across `nr4a3` and `vhl`. Only the id can tell them apart."""
+    assert at.system_of_unit(uid) == want
+
+
+def test_a_leg_whose_own_system_is_ABSENT_from_the_table_is_off_system():
+    """The exact `nr4a1` case, asserted through the real artifact. DERIVED, not typed: the expectation is
+    computed from the table's own composition, so a future `nr4a1` leg landing in the table flips this to
+    like-for-like and the test follows instead of going red for the lane working."""
+    systems = at.contributing_systems(4.0, "ternary", card="RTX 4090")
+    assert systems, "composition unreadable — this test proves nothing; check `legs` in the rate artifact"
+    absent = next(s for s in ("nr4a1", "nr4a3", "vhl", "zzznotasystem") if s not in systems)
+    uid = f"5aks_d0_to_d__ternary_{absent}_r1_dt4.0fs_wu1.0_5aks"
+    _, prov, note = at.expected_s_per_iter("ternary", 4.0, card="RTX 4090", unit_id=uid)
+    assert prov == at.PROV_OFFSYSTEM and "UNVALIDATED" in note
+
+
+def test_a_leg_whose_system_IS_the_table_keeps_its_like_for_like_expectation():
+    """✅ THE POSITIVE CONTROL FOR THE SYSTEM AXIS — the warning must SURVIVE where it is earned, or this
+    change has simply blinded the guard. Host-to-host spread on ONE system is 0.50-2.67x against a 1.745x
+    card prediction; that is the real signal and removing the system offset sharpens it, not hides it."""
+    # Chosen by the table's own composition rather than named, for the reason in the test above.
+    single = [(dt, arm) for dt in (2.0, 4.0) for arm in ("binary", "ternary", "solvent")
+              if len(at.contributing_systems(dt, arm)) == 1]
+    assert single, "no single-system figure in the table — the positive control cannot be built"
+    dt, arm = single[0]
+    sysname = next(iter(at.contributing_systems(dt, arm)))
+    uid = f"calib_hi_to_lo__{arm}_{sysname}_r1_dt{dt}fs_wu1.0_edge_reps"
+    exp, prov, _ = at.expected_s_per_iter(arm, dt, unit_id=uid)
+    assert prov == at.PROV_POOLED, "a single-system figure is NOT downgraded by the system check"
+    v = at.verdict(exp * 4.0, exp, iteration=1088, interval=64, quoted_usd_per_ns=0.005,
+                   session_s=36000.0, provenance=at.PROV_CARD)   # same figure, taken per-card
+    assert "⚠" in at.cell(v) and v["realised_usd_per_ns"] > APPROVED_USD_PER_NS, \
+        "a genuinely slow host on a system the table HAS measured must still be flagged"
+
+
+def test_provenance_is_CARD_only_where_the_figure_describes_one_system():
+    """THE PROPERTY, over every figure in the real table — the invariant the re-expressed wiring test above
+    now leans on. A `$/ns` comparison is licensed exactly when the expectation behind it was produced by legs
+    of a single assembly."""
+    import ternary_vast_launch as tv
+    doc = (tv.arm_iteration_rates(4.0, path=tv._ARM_RATES_PATH) is not None
+           and tv._ARM_RATES_CACHE[tv._ARM_RATES_PATH])
+    checked = 0
+    for dt, arms in (doc.get("rates") or {}).items():
+        for arm, entry in arms.items():
+            for market_name in (entry.get("by_gpu") or {}):
+                _, prov, _ = at.expected_s_per_iter(arm, float(dt), card=market_name)
+                one = len(at.contributing_systems(float(dt), arm, card=market_name)) == 1
+                assert at.licenses_dollar_comparison(prov) is one, (dt, arm, market_name, prov)
+                checked += 1
+    assert checked >= 5, f"only {checked} figures checked — the table is too small to prove the property"
+
+
+def test_an_UNREAD_composition_keeps_the_provenance_it_earned():
+    """CLAUDE.md §4a: an absent reading is not a reading of absence. If the leg records cannot be read, that
+    is NOT evidence the expectation is off-system — and it is equally not evidence it is fine, so the note
+    must SAY the check did not run. Silently switching the warning off on an unreadable artifact would be the
+    same class of bug as the fabricated `prod_ns` echo."""
+    assert at.contributing_systems(4.0, "ternary", path="/nonexistent/rates.json") == {}
+    # `rates=` injects a table with no leg records at all: nothing to downgrade, nothing claimed.
+    _, prov, note = at.expected_s_per_iter("ternary", 4.0, rates={"ternary": 16.6})
+    assert prov == at.PROV_POOLED and "UNVALIDATED" not in note
+
+
+def test_contributing_systems_never_returns_a_rate():
+    """⚠ ONE FACT, ONE HOME (§1). The RATE lives in `arm_card_rate` / `arm_iteration_rates`; this function
+    reads the same document only for WHICH LEGS produced it. A second path to the number is a second home."""
+    got = at.contributing_systems(4.0, "ternary")
+    assert got and all(isinstance(k, str) and isinstance(n, int) for k, n in got.items())
+
+
 def test_an_unmeasured_expectation_cannot_condemn():
     """No arm rate for this timestep => no slowdown, no realised $/ns. The TIME test may still fire, because
     it needs no expectation at all — that independence is deliberate."""
@@ -171,6 +287,28 @@ def test_a_host_that_cannot_reach_a_boundary_is_ABANDONED():
     assert v["verdict"] == at.ABANDON
     assert "cannot bank" in v["why"]
     assert v["seconds_to_next_commit"] > v["session_budget_s"]
+
+
+@pytest.mark.parametrize("prov", [at.PROV_CARD, at.PROV_POOLED, at.PROV_OFFSYSTEM, at.PROV_NONE])
+def test_the_TIME_test_is_untouched_by_provenance(prov):
+    """★ THE ONLY TEST THAT ACTS NEEDS NO EXPECTATION AT ALL, and the system axis must not reach it. A host
+    that cannot bank is a guaranteed loss whatever molecule it is running, and the independence of the time
+    test from the throughput table is the reason this guard survives every table confound."""
+    v = at.verdict(60.0, 16.6, iteration=1088, interval=64, quoted_usd_per_ns=0.005, session_s=3600.0,
+                   provenance=prov)
+    assert v["verdict"] == at.ABANDON and "cannot bank" in v["why"]
+
+
+def test_the_PURCHASE_gate_is_not_reachable_from_this_module():
+    """⛔ THE BUY LINE BINDS ON **QUOTED** RATES AT THE MOMENT OF RENTING, and that is a different file. This
+    module is a POST-HOC readout: it imports the threshold to REPORT against and must never call a launcher,
+    a market gate or a rental path, or a readout change would become a change to what the lane will buy."""
+    import inspect
+    src = inspect.getsource(at)
+    for forbidden in ("relaunch_market_gate", "gpu_backend", "protfep_vast_launch", "congeneric_fanout",
+                      "submit(", "retire_host", "destroy"):
+        assert forbidden not in src, f"{forbidden!r} would make this readout able to move money"
+    assert at.verdict(1.0, 1.0)["buy_line_usd_per_ns"] == APPROVED_USD_PER_NS
 
 
 def test_the_same_host_on_a_short_grid_is_KEPT():
