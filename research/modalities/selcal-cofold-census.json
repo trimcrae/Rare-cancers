@@ -83,12 +83,13 @@
     "selcal_smarca2": 0,
     "selcal_smarca4": 0
   },
-  "phase": "boot 2026-08-01T14:11:03Z instance=46508511",
+  "phase": "predicting 2026-08-01T14:14:20Z instance=46508454 attempt=20260801T141352Z",
   "log_tail": [
+    "| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |",
     "|                                         |                        |               MIG M. |",
     "|=========================================+========================+======================|",
-    "|   0  NVIDIA GeForce RTX 4090        On  |   00000000:41:00.0 Off |                  Off |",
-    "|  0%   46C    P8             16W /  275W |       0MiB /  24564MiB |      0%      Default |",
+    "|   0  NVIDIA GeForce RTX 4090        On  |   00000000:03:00.0 Off |                  Off |",
+    "|  0%   41C    P8             25W /  450W |       1MiB /  24564MiB |      0%      Default |",
     "|                                         |                        |                  N/A |",
     "+-----------------------------------------+------------------------+----------------------+",
     "",
@@ -100,37 +101,36 @@
     "|  No running processes found                                                             |",
     "+-----------------------------------------------------------------------------------------+",
     "               total        used        free      shared  buff/cache   available",
-    "Mem:             377          13         151           0         212         361",
+    "Mem:              94           1          66           0          26          91",
     "Swap:              7           0           7",
+    "[cofold] 2026-08-01T14:12:53Z restored 0 finished CIF(s) and 18 MSA file(s) from S3",
     "[selcal-cofold] ligand PRT3789 (A1BB4) | {'smarca2': 121, 'smarca4': 122}",
-    "[selcal-cofold] smarca2 seed 1: boltz predict /tmp/selcal_cofold_out/inputs/smarca2.yaml --use_msa_server --out_dir /tmp/selcal_cofold_out/smarca2/seed_1 --no_kernels --seed 1",
+    "[selcal-cofold] smarca4 seed 1: boltz predict /tmp/selcal_cofold_out/inputs/smarca4.yaml --use_msa_server --out_dir /tmp/selcal_cofold_out/smarca4/seed_1 --no_kernels --seed 1",
     "Seed set to 1",
     "MSA server enabled: https://api.colabfold.com",
     "MSA server authentication: no credentials provided",
-    "Downloading the CCD data to /root/.boltz/mols.tar. This may take a bit of time. You may change the cache directory with the --cache flag.",
-    "Extracting the CCD data to /root/.boltz/mols. This may take a bit of time. You may change the cache directory with the --cache flag.",
-    "Downloading the Boltz-2 weights to /root/.boltz/boltz2_conf.ckpt. You may change the cache directory with the --cache flag."
+    "Downloading the CCD data to /root/.boltz/mols.tar. This may take a bit of time. You may change the cache directory with the --cache flag."
   ],
   "n_s3_objects": 27,
-  "newest_object_utc": "2026-08-01T14:11:07Z",
-  "newest_object_age_min": 1.2,
+  "newest_object_utc": "2026-08-01T14:14:22Z",
+  "newest_object_age_min": 0.2,
   "instances": [
     {
       "id": 46508454,
       "status": "running",
-      "gpu_util": null,
+      "gpu_util": 0.0,
       "dph_total": 0.18402222222222223,
-      "uptime_min": 3.3
+      "uptime_min": 5.5
     },
     {
       "id": 46508511,
-      "status": "running",
+      "status": "exited",
       "gpu_util": 0.0,
       "dph_total": 0.18402222222222223,
-      "uptime_min": 2.3
+      "uptime_min": 4.6
     }
   ],
   "_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
-  "utc": "2026-08-01T14:12:20Z",
+  "utc": "2026-08-01T14:14:34Z",
   "bucket": "sagemaker-us-east-2-646605541856"
 }
