@@ -44,6 +44,19 @@ _ACTION_RE = re.compile(
     r"exceeded \d+min|submit|refus|REFUS|HOLD|hold_cause|breaker|BLOCKED)")
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Stop at the 302 instead of following it. See `_job_log`."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: D102, ARG002
+        raise _Redirect(newurl)
+
+
+class _Redirect(Exception):
+    def __init__(self, url):
+        super().__init__(url)
+        self.url = url
+
+
 def _req(url, token, raw=False):
     r = urllib.request.Request(url)
     r.add_header("Accept", "application/vnd.github+json")
@@ -52,6 +65,28 @@ def _req(url, token, raw=False):
     with urllib.request.urlopen(r, timeout=90) as fh:
         data = fh.read()
     return data if raw else json.loads(data.decode())
+
+
+def _job_log(job_id, token):
+    """The raw log text for one job.
+
+    ⚠ THE AUTH HEADER MUST NOT FOLLOW THE REDIRECT (measured 2026-08-01: 53 of 53 fetches failed with the
+    naive version, and only the `unreadable_jobs` counter made that visible rather than reading as "these
+    hosts have no history"). `/actions/jobs/<id>/logs` answers **302** to a short-lived signed blob URL;
+    urllib re-sends `Authorization: Bearer …` to that host, which rejects a credential it never asked for.
+    So: catch the redirect, then fetch the signed URL BARE."""
+    url = f"{API}/repos/{REPO}/actions/jobs/{job_id}/logs"
+    op = urllib.request.build_opener(_NoRedirect)
+    r = urllib.request.Request(url)
+    r.add_header("Accept", "application/vnd.github+json")
+    if token:
+        r.add_header("Authorization", "Bearer %s" % token)
+    try:
+        with op.open(r, timeout=90) as fh:
+            return fh.read().decode("utf-8", "replace")
+    except _Redirect as e:
+        with urllib.request.urlopen(urllib.request.Request(e.url), timeout=90) as fh:
+            return fh.read().decode("utf-8", "replace")
 
 
 def main(argv=None):
@@ -81,10 +116,10 @@ def main(argv=None):
                 continue
             out["runs_scanned"] += 1
             try:
-                text = _req(f"{API}/repos/{REPO}/actions/jobs/{job['id']}/logs", token, raw=True)
-                text = text.decode("utf-8", "replace")
+                text = _job_log(job["id"], token)
             except Exception as e:  # noqa: BLE001
-                print(f"[host-history] job {job['id']}: logs unreadable: {e}")
+                if out.get("unreadable_jobs", 0) < 3:      # the CAUSE once, not 53 identical lines
+                    print(f"[host-history] job {job['id']}: logs unreadable: {type(e).__name__}: {e}")
                 out["unreadable_jobs"] = out.get("unreadable_jobs", 0) + 1
                 continue
             # PROOF THE LOG WAS ACTUALLY READ. Without this, "0 hits" and "0 bytes fetched" render alike.
