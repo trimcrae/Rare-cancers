@@ -200,5 +200,13 @@ def test_the_alarm_workflows_write_the_board_instead():
     committed = [wf for wf in ALARM_WORKFLOWS if "alarm_state.py" in (WF / wf).read_text()]
     assert committed, "no alarm workflow writes the pull board — the verdict now goes nowhere"
     src = (WF / "lane-staleness-watch.yml").read_text()
-    assert "alarm-state.json" in src and "git add research/modalities/alarm-state.json" in src, \
-        "the board must be COMMITTED; an unpushed board is a board frozen at its last commit"
+    # ⚠ THE PROPERTY IS "THE BOARD REACHES `main`", NOT "A LITERAL `git add` APPEARS HERE". This asserted the
+    # `git add` line directly and broke on 2026-08-01 when the publish moved into
+    # `research/compute/publish_artifacts.sh` — the board was MORE reliably published (a conflict can no
+    # longer wedge it), and the test failed anyway because it was pinned to the mechanism. A test that fails
+    # when an implementation improves is a test that discourages the improvement.
+    assert "alarm-state.json" in src, "the board must be produced by this workflow"
+    published = ("git add research/modalities/alarm-state.json" in src
+                 or ("publish_artifacts.sh" in src and "alarm-state.json" in src))
+    assert published, ("the board must be COMMITTED; an unpushed board is a board frozen at its last commit. "
+                       "Either stage it directly or pass it to publish_artifacts.sh.")

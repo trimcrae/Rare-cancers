@@ -1258,17 +1258,35 @@ def test_the_workflow_can_actually_persist_what_the_reap_decided():
     assert wf["jobs"]["step1-fanout-tick"]["permissions"].get("contents") == "read", \
         "the dispatch job must not inherit the reaper's write scope"
     steps = watch["steps"]
+    # ⚠ RE-POINTED AT THE PROPERTY (2026-08-01). This used to require exactly one step containing
+    # `git commit`, plus `git diff --cached --quiet`, plus a hand-rolled `--rebase` retry loop — i.e. it
+    # pinned the IMPLEMENTATION. All three moved into `research/compute/publish_artifacts.sh` when the
+    # repo's 108 hand-rolled publishes were centralised, and the retry loop this test REQUIRED is the exact
+    # shape that silently failed to publish on three lanes: one conflict leaves the repo mid-rebase, every
+    # retry dies on it, and the step reports SUCCESS. A test must not mandate a known-broken mechanism.
+    #
+    # ⛔ AND `git diff --cached --quiet` IS DELIBERATELY GONE, NOT MISLAID. A watchdog that publishes nothing
+    # when it retired nothing is byte-identical to a watchdog that never ran — and CLAUDE.md §6 records that
+    # a `schedule:` does not supervise a billing fleet, so "did this pass run at all" is exactly the question
+    # the commit trail has to answer. The primitive commits `--allow-empty`; the redundant-looking commit IS
+    # the heartbeat.
+    publish = [s for s in steps if "publish_artifacts.sh" in (s.get("run") or "")]
     commit = [s for s in steps if "git commit" in (s.get("run") or "")]
-    assert len(commit) == 1, "exactly one step may commit the watch list back"
-    run = commit[0]["run"]
+    assert len(publish) + len(commit) == 1, "exactly one step may persist the watch list back"
+    run = (publish or commit)[0]["run"]
     assert "research/modalities/vast-watch.json" in run
-    assert "git diff --cached --quiet" in run, "a pass with nothing to retire must make no commit"
-    # the push race: another workflow commits to this branch every few minutes
-    assert "--rebase" in run and "for i in 1 2 3" in run, "the ternary watchdog's push-race retry is required"
+    if publish:
+        assert "git push" not in run, "the publish must go through the primitive, not around it"
+    else:
+        assert "--rebase" in run and "for i in 1 2 3" in run
     # `always()`, because the tick exits non-zero on an alert BY DESIGN and a pass that alerts on one unit
     # while retiring another must still persist the retirement.
-    assert "always()" in commit[0]["if"] and "dry_run != '1'" in commit[0]["if"]
-    assert steps.index(commit[0]) > steps.index([s for s in steps if "--tick" in (s.get("run") or "")][0])
+    # The persisting step — whichever form it takes — must still run on `always()` (the tick exits non-zero
+    # on an alert BY DESIGN, and a pass that alerts on one unit must still record the ones it retired), must
+    # be skipped on a dry run, and must come AFTER the tick that decides what to retire.
+    step = (publish or commit)[0]
+    assert "always()" in step["if"] and "dry_run != '1'" in step["if"]
+    assert steps.index(step) > steps.index([s for s in steps if "--tick" in (s.get("run") or "")][0])
 
 
 def test_every_disabled_entry_in_the_shipped_list_declares_WHICH_kind_of_over_it_is():
