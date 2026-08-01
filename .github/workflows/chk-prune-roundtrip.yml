@@ -101,6 +101,21 @@ jobs:
           du -sh /tmp/real/gen/
           df -h / | tail -1
 
+      - name: "What is actually IN a real checkpoint (header only, instant, always before the experiment)"
+        if: ${{ github.event.inputs.real_pair != 'no' }}
+        run: |
+          set +e
+          [ -f /tmp/real/gen/COMMITTED.json ] || { echo "(no real pair — skipping)"; exit 0; }
+          cat /tmp/real/gen/COMMITTED.json
+          CHK=$(python -c "import json;print(json.load(open('/tmp/real/gen/COMMITTED.json'))['checkpoint_name'])")
+          # The first run of this experiment died on a variable kind nobody had enumerated, and died before
+          # writing any artifact. This dump costs nothing and guarantees the evidence survives a crash.
+          docker run --rm --entrypoint python \
+            -v "$PWD/research/modalities:/work/research/modalities" -v /tmp/real:/tmp/real \
+            -w /work/research/modalities "$IMG" \
+            /work/research/modalities/chk_prune_roundtrip.py --inspect "/tmp/real/gen/$CHK" 2>&1 \
+            | grep -av "^Warning:"
+
       - name: "Parts A+B+C (+D if present) — the experiment"
         id: exp
         run: |

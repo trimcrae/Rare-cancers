@@ -54,7 +54,73 @@ REAL_N_ATOMS = 147_788
 
 
 # ------------------------------------------------------------------------------------------------
-# shared: the frame census
+# shared: netCDF variable helpers
+#
+# ⚠ `netCDF4` IS NOT UNIFORM ACROSS VARIABLE KINDS, and an openmmtools checkpoint contains both kinds.
+# For a numeric variable `var.dtype` is a numpy dtype; for a VLEN string variable it is the Python TYPE
+# `str`, which has no `.itemsize`, cannot be compressed, and rejects a `chunksizes` request. The first run
+# of this experiment (GH 30674942072) died on exactly that, four lines into the prune. These three helpers
+# are the one home of that asymmetry.
+# ------------------------------------------------------------------------------------------------
+def _is_vlen(var):
+    dt = getattr(var, "dtype", None)
+    return dt is str or dt is bytes or str(dt) in ("str", "<class 'str'>")
+
+
+def _itemsize(dtype, default=8):
+    """Bytes per element, tolerating the non-numpy dtypes netCDF4 returns for VLEN variables."""
+    try:
+        import numpy as np
+        return max(1, int(np.dtype(dtype).itemsize))
+    except Exception:  # noqa: BLE001 — VLEN str/bytes; size is not fixed, and the caller only needs a bound
+        return default
+
+
+def _chunking(var):
+    try:
+        return var.chunking()
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _filters(var):
+    try:
+        return var.filters() or {}
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def inspect_header(path):
+    """Dimensions + variable inventory ONLY — no frame scan, so it is instant even on a 1.2 GiB checkpoint.
+
+    Exists because the first run of this experiment died on a variable kind nobody had enumerated, and died
+    before writing any artifact. A header dump costs nothing and is printed BEFORE the experiment, so a crash
+    still leaves the evidence needed to diagnose it."""
+    import netCDF4
+    out = {"path": str(path), "bytes": os.path.getsize(path)}
+    with netCDF4.Dataset(str(path), "r") as ds:
+        out["global_attrs"] = {a: str(ds.getncattr(a))[:120] for a in ds.ncattrs()}
+        out["dimensions"] = {n: {"len": len(d), "unlimited": d.isunlimited()} for n, d in ds.dimensions.items()}
+        out["variables"] = {n: {"dims": list(v.dimensions), "dtype": str(v.dtype), "vlen": _is_vlen(v),
+                                "shape": list(v.shape), "chunking": str(_chunking(v)),
+                                "filters": {k: x for k, x in _filters(v).items() if x not in (False, 0, None)}}
+                            for n, v in ds.variables.items()}
+        out["groups"] = sorted(ds.groups)
+    return out
+
+
+def _copy_scalar(src_var, dst_var):
+    """A 0-d netCDF variable. `assignValue`/`getValue` is the documented route, but it is not defined for
+    every datatype, so the indexed form is kept as a fallback rather than letting the whole prune die on a
+    one-element variable."""
+    try:
+        dst_var.assignValue(src_var.getValue())
+    except Exception:  # noqa: BLE001
+        dst_var[...] = src_var[...]
+
+
+# ------------------------------------------------------------------------------------------------
+# the frame census
 # ------------------------------------------------------------------------------------------------
 def chk_frame_report(chk_path):
     """What a checkpoint file physically contains: the `iteration` dimension length, and which frames hold
@@ -69,9 +135,14 @@ def chk_frame_report(chk_path):
         out["iteration_dim"] = len(ds.dimensions["iteration"]) if "iteration" in ds.dimensions else None
         v = ds.variables.get("positions")
         out["positions_shape"] = None if v is None else list(v.shape)
-        out["positions_chunking"] = None if v is None else str(v.chunking())
-        out["positions_filters"] = None if v is None else {k: val for k, val in (v.filters() or {}).items()
+        out["positions_chunking"] = None if v is None else str(_chunking(v))
+        out["positions_filters"] = None if v is None else {k: val for k, val in (_filters(v) or {}).items()
                                                            if val not in (False, 0, None)}
+        # the full variable inventory, because the first run of this experiment died on a variable nobody had
+        # looked at (an openmmtools VLEN `str`, whose `dtype` is the Python TYPE and has no `.itemsize`).
+        out["variables"] = {n: {"dims": list(vv.dimensions), "dtype": str(vv.dtype),
+                                "vlen": _is_vlen(vv), "shape": list(vv.shape)}
+                            for n, vv in ds.variables.items()}
         written = []
         if v is not None:
             for i in range(v.shape[0]):
@@ -139,29 +210,37 @@ def prune_to_last_frame(src_chk, dst_chk, keep_index=None):
                     d.createDimension(dname, None if dim.isunlimited() else len(dim))
             for vname, var in s.variables.items():
                 per_iter = bool(var.dimensions) and var.dimensions[0] == "iteration"
+                vlen = _is_vlen(var)
                 kw = {}
-                if per_iter and var.ndim >= 1:
-                    ch = var.chunking()
-                    kw["chunksizes"] = _chunk_for(var.shape, var.dtype.itemsize,
+                # VLEN variables take neither chunking nor compression — and they are metadata, kilobytes at
+                # most, so there is nothing to save on them anyway.
+                if per_iter and var.ndim >= 1 and not vlen:
+                    ch = _chunking(var)
+                    kw["chunksizes"] = _chunk_for(var.shape, _itemsize(var.dtype),
                                                   ch if isinstance(ch, (list, tuple)) else None)
-                # preserve the source's compression so the byte comparison isolates the PRUNE and is not
-                # confounded by newly-applied compression.
-                f = var.filters() or {}
-                if f.get("zlib"):
-                    kw.update(zlib=True, complevel=int(f.get("complevel", 4) or 4),
-                              shuffle=bool(f.get("shuffle", False)))
+                    # preserve the source's compression so the byte comparison isolates the PRUNE and is not
+                    # confounded by newly-applied compression.
+                    f = _filters(var)
+                    if f.get("zlib"):
+                        kw.update(zlib=True, complevel=int(f.get("complevel", 4) or 4),
+                                  shuffle=bool(f.get("shuffle", False)))
                 fv = getattr(var, "_FillValue", None)
-                if fv is not None:
+                if fv is not None and not vlen:
                     kw["fill_value"] = fv
-                nv = d.createVariable(vname, var.dtype, var.dimensions, **kw)
+                try:
+                    nv = d.createVariable(vname, var.datatype, var.dimensions, **kw)
+                except Exception:  # noqa: BLE001 — a layout request the library refused; correctness first
+                    nv = d.createVariable(vname, var.datatype, var.dimensions)
                 for a in var.ncattrs():
                     if a != "_FillValue":
                         nv.setncattr(a, var.getncattr(a))
                 if per_iter:
                     if keep < var.shape[0]:
                         nv[keep] = var[keep]      # ONLY the kept frame is materialised
-                else:
+                elif var.shape:
                     nv[...] = var[...]            # not per-iteration: copy whole
+                else:
+                    _copy_scalar(var, nv)
             for gname, grp in s.groups.items():
                 _copy(grp, d.createGroup(gname))
 
@@ -186,14 +265,16 @@ def naive_prune(src_chk, dst_chk):
         for dname, dim in src.dimensions.items():
             dst.createDimension(dname, None if dim.isunlimited() else len(dim))
         for vname, var in src.variables.items():
-            nv = dst.createVariable(vname, var.dtype, var.dimensions)
+            nv = dst.createVariable(vname, var.datatype, var.dimensions)
             for a in var.ncattrs():
                 if a != "_FillValue":
                     nv.setncattr(a, var.getncattr(a))
             if var.dimensions and var.dimensions[0] == "iteration":
                 nv[0] = var[keep]                 # <-- the bug under control: newest data at index 0
-            else:
+            elif var.shape:
                 nv[...] = var[...]
+            else:
+                _copy_scalar(var, nv)
     return keep
 
 
@@ -632,8 +713,14 @@ def _main(argv=None):
     ap.add_argument("--uri-prefix", default="")
     ap.add_argument("--phase", default="warmup")
     ap.add_argument("--limit", type=int, default=1)
+    ap.add_argument("--inspect", default=None,
+                    help="MODE: print a netCDF file's dimensions + variable inventory and exit (instant)")
     ap.add_argument("--out", default=None)
     a = ap.parse_args(argv)
+
+    if a.inspect:
+        print(json.dumps(inspect_header(a.inspect), indent=1, default=str))
+        return 0
 
     if a.pair_targets:
         with open(a.pair_targets) as fh:

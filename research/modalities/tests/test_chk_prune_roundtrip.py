@@ -47,6 +47,49 @@ def test_no_chunk_for_a_scalar():
 
 
 # ---------------------------------------------------------------------------------------------
+# netCDF4 is not uniform across variable kinds — the bug that killed the first run (GH 30674942072)
+# ---------------------------------------------------------------------------------------------
+class _FakeVar:
+    def __init__(self, dtype, chunking=None, filters=None):
+        self.dtype = dtype
+        self._chunking, self._filters = chunking, filters
+
+    def chunking(self):
+        if self._chunking is None:
+            raise RuntimeError("not chunked")
+        return self._chunking
+
+    def filters(self):
+        if self._filters is None:
+            raise RuntimeError("no filters")
+        return self._filters
+
+
+def test_a_VLEN_string_variable_is_recognised_as_one():
+    """openmmtools checkpoints carry a VLEN `str` variable whose `dtype` is the Python TYPE, not a numpy
+    dtype. Treating it as numeric asked netCDF4 for compression and chunking it cannot do, and killed the
+    prune four lines in."""
+    assert cpr._is_vlen(_FakeVar(str))
+    assert not cpr._is_vlen(_FakeVar("f4"))
+
+
+def test_itemsize_survives_a_dtype_that_is_not_a_numpy_dtype():
+    assert cpr._itemsize("f4") == 4
+    assert cpr._itemsize("f8") == 8
+    assert cpr._itemsize(str) >= 1          # must not raise — that was the exact crash
+    assert cpr._itemsize(object(), default=8) == 8
+
+
+def test_chunking_and_filters_report_None_rather_than_raising():
+    """A variable that is neither chunked nor filtered raises rather than returning empty in some netCDF4
+    versions. The prune must survive it: correctness of the copy comes before layout fidelity."""
+    v = _FakeVar("f4")
+    assert cpr._chunking(v) is None
+    assert cpr._filters(v) == {}
+    assert cpr._chunking(_FakeVar("f4", chunking=[1, 2])) == [1, 2]
+
+
+# ---------------------------------------------------------------------------------------------
 # the verdict must be driven by the checks, and must refuse when the harness has no power
 # ---------------------------------------------------------------------------------------------
 def _passing_resume(ci=2, target=8):
