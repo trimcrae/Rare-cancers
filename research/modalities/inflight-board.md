@@ -9,7 +9,7 @@ Generated 8:58 PM ET Fri Jul 31, 2026 by `task=collect`.
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
 5aks_d0_to_d ternary nr4a3 r1 8:02 AM Aug 1      64.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   31.1 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:12 AM Aug 1     51.1%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 27.1 s/iter · realised $0.00849/ns (1.63x expected)
+5aks_d0_to_d ternary nr4a1 r0 10:13 AM Aug 1     51.1%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 27.1 s/iter · realised $0.00849/ns (1.63x expected)
 5aks_d0_to_d ternary nr4a3 r0 —                  94.4%  RTX 4080S $0.00505/ns · 1.48× basis [bid] RUNNING   no openmmtools rate line in the log window — ETA unknowable, progress is real
 5aks_d0_to_d ternary nr4a1 r1 —                      —  —                                         NO HOST   no live host — checkpoint at production/160 is intact in S3; this pass dispatches the gate to re-place it
 ---- END TVAST-BOARD ----
