@@ -1,0 +1,127 @@
+{
+  "_what": "Free-CI staging shakeout: assemble one leg per arm from a REAL co-fold CIF and audit the input, before any GPU is rented.",
+  "utc": "2026-08-01T19:34:52Z",
+  "prefix": "selcal-smarca-cofold-v1",
+  "arms": [
+    {
+      "arm": "selcal_smarca2",
+      "key": "selcal-smarca-cofold-v1/smarca2/seed_1/boltz_results_smarca2/predictions/smarca2/smarca2_model_0.cif",
+      "ligand_atoms": 64,
+      "complex_atoms": 4487,
+      "chains": {
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "census": [
+          {
+            "chain": "A",
+            "residues": 121
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "verified_against": "cofold-inputs.json chain_contract",
+        "chain_relabelling": null,
+        "target_gene": "SMARCA2",
+        "ligand": {
+          "ccd": "A1BB4",
+          "name": "PRT3789",
+          "smiles_program": "OpenEye OEToolkits",
+          "formula": "C47 H58 N10 O6 S",
+          "_source": "https://data.rcsb.org/rest/v1/core/chemcomp/A1BB4",
+          "heavy_atoms": 64
+        }
+      },
+      "input_audit": {
+        "ok": true,
+        "min_heavy_atom_sep_A": 1.2985,
+        "pair": [
+          "F:GLU86:C",
+          "F:ALA87:N"
+        ],
+        "threshold_A": 1.0,
+        "n_heavy_atoms": 4487,
+        "why": ""
+      }
+    },
+    {
+      "arm": "selcal_smarca4",
+      "key": "selcal-smarca-cofold-v1/smarca4/seed_1/boltz_results_smarca4/predictions/smarca4/smarca4_model_0.cif",
+      "ligand_atoms": 64,
+      "complex_atoms": 4499,
+      "chains": {
+        "target_chain": "A",
+        "e3_chains": [
+          "E",
+          "F",
+          "G"
+        ],
+        "census": [
+          {
+            "chain": "A",
+            "residues": 122
+          },
+          {
+            "chain": "E",
+            "residues": 213
+          },
+          {
+            "chain": "F",
+            "residues": 118
+          },
+          {
+            "chain": "G",
+            "residues": 112
+          }
+        ],
+        "e3_roles": {
+          "E": "VHL",
+          "F": "ElonginB",
+          "G": "ElonginC"
+        },
+        "verified_against": "cofold-inputs.json chain_contract",
+        "chain_relabelling": null,
+        "target_gene": "SMARCA4",
+        "ligand": {
+          "ccd": "A1BB4",
+          "name": "PRT3789",
+          "smiles_program": "OpenEye OEToolkits",
+          "formula": "C47 H58 N10 O6 S",
+          "_source": "https://data.rcsb.org/rest/v1/core/chemcomp/A1BB4",
+          "heavy_atoms": 64
+        }
+      },
+      "input_audit": {
+        "ok": true,
+        "min_heavy_atom_sep_A": 1.2964,
+        "pair": [
+          "F:GLU86:C",
+          "F:ALA87:N"
+        ],
+        "threshold_A": 1.0,
+        "n_heavy_atoms": 4499,
+        "why": ""
+      }
+    }
+  ],
+  "arms_comparable": true,
+  "audit_failures": []
+}
