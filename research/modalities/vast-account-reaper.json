@@ -1,7 +1,7 @@
 {
  "_what": "ACCOUNT-KEYED CENTRAL REAPER \u2014 the one thing in the repo that destroys Vast hosts on a narrow, provably-safe predicate, keyed on the account so no lane's private teardown bug can leave a box billing. RULE 1: terminal state, unconditional. RULE 2: unit recorded done AND its output verified present in the object store, attributed to THIS rental by timestamp. Nothing else may destroy.",
- "generated_utc": "2026-08-01T22:46:24Z",
- "generated_et": "6:46 PM ET Aug 1, 2026",
+ "generated_utc": "2026-08-01T22:47:53Z",
+ "generated_et": "6:47 PM ET Aug 1, 2026",
  "mode": "ARMED",
  "thresholds": {
   "census_stale_min": 20.0,
@@ -25,7 +25,7 @@
  ],
  "census_utc": "2026-08-01T22:37:12Z",
  "census_et": "6:37 PM ET Aug 1, 2026",
- "census_age_min": 9.2,
+ "census_age_min": 10.7,
  "census_n_instances": 16,
  "graded": true,
  "reap": [
@@ -363,29 +363,29 @@
  ],
  "execution": {
   "mode": "ARMED",
-  "destroyed": [
+  "destroyed": [],
+  "failed": [
    {
     "instance": 46543878,
     "rule": "RULE-1-TERMINAL",
-    "outcome": "DESTROYED"
+    "error": "RuntimeError: vast API DELETE /instances/46543878/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46543878 not found.\"}"
    },
    {
     "instance": 46543909,
     "rule": "RULE-1-TERMINAL",
-    "outcome": "DESTROYED"
+    "error": "RuntimeError: vast API DELETE /instances/46543909/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46543909 not found.\"}"
    },
    {
     "instance": 46543932,
     "rule": "RULE-1-TERMINAL",
-    "outcome": "DESTROYED"
+    "error": "RuntimeError: vast API DELETE /instances/46543932/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46543932 not found.\"}"
    },
    {
     "instance": 46543935,
     "rule": "RULE-1-TERMINAL",
-    "outcome": "DESTROYED"
+    "error": "RuntimeError: vast API DELETE /instances/46543935/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46543935 not found.\"}"
    }
   ],
-  "failed": [],
   "ledger": "vast-account-reaper-ledger.jsonl"
  }
 }
