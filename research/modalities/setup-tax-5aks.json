@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T17:28:31Z",
+ "utc": "2026-08-01T17:44:03Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -981,8 +981,8 @@
       }
      ],
      "first_commit_iteration": 1880,
-     "s_per_iter": 26.8,
-     "n_lines": 347,
+     "s_per_iter": 26.45,
+     "n_lines": 507,
      "timeline": {
       "marks": [
        [
@@ -1025,12 +1025,18 @@
        "iteration": 1880,
        "mib": 3516.3,
        "seconds": 41.6
+      },
+      {
+       "phase": "production",
+       "iteration": 1920,
+       "mib": 3666.9,
+       "seconds": 53.8
       }
      ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 17:28:09+00:00",
-     "bytes": 26423,
+     "utc": "2026-08-01 17:42:18+00:00",
+     "bytes": 37621,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -1038,26 +1044,26 @@
    "live_cold_start_span": "container-start -> md-running",
    "md_to_first_commit_s": 1531.0,
    "md_to_first_commit_span": "md-running -> first commit of this attempt",
-   "commit_bytes_median": 1015615228.5,
-   "n_generations": 74,
+   "commit_bytes_median": 1027110875,
+   "n_generations": 75,
    "commit_store": {
-    "n": 74,
+    "n": 75,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
      "first_mib": 106.0,
-     "last_iter": 1880,
-     "last_mib": 3516.3
+     "last_iter": 1920,
+     "last_mib": 3666.9
     },
     "min_mib": 81.0,
-    "max_mib": 3516.3,
+    "max_mib": 3666.9,
     "by_extension_total_mib": {
-     "chk": 72406.8,
-     "nc": 11584.5
+     "chk": 74736.7,
+     "nc": 12921.5
     },
     "by_extension_largest_single_mib": {
-     "chk": 2282.4,
-     "nc": 1233.9
+     "chk": 2330.0,
+     "nc": 1337.0
     }
    },
    "markers": {
@@ -1839,7 +1845,7 @@
      ],
      "first_commit_iteration": 1080,
      "s_per_iter": 56.3,
-     "n_lines": 1077,
+     "n_lines": 1161,
      "timeline": {
       "marks": [
        [
@@ -1900,12 +1906,18 @@
        "iteration": 1200,
        "mib": 4290.3,
        "seconds": 71.7
+      },
+      {
+       "phase": "production",
+       "iteration": 1240,
+       "mib": 4441.5,
+       "seconds": 79.0
       }
      ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 17:26:59+00:00",
-     "bytes": 77400,
+     "utc": "2026-08-01 17:43:10+00:00",
+     "bytes": 83305,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -1913,10 +1925,10 @@
    "live_cold_start_span": "container-start -> md-running",
    "md_to_first_commit_s": 2623.0,
    "md_to_first_commit_span": "md-running -> first commit of this attempt",
-   "commit_bytes_median": 1146513158,
-   "n_generations": 55,
+   "commit_bytes_median": 1157991949.5,
+   "n_generations": 56,
    "commit_store": {
-    "n": 55,
+    "n": 56,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
@@ -1925,14 +1937,14 @@
      "last_mib": 1353.7
     },
     "min_mib": 106.6,
-    "max_mib": 4290.3,
+    "max_mib": 4441.5,
     "by_extension_total_mib": {
-     "chk": 40474.5,
-     "nc": 40996.6
+     "chk": 42011.4,
+     "nc": 43901.2
     },
     "by_extension_largest_single_mib": {
-     "chk": 1488.8,
-     "nc": 2801.5
+     "chk": 1536.9,
+     "nc": 2904.6
     }
    },
    "markers": {
@@ -1962,9 +1974,9 @@
   }
  },
  "commit_cost": {
-  "n_observed": 43,
-  "median_mib": 2763.2,
-  "median_seconds": 32.3,
+  "n_observed": 45,
+  "median_mib": 2778.6,
+  "median_seconds": 34.4,
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
@@ -2118,10 +2130,10 @@
      "staging->preequil": 0.07,
      "preequil->md-running": 0.03
     },
-    "md_running_to_first_commit": 17.87,
+    "md_running_to_first_commit": 17.63,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
-    "s_per_iter": 26.8,
+    "s_per_iter": 26.45,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
