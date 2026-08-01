@@ -15,18 +15,18 @@ Merged 11:08 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 11:00 AM ET Sat Aug 1, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 11:08 AM ET Sat Aug 1, 2026 (0 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 1:26 AM Aug 2      74.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 56.5 s/iter · realised $0.00740/ns (1.80x expected)
-5aks_d0_to_d ternary nr4a1 r0 1:48 PM            90.0%  RTX 4090 $0.00481/ns · 1.41× basis [bid] STARTING  COLD_START — instance is 15 min old, under the 15 min floor — too young to have proved anything either way · ⚠ 28.0 s/iter · realised $0.00802/ns (1.67x expected)
+5aks_d0_to_d ternary nr4a1 r1 1:34 AM Aug 2      74.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 56.5 s/iter · realised $0.00740/ns (1.80x expected)
+5aks_d0_to_d ternary nr4a1 r0 1:57 PM            90.0%  RTX 4090 $0.00481/ns · 1.41× basis [bid] RUNNING   ⚠ 28.2 s/iter · realised $0.00807/ns (1.68x expected)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 10:53 AM ET Sat Aug 1, 2026 (15 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 11:07 AM ET Sat Aug 1, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
