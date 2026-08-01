@@ -236,6 +236,12 @@ LOGSYNC_PID=$!
 mark deps-ready
 nvidia-smi || true
 free -g || true
+# ★ THE TWO NUMBERS THAT DISCRIMINATE THE DEATHS SEEN ON 2026-08-01. Four hosts died between 4 and 14 min,
+# three of them while Boltz was pulling its ~3 GB of CCD data and weights. That has two very different
+# candidate causes — an outbid interruptible rental, or the volume filling — and they need opposite fixes.
+# `df` is the observation that settles the disk half; the bid half is settled control-plane-side by
+# `nrv04_vast_launch.instance_outbid`, which `--mode diag` now reports.
+df -h / /root /tmp 2>/dev/null || true
 rm -rf /tmp/repo
 git clone -q {repo} /tmp/repo
 git -C /tmp/repo checkout -q "$GIT_BRANCH" || true
@@ -255,6 +261,7 @@ echo "[cofold] $(date -u +%FT%TZ) restored $(find "$OUTPUT_DIR" -name '*.cif' 2>
 # predictions 1..N durable rather than losing the batch.
 ( while true; do $AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --exclude 'inputs/*' --only-show-errors || true; sleep 60; done ) &
 SYNC_PID=$!
+echo "[cofold] $(date -u +%FT%TZ) disk before inference:"; df -h / /root /tmp 2>/dev/null || true
 mark predicting
 cd /tmp/repo/research/modalities
 set +e
@@ -326,7 +333,10 @@ def build_cofold_jobspec(branch, bucket, cofold_prefix=None, exclude=(), systems
     including a fresh MSA, i.e. ~2.2 h for 12 sequential predictions against ~1.1 h split two ways."""
     import dataclasses
     prefix = (cofold_prefix or SP.COFOLD_PREFIX).strip("/")
-    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=64, disk_gb=80, interruptible=True,
+    # ⚠ DISK RAISED 80 -> 120 GB. Not a guess about the cause — a cheap removal of one of the two candidate
+    # causes, so the next failure is diagnostic rather than ambiguous. The image, the pip tree, ~3 GB of
+    # Boltz CCD + weights and twelve prediction directories all live on this volume, and disk costs cents.
+    res = ResourceSpec(gpu="rtx4090", min_vram_gb=24, vcpus=8, ram_gb=64, disk_gb=120, interruptible=True,
                        max_usd_per_ns=buy_ceiling_usd_per_ns())
     if exclude:
         res = dataclasses.replace(res, exclude_machine_ids=tuple(str(m) for m in exclude))
@@ -1296,6 +1306,15 @@ def mode_diag(bucket=None):
               % (i.get("id"), i.get("label"), i.get("actual_status"), i.get("cur_state"), i.get("gpu_name"),
                  i.get("gpu_util"), i.get("dph_total"), i.get("machine_id")), flush=True)
         print("[selcal-diag] status_msg: %r" % (str(i.get("status_msg") or "")[:800]), flush=True)
+        # ★ WAS IT OUTBID? The control-plane answer to "was this a spot preemption", imported rather than
+        # re-derived — a lifetime of a few minutes is consistent with BOTH an outbid rental and a container
+        # that died on its own, and only this field tells them apart.
+        try:
+            from nrv04_vast_launch import instance_outbid
+            print("[selcal-diag] outbid check: %s" % (instance_outbid(i),), flush=True)
+        except Exception as e:  # noqa: BLE001
+            print("[selcal-diag] outbid check unavailable (%s) — an absent reading" % type(e).__name__,
+                  flush=True)
         print("[selcal-diag] ---- CONTAINER LOG (Vast request_logs) ----", flush=True)
         print(_vast_instance_logs(key, i.get("id"), tail=400), flush=True)
     for pfx in (SP.COFOLD_PREFIX.strip("/"), SP.RESULT_PREFIX.strip("/")):
