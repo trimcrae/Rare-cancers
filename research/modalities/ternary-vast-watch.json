@@ -115,11 +115,12 @@
       "warmup_timestep_fs": "1.0",
       "git_branch": "main",
       "max_relaunches_per_day": 8,
-      "enabled": true,
+      "enabled": false,
       "_parked_why": "PARKED, NOT FINISHED \u2014 see _parked_is_not_finished. The paralogue half of the same pair: Vast instance 45974679, same 7:27 AM ET credential death, same crash-loop, destroyed at 8:20 AM ET on 2026-07-27. Parked for the same reason as its nr4a3 partner and, additionally, because the 5a-KS readout S is a DOUBLE DIFFERENCE over the two legs \u2014 resuming one without the other buys nothing, so the two are re-enabled together or not at all.",
       "_resume_point": "warmup/640 of 1600 iterations (committed, durable in the commit store under the ternary-vast prefix for this unit_id). Verbatim from the 2026-07-27 post-mortem; still in warmup, so no production sampling is at risk.",
       "_re_enable_when": "with its nr4a3 partner, once the best achievable $/ns for a rtx4090-class host is at or under DRIFT_MULTIPLE x basis.",
-      "_git_branch_repointed_2026_07_31": "was 'claude/max-effort-2dq11l', which is 433 commits behind main and does not carry the lane's current code. ternary_vast_watchdog relaunches a DIED unit on the ENTRY'S OWN git_branch, not the runner's, so leaving this would have rented a host and cloned stale code unattended (CLAUDE.md section 7). Safe to repoint because a resume is guarded by SYSTEM_FINGERPRINT_ENV, which covers LEG_ID, DIRECTION, SEED, CHARGE_METHOD, SETUP_CACHE_VERSION, N_WINDOWS, RBFE_TIMESTEP_FS, RBFE_WARMUP_TIMESTEP_FS and RBFE_CONSTRAIN_LIGAND_CH -- all env, no code version -- so the parked checkpoints still match and resume byte-identically."
+      "_git_branch_repointed_2026_07_31": "was 'claude/max-effort-2dq11l', which is 433 commits behind main and does not carry the lane's current code. ternary_vast_watchdog relaunches a DIED unit on the ENTRY'S OWN git_branch, not the runner's, so leaving this would have rented a host and cloned stale code unattended (CLAUDE.md section 7). Safe to repoint because a resume is guarded by SYSTEM_FINGERPRINT_ENV, which covers LEG_ID, DIRECTION, SEED, CHARGE_METHOD, SETUP_CACHE_VERSION, N_WINDOWS, RBFE_TIMESTEP_FS, RBFE_WARMUP_TIMESTEP_FS and RBFE_CONSTRAIN_LIGAND_CH -- all env, no code version -- so the parked checkpoints still match and resume byte-identically.",
+      "_disabled_why": "LANDED 2026-08-01T18:25:51Z: leg.json status=done in s3://sagemaker-us-east-2-646605541856/ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks/ (dG_morph=-10.974033719675903, NaN=False). Auto-reaped by ternary_vast_watchdog.reap_landed \u2014 this unit is FINISHED, not parked."
     },
     {
       "unit_id": "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
