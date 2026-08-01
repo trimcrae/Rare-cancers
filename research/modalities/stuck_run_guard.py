@@ -27,6 +27,25 @@ is no work. This module must never widen to runs that HAVE jobs — a `queued` j
 runner, and a slow runner is not a stuck lock. The age threshold exists only to avoid racing GitHub's normal
 job-creation latency, which is seconds.
 
+⛔⛔ AND ZERO JOBS IS *NOT* SUFFICIENT TO CANCEL — A LEGITIMATELY QUEUED RUN LOOKS EXACTLY THE SAME. This was
+caught before the first live tick, while adding a watch loop that re-dispatches `launch`. A run held behind a
+concurrency group has **no jobs either**: it is waiting precisely because it has not been allowed to start.
+So the first version of this module would have cancelled a `watch` queued behind a running `watch` — killing
+the re-arm of a supervision loop and leaving a fleet billing unwatched, which is the single worst outcome in
+this repo and strictly worse than the wedge it was written to clear.
+
+The REST API does not expose a run's concurrency group (nor its `workflow_dispatch` inputs, which is what the
+group interpolates), so "is this run legitimately queued?" is not a question this module can answer. What it
+can answer is a narrower one that is always safe: **is any other run of this same workflow in progress?** If
+one is, this run may be queued behind it and is SPARED. If none is, nothing can be holding a group it shares,
+so a pending run with no jobs is wedged by elimination.
+
+⚠ THAT MEANS THE MEASURED INCIDENT ABOVE WOULD BE REPORTED, NOT CANCELLED — its sibling `mode=watch` was
+in progress the whole time, in a different group. That is the correct trade and not a regression: a wedge that
+is loudly reported costs one dispatch to clear, while a cancelled supervision re-arm costs an unwatched fleet.
+So EVERY wedge is reported whether or not it is cancellable, and the cancel is the subset that is provably
+safe.
+
 Pure stdlib on purpose: this guard watches the supervision layer, so it must not be able to fail for a reason
 the supervision layer introduced (the same isolation `account_orphan_alarm` keeps, and for the same reason).
 """
@@ -100,7 +119,8 @@ def scan(token=None, cancel=True):
                 "was silently swallowed (CLAUDE.md §6 — holding silently).",
         "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "threshold_min": STUCK_AFTER_MIN, "readable": True,
-        "pending_seen": [], "cancelled": [], "cancel_failed": [], "spared": [],
+        "in_progress_readable": True,
+        "pending_seen": [], "wedged": [], "cancelled": [], "cancel_failed": [], "spared": [],
     }
     try:
         runs = _get(_API + "/actions/runs?status=pending&per_page=100", token).get("workflow_runs", [])
@@ -110,6 +130,16 @@ def scan(token=None, cancel=True):
         rec["error"] = "%s: %s" % (type(e).__name__, e)
         _write(rec)
         return rec
+
+    # Which workflows currently have a run in progress. A pending run of one of those MAY be queued behind
+    # it, and this module cannot tell — so it is reported and spared. Read ONCE, not per run.
+    try:
+        busy = {r.get("workflow_id") for r
+                in _get(_API + "/actions/runs?status=in_progress&per_page=100", token).get("workflow_runs", [])}
+    except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
+        # Unreadable => assume every workflow might be busy. Spare everything; report everything.
+        busy, rec["in_progress_readable"] = None, False
+        rec["in_progress_error"] = "%s: %s" % (type(e).__name__, e)
 
     for r in runs:
         rid, name = r.get("id"), (r.get("name") or "")[:60]
@@ -127,20 +157,37 @@ def scan(token=None, cancel=True):
                                           "stuck lock" % n_jobs) if n_jobs else
                                          "only %.1f min old; below the %.0f min threshold" % (age, STUCK_AFTER_MIN)})
             continue
+
+        # ⛔ REPORTED WHETHER OR NOT IT CAN BE CANCELLED. A wedge that nobody can see is the outage; the
+        # cancel is only how some of them get cleared automatically.
+        rec["wedged"].append({"run": rid, "name": name, "age_min": age})
+        print("::error title=RUN WEDGED PENDING::%s (%s) has been `pending` %.1f min with ZERO jobs. It holds "
+              "its concurrency group and executes nothing; if that group is a lane's `launch`, every "
+              "re-placement it asks for is being swallowed. Cancel it to release the group."
+              % (rid, name, age), flush=True)
+
+        if busy is None or r.get("workflow_id") in busy:
+            # ⚠ THE SPARE THAT MATTERS. A supervision run queued behind its own running sibling looks exactly
+            # like a wedge, and cancelling it would end supervision of a billing fleet.
+            rec["spared"].append({"run": rid, "name": name, "jobs": 0, "age_min": age,
+                                  "why": "another run of this workflow is in progress, so this one may be "
+                                         "legitimately queued behind it — REPORTED, not cancelled. Cancelling "
+                                         "a queued supervision re-arm would leave a fleet unwatched."})
+            continue
         if not cancel:
             rec["cancel_failed"].append({"run": rid, "name": name, "why": "dry run"})
             continue
         try:
             _get("%s/actions/runs/%s/cancel" % (_API, rid), token, method="POST")
             rec["cancelled"].append({"run": rid, "name": name, "age_min": age,
-                                     "why": "pending %.1f min with 0 jobs — no step ran, nothing rented, "
-                                            "nothing to lose; the group it blocked is now free" % age})
+                                     "why": "pending %.1f min with 0 jobs AND no other run of this workflow "
+                                            "in progress, so nothing can be legitimately holding a group it "
+                                            "shares — no step ran, nothing rented, nothing to lose" % age})
             print("[stuck-run] CANCELLED %s (%s) — pending %.1f min, 0 jobs" % (rid, name, age), flush=True)
         except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
             rec["cancel_failed"].append({"run": rid, "name": name, "why": "%s: %s" % (type(e).__name__, e)})
-            print("::warning title=STUCK RUN NOT CANCELLED::%s has been pending %.1f min with 0 jobs and is "
-                  "blocking its concurrency group; the cancel failed (%s). Cancel it by hand."
-                  % (rid, age, e), flush=True)
+            print("::warning title=STUCK RUN NOT CANCELLED::the cancel of %s failed (%s). It is still "
+                  "blocking its group; cancel it by hand." % (rid, e), flush=True)
     _write(rec)
     return rec
 

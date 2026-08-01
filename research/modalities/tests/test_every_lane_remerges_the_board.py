@@ -68,7 +68,14 @@ def _board_path(ifb, lane: str) -> str:
 # matters: `fusion-cpu-extras.yml` holds ~30 jobs, so a `git pull` in one of them said nothing about the
 # job that publishes the NR-V04 lane.
 def _run_steps(wf: Path):
-    """(job, step name, comment-stripped `run` body) for every step in a workflow that runs a script."""
+    """(job, step name, comment-stripped `run` body + the step's own `env` values) for every script step.
+
+    ⚠ `env` IS PART OF THE STEP'S CODE, NOT DECORATION — since the conversion to `publish_artifacts.sh` it
+    is where a publish's DERIVED-FILE inputs live: `PUBLISH_REGEN` holds the regeneration command and
+    `PUBLISH_REGEN_ADD` the paths it produces. Reading only `run` made this resolver blind to exactly the
+    fact it exists to check (that the all-lane board is regenerated and staged) the moment a lane moved to
+    the primitive — it went red on `selcal-cofold` while that lane was publishing perfectly well, which is
+    the FALSE ALARM this file's own header says gets a guard ignored."""
     import yaml
     try:
         doc = yaml.safe_load(wf.read_text())
@@ -80,6 +87,9 @@ def _run_steps(wf: Path):
             if not run:
                 continue
             code = "\n".join(l for l in str(run).splitlines() if not l.lstrip().startswith("#"))
+            env = (step or {}).get("env") or {}
+            if isinstance(env, dict):
+                code += "\n" + "\n".join("%s: %s" % (k, v) for k, v in env.items())
             yield job_name, str(step.get("name") or ""), code
 
 
@@ -89,7 +99,13 @@ def _publishing_steps(ifb, lane: str) -> list[tuple[Path, str, str, str]]:
     out = []
     for wf in sorted(WORKFLOWS.glob("*.yml")):
         for job, name, code in _run_steps(wf):
-            if want in code and "git commit" in code and "git push" in code:
+            # ⚠ A DELEGATED PUBLISH COUNTS. `publish_artifacts.sh` commits and pushes — that IS its whole
+            # job, held by tests/test_publish_does_not_revert_another_jobs_artifact.py — so a step calling
+            # it publishes every path it is handed, even though the words `git commit` appear nowhere in
+            # the step. Requiring the literals would mean this guard could only ever see hand-rolled
+            # publishes, i.e. it would go blind precisely as the repo fixed the thing it was watching for.
+            if want in code and ("publish_artifacts.sh" in code
+                                 or ("git commit" in code and "git push" in code)):
                 out.append((wf, job, name, code))
     return out
 

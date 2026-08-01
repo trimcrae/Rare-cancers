@@ -1,0 +1,194 @@
+"""A supervision loop that reaps without re-placing is a slow leak, not supervision.
+
+★★ MEASURED 2026-08-01. The sensitivity-control watch collected, reaped and published every 3 minutes and
+never dispatched `launch`. Because the reaper destroys a host as soon as its leg banks, every landed leg
+removes a host and nothing puts one back — so the panel could only ever converge if all 24 units banked on
+their first attempt. They do not.
+
+    6:13 PM  24 of 24 units covered — 5 landed, 19 live
+    6:26 PM   8 landed, 11 live, 3 reaped  ->  **5 units with neither a result nor a host**
+
+The watch was green throughout. An agent noticed and hand-dispatched `launch` three times, which is exactly
+the dependency CLAUDE.md §6 forbids: "while any fleet is billing, YOU are the supervisor" is a statement of
+what went wrong, not a design.
+
+⚠ THE OPPOSITE FAILURE IS THE EXPENSIVE ONE and is why `_REPLACE_MIN_S` exists. A host rented seconds ago is
+not yet on the account, so the next tick's `need` computation still counts its unit as bare. Without the
+interval the loop would re-rent the same units every 3 minutes — paying repeatedly for one leg. Both
+directions are pinned here.
+"""
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+MOD = os.path.dirname(HERE)
+if MOD not in sys.path:
+    sys.path.insert(0, MOD)
+
+import selcal_vast_launch as L  # noqa: E402
+
+SRC = open(os.path.join(MOD, "selcal_vast_launch.py")).read()
+
+
+def _watch_body():
+    body = SRC[SRC.index("def mode_watch("):]
+    return body[:body.index("\ndef ", 10)]
+
+
+def test_the_watch_dispatches_launch_for_units_with_no_result_and_no_host():
+    """THE REGRESSION. Without this the panel stalls with a green watch running over the hole."""
+    body = _watch_body()
+    assert 'self_dispatch("launch")' in body, (
+        "the watch reaps hosts but never re-places the units it emptied — the panel cannot converge")
+
+
+def test_the_gap_is_computed_against_BOTH_done_and_live():
+    """A unit is bare only when it has neither. Missing either term double-buys or never buys."""
+    body = _watch_body()
+    seg = body[body.index("need = ["):body.index("if need and")]
+    assert "not in done" in seg and "not in live" in seg
+
+
+def test_the_replacement_is_rate_limited_so_a_leg_is_not_bought_twice():
+    """⚠ THE EXPENSIVE DIRECTION. Ticks are 3 min; a rental takes ~1-2 min to appear on the account."""
+    body = _watch_body()
+    assert "_REPLACE_MIN_S" in body
+    assert L._REPLACE_MIN_S >= 300, (
+        "the re-placement interval must exceed the time a fresh rental takes to register, or the next tick "
+        "buys a second host for the same leg")
+    interval = float(os.environ.get("SELCAL_WATCH_INTERVAL_S", "180"))
+    assert L._REPLACE_MIN_S > interval, "a per-tick dispatch would race its own rentals"
+
+
+def test_the_interval_is_far_below_a_leg_runtime():
+    """A gap must not be allowed to stand for a meaningful fraction of the work. Legs run ~45 min."""
+    assert L._REPLACE_MIN_S <= 15 * 60
+
+
+def test_a_failed_dispatch_is_surfaced_not_swallowed():
+    """A gap we could not re-place stalls the panel; it must not read like a healthy tick."""
+    body = _watch_body()
+    assert "SELCAL GAP NOT RE-PLACED" in body
+    assert "::error" in body[body.index('self_dispatch("launch")'):]
+
+
+def test_a_held_replacement_still_says_so():
+    """Silence during the rate-limit window is indistinguishable from a loop that stopped checking."""
+    body = _watch_body()
+    assert "awaiting re-placement" in body
+
+
+def test_the_completion_path_still_exits_without_dispatching():
+    """When every unit has landed there is nothing to re-place — the loop must reap and return, not dispatch
+    a launch that would find nothing to buy and rent a gate record for no reason."""
+    body = _watch_body()
+    complete = body[body.index("panel complete"):body.index("mode_reap(bucket)\n        # ★★")]
+    assert 'self_dispatch("launch")' not in complete
+
+
+def test_the_dispatch_cannot_pass_a_price_or_a_ceiling():
+    """`self_dispatch` DISPATCHES, IT DOES NOT DECIDE. The re-placement must hand `launch` no knobs at all —
+    every rental it causes has to face the lane's own market gate and per-offer buy line unmodified."""
+    body = _watch_body()
+    call = body[body.index('self_dispatch("launch")'):][:80]
+    assert call.startswith('self_dispatch("launch")'), call
+    assert "usd" not in call.lower() and "bid" not in call.lower() and "price" not in call.lower()
+
+
+# =============================================================================================================
+# the window ending is not the work ending
+# =============================================================================================================
+def test_the_watch_re_arms_when_its_window_closes_on_unfinished_work():
+    """★★ MEASURED 2026-08-01. `mode_cofold_watch` re-arms itself in four places; `mode_watch` — the loop
+    supervising the legs that cost LADDER DOLLARS — just `return 0`-ed when its 55-minute clock expired.
+
+    `self_dispatch`'s own docstring states the rule it was breaking: "a watch that simply exits converts a
+    supervised fleet into an unsupervised one at a predictable moment". The hosts do not stop when the job
+    does; only the control plane can end billing (CLAUDE.md §6)."""
+    body = _watch_body()
+    tail = body[body.index("SELCAL_WATCH_INTERVAL_S"):]
+    assert 'self_dispatch("watch")' in tail, (
+        "the watch window closes and nothing re-arms it — the fleet becomes unsupervised on a timer")
+
+
+def test_the_re_arm_is_keyed_on_UNFINISHED_UNITS_not_on_live_hosts():
+    """⚠ They differ exactly when the panel has a gap and NO host in it — a stalled lane, which is the state
+    that most needs a next tick and the one that looks identical to a finished lane from outside."""
+    body = _watch_body()
+    tail = body[body.index("SELCAL_WATCH_INTERVAL_S"):]
+    assert "left = [" in tail and "not in done" in tail
+    guard = tail[tail.index("if not left:"):tail.index('self_dispatch("watch")')]
+    assert "return 0" in guard, "a complete panel must NOT re-arm"
+
+
+def test_a_completed_panel_does_not_re_arm():
+    """The early return on completion is a terminus; only the clock expiring is a re-arm."""
+    body = _watch_body()
+    tail = body[body.index("SELCAL_WATCH_INTERVAL_S"):]
+    assert "nothing left to supervise" in tail
+
+
+def test_a_failed_re_arm_is_an_error_naming_the_billing_risk():
+    body = _watch_body()
+    assert "SELCAL SUPERVISION ENDED" in body
+    assert "cannot stop its own billing" in body
+
+
+# =============================================================================================================
+# two control paths must agree on what "alive" means
+# =============================================================================================================
+def test_a_host_whose_cur_state_is_terminal_does_not_cover_its_unit(monkeypatch):
+    """★★ MEASURED 2026-08-01, and it stalled the panel for 32 minutes.
+
+        rented 6:05-6:07 PM   actual_status='loading'/'created'   cur_state='stopped'   x7
+        6:39 PM               the ACCOUNT REAPER destroyed exactly those seven as TERMINAL
+
+    `_live_labels` read only `actual_status`, so the launcher counted all seven as live and skipped their
+    units — while the other control path was destroying the very hosts that made them look covered. One of
+    the two was wrong about the same instances at the same moment; that disagreement is the defect."""
+    live = [{"label": "selcal-smarca2-m1-r1", "actual_status": "loading", "cur_state": "stopped"},
+            {"label": "selcal-smarca4-m2-r1", "actual_status": "running", "cur_state": "running"}]
+    monkeypatch.setattr(L, "_vast_request", lambda *a, **k: {"instances": live})
+    ok, by_label, _mine = L._live_labels_checked(key="t")
+    assert ok is True
+    assert "selcal-smarca4-m2-r1" in by_label
+    assert "selcal-smarca2-m1-r1" not in by_label, (
+        "a host the account reaper calls TERMINAL still counted as covering its unit")
+
+
+def test_created_still_counts_as_alive_when_cur_state_is_healthy():
+    """⚠ `created` is an EARLY lifecycle state, not a terminal one — `vast_account_reaper` writes this down
+    because an early draft of it had `created` in the terminal set and would have shredded fresh rentals."""
+    assert "created" not in L._terminal_cur_states()
+
+
+def test_the_terminal_set_is_not_re_typed_here():
+    """§1. It is derived by `vast_account_reaper` from the lanes that define it, and that module is the one
+    that ACTS on it. A second copy here is exactly how the two definitions drifted apart."""
+    # THE DOCSTRING IS EXCLUDED — it NAMES `cur_state='stopped'` because that is the measurement this
+    # function exists for, and a naive substring check would forbid writing down the evidence for the rule.
+    # AST rather than string surgery: the question is "is this a literal the CODE uses", and only a parse
+    # can answer that.
+    import ast
+    fn = next(n for n in ast.walk(ast.parse(SRC))
+              if isinstance(n, ast.FunctionDef) and n.name == "_terminal_cur_states")
+    stmts = fn.body[1:] if ast.get_docstring(fn) else fn.body
+    code = "\n".join(ast.unparse(st) for st in stmts)
+    assert "terminal_states_from_source" in code
+    for typed in ("stopped", "exited", "offline", "error'"):
+        assert typed not in code, f"{typed!r} must not be typed here — import the set"
+
+
+def test_it_fails_OPEN_so_a_derivation_fault_cannot_double_rent(monkeypatch):
+    """⚠ THE OPPOSITE DIRECTION FROM THE REAPER, DELIBERATELY. The reaper fails closed because its error is
+    destructive; this predicate's error would be a DUPLICATE RENTAL, so it must under-demote, never over."""
+    import builtins
+    real = builtins.__import__
+
+    def boom(name, *a, **k):
+        if name == "vast_account_reaper":
+            raise ImportError("simulated")
+        return real(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", boom)
+    assert L._terminal_cur_states() == frozenset()

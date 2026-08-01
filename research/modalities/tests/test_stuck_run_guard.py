@@ -21,13 +21,14 @@ import stuck_run_guard as G  # noqa: E402
 NOW = 1785708000.0  # a fixed clock; `_age_min` takes it injected so no test depends on wall time
 
 
-def _run(status="pending", age_min=30.0, rid=1, anchor=NOW):
+def _run(status="pending", age_min=30.0, rid=1, anchor=NOW, wf=555):
     """`anchor=NOW` for the pure predicate tests (which inject the same clock); `anchor=None` for the scan
     tests, which go through `scan` and therefore read the real clock."""
     import time
     base = time.time() if anchor is None else anchor
     created = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(base - age_min * 60))
-    return {"id": rid, "status": status, "created_at": created, "name": "ENDPOINT-MD SENSITIVITY CONTROL"}
+    return {"id": rid, "status": status, "created_at": created, "workflow_id": wf,
+            "name": "ENDPOINT-MD SENSITIVITY CONTROL"}
 
 
 # =============================================================================================================
@@ -72,9 +73,12 @@ def test_a_run_with_no_timestamp_is_left_alone():
 class _Api:
     """Replaces `_get`. Records every call so the test can assert what was and was not cancelled."""
 
-    def __init__(self, runs, jobs, fail_jobs_for=(), fail_cancel_for=(), fail_list=False):
+    def __init__(self, runs, jobs, fail_jobs_for=(), fail_cancel_for=(), fail_list=False,
+                 in_progress=(), fail_in_progress=False):
         self.runs, self.jobs = runs, jobs
         self.fail_jobs_for, self.fail_cancel_for, self.fail_list = fail_jobs_for, fail_cancel_for, fail_list
+        # workflow_ids with a run in progress — the "may be legitimately queued behind it" spare
+        self.in_progress, self.fail_in_progress = in_progress, fail_in_progress
         self.cancelled = []
 
     def __call__(self, url, token=None, method="GET"):
@@ -89,6 +93,10 @@ class _Api:
             if self.fail_list:
                 raise urllib.error.URLError("api down")
             return {"workflow_runs": self.runs}
+        if "status=in_progress" in url:
+            if self.fail_in_progress:
+                raise urllib.error.URLError("api down")
+            return {"workflow_runs": [{"workflow_id": w} for w in self.in_progress]}
         rid = int(url.rsplit("/", 2)[-2])
         if rid in self.fail_jobs_for:
             raise urllib.error.URLError("jobs unreadable")
@@ -165,3 +173,43 @@ def test_the_module_is_pure_stdlib():
     src = inspect.getsource(G)
     for banned in ("import boto3", "import requests", "import yaml", "import numpy"):
         assert banned not in src, banned
+
+
+# =============================================================================================================
+# ⛔ THE SPARE THAT MATTERS: a queued supervision re-arm must never be cancelled
+# =============================================================================================================
+def test_a_pending_run_is_SPARED_when_its_own_workflow_is_already_running(patched):
+    """★★ CAUGHT BEFORE THE FIRST LIVE TICK. A `watch` queued behind a running `watch` has ZERO jobs — it is
+    waiting precisely because it has not been allowed to start. Cancelling it would kill the re-arm of a
+    supervision loop and leave a fleet billing unwatched: the worst outcome in this repo, and strictly worse
+    than the wedge this module clears."""
+    api = patched(_Api(runs=[_run(rid=7, age_min=90.0, anchor=None, wf=555)], jobs={7: 0},
+                       in_progress=(555,)))
+    rec = G.scan(token="t")
+    assert api.cancelled == [], "a run queued behind its own running sibling was cancelled"
+    assert any("may be" in s["why"] and "queued behind" in s["why"] for s in rec["spared"])
+
+
+def test_it_is_still_REPORTED_even_when_it_cannot_be_cancelled(patched):
+    """A wedge nobody can see is the outage. The cancel is only how some get cleared automatically."""
+    patched(_Api(runs=[_run(rid=7, age_min=90.0, anchor=None, wf=555)], jobs={7: 0}, in_progress=(555,)))
+    rec = G.scan(token="t")
+    assert [w["run"] for w in rec["wedged"]] == [7]
+
+
+def test_a_different_workflow_running_does_not_protect_it(patched):
+    """The spare is scoped to the SAME workflow — only that one can share a concurrency group."""
+    api = patched(_Api(runs=[_run(rid=7, age_min=90.0, anchor=None, wf=555)], jobs={7: 0},
+                       in_progress=(999,)))
+    G.scan(token="t")
+    assert api.cancelled == [7]
+
+
+def test_an_unreadable_in_progress_list_spares_everything(patched):
+    """§4: if we cannot tell whether a sibling is running, we do not get to assume none is."""
+    api = patched(_Api(runs=[_run(rid=7, age_min=90.0, anchor=None, wf=555)], jobs={7: 0},
+                       fail_in_progress=True))
+    rec = G.scan(token="t")
+    assert api.cancelled == []
+    assert rec["in_progress_readable"] is False
+    assert [w["run"] for w in rec["wedged"]] == [7], "still reported, just not cancelled"

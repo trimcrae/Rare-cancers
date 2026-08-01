@@ -53,6 +53,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 BUCKET = os.environ.get("VAST_CKPT_BUCKET") or "sagemaker-us-east-2-646605541856"
 LANE = "selcal"
 
+#: Minimum seconds between the watch loop's automatic `launch` re-placements. NOT politeness — a host rented
+#: seconds ago is not yet on the account, so a shorter interval would see its unit as still needing one and
+#: buy a second host for the same leg. 10 min is ~3 watch ticks, comfortably past the ~1-2 min a rental takes
+#: to register, and far below the ~45 min a leg runs, so a real gap is never left standing for long.
+_REPLACE_MIN_S = float(os.environ.get("SELCAL_REPLACE_MIN_S", "600"))
+
 MARKET_READOUT = os.path.join(HERE, "selcal-market-hold.json")
 GATE_RECORD = os.path.join(HERE, "selcal-gate-record.json")
 PRICE_LEDGER = os.path.join(HERE, "selcal-price-ledger.json")
@@ -930,6 +936,38 @@ def mode_stage_test(bucket=None, cofold_prefix=None):
 # =============================================================================================================
 # renting MD legs
 # =============================================================================================================
+def _terminal_cur_states():
+    """The `cur_state` values that mean this host is NOT covering its unit, however `actual_status` reads.
+
+    ★★ MEASURED 2026-08-01, and it stalled the panel for 32 minutes. Seven hosts from the 6:05 PM wave sat at
+    `actual_status='loading'` / `'created'` with **`cur_state='stopped'`** — they were rented and never
+    started. `_live_labels` read only `actual_status`, so the launcher counted all seven as live and refused
+    to re-place their units; the account reaper, which DOES read `cur_state`, destroyed exactly those seven
+    at 6:39 PM as TERMINAL. Two control paths disagreeing about whether a host is alive is the bug: one was
+    buying nothing because the unit looked covered, while the other was destroying the thing covering it.
+
+    ⚠ ONE HOME (§1). The set is not re-typed here — `vast_account_reaper` derives it by AST from the lanes
+    that define it, and is the module that ACTS on it. Deriving it a second time is how the two definitions
+    drifted in the first place.
+
+    ⚠ AND IT FAILS OPEN, NOT CLOSED, WHICH IS THE OPPOSITE OF THE REAPER'S CHOICE — deliberately. If the
+    derivation is unavailable this returns EMPTY, so no host is demoted and the lane behaves exactly as it
+    did before. The reaper fails closed because its error is DESTRUCTIVE; this predicate's error would be a
+    duplicate rental, so the safe direction here is to under-demote. `stopped` can also mean OUTBID-PAUSED
+    (see `vast_account_reaper`'s header), and a unit whose host resumes is re-covered on the next tick with
+    nothing lost; `mode_launch` is idempotent and `_REPLACE_MIN_S` bounds how often it can act.
+    """
+    try:
+        from vast_account_reaper import terminal_states_from_source
+        states, _notes = terminal_states_from_source()
+        return frozenset(s.lower() for s in states)
+    except Exception as e:  # noqa: BLE001
+        print("[selcal] WARN could not derive the terminal cur_state set (%s); no host will be demoted on "
+              "cur_state this tick. This UNDER-reports dead hosts rather than over-reporting them." % e,
+              flush=True)
+        return frozenset()
+
+
 def _live_labels_checked(key=None):
     """(READABLE, live-by-label, mine) — the same read as `_live_labels`, plus whether it succeeded.
 
@@ -950,9 +988,11 @@ def _live_labels_checked(key=None):
               "not empty — no caller may read it as 'nothing is billing'." % e, flush=True)
         return False, {}, []
     alive = ("running", "loading", "created", "scheduling", "starting")
+    terminal = _terminal_cur_states()
     return (True,
             {i.get("label"): i for i in live
-             if i.get("label") and (i.get("actual_status") or "") in alive},
+             if i.get("label") and (i.get("actual_status") or "") in alive
+             and str(i.get("cur_state") or "").lower() not in terminal},
             [i for i in live if str(i.get("label") or "").startswith(SP.LABEL_PREFIX)])
 
 
@@ -1603,6 +1643,7 @@ def mode_watch(bucket=None, minutes=None):
     t_end = time.time() + minutes * 60
     prev = {}
     stalls = {}
+    last_replace = 0.0
     while time.time() < t_end:
         live, mine = _live_labels()
         done, _records = _done_units(s3, bucket)
@@ -1634,6 +1675,37 @@ def mode_watch(bucket=None, minutes=None):
             mode_reap(bucket)
             return 0
         mode_reap(bucket)
+        # ★★ REAPING WITHOUT RE-PLACING IS NOT SUPERVISION — IT IS A SLOW LEAK (2026-08-01).
+        # This loop collected, reaped and published every 3 minutes and NEVER dispatched `launch`, so the
+        # panel could only converge if every host banked its leg on the very first attempt. It does not: a
+        # leg lands, the reaper destroys its host, and the unit is left with neither a result nor a host —
+        # a permanent hole no tick could fill. Measured that evening: 24 of 24 units were covered at 6:13 PM,
+        # and thirteen minutes later 8 had landed, 11 were live and **5 units had nothing at all**, with a
+        # perfectly green watch ticking over them. An agent hand-dispatched `launch` three times to close
+        # those gaps, which is precisely the dependency CLAUDE.md §6 says a fleet must not have.
+        # ⚠ IT DISPATCHES, IT DOES NOT DECIDE — the same contract `self_dispatch` already carries. Every
+        # rental it can cause still faces the market gate, the board-level $/ns hold and the per-offer buy
+        # line on the spec, and `mode_launch` is idempotent (it skips units that are done or live), so the
+        # worst case of a spurious dispatch is a $0 `nothing-to-buy` gate record.
+        need = [SP.unit_name(a, m, r) for a, m, r in SP.enumerate_units()
+                if SP.unit_name(a, m, r) not in done and SP.unit_name(a, m, r) not in live]
+        if need and (time.time() - last_replace) >= _REPLACE_MIN_S:
+            # ⚠ THE INTERVAL IS NOT POLITENESS, IT IS CORRECTNESS. A freshly rented host takes ~1-2 min to
+            # appear on the account, and until it does this same computation still sees its unit as needing
+            # one. Ticking every 3 minutes without this guard would re-rent the same units on the next pass,
+            # i.e. pay twice for one leg — the opposite failure, and the expensive one.
+            last_replace = time.time()
+            print("[selcal-watch] %d unit(s) have neither a landed leg nor a live host (%s%s) — dispatching "
+                  "`launch` to re-place them." % (len(need), ", ".join(need[:6]),
+                                                  "…" if len(need) > 6 else ""), flush=True)
+            if not self_dispatch("launch"):
+                print("::error title=SELCAL GAP NOT RE-PLACED::%d unit(s) have no result and no host and the "
+                      "`launch` dispatch failed. The panel cannot complete until one is dispatched by hand."
+                      % len(need), flush=True)
+        elif need:
+            print("[selcal-watch] %d unit(s) awaiting re-placement; last dispatch %.1f min ago, holding "
+                  "until %.0f min so a rental in flight is not double-bought."
+                  % (len(need), (time.time() - last_replace) / 60.0, _REPLACE_MIN_S / 60.0), flush=True)
         # ★★ AND THE IN-FLIGHT BOARD, WHICH THIS LOOP DID NOT WRITE AT ALL (2026-08-01, ~6 min after the
         # lane's first MD host started billing). `mode_cofold_watch` publishes a board fragment on every
         # tick; this loop — the one that supervises the legs that COST LADDER DOLLARS — published only a
@@ -1655,6 +1727,32 @@ def mode_watch(bucket=None, minutes=None):
                       "selcal watch: supervision tick (%d/%d landed, %d host(s))"
                       % (len(done), len(SP.enumerate_units()), len(mine)))
         time.sleep(float(os.environ.get("SELCAL_WATCH_INTERVAL_S", "180")))
+
+    # ★★ THE WINDOW ENDING IS NOT THE WORK ENDING — RE-ARM (2026-08-01). Every early return above is a
+    # TERMINUS (the panel completed); falling out of the loop is only this JOB's 55-minute clock expiring,
+    # and the hosts it was watching do not stop when it does — the host cannot stop its own billing, only
+    # the control plane can (CLAUDE.md §6, measured). `self_dispatch`'s own docstring states this rule —
+    # "a watch that simply exits converts a supervised fleet into an unsupervised one at a predictable
+    # moment" — and `mode_cofold_watch` obeys it in four places, while THIS loop, the one supervising the
+    # legs that cost ladder dollars, simply returned 0. So at the end of every window the fleet became
+    # unwatched until an agent noticed, which is the dependency §6 exists to remove.
+    live, _mine = _live_labels()
+    done, _records = _done_units(s3, bucket)
+    left = [SP.unit_name(a, m, r) for a, m, r in SP.enumerate_units() if SP.unit_name(a, m, r) not in done]
+    if not left:
+        print("[selcal-watch] window closed with every unit landed — nothing left to supervise.", flush=True)
+        return 0
+    # ⚠ RE-ARM ON UNFINISHED WORK, NOT ON LIVE HOSTS. Those differ exactly when the panel has a gap and no
+    # host in it — which is the state the re-placement above exists to fix and therefore the state that most
+    # needs a next tick. Re-arming only when a host is live would stop supervision precisely when the lane
+    # had stalled, and a stalled lane looks identical to a finished one from outside.
+    print("[selcal-watch] window closed with %d unit(s) unfinished and %d host(s) live — re-arming."
+          % (len(left), len(live)), flush=True)
+    if not self_dispatch("watch"):
+        print("::error title=SELCAL SUPERVISION ENDED::the watch window closed with %d unit(s) unfinished "
+              "and %d host(s) still on the account, and the re-arm dispatch FAILED. Nothing is watching "
+              "them: the host cannot stop its own billing. Dispatch `watch` (or `stop`) by hand."
+              % (len(left), len(live)), flush=True)
     return 0
 
 
