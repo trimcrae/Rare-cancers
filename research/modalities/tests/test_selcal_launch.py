@@ -474,6 +474,127 @@ def test_the_per_host_phase_marker_exists_because_the_shared_one_is_ambiguous():
     assert "phase-%s.txt" in body and 'instance=%s' in body
 
 
+# =============================================================================================================
+# ★★ THE CCD CACHE — a truncated download used as if it were complete (measured 2026-08-01)
+# =============================================================================================================
+# `ValueError: CCD component CYS not found!` killed all six smarca4 seeds in ~7 s each while smarca2's six
+# landed. CYS is a canonical amino acid, so this was never a science or a host problem: it was an incomplete
+# ~3 GB pull that nothing checked before inference started.
+def test_the_ccd_cache_is_verified_by_BOLTZ_OWN_predicate_not_a_re_typed_token_list():
+    """A re-spelled set of required components could drift from the one `load_canonicals` actually demands
+    and would then certify a cache that still dies. The check calls the failing function itself."""
+    import selcal_cofold_run as CR
+    src = open(os.path.join(HERE, "selcal_cofold_run.py")).read()
+    assert "from boltz.data.mol import load_canonicals" in src
+    body = src[src.index("def ccd_cache_integrity"):src.index("def _missing_canonicals")]
+    assert "load_canonicals(mol_dir)" in body
+    assert callable(CR.ccd_cache_integrity)
+
+
+def test_an_absent_mols_dir_is_NOT_ok(tmp_path):
+    import selcal_cofold_run as CR
+    ok, detail = CR.ccd_cache_integrity(str(tmp_path))
+    assert ok is False
+    assert detail["mol_dir_exists"] is False and detail["why"]
+
+
+def test_a_cache_that_cannot_be_ASKED_about_is_not_a_clean_cache(tmp_path):
+    """Not being able to import Boltz is an ABSENT reading. The expensive mistake is certifying a short cache,
+    so the unreadable case fails closed."""
+    import selcal_cofold_run as CR
+    (tmp_path / "mols").mkdir()
+    ok, detail = CR.ccd_cache_integrity(str(tmp_path))     # boltz is not installed in CI
+    assert ok is False
+    assert "UNKNOWN" in detail["why"] or "not found" in detail["why"] or "mols" in detail["why"]
+
+
+def test_the_repair_PURGES_rather_than_asking_again(tmp_path):
+    """⛔ Boltz only downloads what it thinks is absent, so a short directory is never fixed by re-asking —
+    it stays short forever. That is why the smarca4 host failed identically on its 11:22 AM ET restart."""
+    import selcal_cofold_run as CR
+    mols = tmp_path / "mols"
+    mols.mkdir()
+    (mols / "ALA.pkl").write_text("x")
+    CR.repair_ccd_cache(str(tmp_path))
+    assert not (mols / "ALA.pkl").exists(), "the short mols/ must be purged, not topped up"
+
+
+def test_a_still_short_cache_REFUSES_TO_RUN_rather_than_burning_six_seeds(tmp_path, monkeypatch):
+    """Six seeds failing at ~7 s each, silently, is strictly worse than one loud refusal before the first
+    prediction. This is the arm that returned rc=1 with no models and no explanation."""
+    import pytest
+    import selcal_cofold_run as CR
+    monkeypatch.setattr(CR, "repair_ccd_cache", lambda c: (False, {"why": "still short"}))
+    with pytest.raises(SystemExit) as e:
+        CR.preflight_ccd(str(tmp_path), cache_s3=None)
+    assert "must be a re-pull, never a run" in str(e.value)
+
+
+def test_the_cache_is_only_BANKED_to_S3_AFTER_the_check_passes(tmp_path, monkeypatch):
+    """⚠ THE WHOLE SAFETY ARGUMENT. Uploading a truncated local cache to the shared prefix would poison every
+    future host of this lane — turning a one-host accident into a permanent property of the prefix."""
+    import pytest
+    import selcal_cofold_run as CR
+    calls = []
+    monkeypatch.setattr(CR, "_s3_sync", lambda src, dst, extra=(): calls.append((src, dst)) or True)
+    monkeypatch.setattr(CR, "repair_ccd_cache", lambda c: (False, {"why": "still short"}))
+    with pytest.raises(SystemExit):
+        CR.preflight_ccd(str(tmp_path), cache_s3="s3://b/cache/")
+    uploads = [c for c in calls if c[1].startswith("s3://")]
+    assert not uploads, "a SHORT cache must never be uploaded: %s" % uploads
+    assert calls and calls[0][0] == "s3://b/cache/", "the restore must still have been attempted first"
+    calls.clear()
+    monkeypatch.setattr(CR, "ccd_cache_integrity", lambda c: (True, {"why": ""}))
+    CR.preflight_ccd(str(tmp_path), cache_s3="s3://b/cache/")
+    assert [c[1] for c in calls] == [str(tmp_path), "s3://b/cache/"], "restore, verify, THEN bank"
+
+
+def test_the_boltz_cache_lives_outside_the_run_prefix_and_is_keyed_on_the_spec():
+    """The co-fold prefix is deliberately FRESH per design freeze; a cache inside it would re-pull ~3 GB on
+    every host of every future panel, during exactly the window three of four hosts have died in."""
+    from nrv04_vast_launch import BOLTZ_SPEC
+    uri = L.boltz_cache_s3("bkt")
+    assert uri.startswith("s3://bkt/selcal-boltz-cache/")
+    assert SP.COFOLD_PREFIX not in uri
+    assert L.boltz_cache_s3("bkt", "boltz==9.9.9") != uri, "a different Boltz must not share a cache layout"
+    assert BOLTZ_SPEC
+
+
+def test_the_cofold_jobspec_hands_the_host_an_explicit_cache_and_its_S3_home():
+    """With the default `~/.boltz` the location depends on `$HOME` inside the container, so a check could
+    verify a different directory than Boltz reads."""
+    spec = L.build_cofold_jobspec("main", "bkt")
+    assert spec.env["BOLTZ_CACHE_S3"] == L.boltz_cache_s3("bkt")
+    assert "export BOLTZ_CACHE=" in L._COFOLD_PIPELINE
+    src = open(os.path.join(HERE, "selcal_cofold_run.py")).read()
+    assert '"--cache", cache_dir' in src, "the verified directory must be the one boltz is told to use"
+
+
+def test_a_host_only_TOUCHES_its_own_arms_outputs():
+    """⛔ smarca2's six models are BANKED and preregistered inputs of every MD leg. A host restoring the whole
+    prefix pulls them down, gives them fresh local mtimes, and its continuous sync re-uploads them — churning
+    a validated set this rental was never asked to touch. `SELCAL_SYSTEMS` scopes what a host COMPUTES; this
+    scopes what it TOUCHES."""
+    p = L._COFOLD_PIPELINE
+    assert "_SYNC_ARGS+=(--include \"$_s/*\")" in p
+    assert p.count('"${_SYNC_ARGS[@]}"') == 3, "restore + continuous upload + final upload must all be scoped"
+    i_build = p.index("_SYNC_ARGS=(")
+    assert i_build < p.index('s3 sync "$RESULT_S3/" "$OUTPUT_DIR/"'), "scope must be built before the restore"
+    src = open(os.path.join(HERE, "selcal_cofold_run.py")).read()
+    assert 'cofold-provenance-%s.json' in src, "both arms share $RESULT_S3; provenance must not collide"
+
+
+def test_the_preflight_runs_BEFORE_the_first_prediction():
+    import ast
+    src = open(os.path.join(HERE, "selcal_cofold_run.py")).read()
+    fn = [n for n in ast.walk(ast.parse(src))
+          if isinstance(n, ast.FunctionDef) and n.name == "main"][0]
+    dumps = [ast.dump(s) for s in fn.body]
+    i_pre = next(i for i, s in enumerate(dumps) if "preflight_ccd" in s)
+    i_loop = next(i for i, s in enumerate(dumps) if s.startswith("For("))
+    assert i_pre < i_loop, "the CCD preflight must precede the prediction loop, not run inside it"
+
+
 def test_the_supervisor_re_arms_rather_than_leaving_hosts_unwatched():
     """A watch has a finite window; when it ends the hosts do NOT stop, because a host cannot end its own
     billing — only the control plane can. A watch that simply exits therefore converts a supervised fleet

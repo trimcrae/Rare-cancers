@@ -268,13 +268,31 @@ $AWS s3 cp "$COFOLD_INPUTS_S3" "$SELCAL_INPUTS_DIR/" --recursive --only-show-err
 # the seed that was in flight. It also restores the MSA, which is the expensive part: `boltz_results_*/msa/`
 # and `processed/` are written before inference, so a host that died during weight download hands its MSA to
 # its successor rather than making it redo eight minutes of ColabFold queries.
-$AWS s3 sync "$RESULT_S3/" "$OUTPUT_DIR/" --exclude 'inputs/*' --exclude 'run.log' --exclude 'phase.txt' --only-show-errors || true
+# ⛔ AND IT IS SCOPED TO THIS HOST'S OWN ARM(S). A host restoring the WHOLE prefix pulls down the other arm's
+# finished models, gives them fresh local mtimes, and its continuous sync then re-uploads them — churning a
+# validated, banked set of co-folds that this rental was never asked to touch. The panel's models are the
+# preregistered INPUTS of every MD leg; a set that silently becomes "fresh" is a set whose provenance nobody
+# can state. `SELCAL_SYSTEMS` already scopes what this host COMPUTES; this scopes what it TOUCHES.
+_SYNC_ARGS=(--exclude 'inputs/*' --exclude 'run.log' --exclude 'phase.txt' --exclude 'phase-*.txt')
+if [ -n "${SELCAL_SYSTEMS:-}" ]; then
+  _SYNC_ARGS+=(--exclude '*')
+  for _s in $(echo "$SELCAL_SYSTEMS" | tr ',' ' '); do _SYNC_ARGS+=(--include "$_s/*"); done
+fi
+echo "[cofold] $(date -u +%FT%TZ) restore scope: ${_SYNC_ARGS[*]}"
+$AWS s3 sync "$RESULT_S3/" "$OUTPUT_DIR/" "${_SYNC_ARGS[@]}" --only-show-errors || true
 echo "[cofold] $(date -u +%FT%TZ) restored $(find "$OUTPUT_DIR" -name '*.cif' 2>/dev/null | wc -l) finished CIF(s) and $(find "$OUTPUT_DIR" -path '*/msa/*' 2>/dev/null | wc -l) MSA file(s) from S3"
 # CONTINUOUS UPLOAD, per the standing rule: sync every 60 s so a preemption after prediction N leaves
 # predictions 1..N durable rather than losing the batch.
-( while true; do $AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --exclude 'inputs/*' --only-show-errors || true; sleep 60; done ) &
+( while true; do $AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" "${_SYNC_ARGS[@]}" --only-show-errors || true; sleep 60; done ) &
 SYNC_PID=$!
 echo "[cofold] $(date -u +%FT%TZ) disk before inference:"; df -h / /root /tmp 2>/dev/null || true
+# ★★ THE CCD/WEIGHTS CACHE IS RESTORED AND VERIFIED BEFORE INFERENCE (measured 2026-08-01). The restore
+# itself happens inside `selcal_cofold_run.preflight_ccd`, which is also what VERIFIES it — the two must not
+# be separated, because a cache that has been restored is not thereby known to be complete, and the smarca4
+# arm died on exactly that assumption: `ValueError: CCD component CYS not found!`, six seeds, ~7 s each,
+# rc=1, no models. The pipeline's job is only to say WHERE the cache lives and where it is banked.
+export BOLTZ_CACHE=/tmp/boltz_cache
+mkdir -p "$BOLTZ_CACHE"
 mark predicting
 cd /tmp/repo/research/modalities
 set +e
@@ -289,7 +307,7 @@ RC=$?
 set -e
 kill $SYNC_PID 2>/dev/null || true
 kill $LOGSYNC_PID 2>/dev/null || true
-$AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" --exclude 'inputs/*' --only-show-errors || true
+$AWS s3 sync "$OUTPUT_DIR" "$RESULT_S3/" "${_SYNC_ARGS[@]}" --only-show-errors || true
 $AWS s3 cp /tmp/run.log "$RESULT_S3/run.log" --only-show-errors || true
 mark "done rc=$RC"
 exit $RC
@@ -301,6 +319,16 @@ exit $RC
 # =============================================================================================================
 def cofold_inputs_s3(bucket=None, prefix=None):
     return "s3://%s/%s/inputs/" % (bucket or BUCKET, (prefix or SP.COFOLD_PREFIX).strip("/"))
+
+
+def boltz_cache_s3(bucket=None, spec=None):
+    """Where this lane banks the verified Boltz CCD + weights cache. PURE.
+
+    Keyed on the pinned Boltz spec, slugified — `boltz==2.1.1` and a later release do not share a cache
+    layout, and restoring one into the other is a way to MANUFACTURE the truncation this whole mechanism
+    exists to prevent."""
+    slug = "".join(c if c.isalnum() else "-" for c in (spec or BOLTZ_SPEC)).strip("-").lower()
+    return "s3://%s/selcal-boltz-cache/%s/" % (bucket or BUCKET, slug)
 
 
 def build_leg_jobspec(arm, model_seed, replica, mode, branch, bucket, env_tarball_url=None, exclude=(),
@@ -367,6 +395,13 @@ def build_cofold_jobspec(branch, bucket, cofold_prefix=None, exclude=(), systems
         env={"GIT_BRANCH": branch, "RESULT_S3": "s3://%s/%s" % (bucket, prefix),
              "COFOLD_INPUTS_S3": cofold_inputs_s3(bucket, prefix),
              "BOLTZ_SPEC": BOLTZ_SPEC,
+             # ★ THE CCD/WEIGHTS CACHE, KEYED ON THE PINNED BOLTZ SPEC AND *OUTSIDE* THE RUN PREFIX. Keyed on
+             # the spec because a different Boltz has a different cache layout and restoring one into the
+             # other would manufacture the very truncation this exists to prevent; outside the run prefix
+             # because the co-fold prefix is deliberately FRESH per design freeze, and a cache that died with
+             # each freeze would re-pull ~3 GB on every host of every future panel — during precisely the
+             # window in which three of four hosts have died on this lane.
+             "BOLTZ_CACHE_S3": boltz_cache_s3(bucket),
              "SELCAL_SEEDS": ",".join(str(s) for s in SP.COFOLD_MODEL_SEEDS),
              "SELCAL_SYSTEMS": ",".join(sorted(systems)) if systems else ""},
     )
