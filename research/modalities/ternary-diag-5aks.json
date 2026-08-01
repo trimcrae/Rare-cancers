@@ -1,7 +1,7 @@
 {
   "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
   "mode": "5aks",
-  "utc": "2026-08-01T22:54:00Z",
+  "utc": "2026-08-01T23:10:19Z",
   "units": {
     "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
       "arm": "ternary",
@@ -31,8 +31,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T03:36:35Z",
-      "phase_marker_age_min": 1157.4029048323632,
-      "log_age_min": 1157.386928653717,
+      "phase_marker_age_min": 1173.7088446338971,
+      "log_age_min": 1173.6927921374638,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -207,8 +207,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T18:26:57Z",
-      "phase_marker_age_min": 267.0662115772565,
-      "log_age_min": 267.0669607043266,
+      "phase_marker_age_min": 283.3713511665662,
+      "log_age_min": 283.37202868858975,
       "n_attempts_archived": 34,
       "attempts": [
         {
@@ -481,8 +481,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T12:19:53Z",
-      "phase_marker_age_min": 634.1902615229288,
-      "log_age_min": 634.1576651652654,
+      "phase_marker_age_min": 650.4928396979968,
+      "log_age_min": 650.4600702285767,
       "n_attempts_archived": 8,
       "attempts": [
         {
@@ -551,9 +551,9 @@
       "breaker": {
         "verdict": "allow: no leg record \u2014 a unit that has never run must be able to run",
         "block": false,
-        "n_attempts": 1,
+        "n_attempts": 0,
         "record_utc": null,
-        "newest_commit_utc": "2026-08-01T22:04:32Z",
+        "newest_commit_utc": "2026-08-01T22:54:54Z",
         "eviction": {
           "_what": "the last time this lane destroyed this unit's host for a reason that was NOT the unit failing \u2014 read by leg_failure_breaker so a correct teardown does not accrue a strike",
           "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
@@ -569,12 +569,12 @@
       },
       "committed": {
         "phase": "production",
-        "iteration": 1520,
-        "scalar": 1001520
+        "iteration": 1560,
+        "scalar": 1001560
       },
       "phase_marker": "md-running 2026-08-01T22:10:27Z",
-      "phase_marker_age_min": 43.644606065750125,
-      "log_age_min": 1.3953027725219727,
+      "phase_marker_age_min": 59.945143262545265,
+      "log_age_min": 1.5460322380065918,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -712,9 +712,9 @@
         },
         {
           "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/run.log",
-          "utc": "2026-08-01T22:52:43Z",
-          "bytes": 20767,
-          "n_lines": 264,
+          "utc": "2026-08-01T23:08:52Z",
+          "bytes": 27125,
+          "n_lines": 353,
           "last_line": "INFO:\t********************************************************************************"
         }
       ],
@@ -733,56 +733,56 @@
         "cpu_cores_effective": 16.0,
         "disk_space": 60.0,
         "disk_util": 6.300000190734863,
-        "mem_usage": 5.0069504,
+        "mem_usage": 5.040504832000001,
         "mem_limit": 89.45401856000001,
-        "gpu_util": 99.999908,
+        "gpu_util": 0.0,
         "dph_total": 0.07911111111111112,
         "start_date": 1785621996.2231026,
         "image_uuid": "docker.io/triskit23/ternary-fep:latest"
       },
       "instance_is_working": true,
-      "console_last_line": "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
+      "console_last_line": "INFO:\t********************************************************************************",
       "console_tail": [
+        "INFO:\tIteration took 60.279s.",
+        "INFO:\tEstimated completion in 0:28:40.889045, at 2026-Aug-01-23:31:54 (consuming total wall clock time 1 day, 0:40:20.079719).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 53.346s.",
-        "INFO:\tEstimated completion in 0:06:28.938209, at 2026-Aug-01-22:53:39 (consuming total wall clock time 1 day, 0:04:37.658060).",
+        "INFO:\tIteration 1570/1600",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1554/1560",
+        "INFO:\tIteration took 49.396s.",
+        "INFO:\tEstimated completion in 0:27:27.030030, at 2026-Aug-01-23:31:29 (consuming total wall clock time 1 day, 0:24:01.601601).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 64.389s.",
-        "INFO:\tEstimated completion in 0:05:34.933298, at 2026-Aug-01-22:53:49 (consuming total wall clock time 1 day, 0:11:22.657418).",
+        "INFO:\tIteration 1571/1600",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1555/1560",
+        "INFO:\tIteration took 62.022s.",
+        "INFO:\tEstimated completion in 0:26:50.903039, at 2026-Aug-01-23:31:55 (consuming total wall clock time 1 day, 0:41:17.409051).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 50.061s.",
-        "INFO:\tEstimated completion in 0:04:38.288057, at 2026-Aug-01-22:53:43 (consuming total wall clock time 1 day, 0:07:05.873929).",
+        "INFO:\tIteration 1572/1600",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1556/1560",
+        "INFO:\tIteration took 49.294s.",
+        "INFO:\tEstimated completion in 0:25:40.761387, at 2026-Aug-01-23:31:34 (consuming total wall clock time 1 day, 0:27:23.507830).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 58.074s.",
-        "INFO:\tEstimated completion in 0:03:42.899025, at 2026-Aug-01-22:53:46 (consuming total wall clock time 1 day, 0:08:50.619808).",
+        "INFO:\tIteration 1573/1600",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1557/1560",
+        "INFO:\tIteration took 58.661s.",
+        "INFO:\tEstimated completion in 0:24:53.281587, at 2026-Aug-01-23:31:45 (consuming total wall clock time 1 day, 0:34:50.760686).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 54.731s.",
-        "INFO:\tEstimated completion in 0:02:47.093768, at 2026-Aug-01-22:53:44 (consuming total wall clock time 1 day, 0:08:08.759181).",
+        "INFO:\tIteration 1574/1600",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1558/1560",
+        "INFO:\tIteration took 60.397s.",
+        "INFO:\tEstimated completion in 0:24:07.429980, at 2026-Aug-01-23:32:00 (consuming total wall clock time 1 day, 0:44:32.614179).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 53.574s.",
-        "INFO:\tEstimated completion in 0:01:51.284074, at 2026-Aug-01-22:53:42 (consuming total wall clock time 1 day, 0:06:41.577793).",
+        "INFO:\tIteration 1575/1600",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1559/1560",
+        "INFO:\tIteration took 55.537s.",
+        "INFO:\tEstimated completion in 0:23:11.538432, at 2026-Aug-01-23:32:00 (consuming total wall clock time 1 day, 0:44:18.459651).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 50.796s.",
-        "INFO:\tEstimated completion in 0:00:55.517794, at 2026-Aug-01-22:53:37 (consuming total wall clock time 1 day, 0:03:27.759390).",
+        "INFO:\tIteration 1576/1600",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1560/1560",
+        "INFO:\tIteration took 54.559s.",
+        "INFO:\tEstimated completion in 0:22:14.223821, at 2026-Aug-01-23:31:57 (consuming total wall clock time 1 day, 0:42:28.254752).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 53.096s.",
-        "INFO:\tEstimated completion in 0:00:00, at 2026-Aug-01-22:53:35 (consuming total wall clock time 1 day, 0:01:53.315457).",
-        "[timing] 40 iters in 2218s = 55.5s/iter (1.08 iters/min) at iteration 1560/2000",
-        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases"
+        "INFO:\tIteration 1577/1600",
+        "INFO:\t********************************************************************************"
       ]
     }
   }

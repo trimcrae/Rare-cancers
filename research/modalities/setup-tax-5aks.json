@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T22:54:38Z",
+ "utc": "2026-08-01T23:10:54Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -1855,9 +1855,9 @@
        "seconds": 146.0
       }
      ],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 266,
+     "first_commit_iteration": 1560,
+     "s_per_iter": 55.5,
+     "n_lines": 365,
      "timeline": {
       "marks": [
        [
@@ -1894,11 +1894,18 @@
       },
       "complete": true
      },
-     "commits": [],
+     "commits": [
+      {
+       "phase": "production",
+       "iteration": 1560,
+       "mib": 5650.5,
+       "seconds": 70.2
+      }
+     ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 22:52:43+00:00",
-     "bytes": 20753,
+     "utc": "2026-08-01 23:10:53+00:00",
+     "bytes": 27825,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -1918,13 +1925,13 @@
      "last_mib": 1353.7
     },
     "min_mib": 106.6,
-    "max_mib": 5499.3,
+    "max_mib": 5650.5,
     "by_extension_total_mib": {
-     "chk": 54114.3,
+     "chk": 56035.4,
      "nc": 70849.8
     },
     "by_extension_largest_single_mib": {
-     "chk": 1873.1,
+     "chk": 1921.1,
      "nc": 3729.4
     }
    },
@@ -1955,9 +1962,9 @@
   }
  },
  "commit_cost": {
-  "n_observed": 48,
-  "median_mib": 3298.9,
-  "median_seconds": 38.7,
+  "n_observed": 49,
+  "median_mib": 3365.7,
+  "median_seconds": 39.1,
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
@@ -2220,10 +2227,10 @@
      "staging->preequil": 0.07,
      "preequil->md-running": 0.07
     },
-    "md_running_to_first_commit": null,
+    "md_running_to_first_commit": 37.0,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
-    "s_per_iter": null,
+    "s_per_iter": 55.5,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
    },
@@ -2452,7 +2459,7 @@
     "median_min": 17.4,
     "min_min": 6.07,
     "max_min": 37.3,
-    "n": 15,
+    "n": 16,
     "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly.",
     "measured_median_min": 43.28,
     "measured_n_units": 1,
