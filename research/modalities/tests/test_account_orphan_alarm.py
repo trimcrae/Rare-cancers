@@ -242,7 +242,11 @@ def test_control_d_unreadable_census_is_unknown_not_all_clear():
     rep = A.build_report(None, "ternary-vast-account-census.json: not present", _reads(), NOW)
     assert rep["ok"] is False
     assert rep["verdict"] == "CENSUS-UNKNOWN"
-    assert rep["lanes"] == [] and rep["orphans"] == []
+    # `None`, NOT `[]` — see `_ungraded`. `[]` would claim "I looked and found no lanes in trouble", which is
+    # a reading of absence standing in for an absent reading, on the one code path that exists to keep those
+    # apart. Caught in production by a KeyError on the first CI run.
+    assert rep["graded"] is False
+    assert rep["lanes"] is None and rep["orphans"] is None and rep["terminal_but_listed"] is None
 
 
 def test_control_d_stale_census_is_unknown_and_grades_nothing():
@@ -254,7 +258,7 @@ def test_control_d_stale_census_is_unknown_and_grades_nothing():
     assert rep["verdict"] == "CENSUS-STALE"
     assert rep["census_age_min"] == pytest.approx(155.8, abs=1.0)
     # NOTHING is graded off a census that is not evidence — not even the lane that looked fine
-    assert rep["lanes"] == []
+    assert rep["graded"] is False and rep["lanes"] is None
 
 
 def test_control_d_census_with_no_parseable_utc_is_unknown():
@@ -540,3 +544,35 @@ def test_times_are_reported_in_us_eastern_12_hour():
     t = A.parse_z("2026-08-01T14:54:46Z")
     assert A._et(t) == "10:54 AM ET Aug 1, 2026"
     assert A._et(None) is None
+
+
+@pytest.mark.parametrize("census,err", [
+    (None, "not present"),
+    ({"instances": [], "utc": "not-a-date"}, None),
+    ({"utc": "2026-08-01T14:54:46Z"}, None),
+    (_census([_inst(1, "selcal-cofold-a")], utc="2026-08-01T12:19:00Z"), None),
+])
+def test_every_fail_closed_path_emits_the_same_honest_shape(census, err):
+    """★ THE SHAPE BUG THAT REACHED PRODUCTION. The first CI run went CENSUS-STALE, returned early, and the
+    artifact had NO `terminal_but_listed` key at all — a reader indexing it got a KeyError, and a reader
+    using `.get(k, [])` would have been told there were no terminal instances on a census nobody had read.
+
+    So every fail-closed path must emit the SAME keys, and they must be `None` rather than `[]`: `[]` is a
+    reading of absence, `None` is an absent reading, and keeping those apart is the entire purpose of this
+    branch (§4). Parameterised so a fifth fail-closed path added later cannot skip the contract."""
+    rep = A.build_report(census, err, _reads(), NOW)
+    assert rep["ok"] is False
+    assert rep["graded"] is False
+    for k in ("lanes", "orphans", "terminal_but_listed"):
+        assert k in rep, f"{rep['verdict']} omitted {k!r} — a consumer indexing it gets a KeyError"
+        assert rep[k] is None, f"{rep['verdict']} set {k!r} to {rep[k]!r}; [] would claim a measurement"
+    assert A.render(rep), "a fail-closed report must still render"
+
+
+def test_a_graded_run_says_so_and_uses_real_lists():
+    """The other side of the same contract: when it DID look, `graded` is true and the keys are real lists,
+    so `[]` there genuinely means 'looked, found none'."""
+    rep = A.build_report(_census([_inst(1, "selcal-cofold-a")]), None,
+                         _reads(**{"selcal-cofold": _fresh(2)}), NOW)
+    assert rep["graded"] is True
+    assert isinstance(rep["lanes"], list) and rep["orphans"] == [] and rep["terminal_but_listed"] == []

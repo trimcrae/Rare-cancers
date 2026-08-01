@@ -589,6 +589,26 @@ def classify_lane(spec: dict, rows: list[dict], stamp: datetime.datetime | None,
     return v
 
 
+def _ungraded(rep: dict) -> None:
+    """Mark a fail-closed report as HAVING GRADED NOTHING — with `null`, never with `[]`.
+
+    ★★ THE DISTINCTION IS THE WHOLE POINT OF THE FAIL-CLOSED PATH, AND IT WAS BRIEFLY LOST HERE. These keys
+    were first set to `[]`, which reads as "I looked and there were no lanes in trouble, no orphans, and no
+    terminal instances" — a READING OF ABSENCE. What actually happened is that nothing was looked at, which
+    is an ABSENT READING (§4). A consumer cannot tell those apart from `[]`, and the whole reason this branch
+    exists is that the two are opposite facts. `null` + `graded: false` says the true thing.
+
+    ⚠ CAUGHT IN PRODUCTION ON THE FIRST CI RUN, not in review: the run went CENSUS-STALE, returned early, and
+    the artifact simply had no `terminal_but_listed` key at all — a reader indexing it got a KeyError, and a
+    reader using `.get(..., [])` would have been told there were no terminal instances on a census nobody had
+    read. Both keys are now always present, and always honest about which of the two they mean.
+    """
+    rep["graded"] = False
+    rep["lanes"] = None
+    rep["orphans"] = None
+    rep["terminal_but_listed"] = None
+
+
 def build_report(census: dict | None, census_err: str | None, lane_reads: dict, now: datetime.datetime, *,
                  lanes: list[dict] | None = None,
                  lane_silent_min: float = DEFAULT_LANE_SILENT_MIN,
@@ -623,7 +643,7 @@ def build_report(census: dict | None, census_err: str | None, lane_reads: dict, 
             f"lane is called healthy. An absent reading is not a reading of absence (§4): 'I cannot see any "
             f"instance' and 'there is no instance' are opposite facts and only one of them is good news. "
             f"Fix the census before believing any all-clear.")
-        rep["lanes"], rep["orphans"] = [], []
+        _ungraded(rep)
         return rep
 
     c_utc = parse_z(census.get("utc"))
@@ -636,7 +656,7 @@ def build_report(census: dict | None, census_err: str | None, lane_reads: dict, 
         rep["verdict"], rep["ok"] = "CENSUS-UNKNOWN", False
         rep["detail"] = ("the account census carries no parseable `utc`, so its age is unknown and it cannot "
                          "be used as evidence of what the account holds. NOTHING is graded.")
-        rep["lanes"], rep["orphans"] = [], []
+        _ungraded(rep)
         return rep
 
     if c_age is not None and c_age >= census_stale_min:
@@ -648,7 +668,7 @@ def build_report(census: dict | None, census_err: str | None, lane_reads: dict, 
             f"window in which a naive check would have reported all-clear while two hosts were up. The "
             f"census writer is a diagnostic task dispatched from a supervisor loop; if it has stopped, that "
             f"is the incident.")
-        rep["lanes"], rep["orphans"] = [], []
+        _ungraded(rep)
         return rep
 
     insts = census.get("instances")
@@ -656,7 +676,7 @@ def build_report(census: dict | None, census_err: str | None, lane_reads: dict, 
         rep["verdict"], rep["ok"] = "CENSUS-UNKNOWN", False
         rep["detail"] = ("the account census has no `instances` list, so what the account holds is unknown. "
                          "NOTHING is graded — an unparseable census is not an empty account.")
-        rep["lanes"], rep["orphans"] = [], []
+        _ungraded(rep)
         return rep
 
     # ── attribute every instance ──
@@ -669,6 +689,7 @@ def build_report(census: dict | None, census_err: str | None, lane_reads: dict, 
         row = instance_row(inst, spec["key"] if spec else None)
         (by_lane[spec["key"]] if spec else orphans).append(row)
 
+    rep["graded"] = True
     lane_verdicts = []
     for spec in lanes:
         stamp, basis, why_not = lane_reads.get(spec["key"], (None, None, "no read was attempted"))
