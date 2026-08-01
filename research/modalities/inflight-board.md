@@ -2,15 +2,16 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 9:56 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 10:04 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:18 AM Aug 1      66.7%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.1 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:14 AM Aug 1     54.4%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.0 s/iter · realised $0.00846/ns (1.63x expected)
-5aks_d0_to_d ternary nr4a1 r1 1:35 AM Aug 2      50.0%  RTX 3090 $0.00414/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · ⚠ 55.3 s/iter · realised $0.00719/ns (1.74x expected)
-5aks_d0_to_d ternary nr4a3 r0 10:33 PM           96.7%  RTX 4090 $0.00458/ns · 1.34× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 18.4 s/iter
+5aks_d0_to_d ternary nr4a3 r1 8:00 AM Aug 1      67.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   30.8 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:22 AM Aug 1     54.4%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.0 s/iter · realised $0.00846/ns (1.63x expected)
+5aks_d0_to_d ternary nr4a1 r1 1:43 AM Aug 2      50.0%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.3 s/iter · realised $0.00719/ns (1.74x expected)
+5aks_d0_to_d ternary nr4a3 r0 —                  96.7%  RTX 4090 $0.00458/ns · 1.34× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 49876; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1880 is intact in S3 and this pass dispatches the gate to re-place it · 18.4 s/iter
+5aks_d0_to_d ternary nr4a3 r0 —                      —  RTX 4090 $0.00374/ns · 1.10× basis [bid] NO HOST   host DESTROYED this pass (unit done) — billing stopped, $0 further; checkpoint at production/12 is intact in S3 and nothing further is owed — this leg is FINISHED
 ---- END TVAST-BOARD ----
 ```
