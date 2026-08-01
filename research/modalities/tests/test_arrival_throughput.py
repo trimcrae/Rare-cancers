@@ -11,7 +11,9 @@ negative control is the most dangerous thing that can be added to a billing lane
 cases where it must REFUSE to act.
 """
 import os
+import re
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -248,18 +250,41 @@ def test_provenance_is_CARD_only_where_the_figure_describes_one_system():
 
 
 def test_the_RESIDUAL_gap_is_bounded_and_named_rather_than_silent():
-    """⚠ WHAT THIS CHANGE DOES **NOT** CLOSE, stated here because a gap nobody can see is a gap nobody fixes.
+    """The unit id must reach `expected_s_per_iter` FROM THE LIVE CALL SITE, not merely be supported by it.
 
-    `ternary_vast_launch.collect` calls `expected_s_per_iter(arm_of_leg(uid), dt, card=...)` and does NOT pass
-    the unit id, so the live board's protection comes from the weaker of the two rules — "this figure pools
-    several systems, so it describes none of them". Measured against the real table that covers 4 fs ternary
-    on the 3090 and 4090 (both `nr4a3`+`vhl`) and therefore every live `nr4a1`/`nr4a3` row on those cards. It
-    does NOT cover a card whose figure happens to be single-system: the 5090's 4 fs ternary rate is `vhl`
-    only, so an `nr4a1` leg landing there is still graded against `vhl`.
+    ⚠ THIS TEST USED TO CLAIM IT WOULD "start failing the moment the argument lands", AND IT WOULD NOT HAVE
+    (2026-08-01). It exercised `expected_s_per_iter` directly, with and without `unit_id`, and never read
+    `ternary_vast_launch.collect` at all — so it was green while the call site omitted the argument and stayed
+    green after it was added. A tripwire that cannot observe the thing it guards is a declared invariant that
+    nothing verifies, which is the failure class `test_lane_registry_contract.py` exists for, one file over.
 
-    ONE ARGUMENT CLOSES IT — `expected_s_per_iter(..., unit_id=_b["uid"])` at that call site — and the exact
-    check is already built, tested and proven below. This test asserts the SHAPE of the gap, so it will start
-    failing the moment the argument lands and the assertion can be deleted with the gap."""
+    The gap it described was real: the 4 fs ternary figure pools `nr4a3`+`vhl` on the 3090 and 4090, so the
+    weaker "this figure pools several systems" rule covered those rows by accident — but the 5090's figure is
+    `vhl`-only, so an `nr4a1` leg landing there was graded against `vhl` and read as drift that was pure
+    arithmetic. Passing the unit id closes it on every card, single-system ones included.
+
+    So the assertion is now on the CALL SITE, and the function-level checks stay beneath it as the proof that
+    what the call site passes actually does the work."""
+    src = (Path(at.__file__).parent / "ternary_vast_launch.py").read_text()
+    i = src.find("_at.expected_s_per_iter(")
+    assert i != -1, "the live call site vanished — this guard has lost its subject"
+    # ⚠ NOT a non-greedy regex to the first `)`: the first argument is itself a call
+    # (`arm_of_leg(_b["uid"])`), so `\(.*?\)` closes inside it and never sees the keyword arguments.
+    # Balance the parens instead — the bug this test caught in its own first draft.
+    depth, j = 0, i + len("_at.expected_s_per_iter(") - 1
+    for j in range(j, len(src)):
+        if src[j] == "(":
+            depth += 1
+        elif src[j] == ")":
+            depth -= 1
+            if depth == 0:
+                break
+    call_args = src[i:j + 1]
+    assert "unit_id=" in call_args, (
+        "ternary_vast_launch.collect calls expected_s_per_iter WITHOUT unit_id, so the live board grades a "
+        "leg against whatever systems happen to be pooled into its card's figure. On a single-system card "
+        "(the 5090's 4 fs ternary rate is vhl-only) a foreign leg is graded against vhl and reads as drift "
+        "that is arithmetic, not slowdown.")
     single = {c for c in ("RTX 3090", "RTX 4090", "RTX 5090")
               if len(at.contributing_systems(4.0, "ternary", card=c)) == 1}
     foreign = "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"

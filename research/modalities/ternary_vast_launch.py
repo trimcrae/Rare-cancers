@@ -3959,8 +3959,21 @@ def collect(bucket=None, prefix=None, autostop=True):
                   # THE CARD IS PASSED, so the expectation is like-for-like. Without it the comparison is
                   # against a card-POOLED median and every below-median card reads as broken (measured: two
                   # healthy 3090s flagged at 1.86x / 2.00x, which are 0.97x / 1.04x against their own card).
+                  # ★★ AND THE UNIT ID, so the expectation is like-for-SYSTEM as well as like-for-card
+                  # (2026-08-01, closing the residual the provenance work named rather than left silent).
+                  # The 4 fs ternary figure is POOLED ACROSS TWO SYSTEMS on every card but the 5090
+                  # (nr4a3 x3 + vhl x4), and no `nr4a1` leg exists in the table at all — so without the
+                  # unit id a live nr4a1 row is graded against a median half-composed of a different
+                  # assembly and reads as ~2.6x drift that is pure arithmetic. trimcrae, this morning:
+                  # "if it's a bigger molecule than our estimates are based on, it's gonna be more
+                  # expensive… it's more important that we rank based on relative price per ns than
+                  # actual". Ranking on QUOTED $/ns is unaffected — the offset cancels in a comparison —
+                  # so this touches the readout only, never the purchase gate.
+                  # ⚠ The size guard cannot substitute: `pooled_across_systems` reads FALSE here because
+                  # 141,740–149,308 particles collapse into one bucket at its 15 % tolerance. IDENTITY,
+                  # not size, is the discriminator, which is why the unit id is what has to travel.
                   _exp, _eprov, _expwhy = _at.expected_s_per_iter(
-                      arm_of_leg(_b["uid"]), _dtv, card=_b.get("gpu")) if _dtv \
+                      arm_of_leg(_b["uid"]), _dtv, card=_b.get("gpu"), unit_id=_b["uid"]) if _dtv \
                       else (None, _at.PROV_NONE, "timestep not in the unit id")
                   _qrow = _ifn.row(_b["gpu"], float(_b["dph"]), _planning_usd_per_ref_gpu_h(),
                                    tier=_ifn.tier_of(_b.get("is_bid"))) \
