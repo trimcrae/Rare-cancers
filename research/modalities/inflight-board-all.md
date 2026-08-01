@@ -15,7 +15,7 @@ Merged 6:38 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 6:37 PM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 6:37 PM ET Sat Aug 1, 2026 (2 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
@@ -25,7 +25,7 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 6:36 PM ET Sat Aug 1, 2026 (1 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 6:38 PM ET Sat Aug 1, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
