@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 11:50 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 11:58 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,7 +15,7 @@ Merged 11:50 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that ca
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 11:50 PM ET Fri Jul 31, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 11:50 PM ET Fri Jul 31, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
@@ -27,7 +27,7 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 11:50 PM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 11:58 PM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -35,7 +35,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 11:50 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 11:50 PM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -43,11 +43,11 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 11:42 PM ET Fri Jul 31, 2026 (8 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
+_As of 11:51 PM ET Fri Jul 31, 2026 (7 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 NOT running. The free GCP GPU is idle — that is expiring credit unspent._
 
 ```
-LEG                                ETA (ET)          % DONE  $/ns                                                                                                                                                                                                                     STATE     WHY (when not running)
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-zaienne_cmpd19__cw_ms_free_acid r1 —                      —  — $0 real dollars (GCP trial credit, a SEPARATE LEDGER, expires 2026-10-10). L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent. RUNNING   GCE L4, RUNNING, created 2026-07-31T17:00:17.886-07:00. phase='leg-complex-running 2026-08-01T00:05:36Z'. ETA UNKNOWN — this lane has no measured L4 rate for a fan-out leg yet; the first one produces it. Bounded at CREATE by --max-run-duration=172800s.
+LEG                                ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
+--------------------------------------------------------------------------------------------------
+zaienne_cmpd19__cw_ms_free_acid r1 —                      —  —    IDLE — NO HOST no GCE VM and no ddg.json: this lane is holding no GPU and computing nothing. A re-dispatch of gpu-fanout-rep-gcp.yml mode=run resumes it from its last committed generation in GCS (per-leg idempotent).
 ```
 
