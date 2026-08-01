@@ -174,7 +174,17 @@ FILTER_CAVEATS = {
         "parameterising a ~146k-atom system is CPU+RAM bound, so 16 GB swaps and runs ~4x slower. Same GPU, "
         "so MD — and therefore every $/ns in this table — is UNAFFECTED. A ~4x setup penalty on a cold start "
         "of tens of minutes, against a ~1.00 h median session, converts a rental that banks into one that "
-        "does not. This floor is doing real work."),
+        "does not. This floor is doing real work.\n"
+        "        CONFIRMED INDEPENDENTLY 2026-08-01 by the setup-tax line-item split (`setup_tax.line_items`, "
+        "7 attempts with complete phase timelines): on hosts that DO meet the floor, container-start -> "
+        "md-running is **0.45 min median (0.35-8.2)** and the setup cache never even builds. So the floor is "
+        "not buying a marginal improvement — it is the difference between half a minute and the runbook's "
+        "30 min, i.e. roughly half the median session. And a run that OOMs in setup costs the WHOLE rental, "
+        "which dwarfs 35.7 % on the hourly rate. Left at 32 GB.\n"
+        "        ⚠ THE 146k FIGURE IS A LOWER BOUND FOR 5a-KS, which is ~285k particles. `reps-setup-rss` "
+        "meters the valB_mini system; no completed run of it appears in the last 400 workflow runs, and "
+        "until 2026-08-01 it committed no artifact at all, so its answer lived only in an Actions log. It "
+        "now writes `ternary-setup-rss.json` carrying that scope limit with it."),
     "cuda_max_good(min_cuda)": (
         "MEASURED, and already acted on: `probe_image_cuda.py` read the baked image's own libnvrtc and the "
         "ternary lane's floor moved 13.0 -> 12.6 (image-cuda-requirements.json). An image that has NOT been "

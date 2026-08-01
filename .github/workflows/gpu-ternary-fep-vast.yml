@@ -2182,43 +2182,6 @@ jobs:
               || echo "::warning title=REPLACE DISPATCH FAILED::$TASK — the scheduled tick remains the backstop"
           done < "$F"
 
-      # ★★ AND FIRE THE REDUCTION THE MOMENT A MODE'S *LAST* LEG LANDS (2026-08-01).
-      #
-      # The step above repairs what died; this one finishes what lived. Until now nothing did: `collect`
-      # retired a landed leg's watch entry and stopped there, so a rung whose last leg landed sat COMPLETE
-      # AND UNREDUCED until a person dispatched `task=5aks-reduce` by hand. RUNG 5a-KS's readout S is a
-      # double difference over four legs that land ~20 h apart, the last of them overnight — "when someone
-      # notices" is not a mechanism, and a finished-but-unreduced rung is indistinguishable from a running
-      # one in every artifact a reader can reach.
-      #
-      # ⚠ THIS SPENDS NOTHING. Every reduce task is $0 CPU: it pulls the legs' committed JSON from S3 and
-      # runs the reducer in the parity image. It cannot rent, and it cannot run before its inputs exist —
-      # `collect` names a mode only when EVERY unit of it is `status=done`.
-      #
-      # THE LATCH IS WRITTEN AFTER THE DISPATCH SUCCEEDS, NOT BEFORE. Latching on intent would swallow
-      # exactly the dispatch that failed to reach GitHub; latching on delivery costs one duplicate reduce in
-      # the worst case, and a duplicate $0 reduction is strictly cheaper than a rung nobody reduces.
-      - name: Fire a mode's reduction if this pass saw its last leg land
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -eo pipefail
-          F=/tmp/tvast-mode-complete.txt
-          if [ ! -s "$F" ]; then
-            echo "no mode completed this pass — nothing to reduce"; exit 0
-          fi
-          while read -r mode task fp; do
-            [ -n "$mode" ] || continue
-            echo "::notice title=MODE COMPLETE::$mode — every leg has landed; dispatching $task (\$0 CPU)"
-            if gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task="$task"; then
-              python3 research/modalities/ternary_vast_launch.py \
-                --latch-reduce-dispatched "$mode:$fp" \
-                || echo "::warning title=REDUCE LATCH NOT WRITTEN::$mode — the reduction WAS dispatched, so the next tick may dispatch it again. A duplicate \$0 reduce is harmless; a missed one is not."
-            else
-              echo "::warning title=REDUCE DISPATCH FAILED::$task for mode=$mode — NOT latched, so the next collect retries it"
-            fi
-          done < "$F"
-
       - name: Summary LAST
         # A CI log is read from its TAIL, so whatever a monitor needs must be the last thing printed.
         run: |
@@ -2446,19 +2409,6 @@ jobs:
         with: { ref: "${{ github.ref_name }}" }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - name: FIRST — what does the ACCOUNT hold? (a per-mode board structurally cannot answer this)
-        # ★★ RUN BEFORE THE PER-MODE LOOP, DELIBERATELY. This is the only step that can say whether a host
-        # is STILL BILLING, and the loop below takes tens of minutes; a census printed after a timeout is a
-        # census nobody gets. `collect` builds its board from the units of ONE mode, so a host rented for an
-        # un-enumerated unit — a smoke, a parked leg — is invisible to it whether it is alive or destroyed,
-        # and reading that silence as "gone" is the §4a mistake. $0: one GET, destroys nothing.
-        # ⚠ `|| true`: a provider hiccup here must not cost the forensic below.
-        run: |
-          set -eo pipefail
-          python -m pip install -q boto3
-          python research/modalities/ternary_reps_diag.py --census \
-            --instance 46459452 \
-            --out research/modalities/ternary-vast-account-census.json 2>&1 | tee /tmp/acct-census.txt || true
       - name: Read every replicate leg's own output — S3 attempts archive + container console
         run: |
           set -eo pipefail
@@ -2538,8 +2488,7 @@ jobs:
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/ternary-reps-diag.json
-          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json ternary-arm-iteration-rates.json \
-                   ternary-vast-account-census.json; do
+          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json ternary-arm-iteration-rates.json; do
             [ -f "research/modalities/$f" ] && git add "research/modalities/$f" || true
           done
           # ...and every other mode's forensic, so a wedged 5a-KS leg's own last lines outlive the job log.
@@ -2553,8 +2502,6 @@ jobs:
       - name: Summary LAST
         run: |
           set -eo pipefail
-          echo "================ VAST ACCOUNT CENSUS (is anything still billing?) ================"
-          cat /tmp/acct-census.txt 2>/dev/null || echo "(no census — the step did not produce one)"
           echo "================ TERNARY REPS DIAG ================"
           cat /tmp/diag.txt
           [ -f /tmp/census.txt ] && { echo "======== STAGED INPUT CENSUS BY SEED ========"; cat /tmp/census.txt; } || true
@@ -2658,6 +2605,58 @@ jobs:
           for NAME in binary1 ternary0 ternary1 ternary2; do
             [ -f "/tmp/rss-$NAME.txt" ] && { echo "-- $NAME"; tail -18 "/tmp/rss-$NAME.txt"; } || true
           done
+
+      # ★★ COMMIT THE MEASUREMENT — A RESULT THAT LIVES ONLY IN A CI LOG IS A RESULT NOBODY HAS
+      # (2026-08-01). This task's whole purpose is to decide whether the 32 GB `cpu_ram` floor can be
+      # relaxed — the largest single priced filter on the board, worth 35.7 % of achievable $/ns in the
+      # ablation. It printed its answer to stdout and committed nothing, so reading it needs an
+      # authenticated Actions log download, and the log ages out. The measurement was asked for, and there
+      # was nothing durable to read: no `reps_setup_rss` job appears in the last 400 workflow runs.
+      #
+      # ⚠ AND THE ARTIFACT CARRIES ITS OWN SCOPE LIMIT, because the number is a LOWER BOUND for this lane:
+      # it meters the ~146k-particle valB_mini system, while 5a-KS is ~285k. A peak that fits in 32 GB here
+      # does not license anything for a system nearly twice the size, and a reader who finds the JSON in six
+      # months will not be carrying that caveat in their head.
+      - name: Commit the peak-RSS measurement so it can be read without a log download
+        if: always()
+        run: |
+          set -eo pipefail
+          OUT=research/modalities/ternary-setup-rss.json
+          python - <<'PY' > "$OUT"
+          import glob, json, os, re, time
+          doc = {"_what": "peak resident set size while BUILDING each cell's hybrid system, in the parity "
+                          "image, under a meter that survives a SIGKILL. The evidence for whether the 32 GB "
+                          "cpu_ram floor can be relaxed.",
+                 "_scope_limit": "MEASURES THE ~146k-PARTICLE valB_mini SYSTEM. 5a-KS is ~285k particles, so "
+                                 "every figure here is a LOWER BOUND for that lane and does not on its own "
+                                 "license relaxing the floor for it.",
+                 "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "cells": {}}
+          for f in sorted(glob.glob("/tmp/rss-*.txt")):
+              name = os.path.basename(f)[4:-4]
+              txt = open(f, errors="replace").read()
+              m = re.search(r"\[peak-rss\] EXIT.*?peak[= ]([0-9.]+)\s*([KMG]i?B)?", txt)
+              doc["cells"][name] = {
+                  "peak_raw": m.group(0)[:200] if m else None,
+                  "peak_value": float(m.group(1)) if m else None,
+                  "peak_unit": (m.group(2) if m else None),
+                  "exit_line_present": bool(m),
+                  "last_line": ([ln for ln in txt.splitlines() if ln.strip()
+                                 and not ln.startswith("[peak-rss]")] or [None])[-1],
+                  "bytes": os.path.getsize(f)}
+          doc["cells_measured"] = sum(1 for c in doc["cells"].values() if c["exit_line_present"])
+          doc["runner_mem_line"] = os.popen("free -g | sed -n 2p").read().strip()
+          print(json.dumps(doc, indent=1))
+          PY
+          cat "$OUT"
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add -f "$OUT"
+          git commit -q --allow-empty -m "ternary setup peak-RSS measurement (CI)"
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase origin "${{ github.ref_name }}" 2>/dev/null || true
+            git push -q origin "HEAD:${{ github.ref_name }}" && exit 0
+            sleep 6
+          done
+          echo "::warning::could not publish the RSS measurement; it is in this log"
 
   # `reduce-reps` is the SAME job with one more fetch, deliberately: the replicate reduction differs from the
   # seed-0 one only in which leg JSONs land in the directory, and the reducer globs that directory. Giving it

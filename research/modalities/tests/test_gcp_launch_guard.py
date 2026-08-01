@@ -224,3 +224,60 @@ def test_reordering_did_not_drop_the_guard_from_the_provisioning_path():
 
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(pytest.main([__file__, "-v"]))
+
+
+# ── further properties of that ordering, beyond "the skip comes first" ───────────────────────────────────
+#
+# The reorder is pinned above. These pin the things that would make a CORRECTLY-ordered skip still wrong,
+# each of which has a measured precedent on this lane.
+
+def _gcp_wf_text():
+    import pathlib
+    return (pathlib.Path(__file__).resolve().parents[3]
+            / ".github/workflows/gpu-ternary-fep-gcp.yml").read_text()
+
+
+def _skip_block():
+    """The skip's own `if ... fi`, bounded by its closing `fi` — NOT by a fixed character count.
+
+    ⚠ A FIXED WINDOW IS THE WRONG TOOL AND THIS FILE IS THE THIRD PLACE IT BIT TODAY (a 4000-char window in
+    the breaker test went red on unrelated growth; a 1400-char one here ran straight past the skip into the
+    guard and made an `::error` assertion fail against the GUARD's annotation). A window that has to be
+    retuned whenever neighbouring text changes is testing the neighbours."""
+    wf = _gcp_wf_text()
+    i = wf.rindex('if [ "$FORCE_RERUN" != 1 ]', 0, wf.index("IDEMPOTENT SKIP — NO GPU BOUGHT"))
+    end = wf.index("\n              fi\n", i) + len("\n              fi\n")
+    return wf[i:end]
+
+
+def test_the_skip_also_precedes_the_watch_list_FETCH_that_can_exit_1():
+    """`CANNOT READ main'S WATCH LIST` is the OTHER pre-provision `exit 1`. It is equally moot when no VM is
+    being bought and equally capable of reddening a healthy no-op, so ordering only against the guard call
+    would leave half the failure in place."""
+    wf = _gcp_wf_text()
+    assert wf.index("IDEMPOTENT SKIP — NO GPU BOUGHT") < wf.index("CANNOT READ main'S WATCH LIST")
+
+
+def test_the_skip_exits_ZERO_and_is_annotated_as_a_NOTICE_not_an_ERROR():
+    """The whole point is that a no-op stops reading as a failure. An `::error` annotation would keep the
+    run red in the UI even with a zero exit."""
+    seg = _skip_block()
+    assert "exit 0" in seg and "::notice" in seg and "::error" not in seg
+
+
+def test_the_skip_stays_direction_AND_restraint_keyed():
+    """Both keys have a measured, destructive precedent: a rev leg found the FWD result and skipped having
+    computed nothing; a restrained re-run found the UNRESTRAINED result and did the same."""
+    seg = _skip_block()
+    assert "${DIRECTION}" in seg and "${RSTTAG}" in seg
+
+
+def test_force_rerun_still_bypasses_it():
+    """Moving a skip earlier must not make a deliberate recompute impossible."""
+    assert '"$FORCE_RERUN" != 1' in _skip_block()
+
+
+def test_the_VM_SIDE_skip_survives_as_defence_in_depth():
+    """The two guard different windows — one stops the purchase, one stops the compute on a box bought for
+    another reason. Moving the check earlier must not delete the one on the VM."""
+    assert _gcp_wf_text().count("idempotent-skip") >= 2
