@@ -2,19 +2,21 @@
   "_what": "THE ALARM BOARD, AS A FILE. Every supervision verdict, when it was measured, how long it has been that way, and when this file should be considered dead. Written by alarm_state.py.",
   "_read_this_when": "you want to know whether anything is wrong and whether anything is still watching \u2014 WITHOUT running anything, and without having been told.",
   "_this_channel_is_PULL_ONLY": "trimcrae, 2026-07-31: 'You should not be emailing me.' Nothing here sends, opens an issue, comments, or fails a run. A red run and a GitHub issue are both PUSH channels that email the repo owner; this file exists so neither is needed. If you are reading this, the channel worked.",
-  "_generated_utc": "2026-08-01T18:32:01Z",
-  "_generated_et": "2:32 PM ET Aug 1, 2026",
+  "_generated_utc": "2026-08-01T18:33:41Z",
+  "_generated_et": "2:33 PM ET Aug 1, 2026",
   "_expected_tick_min": 16.0,
   "_stale_window_basis": "read from work-ledger.json `_expected_tick_min` = 16 min, which is its one home (derived there from step1-fanout-supervisor.yml's tick_every_min x watch_every_ticks). Not typed here.",
-  "_stale_after_utc": "2026-08-01T19:20:01Z",
-  "_stale_after_et": "3:20 PM ET Aug 1, 2026",
+  "_stale_after_utc": "2026-08-01T19:21:41Z",
+  "_stale_after_et": "3:21 PM ET Aug 1, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS WATCHING and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a supervision chain that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed ticks at 16 min. Restart it: `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "ok": false,
   "n_conditions": 8,
   "needs_attention": [
     "fleet-supervision"
   ],
-  "unmeasured": [],
+  "unmeasured": [
+    "lane:selcal-cofold"
+  ],
   "_unmeasured_means": "a verdict that could not be reached, NOT a lane that is fine. Listed apart from needs_attention because the fix is different: make it readable first.",
   "conditions": [
     {
@@ -25,24 +27,44 @@
       "ok": false,
       "unmeasured": false,
       "needs_attention": true,
-      "detail": "a run of step1-fanout-autoscale.yml started 2:23 PM ET Aug 1, 2026 and FAILED, and the artifact is still stamped 1:59 PM ET Aug 1, 2026 \u2014 the tick ran and measured nothing, so the fleet is unsupervised no matter how recently the cron fired. The tick's CODE is broken: read that run's FIRST red step.",
+      "detail": "a run of step1-fanout-autoscale.yml started 2:31 PM ET Aug 1, 2026 and FAILED, and the artifact is still stamped 1:59 PM ET Aug 1, 2026 \u2014 the tick ran and measured nothing, so the fleet is unsupervised no matter how recently the cron fired. The tick's CODE is broken: read that run's FIRST red step.",
       "payload": {
         "artifact_generated_et": "1:59 PM ET Aug 1, 2026",
-        "artifact_age_min": 32.7,
+        "artifact_age_min": 34.3,
         "live_instances": 0,
         "realised_usd_so_far": 73.79,
-        "last_completed_run_et": "2:23 PM ET Aug 1, 2026",
+        "last_completed_run_et": "2:31 PM ET Aug 1, 2026",
         "last_completed_conclusion": "failure",
         "scheduled_delivery_gaps_min": [
           65
         ]
       },
-      "last_seen_utc": "2026-08-01T18:32:01Z",
+      "last_seen_utc": "2026-08-01T18:33:41Z",
       "last_change_utc": "2026-08-01T18:09:02Z",
       "bad_since_utc": "2026-08-01T18:09:02Z",
-      "consecutive_bad_runs": 6,
-      "bad_for_min": 23.0,
+      "consecutive_bad_runs": 7,
+      "bad_for_min": 24.7,
       "bad_since_et": "2:09 PM ET Aug 1, 2026"
+    },
+    {
+      "key": "lane:selcal-cofold",
+      "source": "lane_staleness_watch.py",
+      "label": "Selectivity control \u2014 SMARCA2/4 co-fold panel (Vast)",
+      "verdict": "UNKNOWN",
+      "ok": false,
+      "unmeasured": true,
+      "needs_attention": false,
+      "detail": "this lane's state could not be read, so it CANNOT be called healthy: progress \u2014 `phase` in selcal-cofold-census.json carries no parseable ISO-Z stamp, so when this lane last ticked cannot be read. An unreadable lane is reported UNKNOWN rather than OK because an unmeasured state rendered as a measured zero is this repo's most expensive defect class.",
+      "payload": {
+        "provider": "vast",
+        "supervision": "TICKS-FLOWING"
+      },
+      "last_seen_utc": "2026-08-01T18:33:41Z",
+      "last_change_utc": "2026-08-01T18:33:41Z",
+      "bad_since_utc": "2026-08-01T18:33:41Z",
+      "consecutive_bad_runs": 1,
+      "bad_for_min": 0.0,
+      "bad_since_et": "2:33 PM ET Aug 1, 2026"
     },
     {
       "key": "lane:closure-triangle",
@@ -55,9 +77,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 7.4
+        "evidence_age_min": 0.8
       },
-      "last_seen_utc": "2026-08-01T18:32:01Z",
+      "last_seen_utc": "2026-08-01T18:33:41Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -76,7 +98,7 @@
       "payload": {
         "provider": "gcp"
       },
-      "last_seen_utc": "2026-08-01T18:32:01Z",
+      "last_seen_utc": "2026-08-01T18:33:41Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -94,9 +116,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 8.0
+        "evidence_age_min": 1.5
       },
-      "last_seen_utc": "2026-08-01T18:32:01Z",
+      "last_seen_utc": "2026-08-01T18:33:41Z",
       "last_change_utc": "2026-08-01T01:24:59Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -111,35 +133,14 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "no hosts and 4 unit(s) unfinished, but the last evidence is only 7 min old (grace 45 min) \u2014 a hand-off in progress looks like this.",
+      "detail": "no hosts and 4 unit(s) unfinished, but the last evidence is only 1 min old (grace 45 min) \u2014 a hand-off in progress looks like this.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 7.3,
+        "evidence_age_min": 0.7,
         "supervision": "TICKS-FLOWING"
       },
-      "last_seen_utc": "2026-08-01T18:32:01Z",
+      "last_seen_utc": "2026-08-01T18:33:41Z",
       "last_change_utc": "2026-07-31T14:06:08Z",
-      "bad_since_utc": null,
-      "consecutive_bad_runs": 0,
-      "bad_for_min": null,
-      "bad_since_et": null
-    },
-    {
-      "key": "lane:selcal-cofold",
-      "source": "lane_staleness_watch.py",
-      "label": "Selectivity control \u2014 SMARCA2/4 co-fold panel (Vast)",
-      "verdict": "TICKING",
-      "ok": true,
-      "unmeasured": false,
-      "needs_attention": false,
-      "detail": "6 unit(s) on the watch list and host liveness is not knowable from git for this provider, so this lane is graded on whether its watchdog (selectivity-control-vast.yml) is still delivering completed runs \u2014 see `supervision` below, which is the verdict that matters for this lane.",
-      "payload": {
-        "provider": "vast",
-        "evidence_age_min": 35.8,
-        "supervision": "TICKS-FLOWING"
-      },
-      "last_seen_utc": "2026-08-01T18:32:01Z",
-      "last_change_utc": "2026-08-01T15:43:38Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
       "bad_for_min": null,
@@ -156,10 +157,10 @@
       "detail": "held on price with the snapshot that caused it (step1-fanout-market-hold.json: board_depth, offers_priced). CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay \u2014 so this is the gate working, not a stall. Reason on record: the fan-out unit-list / cost-model tests came back 'failure' \u2014 a broken unit list or cost model must never reach a GPU, so 0 pending unit(s) are held. Nothing was dropped; fix the tests and the next tick places them.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 32.6,
-        "census_flat_for_min": 3939.0
+        "evidence_age_min": 34.3,
+        "census_flat_for_min": 3940.6
       },
-      "last_seen_utc": "2026-08-01T18:32:01Z",
+      "last_seen_utc": "2026-08-01T18:33:41Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -177,9 +178,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 7.4
+        "evidence_age_min": 0.9
       },
-      "last_seen_utc": "2026-08-01T18:32:01Z",
+      "last_seen_utc": "2026-08-01T18:33:41Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
