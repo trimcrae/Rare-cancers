@@ -10,7 +10,7 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 ---------------------------------------------------------------------------------------------------------------------------------
 5aks_d0_to_d ternary nr4a3 r1 8:03 AM Aug 1      65.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.0 s/iter
 5aks_d0_to_d ternary nr4a1 r0 10:24 AM Aug 1     52.2%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.2 s/iter · realised $0.00854/ns (1.64x expected)
-5aks_d0_to_d ternary nr4a1 r1 3:07 AM Aug 2      48.9%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 58.2 s/iter · realised $0.00757/ns (1.83x expected)
+5aks_d0_to_d ternary nr4a1 r1 3:08 AM Aug 2      48.9%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 58.2 s/iter · realised $0.00757/ns (1.83x expected)
 5aks_d0_to_d ternary nr4a3 r0 —                      —  RTX 4090 $0.00458/ns · 1.34× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ---- END TVAST-BOARD ----
 ```
