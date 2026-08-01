@@ -271,27 +271,13 @@ LANES: list[dict] = [
         "watch_modes": ["edge_reps"],
         "ledger_tokens": ["edge-reps", "reps-prime", "reduce-reps"],
         "terminal_artifact": "valb-replicate-reduction.json",
-        # ★★ DECLARED, AND NOTHING IN THIS REPO CAN EVER CREATE IT (measured 2026-08-01 by the contract test
-        # that now checks every name in this registry — the same failure class as the
-        # `nrv04-retro-market-hold.json` incident of 2026-07-31, found by building the guard for it).
-        # `valb-replicate-reduction.json` is named at EXACTLY ONE site in the whole repo: the line above.
-        # The `reduce-reps` job (`gpu-ternary-fep-vast.yml`) writes its reduction to
-        # `/tmp/tred/ternary_coop_reduction.json` on the runner and neither commits nor uploads it, so this
-        # lane has no committed terminus at all — unlike its two siblings, whose termini are written by
-        # `valb_triangle_reduce.py` and `nr4a3_5aks_reduce.py` and committed by their workflows.
-        # CONSEQUENCE, stated rather than left to be discovered: `read_ternary_family`'s terminal-artifact
-        # route to FINISHED is unreachable for this lane, so its completion rests entirely on the watch list,
-        # and the `ledger_seen` branch would call it "STARTED AND NOT FINISHED" forever if its watch entries
-        # were ever cleared. The key is NOT dropped to None — measured, that grades the lane UNKNOWN on every
-        # run (`finished` is CRITICAL), and an always-red alarm is the same end state as no alarm.
-        # THE FIX IS A COMMIT-BACK IN THE `reduce` JOB, which is the ternary lane's own workflow and not this
-        # module's to change. Delete this marker the moment a producer exists — the contract test fails while
-        # it is stale, so it cannot outlive the gap it records.
-        "terminal_artifact_unbacked":
-            "no code path in this repo writes valb-replicate-reduction.json: the reduce-reps job leaves its "
-            "reduction at /tmp/tred/ternary_coop_reduction.json on an ephemeral runner and commits nothing. "
-            "Closing it means committing the replicate reduction from gpu-ternary-fep-vast.yml's reduce job, "
-            "which belongs to the ternary lane. Until then this lane's FINISHED oracle is the watch list.",
+        # ★ PRODUCED SINCE 2026-08-01 by `gpu-ternary-fep-vast.yml`'s `reduce` job under `task=reduce-reps`,
+        # which now copies `/tmp/tred/ternary_coop_reduction.json` into the repo and pushes it. Until that
+        # step existed this name appeared at EXACTLY ONE site in the whole repo — the line above — so
+        # `read_ternary_family`'s terminal-artifact route to FINISHED was unreachable for this lane alone,
+        # and the reduction died with the runner. The `terminal_artifact_unbacked` marker that recorded the
+        # gap is DELETED rather than left as a comment: the contract test fails a marker whose producer
+        # exists, precisely so it cannot outlive the bug. Superseded, retained here in one line.
         "relaunch_lane": "ternary",
         "reader": "ternary_family",
     },

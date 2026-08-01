@@ -3504,7 +3504,51 @@ def collect(bucket=None, prefix=None, autostop=True):
         # mechanism from log silence while this stronger, direct fact was already available three lines
         # later — and printed "the host has lost its write path" about two boxes whose last successful act
         # was writing to S3. Same destroy, wrong sentence. Hoisted so the guard is told, not left to guess.
-        finished = uid in done
+        # ★★ A `done` RECORD THAT PREDATES THIS HOST IS NOT EVIDENCE THIS HOST HAS NOTHING TO DO
+        # (2026-08-01, and it cost the `.chk` prune shakeout its entire rental).
+        #
+        # WHAT HAPPENED, verbatim from the 10:04:46 PM ET collect of 2026-07-31 (run 30679242052, job
+        # 91312781129). The prune smoke rented instance 46459452 (machine 12976, RTX 4090, $0.12531/h,
+        # $0.00374/ns = 1.10x basis — correctly gated) at 10:02 PM. Two minutes and twenty-three seconds
+        # later, while the container was still pulling its image:
+        #
+        #     vast 46459452 (...-f495e0fc) loading up=0.04h ... msg='0eee12ace5f3: Verifying Checksum'
+        #       -> destroying 46459452 (unit done)
+        #
+        # `finished = uid in done` was true because that unit's `leg.json` had said `status=done` since
+        # 2026-07-26 — the ORIGINAL smoke, five days earlier. So the reaper killed a host that had not yet
+        # executed one line of `run_ternary_leg.sh`, and the shakeout produced no `[prune]` line, no
+        # `chk_pruned` manifest, no `run.log`, not even a `status.json`. Every artifact a reader could reach
+        # was byte-identical to "no rental ever happened", which is why it took a forensic to find.
+        #
+        # IT IS GENERAL, NOT A SMOKE QUIRK: any deliberate re-run of a unit that already landed — a
+        # shakeout, a re-measurement, a supersede-and-recompute — is destroyed by the next tick, before it
+        # can do anything. The launcher decides to buy and the reaper immediately decides the purchase was
+        # pointless; two components disagreeing about one rental.
+        #
+        # THE FIX IS THE PREDICATE THAT WAS ALREADY THERE. `crashed` has been guarded by
+        # `_record_is_newer_than_instance` since the protfep lane learned the same lesson about stale FAILED
+        # records; `finished` never was. It is the identical question — *did THIS host write that record?* —
+        # and in the normal case the answer is yes, because a leg writes its `leg.json` while its own host
+        # is up. Same shape as `_finalizable` in the price ledger, which refuses to latch a cost on a result
+        # that predates the rental.
+        #
+        # ⚠ AND NOT DESTROYING IS THE SAFE DIRECTION HERE, WHICH IS WHY THIS IS NOT A NEW LEAK RISK. A truly
+        # finished host that survives this branch is still caught by `MAX_INSTANCE_HOURS` and by
+        # `vast_idle_guard` (~15 min of no writes), so the cost of being wrong is minutes of one box. The
+        # cost of the old behaviour was an entire authorised experiment, silently, with no artifact saying so.
+        finished_record = uid in done
+        _done_rec = done.get(uid) if uid else None
+        _done_is_ours = bool(_done_rec and _record_is_newer_than_instance(_done_rec, i))
+        finished = bool(finished_record and _done_is_ours)
+        if finished_record and not finished:
+            # ⚠ SAID OUT LOUD. A guard that silently stops firing is indistinguishable from a guard that was
+            # removed, and this one used to destroy — so the pass has to state that it saw a done record and
+            # declined to act on it, or the next reader re-derives this whole forensic.
+            print(f"      ⓘ this unit has a `done` leg.json, but it was written BEFORE this host started "
+                  f"— so it is the PREVIOUS attempt's result, not this one's. NOT destroying on "
+                  f"'unit done'; a deliberate re-run (shakeout, re-measurement) is allowed to proceed. "
+                  f"The runtime backstop and the idle guard still cover this box.")
         _rec = other.get(uid) if uid else None
         _newer = bool(_rec and _record_is_newer_than_instance(_rec, i))
         crashed = bool(_rec and _rec.get("status") == "failed" and _newer)

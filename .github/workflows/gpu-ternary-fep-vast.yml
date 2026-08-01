@@ -2189,7 +2189,8 @@ jobs:
       # AND UNREDUCED until a person dispatched `task=5aks-reduce` by hand. RUNG 5a-KS's readout S is a
       # double difference over four legs that land ~20 h apart, the last of them overnight — "when someone
       # notices" is not a mechanism, and a finished-but-unreduced rung is indistinguishable from a running
-      # one in every artifact a reader can reach.
+      # one in every artifact a reader can reach. It found one on its FIRST tick: the valB closure
+      # triangle's four legs had all landed and its residual R had never been formed.
       #
       # ⚠ THIS SPENDS NOTHING. Every reduce task is $0 CPU: it pulls the legs' committed JSON from S3 and
       # runs the reducer in the parity image. It cannot rent, and it cannot run before its inputs exist —
@@ -2799,6 +2800,58 @@ jobs:
                   print(f"--- {k} ---"); print(json.dumps(d[k], indent=1))
           PY
 
+      # ★★ THE REPLICATE REDUCTION IS A DELIVERABLE, AND IT WAS LIVING IN A RUNNER'S /tmp (2026-08-01, found
+      # by the lane-registry contract test).
+      #
+      # `ternary-valb-reps` declares `terminal_artifact: valb-replicate-reduction.json`, and that name
+      # appeared at EXACTLY ONE site in the whole repo — the registry line declaring it. This job wrote its
+      # reduction to `/tmp/tred/ternary_coop_reduction.json` and neither committed nor uploaded it, so:
+      #
+      #   * `read_ternary_family`'s terminal-artifact route to FINISHED was UNREACHABLE for this lane alone,
+      #     while both siblings commit theirs. A lane that cannot report FINISHED is indistinguishable from
+      #     one that stalled — and the `ledger_seen` branch would have called it "STARTED AND NOT FINISHED"
+      #     forever if its watch entries were ever cleared.
+      #   * the analysis died with the runner, so anybody who wanted the cycle SD recomputed it.
+      #
+      # ⚠ `reduce-reps` ONLY. The plain `reduce` task reduces RUNG 2b's `edge` cycle, whose verdict is
+      # already published and whose registry lane declares no terminus; writing the same filename from both
+      # would make one lane's committed artifact silently depend on which task ran last.
+      - name: Commit the replicate reduction — the terminus this lane declares and never produced
+        if: ${{ needs.resolve.outputs.task == 'reduce-reps' }}
+        run: |
+          set -eo pipefail
+          SRC=/tmp/tred/ternary_coop_reduction.json
+          DST=research/modalities/valb-replicate-reduction.json
+          # ⚠ ABSENCE IS A FAILURE, NOT A NO-OP. This job's whole output is that file; a reducer that wrote
+          # nothing and a reducer that wrote a null result are opposite findings, and skipping quietly would
+          # leave the lane in exactly the state this step exists to end.
+          test -s "$SRC" || { echo "::error title=NO REPLICATE REDUCTION::the reducer produced no $SRC — there is nothing to commit, and the lane still has no terminus"; exit 1; }
+          python3 - "$SRC" "$DST" <<'PY'
+          import json, sys, time
+          src, dst = sys.argv[1], sys.argv[2]
+          d = json.load(open(src))
+          # Provenance the raw reducer output does not carry, because a reader six months from now needs to
+          # know WHICH task produced this file and that it is a copy of a runner-side artifact, not a
+          # second, independently-computed number.
+          d["_what"] = ("the valB_mini REPLICATE reduction (seeds 0/1/2) — the cycle SD across replicates, "
+                        "which is a replicate SD and never an MBAR SE. Written by task=reduce-reps in "
+                        "gpu-ternary-fep-vast.yml, inside the parity image that produced the trajectories.")
+          d["_produced_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+          d["_source"] = "gpu-ternary-fep-vast.yml task=reduce-reps -> nr4a3_ternary_fep.py MODE=reduce"
+          json.dump(d, open(dst, "w"), indent=1, default=str)
+          open(dst, "a").write("\n")
+          print(f"wrote {dst}")
+          PY
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add "$DST"
+          if git diff --cached --quiet; then echo "replicate reduction unchanged"; exit 0; fi
+          git commit -m "valB_mini replicates: the cycle SD across seeds (CI, parity image)"
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${{ github.ref_name }}" \
+              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
+            sleep $((i * 7))
+          done
+          echo "::error title=REPLICATE REDUCTION NOT PUSHED::computed but not committed after 5 attempts — the lane still has no terminus"; exit 1
       - name: Verdict LAST
         run: |
           set -eo pipefail

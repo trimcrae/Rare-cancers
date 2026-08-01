@@ -1442,3 +1442,55 @@ def test_every_converge_task_in_the_workflow_has_a_registered_mode():
     assert gate, "could not find the converge job's if: condition"
     for t in converge_tasks:
         assert f"'{t}'" in gate.group(1), f"task {t} is dispatchable but the converge job would skip it"
+
+
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# A `done` RECORD THAT PREDATES THE HOST MUST NOT REAP IT (2026-08-01)
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# MEASURED, not hypothetical. The `.chk` prune shakeout rented instance 46459452 at 10:02 PM ET on
+# 2026-07-31 and produced NOTHING — no `[prune]` line, no `chk_pruned` manifest, no `run.log`, not even a
+# `status.json`. The 10:04:46 PM collect says why, verbatim:
+#
+#     vast 46459452 (...-f495e0fc) loading up=0.04h ... msg='0eee12ace5f3: Verifying Checksum'
+#       -> destroying 46459452 (unit done)
+#
+# `finished = uid in done` was true because that unit's leg.json had said `status=done` since 2026-07-26 —
+# the ORIGINAL smoke, five days earlier. Our own reaper killed a host 2 min 23 s in, mid image-pull, before
+# it executed one line of the entry script. Every artifact then read byte-identically to "no rental ever
+# happened", which is what made it cost a forensic rather than a glance.
+#
+# It generalises to every deliberate re-run of a landed unit — a shakeout, a re-measurement, a
+# supersede-and-recompute — so this is the gate on the whole `.chk` prune ladder, not a smoke quirk.
+
+def test_the_done_reap_requires_the_result_to_postdate_the_host():
+    """`crashed` has been guarded by `_record_is_newer_than_instance` since the protfep lane learned the
+    same lesson about stale FAILED records. `finished` never was — the identical question about the
+    identical kind of stale record."""
+    src = open(tv.__file__).read()
+    body = src[src.index("    for i in mine:"):src.index("    dead_instances = set()")] \
+        if "    dead_instances = set()" in src[src.index("    for i in mine:"):] \
+        else src[src.index("    for i in mine:"):]
+    body = src[src.index("        finished_record = uid in done"):src.index("        row_record[iid] = _rec")]
+    assert "_record_is_newer_than_instance(_done_rec, i)" in body, (
+        "the 'unit done' reap is back to trusting a leg.json of any age — a re-run of a landed unit will "
+        "be destroyed mid image-pull again")
+    assert "finished = bool(finished_record and _done_is_ours)" in body
+
+
+def test_declining_to_reap_on_a_stale_done_record_is_ANNOUNCED():
+    """A guard that silently stops firing is indistinguishable from a guard that was removed — and this one
+    used to destroy. The pass must state that it saw a done record and declined to act on it."""
+    src = open(tv.__file__).read()
+    body = src[src.index("        finished_record = uid in done"):src.index("        row_record[iid] = _rec")]
+    assert "if finished_record and not finished:" in body
+    assert "written BEFORE this host started" in body
+
+
+def test_the_reap_reason_chain_still_puts_unit_done_first():
+    """Ordering is load-bearing for the REASON, not just the action: a leg that landed stops writing its log
+    by design, so on the next poll it also reads WEDGED. 'unit done' must win, or the destroy is attributed
+    to the idle guard and the readout lies about why."""
+    src = open(tv.__file__).read()
+    why = src[src.index('        why = ("unit done" if finished else'):]
+    why = why[:why.index("\n        if autostop")]
+    assert why.index('"unit done"') < why.index("idle guard")
