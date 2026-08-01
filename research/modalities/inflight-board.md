@@ -2,14 +2,14 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 6:30 AM ET Sat Aug 1, 2026 by `task=collect`.
+Generated 6:38 AM ET Sat Aug 1, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:15 AM            94.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.4 s/iter
-5aks_d0_to_d ternary nr4a1 r1 1:30 AM Aug 2      65.6%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.1 s/iter · realised $0.00717/ns (1.73x expected)
-5aks_d0_to_d ternary nr4a1 r0 —                      —  RTX 3090 $0.00483/ns · 1.42× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
+5aks_d0_to_d ternary nr4a3 r1 8:23 AM            94.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.4 s/iter
+5aks_d0_to_d ternary nr4a1 r1 1:38 AM Aug 2      65.6%  RTX 3090 $0.00414/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · ⚠ 55.1 s/iter · realised $0.00717/ns (1.73x expected)
+5aks_d0_to_d ternary nr4a1 r0 3:41 PM            84.4%  RTX 3090 $0.00483/ns · 1.42× basis [bid] STARTING  COLD_START — instance is 14 min old, under the 15 min floor — too young to have proved anything either way · ⚠ 58.2 s/iter · realised $0.00883/ns (1.83x expected)
 ---- END TVAST-BOARD ----
 ```
