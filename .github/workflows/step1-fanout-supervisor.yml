@@ -88,6 +88,14 @@ jobs:
           # 2026-07-27 and decayed the fleet 18 -> 5 while the board was clearing at 1.03x-1.29x basis.
           END=$(( $(date +%s) + $(python3 -c "print(int(float('${HOURS}')*3600))") ))
           SLEEP=$(( EVERY * 60 ))
+          # This generation's OWN copy of this file, as a blob SHA. There is no checkout here (see GH_REPO
+          # above), so it is read from the API at the commit that started the run rather than hashed on
+          # disk. Empty on any failure, and the comparison below is skipped when either side is empty —
+          # an unreadable SHA must never be mistaken for a changed one, or a transient API blip would
+          # restart the supervisor for no reason (CLAUDE.md §4).
+          SELF_SHA=$(gh api "repos/${GH_REPO}/contents/.github/workflows/step1-fanout-supervisor.yml?ref=${GITHUB_SHA}" \
+                       --jq .sha 2>/dev/null || echo "")
+          echo "[self] generation running workflow blob ${SELF_SHA:-UNREADABLE} at ${GITHUB_SHA:0:8}"
           n=0; ok=0; fail=0
           echo "cadence: a tick every ${EVERY} min until $(date -u -d "@${END}" '+%H:%M UTC')"
           while [ "$(date +%s)" -lt "$END" ]; do
@@ -387,6 +395,31 @@ jobs:
               echo "[$(date -u '+%H:%M:%SZ')] gcp s1f-rep autofeed (reap -> decide -> launch) dispatched (tick ${n})"
             else
               echo "::warning title=GCP S1F-REP TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t6 | tr '\n' ' ')"
+            fi
+            # ★★ HAND OFF EARLY WHEN THIS FILE ITSELF HAS CHANGED ON MAIN (2026-08-01).
+            # This loop is long-lived and checked its code out at start, so an edit to THIS workflow is
+            # inert until the next generation. Measured that morning: the generation began 7:51 AM ET on
+            # a73aca84; the ACCOUNT-census tick landed 8:49 AM and the GCP autofeed tick 8:37 AM, so both
+            # fixes sat dead for the remaining ~3.5 h of a 5.5 h generation. The GCP lane hit the same wall
+            # and had to add a backstop cron to work around it. A supervision fix that cannot take effect
+            # for hours is the same failure this whole file exists to prevent, one level up.
+            #
+            # ⚠ THE PREDICATE IS *THIS FILE*, NOT "main moved". `main` moves constantly — ~1,400 artifact
+            # commits a day from the lanes' own heartbeats — so "has main advanced" is always true and
+            # would restart the supervisor every tick, which is strictly worse than the lag.
+            #
+            # And it does NOT shorten the generation. Cutting HOURS would multiply hand-offs (each one a
+            # chance for the chain to break) to fix a problem that only exists when the file changes,
+            # which is rare. This costs one cheap API read per tick and nothing at all when nobody is
+            # editing. The successor is dispatched by the existing "Hand off to a successor" step, which
+            # always runs; `resurrect-supervisor` in the autoscale workflow is the backstop if it does not.
+            LIVE_SHA=$(gh api "repos/${GH_REPO}/contents/.github/workflows/step1-fanout-supervisor.yml?ref=main" \
+                         --jq .sha 2>/dev/null || echo "")
+            if [ -n "$LIVE_SHA" ] && [ -n "$SELF_SHA" ] && [ "$LIVE_SHA" != "$SELF_SHA" ]; then
+              # One line deliberately: a backslash continuation at column 1 inside a `run: |` block breaks
+              # the YAML scan, which is how this same file was broken on 2026-07-31 (commit 27bd6a1e).
+              echo "::notice title=SUPERVISOR SUPERSEDED::generation runs ${SELF_SHA:0:8}, main now carries ${LIVE_SHA:0:8} - handing off early at tick ${n} so the change takes effect now, not at the deadline."
+              break
             fi
             # Stop early rather than sleep past the deadline and be killed mid-iteration.
             [ $(( $(date +%s) + SLEEP )) -ge "$END" ] && break
