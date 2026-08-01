@@ -67,14 +67,28 @@ def summarise(readout, meta):
             doc[k] = readout[k]
     v = readout.get("verdict") or {}
     # A flat, quotable header — the fields a human asks for first. Copied, never derived.
-    doc["headline"] = {
-        "tier": v.get("tier"),
-        "reason": v.get("reason"),
-        "primary": v.get("primary"),
-        "alpha": v.get("alpha"),
-        "pairwise": v.get("pairwise"),
-        "extension_triggered": v.get("extension_triggered") or v.get("extend"),
-    }
+    #
+    # ⚠ THE KEY NAMES ARE THE SCORER'S, CHECKED AGAINST IT (2026-08-01). The first version of this block
+    # guessed `pairwise` and `alpha`; the scorer emits `pairwise_secondary` and carries no `alpha` key, so
+    # the headline rendered `null` in both slots while the real pairwise results sat in the object one level
+    # down. A header full of `null`s beside a populated body is worse than no header — it reads as "the
+    # scorer did not compute these", which is precisely the absent-reading-as-reading-of-absence failure
+    # (CLAUDE.md §4b), and here it would have hidden the NR4A1-vs-NR4A3 comparison AMENDMENT 4 §4.3 singles
+    # out. `_MISSING` is emitted for a key the scorer genuinely did not write, so a gap says which it is.
+    _MISSING = "KEY ABSENT FROM THE EMITTED VERDICT — not a null result"
+    for k in ("tier", "reason", "primary", "arm_means", "nr4a1_below_both_paralogues",
+              "pairwise_secondary", "pairwise_caveat", "reverse_direction", "extension_triggered",
+              "leave_one_model_out_role", "claim_ceiling"):
+        doc.setdefault("headline", {})[k] = v.get(k, _MISSING)
+    # α is the frozen scorer's constant, not a field of the readout. Read from the module so it cannot drift.
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import nrv04_retro_gate as _gate
+        doc["headline"]["alpha"] = _gate.ALPHA
+        doc["headline"]["alpha_source"] = "nrv04_retro_gate.ALPHA (frozen), not a field of the readout"
+    except Exception as e:  # noqa: BLE001
+        doc["headline"]["alpha"] = None
+        doc["headline"]["alpha_source"] = "UNREADABLE: %s" % e
     return doc
 
 

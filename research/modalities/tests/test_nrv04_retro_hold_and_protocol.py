@@ -1175,5 +1175,63 @@ def test_an_idle_lane_s_rows_are_constant_between_ticks():
     assert rows1, "and the idle lane must still emit rows — a vanishing row reads as a unit that never existed"
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE REPORTED PAIRWISE FLOOR — AMENDMENT 4 §4.3 registered a LOSS, and the prose must not hide it.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def _means_3_3_2():
+    """The AUTHORIZED shape: NR4A1 and NR4A2 at 3 models, NR4A3 at 2 (AMENDMENT 4)."""
+    import nrv04_retro_gate as g
+    return {g.PRIMARY_ARM: {1: 3.3, 2: 5.2, 3: 3.8},
+            g.POOLED_ARMS[0]: {1: 3.6, 2: 4.9, 3: 6.1},
+            g.POOLED_ARMS[1]: {1: 4.1, 2: 3.2}}
+
+
+def _legs_from_means(means):
+    """Minimal conforming leg records the frozen gate will accept, one per (arm, model)."""
+    out = []
+    for arm, per in means.items():
+        for seed, val in per.items():
+            out.append({"arm_id": arm, "cofold_model_seed": seed, "e1_plateau_A": val})
+    return out
+
+
+def test_a_pairwise_that_cannot_reach_alpha_says_UNRESOLVABLE_not_null():
+    """★★ §4.3 accepted, as a stated cost, that NR4A1-vs-NR4A3 can no longer attain α: at n = 2 it is
+    C(5,3) = 10 arrangements, min attainable one-sided p = 0.10 > α = 0.05.
+
+    The caveat beside those numbers used to read 'min attainable one-sided p for a 3-vs-3 pairwise test is
+    0.05 (C(6,3)=20)' — true of the NR4A2 comparison, FALSE of the NR4A3 one, and a reader taking it at its
+    word would treat p = 0.70 there as a null rather than as an unresolvable test. That is the difference
+    between an honest limitation and an overclaim.
+
+    Nothing computed changes: this pins the SENTENCE, and asserts it derives from each test's own
+    `min_attainable_p` rather than from one typed number."""
+    import nrv04_retro_gate as g
+    v = g.verdict(_legs_from_means(_means_3_3_2()))
+    pw = v["pairwise_secondary"]
+    a2, a3 = g.POOLED_ARMS
+    assert pw[a3]["min_attainable_p"] > g.ALPHA, "the premise: at n=2 this pairwise cannot reach alpha"
+    assert pw[a2]["min_attainable_p"] <= g.ALPHA, "and the n=3 pairwise still can — the caveat must differ"
+    cav = v["pairwise_caveat"]
+    assert "UNRESOLVABLE, not null" in cav, cav
+    assert a3 in cav and a2 in cav, "the caveat must name BOTH tests, since their floors differ"
+    assert "0.05 (C(6,3)=20)" not in cav, "the retired single typed floor must not come back"
+    # the flagged one is the NR4A3 arm, not the NR4A2 arm
+    assert cav.index(a3) < cav.index("UNRESOLVABLE") or a3 in cav.split("UNRESOLVABLE")[0]
+
+
+def test_the_criteria_audit_derives_its_reference_set_from_the_authorized_panel():
+    """The audit reported C(9,3)=84 and min p 1/84 AFTER AMENDMENT 4 made the real set C(8,3)=56 — and
+    re-running it did not fix that, the tell of a hard-coded constant. Meanwhile the EMITTED verdict
+    correctly said 56, so the two documents disagreed and the stale one is the one a reader reaches for."""
+    import nrv04_retro_criteria_audit as A
+    import nrv04_retro_gate as g
+    per = A.authorized_models_per_arm()
+    assert per[g.PRIMARY_ARM] == 3 and sum(per[a] for a in g.POOLED_ARMS) == 5, per
+    total, lattice = A.p_lattice()
+    assert total == 56 and abs(lattice[0] - 1.0 / 56) < 1e-12
+    assert "84" not in A.rank_statistic_identity(trials=50)["identity"]
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))

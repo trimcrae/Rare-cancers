@@ -14,15 +14,17 @@ cannot score the contrast. This script applies the SAME test to the retrospectiv
 Four things are computed, all by exhaustive enumeration or Monte-Carlo against MEASURED noise, never by
 assertion:
 
-  1. ATTAINABLE p-VALUES. The primary test is an exact permutation test over C(9,3) = 84 arrangements, so its
-     p-value lives on the 84-point lattice k/84. The extension rule (4d) fires on p in (0.012, 0.05]. This
+  1. ATTAINABLE p-VALUES. The primary test is an exact permutation test over C(n, n_NR4A1) arrangements —
+     DERIVED from `nrv04_retro_panel.enumerate_units`, never typed, because AMENDMENT 4 moved it (see
+     `authorized_models_per_arm`) — so its p-value lives on that lattice. The extension rule (4d) fires on
+     `gate.EXTENSION_P_WINDOW`. This
      enumerates which lattice points fall in that window and cross-references them against the CONCORDANT
      condition p <= 0.05.
 
   2. THE PRIMARY STATISTIC IS A RANK STATISTIC. With 3 vs 6 and a pooled total S,
         d = mean(A) - mean(B) = a/3 - (S-a)/6 = a/2 - S/6
      is strictly increasing in a = sum(A). So the exact test is EXACTLY a test on the rank of the NR4A1 trio's
-     sum among the 84 subset sums. Verified numerically here, because it determines what evidence the test can
+     sum among the subset sums. Verified numerically here, because it determines what evidence the test can
      ever see (only the ordering of subset sums — not the effect size).
 
   3. IS THE LEAVE-ONE-MODEL-OUT CLAUSE INERT? CONCORDANT requires p <= alpha AND LOMO survival. If LOMO can
@@ -66,7 +68,32 @@ FALLBACK_PROVENANCE = ("nrv04-covalent-panel-recovery-2026-07-25.md 2 — per-se
 # ---------------------------------------------------------------------------------------------------------
 # 1 + 2 — the p-value lattice, and the rank-statistic identity
 # ---------------------------------------------------------------------------------------------------------
-def p_lattice(n_primary=3, n_pooled=6):
+def authorized_models_per_arm():
+    """{arm_id: n distinct co-fold models} from the AUTHORIZED enumeration. PURE-ish (reads the panel module).
+
+    ⚠ DERIVED, NEVER TYPED (2026-08-01). `p_lattice` defaulted to `n_primary=3, n_pooled=6` — the
+    pre-AMENDMENT-4 shape — so this audit went on reporting C(9,3) = 84 and a minimum attainable p of 1/84
+    after the amendment had made the real reference set C(8,3) = 56 and 1/56. Re-running it did not fix it,
+    which is the tell of a hard-coded constant rather than a derivation. That mattered because the emitted
+    verdict (`nrv04_retro_gate.verdict`, which computes from the LEGS) correctly reported 56 and 0.017857 —
+    so the two documents disagreed, and the stale one is the one a reader reaches for when looking for "the
+    numbers". CLAUDE.md rule 1: the enumeration has ONE home, `nrv04_retro_panel.enumerate_units`."""
+    import collections
+    import nrv04_retro_panel as _panel
+    per = collections.defaultdict(set)
+    for arm, model_seed, _replica in _panel.enumerate_units():
+        per[getattr(arm, "arm_id", getattr(arm, "id", str(arm)))].add(model_seed)
+    return {a: len(v) for a, v in per.items()}
+
+
+def p_lattice(n_primary=None, n_pooled=None):
+    """The attainable p-value lattice for the PRIMARY test. Defaults are DERIVED from the authorized panel."""
+    if n_primary is None or n_pooled is None:
+        per = authorized_models_per_arm()
+        if n_primary is None:
+            n_primary = per.get(gate.PRIMARY_ARM, 3)
+        if n_pooled is None:
+            n_pooled = sum(per.get(a, 3) for a in gate.POOLED_ARMS)
     n = n_primary + n_pooled
     total = len(list(combinations(range(n), n_primary)))
     return total, [k / total for k in range(1, total + 1)]
@@ -100,11 +127,11 @@ def extension_rule_reachability():
             # DEGENERATE — the pre-AMENDMENT-3 state, kept so a regression re-states it rather than going quiet.
             "The extension rule's stated trigger is 'the ordering is right but n = 3 models cannot "
             "resolve it', which requires p > alpha. Every attainable p inside its window is <= alpha, "
-            "so on the 84-point lattice the rule fires ONLY on results the same run already grades "
+            "so on the %d-point lattice the rule fires ONLY on results the same run already grades " % total +
             "CONCORDANT, and NEVER on the unresolvable case it was written for (the smallest "
             "attainable p above alpha is outside the window)."
             if in_window and len(also_concordant) == len(in_window) else
-            "NOT REACHABLE AT ALL: no attainable p = k/84 falls inside the window."
+            "NOT REACHABLE AT ALL: no attainable p = k/%d falls inside the window." % total
             if not in_window else
             # HEALTHY — every triggering p is above alpha, i.e. exactly the unresolvable case.
             "REACHABLE AND CORRECTLY SCOPED: %d attainable p-value(s) fall inside the window and %d of them "
@@ -116,25 +143,36 @@ def extension_rule_reachability():
 
 def rank_statistic_identity(trials=4000, seed=11):
     """d = mean(A) - mean(B) is an increasing affine function of sum(A), so the exact permutation p-value is a
-    rank of sum(A) among the 84 subset sums. Verified numerically on random configurations."""
+    rank of sum(A) among the subset sums. Verified numerically on random configurations.
+
+    ⚠ ON THE AUTHORIZED SHAPE, DERIVED (2026-08-01). This verified `p == rank / 84` on a hard-coded 3-vs-6
+    split. The identity is true there — 0 mismatches — but 3-vs-6 is the pre-AMENDMENT-4 panel, so the audit
+    was proving a property of a test the lane no longer runs while reading as a statement about the one it
+    does. Same defect as `p_lattice`'s defaults, one function along."""
+    per = authorized_models_per_arm()
+    n_a = per.get(gate.PRIMARY_ARM, 3)
+    n = n_a + sum(per.get(x, 3) for x in gate.POOLED_ARMS)
+    total = len(list(combinations(range(n), n_a)))
     rng = random.Random(seed)
     worst = 0.0
     mismatches = 0
     for _ in range(trials):
-        vals = [rng.uniform(0.5, 8.0) for _ in range(9)]
-        sums = sorted(sum(c) for c in combinations(vals, 3))
-        a_idx = rng.sample(range(9), 3)
+        vals = [rng.uniform(0.5, 8.0) for _ in range(n)]
+        sums = sorted(sum(c) for c in combinations(vals, n_a))
+        a_idx = rng.sample(range(n), n_a)
         a = [vals[i] for i in a_idx]
-        b = [vals[i] for i in range(9) if i not in a_idx]
+        b = [vals[i] for i in range(n) if i not in a_idx]
         res = gate.exact_permutation_p(a, b, alternative="less")
         rank = sum(1 for s in sums if s <= sum(a) + 1e-12)
-        if abs(res["p"] - rank / 84.0) > 1e-9:
+        if abs(res["p"] - rank / float(total)) > 1e-9:
             mismatches += 1
-        worst = max(worst, abs(res["p"] - rank / 84.0))
+        worst = max(worst, abs(res["p"] - rank / float(total)))
     return {"trials": trials, "mismatches": mismatches, "max_abs_deviation": worst,
-            "identity": "p == rank(sum(NR4A1 trio)) / 84",
-            "consequence": ("the primary test sees ONLY the ordering of the 84 subset sums — an effect of 0.2 A "
-                            "and an effect of 20 A that produce the same ordering produce the same p")}
+            "shape": "%d vs %d (authorized), C(%d,%d) = %d" % (n_a, n - n_a, n, n_a, total),
+            "identity": "p == rank(sum(NR4A1 trio)) / %d" % total,
+            "consequence": ("the primary test sees ONLY the ordering of the %d subset sums — an effect of "
+                            "0.2 A and an effect of 20 A that produce the same ordering produce the same p"
+                            % total)}
 
 
 # ---------------------------------------------------------------------------------------------------------

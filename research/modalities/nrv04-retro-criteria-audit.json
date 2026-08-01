@@ -4,41 +4,39 @@
   "scorer": "nrv04_retro_gate.py (frozen)",
   "test_applied": "AMENDMENT 1's standard: a criterion may be amended only if its statistic is shown to lack discriminating power, demonstrated independently of whether we liked the answer. Applied here BEFORE any leg runs.",
   "extension_rule": {
-    "n_arrangements": 84,
-    "min_attainable_p": 0.011905,
+    "n_arrangements": 56,
+    "min_attainable_p": 0.017857,
     "alpha": 0.05,
     "extension_window": [
-      0.012,
-      0.05
+      0.05,
+      0.12
     ],
     "attainable_p_in_extension_window": [
-      0.02381,
-      0.035714,
-      0.047619
-    ],
-    "of_those_also_p_le_alpha_hence_CONCORDANT": [
-      0.02381,
-      0.035714,
-      0.047619
-    ],
-    "attainable_p_that_are_right_sign_but_unresolvable (p > alpha)": [
-      0.059524,
+      0.053571,
       0.071429,
-      0.083333,
-      0.095238,
-      0.107143,
-      0.119048
+      0.089286,
+      0.107143
     ],
-    "next_p_above_alpha": 0.059524,
-    "rule_fires_only_on_results_that_already_pass": true,
-    "finding": "The extension rule's stated trigger is 'the ordering is right but n = 3 models cannot resolve it', which requires p > alpha. Every attainable p inside its window is <= alpha, so on the 84-point lattice the rule fires ONLY on results the same run already grades CONCORDANT, and NEVER on the unresolvable case it was written for (the smallest attainable p above alpha is outside the window)."
+    "of_those_also_p_le_alpha_hence_CONCORDANT": [],
+    "attainable_p_that_are_right_sign_but_unresolvable (p > alpha)": [
+      0.053571,
+      0.071429,
+      0.089286,
+      0.107143,
+      0.125,
+      0.142857
+    ],
+    "next_p_above_alpha": 0.053571,
+    "rule_fires_only_on_results_that_already_pass": false,
+    "finding": "REACHABLE AND CORRECTLY SCOPED: 4 attainable p-value(s) fall inside the window and 0 of them are <= alpha, so the rule fires on the right-sign-but-unresolvable band its text describes and cannot fire on a result the same run already grades CONCORDANT."
   },
   "rank_statistic": {
     "trials": 4000,
     "mismatches": 0,
     "max_abs_deviation": 0.0,
-    "identity": "p == rank(sum(NR4A1 trio)) / 84",
-    "consequence": "the primary test sees ONLY the ordering of the 84 subset sums \u2014 an effect of 0.2 A and an effect of 20 A that produce the same ordering produce the same p"
+    "shape": "3 vs 5 (authorized), C(8,3) = 56",
+    "identity": "p == rank(sum(NR4A1 trio)) / 56",
+    "consequence": "the primary test sees ONLY the ordering of the 56 subset sums \u2014 an effect of 0.2 A and an effect of 20 A that produce the same ordering produce the same p"
   },
   "lomo_clause": {
     "trials": 400000,
@@ -48,13 +46,8 @@
     "finding": "INERT: no configuration was found in which the frozen primary test reaches p <= alpha with NR4A1 below both paralogues and the leave-one-model-out clause then fails. The LOMO condition in the CONCORDANT tier therefore cannot downgrade anything, and the WEAKLY_CONCORDANT branch reading 'correct ordering and p <= alpha, but the sign fails leave-one-model-out' is unreachable code."
   },
   "measured_noise": {
-    "provenance": "measured live from 8 committed leg groups in research/modalities/nrv04-retro-prespend-audit.json (driver key R1_interface.plateau_A)",
+    "provenance": "nrv04-covalent-panel-recovery-2026-07-25.md 2 \u2014 per-seed plateaux read off the committed feasibility-panel leg JSONs",
     "groups": [
-      [
-        4.243,
-        4.877,
-        3.799
-      ],
       [
         2.561,
         3.703,
@@ -64,28 +57,14 @@
         2.938,
         3.651,
         5.047
-      ],
-      [
-        3.07,
-        2.418,
-        3.367
-      ],
-      [
-        4.175,
-        4.492,
-        2.844
-      ],
-      [
-        3.193,
-        2.611
       ]
     ],
-    "pooled_within_system_SD_A": 0.8552,
+    "pooled_within_system_SD_A": 1.1497,
     "why_this_is_a_LOWER_BOUND": "these are velocity replicas with the co-fold model held FIXED. The retrospective's unit of independence is the co-fold MODEL (prereg 4a), and its model-level value is the mean of 2 replicas, so the model-level noise is sqrt(sigma_model^2 + sigma_rep^2/2) >= sigma_rep/sqrt(2). Distinct co-fold seeds of the same system differ by 3-8 A CA-RMSD (nrv04-covalent-panel-recovery-2026-07-25.md 3), so sigma_model is not plausibly zero. Both bounds are reported."
   },
   "power": {
     "optimistic_sigma_rep_over_sqrt2": {
-      "sigma_model_A": 0.6047,
+      "sigma_model_A": 0.813,
       "curve": [
         {
           "true_separation_A": 0.0,
@@ -93,91 +72,35 @@
         },
         {
           "true_separation_A": 0.25,
-          "power": 0.1197
+          "power": 0.097
         },
         {
           "true_separation_A": 0.5,
-          "power": 0.2667
+          "power": 0.1887
         },
         {
           "true_separation_A": 0.75,
-          "power": 0.44
+          "power": 0.305
         },
         {
           "true_separation_A": 1.0,
-          "power": 0.6527
+          "power": 0.4533
         },
         {
           "true_separation_A": 1.5,
-          "power": 0.9233
+          "power": 0.7377
         },
         {
           "true_separation_A": 2.0,
-          "power": 0.9913
+          "power": 0.9157
         },
         {
           "true_separation_A": 2.5,
-          "power": 0.9993
+          "power": 0.9797
         },
         {
           "true_separation_A": 3.0,
-          "power": 1.0
-        },
-        {
-          "true_separation_A": 4.0,
-          "power": 1.0
-        },
-        {
-          "true_separation_A": 5.0,
-          "power": 1.0
-        },
-        {
-          "true_separation_A": 6.0,
-          "power": 1.0
-        }
-      ],
-      "separation_for_50pct_power_A": 1.0,
-      "separation_for_80pct_power_A": 1.5,
-      "false_positive_rate_at_delta_0": 0.048
-    },
-    "sigma_equals_measured_leg_SD": {
-      "sigma_model_A": 0.8552,
-      "curve": [
-        {
-          "true_separation_A": 0.0,
-          "power": 0.048
-        },
-        {
-          "true_separation_A": 0.25,
-          "power": 0.0917
-        },
-        {
-          "true_separation_A": 0.5,
-          "power": 0.176
-        },
-        {
-          "true_separation_A": 0.75,
-          "power": 0.2867
-        },
-        {
-          "true_separation_A": 1.0,
-          "power": 0.4283
-        },
-        {
-          "true_separation_A": 1.5,
-          "power": 0.699
-        },
-        {
-          "true_separation_A": 2.0,
-          "power": 0.892
-        },
-        {
-          "true_separation_A": 2.5,
-          "power": 0.969
-        },
-        {
-          "true_separation_A": 3.0,
-          "power": 0.9943
+          "power": 0.9977
         },
         {
           "true_separation_A": 4.0,
@@ -194,6 +117,62 @@
       ],
       "separation_for_50pct_power_A": 1.5,
       "separation_for_80pct_power_A": 2.0,
+      "false_positive_rate_at_delta_0": 0.048
+    },
+    "sigma_equals_measured_leg_SD": {
+      "sigma_model_A": 1.1497,
+      "curve": [
+        {
+          "true_separation_A": 0.0,
+          "power": 0.048
+        },
+        {
+          "true_separation_A": 0.25,
+          "power": 0.076
+        },
+        {
+          "true_separation_A": 0.5,
+          "power": 0.13
+        },
+        {
+          "true_separation_A": 0.75,
+          "power": 0.198
+        },
+        {
+          "true_separation_A": 1.0,
+          "power": 0.2833
+        },
+        {
+          "true_separation_A": 1.5,
+          "power": 0.4833
+        },
+        {
+          "true_separation_A": 2.0,
+          "power": 0.686
+        },
+        {
+          "true_separation_A": 2.5,
+          "power": 0.8357
+        },
+        {
+          "true_separation_A": 3.0,
+          "power": 0.938
+        },
+        {
+          "true_separation_A": 4.0,
+          "power": 0.9953
+        },
+        {
+          "true_separation_A": 5.0,
+          "power": 1.0
+        },
+        {
+          "true_separation_A": 6.0,
+          "power": 1.0
+        }
+      ],
+      "separation_for_50pct_power_A": 2.0,
+      "separation_for_80pct_power_A": 2.5,
       "false_positive_rate_at_delta_0": 0.048
     }
   },

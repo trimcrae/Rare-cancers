@@ -271,8 +271,23 @@ def verdict(legs):
         "nr4a1_below_both_paralogues": below_both,
         "pairwise_secondary": {a: {k: (round(v, 6) if isinstance(v, float) else v) for k, v in r.items()}
                                for a, r in pairwise.items()},
-        "pairwise_caveat": "min attainable one-sided p for a 3-vs-3 pairwise test is 0.05 (C(6,3)=20); these "
-                           "are descriptive support, never the verdict (prereg §4c).",
+        # ⚠ DERIVED PER TEST, NEVER ONE TYPED NUMBER (2026-08-01). This string read "min attainable one-sided
+        # p for a 3-vs-3 pairwise test is 0.05 (C(6,3)=20)" — true of the NR4A1-vs-NR4A2 test and FALSE of
+        # NR4A1-vs-NR4A3 after AMENDMENT 4, which took NR4A3 to n = 2 and its pairwise to C(5,3) = 10, min p
+        # 0.10. §4.3 registered that as a stated LOSS: that comparison "can no longer attain α at all" and
+        # must be reported as such, never as support for a verdict. A reader taking the caveat at its word
+        # would have believed 0.05 was reachable — the exact overclaim the amendment was accepted knowing
+        # the cost of. NOTHING COMPUTED CHANGES HERE: every statistic, p, tier and threshold is untouched;
+        # this is the sentence beside them, and it now reads each test's OWN `min_attainable_p`.
+        "pairwise_caveat": (
+            "descriptive support, never the verdict (prereg §4c). Min attainable one-sided p per test: "
+            + "; ".join("%s = %.4g (C(%d,%d) = %d arrangements)%s"
+                        % (a, r["min_attainable_p"], len(_values(means, [PRIMARY_ARM])) + len(_values(means, [a])),
+                           len(_values(means, [PRIMARY_ARM])), r["n_arrangements"],
+                           "" if r["min_attainable_p"] <= ALPHA else
+                           " — ⛔ ABOVE α = %.2f, so this comparison CANNOT ATTAIN SIGNIFICANCE at any "
+                           "observed ordering and is UNRESOLVABLE, not null" % ALPHA)
+                        for a, r in sorted(pairwise.items()))),
         "leave_one_model_out": lomo,
         "leave_one_model_out_role": "REPORTED robustness diagnostic only — NOT a tier condition (AMENDMENT 3 "
                                     "defect 3: 228,543 configurations reached p <= alpha with the correct "
