@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 6:16 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 6:20 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,7 +15,7 @@ Merged 6:16 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 6:12 PM ET Sat Aug 1, 2026 (5 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 6:12 PM ET Sat Aug 1, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
@@ -25,7 +25,7 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 6:13 PM ET Sat Aug 1, 2026 (4 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 6:13 PM ET Sat Aug 1, 2026 (7 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -33,7 +33,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 6:12 PM ET Sat Aug 1, 2026 (4 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 6:12 PM ET Sat Aug 1, 2026 (7 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -41,7 +41,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 6:13 PM ET Sat Aug 1, 2026 (3 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 6:13 PM ET Sat Aug 1, 2026 (7 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns                                      STATE             WHY (when not running)
@@ -53,25 +53,25 @@ cw_ms_free_acid__cw_bio_primary_amide r1 —                      —  —      
 
 ## SENSITIVITY CONTROL — SMARCA2/4 co-fold panel (instrument calibration, not a result)
 
-_As of 6:16 PM ET Sat Aug 1, 2026 (0 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
+_As of 6:20 PM ET Sat Aug 1, 2026 (0 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
 
 ```
-LEG                    ETA (ET)          % DONE  $/ns                                           STATE     WHY (when not running)
---------------------------------------------------------------------------------------------------------------------------------
-selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD          DONE      all 6 seeds have a co-fold in S3. Host(s): 46539055 running, 46539069 running, 46541719 loading, 46541725 created, 46541732 loading, 46541734 loading, 46541737 created, 46541739 created, 46541764 offline, 46541769 created. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
-selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD          DONE      all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46539157 running, 46539178 running, 46539197 running, 46541777 loading, 46541793 running, 46541819 offline, 46541822 running, 46541823 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
-selcal-smarca2-m1-r1   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541719 loading, rented 2026-08-01T22:05:48Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca2-m2-r0   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541725 created, rented 2026-08-01T22:05:51Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca2-m2-r1   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541732 loading, rented 2026-08-01T22:05:55Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca2-m3-r1   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541734 loading, rented 2026-08-01T22:05:59Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca2-m4-r0   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541737 created, rented 2026-08-01T22:06:04Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca2-m5-r1   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541739 created, rented 2026-08-01T22:06:08Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca2-m6-r0   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541764 offline, rented 2026-08-01T22:06:22Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca2-m6-r1   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541769 created, rented 2026-08-01T22:06:30Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca4-m1-r0   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541777 loading, rented 2026-08-01T22:06:36Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca4-m2-r1   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541793 running, rented 2026-08-01T22:06:51Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca4-m5-r0   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541819 offline, rented 2026-08-01T22:07:09Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca4-m6-r0   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541822 running, rented 2026-08-01T22:07:12Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
-selcal-smarca4-m6-r1   —                5/24 la  — MD leg: no benched ns rate for this lane yet RUNNING   instance 46541823 running, rented 2026-08-01T22:07:16Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+LEG                    ETA (ET)          % DONE  $/ns                                           STATE           WHY (when not running)
+--------------------------------------------------------------------------------------------------------------------------------------
+selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD          DONE            all 6 seeds have a co-fold in S3. Host(s): 46539055 running, 46539069 running, 46541719 loading, 46541725 created, 46541732 loading, 46541734 loading, 46541737 running, 46541739 created, 46541769 created. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
+selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD          DONE            all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46539157 running, 46539178 running, 46539197 running, 46541777 loading, 46541793 running, 46541822 running, 46541823 exited. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns.
+selcal-smarca2-m1-r1   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541719 loading, rented 2026-08-01T22:05:48Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca2-m2-r0   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541725 created, rented 2026-08-01T22:05:51Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca2-m2-r1   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541732 loading, rented 2026-08-01T22:05:55Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca2-m3-r1   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541734 loading, rented 2026-08-01T22:05:59Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca2-m4-r0   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541737 running, rented 2026-08-01T22:06:04Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca2-m5-r1   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541739 created, rented 2026-08-01T22:06:08Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca2-m6-r0   —                6/24 la  — MD leg: no benched ns rate for this lane yet ENDED — no host instance 46541764 is no longer on the account, so this leg ended — landed, preempted or reaped. Rented 2026-08-01T22:06:22Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca2-m6-r1   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541769 created, rented 2026-08-01T22:06:30Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca4-m1-r0   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541777 loading, rented 2026-08-01T22:06:36Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca4-m2-r1   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541793 running, rented 2026-08-01T22:06:51Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca4-m5-r0   —                6/24 la  — MD leg: no benched ns rate for this lane yet ENDED — no host instance 46541819 is no longer on the account, so this leg ended — landed, preempted or reaped. Rented 2026-08-01T22:07:09Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca4-m6-r0   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541822 running, rented 2026-08-01T22:07:12Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca4-m6-r1   —                6/24 la  — MD leg: no benched ns rate for this lane yet RUNNING         instance 46541823 exited, rented 2026-08-01T22:07:16Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
 ```
 
