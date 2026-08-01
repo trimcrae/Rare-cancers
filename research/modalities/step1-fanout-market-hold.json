@@ -1,10 +1,10 @@
 {
   "_what": "Why the step 1 fan-out launched some, all or none of its units, priced per unit in $/ns. Written on EVERY tick \u2014 including the ticks that rent nothing \u2014 because a stale timestamp must only ever mean the tick did not run.",
   "_rule": "CLAUDE.md \u00a76 \u2014 a thin, expensive market is a reason to PAUSE, not to pay. A hold is a correct outcome; a SILENT hold is the bug.",
-  "utc": "2026-08-01T18:49:57Z",
-  "decision": "cost_model_red",
-  "decision_why": "the fan-out unit-list / cost-model tests came back 'failure' \u2014 a broken unit list or cost model must never reach a GPU, so 0 pending unit(s) are held. Nothing was dropped; fix the tests and the next tick places them.",
-  "decision_meaning": "the unit-list / cost-model tests failed, so nothing may be rented",
+  "utc": "2026-08-01T19:04:29Z",
+  "decision": "placement_disabled",
+  "decision_why": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 0 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
+  "decision_meaning": "this tick was asked to measure only \u2014 no placement was attempted",
   "held": true,
   "n_withheld": 0,
   "n_launching_now": 0,
@@ -13,13 +13,13 @@
   "placed_x_basis": [],
   "spend_authorised_now_usd": 0.0,
   "ceiling_for_that_spend_usd": 0.0,
-  "binding_gate": "cost_model_red",
-  "binding_gate_why": "the fan-out unit-list / cost-model tests came back 'failure' \u2014 a broken unit list or cost model must never reach a GPU, so 0 pending unit(s) are held. Nothing was dropped; fix the tests and the next tick places them.",
+  "binding_gate": "placement_disabled",
+  "binding_gate_why": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 0 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
   "binding_gate_scope": null,
   "price_blocks_every_unit": false,
   "first_held_utc": null,
   "held_hours": 0.0,
-  "held_reason": "the fan-out unit-list / cost-model tests came back 'failure' \u2014 a broken unit list or cost model must never reach a GPU, so 0 pending unit(s) are held. Nothing was dropped; fix the tests and the next tick places them.",
+  "held_reason": "FANOUT_PLACEMENT_ENABLED='0' \u2014 this tick was asked to measure, collect and reap only. 0 unit(s) are pending with no live host and were NOT dropped; the next tick with placement enabled sends them out.",
   "basis_usd_per_ns": 0.003412,
   "unit_usd_per_ns_ceiling": 0.006539,
   "unit_ceiling_x_basis": 1.917,
@@ -27,18 +27,18 @@
   "unit_rate_line_usd_per_ns": 0.006539,
   "which_ceiling_binds": "rate line ($0.006539/ns = 1.92x basis)",
   "board_depth": {
-    "offers_returned": 186,
-    "qualifying": 186,
-    "priceable": 101,
+    "offers_returned": 187,
+    "qualifying": 187,
+    "priceable": 100,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers_priced": [
     {
-      "gpu": "RTX 3090",
-      "machine_id": 68109,
-      "min_bid": 0.054,
-      "usd_per_ns": 0.004142
+      "gpu": "RTX 4090",
+      "machine_id": 12976,
+      "min_bid": 0.112,
+      "usd_per_ns": 0.003955
     }
   ],
   "board_unreadable": null,
