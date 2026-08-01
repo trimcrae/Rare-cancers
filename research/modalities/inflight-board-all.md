@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 1:20 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 1:28 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,19 +15,19 @@ Merged 1:20 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 1:12 AM ET Sat Aug 1, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 1:20 AM ET Sat Aug 1, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:02 AM            77.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   30.8 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:35 AM           65.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.2 s/iter · realised $0.00853/ns (1.64x expected)
-5aks_d0_to_d ternary nr4a1 r1 1:50 AM Aug 2      55.6%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.4 s/iter · realised $0.00721/ns (1.74x expected)
+5aks_d0_to_d ternary nr4a3 r1 8:10 AM            77.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   30.8 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:20 AM           66.7%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.0 s/iter · realised $0.00846/ns (1.63x expected)
+5aks_d0_to_d ternary nr4a1 r1 1:58 AM Aug 2      55.6%  RTX 3090 $0.00414/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · ⚠ 55.4 s/iter · realised $0.00721/ns (1.74x expected)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 12:59 AM ET Sat Aug 1, 2026 — **21 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 12:59 AM ET Sat Aug 1, 2026 — **30 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -35,7 +35,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 1:20 AM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 1:28 AM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -43,7 +43,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 1:12 AM ET Sat Aug 1, 2026 (8 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 NOT running. The free GCP GPU is idle — that is expiring credit unspent._
+_As of 1:20 AM ET Sat Aug 1, 2026 (8 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 NOT running. The free GCP GPU is idle — that is expiring credit unspent._
 
 ```
 LEG                                ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
