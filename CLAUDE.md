@@ -160,6 +160,20 @@ When in doubt: do it and show it.
   cause); (3) state the cause **with the evidence cited**. "I couldn't run it here" is never the stopping point
   — route the diagnostic through CI/AWS (§6). **If you catch yourself writing "probably / likely / must be / I
   think it's because" about a failure, STOP and go get the data.**
+- **★★ A $0 OBSERVATION IS NEVER "WATCHING" — TAKE IT NOW (trimcrae, 2026-08-01: *"Is it expensive to
+  investigate? Why wouldn't you just take a look now to be sure"*).** The instant something *might* be wrong,
+  if the check costs nothing — a `git show` of a committed artifact, a public Actions API read, a census
+  already on disk — **run it before you write the sentence about it.** There is no such state as "watching":
+  either you looked, or you deferred a free answer and called the deferral a decision.
+  **The measured cost of getting this wrong the same day it was written:** a lane's census was 16 min stale
+  while its host billed. That was reported as "one tick past the line, watching" — and one public API call,
+  costing nothing, showed the lane's watch loop had **exited 24 minutes earlier and never re-armed**, so the
+  host had been billing unsupervised the whole time. **The "wait and see" framing was itself the error**; the
+  observation that ended it was free and available the entire time.
+  ⚠ This is the same shape as the two rules below and the reason they keep needing restating: a row that says
+  UNKNOWN, STALE, "watching" or "will check next cycle" is an **unanswered question wearing the costume of a
+  status**. §1's in-flight board makes that visible; this rule is what closes it. **Cheap to check ⇒ check
+  now.** Reserve "later" for observations that genuinely cost money, a rental, or a human's time.
 - **★ UNEXPECTED SLOWNESS IS A SIGNAL — INVESTIGATE, DON'T REASSURE (trimcrae, 2026-07-08, after I repeatedly
   reported "on track" while a job was stuck).** Materially slower than predicted, or one phase with no new
   output? That is evidence something is wrong. (1) Pull the live log and read the actual phase + last-event
