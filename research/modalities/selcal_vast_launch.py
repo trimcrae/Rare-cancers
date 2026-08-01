@@ -1022,6 +1022,61 @@ def mode_reap(bucket=None, stop_all=False):
     return 0
 
 
+def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
+    """Supervise the co-fold hosts from CI until every (arm, seed) has landed — then REAP them.
+
+    ★★ THIS EXISTS BECAUSE A `schedule:` CRON DOES NOT SUPERVISE A BILLING FLEET (CLAUDE.md §6, measured: 25
+    of the last 30 ticks on a sibling lane were manual dispatches). While a host is billing, supervision is
+    somebody's job; making it a long-running CI job means it does not depend on an agent staying awake, and
+    the REAP AT THE END is what stops a finished co-fold leaving two idle GPUs on the meter — the host cannot
+    stop its own billing, only the control plane can.
+
+    Every tick is a PROGRESS check: phase, GPU util, and the WRITE signal (new objects in S3), because GPU
+    idleness never condemns a box — Boltz's MSA stage is legitimately network-bound."""
+    import boto3
+    bucket = bucket or BUCKET
+    prefix = (cofold_prefix or SP.COFOLD_PREFIX).strip("/")
+    s3 = boto3.client("s3")
+    minutes = float(minutes or os.environ.get("WATCH_MINUTES") or 55)
+    interval = float(os.environ.get("SELCAL_WATCH_INTERVAL_S", "180"))
+    t_end = time.time() + minutes * 60
+    prev_objs, stalls = None, 0
+    while time.time() < t_end:
+        cen = _cofold_census(s3, bucket, prefix)
+        try:
+            page = s3.list_objects_v2(Bucket=bucket, Prefix="%s/" % prefix, MaxKeys=1000)
+            objs = page.get("Contents") or []
+        except Exception:  # noqa: BLE001
+            objs = []
+        _live, mine = _live_labels()
+        newest = max((o["LastModified"] for o in objs), default=None)
+        age_min = (round((time.time() - newest.timestamp()) / 60.0, 1) if newest else None)
+        print("[selcal-cofold-watch] %s | models %s | %d S3 object(s), newest %s min old | hosts %s"
+              % (time.strftime("%H:%M:%SZ", time.gmtime()), cen["n_models_per_arm"], len(objs), age_min,
+                 [(i.get("id"), i.get("actual_status"), i.get("gpu_util")) for i in mine]), flush=True)
+        if cen["complete"]:
+            print("[selcal-cofold-watch] ✅ every (arm, seed) has a co-fold — reaping the hosts.", flush=True)
+            mode_reap(bucket, stop_all=True)
+            return 0
+        if not mine:
+            print("[selcal-cofold-watch] ⛔ no co-fold host is alive and the set is incomplete — the lane "
+                  "needs a re-launch. Exiting so this cannot read as a finished watch.", flush=True)
+            return 1
+        # THE WRITE SIGNAL is what a stall verdict rests on, not gpu_util. Two consecutive ticks with no new
+        # object AND nothing newer than the interval is a real absence of work.
+        stalls = stalls + 1 if (prev_objs is not None and len(objs) == prev_objs
+                                and (age_min or 0) * 60 > interval * 1.5) else 0
+        prev_objs = len(objs)
+        if stalls >= 2:
+            print("::warning title=SELCAL CO-FOLD STALL::no new S3 object across two consecutive checks and "
+                  "nothing written for %s min. This is a measured absence of WRITES, not GPU idleness."
+                  % age_min, flush=True)
+        time.sleep(interval)
+    print("[selcal-cofold-watch] window elapsed; the set is still incomplete. Hosts LEFT RUNNING — "
+          "re-dispatch `cofold_watch` to keep supervising, or `stop` to end the rentals.", flush=True)
+    return 0
+
+
 def mode_watch(bucket=None, minutes=None):
     """The supervision job. A `schedule:` cron does NOT supervise a billing fleet (CLAUDE.md §6, measured:
     25 of the last 30 ticks on a sibling lane were manual dispatches), so supervision is a long-running job
@@ -1176,6 +1231,7 @@ MODES = {
     "launch": lambda: mode_launch(mode="run", pilot=False, only=_only()),
     "status": lambda: mode_status(),
     "watch": lambda: mode_watch(),
+    "cofold_watch": lambda: mode_cofold_watch(),
     "collect": lambda: mode_collect(),
     "gate_tick": lambda: mode_gate_tick(),
     "reap": lambda: mode_reap(),

@@ -36,9 +36,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "refs | selftest | manifest | diag | stage_prep | cofold_dry | cofold | cofold_collect | stage_test | smoke | leg | launch | status | watch | collect | gate_tick | reap | stop"
+        description: "refs | selftest | manifest | diag | stage_prep | cofold_dry | cofold | cofold_watch | cofold_collect | stage_test | smoke | leg | launch | status | watch | collect | gate_tick | reap | stop"
         type: choice
-        options: [refs, selftest, manifest, diag, stage_prep, cofold_dry, cofold, cofold_collect, stage_test, smoke, leg, launch, status, watch, collect, gate_tick, reap, stop]
+        options: [refs, selftest, manifest, diag, stage_prep, cofold_dry, cofold, cofold_watch, cofold_collect, stage_test, smoke, leg, launch, status, watch, collect, gate_tick, reap, stop]
         default: selftest
       units:
         description: "leg/launch: restrict to these unit names (comma-separated; blank = the lane decides)"
@@ -190,7 +190,7 @@ jobs:
           git push origin HEAD:${{ github.ref_name }}
 
   gpu:
-    if: ${{ contains(fromJSON('["cofold","smoke","leg","launch","watch","reap","stop"]'), github.event.inputs.mode) }}
+    if: ${{ contains(fromJSON('["cofold","cofold_watch","smoke","leg","launch","watch","reap","stop"]'), github.event.inputs.mode) }}
     runs-on: ubuntu-latest
     # `watch` is the supervision job: CLAUDE.md §6 is explicit that a `schedule:` cron does NOT supervise a
     # billing fleet, so supervision is a long-running job that makes a PROGRESS check every 3 min.
