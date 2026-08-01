@@ -1011,8 +1011,44 @@ def mode_gate_tick(bucket=None):
     return 0
 
 
+def mode_diag(bucket=None):
+    """★ ROOT-CAUSE WITH A REAL DIAGNOSTIC (CLAUDE.md §4). Pull the CONTAINER's own stdout from Vast for every
+    instance this lane owns, plus whatever S3 holds for it.
+
+    A phase marker that was never written is an ABSENT READING, not a reading of absence: it says the host
+    died before or during the step that writes the first mark, and it does NOT say which. The container log
+    is the observation that discriminates."""
+    import boto3
+    from nrv04_vast_launch import _vast_instance_logs
+    bucket = bucket or BUCKET
+    key = os.environ.get("VAST_API_KEY")
+    s3 = boto3.client("s3")
+    try:
+        insts = _vast_request("GET", "/instances/", key, params={"owner": "me"}).get("instances", [])
+    except Exception as e:  # noqa: BLE001
+        print("[selcal-diag] could not list instances: %s" % e, flush=True)
+        insts = []
+    mine = [i for i in insts if str(i.get("label") or "").startswith(SP.LABEL_PREFIX)]
+    if not mine:
+        print("[selcal-diag] this lane owns no instances right now.", flush=True)
+    for i in mine:
+        print("=" * 100, flush=True)
+        print("[selcal-diag] instance %s label=%s status=%s cur_state=%s gpu=%s gpu_util=%s dph=%s machine=%s"
+              % (i.get("id"), i.get("label"), i.get("actual_status"), i.get("cur_state"), i.get("gpu_name"),
+                 i.get("gpu_util"), i.get("dph_total"), i.get("machine_id")), flush=True)
+        print("[selcal-diag] status_msg: %r" % (str(i.get("status_msg") or "")[:800]), flush=True)
+        print("[selcal-diag] ---- CONTAINER LOG (Vast request_logs) ----", flush=True)
+        print(_vast_instance_logs(key, i.get("id"), tail=400), flush=True)
+    for pfx in (SP.COFOLD_PREFIX.strip("/"), SP.RESULT_PREFIX.strip("/")):
+        keys = _s3_list(s3, bucket, "%s/" % pfx, limit=60)
+        print("[selcal-diag] s3://%s/%s/ -> %d object(s): %s"
+              % (bucket, pfx, len(keys), keys[:20]), flush=True)
+    return 0
+
+
 MODES = {
     "dry": lambda: mode_dry(),
+    "diag": lambda: mode_diag(),
     "manifest": lambda: mode_manifest(),
     "stage_prep": lambda: mode_stage_prep(),
     "cofold_dry": lambda: mode_cofold_dry(),
