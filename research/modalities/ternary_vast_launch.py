@@ -1210,14 +1210,10 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         "RBFE_LOMAP_TIME_S": os.environ.get("TVAST_LOMAP_TIME_S") or "300",
         # See the note on the mode: only safe where no unstamped generation can need resuming.
         "RBFE_STRICT_PROVENANCE": "1" if sizing.get("strict_provenance") else "0",
-        # ★★ KILL THE O(n²) COMMIT — OPT-IN, AND OPT-IN IS THE POINT. The `.chk` accumulates one
-        # full-coordinate frame per interval and every commit re-uploads all of them, while a resume reads
-        # only the LAST: 1231.1 MiB per commit by the end of a warmup against the 47.6 MiB that is ever read
-        # (`commit-payload-design.md`). Pruning to the last frame was proven offline before it was wired --
-        # bit-identical coordinates, unmodified commit/restore path, a pruned chain, 25.88x on a REAL
-        # committed pair (GH 30676071569, $0). DEFAULT OFF so a leg already in flight cannot pick it up on a
-        # resume: it goes on for a FRESH leg, by explicit dispatch, per the ladder.
-        "RBFE_PRUNE_CHK": os.environ.get("TVAST_PRUNE_CHK") or "0",
+        # ★★ KILL THE O(n²) COMMIT — GATED ON THE LADDER RUNG, NOT ONLY ON A SWITCH. See
+        # `prune_chk_for_mode`: a repository variable is GLOBAL, and this lane self-dispatches, so the
+        # switch alone cannot promise the four live legs are untouched. The mode allowlist can.
+        "RBFE_PRUNE_CHK": prune_chk_for_mode(mode),
         # ...and fail CLOSED if the map still comes back short. `nr4a3_ternary_fep.assert_map_not_degenerate`
         # derives the required heavy-atom count from the endpoints' own MCS and aborts before any sampling is
         # billed. Explicit for calibration legs because their expectation is verified at $0 in CI first.
@@ -1512,6 +1508,42 @@ def warmup_target_iters(timestep_fs, warmup_timestep_fs):
 
 def _divisors_up_to(n, cap):
     return [d for d in range(1, int(cap) + 1) if n % d == 0]
+
+
+# ★★ THE PRUNE LADDER — WHICH MODES MAY COMMIT A SINGLE-FRAME `.chk`, AND WHY IT IS A CODE GATE.
+#
+# The prune replaces the committed checkpoint with its LAST frame only: 1231.1 MiB per commit down to the
+# 47.6 MiB a resume actually reads. It was proven offline before it was wired -- bit-identical coordinates
+# against an unpruned resume of the same run, the UNMODIFIED commit/restore path, a pruned CHAIN, and
+# 25.88x on a real committed 5a-KS pair (GH 30676071569, $0, no rental).
+#
+# ⚠ WHY AN ALLOWLIST AND NOT JUST `TVAST_PRUNE_CHK`. The switch reaches this lane as a REPOSITORY VARIABLE
+# (the lane is at GitHub's 10-input cap, so it cannot be a dispatch input), and a repository variable is
+# GLOBAL to every run of every workflow. This lane also SELF-DISPATCHES: `5aks-gate` fires `task=5aks` the
+# moment the board clears, which re-places a stranded leg -- and that leg RESUMES. So "set the variable for
+# one experiment" is not a thing the switch alone can express, and the promise that the four legs at
+# 94/64/51/49 % are untouched would have rested on nobody dispatching the wrong task for as long as the
+# variable stayed set. It now rests on this tuple instead, which is the kind of promise a test can hold.
+#
+# ⚠ AND IT IS ONE VARIABLE AT A TIME (CLAUDE.md §6). Widen this by exactly one rung, after the rung below
+# it has been observed reaching its real success terminus -- never as a convenience while something else is
+# also changing. The interval-32 retest in particular is a SECOND change and must not ride along.
+#
+# LADDER POSITION: rung 2 of 3 — the plumbing shakeout only.
+#   rung 1  offline round-trip .................. DONE (GH 30676071569)
+#   rung 2  `5aks_smoke` ........................ HERE  <- the only member of this set
+#   rung 3  one genuinely FRESH production leg .. requires a fresh unit to exist; never a resume
+PRUNE_ELIGIBLE_MODES = ("5aks_smoke",)
+
+
+def prune_chk_for_mode(mode, env=None):
+    """`"1"` only when the operator asked AND `mode` is at or below the ladder rung the prune has reached.
+
+    Returns the string the jobspec carries, because that is what a host reads. Never raises on an unknown
+    mode -- an unknown mode is simply not on the allowlist, which is the safe answer."""
+    env = os.environ if env is None else env
+    asked = str(env.get("TVAST_PRUNE_CHK", "")).strip() in ("1", "true", "TRUE", "yes")
+    return "1" if (asked and mode in PRUNE_ELIGIBLE_MODES) else "0"
 
 
 def warmup_ckpt_iters_for(leg_id, mode, sizing=None, timestep_fs=None, warmup_timestep_fs=None):

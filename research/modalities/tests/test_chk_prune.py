@@ -210,11 +210,51 @@ def test_the_module_imports_without_the_MD_stack():
 # the switch has to reach a rented host, and it has to reach it OFF unless asked
 # ---------------------------------------------------------------------------------------------
 def test_the_launcher_defaults_the_switch_to_off():
-    """`TVAST_PRUNE_CHK` unset must put `RBFE_PRUNE_CHK=0` in the leg's environment. A leg that resumes
-    while this is being landed must behave exactly as it did before."""
+    """`TVAST_PRUNE_CHK` unset must put `RBFE_PRUNE_CHK=0` in every leg's environment, whatever the mode."""
+    import ternary_vast_launch as tv
+    for m in list(tv.MODES) + ["a_mode_that_does_not_exist"]:
+        assert tv.prune_chk_for_mode(m, {}) == "0"
+        assert tv.prune_chk_for_mode(m, {"TVAST_PRUNE_CHK": "0"}) == "0"
+
+
+# ---------------------------------------------------------------------------------------------
+# ★★ THE LADDER GATE — the promise that four irreplaceable legs are untouched, made testable
+# ---------------------------------------------------------------------------------------------
+def test_the_switch_alone_cannot_reach_the_live_production_mode():
+    """⚠ THE REASON THIS EXISTS. The switch reaches the lane as a REPOSITORY VARIABLE (the lane is at
+    GitHub's 10-input cap so it cannot be a dispatch input), and a repository variable is GLOBAL to every
+    run. This lane also SELF-DISPATCHES — `5aks-gate` fires `task=5aks` the moment the board clears, which
+    re-places a stranded leg, and that leg RESUMES. So "set the variable for one experiment" is not
+    something the switch alone can express: with the variable set, a gate firing overnight would have put a
+    second change onto legs at 94/64/51/49 %. The allowlist is what makes the promise hold without
+    depending on nobody dispatching the wrong task."""
+    import ternary_vast_launch as tv
+    assert tv.prune_chk_for_mode("5aks", {"TVAST_PRUNE_CHK": "1"}) == "0"
+    assert tv.prune_chk_for_mode("5aks_smoke", {"TVAST_PRUNE_CHK": "1"}) == "1"
+
+
+def test_only_the_shakeout_mode_is_eligible_at_this_rung():
+    """CLAUDE.md §6: one variable at a time. Widening this set is a deliberate rung, so it is pinned — if
+    a mode is added, this test fails and whoever added it has to say which rung was cleared."""
+    import ternary_vast_launch as tv
+    assert tv.PRUNE_ELIGIBLE_MODES == ("5aks_smoke",)
+
+
+def test_no_mode_outside_the_allowlist_can_ever_prune():
+    import ternary_vast_launch as tv
+    on = {"TVAST_PRUNE_CHK": "1"}
+    for m in tv.MODES:
+        expected = "1" if m in tv.PRUNE_ELIGIBLE_MODES else "0"
+        assert tv.prune_chk_for_mode(m, on) == expected, m
+
+
+def test_the_jobspec_gets_the_gated_value_not_the_raw_env():
+    """A jobspec that read the env directly would bypass the allowlist entirely — which is precisely the
+    bug the allowlist exists to prevent, so it is pinned as source text."""
     import ternary_vast_launch as tv
     src = open(tv.__file__).read()
-    assert '"RBFE_PRUNE_CHK": os.environ.get("TVAST_PRUNE_CHK") or "0"' in src
+    assert '"RBFE_PRUNE_CHK": prune_chk_for_mode(mode)' in src
+    assert '"RBFE_PRUNE_CHK": os.environ.get("TVAST_PRUNE_CHK")' not in src
 
 
 def test_the_switch_is_forwarded_into_the_leg_command():
