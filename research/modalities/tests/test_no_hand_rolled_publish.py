@@ -130,8 +130,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("report-fm-push.yml", "report"),
     ("report-nrv04-aws.yml", "report"),
     ("rung5aks-cofold.yml", "prep"),
-    ("selectivity-control-vast.yml", "cpu"),
-    ("selectivity-control-vast.yml", "gpu"),
     ("step1-fanout-autoscale.yml", "tick"),
     ("ternary-calib-freeze.yml", "freeze"),
     ("ternary-calib-freeze.yml", "triangle"),

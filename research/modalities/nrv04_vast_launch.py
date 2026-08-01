@@ -3294,8 +3294,7 @@ def retro_board_price_cell(inst):
     import inflight_board as ifb
     if inst is None:
         return None
-    return ifb.unpriceable_usd_cell(inst.get("dph_total"),
-                                    "endpoint MD, not the 84k-atom RBFE the throughput table benches")
+    return ifb.unpriceable_usd_cell(inst.get("dph_total"), ifb.ENDPOINT_MD_NOT_BENCHED)
 
 
 def _phase_marker_provenance(phase, inst):

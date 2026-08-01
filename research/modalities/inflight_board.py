@@ -791,8 +791,23 @@ def usd_per_ns_cell(gpu_name, dph_total, stance=None, rate_basis=None, root=None
         return None
 
 
+#: The reason an ENDPOINT-MD lane cannot be priced in `$/ns`, in one place because more than one lane has it.
+#: NR-V04 and the sensitivity control run the same shape of calculation and are unpriceable for the same
+#: reason; each having written its own sentence is how selcal's came to say something different — and worse,
+#: something that dropped the `$/hr` (see `md_rows`). A shared constant makes the two rows say one thing.
+ENDPOINT_MD_NOT_BENCHED = "endpoint MD, not the 84k-atom RBFE the throughput table benches"
+
+
 def unpriceable_usd_cell(dph_total, workload):
     """The `$/ns` cell for a GPU row whose ns/h is NOT MEASURABLE. Never a fabricated rate.
+
+    ⚠ THIS IS THE ONLY PLACE A GPU ROW MAY DECLINE TO QUOTE `$/ns`. A lane that hand-writes its own `—`
+    string loses the half of this cell that is NOT optional: **the `$/hr` it is actually being billed**. That
+    is not cosmetic — a board row exists to show money going out, and a row that refuses the derived rate
+    *and* omits the measured one shows none at all. Measured 2026-08-01: 19 sensitivity-control hosts billed
+    with a hand-rolled cell reading only "no benched ns rate for this lane yet", so the lane's whole spend was
+    invisible on the board that CLAUDE.md §1 requires to carry it.
+    Pinned by `tests/test_unpriceable_rows_still_show_their_dollars.py`.
 
     ★★ WHY A LANE MAY BE UNPRICEABLE IN $/ns AND MUST SAY SO. `vast_cost_model.MEASURED_NS_PER_DAY_84K` is
     "THE ONLY THROUGHPUT TABLE" and it is a table of **84k-atom RBFE** throughput. The NR-V04 retrospective

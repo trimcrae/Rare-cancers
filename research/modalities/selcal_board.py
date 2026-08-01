@@ -202,9 +202,13 @@ def board_rows(census, arrivals, hosts=(), now=None, seeds=None, unattributed_ho
             # be attributed to an arm from it alone — and "unattributable" must not render as "absent" (§4).
             why += (" %d host(s) are live on this lane but the committed census carries no label, so which "
                     "arm they serve is UNATTRIBUTABLE from this source." % unattributed_hosts)
+        # ⚠ DO NOT re-add "and the lane's MD legs carry a real $/ns": they do not, and cannot. This lane's MD
+        # rows are UNPRICEABLE in $/ns for a different reason than these co-fold rows — not "no dynamics" but
+        # "no benched throughput for endpoint MD at this system size" — and both refusals are honest. A
+        # cross-reference that promises a number the neighbouring rows never produce is a rule-1 defect.
         why += (" %d/%d seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns "
-                "denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
-                % (n_done, n_tot))
+                "denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion "
+                "(inflight_board.unpriceable_usd_cell)." % (n_done, n_tot))
         rows.append({
             "name": "%s co-fold" % a.arm_id, "pct": pct,
             # ⚠ `pct_of` STAYS NONE, and that is not an omission. The renderer treats it as a LABEL that
@@ -258,15 +262,25 @@ def md_rows(handles, hosts=(), landed=None, n_units=None, now=None):
             why = ("instance %s is no longer on the account, so this leg ended — landed, preempted or "
                    "reaped. Rented %s. Which of the three it was is in the lane's collect, not here: this "
                    "row reports host state and must not guess an outcome." % (inst, started))
-        # ⚠ NO $/ns IS INVENTED. `inflight_usd_per_ns.row()` is the one home for that cell and it needs the
-        # instance record plus a measured ns rate; this lane has never benched an MD leg, so there is no
-        # like-for-like ns denominator yet. A `—` that names its reason beats a number nobody can grade.
+        # ⚠ NO $/ns IS INVENTED — but the DOLLARS ARE NOT OPTIONAL. `vast_cost_model`'s table benches 84k-atom
+        # RBFE and these legs are endpoint MD on a far larger system, so the derived rate genuinely cannot be
+        # quoted; that much this row always had right. What it got wrong was writing its own refusal string,
+        # which carried no `$/hr` either — so 19 hosts billed with no money anywhere on the board. The one home
+        # for "unpriceable, and here is what it costs anyway" is `inflight_board.unpriceable_usd_cell`, which
+        # NR-V04 (identical workload, identical reason) already used.
+        if host is not None:
+            usd = IB.unpriceable_usd_cell(host.get("dph_total"), IB.ENDPOINT_MD_NOT_BENCHED)
+        else:
+            # No host record to read a rate FROM. Not "free" and not "unknown cost" — the rate this leg was
+            # billed at is in the lane's rental ledger, not in a board row about a host that is gone.
+            usd = ("— %s; no live host record this tick, so no rate to quote here"
+                   % IB.ENDPOINT_MD_NOT_BENCHED)
         rows.append({
             "name": h.get("unit") or "selcal MD leg",
             "pct": None,
             "pct_of": None if landed is None else ("%d/%d landed" % (landed, n_units or 0)),
             "eta_s": None,
-            "usd_per_ns": "— MD leg: no benched ns rate for this lane yet",
+            "usd_per_ns": usd,
             "state": state,
             "why": why + (" ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no "
                           "measured s/iter to project from; the first one that lands supplies it."),

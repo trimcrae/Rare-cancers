@@ -291,5 +291,13 @@ def test_the_selcal_board_emits_a_row_for_a_rented_md_leg():
     unread = B.md_rows(h, hosts=None)[0]
     assert unread["state"] == _lanes().UNKNOWN
     assert "absent reading is not a reading of absence" in unread["why"]
-    # …and no $/ns is invented for a lane that has never benched an MD leg.
-    assert "—" in live[0]["usd_per_ns"] and "no benched ns rate" in live[0]["usd_per_ns"]
+    # …and no $/ns is invented, because the throughput table benches 84k-atom RBFE and these are endpoint MD.
+    # ⚠ THIS USED TO ASSERT THE STRING "no benched ns rate", AND THAT ASSERTION HELD THE BUG IN PLACE. The
+    # refusal was right; the hand-rolled cell it pinned carried no `$/hr` either, so a row about a host on the
+    # meter showed no money at all — measured across 19 billing hosts, 2026-08-01. A test that pins wording
+    # cannot tell a correct refusal from an incomplete one. The property is in
+    # `tests/test_unpriceable_rows_still_show_their_dollars.py`; here we only check it is the SHARED cell.
+    assert live[0]["usd_per_ns"].startswith("—")
+    priced = B.md_rows(h, hosts=[{"id": 46531433, "actual_status": "running", "dph_total": 0.1788}],
+                       landed=0, n_units=24)[0]["usd_per_ns"]
+    assert "0.1788" in priced and "/hr" in priced, priced

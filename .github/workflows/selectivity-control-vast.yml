@@ -184,62 +184,40 @@ jobs:
       # bytes must still leave a dated commit or a frozen lane reads as a quiet one.
       - name: Commit whatever landed
         if: ${{ always() && env.MODE != 'selftest' }}
+        env:
+          # The all-lane board is REGENERATED after the reset, never stamped: every lane writes it, so the
+          # copy this job merged was built against its own checkout's stale view of the other four fragments.
+          PUBLISH_REGEN: python3 research/modalities/inflight_board.py --write
+          PUBLISH_REGEN_ADD: research/modalities/inflight-board-all.md
         run: |
           set -eo pipefail
           # ⛔ A CONTAINER STEP WRITES AS ROOT, AND THIS STEP RUNS AS `runner`. MEASURED, runs 30712764070 and
           # 30712792573 (2026-08-01, both `stage_test`): the `ternary-fep` container writes
           # `selcal-stage-test.json` into the bind-mounted `research/modalities` owned by root:root 644, and
-          # the `cp` below then died with `cp: cannot create regular file … Permission denied`. `set -e` made
-          # that the whole step, so the rung the co-fold watch advances to could never bank its result — the
-          # $0 staging shakeout that gates the first MD rental was structurally unable to finish.
-          # Worse once the file is TRACKED: `git reset --hard` would fail on it too, before the cp is reached.
-          # So the ownership is normalised FIRST, and it cannot itself fail the step.
+          # the copy-back then died with `Permission denied`. `set -e` made that the whole step, so the rung
+          # the co-fold watch advances to could never bank its result — the $0 staging shakeout that gates
+          # the first MD rental was structurally unable to finish. Worse once the file is TRACKED: the reset
+          # inside the publish would fail on it too. So ownership is normalised FIRST, and cannot fail.
           sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          paths=()
-          for p in research/modalities/selcal-reference-selectivity.json \
-                   research/modalities/selcal-market-hold.json \
-                   research/modalities/selcal-gate-record.json \
-                   research/modalities/selcal-price-ledger.json \
-                   research/modalities/selcal-collect.json \
-                   research/modalities/selcal-verdict.json \
-                   research/modalities/selcal-cofold-census.json \
-                   research/modalities/selcal-reap.json \
-                   research/modalities/selcal-stage-test.json \
-                   research/modalities/inflight-board.d/selcal-cofold.json; do
-            [ -e "$p" ] && paths+=("$p")
-          done
-          # ⛔ `inflight-board-all.md` IS DELIBERATELY **NOT** IN THAT LIST (2026-08-01). Every lane writes
-          # it, so stamping our snapshot of it over upstream would revert the other four lanes' rows — and
-          # the copy we hold was merged BEFORE the reset below, i.e. against this checkout's stale copies of
-          # their fragments. It is REGENERATED IN PLACE after the reset instead, which is the same treatment
-          # `gcp-gpu-facts.md` gets in gpu-fanout-rep-gcp.yml and for the same reason: a file we regenerate
-          # cannot carry another writer's work backwards; a file we stamp from a stale checkout can.
-          # ★★ LAST WRITER WINS, BY CONSTRUCTION — these artifacts have MORE THAN ONE WRITER, and a
-          # merge of two snapshots is meaningless. Measured 2026-08-01 (run 30710853581): a `cofold_watch`
-          # tick and a `cofold_collect` tick both wrote selcal-cofold-census.json, `git pull --rebase` hit
-          # `CONFLICT (content)`, the `|| true` swallowed it, the repo was left mid-rebase, and the push
-          # printed "Everything up-to-date" — so that tick's REAP READOUT was committed and then silently
-          # lost, and the supervision job failed for a reason that had nothing to do with its fleet.
-          # So: stash our fresh copies, reset to the remote, lay them back on top, commit, push. No merge is
-          # possible. The retry covers the ordinary race where another job pushed between fetch and push.
-          tmp=$(mktemp -d)
-          for p in "${paths[@]}"; do cp --parents "$p" "$tmp/"; done
-          for attempt in 1 2 3 4 5; do
-            git fetch origin ${{ github.ref_name }}
-            git reset --hard "origin/${{ github.ref_name }}"
-            for p in "${paths[@]}"; do cp "$tmp/$p" "$p"; done
-            [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
-            # The all-lane board, re-merged HERE — after the reset, so it reads upstream's freshest
-            # ternary / step1-fanout / nrv04-retro / gcp fragments plus the one we just laid back down.
-            python3 research/modalities/inflight_board.py --write >/dev/null 2>&1 \
-              || echo "::warning title=ALL-LANE BOARD NOT RE-MERGED::this lane's fragment is published, but inflight-board-all.md will render it stale until another lane ticks."
-            git add research/modalities/inflight-board-all.md 2>/dev/null || true
-            git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
-            git push origin HEAD:${{ github.ref_name }} && break
-            echo "[selcal-commit] push race on attempt $attempt — re-basing our snapshots onto the new tip"
-            sleep $((attempt * 3))
-          done
+          # ⛔ ONE HOME FOR THE PUBLISH. This step used to hand-roll snapshot/reset/restore/retry, which got
+          # the CONFLICT case right and the OWNERSHIP case wrong: it stamped every path it could see,
+          # including artifacts THIS MODE NEVER WROTE. Measured 2026-08-01 — a `status` tick republished
+          # `selcal-collect.json` seven seconds after a `collect` tick, taking `landed: 5` back to `landed: 0`
+          # with a three-hour-old timestamp, with nothing red anywhere. `publish_artifacts.sh` publishes only
+          # what this run actually changed. See its header; see tests/test_publish_does_not_revert_*.py.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "selcal ${MODE}: lane tick (CI)" \
+            research/modalities/selcal-reference-selectivity.json \
+            research/modalities/selcal-market-hold.json \
+            research/modalities/selcal-gate-record.json \
+            research/modalities/selcal-price-ledger.json \
+            research/modalities/selcal-collect.json \
+            research/modalities/selcal-verdict.json \
+            research/modalities/selcal-cofold-census.json \
+            research/modalities/selcal-reap.json \
+            research/modalities/selcal-stage-test.json \
+            research/modalities/selcal-handles.json \
+            research/modalities/inflight-board.d/selcal-cofold.json
 
   gpu:
     if: ${{ contains(fromJSON('["cofold","cofold_watch","smoke","leg","launch","watch","reap","stop"]'), github.event.inputs.mode) }}
@@ -294,58 +272,37 @@ jobs:
 
       - name: Commit whatever landed
         if: ${{ always() }}
+        env:
+          # The all-lane board is REGENERATED after the reset, never stamped: every lane writes it, so the
+          # copy this job merged was built against its own checkout's stale view of the other four fragments.
+          PUBLISH_REGEN: python3 research/modalities/inflight_board.py --write
+          PUBLISH_REGEN_ADD: research/modalities/inflight-board-all.md
         run: |
           set -eo pipefail
           # ⛔ A CONTAINER STEP WRITES AS ROOT, AND THIS STEP RUNS AS `runner`. MEASURED, runs 30712764070 and
           # 30712792573 (2026-08-01, both `stage_test`): the `ternary-fep` container writes
           # `selcal-stage-test.json` into the bind-mounted `research/modalities` owned by root:root 644, and
-          # the `cp` below then died with `cp: cannot create regular file … Permission denied`. `set -e` made
-          # that the whole step, so the rung the co-fold watch advances to could never bank its result — the
-          # $0 staging shakeout that gates the first MD rental was structurally unable to finish.
-          # Worse once the file is TRACKED: `git reset --hard` would fail on it too, before the cp is reached.
-          # So the ownership is normalised FIRST, and it cannot itself fail the step.
+          # the copy-back then died with `Permission denied`. `set -e` made that the whole step, so the rung
+          # the co-fold watch advances to could never bank its result — the $0 staging shakeout that gates
+          # the first MD rental was structurally unable to finish. Worse once the file is TRACKED: the reset
+          # inside the publish would fail on it too. So ownership is normalised FIRST, and cannot fail.
           sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          paths=()
-          for p in research/modalities/selcal-market-hold.json \
-                   research/modalities/selcal-gate-record.json \
-                   research/modalities/selcal-price-ledger.json \
-                   research/modalities/selcal-handles.json \
-                   research/modalities/selcal-collect.json \
-                   research/modalities/selcal-verdict.json \
-                   research/modalities/selcal-cofold-census.json \
-                   research/modalities/selcal-reap.json \
-                   research/modalities/inflight-board.d/selcal-cofold.json; do
-            [ -e "$p" ] && paths+=("$p")
-          done
-          # ⛔ `inflight-board-all.md` IS DELIBERATELY **NOT** IN THAT LIST (2026-08-01). Every lane writes
-          # it, so stamping our snapshot of it over upstream would revert the other four lanes' rows — and
-          # the copy we hold was merged BEFORE the reset below, i.e. against this checkout's stale copies of
-          # their fragments. It is REGENERATED IN PLACE after the reset instead, which is the same treatment
-          # `gcp-gpu-facts.md` gets in gpu-fanout-rep-gcp.yml and for the same reason: a file we regenerate
-          # cannot carry another writer's work backwards; a file we stamp from a stale checkout can.
-          # ★★ LAST WRITER WINS, BY CONSTRUCTION — these artifacts have MORE THAN ONE WRITER, and a
-          # merge of two snapshots is meaningless. Measured 2026-08-01 (run 30710853581): a `cofold_watch`
-          # tick and a `cofold_collect` tick both wrote selcal-cofold-census.json, `git pull --rebase` hit
-          # `CONFLICT (content)`, the `|| true` swallowed it, the repo was left mid-rebase, and the push
-          # printed "Everything up-to-date" — so that tick's REAP READOUT was committed and then silently
-          # lost, and the supervision job failed for a reason that had nothing to do with its fleet.
-          # So: stash our fresh copies, reset to the remote, lay them back on top, commit, push. No merge is
-          # possible. The retry covers the ordinary race where another job pushed between fetch and push.
-          tmp=$(mktemp -d)
-          for p in "${paths[@]}"; do cp --parents "$p" "$tmp/"; done
-          for attempt in 1 2 3 4 5; do
-            git fetch origin ${{ github.ref_name }}
-            git reset --hard "origin/${{ github.ref_name }}"
-            for p in "${paths[@]}"; do cp "$tmp/$p" "$p"; done
-            [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
-            # The all-lane board, re-merged HERE — after the reset, so it reads upstream's freshest
-            # ternary / step1-fanout / nrv04-retro / gcp fragments plus the one we just laid back down.
-            python3 research/modalities/inflight_board.py --write >/dev/null 2>&1 \
-              || echo "::warning title=ALL-LANE BOARD NOT RE-MERGED::this lane's fragment is published, but inflight-board-all.md will render it stale until another lane ticks."
-            git add research/modalities/inflight-board-all.md 2>/dev/null || true
-            git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
-            git push origin HEAD:${{ github.ref_name }} && break
-            echo "[selcal-commit] push race on attempt $attempt — re-basing our snapshots onto the new tip"
-            sleep $((attempt * 3))
-          done
+          # ⛔ ONE HOME FOR THE PUBLISH. This step used to hand-roll snapshot/reset/restore/retry, which got
+          # the CONFLICT case right and the OWNERSHIP case wrong: it stamped every path it could see,
+          # including artifacts THIS MODE NEVER WROTE. Measured 2026-08-01 — a `status` tick republished
+          # `selcal-collect.json` seven seconds after a `collect` tick, taking `landed: 5` back to `landed: 0`
+          # with a three-hour-old timestamp, with nothing red anywhere. `publish_artifacts.sh` publishes only
+          # what this run actually changed. See its header; see tests/test_publish_does_not_revert_*.py.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "selcal ${MODE}: lane tick (CI)" \
+            research/modalities/selcal-reference-selectivity.json \
+            research/modalities/selcal-market-hold.json \
+            research/modalities/selcal-gate-record.json \
+            research/modalities/selcal-price-ledger.json \
+            research/modalities/selcal-collect.json \
+            research/modalities/selcal-verdict.json \
+            research/modalities/selcal-cofold-census.json \
+            research/modalities/selcal-reap.json \
+            research/modalities/selcal-stage-test.json \
+            research/modalities/selcal-handles.json \
+            research/modalities/inflight-board.d/selcal-cofold.json
