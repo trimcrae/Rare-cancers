@@ -405,7 +405,10 @@ def test_every_lane_declares_the_fields_a_verdict_needs(spec):
     assert spec.get("key") and spec.get("label") and spec.get("tick_workflow")
     assert spec.get("label_prefixes"), "a lane with no label prefix can never be attributed a host"
     assert all(isinstance(p, str) and p for p in spec["label_prefixes"])
-    if spec.get("fragment"):
+    # ⚠ `lane_fragment(spec)`, NOT `spec["fragment"]` — a board lane declares `board_lane` and the path is
+    # DERIVED, so reading the raw key would see None and demand a `no_fragment_why` from a lane that has a
+    # perfectly good artifact. Ask for the property; the storage is not the point.
+    if A.lane_fragment(spec):
         assert spec.get("time_keys"), "a fragment with no declared time key can only ever use the weak basis"
         assert spec.get("time_mode") in ("iso", "iso_in_string")
     else:
@@ -414,14 +417,14 @@ def test_every_lane_declares_the_fields_a_verdict_needs(spec):
         assert spec.get("no_fragment_why")
 
 
-@pytest.mark.parametrize("spec", [s for s in A.ACCOUNT_LANES if s.get("fragment")], ids=lambda s: s["key"])
+@pytest.mark.parametrize("spec", [s for s in A.ACCOUNT_LANES if A.lane_fragment(s)], ids=lambda s: s["key"])
 def test_declared_fragments_exist(spec):
     """A DECLARED ARTIFACT THAT NOTHING PRODUCES IS NOT AN ARTIFACT. Same rule, and same reason, as
     `test_lane_registry_contract.py`: on 2026-07-31 a hold artifact was named in three places and had never
     been committed, and the watcher's "not present in the repo" read like a lane being quiet rather than like
     a monitor that was never wired up. Here the consequence is sharper — a fragment that does not exist
     silently demotes a lane to the WEAK git basis, or to LANE-UNKNOWN, forever."""
-    assert (MODALITIES / spec["fragment"]).exists(), (
+    assert (MODALITIES / A.lane_fragment(spec)).exists(), (
         f"{spec['key']} declares fragment {spec['fragment']!r}, which is not in the repo. Either it is never "
         f"written (then the lane is not gradeable and must declare fragment=None with a reason), or the path "
         f"is wrong.")

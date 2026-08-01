@@ -129,6 +129,43 @@ import re
 import subprocess
 import sys
 
+
+
+#: The board's fragment directory. ⚠ TYPED HERE, AND THAT IS DELIBERATE: this module is PURE STDLIB by
+#: design — "it must be pure stdlib so it cannot be taken down by the lanes it watches"
+#: (test_account_orphan_alarm) — so it may not import `inflight_board`, which is a lane module. An alarm
+#: that dies when the thing it supervises dies is not an alarm.
+#: The CONSISTENCY is proven at TEST time instead, where importing anything is free: every `board_lane`
+#: declared below must be a real `inflight_board.LANES` id and must compose to that lane's real fragment
+#: path. So the runtime stays isolated and the two registries still cannot drift.
+BOARD_FRAGMENT_DIR = "inflight-board.d"
+
+
+def lane_fragment(spec):
+    """The repo-relative artifact whose freshness proves this lane reported. DERIVED for board lanes.
+
+    ★★ THE SECOND HOME IS REMOVED, NOT POLICED (2026-08-01, second pass at this bug).
+
+    The first fix re-pointed four typed paths at the board fragments and added a test that this registry
+    and `inflight_board.LANES` AGREE. That is DETECTION, not prevention — and the agreement test had three
+    escape hatches, any one of which lets the same false `UNSUPERVISED-BILLING` back in:
+
+        a `fragment: None` entry            -> skipped
+        a lane id absent from the board     -> skipped ("nothing to reconcile")
+        a hand-maintained ALIAS map         -> a renamed lane silently stops being checked
+
+    The bug it was fixed for was two registries naming one fact and only one being updated. Adding a third
+    thing that must be kept in step is more of the same disease. So a board-backed entry now declares WHICH
+    lane it is (`board_lane`) and the PATH is computed here. There is nothing left to disagree.
+
+    A lane with neither `board_lane` nor `fragment` is genuinely artifact-less; callers already render that
+    as UNWATCHABLE-BILLING, which is a declared state and not silence.
+    """
+    lane = spec.get("board_lane")
+    if lane:
+        return f"{BOARD_FRAGMENT_DIR}/{lane}.json"
+    return spec.get("fragment")
+
 ET = datetime.timezone(datetime.timedelta(hours=-4))  # EDT. CLAUDE.md §1: always US Eastern, 12-hour.
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -226,7 +263,14 @@ ACCOUNT_LANES: list[dict] = [
         # ⚠ AND IT UPGRADES THE STAMP. A board fragment carries an in-file `generated_epoch`, which this
         # module already prefers over git commit time — its own words: "WEAKER: a refactor touching the
         # file moves this without any tick having run, so it can only make the lane look fresher".
-        "fragment": "inflight-board.d/step1-fanout.json",
+        # ★★ DERIVED, NEVER TYPED (2026-08-01, second pass). The first fix re-pointed these strings at the
+        # board fragments and added a test that the two registries AGREE. That is detection, not prevention:
+        # a typed path can still diverge, and the agreement test had three escape hatches (a `None` fragment,
+        # a lane id absent from the board registry, and a hand-maintained alias map) — any of which lets the
+        # same false `UNSUPERVISED-BILLING` back in. So the second home is REMOVED: an entry now names WHICH
+        # BOARD LANE it is, and `lane_fragment()` computes the path from `inflight_board`. Divergence is
+        # unrepresentable rather than detected (CLAUDE.md §1: a total is DERIVED, never typed).
+        "board_lane": "step1-fanout",
         "time_keys": ("_generated_utc",),
         "time_mode": "iso",
         "tick_workflow": "step1-fanout-autoscale.yml",
@@ -252,7 +296,14 @@ ACCOUNT_LANES: list[dict] = [
         # ⚠ AND IT UPGRADES THE STAMP. A board fragment carries an in-file `generated_epoch`, which this
         # module already prefers over git commit time — its own words: "WEAKER: a refactor touching the
         # file moves this without any tick having run, so it can only make the lane look fresher".
-        "fragment": "inflight-board.d/ternary.json",
+        # ★★ DERIVED, NEVER TYPED (2026-08-01, second pass). The first fix re-pointed these strings at the
+        # board fragments and added a test that the two registries AGREE. That is detection, not prevention:
+        # a typed path can still diverge, and the agreement test had three escape hatches (a `None` fragment,
+        # a lane id absent from the board registry, and a hand-maintained alias map) — any of which lets the
+        # same false `UNSUPERVISED-BILLING` back in. So the second home is REMOVED: an entry now names WHICH
+        # BOARD LANE it is, and `lane_fragment()` computes the path from `inflight_board`. Divergence is
+        # unrepresentable rather than detected (CLAUDE.md §1: a total is DERIVED, never typed).
+        "board_lane": "ternary",
         "time_keys": ("_generated_utc", "utc", "generated_utc"),
         "time_mode": "iso",
         "tick_workflow": "gpu-ternary-fep-vast.yml",
@@ -262,7 +313,14 @@ ACCOUNT_LANES: list[dict] = [
         "label": "NR-V04 retrospective Arm E / R1 endpoint-MD legs (Vast)",
         "label_prefixes": ("nrv04retro-",),
         "prefix_source": "nrv04_retro_panel.LABEL_PREFIX",
-        "fragment": "inflight-board.d/nrv04-retro.json",
+        # ★★ DERIVED, NEVER TYPED (2026-08-01, second pass). The first fix re-pointed these strings at the
+        # board fragments and added a test that the two registries AGREE. That is detection, not prevention:
+        # a typed path can still diverge, and the agreement test had three escape hatches (a `None` fragment,
+        # a lane id absent from the board registry, and a hand-maintained alias map) — any of which lets the
+        # same false `UNSUPERVISED-BILLING` back in. So the second home is REMOVED: an entry now names WHICH
+        # BOARD LANE it is, and `lane_fragment()` computes the path from `inflight_board`. Divergence is
+        # unrepresentable rather than detected (CLAUDE.md §1: a total is DERIVED, never typed).
+        "board_lane": "nrv04-retro",
         "time_keys": ("generated_utc",),
         "time_mode": "iso",
         "tick_workflow": "fusion-cpu-extras.yml",
@@ -310,7 +368,14 @@ ACCOUNT_LANES: list[dict] = [
         # ⚠ AND IT UPGRADES THE STAMP. A board fragment carries an in-file `generated_epoch`, which this
         # module already prefers over git commit time — its own words: "WEAKER: a refactor touching the
         # file moves this without any tick having run, so it can only make the lane look fresher".
-        "fragment": "inflight-board.d/selcal-cofold.json",
+        # ★★ DERIVED, NEVER TYPED (2026-08-01, second pass). The first fix re-pointed these strings at the
+        # board fragments and added a test that the two registries AGREE. That is detection, not prevention:
+        # a typed path can still diverge, and the agreement test had three escape hatches (a `None` fragment,
+        # a lane id absent from the board registry, and a hand-maintained alias map) — any of which lets the
+        # same false `UNSUPERVISED-BILLING` back in. So the second home is REMOVED: an entry now names WHICH
+        # BOARD LANE it is, and `lane_fragment()` computes the path from `inflight_board`. Divergence is
+        # unrepresentable rather than detected (CLAUDE.md §1: a total is DERIVED, never typed).
+        "board_lane": "selcal-cofold",
         "time_keys": ("phase",),
         "time_mode": "iso_in_string",
         "tick_workflow": "selectivity-control-vast.yml",
@@ -532,7 +597,7 @@ def classify_lane(spec: dict, rows: list[dict], stamp: datetime.datetime | None,
     v: dict = {
         "lane": spec["key"], "label": spec.get("label"),
         "tick_workflow": spec.get("tick_workflow"),
-        "fragment": spec.get("fragment"),
+        "fragment": lane_fragment(spec),
         "label_prefixes": list(spec.get("label_prefixes") or ()),
         "n_instances": len(rows), "n_live": len(live), "n_terminal_but_listed": len(terminal),
         "instances": rows,
@@ -554,7 +619,7 @@ def classify_lane(spec: dict, rows: list[dict], stamp: datetime.datetime | None,
         return v
 
     # ── 2. holding hosts with no tick artifact at all ──
-    if not spec.get("fragment"):
+    if not lane_fragment(spec):
         v["verdict"], v["ok"] = "UNWATCHABLE-BILLING", False
         v["detail"] = (f"{len(rows)} instance(s) wear this lane's prefix, and the lane commits NO repo-visible "
                        f"tick artifact, so whether anything is watching them cannot be determined from here. "
@@ -787,7 +852,7 @@ def read_lane_freshness(root: str, spec: dict, *, use_git: bool = True
 
     Order is strong-then-weak, and the basis string always names which one actually produced the answer, so
     no reader can mistake the fallback for a tick (§4: a populated field is not a measured one)."""
-    frag = spec.get("fragment")
+    frag = lane_fragment(spec)
     if not frag:
         return None, None, "this lane declares no repo-visible tick artifact"
     path = os.path.join(root, frag)

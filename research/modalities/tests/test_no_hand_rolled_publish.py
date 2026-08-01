@@ -248,44 +248,64 @@ def test_the_converted_lanes_stay_converted():
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
 # THE SAME GENERATOR, ONE LEVEL UP: TWO REGISTRIES THAT NAME THE SAME FACT
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
-def test_the_orphan_alarm_grades_each_lane_by_its_BOARD_FRAGMENT():
-    """★★ A LANE'S HEARTBEAT HAS ONE HOME, AND BOTH REGISTRIES MUST NAME IT (measured 2026-08-01, 4:37 PM ET).
+def test_the_orphan_alarm_CANNOT_TYPE_A_BOARD_FRAGMENT_PATH():
+    """★★ THE SECOND HOME IS DELETED, SO DIVERGENCE IS UNREPRESENTABLE — NOT MERELY DETECTED.
 
-    `account_orphan_alarm.ACCOUNT_LANES` says which artifact proves a lane reported; `inflight_board.LANES`
-    says where that lane publishes. They drifted, and the alarm declared **UNSUPERVISED-BILLING** on two
-    lanes that were reporting perfectly well:
+    THE BUG (2026-08-01, 4:37 PM ET). `account_orphan_alarm.ACCOUNT_LANES` typed the artifact whose
+    freshness proves a lane reported; `inflight_board.LANES` says where that lane publishes. They drifted,
+    and the alarm fired **UNSUPERVISED-BILLING** — its loudest verdict, reserved for money moving with
+    nothing watching it — on two lanes that were reporting normally:
 
-        lane           alarm's source                 last moved   the lane's REAL heartbeat        moved
-        ternary-vast   ternary-vast-watch.json        6:32 PM      inflight-board.d/ternary.json    8:43 PM
-        selcal-cofold  selcal-cofold-census.json      6:39 PM      inflight-board.d/selcal-…json    8:44 PM
+        ternary-vast    graded ternary-vast-watch.json      6:32 PM   real heartbeat moved  8:43 PM
+        selcal-cofold   graded selcal-cofold-census.json    6:39 PM   real heartbeat moved  8:44 PM
 
-    Both had reported ~2 HOURS more recently than the alarm believed — because a watch LIST is rewritten
-    only when an entry is retired, and a co-fold census freezes when that phase finishes. `nrv04-retro` was
-    ALREADY keyed on its board fragment; the other three were not. One rule, applied at one site — the same
-    generator as every other bug fixed that day.
+    ⚠ THE FIRST FIX WAS NOT A ROOT-CAUSE FIX, AND THIS TEST REPLACES IT. It re-pointed the four typed
+    strings and asserted the two registries AGREE. But a typed path can still diverge; the agreement test
+    only *noticed*, and it had three escape hatches — a `fragment: None` entry, a lane id absent from the
+    board registry, and a hand-maintained alias map — each of which silently skipped the check. The bug was
+    two registries naming one fact with only one updated; adding a third artefact that must be kept in step
+    is more of the same disease.
 
-    ⚠ AND A FALSE `UNSUPERVISED-BILLING` IS NOT A HARMLESS ALARM. It is the loudest verdict this module has,
-    reserved for money moving with nothing watching it. Firing it on healthy lanes is how the real one stops
-    being believed — the failure mode this whole session has been about.
+    So the path is DERIVED (`lane_fragment`) and this test forbids the second home from coming back: no
+    entry may TYPE a board-fragment path. A new lane is covered the moment it declares `board_lane`, with
+    no list to remember to update — which is the property the agreement test could never have.
     """
     import sys
     sys.path.insert(0, str(MODALITIES))
     import account_orphan_alarm as A
     import inflight_board as ifb
 
-    #: alarm lane id -> board lane id, where the two registries use different names for one lane.
-    ALIAS = {"ternary-vast": ifb.TERNARY}
+    src = (MODALITIES / "account_orphan_alarm.py").read_text()
+    code = "\n".join(l for l in src.splitlines() if not l.lstrip().startswith("#"))
+    assert f'"{ifb.FRAGMENT_DIR}/' not in code, (
+        f"a board-fragment path is TYPED in account_orphan_alarm. It must be DERIVED — declare "
+        f"`board_lane` on the entry and let `lane_fragment()` compute it, or the two registries can drift "
+        f"again and the alarm will fire UNSUPERVISED-BILLING on a healthy lane.")
+
     board_ids = {l[0] for l in ifb.LANES}
     for lane in A.ACCOUNT_LANES:
-        frag, lid = lane.get("fragment"), lane.get("lane")
-        if frag is None:
-            continue                       # a lane with no artifact at all is a separate, declared state
-        want_id = ALIAS.get(lid, lid)
-        if want_id not in board_ids:
-            continue                       # not a board lane; nothing to reconcile
-        assert frag == f"{ifb.FRAGMENT_DIR}/{want_id}.json", (
-            f"the alarm grades lane {lid!r} by {frag!r}, but that lane's heartbeat is its board fragment "
-            f"`{ifb.FRAGMENT_DIR}/{want_id}.json` — the artifact its tick writes EVERY time, carrying an "
-            f"in-file `generated_epoch` this module already prefers over git commit time. Grading anything "
-            f"else makes the lane look silent when it is not, and UNSUPERVISED-BILLING is the loudest "
-            f"verdict here.")
+        bl = lane.get("board_lane")
+        if bl is None:
+            # Genuinely artifact-less lanes are allowed, but they must not fake it with a typed path.
+            assert ifb.FRAGMENT_DIR not in str(lane.get("fragment") or ""), lane.get("key")
+            continue
+        assert bl in board_ids, (
+            f"lane {lane.get('key')!r} declares board_lane={bl!r}, which is not a registered board lane — "
+            f"its fragment would be derived to a path nothing writes, and the alarm would read the lane as "
+            f"silent. Register it in inflight_board.LANES or drop the declaration.")
+        assert A.lane_fragment(lane) == f"{ifb.FRAGMENT_DIR}/{bl}.json"
+
+
+def test_a_new_board_lane_needs_no_second_registration():
+    """The property the agreement test could not have: coverage without a list to remember.
+
+    Every lane the alarm watches that has a board fragment must reach it THROUGH `lane_fragment`, so adding
+    a lane to `inflight_board.LANES` and pointing an alarm entry at it is the whole job."""
+    import sys
+    sys.path.insert(0, str(MODALITIES))
+    import account_orphan_alarm as A
+    import inflight_board as ifb
+    covered = {l["board_lane"] for l in A.ACCOUNT_LANES if l.get("board_lane")}
+    assert covered, "no alarm lane derives its fragment — the derivation has been bypassed"
+    for lane in covered:
+        assert A.lane_fragment({"board_lane": lane}) == f"{ifb.FRAGMENT_DIR}/{lane}.json"
