@@ -83,6 +83,9 @@ QUERIES = [
 TERNARY_PDBS = {
     "SMARCA2": ["6HAX", "6HAY", "7S4E", "7Z6L", "7Z76", "7Z77", "8G1P", "9D4B", "9DTY", "9HYB"],
     "SMARCA4": ["6HR2", "8G1Q", "8QJR", "9DTX"],
+    # Named in Kofink et al. 2022 (the ACBI2 paper) rather than in the survey — the survey screened for a
+    # deposited ternary per arm, not for the ACBI2 series specifically.
+    "SMARCA2_kofink_series": ["7Z6L", "7Z76", "7Z77", "7S4E"],
 }
 
 #: Sentence filter. Deliberately broad on the QUANTITY and strict on the requirement that BOTH paralogues are
@@ -147,6 +150,38 @@ def quantitative_spans(text, both):
     return uniq[:60]
 
 
+_PDB_CODE = re.compile(r"\b([1-9][A-Za-z0-9]{3})\b")
+_PDB_CONTEXT = re.compile(r"(PDB|Protein Data Bank|accession|deposited)", re.I)
+
+
+def structure_spans(text, ligand_hint):
+    """Sentences that tie a named compound to a PDB accession.
+
+    ★ WHY THIS MATTERS MORE THAN IT LOOKS. The co-fold needs a ligand whose chemistry comes from a PRIMARY
+    source, and the only non-fabricating source of a PROTAC's structure is the deposited chemical component.
+    So "which PDB entry carries THIS compound" is the question that decides whether a candidate ligand is
+    usable at all — and RCSB's own title search does not answer it for compounds the depositors named only in
+    the paper. Returns (sentence, [codes]) pairs; codes are candidates, never assertions."""
+    hint = (ligand_hint or "").split("(")[0].strip().lower()
+    out = []
+    for sent in re.split(r"(?<=[.!?])\s+", text):
+        s = sent.strip()
+        if len(s) < 20 or len(s) > 700 or not _PDB_CONTEXT.search(s):
+            continue
+        codes = sorted({c.upper() for c in _PDB_CODE.findall(s)})
+        if not codes:
+            continue
+        out.append({"sentence": s, "candidate_pdb_codes": codes,
+                    "mentions_ligand_hint": bool(hint and hint in s.lower())})
+    seen, uniq = set(), []
+    for r in out:
+        k = r["sentence"][:160].lower()
+        if k not in seen:
+            seen.add(k)
+            uniq.append(r)
+    return uniq[:40]
+
+
 def chemcomp(ccd):
     """The RCSB chemical-component record for one CCD id — formula, weight and the DEPOSITED SMILES.
 
@@ -168,16 +203,35 @@ def chemcomp(ccd):
 
 
 def entry_ligands(pdb):
-    """(title, resolution, [CCD ids of the non-polymer components]) for one PDB entry."""
+    """(title, resolution, [CCD ids of the non-polymer components]) for one PDB entry.
+
+    ⚠ `rcsb_entry_info.nonpolymer_bound_components` IS NOT THE LIGAND LIST, and reading it as one is how the
+    first pass of this fetcher reported 12 of 14 SMARCA ternaries as carrying NO ligand — every one of which
+    is titled "…in complex with <a PROTAC>…". It lists components RCSB has annotated as *bound*, which is a
+    curation flag, not an inventory. The inventory is
+    `rcsb_entry_container_identifiers.non_polymer_entity_ids` -> the nonpolymer_entity records, so that is
+    what is read, with the flag kept beside it as a second, weaker field. An absent reading is not a reading
+    of absence (CLAUDE.md §4)."""
     try:
         d = _get_json(RCSB_ENTRY.format(pdb=pdb.upper()))
     except (urllib.error.URLError, urllib.error.HTTPError, OSError, ValueError) as e:
         return {"pdb": pdb, "error": "%s: %s" % (type(e).__name__, e)}
+    ids = (d.get("rcsb_entry_container_identifiers") or {}).get("non_polymer_entity_ids") or []
+    comps = []
+    for ent in ids:
+        try:
+            e = _get_json("https://data.rcsb.org/rest/v1/core/nonpolymer_entity/%s/%s" % (pdb.upper(), ent))
+        except (urllib.error.URLError, urllib.error.HTTPError, OSError, ValueError):
+            continue
+        ccd = ((e.get("pdbx_entity_nonpoly") or {}).get("comp_id"))
+        if ccd:
+            comps.append(ccd)
     return {"pdb": pdb.upper(),
             "title": (d.get("struct") or {}).get("title"),
             "resolution_A": ((d.get("rcsb_entry_info") or {}).get("resolution_combined") or [None])[0],
             "method": ((d.get("exptl") or [{}])[0]).get("method"),
-            "nonpolymer_ccd_ids": (d.get("rcsb_entry_info") or {}).get("nonpolymer_bound_components") or [],
+            "nonpolymer_ccd_ids": comps,
+            "annotated_bound_components": (d.get("rcsb_entry_info") or {}).get("nonpolymer_bound_components") or [],
             "_source": RCSB_ENTRY.format(pdb=pdb.upper())}
 
 
@@ -225,7 +279,9 @@ def run(queries=QUERIES, pdbs=TERNARY_PDBS, out_path=OUT):
                 xml = epmc_fulltext_xml(h["pmcid"])
                 if xml:
                     r["fulltext_chars"] = len(xml)
-                    r["fulltext_quantitative_spans"] = quantitative_spans(_strip_tags(xml), both)
+                    _plain = _strip_tags(xml)
+                    r["fulltext_quantitative_spans"] = quantitative_spans(_plain, both)
+                    r["fulltext_structure_spans"] = structure_spans(_plain, q["ligand_hint"])
                 else:
                     r["fulltext_quantitative_spans"] = []
                     r["_fulltext_absent"] = ("declared open access but fullTextXML did not return — an absent "
