@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for RUNG 5a-KS's two ternary legs",
-  "utc": "2026-08-01T13:47:45Z",
+  "utc": "2026-08-01T13:55:17Z",
   "n_units": 1,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 1.83,
@@ -14,9 +14,9 @@
       "tier": "bid",
       "interruptible": true,
       "depth": {
-        "offers_returned": 121,
-        "qualifying": 119,
-        "priceable": 62,
+        "offers_returned": 124,
+        "qualifying": 123,
+        "priceable": 63,
         "needed": 1,
         "used_for_mean": 1
       },
@@ -24,23 +24,23 @@
         {
           "gpu": "RTX 3090",
           "machine_id": 33622,
-          "min_bid_usd_h": 0.06666666666666667,
-          "usd_per_ns": 0.007419
+          "min_bid_usd_h": 0.067,
+          "usd_per_ns": 0.003948
         }
       ],
-      "mean_usd_per_ns": 0.007419,
-      "ratio_vs_basis": 2.175,
-      "projected_usd": 3.98,
+      "mean_usd_per_ns": 0.003948,
+      "ratio_vs_basis": 1.157,
+      "projected_usd": 2.12,
       "fails_dollar_ceiling": false,
-      "fails_ratio_ceiling": true,
-      "clears": false
+      "fails_ratio_ceiling": false,
+      "clears": true
     },
     "on-demand": {
       "tier": "on-demand",
       "interruptible": false,
       "depth": {
-        "offers_returned": 155,
-        "qualifying": 153,
+        "offers_returned": 157,
+        "qualifying": 155,
         "priceable": 77,
         "needed": 1,
         "used_for_mean": 1
@@ -61,34 +61,35 @@
       "clears": false
     }
   },
-  "chosen_tier": null,
+  "chosen_tier": "bid",
   "prefer_uninterruptible": true,
-  "hold": true,
-  "reason": "HOLD \u2014 neither tier clears. bid: over the $/ns drift line (the buy line) at 2.175x basis. on-demand: over the $/ns drift line (the buy line) at 2.28x basis.",
-  "tier": "on-demand (UNINTERRUPTIBLE \u2014 cannot be preempted; taken only when it clears BOTH ceilings, per trimcrae 2026-07-31)",
-  "interruptible": false,
+  "hold": false,
+  "reason": "bid tier clears at 1.157x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.28x basis",
+  "tier": "bid (interruptible)",
+  "interruptible": true,
   "depth": {
-    "offers_returned": 155,
-    "qualifying": 153,
-    "priceable": 77,
+    "offers_returned": 124,
+    "qualifying": 123,
+    "priceable": 63,
     "needed": 1,
     "used_for_mean": 1
   },
   "offers": [
     {
-      "gpu": "RTX 4080S",
-      "machine_id": 46392,
-      "min_bid_usd_h": 0.2022222222222222,
-      "usd_per_ns": 0.007778
+      "gpu": "RTX 3090",
+      "machine_id": 33622,
+      "min_bid_usd_h": 0.067,
+      "usd_per_ns": 0.003948
     }
   ],
-  "mean_usd_per_ns": 0.007778,
-  "ratio_vs_basis": 2.28,
-  "projected_usd": 4.17,
+  "mean_usd_per_ns": 0.003948,
+  "ratio_vs_basis": 1.157,
+  "projected_usd": 2.12,
   "fails_dollar_ceiling": false,
-  "fails_ratio_ceiling": true,
+  "fails_ratio_ceiling": false,
   "machines_we_already_occupy": [
-    "51777",
+    "12976",
+    "9427",
     "9624"
   ],
   "mode": "5aks",
