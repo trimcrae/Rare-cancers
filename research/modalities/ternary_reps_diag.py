@@ -158,6 +158,85 @@ def status_breadcrumb(uid, bucket=None, prefix=None):
         return {"_absent": f"{type(e).__name__}"}
 
 
+def account_census(key=None, want_ids=()):
+    """EVERY instance this account holds right now — not only the ones a mode's board enumerates.
+
+    ★★ ABSENCE FROM A LANE'S BOARD IS NOT ABSENCE FROM THE ACCOUNT (CLAUDE.md §4a, and it cost a whole
+    forensic on 2026-08-01). `collect` builds its board from `ternary_vast_launch.unit_hosts`, which filters
+    `GET /instances/` down to labels matching the units of ONE mode. So a host rented for a mode the board is
+    not enumerating — a smoke, a parked unit, a lane since re-pointed — is INVISIBLE to it while still
+    billing, and reading that silence as "it is gone" is the same mistake as reading `targets not in the
+    record` as "the leg is frozen".
+
+    The case that forced this: the 5a-KS `.chk` prune smoke rented instance 46459452 at 10:02 PM ET on
+    2026-07-31 and produced nothing. Every artifact a reader could reach — `run.log`, `leg.json`, the
+    `attempts/` archive, the commit store, and `collect`'s own board, which enumerates mode `5aks` and not
+    `5aks_smoke` — was silent about it. None of them could distinguish "destroyed" from "still up, still
+    billing, still producing nothing", and those have opposite remedies.
+
+    So this asks the one question none of them can: what does the PROVIDER list, for the whole account?
+    `want_ids` are called out by name so an explicitly-asked-about id gets an explicit PRESENT/ABSENT answer
+    rather than the reader having to scan a list and conclude something from not finding it.
+
+    ⚠ READ-ONLY. It never destroys, never nudges, never re-rents — reaping an idle box is
+    `vast_idle_guard.py`'s job and giving a second component that power is how two deciders start disagreeing
+    about what to kill. $0: one GET.
+    """
+    key = key or os.environ.get("VAST_API_KEY")
+    out = {"_what": "every instance the Vast account holds, from GET /instances/ — the account-level view a "
+                    "per-mode board structurally cannot give, because it filters to one mode's labels",
+           "utc": None, "n_instances": None, "instances": [], "asked_about": {}}
+    import time as _t
+    out["utc"] = _t.strftime("%Y-%m-%dT%H:%M:%SZ", _t.gmtime())
+    if not key:
+        out["error"] = "no VAST_API_KEY — this census cannot be taken without one, and an EMPTY census is " \
+                       "not the same answer as an EMPTY ACCOUNT"
+        print(f"[census] {out['error']}")
+        return out
+    from gpu_backend import vast_instance_occupies_slot
+    insts = tv._vast_request("GET", "/instances/", key).get("instances", []) or []
+    out["n_instances"] = len(insts)
+    print(f"---- VAST ACCOUNT CENSUS: {len(insts)} instance(s) held at {out['utc']} ----")
+    for i in insts:
+        row = safe_instance(i)
+        # Uptime and money-so-far, from the fields the provider itself reports. `start_date` is a unix
+        # timestamp; `dph_total` is the all-in rate the instance is BILLED (not the launcher's `dph≈` line,
+        # which reads low — `vast_rate_forensics.py`). Both may be absent on a record mid-transition, so an
+        # unreadable value stays None rather than becoming a fabricated 0.
+        try:
+            row["uptime_h"] = round((_t.time() - float(i.get("start_date"))) / 3600.0, 3)
+        except (TypeError, ValueError):
+            row["uptime_h"] = None
+        try:
+            row["spend_so_far_usd"] = round(row["uptime_h"] * float(i.get("dph_total")), 4)
+        except (TypeError, ValueError):
+            row["spend_so_far_usd"] = None
+        row["occupies_slot"] = vast_instance_occupies_slot(i)
+        row["label_is_this_lane"] = str(i.get("label") or "").startswith(tv.LABEL_PREFIX)
+        out["instances"].append(row)
+        print(f"  {row.get('id')} machine={row.get('machine_id')} {str(row.get('gpu_name'))[:12]:<12} "
+              f"actual={str(row.get('actual_status')):<9} cur={str(row.get('cur_state')):<9} "
+              f"up={row['uptime_h']}h dph=${i.get('dph_total')} spend~${row['spend_so_far_usd']} "
+              f"gpu_util={row.get('gpu_util')} label={str(i.get('label'))[:60]!r}")
+    by_id = {str(r.get("id")): r for r in out["instances"]}
+    for want in want_ids:
+        w = str(want)
+        rec = by_id.get(w)
+        out["asked_about"][w] = {"present": rec is not None, "record": rec}
+        if rec is None:
+            # ⚠ THE POSITIVE STATEMENT, not a silence. "not in the list" is the answer to "is it still
+            # billing", and it has to be printed as an answer or the next reader repeats the whole search.
+            print(f"  [asked] instance {w}: ABSENT from the account's instance list — it is not held, so it "
+                  f"is not billing. (Vast drops a DESTROYED instance from this list; an `exited` one is "
+                  f"still listed, so absence here is destruction, not merely exit.)")
+        else:
+            print(f"  [asked] instance {w}: PRESENT — actual={rec.get('actual_status')!r} "
+                  f"up={rec['uptime_h']}h spend~${rec['spend_so_far_usd']} "
+                  f"occupies_slot={rec['occupies_slot']}")
+    print("---- END VAST ACCOUNT CENSUS ----")
+    return out
+
+
 def console(iid, key=None, tail=600):
     """The container's own console for a still-listed instance, via the reviewed `request_logs` path.
 
@@ -547,7 +626,21 @@ def main(argv=None):
                     help="instead of a one-shot forensic, TRACE container memory vs its limit for MIN "
                          "minutes — the measurement that separates an OOM kill from a provider stop")
     ap.add_argument("--every", type=int, default=20, help="seconds between polls of the memory trace")
+    ap.add_argument("--census", action="store_true",
+                    help="every instance the ACCOUNT holds, not only the ones this mode's board enumerates "
+                         "— the only view that can say whether a host rented for an un-enumerated unit is "
+                         "still billing")
+    ap.add_argument("--instance", action="append", default=None, metavar="ID",
+                    help="with --census, answer PRESENT/ABSENT explicitly for this instance id (repeatable)")
     a = ap.parse_args(argv)
+    if a.census:
+        doc = account_census(want_ids=tuple(a.instance or ()))
+        if a.out:
+            with open(a.out, "w") as fh:
+                json.dump(doc, fh, indent=2, default=str)
+                fh.write("\n")
+            print(f"[diag] wrote {a.out}")
+        return 0
     if a.compare_stage:
         doc = compare_stage(mode=a.mode, leg=(a.leg or ["calib_hi_to_lo__ternary_vhl"])[0])
         if a.out:

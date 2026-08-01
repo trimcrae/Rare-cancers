@@ -179,5 +179,48 @@ def test_every_real_entry_would_authorise_its_own_parameters():
         assert ok, f"{e.get('leg_id')}/{e.get('direction')} cannot authorise itself: {msgs}"
 
 
+# ── ORDERING: THE IDEMPOTENT SKIP MUST BE REACHED BEFORE THE GUARD (2026-08-01) ─────────────────────────
+#
+# ★★ THE GUARD IS CORRECT AND ITS POSITION WAS NOT. It asks "who will reap the VM this launch buys?" and
+# `exit 1`s with `::error` when the answer is nobody. For a dispatch whose result is ALREADY IN GCS, no VM is
+# bought, so the question has no subject — and running the guard first turned "this work is already done"
+# into a red build. Worse, a LANDED leg is exactly when its watch entry is set `enabled=false`, so finishing
+# a leg armed the failure; that is the 7:31 AM ET 2026-07-31 run. Lanes tick every 8 minutes now, and a
+# workflow that goes red on a healthy no-op is how a real failure stops being noticed (CLAUDE.md §4).
+#
+# Pinned by position in the file because that is the actual defect — both fragments were present and correct
+# the whole time, in the wrong order.
+
+WF = REPO / ".github/workflows/gpu-ternary-fep-gcp.yml"
+
+
+def _detached_run_block() -> str:
+    """The `MODE = run` pre-provision block of the detached launch path."""
+    src = WF.read_text()
+    start = src.index('if [ "$DO_DETACH" = 1 ]; then')
+    return src[start:src.index("provision ||", start)]
+
+
+def test_the_idempotent_skip_is_reached_before_the_watch_entry_guard():
+    blk = _detached_run_block()
+    skip = blk.index("IDEMPOTENT SKIP — NO GPU BOUGHT")
+    guard = blk.index("gcp_launch_guard.py")
+    assert skip < guard, (
+        "the launch guard runs before the idempotent skip again: a redundant dispatch of already-landed "
+        "work will exit ::error instead of 'already done, no GPU bought'")
+
+
+def test_reordering_did_not_drop_the_guard_from_the_provisioning_path():
+    """The skip's only outcomes are `exit 0` without provisioning, or falling through. There must be no
+    path on which a VM is created without the guard having passed — that is what makes the reorder safe
+    rather than merely convenient."""
+    blk = _detached_run_block()
+    assert "gcp_launch_guard.py" in blk and "|| exit 1" in blk
+    # the skip must exit, not merely warn — a skip that falls through would provision the very box the
+    # comment says it exists to avoid buying
+    tail = blk[blk.index("IDEMPOTENT SKIP — NO GPU BOUGHT"):blk.index("gcp_launch_guard.py")]
+    assert "exit 0" in tail
+
+
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(pytest.main([__file__, "-v"]))

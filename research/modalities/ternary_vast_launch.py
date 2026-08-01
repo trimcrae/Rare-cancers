@@ -588,6 +588,58 @@ NO_AUTOMATIC_REPLACEMENT = {
 }
 
 
+# ★★ THE TERMINUS OF A MODE IS ITS REDUCTION, AND NOTHING WAS ARMING IT (2026-08-01).
+#
+# WHAT WAS MISSING. `collect` already notices when a leg lands — it retires the landed unit's watch entry on
+# the same pass. What it did NOT do is notice when the LAST leg of a mode lands, which is the only moment
+# that matters scientifically: RUNG 5a-KS's readout S is a DOUBLE DIFFERENCE over four legs, so three landed
+# legs are worth nothing and the fourth is worth the whole rung. Until now the reduction fired only when a
+# person remembered to dispatch `task=5aks-reduce`. A rung whose terminus depends on somebody being awake at
+# the right minute is a rung that sits finished-but-unreduced, and the four legs of this one land ~20 hours
+# apart — the last of them overnight.
+#
+# SAME SHAPE AS `MODE_GATE_TASK`, DELIBERATELY. A hardcoded shell `case` for the gate is what stranded a
+# 5a-KS leg on 2026-07-31, so this is a map beside that one, covered by the same style of test: a launchable
+# mode must appear here or in NO_AUTOMATIC_REDUCTION, and never in neither.
+MODE_REDUCE_TASK = {
+    "edge": "reduce",
+    "edge_reps": "reduce-reps",
+    "triangle": "triangle-reduce",
+    "5aks": "5aks-reduce",
+}
+
+# Launchable modes with no reduction of their own, each with the reason. A SHAKEOUT IS THE INTERESTING CASE:
+# a smoke leg writes a real `leg.json` with a real dG (the 5a-KS smoke's is -9.24 kcal/mol), so "this mode is
+# complete" is TRUE of a smoke the moment its one leg lands — and reducing it would form a rung's readout out
+# of 12 production iterations. The refusal is therefore about scientific validity, not about plumbing.
+NO_AUTOMATIC_REDUCTION = {
+    "probe": "a survival test, not a measurement: it asks whether 4 fs holds, and its dG is read by eye "
+             "against the edge that follows. There is no double difference to form from one probe leg.",
+    "smoke": "a shakeout. Its leg.json is real but its sampling is not — reducing it would emit a rung "
+             "readout built from a dozen production iterations.",
+    "triangle_smoke": "same as `smoke`, for the closure triangle.",
+    "5aks_smoke": "same as `smoke`, for RUNG 5a-KS. ⚠ This one is the reason the refusal is explicit: the "
+                  "smoke's unit id differs from the science leg's only by its `_smoke` suffix and its "
+                  "leg.json carries a genuine-looking dG, so a completeness count that did not exclude it "
+                  "would find mode `5aks_smoke` complete after ONE leg and reduce it (CLAUDE.md §4b — a "
+                  "record that looks plausible is more dangerous than one that looks empty).",
+}
+
+
+def reduce_task_for(mode):
+    """The `task=` that reduces `mode` once every one of its units is done, or None when it has none by
+    decision. PURE — same contract and same failure mode as `gate_task_for`, on purpose.
+    """
+    if mode in MODE_REDUCE_TASK:
+        return MODE_REDUCE_TASK[mode]
+    if mode in NO_AUTOMATIC_REDUCTION:
+        return None
+    raise KeyError(
+        f"mode {mode!r} has no entry in MODE_REDUCE_TASK and none in NO_AUTOMATIC_REDUCTION. A launchable "
+        f"mode must be in exactly one: either landing its last leg fires a reduction, or there is a recorded "
+        f"reason it does not. Silence here means a finished rung waits for a hand dispatch.")
+
+
 # ★★ THE CARD FLOOR IS PER-MODE, AND IT HAS EXACTLY ONE HOME (2026-07-31).
 #
 # `collect`'s self-heal used to dispatch `-f min_ns_per_h=28` to WHATEVER gate the map returned, so a floor
@@ -4051,6 +4103,57 @@ def collect(bucket=None, prefix=None, autostop=True):
                 print(f"[replace] could not write the marker: {type(_e).__name__}: {_e}")
         else:
             print("[replace] every enabled unit either has a host or is done — nothing to re-place")
+
+        # ── AND THE OPPOSITE QUESTION: DID THIS PASS SEE A MODE'S *LAST* LEG LAND? ────────────────────
+        # ★★ A MODE'S TERMINUS IS ITS REDUCTION, AND NOTHING WAS ARMING IT (2026-08-01). `collect` already
+        # retires a landed leg's watch entry; it had no notion of the moment that actually matters, which is
+        # the LAST leg landing. RUNG 5a-KS's S is a double difference over four legs — three landed legs are
+        # worth nothing — and its four legs land ~20 h apart, the last of them overnight, so "somebody
+        # dispatches 5aks-reduce when they notice" is not a mechanism.
+        #
+        # ⚠ COMPLETENESS IS COUNTED FROM `units_for`, NOT FROM THE WATCH LIST. The watch list is the right
+        # source for "which units should have a host" and the WRONG one here, because `--reap-landed` sets a
+        # landed unit `enabled=false` on this very pass — so by the time a mode is complete its enabled set
+        # is EMPTY, and an all-of-an-empty-set test is vacuously true for every mode that never ran.
+        #
+        # The latch is a FINGERPRINT of the done set rather than a boolean, so the reduction re-fires when
+        # its inputs change (a superseded leg re-landing, a seed added) and stays quiet when they do not.
+        # It is written by the workflow AFTER a successful dispatch (`--latch-reduce-dispatched`), never
+        # here: latching on intent rather than on delivery would swallow the one dispatch that failed.
+        try:
+            import hashlib as _hl
+            _ready = []
+            for _m in sorted(MODE_REDUCE_TASK):
+                try:
+                    _muids = [build_jobspec(_l, _s, _d, mode=_m).env["UNIT_ID"]
+                              for (_l, _s, _d) in units_for(_m)]
+                except Exception as _e:  # noqa: BLE001 — one unenumerable mode must not hide the others
+                    print(f"[reduce] mode {_m}: cannot enumerate its units ({type(_e).__name__}: {_e}) — "
+                          f"NOT reporting it complete, because an unreadable list is not an empty one")
+                    continue
+                if not _muids:
+                    continue
+                _short = [u for u in _muids if u not in done]
+                if _short:
+                    print(f"[reduce] {_m}: {len(_muids) - len(_short)}/{len(_muids)} legs landed — waiting "
+                          f"on {', '.join(ifb.short_name(u) for u in sorted(_short))}")
+                    continue
+                _fp = _hl.sha256("\n".join(sorted(_muids)).encode()).hexdigest()[:16]
+                _was = prev_state.get(f"reduce_dispatched:{_m}")
+                if _was == _fp:
+                    print(f"[reduce] {_m}: all {len(_muids)} legs landed and {MODE_REDUCE_TASK[_m]} was "
+                          f"already dispatched for this exact set ({_fp}) — nothing to do")
+                    continue
+                print(f"[reduce] ✅ {_m}: ALL {len(_muids)} legs have landed -> dispatching "
+                      f"{MODE_REDUCE_TASK[_m]} (set {_fp}, previously {_was or 'never'})")
+                _ready.append((_m, MODE_REDUCE_TASK[_m], _fp))
+            if _ready:
+                with open(os.environ.get("TVAST_REDUCE_FILE") or "/tmp/tvast-mode-complete.txt",
+                          "w") as _fh:
+                    # "<mode> <task> <fingerprint>" — the workflow dispatches field 2 and latches field 3.
+                    _fh.write("\n".join(f"{m} {t} {f}" for (m, t, f) in _ready) + "\n")
+        except Exception as _e:  # noqa: BLE001 — arming a reduction must never break a monitoring pass
+            print(f"[reduce] completeness not evaluated: {type(_e).__name__}: {_e}")
     except Exception as e:  # noqa: BLE001 — the board is a READOUT; it must never break a monitoring pass
         print(f"[board] not rendered: {type(e).__name__}: {e}")
 
@@ -4504,6 +4607,14 @@ def main(argv=None):
     # which is precisely how the 5a-KS leg was stranded and then how its wedge went unexamined.
     ap.add_argument("--replaceable-modes", action="store_true",
                     help="print every mode with a re-placement gate, space-separated, then exit")
+    # Same contract as `--gate-task-for`, for the OTHER end of a mode's life: 0 = a reduce task on stdout,
+    # 3 = this mode has no reduction BY DECISION, anything else = the mode is unknown to both maps.
+    ap.add_argument("--reduce-task-for", metavar="MODE",
+                    help="print the task= that reduces MODE once all its legs land, then exit")
+    # Written only AFTER the dispatch succeeded, so a dispatch that never reached GitHub is retried on the
+    # next tick instead of being silently marked done. MODE:FINGERPRINT, exactly as `collect` emitted it.
+    ap.add_argument("--latch-reduce-dispatched", metavar="MODE:FINGERPRINT",
+                    help="record in the lane state that MODE's reduction was dispatched for that done-set")
     # `1` when the gate snapshot named the UNINTERRUPTIBLE tier, else `0`. The gate's self-dispatch reads it
     # so the launch buys the tier the gate priced and cleared; forwarding the operator input instead would let
     # a gate that cleared on-demand dispatch a bid launch, i.e. price one market and buy another.
@@ -4521,6 +4632,35 @@ def main(argv=None):
         return 0
     if a.replaceable_modes:
         print(" ".join(sorted(MODE_GATE_TASK)))
+        return 0
+    if a.reduce_task_for:
+        try:
+            rtask = reduce_task_for(a.reduce_task_for)
+        except KeyError as e:
+            print(str(e), file=sys.stderr)
+            return 1
+        if rtask is None:
+            print(f"{a.reduce_task_for}: no automatic reduction BY DECISION — "
+                  f"{NO_AUTOMATIC_REDUCTION[a.reduce_task_for]}", file=sys.stderr)
+            return 3
+        print(rtask)
+        return 0
+    if a.latch_reduce_dispatched:
+        _m, _, _fp = a.latch_reduce_dispatched.partition(":")
+        if not _m or not _fp:
+            print("--latch-reduce-dispatched wants MODE:FINGERPRINT", file=sys.stderr)
+            return 1
+        _b = DEFAULT_BUCKET
+        _p = RESULT_PREFIX.rstrip("/")
+        _s3c = _s3()
+        try:
+            _st = json.loads(_s3c.get_object(Bucket=_b, Key=f"{_p}/_lane_state.json")["Body"].read())
+        except Exception:  # noqa: BLE001 — no state yet is the normal first-run case
+            _st = {}
+        _st[f"reduce_dispatched:{_m}"] = _fp
+        _s3c.put_object(Bucket=_b, Key=f"{_p}/_lane_state.json",
+                        Body=json.dumps(_st, indent=2).encode())
+        print(f"[reduce] latched reduce_dispatched:{_m} = {_fp}")
         return 0
     if a.min_ns_per_h_for:
         v = mode_min_ns_per_h(a.min_ns_per_h_for)

@@ -2182,6 +2182,43 @@ jobs:
               || echo "::warning title=REPLACE DISPATCH FAILED::$TASK — the scheduled tick remains the backstop"
           done < "$F"
 
+      # ★★ AND FIRE THE REDUCTION THE MOMENT A MODE'S *LAST* LEG LANDS (2026-08-01).
+      #
+      # The step above repairs what died; this one finishes what lived. Until now nothing did: `collect`
+      # retired a landed leg's watch entry and stopped there, so a rung whose last leg landed sat COMPLETE
+      # AND UNREDUCED until a person dispatched `task=5aks-reduce` by hand. RUNG 5a-KS's readout S is a
+      # double difference over four legs that land ~20 h apart, the last of them overnight — "when someone
+      # notices" is not a mechanism, and a finished-but-unreduced rung is indistinguishable from a running
+      # one in every artifact a reader can reach.
+      #
+      # ⚠ THIS SPENDS NOTHING. Every reduce task is $0 CPU: it pulls the legs' committed JSON from S3 and
+      # runs the reducer in the parity image. It cannot rent, and it cannot run before its inputs exist —
+      # `collect` names a mode only when EVERY unit of it is `status=done`.
+      #
+      # THE LATCH IS WRITTEN AFTER THE DISPATCH SUCCEEDS, NOT BEFORE. Latching on intent would swallow
+      # exactly the dispatch that failed to reach GitHub; latching on delivery costs one duplicate reduce in
+      # the worst case, and a duplicate $0 reduction is strictly cheaper than a rung nobody reduces.
+      - name: Fire a mode's reduction if this pass saw its last leg land
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eo pipefail
+          F=/tmp/tvast-mode-complete.txt
+          if [ ! -s "$F" ]; then
+            echo "no mode completed this pass — nothing to reduce"; exit 0
+          fi
+          while read -r mode task fp; do
+            [ -n "$mode" ] || continue
+            echo "::notice title=MODE COMPLETE::$mode — every leg has landed; dispatching $task (\$0 CPU)"
+            if gh workflow run gpu-ternary-fep-vast.yml --ref "${{ github.ref_name }}" -f task="$task"; then
+              python3 research/modalities/ternary_vast_launch.py \
+                --latch-reduce-dispatched "$mode:$fp" \
+                || echo "::warning title=REDUCE LATCH NOT WRITTEN::$mode — the reduction WAS dispatched, so the next tick may dispatch it again. A duplicate \$0 reduce is harmless; a missed one is not."
+            else
+              echo "::warning title=REDUCE DISPATCH FAILED::$task for mode=$mode — NOT latched, so the next collect retries it"
+            fi
+          done < "$F"
+
       - name: Summary LAST
         # A CI log is read from its TAIL, so whatever a monitor needs must be the last thing printed.
         run: |
@@ -2409,6 +2446,19 @@ jobs:
         with: { ref: "${{ github.ref_name }}" }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
+      - name: FIRST — what does the ACCOUNT hold? (a per-mode board structurally cannot answer this)
+        # ★★ RUN BEFORE THE PER-MODE LOOP, DELIBERATELY. This is the only step that can say whether a host
+        # is STILL BILLING, and the loop below takes tens of minutes; a census printed after a timeout is a
+        # census nobody gets. `collect` builds its board from the units of ONE mode, so a host rented for an
+        # un-enumerated unit — a smoke, a parked leg — is invisible to it whether it is alive or destroyed,
+        # and reading that silence as "gone" is the §4a mistake. $0: one GET, destroys nothing.
+        # ⚠ `|| true`: a provider hiccup here must not cost the forensic below.
+        run: |
+          set -eo pipefail
+          python -m pip install -q boto3
+          python research/modalities/ternary_reps_diag.py --census \
+            --instance 46459452 \
+            --out research/modalities/ternary-vast-account-census.json 2>&1 | tee /tmp/acct-census.txt || true
       - name: Read every replicate leg's own output — S3 attempts archive + container console
         run: |
           set -eo pipefail
@@ -2488,7 +2538,8 @@ jobs:
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add research/modalities/ternary-reps-diag.json
-          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json ternary-arm-iteration-rates.json; do
+          for f in ternary-reps-memory-trace.json ternary-reps-stage-census.json ternary-arm-iteration-rates.json \
+                   ternary-vast-account-census.json; do
             [ -f "research/modalities/$f" ] && git add "research/modalities/$f" || true
           done
           # ...and every other mode's forensic, so a wedged 5a-KS leg's own last lines outlive the job log.
@@ -2502,6 +2553,8 @@ jobs:
       - name: Summary LAST
         run: |
           set -eo pipefail
+          echo "================ VAST ACCOUNT CENSUS (is anything still billing?) ================"
+          cat /tmp/acct-census.txt 2>/dev/null || echo "(no census — the step did not produce one)"
           echo "================ TERNARY REPS DIAG ================"
           cat /tmp/diag.txt
           [ -f /tmp/census.txt ] && { echo "======== STAGED INPUT CENSUS BY SEED ========"; cat /tmp/census.txt; } || true

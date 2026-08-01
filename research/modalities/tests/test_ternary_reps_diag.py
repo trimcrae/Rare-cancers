@@ -99,3 +99,68 @@ def test_the_breadcrumb_never_raises_because_a_diagnostic_must_not_die_on_a_miss
     src = open(diag.__file__).read()
     fn = src[src.index("def status_breadcrumb("):src.index("def console(")]
     assert "except Exception" in fn and "return {\"_absent\"" in fn
+
+
+# ── the ACCOUNT census (added 2026-08-01, the other half of the same incident) ───────────────────────────
+#
+# ★★ THE BREADCRUMB SAYS WHAT THE HOST DID; THE CENSUS SAYS WHETHER THE HOST IS STILL BEING PAID FOR.
+# Instance 46459452 was rented for mode `5aks_smoke`. `collect` enumerates the units of mode `5aks`, so its
+# board could not have shown that host whether it was alive or dead — and a reader who concluded "gone"
+# from not seeing it there would have been guessing. Absence from a per-mode board is not absence from the
+# account (CLAUDE.md §4a).
+
+def _census_code():
+    """The census function's CODE, with its docstring removed.
+
+    The docstring recounts the incident and therefore contains the very words ("destroy", "unit_hosts")
+    these tests forbid in the code — a prose-vs-code test that reads the prose fails on the explanation
+    instead of on the behaviour."""
+    src = open(diag.__file__).read()
+    fn = src[src.index("def account_census("):src.index("def console(")]
+    head, _, rest = fn.partition('"""')
+    _doc, _, body = rest.partition('"""')
+    return head + body
+
+
+def test_the_census_asks_the_account_not_one_modes_units():
+    """`unit_hosts` filters GET /instances/ by label AND by the unit ids of one mode. The census must not
+    go through it, or it inherits exactly the blindness it exists to remove."""
+    fn = _census_code()
+    assert 'tv._vast_request("GET", "/instances/"' in fn
+    assert "unit_hosts" not in fn, "the census must not be built on the per-mode filter"
+
+
+def test_the_census_is_read_only():
+    """Reaping is vast_idle_guard.py's job. Two components empowered to destroy is how they start
+    disagreeing about what to kill — and this one runs unattended in a forensic step."""
+    fn = _census_code()
+    for mutating in ("DELETE", '"PUT"', "destroy"):
+        assert mutating not in fn, f"the census must never {mutating}"
+
+
+def test_an_asked_about_instance_gets_an_EXPLICIT_present_or_absent():
+    """The whole point is to replace 'I did not find it in a list' with an answer. A census that only prints
+    what IS held leaves the reader doing the same silent inference that lost the forensic."""
+    fn = _census_code()
+    assert '"present": rec is not None' in fn
+    assert "ABSENT from the account" in fn and "PRESENT" in fn
+
+
+def test_no_key_is_reported_as_UNREADABLE_rather_than_as_an_empty_account():
+    """§4a again, and it is the dangerous direction here: an empty census with no credential looks exactly
+    like a clean account, which would say 'nothing is billing' about a fleet nobody could see."""
+    import ternary_reps_diag as d
+    saved = os.environ.pop("VAST_API_KEY", None)
+    try:
+        out = d.account_census()
+    finally:
+        if saved is not None:
+            os.environ["VAST_API_KEY"] = saved
+    assert out.get("error"), "a missing key must be an error field, not an empty instance list"
+    assert out["n_instances"] is None, "n_instances must stay UNKNOWN, never 0"
+
+
+def test_uptime_and_spend_stay_None_when_the_record_cannot_supply_them():
+    """A fabricated 0 in a money column is worse than a blank one: it sums."""
+    fn = _census_code()
+    assert 'row["uptime_h"] = None' in fn and 'row["spend_so_far_usd"] = None' in fn

@@ -153,3 +153,70 @@ def test_the_supervisor_tick_dispatches_every_gate_task():
         assert f"-f task={task}" in text, (
             f"the supervisor never dispatches `{task}`, so the modes routed to it are only ever re-placed "
             f"if some other path notices — which is exactly how 5a-KS was stranded.")
+
+
+# ---------------------------------------------------------------------------------------------------------
+# THE OTHER END OF A MODE'S LIFE: its reduction (added 2026-08-01)
+# ---------------------------------------------------------------------------------------------------------
+# A gate answers "who buys a new host when one dies". Nothing answered "who forms the number once the last
+# leg lands", so a complete rung sat unreduced until a person dispatched `5aks-reduce` by hand. RUNG 5a-KS's
+# S is a double difference over four legs that land ~20 h apart, the last of them overnight — the same
+# lockstep-lists trap as the gate map, at the finishing end.
+
+def test_every_launchable_mode_has_a_reduction_decision():
+    undecided = []
+    for task in _launchable_tasks():
+        mode = _mode_of(task)
+        try:
+            tv.reduce_task_for(mode)
+        except KeyError:
+            undecided.append(mode)
+    assert not undecided, (
+        f"these modes can be LAUNCHED but have no reduction decision: {undecided}. Their last leg landing "
+        f"would fire nothing — add each to MODE_REDUCE_TASK or to NO_AUTOMATIC_REDUCTION with the reason.")
+
+
+def test_5aks_reduces_and_its_SMOKE_deliberately_does_not():
+    """★ THE DANGEROUS HALF. A smoke leg writes a real `leg.json` with a real dG, so 'this mode is complete'
+    is TRUE of `5aks_smoke` after its ONE leg — and the two unit ids differ only by a `_smoke` suffix. A
+    completeness count that did not refuse it would emit a rung readout built from a dozen production
+    iterations (CLAUDE.md §4b)."""
+    assert tv.reduce_task_for("5aks") == "5aks-reduce"
+    assert tv.reduce_task_for("5aks_smoke") is None
+    assert "5aks_smoke" in tv.NO_AUTOMATIC_REDUCTION
+
+
+def test_a_mode_unknown_to_both_reduction_maps_raises():
+    with pytest.raises(KeyError):
+        tv.reduce_task_for("a_mode_nobody_declared")
+
+
+def test_every_mapped_reduce_task_is_dispatchable_and_has_a_job():
+    """A reduce task the workflow does not accept downgrades to the free `test` — a green run that reduces
+    nothing, which reads exactly like a rung that has been reduced."""
+    text = _lane_text()
+    doc = yaml.safe_load(text)
+    node = next((doc[k] for k in (True, "on", "On", "ON") if k in doc and isinstance(doc[k], dict)), None)
+    options = ((node or {}).get("workflow_dispatch") or {}).get("inputs", {}).get("task", {}).get("options")
+    assert options, "the task input lost its options list"
+    m = re.search(r"case \"\$\{TASK:-test\}\" in\s*\n\s*([^)]+)\)", text)
+    allowed = {t.strip() for t in m.group(1).split("|") if t.strip()}
+    guards = " ".join(str(j.get("if", "")) for j in doc["jobs"].values())
+    for mode, task in sorted(tv.MODE_REDUCE_TASK.items()):
+        assert task in options, f"{mode} -> {task}, which is not a dispatchable option"
+        assert task in allowed, f"{mode} -> {task}, missing from the resolve allowlist — falls back to `test`"
+        assert f"'{task}'" in guards, f"{mode} -> {task}, but no job's `if:` selects it"
+
+
+def test_collect_actually_dispatches_the_completed_modes_reduction():
+    """The map is inert unless something reads it. `collect` writes the marker; the workflow step reads it
+    and dispatches — and LATCHES ONLY AFTER a successful dispatch, so a dispatch that never reached GitHub
+    is retried instead of being marked done."""
+    text = _lane_text()
+    assert "/tmp/tvast-mode-complete.txt" in text, "nothing reads collect's mode-complete marker"
+    assert "--latch-reduce-dispatched" in text
+    step = text[text.index("Fire a mode's reduction"):]
+    step = step[:step.index("- name: Summary LAST")]
+    assert step.index("gh workflow run") < step.index("--latch-reduce-dispatched"), (
+        "the latch must be written AFTER the dispatch succeeds — latching on intent swallows exactly the "
+        "dispatch that failed")

@@ -1429,6 +1429,36 @@ jobs:
             # entry that exists only on a feature branch is not a watcher — that is CLAUDE.md 7's branch-drift
             # bug class, where the artifact lives on the one ref the running workflow does not read.
             if [ "$MODE" = run ]; then
+              # ===== THE IDEMPOTENT-SKIP RUNS *FIRST*, AHEAD OF THE WATCH-ENTRY GUARD =====
+              #
+              # ★★ ORDER IS THE WHOLE FIX (2026-08-01, after this went red on a healthy no-op at 7:31 AM ET
+              # on 2026-07-31 and was reported twice before anyone moved the block). The guard asks "WHO WILL
+              # REAP THE VM THIS LAUNCH BUYS?" and `exit 1`s with `::error` when the answer is nobody. That
+              # question is correct for a launch and MEANINGLESS for a no-op: a dispatch whose result is
+              # already in GCS buys no VM, so there is nothing to reap and no watcher is required. Running the
+              # guard first therefore turned "this work is already done" into a RED BUILD — and a landed leg
+              # is precisely when its watch entry gets set enabled=false, so finishing a leg ARMED the
+              # failure. Lanes now tick every 8 minutes; a workflow that goes red on a healthy no-op is how a
+              # real failure stops being noticed (CLAUDE.md §4).
+              #
+              # Reordering cannot weaken the guarantee, and that is the reason it is safe rather than merely
+              # convenient: the skip's only outcomes are `exit 0` WITHOUT provisioning, or falling through to
+              # the guard unchanged. There is no path on which a VM is created without the guard having
+              # passed. The two are also keyed on different things — the skip on the RESULT existing, the
+              # guard on a WATCH ENTRY existing — so neither can mask the other.
+              #
+              # WHY THE SKIP IS HERE AT ALL rather than only inside the VM (unchanged, kept for the record):
+              # the VM-side skip provisions an L4, prints "status=OK (idempotent-skip)" after ~37 s, and then
+              # — because the VM cannot delete itself — sits RUNNING and idle until its create-time cap. That
+              # box is the one shape neither reaper can retire: both the DONE branch and the orphan sweep
+              # spare a VM created AFTER its result was written, precisely so a deliberate force_rerun is
+              # never destroyed. The honest fix is not another reaper, it is to not make the purchase. Same
+              # key expression as the VM-side check (direction- AND restraint-keyed), which stays in place as
+              # defence in depth.
+              if [ "$FORCE_RERUN" != 1 ] && gcloud storage ls "$RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json" >/dev/null 2>&1; then
+                echo "::notice title=IDEMPOTENT SKIP — NO GPU BOUGHT::leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json is already in GCS, so this dispatch has nothing to compute. Exiting WITHOUT provisioning — the old behaviour provisioned an L4, skipped on the VM, and left an idle box holding GPUS_ALL_REGIONS=1 until its max-run cap. Pass force_rerun=1 (with a fresh commit_salt) to recompute deliberately."
+                exit 0
+              fi
               git fetch --depth=1 --quiet origin main 2>/dev/null || true
               MAINWATCH=/tmp/ternary-watch-main.json
               if ! git show FETCH_HEAD:research/modalities/ternary-watch.json > "$MAINWATCH" 2>/dev/null; then
@@ -1442,18 +1472,6 @@ jobs:
                 --commit-salt "$SALT" --timestep-fs "$TIMESTEP_FS" \
                 --warmup-timestep-fs "$WARMUP_TS" --use-preequil "$USE_PE" --restrain "$RESTRAIN" \
                 || exit 1
-              # ===== AND DO THE IDEMPOTENT-SKIP *BEFORE* BUYING THE GPU, NOT ON IT =====
-              # The skip already exists, but it runs INSIDE the VM: a redundant mode=run dispatch provisions an
-              # L4, prints "status=OK (idempotent-skip)" after ~37 s, and then — because the VM cannot delete
-              # itself — sits RUNNING and idle until its create-time cap. Worse, that box is the one shape
-              # neither reaper can retire: both the DONE branch and the orphan sweep spare a VM created AFTER
-              # its result was written, precisely so a deliberate force_rerun is never destroyed. So the honest
-              # fix is not another reaper, it is to not make the purchase. Same key expression as the VM-side
-              # check (direction- AND restraint-keyed), which stays in place as defence in depth.
-              if [ "$FORCE_RERUN" != 1 ] && gcloud storage ls "$RESULTS/leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json" >/dev/null 2>&1; then
-                echo "::notice title=IDEMPOTENT SKIP — NO GPU BOUGHT::leg_${LEG_ID}_${DIRECTION}_r${SEED}${RSTTAG}.json is already in GCS, so this dispatch has nothing to compute. Exiting WITHOUT provisioning — the old behaviour provisioned an L4, skipped on the VM, and left an idle box holding GPUS_ALL_REGIONS=1 until its max-run cap. Pass force_rerun=1 (with a fresh commit_salt) to recompute deliberately."
-                exit 0
-              fi
             fi
             # FAILOVER GUARD: refuse to provision while another ternary VM is alive, so an on-demand RESUME poll can
             # never double-write the commit prefix a live spot VM owns. Only provisions once the GPU is genuinely
