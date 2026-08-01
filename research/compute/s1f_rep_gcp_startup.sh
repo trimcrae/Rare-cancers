@@ -274,7 +274,28 @@ run_leg() {
   rc=$?
   tail -80 "/tmp/$L.log" || true
   "$GS" storage cp "/tmp/$L.log" "$PREFIX/$L.log" >/dev/null 2>&1 || true
-  if [ "$rc" -ne 0 ]; then echo "[s1f-gcp] leg $L FAILED rc=$rc"; mark "leg-$L-FAILED-rc$rc"; return 1; fi
+  if [ "$rc" -ne 0 ]; then
+    # ★★ THE POST-MORTEM, CAPTURED ON THE BOX WHILE THE BOX STILL EXISTS (2026-08-01).
+    # The first real leg died with `openmm.OpenMMException: No compatible CUDA device is available` at the
+    # FIRST context creation of the production phase — 16 s after committing warmup 400/400, on a GPU that
+    # had just done 3 h 53 m of successful CUDA work. Localising it that far was possible from the leg log;
+    # going further was NOT, because the only two things that could discriminate a driver/ECC/Xid event
+    # from a resource limit live on the HOST and the VM is reaped minutes later. The container has already
+    # exited by the time this runs, so nothing here can perturb the failure — it can only record it.
+    # This is CLAUDE.md §4's "instrument the code and run a controlled reproduction", pre-armed: the next
+    # occurrence arrives with its own evidence instead of another round of inference.
+    { echo "=== post-mortem for leg $L (rc=$rc) at $(date -u +%FT%TZ) ==="
+      echo "--- nvidia-smi -q (ECC, retired pages, memory, processes) ---"; nvidia-smi -q 2>&1
+      echo "--- nvidia-smi (summary) ---"; nvidia-smi 2>&1
+      echo "--- kernel ring buffer: NVRM / Xid / nvidia / OOM ---"
+      dmesg 2>/dev/null | grep -iE 'xid|nvrm|nvidia|out of memory|oom-kill' | tail -60
+      echo "--- free -m / df -h /var/lib/docker ---"; free -m 2>&1; df -h / /var/lib/docker 2>&1
+      echo "--- docker ps -a (exit codes) ---"; docker ps -a 2>&1 | head -10
+    } > "/tmp/postmortem.$L.txt" 2>&1
+    "$GS" storage cp "/tmp/postmortem.$L.txt" "$PREFIX/postmortem_$L.txt" >/dev/null 2>&1 || true
+    echo "[s1f-gcp] leg $L FAILED rc=$rc (post-mortem in $PREFIX/postmortem_$L.txt)"
+    mark "leg-$L-FAILED-rc$rc"; return 1
+  fi
   test -s "/work/out/leg_${RECEPTOR}_${L}.json" || {
     echo "[s1f-gcp] leg $L exited 0 with no result JSON"; mark "leg-$L-NORESULT"; return 1; }
   "$GS" storage cp "/work/out/leg_${RECEPTOR}_${L}.json" "$UNIT_URI/leg_${RECEPTOR}_${L}.json" >/dev/null 2>&1

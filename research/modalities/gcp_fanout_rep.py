@@ -72,6 +72,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 
@@ -85,6 +86,11 @@ from congeneric_fanout import (  # noqa: E402
     result_key,
     unit_env,
 )
+# ★ THE PROGRESS ARITHMETIC IS IMPORTED, NEVER RE-DERIVED (rule 1). `sequential_pct` /
+# `sequential_remaining` are the board's one implementation of "how far through a multi-stage unit is
+# this", and `parse_targets` is the one parser of the driver's own target line. A second spelling here
+# could disagree with the ternary lane's about what 50 % means, which is the whole failure rule 1 names.
+from inflight_board import parse_targets, sequential_pct, sequential_remaining  # noqa: E402
 
 # ---- constants that have ONE home here ---------------------------------------------------------------
 
@@ -377,6 +383,536 @@ def vm_rows(gcloud_json):
     return out
 
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE DURABLE CENSUS — what the object store, and only the object store, can prove
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+#
+# ★★ WHY A % DONE NEVER NEEDED A MEASURED RATE, AND WHY THE COLUMN WAS BLANK FOR A DAY ANYWAY
+# (2026-08-01, after the first real leg banked 20 committed generations and the board still printed `—`).
+# The row's own `why` said *"ETA UNKNOWN — this lane has no measured L4 rate for a fan-out leg yet"*, and
+# then left `pct` null too. Those are DIFFERENT questions. **How far through is it** is a ratio of two
+# integers — the iteration the store says is committed, over the target the driver's own log line states —
+# and needs no seconds-per-iteration at all. **When will it land** is the one that needs a rate. Conflating
+# them cost the whole progress column: a reader could not tell a leg 14 % in from one that had not started,
+# on a lane whose entire reason to exist is that nobody is watching it.
+#
+# ⚠ AND THE CENSUS IS READ FROM `COMMITTED.json` MARKERS, NOT FROM A LOG. A log line says a process
+# *believes* it reached an iteration; a `COMMITTED.json` says the generation is DURABLE IN GCS — the thing
+# only a real run can produce, and the only thing a resume can actually start from (CLAUDE.md §4b). The two
+# diverge exactly when it matters: at a crash, the log's last `Iteration` line is ahead of the last commit,
+# and reporting it would promise a resume point that does not exist.
+
+#: The commit tree is `<ckpt>/<leg>/<phase>/iter-NNNNNNNN/<generation-hash>/COMMITTED.json`.
+_CKPT_RE = re.compile(r"/ckpt/([A-Za-z0-9_]+)/([A-Za-z0-9_]+)/iter-(\d+)/[^/]+/COMMITTED\.json$")
+
+#: `gcloud storage ls -l` emits `<size> <RFC3339> <uri>`, plus a trailing `TOTAL:` line.
+_LS_RE = re.compile(r"^\s*(\d+)\s+(\S+?Z)\s+(gs://\S+)\s*$")
+
+#: The legs whose commits are SCIENCE. `smoke` writes into the same tree under its own leg name
+#: (`RBFE_SPOT_COMMIT_GCS=…/ckpt/smoke`, s1f_rep_gcp_startup.sh) precisely so it can never be resumed into
+#: — and for exactly the same reason it must never be counted as progress. A reader that did not exclude it
+#: would have seen `smoke/production/iter-4` and concluded the production phase had begun, which is the
+#: `100.0%`-off-a-smoke-census failure inflight_board.render already carries a guard for.
+SCIENCE_LEGS = ("complex", "solvent")
+
+#: ★ THE STATED THRESHOLD FOR "ENOUGH POINTS TO QUOTE A RATE" — a number in the code, not a judgement call.
+#: Below it the ETA cell says so and names the count; at or above it the ETA renders. Three COMPLETED
+#: intervals is the smallest number from which you can see whether a rate is still settling (two to compare
+#: and one to confirm the comparison) — and the first measured leg proves that is not paranoia: its first
+#: interval ran at 18.1 s/iter and it settled near twice that, so a rate quoted off one interval would have
+#: promised a landing roughly twice too early. `ETA UNKNOWN` forever is indistinguishable from a broken
+#: estimator, so this is a threshold that is REACHED, not a permanent refusal.
+MIN_RATE_INTERVALS = 3
+
+#: Only the trailing N completed intervals feed the quoted rate. A whole-run mean would keep the settling
+#: transient in the denominator for the entire leg; a trailing window forgets it as soon as it is over, and
+#: tracks a real slowdown (a resumed leg on a busier host) instead of averaging it away.
+RATE_WINDOW = 5
+
+
+def parse_ls_long(text):
+    """[(size_bytes, updated_iso, uri)] from `gcloud storage ls -l` output. PURE.
+
+    Deliberately tolerant of the `TOTAL:` footer and of blank lines, and deliberately INTOLERANT of a line
+    it cannot parse into all three fields — an unparsed object is dropped rather than guessed at, and the
+    caller's census then reports what it could read rather than a number built from half a listing."""
+    out = []
+    for ln in (text or "").splitlines():
+        m = _LS_RE.match(ln)
+        if m:
+            out.append((int(m.group(1)), m.group(2), m.group(3)))
+    return out
+
+
+def checkpoint_marks(rows, legs=SCIENCE_LEGS):
+    """{leg: [(phase, iteration, updated_iso)]}, ascending by iteration, smoke excluded. PURE.
+
+    `rows` is `parse_ls_long`'s output (or any iterable of (size, updated, uri))."""
+    out = {}
+    for _sz, upd, uri in rows or ():
+        m = _CKPT_RE.search(uri)
+        if not m:
+            continue
+        leg, phase, it = m.group(1), m.group(2), int(m.group(3))
+        if legs is not None and leg not in legs:
+            continue
+        out.setdefault(leg, []).append((phase, it, upd))
+    for leg in out:
+        out[leg].sort(key=lambda t: (t[0], t[1]))
+    return out
+
+
+def interval_rates(marks_for_leg):
+    """[(from_iter, to_iter, seconds, s_per_iter)] between CONSECUTIVE commits of one phase. PURE.
+
+    ⚠ Never across a phase boundary: warmup→production restarts the iteration counter, so a pair spanning
+    it would divide a real duration by a negative or meaningless iteration delta. Same reason
+    `inflight_board.advance_counters` resets on a stage change."""
+    out = []
+    by_phase = {}
+    for phase, it, upd in marks_for_leg or ():
+        by_phase.setdefault(phase, []).append((it, upd))
+    for phase, seq in by_phase.items():
+        seq.sort()
+        for (i0, u0), (i1, u1) in zip(seq, seq[1:]):
+            t0, t1 = _parse_ts(u0), _parse_ts(u1)
+            if t0 is None or t1 is None or i1 <= i0:
+                continue
+            secs = (t1 - t0).total_seconds()
+            if secs <= 0:
+                continue
+            out.append((i0, i1, secs, secs / (i1 - i0)))
+    out.sort()
+    return out
+
+
+def quoted_rate(marks_for_leg, window=RATE_WINDOW, min_intervals=MIN_RATE_INTERVALS):
+    """The leg's seconds-per-iteration, or a REFUSAL that names the count. PURE.
+
+    Returns {"s_per_iter": float|None, "n_intervals": int, "n_used": int, "spread": float|None,
+             "why": str}. `spread` is max/min over the window — reported, never used to suppress the
+    number, because a reader who can see the spread can grade the ETA and a hidden refusal teaches nothing.
+    """
+    iv = interval_rates(marks_for_leg)
+    n = len(iv)
+    if n < min_intervals:
+        return {"s_per_iter": None, "n_intervals": n, "n_used": 0, "spread": None,
+                "why": (f"{n} completed commit interval(s); this lane quotes a rate at "
+                        f"{min_intervals} (gcp_fanout_rep.MIN_RATE_INTERVALS). "
+                        f"The next commit moves it toward the threshold.")}
+    used = iv[-int(window):] if window else iv
+    rates = [r for *_x, r in used]
+    s = sum(rates) / len(rates)
+    return {"s_per_iter": s, "n_intervals": n, "n_used": len(used),
+            "spread": (max(rates) / min(rates)) if min(rates) > 0 else None,
+            "why": (f"mean of the trailing {len(used)} of {n} completed commit intervals "
+                    f"(gcp_fanout_rep.RATE_WINDOW)")}
+
+
+def leg_stage(marks_for_leg):
+    """(phase, iteration) the store proves this leg reached, or (None, None). PURE.
+
+    Production outranks warmup whatever the iteration numbers say — the counter restarts at the phase
+    boundary, so `max` over the raw integers would report a warmup leg as ahead of a production one."""
+    order = {"warmup": 0, "production": 1}
+    best = None
+    for phase, it, _u in marks_for_leg or ():
+        k = (order.get(phase, -1), it)
+        if best is None or k > best[0]:
+            best = (k, (phase, it))
+    return best[1] if best else (None, None)
+
+
+def unit_stages(targets):
+    """The FOUR stages of a unit, in the order they run, as `sequential_pct` wants them. PURE.
+
+    ⚠ THE DENOMINATOR IS THE WHOLE UNIT, NOT THE LEG. The deliverable is `ddg.json`, and it needs
+    complex AND solvent; a leg-scoped percentage would read 100 % with half the unit unbought. Same
+    argument `inflight_board.pct_complete` makes for warmup-vs-production one level down.
+    `targets` is (warmup_target, prod_target) — identical for both legs because the driver derives them
+    from the protocol's equilibration/production lengths and timestep, not from the system."""
+    if not targets:
+        return None
+    w, p = targets
+    return (("complex-warmup", w), ("complex-production", p),
+            ("solvent-warmup", w), ("solvent-production", p))
+
+
+def unit_progress(marks, targets, legs_done=(), leg_rates=None):
+    """% done and ETA for one unit, from the DURABLE census alone. PURE.
+
+    Returns a dict; every refusal names itself rather than rendering as an absent number:
+      pct          0-100, or None ONLY when the targets could not be read (see `pct_why`)
+      pct_of       a LABEL for the cell when a bare percentage would mislead, else None
+      eta_s        seconds to the end of `eta_scope`, or None with `eta_why` saying which input was missing
+      eta_scope    "unit" | "<leg> leg" — WHICH terminus the ETA is for, never left to inference
+
+    ⚠ THE SOLVENT LEG'S RATE IS NOT THE COMPLEX LEG'S. The two legs solvate different systems and differ in
+    seconds per iteration by a large factor, so projecting the whole unit off the complex rate would be a
+    fabricated number in the cell whose job is to be actionable. Until the solvent leg has its own measured
+    rate the ETA is scoped to the leg that HAS one, and says so.
+    """
+    stages = unit_stages(targets)
+    legs_done = tuple(legs_done or ())
+    leg_rates = dict(leg_rates or {})
+    if not stages:
+        return {"pct": None, "pct_of": None, "eta_s": None, "eta_scope": None, "stage": None,
+                "iteration": None,
+                "pct_why": ("the driver's `warmup_target=… prod_target=…` line has not been read, so the "
+                            "denominator is unknown. An unreadable target is not a target of zero "
+                            "(CLAUDE.md §4) — the cell refuses rather than guessing a total."),
+                "eta_why": "no targets, so no remaining-work count either"}
+    w, p = targets
+    # A leg whose result JSON is already in GCS is COMPLETE whatever its last committed generation says:
+    # the commit tree is not pruned, so a finished leg's newest marker is its last checkpoint, not its end.
+    cur_leg, phase, it = None, None, None
+    for leg in SCIENCE_LEGS:
+        if leg in legs_done:
+            continue
+        ph, i = leg_stage(marks.get(leg) if marks else None)
+        cur_leg, phase, it = leg, ph, i
+        break
+    if cur_leg is None:                                    # both legs banked; only the reduce remains
+        return {"pct": 100.0, "pct_of": None, "eta_s": None, "eta_scope": None,
+                "stage": "reduce", "iteration": None,
+                "pct_why": "both leg JSONs are in GCS; all sampling is done",
+                "eta_why": "sampling complete — the reduce is a CPU step of seconds"}
+    stage_key = f"{cur_leg}-{phase}" if phase else None
+    # Iterations banked BEFORE the current leg, so the percentage is of the unit and not of the leg.
+    prior = sum(w + p for leg in SCIENCE_LEGS if leg in legs_done)
+    total = 2 * (w + p)
+    done_here = sequential_pct(stages, stage_key, it or 0)
+    done_iters = (done_here / 100.0 * total) if done_here is not None else 0.0
+    # `prior` is already inside `stages` for a done leg only if that leg precedes the current one; the
+    # sequential model handles the ordering, so take the larger of the two readings rather than adding.
+    banked = max(done_iters, float(prior))
+    pct = min(100.0, 100.0 * banked / total) if total else None
+    rem_unit = sequential_remaining(stages, stage_key, it or 0)
+    # ---- the ETA ---------------------------------------------------------------------------------------
+    rate = leg_rates.get(cur_leg)
+    if not rate:
+        return {"pct": pct, "pct_of": None, "eta_s": None, "eta_scope": None,
+                "stage": stage_key, "iteration": it,
+                "pct_why": f"{int(banked)} of {total} committed iterations (unit = 2 legs x (warmup {w} + "
+                           f"production {p}))",
+                "eta_why": f"no measured rate for the {cur_leg} leg yet"}
+    rem_leg = sequential_remaining((("warmup", w), ("production", p)), phase, it or 0)
+    others = [lg for lg in SCIENCE_LEGS if lg not in legs_done and lg != cur_leg]
+    if others and not all(leg_rates.get(lg) for lg in others):
+        return {"pct": pct, "pct_of": None, "eta_s": rem_leg * rate, "eta_scope": f"{cur_leg} leg",
+                "stage": stage_key, "iteration": it,
+                "pct_why": f"{int(banked)} of {total} committed iterations (unit = 2 legs x (warmup {w} + "
+                           f"production {p}))",
+                "eta_why": (f"scoped to the {cur_leg} leg: {', '.join(others)} has no measured L4 rate of "
+                            f"its own and the two legs solvate different systems, so projecting the unit "
+                            f"off this rate would be a fabricated number")}
+    eta = rem_leg * rate + sum((w + p) * leg_rates[lg] for lg in others)
+    return {"pct": pct, "pct_of": None, "eta_s": eta, "eta_scope": "unit",
+            "stage": stage_key, "iteration": it,
+            "pct_why": f"{int(banked)} of {total} committed iterations (unit = 2 legs x (warmup {w} + "
+                       f"production {p}))",
+            "eta_why": f"every remaining leg has its own measured rate; {int(rem_unit)} iterations left"}
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE MEASURED L4 RATE — the first one this program has for a step-1 fan-out leg
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+#
+# ★★ WHY THIS IS A RESULT AND NOT BOOKKEEPING. Until 2026-08-01 no fan-out leg had ever been TIMED on an
+# L4, so `congeneric_fanout.cost_estimate`'s hours came from Vast 4090/5090-class hosts and a GCP leg could
+# not be priced at all — the lane's own cap comment says as much and calls its 48 h an ESTIMATE. This
+# measurement replaces that estimate with a number, and it is what makes fan-out legs on an L4 priceable.
+#
+# ⚠ IT IS A REALIZED WALL-CLOCK RATE, NOT A PURE MD THROUGHPUT. Each interval spans 20 HREX iterations AND
+# the GCS commit barrier that closes them, because that is what the `COMMITTED.json` timestamps bracket.
+# That is the RIGHT quantity for an ETA and for GPU-hours-per-leg — those are what the lane spends — and
+# the WRONG one to compare against a bare MD benchmark. Both readings are published below; the units say
+# which is which.
+#
+# ⚠ AND IT IS ON FREE CREDIT. CLAUDE.md §6: GCP trial credit is a SEPARATE LEDGER, never summed into
+# realized or ladder spend, and pricing.md's standing refusal applies — the L4 list rate is NOT a
+# go-forward cost basis, so this artifact deliberately carries hours and iterations and NO dollars.
+
+#: Where the measurement lives. Written by CI from the commit markers; never hand-edited (rule 1).
+RATE_ARTIFACT = "gcp-s1f-rep-rate.json"
+
+#: The protocol's MD lengths have ONE home and it is `nr4a3_rbfe.py`, which sets them on the OpenFE
+#: settings object. This reads them from there rather than restating them, so a protocol change cannot
+#: leave a stale ns/day behind in this file. Fails closed: an unparseable source yields None and every
+#: derived nanosecond figure is then absent WITH A REASON rather than guessed.
+_LEN_RE = re.compile(r"\.(equilibration|production)_length\s*=\s*([\d.]+)\s*\*\s*_ou\.nanosecond")
+
+
+def protocol_lengths_ns(source_path=None):
+    """{"equilibration": ns, "production": ns} as `nr4a3_rbfe.py` sets them, or None. PURE-ish (reads a file).
+
+    ⚠ The `nanosecond` in the pattern is load-bearing: the RBFE_TINY shakeout branch sets the same two
+    attributes in PICOseconds, and picking that one up would divide the real iteration count into a
+    plumbing test's MD length and report a rate ~200x wrong."""
+    p = source_path or os.path.join(os.path.dirname(os.path.abspath(__file__)), "nr4a3_rbfe.py")
+    try:
+        with open(p) as fh:
+            got = dict((k, float(v)) for k, v in _LEN_RE.findall(fh.read()))
+    except Exception:                                          # noqa: BLE001
+        return None
+    return got if {"equilibration", "production"} <= set(got) else None
+
+
+def ps_per_iteration(targets, lengths_ns=None):
+    """MD picoseconds one HREX iteration advances EACH replica, or None. PURE.
+
+    Derived from the run's OWN target line and the protocol's OWN lengths — `equilibration_ns / warmup
+    iterations`. The production pair is computed too and must AGREE: they are the same
+    `time_per_iteration` in OpenFE and a disagreement means one of the two readings is not what it claims,
+    which is a refusal rather than a number to average."""
+    if not targets or not lengths_ns:
+        return None
+    w, p = targets
+    if not w or not p:
+        return None
+    a = lengths_ns["equilibration"] * 1000.0 / w
+    b = lengths_ns["production"] * 1000.0 / p
+    return a if abs(a - b) <= 1e-6 * max(a, b) else None
+
+
+def rate_report(marks, targets, n_windows=N_WINDOWS, lengths_ns=None, window=RATE_WINDOW):
+    """Everything derivable about this lane's throughput, from the markers alone. PURE.
+
+    Every field is a quotient of things measured or read; nothing here is typed."""
+    lengths_ns = lengths_ns or protocol_lengths_ns()
+    ps = ps_per_iteration(targets, lengths_ns)
+    out = {"targets": list(targets) if targets else None,
+           "n_windows": int(n_windows),
+           "protocol_ns": lengths_ns,
+           "ps_per_iteration_per_replica": ps,
+           "legs": {}}
+    for leg in SCIENCE_LEGS:
+        m = marks.get(leg) or []
+        q = quoted_rate(m, window=window)
+        s = q["s_per_iter"]
+        row = {"commits": len(m), "stage": leg_stage(m)[0], "iteration": leg_stage(m)[1],
+               "s_per_iteration": s, "n_intervals": q["n_intervals"], "n_used": q["n_used"],
+               "spread": q["spread"], "why": q["why"],
+               "intervals": [{"from": a0, "to": b0, "seconds": sec, "s_per_iter": r}
+                             for a0, b0, sec, r in interval_rates(m)]}
+        if s and targets:
+            row["leg_hours"] = (targets[0] + targets[1]) * s / 3600.0
+        if s and ps:
+            # ⚠ TWO DIFFERENT ns/day, and conflating them is the whole reason both are printed.
+            # PER-REPLICA is what one alchemical window advances; AGGREGATE is the sampling the leg buys
+            # per wall-clock day across all `n_windows` of them. A single-simulation MD benchmark (the
+            # card probe) is neither of these — see gcp-gpu-facts.md §1e for what may be compared.
+            row["ns_per_day_per_replica"] = ps / 1000.0 * 86400.0 / s
+            row["ns_per_day_aggregate"] = row["ns_per_day_per_replica"] * int(n_windows)
+        out["legs"][leg] = row
+    if targets and all(out["legs"][lg].get("s_per_iteration") for lg in SCIENCE_LEGS):
+        out["unit_hours"] = sum(out["legs"][lg]["leg_hours"] for lg in SCIENCE_LEGS)
+    return out
+
+
+def rate_markdown_table(report):
+    """The table that goes in gcp-gpu-facts.md §1e. DERIVED — regenerate, never hand-edit."""
+    ps = report.get("ps_per_iteration_per_replica")
+    head = ("| leg | commits | last committed | s / HREX iteration | leg wall-clock h | "
+            "ns/day per replica | ns/day aggregate (%s windows) |" % report.get("n_windows"))
+    out = [head, "|---|---|---|---|---|---|---|"]
+    for leg, r in (report.get("legs") or {}).items():
+        s = r.get("s_per_iteration")
+        out.append("| **%s** | %d | %s | %s | %s | %s | %s |" % (
+            leg, r.get("commits") or 0,
+            (f"{r.get('stage')} {r.get('iteration')}" if r.get("stage") else "—"),
+            (f"**{s:.2f}**" if s else "— *(%s)*" % r.get("why", "")),
+            (f"{r['leg_hours']:.1f}" if r.get("leg_hours") else "—"),
+            (f"{r['ns_per_day_per_replica']:.2f}" if r.get("ns_per_day_per_replica") else "—"),
+            (f"{r['ns_per_day_aggregate']:.2f}" if r.get("ns_per_day_aggregate") else "—")))
+    out.append("")
+    out.append("*%s ps of MD per replica per iteration, derived from the run's own "
+               "`warmup_target=%s prod_target=%s` line and `nr4a3_rbfe.py`'s protocol lengths "
+               "(%s ns equilibration / %s ns production).*"
+               % (("%.2f" % ps) if ps else "—",
+                  (report.get("targets") or ["?", "?"])[0], (report.get("targets") or ["?", "?"])[1],
+                  (report.get("protocol_ns") or {}).get("equilibration", "?"),
+                  (report.get("protocol_ns") or {}).get("production", "?")))
+    return "\n".join(out)
+
+
+def write_rate_artifact(marks, targets, unit_id, machine_type=None, root=None, n_windows=N_WINDOWS):
+    """Persist the RAW marker series plus the derived report. Returns the path, or None if nothing to say.
+
+    ★ THE RAW MARKERS ARE THE ARTIFACT'S REASON TO EXIST. Storing only the derived rate would make the
+    figure unauditable and unrecomputable when `RATE_WINDOW` or the arithmetic changes; storing the
+    `(leg, phase, iteration, utc)` tuples means every number above can be re-derived from evidence, which
+    is what `--markdown-table` does and what the test re-checks."""
+    if not any((marks or {}).get(lg) for lg in SCIENCE_LEGS):
+        return None
+    rep = rate_report(marks, targets, n_windows=n_windows)
+    doc = {
+        "_what": ("The FIRST measured throughput of a step-1 fan-out RBFE leg on a GCE L4. Written by CI "
+                  "from the unit's own COMMITTED.json markers; NEVER hand-edited. Regenerate the "
+                  "documented table with `gcp_fanout_rep.py rate --markdown-table`."),
+        "_ledger": ("GCP trial credit — a SEPARATE LEDGER, never summed into realized or ladder spend "
+                    "(CLAUDE.md §6), expires 2026-10-10. No dollars are recorded here on purpose: the L4 "
+                    "list rate is NOT a go-forward cost basis (pricing.md)."),
+        "_caveat": ("A REALIZED WALL-CLOCK rate: each interval brackets 20 HREX iterations AND the GCS "
+                    "commit barrier that closes them. Right for an ETA and for GPU-hours-per-leg; wrong "
+                    "to compare against a bare single-simulation MD benchmark."),
+        "unit_id": unit_id,
+        "card": "nvidia-l4",
+        "machine_type": machine_type,
+        "measured_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "marks": [[lg, ph, it, utc] for lg in SCIENCE_LEGS for ph, it, utc in (marks.get(lg) or [])],
+        "derived": rep,
+    }
+    path = os.path.join(root or os.path.dirname(os.path.abspath(__file__)), RATE_ARTIFACT)
+    with open(path, "w") as fh:
+        json.dump(doc, fh, indent=1)
+        fh.write("\n")
+    return path
+
+
+def load_rate_artifact(root=None):
+    """The committed measurement, or None."""
+    path = os.path.join(root or os.path.dirname(os.path.abspath(__file__)), RATE_ARTIFACT)
+    try:
+        with open(path) as fh:
+            return json.load(fh)
+    except Exception:                                          # noqa: BLE001
+        return None
+
+
+def marks_from_artifact(doc):
+    """{leg: [(phase, iteration, utc)]} back out of the artifact's raw series. PURE."""
+    out = {}
+    for lg, ph, it, utc in (doc or {}).get("marks") or ():
+        out.setdefault(lg, []).append((ph, int(it), utc))
+    for lg in out:
+        out[lg].sort(key=lambda t: (t[0], t[1]))
+    return out
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# SELF-FEEDING — the launch side of the supervision tick
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+#
+# ★★ A TICK THAT CAN END WORK BUT NEVER START IT GUARANTEES THE GPU IDLES THE MOMENT A UNIT FINISHES
+# (measured 2026-08-01; the second idle in two days, and the first one that was structural rather than a
+# misconfigured watcher). Both this workflow's `schedule:` cron and the supervisor's ~8-minute loop
+# dispatch it with NO inputs, and the reap sweep runs unconditionally at the head of every dispatch — so
+# every tick reaped correctly and not one of them could ever provision, because the create step was gated
+# on `github.event.inputs.mode`, which a `schedule:` event leaves empty. Launching therefore required a
+# human or an agent to type `mode=run`, and when the agent stopped, launching stopped: 8 h 11 m of a free
+# GPU sitting idle against credit that expires 2026-10-10, with every tick's board row honestly reporting
+# it and nothing acting on the report.
+#
+# This function is the other half. It is PURE and it is the only place the decision is made, so what the
+# lane will buy is testable without a cloud.
+#
+# ⚠ THREE REFUSALS, AND THEY ARE THE POINT — a feeder that only ever says "launch" is worse than none:
+#   1. GPUS_ALL_REGIONS = 1 (gcp-gpu-facts.md #1). ANY live instance in the project — this lane's or the
+#      ternary lane's — means there is no GPU to buy, and the quota error a create would return is a worse
+#      way to learn that than not making the call. This is not a failure state and must never render as
+#      one: it is the serial constraint working.
+#   2. A unit whose ddg.json is already in GCS is DONE. The queue is walked in map order and the first
+#      not-done unit is the candidate, so the lane feeds itself through the whole cycle without anyone
+#      choosing an order.
+#   3. THE NO-PROGRESS BREAKER. A leg that dies without banking a single new generation, three launches
+#      running, is not a transient — and an unattended feeder that keeps buying is how a lane converts a
+#      systematic fault into a silent burn of the whole credit balance. The counter is keyed on the
+#      COMMITTED ITERATION, not on time or on attempt count alone, so a launch that advanced the work by
+#      even one generation resets it: retrying is cheap when it makes progress and unbounded when it does
+#      not.
+#      ⚠ AND AN UNREADABLE CENSUS IS NOT A NON-ADVANCE (CLAUDE.md §4). `iteration is None` means the store
+#      did not answer; counting that as "did not move" would let one throttled `ls` trip the breaker on a
+#      perfectly healthy lane. It holds for that tick and says which reading was missing.
+
+#: Consecutive launches that bank NO new committed generation before the feeder stops buying.
+#: Not 1: the fault this breaker was written for (`openmm.OpenMMException: No compatible CUDA device is
+#: available`, raised 3 h 45 min into a leg that had banked 20 generations) is exactly the shape that a
+#: single retry ought to clear. Not 10: every attempt holds the account's only GPU for as long as it takes
+#: to fail. Three is the smallest count that can distinguish "unlucky" from "systematic".
+MAX_NOPROGRESS_LAUNCHES = 3
+
+#: The lane's queue. ONE cycle, ONE replicate index, in the frozen map's own edge order — `cycle_3carbonyl`
+#: is the cycle that does not close, which is the entire reason this axis was authorised
+#: (`congeneric_fanout.replicate_units`' docstring is the one home of that argument).
+QUEUE_CYCLE = "cycle_3carbonyl"
+QUEUE_REPLICATE = 1
+
+
+def queue_units(cycle=QUEUE_CYCLE, replicate=QUEUE_REPLICATE):
+    """The units this lane will work through, in order. PURE. Delegates entirely to `replicate_units`."""
+    return units_for(cycle, replicate)
+
+
+def feed_decision(queue, done, live_instances, attempts=None, progress=None,
+                  max_noprogress=MAX_NOPROGRESS_LAUNCHES):
+    """Should the tick buy a GPU, and for which unit? PURE.
+
+    queue           [unit_id] in the order they should run
+    done            iterable of unit_ids whose ddg.json is already in GCS
+    live_instances  how many GCE instances are RUNNING/PROVISIONING/STAGING/REPAIRING, project-wide
+    attempts        {unit_id: {"iteration": int|None, "count": int}} — the durable launch ledger
+    progress        {unit_id: int|None} — highest committed iteration the store proves RIGHT NOW
+
+    Returns {"action": "launch"|"hold"|"idle", "unit_id": str|None, "cause": str, "why": str}.
+    Only `launch` may provision. Every other action must leave the account untouched.
+    """
+    done = set(done or ())
+    attempts = dict(attempts or {})
+    progress = dict(progress or {})
+    if int(live_instances or 0) > 0:
+        return {"action": "hold", "unit_id": None, "cause": "gpu_busy",
+                "why": (f"{live_instances} GCE instance(s) live. GPUS_ALL_REGIONS = 1 is the binding cap "
+                        f"(gcp-gpu-facts.md #1), so this lane is strictly serial and there is no second "
+                        f"GPU to buy. Not a fault — the constraint working.")}
+    remaining = [u for u in queue if u not in done]
+    if not remaining:
+        return {"action": "idle", "unit_id": None, "cause": "queue_complete",
+                "why": (f"every unit in the queue has a ddg.json in GCS ({len(done)} of {len(queue)}). "
+                        f"Nothing left to buy; the lane is finished, not stopped.")}
+    unit = remaining[0]
+    a = attempts.get(unit) or {}
+    count = int(a.get("count") or 0)
+    if count >= int(max_noprogress):
+        it_now = progress.get(unit, None)
+        if it_now is None:
+            return {"action": "hold", "unit_id": unit, "cause": "census_unreadable",
+                    "why": (f"{unit} is at the breaker threshold ({count} launches) and its committed "
+                            f"census could not be READ this tick. An absent reading is not a reading of "
+                            f"absence (CLAUDE.md §4): holding until the store answers, rather than "
+                            f"counting a throttle as a failure to progress.")}
+        it_last = a.get("iteration")
+        if it_last is not None and int(it_now) <= int(it_last):
+            return {"action": "hold", "unit_id": unit, "cause": "no_progress_breaker",
+                    "why": (f"{unit} has been launched {count} times with its committed iteration frozen "
+                            f"at {it_now} — no generation banked since. That is systematic, not unlucky, "
+                            f"and an unattended feeder that kept buying would spend the credit balance on "
+                            f"it. Holding. Clear it by fixing the cause, or by dispatching mode=run "
+                            f"explicitly, which is not gated on this breaker.")}
+    return {"action": "launch", "unit_id": unit, "cause": "next_in_queue",
+            "why": (f"{unit} is the first unit of {QUEUE_CYCLE} r{QUEUE_REPLICATE} with no ddg.json in "
+                    f"GCS, no GCE instance is live, and it is under the "
+                    f"{max_noprogress}-launch no-progress breaker (attempt {count + 1}).")}
+
+
+def next_attempt(attempt, iteration_now):
+    """The launch ledger entry to write AFTER a successful create. PURE.
+
+    Resets the counter when the store proves the previous launch banked a new generation, and carries an
+    UNREADABLE census forward without incrementing — the same asymmetry `feed_decision` applies, in the one
+    place that could otherwise quietly poison it."""
+    prev = dict(attempt or {})
+    prev_it = prev.get("iteration")
+    if iteration_now is None:
+        return {"iteration": prev_it, "count": int(prev.get("count") or 0) + 1,
+                "note": "census unreadable at launch; iteration carried forward unchanged"}
+    if prev_it is None or int(iteration_now) > int(prev_it):
+        return {"iteration": int(iteration_now), "count": 1,
+                "note": "the previous launch banked new generations; counter reset"}
+    return {"iteration": int(prev_it), "count": int(prev.get("count") or 0) + 1,
+            "note": "no new generation banked since the last launch"}
+
+
 # ---- the in-flight board fragment ---------------------------------------------------------------------
 
 #: The lane id this fragment is published under.
@@ -398,37 +934,246 @@ BOARD_USD_PER_NS = ("— $0 real dollars (GCP trial credit, a SEPARATE LEDGER, e
                     "against the ladder because no ladder dollar is being spent.")
 
 
-def board_rows(unit, vm_status, vm_created, result_updated, phase=None):
-    """This lane's rows for the all-lane board. PURE.
+def _progress_cells(progress):
+    """(pct, pct_of, eta_s, sentence) for a row, from `unit_progress`'s output. PURE.
 
-    ★ AN IDLE LANE SAYS SO. The row is emitted in every state, including "nothing running" — a lane that
-    renders only while busy looks finished when it is merely stopped, which is the failure the board's own
-    docstring is built around."""
+    ★ % DONE AND ETA ARE ANSWERED SEPARATELY, AND THAT SEPARATION IS THE FIX. The percentage is two
+    integers out of the store and needs no rate; the ETA needs a rate and says which input it is missing
+    when it has none. The old row left BOTH blank on the strength of the second one's excuse."""
+    if not progress:
+        return None, None, None, ("% DONE UNKNOWN and ETA UNKNOWN — no committed-checkpoint census was "
+                                  "read this tick, so neither cell has an input. The store was not "
+                                  "ASKED, which is not the same as the store being empty (CLAUDE.md §4).")
+    bits = []
+    if progress.get("pct") is None:
+        bits.append("% DONE UNKNOWN — " + str(progress.get("pct_why") or ""))
+    else:
+        bits.append(str(progress.get("pct_why") or ""))
+    if progress.get("eta_s") is None:
+        bits.append("ETA UNKNOWN — " + str(progress.get("eta_why") or ""))
+    else:
+        bits.append(f"ETA is for the {progress.get('eta_scope')}: {progress.get('eta_why') or ''}")
+    return progress.get("pct"), progress.get("pct_of"), progress.get("eta_s"), " ".join(b for b in bits if b)
+
+
+def board_rows(unit, vm_status, vm_created, result_updated, phase=None, progress=None, feed=None):
+    """This lane's row for ONE unit. PURE.
+
+    ★ AN IDLE LANE SAYS SO. The row is emitted in every state, including "nothing running" and including
+    DONE — a lane that renders only while busy looks finished when it is merely stopped, and a row that
+    VANISHES on completion is the same failure with the sign flipped: three queued units of which two have
+    landed should read as `2/3 done`, not as a lane that shrank.
+
+    `feed` is `feed_decision`'s verdict, and it is what makes a HOLD legible: an idle lane that decided not
+    to buy and an idle lane that nothing is driving render identically without it, and those want opposite
+    responses (CLAUDE.md §6's board-depth rule, in miniature).
+    """
     name = f"{unit['edge_id'].replace('e_', '', 1)} r{unit['replicate']}"
     if result_updated:
-        return [], (f"{unit['unit_id']} is DONE — ddg.json in GCS at {result_updated}. Nothing running; "
-                    f"this lane holds no GPU.")
+        row = {"name": name, "pct": 100.0, "pct_of": None, "eta_s": None,
+               "usd_per_ns": BOARD_USD_PER_NS, "state": "DONE",
+               "why": f"ddg.json in GCS at {result_updated}. Holding no GPU; nothing left to buy."}
+        return [row], (f"{unit['unit_id']} is DONE — ddg.json in GCS at {result_updated}. Nothing running; "
+                       f"this lane holds no GPU.")
+    pct, pct_of, eta_s, psent = _progress_cells(progress)
     live = str(vm_status or "").upper() in ("RUNNING", "PROVISIONING", "STAGING", "REPAIRING")
     if live:
-        row = {"name": name, "pct": None, "pct_of": None, "eta_s": None,
+        row = {"name": name, "pct": pct, "pct_of": pct_of, "eta_s": eta_s,
                "usd_per_ns": BOARD_USD_PER_NS, "state": "RUNNING",
-               "why": (f"GCE L4, {vm_status}, created {vm_created}. phase='{phase or '<none>'}'. "
-                       f"ETA UNKNOWN — this lane has no measured L4 rate for a fan-out leg yet; the first "
-                       f"one produces it. Bounded at CREATE by --max-run-duration={MAX_RUN_S_RUN}s.")}
+               "why": (f"GCE L4, {vm_status}, created {vm_created}. phase='{phase or '<none>'}'. {psent} "
+                       f"Bounded at CREATE by --max-run-duration={MAX_RUN_S_RUN}s.")}
         return [row], f"{unit['unit_id']} running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)."
-    row = {"name": name, "pct": None, "pct_of": None, "eta_s": None,
-           "usd_per_ns": "—", "state": "IDLE — NO HOST",
-           "why": ("no GCE VM and no ddg.json: this lane is holding no GPU and computing nothing. "
-                   "A re-dispatch of gpu-fanout-rep-gcp.yml mode=run resumes it from its last committed "
-                   "generation in GCS (per-leg idempotent).")}
+    # ---- not running -----------------------------------------------------------------------------------
+    # An ETA is meaningless with no host, but the PERCENTAGE is not: it is banked, durable work and it is
+    # what tells a reader whether a relaunch resumes at 400 iterations or starts from zero.
+    fed = (feed or {}).get("unit_id") == unit["unit_id"]
+    if feed and feed.get("action") == "hold" and (fed or feed.get("cause") == "gpu_busy"):
+        state, why = "HELD — NOT BUYING", f"[{feed.get('cause')}] {feed.get('why')} {psent}"
+    elif feed and feed.get("action") == "launch" and fed:
+        # ⚠ "NEXT UP", never "LAUNCHING". The fragment is written on both sides of the create and cannot
+        # know which — a row that claimed a purchase it might not have made would be the board asserting an
+        # act on the strength of having considered it. Once the VM exists the row renders RUNNING off the
+        # instance list, which is evidence rather than intent.
+        state, why = "IDLE — NEXT UP", (f"the autofeed tick buys this one next: {feed.get('why')} {psent}")
+    else:
+        state, why = "IDLE — NO HOST", (
+            "no GCE VM and no ddg.json: this lane is holding no GPU and computing nothing. "
+            "The autofeed tick (mode=autofeed, run by the schedule and by the supervisor) relaunches it "
+            "and it resumes from its last committed generation in GCS (per-leg idempotent). " + psent)
+    row = {"name": name, "pct": pct, "pct_of": pct_of, "eta_s": None,
+           "usd_per_ns": "—", "state": state, "why": why}
     return [row], f"{unit['unit_id']} NOT running. The free GCP GPU is idle — that is expiring credit unspent."
 
 
-def write_board(unit, vm_status, vm_created, result_updated, phase=None, root=None):
+def queue_board(entries, feed=None):
+    """(rows, note) for the WHOLE queue — one row per unit, in run order. PURE.
+
+    `entries` is [{"unit", "vm_status", "vm_created", "result_updated", "phase", "progress"}].
+
+    ★ THE QUEUE IS THE LANE, NOT THE UNIT IN FRONT OF IT. Rendering only the current unit made a
+    three-unit programme look like a one-unit job that had stopped, and gave a reader no way to see that
+    two more were waiting behind it — which is exactly what nobody noticed was not being fed."""
+    rows, done, running = [], 0, None
+    for e in entries or ():
+        r, _n = board_rows(e["unit"], e.get("vm_status"), e.get("vm_created"), e.get("result_updated"),
+                           phase=e.get("phase"), progress=e.get("progress"), feed=feed)
+        rows.extend(r)
+        if e.get("result_updated"):
+            done += 1
+        elif str(e.get("vm_status") or "").upper() in ("RUNNING", "PROVISIONING", "STAGING", "REPAIRING"):
+            running = e["unit"]["unit_id"]
+    n = len(list(entries or ()))
+    head = f"{QUEUE_CYCLE} r{QUEUE_REPLICATE}: {done} of {n} units have a ddg.json in GCS."
+    if running:
+        note = f"{head} {running} is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)."
+    elif feed and feed.get("action") == "launch":
+        note = f"{head} Nothing on a GPU; {feed.get('unit_id')} is next up and the autofeed tick buys it."
+    elif feed and feed.get("action") == "idle":
+        note = f"{head} Queue complete — the lane is finished, not stopped."
+    elif feed:
+        note = (f"{head} NOT buying this tick [{feed.get('cause')}]: {feed.get('why')} "
+                f"The free GCP GPU is idle — that is expiring credit unspent.")
+    else:
+        note = f"{head} No feed decision was recorded this tick. The free GCP GPU is idle."
+    return rows, note
+
+
+def write_board(unit, vm_status, vm_created, result_updated, phase=None, root=None, progress=None,
+                feed=None):
     """Publish the fragment through inflight_board's own writer, so the document shape has one home."""
     import inflight_board as ib
-    rows, note = board_rows(unit, vm_status, vm_created, result_updated, phase=phase)
+    rows, note = board_rows(unit, vm_status, vm_created, result_updated, phase=phase, progress=progress,
+                            feed=feed)
     return ib.write_fragment(BOARD_LANE, rows, note=note, root=root)
+
+
+def write_queue_board(entries, feed=None, root=None):
+    """Publish the WHOLE queue's fragment through inflight_board's own writer."""
+    import inflight_board as ib
+    rows, note = queue_board(entries, feed=feed)
+    return ib.write_fragment(BOARD_LANE, rows, note=note, root=root)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE TICK — gather, decide, publish. The ONLY impure function in this module.
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+def _gcloud(args, timeout=120):
+    """stdout of a gcloud call, or None if it could not be read. NEVER "" on failure.
+
+    ⚠ THE None IS LOAD-BEARING. `""` is a legitimate answer (an empty listing); a failed call is not an
+    answer at all, and the difference decides whether the breaker counts a non-advance or holds
+    (CLAUDE.md §4). Collapsing the two is the exact bug this module's docstrings keep naming."""
+    import subprocess
+    try:
+        p = subprocess.run(["gcloud"] + list(args), capture_output=True, text=True, timeout=timeout)
+    except Exception:                                          # noqa: BLE001
+        return None
+    return p.stdout if p.returncode == 0 else None
+
+
+def gather_facts(bucket, vm_prefix="gcp-s1frep-", cycle=QUEUE_CYCLE, replicate=QUEUE_REPLICATE):
+    """Everything the tick needs, read from GCE and GCS. IMPURE — the cloud edge, and nothing else."""
+    import json as _json
+    vms_raw = _gcloud(["compute", "instances", "list", "--format=json"])
+    vms = _json.loads(vms_raw) if vms_raw else []
+    live_states = ("RUNNING", "PROVISIONING", "STAGING", "REPAIRING")
+    live = [v for v in vms if str(v.get("status") or "").upper() in live_states]
+    facts = {"live_instances": len(live),
+             "live_names": [v.get("name") for v in live],
+             "vms_readable": vms_raw is not None,
+             "units": []}
+    for u in queue_units(cycle, replicate):
+        uris = gcs_uris(u, bucket)
+        base, rec = uris["unit_uri"], u["receptor"]
+        vm = next((v for v in vms if (v.get("labels") or {}).get("s1f-edge") == u["edge_id"]
+                   and str((v.get("labels") or {}).get("s1f-rep") or "1") == str(u["replicate"])), None)
+        upd = _gcloud(["storage", "objects", "describe", uris["result_uri"], "--format=value(updated)"])
+        legs_done = [lg for lg in SCIENCE_LEGS
+                     if _gcloud(["storage", "objects", "describe", f"{base}/leg_{rec}_{lg}.json",
+                                 "--format=value(name)"])]
+        ls = _gcloud(["storage", "ls", "-l", f"{base}/**"])
+        # The driver's own target line, from whichever leg log exists. One home for the denominator
+        # (`inflight_board.parse_targets`); this only fetches the text it parses.
+        tgt = ""
+        for lg in SCIENCE_LEGS:
+            txt = _gcloud(["storage", "cat", f"{base}/{lg}.log"], timeout=180)
+            if txt and parse_targets(txt):
+                tgt = txt
+                break
+        att = _gcloud(["storage", "cat", f"{base}/attempts.json"])
+        try:
+            attempts = _json.loads(att) if att else {}
+        except Exception:                                      # noqa: BLE001
+            attempts = {}
+        facts["units"].append({
+            "unit_id": u["unit_id"], "edge_id": u["edge_id"], "replicate": u["replicate"],
+            "result_updated": (upd or "").strip() or None,
+            "vm_status": (vm or {}).get("status") or "", "vm_created": (vm or {}).get("creationTimestamp") or "",
+            "machine_type": ((vm or {}).get("machineType") or "").split("/")[-1] or None,
+            "phase": (_gcloud(["storage", "cat", f"{base}/phase.txt"]) or "").strip().split("\n")[-1],
+            "ls": ls, "ls_readable": ls is not None,
+            "targets_line": tgt, "legs_done": legs_done, "attempts": attempts,
+        })
+    return facts
+
+
+def tick(facts, root=None):
+    """Decide, publish the fragment, and return the verdict. PURE given `facts`.
+
+    The whole reason `gather_facts` and this are separate: every judgement the lane makes about buying a
+    GPU is exercisable from a canned document, with no cloud and no credit."""
+    entries, done, progress_by_unit, attempts = [], [], {}, {}
+    order = []
+    for f in facts.get("units") or ():
+        u = unit_for(f["edge_id"], f.get("replicate") or QUEUE_REPLICATE)
+        order.append(u["unit_id"])
+        marks = checkpoint_marks(parse_ls_long(f.get("ls") or "")) if f.get("ls_readable", True) else None
+        targets = parse_targets(f.get("targets_line") or "")
+        rates = {}
+        for lg in SCIENCE_LEGS:
+            q = quoted_rate((marks or {}).get(lg) or [])
+            if q["s_per_iter"]:
+                rates[lg] = q["s_per_iter"]
+        prog = unit_progress(marks or {}, targets, legs_done=f.get("legs_done") or (), leg_rates=rates)
+        prog["rates"] = {lg: quoted_rate((marks or {}).get(lg) or []) for lg in SCIENCE_LEGS}
+        # ★ THE MEASUREMENT IS RECORDED BY THE SAME PASS THAT READS IT. A rate produced only by a
+        # hand-dispatched forensic run is a rate that goes stale the moment nobody dispatches one — which
+        # is the failure this whole lane is a correction for. Every tick that can see markers refreshes
+        # the artifact, so the committed measurement can never lag the store by more than one tick.
+        if marks and targets and any(marks.get(lg) for lg in SCIENCE_LEGS):
+            write_rate_artifact(marks, targets, u["unit_id"], machine_type=f.get("machine_type"),
+                                root=root)
+        entries.append({"unit": u, "vm_status": f.get("vm_status"), "vm_created": f.get("vm_created"),
+                        "result_updated": f.get("result_updated"), "phase": f.get("phase"),
+                        "progress": prog})
+        if f.get("result_updated"):
+            done.append(u["unit_id"])
+        # ⚠ `None`, not 0, when the listing could not be read — `feed_decision` distinguishes them.
+        progress_by_unit[u["unit_id"]] = None if marks is None else (leg_stage((marks or {}).get("complex"))[1]
+                                                                     or 0)
+        attempts[u["unit_id"]] = f.get("attempts") or {}
+    live = facts.get("live_instances") if facts.get("vms_readable", True) else 1
+    d = feed_decision(order, done, live, attempts=attempts, progress=progress_by_unit)
+    if not facts.get("vms_readable", True):
+        d = {"action": "hold", "unit_id": None, "cause": "instance_list_unreadable",
+             "why": ("`gcloud compute instances list` did not answer this tick. An unreadable list is not "
+                     "an empty one (CLAUDE.md §4), and buying on it could put a second GPU against a "
+                     "GPUS_ALL_REGIONS = 1 cap. Holding until it reads.")}
+    path = write_queue_board(entries, feed=d, root=root)
+    d["fragment"] = path
+    d["queue"] = order
+    d["done"] = done
+    d["progress"] = progress_by_unit
+    if d["action"] == "launch":
+        d["next_attempt"] = next_attempt(attempts.get(d["unit_id"]), progress_by_unit.get(d["unit_id"]))
+        d["edge_id"] = next(f["edge_id"] for f in facts["units"]
+                            if unit_for(f["edge_id"], f.get("replicate") or QUEUE_REPLICATE)["unit_id"]
+                            == d["unit_id"])
+        d["replicate"] = next(f.get("replicate") or QUEUE_REPLICATE for f in facts["units"]
+                              if unit_for(f["edge_id"], f.get("replicate") or QUEUE_REPLICATE)["unit_id"]
+                              == d["unit_id"])
+    return d
 
 
 # ---- CLI ----------------------------------------------------------------------------------------------
@@ -522,6 +1267,73 @@ def _cmd_vms(a):
     return 0
 
 
+def _census(ls_text, targets_line="", legs_done=()):
+    marks = checkpoint_marks(parse_ls_long(ls_text))
+    targets = parse_targets(targets_line or "")
+    rates = {lg: quoted_rate(marks.get(lg) or []) for lg in SCIENCE_LEGS}
+    prog = unit_progress(marks, targets,
+                         legs_done=legs_done,
+                         leg_rates={lg: r["s_per_iter"] for lg, r in rates.items() if r["s_per_iter"]})
+    return {
+        "targets": list(targets) if targets else None,
+        "legs": {lg: {"stage": leg_stage(marks.get(lg) or [])[0],
+                      "iteration": leg_stage(marks.get(lg) or [])[1],
+                      "commits": len(marks.get(lg) or []),
+                      "rate": rates[lg],
+                      "intervals": [{"from": a0, "to": b0, "seconds": s, "s_per_iter": r}
+                                    for a0, b0, s, r in interval_rates(marks.get(lg) or [])]}
+                 for lg in SCIENCE_LEGS},
+        "progress": prog,
+    }
+
+
+def _cmd_census(a):
+    d = _census(sys.stdin.read(), a.targets_line, a.legs_done or ())
+    if a.json:
+        print(json.dumps(d, indent=1))
+    else:
+        for lg, v in d["legs"].items():
+            print(f"{lg}: stage={v['stage']} iteration={v['iteration']} commits={v['commits']} "
+                  f"s_per_iter={v['rate']['s_per_iter']}")
+        _shell({"PCT": d["progress"]["pct"], "ETA_S": d["progress"]["eta_s"],
+                "ETA_SCOPE": d["progress"]["eta_scope"], "TARGETS": d["targets"]})
+    return 0
+
+
+def _cmd_rate(a):
+    doc = load_rate_artifact()
+    if not doc:
+        raise SystemExit(f"no {RATE_ARTIFACT} — no fan-out leg has been measured on an L4 yet")
+    rep = rate_report(marks_from_artifact(doc), tuple(doc["derived"]["targets"] or ()) or None,
+                      n_windows=doc["derived"]["n_windows"])
+    if a.markdown_table:
+        print(rate_markdown_table(rep))
+    elif a.json:
+        print(json.dumps(rep, indent=1))
+    else:
+        for lg, r in rep["legs"].items():
+            print(f"{lg}: s/iter={r.get('s_per_iteration')} leg_h={r.get('leg_hours')} "
+                  f"ns/day agg={r.get('ns_per_day_aggregate')}")
+    return 0
+
+
+def _cmd_tick(a):
+    bucket = a.bucket or (os.environ.get("PROJECT", "") + BUCKET_SUFFIX)
+    facts = json.load(open(a.facts)) if a.facts else gather_facts(bucket, vm_prefix=a.vm_prefix)
+    if a.dump_facts:
+        with open(a.dump_facts, "w") as fh:
+            json.dump(facts, fh, indent=1)
+    d = tick(facts)
+    print(json.dumps({k: v for k, v in d.items() if k != "progress"}, indent=1), file=sys.stderr)
+    _shell({"FEED_ACTION": d["action"], "FEED_CAUSE": d["cause"],
+            "FEED_UNIT_ID": d.get("unit_id") or "", "FEED_EDGE": d.get("edge_id") or "",
+            "FEED_REP": d.get("replicate") or "", "FRAGMENT": d.get("fragment") or ""})
+    print(f"FEED_WHY={d['why']}")
+    if d.get("next_attempt"):
+        print(f"NEXT_ATTEMPT_JSON={json.dumps(d['next_attempt'])}")
+    return 0
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -558,6 +1370,25 @@ def main(argv=None):
 
     vm = sub.add_parser("vms", help="TSV of gcp-s1frep VMs, read from `instances list --format=json` on stdin")
     vm.set_defaults(func=_cmd_vms)
+
+    rt = sub.add_parser("rate", help="the measured L4 throughput, DERIVED from the committed artifact")
+    rt.add_argument("--markdown-table", dest="markdown_table", action="store_true")
+    rt.add_argument("--json", action="store_true")
+    rt.set_defaults(func=_cmd_rate)
+
+    cs = sub.add_parser("census", help="derived per-leg progress from `gcloud storage ls -l` on stdin")
+    cs.add_argument("--targets-line", dest="targets_line", default="",
+                    help="text containing the driver's `warmup_target=… prod_target=…` line")
+    cs.add_argument("--legs-done", dest="legs_done", nargs="*", default=[])
+    cs.add_argument("--json", action="store_true")
+    cs.set_defaults(func=_cmd_census)
+
+    tk = sub.add_parser("tick", help="gather, decide whether to launch, publish the fragment")
+    tk.add_argument("--bucket", default=None)
+    tk.add_argument("--vm-prefix", dest="vm_prefix", default="gcp-s1frep-")
+    tk.add_argument("--facts", default=None, help="read a canned facts document instead of the cloud")
+    tk.add_argument("--dump-facts", dest="dump_facts", default=None)
+    tk.set_defaults(func=_cmd_tick)
 
     a = p.parse_args(argv)
     return a.func(a)

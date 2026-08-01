@@ -5,6 +5,9 @@ name: GCP GPU — STEP 1 fan-out REPLICATE on the free L4 (cycle_3carbonyl; WIF 
 # The reasoning, the key contract and the teardown predicate all live in research/modalities/gcp_fanout_rep.py;
 # this file is the plumbing and must not restate them (rule 1).
 #
+#   mode=autofeed: THE DEFAULT, and what every scheduled tick runs. Reap, then DECIDE whether to buy the
+#                 next unit of the queue, then buy it. The decision is gcp_fanout_rep.feed_decision and it
+#                 is PURE — see below for why the lane had no launch side at all until 2026-08-01.
 #   mode=mirror : $0 CPU. Copy the COMMON-MODE staged pose tree S3 -> GCS, byte-size verified. Idempotent.
 #                 Must run once before the first smoke. NO VM.
 #   mode=smoke  : GPU, minutes. RBFE_TINY splittest of the REAL edge in the REAL container, on an L4, writing
@@ -20,11 +23,21 @@ name: GCP GPU — STEP 1 fan-out REPLICATE on the free L4 (cycle_3carbonyl; WIF 
 # request) and §6 that a GCE VM cannot delete itself. Hanging teardown off a cron would repeat both mistakes.
 # Hanging it off every dispatch means the act of touching this lane at all cleans it up, and the create-time
 # max-run cap is the bound that needs nothing alive at all.
+#
+# ★★ AND THE LAUNCH SIDE NOW RUNS THERE TOO — THE ASYMMETRY WAS THE BUG (measured 2026-08-01, the lane's
+# second idle in two days and the first that was structural). Every tick could END work and none of them
+# could START it: this file's own `schedule:` cron and `step1-fanout-supervisor.yml`'s ~8-minute loop both
+# dispatch with NO inputs, `MODE` therefore defaulted to `reap`, and the create step was gated on
+# `github.event.inputs.mode` — which a `schedule:` event leaves empty, so no scheduled run could ever have
+# provisioned whatever it was named. Buying required a human or an agent typing `mode=run`; when the agent
+# stopped, buying stopped, and the free L4 sat idle 8 h 11 m against credit that expires 2026-10-10 while
+# every tick's board row correctly reported it and nothing acted on the report.
+# The default is now `autofeed`, and the gates read `env.MODE` so a scheduled tick reaches them.
 
 on:
   workflow_dispatch:
     inputs:
-      mode:      { description: "mirror | smoke | run | tail | reap", default: "tail", required: true }
+      mode:      { description: "autofeed | mirror | smoke | run | tail | forensic | reap", default: "tail", required: true }
       edge:      { description: "edge id, or a cycle id for mirror/plan. mode=run needs ONE edge.", default: "e_zaienne_cmpd19__cw_ms_free_acid", required: false }
       replicate: { description: "replicate index (>=1; 0 IS the original unit, not a repeat)", default: "1", required: false }
       zone:      { description: "GCE zone — us-central1 ONLY, quota exists nowhere else (CLAUDE.md §6)", default: "us-central1-a", required: false }
@@ -43,9 +56,11 @@ on:
     # reading STALE (> 15 min) for most of a 48 h leg, which is the condition this lane exists to make
     # visible rather than to embody.
     #
-    # Asking for more costs nothing and is bounded by what the mode can do: `reap` has no provisioning
-    # path (the create step is gated on an explicit smoke|run allowlist), so every extra tick is a read,
-    # a possible evidence-based delete, and one JSON fragment. $0, and it can never buy.
+    # Asking for more costs nothing and is bounded by what the mode can do. ⚠ The bound is NO LONGER
+    # "it can never buy" — that WAS the bound, and it is exactly what left the GPU idle for 8 h with a
+    # supervision tick running the whole time. A scheduled tick now runs `autofeed` and may provision;
+    # what stops it running away is `gcp_fanout_rep.feed_decision`, which refuses on a live instance
+    # (GPUS_ALL_REGIONS = 1), on a unit that already has a ddg.json, and on the no-progress breaker.
     - cron: "*/10 * * * *"
 
 permissions:
@@ -61,7 +76,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     env:
-      MODE: ${{ github.event.inputs.mode || 'reap' }}
+      # ⚠ `autofeed`, not `reap`. A `schedule:` event carries no inputs, so this default IS what every
+      # unattended tick does — and while it was `reap` the lane had no launch side at all.
+      MODE: ${{ github.event.inputs.mode || 'autofeed' }}
       EDGE: ${{ github.event.inputs.edge || 'e_zaienne_cmpd19__cw_ms_free_acid' }}
       REP: ${{ github.event.inputs.replicate || '1' }}
       ZONE: ${{ github.event.inputs.zone || 'us-central1-a' }}
@@ -163,10 +180,44 @@ jobs:
           done
 
       # ===================================================================================================
+      # AUTOFEED — the LAUNCH side of the tick. Runs after the reap, before any create.
+      # ===================================================================================================
+      # ⚠ THE DECISION IS NOT MADE HERE. `gcp_fanout_rep.tick` gathers the facts (GCE instance list, each
+      # unit's ddg.json, each unit's committed-checkpoint census, each unit's launch ledger) and hands them
+      # to the PURE `feed_decision`, so what this lane will buy is exercisable from a canned document with
+      # no cloud and no credit (`--facts`). This step only carries the verdict into the job's env.
+      - name: Autofeed — decide whether to buy the next unit (mode=autofeed)
+        if: ${{ env.MODE == 'autofeed' }}
+        run: |
+          set -uo pipefail
+          python3 research/modalities/gcp_fanout_rep.py tick --bucket "$BUCKET" \
+            --vm-prefix "$VM_PREFIX" --dump-facts /tmp/facts.json > /tmp/feed.env
+          sed 's/^/  /' /tmp/feed.env
+          # FEED_WHY can contain anything, so it goes through the multiline form; the rest are single-token.
+          grep -E '^FEED_(ACTION|CAUSE|UNIT_ID|EDGE|REP)=' /tmp/feed.env >> "$GITHUB_ENV"
+          { echo 'FEED_WHY<<S1FEOF'; sed -n 's/^FEED_WHY=//p' /tmp/feed.env; echo 'S1FEOF'; } >> "$GITHUB_ENV"
+          sed -n 's/^NEXT_ATTEMPT_JSON=//p' /tmp/feed.env > /tmp/next_attempt.json || true
+          A=$(sed -n 's/^FEED_ACTION=//p' /tmp/feed.env)
+          if [ "$A" = launch ]; then
+            # ★ THE MODE BECOMES `run`, AND THAT IS THE WHOLE HAND-OFF. Everything downstream — the
+            # idempotent skip, SMOKE=0, the 48 h cap, the `s1f-mode=run` GCE label the reaper keys on — is
+            # the existing mode=run path unchanged. An autofeed launch and a hand-typed one are the SAME
+            # purchase, so there is no second code path to drift.
+            {
+              echo "MODE=run"
+              sed -n 's/^FEED_EDGE=/EDGE=/p' /tmp/feed.env
+              sed -n 's/^FEED_REP=/REP=/p' /tmp/feed.env
+            } >> "$GITHUB_ENV"
+            echo "::notice title=S1F-REP AUTOFEED::launching $(sed -n 's/^FEED_UNIT_ID=//p' /tmp/feed.env)"
+          else
+            echo "::notice title=S1F-REP AUTOFEED $A::$(sed -n 's/^FEED_CAUSE=//p' /tmp/feed.env) — $(sed -n 's/^FEED_WHY=//p' /tmp/feed.env)"
+          fi
+
+      # ===================================================================================================
       # MIRROR — the COMMON-MODE inputs, S3 -> GCS. $0, no VM.
       # ===================================================================================================
       - name: Mirror the staged pose tree S3 -> GCS (mode=mirror; $0, NO VM)
-        if: ${{ github.event.inputs.mode == 'mirror' }}
+        if: ${{ env.MODE == 'mirror' }}
         run: |
           set -eo pipefail
           # WHY A MIRROR AND NOT A RE-STAGE. congeneric_pose_stage.py builds every analogue by MCS-core-
@@ -198,7 +249,7 @@ jobs:
       # PLAN — resolve the unit and publish everything the create step needs.
       # ===================================================================================================
       - name: Resolve the unit
-        if: ${{ github.event.inputs.mode == 'smoke' || github.event.inputs.mode == 'run' || github.event.inputs.mode == 'tail' }}
+        if: ${{ env.MODE == 'smoke' || env.MODE == 'run' || env.MODE == 'tail' }}
         run: |
           set -eo pipefail
           N=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$EDGE" --replicate "$REP" \
@@ -218,7 +269,7 @@ jobs:
       # TAIL — $0 status. No VM.
       # ===================================================================================================
       - name: Tail (mode=tail — $0, NO VM)
-        if: ${{ github.event.inputs.mode == 'tail' }}
+        if: ${{ env.MODE == 'tail' }}
         run: |
           set -uo pipefail
           echo "=== unit ==="; echo "  $UNIT_ID"
@@ -233,10 +284,61 @@ jobs:
           gcloud storage cat "$UNIT_URI/run.log" 2>/dev/null | tail -40 | sed 's/^/  /' || echo "  (no log yet)"
 
       # ===================================================================================================
+      # FORENSIC — $0, no VM. Everything mode=tail cannot show: the DERIVED per-leg checkpoint census, the
+      # driver's own target line, and the window of the leg log AROUND its last error rather than the tail
+      # of the wrapper's. CLAUDE.md §4: a diagnosis needs the observation that discriminates, and
+      # `run.log | tail -40` is a fixed window that happened not to contain one.
+      # ===================================================================================================
+      - name: Forensic (mode=forensic — $0, NO VM)
+        if: ${{ env.MODE == 'forensic' }}
+        run: |
+          set -uo pipefail
+          python3 research/modalities/gcp_fanout_rep.py plan --edge "$EDGE" --replicate "$REP" \
+            --pick 0 --bucket "$BUCKET" --shell 2>/dev/null | grep -vE '^ENV_' > /tmp/plan.env
+          UURI=$(sed -n 's/^UNIT_URI=//p' /tmp/plan.env)
+          RECEPTOR=$(sed -n 's/^RECEPTOR=//p' /tmp/plan.env)
+          echo "=== unit: $UURI ==="
+          gcloud storage ls -l "$UURI/**" 2>/dev/null > /tmp/ls.txt || true
+          echo "objects listed: $(grep -c 'gs://' /tmp/ls.txt || echo 0)"
+          echo "=== DERIVED census (gcp_fanout_rep census; smoke prefix excluded) ==="
+          python3 research/modalities/gcp_fanout_rep.py census --json < /tmp/ls.txt
+          echo "=== the two result JSONs the reduce needs ==="
+          for L in complex solvent; do
+            gcloud storage objects describe "$UURI/leg_${RECEPTOR}_${L}.json" \
+              --format="value(name,size,updated)" 2>/dev/null || echo "  leg_${RECEPTOR}_${L}.json: ABSENT"
+          done
+          gcloud storage objects describe "$UURI/ddg.json" --format="value(name,size,updated)" 2>/dev/null \
+            || echo "  ddg.json: ABSENT"
+          # ⚠ EVERY PIPELINE ENDS `|| true`. GitHub runs `run:` under `bash -e`, this step sets `pipefail`,
+          # and `grep … | head -20` makes grep die of SIGPIPE the moment head has its twenty lines — so the
+          # pipeline "fails" and the step aborts HALFWAY THROUGH A DIAGNOSTIC. Measured 2026-08-01: the
+          # first forensic run printed two sections, exited 2, and the four sections that carried the
+          # actual failure evidence never ran. A diagnostic that stops early is worse than none, because
+          # its silence reads as "nothing there".
+          echo "=== driver target line + the rate lines it prints ==="
+          gcloud storage cat "$UURI/complex.log" 2>/dev/null > /tmp/complex.log || true
+          { grep -aE 'warmup_target=|prod_target=|\[timing\]' /tmp/complex.log || true; } | head -20 | sed 's/^/  /'
+          echo "=== system size / setup lines ==="
+          { grep -aiE 'particles|atoms|n_replicas|n_windows|hybrid|solvat|padding|box' /tmp/complex.log || true; } \
+            | head -30 | sed 's/^/  /'
+          echo "=== every line mentioning CUDA / nvidia / memory / device ==="
+          { grep -aniE 'cuda|nvidia|out of memory|device|Xid|OpenMMException' /tmp/complex.log || true; } \
+            | head -40 | sed 's/^/  /'
+          echo "=== the 40 lines BEFORE the traceback (what the leg was doing when it died) ==="
+          N=$({ grep -an 'Traceback' /tmp/complex.log || true; } | head -1 | cut -d: -f1)
+          if [ -n "${N:-}" ]; then
+            S=$(( N > 40 ? N - 40 : 1 )); sed -n "${S},${N}p" /tmp/complex.log | sed 's/^/  /' || true
+          else echo "  (no traceback in complex.log)"; fi
+          echo "=== cuda_probe.log (the boot-time probe that PASSED) ==="
+          { gcloud storage cat "$UURI/cuda_probe.log" 2>/dev/null || echo "  (none)"; } | sed 's/^/  /'
+          echo "=== run.log around the failure (the wrapper's view) ==="
+          { gcloud storage cat "$UURI/run.log" 2>/dev/null || true; } | tail -25 | sed 's/^/  /'
+
+      # ===================================================================================================
       # PROVISION — smoke and run share one create; they differ in the startup script and the cap.
       # ===================================================================================================
       - name: Provision an L4 and run (mode=smoke | mode=run)
-        if: ${{ github.event.inputs.mode == 'smoke' || github.event.inputs.mode == 'run' }}
+        if: ${{ env.MODE == 'smoke' || env.MODE == 'run' }}
         run: |
           set -eo pipefail
           IMG_FAMILY=$(gcloud compute images list --project=deeplearning-platform-release \
@@ -328,8 +430,21 @@ jobs:
           [ "$OK" = 1 ] || { echo "::error::L4 create failed in every us-central1 zone — see the real gcloud errors above (a malformed request says Invalid/required; genuine capacity says ZONE_RESOURCE_POOL_EXHAUSTED)"; exit 1; }
           echo "VM_LIVE=1" >> "$GITHUB_ENV"
 
+          # ---- THE LAUNCH LEDGER, WRITTEN ONLY AFTER THE CREATE SUCCEEDED --------------------------------
+          # `gcp_fanout_rep.next_attempt` decides what it says: the counter RESETS when the store proves the
+          # previous launch banked a new generation, and increments when it did not. That is what makes the
+          # no-progress breaker a measurement of PROGRESS rather than a count of tries — and writing it here,
+          # after the create, means a run that never bought anything never charges the breaker.
+          # It lives in GCS beside the unit, not in the repo: the feeder must be able to read it on a cold
+          # runner with no checkout state, and a durable object is the only thing both sides can see.
+          if [ -s /tmp/next_attempt.json ]; then
+            gcloud storage cp /tmp/next_attempt.json "$UNIT_URI/attempts.json" >/dev/null 2>&1 \
+              && echo "launch ledger updated: $(cat /tmp/next_attempt.json)" \
+              || echo "::warning::could not write $UNIT_URI/attempts.json — the breaker will under-count"
+          fi
+
       - name: Watch the smoke to its terminus (mode=smoke only)
-        if: ${{ github.event.inputs.mode == 'smoke' && env.VM_LIVE == '1' }}
+        if: ${{ env.MODE == 'smoke' && env.VM_LIVE == '1' }}
         run: |
           set -uo pipefail
           # A PROGRESS check, not a liveness ping (CLAUDE.md §4): the phase marker must MOVE, and every
@@ -360,32 +475,31 @@ jobs:
       # ===================================================================================================
       # THE IN-FLIGHT FRAGMENT — published on EVERY dispatch, in EVERY outcome, including failure.
       # ★ AN IDLE LANE SAYS SO. A lane that publishes only while busy reads as finished when it is merely
-      # stopped, which is precisely what inflight_board's lane registry exists to prevent.
-      # ⚠ It is not RENDERED yet: `inflight_board.LANES` needs a one-line entry and that module is owned
-      # elsewhere, so this lane writes its fragment and the entry is reported rather than taken.
+      # stopped, which is precisely what inflight_board's lane registry exists to prevent. (That registry
+      # now carries this lane's entry, so the fragment is merged and rendered.)
+      #
+      # ⚠ IT PUBLISHES THE WHOLE QUEUE, NOT THE UNIT IN FRONT OF IT. Rendering only `$EDGE` made a
+      # three-unit programme look like a one-unit job that had stopped, and gave a reader no way to see the
+      # two waiting behind it — which is exactly what nobody noticed was not being fed. `tick` reads every
+      # unit's ddg.json, committed-checkpoint census and launch ledger, so the % DONE and ETA cells are
+      # DERIVED here rather than left blank.
       # ===================================================================================================
       - name: Publish the in-flight fragment (always — an idle lane says so)
-        if: ${{ always() && github.event.inputs.mode != 'mirror' }}
+        if: ${{ always() && env.MODE != 'mirror' }}
         run: |
           set -uo pipefail
-          E="${EDGE}"; R="${REP}"
-          KEY=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$E" --replicate "$R" --pick 0 \
-                  --bucket "$BUCKET" --shell 2>/dev/null | sed -n 's/^RESULT_KEY=//p') || true
-          [ -z "${KEY:-}" ] && { echo "edge '$E' does not resolve to one unit — no fragment written"; exit 0; }
-          UPD=$(gcloud storage objects describe "gs://$BUCKET/$KEY" --format="value(updated)" 2>/dev/null || true)
-          # `|| true`: GH runs `run:` under `bash -e`, and `read` returns 1 on EMPTY input — i.e. exactly the
-          # IDLE case this step exists to report would abort the step that reports it. (Verified, not assumed.)
-          # Same hazard, same fix: match the label in python off JSON, not in a gcloud projection.
-          read -r _N _Z VST VCR _ <<<"$(gcloud compute instances list --filter="name~^${VM_PREFIX}" --format=json 2>/dev/null \
-                  | python3 research/modalities/gcp_fanout_rep.py vms | awk -F'\t' -v e="$E" '$5==e {print $1, $2, $3, $4; exit}')" || true
-          UURI=$(python3 research/modalities/gcp_fanout_rep.py plan --edge "$E" --replicate "$R" --pick 0 \
-                  --bucket "$BUCKET" --shell 2>/dev/null | sed -n 's/^UNIT_URI=//p')
-          PH=$(gcloud storage cat "$UURI/phase.txt" 2>/dev/null | tail -1 || true)
-          python3 research/modalities/gcp_fanout_rep.py board --edge "$E" --replicate "$R" --bucket "$BUCKET" \
-            --vm-status "${VST:-}" --vm-created "${VCR:-}" --result-updated "${UPD:-}" --phase "${PH:-}"
+          # A SECOND tick, deliberately: run after the create, it sees the VM the autofeed step just bought
+          # and renders RUNNING off the instance list — evidence, not the intent the earlier pass had.
+          python3 research/modalities/gcp_fanout_rep.py tick --bucket "$BUCKET" --vm-prefix "$VM_PREFIX" \
+            > /tmp/publish.env || echo "::warning::tick failed; publishing whatever fragment exists"
+          sed 's/^/  /' /tmp/publish.env || true
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          F=research/modalities/inflight-board.d/gcp-s1f-rep.json
-          git add "$F"
+          # The fragment ALWAYS; the rate artifact whenever the tick refreshed it. The measurement is
+          # machine-written from the unit's own COMMITTED.json markers and is the ONE home of this lane's
+          # L4 throughput (rule 1) — a rate that only a hand-dispatched run produces is a rate that goes
+          # stale the moment nobody dispatches one, which is the failure this lane is a correction for.
+          git add research/modalities/inflight-board.d/gcp-s1f-rep.json
+          git add research/modalities/gcp-s1f-rep-rate.json 2>/dev/null || true
           # ★★ COMMIT UNCONDITIONALLY. **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.**
           # (Coordinator ruling, 2026-08-01, on measured volume: 1,591 commits on `main` in 24 h, 1,392 of
           # them fragment churn, `.git` at 267 MB — KEPT, because that history is load-bearing and was used
@@ -418,7 +532,7 @@ jobs:
           echo "::warning::could not publish the fragment after 5 attempts (contention); the lane state is still readable via mode=tail"
 
       - name: Detached launch summary (mode=run)
-        if: ${{ github.event.inputs.mode == 'run' && env.VM_LIVE == '1' }}
+        if: ${{ env.MODE == 'run' && env.VM_LIVE == '1' }}
         run: |
           echo "::notice title=S1F-REP LAUNCHED::$UNIT_ID on $VM ($ZONE), cap $MAXRUN, \$0 real dollars (GCP trial credit)."
           echo "Teardown, in order of how little must be alive:"

@@ -3,6 +3,7 @@
 Every test here defends a fact that already cost this repo real debugging somewhere else — the references
 are in the test names and docstrings, not restated.
 """
+import json
 import os
 import re
 import subprocess
@@ -422,17 +423,25 @@ def test_a_running_lane_names_the_free_ledger_and_refuses_to_invent_a_usd_per_ns
     assert "× basis" not in up and "x basis" not in up
 
 
-def test_a_done_unit_publishes_no_row_but_says_so_in_the_note():
+def test_a_done_unit_still_renders_a_row_at_100_pct_rather_than_vanishing():
+    """SUPERSEDED, and deliberately: this test used to assert `rows == []` for a landed unit.
+
+    A row that DISAPPEARS on completion is the same failure as a lane that renders only while busy, with
+    the sign flipped — with three queued units, two landed and one running should read `2 of 3 done`, not
+    as a lane that shrank to one row overnight. The note still says DONE; the row now says 100 %."""
     rows, note = gfr.board_rows(gfr.unit_for(EDGE, 1), "", "", "2026-08-02T01:00:00Z")
-    assert rows == [] and "DONE" in note and "holds no GPU" in note
+    assert len(rows) == 1 and rows[0]["state"] == "DONE" and rows[0]["pct"] == 100.0
+    assert rows[0]["eta_s"] is None                       # nothing left to wait for
+    assert "DONE" in note and "holds no GPU" in note
 
 
-def test_the_running_row_states_the_eta_is_unknown_rather_than_inventing_one():
-    """§1: an ETA or an explicit 'ETA unknown — why'. This lane has never measured a fan-out leg on an L4,
-    so any number would be a guess wearing a measurement's clothes."""
+def test_the_running_row_says_UNKNOWN_and_why_when_no_census_was_read():
+    """§1: an ETA or an explicit 'ETA unknown — why'. With no census read this tick BOTH cells are unknown
+    — and the sentence must say the store was not ASKED, not that it was empty (CLAUDE.md §4)."""
     rows, _ = gfr.board_rows(gfr.unit_for(EDGE, 1), "RUNNING", "2026-07-31T22:00:00Z", "")
-    assert rows[0]["eta_s"] is None
-    assert "ETA UNKNOWN" in rows[0]["why"]
+    assert rows[0]["eta_s"] is None and rows[0]["pct"] is None
+    assert "ETA UNKNOWN" in rows[0]["why"] and "% DONE UNKNOWN" in rows[0]["why"]
+    assert "not ASKED" in rows[0]["why"]
 
 
 def test_the_fragment_goes_through_inflight_boards_own_writer():
@@ -449,12 +458,16 @@ def test_the_board_step_runs_on_every_outcome_including_failure():
     assert "always()" in step.split("run: |")[0]
 
 
-def test_the_board_step_only_ever_stages_its_own_fragment():
+def test_the_board_step_only_ever_stages_this_lanes_own_files():
     """Two other lanes push to main constantly. A step that staged anything else could carry their work
-    backwards through a rebase."""
+    backwards through a rebase — so the allowlist is EXPLICIT and this test is the allowlist.
+
+    Two files now: the fragment (every tick) and the machine-written rate artifact (whenever the tick saw
+    new markers). Both are written ONLY by this lane, so there is still exactly one writer per file."""
     step = _wf().split("- name: Publish the in-flight fragment")[1]
     adds = re.findall(r"git add (\S+)", step)
-    assert adds == ['"$F"'], adds
+    assert adds == ["research/modalities/inflight-board.d/gcp-s1f-rep.json",
+                    "research/modalities/gcp-s1f-rep-rate.json"], adds
     assert "git add -A" not in step and "--force" not in step
 
 
@@ -879,3 +892,256 @@ def test_an_idle_lane_and_a_dead_lane_are_distinguishable_only_by_that_stamp():
     r2, n2 = gfr.board_rows(u, "", "", "")
     assert r1 == r2 and n1 == n2, "an idle lane's rows are identical between ticks — by design"
     assert "IDLE" in r1[0]["state"]
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE DERIVED CENSUS — the % DONE column, and why it never needed a rate
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+def _ls(*rows):
+    """A `gcloud storage ls -l` listing of COMMITTED.json markers: (leg, phase, iter, utc)."""
+    base = ("gs://b/nr4a3-step1-fanout/results/"
+            "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1/ckpt")
+    return "\n".join(
+        f"       884  {utc}  {base}/{leg}/{ph}/iter-{it:08d}/hash{it}/COMMITTED.json"
+        for leg, ph, it, utc in rows) + "\n  TOTAL: %d objects, 1 bytes (1KiB)\n" % len(rows)
+
+
+#: The REAL series the first L4 leg banked, verbatim from the store (mode=forensic, 2026-08-01 8:17 AM ET).
+#: Used here so the arithmetic is tested against the measurement it was written for, not against a fixture
+#: chosen to make it pass.
+MEASURED_WARMUP = [
+    ("complex", "warmup", 20, "2026-08-01T00:23:12Z"), ("complex", "warmup", 40, "2026-08-01T00:29:14Z"),
+    ("complex", "warmup", 60, "2026-08-01T00:38:18Z"), ("complex", "warmup", 80, "2026-08-01T00:47:47Z"),
+    ("complex", "warmup", 100, "2026-08-01T00:57:56Z"), ("complex", "warmup", 120, "2026-08-01T01:08:34Z"),
+    ("complex", "warmup", 140, "2026-08-01T01:19:37Z"), ("complex", "warmup", 160, "2026-08-01T01:30:51Z"),
+    ("complex", "warmup", 180, "2026-08-01T01:42:09Z"), ("complex", "warmup", 200, "2026-08-01T01:53:41Z"),
+    ("complex", "warmup", 220, "2026-08-01T02:05:14Z"), ("complex", "warmup", 240, "2026-08-01T02:16:50Z"),
+    ("complex", "warmup", 260, "2026-08-01T02:28:17Z"), ("complex", "warmup", 280, "2026-08-01T02:39:52Z"),
+    ("complex", "warmup", 300, "2026-08-01T02:51:21Z"), ("complex", "warmup", 320, "2026-08-01T03:02:58Z"),
+    ("complex", "warmup", 340, "2026-08-01T03:14:42Z"), ("complex", "warmup", 360, "2026-08-01T03:26:23Z"),
+    ("complex", "warmup", 380, "2026-08-01T03:38:11Z"), ("complex", "warmup", 400, "2026-08-01T03:50:00Z"),
+]
+#: The driver's own line from that run. The denominator has ONE home and it is this line, not a constant.
+MEASURED_TARGETS_LINE = "[spot-driver] warmup_target=400 (ci=20) prod_target=2000 (ci=40)"
+
+
+def test_the_smoke_prefix_is_never_counted_as_science_progress():
+    """`RBFE_TINY` writes into `ckpt/smoke/` precisely so it can never be resumed into. A census that did
+    not exclude it would have read `smoke/production/iter-4` as production having begun — the same
+    denominator-from-a-different-experiment failure inflight_board.render already guards the % cell for."""
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(
+        ("complex", "warmup", 20, "2026-08-01T00:23:12Z"),
+        ("smoke", "production", 4, "2026-07-31T23:11:53Z"))))
+    assert set(marks) == {"complex"}
+    assert gfr.leg_stage(marks.get("smoke")) == (None, None)
+
+
+def test_production_outranks_warmup_whatever_the_raw_integers_say():
+    """The iteration counter restarts at the phase boundary, so a max over the integers would report a
+    warmup leg at 400 as ahead of a production leg at 40."""
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(
+        ("complex", "warmup", 400, "2026-08-01T03:50:00Z"),
+        ("complex", "production", 40, "2026-08-01T04:10:00Z"))))
+    assert gfr.leg_stage(marks["complex"]) == ("production", 40)
+
+
+def test_a_rate_is_never_quoted_from_fewer_than_the_stated_threshold():
+    """§1 wants an ETA or an explicit 'unknown — why', and the threshold has to be a NUMBER in the code.
+    The first measured leg is why: its opening interval ran at 18.1 s/iter and it settled near twice that,
+    so a rate quoted off one interval would have promised a landing roughly twice too early."""
+    for n in range(1, gfr.MIN_RATE_INTERVALS + 1):
+        marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP[:n])))
+        q = gfr.quoted_rate(marks["complex"])
+        assert q["s_per_iter"] is None
+        assert str(gfr.MIN_RATE_INTERVALS) in q["why"] and "completed commit interval" in q["why"]
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP[:gfr.MIN_RATE_INTERVALS + 1])))
+    assert gfr.quoted_rate(marks["complex"])["s_per_iter"] is not None, \
+        "at the threshold the ETA must RENDER — 'unknown forever' is indistinguishable from a broken estimator"
+
+
+def test_the_rate_uses_a_trailing_window_so_the_settling_transient_is_forgotten():
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    q = gfr.quoted_rate(marks["complex"])
+    assert q["n_intervals"] == 19 and q["n_used"] == gfr.RATE_WINDOW
+    assert 34.0 < q["s_per_iter"] < 36.0, q            # the settled rate, not the 18.1 s/iter first one
+    assert q["spread"] < 1.05, "the trailing window is steady to a few percent — that is why it is quotable"
+
+
+def test_pct_renders_from_the_census_alone_with_no_rate_anywhere():
+    """THE FIX, as a property. % DONE is two integers out of the object store over the driver's own
+    target line; it never needed a measured seconds-per-iteration, and leaving it blank because the ETA
+    lacked one is what emptied the whole progress column for a day."""
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    p = gfr.unit_progress(marks, gfr.parse_targets(MEASURED_TARGETS_LINE), leg_rates={})
+    assert p["eta_s"] is None                                   # deliberately: no rate was supplied
+    assert p["pct"] is not None and 8.0 < p["pct"] < 8.5        # 400 of 2 x (400 + 2000) = 8.33 %
+    assert p["stage"] == "complex-warmup" and p["iteration"] == 400
+
+
+def test_the_denominator_is_the_whole_unit_not_the_leg():
+    """The deliverable is ddg.json and it needs BOTH legs. A leg-scoped percentage would read 100 % with
+    half the unit unbought — the same argument inflight_board.pct_complete makes one level down."""
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(
+        ("complex", "production", 2000, "2026-08-02T00:00:00Z"))))
+    p = gfr.unit_progress(marks, (400, 2000), legs_done=(), leg_rates={})
+    assert 49.0 < p["pct"] < 51.0, p                             # complex finished == half the unit
+
+
+def test_an_unreadable_target_line_refuses_rather_than_assuming_zero():
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    p = gfr.unit_progress(marks, None, leg_rates={})
+    assert p["pct"] is None and "not a target of zero" in p["pct_why"]
+
+
+def test_the_eta_is_scoped_to_the_leg_that_has_a_rate_and_says_so():
+    """The two legs solvate different systems and differ by a large factor in seconds per iteration, so
+    projecting the unit off the complex rate would be a fabricated number in the cell whose whole job is
+    to be actionable."""
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    p = gfr.unit_progress(marks, (400, 2000), leg_rates={"complex": 35.19})
+    assert p["eta_scope"] == "complex leg"
+    assert abs(p["eta_s"] - 2000 * 35.19) < 1.0                  # the 2000 production iterations left
+    assert "solvent" in p["eta_why"] and "fabricated" in p["eta_why"]
+    both = gfr.unit_progress(marks, (400, 2000), leg_rates={"complex": 35.19, "solvent": 7.0})
+    assert both["eta_scope"] == "unit"
+    assert abs(both["eta_s"] - (2000 * 35.19 + 2400 * 7.0)) < 1.0
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE FEEDER — the launch side that did not exist, and the three things that stop it running away
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+QUEUE = [u["unit_id"] for u in gfr.queue_units()]
+
+
+def test_the_queue_is_the_open_cycle_at_one_replicate_in_map_order():
+    assert len(QUEUE) == 3 and all(u.endswith("__r1") for u in QUEUE)
+    assert QUEUE == [u["unit_id"] for u in gfr.units_for(gfr.QUEUE_CYCLE, gfr.QUEUE_REPLICATE)]
+
+
+def test_a_live_instance_anywhere_in_the_project_refuses_the_launch():
+    """GPUS_ALL_REGIONS = 1 is the binding cap (gcp-gpu-facts.md #1) and it is PROJECT-wide, so the
+    ternary lane's VM blocks this one exactly as this lane's own does. Not a fault — the constraint."""
+    d = gfr.feed_decision(QUEUE, done=[], live_instances=1)
+    assert d["action"] == "hold" and d["cause"] == "gpu_busy"
+    assert "GPUS_ALL_REGIONS" in d["why"] and "serial" in d["why"]
+
+
+def test_it_walks_the_queue_in_order_and_skips_what_is_already_landed():
+    assert gfr.feed_decision(QUEUE, done=[], live_instances=0)["unit_id"] == QUEUE[0]
+    assert gfr.feed_decision(QUEUE, done=QUEUE[:1], live_instances=0)["unit_id"] == QUEUE[1]
+    d = gfr.feed_decision(QUEUE, done=QUEUE, live_instances=0)
+    assert d["action"] == "idle" and d["cause"] == "queue_complete"
+    assert "finished, not stopped" in d["why"]
+
+
+def test_the_breaker_holds_after_repeated_launches_that_bank_nothing():
+    """An unattended feeder that keeps buying is how a lane turns a systematic fault into a silent burn of
+    the whole credit balance."""
+    att = {QUEUE[0]: {"iteration": 400, "count": gfr.MAX_NOPROGRESS_LAUNCHES}}
+    d = gfr.feed_decision(QUEUE, [], 0, attempts=att, progress={QUEUE[0]: 400})
+    assert d["action"] == "hold" and d["cause"] == "no_progress_breaker"
+    assert "400" in d["why"] and "mode=run" in d["why"], "a hold must say how to clear it"
+
+
+def test_the_breaker_is_keyed_on_progress_not_on_tries():
+    """A launch that banked even one new generation resets it: retrying is cheap when it makes progress
+    and unbounded when it does not."""
+    att = {QUEUE[0]: {"iteration": 400, "count": 9}}
+    d = gfr.feed_decision(QUEUE, [], 0, attempts=att, progress={QUEUE[0]: 420})
+    assert d["action"] == "launch"
+    assert gfr.next_attempt(att[QUEUE[0]], 420)["count"] == 1
+
+
+def test_an_unreadable_census_holds_and_is_never_counted_as_a_non_advance():
+    """CLAUDE.md §4: `iteration is None` means the store did not answer. Counting that as 'did not move'
+    would let one throttled listing trip the breaker on a perfectly healthy lane."""
+    att = {QUEUE[0]: {"iteration": 400, "count": gfr.MAX_NOPROGRESS_LAUNCHES}}
+    d = gfr.feed_decision(QUEUE, [], 0, attempts=att, progress={QUEUE[0]: None})
+    assert d["action"] == "hold" and d["cause"] == "census_unreadable"
+    assert gfr.next_attempt(att[QUEUE[0]], None)["iteration"] == 400, "carried forward, never zeroed"
+
+
+def test_an_unreadable_instance_list_holds_rather_than_buying_a_second_gpu():
+    d = gfr.tick({"vms_readable": False, "live_instances": 0, "units": []})
+    assert d["action"] == "hold" and d["cause"] == "instance_list_unreadable"
+
+
+def test_only_launch_may_provision_and_the_workflow_hands_it_to_the_unchanged_run_path():
+    """An autofeed launch and a hand-typed `mode=run` must be the SAME purchase — one create, one cap, one
+    `s1f-mode=run` label the reaper keys on — or the two paths are free to drift."""
+    step = _wf().split("- name: Autofeed")[1].split("- name: Mirror")[0]
+    assert 'if [ "$A" = launch ]' in step and 'echo "MODE=run"' in step
+    prov = _wf().split("- name: Provision an L4 and run")[1].split("run: |")[0]
+    assert "env.MODE == 'smoke' || env.MODE == 'run'" in prov, \
+        "the create gate must read env.MODE — github.event.inputs.mode is EMPTY on a schedule event, " \
+        "which is exactly why no scheduled tick could ever provision"
+
+
+def test_a_scheduled_tick_defaults_to_autofeed_and_not_to_reap():
+    """The whole bug in one line: with `reap` as the default, every unattended tick could end work and
+    none of them could start it."""
+    assert "MODE: ${{ github.event.inputs.mode || 'autofeed' }}" in _wf()
+
+
+def test_the_ledger_is_written_only_after_a_create_actually_succeeded():
+    """A run that never bought anything must never charge the breaker."""
+    prov = _wf().split("- name: Provision an L4 and run")[1]
+    i_ok = prov.index('echo "VM_LIVE=1"')
+    i_ledger = prov.index("next_attempt.json")
+    assert i_ledger > i_ok, "the ledger write must come after the create is confirmed"
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE MEASURED L4 RATE — the first one this program has for a step-1 fan-out leg
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+def test_the_protocol_lengths_are_read_from_the_engine_not_restated_here():
+    """Rule 1. `nr4a3_rbfe.py` owns the MD lengths; a copy here would go stale silently and every derived
+    ns/day with it. The `nanosecond` in the pattern is load-bearing — the RBFE_TINY branch sets the same
+    two attributes in PICOseconds and picking that up would report a rate ~200x wrong."""
+    got = gfr.protocol_lengths_ns()
+    assert got == {"equilibration": 1.0, "production": 5.0}
+    src = open(os.path.join(MOD, "nr4a3_rbfe.py")).read()
+    assert "equilibration_length = 2.5 * _ou.picosecond" in src, \
+        "the TINY branch still exists, so the nanosecond anchor is still doing work"
+    assert gfr.protocol_lengths_ns("/nonexistent") is None       # fails closed
+
+
+def test_ps_per_iteration_is_derived_and_refuses_when_the_two_readings_disagree():
+    assert gfr.ps_per_iteration((400, 2000), {"equilibration": 1.0, "production": 5.0}) == 2.5
+    assert gfr.ps_per_iteration((400, 1000), {"equilibration": 1.0, "production": 5.0}) is None
+    assert gfr.ps_per_iteration(None, {"equilibration": 1.0, "production": 5.0}) is None
+
+
+def test_the_rate_report_derives_leg_hours_and_both_ns_per_day_readings():
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    rep = gfr.rate_report(marks, gfr.parse_targets(MEASURED_TARGETS_LINE))
+    cx = rep["legs"]["complex"]
+    assert 34.0 < cx["s_per_iteration"] < 36.0
+    # 2400 iterations at ~35 s is ~23 h, and that is the number that makes an L4 fan-out leg priceable.
+    assert 22.0 < cx["leg_hours"] < 25.0
+    assert cx["ns_per_day_aggregate"] == cx["ns_per_day_per_replica"] * rep["n_windows"]
+    assert 5.5 < cx["ns_per_day_per_replica"] < 7.0
+    # The solvent leg has no markers, so every derived field is ABSENT with a reason — never a zero.
+    sol = rep["legs"]["solvent"]
+    assert sol["s_per_iteration"] is None and "leg_hours" not in sol
+    assert "unit_hours" not in rep, "a unit total needs BOTH legs measured"
+
+
+def test_the_artifact_stores_the_RAW_markers_so_every_figure_stays_recomputable(tmp_path):
+    """Storing only the derived rate would make it unauditable the moment RATE_WINDOW or the arithmetic
+    changes. The (leg, phase, iteration, utc) tuples are the evidence; everything else is a quotient."""
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    p = gfr.write_rate_artifact(marks, (400, 2000), "u", machine_type="g2-standard-8", root=str(tmp_path))
+    doc = json.load(open(p))
+    assert len(doc["marks"]) == len(MEASURED_WARMUP)
+    assert gfr.marks_from_artifact(doc) == marks
+    assert "SEPARATE LEDGER" in doc["_ledger"] and "not a go-forward cost basis" in doc["_ledger"].lower()
+    assert "$" not in json.dumps(doc["derived"]), "no dollars: this is free credit on a separate ledger"
+    assert gfr.write_rate_artifact({}, (400, 2000), "u", root=str(tmp_path)) is None
+
+
+def test_nothing_is_written_when_there_is_nothing_measured(tmp_path):
+    assert gfr.load_rate_artifact(root=str(tmp_path)) is None
