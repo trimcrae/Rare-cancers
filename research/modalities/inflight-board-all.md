@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 9:23 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
+Merged 9:28 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,20 +15,20 @@ Merged 9:23 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 9:23 PM ET Fri Jul 31, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 9:24 PM ET Fri Jul 31, 2026 (5 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:03 AM Aug 1      65.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.0 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:24 AM Aug 1     52.2%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.2 s/iter · realised $0.00854/ns (1.64x expected)
-5aks_d0_to_d ternary nr4a1 r1 3:08 AM Aug 2      48.9%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 58.2 s/iter · realised $0.00757/ns (1.83x expected)
+5aks_d0_to_d ternary nr4a3 r1 8:04 AM Aug 1      65.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.0 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:25 AM Aug 1     52.2%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.2 s/iter · realised $0.00854/ns (1.64x expected)
+5aks_d0_to_d ternary nr4a1 r1 3:14 AM Aug 2      48.9%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 58.4 s/iter · realised $0.00759/ns (1.84x expected)
 5aks_d0_to_d ternary nr4a3 r0 —                      —  RTX 4090 $0.00458/ns · 1.34× basis [bid] STARTING  targets not in the retained log window — %% and ETA unknowable this pass
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 9:15 PM ET Fri Jul 31, 2026 (9 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 9:28 PM ET Fri Jul 31, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -36,7 +36,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 9:23 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 9:23 PM ET Fri Jul 31, 2026 (5 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -44,7 +44,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 9:15 PM ET Fri Jul 31, 2026 (8 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
+_As of 9:23 PM ET Fri Jul 31, 2026 (5 min ago). Written by `gcp_fanout_rep.py board`. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
 
 ```
 LEG                                ETA (ET)          % DONE  $/ns                                                                                                                                                                                                                     STATE     WHY (when not running)
