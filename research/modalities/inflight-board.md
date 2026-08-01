@@ -2,14 +2,14 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 6:47 AM ET Sat Aug 1, 2026 by `task=collect`.
+Generated 6:54 AM ET Sat Aug 1, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
-LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:32 AM            94.4%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.4 s/iter
-5aks_d0_to_d ternary nr4a1 r1 1:47 AM Aug 2      65.6%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.1 s/iter · realised $0.00717/ns (1.73x expected)
-5aks_d0_to_d ternary nr4a1 r0 —                  84.4%  RTX 3090 $0.00483/ns · 1.42× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 145841; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1440 is intact in S3 and this pass dispatches the gate to re-place it · ⚠ 58.5 s/iter · realised $0.00888/ns (1.84x expected)
+LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
+----------------------------------------------------------------------------------------------------------------------------------
+5aks_d0_to_d ternary nr4a3 r1 8:19 AM            95.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   31.8 s/iter
+5aks_d0_to_d ternary nr4a1 r1 1:54 AM Aug 2      65.6%  RTX 3090 $0.00414/ns · 1.21× basis [bid]  RUNNING   ⚠ 55.1 s/iter · realised $0.00717/ns (1.73x expected)
+5aks_d0_to_d ternary nr4a1 r0 1:29 PM            84.4%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  COLD_START — instance is 6 min old, under the 15 min floor — too young to have proved anything either way · 42.3 s/iter
 ---- END TVAST-BOARD ----
 ```
