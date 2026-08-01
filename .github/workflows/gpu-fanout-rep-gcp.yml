@@ -386,8 +386,28 @@ jobs:
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           F=research/modalities/inflight-board.d/gcp-s1f-rep.json
           git add "$F"
-          git diff --cached --quiet && { echo "fragment unchanged"; exit 0; }
-          git commit -q -m "gcp s1f-rep lane: in-flight fragment (CI)"
+          # ★★ COMMIT UNCONDITIONALLY. **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.**
+          # (Coordinator ruling, 2026-08-01, on measured volume: 1,591 commits on `main` in 24 h, 1,392 of
+          # them fragment churn, `.git` at 267 MB — KEPT, because that history is load-bearing and was used
+          # for real diagnoses all day: the 5aks market-hold series revealed two differently-configured
+          # gates writing one file, the rental-receipt series reconstructed 27 rentals on a lane that
+          # records no billed_h, and this directory's nrv04-retro series produced the exact
+          # `STARTING → NO HOST ×10 ticks → STARTING` timeline that made "hostless for 1 h 55 m" a
+          # measurement instead of an impression. None of it was reconstructable elsewhere.)
+          #
+          # ⚠ THIS LINE USED TO BE `git diff --cached --quiet && { echo "fragment unchanged"; exit 0; }`,
+          # and that is the ONE quieting the ruling names as forbidden. It never fired in practice — the
+          # timestamp changes every tick, so the file always differs — which is exactly what makes it a
+          # LANDMINE rather than a bug: it does nothing until someone "optimises" the fragment to omit or
+          # stabilise `generated_epoch`, and from that moment the lane goes silent and a healthy IDLE lane
+          # renders byte-identically to a DEAD one. **The timestamp IS the heartbeat**: it is the only
+          # input to `_As of … STALE (> 15 min)`, and suppressing the commit that carries it is the single
+          # most-repeated failure of this whole session — an absent reading passing as a reading of absence,
+          # in a fourth place.
+          #
+          # `--allow-empty` so the step can neither silently skip (the old bug) nor fail red on a no-diff
+          # (the naive fix). Publishing is unconditional in both directions.
+          git commit -q --allow-empty -m "gcp s1f-rep lane: in-flight fragment (CI)"
           # Two other lanes push to main constantly; rebase-retry rather than force. Only this one file is
           # ever staged, so a rebase can never carry someone else's work backwards.
           for i in 1 2 3 4 5; do

@@ -831,3 +831,51 @@ def test_the_cron_is_a_backstop_that_names_the_supervisor_as_the_real_cadence():
     assert "step1-fanout-supervisor.yml" in sched
     assert "fleet-supervision-alarm.yml" in sched
     assert "cron:" in sched
+
+
+# ---- the heartbeat (coordinator ruling, 2026-08-01) ----------------------------------------------------
+
+def test_the_fragment_commit_is_unconditional():
+    """★★ **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.** Ruled 2026-08-01 on measured volume (1,591
+    commits/24 h, 1,392 of them fragment churn, .git at 267 MB) — KEPT, because that history is
+    load-bearing: it reconstructed 27 rentals on a lane recording no billed_h, exposed two
+    differently-configured gates writing one file, and produced the NR-V04 pilot's exact host timeline.
+
+    The forbidden shape is `git diff --cached --quiet && exit 0`. It never fires while the timestamp is in
+    the file, which is what makes it a LANDMINE and not a bug: it does nothing until someone stabilises
+    `generated_epoch`, and from that moment a healthy IDLE lane renders byte-identically to a DEAD one."""
+    step = _wf().split("- name: Publish the in-flight fragment")[1]
+    code = "\n".join(l for l in step.splitlines() if not l.strip().startswith("#"))
+    assert "git diff --cached --quiet" not in code, \
+        "the fragment commit must never be skipped on 'no content change' — the timestamp IS the heartbeat"
+    assert "fragment unchanged" not in code
+    assert "git commit -q --allow-empty" in code, \
+        "--allow-empty so the step can neither silently skip nor fail red on a no-diff"
+
+
+def test_the_fragment_timestamp_always_advances():
+    """The heartbeat only works if every write carries a FRESH stamp. `write_board` must not pass a fixed
+    or derived `now_epoch` — a fragment republished with an old timestamp is a lane reporting someone
+    else's past as its present."""
+    src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
+    call = src.split("def write_board(")[1].split("ib.write_fragment(")[1].split(")")[0]
+    assert "now_epoch" not in call, "write_board must let inflight_board stamp it with time.time()"
+    import time as _t
+    a = gfr.board_rows(gfr.unit_for(EDGE, 1), "", "", "")
+    _t.sleep(0.01)
+    import inflight_board as ib
+    f1 = ib.build_fragment(gfr.BOARD_LANE, a[0], note=a[1])
+    _t.sleep(0.01)
+    f2 = ib.build_fragment(gfr.BOARD_LANE, a[0], note=a[1])
+    assert f2["generated_epoch"] > f1["generated_epoch"], \
+        "two builds of identical rows must still differ in their stamp — that difference IS the heartbeat"
+
+
+def test_an_idle_lane_and_a_dead_lane_are_distinguishable_only_by_that_stamp():
+    """The property the ruling protects, stated as a test. An idle lane's ROWS are constant tick after
+    tick; the ONLY thing separating 'idle and reporting' from 'stopped reporting' is a fresh timestamp."""
+    u = gfr.unit_for(EDGE, 1)
+    r1, n1 = gfr.board_rows(u, "", "", "")
+    r2, n2 = gfr.board_rows(u, "", "", "")
+    assert r1 == r2 and n1 == n2, "an idle lane's rows are identical between ticks — by design"
+    assert "IDLE" in r1[0]["state"]
