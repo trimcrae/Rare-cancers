@@ -2121,20 +2121,14 @@ jobs:
       - name: Commit the shakeout record back to the triggering branch
         if: ${{ always() }}
         run: |
-          set -e
-          git config user.name Claude
-          git config user.email noreply@anthropic.com
-          [ -f research/modalities/step1-liveness-shakeout.json ] || { echo "no record"; exit 0; }
-          git add -f research/modalities/step1-liveness-shakeout.json
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "step1 liveness shakeout record (auto)"
-          for i in 1 2 3 4; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
-              git push origin HEAD:"${{ github.ref_name }}" && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the shakeout record"
-
+          # ⛔ ONE HOME FOR THE PUBLISH (2026-08-01). This hand-rolled `git pull --rebase` + retry, the shape
+          # that silently failed to publish on three lanes: a conflict leaves the repo mid-rebase, every retry
+          # dies on it, and the step ended on a `::warning::` while reporting SUCCESS. The `[ -f … ] || exit 0`
+          # guard is not lost — the primitive skips paths that do not exist and says so.
+          BR="${{ github.ref_name }}"
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "step1 liveness shakeout record (auto)" \
+            research/modalities/step1-liveness-shakeout.json
   map_diag:
     # WHY DID A STEP 1 LEG ABORT rc=1? — the atom-map matrix on the PRODUCTION staged components ($0, CPU).
     #
@@ -2189,20 +2183,14 @@ jobs:
       - name: Commit the matrix back to the triggering branch
         if: ${{ always() }}
         run: |
-          set -e
-          git config user.name Claude
-          git config user.email noreply@anthropic.com
-          [ -f research/modalities/step1-map-diag.json ] || { echo "no matrix written"; exit 0; }
-          git add -f research/modalities/step1-map-diag.json
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "step1 atom-map matrix on the production staged components (auto)"
-          for i in 1 2 3 4; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
-              git push origin HEAD:"${{ github.ref_name }}" && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the matrix"
-
+          # ⛔ ONE HOME FOR THE PUBLISH (2026-08-01). This hand-rolled `git pull --rebase` + retry, the shape
+          # that silently failed to publish on three lanes: a conflict leaves the repo mid-rebase, every retry
+          # dies on it, and the step ended on a `::warning::` while reporting SUCCESS. The `[ -f … ] || exit 0`
+          # guard is not lost — the primitive skips paths that do not exist and says so.
+          BR="${{ github.ref_name }}"
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "step1 atom-map matrix on the production staged components (auto)" \
+            research/modalities/step1-map-diag.json
   energy_probe:
     # IS A PRE-MD `setup()` NaN A PROPERTY OF THE EDGE, OR OF THE HOST? ($0, CPU, rents nothing.)
     #
@@ -2273,20 +2261,14 @@ jobs:
       - name: Commit the probe result back to the triggering branch
         if: ${{ always() }}
         run: |
-          set -e
-          git config user.name Claude
-          git config user.email noreply@anthropic.com
-          [ -f research/modalities/step1-setup-energy-probe.json ] || { echo "no probe written"; exit 0; }
-          git add -f research/modalities/step1-setup-energy-probe.json
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "step1 setup-NaN energy probe on the production staged system (auto)"
-          for i in 1 2 3 4; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
-              git push origin HEAD:"${{ github.ref_name }}" && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the probe result"
-
+          # ⛔ ONE HOME FOR THE PUBLISH (2026-08-01). This hand-rolled `git pull --rebase` + retry, the shape
+          # that silently failed to publish on three lanes: a conflict leaves the repo mid-rebase, every retry
+          # dies on it, and the step ended on a `::warning::` while reporting SUCCESS. The `[ -f … ] || exit 0`
+          # guard is not lost — the primitive skips paths that do not exist and says so.
+          BR="${{ github.ref_name }}"
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "step1 setup-NaN energy probe on the production staged system (auto)" \
+            research/modalities/step1-setup-energy-probe.json
   map_audit:
     # ATOM-MAP BLAST-RADIUS AUDIT ($0 — no GPU, no instance, read-only against archives).
     #
