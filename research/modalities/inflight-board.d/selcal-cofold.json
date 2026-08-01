@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "selcal-cofold",
-  "generated_epoch": 1785613806.6627407,
-  "generated_utc": "2026-08-01T19:50:06Z",
-  "generated_et": "3:50 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785615563.3998528,
+  "generated_utc": "2026-08-01T20:19:23Z",
+  "generated_et": "4:19 PM ET Sat Aug 1, 2026",
   "note": "12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once.",
   "rows": [
     {
@@ -13,7 +13,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46533501 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator, and the lane's MD legs carry a real $/ns from inflight_usd_per_ns."
     },
     {
       "name": "selcal_smarca4 co-fold",
@@ -30,8 +30,8 @@
       "pct_of": null,
       "eta_s": null,
       "usd_per_ns": "\u2014 MD leg: no benched ns rate for this lane yet",
-      "state": "ENDED \u2014 no host",
-      "why": "instance 46531433 is no longer on the account, so this leg ended \u2014 landed, preempted or reaped. Rented 2026-08-01T19:37:26Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
+      "state": "RUNNING",
+      "why": "instance 46533501 running, rented 2026-08-01T20:08:17Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
     }
   ]
 }
