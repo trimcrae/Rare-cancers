@@ -2,15 +2,15 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 10:45 PM ET Fri Jul 31, 2026 by `task=collect`.
+Generated 10:53 PM ET Fri Jul 31, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:00 AM Aug 1      70.0%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   30.9 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:26 AM Aug 1     56.7%  RTX 4090 $0.00520/ns · 1.53× basis [bid] STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · ⚠ 26.9 s/iter · realised $0.00845/ns (1.62x expected)
-5aks_d0_to_d ternary nr4a1 r1 1:54 AM Aug 2      51.1%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.5 s/iter · realised $0.00722/ns (1.75x expected)
-5aks_d0_to_d ternary nr4a3 r0 11:25 PM           96.7%  RTX 4090 $0.00520/ns · 1.53× basis [bid] STARTING  COLD_START — instance is 14 min old, under the 15 min floor — too young to have proved anything either way · 19.8 s/iter
+5aks_d0_to_d ternary nr4a3 r1 8:09 AM Aug 1      70.0%  RTX 3090 $0.00412/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 2 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 30.9 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:22 AM Aug 1     57.8%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.2 s/iter · realised $0.00852/ns (1.64x expected)
+5aks_d0_to_d ternary nr4a1 r1 2:02 AM Aug 2      51.1%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.5 s/iter · realised $0.00722/ns (1.75x expected)
+5aks_d0_to_d ternary nr4a3 r0 11:30 PM           96.7%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   18.2 s/iter
 ---- END TVAST-BOARD ----
 ```
