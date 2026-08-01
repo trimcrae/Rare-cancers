@@ -169,7 +169,12 @@ LANES = (
     (NRV04_RETRO, "NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs",
      "nrv04_vast_launch.py RETRO_COLLECT=1"),
     (GCP_S1F_REP, "GCP L4 — step-1 fan-out replicate (free trial credit)",
-     "gcp_fanout_rep.py board"),
+     # `tick`, not `board`: the workflow's unattended entry point changed when the lane became
+     # self-feeding (2026-08-01), and this string is what a reader runs to reproduce the rows. `board`
+     # still works and still writes the fragment, so nothing was broken — which is exactly why it would
+     # have gone stale unnoticed. A publisher name nobody can run is the same defect as a declared
+     # artifact nothing writes, one field over.
+     "gcp_fanout_rep.py tick"),
 )
 
 #: The ternary lane's fragment: the file its own collect writes wholesale. NOT the merged board — see the
