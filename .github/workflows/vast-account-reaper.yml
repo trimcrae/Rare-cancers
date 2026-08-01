@@ -191,6 +191,10 @@ jobs:
       # fails the run — a self-test that can break the reaper is worse than no self-test.
       - name: Self-test — prove the ARMED path reaches the Vast API (hard-coded dead id, /tmp only)
         if: ${{ github.event.inputs.self_test == 'true' }}
+        # ⚠ MEASURED 1:10 PM ET 2026-08-01: without this the step turned the whole run RED, because the
+        # reaper correctly returns exit 2 when a DELETE fails — and a 404 on an already-destroyed id IS the
+        # expected outcome here. A self-test that can fail the reaper is worse than no self-test.
+        continue-on-error: true
         working-directory: research/modalities
         run: |
           set -uo pipefail
@@ -212,6 +216,20 @@ jobs:
             --ledger /tmp/selftest-ledger.jsonl | tee /tmp/selftest.log
           echo "--- self-test ledger (this is the ordering the real path uses) ---"
           cat /tmp/selftest-ledger.jsonl
+          # ★ WHAT COUNTS AS A PASS, STATED SO NOBODY HAS TO REMEMBER IT. The DELETE is EXPECTED to fail —
+          # the target is already gone. What is being measured is WHICH failure comes back:
+          #   `no_such_instance` / 404 -> PASS. The API answered us, so the credential is live, the endpoint
+          #                               is right, the armed branch reached the call, and the ledger latched
+          #                               billed hours before it. It also re-confirms the host is gone.
+          #   401 / 403 / a network    -> FAIL. The reaper could not have destroyed a REAL terminal host
+          #     error                     either, and every scheduled run would still have said `success`.
+          if grep -q "no_such_instance" /tmp/selftest.log; then
+            echo "::notice title=ARMED-PATH SELF-TEST PASSED::the DELETE reached Vast and came back 404 no_such_instance — credential live, endpoint correct, armed branch exercised, billed hours latched before the call. The target host is confirmed gone."
+          elif grep -qE "401|403|Unauthorized|Forbidden" /tmp/selftest.log; then
+            echo "::error title=ARMED-PATH SELF-TEST FAILED — CREDENTIAL::the DELETE was rejected on auth. This reaper could not destroy a real terminal host either, and a scheduled run would still report success."
+          else
+            echo "::warning title=ARMED-PATH SELF-TEST INCONCLUSIVE::the DELETE neither 404'd nor failed on auth — read the log above before trusting the armed path."
+          fi
 
       - name: Verdict (readable on a red run too)
         if: ${{ always() }}

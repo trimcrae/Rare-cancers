@@ -722,7 +722,13 @@ def build_report(census: dict | None, census_err: str | None, lane_reads: dict, 
             + ". They have not been destroyed. Whether they are still billing is NOT knowable from this "
               "record and is not claimed here (§4); what IS measured is that they persist, and that the host "
               "cannot end its own rental — only the control plane can (§6). Today's failure was exactly "
-              "this: an `exited` instance that every lane-scoped check filtered out of view.")
+              "this: an `exited` instance that every lane-scoped check filtered out of view. WHO CLEARS "
+              "THEM: `vast_account_reaper.py` (RULE 1), which is account-keyed like this alarm and destroys "
+              "on terminal state alone — one central actor rather than each lane's private teardown path, "
+              "four of which were broken at once on 2026-08-01. ⚠ THIS MODULE STILL ACTS ON NOTHING; the "
+              "reaper is a SEPARATE module with a separate workflow and the separate blast radius that "
+              "justifies, and the dependency runs one way (reaper imports this alarm's readers, never the "
+              "reverse) so this alarm stays trustworthy on every lane.")
 
     bad = [lv for lv in lane_verdicts if not lv["ok"]]
     rep["ok"] = not bad and not orphans
