@@ -8,7 +8,7 @@
     "_what": "S3 census of the NR-V04 retrospective lane's stored leg records, graded on MEASURED provenance rather than on ENV-echoed fields (CLAUDE.md \u00a74b).",
     "bucket": "sagemaker-us-east-2-646605541856",
     "prefix": "nrv04-retro-results",
-    "n_objects_under_prefix": 477,
+    "n_objects_under_prefix": 478,
     "n_leg_records_found": 18,
     "n_admitted_to_panel": 16,
     "n_rejected": 2,
@@ -1574,7 +1574,7 @@
     ]
   },
   "e4_outliers": {
-    "_role": "FLAG ONLY \u2014 E4 is descriptive, never a gate (prereg \u00a73). No leg is excluded, re-weighted or corrected on the strength of this list, and no E4 number elsewhere in this document is computed with outliers removed.",
+    "_role": "FLAG ONLY \u2014 E4 is descriptive, never a gate (prereg \u00a73). No leg is excluded, re-weighted or corrected on the strength of this list, and every E4 number in `secondaries` is computed over ALL legs.",
     "ratio": 4.0,
     "outliers": [
       {
@@ -1584,9 +1584,30 @@
         "e4_median_A": 2.91,
         "e4_max_A": 3.34,
         "arm_median_leg_e4_median_A": 34.13,
-        "ratio_to_arm_median": 11.73
+        "ratio_to_arm_median": 11.73,
+        "record_written_utc": "2026-07-26T09:27:49Z",
+        "has_trajectory_receipt": false,
+        "is_oldest_record_on_the_lane": true,
+        "same_leg_e1_plateau_A": 3.681,
+        "same_leg_e3_mean_contacts": 2863.71,
+        "discriminating_observations": [
+          "OLDEST RECORD ON THE LANE (2026-07-26T09:27:49Z); every other leg record was written later",
+          "NO analysis_traj RECEIPT \u2014 the durable-trajectory writer had not yet been added to the driver when this leg ran, so the record predates that revision",
+          "E1 and E3 for the SAME leg are in range with the rest of the panel (3.681 \u00c5, 2863.71 contacts at a 4.5 \u00c5 cutoff \u2014 a contact count in the thousands is impossible on nm coordinates), so the anomaly is confined to the R3 readout"
+        ]
       }
-    ]
+    ],
+    "like_for_like_subsets": {
+      "retro_noncov_nr4a2": {
+        "_label": "LIKE-FOR-LIKE SUBSET, reported BESIDE the arm figure and never in place of it. The arm's E4 in `secondaries` is computed over ALL legs and is unchanged.",
+        "n_legs": 5,
+        "excluded_units": [
+          "nrv04retro-retro_noncov_nr4a2-m1-r0"
+        ],
+        "mean_of_min_A": 29.314,
+        "mean_of_median_A": 34.114
+      }
+    }
   },
   "frozen_scorer_probes": {
     "_role": "REPORTED. Re-runs the FROZEN primary/pairwise rule unchanged; proposes no new rule, moves no threshold, and promotes nothing.",
