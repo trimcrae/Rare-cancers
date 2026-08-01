@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 1:18 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 1:19 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,18 +15,18 @@ Merged 1:18 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 1:10 PM ET Sat Aug 1, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 1:18 PM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 1:41 AM Aug 2      77.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   56.4 s/iter · no like-for-like expectation (not measured on this system)
-5aks_d0_to_d ternary nr4a1 r0 2:27 PM            95.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   29.0 s/iter · no like-for-like expectation (not measured on this system)
+5aks_d0_to_d ternary nr4a1 r1 1:50 AM Aug 2      77.8%  RTX 3090 $0.00412/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 56.4 s/iter · no like-for-like expectation (not measured on this system)
+5aks_d0_to_d ternary nr4a1 r0 2:41 PM            95.6%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   30.8 s/iter · no like-for-like expectation (not measured on this system)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 1:10 PM ET Sat Aug 1, 2026 (8 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 1:10 PM ET Sat Aug 1, 2026 (9 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
