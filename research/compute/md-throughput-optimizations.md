@@ -17,8 +17,14 @@ choice) — that doc is *which GPU*; this doc is *how fast and how many-per-GPU*
 - **Measured L4 HREX throughput** = **10.4 s / openmmtools iteration**, and this is **invariant** to the
   checkpoint interval (iter 220→440 at interval-20 = 10.45 s/iter; iter 500→600 at interval-100 = 10.42 s/iter).
   ⇒ the loop is **GPU-compute-bound**, not checkpoint-I/O-bound. Single-sim CUDA MD ≈ 628 ns/day on the L4.
-- **Memory-bandwidth is the ceiling** (MD is bandwidth-bound, not FLOP-bound): L4 = 300 GB/s, A10G = 600,
-  L40S ≈ 864, RTX 4090 = 1008. The L4 is the **slowest** of our candidates.
+- ⚠ **"MEMORY-BANDWIDTH IS THE CEILING (MD is bandwidth-bound, not FLOP-bound)" IS REFUTED BY OUR OWN BENCH —
+  SEE TIER 2b.** It is retained here only as the superseded framing this doc was written on. Bandwidth is a
+  *poor* predictor of our ns/day: fitted on the benched cards it carries the **worst** leave-one-out error of
+  the three proxies (**+116 %**, `vast-board-census.json` → `throughput_ceilings`), and it over-predicts the one
+  datacenter card we have actually measured by **2.67×**. Card throughput has exactly one home —
+  [`vast_cost_model.MEASURED_NS_PER_DAY_84K`](../modalities/vast_cost_model.py) — and **no card may acquire a
+  `$/ns` from a spec proxy** (`pricing.md` §A.3). Spec sheets for context only: L4 = 300 GB/s, A10G = 600,
+  L40S ≈ 864, RTX 4090 = 1008, A100 PCIe 80 GB = 1935.
 
 ---
 
@@ -116,6 +122,93 @@ free $/ns benchmark. **Action:** on the next validation round, run the *same* si
 convenient, a Vast/Salad 4090) and pick the matrix GPU by measured $/ns. Zero code beyond a machine-type/provider
 string — composes directly with `cheap-gpu-plan.md` (provider is a config, not a rewrite). **With MPS ruled out
 on the L4 (Tier 1, measured), this is the PRIMARY throughput lever for the matrix.**
+
+⚠ **The table above is the SUPERSEDED spec-proxy framing** that Tier 2b refutes; it is kept because the
+*conclusion* it reached (rank on `$/ns`; the 4090 class wins) survived the measurement. Its per-card figures did
+not, and must not be quoted — the measured table is `vast_cost_model.MEASURED_NS_PER_DAY_84K`.
+
+---
+
+## TIER 2b — THE DATACENTER-GPU QUESTION, ANSWERED WITH A MEASUREMENT (2026-08-01)
+
+**Question:** is there a big AI-class GPU — A100/H100/H200/B200, or a Blackwell RTX PRO — that beats the
+consumer cards we rent, on `$/ns` or at least on raw speed?
+
+**Answer: no, and it is measured, not argued.** The bench table contains one datacenter card, and it settles it:
+
+| card | measured ns/day @84,534 | vs RTX 4090 | mem BW | Vast `dlperf` (an AI benchmark) |
+|---|---|---|---|---|
+| RTX 4090 (reference) | **804.06** | 1.00× | 1008 GB/s | 97.1 |
+| **A100 PCIe 80 GB** | **524.43** | **0.65×** | **1935 GB/s (1.92×)** | 92.1 (≈ the 4090) |
+
+**A datacenter card with 1.92× the memory bandwidth and an equal AI rating delivers 0.65× the MD.** That single
+row kills three inferences at once: bandwidth does not predict our throughput (Tier 2's grounding fact), an AI
+benchmark does not either, and "bigger card" does not mean "faster MD".
+
+**★ THE TREND, WHICH IS THE REAL ANSWER TO "IS GPU DEVELOPMENT GOING SOMEWHERE WE BENEFIT FROM?"** Divide each
+benched card's measured MD throughput by its AI rating and the ratio falls monotonically as the cards get more
+AI-oriented — we get **half** the MD per unit of AI performance on Blackwell that we got on Ampere:
+
+| card | MD ns/day per unit `dlperf` |
+|---|---|
+| RTX 3090 Ti / RTX 3090 (Ampere consumer) | **10.49 / 10.39** |
+| RTX 4080 / RTX 4090 (Ada) | 9.80 / 8.28 |
+| RTX PRO 4000 (Blackwell) | 7.18 |
+| A100 PCIe (Ampere **datacenter**) | 5.69 |
+| RTX 5090 (Blackwell) | **5.20** |
+
+Mechanism, and it is not mysterious: the incremental die area and price of an AI GPU goes into **tensor cores**
+(FP8/FP4 GEMM), **HBM capacity** and **NVLink**. OpenMM's mixed-precision PME/nonbonded kernels are FP32
+gather-scatter over a neighbour list — they touch **none** of the three. Our systems are 84k–148k particles
+(tens of MB), so 80–192 GB of HBM is bought and unused, and a single OpenMM `Context` is one GPU, so NVSwitch is
+bought and unused. What MD actually rewards — shader clock, FP32 throughput per dollar, enough VRAM for one
+system — is exactly the consumer segment.
+
+**⛔ DO NOT SCREEN A DATACENTER CARD WITH THE `dlperf` PROXY — ANCHOR IT TO A MEASURED CARD OF THE SAME DIE.**
+The census's three proxies are fitted almost entirely on consumer parts (`fp32_tflops` and `mem_bandwidth_gb_s`
+on **RTX 3090/4080/4090 only**), and extrapolating them across an architecture boundary is anti-conservative in
+exactly the direction `pricing.md` §A.2 warns about — it makes a card look *better* than it is and lures a
+rental in. Worked case, the largest unbenched block on the 2026-07-27 board (12 offers):
+
+| RTX PRO 6000 Blackwell WS, screened by… | implied ns/day | `$/ns` at $0.3619/h | verdict |
+|---|---|---|---|
+| `dlperf`-linear (283.5 × k) | 1684 (2.09× 4090) | $0.00516 = **1.51× basis** | *clears the buy line* ❌ misleading |
+| **anchored to the MEASURED RTX 5090** — same GB202 family, **identical 1792 GB/s**, +10.6 % shaders | **1035–1144** (1.29–1.42× 4090) | **$0.00759–0.00840 = 2.22–2.46× basis** | **⛔ REFUSED, above the buy line** |
+
+A card that shares its bandwidth with a card we have benched cannot be 1.5× that card. The architectural anchor
+and the census's own screen agree (`bench_shortlist` → `"skip — would have to be far faster than anything we have
+benched"`); the AI proxy is the only thing that disagreed. **Nothing was ever bought on it** — §A.3 already
+forbids a proxy from producing a `$/ns` — but it would have wasted a bench rental.
+
+**Where the whole board landed** (2026-07-27 census, 141 offers; `$/ns` at each model's cheapest all-in offer,
+against the `$0.006539/ns` buy line):
+
+- **Measured, and this is the ranking that decides purchases:** RTX 3090 **$0.00362** (1.06× basis) ·
+  RTX PRO 4000 $0.00388 · RTX 5090 $0.00477 · RTX 4090 $0.00512 · **A100 PCIe $0.00723 (2.12× basis — over the
+  line, refused)**.
+- **Unbenched, at their most optimistic (`dlperf`-linear) estimate, all refused:** A100 SXM4 5.25× basis ·
+  H100 NVL 3.06× · H100 SXM 4.22× · RTX PRO 6000 Server 4.74× · **B200 10.06×** · L40 5.65× · V100 7.27×.
+  The B200, L40, RTX PRO 6000 Server and H100 PCIe are formally `RULED_OUT` by the census's own one-sided
+  ceiling — they would have to beat their friendliest possible throughput by 1.28–2.73× merely to break even.
+
+**Speed alone, ignoring price:** the fastest card we have ever measured is the **RTX 5090 at 1034.58 ns/day**
+(1.29× a 4090), and it is *also* cheaper per ns than a 4090 on this board — so the "pay more for wall-clock"
+trade barely exists. It is the right pick for the one case where speed is worth a premium: a leg with a real
+`JobProfile.min_uninterrupted_h`, where a slower card is proportionally more exposed to preemption.
+
+**And a datacenter card cannot be justified on VRAM either.** The only thing 48–96 GB buys us is headroom we do
+not need at 148k particles; the 24 GB consumer cards already fit every system in the program.
+
+**One genuinely different hardware class, stated honestly and NOT pursued:** special-purpose MD ASICs
+(D. E. Shaw **Anton 3**, available to US academics through PSC/NRBSC allocation) are ~2 orders of magnitude
+faster than any GPU — but on a *single long trajectory*, which is precisely the axis our workload does not need.
+Our work is 19 edges × 6 legs × 12 windows of embarrassingly-parallel short sampling, so it wants **many cheap
+cards**, not one fast machine; and Anton allocations require academic affiliation the program does not have
+(same blocker as [access-allocation-request.md](./access-allocation-request.md)). Parked, not dead —
+[method-watch.md](../method-watch.md).
+
+**Standing conclusion: the ranking is already right and the card is still not the decision — the OFFER is.**
+There is no unexplored GPU worth buying. The remaining throughput levers are protocol-side, not hardware-side.
 
 ---
 
