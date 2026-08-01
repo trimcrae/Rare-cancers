@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:33 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:36 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,18 +15,18 @@ Merged 8:33 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:26 AM ET Sat Aug 1, 2026 (7 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:33 AM ET Sat Aug 1, 2026 (3 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r0 12:44 PM           87.8%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 35.1 s/iter
-5aks_d0_to_d ternary nr4a1 r1 5:41 PM            67.8%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 28.7 s/iter · realised $0.00888/ns (1.71x expected)
+5aks_d0_to_d ternary nr4a1 r0 12:25 PM           88.9%  RTX 4080S $0.00505/ns · 1.48× basis [bid] RUNNING   34.8 s/iter
+5aks_d0_to_d ternary nr4a1 r1 9:21 PM            67.8%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 39.7 s/iter · realised $0.01230/ns (2.36x expected)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 7:57 AM ET Sat Aug 1, 2026 — **36 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:36 AM ET Sat Aug 1, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -34,7 +34,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 8:33 AM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 8:33 AM ET Sat Aug 1, 2026 (3 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -42,7 +42,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 8:29 AM ET Sat Aug 1, 2026 (4 min ago). Written by `gcp_fanout_rep.py board`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. Nothing on a GPU; e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r1 is next up and the autofeed tick buys it._
+_As of 8:33 AM ET Sat Aug 1, 2026 (2 min ago). Written by `gcp_fanout_rep.py board`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. Nothing on a GPU; e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r1 is next up and the autofeed tick buys it._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
