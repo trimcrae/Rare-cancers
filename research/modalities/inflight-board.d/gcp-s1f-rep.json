@@ -1,19 +1,37 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "gcp-s1f-rep",
-  "generated_epoch": 1785587120.5951812,
-  "generated_utc": "2026-08-01T12:25:20Z",
-  "generated_et": "8:25 AM ET Sat Aug 1, 2026",
-  "note": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 NOT running. The free GCP GPU is idle \u2014 that is expiring credit unspent.",
+  "generated_epoch": 1785587346.4611242,
+  "generated_utc": "2026-08-01T12:29:06Z",
+  "generated_et": "8:29 AM ET Sat Aug 1, 2026",
+  "note": "cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. Nothing on a GPU; e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r1 is next up and the autofeed tick buys it.",
   "rows": [
     {
+      "name": "zaienne_cmpd19__cw_bio_primary_amide r1",
+      "pct": null,
+      "pct_of": null,
+      "eta_s": null,
+      "usd_per_ns": "\u2014",
+      "state": "IDLE \u2014 NEXT UP",
+      "why": "the autofeed tick buys this one next: e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral__r1 is the first unit of cycle_3carbonyl r1 with no ddg.json in GCS, no GCE instance is live, and it is under the 3-launch no-progress breaker (attempt 1). % DONE UNKNOWN \u2014 the driver's `warmup_target=\u2026 prod_target=\u2026` line has not been read, so the denominator is unknown. An unreadable target is not a target of zero (CLAUDE.md \u00a74) \u2014 the cell refuses rather than guessing a total. ETA UNKNOWN \u2014 no targets, so no remaining-work count either"
+    },
+    {
       "name": "zaienne_cmpd19__cw_ms_free_acid r1",
+      "pct": 8.333333333333336,
+      "pct_of": null,
+      "eta_s": null,
+      "usd_per_ns": "\u2014",
+      "state": "IDLE \u2014 NO HOST",
+      "why": "no GCE VM and no ddg.json: this lane is holding no GPU and computing nothing. The autofeed tick (mode=autofeed, run by the schedule and by the supervisor) relaunches it and it resumes from its last committed generation in GCS (per-leg idempotent). 400 of 4800 committed iterations (unit = 2 legs x (warmup 400 + production 2000)) ETA is for the complex leg: scoped to the complex leg: solvent has no measured L4 rate of its own and the two legs solvate different systems, so projecting the unit off this rate would be a fabricated number"
+    },
+    {
+      "name": "cw_ms_free_acid__cw_bio_primary_amide r1",
       "pct": null,
       "pct_of": null,
       "eta_s": null,
       "usd_per_ns": "\u2014",
       "state": "IDLE \u2014 NO HOST",
-      "why": "no GCE VM and no ddg.json: this lane is holding no GPU and computing nothing. A re-dispatch of gpu-fanout-rep-gcp.yml mode=run resumes it from its last committed generation in GCS (per-leg idempotent)."
+      "why": "no GCE VM and no ddg.json: this lane is holding no GPU and computing nothing. The autofeed tick (mode=autofeed, run by the schedule and by the supervisor) relaunches it and it resumes from its last committed generation in GCS (per-leg idempotent). % DONE UNKNOWN \u2014 the driver's `warmup_target=\u2026 prod_target=\u2026` line has not been read, so the denominator is unknown. An unreadable target is not a target of zero (CLAUDE.md \u00a74) \u2014 the cell refuses rather than guessing a total. ETA UNKNOWN \u2014 no targets, so no remaining-work count either"
     }
   ]
 }

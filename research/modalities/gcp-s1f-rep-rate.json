@@ -1,0 +1,285 @@
+{
+ "_what": "The FIRST measured throughput of a step-1 fan-out RBFE leg on a GCE L4. Written by CI from the unit's own COMMITTED.json markers; NEVER hand-edited. Regenerate the documented table with `gcp_fanout_rep.py rate --markdown-table`.",
+ "_ledger": "GCP trial credit \u2014 a SEPARATE LEDGER, never summed into realized or ladder spend (CLAUDE.md \u00a76), expires 2026-10-10. No dollars are recorded here on purpose: the L4 list rate is NOT a go-forward cost basis (pricing.md).",
+ "_caveat": "A REALIZED WALL-CLOCK rate: each interval brackets 20 HREX iterations AND the GCS commit barrier that closes them. Right for an ETA and for GPU-hours-per-leg; wrong to compare against a bare single-simulation MD benchmark.",
+ "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
+ "card": "nvidia-l4",
+ "machine_type": null,
+ "measured_utc": "2026-08-01T12:29:06Z",
+ "marks": [
+  [
+   "complex",
+   "warmup",
+   20,
+   "2026-08-01T00:23:12Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   40,
+   "2026-08-01T00:29:14Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   60,
+   "2026-08-01T00:38:18Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   80,
+   "2026-08-01T00:47:47Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   100,
+   "2026-08-01T00:57:56Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   120,
+   "2026-08-01T01:08:34Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   140,
+   "2026-08-01T01:19:37Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   160,
+   "2026-08-01T01:30:51Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   180,
+   "2026-08-01T01:42:09Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   200,
+   "2026-08-01T01:53:41Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   220,
+   "2026-08-01T02:05:14Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   240,
+   "2026-08-01T02:16:50Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   260,
+   "2026-08-01T02:28:17Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   280,
+   "2026-08-01T02:39:52Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   300,
+   "2026-08-01T02:51:21Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   320,
+   "2026-08-01T03:02:58Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   340,
+   "2026-08-01T03:14:42Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   360,
+   "2026-08-01T03:26:23Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   380,
+   "2026-08-01T03:38:11Z"
+  ],
+  [
+   "complex",
+   "warmup",
+   400,
+   "2026-08-01T03:50:00Z"
+  ]
+ ],
+ "derived": {
+  "targets": [
+   400,
+   2000
+  ],
+  "n_windows": 12,
+  "protocol_ns": {
+   "equilibration": 1.0,
+   "production": 5.0
+  },
+  "ps_per_iteration_per_replica": 2.5,
+  "legs": {
+   "complex": {
+    "commits": 20,
+    "stage": "warmup",
+    "iteration": 400,
+    "s_per_iteration": 35.19,
+    "n_intervals": 19,
+    "n_used": 5,
+    "spread": 1.017216642754663,
+    "why": "mean of the trailing 5 of 19 completed commit intervals (gcp_fanout_rep.RATE_WINDOW)",
+    "intervals": [
+     {
+      "from": 20,
+      "to": 40,
+      "seconds": 362.0,
+      "s_per_iter": 18.1
+     },
+     {
+      "from": 40,
+      "to": 60,
+      "seconds": 544.0,
+      "s_per_iter": 27.2
+     },
+     {
+      "from": 60,
+      "to": 80,
+      "seconds": 569.0,
+      "s_per_iter": 28.45
+     },
+     {
+      "from": 80,
+      "to": 100,
+      "seconds": 609.0,
+      "s_per_iter": 30.45
+     },
+     {
+      "from": 100,
+      "to": 120,
+      "seconds": 638.0,
+      "s_per_iter": 31.9
+     },
+     {
+      "from": 120,
+      "to": 140,
+      "seconds": 663.0,
+      "s_per_iter": 33.15
+     },
+     {
+      "from": 140,
+      "to": 160,
+      "seconds": 674.0,
+      "s_per_iter": 33.7
+     },
+     {
+      "from": 160,
+      "to": 180,
+      "seconds": 678.0,
+      "s_per_iter": 33.9
+     },
+     {
+      "from": 180,
+      "to": 200,
+      "seconds": 692.0,
+      "s_per_iter": 34.6
+     },
+     {
+      "from": 200,
+      "to": 220,
+      "seconds": 693.0,
+      "s_per_iter": 34.65
+     },
+     {
+      "from": 220,
+      "to": 240,
+      "seconds": 696.0,
+      "s_per_iter": 34.8
+     },
+     {
+      "from": 240,
+      "to": 260,
+      "seconds": 687.0,
+      "s_per_iter": 34.35
+     },
+     {
+      "from": 260,
+      "to": 280,
+      "seconds": 695.0,
+      "s_per_iter": 34.75
+     },
+     {
+      "from": 280,
+      "to": 300,
+      "seconds": 689.0,
+      "s_per_iter": 34.45
+     },
+     {
+      "from": 300,
+      "to": 320,
+      "seconds": 697.0,
+      "s_per_iter": 34.85
+     },
+     {
+      "from": 320,
+      "to": 340,
+      "seconds": 704.0,
+      "s_per_iter": 35.2
+     },
+     {
+      "from": 340,
+      "to": 360,
+      "seconds": 701.0,
+      "s_per_iter": 35.05
+     },
+     {
+      "from": 360,
+      "to": 380,
+      "seconds": 708.0,
+      "s_per_iter": 35.4
+     },
+     {
+      "from": 380,
+      "to": 400,
+      "seconds": 709.0,
+      "s_per_iter": 35.45
+     }
+    ],
+    "leg_hours": 23.46,
+    "ns_per_day_per_replica": 6.138107416879796,
+    "ns_per_day_aggregate": 73.65728900255755
+   },
+   "solvent": {
+    "commits": 0,
+    "stage": null,
+    "iteration": null,
+    "s_per_iteration": null,
+    "n_intervals": 0,
+    "n_used": 0,
+    "spread": null,
+    "why": "0 completed commit interval(s); this lane quotes a rate at 3 (gcp_fanout_rep.MIN_RATE_INTERVALS). The next commit moves it toward the threshold.",
+    "intervals": []
+   }
+  }
+ }
+}
