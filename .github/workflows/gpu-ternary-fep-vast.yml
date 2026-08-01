@@ -629,13 +629,14 @@ jobs:
         # other, and it is not recoverable after the fact from anything else in the artifacts.
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/valb-map-preflight.json
-          if git diff --cached --quiet; then echo "pre-flight record unchanged"; else
-            git commit -m "valB_mini reps: atom-map pre-flight record (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}"
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. This was `git pull --rebase --autostash` + push: one conflict
+          # leaves the repo mid-rebase, every retry dies on the wreckage of the first, and the step
+          # ends GREEN having published nothing. Measured on three lanes — see the primitive's header.
+          # PUBLISH_IF_CHANGED=1 because this records an EVENT, not a heartbeat: an empty commit here
+          # would assert something that did not happen on this run.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "valB_mini reps: atom-map pre-flight record (CI)" \
+            research/modalities/valb-map-preflight.json
 
   # ------------------------------------------------------------ free: RUNG 5a-KS inputs (no crystal exists)
   # WHY 5a-KS NEEDS ITS OWN PRIME. The `prime` job above stages from a crystal (RCSB 8G1Q + a SMARCA2
@@ -706,13 +707,14 @@ jobs:
             leg=$(basename "$d"); mkdir -p "research/modalities/5aks_fep_inputs/$leg"
             cp "$d/staging_manifest.json" "research/modalities/5aks_fep_inputs/$leg/" || true
           done
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/5aks_fep_inputs
-          if git diff --cached --quiet; then echo "manifests unchanged"; else
-            git commit -m "RUNG 5a-KS: staging manifests for the two ternary legs (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}"
-          fi
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would assert
+          # something that did not happen on this run.
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and the
+          # step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "RUNG 5a-KS: staging manifests for the two ternary legs (CI)" \
+            research/modalities/5aks_fep_inputs
 
 
   # ============================================================================================ THE TRIANGLE
@@ -782,13 +784,14 @@ jobs:
       - name: Commit the freeze — the molecule that will be simulated must be in git BEFORE it is simulated
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/valb-triangle-frozen.json
-          if git diff --cached --quiet; then echo "freeze unchanged"; else
-            git commit -m "valB closure triangle: freeze cmpd4\" (two independent routes agree) (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}"
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and
+          # the step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would
+          # assert something that did not happen on this run.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "valB closure triangle: freeze cmpd4\" (two independent routes agree) (CI)" \
+            research/modalities/valb-triangle-frozen.json
 
   # ------------------------------------------------- free: stage all four legs on CPU AND prove both new maps
   # Two wins, both real: it removes ~8-15 min of GPU-idle staging from EACH paid host, and it discovers a
@@ -949,14 +952,15 @@ jobs:
       - name: Commit the pre-flight record
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/valb-triangle-map-preflight.json \
-                  research/modalities/valb-triangle-map-preflight-asrun.json
-          if git diff --cached --quiet; then echo "pre-flight record unchanged"; else
-            git commit -m "valB closure triangle: atom-map pre-flight for T2 and T3 (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}"
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and
+          # the step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would
+          # assert something that did not happen on this run.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "valB closure triangle: atom-map pre-flight for T2 and T3 (CI)" \
+            research/modalities/valb-triangle-map-preflight.json \
+            research/modalities/valb-triangle-map-preflight-asrun.json
 
   # ------------------------------------------------ free: price the 4 legs, rent nothing, and self-dispatch
   # Same code path the launch job's board snapshot uses — not a second opinion free to disagree with it. The
@@ -1344,13 +1348,14 @@ jobs:
       - name: Commit the reduction
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/valb-triangle-reduction.json
-          if git diff --cached --quiet; then echo "reduction unchanged"; else
-            git commit -m "valB closure triangle: the residual R (CI, parity image)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}"
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. This was `git pull --rebase --autostash` + push: one conflict
+          # leaves the repo mid-rebase, every retry dies on the wreckage of the first, and the step
+          # ends GREEN having published nothing. Measured on three lanes — see the primitive's header.
+          # PUBLISH_IF_CHANGED=1 because this records an EVENT, not a heartbeat: an empty commit here
+          # would assert something that did not happen on this run.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "valB closure triangle: the residual R (CI, parity image)" \
+            research/modalities/valb-triangle-reduction.json
 
   # ------------------------------------------------------------------ paid: rent hosts
   launch:
@@ -1749,15 +1754,14 @@ jobs:
         run: |
           set -eo pipefail
           python research/modalities/ternary_vast_watchdog.py --arm "$MODE"
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/ternary-vast-watch.json
-          if ! git diff --cached --quiet -- research/modalities/ternary-vast-watch.json; then
-            git commit -m "tvast: arm the watchdog for ${{ needs.resolve.outputs.task }}"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}"
-          else
-            echo "watch list already current"
-          fi
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would assert
+          # something that did not happen on this run.
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and the
+          # step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "tvast: arm the watchdog for ${{ needs.resolve.outputs.task }}" \
+            research/modalities/ternary-vast-watch.json
           # READ BACK WHAT WAS WRITTEN. arm() succeeding is not the same as the watch list covering this
           # launch: the file can be changed afterwards by something that has no idea a leg is running, and
           # on 2026-07-25 exactly that happened — a later edit rewrote "watch" to [] and pushed, so the
@@ -1934,24 +1938,19 @@ jobs:
       - name: Commit the snapshot — the record must outlive the set
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/vast-blacklist-snapshot-*.json
-          if git diff --cached --quiet; then echo "snapshot unchanged"; exit 0; fi
-          git commit -m "vast blacklist: snapshot of the exclusion set immediately before the clear (CI)"
-          # main takes a lot of CI commits, so three tries at 7/14/21 s is not enough — this lost all three
-          # at 9:55 PM ET and the set was cleared with its record unpushed. `rebase --abort` on failure so a
-          # half-finished rebase never leaks into the next attempt.
-          for i in 1 2 3 4 5 6; do
-            git fetch -q origin "${{ github.ref_name }}"
-            if git rebase --autostash "origin/${{ github.ref_name }}" \
-               && git push origin HEAD:"${{ github.ref_name }}"; then exit 0; fi
-            echo "[snapshot] attempt $i failed; see the git output above"
-            git rebase --abort 2>/dev/null || true
-            sleep $((i * 5))
-          done
-          echo "::error title=SNAPSHOT NOT PUSHED::the record did not land. It is printed in full below and by task=blacklist-snapshot, which re-derives it from the surviving history."
-          cat research/modalities/vast-blacklist-snapshot-*.json
-          exit 1
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would assert
+          # something that did not happen on this run.
+          # PUBLISH_FAIL_HARD=1 + 6 TRIES, both kept from the hand-rolled version and for its reason:
+          # main takes a lot of CI commits, three tries at 7/14/21 s lost all three at 9:55 PM ET, and
+          # the exclusion set was cleared with its record unpushed. The record must outlive the clear.
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and the
+          # step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          PUBLISH_IF_CHANGED=1 PUBLISH_FAIL_HARD=1 PUBLISH_TRIES=6 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "vast blacklist: snapshot of the exclusion set immediately before the clear (CI)" \
+            research/modalities/vast-blacklist-snapshot-*.json
+          # The snapshot is printed regardless, so it survives in the job log even if the push failed.
+          cat research/modalities/vast-blacklist-snapshot-*.json 2>/dev/null || true
       - name: Summary LAST
         if: ${{ always() }}
         run: cat /tmp/bl.txt
@@ -2132,17 +2131,16 @@ jobs:
         run: |
           set -eo pipefail
           python research/modalities/ternary_vast_watchdog.py --reap-landed 2>&1 | tee /tmp/reap.txt
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/ternary-vast-watch.json
-          if git diff --cached --quiet; then echo "no landed entry to retire"; exit 0; fi
-          git commit -m "ternary watch: retire the entries of legs that have landed (CI)"
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" \
-              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
-            sleep $((i * 7))
-          done
-          # A lost race is not a failure of the reap — the next collect re-derives the same answer from S3.
-          echo "::warning title=REAP NOT PUSHED::the retirement could not be pushed; the next collect redoes it"
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would assert
+          # something that did not happen on this run.
+          # A lost race is not a failure of the reap — the next collect re-derives the same answer
+          # from S3, so the primitive's ::error annotation (not a red build) is the right severity.
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and the
+          # step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "ternary watch: retire the entries of legs that have landed (CI)" \
+            research/modalities/ternary-vast-watch.json
       # ★★ REPAIR WHAT THIS PASS DETECTED, NOW — not next tick (2026-07-30).
       # `collect` is what notices a host died; the gate is what buys a new one. They were different workflow
       # runs, so the FLOOR on recovery was one tick even with a healthy board and money already authorised.
@@ -2385,15 +2383,16 @@ jobs:
       - name: Commit the forensic — evidence nobody should have to re-derive from an expiring job log
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/valb-triangle-charge-forensic.json
-          git add research/modalities/valb-triangle-attempt-forensic.json 2>/dev/null || true
-          git add research/modalities/commit-audits 2>/dev/null || true
-          if ! git diff --cached --quiet; then
-            git commit -m "valB triangle forensic: the gate's SDF vs the host's SDF (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. This was `git pull --rebase --autostash` + push: one conflict
+          # leaves the repo mid-rebase, every retry dies on the wreckage of the first, and the step
+          # ends GREEN having published nothing. Measured on three lanes — see the primitive's header.
+          # PUBLISH_IF_CHANGED=1 because this records an EVENT, not a heartbeat: an empty commit here
+          # would assert something that did not happen on this run.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "valB triangle forensic: the gate's SDF vs the host's SDF (CI)" \
+            research/modalities/valb-triangle-charge-forensic.json \
+            research/modalities/valb-triangle-attempt-forensic.json \
+            research/modalities/commit-audits
       - name: Summary LAST
         run: |
           set -eo pipefail
@@ -2462,16 +2461,14 @@ jobs:
       - name: Commit the forensic — provenance nobody should have to re-derive from an expiring job log
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/charge-provenance-forensic.json
-          if git diff --cached --quiet; then echo "no change"; exit 0; fi
-          git commit -m "charge provenance: which charge set each banked valB leg's System carried (CI)"
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" \
-              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
-            sleep $((i * 7))
-          done
-          echo "::warning title=FORENSIC NOT PUSHED::the artifact is in the job log; re-run to commit it"
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would assert
+          # something that did not happen on this run.
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and the
+          # step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "charge provenance: which charge set each banked valB leg's System carried (CI)" \
+            research/modalities/charge-provenance-forensic.json
       - name: Summary LAST
         run: |
           set -eo pipefail
@@ -2594,11 +2591,24 @@ jobs:
           # ...and every other mode's forensic, so a wedged 5a-KS leg's own last lines outlive the job log.
           git add research/modalities/ternary-diag-*.json 2>/dev/null || true
           git add research/modalities/setup-tax-*.json 2>/dev/null || true
-          if ! git diff --cached --quiet; then
-            git commit -m "ternary replicate forensic: what the containers themselves said (CI)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}" || true
-          fi
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would assert
+          # something that did not happen on this run.
+          # ⚠ THE GLOBBED FAMILIES MUST BE ARGUMENTS, NOT PRE-STAGED. The primitive resets the working
+          # tree to the fetched tip before laying our copies back down, so anything staged before it
+          # runs is DISCARDED. Passing the globs here lets the caller's shell expand them, and an
+          # unmatched glob arrives as a literal that the primitive's own `[ -e ]` filter drops.
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and the
+          # step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "ternary replicate forensic: what the containers themselves said (CI)" \
+            research/modalities/ternary-reps-diag.json \
+            research/modalities/ternary-reps-memory-trace.json \
+            research/modalities/ternary-reps-stage-census.json \
+            research/modalities/ternary-arm-iteration-rates.json \
+            research/modalities/ternary-vast-account-census.json \
+            research/modalities/ternary-diag-*.json \
+            research/modalities/setup-tax-*.json
       - name: Summary LAST
         run: |
           set -eo pipefail
@@ -2750,15 +2760,15 @@ jobs:
           print(json.dumps(doc, indent=1))
           PY
           cat "$OUT"
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add -f "$OUT"
-          git commit -q --allow-empty -m "ternary setup peak-RSS measurement (CI)"
-          for i in 1 2 3 4 5; do
-            git pull -q --rebase origin "${{ github.ref_name }}" 2>/dev/null || true
-            git push -q origin "HEAD:${{ github.ref_name }}" && exit 0
-            sleep 6
-          done
-          echo "::warning::could not publish the RSS measurement; it is in this log"
+          # ⛔ ONE HOME FOR THE PUBLISH. This was `git pull -q --rebase` + push: one conflict leaves the
+          # repo mid-rebase and every retry dies on the first one's wreckage, while the step stays GREEN.
+          # ⚠ NO PUBLISH_IF_CHANGED HERE, and that is deliberate: this step already committed
+          # `--allow-empty`, because a run that measured nothing is itself the finding — "the meter
+          # produced no EXIT line" is what `exit_line_present: false` records. Suppressing the commit
+          # would delete that measurement rather than report it.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "ternary setup peak-RSS measurement (CI)" \
+            "$OUT"
 
   # `reduce-reps` is the SAME job with one more fetch, deliberately: the replicate reduction differs from the
   # seed-0 one only in which leg JSONs land in the directory, and the reducer globs that directory. Giving it
@@ -2890,16 +2900,16 @@ jobs:
           open(dst, "a").write("\n")
           print(f"wrote {dst}")
           PY
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add "$DST"
-          if git diff --cached --quiet; then echo "replicate reduction unchanged"; exit 0; fi
-          git commit -m "valB_mini replicates: the cycle SD across seeds (CI, parity image)"
-          for i in 1 2 3 4 5; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" \
-              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
-            sleep $((i * 7))
-          done
-          echo "::error title=REPLICATE REDUCTION NOT PUSHED::computed but not committed after 5 attempts — the lane still has no terminus"; exit 1
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, not a heartbeat — an empty commit would assert
+          # something that did not happen on this run.
+          # PUBLISH_FAIL_HARD=1: this file IS this job's terminus. Computed-but-unpushed leaves the
+          # lane with no result at all, so a failed publish must be a RED BUILD, not an annotation.
+          # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
+          # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and the
+          # step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          PUBLISH_IF_CHANGED=1 PUBLISH_FAIL_HARD=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "valB_mini replicates: the cycle SD across seeds (CI, parity image)" \
+            "$DST"
       - name: Verdict LAST
         run: |
           set -eo pipefail
@@ -2990,13 +3000,14 @@ jobs:
       - name: Commit the reduction
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/nr4a3-5aks-reduction.json
-          if git diff --cached --quiet; then echo "reduction unchanged"; else
-            git commit -m "RUNG 5a-KS: the double difference S (CI, parity image)"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push origin HEAD:"${{ github.ref_name }}"
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. This was `git pull --rebase --autostash` + push: one conflict
+          # leaves the repo mid-rebase, every retry dies on the wreckage of the first, and the step
+          # ends GREEN having published nothing. Measured on three lanes — see the primitive's header.
+          # PUBLISH_IF_CHANGED=1 because this records an EVENT, not a heartbeat: an empty commit here
+          # would assert something that did not happen on this run.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "RUNG 5a-KS: the double difference S (CI, parity image)" \
+            research/modalities/nr4a3-5aks-reduction.json
 
   # ------------------------------------------- $0: clear a stale FAILED record after its cause is fixed
   # `classify` returns FAILED only when `has_failed_record AND not instance_alive`, so relaunching a fixed leg

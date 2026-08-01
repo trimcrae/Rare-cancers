@@ -40,6 +40,28 @@
 # guard never fires in practice (the stamp changes every tick), which is exactly what makes it a LANDMINE
 # rather than a bug — it does nothing until someone stabilises the timestamp as an "optimisation", and from
 # that moment a healthy idle job becomes byte-identical to a dead one.
+#
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# HEARTBEAT PUBLISHES vs EVENT PUBLISHES — `PUBLISH_IF_CHANGED`
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# Everything above describes a HEARTBEAT publish: a lane tick whose message is "…: lane tick (CI)" and whose
+# whole value is "this job ran at this time". For those the unconditional commit is the point and the flag
+# below must stay off — that is the default, and it is the safe default.
+#
+# But not every publish is a heartbeat. Some steps record an EVENT: `triangle_freeze` commits "freeze cmpd4″
+# (two independent routes agree)", `reps_prime` commits an atom-map pre-flight, `triangle_diag` commits a
+# forensic. Those ran with a `git diff --cached --quiet` guard, and for them that guard is CORRECT rather
+# than a landmine — the landmine reasoning is entirely about a stabilised heartbeat timestamp, and there is
+# no timestamp semantics here. Committing `--allow-empty` on such a step is worse than noise: it writes a
+# commit that ASSERTS the freeze happened, on a run where nothing was frozen. A reader — or a `git log`
+# audit of when the molecule was frozen — cannot distinguish it from the real one.
+#
+# So `PUBLISH_IF_CHANGED=1` says "this is an event publish: if nothing was staged, commit nothing". It buys
+# an event step the reset-and-restore and the did-this-run-write-it guard (which is what it actually needed)
+# without giving it a heartbeat's semantics.
+# ⛔ NEVER SET IT ON A TICK. `tests/test_publish_does_not_revert_another_jobs_artifact.py` fails if a caller
+# whose message looks like a heartbeat sets it — because that is exactly the "optimisation" the landmine
+# warning above is about, arriving through a flag instead of through an inlined `git diff`.
 set -uo pipefail
 
 BRANCH="${1:?usage: publish_artifacts.sh <branch> <message> <path>...}"; shift
@@ -58,8 +80,13 @@ if [ ${#PATHS[@]} -eq 0 ] && [ -z "${PUBLISH_REGEN:-}" ]; then
   exit 0
 fi
 
+# ⚠ `-a`, BECAUSE A PATH MAY BE A DIRECTORY. `cp --parents` without it dies on one ("omitting
+# directory"), and every call site here is `|| true`-shaped, so the snapshot would come up empty and the
+# publish would push NOTHING while reporting success — the precise failure this whole file exists to end.
+# Caught converting `prime_5aks`, which hands over `research/modalities/5aks_fep_inputs`, a directory of
+# per-leg staging manifests.
 SNAP="$(mktemp -d)"
-for p in "${PATHS[@]:-}"; do [ -n "$p" ] && cp --parents "$p" "$SNAP/"; done
+for p in "${PATHS[@]:-}"; do [ -n "$p" ] && cp -a --parents "$p" "$SNAP/"; done
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
 # ⛔ A JOB MAY ONLY PUBLISH WHAT IT ACTUALLY WROTE. MEASURED 2026-08-01, five seconds wide.
@@ -118,7 +145,11 @@ for attempt in $(seq 1 "$TRIES"); do
       continue
     fi
     mkdir -p "$(dirname "$p")"
-    cp "$SNAP/$p" "$p" 2>/dev/null || true
+    # `rm -rf` first so a DIRECTORY is replaced rather than nested inside itself: `cp -a src parent/`
+    # with `parent/src` already present writes `parent/src/src`. Safe here — this is the runner's
+    # checkout, the path was just reset to the fetched tip, and our snapshot is about to replace it.
+    rm -rf "$p"
+    cp -a "$SNAP/$p" "$p" 2>/dev/null || true
     git add -f -- "$p" 2>/dev/null || true
   done
   [ ${#SKIPPED[@]} -gt 0 ] && echo "[publish] not ours to publish, upstream's kept: ${SKIPPED[*]}"
@@ -130,6 +161,13 @@ for attempt in $(seq 1 "$TRIES"); do
     for p in ${PUBLISH_REGEN_ADD:-}; do [ -e "$p" ] && git add -f -- "$p" 2>/dev/null || true; done
   fi
 
+  if [ "${PUBLISH_IF_CHANGED:-0}" = "1" ] && git diff --cached --quiet; then
+    # An EVENT publish with nothing to record. Not a failure and not a skipped heartbeat — see the header.
+    echo "[publish] nothing changed and PUBLISH_IF_CHANGED=1 — no commit. This is an EVENT publish, not a"
+    echo "[publish] heartbeat: an empty commit here would assert an event that did not happen."
+    PUBLISHED=1
+    break
+  fi
   git commit -q --allow-empty -m "$MSG"
   if git push -q origin "HEAD:$BRANCH"; then PUBLISHED=1; break; fi
   echo "[publish] push race on attempt $attempt — rewriting onto the new tip"

@@ -177,3 +177,117 @@ def test_the_primitive_documents_the_incident():
     assert "22:16:43Z" in src and "22:16:50Z" in src, (
         "the measured five-second reversal is the evidence for this guard; keep it beside the guard")
     assert textwrap.dedent("").strip() == ""
+
+
+# =============================================================================================================
+# heartbeat publishes vs event publishes
+# =============================================================================================================
+def test_an_event_publish_writes_nothing_when_nothing_changed(world):
+    """`triangle_freeze` commits "freeze cmpd4″ (two independent routes agree)". An `--allow-empty` commit on
+    a run where nothing was frozen ASSERTS an event that did not happen, and a `git log` audit of when the
+    molecule was frozen cannot tell it from the real one."""
+    origin, c = world
+    before = _run(["git", "rev-parse", "main"], cwd=origin).stdout.strip()
+    _publish(c["status"], "valB closure triangle: freeze cmpd4 (CI)", [ART],
+             env={"PUBLISH_IF_CHANGED": "1"})
+    assert _run(["git", "rev-parse", "main"], cwd=origin).stdout.strip() == before
+
+
+def test_an_event_publish_STILL_publishes_when_something_did_change(world):
+    """The flag must not become a way to lose an event — only a way not to invent one."""
+    origin, c = world
+    _write(c["status"], ART, '{"landed": 3, "utc": "23:00:00Z"}\n')
+    _publish(c["status"], "valB closure triangle: freeze cmpd4 (CI)", [ART],
+             env={"PUBLISH_IF_CHANGED": "1"})
+    assert '"landed": 3' in _read_origin(origin, ART)
+
+
+def test_the_default_is_the_heartbeat_and_it_still_commits_empty(world):
+    """⛔ THE DEFAULT MUST NOT MOVE. Everything that is a lane tick depends on the unconditional commit."""
+    origin, c = world
+    before = _run(["git", "rev-parse", "main"], cwd=origin).stdout.strip()
+    _publish(c["status"], "selcal status: lane tick (CI)", [ART])
+    assert _run(["git", "rev-parse", "main"], cwd=origin).stdout.strip() != before
+
+
+def test_no_heartbeat_caller_sets_the_event_flag():
+    """⛔ THE FLAG MUST NEVER REACH A TICK. That would be exactly the "optimisation" the primitive's header
+    warns about — a healthy idle job becoming byte-identical to a dead one — arriving through an env var
+    instead of through an inlined `git diff --cached --quiet`.
+
+    Read from the workflows themselves, because the rule is only worth anything where it is applied.
+    """
+    import yaml
+
+    wfdir = os.path.join(REPO, ".github", "workflows")
+    offenders = []
+    for fn in sorted(os.listdir(wfdir)):
+        if not fn.endswith((".yml", ".yaml")):
+            continue
+        try:
+            doc = yaml.safe_load(open(os.path.join(wfdir, fn)).read())
+        except yaml.YAMLError:
+            continue
+        for job, j in (doc or {}).get("jobs", {}).items():
+            for st in (j or {}).get("steps") or []:
+                env = (st or {}).get("env") or {}
+                run = str((st or {}).get("run") or "")
+                if not isinstance(env, dict) or str(env.get("PUBLISH_IF_CHANGED", "")) != "1":
+                    continue
+                # The message is the second argument to the primitive; a heartbeat names itself.
+                if "tick" in run.lower() or "heartbeat" in run.lower():
+                    offenders.append(f"{fn}:{job}:{st.get('name')}")
+    assert not offenders, (
+        "PUBLISH_IF_CHANGED=1 on what looks like a HEARTBEAT publish — the timestamp is the only signal a "
+        f"staleness alarm has, so suppressing an unchanged tick makes a healthy job look dead: {offenders}")
+
+
+# =============================================================================================================
+# a path may be a DIRECTORY
+# =============================================================================================================
+DIRPATH = "research/modalities/5aks_fep_inputs"
+
+
+def test_a_directory_path_is_published(world):
+    """⚠ CAUGHT CONVERTING `prime_5aks`, which hands over a DIRECTORY of per-leg staging manifests.
+
+    `cp --parents` without `-a` dies on a directory ("with --parents, the destination must be a directory"),
+    and every copy here is `|| true`-shaped — so the snapshot would come up EMPTY and the publish would push
+    nothing while reporting success. That is the exact failure this whole primitive exists to end, so it
+    must not be reachable through the primitive itself.
+    """
+    origin, c = world
+    _write(c["status"], f"{DIRPATH}/leg_a/staging_manifest.json", '{"leg": "a"}\n')
+    _write(c["status"], f"{DIRPATH}/leg_b/staging_manifest.json", '{"leg": "b"}\n')
+    _publish(c["status"], "RUNG 5a-KS: staging manifests (CI)", [DIRPATH],
+             env={"PUBLISH_IF_CHANGED": "1"})
+    assert '"leg": "a"' in _read_origin(origin, f"{DIRPATH}/leg_a/staging_manifest.json")
+    assert '"leg": "b"' in _read_origin(origin, f"{DIRPATH}/leg_b/staging_manifest.json")
+
+
+def test_a_directory_is_replaced_not_nested_inside_itself(world):
+    """`cp -a src parent/` with `parent/src` already present writes `parent/src/src`. The restore must
+    replace the directory, or a second publish would bury the manifests one level deeper each time."""
+    origin, c = world
+    _write(c["status"], f"{DIRPATH}/leg_a/staging_manifest.json", '{"v": 1}\n')
+    _publish(c["status"], "staging manifests (CI)", [DIRPATH], env={"PUBLISH_IF_CHANGED": "1"})
+
+    _run(["git", "fetch", "-q", "origin", "main"], cwd=c["status"])
+    _run(["git", "reset", "-q", "--hard", "FETCH_HEAD"], cwd=c["status"])
+    _write(c["status"], f"{DIRPATH}/leg_a/staging_manifest.json", '{"v": 2}\n')
+    _publish(c["status"], "staging manifests (CI)", [DIRPATH], env={"PUBLISH_IF_CHANGED": "1"})
+
+    assert '"v": 2' in _read_origin(origin, f"{DIRPATH}/leg_a/staging_manifest.json")
+    nested = _run(["git", "ls-tree", "-r", "--name-only", "main"], cwd=origin).stdout
+    assert f"{DIRPATH}/5aks_fep_inputs" not in nested, nested
+
+
+def test_the_ternary_lane_actually_passes_a_directory():
+    """The regression above is only reachable because a real caller does this — pin that it still does, so
+    the test above cannot quietly become hypothetical."""
+    import yaml
+    wf = os.path.join(REPO, ".github", "workflows", "gpu-ternary-fep-vast.yml")
+    doc = yaml.safe_load(open(wf).read())
+    runs = "\n".join(str(st.get("run") or "")
+                     for j in doc["jobs"].values() for st in (j or {}).get("steps") or [])
+    assert "publish_artifacts.sh" in runs and DIRPATH in runs

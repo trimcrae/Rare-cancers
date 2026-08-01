@@ -577,10 +577,26 @@ def test_the_ternary_boards_commit_is_unconditional():
 def test_only_the_lanes_OWN_heartbeat_is_unconditional_not_every_artifact():
     """⚠ THE BOUNDARY, because over-applying this is its own defect. Guards on ORDINARY artifacts — gate
     records, forensics JSON, reduction outputs — are fine to skip: nobody infers liveness from them. The
-    rule is about a lane's own heartbeat fragment, and this lane still has many legitimate skip-guards."""
+    rule is about a lane's own heartbeat fragment, and this lane still has many legitimate skip-guards.
+
+    ⚠ COUNTS BOTH SPELLINGS (re-pointed 2026-08-01). This used to count only the inlined
+    `git diff --cached --quiet`, which is a MECHANISM; when those steps moved to
+    `publish_artifacts.sh` the identical semantics arrived as `PUBLISH_IF_CHANGED=1` and the count
+    collapsed from 13 to 7 — a red build on a refactor that changed no behaviour at all. That is the third
+    time in one session a test pinned a workflow's shell instead of its property (the others blocked a
+    rental and blinded a board detector), so the assertion is on the PROPERTY: how many publishes in this
+    lane are conditional. The one that must NOT be is asserted directly above.
+    """
     code = "\n".join(l for l in _tvast_wf().splitlines() if not l.strip().startswith("#"))
-    assert code.count("git diff --cached --quiet") >= 10, \
-        "the ordinary-artifact skip guards are correct and must not be swept away with the heartbeat one"
+    conditional = code.count("git diff --cached --quiet") + code.count("PUBLISH_IF_CHANGED=1")
+    assert conditional >= 10, (
+        "the ordinary-artifact skip guards are correct and must not be swept away with the heartbeat one; "
+        f"found only {conditional} conditional publishes in this lane")
+    # …and the heartbeat itself must be none of them.
+    board = _tvast_wf().split("- name: Commit the in-flight board so it is readable without a log download")[1]
+    board = board.split("- name: ")[0]
+    assert "PUBLISH_IF_CHANGED" not in board, \
+        "the board is the lane's HEARTBEAT — making its commit conditional is the landmine by another name"
 
 
 def test_the_ternary_board_carries_a_fresh_stamp_on_every_write():
