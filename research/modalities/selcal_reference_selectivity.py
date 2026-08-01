@@ -71,6 +71,22 @@ QUERIES = [
      "ligand_hint": "Wurz compound 1 (CCD YHB, 8G1Q)",
      "query": 'TITLE:"Affinity and cooperativity modulate ternary complex formation to drive targeted protein '
               'degradation"'},
+    # ★ THE ONE THAT WON, and why it was not in the first pass. The first pass asked only about compounds the
+    # options paper already named. It returned the decisive structural fact instead: **PRT3789 (CCD A1BB4) is
+    # deposited on BOTH arms with the SAME ligand** — 9DTY (SMARCA2, 3.19 Å) and 9DTX (SMARCA4, 2.11 Å) —
+    # which is exactly the matched-ligand configuration the options paper's precondition 2 says the crystals
+    # do not supply. ACBI2 has the better-documented ternary-interface mechanism but **no deposited structure
+    # at all** (its paper deposits compounds 4/5/6/10 only, 7Z78/7Z6L/7Z77/7Z76), so its chemistry would have
+    # to come from a vendor catalogue — not a primary source, and therefore not usable here.
+    {"tag": "D1_prt3789",
+     "pair": ["SMARCA2", "SMARCA4"],
+     "ligand_hint": "PRT3789 (CCD A1BB4; 9DTY SMARCA2 / 9DTX SMARCA4)",
+     "query": 'TITLE:"PRT3789 Is a First-in-Human SMARCA2-Selective Degrader That Induces Synthetic Lethality '
+              'in SMARCA4-Mutated Cancers"'},
+    {"tag": "D1_prt3789_fallback",
+     "pair": ["SMARCA2", "SMARCA4"],
+     "ligand_hint": "PRT3789",
+     "query": '(PRT3789 AND SMARCA2)'},
     {"tag": "D2_ikzf",
      "pair": ["IKZF1", "IKZF3"],
      "ligand_hint": "lenalidomide / CELMoD",
