@@ -15,15 +15,15 @@ Merged 9:48 PM ET Fri Jul 31, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 9:40 PM ET Fri Jul 31, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 9:48 PM ET Fri Jul 31, 2026 (0 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 7:59 AM Aug 1      66.7%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.0 s/iter
-5aks_d0_to_d ternary nr4a1 r0 10:19 AM Aug 1     53.3%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.1 s/iter · realised $0.00850/ns (1.63x expected)
-5aks_d0_to_d ternary nr4a1 r1 8:54 AM Aug 2      48.9%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 69.0 s/iter · realised $0.00897/ns (2.17x expected)
-5aks_d0_to_d ternary nr4a3 r0 10:29 PM           95.6%  RTX 4090 $0.00458/ns · 1.34× basis [bid] RUNNING   18.6 s/iter
+5aks_d0_to_d ternary nr4a3 r1 8:10 AM Aug 1      66.7%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   31.1 s/iter
+5aks_d0_to_d ternary nr4a1 r0 10:27 AM Aug 1     53.3%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 27.1 s/iter · realised $0.00850/ns (1.63x expected)
+5aks_d0_to_d ternary nr4a1 r1 1:27 AM Aug 2      50.0%  RTX 3090 $0.00414/ns · 1.21× basis [bid] RUNNING   ⚠ 55.3 s/iter · realised $0.00719/ns (1.74x expected)
+5aks_d0_to_d ternary nr4a3 r0 10:37 PM           95.6%  RTX 4090 $0.00458/ns · 1.34× basis [bid] RUNNING   18.6 s/iter
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
@@ -36,7 +36,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 9:40 PM ET Fri Jul 31, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 9:48 PM ET Fri Jul 31, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
