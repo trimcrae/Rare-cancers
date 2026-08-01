@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T16:06:10Z",
+ "utc": "2026-08-01T16:57:35Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -470,78 +470,6 @@
      "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
      "setup_cache_missing": null,
      "restore_seconds": {
-      "production": 234.8
-     },
-     "restore_list": [
-      {
-       "phase": "production",
-       "n_gen": 36,
-       "seconds": 12.0
-      }
-     ],
-     "restore_fetch": [
-      {
-       "bytes": 1949588202,
-       "seconds": 221.0
-      }
-     ],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 103,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-08-01T10:28:13Z"
-       ],
-       [
-        "start",
-        "2026-08-01T10:28:17Z"
-       ],
-       [
-        "cloned",
-        "2026-08-01T10:28:34Z"
-       ],
-       [
-        "staging",
-        "2026-08-01T10:28:37Z"
-       ],
-       [
-        "preequil",
-        "2026-08-01T10:28:44Z"
-       ],
-       [
-        "md-running",
-        "2026-08-01T10:28:51Z"
-       ]
-      ],
-      "spans": {
-       "container-start->start": 4.0,
-       "start->cloned": 17.0,
-       "cloned->staging": 3.0,
-       "staging->preequil": 7.0,
-       "preequil->md-running": 7.0
-      },
-      "complete": true
-     },
-     "commits": [],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260801T104920Z.log",
-     "utc": "2026-08-01 10:49:22+00:00",
-     "bytes": 9283,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {
       "production": 36.6
      },
      "restore_list": [
@@ -956,8 +884,8 @@
       }
      ],
      "first_commit_iteration": 1720,
-     "s_per_iter": 28.3,
-     "n_lines": 453,
+     "s_per_iter": 27.7,
+     "n_lines": 924,
      "timeline": {
       "marks": [
        [
@@ -1000,43 +928,120 @@
        "iteration": 1720,
        "mib": 2913.8,
        "seconds": 32.3
+      },
+      {
+       "phase": "production",
+       "iteration": 1760,
+       "mib": 3064.4,
+       "seconds": 35.0
+      },
+      {
+       "phase": "production",
+       "iteration": 1800,
+       "mib": 3215.0,
+       "seconds": 36.6
+      },
+      {
+       "phase": "production",
+       "iteration": 1840,
+       "mib": 3365.7,
+       "seconds": 39.4
       }
      ],
      "checkpoint_interval": 40,
-     "attempt": "run.log",
-     "utc": "2026-08-01 16:05:08+00:00",
-     "bytes": 33826,
+     "attempt": "run-20260801T165448Z.log",
+     "utc": "2026-08-01 16:54:49+00:00",
+     "bytes": 66867,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": null
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": null,
+     "setup_cache_missing": null,
+     "restore_seconds": {},
+     "restore_list": [],
+     "restore_fetch": [],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 18,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T16:54:47Z"
+       ],
+       [
+        "start",
+        "2026-08-01T16:54:48Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T16:55:52Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T16:55:53Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T16:55:57Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T16:55:59Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 1.0,
+       "start->cloned": 64.0,
+       "cloned->staging": 1.0,
+       "staging->preequil": 4.0,
+       "preequil->md-running": 2.0
+      },
+      "complete": true
+     },
+     "commits": [],
+     "checkpoint_interval": null,
+     "attempt": "run.log",
+     "utc": "2026-08-01 16:56:02+00:00",
+     "bytes": 1267,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=ABSENT(unobservable)"
     }
    ],
-   "live_cold_start_s": 24.0,
+   "live_cold_start_s": 72.0,
    "live_cold_start_span": "container-start -> md-running",
-   "md_to_first_commit_s": 1341.0,
-   "md_to_first_commit_span": "md-running -> first commit of this attempt",
-   "commit_bytes_median": 962430660.5,
-   "n_generations": 70,
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "no commit object written since this attempt reached md-running (still inside it)",
+   "commit_bytes_median": 1004119582,
+   "n_generations": 73,
    "commit_store": {
-    "n": 70,
+    "n": 73,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
      "first_mib": 106.0,
-     "last_iter": 1720,
-     "last_mib": 2913.8
+     "last_iter": 1840,
+     "last_mib": 3365.7
     },
     "min_mib": 81.0,
-    "max_mib": 2913.8,
+    "max_mib": 3365.7,
     "by_extension_total_mib": {
-     "chk": 63562.4,
-     "nc": 7267.4
+     "chk": 70124.3,
+     "nc": 10350.6
     },
     "by_extension_largest_single_mib": {
-     "chk": 2092.2,
-     "nc": 821.6
+     "chk": 2234.9,
+     "nc": 1130.8
     }
    },
    "markers": {
-    "phase.txt": "2026-08-01 15:26:56+00:00"
+    "phase.txt": "2026-08-01 16:56:01+00:00"
    }
   },
   "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks": {
@@ -1813,8 +1818,8 @@
       }
      ],
      "first_commit_iteration": 1080,
-     "s_per_iter": 56.4,
-     "n_lines": 645,
+     "s_per_iter": 56.3,
+     "n_lines": 912,
      "timeline": {
       "marks": [
        [
@@ -1863,12 +1868,24 @@
        "iteration": 1120,
        "mib": 3988.0,
        "seconds": 74.5
+      },
+      {
+       "phase": "production",
+       "iteration": 1160,
+       "mib": 4139.2,
+       "seconds": 86.2
+      },
+      {
+       "phase": "production",
+       "iteration": 1200,
+       "mib": 4290.3,
+       "seconds": 71.7
       }
      ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-01 16:06:01+00:00",
-     "bytes": 47105,
+     "utc": "2026-08-01 16:56:39+00:00",
+     "bytes": 65817,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -1876,10 +1893,10 @@
    "live_cold_start_span": "container-start -> md-running",
    "md_to_first_commit_s": 2623.0,
    "md_to_first_commit_span": "md-running -> first commit of this attempt",
-   "commit_bytes_median": 1090905247,
-   "n_generations": 53,
+   "commit_bytes_median": 1146513158,
+   "n_generations": 55,
    "commit_store": {
-    "n": 53,
+    "n": 55,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
@@ -1888,14 +1905,14 @@
      "last_mib": 1353.7
     },
     "min_mib": 106.6,
-    "max_mib": 3988.0,
+    "max_mib": 4290.3,
     "by_extension_total_mib": {
-     "chk": 37544.9,
-     "nc": 35496.8
+     "chk": 40474.5,
+     "nc": 40996.6
     },
     "by_extension_largest_single_mib": {
-     "chk": 1392.8,
-     "nc": 2595.2
+     "chk": 1488.8,
+     "nc": 2801.5
     }
    },
    "markers": {
@@ -1925,16 +1942,16 @@
   }
  },
  "commit_cost": {
-  "n_observed": 37,
-  "median_mib": 2476.1,
-  "median_seconds": 30.2,
+  "n_observed": 42,
+  "median_mib": 2695.3,
+  "median_seconds": 32.2,
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
   "n_attempts": 28,
   "setup_build_seconds_median": null,
   "n_setup_builds": 0,
-  "restore_seconds_median": 51.9
+  "restore_seconds_median": 51.3
  },
  "cache_tally": {
   "stage": {
@@ -1948,32 +1965,13 @@
    "ABSENT": 5
   },
   "setup": {
-   "HIT": 21,
+   "HIT": 20,
    "MISS": 0,
-   "ABSENT": 7
+   "ABSENT": 8
   }
  },
  "line_items": {
   "rows": [
-   {
-    "attempt": "run-20260801T104920Z.log",
-    "complete_timeline": true,
-    "provision_to_container": null,
-    "container_to_md_running": 0.63,
-    "setup_breakdown": {
-     "container-start->start": 0.07,
-     "start->cloned": 0.28,
-     "cloned->staging": 0.05,
-     "staging->preequil": 0.12,
-     "preequil->md-running": 0.12
-    },
-    "md_running_to_first_commit": null,
-    "first_commit_is_derived": true,
-    "checkpoint_interval": 40,
-    "s_per_iter": null,
-    "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
-   },
    {
     "attempt": "run-20260801T131053Z.log",
     "complete_timeline": true,
@@ -2070,7 +2068,7 @@
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run.log",
+    "attempt": "run-20260801T165448Z.log",
     "complete_timeline": true,
     "provision_to_container": null,
     "container_to_md_running": 0.4,
@@ -2081,10 +2079,29 @@
      "staging->preequil": 0.03,
      "preequil->md-running": 0.03
     },
-    "md_running_to_first_commit": 18.87,
+    "md_running_to_first_commit": 18.47,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
-    "s_per_iter": 28.3,
+    "s_per_iter": 27.7,
+    "md_running_to_md_done": null,
+    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
+   },
+   {
+    "attempt": "run.log",
+    "complete_timeline": true,
+    "provision_to_container": null,
+    "container_to_md_running": 1.2,
+    "setup_breakdown": {
+     "container-start->start": 0.02,
+     "start->cloned": 1.07,
+     "cloned->staging": 0.02,
+     "staging->preequil": 0.07,
+     "preequil->md-running": 0.03
+    },
+    "md_running_to_first_commit": null,
+    "first_commit_is_derived": true,
+    "checkpoint_interval": null,
+    "s_per_iter": null,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
@@ -2196,10 +2213,10 @@
      "staging->preequil": 0.07,
      "preequil->md-running": 0.07
     },
-    "md_running_to_first_commit": 37.6,
+    "md_running_to_first_commit": 37.53,
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
-    "s_per_iter": 56.4,
+    "s_per_iter": 56.3,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
    },
@@ -2427,13 +2444,13 @@
    "md_running_to_first_commit": {
     "median_min": 17.34,
     "min_min": 6.07,
-    "max_min": 37.6,
+    "max_min": 37.53,
     "n": 16,
     "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly.",
-    "measured_median_min": 33.03,
-    "measured_n_units": 2,
+    "measured_median_min": 43.72,
+    "measured_n_units": 1,
     "measured_how": "the first commit object's S3 LastModified minus the `md-running` timestamp in phase.txt \u2014 a real wall clock, on units currently inside md-running. None means no unit is in that phase right now, which is NOT the same as a fast segment.",
-    "measured_over_derived": 1.9,
+    "measured_over_derived": 2.52,
     "_reading": "a ratio near 1.0 says the segment really is one checkpoint interval of MD and nothing else, so the CHECKPOINT INTERVAL is the whole lever. Materially above 1.0 says the window also holds fixed cost the reconstruction cannot see \u2014 setup restore/build and minimisation are the candidates, and `of_which` below carries the two that time themselves.",
     "of_which_setup_build_min": null,
     "of_which_setup_restore_min": 0.86,
