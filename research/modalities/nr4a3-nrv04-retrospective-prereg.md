@@ -578,3 +578,62 @@ than inferred from an object count, and both units' status is recorded every tic
 **Superseded, retained for the record: the 18-of-18 R1 panel** (AMENDMENT 3's "R1 only, 18 legs"), with
 n = 3 models/arm, C(9,3) = 84 arrangements and a minimum attainable p of 1/84 ≈ 0.0119. Registered in
 [`pinned-figures.json`](../manuscripts/pinned-figures.json).
+
+---
+
+## §4.5 DEPENDENCY — STATUS RECORD, 8:19 PM ET Fri 2026-07-31. ⚠ **NOT AN AMENDMENT: no frozen quantity moves.**
+
+AMENDMENT 4 §4.5 named two units as a live dependency and required that any further shrinkage of the
+reachable set be a further amendment, deliberately not pre-written. One of them —
+**`nrv04retro-retro_noncov_nr4a2-m2-r0`** — then reached the trigger FACT: three attempt markers resolving
+to three genuinely distinct hosts (`nrv04_vast_launch.retro_attempt_hosts`; hosts `46424247`, `46433424`,
+`46435856`, `unreadable_markers: 0`). This section records what that turned out to be, because §4.5's whole
+purpose is that a shrinking panel can never happen silently — and a panel that does **not** shrink must be
+recorded for the same reason.
+
+**No amendment follows. The authorized panel stays at 16 legs and every quantity in §4.3 is untouched.**
+The trigger is a fact about SPEND — the failure breaker refusing to buy a fourth host — not a finding of
+unrunnability, and AMENDMENT 4's own §4.2 standard is not met: an exclusion there is by **measured input
+fault**, provable before any MD is interpreted, *never* by outcome. Excluding this unit would be exclusion by
+outcome, which §4.2 forbids and §4.4 tests against. Three measurements, each from the unit's own artifacts:
+
+1. **Its built system is PHYSICAL — the §4.2 test run in the exonerating direction, on this unit's own
+   build rather than inferred from its sibling.** The `run.log` its third host (`46435856`) uploaded records
+   `PE pre-min = −3.481e+06`, `post-min = −5.941e+06 kJ/mol` over **344,909 atoms**, and it got there
+   normally: `built_…system.xml` (77.5 MB), `…solv.cif` (44.5 MB) and `…built.json` are all in S3, written
+   2026-07-31 20:29:44–20:29:54 Z. Its replica sibling `…-m2-r1`, which **landed a conforming production
+   leg** off the same co-fold, recorded `pe_post_min_kj = −5,951,528.8` — a 0.18 % difference. This is the
+   opposite signature to the units §4.1 excluded, whose energy was positive and ~21 orders of magnitude off.
+2. **The hosts did not refuse the work — they ran it, and then their CONTAINERS EXITED.** For `46433424` and
+   `46435856` the supervision ticks record `actual_status=exited` followed by
+   `[retro-reap] auto-stopped … — terminal-state`. `instance_outbid` excludes `exited` by construction, so
+   these are not preemptions and not capacity refusals; the container ran and left, mid-run, with no
+   traceback reaching S3. *(The third host's teardown predates the scanned tick window — that is an absent
+   reading, not a reading of absence, and it is not counted as anything.)*
+3. **That death is LANE-WIDE, not unit-specific.** Across 53 consecutive supervision ticks the same
+   afternoon, **24 distinct instances were torn down as `terminal-state`, spread over 13 of the 16 units** —
+   including `…-m2-r1`, the sibling that landed anyway, and units inside the 15 that have already landed.
+   A failure shared by 13 units, 15 of which completed, is not evidence about this one.
+
+**Why nothing was ever banked, which is what made the breaker fire.** Nothing on this lane is durable until
+the first *production* checkpoint. Derived from the sibling's measured `prod_wall_s = 1774.9 s` for 5 ns
+(`ns_per_day = 243.4`): the preregistered 1 ns equilibration is ≈5.9 min and the first 50-frame checkpoint a
+further ≈3.0 min, so ≈9 min of MD must elapse before any state survives the host. Both evidenced exits fell
+**inside equilibration**. So every attempt left zero durable state, the streak anchor could not advance, and
+the count reached the threshold while the unit was behaving normally. ⚠ **`CKPT_EVERY_FRAMES` therefore
+cannot help here** — there is no production frame yet to checkpoint — and the per-unit override opened for a
+different unit must not be cargo-culted onto this one.
+
+**What was done.** The breaker was re-armed by BASELINE (`retro_set_breaker_baseline`, 2026-08-01T00:19:23Z),
+never by `leg_failure_breaker.reset_for`, so the attempt archive that carries all of the above is intact.
+The re-arm is self-limiting by construction: it buys one more rental, and if that rental banks nothing the
+streak grows from the same stamp and the block re-applies at the same count.
+
+**What would change this conclusion.** A measured fault in this unit's *input* — the §4.2 standard, and the
+only thing that can justify shrinking the panel. Repeated host-side terminations, however many, are not that;
+they are a reason to keep buying carefully or to move tier, and if this unit ever becomes genuinely
+unbuyable, that is a spend decision for trimcrae, not a preregistration finding.
+
+One home for the evidence, regenerable and checkable rather than quoted:
+[`nrv04-retro-unit-forensics.json`](./nrv04-retro-unit-forensics.json) (`nrv04_retro_unit_forensics.py`) and
+[`nrv04-retro-host-history.json`](./nrv04-retro-host-history.json) (`nrv04_retro_host_history.py`).
