@@ -5,6 +5,7 @@ are in the test names and docstrings, not restated.
 """
 import json
 import os
+import pathlib
 import re
 import subprocess
 import sys
@@ -478,79 +479,74 @@ def test_the_board_step_runs_on_every_outcome_including_failure():
 
 def test_the_board_step_only_ever_stages_this_lanes_own_files():
     """Two other lanes push to main constantly. A step that staged anything else could carry their work
-    backwards through a rebase — so the allowlist is EXPLICIT and this test is the allowlist.
+    backwards — so the allowlist is EXPLICIT and this test is the allowlist.
 
-    Three files now, and the third is a DIFFERENT KIND of entry that the allowlist must keep distinct:
+    The distinction the allowlist encodes is between two KINDS of entry, and that is the whole guard:
 
-      $F  the fragment          — written only by this lane, stamped from /tmp over upstream
-      $R  the rate artifact     — written only by this lane, stamped from /tmp over upstream
-      $D  gcp-gpu-facts.md      — MANY writers, so it is NEVER stamped. It is regenerated in place after
-                                  the reset, and `sync_rate_table_doc` edits only the bytes between the
-                                  rate-table fences (and fails closed without exactly one ordered pair),
-                                  so the staged diff against FETCH_HEAD can only be the generated block.
+      STAMPED (passed as arguments, snapshotted across the reset and laid back on top)
+        inflight-board.d/gcp-s1f-rep.json  — written only by this lane
+        gcp-s1f-rep-rate.json              — written only by this lane
 
-    That distinction IS the guard. 'Stage only our own files' was always a proxy for 'never carry another
-    writer's work backwards through the rewrite'; a file we regenerate in place cannot do that, and a file
-    we stamp from a stale checkout can — which is why $D must never acquire a /tmp round trip.
+      REGENERATED (PUBLISH_REGEN, run AFTER the reset, never carried through a snapshot)
+        gcp-gpu-facts.md          — MANY writers; `rate --sync-doc` edits only the bytes between the
+                                    rate-table fences and fails closed without exactly one ordered pair,
+                                    so the staged diff can only ever be the generated block
+        inflight-board-all.md     — EVERY lane writes it; DERIVED IN FULL from every lane's fragment, so
+                                    regenerating post-reset reads upstream's freshest ternary /
+                                    step1-fanout / nrv04-retro fragments plus the one we just stamped
 
-    FOUR now, and the fourth is the same KIND as $D (2026-08-01):
-
-      inflight-board-all.md    — EVERY lane writes it, so it is never stamped either. It is DERIVED IN FULL
-                                 from every lane's fragment, so regenerating it after the reset reads
-                                 upstream's freshest ternary / step1-fanout / nrv04-retro fragments plus the
-                                 one we just stamped. Regenerating it BEFORE the reset would merge this
-                                 checkout's stale copies of the other three and stamp their staleness onto
-                                 upstream — turning a fix for one lane's false STALE into three lanes' real
-                                 one. The ordering assertion below is that argument, enforced.
+    'Stage only our own files' was always a proxy for 'never carry another writer's work backwards'. A
+    file we regenerate in place cannot do that; a file we stamp from a stale checkout can. So a
+    many-writer file must NEVER move from PUBLISH_REGEN_ADD into the argument list.
+    ⚠ RE-POINTED 2026-08-01, when this step moved to `research/compute/publish_artifacts.sh`. The
+    PROPERTY below is unchanged and still holds; what moved is where it is implemented. Asserting the
+    inlined shell made this the FIFTH test in one session to go red on a refactor that changed no
+    behaviour — the others blocked a rental, blinded a board detector and inverted a heartbeat count — so
+    it now asserts the lane's CONTRACT WITH THE PRIMITIVE, and the primitive's own behaviour is held by
+    tests/test_publish_does_not_revert_another_jobs_artifact.py.
     """
-    step = _wf().split("- name: Publish the in-flight fragment")[1]
-    assert re.findall(r"git add (\S+)", step) == [
-        '"$F"', '"$R"', '"$D"', "research/modalities/inflight-board-all.md"], step
-    # ⚠ ORDER IS THE SAFETY PROPERTY, NOT A STYLE POINT: the re-merge must come after the reset that puts
-    # upstream's sibling fragments in the tree, and before the commit that publishes it.
-    code = "\n".join(l for l in step.splitlines() if not l.lstrip().startswith("#"))
-    i_reset = code.index("git reset -q --hard FETCH_HEAD")
-    i_merge = code.index("inflight_board.py --write")
-    i_commit = code.index("git commit")
-    assert i_reset < i_merge < i_commit, \
-        "the all-lane merge must run AFTER the reset (so it sees upstream's other fragments) and BEFORE " \
-        "the commit that publishes it"
-    assert 'cp /tmp/pub_merged' not in step and "inflight-board-all.md" not in step.split("cp \"$F\"")[0], \
-        "the merged board has every lane as a writer: stamping it from /tmp would revert their rows"
-    assert re.search(r'^\s*F=research/modalities/inflight-board\.d/gcp-s1f-rep\.json\s*$', step, re.M)
-    assert re.search(r'^\s*R=research/modalities/gcp-s1f-rep-rate\.json\s*$', step, re.M)
-    assert re.search(r'^\s*D=research/compute/gcp-gpu-facts\.md\s*$', step, re.M)
-    assert "git add -A" not in step and "--force" not in step
-    # The two stamped files are the two single-writer ones, and $D is not among them.
-    assert sorted(re.findall(r'cp /tmp/pub_\S+ "\$(\w+)"', step)) == ["F", "R"], \
-        "gcp-gpu-facts.md has other writers: stamping it whole would revert their edits"
-
+    step = _wf().split("- name: Publish the in-flight fragment")[1].split("- name: ")[0]
+    args = re.findall(r"^\s+(research/\S+?)(?: \\)?$", step, re.M)
+    assert args == ["research/modalities/inflight-board.d/gcp-s1f-rep.json",
+                    "research/modalities/gcp-s1f-rep-rate.json"], args
+    regen_add = re.search(r"PUBLISH_REGEN_ADD:\s*(.+)", step).group(1).split()
+    assert regen_add == ["research/compute/gcp-gpu-facts.md",
+                         "research/modalities/inflight-board-all.md"], regen_add
+    # ⛔ THE TWO LISTS MUST STAY DISJOINT. A many-writer file appearing as an ARGUMENT would be stamped
+    # from this checkout and would revert whatever the other lanes published in the meantime.
+    assert not (set(args) & set(regen_add))
+    for many_writer in regen_add:
+        assert many_writer not in args, f"{many_writer} has other writers and must never be stamped"
+    assert "git add -A" not in step
 
 def test_the_publish_rewrites_onto_upstream_and_never_merges():
     """★★ A PUBLISH THAT DID NOT HAPPEN MUST NEVER READ LIKE ONE (measured 2026-08-01, run 30701290485):
     `git pull --rebase` conflicted against a sibling tick 30 s earlier, `2>/dev/null || true` swallowed it,
     the rebase was left MID-CONFLICT, and `git push HEAD:main` pushed the upstream commit back to itself —
     a no-op that exits 0 and printed `fragment published` while main's fragment stayed 67 s old.
-
-    This lane is the SOLE writer of both files, so 'ours, always' is the correct semantics rather than a
-    shortcut, and a rewrite-onto-upstream makes a conflict unrepresentable instead of handled."""
+    ⚠ RE-POINTED 2026-08-01, when this step moved to `research/compute/publish_artifacts.sh`. The
+    PROPERTY below is unchanged and still holds; what moved is where it is implemented. Asserting the
+    inlined shell made this the FIFTH test in one session to go red on a refactor that changed no
+    behaviour — the others blocked a rental, blinded a board detector and inverted a heartbeat count — so
+    it now asserts the lane's CONTRACT WITH THE PRIMITIVE, and the primitive's own behaviour is held by
+    tests/test_publish_does_not_revert_another_jobs_artifact.py.
+    """
     step = _wf().split("- name: Publish the in-flight fragment")[1].split("- name: Detached launch")[0]
     code = "\n".join(l for l in step.splitlines() if not l.lstrip().startswith("#"))
     assert "git pull" not in code, "a merge is the wrong operation for a single-writer file"
     assert "git pull --rebase" in step, "and the incident that retired it stays in the comment"
-    assert "git reset -q --hard FETCH_HEAD" in step and "git rebase --abort" in step
-    assert "PUBLISHED=1" in step and 'if [ "$PUBLISHED" = 1 ]' in step, \
+    assert "publish_artifacts.sh" in code, "the rewrite-onto-upstream now lives in the primitive"
+    prim = (pathlib.Path(WF).resolve().parents[2] / "research/compute/publish_artifacts.sh").read_text()
+    assert "git reset -q --hard FETCH_HEAD" in prim and "git rebase --abort" in prim
+    assert "PUBLISHED=1" in prim and 'if [ "$PUBLISHED" = 1 ]' in prim, \
         "success must be tracked explicitly, not inferred from falling out of the loop"
-    warn = step.split('if [ "$PUBLISHED" = 1 ]')[1]
-    assert "::warning" in warn and "NOT PUBLISHED" in warn
-    # the files are held OUTSIDE the checkout, because `reset --hard` would otherwise destroy them
-    assert "cp \"$F\" /tmp/pub_fragment.json" in step
-    i_cp, i_reset = step.index("/tmp/pub_fragment.json"), step.index("git reset -q --hard")
-    assert i_cp < i_reset, "the copy must happen BEFORE the reset that would delete it"
+    assert "ARTIFACTS NOT PUBLISHED" in prim
+    # …and the artifacts are snapshotted OUTSIDE the checkout, because the reset would destroy them.
+    assert 'cp -a --parents "$p" "$SNAP/"' in prim
+    assert prim.index("SNAP=") < prim.index("git reset -q --hard FETCH_HEAD")
 
 
 # ---- the smoke terminus, the second piece of evidence the reaper may act on ---------------------------
-
 def test_a_finished_smoke_is_reaped_on_its_own_terminal_marker():
     """A smoke never writes a result object, so the result clause can never retire it and its only bound
     would be the 7 h non-run cap — 7 h of the account's ONE GPU for a job that finished in twenty minutes.
@@ -953,17 +949,27 @@ def test_the_fragment_commit_is_unconditional():
     load-bearing: it reconstructed 27 rentals on a lane recording no billed_h, exposed two
     differently-configured gates writing one file, and produced the NR-V04 pilot's exact host timeline.
 
-    The forbidden shape is `git diff --cached --quiet && exit 0`. It never fires while the timestamp is in
-    the file, which is what makes it a LANDMINE and not a bug: it does nothing until someone stabilises
-    `generated_epoch`, and from that moment a healthy IDLE lane renders byte-identically to a DEAD one."""
-    step = _wf().split("- name: Publish the in-flight fragment")[1]
+    The forbidden shape is a skip on 'no content change'. It never fires while the timestamp is in the
+    file, which is what makes it a LANDMINE and not a bug: it does nothing until someone stabilises
+    `generated_epoch`, and from that moment a healthy IDLE lane renders byte-identically to a DEAD one.
+    ⚠ RE-POINTED 2026-08-01, when this step moved to `research/compute/publish_artifacts.sh`. The
+    PROPERTY below is unchanged and still holds; what moved is where it is implemented. Asserting the
+    inlined shell made this the FIFTH test in one session to go red on a refactor that changed no
+    behaviour — the others blocked a rental, blinded a board detector and inverted a heartbeat count — so
+    it now asserts the lane's CONTRACT WITH THE PRIMITIVE, and the primitive's own behaviour is held by
+    tests/test_publish_does_not_revert_another_jobs_artifact.py.
+    """
+    step = _wf().split("- name: Publish the in-flight fragment")[1].split("- name: ")[0]
     code = "\n".join(l for l in step.splitlines() if not l.strip().startswith("#"))
-    assert "git diff --cached --quiet" not in code, \
-        "the fragment commit must never be skipped on 'no content change' — the timestamp IS the heartbeat"
+    assert "git diff --cached --quiet" not in code
     assert "fragment unchanged" not in code
-    assert "git commit -q --allow-empty" in code, \
+    # ⛔ AND THE FLAG SPELLING OF THE SAME LANDMINE. `PUBLISH_IF_CHANGED=1` is legitimate for an EVENT
+    # publish; on this lane's HEARTBEAT it would be the identical defect arriving through an env var.
+    assert "PUBLISH_IF_CHANGED" not in code, \
+        "this fragment IS the heartbeat — the timestamp is the only input to `_As of … STALE (> 15 min)`"
+    prim = (pathlib.Path(WF).resolve().parents[2] / "research/compute/publish_artifacts.sh").read_text()
+    assert "git commit -q --allow-empty" in prim, \
         "--allow-empty so the step can neither silently skip nor fail red on a no-diff"
-
 
 def test_the_fragment_timestamp_always_advances():
     """The heartbeat only works if every write carries a FRESH stamp. `write_board` must not pass a fixed
@@ -1400,23 +1406,29 @@ def test_a_doc_the_sync_cannot_confidently_edit_is_LEFT_ALONE(tmp_path):
 
 
 def test_the_lane_that_COMMITS_the_artifact_also_commits_the_regenerated_doc():
-    """★★ THE OTHER HALF OF THE FIX, AND THE HALF A UNIT TEST CANNOT REACH. The publish step holds its two
-    single-writer files in /tmp across a `reset --hard FETCH_HEAD` and stamps them back. An in-process doc
-    edit made before that reset is therefore DISCARDED — so the sync must be re-run after it, and the doc
-    must be staged, or the artifact still lands in a commit that does not carry the table quoting it."""
-    wf = open(WF).read()
-    pub = wf.split("Publish the in-flight fragment")[1]
-    assert "rate --sync-doc" in pub, "the publish step must regenerate §1e from the artifact it commits"
-    assert "research/compute/gcp-gpu-facts.md" in pub and 'git add "$D"' in pub, \
-        "regenerating without staging leaves the commit carrying the artifact alone"
-    reset = pub.index("reset -q --hard FETCH_HEAD")
-    assert pub.index("rate --sync-doc") > reset, \
-        "syncing BEFORE the reset writes a doc the reset then throws away"
-    assert pub.index('git add "$D"') > pub.index("rate --sync-doc")
-    # The doc is NOT carried through /tmp like $F and $R: it has other writers, so it is regenerated in
-    # place against upstream's copy rather than stamped whole from this checkout.
-    assert "/tmp/pub_facts" not in pub, "gcp-gpu-facts.md must never be stamped whole — it has many writers"
-
+    """★★ THE OTHER HALF OF THE FIX, AND THE HALF A UNIT TEST CANNOT REACH. The publish holds its two
+    single-writer files across a `reset --hard FETCH_HEAD` and stamps them back. A doc edit made BEFORE
+    that reset is therefore DISCARDED — so the sync must run after it, and the doc must be staged, or the
+    artifact lands in a commit that does not carry the table quoting it. (When that was left to a human,
+    CI went red 3 min 41 s after the last hand regeneration.)
+    ⚠ RE-POINTED 2026-08-01, when this step moved to `research/compute/publish_artifacts.sh`. The
+    PROPERTY below is unchanged and still holds; what moved is where it is implemented. Asserting the
+    inlined shell made this the FIFTH test in one session to go red on a refactor that changed no
+    behaviour — the others blocked a rental, blinded a board detector and inverted a heartbeat count — so
+    it now asserts the lane's CONTRACT WITH THE PRIMITIVE, and the primitive's own behaviour is held by
+    tests/test_publish_does_not_revert_another_jobs_artifact.py.
+    """
+    step = _wf().split("- name: Publish the in-flight fragment")[1].split("- name: ")[0]
+    regen = re.search(r"PUBLISH_REGEN: >-\n((?:\s+\S[^\n]*\n)+)", step).group(1)
+    assert "rate --sync-doc" in regen, "the publish must regenerate §1e from the artifact it commits"
+    assert "inflight_board.py --write" in regen
+    assert "research/compute/gcp-gpu-facts.md" in step
+    # ORDERING IS THE SAFETY PROPERTY and the primitive owns it: PUBLISH_REGEN runs after the reset and
+    # before the commit, by construction, so it cannot be sequenced wrongly by a caller.
+    prim = (pathlib.Path(WF).resolve().parents[2] / "research/compute/publish_artifacts.sh").read_text()
+    assert prim.index("git reset -q --hard FETCH_HEAD") < prim.index('eval "$PUBLISH_REGEN"') \
+        < prim.index("git commit -q --allow-empty")
+    assert "/tmp/pub_facts" not in step, "gcp-gpu-facts.md must never be stamped whole — it has many writers"
 
 def test_the_documented_section_never_quotes_the_card_probe_as_this_lanes_rate():
     """§1c's 177.28 ns/day is a water box with no alchemy, no HREX and no commit barrier. Quoting one for
