@@ -402,7 +402,10 @@ def verdict(measured_s_per_iter, expected_s_per_iter_s, iteration=None, interval
     # it can be computed; it does not trigger the action on its own, because a host may be over the line and
     # still bank real work, and abandoning that costs a ~28 min cold start for a strictly worse trade.
     r = out["realised_usd_per_ns"]
-    if r is not None and provenance == PROV_OFFSYSTEM:
+    # ⚠ NOT GATED ON A QUOTE EXISTING, unlike the two branches below. "This expectation was not measured on
+    # this leg's molecule" is true whether or not a `$/ns` was quotable, and gating it on `r` would leave a
+    # row whose CELL says off-system and whose WHY says "delivering acceptably" — one row, two stories.
+    if provenance == PROV_OFFSYSTEM:
         # ★★ THE EXPECTATION IS NOT FOR THIS MOLECULE. A bigger or simply different assembly costs different
         # seconds per iteration by ARITHMETIC (trimcrae, 2026-08-01), and the offset only cancels inside a
         # RANKING of offers scored against one table — never in a realised-vs-quoted comparison. So the

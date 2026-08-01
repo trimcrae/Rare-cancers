@@ -171,6 +171,17 @@ def test_the_off_system_cell_never_renders_like_a_graded_one():
     assert "no like-for-like expectation" not in graded
 
 
+def test_the_cell_and_the_why_of_an_off_system_row_tell_ONE_story():
+    """With no quotable `$/ns` there is no realised figure to withhold — but the provenance fact is just as
+    true, and an earlier draft gated the branch on the quote, leaving a row whose cell read "no like-for-like
+    expectation" beside a `why` reading "delivering acceptably". One row, two stories, is how a reader learns
+    to ignore the column."""
+    v = at.verdict(35.8, 16.8, iteration=1088, interval=64, quoted_usd_per_ns=None,
+                   session_s=36000.0, provenance=at.PROV_OFFSYSTEM)
+    assert v["realised_usd_per_ns"] is None
+    assert "UNVALIDATED" in v["why"] and "no like-for-like expectation" in at.cell(v)
+
+
 @pytest.mark.parametrize("uid,want", [
     ("5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks", "nr4a1"),
     ("5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke", "nr4a3"),
