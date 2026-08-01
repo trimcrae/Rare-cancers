@@ -85,6 +85,9 @@ jobs:
       GIT_BRANCH: ${{ github.ref_name }}
       MODE: ${{ github.event.inputs.mode || 'selftest' }}
       UNITS: ${{ github.event.inputs.units }}
+      # for the ladder chain (`self_dispatch`). $0 modes only ever chain to other $0 modes; every RENTING
+      # rung stays a deliberate dispatch, because smoke -> one real leg -> fleet is a decision at each step.
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:

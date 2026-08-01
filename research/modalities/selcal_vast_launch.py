@@ -1056,6 +1056,47 @@ def mode_reap(bucket=None, stop_all=False):
     return 0
 
 
+#: The workflow this lane dispatches itself through. One home, so a rename cannot leave the chain firing at
+#: a file that no longer exists.
+WORKFLOW_FILE = "selectivity-control-vast.yml"
+
+
+def self_dispatch(mode, inputs=None, ref=None):
+    """Fire the next rung of this lane's own ladder, from inside a run. Best-effort; never raises.
+
+    ★★ WHY THE CHAIN EXISTS, and it is a spend-safety mechanism rather than a convenience. A supervision job
+    has a finite window; when it ends, the hosts it was watching do NOT stop — the host cannot stop its own
+    billing, only the control plane can (CLAUDE.md §6, measured). So a watch that simply exits converts a
+    supervised fleet into an unsupervised one at a predictable moment, which is exactly the unattended-rental
+    leak this lane's ledger exists to make visible. Re-arming itself closes that. On COMPLETION it advances
+    the ladder instead, so the free CI staging shakeout runs without waiting for an agent to be awake.
+
+    ⚠ IT DISPATCHES, IT DOES NOT DECIDE. Every rung it can reach is either $0 or itself gated: `stage_test`
+    rents nothing, and every rental still faces the market gate and the per-offer buy line."""
+    import urllib.error
+    import urllib.request
+    tok = os.environ.get("GITHUB_TOKEN")
+    if not tok:
+        print("[selcal-chain] no GITHUB_TOKEN — cannot arm the next rung (%s). Dispatch it by hand." % mode,
+              flush=True)
+        return False
+    body = json.dumps({"ref": ref or os.environ.get("GIT_BRANCH") or "main",
+                       "inputs": dict({"mode": mode}, **(inputs or {}))}).encode()
+    req = urllib.request.Request(
+        "https://api.github.com/repos/trimcrae/Rare-cancers/actions/workflows/%s/dispatches" % WORKFLOW_FILE,
+        data=body, method="POST",
+        headers={"Authorization": "Bearer %s" % tok, "Accept": "application/vnd.github+json",
+                 "Content-Type": "application/json", "User-Agent": "selcal-lane"})
+    try:
+        urllib.request.urlopen(req, timeout=30)
+        print("[selcal-chain] armed the next rung: mode=%s" % mode, flush=True)
+        return True
+    except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
+        print("[selcal-chain] could NOT arm mode=%s (%s) — say so rather than assume it fired" % (mode, e),
+              flush=True)
+        return False
+
+
 def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
     """Supervise the co-fold hosts from CI until every (arm, seed) has landed — then REAP them.
 
@@ -1091,6 +1132,9 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
         if cen["complete"]:
             print("[selcal-cofold-watch] ✅ every (arm, seed) has a co-fold — reaping the hosts.", flush=True)
             mode_reap(bucket, stop_all=True)
+            # ADVANCE THE LADDER: `stage_test` is $0 and rents nothing, and it is the rung that catches a
+            # staging fault for free before any MD host is bought.
+            self_dispatch("stage_test")
             return 0
         if not mine:
             print("[selcal-cofold-watch] ⛔ no co-fold host is alive and the set is incomplete — the lane "
@@ -1106,8 +1150,18 @@ def mode_cofold_watch(bucket=None, minutes=None, cofold_prefix=None):
                   "nothing written for %s min. This is a measured absence of WRITES, not GPU idleness."
                   % age_min, flush=True)
         time.sleep(interval)
-    print("[selcal-cofold-watch] window elapsed; the set is still incomplete. Hosts LEFT RUNNING — "
-          "re-dispatch `cofold_watch` to keep supervising, or `stop` to end the rentals.", flush=True)
+    # ⛔ A WATCH THAT SIMPLY EXITS TURNS A SUPERVISED FLEET INTO AN UNSUPERVISED ONE. Re-arm.
+    _live, mine = _live_labels()
+    if mine:
+        print("[selcal-cofold-watch] window elapsed with %d host(s) still billing — re-arming supervision "
+              "rather than leaving them unwatched." % len(mine), flush=True)
+        if not self_dispatch("cofold_watch", {"watch_minutes": str(int(minutes))}):
+            print("::error title=SELCAL SUPERVISION NOT RE-ARMED::%d co-fold host(s) are billing and this "
+                  "watch could not dispatch its successor. Dispatch `cofold_watch` (or `stop`) by hand."
+                  % len(mine), flush=True)
+            return 1
+    else:
+        print("[selcal-cofold-watch] window elapsed and no host is alive — nothing is billing.", flush=True)
     return 0
 
 

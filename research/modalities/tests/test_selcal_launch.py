@@ -256,3 +256,14 @@ def test_the_cofold_restores_finished_work_from_S3_before_it_runs():
     i_restore = L._COFOLD_PIPELINE.index("s3 sync \"$RESULT_S3/\" \"$OUTPUT_DIR/\"")
     i_run = L._COFOLD_PIPELINE.index("selcal_cofold_run.py")
     assert i_restore < i_run, "the restore must happen BEFORE the runner decides what to skip"
+
+
+def test_the_supervisor_re_arms_rather_than_leaving_hosts_unwatched():
+    """A watch has a finite window; when it ends the hosts do NOT stop, because a host cannot end its own
+    billing — only the control plane can. A watch that simply exits therefore converts a supervised fleet
+    into an unsupervised one at a predictable moment."""
+    body = SRC[SRC.index("def mode_cofold_watch"):SRC.index("def mode_watch")]
+    assert 'self_dispatch("cofold_watch"' in body
+    assert "SELCAL SUPERVISION NOT RE-ARMED" in body, \
+        "a failed re-arm must be LOUD — a silent one is the unattended-rental leak with extra steps"
+    assert 'self_dispatch("stage_test")' in body, "on completion the ladder must advance to the $0 rung"
