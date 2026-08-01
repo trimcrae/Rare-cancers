@@ -262,9 +262,25 @@ def _verdict_is_concordant(a_vals, b_vals):
     return gate.leave_one_model_out(means)["survives"]
 
 
+#: ⚠ THE POWER CURVE IS THE REGISTERED 3-vs-6 DESIGN, AND IT IS DELIBERATELY NOT RE-DERIVED (2026-08-01).
+#: AMENDMENT 4 §4.3 states the consequence in words and refuses to invent a replacement: "AMENDMENT 3 defect
+#: 4's registered MDE (~1.5-2.0 A at n = 3 models/arm) is OPTIMISTIC for the NR4A3 arm at n = 2, so power
+#: against a paralogue difference is LOWER than registered. No new MDE is invented here." Recomputing the
+#: curve at 3-vs-5 here would manufacture exactly the number the amendment declined to register — so the
+#: shape stays, and the artifact SAYS what it is. That is the opposite call to `p_lattice` and
+#: `rank_statistic_identity`, which describe the test's own arithmetic and therefore MUST track the panel;
+#: this describes a registered design commitment, and a caveat is the honest correction.
+POWER_DESIGN_CAVEAT = (
+    "REGISTERED DESIGN, n = 3 models/arm vs 6 pooled — NOT the currently authorized 3 / 3 / 2 panel. "
+    "AMENDMENT 4 §4.3: at n = 2 for NR4A3 this curve is OPTIMISTIC and true power is LOWER; the amendment "
+    "deliberately registered no replacement MDE, so none is computed here. Read these as an upper bound.")
+
+
 def power_curve(sigma_model, deltas, n_sims=3000, seed=23):
     """P(CONCORDANT) as a function of the TRUE NR4A1-vs-paralogue separation, under Gaussian model-level noise.
-    delta > 0 means NR4A1's true plateau is LOWER (more stable) by delta A."""
+    delta > 0 means NR4A1's true plateau is LOWER (more stable) by delta A.
+
+    See `POWER_DESIGN_CAVEAT` — this is the REGISTERED 3-vs-6 design, not the post-AMENDMENT-4 panel."""
     rng = random.Random(seed)
     out = []
     for delta in deltas:
@@ -337,7 +353,9 @@ def main(argv=None):
             curve = power_curve(sigma, deltas, n_sims=args.sims)
             mde80 = next((r["true_separation_A"] for r in curve if r["power"] >= 0.80), None)
             mde50 = next((r["true_separation_A"] for r in curve if r["power"] >= 0.50), None)
+            doc.setdefault("power", {})["_design_caveat"] = POWER_DESIGN_CAVEAT
             doc.setdefault("power", {})[label] = {
+                "design_caveat": POWER_DESIGN_CAVEAT,
                 "sigma_model_A": round(sigma, 4),
                 "curve": curve,
                 "separation_for_50pct_power_A": mde50,

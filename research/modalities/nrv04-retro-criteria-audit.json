@@ -63,7 +63,9 @@
     "why_this_is_a_LOWER_BOUND": "these are velocity replicas with the co-fold model held FIXED. The retrospective's unit of independence is the co-fold MODEL (prereg 4a), and its model-level value is the mean of 2 replicas, so the model-level noise is sqrt(sigma_model^2 + sigma_rep^2/2) >= sigma_rep/sqrt(2). Distinct co-fold seeds of the same system differ by 3-8 A CA-RMSD (nrv04-covalent-panel-recovery-2026-07-25.md 3), so sigma_model is not plausibly zero. Both bounds are reported."
   },
   "power": {
+    "_design_caveat": "REGISTERED DESIGN, n = 3 models/arm vs 6 pooled \u2014 NOT the currently authorized 3 / 3 / 2 panel. AMENDMENT 4 \u00a74.3: at n = 2 for NR4A3 this curve is OPTIMISTIC and true power is LOWER; the amendment deliberately registered no replacement MDE, so none is computed here. Read these as an upper bound.",
     "optimistic_sigma_rep_over_sqrt2": {
+      "design_caveat": "REGISTERED DESIGN, n = 3 models/arm vs 6 pooled \u2014 NOT the currently authorized 3 / 3 / 2 panel. AMENDMENT 4 \u00a74.3: at n = 2 for NR4A3 this curve is OPTIMISTIC and true power is LOWER; the amendment deliberately registered no replacement MDE, so none is computed here. Read these as an upper bound.",
       "sigma_model_A": 0.813,
       "curve": [
         {
@@ -120,6 +122,7 @@
       "false_positive_rate_at_delta_0": 0.048
     },
     "sigma_equals_measured_leg_SD": {
+      "design_caveat": "REGISTERED DESIGN, n = 3 models/arm vs 6 pooled \u2014 NOT the currently authorized 3 / 3 / 2 panel. AMENDMENT 4 \u00a74.3: at n = 2 for NR4A3 this curve is OPTIMISTIC and true power is LOWER; the amendment deliberately registered no replacement MDE, so none is computed here. Read these as an upper bound.",
       "sigma_model_A": 1.1497,
       "curve": [
         {
