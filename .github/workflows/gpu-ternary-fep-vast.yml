@@ -2054,8 +2054,21 @@ jobs:
           # back rows the other three lanes had already published. All four lines are `|| true`-guarded:
           # this step's push loop has been broken twice by additions that could fail (a `git stash pop` with
           # no stash, 3:46 PM ET 2026-07-29), so nothing added here may turn a healthy collect red.
+          #
+          # ⛔ AND OURS IS RESTORED AFTERWARDS, BECAUSE THE CHECKOUT TAKES IT TOO (measured 2026-08-01, the
+          # same afternoon, ~90 min after the line above was added — by me, in the commit that added it).
+          # `git checkout FETCH_HEAD -- inflight-board.d/` refreshes the WHOLE directory, so it overwrote
+          # this lane's `ternary.json` — the file the collect had just written — with upstream's older copy,
+          # and then staged that. The signature was unmistakable once looked at: `inflight-board.md` kept
+          # publishing (19:21, 19:29) while `inflight-board.d/ternary.json` froze at 19:19, so the lane's
+          # TEXT board advanced and its STRUCTURED board did not — and the structured one is what every
+          # reader now uses. Ours out, siblings in, ours back.
+          cp "$FRAGF" /tmp/frag-ternary-ours.json 2>/dev/null || true
           git fetch -q origin "${{ github.ref_name }}" 2>/dev/null || true
           git checkout -q FETCH_HEAD -- research/modalities/inflight-board.d/ 2>/dev/null || true
+          mkdir -p "$(dirname "$FRAGF")"
+          cp /tmp/frag-ternary-ours.json "$FRAGF" 2>/dev/null || true
+          git add -f "$FRAGF" 2>/dev/null || true
           python3 research/modalities/inflight_board.py --write >/dev/null 2>&1 \
             || echo "::warning title=ALL-LANE BOARD NOT RE-MERGED::inflight_board --write failed; the ternary rows are published in $BOARD but inflight-board-all.md will render this lane stale until another lane ticks."
           git add research/modalities/inflight-board-all.md 2>/dev/null || true

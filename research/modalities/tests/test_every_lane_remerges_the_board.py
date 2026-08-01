@@ -214,3 +214,34 @@ def test_the_merge_runs_after_the_reset_that_fetches_the_other_lanes_fragments(l
             f"{wf.name}:{job} ({name!r}) rewrites onto upstream but does not regenerate {MERGED} AFTER the "
             f"reset, so the merge it publishes was built from this checkout's copies of the other lanes' "
             f"fragments. That stamps their staleness onto upstream and rolls their rows back.")
+
+
+@pytest.mark.parametrize("lane", [l[0] for l in _lanes().LANES])
+def test_a_step_that_refreshes_sibling_fragments_restores_its_own(lane):
+    """⛔ `git checkout FETCH_HEAD -- inflight-board.d/` TAKES THE WHOLE DIRECTORY, INCLUDING OURS.
+
+    Measured 2026-08-01, ~90 minutes after that line was added — in the very commit that added it. The
+    intent was to refresh the OTHER lanes' fragments so the all-lane merge is built against upstream's
+    freshest rows. It also overwrote the ternary lane's own `ternary.json` with upstream's older copy,
+    the one the collect had written seconds earlier, and staged that.
+
+    The signature, once anyone looked: `inflight-board.md` kept publishing (19:21:30, 19:29:28) while
+    `inflight-board.d/ternary.json` froze at 19:19:13. The lane's TEXT board advanced and its STRUCTURED
+    board did not — and the structured one is what every reader uses now, so the lane rendered STALE on the
+    board while its own collect was running fine every few minutes. Exactly the false-STALE this file was
+    written to end, reintroduced by its own fix.
+
+    So the rule: a step may refresh the fragment DIRECTORY only if it puts its own fragment back afterwards.
+    """
+    ifb = _lanes()
+    for wf, job, name, code in _publishing_steps(ifb, lane):
+        idx = code.find("checkout")
+        if idx < 0 or f"{ifb.FRAGMENT_DIR}/" not in code[idx:idx + 200]:
+            continue                        # this step does not bulk-refresh the fragment directory
+        own = _board_path(ifb, lane)
+        after = code[idx:]
+        assert re.search(r"\bcp\b[^\n]*" + re.escape(own.rsplit("/", 1)[-1]), after) \
+            or re.search(r"\bcp\b[^\n]*\$\{?FRAGF", after), (
+            f"{wf.name}:{job} ({name!r}) refreshes {ifb.FRAGMENT_DIR}/ from upstream but never restores its "
+            f"own {own} afterwards — so it publishes upstream's older copy of the fragment this very run "
+            f"just wrote, and the lane freezes on the board while its collect runs fine.")
