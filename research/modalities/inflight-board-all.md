@@ -28,7 +28,7 @@ LEG                           ETA (ET)          % DONE  $/ns                    
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 8:26 PM ET Fri Jul 31, 2026 — **33 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:26 PM ET Fri Jul 31, 2026 — **34 min ago, STALE (> 15 min)**. Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
