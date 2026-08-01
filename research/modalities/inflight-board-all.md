@@ -15,13 +15,13 @@ Merged 9:38 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 9:30 AM ET Sat Aug 1, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 9:38 AM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r0 1:14 PM            90.0%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 37.4 s/iter
-5aks_d0_to_d ternary nr4a1 r1 4:41 PM            72.2%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  RUNNING   ⚠ 25.9 s/iter · realised $0.00801/ns (1.54x expected)
+5aks_d0_to_d ternary nr4a1 r0 —                  90.0%  RTX 4080S $0.00505/ns · 1.48× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 33657; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1640 is intact in S3 and this pass dispatches the gate to re-place it · 39.5 s/iter
+5aks_d0_to_d ternary nr4a1 r1 4:49 PM            72.2%  RTX 4090 $0.00520/ns · 1.53× basis [bid]  STARTING  WATCHING — quiet but alive: run.log 1 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · ⚠ 25.9 s/iter · realised $0.00801/ns (1.54x expected)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
