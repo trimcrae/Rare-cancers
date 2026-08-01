@@ -651,6 +651,88 @@ def unit_progress(marks, targets, legs_done=(), leg_rates=None, rate_phases=None
 
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE THIRD SIDE — noticing that a LIVE leg has stopped committing
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+#
+# ★★ THE LANE COULD START WORK AND END WORK AND NOT NOTICE IT STOPPING (2026-08-01, found by trying to
+# answer the question by hand and being unable to). A resumed leg ran 63 min past `PHASE
+# leg-complex-running` with no new committed generation — and "healthy, rebuilding a 12-replica
+# 112,953-atom system from a 541 MiB checkpoint" and "wedged" produce the SAME observation from outside the
+# box. CLAUDE.md §4 requires a PROGRESS check, and a lane whose only progress signal arrives every ~23 min
+# cannot have one unless something is watching the gap.
+#
+# ⚠ IT FLAGS; IT NEVER CONDEMNS. No reap path consults this and no launch decision reads it. That is
+# deliberate and it is the same boundary `vast_idle_guard` draws: the cost of a false stall flag is a line
+# in a readout, the cost of a false stall REAP is destroyed sampling. `reap_decision` still keys only on
+# the unit's own terminal evidence.
+#
+# ⚠ THE THRESHOLD IS DERIVED FROM THE LEG'S OWN MEASURED COMMIT INTERVAL, never typed. A leg that commits
+# every 700 s and one that commits every 30 s cannot share a constant, and a typed seconds figure would be
+# wrong for the solvent leg the day it is first measured.
+#
+# ⚠ AND THE CLOCK STARTS AT `max(last commit, leg start)`. Measuring a resumed leg's silence from its
+# YESTERDAY commit would flag it the instant it launched — the last committed generation is 21 h old by
+# construction and that says nothing about the process running now.
+
+#: How many of the leg's own commit intervals of silence before the row says so. The FIRST commit after a
+#: leg starts legitimately takes longer than a steady-state one: it spans the OpenFE system build, and on a
+#: resume also the download and validation of the committed generation. Measured on the cold run — VM
+#: created 8:00:17 PM ET, first commit 8:23:12 PM, of which ~700 s was the 20 iterations themselves — the
+#: build is worth roughly one extra interval, and a resume adds the checkpoint fetch on top. 4 and 3 leave
+#: room for both without leaving a genuinely wedged leg unremarked for hours.
+STALL_INTERVALS_FIRST = 4
+STALL_INTERVALS_STEADY = 3
+
+#: The phase marker a running leg writes, and the timestamp it carries: `leg-complex-running <RFC3339>`.
+_PHASE_TS_RE = re.compile(r"\b(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)\s*$")
+
+
+def phase_started(phase):
+    """The RFC3339 stamp a phase marker carries, or None. PURE."""
+    m = _PHASE_TS_RE.search(str(phase or "").strip())
+    return m.group(1) if m else None
+
+
+def commit_interval_seconds(marks_for_leg, window=RATE_WINDOW):
+    """The leg's own recent seconds-per-commit, or None. PURE. DERIVED from the markers, never typed."""
+    iv = interval_rates(marks_for_leg)
+    if not iv:
+        return None
+    used = iv[-int(window):] if window else iv
+    return sum(t[2] for t in used) / len(used)
+
+
+def stall_verdict(marks_for_leg, leg_started, now_utc, live):
+    """Has a LIVE leg gone quiet for longer than its own commit interval explains? PURE.
+
+    Returns {"stalled": bool, "silent_s": float|None, "budget_s": float|None, "why": str}.
+    `stalled` False with a `why` is the normal case and the `why` still says what was measured — a guard
+    that only speaks when it fires is a guard nobody can tell is working.
+    """
+    if not live:
+        return {"stalled": False, "silent_s": None, "budget_s": None,
+                "why": "no host, so there is nothing that could be committing"}
+    iv = commit_interval_seconds(marks_for_leg)
+    started, now = _parse_ts(leg_started), _parse_ts(now_utc)
+    last = _parse_ts((marks_for_leg or [(None, None, None)])[-1][2]) if marks_for_leg else None
+    if iv is None or now is None or (started is None and last is None):
+        return {"stalled": False, "silent_s": None, "budget_s": None,
+                "why": ("no measured commit interval for this leg yet, so there is no derived budget to "
+                        "compare a silence against. NOT a reading of health — a reading that was not "
+                        "taken (CLAUDE.md §4).")}
+    # ⚠ max(), for the reason in the section header: a resume's newest marker is the PREVIOUS attempt's.
+    since = max([t for t in (started, last) if t is not None])
+    silent = (now - since).total_seconds()
+    first = last is None or (started is not None and started >= last)
+    k = STALL_INTERVALS_FIRST if first else STALL_INTERVALS_STEADY
+    budget = k * iv
+    return {"stalled": silent > budget, "silent_s": silent, "budget_s": budget,
+            "why": (f"{silent / 60.0:.0f} min since {'the leg started' if first else 'the last commit'} "
+                    f"against a budget of {k} x its own measured {iv / 60.0:.1f} min commit interval"
+                    f"{' — FLAGGED, and a flag is not a condemnation: nothing reaps or refuses on this' if silent > budget else ''}")}
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
 # THE MEASURED L4 RATE — the first one this program has for a step-1 fan-out leg
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════
 #
@@ -1021,7 +1103,8 @@ def _progress_cells(progress, live=True):
     return progress.get("pct"), progress.get("pct_of"), (eta if live else None), " ".join(b for b in bits if b)
 
 
-def board_rows(unit, vm_status, vm_created, result_updated, phase=None, progress=None, feed=None):
+def board_rows(unit, vm_status, vm_created, result_updated, phase=None, progress=None, feed=None,
+               stall=None):
     """This lane's row for ONE unit. PURE.
 
     ★ AN IDLE LANE SAYS SO. The row is emitted in every state, including "nothing running" and including
@@ -1043,11 +1126,22 @@ def board_rows(unit, vm_status, vm_created, result_updated, phase=None, progress
     live = str(vm_status or "").upper() in ("RUNNING", "PROVISIONING", "STAGING", "REPAIRING")
     pct, pct_of, eta_s, psent = _progress_cells(progress, live=live)
     if live:
+        # ⚠ `⚠ NO NEW COMMIT` is a DIFFERENT STATE from RUNNING, for the same reason a paying row and a
+        # refused row must never render alike: "advancing" and "up but producing nothing" want opposite
+        # responses, and printing both as RUNNING is what made 63 minutes of silence unreadable.
+        flagged = bool((stall or {}).get("stalled"))
         row = {"name": name, "pct": pct, "pct_of": pct_of, "eta_s": eta_s,
-               "usd_per_ns": BOARD_USD_PER_NS, "state": "RUNNING",
+               "usd_per_ns": BOARD_USD_PER_NS,
+               "state": "⚠ NO NEW COMMIT" if flagged else "RUNNING",
                "why": (f"GCE L4, {vm_status}, created {vm_created}. phase='{phase or '<none>'}'. {psent} "
-                       f"Bounded at CREATE by --max-run-duration={MAX_RUN_S_RUN}s.")}
-        return [row], f"{unit['unit_id']} running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)."
+                       + (f"[{(stall or {}).get('why')}] " if stall else "")
+                       + f"Bounded at CREATE by --max-run-duration={MAX_RUN_S_RUN}s.")}
+        note = (f"{unit['unit_id']} running on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)."
+                if not flagged else
+                f"{unit['unit_id']} holds the single GCP GPU and has committed NOTHING for "
+                f"{(stall or {}).get('silent_s', 0) / 60.0:.0f} min — flagged, not condemned; no reaper "
+                f"acts on this.")
+        return [row], note
     # ---- not running -----------------------------------------------------------------------------------
     # An ETA is meaningless with no host, but the PERCENTAGE is not: it is banked, durable work and it is
     # what tells a reader whether a relaunch resumes at 400 iterations or starts from zero.
@@ -1081,7 +1175,8 @@ def queue_board(entries, feed=None):
     rows, done, running = [], 0, None
     for e in entries or ():
         r, _n = board_rows(e["unit"], e.get("vm_status"), e.get("vm_created"), e.get("result_updated"),
-                           phase=e.get("phase"), progress=e.get("progress"), feed=feed)
+                           phase=e.get("phase"), progress=e.get("progress"), feed=feed,
+                           stall=e.get("stall"))
         rows.extend(r)
         if e.get("result_updated"):
             done += 1
@@ -1210,9 +1305,14 @@ def tick(facts, root=None):
         if marks and targets and any(marks.get(lg) for lg in SCIENCE_LEGS):
             write_rate_artifact(marks, targets, u["unit_id"], machine_type=f.get("machine_type"),
                                 root=root)
+        live_now = str(f.get("vm_status") or "").upper() in ("RUNNING", "PROVISIONING", "STAGING",
+                                                              "REPAIRING")
+        cur = next((lg for lg in SCIENCE_LEGS if lg not in (f.get("legs_done") or ())), SCIENCE_LEGS[0])
+        st = stall_verdict((marks or {}).get(cur) or [], phase_started(f.get("phase")),
+                           datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), live_now)
         entries.append({"unit": u, "vm_status": f.get("vm_status"), "vm_created": f.get("vm_created"),
                         "result_updated": f.get("result_updated"), "phase": f.get("phase"),
-                        "progress": prog})
+                        "progress": prog, "stall": st})
         if f.get("result_updated"):
             done.append(u["unit_id"])
         # ⚠ `None`, not 0, when the listing could not be read — `feed_decision` distinguishes them.

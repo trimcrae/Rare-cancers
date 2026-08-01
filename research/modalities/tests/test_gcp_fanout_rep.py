@@ -1273,3 +1273,64 @@ def test_interval_rates_never_spans_the_phase_boundary():
         ("complex", "production", 80, "2026-08-01T04:30:00Z"))))["complex"], with_phase=True)
     assert [t[4] for t in iv] == ["warmup", "production"], "production sorts last, whatever the integers"
     assert all(t[1] > t[0] for t in iv)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE THIRD SIDE — noticing that a LIVE leg has stopped committing
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+MARKS = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))["complex"]
+
+
+def test_the_stall_budget_is_derived_from_the_legs_own_commit_interval():
+    """A leg that commits every 700 s and one that commits every 30 s cannot share a typed constant, and a
+    seconds figure typed today would be wrong for the solvent leg the day it is first measured."""
+    iv = gfr.commit_interval_seconds(MARKS)
+    assert 690 < iv < 720, iv                        # the measured warmup interval, not a constant
+    v = gfr.stall_verdict(MARKS, "2026-08-01T12:41:01Z", "2026-08-01T12:50:00Z", live=True)
+    assert abs(v["budget_s"] - gfr.STALL_INTERVALS_FIRST * iv) < 1
+
+
+def test_the_clock_starts_at_the_LEG_START_not_at_yesterdays_commit():
+    """A resumed leg's newest marker belongs to the PREVIOUS attempt and is 21 h old by construction.
+    Measuring silence from it would flag every resume the instant it launched."""
+    v = gfr.stall_verdict(MARKS, "2026-08-01T12:41:01Z", "2026-08-01T12:50:00Z", live=True)
+    assert v["stalled"] is False and v["silent_s"] < 600, v
+    assert "the leg started" in v["why"]
+    # ...and far enough past the budget it does flag.
+    late = gfr.stall_verdict(MARKS, "2026-08-01T12:41:01Z", "2026-08-01T18:00:00Z", live=True)
+    assert late["stalled"] is True and "FLAGGED" in late["why"]
+
+
+def test_a_hostless_lane_is_never_stalled_and_an_unmeasured_leg_refuses():
+    assert gfr.stall_verdict(MARKS, "2026-08-01T12:41:01Z", "2026-08-02T00:00:00Z", live=False)["stalled"] is False
+    v = gfr.stall_verdict([], "2026-08-01T12:41:01Z", "2026-08-02T00:00:00Z", live=True)
+    assert v["stalled"] is False
+    assert "NOT a reading of health" in v["why"], \
+        "no measured interval means no budget — that is a reading NOT TAKEN, not a clean bill of health"
+
+
+def test_a_flagged_row_never_renders_as_RUNNING():
+    """Same principle as CLAUDE.md §1's paying-vs-refused rule: 'advancing' and 'up but producing nothing'
+    want opposite responses, and printing both as RUNNING is what made 63 minutes of silence unreadable."""
+    st = gfr.stall_verdict(MARKS, "2026-08-01T12:41:01Z", "2026-08-01T18:00:00Z", live=True)
+    rows, note = gfr.board_rows(gfr.unit_for(EDGE, 1), "RUNNING", "x", "", stall=st)
+    assert rows[0]["state"] == "⚠ NO NEW COMMIT" and "committed NOTHING" in note
+    ok = gfr.stall_verdict(MARKS, "2026-08-01T12:41:01Z", "2026-08-01T12:50:00Z", live=True)
+    assert gfr.board_rows(gfr.unit_for(EDGE, 1), "RUNNING", "x", "", stall=ok)[0][0]["state"] == "RUNNING"
+
+
+def test_the_stall_flag_reaches_no_reaper_and_no_launcher():
+    """⚠ THE BOUNDARY. The cost of a false stall FLAG is a line in a readout; the cost of a false stall
+    REAP is destroyed sampling. `reap_decision` keys only on the unit's own terminal evidence and
+    `feed_decision` on landed results and banked progress — neither may ever consult this."""
+    src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
+    for fn in ("def reap_decision(", "def feed_decision("):
+        body = src.split(fn)[1].split("\ndef ")[0]
+        assert "stall" not in body, f"{fn} must not read the stall verdict"
+
+
+def test_the_phase_marker_timestamp_is_parsed_and_a_bare_marker_refuses():
+    assert gfr.phase_started("leg-complex-running 2026-08-01T12:41:01Z") == "2026-08-01T12:41:01Z"
+    assert gfr.phase_started("leg-complex-running") is None
+    assert gfr.phase_started("") is None
