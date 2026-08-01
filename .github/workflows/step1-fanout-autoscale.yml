@@ -322,99 +322,41 @@ jobs:
 
       - name: Commit the progress readout and any newly-armed watch entries
         if: ${{ always() }}
+        env:
+          # DERIVED, never stamped: every lane rewrites the merged board in full, so our pre-reset copy
+          # would revert whatever the other four published meanwhile. Regenerated after the reset instead.
+          PUBLISH_REGEN: python3 research/modalities/inflight_board.py --write
+          PUBLISH_REGEN_ADD: research/modalities/inflight-board-all.md
         run: |
           set -e
-          git config user.name "Claude"
-          git config user.email "noreply@anthropic.com"
           # ★ SAY WHERE THE READOUT LANDS, LOUDLY (2026-07-27). The tick's artifacts go to `fleet_branch`,
           # NEVER to the ref the workflow was dispatched on — both the checkout and GIT_BRANCH derive from
           # that input. Dispatching with ref=main therefore commits to the FEATURE branch, and an operator
           # who then reads origin/main sees an artifact that never moves and concludes the fleet is dead.
           # That happened at 9:37 AM ET with 18 GPUs billing. One echo removes the entire ambiguity.
           echo "::notice::Tick readout is being written to '$GIT_BRANCH' (the fleet_branch input) — NOT to the ref this run was dispatched on (${{ github.ref_name }}). Read origin/$GIT_BRANCH for the fresh progress artifact."
-          # Added INDEPENDENTLY: `git add A B` fails atomically if either pathspec matches nothing, so one
-          # absent file would stage neither and the step would report "nothing to commit" while swallowing it.
-          staged=0
-          # Our artifacts ride in a snapshot dir across the `reset --hard` below, which removes every file
-          # this job wrote. A `git add` of a path the reset deleted is what turned a healthy collect red on
-          # the ternary lane on 2026-07-29.
-          SNAP=$(mktemp -d)
-          # ★ THE IN-FLIGHT BOARD travels with the readout. Two files, and the split is load-bearing:
-          # `inflight-board.d/step1-fanout.json` is THIS LANE'S FRAGMENT — the only board file this workflow
-          # is allowed to write, so it can never erase the ternary or NR-V04 rows. `inflight-board-all.md`
-          # is the merged all-lane board, which is DERIVED in full from every lane's fragment and is
-          # therefore safe for any lane to regenerate: whoever writes it last rebuilds every section, and no
-          # lane's rows live there. See `inflight_board.__doc__` for why the merged board cannot live at
-          # `inflight-board.md` (single-writer path, owned by the ternary lane's collect).
-          for f in research/modalities/step1-fanout-progress.json \
-                   research/modalities/step1-fanout-map.json \
-                   research/modalities/step1-fanout-launch-readout.txt \
-                   research/modalities/step1-fanout-market-hold.json \
-                   research/modalities/step1-terminus-evidence.txt \
-                   research/modalities/relaunch-market-hold.json \
-                   research/modalities/inflight-board.d/step1-fanout.json \
-                   research/modalities/vast-watch.json; do
-            if [ -f "$f" ]; then cp --parents "$f" "$SNAP/"; staged=1; fi
-          done
-          [ "$staged" = 1 ] || { echo "nothing to stage"; exit 0; }
-
-          # ★★ REWRITE ONTO UPSTREAM — `git pull --rebase` IS THE WRONG OPERATION AND THIS IS THE THIRD LANE
-          # IT HAS BROKEN (measured here 2026-08-01, run 30714482049, verbatim):
-          #
-          #     CONFLICT (content): Merge conflict in research/modalities/inflight-board-all.md
-          #     error: could not apply 69df06c... step1 fan-out autoscale tick (2026-08-01T19:19:13Z)
-          #     error: Pulling is not possible because you have unmerged files.     <- attempt 2
-          #     error: Pulling is not possible because you have unmerged files.     <- attempt 3
-          #     ##[warning]could not push the tick readout                          <- AND THE STEP WAS GREEN
-          #
-          # One conflict leaves the repo MID-REBASE, so every remaining attempt dies on the wreckage of the
-          # first — the retry loop cannot recover, it only repeats. The tick had run, measured, and decided;
-          # its readout simply never left the runner, and `step1-fanout-market-hold.json` stayed stamped 14
-          # minutes stale while the step reported success. The supervision alarm then fired on that staleness
-          # and was RIGHT, which is how a green tick and a screaming alarm coexisted in one run.
-          #
-          # The GCP lane (run 30701290485) and the selcal lane (run 30710853581) each hit this and each fixed
-          # it the same way. This lane kept the old shape, and its odds got worse the moment three more lanes
-          # began writing `inflight-board-all.md` — a file EVERY lane rewrites in full is the likeliest thing
-          # in the repo to conflict.
-          #
-          # So: take upstream EXACTLY, stamp our single-writer artifacts back on top, REGENERATE the derived
-          # board in place, commit, push. A conflict becomes unrepresentable rather than handled, and because
-          # HEAD is always exactly one commit ahead of the ref it pushes to, a successful push cannot be a
-          # silent no-op.
-          #
-          # ⚠ `inflight-board-all.md` LEFT THE STAMPED LIST ABOVE ON PURPOSE. It is the one file here we are
-          # not the sole writer of, and it is 100 % DERIVED from every lane's fragment — so it is rebuilt
-          # after the reset from upstream's freshest fragments plus ours. Stamping our pre-reset copy would
-          # revert whatever the other four lanes published in the meantime, which is the conflict cause
-          # rather than its cure.
-          PUSHED=0
-          for i in 1 2 3 4 5; do
-            git rebase --abort >/dev/null 2>&1 || true
-            git fetch -q origin "$GIT_BRANCH" || { sleep $((2**i)); continue; }
-            git reset -q --hard FETCH_HEAD
-            (cd "$SNAP" && find . -type f -print0) | while IFS= read -r -d '' rel; do
-              mkdir -p "$(dirname "${rel#./}")"; cp "$SNAP/${rel#./}" "${rel#./}"
-            done
-            git add -f -- $(cd "$SNAP" && find . -type f | sed 's|^\./||') 2>/dev/null || true
-            python3 research/modalities/inflight_board.py --write >/dev/null 2>&1 \
-              || echo "::warning title=ALL-LANE BOARD NOT RE-MERGED::the tick's own fragment is still published."
-            git add research/modalities/inflight-board-all.md 2>/dev/null || true
-            # ★ UNCONDITIONAL, `--allow-empty`: the timestamp IS the heartbeat, and it is the only input to
-            # the supervision alarm's staleness verdict. A `git diff --cached --quiet && exit 0` here would
-            # make a healthy idle tick byte-identical to a tick that never ran.
-            git commit -q --allow-empty -m "step1 fan-out autoscale tick ($(date -u +%FT%TZ))"
-            if git push -q origin "HEAD:$GIT_BRANCH"; then PUSHED=1; break; fi
-            sleep $((2**i))
-          done
-          # ⛔ `::error::` AND **NOT** `exit 1`, DELIBERATELY. This workflow has a `schedule:` trigger, and a
-          # red scheduled run emails the repo owner — the push channel `alarm_state.py` and
-          # `fleet-supervision-alarm.yml` both exist to remove ("This run is deliberately NOT failed: a red
-          # scheduled run emails the repo owner"), and which trimcrae asked to stop on 2026-07-31. The
-          # DURABLE detection of a failed publish is the artifact staleness the supervision alarm already
-          # watches, so nothing is lost by annotating rather than failing.
-          [ "$PUSHED" = 1 ] && echo "tick readout published at $(git log -1 --format=%cI)" \
-            || echo "::error title=TICK READOUT NOT PUBLISHED::5 attempts failed. The tick RAN and decided; its artifacts never left the runner, so every downstream reader will see the PREVIOUS tick's numbers and the supervision alarm will fire on their staleness. That alarm is correct — do not silence it; fix the push."
+          # ⛔ ONE HOME FOR THE PUBLISH. This step already had the rewrite-onto-upstream right — it was
+          # written after `git pull --rebase` wedged this very lane (run 30714482049, CONFLICT in
+          # inflight-board-all.md, three retries dead on the first one's wreckage, step GREEN). What it did
+          # NOT have is the other half: it stamped every file its checkout happened to contain, whether or
+          # not this run wrote it. Measured 2026-08-01 on the sibling lane — a selcal `status` tick
+          # republished a `collect` artifact seven seconds after it was measured, taking `landed: 5` back to
+          # `landed: 0` with a three-hour-old timestamp. `vast-watch.json` below carries exactly that
+          # exposure here, because the watchdog writes it too.
+          # ⚠ NO PUBLISH_IF_CHANGED — THIS IS THE LANE'S HEARTBEAT. The timestamp is the only input to the
+          # supervision alarm's staleness verdict. Note this also removes an `exit 0` on "nothing to
+          # stage", which was that landmine already armed: a tick whose artifacts were all absent published
+          # no heartbeat at all, and so read as a tick that never ran.
+          bash research/compute/publish_artifacts.sh "$GIT_BRANCH" \
+            "step1 fan-out autoscale tick ($(date -u +%FT%TZ))" \
+            research/modalities/step1-fanout-progress.json \
+            research/modalities/step1-fanout-map.json \
+            research/modalities/step1-fanout-launch-readout.txt \
+            research/modalities/step1-fanout-market-hold.json \
+            research/modalities/step1-terminus-evidence.txt \
+            research/modalities/relaunch-market-hold.json \
+            research/modalities/inflight-board.d/step1-fanout.json \
+            research/modalities/vast-watch.json
 
   # ★★ THE ALARM RIDES THE TICK, BECAUSE ITS OWN CRON IS NOT A DELIVERY CHANNEL (2026-07-27, 1:21 PM ET).
   #

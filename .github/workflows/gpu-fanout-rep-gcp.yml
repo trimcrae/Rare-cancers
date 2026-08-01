@@ -500,6 +500,23 @@ jobs:
       # ===================================================================================================
       - name: Publish the in-flight fragment (always — an idle lane says so)
         if: ${{ always() && env.MODE != 'mirror' }}
+        env:
+          # ⚠ BOTH DERIVED FILES ARE REGENERATED AFTER THE RESET, NEVER STAMPED FROM THIS CHECKOUT.
+          #   • gcp-gpu-facts.md §1e — `rate --sync-doc` rewrites only the bytes between the
+          #     GCP-S1F-REP-RATE-TABLE fences and fails closed unless it finds exactly one well-ordered
+          #     pair, so the staged diff can only ever be the generated block. Stamping the file instead
+          #     would revert hand edits to §1f/§3b, both made by hand the morning this was written. It is
+          #     regenerated in the same commit that moves the artifact it quotes, because when that was
+          #     left to a human CI went red 3 min 41 s after the last hand regeneration.
+          #   • inflight-board-all.md — DERIVED IN FULL from every lane's fragment, so a post-reset merge
+          #     reads upstream's freshest ternary / step1 / nrv04-retro fragments plus ours. Merging
+          #     pre-reset would roll back three sibling lanes' rows — a fix for one lane's false staleness
+          #     turned into three lanes' real staleness.
+          PUBLISH_REGEN: >-
+            { [ -f research/modalities/gcp-s1f-rep-rate.json ] &&
+            python3 research/modalities/gcp_fanout_rep.py rate --sync-doc || true; }
+            && python3 research/modalities/inflight_board.py --write
+          PUBLISH_REGEN_ADD: research/compute/gcp-gpu-facts.md research/modalities/inflight-board-all.md
         run: |
           set -uo pipefail
           # A SECOND tick, deliberately: run after the create, it sees the VM the autofeed step just bought
@@ -507,104 +524,20 @@ jobs:
           python3 research/modalities/gcp_fanout_rep.py tick --bucket "$BUCKET" --vm-prefix "$VM_PREFIX" \
             > /tmp/publish.env || echo "::warning::tick failed; publishing whatever fragment exists"
           sed 's/^/  /' /tmp/publish.env || true
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          F=research/modalities/inflight-board.d/gcp-s1f-rep.json
-          R=research/modalities/gcp-s1f-rep-rate.json
-          D=research/compute/gcp-gpu-facts.md
-          cp "$F" /tmp/pub_fragment.json
-          [ -f "$R" ] && cp "$R" /tmp/pub_rate.json
-
-          # ★★ RECONCILE BY REWRITING, NEVER BY MERGING — AND THE PREVIOUS VERSION SILENTLY PUBLISHED
-          # NOTHING (measured 2026-08-01, run 30701290485, verbatim):
-          #     Auto-merging research/modalities/gcp-s1f-rep-rate.json
-          #     CONFLICT (content): Merge conflict in research/modalities/gcp-s1f-rep-rate.json
-          #     CONFLICT (content): Merge conflict in .../inflight-board.d/gcp-s1f-rep.json
-          #     fragment published
-          # `git pull --rebase` hit a conflict against a sibling tick 30 s earlier, `2>/dev/null || true`
-          # swallowed it, the rebase was left MID-CONFLICT, and `git push HEAD:main` then pushed the
-          # upstream commit back to itself — a no-op that exits 0. The step printed `fragment published`
-          # and main's newest fragment stayed 67 s old. That is the lane's heartbeat dying while every log
-          # line says it is alive, which is the precise failure the block below spends twenty lines
-          # protecting against, arriving through the one door it did not cover.
-          #
-          # A MERGE WAS NEVER THE RIGHT OPERATION. This lane is the SOLE writer of both files, so there is
-          # nothing of anyone else's in them to preserve and "ours, always" is not a shortcut — it is the
-          # correct semantics. So: take upstream EXACTLY, stamp our two files back on top, commit, push.
-          # A conflict is now unrepresentable rather than handled, and because HEAD is always exactly one
-          # commit ahead of the ref it pushes to, a successful push can never be a silent no-op.
-          # `reset --hard` is safe here and nowhere else: this is a throwaway CI checkout and the two files
-          # are held in /tmp across it.
-          PUBLISHED=0
-          for i in 1 2 3 4 5; do
-            git rebase --abort >/dev/null 2>&1 || true
-            git fetch -q origin "${GITHUB_REF_NAME}" || { sleep 6; continue; }
-            git reset -q --hard FETCH_HEAD
-            cp /tmp/pub_fragment.json "$F"
-            [ -f /tmp/pub_rate.json ] && cp /tmp/pub_rate.json "$R"
-            git add "$F"
-            [ -f "$R" ] && git add "$R"
-            # ★★ THE DOC THAT QUOTES THE ARTIFACT IS REGENERATED IN THE COMMIT THAT MOVES THE ARTIFACT.
-            # (2026-08-01. This step used to commit $R alone, and gcp-gpu-facts.md §1e was left to a human
-            # running `rate --markdown-table`. At 9:30:55 AM ET the leg committed `production 80`, the rate
-            # window moved out of warmup, the measurement legitimately changed — and CI went red 3 min 41 s
-            # after the last hand regeneration. A hand fix buys until the next marker; this buys forever.)
-            #
-            # ⚠ $D IS THE ONE STAGED FILE THIS LANE IS NOT THE SOLE WRITER OF, AND THAT IS SAFE ONLY
-            # BECAUSE OF HOW IT IS WRITTEN. It is deliberately NOT carried through /tmp and stamped back
-            # like $F and $R — that is "ours, always", which is correct for a single-writer file and would
-            # here silently revert somebody's edit to §1f or §3b (both hand-edited that same morning).
-            # Instead it is REGENERATED IN PLACE, after the reset, against the copy upstream currently
-            # holds: `--sync-doc` rewrites only the bytes between the GCP-S1F-REP-RATE-TABLE fences and
-            # fails closed unless it finds exactly one well-ordered pair. So the staged diff against
-            # FETCH_HEAD can only ever be the generated block, and nothing can travel backwards through it.
-            if [ -f "$R" ]; then
-              python3 research/modalities/gcp_fanout_rep.py rate --sync-doc \
-                || echo "::warning title=S1F-REP §1e NOT SYNCED::the rate table could not be regenerated from $R; test_the_documented_table_is_the_measured_table will say so rather than this step hiding it."
-              git add "$D"
-            fi
-            # ★★ RE-MERGE THE ALL-LANE BOARD HERE, AFTER THE RESET — OR THIS LANE REPORTS ITSELF STALE.
-            # (Measured 2026-08-01, 2:44 PM ET: fragment 1.8 min old and carrying an ETA of 4:36 AM Aug 2;
-            # merged board rendering this lane at "16 min ago, STALE (> 15 min)" with a blank ETA.)
-            # `gcp_fanout_rep.write_queue_board` now calls `ib.publish`, which merges in-process — but that
-            # copy is written BEFORE the `reset --hard FETCH_HEAD` above and is destroyed by it. Both are
-            # deliberate: the in-process merge is what makes a LOCAL `tick` correct, and this one is what
-            # makes CI correct.
-            #
-            # ⚠ IT MUST RUN AFTER THE RESET, AND THAT IS THE WHOLE SAFETY ARGUMENT — same shape as $D above.
-            # The board is DERIVED IN FULL from every lane's fragment, so merging post-reset reads
-            # UPSTREAM's freshest ternary / step1-fanout / nrv04-retro fragments plus the one we just
-            # stamped. Merging pre-reset would read this checkout's copies of the other three, which are as
-            # old as the checkout, and stamping that over upstream would silently ROLL BACK a sibling lane's
-            # rows — turning a fix for one lane's false staleness into three lanes' real staleness.
-            python3 research/modalities/inflight_board.py --write >/dev/null \
-              || echo "::warning title=ALL-LANE BOARD NOT RE-MERGED::inflight_board --write failed; this lane's fragment still published, but inflight-board-all.md will render it stale until another lane ticks."
-            git add research/modalities/inflight-board-all.md || true
-            # ★★ COMMIT UNCONDITIONALLY. **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.**
-            # (Coordinator ruling, 2026-08-01, on measured volume: 1,591 commits on `main` in 24 h, 1,392
-            # of them fragment churn, `.git` at 267 MB — KEPT, because that history is load-bearing and was
-            # used for real diagnoses all day: the 5aks market-hold series revealed two differently-
-            # configured gates writing one file, the rental-receipt series reconstructed 27 rentals on a
-            # lane that records no billed_h, and this directory's nrv04-retro series produced the exact
-            # `STARTING -> NO HOST x10 ticks -> STARTING` timeline that made "hostless for 1 h 55 m" a
-            # measurement instead of an impression. None of it was reconstructable elsewhere.)
-            #
-            # NEVER guard this with `git diff --cached --quiet && exit 0`. It never fires in practice — the
-            # timestamp changes every tick — which is exactly what makes it a LANDMINE rather than a bug:
-            # it does nothing until someone "optimises" the fragment to omit or stabilise
-            # `generated_epoch`, and from that moment the lane goes silent and a healthy IDLE lane renders
-            # byte-identically to a DEAD one. **The timestamp IS the heartbeat**: it is the only input to
-            # `_As of ... STALE (> 15 min)`.
-            git commit -q --allow-empty -m "gcp s1f-rep lane: in-flight fragment (CI)"
-            if git push -q origin "HEAD:${GITHUB_REF_NAME}"; then PUBLISHED=1; break; fi
-            sleep 6
-          done
-          if [ "$PUBLISHED" = 1 ]; then
-            echo "fragment published at $(git log -1 --format=%cI)"
-          else
-            # ⚠ A WARNING, NOT A GREEN "published". The whole point of the incident above is that a publish
-            # which did not happen must never read like one.
-            echo "::warning title=S1F-REP FRAGMENT NOT PUBLISHED::5 attempts lost the race for ${GITHUB_REF_NAME}. The board will read STALE until the next tick lands — which is the honest signal, not a bug to hide. Lane state is still readable via mode=tail."
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. This step already rewrote onto upstream rather than merging — it was
+          # written after `git pull --rebase` hit a conflict here (run 30701290485), left the rebase
+          # MID-CONFLICT, and `git push HEAD:main` then pushed the upstream commit back to itself: a no-op
+          # that exits 0 while the step printed "fragment published" and main's fragment stayed 67 s old.
+          # What it did NOT have is the second half: it stamped its two files whether or not this run wrote
+          # them. Measured on the sibling lane 2026-08-01 — a selcal `status` tick republished a `collect`
+          # artifact seven seconds after it was measured, taking `landed: 5` back to `landed: 0` with a
+          # three-hour-old timestamp, with nothing red anywhere.
+          # ⚠ NO PUBLISH_IF_CHANGED. This fragment IS the lane's heartbeat and the only input to
+          # `_As of … STALE (> 15 min)`, so a tick that changed no bytes must still leave a dated commit.
+          bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
+            "gcp s1f-rep lane: in-flight fragment (CI)" \
+            research/modalities/inflight-board.d/gcp-s1f-rep.json \
+            research/modalities/gcp-s1f-rep-rate.json
 
       - name: Detached launch summary (mode=run)
         if: ${{ env.MODE == 'run' && env.VM_LIVE == '1' }}

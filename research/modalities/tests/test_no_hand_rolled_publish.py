@@ -93,7 +93,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("fusion-cpu-extras.yml", "vast_price_history"),
     ("gpu-bench-gcp.yml", "gcp-bench"),
     ("gpu-bioemu-vast.yml", "collect"),
-    ("gpu-fanout-rep-gcp.yml", "s1f-rep"),
     ("gpu-nr4a-paralogue-md-vast.yml", "ops"),
     ("gpu-protfep-vast.yml", "collect"),
     ("gpu-protfep-vast.yml", "stage-test"),
@@ -122,7 +121,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("report-fm-push.yml", "report"),
     ("report-nrv04-aws.yml", "report"),
     ("rung5aks-cofold.yml", "prep"),
-    ("step1-fanout-autoscale.yml", "tick"),
     ("ternary-calib-freeze.yml", "freeze"),
     ("ternary-calib-freeze.yml", "triangle"),
     ("txgnn-run.yml", "run"),
@@ -233,6 +231,11 @@ def test_the_converted_lanes_stay_converted():
                     ("selectivity-control-vast.yml", "gpu")):
         code = "\n".join(c for j, _n, c in _run_steps(WORKFLOWS / wf) if j == job)
         assert "git pull" not in code, f"{wf}:{job} has regressed to `git pull` in a publishing job"
+        # …and every one of them is now on the primitive, so "converted" means the stronger thing: they
+        # also cannot stamp a file this run never wrote, which is the OTHER way a publish reverts someone.
+        assert "publish_artifacts.sh" in code, (
+            f"{wf}:{job} no longer publishes through research/compute/publish_artifacts.sh — it may avoid "
+            f"the rebase wedge and still revert another job's measurement by stamping its whole checkout")
 
 
 # ═════════════════════════════════════════════════════════════════════════════════════════════════════════
