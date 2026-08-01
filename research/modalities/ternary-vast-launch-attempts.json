@@ -95,41 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-08-01T13:48:37Z",
-      "et": "9:48 AM ET",
-      "outcome": "capacity-refused",
-      "what_that_means": "every host we rented answered `resources_unavailable` on start and was destroyed \u2014 nothing is running, $0 is billing. NOT a price hold: the board was read and cheap.",
-      "stage": "rent (steps.rent.outcome=success)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30702425289",
-      "gate_ratio_vs_basis": 1.126,
-      "gate_mean_usd_per_ns": 0.00384,
-      "gate_projected_usd": 2.06,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.126x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.28x basis",
-      "gate_board_depth": {
-        "offers_returned": 122,
-        "qualifying": 120,
-        "priceable": 62,
-        "needed": 1,
-        "used_for_mean": 1
-      },
-      "n_requested": 1,
-      "n_rented": 0,
-      "already_live": [
-        {
-          "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-          "instance": 46500074,
-          "gpu": "RTX 4090",
-          "usd_per_ns": 0.005203,
-          "x_basis": 1.525,
-          "over_buy_line": false,
-          "actual_status": "running"
-        }
-      ],
-      "reason": "task=5aks; job status success"
-    },
-    {
       "utc": "2026-08-01T13:55:17Z",
       "et": "9:55 AM ET",
       "outcome": "nothing-to-launch",
@@ -953,12 +918,23 @@
       "gate_hold": false,
       "gate_reason": "no unit of mode triangle needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
       "reason": "every triangle leg already done or hosted; no launch dispatched, no rental attempted"
+    },
+    {
+      "utc": "2026-08-01T16:05:42Z",
+      "et": "12:05 PM ET",
+      "outcome": "nothing-to-launch",
+      "what_that_means": "no unit needed a host, so no rental was attempted and nothing was spent. Not a hold: the market was never consulted.",
+      "stage": "triangle-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30707329846",
+      "gate_hold": false,
+      "gate_reason": "no unit of mode triangle needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
+      "reason": "every triangle leg already done or hosted; no launch dispatched, no rental attempted"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 1885,
-    "through_utc": "2026-08-01T13:47:18Z"
+    "n_total": 1886,
+    "through_utc": "2026-08-01T13:48:37Z"
   }
 }
