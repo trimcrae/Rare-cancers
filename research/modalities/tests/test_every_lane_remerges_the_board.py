@@ -54,35 +54,45 @@ def _board_path(ifb, lane: str) -> str:
     return f"research/modalities/{ifb.FRAGMENT_DIR}/{lane}.json"
 
 
-#: `for f in a b c; do git add "$f"; done` — the step-1 lane's idiom, which stages a LIST through one
-#: variable. Matching only `VAR=path` would miss it entirely and this guard would pass vacuously on the
-#: very lane whose workflow is the exemplar for committing a board.
-_FOR_LOOP = re.compile(r"for\s+(\w+)\s+in\s+(.*?)\bdo\b", re.S)
+#: ⚠ FOUR STAGING IDIOMS, AND NOT ONE LANE USES A BARE LITERAL. This resolver is the whole guard: a
+#: `git add` it cannot follow reads as "this lane stages nothing", which is a FALSE POSITIVE — and a guard
+#: that cries wolf on a healthy lane gets ignored exactly like the STALE banner this file exists to protect.
+#: Each idiom below is in live use and each one broke this resolver once during development:
+#:
+#:   VAR=path            … git add "$VAR"                 gpu-fanout-rep-gcp, gpu-ternary-fep-vast
+#:   for f in a b c; do  … git add -f "$f"; done           step1-fanout-autoscale
+#:   for p in a b c; do arr+=("$p"); done … git add -A "${arr[@]}"    selectivity-control-vast
+#:   git add path                                          (a literal, for completeness)
+_FOR_LOOP = re.compile(r"for\s+(\w+)\s+in\s+(.*?)\bdo\b(.*?)\bdone\b", re.S)
+_ARRAY_APPEND = re.compile(r"(\w+)\+=\(\s*\"?\$\{?(\w+)\}?\"?\s*\)")
+_GIT_ADD = re.compile(r"git add\s+((?:-\w+\s+)*)(\S+)")
 
 
 def _staged_paths(text: str) -> set[str]:
-    """Every path a workflow actually `git add`s, through any of the three idioms the lanes use.
-
-    A literal-only scan sees none of the live lanes: two assign their board files to shell variables and
-    stage the variable, and the third stages a list through a loop variable. A guard that cannot see the
-    thing it guards is worse than no guard, so all three are resolved here.
-    """
+    """Every path a workflow actually `git add`s, through any idiom the lanes use."""
     var: dict[str, set[str]] = {}
     for m in re.finditer(r"^\s*([A-Z_][A-Z0-9_]*)=(\S*inflight-board\S*?)\s*$", text, re.M):
         var.setdefault(m.group(1), set()).add(m.group(2))
     for m in _FOR_LOOP.finditer(text):
-        items = {t.strip('"\'') for t in m.group(2).replace("\\\n", " ").split()
-                 if t.strip('"\'').startswith("research/")}
-        if items:
-            var.setdefault(m.group(1), set()).update(items)
+        loop_var, items, body = m.group(1), m.group(2), m.group(3)
+        # `; do` fuses onto the LAST item (`…/selcal-cofold.json; do`), so the final path in every list
+        # would be the one this resolver could not see — and the final path is where a board file sits.
+        paths = {t.strip('"\';') for t in items.replace("\\\n", " ").split()
+                 if t.strip('"\';').startswith("research/")}
+        if not paths:
+            continue
+        var.setdefault(loop_var, set()).update(paths)
+        # …and any array the loop appends the loop variable into carries the same set.
+        for a in _ARRAY_APPEND.finditer(body):
+            if a.group(2) == loop_var:
+                var.setdefault(a.group(1), set()).update(paths)
     out = set()
-    for m in re.finditer(r"git add\s+(?:-f\s+)?(\S+)", text):
-        # `;` and `&&` ride along in `git add -f "$f"; done` and would leave the token unresolvable —
-        # which reads exactly like "this lane stages nothing", the finding this file is meant to make
-        # impossible to fake.
-        tok = m.group(1).strip('"\';&|').strip('"\'')
+    for m in _GIT_ADD.finditer(text):
+        # `;` and `&&` ride along in `git add -f "$f"; done`, and `[@]` in `"${paths[@]}"`; an unresolvable
+        # token reads exactly like "this lane stages nothing".
+        tok = m.group(2).strip('"\';&|').strip('"\'')
         if tok.startswith("$"):
-            out |= var.get(tok.lstrip("${").rstrip("}"), {tok})
+            out |= var.get(tok.lstrip("${").rstrip("}").removesuffix("[@]"), {tok})
         else:
             out.add(tok)
     return out
@@ -143,6 +153,17 @@ def test_the_detector_actually_detects():
     assert s1, "the step-1 lane's publisher moved"
     assert MERGED in _staged_paths(s1[0].read_text())
     assert MERGED not in _staged_paths(s1[0].read_text().replace(f"{MERGED} \\\n", ""))
+    # …and the ARRAY idiom (`arr+=("$p")` … `git add -A "${arr[@]}"`), which broke this resolver twice:
+    # once by not following the array at all, and once because `; do` fuses onto the LAST item of the list
+    # — and the last item is exactly where a board path sits. Both failures rendered as "this lane stages
+    # nothing", i.e. a false alarm on a healthy lane.
+    sc = _publishers(ifb, "selcal-cofold")
+    assert sc, "the selcal lane's publisher moved"
+    text = sc[0].read_text()
+    assert "inflight-board.d/selcal-cofold.json; do" in text, \
+        "this self-test's subject is the trailing-`; do` item; the list was reformatted"
+    assert "research/modalities/inflight-board.d/selcal-cofold.json" in _staged_paths(text)
+    assert MERGED not in _staged_paths(text.replace(f"git add {MERGED} 2>/dev/null || true", ""))
 
 
 @pytest.mark.parametrize("lane", [l[0] for l in _lanes().LANES])

@@ -206,10 +206,15 @@ jobs:
                    research/modalities/selcal-cofold-census.json \
                    research/modalities/selcal-reap.json \
                    research/modalities/selcal-stage-test.json \
-                   research/modalities/inflight-board.d/selcal-cofold.json \
-                   research/modalities/inflight-board-all.md; do
+                   research/modalities/inflight-board.d/selcal-cofold.json; do
             [ -e "$p" ] && paths+=("$p")
           done
+          # ⛔ `inflight-board-all.md` IS DELIBERATELY **NOT** IN THAT LIST (2026-08-01). Every lane writes
+          # it, so stamping our snapshot of it over upstream would revert the other four lanes' rows — and
+          # the copy we hold was merged BEFORE the reset below, i.e. against this checkout's stale copies of
+          # their fragments. It is REGENERATED IN PLACE after the reset instead, which is the same treatment
+          # `gcp-gpu-facts.md` gets in gpu-fanout-rep-gcp.yml and for the same reason: a file we regenerate
+          # cannot carry another writer's work backwards; a file we stamp from a stale checkout can.
           # ★★ LAST WRITER WINS, BY CONSTRUCTION — these artifacts have MORE THAN ONE WRITER, and a
           # merge of two snapshots is meaningless. Measured 2026-08-01 (run 30710853581): a `cofold_watch`
           # tick and a `cofold_collect` tick both wrote selcal-cofold-census.json, `git pull --rebase` hit
@@ -225,6 +230,11 @@ jobs:
             git reset --hard "origin/${{ github.ref_name }}"
             for p in "${paths[@]}"; do cp "$tmp/$p" "$p"; done
             [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
+            # The all-lane board, re-merged HERE — after the reset, so it reads upstream's freshest
+            # ternary / step1-fanout / nrv04-retro / gcp fragments plus the one we just laid back down.
+            python3 research/modalities/inflight_board.py --write >/dev/null 2>&1 \
+              || echo "::warning title=ALL-LANE BOARD NOT RE-MERGED::this lane's fragment is published, but inflight-board-all.md will render it stale until another lane ticks."
+            git add research/modalities/inflight-board-all.md 2>/dev/null || true
             git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
             git push origin HEAD:${{ github.ref_name }} && break
             echo "[selcal-commit] push race on attempt $attempt — re-basing our snapshots onto the new tip"
@@ -305,10 +315,15 @@ jobs:
                    research/modalities/selcal-verdict.json \
                    research/modalities/selcal-cofold-census.json \
                    research/modalities/selcal-reap.json \
-                   research/modalities/inflight-board.d/selcal-cofold.json \
-                   research/modalities/inflight-board-all.md; do
+                   research/modalities/inflight-board.d/selcal-cofold.json; do
             [ -e "$p" ] && paths+=("$p")
           done
+          # ⛔ `inflight-board-all.md` IS DELIBERATELY **NOT** IN THAT LIST (2026-08-01). Every lane writes
+          # it, so stamping our snapshot of it over upstream would revert the other four lanes' rows — and
+          # the copy we hold was merged BEFORE the reset below, i.e. against this checkout's stale copies of
+          # their fragments. It is REGENERATED IN PLACE after the reset instead, which is the same treatment
+          # `gcp-gpu-facts.md` gets in gpu-fanout-rep-gcp.yml and for the same reason: a file we regenerate
+          # cannot carry another writer's work backwards; a file we stamp from a stale checkout can.
           # ★★ LAST WRITER WINS, BY CONSTRUCTION — these artifacts have MORE THAN ONE WRITER, and a
           # merge of two snapshots is meaningless. Measured 2026-08-01 (run 30710853581): a `cofold_watch`
           # tick and a `cofold_collect` tick both wrote selcal-cofold-census.json, `git pull --rebase` hit
@@ -324,6 +339,11 @@ jobs:
             git reset --hard "origin/${{ github.ref_name }}"
             for p in "${paths[@]}"; do cp "$tmp/$p" "$p"; done
             [ ${#paths[@]} -gt 0 ] && git add -A "${paths[@]}" || true
+            # The all-lane board, re-merged HERE — after the reset, so it reads upstream's freshest
+            # ternary / step1-fanout / nrv04-retro / gcp fragments plus the one we just laid back down.
+            python3 research/modalities/inflight_board.py --write >/dev/null 2>&1 \
+              || echo "::warning title=ALL-LANE BOARD NOT RE-MERGED::this lane's fragment is published, but inflight-board-all.md will render it stale until another lane ticks."
+            git add research/modalities/inflight-board-all.md 2>/dev/null || true
             git commit --allow-empty -m "selcal ${MODE}: lane tick (CI)"
             git push origin HEAD:${{ github.ref_name }} && break
             echo "[selcal-commit] push race on attempt $attempt — re-basing our snapshots onto the new tip"
