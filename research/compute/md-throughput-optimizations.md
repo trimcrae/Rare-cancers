@@ -207,8 +207,47 @@ cards**, not one fast machine; and Anton allocations require academic affiliatio
 (same blocker as [access-allocation-request.md](./access-allocation-request.md)). Parked, not dead —
 [method-watch.md](../method-watch.md).
 
+### 2b.1 — "COULD ONE HUGE CARD RIP THROUGH A WEEK OF 4090 WORK IN AN HOUR?" (trimcrae, 2026-08-01)
+
+**No — a week in an hour is 168×, and nothing that exists is within an order of magnitude.** The spread across
+the B200's own predictors is the answer: `mem_bandwidth` says 10.6× a 4090, `dlperf` 9.0×, the MD-per-AI-rating
+trend 4.4–4.8×, and **`fp32_tflops` — the only unit OpenMM's PME/nonbonded kernels actually execute on — says
+1.5×**, because a B200's FP32 *shader* throughput is about an RTX 4090's. Its headline PFLOPS are FP4/FP8
+tensor, which classical MD never issues.
+
+**And the fleet beats it on BOTH axes, which is the decisive comparison** — `step1_fanout`, 19 edges =
+260 ref-GPU-h = 10.8 days on one 4090:
+
+| route | wall clock | cost |
+|---|---|---|
+| 1× B200 @ 4.4× (optimistic) | 59 h | **$341** |
+| 1× B200 @ the census one-sided ceiling 10.6× | 25 h | $141 |
+| **38-way fan-out on the 4090/5090 class (what we do)** | **9.1 h** | **$36** |
+| …placed on RTX 5090s | **7.1 h** | ~$36 |
+
+Per CLAUDE.md §6, **parallel costs the same GPU-$ as serial**, so fan-out buys wall-clock for free while a
+bigger card charges ~9× for less of it. The board that day carried **90 priceable single-card offers at once**.
+
+**The floor is not the card — it is the un-splittable leg.** Fan-out bottoms out at the longest single unit:
+a binary complex leg is **9.1 GPU-h** and a ternary leg **12.4 GPU-h** on a 4090, and their 12 HREX λ-windows
+exchange configurations every iteration, so they are **serial by physics**, not by choice.
+
+**★ THE ONE HARDWARE LEVER THAT SURVIVES, AND IT IS THE HELD MPS ITEM (Tier 1 action 3) FINALLY SIZED.**
+Shortening that leg is the only thing a fleet structurally cannot do. MPS was killed on the L4 *because one
+replica-set saturated it* (88–100 % util at 72/72 W) — so the held condition was always "revisit on a card big
+enough not to saturate". A B200/H100/PRO 6000 is that card, and MPI+MPS over the 12 windows would propagate
+them concurrently: ceiling ~12× on the critical path (9.1 h → ~45 min), realistically 3–6× under bandwidth/L2
+contention. Blockers unchanged: MPI under OpenFE's `ProtocolDAG` is unbuilt, and the gain is unmeasured.
+**⇒ THE WHOLE LEVER IS SIZED BY ONE ~$1 MEASUREMENT, NOT BY A B200 RENTAL:** put one short HREX leg on an
+**RTX PRO 6000 WS ($0.3619/h, 12 offers)** with the existing `[gpu-util]` logger and read whether a single
+replica-set saturates it — the identical measurement that killed the idea on the L4. Saturated ⇒ MPS is dead on
+every card and this question is closed for good. Headroom ⇒ the MPI work has a measured multiplier to justify
+it, and it should be bought on the $0.36/h card, not the $5.76/h one. **Do this before anyone prices a
+datacenter rental again.**
+
 **Standing conclusion: the ranking is already right and the card is still not the decision — the OFFER is.**
-There is no unexplored GPU worth buying. The remaining throughput levers are protocol-side, not hardware-side.
+There is no unexplored GPU worth buying. Every remaining throughput lever is protocol-side or parallelism-side,
+with the single exception sized above.
 
 ---
 
