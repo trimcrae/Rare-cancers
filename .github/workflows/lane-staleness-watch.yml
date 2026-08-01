@@ -309,29 +309,18 @@ jobs:
       - name: Persist the census history
         if: ${{ always() && (github.event.inputs.write_history || '1') == '1' }}
         run: |
-          set -uo pipefail
+          # ⛔ ONE HOME FOR THE PUBLISH (2026-08-01). This hand-rolled `git pull --rebase` + retry, the shape
+          # that silently failed to publish on three separate lanes: one conflict leaves the repo mid-rebase,
+          # every retry dies on it, and the step reports SUCCESS. See research/compute/publish_artifacts.sh.
+          # ⚠ The `git diff --cached --quiet && exit 0` guard went with it: a supervisor that publishes
+          # nothing when it changed nothing is byte-identical to one that never ran, and CLAUDE.md §6 is
+          # explicit that a cron does not supervise a billing fleet — so knowing it RAN is the point.
           BR="${{ github.event.inputs.fleet_branch || 'main' }}"
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          # Staged INDEPENDENTLY: `git add A B` fails atomically if one pathspec matches nothing, which
-          # would drop the ledger whenever the history had not been written yet.
-          git add research/modalities/lane-staleness-history.json 2>/dev/null || true
-          # ★ THE LEDGER MUST LAND, because its `_stale_after_utc` is how anyone detects that the supervisor
-          # chain has stopped WITHOUT running anything. An unpushed ledger is a ledger frozen at its last
-          # commit — which reads, correctly, as a stopped supervisor. It fails loud rather than quiet.
-          git add research/modalities/work-ledger.json 2>/dev/null || true
-          # ★ THE ALARM BOARD MUST LAND, because committing it IS the notification now. Unpushed, it is a
-          # board frozen at its last commit — which a reader will correctly take as "nothing is watching",
-          # since from outside this run that is indistinguishable from the truth.
-          git add research/modalities/alarm-state.json 2>/dev/null || true
-          if git diff --cached --quiet; then echo "census history, work ledger and alarm board unchanged"; exit 0; fi
-          git commit -m "lane staleness watch: census history + work ledger + alarm board (CI)" || exit 0
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "$BR" && git push origin "HEAD:$BR" && exit 0
-            echo "push attempt $i lost a race with a lane's own commit; retrying"
-            sleep $((i * 7))
-          done
-          echo "::warning title=CENSUS HISTORY / WORK LEDGER NOT PERSISTED::neither could be pushed. A stale census history CANNOT cause a false alarm (it only under-reports flatness). A stale WORK LEDGER is different: its \`_stale_after_utc\` will pass and readers will correctly conclude the supervisor chain has stopped, because from outside this run that is indistinguishable from the truth."
-
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "lane staleness watch: census history + work ledger + alarm board (CI)" \
+            research/modalities/lane-staleness-history.json \
+            research/modalities/work-ledger.json \
+            research/modalities/alarm-state.json
       # ⛔ THE RUN IS NOT FAILED, DELIBERATELY (2026-07-31). This step used to `exit 1` **because** GitHub
       # emails the repository owner when a scheduled workflow fails — that was its stated purpose, and it is
       # exactly what trimcrae asked to stop. It fired on 159 runs. An `::error` annotation is just as visible

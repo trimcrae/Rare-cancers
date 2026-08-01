@@ -210,22 +210,13 @@ jobs:
       - name: Commit the durable artifact — the commit IS the heartbeat
         if: ${{ always() }}
         run: |
-          set -uo pipefail
+          # ⛔ ONE HOME FOR THE PUBLISH (2026-08-01). This hand-rolled `git pull --rebase` + retry, the shape
+          # that silently failed to publish on three separate lanes: one conflict leaves the repo mid-rebase,
+          # every retry dies on it, and the step reports SUCCESS. See research/compute/publish_artifacts.sh.
           BR="${{ github.event.inputs.branch || 'main' }}"
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/account-orphan-alarm.json 2>/dev/null || true
-          # --allow-empty: see the block above. An unchanged verdict still commits, because the STAMP is the
-          # signal and a frozen stamp must mean exactly one thing — this alarm is not running.
-          git commit --allow-empty -m "account-keyed cross-lane alarm: ${{ steps.alarm.outputs.rc == '0' && 'all supervised' || 'ATTENTION' }} (CI)" || exit 0
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "$BR" && git push origin "HEAD:$BR" && exit 0
-            echo "push attempt $i lost a race with a lane's own commit; retrying"
-            sleep $((i * 7))
-          done
-          # Loud, because an unpushed heartbeat is indistinguishable from a stopped one — which is the exact
-          # ambiguity this alarm exists to remove, turned on itself.
-          echo "::warning title=ALARM HEARTBEAT NOT PERSISTED::the verdict could not be pushed, so the artifact's commit date is frozen. From outside this run that is indistinguishable from the alarm having stopped."
-
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "account-keyed cross-lane alarm: ${{ steps.alarm.outputs.rc == '0' && 'all supervised' || 'ATTENTION' }} (CI)" \
+            research/modalities/account-orphan-alarm.json
       # ⛔ THE RUN IS DELIBERATELY NOT FAILED. GitHub emails the repository owner when a SCHEDULED workflow
       # fails, and trimcrae asked for no notification channels — that is why the `exit 1` was removed from
       # `lane-staleness-watch.yml` after firing on 159 runs. An `::error` annotation is just as visible on the

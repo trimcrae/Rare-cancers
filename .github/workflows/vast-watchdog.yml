@@ -192,18 +192,16 @@ jobs:
         # say produces a byte-identical file and therefore no commit at all.
         if: ${{ always() && github.event.inputs.dry_run != '1' }}
         run: |
-          set -uo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          git add research/modalities/vast-watch.json
-          if git diff --cached --quiet; then echo "no entry to retire"; exit 0; fi
-          git commit -m "vast watch: retire the entries of units that landed or are permanently blocked (watchdog)"
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" \
-              && git push origin "HEAD:${{ github.ref_name }}" && exit 0
-            sleep $((i * 7))
-          done
-          echo "::warning title=REAP NOT PUSHED::the retirement could not be pushed; the next pass redoes it"
-
+          # ⛔ ONE HOME FOR THE PUBLISH (2026-08-01). This hand-rolled `git pull --rebase` + retry, the shape
+          # that silently failed to publish on three separate lanes: one conflict leaves the repo mid-rebase,
+          # every retry dies on it, and the step reports SUCCESS. See research/compute/publish_artifacts.sh.
+          # ⚠ The `git diff --cached --quiet && exit 0` guard went with it: a supervisor that publishes
+          # nothing when it changed nothing is byte-identical to one that never ran, and CLAUDE.md §6 is
+          # explicit that a cron does not supervise a billing fleet — so knowing it RAN is the point.
+          BR="${{ github.ref_name }}"
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "vast watch: retire the entries of units that landed or are permanently blocked (watchdog)" \
+            research/modalities/vast-watch.json
   # ===========================================================================================================
   # SECOND, INDEPENDENT TRIGGER FOR THE STEP 1 FAN-OUT TICK — redundancy on a thin margin, NOT a repair.
   #

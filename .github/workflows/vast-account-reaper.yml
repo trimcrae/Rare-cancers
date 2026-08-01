@@ -286,27 +286,14 @@ jobs:
       - name: Commit the plan and the ledger — the commit IS the heartbeat
         if: ${{ always() }}
         run: |
-          set -uo pipefail
+          # ⛔ ONE HOME FOR THE PUBLISH (2026-08-01). This hand-rolled `git pull --rebase` + retry, the shape
+          # that silently failed to publish on three separate lanes: one conflict leaves the repo mid-rebase,
+          # every retry dies on it, and the step reports SUCCESS. See research/compute/publish_artifacts.sh.
           BR="${{ github.event.inputs.branch || 'main' }}"
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          # ⚠ ONE `git add` PER PATH, AND THAT IS NOT COSMETIC — MEASURED ON THE FIRST CI RUN, 1:02 PM ET
-          # 2026-08-01. Both paths were passed to a single `git add ... || true`; the ledger does not exist on
-          # a NOTHING-TO-REAP run (nothing was destroyed, so nothing was latched), git failed the whole
-          # pathspec, `|| true` swallowed it, and `--allow-empty` then committed a heartbeat with NO PLAN
-          # ATTACHED. The commit trail said "the reaper ran" and the evidence for what it decided was missing
-          # — which is precisely the artifact this workflow exists to produce.
-          git add research/modalities/vast-account-reaper.json || true
-          git add research/modalities/vast-account-reaper-ledger.jsonl || true
-          git commit --allow-empty -m "account reaper: ${{ steps.plan.outputs.verdict }} (${{ steps.plan.outputs.n_reap }} to reap) (CI)" || exit 0
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin "$BR" && git push origin "HEAD:$BR" && exit 0
-            echo "push attempt $i lost a race with a lane's own commit; retrying"
-            sleep $((i * 7))
-          done
-          # Loud, because an unpushed ledger is a rental that billed and left no trace — the exact failure the
-          # latch-before-DELETE ordering exists to prevent, undone at the last step.
-          echo "::warning title=REAPER LEDGER NOT PERSISTED::the plan and ledger could not be pushed. If anything was destroyed this run, its billed-hours record exists only in this run's logs."
-
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "account reaper: ${{ steps.plan.outputs.verdict }} (${{ steps.plan.outputs.n_reap }} to reap) (CI)" \
+            research/modalities/vast-account-reaper.json \
+            research/modalities/vast-account-reaper-ledger.jsonl
       # ⛔ THE RUN IS DELIBERATELY NOT FAILED. GitHub emails the repository owner when a SCHEDULED workflow
       # fails, and trimcrae asked for no notification channels. An annotation is just as visible and sends
       # nothing. Restoring `exit 1` is a NOTIFICATION decision, not a CI decision.
