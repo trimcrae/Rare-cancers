@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 10:40 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 10:43 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,18 +15,18 @@ Merged 10:40 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 10:35 AM ET Sat Aug 1, 2026 (6 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 10:43 AM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 2:37 AM Aug 2      73.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · ⚠ 60.1 s/iter · realised $0.00788/ns (1.91x expected)
-5aks_d0_to_d ternary nr4a1 r0 2:05 PM            90.0%  RTX 4090 $0.00520/ns · 1.53× basis [bid] RUNNING   ⚠ 34.9 s/iter · realised $0.01082/ns (2.08x expected)
+5aks_d0_to_d ternary nr4a1 r1 3:05 AM Aug 2      73.3%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   ⚠ 61.3 s/iter · realised $0.00804/ns (1.95x expected)
+5aks_d0_to_d ternary nr4a1 r0 —                  90.0%  RTX 4090 $0.00520/ns · 1.53× basis [bid] NO HOST   host DESTROYED this pass (capacity refusal on machine 19781; destroy: a qualifying replacement is on the board) — billing stopped, $0 further; checkpoint at production/1640 is intact in S3 and this pass dispatches the gate to re-place it · ⚠ 34.9 s/iter · realised $0.01082/ns (2.08x expected)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 10:40 AM ET Sat Aug 1, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 10:40 AM ET Sat Aug 1, 2026 (3 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -34,7 +34,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 10:35 AM ET Sat Aug 1, 2026 (5 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 10:43 AM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -42,7 +42,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 10:36 AM ET Sat Aug 1, 2026 (5 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
+_As of 10:36 AM ET Sat Aug 1, 2026 (8 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial)._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns                                                                                                                                                                                                                     STATE     WHY (when not running)
