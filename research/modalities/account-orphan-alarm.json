@@ -1,24 +1,24 @@
 {
  "_what": "cross-lane, ACCOUNT-KEYED alarm: is any host billing whose lane has stopped reporting? Keyed on the Vast account because a lane-scoped watcher structurally cannot see a host whose lane stopped. REPORT-ONLY: this never destroys, stops, reaps, nudges or rents.",
- "generated_utc": "2026-08-01T20:43:58Z",
- "generated_et": "4:43 PM ET Aug 1, 2026",
+ "generated_utc": "2026-08-01T20:52:00Z",
+ "generated_et": "4:52 PM ET Aug 1, 2026",
  "thresholds": {
   "lane_silent_min": 40.0,
   "census_stale_min": 45.0,
   "future_skew_min": 5.0
  },
  "report_only": true,
- "census_utc": "2026-08-01T20:26:32Z",
- "census_et": "4:26 PM ET Aug 1, 2026",
- "census_age_min": 17.4,
- "census_n_instances": 2,
+ "census_utc": "2026-08-01T20:42:48Z",
+ "census_et": "4:42 PM ET Aug 1, 2026",
+ "census_age_min": 9.2,
+ "census_n_instances": 1,
  "graded": true,
  "lanes": [
   {
    "lane": "step1-fanout",
    "label": "Step 1 congeneric RBFE fan-out (Vast)",
    "tick_workflow": "step1-fanout-autoscale.yml",
-   "fragment": "step1-fanout-progress.json",
+   "fragment": "inflight-board.d/step1-fanout.json",
    "label_prefixes": [
     "s1f-"
    ],
@@ -26,10 +26,10 @@
    "n_live": 0,
    "n_terminal_but_listed": 0,
    "instances": [],
-   "last_report_utc": "2026-08-01T20:42:52Z",
-   "last_report_et": "4:42 PM ET Aug 1, 2026",
-   "freshness_basis": "in-file stamp (_generated_utc) in step1-fanout-progress.json",
-   "silent_for_min": 1.1,
+   "last_report_utc": "2026-08-01T20:51:31Z",
+   "last_report_et": "4:51 PM ET Aug 1, 2026",
+   "freshness_basis": "git commit time of inflight-board.d/step1-fanout.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent)",
+   "silent_for_min": 0.5,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -40,7 +40,7 @@
    "lane": "ternary-vast",
    "label": "Ternary FEP lanes \u2014 valB reps, closure triangle, rung 5a-KS (Vast)",
    "tick_workflow": "gpu-ternary-fep-vast.yml",
-   "fragment": "ternary-vast-watch.json",
+   "fragment": "inflight-board.d/ternary.json",
    "label_prefixes": [
     "tvast"
    ],
@@ -57,22 +57,22 @@
      "cur_state": "running",
      "intended_status": "running",
      "gpu_name": "RTX 3090",
-     "uptime_h": 6.24,
+     "uptime_h": 6.512,
      "dph_total": 0.07911111111111112,
-     "spend_so_far_usd": 0.4937,
+     "spend_so_far_usd": 0.5152,
      "occupies_slot": true,
      "terminal_but_listed": false
     }
    ],
-   "last_report_utc": "2026-08-01T18:32:29Z",
-   "last_report_et": "2:32 PM ET Aug 1, 2026",
-   "freshness_basis": "git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent)",
-   "silent_for_min": 131.5,
+   "last_report_utc": "2026-08-01T20:51:07Z",
+   "last_report_et": "4:51 PM ET Aug 1, 2026",
+   "freshness_basis": "in-file stamp (_generated_utc, utc, generated_utc) in inflight-board.d/ternary.json",
+   "silent_for_min": 0.9,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
-   "verdict": "UNSUPERVISED-BILLING",
-   "ok": false,
-   "detail": "1 instance(s) [46508665] wear this lane's prefix and the lane has not reported for 131 min (threshold 40); last report 2:32 PM ET Aug 1, 2026 via git commit time of ternary-vast-watch.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent; utc: absent; generated_utc: absent). MONEY IS MOVING AND NOTHING IS WATCHING IT. The lane's own supervisor cannot report this \u2014 when it stalls, the only thing that would notice is the thing that stopped, which is why this check is keyed on the ACCOUNT. Check gpu-ternary-fep-vast.yml for a run that is `in_progress` but producing no ticks. \u26a0 THIS MODULE HAS NOT ACTED AND WILL NOT: it never destroys, stops or rents. Only the control plane may end a rental (`vast_idle_guard.py`), and only on a measured absence of WRITES \u2014 never on GPU idleness."
+   "verdict": "SUPERVISED",
+   "ok": true,
+   "detail": "1 instance(s) up and the lane reported 1 min ago (4:51 PM ET Aug 1, 2026, via in-file stamp (_generated_utc, utc, generated_utc) in inflight-board.d/ternary.json) \u2014 inside the 40 min window. Something is watching this money."
   },
   {
    "lane": "nrv04-retro",
@@ -86,10 +86,10 @@
    "n_live": 0,
    "n_terminal_but_listed": 0,
    "instances": [],
-   "last_report_utc": "2026-08-01T20:43:02Z",
-   "last_report_et": "4:43 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T20:51:11Z",
+   "last_report_et": "4:51 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (generated_utc) in inflight-board.d/nrv04-retro.json",
-   "silent_for_min": 0.9,
+   "silent_for_min": 0.8,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -122,39 +122,23 @@
    "lane": "selcal-cofold",
    "label": "Selectivity control \u2014 SMARCA2/4 co-fold panel (Vast)",
    "tick_workflow": "selectivity-control-vast.yml",
-   "fragment": "selcal-cofold-census.json",
+   "fragment": "inflight-board.d/selcal-cofold.json",
    "label_prefixes": [
     "selcal-"
    ],
-   "n_instances": 1,
-   "n_live": 1,
+   "n_instances": 0,
+   "n_live": 0,
    "n_terminal_but_listed": 0,
-   "instances": [
-    {
-     "instance": 46533501,
-     "machine_id": 144152,
-     "label": "selcal-smarca2-m1-r0",
-     "lane": "selcal-cofold",
-     "actual_status": "running",
-     "cur_state": "running",
-     "intended_status": "running",
-     "gpu_name": "RTX 5090",
-     "uptime_h": 0.305,
-     "dph_total": 0.22066666666666665,
-     "spend_so_far_usd": 0.0673,
-     "occupies_slot": true,
-     "terminal_but_listed": false
-    }
-   ],
-   "last_report_utc": "2026-08-01T18:33:07Z",
-   "last_report_et": "2:33 PM ET Aug 1, 2026",
-   "freshness_basis": "in-file stamp (phase) in selcal-cofold-census.json",
-   "silent_for_min": 130.9,
+   "instances": [],
+   "last_report_utc": "2026-08-01T20:50:34Z",
+   "last_report_et": "4:50 PM ET Aug 1, 2026",
+   "freshness_basis": "git commit time of inflight-board.d/selcal-cofold.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: phase: absent)",
+   "silent_for_min": 1.4,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
-   "verdict": "UNSUPERVISED-BILLING",
-   "ok": false,
-   "detail": "1 instance(s) [46533501] wear this lane's prefix and the lane has not reported for 131 min (threshold 40); last report 2:33 PM ET Aug 1, 2026 via in-file stamp (phase) in selcal-cofold-census.json. MONEY IS MOVING AND NOTHING IS WATCHING IT. The lane's own supervisor cannot report this \u2014 when it stalls, the only thing that would notice is the thing that stopped, which is why this check is keyed on the ACCOUNT. Check selectivity-control-vast.yml for a run that is `in_progress` but producing no ticks. \u26a0 THIS MODULE HAS NOT ACTED AND WILL NOT: it never destroys, stops or rents. Only the control plane may end a rental (`vast_idle_guard.py`), and only on a measured absence of WRITES \u2014 never on GPU idleness."
+   "verdict": "IDLE",
+   "ok": true,
+   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
   },
   {
    "lane": "protfep-bench",
@@ -225,7 +209,7 @@
  ],
  "orphans": [],
  "terminal_but_listed": [],
- "ok": false,
- "verdict": "UNSUPERVISED-BILLING",
- "detail": "ternary-vast: UNSUPERVISED-BILLING; selcal-cofold: UNSUPERVISED-BILLING"
+ "ok": true,
+ "verdict": "ALL-SUPERVISED",
+ "detail": "every instance in the account belongs to a lane that has reported inside 40 min, and no instance wears an unclaimed prefix."
 }
