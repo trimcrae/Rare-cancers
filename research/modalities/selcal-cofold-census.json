@@ -56,9 +56,6 @@
   },
   "phase": "predicting 2026-08-01T17:56:09Z instance=46524315 attempt=20260801T175554Z",
   "log_tail": [
-    "|=========================================================================================|",
-    "|  No running processes found                                                             |",
-    "+-----------------------------------------------------------------------------------------+",
     "               total        used        free      shared  buff/cache   available",
     "Mem:             503         204          67          31         231         262",
     "Swap:              7           0           7",
@@ -80,21 +77,24 @@
     "Downloading the CCD data to /tmp/boltz_cache/mols.tar. This may take a bit of time. You may change the cache directory with the --cache flag.",
     "Extracting the CCD data to /tmp/boltz_cache/mols. This may take a bit of time. You may change the cache directory with the --cache flag.",
     "Downloading the Boltz-2 weights to /tmp/boltz_cache/boltz2_conf.ckpt. You may change the cache directory with the --cache flag.",
-    "Downloading the Boltz-2 affinity weights to /tmp/boltz_cache/boltz2_aff.ckpt. You may change the cache directory with the --cache flag."
+    "Downloading the Boltz-2 affinity weights to /tmp/boltz_cache/boltz2_aff.ckpt. You may change the cache directory with the --cache flag.",
+    "[selcal-cofold] CCD/weights re-fetch via boltz.main.download_boltz2 returned",
+    "[selcal-cofold] CCD after repair: ok=True {\"cache_dir\": \"/tmp/boltz_cache\", \"mol_dir\": \"/tmp/boltz_cache/mols\", \"mol_dir_exists\": true, \"n_pkl_present\": 45227, \"state\": \"ok\", \"n_canonicals_loaded\": 21, \"why\": \"\"}",
+    "[selcal-cofold] cache VERIFIED — banking it to s3://sagemaker-us-east-2-646605541856/selcal-boltz-cache/boltz--2-2-1/ so the next host restores instead of re-pulling ~3 GB"
   ],
   "n_s3_objects": 171,
-  "newest_object_utc": "2026-08-01T17:58:59Z",
-  "newest_object_age_min": 0.3,
+  "newest_object_utc": "2026-08-01T18:01:19Z",
+  "newest_object_age_min": 0.6,
   "instances": [
     {
       "id": 46524315,
       "status": "running",
       "gpu_util": 0.0,
       "dph_total": 0.19235555555555556,
-      "uptime_min": 7.3
+      "uptime_min": 9.9
     }
   ],
   "_what": "Which co-fold models exist for the sensitivity control, measured from S3.",
-  "utc": "2026-08-01T17:59:18Z",
+  "utc": "2026-08-01T18:01:54Z",
   "bucket": "sagemaker-us-east-2-646605541856"
 }
