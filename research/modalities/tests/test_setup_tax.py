@@ -184,3 +184,90 @@ def test_a_missing_clock_returns_None_and_says_which(objs, expect):
     about the exact number this whole thread turns on."""
     secs, why = tax.live_cold_start("u", "b", "pfx", _S3(objs))
     assert secs is None and expect in why
+
+
+# ── THE LINE-ITEM SPLIT: where the rental's wall time actually goes ──────────────────────────────────────
+#
+# "~28 min before the first commit" is a number nobody can act on. Staging, image pull, minimisation and
+# warmup MD have completely different remedies, and spending on the wrong one buys nothing. What the split
+# has to guarantee is that it never invents a segment it did not measure.
+
+def _att(marks_spans, ci=None, spi=None, name="a.log", complete=True):
+    marks, spans = marks_spans
+    return {"attempt": name, "checkpoint_interval": ci, "s_per_iter": spi,
+            "timeline": {"marks": marks, "spans": spans, "complete": complete}}
+
+
+_MARKS = [("container-start", "t0"), ("start", "t1"), ("cloned", "t2"), ("staging", "t3"),
+          ("preequil", "t4"), ("md-running", "t5")]
+_SPANS = {"container-start->start": 6.0, "start->cloned": 18.0, "cloned->staging": 6.0,
+          "staging->preequil": 6.0, "preequil->md-running": 6.0}      # 42 s = 0.7 min
+
+
+def test_provisioning_is_None_and_NEVER_zero():
+    """★★ THE ONE THAT MATTERS MOST. Host boot and the image pull happen BEFORE the container's first log
+    line, so the container's own log physically cannot see them. Reporting 0 would make the split sum to the
+    wrong total and quietly exonerate the one segment nobody has measured — §4, an absent reading is not a
+    reading of absence."""
+    r = tax.attempt_line_items(_att((_MARKS, _SPANS)))
+    assert r["provision_to_container"] is None
+    agg = tax.line_items({"u": {"attempts": [_att((_MARKS, _SPANS))]}})["aggregate"]
+    assert agg["provision_to_container"]["median_min"] is None
+    assert agg["provision_to_container"]["n"] == 0
+    assert "NOT MEASURED" in agg["provision_to_container"]["why_none"]
+
+
+def test_the_in_container_setup_is_summed_from_the_logs_own_stamps():
+    r = tax.attempt_line_items(_att((_MARKS, _SPANS)))
+    assert r["container_to_md_running"] == 0.7
+    assert set(r["setup_breakdown"]) == set(_SPANS)
+
+
+def test_a_missing_span_yields_None_rather_than_a_short_total():
+    """A partial timeline must not read as a FAST setup — that is the direction that would exonerate the
+    segment it failed to measure."""
+    bad = dict(_SPANS)
+    del bad["cloned->staging"]
+    assert tax.attempt_line_items(_att((_MARKS, bad)))["container_to_md_running"] is None
+
+
+def test_an_attempt_that_never_reached_md_running_has_no_setup_figure():
+    r = tax.attempt_line_items(_att((_MARKS[:4], _SPANS)))
+    assert r["container_to_md_running"] is None and r["setup_breakdown"] == {}
+
+
+def test_time_to_first_commit_is_DERIVED_and_says_so():
+    """The `[barrier] commit` line carries a persist duration but no wall-clock stamp, so this segment is
+    reconstructed as interval x s/iter. A reconstructed number that does not announce itself is the kind
+    that later gets quoted as a measurement."""
+    r = tax.attempt_line_items(_att((_MARKS, _SPANS), ci=40, spi=55.5))
+    assert r["md_running_to_first_commit"] == round(40 * 55.5 / 60.0, 2)
+    assert r["first_commit_is_derived"] is True
+    agg = tax.line_items({"u": {"attempts": [_att((_MARKS, _SPANS), ci=40, spi=55.5)]}})["aggregate"]
+    assert "reconstructed" in agg["md_running_to_first_commit"]["derived"]
+
+
+def test_no_interval_or_no_rate_yields_None_not_a_guess():
+    for ci, spi in ((None, 55.5), (40, None), (None, None)):
+        assert tax.attempt_line_items(_att((_MARKS, _SPANS), ci=ci, spi=spi))["md_running_to_first_commit"] is None
+
+
+def test_the_verdict_names_the_DOMINANT_term_because_that_is_the_only_actionable_part():
+    agg = tax.line_items({"u": {"attempts": [_att((_MARKS, _SPANS), ci=40, spi=55.5)]}})["aggregate"]
+    v = agg["verdict"]
+    assert "TIME TO THE FIRST COMMIT DOMINATES" in v
+    assert "CHECKPOINT INTERVAL" in v
+    assert "Provisioning is still unmeasured" in v, "the unmeasured segment must be named in the verdict too"
+
+
+def test_the_verdict_is_INCONCLUSIVE_rather_than_confident_when_the_split_is_incomplete():
+    agg = tax.line_items({"u": {"attempts": [_att((_MARKS, _SPANS))]}})["aggregate"]
+    assert agg["verdict"].startswith("INCONCLUSIVE")
+
+
+def test_the_interval_comes_from_the_drivers_RESOLVED_line_not_the_modes_config():
+    """A leg resumed from an older checkpoint runs the OLD grid whatever the env now says, so timing it
+    against the requested interval would mis-time every resumed leg."""
+    src = open(tax.__file__).read()
+    assert "interval_for_phase(text" in src
+    assert "_ib" in src, "the interval parser has one home in inflight_board and must be imported, not retyped"

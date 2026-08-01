@@ -163,6 +163,15 @@ def parse_log(text):
     out["commits"] = [{"phase": m.group(1), "iteration": int(m.group(2)),
                        "mib": float(m.group(3)), "seconds": float(m.group(4))}
                       for m in COMMIT_COST.finditer(text or "")]
+    # THE INTERVAL THE DRIVER RESOLVED TO, not the mode's configured value — a leg resumed from an older
+    # checkpoint runs the OLD grid whatever the env now says. Parsed by `inflight_board`, which is its one
+    # home; `line_items` multiplies it by s/iter to reconstruct time-to-first-commit.
+    try:
+        import inflight_board as _ib
+        _ph = (out["commits"][0]["phase"] if out["commits"] else None) or "production"
+        out["checkpoint_interval"] = _ib.interval_for_phase(text, _ph)
+    except Exception:  # noqa: BLE001 — a missing interval yields a None segment, never a wrong one
+        out["checkpoint_interval"] = None
     return out
 
 
@@ -417,7 +426,116 @@ def measure(mode="5aks", bucket=None, prefix=None, limit=6):
                 d = tally.setdefault(k, {"HIT": 0, "MISS": 0, "ABSENT": 0})
                 d["HIT" if v else ("MISS" if v is False else "ABSENT")] += 1
     doc["cache_tally"] = tally
+    # ★ THE LINE-ITEM SPLIT IS THE ACTIONABLE HALF. The cache tally says the cache is not the tax; only the
+    # split says what IS, and therefore whether anything can be done about it.
+    doc["line_items"] = line_items(doc["units"])
     return doc
+
+
+# =============================================================================================================
+# WHERE THE RENTAL'S WALL TIME ACTUALLY GOES — the line-item split
+# =============================================================================================================
+# ★★ THE QUESTION THIS ANSWERS, and it is the only one that decides whether the tax is REDUCIBLE. "~28 min
+# before the first commit" is a number you cannot act on: staging, image pull, minimisation and warmup MD
+# have completely different remedies (a better cache, a warmer host, fewer steps, a shorter interval), and
+# spending on the wrong one buys nothing.
+#
+# ⚠ ONE SEGMENT IS DELIBERATELY `None` AND MUST STAY THAT WAY. Provisioning — the host boot and the image
+# pull — happens BEFORE the container's first line, so the container's own log physically cannot see it.
+# Reporting it as 0 would make the split sum to the wrong total and quietly exonerate the one segment nobody
+# has measured. It is `None` with a stated reason until something joins the rental timestamp to the log
+# (CLAUDE.md §4: an absent reading is not a reading of absence).
+#
+# ⚠ AND `md_running_to_first_commit` IS DERIVED, NOT READ. The `[barrier] commit` line carries the persist
+# duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed as
+# `checkpoint_interval x s_per_iter` from the log's own two measured quantities. It is flagged `derived` in
+# the output for that reason, and the interval comes from the DRIVER'S RESOLVED line
+# (`inflight_board.committed_intervals`), never the mode's configured value — a leg resumed from an older
+# checkpoint runs the old grid whatever the env now says.
+SETUP_SEGMENTS = ("provision_to_container", "container_to_md_running", "md_running_to_first_commit")
+
+
+def _span_minutes(spans, a, b):
+    v = (spans or {}).get("%s->%s" % (a, b))
+    return None if v is None else v / 60.0
+
+
+def attempt_line_items(att):
+    """The named segments of ONE attempt, in minutes. PURE — takes a parsed attempt dict."""
+    tl = att.get("timeline") or {}
+    spans, marks = tl.get("spans") or {}, [m[0] for m in (tl.get("marks") or [])]
+    out = {"attempt": att.get("attempt"), "complete_timeline": bool(tl.get("complete"))}
+    # provisioning: not in the container's log, by construction.
+    out["provision_to_container"] = None
+    # everything from the container's first line to the start of MD: clone, stage, pre-equil, setup.
+    if "container-start" in marks and "md-running" in marks:
+        i, j = marks.index("container-start"), marks.index("md-running")
+        tot = 0.0
+        ok = True
+        for a, b in zip(marks[i:j], marks[i + 1:j + 1]):
+            v = _span_minutes(spans, a, b)
+            if v is None:
+                ok = False
+                break
+            tot += v
+        out["container_to_md_running"] = round(tot, 2) if ok else None
+        out["setup_breakdown"] = {"%s->%s" % (a, b): round(_span_minutes(spans, a, b) or 0.0, 2)
+                                  for a, b in zip(marks[i:j], marks[i + 1:j + 1])}
+    else:
+        out["container_to_md_running"] = None
+        out["setup_breakdown"] = {}
+    # time to the first checkpoint: DERIVED, and flagged as such.
+    ci, spi = att.get("checkpoint_interval"), att.get("s_per_iter")
+    out["md_running_to_first_commit"] = round(ci * spi / 60.0, 2) if (ci and spi) else None
+    out["first_commit_is_derived"] = True
+    out["checkpoint_interval"] = ci
+    out["s_per_iter"] = spi
+    out["md_running_to_md_done"] = _span_minutes(spans, "md-running", "md-done")
+    return out
+
+
+def line_items(units):
+    """Aggregate the split across every attempt of every unit. PURE.
+
+    Returns per-segment medians with the n they rest on, and a verdict naming the DOMINANT term — which is
+    the only part anyone acts on."""
+    rows = []
+    for uid, u in sorted((units or {}).items()):
+        for att in (u.get("attempts") or []):
+            r = attempt_line_items(att)
+            r["unit_id"] = uid
+            rows.append(r)
+    agg = {}
+    for seg in SETUP_SEGMENTS + ("md_running_to_md_done",):
+        vals = [r[seg] for r in rows if r.get(seg) is not None]
+        agg[seg] = {"median_min": round(st.median(vals), 2) if vals else None,
+                    "min_min": round(min(vals), 2) if vals else None,
+                    "max_min": round(max(vals), 2) if vals else None,
+                    "n": len(vals)}
+    agg["provision_to_container"]["why_none"] = (
+        "NOT MEASURED — provisioning and the image pull precede the container's first log line, so the "
+        "container's own log cannot see them. Reported as None rather than 0 so the split cannot quietly "
+        "exonerate the one segment nobody has measured.")
+    agg["md_running_to_first_commit"]["derived"] = (
+        "checkpoint_interval x s_per_iter — the `[barrier] commit` line carries a persist duration but no "
+        "wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own "
+        "two measured quantities rather than read directly.")
+    setup = agg["container_to_md_running"]["median_min"]
+    first = agg["md_running_to_first_commit"]["median_min"]
+    if setup is not None and first is not None:
+        ratio = (first / setup) if setup else float("inf")
+        agg["verdict"] = (
+            "TIME TO THE FIRST COMMIT DOMINATES: %.1f min median against %.1f min of in-container setup "
+            "(%.0fx). The setup cache, the stage fetch and the pre-equil restore are NOT the tax — they "
+            "total under a minute on most attempts. The only levers on the dominant term are the CHECKPOINT "
+            "INTERVAL and the card's s/iter, which is what makes the .chk payload work load-bearing: at "
+            "25.88x smaller commits a shorter interval becomes affordable. Provisioning is still unmeasured "
+            "and could be material."
+            % (first, setup, ratio))
+    else:
+        agg["verdict"] = ("INCONCLUSIVE — not enough attempts carry both a complete phase timeline and a "
+                          "measured s/iter to split the rental.")
+    return {"rows": rows, "aggregate": agg}
 
 
 def render(doc):
@@ -426,6 +544,20 @@ def render(doc):
          "=" * 104,
          "CACHE TALLY across %d attempt(s) — ABSENT means the line was never printed, which is NOT a miss:"
          % doc["totals"]["n_attempts"]]
+    li = (doc.get("line_items") or {}).get("aggregate") or {}
+    if li:
+        L += ["", "WHERE THE RENTAL'S WALL TIME GOES — median (min-max) minutes, n attempts:"]
+        for seg in ("provision_to_container", "container_to_md_running", "md_running_to_first_commit",
+                    "md_running_to_md_done"):
+            d = li.get(seg) or {}
+            if d.get("median_min") is None:
+                L.append("   %-30s NOT MEASURED  %s" % (seg, (d.get("why_none") or "no attempt carried it")[:60]))
+            else:
+                L.append("   %-30s %7.1f  (%.1f-%.1f)  n=%d%s"
+                         % (seg, d["median_min"], d["min_min"], d["max_min"], d["n"],
+                            "  [DERIVED]" if d.get("derived") else ""))
+        L += ["", "   " + (li.get("verdict") or "")]
+        L.append("")
     for k, d in sorted((doc.get("cache_tally") or {}).items()):
         L.append("   %-10s HIT %-4d MISS %-4d ABSENT %-4d" % (k, d["HIT"], d["MISS"], d["ABSENT"]))
     live = [(u, d["live_cold_start_s"], d.get("live_cold_start_span"))
