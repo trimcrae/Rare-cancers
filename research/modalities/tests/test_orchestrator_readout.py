@@ -217,3 +217,36 @@ def test_it_runs_against_the_live_repo_without_a_stack():
     that crashes when a lane is mid-publish is a readout nobody can rely on at 3 AM."""
     out = orc.board_table(now_epoch=time.time())
     assert out.startswith("**In flight**") and out.count("\n|") >= len(ifb.LANES)
+
+
+def test_a_stale_row_is_graded_against_the_account_not_the_lanes_own_last_word(monkeypatch):
+    """⚠ STALE SHOUTS BECAUSE A LANE MIGHT BE BILLING UNSUPERVISED — so a reader needs to know whether
+    anything IS billing, and the stale lane's own last report is precisely the reading just declared
+    untrustworthy. Measured 2026-08-01: the selcal panel completed 12/12, reaped its host, and then drifted
+    stale forever, printing the billing alarm on a lane that could not bill. The ACCOUNT census is the one
+    source that sees every instance regardless of which lane claims it."""
+    _install(monkeypatch, {ifb.FANOUT: _frag(ifb.FANOUT, [ROW_PAYING], age_min=99.0)})
+    monkeypatch.setattr(orc, "billing_now", lambda: {
+        "n": 1, "age_min": 3.0, "stale": False,
+        "instances": [{"id": 1, "label": "tvast-5aks-r1", "gpu": "RTX 3090", "status": "running"}]})
+    out = orc.board_table(now_epoch=NOW)
+    assert "1 live instance(s)" in out and "tvast-5aks-r1" in out
+
+    # …and an UNREADABLE census must never render as "nothing is billing" (CLAUDE.md §4).
+    monkeypatch.setattr(orc, "billing_now", lambda: {"unreadable": "census absent"})
+    out = orc.board_table(now_epoch=NOW)
+    assert "UNKNOWN" in out and "absent reading is not a reading of absence" in out
+    assert "0 live" not in out
+
+
+def test_a_fresh_board_does_not_pay_for_the_account_cross_check(monkeypatch):
+    """The cross-check exists to grade a stale row. With nothing stale there is nothing to grade, and a
+    board that reads the census anyway would put an irrelevant line under every healthy report."""
+    # EVERY lane fresh — a lane with no fragment is itself a stale row, which is the correct behaviour
+    # and was this test's own first bug: it asserted "nothing stale" while three lanes had no fragment.
+    _install(monkeypatch, {l[0]: _frag(l[0], [ROW_PAYING]) for l in ifb.LANES})
+    called = []
+    monkeypatch.setattr(orc, "billing_now", lambda: called.append(1) or {"n": 0, "instances": []})
+    out = orc.board_table(now_epoch=NOW)
+    assert not called, "billing_now must not be consulted when no row is stale"
+    assert "live instance" not in out

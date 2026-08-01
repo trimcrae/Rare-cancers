@@ -299,9 +299,30 @@ def board_table(now_epoch: float | None = None) -> str:
     lines += ["", f"_Why cells are clipped at {WHY_CLIP} chars (`…`); the full text is in "
                   f"`research/modalities/inflight-board-all.md`._"]
     if n_stale:
+        # ★★ A STALE ROW CANNOT BE GRADED WITHOUT KNOWING WHETHER ANYTHING IS BILLING (2026-08-01).
+        # STALE means "nobody has re-measured this lane", and its whole reason for shouting is CLAUDE.md
+        # §6: a lane that stops reporting WHILE IT IS BILLING is the condition that costs money. But a lane
+        # that has FINISHED also stops reporting — the selcal panel completed 12/12, reaped its host, and
+        # then drifted stale forever, printing the billing alarm on a lane that cannot bill.
+        #
+        # The lane's own last report is exactly the reading we have just declared untrustworthy, so it
+        # cannot answer this. The ACCOUNT census can: it is the one source that sees every instance
+        # regardless of which lane claims it (that is the orphan failure mode `billing_now` exists for),
+        # and it is a committed artifact, so quoting it here stays $0 and needs no credentials.
+        bill = billing_now()
+        if bill.get("unreadable"):
+            hosts = f"⚠ the account census is unreadable ({bill['unreadable']}), so whether anything is " \
+                    f"billing is UNKNOWN — an absent reading is not a reading of absence"
+        else:
+            names = ", ".join(f"`{i['label']}`" for i in bill["instances"] if i.get("label")) or "none"
+            age = "" if bill.get("age_min") is None else f", {bill['age_min']:.0f} min old"
+            hosts = (f"the account holds **{bill['n']} live instance(s)**{age}: {names}"
+                     + (" — **STALE census**, so this cross-check is itself a past reading"
+                        if bill.get("stale") else ""))
         lines.append(f"_⚠ {n_stale} row(s) come from a lane that has not reported inside "
                      f"{ifb.stale_after_min():g} min — those are a PAST report, and their ETA is dropped "
-                     f"rather than re-projected from a rate nobody has re-measured._")
+                     f"rather than re-projected from a rate nobody has re-measured. To grade that: "
+                     f"{hosts}._")
     return "\n".join(lines) + "\n"
 
 
