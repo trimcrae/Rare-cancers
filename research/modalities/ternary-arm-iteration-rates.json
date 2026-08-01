@@ -1,8 +1,8 @@
 {
   "_what": "measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own leg.json timing block. The one home for `ternary_vast_launch.arm_iteration_rates()`; regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`.",
   "_never_pool": "across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625), across phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up), or across SYSTEM SIZE (added 2026-07-31: the 4 fs ternary rate pooled legs spanning 141,458-147,788 particles with a 7.9-31.8 s/iter spread, so it described no single assembly; `rates` keeps the pooled figure for existing consumers but now FLAGS it, and `rates_by_system` is the split table)",
-  "generated_utc": "2026-08-01T02:27:50Z",
-  "n_leg_records": 14,
+  "generated_utc": "2026-08-01T11:47:53Z",
+  "n_leg_records": 15,
   "rates": {
     "2.0": {
       "binary": {
@@ -126,14 +126,15 @@
         "_system_warning": null
       },
       "ternary": {
-        "s_per_iter": 16.6,
+        "s_per_iter": 16.8,
         "source_phase": "production",
-        "n_legs": 5,
+        "n_legs": 6,
         "spread_s_per_iter": [
           7.9,
           31.8
         ],
         "units": [
+          "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
           "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
           "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_edge",
           "calib_hi_to_lo__ternary_vhl_r0_dt4.0fs_wu1.0_probe",
@@ -147,7 +148,7 @@
         ],
         "by_gpu": {
           "NVIDIA GeForce RTX 3090": 31.8,
-          "NVIDIA GeForce RTX 4090": 16.6,
+          "NVIDIA GeForce RTX 4090": 16.8,
           "NVIDIA GeForce RTX 5090": 12.8
         },
         "n_particles_spread": [
@@ -272,10 +273,10 @@
         }
       },
       "ternary": {
-        "144k": {
-          "s_per_iter": 12.8,
+        "146k": {
+          "s_per_iter": 15.35,
           "source_phase": "production",
-          "n_legs": 3,
+          "n_legs": 4,
           "spread_s_per_iter": [
             7.9,
             31.8
@@ -286,6 +287,7 @@
             147788
           ],
           "units": [
+            "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
             "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
             "calib_hi_to_lo__ternary_vhl_r1_dt4.0fs_wu1.0_edge_reps",
             "calib_hi_to_lo__ternary_vhl_r2_dt4.0fs_wu1.0_edge_reps"
@@ -334,6 +336,22 @@
     "_reading": "<= 1 means a production median OVERSTATES the seconds a warmup iteration costs, so deriving the interval from production is conservative \u2014 it buys a FINER cadence than strictly needed, erring toward less work at risk"
   },
   "legs": [
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+      "leg_id": "5aks_d0_to_d__ternary_nr4a3",
+      "arm": "ternary",
+      "mode": "5aks",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "n_particles": 147788,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 17.9,
+      "production_n": 3,
+      "recorded_utc": "2026-08-01T03:36:07Z"
+    },
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
       "leg_id": "5aks_d0_to_d__ternary_nr4a3",

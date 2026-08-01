@@ -1,106 +1,10 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-01T02:27:31Z",
+ "utc": "2026-08-01T11:47:43Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
-    {
-     "caches": {
-      "stage": null,
-      "preequil": null,
-      "setup": null
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": null,
-     "setup_cache_missing": null,
-     "restore_seconds": {},
-     "restore_list": [],
-     "restore_fetch": [],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 2,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T16:44:23Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "attempt": "run-20260731T170147Z.log",
-     "utc": "2026-07-31 17:01:49+00:00",
-     "bytes": 226,
-     "verdict": "stage=ABSENT(unobservable) \u00b7 preequil=ABSENT(unobservable) \u00b7 setup=ABSENT(unobservable)"
-    },
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a3_fwd_r0__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {},
-     "restore_list": [],
-     "restore_fetch": [],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 51,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T17:01:46Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "attempt": "run-20260731T174052Z.log",
-     "utc": "2026-07-31 17:40:53+00:00",
-     "bytes": 5099,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
-    {
-     "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a3_fwd_r0__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {},
-     "restore_list": [],
-     "restore_fetch": [],
-     "first_commit_iteration": null,
-     "s_per_iter": null,
-     "n_lines": 51,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-07-31T17:40:51Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [],
-     "attempt": "run-20260731T182202Z.log",
-     "utc": "2026-07-31 18:22:05+00:00",
-     "bytes": 5099,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
     {
      "caches": {
       "stage": true,
@@ -334,42 +238,11 @@
       "complete": true
      },
      "commits": [],
-     "attempt": "run.log",
-     "utc": "2026-08-01 02:09:46+00:00",
+     "attempt": "run-20260801T023430Z.log",
+     "utc": "2026-08-01 02:34:31+00:00",
      "bytes": 2140,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=ABSENT(unobservable)"
-    }
-   ],
-   "live_cold_start_s": 33.0,
-   "live_cold_start_span": "container-start -> md-running",
-   "commit_bytes_median": 1258493243.5,
-   "n_generations": 72,
-   "commit_store": {
-    "n": 72,
-    "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
-    "growth": {
-     "first_iter": 40,
-     "first_mib": 76.3,
-     "last_iter": 1880,
-     "last_mib": 6002.4
     },
-    "min_mib": 76.3,
-    "max_mib": 6002.4,
-    "by_extension_total_mib": {
-     "chk": 51029.3,
-     "nc": 98602.6
-    },
-    "by_extension_largest_single_mib": {
-     "chk": 1608.0,
-     "nc": 4394.5
-    }
-   },
-   "markers": {
-    "phase.txt": "2026-08-01 02:07:57+00:00"
-   }
-  },
-  "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks": {
-   "attempts": [
     {
      "caches": {
       "stage": true,
@@ -378,62 +251,205 @@
      },
      "setup_seconds": null,
      "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a3_fwd_r0__nagl__v1pe",
+     "setup_cache_missing": null,
+     "restore_seconds": {
+      "production": 148.5
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 47,
+       "seconds": 3.0
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 6294007123,
+       "seconds": 132.7
+      }
+     ],
+     "first_commit_iteration": 1920,
+     "s_per_iter": 17.9,
+     "n_lines": 3966,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T02:34:29Z"
+       ],
+       [
+        "start",
+        "2026-08-01T02:34:31Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T02:34:45Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T02:34:46Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T02:34:49Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T02:34:52Z"
+       ],
+       [
+        "md-done",
+        "2026-08-01T03:36:03Z"
+       ],
+       [
+        "done",
+        "2026-08-01T03:36:07Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 2.0,
+       "start->cloned": 14.0,
+       "cloned->staging": 1.0,
+       "staging->preequil": 3.0,
+       "preequil->md-running": 3.0,
+       "md-running->md-done": 3671.0,
+       "md-done->done": 4.0
+      },
+      "complete": true
+     },
+     "commits": [
+      {
+       "phase": "production",
+       "iteration": 1920,
+       "mib": 6137.6,
+       "seconds": 66.4
+      },
+      {
+       "phase": "production",
+       "iteration": 1960,
+       "mib": 6272.7,
+       "seconds": 68.4
+      },
+      {
+       "phase": "production",
+       "iteration": 2000,
+       "mib": 6407.8,
+       "seconds": 70.5
+      }
+     ],
+     "attempt": "run-20260801T033621Z.log",
+     "utc": "2026-08-01 03:36:23+00:00",
+     "bytes": 199181,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": null,
+      "preequil": null,
+      "setup": null
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": null,
      "setup_cache_missing": null,
      "restore_seconds": {},
      "restore_list": [],
      "restore_fetch": [],
      "first_commit_iteration": null,
      "s_per_iter": null,
-     "n_lines": 74,
+     "n_lines": 3,
      "timeline": {
       "marks": [
        [
         "container-start",
-        "2026-07-31T16:39:04Z"
+        "2026-08-01T03:36:21Z"
+       ],
+       [
+        "start",
+        "2026-08-01T03:36:22Z"
        ]
       ],
-      "spans": {},
+      "spans": {
+       "container-start->start": 1.0
+      },
       "complete": false
      },
      "commits": [],
-     "attempt": "run-20260731T171403Z.log",
-     "utc": "2026-07-31 17:14:05+00:00",
-     "bytes": 7258,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+     "attempt": "run-20260801T033635Z.log",
+     "utc": "2026-08-01 03:36:36+00:00",
+     "bytes": 267,
+     "verdict": "stage=ABSENT(unobservable) \u00b7 preequil=ABSENT(unobservable) \u00b7 setup=ABSENT(unobservable)"
     },
     {
      "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
+      "stage": null,
+      "preequil": null,
+      "setup": null
      },
      "setup_seconds": null,
      "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
+     "setup_restored_from": null,
      "setup_cache_missing": null,
      "restore_seconds": {},
      "restore_list": [],
      "restore_fetch": [],
-     "first_commit_iteration": 1088,
-     "s_per_iter": 12.6,
-     "n_lines": 578,
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 3,
      "timeline": {
       "marks": [
        [
         "container-start",
-        "2026-07-31T17:14:02Z"
+        "2026-08-01T03:36:34Z"
+       ],
+       [
+        "start",
+        "2026-08-01T03:36:35Z"
        ]
       ],
-      "spans": {},
+      "spans": {
+       "container-start->start": 1.0
+      },
       "complete": false
      },
      "commits": [],
-     "attempt": "run-20260731T174132Z.log",
-     "utc": "2026-07-31 17:41:34+00:00",
-     "bytes": 42512,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+     "attempt": "run.log",
+     "utc": "2026-08-01 03:36:38+00:00",
+     "bytes": 267,
+     "verdict": "stage=ABSENT(unobservable) \u00b7 preequil=ABSENT(unobservable) \u00b7 setup=ABSENT(unobservable)"
+    }
+   ],
+   "live_cold_start_s": 1.0,
+   "live_cold_start_span": "container-start -> start",
+   "commit_bytes_median": 1471793317,
+   "n_generations": 75,
+   "commit_store": {
+    "n": 75,
+    "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+    "growth": {
+     "first_iter": 40,
+     "first_mib": 76.3,
+     "last_iter": 2000,
+     "last_mib": 6407.8
     },
+    "min_mib": 76.3,
+    "max_mib": 6407.8,
+    "by_extension_total_mib": {
+     "chk": 56054.2,
+     "nc": 112395.9
+    },
+    "by_extension_largest_single_mib": {
+     "chk": 1708.4,
+     "nc": 4699.4
+    }
+   },
+   "markers": {
+    "phase.txt": "2026-08-01 03:36:37+00:00"
+   }
+  },
+  "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks": {
+   "attempts": [
     {
      "caches": {
       "stage": true,
@@ -615,7 +631,7 @@
      ],
      "first_commit_iteration": 1152,
      "s_per_iter": 27.0,
-     "n_lines": 4909,
+     "n_lines": 10162,
      "timeline": {
       "marks": [
        [
@@ -627,18 +643,173 @@
       "complete": false
      },
      "commits": [],
+     "attempt": "run-20260801T102814Z.log",
+     "utc": "2026-08-01 10:28:18+00:00",
+     "bytes": 711938,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": true
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
+     "setup_cache_missing": null,
+     "restore_seconds": {
+      "production": 234.8
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 36,
+       "seconds": 12.0
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 1949588202,
+       "seconds": 221.0
+      }
+     ],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 103,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T10:28:13Z"
+       ],
+       [
+        "start",
+        "2026-08-01T10:28:17Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T10:28:34Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T10:28:37Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T10:28:44Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T10:28:51Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 4.0,
+       "start->cloned": 17.0,
+       "cloned->staging": 3.0,
+       "staging->preequil": 7.0,
+       "preequil->md-running": 7.0
+      },
+      "complete": true
+     },
+     "commits": [],
+     "attempt": "run-20260801T104920Z.log",
+     "utc": "2026-08-01 10:49:22+00:00",
+     "bytes": 9283,
+     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": true,
+      "preequil": true,
+      "setup": true
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r0__nagl__v1pe",
+     "setup_cache_missing": null,
+     "restore_seconds": {
+      "production": 36.6
+     },
+     "restore_list": [
+      {
+       "phase": "production",
+       "n_gen": 36,
+       "seconds": 2.5
+      }
+     ],
+     "restore_fetch": [
+      {
+       "bytes": 1949588202,
+       "seconds": 32.1
+      }
+     ],
+     "first_commit_iteration": 1480,
+     "s_per_iter": 34.95,
+     "n_lines": 537,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-01T10:49:20Z"
+       ],
+       [
+        "start",
+        "2026-08-01T10:49:21Z"
+       ],
+       [
+        "cloned",
+        "2026-08-01T10:49:35Z"
+       ],
+       [
+        "staging",
+        "2026-08-01T10:49:36Z"
+       ],
+       [
+        "preequil",
+        "2026-08-01T10:49:38Z"
+       ],
+       [
+        "md-running",
+        "2026-08-01T10:49:41Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 1.0,
+       "start->cloned": 14.0,
+       "cloned->staging": 1.0,
+       "staging->preequil": 2.0,
+       "preequil->md-running": 3.0
+      },
+      "complete": true
+     },
+     "commits": [
+      {
+       "phase": "production",
+       "iteration": 1480,
+       "mib": 2009.9,
+       "seconds": 18.9
+      },
+      {
+       "phase": "production",
+       "iteration": 1520,
+       "mib": 2160.6,
+       "seconds": 14.9
+      }
+     ],
      "attempt": "run.log",
-     "utc": "2026-08-01 02:25:50+00:00",
-     "bytes": 345265,
+     "utc": "2026-08-01 11:45:56+00:00",
+     "bytes": 39730,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
    "live_cold_start_s": 21.0,
    "live_cold_start_span": "container-start -> md-running",
-   "commit_bytes_median": 531387500,
-   "n_generations": 37,
+   "commit_bytes_median": 899073282,
+   "n_generations": 65,
    "commit_store": {
-    "n": 37,
+    "n": 65,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
@@ -647,18 +818,18 @@
      "last_mib": 1341.3
     },
     "min_mib": 81.0,
-    "max_mib": 1341.3,
+    "max_mib": 2160.6,
     "by_extension_total_mib": {
-     "chk": 19627.3,
-     "nc": 1908.8
+     "chk": 53576.9,
+     "nc": 4190.4
     },
     "by_extension_largest_single_mib": {
-     "chk": 1231.1,
-     "nc": 110.3
+     "chk": 1854.4,
+     "nc": 306.1
     }
    },
    "markers": {
-    "phase.txt": "2026-07-31 20:26:49+00:00"
+    "phase.txt": "2026-08-01 10:49:42+00:00"
    }
   },
   "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks": {
@@ -838,7 +1009,7 @@
      "restore_fetch": [],
      "first_commit_iteration": 1600,
      "s_per_iter": 31.1,
-     "n_lines": 4941,
+     "n_lines": 10348,
      "timeline": {
       "marks": [
        [
@@ -851,33 +1022,33 @@
      },
      "commits": [],
      "attempt": "run.log",
-     "utc": "2026-08-01 02:25:39+00:00",
-     "bytes": 346300,
+     "utc": "2026-08-01 11:45:51+00:00",
+     "bytes": 725285,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
    "live_cold_start_s": 29.0,
    "live_cold_start_span": "container-start -> md-running",
-   "commit_bytes_median": 515988949,
-   "n_generations": 47,
+   "commit_bytes_median": 766992566,
+   "n_generations": 73,
    "commit_store": {
-    "n": 47,
+    "n": 73,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
      "first_mib": 77.0,
-     "last_iter": 1600,
-     "last_mib": 984.4
+     "last_iter": 1920,
+     "last_mib": 1785.8
     },
     "min_mib": 77.0,
-    "max_mib": 984.4,
+    "max_mib": 1785.8,
     "by_extension_total_mib": {
-     "chk": 21095.7,
-     "nc": 2248.7
+     "chk": 53216.7,
+     "nc": 4742.4
     },
     "by_extension_largest_single_mib": {
-     "chk": 877.2,
-     "nc": 107.2
+     "chk": 1658.5,
+     "nc": 127.2
     }
    },
    "markers": {
@@ -1196,8 +1367,8 @@
       }
      ],
      "first_commit_iteration": 200,
-     "s_per_iter": 55.4,
-     "n_lines": 525,
+     "s_per_iter": 55.5,
+     "n_lines": 3589,
      "timeline": {
       "marks": [
        [
@@ -1246,20 +1417,110 @@
        "iteration": 240,
        "mib": 661.7,
        "seconds": 13.7
+      },
+      {
+       "phase": "production",
+       "iteration": 280,
+       "mib": 812.9,
+       "seconds": 16.5
+      },
+      {
+       "phase": "production",
+       "iteration": 320,
+       "mib": 964.1,
+       "seconds": 15.7
+      },
+      {
+       "phase": "production",
+       "iteration": 360,
+       "mib": 1115.3,
+       "seconds": 18.5
+      },
+      {
+       "phase": "production",
+       "iteration": 400,
+       "mib": 1266.5,
+       "seconds": 19.4
+      },
+      {
+       "phase": "production",
+       "iteration": 440,
+       "mib": 1417.7,
+       "seconds": 24.5
+      },
+      {
+       "phase": "production",
+       "iteration": 480,
+       "mib": 1568.9,
+       "seconds": 24.4
+      },
+      {
+       "phase": "production",
+       "iteration": 520,
+       "mib": 1720.1,
+       "seconds": 26.6
+      },
+      {
+       "phase": "production",
+       "iteration": 560,
+       "mib": 1871.3,
+       "seconds": 25.9
+      },
+      {
+       "phase": "production",
+       "iteration": 600,
+       "mib": 2022.5,
+       "seconds": 30.2
+      },
+      {
+       "phase": "production",
+       "iteration": 640,
+       "mib": 2173.7,
+       "seconds": 35.2
+      },
+      {
+       "phase": "production",
+       "iteration": 680,
+       "mib": 2324.9,
+       "seconds": 32.1
+      },
+      {
+       "phase": "production",
+       "iteration": 720,
+       "mib": 2476.1,
+       "seconds": 39.1
+      },
+      {
+       "phase": "production",
+       "iteration": 760,
+       "mib": 2627.4,
+       "seconds": 38.3
+      },
+      {
+       "phase": "production",
+       "iteration": 800,
+       "mib": 2778.6,
+       "seconds": 37.9
+      },
+      {
+       "phase": "production",
+       "iteration": 840,
+       "mib": 2929.7,
+       "seconds": 40.4
       }
      ],
      "attempt": "run.log",
-     "utc": "2026-08-01 02:26:34+00:00",
-     "bytes": 38402,
+     "utc": "2026-08-01 11:46:57+00:00",
+     "bytes": 251701,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
    "live_cold_start_s": 27.0,
    "live_cold_start_span": "container-start -> md-running",
-   "commit_bytes_median": 655342717,
-   "n_generations": 31,
+   "commit_bytes_median": 955115636.5,
+   "n_generations": 46,
    "commit_store": {
-    "n": 31,
+    "n": 46,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
@@ -1268,14 +1529,14 @@
      "last_mib": 1353.7
     },
     "min_mib": 106.6,
-    "max_mib": 1353.7,
+    "max_mib": 2929.7,
     "by_extension_total_mib": {
-     "chk": 17998.9,
-     "nc": 2232.0
+     "chk": 28804.1,
+     "nc": 19496.5
     },
     "by_extension_largest_single_mib": {
      "chk": 1243.4,
-     "nc": 325.6
+     "nc": 1873.2
     }
    },
    "markers": {
@@ -1284,49 +1545,53 @@
   }
  },
  "cold_start_split": {
-  "n_attempts_with_a_split": 4,
+  "n_attempts_with_a_split": 7,
   "median_seconds": {
    "cloned->staging": 2.0,
    "container-start->start": 2.0,
-   "preequil->md-running": 4.5,
-   "staging->preequil": 4.5,
-   "start->cloned": 16.5
+   "md-done->done": 4.0,
+   "md-running->md-done": 3671.0,
+   "preequil->md-running": 4.0,
+   "staging->preequil": 4.0,
+   "start->cloned": 16.0
   },
   "n_observations": {
-   "cloned->staging": 4,
-   "container-start->start": 4,
-   "preequil->md-running": 4,
-   "staging->preequil": 4,
-   "start->cloned": 4
+   "cloned->staging": 7,
+   "container-start->start": 7,
+   "md-done->done": 1,
+   "md-running->md-done": 1,
+   "preequil->md-running": 7,
+   "staging->preequil": 7,
+   "start->cloned": 7
   }
  },
  "commit_cost": {
-  "n_observed": 5,
-  "median_mib": 661.7,
-  "median_seconds": 11.0,
+  "n_observed": 25,
+  "median_mib": 2022.5,
+  "median_seconds": 24.5,
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
   "n_attempts": 27,
   "setup_build_seconds_median": 242.0,
   "n_setup_builds": 1,
-  "restore_seconds_median": 13.5
+  "restore_seconds_median": 19.6
  },
  "cache_tally": {
   "stage": {
-   "HIT": 25,
+   "HIT": 24,
    "MISS": 0,
-   "ABSENT": 2
+   "ABSENT": 3
   },
   "preequil": {
-   "HIT": 24,
-   "MISS": 1,
-   "ABSENT": 2
-  },
-  "setup": {
    "HIT": 23,
    "MISS": 1,
    "ABSENT": 3
+  },
+  "setup": {
+   "HIT": 22,
+   "MISS": 1,
+   "ABSENT": 4
   }
  }
 }
