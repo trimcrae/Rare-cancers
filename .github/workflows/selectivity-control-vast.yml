@@ -18,6 +18,7 @@ name: ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) — Vast
 #   refs        -> $0  CPU  precondition 1: fetch the MEASURED primary-source reference selectivity
 #   selftest    -> $0  CPU  the lane's pure helpers + a dry-run JobSpec (rents nothing)
 #   manifest    -> $0  CPU  the frozen panel + its DERIVED ladder cost
+#   stage_prep  -> $0  CPU  resolve both constructs, write the Boltz YAMLs + the chain CONTRACT, upload to S3
 #   cofold_dry  -> $0  CPU  print the exact co-fold JobSpec. Rents nothing.
 #   cofold      -> ~$0.3-1  ONE Vast host: Boltz-2 co-folds, both arms x 6 model seeds
 #   cofold_collect -> $0    what actually landed in S3
@@ -35,9 +36,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "refs | selftest | manifest | cofold_dry | cofold | cofold_collect | stage_test | smoke | leg | launch | status | watch | collect | gate_tick | reap | stop"
+        description: "refs | selftest | manifest | stage_prep | cofold_dry | cofold | cofold_collect | stage_test | smoke | leg | launch | status | watch | collect | gate_tick | reap | stop"
         type: choice
-        options: [refs, selftest, manifest, cofold_dry, cofold, cofold_collect, stage_test, smoke, leg, launch, status, watch, collect, gate_tick, reap, stop]
+        options: [refs, selftest, manifest, stage_prep, cofold_dry, cofold, cofold_collect, stage_test, smoke, leg, launch, status, watch, collect, gate_tick, reap, stop]
         default: selftest
       units:
         description: "leg/launch: restrict to these unit names (comma-separated; blank = the lane decides)"
@@ -69,7 +70,7 @@ jobs:
   cpu:
     # Everything that spends $0. Kept in one job because they share a checkout and a python, and because a
     # separate job per mode is how a workflow acquires eleven near-identical copies of the same three steps.
-    if: ${{ contains(fromJSON('["refs","selftest","manifest","cofold_dry","cofold_collect","stage_test","status","collect","gate_tick"]'), github.event.inputs.mode || 'selftest') }}
+    if: ${{ contains(fromJSON('["refs","selftest","manifest","stage_prep","cofold_dry","cofold_collect","stage_test","status","collect","gate_tick"]'), github.event.inputs.mode || 'selftest') }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
@@ -112,6 +113,12 @@ jobs:
       - name: Frozen panel + DERIVED ladder cost
         if: ${{ env.MODE == 'manifest' }}
         run: python3 research/modalities/selcal_vast_launch.py --mode manifest
+
+      # $0, and it runs OFF the meter on purpose: a UniProt or AlphaFold-DB hiccup would otherwise fail a job
+      # that is already billing, and the chain CONTRACT every MD leg verifies against has to be in S3 anyway.
+      - name: Resolve the constructs and upload the co-fold inputs + chain contract
+        if: ${{ env.MODE == 'stage_prep' }}
+        run: python3 research/modalities/selcal_vast_launch.py --mode stage_prep
 
       - name: Co-fold JobSpec, printed (rents nothing)
         if: ${{ env.MODE == 'cofold_dry' }}

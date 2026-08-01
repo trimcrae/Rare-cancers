@@ -48,14 +48,14 @@ from __future__ import annotations
 
 import json
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 # =============================================================================================================
 # 1 · THE SYSTEM — a structure-matched paralogue pair, both arms real
 # =============================================================================================================
-#: UniProt accessions. Sequences are FETCHED at staging time (`selcal_stage.construct_sequences`), never typed
+#: UniProt accessions. Sequences are FETCHED at staging time (`selcal_stage.construct_sequence`), never typed
 #: here — a hand-copied 120-residue sequence is a fabrication risk with no upside.
 SMARCA2_ACC = "P51531"
 SMARCA4_ACC = "P51532"
@@ -64,9 +64,10 @@ SMARCA4_ACC = "P51532"
 #: Elongin-B accession was wrong once already (P62258 = 14-3-3 epsilon; corrected 2026-07-17).
 E3_ACCESSIONS = ("VHL", "ELONGIN_B", "ELONGIN_C")
 
-#: The domain each arm contributes. Boundaries are read from the UniProt feature table at staging time
-#: (`selcal_stage.bromodomain_span`), not typed — same rule as the sequences.
-CONSTRUCT_DOMAIN = "Bromo"
+#: The domain each arm contributes, and where its boundaries come from. `selcal_stage.CONSTRUCTS` is the one
+#: home of the spans; they are QUOTED from the crystallographers' own methods section rather than guessed, so
+#: the two arms are comparable to each other AND to the deposited ternaries that validate them.
+CONSTRUCT_DOMAIN = "bromodomain (published crystallographic construct — selcal_stage.CONSTRUCTS)"
 
 #: The pair, as the survey found it. `s-calibrator-survey.json` is the one home of the structural screen; this
 #: is a pointer, not a second copy.
@@ -90,45 +91,68 @@ REFERENCE_ARTIFACT = "selcal-reference-selectivity.json"
 #   very link the program lacks. The magnitude enters only as the sanity floor STRATEGY Open decision 7
 #   requires: a difference inside its own measurement error is not a signal to calibrate against.
 REFERENCE = {
-    "ligand": "ACBI2",
+    "ligand": "PRT3789",
+    "ligand_ccd": "A1BB4",
     "pair": ("SMARCA2", "SMARCA4"),
     "citation": {
-        "title": "A selective and orally bioavailable VHL-recruiting PROTAC achieves SMARCA2 degradation "
-                 "in vivo",
-        "journal": "Nature Communications", "year": 2022,
-        "doi": "10.1038/s41467-022-33430-6", "pmcid": "PMC9551036",
-        "authors_short": "Kofink et al.",
+        "title": "PRT3789 Is a First-in-Human SMARCA2-Selective Degrader That Induces Synthetic Lethality in "
+                 "SMARCA4-Mutated Cancers",
+        "journal": "Cancer Research", "year": 2026,
+        "doi": "10.1158/0008-5472.can-25-1141", "pmcid": None, "open_access": False,
     },
-    #: The measurement, quoted verbatim from the open-access full text.
-    "selectivity_quote": "This modification yielded ACBI2, a highly potent VHL PROTAC (EC50 = 7 nM), which "
-                         "degrades SMARCA2 with a >30-fold window over SMARCA4 in RKO cells "
-                         "(SMARCA2 DC50 = 1 nM, SMARCA4 DC50 = 32 nM)",
-    "dc50_nm": {"SMARCA2": 1.0, "SMARCA4": 32.0},
-    "assay": "degradation DC50, RKO cells (Supplementary Data 2)",
-    "fold_window": 32.0,
-    #: ★ THE SENTENCE THAT MAKES THIS THE RIGHT INSTRUMENT. The authors localise the selectivity to a
-    #: ternary-complex protein–protein interaction at the VCB↔bromodomain interface — which is exactly the
-    #: interface E1 measures. Without this the control would be testing a geometric readout against a
-    #: difference that might live entirely in binary affinity.
-    "mechanism_quote": "Represented are the key PPIs between VCB and SMARCA2BD/SMARCA4BD, highlighting the "
-                       "selectivity-inducing hydrogen bonding between Gln1469 of SMARCA2BD and VCB",
+    #: The claim, quoted verbatim from the peer-reviewed abstract (the body is not open access).
+    "selectivity_quote": "PRT3789 promoted selective degradation of SMARCA2 while sparing its highly "
+                         "homologous paralog, SMARCA4.",
+    "assay": "cellular degradation; the paper's own summary of its result",
+    #: ★★ THE HONEST LIMIT OF THIS REFERENCE, STATED WHERE IT CANNOT BE MISSED. The abstract establishes
+    #: EXISTENCE and DIRECTION and nothing more: the quantitative window is in the paywalled body, and this
+    #: repo does not quote numbers it has not read. That is sufficient here and only here — see
+    #: `_why_direction_and_existence_suffice` — and it is explicitly NOT sufficient for any quantitative
+    #: calibration, which is why none is attempted.
+    "magnitude_not_quotable": "The primary publication is not open access, so no DC50 pair or fold window is "
+                              "quoted. Secondary sources report ~40-fold; that number is NOT used anywhere in "
+                              "this panel and must not be cited from here.",
+    "_why_direction_and_existence_suffice": "The criterion this control applies is itself CATEGORICAL — does "
+                                            "the readout separate the arms, in the predicted direction? — so "
+                                            "the reference only has to answer the same kind of question. "
+                                            "STRATEGY Open decision 7 (the accuracy band may not be wider "
+                                            "than the signal being calibrated) is met because neither side "
+                                            "is a magnitude. A QUANTITATIVE calibration of E1 against "
+                                            "degradation is a different claim, is not licensed by this "
+                                            "reference, and is not attempted — E1 has no established "
+                                            "quantitative link to degradation selectivity at all "
+                                            "(options paper §1d(3)).",
+    # ★★ WHY THIS LIGAND AND NOT ACBI2, which has the better-documented numbers. TWO deposited ternaries
+    # carry PRT3789 with the SAME ligand on BOTH arms — 9DTY (SMARCA2, 3.19 Å) and 9DTX (SMARCA4, 2.11 Å) —
+    # so each arm's co-fold can be VALIDATED against a real structure of the very complex it models. That is
+    # exactly what options-paper precondition 2 asks for and says the crystals do not supply. ACBI2 has no
+    # deposited structure at all (its paper deposits compounds 4/5/6/10: 7Z78/7Z6L/7Z77/7Z76), so its
+    # chemistry could only come from a vendor catalogue — not a primary source, and therefore not usable.
+    "deposited_ternaries": {"SMARCA2": "9DTY", "SMARCA4": "9DTX"},
+    "why_this_ligand": "the only candidate with (a) a matched-ligand ternary deposited on BOTH arms, so both "
+                       "co-folds can be validated against a real structure of the same complex, and (b) a "
+                       "primary-source selectivity claim in a stated direction. ACBI2 has better numbers and "
+                       "NO deposited structure, so its chemistry would have to come from a vendor catalogue.",
+    #: ★ WHY THE DIFFERENCE IS EXPECTED AT THE INTERFACE E1 MEASURES — a fact about this PAIR and the VHL
+    #: machinery, established in an open-access primary source, and the reason a ternary-geometry readout is
+    #: the right instrument rather than a hopeful one. Kofink et al. 2022 (Nat Commun, PMC9551036,
+    #: 10.1038/s41467-022-33430-6), verbatim:
+    "pair_mechanism_quote": "Represented are the key PPIs between VCB and SMARCA2BD/SMARCA4BD, highlighting "
+                            "the selectivity-inducing hydrogen bonding between Gln1469 of SMARCA2BD and VCB",
+    "pair_mechanism_source": {"doi": "10.1038/s41467-022-33430-6", "pmcid": "PMC9551036",
+                              "note": "about the SMARCA2/SMARCA4 pair against VCB, not about PRT3789. It is "
+                                      "why a VCB<->bromodomain interface readout is the right instrument for "
+                                      "this pair; it is NOT a claim about the reference ligand."},
     "mechanism_is_ternary_interface": True,
-    #: The matched NON-selective compound from the same programme's earlier paper. NOT run here (it is a
-    #: second panel and a second spend); recorded because it is the obvious next control and because naming
-    #: it stops a later reader assuming no negative control was available.
+    #: The matched NON-selective comparator. NOT run here (a second 24-leg panel and a second spend); recorded
+    #: because it is the obvious follow-on negative control and because naming it stops a later reader
+    #: concluding that none was available.
     "matched_nonselective_comparator": {
-        "ligand": "ACBI1", "doi": "10.1038/s41589-019-0294-6", "pmcid": "PMC6600871",
+        "ligand": "ACBI1", "doi": "10.1038/s41589-019-0294-6", "pmcid": "PMC6600871", "ccd": "87A",
         "quote": "Complete and potent degradation induced by ACBI1 was observed for SMARCA2 (DC50 of 6 nM) "
                  "and SMARCA4 (DC50 of 11 nM) in MV-4-11 cells",
-        "why_not_run": "a second 24-leg panel and a second spend; outside the authorised $3.79 for D1/D2. It "
-                       "is the natural NEGATIVE control for a follow-on and is named so nobody concludes "
-                       "none exists.",
+        "why_not_run": "outside the authorised $3.79 for D1/D2 — it is a second panel, not a second arm.",
     },
-    "decision_7_check": "The reported window (32-fold, 1 nM vs 32 nM) is far outside the reference assay's "
-                        "own resolution, so STRATEGY Open decision 7 — the accuracy band may not be wider "
-                        "than the signal being calibrated — is satisfied on the DIRECTION-and-existence "
-                        "question this control asks. It is NOT satisfied for, and is not used for, any "
-                        "quantitative calibration of E1 against degradation.",
 }
 
 #: The arm the reference predicts is MORE stable in the ternary complex (= LOWER interface-RMSD plateau).
@@ -224,8 +248,12 @@ def enumerate_units(model_seeds=COFOLD_MODEL_SEEDS, replicas=MD_REPLICAS, includ
 
 
 def unit_name(arm: SelcalArm, model_seed: int, replica: int) -> str:
-    """Stable per-unit name (Vast label + S3 checkpoint prefix, so units never collide)."""
-    return "%s%s-m%d-r%d" % (LABEL_PREFIX, arm.arm_id, model_seed, replica)
+    """Stable per-unit name (Vast label + S3 checkpoint prefix, so units never collide).
+
+    Built from `cofold_system` rather than `arm_id` so the label reads `selcal-smarca2-m1-r0` instead of
+    `selcal-selcal_smarca2-m1-r0`. The arm's full id still travels in `LEG_ID`, which is what the scorer
+    parses — the label is for humans, reapers and S3 prefixes, and a Vast label has a length budget."""
+    return "%s%s-m%d-r%d" % (LABEL_PREFIX, arm.cofold_system, model_seed, replica)
 
 
 def cofold_prefix_s3(arm: SelcalArm, bucket: str, model_seed: int, prefix: str = None) -> str:
