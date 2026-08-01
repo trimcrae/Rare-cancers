@@ -15,14 +15,14 @@ Merged 7:03 AM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 6:55 AM ET Sat Aug 1, 2026 (9 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 7:03 AM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                      STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a3 r1 8:20 AM            95.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   31.8 s/iter
-5aks_d0_to_d ternary nr4a1 r1 1:55 AM Aug 2      65.6%  RTX 3090 $0.00414/ns · 1.21× basis [bid]  RUNNING   ⚠ 55.1 s/iter · realised $0.00717/ns (1.73x expected)
-5aks_d0_to_d ternary nr4a1 r0 1:30 PM            84.4%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  COLD_START — instance is 7 min old, under the 15 min floor — too young to have proved anything either way · 42.3 s/iter
+5aks_d0_to_d ternary nr4a3 r1 8:28 AM            95.6%  RTX 3090 $0.00412/ns · 1.21× basis [bid]  RUNNING   31.8 s/iter
+5aks_d0_to_d ternary nr4a1 r1 2:03 AM Aug 2      65.6%  RTX 3090 $0.00414/ns · 1.21× basis [bid]  RUNNING   ⚠ 55.1 s/iter · realised $0.00717/ns (1.73x expected)
+5aks_d0_to_d ternary nr4a1 r0 12:50 PM           84.4%  RTX 4080S $0.00505/ns · 1.48× basis [bid] STARTING  COLD_START — instance is 15 min old, under the 15 min floor — too young to have proved anything either way · 37.1 s/iter
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
