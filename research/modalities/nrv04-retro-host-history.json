@@ -3,57 +3,8 @@
  "repo": "trimcrae/Rare-cancers",
  "unit": "nrv04retro-retro_noncov_nr4a2-m2-r0",
  "hosts": [],
- "runs_scanned": 59,
+ "runs_scanned": 58,
  "hits": [
-  {
-   "run": 30667057823,
-   "job": 91276428983,
-   "created_utc": "2026-07-31T21:34:29Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:34:48.1532634Z [retro-super] \u26d4 BLOCKED nrv04retro-retro_noncov_nr4a2-m2-r0 \u2014 3 attempt markers archived for this unit since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z) (threshold 3), and still NO leg record. The marker is written BY THE HOST once its env is up, so each one is a rental that booted and got that far and then produced nothing; a retro leg that runs writes leg_*.json as its last act. That is a reproducing staging/build fault, not bad luck \u2014 buying another tests nothing. \u26a0 3 MARKERS IS NOT PROVEN TO BE 3 DISTINC"
-  },
-  {
-   "run": 30667057823,
-   "job": 91276428983,
-   "created_utc": "2026-07-31T21:34:29Z",
-   "action": "BLOCKED",
-   "line": "2026-07-31T21:34:51.7040467Z [retro-gate] nrv04retro-retro_noncov_nr4a2-m2-r0: BLOCKED by the failure breaker \u2014 blocked: repeated failure on distinct hosts. Counted since this unit last banked work \u2014 a completed leg record or a production checkpoint (2026-07-31T14:53:39Z). HOSTS: 3 marker(s) resolve to 3 DISTINCT host(s) \u2014 the streak is genuine: the fault reproduced across separate rentals. Clear with leg_failure_breaker.reset_for() once the cause is fixed."
-  },
-  {
-   "run": 30667057823,
-   "job": 91276428983,
-   "created_utc": "2026-07-31T21:34:29Z",
-   "action": null,
-   "line": "2026-07-31T21:34:53.3923064Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-07-31T20:28:05Z"
-  },
-  {
-   "run": 30667057823,
-   "job": 91276428983,
-   "created_utc": "2026-07-31T21:34:29Z",
-   "action": null,
-   "line": "2026-07-31T21:34:53.3934197Z [retro-collect] \u26d4 NOT A LANDED LEG nrv04retro-retro_noncov_nr4a2-m2-r0: mode='smoke', not 'run' \u2014 a smoke leg runs 500 steps with NO equilibration (nrv04_covalent_md.run_leg) and cannot carry the preregistered endpoint (key nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json)"
-  },
-  {
-   "run": 30667057823,
-   "job": 91276428983,
-   "created_utc": "2026-07-31T21:34:29Z",
-   "action": null,
-   "line": "2026-07-31T21:34:55.0612933Z     \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
-  {
-   "run": 30667057823,
-   "job": 91276428983,
-   "created_utc": "2026-07-31T21:34:29Z",
-   "action": null,
-   "line": "2026-07-31T21:34:55.0623667Z       \"key\": \"nrv04-retro-results/nrv04retro-retro_noncov_nr4a2-m2-r0/leg_retro_noncov_nr4a2__m2_s0.json\","
-  },
-  {
-   "run": 30667057823,
-   "job": 91276428983,
-   "created_utc": "2026-07-31T21:34:29Z",
-   "action": null,
-   "line": "2026-07-31T21:34:55.0624172Z       \"unit\": \"nrv04retro-retro_noncov_nr4a2-m2-r0\","
-  },
   {
    "run": 30667526664,
    "job": 91277893530,
@@ -2890,5 +2841,5 @@
    "line": "2026-08-01T01:23:47.1662021Z [retro-phase] nrv04retro-retro_noncov_nr4a2-m2-r0: md-running 2026-08-01T01:22:02Z"
   }
  ],
- "bytes_scanned": 3763307
+ "bytes_scanned": 3676200
 }
