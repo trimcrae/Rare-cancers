@@ -134,14 +134,15 @@ jobs:
       - name: Commit the result into the branch
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          if ! git diff --quiet -- research/modalities/nr4a3-bioemu-crosscheck.json; then
-            git add research/modalities/nr4a3-bioemu-crosscheck.json
-            git commit -m "bioemu: capture NR4A3 cryptic-pocket cross-check result from Vast run"
-            git push origin HEAD:${{ github.ref_name }}
-          else
-            echo "no change to commit"
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. `nr4a3-bioemu-crosscheck.json` has MORE THAN ONE WRITER (this
+          # lane and fusion-cpu-extras.yml), so a hand-rolled step that stamps whatever its checkout
+          # holds can publish a stale copy over a fresher one with nothing red — measured on the selcal
+          # lane 2026-08-01, `landed: 5` back to `landed: 0` seven seconds after it was measured.
+          # PUBLISH_IF_CHANGED=1 preserves the `git diff --quiet` guard this step already had: it
+          # records a RESULT, not a heartbeat, so an unchanged run must not commit as though it had.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "bioemu: capture NR4A3 cryptic-pocket cross-check result from Vast run" \
+            research/modalities/nr4a3-bioemu-crosscheck.json
 
   stop:
     if: ${{ github.event.inputs.task == 'stop' }}

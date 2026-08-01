@@ -148,24 +148,29 @@ jobs:
       - name: Commit the staging record
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          paths=()
-          for p in research/modalities/nr4a3-5aks-cofold-prep.json \
-                   research/modalities/nr4a3-5aks-reduction.json \
-                   research/modalities/5aks_cofold_out research/modalities/5aks_fep_inputs; do
-            [ -e "$p" ] && paths+=("$p")
-          done
-          if [ ${#paths[@]} -eq 0 ]; then
+          # ⚠ ABSENCE IS STILL A FAILURE, and this check must stay OUTSIDE the publish: producing
+          # nothing is a broken prep, not an empty commit. The primitive silently drops absent paths
+          # (correctly — one missing file must not abort the rest), so it cannot make this judgement.
+          if ! ls research/modalities/nr4a3-5aks-cofold-prep.json \
+                  research/modalities/nr4a3-5aks-reduction.json \
+                  research/modalities/5aks_cofold_out research/modalities/5aks_fep_inputs \
+                  >/dev/null 2>&1; then
             echo "::error::nothing produced to commit"; exit 1
           fi
-          git add -A "${paths[@]}"
-          if git diff --cached --quiet; then
-            echo "record unchanged since the last run — nothing to commit"
-          else
-            git commit -m "RUNG 5a-KS: ternary co-fold staging record (CI)"
-            git pull --rebase origin ${{ github.ref_name }} || true
-            git push origin HEAD:${{ github.ref_name }}
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH. `git pull --rebase` wedges on a conflict — the repo is left
+          # mid-rebase, every retry dies on the first one's wreckage, and the step stays GREEN having
+          # published nothing. `nr4a3-5aks-reduction.json` also has another writer
+          # (gpu-ternary-fep-vast.yml), so this step could additionally stamp a stale copy over a
+          # fresher one. PUBLISH_IF_CHANGED=1 keeps the existing EVENT semantics.
+          # ⚠ TWO OF THESE PATHS ARE DIRECTORIES (5aks_cofold_out, 5aks_fep_inputs). The primitive
+          # snapshots with `cp -a --parents` and replaces rather than nests on restore — without that
+          # it would publish NOTHING here while reporting success.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "RUNG 5a-KS: ternary co-fold staging record (CI)" \
+            research/modalities/nr4a3-5aks-cofold-prep.json \
+            research/modalities/nr4a3-5aks-reduction.json \
+            research/modalities/5aks_cofold_out \
+            research/modalities/5aks_fep_inputs
 
   # ---------------------------------------------------------------- the Boltz-2 co-fold itself (Vast GPU)
   # REUSES `nrv04_vast_launch.cofold`, which is the repo's Vast co-fold lane: torch base image, pinned
