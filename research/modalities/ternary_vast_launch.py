@@ -975,6 +975,7 @@ timeout -k 120 "${MD_TIMEOUT_S}" env \
   RBFE_REQUIRE_PRIMED_SETUP="$RBFE_REQUIRE_PRIMED_SETUP" \
   RBFE_SPOT_SAFE=1 RBFE_SPOT_COMMIT_S3="$COMMIT_S3" \
   RBFE_WARMUP_CKPT_ITERS="$WARMUP_CKPT_ITERS" RBFE_PROD_CKPT_ITERS="$PROD_CKPT_ITERS" \
+  RBFE_PRUNE_CHK="$RBFE_PRUNE_CHK" \
   bash run_ternary_leg.sh
 export RC=$?      # EXPORTED: the summariser below reads it from the environment, and an unexported RC
                   # silently defaults to 1 there, marking a perfectly good leg `failed`.
@@ -1209,6 +1210,14 @@ def build_jobspec(leg_id, seed=0, direction="fwd", mode="probe", timestep_fs=Non
         "RBFE_LOMAP_TIME_S": os.environ.get("TVAST_LOMAP_TIME_S") or "300",
         # See the note on the mode: only safe where no unstamped generation can need resuming.
         "RBFE_STRICT_PROVENANCE": "1" if sizing.get("strict_provenance") else "0",
+        # ★★ KILL THE O(n²) COMMIT — OPT-IN, AND OPT-IN IS THE POINT. The `.chk` accumulates one
+        # full-coordinate frame per interval and every commit re-uploads all of them, while a resume reads
+        # only the LAST: 1231.1 MiB per commit by the end of a warmup against the 47.6 MiB that is ever read
+        # (`commit-payload-design.md`). Pruning to the last frame was proven offline before it was wired --
+        # bit-identical coordinates, unmodified commit/restore path, a pruned chain, 25.88x on a REAL
+        # committed pair (GH 30676071569, $0). DEFAULT OFF so a leg already in flight cannot pick it up on a
+        # resume: it goes on for a FRESH leg, by explicit dispatch, per the ladder.
+        "RBFE_PRUNE_CHK": os.environ.get("TVAST_PRUNE_CHK") or "0",
         # ...and fail CLOSED if the map still comes back short. `nr4a3_ternary_fep.assert_map_not_degenerate`
         # derives the required heavy-atom count from the endpoints' own MCS and aborts before any sampling is
         # billed. Explicit for calibration legs because their expectation is verified at $0 in CI first.

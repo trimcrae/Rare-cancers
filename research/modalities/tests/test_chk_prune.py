@@ -204,3 +204,34 @@ def test_the_module_imports_without_the_MD_stack():
     src = open(cp.__file__).read()
     top = src[:src.index("def prune_enabled")]
     assert "import netCDF4" not in top
+
+
+# ---------------------------------------------------------------------------------------------
+# the switch has to reach a rented host, and it has to reach it OFF unless asked
+# ---------------------------------------------------------------------------------------------
+def test_the_launcher_defaults_the_switch_to_off():
+    """`TVAST_PRUNE_CHK` unset must put `RBFE_PRUNE_CHK=0` in the leg's environment. A leg that resumes
+    while this is being landed must behave exactly as it did before."""
+    import ternary_vast_launch as tv
+    src = open(tv.__file__).read()
+    assert '"RBFE_PRUNE_CHK": os.environ.get("TVAST_PRUNE_CHK") or "0"' in src
+
+
+def test_the_switch_is_forwarded_into_the_leg_command():
+    """A variable in the jobspec that the `run_ternary_leg.sh` invocation does not carry is a setting that
+    silently does nothing on the host."""
+    import ternary_vast_launch as tv
+    src = open(tv.__file__).read()
+    assert 'RBFE_PRUNE_CHK="$RBFE_PRUNE_CHK"' in src
+
+
+def test_the_workflow_exposes_the_switch_and_defaults_it_empty():
+    import pathlib
+    import yaml
+    wf = pathlib.Path(__file__).resolve().parents[3] / ".github/workflows/gpu-ternary-fep-vast.yml"
+    d = yaml.safe_load(wf.read_text())
+    inp = d[True]["workflow_dispatch"]["inputs"]["prune_chk"]
+    assert inp["default"] == "", "a non-empty default would opt every dispatch in"
+    body = wf.read_text()
+    assert body.count("TVAST_PRUNE_CHK: ${{ github.event.inputs.prune_chk }}") >= 7, \
+        "every job that launches or prices a leg must forward it, or the setting depends on which job ran"
