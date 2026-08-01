@@ -1,7 +1,7 @@
 {
  "_what": "cross-lane, ACCOUNT-KEYED alarm: is any host billing whose lane has stopped reporting? Keyed on the Vast account because a lane-scoped watcher structurally cannot see a host whose lane stopped. REPORT-ONLY: this never destroys, stops, reaps, nudges or rents.",
- "generated_utc": "2026-08-01T22:34:48Z",
- "generated_et": "6:34 PM ET Aug 1, 2026",
+ "generated_utc": "2026-08-01T22:37:41Z",
+ "generated_et": "6:37 PM ET Aug 1, 2026",
  "thresholds": {
   "lane_silent_min": 40.0,
   "census_stale_min": 45.0,
@@ -10,7 +10,7 @@
  "report_only": true,
  "census_utc": "2026-08-01T22:20:43Z",
  "census_et": "6:20 PM ET Aug 1, 2026",
- "census_age_min": 14.1,
+ "census_age_min": 17.0,
  "census_n_instances": 16,
  "graded": true,
  "lanes": [
@@ -26,10 +26,10 @@
    "n_live": 0,
    "n_terminal_but_listed": 0,
    "instances": [],
-   "last_report_utc": "2026-08-01T22:29:10Z",
-   "last_report_et": "6:29 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T22:37:09Z",
+   "last_report_et": "6:37 PM ET Aug 1, 2026",
    "freshness_basis": "git commit time of inflight-board.d/step1-fanout.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent)",
-   "silent_for_min": 5.6,
+   "silent_for_min": 0.5,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -64,15 +64,15 @@
      "terminal_but_listed": false
     }
    ],
-   "last_report_utc": "2026-08-01T22:29:08Z",
-   "last_report_et": "6:29 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T22:37:21Z",
+   "last_report_et": "6:37 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (_generated_utc, utc, generated_utc) in inflight-board.d/ternary.json",
-   "silent_for_min": 5.7,
+   "silent_for_min": 0.3,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "SUPERVISED",
    "ok": true,
-   "detail": "1 instance(s) up and the lane reported 6 min ago (6:29 PM ET Aug 1, 2026, via in-file stamp (_generated_utc, utc, generated_utc) in inflight-board.d/ternary.json) \u2014 inside the 40 min window. Something is watching this money."
+   "detail": "1 instance(s) up and the lane reported 0 min ago (6:37 PM ET Aug 1, 2026, via in-file stamp (_generated_utc, utc, generated_utc) in inflight-board.d/ternary.json) \u2014 inside the 40 min window. Something is watching this money."
   },
   {
    "lane": "nrv04-retro",
@@ -86,10 +86,10 @@
    "n_live": 0,
    "n_terminal_but_listed": 0,
    "instances": [],
-   "last_report_utc": "2026-08-01T22:29:15Z",
-   "last_report_et": "6:29 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T22:37:14Z",
+   "last_report_et": "6:37 PM ET Aug 1, 2026",
    "freshness_basis": "in-file stamp (generated_utc) in inflight-board.d/nrv04-retro.json",
-   "silent_for_min": 5.6,
+   "silent_for_min": 0.5,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "IDLE",
@@ -356,15 +356,15 @@
      "terminal_but_listed": false
     }
    ],
-   "last_report_utc": "2026-08-01T22:26:35Z",
-   "last_report_et": "6:26 PM ET Aug 1, 2026",
+   "last_report_utc": "2026-08-01T22:37:13Z",
+   "last_report_et": "6:37 PM ET Aug 1, 2026",
    "freshness_basis": "git commit time of inflight-board.d/selcal-cofold.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: phase: absent)",
-   "silent_for_min": 8.2,
+   "silent_for_min": 0.5,
    "threshold_min": 40.0,
    "future_skew_tolerance_min": 5.0,
    "verdict": "SUPERVISED",
    "ok": true,
-   "detail": "15 instance(s) up and the lane reported 8 min ago (6:26 PM ET Aug 1, 2026, via git commit time of inflight-board.d/selcal-cofold.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: phase: absent)) \u2014 inside the 40 min window. Something is watching this money. \u26a0 7 instance(s) are TERMINAL BUT STILL LISTED (46541719, 46541725, 46541732, 46541734, 46541739, 46541769, 46541777): they have not been destroyed. Not alarmed because the lane IS reporting and its own tick owns the reap \u2014 but surfaced, because nothing else surfaces them."
+   "detail": "15 instance(s) up and the lane reported 0 min ago (6:37 PM ET Aug 1, 2026, via git commit time of inflight-board.d/selcal-cofold.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: phase: absent)) \u2014 inside the 40 min window. Something is watching this money. \u26a0 7 instance(s) are TERMINAL BUT STILL LISTED (46541719, 46541725, 46541732, 46541734, 46541739, 46541769, 46541777): they have not been destroyed. Not alarmed because the lane IS reporting and its own tick owns the reap \u2014 but surfaced, because nothing else surfaces them."
   },
   {
    "lane": "protfep-bench",
