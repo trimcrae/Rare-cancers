@@ -2195,14 +2195,30 @@ def is_shakeout(mode):
 def shakeout_evidence_is_stale(record, now_utc=None, max_age_h=None):
     """True when a shakeout's `done` record is too old to still be evidence about today's pipeline. PURE.
 
-    `record` is a `leg.json` dict as returned by `leg_records`, which stamps `_s3_last_modified` from the S3
-    object itself. A record with NO usable timestamp is treated as STALE, deliberately: the only way to be
-    wrong in that direction is to re-run a ~$0.15 shakeout, while being wrong in the other direction is
-    exactly the silent no-op above. Cheap side, safe side.
+    `record` is a `leg.json` dict as returned by `leg_records`. A record with NO usable timestamp is treated
+    as STALE, deliberately: the only way to be wrong in that direction is to re-run a ~$0.15 shakeout, while
+    being wrong in the other direction is exactly the silent no-op above. Cheap side, safe side.
+
+    ★★ THE RECORD'S OWN STAMP DECIDES; THE S3 OBJECT'S MTIME IS ONLY A FALLBACK — and getting that
+    precedence backwards made this whole guard inert (measured 2026-08-01). `updated_utc` is written by the
+    HOST at the moment the leg finished, so it is a property of the RUN. `_s3_last_modified` is a property
+    of the OBJECT, and an object's mtime moves for reasons that have nothing to do with the science: a
+    re-upload, a copy, an archival sweep, a lifecycle transition. This function used to read the object
+    mtime FIRST, so a six-day-old certificate whose object had been touched recently read as fresh — and
+    `task=5aks-smoke` returned `nothing-to-launch` against a `leg.json` whose own content says
+    `2026-07-26T21:07:19Z`. That is CLAUDE.md §4's rule exactly: **a populated field is not a measured one**,
+    and here the populated field belonged to the storage layer rather than to the run. `unit_row` at the
+    bottom of this file already had the precedence right; this was the odd one out.
+
+    ⚠ KNOWN LIMIT, stated rather than silently accepted: freshness is measured in TIME, not in CODE. A
+    shakeout that ran 30 minutes before a change still certifies the pipeline as it was BEFORE that change.
+    Six hours is short enough that this rarely bites, but a certificate does not know what commit it
+    certified, so a shakeout standing in front of a spend should be dispatched AFTER the change it is meant
+    to shake out, not merely recently.
     """
     if not isinstance(record, dict):
         return False
-    stamp = record.get("_s3_last_modified") or record.get("updated_utc")
+    stamp = record.get("updated_utc") or record.get("_s3_last_modified")
     if not stamp:
         return True
     try:
@@ -2238,13 +2254,23 @@ def outstanding_units(mode, legs=None, timestep_fs=None, warmup_timestep_fs=None
     # quietly: a smoke that suddenly rents again must be legible, not mysterious.
     if is_shakeout(mode):
         for _u in list(done):
-            if _u in uids and shakeout_evidence_is_stale(_recs.get(_u)):
+            if _u not in uids:
+                continue
+            _r = _recs.get(_u) or {}
+            # BOTH STAMPS, ALWAYS, IN BOTH BRANCHES. A shakeout that SKIPS is the dangerous outcome (it
+            # reads as a shakeout that passed), and until 2026-08-01 the skip printed nothing at all while
+            # the expiry printed only the object mtime — the very field that was making the wrong call.
+            _st = (f"content_updated_utc={_r.get('updated_utc')} s3_object_mtime={_r.get('_s3_last_modified')}")
+            if shakeout_evidence_is_stale(_r):
                 done.discard(_u)
-                print(f"[launch] ⏳ {_u}: this is a SHAKEOUT and its `done` record "
-                      f"({(_recs.get(_u) or {}).get('_s3_last_modified')}) is older than "
-                      f"{SHAKEOUT_EVIDENCE_MAX_AGE_H} h, so it is NOT evidence about today's pipeline. "
-                      f"Treating the unit as needing a host — a stale certificate must not stand in for a "
-                      f"shakeout that never ran.")
+                print(f"[launch] ⏳ {_u}: this is a SHAKEOUT and its `done` record is older than "
+                      f"{SHAKEOUT_EVIDENCE_MAX_AGE_H} h, so it is NOT evidence about today's pipeline "
+                      f"({_st}). Treating the unit as needing a host — a stale certificate must not stand "
+                      f"in for a shakeout that never ran.")
+            else:
+                print(f"[launch] ✅ {_u}: SHAKEOUT certificate accepted as current "
+                      f"(< {SHAKEOUT_EVIDENCE_MAX_AGE_H} h; {_st}). Not renting. ⚠ Freshness is measured in "
+                      f"TIME, not in CODE — this does not certify anything committed since that stamp.")
     live_hosts, dead_hosts, occupied = {}, {}, set()
     listing_error = None
     try:

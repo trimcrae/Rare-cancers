@@ -117,3 +117,66 @@ def test_an_unreadable_instance_list_reaps_nothing(tmp_path, monkeypatch):
     reaped = tvw.reap_landed(path=str(p), recs={uid: {"status": "done"}})
     assert reaped == []
     assert tvw.load_watch(str(p))["watch"][0]["enabled"] is True
+
+
+# ── WHICH STAMP DECIDES (measured 2026-08-01) ────────────────────────────────────────────────────────────
+#
+# ⚠ THE TEST GAP THAT LET THE BUG THROUGH IS THE POINT OF THIS BLOCK. Every case above sets ONLY
+# `_s3_last_modified`, so all of them pass under either precedence — they could not tell a guard that reads
+# the run's stamp from one that reads the storage layer's. The bug was invisible to a test suite that looked
+# thorough, and it made the whole shakeout rung inert: `task=5aks-smoke` returned `nothing-to-launch`
+# against a `leg.json` whose own content says 2026-07-26T21:07:19Z. Every case below sets BOTH.
+
+def test_a_record_whose_CONTENT_is_old_is_stale_however_recently_the_object_was_touched():
+    """★★ THE REGRESSION. `updated_utc` is written by the HOST when the leg finished — a property of the
+    RUN. `_s3_last_modified` is a property of the OBJECT and moves for reasons that have nothing to do with
+    the science: a re-upload, a copy, an archival sweep, a lifecycle transition. CLAUDE.md §4: a populated
+    field is not a measured one."""
+    assert tv.shakeout_evidence_is_stale(
+        {"status": "done", "updated_utc": _stamp(24 * 6), "_s3_last_modified": _stamp(0.1)})
+
+
+def test_a_genuinely_fresh_record_is_still_accepted():
+    """The fix must not turn every shakeout into a re-rent — that would buy a host on every dispatch."""
+    assert not tv.shakeout_evidence_is_stale(
+        {"status": "done", "updated_utc": _stamp(0.5), "_s3_last_modified": _stamp(0.5)})
+
+
+def test_a_fresh_run_whose_object_looks_old_is_ALSO_accepted():
+    """The other direction of the same principle: an object that has not been touched since it was written
+    says nothing about the run, so a recent run must not be expired by a stale-looking object."""
+    assert not tv.shakeout_evidence_is_stale(
+        {"status": "done", "updated_utc": _stamp(0.5), "_s3_last_modified": _stamp(24 * 6)})
+
+
+def test_the_object_mtime_is_used_only_when_the_record_carries_no_stamp_of_its_own():
+    """It remains a FALLBACK rather than being dropped: a record written before `updated_utc` existed still
+    gets a usable answer instead of being force-expired on every tick."""
+    assert not tv.shakeout_evidence_is_stale({"status": "done", "_s3_last_modified": _stamp(0.5)})
+    assert tv.shakeout_evidence_is_stale({"status": "done", "_s3_last_modified": _stamp(24 * 6)})
+
+
+def test_an_unparseable_content_stamp_falls_through_to_stale_not_to_the_object():
+    """A corrupt `updated_utc` must not silently hand the decision to the field that caused the incident."""
+    assert tv.shakeout_evidence_is_stale(
+        {"status": "done", "updated_utc": "not-a-date", "_s3_last_modified": _stamp(0.1)})
+
+
+def test_the_precedence_matches_the_one_the_rest_of_this_file_already_used():
+    """`unit_row` had it right all along — `updated_utc or _s3_last_modified`. One fact, one home: the two
+    readers of the same pair of fields must not disagree about which one means 'when did this run'."""
+    src = open(tv.__file__).read()
+    body = src[src.index("def shakeout_evidence_is_stale"):src.index("def outstanding_units")]
+    assert 'record.get("updated_utc") or record.get("_s3_last_modified")' in body
+    assert 'record.get("_s3_last_modified") or record.get("updated_utc")' not in body
+
+
+def test_both_branches_print_both_stamps_so_a_SKIP_is_as_legible_as_an_EXPIRY():
+    """A shakeout that skips is the dangerous outcome — it reads as a shakeout that passed. Until this was
+    measured, the skip printed nothing at all and the expiry printed only the object mtime, i.e. only the
+    field that was making the wrong call."""
+    src = open(tv.__file__).read()
+    body = src[src.index("    if is_shakeout(mode):"):src.index("    live_hosts, dead_hosts, occupied")]
+    assert "content_updated_utc=" in body and "s3_object_mtime=" in body
+    assert "SHAKEOUT certificate accepted as current" in body, "the skip branch must announce itself"
+    assert body.count("_st") >= 3, "both branches must print the same stamp pair"

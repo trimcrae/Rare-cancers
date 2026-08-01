@@ -270,10 +270,17 @@ def test_the_gate_and_the_launcher_share_ONE_breaker_call_site():
              and n.func.attr == "decide" and getattr(n.func.value, "id", None) == "lfb"]
     assert len(calls) == 1, \
         "more than one place decides a breaker verdict — that is the drift this test exists to stop"
-    i = src.index("def outstanding_units(")
-    assert "breaker_verdicts(" in src[i:i + 4000], "the gate path no longer routes through breaker_verdicts"
-    j = src.index("def submit(")
-    assert "breaker_verdicts(" in src[j:j + 9000], "the launch path no longer routes through breaker_verdicts"
+    # ⚠ THE FUNCTION BODY FROM THE AST, NOT A CHARACTER WINDOW. This used to be `src[i:i + 4000]`, and a
+    # magic byte count is a landmine on a proxy for "inside this function": adding four lines of legitimate
+    # logging to `outstanding_units` on 2026-08-01 pushed the call past 4000 and turned a healthy build red
+    # while the property being asserted was still perfectly true. A window that has to be widened whenever
+    # the function grows is not testing what it claims to test — it is testing the function's length.
+    tree = ast.parse(src)
+    bodies = {n.name: ast.get_source_segment(src, n) or ""
+              for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)}
+    for fn, why in (("outstanding_units", "the gate path"), ("submit", "the launch path")):
+        assert fn in bodies, f"{fn} has been renamed — this test's subject no longer exists"
+        assert "breaker_verdicts(" in bodies[fn], f"{why} no longer routes through breaker_verdicts"
 
 
 def test_submit_still_fails_CLOSED_on_an_unreadable_instance_list():
