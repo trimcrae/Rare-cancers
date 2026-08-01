@@ -68,6 +68,45 @@ def _sampler_iteration(sampler) -> int:
     return int(sampler._iteration)
 
 
+# ★ THE FILL SENTINEL, AND WHY THE THRESHOLD IS NOT A JUDGEMENT CALL. netCDF-4's default fill for f4 is
+# 9.9692e+36 and for f8 9.9692e+36 as well; a real molecular coordinate in the md unit system (nm) is at
+# most a box edge, i.e. single-digit nm, and even a pathological unwrapped coordinate is far under a metre.
+# 1e6 nm = 1 mm sits ~30 orders of magnitude below the sentinel and ~6 above anything physical, so this
+# cannot reject a genuine frame — which is the property that makes it safe to add to a live commit path.
+FILL_MAGNITUDE_NM = 1.0e6
+
+
+def _positions_array(sampler_state):
+    """The positions of an openmmtools SamplerState as a (possibly masked) array in nm, or None."""
+    p = getattr(sampler_state, "positions", None)
+    if p is None:
+        return None
+    try:
+        from openmm import unit as _u
+        return p.value_in_unit_system(_u.md_unit_system)
+    except Exception:  # noqa: BLE001 — already a bare array, or a units flavour we do not need
+        return p
+
+
+def positions_look_like_fill(pos) -> bool:
+    """True when `pos` cannot be real coordinates: absent, empty, masked, non-finite, or absurdly large.
+
+    Pure numpy so it is unit-testable without the MD stack. Deliberately conservative in ONE direction:
+    it must never call a genuine frame fill, because it now gates every commit."""
+    import numpy as np
+    if pos is None:
+        return True
+    a = np.ma.asarray(pos)
+    if a.size == 0:
+        return True
+    if np.ma.getmaskarray(a).any():
+        return True
+    d = np.asarray(np.ma.getdata(a), dtype="f8")
+    if not np.all(np.isfinite(d)):
+        return True
+    return bool(np.max(np.abs(d)) > FILL_MAGNITUDE_NM)
+
+
 def validate_reporter_pair(nc_path: Path, chk_path: Path, expected_iteration: int,
                            checkpoint_interval: int) -> dict:
     """Prove a (.nc, .chk) pair is a matched, resumable checkpoint AT expected_iteration by
@@ -103,6 +142,20 @@ def validate_reporter_pair(nc_path: Path, chk_path: Path, expected_iteration: in
         if len(sstates) != len(sidx):
             raise RuntimeError(f"replica count mismatch: {len(sstates)} states vs {len(sidx)} "
                                "state-indices (openmmtools #759 inconsistency signature)")
+        # ★★ A FRAME THAT READS IS NOT A FRAME THAT WAS WRITTEN (measured 2026-08-01, GH run
+        # 30675219443). netCDF-4 hands back FILL values for a chunk that was never written, so every
+        # check above succeeds on a checkpoint whose frame does not exist: `read_sampler_states` returns
+        # the right NUMBER of replicas, `read_energies` returns an array, the counts agree — and the
+        # coordinates are ~1e37 nm. A deliberately-broken checkpoint (the last frame rewritten at index 0,
+        # the naive prune) passed this function unchanged. That matters well beyond pruning: it is the
+        # difference between "validation rejects a bad upload" being the commit path's safety net and
+        # being a slogan. So the frame is now checked for CONTENT, not just readability.
+        for _i, _st in enumerate(sstates):
+            if positions_look_like_fill(_positions_array(_st)):
+                raise RuntimeError(
+                    f"checkpoint frame at iteration {expected_iteration} replica {_i} reads as FILL, "
+                    "not coordinates — the frame was never written (netCDF-4 returns fill for an "
+                    "unwritten chunk, which is why the reads above all succeeded)")
     finally:
         rep.close()
     return {

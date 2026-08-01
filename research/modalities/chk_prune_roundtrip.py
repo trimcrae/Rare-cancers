@@ -154,6 +154,16 @@ def chk_frame_report(chk_path):
                     continue
                 written.append(i)
         out["frames_with_data"] = written
+        # IS A BYTE-SHRINK EVEN MEASURABLE ON THIS FILE? A 22-atom toy checkpoint is mostly netCDF header,
+        # so a file-size ratio there measures the header, not the prune. Recording the payload fraction lets
+        # the checks apply a shrink threshold only where frames actually dominate — rather than either
+        # failing a good prune on a toy or waiving the check with no stated reason.
+        if v is not None and out["positions_shape"] and len(out["positions_shape"]) > 1:
+            per_frame = _itemsize(v.dtype)
+            for n in out["positions_shape"][1:]:
+                per_frame *= int(n)
+            out["positions_frame_bytes"] = int(per_frame)
+            out["payload_fraction"] = round(per_frame * max(1, len(written)) / max(1, out["bytes"]), 4)
     return out
 
 
@@ -392,19 +402,42 @@ def resume_semantics(ci=2, target=8, extend_by=2, workdir=None):
 
     out["before"] = chk_frame_report(wchk)
 
-    # ---- C. NEGATIVE CONTROL first: does the validator have any power at all? -------------------
+    # ---- C. NEGATIVE CONTROL first: does the harness have any power at all? ---------------------
+    # Two separate questions, kept separate because the first run conflated them and the answer differed:
+    #   (i)  does `validate_reporter_pair` REJECT the naive index-0 prune?
+    #   (ii) if it were accepted, what would a resume from it actually produce?
+    # (ii) is the one that says whether a bad prune is dangerous; (i) is whether the commit path's safety
+    # net would catch it. Both are recorded.
     nd = work / "naive"
     nd.mkdir()
     shutil.copy2(wnc, nd / wnc.name)
     naive_prune(wchk, nd / wchk.name)
+    out["naive_report"] = chk_frame_report(nd / wchk.name)
     try:
         spot.validate_reporter_pair(nd / wnc.name, nd / wchk.name, target, ci)
         out["naive_prune_rejected"] = False
-        out["naive_prune_note"] = ("⚠ the naive index-0 prune VALIDATED — the validator is not checking the "
-                                   "frame, so nothing below can be believed")
+        out["naive_prune_note"] = ("⚠ the naive index-0 prune VALIDATED — the validator read the frame "
+                                   "successfully because netCDF-4 returns FILL for an unwritten chunk")
     except Exception as e:  # noqa: BLE001 — this is the expected path
         out["naive_prune_rejected"] = True
         out["naive_prune_error"] = f"{type(e).__name__}: {e}"
+    # what a resume off the broken file would actually hand back — the evidence for how dangerous
+    # an accepted bad prune would be. Report-only; never gates.
+    try:
+        nrep = MultiStateReporter(str(nd / wnc.name), open_mode="r+", checkpoint_storage=wchk.name)
+        try:
+            out["naive_last_iteration_checkpoint"] = int(nrep.read_last_iteration(last_checkpoint=True))
+            nst = nrep.read_sampler_states(iteration=target)
+            npos = [np.ma.asarray(spot._positions_array(s)) for s in (nst or [])]
+            out["naive_frame_max_abs_nm"] = (float(max(float(np.max(np.abs(np.ma.getdata(p)))) for p in npos))
+                                             if npos else None)
+            out["naive_frame_is_masked"] = bool(any(np.ma.getmaskarray(p).any() for p in npos)) if npos else None
+            out["naive_frame_looks_like_fill"] = bool(
+                any(spot.positions_look_like_fill(p) for p in npos)) if npos else None
+        finally:
+            nrep.close()
+    except Exception as e:  # noqa: BLE001
+        out["naive_resume_probe_error"] = f"{type(e).__name__}: {e}"
 
     # ---- B. the real round-trip, through the real store -----------------------------------------
     p_chk, kept = _pruned_copy(wchk, work / "pruned")
@@ -616,6 +649,13 @@ def resume_checks(b):
     before, after = b.get("before") or {}, b.get("after") or {}
     restored = b.get("restored_chk_report") or {}
     ci = b.get("checkpoint_interval")
+    # A toy checkpoint (3 replicas × 22 atoms) is almost entirely netCDF header, so a file-size ratio on it
+    # measures the header rather than the prune. Where frames do not dominate, this part only has to show
+    # the prune does not GROW the file; the shrink claim is carried by the storage probe and the real pair,
+    # both of which are frame-dominated by construction.
+    frac = before.get("payload_fraction")
+    header_dominated = frac is not None and frac < 0.5
+    shrink = b.get("shrink_x") or 0.0
     return {
         # the harness has power at all
         "naive_prune_was_REJECTED": bool(b.get("naive_prune_rejected")),
@@ -624,8 +664,8 @@ def resume_checks(b):
                                     and after.get("iteration_dim") == before.get("iteration_dim")),
         "kept_the_LAST_frame": (after.get("frames_with_data") == (before.get("frames_with_data") or [None])[-1:]),
         "only_one_frame_materialised": len(after.get("frames_with_data") or []) == 1,
-        # the prune is not a no-op
-        "actually_smaller": bool(b.get("shrink_x") and b["shrink_x"] > 1.5),
+        # the prune is not a no-op (see `header_dominated` above for why the bar moves)
+        "actually_smaller": bool(shrink >= 1.0 if header_dominated else shrink > 1.5),
         # the real commit path accepted it, unmodified
         "real_commit_accepted_it": bool(b.get("pruned_commit_ok")),
         "real_restore_returned_it": bool(b.get("restore_ok")),

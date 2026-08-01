@@ -181,6 +181,23 @@ def test_a_no_op_prune_fails_rather_than_passing_quietly():
     assert not cpr.resume_checks(b)["actually_smaller"]
 
 
+def test_a_header_dominated_toy_file_is_only_required_not_to_GROW():
+    """3 replicas × 22 atoms is almost all netCDF header, so a file-size ratio there measures the header,
+    not the prune. The shrink claim is carried by the storage probe and the real committed pair, which are
+    frame-dominated by construction; here the bar is only 'did not grow', and it is stated, not waived."""
+    b = dict(_passing_resume(), shrink_x=1.02)
+    b["before"] = dict(b["before"], payload_fraction=0.04)
+    assert cpr.resume_checks(b)["actually_smaller"]
+    grew = dict(b, shrink_x=0.8)
+    assert not cpr.resume_checks(grew)["actually_smaller"]
+
+
+def test_a_frame_dominated_file_still_has_to_actually_shrink():
+    b = dict(_passing_resume(), shrink_x=1.02)
+    b["before"] = dict(b["before"], payload_fraction=0.95)
+    assert not cpr.resume_checks(b)["actually_smaller"]
+
+
 def test_resuming_at_iteration_zero_fails():
     b = dict(_passing_resume(), from_storage_iteration=0)
     ck = cpr.resume_checks(b)
