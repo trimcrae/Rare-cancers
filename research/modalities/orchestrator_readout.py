@@ -117,19 +117,44 @@ def lane_rows() -> list[dict]:
     return out
 
 
-def agents_alive(minutes: int = 45) -> dict:
-    """Whether any SUBAGENT is actually working, evidenced by work LANDING.
+def agents_alive(minutes: int = 45, expect: dict[str, list[str]] | None = None) -> dict:
+    """Whether each named SUBAGENT is working, evidenced by ITS OWN work LANDING.
 
-    ⚠ There is no artifact for "an agent is running", so this is the only honest signal available, and it
-    is deliberately conservative: a real agent that has not pushed inside the window reads as silent. That
-    is the correct error direction — it prompts a check, whereas the opposite (assuming alive) is what let
-    three dead threads be reported as "moving" on 2026-08-01, one of them for 17.5 hours.
+    ⚠ There is no artifact for "an agent is running", so a commit is the only honest signal, and this is
+    deliberately conservative: an agent that has not pushed inside the window reads as SILENT. That error
+    direction is correct — it prompts a check, whereas assuming alive is what let three dead threads be
+    reported as "moving" on 2026-08-01, one of them for 17.5 hours.
+
+    ★★ PER-AGENT, NOT AGGREGATE — the fix for this function's OWN first version (2026-08-01, same day).
+    It answered one global question, "is any work landing", and the answer was yes while an agent sat dead.
+    An aggregate cannot distinguish four healthy agents from one healthy agent and three corpses, so a
+    report built on it said "launched" for rows that had produced nothing — the exact inertia this module
+    exists to end, reappearing one level up in the module written to end it.
+
+    `expect` maps a row label to substrings that identify that agent's commits. A label with no matching
+    commit in the window is SILENT and is named. **A label nobody can match is itself the finding**: if a
+    row cannot be tied to evidence, it may not be reported as working.
     """
     log = _git("log", "origin/main", f"--since={minutes} minutes ago", "--format=%ad|%s",
                "--date=format:%H:%M")
     real = [ln for ln in log.splitlines() if ln and not any(n in ln for n in CI_NOISE)]
-    return {"window_min": minutes, "n_agent_commits": len(real), "commits": real[:10],
-            "verdict": "work landing" if real else "NO AGENT WORK LANDED — verify or re-launch"}
+    out = {"window_min": minutes, "n_agent_commits": len(real), "commits": real[:12],
+           "verdict": "work landing" if real else "NO AGENT WORK LANDED — verify or re-launch"}
+    if expect:
+        per, silent = {}, []
+        for label, keys in expect.items():
+            hits = [c for c in real if any(k.lower() in c.lower() for k in keys)]
+            per[label] = {"n": len(hits), "latest": hits[0] if hits else None,
+                          "state": "WORKING" if hits else "SILENT — verify or re-launch"}
+            if not hits:
+                silent.append(label)
+        out["per_agent"] = per
+        out["silent"] = silent
+        # Unattributed work is not noise: it means a row is missing, or a label is wrong. Either way the
+        # report is incomplete, and saying so beats a table that looks accounted for.
+        claimed = {c for label in expect for k in expect[label] for c in real if k.lower() in c.lower()}
+        out["unattributed_commits"] = [c for c in real if c not in claimed][:6]
+    return out
 
 
 def report(prior_unknowns: set[str] | None = None) -> dict:
