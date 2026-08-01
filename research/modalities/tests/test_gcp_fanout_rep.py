@@ -462,13 +462,27 @@ def test_the_board_step_only_ever_stages_this_lanes_own_files():
     """Two other lanes push to main constantly. A step that staged anything else could carry their work
     backwards through a rebase — so the allowlist is EXPLICIT and this test is the allowlist.
 
-    Two files now: the fragment (every tick) and the machine-written rate artifact (whenever the tick saw
-    new markers). Both are written ONLY by this lane, so there is still exactly one writer per file."""
+    Three files now, and the third is a DIFFERENT KIND of entry that the allowlist must keep distinct:
+
+      $F  the fragment          — written only by this lane, stamped from /tmp over upstream
+      $R  the rate artifact     — written only by this lane, stamped from /tmp over upstream
+      $D  gcp-gpu-facts.md      — MANY writers, so it is NEVER stamped. It is regenerated in place after
+                                  the reset, and `sync_rate_table_doc` edits only the bytes between the
+                                  rate-table fences (and fails closed without exactly one ordered pair),
+                                  so the staged diff against FETCH_HEAD can only be the generated block.
+
+    That distinction IS the guard. 'Stage only our own files' was always a proxy for 'never carry another
+    writer's work backwards through the rewrite'; a file we regenerate in place cannot do that, and a file
+    we stamp from a stale checkout can — which is why $D must never acquire a /tmp round trip."""
     step = _wf().split("- name: Publish the in-flight fragment")[1]
-    assert re.findall(r"git add (\S+)", step) == ['"$F"', '"$R"'], step
+    assert re.findall(r"git add (\S+)", step) == ['"$F"', '"$R"', '"$D"'], step
     assert re.search(r'^\s*F=research/modalities/inflight-board\.d/gcp-s1f-rep\.json\s*$', step, re.M)
     assert re.search(r'^\s*R=research/modalities/gcp-s1f-rep-rate\.json\s*$', step, re.M)
+    assert re.search(r'^\s*D=research/compute/gcp-gpu-facts\.md\s*$', step, re.M)
     assert "git add -A" not in step and "--force" not in step
+    # The two stamped files are the two single-writer ones, and $D is not among them.
+    assert sorted(re.findall(r'cp /tmp/pub_\S+ "\$(\w+)"', step)) == ["F", "R"], \
+        "gcp-gpu-facts.md has other writers: stamping it whole would revert their edits"
 
 
 def test_the_publish_rewrites_onto_upstream_and_never_merges():
@@ -1230,24 +1244,137 @@ def test_a_hostless_row_reports_the_WORK_left_but_never_a_wall_clock_eta():
 FACTS = os.path.join(REPO, "research", "compute", "gcp-gpu-facts.md")
 
 
+def _live_report():
+    """The report the committed artifact implies, or None when no leg has been measured yet."""
+    doc = gfr.load_rate_artifact()
+    if doc is None:
+        return None
+    return gfr.rate_report(gfr.marks_from_artifact(doc),
+                           tuple(doc["derived"]["targets"] or ()) or None,
+                           n_windows=doc["derived"]["n_windows"])
+
+
+def _fenced(md):
+    """The bytes between §1e's fences, read through the module's own constants — the fence string has ONE
+    home (`gcp_fanout_rep`), so a test that re-typed it could pass against a doc nobody regenerates."""
+    return md.split(gfr.RATE_TABLE_BEGIN)[1].split(gfr.RATE_TABLE_END)[0].strip()
+
+
 def test_the_documented_table_is_the_measured_table():
     """The document cannot drift from the measurement. Same guard `test_gcp_card_bench.py` puts on §1c:
     the table in gcp-gpu-facts.md §1e is REGENERATED from the artifact, never hand-edited, so a figure
     that no longer follows from the committed markers fails CI instead of surviving as a quotable number.
-    Regenerate with `gcp_fanout_rep.py rate --markdown-table`."""
-    doc = gfr.load_rate_artifact()
-    if doc is None:
+
+    ⚠ THIS TEST CAUGHT A REAL DIVERGENCE AND THE FIRST FIX WAS THE WRONG ONE. Regenerating by hand cleared
+    it for 3 min 41 s, until the leg committed `production 80` and the rate window moved out of warmup. The
+    defect was never the stale bytes — it was that the artifact's writer did not write the doc. It does
+    now (`write_rate_artifact` → `sync_rate_table_doc`), which is what the tests below pin."""
+    rep = _live_report()
+    if rep is None:
         pytest.skip("no leg measured on an L4 yet — nothing to document")
-    rep = gfr.rate_report(gfr.marks_from_artifact(doc),
-                          tuple(doc["derived"]["targets"] or ()) or None,
-                          n_windows=doc["derived"]["n_windows"])
     want = gfr.rate_markdown_table(rep).strip()
-    md = open(FACTS).read()
-    got = md.split("<!-- GCP-S1F-REP-RATE-TABLE:BEGIN -->")[1] \
-            .split("<!-- GCP-S1F-REP-RATE-TABLE:END -->")[0].strip()
-    assert got == want, ("gcp-gpu-facts.md §1e has drifted from gcp-s1f-rep-rate.json. Regenerate:\n"
-                         "  python3 research/modalities/gcp_fanout_rep.py rate --markdown-table\n"
+    got = _fenced(open(FACTS).read())
+    assert got == want, ("gcp-gpu-facts.md §1e has drifted from gcp-s1f-rep-rate.json. This should be\n"
+                         "impossible now that the writer syncs the doc — so suspect the SYNC, not the\n"
+                         "bytes, before reaching for:\n"
+                         "  python3 research/modalities/gcp_fanout_rep.py rate --sync-doc\n"
                          f"--- artifact says ---\n{want}\n--- document says ---\n{got}")
+
+
+def test_the_fence_the_doc_and_the_writer_agree_on_is_one_string_in_one_place():
+    """A fence typed independently into the doc, the writer and this test is the same second-home bug one
+    level down: the sync would write a block nobody reads and every check would still pass."""
+    md = open(FACTS).read()
+    assert md.count(gfr.RATE_TABLE_BEGIN) == 1 and md.count(gfr.RATE_TABLE_END) == 1
+    assert md.index(gfr.RATE_TABLE_BEGIN) < md.index(gfr.RATE_TABLE_END)
+
+
+def _doc_fixture(tmp_path, body="| stale | table |\n", begin=None, end=None):
+    """A throwaway repo shaped like the real one: <root>/modalities + <root>/compute/gcp-gpu-facts.md."""
+    mod = tmp_path / "modalities"
+    comp = tmp_path / "compute"
+    mod.mkdir(parents=True); comp.mkdir(parents=True)
+    d = comp / "gcp-gpu-facts.md"
+    d.write_text("## 1c.\n| ns/day | **177.28** |\nPROSE ABOVE\n\n"
+                 + (begin or gfr.RATE_TABLE_BEGIN) + "\n" + body + (end or gfr.RATE_TABLE_END)
+                 + "\n\nPROSE BELOW — 177.28 stays here too.\n")
+    return mod, d
+
+
+def test_writing_the_artifact_REGENERATES_the_documented_table_in_the_same_call(tmp_path):
+    """★★ THE DEFECT, PINNED. `write_rate_artifact` writing the JSON and leaving the doc to a human is
+    correct exactly until the next commit marker lands — which on a live leg is minutes. One call, both
+    files, or this comes back the moment the rate moves again."""
+    mod, d = _doc_fixture(tmp_path)
+    marks = gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP)))
+    p = gfr.write_rate_artifact(marks, (400, 2000), "u", root=str(mod))
+    assert p and os.path.exists(p)
+    rep = gfr.rate_report(marks, (400, 2000))
+    assert _fenced(d.read_text()) == gfr.rate_markdown_table(rep).strip(), \
+        "the doc must be current the instant the artifact is, without a second command"
+
+
+def test_the_sync_is_idempotent_and_reports_which_of_the_three_things_it_did(tmp_path):
+    """`False` (already current) must be distinguishable from `None` (could not sync). A sync that quietly
+    did nothing and a sync that had nothing to do are the same silence, and the difference is the bug."""
+    mod, d = _doc_fixture(tmp_path)
+    rep = gfr.rate_report(gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP))), (400, 2000))
+    assert gfr.sync_rate_table_doc(rep, path=str(d)) is True      # stale -> rewritten
+    assert gfr.sync_rate_table_doc(rep, path=str(d)) is False     # current -> untouched
+    assert gfr.sync_rate_table_doc(rep, path=str(tmp_path / "nope.md")) is None
+
+
+def test_the_sync_touches_ONLY_the_fenced_block(tmp_path):
+    """The lane runs this AFTER `reset --hard`, against whatever upstream holds. gcp-gpu-facts.md has many
+    writers — §1f and §3b were both hand-edited the same morning — so a whole-file stamp would silently
+    discard someone else's paragraph. Byte-compare everything outside the fence."""
+    mod, d = _doc_fixture(tmp_path)
+    before = d.read_text()
+    rep = gfr.rate_report(gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP))), (400, 2000))
+    gfr.sync_rate_table_doc(rep, path=str(d))
+    after = d.read_text()
+    assert before.split(gfr.RATE_TABLE_BEGIN)[0] == after.split(gfr.RATE_TABLE_BEGIN)[0]
+    assert before.split(gfr.RATE_TABLE_END)[1] == after.split(gfr.RATE_TABLE_END)[1]
+    assert "PROSE ABOVE" in after and "PROSE BELOW" in after
+
+
+def test_a_doc_the_sync_cannot_confidently_edit_is_LEFT_ALONE(tmp_path):
+    """FAILS CLOSED. A missing, duplicated or inverted fence writes nothing and returns None, so the test
+    above fails on a real disagreement instead of the sync mangling the file into agreement — which would
+    destroy the evidence that there was a disagreement."""
+    rep = gfr.rate_report(gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP))), (400, 2000))
+    for body, begin, end in [("x\n", "<!-- NOT-THE-FENCE -->", None),          # no BEGIN
+                             ("x\n", None, "<!-- NOT-THE-FENCE -->"),          # no END
+                             (gfr.RATE_TABLE_BEGIN + "\nx\n", None, None)]:    # duplicated BEGIN
+        _, d = _doc_fixture(tmp_path / str(abs(hash((body, begin, end)))), body, begin, end)
+        before = d.read_text()
+        assert gfr.sync_rate_table_doc(rep, path=str(d)) is None
+        assert d.read_text() == before, "a doc it could not parse must be byte-identical afterwards"
+    # END before BEGIN: parseable fences, nonsensical order.
+    _, d = _doc_fixture(tmp_path / "inverted")
+    d.write_text(gfr.RATE_TABLE_END + "\nbody\n" + gfr.RATE_TABLE_BEGIN + "\n")
+    before = d.read_text()
+    assert gfr.sync_rate_table_doc(rep, path=str(d)) is None
+    assert d.read_text() == before
+
+
+def test_the_lane_that_COMMITS_the_artifact_also_commits_the_regenerated_doc():
+    """★★ THE OTHER HALF OF THE FIX, AND THE HALF A UNIT TEST CANNOT REACH. The publish step holds its two
+    single-writer files in /tmp across a `reset --hard FETCH_HEAD` and stamps them back. An in-process doc
+    edit made before that reset is therefore DISCARDED — so the sync must be re-run after it, and the doc
+    must be staged, or the artifact still lands in a commit that does not carry the table quoting it."""
+    wf = open(WF).read()
+    pub = wf.split("Publish the in-flight fragment")[1]
+    assert "rate --sync-doc" in pub, "the publish step must regenerate §1e from the artifact it commits"
+    assert "research/compute/gcp-gpu-facts.md" in pub and 'git add "$D"' in pub, \
+        "regenerating without staging leaves the commit carrying the artifact alone"
+    reset = pub.index("reset -q --hard FETCH_HEAD")
+    assert pub.index("rate --sync-doc") > reset, \
+        "syncing BEFORE the reset writes a doc the reset then throws away"
+    assert pub.index('git add "$D"') > pub.index("rate --sync-doc")
+    # The doc is NOT carried through /tmp like $F and $R: it has other writers, so it is regenerated in
+    # place against upstream's copy rather than stamped whole from this checkout.
+    assert "/tmp/pub_facts" not in pub, "gcp-gpu-facts.md must never be stamped whole — it has many writers"
 
 
 def test_the_documented_section_never_quotes_the_card_probe_as_this_lanes_rate():
@@ -1259,6 +1386,26 @@ def test_the_documented_section_never_quotes_the_card_probe_as_this_lanes_rate()
     assert "supersedes nothing" in sec or "supersedes the other" in sec
     assert "SEPARATE LEDGER" in sec and "go-forward cost basis" in sec
     assert "**not** a go-forward cost basis" in sec, "the refusal must be stated, not merely referenced"
+
+
+def test_the_card_probe_number_can_never_be_EMITTED_by_the_rate_generator(tmp_path):
+    """★ THE 177.28 DISTINCTION SURVIVES THE SYNC. §1c's 177.28 ns/day is a water box; §1e's aggregate is a
+    12-replica alchemical hybrid. The sync now rewrites §1e's block on every tick, so the standing risk is
+    that an automated rewrite quietly absorbs the card figure into the lane's table, or scribbles over the
+    comparison that keeps them apart. Neither is reachable: 177.28 is not derivable from the markers, and
+    the comparison table lives OUTSIDE the fence and cites the generated block rather than restating it."""
+    rep = _live_report() or gfr.rate_report(
+        gfr.checkpoint_marks(gfr.parse_ls_long(_ls(*MEASURED_WARMUP))), (400, 2000))
+    assert "177.28" not in gfr.rate_markdown_table(rep), \
+        "the card probe is a different quantity and no quotient of these markers can produce it"
+    md = open(FACTS).read()
+    assert "177.28" not in _fenced(md), "the card probe must never appear inside the generated block"
+    sec = md.split("## 1e.")[1].split("## 1d.")[0]
+    assert "**177.28**" in sec and "see the aggregate column above" in sec, \
+        "§1e compares the two by POINTING at the generated block, never by copying a number out of it"
+    # ...and the probe's own home still holds it, so §1c is quoting evidence and not a memory.
+    bench = json.load(open(os.path.join(MOD, "gcp-card-bench.json")))
+    assert 177.28 in [m["ns_per_day"] for m in bench["measurements"] if m["card"] == "l4"]
 
 
 def test_a_warmup_rate_projected_onto_production_is_labelled_a_LOWER_BOUND():

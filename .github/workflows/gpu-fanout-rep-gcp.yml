@@ -510,6 +510,7 @@ jobs:
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           F=research/modalities/inflight-board.d/gcp-s1f-rep.json
           R=research/modalities/gcp-s1f-rep-rate.json
+          D=research/compute/gcp-gpu-facts.md
           cp "$F" /tmp/pub_fragment.json
           [ -f "$R" ] && cp "$R" /tmp/pub_rate.json
 
@@ -542,6 +543,25 @@ jobs:
             [ -f /tmp/pub_rate.json ] && cp /tmp/pub_rate.json "$R"
             git add "$F"
             [ -f "$R" ] && git add "$R"
+            # ★★ THE DOC THAT QUOTES THE ARTIFACT IS REGENERATED IN THE COMMIT THAT MOVES THE ARTIFACT.
+            # (2026-08-01. This step used to commit $R alone, and gcp-gpu-facts.md §1e was left to a human
+            # running `rate --markdown-table`. At 9:30:55 AM ET the leg committed `production 80`, the rate
+            # window moved out of warmup, the measurement legitimately changed — and CI went red 3 min 41 s
+            # after the last hand regeneration. A hand fix buys until the next marker; this buys forever.)
+            #
+            # ⚠ $D IS THE ONE STAGED FILE THIS LANE IS NOT THE SOLE WRITER OF, AND THAT IS SAFE ONLY
+            # BECAUSE OF HOW IT IS WRITTEN. It is deliberately NOT carried through /tmp and stamped back
+            # like $F and $R — that is "ours, always", which is correct for a single-writer file and would
+            # here silently revert somebody's edit to §1f or §3b (both hand-edited that same morning).
+            # Instead it is REGENERATED IN PLACE, after the reset, against the copy upstream currently
+            # holds: `--sync-doc` rewrites only the bytes between the GCP-S1F-REP-RATE-TABLE fences and
+            # fails closed unless it finds exactly one well-ordered pair. So the staged diff against
+            # FETCH_HEAD can only ever be the generated block, and nothing can travel backwards through it.
+            if [ -f "$R" ]; then
+              python3 research/modalities/gcp_fanout_rep.py rate --sync-doc \
+                || echo "::warning title=S1F-REP §1e NOT SYNCED::the rate table could not be regenerated from $R; test_the_documented_table_is_the_measured_table will say so rather than this step hiding it."
+              git add "$D"
+            fi
             # ★★ COMMIT UNCONDITIONALLY. **THE REDUNDANT-LOOKING COMMIT IS THE MECHANISM.**
             # (Coordinator ruling, 2026-08-01, on measured volume: 1,591 commits on `main` in 24 h, 1,392
             # of them fragment churn, `.git` at 267 MB — KEPT, because that history is load-bearing and was

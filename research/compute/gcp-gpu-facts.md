@@ -200,15 +200,28 @@ exactly that reason — so **this is what makes an L4 fan-out leg priceable in h
 
 One home: [`gcp-s1f-rep-rate.json`](../modalities/gcp-s1f-rep-rate.json), written by CI from the unit's own
 `COMMITTED.json` markers and never hand-edited. It stores the **raw marker series**, so every figure below
-is a quotient that can be recomputed if `RATE_WINDOW` or the arithmetic changes. Regenerate this table with
-`python3 research/modalities/gcp_fanout_rep.py rate --markdown-table`;
-`tests/test_gcp_fanout_rep.py::test_the_documented_table_is_the_measured_table` re-checks it against the
-artifact on every CI run, so the document cannot drift from the measurement.
+is a quotient that can be recomputed if `RATE_WINDOW` or the arithmetic changes.
+
+**⛔ DO NOT HAND-EDIT THE FENCED BLOCK BELOW, AND DO NOT REGENERATE IT AS A SEPARATE CHORE.** It is written
+by `gcp_fanout_rep.sync_rate_table_doc`, called from `write_rate_artifact` — **the same call that writes the
+JSON** — and re-applied by the lane's publish step (`rate --sync-doc`) after its `reset --hard`, so the
+measurement and the paragraph quoting it land in one commit and cannot be authored by different events.
+`tests/test_gcp_fanout_rep.py::test_the_documented_table_is_the_measured_table` byte-compares the two on
+every CI run. *(2026-08-01: it was previously a manual `rate --markdown-table` step, and CI went red
+**3 min 41 s** after the last hand regeneration — the leg committed `production 80`, the rate window moved
+out of warmup, and the measurement legitimately changed. See `RATE_ARTIFACT`'s comment for the incident.)*
+
+**⚠ A CHANGED CELL HERE IS A MOVING MEASUREMENT, NOT A RETRACTION.** This leg is still running and every
+tick republishes its trailing-window rate, so cells move by design and **no appendix entry or
+`pinned-figures.json` registration is owed for a tick**. The durable record is the artifact's raw `marks`
+series, from which any earlier reading is re-derivable. Registration is owed only if a figure from here is
+ever quoted as a *settled* result somewhere else — which is exactly what the "no dollars, deliberately"
+refusal below exists to stop.
 
 <!-- GCP-S1F-REP-RATE-TABLE:BEGIN -->
 | leg | commits | last committed | s / HREX iteration *(phase measured in)* | leg wall-clock h | ns/day per replica | ns/day aggregate (12 windows) |
 |---|---|---|---|---|---|---|
-| **complex** | 21 | production 40 | **35.19** *(warmup)* | 23.5 | 6.14 | 73.66 |
+| **complex** | 22 | production 80 | **35.26** *(production)* | 23.5 | 6.13 | 73.52 |
 | **solvent** | 0 | — | — *(0 completed commit interval(s); this lane quotes a rate at 3 (gcp_fanout_rep.MIN_RATE_INTERVALS). The next commit moves it toward the threshold.)* | — | — | — |
 
 *2.50 ps of MD per replica per iteration, derived from the run's own `warmup_target=400 prod_target=2000` line and `nr4a3_rbfe.py`'s protocol lengths (1.0 ns equilibration / 5.0 ns production).*
