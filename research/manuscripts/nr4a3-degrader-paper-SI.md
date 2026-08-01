@@ -108,6 +108,14 @@ the predicted *degradation* selectivity, closing the binder→degradation-select
 
 ## S3. Selectivity architecture: the pocket is a selectivity hotspot, and a superfamily-wide pocket-liability screen
 
+> **Scope note (added with §S12).** Everything below is an argument about *where selectivity could come from*,
+> computed from sequence divergence and interface geometry. Those computations are unaffected by the biological
+> holdout's non-resolution (**§S12**, main text §2.12) — it measures none of them. What the holdout does bound
+> is the **warrant** shared by the whole selectivity block: no positive control in this work recovers a known
+> paralogue selectivity, so the *sensitivity* of these methods in the paralogue regime is uncalibrated (main
+> text §4 caveat 10). Read the multiplicative budget below as a design argument with computed inputs, not as a
+> validated selectivity.
+
 Treating "where should selectivity come from" as its own optimization (full analysis:
 [`nr4a3-degrader-selectivity-architecture.md`](./nr4a3-degrader-selectivity-architecture.md)) yields a
 computed result (not asserted) that **contextualizes — not contradicts — the binder campaign.** The
@@ -702,3 +710,122 @@ and a ligand-pose threshold applied first to bulk solvent and then to a four-cha
 *wrong verdicts* — a silent `diagnostics_ok = True`, then a fabricated hard FAIL. This is recorded because it is
 the main reason the benchmark's negative result is reported with its full diagnostic trail rather than as a
 single summary number.
+
+## S12. Biological holdout — the NR-V04 retrospective (R1): full verdict and power accounting for main-text §2.12
+
+**Primary artifact.** [`../modalities/nrv04-retro-verdict.json`](../modalities/nrv04-retro-verdict.json) — the
+emitted verdict, copied verbatim from the lane's durable collect readout, with nothing recomputed at write
+time. Preregistration: [`../modalities/nr4a3-nrv04-retrospective-prereg.md`](../modalities/nr4a3-nrv04-retrospective-prereg.md);
+frozen scorer [`../modalities/nrv04_retro_gate.py`](../modalities/nrv04_retro_gate.py); frozen panel and the
+admission predicate [`../modalities/nrv04_retro_panel.py`](../modalities/nrv04_retro_panel.py); the
+independent pre-spend criteria audit (written *before* any leg ran)
+[`../modalities/nrv04-retro-criteria-audit.json`](../modalities/nrv04-retro-criteria-audit.json).
+
+**What was run.** R1 only: NR4A1, NR4A2 and NR4A3 **all non-covalent**, from Boltz-2 co-fold models under one
+structural provenance prefix, through one endpoint-MD driver. A co-fold **model** is the unit of independence;
+each contributes two MD replicas differing only in velocity seed, and the model-level value is their mean.
+Authorised panel (prereg AMENDMENT 4): **16 legs at model-level n = 3 / 3 / 2**.
+
+**Admission, and why the record cannot be a default.** Two records in the bucket were **refused** and are
+listed in the artifact's `nonconforming_records` rather than dropped: both carry `mode: 'smoke'`, `n_frames 0`
+and `timed_ns 0.0`. This matters because a smoke record still echoes the production `prod_ns` from its
+environment and still populates the endpoint field, so it *looks* like a leg. Membership is therefore decided
+by `production_leg_check` (`mode == 'run'` plus the preregistered `prod_ns`/`equil_ns`), and completion by
+`completed_production_check` (`timed_ns` within tolerance of the request **and** the expected frame count) —
+i.e. on quantities only a real run can produce, never on a field a default can fill.
+
+**Model-level E1 plateaux (Å; lower = more stable).**
+
+| arm | model 1 | model 2 | model 3 | arm mean |
+|---|---|---|---|---|
+| NR4A1 (`retro_noncov_nr4a1`) | 3.336 | 5.156 | 3.802 | **4.098** |
+| NR4A2 (`retro_noncov_nr4a2`) | 3.590 | 4.870 | 6.071 | **4.844** |
+| NR4A3 (`retro_noncov_nr4a3`) | 4.142 | 3.229 | — *(excluded, see below)* | **3.685** |
+
+Technical failures: **0 / 0 / 0**. Underpowered arms: **none**.
+
+**The excluded co-fold.** `nr4a3` model seed 3 was excluded by prereg AMENDMENT 4 on a **measured input
+fault**: the predicted structure places two heavy atoms **0.181 Å** apart, giving a potential energy ten
+decades above a control at the pre-minimisation stage, so the Lennard-Jones term diverges and the first
+integration step yields NaN. The exclusion is **by input, not by outcome** — the fault is a static property of
+the structure, provable before any MD is interpreted, and the discriminating evidence is the replicate
+structure: both velocity replicas of that one model failed with zero frames while both replicas of every other
+model produced frames. A thermostat seed cannot rescue two atoms at 0.181 Å.
+
+**Primary test.** Exact one-sided permutation test on model-level means, statistic mean(NR4A1) − mean(pooled
+NR4A2 + NR4A3), α = 0.05, frozen before execution.
+
+| quantity | value |
+|---|---|
+| statistic | **−0.283 Å** |
+| one-sided p | **0.393** |
+| reference set | **56 arrangements** |
+| minimum attainable p | **0.018** |
+| NR4A1 below both paralogues | **false** |
+| tier | **`DISCORDANT`** — "NR4A1 is not the most stable arm" |
+| reverse-direction p | **0.625** (not significant) |
+| extension rule fired | **no** (may not be invoked on a wrong-sign result) |
+
+**Secondary pairwise contrasts — one of them is *unresolvable*, not null.**
+
+| contrast | statistic (Å) | p | reference set | minimum attainable p | reading |
+|---|---|---|---|---|---|
+| NR4A1 vs NR4A2 | −0.746 | 0.30 | 20 | 0.05 | null (right direction, not resolved) |
+| NR4A1 vs NR4A3 | +0.412 | 0.70 | 10 | **0.10 — above α** | **UNRESOLVABLE: no observed ordering could have attained significance** |
+
+The NR4A1-vs-NR4A3 row is a registered loss, accepted knowingly when the faulted co-fold was excluded. It must
+be reported as unresolvable every time it appears; describing it as "no difference found" would convert a
+design limit into a finding. Both pairwise tests are descriptive support and neither is the verdict.
+
+**Leave-one-model-out.** The refit sign is not preserved (2 of 8 drops flip it). This is **reported, not
+gating**: prereg AMENDMENT 3 demoted the clause after a search found 228,543 configurations reaching p ≤ α with
+the correct ordering and **zero** subsequent LOMO failures — a condition that can never be false is not a test.
+
+**Power accounting.** The registered minimum detectable effect is 80 % power at **1.5–2.0 Å**, from a
+Monte-Carlo through this same frozen rule against a leg-to-leg SD of **0.855 Å** measured on six committed
+same-model groups. Because the model-level value is the mean of two velocity replicas within a fixed co-fold
+model, the model-level SD is bounded below by 0.855/√2 ≈ 0.605 Å — and that lower bound assumes
+co-fold-model-to-model structural variance is exactly **zero**, which it is not (distinct co-fold seeds of one
+system differ by several Å Cα-RMSD). Both bounds are carried. Re-running the frozen rule under simulation at
+the panel's realised 3/3/2 shape (the simulation reproduces the emitted p to 1e-9 on the observed data, and
+reproduces the registered design's published power curve):
+
+| true separation | power at σ_model = 0.605 Å *(optimistic)* | power at σ_model = 0.855 Å *(registered leg SD)* |
+|---|---|---|
+| 0 Å (false-positive rate) | 0.036 | 0.036 |
+| **0.41 Å** *(observed NR4A1 vs NR4A3, wrong direction)* | **0.16** | **0.11** |
+| **0.75 Å** *(observed NR4A1 vs NR4A2, right direction)* | **0.35** | **0.21** |
+| 1.0 Å | 0.53 | 0.32 |
+| 1.5 Å | 0.84 | 0.58 |
+| 2.0 Å | 0.97 | 0.80 |
+
+Two readings follow. First, the false-positive rate is at or below α, so the test is **valid — it is blunt,
+not anticonservative**. Second, the realised panel is **weaker than the design whose MDE was registered, and
+the registered band survives only without margin.** At the band's two endpoints the registered 3 / 3 / 3
+design gives 0.92 (1.5 Å, optimistic σ) and 0.89 (2.0 Å, registered σ); the realised 3 / 3 / 2 gives **0.84
+and 0.80**. So "80 % power at 1.5–2.0 Å" still approximately describes this panel — with nothing to spare —
+but AMENDMENT 4 excluded a faulted co-fold and **deliberately registered no replacement MDE**, so the band is
+read here as an **upper bound on the realised panel's sensitivity**, not as a measured property of it. Neither
+reading changes the conclusion that matters: at the separations actually observed the test had roughly
+one-in-five power, so its failure to resolve them is the design reporting its own blind spot.
+
+**Registered reading of the outcome, verbatim.** *Licensed:* "the workflow did not resolve a paralogue
+difference of the magnitude this design can detect (≥ ~1.5–2.0 Å in interface-RMSD plateau)." *Not licensed:*
+that NR-V04's selectivity is localised to warhead reactivity — that localisation rests on the Cys551
+conservation analysis and Zhang et al. 2018 [64] and is attributed to them. *Claim ceiling:* **directional
+concordance or discordance only**; R1 computes no free energy, so no ΔΔG, cooperativity, affinity or
+degradation quantity follows.
+
+**Known limitation of the endpoint, recorded before execution.** The primary test sees only the *ordering* of
+the 56 subset sums, so an effect of 0.2 Å and an effect of 20 Å that produce the same ordering produce the same
+p. Separately, the R1 arms are **not matched in initial ligand placement, and the asymmetry runs against the
+hypothesis**: warhead↔target contacts at t = 0 are lower for NR4A1 than for either paralogue, i.e. the spared
+paralogues begin better engaged with their target. Both were recorded in the pre-spend audit before any leg
+ran, and neither is invoked here to explain the result away — they are the reasons the outcome is reported as
+a non-resolution rather than as evidence about the biology.
+
+**Secondary endpoints E2–E4.** The preregistration states these are reported alongside the primary and never
+gate it; the emitted verdict does not carry them, which the criteria audit records as an unimplemented promise
+rather than a scoring defect (the frozen scorer never reads them, so they cannot have influenced the tier).
+Reporting them from the landed legs is outstanding and costs no new computation. **Gating on a
+better-separating secondary after seeing the primary would be a post-hoc endpoint swap and is excluded.**

@@ -64,7 +64,16 @@ of +0.944), and does so with converged, structurally stable, forward/reverse-ant
 closed cycle, making the miss ~34× the statistical uncertainty and therefore systematic rather than a sampling
 deficit that replicates could remove.** No cooperativity or
 ternary-complex quantity in this work is therefore calibrated, and the degrader stage is reported as a
-prioritized candidate matrix rather than a quantitative prediction. The **causal test of whether any designed
+prioritized candidate matrix rather than a quantitative prediction. **A second preregistered control — a
+biological holdout retrospectively applying the workflow to the one reported NR4A-family-selective degrader,
+with its covalent confound held off — returns a non-resolution rather than a wrong answer: the ordering
+condition fails (one-sided p = 0.393; the reverse direction is not significant either, p = 0.625) at arm
+separations of ≈0.41–0.75 Å against a registered minimum detectable effect of 1.5–2.0 Å, so its
+preregistered reading is that the workflow did not resolve a paralogue difference of the magnitude this
+design can detect. Because the matched method calibrator for paralogue discrimination is also unrun, no
+positive control in this work demonstrates that the workflow can detect paralogue selectivity where it is
+known to exist** — which bounds the *warrant*, not the values, of every selectivity result reported here, and
+is why they are stated as a predicted paralogue-favoured profile awaiting experimental confirmation. The **causal test of whether any designed
 element creates discrimination has not been run**, and its reading is pre-registered. This is a
 **computation-only** design and feasibility
 study — **no molecule was synthesized and no wet-lab validation was performed** — whose principal unresolved
@@ -883,7 +892,8 @@ prospective affinity or degradation-selectivity ranking authority.)*
 > confound's actual content — the reactive cysteine is **unique to NR4A1** (NR4A2 Tyr, NR4A3 Thr579) — and
 > NR-V04 is in any case a **biological holdout for the family-selectivity question, not the method
 > calibrator**, so modelling its covalency was never load-bearing for the machinery used elsewhere in this
-> paper.
+> paper. **That holdout has since been run on the non-covalent contrast it was preregistered for, and it did
+> not resolve — see §2.12**, which is the one place its result and its consequences are stated.
 
 **A covalent-adduct endpoint-MD feasibility panel was built and executed; its interface readouts are withdrawn,
 and what stands is the panel's execution and cost.** The co-fold retrospective above left celastrol's covalent
@@ -1915,6 +1925,91 @@ matrix rather than a quantitative prediction, and the ternary machinery's demons
 is internally self-consistent on a real ternary system* — not *predicts measured cooperativity*. We regard
 reporting this negative at full weight as more informative than the pilot it was meant to license.
 
+### 2.12 The preregistered biological holdout does not resolve, leaving the workflow's paralogue discrimination without a positive control of any kind
+
+§2.11 reports the *method* calibrator returning a wrong answer. This section reports the companion test on the
+*biological* holdout, whose outcome is different in kind and, for the selectivity claims specifically, more
+consequential: it is not a wrong answer but **no answer at a resolution this design can deliver**.
+
+**Design, frozen before execution.** NR-V04 is the one reported NR4A-family-selective degrader — reported to
+degrade NR4A1 while sparing NR4A2/NR4A3 (§1, §2.5) — and is therefore the only available known-phenotype test
+of whether the workflow used here discriminates NR4A paralogues at all. It was preregistered as a **holdout**
+rather than a calibrator (`../modalities/nr4a3-nrv04-retrospective-prereg.md`) for a reason that is itself a
+limitation: celastrol's NR4A1 engagement is covalent at Cys551, a residue the paralogues do not carry
+(NR4A2 Tyr, NR4A3 Thr579; §2.10), so a naive three-arm comparison could recover *target engagement* rather
+than paralogue discrimination by the ternary machinery. The panel therefore decomposes, and its primary stage
+**R1 holds warhead reactivity off**: NR4A1, NR4A2 and NR4A3 are run **all-non-covalent**, from co-fold models
+under a single structural provenance, through one endpoint-MD driver, and the registered endpoint **E1** is
+the interface-RMSD plateau (lower = more stable), collapsed to one value per co-fold model. The decision rule
+is an exact one-sided permutation test on model-level means at α = 0.05, frozen in code before any leg ran
+(`../modalities/nrv04_retro_gate.py`), and the panel authorised by prereg AMENDMENT 4 is **16 legs at
+model-level n = 3/3/2** — one NR4A3 co-fold was excluded **by a measured input fault** (two heavy atoms
+0.181 Å apart in the predicted structure, a static property provable before any MD is interpreted), not by
+its outcome.
+
+**Result: `DISCORDANT` — and a non-resolution, not a reversal.** All 16 legs completed, with **zero technical
+failures in all three arms** and no arm underpowered by the preregistered failure criterion. Arm mean E1
+plateaux are **NR4A1 4.098 / NR4A2 4.844 / NR4A3 3.685 Å**, so NR4A1 is **not** the most stable arm — NR4A3
+is — the preregistered ordering condition fails, and the tier is `DISCORDANT`. The primary statistic is
+**−0.283 Å** at one-sided **p = 0.393** against α = 0.05, on a 56-arrangement reference set whose *minimum
+attainable* p is 0.018. **The reverse direction is not significant either (p = 0.625)**, and the preregistered
+extension rule did not fire (it may not be invoked on a wrong-sign result). The defensible statement is
+therefore that the test **did not resolve a paralogue ordering**; the inverted ordering it happens to display
+is not itself a result, and we do not report it as one. A leave-one-model-out refit does not preserve the sign
+(2 of 8 drops flip it); prereg AMENDMENT 3 had already demoted that clause from a tier condition to a reported
+diagnostic after showing it could never bite, and we report it in that role only.
+
+**The observed separations sit far inside the design's blind spot, which is why "did not resolve" is the
+accurate description and "negative result" is not.** The two arm separations are **≈0.41 Å** (NR4A1 vs NR4A3,
+and in the direction *against* the reported phenotype) and **≈0.75 Å** (NR4A1 vs NR4A2, in the direction of
+it), against a registered minimum detectable effect whose 80 %-power band begins at **1.5–2.0 Å** — a
+separation comparable to half the endpoint's entire observed dynamic range. Re-running the frozen decision
+rule under simulation at the panel's realised 3/3/2 shape and the registered leg-to-leg SD of 0.855 Å gives
+power of **≈0.11** against a true 0.41 Å effect and **≈0.21** against 0.75 Å; on the optimistic model-level SD
+that assumes zero co-fold-model-to-model structural variance (0.605 Å) these rise only to ≈0.16 and ≈0.35.
+Two consequences follow and we state both. First, **a test with roughly one-in-five power failing to resolve a
+0.75 Å effect is the design reporting its own blind spot, not evidence about the underlying biology.** Second,
+the panel as realised is **weaker than the design whose MDE was registered**: at the registered band's two
+endpoints the 3/3/3 design gives 0.92 (1.5 Å, optimistic SD) and 0.89 (2.0 Å, registered SD), while the
+realised 3/3/2 gives 0.84 and 0.80 — so the 1.5–2.0 Å band still approximately describes this panel, with
+nothing to spare, and because AMENDMENT 4 registered no replacement MDE it is read as an upper bound on the
+realised panel's sensitivity rather than a measured property of it. The false-positive rate under the null
+remains at or below α (≈0.036 at the realised shape), so the test is **valid, and blunt**; it is not
+anticonservative.
+
+**One secondary comparison is *unresolvable*, not null, and is labelled that way wherever it appears.** The
+NR4A1-vs-NR4A3 pairwise contrast has a reference set admitting a **minimum one-sided p of 0.10 — above α** —
+so *no observed ordering whatsoever* could have reached significance in that comparison. That is a registered
+loss taken knowingly when the faulted co-fold was excluded, and reporting it as "no difference was found"
+would convert a design limit into a finding. The NR4A1-vs-NR4A2 pairwise (p = 0.30, minimum attainable 0.05)
+is null rather than unresolvable. Both are descriptive support and neither is the verdict.
+
+**What the result licenses, and what it may not be read as.** It licenses exactly one sentence, fixed in
+advance: *the workflow did not resolve a paralogue difference of the magnitude this design can detect.* It may
+**not** be read as showing that NR-V04's selectivity is localised to warhead reactivity — that localisation
+rests on the Cys551 conservation analysis and Zhang et al. 2018 [64], and is attributed to them throughout.
+The registered claim ceiling for this experiment is **directional concordance or discordance only**: Arm E
+computes no free energy, so no ΔΔG, cooperativity, affinity or degradation quantity follows from it. Full
+per-model values, both pairwise tests, the leave-one-model-out refits and the registered MDE are in
+[`../modalities/nrv04-retro-verdict.json`](../modalities/nrv04-retro-verdict.json) and **SI §S12**.
+
+**★ What this costs the rest of the paper — a positive control, not a number.** No quantitative claim in this
+paper rests on the interface-RMSD plateau endpoint, so no reported value changes: the selectivity results
+stand on sequence divergence (§2.4), docking triage (§2.5), endpoint MM-GBSA against decoy nulls (§2.6–2.7),
+ABFE receptor contrasts (§2.8) and categorical geometric reach (§2.10), none of which this experiment
+measures. What changes is the **warrant** behind all of them at once. This holdout was the program's
+*biological* positive control for family selectivity; the *method* calibrator for paralogue discrimination —
+a matched public paralogue pair with degrader-level selectivity and solved structures — is designed and
+priced but **has not been run**. With the holdout non-resolving and that calibrator unbought, **this work
+contains no positive control demonstrating that any component of the workflow can detect paralogue
+selectivity where paralogue selectivity is known to exist.** Every paralogue-selectivity statement in this
+paper is accordingly *internally* supported — by convergent, control-screened, replicate computations — and
+*externally* unvalidated, and we mark it as such rather than allowing convergence across our own tiers to
+stand in for an external check. This is a limitation on **warrant**, not a retraction of any measurement, and
+§4 states which claims it does and does not reach. We report the non-resolution at full weight for the same
+reason as §2.11: a control that was run and did not deliver is more informative than the pilot it was meant
+to license.
+
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
 `gpu-*-aws.yml`). Structure: AlphaFold2 (AFDB) + fpocket (file→pocket mapping derived from data,
@@ -2345,6 +2440,30 @@ weight, with the following caveats made explicit rather than buried:
    the force field, the receptor model, the charge method and protonation assignment (§2.9). Every free-energy
    result in this paper is therefore bounded above by its known-answer benchmarking, not by its internal
    self-consistency, and no amount of internally consistent cycling substitutes for a measured reference.
+10. **★ No positive control in this work demonstrates that the workflow can detect paralogue selectivity —
+    and that bounds the *warrant* of every selectivity claim here, whichever measurement it rests on (§2.12).**
+    This is the single most important limitation on the selectivity results and we state it without hedging.
+    The known-answer controls this paper does report each speak to something narrower: the relative-FEP path
+    reproduces a congeneric ΔΔG **within one pocket** (§3, TYK2); the ABFE engine **fails** its absolute
+    benchmark (§2.8, T4L, +7.1 kcal/mol); the ternary-cooperativity calibrator **fails on sign** (§2.11); the
+    protein-mutation engine passes a hot-spot benchmark but is explicitly **not demonstrated to resolve a
+    paralogue-scale difference** (§3); the co-folding classifier **fails** its stereochemical affinity control
+    (§2.5); and the decoy nulls are specificity (negative) controls, which bound false positives and cannot
+    establish sensitivity. **None of these is a case where paralogue selectivity is known to exist and the
+    workflow recovers it.** The one experiment that could have been — the preregistered NR-V04 biological
+    holdout — **did not resolve** (§2.12), and the matched public paralogue-pair method calibrator that would
+    test the same capability directly is designed and priced but **unrun**. Three consequences, stated at
+    their true scope. **(a)** No selectivity claim here is *retracted* by this: the ΔΔG contrasts of §2.8, the
+    sequence-divergence enrichment of §2.4 and the categorical reach statistics of §2.10 rest on measurements
+    this experiment does not touch, and are unaffected as measurements. **(b)** But their **sensitivity is
+    uncalibrated in the paralogue regime specifically** — we have shown these methods can produce a
+    paralogue-resolved *direction*, not that they would find one where one truly exists, nor that they would
+    stay silent where one does not. Convergence across our own tiers is therefore not a substitute for an
+    external check, and we do not present it as one. **(c)** The claim grade this supports is a **predicted**
+    paralogue-favoured profile requiring experimental confirmation — which is what the paper claims — and
+    **not** a demonstrated or validated paralogue selectivity, which no result here supports. Closing this gap
+    needs either a matched known-answer paralogue benchmark or a materially higher-powered holdout; both are
+    scoped, neither is run, and until one is, this limitation stands in front of the whole selectivity block.
 
 **Selectivity methodology:** docking margins are **triage priors, not affinities**; a quantitative
 selectivity claim needs endpoint free energy. The criterion-matched NR4A1/NR4A2 metadynamics runs are
@@ -2387,7 +2506,13 @@ margin, while the **matched** experiment-anchored paralogue legs have not been r
 follow-up; and the dense-schedule λ-repair that would firm up the error bars is **held**, so every ABFE number
 here stays provisional. With no wet lab, the strongest honest claim is
 **"computationally designed for an NR4A3-favoured profile and supported by initial ABFE receptor contrasts
-conditional on selected opened conformers,"** not "selective." Matrix cells are gated by degradation *direction* and bounded by the AML
+conditional on selected opened conformers,"** not "selective." **That wording is unchanged by the holdout
+result of §2.12 and is deliberately not weakened further** — it already claims a computed, conditional
+*preference* rather than a demonstrated selectivity, and §2.12 changes no measurement it rests on. What
+§2.12 adds is the rider in caveat 10: the *sensitivity* of these methods in the paralogue regime is
+uncalibrated, because no positive control in this work recovers a known paralogue selectivity. The claim
+therefore stands as a **prediction awaiting experimental confirmation**, and must not be read as a validated
+paralogue selectivity. Matrix cells are gated by degradation *direction* and bounded by the AML
 anti-target (SI §S4); and binding selectivity is still necessary-not-sufficient for *degradation* selectivity
 (caveat 5).
 
@@ -2466,6 +2591,17 @@ replicates, ΔΔG_coop = −0.599 at n = 3 against a preregistered +0.944, with 
 uncertainty and therefore systematic). This
 clause is consequently **in force, not pending**: any positive Tier-3 result is exploratory, and the condition
 cannot be discharged by adding replicates, because replicates shrink variance and not bias.
+**⚠ A second, independent reason now holds the same clause in force, and it is the one that bears on
+selectivity rather than on cooperativity.** The preregistered biological holdout — the retrospective on the
+one reported NR4A-family-selective degrader — has since been run and **did not resolve** (§2.12: `DISCORDANT`
+on the ordering, p = 0.393, and the reverse direction not significant either, at separations far inside the
+design's registered minimum detectable effect). Its own preregistered reading applies unchanged: a
+non-resolution licenses *"the workflow did not resolve a paralogue difference of the magnitude this design can
+detect"* and nothing further. Because the matched method calibrator for paralogue discrimination is also
+unrun, **no positive control in this work demonstrates that the workflow can detect paralogue selectivity at
+all** (§4 caveat 10) — so a positive Tier-3 result would remain exploratory on selectivity grounds even had
+the cooperativity control passed. Neither condition is discharged by the other, and neither is discharged by
+more sampling.
 
 **Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single de-noised,
 initial-ABFE-supported foothold, not an unqualified pass.** `denovo_401` docks into the druggable release

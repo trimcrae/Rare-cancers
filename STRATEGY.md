@@ -97,7 +97,7 @@ hand-carried total that stood while the fan-out lane alone had realised twenty t
 | RUNG 2 | **calibration benchmark (valB_mini)** | **FAILED** | wrong sign, and provably **not** fixable by more replicates. **Remediation:** replacement design drafted → refuted by its own free pre-check → second replacement specified at **~$7**. ⚠ **The 4 replicate legs now running do NOT convert this to a PASS** — see the row below |
 | RUNG 2 · replicates | **valB_mini r1+r2 — is the FAIL quantified?** | **GATE FAILED, AS PRE-REGISTERED — and it is now quantified.** All 4 legs landed 3:07 AM ET Jul 30; the reduction ran at n=3 | **FAIL on the SIGN, before the replicate SD is ever consulted**: per-replicate ΔΔG_coop = −0.5125 / −1.0097 / −0.2749, mean **−0.599** against a known target of **+0.944**, abs error **1.543** on a 1.0-pass / 2.0-fail band. The decision is **NO-GO** — *"CI is entirely NEGATIVE (−1.103..−0.095) — method resolves the WRONG sign of cooperativity"* · **The durable deliverable is the replicate SD: 0.375 kcal/mol**, against per-leg MBAR SEs of 0.097–0.132 — roughly 3×, which is direct evidence for the paper's standing rule that a within-run MBAR SE speaks to precision and never to reproducibility · ⚠ **One open item for trimcrae, not decided here:** the reduction flags system identity INCONSISTENT because the ternary arm disagrees with ITSELF across seeds (r1 144,447 vs r2 141,740 particles, and binary 90,324 vs 90,720). That survives the 2026-07-30 fix that stopped the check comparing the ternary arm against the binary arm — a comparison meaningless by construction. Whether independently-solvated replicates may differ in water count, and what that does to a replicate SD, is a scientific call |
 | RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
-| RUNG 4 | **NR-V04 retrospective** | **FAILED (blocked)** | could not have returned an answer under any physics — two independent bugs, each of which would have burned the full spend and returned a false "inconclusive". **Remediation:** both fixed, one arm retired, **HELD** pending re-check. ⚠ **The hold was BREACHED by automation on 2026-07-31 and $0.75 was spent on 17 legs that are not admissible** — a supervision tick re-placed the held fan-out at the wrong protocol and the frozen gate then scored it. Nothing about the rung's science changed and no verdict stands; see Appendix A row 57. **~$23 of the rung still not spent** |
+| RUNG 4 | **NR-V04 retrospective** | **RAN — R1 verdict `DISCORDANT`, and it is a NON-RESOLUTION, not a demonstrated reversal** | The 16-leg R1 panel completed at the preregistered protocol (zero technical failures in all three arms, no underpowered arm) and the frozen gate scored it: **NR4A1 is not the most stable arm** — NR4A3 is — at one-sided **p = 0.3929** against α = 0.05, on a 56-arrangement reference set whose *best possible* p is 0.0179. **The reverse direction is NOT significant either (p = 0.625), so this is a failure to resolve, and it must never be reported as evidence that the paralogue ordering is inverted.** What a null licenses is fixed in advance by the registered MDE — *"the workflow did not resolve a paralogue difference of the magnitude this design can detect"* — and it explicitly may **NOT** be read as localising NR-V04's selectivity to warhead reactivity (that stands on Leg 0 + Zhang 2018 alone). Claim ceiling: **directional concordance/discordance only.** Every number lives once, in [`nrv04-retro-verdict.json`](research/modalities/nrv04-retro-verdict.json). ⚠ **The consequence for the paper is a WARRANT problem, not a number problem, and it is the serious reading:** the *method* calibrator for paralogue discrimination (valB_full module 3, SMARCA2-vs-SMARCA4) is still **unrun**, so with this holdout non-resolving the program now has **no positive control of either kind demonstrating that any part of this workflow can detect paralogue selectivity**. What that does and does not constrain, claim by claim, plus the priced power option, is in the rung entry — this row deliberately does not restate it. **Superseded, retained: "FAILED (blocked) … no verdict stands"** ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 64) |
 | RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **COMPLETE — the lane closed itself at 9:24 PM ET Jul 29 (`pending=0`, `live=0`, every unit carrying a `ddg.json` or on the blocked list). The MAP is delivered; the GATE on what it means is a separate judgement and is NOT claimed here** | **18 edges complete of the 18 computable**, in a 19-edge map, for **$73.79** against a derived authorisation ceiling of $74.91 · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it; and the one map that does reach 19 gets there only by mapping a carbon onto a hydrogen, which is the degenerate correspondence the floor exists to reject) · **the edge that was held on a FIXED DEFECT has since LANDED** (`cw_bio_primary_amide`, +0.935 ± 0.500 kcal/mol — two atoms of the staged hybrid system sat at exactly the same coordinates carrying a gradient 7.7e11 times the largest force on any other atom in the box; finite, so the CPU minimiser survived it and every GPU did not. Displacing one by 0.01 A removed it and changed nothing else to six significant figures. It burned 25 rentals on 7 cards before anyone counted the attempts; the de-degenerated geometry reached the execution hosts and the edge computed) · **15 of the 18 are anchor-rooted** and are the only ones readable as tighter-or-weaker than cmpd19; the other 3 join two analogues and close cycles. **The honest denominator is 18 computable edges of a 19-edge map**, derived in `step1-fanout-map.json` (`n_computable`), never typed — and the ranked table is built from that file's `ranking` field, which is restricted to anchor-rooted edges for the reason recorded in the paper's Appendix A · ⚠ **AND ONE OF THE THREE CYCLES DOES NOT CLOSE — a MAP-QUALITY caveat that was landed with the map and had reached no document until 2026-07-30.** `cycle_exitvector_aniline` **R = −0.726** and `cycle_exitvector_ether` **R = −0.756** are inside the ±1.0 tolerance; **`cycle_3carbonyl` sums to R = +1.307 → VIOLATION**. The artifact's own rule is that an open cycle means at least one of its edges is unconverged or mis-mapped, so **the three edges of that loop** (`cw_ms_free_acid` +0.136, `cw_bio_primary_amide` +0.935, `cw_ms_free_acid → cw_bio_primary_amide` +2.106) **carry that reservation wherever they are quoted**. R is a property of the loop and does NOT name the guilty edge; at one replicate per edge it also cannot be separated from three unlucky single draws, which is the same want-of-replicates limit as everywhere else on this lane. Numbers live once, in `step1-fanout-map.json` → `cycle_closure` |
 
 | deliverable | status |
@@ -1915,6 +1915,119 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   differential surface exists to steer an E3 against (distinct from the ~70 % pocket hotspot), so the 5a
   orientation-basin search is warranted. *(Optional add-on: matched NR4A1/2 MD ensembles ~$10–40 to test which
   handles survive dynamics.)*
+- **`[x]` NR-V04 retrospective, Arm E / R1 — ★★ RAN 2026-07-31 AND RETURNED `DISCORDANT`. THIS IS THE RUNG'S
+  ONE HOME FOR WHAT THE VERDICT MEANS.**
+  **The result, stated once and derived nowhere else:** the 16-leg panel completed at the preregistered
+  protocol, the frozen scorer applied prereg §5, and the tier is **`DISCORDANT` — "NR4A1 is not the most stable
+  arm."** One-sided **p = 0.3929** against **α = 0.05**, on a **56-arrangement** reference set (the AMENDMENT 4
+  panel's 3/3/2 model-level *n*) whose *minimum attainable* p is 0.0179. Arm means, per-model values, the
+  pairwise tests and the LOMO refits all live once, in
+  [`nrv04-retro-verdict.json`](research/modalities/nrv04-retro-verdict.json) — **this entry deliberately does
+  not restate them.**
+  **★ IT IS A NON-RESOLUTION, NOT A DEMONSTRATED REVERSAL, AND THE DIFFERENCE IS THE WHOLE READING.** The
+  reverse-direction test is **not** significant either (p = 0.625), and `extension_triggered` is **false**
+  because §4d may not be invoked on a wrong-sign result. So the honest sentence is *"the test did not resolve a
+  paralogue ordering"*, **never** *"the paralogue ordering is inverted"* — the second is a claim this design
+  cannot make and the artifact's own `null_licenses` forbids.
+  ⚠ **LOMO is REPORTED, NOT GATING** (`survives: false`, 2 of 8 refits flip sign). AMENDMENT 3 defect 3 demoted
+  it precisely because it is inert; quoting it as if it downgraded the tier would re-introduce the defect.
+  ⚠ **THE NR4A1-vs-NR4A3 PAIRWISE IS UNRESOLVABLE, NOT NULL, AND MUST BE LABELLED THAT WAY EVERY TIME IT
+  APPEARS.** Its reference set admits a *minimum* one-sided p of 0.10, which is **above α** — so no observed
+  ordering whatsoever could have reached significance. That is AMENDMENT 4 §4.3's registered loss, taken
+  knowingly when the faulted co-fold was excluded; reporting it as "no difference found" would convert a
+  design limit into a finding.
+  **What it licenses, verbatim from the artifact:** *"the workflow did not resolve a paralogue difference of the
+  magnitude this design can detect (≥ ~1.5–2.0 Å in interface-RMSD plateau)."* **What it may NOT claim:** that
+  NR-V04's selectivity is localised to warhead reactivity — that stands on **Leg 0** (Cys551 unique to NR4A1)
+  and **Zhang 2018**, and must be attributed to them. **Claim ceiling: directional concordance/discordance
+  ONLY** — no ΔΔG, α, cooperativity, affinity or degradation claim, because Arm E computes no free energy.
+  **★★ THE OBSERVED EFFECTS WERE FAR INSIDE THE DESIGN'S BLIND SPOT, WHICH IS WHY "NON-RESOLUTION" IS THE
+  ACCURATE WORD AND "NEGATIVE RESULT" IS NOT.** The two arm separations are **~0.41 Å** (NR4A1 vs NR4A3, and
+  in the *wrong* direction) and **~0.75 Å** (NR4A1 vs NR4A2, right direction), against a design whose 80 %-power
+  band starts at **1.5–2.0 Å**. Re-run through the frozen rule itself
+  (`nrv04_retro_gate.exact_permutation_p`, self-checked against the emitted p to 1e-9 and reproducing the
+  registered design's published curve), **at the panel's realised 3/3/2 shape**: power against a **0.75 Å**
+  true effect is **≈0.21**, and against **0.41 Å** **≈0.11**. **A test with ~1-in-5 power did not find a
+  0.75 Å effect. That is the design reporting its own blind spot, not evidence about the biology.** The full
+  power table, both σ bounds, and why the realised panel is weaker than the design whose MDE was registered
+  are in the paper's **SI §S12**, which is their one home — this entry deliberately carries only the two
+  figures the reading turns on.
+  **★★ AND THE DAMAGE IS A WARRANT PROBLEM, NOT A NUMBER PROBLEM — STATED WITHOUT SOFTENING.** No live claim in
+  the paper rests on this readout (the only text that ever used the interface-RMSD driver's output is already
+  withdrawn under §2.5's DO-NOT-CITE banner), so **nothing needs a number changed.** What changes is the
+  *warrant* behind every selectivity claim regardless of which measurement it rests on: this holdout was the
+  **biological** positive control for family selectivity, and the **method** calibrator for paralogue
+  discrimination — **valB_full module 3, SMARCA2-vs-SMARCA4 — has never been run** and is deliberately gated
+  behind the failed cooperativity module ([Open decisions 9](#open-decisions)). With the holdout non-resolving
+  and the calibrator unbought, **the program has no positive control of either kind demonstrating that any part
+  of this workflow can detect paralogue selectivity.** Every paralogue-selectivity claim in the paper is
+  therefore *internally* supported and *externally* unvalidated, and the manuscript now says so in one place
+  (§2.12, and §4 caveat 10) rather than leaving each claim to imply otherwise.
+  ⚠ **BOOKKEEPING GAP, NAMED RATHER THAN PAPERED OVER:** this panel's production rentals are in **neither**
+  ledger — `realised-spend.json` counts `step1_fanout` and `vast_bench_sweep` only, and the lane's two
+  `ATTESTED` rows are the *orphaned host* and the *withdrawn smoke fan-out*, both pre-dating this run. The
+  lane's own S3 rental ledger is the source of record; the committed snapshot of it is
+  [`nrv04-retro-price-forensics.json`](research/modalities/nrv04-retro-price-forensics.json), whose
+  `projected_panel_total_usd` is a **projection** (16 units × a mean its own `measured_mean_caveat` says is
+  *not protocol-aware*), **not a realized total** — so it must not be quoted as spend. Closing it is a
+  `nrv04_retro_price_forensics` refresh + `realised_spend.py --write` in the same commit, which is that lane's
+  work, not this entry's.
+  **★★ IS MORE POWER WARRANTED? — PRICED, NOT TAKEN. THIS IS trimcrae's CALL AND NOTHING IS LAUNCHED.**
+  CLAUDE.md §5 defaults **NO** on deepening past field standard, and the stated exception applies here: the
+  ambiguity is decision-relevant, because it is the difference between the paper being able to point at a
+  validated paralogue-selectivity capability and not. So it is costed rather than argued. **Method:** the
+  frozen rule itself (`nrv04_retro_gate.exact_permutation_p`) re-run under simulation — self-checked against
+  the emitted p to 1e-9, and it reproduces the registered design's published power curve, which is what makes
+  the extrapolation trustworthy rather than a fresh model. **Cost basis is DERIVED, never typed:**
+  `vast_cost_model.ENDPOINT_MD_REF_GPU_H_PER_LEG` × the `$/ref-GPU-h` in
+  [`vast-ladder-repricing.json`](research/modalities/vast-ladder-repricing.json). A co-fold **model** is the
+  unit of independence and costs **2 legs**; the panel already holds 8 models (3/3/2).
+
+  | target effect | σ_model | balanced n/arm for 80 % power | new models | new legs | plan $ (range) |
+  |---|---|---|---|---|---|
+  | **0.75 Å** (the NR4A1-vs-NR4A2 separation observed) | 0.605 Å *optimistic* | 7 | 13 | 26 | **$4.10** ($1.70–$10.34) |
+  | **0.75 Å** | **0.855 Å** *registered* | **12** *(0.78 — n = 13 clears 0.80 with margin)* | 28 | 56 | **$8.83** ($3.66–$22.26) |
+  | **0.41 Å** (the NR4A1-vs-NR4A3 separation — the contrast the paper's claim actually turns on) | 0.605 Å *optimistic* | 21 | 55 | 110 | **$17.35** ($7.18–$43.73) |
+  | **0.41 Å** | **0.855 Å** *registered* | **≈41** | 115 | 230 | **$36.28** ($15.01–$91.44) |
+  | 0.41 Å | 1.150 Å *pessimistic* | ≈75 | 217 | 434 | $68.46 ($28.33–$172.55) |
+
+  ⚠ **THE "NEW LEGS" COLUMN IS THE OPTIMISTIC CASE, AND THE REASON IS PROTOCOL, NOT MONEY: THIS PANEL MAY NOT
+  SIMPLY BE EXTENDED.** The prereg's own §4d extension rule **may not be invoked on a wrong-sign result**, and
+  this result is wrong-sign — so a higher-*n* design is a **new preregistration**, not a continuation of this
+  one. Re-using the 16 landed legs inside it is defensible (same protocol, same provenance prefix, and the
+  exclusion was by measured input fault rather than outcome) **but it must be declared in advance, with the
+  already-seen values named**, or the new test inherits a selection its reference distribution does not model.
+  If that re-use is judged unacceptable, the honest price is the **full** panel, not the increment: 72 legs at
+  n = 12, 246 at n = 41.
+  **★ READ THE TABLE AS AN ARGUMENT AGAINST BUYING IT, WHICH IS WHY IT IS WORTH HAVING.** The money is not the
+  objection — even the realistic 0.41 Å row is inside the standing ≲$50 threshold. **Three things are.**
+  **(1) It buys the wrong kind of evidence.** A higher-powered holdout that resolves would be informative; one
+  that *still* does not resolve leaves the program exactly where it is now, and at 0.41 Å the honest prior on
+  that is high — the observed sign is *against* the reported phenotype. Neither branch produces a **positive
+  control**, because the underlying phenotype's structural mechanism is itself confounded by covalency
+  (Cys551), which is precisely why NR-V04 was demoted to a holdout in the first place. **(2) It is a
+  post-hoc power calculation on an observed effect, and those flatter.** The 0.41/0.75 Å figures are point
+  estimates from n = 8 models at a σ of the same order; sizing a confirmatory run on them is the classic error,
+  so the honest reading of the table is *"this design would need 5–14× its current n"*, not *"n = 41 will
+  settle it"*. **(3) The co-fold supply is itself a risk that scales with n** — AMENDMENT 4 excluded one model
+  of eight on a **measured** input fault, so 115 more models is ~14 more expected faults to detect and exclude,
+  each an input-QC obligation before any MD is interpreted.
+  **What is cheaper and answers the actual question:** ⓐ **$0 first** — the prereg promised E2–E4 would be
+  *"reported alongside"* the primary in every result, and the emitted verdict does not carry them
+  (`nrv04-retro-criteria-audit.json` → `criterion_by_criterion`); the 16 landed legs already hold them, so
+  reporting them costs nothing. ⚠ **Reporting them is preregistered; GATING on a friendlier one is not**, and
+  swapping the endpoint after seeing the primary is exactly the retune this program forbids — so this is
+  transparency and an input to design, never a second bite at the verdict. ⓑ The **method** calibrator
+  (valB_full **module 3**, SMARCA2-vs-SMARCA4) asks the question directly — *can this workflow recover a
+  paralogue selectivity that is known to exist?* — on a system whose answer is known and whose mechanism is
+  non-covalent. It has **no standalone ladder line** (the ladder prices the whole `valB_full` cube); it is
+  gated behind the failed cooperativity module by [Open decisions 9](#open-decisions), and that decision also
+  records the strongest argument against it, which must be preregistered rather than discovered: 8G1Q is a
+  *SMARCA4* structure with SMARCA2 homology-substituted, so a model error sits on one arm and does not cancel.
+  **Recommendation, stated so it can be overruled in one word: do ⓐ now, put ⓑ before any NR-V04 extension,
+  and buy no extra retrospective power until a positive control exists to interpret it against.**
+  *(The pre-launch history below is retained: it is why the panel could not have answered before 2026-07-30,
+  and the frozen gate wording it fixes.)*
 - **`[!]` NR-V04 retrospective — preregistered holdout — ★ HELD 2026-07-25: IT COULD NOT HAVE RETURNED A
   VERDICT UNDER ANY PHYSICS, TWICE OVER** — **~$24 ($5.6–78; repriced from ~$21 onto the 2800-iteration basis)
   · Cum. ~$107.**
@@ -2472,7 +2585,8 @@ the ordering below.*
 | 2 | ~~**Wire the strided-trajectory requirement into `nrv04_covalent_md`**~~ ✅ **DONE 2026-07-30** | **$0** | Item 4. It was a hard precondition on the only built-and-unlaunched GPU item we own, and it is now met |
 | 3 | ~~**Settle the `S` replicate count BEFORE the market re-opens**~~ ✅ **DONE — n = 2 per arm** | **$0 to decide** | Item 3. The lane would otherwise have resumed under-powered the moment price allowed |
 | 4 | **`S` at n = 2 per arm** — the flagship kill-switch, correctly sized and now CONFIGURED | **~$23** (ladder) | The only unrun test of the program's headline causal claim, and the second seed is what makes its *likely* answer readable. Waiting on the market, not on a decision |
-| 5 | **NR-V04 retrospective, Arm E (R1 only, 16 legs)** ✅ **RUNNING** — *was "18 legs", superseded by prereg AMENDMENT 4 (2026-07-31): `nr4a3` co-fold seed 3 excluded by measured input fault (0.181 Å heavy-atom clash), so n = 3/3/2* | **≈$7.7** | A *new axis of evidence* (biological holdout), built and preregistered, with a registered MDE — CLAUDE.md §5's "default YES". The gate is reconciled to the prereg and the durable-trajectory precondition is met |
+| 5 | ~~**NR-V04 retrospective, Arm E (R1 only, 16 legs)**~~ ✅ **DONE 2026-07-31 — verdict `DISCORDANT`, a NON-RESOLUTION** — *was "18 legs", superseded by prereg AMENDMENT 4 (2026-07-31): `nr4a3` co-fold seed 3 excluded by measured input fault (0.181 Å heavy-atom clash), so n = 3/3/2* | **spent** | It delivered the *new axis of evidence* it was bought for, and the axis came back blank: the workflow did not resolve a paralogue ordering at a magnitude this design can detect. **The finding is a warrant gap, not a number** — it and the priced (and NOT recommended) power extension have their one home in the RUNG 4 entry. ⚠ **Superseded, retained: "✅ RUNNING"** |
+| 5b | **★ NEW, and it is what item 5 actually exposed — a positive control for PARALOGUE DISCRIMINATION** (valB_full **module 3**, SMARCA2-vs-SMARCA4) | **no standalone ladder line** (inside the `valB_full` cube) | With the holdout non-resolving, **nothing in the program shows this workflow can detect paralogue selectivity where it is known to exist** — which bounds the warrant of every selectivity claim the paper makes, whichever measurement each rests on. This is the cheapest thing that could change that, and it is a *decision* for trimcrae rather than a run I may take: it sits behind [Open decisions 9](#open-decisions)'s deliberate gate, and that entry also records the argument against it (one homology-substituted arm). **Ranked here, above more retrospective power, because a known answer is worth more than a bigger sample of an unknown one** |
 | 6 | ~~**Segment-grid re-enumeration** (5b)~~ ✅ **DONE 2026-07-30 — and it refuted its own premise** | **$0** | Neither a grid limit nor geometry: the chain template carries **one pendant**. A two-branch template is constructible at n = 18 with existing segments, but that is a DESIGN change to a preregistered enumeration and is not taken here |
 | 7 | **Replicates on the open cycle** (3 of 18 fan-out edges) | **~$25** | One purchase, two open caveats: it attributes or dissolves `cycle_3carbonyl`'s violation AND gives the binary lane its first measured replicate SD, which today is transferred from the ternary lane |
 | 8 | **The generative arm of the generation-matched null** (control c) — ✅ **$0 prep DONE, launch-ready** | **PROJECTED** | Addresses the confound actually raised (the GENERATIVE step); the arm that ran addresses the SELECTION step and bounds the manufactured rate at 3× the real campaign's own — narrowed, not excluded |
@@ -2919,6 +3033,7 @@ line: what was believed, and what retired it. Do not cite anything in this table
 | 61 | **`vast_cost_model.ns_per_hour` — "ns/hr for this card at the ternary system size"** | **FALSE, corrected 2026-07-31.** No caller passes a system and none ever has. The figure is `MEASURED_NS_PER_DAY_84K`, whose protocol `vast_bench_sweep` records verbatim as *"TIP3P/PME 84,534 particles, 4 fs HMR, 3 timed blocks"* — plain, single-replica MD on a pure WATER BOX. It is a REFERENCE-GPU index, not a physical rate for any lane's assembly. ⚠ **No gate decision was affected:** `REFERENCE_NS_PER_H` is in the numerator of `rung_ns_per_unit` and the denominator of `basis_usd_per_ns`, so it cancels out of BOTH ceilings — `ratio_vs_basis` and `projected_usd` are exactly invariant to system size (verified at 1.748x, 3.37x, 10x and 0.5x uniform slowdown, identical to 1e-9: `tests/test_throughput_is_an_index.py`). The residual, stated rather than closed: the cancellation is exact only for a UNIFORM factor, and card-ratio transfer from the water box to a real assembly is **untested** — one production point per card, no two cards sharing a leg. |
 | 62 | **"Legs die during the ~28 min COLD START, before MD begins"** — reported 2026-07-31 by this session, and the ~28 min itself inherited from `retention_bid.py` | **MECHANISM RETRACTED, measured the same evening.** `phase.txt`'s own timestamp against the log's `[tvast] <utc> start`, on all four live 5a-KS legs: container start → `md-running` is **0.3 / 0.4 / 0.5 / 0.6 min**. MD begins within ~30 s because all three caches hit (23 of 27 attempts), exactly as `ternary-4fs-vast-findings.md`'s budget predicted ("~15 min of that is cached and will not repeat"). The ~28 min is **time to the first COMMIT**, dominated by one checkpoint interval of MD: 64 warmup iterations × the measured rate gives 19.5–35.7 min across the four legs. ⚠ **This changes the remedy**: not faster staging or a bigger host, but the CHECKPOINT INTERVAL — and that is a change for NEW legs only, because the interval is fixed when the .nc is created (`rbfe_spot_checkpoint.effective_interval`). It also explains why measure-on-arrival would have condemned nobody: the MD rate is fine, the interval is long. Not separated yet: minimisation and the setup restore both sit inside `md-running` before the first `[timing]` line. |
 | 63 | **5a-KS warmup checkpoint interval 64 → 32** — approved 2026-07-31 to halve time-to-first-commit, on the arithmetic that a 3090 leg needs ~36 min to bank at 64 (~60 % of a ~1.00 h median session) | **APPLIED AND REVERTED THE SAME EVENING**, on the measurement the approval was explicitly conditioned on (*"price the upload, do not assume it … if the write is slow enough that 32 costs more in pauses than it saves, say so and stop"*). The committed `.nc` is **CUMULATIVE** — every commit re-uploads the whole trajectory so far — so the payload is a curve, not a constant: **76.3 MiB at iteration 40 → 5461.8 MiB at 1720** on one leg; median **699.5 MiB per commit** across 158 real generations, i.e. **28× the "~25 MB pair"** that `COMMIT_OVERHEAD_S = 23.0` was measured on. Halving the interval doubles the commit COUNT while each carries the cumulative payload (~+17.5 GiB per leg over warmup), and a ~1.3 GiB late-warmup commit against 586 s of MD would breach this lane's own `MAX_COMMIT_OVERHEAD_FRAC = 0.05`. ⚠ Reverting cost nothing: the four in-flight legs resume on the 64-grids baked into their own `.nc` files regardless (`effective_interval`), so 32 was **inert** for the current campaign. `rbfe_spot_checkpoint.commit` now self-times (`[barrier] commit …persisted N MiB in Ns`) and `setup_tax.commit_cost` parses it; one re-placement settles it. ★ The larger finding: re-uploading the full trajectory per commit makes total bytes **O(n²)** in commit count — that, not the interval, is the expensive property, and fixing it would make a shorter interval nearly free. |
+| 64 | RUNG 4 recorded as **"FAILED (blocked) … no verdict stands"** and **"~$23 of the rung still not spent"**, and the ranked list carrying item 5 as **"✅ RUNNING"** | **The R1 panel RAN to its real terminus on 2026-07-31 and the frozen gate emitted a verdict: `DISCORDANT`, one-sided p = 0.3929 on 56 arrangements, 16 legs, zero technical failures in all three arms.** Row 57 remains correct about what it withdrew — that was the *smoke* fan-out, whose 17 records were 2 ps of sampling after zero equilibration; this is the separate, later, real-protocol run, admitted by `nrv04_retro_panel.production_leg_check` (`mode='run'` + the preregistered `prod_ns`/`equil_ns`) with the two surviving smoke records listed as `nonconforming_records` rather than silently dropped. ⚠ **The verdict is a NON-RESOLUTION and must never be quoted as a demonstrated reversal** — the reverse-direction test is not significant either (p = 0.625), and the observed arm separations (~0.41 Å, ~0.75 Å) sit far below the design's registered 1.5–2.0 Å MDE. ⚠ **A second thing this retires: the reading under which the rung's remaining spend was a planning figure.** The `nrv04_retrospective` **ladder** line prices **Arm F** (alchemical, blocked and unauthorised by the prereg); Arm E is the endpoint-MD panel that actually ran, and its rentals are in **neither** ledger — see the RUNG 4 entry's bookkeeping-gap note, whose one home is the lane's own S3 rental ledger. Live values and full evidence: [`nrv04-retro-verdict.json`](research/modalities/nrv04-retro-verdict.json); what it constrains in the paper: §2.12 and §4 caveat 10 of [the manuscript](research/manuscripts/nr4a3-degrader-paper.md) |
 
 ---
 
