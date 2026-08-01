@@ -588,9 +588,20 @@
    }
   }
  },
+ "which_sigma": {
+  "_why": "three different SDs are in play and a cost that quotes the wrong one is off by 3x. They measure different things; none supersedes another.",
+  "leg_to_leg_registered_A": 0.855,
+  "leg_to_leg_registered_source": "nrv04_retro_gate.MEASURED_LEG_SIGMA_A \u2014 6 same-model feasibility groups, i.e. VELOCITY REPLICAS with the co-fold held fixed",
+  "leg_to_leg_criteria_audit_A": 1.1497,
+  "leg_to_leg_criteria_audit_source": "nrv04-retro-criteria-audit.json -> measured_noise, a 2-group subset of the same feasibility panel; a smaller sample of the same quantity, not a competing measurement",
+  "model_level_measured_A": 1.0278,
+  "model_level_measured_source": "DERIVED HERE from the landed panel's own model means (`landed_panel`)",
+  "which_one_the_test_competes_against": "the MODEL-LEVEL one. Prereg 4a makes the co-fold model the unit of independence, so the permutation test sees model means and their spread \u2014 which includes between-model structural variance that a velocity-replica SD cannot see. A leg-to-leg sigma therefore UNDERSTATES the noise of this design and OVERSTATES its power. Both are reported everywhere below so the difference is visible rather than argued."
+ },
  "price_of_resolving_the_OBSERVED_effect": {
   "_what": "if the true paralogue difference is the size this panel measured, how many models per arm would 80 % power need \u2014 and what would that cost? The answer is the one that reframes the whole question.",
   "_method": "normal approximation (`n_models_for_power_normal`) because the exact enumeration is unrunnable at this n; it is a LOWER bound on the exact requirement",
+  "_read_BOTH_sigma_grids": "the same arithmetic at the two SDs gives figures ~3x apart, and that gap is the whole reason `which_sigma` exists. It is one derivation at two inputs, NOT two competing costs.",
   "normal_approximation_cross_check": {
    "n=3": {
     "delta_the_approximation_calls_80pct_A": 2.087,
@@ -607,6 +618,246 @@
    "n=6": {
     "delta_the_approximation_calls_80pct_A": 1.475,
     "exact_permutation_power_there": 0.7375
+   }
+  },
+  "at_model_level_sigma": {
+   "sigma_A": 1.0278,
+   "sigma_is": "measured model-level (the one this test competes against)",
+   "primary_at_observed_0.2825A": {
+    "delta_A": 0.2825,
+    "contrast": "primary",
+    "models_per_arm_needed": 123,
+    "arms": 3,
+    "legs_TOTAL": 738,
+    "cost_TOTAL": {
+     "n_units": 738,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 1018.44,
+     "plan_usd": 116.41,
+     "range_usd": [
+      48.17,
+      293.41
+     ]
+    },
+    "legs_NEW_if_the_landed_models_are_reused": 722,
+    "cost_NEW": {
+     "n_units": 722,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 996.36,
+     "plan_usd": 113.88,
+     "range_usd": [
+      47.13,
+      287.05
+     ]
+    },
+    "_reuse_is_not_free_of_conditions": "\u26a0 prereg \u00a74d may NOT be invoked on a wrong-sign result, so a larger NR4A panel is a NEW PREREGISTRATION, not an extension \u2014 and re-use of the 16 landed legs has to be DECLARED IN ADVANCE in it, or the new panel inherits an undeclared selection."
+   },
+   "pairwise_at_observed_0.4124A": {
+    "delta_A": 0.4124,
+    "contrast": "pairwise",
+    "models_per_arm_needed": 77,
+    "arms": 2,
+    "legs_TOTAL": 308,
+    "cost_TOTAL": {
+     "n_units": 308,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 425.04,
+     "plan_usd": 48.58,
+     "range_usd": [
+      20.1,
+      122.45
+     ]
+    },
+    "legs_NEW_if_the_landed_models_are_reused": 308,
+    "cost_NEW": {
+     "n_units": 308,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 425.04,
+     "plan_usd": 48.58,
+     "range_usd": [
+      20.1,
+      122.45
+     ]
+    },
+    "_reuse_is_not_free_of_conditions": "n/a"
+   },
+   "primary_at_0.75A": {
+    "delta_A": 0.75,
+    "contrast": "primary",
+    "models_per_arm_needed": 18,
+    "arms": 3,
+    "legs_TOTAL": 108,
+    "cost_TOTAL": {
+     "n_units": 108,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 149.04,
+     "plan_usd": 17.04,
+     "range_usd": [
+      7.05,
+      42.94
+     ]
+    },
+    "legs_NEW_if_the_landed_models_are_reused": 92,
+    "cost_NEW": {
+     "n_units": 92,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 126.96,
+     "plan_usd": 14.51,
+     "range_usd": [
+      6.01,
+      36.58
+     ]
+    },
+    "_reuse_is_not_free_of_conditions": "\u26a0 prereg \u00a74d may NOT be invoked on a wrong-sign result, so a larger NR4A panel is a NEW PREREGISTRATION, not an extension \u2014 and re-use of the 16 landed legs has to be DECLARED IN ADVANCE in it, or the new panel inherits an undeclared selection."
+   },
+   "primary_at_1.5A": {
+    "delta_A": 1.5,
+    "contrast": "primary",
+    "models_per_arm_needed": 5,
+    "arms": 3,
+    "legs_TOTAL": 30,
+    "cost_TOTAL": {
+     "n_units": 30,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 41.4,
+     "plan_usd": 4.73,
+     "range_usd": [
+      1.96,
+      11.93
+     ]
+    },
+    "legs_NEW_if_the_landed_models_are_reused": 14,
+    "cost_NEW": {
+     "n_units": 14,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 19.32,
+     "plan_usd": 2.21,
+     "range_usd": [
+      0.91,
+      5.57
+     ]
+    },
+    "_reuse_is_not_free_of_conditions": "\u26a0 prereg \u00a74d may NOT be invoked on a wrong-sign result, so a larger NR4A panel is a NEW PREREGISTRATION, not an extension \u2014 and re-use of the 16 landed legs has to be DECLARED IN ADVANCE in it, or the new panel inherits an undeclared selection."
+   }
+  },
+  "at_registered_leg_sigma": {
+   "sigma_A": 0.855,
+   "sigma_is": "registered leg-to-leg (OPTIMISTIC for a model-level test)",
+   "primary_at_observed_0.2825A": {
+    "delta_A": 0.2825,
+    "contrast": "primary",
+    "models_per_arm_needed": 85,
+    "arms": 3,
+    "legs_TOTAL": 510,
+    "cost_TOTAL": {
+     "n_units": 510,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 703.8,
+     "plan_usd": 80.44,
+     "range_usd": [
+      33.29,
+      202.76
+     ]
+    },
+    "legs_NEW_if_the_landed_models_are_reused": 494,
+    "cost_NEW": {
+     "n_units": 494,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 681.72,
+     "plan_usd": 77.92,
+     "range_usd": [
+      32.25,
+      196.4
+     ]
+    },
+    "_reuse_is_not_free_of_conditions": "\u26a0 prereg \u00a74d may NOT be invoked on a wrong-sign result, so a larger NR4A panel is a NEW PREREGISTRATION, not an extension \u2014 and re-use of the 16 landed legs has to be DECLARED IN ADVANCE in it, or the new panel inherits an undeclared selection."
+   },
+   "pairwise_at_observed_0.4124A": {
+    "delta_A": 0.4124,
+    "contrast": "pairwise",
+    "models_per_arm_needed": 54,
+    "arms": 2,
+    "legs_TOTAL": 216,
+    "cost_TOTAL": {
+     "n_units": 216,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 298.08,
+     "plan_usd": 34.07,
+     "range_usd": [
+      14.1,
+      85.88
+     ]
+    },
+    "legs_NEW_if_the_landed_models_are_reused": 216,
+    "cost_NEW": {
+     "n_units": 216,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 298.08,
+     "plan_usd": 34.07,
+     "range_usd": [
+      14.1,
+      85.88
+     ]
+    },
+    "_reuse_is_not_free_of_conditions": "n/a"
+   },
+   "primary_at_0.75A": {
+    "delta_A": 0.75,
+    "contrast": "primary",
+    "models_per_arm_needed": 13,
+    "arms": 3,
+    "legs_TOTAL": 78,
+    "cost_TOTAL": {
+     "n_units": 78,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 107.64,
+     "plan_usd": 12.3,
+     "range_usd": [
+      5.09,
+      31.01
+     ]
+    },
+    "legs_NEW_if_the_landed_models_are_reused": 62,
+    "cost_NEW": {
+     "n_units": 62,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 85.56,
+     "plan_usd": 9.78,
+     "range_usd": [
+      4.05,
+      24.65
+     ]
+    },
+    "_reuse_is_not_free_of_conditions": "\u26a0 prereg \u00a74d may NOT be invoked on a wrong-sign result, so a larger NR4A panel is a NEW PREREGISTRATION, not an extension \u2014 and re-use of the 16 landed legs has to be DECLARED IN ADVANCE in it, or the new panel inherits an undeclared selection."
+   },
+   "primary_at_1.5A": {
+    "delta_A": 1.5,
+    "contrast": "primary",
+    "models_per_arm_needed": 4,
+    "arms": 3,
+    "legs_TOTAL": 24,
+    "cost_TOTAL": {
+     "n_units": 24,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 33.12,
+     "plan_usd": 3.79,
+     "range_usd": [
+      1.57,
+      9.54
+     ]
+    },
+    "legs_NEW_if_the_landed_models_are_reused": 8,
+    "cost_NEW": {
+     "n_units": 8,
+     "ref_gpu_h_per_unit": 1.38,
+     "ref_gpu_h_total": 11.04,
+     "plan_usd": 1.26,
+     "range_usd": [
+      0.52,
+      3.18
+     ]
+    },
+    "_reuse_is_not_free_of_conditions": "\u26a0 prereg \u00a74d may NOT be invoked on a wrong-sign result, so a larger NR4A panel is a NEW PREREGISTRATION, not an extension \u2014 and re-use of the 16 landed legs has to be DECLARED IN ADVANCE in it, or the new panel inherits an undeclared selection."
    }
   },
   "pairwise_nr4a1_vs_nr4a3": {
@@ -646,9 +897,9 @@
    "option": "A1 restore NR4A3 to n = 3",
    "engine": "endpoint MD (nrv04_covalent_md lane)",
    "gpu_legs": 2,
-   "attacks": "STRUCTURAL and NOISE (n enters both)",
+   "attacks": "STRUCTURAL and NOISE (n enters both) \u2014 but NOT the missing positive control",
    "buys": "primary reference set C(9,3) = 84, min attainable p 0.0119; NR4A1-vs-NR4A3 pairwise C(6,3) = 20, min attainable p 0.0500",
-   "cannot_buy": "nothing about the endpoint's effect-size-to-noise ratio",
+   "cannot_buy": "\u26d4 nothing about the endpoint's effect-size-to-noise ratio \u2014 AND, decisively, \u26d4 NOT A POSITIVE CONTROL. NR-V04's own mechanism is covalency-confounded: Leg 0 measured the reactive Cys551 as UNIQUE to NR4A1 (Tyr in NR4A2, Thr in NR4A3, no cysteine within \u00b15), so warhead chemistry ALONE is sufficient to explain the reported selectivity and the non-covalent R1 arm has no guaranteed true effect to detect. At any n, a null stays uninterpretable as a method failure and a hit is not attributable to ternary geometry. \u26a0 It is also a NEW PREREGISTRATION, not an extension: prereg \u00a74d may not be invoked on a wrong-sign result, so re-use of the 16 landed legs has to be declared in advance.",
    "cost": {
     "n_units": 2,
     "ref_gpu_h_per_unit": 1.38,
@@ -676,9 +927,9 @@
    "option": "A2 balanced n = 6/arm",
    "engine": "endpoint MD (nrv04_covalent_md lane)",
    "gpu_legs": 20,
-   "attacks": "STRUCTURAL and NOISE (n enters both)",
+   "attacks": "STRUCTURAL and NOISE (n enters both) \u2014 but NOT the missing positive control",
    "buys": "primary reference set C(18,6) = 18564, min attainable p 0.0001; NR4A1-vs-NR4A3 pairwise C(12,6) = 924, min attainable p 0.0011",
-   "cannot_buy": "nothing about the endpoint's effect-size-to-noise ratio",
+   "cannot_buy": "\u26d4 nothing about the endpoint's effect-size-to-noise ratio \u2014 AND, decisively, \u26d4 NOT A POSITIVE CONTROL. NR-V04's own mechanism is covalency-confounded: Leg 0 measured the reactive Cys551 as UNIQUE to NR4A1 (Tyr in NR4A2, Thr in NR4A3, no cysteine within \u00b15), so warhead chemistry ALONE is sufficient to explain the reported selectivity and the non-covalent R1 arm has no guaranteed true effect to detect. At any n, a null stays uninterpretable as a method failure and a hit is not attributable to ternary geometry. \u26a0 It is also a NEW PREREGISTRATION, not an extension: prereg \u00a74d may not be invoked on a wrong-sign result, so re-use of the 16 landed legs has to be declared in advance.",
    "cost": {
     "n_units": 20,
     "ref_gpu_h_per_unit": 1.38,
@@ -706,9 +957,9 @@
    "option": "A3 balanced n = 10/arm",
    "engine": "endpoint MD (nrv04_covalent_md lane)",
    "gpu_legs": 44,
-   "attacks": "STRUCTURAL and NOISE (n enters both)",
+   "attacks": "STRUCTURAL and NOISE (n enters both) \u2014 but NOT the missing positive control",
    "buys": "primary reference set C(30,10) = 30045015, min attainable p 0.0000; NR4A1-vs-NR4A3 pairwise C(20,10) = 184756, min attainable p 0.0000",
-   "cannot_buy": "nothing about the endpoint's effect-size-to-noise ratio",
+   "cannot_buy": "\u26d4 nothing about the endpoint's effect-size-to-noise ratio \u2014 AND, decisively, \u26d4 NOT A POSITIVE CONTROL. NR-V04's own mechanism is covalency-confounded: Leg 0 measured the reactive Cys551 as UNIQUE to NR4A1 (Tyr in NR4A2, Thr in NR4A3, no cysteine within \u00b15), so warhead chemistry ALONE is sufficient to explain the reported selectivity and the non-covalent R1 arm has no guaranteed true effect to detect. At any n, a null stays uninterpretable as a method failure and a hit is not attributable to ternary geometry. \u26a0 It is also a NEW PREREGISTRATION, not an extension: prereg \u00a74d may not be invoked on a wrong-sign result, so re-use of the 16 landed legs has to be declared in advance.",
    "cost": {
     "n_units": 44,
     "ref_gpu_h_per_unit": 1.38,
@@ -797,8 +1048,8 @@
    "engine": "CPU/CI only \u2014 no GPU",
    "gpu_legs": 0,
    "attacks": "NOISE (endpoint selection)",
-   "buys": "the measured effect-size-to-noise of every already-computed endpoint, from data already bought. `nrv04_covalent_md` writes R1_interface / R2_recruitment / R3_lys into every leg JSON, and the frozen collector reads only R1 \u2014 so E2/E3/E4 exist for all 16 legs and have never been looked at.",
-   "cannot_buy": "\u26d4 a RESULT. Choosing an endpoint on the same data that will then test it is endpoint-shopping; this is a CALIBRATION input to a new preregistration, tested on NEW models. It also cannot move any reference set.",
+   "buys": "the measured effect-size-to-noise of every already-computed endpoint, from data already bought. `nrv04_covalent_md` writes R1_interface / R2_recruitment / R3_lys into every leg JSON, and the frozen collector reads only R1 \u2014 so E2/E3/E4 exist for all 16 legs and have never been looked at. \u2605 AND REPORTING THEM IS ALREADY OWED: prereg \u00a73 says 'E2-E4 are reported alongside it in every result, including when they disagree with E1', and the criteria audit records that promise as UNIMPLEMENTED in the verdict output. So this discharges an existing preregistered obligation; it is not an optional extra.",
+   "cannot_buy": "\u26d4 a RESULT, and the distinction is sharp: REPORTING E2-E4 is preregistered and required; GATING on whichever of them looks friendliest is the retune this program forbids. Choosing an endpoint on the same data that will then test it is endpoint-shopping; this is a CALIBRATION input to a new preregistration, tested on NEW models. It also cannot move any reference set.",
    "cost": {
     "n_units": 0,
     "ref_gpu_h_per_unit": 0.0,
@@ -875,6 +1126,8 @@
    },
    "crosses_50usd_review_gate": false,
    "note": "distinct from valB_full module 3, which is an ALCHEMICAL cooperativity module behind the valB gate. This is the endpoint-MD lane at endpoint-MD prices and asserts no free energy, so condition 7 does not reach it \u2014 the same argument the prereg's section 9 RESOLUTION used to run Arm E.",
+   "why_this_is_the_gap": "\u2605 THE METHOD CALIBRATOR FOR PARALOGUE DISCRIMINATION HAS NEVER BEEN RUN. valB_full module 3 (SMARCA2-vs-SMARCA4) is unstarted, and every other control in the repo fails as a SELECTIVITY positive control for a different reason: TYK2/valA validates relative FEP within ONE pocket; valB_mini failed on sign; CRBN/lenalidomide is pose recovery; and the decoy nulls are NEGATIVE controls \u2014 they bound false positives and cannot establish sensitivity. The NR-V04 retrospective was the BIOLOGICAL holdout, not the method calibrator, and it did not resolve. So the missing piece is a sensitivity control, which is exactly what this option is.",
+   "the_gate_it_must_not_pretend_to_clear": "\u26a0 Open decision 9 (2026-07-30) is a SCIENTIFIC decision, not a cost gate: module 3 was deliberately NOT decoupled, because module 1's statistic did not lack discriminating power \u2014 it discriminated and returned NO \u2014 so the repo's amendment standard does not reach it. This option does not touch that decision and must not be presented as a way around it. Its claim is narrower: an ENDPOINT-GEOMETRY sensitivity control, which asserts no free energy and so is not what condition 7 withholds. Decision 9's own two objections are also addressed head-on rather than waved away: (a) 'the same system family carrying the suspected error' was about the ALCHEMICAL endpoint-state error, which a geometric endpoint does not inherit; (b) 'the arms are asymmetric, SMARCA2 is the homology-substituted arm' is precisely why this design co-folds both arms from real sequences instead of reusing `smarca2_model.py`. If trimcrae judges that condition 7 DOES reach an endpoint-MD control, this option falls and the sequence stops after step 1.",
    "design": {
     "arms": 2,
     "models_per_arm": 6,

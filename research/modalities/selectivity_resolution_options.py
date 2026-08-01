@@ -483,8 +483,17 @@ def build_options(rates=None, n_sims=1200):
                              min_attainable_p(target, 2 * target),
                              2 * target, target, math.comb(2 * target, target),
                              min_attainable_p(target, target))),
-            what_it_cannot_buy="nothing about the endpoint's effect-size-to-noise ratio",
-            attacks="STRUCTURAL and NOISE (n enters both)", rates=rates)
+            what_it_cannot_buy=(
+                "⛔ nothing about the endpoint's effect-size-to-noise ratio — AND, decisively, ⛔ NOT A "
+                "POSITIVE CONTROL. NR-V04's own mechanism is covalency-confounded: Leg 0 measured the "
+                "reactive Cys551 as UNIQUE to NR4A1 (Tyr in NR4A2, Thr in NR4A3, no cysteine within ±5), so "
+                "warhead chemistry ALONE is sufficient to explain the reported selectivity and the "
+                "non-covalent R1 arm has no guaranteed true effect to detect. At any n, a null stays "
+                "uninterpretable as a method failure and a hit is not attributable to ternary geometry. "
+                "⚠ It is also a NEW PREREGISTRATION, not an extension: prereg §4d may not be invoked on a "
+                "wrong-sign result, so re-use of the 16 landed legs has to be declared in advance."),
+            attacks="STRUCTURAL and NOISE (n enters both) — but NOT the missing positive control",
+            rates=rates)
         o["new_models"] = add
         o["design"] = {"models_per_arm": target,
                        "primary_min_attainable_p": round(min_attainable_p(target, 2 * target), 6),
@@ -520,8 +529,13 @@ def build_options(rates=None, n_sims=1200):
         "buys": "the measured effect-size-to-noise of every already-computed endpoint, from data already "
                 "bought. `nrv04_covalent_md` writes R1_interface / R2_recruitment / R3_lys into every leg "
                 "JSON, and the frozen collector reads only R1 — so E2/E3/E4 exist for all 16 legs and have "
-                "never been looked at.",
-        "cannot_buy": "⛔ a RESULT. Choosing an endpoint on the same data that will then test it is "
+                "never been looked at. ★ AND REPORTING THEM IS ALREADY OWED: prereg §3 says 'E2-E4 are "
+                "reported alongside it in every result, including when they disagree with E1', and the "
+                "criteria audit records that promise as UNIMPLEMENTED in the verdict output. So this "
+                "discharges an existing preregistered obligation; it is not an optional extra.",
+        "cannot_buy": "⛔ a RESULT, and the distinction is sharp: REPORTING E2-E4 is preregistered and "
+                      "required; GATING on whichever of them looks friendliest is the retune this program "
+                      "forbids. Choosing an endpoint on the same data that will then test it is "
                       "endpoint-shopping; this is a CALIBRATION input to a new preregistration, tested on "
                       "NEW models. It also cannot move any reference set.",
         "cost": zero, "crosses_50usd_review_gate": False,
@@ -579,6 +593,26 @@ def build_options(rates=None, n_sims=1200):
                  "valB gate. This is the endpoint-MD lane at endpoint-MD prices and asserts no free energy, "
                  "so condition 7 does not reach it — the same argument the prereg's section 9 RESOLUTION "
                  "used to run Arm E.")
+    o["why_this_is_the_gap"] = (
+        "★ THE METHOD CALIBRATOR FOR PARALOGUE DISCRIMINATION HAS NEVER BEEN RUN. valB_full module 3 "
+        "(SMARCA2-vs-SMARCA4) is unstarted, and every other control in the repo fails as a SELECTIVITY "
+        "positive control for a different reason: TYK2/valA validates relative FEP within ONE pocket; "
+        "valB_mini failed on sign; CRBN/lenalidomide is pose recovery; and the decoy nulls are NEGATIVE "
+        "controls — they bound false positives and cannot establish sensitivity. The NR-V04 retrospective "
+        "was the BIOLOGICAL holdout, not the method calibrator, and it did not resolve. So the missing "
+        "piece is a sensitivity control, which is exactly what this option is.")
+    o["the_gate_it_must_not_pretend_to_clear"] = (
+        "⚠ Open decision 9 (2026-07-30) is a SCIENTIFIC decision, not a cost gate: module 3 was "
+        "deliberately NOT decoupled, because module 1's statistic did not lack discriminating power — it "
+        "discriminated and returned NO — so the repo's amendment standard does not reach it. This option "
+        "does not touch that decision and must not be presented as a way around it. Its claim is narrower: "
+        "an ENDPOINT-GEOMETRY sensitivity control, which asserts no free energy and so is not what "
+        "condition 7 withholds. Decision 9's own two objections are also addressed head-on rather than "
+        "waved away: (a) 'the same system family carrying the suspected error' was about the ALCHEMICAL "
+        "endpoint-state error, which a geometric endpoint does not inherit; (b) 'the arms are asymmetric, "
+        "SMARCA2 is the homology-substituted arm' is precisely why this design co-folds both arms from "
+        "real sequences instead of reusing `smarca2_model.py`. If trimcrae judges that condition 7 DOES "
+        "reach an endpoint-MD control, this option falls and the sequence stops after step 1.")
     o["design"] = {"arms": D_ARMS, "models_per_arm": D_MODELS, "replicas_per_model": D_REPLICAS,
                    "pairwise_min_attainable_p": round(min_attainable_p(D_MODELS, D_MODELS), 6),
                    "pairwise_can_reach_alpha": reaches_alpha(D_MODELS, D_MODELS)}
@@ -884,9 +918,58 @@ def build(n_sims=1200, seed=11):
                         "sigma_between is available to hold fixed. The STRUCTURAL half of the reallocation "
                         "argument does not depend on it and is in `structural_bound_pairwise_by_n`."}
 
+    # --- the three SDs this repo carries, reconciled in one place ---------------------------------
+    doc["which_sigma"] = {
+        "_why": "three different SDs are in play and a cost that quotes the wrong one is off by 3x. They "
+                "measure different things; none supersedes another.",
+        "leg_to_leg_registered_A": sig_leg,
+        "leg_to_leg_registered_source": "nrv04_retro_gate.MEASURED_LEG_SIGMA_A — 6 same-model feasibility "
+                                        "groups, i.e. VELOCITY REPLICAS with the co-fold held fixed",
+        "leg_to_leg_criteria_audit_A": 1.1497,
+        "leg_to_leg_criteria_audit_source": "nrv04-retro-criteria-audit.json -> measured_noise, a 2-group "
+                                            "subset of the same feasibility panel; a smaller sample of the "
+                                            "same quantity, not a competing measurement",
+        "model_level_measured_A": sig_obs,
+        "model_level_measured_source": "DERIVED HERE from the landed panel's own model means (`landed_panel`)",
+        "which_one_the_test_competes_against": (
+            "the MODEL-LEVEL one. Prereg 4a makes the co-fold model the unit of independence, so the "
+            "permutation test sees model means and their spread — which includes between-model structural "
+            "variance that a velocity-replica SD cannot see. A leg-to-leg sigma therefore UNDERSTATES the "
+            "noise of this design and OVERSTATES its power. Both are reported everywhere below so the "
+            "difference is visible rather than argued."),
+    }
+
     # --- ★ can the OBSERVED effect be bought at all, and for how much? -----------------------------
     obs_pair = abs(panel["observed_pairwise_nr4a3_stat_A"])
     obs_prim = abs(panel["observed_primary_stat_A"])
+
+    def _grid(sig, label):
+        out = {"sigma_A": sig, "sigma_is": label}
+        for name, delta, contrast, arms in (
+                ("primary_at_observed_%.4fA" % obs_prim, obs_prim, "primary", 3),
+                ("pairwise_at_observed_%.4fA" % obs_pair, obs_pair, "pairwise", 2),
+                ("primary_at_0.75A", 0.75, "primary", 3),
+                ("primary_at_1.5A", 1.5, "primary", 3)):
+            n = n_models_for_power_normal(delta, sig, contrast)
+            legs = arms * n * AS_RUN_REPLICAS_PER_MODEL
+            # INCREMENTAL view: the 3 NR4A arms already hold 8 conforming co-fold models, so a bigger NR4A
+            # panel need only BUY the difference. Both views are reported because they differ by ~30 % at
+            # these n and a reader comparing one against the other would see a contradiction that is not there.
+            existing_models = sum(panel["models_per_arm"].values()) if contrast == "primary" else 0
+            new_legs = max(0, arms * n - existing_models) * AS_RUN_REPLICAS_PER_MODEL
+            out[name] = {"delta_A": round(delta, 4), "contrast": contrast,
+                         "models_per_arm_needed": n, "arms": arms,
+                         "legs_TOTAL": legs,
+                         "cost_TOTAL": price_units(legs, ENDPOINT_MD_LEG_REF_GPU_H, rates),
+                         "legs_NEW_if_the_landed_models_are_reused": new_legs,
+                         "cost_NEW": price_units(new_legs, ENDPOINT_MD_LEG_REF_GPU_H, rates),
+                         "_reuse_is_not_free_of_conditions": (
+                             "⚠ prereg §4d may NOT be invoked on a wrong-sign result, so a larger NR4A "
+                             "panel is a NEW PREREGISTRATION, not an extension — and re-use of the 16 "
+                             "landed legs has to be DECLARED IN ADVANCE in it, or the new panel inherits "
+                             "an undeclared selection.") if contrast == "primary" else "n/a"}
+        return out
+
     n_pair = n_models_for_power_normal(obs_pair, sig_obs, "pairwise")
     n_prim = n_models_for_power_normal(obs_prim, sig_obs, "primary")
     doc["price_of_resolving_the_OBSERVED_effect"] = {
@@ -895,7 +978,12 @@ def build(n_sims=1200, seed=11):
                  "reframes the whole question.",
         "_method": "normal approximation (`n_models_for_power_normal`) because the exact enumeration is "
                    "unrunnable at this n; it is a LOWER bound on the exact requirement",
+        "_read_BOTH_sigma_grids": "the same arithmetic at the two SDs gives figures ~3x apart, and that "
+                                  "gap is the whole reason `which_sigma` exists. It is one derivation at "
+                                  "two inputs, NOT two competing costs.",
         "normal_approximation_cross_check": normal_approximation_cross_check(sig_obs, n_sims=n_sims),
+        "at_model_level_sigma": _grid(sig_obs, "measured model-level (the one this test competes against)"),
+        "at_registered_leg_sigma": _grid(sig_leg, "registered leg-to-leg (OPTIMISTIC for a model-level test)"),
         "pairwise_nr4a1_vs_nr4a3": {
             "observed_separation_A": round(obs_pair, 4),
             "models_per_arm_needed": n_pair,
