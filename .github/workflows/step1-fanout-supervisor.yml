@@ -123,6 +123,35 @@ jobs:
                 echo "::warning title=STALENESS WATCH DISPATCH FAILED::tick ${n}: $(head -2 /tmp/w | tr '\n' ' ')"
               fi
             fi
+            # ★★ THE ACCOUNT CENSUS, ON THE SAME EVERY-Nth-TICK SLOT AND FOR A SHARPER REASON (2026-08-01).
+            # `ternary-vast-account-census.json` is the ONLY artifact that can see an instance NO LANE
+            # CLAIMS — its own `_what` says it: "the account-level view a per-mode board structurally cannot
+            # give, because it filters to one mode's labels". It is what answered, in a single call, a
+            # question that had been carried as "status unknown" across hours of reports (the prune smoke's
+            # instance 46459452, which had billed overnight and been destroyed leaving no trace).
+            #
+            # AND IT WAS ITSELF UNSUPERVISED. Measured that morning: exactly two commits ever, 12:13Z and
+            # 12:20Z, then 26 minutes stale with nothing refreshing it — because its writer lives in
+            # `ternary_reps_diag.py`, a DIAGNOSTIC that runs only when a human or an agent dispatches it.
+            # So the one detector that can find a 5-day orphan only ran when somebody already suspected one.
+            # That is the same shape as the retro tick that could reap but never launch, and the GCP lane
+            # that sat idle 15 h because nothing queued work: the guard existed and nothing drove it.
+            #
+            # Report-only, exactly like the staleness watch above: `reps-diag` reads `GET /instances/` and
+            # archived logs. It rents nothing and destroys nothing, so the supervisor's "it does not buy"
+            # property is untouched. On WATCH_EVERY rather than every tick because it is a heavy read and
+            # the Vast API is one shared key — a 403 from over-polling would blind the very gates that
+            # depend on it (CLAUDE.md §6).
+            if [ "${WATCH_EVERY}" -gt 0 ] 2>/dev/null && [ $(( n % WATCH_EVERY )) -eq 0 ]; then
+              if gh workflow run gpu-ternary-fep-vast.yml --ref main -f task=reps-diag 2>/tmp/c; then
+                echo "[$(date -u '+%H:%M:%SZ')] vast ACCOUNT census dispatched (tick ${n})"
+              else
+                # Never silent: a stale census cannot authorise anything, but a census nobody notices is
+                # stale is how an orphan bills for days. The readout that consumes it treats a stale census
+                # as UNKNOWN and escalates on the second consecutive report.
+                echo "::warning title=ACCOUNT CENSUS DISPATCH FAILED::tick ${n}: $(head -2 /tmp/c | tr '\n' ' ')"
+              fi
+            fi
             # --- and the TERNARY lane's two gates, on the same loop and for the same reason ---------------
             # ★★ WHY THIS IS HERE (2026-07-29). The ternary lane already re-places a dead host WITHOUT a
             # human: `ternary_vast_watchdog.tick()`'s DIED branch calls `tv.submit` directly, behind the
