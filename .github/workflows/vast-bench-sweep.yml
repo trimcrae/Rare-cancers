@@ -182,25 +182,26 @@ jobs:
           set -e
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
-          staged=0
-          for f in research/modalities/vast-bench-sweep-plan.json \
-                   research/modalities/vast-bench-sweep-launched.json \
-                   research/modalities/vast-bench-sweep-results.json \
-                   research/modalities/throughput-harvest.json \
-                   research/modalities/vast-bench-forensic.json \
-                   research/modalities/vast-bench-board-impact.json \
-                   research/modalities/vast-bench-spend-ledger.json \
-                   research/modalities/throughput-bench-provenance.json \
-                   research/modalities/vast-ladder-repricing.json \
-                   research/modalities/vast-market-offers-raw.json \
-                   research/modalities/vast-market-intel.json; do
-            if [ -f "$f" ]; then git add -f "$f"; staged=1; fi
-          done
-          [ "$staged" = 1 ] || { echo "nothing to stage"; exit 0; }
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "vast calibration sweep ${{ github.event.inputs.mode }} ($(date -u +%FT%TZ))"
-          for i in 1 2 3 4; do
-            git pull --rebase origin "$GIT_BRANCH" && git push origin "HEAD:$GIT_BRANCH" && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the sweep readout"
+          # ⛔ ONE HOME FOR THE PUBLISH. `git pull --rebase` wedges on a conflict — the repo is left
+          # mid-rebase, every retry dies on the first one's wreckage, and the step stays GREEN having
+          # published nothing. Two of these artifacts have OTHER WRITERS (vast-market-intel.json and
+          # vast-market-offers-raw.json are also written by vast-price-sample.yml), so this step could
+          # additionally stamp a newer copy with one it never produced — the failure measured on the
+          # selcal lane 2026-08-01, `landed: 5` back to `landed: 0` seven seconds after it was measured.
+          # The primitive publishes only what this run actually changed.
+          # PUBLISH_IF_CHANGED=1 keeps the existing EVENT semantics: a sweep that produced nothing new
+          # must not commit as though it had. The `[ -f ]` loop is gone because the primitive drops
+          # absent paths itself.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "$GIT_BRANCH" \
+            "vast calibration sweep ${{ github.event.inputs.mode }} ($(date -u +%FT%TZ))" \
+            research/modalities/vast-bench-sweep-plan.json \
+            research/modalities/vast-bench-sweep-launched.json \
+            research/modalities/vast-bench-sweep-results.json \
+            research/modalities/throughput-harvest.json \
+            research/modalities/vast-bench-forensic.json \
+            research/modalities/vast-bench-board-impact.json \
+            research/modalities/vast-bench-spend-ledger.json \
+            research/modalities/throughput-bench-provenance.json \
+            research/modalities/vast-ladder-repricing.json \
+            research/modalities/vast-market-offers-raw.json \
+            research/modalities/vast-market-intel.json

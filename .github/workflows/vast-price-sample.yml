@@ -117,11 +117,17 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/vast-market-intel.json \
-                  research/modalities/vast-market-offers-raw.json \
-                  research/modalities/vast-docs-raw.json 2>/dev/null || true
-          git commit -m "vast market intel pull $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
-          git push origin HEAD:${{ github.ref_name }}
+          # ⛔ ONE HOME FOR THE PUBLISH. A hand-rolled commit+push either wedges on a conflict
+          # (`git pull --rebase` leaves the repo mid-rebase and every retry dies on it, while the step
+          # stays GREEN) or stamps files this run never wrote over a newer copy — measured both ways
+          # on 2026-08-01. See research/compute/publish_artifacts.sh.
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, so a run that produced nothing new must not
+          # commit as though it had.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "vast market intel pull $(date -u +%FT%TZ)" \
+            research/modalities/vast-market-intel.json \
+            research/modalities/vast-market-offers-raw.json \
+            research/modalities/vast-docs-raw.json
 
   census:
     # ★ READ-ONLY ($0). WHY A QUALIFYING BOARD CANNOT BE PRICED.
@@ -162,9 +168,15 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/vast-board-census.json 2>/dev/null || true
-          git commit -m "vast board census $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
-          git push origin HEAD:${{ github.ref_name }}
+          # ⛔ ONE HOME FOR THE PUBLISH. A hand-rolled commit+push either wedges on a conflict
+          # (`git pull --rebase` leaves the repo mid-rebase and every retry dies on it, while the step
+          # stays GREEN) or stamps files this run never wrote over a newer copy — measured both ways
+          # on 2026-08-01. See research/compute/publish_artifacts.sh.
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, so a run that produced nothing new must not
+          # commit as though it had.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "vast board census $(date -u +%FT%TZ)" \
+            research/modalities/vast-board-census.json
 
   exclusions:
     # ★ READ-ONLY ($0). WHAT THE EXCLUSION SET IS MADE OF, AND WHAT RE-ADMITTING PART OF IT WOULD BUY.
@@ -210,9 +222,15 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/vast-exclusion-census.json 2>/dev/null || true
-          git commit -m "vast exclusion census $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
-          git push origin HEAD:${{ github.ref_name }}
+          # ⛔ ONE HOME FOR THE PUBLISH. A hand-rolled commit+push either wedges on a conflict
+          # (`git pull --rebase` leaves the repo mid-rebase and every retry dies on it, while the step
+          # stays GREEN) or stamps files this run never wrote over a newer copy — measured both ways
+          # on 2026-08-01. See research/compute/publish_artifacts.sh.
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, so a run that produced nothing new must not
+          # commit as though it had.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "vast exclusion census $(date -u +%FT%TZ)" \
+            research/modalities/vast-exclusion-census.json
 
   filters:
     # ★ READ-ONLY ($0). WHICH OF OUR OWN HARD FILTERS IS EATING THE BOARD.
@@ -310,15 +328,16 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/image-cuda-requirements.json \
-                  research/modalities/*-cuda-probe.json 2>/dev/null || true
-          git commit -m "ternary-fep image CUDA probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
-          for i in 1 2 3 4; do
-            git pull --rebase origin "${{ github.ref_name }}" && \
-              git push origin HEAD:${{ github.ref_name }} && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the image CUDA probe"
+          # ⛔ ONE HOME FOR THE PUBLISH. A hand-rolled commit+push either wedges on a conflict
+          # (`git pull --rebase` leaves the repo mid-rebase and every retry dies on it, while the step
+          # stays GREEN) or stamps files this run never wrote over a newer copy — measured both ways
+          # on 2026-08-01. See research/compute/publish_artifacts.sh.
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, so a run that produced nothing new must not
+          # commit as though it had.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "ternary-fep image CUDA probe $(date -u +%FT%TZ)" \
+            research/modalities/image-cuda-requirements.json \
+            research/modalities/*-cuda-probe.json
 
   bidsem:
     # The one experiment that DOES rent: settle whether an interruptible rental is billed at your bid or at a
@@ -351,11 +370,17 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/vast-bid-semantics-probe.json \
-                  research/modalities/vast-bid-semantics-probe-ladder.json \
-                  research/modalities/vast-bid-semantics-probe-cap.json 2>/dev/null || true
-          git commit -m "vast bid-semantics probe $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
-          git push origin HEAD:${{ github.ref_name }}
+          # ⛔ ONE HOME FOR THE PUBLISH. A hand-rolled commit+push either wedges on a conflict
+          # (`git pull --rebase` leaves the repo mid-rebase and every retry dies on it, while the step
+          # stays GREEN) or stamps files this run never wrote over a newer copy — measured both ways
+          # on 2026-08-01. See research/compute/publish_artifacts.sh.
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, so a run that produced nothing new must not
+          # commit as though it had.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "vast bid-semantics probe $(date -u +%FT%TZ)" \
+            research/modalities/vast-bid-semantics-probe.json \
+            research/modalities/vast-bid-semantics-probe-ladder.json \
+            research/modalities/vast-bid-semantics-probe-cap.json
 
   forensics:
     # ★ READ-ONLY ($0). The premise behind CLAUDE.md §6's "work already executing is never touched" is that the
@@ -399,12 +424,13 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/vast-rate-forensics.json \
-                    research/modalities/vast-board-reprice.json 2>/dev/null || true
-          git commit -m "vast rate forensics $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
-          for i in 1 2 3 4; do
-            git pull --rebase origin "${{ github.ref_name }}" && \
-              git push origin HEAD:${{ github.ref_name }} && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the forensics readout"
+          # ⛔ ONE HOME FOR THE PUBLISH. A hand-rolled commit+push either wedges on a conflict
+          # (`git pull --rebase` leaves the repo mid-rebase and every retry dies on it, while the step
+          # stays GREEN) or stamps files this run never wrote over a newer copy — measured both ways
+          # on 2026-08-01. See research/compute/publish_artifacts.sh.
+          # PUBLISH_IF_CHANGED=1: this records an EVENT, so a run that produced nothing new must not
+          # commit as though it had.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "vast rate forensics $(date -u +%FT%TZ)" \
+            research/modalities/vast-rate-forensics.json \
+            research/modalities/vast-board-reprice.json
