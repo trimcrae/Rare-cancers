@@ -1120,5 +1120,60 @@ def test_the_resume_claim_is_measured_not_templated():
     assert "a re-dispatch resumes this leg from its checkpoint" not in src
 
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE HEARTBEAT (coordinator ruling, 2026-08-01) — the redundant-looking commit IS the mechanism.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+def _fusion_wf():
+    import os
+    here = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    with open(os.path.join(here, ".github", "workflows", "fusion-cpu-extras.yml"), encoding="utf-8") as fh:
+        return fh.read()
+
+
+def test_the_retro_fragment_commit_is_unconditional():
+    """★★ A `git diff --cached --quiet && exit 0` on a lane's OWN heartbeat fragment is a landmine, not a bug.
+
+    It never fires while `generated_epoch` is in the file, so it looks harmless — and the moment anyone
+    stabilises that stamp as an "optimisation", a healthy IDLE lane commits nothing and renders
+    byte-identically to a DEAD one.
+
+    On THIS lane that would have destroyed the evidence for its own biggest finding: the commit series of
+    `inflight-board.d/nrv04-retro.json` is the whole basis of `STARTING 11:59 AM -> NO HOST x10 ticks ->
+    STARTING 2:02 PM ET`, i.e. the measurement behind "the pilot sat hostless for 1 h 55 min across ten
+    ticks of an 8-minute supervisor" (`retro_gate_reasons.__doc__`). Ten identical NO HOST rows differ only
+    in their stamp.
+
+    ⚠ COMMENTS ARE STRIPPED BEFORE ASSERTING, so the prose above the step may still NAME what it forbids.
+    """
+    step = _fusion_wf().split("- name: Commit the in-flight board fragment and the merged all-lane board")[1]
+    code = "\n".join(l for l in step.splitlines() if not l.strip().startswith("#"))
+    head = code.split("git commit")[0]
+    assert "git diff --cached --quiet" not in head, (
+        "the fragment commit must never be skipped on 'no content change' — the timestamp IS the heartbeat")
+    assert "git commit -q --allow-empty" in code, (
+        "--allow-empty is unconditional in BOTH directions: it can neither silently skip (the landmine) nor "
+        "fail red on a genuine no-diff (what a naive guard-removal would do)")
+
+
+def test_an_idle_lane_s_rows_are_constant_between_ticks():
+    """The stamp must be the ONLY thing separating 'idle and reporting' from 'stopped reporting'.
+
+    If two ticks of an unchanged, hostless lane produced different ROWS, a suppressed commit would be
+    losing content rather than only a timestamp, and the ruling above would rest on the wrong reason. It
+    does not: identical inputs give byte-identical rows, so the heartbeat carries exactly one fact — that
+    the tick ran.
+    """
+    import nrv04_retro_panel as R
+    a, m, r = R.enumerate_units()[0]
+    name = R.unit_name(a, m, r)
+    args = dict(phases={name: "md-running 2026-07-31T20:28:05Z"}, reasons={name: "BLOCKED by the breaker"})
+    rows1, _ = vl.retro_board_rows(_FakeS3({}), "bkt", args["phases"], set(), [], None, {}, now=1.0e9,
+                                   reasons=args["reasons"])
+    rows2, _ = vl.retro_board_rows(_FakeS3({}), "bkt", args["phases"], set(), [], None, {}, now=1.0e9 + 480,
+                                   reasons=args["reasons"])
+    assert rows1 == rows2, "an idle lane's rows must not drift; only the fragment's stamp may differ"
+    assert rows1, "and the idle lane must still emit rows — a vanishing row reads as a unit that never existed"
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))

@@ -1513,8 +1513,28 @@ jobs:
           staged=0
           for f in "$F" "$G" "$H"; do [ -f "$f" ] && { git add -f "$f"; staged=1; }; done
           [ "$staged" = 1 ] || { echo "nothing to stage"; exit 0; }
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -q -m "NR-V04 retro: in-flight board fragment + gate record (CI)"
+          # ★★ --allow-empty, AND NO no-diff GUARD: THIS COMMIT IS THE LANE'S HEARTBEAT (2026-08-01).
+          # A `git diff --cached --quiet && exit 0` sat here. It is inert today only because the fragment
+          # carries a generation stamp that changes every tick, so the file always differs — which is what
+          # makes it a landmine rather than a bug: stabilise that stamp as an "optimisation" and from that
+          # moment a healthy IDLE lane commits NOTHING and renders byte-identically to a DEAD one.
+          #
+          # ⚠ ON THIS LANE THAT WOULD HAVE DESTROYED THE EVIDENCE FOR ITS OWN BIGGEST FINDING. The commit
+          # series of `inflight-board.d/nrv04-retro.json` is the entire basis of
+          # `STARTING 11:59 AM -> NO HOST x10 ticks -> STARTING 2:02 PM ET` — the measurement behind "the
+          # pilot sat hostless for 1 h 55 min across ten ticks of an 8-minute supervisor"
+          # (`retro_gate_reasons.__doc__`). Ten identical NO HOST rows differ only in their stamp; had the
+          # guard ever fired they would have collapsed to one commit and the outage would have been
+          # invisible. The redundant-looking commit IS the mechanism.
+          #
+          # `--allow-empty` is unconditional in BOTH directions, which is the point: it can neither silently
+          # skip (the landmine above) nor fail red on a genuine no-diff (what a naive guard-removal would
+          # do). Same shape the GCP lane already uses.
+          #
+          # ⛔ SCOPE: a lane's OWN heartbeat fragment only. The guards on ordinary artifacts (the forensics
+          # JSON, and `inflight-board-all.md`, which is the merged cache whose staleness is computed from
+          # each fragment's embedded stamp at render time) are correct as they stand — do not spread this.
+          git commit -q --allow-empty -m "NR-V04 retro: in-flight board fragment + gate record (CI)"
           # Five attempts, matching the ternary gate step. A monitoring artifact that fails to write is worse
           # than one that is missing, because the stale copy reads as current — which is exactly what
           # happened at 2:02 PM ET, when the merged board said the pilot was hostless while the fragment
