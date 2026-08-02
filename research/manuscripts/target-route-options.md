@@ -22,14 +22,15 @@
 
 ## 0 · The evidence taken this session, before any argument
 
-Per CLAUDE.md §4 — a $0 observation is never "watching". Four checks were run first; three changed the
-question, one closed a route.
+Per CLAUDE.md §4 — a $0 observation is never "watching". Four checks were run before any argument; two
+changed the question, one closed a route, and one turned into a **free CI run that found a bug and fixed
+it**. No GPU, no rental, no wet lab.
 
 | # | check | cost | result |
 |---|---|---|---|
 | **A** | Domain-resolved NR4A paralogue identity, computed from the cached UniProt sequences | $0 CPU | The premise "two ~80 %-identical paralogues" does not hold anywhere. **LBD 59.4 % (NR4A1) / 67.3 % (NR4A2)**; **zinc-finger DBD 92.8 % / 98.6 %**; AF1 26.9 % / 36.9 % ([census](../modalities/target-route-census.json) `paralogue_identity_by_domain`, `zinc_finger_window`) |
 | **B** | The junction residue swap — what the chimera trades when EWSR1-LC replaces NR4A3's own AF1 | $0 CPU | **NR4A3 AF1 (1–260): 7 lysines, 3 cysteines (C3, C75, C166). EWSR1-LC (1–264): 1 lysine (K144), 0 cysteines.** The LBD is byte-identical in both proteins ([census](../modalities/target-route-census.json) `af1_to_lc_swap`) |
-| **C** | Which fusion protein the repo actually models | $0, read | ⛔ **Two committed objects disagree, and nobody has reconciled them** — see [§1.3](#13--finding-3--the-repo-holds-two-incompatible-models-of-the-fusion-protein) |
+| **C** | Which fusion protein the repo actually models | $0, read → **$0 CI** | ⛔ **Two committed objects disagreed by ~360 residues.** Resolved the same session by a free CI run: **one of them is an off-by-two indexing bug**, now fixed at source — see [§1.3](#13--finding-3--the-repo-held-two-incompatible-models-of-the-fusion-protein--resolved) |
 | **D** | Is the paralogue-cross-reactivity liability uniform across NR4A1 and NR4A2? | $0, read | **No — it is asymmetric, and the two halves have different evidence and different remedies.** See [route 1](#route-1--asymmetric-selectivity-nr4a1-sparing-mandatory-nr4a2-sparing-best-effort--pk) |
 
 ---
@@ -86,53 +87,81 @@ moves the claim off "a free-energy difference between two similar pockets" and o
 Everything else *relocates* the problem. That distinction is the deliverable in
 [§3](#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it).
 
-### 1.3 · Finding 3 — the repo holds two incompatible models of the fusion protein
+### 1.3 · Finding 3 — the repo held two incompatible models of the fusion protein · **RESOLVED**
 
-⛔ **This is the finding with the widest blast radius, it was free, and it has been sitting in two
-committed files.**
+⛔ **This is the finding with the widest blast radius, it was free, and it had been sitting in two
+committed files.** It was then closed the same session by a **$0 CI run**
+([`nr4a3_exon_audit.py`](../modalities/nr4a3_exon_audit.py) → [`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json),
+GitHub Actions run **30772341046**), because CLAUDE.md §4 says a free observation is never "watching".
 
-| model | where | NR4A3 resumes at | AF1 present? | DBD present? | is C166 in the fusion? |
+**What disagreed.**
+
+| model | where | NR4A3 resumes at | AF1? | DBD? | C166 in the fusion? |
 |---|---|---|---|---|---|
-| **A** | [`fusion_cofold.py`](../modalities/fusion_cofold.py) (`EWS_CUT = 264`, *"NR4A3 resumed at res 2"*) | **residue 2** | yes | yes | **yes** |
-| **B** | [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) — 7 in-frame junctions derived from Ensembl exon structure | **318 / 361 / 419** | no | partial or none (the C4 zinc finger begins at NR4A3 **C292**) | **no** |
+| **A** | [`fusion_cofold.py`](../modalities/fusion_cofold.py) (`EWS_CUT = 264` :: *"NR4A3 resumed at res 2"*) | **residue 2** | yes | yes | **yes** |
+| **B** | [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) — 7 in-frame junctions "derived from real Ensembl exon structure" | **318 / 361 / 419** | no | truncated or absent | **no** |
 
-Model A is *self-declared* an assumption — `fusion_breakpoints.py`'s own docstring calls it *"an
+Model A was *self-declared* an assumption — `fusion_breakpoints.py`'s own docstring calls it *"an
 assumption, not a sourced breakpoint"*, and building the exon-derived alternative was that module's whole
-purpose. **But the two were never reconciled**, and the repo's downstream work uses both: the co-fold
-constructs use A, the junction neoepitope predictions use B.
+purpose. The two were never reconciled, and downstream work uses both: the co-fold constructs use A, the
+junction neoepitope predictions use B.
 
-**Evidence already in the repo bears against B as written.** The fusion binds a response element in the
-*PPARG* promoter and transactivates it (Filion et al., *J Pathol* 2009, **PMC4429309**; band-shift +
-transfection — cited as pillar 2 of the gain-of-function case in
-[`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)). That is a DNA-binding-domain-dependent
-function, and every model-B resume point (≥318) truncates or deletes the zinc-finger DBD. So they cannot
-both be right, and the one with independent functional support is A.
+### ✅ The answer: model A is right, and model B is an **off-by-two** — now fixed at source
 
-**Why it matters here, in four places:**
+The audit re-derived the exon→residue map from the canonical transcripts and reports it under **both**
+numbering schemes. **NR4A3 `ENST00000395097` has 8 transcript exons, of which the first two are entirely
+non-coding**, so:
 
-1. **`R13` is worse than "unpriced".** The roadmap says every structure in the programme is an isolated
-   LBD construct (373–626) and that requirement 13 has *"no lane, no rung, no row anywhere"*
-   ([§2.2](./nr4a3-program-map.md#22--requirements-with-no-instrument--the-holes)). It is not only
-   unscheduled — **the object it would model is not defined.** A rung cannot be written for a target
-   whose sequence is ambiguous by ~360 residues.
-2. **The C166 argument depends on it.** [§7 branch 1](./nr4a3-program-map.md#branch-1--answered-2026-08-02--serves-r8)
-   records C166 as a fourth NR4A3-unique cysteine that the LBD construct boundary removes from the design
-   space — *"it removes a real residue … and nothing on the plan asks what else it removes."* Under model
-   B, C166 is **not in the disease protein at all**, so the construct boundary costs nothing there and the
-   isolated LBD is a *better* model of the fusion than of wild-type NR4A3. Under model A the roadmap's
-   reading stands. One free check decides which sentence is true.
-3. **Every junction neoepitope is conditional on it.** The 26 predicted binders in
-   `fusion-breakpoint-neoantigens.json` are peptides *spanning the seam*. If the seam moves, the peptide
-   set moves. That is a caveat the neoantigen manuscript does not carry.
-4. **It is the one place where "model the real biological object" is cheap.** Validation requirement 5
-   asks for the fusion-context ensemble; the blocker everyone assumed was GPU cost. It is not — it is a
-   sequence definition, and that is free.
+| NR4A3 transcript exon | coding? | first residue it encodes |
+|---|---|---|
+| 1, 2 | **no** | — |
+| **3** | yes | **1** (encodes 1–317: the whole AF1 **and** the first zinc finger) |
+| 4 | yes | 318 |
+| 5 | yes | 361 |
+| 6 / 7 / 8 | yes | 419 / 485 / 545 |
 
-⭑ **Named $0 test:** re-derive NR4A3's coding-exon offsets from the MANE transcript **in CI** (networked,
-so GitHub Actions, not the sandbox) and audit `fusion_breakpoints.py`'s resume index — `offsets[n-2]`
-assumes exon 2 is the first coding exon, which shifts the resume point by one exon if it is not. Then pin
-the EMC junction against a primary breakpoint report rather than either model, and record it once.
-Owner: [`target-route-census.json`](../modalities/target-route-census.json) `fusion_model_disagreement`.
+`fusion_breakpoints.py` indexed `offsets` — which is keyed by **coding** exon — with **transcript** exon
+numbers (`offsets[n-2]`). For EWSR1 that is harmless: its exon 1 *is* coding, so rank ≡ coding index, and
+the EWSR1 half was correct throughout — **which is exactly why the error was invisible.** For NR4A3 the
+two leading non-coding exons shift it, and the label *"NR4A3 exon 3"* resolved to **transcript exon 5,
+residue 361**. An off-by-two.
+
+**Consequences, all measured:**
+
+- ⛔ **All 7 committed junctions delete NR4A3's AF1 and the first zinc finger of the C4 DBD** (which opens
+  at **C292**): `any_committed_resume_retains_the_DBD: false`. They model a chimera that could not
+  transactivate the *PPARG* response element the fusion is reported to act through (Filion et al.,
+  *J Pathol* 2009, **PMC4429309**) — i.e. not the disease protein.
+- ✅ **The corrected canonical junction reproduces model A exactly, from the exon structure alone.**
+  EWSR1 exon 7 ends after **264** residues; NR4A3 exon 3 begins at residue **1**. So EWSR1 exon 7 ::
+  NR4A3 exon 3 = **EWSR1(1–264) :: NR4A3(1–626)** — AF1, DBD, hinge and LBD all retained. That is
+  `fusion_cofold.py`'s `EWS_CUT = 264` :: *"NR4A3 from residue 2"*, arrived at independently. **The model
+  flagged as an unsourced assumption turns out to be the exon-correct one.**
+- ✅ **The ASO lane is unaffected and is now corroborated.**
+  [`junction_breakpoint_scan.py`](../modalities/junction_breakpoint_scan.py) deliberately refuses the exon
+  mapping (*"we deliberately do NOT depend on a fragile exon→CDS coordinate mapping"*) and sweeps the
+  NR4A3 resume over **codons 2–30** — which brackets the correct answer. The design decision that looked
+  like conservatism was load-bearing.
+- ⛔ **The neoantigen lane is affected.** Its 26 predicted binders span seams that do not exist.
+  `fusion-breakpoint-neoantigens.json` **predates the fix and must be regenerated before any of it is
+  quoted.** (Regeneration needs MHCflurry in CI and belongs to that lane, not to this pass.)
+- ✅ **`R13`'s object is now defined at the sequence level, and the roadmap's C166 note stands —
+  strengthened.** [§7 branch 1](./nr4a3-program-map.md#branch-1--answered-2026-08-02--serves-r8) records
+  C166 as a fourth NR4A3-unique cysteine that the modelled LBD construct (373–626) excludes, and asks
+  *"what else it removes"*. Under model B that concern would have evaporated (no C166 in the fusion at
+  all). Under the resolved answer **C166 is present in the disease protein**, so the construct boundary
+  really does remove a real, unique residue from the design space.
+
+**The fix, and the guard.** [`fusion_breakpoints.py`](../modalities/fusion_breakpoints.py) now addresses
+exons by transcript rank through `resume_offset()` / `cut_offset()`, which **raise** on a non-coding exon
+instead of silently sliding to a neighbour, plus an assertion that the NR4A3 resume window still contains
+a junction retaining the DBD. The failure mode that produced this was a silent slide; the guard makes it
+loud.
+
+⚠ **What is still not settled, stated plainly.** The audit bounds which models are *arithmetically
+possible*. It does not establish the patient-level breakpoint — EMC carries several, and only a primary
+breakpoint report pins one. `R13` still needs a rung, a gate and a price; what changed is that it now has
+a defined object to write them against.
 
 ---
 
@@ -149,7 +178,7 @@ this memo exists to fill.
 | **4** | **Ex-vivo pan-NR4A pole** (CAR-T manufacturing additive) | ⛔ **REMOVES it** — the systemic liability that motivates selectivity does not arise | ★ already in the paper as pole 2; under-used as an *argument* | — (readout already committed, `nr4a3-pan-readout.json`) |
 | **5** | **Downstream nodes the fusion transactivates** (PPARG / TZDs) | ⛔ **REMOVES it** — different target | ★ keep; direction unresolved | resolve agonism-vs-antagonism from published EMC + TZD-in-sarcoma data |
 | **6** | **TCIP / transcriptional chemical-induced proximity** (co-opt the fusion, don't degrade it) | **RESHAPES.** Keeps `R4` `R5` `R7`; **retires `R9` `R10` `R12`** | ★ new row — belongs on the board | grade the mechanism against the failure record; verify the auto-captured citation through `verify-refs` |
-| **7** | **Junction neoantigen** (vaccine / TCR-T / soluble TCR) | ⛔ **REMOVES it** — peptide identity is categorical | ○ drafted; tolerance + cold tumour + partial HLA coverage | attach finding 3 as a caveat: the epitope set is conditional on an unreconciled junction |
+| **7** | **Junction neoantigen** (vaccine / TCR-T / soluble TCR) | ⛔ **REMOVES it** — peptide identity is categorical | ○ drafted — and now carrying a **correction owed** | ⛔ **already run:** its 26 predicted binders span seams that do not exist. Regenerate `fusion-breakpoint-neoantigens.json` against the corrected exon index |
 | **8** | **AND-gate bivalent degrader** (avidity coincidence detection) | **NEUTRAL** — a second, independent axis; arm 1 still carries the paralogue handles | ⏸ hold — arm-2 chemistry does not exist | — (already computed; nothing free left) |
 | **9** | **Synthetic-lethal / dependency partner** | ⛔ **REMOVES it** — different target | ⏸ parked on data, not on ideas | check whether the one EMC line in DepMap (**ACH-001519 / H-EMC-SS**) has gained CRISPR data since 24Q4 |
 | **10** | **Molecular glue instead of a PROTAC** | **RELOCATES and WORSENS** — same discrimination, fewer independent axes | ⏸ watch, do not build | — (add a method-watch trigger) |
@@ -351,10 +380,11 @@ that removes the paralogue requirement *and* the wild-type-NR4A3 liability at on
 delivery — an engineering problem with active solutions, not a question about whether the biology works
 ([`fusion-selective-approaches-overview.md`](./fusion-selective-approaches-overview.md)).
 
-⚠ **One new caveat from [finding 3](#13--finding-3--the-repo-holds-two-incompatible-models-of-the-fusion-protein).**
-The ASO work is breakpoint-resolved and already models the junction as variable (390 modelled breakpoints,
-243 favourable), so it is *less* exposed than the neoantigen route. But the exon-derived junction set it
-scans comes from the same module whose resume index finding 3 flags. The $0 exon audit protects both.
+✅ **And [finding 3](#13--finding-3--the-repo-held-two-incompatible-models-of-the-fusion-protein--resolved) came back in this route's favour.**
+`junction_breakpoint_scan.py` deliberately refuses the exon→CDS mapping and sweeps the NR4A3 resume over
+**codons 2–30**; the exon audit puts the correct resume at **residue 1**, inside that window. The lane is
+unaffected by the off-by-two that invalidated the neoantigen junction set, and the conservatism that
+looked like a hedge turns out to have been the thing that saved it.
 
 ---
 
@@ -458,10 +488,12 @@ external support in fusion-driven sarcoma (the overview memo records afami-cel's
 sarcoma and public-neoantigen TCRs for SYT-SSX and EWSR1-WT1, captured in `IDEAS.md` 2026-07-13).
 
 **What this memo adds — and it is a caveat, not a promotion.** Per
-[finding 3](#13--finding-3--the-repo-holds-two-incompatible-models-of-the-fusion-protein), every predicted
-epitope is a peptide **spanning the seam**, and the seam's position is exactly what the two committed
-fusion models disagree about. The epitope set is therefore conditional on an unreconciled model, and the
-manuscript does not say so. **That caveat is free to add and it belongs there.**
+[finding 3](#13--finding-3--the-repo-held-two-incompatible-models-of-the-fusion-protein--resolved), every predicted
+epitope is a peptide **spanning the seam** — and the seam in `fusion-breakpoint-neoantigens.json` is
+wrong. The exon audit shows all 7 junctions resume NR4A3 past its DNA-binding domain, so the 26 predicted
+binders span seams that do not exist in the disease protein. ⛔ **This is a correction owed, not a
+caveat**: the source module is fixed, the artifact is not regenerated, and nothing in the artifact should
+be quoted until it is. Regeneration needs MHCflurry in CI and belongs to that lane.
 
 **Grade: ○ unchanged** (tolerance to a mostly-self junction, a cold tumour, and partial HLA coverage were
 already the stated doubts), **with one free correction owed.**
@@ -599,11 +631,12 @@ would be a **categorical** fusion-vs-wild-type axis, immune to the resolution pr
 - the exposed NR4A3-unique lysines sit at **13.4 / 11.5 / 16.2 Å** from the cryptic pocket (K518, K572,
   K592 — [`nr4a-paralogue-unique-residues.json`](../modalities/nr4a-paralogue-unique-residues.json)).
 
-Both numbers are **inside the shared LBD**. The differential lysines are ≥100 residues away on the far
-side of the DBD and hinge, and no transfer zone anchored at the cryptic pocket reaches them. ⚠ Under
-fusion model B ([finding 3](#13--finding-3--the-repo-holds-two-incompatible-models-of-the-fusion-protein))
-the differential does not exist at all, because the AF1 is absent from the fusion — so the route fails
-under one model and is unreachable under the other.
+Both numbers are **inside the shared LBD**. ✅ [Finding 3](#13--finding-3--the-repo-held-two-incompatible-models-of-the-fusion-protein--resolved)
+settles that the differential is **real** — the chimera does retain NR4A3's own AF1 replaced by EWSR1-LC,
+so the 7-lysines-to-1 swap is a genuine property of the disease protein and not an artifact of a wrong
+junction model. **The route still fails, and now for one clean reason instead of two:** the differential
+lysines sit ≥100 residues away on the far side of the DBD and hinge, and no transfer zone anchored at the
+cryptic pocket reaches them. The idea is sound; the geometry is not.
 
 **Grade: ✕ closed, and cheap to have closed.** ⚠ Filed at the roadmap's strict bar this is a *route* closed
 by measurements that already exist, not a proof of impossibility — a construct that anchored the E3 far
@@ -619,7 +652,7 @@ Every item is free, none needs an authorization, and each is stated as an action
 
 | # | action | serves | why it is worth doing |
 |---|---|---|---|
-| **1** | **Audit the NR4A3 coding-exon offsets in CI and pin the EMC junction** | `R13`, routes 3 / 7 | ⛔ two committed models of the fusion disagree by ~360 residues; `R13` cannot be given a rung until the object is defined |
+| **1** | ✅ **DONE this session — the exon audit** ([run 30772341046](../modalities/nr4a3-exon-audit.json)) | `R13`, routes 3 / 7 | found an **off-by-two**, fixed it at source, and defined `R13`'s object at the sequence level. **What remains:** regenerate `fusion-breakpoint-neoantigens.json`, and pin the patient-level junction against a primary breakpoint report |
 | **2** | **MGI single-KO phenotypes for *Nr4a1/2/3*** | route 1 | the only thing that would bound the NR4A2 half of the requirement without a lab; IMPC returned nothing and MGI is the repo's own named next source |
 | **3** | **HPA per-tissue nTPM for NR4A1/2/3** | route 1 | sizes the CNS-vs-periphery split, i.e. how much of the NR4A2 liability a biodistribution lever could remove. The field is `null` today |
 | **4** | **Re-run the linker-reach enumeration with the E3 arm removed** | route 2 | the 30-of-30 counter-result was computed under a constraint an inhibitor does not face. Run *after* roadmap row 5 (branch-1b reconciliation), or there is no baseline |
@@ -627,7 +660,7 @@ Every item is free, none needs an authorization, and each is stated as an action
 | **6** | **Verify the TCIP citation through `verify-refs`, then give it a row on `IDEAS.md`** | route 6 | it has sat as an auto-captured lead since 2026-07-13 with an explicit *"may warrant a new row — for human review"* |
 | **7** | **Re-query DepMap for CRISPR data on ACH-001519 / H-EMC-SS** | route 9 | the only EMC-specific dependency datum that could exist without a lab |
 | **8** | **Add a `method-watch.md` row for prospective molecular-glue design** | route 10 | the modality most likely to arrive from outside; a trigger costs nothing and stops it being re-litigated |
-| **9** | **Add finding 3 as a caveat to the neoantigen manuscript** | route 7 | its epitope set is conditional on an unreconciled model and does not say so |
+| **9** | **Regenerate the junction neoepitope set against the corrected exon index** | route 7 | ⛔ its 26 predicted binders span seams that do not exist. Needs MHCflurry in CI — free, but it belongs to that lane |
 
 ⚠ **Items 1–3, 5 and 7 are networked and must run on a GitHub Actions runner**, not in the dev sandbox
 (CLAUDE.md §6: the egress proxy blocks NCBI/GEO, PMC, Europe PMC, UniProt).
@@ -653,9 +686,12 @@ finding: on this target, selectivity is not won by better chemistry against the 
 routes reshape it into something categorical, which is the only axis this programme's instruments can
 support. Three relocate it, and two of those land somewhere strictly worse.
 
-**And the widest-blast-radius item was free and had been sitting in two committed files:** the repo does
-not have one definition of the protein it is trying to drug. `R13` is not merely unpriced — its object is
-undefined, and that is a sequence question, not a GPU question.
+**And the widest-blast-radius item was free, had been sitting in two committed files, and is now closed.**
+The repo did not have one definition of the protein it is trying to drug. One CI run showed why: an
+**off-by-two** — `offsets` keyed by coding exon, indexed with transcript exon numbers, invisible on EWSR1
+because its first exon is coding and fatal on NR4A3 because its first two are not. The corrected junction
+is **EWSR1(1–264) :: NR4A3(1–626)**, which reproduces the model that had been labelled an unsourced
+assumption. `R13` was never a GPU problem; it was a sequence question nobody had asked.
 
 ---
 

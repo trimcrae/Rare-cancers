@@ -49,6 +49,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SEQS = os.path.join(HERE, "nr4a-sequences-cache.json")
 BREAKPOINTS = os.path.join(HERE, "fusion-breakpoint-neoantigens.json")
+AUDIT = os.path.join(HERE, "nr4a3-exon-audit.json")
 OUT = os.path.join(HERE, "target-route-census.json")
 
 # Domain boundaries as the repo already calls them, from the AlphaFold/fpocket assessment
@@ -231,11 +232,15 @@ def build():
         ),
     }
 
-    # --- 3. the unreconciled fusion model --------------------------------------------
+    # --- 3. the fusion model — RESOLVED 2026-08-02 by nr4a3_exon_audit.py ------------
     bp = json.load(open(BREAKPOINTS))
     exon_derived = sorted({j["nr4_cds_nt"] // 3 + 1 for j in bp["junctions"]})
+    audit = json.load(open(AUDIT)) if os.path.exists(AUDIT) else None
     models = {
-        "_question": "Where does NR4A3 resume in the chimera? Two committed objects disagree.",
+        "_question": "Where does NR4A3 resume in the chimera? Two committed objects disagreed.",
+        "_status": ("RESOLVED in favour of model A — see `resolution` below. The disagreement is "
+                    "retained rather than deleted because model B's artifact is still committed "
+                    "and still quotable."),
         "model_A_fusion_cofold": {
             "source": "fusion_cofold.py (EWS_CUT=264, 'NR4A3 resumed at res 2')",
             "nr4a3_first_residue": 2,
@@ -268,11 +273,52 @@ def build():
             "neoepitope in fusion-breakpoint-neoantigens.json is conditional on it."
         ),
         "_named_zero_dollar_test": (
-            "Re-derive NR4A3's coding-exon offsets from the MANE transcript in CI and check "
-            "fusion_breakpoints.py's resume index (`offsets[n-2]`), which assumes exon 2 is "
-            "the first coding exon; then pin the EMC junction against a primary breakpoint "
-            "report rather than either model. Networked, so GitHub Actions, not the sandbox."
+            "RUN 2026-08-02 — `nr4a3_exon_audit.py`, GitHub Actions run 30772341046, $0. "
+            "Re-derived NR4A3's coding-exon offsets from the canonical transcript and audited "
+            "fusion_breakpoints.py's resume index. Result in `resolution`."
         ),
+        "resolution": None if audit is None else {
+            "verdict": "model A — the exon structure corroborates it, and model B was an indexing bug",
+            "measured_by": "nr4a3-exon-audit.json (Ensembl, canonical transcripts, CI)",
+            "nr4a3_transcript": audit["NR4A3"]["transcript"],
+            "nr4a3_n_transcript_exons": audit["NR4A3"]["self_checks"]["n_transcript_exons"],
+            "nr4a3_n_coding_exons": audit["NR4A3"]["self_checks"]["n_coding_exons"],
+            "nr4a3_first_transcript_exon_is_coding":
+                audit["NR4A3"]["self_checks"]["first_transcript_exon_is_coding"],
+            "nr4a3_first_coding_exon_is_transcript_exon": 3,
+            "nr4a3_exon3_first_residue": 1,
+            "ewsr1_exon7_last_residue_kept": 264,
+            "zinc_finger_first_cysteine": audit["verdict"]["zinc_finger_first_cysteine_residue"],
+            "any_committed_resume_retains_the_DBD":
+                audit["verdict"]["any_committed_resume_retains_the_DBD"],
+            "_the_bug": (
+                "`offsets` is indexed by CODING exon; the breakpoint windows are TRANSCRIPT exon "
+                "numbers. NR4A3's transcript exons 1 and 2 are entirely non-coding, so the label "
+                "'NR4A3 exon 3' resolved to transcript exon 5 (residue 361) — an OFF-BY-TWO. All "
+                "7 committed junctions therefore deleted the AF1 and the first zinc finger of the "
+                "C4 DBD. EWSR1's exon 1 IS coding, so rank == coding index there and the EWSR1 "
+                "half was correct throughout — which is why the error was invisible."
+            ),
+            "_the_corrected_junction": (
+                "EWSR1 exon 7 ends after 264 residues and NR4A3 exon 3 begins at residue 1, so the "
+                "canonical EMC junction is EWSR1(1-264)::NR4A3(1-626) — the chimera retains the "
+                "AF1, the DBD, the hinge and the LBD. That is exactly what fusion_cofold.py "
+                "assumed (EWS_CUT=264 :: NR4A3 from residue 2) and what "
+                "junction_breakpoint_scan.py brackets (its NR4A3 resume sweep is codons 2-30), so "
+                "the ASO lane is unaffected and is now independently corroborated."
+            ),
+            "_what_it_costs_downstream": (
+                "C166 IS present in the disease protein, so the roadmap's branch-1 note stands and "
+                "strengthens: C166 is a real NR4A3-unique cysteine in the real target that the "
+                "modelled LBD construct (373-626) excludes. And every junction neoepitope in "
+                "fusion-breakpoint-neoantigens.json is computed at a seam that does not exist — "
+                "that artifact predates the fix and must be regenerated before it is quoted."
+            ),
+            "_still_not_settled": (
+                "The audit bounds which models are arithmetically possible. Only a primary "
+                "breakpoint report pins the patient-level junction, and EMC carries several."
+            ),
+        },
     }
 
     return {

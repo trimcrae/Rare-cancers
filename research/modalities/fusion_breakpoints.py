@@ -115,14 +115,16 @@ def gene_model(symbol):
     trans = tr["Translation"]
     cds_lo, cds_hi = trans["start"], trans["end"]  # genomic, lo<hi
     cum = 0
-    offsets = []  # cumulative coding nt through end of each coding-containing exon
-    for ex in exons:
+    offsets = []       # cumulative coding nt through end of each coding-CONTAINING exon
+    coding_ranks = []  # TRANSCRIPT exon rank of each entry in `offsets`, same index
+    for rank, ex in enumerate(exons, start=1):
         cstart = max(ex["start"], cds_lo)
         cend = min(ex["end"], cds_hi)
         clen = max(0, cend - cstart + 1)
         if clen:
             cum += clen
             offsets.append(cum)
+            coding_ranks.append(rank)
     cds = get_text(f"{ENS}/sequence/id/{tr['id']}?type=cds").replace("\n", "").upper()
     protein = get_text(f"{ENS}/sequence/id/{trans['id']}?type=protein").replace("\n", "")
     # self-checks
@@ -130,7 +132,48 @@ def gene_model(symbol):
     tp = translate(cds)
     assert tp == protein.replace("*", "").rstrip("X"), f"{symbol}: CDS translation != Ensembl protein"
     return {"symbol": symbol, "transcript": tr["id"], "n_coding_exons": len(offsets),
-            "cds": cds, "protein": protein, "offsets": offsets}
+            "cds": cds, "protein": protein, "offsets": offsets,
+            "coding_ranks": coding_ranks, "n_transcript_exons": len(exons)}
+
+
+# ⛔ CORRECTED 2026-08-02 — `offsets` is indexed by CODING exon, and the windows above are
+# TRANSCRIPT exon numbers. For a gene whose leading exons are non-coding the two differ, and the
+# old `offsets[e - 1]` / `offsets[n - 2]` arithmetic silently resumed at the wrong exon.
+# MEASURED on the canonical transcripts (`nr4a3_exon_audit.py` -> nr4a3-exon-audit.json):
+#   EWSR1 ENST00000397938 -- exon 1 IS coding, so rank == coding index and the EWSR1 half was right.
+#   NR4A3 ENST00000395097 -- 8 transcript exons, **exons 1 and 2 are entirely non-coding**, so the
+#   first coding exon is TRANSCRIPT EXON 3 and it encodes residues 1-317. The old index therefore
+#   mapped the label "NR4A3 exon 3" onto transcript exon 5 (residue 361) -- an OFF-BY-TWO. Every
+#   junction it emitted deleted NR4A3's AF1 and the first zinc finger of the C4 DBD (which opens at
+#   C292), i.e. modelled a chimera that could not transactivate the PPARG response element the
+#   fusion is reported to act through (Filion 2009, PMC4429309).
+#   The EMC literature's "NR4A3 exon 3" is transcript exon 3, which resumes at residue 1 -- which is
+#   what `fusion_cofold.py` assumed all along and what `junction_breakpoint_scan.py` brackets.
+# ⚠ `fusion-breakpoint-neoantigens.json` as committed PREDATES this fix and its 7 junctions and 26
+# predicted binders are at seams that do not exist. Regenerate before quoting any of them.
+def resume_offset(model, transcript_exon_rank):
+    """CDS nt offset at which `transcript_exon_rank` begins (0 = start of the CDS).
+
+    Raises if the requested exon carries no coding sequence, rather than silently sliding to a
+    neighbour -- the failure mode that produced the off-by-two above.
+    """
+    ranks = model["coding_ranks"]
+    if transcript_exon_rank not in ranks:
+        raise ValueError(
+            f"{model['symbol']}: transcript exon {transcript_exon_rank} carries no coding "
+            f"sequence (coding exons are {ranks})")
+    i = ranks.index(transcript_exon_rank)
+    return 0 if i == 0 else model["offsets"][i - 1]
+
+
+def cut_offset(model, transcript_exon_rank):
+    """CDS nt offset at which `transcript_exon_rank` ENDS (i.e. a 5'-partner cut point)."""
+    ranks = model["coding_ranks"]
+    if transcript_exon_rank not in ranks:
+        raise ValueError(
+            f"{model['symbol']}: transcript exon {transcript_exon_rank} carries no coding "
+            f"sequence (coding exons are {ranks})")
+    return model["offsets"][ranks.index(transcript_exon_rank)]
 
 
 def junction_peptides(fusion_prot, j, lengths):
@@ -153,9 +196,28 @@ def main():
     nr4_tail = nr4["protein"][-100:]  # LBD-containing C-terminus; intact => in-frame
     ews_cds, nr4_cds = ews["cds"], nr4["cds"]
 
-    # candidate cut/resume nucleotide offsets from exon boundaries
-    ews_cuts = [(e, ews["offsets"][e - 1]) for e in EWSR1_EXON_WINDOW if e - 1 < len(ews["offsets"])]
-    nr4_resumes = [(n, nr4["offsets"][n - 2]) for n in NR4A3_EXON_WINDOW if 0 <= n - 2 < len(nr4["offsets"])]
+    # Candidate cut/resume nucleotide offsets, addressed by TRANSCRIPT exon rank (see the
+    # corrected helpers above). A window entry that names a non-coding exon is skipped loudly
+    # rather than sliding onto a neighbour.
+    ews_cuts = []
+    for e in EWSR1_EXON_WINDOW:
+        try:
+            ews_cuts.append((e, cut_offset(ews, e)))
+        except ValueError as exc:
+            print(f"  skip EWSR1 exon {e}: {exc}", file=sys.stderr)
+    nr4_resumes = []
+    for n in NR4A3_EXON_WINDOW:
+        try:
+            nr4_resumes.append((n, resume_offset(nr4, n)))
+        except ValueError as exc:
+            print(f"  skip NR4A3 exon {n}: {exc}", file=sys.stderr)
+    # Regression guard for the off-by-two: the resume point of the exon the EMC literature names
+    # must land inside NR4A3's own N-terminus, not past its DNA-binding domain.
+    for n, q in nr4_resumes:
+        print(f"  NR4A3 exon {n} resumes at CDS nt {q} = residue {q // 3 + 1}", file=sys.stderr)
+    assert any(q // 3 + 1 <= 2 for _, q in nr4_resumes), (
+        "NR4A3 resume window no longer contains a junction that retains the DBD - the exon "
+        "index is wrong again (see nr4a3-exon-audit.json)")
 
     junctions = []
     for e, p in ews_cuts:
