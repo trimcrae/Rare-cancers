@@ -192,3 +192,50 @@ def test_it_fails_OPEN_so_a_derivation_fault_cannot_double_rent(monkeypatch):
 
     monkeypatch.setattr(builtins, "__import__", boom)
     assert L._terminal_cur_states() == frozenset()
+
+
+# =============================================================================================================
+# the terminus is a VERDICT, not an empty host list
+# =============================================================================================================
+def test_a_complete_panel_is_SCORED_not_just_reaped():
+    """★★ The completion branch used to reap and `return 0`, so the moment the 24th leg landed the lane went
+    quiet with its frozen criterion UNSCORED — the panel sitting in S3 waiting for somebody to notice and
+    dispatch `collect` by hand. That is the "needs an agent awake" dependency CLAUDE.md §6 removes, at the one
+    place where noticing matters most: the terminus of the whole calibration."""
+    body = _watch_body()
+    comp = body[body.index("panel complete"):body.index("mode_reap(bucket)\n        # ★★")]
+    assert "mode_collect(" in comp, "a complete panel must be scored, not merely reaped"
+    assert comp.index("mode_reap(") < comp.index("mode_collect("), (
+        "reap first: only the control plane can stop the meter, and scoring is a pure S3 read")
+
+
+def test_the_scored_verdict_is_published():
+    """A verdict that never leaves the runner is not a result."""
+    body = _watch_body()
+    comp = body[body.index("panel complete"):body.index("mode_reap(bucket)\n        # ★★")]
+    assert "VERDICT_READOUT" in comp and "COLLECT_READOUT" in comp
+
+
+def test_a_scoring_fault_does_not_lose_the_reap():
+    """The reap stops billing; the score is analysis. A fault in the second must never undo the first."""
+    body = _watch_body()
+    comp = body[body.index("panel complete"):body.index("mode_reap(bucket)\n        # ★★")]
+    assert "except Exception" in comp and "SELCAL PANEL UNSCORED" in comp
+
+
+def test_scoring_at_the_terminus_is_not_an_interim_analysis():
+    """⛔ The prereg forbids peeking at a partial panel. This branch is reached only when every unit has a
+    production-checked leg, and `mode_collect` suppresses the tier unless `panel_complete` — so the criterion
+    fires exactly when it said it would. The reasoning must stay written down next to the call."""
+    import selcal_panel as SP
+    assert "no_interim_analysis" in SP.PASS_CRITERION
+    body = _watch_body()
+    # …from the `if`, not from the print: the reasoning lives in the COMMENT above the branch, which is
+    # where it has to be for the next reader deciding whether this is a peek.
+    comp = body[body.index("if len(done) >= len(SP.enumerate_units())"):
+                body.index("mode_reap(bucket)\n        # ★★")]
+    assert "NOT AN INTERIM ANALYSIS" in comp
+    src = open(os.path.join(MOD, "selcal_vast_launch.py")).read()
+    coll = src[src.index("def mode_collect("):]
+    coll = coll[:coll.index("\ndef ", 10)]
+    assert "tier_suppressed" in coll and "panel_complete" in coll

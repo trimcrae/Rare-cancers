@@ -1671,8 +1671,29 @@ def mode_watch(bucket=None, minutes=None):
         print("[selcal-watch] landed %d/%d, live %d" % (len(done), len(SP.enumerate_units()), len(mine)),
               flush=True)
         if len(done) >= len(SP.enumerate_units()):
-            print("[selcal-watch] panel complete — reaping and exiting.", flush=True)
+            # ★★ THE PANEL'S TERMINUS IS A VERDICT, NOT AN EMPTY HOST LIST (2026-08-01). This branch used to
+            # reap and `return 0`, so the moment the 24th leg landed the lane went quiet with its criterion
+            # UNSCORED — the whole point of the panel sitting in S3 waiting for somebody to notice and
+            # dispatch `collect` by hand. That is the same "needs an agent awake" dependency CLAUDE.md §6
+            # exists to remove, and it sits at the one place where noticing matters most.
+            #
+            # ⚠ REAP FIRST, SCORE SECOND. Only the control plane can stop the meter, and scoring is a pure
+            # S3 read that cannot fail in a way worth holding billing for.
+            #
+            # ⛔ THIS IS NOT AN INTERIM ANALYSIS. `mode_collect` suppresses the tier unless `panel_complete`,
+            # and this branch is reached only when every unit has a production-checked leg — the condition
+            # the prereg's no-peeking rule (`PASS_CRITERION["no_interim_analysis"]`) names. Scoring here is
+            # the criterion firing when it said it would, not a peek.
+            print("[selcal-watch] panel complete — reaping, then SCORING the frozen criterion.", flush=True)
             mode_reap(bucket)
+            try:
+                mode_collect(bucket)
+            except Exception as e:  # noqa: BLE001 — a scoring fault must not lose the reap or the readouts
+                print("::error title=SELCAL PANEL UNSCORED::every unit landed but the verdict could not be "
+                      "computed (%s: %s). The legs are safe in S3; dispatch `mode=collect` to score them."
+                      % (type(e).__name__, e), flush=True)
+            _tick_publish([REAP_READOUT, PRICE_LEDGER, COLLECT_READOUT, VERDICT_READOUT],
+                          "selcal: PANEL COMPLETE — frozen criterion scored (CI)")
             return 0
         mode_reap(bucket)
         # ★★ REAPING WITHOUT RE-PLACING IS NOT SUPERVISION — IT IS A SLOW LEAK (2026-08-01).
