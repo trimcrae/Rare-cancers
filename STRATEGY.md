@@ -445,8 +445,25 @@ could not be re-narrated after the fact, and it is machine-carried by `selcal_ga
    ternary generator is given when handed each end's site. That is the nameable precondition for credible
    NR4A3 ternaries, and it is why (c) matters beyond one number. ⚠ The locus is decided against that measured
    scale, never a bar chosen for the occasion; unreadable scale ⇒ locus reported UNDETERMINED.
-   ⛔ None of (a)–(c) is a positive control for paralogue-selectivity **detection**; that endpoint still has
-   none, and none of them may be read as softening the tally below.
+   ★★ **(e) A PARALOGUE-SELECTIVITY READOUT THAT PASSES A KNOWN-ANSWER TEST — THE FIRST THIS PROGRAM HAS.**
+   The published mechanism for this pair is a hydrogen bond, not a dynamical quantity (Kofink et al.,
+   PMC9551036: *"the selectivity-inducing hydrogen bonding between Gln1469 of SMARCA2BD and VCB"*), and a
+   bond between two named partners is visible in a deposited structure. Scoring the target↔VCB contact map of
+   9DTY and 9DTX and aligning the bromodomains **by sequence** (identity 0.890 over the interface alignment —
+   the two deposits number locally vs full-length, so equal numbers are different residues), the descriptor
+   finds exactly one position where a glutamine on the SMARCA2 arm makes a **side-chain** polar contact the
+   aligned SMARCA4 residue does not: **Gln98 Oε1 → VHL Arg12 Nη2, 2.88 Å**, 34 interface contacts, against
+   **Leu1545** (10 contacts), which cannot make that bond
+   ([`selcal-interface-signature.json`](./research/modalities/selcal-interface-signature.json)).
+   ⚠ **Side-chain, not any polar contact** — SMARCA4's leucine touches the E3 through its *backbone* amide at
+   2.93 Å, and counting that hid the substitution behind an interaction of a different kind (the first version
+   of the check did exactly that and reported a real recovery as a failure). ⚠ No hydrogens at these
+   resolutions ⇒ "polar contact" is the heavy-atom donor–acceptor proxy, labelled as one.
+   ⛔ **It validates ONE contact in ONE pair.** It does **not** validate E1, and it makes no NR4A3 prediction
+   correct — applying it to an NR4A3 ternary additionally requires that ternary to be credible, which (d)
+   shows this route does not yet supply.
+   ⛔ None of (a)–(e) is a positive control for paralogue-selectivity **detection at this program's E1
+   endpoint**; that endpoint still has none, and none of them may be read as softening the tally below.
 4. **It re-scores no landed leg and changes no ΔΔG.** It is a statement about the instrument.
 
 ### The standing tally this closes

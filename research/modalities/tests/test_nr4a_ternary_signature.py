@@ -138,3 +138,41 @@ def test_the_module_states_the_honest_prior():
     src = open(os.path.join(MOD, "nr4a_ternary_signature.py")).read()
     assert "the expected outcome here is NO discriminating contact" in src
     assert "did not provide evidence for NR4A3-selective ternary geometry" in src
+
+
+# ---------- structure selection must never hand over the control ----------------------------------------------
+
+
+def _write(tmp_path, rel):
+    p = tmp_path / rel
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text("data_x\n")
+    return p
+
+
+def test_the_crbn_control_is_never_taken_as_the_nr4a3_ternary(tmp_path, monkeypatch, capsys):
+    """`boltz_results_nr4a3-ternary-control` contains the token 'nr4a3'. Handing it over would make every
+    number afterwards about the wrong structure."""
+    _write(tmp_path, "boltz_results_nr4a3-ternary-control/predictions/c/c_model_0.cif")
+    _write(tmp_path, "boltz_results_nr4a3-ternary-protac/predictions/nr4a3/nr4a3_model_0.cif")
+    _write(tmp_path, "boltz_results_nr4a3-ternary-protac/predictions/nr4a1/nr4a1_model_0.cif")
+    _write(tmp_path, "boltz_results_nr4a3-ternary-protac/predictions/nr4a2/nr4a2_model_0.cif")
+    out = tmp_path / "out.json"
+    rc = N.main(["--root", str(tmp_path), "--recursive", "--target-chain", "A", "--e3-chains", "B",
+                 "--validated", _validated(tmp_path), "--out", str(out)])
+    doc = json.loads(out.read_text())
+    # The control path must not appear as any paralogue's chosen structure.
+    chosen = doc.get("structures") or {}
+    assert all("control" not in v for v in chosen.values()), chosen
+    assert rc in (0, 5)
+
+
+def test_zero_or_ambiguous_candidates_is_a_refusal_not_a_preference(tmp_path):
+    _write(tmp_path, "boltz_results_nr4a3-ternary-control/predictions/c/c_model_0.cif")
+    out = tmp_path / "out.json"
+    rc = N.main(["--root", str(tmp_path), "--recursive", "--target-chain", "A", "--e3-chains", "B",
+                 "--validated", _validated(tmp_path), "--out", str(out)])
+    assert rc == 5
+    doc = json.loads(out.read_text())
+    assert "not guessing" in doc["error"]
+    assert set(doc["unresolved"]) == {"NR4A3", "NR4A1", "NR4A2"}

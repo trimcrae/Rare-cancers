@@ -2181,6 +2181,27 @@ each end's site, and the configuration that reached 0.839 above. ⚠ The locus i
 displacement scale rather than a threshold chosen here; where the scale cannot be read, the artifact reports
 the locus as undetermined rather than guessing it.
 
+★★ **AND A PARALOGUE-SELECTIVITY READOUT THAT PASSES A KNOWN-ANSWER TEST — the first this program has.**
+The published mechanism for this pair is not a dynamical quantity: Kofink et al. 2022 (PMC9551036) report
+*"the selectivity-inducing hydrogen bonding between Gln1469 of SMARCA2BD and VCB"*. A bond between two named
+partners is visible in a deposited structure, so the question can be put to a static interface descriptor on
+the two crystals, at no cost, against an answer published before this program existed. Scoring the
+target↔VCB contact map of 9DTY and 9DTX and aligning the two bromodomains **by sequence** (they are numbered
+in their own full-length proteins, so equal numbers are different residues; interface-alignment identity
+0.890), the descriptor finds exactly one position where a glutamine on the SMARCA2 arm makes a **side-chain**
+polar contact to VCB that the aligned SMARCA4 residue does not: **Gln98 Oε1 → VHL Arg12 Nη2 at 2.88 Å**
+(34 interface contacts), against **Leu1545** on SMARCA4 (10 contacts), which cannot make that bond at all
+([`../modalities/selcal-interface-signature.json`](../modalities/selcal-interface-signature.json)).
+⚠ **Side-chain, not any polar contact** — SMARCA4's leucine does touch the E3 through its *backbone* amide
+(2.93 Å), and counting that hides the substitution behind an interaction of a different kind. ⚠ No hydrogens
+are placed at these resolutions, so "polar contact" is the standard heavy-atom donor–acceptor proxy and is
+labelled as one throughout. ⛔ **What this licenses is narrow and is stated here rather than left to be
+inferred:** a *structural* paralogue-discriminating contact is detectable from a ternary structure, and this
+descriptor detects the one that was published. It validates **one contact in one pair**. It does **not**
+validate E1 — a different quantity, still untested on correct inputs — and it makes **no NR4A3 prediction
+correct**; applying it to an NR4A3 ternary additionally requires that ternary to be credible, which the
+paragraph above shows is not yet the case for this route.
+
 **Applied, not noted:** with §2.11's cooperativity calibrator failed on sign, §2.12's retrospective
 non-resolved, and this control null on an adequately-powered design, **all three** attempts to establish a
 positive control **for this program's selectivity claims** have now been run and none succeeded — a
