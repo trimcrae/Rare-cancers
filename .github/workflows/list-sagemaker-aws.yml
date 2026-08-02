@@ -16,11 +16,11 @@ on:
         default: ""
         required: false
       mode:
-        description: "'savings' = realized managed-spot discount (billable vs training time) for recent completed jobs; 'abfe_rate' = measured per-leg ABFE rate over the FULL job history; blank = in-progress jobs"
+        description: "'savings' = realized managed-spot discount (billable vs training time) for recent completed jobs; 'abfe_rate' = measured per-leg ABFE rate over the FULL job history; 'abfe_ready' = ABFE dispatch-readiness (ECR image, staged inputs, tag collision, spot headroom); blank = in-progress jobs"
         default: ""
         required: false
       instance_filter:
-        description: "savings mode: restrict to instance types containing this string, e.g. ml.g5.xlarge. abfe_rate mode: the job-NAME substring to match (default 'abfe')"
+        description: "savings mode: restrict to instance types containing this string, e.g. ml.g5.xlarge. abfe_rate mode: the job-NAME substring to match (default 'abfe'). abfe_ready mode: the checkpoint TAG to check (default 'sel-cbp30-v1')"
         default: ""
         required: false
 
