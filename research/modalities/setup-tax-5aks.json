@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-02T00:49:50Z",
+ "utc": "2026-08-02T01:05:09Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -1857,7 +1857,7 @@
      ],
      "first_commit_iteration": 1560,
      "s_per_iter": 55.45,
-     "n_lines": 893,
+     "n_lines": 968,
      "timeline": {
       "marks": [
        [
@@ -1912,12 +1912,18 @@
        "iteration": 1640,
        "mib": 5952.7,
        "seconds": 77.7
+      },
+      {
+       "phase": "production",
+       "iteration": 1680,
+       "mib": 6103.8,
+       "seconds": 85.2
       }
      ],
      "checkpoint_interval": 40,
      "attempt": "run.log",
-     "utc": "2026-08-02 00:49:53+00:00",
-     "bytes": 65519,
+     "utc": "2026-08-02 01:04:02+00:00",
+     "bytes": 70834,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
     }
    ],
@@ -1934,16 +1940,16 @@
      "first_iter": 40,
      "first_mib": 107.0,
      "last_iter": 1680,
-     "last_mib": 4038.6
+     "last_mib": 6103.8
     },
     "min_mib": 106.6,
-    "max_mib": 5952.7,
+    "max_mib": 6103.8,
     "by_extension_total_mib": {
-     "chk": 60021.6,
+     "chk": 62086.8,
      "nc": 82656.5
     },
     "by_extension_largest_single_mib": {
-     "chk": 2017.2,
+     "chk": 2065.2,
      "nc": 4038.6
     }
    },
@@ -1974,9 +1980,9 @@
   }
  },
  "commit_cost": {
-  "n_observed": 51,
-  "median_mib": 3383.2,
-  "median_seconds": 39.4,
+  "n_observed": 52,
+  "median_mib": 3449.8,
+  "median_seconds": 39.9,
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
