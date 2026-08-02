@@ -1,31 +1,31 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "ternary",
-  "generated_epoch": 1785636073.5591333,
-  "generated_utc": "2026-08-02T02:01:13Z",
-  "generated_et": "10:01 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785636563.5187929,
+  "generated_utc": "2026-08-02T02:09:23Z",
+  "generated_et": "10:09 PM ET Sat Aug 1, 2026",
   "note": null,
   "rows": [
     {
       "name": "5aks_d0_to_d ternary nr4a1 r1",
-      "pct": 92.22222222222223,
+      "pct": 93.33333333333333,
       "arrival": {
-        "measured_s_per_iter": 55.275,
+        "measured_s_per_iter": 55.125,
         "expected_s_per_iter": 31.45,
-        "seconds_to_next_commit": 2211.0,
+        "seconds_to_next_commit": 2205.0,
         "session_budget_s": 2880.0,
-        "realised_usd_per_ns": 0.007240035515556958,
-        "slowdown_vs_expected": 1.76,
+        "realised_usd_per_ns": 0.007220388200725052,
+        "slowdown_vs_expected": 1.75,
         "provenance": "off_system",
         "buy_line_usd_per_ns": 0.006538868883711077,
         "verdict": "KEEP",
-        "why": "delivering 55.3 s/iter; the expectation it would be graded against was not measured on this leg's own system, so it is UNVALIDATED here \u2014 no drift and no buy-line comparison is asserted. Ranking offers on QUOTED $/ns is unaffected: every offer is scored against the same table, so the offset cancels there.",
+        "why": "delivering 55.1 s/iter; the expectation it would be graded against was not measured on this leg's own system, so it is UNVALIDATED here \u2014 no drift and no buy-line comparison is asserted. Ranking offers on QUOTED $/ns is unaffected: every offer is scored against the same table, so the offset cancels there.",
         "expected_provenance": "measured ternary rate for RTX 3090 at 4.0 fs \u2014 and POOLED ACROSS SYSTEMS (nr4a3 x1, vhl x1), so it describes no single assembly and is UNVALIDATED for this leg: a slowdown against it is partly the molecule, which is arithmetic and not drift"
       },
       "usd_per_ns": "RTX 3090 $0.00412/ns \u00b7 1.21\u00d7 basis [bid]",
       "state": "RUNNING",
-      "why": "55.3 s/iter \u00b7 no like-for-like expectation (not measured on this system)",
-      "eta_epoch": 1785651550.5591333
+      "why": "55.1 s/iter \u00b7 no like-for-like expectation (not measured on this system)",
+      "eta_epoch": 1785649793.5187929
     }
   ]
 }
