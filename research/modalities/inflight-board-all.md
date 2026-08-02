@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:14 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:15 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -33,7 +33,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 8:07 PM ET Sat Aug 1, 2026 (7 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 8:15 PM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -41,7 +41,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 8:10 PM ET Sat Aug 1, 2026 (4 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 8:10 PM ET Sat Aug 1, 2026 (5 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns                                      STATE             WHY (when not running)
@@ -53,7 +53,7 @@ cw_ms_free_acid__cw_bio_primary_amide r1 —                      —  —      
 
 ## SENSITIVITY CONTROL — SMARCA2/4 co-fold panel (instrument calibration, not a result)
 
-_As of 8:13 PM ET Sat Aug 1, 2026 (1 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
+_As of 8:13 PM ET Sat Aug 1, 2026 (2 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
 
 ```
 LEG                    ETA (ET)          % DONE  $/ns                                                                                                                       STATE           WHY (when not running)
