@@ -66,6 +66,12 @@ def main():
         dest_prefix = "nr4a3-binary"
     else:
         args = ["--protac-smiles", protac] if protac else ["--control"]
+        # ⛔ REPLICATES ARE AN EXPLICIT ASK. Boltz defaults to ONE model per prediction, which is why the
+        # NR4A ternaries behind §2.5 cannot be tested for reproducibility -- one model cannot distinguish a
+        # determinant from that model's accident. A replicate run sets DIFFUSION_SAMPLES >= 3.
+        ds = os.environ.get("DIFFUSION_SAMPLES", "").strip()
+        if ds:
+            args += ["--diffusion-samples", ds]
         dest_prefix = "nr4a3-ternary"
     dest_prefix = os.environ.get("OUTPUT_PREFIX", dest_prefix)   # e.g. nrv04-ternary-pilot for the NR-V04 benchmark
     # Managed-SPOT Training (was on-demand Processing): checkpoint_s3_uri = the SAME dest_prefix the readers
