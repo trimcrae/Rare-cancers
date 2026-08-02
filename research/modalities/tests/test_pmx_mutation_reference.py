@@ -65,7 +65,8 @@ def test_a_single_substring_match_is_a_LEAD_and_can_never_satisfy_the_gate():
     assert scan["n_name_hits_paired"] == 0
     assert scan["n_name_leads"] == 1
     assert scan["name_leads"][0]["ddg_kcal"] > 5.0      # a large measured number, and irrelevant
-    v = pmr.verdict(scan, [{"tag": "q", "query": "q", "error": None, "records": []}])
+    v = pmr.verdict(scan, [{"tag": "q", "query": "q", "error": None, "records": []}],
+                    deep=_read_decisive())
     assert v["decision"] == "STOP_NO_REFERENCE"
     assert v["gates"]["G1_measured_primary_source"]["met"] is False
     assert v["gates"]["G1_measured_primary_source"]["skempi_offinterface_name_leads"] == 1
@@ -105,9 +106,16 @@ def _clean_epmc():
     return [{"tag": "Q1", "query": "q", "error": None, "records": []}]
 
 
+def _read_decisive():
+    """A deep read in which every decisive paper WAS retrieved. Required before any negative."""
+    return [{"pmcid": p, "fulltext_chars": 150000, "n_mutation_mentions": 0,
+             "token_counts": {"Gln1469": 1, "mutagenesis": 0}, "error": None}
+            for p, _ in pmr.DECISIVE_PMCIDS]
+
+
 def test_no_measured_reference_stops_the_spend():
     scan = pmr.skempi_scan(_csv("1ABC_A_B;YA29A;Lysozyme;Antibody;1E-6;1E-7;298"))
-    v = pmr.verdict(scan, _clean_epmc())
+    v = pmr.verdict(scan, _clean_epmc(), deep=_read_decisive())
     assert v["decision"] == "STOP_NO_REFERENCE"
     assert "SPEND NOTHING" in v["sentence"]
 
@@ -155,3 +163,36 @@ def test_the_caveat_travels_with_every_verdict():
 def test_offline_run_never_emits_a_scientific_verdict():
     doc = pmr.run(out_path=None, offline=True)
     assert doc["verdict"]["decision"] == "UNDETERMINED"
+
+
+# ------------------------------------------------------------------ the negative must be READ, not searched
+def test_a_negative_needs_the_decisive_papers_READ_not_merely_searched():
+    """A search-shaped null is weaker than a read of the sources that would carry the positive.
+
+    `mutational_spans` needs a mutation token and a number in the SAME sentence -- the right filter for
+    scanning hundreds of hits, the wrong one for concluding a negative. So an unretrieved decisive
+    paper downgrades STOP_NO_REFERENCE to UNDETERMINED rather than being absorbed into it.
+    """
+    scan = pmr.skempi_scan(_csv("1ABC_A_B;YA29A;Lysozyme;Antibody;1E-6;1E-7;298"))
+    # no deep read at all
+    assert pmr.verdict(scan, _clean_epmc())["decision"] == "UNDETERMINED"
+    # one paper failed to retrieve
+    half = _read_decisive()
+    half[0] = dict(half[0], fulltext_chars=0, error="full text did not return")
+    v = pmr.verdict(scan, _clean_epmc(), deep=half)
+    assert v["decision"] == "UNDETERMINED"
+    assert pmr.DECISIVE_PMCIDS[0][0] in v["sentence"]
+
+
+def test_a_positive_does_NOT_need_the_deep_read():
+    """The deep read exists to make a NEGATIVE defensible. A measured value is already in hand."""
+    scan = pmr.skempi_scan(_csv("6HAX_A_B;QA98L;SMARCA2;VHL;1E-4;1E-7;298"))
+    assert pmr.verdict(scan, _clean_epmc())["decision"] == "PROCEED"
+
+
+def test_the_read_is_surfaced_in_the_gate_so_a_reader_can_check_it():
+    scan = pmr.skempi_scan(_csv("1ABC_A_B;YA29A;Lysozyme;Antibody;1E-6;1E-7;298"))
+    v = pmr.verdict(scan, _clean_epmc(), deep=_read_decisive())
+    read = v["gates"]["G1_measured_primary_source"]["decisive_papers_read"]
+    assert len(read) == len(pmr.DECISIVE_PMCIDS)
+    assert all(r["chars"] for r in read)

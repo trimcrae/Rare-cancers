@@ -403,6 +403,70 @@ def mutational_spans(text, max_spans=40):
     return uniq[:max_spans]
 
 
+#: The papers a negative has to survive. These are the primary sources that WOULD carry an interface
+#: mutational measurement if one existed: the paper the selectivity claim itself comes from, the two
+#: earlier ternary-structure papers on the same arms, and the commentary that reviews the mechanism.
+#: Named as PMCIDs so the read is reproducible, and every one is already cited elsewhere in this repo.
+DECISIVE_PMCIDS = [
+    ("PMC9551036", "Kofink et al. 2022 (ACBI2) -- the source of the Gln1469 selectivity claim"),
+    ("PMC6600871", "Farnaby et al. 2019 (ACBI1) -- the earlier SMARCA2/4:VCB ternary structures"),
+    ("PMC10344917", "Wurz et al. 2023 -- affinity/cooperativity across the same arms"),
+    ("PMC9889305", "Wang & Zhou 2023 commentary -- 'A two-faced selectivity solution' on this mechanism"),
+]
+
+#: Raw tokens counted verbatim in each decisive full text. Counts, not judgements: a zero count for
+#: `mutagenesis` in the paper that makes the selectivity claim is a fact a reader can check in seconds.
+DEEP_TOKENS = ["1469", "Gln1469", "Q1469", "mutant", "mutation", "mutagenesis", "alanine scan",
+               "SPR", "surface plasmon", "ITC", "isothermal titration", "KD", "Kd", "kcal/mol"]
+
+
+def deep_read(pmcids=None, window=1, max_windows=25):
+    """Every mention of a mutation in the DECISIVE papers, with context, regardless of co-located number.
+
+    ★ WHY THIS EXISTS AND WHY THE QUERY LAYER IS NOT ENOUGH. `mutational_spans` requires a mutation
+    token and a quantity token in the SAME sentence, which is the right filter for scanning hundreds of
+    hits and the wrong one for concluding a negative -- a measurement split across two sentences would
+    be invisible to it. An absent reading is not a reading of absence (CLAUDE.md section 4), so before
+    this module says "no measured value exists", it reads the papers that would carry one and emits
+    EVERY mutation mention with its neighbours, plus verbatim token counts. A human can then disagree
+    with the conclusion by reading the same text, which is the only kind of negative worth publishing.
+    """
+    import selcal_reference_selectivity as srs
+
+    out = []
+    for pmcid, why in (pmcids or DECISIVE_PMCIDS):
+        row = {"pmcid": pmcid, "why_decisive": why,
+               "_source": "%s/%s/fullTextXML" % (srs.EPMC, pmcid),
+               "fulltext_chars": 0, "token_counts": {}, "mutation_context_windows": [],
+               "error": None}
+        try:
+            xml = srs.epmc_fulltext_xml(pmcid)
+        except Exception as e:                                    # noqa: BLE001
+            row["error"] = "%s: %s" % (type(e).__name__, e)
+            out.append(row)
+            continue
+        if not xml:
+            row["error"] = ("full text did not return -- an ABSENT reading, not an absence; this paper "
+                            "cannot contribute to a negative until it is read")
+            out.append(row)
+            continue
+        txt = srs._strip_tags(xml)
+        row["fulltext_chars"] = len(txt)
+        low = txt.lower()
+        row["token_counts"] = {t: low.count(t.lower()) for t in DEEP_TOKENS}
+        sents = re.split(r"(?<=[.!?])\s+", txt)
+        for i, s in enumerate(sents):
+            if not _MUT.search(s):
+                continue
+            lo, hi = max(0, i - window), min(len(sents), i + window + 1)
+            row["mutation_context_windows"].append(" ".join(x.strip() for x in sents[lo:hi])[:1200])
+            if len(row["mutation_context_windows"]) >= max_windows:
+                break
+        row["n_mutation_mentions"] = len(row["mutation_context_windows"])
+        out.append(row)
+    return out
+
+
 def epmc_probe(queries=None, page_size=8):
     """Run every query, pull open-access full text, and emit quoted mutational spans.
 
@@ -448,7 +512,7 @@ def epmc_probe(queries=None, page_size=8):
 # ------------------------------------------------------------------------------------------------
 # The gate
 # ------------------------------------------------------------------------------------------------
-def verdict(skempi, epmc, band=None):
+def verdict(skempi, epmc, band=None, deep=None):
     """Apply Open decision 7's three conditions mechanically. Pure.
 
     Returns {"decision": ..., "gates": {...}, "sentence": ...}. The decision vocabulary is deliberately
@@ -473,6 +537,20 @@ def verdict(skempi, epmc, band=None):
     if not epmc_ok:
         blockers.append("no Europe PMC query completed")
 
+    # ⚠ A NEGATIVE MUST SURVIVE THE PAPERS THAT WOULD CARRY THE POSITIVE. A search-shaped null across
+    # queries is weaker than a read of the decisive sources, so an unread decisive paper BLOCKS the
+    # STOP verdict rather than being quietly absorbed into it. This is the same rule as above, pointed
+    # at ourselves: an absent reading is not a reading of absence.
+    # It only blocks a NEGATIVE. A positive needs no deep read -- the measured value is already in
+    # hand — so requiring one there would be ceremony rather than evidence.
+    deep = deep if deep is not None else []
+    unread = [d["pmcid"] for d in deep if d.get("error") or not d.get("fulltext_chars")]
+    negative_blockers = []
+    if not deep:
+        negative_blockers.append("the decisive-paper deep read did not run")
+    elif unread:
+        negative_blockers.append("decisive papers not read: %s" % ", ".join(unread))
+
     # G1 -- is there a measured, primary-source mutational value ON THIS INTERFACE at all?
     #
     # ⚠ ONLY `pdb_hits` AND `name_hits_paired` COUNT. `name_leads` are a single promiscuous substring
@@ -490,6 +568,9 @@ def verdict(skempi, epmc, band=None):
         "skempi_records_with_computable_ddg": len(skempi_measured),
         "skempi_offinterface_name_leads": skempi.get("n_name_leads", 0),
         "epmc_candidate_sentences": n_spans,
+        "decisive_papers_read": [{"pmcid": d["pmcid"], "chars": d.get("fulltext_chars"),
+                                  "mutation_mentions": d.get("n_mutation_mentions"),
+                                  "token_counts": d.get("token_counts")} for d in deep],
         "met": bool(skempi_measured),
         "_what_counts": ("a record keyed to a deposited entry of this interface, or one whose two named "
                          "partners ARE the two arms of it (target-side SMARCA/BRG/BRM against E3-side "
@@ -540,6 +621,12 @@ def verdict(skempi, epmc, band=None):
         sentence = ("UNDETERMINED -- an instrument could not be read (%s). This is an ABSENT READING, "
                     "not a reading of absence: re-run on a CI runner before drawing any conclusion, and "
                     "spend nothing in the meantime." % "; ".join(blockers))
+    elif not gates["G1_measured_primary_source"]["met"] and negative_blockers:
+        decision = "UNDETERMINED"
+        sentence = ("UNDETERMINED -- no measured value was found, but the negative is not yet readable: "
+                    "%s. A search-shaped null is weaker than a read of the sources that would carry the "
+                    "positive, so this does NOT become STOP_NO_REFERENCE until they are read. Spend "
+                    "nothing either way." % "; ".join(negative_blockers))
     elif not gates["G1_measured_primary_source"]["met"]:
         decision = "STOP_NO_REFERENCE"
         sentence = (
@@ -553,10 +640,12 @@ def verdict(skempi, epmc, band=None):
             "into one would fabricate the quantitative link this program does not have. A pmx run here "
             "would therefore have NO known answer to be scored against -- it would be an experiment "
             "wearing a control's costume, which is the exact defect that cost this program three "
-            "withdrawn selectivity claims. SPEND NOTHING."
+            "withdrawn selectivity claims. The %d decisive primary sources were READ IN FULL, not just "
+            "searched, and their mutation mentions are emitted verbatim below so the negative can be "
+            "disagreed with from the same text. SPEND NOTHING."
             % (skempi.get("n_rows_scanned", 0), len(skempi.get("pdbs_queried") or []),
                len(skempi.get("name_substrings_queried") or []), len(epmc_ok), len(epmc),
-               skempi.get("n_name_leads", 0)))
+               skempi.get("n_name_leads", 0), len(deep)))
     elif not gates["G2_signal_exceeds_band"]["met"]:
         decision = "STOP_BAND"
         sentence = (
@@ -604,6 +693,7 @@ def run(out_path=OUT, offline=False, skempi_csv=None):
                          "name_substrings_queried": CANDIDATE_PROTEIN_NAMES,
                          "pdb_hits": [], "name_hits": []}
         doc["europe_pmc"] = []
+        doc["deep_read"] = []
     else:
         import protfep_refcheck as rc
         try:
@@ -615,8 +705,10 @@ def run(out_path=OUT, offline=False, skempi_csv=None):
                 "SKEMPI fetch failed: %s: %s" % (type(e).__name__, e))
         doc["skempi"] = skempi_scan(text)
         doc["europe_pmc"] = epmc_probe()
+        doc["deep_read"] = deep_read()
 
-    doc["verdict"] = verdict(doc["skempi"], doc["europe_pmc"], band=doc["engine_band"])
+    doc["verdict"] = verdict(doc["skempi"], doc["europe_pmc"], band=doc["engine_band"],
+                             deep=doc.get("deep_read"))
 
     if out_path:
         with open(out_path, "w", encoding="utf-8") as fh:
