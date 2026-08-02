@@ -462,7 +462,24 @@ could not be re-narrated after the fact, and it is machine-carried by `selcal_ga
    ⛔ **It validates ONE contact in ONE pair.** It does **not** validate E1, and it makes no NR4A3 prediction
    correct — applying it to an NR4A3 ternary additionally requires that ternary to be credible, which (d)
    shows this route does not yet supply.
-   ⛔ None of (a)–(e) is a positive control for paralogue-selectivity **detection at this program's E1
+   ★★ **(f) THE VALIDATED DETECTOR, TURNED ON THIS PROGRAM'S OWN NR4A TERNARIES — AND THE ANSWER IS NOT
+   YET.** With (e) passed, the same descriptor was applied to the `denovo_401` NR4A1/2/3–CRBN ternaries
+   ([`nr4a-ternary-signature.json`](./research/modalities/nr4a-ternary-signature.json)). It returns **six**
+   positions where the NR4A3 model contacts the E3 and both comparators do not — and **five are placement
+   artifacts**: GLU104, ARG174, LYS195, ARG219, LEU234 carry the **identical residue in all three
+   paralogues**, so they cannot encode a paralogue difference; a contact present in one model and not another
+   is three independently-folded structures disagreeing, on the route (d) measures as wrong by a factor of 10.
+   **One position is sequence-encoded: GLU208** (Glu → Pro in NR4A1, Tyr in NR4A2).
+   ⛔ **And its reproducibility is NOT TESTED**: only `model_0` exists per paralogue, against a bar of 3.
+   One model cannot distinguish a determinant from that model's accident — the first readout printed
+   *"reproducible across ALL 1 models"*, which is n = 1 wearing the costume of a replication test, and the
+   module now refuses that wording outright.
+   **⇒ A justified NR4A3-selective-ternary case does not exist today, and exactly two things stand between
+   here and one:** (i) **replicate models per paralogue** — a GPU spend, not a re-read, and the cheaper of
+   the two; (ii) **the NR4A3 warhead pose**, which is a wet-lab fact: no deposited NR4A3 LBD–ligand complex
+   exists, the binder is de novo, and the pocket itself is cryptic (opened by metadynamics), so no in-silico
+   route supplies it. GLU208 is a **lead with a validated detector behind it**, not a result.
+   ⛔ None of (a)–(f) is a positive control for paralogue-selectivity **detection at this program's E1
    endpoint**; that endpoint still has none, and none of them may be read as softening the tally below.
 4. **It re-scores no landed leg and changes no ΔΔG.** It is a statement about the instrument.
 

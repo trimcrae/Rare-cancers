@@ -2496,7 +2496,13 @@ complex is **not beyond in-silico reach** and the near-zero score is a property 
 used here rather than of the problem. ⛔ None of that is a positive control for paralogue-selectivity
 *detection* — that endpoint still has none, the recovery answers a **different and easier question** than
 our co-folds were asked (it is given each end's pocket; they were given sequence alone), and none of it may
-be read as softening the paragraph above.
+be read as softening the paragraph above. ⚠ A **structural** paralogue-discriminating readout has since been
+validated against a published known answer (§2.12a) and applied to this work's own NR4A1/2/3 ternaries; it
+yields **no justified selectivity claim** — the single sequence-encoded candidate rests on one model per
+paralogue against a three-model reproducibility bar, on structures from the route whose assembly fails above,
+and with the NR4A3 warhead pose unmeasured
+([`../modalities/nr4a-ternary-signature.json`](../modalities/nr4a-ternary-signature.json)). The limitation
+that opens this section is therefore unchanged.
 
 In-silico throughout; no molecule synthesized; broader indications (SI §S4) are **motivation, not
 demonstrated efficacy**. Therapeutic application to EMC (and AciCC) additionally **assumes NR4A3 dependence, which is not tested here**: the supporting prior (a transfer prior from fusion-addicted EWSR1/FET sarcomas; EMC-native evidence the fusion is a functional driver; a near-invariant clonal fusion in a quiet genome) and the **one decisive gap** (no loss-of-function experiment in any EMC model — the make-or-break dTAG test is delegated to the EMC-program paper), together with the systemic-lead safety/tolerability rationale and the pan-NR4A/CAR-T pole, are in **SI §S9** (safety in **SI §S6**, indications in **SI §S4**). This paper's claimed contribution is the target's **computational druggability/selectivity, not EMC efficacy**.
