@@ -1652,3 +1652,76 @@ def test_a_round_trip_through_the_artifact_reproduces_the_documented_table():
     assert once == _fenced(open(FACTS).read()), (
         "the committed doc is not what the committed artifact re-derives — the sync is reading a different "
         "source than the test")
+
+
+# =============================================================================================================
+# the operator hold — a pause that a cron edit cannot fake and a dispatcher cannot bypass
+# =============================================================================================================
+def test_the_operator_hold_stops_a_launch():
+    h = {"reason": "pending a reevaluation of strategy", "paused_utc": "2026-08-02T09:40:00Z"}
+    assert gfr.feed_decision(["u1"], [], 0)["action"] == "launch"
+    d = gfr.feed_decision(["u1"], [], 0, hold=h)
+    assert d["action"] == "hold" and d["cause"] == "operator_hold"
+    assert "pending a reevaluation of strategy" in d["why"], "the reason must travel with the pause"
+    assert "2026-08-02T09:40:00Z" in d["why"], "and when it was applied"
+
+
+def test_the_hold_outranks_every_other_cause():
+    """★ IT IS CHECKED FIRST, DELIBERATELY. A paused lane that reported `gpu_busy` or `queue_complete` would
+    be indistinguishable in a log from one that was never paused — same words, opposite meaning. The
+    operator's reason must be the one that surfaces."""
+    h = {"reason": "r"}
+    assert gfr.feed_decision(["u1"], ["u1"], 0, hold=h)["cause"] == "operator_hold"   # vs queue_complete
+    assert gfr.feed_decision(["u1"], [], 5, hold=h)["cause"] == "operator_hold"       # vs gpu_busy
+
+
+def test_an_unreadable_hold_file_HOLDS():
+    """⛔ THE SAFE DIRECTION IS NOT BUYING. An unreadable instruction to stop is not permission to spend."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        with open(os.path.join(d, gfr.OPERATOR_HOLD), "w") as fh:
+            fh.write("{ this is not json")
+        h = gfr.operator_hold(root=d)
+        assert h is not None, "a corrupt hold file must still hold"
+        assert gfr.feed_decision(["u1"], [], 0, hold=h)["cause"] == "operator_hold"
+    with tempfile.TemporaryDirectory() as d:
+        assert gfr.operator_hold(root=d) is None, "no file means no hold"
+
+
+def test_the_hold_is_read_at_the_call_site_not_inside_the_pure_function():
+    """`feed_decision` stays PURE — it takes the hold as an argument and never touches the filesystem, which
+    is what keeps every branch above unit-testable without a temp dir."""
+    src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
+    body = src[src.index("def feed_decision("):]
+    body = body[:body.index("\ndef ", 10)]
+    assert "open(" not in body and "os.path" not in body, "feed_decision must not do I/O"
+    tick = src[src.index("def tick(facts, root=None):"):]
+    tick = tick[:tick.index("\ndef ", 10)]
+    assert "operator_hold(root=root)" in tick, "the hold must be read by tick and passed in"
+
+
+def test_the_hold_does_not_disable_reap_or_supervision():
+    """⛔ A PAUSED LANE MUST STILL TEAR DOWN AN IDLE VM. If the hold reached the reap step, 'paused' would
+    quietly become 'billing unwatched' — the most expensive recurring failure in this repo (CLAUDE.md §6).
+    Only PROVISIONING is stopped, and the workflow's reap runs at the head of every dispatch regardless."""
+    wf = open(WF).read()
+    reap = wf[wf.index("REAP"):]
+    assert "OPERATOR_HOLD" not in reap and "operator_hold" not in reap, (
+        "the reap path must be untouched by the hold")
+    src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
+    reap_fn = src[src.index("def reap_decision("):]
+    reap_fn = reap_fn[:reap_fn.index("\ndef ", 10)]
+    assert "hold" not in reap_fn.replace("holding", "").replace("holds", ""), (
+        "reap_decision must not consult the operator hold — a paused lane still reaps")
+
+
+def test_a_committed_hold_file_carries_its_reason_and_how_to_resume():
+    """If a hold is committed it must be self-explanatory six months later: why, when, and the single action
+    that undoes it. A pause with no stated reason is indistinguishable from an abandoned lane."""
+    p = os.path.join(MOD, gfr.OPERATOR_HOLD)
+    if not os.path.exists(p):
+        pytest.skip("no operator hold in force")
+    doc = json.load(open(p))
+    for k in ("reason", "paused_utc", "_how_to_resume", "state_at_pause", "what_is_NOT_lost"):
+        assert doc.get(k), f"a committed hold must record {k}"
+    assert "Delete this file" in doc["_how_to_resume"]

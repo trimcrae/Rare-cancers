@@ -1063,8 +1063,33 @@ def queue_units(cycle=QUEUE_CYCLE, replicate=QUEUE_REPLICATE):
     return units_for(cycle, replicate)
 
 
+#: ★★ THE OPERATOR HOLD — the ONE lever that pauses this lane whoever dispatches it.
+#: Disabling the workflow's `schedule:` does NOT pause the lane: `step1-fanout-supervisor.yml` dispatches
+#: `mode=autofeed` explicitly on its own tick, so a cron edit would leave the lane feeding and look like a
+#: pause. The hold therefore lives in the DECISION, not in the trigger.
+#: Reversible by deleting one file, and it is deliberately a committed artifact rather than a code edit or a
+#: workflow-disable so that (a) the reason travels with it, (b) `git log` says who paused it and when, and
+#: (c) reap and supervision keep running — a paused lane must still tear down an idle VM, or "paused" quietly
+#: becomes "billing unwatched", which is this repo's most expensive recurring failure.
+OPERATOR_HOLD = "gcp-s1f-rep-OPERATOR-HOLD.json"
+
+
+def operator_hold(root=None):
+    """The operator hold, or None. An UNREADABLE hold file HOLDS — the safe direction is not buying."""
+    p = os.path.join(root or os.path.dirname(os.path.abspath(__file__)), OPERATOR_HOLD)
+    if not os.path.exists(p):
+        return None
+    try:
+        with open(p) as fh:
+            doc = json.load(fh)
+    except Exception as e:  # noqa: BLE001
+        return {"reason": f"the hold file exists but could not be parsed ({type(e).__name__}) — HOLDING, "
+                          f"because an unreadable instruction to stop is not permission to spend"}
+    return doc if isinstance(doc, dict) else {"reason": "hold file is not an object — HOLDING"}
+
+
 def feed_decision(queue, done, live_instances, attempts=None, progress=None,
-                  max_noprogress=MAX_NOPROGRESS_LAUNCHES):
+                  max_noprogress=MAX_NOPROGRESS_LAUNCHES, hold=None):
     """Should the tick buy a GPU, and for which unit? PURE.
 
     queue           [unit_id] in the order they should run
@@ -1079,6 +1104,17 @@ def feed_decision(queue, done, live_instances, attempts=None, progress=None,
     done = set(done or ())
     attempts = dict(attempts or {})
     progress = dict(progress or {})
+    # ⛔ THE OPERATOR HOLD OUTRANKS EVERYTHING, INCLUDING `queue_complete`. It is checked FIRST so that a
+    # paused lane says "paused, by a person, for this reason" rather than reporting whatever it would have
+    # said anyway — the two look identical in a log and mean opposite things. Nothing below may provision.
+    if hold:
+        return {"action": "hold", "unit_id": None, "cause": "operator_hold",
+                "why": ("⏸ PAUSED BY OPERATOR — this lane will not buy a GPU until "
+                        f"{OPERATOR_HOLD} is deleted. Reason on record: "
+                        f"{str(hold.get('reason') or '(none given)')[:400]}"
+                        + (f" · paused {hold['paused_utc']}" if hold.get("paused_utc") else "")
+                        + ". Banked work is untouched — the GCS commit store is continuous, so a resume "
+                          "re-enters at the last COMMITTED.json and nothing is lost by waiting.")}
     if int(live_instances or 0) > 0:
         return {"action": "hold", "unit_id": None, "cause": "gpu_busy",
                 "why": (f"{live_instances} GCE instance(s) live. GPUS_ALL_REGIONS = 1 is the binding cap "
@@ -1458,7 +1494,9 @@ def tick(facts, root=None):
                                                                      or 0)
         attempts[u["unit_id"]] = f.get("attempts") or {}
     live = facts.get("live_instances") if facts.get("vms_readable", True) else 1
-    d = feed_decision(order, done, live, attempts=attempts, progress=progress_by_unit)
+    # ⛔ The hold is read HERE, at the one call site, so `feed_decision` stays PURE and testable.
+    d = feed_decision(order, done, live, attempts=attempts, progress=progress_by_unit,
+                      hold=operator_hold(root=root))
     if not facts.get("vms_readable", True):
         d = {"action": "hold", "unit_id": None, "cause": "instance_list_unreadable",
              "why": ("`gcloud compute instances list` did not answer this tick. An unreadable list is not "

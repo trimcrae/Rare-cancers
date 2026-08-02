@@ -1,9 +1,9 @@
 {
  "_what": "Realised spend, DERIVED from each lane's own ledger. STRATEGY.md's scoreboard quotes this SNAPSHOT and lint_consistency.py holds it to it; the figure is never typed fresh.",
  "_generated_by": "research/modalities/realised_spend.py --write",
- "_as_of_utc": "2026-07-31T16:24:38Z",
- "_as_of_et": "12:24 PM ET Jul 31, 2026",
- "realised_usd_ledgered": 77.28,
+ "_as_of_utc": "2026-08-02T10:16:25Z",
+ "_as_of_et": "6:16 AM ET Aug 2, 2026",
+ "realised_usd_ledgered": 84.49,
  "realised_usd_ledgered_meaning": "real dollars, counted by a machine from observed billed hours. The authoritative figure, and a FLOOR on total spend while any lane below has no ledger.",
  "lanes": [
   {
@@ -23,6 +23,15 @@
    "artifact": "research/modalities/vast-bench-spend-ledger.json",
    "key": "cumulative_usd",
    "ledger": "vast_bench_sweep.realised_spend() \u2014 cumulative per cal-* instance, keyed on instance id so a destroyed rental cannot vanish from the total"
+  },
+  {
+   "lane": "selcal",
+   "what": "LANE 22 \u2014 the SMARCA2/4 endpoint-MD sensitivity control (co-folds + the 22-leg MD panel)",
+   "usd": 7.2092,
+   "provider": "vast",
+   "artifact": "research/modalities/selcal-price-ledger.json",
+   "key": "total_billed_usd",
+   "ledger": "selcal_vast_launch._ledger_record \u2014 written BEFORE the DELETE for every rental, keyed on instance id, so a destroyed host cannot vanish from the total"
   }
  ],
  "unreadable_lanes": [],
@@ -70,7 +79,7 @@
    "closes_when": "same remediation as the row above \u2014 a per-RENTAL ledger keyed on instance id, committed to the repo, replaces the S3-only per-LABEL file. Both entries then delete themselves together."
   }
  ],
- "realised_usd_best_estimate": 126.17,
+ "realised_usd_best_estimate": 133.38,
  "realised_usd_best_estimate_meaning": "ledgered + attested. Quote it only with the split; the attested part is a citation of a past reading, not a live measurement.",
  "free_credit_separate_ledger": {
   "gcp": {
