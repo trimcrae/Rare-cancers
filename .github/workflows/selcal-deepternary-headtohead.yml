@@ -66,8 +66,10 @@ jobs:
       - name: Resolve chains + verify fragments
         run: |
           set -eo pipefail
+          mkdir -p "$RUNNER_TEMP/raw"
           python3 research/modalities/selcal_deepternary_run.py \
             --workdir /tmp/selcal_dt \
+            --emit-raw "$RUNNER_TEMP/raw" \
             --out research/modalities/selcal-deepternary-prep.json
 
       # ── PREDICT ────────────────────────────────────────────────────────────────────────────────────────
@@ -99,6 +101,17 @@ jobs:
           sys.exit(0 if d['ready_configs'] else 3)
           "
           cd "$RUNNER_TEMP/dt"
+          # Pre-populate the prep module's `_raw` cache with the converted structures so its PDB-only
+          # fetch never runs — 9DU0 and 9DTY are mmCIF-only and its .pdb request 404s.
+          python3 -c "
+          import json, os, shutil
+          for c in json.load(open('$RUNNER_TEMP/ready.json')):
+              d = os.path.join('output/protac22', c['name'], '_raw'); os.makedirs(d, exist_ok=True)
+              for k in ('poi_binary_pdb','e3_binary_pdb','native_pdb'):
+                  src = os.path.join('$RUNNER_TEMP/raw', c[k].upper() + '.pdb')
+                  if os.path.exists(src): shutil.copyfile(src, os.path.join(d, c[k].upper() + '.pdb'))
+              print(c['name'], sorted(os.listdir(d)))
+          "
           python3 "$GITHUB_WORKSPACE/research/modalities/deepternary_blind_prep.py" \
             --configs "$RUNNER_TEMP/ready.json" \
             --base output/protac22 \
