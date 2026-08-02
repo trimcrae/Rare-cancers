@@ -3906,6 +3906,18 @@
    "LYS195"
   ],
   "n_discriminating": 6,
+  "sequence_encoded": [
+   "GLU208"
+  ],
+  "n_sequence_encoded": 1,
+  "same_residue_placement_artifact": [
+   "ARG174",
+   "ARG219",
+   "GLU104",
+   "LEU234",
+   "LYS195"
+  ],
+  "_why_same_residue_is_excluded": "an identical residue at the aligned position cannot encode a paralogue difference; a contact present in one model and not another is then a difference between independently-folded structures, on a route whose relative placement is wrong by a factor of 10 where a crystal exists to check it",
   "detail": [
    {
     "comparator": "NR4A1",
@@ -4201,7 +4213,7 @@
   },
   "_rule": "a position must discriminate against EVERY comparator, not any one of them"
  },
- "sentence": "6 position(s) where the NR4A3 ternary makes a polar contact to the E3 that BOTH NR4A1/NR4A2 ternaries lack: ARG174, ARG219, GLU104, GLU208, LEU234, LYS195. \u26d4 That is a structural HYPOTHESIS with a validated detector behind it \u2014 this position, this residue difference, this contact \u2014 and it licenses a designed test (vary linker and exit vector, ask whether the contact survives). It is not a demonstration of selectivity, and it is read off structures from a route that scores DockQ 0.023-0.046 where it can be checked.",
+ "sentence": "1 sequence-encoded position(s) where the NR4A3 ternary makes a polar contact to the E3 that BOTH NR4A1/NR4A2 ternaries lack AND the residue itself differs: GLU208. (5 further position(s) discriminate on contact alone but carry the IDENTICAL residue in all three \u2014 ARG174, ARG219, GLU104, LEU234, LYS195 \u2014 and are excluded as placement artifacts of three independently-folded structures.) \u26d4 A structural HYPOTHESIS with a validated detector behind it, licensing a designed test \u2014 vary linker and exit vector, ask whether the contact survives. NOT a demonstration of selectivity: one model per paralogue, no replicates, read off a route that scores DockQ 0.023-0.046 where it can be checked.",
  "chain_resolution": {
   "chain_lengths": {
    "A": 254,
@@ -4231,5 +4243,69 @@
    "apo"
   ],
   "n_cif_under_root": 5
- }
+ },
+ "replicated": {
+  "_what": "reproducibility of any paralogue-discriminating contact across every predicted model",
+  "focus": "NR4A3",
+  "comparators": [
+   "NR4A1",
+   "NR4A2"
+  ],
+  "descriptor_validated": true,
+  "descriptor_validation": {
+   "recovered_positions": [
+    {
+     "smarca2": "GLN98",
+     "smarca4": "LEU1545",
+     "smarca4_residue": "L",
+     "polar_contacts": [
+      {
+       "target_atom": "OE1",
+       "e3_chain": "R",
+       "e3_resname": "ARG",
+       "e3_resseq": 12,
+       "e3_atom": "NH2",
+       "distance_A": 2.88,
+       "target_sidechain": true,
+       "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
+      }
+     ]
+    }
+   ],
+   "n": 1
+  },
+  "n_models": {
+   "NR4A1": 1,
+   "NR4A2": 1,
+   "NR4A3": 1
+  },
+  "structure_provenance": "every NR4A ternary this program holds came from the same co-folding route whose output, on the one system with a crystal to check against, scores DockQ 0.023-0.046",
+  "unreadable": {},
+  "per_focus_model": [
+   {
+    "focus_model": "nr4a3-ternary-protac_model_0.cif",
+    "sequence_encoded": [
+     "GLU208"
+    ],
+    "n_discriminating": 6,
+    "same_residue_placement_artifact": [
+     "ARG174",
+     "ARG219",
+     "GLU104",
+     "LEU234",
+     "LYS195"
+    ],
+    "error": null
+   }
+  ],
+  "reproducible_sequence_encoded": [
+   "GLU208"
+  ],
+  "seen_in_any_model": [
+   "GLU208"
+  ],
+  "n_focus_models_compared": 1,
+  "sentence": "GLU208 reproducible across ALL 1 NR4A3 models against ALL comparator models: GLU208 (seen in at least one model: GLU208). \u26d4 Still a structural HYPOTHESIS, not a demonstration: read off a route that scores DockQ 0.023-0.046 where it can be checked, with the target-side warhead pose unmeasured. What it licenses is a designed test \u2014 vary linker and exit vector, ask whether the contact survives."
+ },
+ "sentence_replicated": "GLU208 reproducible across ALL 1 NR4A3 models against ALL comparator models: GLU208 (seen in at least one model: GLU208). \u26d4 Still a structural HYPOTHESIS, not a demonstration: read off a route that scores DockQ 0.023-0.046 where it can be checked, with the target-side warhead pose unmeasured. What it licenses is a designed test \u2014 vary linker and exit vector, ask whether the contact survives."
 }
