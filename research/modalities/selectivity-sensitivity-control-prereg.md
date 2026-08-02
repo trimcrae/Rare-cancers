@@ -9,6 +9,14 @@ by a line of prose. Every clause below is executable —
 **Design:** [`selectivity-resolution-options.md`](./selectivity-resolution-options.md) §2-D, option **D1**.
 That file is the design. It is not re-derived here and nothing here amends it.
 
+> **⚠ AMENDED 2026-08-02 — see [AMENDMENT 1](#amendment-1--2026-08-02-measured-input-fault-smarca4-model-3)
+> at the foot of this file.** One co-fold model (**SMARCA4 seed 3**) is excluded on a measured static input
+> fault, under the clause §4 froze in advance. **NO CRITERION CLAUSE CHANGES.** The frozen design remains
+> **24 legs**; the admissible panel is **22**, and both numbers are carried together everywhere they appear
+> (`selcal_panel.panel_manifest` → `n_units` / `n_units_at_freeze`; `selcal-collect.json` → `expected` /
+> `expected_at_freeze`) precisely so a completed 22-leg panel can never be read as the 24-leg one this
+> document was frozen against.
+
 ---
 
 ## 0 · ⛔ What this is, and what it is not
@@ -199,6 +207,10 @@ AMENDMENT 4 had to meet, and for the same reason: an exclusion is defensible whe
 the *input*, provable before any MD is interpreted. **An exclusion justified by how a leg's E1 came out is the
 retune this program forbids.**
 
+> **⚠ NO LONGER EMPTY.** One entry was added 2026-08-02 under exactly this clause —
+> [AMENDMENT 1](#amendment-1--2026-08-02-measured-input-fault-smarca4-model-3). The clause itself is
+> unchanged; this is the clause *operating*, not the clause being widened.
+
 ---
 
 ## 5 · What is measured, and what is deliberately not
@@ -240,3 +252,79 @@ Every rental — fan-out, single pilot, resume, and the co-fold host — faces *
 authorised dollars and the §1 **rate line** (`inflight_usd_per_ns.APPROVED_USD_PER_NS`), whichever is lower,
 and a refusal names which one it hit. A hold is never silent: the board-depth snapshot that caused it is
 committed to `selcal-market-hold.json` and the per-tick decision to `selcal-gate-record.json`.
+
+---
+
+## AMENDMENT 1 — 2026-08-02 (measured input fault: SMARCA4 model 3)
+
+**Nothing in §4 changes.** This amendment records one exclusion taken under the clause §4 froze in advance,
+and — equally important — records the unit it **refused** to exclude, because that refusal is what shows the
+exclusion was not shaped by what the panel had landed.
+
+### What was measured
+
+`selcal-smarca-cofold-v1/smarca4/seed_3` places two Boltz-placed heavy atoms in different chains **0.693 Å**
+apart:
+
+```
+[audit] {"ok": false, "min_heavy_atom_sep_A": 0.693, "pair": ["A:LYS71:O", "E:SER38:O"],
+         "threshold_A": 1.0, "n_heavy_atoms": 4499}
+[audit] REFUSING to run: … the Lennard-Jones term diverges from geometry like this and minimization
+        cannot escape it. This is a static INPUT fault, provable before any MD is interpreted.
+```
+
+`selcal_stage.cofold_input_audit` — the only instrument §4 licenses — refused on **every** attempt.
+
+### The standard, and that it is met
+
+| §4 requires | evidence |
+|---|---|
+| a **static** fault, provable **before** any MD is interpreted | the audit reads geometry from `complex.pdb` and refuses **before** minimisation. No endpoint value of any kind existed at the moment of refusal. |
+| a property of the **input**, not of the rental | both replicas (`r0`, `r1`) refused with **byte-identical** numbers across **12 attempt logs on five distinct machines** (46539178, 46549246, 46553998, 46554862, 46555738). A host-specific fault cannot reproduce to the third decimal on five hosts. |
+| the replicate structure makes the claim **testable** | both replicas of the bad co-fold died; **both replicas of every other landed model ran**. |
+| **not** justified by outcome | no leg of model 3 ever integrated a femtosecond, so no E1 value for it exists to have been inconvenient. |
+
+Evidence: container stdout via `--mode diag`, runs **30728025643** and **30728185356**.
+
+### ★ The unit this amendment does NOT exclude — and why that matters more
+
+`selcal-smarca4-m2-r0` was **also** unlanded and **also** billing at the moment this was written (275 min on
+instance 46539144). Excluding what happens to be unfinished is outcome-shaped reasoning wearing an input
+fault's clothes, so it was tested against the same standard **and failed it, in the exonerating direction** —
+the same shape as AMENDMENT 4's §4.2 test on the NR-V04 lane:
+
+1. **Its co-fold AUDITS CLEAN.** Same audit, same day, same container: `{"ok": true,
+   "min_heavy_atom_sep_A": 1.2994}` — comfortably above the 1.00 Å floor.
+2. **Its replica sibling LANDED.** `selcal-smarca4-m2-r1` produced a conforming production leg off the same
+   co-fold model, which is direct evidence that model 2 is runnable.
+3. **Its failure is elsewhere.** It reached `gpu_util: 0.0` *after* passing staging, i.e. a host-level
+   failure, not a refusal.
+
+So **model 2 stays in the panel and its missing replica is re-run.** An amendment that quietly took both
+unfinished units would have left an arm of 4 and a much easier story; it is not available on the evidence.
+
+### What the panel is now
+
+| | at freeze | admissible |
+|---|---|---|
+| legs | 24 | **22** |
+| models, SMARCA2 arm | 6 | 6 |
+| models, SMARCA4 arm | 6 | **5** |
+
+§4's reference-set clause is **satisfied, not merely survived**: both arms hold ≥ `MIN_MODELS_PER_ARM` (4),
+and the exact one-sided permutation test now runs over **C(11, 6) = 462** label assignments, floor
+*p* = **0.00216** — an order of magnitude below α = 0.05. The clause was written as *"at least 4 conforming
+co-fold models in EACH arm … after any measured input-fault exclusion"*, i.e. this exact contingency was
+anticipated before the run and the design was sized for it.
+
+⚠ **The arms are now UNBALANCED (6 vs 5).** The criterion was written for a balanced design and its
+reference-set clause is stated as a per-arm floor rather than as symmetry, so the exact test is unaffected —
+it enumerates the arrangements that exist. The consequence is on **power**, not validity, and it is
+**adverse**: an arm of 5 model-level means is less powerful than one of 6. That direction is stated here so a
+NULL from this panel is read with it already on the record, rather than acquiring it afterwards.
+
+### Not a re-roll
+
+Re-running Boltz on seed 3 until it produces a clean structure was **not** done and is **not** available under
+§4: re-drawing an input until it passes is selection on the input, and the seed list is frozen. The panel
+shrinks; it is not repaired.
