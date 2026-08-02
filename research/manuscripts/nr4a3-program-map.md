@@ -4648,10 +4648,11 @@ line number is kept only where it names a *paper* line.
     was invisible in the obvious place — but `origin/main`'s STRATEGY.md carried a block the branch did not,
     and it **inverted** a roadmap row: the pmx arm was authorized on the branch and is **closed on evidence**
     on `main`. Ported before publishing, per CLAUDE.md §7's *port-then-switch, never switch-then-discover*.
-    ⚠ **Still outstanding, and not this pass's to resolve:** merging that branch into `main` conflicts in
-    `.github/workflows/gpu-protfep-vast.yml` and `.github/workflows/nr4a3-linker-covalent-reach.yml` — the
-    branch uses `publish_artifacts.sh` where `main` still hand-rolls the commit-and-push. Those belong to
-    whoever owns those lanes.
+    ✅ **The two workflow conflicts this finding left open are CLOSED** — `main` and the branch now carry
+    byte-identical `.github/workflows/gpu-protfep-vast.yml` and `.github/workflows/nr4a3-linker-covalent-reach.yml`,
+    both on `publish_artifacts.sh`, because the physical merge's port took them across. ⚠ **Still divergent,
+    and not this pass's to resolve:** `.github/workflows/pose-recovery-check.yml` plus the ABFE-selectivity and
+    apo-pose modules, which belong to the lane that is building them.
 
 **For the merge inventory:**
 
