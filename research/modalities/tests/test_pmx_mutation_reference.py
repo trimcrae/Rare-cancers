@@ -196,3 +196,32 @@ def test_the_read_is_surfaced_in_the_gate_so_a_reader_can_check_it():
     read = v["gates"]["G1_measured_primary_source"]["decisive_papers_read"]
     assert len(read) == len(pmr.DECISIVE_PMCIDS)
     assert all(r["chars"] for r in read)
+
+
+# ------------------------------------------------------------------ the nearest thing to a positive
+def test_near_misses_finds_a_measured_mutation_and_still_refuses_to_count_it():
+    """A negative is far more useful when it names the closest thing to a positive.
+
+    An interface point mutation HAS been measured in this system -- on the OTHER arm and in a
+    DIFFERENT quantity. The gate must surface it and must not be satisfied by it.
+    """
+    deep = [{"pmcid": "PMCX", "why_decisive": "w", "fulltext_chars": 1000,
+             "mutation_context_windows": [
+                 "To validate the specificity of the induced PPI in solution a modified VCB complex "
+                 "with an R69A mutation in VHL was utilized. A significant decrease in cooperativity "
+                 "is seen for all PROTACs when VCB R69A is used in the TR-FRET assay."]}]
+    nm = pmr.near_misses(deep)
+    assert nm and nm[0]["mutation_codes_seen"] == ["R69A"]
+    assert "NOT automatically the reference" in nm[0]["_why_this_is_not_a_reference"]
+    v = pmr.verdict(pmr.skempi_scan(_csv("1ABC_A_B;YA29A;Lysozyme;Antibody;1E-6;1E-7;298")),
+                    _clean_epmc(), deep=deep + _read_decisive())
+    assert v["decision"] == "STOP_NO_REFERENCE"
+    assert v["gates"]["G1_measured_primary_source"]["measured_point_mutations_found_but_NOT_counted"]
+
+
+def test_the_word_mutation_alone_is_not_a_near_miss():
+    """`_MUT_CODE` requires an explicit construct code, or cancer-genetics prose becomes a candidate."""
+    deep = [{"pmcid": "PMCX", "fulltext_chars": 10, "mutation_context_windows": [
+        "Cell lines showed sensitivity correlating with genetic dependency on SMARCA2 due to "
+        "mutation or lower expression of SMARCA4, with IC50 values shown in the figure."]}]
+    assert pmr.near_misses(deep) == []

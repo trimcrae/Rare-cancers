@@ -467,6 +467,57 @@ def deep_read(pmcids=None, window=1, max_windows=25):
     return out
 
 
+#: An explicit point-mutation construct code: R69A, Q1469L, Y29F. Distinct from `_MUT`, which also
+#: matches the words "mutant"/"mutation" and so fires on cancer genetics and reference titles.
+_MUT_CODE = re.compile(r"\b([ACDEFGHIKLMNPQRSTVWY])(\d{2,4})([ACDEFGHIKLMNPQRSTVWY])\b")
+
+#: Quantities that would make a mutation mention a MEASUREMENT rather than a construct description.
+_MEASURED = re.compile(r"(\bK[dD]\b|\bK\s?D\b|\bITC\b|isothermal titration|\bSPR\b|surface plasmon|"
+                       r"\bTR-?FRET\b|cooperativit|\balpha\b|\bα\b|\bIC\s?50\b|kcal\s?/\s?mol|"
+                       r"dissociation constant)", re.I)
+
+
+def near_misses(deep, window=2, max_per_paper=12):
+    """Point mutations that WERE measured in the decisive papers -- surfaced, and NOT counted. Pure.
+
+    ★ THE MOST USEFUL THING A NEGATIVE CAN CARRY IS THE NEAREST THING TO A POSITIVE. "No measured
+    mutational value exists" invites the reasonable question "are you sure nobody has ever mutated
+    anything at this interface?" -- and the honest answer is more interesting than the verdict: an
+    interface point mutation HAS been measured here, on the OTHER arm and in a DIFFERENT quantity.
+    Emitting it makes the negative checkable and stops the next session re-deriving it.
+
+    A near miss is a context window carrying an explicit mutation CODE (R69A, not the word "mutant",
+    which fires on cancer genetics) together with a measurement token. It is reported with the reason
+    it does not satisfy G1, and the adjudication -- is this quantity a binding ddG? is it on the
+    residue in question? -- is left to a human, exactly as the quoted-span rule requires.
+    """
+    out = []
+    for d in deep or []:
+        codes, rows = set(), []
+        for w in d.get("mutation_context_windows") or []:
+            found = {"".join(m) for m in _MUT_CODE.findall(w)}
+            if not found or not _MEASURED.search(w):
+                continue
+            codes |= found
+            rows.append({"mutation_codes": sorted(found), "quoted_window": w[:900]})
+            if len(rows) >= max_per_paper:
+                break
+        if rows:
+            out.append({
+                "pmcid": d["pmcid"], "why_decisive": d.get("why_decisive"),
+                "mutation_codes_seen": sorted(codes), "n_windows": len(rows), "windows": rows,
+                "_why_this_is_not_a_reference": (
+                    "a measured point mutation at this interface is NOT automatically the reference "
+                    "this precheck needs. It qualifies only if BOTH hold, and both are human "
+                    "judgements made against the quoted text: (a) it is on the residue whose "
+                    "selectivity is being calibrated, and (b) the reported quantity is a binding ddG "
+                    "or a Kd pair one is computable from. A cooperativity ratio, a TR-FRET IC50 shift "
+                    "or a cellular DC50 is a different quantity, and converting one into an interface "
+                    "binding ddG would fabricate a link this program does not have."),
+            })
+    return out
+
+
 def epmc_probe(queries=None, page_size=8):
     """Run every query, pull open-access full text, and emit quoted mutational spans.
 
@@ -572,6 +623,9 @@ def verdict(skempi, epmc, band=None, deep=None):
                                   "mutation_mentions": d.get("n_mutation_mentions"),
                                   "token_counts": d.get("token_counts")} for d in deep],
         "met": bool(skempi_measured),
+        "measured_point_mutations_found_but_NOT_counted": [
+            {"pmcid": n["pmcid"], "mutation_codes_seen": n["mutation_codes_seen"],
+             "n_windows": n["n_windows"]} for n in near_misses(deep)],
         "_what_counts": ("a record keyed to a deposited entry of this interface, or one whose two named "
                          "partners ARE the two arms of it (target-side SMARCA/BRG/BRM against E3-side "
                          "VHL/Elongin/Cul2). A single-substring name match elsewhere in the database is "
@@ -694,6 +748,7 @@ def run(out_path=OUT, offline=False, skempi_csv=None):
                          "pdb_hits": [], "name_hits": []}
         doc["europe_pmc"] = []
         doc["deep_read"] = []
+        doc["near_misses"] = []
     else:
         import protfep_refcheck as rc
         try:
@@ -706,6 +761,7 @@ def run(out_path=OUT, offline=False, skempi_csv=None):
         doc["skempi"] = skempi_scan(text)
         doc["europe_pmc"] = epmc_probe()
         doc["deep_read"] = deep_read()
+        doc["near_misses"] = near_misses(doc["deep_read"])
 
     doc["verdict"] = verdict(doc["skempi"], doc["europe_pmc"], band=doc["engine_band"],
                              deep=doc.get("deep_read"))
