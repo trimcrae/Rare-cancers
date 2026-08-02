@@ -775,6 +775,23 @@ def read_selcal(spec: dict, census: dict | None, census_err: str | None,
     return st
 
 
+def banked_leg_minutes(rentals: list | None) -> list:
+    """The rentals that BANKED a leg, as sorted durations in minutes. Generic ledger arithmetic — no lane
+    knowledge, so it stays on the safe side of this module's no-lane-imports rule while being the ONE home
+    of the selection rule that both `overrun_budget_min` (the watcher's warning) and `selcal_board.md_rows`
+    (the board's ETA) stand on. If those two ever selected differently, the board would promise an ETA the
+    watcher was simultaneously calling an overrun."""
+    return sorted(r["uptime_s"] / 60.0 for r in (rentals or ())
+                  if isinstance(r, dict) and "work banked" in str(r.get("why") or "")
+                  and isinstance(r.get("uptime_s"), (int, float)) and r["uptime_s"] > 0)
+
+
+def p90_minutes(mins: list) -> float | None:
+    """p90 of an already-sorted duration list. Trivial, and it has one home for exactly that reason: it is
+    quoted in a board cell AND in a lane warning, and two copies would drift by an off-by-one nobody reads."""
+    return mins[min(len(mins) - 1, int(round(0.9 * (len(mins) - 1))))] if mins else None
+
+
 def overrun_budget_min(rentals: list | None) -> tuple[float | None, str]:
     """This lane's OWN measured rental duration, p90, from its price ledger -> (minutes, how) or (None, why).
 
@@ -796,15 +813,13 @@ def overrun_budget_min(rentals: list | None) -> tuple[float | None, str]:
     """
     if not isinstance(rentals, list):
         return None, "the price ledger is unreadable, so this lane has no measured duration to judge against"
-    banked = [r for r in rentals if isinstance(r, dict) and "work banked" in str(r.get("why") or "")]
-    ups = sorted(r.get("uptime_s") / 60.0 for r in banked
-                 if isinstance(r.get("uptime_s"), (int, float)) and r["uptime_s"] > 0)
+    ups = banked_leg_minutes(rentals)
     if len(ups) < 8:
         return None, (f"only {len(ups)} rental(s) that BANKED A LEG are on record (of {len(rentals)} total) — "
                       f"too few to derive a duration budget, and a p90 of three points is a guess wearing a "
                       f"statistic's clothes. Rentals that never produced a leg are deliberately excluded: "
                       f"they measure how fast this lane FAILS, not how long its work takes")
-    p90 = ups[min(len(ups) - 1, int(round(0.9 * (len(ups) - 1))))]
+    p90 = p90_minutes(ups)
     return p90, (f"p90 of the {len(ups)} rental(s) that BANKED a leg in selcal-price-ledger.json "
                  f"(median {ups[len(ups)//2]:.1f} min); {len(rentals) - len(ups)} non-banking rental(s) "
                  f"excluded as measuring failure rather than work")

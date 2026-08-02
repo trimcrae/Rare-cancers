@@ -49,6 +49,7 @@ CLI:  python3 selcal_board.py            # publish from S3 (needs AWS credential
 """
 from __future__ import annotations
 
+import datetime
 import json
 import os
 import sys
@@ -225,7 +226,38 @@ def board_rows(census, arrivals, hosts=(), now=None, seeds=None, unattributed_ho
     return rows
 
 
-def md_rows(handles, hosts=(), landed=None, n_units=None, now=None):
+def banked_leg_minutes(rentals):
+    """This lane's OWN measured leg duration, from the rentals that BANKED one -> sorted [minutes].
+
+    ⛔ ONE HOME, AND IT IS NOT HERE. The selection rule and the p90 both live in `lane_staleness_watch`
+    (stdlib-only, lane-free, already tested) and are IMPORTED. This wrapper exists only so the board reads
+    naturally; it must never grow its own arithmetic, because the same two numbers are quoted in a board
+    cell AND in that module's overrun warning — and if they drifted, the board would promise an ETA the
+    watcher was simultaneously calling an overrun. The first draft of this function DID re-derive the p90
+    inline while its docstring claimed to import it, which is the two-homes bug in miniature.
+
+    ⚠ RENTALS THAT NEVER BANKED ARE EXCLUDED, and that is not a detail. Measured 2026-08-02: 36 of this
+    lane's 58 rentals produced no leg (median 13.2 min — hosts that refused, crash-looped or died) against 22
+    that finished one (median 41.5). Including the failures drags the median down and the p90 up: a duration
+    built mostly from things that never ran.
+    """
+    import lane_staleness_watch as LSW   # lane -> watcher is acyclic; the watcher imports no lane
+    return LSW.banked_leg_minutes(rentals)
+
+
+def read_banked_leg_minutes(path=None):
+    """The above, off `selcal-price-ledger.json`. Never raises: an unreadable ledger means NO measured
+    duration, which the row must say rather than silently rendering as "no leg has ever finished"."""
+    try:
+        import selcal_vast_launch as L
+        with open(path or L.PRICE_LEDGER) as fh:
+            doc = json.load(fh)
+        return banked_leg_minutes((doc or {}).get("rentals"))
+    except Exception:  # noqa: BLE001
+        return []
+
+
+def md_rows(handles, hosts=(), landed=None, n_units=None, now=None, leg_minutes=None):
     """One row per MD leg this lane has RENTED. PURE.
 
     ★★ WHY THIS EXISTS (2026-08-01, ~6 minutes after the lane's first MD leg started billing). This module
@@ -275,17 +307,70 @@ def md_rows(handles, hosts=(), landed=None, n_units=None, now=None):
             # billed at is in the lane's rental ledger, not in a board row about a host that is gone.
             usd = ("— %s; no live host record this tick, so no rate to quote here"
                    % IB.ENDPOINT_MD_NOT_BENCHED)
+        # ★★ THE ETA, FROM THIS LANE'S OWN LANDED LEGS — and the sentence this replaces was FALSE.
+        # It read "this lane has never run an MD leg to its terminus, so there is no measured s/iter to
+        # project from; the first one that lands supplies it", UNCONDITIONALLY. It was true when written
+        # (zero legs had landed) and was still being printed after TWENTY-TWO had, because nothing ever
+        # re-read it — a hard-coded sentence is not a measurement, and this one asserted a falsehood on a
+        # board whose whole job is to say what is happening.
+        #
+        # ⚠ WHY IT MATTERS BEYOND TIDINESS (measured 2026-08-02, and it cost 4.5 billed hours). With no ETA
+        # and no rate, a host running EIGHT TIMES slower per frame than the fleet was indistinguishable on
+        # this board from one running normally: the row quotes $/hr, and $/hr cannot show slowness. The one
+        # metric that could — cost per unit of work — is genuinely unquotable here (`vast_cost_model` benches
+        # 84k-atom RBFE, not endpoint MD), so ELAPSED-AGAINST-MEASURED is the only drift signal this lane can
+        # have, and it was sitting unused in the lane's own rental ledger the entire time.
+        import lane_staleness_watch as LSW
+        mins = read_banked_leg_minutes() if leg_minutes is None else sorted(leg_minutes)
+        eta_s, tail = None, ""
+        if state is IB.RUNNING and mins and started:
+            med = mins[len(mins) // 2]
+            p90 = LSW.p90_minutes(mins)   # ⛔ imported, never re-derived — see `banked_leg_minutes`
+            age_min = _age_min(started, now)
+            if age_min is not None:
+                eta_s = max(0.0, (med - age_min)) * 60.0
+                # A row past the lane's own p90 says so, with the multiple. NOT a condemnation and nothing
+                # reaps on it — a slow leg that is checkpointing is still buying work, which is exactly why
+                # destroying one on this signal would be wrong. It is a reason to LOOK (`--mode diag`).
+                if age_min > p90:
+                    eta_s = None
+                    tail = (" ⚠ OVERRUN — up %.0f min against this lane's own measured p90 of %.0f min "
+                            "(%.1f×, median %.0f, from %d rental(s) that banked a leg). NOT a condemnation "
+                            "and nothing reaps on it: a slow leg that is still checkpointing is still buying "
+                            "work. It is a reason to run `--mode diag` and read the host's banked run.log."
+                            % (age_min, p90, age_min / p90 if p90 else 0.0, med, len(mins)))
+                else:
+                    tail = (" ETA from this lane's own measured leg duration: median %.0f min over %d "
+                            "rental(s) that banked a leg (p90 %.0f). A PROJECTION off elapsed time, not a "
+                            "frame count — the leg's own progress is in its S3 checkpoints, not here."
+                            % (med, len(mins), p90))
+        if not tail:
+            tail = (" ETA UNKNOWN — %s. This lane quotes $/hr and cannot quote $/ns (endpoint MD is not the "
+                    "benched workload), so elapsed-against-measured is its only drift signal and it needs a "
+                    "landed-leg population to exist."
+                    % ("no rental has yet banked a leg, so there is no measured duration to project from"
+                       if not mins else
+                       "this row has no live host and no rental timestamp to measure elapsed time against"))
         rows.append({
             "name": h.get("unit") or "selcal MD leg",
             "pct": None,
             "pct_of": None if landed is None else ("%d/%d landed" % (landed, n_units or 0)),
-            "eta_s": None,
+            "eta_s": eta_s,
             "usd_per_ns": usd,
             "state": state,
-            "why": why + (" ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no "
-                          "measured s/iter to project from; the first one that lands supplies it."),
+            "why": why + tail,
         })
     return rows
+
+
+def _age_min(started_iso, now=None):
+    """Minutes since an ISO-Z rental stamp, or None if it cannot be read — never a fabricated 0."""
+    try:
+        t = datetime.datetime.strptime(str(started_iso), "%Y-%m-%dT%H:%M:%SZ").replace(
+            tzinfo=datetime.timezone.utc)
+    except Exception:  # noqa: BLE001
+        return None
+    return max(0.0, (_now(now) - t.timestamp()) / 60.0)
 
 
 def note_for(census, rows):

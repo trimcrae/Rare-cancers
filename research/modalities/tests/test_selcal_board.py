@@ -234,3 +234,107 @@ def test_unread_arrivals_are_not_reported_as_zero_intervals():
     rows = B.board_rows(_census(**{ARMS[0]: [1, 2, 3, 4]}), None, now=T0)
     r = [x for x in rows if x["name"].startswith(ARMS[0])][0]
     assert r["eta_s"] is None and "NOT READ" in r["why"] and "not a rate of zero" in r["why"]
+
+
+# =============================================================================================================
+# the ETA — and the hard-coded sentence that was still FALSE after 22 legs landed
+# =============================================================================================================
+import datetime as _dt  # noqa: E402
+
+
+def _epoch(s):
+    return _dt.datetime.strptime(s, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=_dt.timezone.utc).timestamp()
+
+
+_NOW = _epoch("2026-08-02T02:30:00Z")
+_HOSTS = [{"id": "1", "actual_status": "running", "dph_total": 0.07}]
+_MINS = [30.0, 35.0, 38.0, 40.0, 41.0, 42.0, 44.0, 48.0, 52.0, 56.0]
+
+
+def _row(rented, mins=_MINS, hosts=_HOSTS):
+    h = [{"unit": "selcal-smarca4-m2-r0", "instance": "1", "utc": rented}]
+    return B.md_rows(h, hosts=hosts, landed=21, n_units=22, now=_NOW, leg_minutes=mins)[0]
+
+
+def test_the_false_hard_coded_sentence_is_gone():
+    """⛔ THE BUG. `md_rows` printed 'this lane has never run an MD leg to its terminus' UNCONDITIONALLY. It
+    was true when written (zero legs had landed) and was still being printed after TWENTY-TWO had, because a
+    hard-coded sentence is not a measurement. A board whose job is to say what is happening asserted a
+    falsehood on every tick."""
+    src = open(os.path.join(HERE, "selcal_board.py")).read()
+    body = src[src.index("def md_rows("):]
+    body = body[:body.index("\ndef ", 10)]
+    assert "has never run an MD leg to its terminus" not in body.replace("# ", "") or \
+        body.count("has never run an MD leg to its terminus") == 1, \
+        "the claim may survive only as the comment recording that it was wrong, never as an emitted string"
+    r = _row("2026-08-02T02:10:00Z")
+    assert "has never run an MD leg" not in r["why"]
+
+
+def test_a_normal_leg_gets_an_ETA_from_the_lanes_own_landed_legs():
+    # ⚠ THE EXPECTED FIGURES ARE DERIVED FROM THE SAME ONE HOME, never typed: a hand-copied median is how a
+    # test starts asserting the fixture the author had in mind rather than the one on the page.
+    med = _MINS[len(_MINS) // 2]
+    r = _row("2026-08-02T02:10:00Z")           # 20 min in
+    assert r["eta_s"] is not None and r["eta_s"] > 0
+    assert f"median {med:.0f} min" in r["why"] and "banked a leg" in r["why"]
+    assert "PROJECTION off elapsed time, not a frame count" in r["why"], \
+        "the cell must not imply it read the leg's actual progress"
+
+
+def test_the_REAL_INCIDENT_renders_as_an_OVERRUN_with_its_multiple():
+    """★★ 275 min against a p90 of 56. This is the row that did not exist on the night it mattered: with no
+    ETA and no rate, a host running 8x slower per frame than the fleet looked identical to a healthy one."""
+    import lane_staleness_watch as LSW
+    p90 = LSW.p90_minutes(_MINS)
+    r = _row("2026-08-01T21:55:00Z")           # 275 min
+    assert r["eta_s"] is None, "an overrun must not also project a finish time"
+    assert "⚠ OVERRUN" in r["why"]
+    assert "275 min" in r["why"]
+    assert f"{275.0 / p90:.1f}×" in r["why"], "the multiple is the point, not the raw minutes"
+    assert f"p90 of {p90:.0f} min" in r["why"]
+
+
+def test_the_overrun_is_explicitly_NOT_a_condemnation():
+    """⛔ THE LESSON FROM DESTROYING ONE. The host that triggered this was at frame 400/500, checkpointing
+    normally — it was slow, not dead, and killing it was wrong. The cell must say so, in the place someone
+    reads at 3 AM before deciding what to do."""
+    r = _row("2026-08-01T21:55:00Z")
+    assert "NOT a condemnation" in r["why"] and "nothing reaps on it" in r["why"]
+    assert "still buying work" in r["why"]
+    assert "diag" in r["why"], "it must name the action that turns the flag into a diagnosis"
+
+
+def test_with_no_landed_legs_it_refuses_rather_than_inventing_a_duration():
+    r = _row("2026-08-02T02:10:00Z", mins=[])
+    assert r["eta_s"] is None
+    assert "no rental has yet banked a leg" in r["why"]
+    assert "$/ns" in r["why"], "the refusal must say WHY this lane has no better signal"
+
+
+def test_an_unreadable_rental_stamp_is_not_a_fabricated_zero():
+    r = _row("not-a-timestamp")
+    assert r["eta_s"] is None and "ETA UNKNOWN" in r["why"]
+
+
+def test_a_dead_host_gets_no_ETA():
+    r = _row("2026-08-02T02:10:00Z", hosts=[])
+    assert r["eta_s"] is None
+
+
+def test_the_p90_and_the_selection_have_ONE_home_shared_with_the_watcher():
+    """⛔ The same two numbers are quoted in this board cell AND in `lane_staleness_watch`'s overrun warning.
+    Two copies would drift by an off-by-one nobody reads, and the board would then promise an ETA the watcher
+    was simultaneously calling an overrun. The first draft of `banked_leg_minutes` re-derived the p90 inline
+    while its docstring claimed to import it."""
+    import lane_staleness_watch as LSW
+    src = open(os.path.join(HERE, "selcal_board.py")).read()
+    body = src[src.index("def md_rows("):]
+    body = body[:body.index("\ndef ", 10)]
+    assert "LSW.p90_minutes(" in body, "the board must import the p90, not compute one"
+    assert "int(round(0.9" not in body, "…and must not carry its own copy of the arithmetic"
+    rentals = [{"uptime_s": m * 60.0, "why": "work banked, no remaining role"} for m in _MINS]
+    assert B.banked_leg_minutes(rentals) == LSW.banked_leg_minutes(rentals)
+    budget, _ = LSW.overrun_budget_min(rentals)
+    assert budget == LSW.p90_minutes(B.banked_leg_minutes(rentals)), \
+        "the watcher's warning line and the board's overrun line must be the SAME number"
