@@ -56,6 +56,13 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 DEFAULT_TARGETS = [
     "research/manuscripts/nr4a3-degrader-paper.md",
     "research/manuscripts/nr4a3-degrader-paper-SI.md",
+    # Added 2026-08-02. The program map was linted by lint_consistency (pinned NUMBERS) but by
+    # nothing that checks claim LANGUAGE -- which is how a table of bare "PASSES" verdicts and a
+    # "Chemical basis: OK strong, and already measured" cell (whose owning artifact is not in this
+    # repository) survived a green build, in the one file CLAUDE.md tells every session to read
+    # first. R4-shaped over-claims on the map are exactly as damaging as in the manuscript,
+    # because the map is what the next session steers by.
+    "research/manuscripts/nr4a3-program-map.md",
 ]
 
 # ---------------------------------------------------------------------------

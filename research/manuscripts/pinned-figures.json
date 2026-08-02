@@ -573,10 +573,17 @@
    "retired_by": "the driver split E3 from target positionally and scored the Elongin C interface, not VHL\u2194NR4A1"
   },
   {
+   "id": "thiol_hg_occlusion_first_gen",
+   "pattern": "occlu[a-z]*[^.\\n]{0,40}median 76\\s?%|median 76\\s?%[^.\\n]{0,30}(of the )?SG",
+   "current": "median 0.918 (91.8 %) of the SG surface occluded by the residue's own HG proton; mean 0.777, n = 16 (nr4a3-covalent-handle-ensemble.json -> thiol_hydrogen_occlusion.fraction_occluded)",
+   "retired_by": "the artifact's FIRST generation reported n=12, median 0.764; it was regenerated ~10 min later at 960 sphere points as n=16, median 0.918, and nr4a3-program-map.md was never re-read against it. The map was the SOLE home of the 76 % figure, so nothing else carried the error and nothing else would have caught it."
+  },
+  {
    "id": "xtt_pre_harmonized",
-   "pattern": "4/20 (above|conformers)|placed \\*\\*4/20\\*\\*",
+   "pattern": "4/20 (above|conformers)|placed \\*\\*4/20\\*\\*|\\*\\*4 of 20\\*\\*|4 of 20 conformers",
    "current": "19/20 detected, 3 \u2265 D* (= 3/19 among detected, 3/20 across all deposited)",
-   "retired_by": "the harmonized rerun (pinned fpocket build + score-independent matcher)"
+   "retired_by": "the harmonized rerun (pinned fpocket build + score-independent matcher)",
+   "_widened_2026_08_02": "the SPELLED-OUT form '4 of 20 conformers' sat in nr4a3-program-md's claim table and passed a green lint_consistency, because the original pattern only covered the '4/20' numeral form. Verified adversarially: inserting the spelled-out form unmarked now raises S-xtt_pre_harmonized."
   },
   {
    "id": "no_ternary_leg_completed",
