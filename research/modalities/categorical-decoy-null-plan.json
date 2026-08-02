@@ -1,0 +1,330 @@
+{
+  "_title": "C02 \u2014 cross-system decoy null for the categorical covalent axis: PRE-REGISTRATION",
+  "_status": "PRE-REGISTRATION ONLY. No structure has been fetched and no statistic computed at the time this file is written.",
+  "_generated": {
+    "utc": "2026-08-02T23:52:39Z",
+    "et": "2026-08-02 07:52 PM ET",
+    "generator": "research/modalities/categorical_decoy_null.py"
+  },
+  "preregistration": {
+    "_frozen": "Design fixed before any AlphaFold model was fetched and before any statistic was computed. Mode `plan` emits this block with no results at all, so git history carries the design ahead of the numbers.",
+    "question": "How often does an ARBITRARY close human paralogue pair, pushed through the identical categorical pipeline, return P(paralogue also labelled | target-unique cysteine labelled) = 0 at the 12-backbone-atom design gate?",
+    "universe": {
+      "source": "research/modalities/nr4a-superfamily-selectivity.json -> ranking[] \u2014 47 human nuclear receptors with UniProt accessions, a COMMITTED artifact generated for a different purpose months earlier. Using an existing on-disk list rather than curating one is what keeps the universe answer-blind.",
+      "exclusions": "the NR4A family (NR4A1 P22736, NR4A2 P43354, NR4A3 Q92570) \u2014 that is the test case, not the background.",
+      "why_nuclear_receptors": "The null must be the RIGHT null: close paralogue pairs in the same fold class, with the same domain size and the same kind of buried ligand pocket. A random-protein null would confound 'no collision' with 'wrong fold'. \u26a0 The price is that the background measured here is a NUCLEAR-RECEPTOR background, not a proteome background \u2014 stated as a limit, not hidden."
+    },
+    "structures": {
+      "source": "AlphaFold DB, model_v4 (fallback v3, v2), one per accession \u2014 the only source that covers every member of the universe uniformly. Version and SHA-256 recorded per model.",
+      "domain_trim": "largest CONTIGUOUS run of residues with pLDDT >= MIN_PLDDT (70.0), minimum length MIN_DOMAIN_LEN (120) residues. Mechanical, identical for every protein, and it removes the disordered tails whose spurious cysteines would INFLATE the decoy collision rate \u2014 i.e. the trim is in the direction that makes the NR4A3 result look WORSE, not better."
+    },
+    "pair_formation": {
+      "identity_band": [
+        0.35,
+        0.9
+      ],
+      "why": "'close pairs, not random proteins'. The band brackets the measured NR4A3-vs-NR4A1 and NR4A3-vs-NR4A2 trimmed-domain identities, which are computed by this same code and recorded in the artifact.",
+      "alignment_coverage_min": 0.6,
+      "max_pairs": 10,
+      "max_per_protein": 2,
+      "ranking_rule": "qualifying unordered pairs ranked by |identity - NR4A3_reference_identity| ASCENDING (closest to the NR4A3 case first), then taken greedily subject to max_per_protein. Answer-blind: identity is a property of the sequences, computed before any reach statistic exists.",
+      "orientations": "each unordered pair contributes TWO ordered decoys (A as target/B as paralogue, and B as target/A as paralogue). Both are reported; neither is chosen."
+    },
+    "pocket_rule": "fpocket's HIGHEST-DRUGGABILITY cavity on the target's trimmed domain supplies the pocket lining set, hence the pocket centroid the warhead exit-vector poses are built around. Family-agnostic and mechanical. \u26a0 It is NOT the same rule as NR4A3's prespecified Pocket-5 \u2014 which is exactly why NR4A3 is ALSO run through this harness under this same rule, and why the percentile is taken against THAT row rather than against the committed one.",
+    "statistic": {
+      "gate_atoms": 12,
+      "also_reported": [
+        14,
+        16,
+        20
+      ],
+      "definition": "P(any paralogue cysteine is inside the same linker budget | the same placement puts the electrophile on a TARGET-UNIQUE cysteine), over one matched placement set.",
+      "target_unique_cysteine": "a cysteine in the target whose BLOSUM62-aligned position in the paralogue is not a cysteine (or has no aligned partner) \u2014 the same rule that produces NR4A3's {C397, C420, C559}.",
+      "both_filters": "computed BOTH reach-only and reach-AND-exposed (RSA >= 0.25). \u26a0 The audit established that at the 12-atom gate the reach-only numbers already carry the result, so a null that tested only the exposure-filtered form would miss the load-bearing case.",
+      "uncertainty": "Wilson 95 % on the conditional, using the SAME `nr4a_paralogue_dynamics.wilson95`."
+    },
+    "placements": {
+      "target_n_placements": 45000,
+      "why": "the committed NR4A3 run accepted 73,867 placements; 45,000 keeps every row inside one CI job while staying the same order. The sampler budget is chosen ADAPTIVELY per target from a pilot so that every row gets a comparable placement set rather than a comparable raw sample count \u2014 an acceptance rate is a property of the pocket, and matching samples would silently un-match the statistics.",
+      "pilot_samples_per_arm_pose": 25000,
+      "max_samples_per_arm_pose": 6000000,
+      "n_poses": 12,
+      "seed": 20260802
+    },
+    "gradeability": {
+      "min_conditioning_events": 20,
+      "rule": "an ordered decoy is GRADED only if >= 20 placements put the electrophile on a target-unique cysteine at the 12-atom gate. Below that the conditional has no power and the row is reported as UNDERPOWERED with its counts and EXCLUDED from the percentile.",
+      "\u26a0_selection_effect": "excluding underpowered rows biases the graded set toward pairs whose unique cysteines are reachable at all \u2014 i.e. toward pairs with MORE opportunity to collide, which makes the background HARDER for NR4A3 to beat, not easier. The count of underpowered rows is reported so the reader can see the size of the effect.",
+      "undefined": "a pair with zero target-unique cysteines has no conditional at all. Recorded as UNDEFINED with its count, never as a zero."
+    },
+    "readout": {
+      "percentile": "the fraction of GRADED decoy rows whose collision probability is <= NR4A3's harness-matched row, plus the fraction that are EXACTLY zero. Reported for both the reach-only and the exposure-filtered statistic.",
+      "what_a_pass_means": "if few decoys reach 0, the categorical GO carries information and becomes quotable WITH this background beside it. If most decoys reach 0, the categorical GO is a property of the METHOD and the axis must be re-graded. A pass is not the goal; a measured background is."
+    },
+    "not_claimed": [
+      "Nothing here is a claim about binding, reactivity, degradation, selectivity in vivo, efficacy, safety, a therapeutic window or clinical readiness.",
+      "Reach and exposure are NECESSARY, not sufficient: no thiol pKa, nucleophilicity, adduct stability or promiscuity is modelled, for the decoys any more than for NR4A3.",
+      "This calibrates the SCREEN. It says nothing about NR4A3 specifically that the screen does not."
+    ]
+  },
+  "universe": {
+    "source": "research/modalities/nr4a-superfamily-selectivity.json",
+    "n_total": 47,
+    "n_after_nr4a_exclusion": 45,
+    "members": [
+      {
+        "gene": "THRB",
+        "accession": "P10828",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "THRA",
+        "accession": "P10827",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR4A2",
+        "accession": "P43354",
+        "in_nr4a_family": true
+      },
+      {
+        "gene": "RORA",
+        "accession": "P35398",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RORB",
+        "accession": "Q92753",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR3C1",
+        "accession": "P04150",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RXRB",
+        "accession": "P28702",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR4A1",
+        "accession": "P22736",
+        "in_nr4a_family": true
+      },
+      {
+        "gene": "RARB",
+        "accession": "P10826",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1D1",
+        "accession": "P20393",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RARA",
+        "accession": "P10276",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "PPARG",
+        "accession": "P37231",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR3C2",
+        "accession": "P08235",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "AR",
+        "accession": "P10275",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESR1",
+        "accession": "P03372",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RXRG",
+        "accession": "P48443",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESRRA",
+        "accession": "P11474",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESRRG",
+        "accession": "P62508",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESR2",
+        "accession": "Q92731",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESRRB",
+        "accession": "O95718",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2E1",
+        "accession": "Q9Y466",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1H4",
+        "accession": "Q96RI1",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "HNF4G",
+        "accession": "Q14541",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RARG",
+        "accession": "P13631",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1D2",
+        "accession": "Q14995",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1H3",
+        "accession": "Q13133",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR6A1",
+        "accession": "Q15406",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "PPARD",
+        "accession": "Q03181",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1I2",
+        "accession": "O75469",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "VDR",
+        "accession": "P11473",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RORC",
+        "accession": "P51449",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1H2",
+        "accession": "P55055",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR5A1",
+        "accession": "Q13285",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RXRA",
+        "accession": "P19793",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2F2",
+        "accession": "P24468",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2F1",
+        "accession": "P10589",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2E3",
+        "accession": "Q9Y5X4",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2F6",
+        "accession": "P10588",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1I3",
+        "accession": "Q14994",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2C2",
+        "accession": "P49116",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2C1",
+        "accession": "P13056",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR5A2",
+        "accession": "O00482",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR0B1",
+        "accession": "P51843",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR0B2",
+        "accession": "Q15466",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "PGR",
+        "accession": "P06401",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "HNF4A",
+        "accession": "P41235",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "PPARA",
+        "accession": "Q07869",
+        "in_nr4a_family": false
+      }
+    ]
+  },
+  "pipeline_provenance": {
+    "reach_rule": "nr4a_paralogue_dynamics.matched_reach_hits_multi -> nr4a3_basin_search.electrophile_reach (the committed prolate-spheroid criterion)",
+    "placement_sampler": "nr4a3_basin_search.sample_placements",
+    "pose_ensemble": "nr4a3_basin_search.build_pose_ensemble",
+    "superposition": "nr4a3_basin_search.superpose_paralogue",
+    "sasa": "nr4a_differential_atlas.shrake_rupley / residue_rsa",
+    "aligner": "nr4a_differential_atlas.nw_align (BLOSUM62 Needleman-Wunsch)",
+    "e3_arms": "research/modalities/nr4a3-e3-arm-registry-native.json",
+    "params": {
+      "linker_gate_atoms": 12,
+      "linker_rise_per_atom_A": 1.25,
+      "electrophile_arm_A": 3.0,
+      "hard_clash_A": 3.0,
+      "soft_clash_A": 3.6,
+      "contact_A": 6.0,
+      "min_contact_residues": 12
+    }
+  }
+}
