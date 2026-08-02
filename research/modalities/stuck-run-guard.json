@@ -1,13 +1,41 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-08-02T13:22:02Z",
+  "utc": "2026-08-02T13:30:38Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
-  "pending_seen": [],
+  "pending_seen": [
+    {
+      "run": 30750075627,
+      "name": "pages build and deployment",
+      "jobs": 1,
+      "age_min": 0.2
+    },
+    {
+      "run": 30750044300,
+      "name": "GCP GPU \u2014 STEP 1 fan-out REPLICATE on the free L4 (cycle_3ca",
+      "jobs": 0,
+      "age_min": 0.9
+    }
+  ],
   "wedged": [],
   "cancelled": [],
   "cancel_failed": [],
-  "spared": []
+  "spared": [
+    {
+      "run": 30750075627,
+      "name": "pages build and deployment",
+      "jobs": 1,
+      "age_min": 0.2,
+      "why": "has 1 job(s) \u2014 a job waiting for a runner is real work, not a stuck lock"
+    },
+    {
+      "run": 30750044300,
+      "name": "GCP GPU \u2014 STEP 1 fan-out REPLICATE on the free L4 (cycle_3ca",
+      "jobs": 0,
+      "age_min": 0.9,
+      "why": "only 0.9 min old; below the 10 min threshold"
+    }
+  ]
 }
