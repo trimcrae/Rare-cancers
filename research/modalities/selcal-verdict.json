@@ -48,35 +48,123 @@
     "no_interim_analysis": "The verdict is emitted only when the panel is complete or an arm is definitively short. Peeking at a partial panel and stopping on a favourable p is the same defect prereg §4f exists to prevent."
   },
   "models_per_arm": {
+    "selcal_smarca2": 6,
+    "selcal_smarca4": 5
+  },
+  "model_means_A": {
+    "1": 3.794,
+    "2": 4.6395,
+    "3": 4.292,
+    "4": 3.055,
+    "5": 6.7115,
+    "6": 5.6405
+  },
+  "model_means_A_arm": "selcal_smarca2",
+  "model_means_B": {
+    "1": 4.616,
+    "2": 5.243,
+    "4": 3.847,
+    "5": 6.6865,
+    "6": 3.8065
+  },
+  "model_means_B_arm": "selcal_smarca4",
+  "technical_failures": {
     "selcal_smarca2": 0,
     "selcal_smarca4": 0
   },
-  "model_means_A": {},
-  "model_means_A_arm": "selcal_smarca2",
-  "model_means_B": {},
-  "model_means_B_arm": "selcal_smarca4",
-  "technical_failures": {},
-  "n_legs_admitted": 0,
+  "n_legs_admitted": 17,
   "rejected_records": [],
   "design_floor": {
-    "models_arm_a": 1,
-    "models_arm_b": 1,
-    "n_arrangements": 2,
-    "min_attainable_p": 0.5,
+    "models_arm_a": 6,
+    "models_arm_b": 5,
+    "n_arrangements": 462,
+    "min_attainable_p": 0.0021645021645021645,
     "alpha": 0.05,
-    "can_reach_alpha": false
+    "can_reach_alpha": true
   },
-  "p": null,
-  "statistic": null,
-  "reason": "INDETERMINATE — nothing was measured, and this is NOT a null. arm(s) ['selcal_smarca2', 'selcal_smarca4'] have fewer than 4 conforming co-fold models, so the reference set can no longer reach alpha and the comparison would be a NON-MEASUREMENT — the exact defect that made the NR-V04 NR4A1-vs-NR4A3 pairwise uninterpretable.",
-  "underpowered_arms": [],
-  "arms_short_of_models": [
-    "selcal_smarca2",
-    "selcal_smarca4"
-  ],
-  "utc": "2026-08-01T19:51:35Z",
+  "statistic": -0.151,
+  "statistic_definition": "mean(E1 | selcal_smarca2) - mean(E1 | selcal_smarca4), model-level means",
+  "p": 0.426407,
+  "p_alternative": "less",
+  "p_mirror": 0.575758,
+  "n_arrangements": 462,
+  "min_attainable_p": 0.002165,
+  "leave_one_model_out": {
+    "observed_stat": -0.151,
+    "refits": [
+      {
+        "dropped": "selcal_smarca2:m1",
+        "stat": 0.0279,
+        "sign_kept": false
+      },
+      {
+        "dropped": "selcal_smarca2:m2",
+        "stat": -0.1412,
+        "sign_kept": true
+      },
+      {
+        "dropped": "selcal_smarca2:m3",
+        "stat": -0.0717,
+        "sign_kept": true
+      },
+      {
+        "dropped": "selcal_smarca2:m4",
+        "stat": 0.1757,
+        "sign_kept": false
+      },
+      {
+        "dropped": "selcal_smarca2:m5",
+        "stat": -0.5556,
+        "sign_kept": true
+      },
+      {
+        "dropped": "selcal_smarca2:m6",
+        "stat": -0.3414,
+        "sign_kept": true
+      },
+      {
+        "dropped": "selcal_smarca4:m1",
+        "stat": -0.207,
+        "sign_kept": true
+      },
+      {
+        "dropped": "selcal_smarca4:m2",
+        "stat": -0.0503,
+        "sign_kept": true
+      },
+      {
+        "dropped": "selcal_smarca4:m4",
+        "stat": -0.3993,
+        "sign_kept": true
+      },
+      {
+        "dropped": "selcal_smarca4:m5",
+        "stat": 0.3106,
+        "sign_kept": false
+      },
+      {
+        "dropped": "selcal_smarca4:m6",
+        "stat": -0.4094,
+        "sign_kept": true
+      }
+    ],
+    "survives": false
+  },
+  "mean_A": 4.6887,
+  "mean_B": 4.8398,
+  "reason": "NULL — an adequately-powered design (reference set of 462, floor 0.00216, well under alpha) did not detect the difference: p = 0.4264. This is a REAL negative and is reported as one.",
+  "licenses": "The sentence written in advance in selectivity-resolution-options.md §4: the workflow's paralogue-discrimination authority rests on nothing this program has measured, and the NR4A3 selectivity predictions are reported as UNVALIDATED PREDICTIONS. A fail does NOT distinguish 'the readout is blunt' from 'this pair is hard', and must not be reported as though it did.",
+  "next_step": {
+    "unblocks": "NOTHING. Step 3 is NOT bought — it would be money spent to reproduce a failure.",
+    "blocking_artifact": null,
+    "reporting": "The paper reports NR4A3 selectivity as UNVALIDATED PREDICTIONS, in the sentence written in advance at selectivity-resolution-options.md §4 so it cannot later be re-narrated as a method failure.",
+    "_source": "selectivity-resolution-options.md §3 (the sequence) and §4 (the alternative outcome)",
+    "_written_before_the_panel_ran": true,
+    "cannot_distinguish": "A fail does NOT distinguish 'the readout is blunt' from 'this pair is hard', and must not be reported as though it did."
+  },
+  "utc": "2026-08-02T00:42:35Z",
   "panel_complete": false,
-  "tier_suppressed": "INDETERMINATE",
+  "tier_suppressed": "NULL",
   "tier": null,
-  "suppression": "The panel is incomplete (0 of 24 units). The criterion forbids an interim verdict: a tier read off a partial panel, on a run that can still be extended, is the peeking defect. The evidence below is reported; the LABEL is withheld until the panel is complete or an arm is definitively short."
+  "suppression": "The panel is incomplete (17 of 24 units). The criterion forbids an interim verdict: a tier read off a partial panel, on a run that can still be extended, is the peeking defect. The evidence below is reported; the LABEL is withheld until the panel is complete or an arm is definitively short."
 }
