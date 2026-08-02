@@ -6,7 +6,12 @@ now?" — so we can reason about free slots instead of guessing. Prints each job
 spot flag, and SecondaryStatus (Starting/Downloading/Training), and totals the spot instances in use.
 
 MODES (env MODE; blank = the in-progress listing above):
+  job       - the FULL terminal record of ONE job by name (JOB_NAME), in ANY state: TrainingJobStatus,
+              FailureReason, SecondaryStatusTransitions, BillableTimeInSeconds and the CloudWatch container
+              log. ⚠ THE MODE THE OTHERS CANNOT SUBSTITUTE FOR: every listing here is `StatusEquals`-filtered,
+              so a FAILED job is invisible to all of them; `DescribeTrainingJob` is not filtered at all.
   savings   - realized managed-spot discount (billable vs training time) over the ~40 most recent jobs.
+              NOW INCLUDES Failed/Stopping and prints a status column — see the note at the mode itself.
   abfe_rate - the MEASURED per-leg rate of the independent-window ABFE engine, over the FULL job history
               filtered by name. This is the only place a completed ABFE leg's billable time is read, and it
               is what `abfe_selectivity_cost.py` prices the CREBBP/BRD4 selectivity benchmark from.
@@ -43,18 +48,30 @@ def main():
     # instead of trusting a quoted "60-70%" average. Savings = (1 - Billable/Training) * 100
     # (AWS's own formula). If Billable ≈ Training the job was barely interrupted, so there is
     # NO hours-based saving and the on-demand-vs-spot comparison is purely the per-hour rate.
+    # ⚠ ★★ THIS MODE USED TO WALK ONLY ("Completed", "Stopped") AND THAT WAS A REAL BLIND SPOT, not a style
+    # point. On 2026-08-02 a leg dispatched at 3:16 PM ET FAILED, and because a Failed job matches neither
+    # status it was absent from this listing, absent from the in-progress listing, and absent from the spot
+    # count — three reads that all said "nothing", from which "the job does not exist" was concluded. It
+    # existed, it had a FailureReason, and (had it been billed) it would have spent money no ledger recorded.
+    # CLAUDE.md §4: AN ABSENT READING IS NOT A READING OF ABSENCE — and here the absence was manufactured by
+    # this collector's own filter. `Failed`/`Stopping` are now walked, and the STATUS is printed on every row
+    # so a non-Completed job can never again be invisible in the only place people look for spend.
+    # For the full terminal record of ONE job (FailureReason, transitions, container log), use MODE=job.
+    _SPEND_STATUSES = ("Completed", "Stopped", "Failed", "Stopping")
     if os.environ.get("MODE", "").strip().lower() == "savings":
         want = os.environ.get("INSTANCE_FILTER", "").strip()  # e.g. "ml.g5.xlarge"; blank = all
         n = int(os.environ.get("LOOKBACK", "40"))
         summaries = []
-        for status in ("Completed", "Stopped"):
+        for status in _SPEND_STATUSES:
             summaries += sm.list_training_jobs(StatusEquals=status, SortBy="CreationTime",
                                                SortOrder="Descending", MaxResults=n)["TrainingJobSummaries"]
         summaries.sort(key=lambda s: s["CreationTime"], reverse=True)
-        print(f"Realized managed-spot savings, last ~{n} completed/stopped jobs"
+        print(f"Realized managed-spot savings, last ~{n} jobs in {_SPEND_STATUSES}"
               + (f" (filter: {want})" if want else "") + ":\n")
-        hdr = f"  {'job':44} {'instance':15} {'spot':5} {'billable_h':>10} {'training_h':>11} {'savings%':>8}"
+        hdr = (f"  {'job':44} {'status':10} {'instance':15} {'spot':5} {'billable_h':>10} "
+               f"{'training_h':>11} {'savings%':>8}")
         print(hdr); print("  " + "-" * (len(hdr) - 2))
+        n_failed = 0
         for s in summaries[:n]:
             name = s["TrainingJobName"]
             try:
@@ -64,15 +81,74 @@ def main():
             it = d.get("ResourceConfig", {}).get("InstanceType", "?")
             if want and want not in it:
                 continue
+            st = d.get("TrainingJobStatus", "?")
+            n_failed += 1 if st == "Failed" else 0
             spot = d.get("EnableManagedSpotTraining", False)
             bt = d.get("BillableTimeInSeconds")
             tt = d.get("TrainingTimeInSeconds")
             bh = f"{bt/3600:.3f}" if bt else "-"
             th = f"{tt/3600:.3f}" if tt else "-"
             sav = f"{(1 - bt/tt)*100:.1f}" if (bt and tt) else "-"
-            print(f"  {name[:44]:44} {it:15} {str(spot):5} {bh:>10} {th:>11} {sav:>8}")
-        print("\nsavings% = (1 - billable/training)*100. ~0 means the job ran uninterrupted, so managed")
+            print(f"  {name[:44]:44} {st:10} {it:15} {str(spot):5} {bh:>10} {th:>11} {sav:>8}")
+            if st == "Failed":
+                # A failed job that was BILLED is realized spend for zero science. Say so on the row rather
+                # than leaving it to be inferred from a dash in a savings column.
+                print(f"  {'':44} └─ FailureReason: {str(d.get('FailureReason'))[:150]}")
+        print(f"\n{n_failed} FAILED job(s) in this window. A failed job can still carry "
+              f"BillableTimeInSeconds — that is realized spend for no result; check it against the ledger.")
+        print("savings% = (1 - billable/training)*100. ~0 means the job ran uninterrupted, so managed")
         print("spot bought no hours discount — compare the per-hour rate on the bill to on-demand instead.")
+        return
+
+    # MODE=job: the FULL terminal record of ONE training job, in ANY state — the read that no listing can
+    # substitute for. `DescribeTrainingJob` is not status-filtered, so this works on Failed jobs, and it is
+    # the only call that returns FailureReason / SecondaryStatusTransitions / BillableTimeInSeconds.
+    # JOB_NAME = exact name; if it is a substring, the FULL paginated history across EVERY status is searched.
+    if os.environ.get("MODE", "").strip().lower() == "job":
+        import sys as _sys
+        _sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import abfe_sel_forensic as F
+        want = (os.environ.get("JOB_NAME") or os.environ.get("INSTANCE_FILTER") or "").strip()
+        if not want:
+            print("MODE=job needs JOB_NAME (exact name or a name substring)."); return
+        names = [want] if F.describe_job(sm, want) else []
+        if not names:
+            found = F.sagemaker_jobs(sm, want)
+            if found is None:
+                print(f"REFUSED — the job history could not be listed. No claim is made about {want!r}."); return
+            names = [j["name"] for j in found]
+            print(f"{len(names)} job(s) whose name contains {want!r}, across EVERY status "
+                  f"and the whole paginated history.\n")
+        if not names:
+            print(f"NO job named or containing {want!r} exists in this account/region — checked across every "
+                  f"status (InProgress, Completed, Failed, Stopping, Stopped) and the full history, so this "
+                  f"IS a reading of absence and not merely an absent reading.")
+            return
+        try:
+            logs_client = boto3.client("logs")
+        except Exception as e:  # noqa: BLE001
+            print(f"CloudWatch Logs client unavailable: {type(e).__name__}: {e}"); logs_client = None
+        for nm in names:
+            d = F.describe_job(sm, nm)
+            if d is None:
+                print(f"\n{nm}: DESCRIBE REFUSED"); continue
+            cls, ports, meaning, _m = F.classify_failure(d["status"], d["failure_reason"], d["transitions"])
+            cost = F.money(d.get("billable_seconds"))
+            print(f"\n{'='*100}\n{nm}\n{'='*100}")
+            print(f"  status          {d['status']} (secondary {d.get('secondary_status')})")
+            print(f"  FailureReason   {d.get('failure_reason')!r}")
+            print(f"  class           {cls}   recurs_on_vast={ports}\n  -> {meaning}")
+            print(f"  start/end (ET)  {d.get('training_start_et')} .. {d.get('training_end_et')}")
+            print(f"  billable        {d.get('billable_seconds')} s => ${cost.get('usd')}")
+            print(f"  phases          {d.get('phases_reached')}")
+            for t in d.get("transitions") or []:
+                print(f"    {t['status']:14} {str(t['start_et']):26} {str(t['seconds']):>6}s  "
+                      f"{(t.get('message') or '')[:110]}")
+            if logs_client is not None:
+                blk = F.cloudwatch_tail(logs_client, nm)
+                print(f"  container log   state={blk.get('state')} {blk.get('note') or blk.get('error') or ''}")
+                for e in (blk.get("events") or [])[-80:]:
+                    print(f"    {e.get('t_et')}  {str(e.get('message') or e.get('error'))[:160]}")
         return
 
     # MODE=abfe_rate: the MEASURED per-leg rate for the independent-window ABFE engine (nr4a3_abfe.py).

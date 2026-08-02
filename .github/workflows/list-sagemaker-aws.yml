@@ -1,7 +1,14 @@
 name: List in-progress SageMaker jobs (AWS, read-only)
 
-# Read-only: show all in-progress spot training jobs and how many instances they consume, to reason about
-# free slots against the account 'instances across all spot training jobs' (=10) quota. Starts nothing.
+# Read-only SageMaker/S3 forensics. Starts nothing, rents nothing, stops nothing — every call is a
+# Describe/List. Free (a GitHub-hosted CPU runner).
+#
+# ⚠ THE BLIND SPOT THIS WORKFLOW EXISTS TO NOT HAVE AGAIN (2026-08-02). Every LISTING call here is
+# `StatusEquals`-filtered, so a **Failed** training job matches none of the default modes. On 2026-08-02 that
+# produced three independent "nothing here" reads for a job that existed, had failed, and had a FailureReason
+# — and the absence was read as non-existence (CLAUDE.md §4). `mode=job` and `mode=forensic` are the
+# unfiltered reads: `DescribeTrainingJob` answers for a job in ANY state.
+#
 # REQUIRES secrets: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY (region is a workflow input).
 
 on:
@@ -16,8 +23,16 @@ on:
         default: ""
         required: false
       mode:
-        description: "'savings' = realized managed-spot discount (billable vs training time) for recent completed jobs; 'abfe_rate' = measured per-leg ABFE rate over the FULL job history; 'abfe_ready' = ABFE dispatch-readiness (ECR image, staged inputs, tag collision, spot headroom); blank = in-progress jobs"
+        description: "'job' = FULL terminal record of one job by name, ANY state (status, FailureReason, transitions, billable, CloudWatch log) — the only mode that can see a FAILED job; 'forensic' = the whole sel-cbp30 incident (ckpt provenance + every matching job + spend), commits abfe-sel-ckpt-forensic.json; 'savings' = realized managed-spot discount (now includes Failed); 'abfe_rate' = measured per-leg ABFE rate; 'abfe_ready' = ABFE dispatch-readiness; blank = in-progress jobs"
         default: ""
+        required: false
+      job_name:
+        description: "mode=job: exact training-job name, or a substring (then the FULL paginated history across EVERY status is searched)"
+        default: ""
+        required: false
+      forensic_tag:
+        description: "mode=forensic: the S3 checkpoint tag to investigate"
+        default: "sel-cbp30-v1"
         required: false
       instance_filter:
         description: "savings mode: restrict to instance types containing this string, e.g. ml.g5.xlarge. abfe_rate mode: the job-NAME substring to match (default 'abfe'). abfe_ready mode: the checkpoint TAG to check (default 'sel-cbp30-v1')"
@@ -25,13 +40,15 @@ on:
         required: false
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   list:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -43,10 +60,26 @@ jobs:
           AWS_DEFAULT_REGION: ${{ inputs.region }}
           S3_PREFIX: ${{ inputs.s3_prefix }}
           MODE: ${{ inputs.mode }}
+          JOB_NAME: ${{ inputs.job_name }}
+          ABFE_TAG: ${{ inputs.forensic_tag }}
           INSTANCE_FILTER: ${{ inputs.instance_filter }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY repo secrets first."
             exit 1
           fi
-          python research/modalities/list_sagemaker.py
+          cd research/modalities
+          if [ "$MODE" = "forensic" ]; then
+            python abfe_sel_forensic.py --tag "$ABFE_TAG"
+          else
+            python list_sagemaker.py
+          fi
+      - name: Commit the forensic artifact back to the triggering branch
+        if: ${{ inputs.mode == 'forensic' }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A research/modalities/abfe-sel-ckpt-forensic.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "abfe sel-cbp30 forensic: terminal job state, FailureReason, billable, ckpt provenance (CI, \$0)"
+          git push origin HEAD:${{ github.ref_name }}

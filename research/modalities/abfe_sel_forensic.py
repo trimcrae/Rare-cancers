@@ -223,6 +223,204 @@ def _decode_into(s3, bucket, key, row):
     row["content_head"] = text[:1500]
 
 
+def describe_job(sm, name):
+    """The FULL terminal record of one training job. None on a refusal (never an invented absence).
+
+    ★ WHY THIS FUNCTION EXISTS, in the words of the mistake it repairs. On 2026-08-02 a leg was dispatched at
+    3:16 PM ET and, forty minutes later, four independent reads said `0 in-progress training jobs`, `0/8 spot
+    instances`, and "absent from the last ~40 completed/stopped jobs". That triple was read as *the job does
+    not exist*. It is not: `list_sagemaker.MODE=savings` walks `StatusEquals` in ("Completed", "Stopped") ONLY,
+    so a **Failed** job is invisible to every one of those reads — CLAUDE.md §4's "an absent reading is not a
+    reading of absence", with the collector's own filter as the thing that could not read.
+    `DescribeTrainingJob` has no such filter: it answers for a job in ANY state, and it is the only call that
+    returns `FailureReason`, `SecondaryStatusTransitions` and `BillableTimeInSeconds` at all.
+    """
+    try:
+        d = sm.describe_training_job(TrainingJobName=name)
+    except Exception as e:  # noqa: BLE001
+        print(f"[forensic] DESCRIBE REFUSED for {name}: {type(e).__name__}: {e}", flush=True)
+        return None
+    rc = d.get("ResourceConfig", {}) or {}
+    out = {
+        "name": d.get("TrainingJobName"),
+        "arn": d.get("TrainingJobArn"),
+        "status": d.get("TrainingJobStatus"),
+        "secondary_status": d.get("SecondaryStatus"),
+        # ⚠ THE FIELD THE WHOLE INVESTIGATION TURNS ON. Absent => AWS recorded no reason, which is itself a
+        # finding (it points at the control plane rather than the container); it is NEVER filled with a guess.
+        "failure_reason": d.get("FailureReason"),
+        "created_et": et(d.get("CreationTime")),
+        "training_start_et": et(d.get("TrainingStartTime")),
+        "training_end_et": et(d.get("TrainingEndTime")),
+        "last_modified_et": et(d.get("LastModifiedTime")),
+        "billable_seconds": d.get("BillableTimeInSeconds"),
+        "training_seconds": d.get("TrainingTimeInSeconds"),
+        "instance_type": rc.get("InstanceType"),
+        "instance_count": rc.get("InstanceCount"),
+        "volume_size_gb": rc.get("VolumeSizeInGB"),
+        "managed_spot": d.get("EnableManagedSpotTraining"),
+        "max_run_s": (d.get("StoppingCondition") or {}).get("MaxRuntimeInSeconds"),
+        "max_wait_s": (d.get("StoppingCondition") or {}).get("MaxWaitTimeInSeconds"),
+        "training_image": (d.get("AlgorithmSpecification") or {}).get("TrainingImage"),
+        "checkpoint_s3_uri": (d.get("CheckpointConfig") or {}).get("S3Uri"),
+        "output_s3": (d.get("OutputDataConfig") or {}).get("S3OutputPath"),
+        "role_arn": d.get("RoleArn"),
+        "hyperparameters": d.get("HyperParameters") or {},
+        "input_channels": [{"name": c.get("ChannelName"),
+                            "s3_uri": ((c.get("DataSource") or {}).get("S3DataSource") or {}).get("S3Uri")}
+                           for c in (d.get("InputDataConfig") or [])],
+    }
+    # The transition list is the timeline the FailureReason alone cannot give: it says which PHASE the job
+    # died in, and "never left Starting" vs "died in Training" are opposite diagnoses.
+    tr = []
+    for t in d.get("SecondaryStatusTransitions", []) or []:
+        start, end = t.get("StartTime"), t.get("EndTime")
+        tr.append({"status": t.get("Status"),
+                   "start_et": et(start), "end_et": et(end),
+                   "seconds": (int((end - start).total_seconds()) if (start and end) else None),
+                   "message": t.get("StatusMessage")})
+    out["transitions"] = tr
+    out["phases_reached"] = [t["status"] for t in tr]
+    return out
+
+
+def money(billable_seconds, usd_per_billable_h=None):
+    """Realized dollars for a job's billable time. DERIVED, never typed (CLAUDE.md §1).
+
+    The rate has ONE home — `abfe_selectivity_cost.USD_PER_BILLABLE_H_G5_XLARGE`, itself cross-checked against
+    a real Ohio bill — and the semantics matter: managed spot's discount arrives as FEWER BILLED SECONDS, not a
+    lower rate, so `billable_seconds` is ALREADY the discounted quantity and must be multiplied by the meter
+    rate. Multiplying it by a "spot rate" applies the discount twice; that error is registered in that module's
+    `SUPERSEDED_CALIBRATION_COSTS`.
+    """
+    if usd_per_billable_h is None:
+        try:
+            import abfe_selectivity_cost
+            usd_per_billable_h = abfe_selectivity_cost.USD_PER_BILLABLE_H_G5_XLARGE
+        except Exception as e:  # noqa: BLE001
+            return {"usd": None, "rate_source": f"UNAVAILABLE: {type(e).__name__}: {e}"}
+    if billable_seconds is None:
+        return {"usd": None, "billable_seconds": None,
+                "rate_usd_per_billable_h": usd_per_billable_h,
+                "rate_source": "abfe_selectivity_cost.USD_PER_BILLABLE_H_G5_XLARGE",
+                "note": "AWS returned NO BillableTimeInSeconds — the field is absent, which is not the same "
+                        "as zero. Recorded as unknown."}
+    return {"usd": round(billable_seconds / 3600.0 * usd_per_billable_h, 4),
+            "billable_seconds": int(billable_seconds),
+            "billable_hours": round(billable_seconds / 3600.0, 4),
+            "rate_usd_per_billable_h": usd_per_billable_h,
+            "rate_source": "abfe_selectivity_cost.USD_PER_BILLABLE_H_G5_XLARGE (cross-checked against the "
+                           "2026-07 Ohio SpotTraining bill line)"}
+
+
+# The failure taxonomy, and — the part that actually matters now — whether each class FOLLOWS THE WORK TO VAST.
+# trimcrae has ruled Vast the flagship and SageMaker out, so this ABFE is being ported. A cause in the science
+# code or the staged inputs travels with the port and must be fixed FIRST; a cause in SageMaker's own plumbing
+# is sidestepped by leaving SageMaker. Each entry: (substring probes, class, recurs_on_vast, what it means).
+_FAILURE_SIGNATURES = [
+    (("MaxWaitTimeExceeded",), "spot_capacity_never_satisfied", False,
+     "managed spot never found capacity inside max_wait. A SageMaker POOL property — Vast picks a named host "
+     "instead, so this class does not port (CLAUDE.md §6: a capacity refusal on Vast means pick another host)."),
+    (("InsufficientCapacity", "CapacityError", "not enough capacity"), "capacity", False,
+     "the instance pool had no capacity. SageMaker-specific; Vast's board is a different market."),
+    (("interrupt", "Spot instance was interrupted", "reclaim"), "spot_interruption", False,
+     "routine preemption (CLAUDE.md §6 — mention lightly). Does not port as a defect; Vast preempts too but "
+     "the checkpointed resume is the same answer."),
+    (("CannotPullContainerError", "Failed to pull", "toomanyrequests", "manifest unknown",
+      "no basic auth credentials"), "image_pull", False,
+     "the ECR image could not be pulled. The IMAGE is SageMaker/ECR-side; on Vast the equivalent is a Docker "
+     "Hub pull of a baked image, so the specific failure does not port — but it confirms the leg never ran."),
+    (("ResourceLimitExceeded", "limit is",), "quota", False,
+     "an account quota refused the instance. SageMaker-specific."),
+    (("AccessDenied", "not authorized to perform", "assume role", "AmazonSageMakerFullAccess"), "iam", False,
+     "the execution role lacked a permission. SageMaker-specific plumbing."),
+    (("Data download failed", "failed to download", "S3DownloadFailed", "NoSuchKey", "NoSuchBucket",
+      "does not exist or the object"), "s3_input_missing_or_malformed", True,
+     "★ PORTS TO VAST. The job could not fetch its staged inputs. The receptor/ligand staging is the SAME "
+     "artifact set the Vast lane must read, so a missing or malformed input fails there too. Fix before porting."),
+    (("MaxRuntimeExceeded",), "timeout", True,
+     "the job hit max_run. Whether this ports depends on the per-unit rate, which is a property of the work, "
+     "not the provider — re-scope the unit before porting."),
+    (("AlgorithmError", "ExecuteUserScriptError", "Traceback", "ModuleNotFoundError", "ImportError",
+      "KeyError", "ValueError", "RuntimeError", "AssertionError", "exit code"), "in_container_error", True,
+     "★ PORTS TO VAST. The container started and the SCIENCE CODE or its environment raised. The same "
+     "`nr4a3_abfe.py` and the same inputs run on Vast, so this recurs there. Fix before porting."),
+    (("InternalServerError",), "aws_internal", False,
+     "AWS reported an internal error. SageMaker-specific; retry is the standard answer."),
+]
+
+
+def classify_failure(status, failure_reason, transitions=None):
+    """(class, recurs_on_vast, meaning, matched_on) from the terminal record. PURE, so it is unit-testable.
+
+    An unmatched reason is `unclassified` with `recurs_on_vast=None` — an HONEST UNKNOWN. It is never bucketed
+    into the nearest-looking class, because the whole point of the field is to decide what the Vast port must
+    fix, and a wrong bucket there is worse than no bucket.
+    """
+    if status is None:
+        return "undetermined", None, "the job record could not be read — a REFUSAL, not a finding.", None
+    if status in ("Completed",):
+        return "none", False, "the job completed; there is no failure to classify.", None
+    if status in ("InProgress", "Stopping"):
+        return "still_running", None, f"the job is {status}; no terminal cause exists yet.", None
+    if status == "Stopped" and not failure_reason:
+        return "stopped_by_request", False, ("the job was STOPPED, not failed — somebody or something called "
+                                             "StopTrainingJob. Not a defect that ports."), None
+    hay = str(failure_reason or "")
+    for probes, cls, ports, meaning in _FAILURE_SIGNATURES:
+        for p in probes:
+            if p.lower() in hay.lower():
+                return cls, ports, meaning, p
+    phases = [t.get("status") for t in (transitions or [])]
+    if failure_reason is None:
+        return ("failed_no_reason_recorded", None,
+                ("the job is Failed and AWS recorded NO FailureReason. That is itself evidence: a container "
+                 "that raised normally gets an AlgorithmError string, so an empty reason points AWAY from the "
+                 f"science code and toward the control plane. Phases reached: {phases or 'none recorded'}."),
+                None)
+    return ("unclassified", None,
+            f"the FailureReason matched no known signature. Verbatim, unparaphrased: {hay[:400]!r}", None)
+
+
+def cloudwatch_tail(logs, job_name, max_events=200, log_group="/aws/sagemaker/TrainingJobs"):
+    """The container's own stdout for one training job, or a recorded REFUSAL.
+
+    SageMaker writes each job's container output to `<log_group>/<job_name>/algo-1-<epoch>`. If the job never
+    reached the container, THERE IS NO STREAM — and that absence is a real discriminator (it separates "the
+    code crashed" from "the code never ran"), so it is reported as `no_stream`, distinctly from `refused`.
+    """
+    try:
+        streams = logs.describe_log_streams(logGroupName=log_group, logStreamNamePrefix=f"{job_name}/"
+                                            )["logStreams"]
+    except Exception as e:  # noqa: BLE001
+        return {"state": "refused", "error": f"{type(e).__name__}: {e}",
+                "note": "the log group could not be read. This is a REFUSAL — it says nothing about whether "
+                        "the container produced output (CLAUDE.md §4)."}
+    if not streams:
+        return {"state": "no_stream", "log_group": log_group,
+                "note": "no log stream exists for this job. SageMaker creates one when the CONTAINER STARTS, "
+                        "so its absence is positive evidence the job died BEFORE the container ran — which "
+                        "rules out the science code as the cause."}
+    out = {"state": "read", "log_group": log_group, "streams": [], "events": []}
+    for s in streams[:4]:
+        out["streams"].append({"name": s.get("logStreamName"),
+                               "first_event_et": et((s.get("firstEventTimestamp") or 0) / 1000.0)
+                               if s.get("firstEventTimestamp") else None,
+                               "last_event_et": et((s.get("lastEventTimestamp") or 0) / 1000.0)
+                               if s.get("lastEventTimestamp") else None})
+        try:
+            ev = logs.get_log_events(logGroupName=log_group, logStreamName=s["logStreamName"],
+                                     limit=max_events, startFromHead=False)["events"]
+        except Exception as e:  # noqa: BLE001
+            out["events"].append({"stream": s.get("logStreamName"), "error": f"{type(e).__name__}: {e}"})
+            continue
+        for e in ev:
+            out["events"].append({"stream": s.get("logStreamName"),
+                                  "t_et": et(e["timestamp"] / 1000.0),
+                                  "message": (e.get("message") or "").rstrip()})
+    return out
+
+
 def sagemaker_jobs(sm, name_contains, statuses=("InProgress", "Completed", "Failed", "Stopping", "Stopped")):
     """EVERY training job whose name contains `name_contains`, across every status and the WHOLE history.
 
@@ -291,6 +489,44 @@ def run(bucket=None, tag=None, out_path=None):
     doc["sagemaker_jobs_matching"] = jobs
     doc["sagemaker_jobs_matching_n"] = (len(jobs) if jobs is not None else None)
 
+    # ---- the JOB-LEVEL forensic: terminal state, cause, money, container log ---------------------------------
+    # Every matched job is described in full, not just the one we came looking for, because "which job wrote
+    # the prefix" is answered by comparing job clocks to object clocks and that needs all of them.
+    described, cw = [], {}
+    try:
+        sm = boto3.client("sagemaker")
+    except Exception as e:  # noqa: BLE001
+        print(f"[forensic] SageMaker client unavailable: {type(e).__name__}: {e}", flush=True)
+        sm = None
+    try:
+        logs_client = boto3.client("logs")
+    except Exception as e:  # noqa: BLE001
+        print(f"[forensic] CloudWatch Logs client unavailable: {type(e).__name__}: {e}", flush=True)
+        logs_client = None
+    for j in (jobs or []):
+        if sm is None:
+            break
+        print(f"[forensic] describing {j['name']} …", flush=True)
+        rec = describe_job(sm, j["name"])
+        if rec is None:
+            described.append({"name": j["name"], "describe_refused": True})
+            continue
+        cls, ports, meaning, matched = classify_failure(rec["status"], rec["failure_reason"],
+                                                        rec["transitions"])
+        rec["failure_class"] = cls
+        rec["recurs_on_vast"] = ports
+        rec["failure_meaning"] = meaning
+        rec["matched_signature"] = matched
+        rec["cost"] = money(rec.get("billable_seconds"))
+        described.append(rec)
+        if logs_client is not None:
+            print(f"[forensic] pulling CloudWatch for {j['name']} …", flush=True)
+            cw[j["name"]] = cloudwatch_tail(logs_client, j["name"])
+    doc["jobs_described"] = described
+    doc["container_logs"] = cw
+    doc["realized_spend_usd"] = _realized(described)
+    doc["ckpt_provenance"] = attribute_objects(rows, described)
+
     v, why = verdict_from(rows, jobs, t)
     doc["verdict"], doc["verdict_reason"] = v, why
     # THE ACTIONABLE HALF. A forensic that stops at "here is what happened" leaves the next agent to re-derive
@@ -303,6 +539,105 @@ def run(bucket=None, tag=None, out_path=None):
         f.write("\n")
     _print(doc)
     return doc
+
+
+def _realized(described):
+    """Total realized dollars across the described jobs, plus the honest shape of what could NOT be priced.
+
+    Rule 1: a total is DERIVED. It is also SEPARATE from the Vast ladder — this is AWS SageMaker money, a
+    different provider and therefore a different ledger, and it must never be summed into a ladder figure.
+    """
+    priced = [d for d in described if (d.get("cost") or {}).get("usd") is not None]
+    unpriced = [d["name"] for d in described if d.get("name") and (d.get("cost") or {}).get("usd") is None]
+    total = round(sum(d["cost"]["usd"] for d in priced), 4)
+    return {
+        "usd_total": total,
+        "jobs_priced": len(priced),
+        "jobs_unpriceable": unpriced,
+        "ledger": "AWS SageMaker managed spot (us-east-2). A SEPARATE LEDGER from the Vast ladder and from "
+                  "GCP trial credit — never summed into either (CLAUDE.md §1, §6).",
+        "recorded_anywhere_else": "NO. As of this artifact there is no other home for this figure; the "
+                                  "in-flight board in STRATEGY.md is Vast-shaped and never carried it.",
+    }
+
+
+def attribute_objects(rows, described):
+    """Did one of these jobs write the checkpoint objects? Decided on CLOCKS, not on plausibility.
+
+    ★ THE QUESTION THIS SETTLES, and why it is not answerable from the object list alone. An occupied
+    checkpoint prefix reads the same whether a job wrote it minutes ago or something unexplained wrote it
+    weeks ago — and the two have opposite consequences, because `nr4a3_abfe.run_window` RESUMES from
+    `_last_logged_iter + 1`. A future run onto unattributed state is a run onto unknown provenance.
+
+    The test is an interval containment: an object whose `LastModified` lies between a job's
+    `TrainingStartTime` and its `TrainingEndTime` was written while that job held the instance. An object
+    OUTSIDE every job's window is `unattributed` — reported as such, never assigned to the nearest job.
+    """
+    import datetime as _dt
+    if rows is None:
+        return {"state": "undetermined", "why": "the prefix listing was refused."}
+    if not rows:
+        return {"state": "empty", "why": "no objects under the tag; nothing to attribute."}
+
+    windows = [{"job": d.get("name"), "status": d.get("status"),
+                "start_utc": _utc_of(d.get("training_start_et")),
+                "end_utc": _utc_of(d.get("training_end_et")),
+                "start_et": d.get("training_start_et"), "end_et": d.get("training_end_et")}
+               for d in described if d.get("training_start_et")]
+    # A job that never reached Training has no window at all; that is a finding, not a gap to paper over.
+    no_window = [d.get("name") for d in described if not d.get("training_start_et")]
+
+    out = {"state": "attributed", "job_windows": windows, "jobs_with_no_training_window": no_window,
+           "objects": []}
+    for r in rows:
+        lm = _utc_of_iso(r.get("last_modified_utc"))
+        wrote_by, verdict = None, "unattributed"
+        if lm is not None:
+            for w in windows:
+                s, e = w["start_utc"], w["end_utc"]
+                if s and lm >= s and (e is None or lm <= e + _dt.timedelta(minutes=5)):
+                    wrote_by, verdict = w["job"], "written_during_this_job"
+                    break
+            else:
+                if windows and all(w["start_utc"] and lm < w["start_utc"] for w in windows):
+                    verdict = "predates_every_described_job"
+                elif not windows:
+                    verdict = ("no_described_job_ever_reached_Training — so NO job in this tag family can "
+                               "have written it; the writer is unexplained")
+        out["objects"].append({
+            "key": r["key"], "size_bytes": r["size_bytes"],
+            "last_modified_et": r["last_modified_et"],
+            "last_modified_utc": r.get("last_modified_utc"),
+            "writer_class": r["writer"], "attributed_to": wrote_by, "attribution": verdict,
+        })
+    kinds = {o["attribution"] for o in out["objects"]}
+    out["summary"] = (
+        "every object falls inside a described job's Training window — the provenance is settled"
+        if kinds == {"written_during_this_job"} else
+        f"MIXED/UNATTRIBUTED provenance: {sorted(kinds)}. An object no job window contains was written by "
+        f"something this forensic did not see. ⚠ A future run that RESUMES on this tag would resume onto "
+        f"state of unknown origin (`nr4a3_abfe.run_window` continues from `_last_logged_iter + 1`).")
+    return out
+
+
+def _utc_of(et_str):
+    """'Aug 02 2026 3:16:52 PM ET' -> naive UTC datetime, using the module's stated fixed offset."""
+    import datetime as _dt
+    if not et_str:
+        return None
+    try:
+        naive = _dt.datetime.strptime(str(et_str).replace(" ET", ""), "%b %d %Y %I:%M:%S %p")
+        return naive - _dt.timedelta(hours=ET_OFFSET_H)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _utc_of_iso(iso):
+    import datetime as _dt
+    try:
+        return _dt.datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ")
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def _consequence(v, rows):
@@ -353,6 +688,55 @@ def _print(doc):
                                              "whole paginated history")))
     for j in (jobs or [])[:20]:
         print(f"    {j['status']:10} {j['created_et']:26} {j['name']}")
+
+    for d in doc.get("jobs_described") or []:
+        print("\n  " + "-" * 96)
+        if d.get("describe_refused"):
+            print(f"  {d['name']}: DESCRIBE REFUSED — no claim made.")
+            continue
+        print(f"  JOB {d['name']}")
+        print(f"    status              {d['status']}   (secondary: {d.get('secondary_status')})")
+        print(f"    FailureReason       {d.get('failure_reason')!r}")
+        print(f"    failure_class       {d.get('failure_class')}   recurs_on_vast={d.get('recurs_on_vast')}")
+        print(f"    -> {d.get('failure_meaning')}")
+        print(f"    created / start / end (ET)  {d.get('created_et')}  |  "
+              f"{d.get('training_start_et')}  |  {d.get('training_end_et')}")
+        print(f"    instance            {d.get('instance_type')} x{d.get('instance_count')}  "
+              f"spot={d.get('managed_spot')}")
+        print(f"    image               {d.get('training_image')}")
+        print(f"    checkpoint_s3_uri   {d.get('checkpoint_s3_uri')}")
+        c = d.get("cost") or {}
+        print(f"    BILLABLE            {d.get('billable_seconds')} s  "
+              f"(training {d.get('training_seconds')} s)  =>  ${c.get('usd')}  @ "
+              f"${c.get('rate_usd_per_billable_h')}/billable-h")
+        print(f"    phases reached      {d.get('phases_reached')}")
+        for t in d.get("transitions") or []:
+            print(f"      {t['status']:14} {str(t['start_et']):26} {str(t['seconds']):>6}s  "
+                  f"{(t.get('message') or '')[:110]}")
+
+    cw = doc.get("container_logs") or {}
+    for name, blk in cw.items():
+        print(f"\n  CONTAINER LOG  {name}: state={blk.get('state')}")
+        if blk.get("state") == "refused":
+            print(f"    REFUSED: {blk.get('error')}")
+            print(f"    {blk.get('note')}")
+        elif blk.get("state") == "no_stream":
+            print(f"    {blk.get('note')}")
+        else:
+            for e in (blk.get("events") or [])[-60:]:
+                if e.get("error"):
+                    print(f"    ERR {e['error']}")
+                else:
+                    print(f"    {e['t_et']}  {e['message'][:160]}")
+
+    r = doc.get("realized_spend_usd") or {}
+    print(f"\n  REALIZED SPEND (AWS SageMaker ledger, NOT the Vast ladder): ${r.get('usd_total')} "
+          f"across {r.get('jobs_priced')} priced job(s); unpriceable: {r.get('jobs_unpriceable')}")
+    prov = doc.get("ckpt_provenance") or {}
+    print(f"\n  CKPT PROVENANCE: {prov.get('state')} — {prov.get('summary', prov.get('why'))}")
+    for o in (prov.get("objects") or []):
+        print(f"    {o['size_bytes']:>10}  {o['last_modified_et']:26} {o['attribution']:34} {o['key']}")
+
     print(f"\n  VERDICT: {doc['verdict']}")
     print(f"  {doc['verdict_reason']}")
     print(f"\n  CONSEQUENCE: {doc['consequence_for_the_vast_run']}")
