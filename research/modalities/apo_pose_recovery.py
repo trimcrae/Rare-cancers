@@ -49,6 +49,21 @@ CONTROLS, ALSO FIXED IN ADVANCE, because a bare number here would not be interpr
      alongside **purely as a decomposition**: blind-fails-while-oracle-succeeds means pocket DETECTION
      failed; both failing means pose PLACEMENT failed. The oracle number is never the headline and can
      never turn a NOT RECOVERED into a pass.
+  C1b ONE CONTROL PER BLIND ARM (added 2026-08-02 after the first scored panel; the primary endpoint is
+     UNCHANGED). C1 as written self-docks through the pipeline's transferred site only. When that site is
+     not where the ligand actually binds — 4REF is "TR3 LBD_L449W in complex with Molecule 2", an
+     engineered tryptophan mutant whose ligand sits ~19 A from the canonical nuclear-receptor cavity — C1
+     fails for a reason that says nothing about whether the DOCKING works, and it drags the independent
+     fpocket arm down with it. So each blind arm now carries a self-dock through its own site-selection
+     route and is reported against that. This ADDS reporting; it moves no threshold and cannot turn a
+     failure into a pass.
+
+★ A PANEL, NOT A PICK. `PANEL_SIZE` candidate pairs are attempted in the pre-registered rank order — one
+per distinct crystallographic answer, at most `MAX_PER_PROTEIN` per protein — and EVERY one is reported,
+including the ones R2b throws out. There is no early exit on "enough good ones", because an exit conditioned
+on results is a way of choosing which results to have. The panel-level answer applies the same C1 rule one
+level up: a pair whose control fails is uninterpretable, and the count of those is reported beside the
+aggregate rather than averaged into it.
 
 BOTH OUTCOMES, WRITTEN DOWN NOW:
   · RECOVERED  → the pipeline has been shown, once, to recover a crystallographic pose from an apo
