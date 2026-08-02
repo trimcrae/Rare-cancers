@@ -21,19 +21,29 @@ is audited **through its in-scope home** and §2 is cited only for context.
 
 ## Counts
 
-| verdict | n |
-|---|---|
-| `CONTRADICTS` | 7 |
-| `MAP-MISSING-IT` | 6 |
-| `PAPER-UNSUPPORTED` | 2 |
-| `AGREES` | 8 |
-| `UNVERIFIABLE` | 2 |
-| **total findings** | **25** |
+**21 findings (F1–F21), one primary verdict each.**
 
-Confidence-direction tally, for the question that matters most:
-**map more confident than the paper: 5** (F2, F7, F13, F14, F21) ·
-**paper more confident than the map: 2** (F3, F12) ·
-**map asserts a status no document supports: 1** (F4).
+| primary verdict | n | findings |
+|---|---|---|
+| `CONTRADICTS` | **12** | F1, F3, F6, F7, F8, F9, F10, F13, F14, F15, F18, F19 |
+| `MAP-MISSING-IT` | **6** | F2, F5, F11, F12, F20, F21 |
+| `UNVERIFIABLE` | **1** | F4 |
+| `PAPER-UNSUPPORTED` | **1** | F16 |
+| `AGREES` | **1** | F17 |
+
+Separately: a **verified-correct register of 15 map claims** that check out against the paper or a committed
+artifact (`AGREES`, tabulated near the end), and **2 recorded refusals** — things I could not settle and did not
+guess (F4's run status, F17's Glu208 paralogue identities). Six findings carry a secondary `AGREES` on their
+numbers while contradicting on provenance, verdict or scope (F7, F14, F17, F18, F19) — in every such case the
+figure is right and the confidence attached to it is not.
+
+**Confidence-direction tally — the question the brief calls the most valuable:**
+
+| direction | n | findings |
+|---|---|---|
+| **map more confident than the paper** | 5 | F2 (pocket ✓ vs a *failed* preregistered gate) · F7 (Route A "already measured" vs uncommitted + superseded-tracker) · F13 (`ARCH` ✓ vs no assembled NR4A3 ternary) · F14 (bare "PASSES" vs four explicit non-generalization caveats) · F20 (branch 1 ✓ complete on criteria known to miss their own positive control) |
+| **paper more confident than the map** | 2 | F3 (paralogue ABFE reported complete at n = 3 vs "○ future") · F15 (published fragment screen + functional ligand vs "evidence today: none") |
+| **map asserts a status no document supports** | 1 | F4 (CREBBP/BRD4 leg "on spot" vs STRATEGY.md "never been run … not authorized") |
 
 ---
 
