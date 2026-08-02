@@ -33,7 +33,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 9:37 PM ET Sat Aug 1, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 9:45 PM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -41,7 +41,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 9:37 PM ET Sat Aug 1, 2026 (7 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 9:37 PM ET Sat Aug 1, 2026 (8 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns                                      STATE             WHY (when not running)
