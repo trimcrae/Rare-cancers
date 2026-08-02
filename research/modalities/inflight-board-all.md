@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 9:21 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 9:23 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,17 +15,17 @@ Merged 9:21 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 9:20 PM ET Sat Aug 1, 2026 (2 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 9:12 PM ET Sat Aug 1, 2026 (11 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 2:13 AM Aug 2      91.1%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   54.9 s/iter · no like-for-like expectation (not measured on this system)
+5aks_d0_to_d ternary nr4a1 r1 2:04 AM Aug 2      91.1%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   54.9 s/iter · no like-for-like expectation (not measured on this system)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 9:20 PM ET Sat Aug 1, 2026 (1 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 9:14 PM ET Sat Aug 1, 2026 (9 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -33,7 +33,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 9:20 PM ET Sat Aug 1, 2026 (1 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 9:12 PM ET Sat Aug 1, 2026 (11 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -41,25 +41,25 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 9:21 PM ET Sat Aug 1, 2026 (0 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 9:13 PM ET Sat Aug 1, 2026 (10 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns                                      STATE             WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 zaienne_cmpd19__cw_bio_primary_amide r1  —                      —  —                                         HELD — NOT BUYING [gpu_busy] 1 GCE instance(s) live. GPUS_ALL_REGIONS = 1 is the binding cap (gcp-gpu-facts.md #1), so this lane is strictly serial and there is no second GPU to buy. Not a fault — the constraint working. % DONE UNKNOWN — the driver's `warmup_target=… prod_target=…` line has not been read, so the denominator is unknown. An unreadable target is not a target of zero (CLAUDE.md §4) — the cell refuses rather than guessing a total. ETA UNKNOWN — no targets, so no remaining-work count either.
-zaienne_cmpd19__cw_ms_free_acid r1       4:54 AM Aug 2      34.2%  — free GCP trial credit (separate ledger) ⚠ NO NEW COMMIT   GCE L4, RUNNING, created 2026-08-01T05:37:11.159-07:00. phase='leg-complex-running 2026-08-01T12:41:01Z'. 1639 of 4800 committed iterations (unit = 2 legs x (warmup 400 + production 2000)). ETA is for the complex leg — scoped to the complex leg: solvent has no measured L4 rate of its own and the two legs solvate different systems, so projecting the unit off this rate would be a fabricated number.. [761 min since the leg started against a budget of 4 x its own measured 23.8 min commit interval — FLAGGED, and a flag is not a condemnation: nothing reaps or refuses on this] Bounded at CREATE by --max-run-duration=172800s.
+zaienne_cmpd19__cw_ms_free_acid r1       4:45 AM Aug 2      34.2%  — free GCP trial credit (separate ledger) ⚠ NO NEW COMMIT   GCE L4, RUNNING, created 2026-08-01T05:37:11.159-07:00. phase='leg-complex-running 2026-08-01T12:41:01Z'. 1639 of 4800 committed iterations (unit = 2 legs x (warmup 400 + production 2000)). ETA is for the complex leg — scoped to the complex leg: solvent has no measured L4 rate of its own and the two legs solvate different systems, so projecting the unit off this rate would be a fabricated number.. [752 min since the leg started against a budget of 4 x its own measured 23.8 min commit interval — FLAGGED, and a flag is not a condemnation: nothing reaps or refuses on this] Bounded at CREATE by --max-run-duration=172800s.
 cw_ms_free_acid__cw_bio_primary_amide r1 —                      —  —                                         HELD — NOT BUYING [gpu_busy] 1 GCE instance(s) live. GPUS_ALL_REGIONS = 1 is the binding cap (gcp-gpu-facts.md #1), so this lane is strictly serial and there is no second GPU to buy. Not a fault — the constraint working. % DONE UNKNOWN — the driver's `warmup_target=… prod_target=…` line has not been read, so the denominator is unknown. An unreadable target is not a target of zero (CLAUDE.md §4) — the cell refuses rather than guessing a total. ETA UNKNOWN — no targets, so no remaining-work count either.
 ```
 
 ## SENSITIVITY CONTROL — SMARCA2/4 co-fold panel (instrument calibration, not a result)
 
-_As of 9:19 PM ET Sat Aug 1, 2026 (2 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
+_As of 9:23 PM ET Sat Aug 1, 2026 (0 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
 
 ```
 LEG                    ETA (ET)          % DONE  $/ns                                                                                                                       STATE           WHY (when not running)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                                                      DONE            all 6 seeds have a co-fold in S3. Host(s): 46551862 running, 46552614 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
+selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                                                      DONE            all 6 seeds have a co-fold in S3. Host(s): 46551862 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
 selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                                                      DONE            all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46549971 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
-selcal-smarca4-m3-r1   —                20/24 l  — endpoint MD, not the 84k-atom RBFE the throughput table benches; no live host record this tick, so no rate to quote here ENDED — no host instance 46554862 is no longer on the account, so this leg ended — landed, preempted or reaped. Rented 2026-08-02T01:11:39Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca4-m3-r1   —                21/24 l  — endpoint MD, not the 84k-atom RBFE the throughput table benches; no live host record this tick, so no rate to quote here ENDED — no host instance 46554862 is no longer on the account, so this leg ended — landed, preempted or reaped. Rented 2026-08-02T01:11:39Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
 ```
 
