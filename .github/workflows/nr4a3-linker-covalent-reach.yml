@@ -99,11 +99,28 @@ jobs:
 
       - name: Commit results
         if: ${{ inputs.commit }}
+        # ⚠ REBASE-AND-RETRY, NOT A BARE PUSH (measured 2026-08-02, run 30764721162). The analysis succeeded,
+        # the drift gate passed and both lints were clean — and the whole artifact was then thrown away by
+        # `! [rejected] ... (fetch first)`, because a concurrent agent pushed to this branch during the ~6 min
+        # the analysis was running. A bare push makes a $0-but-6-minute job lose a complete result to a race
+        # it can simply retry out of. Never --force: the other agent's commits must survive too, and the two
+        # edits are always to different files.
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BR="${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"
           git add research/modalities/nr4a3-linker-covalent-reach.json \
                   research/modalities/nr4a3-linker-covalent-reach.md
           git diff --cached --quiet && { echo "no change"; exit 0; }
           git commit -m "linker-borne covalent reach: full 20-conformer 8XTT ensemble + paralogue control"
-          git push origin HEAD:"${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:"$BR"; then
+              echo "pushed on attempt $i"
+              exit 0
+            fi
+            echo "push rejected on attempt $i — rebasing onto origin/$BR and retrying"
+            git fetch origin "$BR" || exit 1
+            git rebase "origin/$BR" || { git rebase --abort; echo "::error::rebase conflict"; exit 1; }
+          done
+          echo "::error::could not push the reach artifact after 5 rebase+retry attempts"
+          exit 1
