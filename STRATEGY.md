@@ -404,6 +404,24 @@ could not be re-narrated after the fact, and it is machine-carried by `selcal_ga
    was never exercised on the complexes in question, so the null bounds the *workflow as run* rather than the
    readout alone, and the failing stage is ternary **generation** rather than ranking. Every paralogue-
    selectivity statement remains an unvalidated prediction; nothing here licenses revisiting one.
+   ★ **BOTH HALVES OF THE CONTROL A NEAR-ZERO SCORE REQUIRES ARE NOW MEASURED, so 0.023–0.046 is a
+   measurement rather than a property of the scorer** — each objection answered by running it, not by
+   argument. **(a) Does anything score HIGH through this harness?** DeepTernary, a dedicated SE(3)-equivariant
+   ternary generator, on `6HAX_B_A_FWZ` — a VHL/SMARCA2 PROTAC ternary supplied as complete unbound inputs in
+   its own released benchmark — reaches **DockQ 0.618 (CAPRI "Medium"), median 0.438 over 16 scored poses,
+   best iRMSD 1.21 Å**, from the same DockQ 2.1.3 build
+   ([`selcal-deepternary-poscontrol.json`](./research/modalities/selcal-deepternary-poscontrol.json)).
+   ⛔ 2018 deposit, inside the model's 2023-10-14 horizon, therefore memorisation-permitting **by
+   construction**: a positive control on the **harness and instruments**, never on generalisation, and it
+   says nothing about NR4A3, degradation or selectivity. **(b) How wrong is 0.03?** Holding VHL fixed and
+   displacing the **true** target chain of 9DTY by a known rigid RMSD — everything else perfect, placement
+   the only variable — gives **1.000 → 0.948 (0.5 Å) → 0.845 (1 Å) → 0.717 (2 Å) → 0.401 (4 Å) → 0.240
+   (8 Å) → 0.085 (16 Å) → 0.026 (32 Å)**
+   ([`selcal-dockq-decoy-scale.json`](./research/modalities/selcal-dockq-decoy-scale.json)). The co-folds sit
+   at the **~32 Å** rung — consistent with their independently measured 17.8–21.2 Å interface-RMSD — so they
+   are **not a near-miss on placement**, and the generation failure is not a matter of degree.
+   ⛔ Neither half is a positive control for paralogue-selectivity **detection**; that endpoint still has
+   none, and the harness control must not be read as softening the tally below.
 4. **It re-scores no landed leg and changes no ΔΔG.** It is a statement about the instrument.
 
 ### The standing tally this closes

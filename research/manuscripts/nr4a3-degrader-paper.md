@@ -2129,9 +2129,31 @@ remains an unvalidated prediction. What it does change is where the failure sits
 rather than at ranking — which is a statement about this co-folding pipeline on a VHL neosubstrate interface
 and about nothing else.
 
+**Both halves of the control that a near-zero score requires, so it is a measurement and not an artefact of
+the scorer.** A DockQ of 0.03 invites two objections, and each was answered by running it rather than by
+argument.
+*Does anything score high through this harness?* DeepTernary, a dedicated SE(3)-equivariant ternary
+generator, run on `6HAX_B_A_FWZ` — a VHL/SMARCA2 PROTAC ternary supplied as complete unbound inputs in its
+own released benchmark — reaches **DockQ 0.618 (CAPRI "Medium"), median 0.438 over 16 scored poses, best
+interface-RMSD 1.21 Å**, from the same DockQ 2.1.3 build that returns 0.023–0.046 above
+([`../modalities/selcal-deepternary-poscontrol.json`](../modalities/selcal-deepternary-poscontrol.json)).
+⛔ That case was deposited in 2018, inside the model's 2023-10-14 data horizon, so it is memorisation-
+permitting by construction: it is a **positive control on the harness and the instruments**, and is not
+evidence of generalisation, of anything about NR4A3, or of anything about degradation or selectivity.
+*And how wrong is 0.03?* Holding VHL fixed and displacing the **true** target chain of 9DTY by a rigid motion
+of known magnitude — every side chain, every contact, the right protein, the right copy, placement the only
+variable — gives DockQ **1.000 → 0.948 (0.5 Å) → 0.845 (1 Å) → 0.717 (2 Å) → 0.401 (4 Å) → 0.240 (8 Å) →
+0.085 (16 Å) → 0.026 (32 Å)**
+([`../modalities/selcal-dockq-decoy-scale.json`](../modalities/selcal-dockq-decoy-scale.json)). The co-folds'
+0.023–0.046 sits at the bottom of that ladder: **they score like the correct structure displaced ~32 Å**,
+which is consistent with the 17.8–21.2 Å interface-RMSD measured independently. So the co-folds are not a
+near-miss on placement, and the failure at generation is not a matter of degree.
+
 **Applied, not noted:** with §2.11's cooperativity calibrator failed on sign, §2.12's retrospective
 non-resolved, and this control null on an adequately-powered design, **all three** attempts to establish a
-positive control for this program's selectivity claims have now been run and none succeeded. The consequence
+positive control **for this program's selectivity claims** have now been run and none succeeded — a
+statement about the *selectivity* endpoint that the harness control above does not touch and must not be
+read as softening. The consequence
 is stated in **three** places, not one — the **Abstract**, this section, and **§4 Limitations** — so that a
 reader who never reaches the limitations still meets it. It is a scope statement about the whole workflow, so
 it is carried at those three levels rather than appended to each individual ΔΔG, which would say the same
@@ -2411,7 +2433,12 @@ around and reproduce the **target↔VHL interface at DockQ 0.023–0.046, fnat 0
 internal E3 machinery at 0.89–0.97 (§2.12a). The endpoint was therefore never exercised on the complexes
 whose selectivity was measured, which makes that null a bound on the **workflow as run** rather than on the
 readout in isolation — weaker evidence about the instrument than the registered readings imply, not stronger,
-and no basis whatever for re-opening any selectivity claim.
+and no basis whatever for re-opening any selectivity claim. Both halves of the control that number needs have
+since been run (§2.12a): the same DockQ build returns **0.618, CAPRI "Medium"** for a dedicated ternary
+generator on a known complex, so the near-zero score is not an artefact of the scorer; and displacing the
+**true** target chain of 9DTY by a known rigid magnitude puts 0.023–0.046 at the **~32 Å** rung of the ladder,
+so the co-folds are not a near-miss. ⛔ Neither is a positive control for paralogue-selectivity *detection* —
+that endpoint still has none, and the harness control must not be read as softening the paragraph above.
 
 In-silico throughout; no molecule synthesized; broader indications (SI §S4) are **motivation, not
 demonstrated efficacy**. Therapeutic application to EMC (and AciCC) additionally **assumes NR4A3 dependence, which is not tested here**: the supporting prior (a transfer prior from fusion-addicted EWSR1/FET sarcomas; EMC-native evidence the fusion is a functional driver; a near-invariant clonal fusion in a quiet genome) and the **one decisive gap** (no loss-of-function experiment in any EMC model — the make-or-break dTAG test is delegated to the EMC-program paper), together with the systemic-lead safety/tolerability rationale and the pan-NR4A/CAR-T pole, are in **SI §S9** (safety in **SI §S6**, indications in **SI §S4**). This paper's claimed contribution is the target's **computational druggability/selectivity, not EMC efficacy**.
