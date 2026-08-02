@@ -106,6 +106,8 @@ jobs:
           ref: ${{ inputs.branch }}
       - name: Emit the pre-registration (no network, no statistic)
         run: cd research/modalities && python3 categorical_decoy_null.py plan
+      - name: Probe AlphaFold DB (records the raw API/file answers before any fetch)
+        run: cd research/modalities && python3 categorical_decoy_null.py probe
       - name: Fetch AlphaFold DB models for the universe
         run: cd research/modalities && python3 categorical_decoy_null.py fetch
       - name: Trim domains, all-vs-all identity, pre-registered pair selection
@@ -187,8 +189,12 @@ jobs:
   # C02 stage 3 — background distribution + the NR4A3 percentile.
   # =========================================================================================================
   decoy_reduce:
-    if: ${{ always() && (inputs.task == 'both' || inputs.task == 'decoy_null' || inputs.task == 'decoy_reduce_only') }}
-    needs: decoy_shards
+    # ⛔ NOT `always()`. A reduce that runs after a FAILED prepare downloads nothing and publishes a
+    # background built from zero rows — a green artifact produced by measuring nothing. It must run when
+    # SOME shards failed (fail-fast is off and a partial background is still a real one) and never when the
+    # inputs were never produced.
+    if: ${{ !cancelled() && needs.decoy_prepare.result == 'success' && (inputs.task == 'both' || inputs.task == 'decoy_null') }}
+    needs: [decoy_prepare, decoy_shards]
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
