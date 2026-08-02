@@ -1,0 +1,37 @@
+{
+ "_what": "the molecule actually co-folded into this program's NR4A ternaries, recovered from the models because the repo does not record it",
+ "per_paralogue": {
+  "NR4A1": {
+   "model": "nr4a1-ternary-protac_model_0.cif",
+   "smiles": null,
+   "detail": {
+    "error": "no `_chem_comp_bond` loop in nr4a1-ternary-protac_model_0.cif \u2014 bond orders would have to be perceived from coordinates, which for a novel PROTAC is a guess, and a guessed molecule must not become the input to a paid run",
+    "component": "LIG1",
+    "n_heavy": 53
+   }
+  },
+  "NR4A2": {
+   "model": "nr4a2-ternary-protac_model_0.cif",
+   "smiles": null,
+   "detail": {
+    "error": "no `_chem_comp_bond` loop in nr4a2-ternary-protac_model_0.cif \u2014 bond orders would have to be perceived from coordinates, which for a novel PROTAC is a guess, and a guessed molecule must not become the input to a paid run",
+    "component": "LIG1",
+    "n_heavy": 53
+   }
+  },
+  "NR4A3": {
+   "model": "nr4a3-ternary-protac_model_0.cif",
+   "smiles": null,
+   "detail": {
+    "error": "no `_chem_comp_bond` loop in nr4a3-ternary-protac_model_0.cif \u2014 bond orders would have to be perceived from coordinates, which for a novel PROTAC is a guess, and a guessed molecule must not become the input to a paid run",
+    "component": "LIG1",
+    "n_heavy": 53
+   }
+  }
+ },
+ "n_recovered": 0,
+ "n_arms": 3,
+ "agree": null,
+ "sentence": "REFUSED \u2014 no arm's degrader could be recovered with sourced bond orders, so the co-folded molecule is UNRECORDED and unrecoverable from these models. A replicate run cannot be matched to the published result until it is supplied.",
+ "_why_it_is_not_in_the_repo": "nr4a3_ternary_sagemaker.py forwards the molecule as $PROTAC_SMILES; nr4a3_ternary.py writes the per-paralogue YAMLs but they were never committed; and nr4a3-ternary-prep.json, which would have captured it, records a 403 on its sequence fetch and an empty targets map."
+}
