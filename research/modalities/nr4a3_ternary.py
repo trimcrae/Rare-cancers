@@ -109,7 +109,7 @@ def have_gpu():
         return False
 
 
-def run_boltz(yaml_path, out_dir):
+def run_boltz(yaml_path, out_dir, diffusion_samples=None):
     import shutil
     import subprocess
     if not shutil.which("boltz"):
@@ -123,7 +123,15 @@ def run_boltz(yaml_path, out_dir):
     # --no_kernels: pure-PyTorch triangle path. boltz>=2 HARD-CRASHES on this A10G container when the
     # accelerated cuEquivariance/Triton kernels' CUDA ops fail to import (2026-07-01); --no_kernels avoids
     # the whole dependency chain — slower, but it runs.
+    # ⛔ ONE MODEL PER PREDICTION IS A DEFECT, AND IT COST A TEST. Boltz defaults to a single diffusion
+    # sample, so the NR4A1/2/3 ternaries behind §2.5 exist as `model_0` and nothing else — which makes any
+    # cross-paralogue contact untestable for reproducibility, because one model cannot distinguish a
+    # determinant from that model's accident (`nr4a_ternary_signature.MIN_MODELS_FOR_REPRODUCIBILITY`).
+    # The flag is EXPLICIT rather than defaulted so a sibling lane's spend does not change under it; a caller
+    # that wants replicates asks for them, and this comment is why it should.
     cmd = ["boltz", "predict", yaml_path, "--use_msa_server", "--out_dir", out_dir, "--no_kernels"]
+    if diffusion_samples:
+        cmd += ["--diffusion_samples", str(int(diffusion_samples))]
     print("  running:", " ".join(cmd), file=sys.stderr)
     return subprocess.run(cmd).returncode
 
@@ -144,6 +152,10 @@ def main():
     ap.add_argument("--binary-smiles", default=os.environ.get("BINARY_SMILES", ""),
                     help="warhead SMILES for BINARY co-folding: NR4A{3,1,2}-LBD + warhead (AF3-class independent "
                          "cross-check of the docked pose + cross-paralogue confidence; NOT the ternary)")
+    ap.add_argument("--diffusion-samples", type=int, default=int(os.environ.get("DIFFUSION_SAMPLES", "0")),
+                    help="models per prediction (0 = Boltz's default of one). One model per arm makes any "
+                         "cross-paralogue contact untestable for reproducibility, so a replicate run asks "
+                         "for >=3 -- see nr4a_ternary_signature.MIN_MODELS_FOR_REPRODUCIBILITY.")
     ap.add_argument("--control", action="store_true", help="no-op; keeps the SageMaker arg list non-empty")
     # A caller that needs only SOME paralogues should not pay for the others. RUNG 5a-KS is defined on the
     # NR4A3/NR4A1 pair, so folding NR4A2 as well would be a third ~800-residue Boltz prediction of rented GPU
@@ -203,6 +215,7 @@ def main():
             open(os.path.join(OUT_DIR, stem), "w").write(tern)
             open(os.path.join(HERE, stem), "w").write(tern)
             out["targets"][name]["yaml"] = stem
+        out["diffusion_samples"] = args.diffusion_samples or 1
         out["ternary"] = {"complex": "NR4A{3,1,2}-LBD + CRBN + PROTAC", "protac_smiles": args.protac_smiles,
                           "scoring": "exposed NR4A Lys near CRBN within ubiquitin reach; compare across paralogues"}
     else:
@@ -231,19 +244,19 @@ def main():
         # control first (cheap, validates the pipeline), then each paralogue ternary; upload incrementally.
         ctrl_yaml = os.path.join(OUT_DIR, "nr4a3-ternary-control.yaml")
         if os.path.exists(ctrl_yaml):
-            out["status"]["control_run"] = run_boltz(ctrl_yaml, OUT_DIR)
+            out["status"]["control_run"] = run_boltz(ctrl_yaml, OUT_DIR, args.diffusion_samples)
             _write_prep(out)
         if args.protac_smiles:
             for name in NR4A_TARGETS:
                 yml = os.path.join(OUT_DIR, f"{name.lower()}-ternary-protac.yaml")
                 if os.path.exists(yml):
-                    out["status"][f"{name}_run"] = run_boltz(yml, OUT_DIR)
+                    out["status"][f"{name}_run"] = run_boltz(yml, OUT_DIR, args.diffusion_samples)
                     _write_prep(out)
         if args.binary_smiles:
             for name in NR4A_TARGETS:
                 yml = os.path.join(OUT_DIR, f"{name.lower()}-binary.yaml")
                 if os.path.exists(yml):
-                    out["status"][f"{name}_binary_run"] = run_boltz(yml, OUT_DIR)
+                    out["status"][f"{name}_binary_run"] = run_boltz(yml, OUT_DIR, args.diffusion_samples)
                     _write_prep(out)
 
     print(json.dumps({k: out.get(k) for k in
