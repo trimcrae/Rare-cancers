@@ -96,8 +96,8 @@ close to nothing; skipping it has cost three retractions.
 ```mermaid
 graph TD
   Q1{"Does NR4A3 have a<br/>ligandable cysteine<br/>the paralogues lack?"}
-  Q1 -->|yes| COV["COVALENT route — selectivity from<br/>chemistry, sidesteps the pocket problem<br/>(the NR-V04 mechanism)"]
-  Q1 -->|no| NONCOV["NON-COVALENT route — selectivity<br/>from pocket shape (current path)"]
+  Q1 -->|"3 unique: C397 C420 C559<br/>but 11-19 A from the pocket"| COV["COVALENT route — only at LINKER<br/>reach, not warhead reach.<br/>Not the NR-V04 mechanism"]
+  Q1 -->|"the 2 IN the pocket are<br/>conserved AND buried"| NONCOV["NON-COVALENT route — selectivity<br/>from pocket shape (current path)"]
   Q2{"Does the pipeline recover<br/>a known ligand pose?"}
   Q2 -->|yes| ANCHOR["The pose carries weight;<br/>ternary and ABFE inherit it"]
   Q2 -->|no| STOP["Everything anchored to the pose<br/>is decoration — stop building on it"]
@@ -108,6 +108,31 @@ graph TD
 
 ⚠ **The asymmetry worth noticing:** two of these three branches have a **"no" outcome that SAVES the program
 effort**, and both are cheap. Neither had been run before 2026-08-02.
+
+### Branch 1 — ANSWERED 2026-08-02 ([`nr4a3-covalent-handle-ensemble.json`](../modalities/nr4a3-covalent-handle-ensemble.json))
+
+NR4A3 has **three** cysteines the paralogues lack — C397, C420, C559 — measured across all 20 conformers of
+the experimental 8XTT ensemble. **But uniqueness and pocket-proximity sit on opposite residues:**
+
+| | in the pocket | NR4A3-unique |
+|---|---|---|
+| C496, C536 | **yes** (2.7–6.4 Å) | no — conserved in all three, and buried (SG SASA ≤ 11 Å²) |
+| C397, C420, C559 | no — **11–19 Å**, linker-tether range | **yes**, and exposed |
+
+⛔ **AND THE CRITERIA FAILED THEIR OWN POSITIVE CONTROL.** NR4A1 **Cys551** — the site a real degrader is
+believed to use — does not pass the pre-specified exposure cutoff (RSA 0.165 against 0.25) in **0 of 25**
+frames. The thresholds were **not moved**; a test asserts the module holds no local copy of them. What
+survives is a threshold-free **rank**: across all 18 NR4A-family LBD cysteines, C551 ranks **3/18** on every
+accessibility observable, and the two above it are NR4A3's C397 and C420.
+**So "C397 is flagged in 20/20 conformers" is worth nothing on its own** — the same criteria miss the known
+site. The rank is the claim; the cutoff is not.
+
+⚠ Two measurement caveats that change how any published RSA should be read: the thiol's **own HG proton
+occludes a median 76 %** of the SG surface, so protonated-thiol RSA is not the surface a warhead reaches
+(both conventions now reported); and SG SASA was quantized at 1.34 Å² by a 96-point sphere until single-atom
+measures were moved to 960 points. Ranks were unchanged by the fix.
+⚠ **Not answerable from what exists:** there is no experimental NR4A1/NR4A2 ensemble, so the like-for-like
+ensemble comparison is a missing input, not a negative result.
 
 ---
 
