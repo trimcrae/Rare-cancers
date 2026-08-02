@@ -17,6 +17,7 @@ These carry the numbers the paper cites; they survived the S3 loss because they 
 | PocketMiner on 8XTT (1.40×, "enriches") | in `nr4a3-8xtt-benchmark-findings.md`; JSON at S3 `nr4a3-8xtt-pocketminer` | GIT (numbers) / S3 (raw) |
 | 8XTT benchmark (druggability dist + RMSD) | `nr4a3-8xtt-benchmark-findings.md`; JSON at S3 `nr4a3-8xtt-benchmark` | GIT (numbers) / S3 (raw) |
 | denovo_401 re-dock on 8XTT ("survives" 4/4) | `nr4a3-8xtt-benchmark-findings.md`; JSON at S3 `nr4a3-8xtt-redock` | GIT (numbers) / S3 (raw) |
+| denovo_401 **poses + receptors** for those 4 legs | `research/modalities/_pose_convergence_inputs/` (4 pose SDFs + 4 conformer PDBs + the AF2 reference) | **GIT** (rescued 2026-08-02) |
 | Selectivity handles / paralogue divergence | `nr4a-selectivity.json` | GIT |
 | Superfamily liability screen | `nr4a-superfamily-selectivity.json` | GIT |
 | Safety genetics (gnomAD/DepMap) | `nr4a-safety-genetics.json` | GIT |
@@ -34,6 +35,7 @@ These carry the numbers the paper cites; they survived the S3 loss because they 
 |---|---|---|---|
 | DiffSBDD generation pool (denovo_401 era) | `nr4a3-denovo`, `-v2`, `-affinity` | **LOST** | `gpu-denovo-aws.yml` (`nr4a3_denovo.py`, seeds in blueprint) |
 | Docking-matrix poses (SDF/scores) | `nr4a3-matrix` | **LOST** | `gpu-denovo-dock-aws.yml` / `nr4a3_matrix.py` |
+| 8XTT re-dock poses (SDF) + conformer receptors | `nr4a3-8xtt-redock/redock_work` | **RESCUED to GIT** 2026-08-02 — the manifest classified them `scratch`, i.e. they were one lifecycle sweep from joining the row above, and they are the only surviving coordinates behind the "survives on experimental geometry" claim. Pulled and committed by `pose-recovery-check.yml`; the `aws s3 ls` that found them is kept beside them as `_s3_listing.txt`. | n/a |
 | Selectivity ABFE windows / reduced potentials | `nr4a3-abfe` / `nr4a3-fep` | **S3?** (archive to confirm) | `gpu-fep-aws.yml` / `nr4a3_abfe.py` |
 | Metad HILLS/COLVAR/fes/trajectory (r1/r2/r3) | `nr4a3-metad-r{1,2,3}` | **S3** (running 2026-07-10) → archive on completion | `gpu-metad-aws.yml` |
 | MM-GBSA multi-snapshot outputs | `nr4a3-mmgbsa*` | **S3?** | `mmgbsa-aws.yml` |
