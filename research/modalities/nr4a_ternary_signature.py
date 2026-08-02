@@ -14,8 +14,7 @@ point, not an obstacle to route around.
 
 ⛔ AND THE HONEST PRIOR IS NEGATIVE. The paper's own §2.5/§2.7 already record that for a representative
 `denovo_401` PROTAC the model predicts a ternary-like CRBN complex of **comparable confidence for all three
-paralogues** (iptm 0.72/0.83/0.82) and that this "did not provide evidence for NR4A3-selective ternary
-geometry". So the expected outcome here is NO discriminating contact, and that result must be reported as
+paralogues** (iptm 0.72/0.83/0.82) and that this "did not provide evidence for NR4A3-selective ternary geometry". So the expected outcome here is NO discriminating contact, and that result must be reported as
 plainly as a positive one would be. If it lands that way, the answer to "is one of our NR4A3 ternaries
 selective?" is **not yet, and here is precisely what is missing** — which is a finding, not a failure to
 produce one.
