@@ -2,12 +2,12 @@
   "_what": "THE ALARM BOARD, AS A FILE. Every supervision verdict, when it was measured, how long it has been that way, and when this file should be considered dead. Written by alarm_state.py.",
   "_read_this_when": "you want to know whether anything is wrong and whether anything is still watching \u2014 WITHOUT running anything, and without having been told.",
   "_this_channel_is_PULL_ONLY": "trimcrae, 2026-07-31: 'You should not be emailing me.' Nothing here sends, opens an issue, comments, or fails a run. A red run and a GitHub issue are both PUSH channels that email the repo owner; this file exists so neither is needed. If you are reading this, the channel worked.",
-  "_generated_utc": "2026-08-02T01:13:18Z",
-  "_generated_et": "9:13 PM ET Aug 1, 2026",
+  "_generated_utc": "2026-08-02T01:14:49Z",
+  "_generated_et": "9:14 PM ET Aug 1, 2026",
   "_expected_tick_min": 16.0,
   "_stale_window_basis": "read from work-ledger.json `_expected_tick_min` = 16 min, which is its one home (derived there from step1-fanout-supervisor.yml's tick_every_min x watch_every_ticks). Not typed here.",
-  "_stale_after_utc": "2026-08-02T02:01:18Z",
-  "_stale_after_et": "10:01 PM ET Aug 1, 2026",
+  "_stale_after_utc": "2026-08-02T02:02:49Z",
+  "_stale_after_et": "10:02 PM ET Aug 1, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS WATCHING and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a supervision chain that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed ticks at 16 min. Restart it: `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "ok": true,
   "n_conditions": 8,
@@ -23,19 +23,19 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the last completed run (9:11 PM ET Aug 1, 2026) refreshed the artifact to 9:12 PM ET Aug 1, 2026, 1 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (9:13 PM ET Aug 1, 2026) refreshed the artifact to 9:14 PM ET Aug 1, 2026, 1 min ago \u2014 the fleet really was measured.",
       "payload": {
-        "artifact_generated_et": "9:12 PM ET Aug 1, 2026",
-        "artifact_age_min": 1.0,
+        "artifact_generated_et": "9:14 PM ET Aug 1, 2026",
+        "artifact_age_min": 0.8,
         "live_instances": 0,
         "realised_usd_so_far": 73.79,
-        "last_completed_run_et": "9:11 PM ET Aug 1, 2026",
+        "last_completed_run_et": "9:13 PM ET Aug 1, 2026",
         "last_completed_conclusion": "success",
         "scheduled_delivery_gaps_min": [
           61
         ]
       },
-      "last_seen_utc": "2026-08-02T01:13:18Z",
+      "last_seen_utc": "2026-08-02T01:14:49Z",
       "last_change_utc": "2026-08-01T19:32:09Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -53,9 +53,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.6
+        "evidence_age_min": 2.1
       },
-      "last_seen_utc": "2026-08-02T01:13:18Z",
+      "last_seen_utc": "2026-08-02T01:14:49Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -74,7 +74,7 @@
       "payload": {
         "provider": "gcp"
       },
-      "last_seen_utc": "2026-08-02T01:13:18Z",
+      "last_seen_utc": "2026-08-02T01:14:49Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -92,9 +92,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 1.1
+        "evidence_age_min": 2.6
       },
-      "last_seen_utc": "2026-08-02T01:13:18Z",
+      "last_seen_utc": "2026-08-02T01:14:49Z",
       "last_change_utc": "2026-08-01T01:24:59Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -109,13 +109,13 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "no hosts and 4 unit(s) unfinished, but the last evidence is only 0 min old (grace 45 min) \u2014 a hand-off in progress looks like this.",
+      "detail": "no hosts and 4 unit(s) unfinished, but the last evidence is only 2 min old (grace 45 min) \u2014 a hand-off in progress looks like this.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.2,
+        "evidence_age_min": 1.7,
         "supervision": "TICKS-FLOWING"
       },
-      "last_seen_utc": "2026-08-02T01:13:18Z",
+      "last_seen_utc": "2026-08-02T01:14:49Z",
       "last_change_utc": "2026-07-31T14:06:08Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -133,9 +133,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 400.2
+        "evidence_age_min": 401.7
       },
-      "last_seen_utc": "2026-08-02T01:13:18Z",
+      "last_seen_utc": "2026-08-02T01:14:49Z",
       "last_change_utc": "2026-08-01T18:40:44Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -153,11 +153,11 @@
       "detail": "no hosts and 1 unit(s) unfinished, but the last evidence is only 1 min old (grace 45 min) \u2014 a hand-off in progress looks like this.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.9,
-        "census_flat_for_min": 4340.2,
+        "evidence_age_min": 0.7,
+        "census_flat_for_min": 4341.7,
         "supervision": "FRESH"
       },
-      "last_seen_utc": "2026-08-02T01:13:18Z",
+      "last_seen_utc": "2026-08-02T01:14:49Z",
       "last_change_utc": "2026-08-01T19:32:09Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -175,9 +175,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.4
+        "evidence_age_min": 1.9
       },
-      "last_seen_utc": "2026-08-02T01:13:18Z",
+      "last_seen_utc": "2026-08-02T01:14:49Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
