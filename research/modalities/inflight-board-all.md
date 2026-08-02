@@ -15,12 +15,12 @@ Merged 9:53 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 9:45 PM ET Sat Aug 1, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 9:53 PM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 2:03 AM Aug 2      92.2%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   55.3 s/iter · no like-for-like expectation (not measured on this system)
+5aks_d0_to_d ternary nr4a1 r1 2:11 AM Aug 2      92.2%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   55.3 s/iter · no like-for-like expectation (not measured on this system)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
@@ -41,7 +41,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 9:45 PM ET Sat Aug 1, 2026 (7 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 9:45 PM ET Sat Aug 1, 2026 (8 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns                                      STATE             WHY (when not running)
