@@ -597,7 +597,10 @@ def _selcal_ledger(n=12, uptime_min=30.0):
     """⚠ `overrun_budget_min` REFUSES on fewer than 8 priced rentals, so a fixture with three would exercise
     the refusal path rather than the budget. Twelve is the smallest honest 'this lane has a distribution'."""
     return {"lane": "selcal", "n_rentals": n,
-            "rentals": [{"label": "selcal-smarca2-m1-r0", "uptime_s": uptime_min * 60.0} for _ in range(n)]}
+            # ⚠ `why` MATTERS: only rentals that BANKED a leg count toward the budget, so a fixture that
+            # omitted it would silently exercise the refusal path and look like a passing test.
+            "rentals": [{"label": "selcal-smarca2-m1-r0", "uptime_s": uptime_min * 60.0,
+                         "why": "work banked, no remaining role"} for _ in range(n)]}
 
 
 def _tree(path, *, progress, watch, hold, ledger, gcp=None, retro=None, selcal=None, selcal_hold=None,
@@ -854,12 +857,27 @@ def test_selcal_md_warns_on_a_host_that_has_outlived_the_lanes_OWN_p90(tmp_path)
 def test_selcal_md_refuses_to_invent_a_budget_from_too_few_rentals(tmp_path):
     """⚠ §4 — a p90 of three points is a number that LOOKS measured. Refusing is the honest output, and the
     refusal must be VISIBLE rather than silently producing no warnings."""
-    budget, why = lsw.overrun_budget_min([{"uptime_s": 1800.0}] * 3)
+    B = "work banked, no remaining role"
+    budget, why = lsw.overrun_budget_min([{"uptime_s": 1800.0, "why": B}] * 3)
     assert budget is None and "too few" in why
     budget2, why2 = lsw.overrun_budget_min(None)
     assert budget2 is None and "unreadable" in why2
-    budget3, _ = lsw.overrun_budget_min([{"uptime_s": 60.0 * m} for m in range(10, 22)])
+    budget3, _ = lsw.overrun_budget_min([{"uptime_s": 60.0 * m, "why": B} for m in range(10, 22)])
     assert budget3 is not None and budget3 > 0
+
+    # ★★ THE CORRECTION THAT MATTERS, measured 2026-08-02. Rentals that never banked a leg measure how fast
+    # this lane FAILS, not how long its work takes — and there were 36 of them against 22 that finished.
+    # Including them dragged the median from 42.3 min down to 34.1: a budget built mostly from things that
+    # never ran, wearing the same units as one built from things that did.
+    banked = [{"uptime_s": 60.0 * m, "why": B} for m in range(40, 52)]
+    failures = [{"uptime_s": 60.0 * 2, "why": "terminal state 'exited'"} for _ in range(30)]
+    only_banked, _ = lsw.overrun_budget_min(banked)
+    with_failures, why4 = lsw.overrun_budget_min(banked + failures)
+    assert only_banked == with_failures, "a non-banking rental must not move the budget at all"
+    assert "excluded" in why4, "and the reader must be told how many were dropped, and why"
+    # A ledger of nothing but failures cannot produce a budget, however long it is.
+    none_banked, why5 = lsw.overrun_budget_min(failures)
+    assert none_banked is None and "BANKED" in why5
 
 
 def test_selcal_md_reports_the_frozen_shape_beside_the_live_one(tmp_path):

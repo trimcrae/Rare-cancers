@@ -786,16 +786,28 @@ def overrun_budget_min(rentals: list | None) -> tuple[float | None, str]:
 
     ⚠ IT REFUSES ON A SHORT LEDGER rather than returning a shape read off three points. A budget computed
     from too little data is a number that LOOKS measured, which §4 says is the more dangerous kind.
+
+    ⚠⚠ AND IT COUNTS ONLY RENTALS THAT BANKED WORK — the first draft counted ALL of them, and that was the
+    same populated-vs-measured error one layer up. Measured on this lane: 58 rentals give median 34.1 / p90
+    69.5 min, but 36 of those never produced a leg (median 13.2 min — hosts that refused, crash-looped or
+    died), and the 22 that actually finished one give median 42.3 / p90 55.8. "How long does the work take"
+    is a question only the rentals that did the work can answer; the failures drag the median DOWN, which
+    makes the budget look tighter while being built mostly from things that never ran.
     """
     if not isinstance(rentals, list):
         return None, "the price ledger is unreadable, so this lane has no measured duration to judge against"
-    ups = sorted(r.get("uptime_s") / 60.0 for r in rentals
-                 if isinstance(r, dict) and isinstance(r.get("uptime_s"), (int, float)) and r["uptime_s"] > 0)
+    banked = [r for r in rentals if isinstance(r, dict) and "work banked" in str(r.get("why") or "")]
+    ups = sorted(r.get("uptime_s") / 60.0 for r in banked
+                 if isinstance(r.get("uptime_s"), (int, float)) and r["uptime_s"] > 0)
     if len(ups) < 8:
-        return None, (f"only {len(ups)} priced rental(s) on record — too few to derive a duration budget, and "
-                      f"a p90 of three points is a guess wearing a statistic's clothes")
+        return None, (f"only {len(ups)} rental(s) that BANKED A LEG are on record (of {len(rentals)} total) — "
+                      f"too few to derive a duration budget, and a p90 of three points is a guess wearing a "
+                      f"statistic's clothes. Rentals that never produced a leg are deliberately excluded: "
+                      f"they measure how fast this lane FAILS, not how long its work takes")
     p90 = ups[min(len(ups) - 1, int(round(0.9 * (len(ups) - 1))))]
-    return p90, f"p90 of {len(ups)} measured rental(s) in selcal-price-ledger.json (median {ups[len(ups)//2]:.1f} min)"
+    return p90, (f"p90 of the {len(ups)} rental(s) that BANKED a leg in selcal-price-ledger.json "
+                 f"(median {ups[len(ups)//2]:.1f} min); {len(rentals) - len(ups)} non-banking rental(s) "
+                 f"excluded as measuring failure rather than work")
 
 
 def read_selcal_md(spec: dict, reap: dict | None, reap_err: str | None,
