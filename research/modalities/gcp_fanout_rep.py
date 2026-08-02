@@ -964,7 +964,28 @@ def write_rate_artifact(marks, targets, unit_id, machine_type=None, root=None, n
     # THE SAME CALL, DELIBERATELY. A separate "and then regenerate the doc" step is the defect, not the fix:
     # it is correct only until the next marker lands. Best-effort — a doc this cannot edit must fail the
     # test, never block the measurement from being persisted.
-    sync_rate_table_doc(rep, root=root)
+    #
+    # ★★ SYNCED FROM THE ARTIFACT'S OWN ROUND-TRIP, NOT FROM `rep` — and that distinction is the whole bug
+    # (root-caused 2026-08-02, SECOND occurrence; the first, 35.66 vs 35.67, was never diagnosed).
+    # `test_the_documented_table_is_the_measured_table` asserts
+    #     doc_table == rate_markdown_table(rate_report(marks_from_artifact(artifact)))
+    # i.e. the doc must be a function of the ARTIFACT. Syncing from `rep` made it a function of the LIVE
+    # marks instead, and the two are not bit-identical: `rate_report(marks)` gave `s_per_iteration =
+    # 36.085` while `rate_report(marks_from_artifact(doc))` gave `36.084999999999994` — one ULP apart, and
+    # straddling a `.xx5` boundary, so `%.2f` rendered 36.09 against 36.08 and CI went red on a figure
+    # nobody had touched. Both prior occurrences were `.xx5` values (35.665, 36.085), which is exactly the
+    # measure-zero set where one ULP changes the printed digit — so this was never going to be rare enough
+    # to ignore, and re-running `--sync-doc` only ever fixed it until the next marker landed.
+    # ⛔ THE REAL DEFECT WAS TWO HOMES FOR ONE FIGURE (CLAUDE.md §1). Reading it back makes the doc a
+    # function of the committed bytes by construction, so the invariant the test checks is the invariant
+    # the writer maintains — and any future round-trip loss fails loudly here rather than as a mystery.
+    written = load_rate_artifact(root=root)
+    sync_rate_table_doc(
+        rate_report(marks_from_artifact(written),
+                    tuple(written["derived"]["targets"] or ()) or None,
+                    n_windows=written["derived"]["n_windows"])
+        if written else rep,
+        root=root)
     return path
 
 

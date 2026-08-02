@@ -1597,3 +1597,58 @@ def test_the_artifact_and_the_table_both_name_the_phase_the_rate_came_from():
                           n_windows=doc["derived"]["n_windows"])
     assert rep["legs"]["complex"]["rate_phase"] in ("warmup", "production")
     assert "(phase measured in)" in gfr.rate_markdown_table(rep)
+
+
+def test_the_doc_is_synced_from_the_ARTIFACT_not_from_the_live_report():
+    """★★ THE ROOT CAUSE OF TWO RED BUILDS, and the first one was never diagnosed (35.66 vs 35.67, then
+    36.08 vs 36.09 — both `.xx5` values, which is exactly the measure-zero set where one ULP changes the
+    printed digit).
+
+    `test_the_documented_table_is_the_measured_table` asserts the doc equals
+    `rate_markdown_table(rate_report(marks_from_artifact(artifact)))` — i.e. the doc is a function of the
+    COMMITTED ARTIFACT. But `write_rate_artifact` synced it from `rep`, the report built from the LIVE
+    in-memory marks, and the two are not bit-identical across the JSON round-trip:
+
+        rate_report(marks)                        -> s_per_iteration = 36.085
+        rate_report(marks_from_artifact(doc))     -> s_per_iteration = 36.084999999999994
+
+    One ULP apart, straddling a rounding boundary, so `%.2f` rendered 36.09 against 36.08 and CI went red on
+    a figure nobody had edited. Re-running `--sync-doc` "fixed" it only until the next marker landed, which
+    is why it came back.
+
+    ⛔ TWO HOMES FOR ONE FIGURE (CLAUDE.md §1). The fix is not a tolerance — a tolerance would blind the
+    guard that has already caught genuine drift. It is to make the doc a function of the bytes the test
+    reads, so the invariant the writer maintains IS the invariant the test checks.
+    """
+    src = open(os.path.join(MOD, "gcp_fanout_rep.py")).read()
+    body = src[src.index("def write_rate_artifact("):]
+    body = body[:body.index("\ndef ", 10)]
+    code = "\n".join(ln for ln in body.splitlines() if not ln.strip().startswith("#"))
+    assert "marks_from_artifact(" in code, (
+        "the doc must be rendered from the artifact's own round-trip; syncing from the live report is what "
+        "let the two disagree by one ULP")
+    assert "load_rate_artifact(" in code, "…which means reading back what was just written"
+    # and the sync must come AFTER the write, or it would read the previous artifact
+    assert code.index("json.dump(") < code.index("sync_rate_table_doc("), \
+        "the doc must be synced from the file this call just wrote, not the one before it"
+
+
+def test_a_round_trip_through_the_artifact_reproduces_the_documented_table():
+    """The property itself, exercised rather than grepped: whatever is committed, re-deriving from it must
+    reproduce the committed table byte for byte. This is the assertion that fails first if a future change
+    makes `marks_from_artifact` lossy again."""
+    doc = gfr.load_rate_artifact(root=MOD)
+    if doc is None:
+        pytest.skip("no rate artifact committed")
+    rep = gfr.rate_report(gfr.marks_from_artifact(doc),
+                          tuple(doc["derived"]["targets"] or ()) or None,
+                          n_windows=doc["derived"]["n_windows"])
+    once = gfr.rate_markdown_table(rep).strip()
+    twice = gfr.rate_markdown_table(
+        gfr.rate_report(gfr.marks_from_artifact(doc),
+                        tuple(doc["derived"]["targets"] or ()) or None,
+                        n_windows=doc["derived"]["n_windows"])).strip()
+    assert once == twice, "the re-derivation is not even deterministic against itself"
+    assert once == _fenced(open(FACTS).read()), (
+        "the committed doc is not what the committed artifact re-derives — the sync is reading a different "
+        "source than the test")
