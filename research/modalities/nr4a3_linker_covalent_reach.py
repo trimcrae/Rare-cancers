@@ -1241,7 +1241,8 @@ def assemble(placements, basins, opened, all_labels, unique_labels, ens_frames, 
                     "claim is made or implied. Geometry can refute a route; it cannot license one."),
         "_method": ("Reach by `linker_design.branch_position_window` / `min_linker_atoms_exact` (the exact "
                     "three-ball rule the committed library was built with), from anchors READ out of "
-                    "nr4a3-orientation-basins.json at the five confirmed basins. Two conventions reported "
+                    "nr4a3-orientation-basins.json at the five basins that survived term-(b), both placements each. "
+                    "Two conventions reported "
                     "side by side: `through_space` (the committed rule, an upper bound on reachability) "
                     "and `corridor` (additionally requires a non-clashing branch position with a clash-free "
                     "straight arm to the SG). Pure stdlib, $0 CPU."),
