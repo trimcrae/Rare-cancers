@@ -11,6 +11,7 @@ of a reason string or the SIZE of a growing set; both failure modes are backward
 change, green through the illegitimate one.
 """
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -22,7 +23,12 @@ import selcal_panel as SP  # noqa: E402
 # the shape
 # =============================================================================================================
 def test_two_arms_six_models_two_replicas_is_24_units():
-    units = SP.enumerate_units()
+    """⚠ ON `include_excluded=True`, DELIBERATELY. This asserts the panel AS DESIGNED — the shape the
+    criterion was frozen against — which must not move for any reason. The LIVE panel legitimately shrinks
+    when a measured input fault is excluded (see `test_every_exclusion_carries_its_MEASURED_audit_evidence`),
+    and the balance clause below is about the DESIGN: an exclusion may unbalance the arms, which is why the
+    criterion's reference-set clause is stated as a per-arm floor rather than as symmetry."""
+    units = SP.enumerate_units(include_excluded=True)
     assert len(units) == len(SP.ARMS) * len(SP.COFOLD_MODEL_SEEDS) * len(SP.MD_REPLICAS)
     assert len(units) == 24
     per_arm = {}
@@ -189,9 +195,48 @@ def test_reference_quotes_survive_against_the_committed_fetch_artifact():
 # =============================================================================================================
 # exclusions
 # =============================================================================================================
-def test_no_cofold_is_excluded_at_freeze():
-    assert SP.EXCLUDED_COFOLD_MODELS == {}, "an exclusion must be justified by a MEASURED static input fault "\
-                                            "(selcal_stage.cofold_input_audit), never by how a leg came out"
+def test_every_exclusion_carries_its_MEASURED_audit_evidence():
+    """⚠ RE-POINTED 2026-08-02, and the re-pointing is the delicate part. This test read
+    `EXCLUDED_COFOLD_MODELS == {}` and was RIGHT to: it exists to stop a panel being trimmed to taste. The
+    first real exclusion (smarca4 model 3) makes `== {}` unmaintainable, and the lazy fix — delete the test —
+    would remove the only guard against the abuse it was written for.
+
+    So the property it now asserts is the one that actually distinguishes a legitimate exclusion from a
+    retune: every entry must name the AUDIT that produced it, the MEASURED separation, and the atoms. An
+    exclusion justified by an outcome cannot satisfy that, because `cofold_input_audit` runs before any MD
+    and knows nothing about E1.
+    """
+    for (arm, seed), why in SP.EXCLUDED_COFOLD_MODELS.items():
+        assert arm in {SP.ARM_A, SP.ARM_B} and seed in SP.COFOLD_MODEL_SEEDS, (arm, seed)
+        assert "cofold_input_audit" in why, (
+            "%s model %d is excluded without naming the only instrument licensed to justify one" % (arm, seed))
+        assert re.search(r"\d+\.\d+ A", why), "no measured separation is quoted for %s model %d" % (arm, seed)
+        assert re.search(r"[A-Z]:[A-Z]{3}\d+:", why), "the clashing atoms are not named for %s m%d" % (arm, seed)
+        # ⛔ THE DISCRIMINATOR. A leg's E1 is what an outcome-shaped exclusion would have to lean on, and the
+        # audit cannot see it — so the justification must be visibly pre-MD.
+        for outcome_word in ("E1", "plateau", "p =", "p-value", "significant"):
+            assert outcome_word not in why, (
+                "%s model %d's justification mentions %r — an exclusion may not be argued from an outcome"
+                % (arm, seed, outcome_word))
+
+
+def test_the_FROZEN_panel_is_still_24_units_however_many_are_excluded():
+    """★ THE SHAPE THE CRITERION WAS FROZEN AGAINST NEVER MOVES. `include_excluded=True` is the record of what
+    was designed; `enumerate_units()` is what is still admissible. Keeping both readable is what makes a
+    shrunken panel impossible to mistake for a finished one."""
+    assert len(SP.enumerate_units(include_excluded=True)) == 24
+
+
+def test_an_exclusion_may_never_take_an_arm_below_the_frozen_floor():
+    """⛔ The criterion's own words: 'at least 4 conforming co-fold models in EACH arm … after any measured
+    input-fault exclusion'. If an exclusion breaches this, the honest outcome is INDETERMINATE — and this
+    test failing is how that gets noticed instead of a quietly unscorable panel."""
+    per_arm: dict = {}
+    for a, m, _r in SP.enumerate_units():
+        per_arm.setdefault(a.arm_id, set()).add(m)
+    assert set(per_arm) == {SP.ARM_A, SP.ARM_B}, "an exclusion emptied an entire arm"
+    for arm, models in per_arm.items():
+        assert len(models) >= SP.MIN_MODELS_PER_ARM, "%s: %s" % (arm, sorted(models))
 
 
 def test_membership_predicate_rejects_a_smoke_record_that_echoes_the_env():
@@ -220,7 +265,11 @@ def test_manifest_says_what_this_is_and_is_not():
     assert "not a selectivity result" in man["_what"].lower()
     assert "NR4A3" in man["_why"] or "NR-V04" in man["_why"]
     assert "NO free energy" in man["honesty"]
-    assert man["n_units"] == 24
+    # The DESIGNED shape is fixed; the LIVE shape is that minus whatever a measured audit refused. Both are
+    # reported, and the difference must be exactly the excluded models — not a silently smaller panel.
+    assert man["n_units_at_freeze"] == 24
+    assert man["n_units"] == 24 - 2 * len(SP.EXCLUDED_COFOLD_MODELS)
+    assert len(man["excluded_cofold_models"]) == len(SP.EXCLUDED_COFOLD_MODELS)
 
 
 if __name__ == "__main__":

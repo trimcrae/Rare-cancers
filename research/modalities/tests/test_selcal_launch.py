@@ -161,11 +161,21 @@ def test_the_smoke_rung_cannot_be_the_last_rung_before_the_fleet():
 
 def test_the_derived_cost_matches_the_authorised_plan():
     """The cost is DERIVED (ladder reprice x the endpoint-MD reference GPU-hours), never typed — and it must
-    still land on the figure the options paper authorised for D1/D2."""
-    c = L.ladder_cost()
-    assert c["n_units"] == 24
-    assert abs(c["plan_usd"] - 3.79) < 0.01
-    assert abs(c["range_usd"][0] - 1.57) < 0.01 and abs(c["range_usd"][1] - 9.54) < 0.01
+    still land on the figure the options paper authorised for D1/D2.
+
+    ⚠ PRICED ON THE AUTHORISED SHAPE, NOT THE LIVE ONE. What was authorised was a 24-unit panel; excluding a
+    measured input fault makes the panel CHEAPER, and letting the authorisation check float down with it
+    would mean the ceiling silently re-derives itself to whatever is left — a budget that can only ever be
+    satisfied. The live cost is asserted separately, and only that it does not EXCEED the authorisation.
+    """
+    import selcal_panel as SP
+    frozen = L.ladder_cost(len(SP.enumerate_units(include_excluded=True)))
+    assert frozen["n_units"] == 24
+    assert abs(frozen["plan_usd"] - 3.79) < 0.01
+    assert abs(frozen["range_usd"][0] - 1.57) < 0.01 and abs(frozen["range_usd"][1] - 9.54) < 0.01
+    live = L.ladder_cost()
+    assert live["n_units"] == len(SP.enumerate_units())
+    assert live["plan_usd"] <= frozen["plan_usd"] + 1e-9, "the live panel may only ever be cheaper"
 
 
 # =============================================================================================================

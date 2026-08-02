@@ -181,6 +181,11 @@ test -n "$COFOLD_CIF" || { echo "no co-fold CIF under $COFOLD_PREFIX_S3"; exit 3
 # EXACTLY ONE. Two would mean the model-seed pin failed and the leg would silently start from an unknown
 # model, corrupting the model-level means the verdict is computed from. Fail, never guess.
 test "$(find /tmp/cofold -name '*_model_0.cif' | wc -l)" = 1 || { echo "expected exactly 1 co-fold CIF under the pinned prefix $COFOLD_PREFIX_S3"; exit 3; }
+# ⚠ `|| RC_AUDIT=$?`, NOT a bare call followed by `RC_AUDIT=$?`. `set -eo pipefail` is in force above, so a
+# failing command that is not part of a compound ENDS THE SHELL — the assignment would never be reached and
+# the banking step below would be dead code that reads as live. This is the same class of mistake as the
+# ordering bug it is here to fix, so it gets its own note rather than a silent idiom.
+RC_AUDIT=0
 $PY -c "
 import json, os, sys
 sys.path.insert(0, '.')
@@ -195,8 +200,15 @@ json.dump(audit, open(os.path.join(res['out'], 'input_audit.json'), 'w'), indent
 print('[audit]', json.dumps(audit))
 if not audit['ok']:
     raise SystemExit('[audit] REFUSING to run: ' + audit['why'])
-"
+" || RC_AUDIT=$?
+# ⛔ THE VERDICT MUST BANK EVEN — ESPECIALLY — WHEN IT IS A REFUSAL. This upload used to sit BELOW the
+# heredoc unconditionally, which reads as unconditional and is not: `raise SystemExit` above makes the
+# heredoc non-zero, `set -e` ends the script, and the one artifact that says WHY the leg refused was the
+# one thing never uploaded. Measured 2026-08-02 on selcal-smarca4-m3-r{0,1}: `input_audit.json` was absent
+# for both, so the diagnosis had to be reconstructed from container stdout that dies with the rental
+# (CLAUDE.md §4 — a leg can die before writing anything, and "no artifact" must never read as "no error").
 $AWS s3 cp "$INPUT_DIR/$LEG_ID/input_audit.json" "$RESULT_S3/input_audit.json" --only-show-errors || true
+[ "$RC_AUDIT" = 0 ] || { echo "[audit] refusal banked to $RESULT_S3/input_audit.json"; exit "$RC_AUDIT"; }
 $AWS s3 cp "$INPUT_DIR/$LEG_ID/chains.json" "$RESULT_S3/chains.json" --only-show-errors || true
 mark staged
 mark md-running
@@ -1186,7 +1198,7 @@ def cofold_label_systems(label, prefix=None):
 
 
 def reap_decision(inst, done_units, cofold_complete_systems, s3_readable, host_phase="", stop_all=False,
-                  prefix=None):
+                  prefix=None, md_terminus=""):
     """PURE: (reap, why) for ONE instance. No API call, no S3, no clock — so every branch is unit-tested.
 
     ⛔ THE BUG THIS REPLACES, measured on run 30707211425 (12:01 PM ET, `0 destroyed, 2 kept running` while
@@ -1255,12 +1267,88 @@ def reap_decision(inst, done_units, cofold_complete_systems, s3_readable, host_p
         return True, ("host reported its terminus — its own phase marker reads %r, and the pipeline writes "
                       "that immediately before `exit`, so this container's work is over whatever the rc. "
                       "Nothing it can still produce is being bought." % ph[:90])
+    # ★★ THE MD LEG'S OWN FAILURE TERMINUS — the branch whose ABSENCE cost 4.5 billed hours (see
+    # `md_failure_terminus`). Placed after the success branches so banked work always wins, and before the
+    # SPARE fallbacks, which is the whole point: those fallbacks are what a dead MD host used to land in.
+    if md_terminus:
+        return True, "host reported a FAILURE terminus — %s" % md_terminus
     if systems:
         return False, ("SPARED — arm(s) %s still owe models (%s complete) and this host has not reported a "
                        "terminus. Mid-work hosts are never reaped on idleness."
                        % (", ".join(systems), ", ".join(sorted(cofold_complete_systems or ())) or "none"))
     return False, ("SPARED — no landed leg in S3 and no host-written terminus for %s; status %r."
                    % (label or "(unlabelled)", status))
+
+
+# =============================================================================================================
+# ★★ A FAILURE IS A TERMINUS TOO — and this lane could only recognise SUCCESS
+# =============================================================================================================
+#: The container's own words, matched as substrings of its banked `run.log`. They are QUOTED FROM THE EMITTERS,
+#: not invented here: `selcal_vast_launch`'s staging heredoc raises `SystemExit('[audit] REFUSING to run: ...')`
+#: and `gpu_backend._VAST_CRASHLOOP_BRAKE` echoes `[selfstop] CRASH-LOOP BRAKE:`. A test pins each against its
+#: emitter, because a marker that drifts from the string it matches is a guard that silently stops firing.
+AUDIT_REFUSAL_MARK = "[audit] REFUSING to run:"
+CRASH_LOOP_MARK = "[selfstop] CRASH-LOOP BRAKE:"
+
+
+def md_failure_terminus(run_log, phase="", instance_id=""):
+    """PURE. Did this MD host write evidence that it is DONE FAILING? -> (terminus, why) or (None, "").
+
+    ★★ MEASURED 2026-08-02, AND IT COST 4.5 BILLED HOURS ON ONE HOST. `selcal-smarca4-m2-r0` sat `running` at
+    `$0.1819/hr` for 275 minutes and `-m3-r0`/`-m3-r1` for 122 and 40, all at `gpu_util: 0.0`, producing
+    nothing. THREE independent safety nets existed and not one covered this lane:
+      1. the container's OWN crash-loop brake fired correctly, then parked and — in its own words — left the
+         log silent "so the CI idle guard reaps this instance". Nothing runs `vast_idle_guard` over
+         `selcal-` hosts; the brake was deferring to a reaper that was not there.
+      2. `reap_decision`'s terminus branch reads `_host_phase`, which looks ONLY under the CO-FOLD prefix
+         (`<COFOLD_PREFIX>/phase-<id>.txt`). An MD leg writes its phase to `<RESULT_PREFIX>/<unit>/phase.txt`.
+         So `host_phase` was `""` for every MD host that has ever run, the branch could not fire even in
+         principle, and 120 consecutive reap ticks recorded `host_phase: null`.
+      3. that `null` then read as "this host has not reported a terminus" — ⛔ THE EXACT §4 TRAP. It was never
+         a reading of absence; it was the absence of a reading, because nothing looked in the right place.
+    The host was never silent. It was saying `REFUSING to run` on a loop, in a file nobody read.
+
+    ⚠ NO BRANCH HERE MAY READ `gpu_util`, and this function is why that stays true: all three hosts read
+    `gpu_util: 0.0`, and so does a legitimately CPU-bound staging phase. What condemns is POSITIVE, host-
+    written evidence of a terminal failure — never idleness (CLAUDE.md §6).
+
+    THE TWO CASES ARE SCOPED DIFFERENTLY, and conflating them would be a real bug:
+      * an **input-audit refusal** is a property of the CO-FOLD MODEL, not of the rental. It reproduced
+        byte-identically on five machines. So it condemns whichever host is holding the unit, with no
+        instance check — and the durable remedy is `selcal_panel.EXCLUDED_COFOLD_MODELS`, not a reap.
+      * a **crash-loop brake** is a property of THIS RENTAL. A previous host's brake in an inherited log must
+        not condemn a fresh one, so it fires only when the phase marker names this instance — the same
+        fossil discipline the co-fold branch already applies.
+    """
+    log = str(run_log or "")
+    if AUDIT_REFUSAL_MARK in log:
+        return ("input_audit_refused",
+                "its banked run.log carries %r. The audit reads STATIC geometry before minimisation, so this "
+                "is an input fault that every host will reproduce — re-renting the unit buys another copy of "
+                "the same refusal. Excluding the co-fold is the remedy; destroying this host is the bill."
+                % AUDIT_REFUSAL_MARK)
+    if CRASH_LOOP_MARK in log:
+        ph = str(phase or "")
+        if instance_id and ("instance=%s" % instance_id) not in ph:
+            return (None, "")
+        return ("crash_loop_brake",
+                "its banked run.log carries %r, so the container itself decided that re-running would burn "
+                "GPU and produce nothing, and parked. It cannot stop its own billing (CLAUDE.md §6) — that "
+                "is this reaper's job." % CRASH_LOOP_MARK)
+    return (None, "")
+
+
+def _md_leg_terminus(s3, bucket, unit, instance_id):
+    """The S3 side of `md_failure_terminus`. An unreadable object is an ABSENT READING and returns None —
+    never a terminus, because condemning a host on a failed GET is condemning it on our own outage."""
+    def _get(key):
+        try:
+            return s3.get_object(Bucket=bucket, Key=key)["Body"].read().decode("utf-8", "replace")
+        except Exception:  # noqa: BLE001
+            return ""
+    base = "%s/%s" % (SP.RESULT_PREFIX.strip("/"), unit)
+    terminus, why = md_failure_terminus(_get("%s/run.log" % base), _get("%s/phase.txt" % base), instance_id)
+    return ("%s — %s" % (terminus, why)) if terminus else ""
 
 
 def _host_phase(s3, bucket, prefix, instance_id):
@@ -1316,12 +1404,22 @@ def mode_reap(bucket=None, stop_all=False, cofold_prefix=None):
     for inst in mine:
         label, iid = str(inst.get("label") or ""), str(inst.get("id") or "")
         ph = _host_phase(s3, bucket, prefix, iid) if s3_readable else ""
+        # ★ AN MD HOST'S PHASE LIVES SOMEWHERE ELSE ENTIRELY. `_host_phase` searches the CO-FOLD prefix; a
+        # leg writes `<RESULT_PREFIX>/<unit>/phase.txt`. Reading both is what turns 120 ticks of
+        # `host_phase: null` into an actual reading — see `md_failure_terminus` for what that null cost.
+        # Scoped to MD labels: a co-fold host has no `<RESULT_PREFIX>/<label>/` of its own, and asking for one
+        # would only ever return the absent reading. `s3_readable` gates it for the same reason the two
+        # branches above are gated — an unreadable census is a reason to read again, not to destroy.
+        is_md = bool(label) and not cofold_label_systems(label, prefix)
+        md_ph = _phase(s3, bucket, label) if (s3_readable and is_md) else ""
+        md_term = _md_leg_terminus(s3, bucket, label, iid) if (s3_readable and is_md) else ""
         reap, why = reap_decision(inst, done, complete_systems, s3_readable, host_phase=ph,
-                                  stop_all=stop_all, prefix=prefix)
+                                  stop_all=stop_all, prefix=prefix, md_terminus=md_term)
         row = {"instance": iid, "label": label, "status": inst.get("actual_status"),
                "uptime_min": (round(rental_uptime_s(inst) / 60.0, 1)
                               if rental_uptime_s(inst) is not None else None),
-               "dph_total": inst.get("dph_total"), "host_phase": ph or None, "why": why}
+               "dph_total": inst.get("dph_total"), "host_phase": ph or md_ph or None,
+               "md_terminus": md_term or None, "why": why}
         if not reap:
             kept.append(row)
             print("[selcal-reap] SPARED %s (%s) — %s" % (iid, label, why), flush=True)
@@ -1854,6 +1952,11 @@ def mode_collect(bucket=None):
            "utc": _utcnow(), "bucket": bucket, "prefix": SP.RESULT_PREFIX,
            "expected": len(expected), "landed": len(done), "missing": missing,
            "panel_complete": not missing,
+           # ⛔ `expected` SHRINKS WHEN A CO-FOLD IS EXCLUDED, so this record must carry WHY or a completed
+           # 22-unit panel is indistinguishable from the 24-unit one the criterion was frozen against. Both
+           # numbers, always — the same rule as `selcal_panel.panel_manifest`.
+           "expected_at_freeze": len(SP.enumerate_units(include_excluded=True)),
+           "excluded_cofold_models": {"%s:m%d" % k: v for k, v in SP.EXCLUDED_COFOLD_MODELS.items()},
            "records": sorted(records)}
     _write(COLLECT_READOUT, out)
     print("[selcal-collect] %d/%d units landed; %d missing" % (len(done), len(expected), len(missing)),
@@ -1961,8 +2064,27 @@ def mode_diag(bucket=None):
             _handles = json.load(_fh)
     except Exception:  # noqa: BLE001 — no handles file means nothing was ever rented, which is a fact
         _handles = []
-    for h in (_handles if isinstance(_handles, list) else ()):
-        unit = h.get("unit")
+    # ★★ `selcal-handles.json` HOLDS ONE ENTRY — THE LAST RENTAL — SO THIS WALK SAW 1 UNIT OF 3 (measured
+    # 2026-08-02, run 30728185356). Three hosts had just been destroyed after producing nothing; the walk
+    # printed `selcal-smarca4-m3-r1` and stopped, so the unit that mattered most (`m2-r0`, which had audited
+    # CLEAN and failed for a different reason) had no banked log printed at all and its cause had to be read
+    # out of container stdout instead. A forensic whose coverage silently equals ONE is the same defect as a
+    # census that reads zero: it answers confidently about the sliver it can see.
+    # ⚠ THE LEDGER IS THE COMPLETE RECORD — every rental this lane ever made, with its label — so the walk is
+    # driven from there and `HANDLES` only contributes the rental metadata it happens to still hold.
+    _by_unit = {str(h.get("unit")): h for h in (_handles if isinstance(_handles, list) else ()) if h.get("unit")}
+    try:
+        with open(PRICE_LEDGER) as _fh:
+            _rentals = (json.load(_fh) or {}).get("rentals") or []
+    except Exception:  # noqa: BLE001 — an unreadable ledger narrows the walk; it never silently empties it
+        _rentals = []
+        print("[selcal-diag] ⚠ the rental ledger could not be read — this walk is NOT complete, and that is "
+              "an absent reading rather than 'no other units failed'.", flush=True)
+    _units = sorted({str(r.get("label")) for r in _rentals if r.get("label")} | set(_by_unit))
+    print("[selcal-diag] walking %d unit(s) that this lane has ever rented (ledger %d rental(s), handles %d)"
+          % (len(_units), len(_rentals), len(_by_unit)), flush=True)
+    for unit in _units:
+        h = _by_unit.get(unit, {})
         if not unit or any(unit in lbl for lbl in live_units):
             continue
         base = "%s/%s" % (SP.RESULT_PREFIX.strip("/"), unit)

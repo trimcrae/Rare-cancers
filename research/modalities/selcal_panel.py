@@ -221,7 +221,20 @@ ARM_B = "selcal_smarca4"
 # ⚠ IT IS EMPTY AT FREEZE TIME AND MUST STAY EMPTY UNLESS A FAULT IS *MEASURED*. An entry added because a leg
 # came back inconvenient is the retune this program forbids. `selcal_stage.cofold_input_audit` is the only
 # thing licensed to justify one, and it must run BEFORE the leg is scored.
-EXCLUDED_COFOLD_MODELS: dict = {}
+EXCLUDED_COFOLD_MODELS: dict = {
+    ("selcal_smarca4", 3): (
+        "AMENDMENT 1 (2026-08-02): input fault. selcal-smarca-cofold-v1/smarca4/seed_3 places A:LYS71:O and "
+        "E:SER38:O 0.693 A apart (both Boltz-placed heavy atoms, 4499 in the system) against the 1.00 A "
+        "floor, so `selcal_stage.cofold_input_audit` REFUSED before minimisation on every attempt. "
+        "OUTCOME-BLIND: the audit reads static geometry and had not integrated one femtosecond, so no "
+        "endpoint value of any kind existed at the moment of refusal, inconvenient or otherwise. THE FAULT "
+        "FOLLOWS THE CO-FOLD, NOT THE HOST — both replicas "
+        "(r0, r1) refused with byte-identical numbers across 12 attempt logs on FIVE distinct machines "
+        "(46539178, 46549246, 46553998, 46554862, 46555738). NO OTHER CO-FOLD IN EITHER ARM FAILED: the "
+        "one other unlanded smarca4 unit at the time, m2-r0, AUDITED CLEAN at 1.2994 A on the same day and "
+        "its replica m2-r1 landed, so m2 is exonerated as an input and is re-run, not excluded. Evidence: "
+        "container stdout via `--mode diag`, runs 30728025643 and 30728185356."),
+}
 
 
 def excluded_cofold(arm_id: str, model_seed: int):
@@ -428,6 +441,10 @@ def panel_manifest() -> dict:
         "cofold_model_seeds": list(COFOLD_MODEL_SEEDS),
         "md_replicas": list(MD_REPLICAS),
         "n_units": len(units),
+        # ⛔ BOTH NUMBERS, ALWAYS. `n_units` is what would run NOW; a manifest that reported only that would
+        # say "22" with no hint that 24 were designed, and this document is the one attached to the result.
+        # A shrunken panel must be impossible to mistake for the panel the criterion was frozen against.
+        "n_units_at_freeze": len(enumerate_units(include_excluded=True)),
         "units_per_arm": per_arm,
         "label_prefix": LABEL_PREFIX,
         "sampling_ns": {"equil": EQUIL_NS, "prod": PROD_NS},

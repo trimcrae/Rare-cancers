@@ -348,6 +348,29 @@ LANES: list[dict] = [
         "reader": "selcal",
     },
     {
+        # ★★ ADDED 2026-08-02, THE NIGHT IT COST 4.5 BILLED HOURS. The lane above covers the CO-FOLD stage
+        # only. The 24-unit endpoint-MD panel that follows it — 55 rentals and every dollar this lane has
+        # ever spent — was registered NOWHERE, so while three hosts sat at `gpu_util: 0.0` producing nothing,
+        # the only selcal row on the board read `FINISHED … nothing is billing`. That sentence was true of
+        # the co-fold stage and false of the lane, and a true sentence about the wrong half is worse than
+        # silence: it is a green light with evidence attached. Registering the MD panel is what turns
+        # "3 hosts, 0 landed, hours" into a row instead of an absence.
+        "key": "selcal-md",
+        "artifact_source": "ternary",
+        "label": "Selectivity control — SMARCA2/4 endpoint-MD panel (Vast)",
+        "provider": "vast",
+        "tick_workflow": "selectivity-control-vast.yml",
+        # Deliberately absent, stated not faked — and for a DIFFERENT reason than the co-fold lane's. The
+        # artifacts here do carry a stamp, but `selectivity-control-vast.yml` is MULTIPLEXED across ~20
+        # modes: a `diag` or `manifest` run completes green and writes no reap artifact, so the generation-
+        # advance test would read "a completed run did not refresh the artifact" and cry FAILING at a
+        # workflow behaving exactly as designed. An alarm that fires on correct behaviour is the same end
+        # state as no alarm, so `supervision_for` reports the REDUCED question with its own label.
+        "generation_artifact": None,
+        "hold_artifact": "selcal-market-hold.json",
+        "reader": "selcal_md",
+    },
+    {
         "key": "gcp-ternary-watch",
         "artifact_source": "ternary",
         "label": "GCP ternary watch list — reverse leg now, restrained binary re-run next (us-central1 only)",
@@ -746,6 +769,129 @@ def read_selcal(spec: dict, census: dict | None, census_err: str | None,
         else:
             st.unreadable["unfinished"] = ("`missing` / `complete` absent or of the wrong type in "
                                            "selcal-cofold-census.json")
+
+    _apply_hold(st, hold, hold_err, held_key="hold", reason_key="reason",
+                depth_key="board_depth", offers_key="offers_priced", source=spec.get("hold_artifact"))
+    return st
+
+
+def overrun_budget_min(rentals: list | None) -> tuple[float | None, str]:
+    """This lane's OWN measured rental duration, p90, from its price ledger -> (minutes, how) or (None, why).
+
+    ⛔ DERIVED, NEVER TYPED (CLAUDE.md §1). The obvious implementation is a constant — "warn past 90 min" —
+    and it would be wrong within a week: leg length depends on the card, the system size and the sampling
+    length, all of which move. The lane already records the duration of every rental it has ever made, so the
+    honest budget is its own distribution. On the night this was written the ledger held 55 rentals with
+    median 30.3 min and p90 69.4 min, against which the three dead hosts sat at 275, 122 and 40.
+
+    ⚠ IT REFUSES ON A SHORT LEDGER rather than returning a shape read off three points. A budget computed
+    from too little data is a number that LOOKS measured, which §4 says is the more dangerous kind.
+    """
+    if not isinstance(rentals, list):
+        return None, "the price ledger is unreadable, so this lane has no measured duration to judge against"
+    ups = sorted(r.get("uptime_s") / 60.0 for r in rentals
+                 if isinstance(r, dict) and isinstance(r.get("uptime_s"), (int, float)) and r["uptime_s"] > 0)
+    if len(ups) < 8:
+        return None, (f"only {len(ups)} priced rental(s) on record — too few to derive a duration budget, and "
+                      f"a p90 of three points is a guess wearing a statistic's clothes")
+    p90 = ups[min(len(ups) - 1, int(round(0.9 * (len(ups) - 1))))]
+    return p90, f"p90 of {len(ups)} measured rental(s) in selcal-price-ledger.json (median {ups[len(ups)//2]:.1f} min)"
+
+
+def read_selcal_md(spec: dict, reap: dict | None, reap_err: str | None,
+                   coll: dict | None, coll_err: str | None,
+                   ledger: dict | None, ledger_err: str | None,
+                   hold: dict | None, hold_err: str | None) -> LaneState:
+    """The selectivity-control ENDPOINT-MD panel — the half of this lane that actually bills.
+
+    ★★ HOST LIVENESS *IS* KNOWABLE HERE, unlike the co-fold lane above, and that difference is the point.
+    `selcal-reap.json` names every instance the reaper saw on its last tick, with its label, status and
+    uptime, so this lane can be graded on hosts rather than only on whether its tick is alive. It is the one
+    selcal row that can answer "what is billing right now".
+
+    ⚠ AND IT WARNS ON A HOST THAT HAS OUTLIVED THE LANE'S OWN p90 WITHOUT LANDING — the observation that had
+    to be made BY HAND on 2026-08-02, from a median and a p90 computed ad hoc at a terminal, four and a half
+    hours after the first host stopped working. Nothing in the repo was going to say it. A warning is NOT a
+    condemnation and reaps nothing: `reap_decision` destroys on host-written evidence only, and an overrun is
+    a reason to go and LOOK (`--mode diag`), which is exactly what turned this one into a diagnosis.
+    """
+    st = LaneState(spec["key"], spec["label"], spec["provider"])
+    st.tick_workflow, st.generation_artifact = spec["tick_workflow"], spec.get("generation_artifact")
+
+    if reap is None:
+        st.unreadable["hosts"] = reap_err or "unknown"
+    else:
+        stamp = _parse_z(reap.get("utc"))
+        if stamp is None:
+            st.unreadable["reap_utc"] = "`utc` absent or unparseable in selcal-reap.json"
+        else:
+            st.last_evidence_utc = stamp
+            st.last_evidence_what = "selcal-reap.json `utc` (the reaper writes it on every tick, reaping "
+            st.last_evidence_what += "nothing included)"
+        spared = reap.get("spared") if isinstance(reap.get("spared"), list) else []
+        st.live_hosts = len(spared)
+        states: dict = {}
+        for s in spared:
+            if isinstance(s, dict):
+                states[str(s.get("status"))] = states.get(str(s.get("status")), 0) + 1
+        st.host_states = states
+
+        budget, how = overrun_budget_min([] if ledger is None else ledger.get("rentals"))
+        if budget is None:
+            if spared:
+                st.notes.append(f"no overrun budget could be derived — {how}")
+        else:
+            st.notes.append(f"overrun budget {budget:.0f} min ({how})")
+            for s in spared:
+                if not isinstance(s, dict):
+                    continue
+                up = s.get("uptime_min")
+                if isinstance(up, (int, float)) and up > budget:
+                    st.warnings.append(
+                        f"⚠ {s.get('label')} (instance {s.get('instance')}) has been up {up:.0f} min against "
+                        f"this lane's own {budget:.0f} min p90 and has landed nothing — that is "
+                        f"{up / budget:.1f}x. NOT a condemnation and nothing reaps on it; it is a reason to "
+                        f"run `--mode diag` and read the host's banked run.log, which is what found a "
+                        f"deterministic input-audit refusal on 2026-08-02.")
+
+    if coll is None:
+        st.unreadable["progress"] = coll_err or "unknown"
+    else:
+        exp, landed = coll.get("expected"), coll.get("landed")
+        missing = coll.get("missing")
+        if isinstance(exp, int) and isinstance(landed, int):
+            st.unfinished = max(0, exp - landed)
+            st.census = f"{landed}/{exp} legs banked in S3"
+            st.census_what = "landed production-conforming legs (NOT an iteration census)"
+            st.census_is_true_iteration_count = False
+        else:
+            st.unreadable["landed"] = "`expected` / `landed` absent or of the wrong type in selcal-collect.json"
+        # `panel_complete` is the collector's own verdict and `missing` is its evidence — read TOGETHER, so a
+        # disagreement surfaces rather than one silently winning. Same discipline as `read_selcal`.
+        complete = coll.get("panel_complete")
+        if isinstance(complete, bool):
+            st.finished = complete
+            if complete and missing:
+                st.warnings.append(f"⚠ selcal-collect.json says `panel_complete: true` while still listing "
+                                   f"{len(missing)} missing unit(s) — the writer's verdict and its own "
+                                   f"evidence disagree, and neither is believed over the other here")
+        if isinstance(missing, list) and missing:
+            st.notes.append("still owed: " + ", ".join(str(m) for m in missing[:6])
+                            + ("…" if len(missing) > 6 else ""))
+
+    # What was DELIBERATELY dropped, so a shrunken panel never reads as a finished one.
+    # ⛔ READ FROM THE ARTIFACT, NEVER BY IMPORTING `selcal_panel`. This watcher imports nothing from the
+    # lanes it watches (`test_it_imports_nothing_from_the_lanes_it_watches`) for a reason that is exactly the
+    # point of a watcher: a module that can be taken down by the lane it is watching goes dark at the moment
+    # the lane breaks. The collector knows the exclusions and writes them into its own record; this only
+    # reports them. (Caught by that test on the first draft of this reader, which did import it.)
+    excl = (coll or {}).get("excluded_cofold_models")
+    if isinstance(excl, dict):
+        for k, why in sorted(excl.items()):
+            st.parked.append(f"{k} — {str(why)[:180]}")
+    elif coll is not None:
+        st.notes.append("selcal-collect.json names no `excluded_cofold_models` — either nothing is excluded "
+                        "or the collector predates recording it; the two are NOT distinguished here")
 
     _apply_hold(st, hold, hold_err, held_key="hold", reason_key="reason",
                 depth_key="board_depth", offers_key="offers_priced", source=spec.get("hold_artifact"))
@@ -1198,6 +1344,12 @@ def gather(root: str, specs: list[dict] | None = None,
             census, cerr = get("selcal-cofold-census.json")
             hold, herr = get(spec.get("hold_artifact"))
             st = read_selcal(spec, census, cerr, hold, herr)
+        elif spec["reader"] == "selcal_md":
+            reap, rerr = get("selcal-reap.json")
+            coll, cerr2 = get("selcal-collect.json")
+            ledger, lerr = get("selcal-price-ledger.json")
+            hold, herr = get(spec.get("hold_artifact"))
+            st = read_selcal_md(spec, reap, rerr, coll, cerr2, ledger, lerr, hold, herr)
         elif spec["reader"] == "gcp_watch":
             watch, werr = get(spec.get("watch_file"))
             st = read_gcp_watch(spec, watch, werr)

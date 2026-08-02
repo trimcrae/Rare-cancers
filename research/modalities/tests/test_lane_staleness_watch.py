@@ -579,13 +579,41 @@ def _selcal_hold(hold=False, reason="1.69x the ladder basis is within the 1.92x 
             "offers_priced": [{"gpu": "RTX 5090", "machine_id": 28759}]}
 
 
-def _tree(path, *, progress, watch, hold, ledger, gcp=None, retro=None, selcal=None, selcal_hold=None):
+def _selcal_reap(minutes_old=3, spared=()):
+    """The MD panel's reap artifact — written on EVERY tick, reaping nothing included, which is what makes it
+    this lane's heartbeat as well as its host list."""
+    ts = NOW - datetime.timedelta(minutes=minutes_old)
+    return {"lane": "selcal", "utc": ts.strftime("%Y-%m-%dT%H:%M:%SZ"), "stop_all": False,
+            "s3_census_readable": True, "destroyed": [], "spared": list(spared)}
+
+
+def _selcal_collect(landed=22, expected=22, missing=()):
+    return {"utc": NOW.strftime("%Y-%m-%dT%H:%M:%SZ"), "expected": expected, "landed": landed,
+            "missing": list(missing), "panel_complete": not missing, "expected_at_freeze": 24,
+            "excluded_cofold_models": {}}
+
+
+def _selcal_ledger(n=12, uptime_min=30.0):
+    """⚠ `overrun_budget_min` REFUSES on fewer than 8 priced rentals, so a fixture with three would exercise
+    the refusal path rather than the budget. Twelve is the smallest honest 'this lane has a distribution'."""
+    return {"lane": "selcal", "n_rentals": n,
+            "rentals": [{"label": "selcal-smarca2-m1-r0", "uptime_s": uptime_min * 60.0} for _ in range(n)]}
+
+
+def _tree(path, *, progress, watch, hold, ledger, gcp=None, retro=None, selcal=None, selcal_hold=None,
+          selcal_reap=None, selcal_collect=None, selcal_ledger=None):
     path.mkdir(parents=True, exist_ok=True)
     (path / "inflight-board.d").mkdir(parents=True, exist_ok=True)
     (path / "inflight-board.d" / "nrv04-retro.json").write_text(
         json.dumps(retro if retro is not None else _retro_frag()))
     (path / "selcal-cofold-census.json").write_text(
         json.dumps(selcal if selcal is not None else _selcal_census()))
+    (path / "selcal-reap.json").write_text(
+        json.dumps(selcal_reap if selcal_reap is not None else _selcal_reap()))
+    (path / "selcal-collect.json").write_text(
+        json.dumps(selcal_collect if selcal_collect is not None else _selcal_collect()))
+    (path / "selcal-price-ledger.json").write_text(
+        json.dumps(selcal_ledger if selcal_ledger is not None else _selcal_ledger()))
     (path / "selcal-market-hold.json").write_text(
         json.dumps(selcal_hold if selcal_hold is not None else _selcal_hold()))
     (path / "step1-fanout-progress.json").write_text(json.dumps(progress))
@@ -634,6 +662,7 @@ def test_END_TO_END_a_healthy_and_correctly_parked_board_is_quiet(tmp_path):
     assert by == {"step1-fanout": "ADVANCING", "ternary-valb-reps": "PARKED-PRICE-HOLD",
                   "closure-triangle": "FINISHED", "rung-5aks": "PARKED-GATE",
                   "nrv04-retro": "ADVANCING", "selcal-cofold": "TICKING",
+                  "selcal-md": "FINISHED",
                   "gcp-ternary-watch": "TICKING"}, by
 
 
@@ -785,3 +814,65 @@ def test_the_retro_census_is_not_claimed_to_be_an_iteration_count():
     spec = next(s for s in lsw.LANES if s["key"] == "nrv04-retro")
     st = lsw.read_nrv04_retro(spec, _retro_frag(), None, None, "none")
     assert st.census_is_true_iteration_count is False
+
+
+# =============================================================================================================
+# the MD panel — the half of the selcal lane that bills, and that was registered NOWHERE until it cost 4.5 h
+# =============================================================================================================
+def test_selcal_md_warns_on_a_host_that_has_outlived_the_lanes_OWN_p90(tmp_path):
+    """★★ THE OBSERVATION THAT HAD TO BE MADE BY HAND, 2026-08-02. `selcal-smarca4-m2-r0` sat `running` for
+    275 min at `gpu_util: 0.0` with nothing landed, against a lane whose median rental was 30.3 min. Nothing
+    in the repo was going to say so: the only selcal row on the board covered the CO-FOLD stage and read
+    `FINISHED … nothing is billing`, which was true of that stage and false of the lane.
+
+    The budget is DERIVED from this lane's own ledger, never typed — a constant would be wrong the first time
+    the card or the sampling length changed.
+    """
+    root = _tree(tmp_path / "overrun",
+                 progress=_progress(minutes_old=6, live=15), watch=_watch([]),
+                 hold=_ternary_hold(minutes_old=8, hold=False, live=1),
+                 ledger=_ledger((8, "market-gate", "ok", "task=edge-reps")),
+                 selcal_collect=_selcal_collect(landed=21, expected=22, missing=["selcal-smarca4-m2-r0"]),
+                 selcal_ledger=_selcal_ledger(n=12, uptime_min=30.0),
+                 selcal_reap=_selcal_reap(spared=[
+                     {"instance": "46539144", "label": "selcal-smarca4-m2-r0", "status": "running",
+                      "uptime_min": 275.2, "dph_total": 0.1819, "host_phase": None}]))
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    # ⚠ THE LANE'S FIELDS LIVE UNDER `state`, not at the top of the verdict — the top level carries the
+    # CLASSIFICATION (verdict/ok/detail) and `state` carries what was measured. Reading the top level returns
+    # None for every field and a test asserting on it would pass by accident the moment a field went missing.
+    md = next(v for v in report["lanes"] if v["lane"] == "selcal-md")["state"]
+    assert md["live_hosts"] == 1
+    warns = " ".join(md.get("warnings") or [])
+    assert "selcal-smarca4-m2-r0" in warns and "275" in warns
+    assert "diag" in warns, "the warning must name the action that turns it into a diagnosis"
+    # ⛔ A WARNING IS NOT A CONDEMNATION. Nothing here may reap: `reap_decision` destroys on host-written
+    # evidence only, and a slow leg is not a dead one.
+    assert "reap" not in warns.lower() or "nothing reaps" in warns.lower()
+
+
+def test_selcal_md_refuses_to_invent_a_budget_from_too_few_rentals(tmp_path):
+    """⚠ §4 — a p90 of three points is a number that LOOKS measured. Refusing is the honest output, and the
+    refusal must be VISIBLE rather than silently producing no warnings."""
+    budget, why = lsw.overrun_budget_min([{"uptime_s": 1800.0}] * 3)
+    assert budget is None and "too few" in why
+    budget2, why2 = lsw.overrun_budget_min(None)
+    assert budget2 is None and "unreadable" in why2
+    budget3, _ = lsw.overrun_budget_min([{"uptime_s": 60.0 * m} for m in range(10, 22)])
+    assert budget3 is not None and budget3 > 0
+
+
+def test_selcal_md_reports_the_frozen_shape_beside_the_live_one(tmp_path):
+    """A completed 22-unit panel must never be indistinguishable from the 24 the criterion was frozen
+    against, so the exclusion travels with the count — read from the ARTIFACT, never by importing the lane."""
+    root = _tree(tmp_path / "excl",
+                 progress=_progress(minutes_old=6, live=15), watch=_watch([]),
+                 hold=_ternary_hold(minutes_old=8, hold=False, live=1),
+                 ledger=_ledger((8, "market-gate", "ok", "task=edge-reps")),
+                 selcal_collect={**_selcal_collect(landed=22, expected=22),
+                                 "excluded_cofold_models": {
+                                     "selcal_smarca4:m3": "input fault: 0.693 A, cofold_input_audit"}})
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    md = next(v for v in report["lanes"] if v["lane"] == "selcal-md")["state"]
+    parked = " ".join(md.get("parked_units") or [])
+    assert "selcal_smarca4:m3" in parked and "0.693" in parked

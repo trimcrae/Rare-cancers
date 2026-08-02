@@ -327,7 +327,8 @@ def test_every_tick_workflow_exists(spec):
 def test_every_entry_names_a_reader_that_is_implemented(spec):
     """A registry is only declarative if every declaration resolves. `gather` raises ValueError on an unknown
     reader — correct, but it raises at RUN time, on the tick, in front of a billing fleet."""
-    assert spec.get("reader") in {"step1", "ternary_family", "nrv04_retro", "gcp_watch", "selcal"}, (
+    assert spec.get("reader") in {"step1", "ternary_family", "nrv04_retro", "gcp_watch", "selcal",
+                                  "selcal_md"}, (
         f"{spec.get('key')} names reader {spec.get('reader')!r}, which `gather` does not implement — it "
         f"would raise ValueError mid-tick.")
     for required in ("key", "label", "provider", "artifact_source", "tick_workflow"):
