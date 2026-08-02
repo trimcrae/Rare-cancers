@@ -951,3 +951,64 @@ def test_a_census_with_NEITHER_is_reported_unreadable_not_silently_dated(tmp_pat
     st = next(v for v in report["lanes"] if v["lane"] == "selcal-cofold")["state"]
     assert (st.get("unreadable") or {}).get("progress")
     assert st["last_evidence_utc"] is None
+
+
+# =============================================================================================================
+# "no hosts" may only be said when zero was MEASURED
+# =============================================================================================================
+def test_host_phrase_distinguishes_measured_zero_from_unmeasured():
+    st = lsw.LaneState("x", "X", "vast")
+    st.live_hosts = None
+    assert "UNMEASURED" in lsw._host_phrase(st) and "not zero" in lsw._host_phrase(st)
+    st.live_hosts = 0
+    assert lsw._host_phrase(st) == "no hosts"
+    st.live_hosts = 3
+    assert "3 host(s)" == lsw._host_phrase(st)
+
+
+def test_a_gate_snapshot_for_ANOTHER_MODE_is_never_reported_as_zero_hosts():
+    """★★ MEASURED ON THE LIVE BOARD, 2026-08-02. `rung-5aks` rendered
+
+        IDLE-WITHIN-GRACE — "no hosts and 4 unit(s) unfinished"
+
+    while it had a host at 95.6 % and billing. The REFUSAL was right — the only gate snapshot in git was
+    stamped mode='edge_reps' and another mode's snapshot must never vouch for this lane — but it left
+    `live_hosts` at its `None` default with NOTHING in `unreadable`. `classify_lane`'s UNKNOWN guard needs
+    BOTH, so it could not fire, and `(st.live_hosts or 0) > 0` then turned "not measured" into "measured
+    zero". Defaulting to 0 is the exact defect this class's docstring names.
+    """
+    st = lsw.read_ternary_family(
+        KS, _watch([_entry("5aks", True)]), None,
+        _ternary_hold(mode="edge_reps", minutes_old=5, live=4), None,
+        _ledger((5, "5aks", "launched", "task=5aks")), None, False)
+    assert st.live_hosts is None, "the count must stay None, never be coerced to a measured zero"
+    assert any("UNMEASURED" in n for n in st.notes), "the refusal must be visible to a reader"
+    v = _c(st)
+    assert "no hosts" not in v["detail"], "it must never assert zero from an unread count"
+    assert "UNMEASURED" in v["detail"]
+    # ⚠ AND THE VERDICT IS DELIBERATELY UNCHANGED. A first attempt also put this in `unreadable`, which
+    # promoted the lane to UNKNOWN — and broke two guards that exist to stop exactly that: a lane whose
+    # every unfinished unit is deliberately PARKED must stay quiet, and a genuinely idle lane past grace
+    # must still say IDLE-UNEXPECTED, which is the actionable verdict. An unread host count is not by
+    # itself grounds to grade a lane not-OK; asserting a zero nobody measured is.
+    assert "live_hosts" not in st.unreadable
+
+
+def test_no_gate_snapshot_at_all_is_also_never_reported_as_zero_hosts():
+    st = lsw.read_ternary_family(KS, _watch([_entry("5aks", True)]), None, None, "not present",
+                                 _ledger((5, "5aks", "launched", "task=5aks")), None, False)
+    assert st.live_hosts is None, "no snapshot means the count was never read — not that it is zero"
+    assert "no hosts" not in (_c(st)["detail"] or "")
+
+
+def test_a_MEASURED_zero_still_reads_as_no_hosts_and_stays_quiet():
+    """⚠ THE OTHER HALF. If every unread count became UNKNOWN the board would be red forever, which is the
+    cry-wolf end state. A gate snapshot that DOES belong to this lane and honestly reports zero live units
+    must still produce the calm 'no hosts' reading."""
+    st = lsw.read_ternary_family(
+        KS, _watch([_entry("5aks", True)]), None,
+        _ternary_hold(mode="5aks", minutes_old=5, live=0), None,
+        _ledger((5, "5aks", "launched", "task=5aks")), None, False)
+    assert st.live_hosts == 0 and "live_hosts" not in st.unreadable
+    v = _c(st)
+    assert v["ok"] is True and "no hosts" in v["detail"]

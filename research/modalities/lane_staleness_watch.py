@@ -517,6 +517,16 @@ def read_ternary_family(spec: dict, watch: dict | None, watch_err: str | None,
     # another's silence. `_gate_what` in the writer exists for exactly this reason.
     hold_modes = set(spec.get("hold_modes") or [])
     gate_utc: datetime.datetime | None = None
+    # ★★ NEITHER REFUSAL BELOW MAY BE READ AS A HOST COUNT OF ZERO (measured 2026-08-02 on the live board).
+    # The refusals are RIGHT — a snapshot written for another mode must never vouch for this lane — but they
+    # leave `live_hosts` at its `None` default, and the verdict strings then coerced it with
+    # `(st.live_hosts or 0)`, emitting **"no hosts and 4 unit(s) unfinished"** for `rung-5aks` while that
+    # lane had a host at 95.6 % and billing. `_host_phrase` is where that stops.
+    # ⚠ AND THE FIX IS THE PHRASING, NOT THE VERDICT — a first attempt also recorded these in `unreadable`,
+    # which promoted the lane to UNKNOWN and broke two guards that exist precisely to stop that: a lane whose
+    # every unfinished unit is DELIBERATELY PARKED must stay quiet, and a genuinely idle lane past grace must
+    # still say IDLE-UNEXPECTED (the actionable verdict) rather than the vaguer UNKNOWN. An unread host count
+    # is not by itself a reason to grade a lane not-OK; asserting a zero nobody measured is.
     if hold is None:
         st.hold, st.hold_kind = False, None
         st.hold_reason = f"{spec.get('hold_artifact')}: {hold_err or 'not present'} — no gate snapshot exists"
@@ -527,6 +537,7 @@ def read_ternary_family(spec: dict, watch: dict | None, watch_err: str | None,
                           f"{hold.get('mode')!r}, which is NOT this lane ({sorted(hold_modes)}) — not read "
                           f"as this lane's state")
         st.notes.append(st.hold_reason)
+        st.notes.append("=> this lane's host count is UNMEASURED, which is not zero — see `_host_phrase`")
     else:
         _apply_hold(st, hold, hold_err, held_key="hold", reason_key="reason",
                     depth_key="depth", offers_key="offers", source=spec.get("hold_artifact"))
@@ -1096,6 +1107,16 @@ OK_VERDICTS = {"ADVANCING", "PARKED-PRICE-HOLD", "PARKED-GATE", "PARKED-BY-OPERA
 CRITICAL = ("progress", "watch_list", "unfinished", "hold", "watch_entry_intent", "ledger", "finished")
 
 
+def _host_phrase(st: "LaneState") -> str:
+    """"no hosts" ONLY when zero was MEASURED. ⛔ `live_hosts is None` means the count was never read, and
+    every verdict string that conflated the two was asserting a fact nobody established — measured
+    2026-08-02, when `rung-5aks` rendered "no hosts and 4 unit(s) unfinished" while it had a host at 95.6 %
+    and billing. The tri-state is the whole point of the field; this is where it stops being flattened."""
+    if st.live_hosts is None:
+        return "host count UNMEASURED (not zero — nothing in git recorded it)"
+    return "no hosts" if st.live_hosts == 0 else f"{st.live_hosts} host(s)"
+
+
 def classify_lane(st: LaneState, hist: dict | None, now: datetime.datetime, *,
                   active_evidence_min: float = DEFAULT_ACTIVE_EVIDENCE_MIN,
                   idle_min: float = DEFAULT_IDLE_MIN,
@@ -1258,8 +1279,9 @@ def classify_lane(st: LaneState, hist: dict | None, now: datetime.datetime, *,
                            f"NOT finished. Someone has to dispatch its next step.")
             return v
         v["verdict"], v["ok"] = "IDLE-WITHIN-GRACE", True
-        v["detail"] = (f"no hosts and {st.unfinished} unit(s) unfinished, but the last evidence is only "
-                       f"{age:.0f} min old (grace {idle_min:.0f} min) — a hand-off in progress looks like this.")
+        v["detail"] = (f"{_host_phrase(st)} and {st.unfinished} unit(s) unfinished, but the last evidence is "
+                       f"only {age:.0f} min old (grace {idle_min:.0f} min) — a hand-off in progress looks "
+                       f"like this.")
         return v
 
     # ── 8. unfinished could not be counted. ★ THIS MUST NOT FALL THROUGH TO FINISHED. The first draft did,
@@ -1277,7 +1299,7 @@ def classify_lane(st: LaneState, hist: dict | None, now: datetime.datetime, *,
         return v
 
     v["verdict"], v["ok"] = "FINISHED", True
-    v["detail"] = "no hosts and no unfinished units."
+    v["detail"] = f"{_host_phrase(st)} and no unfinished units."
     return v
 
 
