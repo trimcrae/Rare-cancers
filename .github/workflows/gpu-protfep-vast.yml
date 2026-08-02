@@ -144,16 +144,10 @@ jobs:
         # repo. `git add` first, then ask the INDEX. (Measured 2026-08-02, same bug, same file.)
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-          PATHS="research/modalities/protfep-reference-check.json research/modalities/protfep-wedge-band-candidates.json"
-          git add -- $PATHS
-          if git diff --cached --quiet -- $PATHS; then
-            echo "no change to $PATHS"
-          else
-            git commit -m "5a-KS: verify references against SKEMPI 2.0 + scan for a wedge-sized benchmark"
-            git pull --rebase origin ${{ github.ref_name }}
-            git push origin HEAD:${{ github.ref_name }}
-          fi
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "5a-KS: verify references against SKEMPI 2.0 + scan for a wedge-sized benchmark" \
+            research/modalities/protfep-reference-check.json \
+            research/modalities/protfep-wedge-band-candidates.json
 
   # ------------------------------------------------------------------ free: the $0 spend precheck
   # STRATEGY.md's tally of built-but-never-run known-answer tests makes the SMARCA2/4 pmx spend
@@ -222,16 +216,10 @@ jobs:
         # a verdict that exists only in a log is not a committed artifact and cannot be cited.
         run: |
           set -eo pipefail
-          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           P=research/modalities/pmx-mutation-reference-precheck.json
-          git add -- "$P"
-          if git diff --cached --quiet -- "$P"; then
-            echo "no change to $P"
-          else
-            git commit -m "pmx precheck: does a measured mutational ddG exist for the SMARCA2/4 contact? (\$0)"
-            git pull --rebase origin ${{ github.ref_name }}
-            git push origin HEAD:${{ github.ref_name }}
-          fi
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "pmx precheck: does a measured mutational ddG exist for the SMARCA2/4 contact? (\$0)" \
+            "$P"
           test -s "$P"
 
   # ------------------------------------------------------------------ free: image
