@@ -130,7 +130,7 @@ looks. This table is why three separate selectivity results had to be withdrawn.
 | Ternary generator given both sites (assembly route) | rebuild 6HAX (in-set) and 9DTY (post-horizon) | DockQ 0.618 / **0.839**, iRMSD 0.67 Å | ✓ complete — **PASSES** |
 | Interface-mutation physics (pmx/GROMACS) | barnase–barstar Y29A vs published ΔΔG | +4.42 ± 1.08 vs +3.4 | ✓ complete — **PASSES** |
 | Selectivity free energy (ABFE) | CREBBP vs BRD4(1) / SGC-CBP30, ΔΔG ≈ 2.2 kcal/mol | solvent leg dispatched; full pass priced | ◐ in work |
-| Ligand pose prediction (dock + MM-GBSA) | recover a known holo pose in a nuclear receptor from apo | — | ◐ in work |
+| Ligand pose prediction (dock + MM-GBSA) | recover a known holo pose in a nuclear receptor from apo | **INCONCLUSIVE by its own pre-registered rule** — the C1 holo self-dock control failed through the pipeline's own box on **6 of 6 pairs across 3 receptors** (17.3–29.3 Å), so the primary arm measured the *site*, not the docking. With an fpocket-chosen box the same protocol recovers **3.46 Å, fnat 0.778, 7 of 9 native contacts** | ✓ complete — verdict INCONCLUSIVE |
 | Sequence-only co-folding (Boltz-2 ternary) | reproduce 9DTY/9DTX from sequence + ligand | DockQ 0.023–0.046 ≈ true structure moved 32 Å | ✕ dead end — **FAILS** |
 | Interface-stability endpoint (E1) | three attempts: cooperativity calibrator, NR-V04 retrospective, SMARCA2/4 control | wrong sign · p = 0.393 · p = 0.747 | ✕ dead end — **no pass** |
 
@@ -148,7 +148,7 @@ The **state** column is the work item that would move the claim, not a grade on 
 |---|---|---|---|
 | **A pocket exists** | 4 of 20 conformers of the experimental apo NMR ensemble **8XTT** are cavity-bearing, no simulation bias applied; Gate 3A (persistence after bias removal) supported | settled enough to build on; Gate 3B (equilibrium accessibility) still open | ✓ complete |
 | **Something binds it** | none — no ligand-bound NR4A3 structure exists, of any molecule | a thermal shift / SPR / NMR fragment screen. **Cheapest decisive experiment in the program**, and a negative is as useful as a positive | ○ future — **needs a wet lab** |
-| **The pose is right** | docked into the opened frame + MM-GBSA re-dock across the four cavity-bearing conformers; never validated | known-answer test on a nuclear receptor with apo *and* holo deposited, plus convergence between independent methods | ◐ in work |
+| **The pose is right** | ⛔ the known-answer test **ran and returned INCONCLUSIVE** ([`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json)) — and its decomposition splits the question in two: the **docking** is fine (3.46 Å blind from apo, fnat 0.778), the **site selection** is what missed, on 6 of 6 pairs | re-run the primary arm with the site question separated from the docking question — see §5 branch 2 | ✓ test complete, claim **unresolved** |
 | **The binder is paralogue-selective** | predicted margin only; the paper's own reading is that selectivity, if any, rests here rather than on the ternary | paralogue ABFE with replicate-SD error bars — *after* CREBBP/BRD4 shows the method recovers a known ΔΔG | ○ future — gated on ◐ |
 | **A ternary forms** | predicted for all three paralogues at comparable confidence, built by the failing route — and the molecule used is **unrecoverable**, so it cannot be replicated | rebuild by the assembly route from a recorded molecule | ○ future — the *route* is ✕ (§2), the claim is open |
 | **The ternary adds selectivity** | one sequence-encoded candidate (Glu208 → Pro in NR4A1, Tyr in NR4A2); five further hits were placement artifacts; reproducibility untested at one model per arm | credible ternaries × ≥3 models per paralogue, scored by the validated descriptor | ○ future |
@@ -171,9 +171,10 @@ graph TD
   COV --> Q1B{"✓ Is the LINKER-borne<br/>handle geometrically<br/>available? (branch 1b)"}
   Q1B -->|"C397 only; the window is closed<br/>by a PARALOGUE cysteine C534<br/>that NR4A3 lacks"| COVX["Uniqueness runs BOTH ways —<br/>the reciprocal direction had<br/>never been computed"]
   Q1 -->|"the 2 IN the pocket are<br/>conserved AND buried"| NONCOV["NON-COVALENT route — selectivity<br/>from pocket shape (current path)"]
-  Q2{"◐ Does the pipeline recover<br/>a known ligand pose?"}
-  Q2 -->|yes| ANCHOR["The pose carries weight;<br/>ternary and ABFE inherit it"]
-  Q2 -->|no| STOP["Everything anchored to the pose<br/>is decoration — stop building on it"]
+  Q2{"✓ Does the pipeline recover<br/>a known ligand pose?"}
+  Q2 -->|"INCONCLUSIVE — the control<br/>failed on 6 of 6 pairs"| SPLIT["The question was TWO questions.<br/>Docking: 3.46 A, fnat 0.778.<br/>Site selection: missed by 17-29 A"]
+  SPLIT --> ANCHOR["So the pose's weight rests on<br/>the SITE being right, which<br/>this test could not check"]
+  SPLIT --> STOP["Re-run with site and docking<br/>separated before anything<br/>inherits the pose"]
   Q3{"○ Does anything bind<br/>NR4A3 at all? (wet lab)"}
   Q3 -->|yes| GO["Pocket is real;<br/>the in-silico work has a target"]
   Q3 -->|no| REDIR["Cryptic pocket is an artifact;<br/>redirect the program"]
@@ -183,10 +184,10 @@ graph TD
   classDef next fill:#f0ece1,stroke:#8d8674,stroke-width:1px,color:#2a271f;
   classDef out fill:#f2f2f0,stroke:#9b9b96,stroke-width:1px,color:#2a271f;
 
-  class Q1,Q1B done;
-  class Q2 work;
+  class Q1,Q2 done;
+  class Q1B work;
   class Q3 next;
-  class COV,COVX,NONCOV,ANCHOR,STOP,GO,REDIR out;
+  class COV,COVX,NONCOV,SPLIT,ANCHOR,STOP,GO,REDIR out;
 ```
 
 ⚠ **The asymmetry worth noticing:** two of these three branches have a **"no" outcome that SAVES the program
@@ -218,7 +219,16 @@ measures were moved to 960 points. Ranks were unchanged by the fix.
 ⚠ **Not answerable from what exists:** there is no experimental NR4A1/NR4A2 ensemble, so the like-for-like
 ensemble comparison is a missing input, not a negative result.
 
-### Branch 1b — the follow-on that branch 1 opened: is the LINKER-borne handle geometrically available?
+### Branch 1b — ◐ COMPUTED BUT NOT YET VERIFIED: is the LINKER-borne handle geometrically available?
+
+⛔ **THE ARTIFACT THIS SECTION CITES DOES NOT EXIST YET, AND THAT IS EXACTLY THE FAILURE §4 OF CLAUDE.md
+DESCRIBES (caught 2026-08-02, 3:45 PM ET).** The module, workflow and tests
+([`nr4a3_linker_covalent_reach.py`](../modalities/nr4a3_linker_covalent_reach.py), commit `295a08ff`) are
+committed and the numbers below were reported by the agent that wrote them — but the agent was interrupted
+before its run committed `nr4a3-linker-covalent-reach.json`, so **every figure in this subsection is currently
+an uncommitted reported value, not a read one.** A CI run has been dispatched to produce it. Until that lands
+and this banner is removed, **do not quote branch 1b anywhere**, and read every number below as provisional.
+⚠ Nothing else on this page depends on it: branch 1's cysteine census is a separate, committed artifact.
 
 Branch 1 put the unique cysteines out of *warhead* reach and inside *linker* reach, which is an invitation
 rather than an answer: a PROTAC's linker passes through exactly that band, so an electrophile carried there
@@ -328,7 +338,7 @@ Ordered by what unblocks the most, not by what is easiest. **The state is the it
 | # | item | state |
 |---|---|---|
 | 1 | **Does anything bind the pocket?** — wet lab, cheap, and the only item that can invalidate the whole non-covalent path. Everything below assumes a yes | ○ future — **the one item no computation can supply** |
-| 2 | **Known-answer test for pose prediction.** Decides whether the pose that the ternary and the ABFE both inherit is worth inheriting | ◐ in work |
+| 2 | **Known-answer test for pose prediction.** Ran, returned **INCONCLUSIVE**, and split the question: the docking recovers a blind apo pose at 3.46 Å / fnat 0.778, but the pipeline's **site selection** missed the crystallographic ligand on 6 of 6 pairs. **Re-run with the two separated** — this is now the top unrun item | ✓ ran → ○ re-run needed |
 | 3 | **Is there a ligandable NR4A3 cysteine?** A yes opens a route needing no cryptic pocket at all | ✓ complete — §5 branch 1 + 1b |
 | 4 | **Rebuild the ternaries by the assembly route**, from a molecule whose structure is recorded this time | ◐ in work |
 | 5 | **Run the CREBBP/BRD4 benchmark** before quoting any selectivity free energy — the missing known-answer test for the instrument the *binder* claim depends on | ◐ in work |
