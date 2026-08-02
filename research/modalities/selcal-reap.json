@@ -2,8 +2,8 @@
   "_what": "What the sensitivity-control lane's reaper destroyed, and what it SPARED and why. Written on every tick, destroying nothing included — a reaper with no artifact is indistinguishable from a reaper that never ran.",
   "_rule": "CLAUDE.md §6 — the host cannot stop its own billing, only the control plane can; and GPU idleness NEVER condemns a box, only banked work / a host-written terminus / a terminal state does.",
   "lane": "selcal",
-  "utc": "2026-08-02T02:03:59Z",
-  "stop_all": true,
+  "utc": "2026-08-02T02:11:13Z",
+  "stop_all": false,
   "cofold_prefix": "selcal-smarca-cofold-v1",
   "s3_census_readable": true,
   "cofold_arms_complete": [
@@ -37,38 +37,10 @@
     "selcal-smarca4-m6-r0",
     "selcal-smarca4-m6-r1"
   ],
-  "destroyed": [
-    {
-      "instance": "46539144",
-      "label": "selcal-smarca4-m2-r0",
-      "status": "running",
-      "uptime_min": 275.2,
-      "dph_total": 0.18186666666666668,
-      "host_phase": null,
-      "why": "operator stop_all — every host this lane owns"
-    },
-    {
-      "instance": "46549971",
-      "label": "selcal-smarca4-m3-r0",
-      "status": "running",
-      "uptime_min": 121.8,
-      "dph_total": 0.22066666666666665,
-      "host_phase": null,
-      "why": "operator stop_all — every host this lane owns"
-    },
-    {
-      "instance": "46555738",
-      "label": "selcal-smarca4-m3-r1",
-      "status": "exited",
-      "uptime_min": 39.7,
-      "dph_total": 0.07106666666666667,
-      "host_phase": null,
-      "why": "operator stop_all — every host this lane owns"
-    }
-  ],
+  "destroyed": [],
   "spared": [],
   "destroy_failed": [],
-  "n_destroyed": 3,
+  "n_destroyed": 0,
   "n_spared": 0,
   "n_destroy_failed": 0
 }
