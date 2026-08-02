@@ -214,3 +214,39 @@ def test_all_artifact_positions_yield_a_cannot_be_justified_verdict(tmp_path, mo
                 validated_path=_validated(tmp_path))
     assert "NO sequence-encoded discriminating contact" in doc["sentence"]
     assert "cannot be justified" in doc["sentence"]
+
+
+# ---------- one model per arm cannot tell a determinant from an accident ---------------------------------------
+
+
+def test_a_hit_in_one_model_but_not_all_is_not_reproducible(tmp_path, monkeypatch):
+    seq_f = "ACDEFGHIKL"
+    seq_c = "ACDEPGHIKL"                       # position 4 substituted -> a hit there is sequence-encoded
+    by_path = {"f0": _sig(seq_f, {4}), "f1": _sig(seq_f, set()),
+               "c0": _sig(seq_c, set()), "c1": _sig(seq_c, set())}
+    monkeypatch.setattr(N, "signature_of", lambda p, t, e: by_path[os.path.basename(p)])
+    doc = N.run_replicated({"NR4A3": ["f0", "f1"], "NR4A1": ["c0"], "NR4A2": ["c1"]}, "A", ["B"],
+                           validated_path=_validated(tmp_path))
+    assert doc["reproducible_sequence_encoded"] == []
+    assert doc["seen_in_any_model"], "the near-miss must stay visible, not vanish"
+    assert "that model's accident" in doc["sentence"]
+
+
+def test_a_hit_in_every_model_is_reported_as_reproducible_and_still_a_hypothesis(tmp_path, monkeypatch):
+    seq_f = "ACDEFGHIKL"
+    seq_c = "ACDEPGHIKL"
+    by_path = {"f0": _sig(seq_f, {4}), "f1": _sig(seq_f, {4}),
+               "c0": _sig(seq_c, set()), "c1": _sig(seq_c, set())}
+    monkeypatch.setattr(N, "signature_of", lambda p, t, e: by_path[os.path.basename(p)])
+    doc = N.run_replicated({"NR4A3": ["f0", "f1"], "NR4A1": ["c0"], "NR4A2": ["c1"]}, "A", ["B"],
+                           validated_path=_validated(tmp_path))
+    assert len(doc["reproducible_sequence_encoded"]) == 1
+    assert "structural HYPOTHESIS" in doc["sentence"]
+    assert "warhead pose unmeasured" in doc["sentence"]
+
+
+def test_replicated_refuses_without_a_validated_descriptor(tmp_path):
+    doc = N.run_replicated({"NR4A3": ["a"], "NR4A1": ["b"], "NR4A2": ["c"]}, "A", ["B"],
+                           validated_path=str(tmp_path / "absent.json"))
+    assert doc["sentence"].startswith("REFUSED")
+    assert "per_focus_model" not in doc
