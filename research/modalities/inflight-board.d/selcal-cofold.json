@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "selcal-cofold",
-  "generated_epoch": 1785629596.469211,
-  "generated_utc": "2026-08-02T00:13:16Z",
-  "generated_et": "8:13 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785629789.0683115,
+  "generated_utc": "2026-08-02T00:16:29Z",
+  "generated_et": "8:16 PM ET Sat Aug 1, 2026",
   "note": "12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once.",
   "rows": [
     {
@@ -13,7 +13,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46549922 created, 46549942 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46549922 created, 46549942 running, 46550800 loading, 46550805 loading. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
     },
     {
       "name": "selcal_smarca4 co-fold",
@@ -22,7 +22,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46549246 running, 46549950 created, 46549971 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46549246 running, 46549950 created, 46549971 running, 46550806 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
     },
     {
       "name": "selcal-smarca2-m1-r1",
