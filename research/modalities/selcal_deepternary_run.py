@@ -334,9 +334,67 @@ def emit_raw(configs, workdir, raw_dir):
     return out
 
 
+def append_conect(lig_pdb, comp_id, workdir):
+    """Append CONECT records to an already-extracted ligand PDB. (n_bonds_written, error).
+
+    ⚠ THE LAST LINK IN A THREE-STEP CHAIN, each step of which was discovered by a failed CI run:
+    mmCIF-only entry -> conversion drops CONECT (fixed in `write_pdb`) -> `deepternary_blind_prep.extract_
+    ligand` copies the ligand's HETATM lines ONLY, stripping the CONECT that had just been added -> RDKit
+    cannot sanitize a novel HETATM with no bonds and `MolFromPDBFile` returns None -> `predict_one_unbound`
+    dies on `.GetConformer()`.
+
+    Serials are re-read from THIS file rather than carried over, because the extracted file renumbers from 1.
+    Bonds come from the CCD's own `_chem_comp_bond` table, never from interatomic distances: a covalent-radius
+    guess would invent the very chemistry these records exist to state."""
+    if not os.path.exists(lig_pdb):
+        return 0, "ligand file absent: %s" % lig_pdb
+    bonds, berr = ccd_bonds(comp_id, workdir)
+    if berr:
+        return 0, berr
+    lines = open(lig_pdb).read().splitlines()
+    serial = {}
+    for ln in lines:
+        if ln[:6] in ("ATOM  ", "HETATM"):
+            try:
+                serial[ln[12:16].strip()] = int(ln[6:11])
+            except ValueError:
+                continue
+    if not serial:
+        return 0, "no atom records in %s" % os.path.basename(lig_pdb)
+    written, missing = [], set()
+    for a1, a2 in sorted(bonds):
+        if a1 in serial and a2 in serial:
+            written.append("CONECT%5d%5d" % (serial[a1], serial[a2]))
+        else:
+            missing |= {a for a in (a1, a2) if a not in serial}
+    if not written:
+        return 0, ("no CCD bond of %s could be mapped onto %s — atom names do not correspond"
+                   % (comp_id, os.path.basename(lig_pdb)))
+    body = [l for l in lines if l.strip() != "END"]
+    open(lig_pdb, "w").write("\n".join(body + written + ["END"]) + "\n")
+    return len(written), (None if not missing else
+                          "%d CCD atom name(s) absent from the extracted file (%s) — those bonds were "
+                          "skipped, not guessed" % (len(missing), ",".join(sorted(missing)[:6])))
+
+
+def fix_ligand_conect(configs, base, workdir):
+    """Repair every ready arm's extracted ligand files in place."""
+    out = []
+    for cfg in configs:
+        d = os.path.join(base, cfg["name"])
+        for fn, comp in (("unbound_lig1.pdb", cfg["warhead_comp"]), ("unbound_lig2.pdb", cfg["anchor_comp"])):
+            n, err = append_conect(os.path.join(d, fn), comp, workdir)
+            out.append({"arm": cfg["name"], "file": fn, "comp": comp, "n_conect": n, "note": err,
+                        "ok": n > 0})
+    return out
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Prep + run + score the DeepTernary head-to-head ($0 CPU).")
+    ap.add_argument("--fix-ligand-conect", default=None,
+                    help="prep base dir (e.g. output/protac22): append CCD-sourced CONECT to the extracted "
+                         "ligand files of every ready arm, then exit")
     ap.add_argument("--emit-raw", default=None,
                     help="also write every named structure into this dir as <PDBID>.pdb (for a PDB-only consumer)")
     ap.add_argument("--configs", default=os.path.join(HERE, "selcal-deepternary-prep-configs.json"))
@@ -346,6 +404,14 @@ def main(argv=None):
 
     cfgdoc = json.load(open(args.configs))
     cfgs = cfgdoc["configs"] if isinstance(cfgdoc, dict) else cfgdoc
+    if args.fix_ligand_conect:
+        rows = fix_ligand_conect(cfgs, args.fix_ligand_conect, args.workdir)
+        for r in rows:
+            print("  %-16s %-20s %s %d CONECT%s" % (r["arm"], r["file"], "ok " if r["ok"] else "FAILED",
+                                                    r["n_conect"], "  — %s" % r["note"] if r["note"] else ""),
+                  flush=True)
+        json.dump(rows, open(args.out, "w"), indent=1)
+        return 0 if all(r["ok"] for r in rows) else 4
     degrader = cfgs[0]["degrader_comp"]
     ready, report = prepare(cfgs, args.workdir, degrader)
 

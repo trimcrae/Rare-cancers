@@ -117,6 +117,27 @@ jobs:
             --base output/protac22 \
             --out "$RUNNER_TEMP/blind_prep_status.json"
           cat "$RUNNER_TEMP/blind_prep_status.json"
+          # ⚠ THE LAST LINK. `extract_ligand` copies the ligand's HETATM lines only, stripping the CONECT
+          # records the conversion had just added — so RDKit gets a novel HETATM with no bonds and
+          # `MolFromPDBFile` returns None. Re-append them here, serials renumbered to these files' own
+          # numbering, bonds still sourced from the CCD rather than guessed from distances.
+          python3 "$GITHUB_WORKSPACE/research/modalities/selcal_deepternary_run.py" \
+            --configs "$RUNNER_TEMP/ready.json" \
+            --workdir /tmp/selcal_dt \
+            --fix-ligand-conect output/protac22 \
+            --out "$RUNNER_TEMP/conect_fix.json"
+          python3 -c "
+          from rdkit import Chem
+          import json, sys
+          bad = []
+          for c in json.load(open('$RUNNER_TEMP/ready.json')):
+              for f in ('unbound_lig1.pdb','unbound_lig2.pdb'):
+                  p = 'output/protac22/%s/%s' % (c['name'], f)
+                  m = Chem.MolFromPDBFile(p, removeHs=False, sanitize=True)
+                  print(f, c['name'], 'READABLE' if m else 'UNREADABLE')
+                  if m is None: bad.append(p)
+          sys.exit(3 if bad else 0)
+          "
 
       - name: Predict (CPU, 16 seeds)
         run: |
