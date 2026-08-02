@@ -58,6 +58,49 @@ CONTROLS, ALSO FIXED IN ADVANCE, because a bare number here would not be interpr
      route and is reported against that. This ADDS reporting; it moves no threshold and cannot turn a
      failure into a pass.
 
+──────────────────────────────────────────────────────────────────────────────────────────────────────
+★★ SITE AND DOCKING ARE TWO QUESTIONS, AND THE FIRST PANEL COULD NOT TELL THEM APART (added 2026-08-02,
+   second revision. NOTHING PRE-REGISTERED MOVES: the primary endpoint, its bands, C1/C2/C3 and the
+   verdict function are byte-identical in intent. What follows are ADDED endpoints and ADDED controls.)
+──────────────────────────────────────────────────────────────────────────────────────────────────────
+The first scored panel returned INCONCLUSIVE on 6 of 6 pairs because C1 failed, and the decomposition read
+as "the docking is fine, the SITE SELECTION missed". That reading has a confound the panel could not see,
+and the confound has to be settled before the site number means anything:
+
+  ⛔ THE PIPELINE'S BOX IS NR4A3'S OWN POCKET-5 DRAGGED ACROSS BY A GLOBAL BLOSUM62 SEQUENCE ALIGNMENT
+  (`nr4a3_warhead.map_pocket_to_paralogue`). The pipeline itself only ever performs that transfer onto
+  `nr4a3_warhead.PARALOGUES` — NR4A1 and NR4A2 — and onto NR4A3's own 8XTT. The benchmark additionally
+  performed it onto PPARG and RORC. Finding that an NR4A3 cryptic pocket does not land on PPARG's
+  orthosteric cavity is close to expected and is NOT evidence that site selection is broken for NR4A3.
+  So `site_transfer_regime.in_pipeline_regime` is now computed per pair FROM `nr4a3_warhead.PARALOGUES`
+  (never re-typed here), and an out-of-regime pair's site arm is reported as NOT EVIDENCE about the
+  pipeline rather than folded into a panel-level site claim.
+
+The two questions, each now answered on its own arm and its own control:
+
+  Q-DOCKING — GIVEN THE CORRECT SITE, does blind apo->holo docking recover the pose? Arm: `C3_oracle_box_apo`
+     (apo receptor, box centred on the crystallographic ligand). Its control is `C1c_self_dock_holo_oracle_box`
+     (holo receptor, same box) — the protocol ceiling. Same 2.00/4.00 A bands, unchanged. If the ceiling
+     itself misses, this pair cannot answer the docking question and says so.
+  Q-SITE — does a site-selection route put the crystallographic ligand INSIDE the box it draws? This is a
+     GEOMETRIC endpoint with no docking in it: `SITE FOUND` iff the ligand's centroid lies inside the
+     axis-aligned box of the pipeline's own `size_x/y/z`. That is the necessary condition for the docking
+     to be able to return the right answer at all, it is free, and it is deterministic — where an RMSD
+     through a stochastic search is neither. Fraction of ligand heavy atoms in the box, centre-to-ligand
+     distance and native-contact recall of the box residues are reported beside it, always.
+  C4 STRUCTURE-TRANSFERRED POCKET-5 (the confound control). Pocket-5 is carried onto the same receptor a
+     second time by CE structural superposition (`Bio.PDB.cealign`) instead of by sequence. If the
+     STRUCTURAL transfer lands on the ligand and the sequence transfer does not, the pipeline's alignment
+     is what failed. If BOTH land far away, the crystallographic ligand is not in this receptor's
+     Pocket-5-equivalent site at all, and "the pipeline missed the site" was the benchmark's design and
+     not a defect. Those are opposite conclusions and no RMSD can separate them.
+  C5 WHAT THE DEPOSIT ITSELF DECLARES, read from the file, never inferred: SEQADV engineered mutations
+     (with the answer to "is the mutated residue one of the ligand's own contacts?"), and whether the holo
+     title declares the ligand ALLOSTERIC. A benchmark whose ligand binds a declared allosteric site
+     cannot test an orthosteric site-transfer, and a pocket that exists because of a point mutation is not
+     the wild-type site any transfer is aiming at.
+──────────────────────────────────────────────────────────────────────────────────────────────────────
+
 ★ A PANEL, NOT A PICK. `PANEL_SIZE` candidate pairs are attempted in the pre-registered rank order — one
 per distinct crystallographic answer, at most `MAX_PER_PROTEIN` per protein — and EVERY one is reported,
 including the ones R2b throws out. There is no early exit on "enough good ones", because an exit conditioned
@@ -109,6 +152,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "apo-pose-recovery.json")
+OUT_MD = os.path.join(HERE, "apo-pose-recovery.md")
 WORK = os.environ.get("APO_RECOVERY_WORK", os.path.join(HERE, "_apo_recovery_work"))
 
 # ---------------------------------------------------------------------------------- fixed thresholds
@@ -117,6 +161,21 @@ PARTIAL_RMSD_A = 4.00      # field-standard "wrong pose" boundary
 FNAT_SUCCESS = 0.50        # secondary endpoint
 N_NULL = 200               # random-in-box placements for the power control
 NULL_POWER_MAX = 0.05      # if P(random <= RECOVER_RMSD_A) exceeds this, the criterion has no power
+
+# ------------------------------------------------- ADDED 2026-08-02 (second revision). NONE OF THESE
+# ------------------------------------------------- REPLACES A PRE-REGISTERED THRESHOLD; they are new
+# ------------------------------------------------- endpoints on new arms. Registered in `_appendix`.
+#: A pair is more than a rigid-receptor re-dock above this much apo->holo Ca movement AT THE LIGAND SITE.
+#: 1.00 A is the conventional line between "same conformation" and a real conformational change in the
+#: cross-docking literature; it is a REPORTING band here and gates nothing.
+LARGE_INDUCED_FIT_A = 1.00
+#: A Pocket-5 residue counts as carried across by the STRUCTURAL transfer when a receptor Ca lies within
+#: this of its superposed Ca. 6.0 A is roughly two Ca-Ca steps — loose enough that a shifted loop still
+#: maps, tight enough that "mapped" means the same position in the fold.
+STRUCT_TRANSFER_MAX_CA_A = 6.00
+#: Words in a holo title that DECLARE the ligand's site is allosteric. Reported, never filtering — but a
+#: pair whose crystallographic ligand is declared allosteric cannot test an ORTHOSTERIC site transfer.
+ALLOSTERIC_MARKERS = ("ALLOSTERIC", "NON-ORTHOSTERIC", "SECOND SITE")
 
 # ------------------------------------------------------------------- what counts as a real ligand
 #: Non-polymer components that are crystallisation/cryo/buffer matter, not ligands. A structure carrying
@@ -189,12 +248,58 @@ MAX_PER_PROTEIN = 2
 #: choosing which results to have. The list is fixed by SELECTION_RULES before any structure is fetched.
 PANEL_SIZE = 12
 
+#: ⛔ CLAUDE.md §1.2 — CHANGES GO IN AN APPENDIX, WITH THE SUPERSEDED VALUE RETAINED. Emitted into the
+#: artifact as `_appendix` so a reader of the JSON alone can see exactly what moved and what did not.
+#: The pre-registered PRIMARY endpoint, its 2.00/4.00 A bands, C1, C2 and C3 are UNCHANGED — every entry
+#: below either ADDS an arm/endpoint or corrects a sentence that over-claimed.
+APPENDIX = {
+    "unchanged": [
+        "PRIMARY endpoint: symmetry-corrected heavy-atom RMSD of the top pose from the APO receptor, "
+        "through the pipeline's own site transfer, after site-Ca superposition. Bands 2.00 / 4.00 A.",
+        "C1 (self-dock into holo through the pipeline's box) still makes a pair INCONCLUSIVE when it fails.",
+        "C2 random-in-box null and its 0.05 power line.",
+        "C3 oracle box remains a decomposition and never a headline.",
+        "`verdict()` is unchanged: no added arm can turn a NOT RECOVERED into a pass.",
+    ],
+    "added_2026_08_02_second_revision": [
+        "Q-SITE: a GEOMETRIC site endpoint — SITE FOUND iff the crystallographic ligand's centroid lies "
+        "inside the box the route drew. No docking in it, so it is deterministic.",
+        "Q-DOCKING: the docking question asked with the site handed over (C3 arm) against its own ceiling "
+        "control (C1c), so a docking answer never borrows the site arm's evidence.",
+        "C4 structural transfer: NR4A3 Pocket-5 carried onto the same receptor a second time by CE "
+        "structural superposition (Bio.PDB.cealign) instead of by BLOSUM62, plus its blind arm and its "
+        "own self-dock control. This is the confound control: only two independent transfers can "
+        "separate 'the alignment failed' from 'the ligand is not in the Pocket-5-equivalent site'.",
+        "C5 declared facts read from the deposit: SEQADV engineered substitutions (and whether any is one "
+        "of the ligand's own contact residues) and a holo-title allosteric declaration.",
+        "A regime gate on the site question, computed from `nr4a3_warhead.PARALOGUES` rather than typed: "
+        "a receptor the pipeline never transfers onto is not evidence about the pipeline's site step.",
+        "LARGE_INDUCED_FIT_A = 1.00 A: a REPORTING band on the apo->holo site Ca RMSD, gating nothing.",
+    ],
+    "corrected_2026_08_02": [
+        {"what": "`boxes.pipeline_box_fpocket_rank._reads`",
+         "superseded": "asserted 'the site the pipeline's Pocket-5 transfer selected IS a cavity on this "
+                       "receptor' whenever the transferred residues touched a pocket by even one residue — "
+                       "printed beside `n_shared_residues: 1` on the headline pair",
+         "now": "the rank is unchanged and still reported; the SENTENCE is conditioned on the share, and "
+                "the share itself (`frac_transferred_residues_in_that_pocket`) is now emitted"},
+        {"what": "PAIR_BUDGET_S / PANEL_BUDGET_S",
+         "superseded": "420 s per pair / 2700 s per panel",
+         "now": "900 s / 4500 s — a wall-clock hang-guard raised for the added arms. It can only decide "
+                "whether an arm RUNS (recorded UNRUN if not), never what an arm returns."},
+    ],
+}
+
 #: Wall-clock budget per candidate pair, and for the panel as a whole. CLAUDE.md §6: the per-unit timeout
 #: is the real hang-guard. One pathological ligand — a substructure match that goes exponential, an RCSB
 #: fetch that stalls — must cost that pair and no more, and must surface as a REFUSAL with its elapsed
 #: time rather than as a killed job with nothing written.
-PAIR_BUDGET_S = int(os.environ.get("APO_PAIR_BUDGET_S", "420"))
-PANEL_BUDGET_S = int(os.environ.get("APO_PANEL_BUDGET_S", "2700"))
+#: ⚠ RAISED 2026-08-02 (420 -> 900, 2700 -> 4500) when the site/docking split added two docking arms and a
+#: structural superposition per pair. This is a WALL-CLOCK HANG-GUARD, not a scientific threshold: it can
+#: only decide whether an arm RUNS, never what it returns, and a pair that exceeds it is recorded UNRUN.
+#: The superseded values are registered in `_appendix` exactly like any other corrected number.
+PAIR_BUDGET_S = int(os.environ.get("APO_PAIR_BUDGET_S", "900"))
+PANEL_BUDGET_S = int(os.environ.get("APO_PANEL_BUDGET_S", "4500"))
 
 
 # ==================================================================================================
@@ -419,6 +524,86 @@ def engineered_flag(*titles):
     """(bool, evidence) — does any deposit title declare an engineered construct? Reported, never gating."""
     hits = [t for t in titles if any(m in (t or "").upper() for m in MUTANT_MARKERS)]
     return bool(hits), hits
+
+
+def allosteric_flag(*titles):
+    """(bool, evidence) — does any deposit title DECLARE the ligand's site allosteric? Never gating.
+
+    ⛔ THIS IS READ, NOT JUDGED. The depositor wrote "in complex with allosteric ligand FM156" into the
+    title of 7NPC; nothing here decides from chemistry or from a pocket ranking whether a site is
+    allosteric. A pair that carries this flag cannot test an ORTHOSTERIC site transfer, because the
+    crystallographic answer is somewhere the transfer was never aiming."""
+    hits = [t for t in titles if any(m in (t or "").upper() for m in ALLOSTERIC_MARKERS)]
+    return bool(hits), hits
+
+
+def seqadv_mutations(pdb_text, chain=None):
+    """Engineered mutations DECLARED BY THE DEPOSITOR, parsed from the deposit's own SEQADV records.
+
+    ⛔ THE DEPOSIT IS THE ONLY HONEST SOURCE FOR THIS. `engineered_flag` reads the TITLE, which is prose:
+    it says "L449W" without saying which residue number the file uses, and 4REF's own chain is not
+    numbered the way the title is. SEQADV states the substitution in the FILE's numbering against the
+    UniProt residue it replaced, plus the depositor's reason string — so "is the engineered residue one of
+    the ligand's own contacts?" becomes a lookup rather than an assumption.
+
+    Format is the wwPDB fixed-column SEQADV record."""
+    out = []
+    for line in pdb_text.splitlines():
+        if not line.startswith("SEQADV"):
+            continue
+        try:
+            ch = line[16]
+            if chain and ch != chain:
+                continue
+            resseq = int(line[18:22])
+        except (ValueError, IndexError):
+            continue
+        out.append({"chain": ch, "resseq": resseq,
+                    "deposit_residue": line[12:15].strip(),
+                    "db": line[24:28].strip(), "db_accession": line[29:38].strip(),
+                    "db_residue": line[39:42].strip(),
+                    "reason": line[49:70].strip()})
+    return out
+
+
+def box_containment(center, size, points):
+    """Is the crystallographic answer INSIDE the box a site-selection route drew? Pure geometry.
+
+    ⛔ THIS IS THE SITE ENDPOINT AND IT CONTAINS NO DOCKING. smina cannot return a pose outside its own
+    box, so a ligand outside the box is a site failure with probability 1 and no search, scoring, seed or
+    force field enters the answer. Reporting the site question through an RMSD — as the first panel had
+    to — mixes a deterministic fact with a stochastic one and then cannot say which moved."""
+    if center is None or not points:
+        return None
+    hx, hy, hz = size[0] / 2.0, size[1] / 2.0, size[2] / 2.0
+    inside = [p for p in points
+              if abs(p[0] - center[0]) <= hx and abs(p[1] - center[1]) <= hy
+              and abs(p[2] - center[2]) <= hz]
+    cen = centroid(points)
+    return {"ligand_centroid_in_box": (abs(cen[0] - center[0]) <= hx and abs(cen[1] - center[1]) <= hy
+                                       and abs(cen[2] - center[2]) <= hz),
+            "frac_ligand_heavy_atoms_in_box": round(len(inside) / float(len(points)), 3),
+            "n_ligand_heavy_atoms": len(points),
+            "box_center_to_ligand_centroid_A": round(math.dist(center, cen), 3),
+            "_box_size_A": [round(s, 2) for s in size]}
+
+
+def site_answer(center, size, lig_points_same_frame, box_residues, res_map, native, site_label):
+    """The Q-SITE readout for ONE site-selection route. `res_map` carries box residue numbers into the
+    holo numbering `native` is expressed in (identity map for a holo-frame box)."""
+    if center is None:
+        return {"answer": "UNREAD", "_site": site_label}
+    geom = box_containment(center, size, lig_points_same_frame) or {}
+    row = {"_site": site_label, **geom}
+    if box_residues:
+        mapped = {res_map.get(r, r) for r in box_residues} if res_map else set(box_residues)
+        nat = set(native or [])
+        row["n_box_residues"] = len(set(box_residues))
+        row["n_box_residues_that_are_native_contacts"] = len(mapped & nat)
+        row["native_contact_recall_of_box_residues"] = (round(len(mapped & nat) / len(nat), 3)
+                                                        if nat else None)
+    row["answer"] = ("SITE FOUND" if geom.get("ligand_centroid_in_box") else "SITE MISSED")
+    return row
 
 
 def covalent_links(pdb_text, comp_id):
@@ -736,6 +921,89 @@ def pipeline_box(receptor_pdb, af2_reference_pdb, work):
                     "_source": "NR4A3 Pocket-5 (nr4a3_8xtt_benchmark.POCKET5) carried across by "
                                "nr4a3_warhead.map_pocket_to_paralogue — the pipeline's own transfer"}
 
+def pocket5_structure_transfer(ref_pdb, receptor_pdb):
+    """C4 — Pocket-5 carried onto this receptor by STRUCTURAL superposition, not by sequence.
+
+    ⛔ WHY THIS EXISTS, AND WHY IT IS THE ONLY ARM THAT CAN SETTLE THE ARGUMENT. `pipeline_box` transfers
+    Pocket-5 with a global BLOSUM62 alignment of the two Ca sequences. On NR4A1 that runs at ~0.60 aligned
+    identity; on PPARG and RORC it runs at ~0.24-0.27, which is the twilight zone where a global sequence
+    alignment of a 250-residue domain is not reliable. So a pipeline box that misses the ligand has TWO
+    possible causes with OPPOSITE meanings:
+        (a) the alignment put Pocket-5 in the wrong place  -> the pipeline's site step is broken;
+        (b) the alignment was right and the ligand simply is not in this receptor's Pocket-5-equivalent
+            site -> the benchmark asked the transfer to find something it was never aiming at.
+    A docking RMSD cannot separate them, because both give the same big number. A SECOND, INDEPENDENT
+    transfer can: CE structural alignment (`Bio.PDB.cealign`) matches the two folds without ever looking
+    at the sequence. Agreement between the two transfers rules out (a); disagreement localises it.
+
+    Uses NO ligand information. Returns (center, detail) or (None, why)."""
+    import nr4a3_8xtt_benchmark as bm
+    import nr4a3_warhead as wh
+    try:
+        from Bio.PDB import PDBParser
+        from Bio.PDB.cealign import CEAligner
+    except Exception as e:                                    # noqa: BLE001
+        return None, "Bio.PDB.cealign unavailable: %s: %s" % (type(e).__name__, e)
+    try:
+        parser = PDBParser(QUIET=True)
+        rec = parser.get_structure("rec", receptor_pdb)
+        ref = parser.get_structure("ref", ref_pdb)
+        aligner = CEAligner()
+        aligner.set_reference(rec)
+        aligner.align(ref)                                    # moves `ref` into the receptor's frame
+    except Exception as e:                                    # noqa: BLE001
+        return None, "CE structural alignment failed: %s: %s" % (type(e).__name__, e)
+
+    def ca_by_resnum(structure):
+        d = {}
+        for res in structure.get_residues():
+            if "CA" in res:
+                d[res.id[1]] = tuple(float(v) for v in res["CA"].coord)
+        return d
+
+    rec_ca, ref_ca = ca_by_resnum(rec), ca_by_resnum(ref)
+    if not rec_ca or not ref_ca:
+        return None, "no CA atoms after the structural superposition"
+    mapped, unmapped, n_carried = [], [], 0
+    for r in bm.POCKET5:
+        p = ref_ca.get(r)
+        if p is None:
+            unmapped.append({"pocket5_residue": r, "why": "absent from the NR4A3 LBD reference"})
+            continue
+        best, bestd = None, None
+        for rr, q in rec_ca.items():
+            d = math.dist(p, q)
+            if bestd is None or d < bestd:
+                best, bestd = rr, d
+        if bestd is not None and bestd <= STRUCT_TRANSFER_MAX_CA_A:
+            mapped.append(best)
+            n_carried += 1
+        else:
+            unmapped.append({"pocket5_residue": r,
+                             "why": "nearest receptor CA %.2f A away, past the %.2f A cutoff"
+                                    % (bestd if bestd is not None else float("nan"),
+                                       STRUCT_TRANSFER_MAX_CA_A)})
+    if not mapped:
+        return None, ("CE superposition placed no NR4A3 Pocket-5 residue within %.1f A of any receptor CA "
+                      "(CE RMSD %s A over the guide atoms)" % (STRUCT_TRANSFER_MAX_CA_A, aligner.rms))
+    try:
+        center, nbox = wh.pocket_box(receptor_pdb, mapped)
+    except Exception as e:                                    # noqa: BLE001
+        return None, "pocket_box failed on the structurally-transferred residues: %s" % e
+    return center, {"mapped_residues": sorted(set(mapped)), "n_box_ca": nbox,
+                    "ce_rms_A": round(float(aligner.rms), 3) if aligner.rms is not None else None,
+                    # ⚠ TWO DIFFERENT COUNTS, both reported, because they answer different questions:
+                    # how many Pocket-5 residues found a partner (`n_pocket5_transferred`), and how many
+                    # DISTINCT receptor residues that landed on (`n_unique_receptor_residues`). Two
+                    # Pocket-5 residues collapsing onto one receptor residue is normal and is not a loss.
+                    "n_pocket5_transferred": n_carried, "n_pocket5_source": len(bm.POCKET5),
+                    "n_unique_receptor_residues": len(set(mapped)),
+                    "unmapped": unmapped, "_max_ca_A": STRUCT_TRANSFER_MAX_CA_A,
+                    "_source": "NR4A3 Pocket-5 carried across by CE STRUCTURAL superposition "
+                               "(Bio.PDB.cealign) — sequence-independent, the control on the pipeline's "
+                               "BLOSUM62 transfer"}
+
+
 def fpocket_boxes(receptor_pdb):
     """([pocket...] ranked by druggability, why) from fpocket on this receptor. No ligand information."""
     import nr4a3_8xtt_benchmark as bm
@@ -901,6 +1169,11 @@ def run_benchmark(cand, work, af2_reference_pdb):
                                   "_note": "reported, never filtered — a mutant designed to create or "
                                            "probe a pocket is not the wild-type site the pipeline targets, "
                                            "and a reader must be able to see that from the artifact"}
+    aflag, aev = allosteric_flag(cand.get("holo_title"))
+    R_["declared_allosteric"] = {"declared_in_holo_title": aflag, "evidence": aev,
+                                 "_reads": "the DEPOSITOR says this ligand occupies an allosteric site. "
+                                           "An orthosteric site transfer cannot be graded on it — the "
+                                           "crystallographic answer is somewhere the transfer never aimed"}
 
     # 3) receptors — the holo chain the ligand actually touches, and the apo's largest chain
     # ⛔ THE RECEPTOR CHAIN MUST FOLLOW THE ACCESSION, NOT ATOM COUNT. 1DSZ is an RXR/RAR heterodimer on
@@ -935,9 +1208,17 @@ def run_benchmark(cand, work, af2_reference_pdb):
     try:
         fit = bm.superpose_and_score(apo_ca, {a: holo_ca[h] for a, h in apo_to_holo.items() if h in holo_ca},
                                      list(apo_to_holo.keys()), site_apo, [])
+        site_rms = round(fit["pocket_rmsd"], 3) if fit["pocket_rmsd"] else None
         R_["induced_fit"] = {"global_ca_rmsd_A": round(fit["global_rmsd"], 3),
-                             "site_ca_rmsd_A": round(fit["pocket_rmsd"], 3) if fit["pocket_rmsd"] else None,
+                             "site_ca_rmsd_A": site_rms,
                              "n_fit": fit["n_fit"], "n_site": fit["n_pocket"],
+                             # ★ HOW HARD A TEST IS THIS, ACTUALLY? A cross-dock across 0.14 A of Ca
+                             # movement is a re-dock with extra steps: it is passed or failed on almost
+                             # nothing. The band is stated on every pair so no single pair's number can be
+                             # read as "apo->holo transfer works" when there was no transfer to make.
+                             "large_rearrangement": (site_rms is not None
+                                                     and site_rms >= LARGE_INDUCED_FIT_A),
+                             "_large_rearrangement_A": LARGE_INDUCED_FIT_A,
                              "_note": "apo->holo Ca movement at the ligand site. This is the size of the "
                                       "problem the cross-dock has to solve; it is measured, not assumed."}
     except Exception as e:                                    # noqa: BLE001
@@ -945,10 +1226,16 @@ def run_benchmark(cand, work, af2_reference_pdb):
 
     # the evaluation transform: apo frame -> holo frame, fitted on the site Ca (standard practice; it
     # gives the docking no information, because the docking has already happened by the time it is used)
+    # ⚠ THE INVERSE IS HOISTED HERE because the SITE endpoint needs it before any docking happens: the
+    # apo-frame boxes must be tested against the crystallographic ligand carried into the APO frame, not
+    # the other way round. Rotating a box is not the same operation as rotating the thing inside it.
     try:
         common = [a for a in site_apo if a in apo_ca and apo_to_holo[a] in holo_ca]
         Rm, tm = bm.kabsch_transform([apo_ca[a] for a in common],
                                      [holo_ca[apo_to_holo[a]] for a in common])
+        Ri, ti = bm.kabsch_transform([holo_ca[apo_to_holo[a]] for a in common],
+                                     [apo_ca[a] for a in common])
+        xtal_pts_apo = bm.apply_transform(xtal_pts, Ri, ti)
         R_["evaluation_frame"] = {"fitted_on": "site Ca", "n": len(common)}
     except Exception as e:                                    # noqa: BLE001
         return refuse("evaluation_frame", "site superposition failed: %s" % e)
@@ -985,13 +1272,24 @@ def run_benchmark(cand, work, af2_reference_pdb):
         # broken. Those have opposite meanings and must never be reported as one "it failed".
         pl = set((boxes.get("pipeline_apo", {}).get("detail") or {}).get("mapped_residues") or [])
         pranks = [(i + 1, p) for i, p in enumerate(pockets) if pl & set(p["residues"])]
+        # ⚠ CORRECTED 2026-08-02: this row used to assert "the transferred site IS a cavity" on ANY overlap
+        # at all, and the first panel then printed that sentence beside `n_shared_residues: 1` — one residue
+        # out of ten touching a pocket is not the transferred site sitting in that pocket. The rank is kept
+        # (it is the real observable) and the SENTENCE is now conditioned on the share.
+        _nshare = len(pl & set(pranks[0][1]["residues"])) if pranks else 0
+        _frac = round(_nshare / float(len(pl)), 3) if pl else None
         boxes["pipeline_box_fpocket_rank"] = (
             {"rank_by_druggability": pranks[0][0], "druggability": pranks[0][1].get("druggability"),
-             "n_shared_residues": len(pl & set(pranks[0][1]["residues"])),
-             "_reads": "the site the pipeline's Pocket-5 transfer selected IS a cavity on this receptor; "
-                       "if the primary arm still missed, the crystal ligand is not in it"}
+             "n_shared_residues": _nshare, "n_transferred_residues": len(pl),
+             "frac_transferred_residues_in_that_pocket": _frac,
+             "_reads": ("the site the pipeline's Pocket-5 transfer selected IS substantially that cavity; "
+                        "if the primary arm still missed, the crystal ligand is not in it"
+                        if (_frac or 0) >= 0.5 else
+                        "the transferred site only CLIPS this pocket (%s of %d residues) — the rank is a "
+                        "contact, not a coincidence of sites, and must not be read as one"
+                        % (_nshare, len(pl)))}
             if pranks else
-            {"rank_by_druggability": None,
+            {"rank_by_druggability": None, "n_transferred_residues": len(pl),
              "_reads": "the site the pipeline's Pocket-5 transfer selected is not a cavity fpocket finds "
                        "on this receptor at all"})
         boxes["native_site_fpocket_rank"] = (
@@ -1001,8 +1299,61 @@ def run_benchmark(cand, work, af2_reference_pdb):
                            "_note": "no fpocket pocket on the APO receptor touches the native ligand site"})
     else:
         boxes["fpocket_top_apo"] = {"center": None, "why": pwhy}
+
+    # C4 — the SAME site transfer done a second way, without the sequence alignment. See
+    # `pocket5_structure_transfer`: this is the only arm that can tell a broken alignment from a ligand
+    # that simply is not in this receptor's Pocket-5-equivalent site.
+    ref_lbd, ref_why = nr4a3_lbd_reference(af2_reference_pdb, work)
+    if ref_lbd is None:
+        boxes["struct_transfer_apo"] = {"center": None, "why": ref_why}
+        boxes["struct_transfer_holo"] = {"center": None, "why": ref_why}
+    else:
+        sc, sdet = pocket5_structure_transfer(ref_lbd, apo_rec)
+        boxes["struct_transfer_apo"] = ({"center": sc, "detail": sdet} if sc
+                                        else {"center": None, "why": sdet})
+        sch, sdeth = pocket5_structure_transfer(ref_lbd, holo_rec)
+        boxes["struct_transfer_holo"] = ({"center": sch, "detail": sdeth} if sch
+                                         else {"center": None, "why": sdeth})
     R_["boxes"] = boxes
     size = tuple(float(R_["params"].get(k, 24)) for k in ("size_x", "size_y", "size_z"))
+
+    # ==============================================================================================
+    # Q-SITE — DOES THE SITE-SELECTION ROUTE PUT THE CRYSTALLOGRAPHIC LIGAND INSIDE ITS OWN BOX?
+    # No docking, no scoring, no random seed: a deterministic geometric fact about site selection alone.
+    # Apo-frame boxes are judged against the crystal ligand carried INTO the apo frame; holo-frame boxes
+    # against the crystal ligand where it was solved.
+    # ==============================================================================================
+    ident_map = {a: h for a, h in apo_to_holo.items()}
+    site_rows = {
+        "pipeline_sequence_transfer_apo": site_answer(
+            boxes["pipeline_apo"].get("center"), size, xtal_pts_apo,
+            ((boxes["pipeline_apo"].get("detail") or {}).get("mapped_residues")), ident_map, native,
+            "NR4A3 Pocket-5 carried across by the pipeline's own BLOSUM62 transfer (apo receptor)"),
+        "pipeline_sequence_transfer_holo": site_answer(
+            boxes["pipeline_holo"].get("center"), size, xtal_pts,
+            ((boxes["pipeline_holo"].get("detail") or {}).get("mapped_residues")), None, native,
+            "the same transfer onto the HOLO receptor — the site C1 self-docks through"),
+        "pocket5_structure_transfer_apo": site_answer(
+            boxes["struct_transfer_apo"].get("center"), size, xtal_pts_apo,
+            ((boxes["struct_transfer_apo"].get("detail") or {}).get("mapped_residues")), ident_map, native,
+            "NR4A3 Pocket-5 carried across by CE STRUCTURAL superposition (apo receptor) — C4"),
+        "fpocket_top_pocket_apo": site_answer(
+            (boxes.get("fpocket_top_apo") or {}).get("center"), size, xtal_pts_apo,
+            (pockets[0]["residues"] if pockets else None), ident_map, native,
+            "the highest-druggability fpocket pocket, no NR4A3 information used (apo receptor)"),
+    }
+    # ★ THE GEOMETRY'S OWN POSITIVE CONTROL. The oracle box is centred ON the ligand, so `SITE FOUND` with
+    # essentially every heavy atom inside is the only answer `box_containment` can be allowed to give. A
+    # different answer means the containment arithmetic or a frame is wrong, and every other row above is
+    # then unreadable — so it is computed and reported rather than assumed.
+    site_rows["C3_oracle_box_apo_geometry_selfcheck"] = site_answer(
+        tuple(bm.apply_transform([centroid(xtal_pts)], Ri, ti)[0]), size, xtal_pts_apo, None, None, native,
+        "oracle box, apo frame — a self-check on the containment arithmetic, never a result")
+    R_["Q_SITE_does_site_selection_find_the_ligand"] = {
+        "_endpoint": ("SITE FOUND iff the crystallographic ligand's centroid lies inside the axis-aligned "
+                      "%s A box the route drew. ADDED 2026-08-02; it replaces no pre-registered endpoint "
+                      "and cannot change the primary verdict." % "x".join(str(s) for s in size)),
+        "routes": site_rows}
 
     def score_pose(mol_in_apo_frame, transform=True):
         m = _transform_mol(mol_in_apo_frame, Rm, tm) if transform else mol_in_apo_frame
@@ -1037,7 +1388,6 @@ def run_benchmark(cand, work, af2_reference_pdb):
     #     centre the box on the crystallographic ligand, still docking into the APO receptor.
     oracle_center_holo = centroid(xtal_pts)
     try:
-        Ri, ti = bm.kabsch_transform([holo_ca[apo_to_holo[a]] for a in common], [apo_ca[a] for a in common])
         oracle_center_apo = bm.apply_transform([oracle_center_holo], Ri, ti)[0]
         _s, out_sdf = dock(apo_rec, oracle_center_apo, sdf, "apo_oracle", work)
         mol, why = _top_pose(out_sdf, comp)
@@ -1082,12 +1432,193 @@ def run_benchmark(cand, work, af2_reference_pdb):
         mol, why = _top_pose(out_sdf, comp)
         arms["C1c_self_dock_holo_oracle_box"] = (score_pose(mol, transform=False) if mol
                                                  else {"rmsd_A": None, "why": why})
+    # C4 — the structural-transfer blind arm and its own self-dock control, so the sequence-transfer and
+    # structure-transfer routes are graded the same way as each other and as every other blind arm.
+    if not out_of_time("blind_apo_struct_transfer_box") and boxes["struct_transfer_apo"].get("center"):
+        _s, out_sdf = dock(apo_rec, boxes["struct_transfer_apo"]["center"], sdf, "apo_struct", work)
+        mol, why = _top_pose(out_sdf, comp)
+        arms["C4_blind_apo_struct_transfer_box"] = (score_pose(mol) if mol
+                                                    else {"rmsd_A": None, "why": why})
+    else:
+        arms["C4_blind_apo_struct_transfer_box"] = {
+            "rmsd_A": None, "why": boxes["struct_transfer_apo"].get("why") or "pair budget spent"}
+    if not out_of_time("C4_self_dock_holo_struct_transfer") and boxes["struct_transfer_holo"].get("center"):
+        _s, out_sdf = dock(holo_rec, boxes["struct_transfer_holo"]["center"], sdf, "holo_struct", work)
+        mol, why = _top_pose(out_sdf, comp)
+        arms["C4_self_dock_holo_struct_transfer"] = (score_pose(mol, transform=False) if mol
+                                                     else {"rmsd_A": None, "why": why})
+    else:
+        arms["C4_self_dock_holo_struct_transfer"] = {
+            "rmsd_A": None, "why": boxes["struct_transfer_holo"].get("why") or "pair budget spent"}
     R_["arms"] = arms
 
     # 12) C2 power
     R_["C2_random_in_box_null"] = random_in_box_null(xtal, oracle_center_holo, size)
+
+    # 13) C5 — what the DEPOSIT declares, read from the files already on disk. Never a filter.
+    R_["engineered_construct"]["seqadv_holo"] = seqadv_mutations(holo_txt, holo_chain)
+    R_["engineered_construct"]["seqadv_apo"] = seqadv_mutations(apo_txt)
+    eng_holo = [m for m in R_["engineered_construct"]["seqadv_holo"]
+                if "ENGINEERED" in (m.get("reason") or "").upper()]
+    in_site = [m for m in eng_holo if m["resseq"] in set(native)]
+    R_["engineered_construct"]["engineered_residues_holo"] = eng_holo
+    R_["engineered_construct"]["engineered_residues_in_native_ligand_site"] = in_site
+    # ⛔ THIS IS THE QUESTION THE TITLE FLAG COULD NOT ANSWER. "Declared in title" says a mutant was used;
+    # it does not say whether the mutation touches the pocket being benchmarked. A tryptophan that is one
+    # of the ligand's own contacts means the site the benchmark grades exists in a protein this program is
+    # not targeting, and no site transfer from wild-type NR4A3 can be scored against it.
+    R_["engineered_construct"]["_reads"] = (
+        "%d engineered substitution(s) declared in the HOLO deposit, of which %d is/are among the ligand's "
+        "own contact residues — %s"
+        % (len(eng_holo), len(in_site),
+           ("the benchmarked pocket is shaped by the engineered residue(s) %s, so it is not the wild-type "
+            "site any transfer is aiming at" % ", ".join("%s%d->%s" % (m["db_residue"], m["resseq"],
+                                                                       m["deposit_residue"]) for m in in_site))
+           if in_site else
+           ("the engineered residue(s) are outside the ligand's contact shell, so the benchmarked pocket "
+            "is not one the mutation built" if eng_holo else
+            # ⚠ AN ABSENT READING IS NOT A READING OF ABSENCE (CLAUDE.md §4). "No engineered mutation" and
+            # "this file carries no SEQADV block at all" are different facts with different weights, and a
+            # single sentence covering both would make an unread file look like a clean wild-type deposit.
+            "SEQADV records ARE present (%d) and none of them declares an engineered mutation"
+            % len(R_["engineered_construct"]["seqadv_holo"])
+            if R_["engineered_construct"]["seqadv_holo"] else
+            "⚠ THE HOLO DEPOSIT CARRIES NO SEQADV RECORDS AT ALL — the substitutions are UNREAD here, not "
+            "absent. The title flag above is the only evidence for this pair.")))
+
+    # 14) THE TWO QUESTIONS, SEPARATED. Added 2026-08-02. Neither changes `verdict()`.
+    R_["questions"] = pair_questions(R_, cand)
     R_["verdict"] = verdict(R_)
     return R_
+
+
+def _band(rms):
+    if rms is None:
+        return None
+    return ("RECOVERED" if rms <= RECOVER_RMSD_A else
+            "PARTIAL" if rms <= PARTIAL_RMSD_A else "NOT RECOVERED")
+
+
+def pair_questions(res, cand):
+    """The site question and the docking question, each answered on its own arm and its own control.
+
+    ⛔ THE POINT OF THIS FUNCTION IS THAT NEITHER ANSWER CAN BORROW THE OTHER'S EVIDENCE. The first panel
+    reported one number — a blind RMSD through the pipeline's box — that moved if EITHER the site or the
+    docking was wrong, so a 19 A miss was equally consistent with a broken search and with a box in the
+    wrong half of the protein. Here the docking question is only ever asked with the site handed over, and
+    the site question is only ever answered from geometry with no docking in it at all."""
+    import nr4a3_warhead as wh
+    arms = res.get("arms") or {}
+    sites = (res.get("Q_SITE_does_site_selection_find_the_ligand") or {}).get("routes") or {}
+    oracle = arms.get("C3_oracle_box_apo") or {}
+    ceiling = arms.get("C1c_self_dock_holo_oracle_box") or {}
+    o_rms, c_rms = oracle.get("rmsd_A"), ceiling.get("rmsd_A")
+    ceiling_ok = c_rms is not None and c_rms <= RECOVER_RMSD_A
+
+    docking = {
+        "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the crystallographic pose?",
+        "arm": "C3_oracle_box_apo — apo receptor, box centred on the crystallographic ligand",
+        "control": "C1c_self_dock_holo_oracle_box — same box, the receptor the ligand was solved in",
+        "apo_rmsd_A": o_rms, "apo_fnat": oracle.get("fnat"), "apo_band": _band(o_rms),
+        "control_rmsd_A": c_rms, "control_band": _band(c_rms), "control_passed": ceiling_ok,
+        "answer": (_band(o_rms) if ceiling_ok else
+                   ("INCONCLUSIVE — the protocol ceiling itself missed (%s A), so this pair cannot grade "
+                    "the docking" % c_rms) if c_rms is not None else
+                   "INCONCLUSIVE — the protocol ceiling produced no pose"),
+        "_thresholds": {"recovered_A": RECOVER_RMSD_A, "partial_A": PARTIAL_RMSD_A},
+    }
+
+    # ⛔ THE REGIME GATE — and it is READ FROM THE PIPELINE, NOT TYPED HERE. `nr4a3_warhead.PARALOGUES` is
+    # the complete set of proteins the pipeline ever carries Pocket-5 onto; NR4A3's own accession is added
+    # because the pipeline also transfers onto 8XTT. A benchmark receptor outside that set is being asked a
+    # question the pipeline never asks, and its site arm is NOT evidence about the pipeline's site step.
+    in_regime_accessions = set(wh.PARALOGUES.values()) | {"Q92570"}
+    acc = cand.get("accession")
+    seq_row = sites.get("pipeline_sequence_transfer_apo") or {}
+    str_row = sites.get("pocket5_structure_transfer_apo") or {}
+    fp_row = sites.get("fpocket_top_pocket_apo") or {}
+    allosteric = bool((res.get("declared_allosteric") or {}).get("declared_in_holo_title"))
+    eng_in_site = res.get("engineered_construct", {}).get("engineered_residues_in_native_ligand_site") or []
+    ident = ((res.get("boxes", {}).get("pipeline_apo") or {}).get("detail") or {}).get(
+        "nr4a3_aligned_identity")
+
+    disqualifiers = []
+    if acc not in in_regime_accessions:
+        disqualifiers.append(
+            "OUT OF THE PIPELINE'S REGIME: %s is not one of the proteins the pipeline transfers Pocket-5 "
+            "onto (nr4a3_warhead.PARALOGUES = %s, plus NR4A3's own 8XTT). The transfer ran here at %s "
+            "aligned identity. Finding that an NR4A3 cryptic pocket does not land on this receptor's "
+            "ligand site is close to expected and is NOT evidence that site selection is broken for NR4A3."
+            % (acc, sorted(wh.PARALOGUES.values()), ident))
+    if allosteric:
+        disqualifiers.append(
+            "THE DEPOSITOR DECLARES THE LIGAND ALLOSTERIC (%s). An orthosteric site transfer cannot be "
+            "graded against a ligand in a declared allosteric pocket."
+            % "; ".join((res.get("declared_allosteric") or {}).get("evidence") or []))
+    if eng_in_site:
+        disqualifiers.append(
+            "THE BENCHMARKED POCKET IS SHAPED BY AN ENGINEERED RESIDUE (%s), so it is not the wild-type "
+            "site a transfer from wild-type NR4A3 is aiming at."
+            % ", ".join("%s%d->%s" % (m["db_residue"], m["resseq"], m["deposit_residue"])
+                        for m in eng_in_site))
+
+    site = {
+        "_asks": "Does the site-selection route put the crystallographic ligand INSIDE the box it draws?",
+        "_endpoint": "geometric containment — no docking, no scoring, no seed",
+        "pipeline_sequence_transfer": {k: seq_row.get(k) for k in
+                                       ("answer", "ligand_centroid_in_box",
+                                        "frac_ligand_heavy_atoms_in_box",
+                                        "box_center_to_ligand_centroid_A",
+                                        "native_contact_recall_of_box_residues")},
+        "pocket5_structure_transfer": {k: str_row.get(k) for k in
+                                       ("answer", "ligand_centroid_in_box",
+                                        "frac_ligand_heavy_atoms_in_box",
+                                        "box_center_to_ligand_centroid_A",
+                                        "native_contact_recall_of_box_residues")},
+        "fpocket_top_pocket": {k: fp_row.get(k) for k in
+                               ("answer", "ligand_centroid_in_box", "frac_ligand_heavy_atoms_in_box",
+                                "box_center_to_ligand_centroid_A",
+                                "native_contact_recall_of_box_residues")},
+        "nr4a3_aligned_identity": ident,
+        "interpretable_as_evidence_about_the_pipeline": not disqualifiers,
+        "disqualifiers": disqualifiers,
+    }
+    # ★ DO THE TWO TRANSFERS EVEN AGREE WITH EACH OTHER? A single number, and the cheapest possible check
+    # on the pipeline's alignment: if sequence and structure put Pocket-5 in the same place, the alignment
+    # is not what is failing, whatever the ligand turns out to be near.
+    bx = res.get("boxes") or {}
+    seq_c = (bx.get("pipeline_apo") or {}).get("center")
+    str_c = (bx.get("struct_transfer_apo") or {}).get("center")
+    site["sequence_vs_structure_transfer_center_distance_A"] = (
+        round(math.dist(seq_c, str_c), 3) if seq_c and str_c else None)
+    site["structure_transfer_detail"] = {
+        k: ((bx.get("struct_transfer_apo") or {}).get("detail") or {}).get(k)
+        for k in ("ce_rms_A", "n_pocket5_transferred", "n_pocket5_source", "n_unique_receptor_residues")}
+    # ⛔ THE CONFOUND VERDICT. Two transfers of the SAME site by two independent methods; only their
+    # agreement or disagreement can say whether a miss is the alignment or the benchmark.
+    s_ans, t_ans = seq_row.get("answer"), str_row.get("answer")
+    if s_ans == "SITE FOUND" and t_ans == "SITE FOUND":
+        site["confound_reading"] = ("both transfers land on the ligand — the site step worked and any "
+                                    "miss on this pair is the docking")
+    elif s_ans == "SITE MISSED" and t_ans == "SITE FOUND":
+        site["confound_reading"] = ("the STRUCTURAL transfer finds the site and the pipeline's SEQUENCE "
+                                    "transfer does not — this is a real defect in the pipeline's "
+                                    "alignment step, not a property of the benchmark")
+    elif s_ans == "SITE FOUND" and t_ans == "SITE MISSED":
+        site["confound_reading"] = ("the pipeline's sequence transfer finds the site and the structural "
+                                    "transfer does not — the fold superposition, not the pipeline, is "
+                                    "what failed here")
+    elif s_ans == "SITE MISSED" and t_ans == "SITE MISSED":
+        site["confound_reading"] = ("BOTH an independent structural transfer and the pipeline's sequence "
+                                    "transfer put NR4A3's Pocket-5 somewhere this ligand is not. The "
+                                    "crystallographic answer is not in this receptor's Pocket-5-equivalent "
+                                    "site, so 'the pipeline missed the site' is the benchmark's design "
+                                    "and not a demonstrated defect")
+    else:
+        site["confound_reading"] = ("one or both transfers are UNREAD (%s / %s) — no confound reading"
+                                    % (s_ans, t_ans))
+    return {"Q_DOCKING_given_the_correct_site": docking,
+            "Q_SITE_does_site_selection_find_the_site": site}
 
 
 def verdict(res):
@@ -1249,6 +1780,14 @@ def mode_select(src):
 
 def main():
     mode = os.environ.get("MODE", "run").strip().lower()
+    # MODE=report re-renders the written finding from the artifact ALREADY ON DISK. No network, no smina,
+    # no docking — so the prose can be regenerated without re-running the experiment, which is the only
+    # way a summary and its artifact can be guaranteed to agree.
+    if mode == "report":
+        with open(OUT) as fh:
+            _write(OUT_MD, render_markdown(json.load(fh)))
+        print("[apo-pose-recovery] wrote %s from the committed artifact" % OUT_MD)
+        return
     # The AF2 reference is only needed to TRANSFER NR4A3's Pocket-5 onto the benchmark receptor. The repo
     # already carries the exact model the pipeline used, so the default reads that rather than re-fetching
     # a model that might have been re-predicted since.
@@ -1345,7 +1884,107 @@ def main():
             "_note": "the PRIMARY verdict is the rank-1 pair; these are supporting cases, reported "
                      "whatever they returned",
         }
+    doc["site_vs_docking"] = panel_site_vs_docking(ran)
+    doc["induced_fit_panel"] = panel_induced_fit(ran)
+    doc["_appendix"] = APPENDIX
     _emit(doc)
+
+
+# ==================================================================================================
+# PANEL-LEVEL READOUTS FOR THE TWO SEPARATED QUESTIONS
+# ==================================================================================================
+
+def panel_induced_fit(ran):
+    """R9 one level up: how hard a test IS this panel, measured on every pair rather than argued.
+
+    ⛔ THE HEADLINE PAIR IS A WEAK TEST OF THE THING THE PANEL CLAIMS TO TEST, and that has to be visible
+    without reading six nested blocks. 4RZF->4REF moves 0.14 A of Ca at the ligand site; an apo->holo
+    cross-dock across 0.14 A is a re-dock, so it can neither demonstrate nor refute apo->holo transfer.
+    Whether ANY pair in the panel carries a genuinely large rearrangement is therefore a property of the
+    whole experiment, and if the answer were no, the experiment could not support its own headline."""
+    rows = []
+    for r in ran:
+        fit = r.get("induced_fit") or {}
+        rows.append({"apo": r["candidate"]["apo"], "holo": r["candidate"]["holo"],
+                     "protein": r["candidate"].get("protein"),
+                     "site_ca_rmsd_A": fit.get("site_ca_rmsd_A"),
+                     "global_ca_rmsd_A": fit.get("global_ca_rmsd_A"),
+                     "n_site_residues": fit.get("n_site"),
+                     "large_rearrangement": fit.get("large_rearrangement")})
+    vals = [x["site_ca_rmsd_A"] for x in rows if x["site_ca_rmsd_A"] is not None]
+    n_large = sum(1 for x in rows if x.get("large_rearrangement"))
+    return {
+        "_threshold_A": LARGE_INDUCED_FIT_A,
+        "pairs": rows,
+        "n_pairs": len(rows), "n_with_large_rearrangement": n_large,
+        "max_site_ca_rmsd_A": max(vals) if vals else None,
+        "min_site_ca_rmsd_A": min(vals) if vals else None,
+        "panel_contains_a_large_rearrangement": n_large > 0,
+        "_reads": ("%d of %d pairs move at least %.2f A of Ca at the ligand site, so the panel is not "
+                   "only near-rigid re-docks. Any pair below that line is a weak test of apo->holo "
+                   "transfer and must not be quoted as one." % (n_large, len(rows), LARGE_INDUCED_FIT_A)
+                   if n_large else
+                   "⛔ NO pair in this panel moves as much as %.2f A of Ca at the ligand site. The whole "
+                   "experiment is then a set of near-rigid re-docks and CANNOT speak to apo->holo "
+                   "transfer, whatever any single RMSD says. This is a limitation of the test, not a "
+                   "result." % LARGE_INDUCED_FIT_A),
+        "_caveat": ("the induced fit is measured AT THE NATIVE LIGAND SITE. Where a blind arm's box is "
+                    "somewhere else, the rearrangement that arm actually faced is not this number."),
+    }
+
+
+def panel_site_vs_docking(ran):
+    """The panel answer to each question separately, with the uninterpretable pairs named, never averaged."""
+    doc_rows, site_rows = [], []
+    for r in ran:
+        q = r.get("questions") or {}
+        d = q.get("Q_DOCKING_given_the_correct_site") or {}
+        s = q.get("Q_SITE_does_site_selection_find_the_site") or {}
+        tag = {"apo": r["candidate"]["apo"], "holo": r["candidate"]["holo"],
+               "protein": r["candidate"].get("protein"),
+               "ligand": (r["candidate"].get("ligand") or {}).get("comp_id")}
+        doc_rows.append({**tag, "apo_rmsd_A": d.get("apo_rmsd_A"), "apo_fnat": d.get("apo_fnat"),
+                         "answer": d.get("answer"), "control_rmsd_A": d.get("control_rmsd_A"),
+                         "control_passed": d.get("control_passed")})
+        site_rows.append({**tag,
+                          "pipeline_sequence_transfer": (s.get("pipeline_sequence_transfer") or {}).get("answer"),
+                          "pocket5_structure_transfer": (s.get("pocket5_structure_transfer") or {}).get("answer"),
+                          "fpocket_top_pocket": (s.get("fpocket_top_pocket") or {}).get("answer"),
+                          "nr4a3_aligned_identity": s.get("nr4a3_aligned_identity"),
+                          "interpretable": s.get("interpretable_as_evidence_about_the_pipeline"),
+                          "disqualifiers": s.get("disqualifiers"),
+                          "confound_reading": s.get("confound_reading")})
+    gradeable = [x for x in doc_rows if x["control_passed"]]
+    interp = [x for x in site_rows if x["interpretable"]]
+    return {
+        "Q_DOCKING_given_the_correct_site": {
+            "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the pose?",
+            "pairs": doc_rows,
+            "n_pairs": len(doc_rows), "n_gradeable": len(gradeable),
+            "n_recovered": sum(1 for x in gradeable if x["answer"] == "RECOVERED"),
+            "n_partial": sum(1 for x in gradeable if x["answer"] == "PARTIAL"),
+            "n_not_recovered": sum(1 for x in gradeable if x["answer"] == "NOT RECOVERED"),
+            "_note": ("a pair whose protocol ceiling (C1c) missed cannot grade the docking and is counted "
+                      "out, not averaged in — the same pre-registered rule C1 applies to the primary"),
+        },
+        "Q_SITE_does_site_selection_find_the_site": {
+            "_asks": "Does a site-selection route put the crystallographic ligand inside its own box?",
+            "pairs": site_rows,
+            "n_pairs": len(site_rows),
+            "n_interpretable_about_the_pipeline": len(interp),
+            "pipeline_sequence_transfer_found": sum(1 for x in interp
+                                                    if x["pipeline_sequence_transfer"] == "SITE FOUND"),
+            "pocket5_structure_transfer_found": sum(1 for x in interp
+                                                    if x["pocket5_structure_transfer"] == "SITE FOUND"),
+            "fpocket_top_pocket_found": sum(1 for x in interp if x["fpocket_top_pocket"] == "SITE FOUND"),
+            # ⛔ THE COUNT THAT MATTERS IS OVER THE INTERPRETABLE PAIRS ONLY. Pairs disqualified by the
+            # regime gate, a declared allosteric ligand or an engineered pocket are reported with their
+            # reason and excluded from the count, because including them would let the benchmark's own
+            # design decide the pipeline's grade.
+            "_note": ("counted over interpretable pairs only; every excluded pair carries the reason it "
+                      "was excluded in its `disqualifiers`"),
+        },
+    }
 
 
 def _dedup_pairs(cands):
@@ -1390,6 +2029,128 @@ def _emit(doc):
         json.dump(doc, fh, indent=2)
     print(json.dumps({k: doc[k] for k in ("_mode", "verdict") if k in doc}, indent=2))
     print("[apo-pose-recovery] wrote %s" % OUT)
+    try:
+        _write(OUT_MD, render_markdown(doc))
+        print("[apo-pose-recovery] wrote %s" % OUT_MD)
+    except Exception as e:                                    # noqa: BLE001
+        print("[apo-pose-recovery] markdown render failed: %s: %s" % (type(e).__name__, e))
+
+
+def _f(v, nd=3, dash="—"):
+    return dash if v is None else ("%.*f" % (nd, v) if isinstance(v, float) else str(v))
+
+
+def render_markdown(doc):
+    """The written finding, DERIVED from the artifact rather than typed beside it (CLAUDE.md §1.1).
+
+    ⛔ NOTHING IN THIS FUNCTION MAY CARRY A NUMBER OF ITS OWN. Every figure below is read out of `doc`, so
+    a prose summary cannot drift away from the JSON it summarises — which is the exact failure the
+    one-fact-one-place rule exists to stop. If a value is missing it renders as an em dash and says
+    UNREAD; it is never filled in."""
+    v = doc.get("verdict") or {}
+    svd = doc.get("site_vs_docking") or {}
+    dq = svd.get("Q_DOCKING_given_the_correct_site") or {}
+    sq = svd.get("Q_SITE_does_site_selection_find_the_site") or {}
+    fit = doc.get("induced_fit_panel") or {}
+    L = []
+    L.append("# Known-answer pose recovery — the SITE question and the DOCKING question, separated\n")
+    L.append("⛔ **GENERATED FILE — do not edit.** Every number here is rendered from "
+             "[`apo-pose-recovery.json`](./apo-pose-recovery.json) by "
+             "`apo_pose_recovery.render_markdown`, which owns none of them. Edit the module or re-run "
+             "(`MODE=report`), never this file.\n")
+    L.append("Pre-registered verdict, **unchanged by anything below**: **%s** — %s\n"
+             % (v.get("outcome"), v.get("reason", "")))
+    # ⚠ AN ABSENT SECTION IS RECORDED AS ABSENT, NEVER RENDERED AS ZEROES. An artifact written before the
+    # site/docking split carries no `site_vs_docking`, and a table of `None`s would read as "measured, and
+    # the answer was nothing" — which is the reading CLAUDE.md §4 exists to forbid.
+    missing = [k for k in ("site_vs_docking", "induced_fit_panel") if not doc.get(k)]
+    if missing:
+        L.append("\n⚠ **THIS ARTIFACT DOES NOT CONTAIN %s.** It predates the site/docking split, so the "
+                 "sections below are UNREAD, not empty. Re-run `MODE=run` to produce them; nothing here "
+                 "may be quoted as a measurement.\n" % " or ".join("`%s`" % m for m in missing))
+    L.append("\n## 1 · Q-DOCKING — given the correct site, does blind apo→holo docking recover the pose?\n")
+    L.append("Arm: `C3_oracle_box_apo` (apo receptor, box on the crystallographic ligand). "
+             "Control: `C1c_self_dock_holo_oracle_box`. Bands are the pre-registered %.2f / %.2f Å.\n"
+             % (RECOVER_RMSD_A, PARTIAL_RMSD_A))
+    L.append("\n| pair | protein | ligand | apo RMSD (Å) | fnat | answer | ceiling (Å) | ceiling passed |")
+    L.append("|---|---|---|---|---|---|---|---|")
+    for r in dq.get("pairs") or []:
+        L.append("| %s→%s | %s | %s | %s | %s | %s | %s | %s |"
+                 % (r.get("apo"), r.get("holo"), r.get("protein"), r.get("ligand"),
+                    _f(r.get("apo_rmsd_A")), _f(r.get("apo_fnat")), r.get("answer"),
+                    _f(r.get("control_rmsd_A")), r.get("control_passed")))
+    L.append("\n**%s of %s pairs gradeable; %s RECOVERED, %s PARTIAL, %s NOT RECOVERED.** %s\n"
+             % (dq.get("n_gradeable"), dq.get("n_pairs"), dq.get("n_recovered"), dq.get("n_partial"),
+                dq.get("n_not_recovered"), dq.get("_note", "")))
+    L.append("\n## 2 · Q-SITE — does site selection put the ligand inside the box it draws?\n")
+    L.append("Geometric endpoint, no docking in it. `SITE FOUND` iff the crystallographic ligand's "
+             "centroid lies inside the box.\n")
+    L.append("\n| pair | protein | NR4A3 aligned identity | pipeline (sequence) | structure transfer | "
+             "fpocket top | interpretable |")
+    L.append("|---|---|---|---|---|---|---|")
+    for r in sq.get("pairs") or []:
+        L.append("| %s→%s | %s | %s | %s | %s | %s | %s |"
+                 % (r.get("apo"), r.get("holo"), r.get("protein"),
+                    _f(r.get("nr4a3_aligned_identity"), 4),
+                    r.get("pipeline_sequence_transfer"), r.get("pocket5_structure_transfer"),
+                    r.get("fpocket_top_pocket"), r.get("interpretable")))
+    L.append("\n**Over the %s pair(s) that are evidence about the pipeline at all:** pipeline sequence "
+             "transfer found the site on %s, the independent structural transfer on %s, fpocket's own top "
+             "pocket on %s. %s\n"
+             % (sq.get("n_interpretable_about_the_pipeline"), sq.get("pipeline_sequence_transfer_found"),
+                sq.get("pocket5_structure_transfer_found"), sq.get("fpocket_top_pocket_found"),
+                sq.get("_note", "")))
+    L.append("\n### Why pairs are excluded, and what the confound control says\n")
+    for r in sq.get("pairs") or []:
+        L.append("- **%s→%s (%s)** — %s" % (r.get("apo"), r.get("holo"), r.get("protein"),
+                                            r.get("confound_reading")))
+        for d in r.get("disqualifiers") or []:
+            L.append("  - ⛔ %s" % d)
+    L.append("\n## 3 · How hard a test is this panel? (the caveat, measured)\n")
+    L.append("Apo→holo Cα movement **at the ligand site**. A pair below %.2f Å is a re-dock with extra "
+             "steps and cannot demonstrate apo→holo transfer.\n" % (fit.get("_threshold_A") or 0.0))
+    L.append("\n| pair | protein | site Cα RMSD (Å) | global Cα RMSD (Å) | n site residues | large? |")
+    L.append("|---|---|---|---|---|---|")
+    for r in fit.get("pairs") or []:
+        L.append("| %s→%s | %s | %s | %s | %s | %s |"
+                 % (r.get("apo"), r.get("holo"), r.get("protein"), _f(r.get("site_ca_rmsd_A")),
+                    _f(r.get("global_ca_rmsd_A")), r.get("n_site_residues"),
+                    "**yes**" if r.get("large_rearrangement") else "no"))
+    L.append("\n%s\n" % fit.get("_reads", ""))
+    L.append("⚠ %s\n" % fit.get("_caveat", ""))
+    L.append("\n## 4 · What the deposits themselves declare\n")
+    L.append("\n| pair | engineered substitutions (holo) | any in the ligand's contact shell | "
+             "ligand declared allosteric |")
+    L.append("|---|---|---|---|")
+    for r in doc.get("panel") or []:
+        if not r.get("verdict"):
+            continue
+        c, ec = r["candidate"], (r.get("engineered_construct") or {})
+        al = (r.get("declared_allosteric") or {})
+        eng = ec.get("engineered_residues_holo")
+        ins = ec.get("engineered_residues_in_native_ligand_site")
+        L.append("| %s→%s | %s | %s | %s |"
+                 % (c.get("apo"), c.get("holo"),
+                    ("UNREAD" if eng is None else
+                     ", ".join("%s%s→%s" % (m["db_residue"], m["resseq"], m["deposit_residue"])
+                               for m in eng) or "none"),
+                    ("UNREAD" if ins is None else
+                     ", ".join("**%s%s→%s**" % (m["db_residue"], m["resseq"], m["deposit_residue"])
+                               for m in ins) or "no"),
+                    "**yes**" if al.get("declared_in_holo_title") else "no"))
+    L.append("\n## 5 · What moved and what did not\n")
+    ap = doc.get("_appendix") or APPENDIX
+    for label, key in (("Unchanged (pre-registered)", "unchanged"),
+                       ("Added", "added_2026_08_02_second_revision")):
+        L.append("\n**%s**\n" % label)
+        for row in ap.get(key) or []:
+            L.append("- %s" % row)
+    L.append("\n**Corrected — superseded values retained (CLAUDE.md §1.2)**\n")
+    for row in ap.get("corrected_2026_08_02") or []:
+        L.append("- `%s` — was: %s. Now: %s" % (row["what"], row["superseded"], row["now"]))
+    L.append("\n⛔ This page claims nothing about NR4A3 selectivity, efficacy, safety or clinical "
+             "readiness. It grades an instrument, not a molecule.\n")
+    return "\n".join(L) + "\n"
 
 
 if __name__ == "__main__":

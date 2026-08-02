@@ -403,5 +403,272 @@ def test_a_missing_legacy_pdb_file_is_named_as_a_format_refusal():
     assert "mmCIF-only" in src and "FILE-FORMAT reason" in src
 
 
+# ==================================================================================================
+# SITE vs DOCKING — the two questions the first panel could not tell apart (added 2026-08-02)
+# ==================================================================================================
+
+def test_the_added_arms_moved_no_pre_registered_threshold():
+    """⛔ THE WHOLE POINT OF ADDING ARMS RATHER THAN CHANGING ONE. `test_thresholds_are_frozen` pins the
+    numbers; this pins the SHAPE — the added endpoints must be new keys, and `verdict()` must still be the
+    only thing that decides the headline."""
+    assert A.LARGE_INDUCED_FIT_A == 1.00        # a REPORTING band, gates nothing
+    assert A.STRUCT_TRANSFER_MAX_CA_A == 6.00
+    import inspect
+    src = inspect.getsource(A.verdict)
+    for added in ("Q_SITE", "structure_transfer", "SITE FOUND", "LARGE_INDUCED_FIT_A", "seqadv"):
+        assert added not in src, "%s leaked into the verdict — the headline must stay pre-registered" % added
+
+
+def test_the_appendix_registers_every_change_and_keeps_the_superseded_value():
+    """CLAUDE.md §1.2: a corrected number is never silently dropped."""
+    ap = A.APPENDIX
+    assert ap["unchanged"] and ap["added_2026_08_02_second_revision"]
+    for row in ap["corrected_2026_08_02"]:
+        assert row["superseded"] and row["now"] and row["what"]
+    joined = " ".join(r["superseded"] for r in ap["corrected_2026_08_02"])
+    assert "420" in joined and "2700" in joined, "the old wall-clock budgets must remain quotable"
+
+
+def test_the_site_endpoint_contains_no_docking():
+    """A ligand outside the box cannot be found by any search, so the site question is answerable with
+    geometry alone — deterministic, where an RMSD through a stochastic search is not."""
+    box = (24.0, 24.0, 24.0)
+    inside = A.box_containment((0, 0, 0), box, [(1, 1, 1), (2, 2, 2)])
+    assert inside["ligand_centroid_in_box"] is True
+    assert inside["frac_ligand_heavy_atoms_in_box"] == 1.0
+    far = A.box_containment((0, 0, 0), box, [(30, 0, 0), (31, 0, 0)])
+    assert far["ligand_centroid_in_box"] is False
+    assert far["frac_ligand_heavy_atoms_in_box"] == 0.0
+    # exactly on the face is inside; one step beyond is not — the boundary must not be vague
+    assert A.box_containment((0, 0, 0), box, [(12.0, 0, 0)])["ligand_centroid_in_box"] is True
+    assert A.box_containment((0, 0, 0), box, [(12.01, 0, 0)])["ligand_centroid_in_box"] is False
+    assert A.box_containment(None, box, [(0, 0, 0)]) is None
+
+
+def test_the_site_answer_reports_native_contact_recall_through_the_residue_map():
+    row = A.site_answer((0, 0, 0), (24.0, 24.0, 24.0), [(0, 0, 0)],
+                        box_residues=[10, 11, 12], res_map={10: 110, 11: 111, 12: 112},
+                        native=[110, 111, 900, 901], site_label="x")
+    assert row["answer"] == "SITE FOUND"
+    assert row["n_box_residues_that_are_native_contacts"] == 2
+    assert row["native_contact_recall_of_box_residues"] == 0.5
+    assert A.site_answer(None, (24.0,) * 3, [(0, 0, 0)], None, None, [1], "y")["answer"] == "UNREAD"
+
+
+def test_seqadv_is_read_from_the_deposit_not_inferred_from_the_title():
+    """The title says 'L449W'; only SEQADV says which residue number the FILE uses and what it replaced."""
+    txt = ("SEQADV 4REF TRP A  449  UNP  P22736    LEU   449 ENGINEERED MUTATION\n"
+           "SEQADV 4REF GLY A  348  UNP  P22736              EXPRESSION TAG\n"
+           "ATOM      1  CA  TRP A 449       0.000   0.000   0.000  1.00  0.00           C\n")
+    got = A.seqadv_mutations(txt)
+    assert len(got) == 2
+    eng = [m for m in got if m["reason"] == "ENGINEERED MUTATION"]
+    assert eng[0]["resseq"] == 449 and eng[0]["db_residue"] == "LEU" and eng[0]["deposit_residue"] == "TRP"
+    assert A.seqadv_mutations(txt, chain="B") == []
+
+
+def test_a_file_with_no_seqadv_block_is_UNREAD_not_wild_type():
+    """⚠ CLAUDE.md §4: an absent reading is not a reading of absence. 'No engineered mutation declared'
+    and 'this deposit carries no SEQADV records at all' are different facts, and one sentence covering
+    both would let an unread file read as a clean wild-type deposit."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    assert "NO SEQADV RECORDS AT ALL" in src
+    assert "are UNREAD here, not" in src
+    assert "none of them declares an engineered mutation" in src, \
+        "the SEQADV-present-but-clean case must have its own sentence"
+
+
+def test_a_declared_allosteric_ligand_is_read_from_the_title_and_never_filters():
+    flag, ev = A.allosteric_flag("ROR(gamma)t ligand binding domain in complex with allosteric ligand FM156")
+    assert flag and ev
+    assert A.allosteric_flag("PPARgamma LBD in complex with rosiglitazone")[0] is False
+    assert not any("ALLOSTERIC" in r.upper() for r in A.SELECTION_RULES), "reported, never a selection rule"
+
+
+def _pair(seq_answer, struct_answer, accession="P22736", allosteric=False, eng_in_site=None,
+          oracle=3.4, ceiling=1.1):
+    def row(ans):
+        return {"answer": ans, "ligand_centroid_in_box": ans == "SITE FOUND",
+                "frac_ligand_heavy_atoms_in_box": 1.0 if ans == "SITE FOUND" else 0.0,
+                "box_center_to_ligand_centroid_A": 1.0 if ans == "SITE FOUND" else 19.0,
+                "native_contact_recall_of_box_residues": 0.8 if ans == "SITE FOUND" else 0.0}
+    return {
+        "arms": {"C3_oracle_box_apo": {"rmsd_A": oracle, "fnat": 0.7},
+                 "C1c_self_dock_holo_oracle_box": {"rmsd_A": ceiling}},
+        "boxes": {"pipeline_apo": {"center": (0, 0, 0), "detail": {"nr4a3_aligned_identity": 0.6}},
+                  "struct_transfer_apo": {"center": (1, 0, 0),
+                                          "detail": {"ce_rms_A": 2.1, "n_pocket5_transferred": 10,
+                                                     "n_pocket5_source": 10,
+                                                     "n_unique_receptor_residues": 8}}},
+        "declared_allosteric": {"declared_in_holo_title": allosteric, "evidence": ["t"] if allosteric else []},
+        "engineered_construct": {"engineered_residues_in_native_ligand_site": eng_in_site or []},
+        "Q_SITE_does_site_selection_find_the_ligand": {"routes": {
+            "pipeline_sequence_transfer_apo": row(seq_answer),
+            "pocket5_structure_transfer_apo": row(struct_answer),
+            "fpocket_top_pocket_apo": row("SITE FOUND")}},
+    }, {"accession": accession, "protein": "p", "apo": "AAAA", "holo": "BBBB",
+        "ligand": {"comp_id": "LIG"}}
+
+
+def test_the_docking_question_is_asked_with_the_site_handed_over_and_its_own_ceiling():
+    res, cand = _pair("SITE MISSED", "SITE MISSED", oracle=3.4, ceiling=1.1)
+    q = A.pair_questions(res, cand)["Q_DOCKING_given_the_correct_site"]
+    assert q["arm"].startswith("C3_oracle_box_apo")
+    assert q["control_passed"] is True
+    assert q["answer"] == "PARTIAL", "3.4 A is the pre-registered PARTIAL band, unchanged"
+    # a failing ceiling makes the DOCKING question uninterpretable — the same rule C1 applies to the primary
+    res2, cand2 = _pair("SITE MISSED", "SITE MISSED", oracle=3.4, ceiling=2.9)
+    q2 = A.pair_questions(res2, cand2)["Q_DOCKING_given_the_correct_site"]
+    assert q2["control_passed"] is False and q2["answer"].startswith("INCONCLUSIVE")
+
+
+def test_the_confound_reading_separates_a_broken_alignment_from_a_ligand_elsewhere():
+    """⛔ THE ONE ARM THAT CAN SETTLE IT. Two independent transfers of the SAME site; a docking RMSD gives
+    the same big number under both causes, and the causes have opposite remedies."""
+    def reading(seq, struct):
+        res, cand = _pair(seq, struct)
+        return A.pair_questions(res, cand)["Q_SITE_does_site_selection_find_the_site"]["confound_reading"]
+    assert "real defect in the pipeline" in reading("SITE MISSED", "SITE FOUND")
+    assert "benchmark's design" in reading("SITE MISSED", "SITE MISSED")
+    assert "any miss on this pair is the docking" in reading("SITE FOUND", "SITE FOUND")
+    assert "fold superposition" in reading("SITE FOUND", "SITE MISSED")
+
+
+def test_the_regime_gate_is_read_from_the_pipeline_not_typed_here():
+    """CLAUDE.md §1: one fact, one place. The set of proteins the pipeline transfers Pocket-5 onto lives in
+    `nr4a3_warhead.PARALOGUES`; a copy here would drift the day someone adds a paralogue."""
+    import nr4a3_warhead as wh
+    import inspect
+    src = inspect.getsource(A.pair_questions)
+    assert "wh.PARALOGUES" in src
+    for acc in wh.PARALOGUES.values():
+        res, cand = _pair("SITE MISSED", "SITE MISSED", accession=acc)
+        s = A.pair_questions(res, cand)["Q_SITE_does_site_selection_find_the_site"]
+        assert s["interpretable_as_evidence_about_the_pipeline"] is True
+    # PPARG is NOT a protein the pipeline ever transfers onto, so its site arm is not evidence about it
+    res, cand = _pair("SITE MISSED", "SITE MISSED", accession="P37231")
+    s = A.pair_questions(res, cand)["Q_SITE_does_site_selection_find_the_site"]
+    assert s["interpretable_as_evidence_about_the_pipeline"] is False
+    assert any("OUT OF THE PIPELINE'S REGIME" in d for d in s["disqualifiers"])
+
+
+def test_a_declared_allosteric_or_engineered_pocket_disqualifies_the_site_arm_but_not_the_docking_arm():
+    res, cand = _pair("SITE MISSED", "SITE MISSED", allosteric=True)
+    q = A.pair_questions(res, cand)
+    s = q["Q_SITE_does_site_selection_find_the_site"]
+    assert s["interpretable_as_evidence_about_the_pipeline"] is False
+    assert any("ALLOSTERIC" in d for d in s["disqualifiers"])
+    # the docking question is untouched: the correct site was handed over, whatever site that is
+    assert q["Q_DOCKING_given_the_correct_site"]["answer"] == "PARTIAL"
+    res2, cand2 = _pair("SITE MISSED", "SITE MISSED",
+                        eng_in_site=[{"db_residue": "LEU", "resseq": 449, "deposit_residue": "TRP"}])
+    s2 = A.pair_questions(res2, cand2)["Q_SITE_does_site_selection_find_the_site"]
+    assert s2["interpretable_as_evidence_about_the_pipeline"] is False
+    assert any("ENGINEERED RESIDUE" in d for d in s2["disqualifiers"])
+
+
+def test_the_panel_counts_the_site_question_over_interpretable_pairs_only():
+    """Including a pair the benchmark's own design disqualified would let the design set the grade."""
+    ran = []
+    for acc, seq in (("P22736", "SITE MISSED"), ("P37231", "SITE MISSED"), ("P51449", "SITE MISSED")):
+        res, cand = _pair(seq, "SITE MISSED", accession=acc)
+        res["candidate"] = cand
+        res["questions"] = A.pair_questions(res, cand)
+        res["induced_fit"] = {"site_ca_rmsd_A": 0.142, "global_ca_rmsd_A": 0.457, "n_site": 9,
+                              "large_rearrangement": False}
+        ran.append(res)
+    out = A.panel_site_vs_docking(ran)
+    site = out["Q_SITE_does_site_selection_find_the_site"]
+    assert site["n_pairs"] == 3 and site["n_interpretable_about_the_pipeline"] == 1
+    assert site["pipeline_sequence_transfer_found"] == 0
+    doc = out["Q_DOCKING_given_the_correct_site"]
+    assert doc["n_gradeable"] == 3 and doc["n_partial"] == 3
+
+
+def test_the_induced_fit_panel_says_out_loud_when_no_pair_is_a_real_test():
+    """★ THE CAVEAT THAT MUST NOT BE BURIED. A cross-dock across 0.14 A of Ca movement is a re-dock; a
+    panel made only of those cannot speak to apo->holo transfer whatever any RMSD says."""
+    small = [{"candidate": {"apo": "A", "holo": "B", "protein": "p"},
+              "induced_fit": {"site_ca_rmsd_A": 0.142, "global_ca_rmsd_A": 0.457, "n_site": 9,
+                              "large_rearrangement": False}}]
+    out = A.panel_induced_fit(small)
+    assert out["panel_contains_a_large_rearrangement"] is False
+    assert out["_reads"].startswith("⛔")
+    assert "CANNOT speak to apo->holo" in out["_reads"]
+    big = small + [{"candidate": {"apo": "C", "holo": "D", "protein": "q"},
+                    "induced_fit": {"site_ca_rmsd_A": 6.46, "global_ca_rmsd_A": 2.78, "n_site": 22,
+                                    "large_rearrangement": True}}]
+    out2 = A.panel_induced_fit(big)
+    assert out2["panel_contains_a_large_rearrangement"] is True
+    assert out2["n_with_large_rearrangement"] == 1 and out2["max_site_ca_rmsd_A"] == 6.46
+    assert "measured AT THE NATIVE LIGAND SITE" in out2["_caveat"]
+
+
+def test_the_fpocket_rank_sentence_no_longer_claims_a_cavity_on_a_single_shared_residue():
+    """⚠ CORRECTED. The first panel printed 'the transferred site IS a cavity on this receptor' beside
+    `n_shared_residues: 1`. One residue in ten is a contact between two sets, not the same site."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    assert "frac_transferred_residues_in_that_pocket" in src
+    assert "only CLIPS this pocket" in src
+    assert any("frac_transferred_residues_in_that_pocket" in str(r) or "_reads" in str(r)
+               for r in A.APPENDIX["corrected_2026_08_02"])
+
+
+def test_the_structural_transfer_uses_no_sequence_information():
+    """C4 exists precisely because the pipeline's transfer is a sequence alignment. If this one used the
+    sequence too, it could not be a control on it."""
+    import ast
+    import inspect
+    import textwrap
+    src = inspect.getsource(A.pocket5_structure_transfer)
+    assert "cealign" in src and "CEAligner" in src and "STRUCT_TRANSFER_MAX_CA_A" in src
+    # ⚠ THE PROSE NAMES THE SEQUENCE TRANSFER IT IS A CONTROL ON, so a substring scan over the source
+    # would fail on its own docstring. What must be free of sequence alignment is the EXECUTED code, so
+    # this walks the AST and looks at names actually referenced and modules actually imported.
+    tree = ast.parse(textwrap.dedent(src))
+    names, imports = set(), set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name):
+            names.add(node.id)
+        elif isinstance(node, ast.Attribute):
+            names.add(node.attr)
+        elif isinstance(node, ast.Import):
+            imports.update(a.name for a in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            imports.add(node.module or "")
+            names.update(a.name for a in node.names)
+    for seqish in ("PairwiseAligner", "map_pocket_to_paralogue", "substitution_matrices",
+                   "identity_from_blocks", "chain_ca", "_biopython_align", "map_uniprot_to_pdb"):
+        assert seqish not in names, "%s would make C4 a second sequence transfer, not a control" % seqish
+    assert not any(m.startswith("Bio.Align") for m in imports)
+    assert any("cealign" in m for m in imports)
+
+
+def test_the_structural_transfer_recovers_pocket5_on_nr4a3_itself():
+    """The positive control for C4: carry NR4A3's Pocket-5 onto an NR4A3 structure. Both transfers must
+    land in the same place, or the structural arm cannot be trusted to adjudicate anything."""
+    here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    af2 = os.path.join(here, "..", "..", "results", "nr4a3-metad-r2", "ckpt", "AF-Q92570.pdb")
+    rec = os.path.join(here, "_pose_convergence_inputs", "8xtt_model2_nr4a3.pdb")
+    if not (os.path.exists(af2) and os.path.exists(rec)):
+        pytest.skip("the NR4A3 reference structures are not in this checkout")
+    pytest.importorskip("Bio.PDB.cealign")
+    import tempfile
+    work = tempfile.mkdtemp()
+    ref, why = A.nr4a3_lbd_reference(os.path.abspath(af2), work)
+    assert ref is not None, why
+    sc, sdet = A.pocket5_structure_transfer(ref, rec)
+    assert sc is not None, sdet
+    assert sdet["n_pocket5_transferred"] >= 8
+    qc, _qdet = A.pipeline_box(rec, os.path.abspath(af2), work)
+    assert qc is not None
+    d = math.dist(sc, qc)
+    size = float(A.pipeline_dock_params().get("size_x", 24))
+    assert d < size / 2.0, ("sequence and structure transfers disagree by %.2f A on NR4A3 itself — C4 "
+                            "cannot adjudicate anything until they agree on the positive control" % d)
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))

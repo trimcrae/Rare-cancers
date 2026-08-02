@@ -141,6 +141,11 @@ jobs:
               for k in ("_status", "_mode", "n_usable", "verdict", "spread", "selection"):
                   if k in d:
                       print(k, "=", json.dumps(d[k])[:1400])
+              # the two separated questions and the induced-fit caveat are the point of the second
+              # revision; a log that shows only `verdict` shows only the arm that could not tell them apart
+              for k in ("site_vs_docking", "induced_fit_panel"):
+                  if k in d:
+                      print("=== %s" % k, json.dumps(d[k], indent=1)[:6000])
               ref = d.get("refusals") or (d.get("result") or {}).get("refusals") or []
               print("refusals:", json.dumps(ref)[:900])
           PY
@@ -169,4 +174,5 @@ jobs:
             "pose convergence + apo known-answer recovery (CI run ${{ github.run_id }})" \
             research/modalities/pose-convergence-401.json \
             research/modalities/apo-pose-recovery.json \
+            research/modalities/apo-pose-recovery.md \
             research/modalities/_pose_convergence_inputs
