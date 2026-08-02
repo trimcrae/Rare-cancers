@@ -262,6 +262,10 @@ jobs:
             --native-dir /tmp/selcal_cofolds/_native \
             --stage-to /tmp/selcal_xtal_units \
             --out research/modalities/selcal-xtal-census.json
+          # ⛔ AMENDMENT 1 (prereg): 9DTX's asymmetric unit holds a SINGLE ternary, so the matched design is
+          # 1 copy per arm — reference set 2, minimum attainable p 0.5. The panel does not run, and the
+          # three ways to make it run were each rejected on the record rather than quietly taken. This step
+          # remains because the census is the evidence for that, and because a deposit can gain copies.
           echo "=== staged units ==="
           find /tmp/selcal_xtal_units -maxdepth 1 -mindepth 1 -type d | sort | awk 'NR<=30'
 

@@ -7,31 +7,607 @@
    "gene": "SMARCA2",
    "pdb": "9DTY",
    "path": "/tmp/selcal_cofolds/_native/9DTY.cif",
-   "copies": [],
-   "n_copies": 0,
-   "n_bridging": 0
+   "reference_sequences": {
+    "_source": "chain sequences read out of the deposit, at the chains the committed selcal map names \u2014 never the co-fold construct, which does not have to align to a crystal chain above the identity floor",
+    "seed_copy": {
+     "target": "M",
+     "e3": [
+      "R",
+      "T",
+      "S"
+     ]
+    },
+    "lengths": {
+     "target": 109,
+     "e3": [
+      148,
+      104,
+      91
+     ]
+    }
+   },
+   "chain_identities": {
+    "n_polymer_chains": 40,
+    "identity_floor_shown": 0.5,
+    "min_identity_required": 0.8,
+    "chains": {
+     "A": {
+      "target": 1.0
+     },
+     "B": {
+      "e3_0": 1.0
+     },
+     "C": {
+      "e3_2": 1.0
+     },
+     "D": {
+      "e3_1": 1.0
+     },
+     "E": {
+      "target": 1.0
+     },
+     "F": {
+      "e3_0": 1.0
+     },
+     "G": {
+      "e3_2": 0.9775
+     },
+     "H": {
+      "e3_1": 1.0
+     },
+     "I": {
+      "target": 1.0
+     },
+     "J": {
+      "e3_0": 1.0
+     },
+     "K": {
+      "e3_2": 0.956
+     },
+     "L": {
+      "e3_1": 1.0
+     },
+     "M": {
+      "target": 1.0
+     },
+     "N": {
+      "e3_0": 1.0
+     },
+     "O": {
+      "e3_2": 0.9888
+     },
+     "P": {
+      "e3_1": 1.0
+     },
+     "Q": {
+      "target": 1.0
+     },
+     "R": {
+      "e3_0": 1.0
+     },
+     "S": {
+      "e3_2": 1.0
+     },
+     "T": {
+      "e3_1": 1.0
+     },
+     "U": {
+      "target": 1.0
+     },
+     "V": {
+      "e3_0": 1.0
+     },
+     "W": {
+      "e3_2": 0.9886
+     },
+     "X": {
+      "e3_1": 1.0
+     },
+     "Y": {
+      "target": 1.0
+     },
+     "Z": {
+      "e3_0": 1.0
+     },
+     "a": {
+      "e3_2": 1.0
+     },
+     "b": {
+      "e3_1": 1.0
+     },
+     "c": {
+      "target": 1.0
+     },
+     "d": {
+      "e3_0": 1.0
+     },
+     "e": {
+      "e3_2": 0.978
+     },
+     "f": {
+      "e3_1": 1.0
+     },
+     "g": {
+      "target": 1.0
+     },
+     "h": {
+      "e3_0": 1.0
+     },
+     "i": {
+      "e3_2": 1.0
+     },
+     "j": {
+      "e3_1": 1.0
+     },
+     "k": {
+      "target": 1.0
+     },
+     "l": {
+      "e3_0": 0.9932
+     },
+     "m": {
+      "e3_2": 1.0
+     },
+     "n": {
+      "e3_1": 1.0
+     }
+    }
+   },
+   "copies": [
+    {
+     "copy_id": "c01",
+     "target_chain": "E",
+     "e3_chains": [
+      "J",
+      "K",
+      "L"
+     ],
+     "ligand_key": [
+      "B",
+      201,
+      ""
+     ],
+     "bridges": false,
+     "min_dist_target_A": 10.5,
+     "min_dist_e3_A": 10.64
+    },
+    {
+     "copy_id": "c02",
+     "target_chain": "I",
+     "e3_chains": [
+      "d",
+      "e",
+      "f"
+     ],
+     "ligand_key": [
+      "R",
+      201,
+      ""
+     ],
+     "bridges": false,
+     "min_dist_target_A": 11.03,
+     "min_dist_e3_A": 10.69
+    },
+    {
+     "copy_id": "c03",
+     "target_chain": "M",
+     "e3_chains": [
+      "R",
+      "S",
+      "T"
+     ],
+     "ligand_key": [
+      "R",
+      201,
+      ""
+     ],
+     "bridges": true,
+     "min_dist_target_A": 2.48,
+     "min_dist_e3_A": 2.35
+    },
+    {
+     "copy_id": "c04",
+     "target_chain": "Q",
+     "e3_chains": [
+      "l",
+      "m",
+      "n"
+     ],
+     "ligand_key": [
+      "J",
+      201,
+      ""
+     ],
+     "bridges": false,
+     "min_dist_target_A": 59.21,
+     "min_dist_e3_A": 42.12
+    },
+    {
+     "copy_id": "c05",
+     "target_chain": "Y",
+     "e3_chains": [
+      "Z",
+      "m",
+      "n"
+     ],
+     "ligand_key": [
+      "Z",
+      201,
+      ""
+     ],
+     "bridges": true,
+     "min_dist_target_A": 2.85,
+     "min_dist_e3_A": 2.37
+    },
+    {
+     "copy_id": "c06",
+     "target_chain": "c",
+     "e3_chains": [
+      "d",
+      "e",
+      "f"
+     ],
+     "ligand_key": [
+      "d",
+      201,
+      ""
+     ],
+     "bridges": true,
+     "min_dist_target_A": 2.55,
+     "min_dist_e3_A": 2.26
+    },
+    {
+     "copy_id": "c07",
+     "target_chain": "g",
+     "e3_chains": [
+      "h",
+      "i",
+      "j"
+     ],
+     "ligand_key": [
+      "h",
+      201,
+      ""
+     ],
+     "bridges": true,
+     "min_dist_target_A": 2.65,
+     "min_dist_e3_A": 2.57
+    },
+    {
+     "copy_id": "c08",
+     "target_chain": "k",
+     "e3_chains": [
+      "l",
+      "m",
+      "n"
+     ],
+     "ligand_key": [
+      "k",
+      201,
+      ""
+     ],
+     "bridges": true,
+     "min_dist_target_A": 3.1,
+     "min_dist_e3_A": 2.41
+    }
+   ],
+   "n_copies": 8,
+   "n_bridging": 5
   },
   "selcal_smarca4": {
    "gene": "SMARCA4",
    "pdb": "9DTX",
    "path": "/tmp/selcal_cofolds/_native/9DTX.cif",
-   "copies": [],
-   "n_copies": 0,
-   "n_bridging": 0
+   "reference_sequences": {
+    "_source": "chain sequences read out of the deposit, at the chains the committed selcal map names \u2014 never the co-fold construct, which does not have to align to a crystal chain above the identity floor",
+    "seed_copy": {
+     "target": "D",
+     "e3": [
+      "C",
+      "A",
+      "B"
+     ]
+    },
+    "lengths": {
+     "target": 120,
+     "e3": [
+      149,
+      104,
+      89
+     ]
+    }
+   },
+   "chain_identities": {
+    "n_polymer_chains": 4,
+    "identity_floor_shown": 0.5,
+    "min_identity_required": 0.8,
+    "chains": {
+     "A": {
+      "e3_1": 1.0
+     },
+     "B": {
+      "e3_2": 1.0
+     },
+     "C": {
+      "e3_0": 1.0
+     },
+     "D": {
+      "target": 1.0
+     }
+    }
+   },
+   "copies": [
+    {
+     "copy_id": "c01",
+     "target_chain": "D",
+     "e3_chains": [
+      "A",
+      "B",
+      "C"
+     ],
+     "ligand_key": [
+      "C",
+      301,
+      ""
+     ],
+     "bridges": true,
+     "min_dist_target_A": 2.58,
+     "min_dist_e3_A": 2.6
+    }
+   ],
+   "n_copies": 1,
+   "n_bridging": 1
   }
  },
  "n_usable_per_arm": {
-  "selcal_smarca2": 0,
-  "selcal_smarca4": 0
+  "selcal_smarca2": 5,
+  "selcal_smarca4": 1
  },
  "design": {
   "ok": false,
-  "why": "fewer than one usable copy on an arm \u2014 no design is available",
-  "per_arm": {
-   "selcal_smarca2": 0,
-   "selcal_smarca4": 0
-  }
+  "comfortably_clears_alpha": false,
+  "_comfortable_rule": "min attainable p <= alpha/3; `can_reach_alpha` alone is satisfied at a floor of exactly alpha, where only one arrangement of the reference set can ever reject and the design is knife-edge rather than powered",
+  "copies_per_arm": 1,
+  "replicas": 2,
+  "legs_per_arm": 2,
+  "total_legs": 4,
+  "reference_set": 2,
+  "min_attainable_p": 0.5,
+  "alpha": 0.05,
+  "can_reach_alpha": false,
+  "why": "matched arms at the smaller deposit's usable-copy count. The unit of independence is the crystallographic COPY; replicas collapse to copy means before the test, exactly as the parent panel collapses replicas to model means.",
+  "_arithmetic": "selcal_gate.design_floor(copies, copies) \u2014 imported, not re-derived",
+  "_parent_shape": "selcal_panel: 6 co-fold models x 2 replicas, C(12,6)=924, floor 1/924"
  },
- "staged": [],
- "n_staged": 0
+ "staged": [
+  {
+   "leg": "selcal_smarca2__c01",
+   "error": "degrader does not bridge in this copy (target 10.5 A, E3 10.64 A against a 5.0 A contact cutoff) \u2014 excluded as a MEASURED INPUT FAULT, before any outcome is known"
+  },
+  {
+   "leg": "selcal_smarca2__c02",
+   "error": "degrader does not bridge in this copy (target 11.03 A, E3 10.69 A against a 5.0 A contact cutoff) \u2014 excluded as a MEASURED INPUT FAULT, before any outcome is known"
+  },
+  {
+   "leg": "selcal_smarca2__c03",
+   "source": "DEPOSITED CRYSTAL COPY",
+   "cif": "9DTY.cif",
+   "target_chain": "M",
+   "e3_chains": [
+    "R",
+    "S",
+    "T"
+   ],
+   "ligand_key": [
+    "R",
+    201,
+    ""
+   ],
+   "ligand_atoms": 64,
+   "ligand_detail": {
+    "chain": "R",
+    "resseq": 201,
+    "n_candidates": 10,
+    "min_dist_target_A": 2.48,
+    "min_dist_e3_A": 2.35
+   },
+   "out": "/tmp/selcal_xtal_units/selcal_smarca2__c03",
+   "input_audit": {
+    "ok": true,
+    "min_heavy_atom_sep_A": 1.3001,
+    "pair": [
+     "M:LEU53:C",
+     "M:ILE54:N"
+    ],
+    "threshold_A": 1.0,
+    "n_heavy_atoms": 3654,
+    "why": ""
+   }
+  },
+  {
+   "leg": "selcal_smarca2__c04",
+   "error": "degrader does not bridge in this copy (target 59.21 A, E3 42.12 A against a 5.0 A contact cutoff) \u2014 excluded as a MEASURED INPUT FAULT, before any outcome is known"
+  },
+  {
+   "leg": "selcal_smarca2__c05",
+   "source": "DEPOSITED CRYSTAL COPY",
+   "cif": "9DTY.cif",
+   "target_chain": "Y",
+   "e3_chains": [
+    "Z",
+    "m",
+    "n"
+   ],
+   "ligand_key": [
+    "Z",
+    201,
+    ""
+   ],
+   "ligand_atoms": 64,
+   "ligand_detail": {
+    "chain": "Z",
+    "resseq": 201,
+    "n_candidates": 10,
+    "min_dist_target_A": 2.85,
+    "min_dist_e3_A": 2.37
+   },
+   "out": "/tmp/selcal_xtal_units/selcal_smarca2__c05",
+   "input_audit": {
+    "ok": true,
+    "min_heavy_atom_sep_A": 1.3011,
+    "pair": [
+     "n:ARG43:C",
+     "n:LEU44:N"
+    ],
+    "threshold_A": 1.0,
+    "n_heavy_atoms": 3640,
+    "why": ""
+   }
+  },
+  {
+   "leg": "selcal_smarca2__c06",
+   "source": "DEPOSITED CRYSTAL COPY",
+   "cif": "9DTY.cif",
+   "target_chain": "c",
+   "e3_chains": [
+    "d",
+    "e",
+    "f"
+   ],
+   "ligand_key": [
+    "d",
+    201,
+    ""
+   ],
+   "ligand_atoms": 64,
+   "ligand_detail": {
+    "chain": "d",
+    "resseq": 201,
+    "n_candidates": 10,
+    "min_dist_target_A": 2.55,
+    "min_dist_e3_A": 2.26
+   },
+   "out": "/tmp/selcal_xtal_units/selcal_smarca2__c06",
+   "input_audit": {
+    "ok": true,
+    "min_heavy_atom_sep_A": 1.3088,
+    "pair": [
+     "d:LEU11:C",
+     "d:ARG12:N"
+    ],
+    "threshold_A": 1.0,
+    "n_heavy_atoms": 3658,
+    "why": ""
+   }
+  },
+  {
+   "leg": "selcal_smarca2__c07",
+   "source": "DEPOSITED CRYSTAL COPY",
+   "cif": "9DTY.cif",
+   "target_chain": "g",
+   "e3_chains": [
+    "h",
+    "i",
+    "j"
+   ],
+   "ligand_key": [
+    "h",
+    201,
+    ""
+   ],
+   "ligand_atoms": 64,
+   "ligand_detail": {
+    "chain": "h",
+    "resseq": 201,
+    "n_candidates": 10,
+    "min_dist_target_A": 2.65,
+    "min_dist_e3_A": 2.57
+   },
+   "out": "/tmp/selcal_xtal_units/selcal_smarca2__c07",
+   "input_audit": {
+    "ok": true,
+    "min_heavy_atom_sep_A": 1.307,
+    "pair": [
+     "j:LYS46:C",
+     "j:ASP47:N"
+    ],
+    "threshold_A": 1.0,
+    "n_heavy_atoms": 3640,
+    "why": ""
+   }
+  },
+  {
+   "leg": "selcal_smarca2__c08",
+   "source": "DEPOSITED CRYSTAL COPY",
+   "cif": "9DTY.cif",
+   "target_chain": "k",
+   "e3_chains": [
+    "l",
+    "m",
+    "n"
+   ],
+   "ligand_key": [
+    "k",
+    201,
+    ""
+   ],
+   "ligand_atoms": 64,
+   "ligand_detail": {
+    "chain": "k",
+    "resseq": 201,
+    "n_candidates": 10,
+    "min_dist_target_A": 3.1,
+    "min_dist_e3_A": 2.41
+   },
+   "out": "/tmp/selcal_xtal_units/selcal_smarca2__c08",
+   "input_audit": {
+    "ok": true,
+    "min_heavy_atom_sep_A": 1.3011,
+    "pair": [
+     "n:ARG43:C",
+     "n:LEU44:N"
+    ],
+    "threshold_A": 1.0,
+    "n_heavy_atoms": 3605,
+    "why": ""
+   }
+  },
+  {
+   "leg": "selcal_smarca4__c01",
+   "source": "DEPOSITED CRYSTAL COPY",
+   "cif": "9DTX.cif",
+   "target_chain": "D",
+   "e3_chains": [
+    "A",
+    "B",
+    "C"
+   ],
+   "ligand_key": [
+    "C",
+    301,
+    ""
+   ],
+   "ligand_atoms": 64,
+   "ligand_detail": {
+    "chain": "C",
+    "resseq": 301,
+    "n_candidates": 1,
+    "min_dist_target_A": 2.58,
+    "min_dist_e3_A": 2.6
+   },
+   "out": "/tmp/selcal_xtal_units/selcal_smarca4__c01",
+   "input_audit": {
+    "ok": true,
+    "min_heavy_atom_sep_A": 1.3098,
+    "pair": [
+     "C:ARG120:C",
+     "C:ASP121:N"
+    ],
+    "threshold_A": 1.0,
+    "n_heavy_atoms": 3798,
+    "why": ""
+   }
+  }
+ ],
+ "n_staged": 6
 }

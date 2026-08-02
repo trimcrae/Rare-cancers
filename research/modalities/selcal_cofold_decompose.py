@@ -28,11 +28,15 @@ For one (co-fold, native copy) pair, twice — once per protein:
 A small deviation in BOTH frames with a near-zero whole-interface DockQ is the assembly-only signature; a
 large deviation in the target frame is the pocket signature.
 
-⛔ CORRESPONDENCE IS BY ATOM NAME, NEVER BY INDEX OR BY PROXIMITY. Both structures carry the same CCD
-component, so the names are a shared, sourced key; matching by nearest neighbour would report a small
-deviation for a molecule that is flipped, threaded backwards, or in the wrong pocket entirely — which is
-precisely the class of error being tested for. Atoms present on one side only are counted and reported,
-never quietly skipped.
+⛔ CORRESPONDENCE IS CHEMICAL, NEVER BY PROXIMITY — and the first attempt got the chemistry wrong.
+Matching by CCD atom NAME failed on every one of the 12 co-folds ("no atom NAME is shared", run 30757725008):
+the crystal carries the CCD's names, while the co-fold was folded from a SMILES and names its ligand atoms in
+its own scheme, under its own residue name. So the correspondence now goes through the TEMPLATE MOLECULE that
+both sides are copies of: each side's heavy atoms are posed onto the reference SMILES by
+`nrv04_covalent_assemble.ligand_mol_from_coords`, whose skeleton substructure match returns atoms in TEMPLATE
+order, so index i means the same chemical atom on both sides. That is a graph match, not a distance one — a
+molecule that is flipped, threaded backwards, or in the wrong pocket still maps correctly and therefore still
+reports a large deviation, which is precisely the class of error being tested for.
 
 ⛔ This re-scores no leg, moves no verdict and amends no preregistration.
 """
@@ -60,36 +64,53 @@ def contact_a():
 POCKET_OK_A = 2.0
 
 
-def ligand_by_name(atoms, comp):
-    """{atom name: (x, y, z)} for one component's heavy atoms, and a duplicate-name count.
+def template_ordered_coords(heavy_atoms, template_smiles):
+    """(N,3) coordinates in TEMPLATE atom order, or (None, why).
 
-    Duplicates are REPORTED, not resolved: a file with two copies of the component under one selection would
-    silently overwrite, and the resulting correspondence would be a mixture of two molecules."""
-    out, dup = {}, 0
-    for a in atoms:
-        if a.resname.upper() != comp.upper() or not a.is_heavy:
-            continue
-        if a.name in out:
-            dup += 1
-            continue
-        out[a.name] = a.xyz
-    return out, dup
+    The posing kernel is `nrv04_covalent_assemble.ligand_mol_from_coords` — the same one that writes every
+    staged ligand.sdf in this lane — so the ordering here is the ordering the rest of the program uses."""
+    from nrv04_covalent_assemble import ligand_mol_from_coords
+    from rdkit import Chem
+    if not heavy_atoms:
+        return None, "no heavy atoms selected"
+    els = [(a.element or a.name[:1]).upper().capitalize() for a in heavy_atoms]
+    xyz = [(a.x, a.y, a.z) for a in heavy_atoms]
+    try:
+        mol = ligand_mol_from_coords(els, xyz, template_smiles)
+    except Exception as e:                                   # noqa: BLE001
+        return None, "template match failed (%d heavy atoms): %s" % (len(heavy_atoms), e)
+    mol = Chem.RemoveHs(mol)
+    conf = mol.GetConformer()
+    return [tuple(conf.GetAtomPosition(i)) for i in range(mol.GetNumAtoms())], None
 
 
-def contacting_names(native_atoms, native_lig_key, protein_chains, comp, cutoff=None):
-    """Names of the NATIVE degrader atoms within `cutoff` of the given protein chains, in the native."""
+def model_ligand_atoms(atoms):
+    """The co-fold's degrader heavy atoms — selected by SIZE, not by residue name.
+
+    A co-fold folded from SMILES does not have to reuse the CCD's residue name, and requiring it is what made
+    the first decomposition read zero atoms on the model side."""
+    import selcal_cofold_validate as V
+    return V.ligand_atoms(atoms)
+
+
+def native_ligand_atoms(native_atoms, native_lig_key, comp):
+    """The native degrader's heavy atoms for ONE copy, in file order."""
+    return [a for a in native_atoms
+            if a.resname.upper() == comp.upper() and a.is_heavy and
+            (native_lig_key is None or a.key == native_lig_key)]
+
+
+def contacting_indices(native_coords, native_atoms, protein_chains, cutoff=None):
+    """Indices (in TEMPLATE order) of the native degrader atoms within `cutoff` of the given chains."""
     import numpy as np
     cutoff = contact_a() if cutoff is None else cutoff
-    lig = [a for a in native_atoms
-           if a.resname.upper() == comp.upper() and a.is_heavy and
-           (native_lig_key is None or a.key == native_lig_key)]
     prot = [a for a in native_atoms if a.chain in protein_chains and not a.hetatm and a.is_heavy]
-    if not lig or not prot:
+    if not native_coords or not prot:
         return []
-    L = np.array([[a.x, a.y, a.z] for a in lig], dtype=float)
+    L = np.array(native_coords, dtype=float)
     P = np.array([[a.x, a.y, a.z] for a in prot], dtype=float)
     d = np.sqrt(((L[:, None, :] - P[None, :, :]) ** 2).sum(axis=2)).min(axis=1)
-    return [a.name for a, dist in zip(lig, d) if dist <= cutoff]
+    return [i for i, dist in enumerate(d) if dist <= cutoff]
 
 
 def superpose_chain(model_atoms, native_atoms, model_chain, native_chain):
@@ -115,42 +136,45 @@ def superpose_chain(model_atoms, native_atoms, model_chain, native_chain):
 
 
 def frame_deviation(model_atoms, native_atoms, model_chain, native_chain, comp,
-                    native_lig_key, protein_chains):
-    """Deviation of the co-fold degrader from the native, in ONE protein's frame. Returns a record."""
+                    native_lig_key, protein_chains, template_smiles,
+                    model_coords=None, native_coords=None):
+    """Deviation of the co-fold degrader from the native, in ONE protein's frame. Returns a record.
+
+    `model_coords` / `native_coords` are the two ligands already posed in TEMPLATE order; they are passed in
+    rather than recomputed per frame because the match is the expensive part and is frame-independent."""
     import numpy as np
     R, t, detail, err = superpose_chain(model_atoms, native_atoms, model_chain, native_chain)
     rec = {"model_chain": model_chain, "native_chain": native_chain, "superposition": detail}
     if err:
         rec["error"] = err
         return rec
-    names = contacting_names(native_atoms, native_lig_key, protein_chains, comp)
-    rec["n_native_contacting_atoms"] = len(names)
-    if not names:
+    if model_coords is None or native_coords is None:
+        rec["error"] = "one or both degraders could not be posed onto the reference template"
+        return rec
+    if len(model_coords) != len(native_coords):
+        rec["error"] = ("template-ordered atom counts differ (%d model vs %d native) — the two are not the "
+                        "same molecule and no correspondence exists"
+                        % (len(model_coords), len(native_coords)))
+        return rec
+
+    idx = contacting_indices(native_coords, native_atoms, protein_chains)
+    rec["n_native_contacting_atoms"] = len(idx)
+    if not idx:
         rec["error"] = "no native degrader atom contacts this protein — nothing to compare in this frame"
         return rec
 
-    nat, ndup = ligand_by_name([a for a in native_atoms
-                                if native_lig_key is None or a.key == native_lig_key], comp)
-    mod, mdup = ligand_by_name(model_atoms, comp)
-    rec["duplicate_names"] = {"native": ndup, "model": mdup}
-    shared = [n for n in names if n in nat and n in mod]
-    rec["n_compared"] = len(shared)
-    rec["n_unmatched_names"] = len(names) - len(shared)
-    if not shared:
-        rec["error"] = ("no atom NAME is shared between the two degrader copies — the correspondence key is "
-                        "absent, and matching by proximity instead would hide exactly the errors this is "
-                        "testing for")
-        return rec
     dev = []
-    for n in shared:
-        p = np.asarray(R @ np.array(mod[n], dtype=float) + t, dtype=float)
-        dev.append(float(np.sqrt(((p - np.array(nat[n], dtype=float)) ** 2).sum())))
+    for i in idx:
+        p = np.asarray(R @ np.array(model_coords[i], dtype=float) + t, dtype=float)
+        dev.append(float(np.sqrt(((p - np.array(native_coords[i], dtype=float)) ** 2).sum())))
     dev.sort()
     rec.update({
+        "n_compared": len(dev),
         "rmsd_A": round(float(np.sqrt(np.mean(np.square(dev)))), 3),
         "median_A": round(dev[len(dev) // 2], 3),
         "min_A": round(dev[0], 3), "max_A": round(dev[-1], 3),
         "pocket_occupied_as_in_crystal": bool(np.sqrt(np.mean(np.square(dev))) <= POCKET_OK_A),
+        "_correspondence": "template-ordered graph match, never proximity",
     })
     return rec
 
@@ -175,7 +199,8 @@ def decompose_one(model_path, native_path, record):
         out["error"] = "the committed chain map does not carry both roles for this co-fold"
         return out
 
-    comp = S.ligand_smiles()["ccd"]
+    lig_ref = S.ligand_smiles()
+    comp, smiles = lig_ref["ccd"], lig_ref["smiles"]
     model_atoms = V.parse_structure(model_path)
     native_atoms = V.parse_structure(native_path)
     tgt_native = matched[tgt_model]["native_chain"]
@@ -189,10 +214,19 @@ def decompose_one(model_path, native_path, record):
     if err:
         out["native_ligand_note"] = err
 
+    # Pose BOTH degraders onto the reference template once: the graph match is frame-independent, and the
+    # two results then share TEMPLATE atom ordering, which is the correspondence.
+    mod_heavy = model_ligand_atoms(model_atoms)
+    nat_heavy = native_ligand_atoms(native_atoms, lig_key, comp)
+    out["ligand_heavy_atoms"] = {"model": len(mod_heavy), "native": len(nat_heavy)}
+    mcoords, merr = template_ordered_coords(mod_heavy, smiles)
+    ncoords, nerr = template_ordered_coords(nat_heavy, smiles)
+    out["template_match"] = {"model": merr or "ok", "native": nerr or "ok"}
+
     out["target_frame"] = frame_deviation(model_atoms, native_atoms, tgt_model, tgt_native, comp,
-                                          lig_key, {tgt_native})
+                                          lig_key, {tgt_native}, smiles, mcoords, ncoords)
     out["e3_frame"] = frame_deviation(model_atoms, native_atoms, e3_model[0], vhl_native, comp,
-                                      lig_key, {vhl_native})
+                                      lig_key, {vhl_native}, smiles, mcoords, ncoords)
     out["dockq_whole_interface"] = (record.get("dockq") or {}).get("DockQ")
     return out
 
