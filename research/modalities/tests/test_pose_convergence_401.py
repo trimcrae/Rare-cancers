@@ -186,5 +186,20 @@ def test_scale_reference_calibrates_the_spread_without_inventing_a_band():
     assert "is a threshold" in ref["_note"]      # "none of these is a threshold"
 
 
+def test_the_artifact_reports_score_separation_beside_geometric_separation():
+    """★ The sharpest form of the finding: if the poses are far apart geometrically but close in score,
+    the scoring function is not what chose among them — which is exactly what 'the top pose' assumes."""
+    pytest.importorskip("rdkit")
+    a, _ra = P.load_source(P.SOURCES[0])
+    if a is None:
+        pytest.skip("committed pose files not present in this checkout")
+    doc = P.measure([P.SOURCES[0], P.SOURCES[1]])
+    blk = doc["score_cannot_tell_these_poses_apart"]
+    assert blk["docking_score_spread_kcalmol"]["n"] == 2
+    assert blk["pairwise_ligand_rmsd_A"]["n"] >= 1
+    assert "not an affinity" in blk["_caveat"] or "not as an affinity" in blk["_caveat"]
+    assert doc["pairs"][0]["score_delta_kcalmol"] is not None
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))

@@ -569,6 +569,17 @@ def measure(sources=None):
             "ligand_centroid_distance_A": spread([p[fit]["ligand_centroid_distance_A"] for p in pairs]),
         }
     doc["spread"]["contact_jaccard"] = spread([p["contact_jaccard"] for p in pairs])
+    scores = [r.get("docking_score_kcalmol") for r in loaded if r.get("docking_score_kcalmol") is not None]
+    doc["score_cannot_tell_these_poses_apart"] = {
+        "docking_score_spread_kcalmol": spread(scores),
+        "pairwise_score_delta_kcalmol": spread([p.get("score_delta_kcalmol") for p in pairs]),
+        "pairwise_ligand_rmsd_A": spread([p["pocket"].get("ligand_rmsd_A") for p in pairs]),
+        "_reads": "the scoring function's own separation between these poses, beside how far apart they "
+                  "actually are. A wide geometric spread under a narrow score spread means the score is "
+                  "not the thing that chose among them — which is what 'the top pose' silently assumes.",
+        "_caveat": "smina scores from different receptor conformers are not strictly comparable; this is "
+                   "reported as the separation the pipeline itself had available, not as an affinity.",
+    }
     doc["verdict"] = _verdict(doc, pairs, len(loaded), len(sources))
     doc["_status"] = "ok"
     return doc
@@ -577,7 +588,9 @@ def measure(sources=None):
 def _compare(a, b, cutoff, bm):
     """One ordered pair: put b's receptor on a's, move b's ligand with it, then measure."""
     import nr4a3_8xtt_benchmark as bmod
+    sa, sb = a.get("docking_score_kcalmol"), b.get("docking_score_kcalmol")
     out = {"a": a["id"], "b": b["id"],
+           "score_delta_kcalmol": (round(abs(sa - sb), 3) if sa is not None and sb is not None else None),
            "independent_receptor": a["receptor"] != b["receptor"],
            "same_method_kind": a["kind"] == b["kind"],
            "same_receptor_provenance": (a.get("receptor_provenance") or "").split("(")[0]
