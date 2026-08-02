@@ -46,6 +46,8 @@ on:
       - research/modalities/selcal_dockq_decoy_scale.py
       - research/modalities/selcal_xtal_stage.py
       - research/modalities/tests/test_selcal_xtal_stage.py
+      - research/modalities/selcal_xtal_panel.py
+      - research/modalities/tests/test_selcal_xtal_panel.py
       - research/modalities/structural_provenance_census.py
       - research/modalities/selcal_deepternary_controls.py
       - research/modalities/tests/test_selcal_cofold_validate.py
@@ -93,6 +95,7 @@ jobs:
                             research/modalities/tests/test_selcal_dockq_crosscheck.py \
                             research/modalities/tests/test_selcal_dockq_decoy_scale.py \
                             research/modalities/tests/test_selcal_xtal_stage.py \
+                            research/modalities/tests/test_selcal_xtal_panel.py \
                             research/modalities/tests/test_selcal_panel.py -q
 
       - name: Resolve the prefix the panel actually froze
