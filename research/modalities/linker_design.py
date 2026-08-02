@@ -19,9 +19,13 @@ THE FOUR KERNELS THAT CARRY SCIENTIFIC WEIGHT
 1. `three_ball_min_margin` — the convex feasibility core. A pendant group mounted on the k-th backbone atom of
    an n-atom linker can touch a point q iff there exists a point p with |p-a| <= k*rise, |p-b| <= (n-k)*rise
    and |p-q| <= e. That is the intersection of three balls, i.e. the sublevel set of the CONVEX function
-   f(p) = max_i(|p-c_i| - r_i); the intersection is non-empty iff min_p f(p) <= 0. Solved by deterministic
-   coarse-to-fine pattern search over a box that provably contains the minimiser (the convex hull of the
-   centres), so the answer is reproducible and testable rather than seeded by a random optimiser.
+   f(p) = max_i(|p-c_i| - r_i); the intersection is non-empty iff min_p f(p) <= 0. Solved in CLOSED FORM by
+   enumerating the finitely many points that can carry the optimum of a max of three cone functions, so the
+   answer is exact and reproducible rather than seeded by a random optimiser.
+   ⚠ SUPERSEDED, retained: this kernel was a "deterministic coarse-to-fine pattern search over a box that
+   provably contains the minimiser", described as "converged far below any chemically meaningful tolerance".
+   The box claim was true; the convergence claim was FALSE, and it is why the 8XTT reach table could not be
+   committed — see the `three_ball_min_margin` docstring for the measurement that retired it.
 
 2. `branch_position_window` — the CHEMISTRY DELIVERABLE of this rung, and the thing STRATEGY.md's RUNG 5b asks
    for by name: "the library enumerates the ELECTROPHILE POSITION ON THE LINKER as a design variable". It is
@@ -79,18 +83,47 @@ def _max_violation(p, centers, radii):
 def three_ball_min_margin(centers, radii, rounds: int = 50, shrink: float = 0.6):
     """min over p of max_i(|p - c_i| - r_i), and the argmin. <= 0 iff the balls have a common point.
 
-    THE REDUCTION THAT MAKES THIS CHEAP AND EXACT. Reflecting a point through the plane containing the centres
-    leaves every |p - c_i| unchanged, so the objective is symmetric about that plane; being convex, its value
-    at the midpoint of a reflected pair — the in-plane projection — is no worse. Hence **the minimiser always
-    lies in the plane of the centres**, and a 3-D search is wasted work. The problem is solved in 2-D on that
-    plane with a 3x3 pattern search, then mapped back. (For <= 2 centres the answer is closed-form and is
-    returned directly.)
+    THE REDUCTION. Reflecting a point through the plane containing the centres leaves every |p - c_i|
+    unchanged, so the objective is symmetric about that plane; being convex, its value at the midpoint of a
+    reflected pair — the in-plane projection — is no worse. Hence **the minimiser always lies in the plane of
+    the centres**, and a 3-D search is wasted work. (For <= 2 centres the answer is closed-form directly.)
 
-    Deterministic coarse-to-fine: each round keeps the best stencil point and shrinks the step, so the returned
-    value is monotone non-increasing in `rounds`; with the defaults the step falls by 0.6**50 ~ 8e-12 of the
-    initial box — converged far below any chemically meaningful tolerance. A random-restart or gradient
-    optimiser would have been shorter to write and impossible to unit-test against a closed-form answer; this
-    one is tested against the circumradius of an equilateral triangle, where the threshold is exact.
+    ★★ WHY THIS IS AN ENUMERATION AND NOT A SEARCH — MEASURED, NOT PREFERRED (2026-08-02). This kernel used to
+    solve the in-plane problem with a coarse-to-fine 3x3 pattern search, documented as "converged far below any
+    chemically meaningful tolerance". **That was false, and it silently reported balls as disjoint when they
+    provably intersect.** f is convex but NOT differentiable: its minimiser sits on the kink ridge where two or
+    three cone terms are equal, and along that ridge every axis-aligned stencil direction is ascent, so a
+    compass search stalls ON the answer's ridge and cannot leave it. The measurement that retired it, at
+    a = (0,0,0), b = (10.764, -1.201, 1.565), q = (10.344, 1.389, 23.855), radii (20.0, 38.75, 6.10):
+
+      * the search returned +0.457272 A — "disjoint" — while the true minimum is -0.030917, i.e. the balls DO
+        intersect. Error 0.488 A, ~500x the 1e-6 feasibility tolerance the answer is compared against.
+      * it is NOT a convergence budget: rounds = 50, 100, 200, 400 and 800 all return the identical value at
+        the identical point.
+      * at the returned point the 3x3 stencil improves at 0 of 10 scales from 10 A down to 1e-6 A, yet a
+        descent direction does exist off-stencil (158.5 deg) — the definition of a stalled pattern search.
+      * the returned value depended on the search SCHEDULE rather than the geometry: shrink = 0.8 gave the
+        right answer where the shipped shrink = 0.6 gave the wrong one.
+
+    Over 50,927 randomly sampled (a, b, q, k, n) cells in the range the reach table actually explores, 40 were
+    reported infeasible while an explicit witness point proves they intersect. Downstream this made
+    `min_linker_atoms_exact` over-report the required chain length by one backbone atom, which is what surfaced
+    as the `RULE_DRIFT` cells that blocked the 8XTT reach artifact: the lattice-witness "corridor" rule was
+    right and this solver was wrong. `rounds`/`shrink` are retained only so existing call sites keep working;
+    the exact solver ignores them.
+
+    THE ENUMERATION, AND WHY IT IS COMPLETE. Let A be the set of terms attaining the max at the optimum p*:
+      |A| = 1, say {i} — f = g_i near p*, so p* minimises a single cone: p* = c_i.
+      |A| = 2, say {i, j} — 0 in conv{grad g_i, grad g_j} forces the two unit vectors to be opposed, so p* lies
+        ON the segment c_i c_j, and g_i = g_j pins it at |p*-c_i| = (d + r_i - r_j)/2 (clamped to the segment).
+      |A| = 3 — all three equal some t, i.e. |p*-c_i| = r_i + t. Differencing pairs of those squared equations
+        gives two equations linear in (p*, t); solving them expresses p* affinely in t, and substituting back
+        into one circle equation leaves a scalar quadratic in t whose roots are the only candidates.
+    Three centres, three pairs and at most two equalisation roots is at most 8 points. Every candidate is a
+    real point, so evaluating f at all of them can never under-report; the optimum is always among them, so it
+    can never over-report either. Collinear centres degenerate the |A| = 3 system, and are exactly the case
+    where the optimum already lies on the line and is therefore a |A| <= 2 candidate, so skipping the
+    degenerate solve is safe rather than approximate.
     """
     if len(centers) != len(radii):
         raise ValueError("centers and radii must be paired")
@@ -98,6 +131,10 @@ def three_ball_min_margin(centers, radii, rounds: int = 50, shrink: float = 0.6)
         raise ValueError("need at least one ball")
     if any(r < 0 for r in radii):
         raise ValueError("radii must be >= 0")
+    if len(centers) > 3:
+        # The in-plane reduction is a statement about the plane of THREE points. Refusing is strictly better
+        # than silently returning the wrong number for a case no caller has ever needed (CLAUDE.md §4).
+        raise ValueError("three_ball_min_margin solves at most three balls; got %d" % len(centers))
     if len(centers) == 1:
         return -radii[0], tuple(centers[0])
     if len(centers) == 2:
@@ -123,7 +160,8 @@ def three_ball_min_margin(centers, radii, rounds: int = 50, shrink: float = 0.6)
     proj = _dot(w, e1)
     e2 = tuple(w[i] - proj * e1[i] for i in range(3))
     n2 = math.sqrt(_dot(e2, e2))
-    if n2 < 1e-12:                       # collinear centres: any orthogonal completes the plane
+    collinear = n2 < 1e-12
+    if collinear:                        # collinear centres: any orthogonal completes the plane
         tmp = (1.0, 0.0, 0.0) if abs(e1[0]) < 0.9 else (0.0, 1.0, 0.0)
         e2 = _cross(e1, tmp)
         n2 = math.sqrt(_dot(e2, e2))
@@ -135,26 +173,51 @@ def three_ball_min_margin(centers, radii, rounds: int = 50, shrink: float = 0.6)
         return max(math.sqrt((x - cx) ** 2 + (y - cy) ** 2) - r
                    for (cx, cy), r in zip(flat, radii))
 
-    xs = [c[0] for c in flat]
-    ys = [c[1] for c in flat]
-    x, y = (min(xs) + max(xs)) / 2.0, (min(ys) + max(ys)) / 2.0
-    step = max(1.0, max(max(xs) - min(xs), max(ys) - min(ys)) / 2.0)
-    best = f2(x, y)
-    for _ in range(rounds):
-        for _inner in range(60):
-            improved = False
-            for dx in (-step, 0.0, step):
-                for dy in (-step, 0.0, step):
-                    if dx == 0.0 and dy == 0.0:
-                        continue
-                    v = f2(x + dx, y + dy)
-                    if v < best - 1e-13:
-                        best, x, y, improved = v, x + dx, y + dy, True
-            if not improved:
-                break
-        step *= shrink
+    cands = list(flat)                                       # |A| = 1: the centres themselves
+    for i in range(3):                                       # |A| = 2: the pairwise segment optima
+        for j in range(i + 1, 3):
+            (xi, yi), ri = flat[i], radii[i]
+            (xj, yj), rj = flat[j], radii[j]
+            d = math.hypot(xj - xi, yj - yi)
+            if d == 0.0:
+                continue
+            s = min(max((d + ri - rj) / 2.0, 0.0), d)
+            cands.append((xi + s * (xj - xi) / d, yi + s * (yj - yi) / d))
+    if not collinear:                                        # |A| = 3: the equalisation roots
+        (x1, y1), r1 = flat[0], radii[0]
+        (x2, y2), r2 = flat[1], radii[1]
+        (x3, y3), r3 = flat[2], radii[2]
+        a1, b1 = 2.0 * (x2 - x1), 2.0 * (y2 - y1)
+        c1 = (x2 * x2 + y2 * y2) - (x1 * x1 + y1 * y1) + (r1 * r1 - r2 * r2)
+        d1 = 2.0 * (r1 - r2)
+        a2, b2 = 2.0 * (x3 - x1), 2.0 * (y3 - y1)
+        c2 = (x3 * x3 + y3 * y3) - (x1 * x1 + y1 * y1) + (r1 * r1 - r3 * r3)
+        d2 = 2.0 * (r1 - r3)
+        det = a1 * b2 - a2 * b1
+        if abs(det) > 1e-12:
+            # p(t) = p0 + p1 * t, from the two linear difference equations
+            px0, px1 = (c1 * b2 - c2 * b1) / det, (d1 * b2 - d2 * b1) / det
+            py0, py1 = (a1 * c2 - a2 * c1) / det, (a1 * d2 - a2 * d1) / det
+            u0, u1 = px0 - x1, px1
+            v0, v1 = py0 - y1, py1
+            qa = u1 * u1 + v1 * v1 - 1.0
+            qb = 2.0 * (u0 * u1 + v0 * v1 - r1)
+            qc = u0 * u0 + v0 * v0 - r1 * r1
+            roots = []
+            if abs(qa) < 1e-14:
+                if abs(qb) > 1e-14:
+                    roots.append(-qc / qb)
+            else:
+                disc = qb * qb - 4.0 * qa * qc
+                if disc >= 0.0:
+                    sq = math.sqrt(disc)
+                    roots.extend([(-qb + sq) / (2.0 * qa), (-qb - sq) / (2.0 * qa)])
+            for t in roots:
+                cands.append((px0 + px1 * t, py0 + py1 * t))
+
+    x, y = min(cands, key=lambda c: f2(c[0], c[1]))
     p = tuple(o[i] + x * e1[i] + y * e2[i] for i in range(3))
-    return best, p
+    return _max_violation(p, centers, radii), p
 
 
 def balls_intersect(centers, radii, tol: float = 1e-6) -> bool:

@@ -79,6 +79,136 @@ def test_rejects_mismatched_inputs():
         LD.three_ball_min_margin([], [])
     with pytest.raises(ValueError):
         LD.three_ball_min_margin([(0, 0, 0)], [-1.0])
+    with pytest.raises(ValueError):        # the in-plane reduction is only a statement about 3 centres
+        LD.three_ball_min_margin([(0, 0, 0)] * 4, [1.0] * 4)
+
+
+def test_witness_point_always_realises_the_reported_margin():
+    """The returned point must actually achieve the returned value — an argmin nobody checked is exactly the
+    populated-but-unmeasured field CLAUDE.md §4b warns about."""
+    cases = [
+        ([(0.0, 0.0, 0.0), (9.0, 2.0, -1.0), (3.0, 8.0, 4.0)], [5.0, 6.0, 3.0]),
+        ([(0.0, 0.0, 0.0), (30.0, 0.0, 0.0), (15.0, 1.0, 0.0)], [12.0, 12.0, 2.0]),
+        ([(0.0, 0.0, 0.0), (4.0, 0.0, 0.0), (8.0, 0.0, 0.0)], [1.0, 1.0, 1.0]),   # collinear
+    ]
+    for centers, radii in cases:
+        m, p = LD.three_ball_min_margin(centers, radii)
+        assert LD._max_violation(p, centers, radii) == pytest.approx(m, abs=1e-9)
+
+
+def test_no_false_disjoint_when_a_witness_point_exists():
+    """★ REGRESSION, MEASURED 2026-08-02 — the defect that blocked the 8XTT reach artifact.
+
+    The kernel used to solve the in-plane problem with a coarse-to-fine 3x3 pattern search. f is convex but
+    NOT differentiable, its minimiser lies on the ridge where cone terms are equal, and along that ridge every
+    axis-aligned stencil direction is ascent — so the search stalled ON the answer and reported the balls
+    DISJOINT when they demonstrably intersect. Measured on this exact geometry: returned +0.457272 against a
+    true minimum of -0.030917 (error 0.488 A, ~500x the 1e-6 feasibility tolerance), identically at
+    rounds = 50/100/200/400/800, with the stencil unable to improve at any of 10 scales from 10 A to 1e-6 A.
+
+    Downstream, `min_linker_atoms_exact` therefore over-reported the required chain length by one backbone
+    atom, which surfaced as `RULE_DRIFT` cells in `nr4a3_linker_covalent_reach.py` — the lattice-witness
+    corridor rule was right and this kernel was wrong.
+
+    The test asserts the property, not the historical number: a point that satisfies every ball proves the
+    intersection is non-empty, so the reported margin may not be positive.
+    """
+    centers = [(0.0, 0.0, 0.0),
+               (10.76425666336196, -1.2010692813571033, 1.564854060957357),
+               (10.344120696299626, 1.388554467469497, 23.854919207677796)]
+    radii = [20.0, 38.75, 6.10]
+    m, p = LD.three_ball_min_margin(centers, radii)
+    assert LD._max_violation(p, centers, radii) <= 1e-9
+    assert m <= 0.0, "balls with a common point must not be reported disjoint (got %+.6f)" % m
+    assert LD.balls_intersect(centers, radii)
+    # and the value itself, against a dense scan of the segment joining ball 1 and ball 3
+    assert m == pytest.approx(-0.030917, abs=1e-4)
+    # the schedule kwargs are vestigial: an exact solver cannot depend on them
+    for rounds in (1, 50, 800):
+        for shrink in (0.6, 0.8, 0.95):
+            assert LD.three_ball_min_margin(centers, radii, rounds, shrink)[0] == pytest.approx(m, abs=1e-12)
+
+
+def _thin_lens_cases():
+    """The geometry family the retired pattern search got wrong, enumerated deterministically.
+
+    Shape: the warhead ball and the pendant ball overlap in a THIN LENS (|q-a| just inside ra + e) while the
+    E3 ball is large enough to contain it. The optimum is then a small region far from the centroid the search
+    started at, sitting on the ridge where two cone terms are equal — where the axis stencil has no descent
+    direction. This is not a contrived corner: it is what a long linker reaching a barely-accessible cysteine
+    looks like, which is why it appeared in the real 8XTT table.
+    """
+    for R in (10.0, 15.0, 20.0, 25.0, 30.0):
+        for e in (3.0, 4.5, 6.1, 7.5):
+            for delta in (0.02, 0.06, 0.15, 0.4):
+                for bx in (8.0, 18.0, 25.0):
+                    for tilt in (0.0, 0.35, 0.9):
+                        a = (0.0, 0.0, 0.0)
+                        b = (bx, -1.2, 1.5)
+                        d_aq = R + e - delta
+                        raw = (d_aq * math.sin(tilt) * 0.4, d_aq * math.sin(tilt) * 0.1,
+                               d_aq * math.cos(tilt * 0.4))
+                        n = math.sqrt(sum(x * x for x in raw))
+                        if n == 0.0:
+                            continue
+                        q = tuple(x * d_aq / n for x in raw)
+                        rb = max(LD._dist(q, b) + 5.0, 20.0)
+                        yield a, b, q, R, rb, e, delta
+
+
+def test_thin_lens_family_is_never_reported_disjoint():
+    """★ THE REGRESSION WITH TEETH. Measured 2026-08-02: the retired pattern search reported 873 of these 720+
+    geometries as DISJOINT when their balls overlap by construction, with errors up to +0.61 A. A plain
+    lattice-witness sweep does NOT reproduce the defect (0 catches over 6591 cells), so asserting the
+    invariant alone would have been a test that could never fail — this pins the failing family itself.
+
+    Two balls overlapping by `delta` have min margin exactly -delta/2, and the third ball contains the lens,
+    so the answer is known in closed form rather than compared against a previous output.
+    """
+    n_cases = 0
+    for a, b, q, R, rb, e, delta in _thin_lens_cases():
+        n_cases += 1
+        m, p = LD.three_ball_min_margin([a, b, q], [R, rb, e])
+        assert m < 0.0, ("thin lens (overlap %.3f A) reported disjoint at %+.6f" % (delta, m))
+        assert m == pytest.approx(-delta / 2.0, abs=1e-6)
+        assert LD._max_violation(p, [a, b, q], [R, rb, e]) <= 1e-9
+        assert LD.balls_intersect([a, b, q], [R, rb, e])
+    assert n_cases > 500, n_cases
+
+
+def test_corridor_witness_can_never_beat_the_convex_solve():
+    """THE INVARIANT THE REACH TABLE GATES ON, tested directly on the kernel.
+
+    A lattice point p with |p-a| <= k*rise, |p-b| <= (n-k)*rise and |p-q| <= e is a witness that an n-atom
+    linker branching at k reaches q. `branch_position_window` must therefore call n feasible. When it did not,
+    the reach table's corridor rule returned a SHORTER chain than the through-space rule — an ordering the
+    subset relation makes impossible — and the artifact was refused.
+
+    Kept alongside the family test above, which is the one that reproduces the defect: this one states the
+    property the driver actually depends on.
+    """
+    rise = LD.RISE_PER_ATOM_A
+    checked = 0
+    for b in ((18.0, 3.0, -2.0), (34.0, -6.0, 5.0)):
+        for gx in range(-5, 6):
+            for gy in range(-5, 6):
+                for gz in range(-5, 6):
+                    p = (gx * 2.5, gy * 2.5, gz * 2.5)
+                    for e in (3.0, 6.1):
+                        q = (p[0] + e, p[1], p[2])          # |p-q| == e exactly
+                        a = (0.0, 0.0, 0.0)
+                        ka = max(1, int(math.ceil(LD._dist(p, a) / rise - 1e-9)))
+                        kb = max(1, int(math.ceil(LD._dist(p, b) / rise - 1e-9)))
+                        n = ka + kb
+                        if n > 80:
+                            continue
+                        w = LD.branch_position_window(a, b, q, n, e)
+                        assert w["n_feasible"] > 0, (
+                            "witness p=%s proves n=%d k=%d reaches q, but the window says infeasible "
+                            "(best_margin %s)" % (p, n, ka, w["best_margin_A"]))
+                        assert LD.min_linker_atoms_exact(a, b, q, e) <= n
+                        checked += 1
+    assert checked > 2000, checked
 
 
 # ---------------------------------------------------------------------------------------------------------
