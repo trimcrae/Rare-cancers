@@ -1,0 +1,262 @@
+{
+ "_what": "RUNG 5b-T \u2014 the assembly-route ternary rebuild, priced bottom-up from the DeepTernary lane's own completed CI records. DERIVED; regenerate rather than quote.",
+ "_status": "COST AND GATE ONLY. Nothing here dispatches anything, and nothing here is a claim about binding, degradation, selectivity, efficacy or safety.",
+ "serves": {
+  "requirements": [
+   "R9",
+   "R10",
+   "R11"
+  ],
+  "instruments": [
+   "V2",
+   "V1"
+  ],
+  "inherits_unresolved": [
+   "R5"
+  ],
+  "does_not_discharge": [
+   "R12",
+   "R13",
+   "R6",
+   "R7 (the free-energy requirement)"
+  ]
+ },
+ "spec": {
+  "what_runs": [
+   "1. `nr4a3_linker_design.py --chem-check` (CONDITIONAL, $0 RDKit) \u2014 re-enumerate at a basin that clears the 12-atom gate; if nothing is buildable, proceed at the shortest committed length and carry the measured collision bracket.",
+   "2. `selcal_deepternary_frame.py` \u2014 build DeepTernary's six unbound inputs per arm from the slots below, with the pre-flight snap-mask assertion.",
+   "3. `predict_cpu.py` (DeepTernary, frozen commit, patched to CPU, 16 seeds) \u2014 2 harness positive-control arms then 3 paralogue arms.",
+   "4. `selcal_deepternary_score.py` / `selcal_deepternary_poscontrol.py` \u2014 score every pose with OUR two instruments against the same references.",
+   "5. `nr4a_ternary_signature.py --root <models> --recursive` \u2014 the `V1` read over all 16 models per paralogue arm."
+  ],
+  "input_slots": [
+   {
+    "slot": "unbound_protein1 (site 1)",
+    "source": "results/nr4a3-matrix/nr4a{1,2,3}-opened.pdb",
+    "note": "the matched opened LBD per paralogue \u2014 the same three the categorical lane measured on"
+   },
+   {
+    "slot": "unbound_lig1 (site 1 fragment)",
+    "source": "results/nr4a3-matrix/docked_nr4a{1,2,3}.sdf",
+    "note": "\u26d4 INHERITS `R5`. The pose's own known-answer test (`V3`) is INCONCLUSIVE \u2014 the pipeline's SITE selection missed on 6 of 6 pairs \u2014 so every geometry downstream of this slot is conditional."
+   },
+   {
+    "slot": "unbound_protein2 (site 2)",
+    "source": "a CRBN+DDB1 BINARY IMiD deposit (e.g. 4TZ4)",
+    "note": "\u26a0 the committed `nr4a3-e3-arm-registry.json` CRBN arm is staged on 6BOY, which is a TERNARY (DDB1-CRBN-BRD4/dBET6). A ternary-derived E3 conformer imports that ternary's induced fit, so site 2 is re-staged from a binary or the ternary provenance is declared on the result."
+   },
+   {
+    "slot": "unbound_lig2 (site 2 fragment)",
+    "source": "the IMiD of the same deposit, in its crystal pose",
+    "note": "CIF->PDB conversion must source CONECT from the CCD `_chem_comp_bond` table, never from distances \u2014 the lane already does this and it is why its molecules are recoverable."
+   },
+   {
+    "slot": "ligand.pdb (the degrader)",
+    "source": "research/modalities/nr4a3-linker-library-chem.json",
+    "note": "a constrained embed of the recorded SMILES, with its warhead atoms pinned on the site-1 fragment and its IMiD atoms on the site-2 fragment, in one common frame."
+   },
+   {
+    "slot": "the common frame",
+    "source": "research/modalities/nr4a3-orientation-basins.json",
+    "note": "\u26d4 THERE IS NO NATIVE NR4A3 TERNARY, so the published protocol's 'superpose both binaries into the native frame' step has no reference to use. The RUNG-5a orientation basin supplies a relative arrangement instead. It does NOT leak into the prediction \u2014 `predict_one_unbound` randomly rotates and translates protein 2 and the ligand before the forward pass \u2014 but it does decide whether the two-fragment embed is feasible at all."
+   }
+  ],
+  "degrader_source": {
+   "artifact": "research/modalities/nr4a3-linker-library-chem.json",
+   "fields": [
+    "constructs[].construct_id",
+    "constructs[].canonical_smiles",
+    "constructs[].inchikey",
+    "constructs[].n_backbone_atoms_measured"
+   ],
+   "why": "the \u00a72.5 ternaries are unrecoverable \u2014 nr4a-ternary-ligand-provenance.json n_recovered = 0 of 3, no `_chem_comp_bond` loop in any model \u2014 so a replicate can never be matched to them. Recording the SMILES is what makes this rung's output replicable at all.",
+   "e3_arm_required": "crbn",
+   "shortest_committed_backbone_atoms": 14,
+   "crbn_constructs_at_the_shortest_length_bearing_an_electrophile": [
+    "crbnM0@ex_5amide_a2-a5_acrylamide",
+    "crbnM0@ex_5amide_a2-a5_cyac_me",
+    "crbnM0@ex_5amide_a2-a5_cyanoprop",
+    "crbnM0@ex_5amide_a2-m2_cyac_me"
+   ]
+  },
+  "preflight": {
+   "snap_masks_must_be_non_empty": true,
+   "why": "runs 30753431082 and 30754028742 died at `replace_to_unbound_coords` because the degrader was a CCD ideal conformer in an arbitrary frame, so ZERO atoms fell within 1 A of either fragment and the reduction over an empty mask raised. The reference construction gives 33 and 18. A build whose masks are empty is REFUSED before prediction, never run 'to see'.",
+   "reference_masks": {
+    "unbound_lig1": 33,
+    "unbound_lig2": 18,
+    "on": "6HAX_B_A_FWZ"
+   }
+  },
+  "artifacts_produced": [
+   "research/modalities/selcal-deepternary-poscontrol.json (the two harness controls)",
+   "research/modalities/selcal-deepternary-frame.json (the built inputs + snap masks)",
+   "research/modalities/nr4a-ternary-signature.json (the `V1` read, with per-model frequencies)",
+   "research/modalities/nr4a-ternary-ligand-provenance.json (\u26d4 must come back n_recovered = 3)"
+  ]
+ },
+ "gate": {
+  "_registered": "2026-08-02, before any arm of this rung has been run",
+  "_all_three_arms_must_pass": true,
+  "A_sequence_encoded_not_a_placement_artifact": {
+   "criterion": "at least one discriminating position at which the ALIGNED RESIDUE ITSELF differs in both NR4A1 and NR4A2",
+   "threshold": {
+    "min_sequence_encoded_positions": 1
+   },
+   "why": "the earlier pass returned 6 discriminating positions and 5 were placement artifacts \u2014 the IDENTICAL residue in all three paralogues, so they cannot encode a paralogue difference. `nr4a_ternary_signature` already partitions them; this arm makes the partition the gate.",
+   "reading_if_it_fails": "any number of same-residue positions is ZERO evidence of selectivity, and a count of 'discriminating contacts' that includes them must never be quoted"
+  },
+  "B_reproducible_not_one_models_accident": {
+   "criterion": "the position is present in >= 12 of 16 NR4A3 models AND in <= 4 of 16 models on EACH comparator arm",
+   "threshold": {
+    "models_per_arm": 16,
+    "min_present_on_focus": 12,
+    "max_present_on_each_comparator": 4
+   },
+   "null": "a per-model independent coin flip (p0 = 0.5). Under it, >= 12 of 16 has one-sided binomial p = 0.0384, and <= 4 of 16 has the mirror p = 0.0384.",
+   "floor": "fewer than 3 models on any arm and `nr4a_ternary_signature` refuses the word 'reproducible' outright \u2014 the earlier pass had 1 model per arm and printed 'reproducible across ALL 1 models', which is n = 1 wearing the costume of a replication test",
+   "reading_if_between": "INDETERMINATE, which is a third outcome and NOT a pass. The descriptor result is then not established in either direction."
+  },
+  "C_the_geometry_the_categorical_axis_depends_on_survives_assembly": {
+   "criterion": "in the accepted NR4A3 models, (C1) the median electrophile-carbon-to-C397-SG distance is within the pendant-reach convention the construct was designed at, and (C2) the construct's own backbone length still lies inside the assembled placement's C397 chemoselectivity window \u2014 i.e. short of the first PARALOGUE cysteine to come into reach",
+   "reads": [
+    "research/modalities/nr4a3-linker-covalent-reach.json -> \u2605_family_wide_chemoselectivity_window.by_convention[*].cells[*] (window_lo, window_hi, closed_by, closed_at_atoms)",
+    "research/modalities/nr4a-paralogue-dynamics.json -> categorical_verdict.by_scope"
+   ],
+   "why": "the categorical axis is what makes this candidate selective WITHOUT a validated free-energy instrument, and it is a function of tether length: on the landed 73,867-placement matched ensembles the raw-reach paralogue-collision probability climbs steeply with backbone atoms. A ternary that only assembles by effectively lengthening the tether past that knee has traded away the property it exists to exploit.",
+   "reading_if_it_fails": "\u26d4 NO-GO, not a caveat. The assembled ternary is not the candidate's ternary.",
+   "known_risk_registered_in_advance": "\u26a0 THIS ARM IS AT RISK BEFORE THE RUNG RUNS, and saying so afterwards would be worthless. No construct in the committed 54-member library sits at or below 12 backbone atoms \u2014 the shortest is 14 \u2014 and the only CRBN basin in the CONFIRMED set (`crbn|M0`) has an exact C397 requirement of 13 backbone atoms, so it MISSES the 12-atom gate by construction. The CRBN basin that does clear it (`crbn|M17`, 12 atoms) is not in CONFIRMED, so nothing was ever enumerated against it. A $0 RDKit re-enumeration is the named way out; if it returns nothing buildable, the rung runs at 14 and CARRIES the measured collision bracket rather than claiming the 12-atom number."
+  },
+  "STOP_conditions_that_are_refusals_not_results": [
+   "empty snap mask or an infeasible two-fragment embed -> REFUSED. An unrun arm is never reported as a zero; both scorers already refuse this and say so.",
+   "either harness positive control fails -> the whole run is uninterpretable and the workflow already goes red on it. A harness that cannot score a known-good ternary cannot grade a suspect one.",
+   "fewer than 3 models on any arm -> no reproducibility statement is made in either direction."
+  ]
+ },
+ "scope": {
+  "a_pass_licenses": [
+   "a STRUCTURAL statement: these modelled interface contacts differ between the paralogues, at named positions, with a stated per-model frequency and a validated detector behind the descriptor.",
+   "combined with the landed categorical axis (geometry + exposure, measured over matched ensembles), a TWO-MECHANISM structural case \u2014 selective engagement plus a paralogue-discriminating interface \u2014 which is materially stronger than either half alone."
+  ],
+  "a_pass_does_NOT_license": [
+   "any affinity, potency or N-fold statement. This rung computes no free energy and contains no thermodynamics; it cannot say one paralogue binds more tightly than another.",
+   "discharging `R12` or the free-energy requirement. `R12` needs productive unique-lysine geometry and `V18` has no known-answer test at all; nothing here touches either.",
+   "a degradation, efficacy, safety, therapeutic-window or clinical claim of any kind.",
+   "calling the arm blind. DeepTernary is GIVEN which pocket each end of the degrader occupies, and a test in the lane enforces that this is never described otherwise.",
+   "generalisation from the harness controls. 6HAX and 6BN7 are both inside the model's 2023-10-14 horizon, so they control the harness and the instruments and never the model's reach."
+  ],
+  "inherited_limits_that_travel_with_every_result": [
+   "`R5` is UNRESOLVED and site 1 inherits it: `V3`'s verdict is INCONCLUSIVE because the pipeline's site selection missed on 6 of 6 pairs, so the warhead sub-pose is conditional.",
+   "`V1` validates ONE contact in ONE pair (SMARCA2 Gln1469<->VCB). It does not validate the interface-stability endpoint and it makes no NR4A prediction correct.",
+   "`V2`'s post-horizon pass is ONE arm on a VHL/bromodomain system, best of 16 seeds with median 0.442; the SMARCA4 arm was refused and no SMARCA4 number exists. Nothing validates it on a CRBN ternary with a nuclear receptor, which is exactly what this rung assembles.",
+   "every structure here is an isolated LBD construct \u2014 `R13`, the fusion-context object, is untouched.",
+   "the exposure half of the categorical axis is adjudicated by `V17`'s EXPOSED_RSA = 0.25, which FAILS its own positive control (NR4A1 C551, RSA 0.165, 0 of 25 frames). Exposure-filtered paralogue collision probabilities of exactly 0 are therefore conditional on a cutoff known to under-call paralogue cysteines \u2014 in the direction that flatters the claim. The RAW-REACH constraint is the one that does not lean on it, which is why arm C is written on backbone length."
+  ]
+ },
+ "measured_basis": {
+  "generator": {
+   "run_id": 30755890247,
+   "workflow": ".github/workflows/selcal-deepternary-headtohead.yml",
+   "conclusion": "success",
+   "runner": "ubuntu-latest (GitHub-hosted) \u2014 CPU only; predict_cpu.py device patched 'cuda' -> 'cpu'",
+   "seeds_per_arm": 16,
+   "job_total_s": 144,
+   "steps_s": {
+    "set_up_job": 1,
+    "checkout": 6,
+    "setup_python": 0,
+    "deps": 19,
+    "guards": 1,
+    "resolve_chains_and_verify_fragments": 5,
+    "clone_deepternary_and_cpu_deps": 50,
+    "poscontrol_predict": 19,
+    "poscontrol_rescore_with_our_instruments": 6,
+    "prep_six_input_files": 2,
+    "build_unbound_inputs_native_frame": 2,
+    "predict_selcal_arm": 21,
+    "score_against_sealed_native": 6,
+    "publish": 3,
+    "poscontrol_gate": 0
+   },
+   "_arms_in_this_run": {
+    "poscontrol": 1,
+    "prepared": 1
+   }
+  },
+  "descriptor": {
+   "run_id": 30759720183,
+   "workflow": ".github/workflows/selcal-cofold-validate.yml",
+   "conclusion": "success",
+   "steps_s": {
+    "static_paralogue_interface_signature": 0,
+    "ternary_signature_read": 4,
+    "source_non_native_binary_inputs": 40
+   },
+   "_models_per_arm_in_this_run": 1,
+   "_arms_in_this_run": 3
+  }
+ },
+ "unit_seconds": {
+  "fixed_per_job_s": 85,
+  "poscontrol_arm_s": 25,
+  "prepared_arm_s": 31,
+  "_prepared_arm_also_needs_rcsb_source_s": 40
+ },
+ "basis_reconciliation": {
+  "derived_s": 141,
+  "measured_job_total_s": 144,
+  "residual_s": 3,
+  "residual_bound_s": 5,
+  "sums": true,
+  "_why_a_residual_is_expected": "the Actions API reports whole seconds per step; 15 independently-rounded steps cannot sum exactly to the job's own start/finish delta"
+ },
+ "units": {
+  "poscontrol_arms": [
+   "6HAX_B_A_FWZ (VHL/SMARCA2, in-set)",
+   "6BN7 (CRBN/BRD4, in-set)"
+  ],
+  "paralogue_arms": [
+   "NR4A1",
+   "NR4A2",
+   "NR4A3"
+  ],
+  "seeds_per_arm": 16,
+  "models_per_arm_read_by_V1": 16,
+  "min_models_for_reproducibility": 3,
+  "predicted_complexes": 80
+ },
+ "derived_wall_clock": {
+  "generator_s": 348,
+  "v1_read_s": 64.0,
+  "total_s": 412.0,
+  "total_min": 6.9,
+  "_is_a_floor_not_an_estimate": "a FLOOR: the per-arm seconds were measured on a bromodomain+VCB system and are applied to an NR4A3 LBD (254 residues) against CRBN/DDB1, which is larger; DeepTernary's cost grows with total residue count. The workflow's own timeout-minutes: 120 is the real bound."
+ },
+ "derived_cost": {
+  "reference_gpu_h": 0.0,
+  "plan_rate": {
+   "read": true,
+   "source": "research/modalities/vast-ladder-repricing.json (vast_cost_model.py)",
+   "plan_usd_per_reference_gpu_h": 0.1143,
+   "range_usd_per_reference_gpu_h": [
+    0.0473,
+    0.2881
+   ],
+   "ladder_total_plan_usd_before_this_rung": 149.62555800000004
+  },
+  "usd_plan": 0.0,
+  "usd_range": [
+   0.0,
+   0.0
+  ],
+  "_derivation": "reference_gpu_h x plan_usd_per_reference_gpu_h = 0.0 x 0.1143 = 0.0",
+  "_why_zero": "no GPU appears anywhere in the chain: the generator is patched to CPU, the descriptor is pure-Python contact maps, and the construct check is RDKit. A GitHub-hosted runner on a public repository bills nothing.",
+  "ladder_total_unchanged": true,
+  "_ladder_consequence": "this rung buys 0.0 reference GPU-hours, so the pinned ladder total and every cumulative figure downstream of it are unmoved. It adds a row to the plan and nothing to the spend."
+ },
+ "unpriced": [
+  "nr4a3_linker_design.py --chem-check re-enumeration at a <=12-atom basin: $0 dollars (RDKit, CPU), wall-clock UNPRICED \u2014 no completed CI record isolates the `nr4a_linker_chem` job's own seconds",
+  "the FALLBACK if the two-fragment constrained embed proves infeasible in the chosen frame: the only other route to a ternary here is generative (sequence-only co-folding is `V12`, PARKED and failing), and no completed run on this system gives it a basis. UNPRICED, and it is a different rung if it is ever needed."
+ ],
+ "_provenance": "every second above was read from a COMPLETED job record via the public Actions API (CLAUDE.md \u00a76: never time a step from a live poll)."
+}
