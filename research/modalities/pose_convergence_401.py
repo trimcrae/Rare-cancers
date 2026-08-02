@@ -39,11 +39,25 @@ superposition, so "superposed" means here what it means in the 8XTT benchmark). 
   A global fit alone is the wrong instrument here and would flatter nothing: it is the pocket-local
   number that a medicinal chemist would read.
 
+⚠⚠ THE PREMISE OF THE QUESTION DOES NOT HOLD, AND SAYING SO IS THE FIRST RESULT. "Do the independent
+methods agree?" presupposes independent methods. There are none: **every** denovo_401-in-NR4A3 pose this
+program holds came from smina's top pose. What varies across the census is the RECEPTOR CONFORMATION —
+a metadynamics frame of an AF2 prediction, or a deposited apo NMR model — which is a real and useful axis
+(an experimental receptor removes the AF2 model as a shared failure) but is **not** method orthogonality.
+So each source carries TWO labels, `kind` and `receptor_provenance`, and the verdict reports them on
+separate lines. The one genuinely orthogonal attempt, an AF3-class binary co-fold, was scored but its
+coordinates were never committed (`KNOWN_ABSENT`), so it cannot enter a geometric comparison at all.
+
 ⚠ AN INPUT WE COULD NOT READ IS **UNREAD, NOT ABSENT.** Every pose the program is known to hold is listed
 in `SOURCES` whether or not its file is reachable, and a source whose coordinates cannot be loaded is
 emitted in `refusals` with the evidence (the path tried, and what the filesystem said). A convergence
 number computed over the subset that happened to be on disk, with the rest silently dropped, would be a
 measurement of which files survived an S3 lifecycle rule.
+
+★ AND THE SCORE IS REPORTED BESIDE THE GEOMETRY. If poses that are far apart geometrically are close in
+docking score, the score is not what chose among them — which is exactly what the phrase "the top pose"
+assumes it did. `score_cannot_tell_these_poses_apart` states both spreads side by side, with the caveat
+that scores from different receptor conformers are not strictly comparable.
 
 Output: pose-convergence-401.json. No GPU, no network, no rental.
 """
