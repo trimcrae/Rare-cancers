@@ -148,25 +148,25 @@ jobs:
                                         research/modalities/apo-pose-recovery.json
       # workflow_dispatch is the ONLY trigger on this file, so the `inputs` context always exists and the
       # null-cast bug lint_optional_input_guards.py exists for cannot arise here.
-      - name: Commit artifacts to the triggering branch
+      - name: Publish the artifacts
         if: always() && inputs.commit
+        env:
+          # ★ AN EVENT PUBLISH, NOT A HEARTBEAT. This job records a measurement; it is not a lane tick whose
+          # whole value is "I ran at this time", and nothing grades its staleness. Per publish_artifacts.sh's
+          # header, `--allow-empty` here would write a commit ASSERTING the known-answer test ran on a run
+          # where nothing was measured — indistinguishable in `git log` from the real one.
+          PUBLISH_IF_CHANGED: "1"
         run: |
-          set -e
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # ★ THE POSE INPUTS ARE COMMITTED, NOT JUST THE VERDICT. results/PROVENANCE.md records the
-          # ORIGINAL docking-matrix poses as LOST to a bucket lifecycle rule, and these four 8XTT legs are
-          # classified `scratch` in results/nr4a3-8xtt-redock/MANIFEST.json — one lifecycle sweep from the
-          # same fate, and the only surviving coordinates behind the "selectivity survives on experimental
-          # geometry" claim. ~1.3 MB total.
-          git add -f research/modalities/pose-convergence-401.json \
-                     research/modalities/apo-pose-recovery.json \
-                     research/modalities/_pose_convergence_inputs/ 2>/dev/null || true
-          git diff --cached --quiet && { echo "no changes"; exit 0; }
-          git commit -m "pose convergence + apo known-answer recovery (CI run ${{ github.run_id }})"
-          for i in 1 2 3 4 5; do
-            git pull --rebase origin "${{ github.ref_name }}" && \
-              git push origin HEAD:"${{ github.ref_name }}" && exit 0
-            echo "push race, retry $i"; sleep $((i * 7))
-          done
-          echo "::error::could not push artifacts after 5 attempts"; exit 1
+          set -eo pipefail
+          # ★ THE POSE INPUTS ARE PUBLISHED, NOT JUST THE VERDICT. results/PROVENANCE.md records the ORIGINAL
+          # docking-matrix poses as LOST to a bucket lifecycle rule, and these four 8XTT legs are classified
+          # `scratch` in results/nr4a3-8xtt-redock/MANIFEST.json — one sweep from the same fate, and the only
+          # surviving coordinates behind the "survives on experimental geometry" claim. ~1.3 MB total.
+          # ⛔ ONE HOME FOR THE PUBLISH. A hand-rolled `git pull --rebase` retry loop leaves the repo
+          # MID-REBASE on a conflicting sibling tick and then reports SUCCESS while publishing nothing —
+          # measured on three separate lanes; see the primitive's header and test_no_hand_rolled_publish.py.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "pose convergence + apo known-answer recovery (CI run ${{ github.run_id }})" \
+            research/modalities/pose-convergence-401.json \
+            research/modalities/apo-pose-recovery.json \
+            research/modalities/_pose_convergence_inputs

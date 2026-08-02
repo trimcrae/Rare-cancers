@@ -348,6 +348,7 @@ def pair_candidates(by_acc):
                 lig = max(holo["ligands"], key=lambda l: l.get("mw") or 0)
                 cand = {
                     "accession": acc, "protein": rec["name"], "apo": apo["pdb"], "holo": holo["pdb"],
+                    "apo_chains": apo.get("chains") or [], "holo_chains": holo.get("chains") or [],
                     "apo_method": apo["method"], "apo_models": apo["n_models"],
                     "apo_resolution_A": apo["resolution_A"], "holo_resolution_A": holo["resolution_A"],
                     "ligand": {k: lig.get(k) for k in ("comp_id", "name", "mw", "smiles")},
@@ -753,8 +754,25 @@ def fpocket_boxes(receptor_pdb):
 # ORCHESTRATION
 # ==================================================================================================
 
-def _chain_nearest(pdb_text, points, cutoff=6.0):
-    """The protein chain with the most heavy atoms near `points` — the chain the ligand actually binds."""
+def _largest_of(pdb_text, allowed=None):
+    """The chain with the most ATOM records, restricted to `allowed` when the deposit declares them."""
+    counts = {}
+    for line in pdb_text.splitlines():
+        if line.startswith("ENDMDL"):
+            break
+        if line.startswith("ATOM"):
+            counts[line[21]] = counts.get(line[21], 0) + 1
+    if allowed:
+        keep = {c: n for c, n in counts.items() if c in set(allowed)}
+        counts = keep or counts
+    return max(counts, key=lambda c: counts[c]) if counts else None
+
+
+def _chain_nearest(pdb_text, points, cutoff=6.0, allowed=None):
+    """The protein chain with the most heavy atoms near `points` — the chain the ligand actually binds.
+
+    `allowed` restricts the answer to the chains the deposit assigns to the UniProt entity under test, so a
+    heterodimer cannot hand back the partner protein."""
     c2 = cutoff * cutoff
     counts = {}
     for line in pdb_text.splitlines():
@@ -770,6 +788,9 @@ def _chain_nearest(pdb_text, points, cutoff=6.0):
             if (x - px) ** 2 + (y - py) ** 2 + (z - pz) ** 2 <= c2:
                 counts[line[21]] = counts.get(line[21], 0) + 1
                 break
+    if allowed:
+        keep = {c: n for c, n in counts.items() if c in set(allowed)}
+        counts = keep or counts
     return max(counts, key=lambda c: counts[c]) if counts else None
 
 
@@ -850,7 +871,13 @@ def run_benchmark(cand, work, af2_reference_pdb):
         apo_txt = _read(fetch_pdb(cand["apo"], os.path.join(work, cand["apo"] + ".pdb")))
         holo_txt = _read(fetch_pdb(cand["holo"], os.path.join(work, cand["holo"] + ".pdb")))
     except Exception as e:                                    # noqa: BLE001
-        return refuse("fetch", "%s: %s" % (type(e).__name__, e))
+        extra = ""
+        if "404" in str(e):
+            extra = (" — files.rcsb.org serves no legacy PDB-format file for this entry (large or recent "
+                     "depositions are mmCIF-only), so this pair is UNREAD for a FILE-FORMAT reason, not a "
+                     "scientific one. It biases the panel toward older entries and is recorded so that bias "
+                     "is visible.")
+        return refuse("fetch", "%s: %s%s" % (type(e).__name__, e, extra))
 
     # 2) the crystallographic answer
     comp = (cand["ligand"] or {}).get("comp_id")
@@ -876,9 +903,16 @@ def run_benchmark(cand, work, af2_reference_pdb):
                                            "and a reader must be able to see that from the artifact"}
 
     # 3) receptors — the holo chain the ligand actually touches, and the apo's largest chain
-    holo_chain = _chain_nearest(holo_txt, xtal_pts)
+    # ⛔ THE RECEPTOR CHAIN MUST FOLLOW THE ACCESSION, NOT ATOM COUNT. 1DSZ is an RXR/RAR heterodimer on
+    # DNA; taking "the largest chain" handed the RARA pair an RXR chain and the apo<->holo alignment then
+    # returned 0.321 identity and refused — a real pair thrown away by a chain-picking bug, not by science.
+    # The auth_asym_ids for THIS UniProt entity come from the same GraphQL record that classified the entry.
+    holo_chain = _chain_nearest(holo_txt, xtal_pts, allowed=cand.get("holo_chains"))
     holo_rec = _write(os.path.join(work, "holo_rec.pdb"), protein_only(holo_txt, holo_chain))
-    apo_rec = _write(os.path.join(work, "apo_rec.pdb"), protein_only(apo_txt))
+    apo_rec = _write(os.path.join(work, "apo_rec.pdb"),
+                     protein_only(apo_txt, _largest_of(apo_txt, cand.get("apo_chains"))))
+    R_["chains"] = {"holo_used": holo_chain, "holo_declared": cand.get("holo_chains"),
+                    "apo_declared": cand.get("apo_chains")}
     try:
         _hc, holo_resnums, holo_seq, holo_ca = bm.chain_ca(_read(holo_rec))
         _ac, apo_resnums, apo_seq, apo_ca = bm.chain_ca(_read(apo_rec))
@@ -1037,6 +1071,17 @@ def run_benchmark(cand, work, af2_reference_pdb):
             arms["C1_self_dock_holo_fpocket"] = {"rmsd_A": None, "why": "fpocket self-dock failed: %s" % e}
     else:
         arms["C1_self_dock_holo_fpocket"] = {"rmsd_A": None, "why": hwhy}
+    # ★ C1c — THE MAXIMALLY-FAVOURABLE PROTOCOL CONTROL, and the one that ends the argument. Same receptor
+    # the ligand was solved in, AND a box centred exactly on the crystallographic ligand. Nothing about site
+    # selection is left to fail. If this clears 2 A the earlier misses are about WHERE the pipeline looks;
+    # if it does not, the search/scoring settings themselves cannot reproduce a known pose and every arm
+    # above was measuring that. Added 2026-08-02 after the first full panel; it can only make the pipeline
+    # look BETTER than the pre-registered primary, so it cannot be a way of tuning toward a pass.
+    if not out_of_time("C1c_self_dock_holo_oracle_box"):
+        _s, out_sdf = dock(holo_rec, oracle_center_holo, sdf, "holo_self_oracle", work)
+        mol, why = _top_pose(out_sdf, comp)
+        arms["C1c_self_dock_holo_oracle_box"] = (score_pose(mol, transform=False) if mol
+                                                 else {"rmsd_A": None, "why": why})
     R_["arms"] = arms
 
     # 12) C2 power
@@ -1076,7 +1121,13 @@ def verdict(res):
                         "blind_apo_rmsd_A": fp.get("rmsd_A"), "own_control_rmsd_A": fp_c1.get("rmsd_A"),
                         "control_passed": (fp_c1.get("rmsd_A") is not None
                                            and fp_c1["rmsd_A"] <= RECOVER_RMSD_A),
-                        "blind_apo_fnat": fp.get("fnat")}},
+                        "blind_apo_fnat": fp.get("fnat")},
+                    "C1c_protocol_ceiling": {
+                        "self_dock_holo_oracle_box_rmsd_A":
+                            (arms.get("C1c_self_dock_holo_oracle_box") or {}).get("rmsd_A"),
+                        "_reads": "same receptor the ligand was solved in, box centred on the ligand "
+                                  "itself. This is the best this docking protocol can possibly do on this "
+                                  "system; a miss here is the search and scoring, not the site."}},
                 "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor "
                           "(%.2f A > %.2f A), so the primary result measures the docking protocol, not the "
                           "apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a "
@@ -1107,6 +1158,11 @@ def verdict(res):
                                and fp_c1["rmsd_A"] <= RECOVER_RMSD_A),
             "blind_apo_fnat": fp.get("fnat"),
             "_site": "the highest-druggability fpocket pocket on the receptor, no NR4A3 information used"},
+        "C1c_protocol_ceiling": {
+            "self_dock_holo_oracle_box_rmsd_A":
+                (arms.get("C1c_self_dock_holo_oracle_box") or {}).get("rmsd_A"),
+            "_reads": "same receptor the ligand was solved in, box centred on the ligand itself — the best "
+                      "this protocol can do on this system"},
     }
     out = {"outcome": "RECOVERED" if band == "RECOVERED" else "NOT RECOVERED",
            "blind_arms_each_against_its_own_control": out_arms,

@@ -361,5 +361,47 @@ def test_the_panel_has_no_early_exit_conditioned_on_results():
     assert 'r.get("verdict")}) >= N_BENCHMARKS' not in src
 
 
+def test_the_receptor_chain_follows_the_accession_not_the_atom_count():
+    """★ 1DSZ is an RXR/RAR heterodimer on DNA. 'Largest chain' handed the RARA pair an RXR chain and the
+    apo<->holo alignment then returned 0.321 identity and refused — a real pair lost to a chain-picking
+    bug (CI run 30762604893)."""
+    txt = ("ATOM      1  CA  MET A   1       0.000   0.000   0.000  1.00  0.00           C\n"
+           "ATOM      2  CA  LYS A   2       1.000   0.000   0.000  1.00  0.00           C\n"
+           "ATOM      3  CA  LEU A   3       2.000   0.000   0.000  1.00  0.00           C\n"
+           "ATOM      4  CA  GLY B   1       9.000   0.000   0.000  1.00  0.00           C\n")
+    assert A._largest_of(txt) == "A"                      # A is bigger
+    assert A._largest_of(txt, allowed=["B"]) == "B"        # but the accession says B
+    assert A._largest_of(txt, allowed=["Z"]) == "A"        # an allowed set matching nothing must not wedge
+    # the ligand sits on B; declaring B keeps B, and declaring A (which has nothing nearby) falls back
+    # rather than returning nothing — an allowed set that matches no contact must never wedge the run
+    assert A._chain_nearest(txt, [(9.0, 0.0, 0.0)], allowed=["B"]) == "B"
+    assert A._chain_nearest(txt, [(9.0, 0.0, 0.0)], allowed=["A"]) == "B"
+    assert A._chain_nearest(txt, [(1.0, 0.0, 0.0)], allowed=["A"]) == "A"
+
+
+def test_the_protocol_ceiling_control_exists_and_can_only_flatter_the_pipeline():
+    """C1c: same receptor the ligand was solved in, box centred on the ligand. A miss HERE is the search
+    and scoring, not the site. It is strictly more favourable than the pre-registered primary, so adding it
+    cannot be a route to tuning toward a pass."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    assert "C1c_self_dock_holo_oracle_box" in src
+    assert "oracle_center_holo" in src
+    res = _res(primary=19.0, c1=19.5)
+    res["arms"]["C1c_self_dock_holo_oracle_box"] = {"rmsd_A": 1.1}
+    v = A.verdict(res)
+    assert v["outcome"] == "INCONCLUSIVE", "a favourable ceiling control cannot overturn the primary"
+    assert v["blind_arms_each_against_its_own_control"]["C1c_protocol_ceiling"][
+        "self_dock_holo_oracle_box_rmsd_A"] == 1.1
+
+
+def test_a_missing_legacy_pdb_file_is_named_as_a_format_refusal():
+    """9QX6 returned HTTP 404 from files.rcsb.org: mmCIF-only. That is a FILE-FORMAT exclusion, not a
+    scientific one, and it biases the panel toward older entries — so it has to say so."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    assert "mmCIF-only" in src and "FILE-FORMAT reason" in src
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))
