@@ -77,9 +77,6 @@ jobs:
       - name: Commit the forensic artifact back to the triggering branch
         if: ${{ inputs.mode == 'forensic' }}
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A research/modalities/abfe-sel-ckpt-forensic.json
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "abfe sel-cbp30 forensic: terminal job state, FailureReason, billable, ckpt provenance (CI, \$0)"
-          git push origin HEAD:${{ github.ref_name }}
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "abfe sel-cbp30 forensic: terminal job state, FailureReason, billable, ckpt provenance (CI, \$0)" \
+            research/modalities/abfe-sel-ckpt-forensic.json

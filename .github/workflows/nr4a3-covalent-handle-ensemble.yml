@@ -90,14 +90,11 @@ jobs:
       - name: Commit results
         if: ${{ inputs.commit }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nr4a3-covalent-handle-ensemble.json \
-                  research/modalities/nr4a3-covalent-handle-ensemble.md
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "NR4A3-unique cysteines across the 20-conformer 8XTT ensemble + NR4A1 Cys551 control"
-          git pull --rebase origin "${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"
-          git push origin HEAD:"${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"
+          BR="${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "$BR" \
+            "NR4A3-unique cysteines across the 20-conformer 8XTT ensemble + NR4A1 Cys551 control" \
+            research/modalities/nr4a3-covalent-handle-ensemble.json \
+            research/modalities/nr4a3-covalent-handle-ensemble.md
 
       - uses: actions/upload-artifact@v4
         if: always()

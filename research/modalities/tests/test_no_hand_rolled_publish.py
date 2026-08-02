@@ -75,7 +75,9 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("fusion-cpu-extras.yml", "run"),
     ("gpu-nr4a-paralogue-md-vast.yml", "ops"),
     ("gpu-protfep-vast.yml", "collect"),
-    ("gpu-protfep-vast.yml", "stage-test"),
+    # `stage-test` deregistered 2026-08-02 — converted to the primitive along with the four new
+    # violations that landed the same day. Kept as a comment rather than silently dropped so the
+    # registry reads as a shrinking list rather than an unexplained one.
     ("gpu-ternary-fep-gcp.yml", "gcp-ternary"),
     # ⚠ `launch` and `collect` each hold TWO publishing steps. Their small ones (arming the watchdog,
     # retiring landed watch entries) are converted; the large ones — the 128-line rental ledger and
