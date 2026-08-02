@@ -373,10 +373,14 @@ classes:
   - **Each paralogue's static opened model presents TWO cysteines inside the same gate**, and **NR4A1 C465 opens
     at a 6-atom linker against C397's 10** — i.e. *more* geometrically accessible than NR4A3's own handle.
     (NR4A1 C551, the celastrol site, at 10; NR4A2 C465 at 10, C534 at 12.)
-  - **Matched-construct test** (same placement, warhead exit anchor, E3 anchor and budget; 5,657 placements):
-    P(a paralogue Cys is also reached | an NR4A3-unique one is) = **0 at 12 atoms, 0.081 at 16, 0.258 at 20** —
-    and **16–20 is a range this plan already contemplates** (C420 needs 16, C559 needs 20, `best_linker_atoms`
-    reads 19).
+  - **Matched-construct test** (same placement, warhead exit anchor, E3 anchor and budget; **73,867** placements
+    over **300** matched conformers, three scopes): reach-only P(a paralogue Cys is also reached | an
+    NR4A3-unique one is) = **0.000–0.003 at 12 atoms, 0.054–0.133 at 16, 0.263–0.383 at 20**
+    ([`nr4a-paralogue-dynamics.json`](../modalities/nr4a-paralogue-dynamics.json) →
+    `categorical_verdict.by_scope[*].by_linker_atoms`, their one home) — and **16–20 is a range this plan
+    already contemplates** (C420 needs 16, C559 needs 20, `best_linker_atoms` reads 19).
+    ⚠ *Superseded, retained: the pilot pair "0 at 12 atoms, 0.081 at 16, 0.258 at 20" over 5,657 placements,
+    static opened models only — retired 2026-07-26 when the matched ensembles landed.*
 
   **★ SO WHAT ACTUALLY HOLDS THE CATEGORICAL AXIS UP IS EXPOSURE, NOT ABSENCE.** Every paralogue cysteine in
   range sits at RSA **0.011–0.165** against C397's **0.395**, so reach-**and**-exposure still gives **0
@@ -591,11 +595,23 @@ nomination — at Jaccard exactly **0.600**, i.e. the gate-passing CRBN placemen
 own surface. (`crbn|M0` itself reads 13 and does miss by one.)
 
 **The gate was never moved, and did not need to be.** The design consequence from the collision profile still
-stands and is the durable part: **0 collisions at 12 atoms, 0.081 at 16, 0.258 at 20**, so every extra linker
-atom is a *selectivity* cost, not just a synthesis cost. **The honest cut-off is 14 backbone atoms** — the
-longest length at which reach-only collision is a measured zero. It is **not** made a gate, for two stated
-reasons: no *enumerated molecule* reaches 12 (the shortest is 14), and reach-**and**-exposure is 0.000
-everywhere, so the axis rests on **burial**, not on distance.
+stands and is the durable part: reach-only collision is **0.000–0.003 at 12 atoms, 0.054–0.133 at 16 and
+0.263–0.383 at 20** across the three matched scopes
+([`nr4a-paralogue-dynamics.json`](../modalities/nr4a-paralogue-dynamics.json) →
+`categorical_verdict.by_scope[*].by_linker_atoms`, their one home), so every extra linker atom is a
+*selectivity* cost, not just a synthesis cost.
+⚠ *Superseded, retained: "0 collisions at 12 atoms, 0.081 at 16, 0.258 at 20" — the 5,657-placement
+static-model pilot, retired 2026-07-26 by the matched ensembles. Same direction, steeper, and not zero at 12.*
+**The honest cut-off is the 12-atom gate itself**, because under the landed ensembles 12 is the only length at
+which any scope reads a zero. It is **not** made a gate, for one remaining stated reason: reach-**and**-exposure
+is ~0 at every length, so above 12 the axis rests on **burial** rather than on distance — and burial is
+adjudicated by `EXPOSED_RSA = 0.25`, which fails its own positive control.
+⚠ *Superseded, retained: "the honest cut-off is 14 backbone atoms — the longest length at which reach-only
+collision is a measured zero", and the second reason given for not gating, "no enumerated molecule reaches 12
+(the shortest is 14)".* **One does** — see
+[`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json), which enumerates the committed
+grid against all three gate-clearing basins and is the one home for what exists at 12 and what forces the
+library's floor of 14.
 
 ### Library and matched pair — one real defect found and fixed
 
@@ -2330,10 +2346,12 @@ not have — which is a set-membership fact rather than an energy difference the
 the honest case, and it is a stronger one.
 
 ⚠ **A constraint that cuts against the band Route B proposes to work in.**
-[§Program and thesis](#program-and-thesis) puts P(a paralogue Cys is also reached | an NR4A3-unique one is)
-at **0 at 12 atoms, 0.081 at 16, 0.258 at 20**, and concludes *"**keep the linker SHORT** … any design
-drifting to 16+ atoms **trades away the axis it exists to exploit**."* Route B places the electrophile at
-11–19 Å, i.e. **into that band**. This is a design constraint on Route B, not a refutation of it.
+[§Program and thesis](#program-and-thesis) puts reach-only P(a paralogue Cys is also reached | an NR4A3-unique
+one is) at **0.000–0.003 at 12 atoms, 0.054–0.133 at 16, 0.263–0.383 at 20**, and concludes *"**keep the
+linker SHORT** … any design drifting to 16+ atoms **trades away the axis it exists to exploit**."*
+⚠ *Superseded, retained: the pilot pair "0 at 12 atoms, 0.081 at 16, 0.258 at 20".* Route B places the
+electrophile at 11–19 Å, i.e. **into that band**. This is a design constraint on Route B, not a refutation
+of it.
 
 ★ **Route B's only redundancy — the unique-LYSINE axis (`V18` → `R12`).** The paper is
 explicit: *"The program's **only insurance** against a C397-specific chemical failure is the
@@ -2538,7 +2556,7 @@ survives causal testing."* The *decision* to commit the flagship is cheap, not a
 
 | tier | test | cost | status |
 |---|---|---|---|
-| **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed). ⚠ **NARROWED 2026-07-26: "structurally incapable" holds AT THE ALIGNED POSITION only** — 16 of NR4A3's 20 cysteines are shared, each paralogue presents **two** inside the 12-atom gate (NR4A1 C465 at **6** atoms), and the axis survives on **exposure**, not absence. Clean at 12 atoms; P(paralogue collision) rises to **0.081 at 16** and **0.258 at 20**. See §MECHANISM-FIRST |
+| **0** | **Categorical-axis screen.** No paralogue-unique nucleophile within tether range AND no paralogue-unique exposed lysine ⇒ selectivity must come from the marginal axis alone, which sits at the method's resolution limit ⇒ say so and expect a negative | **$0 CPU** | **PASSED — GO on both axes** (C397 at 10.9 Å exit-vector reach; K572/K518/K592 exposed). ⚠ **NARROWED 2026-07-26: "structurally incapable" holds AT THE ALIGNED POSITION only** — 16 of NR4A3's 20 cysteines are shared, each paralogue presents **two** inside the 12-atom gate (NR4A1 C465 at **6** atoms), and the axis survives on **exposure**, not absence. Reach-only collision is **0.000–0.003 at 12 atoms** and rises to **0.054–0.133 at 16** and **0.263–0.383 at 20** across the three matched scopes ⚠ *(superseded, retained: the pilot pair **0.081 at 16** / **0.258 at 20** over 5,657 static placements)*. See §MECHANISM-FIRST |
 | **1** | **Differential surface atlas.** No E3-reachable divergent surface ⇒ STOP for free | **$0 CPU** | **PASSED** (46 handles) |
 | **2** | **Basin nomination.** No basin exploits a categorical handle *and* none even nominally discriminates NR4A3 ⇒ STOP cheaply | **$0 realized** (budget was $0–50; **no GPU used**) | **✅ GO — CONFIRMED on the full 12-pose run** (CI 30169233690, 55 min, 3:11 PM ET). Basis **CATEGORICAL**. 58 meta-basins / 192 basins; **7** exploit term (a), **40** term (b), **28** nominally discriminating. See the block below |
 | **3** | **Pilot ONE causal direction** — the ligand-side double difference `S`, one matched pair, ternary legs in NR4A3 and NR4A1. ⚠ **`S` is NON-COVALENT, so it tests the MARGINAL wedge only. No discrimination ⇒ the marginal wedge is absent and the claim rests on the CATEGORICAL axis alone — STOP only if the categorical axis has ALSO failed** (see the box above; a null is the *likely* outcome for the recommended pair) | **~$12 ($1.6–45)** | pending (RUNG 5a-KS) — **matched pair now DESIGNED**, see RUNG 5b |
@@ -4673,7 +4691,10 @@ line number is kept only where it names a *paper* line.
 **For the categorical-axis pass** (found 2026-08-02 while pricing rung `5b-T`; **flagged, not fixed here** —
 both are live text this pass does not own):
 
-19. ⛔ **The categorical block above still says the matched paralogue MD ensembles are *"in flight"* and marks
+19. ✅ **CLOSED 2026-08-02 — the pilot pair is now marked superseded at every live use on this page, and
+    `pinned-figures.json` carries `paralogue_collision_pilot_5657` so CI finds any copy that was missed.**
+    Kept below with its original evidence because the diagnosis is what the registry entry cites.
+    ⛔ **The categorical block above still says the matched paralogue MD ensembles are *"in flight"* and marks
     the verdict `VERDICT_NOT_EVALUABLE`. THEY LANDED.**
     [`nr4a-paralogue-dynamics.json`](../modalities/nr4a-paralogue-dynamics.json) carries the finished
     matched NR4A1/2/3 ensembles over **73,867** placements and **three** conformer scopes
@@ -4681,11 +4702,21 @@ both are live text this pass does not own):
     invariant 5's failure mode again — a status that had a committed artifact and was never re-read against
     it — and it matters in the direction that *understates* the program: the block hedges as unevaluable a
     result that is now measured. ⚠ **And re-reading it moves a number the design leans on**: the block's
-    *"0 at 12 atoms, 0.081 at 16, 0.258 at 20"* is the **5,657-placement** pre-landing figure, whereas the
-    landed unbiased-release ensemble reads **0.00124 / 0.13331 / 0.38254** at those lengths — same direction,
-    steeper, and not zero at 12. The keep-it-short consequence survives and gets *stronger*; the specific
-    numbers do not, until re-read.
-20. ⛔ **`nr4a3_linker_design.PARALOGUE_COLLISION_BY_LINKER_ATOMS` is a HARD-CODED COPY of that same
+    superseded *"0 at 12 atoms, 0.081 at 16, 0.258 at 20"* is the **5,657-placement** pre-landing figure,
+    whereas the landed unbiased-release ensemble reads **0.00124 / 0.13331 / 0.38254** at those lengths — same
+    direction, steeper, and not zero at 12. The keep-it-short consequence survives and gets *stronger*; the
+    specific numbers do not, until re-read.
+20. ✅ **CLOSED 2026-08-02 — `PARALOGUE_COLLISION_BY_LINKER_ATOMS` is now DERIVED from
+    `nr4a-paralogue-dynamics.json` (`_load_collision_profile`), and the pilot pair survives only as
+    `PARALOGUE_COLLISION_PILOT_5657_SUPERSEDED`, which nothing reads.** The derived `reach_only` is the widest
+    reading across the three scopes, so a bracket built from it cannot understate. **No committed selection
+    changed** — the field was always reported and never filtered on, which is precisely why it was safe to
+    correct. ⚠ The committed `nr4a3-linker-design.json` still carries brackets written from the pilot table
+    and will pick up the corrected ones the next time that lane regenerates; it is **separately stale for an
+    unrelated reason** (57 enumerated constructs against the committed 54, a wedge-site change) — recorded in
+    [`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json) → `flagged_not_fixed`.
+    Kept below with its original diagnosis:
+    ⛔ **`nr4a3_linker_design.PARALOGUE_COLLISION_BY_LINKER_ATOMS` is a HARD-CODED COPY of that same
     pre-landing measurement**, and its own comment says so — *"The matched paralogue MD ensembles that turn it
     into a distribution were still in flight when this was written."* Every construct in the committed library
     is annotated with a collision bracket read from that copy rather than from the landed artifact. It is a

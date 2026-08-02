@@ -12,6 +12,7 @@ of them corresponds to a defect that actually occurred:
 The k test is written as the IDENTITY `k_warhead + k_E3 = n + 1` rather than as the formula under test, so it
 cannot be satisfied by the same arithmetic error twice.
 """
+import json
 import os
 import sys
 
@@ -256,31 +257,60 @@ def test_c397_is_never_the_wedge_site_even_if_it_somehow_passed_the_chemistry_ru
 
 
 def test_the_collision_bracket_is_a_bracket_and_never_an_interpolation():
-    """★ LANE 13 measured FOUR points. A construct at 18 atoms sits between 0.081 and 0.258 and that is the
+    """★ FOUR measured points. A construct at 18 atoms sits between the 16- and 20-atom points and that is the
     whole honest statement — a curve through four points quoting a value at 18 is not. Above the longest
     measured point the upper end is OPEN, because the measurement stops there and the trend is rising."""
-    at12 = LDD.collision_bracket(12)
-    assert at12["lo"] == at12["hi"] == 0.0
-    at14 = LDD.collision_bracket(14)
-    assert at14["lo"] == at14["hi"] == 0.0                 # 14 is itself a measured point
-    at16 = LDD.collision_bracket(16)
-    assert at16["lo"] == at16["hi"] == 0.081
+    src = LDD.PARALOGUE_COLLISION_BY_LINKER_ATOMS
+    for n in (12, 14, 16, 20):
+        b = LDD.collision_bracket(n)
+        assert b["lo"] == b["hi"] == src[n]["reach_only"], n     # each is itself a measured point
     mid = LDD.collision_bracket(18)
-    assert (mid["lo"], mid["hi"]) == (0.081, 0.258) and mid["at"] == [16, 20]
-    assert "NOT interpolated" in mid["reading"]
+    assert (mid["lo"], mid["hi"]) == (src[16]["reach_only"], src[20]["reach_only"])
+    assert mid["at"] == [16, 20] and "NOT interpolated" in mid["reading"]
     beyond = LDD.collision_bracket(24)
-    assert beyond["lo"] == 0.258 and beyond["hi"] is None, "above the last measured point the bracket is open"
+    assert beyond["lo"] == src[20]["reach_only"] and beyond["hi"] is None, \
+        "above the last measured point the bracket is open"
     # monotone non-decreasing in the lower end, which is the only shape the measurement supports
     los = [LDD.collision_bracket(n)["lo"] for n in range(8, 30)]
     assert all(b >= a for a, b in zip(los, los[1:])), los
 
 
-def test_the_collision_profile_matches_its_cited_source():
-    """The numbers are LANE 13's, cited to a document; a local edit that drifts from the source is exactly
-    the one-fact-two-places failure this repo keeps hitting. Pinned by value AND by the reach-and-exposure
-    companion, which is 0.000 at every length and is the reason the axis currently holds at all."""
+def test_the_collision_profile_is_read_from_the_landed_artifact_not_copied():
+    """★★ REGRESSION, 2026-08-02. This table WAS a hard-coded copy of the 5,657-placement static-model pilot
+    while the matched ensembles that superseded it sat committed two directories away — the one-fact-two-places
+    failure CLAUDE.md rule 1 exists to stop. It is now DERIVED, and this test compares it to its one home
+    field by field so a re-hard-coding cannot pass."""
+    with open(os.path.join(os.path.dirname(__file__), "..", "nr4a-paralogue-dynamics.json"),
+              encoding="utf-8") as fh:
+        scopes = json.load(fh)["categorical_verdict"]["by_scope"]
     p = LDD.PARALOGUE_COLLISION_BY_LINKER_ATOMS
     assert sorted(p) == [12, 14, 16, 20]
-    assert [p[n]["reach_only"] for n in (12, 14, 16, 20)] == [0.0, 0.0, 0.081, 0.258]
-    assert all(v["reach_and_exposed"] == 0.0 for v in p.values()), \
-        "reach-AND-exposure is 0.000 at every measured length; that is what holds the categorical axis up"
+    assert len(p[12]["by_scope"]) == 3, "all three conformer scopes must be carried, not just the static one"
+    for n in p:
+        for scope, sv in scopes.items():
+            row = sv["by_linker_atoms"][str(n)]
+            assert p[n]["by_scope"][scope]["reach_only"] == \
+                row["P_paralogue_also_labelled_given_nr4a3"], (n, scope)
+        assert p[n]["reach_only"] == max(v["reach_only"] for v in p[n]["by_scope"].values()), \
+            "the headline value is the WIDEST reading across scopes, so a bracket cannot understate"
+
+
+def test_the_superseded_pilot_is_retained_and_never_read():
+    """CLAUDE.md rule 1.2: never silently drop a superseded number. It is kept under its own name — the
+    committed library's brackets were written from it — and nothing reads it."""
+    old = LDD.PARALOGUE_COLLISION_PILOT_5657_SUPERSEDED
+    assert [old[n]["reach_only"] for n in (12, 14, 16, 20)] == [0.0, 0.0, 0.081, 0.258]
+    assert old is not LDD.PARALOGUE_COLLISION_BY_LINKER_ATOMS
+    assert LDD.PARALOGUE_COLLISION_BY_LINKER_ATOMS[16]["reach_only"] != old[16]["reach_only"], \
+        "if these agreed the supersession would not have been applied"
+
+
+def test_no_length_is_a_measured_zero_under_the_landed_ensembles():
+    """★ The reading that changed. Under the pilot, 14 atoms was 'the longest length at which reach-only
+    collision is still a MEASURED zero', and that sentence propagated into four documents. It is false under
+    the matched ensembles: only the static-model scope reads a zero, and only at 12."""
+    p = LDD.PARALOGUE_COLLISION_BY_LINKER_ATOMS
+    assert p[14]["reach_only"] > 0.0
+    assert p[12]["reach_only"] > 0.0, "the widest-across-scopes reading at the gate is not zero either"
+    assert p[12]["by_scope"]["static_opened_model"]["reach_only"] == 0.0, \
+        "the static model alone still reads a zero at 12 — which is exactly why the scope must be named"

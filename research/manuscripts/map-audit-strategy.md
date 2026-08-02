@@ -463,7 +463,10 @@ benchmark, once passed, would settle Route A. It would not: even a perfectly-cal
 SD resolves 0.60 kcal/mol against a margin requirement of ~2.0.
 
 The mirror-image omission is on Route B: `STRATEGY.md:952–967` measures P(a paralogue Cys is also reached | an
-NR4A3-unique one is) at **0 at 12 atoms, 0.081 at 16, 0.258 at 20** and concludes *"**keep the linker SHORT** …
+NR4A3-unique one is) at **0 at 12 atoms, 0.081 at 16, 0.258 at 20** ⚠ *(superseded 2026-07-26 — the
+5,657-placement static-model pilot; the landed matched ensembles read **0.000–0.003 @12, 0.054–0.133 @16,
+0.263–0.383 @20**, `nr4a-paralogue-dynamics.json` → `categorical_verdict.by_scope[*].by_linker_atoms`. The
+audit finding below is unaffected — the band is the same and steeper)* and concludes *"**keep the linker SHORT** …
 any design drifting to 16+ atoms **trades away the axis it exists to exploit**."* The map's Route B proposes to
 place the electrophile at **11–19 Å**, in that band, and the constraint appears nowhere in the map.
 

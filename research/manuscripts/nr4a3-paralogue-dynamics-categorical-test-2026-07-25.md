@@ -242,9 +242,14 @@ does not follow, and three measurements now say so:**
    ceiling, so this was invisible, not absent.
 2. **Each paralogue presents two cysteines inside the same gate**, and NR4A1's C465 opens at a **6-atom**
    linker against C397's 10. On the reach criterion the program itself uses, the paralogues are in range.
-3. **On the matched-construct test the collision probability is length-dependent and large**: 0 at 12 atoms,
-   **0.081 at 16**, **0.258 at 20** — and 16–20 atoms is exactly the range the program already contemplates
-   (C420 needs 16, C559 needs 20, `best_linker_atoms` reads 19).
+3. **On the matched-construct test the collision probability is length-dependent and large**: reach-only
+   **0.000–0.003 at 12 atoms, 0.054–0.133 at 16, 0.263–0.383 at 20** across the three matched scopes
+   ([`nr4a-paralogue-dynamics.json`](../modalities/nr4a-paralogue-dynamics.json) →
+   `categorical_verdict.by_scope[*].by_linker_atoms`, their one home) — and 16–20 atoms is exactly the range
+   the program already contemplates (C420 needs 16, C559 needs 20, `best_linker_atoms` reads 19).
+   ⚠ *Superseded, retained: the pilot pair "0 at 12 atoms, **0.081 at 16**, **0.258 at 20**" over 5,657
+   static-model placements — §3.5 of this same file already carried the landed result, so this line was
+   internally contradicted until 2026-08-02.*
 
 **What still holds the axis up is a single quantity: solvent exposure.** Every paralogue cysteine inside the
 gate sits at RSA 0.011–0.165 against C397's 0.395, so on a reach-**and**-exposure criterion the collision
@@ -290,8 +295,9 @@ Add, immediately after the C397 sentence:
 > **NR4A1 C551** (the celastrol/NR-V04 site, no aligned NR4A3 residue) at 10, **NR4A2 C465** at 10 and
 > **NR4A2 C534** (NR4A3 has S565) at 12. On the matched-construct test — same placement, same warhead exit
 > anchor, same E3 anchor, same budget — P(a paralogue cysteine is also reached | an NR4A3-unique one is) is
-> 0 at 12 atoms but **0.081 at 16 and 0.258 at 20**, and 16–20 atoms is the range the program already
-> contemplates (C420 needs 16, C559 needs 20, `best_linker_atoms` reads 19). **The axis therefore survives on
+> 0 at 12 atoms but **0.081 at 16 and 0.258 at 20** ⚠ *(superseded — the 5,657-placement pilot; the landed
+> matched ensembles read 0.000–0.003 / 0.054–0.133 / 0.263–0.383, see §3.5)*, and 16–20 atoms is the range the
+> program already contemplates (C420 needs 16, C559 needs 20, `best_linker_atoms` reads 19). **The axis therefore survives on
 > EXPOSURE, not on the absence of a nucleophile:** every paralogue cysteine inside the gate sits at RSA
 > 0.011–0.165 against C397's 0.395, so requiring RSA ≥ 0.25 as well as reach returns 0 collisions at every
 > length. That exposure margin is currently **one number per residue from one conformer**, and RSA is the most
