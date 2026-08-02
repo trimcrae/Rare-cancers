@@ -1,34 +1,54 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-08-02T00:14:01Z",
+  "utc": "2026-08-02T00:15:10Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
   "pending_seen": [
     {
-      "run": 30724471902,
+      "run": 30724868524,
+      "name": "pages build and deployment",
+      "jobs": 0,
+      "age_min": 0.2
+    },
+    {
+      "run": 30724864663,
+      "name": "Cross-lane staleness watch \u2014 has any lane gone stale, and is",
+      "jobs": 0,
+      "age_min": 0.4
+    },
+    {
+      "run": 30724858081,
       "name": "ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) \u2014 Vast",
       "jobs": 0,
-      "age_min": 11.8
+      "age_min": 0.6
     }
   ],
-  "wedged": [
-    {
-      "run": 30724471902,
-      "name": "ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) \u2014 Vast",
-      "age_min": 11.8
-    }
-  ],
+  "wedged": [],
   "cancelled": [],
   "cancel_failed": [],
   "spared": [
     {
-      "run": 30724471902,
+      "run": 30724868524,
+      "name": "pages build and deployment",
+      "jobs": 0,
+      "age_min": 0.2,
+      "why": "only 0.2 min old; below the 10 min threshold"
+    },
+    {
+      "run": 30724864663,
+      "name": "Cross-lane staleness watch \u2014 has any lane gone stale, and is",
+      "jobs": 0,
+      "age_min": 0.4,
+      "why": "only 0.4 min old; below the 10 min threshold"
+    },
+    {
+      "run": 30724858081,
       "name": "ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) \u2014 Vast",
       "jobs": 0,
-      "age_min": 11.8,
-      "why": "another run of this workflow is in progress, so this one may be legitimately queued behind it \u2014 REPORTED, not cancelled. Cancelling a queued supervision re-arm would leave a fleet unwatched."
+      "age_min": 0.6,
+      "why": "only 0.6 min old; below the 10 min threshold"
     }
   ]
 }
