@@ -38,10 +38,13 @@ jobs:
         with:
           ref: ${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}
 
+      # pytest is the ONLY thing installed, and only to run the tests: the analysis itself is pure stdlib
+      # (the runner's system python3 has no pytest — measured, run 30761240309).
       - name: Offline unit tests (pure logic, no network)
         run: |
+          python -m pip install -q pytest
           cd research/modalities
-          python3 -m pytest tests/test_nr4a3_covalent_handle_ensemble.py -q
+          python -m pytest tests/test_nr4a3_covalent_handle_ensemble.py -q
 
       - name: Fetch 8XTT + run the ensemble analysis
         run: |
