@@ -1,19 +1,32 @@
 # STRATEGY — the NR4A3-selective degrader paper
 
-> # ★ GOLD-STANDARD SINGLE SOURCE OF TRUTH FOR THE RESEARCH STRATEGY ★
-> **This file is THE strategy** — the authoritative plan for the repo's #1 research program, the
-> **NR4A3-selective degrader paper**, and what CLAUDE.md and README.md point to for "what's the plan / what's
-> next / what does each step cost." If any other doc (the schedule JSON, a strategy note, a manuscript section, a
-> commit message) conflicts with this file, **this file wins** — reconcile the other doc to it.
+> # ★ THE APPENDIX SET AND MACHINE-PARSED LAYER OF THE ROADMAP ★
+> ## ★ READ [nr4a3-program-map.md](research/manuscripts/nr4a3-program-map.md) FIRST — IT IS THE ROADMAP
+> **The one document a person reads top-to-bottom to know what is done, what is true, what is blocked and what
+> is next is the roadmap.** It carries the requirement register (`R*`), the instrument register (`V*`), the
+> dependency graph, the closed-route register and **the single ordered list of what to do next** — the union of
+> what used to be this file's decision-value ranking and the map's critical path, which shared zero items.
 >
-> ## ★ ITS COMPANION: [nr4a3-program-map.md](research/manuscripts/nr4a3-program-map.md) — WHAT BLOCKS WHAT
-> **This file says what to do next and what it costs. The map says WHY that is next** — the dependency graph
-> of every claim the paper must establish, which instrument produces it, and whether that instrument has ever
-> recovered a known answer. **Read the map before proposing a next step from this file**, because a step whose
-> instrument is unvalidated buys nothing (it is how three selectivity results came to be withdrawn).
-> ⛔ **They must not restate each other.** Costs, gates and the rung ladder live HERE; the dependency order and
-> instrument-validation status live THERE; the numbers live in the artifacts both point at. A figure appearing
-> in two of the three is the bug rule 1 exists to catch.
+> **This file is its APPENDIX SET.** It owns, and is the one home for: the ordered plan, the spend ladder and
+> its derivation, the validation architecture, the language-discipline rules, the gate scoreboard, the open
+> decisions, and the history in Appendices A and B. ⛔ **The roadmap LINKS to these; it does not restate them,
+> and they do not restate it.** A figure appearing in both is the bug rule 1 exists to catch.
+>
+> ⚠ **WHY THE SPLIT IS STRUCTURAL AND NOT PHYSICAL — this is measured, not caution.** Seven CI checks parse
+> this file **by exact heading string and text format**, 100 files carry 358 inbound references to it, and two
+> of its numbering schemes are read **as data**: `realised_spend.py` sets `"read_from": "STRATEGY.md Appendix A
+> row 35"`, and Open decision numbers are cited by 30 files with nothing resolving either. **Moving any of it
+> would break CI quietly rather than loudly** — renaming the ordered plan's heading makes `work_ledger` print
+> *"NOT SCANNED — the plan is invisible this run"* and every open item vanishes from the work board with no
+> error. The roadmap's §0.7 is the index of which appendix owns what and which machine reads it.
+>
+> **Precedence, unchanged in substance:** for a **cost, a gate, a plan marker, a decision number or a
+> superseded value**, this file wins over any other doc — reconcile the other doc to it. For **what blocks
+> what, what an instrument may support, and what to do next**, the roadmap wins. Where they appear to
+> disagree, the committed artifact settles it and both are the bug.
+>
+> **Sections below carry a one-line appendix designation naming their role in the roadmap.** No heading, slug,
+> row number or decision number has been changed, and none may be.
 >
 > **Keep it current.** When work lands: update the stage's `[ ]/[~]/[x]` status here AND the mirrored `status` in
 > [degrader-paper-schedule.json](research/manuscripts/degrader-paper-schedule.json) (its milestone `id`s match the
@@ -45,6 +58,8 @@
 ---
 
 ## 📊 WHERE WE ARE — the scoreboard, in plain language
+
+*★ **APPENDIX — the gate scoreboard.** The one home for every gate's verdict sentence, the deliverables table, realised spend, and ⛔ **which controls failed**. The [roadmap](research/manuscripts/nr4a3-program-map.md) §3 cites this table and must never restate it. Read by `realised_spend.py`.*
 
 *Read this before the IN FLIGHT table. **Every status line in this file, and every lane report, must be
 expressible as one of: a gate PASSED, a gate FAILED plus the remediation, or a DELIVERABLE done.** If a finding
@@ -270,6 +285,8 @@ the fact that they share `classify()` with the path above.
 
 ## ✅ LANE 13 — DOES THE CATEGORICAL CASE SURVIVE PARALOGUE DYNAMICS? **YES.** (2026-07-26 2:49 PM ET)
 
+*★ **APPENDIX — a landed gate.** Evidence under Tier 0; the one home for the exposure-not-absence narrowing across ensembles. Roadmap: instrument `V17`, requirement `R8`.*
+
 The assumption Tier 2 passed on was never that NR4A3's cysteines are unique — that is a sequence fact and was
 never in doubt. It was that a paralogue does not present some OTHER nucleophile that the SAME linker path
 reaches. A degrader does not care which cysteine it labels. That had only ever been checked on one static
@@ -305,6 +322,8 @@ superposed into the NR4A3 reference frame, carrying a per-frame core-fit residua
 ---
 
 ## ✅ RUNG 5a-KS LANDED — the causal kill-switch returns its **preregistered null**, S = −0.13 ± 0.33 kcal/mol (2026-08-02 2:15 AM ET)
+
+*★ **APPENDIX — a landed gate.** The one home for `S` and its bound. Roadmap: instrument `V16`, requirement `R11` — and ⛔ `V16` has no known-answer calibrator, which is roadmap §10 row 11.*
 
 **Headline in the required form: a DELIVERABLE done — the paper's own stated limit *"the causal test has not
 been run"* is retired — and the gate returns the outcome it registered as LIKELY, which is explicitly NOT a
@@ -349,6 +368,10 @@ run" to "has been run and is NULL".
 ---
 
 ## ❌ GATE FAILED — the SMARCA2/4 sensitivity control returns **NULL** on an adequately-powered design (2026-08-02 10:42 PM ET)
+
+*★ **APPENDIX — a landed gate.** Roadmap: instrument `V11`, requirement `R11`. ⚠ **This heading's slug is load-bearing** — it is the target of the repo's only non-Appendix-A anchor link (`nr4a-repanel-prereg-DRAFT.md:9`) and must not change.*
+
+⚠ **CORRECTION, 2026-08-02 — THE TIMESTAMP IN THE HEADING ABOVE IS WRONG BY A CALENDAR DAY, AND THE HEADING IS DELIBERATELY NOT EDITED.** The verdict's own record is `selcal-verdict.json` `utc: "2026-08-01T02:43:16Z"`, i.e. **2026-08-01 10:43 PM ET**. Root cause, read from the data rather than guessed: **the clock face was converted and the calendar date was not** — `02:43 Z → 10:43 PM` is the correct 12-hour conversion, but the date must roll back from 08-02 to 08-01 and did not (the minute is also off by one). The heading keeps the incorrect stamp because changing it changes the slug the anchor link above depends on. **Superseded, retained: `2026-08-02 10:42 PM ET` as this gate's time.**
 
 **The headline, in the required form: a gate FAILED, and the remediation is that there is none to buy — step 3
 is not purchased and the paper's language changes instead.**
@@ -550,6 +573,10 @@ exactly as much as the search behind it.
 ---
 
 ## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-30 5:30 PM ET**)
+
+*★ **APPENDIX — a superseded board plus four one-homes.** ⛔ **DO NOT READ THE TABLE AS LIVE STATE.***
+
+⛔ **THIS BOARD IS NOT LIVE, AND IT IS STRUCTURALLY BLIND TO PART OF THE FLEET.** Its own as-of is above; the live board is [`inflight_usd_per_ns.py`](research/modalities/inflight_usd_per_ns.py) / `inflight-board-all.md`, which is its one home. Two defects, both recorded rather than patched: it is **stale by days**, and it is **scoped to Vast + GCP**, so **a SageMaker rental is invisible to it by construction** — which is exactly how a 3:16 PM ET ABFE dispatch on 2026-08-02 appeared on no board at all. ⚠ **It is deliberately NOT re-stamped here**: inventing a current state is the failure this board already committed. What is *not* stale is the four one-homes in the prose below the table — the buy-line arithmetic, what `R` decides, the binary-arm departure finding, and the pose-diagnostic status. See [roadmap](research/manuscripts/nr4a3-program-map.md) §12 finding 6.
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
@@ -834,6 +861,8 @@ evidence rather than on the trigger block parsing. *(The ternary watchdog's own 
 
 ## ✅ THE FIRST FORWARD/REVERSE HYSTERESIS THIS PROGRAM HAS EVER MEASURED — **GATE PASSED** (2026-07-27 2:14 PM ET)
 
+*★ **APPENDIX — a landed gate.** The one home for the hysteresis numbers; the scoreboard defers to it by name. Roadmap: instrument `V5`.*
+
 **|ΔG_fwd + ΔG_rev| = 0.325 kcal/mol against the preregistered ceiling of 1.0 → PASS.** The `calib_hi_to_lo`
 ternary leg is now complete in both directions, which is what made the criterion measurable at all; every prior
 reduction in this lane reported it as unmeasured because no reverse leg had ever run.
@@ -885,6 +914,8 @@ producer never emitted. Both fixed, 21 tests, the key sweep extracted from the Y
 ---
 
 ## Program and thesis
+
+*★ **APPENDIX — the thesis.** The one home for the thesis and, in `MECHANISM-FIRST` below, for the margin arithmetic (required vs resolvable vs achieved). The [roadmap](research/manuscripts/nr4a3-program-map.md) §1 links here and carries none of the figures. `tests/test_selectivity_margin_model.py` asserts the derivation.*
 
 The goal is the **state of the art of what in-silico methods can do for an NR4A3-selective degrader** — a
 complete, rigorous, honest computational characterization for extraskeletal myxoid chondrosarcoma (EMC, driven by
@@ -1004,6 +1035,8 @@ ubiquitination is a thin handle and is **not** a design axis. It stays a modelli
 
 ## Honest scope and language discipline (apply everywhere, including the manuscript)
 
+*★ **APPENDIX — language discipline.** ⚠ **21 provenance strings in [`lint_claims.py`](research/manuscripts/lint_claims.py) name this section by title**; renaming or dissolving it invalidates all 21 in a CI-enforced linter. The rules run over the paper, the SI **and the roadmap**.*
+
 Everything is **conditional on the hypothesized cmpd19 binary pose × the chosen receptor frame** — a *double*
 conditionality; a wedge surviving only one poorly-supported pose is penalized or dropped. Right-size every claim:
 
@@ -1029,6 +1062,8 @@ word passes; asserting the regulated claim does not.
 ---
 
 ## Validation architecture (the five requirements)
+
+*★ **APPENDIX — the validation architecture.** The external reviewer's five conditions on what a result may claim. ⚠ **Cite these as "validation requirement 1–5", never as "R1–R5"** — the [roadmap](research/manuscripts/nr4a3-program-map.md) §0.6 lists five different things in this program called `R`. Roadmap mapping: requirement 1(A)→`V6`, 1(C)→`V5`, 2→`R6`, 3→`V9`, 4→§6a's NR-V04 row, 5→`R12` and `R13`.*
 
 These come from the external reviewer's conditional approval ([verbatim
 verdict](research/manuscripts/nr4a3-degrader-reviewer-revisions-2026-07-15.md)) and govern what any result is
@@ -1158,6 +1193,8 @@ the highest-value dollar in the plan** — the cheapest gate on the entire prosp
 ---
 
 ## The prospective stage: mechanism-first, then orientation-first inverse design
+
+*★ **APPENDIX — the prospective stage.** The kill-switch semantics, the four-tier table and the Tier-2 result in full. `e3_recruiter_staging.py` reproduces its panel verbatim. Roadmap: `R11`, `R12`, `R15`.*
 
 The molecule-first approach — enumerate a fixed {warhead×exit×ligase×linker} matrix, model each ternary, score,
 and hope the Pareto front contains a selective degrader — is a well-controlled lottery: it *verifies* selectivity
@@ -1468,6 +1505,8 @@ Per arm, from the same definitive run (rows sum to the 58 / 3 / 40 above, which 
 
 ## Spending rules
 
+*★ **APPENDIX — the spending rules.** Four rules, zero history. The [roadmap](research/manuscripts/nr4a3-program-map.md) §11 links here and restates nothing. Rule 4 is why the roadmap's price column distinguishes priced / PROJECTED / **unpriced**.*
+
 1. **No pre-authorization, no pre-staging.** Nothing is ever queued to auto-fire. Every GPU run is presented at
    its gate with (a) the prior step's result, (b) a pinned cost (from realized GPU-h, not a guess), and (c) a wait
    for an explicit trimcrae "go." Only $0 CPU/CI work runs without a nod.
@@ -1480,6 +1519,8 @@ Per arm, from the same definitive run (rows sum to the 58 / 3 / 40 above, which 
    **PROJECTED and excluded from the pinned total**, never at a fake number.
 
 ## GPU economics (full provenance in [pricing.md](research/compute/pricing.md))
+
+*★ **APPENDIX — GPU economics.** ⚠ Largely a **pointer**: the throughput table's home is `vast_cost_model.MEASURED_NS_PER_DAY_84K`, the bid rule's is `bid-strategy.md §7`, the per-edge bases' is `pricing.md`. What genuinely lives here is the **six cost levers**, which are ratios and survive any reprice.*
 
 **All production runs go on Vast.** GCP L4 / SageMaker / Modal are not the go-forward basis. **The card is not
 the decision — the OFFER is.** Rank live offers by all-in **`$/ns`** (bid + storage ÷ measured throughput) and
@@ -1599,6 +1640,8 @@ OpenMM pinned to CUDA 12.6), the `probe_offers` / `bench` / `firm` tooling in
 ---
 
 ## THE ORDERED PLAN (spend-gated) — read top-to-bottom for "what's next"
+
+*★ **APPENDIX — the item layer, and the most fragile object in the repo.** ⚠ **Parsed by [`work_ledger.scan_plan_items`](research/modalities/work_ledger.py)** on this heading string, the bullet regex and the `###` rung sub-headings; the skipped marker is an **en dash**, not a hyphen. Renaming the heading makes the plan invisible with no error; reformatting a bullet makes an open item vanish from the work board. `degrader-paper-schedule.json` is its declared one-for-one machine mirror. The [roadmap](research/manuscripts/nr4a3-program-map.md) §10 presents this layer and links to it; it never restates a price.*
 
 Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `[!]` result under correction.
 **Price** = spot $ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here (mid-range).
@@ -2499,6 +2542,8 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 
 ## Spend summary
 
+*★ **APPENDIX — the spend ladder's arithmetic.** The pinned total is **DERIVED** (`vast_cost_model.py` → `vast-ladder-repricing.json`) and `lint_consistency.check_derivations` fails the build if this file, `pricing.md` or `bid-strategy.md` drifts from it. Never hand-carry it.*
+
 **PINNED TOTAL: ~$169 mid-range (~$46–626)**, GO at every gate, priceable stages only.
 *(Superseded, retained: **~$158 mid (~$44–578)** — retired 2026-07-30 when RUNG 5a-KS went from **2 ternary legs
 to 4** (n = 2 seeds per arm; [Open decisions 11](#open-decisions)). ⚠ **That reprice is the cleanest in this
@@ -2576,6 +2621,8 @@ totals suggest, because the leading gates are now $0.
 
 ## Dependency spine
 
+*★ **APPENDIX — the authorisation graph.** ⚠ **This is a SPEND graph: its edges are authorisations, not entailments.** The [roadmap](research/manuscripts/nr4a3-program-map.md) §4's graph is the claim graph, and the two must never be merged — collapsing them loses either the money or the epistemics. Its cumulative notation is deliberately distinct from the plan's and `lint_consistency.check_subsets` errors if the two are unified.*
+
 ```
 TIER-0 unique_residue_map [x]($0) + atlas [x]($0)  ──[BOTH PASS]──►    ★ leads everything priced
           │        (C397 exit-vector reach; K572/K518/K592 exposed; EWSR1-lysine axis thin)
@@ -2616,6 +2663,8 @@ OPTIONAL/HELD (explicit nod only): dg_open_paralogue, abfe_conditional (incl. th
 ```
 
 ## ★★ WHAT THE LANDED RESULTS CHANGE ABOUT THE REMAINING PLAN
+
+*★ **APPENDIX — the reasoning behind the ordering.** Its item 6, the decision-value ranking, is **folded into the [roadmap](research/manuscripts/nr4a3-program-map.md) §10** together with the map's old critical path; the roadmap now holds the union of both plus eight rows that were on neither list. Read this for the *why*; read §10 for the order.*
 
 *Written 2026-07-30 8:21 PM ET, with nothing billing and the fixed scope closed.
 Everything above this line records what happened. **This section is the only place that says what it means for
@@ -2781,6 +2830,8 @@ tail that a *positive* `S` would unlock, and a paper reporting a bounded null do
 
 ## Current front
 
+*★ **APPENDIX — superseded by the roadmap §10, retained for one statement.** ⚠ This section has **zero** inbound references and names its own homes for everything it says. The one thing it owns is the sharpest statement of the feasibility panel's status — **WITHDRAWN**, not merely "under correction" — which contradicts the ordered plan's `[!]` marker and the schedule JSON, and is recorded as [roadmap](research/manuscripts/nr4a3-program-map.md) §12 finding 12.*
+
 Rungs 0–1 are done. The Tier-0 unique-residue map and the differential atlas are done ($0, both PASS). The
 NR-V04 covalent feasibility panel is **WITHDRAWN** — not merely "under correction". Its GO was never
 produced by the frozen scoring rule, its inputs were contaminated, and no trajectory survives to re-derive from,
@@ -2815,6 +2866,8 @@ go, and every rental — fan-out, resume or single cold unit — now faces the b
 dollar ceiling.
 
 ## Open decisions
+
+*★ **APPENDIX — the decision register.** 15 numbered rulings, all closed. ⚠ **Cited by number in 30 files and nothing resolves a decision number** — the numbering is **frozen**. Roadmap rows cite these by number.*
 
 1. **`[x]` ADOPTED — method calibrator swapped from NR-V04 to SMARCA2-vs-SMARCA4** (valB_full module 3). NR-V04
    stays the biological holdout; its selectivity is most plausibly covalent target engagement, and SMARCA2/4 is
@@ -3131,6 +3184,8 @@ dollar ceiling.
 
 ## Appendix A — superseded numbers and retracted claims
 
+*★ **APPENDIX — the correction ledger.** ⚠ **Rows are cited as data by 35 files** (`realised_spend.py` reads rows 35 and 38 as provenance) and `lint_consistency.is_cleared` treats this exact heading as a structural clear — **numbering and slug are frozen**. The [roadmap](research/manuscripts/nr4a3-program-map.md) §6 imports only the ~1-in-10 rows where an *approach* died, never a corrected value.*
+
 *Kept so a correction is never silently dropped, and out of the live plan so it stops competing with it. Each
 line: what was believed, and what retired it. Do not cite anything in this table.*
 
@@ -3209,6 +3264,8 @@ line: what was believed, and what retired it. Do not cite anything in this table
 ---
 
 ## Appendix B — superseded strategy framings
+
+*★ **APPENDIX — retired plan framings.** CLAUDE.md §5 points here. Its closing inference-discipline paragraph is live, not history: NR-V04 is event-level evidence that family-selective NR4A degradation is achievable — never evidence that the mechanism is known or transferable.*
 
 *Moved out of CLAUDE.md 2026-07-25, where 168 lines of plan mirror had accreted (including two blocks already
 labelled superseded) in the file that loads into every session. Plan history belongs with the plan. Same rule as
