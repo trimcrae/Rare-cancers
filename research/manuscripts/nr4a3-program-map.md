@@ -120,7 +120,7 @@ graph BT
   TS["○ TERNARY adds or preserves<br/>selectivity"]
   TG["○ Target is a driver (EMC<br/>dependence) — DELEGATED"]
   L["○ Something BINDS<br/>the NR4A3 pocket"]
-  PO["○ Pocket exists and<br/>is reachable"]
+  PO["✓ Pocket exists and<br/>is reachable"]
   DGO["○ Opening penalty per paralogue<br/>ΔG_open — NEVER MEASURED"]
   PS["◐ POSE — where the<br/>molecule sits"]
   LK["◐ LINKER geometry<br/>feasible"]
@@ -156,9 +156,9 @@ graph BT
   classDef parked fill:#ece3f6,stroke:#6f4a9b,stroke-width:2px,color:#1e1030,stroke-dasharray:2 3;
   classDef dead fill:#f7e6e0,stroke:#b1543a,stroke-width:2px,color:#2e150f,stroke-dasharray:5 3;
 
-  class V1,V2 done;
+  class PO,V1,V2 done;
   class PS,LK,V3 work;
-  class P,B,T,UB,TS,TG,L,PO,ARCH,DGO,V4 next;
+  class P,B,T,UB,TS,TG,L,ARCH,DGO,V4 next;
   class VC parked;
 ```
 
@@ -173,10 +173,28 @@ audit found three of these mis-stated:
   a validated instrument that has not yet been pointed at our system. ⚠ **Superseded, retained:** the ✓ on
   `ARCH`, under which one proposition carried four different states across two files (map §1 ✓, map §4 ○,
   map §6 ◐, STRATEGY.md ⛔ NO).
-- **`PO` is ○, not ✓ — the pocket is NOT settled.** See §4 row 1: preregistered **Gate 1 FAILED as
-  registered**, Gate 3B is unresolved, and an open **submission gate** can invalidate the very receptor frame
-  `denovo_401` was generated into. ⚠ **Superseded, retained:** `✓ Pocket exists and is reachable` and the
-  phrase *"settled enough to build on"*.
+- **`PO` is ✓ — the pocket WORK is complete; the pocket CLAIM is supported but not settled.** ★ **This node
+  was briefly ○, and that was wrong twice over (trimcrae, 2026-08-02: *"What do you mean by the pocket existing
+  doesn't get a checkmark? That makes me think your standard is too high."*).**
+  1. **It broke §0's own rule.** ✓ is a **work state**, never a claim's truth — §0 says so in terms. ○ means
+     *not started*. An enormous amount of pocket work has run and returned: the 8XTT harmonization, the release
+     run, 60 ns of metadynamics plus three independent-seed replicas. Rendering that ○ tells a reader nobody
+     has looked. That is the same axis-collapse this page keeps catching elsewhere — here, *not settled*
+     collapsed into *not started*.
+  2. **It misread what Gate 1 refuted.** Gate 1 tested a **two-state cryptic opening**, and what failed is
+     that *mechanism*: F(Rg) is monotonic, *"a single resolved minimum and a rising wall, with no separate
+     opened minimum"* — so *"'opened **state**' would overstate it"*. The paper reformulates to
+     **basin-internal breathing** and keeps the cavity: *"there is one basin whose thermal fluctuations
+     **transiently expose a druggable cavity**"* (`nr4a3-degrader-paper.md:387–396`), concordant with de Vera's
+     breathing Nurr1 pocket. **A failed mechanism test is not evidence of absence.**
+  3. **The existence evidence is EXPERIMENTAL and independent of all of it** — in the deposited apo NMR
+     ensemble **8XTT** the orthosteric pocket is matched in **19 of 20** conformers, 3 scoring ≥ D\*, **with no
+     simulation bias applied**, and Gate 3A (persistence after bias removal) is supported.
+  ⚠ What remains genuinely open belongs to **accessibility and provenance, not existence**: Gate 3B
+  (equilibrium accessibility) is unresolved, and an open **submission gate** may invalidate the specific
+  receptor frame `denovo_401` was generated into. Those are carried on the claim axis in §4 row 1, where they
+  belong. **Superseded, retained:** the `○` on `PO`, and the earlier phrase *"settled enough to build on"*
+  which erred in the opposite direction by eliding both open gates.
 - **`T` has been split.** It used to read *"TERNARY forms **and is compatible with degradation**"* — two
   claims in one box, and precisely the distinction [STRATEGY.md:1078](../../STRATEGY.md) requirement 5 exists
   to preserve: *"Ternary formation is **necessary, not sufficient** — productive lysine positioning is a
@@ -417,7 +435,7 @@ The **state** column is the work item that would move the claim, not a grade on 
 
 | claim | evidence today | what would settle it | state |
 |---|---|---|---|
-| **A pocket exists** | in the experimental apo NMR ensemble **8XTT**, the orthosteric pocket is **matched in 19 of 20** conformers, of which **3 score ≥ D\*** — i.e. **3/20 across all deposited conformers**, no simulation bias applied ([`nr4a3-pocket-reharmonize-summary.json`](../modalities/nr4a3-pocket-reharmonize-summary.json), row `8xtt_20conformers`); Gate 3A (persistence after bias removal) supported | ⛔ **NOT settled — three separate open gates, one of which is upstream of everything.** (i) Pre-registered **Gate 1 (a genuine two-state cryptic *opening*) FAILED as registered** — F(Rg) is monotonic, *"a single resolved minimum and a rising wall, with no separate opened minimum"*, and the paper records it as *"**failed, and reformulated**, not a 'weak pass'"* (`:387–394`, `:2549`). (ii) **Gate 3B** (equilibrium accessibility) is unresolved. (iii) ⛔ An open **submission gate**: the harmonized artifact reports ensemble-level fractions only and does **not** identify which individual frames cleared D\*, so it does not discharge the frame-level check that the **exact release-derived frame `denovo_401` was generated into still qualifies** — and *"if the generation frame does not qualify, the **generation receptor** … is affected"* (`:2259–2265`) | ○ **open** — the claim is *supported*, not settled |
+| **A pocket exists** | in the experimental apo NMR ensemble **8XTT**, the orthosteric pocket is **matched in 19 of 20** conformers, of which **3 score ≥ D\*** — i.e. **3/20 across all deposited conformers**, no simulation bias applied ([`nr4a3-pocket-reharmonize-summary.json`](../modalities/nr4a3-pocket-reharmonize-summary.json), row `8xtt_20conformers`); Gate 3A (persistence after bias removal) supported | ⛔ **NOT settled — three separate open gates, one of which is upstream of everything.** (i) Pre-registered **Gate 1 (a genuine two-state cryptic *opening*) FAILED as registered** — ⚠ note this refutes the *two-state mechanism*, **not the cavity**, which the paper keeps as basin-internal breathing — — F(Rg) is monotonic, *"a single resolved minimum and a rising wall, with no separate opened minimum"*, and the paper records it as *"**failed, and reformulated**, not a 'weak pass'"* (`:387–394`, `:2549`). (ii) **Gate 3B** (equilibrium accessibility) is unresolved. (iii) ⛔ An open **submission gate**: the harmonized artifact reports ensemble-level fractions only and does **not** identify which individual frames cleared D\*, so it does not discharge the frame-level check that the **exact release-derived frame `denovo_401` was generated into still qualifies** — and *"if the generation frame does not qualify, the **generation receptor** … is affected"* (`:2259–2265`) | ✓ work complete · claim **supported, not settled** |
 | **Something binds it** — scoped: **the opened cryptic Pocket-5** | ⚠ **Two different questions, and this page previously ran them together.** *Does anything bind NR4A3 at all?* — **yes, published**: a fragment screen against NOR-1/NR4A3 (hit rate <1 %) returned three chemotypes, one elaborated to a **low-micromolar inverse agonist** (Zaienne cmpd19) that shifted NOR-1-regulated gene expression in cells (`:92–99`), and §2.9's whole congeneric lane is anchored on it. *Does anything bind the **cryptic pocket**?* — **nothing, of any molecule**: those results *"leave the binding site **structurally undefined**"* (`:99–101`) | a thermal shift / SPR / NMR fragment screen **against the opened site**. **Cheapest decisive experiment in the program**, and a negative is as useful as a positive. ⚠ The scoping word is load-bearing — dropping it makes the map claim there is no experimental ligand evidence for NR4A3, which the paper's §1 contradicts | ○ future — **needs a wet lab** |
 | **The pose is right** | ⛔ the known-answer test **ran and returned INCONCLUSIVE** ([`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json)) — and its decomposition splits the question in two: the **docking** is fine (3.46 Å blind from apo, fnat 0.778), the **site selection** is what missed, on 6 of 6 pairs | re-run the primary arm with the site question separated from the docking question — see §5 branch 2 | ✓ test complete, claim **unresolved** |
 | **The binder is paralogue-selective** | ⚠ **More than the map used to say, and weaker than it sounds.** The paralogue ABFE **has been run and reported at three independent-seed replicates** with exactly the replicate-SD error bars this row used to ask for: ΔΔG(NR4A3−NR4A1) **−4.76 ± 2.03**, ΔΔG(NR4A3−NR4A2) **−4.98 ± 0.68**, both resolved below zero (`:1230–1239`, `:2303`). It is held **provisional and deliberately parked** for a named defect — a soft-core-tail λ-overlap failure on *every* leg — *"It is not currently running: the whole ABFE block is **deliberately held** … it is not the next thing worth computing"* (`:1277–1280`). **"Run, reported, consciously parked" ≠ "not started"**, which is what this row said before. The paper's live reading is that selectivity rests on the binder margin **plus the nominated categorical handles**, and it explicitly refuses to write the ternary off (`:2600–2601`; SI `:141–144`) | **Two things, and they are not the same thing.** (1) **The instrument:** a selectivity known-answer test — the CREBBP/BRD4 ABFE. *(highest leverage in the program · 🔒 **not authorized** · would **not** discharge this row — it is a **binary** control; §0b, §2bb.)* (2) ⛔ **The missing physical term:** **ΔG_open per paralogue**, never computed. Requirement 2 is explicit that matched-open comparison can **"miss or REVERSE selectivity"** — so a perfect instrument on today's inputs still would not settle this row. ⚠ **This row is therefore not blocked *only* on the instrument**, which is how the map read before 2026-08-02 | ○ open — ⏸ **the existing result is parked**, not absent |
