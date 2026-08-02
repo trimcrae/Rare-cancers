@@ -5,7 +5,7 @@
  "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
  "card": "nvidia-l4",
  "machine_type": "g2-standard-8",
- "measured_utc": "2026-08-02T08:35:06Z",
+ "measured_utc": "2026-08-02T08:43:27Z",
  "marks": [
   [
    "complex",
@@ -426,6 +426,66 @@
    "warmup",
    400,
    "2026-08-01T03:50:00Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   20,
+   "2026-08-02T08:39:51Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   40,
+   "2026-08-02T08:40:13Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   60,
+   "2026-08-02T08:40:35Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   80,
+   "2026-08-02T08:40:57Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   100,
+   "2026-08-02T08:41:19Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   120,
+   "2026-08-02T08:41:41Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   140,
+   "2026-08-02T08:42:03Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   160,
+   "2026-08-02T08:42:25Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   180,
+   "2026-08-02T08:42:47Z"
+  ],
+  [
+   "solvent",
+   "warmup",
+   200,
+   "2026-08-02T08:43:09Z"
   ]
  ],
  "derived": {
@@ -865,17 +925,76 @@
     "ns_per_day_aggregate": 72.0
    },
    "solvent": {
-    "commits": 0,
-    "stage": null,
-    "iteration": null,
-    "s_per_iteration": null,
-    "rate_phase": null,
-    "n_intervals": 0,
-    "n_used": 0,
-    "spread": null,
-    "why": "0 completed commit interval(s); this lane quotes a rate at 3 (gcp_fanout_rep.MIN_RATE_INTERVALS). The next commit moves it toward the threshold.",
-    "intervals": []
+    "commits": 10,
+    "stage": "warmup",
+    "iteration": 200,
+    "s_per_iteration": 1.1,
+    "rate_phase": "warmup",
+    "n_intervals": 9,
+    "n_used": 5,
+    "spread": 1.0,
+    "why": "mean of the trailing 5 of 9 completed warmup commit intervals (gcp_fanout_rep.RATE_WINDOW)",
+    "intervals": [
+     {
+      "from": 20,
+      "to": 40,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 40,
+      "to": 60,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 60,
+      "to": 80,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 80,
+      "to": 100,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 100,
+      "to": 120,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 120,
+      "to": 140,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 140,
+      "to": 160,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 160,
+      "to": 180,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 180,
+      "to": 200,
+      "seconds": 22.0,
+      "s_per_iter": 1.1
+     }
+    ],
+    "leg_hours": 0.7333333333333333,
+    "ns_per_day_per_replica": 196.36363636363635,
+    "ns_per_day_aggregate": 2356.363636363636
    }
-  }
+  },
+  "unit_hours": 24.733333333333334
  }
 }
