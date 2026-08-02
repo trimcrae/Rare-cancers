@@ -130,15 +130,23 @@ jobs:
       - name: Show the artifacts
         if: always()
         run: |
-          for f in research/modalities/pose-convergence-401.json research/modalities/apo-pose-recovery.json; do
-            [ -f "$f" ] && { echo "===== $f"; python -c "
-import json,sys
-d=json.load(open('$f'))
-for k in ('_status','_mode','n_usable','verdict','spread','selection'):
-    if k in d: print(k, '=', json.dumps(d[k])[:1400])
-print('refusals:', json.dumps(d.get('refusals') or (d.get('result') or {}).get('refusals') or [])[:900])
-"; }
-          done
+          cat > "$RUNNER_TEMP/show.py" <<'PY'
+          import json, os, sys
+          for f in sys.argv[1:]:
+              if not os.path.exists(f):
+                  print("== %s : not produced" % f)
+                  continue
+              d = json.load(open(f))
+              print("===== %s" % f)
+              for k in ("_status", "_mode", "n_usable", "verdict", "spread", "selection"):
+                  if k in d:
+                      print(k, "=", json.dumps(d[k])[:1400])
+              ref = d.get("refusals") or (d.get("result") or {}).get("refusals") or []
+              print("refusals:", json.dumps(ref)[:900])
+          PY
+          sed -i 's/^          //' "$RUNNER_TEMP/show.py"
+          python "$RUNNER_TEMP/show.py" research/modalities/pose-convergence-401.json \
+                                        research/modalities/apo-pose-recovery.json
       # workflow_dispatch is the ONLY trigger on this file, so the `inputs` context always exists and the
       # null-cast bug lint_optional_input_guards.py exists for cannot arise here.
       - name: Commit artifacts to the triggering branch
