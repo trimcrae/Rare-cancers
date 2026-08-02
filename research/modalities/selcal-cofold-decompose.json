@@ -656,16 +656,20 @@
  "n_decomposed": 12,
  "target_frame_rmsd_A": {
   "min": 1.153,
-  "median": 1.831,
+  "median": 1.828,
   "max": 3.17
  },
  "e3_frame_rmsd_A": {
   "min": 0.941,
-  "median": 1.959,
+  "median": 1.952,
   "max": 3.192
  },
  "n_target_pocket_ok": 9,
  "n_e3_pocket_ok": 7,
- "failure_locus": "mixed",
- "sentence": "Mixed: 9 of 12 co-folds occupy the target pocket as in the crystal and 7 of 12 the E3 pocket (target median 1.83 A, E3 median 1.96 A). Neither the assembly-only nor the pocket reading holds across the panel, and the per-co-fold rows are the result rather than any summary of them."
+ "whole_interface_displacement_A": 32.0,
+ "whole_interface_source": "Displacing the TRUE target chain of 9DTY.cif by 32.0 A rigid RMSD drops DockQ to a median of 0.025 \u2014 at or below the best of our 12 co-folds (0.023-0.046). So the co-folds are not a near-miss on placement: they score like the correct structure moved 32 A.",
+ "worst_half_rmsd_A": 3.192,
+ "ratio_whole_to_worst_half": 10.0,
+ "failure_locus": "assembly",
+ "sentence": "All 12 co-folds place the degrader within 3.2 A of its crystal position in EACH protein's own frame (target median 1.83 A, E3 median 1.95 A), while the assembled interface scores what the TRUE complex scores when displaced 32 A \u2014 a factor of 10. The halves are approximately right and the ASSEMBLY of them is wrong, so the missing information is the relative placement of the two proteins: exactly what a ternary generator is given when it is handed each end's site."
 }
