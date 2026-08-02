@@ -23,6 +23,7 @@ on:
       - .github/workflows/selcal-deepternary-headtohead.yml
       - research/modalities/selcal_deepternary_run.py
       - research/modalities/selcal-deepternary-prep-configs.json
+      - research/modalities/selcal_deepternary_score.py
 
 permissions:
   contents: write
@@ -69,6 +70,73 @@ jobs:
             --workdir /tmp/selcal_dt \
             --out research/modalities/selcal-deepternary-prep.json
 
+      # ── PREDICT ────────────────────────────────────────────────────────────────────────────────────────
+      # Only arms that PASSED the fragment check are prepped and run. An arm refused above is not run with a
+      # worse input "to see" — its score would measure our input error and would be quoted as the generator's.
+      - name: Clone DeepTernary at the frozen commit + CPU deps
+        run: |
+          set -eo pipefail
+          cd "$RUNNER_TEMP"
+          git clone -q https://github.com/youqingxiaozhua/DeepTernary.git dt
+          cd dt && git checkout -q "$DT_COMMIT"
+          echo "=== PROVENANCE ==="; git rev-parse HEAD
+          grep -viE 'cu121|^torch==|^dgl==|--extra-index-url|--find-links' requirements.txt > requirements-cpu.txt
+          pip install -q torch==2.3.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install -q dgl==2.3.0 -f https://data.dgl.ai/wheels/torch-2.3/repo.html
+          pip install -q -r requirements-cpu.txt
+          pip install -q "numpy<2"
+          wget -q https://github.com/youqingxiaozhua/DeepTernary/releases/download/v1.0.0/output.zip
+          unzip -q output.zip
+
+      - name: Prep the six blind input files per ready arm
+        run: |
+          set -eo pipefail
+          python3 -c "
+          import json, sys
+          d = json.load(open('research/modalities/selcal-deepternary-prep.json'))
+          json.dump(d['ready_configs'], open('$RUNNER_TEMP/ready.json','w'), indent=1)
+          print('ready arms:', [c['name'] for c in d['ready_configs']])
+          sys.exit(0 if d['ready_configs'] else 3)
+          "
+          cd "$RUNNER_TEMP/dt"
+          python3 "$GITHUB_WORKSPACE/research/modalities/deepternary_blind_prep.py" \
+            --configs "$RUNNER_TEMP/ready.json" \
+            --base output/protac22 \
+            --out "$RUNNER_TEMP/blind_prep_status.json"
+          cat "$RUNNER_TEMP/blind_prep_status.json"
+
+      - name: Predict (CPU, 16 seeds)
+        run: |
+          set -eo pipefail
+          cd "$RUNNER_TEMP/dt"
+          python3 -c "
+          import json
+          names = [c['name'] for c in json.load(open('$RUNNER_TEMP/ready.json'))]
+          open('data/PROTAC/protac22.txt','w').write('\n'.join(names) + '\n')
+          print('test list:', names)
+          "
+          sed -i "s/^    device = 'cuda'/    device = 'cpu'/" predict_cpu.py
+          sed -i 's/SEED_NUM = 40/SEED_NUM = 16/g' predict_cpu.py
+          python3 predict_cpu.py output/checkpoints/PROTAC \
+            --config deepternary/configs/protac.py \
+            --checkpoint output/checkpoints/PROTAC/checkpoint.pth 2>&1 | tail -60
+
+      # ── SCORE ──────────────────────────────────────────────────────────────────────────────────────────
+      # Scored by the SAME two instruments, against the SAME deposited reference, as our own co-folds were.
+      - name: Score the predictions against the sealed native
+        if: ${{ always() }}
+        run: |
+          set -eo pipefail
+          mkdir -p /tmp/dt_pred
+          find "$RUNNER_TEMP/dt" -name '*.pdb' -path '*protac22*' | awk 'NR<=200' > /tmp/dt_pred/list.txt || true
+          echo "predicted files found: $(wc -l < /tmp/dt_pred/list.txt)"
+          python3 research/modalities/selcal_deepternary_score.py \
+            --pred-root "$RUNNER_TEMP/dt/output/protac22" \
+            --native-dir /tmp/selcal_dt \
+            --out research/modalities/selcal-deepternary-headtohead.json || true
+          test -f research/modalities/selcal-deepternary-headtohead.json && \
+            python3 -c "import json;print(json.dumps(json.load(open('research/modalities/selcal-deepternary-headtohead.json')).get('verdict'), indent=1))"
+
       - name: Publish whatever was established
         if: ${{ always() }}
         env:
@@ -79,4 +147,5 @@ jobs:
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "selcal DeepTernary head-to-head: chain resolution + fragment verification (CI)" \
             research/modalities/selcal-deepternary-prep.json \
-            research/modalities/selcal-deepternary-prep-configs.json
+            research/modalities/selcal-deepternary-prep-configs.json \
+            research/modalities/selcal-deepternary-headtohead.json
