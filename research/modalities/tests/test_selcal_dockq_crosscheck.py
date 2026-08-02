@@ -141,7 +141,8 @@ def test_both_instruments_agree_across_known_displacements(tmp_path, dx, expect_
     mine = V.validate_one(model, native)
     doc, err = X.run_dockq(model, native, mapping="AEFG:AEFG")
     assert err is None, err
-    best = X.best_interface(doc)
+    best, ierr = X.target_e3_interface(doc, "A", "E")     # target chain A vs VHL chain E, BY ROLE
+    assert ierr is None, ierr
     assert X.quality_class(best["DockQ"]) == expect_class
     c = X.compare(mine, best)
     assert c["agree"] is True, c
@@ -153,9 +154,37 @@ def test_dockq_key_spelling_change_degrades_to_missing_not_to_zero():
     """DockQ 2.x spells them `iRMSD`/`LRMSD`; the first draft of this module read `iRMS` and silently got
     None, which a formatter then rendered as a number. Both spellings are accepted, and an unknown one
     yields None rather than 0.0."""
-    assert X.best_interface({"best_result": {"AE": {"DockQ": 0.5, "fnat": 0.4, "iRMSD": 3.3}}})["iRMS"] == 3.3
-    assert X.best_interface({"best_result": {"AE": {"DockQ": 0.5, "fnat": 0.4, "iRMS": 3.3}}})["iRMS"] == 3.3
-    assert X.best_interface({"best_result": {"AE": {"DockQ": 0.5, "fnat": 0.4}}})["iRMS"] is None
+    mk = lambda v: {"best_result": {"AE": dict(v, chain1="A", chain2="E")}}   # noqa: E731
+    assert X.target_e3_interface(mk({"DockQ": 0.5, "fnat": 0.4, "iRMSD": 3.3}), "A", "E")[0]["iRMS"] == 3.3
+    assert X.target_e3_interface(mk({"DockQ": 0.5, "fnat": 0.4, "iRMS": 3.3}), "A", "E")[0]["iRMS"] == 3.3
+    assert X.target_e3_interface(mk({"DockQ": 0.5, "fnat": 0.4}), "A", "E")[0]["iRMS"] is None
+
+
+def test_the_interface_is_selected_BY_ROLE_never_by_score():
+    """⛔ THE DEFECT THAT MADE THIS CROSS-CHECK REPORT THE WRONG ANSWER, pinned so it cannot return.
+
+    The first version took the highest-scoring interface. On the real run that was `TS` (SMARCA2 arm) and
+    `AB` (SMARCA4 arm) — native chains mapping from model F and G, i.e. **Elongin B <-> Elongin C**, the
+    internal VCB heterodimer every co-fold reproduces. It scored 0.95-0.97, and the cross-check declared the
+    first instrument overturned on the strength of an interface that was never in question."""
+    doc = {"best_result": {
+        "MR": {"DockQ": 0.02, "fnat": 0.0, "iRMSD": 12.0, "chain1": "M", "chain2": "R"},   # target <-> VHL
+        "TS": {"DockQ": 0.96, "fnat": 0.97, "iRMSD": 0.5, "chain1": "T", "chain2": "S"},   # EloB <-> EloC
+    }}
+    picked, err = X.target_e3_interface(doc, "M", "R")
+    assert err is None
+    assert picked["interface"] == "MR", "the interface must be chosen by ROLE, not by score"
+    assert picked["DockQ"] == 0.02
+    assert X._legacy_best_interface(doc)["interface"] == "TS"      # the defect, reproduced
+    assert [c["interface"] for c in X.other_interfaces(doc, "M", "R")] == ["TS"]
+
+
+def test_an_unscored_target_interface_refuses_rather_than_falling_back():
+    """An interface DockQ did not score is not an interface that scored well."""
+    doc = {"best_result": {"TS": {"DockQ": 0.96, "fnat": 0.97, "iRMSD": 0.5, "chain1": "T", "chain2": "S"}}}
+    picked, err = X.target_e3_interface(doc, "M", "R")
+    assert picked is None
+    assert "NOT the target" in err
 
 
 # ---------- 6 · scope -------------------------------------------------------------------------------------

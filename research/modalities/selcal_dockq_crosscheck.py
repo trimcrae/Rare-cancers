@@ -132,13 +132,62 @@ def mapping_from_first_instrument(record):
     return "%s:%s" % ("".join(model_chains), "".join(native_chains)), None
 
 
-def best_interface(dockq_doc):
-    """The scored interface with the highest DockQ, plus how many were scored.
+def target_e3_interface(dockq_doc, target_native_chain, e3_native_chain):
+    """DockQ's entry for the TARGET↔VHL interface specifically. Refuses if that interface was not scored.
 
-    DockQ reports one entry per interface in the mapping. The target-E3 interface is the one this program is
-    about, but naming it by chain letters would hard-code a convention; taking the BEST is conservative in the
-    direction that matters — if even the best-reproduced interface is far from the native, no interface is
-    close, and the conclusion cannot be an artifact of having looked at the wrong pair."""
+    ⛔ THIS REPLACES A `best_interface` HELPER THAT WAS SIMPLY WRONG, AND THE WRONGNESS WAS MEASURED.
+    The first version took the interface with the highest DockQ, on the reasoning — written into its own
+    docstring — that "if even the best-reproduced interface is far from the native, no interface is close."
+    That reasoning is valid ONLY for a negative conclusion. For a positive one it is backwards: a
+    well-reproduced interface MASKS a badly-reproduced one.
+
+    It did exactly that. On the real run it returned interface `'TS'` for the SMARCA2 arm and `'AB'` for
+    SMARCA4 — native chain pairs that map from model chains **F and G, i.e. Elongin B ↔ Elongin C**. That is
+    the internal VCB heterodimer, a tightly conserved sub-assembly every co-fold reproduces, and it says
+    nothing whatever about whether the degradation target is correctly placed against VHL. On the strength of
+    it the cross-check reported DockQ 0.95-0.97 / fnat ~1.0 and declared the first instrument overturned.
+
+    So the interface is now NAMED, not chosen by score. A missing entry is a REFUSAL — an interface DockQ did
+    not score is not an interface that scored well.
+    """
+    per = dockq_doc.get("best_result") or dockq_doc.get("interfaces") or {}
+    if not isinstance(per, dict) or not per:
+        return None, "DockQ reported no per-interface results"
+    want = {target_native_chain, e3_native_chain}
+    for name, v in per.items():
+        if not isinstance(v, dict) or "DockQ" not in v:
+            continue
+        pair = {v.get("chain1"), v.get("chain2")}
+        if pair == want or set(name) == want:
+            return {"interface": name, "chain1": v.get("chain1"), "chain2": v.get("chain2"),
+                    "DockQ": v.get("DockQ"), "fnat": v.get("fnat"),
+                    "iRMS": _first(v, "iRMSD", "iRMS"), "LRMS": _first(v, "LRMSD", "LRMS"),
+                    "nat_correct": v.get("nat_correct"), "nat_total": v.get("nat_total"),
+                    "clashes": v.get("clashes"), "n_interfaces_scored": len(per)}, None
+    return None, ("DockQ scored %d interface(s) %s but NOT the target↔VHL pair %s↔%s — an interface DockQ "
+                  "did not score is not an interface that scored well"
+                  % (len(per), sorted(per), target_native_chain, e3_native_chain))
+
+
+def other_interfaces(dockq_doc, target_native_chain, e3_native_chain):
+    """Every OTHER scored interface, reported as context only.
+
+    Kept visible precisely because one of them is what produced the wrong answer: a near-perfect Elongin
+    B↔Elongin C score is real, and is also irrelevant to the question. Showing it beside the target↔VHL
+    number is what stops it being mistaken for it again."""
+    per = dockq_doc.get("best_result") or dockq_doc.get("interfaces") or {}
+    want = {target_native_chain, e3_native_chain}
+    out = []
+    if isinstance(per, dict):
+        for name, v in per.items():
+            if isinstance(v, dict) and "DockQ" in v and {v.get("chain1"), v.get("chain2")} != want:
+                out.append({"interface": name, "DockQ": v.get("DockQ"), "fnat": v.get("fnat"),
+                            "iRMS": _first(v, "iRMSD", "iRMS")})
+    return sorted(out, key=lambda r: -(r["DockQ"] or 0.0))
+
+
+def _legacy_best_interface(dockq_doc):
+    """RETAINED ONLY SO THE DEFECT IS REPRODUCIBLE IN A TEST. Never called by the cross-check."""
     per = dockq_doc.get("best_result") or dockq_doc.get("interfaces") or {}
     if isinstance(per, dict) and per:
         items = []
@@ -269,12 +318,34 @@ def crosscheck(cofold_root, native_dir, first_json=FIRST_INSTRUMENT_JSON, model_
         mapping, map_err = mapping_from_first_instrument(rec)
         row["mapping"] = mapping
         row["mapping_error"] = map_err
+        # The interface to score is NAMED from the first instrument's own chain map: the native chain the
+        # target (model chain A) maps to, against the native chain VHL (model chain E) maps to. Chosen by
+        # role, never by score — picking the best-scoring interface is what made this cross-check report the
+        # Elongin B↔Elongin C heterodimer and call the finding overturned.
+        matched = ((rec.get("chain_map") or {}).get("matched")) or {}
+        tgt_model = rec.get("target_model_chain") or "A"
+        e3_model = (rec.get("e3_model_chains") or ["E"])[0]
+        tgt_native = (matched.get(tgt_model) or {}).get("native_chain")
+        e3_native = (matched.get(e3_model) or {}).get("native_chain")
+        row["scored_interface_roles"] = {"target": "%s->%s" % (tgt_model, tgt_native),
+                                         "vhl": "%s->%s" % (e3_model, e3_native)}
         doc, err = run_dockq(models[0], native_path, mapping=mapping)
         if err:
             row.update({"dockq": None, "error": err})
             out["records"].append(row); out["n_dockq_failed"] += 1
             continue
-        best = best_interface(doc)
+        if not (tgt_native and e3_native):
+            row.update({"dockq": None,
+                        "error": "the first instrument's chain map does not name both the target and VHL "
+                                 "native chains, so no interface can be selected by role"})
+            out["records"].append(row); out["n_dockq_failed"] += 1
+            continue
+        best, iface_err = target_e3_interface(doc, tgt_native, e3_native)
+        row["other_interfaces_context_only"] = other_interfaces(doc, tgt_native, e3_native)
+        if iface_err:
+            row.update({"dockq": None, "error": iface_err})
+            out["records"].append(row); out["n_dockq_failed"] += 1
+            continue
         row["dockq"] = best
         row["comparison"] = compare(rec, best)
         out["records"].append(row)
@@ -329,10 +400,11 @@ def _cli(argv=None):
     for r in res["records"]:
         if r.get("dockq"):
             c = r["comparison"]
-            print("  %-16s seed %-2s DockQ=%.4f (%s)  fnat: mine=%s dockq=%s  iRMS=%.2f A  agree=%s"
-                  % (r["arm_id"], r["seed"], r["dockq"]["DockQ"] or 0.0,
+            print("  %-16s seed %-2s iface=%s (%s)  DockQ=%.4f %-10s  fnat: mine=%s dockq=%s  agree=%s"
+                  % (r["arm_id"], r["seed"], r["dockq"]["interface"],
+                     r.get("scored_interface_roles"), r["dockq"]["DockQ"] or 0.0,
                      quality_class(r["dockq"]["DockQ"]), c.get("fnat_first_instrument"),
-                     c.get("fnat_dockq"), r["dockq"].get("iRMS") or float("nan"), c.get("agree")), flush=True)
+                     c.get("fnat_dockq"), c.get("agree")), flush=True)
         else:
             print("  %-16s seed %-2s DockQ FAILED — %s" % (r["arm_id"], r["seed"], r.get("error")), flush=True)
     print("\n[selcal-dockq] %s" % res["verdict"]["sentence"], flush=True)
