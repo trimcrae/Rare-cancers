@@ -1,31 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "ternary",
-  "generated_epoch": 1785650794.220632,
-  "generated_utc": "2026-08-02T06:06:34Z",
-  "generated_et": "2:06 AM ET Sun Aug 2, 2026",
+  "generated_epoch": 1785651293.4637303,
+  "generated_utc": "2026-08-02T06:14:53Z",
+  "generated_et": "2:14 AM ET Sun Aug 2, 2026",
   "note": null,
-  "rows": [
-    {
-      "name": "5aks_d0_to_d ternary nr4a1 r1",
-      "pct": null,
-      "eta_s": null,
-      "arrival": {
-        "measured_s_per_iter": null,
-        "expected_s_per_iter": 31.8,
-        "seconds_to_next_commit": null,
-        "session_budget_s": null,
-        "realised_usd_per_ns": null,
-        "slowdown_vs_expected": null,
-        "provenance": "off_system",
-        "buy_line_usd_per_ns": 0.006538868883711077,
-        "verdict": "WATCHING",
-        "why": "no measured rate yet \u2014 the leg has not printed a completed timing interval, which is an ABSENT reading and never a slow one (CLAUDE.md \u00a74)",
-        "expected_provenance": "measured ternary rate for RTX 3090 at 4.0 fs \u2014 and POOLED ACROSS SYSTEMS (nr4a1 x1, nr4a3 x1, vhl x1), so it describes no single assembly and is UNVALIDATED for this leg: a slowdown against it is partly the molecule, which is arithmetic and not drift"
-      },
-      "usd_per_ns": "RTX 3090 $0.00412/ns \u00b7 1.21\u00d7 basis [bid]",
-      "state": "NO HOST",
-      "why": "host DESTROYED this pass (unit done) \u2014 billing stopped, $0 further; checkpoint at production/2000 is intact in S3 and nothing further is owed \u2014 this leg is FINISHED"
-    }
-  ]
+  "rows": []
 }
