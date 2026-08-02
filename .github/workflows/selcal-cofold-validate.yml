@@ -44,6 +44,8 @@ on:
       - research/modalities/selcal_dockq_crosscheck.py
       - research/modalities/valb_frame_transfer_check.py
       - research/modalities/selcal_dockq_decoy_scale.py
+      - research/modalities/selcal_xtal_stage.py
+      - research/modalities/tests/test_selcal_xtal_stage.py
       - research/modalities/structural_provenance_census.py
       - research/modalities/selcal_deepternary_controls.py
       - research/modalities/tests/test_selcal_cofold_validate.py
@@ -80,7 +82,9 @@ jobs:
       # whole pipeline is exercisable offline and why the tests below run before anything is downloaded.
       # DockQ is the SECOND, INDEPENDENT instrument — the canonical PyPI implementation (Basu & Wallner),
       # sharing no code with this repo's validator, so it can contradict it.
-      - run: python -m pip install -q numpy awscli pytest DockQ
+      # gemmi + rdkit are needed ONLY by the crystal-control stager (chain surgery + the posed-ligand
+      # kernel). Everything else in this job stays pure-stdlib + numpy.
+      - run: python -m pip install -q numpy awscli pytest DockQ gemmi rdkit
 
       - name: The guards hold before anything is read
         run: |
@@ -88,6 +92,7 @@ jobs:
           python3 -m pytest research/modalities/tests/test_selcal_cofold_validate.py \
                             research/modalities/tests/test_selcal_dockq_crosscheck.py \
                             research/modalities/tests/test_selcal_dockq_decoy_scale.py \
+                            research/modalities/tests/test_selcal_xtal_stage.py \
                             research/modalities/tests/test_selcal_panel.py -q
 
       - name: Resolve the prefix the panel actually froze
@@ -204,6 +209,26 @@ jobs:
             --pdb 9DTY \
             --out research/modalities/selcal-dockq-decoy-scale.json
 
+      # ★★ THE EXPERIMENT THE SELECTIVITY CLAIMS ACTUALLY NEED — census + stage, $0.
+      # The sensitivity control returned NULL on structures that reproduce the target<->VHL interface at
+      # DockQ 0.023-0.046, i.e. at the ~32 A rung of the decoy ladder above. So the endpoint was never put to
+      # the test the null is read as. 9DTY and 9DTX ARE the two complexes whose selectivity was measured;
+      # running the IDENTICAL endpoint on the crystals themselves asks the readout question with no predicted
+      # coordinates anywhere in the chain.
+      # This step only CENSUSES and STAGES (both free). It runs no MD and spends nothing. What it decides is
+      # the design: the unit of independence is the crystallographic COPY, so the number of copies carrying a
+      # bridging degrader sets the exact-permutation floor — and whether a powered design exists at all.
+      - name: Crystal control — census the copies and stage the units ($0)
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python3 research/modalities/selcal_xtal_stage.py \
+            --native-dir /tmp/selcal_cofolds/_native \
+            --stage-to /tmp/selcal_xtal_units \
+            --out research/modalities/selcal-xtal-census.json
+          echo "=== staged units ==="
+          find /tmp/selcal_xtal_units -maxdepth 1 -mindepth 1 -type d | sort | awk 'NR<=30'
+
       # ★ THE FIX EXPERIMENT, step 1: source non-native binary inputs so DeepTernary can be run on the same
       # two systems our co-folds scored 0.023-0.046 on. The exclusion-set check ran first
       # (deepternary-leakage-check.json: 9DTY/9DTX are post-horizon) and the module refuses to source
@@ -239,6 +264,7 @@ jobs:
             research/modalities/selcal-cofold-vs-crystal.json \
             research/modalities/selcal-cofold-dockq.json \
             research/modalities/selcal-dockq-decoy-scale.json \
+            research/modalities/selcal-xtal-census.json \
             research/modalities/valb-frame-transfer-check.json \
             research/modalities/structural-provenance-census.json \
             research/modalities/deepternary-leakage-check.json \
