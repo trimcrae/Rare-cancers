@@ -15,7 +15,7 @@ Merged 8:32 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:31 PM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:31 PM ET Sat Aug 1, 2026 (2 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
@@ -41,13 +41,13 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 8:24 PM ET Sat Aug 1, 2026 (8 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 8:32 PM ET Sat Aug 1, 2026 (0 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns                                      STATE             WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 zaienne_cmpd19__cw_bio_primary_amide r1  —                      —  —                                         HELD — NOT BUYING [gpu_busy] 1 GCE instance(s) live. GPUS_ALL_REGIONS = 1 is the binding cap (gcp-gpu-facts.md #1), so this lane is strictly serial and there is no second GPU to buy. Not a fault — the constraint working. % DONE UNKNOWN — the driver's `warmup_target=… prod_target=…` line has not been read, so the denominator is unknown. An unreadable target is not a target of zero (CLAUDE.md §4) — the cell refuses rather than guessing a total. ETA UNKNOWN — no targets, so no remaining-work count either.
-zaienne_cmpd19__cw_ms_free_acid r1       4:44 AM Aug 2      32.5%  — free GCP trial credit (separate ledger) ⚠ NO NEW COMMIT   GCE L4, RUNNING, created 2026-08-01T05:37:11.159-07:00. phase='leg-complex-running 2026-08-01T12:41:01Z'. 1560 of 4800 committed iterations (unit = 2 legs x (warmup 400 + production 2000)). ETA is for the complex leg — scoped to the complex leg: solvent has no measured L4 rate of its own and the two legs solvate different systems, so projecting the unit off this rate would be a fabricated number.. [703 min since the leg started against a budget of 4 x its own measured 23.8 min commit interval — FLAGGED, and a flag is not a condemnation: nothing reaps or refuses on this] Bounded at CREATE by --max-run-duration=172800s.
+zaienne_cmpd19__cw_ms_free_acid r1       4:52 AM Aug 2      32.5%  — free GCP trial credit (separate ledger) ⚠ NO NEW COMMIT   GCE L4, RUNNING, created 2026-08-01T05:37:11.159-07:00. phase='leg-complex-running 2026-08-01T12:41:01Z'. 1560 of 4800 committed iterations (unit = 2 legs x (warmup 400 + production 2000)). ETA is for the complex leg — scoped to the complex leg: solvent has no measured L4 rate of its own and the two legs solvate different systems, so projecting the unit off this rate would be a fabricated number.. [712 min since the leg started against a budget of 4 x its own measured 23.8 min commit interval — FLAGGED, and a flag is not a condemnation: nothing reaps or refuses on this] Bounded at CREATE by --max-run-duration=172800s.
 cw_ms_free_acid__cw_bio_primary_amide r1 —                      —  —                                         HELD — NOT BUYING [gpu_busy] 1 GCE instance(s) live. GPUS_ALL_REGIONS = 1 is the binding cap (gcp-gpu-facts.md #1), so this lane is strictly serial and there is no second GPU to buy. Not a fault — the constraint working. % DONE UNKNOWN — the driver's `warmup_target=… prod_target=…` line has not been read, so the denominator is unknown. An unreadable target is not a target of zero (CLAUDE.md §4) — the cell refuses rather than guessing a total. ETA UNKNOWN — no targets, so no remaining-work count either.
 ```
 
