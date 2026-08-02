@@ -1,18 +1,31 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "ternary",
-  "generated_epoch": 1785631711.3628833,
-  "generated_utc": "2026-08-02T00:48:31Z",
-  "generated_et": "8:48 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785632163.2274983,
+  "generated_utc": "2026-08-02T00:56:03Z",
+  "generated_et": "8:56 PM ET Sat Aug 1, 2026",
   "note": null,
   "rows": [
     {
       "name": "5aks_d0_to_d ternary nr4a1 r1",
-      "pct": 90.0,
-      "eta_s": null,
-      "usd_per_ns": null,
-      "state": "UNKNOWN",
-      "why": "host state UNKNOWN \u2014 the Vast instance list did not read this pass (RuntimeError: vast API GET /instances/ -> 403: <html>\r\n<head><title>403 Forbidden</title></head>\r\n<body>\r\n<center><h1>403 Forbidden</h1></center>\r\n</body>\r\n</html>\r\n), so this is NOT a host death; checkpoint at production/1640 is intact in S3 and the next poll re-reads"
+      "pct": 91.11111111111111,
+      "arrival": {
+        "measured_s_per_iter": 54.875,
+        "expected_s_per_iter": 31.45,
+        "seconds_to_next_commit": 2195.0,
+        "session_budget_s": 2880.0,
+        "realised_usd_per_ns": 0.007187642676005211,
+        "slowdown_vs_expected": 1.74,
+        "provenance": "off_system",
+        "buy_line_usd_per_ns": 0.006538868883711077,
+        "verdict": "KEEP",
+        "why": "delivering 54.9 s/iter; the expectation it would be graded against was not measured on this leg's own system, so it is UNVALIDATED here \u2014 no drift and no buy-line comparison is asserted. Ranking offers on QUOTED $/ns is unaffected: every offer is scored against the same table, so the offset cancels there.",
+        "expected_provenance": "measured ternary rate for RTX 3090 at 4.0 fs \u2014 and POOLED ACROSS SYSTEMS (nr4a3 x1, vhl x1), so it describes no single assembly and is UNVALIDATED for this leg: a slowdown against it is partly the molecule, which is arithmetic and not drift"
+      },
+      "usd_per_ns": "RTX 3090 $0.00412/ns \u00b7 1.21\u00d7 basis [bid]",
+      "state": "RUNNING",
+      "why": "54.9 s/iter \u00b7 no like-for-like expectation (not measured on this system)",
+      "eta_epoch": 1785649723.2274983
     }
   ]
 }

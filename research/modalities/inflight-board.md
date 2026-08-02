@@ -2,18 +2,12 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 8:48 PM ET Sat Aug 1, 2026 by `task=collect`.
+Generated 8:56 PM ET Sat Aug 1, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
-LEG                           ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
----------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 —                  90.0%  —    UNKNOWN   host state UNKNOWN — the Vast instance list did not read this pass (RuntimeError: vast API GET /instances/ -> 403: <html>
-<head><title>403 Forbidden</title></head>
-<body>
-<center><h1>403 Forbidden</h1></center>
-</body>
-</html>
-), so this is NOT a host death; checkpoint at production/1640 is intact in S3 and the next poll re-reads
+LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
+---------------------------------------------------------------------------------------------------------------------------------
+5aks_d0_to_d ternary nr4a1 r1 1:48 AM Aug 2      91.1%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   54.9 s/iter · no like-for-like expectation (not measured on this system)
 ---- END TVAST-BOARD ----
 ```
