@@ -1,0 +1,109 @@
+name: NR4A3 linker-borne covalent reach ($0 CPU)
+
+# Is a linker-borne covalent NR4A3 handle geometrically available — at which cysteine, in how many of the
+# 20 experimental 8XTT conformers, and what closes the window first?
+#
+# Why this needs CI at all: the analysis is pure-stdlib CPU and runs anywhere, but the 20-conformer
+# solution-NMR ensemble PDB 8XTT has to be downloaded from files.rcsb.org, and the dev sandbox's egress
+# proxy 403s the CONNECT (CLAUDE.md §6). Only 4 of the 20 conformers are in the repo (the cavity-bearing
+# ones kept by the PocketMiner run), so a local run reports 4/20 and says so. This job gets all 20.
+#
+# $0: free GitHub-hosted runner, no pip beyond pytest, no apt, no container, no GPU, no rental. Pure
+# stdlib by design — there is no environment to build, so §6's "never build an env on a machine we pay
+# for" has nothing to bite on here.
+
+on:
+  workflow_dispatch:
+    inputs:
+      git_ref:
+        description: "branch to check out and commit results back to"
+        default: ""
+      commit:
+        description: "commit the JSON + MD back to the checked-out branch"
+        type: boolean
+        default: true
+      paralogue_ensembles:
+        description: "also run the NR4A1/NR4A2 metadynamics frames (slower; the paralogue control's spread)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  reach:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}
+
+      # pytest is the ONLY thing installed, and only to run the tests: the analysis itself is pure stdlib.
+      - name: Offline unit tests (pure logic, no network)
+        run: |
+          python -m pip install -q pytest
+          cd research/modalities
+          python -m pytest tests/test_nr4a3_linker_covalent_reach.py -q
+
+      - name: Fetch 8XTT + run the reach analysis
+        run: |
+          cd research/modalities
+          python3 nr4a3_linker_covalent_reach.py \
+            --fetch-8xtt \
+            --models-dir "$RUNNER_TEMP/8xtt_models" \
+            ${{ inputs.paralogue_ensembles && ' ' || '--no-paralogue-ensembles' }} \
+            --out nr4a3-linker-covalent-reach.json
+
+      - name: Refuse a partial ensemble, a rule drift, or a broken cross-check
+        # An input that could not be read is UNREAD, not absent (CLAUDE.md §4). A partial ensemble reported
+        # as "the ensemble" is exactly the populated-but-unmeasured failure §4b warns about, so it fails the
+        # job rather than committing a number nobody can grade.
+        run: |
+          cd research/modalities
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("nr4a3-linker-covalent-reach.json"))
+          e = d["experimental_ensemble_8xtt"]
+          print(f"8XTT conformers analysed: {e['n_conformers_analysed']} of {e['n_conformers_deposited']}")
+          if not e["is_complete"]:
+              print("::error::partial 8XTT ensemble — " + json.dumps(d["unread_inputs"]))
+              sys.exit(1)
+          rd = d["reach_rule_disagreements"]
+          print(f"reach-rule disagreements: {rd['n']} "
+                f"({rd['n_degenerate_tangency']} tangency, {rd['n_RULE_DRIFT']} drift)")
+          if rd["n_RULE_DRIFT"]:
+              print("::error::the corridor and through-space rules have DRIFTED: "
+                    + json.dumps(rd["cells"])[:1500])
+              sys.exit(1)
+          if rd["n_at_or_below_the_chemically_routine_bound"]:
+              print("::error::a reach-rule disagreement lands at or below the chemically routine bound, "
+                    "so it can affect a reported window: " + json.dumps(rd["cells"])[:1500])
+              sys.exit(1)
+          for k, v in d["cross_checks"].items():
+              if v["status"] != "AGREES":
+                  print(f"::error::cross-check {k} = {v['status']}: {json.dumps(v)[:600]}")
+                  sys.exit(1)
+              print(f"cross-check {k}: {v['status']}")
+          for r in d["refusals"]:
+              print(f"::warning::REFUSED {r.get('model', r.get('input'))}: {r['reason']}")
+          print(json.dumps(d["verdict"]["headline"]))
+          PY
+
+      - name: Claim + consistency lints
+        run: |
+          python3 research/manuscripts/lint_claims.py \
+            research/modalities/nr4a3-linker-covalent-reach.md \
+            research/manuscripts/nr4a3-program-map.md
+          python3 research/manuscripts/lint_consistency.py
+
+      - name: Commit results
+        if: ${{ inputs.commit }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nr4a3-linker-covalent-reach.json \
+                  research/modalities/nr4a3-linker-covalent-reach.md
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "linker-borne covalent reach: full 20-conformer 8XTT ensemble + paralogue control"
+          git push origin HEAD:"${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"

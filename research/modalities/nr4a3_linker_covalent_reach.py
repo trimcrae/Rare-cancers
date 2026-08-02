@@ -734,11 +734,19 @@ def druggability_by_model(path=BENCHMARK):
         d = json.load(fh)
     per = {}
     for r in d.get("per_conformer", []):
-        v = r.get("site_druggability")
-        per[int(r["model"])] = v
+        per[int(r["model"])] = r.get("site_druggability")
+    # ⚠ §4a — AN ABSENT READING IS NOT A READING OF ABSENCE. A null `site_druggability` means the committed
+    #   benchmark matched no site for that conformer and therefore never scored it; folding those models in
+    #   with the ones measured BELOW the reference would report an unmeasured conformer as cavity-free.
     return {"status": "READ", "ref": bench.DRUGGABLE_REF, "site_druggability_by_model": per,
             "cavity_bearing_models": sorted(m for m, v in per.items()
                                             if v is not None and v >= bench.DRUGGABLE_REF),
+            "below_reference_models": sorted(m for m, v in per.items()
+                                             if v is not None and v < bench.DRUGGABLE_REF),
+            "druggability_UNREAD_models": sorted(m for m, v in per.items() if v is None),
+            "_unread_reading": ("the committed benchmark matched no site in these conformers, so their "
+                                "druggability was never scored. They are NOT cavity-free — they are "
+                                "unmeasured, and the stratification below excludes them from BOTH groups."),
             "source_of_truth": "results/nr4a3-pocket-reharmonize/8xtt/nr4a3-8xtt-benchmark.json"}
 
 
@@ -1330,6 +1338,7 @@ def verdict(d):
     dead = sorted(uniq_labels - set(live), key=lambda s: int(s[1:]))
 
     fam = d["★_family_wide_chemoselectivity_window"]["by_convention"]
+    disp = (d["paralogue_control"].get("aligned_pair_displacement") or {})
     fam_open, fam_all = {}, {}
     for conv, rows in fam.items():
         rows_t = [r for r in rows if "term_a_exemplar" in r["placement"]]
@@ -1341,9 +1350,9 @@ def verdict(d):
                          "n_closed_by_a_PARALOGUE_cysteine": sum(
                              1 for r in rows_t if r["closed_by"] and not r["closed_by"].startswith("NR4A3")),
                          "median_atoms_lost_to_the_paralogue_control": spread(
-                             [r["cost_of_the_paralogue_control_in_atoms"] for r in rows_t])["median"]}
+                             [r["cost_of_the_paralogue_control_in_atoms"] for r in rows_t])["median"],
+                         "noise_sensitivity": _noise_sensitivity(rows_t, disp)}
         fam_open[conv] = openr
-    disp = (d["paralogue_control"].get("aligned_pair_displacement") or {})
     return {
         "headline": _headline(live, dead, fam_all),
         "at_which_cysteine": live,
@@ -1371,6 +1380,42 @@ def verdict(d):
     }
 
 
+def _noise_sensitivity(rows, disp):
+    """★★ HOW MUCH OF THE PARALOGUE CLOSURE SURVIVES THE MODEL NOISE THAT WAS MEASURED FOR IT.
+
+    Reopening the family-wide window by k backbone atoms requires the closing paralogue sulfur to sit
+    k * rise further from the warhead anchor than these models place it. The honest yardstick for "could it
+    be that far out" is not a guess: it is the SG displacement observed between ALIGNED cysteine pairs after
+    superposition — the same residue in three independently built opened models. If the correction needed to
+    reopen the window is inside that observed spread, the DIRECTION of the finding stands (the paralogues do
+    carry cysteines in the band, which is a sequence plus fold-level fact) while the exact atom counts do
+    not, and both halves have to be said.
+    """
+    costs = [r["cost_of_the_paralogue_control_in_atoms"] for r in rows]
+    if not costs:
+        return {}
+    med = spread(costs)["median"]
+    need_A = round(med * RISE, 2)
+    observed = [r["delta_SG_A"] for r in (disp.get("pairs") or []) if r.get("delta_SG_A") is not None]
+    obs = spread(observed)
+    inside = obs["max"] is not None and need_A <= obs["max"]
+    return {
+        "median_window_lost_atoms": med,
+        "sg_displacement_that_would_reopen_it_A": need_A,
+        "observed_aligned_pair_sg_displacement_A": {"min": obs["min"], "median": obs["median"],
+                                                    "max": obs["max"], "n_pairs": obs["n"]},
+        "correction_needed_is_inside_the_observed_model_noise": bool(inside),
+        "verdict": (("The correction that would reopen the window (%.2f A of sulfur displacement) is INSIDE "
+                     "the side-chain disagreement already observed between these models at aligned cysteine "
+                     "pairs (%s-%s A), so the DIRECTION of this result stands on sequence and fold while "
+                     "the exact atom counts do NOT survive that noise and must not be quoted as though they "
+                     "did." % (need_A, obs["min"], obs["max"])) if inside else
+                    ("The correction that would reopen the window (%.2f A) exceeds every side-chain "
+                     "disagreement observed between these models at aligned cysteine pairs (max %s A), so "
+                     "the closure is larger than the model noise measured for it." % (need_A, obs["max"]))),
+    }
+
+
 def _headline(live, dead, fam_all):
     co = fam_all.get("corridor", {})
     if not live:
@@ -1380,16 +1425,20 @@ def _headline(live, dead, fam_all):
              "placement, pendant and convention."
              % (", ".join(live), ", ".join(dead) or "none", "are" if len(dead) != 1 else "is")]
     if co.get("n_open"):
-        parts.append("A family-wide window exists in %d of %d graded (placement x pendant) cells, median "
-                     "width %s backbone atoms, and %d of those cells are closed first by a PARALOGUE "
-                     "cysteine rather than by an NR4A3 one."
-                     % (co["n_open"], co["n_cells"], co["median_width"],
-                        co["n_closed_by_a_PARALOGUE_cysteine"]))
+        parts.append("A family-wide window survives in %d of %d graded (placement x pendant) cells, median "
+                     "width %s backbone atoms."
+                     % (co["n_open"], co["n_cells"], co["median_width"]))
     else:
         parts.append("No family-wide window survives the paralogue control at any graded cell.")
-    parts.append("The paralogue control costs a median of %s backbone atoms of window, so the binding "
-                 "constraint on this route is the paralogues' own cysteines, not NR4A3's conserved ones."
-                 % co.get("median_atoms_lost_to_the_paralogue_control"))
+    parts.append("In %d of the %d graded cells the FIRST cysteine to come into reach is a PARALOGUE one, "
+                 "not an NR4A3 one, and the paralogue control costs a median of %s backbone atoms of "
+                 "window — so the binding constraint on this route is the paralogues' own cysteines, "
+                 "not NR4A3's conserved ones."
+                 % (co.get("n_closed_by_a_PARALOGUE_cysteine"), co.get("n_cells"),
+                    co.get("median_atoms_lost_to_the_paralogue_control")))
+    sens = co.get("noise_sensitivity") or {}
+    if sens.get("verdict"):
+        parts.append(sens["verdict"])
     return " ".join(parts)
 
 
@@ -1398,6 +1447,13 @@ def _headline(live, dead, fam_all):
 # ==========================================================================================================
 def _fmt(v):
     return "—" if v is None else str(v)
+
+
+def _esc(v):
+    """Escape a value for a markdown TABLE CELL. Basin ids carry a literal `|` (`crbn|M0`), which silently
+    splits the cell and shifts every column after it — a rendering bug that makes a correct table read as a
+    wrong one."""
+    return _fmt(v).replace("|", "\\|")
 
 
 def to_markdown(d):
@@ -1451,8 +1507,14 @@ def to_markdown(d):
     drug = ens.get("druggability_stratification") or {}
     if drug.get("cavity_bearing_models"):
         A("Cavity-bearing conformers (`site_druggability >= %s`, read from the committed benchmark): "
-          "**%s**. The other conformers have no detectable cryptic site, so placing a warhead in them is a "
-          "geometric operation and not a physical one." % (drug["ref"], drug["cavity_bearing_models"]))
+          "**%s**. Conformers scored below that reference: %s — placing a warhead in them is a geometric "
+          "operation and not a physical one." % (drug["ref"], drug["cavity_bearing_models"],
+                                                 drug.get("below_reference_models")))
+        if drug.get("druggability_UNREAD_models"):
+            A("")
+            A("⚠ Conformers **%s** were never scored (the committed benchmark matched no site in them). "
+              "They are **not** cavity-free, they are unmeasured, and they are excluded from both groups "
+              "rather than counted as negatives." % drug["druggability_UNREAD_models"])
         A("")
     sp = ens.get("reach_spread") or {}
     if sp:
@@ -1471,7 +1533,7 @@ def to_markdown(d):
                 continue
             c = counts.get(key, {})
             A("| %s | %s | %s | %s–%s–%s | %s–%s–%s | %s / %s |" % (
-                v["cysteine"], "**yes**" if v["unique"] else "no", v["placement"].split("@")[0],
+                v["cysteine"], "**yes**" if v["unique"] else "no", _esc(v["placement"].split("@")[0]),
                 _fmt(v["through_space_atoms"]["min"]), _fmt(v["through_space_atoms"]["median"]),
                 _fmt(v["through_space_atoms"]["max"]),
                 _fmt(v["corridor_atoms"]["min"]), _fmt(v["corridor_atoms"]["median"]),
@@ -1507,7 +1569,7 @@ def to_markdown(d):
                 continue
             seen.add(k)
             A("| %s | %s | %s | %s | %s |" % (
-                m["cysteine"], m["placement"].split("@")[0],
+                m["cysteine"], _esc(m["placement"].split("@")[0]),
                 "[%s, %s]" % (_fmt(m["lo"]), _fmt(m["hi"])) if m["width"] else "**none**",
                 m["width"], "%s at %s" % (m["blocked_by"], m["blocked_at_atoms"])
                 if m["blocked_by"] else "—"))
@@ -1530,7 +1592,7 @@ def to_markdown(d):
         A("|---|---|---|---|---|---|")
         for r in sorted(rows_t, key=lambda x: x["placement"]):
             A("| %s | %s | %s | %s | **%s** | %s at %s |" % (
-                r["placement"].split("@")[0], _fmt(r["target_atoms"]), r["intra_nr4a3_width"],
+                _esc(r["placement"].split("@")[0]), _fmt(r["target_atoms"]), r["intra_nr4a3_width"],
                 "[%s, %s]" % (_fmt(r["window_lo"]), _fmt(r["window_hi"])) if r["width"] else "**none**",
                 r["width"], r["closed_by"], _fmt(r["closed_at_atoms"])))
         A("")
@@ -1582,6 +1644,15 @@ def to_markdown(d):
     for k, v in sorted((d["paralogue_control"].get("verdict") or {}).items()):
         A("- **%s** — %s" % (k, v["verdict"]))
     A("")
+    for prot, blk in sorted((d["paralogue_control"].get("opened") or {}).items()):
+        bad = blk.get("_unreliable_in_this_frame") or []
+        if bad:
+            A("⚠ **%s %s** fall outside the superposition core, so their positions in this frame are "
+              "UNRELIABLE and every atom count involving them is flagged rather than quoted. (NR4A1 C551 is "
+              "the site NR-V04's selectivity is ATTRIBUTED to — proposed, never structurally confirmed — so "
+              "this is exactly the residue a reader will look for, and this is what can honestly be said "
+              "about it here.)" % (prot, ", ".join(bad)))
+            A("")
 
     A("## 5 · Electrophile classes — options, with sources, and no assessment")
     A("")
