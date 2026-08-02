@@ -36,13 +36,29 @@ RDKit's PDB reader infers protein bonds from residue templates but has no templa
 or as "the inputs were bad". The inputs passed verification: the warhead is a perfect substructure of the
 degrader (21/21 heavy atoms).
 
-**Two candidate fixes, neither attempted yet:**
-1. Emit CONECT records in `write_pdb`, derived from the CCD `chem_comp_bond` table for HETATM residues
-   (sourced, not distance-inferred — a distance guess would invent chemistry).
-2. Have the ligand come from the CCD **ideal SDF** instead of the extracted PDB block, and transform it onto
-   the extracted coordinates. Closer to what `build_degrader` already does for the full degrader.
+### Fix 1 attempted, and it exposed the next link (run 30752587351)
 
-(2) is likely cleaner and reuses existing code. Neither is a spend; both are CPU.
+CONECT records ARE now emitted into the converted `_raw` PDB, sourced from the CCD's own
+`_chem_comp_bond` table keyed by atom name (`selcal_deepternary_run.ccd_bonds`). That part works and is
+kept. **It does not reach RDKit**: `deepternary_blind_prep.extract_ligand` builds `unbound_lig1.pdb` by
+copying the ligand's **HETATM lines only**, so the CONECT records are stripped one step later and the
+prediction fails identically.
+
+So the full chain is: mmCIF-only entry → no CONECT on conversion (**fixed**) → `extract_ligand` drops
+CONECT (**open**) → RDKit sanitization fails → `predict_one_unbound` dies.
+
+**The remaining fix, precisely:** after `prep_control` runs, append CONECT records to `unbound_lig1.pdb`
+and `unbound_lig2.pdb` with serials renumbered to those files' own numbering. This is a post-prep step in
+*this* lane and needs no change to the module another lane owns. The bond tables are already fetched and
+cached by `ccd_bonds`.
+
+**Alternative if that proves awkward:** write the ligand files as SDF from the CCD ideal and transform onto
+the extracted coordinates — but `predict_cpu.get_lig_coords` reads `unbound_lig1.pdb` by name, so this
+would also require patching the reader, which the workflow already does for `device='cuda'`. Prefer the
+CONECT append.
+
+Neither is a spend; both are CPU. Two CI iterations were spent discovering this chain, each revealing the
+next layer — worth knowing before a third is started blind.
 
 ## What must not happen next
 
