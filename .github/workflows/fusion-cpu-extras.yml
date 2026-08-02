@@ -359,15 +359,17 @@ jobs:
       - name: Commit the basin result back to the triggering branch
         run: |
           set -e
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # glob, so an --out to a variant filename (e.g. LANE 7's assembly-native comparison) is committed
-          # too instead of being computed and silently dropped
-          git add -f research/modalities/nr4a3-orientation-basins*.json
-          git commit -m "RUNG-5a: mechanism-first orientation-basin search result (CI)" || {
-            echo "no changes"; exit 0; }
-          git pull --rebase origin "${{ github.ref_name }}" || true
-          git push origin HEAD:"${{ github.ref_name }}"
+          # ⚠ The glob is an ARGUMENT: the caller's shell expands it, so an --out to a variant filename
+          # (e.g. LANE 7's assembly-native comparison) is still committed rather than silently dropped,
+          # and an unmatched glob arrives as a literal the primitive's own `[ -e ]` filter drops.
+          # ⛔ ONE HOME FOR THE PUBLISH. `git pull --rebase` wedges on a conflict — the repo is left
+          # mid-rebase, every retry dies on the first one's wreckage, and the step ends GREEN having
+          # published nothing (measured on three lanes; see research/compute/publish_artifacts.sh).
+          # PUBLISH_IF_CHANGED=1 keeps this step's EVENT semantics: it records a result, not a
+          # heartbeat, so a run that produced nothing new must not commit as though it had.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "RUNG-5a: mechanism-first orientation-basin search result (CI)" \
+            research/modalities/nr4a3-orientation-basins*.json
 
   # RUNG 5b — RDKit verification of the inverse-linker-design library. The enumerator derives a backbone
   # length and a branch position from GEOMETRY and then emits a SMILES by concatenation; those are two
@@ -2011,17 +2013,15 @@ jobs:
       - name: Commit the result back to the triggering branch
         run: |
           set -e
-          git config user.name Claude
-          git config user.email noreply@anthropic.com
-          git add research/modalities/e3-vhl-ligand-recheck.json || true
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "E3 VHL arm re-check: what 9GIO's ligand actually contacts (auto)"
-          for i in 1 2 3 4; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
-              git push origin HEAD:"${{ github.ref_name }}" && exit 0
-            sleep $((2**i))
-          done
-          echo "push failed after retries" >&2; exit 1
+          # PUBLISH_FAIL_HARD=1 preserves this step's `exit 1` on an unpublished result.
+          # ⛔ ONE HOME FOR THE PUBLISH. `git pull --rebase` wedges on a conflict — the repo is left
+          # mid-rebase, every retry dies on the first one's wreckage, and the step ends GREEN having
+          # published nothing (measured on three lanes; see research/compute/publish_artifacts.sh).
+          # PUBLISH_IF_CHANGED=1 keeps this step's EVENT semantics: it records a result, not a
+          # heartbeat, so a run that produced nothing new must not commit as though it had.
+          PUBLISH_IF_CHANGED=1 PUBLISH_FAIL_HARD=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "E3 VHL arm re-check: what 9GIO's ligand actually contacts (auto)" \
+            research/modalities/e3-vhl-ligand-recheck.json
 
   s1f_liveness:
     # STEP 1 LIVENESS SHAKEOUT ($0 — no GPU, no Vast rental, a SCRATCH S3 prefix).
@@ -2307,17 +2307,15 @@ jobs:
       - name: Commit the audit back to the triggering branch
         run: |
           set -e
-          git config user.name Claude
-          git config user.email noreply@anthropic.com
-          git add research/modalities/atom-map-audit*.json || true
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "Atom-map blast-radius audit: what map every archived leg actually ran (auto)"
-          for i in 1 2 3 4; do
-            git pull --rebase --autostash origin "${{ github.ref_name }}" && \
-              git push origin HEAD:"${{ github.ref_name }}" && exit 0
-            sleep $((2**i))
-          done
-          echo "push failed after retries" >&2; exit 1
+          # PUBLISH_FAIL_HARD=1 preserves this step's `exit 1` on an unpublished result.
+          # ⛔ ONE HOME FOR THE PUBLISH. `git pull --rebase` wedges on a conflict — the repo is left
+          # mid-rebase, every retry dies on the first one's wreckage, and the step ends GREEN having
+          # published nothing (measured on three lanes; see research/compute/publish_artifacts.sh).
+          # PUBLISH_IF_CHANGED=1 keeps this step's EVENT semantics: it records a result, not a
+          # heartbeat, so a run that produced nothing new must not commit as though it had.
+          PUBLISH_IF_CHANGED=1 PUBLISH_FAIL_HARD=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "Atom-map blast-radius audit: what map every archived leg actually ran (auto)" \
+            research/modalities/atom-map-audit*.json
 
   # ★★ WHAT A `type: boolean` INPUT ACTUALLY HOLDS IN `github.event.inputs` — MEASURED, NOT ASSUMED.
   #
