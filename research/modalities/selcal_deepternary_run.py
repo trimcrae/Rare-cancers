@@ -100,9 +100,35 @@ def resolve_chains(pdb_path, comp_id, near_a=6.0):
     return sorted(near), (None if near else "no polymer chain within %.1f A of %s" % (near_a, comp_id))
 
 
-def all_polymer_chains(pdb_path):
+def e3_copy_chains(pdb_path, anchor_comp, n_subunits=3, near_a=6.0):
+    """The ONE copy of the E3 that holds the anchor ligand: the chain the ligand sits on, grown by contact.
+
+    ⚠ MEASURED, run 30751800137: the first version returned ALL polymer chains and gave 12 (A-L) for 5NVX,
+    which holds four copies of VHL/EloB/EloC. Handing a generator four copies of the E3 is not a harder
+    version of the same question — it is a different, meaningless one. Same multi-copy trap the scoring
+    instruments hit earlier today, arriving from the input side instead.
+
+    Grown by contact to ANY chain already chosen, not just to the ligand-bearing one, because Elongin B and C
+    hang off VHL rather than touching the anchor."""
     import selcal_cofold_validate as V
-    return V.polymer_chains(V.parse_structure(pdb_path))
+    atoms = V.parse_structure(pdb_path)
+    seed, err = resolve_chains(pdb_path, anchor_comp, near_a)
+    if err or not seed:
+        return [], err or "no chain carries %s" % anchor_comp
+    ca = {}
+    for a in atoms:
+        if a.name == "CA" and a.resname in V._THREE_TO_ONE:
+            ca.setdefault(a.chain, []).append(a.xyz)
+    chosen = list(seed)
+    while len(chosen) < n_subunits:
+        rest = [c for c in ca if c not in chosen]
+        if not rest:
+            break
+        best = max(rest, key=lambda c: (sum(V._chain_contact_count(ca, s, c) for s in chosen), c))
+        if sum(V._chain_contact_count(ca, s, best) for s in chosen) == 0:
+            break                                          # nothing else is bound to this copy
+        chosen.append(best)
+    return sorted(chosen), None
 
 
 def fragment_overlap(frag_comp, degrader_comp, workdir):
@@ -151,7 +177,9 @@ def prepare(configs, workdir, degrader_comp):
         poi_chains, err = resolve_chains(paths["poi_binary_pdb"], cfg["warhead_comp"])
         if err:
             row.update(ok=False, why="POI chain resolution: %s" % err); report.append(row); continue
-        e3_chains = all_polymer_chains(paths["e3_binary_pdb"])
+        e3_chains, e3_err = e3_copy_chains(paths["e3_binary_pdb"], cfg["anchor_comp"])
+        if e3_err:
+            row.update(ok=False, why="E3 chain resolution: %s" % e3_err); report.append(row); continue
         row["poi_chains"], row["e3_chains"] = poi_chains, e3_chains
 
         for label, comp in (("warhead", cfg["warhead_comp"]), ("anchor", cfg["anchor_comp"])):
