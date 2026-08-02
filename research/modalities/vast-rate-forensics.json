@@ -1,56 +1,7 @@
 {
   "_what": "Read-only forensics: does a Vast rental's CHARGED GPU rate move after rental, or is the apparent rise the storage line in `dph_total`?",
   "_fields": "allow-listed \u2014 see SAFE_FIELDS. Field NAMES are evidence; token/ssh/address VALUES are credentials and never appear here.",
-  "n_instances": 1,
-  "instances": [
-    {
-      "record": {
-        "id": 46541779,
-        "machine_id": 34332,
-        "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r1-dt4p0fs-wu1p0-5aks",
-        "gpu_name": "RTX 3090",
-        "num_gpus": 1,
-        "gpu_frac": 0.5,
-        "disk_space": 60.0,
-        "is_bid": true,
-        "cur_state": "running",
-        "actual_status": "running",
-        "intended_status": "running",
-        "start_date": 1785621996.2231026,
-        "duration": 15811789.176753044,
-        "dph_base": 0.068,
-        "dph_total": 0.07911111111111112,
-        "storage_cost": 0.1333333333333333,
-        "storage_total_cost": 0.011111111111111108,
-        "inet_up_cost": 0.0390625,
-        "inet_down_cost": 0.0390625,
-        "min_bid": 0.06666667,
-        "gpu_util": 0.0
-      },
-      "moved": null,
-      "instance": 46541779,
-      "machine_id": 34332,
-      "is_bid": true,
-      "ledger_bid_usd_h": null,
-      "lines": {
-        "gpu_usd_h": 0.068,
-        "storage_usd_h": 0.011111111111111108,
-        "all_in_usd_h": 0.07911111111111112,
-        "inet_usd_h_not_in_total": 0.078125,
-        "residual_usd_h": 0.0,
-        "explained": true
-      },
-      "live_min_bid_usd_h": 0.06666667,
-      "verdict": "UNKNOWN \u2014 no bid on record for this instance, so the rate it is being charged cannot be compared with the rate it was rented at.",
-      "offer_vs_instance": {
-        "offer_dph_total_usd_h": null,
-        "offer_min_bid_usd_h": null,
-        "bid_usd_h": null,
-        "instance_dph_total_usd_h": 0.07911111111111112,
-        "instance_disk_line_usd_h": 0.011111111111111108,
-        "instance_disk_gb": 60.0
-      }
-    }
-  ],
-  "summary": "0 of 0 gradeable live rental(s) show a GPU line differing from the bid agreed at rental (1 of 1 carry no recorded bid and cannot be graded). No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` (market floor + the disk line the search priced) \u2014 two different quantities, not a price move."
+  "n_instances": 0,
+  "instances": [],
+  "summary": "0 of 0 gradeable live rental(s) show a GPU line differing from the bid agreed at rental (0 of 0 carry no recorded bid and cannot be graded). No graded rental's GPU rate has moved from its bid. An apparent rise on the board is an INSTANCE's `dph_total` (bid + the real volume's disk line) read against an OFFER's `dph_total` (market floor + the disk line the search priced) \u2014 two different quantities, not a price move."
 }
