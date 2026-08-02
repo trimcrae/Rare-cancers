@@ -217,7 +217,55 @@ def prepare(configs, workdir, degrader_comp):
     return ready, report
 
 
-def write_pdb(atoms, dest):
+CCD_CIF = "https://files.rcsb.org/ligands/download/{c}.cif"
+
+
+def ccd_bonds(comp_id, workdir):
+    """{(atom_id_1, atom_id_2)} for one chemical component, from the CCD's own `_chem_comp_bond` table.
+
+    ⚠ SOURCED, NEVER DISTANCE-INFERRED. A distance guess would invent chemistry, and the whole point of the
+    CONECT records this feeds is to tell RDKit what the bonds ARE. The CCD is the authority and it is keyed by
+    ATOM NAME, which is exactly what a CONECT record needs."""
+    dest = os.path.join(workdir, "%s_ccd.cif" % comp_id)
+    if not os.path.exists(dest):
+        ok, err = _fetch(CCD_CIF.format(c=comp_id), dest)
+        if not ok:
+            return None, "could not fetch the CCD definition for %s: %s" % (comp_id, err)
+    cols, rows = _cif_loop(open(dest).read(), "_chem_comp_bond.")
+    if not cols:
+        return None, "no _chem_comp_bond loop in the CCD definition for %s" % comp_id
+    try:
+        i1 = cols.index("_chem_comp_bond.atom_id_1"); i2 = cols.index("_chem_comp_bond.atom_id_2")
+    except ValueError:
+        return None, "the %s bond loop lacks atom_id_1/atom_id_2" % comp_id
+    return {(r[i1], r[i2]) for r in rows if len(r) > max(i1, i2)}, None
+
+
+def _cif_loop(text, prefix):
+    """(column names, rows) for the first `loop_` whose columns start with `prefix`. Pure stdlib."""
+    import selcal_cofold_validate as V
+    lines = text.splitlines()
+    i, n = 0, len(lines)
+    while i < n:
+        if lines[i].strip() == "loop_":
+            cols, j = [], i + 1
+            while j < n and lines[j].strip().startswith("_"):
+                cols.append(lines[j].strip()); j += 1
+            if cols and cols[0].startswith(prefix):
+                rows = []
+                while j < n:
+                    t = lines[j].strip()
+                    if not t or t.startswith(("#", "loop_", "_")) or t == "stop_":
+                        break
+                    rows.append(V._split_cif_row(t)); j += 1
+                return cols, rows
+            i = j
+        else:
+            i += 1
+    return [], []
+
+
+def write_pdb(atoms, dest, conect_for=()):
     """Minimal PDB writer, so an mmCIF-only entry can still feed a PDB-only consumer.
 
     ⚠ WHY THIS EXISTS: `deepternary_blind_prep.fetch_pdb` requests the legacy .pdb format, and 9DU0 / 9DTY
@@ -226,6 +274,7 @@ def write_pdb(atoms, dest):
     its `_need()` finds them and never fetches. The conversion is coordinates only, which is all its chain and
     ligand extractors read."""
     n = 0
+    serial = {}
     with open(dest, "w") as fh:
         for i, a in enumerate(atoms, start=1):
             if i > 99999:
@@ -236,6 +285,18 @@ def write_pdb(atoms, dest):
                      % (rec, i, nm[:4], a.resname[:3], a.chain[:1], a.resseq, (a.icode or " ")[:1],
                         a.x, a.y, a.z, (a.element or "")[:2].rjust(2)))
             n += 1
+            serial[(a.chain, a.resseq, a.icode, a.name)] = i
+        # CONECT for the named HETATM components. mmCIF keeps connectivity in `chem_comp_bond`, not as CONECT,
+        # so a straight coordinate conversion produces a ligand RDKit cannot sanitize -- measured on run
+        # 30752326235, where `MolFromPDBFile` returned None and the prediction step died.
+        for comp, bonds in (conect_for or {}).items():
+            byres = {}
+            for (ch, rs, ic, nm), ser in serial.items():
+                byres.setdefault((ch, rs, ic), {})[nm] = ser
+            for key, names in byres.items():
+                for (a1, a2) in bonds:
+                    if a1 in names and a2 in names:
+                        fh.write("CONECT%5d%5d\n" % (names[a1], names[a2]))
         fh.write("END\n")
     return n
 
@@ -255,8 +316,20 @@ def emit_raw(configs, workdir, raw_dir):
             if err:
                 out.append({"pdb": pid, "ok": False, "why": err}); continue
             atoms = V.parse_structure(src)
-            n = write_pdb(atoms, dest)
+            comps = {}
+            errs = []
+            for comp in {cfg.get("warhead_comp"), cfg.get("anchor_comp"), cfg.get("degrader_comp")}:
+                if not comp or not any(a.resname == comp for a in atoms):
+                    continue
+                b, berr = ccd_bonds(comp, workdir)
+                if berr:
+                    errs.append(berr)
+                else:
+                    comps[comp] = b
+            n = write_pdb(atoms, dest, conect_for=comps)
             out.append({"pdb": pid, "ok": n > 0, "n_atoms": n, "from": os.path.basename(src),
+                        "conect_components": {c: len(b) for c, b in comps.items()},
+                        "conect_errors": errs or None,
                         "truncated_at_99999": n == 99999})
     return out
 
