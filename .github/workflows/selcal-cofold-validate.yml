@@ -47,6 +47,7 @@ on:
       - research/modalities/selcal_xtal_stage.py
       - research/modalities/tests/test_selcal_xtal_stage.py
       - research/modalities/selcal_xtal_panel.py
+      - research/modalities/selcal_cofold_decompose.py
       - research/modalities/tests/test_selcal_xtal_panel.py
       - research/modalities/structural_provenance_census.py
       - research/modalities/selcal_deepternary_controls.py
@@ -212,6 +213,20 @@ jobs:
             --pdb 9DTY \
             --out research/modalities/selcal-dockq-decoy-scale.json
 
+      # ★ WHERE does the co-fold failure sit — the pockets, or the assembly of two correct halves? That
+      # decides whether credible NR4A3 ternaries are obtainable from any route: an assembly-only failure names
+      # the missing information (each end's site, which a ternary generator consumes and which reached DockQ
+      # 0.839 on 9DTY today); a pocket failure means the thing to assemble is wrong and no NR4A3 ternary from
+      # this route can be trusted whatever the readout does. Published whichever way it lands.
+      - name: Decompose the co-fold failure — pocket placement vs assembly ($0)
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python3 research/modalities/selcal_cofold_decompose.py \
+            --cofold-root /tmp/selcal_cofolds \
+            --native-dir /tmp/selcal_cofolds/_native \
+            --out research/modalities/selcal-cofold-decompose.json
+
       # ★★ THE EXPERIMENT THE SELECTIVITY CLAIMS ACTUALLY NEED — census + stage, $0.
       # The sensitivity control returned NULL on structures that reproduce the target<->VHL interface at
       # DockQ 0.023-0.046, i.e. at the ~32 A rung of the decoy ladder above. So the endpoint was never put to
@@ -268,6 +283,7 @@ jobs:
             research/modalities/selcal-cofold-dockq.json \
             research/modalities/selcal-dockq-decoy-scale.json \
             research/modalities/selcal-xtal-census.json \
+            research/modalities/selcal-cofold-decompose.json \
             research/modalities/valb-frame-transfer-check.json \
             research/modalities/structural-provenance-census.json \
             research/modalities/deepternary-leakage-check.json \
