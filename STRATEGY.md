@@ -479,7 +479,32 @@ could not be re-narrated after the fact, and it is machine-carried by `selcal_ga
    the two; (ii) **the NR4A3 warhead pose**, which is a wet-lab fact: no deposited NR4A3 LBD–ligand complex
    exists, the binder is de novo, and the pocket itself is cryptic (opened by metadynamics), so no in-silico
    route supplies it. GLU208 is a **lead with a validated detector behind it**, not a result.
-   ⛔ None of (a)–(f) is a positive control for paralogue-selectivity **detection at this program's E1
+   ★★ **(g) WHAT IS ACTUALLY MISSING, AFTER (a)–(f) — AND IT IS NARROWER THAN "WE CANNOT DO THIS".**
+   Three things had to be true for a justified NR4A3-selective-ternary case, and two of them now are.
+   **Is the raw material there?** YES, and it was already measured: the differential-surface atlas finds
+   **33 exposed, divergent-vs-both, character-changing handles** on the NR4A3 LBD (of 254 aligned residues;
+   137 exposed, 109 divergent) and its gate reads **GO**
+   ([`nr4a3-differential-surface-atlas.json`](./research/modalities/nr4a3-differential-surface-atlas.json)).
+   ★ And (e) calibrates how much is enough: the SMARCA2/SMARCA4 selectivity that PRT3789 exploits rests on
+   **one** such position (Gln98 → Leu). NR4A3 has 33 candidates where one sufficed.
+   **Is there a detector?** YES — (e), validated against a published known answer.
+   **Is there a correctly-assembled ternary to point it at?** ⛔ **NO, and this is the whole remaining gap.**
+   The existing NR4A ternaries are sequence-only co-folds from the route (d) measures as failing at assembly
+   by a factor of 10, and the molecule that produced them is **unrecoverable** — no `_chem_comp_bond` loop in
+   any of the three models, and it entered as `$PROTAC_SMILES`
+   ([`nr4a-ternary-ligand-provenance.json`](./research/modalities/nr4a-ternary-ligand-provenance.json)), so
+   §2.5's ternary result cannot be replicated or extended at any price.
+   ⚠ **A CORRECTION TO A FRAMING USED EARLIER THE SAME DAY:** the assembly method was described as unusable
+   on NR4A3 "for want of a binding site". That is wrong and the repo refutes it — `results/nr4a3-matrix/
+   nr4a{1,2,3}-opened.pdb` are state-matched opened LBDs, **Gate 3A is supported** (the opened geometry does
+   not relax once the bias is removed), and a docked `denovo_401` pose exists in that frame. The site is
+   **UNVALIDATED, NOT ABSENT**, and those are different: the generator can be handed our own pose today.
+   ⇒ **The next step is therefore in-silico and specified**: rebuild the three paralogue ternaries by the
+   assembly route (opened LBD + docked warhead pose as site 1; CRBN + IMiD from a binary crystal as site 2;
+   a degrader whose SMILES is **recorded this time**), then re-run (f). What remains genuinely experimental
+   is narrower still — whether anything binds the opened pocket at all, which a thermal-shift/SPR/NMR screen
+   answers far more cheaply than a co-crystal, and whose NEGATIVE would be equally decisive.
+   ⛔ None of (a)–(g) is a positive control for paralogue-selectivity **detection at this program's E1
    endpoint**; that endpoint still has none, and none of them may be read as softening the tally below.
 4. **It re-scores no landed leg and changes no ΔΔG.** It is a statement about the instrument.
 
