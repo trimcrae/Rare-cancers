@@ -64,6 +64,42 @@ def descriptor_is_validated(path=None):
     return True, {"recovered_positions": ka.get("positions"), "n": ka.get("n_matching_positions")}
 
 
+#: The LBD definition this program folds, from `nr4a3-ternary-prep.json`: the C-terminal 254 residues. Used
+#: ONLY to tell the NR4A chain from the E3 chain in a two-protein co-fold, and only when the choice is
+#: unambiguous — a guess about which chain is the target would silently swap the whole comparison.
+LBD_RESIDUES = 254
+
+#: How far apart two chain lengths must be for the assignment to be called unambiguous.
+CHAIN_ASSIGNMENT_MARGIN = 20
+
+
+def resolve_chains(path):
+    """(target chain, [E3 chains], detail, error) for a two-protein ternary co-fold, by chain LENGTH.
+
+    ⛔ REFUSES RATHER THAN GUESSES. The NR4A LBD this program folds is its C-terminal 254 residues and CRBN is
+    ~440, so the two are far apart and the assignment is safe — but if any other chain lands within
+    `CHAIN_ASSIGNMENT_MARGIN` residues of the LBD length the choice is ambiguous, and silently picking one
+    would swap the target and the E3 for the whole comparison. The lengths are published either way."""
+    import selcal_cofold_validate as V
+    atoms = V.parse_structure(path)
+    lens = {}
+    for ch in V.polymer_chains(atoms):
+        seq, _ = V.chain_sequence(atoms, ch)
+        lens[ch] = len(seq)
+    if len(lens) < 2:
+        return None, None, {"chain_lengths": lens}, "fewer than two polymer chains in %s" % os.path.basename(path)
+    ranked = sorted(lens.items(), key=lambda kv: abs(kv[1] - LBD_RESIDUES))
+    (tgt, tlen), (nxt, nlen) = ranked[0], ranked[1]
+    detail = {"chain_lengths": lens, "lbd_residues": LBD_RESIDUES,
+              "chosen_target": tgt, "target_len": tlen, "runner_up": nxt, "runner_up_len": nlen}
+    if abs(abs(nlen - LBD_RESIDUES) - abs(tlen - LBD_RESIDUES)) < CHAIN_ASSIGNMENT_MARGIN:
+        return None, None, detail, ("chains %s (%d) and %s (%d) are both within %d residues of the %d-residue "
+                                    "LBD — the target/E3 assignment is ambiguous and picking one would swap "
+                                    "the comparison" % (tgt, tlen, nxt, nlen, CHAIN_ASSIGNMENT_MARGIN,
+                                                        LBD_RESIDUES))
+    return tgt, [c for c in lens if c != tgt], detail, None
+
+
 def signature_of(path, target_chain, e3_chains):
     """The target-side contact signature of one predicted ternary. Chains are given, never guessed here."""
     import selcal_cofold_validate as V
@@ -169,21 +205,40 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Paralogue-discriminating contacts in our NR4A ternaries ($0).")
     ap.add_argument("--root", required=True, help="directory holding one ternary structure per paralogue")
     ap.add_argument("--pattern", default="{p}*.cif", help="glob per paralogue; {p} is the paralogue name")
-    ap.add_argument("--target-chain", required=True)
-    ap.add_argument("--e3-chains", required=True, help="comma-separated")
+    ap.add_argument("--target-chain", default=None, help="blank = derive from chain lengths, or refuse")
+    ap.add_argument("--e3-chains", default=None, help="comma-separated; blank = every other polymer chain")
+    ap.add_argument("--recursive", action="store_true", help="search --root recursively")
     ap.add_argument("--validated", default=None)
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a-ternary-signature.json"))
     args = ap.parse_args(argv)
 
     structures = {}
     for p in (FOCUS,) + COMPARATORS:
-        hits = sorted(glob.glob(os.path.join(args.root, args.pattern.format(p=p.lower()))))
-        if not hits:
-            hits = sorted(glob.glob(os.path.join(args.root, args.pattern.format(p=p))))
-        if hits:
-            structures[p] = hits[0]
-    doc = run(structures, args.target_chain, [c.strip() for c in args.e3_chains.split(",") if c.strip()],
-              validated_path=args.validated)
+        for pat in (args.pattern.format(p=p.lower()), args.pattern.format(p=p)):
+            root = os.path.join(args.root, "**", pat) if args.recursive else os.path.join(args.root, pat)
+            hits = sorted(glob.glob(root, recursive=args.recursive))
+            if hits:
+                structures[p] = hits[0]
+                break
+
+    tgt, e3 = args.target_chain, ([c.strip() for c in (args.e3_chains or "").split(",") if c.strip()] or None)
+    chain_detail = None
+    if not tgt or not e3:
+        ref = structures.get(FOCUS)
+        if not ref:
+            json.dump({"error": "no %s structure found under %s — chains cannot be derived and none may be "
+                                "guessed" % (FOCUS, args.root)}, open(args.out, "w"), indent=1)
+            print("[nr4a-signature] REFUSED: no %s structure to derive chains from" % FOCUS, flush=True)
+            return 3
+        dt, de, chain_detail, cerr = resolve_chains(ref)
+        if cerr:
+            json.dump({"error": cerr, "chain_detail": chain_detail}, open(args.out, "w"), indent=1)
+            print("[nr4a-signature] REFUSED: %s" % cerr, flush=True)
+            return 4
+        tgt, e3 = tgt or dt, e3 or de
+
+    doc = run(structures, tgt, e3, validated_path=args.validated)
+    doc["chain_resolution"] = chain_detail or {"_source": "given on the command line"}
     json.dump(doc, open(args.out, "w"), indent=1)
     print(doc["sentence"], flush=True)
     return 0
