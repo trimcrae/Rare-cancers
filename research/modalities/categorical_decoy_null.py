@@ -43,6 +43,7 @@ Usage
     python categorical_decoy_null.py fetch                      # AlphaFold DB models for the universe (CI)
     python categorical_decoy_null.py pairs                      # trim + all-vs-all identity + pair selection
     python categorical_decoy_null.py run --shard 0 --nshards 8  # the statistic, sharded BY TARGET
+    python categorical_decoy_null.py selfcheck                  # driver vs the COMMITTED static verdict
     python categorical_decoy_null.py reduce                     # background distribution + NR4A3 percentile
 """
 from __future__ import annotations
@@ -803,6 +804,95 @@ def _save_shard(path, args, rows, refusals):
                    "rows": rows, "refusals": refusals}, fh, indent=2)
 
 
+SELFCHECK = os.path.join(CACHE, "selfcheck.json")
+
+
+def mode_selfcheck(args):
+    """★ THE HARNESS'S OWN KNOWN-ANSWER TEST, and the reason this null can be believed at all.
+
+    Run THIS driver on the COMMITTED NR4A3 / NR4A1 / NR4A2 opened models with the COMMITTED Pocket-5 lining
+    (no fpocket, no AlphaFold) and compare against
+    `nr4a-paralogue-dynamics.json -> categorical_verdict.by_scope.static_opened_model`. If the driver's
+    uniqueness rule, superposition, placement sampling or reach arithmetic were wrong, it would not land on
+    the committed answer — and a background measured by a broken harness would be worse than no background.
+
+    ⚠ The 12-atom cell is deliberately NOT the discriminating comparison: the committed run has 77
+    conditioning events out of 73,867 placements, so a cheap re-run has a handful and can only agree
+    trivially at 0. The 20-atom cell has thousands of events on both sides and is where a real disagreement
+    would show. Both are recorded."""
+    seed = PREREG["placements"]["seed"]
+    n_samples = int(os.environ.get("SELFCHECK_SAMPLES", "200000"))
+    u = json.load(open(PD.UNIQUE_JSON))
+    pocket_local = [x - B.UNIPROT_OFFSET for x in u["cryptic_pocket_uniprot"]]
+    t = B.load_paralogue(PD.STATIC_MODEL["NR4A3"])
+    anchors, _pa, params, _nap, n_poses, _c = sample_anchors(
+        t, pocket_local, NATIVE_REGISTRY, PREREG["placements"]["n_poses"], seed, n_samples)
+    out = {"_what": "the C02 driver re-run on the committed opened models + committed Pocket-5, against the "
+                    "committed static verdict",
+           "n_placements": len(anchors), "n_poses": n_poses, "samples_per_arm_pose": n_samples,
+           "rows": {}}
+    paras = {sp: B.load_paralogue(PD.STATIC_MODEL[sp]) for sp in ("NR4A1", "NR4A2")}
+    tcys = {sp: cysteines_in_frame(PD.STATIC_MODEL["NR4A3"], None, paras[sp])[0] for sp in paras}
+    pcys = {sp: cysteines_in_frame(PD.STATIC_MODEL[sp], t, t)[0] for sp in paras}
+    for sp in paras:
+        st = ordered_decoy_statistic(anchors, tcys[sp], pcys[sp], params)
+        out["rows"][sp] = {"target_unique_uniprot": sorted(int(c[1:]) + B.UNIPROT_OFFSET
+                                                           for c in st["target_unique_labels"]),
+                           "n_paralogue_cysteines": st["n_paralogue_cysteines"],
+                           "by_linker_atoms": st["by_linker_atoms"]}
+    joint_labels = {c["label"] for c in tcys["NR4A1"] if not c["partner_has_cys_here"]} \
+        & {c["label"] for c in tcys["NR4A2"] if not c["partner_has_cys_here"]}
+    joint = ordered_decoy_statistic(
+        anchors, [dict(c, partner_has_cys_here=False) for c in tcys["NR4A1"] if c["label"] in joint_labels],
+        pcys["NR4A1"] + pcys["NR4A2"], params)
+    out["rows"]["JOINT_both_paralogues"] = {
+        "target_unique_uniprot": sorted(int(c[1:]) + B.UNIPROT_OFFSET for c in joint["target_unique_labels"]),
+        "by_linker_atoms": joint["by_linker_atoms"]}
+    cv = json.load(open(DYNAMICS))["categorical_verdict"]["by_scope"]["static_opened_model"]
+    out["committed_static_opened_model"] = {
+        "_source": "research/modalities/nr4a-paralogue-dynamics.json (the ONE home; quoted, not re-derived)",
+        "n_placements": cv.get("n_placements"),
+        "by_linker_atoms": {n: cv["by_linker_atoms"][n] for n in ("12", "20")}}
+    out["committed_nr4a3_unique_cysteines"] = sorted(PD.NR4A3_UNIQUE_CYS)
+    jb = out["rows"]["JOINT_both_paralogues"]["by_linker_atoms"]
+
+    def _cmp(n, key):
+        """abs difference against the committed cell, or None when THIS run had no conditioning events —
+        an absent reading is not a reading of agreement (CLAUDE.md §4)."""
+        mine = jb[n]["P_paralogue_also_labelled"]
+        if mine is None or jb[n]["n_conditioning_events"] == 0:
+            return None
+        return round(abs(mine - cv["by_linker_atoms"][n][key]), 5)
+    out["checks"] = {
+        "unique_set_reproduced": out["rows"]["JOINT_both_paralogues"]["target_unique_uniprot"]
+        == sorted(PD.NR4A3_UNIQUE_CYS),
+        "n_paralogue_cysteines": {sp: out["rows"][sp]["n_paralogue_cysteines"] for sp in paras},
+        "n_conditioning_events": {n: jb[n]["n_conditioning_events"] for n in ("12", "20")},
+        "committed_n_conditioning_events": {
+            n: cv["by_linker_atoms"][n]["n_placements_with_any_nr4a3_hit"] for n in ("12", "20")},
+        "gate12_collision_abs_diff": _cmp("12", "P_paralogue_also_labelled_given_nr4a3"),
+        "atoms20_collision_abs_diff": _cmp("20", "P_paralogue_also_labelled_given_nr4a3"),
+        "atoms20_mean_P_any_paralogue_cys": {
+            "harness_NR4A1": out["rows"]["NR4A1"]["by_linker_atoms"]["20"]["mean_P_any_paralogue_cys"],
+            "committed_NR4A1": cv["by_linker_atoms"]["20"]["mean_P_any_cysteine_NR4A1"],
+            "harness_NR4A2": out["rows"]["NR4A2"]["by_linker_atoms"]["20"]["mean_P_any_paralogue_cys"],
+            "committed_NR4A2": cv["by_linker_atoms"]["20"]["mean_P_any_cysteine_NR4A2"]},
+        "_reading": "`atoms20_collision_abs_diff` is the DISCRIMINATING number — thousands of conditioning "
+                    "events on both sides, so a driver that disagreed with the committed pipeline would "
+                    "show it here. The 12-atom cell agrees trivially at 0 on a cheap re-run (77 events in "
+                    "73,867 committed placements) and is recorded for completeness, not as evidence. A "
+                    "`None` means this run produced no conditioning events at that length and the "
+                    "comparison could not be made — not that it agreed.",
+    }
+    os.makedirs(CACHE, exist_ok=True)
+    with open(SELFCHECK, "w") as fh:
+        json.dump(out, fh, indent=2)
+    print(f"  [cdn] selfcheck: unique_set_reproduced={out['checks']['unique_set_reproduced']} "
+          f"gate12={out['checks']['gate12_collision_reproduced']} "
+          f"|d20|={out['checks']['atoms20_collision_abs_diff']}")
+    return out
+
+
 def mode_reduce(args):
     plan = json.load(open(PLAN))
     rows, refusals = [], []
@@ -880,6 +970,9 @@ def mode_reduce(args):
                                                                   r.get("P_gate") or 0))],
             "refusals": refusals,
         },
+        "harness_known_answer_check": (json.load(open(SELFCHECK)) if os.path.exists(SELFCHECK) else
+                                       {"status": "NOT RUN — the driver's own reproduction of the committed "
+                                                  "static verdict was not available to this reduce"}),
         "limits": [
             "The background is a NUCLEAR-RECEPTOR background: every decoy pair is drawn from the committed "
             "47-receptor human NR list. It does not bound the rate over the whole proteome.",
@@ -921,13 +1014,13 @@ def _stamp():
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("mode", choices=["plan", "fetch", "pairs", "run", "reduce"])
+    ap.add_argument("mode", choices=["plan", "fetch", "pairs", "selfcheck", "run", "reduce"])
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--nshards", type=int, default=1)
     ap.add_argument("--out", default=OUT)
     args = ap.parse_args(argv)
     return {"plan": mode_plan, "fetch": mode_fetch, "pairs": mode_pairs,
-            "run": mode_run, "reduce": mode_reduce}[args.mode](args)
+            "selfcheck": mode_selfcheck, "run": mode_run, "reduce": mode_reduce}[args.mode](args)
 
 
 if __name__ == "__main__":
