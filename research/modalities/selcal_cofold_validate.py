@@ -340,14 +340,22 @@ def align_identity(seq_a, seq_b):
     return same / float(min(len(seq_a), len(seq_b))), pairs
 
 
-def map_chains(model_atoms, native_atoms):
+def map_chains(model_atoms, native_atoms, native_chain_subset=None):
     """{model_chain: {native_chain, identity, pairs}} — DERIVED by sequence, never by chain letter.
 
     Refuses rather than guesses. A model chain with no native chain at or above `MIN_CHAIN_IDENTITY` is
     reported unmatched with its best score; two model chains resolving to one native chain is a hard refusal,
-    because that is the shape of the mis-mapping that scored Elongin C as the degradation target."""
+    because that is the shape of the mis-mapping that scored Elongin C as the degradation target.
+
+    `native_chain_subset` restricts the candidates to ONE copy of the complex (`assembly_components`). In a
+    multi-copy asymmetric unit every copy ties at identity 1.000, so without the restriction the winner is
+    decided by file order and the four roles can be drawn from different copies — a reference complex that
+    does not exist."""
     m_chains = polymer_chains(model_atoms)
     n_chains = polymer_chains(native_atoms)
+    if native_chain_subset is not None:
+        allowed = set(native_chain_subset)
+        n_chains = [c for c in n_chains if c in allowed]
     m_seqs = {c: chain_sequence(model_atoms, c) for c in m_chains}
     n_seqs = {c: chain_sequence(native_atoms, c) for c in n_chains}
 
@@ -394,14 +402,92 @@ def residue_pairs(model_atoms, native_atoms, model_chain, native_chain, aln_pair
 # ---------- geometry --------------------------------------------------------------------------------------
 
 
-def _by_residue(atoms, heavy_only=True):
-    """{residue key: [Atom]}."""
+def _by_residue(atoms, heavy_only=True, polymer_only=False):
+    """{residue key: [Atom]}.
+
+    ⚠ `polymer_only` EXISTS BECAUSE ITS ABSENCE PRODUCED A WRONG NUMBER, and the number looked plausible.
+    A deposited ternary gives the PROTAC an auth chain id it SHARES with a protein chain, so without this
+    filter the degrader enters the residue set of whichever chain it was assigned to and every ligand-protein
+    contact is counted as a protein-protein interface contact — with no model counterpart, because the model's
+    ligand is a different residue name. Measured on the first run of this module: 9DTX reported 47 native
+    contacts of which 43 (91 %) were `unmappable`, on chains aligned at identity 1.000 with full coverage,
+    which is arithmetically impossible for genuine protein-protein contacts. That is what exposed it.
+    Restricting to polymer residues also MATCHES E1, whose `_topology_indices` puts LIG/UNL/UNK in neither the
+    E3 nor the target set, so the endpoint's interface is protein-protein too."""
     out = {}
     for a in atoms:
         if heavy_only and not a.is_heavy:
             continue
+        if polymer_only and a.resname not in _THREE_TO_ONE:
+            continue
         out.setdefault(a.key, []).append(a)
     return out
+
+
+def assembly_components(atoms, contact_a=8.0):
+    """Group polymer chains into COPIES of the complex — connected components under inter-chain contact.
+
+    ⚠ WITHOUT THIS, A MULTI-COPY ASYMMETRIC UNIT SILENTLY BUILDS A CHIMERIC REFERENCE. 9DTY holds ~10 copies
+    of the SMARCA2 ternary in 40 chains, so every copy's chains align to a given model chain at identity
+    1.000 — a perfect tie. `map_chains` would then resolve each role by whichever chain the file happens to
+    list first, and there is no guarantee those come from ONE copy. Assembling the reference from chains of
+    different copies would produce an interface RMSD against a complex that does not exist, and nothing would
+    error: the numbers would simply be about something else. That is the same defect class as the positional
+    chain split that scored Elongin C as the degradation target, so it is closed structurally rather than
+    trusted to ordering.
+
+    A bounding-sphere prefilter keeps this cheap: 40 chains is 780 pairs, and only overlapping pairs pay for
+    a CA-CA scan."""
+    ca = {}
+    for a in atoms:
+        if a.name == "CA" and a.resname in _THREE_TO_ONE:
+            ca.setdefault(a.chain, []).append(a.xyz)
+    chains = sorted(ca)
+    if not chains:
+        return []
+    cent, rad = {}, {}
+    for c in chains:
+        cent[c] = centroid(ca[c])
+        rad[c] = max(((p[0] - cent[c][0]) ** 2 + (p[1] - cent[c][1]) ** 2 + (p[2] - cent[c][2]) ** 2) ** 0.5
+                     for p in ca[c])
+
+    parent = {c: c for c in chains}
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(x, y):
+        rx, ry = find(x), find(y)
+        if rx != ry:
+            parent[ry] = rx
+
+    c2 = contact_a * contact_a
+    for i, ci in enumerate(chains):
+        for cj in chains[i + 1:]:
+            if find(ci) == find(cj):
+                continue
+            d = ((cent[ci][0] - cent[cj][0]) ** 2 + (cent[ci][1] - cent[cj][1]) ** 2
+                 + (cent[ci][2] - cent[cj][2]) ** 2) ** 0.5
+            if d > rad[ci] + rad[cj] + contact_a:
+                continue                                   # bounding spheres cannot reach — a proven skip
+            touched = False
+            for p in ca[ci]:
+                for q in ca[cj]:
+                    if (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2 + (p[2] - q[2]) ** 2 <= c2:
+                        touched = True
+                        break
+                if touched:
+                    break
+            if touched:
+                union(ci, cj)
+
+    groups = {}
+    for c in chains:
+        groups.setdefault(find(c), []).append(c)
+    return [sorted(v) for _, v in sorted(groups.items())]
 
 
 def _ca_by_residue(atoms):
@@ -447,7 +533,10 @@ def native_interface_residues(native_atoms, e3_native_chains, target_native_chai
     scores. The crystal defines the interface (the CAPRI convention: native contacts are the reference), and
     it is then carried to the model through the residue correspondence."""
     from nrv04_covalent_md import interface_atom_indices
-    heavy = [a for a in native_atoms if a.is_heavy]
+    # POLYMER ONLY — see `_by_residue`'s note. E1's own split (`nrv04_covalent_md._topology_indices`) puts
+    # LIG/UNL/UNK in neither the E3 nor the target set, so the endpoint's interface is protein-protein; a
+    # ligand sharing a protein chain's auth id would otherwise be scored as part of the interface here.
+    heavy = [a for a in native_atoms if a.is_heavy and a.resname in _THREE_TO_ONE]
     pos_nm = _nm([a.xyz for a in heavy])
     chain_ids = [a.chain for a in heavy]
     e3_idx, tg_idx = interface_atom_indices(pos_nm, chain_ids, set(e3_native_chains), set(target_native_chains))
@@ -511,8 +600,8 @@ def fnat(model_atoms, native_atoms, corr, e3_native_chains, target_native_chains
         for mkey, nkey in info["pairs"]:
             m_of_n[nkey] = mkey
 
-    n_res = _by_residue(native_atoms)
-    m_res = _by_residue(model_atoms)
+    n_res = _by_residue(native_atoms, polymer_only=True)
+    m_res = _by_residue(model_atoms, polymer_only=True)
     e3set, tgset = set(e3_native_chains), set(target_native_chains)
     c2 = cutoff_a * cutoff_a
 
@@ -605,7 +694,45 @@ def validate_one(model_path, native_path, target_model_chain=None, e3_model_chai
         rec["why"] = "a structure parsed to zero atoms"
         return rec
 
-    cmap = map_chains(model_atoms, native_atoms)
+    # ★ ONE COPY AT A TIME. A deposited asymmetric unit may hold many copies of the same complex (9DTY holds
+    # ~10 in 40 chains), and every copy ties at identity 1.000, so an unrestricted match resolves the four
+    # roles by file order and can draw them from different copies. Each copy is scored on its own and the
+    # BEST is reported, with the spread across copies beside it so the choice is visible rather than implied.
+    # ⚠ NO UNRESTRICTED FALLBACK WHILE COMPONENTS EXIST. An earlier draft fell back to matching against the
+    # whole file when no component looked big enough, which would have quietly reinstated the chimera this
+    # block exists to prevent — a silent fallback to the rule that caused the bug is the one outcome worth
+    # designing out (`nrv04_covalent_md._topology_indices` learned the same lesson the expensive way). If no
+    # single copy can supply all four roles, every attempt REFUSES and says so.
+    components = assembly_components(native_atoms)
+    candidates = components if components else [None]
+    attempts = []
+    for comp in candidates:
+        attempt = _score_against_copy(model_atoms, native_atoms, comp, target_model_chain, e3_model_chains)
+        attempt["native_chains_considered"] = comp
+        attempts.append(attempt)
+    graded_attempts = [a for a in attempts if a.get("graded")]
+    best = (min(graded_attempts, key=lambda a: a["interface_rmsd_to_crystal_A"]) if graded_attempts
+            else attempts[0])
+    rec.update(best)
+    rec["copy_selection"] = {
+        "n_components_in_asymmetric_unit": len(components),
+        "n_copies_scored": len(graded_attempts),
+        "chosen_native_chains": best.get("native_chains_considered"),
+        "interface_rmsd_across_copies_A": sorted(a["interface_rmsd_to_crystal_A"] for a in graded_attempts),
+        "_rule": "every copy that can supply all four roles is scored independently and the LOWEST interface "
+                 "RMSD is reported. The spread is published beside it: a wide spread would mean the choice of "
+                 "copy is doing work, and a reader can see that rather than having to trust it.",
+        "_why": "9DTY holds ~10 copies in 40 chains and every copy aligns at identity 1.000, so an "
+                "unrestricted match resolves the roles by file order and can build a chimeric reference "
+                "across copies — a complex that does not exist, scored without erroring.",
+    }
+    return rec
+
+
+def _score_against_copy(model_atoms, native_atoms, native_chain_subset, target_model_chain, e3_model_chains):
+    """Score the model against ONE copy of the complex. Returns the same fields `validate_one` reports."""
+    rec = {"graded": False, "why": None}
+    cmap = map_chains(model_atoms, native_atoms, native_chain_subset)
     rec["chain_map"] = {"matched": {k: {kk: vv for kk, vv in v.items() if not kk.startswith("_")}
                                     for k, v in cmap["matched"].items()},
                         "unmatched": cmap["unmatched"], "collisions": cmap["collisions"],

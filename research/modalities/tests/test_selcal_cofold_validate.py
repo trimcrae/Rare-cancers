@@ -77,12 +77,17 @@ def _complex(target_dx=0.0, n_target=24, n_e3=(20, 18, 16)):
 
     Chain E sits 4 Å from the target so real heavy-atom contacts exist inside BOTH cutoffs in play — the
     0.8 nm interface selector E1 uses and the 5.0 Å fnat cutoff. F and G sit further out, mirroring a real
-    VCB where only VHL touches the target."""
+    VCB where only VHL touches the target.
+
+    The three E3 chains are also within contact of each other, as VHL/EloB/EloC are in a real VCB — otherwise
+    `assembly_components` would (correctly) split one copy into pieces and the fixture, not the code, would be
+    the thing under test.
+    """
     atoms = []
     atoms += _chain("A", n_target, 0.0 + target_dx, 0.0, 0.0)
     atoms += _chain("E", n_e3[0], 0.0, 4.0, 0.0)
-    atoms += _chain("F", n_e3[1], 0.0, 14.0, 0.0)
-    atoms += _chain("G", n_e3[2], 0.0, 22.0, 0.0)
+    atoms += _chain("F", n_e3[1], 0.0, 11.0, 0.0)
+    atoms += _chain("G", n_e3[2], 0.0, 18.0, 0.0)
     return atoms
 
 
@@ -332,6 +337,85 @@ def test_centroid_prefilter_cannot_change_the_answer(tmp_path):
                   ["E", "F", "G"], ["A"], cutoff_a=V.FNAT_CONTACT_A)
     assert base["n_native_contacts"] == wide["n_native_contacts"]
     assert base["n_recovered"] == wide["n_recovered"]
+
+
+# ---------- 5b · the two defects the FIRST real run exposed ------------------------------------------------
+# Both produced plausible-looking numbers rather than errors, which is the dangerous shape (CLAUDE.md §4b).
+
+
+def test_the_ligand_is_not_counted_as_an_interface_residue(tmp_path):
+    """DEFECT 1, measured on run 30744840367: 9DTX reported 47 native contacts of which 43 (91 %) were
+    `unmappable` — arithmetically impossible for protein-protein contacts on chains aligned at identity 1.000
+    with full coverage. Cause: the deposited PROTAC (A1BB4) carries an auth chain id it SHARES with a protein
+    chain, so it entered that chain's residue set and every ligand-protein contact was counted as an interface
+    contact with no model counterpart. E1's own split puts LIG/UNL/UNK in neither set, so polymer-only is also
+    what matches the endpoint."""
+    pytest.importorskip("numpy")
+    # Put a big HETATM ligand on the TARGET's chain id, straddling the interface, in both structures.
+    def _with_ligand(dx):
+        atoms = _complex(target_dx=dx)
+        atoms += [V.Atom("A", 900, "", "A1BB4", "C%d" % i, "C", 2.0 * i, 2.0, 0.0, True) for i in range(64)]
+        return atoms
+    native = _write_cif(_with_ligand(0.0), str(tmp_path / "n.cif"))
+    model = _write_cif(_with_ligand(0.0), str(tmp_path / "m.cif"))
+    rec = V.validate_one(model, native)
+    assert rec["graded"] is True, rec.get("why")
+    fn = rec["fnat"]
+    assert fn["n_unmappable"] == 0, (
+        "a ligand sharing a protein chain id leaked into the interface residue set: %s" % fn)
+    assert fn["fnat"] == 1.0, "identical structures must recover every native contact"
+    # and it is still REPORTED as a ligand, by count and identity
+    assert rec["ligand"]["native_resname"] == "A1BB4"
+    assert rec["ligand"]["native_heavy_atoms"] == 64
+
+
+def test_interface_selection_is_polymer_only_like_the_endpoints(tmp_path):
+    """The same restriction on the interface selector, not just on fnat — otherwise the RMSD would be taken
+    over a residue set the endpoint never scores."""
+    atoms = _complex()
+    atoms += [V.Atom("A", 900, "", "A1BB4", "C%d" % i, "C", 2.0 * i, 2.0, 0.0, True) for i in range(64)]
+    e3_res, tg_res = V.native_interface_residues(atoms, ["E", "F", "G"], ["A"])
+    assert all(k[1] != 900 for k in e3_res + tg_res), "the ligand residue reached the interface set"
+
+
+def test_multi_copy_asymmetric_unit_scores_each_copy_and_never_builds_a_chimera(tmp_path):
+    """DEFECT 2: 9DTY holds ~10 copies of the ternary in 40 chains, and every copy aligns to a given model
+    chain at identity 1.000 — a perfect tie. Resolving the four roles independently would let them come from
+    DIFFERENT copies: a reference complex that does not exist, scored without erroring."""
+    pytest.importorskip("numpy")
+    # Two copies, far apart. Copy 2 is displaced as a rigid body AND has its target pulled off the interface,
+    # so a chimeric mix of copies would score very differently from either copy on its own.
+    copy1 = _complex(target_dx=0.0)
+    copy2 = []
+    for a in _complex(target_dx=9.0):
+        copy2.append(V.Atom({"A": "P", "E": "Q", "F": "R", "G": "S"}[a.chain], a.resseq, a.icode, a.resname,
+                            a.name, a.element, a.x + 400.0, a.y, a.z, a.hetatm))
+    native = _write_cif(copy1 + copy2, str(tmp_path / "n.cif"))
+    model = _write_cif(_complex(target_dx=0.0), str(tmp_path / "m.cif"))
+
+    comps = V.assembly_components(V.parse_structure(native))
+    assert len(comps) == 2, "the two copies must be separated into components, got %s" % comps
+
+    rec = V.validate_one(model, native)
+    assert rec["graded"] is True, rec.get("why")
+    cs = rec["copy_selection"]
+    assert cs["n_components_in_asymmetric_unit"] == 2
+    assert cs["n_copies_scored"] == 2
+    # every role comes from ONE copy
+    chosen = set(cs["chosen_native_chains"])
+    assert chosen in ({"A", "E", "F", "G"}, {"P", "Q", "R", "S"}), chosen
+    for mc, info in rec["chain_map"]["matched"].items():
+        assert info["native_chain"] in chosen, "role %s was drawn from outside the chosen copy" % mc
+    # the best copy is the one the model actually matches, and the spread is published
+    assert rec["interface_rmsd_to_crystal_A"] == min(cs["interface_rmsd_across_copies_A"])
+    assert len(cs["interface_rmsd_across_copies_A"]) == 2
+    assert cs["interface_rmsd_across_copies_A"][0] < cs["interface_rmsd_across_copies_A"][1]
+
+
+def test_assembly_components_group_chains_that_touch(tmp_path):
+    atoms = _complex()
+    comps = V.assembly_components(atoms)
+    assert len(comps) == 1 and comps[0] == ["A", "E", "F", "G"], comps
 
 
 # ---------- 6 · scope: this module grades inputs and nothing else -----------------------------------------
