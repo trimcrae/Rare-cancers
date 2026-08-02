@@ -2149,6 +2149,25 @@ variable — gives DockQ **1.000 → 0.948 (0.5 Å) → 0.845 (1 Å) → 0.717 (
 which is consistent with the 17.8–21.2 Å interface-RMSD measured independently. So the co-folds are not a
 near-miss on placement, and the failure at generation is not a matter of degree.
 
+★ **AND THE COMPLEX ITSELF IS RECOVERABLE IN SILICO, WHICH LOCATES THE FAILURE PRECISELY.** Run on **9DTY** —
+the SMARCA2 arm's own deposited ternary, absent from DeepTernary's disclosed 4,471-entry exclusion set and
+deposited well after its 2023-10-14 data horizon — the same generator reaches **DockQ 0.839 (CAPRI "High"),
+interface-RMSD 0.67 Å, fnat 0.83**, best of 16 seeds, median 0.442, against our co-folds' best of 0.038 on
+the same interface and the same reference
+([`../modalities/selcal-deepternary-headtohead.json`](../modalities/selcal-deepternary-headtohead.json)).
+⛔ **It is not the same question our co-folds were asked, and the two numbers are not interchangeable.**
+DeepTernary's published *unbound* protocol superposes the two unbound binary structures into the native
+ternary frame and supplies the native degrader pose, so the model is given **which pocket on each protein
+each end of the degrader occupies**; what it predicts is the two proteins' **relative placement**, which is
+randomised out of its input (protein 2 and the ligand are each independently rotated and translated before
+the forward pass). Our co-folds were given sequence and ligand and nothing else. ⚠ Reported as best-of-16 and
+as **one arm**: the SMARCA4 arm was refused before any prediction, its best available warhead fragment
+sharing 0.42 of its heavy atoms with the degrader against a 0.55 bar, and no SMARCA4 number exists.
+What this does establish, and it is the reason the paragraph above is a diagnosis rather than a shrug: this
+ternary is **not beyond in-silico reach** — with the two binding sites supplied, a dedicated ternary
+generator places it to within 0.67 Å at the interface. The 0.023–0.046 is therefore a property of the
+sequence-only co-folding route used here, not of the problem.
+
 **Applied, not noted:** with §2.11's cooperativity calibrator failed on sign, §2.12's retrospective
 non-resolved, and this control null on an adequately-powered design, **all three** attempts to establish a
 positive control **for this program's selectivity claims** have now been run and none succeeded — a
@@ -2437,8 +2456,13 @@ and no basis whatever for re-opening any selectivity claim. Both halves of the c
 since been run (§2.12a): the same DockQ build returns **0.618, CAPRI "Medium"** for a dedicated ternary
 generator on a known complex, so the near-zero score is not an artefact of the scorer; and displacing the
 **true** target chain of 9DTY by a known rigid magnitude puts 0.023–0.046 at the **~32 Å** rung of the ladder,
-so the co-folds are not a near-miss. ⛔ Neither is a positive control for paralogue-selectivity *detection* —
-that endpoint still has none, and the harness control must not be read as softening the paragraph above.
+so the co-folds are not a near-miss. And on 9DTY itself — post-horizon for that generator — the same run
+reaches **DockQ 0.839, CAPRI "High", interface-RMSD 0.67 Å** when the two binding sites are supplied, so the
+complex is **not beyond in-silico reach** and the near-zero score is a property of the sequence-only route
+used here rather than of the problem. ⛔ None of that is a positive control for paralogue-selectivity
+*detection* — that endpoint still has none, the recovery answers a **different and easier question** than
+our co-folds were asked (it is given each end's pocket; they were given sequence alone), and none of it may
+be read as softening the paragraph above.
 
 In-silico throughout; no molecule synthesized; broader indications (SI §S4) are **motivation, not
 demonstrated efficacy**. Therapeutic application to EMC (and AciCC) additionally **assumes NR4A3 dependence, which is not tested here**: the supporting prior (a transfer prior from fusion-addicted EWSR1/FET sarcomas; EMC-native evidence the fusion is a functional driver; a near-invariant clonal fusion in a quiet genome) and the **one decisive gap** (no loss-of-function experiment in any EMC model — the make-or-break dTAG test is delegated to the EMC-program paper), together with the systemic-lead safety/tolerability rationale and the pan-NR4A/CAR-T pole, are in **SI §S9** (safety in **SI §S6**, indications in **SI §S4**). This paper's claimed contribution is the target's **computational druggability/selectivity, not EMC efficacy**.

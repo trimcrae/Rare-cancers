@@ -73,8 +73,8 @@ data was read. `tests/test_selcal_deepternary_frame.py` fails on an unretired cl
 | Chain resolution | **done** — one copy of the E3, seeded from a single ligand instance |
 | Input prep (six files) | **done** |
 | Builder reproduces the published construction | **verified offline** — p1 33→33, p2 18→18 on `6HAX_B_A_FWZ`; re-checked in CI every run |
-| Positive control on the harness | **running** |
-| Selcal arms: prediction + scoring | **running** |
+| Positive control on the harness | **PASSES** — 6HAX_B_A_FWZ, 16/16 poses scored, best DockQ **0.6185** (Medium), median 0.4376, best iRMSD **1.21 Å**, by our own instruments |
+| Selcal arms: prediction + scoring | **DONE (one arm)** — 9DTY, 16/16 scored, best DockQ **0.8388** (**High**), median 0.4421, iRMSD **0.67 Å**, fnat **0.83** |
 
 The incumbent, read from `selcal-cofold-dockq.json`: our Boltz co-folds score DockQ **0.023–0.038** on this
 arm's target↔VHL interface, fnat 0.000.
@@ -92,6 +92,9 @@ rather than an error** — the pattern this whole session has been about.
 | **residue-name width** | **legacy PDB gives 3 columns; `A1BB5` truncated to `A1B`, so extraction found ZERO atoms — and `prep_control` still reported `ok: true`, because its contract tests file existence, not content** | **fixed — long CCD ids aliased to a short placeholder; extraction uses the alias, bond lookup keeps the real id; workflow asserts every `unbound_*` atom count is non-zero** |
 | return-tuple edit | landed on `fix_ligand_conect` instead of `emit_raw` | fixed — both verified by AST walk rather than another CI round |
 | **degrader frame** | **the ideal conformer is in an arbitrary frame, so the model's 1 Å proximity mask was empty** | **fixed — `selcal_deepternary_frame.py` builds the native-frame inputs the protocol requires** |
+| **DockQ.dockq_util** | **`predict_cpu.py` imports a module that exists in no published DockQ — not in its requirements.txt, not in the repo, and PyPI DockQ 2.1.3 ships `DockQ.DockQ`. The import sits OUTSIDE the try/except meant to tolerate a scoring failure, so it killed the run from inside the per-seed loop after the complex had been written** | **fixed — guarded, with a `nan` sentinel rather than 0.0, because a table of 0.0000 reads as "scored zero" when the truth is "not measured"** |
+| **CONECT raising bond order** | **the rebuilt unbound files carried CCD-sourced CONECT, and `MolFromPDBFile` bonds a real conformer by PROXIMITY as well — re-declaring an inferred bond raises its order rather than being a no-op, so sanitization failed and `get_lig_coords` returned None** | **fixed — those files are MOVED, not rebuilt: coordinates transformed in place, every other byte preserved. A rigid motion is an isometry, so readability is preserved by construction** |
+| **in-place truncation** | **the transform streamed `src` into `dest` while they are the same path, so opening the destination truncated the source and all four files went to zero atoms** | **fixed — source read in full first; an empty result raises. Caught by the readability check, not by the model** |
 | **predictions deleted** | **`cfg.tmp_dir` is a `TemporaryDirectory` and the script's last line is `cleanup()`, so every predicted complex was erased before our scorers ran — they would have recorded "no predictions" for a run that predicted fine** | **fixed — the directory is redirected to `dt/predictions/` and both scorers follow it** |
 
 ## Still binding
