@@ -1,0 +1,686 @@
+{
+ "_what": "THE $0 PRECHECK required before any pmx/GROMACS spend on the SMARCA2/4 selectivity contact. STRATEGY.md makes that spend 'conditional on a measured mutational value existing in a primary source, which is a $0 check that must precede any spend (Open decision 7)'. This artifact is that check.",
+ "_this_is_evidence_not_a_conclusion": "Every SKEMPI row is recomputed from the deposited Kd pair, never read off a remembered table cell. Every Europe PMC field is an API response or a verbatim sentence from an open-access full text. Nothing here is curated, averaged or interpreted; the verdict is a mechanical function of the two, printed beside them.",
+ "_decision_7": "STRATEGY Open decision 7 binds every future calibrator: 'no accuracy band wider than the signal being calibrated, and a stated null-rejection rate up front.' Both are checked below, and neither is waivable here.",
+ "target": {
+  "contact": "SMARCA2 Gln1469 side chain -> VCB (Arg of the VHL/ElonginC/ElonginB module)",
+  "published_claim": "Kofink et al. 2022, Nat Commun 13:5969, PMC9551036: 'the selectivity-inducing hydrogen bonding between Gln1469 of SMARCA2BD and VCB'",
+  "mutation_forward": "SMARCA2 Q1469L",
+  "mutation_reverse": "SMARCA4 L1545Q",
+  "structurally_recovered_as": "GLN98 OE1 -> ARG12 NH2 at 2.88 A on the SMARCA2 arm, LEU1545 on the aligned SMARCA4 position with no side-chain polar contact (selcal-interface-signature.json known_answer)",
+  "_the_number_is_not_the_identity": "the contact is identified by alignment and chemistry, never by the residue number, because a deposit numbers its construct however it likes (selcal_interface_signature.known_answer_check)"
+ },
+ "engine_band": {
+  "_source": "protfep-benchmark-result.json",
+  "near_null_replicate_sd_kcal": 0.1752201676466649,
+  "hot_spot_replicate_sd_kcal": 1.076902312975076,
+  "benchmark_effect_sizes_kcal": [
+   0.13,
+   3.4
+  ],
+  "qualification_tolerance_kcal": 1.5,
+  "_effect_size_dependent": true,
+  "_why_two_numbers": "between-replicate SD is effect-size dependent by ~6.2x across this engine's qualified set (hot spot vs near-null) while within-leg MBAR SEs are 0.05-0.13, so the scatter is setup/equilibration variance rather than sampling length. There is no single accuracy number and Open decision 7 forbids pretending there is one."
+ },
+ "caveat_that_must_travel_with_any_result": "pmx/GROMACS is demonstrated to SEE a large interface effect (barnase-barstar Y29A +4.42 +/- 1.08 vs a published +3.4) and demonstrated NOT to invent one (Y29F -0.370 +/- 0.175 vs -0.13). It is NOT demonstrated to resolve a paralogue-scale difference: no benchmark yet probes the ~1 kcal/mol regime, and between-replicate SD is 6.2x larger at hot-spot scale than at near-null scale. A pass on the hot spot therefore licenses no claim about paralogue-scale resolution.",
+ "skempi": {
+  "source": "https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+  "pdbs_queried": [
+   "6HAX",
+   "6HAY",
+   "6HR2",
+   "7Z6L",
+   "7Z76",
+   "7Z77",
+   "8G1P",
+   "8G1Q",
+   "9DTX",
+   "9DTY",
+   "9HYB",
+   "7S4E",
+   "6HAZ",
+   "7Z78",
+   "4QY4",
+   "5T35",
+   "1LM8",
+   "1LQB",
+   "4W9H"
+  ],
+  "name_substrings_queried": [
+   "smarca",
+   "brg1",
+   "brg-1",
+   "brahma",
+   "brm2",
+   "snf2",
+   "von hippel",
+   "vhl",
+   "elongin",
+   "cul2",
+   "rbx",
+   "bromodomain",
+   "brd4",
+   "brd2",
+   "brd3",
+   "bet family"
+  ],
+  "target_arm_names": [
+   "smarca",
+   "brg1",
+   "brg-1",
+   "brahma",
+   "brm2",
+   "snf2"
+  ],
+  "e3_arm_names": [
+   "von hippel",
+   "vhl",
+   "elongin",
+   "cul2",
+   "rbx"
+  ],
+  "n_rows_scanned": 7085,
+  "pdb_hits": [],
+  "name_hits_paired": [],
+  "name_leads": [
+   {
+    "pdb_entry": "4JGH_ABC_D",
+    "mutation_cell": "WD53A",
+    "protein_1": "SOCS2-Elongin BC complex",
+    "protein_2": "N-terminal fragment of Cullin5",
+    "kd_mut_M": "8.93E-07",
+    "kd_wt_M": "2.81E-08",
+    "temperature_k": 298.0,
+    "temperature_assumed": false,
+    "matched_by": "protein_name_lead",
+    "ddg_kcal": 2.048,
+    "matched_substrings": [
+     "elongin"
+    ]
+   }
+  ],
+  "errors": [],
+  "loaded": true,
+  "n_pdb_hits": 0,
+  "n_name_hits_paired": 0,
+  "n_name_leads": 1,
+  "name_lead_complexes": [
+   "4JGH_ABC_D | SOCS2-Elongin BC complex / N-terminal fragment of Cullin5"
+  ]
+ },
+ "europe_pmc": [
+  {
+   "tag": "Q1_residue_exact",
+   "why": "the exact published residue, by name and by number, in any full text",
+   "query": "(\"Gln1469\" OR \"Q1469\" OR \"Gln 1469\")",
+   "_source": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(\"Gln1469\" OR \"Q1469\" OR \"Gln 1469\")",
+   "n_hits": 8,
+   "records": [
+    {
+     "title": "US Supreme Court strikes down Sackler family's immunity, casting Purdue opioid settlement into doubt.",
+     "journal": "BMJ (Clinical research ed.)",
+     "year": "2024",
+     "doi": "10.1136/bmj.q1469",
+     "pmid": "38960610",
+     "pmcid": null,
+     "isOpenAccess": "N",
+     "abstract_mutational_spans": []
+    },
+    {
+     "title": "Interplay of PROTAC Complex Dynamics for Undruggable Targets: Insights into Ternary Complex Behavior and Linker Design.",
+     "journal": "ACS medicinal chemistry letters",
+     "year": "2024",
+     "doi": "10.1021/acsmedchemlett.4c00189",
+     "pmid": "39140051",
+     "pmcid": "PMC11317996",
+     "isOpenAccess": "N",
+     "abstract_mutational_spans": []
+    },
+    {
+     "title": "A selective and orally bioavailable VHL-recruiting PROTAC achieves SMARCA2 degradation in vivo.",
+     "journal": "Nature communications",
+     "year": "2022",
+     "doi": "10.1038/s41467-022-33430-6",
+     "pmid": "36216795",
+     "pmcid": "PMC9551036",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 91302,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "A two-faced selectivity solution to target SMARCA2 for cancer therapy.",
+     "journal": "Nature communications",
+     "year": "2023",
+     "doi": "10.1038/s41467-023-36238-0",
+     "pmid": "36720862",
+     "pmcid": "PMC9889305",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 13263,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "Emergence of two novel viruses in Tibetan pigs with porcine diarrheal disease on the Tibetan plateau of southwest China.",
+     "journal": "Frontiers in veterinary science",
+     "year": "2025",
+     "doi": "10.3389/fvets.2025.1654388",
+     "pmid": "40969343",
+     "pmcid": "PMC12440765",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 49641,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "Genomic landscape of pathogenic mutation of APC, KRAS, TP53, PIK3CA, and MLH1 in Indonesian colorectal cancer.",
+     "journal": "PloS one",
+     "year": "2022",
+     "doi": "10.1371/journal.pone.0267090",
+     "pmid": "35709138",
+     "pmcid": "PMC9202917",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 59754,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "Structure of CRL7<sup>FBXW8</sup> reveals coupling with CUL1-RBX1/ROC1 for multi-cullin-RING E3-catalyzed ubiquitin ligation.",
+     "journal": "Nature structural & molecular biology",
+     "year": "2022",
+     "doi": "10.1038/s41594-022-00815-6",
+     "pmid": "35982156",
+     "pmcid": "PMC9507964",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 78707,
+     "fulltext_mutational_spans": [
+      "Although missense mutations map throughout the structure, several do map to interprotein interfaces in CRL7 FBXW8 , including with FBXW8 (P861S in the DOC domain, and Q1246G in the 4HB) and RBX1 (W1448R, G1452D, H1464P, Q1469R in the \u03b1/\u03b2-domain), as well as the interdomain interface between the CR2 and CR3 domains (L1014R) (Extended Data Fig.",
+      "Neddylation of CUL1\u2013RBX1 was carried out in 25 mM HEPES pH 7.5, 150 mM NaCl, 2.5 mM MgCl, 1.5 mM ATP, with 0.04\u00d7 NAE1-UBA3 and UBE2M, 2.5\u00d7 NEDD8 (wild-type or Q40E mutant) for 5 h at 4 \u00b0C.",
+      "Pulse of a E2 loaded ubiquitin (E2~UB) was generated by incubating 10 \u03bcM E2 with 10 \u03bcM fluorescein-labeled K48R ubiquitin in the presence of 0.2 \u03bcM UBA1 in a buffer containing 50 mM HEPES, pH 7.5, 50 mM NaCl, 5 mM MgCl 2 and 5 mM ATP."
+     ]
+    },
+    {
+     "title": "Discovery of small molecule ligands for the von Hippel-Lindau (VHL) E3 ligase and their use as inhibitors and PROTAC degraders.",
+     "journal": "Chemical Society reviews",
+     "year": "2022",
+     "doi": "10.1039/d2cs00387b",
+     "pmid": "35983982",
+     "pmcid": "PMC9528729",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 197521,
+     "fulltext_mutational_spans": [
+      "They utilised Brd4 BD2 as the tag bromodomain, by mutating Leu387 of Brd4 BD2 to Ala (Brd4 BD2 L387A , referred to as the BromoTag) and derivatised the PROTAC molecule MZ1, by introducing an ethyl group in \u03b1-position to the carbonyl functionality of the BET ligand, generating the \u201cbumped\u201d PROTAC AGB1 (117, Fig."
+     ]
+    }
+   ],
+   "error": null
+  },
+  {
+   "tag": "Q2_residue_smarca4_side",
+   "why": "the aligned SMARCA4 residue, in case the mutation was made on the other arm",
+   "query": "(\"Leu1545\" OR \"L1545\" OR \"Leu 1545\") AND (SMARCA4 OR BRG1)",
+   "_source": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(\"Leu1545\" OR \"L1545\" OR \"Leu 1545\") AND (SMARCA4 OR BRG1)",
+   "n_hits": 3,
+   "records": [
+    {
+     "title": "Interplay of PROTAC Complex Dynamics for Undruggable Targets: Insights into Ternary Complex Behavior and Linker Design.",
+     "journal": "ACS medicinal chemistry letters",
+     "year": "2024",
+     "doi": "10.1021/acsmedchemlett.4c00189",
+     "pmid": "39140051",
+     "pmcid": "PMC11317996",
+     "isOpenAccess": "N",
+     "abstract_mutational_spans": []
+    },
+    {
+     "title": "Binding specificity and function of the SWI/SNF subunit SMARCA4 bromodomain interaction with acetylated histone H3K14.",
+     "journal": "The Journal of biological chemistry",
+     "year": "2021",
+     "doi": "10.1016/j.jbc.2021.101145",
+     "pmid": "34473995",
+     "pmcid": "PMC8506967",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 80505,
+     "fulltext_mutational_spans": [
+      "Site-directed mutations of Tyr1220Ala or Asn1263Ala in the Ce SMARCA4 BD independently abolish binding to H3 N-terminal tails in vitro , as confirmed by ITC ( Fig."
+     ]
+    },
+    {
+     "title": "A selective and orally bioavailable VHL-recruiting PROTAC achieves SMARCA2 degradation in vivo.",
+     "journal": "Nature communications",
+     "year": "2022",
+     "doi": "10.1038/s41467-022-33430-6",
+     "pmid": "36216795",
+     "pmcid": "PMC9551036",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 91302,
+     "fulltext_mutational_spans": []
+    }
+   ],
+   "error": null
+  },
+  {
+   "tag": "Q3_smarca_mutant_binding",
+   "why": "any SMARCA2/4 bromodomain point mutant with a measured affinity to the E3 or a PROTAC",
+   "query": "(SMARCA2 AND (mutant OR mutation OR mutagenesis) AND (SPR OR \"surface plasmon resonance\" OR ITC OR \"isothermal titration\" OR \"K D\" OR Kd) AND (VHL OR PROTAC OR ternary))",
+   "_source": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(SMARCA2 AND (mutant OR mutation OR mutagenesis) AND (SPR OR \"surface plasmon resonance\" OR ITC OR \"isothermal titration\" OR \"K D\" OR Kd) AND (VHL OR PROTAC OR ternary))",
+   "n_hits": 8,
+   "records": [
+    {
+     "title": "&lt;i&gt;N&lt;/i&gt;\u2011Iminopyridinium Ylides as Chemically Stable Pharmacophores Enabling Targeted Degradation of SMARCA Proteins.",
+     "journal": "JACS Au",
+     "year": "2026",
+     "doi": "10.1021/jacsau.6c00022",
+     "pmid": "42063845",
+     "pmcid": "PMC13126199",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [
+      "Building on this scaffold, PROTAC <b>14</b> induced robust degradation of SMARCA2 and PBRM1 in SMARCA4 mutant cancer cells, suppressed cell proliferation, displayed favorable pharmacokinetics in rodents, and achieved significant antitumor efficacy in a xenograft model."
+     ],
+     "fulltext_chars": 58672,
+     "fulltext_mutational_spans": [
+      "Building on this scaffold, PROTAC 14 induced robust degradation of SMARCA2 and PBRM1 in SMARCA4 mutant cancer cells, suppressed cell proliferation, displayed favorable pharmacokinetics in rodents, and achieved significant antitumor efficacy in a xenograft model.",
+      "In another SMARCA4 wild-type NSCLC cell line, SW1573, 10 selectively degraded SMARCA2 with a DC 50 value of 15.8 nM, whereas its DC 50 for SMARCA4 was 414.7 nM, corresponding to 26-fold selectivity ( Figure S12A,B )."
+     ]
+    },
+    {
+     "title": "Allosteric PROTACs: Expanding the Horizon of Targeted Protein Degradation.",
+     "journal": "Journal of the American Chemical Society",
+     "year": "2026",
+     "doi": "10.1021/jacs.5c14840",
+     "pmid": "41530095",
+     "pmcid": "PMC12856895",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 75541,
+     "fulltext_mutational_spans": [
+      "A library of 2.5 million compounds was screened using a biochemical assay with purified EGFR (L858R/T790M) and 1 mM ATP, counter screening active compounds with 1 mM ATP and against wild type EGFR to identify compounds that were both non-ATP competitive and selective over the wild type EGFR.",
+      "This screen identified a hit compound EAI001 which was optimized to EAI045, a 3 nM L858R/T790M mutant inhibitor with approximately 1000-fold selectivity over wild-type EGFR."
+     ]
+    },
+    {
+     "title": "Targeted Protein Degradation for Agricultural Applications: Rationale, Challenges, and Outlook.",
+     "journal": "ACS bio & med chem Au",
+     "year": "2025",
+     "doi": "10.1021/acsbiomedchemau.5c00111",
+     "pmid": "41112200",
+     "pmcid": "PMC12531867",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 84664,
+     "fulltext_mutational_spans": [
+      ", This suggests that a significant loss in binding affinity\ue5f8such as a 100-fold reduction due to a resistance mutation\ue5f8does not necessarily prevent PROTAC-mediated degradation."
+     ]
+    },
+    {
+     "title": "A patent review of von Hippel-Lindau (VHL)-recruiting chemical matter: E3 ligase ligands for PROTACs and targeted protein degradation (2019-present).",
+     "journal": "Expert opinion on therapeutic patents",
+     "year": "2025",
+     "doi": "10.1080/13543776.2024.2446232",
+     "pmid": "39834300",
+     "pmcid": "PMC11875441",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 108094,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "Computational Modeling of PROTAC Ternary Complexes as Ensembles Using SILCS-xTAC.",
+     "journal": "Journal of chemical information and modeling",
+     "year": "2026",
+     "doi": "10.1021/acs.jcim.5c02045",
+     "pmid": "41416887",
+     "pmcid": "PMC12764353",
+     "isOpenAccess": "N",
+     "abstract_mutational_spans": []
+    },
+    {
+     "title": "Rational design of potent small-molecule SMARCA2/A4 degraders acting via the recruitment of FBXO22.",
+     "journal": "Nature communications",
+     "year": "2025",
+     "doi": "10.1038/s41467-025-64669-4",
+     "pmid": "41184243",
+     "pmcid": "PMC12583737",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 94949,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "High-Affinity Peptide-Drug Conjugate Ligands for the TRIM24 PHD and Bromodomain.",
+     "journal": "Chemistry (Weinheim an der Bergstrasse, Germany)",
+     "year": "2025",
+     "doi": "10.1002/chem.202503011",
+     "pmid": "41243558",
+     "pmcid": "PMC12731528",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 52065,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "PROTAC-based protein degradation: a window of opportunity for melanoma therapy.",
+     "journal": "Journal of biomedical science",
+     "year": "2026",
+     "doi": "10.1186/s12929-026-01225-2",
+     "pmid": "41761284",
+     "pmcid": "PMC12949513",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 240146,
+     "fulltext_mutational_spans": [
+      "Kreger BT Liang Y Reilly NM Spears ME Scott WA Simard JR CFT1946 is an orally available brain-penetrant BRAFV600-mutant degrader that overcomes BRAF inhibitor resistance Cancer Res 2026 86 438 52 10.1158/0008-5472.CAN-25-1301 41150906 Kreger BT, Liang Y, Reilly NM, Spears ME, Scott WA, Simard JR, et al."
+     ]
+    }
+   ],
+   "error": null
+  },
+  {
+   "tag": "Q4_ternary_interface_mutagenesis",
+   "why": "mutational thermodynamics anywhere on a VHL PROTAC-induced neo-interface",
+   "query": "((PROTAC OR \"degrader\") AND ternary AND (VHL OR \"von Hippel\") AND (\"point mutation\" OR mutagenesis OR \"alanine scan\" OR \"alanine scanning\") AND (cooperativity OR Kd OR \"K D\" OR affinity))",
+   "_source": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=((PROTAC OR \"degrader\") AND ternary AND (VHL OR \"von Hippel\") AND (\"point mutation\" OR mutagenesis OR \"alanine scan\" OR \"alanine scanning\") AND (cooperativity OR Kd OR \"K D\" OR affinity))",
+   "n_hits": 8,
+   "records": [
+    {
+     "title": "Targeted Protein Degradation in Cancer: PROTACs, New Targets, and Clinical Mechanisms",
+     "journal": "Biomolecules",
+     "year": "2026",
+     "doi": null,
+     "pmid": null,
+     "pmcid": "PMC12937832",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 145089,
+     "fulltext_mutational_spans": [
+      "for example, LC-2 is a KRAS(G12C)-targeting PROTAC based on the MRTX849 (adagrasib) scaffold linked to a VHL ligand.",
+      "Stabilizing the misfolded mutant protein with chaperones like HSP70 is a key challenge.",
+      "The SAR demonstrates that PROTAC\u2019s efficacy is dependent on the specific p53 binding moiety, with certain scaffolds preferentially engaging and degrading mutant over wild-type p53.",
+      "[ 177 ] Mutant Tumor Suppressor p53(R175H) Misfolded, stabilized by chaperones Small-molecule stabilizers/binders Specific scaffolds favor mutant over wild-type p53 degradation."
+     ]
+    },
+    {
+     "title": "Exploring Novel E3 Ligases and Neosubstrates for Molecular Glue Degraders and Therapeutic Applications in Cancer.",
+     "journal": "Oncology research",
+     "year": "2026",
+     "doi": "10.32604/or.2026.073660",
+     "pmid": "42220438",
+     "pmcid": "PMC13220090",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 198957,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "Chemically-induced degradation of the endoplasmic-reticulum stress sensor IRE1 by a VHL-recruiting chimera.",
+     "journal": "Nature communications",
+     "year": "2025",
+     "doi": "10.1038/s41467-025-66382-8",
+     "pmid": "41381506",
+     "pmcid": "PMC12749748",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 107316,
+     "fulltext_mutational_spans": [
+      "g IP-IB analysis of IRE1 from HEK293T cells ectopically expressing IRE1 WT versus H579A, with or without G6374 (0.3 \u00b5M, 2 h), for K48-linked ubiquitination.",
+      "IP-IB analysis of WT versus E621A, E836A double-mutant IRE1, with or without G6374 (0.3 \u00b5M, 2 h) for K48-linked polyubiquitination (middle) with K48-linked ubiquitination signal normalized to their IRE1 IP signal (right; WT data was the same as in Fig."
+     ]
+    },
+    {
+     "title": "Fulfilling multiple roles in PROTAC design: The emerging potential of oligonucleotides.",
+     "journal": "European journal of medicinal chemistry",
+     "year": "2026",
+     "doi": "10.1016/j.ejmech.2026.118688",
+     "pmid": "41713321",
+     "pmcid": "PMC7619143",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 112340,
+     "fulltext_mutational_spans": [
+      "p53m-DA showed significantly improved serum stability and a higher affinity for p53-R175H, with a dissociation constant ( K d ) of 0.29 \u03bcM."
+     ]
+    },
+    {
+     "title": "Small-molecule degraders for oncogenic KRAS&lt;sup&gt;G12C&lt;/sup&gt; and pan-KRAS mutations.",
+     "journal": "Nature communications",
+     "year": "2026",
+     "doi": "10.1038/s41467-026-71093-9",
+     "pmid": "41888140",
+     "pmcid": "PMC13183928",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [
+      "Here, we report DJX-A-KM, a small-molecule degrader of KRAS<sup>G12C</sup>, designed by incorporating an acrylamide warhead into the MRTX849 scaffold."
+     ],
+     "fulltext_chars": 71652,
+     "fulltext_mutational_spans": [
+      "Here, we report DJX-A-KM, a small-molecule degrader of KRAS G12C , designed by incorporating an acrylamide warhead into the MRTX849 scaffold.",
+      "In this work, by introducing diverse electrophilic warheads into the covalent-targeting MRTX849 scaffold, we identify a KRAS G12C degrader, DJX-A-KM , which demonstrates robust, rapid, and sustained degradation capability of KRAS G12C both in vitro and in vivo.",
+      "b Testing MRTX849 analogs in NCI-H23 cells to identify compounds that reduce KRAS G12C levels in 40 nM.",
+      "NCI-H23 cells were treated with DMSO vehicle or DJX-A-KR (40 nM) for 8 h, and KRAS G12C and loading control Actin levels were assessed by Western blotting.",
+      "d Testing degrader analogs in NCI-H23 cells to identify compounds that reduce KRAS G12C levels in 20 nM.",
+      "e Structures of degrader analogs of different length of linker and testing these degraders analogs in NCI-H23 cells to identify compounds that reduce KRAS G12C levels in 10 nM.",
+      "Notably, DJX-A-KM which uses acrylamide as the covalent warhead for potential E3 ligase recruitment showed robust activity, achieving ~90% KRAS G12C degradation after 8 h of treatment at 40 nM.",
+      "Comparative evaluation of these analogs alongside DJX-A-KM at a lower concentration (20 nM) revealed that both increases and decreases in electrophilicity compromised KRAS G12C degradation efficiency to varying degrees, with DJX-A-KM remaining the most potent, achieving ~80% degradation (Fig.",
+      "DJX-A-KM , in particular, covalently modified nearly all KRAS G12C proteins at 20 nM and induced near-complete degradation of the modified species (Fig.",
+      "The high degradation efficiency of DJX-A-KM likely results from the simple acrylamide warhead, which possesses moderate electrophilicity and minimal steric hindrance, preserving the MRTX849 scaffold\u2019s binding to KRAS G12C while facilitating effective recruitment of degradation machinery.",
+      "Concentration-dependent studies showed both lead compounds achieved potent KRAS G12C degradation in NCI-H23 cells (DC\u2085\u2080 = 2 nM), with DJX-A-KM demonstrating superior maximum degradation ( D max = 98% vs.",
+      "NCI-H23 cells were pretreated with DJX-A-KM at 40 nM for 8 h, then washed with PBS three times, and harvested at the indicated 72 h time course, KRAS G12C and loading control Actin levels were assessed by Western blotting.",
+      "Transfection of this mutant into NCI-H23 cells, followed by treatment with DJX-A-KM (50 nM) for 8 h, showed that the C98A mutation markedly abolished DJX-A-KM \u2013induced KRAS G12C degradation.",
+      "b NCI-H23 cells were pretreated with DJX-A-KM (40 nM) or MRTX849 (100 nM) for 8 h, then washed with PBS three times, and harvested at the indicated 8-48 h time course, KRAS G12C and p-ERK levels were assessed by Western blotting.",
+      "KRAS G12C _GDP exchange assay Compounds were diluted to 10 \u03bcM, and the dilution solution as the first point, a 3-fold dilution, and 10 points."
+     ]
+    },
+    {
+     "title": "Clues for glues: from serendipity to nature's blueprints in degrader discovery.",
+     "journal": "Essays in biochemistry",
+     "year": "2025",
+     "doi": "10.1042/ebc20253058",
+     "pmid": "41452132",
+     "pmcid": "PMC12794332",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 64473,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "Advances in molecular glue degraders for targeted protein degradation: Focus on NEK7, WEE1, CDK2, GSPT1 and VAV1.",
+     "journal": "Asian journal of pharmaceutical sciences",
+     "year": "2026",
+     "doi": "10.1016/j.ajps.2026.101125",
+     "pmid": "41810469",
+     "pmcid": "PMC12905989",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 59293,
+     "fulltext_mutational_spans": [
+      "This mechanism is particularly relevant in polypharmacy and multi-target treatment paradigms, where MGs offer three major benefits: (1) Targeting plasticity: MGs enable degradation of structurally flat or disordered protein regions inaccessible to conventional inhibitors; (2) Signal pathway modulation: simultaneous degradation of non-enzymatic scaffold proteins can disrupt entire oncogenic signaling cascades; (3) Resistance mitigation: by eliminating target proteins rather than inhibiting them, MGs reduce the risk of mutation-driven resistance commonly associated with kinase inhibitors."
+     ]
+    },
+    {
+     "title": "Targeting \"undruggable\" cancer proteins: pharmacological challenges and emerging strategies.",
+     "journal": "Translational cancer research",
+     "year": "2026",
+     "doi": "10.21037/tcr-2025-1-2830",
+     "pmid": "42180980",
+     "pmcid": "PMC13191032",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 237315,
+     "fulltext_mutational_spans": []
+    }
+   ],
+   "error": null
+  },
+  {
+   "tag": "Q5_selectivity_mechanism_source",
+   "why": "the source of the selectivity claim itself, re-fetched rather than remembered",
+   "query": "TITLE:\"A selective and orally bioavailable VHL-recruiting PROTAC achieves SMARCA2 degradation in vivo\"",
+   "_source": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE:\"A selective and orally bioavailable VHL-recruiting PROTAC achieves SMARCA2 degradation in vivo\"",
+   "n_hits": 1,
+   "records": [
+    {
+     "title": "A selective and orally bioavailable VHL-recruiting PROTAC achieves SMARCA2 degradation in vivo.",
+     "journal": "Nature communications",
+     "year": "2022",
+     "doi": "10.1038/s41467-022-33430-6",
+     "pmid": "36216795",
+     "pmcid": "PMC9551036",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 91302,
+     "fulltext_mutational_spans": []
+    }
+   ],
+   "error": null
+  },
+  {
+   "tag": "Q6_smarca_swap_mutant",
+   "why": "a paralogue-swap construct is the most likely form such a measurement would take",
+   "query": "(SMARCA2 AND SMARCA4 AND (chimera OR \"swap mutant\" OR \"gain of function mutant\" OR \"reciprocal mutation\") AND (degradation OR ternary OR binding))",
+   "_source": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=(SMARCA2 AND SMARCA4 AND (chimera OR \"swap mutant\" OR \"gain of function mutant\" OR \"reciprocal mutation\") AND (degradation OR ternary OR binding))",
+   "n_hits": 8,
+   "records": [
+    {
+     "title": "Discovery of SMD-6346: A Potent, Selective, and Orally Active SMARCA2 Degrader for Targeting SMARCA4-Deficient Human Cancers.",
+     "journal": "Journal of medicinal chemistry",
+     "year": "2026",
+     "doi": "10.1021/acs.jmedchem.6c01093",
+     "pmid": "42334193",
+     "pmcid": null,
+     "isOpenAccess": "N",
+     "abstract_mutational_spans": []
+    },
+    {
+     "title": "Design, synthesis and pharmacological evaluation of new SMARCA2 degraders bearing a furo[3,2-c]pyridazine scaffold.",
+     "journal": "European journal of medicinal chemistry",
+     "year": "2026",
+     "doi": "10.1016/j.ejmech.2026.118675",
+     "pmid": "41734590",
+     "pmcid": null,
+     "isOpenAccess": "N",
+     "abstract_mutational_spans": []
+    },
+    {
+     "title": "A Double-Negative Prostate Cancer Subtype Is Vulnerable to SWI/SNF-Targeting Degrader Molecules.",
+     "journal": "Cancer research",
+     "year": "2026",
+     "doi": "10.1158/0008-5472.can-25-2928",
+     "pmid": "41534092",
+     "pmcid": "PMC13044530",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 100790,
+     "fulltext_mutational_spans": [
+      "Resistance to ARSi therapy manifests in manifold ways (e.g., AR gene mutation, amplification, and enhancer amplification), and a subset acquires epigenetic rewiring toward AR-negative phenotypes ( 7 )."
+     ]
+    },
+    {
+     "title": "Computational Modeling of PROTAC Ternary Complexes as Ensembles Using SILCS-xTAC.",
+     "journal": "Journal of chemical information and modeling",
+     "year": "2026",
+     "doi": "10.1021/acs.jcim.5c02045",
+     "pmid": "41416887",
+     "pmcid": "PMC12764353",
+     "isOpenAccess": "N",
+     "abstract_mutational_spans": []
+    },
+    {
+     "title": "Allosteric PROTACs: Expanding the Horizon of Targeted Protein Degradation.",
+     "journal": "Journal of the American Chemical Society",
+     "year": "2026",
+     "doi": "10.1021/jacs.5c14840",
+     "pmid": "41530095",
+     "pmcid": "PMC12856895",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 75541,
+     "fulltext_mutational_spans": [
+      "A library of 2.5 million compounds was screened using a biochemical assay with purified EGFR (L858R/T790M) and 1 mM ATP, counter screening active compounds with 1 mM ATP and against wild type EGFR to identify compounds that were both non-ATP competitive and selective over the wild type EGFR.",
+      "This screen identified a hit compound EAI001 which was optimized to EAI045, a 3 nM L858R/T790M mutant inhibitor with approximately 1000-fold selectivity over wild-type EGFR."
+     ]
+    },
+    {
+     "title": "AI-Based Prediction of PROTAC- and Molecular Glue-Mediated Ternary Complexes: A Comparative Evaluation of AlphaFold 3 and Boltz-2.",
+     "journal": "Archiv der Pharmazie",
+     "year": "2026",
+     "doi": "10.1002/ardp.70225",
+     "pmid": "41831109",
+     "pmcid": "PMC12988791",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 43528,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "Implications for clinical prognosis and target discovery of the SWI/SNF complex in genitourinary tumors.",
+     "journal": "Discover oncology",
+     "year": "2026",
+     "doi": "10.1007/s12672-026-04780-0",
+     "pmid": "41814084",
+     "pmcid": "PMC13096368",
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": [],
+     "fulltext_chars": 59180,
+     "fulltext_mutational_spans": []
+    },
+    {
+     "title": "Dual E3 ligase recruitment by monovalent degraders enables redundant and tuneable degradation of SMARCA2/4",
+     "journal": null,
+     "year": "2025",
+     "doi": "10.1101/2025.08.04.668513",
+     "pmid": null,
+     "pmcid": null,
+     "isOpenAccess": "Y",
+     "abstract_mutational_spans": []
+    }
+   ],
+   "error": null
+  }
+ ],
+ "verdict": {
+  "decision": "STOP_NO_REFERENCE",
+  "gates": {
+   "G1_measured_primary_source": {
+    "requirement": "a binding ddG (or a Kd pair it is computable from) for a single point mutation at this interface, reported as a MEASUREMENT in a primary source",
+    "skempi_on_interface_records": 0,
+    "skempi_records_with_computable_ddg": 0,
+    "skempi_offinterface_name_leads": 1,
+    "epmc_candidate_sentences": 39,
+    "met": false,
+    "_what_counts": "a record keyed to a deposited entry of this interface, or one whose two named partners ARE the two arms of it (target-side SMARCA/BRG/BRM against E3-side VHL/Elongin/Cul2). A single-substring name match elsewhere in the database is a LEAD and is reported in name_leads, never counted here.",
+    "_why_spans_alone_do_not_meet_it": "a quoted sentence is a lead, not a value. It meets G1 only after a human transcribes a specific number from it with the quote attached, which is the standing rule (selcal_reference_selectivity, extract_smarca2_ic50). Candidate sentences are emitted so that transcription is possible; the gate does not perform it."
+   },
+   "G2_signal_exceeds_band": {
+    "requirement": "Open decision 7: no accuracy band wider than the signal being calibrated. |ddG_ref| must exceed the engine's demonstrated band at that effect size.",
+    "engine_band_kcal": {
+     "_source": "protfep-benchmark-result.json",
+     "near_null_replicate_sd_kcal": 0.1752201676466649,
+     "hot_spot_replicate_sd_kcal": 1.076902312975076,
+     "benchmark_effect_sizes_kcal": [
+      0.13,
+      3.4
+     ],
+     "qualification_tolerance_kcal": 1.5,
+     "_effect_size_dependent": true,
+     "_why_two_numbers": "between-replicate SD is effect-size dependent by ~6.2x across this engine's qualified set (hot spot vs near-null) while within-leg MBAR SEs are 0.05-0.13, so the scatter is setup/equilibration variance rather than sampling length. There is no single accuracy number and Open decision 7 forbids pretending there is one."
+    },
+    "largest_measured_ddg_found_kcal": null,
+    "met": false,
+    "_the_hard_case": "a paralogue-scale difference is expected around ~1 kcal/mol, which is BELOW the engine's 1.5 kcal/mol qualification tolerance and inside its hot-spot replicate SD of 1.077. So even a real measured value at that size FAILS this gate until a wedge-sized benchmark exists. That is the gate working, not the gate being pedantic."
+   },
+   "G3_null_rejection_stated_up_front": {
+    "requirement": "what result would count as a refutation, written down before any spend",
+    "statement": "A pmx leg set on this mutation REFUTES the single-hydrogen-bond reading of SMARCA2/4 selectivity if the computed |ddG| is below the engine's near-null replicate SD (0.175 kcal/mol) at n>=3 with replicate-SD error bars -- i.e. the mutation is indistinguishable from the Y29F near-null control. It SUPPORTS it only if the computed ddG exceeds the measured reference by less than the qualification tolerance AND has the same sign. Any outcome between those is reported as UNRESOLVED, never as partial support.",
+    "met": true,
+    "_but": "stating a rejection rule does not manufacture the reference value G1 needs. G3 is necessary and nowhere near sufficient."
+   }
+  },
+  "sentence": "STOP -- NO MEASURED REFERENCE EXISTS. Both instruments read cleanly (7085 SKEMPI rows scanned across 19 deposited entries and 16 protein-name patterns; 6 of 6 Europe PMC queries completed) and neither yields a measured binding ddG for a single point mutation at the SMARCA2/SMARCA4 - VCB interface (1 off-interface name LEADS were found and are listed for reading; a lead is not a value). The selectivity contact is documented STRUCTURALLY (a hydrogen bond seen in a crystal) and FUNCTIONALLY (cellular degradation DC50 ratios); neither is a measured interface mutational ddG, and converting a DC50 ratio into one would fabricate the quantitative link this program does not have. A pmx run here would therefore have NO known answer to be scored against -- it would be an experiment wearing a control's costume, which is the exact defect that cost this program three withdrawn selectivity claims. SPEND NOTHING.",
+  "epmc_queries_that_failed": [],
+  "caveat_that_must_travel_with_any_result": "pmx/GROMACS is demonstrated to SEE a large interface effect (barnase-barstar Y29A +4.42 +/- 1.08 vs a published +3.4) and demonstrated NOT to invent one (Y29F -0.370 +/- 0.175 vs -0.13). It is NOT demonstrated to resolve a paralogue-scale difference: no benchmark yet probes the ~1 kcal/mol regime, and between-replicate SD is 6.2x larger at hot-spot scale than at near-null scale. A pass on the hot spot therefore licenses no claim about paralogue-scale resolution."
+ }
+}
