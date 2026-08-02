@@ -1767,12 +1767,58 @@ paralogue is spared**, because real degraders often ubiquitinate several lysines
 can still be degraded through N-terminal, Ser, Thr or Cys ubiquitination. The models are LBD-only, so hinge,
 DBD and fusion-partner lysines are absent. The synthetic annotations are **routes, not validated syntheses** —
 building-block availability was not checked against a live commercial catalogue and no step was attempted.
-And the **causal test has not been run**: the preregistered matched-pair experiment that would ask whether a
-designed element *creates* discrimination is designed and priced but unexecuted, and its semantics are fixed
-in advance in §5. Under the language this paper holds itself to, the deliverable of this stage is *a
+And the **causal test has now been run, and returned its preregistered null**: the matched-pair experiment
+asking whether a designed element *creates* discrimination gives **S = −0.1297 ± 0.3264 kcal/mol** (§2.10e),
+i.e. indistinguishable from zero — the outcome §5(b) fixed in advance as the *likely* one. It does not add a
+selectivity claim and it does not remove one. Under the language this paper holds itself to, the deliverable
+of this stage is *a
 computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis
 and experimental testing* — not a hit, not a selective degrader, and no statement about efficacy, safety, a
 therapeutic window, or clinical readiness.
+
+### 2.10e The causal matched-pair test returns its preregistered null: a one-atom designed wedge creates no resolvable paralogue discrimination
+
+**What was asked, and why this one experiment.** Everything in §2.10 is a *prediction* that designed elements
+should discriminate. The matched-pair double difference is the only test in this program that asks whether a
+designed element **causes** discrimination rather than being nominated by a model that already assumes it.
+The pair `d0 → d` differs by **one atom** — an aromatic C–H becomes N (phenyl → 3-pyridyl) — on a wedge aimed
+at **T407**, which is Leu in NR4A1 and Val in NR4A2, so the hydrogen-bond donor NR4A3 presents is absent in
+*both* paralogues. The statistic is
+`S = ΔG_tern(NR4A3) − ΔG_tern(NR4A1)`, in which the binary and solvent legs cancel algebraically; its sign
+convention and all three readings were fixed in advance in §5(b).
+
+**Result:** **S = −0.1297 ± 0.3264 kcal/mol** (replicate SD over n = 2 independent seeds per arm; NR4A3 mean
+−10.9439 ± 0.2354, NR4A1 mean −10.8142 ± 0.2261; the one home of every figure is
+[`../modalities/nr4a3-5aks-reduction.json`](../modalities/nr4a3-5aks-reduction.json)). The magnitude is
+**2.5× smaller than its own uncertainty**, so *S* is indistinguishable from zero. Per the preregistered
+reading this is **"the marginal wedge is absent"** — registered explicitly as the **likely** outcome and as
+**not a stop**, because the design's paralogue claim rests on the *categorical* axis (§2.10a–c) rather than
+on this marginal one.
+
+⚠ **The honest positive content of the null is a BOUND, not a zero.** At this error the design could only
+have resolved a wedge contribution of roughly **|S| ≳ 0.65 kcal/mol** (2σ); it did not, so the measurement
+bounds the designed wedge's contribution below about that, and says nothing about smaller effects. The error
+quoted is the **replicate SD**, not the MBAR standard error — the latter is ~0.08 kcal/mol per arm, roughly
+three-fold smaller, and quoting it would understate the uncertainty by exactly the factor this program's
+error-bar standard exists to prevent.
+
+**Staging was verified rather than assumed, because a specific defect would counterfeit this result.** A
+one-chain "ternary" leg is a binary leg nobody labelled, and it would also return *S* ≈ 0 — indistinguishable
+from the preregistered null. Both arms were therefore checked against their committed staging manifests and
+are **identically composed**: chains `A` (254 residues, the NR4A paralogue LBD) and `B` (442 residues, the
+CRBN E3 machinery) plus the PROTAC in chain `L`, with `protocol_hash`, `charge_method`, `setup_cache_version`
+and `n_windows` all agreeing across the four legs.
+
+**Three limits, each of which could hide a real effect.** *(i)* The reducer flags `n_particles` as disagreeing
+across the arms — NR4A1 ≈ 210k against NR4A3 ≈ 148k. Composition is identical, so this is the **solvated box**,
+not the molecular system; but it means any size-dependent systematic does **not** cancel between the arms,
+which is the one thing a double difference is otherwise supposed to buy. *(ii)* The starting geometry is a
+**Boltz-2 prediction** of each ternary complex, not a crystal structure, so *S* is conditional on those poses.
+*(iii)* ⛔ **The instrument that produced this number has a failed calibrator.** §2.11's known-answer ternary
+cooperativity benchmark misses with the **wrong sign**, systematically. An uncalibrated instrument returning
+zero cannot distinguish *"there is no wedge effect"* from *"this method cannot resolve the wedge effect"*, and
+this result is not reported as though it could. It is a null from a method whose ability to see the thing it
+looked for is unestablished — which is a weaker statement than a null, and is the one supported.
 
 ### 2.11 The preregistered known-answer ternary-cooperativity benchmark misses, with the wrong sign, and the miss is systematic rather than statistical
 
@@ -2503,9 +2549,12 @@ weight, with the following caveats made explicit rather than buried:
    chosen receptor frame, and no cmpd19 pose exists in the matched-model frame — which is why the warhead exit
    vector is marginalised over a pose ensemble rather than asserted, and why the pose-surviving fraction is
    reported per basin. Sequence-level uniqueness of C397 and the lysines is pose-independent; the *reach*
-   estimates are not. *(d) The causal test has not been run.* No result in §2.10 shows that any designed
-   element **creates** discrimination; the matched-pair experiment that would ask is designed, priced and
-   unexecuted, and its reading is fixed in advance in §5. Everything in §2.10 is accordingly a set of
+   estimates are not. *(d) The causal test has been run and is NULL.* No result in §2.10 shows that any
+   designed element **creates** discrimination, and the matched-pair experiment that asks directly now
+   returns **S = −0.1297 ± 0.3264 kcal/mol** — indistinguishable from zero (§2.10e). This retires the earlier
+   form of this limitation ("the causal test has not been run") without weakening it: the claim that a
+   designed element creates discrimination remains unsupported, and is now unsupported *by measurement*
+   rather than by absence. Everything in §2.10 is accordingly a set of
    **predicted selective candidates** — *a computationally prioritized, structure-defined, retrosynthetically
    annotated candidate matrix for synthesis and experimental testing* — with the synthetic annotations being
    **routes, not validated syntheses** (no building-block availability was checked against a live commercial

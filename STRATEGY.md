@@ -265,6 +265,50 @@ superposed into the NR4A3 reference frame, carrying a per-frame core-fit residua
 
 ---
 
+## ✅ RUNG 5a-KS LANDED — the causal kill-switch returns its **preregistered null**, S = −0.13 ± 0.33 kcal/mol (2026-08-02 2:15 AM ET)
+
+**Headline in the required form: a DELIVERABLE done — the paper's own stated limit *"the causal test has not
+been run"* is retired — and the gate returns the outcome it registered as LIKELY, which is explicitly NOT a
+stop.**
+
+All four legs landed (n = 2 seeds per arm). Every figure's one home is
+[`nr4a3-5aks-reduction.json`](research/modalities/nr4a3-5aks-reduction.json):
+
+| | |
+|---|---|
+| **S** = ΔG_tern(NR4A3) − ΔG_tern(NR4A1) | **−0.1297 ± 0.3264 kcal/mol** (replicate SD, n = 2/arm) |
+| NR4A3 arm | mean −10.9439, replicate SD 0.2354, mean MBAR SE 0.0753 |
+| NR4A1 arm | mean −10.8142, replicate SD 0.2261, mean MBAR SE 0.0860 |
+| reading (fixed in advance) | **S ≈ 0 → the marginal wedge is absent.** Registered as the LIKELY outcome and NOT a stop |
+| what it bounds | the design could only resolve **\|S\| ≳ 0.65 kcal/mol** (2σ); it did not |
+
+⚠ **THE ERROR IS THE REPLICATE SD, NOT THE MBAR SE** — the latter is ~0.08/arm, threefold smaller, and
+quoting it would understate the uncertainty by exactly the factor the ABFE error-bar standard exists to stop.
+
+**Staging was VERIFIED, not assumed, because one specific defect counterfeits this exact result.** A one-chain
+"ternary" leg is a binary leg nobody labelled and would also give S ≈ 0. Both arms check out identically
+against their committed manifests — chains `A` (254 res, the NR4A LBD) + `B` (442 res, CRBN) + ligand chain
+`L`, with `protocol_hash`, `charge_method`, `setup_cache_version` and `n_windows` agreeing across all four
+legs. The trap did not occur.
+
+**Three limits, each able to hide a real effect:** the reducer flags `n_particles` disagreeing across arms
+(NR4A1 ≈ 210k vs NR4A3 ≈ 148k — the solvated BOX, not the composition, so size-dependent systematics do not
+cancel, which is the one thing a double difference is supposed to buy); the geometry is a **Boltz-2
+prediction**, so S is pose-conditional; and ⛔ **the instrument has a failed calibrator** — §2.11's
+known-answer benchmark misses with the wrong sign, systematically. **An uncalibrated instrument returning zero
+cannot distinguish "no wedge effect" from "cannot resolve the wedge effect",** and it is not reported as
+though it could.
+
+⚠ **DO NOT CONFLATE THIS WITH THE SENSITIVITY-CONTROL NULL BELOW.** They are different instruments with
+separate failed controls: this is **alchemical ternary FEP** (its calibrator is valB_mini, §2.11, wrong sign);
+that is **endpoint-MD E1** (its calibrator is the SMARCA2/4 panel, NULL). Neither result invalidates the
+other's numbers, and reading them as one finding would overstate both.
+
+Documented at paper **§2.10e**, with §2.10(d) and the §2.10 closing paragraph re-written from "has not been
+run" to "has been run and is NULL".
+
+---
+
 ## ❌ GATE FAILED — the SMARCA2/4 sensitivity control returns **NULL** on an adequately-powered design (2026-08-02 10:42 PM ET)
 
 **The headline, in the required form: a gate FAILED, and the remediation is that there is none to buy — step 3
@@ -355,7 +399,7 @@ costing nothing. Both LANE-13 paralogue legs and all four RUNG 2b legs have reac
 |---|---|---|---|---|
 | ~~**Step 1 fan-out** (LANE 17/21) — 19 congeneric RBFE edges~~ | ✅ **COMPLETE — 18 of 18 computable edges landed; the 19th is not computable and is recorded as such.** Off every host. The ranked table it produced is the paper's §2.9 | — | realised **$73.79** machine-ledgered, against the DERIVED cap **$74.91** (`market_ceiling_usd(19)`) — finished inside its ceiling with **$1.12** to spare | every unit of the lane was bought under the **$0.006539/ns** buy line, and the units that could not be were ⛔ **REFUSED — $0 spent** and re-offered on later ticks rather than dropped |
 | ~~**valB_mini r1+r2** (LANE 19) — the 4 replicate legs~~ | ✅ **CLOSED AT n=3 — and the gate FAILED on sign, so the decision is NO-GO.** Off every host. The deliverable is the **cycle SD**, which is the number this lane existed to produce | — | realised is **NOT machine-ledgered on this lane**; the floor and the reason are in [`realised-spend.json`](research/modalities/realised-spend.json)'s attested block, which is a defect register, not an accounting category | — (no host) |
-| **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | ⛔ **PARKED, NOT FINISHED, and NOT BILLING — and RE-SPECIFIED 2026-07-30 to FOUR legs (n = 2 seeds per arm; [Open decisions 11](#open-decisions)). The two new units are cold starts, are on the watch list, and are parked with the others.** The two original legs died at **7:27 AM ET** when a rotated S3 key left them crash-looping at `gpu_util 0.0`, and both were **destroyed at 8:20 AM ET**. Checkpoints are intact: NR4A3 at `production/800` of 2000, NR4A1 at `warmup/640` of 1600 — still in warmup, so no production sampling is at risk. Both watch entries are `enabled: false` with a `_parked_why`, deliberately, because the watchdog's recovery for a DIED unit is to **rent a new host** and a relaunch is a new purchase | **held, no ETA.** All four resume **together or not at all** — `S` is a double difference over the two arms and its replicate SD needs both seeds, so a partial resume buys a number that still cannot report a null | **$0 going out.** Ladder **~$23** at four legs (the ~$12 two-leg figure is superseded — [Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 54); realised to date **~$1.5**, attested but **not machine-ledgered** | ⛔ **REFUSED — $0 spent.** They died flagged at **1.51× basis** while the cheapest gradeable rtx4090-class offer was **1.71×**; `relaunch_market_gate` refuses to re-buy above the buy line, so leaving them armed would have re-rented at exactly the price the gate exists to decline, up to 8× a day |
+| **RUNG 5a-KS** (LANE 16) — the ligand-side causal kill-switch | ✅ **LANDED 2026-08-02 — all four legs (n = 2 seeds/arm). S = −0.1297 ± 0.3264 kcal/mol → the PREREGISTERED NULL: the marginal wedge is absent, registered in advance as the LIKELY outcome and NOT a stop.** Full record, limits and the staging verification: [the gate section above](#-rung-5a-ks-landed--the-causal-kill-switch-returns-its-preregistered-null-s--013--033-kcalmol-2026-08-02-215-am-et) and paper §2.10e. *Superseded, retained: this row previously read PARKED, NOT FINISHED, NOT BILLING since 2026-07-27 — both original legs died on a rotated S3 key and were destroyed, and the lane stayed parked because `relaunch_market_gate` refuses to re-buy above the buy line. It resumed and finished.* | **done — nothing owed** | realised: see [the ledger](research/modalities/); ladder ~$23 at four legs | ✅ bought inside the line and landed |
 | ~~**The closure triangle** (LANE 9/20) — decides whether valB's miss is fixable at all~~ | ✅ **CLOSED. All four legs landed 5:11 PM ET Jul 30 and `R` is computed** — [`valb-triangle-reduction.json`](research/modalities/valb-triangle-reduction.json). Off every host | — | the 4-leg tranche was priced against its own **$3.85** ceiling per pass | every rental cleared the **$0.006539/ns** buy line; the leg that finished it ran at **$0.005049/ns · 1.48× basis**. ⚠ **THE DAY'S CHURN — SEVEN HOSTS, 11:41 AM to 4:06 PM ET, ZERO COMMITTED ITERATIONS — WAS NEITHER PRICE NOR CARD SPEED, AND BOTH EARLIER READINGS ARE SUPERSEDED.** Two measured causes. **(1)** A host wedged INSIDE a checkpoint persist: commit-store generation `fa5da1eb` holds `simulation.nc` alone, and `_persist` writes .nc → .chk → manifest — so the board counted a torn generation and read `production/1800` while the next host correctly resumed at 1760, and the leg re-ran the same 40 iterations after every host change with the percentage RISING each time. **(2)** The lane had **11 `workflow_dispatch` inputs against GitHub's cap of 10**, which is SILENT: every placement flag — card floor, bid escalation, uninterruptible tier — arrived EMPTY, so each control was chosen correctly and discarded at the door. Fixes, all with tests: `committed_progress` requires the manifest, `commit_store_audit.py` names which rule refused each generation, the idle guard condemns on byte-identical log CONTENT (its mtime test was vacuous against a 120 s timer sync), `collect` re-places a dead host in the same pass, and CI now fails a workflow that exceeds the input cap or uses GCP auth without `id-token: write` |
 | **The restrained binary re-run** (LANE 20) | **HELD ON PURPOSE — and ⚠ NOT behind `R`, which LANDED on 2026-07-30.** Its gate is the **pose diagnostic** (`gpu-ternary-fep-vast.yml task=triangle-converge`, $0): the prereg forbids interpreting `R_binary` without it. **Measured 11:08 AM ET 2026-07-31** — the option reached `main` only that morning (commit `42c99101`) and the `converge` job is `skipped` in every one of the five most recent lane dispatches, so it **has still never run**. Also **not GCP-runnable**: these are the *triangle's* binary legs (2 fs, seed 0, S3-keyed), a different experiment from the r0 calibrator's restrained re-run that landed 2026-07-28 ([Appendix A](#appendix-a--superseded-numbers-and-retracted-claims) 44). **The ternary arm is NOT being re-run restrained** (audit §L.3f) | held pending the pose diagnostic | **$0** | — |
 | ~~**valB_mini reverse leg r0**~~ (GCP L4 **on-demand**) | ✅ **LANDED — `production/2000` of 2000; the hysteresis it unlocked is measured in the block below** | — | **$0 real dollars** — expiring GCP trial credit (closes **2026-10-10**). **A SEPARATE LEDGER**: never summed into realised or ladder spend | — |
