@@ -232,3 +232,50 @@ def test_the_branch_is_attached_on_EVERY_exit_of_verdict():
 def test_render_shows_the_consequence_not_just_the_label():
     import selcal_gate as G
     assert "NEXT:" in G.render(G.verdict([]))
+
+
+# =============================================================================================================
+# ⛔ SUPPRESSION MUST WITHHOLD THE LABEL *AND* EVERYTHING THAT DISCLOSES IT
+# =============================================================================================================
+def test_suppression_withholds_the_consequence_not_just_the_tier():
+    """★★ MEASURED ON THE LIVE LANE AT 21 OF 24 LEGS, 2026-08-02 — and introduced by the very field it now
+    governs. Adding `next_step` meant an incomplete panel published `tier: None` (correctly suppressed) beside
+    `next_step.unblocks = "NOTHING. Step 3 is NOT bought…"` — the NULL tier's consequence, stated in prose.
+
+    Suppression exists to withhold the LABEL on a partial panel. A field that re-publishes the label's MEANING
+    defeats it exactly, and is worse than a leaked label because it reads as a settled decision rather than a
+    peek. This is the no-interim-analysis rule, and it is not satisfied by hiding one field of two.
+    """
+    import selcal_gate as G
+    import selcal_panel as P
+    v = G.verdict([])
+    assert v["next_step"]["unblocks"].startswith("NOTHING")     # …before suppression
+    G.suppress_for_incomplete_panel(v, "incomplete")
+    assert v["tier"] is None
+    assert v["tier_suppressed"] == P.TIER_INDETERMINATE
+    txt = repr(v["next_step"])
+    assert "WITHHELD" in txt
+    for leak in ("step 3", "Step 3", "NOTHING. Step 3", "money spent to reproduce"):
+        assert leak not in txt, f"the suppressed tier's consequence leaked: {leak!r}"
+
+
+def test_a_withheld_consequence_does_not_read_as_unblocks_nothing():
+    """⚠ An ABSENT field would itself disclose — "no consequence" is what NULL/WRONG_SIGN/INDETERMINATE all
+    say, so silence would narrow the tier to those three. It must say the question has not been ASKED."""
+    import selcal_gate as G
+    v = G.suppress_for_incomplete_panel(G.verdict([]), "incomplete")
+    assert "not 'nothing is unblocked'" in v["next_step"]["unblocks"]
+    assert v.get("next_step_suppressed") is True
+
+
+def test_suppression_is_atomic_and_has_one_home():
+    """The label and its disclosure must move together. A call site that pops `tier` by hand would drift the
+    moment another disclosing field is added — which is precisely how this defect arrived."""
+    import inspect
+
+    import selcal_vast_launch as L
+    src = inspect.getsource(L)
+    body = src[src.index("def mode_collect("):]
+    body = body[:body.index("\ndef ", 10)]
+    assert "suppress_for_incomplete_panel" in body
+    assert 'v.pop("tier"' not in body, "suppression must go through the gate, not be re-implemented here"

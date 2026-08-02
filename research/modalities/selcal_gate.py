@@ -154,6 +154,34 @@ def next_step_for(tier):
     return row
 
 
+def suppress_for_incomplete_panel(v: dict, why: str) -> dict:
+    """Withhold the LABEL and everything that discloses it. ONE HOME, because they must move together.
+
+    ⛔ THE DEFECT THIS CLOSES, and it was introduced by the very field it now governs (2026-08-02). Adding
+    `next_step` to the verdict meant an INCOMPLETE panel published `tier: None` — correctly suppressed — beside
+    `next_step.unblocks = "NOTHING. Step 3 is NOT bought…"`, which is the NULL tier's consequence stated in
+    prose. Suppression exists to withhold the label on a partial panel; a field that re-publishes the label's
+    MEANING defeats it exactly, and is worse than a leaked label because it reads as a decision rather than a
+    peek. Measured on the live lane at 21 of 24 legs.
+
+    So suppression is atomic here rather than a sequence of pops at the call site: a future field that
+    discloses the tier has one place to be added, and the test that pins this has one place to look.
+    """
+    v["tier_suppressed"] = v.pop("tier", None)
+    v["tier"] = None
+    # The consequence is the label by another name. Withheld with it, and SAYING it is withheld — an absent
+    # field would read as "this tier unblocks nothing", which is itself a disclosure.
+    v["next_step_suppressed"] = v.pop("next_step", None) is not None
+    v["next_step"] = {
+        "unblocks": "WITHHELD — the panel is incomplete, so no tier is reported and no consequence follows "
+                    "from one. This is not 'nothing is unblocked'; it is 'the question has not been asked "
+                    "yet'.",
+        "_source": "selcal_gate.suppress_for_incomplete_panel",
+    }
+    v["suppression"] = why
+    return v
+
+
 def _with_next_step(out: dict) -> dict:
     """Attach the tier's consequence. Called on EVERY exit of `verdict`, because a field present on some
     paths and absent on others is worse than absent everywhere — a reader cannot tell which they have."""

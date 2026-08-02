@@ -1866,13 +1866,14 @@ def mode_collect(bucket=None):
         # ⛔ NO INTERIM ANALYSIS. Peeking at a partial panel and stopping on a favourable p is the defect the
         # NR-V04 prereg's §4f exists to prevent, so the tier is SUPPRESSED — the evidence is still written,
         # because hiding it would be a different kind of dishonesty, but the label is withheld.
-        v["tier_suppressed"] = v.pop("tier", None)
-        v["tier"] = None
-        v["suppression"] = ("The panel is incomplete (%d of %d units). The criterion forbids an interim "
-                            "verdict: a tier read off a partial panel, on a run that can still be extended, "
-                            "is the peeking defect. The evidence below is reported; the LABEL is withheld "
-                            "until the panel is complete or an arm is definitively short."
-                            % (len(done), len(expected)))
+        # ⚠ ATOMIC, via the gate. The label and everything that discloses it are withheld together —
+        # `next_step` states what a tier UNBLOCKS, which is the label in prose, and publishing it beside a
+        # suppressed tier is the peek wearing a decision's clothes. One home: `suppress_for_incomplete_panel`.
+        G.suppress_for_incomplete_panel(
+            v, "The panel is incomplete (%d of %d units). The criterion forbids an interim verdict: a tier "
+               "read off a partial panel, on a run that can still be extended, is the peeking defect. The "
+               "evidence below is reported; the LABEL, and anything that discloses it, is withheld until the "
+               "panel is complete or an arm is definitively short." % (len(done), len(expected)))
     _write(VERDICT_READOUT, v)
     print(G.render(v) if v.get("tier") else "[selcal-collect] verdict SUPPRESSED — %s" % v["suppression"],
           flush=True)
