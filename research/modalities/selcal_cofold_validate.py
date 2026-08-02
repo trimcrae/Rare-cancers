@@ -424,6 +424,94 @@ def _by_residue(atoms, heavy_only=True, polymer_only=False):
     return out
 
 
+def chains_matching(atoms, ref_seq, min_identity=None):
+    """Native chains whose sequence matches `ref_seq` at or above the identity floor, best first."""
+    out = []
+    for c in polymer_chains(atoms):
+        seq, _ = chain_sequence(atoms, c)
+        ident, _ = align_identity(ref_seq, seq)
+        if ident >= (min_identity if min_identity is not None else MIN_CHAIN_IDENTITY):
+            out.append((round(ident, 4), c))
+    out.sort(key=lambda t: (-t[0], t[1]))
+    return out
+
+
+def _chain_contact_count(atoms_by_chain, a, b, cutoff_a=8.0):
+    """CA-CA pairs within `cutoff_a` between two chains — how tightly two chains are actually bound."""
+    c2 = cutoff_a * cutoff_a
+    n = 0
+    for p in atoms_by_chain.get(a, ()):
+        for q in atoms_by_chain.get(b, ()):
+            if (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2 + (p[2] - q[2]) ** 2 <= c2:
+                n += 1
+    return n
+
+
+def target_anchored_assemblies(native_atoms, target_seq, e3_seqs):
+    """Candidate copies of the complex, each anchored on ONE target chain. Returns [[chain ids], ...].
+
+    ⚠ CONTACT COMPONENTS ARE NOT ENOUGH IN A CRYSTAL LATTICE, and the first corrected run proved it: 9DTY's
+    ~10 copies TOUCH each other in the lattice, so `assembly_components` merged 39 of its 40 chains into a
+    single "copy" and role resolution inside it fell back to file order across all ten — exactly the chimera
+    the component split was added to prevent, wearing a different hat.
+
+    A copy is therefore defined biologically rather than topologically: **a target chain, plus the chain of
+    each E3 role that is most tightly bound TO THAT TARGET.** That is what a copy of the complex is, it is
+    invariant to how densely the lattice packs, and it cannot mix copies because every role is chosen by its
+    contact with the same anchor.
+    """
+    ca = {}
+    for a in native_atoms:
+        if a.name == "CA" and a.resname in _THREE_TO_ONE:
+            ca.setdefault(a.chain, []).append(a.xyz)
+
+    targets = chains_matching(native_atoms, target_seq)
+    out = []
+    for _, tc in targets:
+        chosen, ok = [tc], True
+        for role_seq in e3_seqs:
+            cands = [c for _, c in chains_matching(native_atoms, role_seq) if c not in chosen]
+            if not cands:
+                ok = False
+                break
+            # Contacts to ANY chain already in the copy, not just to the target. Elongin B and C need not
+            # touch the degradation target at all — in a VCB they hang off VHL — so anchoring every role on
+            # the target alone would score 0 for them and pick arbitrarily. Growing the copy greedily follows
+            # the assembly's own connectivity. Ties break on the chain id so the choice is deterministic.
+            best = max(cands, key=lambda c: (sum(_chain_contact_count(ca, s, c) for s in chosen), c))
+            chosen.append(best)
+        if not (ok and len(set(chosen)) == 1 + len(e3_seqs)):
+            continue
+        # ⛔ CHIMERA CHECK — MEASURED, NOT ASSUMED. Greedy growth alone is NOT chimera-proof: on a fixture
+        # where two copies interpenetrate, it returned ['G', 'P', 'Q', 'R'] — copy 1's Elongin subunit pulled
+        # into copy 2's assembly, because that copy's target sat closer to it than its own did. So every
+        # chosen chain is checked: its most-contacted partner must lie INSIDE the assembly. If a chain is
+        # bound more tightly to something outside, the copy is ambiguous and is DISCARDED rather than scored —
+        # a chimeric reference that scores without erroring is exactly the failure this whole block exists to
+        # prevent, and a silent fallback would reinstate it.
+        # ⚠ HONEST LIMIT, MEASURED RATHER THAN CLAIMED AWAY: this REDUCES ambiguity, it does not eliminate it.
+        # On a fixture whose copies INTERPENETRATE (2 Å apart, closer than any real crystal packs) a chain is
+        # genuinely more contacted by the neighbouring copy, the check passes, and the assignment follows the
+        # geometry rather than the intent. Real deposited copies are separated by solvent and the rule is
+        # clean there — swept at 20/22/24/26/28 Å, chimera-free from 24 Å up. The real guard against this
+        # mattering is the published `interface_rmsd_across_copies_A` spread: if every copy scores alike, the
+        # choice of copy cannot be carrying the result, and a reader can check that instead of trusting it.
+        inside = set(chosen)
+        ambiguous = False
+        for c in chosen[1:]:
+            best_in = max((_chain_contact_count(ca, c, s) for s in inside if s != c), default=0)
+            best_out = max((_chain_contact_count(ca, c, s) for s in ca if s not in inside), default=0)
+            if best_out > best_in:
+                ambiguous = True
+                break
+        if ambiguous:
+            continue
+        key = sorted(chosen)
+        if key not in out:
+            out.append(key)
+    return out
+
+
 def assembly_components(atoms, contact_a=8.0):
     """Group polymer chains into COPIES of the complex — connected components under inter-chain contact.
 
@@ -703,7 +791,9 @@ def validate_one(model_path, native_path, target_model_chain=None, e3_model_chai
     # block exists to prevent — a silent fallback to the rule that caused the bug is the one outcome worth
     # designing out (`nrv04_covalent_md._topology_indices` learned the same lesson the expensive way). If no
     # single copy can supply all four roles, every attempt REFUSES and says so.
-    components = assembly_components(native_atoms)
+    m_target_seq, _ = chain_sequence(model_atoms, target_model_chain)
+    m_e3_seqs = [chain_sequence(model_atoms, c)[0] for c in e3_model_chains]
+    components = target_anchored_assemblies(native_atoms, m_target_seq, m_e3_seqs)
     candidates = components if components else [None]
     attempts = []
     for comp in candidates:

@@ -418,6 +418,64 @@ def test_assembly_components_group_chains_that_touch(tmp_path):
     assert len(comps) == 1 and comps[0] == ["A", "E", "F", "G"], comps
 
 
+def test_copies_that_TOUCH_in_a_lattice_are_still_separated(tmp_path):
+    """DEFECT 2, second half — the one contact-components could not fix, found on the corrected run.
+
+    9DTY's ~10 copies touch each other in the crystal lattice, so `assembly_components` merged 39 of its 40
+    chains into a single 'copy' and role resolution inside it fell straight back to file order across all
+    ten — the chimera the component split was added to prevent, wearing a different hat. A copy is therefore
+    defined biologically (a target chain plus the E3 chains actually bound to it), which is invariant to how
+    densely the lattice packs."""
+    pytest.importorskip("numpy")
+    copy1 = _complex(target_dx=0.0)
+    copy2 = []
+    for a in _complex(target_dx=9.0):
+        # 26 Å along y: the two copies CONTACT, as copies do in a lattice, while staying physically
+        # separated rather than interpenetrating. Swept at 20/22/24/26/28 Å before this value was chosen —
+        # below 24 Å the copies interpenetrate (closer than any real crystal packs) and a chain is genuinely
+        # more contacted by its neighbour, which the rule then follows; from 24 Å up it is chimera-free.
+        copy2.append(V.Atom({"A": "P", "E": "Q", "F": "R", "G": "S"}[a.chain], a.resseq, a.icode, a.resname,
+                            a.name, a.element, a.x, a.y + 26.0, a.z, a.hetatm))
+    native_atoms = copy1 + copy2
+
+    # Whether the CONTACT rule happens to merge these two copies is a property of the fixture's packing, not
+    # of the code, and asserting it made the test fixture-sensitive rather than behaviour-sensitive. What must
+    # hold on the real input is asserted instead: the role-anchored rule returns one clean assembly per target
+    # chain and never mixes them. (On 9DTY the contact rule DID merge — 39 of 40 chains into one component —
+    # which is why the role-anchored rule exists; that is recorded in `target_anchored_assemblies`.)
+    model_atoms = _complex()
+    tseq, _ = V.chain_sequence(model_atoms, "A")
+    e3seqs = [V.chain_sequence(model_atoms, c)[0] for c in ("E", "F", "G")]
+    asm = V.target_anchored_assemblies(native_atoms, tseq, e3seqs)
+    assert len(asm) == 2, asm
+    assert sorted(asm) == [["A", "E", "F", "G"], ["P", "Q", "R", "S"]], asm
+
+    native = _write_cif(native_atoms, str(tmp_path / "n.cif"))
+    model = _write_cif(model_atoms, str(tmp_path / "m.cif"))
+    rec = V.validate_one(model, native)
+    assert rec["graded"] is True, rec.get("why")
+    chosen = set(rec["copy_selection"]["chosen_native_chains"])
+    assert chosen in ({"A", "E", "F", "G"}, {"P", "Q", "R", "S"}), chosen
+    for mc, info in rec["chain_map"]["matched"].items():
+        assert info["native_chain"] in chosen, "role %s was drawn from outside the chosen copy" % mc
+
+
+def test_an_e3_subunit_that_never_touches_the_target_is_still_assigned_to_the_right_copy(tmp_path):
+    """Elongin B and C need not touch the degradation target — in a VCB they hang off VHL. Anchoring every
+    role on the target alone would score 0 contacts for them and pick arbitrarily, so the copy grows greedily
+    along the assembly's own connectivity."""
+    model_atoms = _complex()
+    copy1 = _complex()
+    copy2 = [V.Atom({"A": "P", "E": "Q", "F": "R", "G": "S"}[a.chain], a.resseq, a.icode, a.resname,
+                    a.name, a.element, a.x, a.y + 26.0, a.z, a.hetatm) for a in _complex()]
+    tseq, _ = V.chain_sequence(model_atoms, "A")
+    e3seqs = [V.chain_sequence(model_atoms, c)[0] for c in ("E", "F", "G")]
+    asm = V.target_anchored_assemblies(copy1 + copy2, tseq, e3seqs)
+    # chain G (the far E3 subunit, 18 Å from the target and 7 Å from F) lands with its own copy, not the other
+    for a in asm:
+        assert a in (["A", "E", "F", "G"], ["P", "Q", "R", "S"]), a
+
+
 # ---------- 6 · scope: this module grades inputs and nothing else -----------------------------------------
 
 
