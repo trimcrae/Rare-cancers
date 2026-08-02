@@ -148,6 +148,11 @@ Ordered by what unblocks the most, not by what is easiest.
 4. **Rebuild the ternaries by the assembly route**, from a molecule whose structure is recorded this time.
 5. **Run the CREBBP/BRD4 benchmark** before quoting any selectivity free energy. Built, never run — the
    missing known-answer test for the instrument the *binder* claim depends on.
+   **PRICED AND DISPATCH-READY 2026-08-02** — it had stalled because the ABFE lane had no rung to read a cost
+   off, and that is now [`abfe-selectivity-benchmark-cost.json`](../modalities/abfe-selectivity-benchmark-cost.json)
+   (owner: `abfe_selectivity_cost.py`; provider **AWS SageMaker**, since no Vast ABFE launcher exists). Every
+   $0 precondition is verified — staged inputs live in S3, pre-baked image present, tag unused, smoke green.
+   The dispatch itself stays with trimcrae per `abfe_plan.do_not_dispatch`.
 6. **≥3 ternary models per paralogue**, then the validated descriptor. Until then no contact can be told from
    one model's accident.
 
@@ -161,7 +166,8 @@ Artifacts that own the numbers above:
 [`selcal-cofold-decompose.json`](../modalities/selcal-cofold-decompose.json) ·
 [`selcal-dockq-decoy-scale.json`](../modalities/selcal-dockq-decoy-scale.json) ·
 [`nr4a-ternary-signature.json`](../modalities/nr4a-ternary-signature.json) ·
-[`selcal-xtal-census.json`](../modalities/selcal-xtal-census.json).
+[`selcal-xtal-census.json`](../modalities/selcal-xtal-census.json) ·
+[`abfe-selectivity-benchmark-cost.json`](../modalities/abfe-selectivity-benchmark-cost.json).
 
 ⛔ No claim on this page asserts NR4A3 selectivity, efficacy or clinical readiness; predicted quantities are
 labelled as predictions throughout.
