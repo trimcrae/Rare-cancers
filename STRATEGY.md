@@ -420,8 +420,23 @@ could not be re-narrated after the fact, and it is machine-carried by `selcal_ga
    ([`selcal-dockq-decoy-scale.json`](./research/modalities/selcal-dockq-decoy-scale.json)). The co-folds sit
    at the **~32 Å** rung — consistent with their independently measured 17.8–21.2 Å interface-RMSD — so they
    are **not a near-miss on placement**, and the generation failure is not a matter of degree.
-   ⛔ Neither half is a positive control for paralogue-selectivity **detection**; that endpoint still has
-   none, and the harness control must not be read as softening the tally below.
+   ★ **(c) AND THE COMPLEX IS RECOVERABLE IN SILICO — measured on 9DTY ITSELF, which is post-horizon.**
+   9DTY and 9DTX are absent from DeepTernary's disclosed 4,471-entry exclusion set and deposited well after
+   its 2023-10-14 horizon
+   ([`deepternary-leakage-check.json`](./research/modalities/deepternary-leakage-check.json)). Given the two
+   binding sites, the generator reaches **DockQ 0.839 (CAPRI "High"), iRMSD 0.67 Å, fnat 0.83**, best of 16
+   seeds, median 0.442, against our co-folds' best 0.038 on the same interface and reference
+   ([`selcal-deepternary-headtohead.json`](./research/modalities/selcal-deepternary-headtohead.json)).
+   ⛔ **NOT the same question, and the two numbers are not interchangeable:** the published *unbound*
+   protocol superposes both binaries into the native ternary frame and supplies the native degrader pose, so
+   the model is told **which pocket each end of the degrader occupies** and predicts the two proteins'
+   **relative placement**, which is randomised out of its input. Our co-folds were given sequence and ligand
+   and nothing else. ⚠ Best-of-16, and **one arm**: the SMARCA4 arm was refused before any prediction
+   (warhead fragment overlap 0.42 against a 0.55 bar) and no SMARCA4 number exists.
+   **What it settles:** this ternary is not beyond in-silico reach, so 0.023–0.046 is a property of the
+   sequence-only co-folding route used here and not of the problem.
+   ⛔ None of (a)–(c) is a positive control for paralogue-selectivity **detection**; that endpoint still has
+   none, and none of them may be read as softening the tally below.
 4. **It re-scores no landed leg and changes no ΔΔG.** It is a statement about the instrument.
 
 ### The standing tally this closes
