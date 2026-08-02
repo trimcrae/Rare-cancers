@@ -119,13 +119,15 @@ def test_the_negative_result_is_stated_plainly(tmp_path, monkeypatch):
 
 def test_a_positive_result_is_labelled_a_hypothesis_not_a_demonstration(tmp_path, monkeypatch):
     seq = "ACDEFGHIKL"
-    sigs = {"NR4A3": _sig(seq, {4}), "NR4A1": _sig(seq, set()), "NR4A2": _sig(seq, set())}
+    other = "ACDEPGHIKL"        # position 4 SUBSTITUTED, so the hit is sequence-encoded rather than placement
+    sigs = {"NR4A3": _sig(seq, {4}), "NR4A1": _sig(other, set()), "NR4A2": _sig(other, set())}
     monkeypatch.setattr(N, "signature_of", lambda p, t, e: sigs[os.path.basename(p).split(".")[0].upper()])
     doc = N.run({"NR4A3": "nr4a3.cif", "NR4A1": "nr4a1.cif", "NR4A2": "nr4a2.cif"}, "A", ["B"],
                 validated_path=_validated(tmp_path))
     assert doc["result"]["n_discriminating"] == 1
     assert "structural HYPOTHESIS" in doc["sentence"]
-    assert "not a demonstration of selectivity" in doc["sentence"]
+    assert "NOT a demonstration of selectivity" in doc["sentence"]
+    assert "no replicates" in doc["sentence"]
     assert "0.023-0.046" in doc["sentence"], "the structures' own provenance must travel with the claim"
 
 
@@ -176,3 +178,39 @@ def test_zero_or_ambiguous_candidates_is_a_refusal_not_a_preference(tmp_path):
     doc = json.loads(out.read_text())
     assert "not guessing" in doc["error"]
     assert set(doc["unresolved"]) == {"NR4A3", "NR4A1", "NR4A2"}
+
+
+# ---------- an identical residue cannot encode a paralogue difference ------------------------------------------
+
+
+def test_a_same_residue_discrimination_is_excluded_as_a_placement_artifact():
+    """MEASURED (run 30758705441): 5 of 6 'discriminating' positions carried the IDENTICAL residue in all
+    three paralogues. If NR4A1 has the same glutamate and simply does not contact the E3 in ITS model, that is
+    a difference between three independently-folded structures, not chemistry."""
+    seq = "ACDEFGHIKL"
+    focus = _sig(seq, {2, 5})
+    comps = {"NR4A1": _sig(seq, set()), "NR4A2": _sig(seq, set())}
+    res = N.discriminating_positions(focus, comps)
+    assert res["n_discriminating"] == 2
+    assert res["n_sequence_encoded"] == 0, "same sequence on all three: nothing is sequence-encoded"
+    assert sorted(res["same_residue_placement_artifact"]) == sorted(res["discriminating"])
+
+
+def test_a_substituted_position_survives_as_sequence_encoded():
+    seq_a = "ACDEFGHIKL"
+    seq_b = "ACDEFPHIKL"          # position 5 substituted G -> P
+    focus = _sig(seq_a, {5})
+    comps = {"NR4A1": _sig(seq_b, set()), "NR4A2": _sig(seq_b, set())}
+    res = N.discriminating_positions(focus, comps)
+    assert res["n_sequence_encoded"] == 1
+    assert res["same_residue_placement_artifact"] == []
+
+
+def test_all_artifact_positions_yield_a_cannot_be_justified_verdict(tmp_path, monkeypatch):
+    seq = "ACDEFGHIKL"
+    sigs = {"NR4A3": _sig(seq, {4}), "NR4A1": _sig(seq, set()), "NR4A2": _sig(seq, set())}
+    monkeypatch.setattr(N, "signature_of", lambda p, t, e: sigs[os.path.basename(p).split(".")[0].upper()])
+    doc = N.run({"NR4A3": "nr4a3.cif", "NR4A1": "nr4a1.cif", "NR4A2": "nr4a2.cif"}, "A", ["B"],
+                validated_path=_validated(tmp_path))
+    assert "NO sequence-encoded discriminating contact" in doc["sentence"]
+    assert "cannot be justified" in doc["sentence"]
