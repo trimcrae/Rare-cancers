@@ -1,0 +1,64 @@
+{
+  "source": "https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+  "tolerance_kcal": 0.75,
+  "benchmarks": {
+    "barnase_barstar_Y29A": {
+      "mutation": "D:Y29A",
+      "pdb": "1BRS",
+      "stored_ref_ddg_kcal": 3.4,
+      "n_records": 1,
+      "records": [
+        {
+          "ddg_kcal": 3.469,
+          "kd_mut_M": "3.5E-12",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        }
+      ],
+      "skipped": [],
+      "errors": [],
+      "skempi_median_ddg_kcal": 3.469,
+      "skempi_range_kcal": [
+        3.469,
+        3.469
+      ],
+      "delta_vs_stored": 0.069,
+      "sign_agrees": true,
+      "agrees": true,
+      "verdict": "stored reference CONFIRMED by SKEMPI"
+    },
+    "barnase_barstar_Y29F": {
+      "mutation": "D:Y29F",
+      "pdb": "1BRS",
+      "stored_ref_ddg_kcal": -0.13,
+      "n_records": 1,
+      "records": [
+        {
+          "ddg_kcal": -0.132,
+          "kd_mut_M": "8E-15",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        }
+      ],
+      "skipped": [],
+      "errors": [],
+      "skempi_median_ddg_kcal": -0.132,
+      "skempi_range_kcal": [
+        -0.132,
+        -0.132
+      ],
+      "delta_vs_stored": -0.002,
+      "sign_agrees": true,
+      "agrees": true,
+      "verdict": "stored reference CONFIRMED by SKEMPI"
+    }
+  },
+  "all_confirmed": true,
+  "note": "This script never rewrites protfep_bench.BENCHMARKS. Reconciling the constants to this report is a deliberate edit, so a database quirk cannot silently move the engine's pass criterion."
+}

@@ -1,0 +1,972 @@
+{
+  "source": "https://life.bsc.es/pid/skempi2/database/download/skempi_v2.csv",
+  "pdb": "1BRS",
+  "chains": [
+    "A",
+    "D"
+  ],
+  "band_kcal": [
+    0.5,
+    1.5
+  ],
+  "max_record_spread_kcal": 1.0,
+  "n_rows_scanned": 7085,
+  "errors": [],
+  "candidates": [
+    {
+      "mutation": "A:W35F",
+      "skempi_cell": "WA35F",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 1.26,
+      "skempi_range_kcal": [
+        1.112,
+        1.407
+      ],
+      "record_spread_kcal": 0.295,
+      "n_records": 2,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 1.407,
+          "kd_mut_M": "1.4E-13",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        },
+        {
+          "ddg_kcal": 1.112,
+          "kd_mut_M": "8.5E-13",
+          "kd_wt_M": "1.3E-13",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ]
+    }
+  ],
+  "rejected": [
+    {
+      "mutation": "A:D54A",
+      "skempi_cell": "DA54A",
+      "chain": "A",
+      "skempi_median_ddg_kcal": -0.527,
+      "skempi_range_kcal": [
+        -0.888,
+        -0.167
+      ],
+      "record_spread_kcal": 0.721,
+      "n_records": 2,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": -0.888,
+          "kd_mut_M": "2.9E-15",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        },
+        {
+          "ddg_kcal": -0.167,
+          "kd_mut_M": "9.8E-14",
+          "kd_wt_M": "1.3E-13",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "D:D35A",
+      "skempi_cell": "DD35A",
+      "chain": "D",
+      "skempi_median_ddg_kcal": 4.284,
+      "skempi_range_kcal": [
+        4.068,
+        4.501
+      ],
+      "record_spread_kcal": 0.433,
+      "n_records": 2,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 4.501,
+          "kd_mut_M": "2E-11",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        },
+        {
+          "ddg_kcal": 4.068,
+          "kd_mut_M": "1.27E-07",
+          "kd_wt_M": "1.32E-10",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "Water-mediated interaction at a protein-protein interface, Chemical Physics, Volume 307, Issues 2-3, 2004"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "D:D39A",
+      "skempi_cell": "DD39A",
+      "chain": "D",
+      "skempi_median_ddg_kcal": 6.79,
+      "skempi_range_kcal": [
+        5.932,
+        7.648
+      ],
+      "record_spread_kcal": 1.716,
+      "n_records": 2,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 7.648,
+          "kd_mut_M": "4.06E-09",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        },
+        {
+          "ddg_kcal": 5.932,
+          "kd_mut_M": "2.96E-06",
+          "kd_wt_M": "1.32E-10",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "Water-mediated interaction at a protein-protein interface, Chemical Physics, Volume 307, Issues 2-3, 2004"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:E60A",
+      "skempi_cell": "EA60A",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 0.095,
+      "skempi_range_kcal": [
+        -0.326,
+        0.515
+      ],
+      "record_spread_kcal": 0.841,
+      "n_records": 2,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": -0.326,
+          "kd_mut_M": "7.5E-15",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        },
+        {
+          "ddg_kcal": 0.515,
+          "kd_mut_M": "3.1E-13",
+          "kd_wt_M": "1.3E-13",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:E73A",
+      "skempi_cell": "EA73A",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 2.347,
+      "skempi_range_kcal": [
+        1.897,
+        2.812
+      ],
+      "record_spread_kcal": 0.915,
+      "n_records": 3,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 2.347,
+          "kd_mut_M": "5.26E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "9126847"
+        },
+        {
+          "ddg_kcal": 1.897,
+          "kd_mut_M": "3.2E-13",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        },
+        {
+          "ddg_kcal": 2.812,
+          "kd_mut_M": "1.5E-11",
+          "kd_wt_M": "1.3E-13",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:E73C",
+      "skempi_cell": "EA73C",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 2.528,
+      "skempi_range_kcal": [
+        2.528,
+        2.528
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 2.528,
+          "kd_mut_M": "7.14E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "9126847"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:E73F",
+      "skempi_cell": "EA73F",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 2.234,
+      "skempi_range_kcal": [
+        2.234,
+        2.234
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 2.234,
+          "kd_mut_M": "4.35E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "9126847"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:E73Q",
+      "skempi_cell": "EA73Q",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 1.451,
+      "skempi_range_kcal": [
+        1.451,
+        1.451
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 1.451,
+          "kd_mut_M": "1.16E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "9126847"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:E73S",
+      "skempi_cell": "EA73S",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 3.009,
+      "skempi_range_kcal": [
+        3.009,
+        3.009
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 3.009,
+          "kd_mut_M": "1.61E-12",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "9126847"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:E73W",
+      "skempi_cell": "EA73W",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 1.657,
+      "skempi_range_kcal": [
+        1.657,
+        1.657
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 1.657,
+          "kd_mut_M": "1.64E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "9126847"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:E73Y",
+      "skempi_cell": "EA73Y",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 2.413,
+      "skempi_range_kcal": [
+        2.413,
+        2.413
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 2.413,
+          "kd_mut_M": "5.88E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "9126847"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "D:E76A",
+      "skempi_cell": "ED76A",
+      "chain": "D",
+      "skempi_median_ddg_kcal": 1.094,
+      "skempi_range_kcal": [
+        0.823,
+        1.364
+      ],
+      "record_spread_kcal": 0.541,
+      "n_records": 2,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 1.364,
+          "kd_mut_M": "1E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        },
+        {
+          "ddg_kcal": 0.823,
+          "kd_mut_M": "5.3E-10",
+          "kd_wt_M": "1.32E-10",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "Water-mediated interaction at a protein-protein interface, Chemical Physics, Volume 307, Issues 2-3, 2004"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "D:E80A",
+      "skempi_cell": "ED80A",
+      "chain": "D",
+      "skempi_median_ddg_kcal": 0.477,
+      "skempi_range_kcal": [
+        0.41,
+        0.543
+      ],
+      "record_spread_kcal": 0.133,
+      "n_records": 2,
+      "charge_change": 1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 0.543,
+          "kd_mut_M": "2.5E-14",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        },
+        {
+          "ddg_kcal": 0.41,
+          "kd_mut_M": "2.64E-10",
+          "kd_wt_M": "1.32E-10",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "Water-mediated interaction at a protein-protein interface, Chemical Physics, Volume 307, Issues 2-3, 2004"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = +1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:H102A",
+      "skempi_cell": "HA102A",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 6.197,
+      "skempi_range_kcal": [
+        6.074,
+        6.909
+      ],
+      "record_spread_kcal": 0.835,
+      "n_records": 4,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 6.143,
+          "kd_mut_M": "3.2E-10",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        },
+        {
+          "ddg_kcal": 6.909,
+          "kd_mut_M": "7E-09",
+          "kd_wt_M": "6E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8507637"
+        },
+        {
+          "ddg_kcal": 6.252,
+          "kd_mut_M": "5E-10",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        },
+        {
+          "ddg_kcal": 6.074,
+          "kd_mut_M": "3.7E-09",
+          "kd_wt_M": "1.3E-13",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ],
+      "reason": "|+6.197| is outside the wedge band [0.5, 1.5] \u2014 a hot spot, already covered by Y29A"
+    },
+    {
+      "mutation": "A:H102D",
+      "skempi_cell": "HA102D",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 4.549,
+      "skempi_range_kcal": [
+        4.549,
+        4.549
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": -1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 4.549,
+          "kd_mut_M": "1.3E-10",
+          "kd_wt_M": "6E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8507637"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = -1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:H102G",
+      "skempi_cell": "HA102G",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 6.818,
+      "skempi_range_kcal": [
+        6.818,
+        6.818
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": false,
+      "records": [
+        {
+          "ddg_kcal": 6.818,
+          "kd_mut_M": "6E-09",
+          "kd_wt_M": "6E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8507637"
+        }
+      ],
+      "reason": "REFUSED \u2014 GLY alters the backbone (PRO has no amide H and a fused ring; GLY has no CB), so this is not a side-chain swap and perses cannot build a clean hybrid residue for it."
+    },
+    {
+      "mutation": "A:H102L",
+      "skempi_cell": "HA102L",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 7.663,
+      "skempi_range_kcal": [
+        7.663,
+        7.663
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 7.663,
+          "kd_mut_M": "2.5E-08",
+          "kd_wt_M": "6E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8507637"
+        }
+      ],
+      "reason": "|+7.663| is outside the wedge band [0.5, 1.5] \u2014 a hot spot, already covered by Y29A"
+    },
+    {
+      "mutation": "A:H102Q",
+      "skempi_cell": "HA102Q",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 4.549,
+      "skempi_range_kcal": [
+        4.549,
+        4.549
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 4.549,
+          "kd_mut_M": "1.3E-10",
+          "kd_wt_M": "6E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8507637"
+        }
+      ],
+      "reason": "|+4.549| is outside the wedge band [0.5, 1.5] \u2014 a hot spot, already covered by Y29A"
+    },
+    {
+      "mutation": "A:K27A",
+      "skempi_cell": "KA27A",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 5.379,
+      "skempi_range_kcal": [
+        4.586,
+        5.407
+      ],
+      "record_spread_kcal": 0.821,
+      "n_records": 3,
+      "charge_change": -1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 5.379,
+          "kd_mut_M": "8.8E-11",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        },
+        {
+          "ddg_kcal": 5.407,
+          "kd_mut_M": "1.2E-10",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        },
+        {
+          "ddg_kcal": 4.586,
+          "kd_mut_M": "3E-10",
+          "kd_wt_M": "1.3E-13",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = -1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:N58A",
+      "skempi_cell": "NA58A",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 3.09,
+      "skempi_range_kcal": [
+        3.065,
+        3.114
+      ],
+      "record_spread_kcal": 0.049,
+      "n_records": 2,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 3.065,
+          "kd_mut_M": "2.3E-12",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        },
+        {
+          "ddg_kcal": 3.114,
+          "kd_mut_M": "2.5E-11",
+          "kd_wt_M": "1.3E-13",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ],
+      "reason": "|+3.090| is outside the wedge band [0.5, 1.5] \u2014 a hot spot, already covered by Y29A"
+    },
+    {
+      "mutation": "A:R59A",
+      "skempi_cell": "RA59A",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 5.034,
+      "skempi_range_kcal": [
+        4.633,
+        5.243
+      ],
+      "record_spread_kcal": 0.61,
+      "n_records": 4,
+      "charge_change": -1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 5.243,
+          "kd_mut_M": "7E-11",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        },
+        {
+          "ddg_kcal": 4.633,
+          "kd_mut_M": "1.5E-10",
+          "kd_wt_M": "6E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8507637"
+        },
+        {
+          "ddg_kcal": 5.181,
+          "kd_mut_M": "8.2E-11",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        },
+        {
+          "ddg_kcal": 4.888,
+          "kd_mut_M": "5E-10",
+          "kd_wt_M": "1.3E-13",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = -1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:R59K",
+      "skempi_cell": "RA59K",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 2.487,
+      "skempi_range_kcal": [
+        2.487,
+        2.487
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 2.487,
+          "kd_mut_M": "4E-12",
+          "kd_wt_M": "6E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8507637"
+        }
+      ],
+      "reason": "|+2.487| is outside the wedge band [0.5, 1.5] \u2014 a hot spot, already covered by Y29A"
+    },
+    {
+      "mutation": "A:R83Q",
+      "skempi_cell": "RA83Q",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 5.418,
+      "skempi_range_kcal": [
+        5.418,
+        5.418
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": -1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 5.418,
+          "kd_mut_M": "9.4E-11",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = -1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "A:R87A",
+      "skempi_cell": "RA87A",
+      "chain": "A",
+      "skempi_median_ddg_kcal": 5.755,
+      "skempi_range_kcal": [
+        5.562,
+        5.949
+      ],
+      "record_spread_kcal": 0.387,
+      "n_records": 2,
+      "charge_change": -1,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 5.562,
+          "kd_mut_M": "1.2E-10",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        },
+        {
+          "ddg_kcal": 5.949,
+          "kd_mut_M": "3E-10",
+          "kd_wt_M": "1.3E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "8494892"
+        }
+      ],
+      "reason": "CHARGE-CHANGING (dq = -1) \u2014 under PME the neutralising background plasma shifts the electrostatic free energy by a system-size-dependent amount that does NOT cancel between the ternary and binary boxes (they are different sizes). Requires an explicit correction strategy; running it uncorrected yields an artifact that looks like interface signal."
+    },
+    {
+      "mutation": "D:T42A",
+      "skempi_cell": "TD42A",
+      "chain": "D",
+      "skempi_median_ddg_kcal": 1.857,
+      "skempi_range_kcal": [
+        1.857,
+        1.857
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 1.857,
+          "kd_mut_M": "2.3E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        }
+      ],
+      "reason": "|+1.857| is outside the wedge band [0.5, 1.5] \u2014 a hot spot, already covered by Y29A"
+    },
+    {
+      "mutation": "D:W38F",
+      "skempi_cell": "WD38F",
+      "chain": "D",
+      "skempi_median_ddg_kcal": 1.642,
+      "skempi_range_kcal": [
+        1.642,
+        1.642
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 1.642,
+          "kd_mut_M": "1.6E-13",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        }
+      ],
+      "reason": "|+1.642| is outside the wedge band [0.5, 1.5] \u2014 a hot spot, already covered by Y29A"
+    },
+    {
+      "mutation": "D:W44F",
+      "skempi_cell": "WD44F",
+      "chain": "D",
+      "skempi_median_ddg_kcal": 0.056,
+      "skempi_range_kcal": [
+        0.056,
+        0.056
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 0.056,
+          "kd_mut_M": "1.1E-14",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        }
+      ],
+      "reason": "|+0.056| is outside the wedge band [0.5, 1.5] \u2014 a near-null, already covered by the Y29F control"
+    },
+    {
+      "mutation": "D:Y29A",
+      "skempi_cell": "YD29A",
+      "chain": "D",
+      "skempi_median_ddg_kcal": 3.469,
+      "skempi_range_kcal": [
+        3.469,
+        3.469
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": 3.469,
+          "kd_mut_M": "3.5E-12",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        }
+      ],
+      "reason": "|+3.469| is outside the wedge band [0.5, 1.5] \u2014 a hot spot, already covered by Y29A"
+    },
+    {
+      "mutation": "D:Y29F",
+      "skempi_cell": "YD29F",
+      "chain": "D",
+      "skempi_median_ddg_kcal": -0.132,
+      "skempi_range_kcal": [
+        -0.132,
+        -0.132
+      ],
+      "record_spread_kcal": 0.0,
+      "n_records": 1,
+      "charge_change": 0,
+      "buildable": true,
+      "records": [
+        {
+          "ddg_kcal": -0.132,
+          "kd_mut_M": "8E-15",
+          "kd_wt_M": "1E-14",
+          "temperature_k": 298.0,
+          "temperature_assumed": false,
+          "pdb_entry": "1BRS_A_D",
+          "reference": "7739054"
+        }
+      ],
+      "reason": "|-0.132| is outside the wedge band [0.5, 1.5] \u2014 a near-null, already covered by the Y29F control"
+    }
+  ],
+  "n_candidates": 1,
+  "n_rejected": 29,
+  "note": "Candidates only. This script never edits protfep_bench.BENCHMARKS \u2014 promoting one is a deliberate edit, so a database quirk cannot silently move the pass criterion."
+}
