@@ -140,27 +140,71 @@ FILTER = {
 WEAK_CONTROL = "vhl|M14"
 
 # ★★ BACKBONE LENGTH IS A SELECTIVITY COST, NOT ONLY A SYNTHESIS COST (LANE 13, 2026-07-25/26, $0).
-# The matched-construct test — same placement, same warhead exit anchor, same E3 anchor, same budget, 5 657
-# placements — measured P(a paralogue cysteine is ALSO reached | an NR4A3-unique one is) as a function of the
-# linker's backbone length. It is 0 at the 12-atom gate and climbs steeply above it. Source:
-# research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md §3.3.
+# The matched-construct test — same placement, same warhead exit anchor, same E3 anchor, same budget —
+# measured P(a paralogue cysteine is ALSO reached | an NR4A3-unique one is) as a function of the linker's
+# backbone length. It is at its lowest at the 12-atom gate and climbs steeply above it.
 #
-# ⚠ THREE THINGS THAT MUST TRAVEL WITH THESE NUMBERS, or they will be over-read:
-#   1. FOUR MEASURED POINTS, NOTHING BETWEEN THEM. A construct at 13 atoms sits "between 0 and 0.000"; one at
-#      18 sits "between 0.081 and 0.258". The bracket is the honest statement; interpolating a curve through
-#      four points and quoting a value at 17 is not.
-#   2. THIS IS THE REACH-ONLY PROBABILITY. Requiring the paralogue cysteine to be EXPOSED as well (RSA >= 0.25)
-#      gives 0.000 at every length in these static models — so what currently holds the axis is exposure, and
-#      exposure is one number per residue from one conformer. The matched paralogue MD ensembles that turn it
-#      into a distribution were still in flight when this was written.
-#   3. IT IS A COST, NOT A GATE. Nothing here is filtered on it; it is reported per construct so the trade is
+# ★★ READ FROM THE LANDED ARTIFACT, NEVER COPIED (corrected 2026-08-02). This table WAS a hard-coded copy of
+# the 2026-07-25 A2 pilot — 5,657 placements over the static opened models only — written while the matched
+# paralogue MD ensembles were still in flight. They LANDED on 2026-07-26 (commit `3d993237f`): 73,867
+# placements over THREE conformer scopes. A copy of a superseded measurement is exactly the one-fact-two-places
+# failure CLAUDE.md rule 1 exists to stop, so the profile is now DERIVED from
+# `nr4a-paralogue-dynamics.json` -> `categorical_verdict.by_scope[*].by_linker_atoms`, which is its one home.
+# The pilot pair is retained below under its own name, marked superseded, and is never read.
+#
+# ⚠ FOUR THINGS THAT MUST TRAVEL WITH THESE NUMBERS, or they will be over-read:
+#   1. FOUR MEASURED POINTS, NOTHING BETWEEN THEM. A construct at 13 atoms sits between the 12- and 14-atom
+#      points; one at 18 sits between the 16- and 20-atom points. The bracket is the honest statement;
+#      interpolating a curve through four points and quoting a value at 17 is not. And NOTHING below 12 is
+#      measured at all.
+#   2. `reach_only` HERE IS THE WIDEST READING ACROSS THE THREE SCOPES — the maximum over
+#      `static_opened_model`, `unbiased_release` and `metad_biased` — so a bracket built from it can never
+#      understate the cost. The per-scope values are carried alongside in `by_scope`, because the spread
+#      between them is itself information (at 12 atoms it is 0.000 on the static model and 0.00290 under
+#      metadynamics, i.e. the static model alone reads a zero that the ensembles do not).
+#   3. THE `reach_and_exposed` COLUMN IS ADJUDICATED BY `EXPOSED_RSA = 0.25`, THE CRITERION THAT FAILS ITS OWN
+#      POSITIVE CONTROL (NR4A1 Cys551, the literature-anchored celastrol site, at RSA 0.165). At the 12-atom
+#      gate the categorical statement does NOT depend on it — reach-only there is already <= 0.3 % — while at
+#      16 and 20 atoms it does. Never quote the exposed column as though it were the durable one.
+#   4. IT IS A COST, NOT A GATE. Nothing here is filtered on it; it is reported per construct so the trade is
 #      visible where the design is made instead of being re-derived from prose.
-PARALOGUE_COLLISION_BY_LINKER_ATOMS = {
+PARALOGUE_DYNAMICS_ARTIFACT = os.path.join(HERE, "nr4a-paralogue-dynamics.json")
+
+# SUPERSEDED 2026-07-26, retained per CLAUDE.md rule 1.2 and registered in `pinned-figures.json` as
+# `paralogue_collision_pilot_5657`. NEVER READ — kept only so the old values stay attributable, because the
+# committed `nr4a3-linker-design.json`'s `paralogue_collision_at_this_length` fields were written from them.
+PARALOGUE_COLLISION_PILOT_5657_SUPERSEDED = {
     12: {"reach_only": 0.000, "reach_and_exposed": 0.000},
     14: {"reach_only": 0.000, "reach_and_exposed": 0.000},
     16: {"reach_only": 0.081, "reach_and_exposed": 0.000},
     20: {"reach_only": 0.258, "reach_and_exposed": 0.000},
 }
+
+
+def _load_collision_profile(path=None):
+    """{n_atoms: {reach_only, reach_and_exposed, by_scope}} from the landed matched-ensemble artifact.
+
+    Raises rather than falling back to the superseded pilot: a missing artifact must be a loud failure, not a
+    silent reversion to the numbers this function exists to retire.
+    """
+    path = path or PARALOGUE_DYNAMICS_ARTIFACT
+    with open(path, encoding="utf-8") as fh:
+        scopes = json.load(fh)["categorical_verdict"]["by_scope"]
+    out = {}
+    for scope, sv in scopes.items():
+        for k, row in sv["by_linker_atoms"].items():
+            e = out.setdefault(int(k), {"by_scope": {}})
+            e["by_scope"][scope] = {
+                "reach_only": row["P_paralogue_also_labelled_given_nr4a3"],
+                "reach_and_exposed": row["P_paralogue_also_labelled_given_nr4a3_EXPOSED"],
+            }
+    for e in out.values():
+        e["reach_only"] = max(v["reach_only"] for v in e["by_scope"].values())
+        e["reach_and_exposed"] = max(v["reach_and_exposed"] for v in e["by_scope"].values())
+    return out
+
+
+PARALOGUE_COLLISION_BY_LINKER_ATOMS = _load_collision_profile()
 
 
 def collision_bracket(n_atoms):
@@ -169,6 +213,7 @@ def collision_bracket(n_atoms):
     Returns the two MEASURED points the length falls between, never an interpolated value — see the warning
     on `PARALOGUE_COLLISION_BY_LINKER_ATOMS`. Below the shortest measured point the bracket is closed at that
     point; above the longest it is open, because the measurement stops there and the trend is rising.
+    The values are the WIDEST reading across the three conformer scopes, so the bracket cannot understate.
     """
     xs = sorted(PARALOGUE_COLLISION_BY_LINKER_ATOMS)
     if n_atoms <= xs[0]:
@@ -1231,6 +1276,10 @@ def _selectivity_vs_length(reqs, lib):
                              x["construct_id"]))
     gate = 12
     at_or_below = [x for x in rows if x["n_backbone_atoms"] <= gate]
+    # ⚠ THIS COUNT IS ZERO UNDER THE LANDED ENSEMBLES, AND THAT IS THE ANSWER, NOT A BUG. It was non-zero
+    # only while the profile was the static-model pilot, which read 0.000 at both 12 and 14; the matched
+    # ensembles put 14 at 0.0089-0.0317. The field is kept — with its definition next to it — because
+    # silently deleting a counter that has gone to zero hides the correction that took it there.
     clean = [x for x in rows if x["paralogue_collision_at_this_length"]["hi"] == 0.0]
     return {
         "_what": "every retained construct at both placements, ranked SHORTEST FIRST, with the measured "
@@ -1245,22 +1294,30 @@ def _selectivity_vs_length(reqs, lib):
                 "measurement, ranking on length was a chemist's preference; after it, a shorter construct is "
                 "a more selective one and the ranking is an evidence-based ordering.",
         "collision_profile_used": PARALOGUE_COLLISION_BY_LINKER_ATOMS,
-        "collision_profile_source": "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-"
-                                    "2026-07-25.md §3.3 — matched-construct test, 5 657 placements, same "
-                                    "placement / warhead exit anchor / E3 anchor / budget. FOUR measured "
-                                    "points; brackets are reported, never an interpolated value.",
+        "collision_profile_source": "research/modalities/nr4a-paralogue-dynamics.json -> "
+                                    "categorical_verdict.by_scope[*].by_linker_atoms — the matched-construct "
+                                    "test at 73,867 placements over three conformer scopes, same placement / "
+                                    "warhead exit anchor / E3 anchor / budget. FOUR measured points; "
+                                    "brackets are reported, never an interpolated value. ⚠ Superseded, "
+                                    "retained: the 5,657-placement static-model pilot this field used to "
+                                    "cite (`paralogue_collision_pilot_5657` in pinned-figures.json).",
         "n_at_or_below_the_12_atom_gate": len(at_or_below),
         "n_in_the_measured_zero_collision_band": len(clean),
         "honest_cutoff": (
-            "★ THE HONEST CUT-OFF IS **14 BACKBONE ATOMS**, and it is read off the measurement rather than "
-            "chosen. The collision probability is measured at 0.000 at 12 and 0.000 at 14, and 0.081 by 16 — "
-            "so 14 is the longest length at which the reach-only collision probability is still a MEASURED "
-            "zero. Above it the design is trading the categorical axis for reach, and the trade should be "
-            "made explicitly. Two things stop this being a gate: (i) no construct in this library reaches "
-            "C397 at or below the 12-atom term-(a) gate at ANY placement, so a cut-off at 12 would empty the "
-            "covalent series; (ii) the 0.000 is the REACH-AND-EXPOSURE figure at every length, so what is "
-            "actually being bounded here is the reach-only number, and it is bounded by four points from "
-            "static models."),
+            "★ THE HONEST CUT-OFF IS **THE 12-ATOM GATE**, and it is read off the measurement rather than "
+            "chosen. Under the landed matched ensembles the reach-only collision probability is 0.000-0.0029 "
+            "at 12, already 0.0089-0.0317 at 14, 0.0544-0.1333 at 16 and 0.2633-0.3825 at 20 (ranges across "
+            "the three conformer scopes) — so 12 is the ONLY length at which any scope reads a zero, and "
+            "there is no measured zero band above it. Above 12 the design is trading the categorical axis "
+            "for reach, and the trade should be made explicitly. ⚠ **Superseded, retained: '14 BACKBONE "
+            "ATOMS … 0.000 at 12 and 0.000 at 14, and 0.081 by 16 … the longest length at which the "
+            "reach-only collision probability is still a MEASURED zero.'** That reading came from the "
+            "5,657-placement static-model pilot; the matched ensembles retired it 2026-07-26 and 14 is not a "
+            "measured zero under any of them. Two things still stop this being a GATE: (i) no construct in "
+            "this library reaches C397 at or below 12 atoms at any placement of the five CONFIRMED basins — "
+            "a cut-off here would empty the covalent series, and the way out is a wider basin set, measured "
+            "in `nr4a3-short-linker-probe.json`; (ii) the preregistered downselect was fixed before "
+            "enumeration and adding a filter after seeing a result is exactly the tuning this rung forbids."),
         "ranked": rows,
     }
 

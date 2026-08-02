@@ -131,6 +131,11 @@ term (b) **40**, nominal **28**; the three gate-clearing basins `vhl|M2` @10 ato
 `crbn|M17` @12; shortest reach per residue **C397 10 · C420 16 · C559 27**; the collision profile
 **0 @12 atoms, 0.081 @16, 0.258 @20**; the **honest cut-off of 14 backbone atoms** and the explicit refusal to
 make it a gate. This block is named by the Tier-2 result section (line 1438) as the one home for those values.
+⚠ *Superseded 2026-07-26 for the collision profile and the cut-off: the pilot pair above was 5,657 static
+placements; the landed matched ensembles (73,867 placements, three scopes) read **0.000–0.003 @12, 0.054–0.133
+@16, 0.263–0.383 @20**, whose one home is `nr4a-paralogue-dynamics.json` →
+`categorical_verdict.by_scope[*].by_linker_atoms`, and under them 14 is not a measured zero. The inventory's
+classification below is unaffected.*
 
 **Classification: SPINE** for the numbers; **APPENDIX extract** for the "I read a superseded artifact and
 reported its numbers" narrative (lines 158–173, ~16 lines) — the correction belongs in Appendix A per editing

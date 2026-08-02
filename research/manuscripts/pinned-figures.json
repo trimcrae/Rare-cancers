@@ -819,6 +819,12 @@
    "id": "realised_spend_omitted_the_selcal_lane",
    "pattern": "\\$77\\.28 machine-ledgered|best estimate is \\*\\*\\$126\\.17\\*\\*|realised spend \\$77\\.28",
    "current": "SUPERSEDED 2026-08-02: realised spend is $84.49 machine-ledgered, best estimate $133.38. The old pair was not merely out of date, it was WRONG BY OMISSION: realised_spend.LANES registered only two lanes (step1_fanout, vast_bench_sweep), so the selectivity-control lane's per-rental ledger (selcal-price-ledger.json, $7.21 over 58 rentals, keyed on instance id and written BEFORE each DELETE) was never read at all \u2014 while this module's own docstring called the total 'the authoritative machine-counted floor'. A total that is honest about what it counted is still wrong if nobody added the lane. Registry coverage is now checked against the filesystem by tests/test_realised_spend.py::test_the_registry_covers_every_committed_price_ledger, which fails when any committed *-price-ledger.json is read by no row. Both figures remain DERIVED (realised_spend.py --write), never typed."
+  },
+  {
+   "id": "paralogue_collision_pilot_5657",
+   "pattern": "0\\.081\\s*(at|@)\\s*16|0\\.258\\s*(at|@)\\s*20|\\b5,?657\\s+placements",
+   "current": "reach-only collision 0.000-0.003 @12, 0.054-0.133 @16, 0.263-0.383 @20 over 73,867 matched placements and three scopes (nr4a-paralogue-dynamics.json -> categorical_verdict.by_scope)",
+   "retired_by": "the matched NR4A1/NR4A2/NR4A3 ensembles landing 2026-07-26 (3d993237f), which replaced the 5,657-placement static-model pilot"
   }
  ],
  "subset_checks": [

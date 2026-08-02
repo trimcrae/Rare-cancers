@@ -801,13 +801,22 @@ geometry. What fails is the implication that they share a *length*: the covalent
 pair at 19, five atoms apart, and five atoms is now a measured selectivity cost (§10.6). **A single molecule
 carrying both needs 16 atoms and the current segment grid cannot build it (§10.5).**
 
-**The best replacement, if length is allowed to lead.** Every enumerated *d*/*d₀* pair, shortest first:
+**The best replacement, if length is allowed to lead.** Every enumerated *d*/*d₀* pair, shortest first.
+
+⚠ **THE COLLISION COLUMN BELOW WAS SUPERSEDED ON 2026-07-26 AND IS REWRITTEN HERE.** Every bracket in this
+file was read from the 5,657-placement static-model pilot; the matched NR4A1/2/3 ensembles landed the next day
+(73,867 placements, three conformer scopes) and the values below are theirs, taken as the widest reading across
+the three scopes so a bracket cannot understate. One home:
+[`nr4a-paralogue-dynamics.json`](../modalities/nr4a-paralogue-dynamics.json) →
+`categorical_verdict.by_scope[*].by_linker_atoms`. *Superseded, retained: the pilot pair **0.081 at 16** and
+**0.258 at 20**, registered as `paralogue_collision_pilot_5657`.* **The ordering, and every conclusion drawn
+from it, is unchanged — the curve is the same shape and steeper.**
 
 | n | basin | placement | wedge | E3 clearance | basin evidence | collision bracket at this length |
 |---|---|---|---|---|---|---|
-| **16** | `vhl\|M3` | representative | T407, k = 11 | **10.5 Å** | 0.75 poses, 1.4× | **exactly 0.081** (a measured point) |
-| 18 | `vhl\|M3` | exemplar | T407, k = 6 | — | 0.75 poses, 1.4× | between 0.081 and 0.258 |
-| **19** | **`crbn\|M0`** | **exemplar** | **T407, k = 6** | **9.04 Å** | **0.92 poses, 7.5×** | between 0.081 and 0.258 |
+| **16** | `vhl\|M3` | representative | T407, k = 11 | **10.5 Å** | 0.75 poses, 1.4× | **exactly 0.133** (a measured point; 0.054–0.133 across scopes) |
+| 18 | `vhl\|M3` | exemplar | T407, k = 6 | — | 0.75 poses, 1.4× | between 0.133 and 0.383 |
+| **19** | **`crbn\|M0`** | **exemplar** | **T407, k = 6** | **9.04 Å** | **0.92 poses, 7.5×** | between 0.133 and 0.383 |
 
 The recommendation leads on **basin evidence**, which is what Tier 2 measured, and `crbn|M0` wins that on both
 axes by a wide margin. The 16-atom `vhl|M3` pair is the answer if **length** leads. The two disagree, the
@@ -869,32 +878,46 @@ preregistered enumeration and re-opens a known chemical refusal, so it is listed
 
 ### 10.6 ★ The selectivity-vs-length ranking, and where the honest cut-off is
 
-LANE 13's matched-construct test (5 657 placements, same placement / warhead exit anchor / E3 anchor / budget)
-priced backbone length as a **selectivity** cost: P(a paralogue cysteine is also reached | an NR4A3-unique one
-is) = **0.000 at 12, 0.000 at 14, 0.081 at 16, 0.258 at 20**. A construct reaching C397 at 13 atoms is
+⚠ **REWRITTEN 2026-08-02 ONTO THE LANDED ENSEMBLES.** *Superseded, retained: this section's original figures —
+"5 657 placements … **0.000 at 12, 0.000 at 14, 0.081 at 16, 0.258 at 20**", the claim that **14** is "the
+longest length at which the reach-only collision probability is still a measured zero", and the tabulated
+brackets built from them.* Registered as `paralogue_collision_pilot_5657`. **The ordering and every design
+consequence below are unchanged; the curve is the same shape and steeper.**
+
+The matched-construct test — same placement, same warhead exit anchor, same E3 anchor, same budget, now
+**73,867** placements over **three** conformer scopes — prices backbone length as a **selectivity** cost:
+reach-only P(a paralogue cysteine is also reached | an NR4A3-unique one is) = **0.000–0.003 at 12,
+0.009–0.032 at 14, 0.054–0.133 at 16, 0.263–0.383 at 20**
+([`nr4a-paralogue-dynamics.json`](../modalities/nr4a-paralogue-dynamics.json) →
+`categorical_verdict.by_scope[*].by_linker_atoms`, their one home). A construct reaching C397 at 13 atoms is
 therefore *more selective* than one reaching at 16, not merely more synthesisable. The full ranking is emitted
-as `selectivity_vs_length_ranking`; the shape of it:
+as `selectivity_vs_length_ranking`; the shape of it, at the widest reading across the three scopes:
 
 | n | what sits there | collision bracket |
 |---|---|---|
-| **14** | the whole `crbn\|M0` **and** `vhl\|M3` exemplar covalent series — 12 constructs | **0.000**, a measured point |
-| 16 | the `vhl\|M3` representative series (incl. the shortest wedge pair) and the `vhl\|M2` exemplar series | **0.081**, a measured point |
-| 18 | `vhl\|M3`'s exemplar wedge pair, `vhl\|M4`'s series, the weak control's series | between 0.081 and 0.258 |
-| 19–20 | the recommended `crbn\|M0` wedge pair; `vhl\|M2`'s representative series | between 0.081 and 0.258 |
-| 21–24 | the labelled-failure constructs at the representative | **above 0.258, and open** — the measurement stops at 20 and the trend is rising |
+| **14** | the whole `crbn\|M0` **and** `vhl\|M3` exemplar covalent series — 12 constructs | **0.032**, a measured point (0.009–0.032 across scopes) |
+| 16 | the `vhl\|M3` representative series (incl. the shortest wedge pair) and the `vhl\|M2` exemplar series | **0.133**, a measured point (0.054–0.133) |
+| 18 | `vhl\|M3`'s exemplar wedge pair, `vhl\|M4`'s series, the weak control's series | between 0.133 and 0.383 |
+| 19–20 | the recommended `crbn\|M0` wedge pair; `vhl\|M2`'s representative series | between 0.133 and 0.383 |
+| 21–24 | the labelled-failure constructs at the representative | **above 0.383, and open** — the measurement stops at 20 and the trend is rising |
 
-**★ The honest cut-off is 14 backbone atoms**, and it is read off the measurement rather than chosen: 14 is the
-longest length at which the reach-only collision probability is still a **measured** zero. Two things stop it
+**★ The honest cut-off is the 12-atom gate itself**, and it is read off the measurement rather than chosen: 12
+is the only length at which any scope reads a reach-only zero, and no length above it does. Two things stop it
 being a gate, and both must travel with it:
 
 1. **No construct in this library reaches C397 at or below the 12-atom term-(a) gate at any placement** — the
    shortest is 14 — so a cut-off at 12 would empty the covalent series entirely. The gate is met by the
    *basin*'s best member (10–12 atoms, §10.1); the *enumerated molecules* start at 14.
-2. **On reach AND exposure the collision probability is 0.000 at every measured length.** What the bracket
-   bounds is the reach-only number. The axis is currently held up by paralogue-cysteine *burial* — one number
-   per residue from one conformer — and the matched paralogue MD ensembles that turn it into a distribution
-   were in flight when this was written. **Four measured points are not a curve**: a construct at 18 atoms sits
-   *between* 0.081 and 0.258 and that is the whole statement.
+   ⚠ **That is a property of the FIVE CONFIRMED BASINS, not of the chemistry.** Enumerating the same
+   building-block grid against all three basins that clear the gate — including `crbn|M17`, which
+   `nr4a3_linker_design.CONFIRMED` excludes — returns one-branch C397 constructs from **11** atoms upward, and
+   the term that pushes the retained floor to 14 is `min_member_fraction_comfortable`, not geometry. One home:
+   [`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json).
+2. **On reach AND exposure the collision probability is ~0 at every measured length.** What the bracket
+   bounds is the reach-only number. The axis is held up above 12 atoms by paralogue-cysteine *burial*, and
+   burial is adjudicated by `EXPOSED_RSA = 0.25` — the criterion that fails its own positive control (NR4A1
+   Cys551 at RSA 0.165). **Four measured points are not a curve**: a construct at 18 atoms sits *between* 0.133
+   and 0.383 and that is the whole statement.
 
 ### 10.7 Exact nr4a3-program-map.md deltas from THIS lane (additional to §8)
 
@@ -909,7 +932,7 @@ being a gate, and both must travel with it:
 | **L14-5** | §Tier-2, ⚠ "Every reported C397 reach figure is a LOWER BOUND" | Replace with LANE 10's ✅ CORRECTED text (their delta table), **plus**: the correction moved term (a) 7 → 3 and left term (b) 40 and the nominal limb 28 bit-identical. |
 | **L14-6** | §RUNG 5b entry, "1,995 enumerated → 21 retained" | **"at the term-(a) exemplar 3 544 → 36; at the representative 1 791 → 18; 54 combined, RDKit-verified 54/54 (CI 30184078775). The exemplar library is primary and is labelled OPTIMISTIC (best-of-N)."** |
 | **L14-7** | §RUNG 5a-KS matched-pair block | **The pair stands** — `crbn\|M0` exemplar, 3-(3-pyridyl)-L-Ala vs L-Phe at **Thr407** — but at **19 backbone atoms**, k = 6, **9.04 Å** of E3 clearance (re-measured on the construct), C₄₃H₄₆N₈O₁₃ / C₄₄H₄₇N₇O₁₃ at **64 heavy atoms**. **Drop "the same geometry carries the covalent handle at 11 atoms so both can be built on one placement" as a one-molecule claim**: the placement hosts both, but the covalent series is at 14 and the wedge pair at 19, and a single chain carrying both needs 16. |
-| **L14-8** | **new bullet**, §MECHANISM-FIRST → "Consequence for the design: keep the linker SHORT" | Make it quantitative from the library: **the covalent series starts at 14 backbone atoms, the measured zero-collision ceiling.** Every wedge pair is 16+, i.e. already in the 0.081+ band. **The honest cut-off is 14 and no enumerated molecule reaches the 12-atom gate.** |
+| **L14-8** | **new bullet**, §MECHANISM-FIRST → "Consequence for the design: keep the linker SHORT" | Make it quantitative from the library: **the retained covalent series starts at 14 backbone atoms.** Every wedge pair is 16+, i.e. already above 0.05 reach-only collision. ⚠ *Superseded, retained: this row originally read "14 backbone atoms, **the measured zero-collision ceiling** … the honest cut-off is 14 and no enumerated molecule reaches the 12-atom gate", and cited the **0.081+** band from the 5,657-placement pilot.* Under the landed ensembles 14 is not a zero, and one-branch C397 constructs exist from 11 atoms once the basin set is widened past `CONFIRMED` ([`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json)). |
 | **L14-9** | **new bullet**, wherever the 5b library is described | **The 21-construct library never used the buggy reach rule** — 5b's enumerator has always called the exact three-ball kernel; the defect was in `basin_geom.linker_can_visit`, consumed only by the basin search. Re-enumeration returns the 21 field-identical. **The library lost three constructs to a different defect** (the enumerator ignored the preregistered wedge chemistry rule, §10.4), not to the reach correction. |
 
 ---
