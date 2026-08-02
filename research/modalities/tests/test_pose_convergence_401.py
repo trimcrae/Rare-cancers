@@ -172,5 +172,19 @@ def test_the_two_committed_metad_poses_are_readable_and_the_receptors_differ():
         "that says so must change with it"
 
 
+def test_scale_reference_calibrates_the_spread_without_inventing_a_band():
+    Chem = pytest.importorskip("rdkit.Chem")
+    AllChem = pytest.importorskip("rdkit.Chem.AllChem")
+    m = Chem.AddHs(Chem.MolFromSmiles("CCCCCCCCc1ccccc1"))
+    assert AllChem.EmbedMolecule(m, randomSeed=5) == 0
+    AllChem.MMFFOptimizeMolecule(m)
+    m = Chem.RemoveHs(m)
+    ref = P.scale_reference(m, n_random=40)
+    assert ref["length_A"] > 0
+    assert 0.3 * ref["length_A"] < ref["flip_rmsd_A"] < 1.2 * ref["length_A"]
+    assert ref["random_reorient_mean_A"] < ref["flip_rmsd_A"] * 1.2
+    assert "is a threshold" in ref["_note"]      # "none of these is a threshold"
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))

@@ -420,6 +420,47 @@ def pose_score(mol):
     return None
 
 
+def scale_reference(mol, n_random=200, seed=20260802):
+    """What does an RMSD of N Angstrom MEAN for this molecule? Three reference scales, measured.
+
+    A bare "7.0 A" is uninterpretable without knowing how big the molecule is, and picking a verbal label
+    for it would be exactly the tuning the known-answer module forbids. So the artifact carries the scales
+    a reader can calibrate against, all computed from the pose itself:
+      · `length_A`          — the largest heavy-atom separation in the molecule. An RMSD approaching this
+                              means the two poses share little more than a neighbourhood.
+      · `flip_rmsd_A`       — the pose against a 180 deg rotation of itself ABOUT ITS OWN CENTROID. The
+                              canonical "right place, backwards" failure; nothing has moved, only turned.
+      · `random_reorient_A` — mean RMSD against uniformly random reorientations in place. The ceiling for
+                              "same location, orientation carries no information".
+    ⛔ None of these is a threshold and none gates anything."""
+    import math as _m
+    import random
+    from rdkit.Chem import rdMolAlign
+    pts = heavy_coords(mol)
+    length = max(_m.dist(a, b) for a in pts for b in pts) if len(pts) > 1 else 0.0
+    c = centroid(pts)
+
+    def _rotated(R):
+        t = tuple(c[i] - sum(R[i][j] * c[j] for j in range(3)) for i in range(3))
+        return transformed_copy(mol, R, t)
+
+    flip = rdMolAlign.CalcRMS(_rotated([[-1, 0, 0], [0, -1, 0], [0, 0, 1]]), mol)
+    rng = random.Random(seed)
+    vals = []
+    for _ in range(n_random):
+        u1, u2, u3 = rng.random(), rng.random(), rng.random()
+        x, y, z, w = (_m.sqrt(1 - u1) * _m.sin(2 * _m.pi * u2), _m.sqrt(1 - u1) * _m.cos(2 * _m.pi * u2),
+                      _m.sqrt(u1) * _m.sin(2 * _m.pi * u3), _m.sqrt(u1) * _m.cos(2 * _m.pi * u3))
+        R = [[1 - 2 * (y * y + z * z), 2 * (x * y - w * z), 2 * (x * z + w * y)],
+             [2 * (x * y + w * z), 1 - 2 * (x * x + z * z), 2 * (y * z - w * x)],
+             [2 * (x * z - w * y), 2 * (y * z + w * x), 1 - 2 * (x * x + y * y)]]
+        vals.append(float(rdMolAlign.CalcRMS(_rotated(R), mol)))
+    return {"length_A": round(length, 2), "flip_rmsd_A": round(float(flip), 2),
+            "random_reorient_mean_A": round(sum(vals) / len(vals), 2) if vals else None,
+            "n_random": len(vals),
+            "_note": "reference scales for reading the RMSD spread; none of these is a threshold"}
+
+
 def heavy_coords(mol):
     conf = mol.GetConformer()
     return [(conf.GetAtomPosition(i).x, conf.GetAtomPosition(i).y, conf.GetAtomPosition(i).z)
@@ -512,6 +553,7 @@ def measure(sources=None):
         doc["_status"] = "ABORT — the sources do not all hold the same molecule"
         return doc
 
+    doc["scale_reference"] = scale_reference(loaded[0]["mol"])
     ref_src = loaded[0]
     pairs = []
     for i in range(len(loaded)):
@@ -612,7 +654,7 @@ SAME_POSE_A = 2.0
 SAME_SITE_A = 4.0
 
 
-def _verdict(doc, pairs, n_usable, n_total):
+def _verdict(artifact, pairs, n_usable, n_total):
     ok = [p for p in pairs if p["pocket"].get("ligand_rmsd_A") is not None]
     vals = [p["pocket"]["ligand_rmsd_A"] for p in ok]
     s = spread(vals)
@@ -646,13 +688,26 @@ def _verdict(doc, pairs, n_usable, n_total):
         "n_pairs_within_%.1fA" % SAME_POSE_A: n_same_pose,
         "n_pairs_within_%.1fA" % SAME_SITE_A: n_same_site,
     }
+    ref = artifact.get("scale_reference") or {}
     doc["sentence"] = (
         "Across %d readable pose source(s) of %d known, %d pairwise comparison(s) give a pocket-superposed, "
         "symmetry-corrected ligand RMSD spanning %s-%s A (median %s). %d/%d pairs agree to within %.1f A "
-        "and %d/%d to within %.1f A. Convergence is not correctness; this number bounds how singular "
-        "'the predicted pose' is entitled to be."
+        "and %d/%d to within %.1f A. For scale, the molecule is %s A long, turning it end-for-end in place "
+        "costs %s A, and a uniformly random reorientation in place averages %s A. Convergence is not "
+        "correctness; this spread bounds how singular 'the predicted pose' is entitled to be."
         % (n_usable, n_total, len(vals), s["min"], s["max"], s["median"],
-           n_same_pose, len(vals), SAME_POSE_A, n_same_site, len(vals), SAME_SITE_A))
+           n_same_pose, len(vals), SAME_POSE_A, n_same_site, len(vals), SAME_SITE_A,
+           ref.get("length_A"), ref.get("flip_rmsd_A"), ref.get("random_reorient_mean_A")))
+    recfit = [(p["pocket"]["receptor_fit_rmsd_A"], p["pocket"]["ligand_rmsd_A"]) for p in ok
+              if p["pocket"].get("receptor_fit_rmsd_A") is not None]
+    tight = [l for r, l in recfit if r <= 1.0]
+    doc["receptor_agreement_does_not_predict_ligand_agreement"] = {
+        "n_pairs_with_pocket_fit_within_1.0A": len(tight),
+        "their_ligand_rmsd_spread_A": spread(tight),
+        "_note": "pairs whose POCKETS superpose to within 1 A — i.e. essentially the same receptor "
+                 "geometry. Their ligand spread is the part of the disagreement that cannot be blamed on "
+                 "the receptors being different conformers.",
+    }
     if not cross:
         doc["cross_method_evidence"] = (
             "NONE — AND THAT IS A FINDING, NOT A GAP IN THIS ANALYSIS. Every pose this program holds of "

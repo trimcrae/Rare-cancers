@@ -165,6 +165,9 @@ SELECTION_RULES = [
 #: cases, never a menu to pick from.
 N_BENCHMARKS = 3
 
+#: At most this many pairs from any one protein, so a three-member panel is not one protein three times.
+MAX_PER_PROTEIN = 2
+
 
 # ==================================================================================================
 # NETWORK — every failure becomes a refusal with its URL.
@@ -373,6 +376,20 @@ def ligand_hetatms(pdb_text, comp_id):
         return None, None
     key = max(groups, key=lambda k: len(groups[k]))
     return groups[key], key
+
+
+#: Words in a deposit title that declare an engineered construct. ⛔ REPORTED, NEVER FILTERED — a rule that
+#: removed structures until the benchmark passed would be exactly the tuning this module forbids. But a
+#: reader has to SEE it: 4REF ("Crystal Structure of TR3 LBD_L449W in complex with Molecule 2") is a
+#: tryptophan point mutant whose ligand sits ~19 A from the canonical nuclear-receptor cavity, and that is
+#: what its arms are measuring.
+MUTANT_MARKERS = ("MUTANT", "MUTATION", " MUT ", "_L4", "_S4", "_W4", "_F4")
+
+
+def engineered_flag(*titles):
+    """(bool, evidence) — does any deposit title declare an engineered construct? Reported, never gating."""
+    hits = [t for t in titles if any(m in (t or "").upper() for m in MUTANT_MARKERS)]
+    return bool(hits), hits
 
 
 def covalent_links(pdb_text, comp_id):
@@ -814,6 +831,11 @@ def run_benchmark(cand, work, af2_reference_pdb):
     if xtal is None:
         return refuse("crystal_ligand", why)
     R_["crystal"] = {"comp_id": comp, "copy": "chain %s resseq %s" % key, "n_heavy": len(xtal_pts)}
+    flag, ev = engineered_flag(cand.get("apo_title"), cand.get("holo_title"))
+    R_["engineered_construct"] = {"declared_in_title": flag, "evidence": ev,
+                                  "_note": "reported, never filtered — a mutant designed to create or "
+                                           "probe a pocket is not the wild-type site the pipeline targets, "
+                                           "and a reader must be able to see that from the artifact"}
 
     # 3) receptors — the holo chain the ligand actually touches, and the apo's largest chain
     holo_chain = _chain_nearest(holo_txt, xtal_pts)
@@ -885,6 +907,21 @@ def run_benchmark(cand, work, af2_reference_pdb):
         # pocket DETECTION diagnostic: where does the native site rank among the apo's own pockets?
         site_apo_set = set(site_apo)
         ranks = [(i + 1, p) for i, p in enumerate(pockets) if site_apo_set & set(p["residues"])]
+        # ⛔ THE DISCRIMINATING OBSERVATION for a pipeline-box failure, and it is free. If the transferred
+        # site is itself a well-ranked cavity that simply does not hold THIS ligand, the pipeline looked in
+        # a real pocket and the crystal ligand is elsewhere. If it is no cavity at all, the transfer is
+        # broken. Those have opposite meanings and must never be reported as one "it failed".
+        pl = set((boxes.get("pipeline_apo", {}).get("detail") or {}).get("mapped_residues") or [])
+        pranks = [(i + 1, p) for i, p in enumerate(pockets) if pl & set(p["residues"])]
+        boxes["pipeline_box_fpocket_rank"] = (
+            {"rank_by_druggability": pranks[0][0], "druggability": pranks[0][1].get("druggability"),
+             "n_shared_residues": len(pl & set(pranks[0][1]["residues"])),
+             "_reads": "the site the pipeline's Pocket-5 transfer selected IS a cavity on this receptor; "
+                       "if the primary arm still missed, the crystal ligand is not in it"}
+            if pranks else
+            {"rank_by_druggability": None,
+             "_reads": "the site the pipeline's Pocket-5 transfer selected is not a cavity fpocket finds "
+                       "on this receptor at all"})
         boxes["native_site_fpocket_rank"] = (
             {"rank_by_druggability": ranks[0][0], "druggability": ranks[0][1].get("druggability"),
              "n_shared_residues": len(site_apo_set & set(ranks[0][1]["residues"]))}
@@ -935,7 +972,11 @@ def run_benchmark(cand, work, af2_reference_pdb):
         arms["C3_oracle_box_apo"] = (score_pose(mol) if mol else {"rmsd_A": None, "why": why})
     except Exception as e:                                    # noqa: BLE001
         arms["C3_oracle_box_apo"] = {"rmsd_A": None, "why": "oracle box failed: %s" % e}
-    # 11) C1 SELF-DOCK into the holo receptor (same frame as the crystal — no transform)
+    # 11) C1 SELF-DOCK into the holo receptor (same frame as the crystal — no transform).
+    #     ★ ONE CONTROL PER BLIND ARM. A single C1 on the pipeline box cannot interpret the fpocket arm:
+    #     if the pipeline's transferred site is simply not where this ligand binds, its C1 fails for a
+    #     reason that says nothing about whether the DOCKING works. So each blind arm gets a self-dock
+    #     through its own site-selection route, and each is then judged against its own control.
     if boxes["pipeline_holo"].get("center"):
         _s, out_sdf = dock(holo_rec, boxes["pipeline_holo"]["center"], sdf, "holo_self", work)
         mol, why = _top_pose(out_sdf, comp)
@@ -943,6 +984,20 @@ def run_benchmark(cand, work, af2_reference_pdb):
                                      else {"rmsd_A": None, "why": why})
     else:
         arms["C1_self_dock_holo"] = {"rmsd_A": None, "why": boxes["pipeline_holo"].get("why")}
+    hp, hwhy = fpocket_boxes(holo_rec)
+    if hp:
+        import nr4a3_warhead as _wh
+        try:
+            hc, _n = _wh.pocket_box(holo_rec, hp[0]["residues"])
+            _s, out_sdf = dock(holo_rec, hc, sdf, "holo_self_fpocket", work)
+            mol, why = _top_pose(out_sdf, comp)
+            arms["C1_self_dock_holo_fpocket"] = (score_pose(mol, transform=False) if mol
+                                                 else {"rmsd_A": None, "why": why})
+            boxes["fpocket_top_holo"] = {"center": hc, "druggability": hp[0].get("druggability")}
+        except Exception as e:                                # noqa: BLE001
+            arms["C1_self_dock_holo_fpocket"] = {"rmsd_A": None, "why": "fpocket self-dock failed: %s" % e}
+    else:
+        arms["C1_self_dock_holo_fpocket"] = {"rmsd_A": None, "why": hwhy}
     R_["arms"] = arms
 
     # 12) C2 power
@@ -968,7 +1023,21 @@ def verdict(res):
                 "reason": "C1 self-dock produced no pose, so a primary failure cannot be attributed",
                 "detail": c1.get("why"), "primary_rmsd_A": p_rms}
     if c1_rms > RECOVER_RMSD_A:
+        fp = arms.get("blind_apo_fpocket_top_box") or {}
+        fp_c1 = arms.get("C1_self_dock_holo_fpocket") or {}
         return {"outcome": "INCONCLUSIVE",
+                "blind_arms_each_against_its_own_control": {
+                    "pipeline_site_transfer": {
+                        "blind_apo_rmsd_A": p_rms, "own_control_rmsd_A": c1_rms,
+                        "control_passed": False,
+                        "_reads": "the protocol cannot recover this ligand even from the receptor it was "
+                                  "solved in, THROUGH THIS SITE — so this arm is measuring the site, not "
+                                  "the docking"},
+                    "fpocket_top_pocket": {
+                        "blind_apo_rmsd_A": fp.get("rmsd_A"), "own_control_rmsd_A": fp_c1.get("rmsd_A"),
+                        "control_passed": (fp_c1.get("rmsd_A") is not None
+                                           and fp_c1["rmsd_A"] <= RECOVER_RMSD_A),
+                        "blind_apo_fnat": fp.get("fnat")}},
                 "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor "
                           "(%.2f A > %.2f A), so the primary result measures the docking protocol, not the "
                           "apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a "
@@ -982,7 +1051,26 @@ def verdict(res):
                 "primary_rmsd_A": p_rms}
 
     band = primary.get("verdict")
+    # ★ EACH BLIND ARM AGAINST ITS OWN CONTROL. The primary endpoint is unchanged and stays the pipeline
+    # box — moving it after seeing a number would be the tuning this module forbids. But a single verdict
+    # line cannot say what the run actually found when one arm's SITE is wrong and another's is right, so
+    # every blind arm is also reported beside the self-dock that goes through the same site-selection route.
+    fp = arms.get("blind_apo_fpocket_top_box") or {}
+    fp_c1 = arms.get("C1_self_dock_holo_fpocket") or {}
+    out_arms = {
+        "pipeline_site_transfer": {
+            "blind_apo_rmsd_A": p_rms, "own_control_rmsd_A": c1_rms,
+            "control_passed": c1_rms is not None and c1_rms <= RECOVER_RMSD_A,
+            "_site": "NR4A3 Pocket-5 carried across by the pipeline's own paralogue transfer"},
+        "fpocket_top_pocket": {
+            "blind_apo_rmsd_A": fp.get("rmsd_A"), "own_control_rmsd_A": fp_c1.get("rmsd_A"),
+            "control_passed": (fp_c1.get("rmsd_A") is not None
+                               and fp_c1["rmsd_A"] <= RECOVER_RMSD_A),
+            "blind_apo_fnat": fp.get("fnat"),
+            "_site": "the highest-druggability fpocket pocket on the receptor, no NR4A3 information used"},
+    }
     out = {"outcome": "RECOVERED" if band == "RECOVERED" else "NOT RECOVERED",
+           "blind_arms_each_against_its_own_control": out_arms,
            "band": band, "primary_rmsd_A": p_rms, "primary_fnat": primary.get("fnat"),
            "c1_self_dock_rmsd_A": c1_rms, "null_p_within_criterion": p_null,
            "oracle_rmsd_A": (arms.get("C3_oracle_box_apo") or {}).get("rmsd_A"),
@@ -1142,19 +1230,31 @@ def main():
 
 
 def _panel_candidates(sel):
-    """Rank-ordered candidate pairs, de-duplicated so the panel is not three views of one comparison."""
-    seen_apo, seen_holo, out = set(), set(), []
-    rows = sel.get("considered_top") or []
+    """Rank-ordered candidate pairs: ONE PER DISTINCT HOLO, and at most `MAX_PER_PROTEIN` per protein.
+
+    ⚠ THIS IS A BUG FIX, NOT A RE-TUNING, and the distinction matters because a recovery number already
+    exists. The rule was written in this module BEFORE the first run — "three pairs sharing one crystal
+    would be one known answer measured three times" — but the implementation skipped a row only when BOTH
+    its apo and its holo had already been seen, so five different apo structures against the SINGLE holo
+    5Y41 all entered, and the three pairs that scored were three apo receptors against ONE crystal (4REF).
+    The code now does what the stated rule always said. The 4REF result is retained and reported, never
+    discarded, and it is what surfaced the bug.
+
+    The per-protein cap exists for the same reason one level up: a panel that is one protein three times
+    tests one protein. Neither rule can be steered by an answer — both act on the rank order, which is
+    fixed by SELECTION_RULES before any structure is fetched."""
+    seen_holo, per_protein, out = set(), {}, []
+    rows = list(sel.get("considered_top") or [])
     if sel.get("chosen"):
-        rows = [{k: v for k, v in sel["chosen"].items()}] + [r for r in rows]
+        rows = [dict(sel["chosen"])] + rows
     for r in rows:
-        key_a, key_h = r.get("apo"), r.get("holo")
-        if not key_a or not key_h:
+        acc, holo = r.get("accession"), r.get("holo")
+        if not r.get("apo") or not holo or holo in seen_holo:
             continue
-        if key_a in seen_apo and key_h in seen_holo:
-            continue                                   # neither end is new -> nothing extra is learned
-        seen_apo.add(key_a)
-        seen_holo.add(key_h)
+        if per_protein.get(acc, 0) >= MAX_PER_PROTEIN:
+            continue
+        seen_holo.add(holo)
+        per_protein[acc] = per_protein.get(acc, 0) + 1
         out.append({k: r[k] for k in ("accession", "protein", "apo", "holo", "ligand", "apo_method",
                                       "apo_models", "apo_resolution_A", "holo_resolution_A",
                                       "apo_title", "holo_title") if k in r})

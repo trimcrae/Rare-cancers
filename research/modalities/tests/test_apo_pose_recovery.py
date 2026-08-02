@@ -282,5 +282,57 @@ def test_the_oracle_arm_can_never_turn_a_failure_into_a_pass():
     assert v["outcome"] == "NOT RECOVERED"
 
 
+def test_panel_takes_one_pair_per_distinct_holo_and_caps_per_protein():
+    """★ THE BUG THE FIRST RUN EXPOSED. Five apo structures against ONE crystal is one answer measured five
+    times; the stated rule always said otherwise and the implementation did not."""
+    sel = {"chosen": {"accession": "P43354", "apo": "1OVL", "holo": "5Y41", "ligand": {"comp_id": "RPG"}},
+           "considered_top": [
+               {"accession": "P43354", "apo": "6L6Q", "holo": "5Y41", "ligand": {"comp_id": "RPG"}},
+               {"accession": "P43354", "apo": "6L6L", "holo": "5Y41", "ligand": {"comp_id": "RPG"}},
+               {"accession": "P43354", "apo": "1OVL", "holo": "5YD6", "ligand": {"comp_id": "8SU"}},
+               {"accession": "P43354", "apo": "1OVL", "holo": "8CYO", "ligand": {"comp_id": "OBJ"}},
+               {"accession": "P22736", "apo": "4RZF", "holo": "4REF", "ligand": {"comp_id": "3N0"}},
+               {"accession": "P22736", "apo": "3V3E", "holo": "4REF", "ligand": {"comp_id": "3N0"}},
+               {"accession": "P22736", "apo": "4KZJ", "holo": "4RE7", "ligand": {"comp_id": "XXX"}},
+               {"accession": "P22736", "apo": "4KZJ", "holo": "4RZG", "ligand": {"comp_id": "YYY"}}]}
+    out = A._panel_candidates(sel)
+    holos = [r["holo"] for r in out]
+    assert len(holos) == len(set(holos)), "one pair per distinct crystallographic answer"
+    for acc in {r["accession"] for r in out}:
+        assert sum(1 for r in out if r["accession"] == acc) <= A.MAX_PER_PROTEIN
+
+
+def test_engineered_constructs_are_flagged_but_never_filtered():
+    """4REF is 'TR3 LBD_L449W in complex with Molecule 2'. A reader must see the mutation; a rule that
+    dropped structures until the benchmark passed would be exactly the tuning this module forbids."""
+    flag, ev = A.engineered_flag("Crystal Structure of TR3 LBD_L449W in complex with Molecule 2",
+                                 "Crystal Structure of Nurr1 LBD")
+    assert flag and ev
+    assert A.engineered_flag("Crystal Structure of Nurr1 LBD")[0] is False
+    # and it is not wired into any selection rule
+    assert not any("MUTANT" in r.upper() and "HARD" in r for r in A.SELECTION_RULES)
+
+
+def test_covalent_ligands_are_excluded_with_the_deposits_own_evidence():
+    """R2b. Every deposited Nurr1 ligand complex turned out to be covalent; the exclusion cites the LINK."""
+    txt = "LINK         SG  CYS A 566                 C11 RPG A 601     1555   1555  1.64\n"
+    assert A.covalent_links(txt, "RPG")
+    assert A.covalent_links(txt, "GOL") == []
+
+
+def test_each_blind_arm_is_reported_against_its_own_control():
+    """A single C1 on the pipeline box cannot interpret the fpocket arm: if the transferred site is not
+    where the ligand binds, its control fails for a reason that says nothing about the docking."""
+    res = _res(primary=19.4, c1=19.5)
+    res["arms"]["blind_apo_fpocket_top_box"] = {"rmsd_A": 3.1, "fnat": 0.78}
+    res["arms"]["C1_self_dock_holo_fpocket"] = {"rmsd_A": 1.4}
+    v = A.verdict(res)
+    assert v["outcome"] == "INCONCLUSIVE"
+    block = v["blind_arms_each_against_its_own_control"]
+    assert block["pipeline_site_transfer"]["control_passed"] is False
+    assert block["fpocket_top_pocket"]["control_passed"] is True
+    assert block["fpocket_top_pocket"]["blind_apo_rmsd_A"] == 3.1
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))
