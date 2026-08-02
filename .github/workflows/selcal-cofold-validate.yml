@@ -43,10 +43,12 @@ on:
       - research/modalities/selcal_cofold_validate.py
       - research/modalities/selcal_dockq_crosscheck.py
       - research/modalities/valb_frame_transfer_check.py
+      - research/modalities/selcal_dockq_decoy_scale.py
       - research/modalities/structural_provenance_census.py
       - research/modalities/selcal_deepternary_controls.py
       - research/modalities/tests/test_selcal_cofold_validate.py
       - research/modalities/tests/test_selcal_dockq_crosscheck.py
+      - research/modalities/tests/test_selcal_dockq_decoy_scale.py
 
 permissions:
   contents: write
@@ -85,6 +87,7 @@ jobs:
           set -eo pipefail
           python3 -m pytest research/modalities/tests/test_selcal_cofold_validate.py \
                             research/modalities/tests/test_selcal_dockq_crosscheck.py \
+                            research/modalities/tests/test_selcal_dockq_decoy_scale.py \
                             research/modalities/tests/test_selcal_panel.py -q
 
       - name: Resolve the prefix the panel actually froze
@@ -183,12 +186,34 @@ jobs:
           print(json.dumps(d.get('instruments', {}), indent=1))
           "
 
-      # ★ THE FIX EXPERIMENT, step 1: source non-native binary inputs so DeepTernary can be run BLIND on the
-      # same two systems our co-folds scored 0.023-0.046 on. Blindness was verified first
-      # (deepternary-leakage-check.json: 9DTY/9DTX are post-horizon); the module refuses to source anything
-      # if that ever stops holding, because a blind control that is not blind yields a number that looks
-      # like validation.
-      - name: DeepTernary head-to-head — source blind inputs
+      # ★ WHAT DOES DockQ 0.03 ACTUALLY MEAN? The co-folds' 0.023-0.046 is a number, not yet a meaning, and
+      # "below the Acceptable bar" says the pose is wrong without saying HOW wrong — which is the difference
+      # between "nearly right but rotated" and "placed elsewhere". Calibrate the scale with the deposited
+      # complex itself: hold VHL fixed, displace the TRUE target chain by a rigid motion of known RMSD, score
+      # with the same DockQ against the same reference. Everything else about the structure is perfect, so
+      # placement is the only variable.
+      # ⚠ THIS IS THE NEGATIVE HALF OF A CONTROL. The positive half — does the harness register a CORRECT
+      # ternary at all — is `selcal-deepternary-poscontrol.json`. A scorer that returned ~0 for everything
+      # would produce this curve too, so neither is worth much alone.
+      - name: Calibrate the DockQ scale with displaced-native decoys
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python3 research/modalities/selcal_dockq_decoy_scale.py \
+            --native-dir /tmp/selcal_cofolds/_native \
+            --pdb 9DTY \
+            --out research/modalities/selcal-dockq-decoy-scale.json
+
+      # ★ THE FIX EXPERIMENT, step 1: source non-native binary inputs so DeepTernary can be run on the same
+      # two systems our co-folds scored 0.023-0.046 on. The exclusion-set check ran first
+      # (deepternary-leakage-check.json: 9DTY/9DTX are post-horizon) and the module refuses to source
+      # anything if that stops holding.
+      # ⛔ THAT CHECK IS NECESSARY BUT NOT SUFFICIENT, and this comment said "BLIND" until DeepTernary's own
+      # shipped data was read: its published unbound protocol superposes both binaries into the NATIVE
+      # ternary frame and supplies the NATIVE degrader pose, so the arms are blind to the two proteins'
+      # relative placement and NOT to which pocket each ligand end occupies. Measurement and consequences:
+      # `selcal_deepternary_frame.py`; retraction: STRATEGY.md Appendix A row 65.
+      - name: DeepTernary head-to-head — source the non-native binary inputs
         continue-on-error: true
         run: |
           set -eo pipefail
@@ -213,6 +238,7 @@ jobs:
             "selcal co-fold vs deposited ternary: input-quality check + DockQ cross-check (CI)" \
             research/modalities/selcal-cofold-vs-crystal.json \
             research/modalities/selcal-cofold-dockq.json \
+            research/modalities/selcal-dockq-decoy-scale.json \
             research/modalities/valb-frame-transfer-check.json \
             research/modalities/structural-provenance-census.json \
             research/modalities/deepternary-leakage-check.json \
