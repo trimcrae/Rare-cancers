@@ -1477,7 +1477,14 @@ def run_benchmark(cand, work, af2_reference_pdb):
            if in_site else
            ("the engineered residue(s) are outside the ligand's contact shell, so the benchmarked pocket "
             "is not one the mutation built" if eng_holo else
-            "no engineered substitution is declared in the holo deposit's SEQADV records")))
+            # ⚠ AN ABSENT READING IS NOT A READING OF ABSENCE (CLAUDE.md §4). "No engineered mutation" and
+            # "this file carries no SEQADV block at all" are different facts with different weights, and a
+            # single sentence covering both would make an unread file look like a clean wild-type deposit.
+            "SEQADV records ARE present (%d) and none of them declares an engineered mutation"
+            % len(R_["engineered_construct"]["seqadv_holo"])
+            if R_["engineered_construct"]["seqadv_holo"] else
+            "⚠ THE HOLO DEPOSIT CARRIES NO SEQADV RECORDS AT ALL — the substitutions are UNREAD here, not "
+            "absent. The title flag above is the only evidence for this pair.")))
 
     # 14) THE TWO QUESTIONS, SEPARATED. Added 2026-08-02. Neither changes `verdict()`.
     R_["questions"] = pair_questions(R_, cand)

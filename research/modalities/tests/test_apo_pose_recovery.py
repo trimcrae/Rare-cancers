@@ -467,6 +467,18 @@ def test_seqadv_is_read_from_the_deposit_not_inferred_from_the_title():
     assert A.seqadv_mutations(txt, chain="B") == []
 
 
+def test_a_file_with_no_seqadv_block_is_UNREAD_not_wild_type():
+    """⚠ CLAUDE.md §4: an absent reading is not a reading of absence. 'No engineered mutation declared'
+    and 'this deposit carries no SEQADV records at all' are different facts, and one sentence covering
+    both would let an unread file read as a clean wild-type deposit."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    assert "NO SEQADV RECORDS AT ALL" in src
+    assert "are UNREAD here, not" in src
+    assert "none of them declares an engineered mutation" in src, \
+        "the SEQADV-present-but-clean case must have its own sentence"
+
+
 def test_a_declared_allosteric_ligand_is_read_from_the_title_and_never_filters():
     flag, ev = A.allosteric_flag("ROR(gamma)t ligand binding domain in complex with allosteric ligand FM156")
     assert flag and ev
