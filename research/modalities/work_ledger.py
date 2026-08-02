@@ -51,7 +51,7 @@ agree, so this list cannot rot away from the code.
 
 SCANNED — a stall in one of these produces an entry:
 
-  `plan_items`     `[ ]` / `[~]` / `[!]` items in STRATEGY.md's ORDERED PLAN. Catches "the plan says to do
+  `plan_items`     `[ ]` / `[~]` / `[!]` items in the roadmap's ORDERED PLAN. Catches "the plan says to do
                    it and nobody is". An item with no gate text and no owner is the purest form of the
                    defect. `[!]` (result under correction) counts as OPEN: a verdict landed and stopped
                    standing, which is more decision-relevant than an item never started.
@@ -86,7 +86,7 @@ NOT SCANNED — a stall in one of these is invisible to this module, and that is
   * WHETHER A RESULT IS SCIENTIFICALLY RIGHT. A wrong number that lands on schedule is indistinguishable
     here from a right one. This module measures whether work MOVED, never whether it moved correctly.
   * WORK THAT EXISTS ONLY IN AN AGENT'S HEAD OR IN A CHAT MESSAGE. ⚠ THIS IS THE LARGEST HOLE AND IT IS
-    STRUCTURAL: if a decision was never written into STRATEGY.md, a watch list or an artifact, there is
+    STRUCTURAL: if a decision was never written into the roadmap, a watch list or an artifact, there is
     nothing on disk to scan and this module will never know it was owed. The mitigation is not code — it is
     that an item recorded here is recorded FOREVER until its evidence lands, so the fix for "the ledger
     missed it" is to write it into the plan, once.
@@ -95,7 +95,7 @@ NOT SCANNED — a stall in one of these is invisible to this module, and that is
   * THE MANUSCRIPT, REVIEWER LISTS, `method-watch.md`, `IDEAS.md` AND `emc-treatment-strategy.md` backlogs.
     Prose backlogs with no machine-readable completion signal — a scanner over them would produce entries
     that can never reach `done`, and an entry that can never close is noise that teaches people to skim the
-    board. STRATEGY.md's ORDERED PLAN is scanned precisely BECAUSE its checkboxes are a completion signal.
+    board. The roadmap's ORDERED PLAN is scanned precisely BECAUSE its checkboxes are a completion signal.
   * COST CORRECTNESS. Whether the ladder's numbers are right is `vast_cost_model.py`'s job and
     `lint_consistency.py`'s. This module only points at them.
   * THE NAME CORRESPONDENCE BETWEEN `vast-ladder-repricing.json`'s PRICED RUNGS AND THE SCHEDULE'S
@@ -105,7 +105,7 @@ NOT SCANNED — a stall in one of these is invisible to this module, and that is
     real files produced ONLY false positives, and a checker that cries wolf gets switched off within a day —
     which would cost more coverage than this gap does. Closing it properly means giving the ladder and the
     schedule a shared key, which is a change to those files, not to this one.
-  * WHETHER STRATEGY.md's MARKERS AGREE WITH THE SCHEDULE'S STATUSES. Both are scanned, neither is
+  * WHETHER THE ROADMAP'S PLAN MARKERS AGREE WITH THE SCHEDULE'S STATUSES. Both are scanned, neither is
     reconciled against the other, for the same reason: the join is prose-title to id.
 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -184,7 +184,7 @@ HAZARDS, ALL MEASURED 2026-07-27 — the reasons the signals here are the ones t
   unmeasured state rendered as a measured zero is this repo's most expensive defect class.
 
 Usage:
-    python3 work_ledger.py [--root DIR] [--ledger PATH] [--strategy PATH] [--schedule PATH]
+    python3 work_ledger.py [--root DIR] [--ledger PATH] [--plan-doc PATH] [--schedule PATH]
                            [--now ISO8601Z] [--board] [--json OUT] [--write]
                            [--emit-dispatch PATH] [--no-api] [--strict]
 Exit 0 always unless the ledger itself could not be built: this is a RECORD, and per the ruling above it does
@@ -216,8 +216,14 @@ ET = datetime.timezone(datetime.timedelta(hours=-4))  # EDT. CLAUDE.md §1: alwa
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_LEDGER = os.path.join(HERE, "work-ledger.json")
-DEFAULT_STRATEGY = os.path.join(HERE, "..", "..", "STRATEGY.md")
-#: The MACHINE MIRROR of the ORDERED PLAN (STRATEGY.md §5). It carries `id`, `status` and `depends_on`, so
+#: ⚠ THE PLAN DOCUMENT MOVED (2026-08-02). `THE ORDERED PLAN` used to live in STRATEGY.md; the roadmap merge
+#: physically moved it — heading string, bullet format and `###` rung sub-headings all unchanged — into
+#: `nr4a3-program-map.md`, which is now the single document the program is steered by. STRATEGY.md keeps only
+#: Appendix A and Appendix B. Pointing this at the old path is the silent failure `scan_plan_items` exists to
+#: shout about: the scanner would report NOT SCANNED and the whole plan layer would vanish from the board.
+DEFAULT_PLAN_DOC = os.path.join(HERE, "..", "manuscripts", "nr4a3-program-map.md")
+DEFAULT_STRATEGY = DEFAULT_PLAN_DOC                # backwards-compatible alias; do not add a second path
+#: The MACHINE MIRROR of the ORDERED PLAN. It carries `id`, `status` and `depends_on`, so
 #: the "is this rung blocked" question is answerable exactly, against a real graph, with no name matching.
 DEFAULT_SCHEDULE = os.path.join(HERE, "..", "manuscripts", "degrader-paper-schedule.json")
 REPO = "trimcrae/Rare-cancers"
@@ -515,7 +521,7 @@ def _fp(v) -> str | None:
 #: registered here appears in the docstring's SCANNED list and vice versa, so the two cannot drift apart.
 SCANNERS = ("plan_items", "fanout_units", "handoff", "rung_gates", "lanes", "self")
 
-# `- **`[x]` ` — a bullet, bold, then the marker as an INLINE CODE SPAN. Verified against STRATEGY.md's own
+# `- **`[x]` ` — a bullet, bold, then the marker as an INLINE CODE SPAN. Verified against the plan's own
 # legend line. ⚠ THE "SKIPPED" MARKER IS AN EN DASH (U+2013), NOT AN ASCII HYPHEN; matching only `-` would
 # silently reclassify every skipped item as pending and fill the board with work nobody owes.
 _PLAN_ITEM_RE = re.compile(r"^(\s*)-\s+\*\*`\[([ x~!–-])\]`\s*(.*)$")
@@ -538,28 +544,29 @@ _GATE_MARKERS = ("**gate:**", "**gates:**", "**go/no-go:**", "blocked by", "need
 
 
 def scan_plan_items(strategy_text: str | None, err: str | None) -> tuple[list[Entry], str]:
-    """Unblocked `[ ]` / `[~]` / `[!]` items in STRATEGY.md's ORDERED PLAN.
+    """Unblocked `[ ]` / `[~]` / `[!]` items in the roadmap's ORDERED PLAN.
 
     ★ WHY THE ORDERED PLAN AND NOT THE OTHER BACKLOGS. Its checkboxes are a COMPLETION SIGNAL, so an entry
     raised from it can actually reach `done`. `IDEAS.md`, `method-watch.md` and the reviewer lists are prose
     with no such signal; scanning them would raise entries that can never close, and a board carrying
     permanent noise is a board people skim — which is how the prose board failed in the first place.
 
-    ⚠ THE ITEM'S IDENTITY IS ITS TITLE, because STRATEGY.md carries no IDs. That is a real weakness and it is
+    ⚠ THE ITEM'S IDENTITY IS ITS TITLE, because the plan carries no IDs. That is a real weakness and it is
     stated rather than hidden: RE-TITLING AN ITEM MAKES A NEW ENTRY AND ABANDONS THE OLD ONE'S ATTEMPT
     HISTORY. It fails in the SAFE direction — a fresh entry with a fresh retry budget, never a silently
     dropped item — and the abandoned one disappears only once its marker reaches `[x]`.
     """
     if strategy_text is None:
-        return [], f"NOT SCANNED — {err or 'STRATEGY.md unreadable'}. The plan is invisible this run."
+        return [], f"NOT SCANNED — {err or 'the plan document is unreadable'}. The plan is invisible this run."
     lines = strategy_text.splitlines()
-    # Bound the scan to the ORDERED PLAN section. Checklist markers appear elsewhere in a 231 kB document,
+    # Bound the scan to the ORDERED PLAN section. Checklist markers appear elsewhere in a 200 kB+ document,
     # and a scanner that swept the whole file would raise entries from worked examples and appendices.
     start = next((i for i, ln in enumerate(lines)
                   if _SECTION_RE.match(ln) and _PLAN_HEADING in ln.upper()), None)
     if start is None:
-        return [], (f"NOT SCANNED — no '## ... {_PLAN_HEADING} ...' heading found in STRATEGY.md. The plan "
-                    f"scanner is REPORTING ITS OWN BLINDNESS rather than returning an empty list, which "
+        return [], (f"NOT SCANNED — no '## ... {_PLAN_HEADING} ...' heading found in the plan document. "
+                    f"The plan scanner is REPORTING ITS OWN BLINDNESS rather than returning an empty list, "
+                    f"which "
                     f"would be indistinguishable from a plan with nothing left to do.")
     end = next((i for i in range(start + 1, len(lines)) if _SECTION_RE.match(lines[i])), len(lines))
 
@@ -607,7 +614,7 @@ def scan_plan_items(strategy_text: str | None, err: str | None) -> tuple[list[En
             # fingerprint changes, which is exactly "this item produced new evidence" — and it means the
             # retry budget resets whenever the plan actually moves.
             evidence_fingerprint=marker,
-            last_evidence_what=f"STRATEGY.md ORDERED PLAN marker `[{marker}]` ({_OPEN_MARKERS[marker]})",
+            last_evidence_what=f"roadmap ORDERED PLAN marker `[{marker}]` ({_OPEN_MARKERS[marker]})",
             blocked_by=[f"gate text in the plan item: {g}" for g in gates],
             board_group="plan",
             cost_points_at=None,
@@ -624,7 +631,7 @@ def scan_plan_items(strategy_text: str | None, err: str | None) -> tuple[list[En
                 "entry is recorded UNOWNED and stays on the board until its marker reaches `[x]` — the "
                 "ledger does not invent a dispatch it cannot justify.")
         out.append(e)
-    return out, (f"scanned STRATEGY.md lines {start + 1}-{end} for `[ ]`/`[~]`/`[!]` items; "
+    return out, (f"scanned nr4a3-program-map.md lines {start + 1}-{end} for `[ ]`/`[~]`/`[!]` items; "
                  f"`[x]` and `[–]` are not owed and are skipped")
 
 
@@ -789,7 +796,7 @@ def scan_rung_gates(schedule: dict | None, err: str | None) -> tuple[list[Entry]
     """Rungs whose gate has NEVER RETURNED A VERDICT, computed from the schedule's real dependency graph.
 
     ★★ WHY THE SCHEDULE JSON AND NOT THE LADDER, and this is a correction the first run forced. The obvious
-    implementation cross-checks `vast-ladder-repricing.json`'s priced rungs against STRATEGY.md's ORDERED
+    implementation cross-checks `vast-ladder-repricing.json`'s priced rungs against the roadmap's ORDERED
     PLAN titles — "a rung nobody claims". It was built that way, run against the real files, and RAISED THREE
     FALSE POSITIVES: the ladder is keyed in prose (`"step1_fanout (19 RBFE edges @ ~13.7 GPU-h)"`,
     `"5c ensemble refinement"`, `"local within-basin FEP"`) while the plan is keyed in prose of a DIFFERENT
@@ -1719,7 +1726,9 @@ def main(argv=None) -> int:
                          "Passed straight through to lane_staleness_watch — see its gather() header for "
                          "why one root is not enough.")
     ap.add_argument("--ledger", default=DEFAULT_LEDGER)
-    ap.add_argument("--strategy", default=DEFAULT_STRATEGY)
+    # ⚠ `--strategy` is kept as an ALIAS, not a second setting: the plan moved out of STRATEGY.md into the
+    # roadmap on 2026-08-02 and any caller still passing the old flag must land on the same document.
+    ap.add_argument("--plan-doc", "--strategy", dest="strategy", default=DEFAULT_PLAN_DOC)
     ap.add_argument("--schedule", default=DEFAULT_SCHEDULE)
     ap.add_argument("--now", default=None, help="ISO8601Z override, for deterministic verification")
     ap.add_argument("--json", default=None)
