@@ -235,10 +235,18 @@ def test_scoring_at_the_terminus_is_not_an_interim_analysis():
     comp = body[body.index("if len(done) >= len(SP.enumerate_units())"):
                 body.index("mode_reap(bucket)\n        # ★★")]
     assert "NOT AN INTERIM ANALYSIS" in comp
+    # ⚠ RE-POINTED: suppression moved into `selcal_gate.suppress_for_incomplete_panel` so the label and
+    # everything disclosing it are withheld ATOMICALLY. Asserting `tier_suppressed` appeared in
+    # `mode_collect`'s own source pinned the mechanism, and broke on the refactor that made it safer — the
+    # sixth time in this session a test pinned implementation over property. The property is: the scorer
+    # suppresses on an incomplete panel, and it does so through the one home.
     src = open(os.path.join(MOD, "selcal_vast_launch.py")).read()
     coll = src[src.index("def mode_collect("):]
     coll = coll[:coll.index("\ndef ", 10)]
-    assert "tier_suppressed" in coll and "panel_complete" in coll
+    assert "suppress_for_incomplete_panel" in coll and "panel_complete" in coll
+    import selcal_gate as G
+    v = G.suppress_for_incomplete_panel(G.verdict([]), "incomplete")
+    assert v["tier"] is None and "tier_suppressed" in v
 
 
 # =============================================================================================================
@@ -273,11 +281,17 @@ def test_the_per_tick_collect_cannot_leak_an_early_verdict():
     """⛔ Running the scorer every 3 minutes is only safe because `mode_collect` SUPPRESSES the tier unless
     the panel is complete — it writes the evidence and withholds the label. If that ever stopped being true,
     this loop would be emitting interim verdicts on a live panel, which the prereg forbids outright."""
+    # Same re-pointing as above: the guarantee is BEHAVIOURAL and lives in the gate, so assert it by
+    # running it rather than by grepping for the assignment that used to implement it here.
     src = open(os.path.join(MOD, "selcal_vast_launch.py")).read()
     coll = src[src.index("def mode_collect("):]
     coll = coll[:coll.index("\ndef ", 10)]
-    assert "tier_suppressed" in coll and 'v["tier"] = None' in coll
+    assert "suppress_for_incomplete_panel" in coll
     assert "NO INTERIM ANALYSIS" in coll.upper()
+    import selcal_gate as G
+    v = G.suppress_for_incomplete_panel(G.verdict([]), "incomplete")
+    assert v["tier"] is None, "an incomplete panel must publish no tier"
+    assert "WITHHELD" in repr(v["next_step"]), "…and nothing that discloses it"
     body = _watch_body()
     assert "NOT AN INTERIM ANALYSIS" in body
 

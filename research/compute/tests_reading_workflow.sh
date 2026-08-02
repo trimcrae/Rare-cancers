@@ -15,9 +15,17 @@
 # a workflow edit legitimately trips guards elsewhere — the mistake was choosing which tests to run from
 # memory instead of from a search.
 #
+# ⚠ IT TAKES A MODULE TOO, AND THAT GAP COST A THIRD RED PUSH (2026-08-02). The first version resolved
+# WORKFLOWS only. Moving suppression from `selcal_vast_launch.mode_collect` into `selcal_gate` is a MODULE
+# change, so the helper had nothing to say about it — and two tests that grepped `mode_collect`'s source for
+# `tier_suppressed` went red in CI after a local run of the workflow-resolved set had passed. A helper whose
+# scope silently excludes the kind of change you just made is the same defect as a guard that cannot see
+# python publishers: it answers confidently about the half it covers.
+#
 # Usage:
-#   research/compute/tests_reading_workflow.sh gpu-ternary-fep-vast.yml
-#   python3 -m pytest $(research/compute/tests_reading_workflow.sh gpu-ternary-fep-vast.yml) -q
+#   research/compute/tests_reading_workflow.sh gpu-ternary-fep-vast.yml     # a workflow
+#   research/compute/tests_reading_workflow.sh selcal_gate.py               # a module
+#   python3 -m pytest $(research/compute/tests_reading_workflow.sh selcal_gate.py) -q
 #
 # With no argument, prints the test files for EVERY workflow that has any, one line each.
 set -uo pipefail
@@ -42,8 +50,18 @@ _for_one() {
     _scanners; } | sort -u
 }
 
+# A MODULE's dependents are the tests that import or name it — a different question from a workflow's, and
+# asking the wrong one is what let the last regression through.
+_for_module() {
+  local m="$(basename "${1%.py}")"
+  grep -rl --include='*.py' -e "\\b$m\\b" "$TESTS" 2>/dev/null | sort -u
+}
+
 if [ $# -ge 1 ]; then
-  out="$(_for_one "$1")"
+  case "$1" in
+    *.py) out="$(_for_module "$1")" ;;
+    *)    out="$(_for_one "$1")" ;;
+  esac
   if [ -z "$out" ]; then
     # ⚠ EMPTY IS A RESULT, NOT A PASS. Say so, so "no output" is never read as "nothing to run".
     echo "# no test file references $1 — that is itself worth a look before editing it" >&2
