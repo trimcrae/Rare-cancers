@@ -57,7 +57,10 @@ def test_every_unfilled_field_is_still_marked():
     # counting the explanation as a placeholder would let every real one be deleted while the test passed.
     markers = [ln.strip() for ln in t.splitlines()
                if ln.lstrip().startswith("- **" + MARKER)]
-    assert len(markers) >= 5, f"expected the unfilled fields to still be marked, found {len(markers)}"
+    # ⚠ A FLOOR THAT TRACKS REALITY. Three markers (σ, exact power, what-it-cannot-detect) were FILLED from
+    # derivations on 2026-08-02, so the floor came down to match. Lowering it is only legitimate alongside
+    # the values that replaced them — which `test_the_power_section_is_derived_not_promised` now requires.
+    assert len(markers) >= 3, f"expected the unfilled fields to still be marked, found {len(markers)}"
     for ln in markers:
         assert "—" in ln, f"marker names no field: {ln!r}"
 
@@ -128,10 +131,43 @@ def test_the_admissibility_rule_is_by_proportion_not_a_copied_integer():
 
 
 def test_power_is_not_claimed_from_the_normal_approximation():
-    """Measured: at the delta the approximation calls 80 % power, the exact rule delivered 0.64-0.74."""
+    """Measured: at the delta the approximation calls 80 % power, the exact rule delivered 0.64-0.74 on the
+    prior panel — and 0.757 at THIS design. No power claim may be sourced from the approximation."""
     t = _text()
-    assert "exact discrete rule" in t
-    assert "0.64" in t and "optimistic" in t
+    assert "No power claim in this document may be sourced from the approximation" in t
+    assert "0.64" in t and "optimism" in t.lower()
+    assert "0.757" in t, "the exact value at this design must be stated, not just the approximation's claim"
+
+
+def test_the_power_section_is_derived_not_promised():
+    """The σ and the exact power table must carry real numbers from the named derivations."""
+    t = _text()
+    assert "1.0278" in t and "which_sigma" in t
+    assert "power_primary" in t and "power_pairwise" in t
+    assert "n_sims = 2000" in t, "a Monte-Carlo power figure must state its own uncertainty"
+
+
+def test_the_design_states_what_it_CANNOT_detect_against_the_OBSERVED_effect():
+    """★★ THE FINDING THAT MOST CHANGES WHAT STEP 3 MEANS. At this shape the exact power against the
+    separations this program has already measured is ~0.16 (pairwise, δ=0.4124 Å) and ~0.13 (primary,
+    δ=0.2825 Å) — so a null would be returned roughly five times in six even if the effect is real at the
+    observed size. Fixed BEFORE the run, because it decides what a null is allowed to mean."""
+    t = _text()
+    assert "0.4124" in t and "0.159" in t
+    assert "0.2825" in t and "0.130" in t
+    assert '"δ ≳ 1.5 Å", not "δ > 0"' in t, "the restricted null must be stated explicitly"
+    assert "uninformative" in t
+
+
+def test_the_underpowered_finding_is_a_live_decision_not_a_caveat():
+    """Three responses are recorded with a recommendation, so the shape is chosen deliberately rather than
+    inherited. A finding this size buried as a limitation would be the paper writing around it."""
+    t = _text()
+    sec = t[t.index("CANNOT DETECT"):]
+    assert "live design question, not a caveat" in sec
+    for opt in ("Run as shaped", "Re-shape to a powered design", "Do not run step 3"):
+        assert opt in sec, opt
+    assert "Recommended" in sec
 
 
 def test_no_interim_analysis_is_carried_forward():

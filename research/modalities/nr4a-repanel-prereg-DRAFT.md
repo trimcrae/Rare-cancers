@@ -107,17 +107,62 @@ accident." What is held constant is **the proportion and the consequence**, not 
   attainable floor stays below α). Co-fold supply risk is real and measured — **1 of 8 models was already
   excluded on an input fault** on a prior panel.
 
-### 4b · Power — the section that CANNOT be filled yet
+### 4b · Power — DERIVED, and it is the most important section in this document
 
-- **⬜ TO BE FILLED — σ**, taken from its one home: `selectivity-resolution-options.json → which_sigma`
-  (model-level), derived by `selectivity_resolution_options.py`. ⚠ Three σ are in play and quoting the wrong
-  one is ~3× out; the model-level one is the one the test competes against.
-- **⬜ TO BE FILLED — detectable effect at the frozen design**, stated as what the **exact discrete rule**
-  delivers, not the normal approximation. Measured on the prior panel, the approximation was **optimistic**:
-  at the δ it calls "80 % power" the exact permutation test delivered **0.64 / 0.67 / 0.72 / 0.74** at
-  n = 3/4/5/6. A power claim from the approximation alone is an overstatement with a measured size.
-- **⬜ TO BE FILLED — the honest statement of what this design CANNOT detect**, written before the run so a
-  null is interpretable rather than re-narrated afterwards.
+**σ = 1.0278 Å**, the **model-level** SD, from its one home
+[`selectivity-resolution-options.json → which_sigma`](./selectivity-resolution-options.json), derived by
+`selectivity_resolution_options.py` from the landed panel's own model means. ⚠ Three σ are in play and
+quoting the wrong one is ~3× out; the model-level one is what the test competes against, because prereg §4a
+makes the co-fold model the unit of independence.
+
+**Exact power at the shape `NR4A_REPANEL_SHAPE` declares**, from `power_primary` / `power_pairwise`
+(permutation Monte-Carlo, n_sims = 2000, so ±~0.01):
+
+| true δ (Å) | primary (3-arm) | pairwise NR4A1-vs-NR4A3 |
+|---:|---:|---:|
+| 0.50 | 0.230 | 0.198 |
+| 0.75 | 0.410 | 0.310 |
+| 1.00 | 0.590 | 0.463 |
+| 1.25 | 0.757 | 0.615 |
+| 1.50 | 0.887 | 0.757 |
+| 2.00 | 0.983 | 0.933 |
+
+⚠ **The normal approximation says this shape reaches 80 % power at δ = 1.50 Å. The exact rule delivers
+0.757 on the pairwise contrast.** That gap is the measured optimism the prior panel already recorded
+(0.64 / 0.67 / 0.72 / 0.74 at n = 3/4/5/6 where the approximation claimed 0.80), reproduced here at this
+design. **No power claim in this document may be sourced from the approximation.**
+
+### 4c · ⛔ WHAT THIS DESIGN CANNOT DETECT — and it is the observed effect
+
+Against the separations the landed NR-V04 panel actually showed:
+
+| observed contrast | δ (Å) | exact power at this shape |
+|---|---:|---:|
+| pairwise NR4A1-vs-NR4A3 | 0.4124 | **0.159** |
+| primary | 0.2825 | **0.130** |
+
+**So if the true effect is the size this program has already measured, this design returns a null roughly
+five times out of six.** That is not a detail to report afterwards — it decides what a null from step 3 is
+allowed to mean, and it must be fixed here, before the run:
+
+> **The null hypothesis this design can reject is "δ ≳ 1.5 Å", not "δ > 0".** A null result licenses
+> *"no paralogue separation of ~1.5 Å or larger was detected"* and **nothing weaker**. It does **not**
+> license "no separation", "the paralogues are equivalent", or any statement about the ~0.4 Å effect the
+> retrospective saw — against which this design is powered at ~0.16 and is therefore uninformative.
+
+⚠ **This is a live design question, not a caveat.** Three responses exist and the choice must be made before
+the freeze; it is recorded here so it is made deliberately rather than by inheriting a shape:
+
+1. **Run as shaped, with the restricted null above.** Cheap, honest, and answers only "is there a LARGE
+   effect". Recommended, because §1d's argument stands: resolution on an endpoint whose claim ceiling is
+   directional concordance is *"a precise number nobody can interpret"*.
+2. **Re-shape to a powered design.** `selectivity-resolution-options.md` §1d derives ~77 models/arm for the
+   pairwise contrast at 0.4124 Å. Its own §1d argues against buying this, on three grounds that have not
+   changed — the system is covalency-confounded, the power calculation is post-hoc on observed effects, and
+   the endpoint has no established quantitative link to degradation.
+3. **Do not run step 3.** Report the predictions as unvalidated (§4 of the options paper). This becomes the
+   right call if the sensitivity control does not PASS, and is *already* defensible if option 1's restricted
+   null is judged not worth the spend.
 
 ---
 
