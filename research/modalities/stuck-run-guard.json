@@ -1,34 +1,28 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-08-02T00:00:01Z",
+  "utc": "2026-08-02T00:07:53Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
   "pending_seen": [
     {
-      "run": 30724048653,
+      "run": 30724471902,
       "name": "ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) \u2014 Vast",
       "jobs": 0,
-      "age_min": 11.3
+      "age_min": 5.7
     }
   ],
-  "wedged": [
-    {
-      "run": 30724048653,
-      "name": "ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) \u2014 Vast",
-      "age_min": 11.3
-    }
-  ],
+  "wedged": [],
   "cancelled": [],
   "cancel_failed": [],
   "spared": [
     {
-      "run": 30724048653,
+      "run": 30724471902,
       "name": "ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) \u2014 Vast",
       "jobs": 0,
-      "age_min": 11.3,
-      "why": "another run of this workflow is in progress, so this one may be legitimately queued behind it \u2014 REPORTED, not cancelled. Cancelling a queued supervision re-arm would leave a fleet unwatched."
+      "age_min": 5.7,
+      "why": "only 5.7 min old; below the 10 min threshold"
     }
   ]
 }
