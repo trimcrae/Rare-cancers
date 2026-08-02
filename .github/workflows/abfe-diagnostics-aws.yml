@@ -73,6 +73,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results/nr4a3-abfe/diagnostics research/modalities/_reports_abfe_diag.txt || true
-          git commit -m "ABFE SI diagnostics: overlap / ESS / forward-reverse convergence [skip ci]" || { echo "no change"; exit 0; }
-          git push
+          # ⛔ ONE HOME FOR THE PUBLISH. ⚠ THE BARE `git push` THIS REPLACES had no refspec AND no retry, so
+          # it pushed whatever the checkout happened to track and lost outright to any concurrent push.
+          # `results/nr4a3-abfe/diagnostics` is a DIRECTORY and the primitive handles it (`cp -a --parents`).
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "ABFE SI diagnostics: overlap / ESS / forward-reverse convergence [skip ci]" \
+            results/nr4a3-abfe/diagnostics \
+            research/modalities/_reports_abfe_diag.txt

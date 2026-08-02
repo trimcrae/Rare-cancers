@@ -59,12 +59,9 @@ PRIMITIVE = "research/compute/publish_artifacts.sh"
 #: and `test_the_backlog_reports_what_is_actually_convertible` prints it — so the honest sentence is
 #: "N convertible, M held", never a single total.
 KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
-    ("abfe-diagnostics-aws.yml", "diagnostics"),
     ("abfe-plot-aws.yml", "plot"),
     ("abfe-progress-aws.yml", "snap"),
-    ("af-crystal-rmsd-aws.yml", "run"),
     ("af2-nmr-rmsd-aws.yml", "run"),
-    ("archive-results-aws.yml", "archive"),
     ("aso-breakpoint-scan.yml", "run"),
     ("aso-offtarget.yml", "run"),
     ("build-preprint.yml", "build"),
@@ -103,7 +100,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("rbfe-split-shakeout.yml", "shakeout"),
     ("render-figures.yml", "render"),
     ("replicate-standard-harvest.yml", "harvest"),
-    ("report-nrv04-aws.yml", "report"),
     ("ternary-calib-freeze.yml", "freeze"),
     ("ternary-calib-freeze.yml", "triangle"),
     ("txgnn-run.yml", "run"),

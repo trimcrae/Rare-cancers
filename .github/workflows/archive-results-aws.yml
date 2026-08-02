@@ -69,11 +69,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add results/ || true
-          git commit -m "archive: mirror surviving SageMaker results into git [skip ci]" || { echo "no new results to commit"; exit 0; }
-          # robust push: main is actively committed to, so rebase-and-retry on rejection
-          for i in 1 2 3 4 5; do
-            if git push; then echo "pushed"; break; fi
-            echo "push rejected (attempt $i) — rebasing on latest main"; git pull --rebase --autostash origin main || true
-            sleep 3
-          done
+          # ⛔ ONE HOME FOR THE PUBLISH. This loop's own comment ("main is actively committed to, so
+          # rebase-and-retry on rejection") states exactly the race the primitive is built for — and its
+          # `git pull --rebase --autostash` is the shape that wedges: on a conflict the repo is left
+          # MID-REBASE and all four remaining attempts die on the first's wreckage, after which the loop
+          # simply falls out and the step exits 0 having pushed NOTHING.
+          # ⚠ `results/` IS A WHOLE DIRECTORY TREE and that is intended here — this job's entire purpose is
+          # to mirror surviving SageMaker results into git, so the path list is deliberately coarse.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "archive: mirror surviving SageMaker results into git [skip ci]" \
+            results

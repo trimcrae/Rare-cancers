@@ -34,10 +34,10 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results/nr4a-af-crystal-rmsd/nr4a-af-crystal-rmsd.json
-          git commit -m "NR4A paralogue AF↔crystal RMSD (matched to §2.1 NR4A3 AF2↔8XTT)" || { echo "no change"; exit 0; }
-          for i in 1 2 3 4; do
-            git pull --rebase origin main && git push origin HEAD:main && exit 0
-            echo "push race, retry $i"; sleep $((i*3))
-          done
-          echo "::error::could not push result after retries"; exit 1
+          # ⛔ ONE HOME FOR THE PUBLISH — the primitive already retries, and replaces the `git pull --rebase`
+          # that leaves the repo MID-REBASE on a conflict so every later attempt dies on the first's wreckage.
+          # ⚠ TARGET IS `main` DELIBERATELY, matching what this step already did — this result is a §2.1
+          # companion figure and belongs on main whatever ref triggered the run.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "main" \
+            "NR4A paralogue AF↔crystal RMSD (matched to §2.1 NR4A3 AF2↔8XTT)" \
+            results/nr4a-af-crystal-rmsd/nr4a-af-crystal-rmsd.json
