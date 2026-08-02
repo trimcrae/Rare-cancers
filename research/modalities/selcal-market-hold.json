@@ -1,44 +1,38 @@
 {
-  "_what": "Whether the endpoint-MD sensitivity control may rent 3 host(s) right now, priced in $/ns.",
+  "_what": "Whether the endpoint-MD sensitivity control may rent 2 host(s) right now, priced in $/ns.",
   "_rule": "CLAUDE.md §6 — a thin, expensive market is a reason to PAUSE, not to pay; and a relaunch is a NEW PURCHASE, not a continuation.",
   "lane": "selcal",
-  "buying": "MD legs (3)",
-  "n_hosts": 3,
-  "utc": "2026-08-02T00:14:16Z",
+  "buying": "MD legs (2)",
+  "n_hosts": 2,
+  "utc": "2026-08-02T00:27:08Z",
   "tier": "bid (interruptible)",
   "interruptible": true,
   "buy_line_usd_per_ns": 0.006539,
   "priced": true,
   "hold": false,
-  "reason": "1.33x the ladder basis is within the 1.92x drift line — this host is buyable at a sane rate per nanosecond",
-  "best_usd_per_ns": 0.004551,
+  "reason": "1.18x the ladder basis is within the 1.92x drift line — this host is buyable at a sane rate per nanosecond",
+  "best_usd_per_ns": 0.004009,
   "basis_usd_per_ns": 0.003412,
-  "ratio_vs_basis": 1.334,
+  "ratio_vs_basis": 1.175,
   "board_depth": {
-    "offers_returned": 204,
-    "qualifying": 204,
-    "priceable": 106,
-    "needed": 3,
-    "used_for_mean": 3
+    "offers_returned": 205,
+    "qualifying": 205,
+    "priceable": 107,
+    "needed": 2,
+    "used_for_mean": 2
   },
   "offers_priced": [
     {
+      "gpu": "RTX 4090",
+      "machine_id": 12976,
+      "min_bid_usd_h": 0.112,
+      "usd_per_ns": 0.00384
+    },
+    {
       "gpu": "RTX PRO 4000",
       "machine_id": 57342,
-      "min_bid_usd_h": 0.05333333,
-      "usd_per_ns": 0.003719
-    },
-    {
-      "gpu": "RTX 4090",
-      "machine_id": 141591,
-      "min_bid_usd_h": 0.13333333333333333,
-      "usd_per_ns": 0.004679
-    },
-    {
-      "gpu": "RTX 5090",
-      "machine_id": 17551,
-      "min_bid_usd_h": 0.19999999999999998,
-      "usd_per_ns": 0.005255
+      "min_bid_usd_h": 0.062,
+      "usd_per_ns": 0.004178
     }
   ]
 }
