@@ -154,9 +154,14 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # ★ THE POSE INPUTS ARE COMMITTED, NOT JUST THE VERDICT. results/PROVENANCE.md records the
+          # ORIGINAL docking-matrix poses as LOST to a bucket lifecycle rule, and these four 8XTT legs are
+          # classified `scratch` in results/nr4a3-8xtt-redock/MANIFEST.json — one lifecycle sweep from the
+          # same fate, and the only surviving coordinates behind the "selectivity survives on experimental
+          # geometry" claim. ~1.3 MB total.
           git add -f research/modalities/pose-convergence-401.json \
                      research/modalities/apo-pose-recovery.json \
-                     research/modalities/_pose_convergence_inputs/_s3_listing.txt 2>/dev/null || true
+                     research/modalities/_pose_convergence_inputs/ 2>/dev/null || true
           git diff --cached --quiet && { echo "no changes"; exit 0; }
           git commit -m "pose convergence + apo known-answer recovery (CI run ${{ github.run_id }})"
           for i in 1 2 3 4 5; do
