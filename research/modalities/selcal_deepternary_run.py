@@ -354,7 +354,7 @@ def emit_raw(configs, workdir, raw_dir):
                                        "would truncate and the downstream extractor would find zero atoms"),
                         "truncated_at_99999": n == 99999})
             aliases.update(alias)
-    return out
+    return out, aliases
 
 
 def append_conect(lig_pdb, comp_id, workdir):
@@ -410,7 +410,7 @@ def fix_ligand_conect(configs, base, workdir):
             n, err = append_conect(os.path.join(d, fn), comp, workdir)
             out.append({"arm": cfg["name"], "file": fn, "comp": comp, "n_conect": n, "note": err,
                         "ok": n > 0})
-    return out, aliases
+    return out
 
 
 def main(argv=None):
