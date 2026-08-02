@@ -406,21 +406,29 @@ jobs:
           # silently not committed, and the step reported "nothing to commit" as if there had been nothing.
           # gcp-price-probe.json is written only when the billing catalog succeeds, so the absent-file case
           # is the NORMAL one, not an edge case.
+          # ⚠ THIS STEP'S OWN GUARD IS KEPT VERBATIM IN INTENT, and it is the reason this conversion is not a
+          # one-liner. "Nothing to publish" is only a PROBLEM when a measurement was actually recorded: a run
+          # whose create never succeeded records nothing and legitimately has nothing to commit, and CLAUDE.md
+          # §1 is explicit that a guard doing its job and a guard being ignored must not render alike.
+          # /tmp/recorded is written by the record step for each admitted line. Handing this to
+          # PUBLISH_IF_CHANGED alone would have SILENTLY dropped the distinction — the primitive skips quietly
+          # by design, which is right for it and wrong here.
+          HAVE=""
           for f in research/modalities/gcp-card-bench.json research/modalities/gcp-price-probe.json; do
-            [ -f "$f" ] && { git add "$f" && echo "staged $f"; } || echo "skip $f (not written by this run)"
+            if [ -f "$f" ]; then HAVE="$HAVE $f"; echo "present $f"; else echo "skip $f (not written by this run)"; fi
           done
-          # ⚠ "nothing staged" is only a PROBLEM when a measurement was actually recorded. A run whose create
-          # never succeeded records nothing and legitimately has nothing to commit — warning there is a false
-          # alarm, and CLAUDE.md §1 is explicit that a guard doing its job and a guard being ignored must not
-          # render alike. /tmp/recorded is written by the record step for each admitted line.
-          if git diff --cached --quiet; then
+          if [ -z "$HAVE" ]; then
             [ -f /tmp/recorded ] \
-              && echo "::warning title=MEASUREMENT DID NOT LAND::the probe recorded a measurement but the stage is empty, so nothing was committed. Check the staging lines above." \
+              && echo "::warning title=MEASUREMENT DID NOT LAND::the probe recorded a measurement but neither artifact exists on disk, so nothing was committed. Check the lines above." \
               || echo "nothing to commit (this run recorded no measurement)"
             exit 0
           fi
-          git commit -m "GCP card probe: ${CARD} @ $BENCH_EDGES nm (run ${GITHUB_RUN_ID})" || exit 0
-          for a in 1 2 3; do
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
-            sleep 5
-          done
+          # ⛔ ONE HOME FOR THE PUBLISH. Replaces `git pull --rebase --autostash` + push, which on a conflict
+          # leaves the repo MID-REBASE so both remaining attempts die on the first's wreckage.
+          # ⚠ `gcp-price-probe.json` is written only when the billing catalog succeeds, so ONE-OF-TWO is the
+          # NORMAL case — the primitive skips an absent path individually, which is the property the original
+          # per-file `git add` loop existed to get (`git add a b` is ATOMIC and stages NEITHER when b is
+          # missing; measured, run 30632062766, and it silently dropped an L4 measurement).
+          # shellcheck disable=SC2086
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
+            "GCP card probe: ${CARD} @ $BENCH_EDGES nm (run ${GITHUB_RUN_ID})" $HAVE

@@ -101,10 +101,10 @@ jobs:
           [ -f "$F" ] || { echo "no table to commit"; exit 0; }
           git config user.name  "Claude"
           git config user.email "noreply@anthropic.com"
-          git add "$F"
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "rbfe: per-edge timestep-ceiling scan table (which designed edges need 2 fs vs 4 fs)"
-          for i in 1 2 3 4; do
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" 2>/dev/null || true
-            git push origin "HEAD:${GITHUB_REF_NAME}" && break || sleep $((2**i))
-          done
+          # ⛔ ONE HOME FOR THE PUBLISH; EVENT semantics kept (this step already refused an empty commit).
+          # ⚠ THIS LOOP WAS THE WORST OF THE SHAPE: `git pull --rebase --autostash ... 2>/dev/null || true`
+          # swallows the rebase's own error AND continues, so a conflict left the repo mid-rebase and the
+          # push then failed for a reason nothing printed — four times, silently, before the step exited 0.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
+            "rbfe: per-edge timestep-ceiling scan table (which designed edges need 2 fs vs 4 fs)" \
+            "$F"

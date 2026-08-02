@@ -32,10 +32,8 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nr4a3-af2-nmr-rmsd.json
-          git commit -m "AF2↔NMR RMSD decomposition result (review P1 20)" || { echo "no change"; exit 0; }
-          for i in 1 2 3 4; do
-            git pull --rebase origin main && git push origin HEAD:main && exit 0
-            echo "push race, retry $i"; sleep $((i*3))
-          done
-          echo "::error::could not push result after retries"; exit 1
+          # ⛔ ONE HOME FOR THE PUBLISH — same `git pull --rebase` wedge as its af-crystal sibling, and it
+          # targets `main` for the same reason: this is a §2.1 companion result, not a branch artifact.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "main" \
+            "AF2↔NMR RMSD decomposition result (review P1 20)" \
+            research/modalities/nr4a3-af2-nmr-rmsd.json

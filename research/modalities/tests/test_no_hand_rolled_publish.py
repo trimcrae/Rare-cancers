@@ -61,7 +61,6 @@ PRIMITIVE = "research/compute/publish_artifacts.sh"
 KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("abfe-plot-aws.yml", "plot"),
     ("abfe-progress-aws.yml", "snap"),
-    ("af2-nmr-rmsd-aws.yml", "run"),
     ("aso-breakpoint-scan.yml", "run"),
     ("aso-offtarget.yml", "run"),
     ("build-preprint.yml", "build"),
@@ -74,7 +73,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("fetch-literature.yml", "fetch"),
     ("fusion-cpu-extras.yml", "nrv04_cys"),
     ("fusion-cpu-extras.yml", "run"),
-    ("gpu-bench-gcp.yml", "gcp-bench"),
     ("gpu-nr4a-paralogue-md-vast.yml", "ops"),
     ("gpu-protfep-vast.yml", "collect"),
     ("gpu-protfep-vast.yml", "stage-test"),
@@ -95,7 +93,6 @@ KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("pose-figure-aws.yml", "render"),
     ("protac-feasibility.yml", "run"),
     ("published-warhead-registry.yml", "run"),
-    ("rbfe-edge-timestep-scan.yml", "scan"),
     ("rbfe-progress-aws.yml", "snap"),
     ("rbfe-split-shakeout.yml", "shakeout"),
     ("render-figures.yml", "render"),

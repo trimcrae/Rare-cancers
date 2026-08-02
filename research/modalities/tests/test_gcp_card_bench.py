@@ -224,12 +224,23 @@ def test_the_artifact_is_staged_one_pathspec_at_a_time():
     body = _step_body(_wf_text(), "Commit the artifact")
     # comments legitimately QUOTE the broken form as evidence, so match executable lines only
     code = "\n".join(ln for ln in body.splitlines() if not ln.strip().startswith("#"))
-    adds = re.findall(r"git add ([^\n&|;]*)", code)
-    assert adds, "no `git add` found — extraction is wrong or the step was rewritten"
-    for a in adds:
+    # ⚠ RE-POINTED 2026-08-02 from MECHANISM to PROPERTY. This asserted `git add` one pathspec at a time,
+    # which was the right guard while the step hand-rolled its publish. The step now calls
+    # `publish_artifacts.sh`, which stages internally and skips an absent path INDIVIDUALLY — so the
+    # atomic-add hazard is gone by construction and there is no `git add` left to inspect. The property
+    # that must survive is unchanged and is what is checked now: ONE MISSING ARTIFACT MUST NOT SUPPRESS
+    # THE OTHER. Deleting the test would have thrown away the only guard on that.
+    for a in re.findall(r"git add ([^\n&|;]*)", code):
         assert len(a.split()) == 1, (
             f"`git add {a.strip()}` stages several pathspecs at once; if any one is missing git stages NONE")
     assert "2>/dev/null" not in code, "a silenced git add is how this failure hid for a whole run"
+    # each candidate artifact is existence-tested ON ITS OWN before it is offered to the publisher…
+    assert re.search(r"if \[ -f \"\$f\" \]", code), (
+        "artifacts must be tested for existence individually — that is what makes a missing price-probe "
+        "harmless to the card-bench measurement")
+    # …and the publish is the shared primitive, which skips an absent path rather than failing the set
+    assert "publish_artifacts.sh" in code, "the step must publish through the one primitive"
+    assert "$HAVE" in code, "the surviving artifacts must be what is handed to the publisher"
     # ⚠ AND THE WARNING MUST BE CONDITIONAL ON A MEASUREMENT EXISTING. A run whose create never succeeded
     # records nothing and legitimately has nothing to commit; warning there is a false alarm, and CLAUDE.md §1
     # says a guard doing its job and a guard being ignored must never render alike.
