@@ -775,6 +775,49 @@
    "n_mutation_mentions": 4
   }
  ],
+ "near_misses": [
+  {
+   "pmcid": "PMC6600871",
+   "why_decisive": "Farnaby et al. 2019 (ACBI1) -- the earlier SMARCA2/4:VCB ternary structures",
+   "mutation_codes_seen": [
+    "R69A"
+   ],
+   "n_windows": 5,
+   "windows": [
+    {
+     "mutation_codes": [
+      "R69A"
+     ],
+     "quoted_window": "Curves are a best fit of means from n = 3 biologically independent experiments, \u00b1 S.E.M. f) Fitted curves for TR-FRET assays measuring displacement of a biotinylated SMARCA2 BD probe by PROTAC alone, in complex with VCB or in complex with an R69A variant of VCB. A significant rightward shift when using VCBR69A vs VCB highlights the importance of this residue in ternary complex formation in solution."
+    },
+    {
+     "mutation_codes": [
+      "R69A"
+     ],
+     "quoted_window": "The ternary complex crystal structures for PROTAC 1 and PROTAC 2 both suggest a key stabilising role of the electrostatic interaction between R69 of VHL and the electronegative C-terminal cap of the B helix of SMARCA2 BD . To validate the specificity of the induced PPI in solution a modified VCB complex with an R69A mutation in VHL (VCB R69A ) was utilized. As predicted by the ternary crystallographic data, a significant decrease in cooperativity is seen for all PROTACs when VCB R69A is used in the TR-FRET assay relative to wild-type ( Fig."
+    },
+    {
+     "mutation_codes": [
+      "R69A"
+     ],
+     "quoted_window": "To validate the specificity of the induced PPI in solution a modified VCB complex with an R69A mutation in VHL (VCB R69A ) was utilized. As predicted by the ternary crystallographic data, a significant decrease in cooperativity is seen for all PROTACs when VCB R69A is used in the TR-FRET assay relative to wild-type ( Fig. 3f , Supplementary Table 4, and Supplementary Fig."
+    },
+    {
+     "mutation_codes": [
+      "R69A"
+     ],
+     "quoted_window": "5 ). Notably, irrespective of the initial cooperativity when using VCB, for all PROTACS the cooperativity values revert to ~3-4 when using VCB R69A , indicating a limit to the level of molecular recognition possible when this arginine residue is not present as an anchor point for these complexes. This data is also highly suggestive that an interaction between R69 of VHL and SMARCA2 BD is similarly important for molecular recognition within the ternary complex formed by ACBI1, as it is for PROTAC 1 and PROTAC 2."
+    },
+    {
+     "mutation_codes": [
+      "R69A"
+     ],
+     "quoted_window": "IC 50 values were calculated and analyzed using a 4 parametric logistic model for each PROTAC in the absence or presence of saturating concentrations of VCB. Cooperativity values (\u03b1) for each PROTAC were calculated using the ratio: \u03b1 = IC 50 ( - VCB ) / IC 50 ( + VCB ) Note; \u2018VCB\u2019 represents either VCB or VCB R69A . The reported values are the mean \u00b1 S.E.M."
+    }
+   ],
+   "_why_this_is_not_a_reference": "a measured point mutation at this interface is NOT automatically the reference this precheck needs. It qualifies only if BOTH hold, and both are human judgements made against the quoted text: (a) it is on the residue whose selectivity is being calibrated, and (b) the reported quantity is a binding ddG or a Kd pair one is computable from. A cooperativity ratio, a TR-FRET IC50 shift or a cellular DC50 is a different quantity, and converting one into an interface binding ddG would fabricate a link this program does not have."
+  }
+ ],
  "verdict": {
   "decision": "STOP_NO_REFERENCE",
   "gates": {
@@ -871,6 +914,15 @@
      }
     ],
     "met": false,
+    "measured_point_mutations_found_but_NOT_counted": [
+     {
+      "pmcid": "PMC6600871",
+      "mutation_codes_seen": [
+       "R69A"
+      ],
+      "n_windows": 5
+     }
+    ],
     "_what_counts": "a record keyed to a deposited entry of this interface, or one whose two named partners ARE the two arms of it (target-side SMARCA/BRG/BRM against E3-side VHL/Elongin/Cul2). A single-substring name match elsewhere in the database is a LEAD and is reported in name_leads, never counted here.",
     "_why_spans_alone_do_not_meet_it": "a quoted sentence is a lead, not a value. It meets G1 only after a human transcribes a specific number from it with the quote attached, which is the standing rule (selcal_reference_selectivity, extract_smarca2_ic50). Candidate sentences are emitted so that transcription is possible; the gate does not perform it."
    },
