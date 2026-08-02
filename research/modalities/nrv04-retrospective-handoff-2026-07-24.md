@@ -11,7 +11,7 @@ nothing is launched.
 
 ## 1. What this rung is
 
-STRATEGY.md RUNG 4, schedule id `nrv04_retrospective`. Known answer (Wang 2024): NR-V04 degraded **NR4A1**,
+nr4a3-program-map.md RUNG 4, schedule id `nrv04_retrospective`. Known answer (Wang 2024): NR-V04 degraded **NR4A1**,
 spared **NR4A2/NR4A3**. No solved ternary, no paralogue-resolved α — so the holdout can only test
 **directional concordance**, never recovery of a measured quantity.
 

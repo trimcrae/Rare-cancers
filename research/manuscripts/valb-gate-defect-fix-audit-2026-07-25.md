@@ -258,7 +258,7 @@ KNOWN RISKS AND JUDGMENT CALLS, STATED PLAINLY.
 
 ---
 
-## 9. Exact deltas requested in `STRATEGY.md` (this lane does not edit that file)
+## 9. Exact deltas requested in `nr4a3-program-map.md` (this lane does not edit that file)
 
 In **RUNG 2 → Validation B-mini → the "gate admits the null" bullet**, the sentence
 *"⚠ Recorded, deliberately **NOT applied** — amending a preregistered rule after a failing result needs an

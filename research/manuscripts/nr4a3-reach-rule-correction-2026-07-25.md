@@ -63,7 +63,7 @@ The third is what makes the exact kernel affordable at ~10⁵ calls inside the 5
 **The gate arm is UNCHANGED at 3.0 Å.** It is shorter than every named building block in
 `linker_design.PENDANT_REACH_A` (aryl-direct 4.0, aryl branch residue 4.5, amide-direct 5.0, Dap 7.5,
 Dab 8.75), so it is the conservative reading. Moving the gate onto a longer pendant *after* seeing that the
-correction costs basins would be precisely the tuning STRATEGY.md's load-bearing piece 5 forbids. The
+correction costs basins would be precisely the tuning nr4a3-program-map.md's load-bearing piece 5 forbids. The
 named-pendant sweep is now emitted per basin as `fraction_reachable_at_gate_by_pendant` and is a **sensitivity,
 never the gate**.
 
@@ -85,7 +85,7 @@ exact requirement, focal sum breaking ties.
 `--out` path as the real run. It destroyed the committed 12-pose result **twice in one session** and was
 caught only by `git status`. A lane that ran the self-test and then committed would have replaced the
 definitive Tier-2 result with synthetic numbers, under the filename every downstream consumer reads without
-question (RUNG 5b, STRATEGY.md's Tier-2 block, `nr4a3_handle_ensemble`). Fixed: separate default filename
+question (RUNG 5b, nr4a3-program-map.md's Tier-2 block, `nr4a3_handle_ensemble`). Fixed: separate default filename
 under `--self-test`, plus a `.gitignore` entry.
 
 ## 4 · What the correction can and cannot do to the Tier-2 gate
@@ -197,7 +197,7 @@ values — same samples, same poses, same seed, so **the rule is the only differ
    members. Both come from the same pose (`exitvec_07`) with spans of 10.9 and 13.1 Å.
 2. **Term (b) and the nominal limb are bit-identical in both registries** (26/26 and 22/26), which is the A/B
    result reproduced at production scale on real registries rather than at 150 k on three poses.
-3. **STRATEGY.md's "native marginally stronger" becomes decisive, not marginal.** The published gap was
+3. **nr4a3-program-map.md's "native marginally stronger" becomes decisive, not marginal.** The published gap was
    "3 vs 2 term-(a)"; corrected it is **2 vs 0**. Under the exact rule the *composed* construction loses the
    term-(a) limb entirely while the native one keeps it — so the registry choice, which LANE 7 already settled
    on independent structural grounds, now also decides whether the cysteine axis exists at all. A caveat that
@@ -271,7 +271,7 @@ number at 3.0 Å is reported as the primary result and the sweep beside it, and 
 ### 5.5 · The conformer ensemble, matched and re-run (`nr4a3-handle-ensemble.json`, $0 local)
 
 The same relaxed rule fed `nr4a3_handle_ensemble.py` through `term_a_feasibility_envelope`, so the three
-figures STRATEGY.md and three manuscripts quote — "C397 reaches the 12-atom gate in **96 %** of unbiased MD
+figures nr4a3-program-map.md and three manuscripts quote — "C397 reaches the 12-atom gate in **96 %** of unbiased MD
 frames, C420 and C559 in **0 of 75**" — were computed with it. Re-run over the same 100 conformers
 (75 unbiased release + 25 metadynamics), identical seed, identical everything but the rule:
 
@@ -411,9 +411,9 @@ RDKit-verifiable `d`/`d₀` pair selected by the same code as the representative
 "Differs only in the wedge element" is intact: one atom (C–H → N), identical formal charge, heavy-atom count,
 rotatable bonds and (S) centre.
 
-## 7 · Exact STRATEGY.md deltas
+## 7 · Exact nr4a3-program-map.md deltas
 
-STRATEGY.md is owned by the orchestrator; this lane never edits it. These are the exact changes the corrected
+nr4a3-program-map.md is owned by the orchestrator; this lane never edits it. These are the exact changes the corrected
 runs require. Numbers marked ⏳ are pending the matched 10⁶ run.
 
 | § / anchor | current text | replace with |

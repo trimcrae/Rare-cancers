@@ -2,7 +2,7 @@ name: GCP GPU — card throughput probe (L4 / T4 / P100 / V100, WIF keyless)
 
 # ★ WHAT THIS MEASURES AND WHY THE OLD VERSION COULD NOT ANSWER IT.
 #
-# STRATEGY.md Open decision 5 and gcp-gpu-facts.md §1b both carry a SPEC-DERIVED table saying a P100 is faster
+# nr4a3-program-map.md Open decision 5 and gcp-gpu-facts.md §1b both carry a SPEC-DERIVED table saying a P100 is faster
 # than an L4 *and* +18 % better on science-per-dollar, and a T4 is 2.2× better on science-per-dollar — every row
 # marked "do not plan on these rows yet". The bandwidth heuristic behind them is validated on ONE pair (L4 vs
 # RTX 4090) where bandwidth and FP32 move together, so it cannot tell bandwidth-bound from compute-bound, and

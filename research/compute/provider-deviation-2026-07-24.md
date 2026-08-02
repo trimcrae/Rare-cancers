@@ -19,7 +19,7 @@ Two standing rules apply and one was broken:
   **BROKEN.** No provider was proposed and no confirmation was sought. The run was mentioned in an in-flight
   board as "SageMaker Boltz", which is worse than silence: it reads as a settled choice rather than an
   unconfirmed one.
-- **`STRATEGY.md` GPU economics: all production runs go on Vast (4090 default, 3090 fallback); GCP L4 /
+- **`nr4a3-program-map.md` GPU economics: all production runs go on Vast (4090 default, 3090 fallback); GCP L4 /
   SageMaker / Modal are explicitly not the go-forward basis.** **BROKEN** for this run.
 - **"Default every GPU run to managed spot."** **HELD** — `nr4a3_ternary_sagemaker.py` calls
   `sagemaker_submit.submit_spot`, so it ran managed spot, not on-demand.

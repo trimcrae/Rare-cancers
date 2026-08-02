@@ -1,7 +1,7 @@
 name: 5a-KS protein-mutation FEP — known-answer benchmark (pmx + GROMACS on Vast)
 
 # Qualifies the 5a-KS wedge engine against measured protein-protein interface ddG values.
-# STRATEGY.md carries 5a-KS as the program's causal kill-switch AND the paper's primary causal
+# nr4a3-program-map.md carries 5a-KS as the program's causal kill-switch AND the paper's primary causal
 # result, and as UNPRICED/UNVALIDATED — no leg has ever completed. This workflow is the gate that
 # changes that: it produces both the qualification verdict and the engine's first measured per-leg
 # rate (protfep_reduce.price_from_legs).
@@ -126,7 +126,7 @@ jobs:
           python research/modalities/protfep_refcheck.py \
             --out research/modalities/protfep-reference-check.json
       - name: Scan SKEMPI for a WEDGE-SIZED benchmark candidate
-        # STRATEGY.md RUNG 5a-KS: the qualified set BRACKETS the wedge (+3.4 hot spot, ~0 near-null)
+        # nr4a3-program-map.md RUNG 5a-KS: the qualified set BRACKETS the wedge (+3.4 hot spot, ~0 near-null)
         # and covers nothing at the size the wedge measures, so the confirmatory causal line may not
         # yet claim to resolve a paralogue-scale difference. This is the free half of closing that
         # gap — it finds candidates from the deposited Kd values and NEVER edits BENCHMARKS, so
@@ -150,7 +150,7 @@ jobs:
             research/modalities/protfep-wedge-band-candidates.json
 
   # ------------------------------------------------------------------ free: the $0 spend precheck
-  # STRATEGY.md's tally of built-but-never-run known-answer tests makes the SMARCA2/4 pmx spend
+  # nr4a3-program-map.md's tally of built-but-never-run known-answer tests makes the SMARCA2/4 pmx spend
   # "conditional on a measured mutational value existing in a primary source, which is a $0 check that
   # must precede any spend (Open decision 7)". This job IS that check, and it is a SEPARATE job from
   # stage-test on purpose: a staging failure must not be able to skip the gate that authorises money.

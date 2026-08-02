@@ -3,7 +3,7 @@
 
 WHAT THIS RUNS AND WHY IT IS THE NEXT TEST
 ------------------------------------------
-STRATEGY.md's ladder has exactly one rung that is not merely unpriced but *unscoped*: 5a-KS, the
+nr4a3-program-map.md's ladder has exactly one rung that is not merely unpriced but *unscoped*: 5a-KS, the
 reciprocal target-surface mutation wedge, which is simultaneously the program's designated causal
 kill-switch AND the paper's primary causal result. Its engine was built on 2026-07-24 and has never
 run. An engine that exists is not a rate, and until a known-answer benchmark says the engine works,

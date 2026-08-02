@@ -188,7 +188,7 @@ def test_plan_states_what_it_does_not_run():
     # ⚠ THIS BOUND WAS A STALE COPY OF A RETIRED NUMBER. It read `5 < lo < hi < 60`, commented "the pinned
     # ~$12-26 band, with measurement slack" — but that band was repriced to **~$36 ($15-80)** when the ~4x
     # cost error was found (wrong molecule 2.6x, wrong bid basis 3x; see step1-fanout-lane.md §5 and
-    # STRATEGY.md's ladder entry). plan() correctly reports the corrected band, so the TEST was the thing
+    # nr4a3-program-map.md's ladder entry). plan() correctly reports the corrected band, so the TEST was the thing
     # holding the retired figure, and it went red the moment anyone touched this lane. That is precisely the
     # one-fact-one-place failure the repo's own linter exists for — a number living in two places while a
     # correction reached only one.
@@ -330,7 +330,7 @@ def test_jobspec_exclusions_do_not_leak_between_units():
 
 def test_cost_plan_and_band_are_derived_from_the_repriced_ladder():
     """The stale hand-typed constants (5-6 GPU-h at $0.12-0.25/hr) understated this tranche ~4x. Both are now
-    derived, so the ~$36 in STRATEGY.md and the launcher's own print cannot disagree."""
+    derived, so the ~$36 in nr4a3-program-map.md and the launcher's own print cannot disagree."""
     import vast_cost_model as vcm
     lo, hi = vcm.LADDER_REFERENCE_GPU_H[cf._FANOUT_LADDER_KEY]
     assert cf.UNIT_GPU_H == (lo / 19, hi / 19)

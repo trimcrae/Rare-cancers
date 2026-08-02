@@ -1,6 +1,6 @@
 # FEP-readiness dossier — lo_m0_NCCO (the better-than-401 lead), 2026-07-06
 
-> **⚠️ SUPERSEDED / HISTORICAL (2026-07-15) — read [`/STRATEGY.md`](../../STRATEGY.md) for the live plan.**
+> **⚠️ SUPERSEDED / HISTORICAL (2026-07-15) — read [`/nr4a3-program-map.md`](../manuscripts/nr4a3-program-map.md) for the live plan.**
 > This dossier is **Track-A (de novo warhead / denovo_401) work, which is SHELVED**; denovo_401 / lo_m0_NCCO are
 > now at most a **side comparator series**, not the lead. Two specific claims here are **RETIRED per reviewer
 > mandate 3:** (a) the **"+7.1 kcal/mol offset-corrected ABFE"** — there is **no transferable T4L offset**; ABFE

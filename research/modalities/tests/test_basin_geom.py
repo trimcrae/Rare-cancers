@@ -3,7 +3,7 @@
 Every test here checks a kernel against a CLOSED-FORM or exactly-constructed answer, not against another run
 of the same code. The kernels that carry scientific weight (linker reach, the distance field's clash
 convention, the WLC accessibility density, matched-frame superposition) each get a correctness test AND a
-failure-mode test, because STRATEGY.md's Tier-2 argument rests on those geometric answers being reliable.
+failure-mode test, because nr4a3-program-map.md's Tier-2 argument rests on those geometric answers being reliable.
 """
 import math
 import random

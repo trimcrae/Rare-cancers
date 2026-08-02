@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """valA_mini staging — fetch a PUBLIC known-answer RBFE system (TYK2, the standard Wang-2015 FEP benchmark)
 and stage ONE congeneric edge into the exact input layout the repo's RBFE pipeline consumes, so we can confirm
-OUR container build + protocol reproduces a MEASURED ΔΔG (STRATEGY.md RUNG 1, mandatory-change-1A).
+OUR container build + protocol reproduces a MEASURED ΔΔG (nr4a3-program-map.md RUNG 1, mandatory-change-1A).
 
 Runs in a GitHub Actions runner (unrestricted network + AWS creds) via the rbfe submitter's `mode=stagebench`.
 NOT science on NR4A — a build-consistency check against a public measured ΔΔG.

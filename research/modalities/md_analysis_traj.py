@@ -2,7 +2,7 @@
 """A durable, append-only ANALYSIS-ATOM trajectory for endpoint-MD drivers.
 
 WHY THIS EXISTS — it is the implementation of a requirement this repo adopted and then did not wire up.
-STRATEGY.md RUNG 3 records, as *"the highest-leverage infrastructure change for the whole ternary program
+nr4a3-program-map.md RUNG 3 records, as *"the highest-leverage infrastructure change for the whole ternary program
 (adopted as a requirement, 2026-07-25): every MD driver must persist a strided heavy-atom TRAJECTORY"*,
 because the NR-V04 covalent panel produced **three independent data-invalidating analysis defects** — a
 positional chain split that measured the Elongin-C interface instead of the target one, a chain-blind reactive-

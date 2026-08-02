@@ -384,7 +384,7 @@ def check_table_completeness(reg, repo=REPO):
                 f"the repriced-ladder table omits {len(missing)} stage(s) the cost model prices: "
                 + "; ".join(missing),
                 "a table missing a row still prints a plausible total -- that is exactly how "
-                "$128 escaped into STRATEGY.md as a whole-ladder figure"))
+                "$128 escaped into nr4a3-program-map.md as a whole-ladder figure"))
 
         # TWO independent total checks. The row-sum one is the load-bearing one: deleting a
         # row leaves a total that still matches the tool if nobody re-added the column, which

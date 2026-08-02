@@ -109,7 +109,7 @@ numbers, nothing failed.
 - **The descriptive-v3 co-folds have not been regenerated.** The retrospective's R1/R2 legs are blocked on that.
 - **The feasibility panel has not been re-run.** Its trajectories were not retained (only the readouts), so
   correcting its result requires re-running the 14 legs (~$6 at the measured per-leg cost) with the fixed split.
-- **The manuscript and STRATEGY.md still carry both affected results** — the covalent panel's GO and the co-fold
+- **The manuscript and nr4a3-program-map.md still carry both affected results** — the covalent panel's GO and the co-fold
   benchmark's paralogue separation. Until the re-runs land, they should be marked as under correction rather
   than cited.
 

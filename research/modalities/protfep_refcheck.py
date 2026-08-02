@@ -184,7 +184,7 @@ def records_for(csv_text, pdb, chain, resid, wt_letter, mut_letter):
 # ------------------------------------------------------------------------------------------------
 # The WEDGE-SIZED benchmark gap
 # ------------------------------------------------------------------------------------------------
-# STRATEGY.md (RUNG 5a-KS, "THE MOST DECISION-RELEVANT RESULT IS THE NOISE STRUCTURE") records that
+# nr4a3-program-map.md (RUNG 5a-KS, "THE MOST DECISION-RELEVANT RESULT IS THE NOISE STRUCTURE") records that
 # the qualified benchmark set brackets the wedge without covering it: a +3.4 kcal/mol hot-spot
 # knockout and a ~0 near-null control, with NOTHING at the size the wedge actually measures. Its
 # conclusion is quoted there and is the single home for it: *"the right validation for 5a-KS is a
@@ -193,7 +193,7 @@ def records_for(csv_text, pdb, chain, resid, wt_letter, mut_letter):
 #
 # This scanner is the $0 half of closing that gap: it finds the CANDIDATES from primary data. The
 # band's endpoints are NOT invented here — they are the wedge's own expected effect size, stated
-# once in STRATEGY.md's "Honest expectation, recorded BEFORE the run" for the matched pair. Anything
+# once in nr4a3-program-map.md's "Honest expectation, recorded BEFORE the run" for the matched pair. Anything
 # smaller is the near-null control we already have; anything larger is the hot spot we already have.
 WEDGE_BAND_KCAL = (0.5, 1.5)
 

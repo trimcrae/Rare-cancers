@@ -2,7 +2,7 @@
 """
 E3 RECRUITER STAGING + LIGANDABILITY DOWNSELECT  ($0 CPU/CI)  —  RUNG 5a, part 1.
 
-WHY. STRATEGY.md's prospective stage, item (c) "E3 breadth, free at the search stage", widens the recruiter set
+WHY. nr4a3-program-map.md's prospective stage, item (c) "E3 breadth, free at the search stage", widens the recruiter set
 beyond VHL/CRBN to the ligandable E3s with public ligand-bound structures (cIAP1/BIRC2, DCAF1, DCAF15, DCAF16,
 KEAP1, FEM1B, RNF114, MDM2). Selectivity in this program is created at the INDUCED target-E3 interface, so the
 E3's own surface is the largest single lever on whether a discriminating interface exists at all; searching more
@@ -39,7 +39,7 @@ WHAT IT PRODUCES.
      a preregistered lexicographic tiebreak to reach <=2. The dropped set, with the gate each recruiter failed
      or the axis on which it was dominated, is a first-class output.
 
-HONEST SCOPE (STRATEGY.md "Honest scope and language discipline"). This is DESIGN PREP, not a validated result.
+HONEST SCOPE (nr4a3-program-map.md "Honest scope and language discipline"). This is DESIGN PREP, not a validated result.
 Ligandability computed from one deposited holo structure is a HYPOTHESIS for testing: it says a published
 ligand occupies a pocket with a solvent-directed exit vector, not that an NR4A3 degrader built on that handle
 will form a ternary complex, be selective, be degraded, or do anything in a cell. No claim of efficacy, safety,
@@ -79,7 +79,7 @@ AVAILABILITY_JSON = os.path.join(HERE, "nr4a-e3-expression.json")
 SCHEMA_VERSION = "1.1"
 
 # ---------------------------------------------------------------------------------------------------------
-# THE PANEL — STRATEGY.md RUNG 5a's widened ligandable recruiter set, verbatim, plus the two incumbents.
+# THE PANEL — nr4a3-program-map.md RUNG 5a's widened ligandable recruiter set, verbatim, plus the two incumbents.
 # `arm` matches the key used by nr4a3_e3_expression.py so availability can be cross-checked, not re-asserted.
 # ---------------------------------------------------------------------------------------------------------
 PANEL = [
@@ -108,7 +108,7 @@ PANEL = [
 # ---------------------------------------------------------------------------------------------------------
 # ★ PREREGISTERED DOWNSELECT RULE. Committed BEFORE the CI fetch ran, so it cannot be fitted to the answer.
 # Gates are pass/fail eligibility; ranking is a Pareto front plus a fixed lexicographic tiebreak — never a
-# tunable weighted scalar (STRATEGY.md validation requirement 5).
+# tunable weighted scalar (nr4a3-program-map.md validation requirement 5).
 # ---------------------------------------------------------------------------------------------------------
 GATES = {
     "G1_public_ligand_bound_structure": {
@@ -1295,7 +1295,7 @@ def downselect(recruiters):
         dropped.append({
             "recruiter": name, "stage": "cap",
             "reason": f"on the Pareto front but ranked #{ranked.index(name) + 1} under the preregistered "
-                      f"lexicographic tiebreak {TIEBREAK}; STRATEGY.md caps the recruiter set at "
+                      f"lexicographic tiebreak {TIEBREAK}; nr4a3-program-map.md caps the recruiter set at "
                       f"{MAX_ADVANCED} before any GPU leg. Axes {json.dumps(gated[name])}",
             "availability_was_not_a_factor": True,
         })
@@ -1326,7 +1326,7 @@ def downselect(recruiters):
         "availability_assertion": {
             "claim": "No recruiter is dropped for lack of expression. All eight widened arms are broadly "
                      "expressed and record-complete on HPA (nr4a3_e3_expression.py, CI run 30125742542), so "
-                     "availability does not constrain this choice — STRATEGY.md RUNG 5a.",
+                     "availability does not constrain this choice — nr4a3-program-map.md RUNG 5a.",
             "verified": all(d.get("availability_was_not_a_factor") for d in dropped),
         },
     }
@@ -1348,7 +1348,7 @@ def check_availability_not_a_constraint(path=AVAILABILITY_JSON):
             "incumbent_arms_both_broad": d.get("both_arms_broadly_expressed"),
             "used_as_a_drop_reason": False,
             "_note": "Availability is NECESSARY but does not discriminate here, so it is recorded and then "
-                     "deliberately excluded from the downselect (STRATEGY.md RUNG 5a)."}
+                     "deliberately excluded from the downselect (nr4a3-program-map.md RUNG 5a)."}
 
 
 def fetch_panel(max_entries_deep=8, search_rows=100):
@@ -1570,7 +1570,7 @@ def geometry_panel(recruiters, workdir=None, use_fpocket=True):
 def build(recruiters, availability):
     ds = downselect(recruiters)
     return {
-        "_title": "E3 recruiter staging + ligandability downselect — STRATEGY.md RUNG 5a(c), 'E3 breadth, "
+        "_title": "E3 recruiter staging + ligandability downselect — nr4a3-program-map.md RUNG 5a(c), 'E3 breadth, "
                   "free at the search stage'",
         "_why": "Selectivity in this program is created at the induced target-E3 interface, so the E3's own "
                 "surface is the largest lever on whether a discriminating interface exists at all. Basin "
@@ -1812,7 +1812,7 @@ def to_markdown(d):
         L += ["", "**Backfilled** (Pareto-dominated, retained as the second recruiter so the E3 is a "
                   "controlled variable downstream rather than a confound): " + ", ".join(back) + ".", ""]
     L += ["", "## Dropped set — every recruiter not advanced, with the reason", "",
-          "*STRATEGY.md: \"a silent top-N reads as 'we covered everything'\". Availability is **never** a "
+          "*nr4a3-program-map.md: \"a silent top-N reads as 'we covered everything'\". Availability is **never** a "
           "reason here — all widened arms are broadly expressed (HPA, CI run 30125742542).*", ""]
     for row in ds["dropped"]:
         L.append(f"- **{row['recruiter']}** — dropped at the *{row['stage']}* stage. {row['reason']}")

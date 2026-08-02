@@ -1,9 +1,9 @@
 # RUNG 5a — the mechanism-first orientation-basin search
 
-> **Lane doc.** This is the record for STRATEGY.md's RUNG 5a, the **$0 CPU** basin search that decision #4
+> **Lane doc.** This is the record for nr4a3-program-map.md's RUNG 5a, the **$0 CPU** basin search that decision #4
 > puts first ("run 5a's $0 basin search first — it tells us which exit vectors matter"). It is subordinate to
-> [STRATEGY.md](../../STRATEGY.md); where they differ, STRATEGY.md wins and this file is reconciled to it.
-> Proposed STRATEGY.md deltas are collected at the end rather than applied here.
+> [nr4a3-program-map.md](nr4a3-program-map.md); where they differ, nr4a3-program-map.md wins and this file is reconciled to it.
+> Proposed nr4a3-program-map.md deltas are collected at the end rather than applied here.
 >
 > **Status:** engine built, unit-tested (42 tests), E3 arms staged from RCSB on CI, search executed. No GPU
 > was used and none is requested by this rung. The optional MM-GBSA rescore in the 5a envelope was **not**
@@ -17,7 +17,7 @@
 
 ## 0. What this rung was asked to answer
 
-STRATEGY.md's prospective stage is **mechanism-first**:
+nr4a3-program-map.md's prospective stage is **mechanism-first**:
 
 ```
 paralogue-unique CHEMISTRY (nucleophile) + paralogue-unique GEOMETRY (lysine)
@@ -64,7 +64,7 @@ CONNECT.
    exact from the cell centre, so a query point sits up to half a cell diagonal away, and the clash test
    subtracts that slack before passing. Unit-tested to never miss a real overlap in 2 000 random probes.
 3. **Worm-like-chain end-to-end density** (Thirumalai–Ha), which is the **accessibility** half of
-   STRATEGY.md's load-bearing piece 4. A Gaussian chain is wrong here — real degrader linkers are 3–16
+   nr4a3-program-map.md's load-bearing piece 4. A Gaussian chain is wrong here — real degrader linkers are 3–16
    backbone atoms, far from the Gaussian limit, and a Gaussian assigns non-zero probability *beyond the
    contour length*, i.e. exactly where the answer matters.
 4. **Horn quaternion superposition** (no SVD, so it is stdlib and exactly testable), used to put NR4A1/NR4A2
@@ -208,7 +208,7 @@ intact-assembly evidence, and a *quantified* caveat wherever composition is unav
   *The paralogue side is categorical by sequence and needs no geometry: NR4A1/NR4A2 carry **no nucleophile**
   at the aligned positions (C397 → N363/S363, C420 → Q388/A389, C559 → Q528/Q528).*
 - **Term (b) — transfer-zone lysine identity**, as set membership, evaluated on NR4A3 **and both superposed
-  paralogues** with the same placement. The ordering is STRATEGY.md's, with a paralogue-bare refinement on
+  paralogues** with the same placement. The ordering is nr4a3-program-map.md's, with a paralogue-bare refinement on
   top, and the paralogue evaluation is the part that decides whether a basin is genuinely categorical:
 
   | rank | category |
@@ -317,7 +317,7 @@ NR4A3 surface *around K572 itself*.
   `covered_but_unreliably_placed` rather than counted silently.
 - **★ `term_b_best_rank` is a BEST-OF-N statistic and is inflated by construction.** It is the maximum over a
   basin's sampled placements, each of which is itself a maximum over the sampled E2 arc — precisely the
-  winner's-curse artifact STRATEGY.md's load-bearing piece 5 says a raw Pareto set still admits. The
+  winner's-curse artifact nr4a3-program-map.md's load-bearing piece 5 says a raw Pareto set still admits. The
   unbiased quantities are the **mean fractions** (0.005–0.08 covering a unique lysine, 0.0–0.061 with the
   paralogue zones bare), and they are the numbers the table above leads with. **The gate's term-(b) count is
   therefore an upper bound on how many basins genuinely carry the mechanism, and should be read as one.**
@@ -484,9 +484,9 @@ For BIRC2 and MDM2 the answer is no, and no amount of ligand quality changes it.
 
 ---
 
-## 6b. Exact STRATEGY.md deltas proposed by this lane
+## 6b. Exact nr4a3-program-map.md deltas proposed by this lane
 
-*This lane does not edit STRATEGY.md (four lanes run concurrently and the orchestrator owns it). These are the
+*This lane does not edit nr4a3-program-map.md (four lanes run concurrently and the orchestrator owns it). These are the
 precise changes to apply, each with its evidence.*
 
 **D1 — RUNG 5a status.** `[ ] 5a · Orientation-basin search, mechanism-first — ~$0–50 (CPU $0 + optional
@@ -540,7 +540,7 @@ from this rung.
 ## 7. On the optional MM-GBSA rescore in the 5a envelope
 
 **Not run, and not recommended.** It is a GPU step, and it would refine the one axis this rung is explicitly
-*not* deciding on. STRATEGY.md's Tier-2 asymmetry is the argument: cheap scoring nominates on **geometric set
+*not* deciding on. nr4a3-program-map.md's Tier-2 asymmetry is the argument: cheap scoring nominates on **geometric set
 membership**, which it answers reliably, and is not trusted to adjudicate a ~1 kcal/mol energy difference — an
 MM-GBSA rescore buys a better number on the axis that needs ~2.0 kcal/mol of true margin against a resolvable
 1.12, which is the axis the whole mechanism-first reframe demoted. The next spend on the ladder should be

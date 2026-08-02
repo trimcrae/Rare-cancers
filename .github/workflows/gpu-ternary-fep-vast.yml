@@ -3046,7 +3046,7 @@ jobs:
 
   # ★★ WHICH LEGS THIS ANALYSES IS A PARAMETER, NOT A CONSTANT (2026-07-30). It used to hardcode
   # `--mode edge` on the `--fetch-trajectories` call, so the $0 pose diagnostic could only ever see RUNG 2b's
-  # 4 fs legs — and STRATEGY.md's own instruction is to run it on the CLOSURE TRIANGLE's legs, which are a
+  # 4 fs legs — and nr4a3-program-map.md's own instruction is to run it on the CLOSURE TRIANGLE's legs, which are a
   # different mode at a different timestep (`..._dt2.0fs_wu1.0_triangle` vs `..._dt4.0fs_wu1.0_edge`).
   # Dispatched at the triangle, the hardcoded call would have listed a prefix nobody ever wrote, downloaded
   # nothing, and printed a clean summary over zero legs. The task->mode map has one home,

@@ -6,7 +6,7 @@ C397**: neither C420 nor C559 is reached by any basin at the 12-atom practical l
 covalent-capture axis therefore rests on ONE residue evaluated in ONE static opened conformer, and two
 quantities that decide it were single-frame numbers:
 
-  * C397's solvent exposure -- RSA 0.395 in `nr4a3-opened.pdb`, quoted in STRATEGY.md as the reason C397 is a
+  * C397's solvent exposure -- RSA 0.395 in `nr4a3-opened.pdb`, quoted in nr4a3-program-map.md as the reason C397 is a
     usable handle and C559 (RSA 0.095) is not. A single frame gives no idea whether that is a robust property
     of the fold or a feature of one snapshot.
   * the exit-anchor-to-SG distances that drive the E3-INDEPENDENT term-(a) envelope (C397 opens at a 10-atom

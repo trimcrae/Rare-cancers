@@ -2,7 +2,7 @@
 """
 RUNG 5a — the MECHANISM-FIRST orientation-basin search. $0 CPU, pure stdlib.
 
-WHAT STRATEGY.md ASKS FOR, and what this implements (§"The prospective stage: mechanism-first, then
+WHAT nr4a3-program-map.md ASKS FOR, and what this implements (§"The prospective stage: mechanism-first, then
 orientation-first inverse design"):
 
     paralogue-unique CHEMISTRY (nucleophile) + paralogue-unique GEOMETRY (lysine)
@@ -34,19 +34,19 @@ plus the marginal one:
       basins that persist are carried, with the surviving fraction reported. Sequence-level uniqueness of
       C397/K572 is pose-independent; only the REACH estimate is conditional.
 
-And STRATEGY.md load-bearing piece 4 — ACCESSIBILITY IS SEPARATED FROM STABILITY. `P(B_k | d, s)` (can a
+And nr4a3-program-map.md load-bearing piece 4 — ACCESSIBILITY IS SEPARATED FROM STABILITY. `P(B_k | d, s)` (can a
 linker of a given length reach and hold basin k?) is a worm-like-chain end-to-end probability over the basin's
 anchor-anchor spans; the orientation's plausibility is a separate, explicitly UNITLESS contact score. A
 favourable basin the linker rarely accesses is irrelevant, and the output reports both rather than a product.
 
-WHAT THE CHEAP SCORER IS AND IS NOT (STRATEGY.md, Tier-2 asymmetry). The interface score here NOMINATES; it
+WHAT THE CHEAP SCORER IS AND IS NOT (nr4a3-program-map.md, Tier-2 asymmetry). The interface score here NOMINATES; it
 does not decide. Cheap scoring has poor signal-to-noise for a ~1 kcal/mol energy difference — and the marginal
 axis needs ~2.0 kcal/mol of true margin against a best-case resolvable 1.12 — so no conclusion in this file
 rests on a small score difference between paralogues. What cheap geometry DOES answer reliably is set
 membership: "does this basin place an electrophile at C397?", "does its transfer zone cover K572 and no
 paralogue lysine?" Those are the terms the gate is read from.
 
-HONEST SCOPE (STRATEGY.md §"Honest scope and language discipline"). Everything is conditional on the
+HONEST SCOPE (nr4a3-program-map.md §"Honest scope and language discipline"). Everything is conditional on the
 hypothesised cmpd19 binary pose x the chosen receptor frame — a DOUBLE conditionality — and this repo holds no
 cmpd19 pose in the matched-model frame, so the warhead exit vector is marginalised over an ensemble rather
 than asserted. Outputs are "predicted selective candidate" language only; nothing here implies efficacy,
@@ -384,7 +384,7 @@ def build_pose_ensemble(model3, reactive, field3, n_poses, rng, params=PARAMS):
     point would manufacture precision the evidence does not support. What the basin search actually consumes
     from a warhead pose is ONE point (where the linker leaves) and its direction; so the honest construction
     marginalises over the set of positions a linker could plausibly leave from, given the premise that the
-    warhead occupies the cryptic pocket. That premise is the conditionality STRATEGY.md requires be reported,
+    warhead occupies the cryptic pocket. That premise is the conditionality nr4a3-program-map.md requires be reported,
     and it is a far smaller conditional surface than a single asserted pose.
 
     An anchor qualifies if it is (i) in the shell around the cryptic-pocket centroid a warhead's exit
@@ -667,7 +667,7 @@ def interface_score(placement, arm, lookup, cutoff=8.0):
 
     Preregistered, fixed weights (never fitted): packing +1 per residue pair, hydrophobic pair +1, salt bridge
     +2, like-charge pair -2, polar pair +0.5, soft clash -4. This exists to RANK placements WITHIN the set the
-    categorical terms already selected — STRATEGY.md's "interface thermodynamics used to RANK within the
+    categorical terms already selected — nr4a3-program-map.md's "interface thermodynamics used to RANK within the
     survivors, never to create selectivity on its own".
     """
     pack = hydro = salt = repul = polar = 0
@@ -832,7 +832,7 @@ def transfer_zone(placement, lys_by_species, rng, params=PARAMS, ring_r=None, tr
 
 
 def classify_transfer(covered, unique_lys_ids, par_species=("NR4A1", "NR4A2")):
-    """Term (b) SET-MEMBERSHIP category. Ordered exactly as STRATEGY.md specifies (unique-only highest,
+    """Term (b) SET-MEMBERSHIP category. Ordered exactly as nr4a3-program-map.md specifies (unique-only highest,
     unique+conserved next, conserved-only lowest), with the paralogue-bare refinement on top."""
     n3 = set(covered.get("NR4A3", []))
     uniq = n3 & unique_lys_ids
@@ -852,7 +852,7 @@ def classify_transfer(covered, unique_lys_ids, par_species=("NR4A1", "NR4A2")):
 
 
 def basin_accessibility(spans, params=PARAMS):
-    """STRATEGY.md load-bearing piece 4 — `P(B_k | d, s)`, kept SEPARATE from the orientation's plausibility.
+    """nr4a3-program-map.md load-bearing piece 4 — `P(B_k | d, s)`, kept SEPARATE from the orientation's plausibility.
 
     For each candidate linker length, the mean worm-like-chain end-to-end density over the basin's
     anchor-anchor spans. A basin whose spans lie beyond a linker's contour length gets exactly zero: that
@@ -1369,7 +1369,7 @@ def term_a_feasibility_envelope(poses, cysteines, field3, rng, params=PARAMS, n_
 
 
 def tier2_verdict(metas, per_arm_basins):
-    """STRATEGY.md kill-switch TIER 2: 'No basin exploits a categorical handle AND none even nominally
+    """nr4a3-program-map.md kill-switch TIER 2: 'No basin exploits a categorical handle AND none even nominally
     discriminates NR4A3 => STOP cheaply.'
 
     Read exactly as written — it is a CONJUNCTION, so a GO needs only one of the two limbs. And the asymmetry
@@ -1437,7 +1437,7 @@ def main(argv=None):
     # synthetic result straight over the committed production artifact — observed 2026-07-25, twice in one
     # session, and only caught because `git status` was checked. A lane that ran the self-test and then
     # committed would have replaced the definitive 12-pose result with synthetic numbers under a filename that
-    # every downstream consumer (RUNG 5b, STRATEGY.md's Tier-2 block) reads without question. So the self-test
+    # every downstream consumer (RUNG 5b, nr4a3-program-map.md's Tier-2 block) reads without question. So the self-test
     # gets its own file unless an explicit --out says otherwise.
     ap.add_argument("--out", default=None,
                     help="output path (default: nr4a3-orientation-basins.json, or "

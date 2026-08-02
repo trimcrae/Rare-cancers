@@ -1,7 +1,7 @@
 name: GCP GPU — OpenFE RBFE on L4 (valA TYK2 known-answer; WIF keyless)
 
 # Runs the repo's OpenFE RBFE flow on a GCE Spot L4 VM — the GCP port of the AWS SageMaker RBFE pipeline, so the
-# valA_mini known-answer benchmark (STRATEGY.md RUNG 1, the kill-switch) can run on GCP per the "burn the $300
+# valA_mini known-answer benchmark (nr4a3-program-map.md RUNG 1, the kill-switch) can run on GCP per the "burn the $300
 # credits before AWS" directive. Reuses gpu-bench-gcp.yml's proven machinery (WIF auth, zone-fallback Spot create,
 # Miniforge+mamba CUDA OpenMM, serial-console result reporting, unconditional teardown).
 #

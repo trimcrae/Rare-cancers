@@ -3,7 +3,7 @@
 
 WHAT IT DECIDES
 ---------------
-STRATEGY.md's tally of built-but-never-run known-answer tests records the pmx lane as:
+nr4a3-program-map.md's tally of built-but-never-run known-answer tests records the pmx lane as:
 
     A pmx/GROMACS interface point-mutation ddG -- the only physics lane here that has recovered a
     published known answer (barnase-barstar Y29A +4.42 +/- 1.08 vs +3.4 and Y29F -0.370 +/- 0.175 vs
@@ -725,7 +725,7 @@ def run(out_path=OUT, offline=False, skempi_csv=None):
     """Fetch both instruments, apply the gate, write the artifact."""
     doc = {
         "_what": ("THE $0 PRECHECK required before any pmx/GROMACS spend on the SMARCA2/4 selectivity "
-                  "contact. STRATEGY.md makes that spend 'conditional on a measured mutational value "
+                  "contact. nr4a3-program-map.md makes that spend 'conditional on a measured mutational value "
                   "existing in a primary source, which is a $0 check that must precede any spend "
                   "(Open decision 7)'. This artifact is that check."),
         "_this_is_evidence_not_a_conclusion": (

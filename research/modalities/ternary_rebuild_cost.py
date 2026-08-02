@@ -7,7 +7,7 @@ module emits before the rung runs, so "did it pass?" is a lookup rather than an 
 `nrv04_retro_panel.production_leg_check` and the NR-V04 preregistration exist.
 
 ★ WHY THIS FILE EXISTS. The ternary rebuild is the program's largest open gap
-([STRATEGY.md:500](../../STRATEGY.md): *"the whole remaining gap"*) and it sat **unpriced** — no rung, no
+([the roadmap's SMARCA2/4 gate record](../manuscripts/nr4a3-program-map.md#-gate-failed--the-smarca24-sensitivity-control-returns-null-on-an-adequately-powered-design-2026-08-02-1042-pm-et): *"the whole remaining gap"*) and it sat **unpriced** — no rung, no
 spine row, no decision-value rank — so it could not be scheduled, refused or costed. CLAUDE.md rule 1 says a
 total is DERIVED, never typed. This module is that derivation, and `--check` is the checker that verifies it
 sums.

@@ -19,7 +19,7 @@ rather than copied, each under the heading and slug it always had. [STRATEGY.md]
 appendices of pure history: [Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)
 (superseded numbers and retracted claims) and
 [Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings) (retired plan framings).
-[§0.7](#07--what-machines-parse-in-this-file-and-what-is-left-in-strategymd) is the index of what a machine
+[§0.7](#07--what-machines-parse-in-this-file--and-what-is-left-in-strategymd) is the index of what a machine
 reads in this file and what still lives there.
 
 ⚠ **SUPERSEDED, retained so it is not re-derived:** an earlier pass of this merge left ~2,430 of STRATEGY.md's
@@ -246,7 +246,7 @@ this run"* and every open item vanishes from the work board with no error.
 | [`GPU economics`](#gpu-economics-full-provenance-in-pricingmd) | a pointer to [pricing.md](../compute/pricing.md), plus the six cost levers | `bid-strategy.md` names it |
 | the ✅/❌ landed-gate blocks | each landed gate's numbers, once | one anchor link from the retired re-panel prereg — ⚠ **that heading's slug is load-bearing and must not change** |
 | [`★★ WHAT THE LANDED RESULTS CHANGE…`](#-what-the-landed-results-change-about-the-remaining-plan) | the *why* behind the ordering; its ranked list is folded into [§10](#10--the-roadmap--one-ordered-list) | — |
-| [`⏱️ IN FLIGHT`](#-in-flight--what-is-actually-running-right-now-as-of-2026-07-30-530-pm-et) | ⚠ **NOT LIVE** — a superseded board plus four one-homes; see [§12 finding 6](#12--findings-that-belong-to-other-documents) | live board is [`inflight_usd_per_ns.py`](../modalities/inflight_usd_per_ns.py) / `inflight-board-all.md` |
+| [`⏱️ IN FLIGHT`](#in-flight-superseded) | ⚠ **NOT LIVE** — a superseded board plus four one-homes; see [§12 finding 6](#12--findings-that-belong-to-other-documents) | live board is [`inflight_usd_per_ns.py`](../modalities/inflight_usd_per_ns.py) / `inflight-board-all.md` |
 | [`🌙 OVERNIGHT MONITORING`](#-overnight-monitoring--what-is-covered-by-what-2026-07-26-trimcrae-asked-for-hourly) | ⚠ stale — every lane it describes has closed | — |
 | [`Current front`](#current-front) | ⚠ a duplicate that names its own homes and has **zero** inbound references; superseded by [§10](#10--the-roadmap--one-ordered-list). Retained for one statement: the feasibility panel is **WITHDRAWN**, not merely "under correction" | — |
 
@@ -999,11 +999,13 @@ selectivity control, involves no paralogue, and passing it would license no SMAR
 
 ---
 
+<a id="in-flight-superseded"></a>
+
 ## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-30 5:30 PM ET**)
 
 *★ **A SUPERSEDED BOARD PLUS FOUR ONE-HOMES.** ⛔ **DO NOT READ THE TABLE AS LIVE STATE.** The live board is [`inflight_usd_per_ns.py`](../modalities/inflight_usd_per_ns.py) / `inflight-board-all.md`.*
 
-⛔ **THIS BOARD IS NOT LIVE, AND IT IS STRUCTURALLY BLIND TO PART OF THE FLEET.** Its own as-of is above; the live board is [`inflight_usd_per_ns.py`](../modalities/inflight_usd_per_ns.py) / `inflight-board-all.md`, which is its one home. Two defects, both recorded rather than patched: it is **stale by days**, and it is **scoped to Vast + GCP**, so **a SageMaker rental is invisible to it by construction** — which is exactly how a 3:16 PM ET ABFE dispatch on 2026-08-02 appeared on no board at all. ⚠ **It is deliberately NOT re-stamped here**: inventing a current state is the failure this board already committed. What is *not* stale is the four one-homes in the prose below the table — the buy-line arithmetic, what `R` decides, the binary-arm departure finding, and the pose-diagnostic status. See [roadmap](nr4a3-program-map.md) §12 finding 6.
+⛔ **THIS BOARD IS NOT LIVE, AND IT IS STRUCTURALLY BLIND TO PART OF THE FLEET.** Its own as-of is above; the live board is [`inflight_usd_per_ns.py`](../modalities/inflight_usd_per_ns.py) / `inflight-board-all.md`, which is its one home. Two defects, both recorded rather than patched: it is **stale by days**, and it is **scoped to Vast + GCP**, so **a SageMaker rental is invisible to it by construction** — which is exactly how a 3:16 PM ET ABFE dispatch on 2026-08-02 appeared on no board at all. ⚠ **It is deliberately NOT re-stamped here**: inventing a current state is the failure this board already committed. What is *not* stale is the four one-homes in the prose below the table — the buy-line arithmetic, what `R` decides, the binary-arm departure finding, and the pose-diagnostic status. See [§12 finding 6](#12--findings-that-belong-to-other-documents).
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are
 measured over the stated interval, and **only quoted off a window long enough to swamp the 40-iteration commit
@@ -1535,7 +1537,7 @@ family (3.73 Å) and on the wrong paralogue.
 
 ## Validation architecture (the five requirements)
 
-*★ **THE EXTERNAL REVIEWER'S FIVE CONDITIONS** on what a result may claim — the constraint layer over [§3](#3--instruments--which-one-answers-each-requirement)'s instrument table. ⚠ **Cite these as "validation requirement 1–5", never as "R1–R5"** — [§0.6](#06--five-different-things-in-this-program-are-called-r) lists five different things in this program called `R`. Mapping onto the registers: requirement 1(A)→`V6`, 1(C)→`V5`, 2→`R6`, 3→`V9`, 4→[§6a](#6a--dead--conclusively-unworkable-never-retry)'s NR-V04 row, 5→`R12` and `R13`.*
+*★ **THE EXTERNAL REVIEWER'S FIVE CONDITIONS** on what a result may claim — the constraint layer over [§3](#3--instruments--which-one-answers-each-requirement)'s instrument table. ⚠ **Cite these as "validation requirement 1–5", never as "R1–R5"** — [§0.6](#06---five-different-things-in-this-program-are-called-r) lists five different things in this program called `R`. Mapping onto the registers: requirement 1(A)→`V6`, 1(C)→`V5`, 2→`R6`, 3→`V9`, 4→[§6a](#6a--dead--conclusively-unworkable-never-retry)'s NR-V04 row, 5→`R12` and `R13`.*
 
 These come from the external reviewer's conditional approval ([verbatim
 verdict](nr4a3-degrader-reviewer-revisions-2026-07-15.md)) and govern what any result is
@@ -3905,7 +3907,7 @@ the rules lived in another file, a rule-1 violation the moment the merge put the
 | the cost evidence behind every rate | [pricing.md](../compute/pricing.md) · [bid-strategy.md](../compute/bid-strategy.md) |
 | realised spend | [`realised-spend.json`](../modalities/realised-spend.json), summed from each lane's own rental ledger — a **floor**, with an attested block the machine ledgers cannot see |
 | the buy line (`$/ns`) | [`inflight_usd_per_ns.APPROVED_USD_PER_NS`](../modalities/inflight_usd_per_ns.py) — **the drift line IS the buy line**; a row that prints `⚠ DRIFT` is a row we do not buy |
-| live in-flight state | [`inflight_usd_per_ns.py`](../modalities/inflight_usd_per_ns.py) / `inflight-board-all.md` — ⚠ **not** the [⏱️ IN FLIGHT](#-in-flight--what-is-actually-running-right-now-as-of-2026-07-30-530-pm-et) block on this page, which is superseded ([§12](#12--findings-that-belong-to-other-documents) finding 6) |
+| live in-flight state | [`inflight_usd_per_ns.py`](../modalities/inflight_usd_per_ns.py) / `inflight-board-all.md` — ⚠ **not** the [⏱️ IN FLIGHT](#in-flight-superseded) block on this page, which is superseded ([§12](#12--findings-that-belong-to-other-documents) finding 6) |
 
 ⚠ **Two ledgers, never summed.** GCP trial credit buys wall clock, not headroom; it is tracked separately from
 realised and ladder spend.
@@ -4193,7 +4195,7 @@ congeneric RBFE edges), the **valB_mini replicates** (4 legs) and the **closure 
 5:11 PM ET and was the last owed GPU work in the fixed scope. **Two lanes remain held, deliberately and for
 stated reasons**: RUNG **5a-KS** behind the relaunch price gate, and the **restrained binary re-run** behind
 the triangle's `R` — which has now landed, so what that leg is waiting on is a *reading*, not a run. Live
-state, cost and `$/ns` for every one of them: the **IN FLIGHT** board at the top of this file, which is their
+state, cost and `$/ns` for every one of them: the [**⏱️ IN FLIGHT**](#in-flight-superseded) block on this page, which is their
 one home — ⚠ **and this paragraph must never restate it.** It said *"three lanes are billing"* for a day after
 the board said nothing was, which is a rule-1 defect in the one direction that matters, since a stale
 "currently spending" line is what an unattended fleet looks like when it is *not* being supervised.
@@ -4573,7 +4575,7 @@ line number is kept only where it names a *paper* line.
    and did not (the minute is also off by one). ⛔ **The heading itself is NOT corrected**, because its slug is
    the target of the repo's only non-Appendix-A anchor link (`nr4a-repanel-prereg-DRAFT.md:9`) and changing the
    date changes the slug. A dated correction note has been added **beneath** it instead.
-6. ⛔ **The [⏱️ IN FLIGHT](#-in-flight--what-is-actually-running-right-now-as-of-2026-07-30-530-pm-et) board is
+6. ⛔ **The [⏱️ IN FLIGHT](#in-flight-superseded) board is
    3 days stale and structurally cannot see the lanes that have billed since** —
    header `as of 2026-07-30 5:30 PM ET` with *"NOTHING IS BILLING"*. The rows happen to be
    true for Vast (verified three ways at $0), but the board is scoped to Vast + GCP, so **a SageMaker rental

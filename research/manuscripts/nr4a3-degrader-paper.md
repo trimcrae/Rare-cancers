@@ -3012,13 +3012,13 @@ ERα LBD + estradiol (1ERE; Brzozowski et al., Nature 389:753, 1997); NR4A holo 
 **Prior art in alchemical ternary-cooperativity free-energy calculation** (cited in §2 to position this work's
 novelty as incremental; these are the benchmarks any ternary-cooperativity result from this program must be
 compared against). *Entries 60–63 are identifier-anchored: DOI/year/journal as recorded in the project's
-`STRATEGY.md`; author-title strings for 61–63 were not retrievable from a primary source in this environment
+`nr4a3-program-map.md`; author-title strings for 61–63 were not retrievable from a primary source in this environment
 and are deliberately left blank rather than reconstructed. They must be completed from the publisher record
 before submission.*
 
 60. Chen et al. (2023). [Alchemical ternary-complex cooperativity free-energy calculations for PROTAC systems,
     incl. VHL–BRD4/MZ1. Full citation to be completed from the publisher record; the DOI was not recorded in
-    `STRATEGY.md`.]
+    `nr4a3-program-map.md`.]
 61. *J Chem Theory Comput* (2025). doi 10.1021/acs.jctc.5c00064. [Alchemical PROTAC ternary-cooperativity
     ΔΔG_coop cycle. Authors/title to be completed at submission.]
 62. *J Chem Theory Comput* (2025). doi 10.1021/acs.jctc.5c00736. [Alchemical PROTAC ternary-cooperativity

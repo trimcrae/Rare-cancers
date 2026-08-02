@@ -806,7 +806,7 @@ def scan_rung_gates(schedule: dict | None, err: str | None) -> tuple[list[Entry]
 
     **A guard that condemns correct behaviour gets switched off within a day**, so that implementation is
     gone rather than tuned. `degrader-paper-schedule.json` is the MACHINE MIRROR of the ORDERED PLAN
-    (STRATEGY.md §5 names it as such) and it carries `id`, `status` and `depends_on` — a real dependency
+    (the roadmap's ORDERED PLAN names it as such) and it carries `id`, `status` and `depends_on` — a real dependency
     graph, with exact keys. The question becomes mechanical and needs no name matching at all:
 
         every dependency satisfied, and this milestone's own status still has no verdict

@@ -645,7 +645,7 @@ def _protocol(openfe):
     # So in practice THIS LANE RUNS NAGL and the binary RBFE lane runs am1bcc -- they are a documented LANE SPLIT,
     # not a match. That is fine for ddG_coop; it is NOT fine for any quantity that subtracts a binary-lane leg
     # from a ternary-lane leg (the 5a-KS wedge cycle), which MUST pin one CHARGE_METHOD across both legs and
-    # record it in both result JSONs. See md_settings.py and STRATEGY.md RUNG 5.
+    # record it in both result JSONs. See md_settings.py and nr4a3-program-map.md RUNG 5.
     _charge = os.environ.get("CHARGE_METHOD", "am1bcc")
     try:
         s.partial_charge_settings.partial_charge_method = _charge

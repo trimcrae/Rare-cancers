@@ -4,7 +4,7 @@
 **Provider:** Vast RTX 4090 (trimcrae, 2026-07-25 — all production GPU runs on Vast).
 **Status of each number below is stated explicitly: DERIVED FROM CODE, MEASURED, or PENDING.**
 
-This file is the evidence for the RUNG 2b entries; STRATEGY.md and `pricing.md` own the live figures and should
+This file is the evidence for the RUNG 2b entries; nr4a3-program-map.md and `pricing.md` own the live figures and should
 point here rather than restate the derivations.
 
 ---
@@ -233,7 +233,7 @@ Three things it does **not** license: **(a)** it says nothing about *protocol* e
 `protocol_hash`'s job; **(b)** it must not be used to pair a **restrained** binary arm with an **unrestrained**
 one — the restraint is deliberately a different Hamiltonian, the census is blind to it, and such a cycle would
 measure the restraint. That is why the RUNG 2b gate's comparator stays the **unrestrained** r0 value (see
-STRATEGY.md's ratified-threshold note); **(c)** it is not a licence to pool legs into a replicate SD, which is
+nr4a3-program-map.md's ratified-threshold note); **(c)** it is not a licence to pool legs into a replicate SD, which is
 a sampling question, not an identity one.
 
 ## 3 · Why the warmup checkpoint interval is per-mode — DERIVED, to be confirmed by measurement
@@ -386,12 +386,12 @@ which fails if any *other* mode acquires the same gap.
 
 ---
 
-## 6 · Proposed edits to STRATEGY.md and pricing.md
+## 6 · Proposed edits to nr4a3-program-map.md and pricing.md
 
 Written as exact deltas so the owner of those files can apply them without re-deriving anything. Nothing here
-is applied by this lane; STRATEGY.md is not edited by anyone but its owner.
+is applied by this lane; nr4a3-program-map.md is not edited by anyone but its owner.
 
-**STRATEGY.md → "Cost levers adopted 2026-07-24", lever 1.** Replace *"so 4 fs is exactly half the force
+**nr4a3-program-map.md → "Cost levers adopted 2026-07-24", lever 1.** Replace *"so 4 fs is exactly half the force
 evaluations → ~$8.8/edge → ~$4.4"* with the ratio that survives the warmup:
 
 > Iterations are timestep-independent, so 4 fs halves the force evaluations **in production**. The warmup is
@@ -400,20 +400,20 @@ evaluations → ~$8.8/edge → ~$4.4"* with the ratio that survives the warmup:
 > 1.25e6 = 2.25e6. **Leg-level saving 1.56×, not 2×** (derivation + unit test:
 > `research/compute/ternary-4fs-vast-findings.md` §1).
 
-**STRATEGY.md → per-edge bases table, "Ternary cooperativity edge" row.** The parenthetical
+**nr4a3-program-map.md → per-edge bases table, "Ternary cooperativity edge" row.** The parenthetical
 *"(400 equil + 2000 production at 2.5 ps/iter, `nr4a3_ternary_fep.py:343-344`)"* is the count for a warmup at
 the **production** timestep. The as-run protocol sets `warmup_timestep_fs=1.0`, which makes it **800** warmup
 iterations of the **same 1250 steps each** — so the as-run 2 fs leg is **2800 equal-cost iterations, not
 2400**, and pricing it as `2400 × s/iter` understates by ~17 % (§2). Prefer pricing in **steps**: iterations
 are not comparable across protocols.
 
-**STRATEGY.md → RUNG 2b entry.** Add the confound, because it changes what a NO-GO licenses (§2b): the 4 fs
+**nr4a3-program-map.md → RUNG 2b entry.** Add the confound, because it changes what a NO-GO licenses (§2b): the 4 fs
 arm necessarily carries pre-equilibration, `use_preequil` was never verified for the 2 fs baseline (only the
 workflow default is recorded), and the settling observation is one `gcloud storage ls` of the setup-cache
 prefix for a `v2pe` suffix. Agreement authorises adoption; disagreement is a NO-GO that must **not** be
 attributed to the timestep.
 
-**STRATEGY.md → the trajectory requirement.** Record that it is now implemented, not just required:
+**nr4a3-program-map.md → the trajectory requirement.** Record that it is now implemented, not just required:
 `RBFE_POSITIONS_WRITE_PS` defaults to 50 ps (a 20-iteration stride, ~50 MB/leg, solute only) in
 `nr4a3_ternary_fep._protocol`, and `rbfe_spot_driver` logs the resolved stride and shouts when it is zero
 (§4b). Note that this changes the **GCP** ternary lane too, since both call the same engine.
@@ -422,7 +422,7 @@ attributed to the timestep.
 not 0.5×; (ii) the leg is 2800 iterations as run, not 2400. Both are arithmetic on the existing measured
 per-iteration rate — neither requires a new measurement, and neither changes that rate.
 
-**STRATEGY.md → monitoring/infrastructure.** Record that the Vast lane has its own session-independent
+**nr4a3-program-map.md → monitoring/infrastructure.** Record that the Vast lane has its own session-independent
 watchdog (`.github/workflows/ternary-vast-watchdog.yml` + `ternary_vast_watchdog.py` +
 `ternary-vast-watch.json`), and that `ternary-leg-watchdog.yml` remains **GCP-only** — it authenticates by
 WIF, reads GCS, looks for `gcp-ternary-*` VMs and re-dispatches the GCP workflow, so pointing a Vast leg at

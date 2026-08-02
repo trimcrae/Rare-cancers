@@ -281,7 +281,7 @@ def test_subset_fails_loudly_if_a_pattern_matches_nothing(tmp_path):
 # The gate that matters
 # --------------------------------------------------------------------------
 def test_the_real_repo_is_consistent():
-    """STRATEGY.md, pricing.md, bid-strategy.md, CLAUDE.md, the schedule, the paper, the SI
+    """nr4a3-program-map.md, pricing.md, bid-strategy.md, CLAUDE.md, the schedule, the paper, the SI
     and the NR-V04 prereg must agree on every pinned figure. This is the check that
     actually prevents the 2026-07-25 mess from recurring."""
     findings = lc.lint(REPO)

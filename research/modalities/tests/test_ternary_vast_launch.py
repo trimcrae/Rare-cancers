@@ -1340,7 +1340,7 @@ def test_the_new_seed_one_legs_are_on_the_watch_list():
 # ---------------------------------------------------------------- which legs the $0 pose diagnostic reads
 #
 # ★★ THE BUG THESE PIN, IN FULL. `gpu-ternary-fep-vast.yml`'s converge job hardcoded `--mode edge` on its
-# `--fetch-trajectories` call. STRATEGY.md and the guard audit both instruct that the pose diagnostic be run
+# `--fetch-trajectories` call. nr4a3-program-map.md and the guard audit both instruct that the pose diagnostic be run
 # on the CLOSURE TRIANGLE's legs and that `R_binary` NOT be interpreted without it — but the triangle runs at
 # a pinned 2 fs under mode `triangle`, and `unit_id` embeds BOTH. So the dispatch that the plan asks for would
 # have listed `..._dt4.0fs_wu1.0_edge`, a prefix the triangle never wrote, downloaded nothing, and printed a

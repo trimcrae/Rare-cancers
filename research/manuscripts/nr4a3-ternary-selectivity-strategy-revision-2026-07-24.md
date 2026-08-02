@@ -1,6 +1,6 @@
 # Revision of the ternary-selectivity strategy — 2026-07-24
 
-> **Scope.** A review of how [STRATEGY.md](../../STRATEGY.md)'s prospective stage goes about *finding a
+> **Scope.** A review of how [nr4a3-program-map.md](nr4a3-program-map.md)'s prospective stage goes about *finding a
 > paralogue-selective ternary*, with changes aimed at two things only: **making a good selective candidate more
 > likely to be found**, and **making the search cheaper**. Nothing here loosens the reviewer's five validation
 > requirements or the language discipline — two of the changes tighten them.
@@ -34,7 +34,7 @@ absolute number does not.
 
 ### 1.1 What the plan currently does
 
-STRATEGY.md's orientation-first ladder is:
+nr4a3-program-map.md's orientation-first ladder is:
 
 ```
 paralogue surface differences → selective interface BASINS → productive CRL geometry
@@ -80,7 +80,7 @@ the prereg, **not** MBAR SE):
 | 1.0 | 1.96 | 1.60 | 1.24 | 0.98 |
 
 So the required effect is **~1.8× the best-case noise floor** and of the *same order as the method's accuracy*
-(OpenFE's public RBFE benchmark is ~1.7 kcal/mol RMSE — and, as STRATEGY.md itself now records, that citation
+(OpenFE's public RBFE benchmark is ~1.7 kcal/mol RMSE — and, as nr4a3-program-map.md itself now records, that citation
 **does not even cover the ternary lane**, which runs NAGL charges and has no accuracy number of its own until
 Val B). A precision floor near the effect size is survivable with enough replicates; an *accuracy* floor near
 the effect size is not, because replicates do not shrink systematic error.
@@ -111,7 +111,7 @@ design premise (two lysines, K85 and K194, were excluded on disagreement).
 **The precedent is the repo's own result, read the other way round.** `nrv04_cys_conservation.py` established
 that celastrol's reactive **NR4A1 Cys551 is unique to NR4A1** — NR4A3 has Thr579, NR4A2 has Tyr. This revision's
 run reproduces that exactly (C551 → NR4A3 T579) and completes the picture: NR4A1 has **5** cysteines NR4A3
-lacks, NR4A3 has **4** that both paralogues lack. STRATEGY.md currently files celastrol's covalency purely as a
+lacks, NR4A3 has **4** that both paralogues lack. nr4a3-program-map.md currently files celastrol's covalency purely as a
 *confound* ("NR-V04 does not validate the noncovalent machinery… its selectivity may be largely
 target-engagement"). That is true and must stay. But it is also the field's **only demonstrated case of
 NR4A-family-selective degradation**, and the most parsimonious explanation of it is a paralogue-unique cysteine.
@@ -208,7 +208,7 @@ conditional, which is a much smaller conditional surface than the current plan c
 
 ## 4. Replace the primary causal test with one the ligand-alchemy lane can actually run
 
-STRATEGY.md's designated primary causal result is the reciprocal protein-mutation cycle
+nr4a3-program-map.md's designated primary causal result is the reciprocal protein-mutation cycle
 `ΔΔG_neo-interface^m = ΔG_mut^ternary − ΔG_mut^binary`. As of today that rung is **UNPRICED**, it has produced no leg,
 and it is the repo's only **cross-lane** subtraction (NAGL ternary against am1bcc binary) — a charge-model difference that does not cancel
 and would be indistinguishable from the very effect it is built to detect. The paper's headline causal claim
@@ -240,7 +240,7 @@ legs**, because the binary and solvent legs cancel identically.
 
 Recommendation: **the ligand-side double difference becomes the primary causal result; the protein-mutation
 cycle stays as an optional confirmatory experiment**, gated on its own known-answer benchmark
-(barnase–barstar Y29A/Y29F, hGH–hGHR W104A) exactly as STRATEGY.md already specifies. If the benchmark passes,
+(barnase–barstar Y29A/Y29F, hGH–hGHR W104A) exactly as nr4a3-program-map.md already specifies. If the benchmark passes,
 the paper gets *two* independent causal lines. If it never runs, the paper still has one — on a lane whose
 accuracy is being established by Val B anyway.
 

@@ -557,7 +557,7 @@ def _realized(described):
         "ledger": "AWS SageMaker managed spot (us-east-2). A SEPARATE LEDGER from the Vast ladder and from "
                   "GCP trial credit — never summed into either (CLAUDE.md §1, §6).",
         "recorded_anywhere_else": "NO. As of this artifact there is no other home for this figure; the "
-                                  "in-flight board in STRATEGY.md is Vast-shaped and never carried it.",
+                                  "in-flight board in nr4a3-program-map.md is Vast-shaped and never carried it.",
     }
 
 

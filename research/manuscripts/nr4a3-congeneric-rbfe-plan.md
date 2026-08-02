@@ -117,7 +117,7 @@ The pilot edge `e_zaienne_cmpd19__cw_ev_5nh2` (5-Br → 5-NH₂) **ran end-to-en
 So the pilot has cleared the **convergence + pocket-stability** crux on one edge, but the **full pre-registered
 ABORT gate is not yet passed** — reverse leg (hysteresis), a second/third edge (cycle closure), the overlap
 extraction, and pocket-survival scoring remain before the fleet is scheduled. Per-edge `n_windows`/GPU-h can now
-begin to be calibrated from this run. (Recorded in STRATEGY.md RUNG 2, the schedule JSON `step1_pilot_cmpd19`,
+begin to be calibrated from this run. (Recorded in nr4a3-program-map.md RUNG 2, the schedule JSON `step1_pilot_cmpd19`,
 and manuscript §2.9.)
 
 ## Design decisions I was unsure about

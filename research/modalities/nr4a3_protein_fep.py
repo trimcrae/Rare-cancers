@@ -3,7 +3,7 @@
 
 WHY THIS FILE EXISTS
 --------------------
-`STRATEGY.md` designates the **5a-KS reciprocal target-surface mutation wedge** as the program's
+`nr4a3-program-map.md` designates the **5a-KS reciprocal target-surface mutation wedge** as the program's
 *causal kill-switch* — the one designed-in falsification test, and the paper's primary causal
 result. Until 2026-07-24 that rung was priced (~$5-10) off a capability **this repository does not
 have**:

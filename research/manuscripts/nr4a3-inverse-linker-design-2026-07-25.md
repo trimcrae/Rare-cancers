@@ -1,9 +1,9 @@
 # RUNG 5b — inverse linker design on the confirmed orientation basins
 
-> **Lane doc.** The record for STRATEGY.md's RUNG 5b: the **$0 CPU** step that turns RUNG 5a's nominated
+> **Lane doc.** The record for nr4a3-program-map.md's RUNG 5b: the **$0 CPU** step that turns RUNG 5a's nominated
 > basins into linker requirements, a virtual library, and — the deliverable that matters most — the matched
-> `d`/`d₀` pair RUNG 5a-KS cannot run without. It is subordinate to [STRATEGY.md](../../STRATEGY.md); where
-> they differ, STRATEGY.md wins and this file is reconciled to it. Proposed STRATEGY.md deltas are collected
+> `d`/`d₀` pair RUNG 5a-KS cannot run without. It is subordinate to [nr4a3-program-map.md](nr4a3-program-map.md); where
+> they differ, nr4a3-program-map.md wins and this file is reconciled to it. Proposed nr4a3-program-map.md deltas are collected
 > at the end rather than applied here.
 >
 > **Status:** DONE, and **RE-ENUMERATED 2026-07-26 (LANE 14) against the corrected 10⁶ basin artifact.** The
@@ -270,7 +270,7 @@ two-decimal rounding of the stored coordinates). A recovery worse than 0.05 Å i
 
 **1,995 constructs enumerated, 21 retained** by a **preregistered** filter — fixed before enumeration and never
 tuned to a result, the same discipline the E3 downselect and the Tier-2 gate were held to. It is a set of
-thresholds, not a tunable scalar, because a tunable scalar is what STRATEGY.md's load-bearing piece 5 forbids.
+thresholds, not a tunable scalar, because a tunable scalar is what nr4a3-program-map.md's load-bearing piece 5 forbids.
 
 **The filter:** must span the anchor-to-anchor floor (hard); must comfortably hold ≥25 % of its basin's
 members; ≤3 kT of chain strain at the designed placement; ≤24 backbone atoms; ≤2 per (basin × pendant class);
@@ -576,9 +576,9 @@ why it must not be run as though it were the kill-switch either.
 
 ---
 
-## 8. Exact STRATEGY.md deltas proposed by this lane
+## 8. Exact nr4a3-program-map.md deltas proposed by this lane
 
-*This lane does not edit STRATEGY.md (several lanes run concurrently and the orchestrator owns it). These are
+*This lane does not edit nr4a3-program-map.md (several lanes run concurrently and the orchestrator owns it). These are
 the precise changes to apply, each with its evidence.*
 
 **D1 — RUNG 5b status.** `[ ] 5b · Inverse linker design — ~$0–20 (mostly $0 CPU)` → **`[x]` … DONE
@@ -896,9 +896,9 @@ being a gate, and both must travel with it:
    were in flight when this was written. **Four measured points are not a curve**: a construct at 18 atoms sits
    *between* 0.081 and 0.258 and that is the whole statement.
 
-### 10.7 Exact STRATEGY.md deltas from THIS lane (additional to §8)
+### 10.7 Exact nr4a3-program-map.md deltas from THIS lane (additional to §8)
 
-*This lane does not edit STRATEGY.md.*
+*This lane does not edit nr4a3-program-map.md.*
 
 | # | where | change |
 |---|---|---|

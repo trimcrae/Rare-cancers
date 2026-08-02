@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Guards for the two-mechanism reach diagnostic.
 
-WHY THESE ASSERTIONS AND NOT OTHERS. This diagnostic exists because a claim sat in STRATEGY.md for days
+WHY THESE ASSERTIONS AND NOT OTHERS. This diagnostic exists because a claim sat in nr4a3-program-map.md for days
 saying the blocker was grid resolution at one chain length, and the committed enumeration disagrees with
 every clause of it. The tests that matter are therefore the ones that would fail if the diagnosis quietly
 drifted BACK toward the comfortable version: that both targets really are built at a shared length (so

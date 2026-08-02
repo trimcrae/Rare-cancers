@@ -2,7 +2,7 @@
 """
 RUNG 5b — INVERSE LINKER DESIGN. $0 CPU, pure stdlib.
 
-WHAT STRATEGY.md ASKS FOR (ladder item 5b): "For each confirmed basin, derive linker requirements (endpoint
+WHAT nr4a3-program-map.md ASKS FOR (ladder item 5b): "For each confirmed basin, derive linker requirements (endpoint
 distance, exit-vector dihedral, strain, reach), enumerate a virtual library, filter by basin fidelity,
 annotate exact structures + synthetic feasibility -> ~12-20 virtual constructs. For basins carrying the
 covalent handle, the library enumerates the ELECTROPHILE POSITION ON THE LINKER as a design variable, and
@@ -111,7 +111,7 @@ FIDELITY_WINDOW_A = 3.0
 
 # ★ PREREGISTERED DOWNSELECT. Fixed BEFORE the library was enumerated and never tuned to a result — the same
 # discipline the E3 downselect and the Tier-2 gate were held to. Thresholds, not a scalar score, because a
-# tunable scalar is exactly what STRATEGY.md's load-bearing piece 5 forbids.
+# tunable scalar is exactly what nr4a3-program-map.md's load-bearing piece 5 forbids.
 MAX_STRAIN_KT = 3.0        # ~3 kT is the boundary between a slack chain and one fighting to reach
 CHEM_MAX_ATOMS = 24        # chemically routine upper bound on a PROTAC linker backbone (PEG6-diacid scale)
 
@@ -309,7 +309,7 @@ LINKER_SEGMENT = {
 # (N, C-alpha, carbonyl C). The pendant hangs off C-alpha.
 BRANCH_NODE_ATOMS = 3
 
-# Pendant groups. The electrophiles are the design variable STRATEGY.md names; the wedge groups are the
+# Pendant groups. The electrophiles are the design variable nr4a3-program-map.md names; the wedge groups are the
 # matched-pair element for RUNG 5a-KS.
 PENDANT = {
     # --- electrophiles, on the side chain of an L-2,4-diaminobutanoyl (Dab) branch residue, so the branch is
@@ -321,7 +321,7 @@ PENDANT = {
         "reversible": True,
         "name": "beta-methyl alpha-cyanoacrylamide (reversible-covalent)",
         "reach_key": "dab_branch",
-        "why": "REVERSIBLE-covalent by design (STRATEGY.md 5b). The alpha-cyano group acidifies the adduct's "
+        "why": "REVERSIBLE-covalent by design (nr4a3-program-map.md 5b). The alpha-cyano group acidifies the adduct's "
                "alpha-proton so retro-Michael is fast; a beta-substituent slows the forward addition and "
                "speeds the reverse, which is what makes the class tunable. Reversibility is what preserves "
                "CATALYTIC TURNOVER — an irreversible adduct makes the degrader stoichiometric and forfeits "
@@ -818,7 +818,7 @@ def basin_requirements(ctx, meta, sites):
                      "best-of-N member, so the OPTIMISTIC end of the basin, and it must be quoted as such.",
         }
         # The branch-position window for a Dab-type pendant onto C397, at the lengths a chemist would consider
-        # — the design variable STRATEGY.md's RUNG 5b asks for by name, at the placement that carries the
+        # — the design variable nr4a3-program-map.md's RUNG 5b asks for by name, at the placement that carries the
         # mechanism.
         floor_e = rec_ex["endpoint_distance"]["span_floor_atoms"]
         cys = sites["unique_cysteines"]["C397"]["xyz"]
@@ -1020,7 +1020,7 @@ def _coverage(req, n_atoms):
 def basin_fidelity(n_atoms, req, by_id):
     """Does this linker length reach THIS basin, and does it reach it PREFERENTIALLY?
 
-    Four numbers, kept separate on purpose (STRATEGY.md load-bearing piece 4 says accessibility and stability
+    Four numbers, kept separate on purpose (nr4a3-program-map.md load-bearing piece 4 says accessibility and stability
     must not be merged; the same logic applies inside accessibility itself):
 
       * `member_fraction_comfortable` — the fraction of the basin's member placements this length can hold at

@@ -4,7 +4,7 @@ Pure geometry + polymer-statistics kernels for the RUNG-5a mechanism-first orien
 
 WHY A SEPARATE MODULE (TESTING.md rule 3). Every load-bearing decision the basin search makes is a *geometric
 set-membership* question — "does this basin place an electrophile within tethering distance of C397?", "does the
-modelled E2~Ub transfer zone cover K572 and no paralogue lysine?" — and STRATEGY.md's Tier-2 asymmetry says
+modelled E2~Ub transfer zone cover K572 and no paralogue lysine?" — and nr4a3-program-map.md's Tier-2 asymmetry says
 exactly those are the questions cheap scoring answers RELIABLY, unlike a ~1 kcal/mol energy difference. So the
 geometry must be right, and "right" here means unit-tested against closed-form answers, not eyeballed on a
 picture. This module therefore holds the kernels with NO I/O, NO numpy, NO structure parsing: rotations,
@@ -33,7 +33,7 @@ THE FOUR KERNELS THAT CARRY SCIENTIFIC WEIGHT, and why each is written the way i
    before declaring "no clash". Never assume the tool's convention — derive it (TESTING.md rule 1).
 
 3. `wlc_end_to_end_density` — Thirumalai-Ha mean-field worm-like-chain radial density. This is the
-   ACCESSIBILITY half of STRATEGY.md load-bearing piece 4 (`P(B_k | d, s)` kept separate from the orientation's
+   ACCESSIBILITY half of nr4a3-program-map.md load-bearing piece 4 (`P(B_k | d, s)` kept separate from the orientation's
    plausibility): a basin whose anchor-anchor span sits in the tail of a candidate linker's end-to-end
    distribution is one the linker rarely reaches, however good the interface looks. A Gaussian chain is wrong
    here — real degrader linkers are 3-16 backbone atoms, far from the Gaussian limit, and the Gaussian assigns

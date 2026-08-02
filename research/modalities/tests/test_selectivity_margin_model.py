@@ -138,7 +138,7 @@ class TestCategoricalAxes(unittest.TestCase):
 class TestResolvableMarginIsDerivedFromTheMEASUREDReplicateSD(unittest.TestCase):
     """★ THE FIGURE THIS PROGRAM STEERED BY FOR A MONTH WAS COMPUTED AT AN SD NOTHING HAD MEASURED.
 
-    STRATEGY.md's MECHANISM-FIRST bullet quotes a best-case resolvable difference, and that one number carried
+    nr4a3-program-map.md's MECHANISM-FIRST bullet quotes a best-case resolvable difference, and that one number carried
     the demotion of the induced-interface axis to 'a confirmation tool operating near its limit', the Tier-3
     kill-switch semantics, the 5a-KS 'a null is likely' expectation, and the Spend-summary defence of
     mechanism-first. It was `minimum_detectable_difference(0.7, 3)` — and 0.7 was an ASSUMPTION. The n=3
@@ -153,7 +153,7 @@ class TestResolvableMarginIsDerivedFromTheMEASUREDReplicateSD(unittest.TestCase)
 
     def test_the_live_resolvable_figure_is_what_the_model_computes(self):
         self.assertAlmostEqual(smm.minimum_detectable_difference(self.MEASURED_CYCLE_SD, 3), 0.60, places=2,
-                               msg="STRATEGY.md/paper state 0.60 — it must be this function's output, not prose")
+                               msg="nr4a3-program-map.md/paper state 0.60 — it must be this function's output, not prose")
 
     def test_the_measured_sd_agrees_with_the_module_that_measured_it(self):
         """One fact, one place: the SD used here must be the one valb_failure_propagation actually landed."""

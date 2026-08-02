@@ -1,10 +1,10 @@
 # EMC treatment strategy — prioritized route portfolio (capstone)
 
 > **SCOPE: this is the ROUTE-PORTFOLIO ranking (all treatment routes), subordinate to the overarching strategy.**
-> The repo's overarching research plan + the #1 program's execution ladder live in **[`/STRATEGY.md`](../../STRATEGY.md)**
+> The repo's overarching research plan + the #1 program's execution ladder live in **[`/nr4a3-program-map.md`](nr4a3-program-map.md)**
 > (the NR4A3-selective degrader paper). THIS file is the broader-portfolio context beneath it: it ranks every
 > route (the degrader is #1 within it, plus the fusion-junction ASO and other routes as support/backup). If the
-> two conflict on the degrader program's plan or ordering, **STRATEGY.md wins.**
+> two conflict on the degrader program's plan or ordering, **nr4a3-program-map.md wins.**
 >
 > **SOURCE OF TRUTH for the route portfolio (not a manuscript).** This capstone ranks every treatment route; the
 > active manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md) is its publishable form.

@@ -4,7 +4,7 @@
 > **(1)** the **39 Å transfer-anchor conflict** RUNG 5a recorded as *"the discriminating observation has not
 > been run"* — and it now has been; **(2)** whether the categorical chemistry axis is really a **single point
 > of failure** at C397.
-> Subordinate to [STRATEGY.md](../../STRATEGY.md); this lane does not edit it. Exact deltas are in §5.
+> Subordinate to [nr4a3-program-map.md](nr4a3-program-map.md); this lane does not edit it. Exact deltas are in §5.
 > **$0 realized. No GPU. No GPU is requested.**
 >
 > Language discipline applies throughout: a surviving basin is a **nomination**, never a "selective hit", and
@@ -124,7 +124,7 @@ the exit vector and only 2.56 Å in the mapped E2.
 **Why this is decision-relevant.** RUNG 5a's own explanation for CRBN's very high lysine null is exactly this
 distance: *"CRBN's null is much higher … because its observed transfer anchor sits only 12.9 Å from the
 ligand exit vector while VHL's sits 30.9 Å away."* That 12.9 Å is the **smallest of three legitimate values**
-spanning 12.87–27.69 Å. So CRBN's 0.81–0.96 background — the number STRATEGY.md cites when it says *"most of
+spanning 12.87–27.69 Å. So CRBN's 0.81–0.96 background — the number nr4a3-program-map.md cites when it says *"most of
 CRBN's apparent term-(b) signal is background"* — is partly a consequence of an arbitrary co-structure choice,
 and `crbn|M0`, the **strongest basin in the whole 12-pose run**, was scored against it.
 
@@ -367,7 +367,7 @@ point in opposite directions:
 1. **The Tier-2 GO is untouched.** The enrichments and the `exceeds_background` test are computed against
    `fraction_unique_covering`, which changes by ~10 % — well inside sampling noise at these counts. Nothing
    about the authoritative run's enrichment figures needs restating.
-2. **The interpretive claim built on the other null does not survive.** STRATEGY.md's Tier-2 block states:
+2. **The interpretive claim built on the other null does not survive.** nr4a3-program-map.md's Tier-2 block states:
    *"CRBN's null is 0.81–0.96, so most of CRBN's apparent term-(b) signal is background. **The discrimination
    lives on VHL — the arm carried as a control, not as the winner.** This is decision-relevant and must not be
    smoothed over when the E3 is chosen."* That inference has **two** independent problems. First, the
@@ -403,9 +403,9 @@ term-(a) and discrimination counts. So the GO does not depend on how the arm was
 
 ---
 
-## 5. Exact STRATEGY.md deltas proposed by this lane
+## 5. Exact nr4a3-program-map.md deltas proposed by this lane
 
-*This lane does not edit STRATEGY.md.*
+*This lane does not edit nr4a3-program-map.md.*
 
 **L1 — the open item in the "★ Tier-2 result in full" block is RESOLVED and should be replaced, not deleted.**
 Current text: *"⚠ OPEN AND DECISION-RELEVANT: two verified VHL stagings place the observed transfer anchor
