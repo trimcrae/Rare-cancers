@@ -1,7 +1,7 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-08-02T20:45:22Z",
+  "utc": "2026-08-02T20:46:11Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
