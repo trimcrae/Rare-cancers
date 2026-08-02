@@ -26,14 +26,147 @@
  "arms": [
   {
    "arm": "selcal_smarca2",
-   "n_predictions": 0,
+   "n_predictions": 16,
    "native": "gt_complex.pdb",
-   "scored": [],
-   "error": "no predicted complex under /home/runner/work/_temp/dt/predictions/selcal_smarca2 \u2014 unrun, NOT a prediction that scored zero"
+   "scored": [
+    {
+     "pose": "complex_pred_selcal_smarca2_0.pdb",
+     "DockQ": 0.5627088813723223,
+     "fnat": 0.6666666666666666,
+     "iRMSD_A": 2.0610782146957436,
+     "quality_class": "Medium"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_1.pdb",
+     "DockQ": 0.6060095281372108,
+     "fnat": 0.7777777777777778,
+     "iRMSD_A": 2.0180626267736614,
+     "quality_class": "Medium"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_10.pdb",
+     "DockQ": 0.1563621078633827,
+     "fnat": 0.16666666666666666,
+     "iRMSD_A": 5.36072509001973,
+     "quality_class": "Incorrect"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_11.pdb",
+     "DockQ": 0.4420883303494156,
+     "fnat": 0.3333333333333333,
+     "iRMSD_A": 1.951578276051445,
+     "quality_class": "Acceptable"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_12.pdb",
+     "DockQ": 0.4036091451881809,
+     "fnat": 0.5555555555555556,
+     "iRMSD_A": 2.2284800977916657,
+     "quality_class": "Acceptable"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_13.pdb",
+     "DockQ": 0.29870623656071615,
+     "fnat": 0.4444444444444444,
+     "iRMSD_A": 4.104287920259294,
+     "quality_class": "Acceptable"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_14.pdb",
+     "DockQ": 0.09491075619213185,
+     "fnat": 0.05555555555555555,
+     "iRMSD_A": 6.128744398429291,
+     "quality_class": "Incorrect"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_15.pdb",
+     "DockQ": 0.718694355661058,
+     "fnat": 0.9444444444444444,
+     "iRMSD_A": 1.6042161415214202,
+     "quality_class": "Medium"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_2.pdb",
+     "DockQ": 0.7589743597762214,
+     "fnat": 0.8333333333333334,
+     "iRMSD_A": 1.0148496514575331,
+     "quality_class": "Medium"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_3.pdb",
+     "DockQ": 0.21262803548150014,
+     "fnat": 0.2222222222222222,
+     "iRMSD_A": 4.251193950852879,
+     "quality_class": "Incorrect"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_4.pdb",
+     "DockQ": 0.8388285301096022,
+     "fnat": 0.8333333333333334,
+     "iRMSD_A": 0.6713394191758013,
+     "quality_class": "High"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_5.pdb",
+     "DockQ": 0.04314159043182195,
+     "fnat": 0,
+     "iRMSD_A": 10.823738022341375,
+     "quality_class": "Incorrect"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_6.pdb",
+     "DockQ": 0.042502114414145774,
+     "fnat": 0,
+     "iRMSD_A": 11.210508237347256,
+     "quality_class": "Incorrect"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_7.pdb",
+     "DockQ": 0.10704029784880635,
+     "fnat": 0.1111111111111111,
+     "iRMSD_A": 7.8513000648701015,
+     "quality_class": "Incorrect"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_8.pdb",
+     "DockQ": 0.8041193503303794,
+     "fnat": 0.8888888888888888,
+     "iRMSD_A": 1.2180102114877895,
+     "quality_class": "High"
+    },
+    {
+     "pose": "complex_pred_selcal_smarca2_9.pdb",
+     "DockQ": 0.818366081831678,
+     "fnat": 0.8888888888888888,
+     "iRMSD_A": 0.8835605634422936,
+     "quality_class": "High"
+    }
+   ],
+   "error": null,
+   "native_roles": {
+    "target": "A",
+    "e3": [
+     "B"
+    ],
+    "_derived": "single-copy reference written by selcal_deepternary_frame.py from the committed selcal chain map; chain A = target, chain B = VHL by construction"
+   },
+   "summary": {
+    "n_scored": 16,
+    "best_DockQ": 0.8388,
+    "median_DockQ": 0.4421,
+    "best_quality_class": "High",
+    "best_fnat": 0.9444444444444444
+   }
   }
  ],
  "verdict": {
-  "positive_ternary_control": null,
-  "sentence": "No arm produced a scored prediction. Unrun is not a failed run."
+  "arm": "selcal_smarca2",
+  "best_DockQ": 0.8388,
+  "quality_class": "High",
+  "our_cofold_best_DockQ": 0.0378,
+  "beats_our_cofold": true,
+  "clears_acceptable": true,
+  "sentence": "DeepTernary, given both binding sites in the native frame, reaches DockQ 0.839 (High) on the selcal_smarca2 target<->VHL interface against our sequence-only co-folds' 0.0378. That clears DockQ's 'Acceptable' bar (0.23) and beats the incumbent \u2014 a generator given the two sites places this complex where our co-folds did not.",
+  "_bar_source": "DockQ's own CAPRI-style class boundary, the field's threshold, not one set here."
  }
 }
