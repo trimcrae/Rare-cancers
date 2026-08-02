@@ -1,0 +1,33 @@
+{
+  "_what": "⏸ AN OPERATOR PAUSE ON THE GCP L4 step-1 fan-out REPLICATE lane. While this file exists, `gcp_fanout_rep.feed_decision` returns action=hold with cause=operator_hold and the lane BUYS NOTHING, whoever dispatches it.",
+  "_how_to_resume": "Delete this file and commit. The next autofeed tick (scheduled, or dispatched by step1-fanout-supervisor.yml) resumes on its own — no other step is needed and no state has to be restored by hand.",
+  "_why_a_file_and_not_a_cron_edit": "Disabling this workflow's `schedule:` would NOT pause the lane. step1-fanout-supervisor.yml dispatches `mode=autofeed` explicitly on its own tick, so a cron edit leaves the lane feeding while LOOKING paused. The hold therefore lives in the DECISION, not in the trigger.",
+  "_why_reap_and_supervision_KEEP_running": "A paused lane must still tear down an idle VM. `reap` and the board tick are untouched by this hold on purpose — otherwise 'paused' quietly becomes 'billing unwatched', which is this repo's most expensive recurring failure (CLAUDE.md §6). Only PROVISIONING is stopped.",
+
+  "paused_utc": "2026-08-02T09:40:00Z",
+  "paused_et": "5:40 AM ET Sun Aug 2, 2026",
+  "paused_by": "trimcrae (requested), applied by the session agent",
+  "reason": "Pending a reevaluation of strategy. Both selectivity CONTROLS failed on 2026-08-02 (valB_mini wrong-sign, §2.11; the SMARCA2/4 sensitivity control NULL on an adequately-powered design, §2.12a), so whether to keep buying step-1 replicate sampling is a program-direction question, not a scheduling one. See STRATEGY.md → the scoreboard's control-status table.",
+
+  "state_at_pause": {
+    "_read_from": "research/modalities/gcp-s1f-rep-rate.json and the lane's in-flight board fragment — not typed from memory",
+    "unit_that_was_running": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
+    "status": "⚠ FINISHED, NOT INTERRUPTED. Its phase marker read `done 2026-08-02T09:27:16Z` and BOTH leg JSONs are in GCS before this pause was applied. No sampling was stopped mid-flight and no partial leg is being abandoned.",
+    "complex_leg": "70 commits, production, iteration 2000 of 2000",
+    "solvent_leg": "70 commits, production, iteration 2000 of 2000",
+    "card": "nvidia-l4 (g2-standard-8), us-central1",
+    "cost": "$0 real dollars — GCP free trial credit, which is a SEPARATE LEDGER and is never summed into realised or ladder spend (CLAUDE.md §6). Trial expires 2026-10-10 whether or not it is used."
+  },
+
+  "what_is_NOT_lost": {
+    "commit_store": "gs://<bucket>/ckpt/<leg>/<phase>/iter-NNNNNNNN/<generation-hash>/COMMITTED.json — `GCSCommitStore` writes EVERY generation to GCS as it is produced (manifest last), so durability does not depend on a clean shutdown or on this VM surviving.",
+    "resume_point": "the highest `COMMITTED.json`, which is what `feed_decision` ranks units on (RESUME BEFORE START: the most-advanced unbanked unit wins, map order is only the tiebreak). A resume re-enters the leg exactly where it stopped.",
+    "why_this_is_safe": "The census is read from COMMITTED.json markers rather than from a log line — a log says a process BELIEVES it reached an iteration, a COMMITTED.json says the generation is durable. They diverge exactly at a crash, which is why only the latter is treated as a resume point (CLAUDE.md §4b)."
+  },
+
+  "queue_left_when_resumed": [
+    "e_zaienne_cmpd19__cw_bio_primary_amide__neutral__neutral r1 — never started, cold",
+    "e_cw_ms_free_acid__cw_bio_primary_amide__neutral_acid__neutral r1 — never started, cold"
+  ],
+  "_queue_caveat": "Read the live queue from `gcp_fanout_rep.queue_units` on resume rather than trusting this list — it is a snapshot for a human, and the function is the one home."
+}
