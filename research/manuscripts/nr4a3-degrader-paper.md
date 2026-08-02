@@ -2687,6 +2687,20 @@ uncertainty and therefore systematic). This
 clause is consequently **in force, not pending**: any positive Tier-3 result is exploratory, and the condition
 cannot be discharged by adding replicates, because replicates shrink variance and not bias.
 
+> **OUTCOME (2026-08-02) — the Tier-3 test has now been run, and this clause is what it is read against.**
+> **S = −0.1297 ± 0.3264 kcal/mol** (§2.10e). It is the **null this clause registered as likely**, and the
+> program does **not** stop, exactly as written: the categorical axis has not failed.
+> ⓘ **The design condition stated above was MET, and that is why the null is a bound rather than a shrug.**
+> The clause warned that at *one seed per arm* the test "would **not** deliver that bound"; it was
+> re-specified to **two seeds per arm** before it ran, so the bound exists. At the measured replicate scatter
+> it excludes a marginal wedge of **≳ 0.65 kcal/mol (2σ)** — which sits at the **bottom edge** of this
+> clause's own predicted ~0.5–1.5 kcal/mol range for one partly-buried hydrogen bond. So the result excludes
+> **most** of the effect it was designed to look for while leaving the smallest predicted effect
+> (~0.5–0.65 kcal/mol) unexcluded, and it is reported as that rather than as "no wedge".
+> ⛔ And the exploratory condition above still binds in the other direction: because §2.11's control did not
+> pass, a *positive* S here would have been exploratory — so this null cannot be upgraded into evidence that
+> the method works, either.
+
 **Gate 4 (a selective, drug-like ligand can engage the opened pocket) — met in silico by a single de-noised,
 initial-ABFE-supported foothold, not an unqualified pass.** `denovo_401` docks into the druggable release
 pocket (4/5 handles), stays NR4A3-favoured through multi-snapshot MM-GBSA where the single-snapshot harvest
