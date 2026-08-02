@@ -148,6 +148,58 @@ jobs:
             git push origin HEAD:${{ github.ref_name }}
           fi
 
+  # ------------------------------------------------------------------ free: the $0 spend precheck
+  # STRATEGY.md's tally of built-but-never-run known-answer tests makes the SMARCA2/4 pmx spend
+  # "conditional on a measured mutational value existing in a primary source, which is a $0 check that
+  # must precede any spend (Open decision 7)". This job IS that check, and it is a SEPARATE job from
+  # stage-test on purpose: a staging failure must not be able to skip the gate that authorises money.
+  #
+  # It runs here rather than in the dev sandbox because the sandbox's egress proxy 403s Europe PMC and
+  # cannot reach life.bsc.es (SKEMPI). CLAUDE.md §6: that is a routing problem, never a reason to defer.
+  mutation-reference-precheck:
+    if: ${{ github.event.inputs.task == 'refcheck' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit-test the gate before trusting its verdict
+        run: |
+          set -eo pipefail
+          python -m pip install -q pytest
+          python -m pytest research/modalities/tests/test_pmx_mutation_reference.py -q
+      - name: Does a MEASURED mutational ddG exist for the SMARCA2/4 selectivity contact?
+        run: |
+          set -eo pipefail
+          python research/modalities/pmx_mutation_reference.py \
+            --out research/modalities/pmx-mutation-reference-precheck.json
+      - name: Print the decision where a human will see it
+        run: |
+          set -eo pipefail
+          python - <<'PY'
+          import json
+          d = json.load(open("research/modalities/pmx-mutation-reference-precheck.json"))
+          v = d["verdict"]
+          print("::notice title=pmx mutation-reference precheck::%s" % v["decision"])
+          print(v["sentence"])
+          print()
+          print("CAVEAT: %s" % d["caveat_that_must_travel_with_any_result"])
+          PY
+      - name: Commit the precheck artifact
+        run: |
+          set -eo pipefail
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          P=research/modalities/pmx-mutation-reference-precheck.json
+          if ! git diff --quiet -- $P; then
+            git add $P
+            git commit -m "pmx precheck: does a measured mutational ddG exist for the SMARCA2/4 contact? (\$0)"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+
   # ------------------------------------------------------------------ free: image
   bake:
     if: ${{ github.event.inputs.task == 'bake' }}
