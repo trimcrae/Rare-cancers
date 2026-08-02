@@ -40,6 +40,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
+#: ⛔ FEWER THAN THIS MANY MODELS PER ARM AND "REPRODUCIBLE" IS NOT A WORD THIS MODULE MAY USE.
+#: Measured, CI run 30759226266: only `model_0` is present in S3 for each paralogue, and the first version
+#: printed "GLU208 reproducible across ALL 1 NR4A3 models" — a replication claim with n = 1, which is a
+#: plausible-looking field that is not what it appears to be. A single model cannot distinguish a determinant
+#: from that model's accident; that is the entire reason the test exists.
+MIN_MODELS_FOR_REPRODUCIBILITY = 3
+
 #: The paralogue whose selectivity is being asked about, and the two it must separate from.
 FOCUS = "NR4A3"
 COMPARATORS = ("NR4A1", "NR4A2")
@@ -222,9 +229,24 @@ def run_replicated(model_sets, target_chain, e3_chains, validated_path=None, pro
     sets = [set(r["sequence_encoded"]) for r in per_focus if not r.get("error")]
     reproducible = sorted(set.intersection(*sets)) if sets else []
     union = sorted(set().union(*sets)) if sets else []
-    doc["reproducible_sequence_encoded"] = reproducible
     doc["seen_in_any_model"] = union
     doc["n_focus_models_compared"] = len(sets)
+    n_min = min(len(v) for v in sigs.values())
+    doc["min_models_per_arm"] = n_min
+    doc["reproducibility_bar"] = MIN_MODELS_FOR_REPRODUCIBILITY
+    if n_min < MIN_MODELS_FOR_REPRODUCIBILITY:
+        # ⛔ NOT "reproducible across all 1 models" — that is n = 1 wearing the costume of a replication test.
+        doc["reproducible_sequence_encoded"] = None
+        doc["reproducibility_testable"] = False
+        doc["sentence"] = (
+            "NOT TESTED — only %d model(s) per arm are available and reproducibility needs at least %d. %s "
+            "appears in the single model examined, but one model cannot distinguish a determinant from that "
+            "model's accident, which is the entire reason this test exists. No reproducibility claim is made "
+            "in either direction; generating further models per paralogue is a GPU spend, not a re-read."
+            % (n_min, MIN_MODELS_FOR_REPRODUCIBILITY, ", ".join(union) or "No sequence-encoded contact"))
+        return doc
+    doc["reproducible_sequence_encoded"] = reproducible
+    doc["reproducibility_testable"] = True
     if reproducible:
         doc["sentence"] = (
             "%s reproducible across ALL %d %s models against ALL comparator models: %s (seen in at least one "
