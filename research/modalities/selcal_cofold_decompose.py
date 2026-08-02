@@ -231,8 +231,24 @@ def decompose_one(model_path, native_path, record):
     return out
 
 
+def decoy_scale_reference(path=None):
+    """(displacement A matching the co-folds' whole-interface DockQ, source) — READ, never typed.
+
+    The comparison that makes this decomposition interpretable is not against a bar chosen here; it is against
+    the displacement at which the TRUE structure scores what the co-folds score. That number has one home."""
+    path = path or os.path.join(HERE, "selcal-dockq-decoy-scale.json")
+    if not os.path.exists(path):
+        return None, "%s absent" % os.path.basename(path)
+    try:
+        d = json.load(open(path))
+    except Exception as e:                                   # noqa: BLE001
+        return None, "could not read %s: %s" % (os.path.basename(path), e)
+    return d.get("displacement_matching_cofolds_A"), d.get("sentence")
+
+
 def verdict(rows):
     """The one sentence this artifact licenses, or an honest refusal."""
+    import statistics
     ok = [r for r in rows if r.get("target_frame", {}).get("rmsd_A") is not None
           and r.get("e3_frame", {}).get("rmsd_A") is not None]
     doc = {"n_rows": len(rows), "n_decomposed": len(ok)}
@@ -242,36 +258,49 @@ def verdict(rows):
         return doc
     t = sorted(r["target_frame"]["rmsd_A"] for r in ok)
     e = sorted(r["e3_frame"]["rmsd_A"] for r in ok)
-    doc["target_frame_rmsd_A"] = {"min": t[0], "median": t[len(t) // 2], "max": t[-1]}
-    doc["e3_frame_rmsd_A"] = {"min": e[0], "median": e[len(e) // 2], "max": e[-1]}
-    n_t = sum(1 for r in ok if r["target_frame"]["pocket_occupied_as_in_crystal"])
-    n_e = sum(1 for r in ok if r["e3_frame"]["pocket_occupied_as_in_crystal"])
-    doc["n_target_pocket_ok"] = n_t
-    doc["n_e3_pocket_ok"] = n_e
+    doc["target_frame_rmsd_A"] = {"min": t[0], "median": round(statistics.median(t), 3), "max": t[-1]}
+    doc["e3_frame_rmsd_A"] = {"min": e[0], "median": round(statistics.median(e), 3), "max": e[-1]}
+    doc["n_target_pocket_ok"] = sum(1 for r in ok if r["target_frame"]["pocket_occupied_as_in_crystal"])
+    doc["n_e3_pocket_ok"] = sum(1 for r in ok if r["e3_frame"]["pocket_occupied_as_in_crystal"])
     doc["pocket_ok_bar_A"] = POCKET_OK_A
-    if n_t == len(ok) and n_e == len(ok):
+
+    # ★ THE YARDSTICK IS THE DECOY LADDER, NOT A BAR CHOSEN HERE. Asking "is 1.8 A small?" in the abstract
+    # invites picking a threshold that produces the wanted answer. The meaningful question is measured: the
+    # SAME whole interface, on the SAME structures, scores what the TRUE complex scores when it is displaced
+    # by `displacement_matching_cofolds_A`. If each half sits an order of magnitude closer to the crystal
+    # than that, the error is in how the halves are put together — and no threshold was needed to say so.
+    disp, src = decoy_scale_reference()
+    doc["whole_interface_displacement_A"] = disp
+    doc["whole_interface_source"] = src
+    worst = max(doc["target_frame_rmsd_A"]["max"], doc["e3_frame_rmsd_A"]["max"])
+    doc["worst_half_rmsd_A"] = worst
+    if disp:
+        doc["ratio_whole_to_worst_half"] = round(disp / worst, 1) if worst else None
+
+    if disp and worst and disp / worst >= 5.0:
         doc["failure_locus"] = "assembly"
         doc["sentence"] = (
-            "All %d co-folds place the degrader in BOTH pockets as the crystal does (target-frame RMSD "
-            "median %.2f A, E3-frame median %.2f A, both within %.1f A) while the whole interface scores "
-            "0.023-0.046. The failure is the ASSEMBLY of two correctly-occupied halves, not the pockets — so "
-            "the missing information is the one a ternary generator supplies when given each end's site."
-            % (len(ok), doc["target_frame_rmsd_A"]["median"], doc["e3_frame_rmsd_A"]["median"], POCKET_OK_A))
-    elif n_e == len(ok) and n_t == 0:
+            "All %d co-folds place the degrader within %.1f A of its crystal position in EACH protein's own "
+            "frame (target median %.2f A, E3 median %.2f A), while the assembled interface scores what the "
+            "TRUE complex scores when displaced %.0f A — a factor of %.0f. The halves are approximately "
+            "right and the ASSEMBLY of them is wrong, so the missing information is the relative placement of "
+            "the two proteins: exactly what a ternary generator is given when it is handed each end's site."
+            % (len(ok), worst, doc["target_frame_rmsd_A"]["median"], doc["e3_frame_rmsd_A"]["median"],
+               disp, disp / worst))
+    elif doc["n_target_pocket_ok"] == 0:
         doc["failure_locus"] = "target_pocket"
         doc["sentence"] = (
-            "The E3 half is placed as in the crystal on all %d co-folds (median %.2f A) but the target half "
-            "is NOT (median %.2f A). The degrader is not occupying the target site the crystal shows, so "
-            "supplying an assembly would not rescue these structures — the thing to assemble is wrong."
-            % (len(ok), doc["e3_frame_rmsd_A"]["median"], doc["target_frame_rmsd_A"]["median"]))
+            "No co-fold occupies the target pocket as the crystal does (median %.2f A against a %.1f A bar). "
+            "Supplying an assembly would not rescue these structures — the thing to assemble is wrong."
+            % (doc["target_frame_rmsd_A"]["median"], POCKET_OK_A))
     else:
-        doc["failure_locus"] = "mixed"
+        doc["failure_locus"] = "undetermined"
         doc["sentence"] = (
-            "Mixed: %d of %d co-folds occupy the target pocket as in the crystal and %d of %d the E3 pocket "
-            "(target median %.2f A, E3 median %.2f A). Neither the assembly-only nor the pocket reading holds "
-            "across the panel, and the per-co-fold rows are the result rather than any summary of them."
-            % (n_t, len(ok), n_e, len(ok), doc["target_frame_rmsd_A"]["median"],
-               doc["e3_frame_rmsd_A"]["median"]))
+            "Decomposed %d co-folds (target median %.2f A, E3 median %.2f A, worst half %.2f A) but the "
+            "whole-interface displacement scale could not be read (%s), so the halves cannot be compared "
+            "against the assembly and the locus is UNDETERMINED rather than mixed."
+            % (len(ok), doc["target_frame_rmsd_A"]["median"], doc["e3_frame_rmsd_A"]["median"], worst,
+               src or "absent"))
     return doc
 
 

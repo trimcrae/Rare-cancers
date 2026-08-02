@@ -218,3 +218,39 @@ def test_it_does_not_claim_to_validate_the_generation_stage():
     src = open(os.path.join(MOD, "selcal_xtal_stage.py")).read()
     assert "It tests the READOUT, not the workflow" in src
     assert "0.023-0.046" in src, "the failing generation stage must stay visible beside the claim"
+
+
+# ---------- the decomposition's yardstick ----------------------------------------------------------------------
+
+
+def test_decompose_locus_is_decided_against_the_measured_scale_not_a_chosen_bar(monkeypatch):
+    """Asking 'is 1.8 A small?' in the abstract invites picking the threshold that gives the wanted answer.
+    The comparison is against the displacement at which the TRUE structure scores what the co-folds score."""
+    import selcal_cofold_decompose as D
+    monkeypatch.setattr(D, "decoy_scale_reference", lambda path=None: (32.0, "measured"))
+    rows = [{"target_frame": {"rmsd_A": 1.8, "pocket_occupied_as_in_crystal": True},
+             "e3_frame": {"rmsd_A": 2.0, "pocket_occupied_as_in_crystal": True}} for _ in range(12)]
+    v = D.verdict(rows)
+    assert v["failure_locus"] == "assembly"
+    assert v["ratio_whole_to_worst_half"] == 16.0
+    assert "32 A" in v["sentence"]
+
+
+def test_decompose_refuses_a_locus_when_the_scale_is_unreadable(monkeypatch):
+    import selcal_cofold_decompose as D
+    monkeypatch.setattr(D, "decoy_scale_reference", lambda path=None: (None, "absent"))
+    rows = [{"target_frame": {"rmsd_A": 1.8, "pocket_occupied_as_in_crystal": True},
+             "e3_frame": {"rmsd_A": 2.0, "pocket_occupied_as_in_crystal": True}}]
+    v = D.verdict(rows)
+    assert v["failure_locus"] == "undetermined"
+    assert "UNDETERMINED rather than mixed" in v["sentence"]
+
+
+def test_a_wrong_target_pocket_is_still_called_out(monkeypatch):
+    import selcal_cofold_decompose as D
+    monkeypatch.setattr(D, "decoy_scale_reference", lambda path=None: (32.0, "measured"))
+    rows = [{"target_frame": {"rmsd_A": 18.0, "pocket_occupied_as_in_crystal": False},
+             "e3_frame": {"rmsd_A": 1.2, "pocket_occupied_as_in_crystal": True}}]
+    v = D.verdict(rows)
+    assert v["failure_locus"] == "target_pocket"
+    assert "would not rescue these structures" in v["sentence"]
