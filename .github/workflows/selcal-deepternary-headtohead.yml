@@ -150,6 +150,45 @@ jobs:
           sys.exit(3 if bad else 0)
           "
 
+      # ⚠ INSTRUMENT BEFORE PATCHING. Run 30753431082 died inside DeepTernary's forward pass on
+      # `max(): ... input.numel() == 0`. A reduction over an empty tensor means something UPSTREAM selected
+      # nothing, so the question is WHICH selection came back empty — not how to make the error go away.
+      # The leading hypothesis is that the warhead fragment does not substructure-match the full degrader, so
+      # the fragment->degrader atom index is zero-length. This step tests exactly that, and prints the shapes
+      # rather than asserting the guess.
+      - name: Diagnose the empty tensor (shapes, not guesses)
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          cd "$RUNNER_TEMP/dt"
+          python3 - <<'PYDIAG'
+          import json, os
+          from rdkit import Chem
+          from rdkit.Chem import rdFMCS
+          for c in json.load(open(os.environ["RUNNER_TEMP"] + "/ready.json")):
+              d = os.path.join("output/protac22", c["name"])
+              print("=== %s ===" % c["name"])
+              lig1 = Chem.MolFromPDBFile(os.path.join(d, "unbound_lig1.pdb"), removeHs=False, sanitize=True)
+              lig2 = Chem.MolFromPDBFile(os.path.join(d, "unbound_lig2.pdb"), removeHs=False, sanitize=True)
+              deg  = next(iter(Chem.SDMolSupplier(os.path.join(d, "ligand.sdf"), removeHs=False)), None)
+              for nm, m in (("unbound_lig1 (warhead)", lig1), ("unbound_lig2 (anchor)", lig2),
+                            ("ligand.sdf (degrader)", deg)):
+                  print("   %-24s %s" % (nm, ("%d atoms, %d bonds, %d conformers"
+                        % (m.GetNumAtoms(), m.GetNumBonds(), m.GetNumConformers())) if m else "None (UNREADABLE)"))
+              if deg is None:
+                  print("   ⛔ the degrader is unreadable — every downstream index would be empty"); continue
+              for nm, frag in (("warhead", lig1), ("anchor", lig2)):
+                  if frag is None:
+                      print("   %-8s UNREADABLE" % nm); continue
+                  hit = deg.GetSubstructMatch(frag)
+                  print("   %-8s exact substructure match -> %d atoms%s"
+                        % (nm, len(hit), "" if hit else "   ⛔ EMPTY — this is the zero-length index"))
+                  if not hit:
+                      r = rdFMCS.FindMCS([frag, deg], timeout=60, ringMatchesRingOnly=True)
+                      print("            MCS fallback -> %d of %d fragment atoms (%s)"
+                            % (r.numAtoms, frag.GetNumAtoms(), r.smartsString[:80]))
+          PYDIAG
+
       - name: Predict (CPU, 16 seeds)
         run: |
           set -eo pipefail
