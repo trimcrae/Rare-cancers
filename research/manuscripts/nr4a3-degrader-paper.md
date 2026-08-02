@@ -64,7 +64,17 @@ of +0.944), and does so with converged, structurally stable, forward/reverse-ant
 closed cycle, making the miss ~34× the statistical uncertainty and therefore systematic rather than a sampling
 deficit that replicates could remove.** No cooperativity or
 ternary-complex quantity in this work is therefore calibrated, and the degrader stage is reported as a
-prioritized candidate matrix rather than a quantitative prediction. The **causal test of whether any designed
+prioritized candidate matrix rather than a quantitative prediction. **A second preregistered known-answer test
+— a sensitivity control asking whether the endpoint readout can detect paralogue selectivity that a primary
+source reports, run on SMARCA2 vs SMARCA4 with the PRT3789 chemotype, a pair with solved structures on both
+arms — returns a NULL on an adequately-powered design** (exact one-sided *p* = 0.7468; reference set of 462
+arrangements with a floor of 0.00216 against α = 0.05; no technical failures; the observed separation runs
+opposite to the predicted direction but is not significant in either, mirrored *p* = 0.2554). **Every
+paralogue-selectivity statement in this work is therefore an unvalidated prediction**: all three attempts to
+establish a positive control for selectivity detection — the cooperativity calibrator above, a preregistered
+retrospective holdout that returned a non-resolution and is in any case covalency-confounded, and this
+control — have now been run and none succeeded. ⛔ A null of this kind **does not distinguish an insensitive
+readout from a genuinely narrow structural signal** and is not reported as though it did. The **causal test of whether any designed
 element creates discrimination has not been run**, and its reading is pre-registered. This is a
 **computation-only** design and feasibility
 study — **no molecule was synthesized and no wet-lab validation was performed** — whose principal unresolved
@@ -2057,8 +2067,10 @@ re-scores no leg reported above, and it changes no ΔΔG.
 **Applied, not noted:** with §2.11's cooperativity calibrator failed on sign, §2.12's retrospective
 non-resolved, and this control null on an adequately-powered design, **all three** attempts to establish a
 positive control for this program's selectivity claims have now been run and none succeeded. The consequence
-is carried in the language of every selectivity statement in this paper rather than confined to a limitations
-paragraph.
+is stated in **three** places, not one — the **Abstract**, this section, and **§4 Limitations** — so that a
+reader who never reaches the limitations still meets it. It is a scope statement about the whole workflow, so
+it is carried at those three levels rather than appended to each individual ΔΔG, which would say the same
+thing twenty times and dilute it.
 
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
@@ -2316,6 +2328,20 @@ the exact three-ball branch-position window at integer backbone positions and em
 two anchor atoms; a mismatch, a forbidden junction motif, or an unassigned stereocentre **fails the build**.
 
 ## 4. Limitations
+**⛔ THE LIMITATION THAT CONDITIONS EVERY SELECTIVITY NUMBER IN THIS PAPER: there is no working positive
+control for paralogue-selectivity detection, and this is now a measured finding rather than an untested
+assumption.** Three attempts have been run and none succeeded — the ternary cooperativity calibrator returned
+the **wrong sign** systematically (§2.11), the preregistered NR-V04 retrospective returned a **non-resolution**
+and is covalency-confounded so it could never have served at any *n* (§2.12), and the sensitivity control
+purpose-built to be free of both defects — a paralogue pair with measured selectivity and solved structures on
+*both* arms — returned **NULL on an adequately-powered design** (§2.12a; *p* = 0.7468, reference-set floor
+0.00216 against α = 0.05, zero technical failures). **Every paralogue-selectivity statement in this work is
+therefore an unvalidated prediction.** Two things this does *not* license, both stated because the opposite
+reading is the tempting one: it does **not** distinguish an insensitive readout from a genuinely narrow
+structural signal, and it does **not** retroactively invalidate any individual ΔΔG — it removes the evidence
+that the workflow producing them can resolve a paralogue difference at all, which is a different and broader
+claim. No fourth candidate control is staged in this program.
+
 In-silico throughout; no molecule synthesized; broader indications (SI §S4) are **motivation, not
 demonstrated efficacy**. Therapeutic application to EMC (and AciCC) additionally **assumes NR4A3 dependence, which is not tested here**: the supporting prior (a transfer prior from fusion-addicted EWSR1/FET sarcomas; EMC-native evidence the fusion is a functional driver; a near-invariant clonal fusion in a quiet genome) and the **one decisive gap** (no loss-of-function experiment in any EMC model — the make-or-break dTAG test is delegated to the EMC-program paper), together with the systemic-lead safety/tolerability rationale and the pan-NR4A/CAR-T pole, are in **SI §S9** (safety in **SI §S6**, indications in **SI §S4**). This paper's claimed contribution is the target's **computational druggability/selectivity, not EMC efficacy**.
 The structure is an AF2 model

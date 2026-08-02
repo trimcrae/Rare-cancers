@@ -309,8 +309,11 @@ could not be re-narrated after the fact, and it is machine-carried by `selcal_ga
    draft preregistration [`nr4a-repanel-prereg-DRAFT.md`](research/modalities/nr4a-repanel-prereg-DRAFT.md) is
    **retired unrun**, and its own power section already said the design was powered ≤ 0.16 against the
    separations this program has measured — so the tier and the power analysis point the same way.
-2. **Every NR4A3 selectivity statement in the paper is an UNVALIDATED PREDICTION**, in the language of §4,
-   applied in the sentences themselves rather than confined to a limitations paragraph.
+2. **Every NR4A3 selectivity statement in the paper is an UNVALIDATED PREDICTION**, in the language of §4.
+   ⚠ **Carried in THREE places and verified to be, not asserted:** the **Abstract**, **§2.12a** and **§4
+   Limitations** — so a reader who never reaches the limitations still meets it. *(This line first said
+   "applied in the sentences themselves"; a `grep` showed the phrase existed exactly ONCE in the paper, in
+   §2.12a, so the claim was aspirational when written. It is now checked rather than believed.)*
 3. **⛔ IT DOES NOT DISTINGUISH "the readout is blunt" from "this pair is hard"** and must never be reported as
    though it did. SMARCA2/SMARCA4 bromodomains are ~80 % identical and the published selectivity turns on a
    single Gln1469 hydrogen bond, so a null is consistent with both an insensitive endpoint and a genuinely

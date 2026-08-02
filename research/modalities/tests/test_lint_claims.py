@@ -183,3 +183,74 @@ def test_strategy_and_plan_docs_are_clean_of_banned_phrases():
         if os.path.exists(p):
             errs += [f for f in lint_claims.lint_file(p) if f["severity"] == "ERROR"]
     assert not errs, errs
+
+
+# =============================================================================================================
+# the sensitivity control's NULL must reach a reader who never opens §4
+# =============================================================================================================
+def _paper():
+    import os
+    here = os.path.dirname(os.path.abspath(__file__))
+    p = os.path.join(here, "..", "..", "manuscripts", "nr4a3-degrader-paper.md")
+    if not os.path.exists(p):
+        p = os.path.join(here, "..", "..", "..", "research", "manuscripts", "nr4a3-degrader-paper.md")
+    with open(p, encoding="utf-8") as fh:
+        return fh.read()
+
+
+def _flat(s):
+    """⚠ WHITESPACE-NORMALISED. Prose re-wraps, and an assertion that pins a line break tests the editor's
+    column width rather than the document. Caught here immediately: `positive control` fell across a newline
+    in §4, so a raw substring check reported the phrase missing from a section that plainly contains it —
+    the same lesson `test_nr4a_repanel_prereg_draft._flat` records."""
+    return " ".join(s.split())
+
+
+def _sections(t):
+    ab, r1 = t.index("## Abstract"), t.index("## 1. Background")
+    res, meth = t.index("## 2. Results"), t.index("## 3. Methods")
+    lim = t.index("## 4. Limitations")
+    return {"Abstract": t[ab:r1], "Results": t[res:meth], "Limitations": t[lim:]}
+
+
+def test_the_unvalidated_prediction_scope_statement_reaches_all_three_sections():
+    """★★ THE CLAIM THAT WAS ASPIRATIONAL WHEN WRITTEN. §2.12a asserted the consequence was 'carried in the
+    language of every selectivity statement in this paper rather than confined to a limitations paragraph' —
+    and a grep showed the phrase existed exactly ONCE, inside §2.12a itself. A paper that says where its own
+    caveats live is making a checkable claim, so it gets checked.
+
+    Three levels, deliberately, and NOT appended to each individual ΔΔG: this is a scope statement about the
+    whole workflow, and repeating it twenty times would dilute rather than strengthen it.
+    """
+    secs = _sections(_paper())
+    for name, body in secs.items():
+        assert "unvalidated prediction" in _flat(body).lower(), (
+            "the sensitivity control's NULL does not reach §%s — a reader who stops before the limitations "
+            "would never learn that no positive control for selectivity detection exists" % name)
+
+
+def test_the_null_is_reported_with_the_ambiguity_it_cannot_resolve():
+    """⛔ A fail does NOT distinguish 'the readout is blunt' from 'this pair is hard'. Reporting the null
+    without that clause would let it read as a measured statement about the method, which it is not."""
+    flat = _flat(_paper())
+    assert "does not distinguish" in flat.lower()
+    for token in ("insensitive readout", "narrow structural signal"):
+        assert token in flat, token
+
+
+def test_the_three_failed_controls_are_named_together_not_scattered():
+    """The force of the finding is that ALL THREE attempts failed, each for a different reason. Listed
+    separately in three sections they read as three caveats; together they read as the conclusion."""
+    t = _paper()
+    for name, body in (("Abstract", _sections(t)["Abstract"]), ("Limitations", _sections(t)["Limitations"])):
+        flat = _flat(body).lower()
+        assert "three" in flat, name
+        assert "positive control" in flat, name
+
+
+def test_the_null_does_not_overclaim_against_individual_numbers():
+    """⚠ The tempting misreading in the OTHER direction. A null on the control does not retroactively
+    invalidate any landed ΔΔG — it removes the evidence that the workflow can resolve a paralogue difference
+    at all, which is broader and different. Stating only the first would be alarmism dressed as rigour."""
+    lim = _flat(_sections(_paper())["Limitations"])
+    assert "not retroactively invalidate" in lim.replace("**", "")
