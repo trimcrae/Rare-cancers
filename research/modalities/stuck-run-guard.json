@@ -1,7 +1,7 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-08-02T18:59:00Z",
+  "utc": "2026-08-02T18:59:45Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
@@ -10,19 +10,7 @@
       "run": 30762322477,
       "name": "GCP GPU \u2014 STEP 1 fan-out REPLICATE on the free L4 (cycle_3ca",
       "jobs": 0,
-      "age_min": 0.5
-    },
-    {
-      "run": 30762321869,
-      "name": "ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) \u2014 Vast",
-      "jobs": 0,
-      "age_min": 0.5
-    },
-    {
-      "run": 30762317912,
-      "name": "STEP 1 fan-out \u2014 progress check + terminus-gated fan-out",
-      "jobs": 0,
-      "age_min": 0.7
+      "age_min": 1.2
     }
   ],
   "wedged": [],
@@ -33,22 +21,8 @@
       "run": 30762322477,
       "name": "GCP GPU \u2014 STEP 1 fan-out REPLICATE on the free L4 (cycle_3ca",
       "jobs": 0,
-      "age_min": 0.5,
-      "why": "only 0.5 min old; below the 10 min threshold"
-    },
-    {
-      "run": 30762321869,
-      "name": "ENDPOINT-MD SENSITIVITY CONTROL (options D1/D2) \u2014 Vast",
-      "jobs": 0,
-      "age_min": 0.5,
-      "why": "only 0.5 min old; below the 10 min threshold"
-    },
-    {
-      "run": 30762317912,
-      "name": "STEP 1 fan-out \u2014 progress check + terminus-gated fan-out",
-      "jobs": 0,
-      "age_min": 0.7,
-      "why": "only 0.7 min old; below the 10 min threshold"
+      "age_min": 1.2,
+      "why": "only 1.2 min old; below the 10 min threshold"
     }
   ]
 }
