@@ -12,7 +12,17 @@ chat; keep the board current as candidates move.
 **Start with `research/manuscripts/emc-treatment-strategy.md`** — the capstone that ranks every
 route into a prioritized portfolio (per-route detail in the other memos; the synth-lethal-vs-
 degrader head-to-head is `degrader-vs-synthetic-lethal.md`). This board is the one-screen summary
-of what's shelved vs. active and the next step for each. The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
+of what's shelved vs. active and the next step for each.
+
+> **★ Read alongside it: [`manuscripts/target-route-options.md`](./manuscripts/target-route-options.md)
+> (2026-08-02).** This board ranks routes by *likelihood of helping a patient*; that memo ranks the same
+> space on the axis neither this board nor the strategy capstone carries — **what each route does to the
+> NR4A-paralogue-selectivity requirement** (removes it / reshapes it / merely relocates it), graded
+> against the roadmap's failure record. It is where the "accept paralogue cross-reactivity instead of
+> engineering around it" question is answered (**no for any systemic molecule** — the NR4A1+NR4A3 pair is
+> the named AML anti-target — but the requirement is asymmetric, which is a real and free reduction).
+> It also proposes one addition to *this* board: the **TCIP** row auto-captured on 2026-07-13 below, whose
+> citation must clear `verify-refs` first. The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
 *yield a treatment*; economics favour a tumour-agnostic platform we don't control) toward routes
 that could actually drug or immuno-target EWSR1::NR4A3 EMC.
 

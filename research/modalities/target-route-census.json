@@ -1,0 +1,232 @@
+{
+ "_title": "Target-route census -- domain-resolved paralogue identity, the junction residue swap, and the unreconciled fusion model",
+ "_owner": "research/manuscripts/target-route-options.md",
+ "_method": "Pure-stdlib. Sequences read from nr4a-sequences-cache.json (UniProt Q92570 / P22736 / P43354 / Q01844). Identity from an affine-gap global alignment (match +2 / mismatch -1 / open -6 / extend -1), reported per NR4A3 domain using the boundaries in nr4a3-structure-assessment.json. The zinc-finger row is a motif-anchored ungapped window (first C-x2-C-x2-C, 69 aa) because the AlphaFold-confidence DBD boundary is offset from the actual fingers.",
+ "_limits": [
+  "Percent identity only. No structure, affinity, reach, reactivity or degradation quantity is computed.",
+  "Residue-level paralogue correspondence is NOT taken from this alignment -- nr4a-paralogue-unique-residues.json owns that, with two independent aligners and an alignment-robustness rule.",
+  "The fusion-model section reports a disagreement between two committed objects. It does not resolve it, and neither reading may be quoted as the fusion's structure.",
+  "No efficacy, safety, tolerability, therapeutic-window or clinical claim is made or implied."
+ ],
+ "sequence_lengths": {
+  "NR4A1": 598,
+  "NR4A2": 598,
+  "NR4A3": 626,
+  "EWSR1": 656
+ },
+ "paralogue_identity_by_domain": {
+  "NR4A3_vs_NR4A1": {
+   "full_length": {
+    "n_identical": 304,
+    "n_aligned_columns": 637,
+    "pct_identity": 47.7
+   },
+   "AF1_N_terminal_disordered": {
+    "n_identical": 70,
+    "n_aligned_columns": 260,
+    "pct_identity": 26.9
+   },
+   "DNA_binding_domain": {
+    "n_identical": 50,
+    "n_aligned_columns": 77,
+    "pct_identity": 64.9
+   },
+   "hinge": {
+    "n_identical": 33,
+    "n_aligned_columns": 35,
+    "pct_identity": 94.3
+   },
+   "ligand_binding_domain": {
+    "n_identical": 151,
+    "n_aligned_columns": 254,
+    "pct_identity": 59.4
+   }
+  },
+  "NR4A3_vs_NR4A2": {
+   "full_length": {
+    "n_identical": 361,
+    "n_aligned_columns": 640,
+    "pct_identity": 56.4
+   },
+   "AF1_N_terminal_disordered": {
+    "n_identical": 96,
+    "n_aligned_columns": 260,
+    "pct_identity": 36.9
+   },
+   "DNA_binding_domain": {
+    "n_identical": 60,
+    "n_aligned_columns": 77,
+    "pct_identity": 77.9
+   },
+   "hinge": {
+    "n_identical": 34,
+    "n_aligned_columns": 35,
+    "pct_identity": 97.1
+   },
+   "ligand_binding_domain": {
+    "n_identical": 171,
+    "n_aligned_columns": 254,
+    "pct_identity": 67.3
+   }
+  }
+ },
+ "zinc_finger_window": {
+  "window_length": 69,
+  "starts": {
+   "NR4A3": 292,
+   "NR4A1": 267,
+   "NR4A2": 263
+  },
+  "identity": {
+   "NR4A3_vs_NR4A1": {
+    "n_identical": 64,
+    "n_aligned_columns": 69,
+    "pct_identity": 92.8
+   },
+   "NR4A3_vs_NR4A2": {
+    "n_identical": 68,
+    "n_aligned_columns": 69,
+    "pct_identity": 98.6
+   }
+  }
+ },
+ "junction_residue_census": {
+  "NR4A3": {
+   "AF1_N_terminal_disordered": {
+    "residues": "1-260",
+    "lysines": [
+     37,
+     72,
+     85,
+     136,
+     178,
+     194,
+     249
+    ],
+    "cysteines": [
+     3,
+     75,
+     166
+    ],
+    "n_lysines": 7,
+    "n_cysteines": 3
+   },
+   "DNA_binding_domain": {
+    "residues": "261-337",
+    "lysines": [
+     313,
+     317,
+     322,
+     325,
+     332
+    ],
+    "cysteines": [
+     292,
+     295,
+     301,
+     309,
+     312,
+     328,
+     334
+    ],
+    "n_lysines": 5,
+    "n_cysteines": 7
+   },
+   "hinge": {
+    "residues": "338-372",
+    "lysines": [
+     338,
+     351,
+     359,
+     368
+    ],
+    "cysteines": [
+     344,
+     347,
+     352
+    ],
+    "n_lysines": 4,
+    "n_cysteines": 3
+   },
+   "ligand_binding_domain": {
+    "residues": "373-626",
+    "lysines": [
+     377,
+     379,
+     454,
+     463,
+     492,
+     518,
+     550,
+     553,
+     561,
+     567,
+     572,
+     582,
+     592,
+     605,
+     618
+    ],
+    "cysteines": [
+     397,
+     420,
+     496,
+     506,
+     536,
+     559,
+     594
+    ],
+    "n_lysines": 15,
+    "n_cysteines": 7
+   }
+  },
+  "EWSR1_LC_kept_in_fusion": {
+   "residues": "1-264",
+   "source": "fusion_idr_features.py (Q01844 1-264, prion-like LC/TAD); fusion_cofold.py EWS_CUT=264",
+   "lysines": [
+    144
+   ],
+   "cysteines": [],
+   "n_lysines": 1,
+   "n_cysteines": 0
+  }
+ },
+ "af1_to_lc_swap": {
+  "_question": "What does the chimera trade when EWSR1-LC replaces NR4A3's own AF1?",
+  "nr4a3_af1_lysines": 7,
+  "ewsr1_lc_lysines": 1,
+  "nr4a3_af1_cysteines": 3,
+  "ewsr1_lc_cysteines": 0,
+  "nr4a3_af1_cysteine_positions": [
+   3,
+   75,
+   166
+  ],
+  "_reading": "Byte-identical LBD, different N-terminal acceptor set. This is the only categorical fusion-vs-wild-type difference a shared-LBD binder could exploit, and whether it is reachable is a ternary-geometry question, not a binding one."
+ },
+ "fusion_model_disagreement": {
+  "_question": "Where does NR4A3 resume in the chimera? Two committed objects disagree.",
+  "model_A_fusion_cofold": {
+   "source": "fusion_cofold.py (EWS_CUT=264, 'NR4A3 resumed at res 2')",
+   "nr4a3_first_residue": 2,
+   "self_declared_status": "fusion_breakpoints.py's own docstring calls this 'an assumption, not a sourced breakpoint'",
+   "nr4a3_af1_present": true,
+   "nr4a3_dbd_present": true,
+   "c166_present_in_fusion": true
+  },
+  "model_B_exon_derived": {
+   "source": "fusion-breakpoint-neoantigens.json (Ensembl exon structure, 7 in-frame junctions)",
+   "nr4a3_first_residues": [
+    318,
+    361,
+    419
+   ],
+   "nr4a3_af1_present": false,
+   "nr4a3_dbd_present": "partial or absent (the C4 zinc finger begins at NR4A3 C292)",
+   "c166_present_in_fusion": false
+  },
+  "_discriminating_evidence_already_in_repo": "The fusion binds a response element in the PPARG promoter and transactivates it (Filion 2009, PMC4429309, cited in nr4a3-emc-biology-evidence.md hypothesis 2 pillar 2) -- a DNA-binding-domain-dependent function. Model B's resume points (>=318) truncate or delete the zinc-finger DBD, so the two models cannot both be right and the DBD evidence bears against model B as written.",
+  "_why_it_matters": "Requirement R13 on the roadmap ('the modelled object is the real biological object') has no rung, no gate and no price. Which model holds decides whether NR4A3's C166 exists in the disease protein at all, and every junction-derived neoepitope in fusion-breakpoint-neoantigens.json is conditional on it.",
+  "_named_zero_dollar_test": "Re-derive NR4A3's coding-exon offsets from the MANE transcript in CI and check fusion_breakpoints.py's resume index (`offsets[n-2]`), which assumes exon 2 is the first coding exon; then pin the EMC junction against a primary breakpoint report rather than either model. Networked, so GitHub Actions, not the sandbox."
+ }
+}

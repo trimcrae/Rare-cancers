@@ -149,7 +149,7 @@ jobs:
   # axis). Needs UniProt, which the dev sandbox's egress proxy 403s -> runs here. Results are pushed back to the
   # TRIGGERING branch (not modalities-cache) because they are a design input the strategy docs cite directly.
   nr4a_unique_residues:
-    if: ${{ github.event.inputs.task == 'nr4a_unique_residues' }}
+    if: ${{ github.event.inputs.task == 'nr4a_unique_residues' && github.event.inputs.fanout_mode != 'diag' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -180,6 +180,39 @@ jobs:
             research/modalities/nr4a-paralogue-unique-residues.json \
             research/modalities/nr4a-paralogue-unique-residues.md \
             research/modalities/nr4a-sequences-cache.json
+
+  # JUNCTION-MODEL AUDIT — which protein does this repo think it is drugging? Two committed objects
+  # disagree about where NR4A3 resumes in the chimera (`fusion_cofold.py` says residue 2;
+  # `fusion-breakpoint-neoantigens.json`'s exon-derived junctions say 318/361/419, all of which
+  # truncate or delete the zinc-finger DBD). Roadmap requirement R13's object is therefore undefined
+  # by ~360 residues. Needs Ensembl, 403'd at CONNECT by the dev sandbox → runs here. $0 CPU.
+  # Reuses the on-main `nr4a_unique_residues` task value — a NEW choice option cannot be dispatched
+  # until it is on the default branch — and is selected by fanout_mode=diag, which also switches the
+  # residue-map job OFF so the two do not both run. Same pattern as lane7_anchor_diag below.
+  nr4a3_exon_audit:
+    if: ${{ github.event.inputs.task == 'nr4a_unique_residues' && github.event.inputs.fanout_mode == 'diag' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Junction-model audit (Ensembl exon→residue map, both numbering schemes)
+        working-directory: research/modalities
+        run: python nr4a3_exon_audit.py
+      - name: Commit the audit back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "EWSR1::NR4A3 junction-model audit (Ensembl exon structure, CI)" \
+            research/modalities/nr4a3-exon-audit.json
 
   # RUNG-5a part 1 — E3 ARM STAGING. Discovers, verifies and composes each recruiter arm (ligand-bound
   # substrate receptor + derived ligand exit vector + cullin-scaffold RING position bridged into the receptor
