@@ -136,6 +136,46 @@ ensemble comparison is a missing input, not a negative result.
 
 ---
 
+## 4b · The two live routes to selectivity — and where each is actually blocked
+
+★ **Added 2026-08-02 after the map's first pass exposed that both routes' chemical basis was sitting in
+prose while the reasoning above treated selectivity as speculative.** Selectivity has to come from somewhere
+specific. Two places are real, they are **complementary rather than competing**, and a candidate could use
+both.
+
+### Route A — a warhead engaging paralogue-divergent pocket handles
+
+**Chemical basis: strong, and already measured** ([`nr4a-selectivity.json`](../modalities/nr4a-selectivity.json),
+paper §2.4). Of the **10 Pocket-5 lining residues, 7 are paralogue-divergent** — L406, T407, T410, R412,
+I484, I531, L534 — and in the opened druggable ensemble **5 stay pocket-facing** (L406, T410, I484, I531,
+L534), so those five are the realistically engageable handles. T407 and R412 mostly splay outward.
+★ **And all ten are ortholog-invariant across six species spanning ~300 My** (`nr4a3_resistance_map.py`) —
+paralogue-divergent yet species-conserved, which is both a resistance argument and evidence the divergence is
+functional rather than drift.
+
+⛔ **Blocked on the INSTRUMENT, not the chemistry.** The margin these handles would produce is a free-energy
+quantity, and the ABFE engine has **never recovered a known ΔΔG** — its selectivity benchmark
+(CREBBP vs BRD4(1), SGC-CBP30) is built, staged, and has no `result` key. Until that runs, a computed margin
+is unfalsifiable. **This is the single highest-leverage unrun item in the program.**
+
+### Route B — a linker-borne covalent handle at an NR4A3-unique cysteine
+
+**Chemical basis: opened 2026-08-02** by the cysteine census above. The unique cysteines C397/C420/C559 sit
+11–19 Å out — *where a PROTAC's linker passes*, not where its warhead sits. So instead of asking the warhead
+to discriminate an ~80 %-identical pocket, put the electrophile on the **linker** and let it react with a
+residue NR4A1 and NR4A2 do not have. That is the NR-V04 mechanism relocated to where NR4A3's unique residues
+actually are.
+
+⛔ **Blocked on GEOMETRY, and on a counter-test that could kill it outright:** if a **conserved** cysteine
+(C496, C536, C506, C594) is always within easier reach than a unique one, the selectivity evaporates. Reach
+must be established across all 20 conformers, not one.
+
+**Why they compose:** a warhead tuned to the five engageable divergent handles *plus* a covalent linker
+handle at a unique cysteine is a far stronger selectivity argument than either alone — two independent
+mechanisms, each with its own falsifier.
+
+---
+
 ## 5 · Critical path
 
 Ordered by what unblocks the most, not by what is easiest.
@@ -148,11 +188,6 @@ Ordered by what unblocks the most, not by what is easiest.
 4. **Rebuild the ternaries by the assembly route**, from a molecule whose structure is recorded this time.
 5. **Run the CREBBP/BRD4 benchmark** before quoting any selectivity free energy. Built, never run — the
    missing known-answer test for the instrument the *binder* claim depends on.
-   **PRICED AND DISPATCH-READY 2026-08-02** — it had stalled because the ABFE lane had no rung to read a cost
-   off, and that is now [`abfe-selectivity-benchmark-cost.json`](../modalities/abfe-selectivity-benchmark-cost.json)
-   (owner: `abfe_selectivity_cost.py`; provider **AWS SageMaker**, since no Vast ABFE launcher exists). Every
-   $0 precondition is verified — staged inputs live in S3, pre-baked image present, tag unused, smoke green.
-   The dispatch itself stays with trimcrae per `abfe_plan.do_not_dispatch`.
 6. **≥3 ternary models per paralogue**, then the validated descriptor. Until then no contact can be told from
    one model's accident.
 
@@ -166,8 +201,7 @@ Artifacts that own the numbers above:
 [`selcal-cofold-decompose.json`](../modalities/selcal-cofold-decompose.json) ·
 [`selcal-dockq-decoy-scale.json`](../modalities/selcal-dockq-decoy-scale.json) ·
 [`nr4a-ternary-signature.json`](../modalities/nr4a-ternary-signature.json) ·
-[`selcal-xtal-census.json`](../modalities/selcal-xtal-census.json) ·
-[`abfe-selectivity-benchmark-cost.json`](../modalities/abfe-selectivity-benchmark-cost.json).
+[`selcal-xtal-census.json`](../modalities/selcal-xtal-census.json).
 
 ⛔ No claim on this page asserts NR4A3 selectivity, efficacy or clinical readiness; predicted quantities are
 labelled as predictions throughout.
