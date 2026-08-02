@@ -86,11 +86,15 @@
       "tag": "sel-cbp30-v1",
       "n_iter": "2000",
       "seed": "0",
-      "spot": "1"
+      "spot": "1",
+      "image_uri": "646605541856.dkr.ecr.us-east-2.amazonaws.com/nr4a3-abfe:latest",
+      "_image_uri_is_not_optional": "gpu-abfe-aws.yml DEFAULTS image_uri to EMPTY, which makes the stock DLC solve the conda env at RUNTIME on the billing g5 — once per leg, for three legs. That is exactly what CLAUDE.md §6 forbids (never build an environment on a machine we are paying for). The pre-baked image was verified PRESENT 2026-08-02 (pushed 2026-07-06, 10.37 GB) by list_sagemaker.py MODE=abfe_ready. Pass it explicitly."
     },
     "legs": "per-receptor complex leg (complex-crebbp, complex-brd4bd1) + ONE shared solvent leg (ligand-in-water, identical for both receptors, cancels in ΔΔG).",
     "validate_first": "Per CLAUDE.md validate-first: mode=smoke, then ONLY_LEGS=solvent (one real leg), then the full 3 legs.",
-    "replicates": "≥1 replicate at seed=0; add seed=1,2 (mode=run, same tag) for a replicate-SD error bar on the ΔΔG if the single-replicate direction is marginal.",
+    "replicates": "≥1 replicate at seed=0; add seed=1,2 for a replicate-SD error bar on the ΔΔG if the single-replicate direction is marginal. ⚠ EACH REPLICATE NEEDS ITS OWN TAG (sel-cbp30-v1-r2, -r3) — CORRECTED 2026-08-02, this line previously said 'same tag' and that would have produced a FABRICATED replicate, not a second one. The checkpoint prefix is s3://<bucket>/<TAG>/ckpt/<leg>/ (nr4a3_abfe_sagemaker.make_estimator) and carries NO SEED, while nr4a3_abfe.run_window resumes at _last_logged_iter+1. Under a used tag every window is already at n_iter, so the iteration loop never executes: the job exits SUCCESSFULLY having re-emitted seed 0's samples under seed 1's label — CLAUDE.md §4b, a populated field that was never measured. The real NR4A3 run did use separate tags (nr4a3-abfe, -r2, -r3, 8xtt-r1/r2/r3), so this correction restores the spec to what practice already was. A replicate therefore costs a FULL pass, not a fraction.",
+    "cost": "PRICED 2026-08-02 — research/modalities/abfe-selectivity-benchmark-cost.json is the ONE HOME for the figure; derived by abfe_selectivity_cost.py from measured SageMaker billable time. Do not restate the number here (CLAUDE.md rule 1).",
+    "readiness": "All four dispatch preconditions verified 2026-08-02 via list_sagemaker.py MODE=abfe_ready: pre-baked ECR image present, all four staged inputs present in S3, tag sel-cbp30-v1 unused (a fresh run, not a resume), 8/8 spot slots free. mode=smoke re-run green the same day (abfe-modern-smoke.yml).",
     "reduce": "mode=reduce (crebbp then brd4bd1) → ΔG_bind per receptor; ΔΔG_bind = ΔG_bind(crebbp) − ΔG_bind(brd4bd1). PASS if negative (CREBBP tighter).",
     "do_not_dispatch": "This file + the staging job PREPARE the benchmark only. The expensive ABFE is dispatched by trimcrae after review."
   }

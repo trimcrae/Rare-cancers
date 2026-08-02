@@ -1,0 +1,157 @@
+{
+ "_what": "Cost of the CREBBP-vs-BRD4(1) SGC-CBP30 selectivity ABFE benchmark (research/modalities/selectivity-benchmark.json). THE ONE HOME for this figure.",
+ "_generated_by": "research/modalities/abfe_selectivity_cost.py (python abfe_selectivity_cost.py)",
+ "_provider": "AWS SageMaker managed spot, ml.g5.xlarge (A10G), us-east-2 \u2014 NOT Vast; see the module docstring \u00a71 for why this lane cannot use the Vast ladder basis.",
+ "_basis": "MEASURED billable hours of this same engine at this same protocol (12 windows x 2000 iters x 500 steps), read from SageMaker 2026-08-02 via list_sagemaker.py MODE=abfe_rate.",
+ "_basis_is_an_upper_bound": "measured on the NR4A3 LBD (~250 residues); the benchmark's receptors are bromodomains (CREBBP 116 residues/971 heavy atoms, BRD4(1) 127/1062, both from the staging job's log), so the real legs can only be cheaper.",
+ "_not_comparable_to_ladder_basis": "`vast-ladder-repricing.json`'s $/ns is an INDEX: plain single-replica MD on an 84,534-particle water box at 4 fs with hydrogen-mass repartitioning, on an RTX 4090. An ABFE nanosecond here is none of those \u2014 12 alchemical \u03bb-windows, 2 fs with NO HMR (`_explicit_generator` sets constraints=HBonds and leaves hydrogen mass at default), a full reduced-potential evaluation at every \u03bb-state on every iteration, and an XML checkpoint written every iteration, on an A10G. The two numbers share a unit and measure different things, so the ratio between them is not a price comparison and must not be quoted as one.",
+ "_replicate_tag_defect": "`selectivity-benchmark.json` -> abfe_plan.replicates says to add seed=1,2 with the SAME TAG. THAT WOULD PRODUCE A FABRICATED REPLICATE, NOT A SECOND ONE. The checkpoint prefix is `s3://<bucket>/<TAG>/ckpt/<leg>/` (`nr4a3_abfe_sagemaker.make_estimator`) and carries NO SEED, while `nr4a3_abfe.run_window` resumes at `_last_logged_iter + 1`. Under a used tag every window is already at n_iter, so `for it in range(start, n_iter)` never executes: the job exits SUCCESSFULLY, having re-emitted seed 0's samples under seed 1's label. That is CLAUDE.md \u00a74b exactly \u2014 a populated field that was never measured. Each replicate therefore needs its OWN tag, which is what the NR4A3 run actually did (tags `nr4a3-abfe`, `-r2`, `-r3`, `8xtt-r1/r2/r3`) and is why a replicate is priced at full cost here.",
+ "_superseded_calibration_costs": {
+  "hydration_gate": 0.24,
+  "binding_gate": 0.1,
+  "SPOT_HOURLY_stub": 0.5
+ },
+ "measured_inputs": {
+  "complex_leg_billable_h_clean_triplet": {
+   "nr4a3-abfe-8xtt-r1-complex-nr4a3-2026-07-10-14-28-04": 2.908,
+   "nr4a3-abfe-8xtt-r2-complex-nr4a3-2026-07-10-14-45-07": 2.943,
+   "nr4a3-abfe-8xtt-r3-complex-nr4a3-2026-07-10-14-45-04": 3.372
+  },
+  "complex_leg_billable_h_all_at_2000": [
+   0.484,
+   0.746,
+   1.632,
+   2.16,
+   2.572,
+   2.908,
+   2.943,
+   3.372,
+   3.391,
+   3.663,
+   3.868,
+   4.975
+  ],
+  "solvent_leg_billable_h": {
+   "nr4a3-abfe-solvent-2026-07-05-14-39-49-147": 0.101,
+   "nr4a3-abfe-r3-solvent-2026-07-06-10-53-36-015": 0.137,
+   "nr4a3-abfe-r2-solvent-2026-07-05-12-27-52-876": 0.618
+  },
+  "complex_leg_training_h_clean_triplet": {
+   "nr4a3-abfe-8xtt-r1-complex-nr4a3-2026-07-10-14-28-04": 8.661,
+   "nr4a3-abfe-8xtt-r2-complex-nr4a3-2026-07-10-14-45-07": 8.771,
+   "nr4a3-abfe-8xtt-r3-complex-nr4a3-2026-07-10-14-45-04": 8.601
+  },
+  "t4l_complex_billable_h_at_1000": 0.732,
+  "usd_per_billable_h_g5_xlarge": 1.4084
+ },
+ "cases": {
+  "1_replicate": {
+   "n_replicates": 1,
+   "work": {
+    "n_windows": 12,
+    "n_iter": 2000,
+    "steps_per_iter": 500,
+    "timestep_fs": 2.0,
+    "ns_per_window": 2.0,
+    "ns_per_leg": 24.0
+   },
+   "legs": {
+    "receptors": [
+     "crebbp",
+     "brd4bd1"
+    ],
+    "n_complex_legs": 2,
+    "n_solvent_legs": 1,
+    "n_legs": 3
+   },
+   "ns_per_leg": 24.0,
+   "ns_per_pass": 72.0,
+   "ns_total": 72.0,
+   "billable_h_per_complex_leg": 2.943,
+   "billable_h_per_solvent_leg": 0.137,
+   "billable_h_per_pass": 6.023,
+   "billable_h_total": 6.023,
+   "usd_per_billable_h": 1.4084,
+   "usd": 8.4827932,
+   "usd_range": [
+    4.739266,
+    14.883971200000001
+   ],
+   "usd_t4l_scaled_likely": 3.964646,
+   "wall_clock_h_per_wave": 8.661,
+   "usd_per_ns_as_billed": 0.11781657222222222
+  },
+  "2_replicates": {
+   "n_replicates": 2,
+   "work": {
+    "n_windows": 12,
+    "n_iter": 2000,
+    "steps_per_iter": 500,
+    "timestep_fs": 2.0,
+    "ns_per_window": 2.0,
+    "ns_per_leg": 24.0
+   },
+   "legs": {
+    "receptors": [
+     "crebbp",
+     "brd4bd1"
+    ],
+    "n_complex_legs": 2,
+    "n_solvent_legs": 1,
+    "n_legs": 3
+   },
+   "ns_per_leg": 24.0,
+   "ns_per_pass": 72.0,
+   "ns_total": 144.0,
+   "billable_h_per_complex_leg": 2.943,
+   "billable_h_per_solvent_leg": 0.137,
+   "billable_h_per_pass": 6.023,
+   "billable_h_total": 12.046,
+   "usd_per_billable_h": 1.4084,
+   "usd": 16.9655864,
+   "usd_range": [
+    9.478532,
+    29.767942400000003
+   ],
+   "usd_t4l_scaled_likely": 7.929292,
+   "wall_clock_h_per_wave": 8.661,
+   "usd_per_ns_as_billed": 0.11781657222222222
+  },
+  "3_replicates": {
+   "n_replicates": 3,
+   "work": {
+    "n_windows": 12,
+    "n_iter": 2000,
+    "steps_per_iter": 500,
+    "timestep_fs": 2.0,
+    "ns_per_window": 2.0,
+    "ns_per_leg": 24.0
+   },
+   "legs": {
+    "receptors": [
+     "crebbp",
+     "brd4bd1"
+    ],
+    "n_complex_legs": 2,
+    "n_solvent_legs": 1,
+    "n_legs": 3
+   },
+   "ns_per_leg": 24.0,
+   "ns_per_pass": 72.0,
+   "ns_total": 216.0,
+   "billable_h_per_complex_leg": 2.943,
+   "billable_h_per_solvent_leg": 0.137,
+   "billable_h_per_pass": 6.023,
+   "billable_h_total": 18.069,
+   "usd_per_billable_h": 1.4084,
+   "usd": 25.4483796,
+   "usd_range": [
+    14.217798,
+    44.65191360000001
+   ],
+   "usd_t4l_scaled_likely": 11.893938,
+   "wall_clock_h_per_wave": 8.661,
+   "usd_per_ns_as_billed": 0.11781657222222222
+  }
+ }
+}

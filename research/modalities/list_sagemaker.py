@@ -10,6 +10,8 @@ MODES (env MODE; blank = the in-progress listing above):
   abfe_rate - the MEASURED per-leg rate of the independent-window ABFE engine, over the FULL job history
               filtered by name. This is the only place a completed ABFE leg's billable time is read, and it
               is what `abfe_selectivity_cost.py` prices the CREBBP/BRD4 selectivity benchmark from.
+  abfe_ready - dispatch-readiness for an ABFE run: pre-baked ECR image present, staged receptor inputs
+              present, target checkpoint tag not already occupied (it would silently RESUME), spot headroom.
 
 Env: AWS creds + AWS_DEFAULT_REGION. Starts nothing; describes only.
 """
@@ -131,6 +133,80 @@ def main():
         print("not pre-baked, S3 download, PDBFixer + solvation + parameterisation), so it is an UPPER bound on")
         print("the steady-state MD rate and a FAIR basis for pricing a whole leg. n_windows is read from each")
         print("job's own lambda-schedule hyperparameter (dense=16, else 12), never assumed.")
+        return
+
+    # MODE=abfe_ready: the DISPATCH-READINESS check for an ABFE run, so a "yes" can launch without a
+    # discovery round-trip. INSTANCE_FILTER carries the checkpoint TAG (default `sel-cbp30-v1`).
+    #
+    # It answers the four things that silently ruin an ABFE dispatch, each of which is free to check and
+    # expensive to discover on a billing GPU:
+    #   1. IS THE PRE-BAKED IMAGE THERE? `gpu-abfe-aws.yml` defaults `image_uri` to EMPTY, which means the
+    #      stock DLC solves the conda env at RUNTIME on the g5 — the exact thing CLAUDE.md §6 forbids
+    #      ("never build an environment on a machine we are paying for"), once per leg. If the ECR image
+    #      exists, the dispatch must name it; if it does not, it must be re-baked FIRST.
+    #   2. ARE THE STAGED INPUTS ACTUALLY THERE? A receptor prefix that 404s fails each leg after the
+    #      instance is already up and billing.
+    #   3. IS THE TARGET TAG ALREADY OCCUPIED? This is the dangerous one and it is CLAUDE.md §4b in its
+    #      purest form. The checkpoint prefix is `<TAG>/ckpt/<leg>/` with NO SEED IN THE PATH, and
+    #      `nr4a3_abfe.run_window` resumes from `_last_logged_iter + 1`. So dispatching a NEW SEED under an
+    #      OLD TAG does not produce a replicate — every window is already at n_iter, the loop body never
+    #      executes, and the job exits "successfully" re-emitting the first seed's samples under the new
+    #      seed's label. A fresh run needs a fresh tag; a replicate needs its own tag.
+    #   4. IS THERE SPOT HEADROOM? The account cap is 8 concurrent spot instances; 3 legs need 3.
+    if os.environ.get("MODE", "").strip().lower() == "abfe_ready":
+        region = os.environ.get("AWS_DEFAULT_REGION", "us-east-2")
+        tag = (os.environ.get("INSTANCE_FILTER", "").strip() or "sel-cbp30-v1")
+        prefix = os.environ.get("RECEPTOR_PREFIX", "selectivity-benchmark")
+        acct = boto3.client("sts").get_caller_identity()["Account"]
+        bucket = os.environ.get("BUCKET") or f"sagemaker-{region}-{acct}"
+        s3 = boto3.client("s3")
+        print(f"ABFE DISPATCH READINESS — tag={tag!r} receptor_prefix={prefix!r} region={region}\n")
+
+        print("1. PRE-BAKED ECR IMAGE (CLAUDE.md §6 — never solve an env on a billing GPU)")
+        repo_name = os.environ.get("ECR_REPO", "nr4a3-abfe")
+        try:
+            imgs = boto3.client("ecr").describe_images(repositoryName=repo_name)["imageDetails"]
+            imgs.sort(key=lambda i: i["imagePushedAt"], reverse=True)
+            for i in imgs[:5]:
+                print(f"   {','.join(i.get('imageTags', ['<untagged>'])):20} "
+                      f"pushed {i['imagePushedAt']:%Y-%m-%d %H:%M} UTC  "
+                      f"{i.get('imageSizeInBytes', 0)/1e9:.2f} GB")
+            if any("latest" in (i.get("imageTags") or []) for i in imgs):
+                print(f"   => PASS. image_uri = {acct}.dkr.ecr.{region}.amazonaws.com/{repo_name}:latest")
+            else:
+                print(f"   => NO ':latest' TAG — re-bake with build-abfe-image.yml before dispatching.")
+        except Exception as e:  # noqa: BLE001
+            print(f"   => ABSENT/UNREADABLE ({type(e).__name__}). Re-bake with build-abfe-image.yml, or the "
+                  f"legs will each solve conda on a billing g5.")
+
+        print(f"\n2. STAGED RECEPTOR INPUTS  s3://{bucket}/{prefix}/")
+        got = {o["Key"].split("/")[-1]: o["Size"]
+               for o in s3.list_objects_v2(Bucket=bucket, Prefix=prefix + "/").get("Contents", [])}
+        for f in ("crebbp-opened.pdb", "docked_crebbp.sdf", "brd4bd1-opened.pdb", "docked_brd4bd1.sdf"):
+            print(f"   {'OK ' if f in got else 'MISSING'} {f:24} {got.get(f, '-')}")
+        print("   => " + ("PASS — all four present." if len(got) >= 4 else
+                          "INCOMPLETE — re-run stage-selectivity-benchmark-aws.yml."))
+
+        print(f"\n3. TAG COLLISION  s3://{bucket}/{tag}/ckpt/   (a used tag SILENTLY RESUMES — see above)")
+        ck = s3.list_objects_v2(Bucket=bucket, Prefix=f"{tag}/ckpt/").get("Contents", [])
+        if not ck:
+            print("   => PASS — prefix empty, this tag starts a genuinely fresh run.")
+        else:
+            legs = sorted({o["Key"].split("/")[2] for o in ck if len(o["Key"].split("/")) > 2})
+            print(f"   => OCCUPIED: {len(ck)} object(s) across leg(s) {legs}. A dispatch on this tag RESUMES.")
+            print("      Use a fresh tag unless you intend to resume.")
+
+        print("\n4. SPOT HEADROOM (account cap = 8 concurrent spot training instances; 3 legs need 3)")
+        inprog = sm.list_training_jobs(StatusEquals="InProgress", MaxResults=50)["TrainingJobSummaries"]
+        used = 0
+        for j in inprog:
+            try:
+                d = sm.describe_training_job(TrainingJobName=j["TrainingJobName"])
+            except Exception:  # noqa: BLE001
+                continue
+            if d.get("EnableManagedSpotTraining"):
+                used += d.get("ResourceConfig", {}).get("InstanceCount", 1)
+        print(f"   {used}/8 in use => {'PASS' if 8 - used >= 3 else 'BLOCKED'}, {max(0, 8 - used)} free slot(s)")
         return
 
     jobs = sm.list_training_jobs(StatusEquals="InProgress", SortBy="CreationTime",
