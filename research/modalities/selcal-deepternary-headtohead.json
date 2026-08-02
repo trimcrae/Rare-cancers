@@ -1,0 +1,37 @@
+{
+ "_what": "DeepTernary (blind) vs our own Boltz co-folds, same targets, same deposited references, same two scoring instruments, same target<->VHL interface.",
+ "_what_a_win_would_be": "a POSITIVE TERNARY CONTROL AT THE GENERATION STAGE \u2014 a known-answer test, run blind, that the workflow passes. This program has none in any form.",
+ "_what_a_win_would_NOT_be": "a positive control for paralogue-selectivity DETECTION. Different stage, harder claim; the panel those co-folds fed returned a NULL whose bound is unchanged by anything here.",
+ "_not_perfectly_matched": "our co-folds were generated from SEQUENCE ALONE; DeepTernary is given pre-positioned binary poses from separate crystals. That is its documented operating mode, not an advantage smuggled in \u2014 but a win says 'this pipeline with these inputs places the complex better', not 'this architecture beats that one'.",
+ "incumbent_our_cofolds": {
+  "selcal_smarca2": {
+   "n": 6,
+   "min": 0.0228,
+   "max": 0.0378,
+   "mean": 0.0293
+  },
+  "selcal_smarca4": {
+   "n": 6,
+   "min": 0.0347,
+   "max": 0.0459,
+   "mean": 0.0403
+  }
+ },
+ "incumbent_error": null,
+ "arms_refused_at_input_verification": [
+  "selcal_smarca4"
+ ],
+ "arms": [
+  {
+   "arm": "selcal_smarca2",
+   "n_predictions": 0,
+   "native": "9DTY.cif",
+   "scored": [],
+   "error": "no predicted complex under /home/runner/work/_temp/dt/output/protac22/selcal_smarca2 \u2014 unrun, NOT a prediction that scored zero"
+  }
+ ],
+ "verdict": {
+  "positive_ternary_control": null,
+  "sentence": "No arm produced a scored prediction. Unrun is not a failed run."
+ }
+}

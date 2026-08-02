@@ -217,9 +217,55 @@ def prepare(configs, workdir, degrader_comp):
     return ready, report
 
 
+def write_pdb(atoms, dest):
+    """Minimal PDB writer, so an mmCIF-only entry can still feed a PDB-only consumer.
+
+    ⚠ WHY THIS EXISTS: `deepternary_blind_prep.fetch_pdb` requests the legacy .pdb format, and 9DU0 / 9DTY
+    are mmCIF-only — the same 404 this module already hit and fixed on its own fetch path. Rather than
+    changing a module another lane owns, the converted files are written into that module's `_raw` cache so
+    its `_need()` finds them and never fetches. The conversion is coordinates only, which is all its chain and
+    ligand extractors read."""
+    n = 0
+    with open(dest, "w") as fh:
+        for i, a in enumerate(atoms, start=1):
+            if i > 99999:
+                break                                      # PDB serial field is 5 wide; truncation is loud below
+            rec = "HETATM" if a.hetatm else "ATOM  "
+            nm = a.name if len(a.name) >= 4 else " %-3s" % a.name
+            fh.write("%s%5d %-4s %3s %s%4d%s   %8.3f%8.3f%8.3f  1.00  0.00          %2s\n"
+                     % (rec, i, nm[:4], a.resname[:3], a.chain[:1], a.resseq, (a.icode or " ")[:1],
+                        a.x, a.y, a.z, (a.element or "")[:2].rjust(2)))
+            n += 1
+        fh.write("END\n")
+    return n
+
+
+def emit_raw(configs, workdir, raw_dir):
+    """Fetch every structure a config names and write it into `raw_dir` as <PDBID>.pdb."""
+    import selcal_cofold_validate as V
+    os.makedirs(raw_dir, exist_ok=True)
+    out = []
+    for cfg in configs:
+        for key in ("poi_binary_pdb", "e3_binary_pdb", "native_pdb"):
+            pid = cfg[key].upper()
+            dest = os.path.join(raw_dir, "%s.pdb" % pid)
+            if os.path.exists(dest):
+                continue
+            src, err = _fetch_structure(pid, workdir)
+            if err:
+                out.append({"pdb": pid, "ok": False, "why": err}); continue
+            atoms = V.parse_structure(src)
+            n = write_pdb(atoms, dest)
+            out.append({"pdb": pid, "ok": n > 0, "n_atoms": n, "from": os.path.basename(src),
+                        "truncated_at_99999": n == 99999})
+    return out
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Prep + run + score the DeepTernary head-to-head ($0 CPU).")
+    ap.add_argument("--emit-raw", default=None,
+                    help="also write every named structure into this dir as <PDBID>.pdb (for a PDB-only consumer)")
     ap.add_argument("--configs", default=os.path.join(HERE, "selcal-deepternary-prep-configs.json"))
     ap.add_argument("--workdir", default="/tmp/selcal_dt")
     ap.add_argument("--out", default=os.path.join(HERE, "selcal-deepternary-prep.json"))
@@ -246,6 +292,12 @@ def main(argv=None):
         "n_refused": len(report) - len(ready),
         "ready_configs": ready,
     }
+    if args.emit_raw and ready:
+        doc["raw_emitted"] = emit_raw(ready, args.workdir, args.emit_raw)
+        for r in doc["raw_emitted"]:
+            print("  raw %s %s %s" % (r["pdb"], "ok" if r["ok"] else "FAILED",
+                                      r.get("why") or "%d atoms from %s" % (r.get("n_atoms", 0),
+                                                                            r.get("from", "?"))), flush=True)
     json.dump(doc, open(args.out, "w"), indent=1)
     print("[selcal-dt-run] wrote %s — %d ready, %d refused" % (args.out, doc["n_ready"], doc["n_refused"]),
           flush=True)
