@@ -1,7 +1,7 @@
 {
   "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
   "mode": "5aks",
-  "utc": "2026-08-02T02:09:53Z",
+  "utc": "2026-08-02T02:25:53Z",
   "units": {
     "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
       "arm": "ternary",
@@ -31,8 +31,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T03:36:35Z",
-      "phase_marker_age_min": 1353.2802017887434,
-      "log_age_min": 1353.2649706164996,
+      "phase_marker_age_min": 1369.2826339244843,
+      "log_age_min": 1369.266759522756,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -207,8 +207,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T18:26:57Z",
-      "phase_marker_age_min": 462.97824505964917,
-      "log_age_min": 462.97956887086235,
+      "phase_marker_age_min": 478.94302073319756,
+      "log_age_min": 478.9436328490575,
       "n_attempts_archived": 34,
       "attempts": [
         {
@@ -481,8 +481,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T12:19:53Z",
-      "phase_marker_age_min": 830.1453400373459,
-      "log_age_min": 830.1133951743444,
+      "phase_marker_age_min": 846.0704381227494,
+      "log_age_min": 846.0378199259441,
       "n_attempts_archived": 8,
       "attempts": [
         {
@@ -573,8 +573,8 @@
         "scalar": 1001760
       },
       "phase_marker": "md-running 2026-08-01T22:10:27Z",
-      "phase_marker_age_min": 239.62454397678374,
-      "log_age_min": 1.3944538752237956,
+      "phase_marker_age_min": 255.52693937222162,
+      "log_age_min": 1.1282917062441509,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -712,9 +712,9 @@
         },
         {
           "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/run.log",
-          "utc": "2026-08-02T02:08:42Z",
-          "bytes": 95577,
-          "n_lines": 1313,
+          "utc": "2026-08-02T02:24:52Z",
+          "bytes": 102003,
+          "n_lines": 1403,
           "last_line": "INFO:\t********************************************************************************"
         }
       ],
@@ -732,10 +732,10 @@
         "cpu_ram": 128688,
         "cpu_cores_effective": 16.0,
         "disk_space": 60.0,
-        "disk_util": 6.900000095367432,
+        "disk_util": 7.0,
         "mem_usage": 5.087690752,
         "mem_limit": 89.45401856000001,
-        "gpu_util": 0.0,
+        "gpu_util": 89.999916,
         "dph_total": 0.07911111111111112,
         "start_date": 1785621996.2231026,
         "image_uuid": "docker.io/triskit23/ternary-fep:latest"
@@ -743,45 +743,45 @@
       "instance_is_working": true,
       "console_last_line": "INFO:\t********************************************************************************",
       "console_tail": [
+        "INFO:\tIteration took 50.045s.",
+        "INFO:\tEstimated completion in 0:24:42.708610, at 2026-Aug-02-02:43:46 (consuming total wall clock time 1 day, 3:27:27.240653).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 47.637s.",
-        "INFO:\tEstimated completion in 0:02:44.847944, at 2026-Aug-02-02:05:25 (consuming total wall clock time 1 day, 2:51:50.793629).",
+        "INFO:\tIteration 1774/1800",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1758/1760",
+        "INFO:\tIteration took 61.799s.",
+        "INFO:\tEstimated completion in 0:24:00.578315, at 2026-Aug-02-02:44:05 (consuming total wall clock time 1 day, 3:42:12.344862).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 62.837s.",
-        "INFO:\tEstimated completion in 0:01:50.313814, at 2026-Aug-02-02:05:33 (consuming total wall clock time 1 day, 2:57:56.156696).",
+        "INFO:\tIteration 1775/1800",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1759/1760",
+        "INFO:\tIteration took 50.849s.",
+        "INFO:\tEstimated completion in 0:22:57.575825, at 2026-Aug-02-02:43:53 (consuming total wall clock time 1 day, 3:33:05.459375).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 48.286s.",
-        "INFO:\tEstimated completion in 0:00:54.980743, at 2026-Aug-02-02:05:26 (consuming total wall clock time 1 day, 2:52:46.106957).",
+        "INFO:\tIteration 1776/1800",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1760/1760",
+        "INFO:\tIteration took 59.724s.",
+        "INFO:\tEstimated completion in 0:22:09.404431, at 2026-Aug-02-02:44:05 (consuming total wall clock time 1 day, 3:41:45.332351).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 60.457s.",
-        "INFO:\tEstimated completion in 0:00:00, at 2026-Aug-02-02:05:32 (consuming total wall clock time 1 day, 2:56:47.103847).",
-        "[timing] 40 iters in 2205s = 55.1s/iter (1.09 iters/min) at iteration 1760/2000",
-        "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases",
-        "[barrier] commit production@1760 persisted 6406.0 MiB in 87.4s",
-        "[barrier] committed checkpoint at iteration 1760/2000",
+        "INFO:\tIteration 1777/1800",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1761/1800",
+        "INFO:\tIteration took 53.823s.",
+        "INFO:\tEstimated completion in 0:21:11.890476, at 2026-Aug-02-02:44:01 (consuming total wall clock time 1 day, 3:38:59.254651).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 52.813s.",
-        "INFO:\tEstimated completion in 0:34:19.726190, at 2026-Aug-02-02:42:22 (consuming total wall clock time 1 day, 2:24:24.285707).",
+        "INFO:\tIteration 1778/1800",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1762/1800",
+        "INFO:\tIteration took 52.541s.",
+        "INFO:\tEstimated completion in 0:20:13.220553, at 2026-Aug-02-02:43:55 (consuming total wall clock time 1 day, 3:34:23.499761).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 59.398s.",
-        "INFO:\tEstimated completion in 0:35:32.032972, at 2026-Aug-02-02:44:33 (consuming total wall clock time 1 day, 4:03:11.035509).",
+        "INFO:\tIteration 1779/1800",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1763/1800",
+        "INFO:\tIteration took 57.875s.",
+        "INFO:\tEstimated completion in 0:19:21.090381, at 2026-Aug-02-02:44:01 (consuming total wall clock time 1 day, 3:38:42.032660).",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 53.342s.",
-        "INFO:\tEstimated completion in 0:34:01.837988, at 2026-Aug-02-02:43:56 (consuming total wall clock time 1 day, 3:35:32.658863).",
+        "INFO:\tIteration 1780/1800",
         "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1764/1800",
+        "INFO:\tIteration took 56.639s.",
+        "INFO:\tEstimated completion in 0:18:27.149585, at 2026-Aug-02-02:44:03 (consuming total wall clock time 1 day, 3:40:43.462651).",
+        "INFO:\t********************************************************************************",
+        "INFO:\tIteration 1781/1800",
         "INFO:\t********************************************************************************"
       ]
     }
