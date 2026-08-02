@@ -48,6 +48,8 @@ on:
       - research/modalities/tests/test_selcal_xtal_stage.py
       - research/modalities/selcal_xtal_panel.py
       - research/modalities/selcal_cofold_decompose.py
+      - research/modalities/selcal_interface_signature.py
+      - research/modalities/tests/test_selcal_interface_signature.py
       - research/modalities/tests/test_selcal_xtal_panel.py
       - research/modalities/structural_provenance_census.py
       - research/modalities/selcal_deepternary_controls.py
@@ -97,6 +99,7 @@ jobs:
                             research/modalities/tests/test_selcal_dockq_decoy_scale.py \
                             research/modalities/tests/test_selcal_xtal_stage.py \
                             research/modalities/tests/test_selcal_xtal_panel.py \
+                            research/modalities/tests/test_selcal_interface_signature.py \
                             research/modalities/tests/test_selcal_panel.py -q
 
       - name: Resolve the prefix the panel actually froze
@@ -213,6 +216,21 @@ jobs:
             --pdb 9DTY \
             --out research/modalities/selcal-dockq-decoy-scale.json
 
+      # ★★ THE MD-FREE KNOWN-ANSWER TEST. The published mechanism for this pair is not a dynamical quantity:
+      # Kofink et al. name a selectivity-inducing hydrogen bond from Gln1469 of SMARCA2BD to VCB. A bond
+      # between two named partners is VISIBLE IN A DEPOSITED STRUCTURE, so "can a readout of this program's
+      # kind see the paralogue difference?" can be asked of a static interface descriptor, on the two
+      # crystals, for nothing — and the expected answer was published before this program existed.
+      # ⛔ A pass validates THIS descriptor on ONE contact in ONE pair. It does not validate E1 and it makes
+      # no NR4A3 prediction correct.
+      - name: Static paralogue interface signature — the published contact, on both crystals ($0)
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python3 research/modalities/selcal_interface_signature.py \
+            --native-dir /tmp/selcal_cofolds/_native \
+            --out research/modalities/selcal-interface-signature.json
+
       # ★ WHERE does the co-fold failure sit — the pockets, or the assembly of two correct halves? That
       # decides whether credible NR4A3 ternaries are obtainable from any route: an assembly-only failure names
       # the missing information (each end's site, which a ternary generator consumes and which reached DockQ
@@ -284,6 +302,7 @@ jobs:
             research/modalities/selcal-dockq-decoy-scale.json \
             research/modalities/selcal-xtal-census.json \
             research/modalities/selcal-cofold-decompose.json \
+            research/modalities/selcal-interface-signature.json \
             research/modalities/valb-frame-transfer-check.json \
             research/modalities/structural-provenance-census.json \
             research/modalities/deepternary-leakage-check.json \
