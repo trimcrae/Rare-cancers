@@ -110,6 +110,28 @@ def test_transform_pdb_coordinates_moves_only_coordinates(tmp_path):
     assert out[1][54:] == src.read_text().splitlines()[1][54:]       # byte-identical past the coordinates
 
 
+def test_transform_pdb_coordinates_works_in_place(tmp_path):
+    """src == dest is the ONLY way this is called. Streaming truncated all four files on run 30755624681."""
+    p = tmp_path / "lig.pdb"
+    p.write_text(
+        "HETATM    1  C1  LIG A 301       1.000   2.000   3.000  1.00  0.00           C\n"
+        "HETATM    2  C2  LIG A 301       2.500   2.000   3.000  1.00  0.00           C\n"
+        "CONECT    1    2\nEND\n")
+    n = FR.transform_pdb_coordinates(str(p), str(p), np.eye(3), np.array([5.0, 0.0, 0.0]))
+    assert n == 2, "in-place rewrite must not lose the source"
+    out = p.read_text().splitlines()
+    assert len(out) == 4 and out[2] == "CONECT    1    2"
+    assert out[0][30:54] == "%8.3f%8.3f%8.3f" % (6.0, 2.0, 3.0)
+
+
+def test_transform_pdb_coordinates_refuses_an_empty_file(tmp_path):
+    p = tmp_path / "empty.pdb"
+    p.write_text("REMARK nothing here\nEND\n")
+    with pytest.raises(ValueError):
+        FR.transform_pdb_coordinates(str(p), str(p), np.eye(3), np.zeros(3))
+    assert p.read_text().startswith("REMARK"), "a refusal must not have destroyed the input"
+
+
 def test_transform_preserves_every_interatomic_distance():
     """Why readability cannot change: a rigid motion is an isometry."""
     import math
