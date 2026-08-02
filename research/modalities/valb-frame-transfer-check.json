@@ -1,0 +1,102 @@
+{
+ "_what": "How different is a SMARCA2 ternary from a SMARCA4 ternary carrying the SAME degrader? This is the error a SMARCA4->SMARCA2 frame transfer inherits \u2014 the assumption valB's SMARCA2 arm rests on \u2014 and it is also the structural difference the selectivity programme is trying to detect.",
+ "_licenses": "NOTHING. It re-scores no valB leg, moves no ddG, amends no prereg and gates no launch. valB's own coordinates come straight from the crystal and its wrong-sign result stands.",
+ "_limits": [
+  "9DTY is 3.19 A and 9DTX is 2.11 A \u2014 some of any difference is resolution, not biology.",
+  "valB's arm is built on 8G1Q (3.73 A), not on 9DTY, so this BOUNDS the transfer error using the cleanest available pair rather than auditing that specific file.",
+  "A small difference does not certify the transfer; it removes the largest reason to doubt it. A large one does not invalidate valB, whose miss was localised to an endpoint-state error."
+ ],
+ "pair": {
+  "smarca2_pdb": "9DTY",
+  "smarca4_pdb": "9DTX",
+  "ligand_ccd": "A1BB4",
+  "ligand": "PRT3789"
+ },
+ "same_ligand_on_both_arms": true,
+ "_why_this_pair": "the only matched-ligand paralogue pair available: both carry PRT3789, so the paralogue term is isolated. 8G1Q vs 6HAX would conflate ligand with paralogue.",
+ "cross_paralogue_min_identity": 0.55,
+ "instruments": {
+  "interface_rmsd_fnat": {
+   "graded": true,
+   "why": null,
+   "interface_rmsd_A": 7.121,
+   "fnat": 0.5,
+   "n_native_contacts": 4,
+   "chain_map": {
+    "M": "D",
+    "R": "C",
+    "S": "B",
+    "T": "A"
+   }
+  },
+  "dockq": {
+   "interface": "DC",
+   "DockQ": 0.23889686336891028,
+   "quality_class": "Acceptable",
+   "fnat": 0.25,
+   "iRMSD_A": 2.655045988183884
+  },
+  "dockq_other_interfaces_context_only": [
+   {
+    "interface": "CA",
+    "DockQ": 0.9664722458906304,
+    "fnat": 1.0,
+    "iRMS": 0.45369578545264355
+   },
+   {
+    "interface": "BA",
+    "DockQ": 0.9284761284174246,
+    "fnat": 0.9473684210526315,
+    "iRMS": 0.6050148129817212
+   },
+   {
+    "interface": "CB",
+    "DockQ": 0.9254975717481816,
+    "fnat": 0.9411764705882353,
+    "iRMS": 0.6064901803649968
+   },
+   {
+    "interface": "DC",
+    "DockQ": 0.23889686336891028,
+    "fnat": 0.25,
+    "iRMS": 2.655045988183884
+   }
+  ]
+ },
+ "smarca2_chain_roles": {
+  "target": "M",
+  "e3": [
+   "R",
+   "T",
+   "S"
+  ],
+  "_derived": "read from selcal-cofold-vs-crystal.json's sequence-derived chain map; this module adds no chain-assignment logic of its own",
+  "_model_roles": {
+   "target": "A",
+   "e3": [
+    "E",
+    "F",
+    "G"
+   ]
+  }
+ },
+ "smarca4_chain_roles": {
+  "target": "D",
+  "e3": [
+   "C",
+   "A",
+   "B"
+  ],
+  "_derived": "read from selcal-cofold-vs-crystal.json's sequence-derived chain map; this module adds no chain-assignment logic of its own",
+  "_model_roles": {
+   "target": "A",
+   "e3": [
+    "E",
+    "F",
+    "G"
+   ]
+  }
+ },
+ "smarca2_chain_roles_error": null,
+ "graded": true
+}

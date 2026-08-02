@@ -1,0 +1,65 @@
+{
+ "_what": "Chain resolution + fragment verification for the DeepTernary head-to-head, before any prediction is made.",
+ "_licenses": "NOTHING about NR4A3, degradation or selectivity. A better score would license one sentence about generator placement.",
+ "_min_fragment_overlap": 0.55,
+ "_why_the_overlap_check": "the fragments were picked on an RCSB name and a molecular weight, which is not evidence of chemistry. A frame defined by an unrelated molecule points the generator at the wrong sub-site and the score would measure our input error rather than the generator.",
+ "degrader_comp": "A1BB4",
+ "arms": [
+  {
+   "name": "selcal_smarca2",
+   "ok": true,
+   "why": null,
+   "poi_chains": [
+    "A",
+    "B"
+   ],
+   "e3_chains": [
+    "C",
+    "K",
+    "L"
+   ],
+   "warhead_overlap": 1.0,
+   "warhead_overlap_detail": "MCS 21 atoms / fragment 21 heavy",
+   "anchor_overlap": 0.7778,
+   "anchor_overlap_detail": "MCS 28 atoms / fragment 36 heavy"
+  },
+  {
+   "name": "selcal_smarca4",
+   "ok": false,
+   "why": "warhead fragment 5BW shares only 0.4167 of its heavy atoms with the degrader A1BB4 (MCS 10 atoms / fragment 24 heavy) \u2014 below 0.55. A frame defined by an unrelated molecule points the generator at the wrong sub-site, so this arm is REFUSED rather than run.",
+   "poi_chains": [
+    "A",
+    "B"
+   ],
+   "e3_chains": [
+    "C",
+    "K",
+    "L"
+   ],
+   "warhead_overlap": 0.4167,
+   "warhead_overlap_detail": "MCS 10 atoms / fragment 24 heavy"
+  }
+ ],
+ "n_ready": 1,
+ "n_refused": 1,
+ "ready_configs": [
+  {
+   "name": "selcal_smarca2",
+   "poi_binary_pdb": "9DU0",
+   "warhead_comp": "A1BB5",
+   "e3_binary_pdb": "5NVX",
+   "anchor_comp": "4YY",
+   "degrader_comp": "A1BB4",
+   "native_pdb": "9DTY",
+   "poi_chains": [
+    "A",
+    "B"
+   ],
+   "e3_chains": [
+    "C",
+    "K",
+    "L"
+   ]
+  }
+ ]
+}

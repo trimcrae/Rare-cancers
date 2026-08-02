@@ -1,0 +1,112 @@
+{
+ "_what": "CURATED per-arm blind inputs for the DeepTernary head-to-head. Picked from the RCSB-sourced candidates in selcal-deepternary-controls.json -- never from memory.",
+ "_blindness_rule": "Only the native ternary POSE stays sealed. Public 'target binds warhead-class ligand' and 'VHL binds anchor-class ligand' binaries are legitimate inputs (deepternary-qualification-protocol sec 3) -- they carry no information about how the two proteins sit against each other, which is the thing being predicted.",
+ "_none_of_these_are_in_the_exclusion_set": "the sourcing query excluded all 4,471 disclosed ids. Binaries would not appear there anyway -- TernaryDB holds two-protein complexes -- so this is a weak guarantee and is stated as one.",
+ "arms": {
+  "selcal_smarca2": {
+   "native_ternary_sealed": "9DTY",
+   "our_cofold_score_to_beat": {
+    "DockQ": "0.023-0.046",
+    "fnat": 0.0,
+    "source": "selcal-cofold-dockq.json"
+   },
+   "poi_binary": {
+    "pdb": "9DU0",
+    "deposit_date": "2024-10-02",
+    "ligands": [
+     [
+      "A1BB5",
+      283
+     ],
+     [
+      "ZN",
+      65
+     ]
+    ],
+    "why": "same CCD series and deposition year as the degrader (A1BB5 vs A1BB4) -- the closest available warhead-class frame"
+   },
+   "e3_binary": {
+    "pdb": "5NVX",
+    "deposit_date": "2017-05-04",
+    "ligands": [
+     [
+      "4YY",
+      517
+     ]
+    ],
+    "why": "VHL with a 517 Da VH032-class ligand -- an anchor frame of the right chemotype"
+   },
+   "alternates": {
+    "poi": [
+     "9QAC",
+     "9QAD",
+     "9E30",
+     "9E31"
+    ],
+    "e3": [
+     "7CJB",
+     "6I7Q",
+     "6I7R",
+     "6GMQ"
+    ]
+   }
+  },
+  "selcal_smarca4": {
+   "native_ternary_sealed": "9DTX",
+   "our_cofold_score_to_beat": {
+    "DockQ": "0.023-0.046",
+    "fnat": 0.0,
+    "source": "selcal-cofold-dockq.json"
+   },
+   "poi_binary": {
+    "pdb": "5DKD",
+    "deposit_date": "2015-09-03",
+    "ligands": [
+     [
+      "ZN",
+      65
+     ],
+     [
+      "EDO",
+      62
+     ],
+     [
+      "5BW",
+      321
+     ]
+    ],
+    "why": "the ONLY SMARCA4 bromodomain binary with a drug-like ligand in the sourced set; chemotype is UNRELATED to the degrader's warhead and 9 years older"
+   },
+   "e3_binary": {
+    "pdb": "5NVX",
+    "deposit_date": "2017-05-04",
+    "ligands": [
+     [
+      "4YY",
+      517
+     ]
+    ],
+    "why": "VHL with a 517 Da VH032-class ligand -- an anchor frame of the right chemotype"
+   },
+   "alternates": {
+    "poi": [
+     "8EB1",
+     "7TD9",
+     "7TAB",
+     "7VRB"
+    ],
+    "e3": [
+     "7CJB",
+     "6I7Q",
+     "6I7R",
+     "6GMQ"
+    ]
+   }
+  }
+ },
+ "\u26a0_asymmetry_between_the_arms": "THE TWO ARMS ARE NOT EQUALLY WELL SUPPLIED, and that has to be visible before any number is read. SMARCA2 has a contemporaneous binary from the SAME CCD series as the degrader (A1BB5 vs the degrader's A1BB4, both deposited 2024), so its warhead frame is defined by a near-identical chemotype. SMARCA4 has NO such binary -- the best available is an unrelated chemotype from 2015. A worse SMARCA4 prediction would therefore be partly an input-quality artifact, not necessarily a property of the generator, and the arms are NOT comparable to each other. The comparison that IS valid is each arm against OUR OWN co-fold on that same arm, which is the head-to-head this was built for.",
+ "_open_before_running": [
+  "Ligand IDENTITY is taken from the RCSB record's name/MW, not verified as a substructure of PRT3789. The prep step must confirm the picked ligand actually overlaps the degrader's corresponding fragment, and REFUSE rather than proceed if it does not.",
+  "Per-arm chain ids for each binary are not yet resolved; deepternary_blind_prep is config-driven and needs them."
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "_what": "Which structures DeepTernary may have seen, for the specific PDB entries this program's claims about it rest on. A $0 lookup against the committed exclusion set.",
+ "_why": "Before building a fix on DeepTernary, two things had to be separated: whether our two test cases would be a VALID BLIND TEST, and whether the qualification numbers already quoted for it are blind performance or reproduction of seen structures. They are not the same claim and were being treated as one.",
+ "_licenses": "NOTHING about NR4A3, degradation or selectivity. It reads a committed list; it runs no model, scores no structure and gates no launch.",
+ "exclusion_set_source": "deepternary_exclusion_set.json (4,471 PDB ids extracted from DeepTernary's own split/list/manifest files at pinned commit 827821d)",
+ "n_ids_in_exclusion_set": 4471,
+ "data_horizon_max_deposit_date": "2023-10-14",
+ "horizon_rule": "A valid Step-3 blind control should deposit strictly AFTER this date.",
+ "structures": [
+  {
+   "pdb": "9DTY",
+   "in_training_or_exclusion_set": false,
+   "why_asked": "selcal SMARCA2 arm \u2014 the reference our co-folds were scored against today"
+  },
+  {
+   "pdb": "9DTX",
+   "in_training_or_exclusion_set": false,
+   "why_asked": "selcal SMARCA4 arm \u2014 same"
+  },
+  {
+   "pdb": "6HAX",
+   "in_training_or_exclusion_set": true,
+   "why_asked": "SMARCA2/VHL ternary behind DeepTernary's 0.62 qualification number"
+  },
+  {
+   "pdb": "6HR2",
+   "in_training_or_exclusion_set": true,
+   "why_asked": "SMARCA4/VHL ternary behind DeepTernary's 0.62 qualification number"
+  },
+  {
+   "pdb": "5T35",
+   "in_training_or_exclusion_set": true,
+   "why_asked": "MZ1/BRD4/VHL \u2014 behind the 0.66 / 0.83 qualification numbers"
+  },
+  {
+   "pdb": "6BOY",
+   "in_training_or_exclusion_set": true,
+   "why_asked": "CRBN/BRD4 \u2014 the qualification's one outright failure (0.06 / 0.15)"
+  },
+  {
+   "pdb": "6BN7",
+   "in_training_or_exclusion_set": true,
+   "why_asked": "CRBN/BRD4 \u2014 behind the 0.51 qualification number"
+  },
+  {
+   "pdb": "8G1Q",
+   "in_training_or_exclusion_set": true,
+   "why_asked": "the SMARCA4 frame valB's SMARCA2 arm is threaded into"
+  }
+ ],
+ "finding_valid_blind_test": "9DTY and 9DTX are NOT in the exclusion set, so scoring DeepTernary on the two selcal systems is a genuine blind test against the same references our Boltz co-folds were scored on today \u2014 a like-for-like head-to-head.",
+ "finding_qualification_numbers_are_not_blind": "\u26a0 5T35, 6HAX, 6HR2, 6BN7 and 6BOY ARE in the exclusion set. The DeepTernary qualification figures this program has quoted \u2014 PAE-top-1 DockQ 0.66 and best-of-16 0.83 on 5T35, 0.62 on 6HAX and 6HR2, 0.51 on 6BN7 \u2014 are therefore REPRODUCTION OF SEEN STRUCTURES, not blind performance. `deepternary-qualification-protocol.md` labelled that step a SOFTWARE-REPRODUCTION control and was right to; the error is in how the numbers were later quoted, including by me in this session, as evidence that DeepTernary 'already recovers these exact complexes'.",
+ "consequence_for_the_fix": "The expected blind performance of DeepTernary on a VHL neosubstrate interface is UNKNOWN and should be assumed worse than 0.62-0.83. The head-to-head is still worth running \u2014 it is cheap, and our current co-folds score 0.023-0.046 on the same references, so the bar to clear is low \u2014 but it must be presented as an open question, not as a fix with a known answer.",
+ "_the_one_caveat_on_this_artifact": "The exclusion set is what DeepTernary's own released files disclose. A structure absent from it is not PROVEN unseen \u2014 it is not listed as seen. That is weaker, and is the honest reading."
+}

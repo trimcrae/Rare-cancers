@@ -1,0 +1,132 @@
+{
+ "_what": "Where every lane's starting geometry comes from, and whether it has ever been compared to a reference. AN INVENTORY, NOT A VERDICT.",
+ "_why": "The selcal co-folds were measured at DockQ 0.023-0.046 / fnat 0.000 on the interface under test by two independent instruments, and nobody knew, because no lane in this repo had ever scored its starting structures against anything. This is the list of places the same defect could still be hiding.",
+ "_licenses": "NOTHING. It scores nothing, gates nothing, re-scores no leg and blocks no launch.",
+ "_evidence_is_verified_not_remembered": "every row names a file and a quote, and the quote is read back from that file at build time; a row whose quote no longer matches is emitted as EVIDENCE_STALE rather than as a fact",
+ "source_classes": {
+  "PREDICTED": "a co-fold or generative model \u2014 nothing anchors it to reality",
+  "SUBSTITUTED": "a real crystal frame with a different sequence threaded in \u2014 the frame is real, the arm is not, and an inherited interface is an assumption",
+  "COMPOSED": "assembled from two or more real structures \u2014 real atoms, modelled placement",
+  "DEPOSITED": "crystal coordinates \u2014 nothing to validate, it IS the reference",
+  "DERIVED": "a local edit of an already-staged structure"
+ },
+ "lanes": [
+  {
+   "lane": "selcal (SMARCA2/4 sensitivity control)",
+   "stager": "selcal_stage.py",
+   "source_class": "PREDICTED (co-fold / generative)",
+   "reference_available": [
+    "9DTY",
+    "9DTX"
+   ],
+   "validated_by": [
+    "selcal-cofold-vs-crystal.json",
+    "selcal-cofold-dockq.json"
+   ],
+   "finding": "MEASURED 2026-08-02, two independent instruments agreeing: target\u2194VHL DockQ 0.023-0.046, fnat 0.000, while the internal VHL/EloB/EloC interfaces score 0.89-0.97. The co-folds reproduce the E3 machinery and not the complex under test.",
+   "could_a_wrong_input_hide_here": "NO LONGER \u2014 this is the lane the defect was found in.",
+   "evidence_file": "selcal_stage.py",
+   "evidence_quote": "the deposited ternaries are used to VALIDATE the co-folds rather than to supply them",
+   "evidence_verified": true,
+   "evidence_detail": "quote found in selcal_stage.py"
+  },
+  {
+   "lane": "valB / ternary calibration (cooperativity)",
+   "stager": "ternary_pdb_stage.py",
+   "source_class": "DEPOSITED (crystal coordinates)",
+   "reference_available": [
+    "6HAX",
+    "8G1Q"
+   ],
+   "validated_by": null,
+   "finding": "Coordinates come straight from the crystal, so valB's wrong-sign result is NOT an input-quality artifact of the kind found in selcal and stands as measured. The two failed controls have DIFFERENT causes.",
+   "could_a_wrong_input_hide_here": "NO for the deposited chains \u2014 they are the reference. See the SMARCA2 arm row below, which is a different object.",
+   "evidence_file": "ternary_pdb_stage.py",
+   "evidence_quote": "every atom is from 6HAX (RCSB); nothing is fabricated",
+   "evidence_verified": true,
+   "evidence_detail": "quote found in ternary_pdb_stage.py"
+  },
+  {
+   "lane": "valB \u2014 the SMARCA2 arm specifically",
+   "stager": "smarca2_model.py",
+   "source_class": "SUBSTITUTED (real frame, modelled sequence)",
+   "reference_available": [
+    "9DTY",
+    "6HAX",
+    "6HAY",
+    "7S4E"
+   ],
+   "validated_by": null,
+   "finding": "\u2605 THE ONE LIVE CASE. SMARCA2 is threaded into a 3.73 \u00c5 SMARCA4 ternary frame, so its ternary INTERFACE is inherited from the donor complex rather than observed. Deposited SMARCA2 ternaries exist, so this is checkable \u2014 and has not been checked.",
+   "could_a_wrong_input_hide_here": "YES \u2014 and a reference exists, so it is answerable for $0.",
+   "confound_if_scored": "8G1Q carries Wurz compound 1 and 9DTY carries PRT3789, so a measured interface difference conflates PARALOGUE, LIGAND and RESOLUTION (3.73 \u00c5 vs 3.19 \u00c5). It bounds model fidelity; it does not cleanly measure it, and must be reported that way. 6HAX is the better comparator \u2014 a SMARCA2 ternary the lane already stages from \u2014 because it removes the paralogue term.",
+   "evidence_file": "smarca2_model.py",
+   "evidence_quote": "Build a relaxed SMARCA2 bromodomain model from the 8G1Q SMARCA4 bromodomain",
+   "evidence_verified": true,
+   "evidence_detail": "quote found in smarca2_model.py"
+  },
+  {
+   "lane": "NR-V04 retrospective (Arm E)",
+   "stager": "nrv04_ternary.py + nrv04_covalent_stage.py",
+   "source_class": "PREDICTED (co-fold / generative)",
+   "reference_available": [],
+   "validated_by": null,
+   "finding": "\u26d4 NO DEPOSITED NR-V04 TERNARY EXISTS, so no crystal comparison is possible and none may be manufactured. The honest analogue already measured is internal consistency with the lane's own assumed mechanism: celastrol C6 sits 28.42-39.11 \u00c5 from Cys551 across every clean model, against an 8.0 \u00c5 limit \u2014 a REFUSAL, not a score.",
+   "could_a_wrong_input_hide_here": "YES, AND IT IS UNFALSIFIABLE BY THIS METHOD. Same generator and same E3 as selcal, where the co-folds were measured wrong; but with no reference, 'unchecked' here can never become 'checked'.",
+   "evidence_file": "nrv04-ternary-benchmark.json",
+   "evidence_quote": "no solved ternary structure",
+   "evidence_verified": true,
+   "evidence_detail": "quote found in nrv04-ternary-benchmark.json"
+  },
+  {
+   "lane": "5a-KS (CRBN ternary FEP)",
+   "stager": "nr4a3_5aks_stage.py",
+   "source_class": "PREDICTED (co-fold / generative)",
+   "reference_available": [],
+   "validated_by": null,
+   "finding": "Co-folded CRBN ternaries of NR4A3 and NR4A1. No deposited NR4A-CRBN ternary exists, so the same unfalsifiability applies as for NR-V04.",
+   "could_a_wrong_input_hide_here": "YES, and no reference exists to settle it. \u26a0 A CRBN co-fold is additionally the arm DeepTernary's own qualification found WEAKEST (6BOY failed at DockQ 0.06/0.15 while its VHL cases reached 0.62-0.83), so this is the least-supported generator on the least-checkable lane.",
+   "evidence_file": "nr4a3_5aks_stage.py",
+   "evidence_quote": "turn the two co-folded ternaries into the FEP engine",
+   "evidence_verified": true,
+   "evidence_detail": "quote found in nr4a3_5aks_stage.py"
+  },
+  {
+   "lane": "E3 recruiter staging",
+   "stager": "nr4a3_e3_stage.py",
+   "source_class": "COMPOSED (real parts, modelled placement)",
+   "reference_available": [],
+   "validated_by": "an internal known-answer check inside the module itself",
+   "finding": "Composes an E3 body, a ligand exit vector and a RING domain from SEPARATE RCSB entries, with a bridge-RMSD refusal. Real atoms, modelled relative placement \u2014 but it is the one lane that already carries its own known-answer check on its own composition.",
+   "could_a_wrong_input_hide_here": "PARTLY GUARDED \u2014 alone among these lanes it checks itself.",
+   "evidence_file": "nr4a3_e3_stage.py",
+   "evidence_quote": "bridge",
+   "evidence_verified": true,
+   "evidence_detail": "quote found in nr4a3_e3_stage.py"
+  },
+  {
+   "lane": "step-1 fan-out (cmpd19 congeneric RBFE)",
+   "stager": "congeneric_pose_stage.py",
+   "source_class": "DERIVED (local edit of a staged structure)",
+   "reference_available": [],
+   "validated_by": null,
+   "finding": "NOT A TERNARY LANE and not the same risk: it stages BINARY ligand poses onto a shared scaffold so an RBFE edge's common mode holds geometrically. Its exposure is the assumed cmpd19 binding mode, which the paper already carries as an explicit double conditionality \u2014 a declared assumption, not an unexamined input.",
+   "could_a_wrong_input_hide_here": "DIFFERENT RISK, ALREADY DECLARED.",
+   "evidence_file": "congeneric_pose_stage.py",
+   "evidence_quote": "COMMON-MODE assumption",
+   "evidence_verified": true,
+   "evidence_detail": "quote found in congeneric_pose_stage.py"
+  }
+ ],
+ "n_lanes": 7,
+ "n_evidence_stale": 0,
+ "checkable_but_unchecked": [
+  "valB / ternary calibration (cooperativity)",
+  "valB \u2014 the SMARCA2 arm specifically"
+ ],
+ "unfalsifiable_by_this_method": [
+  "NR-V04 retrospective (Arm E)",
+  "5a-KS (CRBN ternary FEP)"
+ ],
+ "_the_uncomfortable_row": "Two lanes stage PREDICTED ternaries with NO deposited reference at all (NR-V04, 5a-KS). For those, 'unchecked' can never become 'checked' by this method \u2014 the selcal result raises the prior that they are wrong and supplies no way to find out. That is a limit to state, not to solve."
+}
