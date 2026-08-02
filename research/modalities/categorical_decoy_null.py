@@ -40,6 +40,7 @@ before the numbers.
 
 Usage
     python categorical_decoy_null.py plan                       # $0, no network: emit the prereg + pair plan
+    python categorical_decoy_null.py probe                      # raw AlphaFold API/file answers (diagnostic)
     python categorical_decoy_null.py fetch                      # AlphaFold DB models for the universe (CI)
     python categorical_decoy_null.py pairs                      # trim + all-vs-all identity + pair selection
     python categorical_decoy_null.py run --shard 0 --nshards 8  # the statistic, sharded BY TARGET
@@ -109,8 +110,9 @@ PREREG = {
                                  "limit, not hidden.",
     },
     "structures": {
-        "source": "AlphaFold DB, model_v4 (fallback v3, v2), one per accession — the only source that "
-                  "covers every member of the universe uniformly. Version and SHA-256 recorded per model.",
+        "source": "AlphaFold DB, one model per accession, resolved through the prediction API (the file "
+                  "URL's version number is NOT guessed — measured 2026-08-02, a hard-wired v4/v3/v2 file URL "
+                  "404'd on all 48). The resolved URL, model version and SHA-256 are recorded per model.",
         "domain_trim": "largest CONTIGUOUS run of residues with pLDDT >= MIN_PLDDT (70.0), minimum length "
                        "MIN_DOMAIN_LEN (120) residues. "
                        "Mechanical, identical for every protein, and it removes the disordered tails whose "
@@ -200,8 +202,15 @@ GATE = 12
 EXPOSED_RSA = PD.EXPOSED_RSA
 MIN_PLDDT = 70.0            # PREREG.structures.domain_trim — one home, referenced there in words
 MIN_DOMAIN_LEN = 120        # PREREG.structures.domain_trim
+# ⚠ MEASURED, NOT ASSUMED (run 30773302930, 2026-08-02 7:56 PM ET): the hard-wired file URL
+# `files/AF-{acc}-F1-model_v4.pdb` returned **HTTP 404 for all 48 accessions**, at v4, v3 and v2 alike — so
+# the model-version number is not a thing to guess. The DOCUMENTED lookup is the prediction API, which
+# returns the current `pdbUrl` for an accession whatever its version; the versioned file URLs stay only as a
+# fallback and now span a wider range. `probe` mode prints the raw API answer so a future failure is
+# diagnosed rather than re-guessed.
+AF_API = "https://alphafold.ebi.ac.uk/api/prediction/{acc}"
 AF_URL = "https://alphafold.ebi.ac.uk/files/AF-{acc}-F1-model_v{v}.pdb"
-AF_VERSIONS = (4, 3, 2)
+AF_VERSIONS = (6, 5, 4, 3, 2)
 
 
 # =========================================================================================================
@@ -352,8 +361,27 @@ def af_path(acc):
     return os.path.join(CACHE, "af", f"AF-{acc}.pdb")
 
 
+def _af_urls(acc, timeout=60):
+    """Candidate model URLs for one accession, API answer FIRST. Returns (urls, api_note)."""
+    urls, note = [], None
+    try:
+        with urllib.request.urlopen(AF_API.format(acc=acc), timeout=timeout) as fh:
+            recs = json.loads(fh.read().decode())
+        for r in (recs if isinstance(recs, list) else [recs]):
+            for key in ("pdbUrl", "cifUrl"):
+                if r.get(key) and str(r[key]).endswith(".pdb"):
+                    urls.append(r[key])
+        note = f"api ok, {len(urls)} pdb url(s)"
+    except Exception as ex:  # noqa: BLE001
+        note = f"api unusable: {type(ex).__name__}: {ex}"
+    urls += [AF_URL.format(acc=acc, v=v) for v in AF_VERSIONS]
+    return urls, note
+
+
 def fetch_af(acc, timeout=120):
-    """Download one AlphaFold model, newest version that exists. Returns metadata; raises on total failure."""
+    """Download one AlphaFold model. Returns metadata; raises on total failure, carrying EVERY URL tried and
+    its error, so a repeat of the 2026-08-02 all-404 failure is diagnosed from the artifact instead of
+    re-guessed."""
     os.makedirs(os.path.join(CACHE, "af"), exist_ok=True)
     dest = af_path(acc)
     if os.path.exists(dest) and os.path.getsize(dest) > 1000:
@@ -361,9 +389,9 @@ def fetch_af(acc, timeout=120):
         return {"accession": acc, "path": os.path.relpath(dest, REPO), "cached": True,
                 "sha256": hashlib.sha256(text.encode()).hexdigest()[:16],
                 "model_version": _recorded_version(dest)}
-    last = None
-    for v in AF_VERSIONS:
-        url = AF_URL.format(acc=acc, v=v)
+    urls, api_note = _af_urls(acc)
+    tried = []
+    for url in urls:
         try:
             with urllib.request.urlopen(url, timeout=timeout) as fh:
                 text = fh.read().decode()
@@ -373,11 +401,33 @@ def fetch_af(acc, timeout=120):
                 out.write(f"REMARK   1 SOURCE {url}\n")
                 out.write(text)
             return {"accession": acc, "path": os.path.relpath(dest, REPO), "cached": False,
-                    "model_version": v, "url": url,
+                    "model_version": _recorded_version(dest), "url": url, "api": api_note,
                     "sha256": hashlib.sha256(text.encode()).hexdigest()[:16]}
         except Exception as ex:  # noqa: BLE001
-            last = f"v{v}: {type(ex).__name__}: {ex}"
-    raise RuntimeError(f"AlphaFold fetch failed for {acc} ({last})")
+            tried.append(f"{url} -> {type(ex).__name__}: {ex}")
+    raise RuntimeError(f"AlphaFold fetch failed for {acc} [{api_note}]; tried: " + " | ".join(tried))
+
+
+def mode_probe(args):
+    """$0 diagnostic. Print the RAW AlphaFold API answer for one accession + one file-URL attempt, so a fetch
+    failure is root-caused from evidence rather than by trying version numbers (CLAUDE.md §4)."""
+    acc = os.environ.get("PROBE_ACC", NR4A1_ACC)
+    try:
+        with urllib.request.urlopen(AF_API.format(acc=acc), timeout=60) as fh:
+            body = fh.read().decode()
+        print(f"  [cdn] API {AF_API.format(acc=acc)} -> {len(body)} bytes")
+        print("  [cdn] " + body[:1200])
+    except Exception as ex:  # noqa: BLE001
+        print(f"  [cdn] API FAILED: {type(ex).__name__}: {ex}")
+    for v in AF_VERSIONS:
+        url = AF_URL.format(acc=acc, v=v)
+        try:
+            with urllib.request.urlopen(url, timeout=60) as fh:
+                n = len(fh.read())
+            print(f"  [cdn] FILE {url} -> OK ({n} bytes)")
+        except Exception as ex:  # noqa: BLE001
+            print(f"  [cdn] FILE {url} -> {type(ex).__name__}: {ex}")
+    return {}
 
 
 def _recorded_version(path):
@@ -639,6 +689,13 @@ def mode_fetch(args):
     with open(os.path.join(CACHE, "fetch.json"), "w") as fh:
         json.dump(out, fh, indent=2)
     print(f"  [cdn] {len(got)} models, {len(failed)} failures")
+    if not got:
+        raise SystemExit("  ABORT: 0 AlphaFold models fetched. Every downstream step would then run on an "
+                         "empty universe and emit a plan with 0 pairs over 0 targets — a green artifact "
+                         "produced by measuring nothing. Run `probe` for the raw API/file answers.")
+    if len(failed) > 0.25 * len(accs):
+        raise SystemExit(f"  ABORT: {len(failed)}/{len(accs)} AlphaFold fetches failed — the universe would "
+                         "be silently re-defined by whatever happened to download.")
     return out
 
 
@@ -993,6 +1050,11 @@ def mode_reduce(args):
         "runtime_note": "produced by research/modalities/categorical_decoy_null.py (modes plan/fetch/pairs/"
                         "run/reduce)",
     }
+    # ⛔ A background of zero rows is not a background. Publishing one would turn "we measured nothing"
+    # into a green artifact that reads as "the screen was calibrated" — the exact failure §4 warns about.
+    if not decoys:
+        raise SystemExit("  ABORT: no decoy rows reached reduce. Nothing was measured, so there is no "
+                         "background to publish. Check the shard artifacts and the refusal list.")
     with open(args.out, "w") as fh:
         json.dump(res, fh, indent=2)
     print(f"  [cdn] wrote {args.out}: graded={len(graded)} underpowered={len(underpowered)} "
@@ -1014,12 +1076,12 @@ def _stamp():
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("mode", choices=["plan", "fetch", "pairs", "selfcheck", "run", "reduce"])
+    ap.add_argument("mode", choices=["plan", "probe", "fetch", "pairs", "selfcheck", "run", "reduce"])
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--nshards", type=int, default=1)
     ap.add_argument("--out", default=OUT)
     args = ap.parse_args(argv)
-    return {"plan": mode_plan, "fetch": mode_fetch, "pairs": mode_pairs,
+    return {"plan": mode_plan, "probe": mode_probe, "fetch": mode_fetch, "pairs": mode_pairs,
             "selfcheck": mode_selfcheck, "run": mode_run, "reduce": mode_reduce}[args.mode](args)
 
 
