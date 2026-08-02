@@ -575,7 +575,8 @@
      "min_dist_A": 4.84,
      "n_contacts": 2,
      "polar_contacts": [],
-     "n_polar_contacts": 0
+     "n_polar_contacts": 0,
+     "n_sidechain_polar_contacts": 0
     },
     "GLU46": {
      "resname": "GLU",
@@ -591,10 +592,12 @@
        "e3_resseq": 17,
        "e3_atom": "NH1",
        "distance_A": 2.54,
+       "target_sidechain": true,
        "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
       }
      ],
-     "n_polar_contacts": 1
+     "n_polar_contacts": 1,
+     "n_sidechain_polar_contacts": 1
     },
     "LEU94": {
      "resname": "LEU",
@@ -603,7 +606,8 @@
      "min_dist_A": 3.4,
      "n_contacts": 21,
      "polar_contacts": [],
-     "n_polar_contacts": 0
+     "n_polar_contacts": 0,
+     "n_sidechain_polar_contacts": 0
     },
     "GLU95": {
      "resname": "GLU",
@@ -619,10 +623,12 @@
        "e3_resseq": 40,
        "e3_atom": "OD1",
        "distance_A": 2.85,
+       "target_sidechain": false,
        "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
       }
      ],
-     "n_polar_contacts": 1
+     "n_polar_contacts": 1,
+     "n_sidechain_polar_contacts": 0
     },
     "GLY96": {
      "resname": "GLY",
@@ -631,7 +637,8 @@
      "min_dist_A": 3.69,
      "n_contacts": 15,
      "polar_contacts": [],
-     "n_polar_contacts": 0
+     "n_polar_contacts": 0,
+     "n_sidechain_polar_contacts": 0
     },
     "SER97": {
      "resname": "SER",
@@ -640,7 +647,8 @@
      "min_dist_A": 4.02,
      "n_contacts": 22,
      "polar_contacts": [],
-     "n_polar_contacts": 0
+     "n_polar_contacts": 0,
+     "n_sidechain_polar_contacts": 0
     },
     "GLN98": {
      "resname": "GLN",
@@ -656,10 +664,12 @@
        "e3_resseq": 12,
        "e3_atom": "NH2",
        "distance_A": 2.88,
+       "target_sidechain": true,
        "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
       }
      ],
-     "n_polar_contacts": 1
+     "n_polar_contacts": 1,
+     "n_sidechain_polar_contacts": 1
     },
     "ILE99": {
      "resname": "ILE",
@@ -668,7 +678,8 @@
      "min_dist_A": 3.79,
      "n_contacts": 4,
      "polar_contacts": [],
-     "n_polar_contacts": 0
+     "n_polar_contacts": 0,
+     "n_sidechain_polar_contacts": 0
     },
     "GLU101": {
      "resname": "GLU",
@@ -677,7 +688,8 @@
      "min_dist_A": 4.35,
      "n_contacts": 3,
      "polar_contacts": [],
-     "n_polar_contacts": 0
+     "n_polar_contacts": 0,
+     "n_sidechain_polar_contacts": 0
     }
    },
    "contact_A": 5.0,
@@ -1305,7 +1317,8 @@
      "min_dist_A": 3.55,
      "n_contacts": 11,
      "polar_contacts": [],
-     "n_polar_contacts": 0
+     "n_polar_contacts": 0,
+     "n_sidechain_polar_contacts": 0
     },
     "LEU1545": {
      "resname": "LEU",
@@ -1321,10 +1334,12 @@
        "e3_resseq": 92,
        "e3_atom": "OD1",
        "distance_A": 2.93,
+       "target_sidechain": false,
        "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
       }
      ],
-     "n_polar_contacts": 1
+     "n_polar_contacts": 1,
+     "n_sidechain_polar_contacts": 0
     },
     "ILE1546": {
      "resname": "ILE",
@@ -1333,7 +1348,8 @@
      "min_dist_A": 4.95,
      "n_contacts": 1,
      "polar_contacts": [],
-     "n_polar_contacts": 0
+     "n_polar_contacts": 0,
+     "n_sidechain_polar_contacts": 0
     }
    },
    "contact_A": 5.0,
@@ -1354,8 +1370,12 @@
     "n_contacts_b": 0,
     "n_polar_a": 0,
     "n_polar_b": 0,
+    "n_sidechain_polar_a": 0,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": false,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": false,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [],
     "polar_detail_b": []
    },
@@ -1369,8 +1389,12 @@
     "n_contacts_b": 0,
     "n_polar_a": 1,
     "n_polar_b": 0,
+    "n_sidechain_polar_a": 1,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": true,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": true,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [
      {
       "target_atom": "OE1",
@@ -1379,6 +1403,7 @@
       "e3_resseq": 17,
       "e3_atom": "NH1",
       "distance_A": 2.54,
+      "target_sidechain": true,
       "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
      }
     ],
@@ -1394,8 +1419,12 @@
     "n_contacts_b": 0,
     "n_polar_a": 0,
     "n_polar_b": 0,
+    "n_sidechain_polar_a": 0,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": false,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": false,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [],
     "polar_detail_b": []
    },
@@ -1409,8 +1438,12 @@
     "n_contacts_b": 0,
     "n_polar_a": 1,
     "n_polar_b": 0,
+    "n_sidechain_polar_a": 0,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": true,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": false,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [
      {
       "target_atom": "O",
@@ -1419,6 +1452,7 @@
       "e3_resseq": 40,
       "e3_atom": "OD1",
       "distance_A": 2.85,
+      "target_sidechain": false,
       "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
      }
     ],
@@ -1434,8 +1468,12 @@
     "n_contacts_b": 0,
     "n_polar_a": 0,
     "n_polar_b": 0,
+    "n_sidechain_polar_a": 0,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": false,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": false,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [],
     "polar_detail_b": []
    },
@@ -1449,8 +1487,12 @@
     "n_contacts_b": 11,
     "n_polar_a": 0,
     "n_polar_b": 0,
+    "n_sidechain_polar_a": 0,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": false,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": false,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [],
     "polar_detail_b": []
    },
@@ -1464,8 +1506,12 @@
     "n_contacts_b": 10,
     "n_polar_a": 1,
     "n_polar_b": 1,
+    "n_sidechain_polar_a": 1,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": false,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": true,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [
      {
       "target_atom": "OE1",
@@ -1474,6 +1520,7 @@
       "e3_resseq": 12,
       "e3_atom": "NH2",
       "distance_A": 2.88,
+      "target_sidechain": true,
       "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
      }
     ],
@@ -1485,6 +1532,7 @@
       "e3_resseq": 92,
       "e3_atom": "OD1",
       "distance_A": 2.93,
+      "target_sidechain": false,
       "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
      }
     ]
@@ -1499,8 +1547,12 @@
     "n_contacts_b": 1,
     "n_polar_a": 0,
     "n_polar_b": 0,
+    "n_sidechain_polar_a": 0,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": false,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": false,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [],
     "polar_detail_b": []
    },
@@ -1514,8 +1566,12 @@
     "n_contacts_b": 0,
     "n_polar_a": 0,
     "n_polar_b": 0,
+    "n_sidechain_polar_a": 0,
+    "n_sidechain_polar_b": 0,
     "polar_only_in_a": false,
     "polar_only_in_b": false,
+    "sidechain_polar_only_in_a": false,
+    "sidechain_polar_only_in_b": false,
     "polar_detail_a": [],
     "polar_detail_b": []
    }
@@ -1525,15 +1581,38 @@
    "GLU95"
   ],
   "polar_only_in_b": [],
+  "sidechain_polar_only_in_a": [
+   "GLU46",
+   "GLN98"
+  ],
+  "sidechain_polar_only_in_b": [],
   "_aligned_by": "sequence, never residue number \u2014 the two paralogues are numbered in their own full-length proteins and equal numbers are different residues"
  },
  "known_answer": {
   "checked": true,
   "expected": "a Q on the SMARCA2 arm making a polar contact to VCB that the aligned SMARCA4 residue does not make (Kofink et al. 2022, PMC9551036)",
-  "n_matching_positions": 0,
-  "positions": [],
-  "recovered": false,
-  "sentence": "KNOWN ANSWER NOT RECOVERED: no aligned position has a glutamine making a polar contact on the SMARCA2 arm and not on SMARCA4. Either the descriptor cannot see the published contact or the copy compared does not contain it \u2014 and until that is resolved this descriptor may NOT be used to argue selectivity anywhere, including for NR4A3."
+  "n_matching_positions": 1,
+  "positions": [
+   {
+    "smarca2": "GLN98",
+    "smarca4": "LEU1545",
+    "smarca4_residue": "L",
+    "polar_contacts": [
+     {
+      "target_atom": "OE1",
+      "e3_chain": "R",
+      "e3_resname": "ARG",
+      "e3_resseq": 12,
+      "e3_atom": "NH2",
+      "distance_A": 2.88,
+      "target_sidechain": true,
+      "_proxy": "N/O heavy-atom pair within 3.5 A; no hydrogens are placed in these deposits"
+     }
+    ]
+   }
+  ],
+  "recovered": true,
+  "sentence": "KNOWN-ANSWER RECOVERED: the interface descriptor finds 1 position(s) where a glutamine on the SMARCA2 arm makes a SIDE-CHAIN polar contact to VCB and the aligned SMARCA4 residue makes none (GLN98 vs LEU1545). The published selectivity-inducing contact is visible to a static, MD-free readout \u2014 so a paralogue-discriminating contact IS detectable from a ternary structure. \u26d4 It validates THIS descriptor on ONE contact in ONE pair; it does not validate E1, and it makes no NR4A3 prediction correct."
  },
- "sentence": "KNOWN ANSWER NOT RECOVERED: no aligned position has a glutamine making a polar contact on the SMARCA2 arm and not on SMARCA4. Either the descriptor cannot see the published contact or the copy compared does not contain it \u2014 and until that is resolved this descriptor may NOT be used to argue selectivity anywhere, including for NR4A3."
+ "sentence": "KNOWN-ANSWER RECOVERED: the interface descriptor finds 1 position(s) where a glutamine on the SMARCA2 arm makes a SIDE-CHAIN polar contact to VCB and the aligned SMARCA4 residue makes none (GLN98 vs LEU1545). The published selectivity-inducing contact is visible to a static, MD-free readout \u2014 so a paralogue-discriminating contact IS detectable from a ternary structure. \u26d4 It validates THIS descriptor on ONE contact in ONE pair; it does not validate E1, and it makes no NR4A3 prediction correct."
 }
