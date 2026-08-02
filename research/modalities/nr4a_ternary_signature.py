@@ -121,7 +121,19 @@ def discriminating_positions(focus_sig, comparator_sigs):
     ⛔ EVERY comparator, not any: a contact present in NR4A3 and absent in NR4A2 but present in NR4A1 is not
     a discriminating contact for NR4A3, and reporting it as one is how a selectivity claim gets made out of a
     pairwise accident. The intersection is taken on the FOCUS side's own residue labels, so a position
-    survives only if it discriminates against the whole comparator set."""
+    survives only if it discriminates against the whole comparator set.
+
+    ★★ AND THE POSITION MUST BE CHEMICALLY DIVERGENT, WHICH THE FIRST VERSION DID NOT REQUIRE — measured, CI
+    run 30758705441: it returned SIX discriminating positions on this program's own NR4A ternaries, and
+    **five of them carry the identical residue in all three paralogues** (GLU104 E/E, ARG174 R/R, LYS195 K/K,
+    ARG219 R/R, LEU234 L/L). An identical residue cannot encode a paralogue difference. If NR4A1 has the same
+    glutamate at the aligned position and simply does not contact the E3 in ITS model, that is a difference
+    between three independently-folded structures — and this route's relative placement is wrong by a factor
+    of 10 where a crystal exists to check it. So a same-residue "discrimination" is a PLACEMENT ARTIFACT, and
+    counting it is how three wrong assemblies become a selectivity claim.
+
+    `discriminating` is therefore reported alongside `sequence_encoded` — the subset where the residue itself
+    differs — and only the latter is a candidate determinant."""
     import selcal_interface_signature as S
     per, sets = {}, []
     for name, sig in comparator_sigs.items():
@@ -138,7 +150,18 @@ def discriminating_positions(focus_sig, comparator_sigs):
                 rows.append({"comparator": name, **{k: r[k] for k in
                                                     ("a", "b", "aa_a", "aa_b", "identical_residue",
                                                      "n_polar_a", "n_polar_b", "polar_detail_a")}})
+    # A position is sequence-encoded only if the residue DIFFERS from every comparator's aligned residue.
+    encoded = sorted({p for p in common
+                      if all(not r["identical_residue"] for r in rows if r["a"] == p)})
+    same_residue = sorted(common - set(encoded))
     return {"discriminating": sorted(common), "n_discriminating": len(common),
+            "sequence_encoded": encoded, "n_sequence_encoded": len(encoded),
+            "same_residue_placement_artifact": same_residue,
+            "_why_same_residue_is_excluded": "an identical residue at the aligned position cannot encode a "
+                                             "paralogue difference; a contact present in one model and not "
+                                             "another is then a difference between independently-folded "
+                                             "structures, on a route whose relative placement is wrong by a "
+                                             "factor of 10 where a crystal exists to check it",
             "detail": rows, "pairwise": {k: {"polar_only_in_focus": v.get("polar_only_in_a"),
                                              "sequence_identity": v.get("sequence_identity"),
                                              "n_aligned_interface_positions":
@@ -181,14 +204,26 @@ def run(structures, target_chain, e3_chains, validated_path=None, provenance=Non
     if res.get("error"):
         doc["sentence"] = "REFUSED — %s" % res["error"]
         return doc
-    if res["n_discriminating"]:
+    if res["n_sequence_encoded"]:
         doc["sentence"] = (
-            "%d position(s) where the %s ternary makes a polar contact to the E3 that BOTH %s ternaries lack: "
-            "%s. ⛔ That is a structural HYPOTHESIS with a validated detector behind it — this position, this "
-            "residue difference, this contact — and it licenses a designed test (vary linker and exit vector, "
-            "ask whether the contact survives). It is not a demonstration of selectivity, and it is read off "
-            "structures from a route that scores DockQ 0.023-0.046 where it can be checked."
-            % (res["n_discriminating"], FOCUS, "/".join(COMPARATORS), ", ".join(res["discriminating"])))
+            "%d sequence-encoded position(s) where the %s ternary makes a polar contact to the E3 that BOTH "
+            "%s ternaries lack AND the residue itself differs: %s. (%d further position(s) discriminate on "
+            "contact alone but carry the IDENTICAL residue in all three — %s — and are excluded as placement "
+            "artifacts of three independently-folded structures.) ⛔ A structural HYPOTHESIS with a validated "
+            "detector behind it, licensing a designed test — vary linker and exit vector, ask whether the "
+            "contact survives. NOT a demonstration of selectivity: one model per paralogue, no replicates, "
+            "read off a route that scores DockQ 0.023-0.046 where it can be checked."
+            % (res["n_sequence_encoded"], FOCUS, "/".join(COMPARATORS), ", ".join(res["sequence_encoded"]),
+               len(res["same_residue_placement_artifact"]),
+               ", ".join(res["same_residue_placement_artifact"]) or "none"))
+    elif res["n_discriminating"]:
+        doc["sentence"] = (
+            "NO sequence-encoded discriminating contact. %d position(s) discriminate on contact alone (%s) "
+            "but EVERY one carries the identical residue in all three paralogues, so none can encode a "
+            "paralogue difference — they are placement differences between three independently-folded "
+            "structures, on a route whose relative placement is wrong by a factor of 10 where a crystal "
+            "exists to check it. A selective-ternary claim cannot be justified from this."
+            % (res["n_discriminating"], ", ".join(res["discriminating"])))
     else:
         doc["sentence"] = (
             "NO position where the %s ternary makes a polar contact to the E3 that both %s ternaries lack. "
