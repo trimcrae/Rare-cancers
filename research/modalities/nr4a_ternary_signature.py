@@ -212,14 +212,41 @@ def main(argv=None):
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a-ternary-signature.json"))
     args = ap.parse_args(argv)
 
-    structures = {}
+    # ⛔ SELECTION BY PATH TOKEN, WITH AN EXPLICIT DENY-LIST, AND A REFUSAL RATHER THAN A GUESS.
+    # The S3 prefix holds `boltz_results_nr4a3-ternary-control` beside `...-protac`, and the CONTROL's path
+    # contains the token "nr4a3" — so a naive substring match would hand the CRBN+E3-ligand control to the
+    # comparison as this program's NR4A3 ternary, and every number after that would be about the wrong
+    # structure. Paths are matched on the whole relative path (a paralogue may be encoded in a directory
+    # rather than a filename), control-like paths are excluded by name, and a paralogue with zero or
+    # several surviving candidates is REPORTED rather than resolved by preference.
+    DENY = ("control", "binary", "apo")
+    all_cif = sorted(glob.glob(os.path.join(args.root, "**", "*.cif"), recursive=True))
+    candidates, structures = {}, {}
     for p in (FOCUS,) + COMPARATORS:
-        for pat in (args.pattern.format(p=p.lower()), args.pattern.format(p=p)):
-            root = os.path.join(args.root, "**", pat) if args.recursive else os.path.join(args.root, pat)
-            hits = sorted(glob.glob(root, recursive=args.recursive))
-            if hits:
-                structures[p] = hits[0]
-                break
+        tok = p.lower()
+        hits = [f for f in all_cif
+                if tok in os.path.relpath(f, args.root).lower()
+                and not any(d in os.path.relpath(f, args.root).lower() for d in DENY)]
+        # a path naming two paralogues cannot be assigned to either
+        hits = [f for f in hits
+                if sum(1 for q in (FOCUS,) + COMPARATORS
+                       if q.lower() in os.path.relpath(f, args.root).lower()) == 1]
+        candidates[p] = [os.path.relpath(f, args.root) for f in hits]
+        if len(hits) == 1:
+            structures[p] = hits[0]
+        elif len(hits) > 1:
+            model0 = [f for f in hits if f.endswith("_model_0.cif")]
+            if len(model0) == 1:
+                structures[p] = model0[0]
+    unresolved = {p: candidates[p] for p in (FOCUS,) + COMPARATORS if p not in structures}
+    if unresolved:
+        json.dump({"error": "could not resolve exactly one ternary per paralogue; not guessing",
+                   "candidates": candidates, "unresolved": unresolved,
+                   "n_cif_under_root": len(all_cif), "root": args.root,
+                   "deny_tokens": list(DENY)}, open(args.out, "w"), indent=1)
+        print("[nr4a-signature] REFUSED: unresolved paralogue(s) %s (%d .cif under %s)"
+              % (sorted(unresolved), len(all_cif), args.root), flush=True)
+        return 5
 
     tgt, e3 = args.target_chain, ([c.strip() for c in (args.e3_chains or "").split(",") if c.strip()] or None)
     chain_detail = None
@@ -239,6 +266,8 @@ def main(argv=None):
 
     doc = run(structures, tgt, e3, validated_path=args.validated)
     doc["chain_resolution"] = chain_detail or {"_source": "given on the command line"}
+    doc["structure_selection"] = {"candidates": candidates, "deny_tokens": list(DENY),
+                                  "n_cif_under_root": len(all_cif)}
     json.dump(doc, open(args.out, "w"), indent=1)
     print(doc["sentence"], flush=True)
     return 0
