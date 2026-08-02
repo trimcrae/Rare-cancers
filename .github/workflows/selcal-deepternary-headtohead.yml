@@ -117,6 +117,38 @@ jobs:
             --base output/protac22 \
             --out "$RUNNER_TEMP/blind_prep_status.json"
           cat "$RUNNER_TEMP/blind_prep_status.json"
+          # ⚠ `prep_control` reports ok:true on a ligand file that exists with ZERO atoms — measured on run
+          # 30752845188, where unbound_lig1 extracted 0 atoms (a truncated residue name) and the contract
+          # check passed because it tests existence and size, not content. Assert the atom counts.
+          python3 -c "
+          import json, sys
+          st = json.load(open('$RUNNER_TEMP/blind_prep_status.json'))
+          bad = [(r['name'], k, v) for r in st for k, v in r['steps'].items()
+                 if k.startswith('unbound_') and isinstance(v, int) and v == 0]
+          print('zero-atom inputs:', bad or 'none')
+          sys.exit(5 if bad else 0)
+          "
+          # ⚠ THE LAST LINK. `extract_ligand` copies the ligand's HETATM lines only, stripping the CONECT
+          # records the conversion had just added — so RDKit gets a novel HETATM with no bonds and
+          # `MolFromPDBFile` returns None. Re-append them here, serials renumbered to these files' own
+          # numbering, bonds still sourced from the CCD rather than guessed from distances.
+          python3 "$GITHUB_WORKSPACE/research/modalities/selcal_deepternary_run.py" \
+            --configs "$RUNNER_TEMP/ready.json" \
+            --workdir /tmp/selcal_dt \
+            --fix-ligand-conect output/protac22 \
+            --out "$RUNNER_TEMP/conect_fix.json"
+          python3 -c "
+          from rdkit import Chem
+          import json, sys
+          bad = []
+          for c in json.load(open('$RUNNER_TEMP/ready.json')):
+              for f in ('unbound_lig1.pdb','unbound_lig2.pdb'):
+                  p = 'output/protac22/%s/%s' % (c['name'], f)
+                  m = Chem.MolFromPDBFile(p, removeHs=False, sanitize=True)
+                  print(f, c['name'], 'READABLE' if m else 'UNREADABLE')
+                  if m is None: bad.append(p)
+          sys.exit(3 if bad else 0)
+          "
 
       - name: Predict (CPU, 16 seeds)
         run: |

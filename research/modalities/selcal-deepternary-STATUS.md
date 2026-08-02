@@ -36,35 +36,46 @@ RDKit's PDB reader infers protein bonds from residue templates but has no templa
 or as "the inputs were bad". The inputs passed verification: the warhead is a perfect substructure of the
 degrader (21/21 heavy atoms).
 
-### Fix 1 attempted, and it exposed the next link (run 30752587351)
+### Plumbing chain: fully resolved, five CI runs (30752190988 → 30753431082)
 
-CONECT records ARE now emitted into the converted `_raw` PDB, sourced from the CCD's own
-`_chem_comp_bond` table keyed by atom name (`selcal_deepternary_run.ccd_bonds`). That part works and is
-kept. **It does not reach RDKit**: `deepternary_blind_prep.extract_ligand` builds `unbound_lig1.pdb` by
-copying the ligand's **HETATM lines only**, so the CONECT records are stripped one step later and the
-prediction fails identically.
+Every layer below is now **fixed and passing**. Each was found only by the run after the previous fix,
+and each returned a plausible-looking success rather than an error — the pattern this whole session has
+been about.
 
-So the full chain is: mmCIF-only entry → no CONECT on conversion (**fixed**) → `extract_ligand` drops
-CONECT (**open**) → RDKit sanitization fails → `predict_one_unbound` dies.
+| layer | defect | state |
+|---|---|---|
+| structure fetch | 9DU0/9DTY are mmCIF-only; `.pdb` 404s | fixed — fetch falls back to CIF |
+| CIF→PDB conversion | mmCIF has no CONECT; RDKit can't bond a novel HETATM | fixed — CONECT sourced from the CCD `_chem_comp_bond` table, never distance-guessed |
+| `extract_ligand` | copies HETATM lines only, stripping the CONECT just added | fixed — re-appended post-prep, serials renumbered to the extracted file |
+| **residue-name width** | **legacy PDB gives 3 columns; `A1BB5` truncated to `A1B`, so extraction found ZERO atoms — and `prep_control` still reported `ok: true`, because its contract tests file existence, not content** | **fixed — long CCD ids aliased to a short placeholder; extraction uses the alias, bond lookup keeps the real id; workflow now asserts every `unbound_*` atom count is non-zero** |
+| return-tuple edit | landed on `fix_ligand_conect` instead of `emit_raw` | fixed — both verified by AST walk rather than another CI round |
 
-**The remaining fix, precisely:** after `prep_control` runs, append CONECT records to `unbound_lig1.pdb`
-and `unbound_lig2.pdb` with serials renumbered to those files' own numbering. This is a post-prep step in
-*this* lane and needs no change to the module another lane owns. The bond tables are already fetched and
-cached by `ccd_bonds`.
+**Now passing:** blindness verified → inputs sourced and curated → fragments verified (SMARCA2 warhead
+overlap **1.000**; SMARCA4 refused at 0.417) → chains resolved to one E3 copy → six blind input files built
+→ ligand files readable by RDKit → non-zero atom counts asserted.
 
-**Alternative if that proves awkward:** write the ligand files as SDF from the CCD ideal and transform onto
-the extracted coordinates — but `predict_cpu.get_lig_coords` reads `unbound_lig1.pdb` by name, so this
-would also require patching the reader, which the workflow already does for `device='cuda'`. Prefer the
-CONECT append.
+## The open failure — inside the model, not the plumbing
 
-Neither is a spend; both are CPU. Two CI iterations were spent discovering this chain, each revealing the
-next layer — worth knowing before a third is started blind.
+Run 30753431082, step 9:
 
-## What must not happen next
+```
+RuntimeError: max(): Expected reduction dim to be specified for input.numel() == 0
+```
 
-- **Do not lower the 0.55 fragment bar to let the SMARCA4 arm in.** Its refusal is an input-availability
-  fact — no binary from the degrader's chemical series exists for SMARCA4 — and a score from an unrelated
-  frame would measure our input error and be quoted as the generator's.
-- **Do not quote DeepTernary's 0.62–0.83 figures as an expectation.** Those are on structures *inside* its
-  exclusion set (`deepternary-leakage-check.json`); blind performance here is unmeasured.
-- **Do not report an unrun arm as a zero.** Every module in this lane already refuses that; keep it.
+An **empty tensor inside DeepTernary's own forward path**. The inputs are now well-formed by every check
+this lane applies, so this is the first failure that is not file plumbing. Most likely candidate: no atom
+correspondence is being found between the extracted warhead fragment and the full degrader, leaving a
+zero-length index tensor — but that is a **hypothesis, not a diagnosis**, and it must be instrumented
+before it is acted on.
+
+**Next step:** run `predict_one_unbound` for the single ready arm directly, with the tensor shapes printed
+at each stage, and find which one is empty. Do **not** patch around it — a reduction over an empty tensor
+means something upstream selected nothing, and silencing it would produce a pose built from no
+correspondence at all.
+
+## Still binding
+
+- **Do not lower the 0.55 fragment bar** to admit the SMARCA4 arm.
+- **Do not quote DeepTernary's 0.62–0.83** as an expectation — those are on structures inside its exclusion set.
+- **Do not report an unrun arm as a zero.** The scorer already refuses this and says so:
+  *"No arm produced a scored prediction. Unrun is not a failed run."*

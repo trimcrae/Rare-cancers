@@ -265,6 +265,23 @@ def _cif_loop(text, prefix):
     return [], []
 
 
+#: Legacy PDB gives the residue-name field THREE columns (18-20). Modern CCD ids are five characters, which
+#: is a large part of why entries carrying them are deposited mmCIF-only. Truncating silently produced
+#: `A1BB5` -> `A1B`, so the downstream extractor found ZERO atoms for the warhead and `prep_control` still
+#: reported ok (it checks that the file exists, not that it has atoms). Long codes are therefore ALIASED to a
+#: short, unique, per-file placeholder, and the alias is RETURNED so every consumer uses the same name.
+#: The CCD bond lookup keeps using the real code — the alias is a file-format workaround, not a rename of
+#: the chemistry.
+def _alias_for(resnames):
+    out, used = {}, set()
+    for rn in sorted(r for r in resnames if len(r) > 3):
+        for i in range(1, 100):
+            cand = "L%02d" % i
+            if cand not in used and cand not in resnames:
+                out[rn] = cand; used.add(cand); break
+    return out
+
+
 def write_pdb(atoms, dest, conect_for=()):
     """Minimal PDB writer, so an mmCIF-only entry can still feed a PDB-only consumer.
 
@@ -275,6 +292,7 @@ def write_pdb(atoms, dest, conect_for=()):
     ligand extractors read."""
     n = 0
     serial = {}
+    alias = _alias_for({a.resname for a in atoms})
     with open(dest, "w") as fh:
         for i, a in enumerate(atoms, start=1):
             if i > 99999:
@@ -282,7 +300,8 @@ def write_pdb(atoms, dest, conect_for=()):
             rec = "HETATM" if a.hetatm else "ATOM  "
             nm = a.name if len(a.name) >= 4 else " %-3s" % a.name
             fh.write("%s%5d %-4s %3s %s%4d%s   %8.3f%8.3f%8.3f  1.00  0.00          %2s\n"
-                     % (rec, i, nm[:4], a.resname[:3], a.chain[:1], a.resseq, (a.icode or " ")[:1],
+                     % (rec, i, nm[:4], alias.get(a.resname, a.resname)[:3], a.chain[:1], a.resseq,
+                        (a.icode or " ")[:1],
                         a.x, a.y, a.z, (a.element or "")[:2].rjust(2)))
             n += 1
             serial[(a.chain, a.resseq, a.icode, a.name)] = i
@@ -298,14 +317,14 @@ def write_pdb(atoms, dest, conect_for=()):
                     if a1 in names and a2 in names:
                         fh.write("CONECT%5d%5d\n" % (names[a1], names[a2]))
         fh.write("END\n")
-    return n
+    return n, alias
 
 
 def emit_raw(configs, workdir, raw_dir):
     """Fetch every structure a config names and write it into `raw_dir` as <PDBID>.pdb."""
     import selcal_cofold_validate as V
     os.makedirs(raw_dir, exist_ok=True)
-    out = []
+    out, aliases = [], {}
     for cfg in configs:
         for key in ("poi_binary_pdb", "e3_binary_pdb", "native_pdb"):
             pid = cfg[key].upper()
@@ -326,17 +345,80 @@ def emit_raw(configs, workdir, raw_dir):
                     errs.append(berr)
                 else:
                     comps[comp] = b
-            n = write_pdb(atoms, dest, conect_for=comps)
+            n, alias = write_pdb(atoms, dest, conect_for=comps)
             out.append({"pdb": pid, "ok": n > 0, "n_atoms": n, "from": os.path.basename(src),
                         "conect_components": {c: len(b) for c, b in comps.items()},
                         "conect_errors": errs or None,
+                        "resname_alias": alias,
+                        "_alias_why": ("legacy PDB's residue-name field is 3 columns; a 5-character CCD id "
+                                       "would truncate and the downstream extractor would find zero atoms"),
                         "truncated_at_99999": n == 99999})
+            aliases.update(alias)
+    return out, aliases
+
+
+def append_conect(lig_pdb, comp_id, workdir):
+    """Append CONECT records to an already-extracted ligand PDB. (n_bonds_written, error).
+
+    ⚠ THE LAST LINK IN A THREE-STEP CHAIN, each step of which was discovered by a failed CI run:
+    mmCIF-only entry -> conversion drops CONECT (fixed in `write_pdb`) -> `deepternary_blind_prep.extract_
+    ligand` copies the ligand's HETATM lines ONLY, stripping the CONECT that had just been added -> RDKit
+    cannot sanitize a novel HETATM with no bonds and `MolFromPDBFile` returns None -> `predict_one_unbound`
+    dies on `.GetConformer()`.
+
+    Serials are re-read from THIS file rather than carried over, because the extracted file renumbers from 1.
+    Bonds come from the CCD's own `_chem_comp_bond` table, never from interatomic distances: a covalent-radius
+    guess would invent the very chemistry these records exist to state."""
+    if not os.path.exists(lig_pdb):
+        return 0, "ligand file absent: %s" % lig_pdb
+    bonds, berr = ccd_bonds(comp_id, workdir)
+    if berr:
+        return 0, berr
+    lines = open(lig_pdb).read().splitlines()
+    serial = {}
+    for ln in lines:
+        if ln[:6] in ("ATOM  ", "HETATM"):
+            try:
+                serial[ln[12:16].strip()] = int(ln[6:11])
+            except ValueError:
+                continue
+    if not serial:
+        return 0, "no atom records in %s" % os.path.basename(lig_pdb)
+    written, missing = [], set()
+    for a1, a2 in sorted(bonds):
+        if a1 in serial and a2 in serial:
+            written.append("CONECT%5d%5d" % (serial[a1], serial[a2]))
+        else:
+            missing |= {a for a in (a1, a2) if a not in serial}
+    if not written:
+        return 0, ("no CCD bond of %s could be mapped onto %s — atom names do not correspond"
+                   % (comp_id, os.path.basename(lig_pdb)))
+    body = [l for l in lines if l.strip() != "END"]
+    open(lig_pdb, "w").write("\n".join(body + written + ["END"]) + "\n")
+    return len(written), (None if not missing else
+                          "%d CCD atom name(s) absent from the extracted file (%s) — those bonds were "
+                          "skipped, not guessed" % (len(missing), ",".join(sorted(missing)[:6])))
+
+
+def fix_ligand_conect(configs, base, workdir):
+    """Repair every ready arm's extracted ligand files in place."""
+    out = []
+    for cfg in configs:
+        d = os.path.join(base, cfg["name"])
+        for fn, comp in (("unbound_lig1.pdb", cfg.get("warhead_comp_real", cfg["warhead_comp"])),
+                         ("unbound_lig2.pdb", cfg.get("anchor_comp_real", cfg["anchor_comp"]))):
+            n, err = append_conect(os.path.join(d, fn), comp, workdir)
+            out.append({"arm": cfg["name"], "file": fn, "comp": comp, "n_conect": n, "note": err,
+                        "ok": n > 0})
     return out
 
 
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Prep + run + score the DeepTernary head-to-head ($0 CPU).")
+    ap.add_argument("--fix-ligand-conect", default=None,
+                    help="prep base dir (e.g. output/protac22): append CCD-sourced CONECT to the extracted "
+                         "ligand files of every ready arm, then exit")
     ap.add_argument("--emit-raw", default=None,
                     help="also write every named structure into this dir as <PDBID>.pdb (for a PDB-only consumer)")
     ap.add_argument("--configs", default=os.path.join(HERE, "selcal-deepternary-prep-configs.json"))
@@ -346,6 +428,14 @@ def main(argv=None):
 
     cfgdoc = json.load(open(args.configs))
     cfgs = cfgdoc["configs"] if isinstance(cfgdoc, dict) else cfgdoc
+    if args.fix_ligand_conect:
+        rows = fix_ligand_conect(cfgs, args.fix_ligand_conect, args.workdir)
+        for r in rows:
+            print("  %-16s %-20s %s %d CONECT%s" % (r["arm"], r["file"], "ok " if r["ok"] else "FAILED",
+                                                    r["n_conect"], "  — %s" % r["note"] if r["note"] else ""),
+                  flush=True)
+        json.dump(rows, open(args.out, "w"), indent=1)
+        return 0 if all(r["ok"] for r in rows) else 4
     degrader = cfgs[0]["degrader_comp"]
     ready, report = prepare(cfgs, args.workdir, degrader)
 
@@ -366,7 +456,15 @@ def main(argv=None):
         "ready_configs": ready,
     }
     if args.emit_raw and ready:
-        doc["raw_emitted"] = emit_raw(ready, args.workdir, args.emit_raw)
+        doc["raw_emitted"], aliases = emit_raw(ready, args.workdir, args.emit_raw)
+        doc["resname_aliases"] = aliases
+        # Consumers must extract by the ALIAS (what is in the file) while bonds are still looked up by the
+        # REAL CCD id. Both are carried explicitly so neither is inferred.
+        for c in ready:
+            for k in ("warhead_comp", "anchor_comp"):
+                c[k + "_real"] = c[k]
+                c[k] = aliases.get(c[k], c[k])
+        doc["ready_configs"] = ready
         for r in doc["raw_emitted"]:
             print("  raw %s %s %s" % (r["pdb"], "ok" if r["ok"] else "FAILED",
                                       r.get("why") or "%d atoms from %s" % (r.get("n_atoms", 0),
