@@ -1,0 +1,64 @@
+[
+ {
+  "arm": "selcal_smarca2",
+  "ok": true,
+  "why": null,
+  "native_pdb": "9DTY",
+  "degrader_comp": "A1BB4",
+  "detail": {
+   "native_roles": {
+    "target": "M",
+    "e3": [
+     "R",
+     "T",
+     "S"
+    ],
+    "_derived": "read from selcal-cofold-vs-crystal.json's sequence-derived chain map; this module adds no chain-assignment logic of its own",
+    "_model_roles": {
+     "target": "A",
+     "e3": [
+      "E",
+      "F",
+      "G"
+     ]
+    }
+   },
+   "native_atom_counts": {
+    "target": 901,
+    "e3": 1214,
+    "degrader": 64
+   },
+   "superpose_p1": {
+    "unbound_chain": "A",
+    "native_chain": "M",
+    "identity": 0.9908,
+    "n_ca_pairs": 108,
+    "ca_rmsd_A": 0.581
+   },
+   "superpose_p2": {
+    "unbound_chain": "C",
+    "native_chain": "R",
+    "identity": 1.0,
+    "n_ca_pairs": 140,
+    "ca_rmsd_A": 0.577
+   },
+   "snap_p1_warhead": {
+    "n_degrader_atoms_within_1A": 19,
+    "closest_approach_A": 0.389
+   },
+   "snap_p2_anchor": {
+    "n_degrader_atoms_within_1A": 30,
+    "closest_approach_A": 0.232
+   },
+   "ccd_bonds": "130 bonds",
+   "written": {
+    "protein1": 901,
+    "protein2": 1214,
+    "gt_complex": 2179,
+    "ligand": 64,
+    "ligand_resname_alias": "L01"
+   },
+   "ideal_sdf_seeded": "data/TernaryDB/ligand_ideal/smarca2_ideal.sdf"
+  }
+ }
+]
