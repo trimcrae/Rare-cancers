@@ -49,6 +49,8 @@ on:
       - research/modalities/selcal_xtal_panel.py
       - research/modalities/selcal_cofold_decompose.py
       - research/modalities/selcal_interface_signature.py
+      - research/modalities/nr4a_ternary_signature.py
+      - research/modalities/tests/test_nr4a_ternary_signature.py
       - research/modalities/tests/test_selcal_interface_signature.py
       - research/modalities/tests/test_selcal_xtal_panel.py
       - research/modalities/structural_provenance_census.py
@@ -100,6 +102,7 @@ jobs:
                             research/modalities/tests/test_selcal_xtal_stage.py \
                             research/modalities/tests/test_selcal_xtal_panel.py \
                             research/modalities/tests/test_selcal_interface_signature.py \
+                            research/modalities/tests/test_nr4a_ternary_signature.py \
                             research/modalities/tests/test_selcal_panel.py -q
 
       - name: Resolve the prefix the panel actually froze
@@ -269,6 +272,27 @@ jobs:
           echo "=== staged units ==="
           find /tmp/selcal_xtal_units -maxdepth 1 -mindepth 1 -type d | sort | awk 'NR<=30'
 
+      # ★★ THE GOAL'S OWN QUESTION, asked only if the descriptor earned the right to be asked it. Sync this
+      # program's NR4A1/2/3 ternaries and check whether the NR4A3 one presents a polar contact to the E3 that
+      # BOTH the others lack. The module REFUSES before reading a structure unless the interface signature
+      # above recovered the published SMARCA2 Gln1469 contact.
+      # ⛔ The honest prior is negative: the paper's own section 2.5/2.7 records comparable confidence across
+      # all three paralogues for the representative linker. A null here is the finding, not a failed run.
+      - name: Does any NR4A3 ternary we hold discriminate? ($0, gated on the known answer)
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          mkdir -p /tmp/nr4a_ternary
+          aws s3 sync "s3://$BUCKET/nr4a3-ternary/" /tmp/nr4a_ternary/ \
+            --exclude "*" --include "*.cif" --only-show-errors || true
+          echo "=== what landed ==="
+          find /tmp/nr4a_ternary -name '*.cif' | sed 's|/tmp/nr4a_ternary/||' | sort | awk 'NR<=40'
+          echo "n_cif=$(find /tmp/nr4a_ternary -name '*.cif' | wc -l)"
+          python3 research/modalities/nr4a_ternary_signature.py \
+            --root /tmp/nr4a_ternary --recursive \
+            --pattern '*{p}*.cif' \
+            --out research/modalities/nr4a-ternary-signature.json
+
       # ★ THE FIX EXPERIMENT, step 1: source non-native binary inputs so DeepTernary can be run on the same
       # two systems our co-folds scored 0.023-0.046 on. The exclusion-set check ran first
       # (deepternary-leakage-check.json: 9DTY/9DTX are post-horizon) and the module refuses to source
@@ -307,6 +331,7 @@ jobs:
             research/modalities/selcal-xtal-census.json \
             research/modalities/selcal-cofold-decompose.json \
             research/modalities/selcal-interface-signature.json \
+            research/modalities/nr4a-ternary-signature.json \
             research/modalities/valb-frame-transfer-check.json \
             research/modalities/structural-provenance-census.json \
             research/modalities/deepternary-leakage-check.json \

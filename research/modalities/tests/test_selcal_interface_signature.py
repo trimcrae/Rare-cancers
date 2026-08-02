@@ -104,8 +104,11 @@ def test_comparison_aligns_by_sequence_not_residue_number():
 
 def test_known_answer_recovered_when_a_glutamine_contacts_only_on_the_smarca2_arm():
     cmp_doc = {"rows": [{"a": "GLN1469", "b": "LEU1609", "aa_a": "Q", "aa_b": "L",
+                         "identical_residue": False, "n_contacts_a": 34, "n_contacts_b": 10,
                          "polar_only_in_a": True, "polar_only_in_b": False,
-                         "polar_detail_a": [{"target_atom": "NE2", "distance_A": 2.9}],
+                         "sidechain_polar_only_in_a": True, "sidechain_polar_only_in_b": False,
+                         "polar_detail_a": [{"target_atom": "NE2", "distance_A": 2.9,
+                                             "target_sidechain": True}],
                          "polar_detail_b": []}]}
     k = S.known_answer_check(cmp_doc)
     assert k["recovered"] is True and k["n_matching_positions"] == 1
@@ -115,8 +118,11 @@ def test_known_answer_recovered_when_a_glutamine_contacts_only_on_the_smarca2_ar
 
 def test_a_non_glutamine_hit_does_not_count_as_the_published_contact():
     cmp_doc = {"rows": [{"a": "LYS1400", "b": "GLU1540", "aa_a": "K", "aa_b": "E",
+                         "identical_residue": False, "n_contacts_a": 5, "n_contacts_b": 5,
                          "polar_only_in_a": True, "polar_only_in_b": False,
-                         "polar_detail_a": [{"target_atom": "NZ", "distance_A": 2.9}],
+                         "sidechain_polar_only_in_a": True, "sidechain_polar_only_in_b": False,
+                         "polar_detail_a": [{"target_atom": "NZ", "distance_A": 2.9,
+                                             "target_sidechain": True}],
                          "polar_detail_b": []}]}
     k = S.known_answer_check(cmp_doc)
     assert k["recovered"] is False
@@ -134,8 +140,11 @@ def test_the_check_does_not_depend_on_the_published_residue_number():
     src = open(os.path.join(MOD, "selcal_interface_signature.py")).read()
     assert "does not depend on it" in src
     cmp_doc = {"rows": [{"a": "GLN7", "b": "ALA7", "aa_a": "Q", "aa_b": "A",
+                         "identical_residue": False, "n_contacts_a": 4, "n_contacts_b": 2,
                          "polar_only_in_a": True, "polar_only_in_b": False,
-                         "polar_detail_a": [{"distance_A": 3.0}], "polar_detail_b": []}]}
+                         "sidechain_polar_only_in_a": True, "sidechain_polar_only_in_b": False,
+                         "polar_detail_a": [{"distance_A": 3.0, "target_sidechain": True}],
+                         "polar_detail_b": []}]}
     assert S.known_answer_check(cmp_doc)["recovered"] is True
 
 
@@ -159,3 +168,31 @@ def test_the_reference_quote_is_read_from_the_frozen_panel():
     src = open(os.path.join(MOD, "selcal_interface_signature.py")).read()
     assert 'P.REFERENCE.get("pair_mechanism_quote")' in src
     assert P.REFERENCE["pair_mechanism_quote"]
+
+
+# ---------- the distinction that cost a real recovery ---------------------------------------------------------
+
+
+def test_a_backbone_polar_contact_does_not_mask_a_sidechain_substitution():
+    """MEASURED (run 30757920977): SMARCA2 GLN98 OE1->ARG12.NH2 2.88 A; the aligned SMARCA4 residue is a
+    LEUCINE whose BACKBONE amide contacts ASP92 at 2.93 A. Counting that as "SMARCA4 contacts here too" hid
+    the published substitution behind an interaction of a different kind."""
+    atoms = [
+        _atom("A", 98, "GLN", "OE1", (0.0, 0.0, 0.0), element="O"),
+        _atom("B", 12, "ARG", "NH2", (2.88, 0.0, 0.0), element="N"),
+    ]
+    a = S.residue_contacts(atoms, "A", {"B"})
+    assert a["GLN98"]["n_sidechain_polar_contacts"] == 1
+
+    atoms_b = [
+        _atom("A", 1545, "LEU", "N", (0.0, 0.0, 0.0), element="N"),
+        _atom("B", 92, "ASP", "OD1", (2.93, 0.0, 0.0), element="O"),
+    ]
+    b = S.residue_contacts(atoms_b, "A", {"B"})
+    assert b["LEU1545"]["n_polar_contacts"] == 1
+    assert b["LEU1545"]["n_sidechain_polar_contacts"] == 0, "N is a backbone atom"
+
+
+def test_backbone_atom_names_are_declared():
+    assert S.BACKBONE == {"N", "CA", "C", "O", "OXT"}
+    assert S._sidechain("OE1") is True and S._sidechain("N") is False

@@ -53,8 +53,16 @@ def contact_a():
     return V.FNAT_CONTACT_A
 
 
+#: Protein backbone atom names. Everything else on a residue is side chain.
+BACKBONE = {"N", "CA", "C", "O", "OXT"}
+
+
 def _polar(atom):
     return (atom.element or atom.name[:1]).upper() in ("N", "O")
+
+
+def _sidechain(name):
+    return name.strip().upper() not in BACKBONE
 
 
 def residue_contacts(atoms, target_chain, e3_chains, cutoff=None, polar_cutoff=HBOND_MAX_A):
@@ -88,9 +96,11 @@ def residue_contacts(atoms, target_chain, e3_chains, cutoff=None, polar_cutoff=H
                 "target_atom": ats[i].name, "e3_chain": e3[j].chain,
                 "e3_resname": e3[j].resname, "e3_resseq": e3[j].resseq, "e3_atom": e3[j].name,
                 "distance_A": round(float(d[i, j]), 2),
+                "target_sidechain": _sidechain(ats[i].name),
                 "_proxy": "N/O heavy-atom pair within %.1f A; no hydrogens are placed in these deposits"
                           % polar_cutoff})
         rec["n_polar_contacts"] = len(rec["polar_contacts"])
+        rec["n_sidechain_polar_contacts"] = sum(1 for c in rec["polar_contacts"] if c["target_sidechain"])
         out["%s%d%s" % (resname, resseq, icode.strip())] = rec
     return out
 
@@ -148,19 +158,32 @@ def compare(sig_a, sig_b):
         aa_b = sig_b["target_sequence"][ib]
         pa = va["n_polar_contacts"] if va else 0
         pb = vb["n_polar_contacts"] if vb else 0
+        # ⛔ SIDE CHAIN vs BACKBONE IS THE DISTINCTION THAT MATTERS, and ignoring it cost a real recovery.
+        # The published claim is a hydrogen bond from the SIDE CHAIN of a glutamine. At the aligned position
+        # SMARCA4 carries a LEUCINE, which cannot make that bond — but its BACKBONE amide does contact the
+        # E3, and counting that as "SMARCA4 also makes a polar contact here" hid the substitution behind an
+        # interaction of a different kind (measured, CI run 30757920977: GLN98 OE1->ARG12.NH2 2.88 A vs
+        # LEU1545 N->ASP92.OD1 2.93 A).
+        sa = va.get("n_sidechain_polar_contacts", 0) if va else 0
+        sb = vb.get("n_sidechain_polar_contacts", 0) if vb else 0
         if not va and not vb:
             continue
         rows.append({"a": ka, "b": kb, "aa_a": aa_a, "aa_b": aa_b, "identical_residue": aa_a == aa_b,
                      "n_contacts_a": va["n_contacts"] if va else 0,
                      "n_contacts_b": vb["n_contacts"] if vb else 0,
                      "n_polar_a": pa, "n_polar_b": pb,
+                     "n_sidechain_polar_a": sa, "n_sidechain_polar_b": sb,
                      "polar_only_in_a": bool(pa and not pb), "polar_only_in_b": bool(pb and not pa),
+                     "sidechain_polar_only_in_a": bool(sa and not sb),
+                     "sidechain_polar_only_in_b": bool(sb and not sa),
                      "polar_detail_a": (va or {}).get("polar_contacts", []),
                      "polar_detail_b": (vb or {}).get("polar_contacts", [])})
     return {"sequence_identity": round(ident, 4), "n_aligned_interface_positions": len(rows),
             "rows": rows,
             "polar_only_in_a": [r["a"] for r in rows if r["polar_only_in_a"]],
             "polar_only_in_b": [r["b"] for r in rows if r["polar_only_in_b"]],
+            "sidechain_polar_only_in_a": [r["a"] for r in rows if r["sidechain_polar_only_in_a"]],
+            "sidechain_polar_only_in_b": [r["b"] for r in rows if r["sidechain_polar_only_in_b"]],
             "_aligned_by": "sequence, never residue number — the two paralogues are numbered in their own "
                            "full-length proteins and equal numbers are different residues"}
 
@@ -170,7 +193,12 @@ def known_answer_check(cmp_doc, expected_residue_letter="Q"):
 
     The published claim is a selectivity-inducing hydrogen bond from **Gln1469 of SMARCA2BD** to VCB. What is
     checkable without trusting author numbering: at least one aligned interface position where the SMARCA2
-    residue is a GLUTAMINE, makes a polar contact to the E3, and the aligned SMARCA4 residue does not.
+    residue is a GLUTAMINE, makes a SIDE-CHAIN polar contact to the E3, and the aligned SMARCA4 residue makes
+    no side-chain polar contact of its own.
+
+    ⛔ SIDE CHAIN, NOT ANY POLAR CONTACT — the first version tested "any", and it missed the real recovery.
+    SMARCA4 carries a LEUCINE at the aligned position, which cannot make the published bond, but its BACKBONE
+    amide does touch the E3; counting that hid the substitution behind an interaction of a different kind.
 
     ⚠ The residue NUMBER is reported when it is present, but the check does not depend on it — a deposit is
     free to number its construct however it likes, and a check that hinged on 1469 would fail for a reason
@@ -178,7 +206,7 @@ def known_answer_check(cmp_doc, expected_residue_letter="Q"):
     if cmp_doc.get("error"):
         return {"checked": False, "why": cmp_doc["error"]}
     hits = [r for r in cmp_doc.get("rows", [])
-            if r["polar_only_in_a"] and r["aa_a"] == expected_residue_letter]
+            if r.get("sidechain_polar_only_in_a") and r["aa_a"] == expected_residue_letter]
     doc = {"checked": True,
            "expected": "a %s on the SMARCA2 arm making a polar contact to VCB that the aligned SMARCA4 "
                        "residue does not make (Kofink et al. 2022, PMC9551036)" % expected_residue_letter,
@@ -189,7 +217,8 @@ def known_answer_check(cmp_doc, expected_residue_letter="Q"):
     if hits:
         doc["sentence"] = (
             "KNOWN-ANSWER RECOVERED: the interface descriptor finds %d position(s) where a glutamine on the "
-            "SMARCA2 arm makes a polar contact to VCB and the aligned SMARCA4 residue does not (%s). The "
+            "SMARCA2 arm makes a SIDE-CHAIN polar contact to VCB and the aligned SMARCA4 residue makes none "
+            "(%s). The "
             "published selectivity-inducing contact is visible to a static, MD-free readout — so a "
             "paralogue-discriminating contact IS detectable from a ternary structure. ⛔ It validates THIS "
             "descriptor on ONE contact in ONE pair; it does not validate E1, and it makes no NR4A3 "
