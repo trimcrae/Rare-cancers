@@ -1,7 +1,7 @@
 {
  "_what": "ACCOUNT-KEYED CENTRAL REAPER \u2014 the one thing in the repo that destroys Vast hosts on a narrow, provably-safe predicate, keyed on the account so no lane's private teardown bug can leave a box billing. RULE 1: terminal state, unconditional. RULE 2: unit recorded done AND its output verified present in the object store, attributed to THIS rental by timestamp. Nothing else may destroy.",
- "generated_utc": "2026-08-01T23:51:27Z",
- "generated_et": "7:51 PM ET Aug 1, 2026",
+ "generated_utc": "2026-08-01T23:59:57Z",
+ "generated_et": "7:59 PM ET Aug 1, 2026",
  "mode": "ARMED",
  "thresholds": {
   "census_stale_min": 20.0,
@@ -25,7 +25,7 @@
  ],
  "census_utc": "2026-08-01T23:42:41Z",
  "census_et": "7:42 PM ET Aug 1, 2026",
- "census_age_min": 8.8,
+ "census_age_min": 17.3,
  "census_n_instances": 9,
  "graded": true,
  "reap": [
@@ -203,23 +203,7 @@
  ],
  "execution": {
   "mode": "ARMED",
-  "destroyed": [
-   {
-    "instance": 46548467,
-    "rule": "RULE-1-TERMINAL",
-    "outcome": "DESTROYED"
-   },
-   {
-    "instance": 46548470,
-    "rule": "RULE-1-TERMINAL",
-    "outcome": "DESTROYED"
-   },
-   {
-    "instance": 46548475,
-    "rule": "RULE-1-TERMINAL",
-    "outcome": "DESTROYED"
-   }
-  ],
+  "destroyed": [],
   "failed": [
    {
     "instance": 46539178,
@@ -230,6 +214,21 @@
     "instance": 46543865,
     "rule": "RULE-1-TERMINAL",
     "error": "RuntimeError: vast API DELETE /instances/46543865/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46543865 not found.\"}"
+   },
+   {
+    "instance": 46548467,
+    "rule": "RULE-1-TERMINAL",
+    "error": "RuntimeError: vast API DELETE /instances/46548467/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46548467 not found.\"}"
+   },
+   {
+    "instance": 46548470,
+    "rule": "RULE-1-TERMINAL",
+    "error": "RuntimeError: vast API DELETE /instances/46548470/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46548470 not found.\"}"
+   },
+   {
+    "instance": 46548475,
+    "rule": "RULE-1-TERMINAL",
+    "error": "RuntimeError: vast API DELETE /instances/46548475/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46548475 not found.\"}"
    }
   ],
   "ledger": "vast-account-reaper-ledger.jsonl"
