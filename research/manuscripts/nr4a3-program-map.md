@@ -228,11 +228,22 @@ only, $0 CPU, and it **owns every number below**.
 
 ```mermaid
 graph TD
-  L{"Can a linker present an electrophile<br/>at an NR4A3-unique cysteine<br/>while the E3 reaches solvent?"}
-  L -->|"C420, C559: no, at every<br/>placement and pendant"| DEAD["REFUTED — beyond the<br/>chemically routine linker bound"]
-  L -->|"C397: yes"| WIN{"Does anything else<br/>come into reach first?"}
+  L{"✓ Can a linker present an electrophile<br/>at an NR4A3-unique cysteine<br/>while the E3 reaches solvent?"}
+  L -->|"C420, C559: no, at every<br/>placement and pendant"| DEAD["✕ REFUTED — beyond the<br/>chemically routine linker bound"]
+  L -->|"C397: yes"| WIN{"✓ Does anything else<br/>come into reach first?"}
   WIN -->|"not an NR4A3 conserved<br/>cysteine — C536 is later"| PAR["The window is closed by a<br/>PARALOGUE cysteine, C534,<br/>which NR4A3 does NOT have"]
+
+  classDef done fill:#dff0e4,stroke:#2f8f5b,stroke-width:2px,color:#10231a;
+  classDef dead fill:#f7e6e0,stroke:#b1543a,stroke-width:2px,color:#2e150f,stroke-dasharray:5 3;
+  classDef out fill:#f2f2f0,stroke:#9b9b96,stroke-width:1px,color:#2a271f;
+
+  class L,WIN done;
+  class DEAD dead;
+  class PAR out;
 ```
+
+⚠ **This is the one graph on the page carrying a ✕, and it is carrying it correctly** — `DEAD` is an
+*approach* (put the electrophile at C420 or C559), not a claim. It is the fifth row of §2 in miniature.
 
 Three results, in the order they change what the program should do:
 
