@@ -97,6 +97,8 @@ close to nothing; skipping it has cost three retractions.
 graph TD
   Q1{"Does NR4A3 have a<br/>ligandable cysteine<br/>the paralogues lack?"}
   Q1 -->|"3 unique: C397 C420 C559<br/>but 11-19 A from the pocket"| COV["COVALENT route — only at LINKER<br/>reach, not warhead reach.<br/>Not the NR-V04 mechanism"]
+  COV --> Q1B{"Is the LINKER-borne<br/>handle geometrically<br/>available? (branch 1b)"}
+  Q1B -->|"C397 only; the window is closed<br/>by a PARALOGUE cysteine C534<br/>that NR4A3 lacks"| COVX["Uniqueness runs BOTH ways —<br/>the reciprocal direction had<br/>never been computed"]
   Q1 -->|"the 2 IN the pocket are<br/>conserved AND buried"| NONCOV["NON-COVALENT route — selectivity<br/>from pocket shape (current path)"]
   Q2{"Does the pipeline recover<br/>a known ligand pose?"}
   Q2 -->|yes| ANCHOR["The pose carries weight;<br/>ternary and ABFE inherit it"]
@@ -133,6 +135,50 @@ occludes a median 76 %** of the SG surface, so protonated-thiol RSA is not the s
 measures were moved to 960 points. Ranks were unchanged by the fix.
 ⚠ **Not answerable from what exists:** there is no experimental NR4A1/NR4A2 ensemble, so the like-for-like
 ensemble comparison is a missing input, not a negative result.
+
+### Branch 1b — the follow-on that branch 1 opened: is the LINKER-borne handle geometrically available?
+
+Branch 1 put the unique cysteines out of *warhead* reach and inside *linker* reach, which is an invitation
+rather than an answer: a PROTAC's linker passes through exactly that band, so an electrophile carried there
+could ask the warhead only to bind rather than to discriminate. Measured in
+[`nr4a3-linker-covalent-reach.json`](../modalities/nr4a3-linker-covalent-reach.json) (+ `.md`) — geometry
+only, $0 CPU, and it **owns every number below**.
+
+```mermaid
+graph TD
+  L{"Can a linker present an electrophile<br/>at an NR4A3-unique cysteine<br/>while the E3 reaches solvent?"}
+  L -->|"C420, C559: no, at every<br/>placement and pendant"| DEAD["REFUTED — beyond the<br/>chemically routine linker bound"]
+  L -->|"C397: yes"| WIN{"Does anything else<br/>come into reach first?"}
+  WIN -->|"not an NR4A3 conserved<br/>cysteine — C536 is later"| PAR["The window is closed by a<br/>PARALOGUE cysteine, C534,<br/>which NR4A3 does NOT have"]
+```
+
+Three results, in the order they change what the program should do:
+
+1. **The recorded architectural blocker does not apply.** A linker-borne electrophile plus an E3 arm was
+   taken to need the two-branch template of [`linker_twobranch.py`](../modalities/linker_twobranch.py). It
+   does not: `build_smiles` places the E3 at a chain **terminus**, so the single pendant slot is free and
+   the committed library already contains such one-branch constructs aimed at C397. Two branches are needed
+   only to carry the electrophile *and* the RUNG-5a causal wedge together — a different molecule for a
+   different experiment. Read from the enumeration, not recalled, and pinned by a test.
+2. **Only C397 survives the reach test.** C420 and C559 need far more backbone atoms than the imported
+   chemically-routine bound, at all ten placements of the five basins that survived term-(b), at every
+   pendant reach, and under both reach conventions. Those two are closed.
+3. ⛔ **The counter-test fires from the opposite direction to the one it was designed to check.** The window
+   is not closed by an NR4A3 *conserved* cysteine. It is closed first by a **paralogue** cysteine —
+   **NR4A1/NR4A2 C534, which aligns to NR4A3 S565**, i.e. a cysteine the paralogues have and NR4A3 lacks —
+   concordant across both paralogue metadynamics ensembles as well as the single opened models. **Uniqueness runs both ways, and
+   the reciprocal direction had never been computed anywhere in this repo.** A residue-uniqueness argument
+   built only on "which of MY residues do they lack" is therefore incomplete by construction.
+
+⚠ **How far these numbers may be trusted, measured rather than asserted.** The paralogue positions come from
+three independently built opened models. At aligned cysteine pairs their backbones agree far better than
+their side chains, so the artifact reports ΔCA against ΔSG per pair and states the sulfur displacement that
+would reopen the window. The **direction** of result 3 rests on sequence plus fold-level position; the exact
+backbone-atom counts do not, and must not be quoted more precisely than that record allows.
+⚠ Everything here is conditional on the docked pose the anchors come from, whose known-answer test is the
+`Ligand pose prediction (dock + MM-GBSA)` row above — **running, not returned**. Reach is a necessary
+condition for a covalent handle and never a sufficient one: no thiol pKa, intrinsic reactivity, adduct or
+degradation quantity is computed, and no selectivity, efficacy, safety or feasibility claim follows.
 
 ---
 

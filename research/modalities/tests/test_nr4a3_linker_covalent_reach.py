@@ -227,3 +227,40 @@ def test_ball_grid_is_deterministic_and_bounded():
     assert one == two
     assert all(G.dist(p, c) <= 3.0 + 1e-9 for p in one)
     assert c in one
+
+
+# ---------------------------------------------------------------------------------------------------------
+# 8 · the "E3 still projects to solvent" clause must FILTER, not merely annotate
+# ---------------------------------------------------------------------------------------------------------
+def _row(frame, placement, e3_ok, ts, co):
+    return {"frame": frame, "placement": placement, "meta_basin_id": placement.split("@")[0],
+            "placement_label": "term_a_exemplar", "cysteine": "C397", "unique": True,
+            "e3_projects_to_solvent": e3_ok, "warhead_anchor_has_room": True,
+            "d_warhead_anchor_A": 9.0, "d_e3_anchor_A": 9.0, "span_A": 13.0,
+            "by_pendant": {"dab_branch": {"arm_reach_A": 8.75, "through_space_atoms": ts,
+                                          "corridor_atoms": {"%.1f" % R.CLASH_PRIMARY_A: co}}}}
+
+
+def test_a_buried_E3_anchor_is_excluded_from_the_spread_and_listed():
+    rows = [_row("m1", "b|X@term_a_exemplar", True, 11, 12),
+            _row("m2", "b|X@term_a_exemplar", False, 40, 44),   # would wreck the spread if pooled
+            _row("m3", "b|X@term_a_exemplar", True, 12, 13)]
+    adm = R.placement_admissibility(rows)
+    assert adm["n_cells"] == 3 and adm["n_e3_anchor_BURIED"] == 1
+    assert adm["e3_anchor_buried_cells"][0]["frame"] == "m2"
+
+    sp = R.ensemble_summary(rows, {"C397"}, {})
+    key = "C397|b|X@term_a_exemplar|dab_branch"
+    assert sp[key]["n_conformers"] == 2
+    assert sp[key]["through_space_atoms"]["max"] == 12        # 40 must NOT appear
+    counts = R.reachable_counts(rows)
+    assert counts[key]["n_conformers"] == 2
+
+
+def test_admissibility_reports_a_cramped_warhead_anchor_without_excluding_it():
+    rows = [_row("m1", "b|X@term_a_exemplar", True, 11, 12)]
+    rows[0]["warhead_anchor_has_room"] = False
+    adm = R.placement_admissibility(rows)
+    assert adm["n_warhead_anchor_with_no_room"] == 1
+    assert adm["n_e3_anchor_BURIED"] == 0
+    assert R.ensemble_summary(rows, {"C397"}, {})["C397|b|X@term_a_exemplar|dab_branch"]["n_conformers"] == 1

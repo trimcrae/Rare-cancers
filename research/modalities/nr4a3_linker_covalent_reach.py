@@ -530,6 +530,11 @@ def reach_one_frame(model, placements, unique_labels, numbering=OFFSET, cutoffs=
             q = c["xyz"]
             row = {"frame": label, "placement": key, "meta_basin_id": pl["meta_basin_id"],
                    "placement_label": pl["placement_label"], "cysteine": lab, "unique": c["unique"],
+                   # ★ THE "E3 STILL PROJECTS TO SOLVENT" CLAUSE, CARRIED ON THE ROW. A cell where this
+                   #   conformer's backbone occupies the E3 anchor does not answer the question that was
+                   #   asked, so its reach number must be filterable rather than silently pooled.
+                   "e3_projects_to_solvent": clearance[key]["e3_projects_to_solvent"],
+                   "warhead_anchor_has_room": clearance[key]["warhead_anchor_has_room"],
                    "d_warhead_anchor_A": round(G.dist(q, a), 2), "d_e3_anchor_A": round(G.dist(q, b), 2),
                    "span_A": pl["span_A"], "by_pendant": {}}
             for pname, e in sorted(pendants.items(), key=lambda kv: kv[1]):
@@ -937,6 +942,42 @@ def paralogue_control(nr4a3, placements, seqs, cutoffs, do_ensembles, struct_roo
 # ==========================================================================================================
 # ASSEMBLY + THE VERDICT
 # ==========================================================================================================
+def placement_admissibility(rows):
+    """Which (conformer x placement) cells actually pose the question that was asked.
+
+    ★★ WHY THIS IS A FILTER AND NOT A FOOTNOTE. The question is whether a linker can present an electrophile
+    at a cysteine **while the E3 ligand still projects to solvent**. In a conformer whose backbone has moved
+    into the E3 anchor, that placement does not exist — and its reach number is not a conservative answer,
+    it is an answer to a different question. Pooling it would be a populated field that was never measured
+    (CLAUDE.md §4b). Measured, not assumed: the anchor's distance to the nearest protein heavy atom in that
+    conformer's own coordinates.
+    """
+    cells, bad, no_room = set(), [], []
+    for r in rows:
+        key = (r["frame"], r["placement"])
+        if key in cells:
+            continue
+        cells.add(key)
+        if not r.get("e3_projects_to_solvent", True):
+            bad.append({"frame": r["frame"], "placement": r["placement"]})
+        if not r.get("warhead_anchor_has_room", True):
+            no_room.append({"frame": r["frame"], "placement": r["placement"]})
+    return {
+        "n_cells": len(cells),
+        "n_e3_anchor_BURIED": len(bad),
+        "e3_anchor_buried_cells": bad,
+        "n_warhead_anchor_with_no_room": len(no_room),
+        "warhead_anchor_no_room_cells": no_room,
+        "_reading": ("A cell with a buried E3 anchor is EXCLUDED from the admissible spread below, because "
+                     "the question asks for a linker that reaches the cysteine WHILE the E3 projects to "
+                     "solvent. It is dropped explicitly and listed here, never silently. A warhead anchor "
+                     "with no room is reported but NOT excluded: the anchor is a docked ligand atom inside "
+                     "a cryptic pocket, so a tight clearance there is expected and its threshold is the "
+                     "same permissive one used for the linker, which was never calibrated for a buried "
+                     "ligand atom."),
+    }
+
+
 def ensemble_summary(rows, unique_labels, druggable, cutoff=CLASH_PRIMARY_A):
     """Per (cysteine x placement x pendant), the spread of the reach requirement across the conformers, and
     the count of conformers in which the cysteine is reachable inside the chemically routine bound.
@@ -945,6 +986,8 @@ def ensemble_summary(rows, unique_labels, druggable, cutoff=CLASH_PRIMARY_A):
     cavity = set("8xtt_m%d" % m for m in (druggable.get("cavity_bearing_models") or []))
     out = {}
     for r in rows:
+        if not r.get("e3_projects_to_solvent", True):
+            continue                       # see `placement_admissibility` — a different question, not a row
         for pname, e in r["by_pendant"].items():
             key = "%s|%s|%s" % (r["cysteine"], r["placement"], pname)
             o = out.setdefault(key, {"cysteine": r["cysteine"], "unique": r["unique"],
@@ -978,6 +1021,8 @@ def reachable_counts(rows, cutoff=CLASH_PRIMARY_A, chem_max=CHEM_MAX_ATOMS):
     so frequency across conformers is not occupancy (the covalent-handle artifact makes the same point)."""
     out = {}
     for r in rows:
+        if not r.get("e3_projects_to_solvent", True):
+            continue                       # see `placement_admissibility`
         for pname, e in r["by_pendant"].items():
             key = "%s|%s|%s" % (r["cysteine"], r["placement"], pname)
             o = out.setdefault(key, {"cysteine": r["cysteine"], "unique": r["unique"],
@@ -1257,6 +1302,7 @@ def assemble(placements, basins, opened, all_labels, unique_labels, ens_frames, 
             "superposition_per_conformer": ens_fits,
             "anchor_clearance_per_conformer": ens_clear,
             "druggability_stratification": drug,
+            "placement_admissibility": placement_admissibility(ens_rows) if ens_rows else {},
             "reach_spread": ensemble_summary(ens_rows, unique_labels, drug) if ens_rows else {},
             "reachable_conformer_counts": reachable_counts(ens_rows) if ens_rows else {},
             "chemoselectivity_margin_through_space": ens_margins_ts,
@@ -1516,6 +1562,19 @@ def to_markdown(d):
               "They are **not** cavity-free, they are unmeasured, and they are excluded from both groups "
               "rather than counted as negatives." % drug["druggability_UNREAD_models"])
         A("")
+    adm = ens.get("placement_admissibility") or {}
+    if adm.get("n_cells"):
+        A("**Does the E3 still project to solvent?** In %d of %d (conformer × placement) cells the E3 "
+          "anchor is BURIED in that conformer's own backbone, so the placement does not exist there and the "
+          "cell is excluded from the spread below rather than pooled into it%s. %d cell(s) have a warhead "
+          "anchor with no room at the same permissive threshold — reported, not excluded, for the reason in "
+          "`placement_admissibility`." % (adm["n_e3_anchor_BURIED"], adm["n_cells"],
+                                          (" (" + ", ".join(sorted({c["frame"] for c in
+                                                                    adm["e3_anchor_buried_cells"]})) + ")")
+                                          if adm["e3_anchor_buried_cells"] else "",
+                                          adm["n_warhead_anchor_with_no_room"]))
+        A("")
+
     sp = ens.get("reach_spread") or {}
     if sp:
         pend = "dab_branch"
