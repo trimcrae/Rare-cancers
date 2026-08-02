@@ -512,10 +512,14 @@ jobs:
           #     reads upstream's freshest ternary / step1 / nrv04-retro fragments plus ours. Merging
           #     pre-reset would roll back three sibling lanes' rows — a fix for one lane's false staleness
           #     turned into three lanes' real staleness.
+          # ⚠ `;` NOT `|| true &&`. The old form swallowed a `rate --sync-doc` failure entirely — its exit
+          # code went to `|| true`, so a doc that FAILED to sync was indistinguishable from one already
+          # current, and §1e could drift into a red build with nothing in the log saying so. Now each part
+          # runs and reports for itself, and the primitive keeps their output.
           PUBLISH_REGEN: >-
             { [ -f research/modalities/gcp-s1f-rep-rate.json ] &&
-            python3 research/modalities/gcp_fanout_rep.py rate --sync-doc || true; }
-            && python3 research/modalities/inflight_board.py --write
+            python3 research/modalities/gcp_fanout_rep.py rate --sync-doc ; } ;
+            python3 research/modalities/inflight_board.py --write
           PUBLISH_REGEN_ADD: research/compute/gcp-gpu-facts.md research/modalities/inflight-board-all.md
         run: |
           set -uo pipefail

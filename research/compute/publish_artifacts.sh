@@ -156,8 +156,16 @@ for attempt in $(seq 1 "$TRIES"); do
 
   if [ -n "${PUBLISH_REGEN:-}" ]; then
     # Failure here must not lose the artifacts above: the regen is a DERIVED convenience, they are the work.
-    eval "$PUBLISH_REGEN" >/dev/null 2>&1 \
+    # ⚠ ITS OUTPUT IS KEPT, PREFIXED, NOT BLACKHOLED (2026-08-02). This was `>/dev/null 2>&1`, and that cost
+    # a diagnosis: `gcp-gpu-facts.md` §1e drifted from the artifact it quotes and went red in CI, and the one
+    # thing that would have said which of the three outcomes happened — `rate --sync-doc` prints "regenerated"
+    # / "already current" / "NOT synced" precisely so a silent no-op is distinguishable from a fix — had been
+    # discarded by the caller. A regen whose result you cannot read is a regen you cannot trust ran.
+    eval "$PUBLISH_REGEN" 2>&1 | sed 's/^/[publish-regen] /' \
       || echo "::warning title=PUBLISH REGEN FAILED::\`$PUBLISH_REGEN\` did not run; the primary artifacts are still being published."
+    if [ "${PIPESTATUS[0]:-0}" != 0 ]; then
+      echo "::warning title=PUBLISH REGEN FAILED::\`$PUBLISH_REGEN\` exited non-zero; the primary artifacts are still being published."
+    fi
     for p in ${PUBLISH_REGEN_ADD:-}; do [ -e "$p" ] && git add -f -- "$p" 2>/dev/null || true; done
   fi
 
