@@ -1,0 +1,105 @@
+name: NR4A3 covalent-handle ensemble ($0 CPU)
+
+# Are there NR4A3-unique cysteines a covalent degrader could target, how accessible are they across the
+# EXPERIMENTAL ensemble, and do the same criteria recover the known NR-V04 site (NR4A1 Cys551)?
+#
+# Why this needs CI at all: the analysis is pure-stdlib CPU and runs anywhere, but the 20-conformer
+# solution-NMR ensemble PDB 8XTT has to be downloaded from files.rcsb.org, and the dev sandbox's egress
+# proxy 403s the CONNECT (CLAUDE.md §6). Only 4 of the 20 conformers are in the repo (the cavity-bearing
+# ones kept by the PocketMiner run), so a local run reports 4/20 and says so. This job gets all 20.
+#
+# $0: free GitHub-hosted runner, no pip, no apt, no container, no GPU, no rental. Pure stdlib by design —
+# there is no environment to build, which is also why §6's "never build an env on a machine we pay for"
+# has nothing to bite on here.
+
+on:
+  workflow_dispatch:
+    inputs:
+      git_ref:
+        description: "branch to check out and commit results back to"
+        default: ""
+      n_points:
+        description: "Shrake-Rupley sphere points (96 matches the atlas default and the committed map)"
+        default: "96"
+      commit:
+        description: "commit the JSON + MD back to the checked-out branch"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  ensemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}
+
+      - name: Offline unit tests (pure logic, no network)
+        run: |
+          cd research/modalities
+          python3 -m pytest tests/test_nr4a3_covalent_handle_ensemble.py -q
+
+      - name: Fetch 8XTT + run the ensemble analysis
+        run: |
+          cd research/modalities
+          python3 nr4a3_covalent_handle_ensemble.py \
+            --fetch-8xtt \
+            --models-dir "$RUNNER_TEMP/8xtt_models" \
+            --n-points "${{ inputs.n_points }}" \
+            --out nr4a3-covalent-handle-ensemble.json
+
+      - name: Refuse a partial ensemble silently
+        # An input that could not be read is UNREAD, not absent (CLAUDE.md §4). If the fetch produced fewer
+        # than the 20 deposited conformers, say so LOUDLY rather than letting a 4-model spread be quoted as
+        # if it were the ensemble.
+        run: |
+          cd research/modalities
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("nr4a3-covalent-handle-ensemble.json"))
+          e = d["ensembles"].get("NR4A3_8xtt_nmr")
+          if not e:
+              print("::error::8XTT ensemble UNREAD — " + json.dumps(d["unread_inputs"]))
+              sys.exit(1)
+          n = e["n_models_analysed"]
+          print(f"8XTT conformers analysed: {n} (found {e['n_models_found']})")
+          if n < 20:
+              print(f"::error::only {n}/20 deposited 8XTT conformers analysed — the spread would be partial")
+              sys.exit(1)
+          for k, v in d["cross_checks"].items():
+              if v["status"] not in ("AGREES",):
+                  print(f"::error::cross-check {k} = {v['status']} (expected AGREES): {json.dumps(v)[:400]}")
+                  sys.exit(1)
+              print(f"cross-check {k}: {v['status']}")
+          print("control:", d["control_recovery"]["status"])
+          print("diagnosis:", d["criteria_diagnosis"]["verdict"])
+          PY
+
+      - name: Claim + consistency lints
+        run: |
+          python3 research/manuscripts/lint_claims.py || true
+          python3 research/manuscripts/lint_consistency.py || true
+
+      - name: Commit results
+        if: ${{ inputs.commit }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/modalities/nr4a3-covalent-handle-ensemble.json \
+                  research/modalities/nr4a3-covalent-handle-ensemble.md
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -m "NR4A3-unique cysteines across the 20-conformer 8XTT ensemble + NR4A1 Cys551 control"
+          git pull --rebase origin "${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"
+          git push origin HEAD:"${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nr4a3-covalent-handle-ensemble
+          path: |
+            research/modalities/nr4a3-covalent-handle-ensemble.json
+            research/modalities/nr4a3-covalent-handle-ensemble.md
