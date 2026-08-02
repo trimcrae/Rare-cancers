@@ -1,0 +1,553 @@
+{
+  "_title": "Candidate instruments that could carry a selectivity claim — ranked, with the ligand-side double-difference analysis",
+  "_what": "A ranked queue of INSTRUMENTS this program has not tried, graded on whether each could carry a selectivity claim and on whether a known-answer test exists for it IN THE REGIME THE CLAIM NEEDS. Written 2026-08-02 against the roadmap's central finding that 0 of 16 requirements stand on an instrument validated in that regime.",
+  "_why": "The roadmap (research/manuscripts/nr4a3-program-map.md) §3.2 reads: '5 requirements with no instrument, 5 more whose instrument has returned no usable answer, and 0 requirements standing on an instrument validated in the regime the claim needs.' That is an INSTRUMENT problem, so the productive move is to widen the instrument set rather than to buy more of an instrument that has never been shown to work. This file is the queue.",
+  "_cost": "$0. No GPU, no rental, no dispatch. Every statement here is an argument, a pointer, or a value read out of a committed artifact named beside it.",
+  "_scope_and_integrity": [
+    "NO KNOWN-ANSWER VALUE IS INVENTED. A candidate's known-answer test is recorded in exactly one of three states: 'available' (a real system with a measured value that is already committed in this repo, with its artifact named), 'candidate_unverified' (a source CLASS that plausibly holds one, settled by a named $0 precheck — never cited before that precheck runs), or 'none'. A 'candidate_unverified' row may not be quoted as evidence that a benchmark exists.",
+    "NO PRICE IS RETYPED (roadmap invariant 6). Costs are expressed as $0, as a multiple of a basis whose one home is named, or as 'unpriced'. The per-edge RBFE basis lives in research/compute/pricing.md and the roadmap's 'Per-edge bases' table; the ladder totals live in research/modalities/vast-ladder-repricing.json.",
+    "THIS FILE EDITS NOTHING IT DOES NOT OWN. The roadmap, nr4a3_linker_design.py, the linker library and nr4a3-inverse-linker-design-2026-07-25.md are held by other agents. Edits they need are specified verbatim in `proposed_roadmap_edits` and routed, not applied.",
+    "IDs ARE THIS FILE'S NAMESPACE ONLY. `C01`..`C16` are CANDIDATE instruments. A candidate becomes a `V` number only when the roadmap adopts it; roadmap §0.6 already records that five different things in this program are called `R`, and this file deliberately does not add a sixth collision.",
+    "NOTHING HERE CLAIMS BINDING, REACTIVITY, DEGRADATION, EFFICACY, SAFETY, A THERAPEUTIC WINDOW OR PROTEOME-WIDE SELECTIVITY. A candidate instrument is a proposal to MEASURE something, never a result."
+  ],
+  "_no_generator": "Hand-authored: every field is an argument or a pointer, not a computed value. Where a number appears it is read from the artifact named in the same object, and that artifact remains its one home.",
+
+  "the_regime_gap": {
+    "statement": "Nothing in this program is validated in the PARALOGUE-SCALE FREE-ENERGY REGIME — roughly 1 kcal/mol between near-identical proteins.",
+    "what_brackets_it": [
+      {
+        "instrument": "V6",
+        "passed_at": "0.61 kcal/mol absolute error on TYK2 ejm_31->ejm_42",
+        "why_it_does_not_close_the_gap": "relative FEP WITHIN one pocket, one charge model (am1bcc binary lane). One difference, not two; one protein, not two.",
+        "home": "roadmap §3.1 row V6"
+      },
+      {
+        "instrument": "V10",
+        "passed_at": "barnase-barstar Y29A, hot-spot scale",
+        "why_it_does_not_close_the_gap": "validated for seeing a large effect and for not inventing one where none exists; the qualified set BRACKETS the wedge and covers nothing at the size a paralogue-scale difference has. Its wedge-sized candidate barnase_barstar_W35F is CI-verified to stage and deliberately held out of the qualification set.",
+        "home": "roadmap §3.1 row V10; research/modalities/protfep-wedge-band-candidates.json"
+      },
+      {
+        "instrument": "V4",
+        "state": "no result; not authorized",
+        "why_it_does_not_close_the_gap": "right question (between two proteins), wrong currency — an ABSOLUTE ABFE difference, on an engine whose own absolute known-answer test (V7) misses by more than the entire margin it is used to compute.",
+        "home": "roadmap §3.1 rows V4 and V7"
+      }
+    ],
+    "two_ways_out": [
+      "MAKE THE REGIME IRRELEVANT — instruments whose readout is categorical, set-membership, geometric or populational, so no free-energy resolution is required at all. The covalent axis and the unique-lysine axis already do this. Candidates C02, C03, C04, C05, C07, C08, C09, C10, C11, C12, C13 below extend it.",
+      "CLOSE THE REGIME — build the one free-energy quantity that is best conditioned for a between-protein comparison AND buy it a known-answer test at that size. Candidates C01 and C14."
+    ]
+  },
+
+  "double_difference_analysis": {
+    "_question_as_asked": "A ligand-side double difference uses V6's validated machinery, and in a paralogue comparison the binary and solvent legs cancel exactly. Does the cancellation make a between-protein comparison INHERIT V6's validation, or not?",
+    "_answer_one_line": "NO — the cancellation removes exactly the error classes V6 also removes, and leaves standing exactly the classes V6 never measured. But it buys three things worth more than the inheritance would have been: a far better-conditioned quantity than the ABFE difference R7 rests on; first-order independence from R6 (the opening penalty, which has never been computed); and a known-answer test that is cheap and well-posed instead of expensive and unauthorized.",
+    "_full_prose": "research/modalities/instrument-options.md §2 — written out in full there; this block is the machine form.",
+
+    "construction": {
+      "per_protein": "ddG_bind(d0->d | P) = dG_cplx,P(d0->d) - dG_solv(d0->d)",
+      "double_difference": "dddG = ddG_bind(d0->d | NR4A3) - ddG_bind(d0->d | NR4A1) = dG_cplx,3(d0->d) - dG_cplx,1(d0->d)",
+      "what_cancels_algebraically": "the solvent leg — the SAME two molecules in the SAME water box under the SAME schedule. It drops out of the expression before any number is computed: exact, no residual, no added noise. The repo's vocabulary for this is valb_failure_propagation.error_algebra ('ALGEBRAIC' vs 'NUMERICAL'), and the 5a-KS reducer already REFUSES a binary leg rather than warning, for this reason.",
+      "precondition_that_must_be_enforced": "the same atom map, the same partial charges and the same lambda schedule on both arms — otherwise e_lig and e_map stop cancelling. This is enforceable and this repo already knows how to verify it: nr4a3_rbfe.strip_foreign_partial_charges, assert_charge_consistency, and the stored-System forensic in charge-provenance-forensic.json that read identical alchemical charges across arms rather than trusting a config line."
+    },
+
+    "error_decomposition": {
+      "model": "dG_calc(leg) = dG_true(leg) + e(leg), with e split by WHERE it lives",
+      "terms": {
+        "e_lig": "ligand intramolecular force field + partial charges",
+        "e_map": "atom mapping, soft core, lambda schedule",
+        "e_int_P": "ligand<->protein interaction terms, in pocket P",
+        "e_samp_P": "finite-sampling / convergence, in pocket P",
+        "e_prep_P": "starting conformer, protonation, restraints, box and finite-size"
+      },
+      "what_V6_measured": "err(V6) = e_int,TYK2 + (e_samp,TYK2 - e_samp,solv) + (e_prep,TYK2 - e_prep,solv). e_lig and e_map cancel. 0.61 kcal/mol bounds THAT combination — one edge, one protein, one charge model, protein-versus-WATER.",
+      "what_the_double_difference_error_is": "err(dddG) = (e_int,3 - e_int,1) + (e_samp,3 - e_samp,1) + (e_prep,3 - e_prep,1). e_lig and e_map cancel again. This is protein-versus-PROTEIN.",
+      "why_the_inheritance_fails": "The two are different linear combinations of disjoint error terms: not one term of err(dddG) appears anywhere in err(V6). Knowing |e_A - e_B| for one pair bounds nothing about |e_C - e_D| for a disjoint pair. The only premise that would transfer it — 'the complex-leg error is a constant, protein-independent offset' — is (i) exactly the assumption a selectivity calculation exists to test, so assuming it begs the question; (ii) inconsistent with how RBFE accuracy is actually reported, as a distribution over systems rather than a single offset, so a published mean accuracy is a mean over targets and not a guarantee for any one of them; (iii) refuted locally, by this program's own data below."
+    },
+
+    "the_residual_is_not_small_here": [
+      {
+        "evidence": "cycle_3carbonyl closes at R = +1.307, a tolerance VIOLATION; and an independent recomputation of one edge disagrees with the fan-out by ~0.78 kcal/mol, more than either stated uncertainty (cmpd19 -> 5-NH2 at +1.84 +/- 0.36 against +1.064 +/- 0.118).",
+        "why_it_bites": "both are WITHIN one protein, i.e. they are a floor on the per-leg error, not a bound on the between-protein residual. A double difference is a difference of two such legs, so uncorrelated arms give ~sqrt(2) x the leg error. Correlation between homologous pockets reduces that by an amount NOTHING IN THIS REPO MEASURES.",
+        "home": "roadmap §9 row '§2.9 congeneric RBFE map'; paper §2.9"
+      },
+      {
+        "evidence": "5a-KS's own reducer flags n_particles disagreeing across arms — NR4A1 ~210k vs NR4A3 ~148k, the solvated BOX rather than the composition.",
+        "why_it_bites": "a finite-size systematic that SURVIVES the subtraction. The roadmap's own words: 'size-dependent systematics do not cancel, which is the one thing a double difference is supposed to buy.' A measured instance of the cancellation failing, on the double-difference lane itself.",
+        "home": "roadmap §RUNG 5a-KS LANDED, 'Three limits'"
+      },
+      {
+        "evidence": "7 of 10 Pocket-5 lining residues are paralogue-divergent (nr4a-selectivity.json, n_residues: 10, n_divergent: 7).",
+        "why_it_bites": "(e_int,3 - e_int,1) is PRECISELY the force field's error on those seven differences, and (e_samp,3 - e_samp,1) is PRECISELY the difference in how well two DIFFERENT cryptic pockets are equilibrated — in a program where the opening mechanism failed its own Gate-1 registration and Gate 3B is unresolved. The double difference isolates the signal by cancelling everything the two proteins share, and it isolates the error the same way. Signal and residual live in the same place.",
+        "home": "research/modalities/nr4a-selectivity.json; roadmap §2.1 rows R1, R2"
+      }
+    ],
+
+    "what_the_cancellation_does_buy": [
+      {
+        "id": "DD-1",
+        "claim": "It is far better conditioned than the quantity R7 currently rests on.",
+        "argument": "R7's margin is a difference of two ABSOLUTE ABFEs. The absolute engine's own known-answer test V7 misses by ~+7.1 kcal/mol — larger than the entire margin — and V9 holds every leg of that block provisional on a soft-core-tail lambda-overlap failure. dddG never forms an absolute number at all: no restraint free energy, no standard-state term, no absolute decoupling. Every error class that killed V7 is absent BY CONSTRUCTION rather than by assumption.",
+        "status": "argument, from the roadmap's own instrument table"
+      },
+      {
+        "id": "DD-2",
+        "claim": "R6 — the per-paralogue opening penalty, which has never been computed for any paralogue — drops out to FIRST ORDER, and this appears to be stated nowhere in the program.",
+        "argument": "Validation requirement 2 warns that matched-open comparison 'can miss or REVERSE selectivity'. That warning bites on an ABSOLUTE per-paralogue affinity, where dG_bind,obs ~ dG_open + dG_bind|open and the two paralogues' opening penalties differ. In a RELATIVE quantity the opening penalty is common to both ligands of the matched pair and cancels INSIDE each protein, before the between-protein subtraction is taken — so dddG is doubly free of it.",
+        "condition_stated_not_assumed": "It cancels to the extent that d and d0 select the SAME open sub-state. For a matched pair differing by one small element — exactly what the causal design specifies — that is a good approximation. For two dissimilar molecules it is not, and the residual is the difference in the opening each ligand demands.",
+        "what_it_licenses": "a CAUSAL / DESIGN claim — 'this structural element contributes X kcal/mol more in NR4A3 than in NR4A1, with both receptors in their modelled open states' — WITHOUT R6.",
+        "what_it_does_not_license": "an ABSOLUTE selectivity claim ('this molecule is N-fold selective'), which still needs R6. The statement stays explicitly conditional on the chosen open states of both paralogues.",
+        "consequence_for_the_plan": "R6 blocks the ABFE route to R7 and does NOT block a dddG route to R11's causal question. That is a real narrowing of the blocker set, and it is the reason this analysis is worth more than a yes/no.",
+        "status": "argument; NOT a measurement. It should be recorded as an argument in the roadmap, in the same register the roadmap already uses for 'not implicated is an argument, not a measurement'."
+      },
+      {
+        "id": "DD-3",
+        "claim": "It makes a known-answer test in the right regime CHEAP and well-posed, where the ABFE control is expensive and unauthorized.",
+        "argument": "dddG needs two complex legs plus one SHARED solvent leg — the purchase shape of an RBFE edge pair, whose basis has one home in research/compute/pricing.md and the roadmap's per-edge table. The ABFE selectivity control needs two full absolute calculations with restraints. So the cheaper instrument is also the one whose engine has passed something. The program has been trying to buy its selectivity control in its most expensive and least reliable currency.",
+        "status": "argument, from the committed cost bases; no figure retyped here"
+      }
+    ],
+
+    "the_consequence_the_missing_instrument": {
+      "statement": "Because the inheritance fails, dddG needs its OWN known-answer test — and that test has an exactly specifiable shape, which is more than any other instrument in this program has for the paralogue-scale regime.",
+      "required_shape": "a public pair of homologous proteins + a matched congeneric ligand pair + FOUR measured affinities + a structural basis on both arms, scored as dddG_calc vs dddG_exp.",
+      "why_it_is_the_first_of_its_kind_here": "V6 is the same machinery one difference lower; V10 is the right SIZE on the wrong SIDE (protein mutations) and its own wedge-sized candidate is unrun; V4 is the right QUESTION in the wrong CURRENCY. None of the three is a ligand-side, between-protein, ~1 kcal/mol known answer.",
+      "two_searches_that_settle_whether_one_exists": [
+        "C01a — the LIGAND-SIDE WEDGE-BAND SCAN: the exact analogue of the SKEMPI scan that returned barnase_barstar_W35F from 7,085 rows. Query ChEMBL/BindingDB for compounds measured against BOTH members of a paralogue pair, keep congeneric pairs whose selectivity SHIFT sits in the ~0.5-2 kcal/mol band, cross-reference the PDB for holo structures on both arms. $0, CI-routable — the ChEMBL REST API is already used from CI by nr4a3_dock.py.",
+        "C01b — the CREBBP/BRD4 PRECHECK: the designated binary control already has both arms as real holo crystals with the SAME ligand (4NR7 / 5BT4, experimental ddG ~ 2.2 kcal/mol; one home selectivity-benchmark.json). The only missing ingredient for a RELATIVE version is a congeneric analogue with measured affinity in both proteins. That is a ChEMBL lookup of exactly the pmx_mutation_reference shape: it returns either a reference or STOP_NO_REFERENCE, and a refusal on evidence is a better outcome than a budget hold."
+      ]
+    },
+
+    "scope_constraint_that_carries_over_intact": {
+      "statement": "V6's validation covers the am1bcc BINARY lane only.",
+      "why_it_matters_here": "a PROTAC-sized ligand cannot be am1bcc-charged — sqm ran >85 min on a 166-atom recruiter without converging — so a dddG on a degrader runs NAGL. The benchmark must therefore be run IN THE LANE IT WILL BE USED IN, or the charge model pinned across benchmark and application. Otherwise this repeats roadmap §3.4's exact error one lane over.",
+      "home": "roadmap §3.4 and 'Why Val A is nearly free but Val B is load-bearing'"
+    },
+
+    "what_this_analysis_does_NOT_say": [
+      "It does not say S = -0.1297 +/- 0.3264 (RUNG 5a-KS, V16) is wrong. It says the reason V16 has no calibrator is structural, not an oversight: a within-pocket pass cannot be transferred to a between-pocket quantity, so the calibrator has to be bought in the between-pocket currency.",
+      "It does not say the ternary double difference and the binary one are the same instrument. 5a-KS's S is a TERNARY double difference on the NAGL lane; C01 is a BINARY one on the am1bcc lane. They share the algebra and not the validation.",
+      "It does not license reporting any existing dddG or S as calibrated. Open decision 13 stands."
+    ]
+  },
+
+  "candidates": [
+    {
+      "id": "C01",
+      "rank": 1,
+      "name": "Ligand-side selectivity RBFE (dddG) as a named instrument, plus its own paralogue-scale known-answer benchmark",
+      "class": "free-energy — closes the regime gap rather than dodging it",
+      "regime_gap_immune": false,
+      "what_it_measures": "dddG = ddG_bind(d0->d | NR4A3) - ddG_bind(d0->d | NR4A1/2): whether a specific structural element of the ligand contributes more binding free energy in NR4A3 than in a paralogue, with both receptors in matched open states.",
+      "serves": ["R7", "R11", "R15"],
+      "known_answer_test": {
+        "shape": "a public homologous protein pair + a matched congeneric ligand pair + four measured affinities + structures on both arms; score dddG_calc vs dddG_exp in the ~1 kcal/mol band",
+        "availability": "candidate_unverified",
+        "settled_by": "C01a (ligand-side wedge-band scan of ChEMBL/BindingDB + PDB) and C01b (CREBBP/BRD4 congeneric-analogue precheck)",
+        "already_available_partial_anchor": {
+          "system": "CREBBP vs BRD4(1) / SGC-CBP30",
+          "measured_value": "experimental ddG ~ 2.2 kcal/mol (ddg_kcal_per_mol -2.19)",
+          "artifact": "research/modalities/selectivity-benchmark.json",
+          "caveat": "this is the ONE-ligand/two-protein (absolute-difference) form. Converting it to a RELATIVE dddG needs a congeneric analogue measured in BOTH proteins, which is what C01b checks. Do not assume one exists."
+        },
+        "negative_control_that_must_ship_with_it": "a matched pair expected to show NO selectivity shift, so the instrument has its own null. Roadmap Open decision 7 binds this: no accuracy band wider than the signal being calibrated, and a stated null-rejection rate up front."
+      },
+      "cost_to_stand_up": {
+        "benchmark_search": "$0 — CPU/CI; the ChEMBL REST API is already called from CI by nr4a3_dock.py",
+        "the_benchmark_run": "one RBFE edge PAIR plus a shared solvent leg — see the per-edge basis in research/compute/pricing.md / roadmap 'Per-edge bases'. No figure retyped here.",
+        "comparison": "materially cheaper than V4's two absolute ABFE calculations with restraints"
+      },
+      "licenses_if_it_passes": "the first evidence in this program that its free-energy machinery resolves a difference BETWEEN two proteins at paralogue scale — the capability every paralogue margin on the roadmap presupposes. Combined with DD-2 it would let a causal/design selectivity statement be made WITHOUT R6.",
+      "does_not_license": ["an absolute selectivity claim (still needs R6)", "anything on the NAGL ternary lane unless the benchmark is run there", "degradation, efficacy, safety or proteome-wide selectivity"],
+      "grade": "A+",
+      "why_this_grade": "It is the only candidate that could carry a QUANTITATIVE selectivity claim, it is built on the one engine in the program that has passed a known-answer test, its known-answer test is specifiable and its search is free, and it removes R6 from the causal path. Its risk is real and named: the benchmark may not exist, in which case C01a/C01b return STOP_NO_REFERENCE and the instrument is closed on evidence rather than on budget — which is the outcome the pmx arm already demonstrated is worth having."
+    },
+    {
+      "id": "C02",
+      "rank": 2,
+      "name": "Decoy null for the CATEGORICAL axis — unrelated paralogue pairs through the identical pipeline",
+      "class": "categorical — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "How often the program's categorical screen (a paralogue-unique nucleophile within tether reach AND a paralogue-unique exposed lysine in the transfer zone) fires on paralogue pairs that have no reason to be discriminable. The background rate of the Tier-0 GO.",
+      "serves": ["R8", "R12", "R15", "the Tier-0/Tier-2 gates"],
+      "known_answer_test": {
+        "shape": "the null IS the control — the same move that refuted V20, applied prophylactically",
+        "availability": "available",
+        "precedent": "38 unrelated marketed drugs through the identical MM-GBSA funnel scored a positive NR4A3 margin 22 of 38, which is what killed V20. DECOY_2026_06_30 in research/modalities/selectivity_calibration.py.",
+        "what_is_NOT_yet_covered": "the existing nulls are WITHIN-system: term_b_background_null is a placement null (24 arm x pose nulls) and V19 is a generation-matched null. Neither asks how often a RANDOM paralogue pair presents the categorical configuration. The roadmap records no such null anywhere."
+      },
+      "cost_to_stand_up": "$0 CPU. Inputs are UniProt sequences (nr4a-sequences-cache.json pattern) plus AlphaFold DB / PDB structures for the decoy pairs; the scoring code already exists (nr4a_paralogue_unique_residues.py, nr4a_paralogue_dynamics.py, categorical_axis_audit.py).",
+      "licenses_if_it_passes": "the first quantitative statement of what the categorical GO is worth — an enrichment over a cross-system background rather than 'the gate fired'. If the background rate is low it materially strengthens the program's strongest surviving claim; if it is high, the Tier-0 GO means much less than it currently reads.",
+      "does_not_license": ["anything about NR4A3 specifically — it calibrates the SCREEN, not the target"],
+      "grade": "A",
+      "why_this_grade": "It is free, it is the falsifier for the claim the program now leans on hardest, and its absence is a live vulnerability of exactly the shape that already cost this program the MM-GBSA headline. A screen whose background rate is unknown cannot be reported as an enrichment, and the categorical axis currently is."
+    },
+    {
+      "id": "C03",
+      "rank": 3,
+      "name": "Public chemoproteomics as the covalent axis's missing known-answer set — and a cysteine ligandability/reactivity instrument built on it",
+      "class": "categorical / classification — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "Whether a cysteine is actually reactive and ligandable, on a data-calibrated scale, rather than whether it clears a hand-set solvent-exposure cutoff. Directly: where C397 ranks, and whether NR4A1 C551 — the covalent axis's own positive control — has a MEASURED reactivity or ligandability call.",
+      "serves": ["R8", "R15", "and it repairs V17"],
+      "the_correction_that_makes_this_possible": "The repo states in at least six places that electrophile reactivity and promiscuity 'require chemoproteomics, which this program does not have' — treating chemoproteomics as a WET-LAB dependency. Chemoproteomics is a wet-lab technique; PUBLISHED chemoproteomics datasets are public data. Using one is the same move this repo already makes with SKEMPI (7,085 rows, protein mutations) and ChEMBL (affinities). The wet-lab framing has been hiding an available data axis.",
+      "known_answer_test": {
+        "shape": "hold out measured cysteines and ask whether the instrument ranks measured hyper-reactive / ligandable sites above measured unreactive ones; and separately, look up NR4A1 C551 directly",
+        "availability": "candidate_unverified",
+        "candidate_source_classes": [
+          "curated human cysteine-chemoproteomics databases aggregating identified / hyper-reactive / ligandable cysteines",
+          "isoTOP-ABPP-style proteome-wide cysteine reactivity datasets",
+          "pan-cancer cysteine-ligandability maps"
+        ],
+        "settled_by": "a $0 precheck of the pmx_mutation_reference shape — fetch, check coverage of UniProt Q92570 (NR4A3), P22736 (NR4A1), P43354 (NR4A2), and report either a reference or STOP_NO_REFERENCE. NO source, dataset or value may be cited before that precheck runs.",
+        "why_it_would_be_in_regime": "reactivity ranking is a CLASSIFICATION, not a ~1 kcal/mol free-energy difference, so this instrument is immune to the gap by construction"
+      },
+      "cost_to_stand_up": "$0 — CI fetch + CPU. Networked retrieval is the documented CI escape hatch (roadmap / CLAUDE.md §6; fulltext_verify.py and atlas-data.yml are the exemplars).",
+      "licenses_if_it_passes": [
+        "a MEASURED positive control for the covalent axis where V17's geometric cutoff produced a demonstrated false negative (NR4A1 Cys551, RSA 0.165 on the state-matched model, 0 of 25 metadynamics frames — categorical-axis-audit.md L1)",
+        "the first honest answer to limit L6 of the categorical audit — 'no thiol pKa, nucleophilicity, adduct stability or promiscuity anywhere'",
+        "a bounded statement about breadth beyond the two paralogues, on the covalent axis, with NO free energy — the audit's 'not proteome-wide selectivity' limit is currently absolute"
+      ],
+      "does_not_license": ["that a covalent bond forms", "degradation, efficacy or safety", "proteome-wide selectivity as such — a ligandability rank is a prioritisation, not a clearance"],
+      "grade": "A",
+      "why_this_grade": "It is free, it attacks the one axis the program still stands on, it supplies a MEASURED control where the current criterion demonstrably fails its own, and the enabling insight is a correction to a framing the repo has repeated six times. Graded A rather than A+ only because the dataset's coverage of these specific cysteines is unverified and could return STOP_NO_REFERENCE."
+    },
+    {
+      "id": "C04",
+      "rank": 4,
+      "name": "Paralogue-matched cryptic-pocket druggability — the harmonized detector pointed at the NR4A1 and NR4A2 ensembles already on disk",
+      "class": "populational / categorical — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "Whether Pocket-5 is detected, and whether it reaches D* = 0.53, in NR4A1 and NR4A2 under the IDENTICAL harmonized fpocket protocol already used for NR4A3 — reported per matched subset (metad / release_rep0-2), both denominators, as the NR4A3 table already does.",
+      "serves": ["R1", "R2", "R6 (as a categorical proxy, not a substitute)", "R14 (extends to AR/MR, see C08)"],
+      "the_finding_that_makes_this_free": "research/modalities/nr4a-paralogue-dynamics.json ensemble_census records results/nr4a1-pocket-ensemble and results/nr4a2-pocket-ensemble as EXISTING, each with 100 frames in exactly the NR4A3 subset structure (metad 25 + release_rep0/1/2 25 each; 75 unbiased). Those frames are committed to the repo (git ls-files results -> 2,082 files). And research/modalities/nr4a3-pocket-reharmonize-summary.json has EIGHT rows and every one of them is NR4A3 — af2_static, calibration_nr4a3, 8xtt_20conformers, metad_frames, release_rep0/1/2, release_unbiased_pooled. The detector has never been pointed at a paralogue.",
+      "known_answer_test": {
+        "shape": "does the detector recover a known cryptic site and NOT invent one",
+        "availability": "available (partial, in-repo)",
+        "in_repo_anchor": "the NR4A3 arm is already anchored against the EXPERIMENTAL 8XTT NMR ensemble — 19 of 20 conformers detected, 3 >= D* (row 8xtt_20conformers), no simulation bias applied. The paralogue arms would run through the identical pinned fpocket build and match_params.",
+        "external_option": "held-out cryptic-site benchmark sets (CryptoSite / PocketMiner-class) — availability and licence UNVERIFIED here; a $0 CI check settles it"
+      },
+      "cost_to_stand_up": "$0 CPU. Frames committed; fpocket_lib.py in repo; the producing path already exists for the NR4A3 rows.",
+      "licenses_if_it_passes": "a paralogue-matched CONFORMATIONAL-SELECTION statement — 'the site that must be opened to bind is detected/druggable at rate X in NR4A3 and Y in NR4A1/2, on matched ensembles and one detector' — which is a selectivity argument with NO free energy in it.",
+      "does_not_license": [
+        "dG_open. A detection fraction is not an opening penalty and must never be reported as one.",
+        "evidence of ABSENCE. If a paralogue never opens, that is weak evidence at these ensemble sizes, and the metadynamics subsets are BIASED along the opening CV and must be reported separately as an adversarial upper bound, exactly as nr4a-paralogue-dynamics.json already does."
+      ],
+      "grade": "A-",
+      "why_this_grade": "Free, matched, orthogonal, and it tests the PREMISE of the whole non-covalent route — that the pocket is a discriminator — which nobody has asked. It loses a grade because a null in a paralogue is weak evidence of absence, so it can support a RANKING and not a categorical exclusion."
+    },
+    {
+      "id": "C05",
+      "rank": 5,
+      "name": "A known-answer precheck for V18 — does a MEASURED degrader ubiquitination-site or lysine-mutant rescue reference exist?",
+      "class": "categorical — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "Whether the transfer-zone lysine-identity term can be scored against a measured answer at all: for any PROTAC substrate with a SOLVED ternary, is there a published mapped ubiquitination site (MS) or a lysine-mutant rescue that names which lysine matters?",
+      "serves": ["R12"],
+      "why_it_is_high_value": "Roadmap §3.1 records V18 as having 'none exists' for its known-answer test. V18 is one of the three categorical axes the program stands on and the ONLY one with no known-answer test of any kind. A precheck either supplies one or converts 'untested instrument' into 'closed on evidence', which is a strictly better state.",
+      "known_answer_test": {
+        "shape": "predict which lysine the modelled E2~Ub transfer zone covers for a known degrader/substrate pair with a solved ternary; score against the measured site",
+        "availability": "candidate_unverified",
+        "settled_by": "a $0 precheck of the pmx_mutation_reference shape, over PDB ternary entries the repo already enumerates (s-calibrator-survey.json lists SMARCA2/SMARCA4 ternaries by E3) cross-referenced against the primary literature via CI retrieval. Return a reference or STOP_NO_REFERENCE.",
+        "binding_constraints_already_on_the_record": [
+          "the ubiquitin-transfer distance is 17.1 A, MEASURED in a solved CRL4-CRBN assembly (the repo's assumed 10 A was ~7 A too strict)",
+          "no degradation-geometry claim may rest on a RING or E2 that was COMPOSED rather than observed — anchor on the observed E2 catalytic cysteine (8R5H for VHL, 9UUM for CRBN)"
+        ]
+      },
+      "cost_to_stand_up": "$0 — CI retrieval + CPU.",
+      "licenses_if_it_passes": "the first known-answer test for the unique-lysine axis, which the paper calls the program's 'only insurance against a C397-specific chemical failure'.",
+      "does_not_license": ["that the paralogue is spared — real degraders often ubiquitinate several lysines and lysine-less substrates can still be degraded; this raises the odds, it does not guarantee"],
+      "grade": "A-",
+      "why_this_grade": "Free, and it targets the one categorical axis with literally no control. Graded A- because the reference may not exist in a usable form and the honest outcome is then a STOP."
+    },
+    {
+      "id": "C06",
+      "rank": 6,
+      "name": "Point V1 — the one selectivity readout that has PASSED a known-answer test — at rung 5b-T's rebuilt ternaries",
+      "class": "categorical (contact-map difference) — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "Sequence-encoded positions where the NR4A3 ternary contacts the E3 and both paralogues do not. A contact exists or it does not; no free energy anywhere.",
+      "serves": ["R11", "R9"],
+      "why_it_belongs_in_this_queue": "It is not a new instrument — it is the observation that the program ALREADY OWNS a regime-gap-immune selectivity instrument that passed a known-answer test (Gln98 Oe1 -> VHL Arg12 Nh2, 2.88 A, against Leu1545), and that the only thing between it and a claim is a correctly assembled ternary, which rung 5b-T now prices at $0 and which needs no authorization. The shortest path in the whole program from 'no instrument' to 'a validated instrument producing a claim' is two $0 steps that are already separately on the roadmap (rows 1 and 18) and are not paired anywhere.",
+      "known_answer_test": {
+        "shape": "recover a published paralogue-selectivity determinant unaided from two crystals",
+        "availability": "available — ALREADY PASSED",
+        "system": "SMARCA2 vs SMARCA4 / VCB, 9DTY and 9DTX",
+        "measured_value": "Gln98 Oe1 -> VHL Arg12 Nh2, 2.88 A, 34 interface contacts, against Leu1545 (10 contacts) which cannot make that bond",
+        "artifact": "research/modalities/selcal-interface-signature.json"
+      },
+      "cost_to_stand_up": "$0 — 5b-T runs on CPU (ternary-rebuild-cost.json: 0.0 reference GPU-h), and V1 is seconds of CPU on top.",
+      "licenses_if_it_passes": "a sequence-encoded, reproducibility-tested paralogue-discriminating contact on OUR system — currently GLU208 is a lead at 1 model per arm against a bar of 3, and 5b-T reads all 16 models per arm.",
+      "does_not_license": ["that the ternary is correct — V1 grades a ternary it is handed; 5b-T's own three-arm GO/NO-GO is what grades the assembly", "any thermodynamic quantity — V1's output is structural"],
+      "grade": "A-",
+      "why_this_grade": "Highest certainty-per-dollar in the queue, because the instrument has already passed and the input is already priced at $0. It is ranked below C01-C05 only because it is already on the plan as two separate rows; the contribution here is the pairing and the observation that the endpoint instrument is validated."
+    },
+    {
+      "id": "C07",
+      "rank": 7,
+      "name": "Full-length / fusion-context unique-residue census — the first instrument R13 would have",
+      "class": "categorical (sequence set membership) — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "Over the REAL biological object — EWSR1::NR4A3, and full-length NR4A1/2/3 — where the paralogue-unique cysteines and lysines are, and which sit OUTSIDE the modelled LBD construct (373-626). C166 is already known to be one such cysteine.",
+      "serves": ["R13", "and it bounds R8/R12's design space"],
+      "known_answer_test": {
+        "shape": "none needed at sequence level — this is a READ, not an inference. Two independent global aligners plus UniProt FASTA, with every position marked alignment_robust, is the standard nr4a_paralogue_unique_residues.py already applies.",
+        "availability": "n/a — and saying so is the honest form, not a dodge",
+        "where_a_known_answer_IS_needed": "the GEOMETRY half. A fusion-context ensemble is an inference and would need its own validation; the sequence census deliberately does not attempt it."
+      },
+      "cost_to_stand_up": "$0 CPU.",
+      "licenses_if_it_passes": "the first thing R13 has ever had. Validation requirement 5 asks for 'lysines OUTSIDE the LBD (hinge, DBD, fusion partner)' and the roadmap records R13 as having no instrument, no lane, no rung and no row anywhere. A sequence census cannot supply the geometry, but it puts a floor under the requirement and it measures what the construct boundary REMOVES — which the roadmap explicitly flags as unasked ('nothing on the plan asks what else it removes').",
+      "does_not_license": ["any geometry claim about the fusion", "anything about the fusion-exclusive ROUTES, which are a separate settled body of work (fusion-selective-approaches-overview.md and its five manuscripts, with a live deferred Level-1-vs-Level-2 decision). This candidate is an INSTRUMENT for R13, not a re-litigation of that decision."],
+      "grade": "B+",
+      "why_this_grade": "Free and it is the only $0 way to put anything at all under a requirement that has nothing. It is B+ rather than A because a sequence census answers the cheap half of R13 and the expensive half (fusion-context ensemble, full CRL/E2~Ub geometry) stays untouched."
+    },
+    {
+      "id": "C08",
+      "rank": 8,
+      "name": "Complete R14 — the AR/MR cross-binding check is 8/9 built and missing exactly one target",
+      "class": "categorical-ish (a shortlist/clearance screen) — regime-gap-immune at the screening level",
+      "regime_gap_immune": true,
+      "what_it_measures": "Whether the carried candidate engages MR (NR3C2) and AR, the two NRs the SI names as 'the SOLE sequence-level non-paralogue follow-ups' that 'must clear'.",
+      "serves": ["R14"],
+      "the_finding": "R14 is recorded as having NO instrument, and that is not quite right. (1) The sequence screen has RUN: nr4a-superfamily-selectivity.json screened 47 receptors and flagged exactly NR3C2 (MR) and AR, each overlapping two selectivity handles. (2) The anti-target DOCKING harness has run at scale — SI §S1, a 9-target panel over ~6,000 marketed compounds, every survivor promiscuous. (3) AR is ALREADY a panel target (antitarget_panel.json, 2AM9/testosterone). (4) denovo_401 is ALREADY staged as an anti-target candidate (nr4a3-antitarget-denovo401.json). ⛔ What is missing is (a) MR/NR3C2 is NOT in antitarget_panel.json, and (b) the SI's SECOND requirement — a cryptic-pocket-FORMATION test on AR/MR — has no instrument, and C04 is exactly that instrument.",
+      "known_answer_test": {
+        "shape": "does the panel rank each anti-target's own cognate ligand correctly — i.e. does testosterone prefer AR, dexamethasone prefer GR, and so on, through the identical smina protocol?",
+        "availability": "available — the cognate ligands are already named in antitarget_panel.json (TES/2AM9, DEX/1M2Z, OHT/3ERT, BRL/2PRG, 9CR/1FBY, VDX/1DB1, 348/1NRL, KLN/2V0M, SWF/1H9Z)",
+        "note": "this is a self-consistency positive control for the SCREEN and it appears never to have been run; it costs CPU only"
+      },
+      "cost_to_stand_up": "$0-to-cheap CPU. One panel entry (MR/NR3C2 — its PDB id must be RESOLVED from RCSB, never typed from memory, per the s_calibrator_survey.py convention) plus a re-run of an existing harness.",
+      "licenses_if_it_passes": "bounding the selectivity claim's SCOPE past the two paralogues, which the SI says must happen before the claim extends.",
+      "does_not_license": ["clearance. The SI's own words: pocket-residue resemblance 'prioritises, it does not certify'; the honest output is 'a shortlist, not a clearance'. And docking alone does not discharge it — the cryptic-pocket-formation half (C04) is a separate requirement."],
+      "grade": "B+",
+      "why_this_grade": "Cheap, and it converts a 'no instrument' row into a 'one target and one re-run' row. Held below A because docking-based cross-binding is a prioritisation instrument and cannot support a clearance statement, which is precisely what R14 is asked to deliver."
+    },
+    {
+      "id": "C09",
+      "rank": 9,
+      "name": "R3's submission gate — the frame-level re-read of an artifact we already own",
+      "class": "categorical (per-frame pass/fail) — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "Which INDIVIDUAL frames cleared D*, so that the specific release-derived frame denovo_401 was generated into can be checked.",
+      "serves": ["R3"],
+      "instrument_identity": "not a new instrument — it is V13's harmonized detector re-read at frame resolution. nr4a3-pocket-reharmonize-summary.json carries ensemble-level fractions only (n_ge_dstar per ensemble), which is exactly why it cannot discharge a frame-level check.",
+      "known_answer_test": {
+        "shape": "the detector's known answer is the experimental 8XTT ensemble row, already committed",
+        "availability": "available",
+        "artifact": "research/modalities/nr4a3-pocket-reharmonize-summary.json row 8xtt_20conformers"
+      },
+      "cost_to_stand_up": "$0 CPU — and it SHARES A RUN with C04, since both are the same detector over frames already on disk.",
+      "licenses_if_it_passes": "the paper's explicit submission gate. A negative reaches upstream to the generation receptor itself.",
+      "does_not_license": ["anything about binding"],
+      "grade": "B+",
+      "why_this_grade": "Already roadmap row 3 and already called the cheapest open item in the program; listed here for two reasons that are new — naming WHICH instrument serves it (V13's detector, not a new build) and noting that it and C04 are ONE run, not two."
+    },
+    {
+      "id": "C10",
+      "rank": 10,
+      "name": "Symmetric reciprocal-uniqueness + indel census across all residue classes",
+      "class": "categorical — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "(a) Insertions/deletions in the NR4A1/2/3 alignment — the strongest categorical difference available, a whole element present in one paralogue and absent in another; (b) for EVERY residue class, not just Cys and Lys, the symmetric map of which paralogue has something the others lack, at E3-reachable positions.",
+      "serves": ["R7", "R11", "R12"],
+      "why_it_is_not_already_covered": "nr4a3-differential-surface-atlas.json is computed over 254 ALIGNED residues and its per-residue records carry divergent_vs_nr4a1 / divergent_vs_nr4a2 / divergent_vs_both — i.e. DIVERGENCE, which is symmetric and position-wise. It cannot express an INDEL (an unaligned position is not in the table at all) and it does not distinguish 'NR4A3 has X and they do not' from 'they have X and NR4A3 does not'. Branch 1b discovered the second distinction the hard way, for cysteines only: 'uniqueness runs both ways, and the reciprocal direction had never been computed anywhere in this repo.'",
+      "known_answer_test": {
+        "shape": "none needed — a sequence alignment read with two independent aligners and an alignment_robust flag per position, the standard nr4a_paralogue_unique_residues.py already applies",
+        "availability": "n/a"
+      },
+      "cost_to_stand_up": "$0 CPU; sequences already cached (nr4a-sequences-cache.json).",
+      "licenses_if_it_passes": "either a new categorical handle stronger than any substitution, or a clean NEGATIVE that is worth reporting and that closes a hole the atlas cannot see by construction.",
+      "does_not_license": ["geometry — an indel's consequence needs a structure"],
+      "grade": "B",
+      "why_this_grade": "Free and genuinely uncovered, but it may well return nothing; graded on expected value, not on ceiling."
+    },
+    {
+      "id": "C11",
+      "rank": 11,
+      "name": "Steric-exclusion (volume) categorical screen at the divergent pocket handles",
+      "class": "categorical-if-it-holds — regime-gap-immune only at large size differences",
+      "regime_gap_immune": true,
+      "what_it_measures": "At each of the 7 divergent Pocket-5 lining positions, whether the paralogue residue is larger by enough that a substituent occupying that subpocket cannot be accommodated at all — a hard-clash statement rather than an energy.",
+      "serves": ["R7"],
+      "why_it_matters": "It is the move that saved Route B, applied to Route A: convert part of the warhead selectivity argument from an energy the method cannot resolve into a geometry it can. Route A currently has NO categorical component at all; its case is 7-of-10 divergence (and only 4 of 5 engageable handles distinguish NR4A3 from NR4A2, since I531 is Ile in both) plus a margin the instruments cannot resolve.",
+      "known_answer_test": {
+        "shape": "a system whose measured selectivity is attributed to a residue SIZE difference, scored by the same volume criterion",
+        "availability": "candidate_unverified",
+        "settled_by": "a $0 literature/PDB precheck of the pmx_mutation_reference shape. Do not cite a case before it runs."
+      },
+      "cost_to_stand_up": "$0 CPU on the matched opened models already in results/nr4a3-matrix/.",
+      "licenses_if_it_passes": "a categorical component for Route A, which today has none.",
+      "does_not_license": ["a clash is a soft threshold in practice — side chains move, and an ensemble will convert a categorical statement back into a populational one. That failure mode must be measured on the matched ensembles (C04's inputs), not assumed away."],
+      "grade": "B",
+      "why_this_grade": "Free and strategically valuable, discounted because the categorical framing is the least secure in this queue: the same rotamer variance that categorical-axis-audit.md L8 measures (max dSG/dCA = 9.5 at aligned pairs) is exactly what would erode it."
+    },
+    {
+      "id": "C12",
+      "rank": 12,
+      "name": "Thiol pKa / intrinsic nucleophilicity for C397",
+      "class": "physicochemical prediction — regime-gap-immune (not a binding free energy)",
+      "regime_gap_immune": true,
+      "what_it_measures": "Whether C397's thiol is deprotonated enough at physiological pH to be a competent nucleophile, and how that compares to NR4A1 C551 and to the conserved pocket cysteines.",
+      "serves": ["R8", "R15"],
+      "known_answer_test": {
+        "shape": "measured cysteine pKa values for proteins with solved structures, held out",
+        "availability": "candidate_unverified",
+        "settled_by": "a $0 precheck; curated pKa compilations plausibly exist but none is cited here and none may be until the precheck runs"
+      },
+      "cost_to_stand_up": "$0-to-cheap CPU.",
+      "licenses_if_it_passes": "one of the four items categorical-audit limit L6 names as entirely absent (pKa, nucleophilicity, adduct stability, promiscuity). It pairs with C03, which covers the other three empirically.",
+      "does_not_license": ["that a bond forms; reactivity is necessary and never sufficient"],
+      "grade": "B",
+      "why_this_grade": "Cheap and it fills a named hole, but pKa predictors are weakly calibrated on buried cysteines and the honest output is a rank, not a value."
+    },
+    {
+      "id": "C13",
+      "rank": 13,
+      "name": "Expression-context axis — bounding the CONSEQUENCE of imperfect paralogue selectivity",
+      "class": "public-data read — regime-gap-immune",
+      "regime_gap_immune": true,
+      "what_it_measures": "Where NR4A1 and NR4A2 are actually expressed relative to the tissues carrying the liability (the myeloid tumour-suppressor and dopaminergic-loss concerns the SI already names), and where the CRL machinery is expressed.",
+      "serves": ["bounds the liability behind R7/R14; serves no requirement directly"],
+      "known_answer_test": {
+        "shape": "cross-dataset concordance (HPA vs GTEx vs DepMap) — the instrument is a database read rather than a predictor, so concordance is the appropriate control",
+        "availability": "available in kind; partly already done",
+        "existing": "research/modalities/nr4a-e3-expression.json, depmap-target-expression.json, depmap-sarcoma-dependency.json"
+      },
+      "cost_to_stand_up": "$0.",
+      "licenses_if_it_passes": "an honest bound on what imperfect paralogue selectivity would COST, which is a different and cheaper question than how selective the molecule is.",
+      "does_not_license": ["⛔ selectivity. A degrader that cannot discriminate is not made selective by where its off-target happens to be expressed, and this must never be written as though it were."],
+      "grade": "B-",
+      "why_this_grade": "Free, honest, and a genuinely different axis — but it argues about consequences, not about the instrument problem, so it cannot raise any claim ceiling."
+    },
+    {
+      "id": "C14",
+      "rank": 14,
+      "name": "The protein-side wedge benchmark — barnase_barstar_W35F for V10",
+      "class": "free-energy — attacks the regime gap from the protein side",
+      "regime_gap_immune": false,
+      "what_it_measures": "Whether THIS engine resolves a ~1 kcal/mol interface effect at all.",
+      "serves": ["V10 -> R7"],
+      "known_answer_test": {
+        "shape": "a wedge-sized, charge-conserving, buildable mutation of 1BRS with a measured ddG",
+        "availability": "available",
+        "system": "barnase_barstar_W35F — the single candidate out of 7,085 SKEMPI rows, 29 rejected, CI-verified to stage",
+        "artifact": "research/modalities/protfep-wedge-band-candidates.json",
+        "guardrail_already_in_place": "deliberately NOT in protfep_bench.QUALIFICATION_SET, so a database quirk cannot flip the engine's committed verdict without a measurement"
+      },
+      "cost_to_stand_up": "priced in research/compute/pricing.md — small. No figure retyped here.",
+      "licenses_if_it_passes": "the FIRST demonstration in this program that any of its engines resolves a paralogue-scale difference. That is the regime gap, named.",
+      "does_not_license": ["a selectivity claim — it involves no paralogue and no ligand", "the SMARCA2/4 application, which is closed on evidence (STOP_NO_REFERENCE)"],
+      "grade": "B+",
+      "why_this_grade": "It is the ONLY priced, staged, ready item in the program that attacks the regime gap directly, and it is on the roadmap at row 12 with no outstanding authorization. It ranks below the $0 candidates only because it costs money and because a pass licenses a capability rather than a claim — but on decision value per dollar it is high and it is under-ranked where it currently sits."
+    },
+    {
+      "id": "C15",
+      "rank": 15,
+      "name": "Co-folding affinity head used as a BINARY CLASSIFIER across paralogues, never as a ranker",
+      "class": "ML classification — regime-gap-immune by construction",
+      "regime_gap_immune": true,
+      "what_it_measures": "binds / does not bind, per paralogue — a classification, not a ranking.",
+      "serves": ["R7 (as a prioritisation only)"],
+      "why_the_framing_is_the_point": "the repo's own auto-captured evaluation (method-watch.md, arXiv 2603.05532) reports Boltz-2 as a strong binary CLASSIFIER and a weak quantitative RANKER, and the repo's standing rule is that generator scores never enter S_d. Using it as a classifier is the one usage consistent with both.",
+      "known_answer_test": {
+        "shape": "held-out compounds measured active on one paralogue and inactive on the other",
+        "availability": "candidate_unverified",
+        "settled_by": "the same C01a ChEMBL mining pass produces this set as a by-product",
+        "hazard_that_must_be_stated": "training-set leakage. A model trained on public affinity data scored against public affinity data is not a blind test, and no result here may be reported without a temporal or structural holdout."
+      },
+      "cost_to_stand_up": "cheap GPU; the stack is already baked (triskit23/nrv04vast).",
+      "licenses_if_it_passes": "a weak prioritisation annotation, never a ranking and never a claim.",
+      "does_not_license": ["any selectivity claim", "entry into any scoring function"],
+      "grade": "C+",
+      "why_this_grade": "Cheap and regime-immune, but the sequence-only co-folding route already failed at ternary assembly here, the leakage hazard is real, and the ceiling on what a classifier licenses is low."
+    },
+    {
+      "id": "C16",
+      "rank": 16,
+      "name": "ML-potential (NNP) correction on the alchemical endpoints",
+      "class": "free-energy — improves a term, does not change the regime",
+      "regime_gap_immune": false,
+      "what_it_measures": "a better ligand Hamiltonian at the endpoints.",
+      "serves": ["V6", "V5"],
+      "known_answer_test": {
+        "shape": "the same public benchmarks, re-run with the correction",
+        "availability": "available in kind"
+      },
+      "cost_to_stand_up": "unpriced.",
+      "licenses_if_it_passes": "a smaller e_lig — which, per the double-difference analysis above, is a term that ALREADY CANCELS in dddG. So it buys the least where the program needs the most.",
+      "does_not_license": ["anything about the between-protein residual"],
+      "grade": "C",
+      "why_this_grade": "Listed for completeness and graded down deliberately: it is close to the definition of 'deepening a test past its field standard', which CLAUDE.md §5 defaults to NO, and the double-difference algebra shows it targets a cancelling term."
+    }
+  ],
+
+  "readout": {
+    "validatable_at_zero_or_near_zero_dollars": {
+      "known_answer_test_ALREADY_AVAILABLE": ["C02", "C04", "C06", "C08", "C09", "C13"],
+      "known_answer_test_needs_a_0_dollar_PRECHECK_first": ["C01 (via C01a/C01b)", "C03", "C05", "C11", "C12", "C15"],
+      "no_known_answer_test_needed_because_it_is_a_READ_not_an_inference": ["C07", "C10"]
+    },
+    "needs_spend": {
+      "C14": "priced, small, staged, no outstanding authorization — the only ready item that attacks the regime gap directly",
+      "C01_run": "one RBFE edge pair + shared solvent leg, AFTER its $0 benchmark search returns a system",
+      "C15": "cheap GPU",
+      "C16": "unpriced"
+    },
+    "the_single_best_identifiable_option": "C01 — the ligand-side dddG instrument, with C01a/C01b as its $0 gate. It is the only candidate that could carry a QUANTITATIVE paralogue selectivity claim, it runs on the one engine here that has passed a known-answer test, it removes R6 from the causal path, and the search that decides whether it is buildable costs nothing. If C01a/C01b return STOP_NO_REFERENCE the instrument closes on EVIDENCE, which the pmx arm has already shown is a better outcome than a budget hold.",
+    "the_best_zero_dollar_option_regardless": "C02 — the categorical decoy null. It is free, and it is the falsifier for the claim the program now leans on hardest. A screen whose cross-system background rate is unknown cannot be reported as an enrichment, and the categorical axis currently is.",
+    "one_run_two_candidates": "C04 and C09 are the SAME detector over frames already committed to this repo. Whoever runs one should run both."
+  },
+
+  "method_watch_findings": {
+    "digest_state": "The mechanical digest IS running — origin/method-watch-cache carries 'Method-watch digest 2026-07-31'. Tool watch reports alphafold3 v3.0.4 (2026-07-28), protenix v2.0.0 (2026-04-07), bioemu v1.4.0 (2026-07-20), boltz v2.2.1. No literature hit in that digest crosses a trigger; the keyword queries return heavy off-topic noise in most topics.",
+    "the_gap_in_the_watch_itself": [
+      "⛔ THERE IS NO WATCHED TOPIC FOR THE PROGRAM'S ACTUAL BOTTLENECK. Every row of the trigger table watches a capability that would unblock a ROUTE. None watches an instrument that could carry a SELECTIVITY claim without a free-energy difference — which roadmap §3.2 identifies as the thing 0 of 16 requirements have.",
+      "Three concrete rows are missing and each is cheap to add: (a) LIGAND-SIDE SELECTIVITY FEP benchmarks / dddG methodology — the trigger for C01; (b) PUBLIC CYSTEINE CHEMOPROTEOMICS releases — the trigger for C03, currently unwatched because the repo files chemoproteomics as a wet-lab dependency rather than as a public dataset; (c) UBIQUITINATION-SITE mapping datasets for degraders — the trigger for C05.",
+      "The existing 'turnkey alchemical protein-mutation FEP' row is the closest thing to a regime-gap watch and it has already fired (pmx works, V10 passed); its stated precursor — the NR4A pocket-homology check — is effectively answered (7 of 10 lining residues divergent), so that row should be re-graded rather than left as 'watching'."
+    ],
+    "field_scan_log_observation": "research/field-scan-log.md carries exactly ONE entry, dated 2026-07-13, described in the file itself as a manual catch-up baseline. The weekly newsletter Routine's documented behaviour is to APPEND to that file; three weeks of scans are therefore either not firing or not appending. Flagged as an observation, not diagnosed — a routine-level check is outside this pass's $0 scope but is itself free and should be taken by whoever owns the watch.",
+    "landed_since_the_table_was_written": "BioEmu is the one capability whose trigger already FIRED (2026-07-24, action (a) done on NR4A3). ⛔ Its second, obvious consequence was never taken: the same near-zero-cost generator can produce the PARALOGUE ensembles. C04 uses ensembles that already exist; if a fresh unbiased generative ensemble is ever wanted for AR/MR (C08's second half), BioEmu is the priced route and the repo's own measurement calls it minutes on one GPU per target."
+  },
+
+  "proposed_roadmap_edits": {
+    "_status": "PROPOSED, NOT APPLIED. research/manuscripts/nr4a3-program-map.md is held by another agent in this session; these are routed rather than made.",
+    "edits": [
+      {
+        "where": "§3.1 instrument table (or §3.4, beside the two instrument facts)",
+        "what": "Record the double-difference finding as an INSTRUMENT FACT: a ligand-side double difference does NOT inherit V6's validation, because V6 bounds (e_int,P + sampling/prep vs SOLVENT) for one protein while the double difference's residual is (e_int,3 - e_int,1 + ...) between two proteins — disjoint error terms. Point at research/modalities/instrument-options.md §2 as the one home of the argument.",
+        "why": "roadmap §3.4 already exists to carry exactly this kind of scope fact about V6, and this is the largest one missing. The roadmap currently states V6's scope limit ('within one pocket', 'am1bcc lane only') without stating WHY a double difference does not repair it — which is the inference a reader will otherwise make."
+      },
+      {
+        "where": "§2.1 row R6, §5 row R6, and §8 Route A block 2",
+        "what": "Add: R6 blocks the ABSOLUTE (ABFE-difference) route to R7 and does NOT block a RELATIVE ligand-side double-difference route to R11's causal question, because a ligand-independent opening penalty cancels inside each protein before the between-protein subtraction. Mark it explicitly as an ARGUMENT, not a measurement, with the stated condition (matched pair selects the same open sub-state).",
+        "why": "the roadmap presents R6 as blocking everything on the binder path ('every ddG on the binder path is conditional on a term nobody has computed'). That is true of the absolute route and, on the algebra above, not of the relative one. A blocker that is narrower than recorded is a scheduling fact."
+      },
+      {
+        "where": "§10.1 open rows",
+        "what": "Add rows for: the ligand-side wedge-band scan (C01a, $0); the CREBBP/BRD4 relative-form precheck (C01b, $0); the categorical decoy null (C02, $0); the chemoproteomics known-answer precheck (C03, $0); the V18 ubiquitination-reference precheck (C05, $0); the paralogue-matched pocket druggability run (C04, $0, and it shares a run with existing row 3).",
+        "why": "roadmap §10.3's own lesson — 'a caveat with nowhere to go is how work gets silently dropped'. Every item above currently exists only as a limit in a paper caveat or an audit's limits table."
+      },
+      {
+        "where": "§2.2 'Requirements with no instrument' row R14",
+        "what": "R14's status is stronger than 'never run': the sequence screen HAS run (nr4a-superfamily-selectivity.json, 47 receptors, flags NR3C2 and AR), the docking harness HAS run at scale (SI §S1), AR is already a panel target and denovo_401 is already staged. What is missing is MR/NR3C2 in antitarget_panel.json and the cryptic-pocket-formation half.",
+        "why": "'no instrument' overstates the gap by about 8/9ths and hides a cheap next action."
+      },
+      {
+        "where": "§3.1 row V17 / §7 branch 1",
+        "what": "Note that the exposure criterion's failed positive control (NR4A1 Cys551) is potentially checkable against MEASURED chemoproteomics data, and that the repo's standing phrase 'requires chemoproteomics, which this program does not have' conflates the TECHNIQUE with published DATASETS.",
+        "why": "the phrase appears in at least six files and, as written, closes an axis that may be open."
+      },
+      {
+        "where": "research/method-watch.md trigger table",
+        "what": "Add the three missing watch rows listed in method_watch_findings.the_gap_in_the_watch_itself.",
+        "why": "the watch does not currently watch for a fix to the program's stated bottleneck."
+      }
+    ]
+  },
+
+  "open_questions_this_pass_did_not_settle": [
+    "Whether a ligand-side paralogue-selectivity benchmark exists at all. C01a/C01b decide it; this file deliberately names no system and no value, because the whole point of the exercise is that inventing one is the failure mode that cost this program its withdrawn selectivity claims.",
+    "The CORRELATION between the two arms' complex-leg errors in a double difference. It is the single number that would turn the qualitative 'partial cancellation' above into a bound, nothing in the repo measures it, and the cheapest way to measure it is replicates on both arms of the same dddG — which is what a benchmark run would produce anyway.",
+    "Whether C04's paralogue detection fractions will be interpretable at 100 frames per species with within-replica correlation (categorical-audit L5: effective n < frame count). The run is free; the power question should be settled from the NR4A3 rows before the paralogue numbers are read."
+  ]
+}
