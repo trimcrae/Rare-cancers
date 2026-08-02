@@ -206,6 +206,11 @@ jobs:
           path: _decoy_inputs
       - name: Restore the plan
         run: cp -a _decoy_inputs/plan.json research/modalities/categorical-decoy-null-plan.json || true
+      # ★ The driver's OWN known-answer test: re-run it on the committed opened models + committed Pocket-5
+      # and compare against the committed static verdict. A background measured by an unvalidated harness
+      # would be worse than no background, so this runs in the same job that publishes the background.
+      - name: Harness known-answer check vs the committed static verdict
+        run: cd research/modalities && python3 categorical_decoy_null.py selfcheck
       - name: Reduce
         run: |
           ls -la results/categorical-decoy-null/shards || true
