@@ -20,7 +20,7 @@ Rendered version (mermaid + status colouring): published artifact, regenerated f
 
 ★ **A state here is WORK STATUS, not evidence quality (trimcrae, 2026-08-02).** An earlier pass coloured this
 page by how good the evidence was, which is a different question and not the one you steer by: a claim can
-rest on excellent evidence and still be blocked, and a dead end can be *very* well established. These four
+rest on excellent evidence and still be blocked, and a dead end can be *very* well established. These five
 states answer "what should I do about this?" — and every node, row and route below carries exactly one.
 
 | state | glyph | means | what to do |
@@ -28,17 +28,27 @@ states answer "what should I do about this?" — and every node, row and route b
 | **complete** | ✓ | ran, returned, and the result is recorded in a committed artifact | cite it; don't re-run it |
 | **in work** | ◐ | dispatched or building right now | wait for it; don't start a second copy |
 | **future work** | ○ | not started, and nothing is blocking it except sequence | this is where new effort goes |
-| **dead end** | ✕ | an **approach** that was tried and refuted, recorded so it stops being re-proposed | **do not retry** — see §2 |
+| **parked** | ⏸ | failed with today's tools, but a better tool could change the answer | **name the capability** that reopens it — [method-watch.md](../method-watch.md) |
+| **dead end** | ✕ | **conclusively proven unworkable** — no future development reopens it | **never retry** — see §2 |
 
-⛔ **✕ APPLIES TO APPROACHES, NEVER TO CLAIMS OR GOALS (trimcrae, 2026-08-02, catching the first version of
-this page marking the PAPER node as a dead end).** A goal you have not reached is **blocked**, not refuted —
-the two look similar on a status board and mean opposite things, because one says *find another route* and
-the other says *stop*. So the split is structural, not a matter of care: **§1's dependency graph is claims and
-carries only ✓ / ◐ / ○; §2's table is approaches and is the only place ✕ appears.** Nothing in the program is
-"a dead end" as a whole — specific methods are.
+⛔ **✕ MEANS CONCLUSIVELY PROVEN UNWORKABLE — NOT "WE TRIED IT AND IT DIDN'T WORK" (trimcrae, 2026-08-02:
+*"A dead end should be like, we have conclusively proven that avenue can't work"*).** The test is a single
+question: **is there any future development that would make us retry this?** If yes, it is not dead. So ✕
+requires positive evidence of impossibility — a structural confound no sample size fixes, arithmetic that
+cannot reach the criterion, a premise shown false, an artifact that can never be regenerated. A method that
+merely *failed* is ⏸ **parked**, and CLAUDE.md §5 is explicit that parked items are "revisit when capability X
+lands", not dead. Conflating the two is expensive in both directions: it buries live options, and it invites
+re-running things that cannot work.
 
-⚠ **And a ✓ never means "the claim is true"** — it means the *work item* finished. Sequence-only co-folding is
-✕ precisely because its work completed cleanly and returned a clear negative. §3 says what each result supports.
+⚠ **AND THE TEST IS CONCLUSIVENESS, NOT WHAT KIND OF BOX IT IS.** An earlier version of this page marked the
+PAPER node ✕, which was wrong — the paper is blocked, and nothing shows it cannot be written. I then
+over-corrected into a rule that claims and goals may *never* be ✕, which is also wrong: **a claim that has been
+refuted is dead, and should say so.** The reason §1's graph currently carries no ✕ is not that its boxes are
+exempt — it is that no claim on it has been refuted. If one is, it gets a ✕ like anything else.
+
+⚠ **And a ✓ never means "the claim is true"** — it means the *work item* finished. Sequence-only co-folding's
+known-answer test completed cleanly and returned a clear negative, which is why it is ⏸ rather than ○: the work
+is done, the avenue is not. §3 says what each result supports.
 
 ---
 
@@ -46,8 +56,9 @@ carries only ✓ / ◐ / ○; §2's table is approaches and is the only place �
 
 Read upward: a box can only be claimed once everything feeding it holds. **Dashed edges are validation
 dependencies** — the instrument that produces a claim must itself have been shown to work. Node glyphs carry
-the state, so the graph reads the same without colour. **Every node here is a claim, so none of them is ✕** —
-an unreached claim is ○, and the approaches that were refuted are in §2.
+the state, so the graph reads the same without colour. **No node here is ✕ today** — not because claims are
+exempt from being dead, but because none of these has been refuted. An unreached claim is ○; the approaches
+that *were* conclusively closed are in §2.
 
 ```mermaid
 graph BT
@@ -98,24 +109,43 @@ that is the distinction the states exist to keep visible.**
 
 ---
 
-## 2 · Dead ends — ruled out, do not retry
+## 2 · Dead ends and parked routes
 
-★ **Each of these cost real time to establish.** They are recorded so the next person to have the idea can
-see that it was already had. Every row's evidence lives in a committed artifact (§Provenance); this table is
-an index, not the record.
+⛔ **THIS REGISTER IS INCOMPLETE AND IS BEING REBUILT (2026-08-02).** It was assembled by hand from what one
+session happened to remember, and a sweep of STRATEGY.md Appendix A (~113 entries), Appendix B (6 superseded
+framings), the paper's retractions and the modules' own REFUTED verdicts is in progress. **Absence from this
+table is not evidence an avenue is live.** Until the sweep lands, treat the rows below as a floor.
 
-| ✕ approach | why it is dead | evidence |
+### 2a · ✕ Dead — conclusively unworkable, never retry
+
+Each row must answer *no* to "is there any future development that would make us retry this?"
+
+| ✕ approach | why nothing reopens it | evidence |
 |---|---|---|
-| **Sequence-only co-folding to generate ternaries** | Each protein's own ligand pocket comes out roughly right, but the two halves are assembled wrongly — the failure is not a matter of degree | DockQ 0.023–0.046 ≈ true structure moved 32 Å |
-| **E1 interface-stability endpoint as a selectivity readout** | Three independent attempts, none passed. It is a ranking tool being asked a generation question | wrong sign · p = 0.393 · p = 0.747 |
-| **NR-V04 as the positive control** | Its selectivity is attributed to a covalent bond at a cysteine NR4A2/NR4A3 lack, so a geometry readout could pass for the wrong reason. Confounded *by construction* — no sample size fixes it | Cys551 unique to NR4A1; C6→S 28.42–39.11 Å vs a ~1.8 Å bond |
-| **Crystal-copy MD design for the E1 control** | 9DTX's asymmetric unit holds a single ternary, so the arms match at one copy each and the test cannot reach α however it is run | 9DTY 8 copies / 9DTX 1; min attainable p = 0.5 |
-| **Covalent warhead at an NR4A3 pocket cysteine** | The two cysteines inside the pocket are conserved in all three paralogues *and* buried. Uniqueness and pocket-proximity sit on opposite residues (§5, branch 1) | C496, C536 — SG SASA ≤ 11 Å² |
-| **The §2.5 ternary result** | The molecule folded is unrecoverable — no bond-order record, and it entered as an unlogged environment variable. Cannot be replicated or extended | no `_chem_comp_bond` in any of 3 models |
-| **Constrained-embed prep for the ternary generator** | Refuted before it was built, by the generator's own released benchmark data — its unbound protocol supplies the native pose, not a generated conformer | shipped ligand ≡ native, 0.000 Å over 66 atoms |
+| **NR-V04 as the positive control** | Its selectivity is attributed to a covalent bond at a cysteine NR4A2/NR4A3 lack, so a geometry readout passes for the wrong reason. Confounded **by construction** — no sample size and no better method fixes a confound in the system itself | Cys551 unique to NR4A1; C6→S 28.42–39.11 Å vs a ~1.8 Å bond |
+| **Crystal-copy MD design for the E1 control** | 9DTX's asymmetric unit holds a single ternary, so the arms match at one copy each and the permutation test **cannot reach α however it is run**. This is arithmetic, not a limitation of effort | 9DTY 8 copies / 9DTX 1; min attainable p = 0.5 |
+| **Covalent warhead at an NR4A3 pocket cysteine** | The two cysteines inside the pocket are **conserved in all three paralogues**. A residue the paralogues share cannot discriminate between them — that is definitional, not a measurement that could improve | C496, C536 conserved; SG SASA ≤ 11 Å² |
+| **The §2.5 ternary result** | The molecule folded is unrecoverable — no bond-order record, and it entered as an unlogged environment variable. That specific **result** can never be regenerated by anyone, including us | no `_chem_comp_bond` in any of 3 models |
+| **Constrained-embed prep for the ternary generator** | The premise was false: the generator's unbound protocol supplies the **native** pose, so there was never a conformer for us to constrain. Refuted by its own released benchmark before it was built | shipped ligand ≡ native, 0.000 Å over 66 atoms |
 
-⚠ **A dead end is not a failure of the program** — five of these seven closed off a path that would have
-consumed GPU spend, and two of them (the last two rows) were killed by a $0 read before anything ran.
+### 2b · ⏸ Parked — failed with today's tools, named trigger to reopen
+
+★ **These were in the dead-ends table until the strict bar was applied, and they do not meet it.** Both failed
+badly, but a better instrument is a live possibility for each, so filing them as dead would bury a real option.
+Triggers belong to [method-watch.md](../method-watch.md).
+
+| ⏸ approach | how it failed | what would reopen it |
+|---|---|---|
+| **Sequence-only co-folding to generate ternaries** | Each protein's own ligand pocket comes out roughly right; the two halves are assembled wrongly — not a matter of degree | a co-folding model that is actually evaluated on ternary **assembly**, not just per-chain pocket accuracy. This is an active frontier; Boltz-2 failing is not the class failing | 
+| **E1 interface-stability endpoint as a selectivity readout** | Three independent attempts, none passed — a ranking tool asked a generation question | a readout with power at achievable sampling, or a system where the effect is large enough for E1's resolution. Three failures is strong evidence, **not proof of impossibility** |
+
+⚠ **Evidence for the co-fold and E1 rows:** DockQ 0.023–0.046 ≈ true structure moved 32 Å; wrong sign ·
+p = 0.393 · p = 0.747. Same numbers as before — **only their classification changed**, and the numbers are
+what say these are parked rather than dead.
+
+↩ **Superseded numbers, claims and plan framings are NOT dead ends and are deliberately not here.** They live
+in [STRATEGY.md Appendix A and B](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims),
+which is their one home (rule 1). A replaced value is history; a closed avenue is a decision.
 
 ---
 
@@ -131,8 +161,8 @@ looks. This table is why three separate selectivity results had to be withdrawn.
 | Interface-mutation physics (pmx/GROMACS) | barnase–barstar Y29A vs published ΔΔG | +4.42 ± 1.08 vs +3.4 | ✓ complete — **PASSES** |
 | Selectivity free energy (ABFE) | CREBBP vs BRD4(1) / SGC-CBP30, ΔΔG ≈ 2.2 kcal/mol | solvent leg dispatched; full pass priced | ◐ in work |
 | Ligand pose prediction (dock + MM-GBSA) | recover a known holo pose in a nuclear receptor from apo | **INCONCLUSIVE by its own pre-registered rule** — the C1 holo self-dock control failed through the pipeline's own box on **6 of 6 pairs across 3 receptors** (17.3–29.3 Å), so the primary arm measured the *site*, not the docking. With an fpocket-chosen box the same protocol recovers **3.46 Å, fnat 0.778, 7 of 9 native contacts** | ✓ complete — verdict INCONCLUSIVE |
-| Sequence-only co-folding (Boltz-2 ternary) | reproduce 9DTY/9DTX from sequence + ligand | DockQ 0.023–0.046 ≈ true structure moved 32 Å | ✕ dead end — **FAILS** |
-| Interface-stability endpoint (E1) | three attempts: cooperativity calibrator, NR-V04 retrospective, SMARCA2/4 control | wrong sign · p = 0.393 · p = 0.747 | ✕ dead end — **no pass** |
+| Sequence-only co-folding (Boltz-2 ternary) | reproduce 9DTY/9DTX from sequence + ligand | DockQ 0.023–0.046 ≈ true structure moved 32 Å | ⏸ parked — **FAILS** (§2b) |
+| Interface-stability endpoint (E1) | three attempts: cooperativity calibrator, NR-V04 retrospective, SMARCA2/4 control | wrong sign · p = 0.393 · p = 0.747 | ⏸ parked — **no pass** (§2b) |
 
 ★ **The pattern.** Every instrument put to a known-answer test either passed cleanly or failed cleanly. Every
 claim that later had to be withdrawn came from an instrument that had never been tested. The test costs
@@ -168,7 +198,7 @@ Outcome boxes are grey — they are consequences, not work items.
 graph TD
   Q1{"✓ Does NR4A3 have a<br/>ligandable cysteine<br/>the paralogues lack?"}
   Q1 -->|"3 unique: C397 C420 C559<br/>but 11-19 A from the pocket"| COV["COVALENT route — only at LINKER<br/>reach, not warhead reach.<br/>Not the NR-V04 mechanism"]
-  COV --> Q1B{"✓ Is the LINKER-borne<br/>handle geometrically<br/>available? (branch 1b)"}
+  COV --> Q1B{"◐ Is the LINKER-borne<br/>handle geometrically<br/>available? (branch 1b)"}
   Q1B -->|"C397 only; the window is closed<br/>by a PARALOGUE cysteine C534<br/>that NR4A3 lacks"| COVX["Uniqueness runs BOTH ways —<br/>the reciprocal direction had<br/>never been computed"]
   Q1 -->|"the 2 IN the pocket are<br/>conserved AND buried"| NONCOV["NON-COVALENT route — selectivity<br/>from pocket shape (current path)"]
   Q2{"✓ Does the pipeline recover<br/>a known ligand pose?"}
@@ -238,22 +268,24 @@ only, $0 CPU, and it **owns every number below**.
 
 ```mermaid
 graph TD
-  L{"✓ Can a linker present an electrophile<br/>at an NR4A3-unique cysteine<br/>while the E3 reaches solvent?"}
-  L -->|"C420, C559: no, at every<br/>placement and pendant"| DEAD["✕ REFUTED — beyond the<br/>chemically routine linker bound"]
-  L -->|"C397: yes"| WIN{"✓ Does anything else<br/>come into reach first?"}
+  L{"◐ Can a linker present an electrophile<br/>at an NR4A3-unique cysteine<br/>while the E3 reaches solvent?"}
+  L -->|"C420, C559: no, at every<br/>placement and pendant"| DEAD["REFUTED pending artifact —<br/>beyond the chemically<br/>routine linker bound"]
+  L -->|"C397: yes"| WIN{"◐ Does anything else<br/>come into reach first?"}
   WIN -->|"not an NR4A3 conserved<br/>cysteine — C536 is later"| PAR["The window is closed by a<br/>PARALOGUE cysteine, C534,<br/>which NR4A3 does NOT have"]
 
-  classDef done fill:#dff0e4,stroke:#2f8f5b,stroke-width:2px,color:#10231a;
+  classDef work fill:#dee7fa,stroke:#3a63b8,stroke-width:2px,color:#111f38;
   classDef dead fill:#f7e6e0,stroke:#b1543a,stroke-width:2px,color:#2e150f,stroke-dasharray:5 3;
   classDef out fill:#f2f2f0,stroke:#9b9b96,stroke-width:1px,color:#2a271f;
 
-  class L,WIN done;
+  class L,WIN work;
   class DEAD dead;
   class PAR out;
 ```
 
-⚠ **This is the one graph on the page carrying a ✕, and it is carrying it correctly** — `DEAD` is an
-*approach* (put the electrophile at C420 or C559), not a claim. It is the fifth row of §2 in miniature.
+⚠ **`DEAD` is drawn dashed but carries no ✕, deliberately.** It is an *approach* (put the electrophile at
+C420 or C559) rather than a claim, so it is eligible — but two things are unsettled: the artifact behind it
+does not exist yet, and the bound it failed is "chemically routine linker length", which a non-routine linker
+could exceed. Under §0's strict bar that is ⏸ at best, not ✕. It gets classified once the artifact lands.
 
 Three results, in the order they change what the program should do:
 
