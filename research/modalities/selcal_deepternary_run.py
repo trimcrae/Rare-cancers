@@ -112,7 +112,23 @@ def e3_copy_chains(pdb_path, anchor_comp, n_subunits=3, near_a=6.0):
     hang off VHL rather than touching the anchor."""
     import selcal_cofold_validate as V
     atoms = V.parse_structure(pdb_path)
-    seed, err = resolve_chains(pdb_path, anchor_comp, near_a)
+    # ⚠ MEASURED, run 30751897153: seeding from "every chain near the ligand" returned ['C','F','I','L'] --
+    # one VHL from each of 5NVX's four copies, because the anchor ligand is present in ALL of them. Seed from
+    # ONE ligand INSTANCE, not from the ligand NAME.
+    import selcal_cofold_validate as _V
+    _atoms = _V.parse_structure(pdb_path)
+    _inst = {}
+    for a in _atoms:
+        if a.resname == anchor_comp and a.is_heavy:
+            _inst.setdefault(a.key, []).append(a.xyz)
+    if not _inst:
+        return [], "no copy of %s found in %s" % (anchor_comp, os.path.basename(pdb_path))
+    _one = _inst[sorted(_inst)[0]]
+    _c2 = near_a * near_a
+    seed = sorted({a.chain for a in _atoms
+                   if a.resname in _V._THREE_TO_ONE and a.is_heavy
+                   and any((a.x-q[0])**2 + (a.y-q[1])**2 + (a.z-q[2])**2 <= _c2 for q in _one)})
+    err = None if seed else "no polymer chain within %.1f A of the chosen %s copy" % (near_a, anchor_comp)
     if err or not seed:
         return [], err or "no chain carries %s" % anchor_comp
     ca = {}
