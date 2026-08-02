@@ -2110,6 +2110,25 @@ bromodomains are ~80 % identical and the published selectivity is driven by a si
 so a null here is consistent with both an insensitive endpoint and a genuinely narrow structural signal. It
 re-scores no leg reported above, and it changes no ΔΔG.
 
+⚠ **A THIRD READING, MEASURED AFTER THE FACT, AND IT WEAKENS THIS RESULT RATHER THAN RESCUING IT.** The two
+readings above were the only ones registered, and they share an assumption nobody had checked: that the
+simulated complexes were the complexes whose selectivity was measured. They were not. Scored against the
+deposited ternaries the panel was designed around — 9DTY and 9DTX, chosen precisely so that *"each arm's
+co-fold can be validated against a real structure of the very complex it models"*, a comparison that was
+**never** run at the time — all twelve starting
+structures reproduce the **internal VHL/Elongin B/Elongin C machinery at DockQ 0.89–0.97** and the
+**degradation-target↔VHL interface at DockQ 0.023–0.046 with fnat 0.000**, i.e. not one native interface
+contact recovered on either arm. Two independent implementations agree, one of them the canonical DockQ
+([`../modalities/selcal-cofold-vs-crystal.json`](../modalities/selcal-cofold-vs-crystal.json),
+[`../modalities/selcal-cofold-dockq.json`](../modalities/selcal-cofold-dockq.json)).
+⛔ **This does not convert the null into a positive result and must never be read that way.** It says the
+endpoint was never exercised on the complexes in question, so the null bounds the *workflow as run* and not
+the readout in isolation — the instrument claim is weaker than the two registered readings imply, not
+stronger. The consequence for this paper's language is unchanged: every paralogue-selectivity statement
+remains an unvalidated prediction. What it does change is where the failure sits — at ternary **generation**
+rather than at ranking — which is a statement about this co-folding pipeline on a VHL neosubstrate interface
+and about nothing else.
+
 **Applied, not noted:** with §2.11's cooperativity calibrator failed on sign, §2.12's retrospective
 non-resolved, and this control null on an adequately-powered design, **all three** attempts to establish a
 positive control for this program's selectivity claims have now been run and none succeeded. The consequence
@@ -2386,7 +2405,13 @@ therefore an unvalidated prediction.** Two things this does *not* license, both 
 reading is the tempting one: it does **not** distinguish an insensitive readout from a genuinely narrow
 structural signal, and it does **not** retroactively invalidate any individual ΔΔG — it removes the evidence
 that the workflow producing them can resolve a paralogue difference at all, which is a different and broader
-claim. No fourth candidate control is staged in this program.
+claim. ⚠ **And a third limitation, measured after the fact, sits upstream of all of it:** the sensitivity
+control's starting structures were subsequently scored against the deposited ternaries the design was built
+around and reproduce the **target↔VHL interface at DockQ 0.023–0.046, fnat 0.000**, while reproducing the
+internal E3 machinery at 0.89–0.97 (§2.12a). The endpoint was therefore never exercised on the complexes
+whose selectivity was measured, which makes that null a bound on the **workflow as run** rather than on the
+readout in isolation — weaker evidence about the instrument than the registered readings imply, not stronger,
+and no basis whatever for re-opening any selectivity claim.
 
 In-silico throughout; no molecule synthesized; broader indications (SI §S4) are **motivation, not
 demonstrated efficacy**. Therapeutic application to EMC (and AciCC) additionally **assumes NR4A3 dependence, which is not tested here**: the supporting prior (a transfer prior from fusion-addicted EWSR1/FET sarcomas; EMC-native evidence the fusion is a functional driver; a near-invariant clonal fusion in a quiet genome) and the **one decisive gap** (no loss-of-function experiment in any EMC model — the make-or-break dTAG test is delegated to the EMC-program paper), together with the systemic-lead safety/tolerability rationale and the pan-NR4A/CAR-T pole, are in **SI §S9** (safety in **SI §S6**, indications in **SI §S4**). This paper's claimed contribution is the target's **computational druggability/selectivity, not EMC efficacy**.
