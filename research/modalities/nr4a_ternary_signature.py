@@ -204,10 +204,14 @@ def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="Paralogue-discriminating contacts in our NR4A ternaries ($0).")
     ap.add_argument("--root", required=True, help="directory holding one ternary structure per paralogue")
-    ap.add_argument("--pattern", default="{p}*.cif", help="glob per paralogue; {p} is the paralogue name")
+    ap.add_argument("--pattern", default=None,
+                    help="DEPRECATED and IGNORED. Selection is by path token with a deny-list (see below); a "
+                         "caller-supplied glob silently decided which structure was compared, which is the "
+                         "one decision this module must not delegate.")
     ap.add_argument("--target-chain", default=None, help="blank = derive from chain lengths, or refuse")
     ap.add_argument("--e3-chains", default=None, help="comma-separated; blank = every other polymer chain")
-    ap.add_argument("--recursive", action="store_true", help="search --root recursively")
+    ap.add_argument("--recursive", action="store_true",
+                    help="accepted for compatibility; the search is always recursive")
     ap.add_argument("--validated", default=None)
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a-ternary-signature.json"))
     args = ap.parse_args(argv)
@@ -219,6 +223,8 @@ def main(argv=None):
     # structure. Paths are matched on the whole relative path (a paralogue may be encoded in a directory
     # rather than a filename), control-like paths are excluded by name, and a paralogue with zero or
     # several surviving candidates is REPORTED rather than resolved by preference.
+    if args.pattern:
+        print("[nr4a-signature] --pattern is ignored: selection is by path token with a deny-list", flush=True)
     DENY = ("control", "binary", "apo")
     all_cif = sorted(glob.glob(os.path.join(args.root, "**", "*.cif"), recursive=True))
     candidates, structures = {}, {}
