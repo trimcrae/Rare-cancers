@@ -1,0 +1,152 @@
+name: Sensitivity control — do the co-folds reproduce the deposited ternaries? ($0 CPU)
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# THE CHECK THE SENSITIVITY CONTROL WAS DESIGNED AROUND AND NEVER RAN
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# `selcal_panel.py` chose PRT3789 over the better-documented ACBI2 BECAUSE two deposited ternaries carry the
+# same ligand on both arms — 9DTY (SMARCA2) and 9DTX (SMARCA4) — so, verbatim, "each arm's co-fold can be
+# VALIDATED against a real structure of the very complex it models"; `selcal_stage`'s docstring repeats that
+# the crystals are "used to VALIDATE the co-folds rather than to supply them". No such validation existed:
+# `grep -rl DockQ` over the repo hits only the DeepTernary lane.
+#
+# It matters now because `selcal-verdict.json` returned NULL on an adequately-powered design and bounds
+# itself between exactly two readings — "the readout is blunt" and "this pair is hard" — with no branch for
+# "the co-fold was not the measured complex". This job supplies the observation that separates the third
+# from the first two, and it costs nothing.
+#
+# ⚠ THE ANSWER IS PUBLISHED WHICHEVER WAY IT LANDS. Co-folds near the crystals make the null a DIAGNOSED
+# negative; co-folds far from them mean E1 was never tested, which makes the instrument claim WEAKER. A
+# result that can re-open a null is not a result that may be used to discard one.
+#
+# ⛔ NO GPU, NO RENTAL, NO VERDICT. It grades INPUTS. It re-scores no leg, moves no threshold and amends no
+# preregistration; `selcal-verdict.json` remains the one home of the tier.
+#
+# PUSH-TRIGGERED as well as dispatchable, deliberately: a NEW workflow file on a feature branch cannot be
+# reached by `workflow_dispatch` (dispatch resolves against the default branch), so the push trigger is what
+# makes it runnable before any merge — the `deepternary-qualify.yml` pattern, CLAUDE.md §6.
+
+on:
+  workflow_dispatch:
+    inputs:
+      cofold_prefix:
+        description: "S3 prefix holding the co-folds (default: the panel's frozen SELCAL_COFOLD_PREFIX)"
+        required: false
+        default: ""
+      bucket:
+        description: "S3 bucket"
+        required: false
+        default: "sagemaker-us-east-2-646605541856"
+  push:
+    branches: [claude/nr4a1-protac-positive-control-xnszjl]
+    paths:
+      - .github/workflows/selcal-cofold-validate.yml
+      - research/modalities/selcal_cofold_validate.py
+      - research/modalities/tests/test_selcal_cofold_validate.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: selcal-cofold-validate
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BUCKET: ${{ github.event.inputs.bucket || 'sagemaker-us-east-2-646605541856' }}
+      SELCAL_COFOLD_PREFIX: ${{ github.event.inputs.cofold_prefix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      # numpy is needed ONLY by the imported E1 RMSD kernel (`nrv04_covalent_md._aligned_iface_rmsd`).
+      # Parsing, chain mapping, alignment, interface selection and fnat are pure stdlib, which is why the
+      # whole pipeline is exercisable offline and why the tests below run before anything is downloaded.
+      - run: python -m pip install -q numpy awscli pytest
+
+      - name: The guards hold before anything is read
+        run: |
+          set -eo pipefail
+          python3 -m pytest research/modalities/tests/test_selcal_cofold_validate.py \
+                            research/modalities/tests/test_selcal_panel.py -q
+
+      - name: Resolve the prefix the panel actually froze
+        id: prefix
+        run: |
+          set -eo pipefail
+          P=$(python3 -c "import sys; sys.path.insert(0,'research/modalities'); import selcal_panel as P; print(P.COFOLD_PREFIX)")
+          echo "prefix=$P" >> "$GITHUB_OUTPUT"
+          echo "resolved co-fold prefix: $P"
+
+      # Pull ONLY the model files. A co-fold directory also holds MSAs and per-seed scratch that this job has
+      # no use for, and a narrow sync is the difference between seconds and a multi-GB download.
+      - name: Sync the co-folds from S3 (models only)
+        run: |
+          set -eo pipefail
+          mkdir -p /tmp/selcal_cofolds
+          aws s3 sync "s3://$BUCKET/${{ steps.prefix.outputs.prefix }}/" /tmp/selcal_cofolds/ \
+            --exclude "*" --include "*.cif" --only-show-errors
+          echo "=== what landed ==="
+          # `| head -N` under `set -e` + pipefail is a size-dependent step-killer: head closes the pipe, the
+          # producer fails its write, and the step dies — but only once the output outgrows the 64 KB pipe
+          # buffer. `awk 'NR<=N'` reads to EOF and prints the first N, so it cannot kill the producer, and
+          # unlike `|| true` it does not swallow a real error. Enforced by test_workflows_parse.py.
+          find /tmp/selcal_cofolds -name '*.cif' | sed 's|/tmp/selcal_cofolds/||' | sort | awk 'NR<=60'
+          echo "n_cif=$(find /tmp/selcal_cofolds -name '*.cif' | wc -l)"
+
+      # ⚠ A SYNC THAT RETURNED NOTHING IS A REFUSAL TO REPORT, NOT A PANEL THAT FAILED THE CHECK.
+      # An absent reading is not a reading of absence (CLAUDE.md §4). The validator already renders this
+      # correctly per (arm, seed); this step makes it loud in the run log too, and does NOT fail the job —
+      # the artifact with its refusals is still the deliverable.
+      - name: Say plainly if nothing was read
+        run: |
+          set -eo pipefail
+          N=$(find /tmp/selcal_cofolds -name '*.cif' | wc -l)
+          if [ "$N" -eq 0 ]; then
+            echo "::warning::0 co-fold .cif files under s3://$BUCKET/${{ steps.prefix.outputs.prefix }}/ — every"
+            echo "::warning::record will be a REFUSAL (unread), which is NOT evidence that the co-folds disagree"
+            echo "::warning::with the crystals. Check the prefix before reading anything into the artifact."
+          fi
+
+      - name: Fetch the deposited ternaries and score every co-fold
+        run: |
+          set -eo pipefail
+          python3 research/modalities/selcal_cofold_validate.py \
+            --cofold-root /tmp/selcal_cofolds \
+            --fetch \
+            --out research/modalities/selcal-cofold-vs-crystal.json
+          echo "=== artifact head ==="
+          python3 -c "
+          import json
+          d = json.load(open('research/modalities/selcal-cofold-vs-crystal.json'))
+          print('graded', d['n_graded'], 'refused', d['n_refused'])
+          print(json.dumps(d['per_arm'], indent=1))
+          print(json.dumps(d.get('native_provenance'), indent=1)[:800])
+          "
+
+      - name: Publish the artifact
+        if: ${{ always() }}
+        env:
+          # ★ AN EVENT PUBLISH, NOT A HEARTBEAT. This job records a measurement; it is not a lane tick whose
+          # whole value is "I ran at this time", and it carries no staleness semantics that a timestamp feeds.
+          # Per `publish_artifacts.sh`'s header, `--allow-empty` on an event step writes a commit ASSERTING
+          # the check happened on a run where nothing was measured — indistinguishable in `git log` from the
+          # real one. So: if nothing was staged, commit nothing.
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          set -eo pipefail
+          sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
+          # One home for the publish — it stamps only what THIS run actually changed, so it cannot carry
+          # another writer's artifact backwards. See its header and tests/test_publish_does_not_revert_*.py.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "selcal co-fold vs deposited ternary: input-quality check (CI)" \
+            research/modalities/selcal-cofold-vs-crystal.json
