@@ -172,13 +172,14 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/nr4a-paralogue-unique-residues.json \
-                     research/modalities/nr4a-paralogue-unique-residues.md \
-                     research/modalities/nr4a-sequences-cache.json
-          git commit -m "NR4A3 paralogue-unique reactive-residue map (UniProt full-length, CI)" || {
-            echo "no changes"; exit 0; }
-          git pull --rebase origin "${{ github.ref_name }}" || true
-          git push origin HEAD:"${{ github.ref_name }}"
+          # ⛔ ONE HOME FOR THE PUBLISH. `git pull --rebase` wedges on a conflict and, worse, this shape
+          # stamped every path it could see whether or not this run wrote it — a clean OLDER file applies
+          # onto a newer one with no conflict and nothing goes red. See publish_artifacts.sh's header.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NR4A3 paralogue-unique reactive-residue map (UniProt full-length, CI)" \
+            research/modalities/nr4a-paralogue-unique-residues.json \
+            research/modalities/nr4a-paralogue-unique-residues.md \
+            research/modalities/nr4a-sequences-cache.json
 
   # RUNG-5a part 1 — E3 ARM STAGING. Discovers, verifies and composes each recruiter arm (ligand-bound
   # substrate receptor + derived ligand exit vector + cullin-scaffold RING position bridged into the receptor
@@ -272,13 +273,16 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/nr4a3-e3-arm-registry-native.json \
-                     research/modalities/nr4a3-orientation-basins-matched-*.json \
-                     results/nr4a3-e3-arms-native || true
-          git commit -m "LANE 7: assembly-native E3 arms + matched basin comparison (CI)" || {
-            echo "no changes"; exit 0; }
-          git pull --rebase origin "${{ github.ref_name }}" || true
-          git push origin HEAD:"${{ github.ref_name }}"
+          # ⛔ ONE HOME FOR THE PUBLISH — see publish_artifacts.sh. ⚠ THE GLOB IS EXPANDED BY THIS SHELL,
+          # not by the primitive: it snapshots and then `reset --hard`s, so an unexpanded pattern would name
+          # a path that does not exist. `results/nr4a3-e3-arms-native` is a DIRECTORY and is handled (the
+          # primitive uses `cp -a --parents`); it was not, and would have published nothing while reporting
+          # success.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "LANE 7: assembly-native E3 arms + matched basin comparison (CI)" \
+            research/modalities/nr4a3-e3-arm-registry-native.json \
+            research/modalities/nr4a3-orientation-basins-matched-*.json \
+            results/nr4a3-e3-arms-native
 
   nr4a_e3_stage:
     if: ${{ github.event.inputs.task == 'nr4a_e3_stage' && github.event.inputs.fanout_mode != 'diag' && github.event.inputs.fanout_mode != 'stage' }}
@@ -427,12 +431,11 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/nr4a3-linker-design.json \
-                     research/modalities/nr4a3-linker-library-chem.json || true
-          git commit -m "RUNG-5b: linker design library + RDKit verification (CI)" || {
-            echo "no changes"; exit 0; }
-          git pull --rebase origin "${{ github.ref_name }}" || true
-          git push origin HEAD:"${{ github.ref_name }}"
+          # ⛔ ONE HOME FOR THE PUBLISH — see publish_artifacts.sh.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "RUNG-5b: linker design library + RDKit verification (CI)" \
+            research/modalities/nr4a3-linker-design.json \
+            research/modalities/nr4a3-linker-library-chem.json
 
   # Widened ligandable-recruiter availability panel (cost lever 6): which E3 arms beyond VHL/CRBN are even
   # available, feeding the mandatory downselect to <=2 recruiters before any GPU leg. HPA is egress-blocked
@@ -504,13 +507,12 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/e3-recruiter-staging.json \
-                     research/modalities/e3-recruiter-staging.md \
-                     research/modalities/e3-recruiter-rcsb-cache.json
-          git commit -m "E3 recruiter staging + ligandability downselect (RCSB/UniProt, CI)" || {
-            echo "no changes"; exit 0; }
-          git pull --rebase origin "${{ github.ref_name }}" || true
-          git push origin HEAD:"${{ github.ref_name }}"
+          # ⛔ ONE HOME FOR THE PUBLISH — see publish_artifacts.sh.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "E3 recruiter staging + ligandability downselect (RCSB/UniProt, CI)" \
+            research/modalities/e3-recruiter-staging.json \
+            research/modalities/e3-recruiter-staging.md \
+            research/modalities/e3-recruiter-rcsb-cache.json
 
   # Bid optimisation: rank LIVE Vast offers by expected $ per COMPLETED unit and compare against the incumbent
   # min_bid x1.9 policy. Read-only offer search — no rent, no instance, no spend.
@@ -597,11 +599,13 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/vast-price-history.jsonl \
-                     research/modalities/vast-price-history-raw.json || true
-          git commit -m "vast official market-metrics price history" || { echo "no changes"; exit 0; }
-          git pull --rebase origin "${{ github.ref_name }}" || true
-          git push origin HEAD:"${{ github.ref_name }}"
+          # ⛔ ONE HOME FOR THE PUBLISH — see publish_artifacts.sh. ⚠ `vast-price-history.jsonl` is an
+          # APPEND-ONLY log written by this job, so the did-this-run-write-it guard is exactly right here:
+          # if the tick appended nothing, upstream's copy is kept rather than an older one restored over it.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "vast official market-metrics price history" \
+            research/modalities/vast-price-history.jsonl \
+            research/modalities/vast-price-history-raw.json
 
   nrv04_cys:
     if: ${{ github.event.inputs.task == 'nrv04_cys' }}
@@ -886,17 +890,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nrv04-covalent-input-audit*.json || true
-          if git diff --cached --quiet; then
-            echo "no change"
-          else
-            git commit -m "NR-V04 A1 audit: every co-fold model measured (auto)"
-            for attempt in 1 2 3 4; do
-              git pull --rebase origin ${{ github.ref_name }} && \
-                git push origin HEAD:${{ github.ref_name }} && break
-              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
-            done
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH — see publish_artifacts.sh, which already does the retry this loop
+          # hand-rolled AND fixes what the loop could not: `git pull --rebase` wedges on a conflict, and the
+          # add-everything shape stamped paths this run never wrote.
+          # ⚠ `PUBLISH_IF_CHANGED=1` PRESERVES THIS STEP'S OWN SEMANTICS. The `git diff --cached --quiet`
+          # branch it replaces made this an EVENT publish: an empty commit would date an audit that did not
+          # run. (Heartbeats are the opposite and must commit empty — the timestamp IS the signal.)
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NR-V04 A1 audit: every co-fold model measured (auto)" \
+            research/modalities/nrv04-covalent-input-audit*.json
 
   nrv04_retro_prespend:
     # LANE 11 / RUNG 4 pre-spend gate. The NR-V04 retrospective is built, preregistered and UNLAUNCHED, and it
@@ -942,18 +944,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nrv04-retro-prespend-audit.json \
-                  research/modalities/nrv04-retro-criteria-audit.json || true
-          if git diff --cached --quiet; then
-            echo "no change"
-          else
-            git commit -m "NR-V04 retrospective pre-spend audit (auto)"
-            for attempt in 1 2 3 4; do
-              git pull --rebase origin ${{ github.ref_name }} && \
-                git push origin HEAD:${{ github.ref_name }} && break
-              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
-            done
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH; `PUBLISH_IF_CHANGED=1` keeps this an EVENT publish — see the A1
+          # audit step above for why the distinction is not cosmetic.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NR-V04 retrospective pre-spend audit (auto)" \
+            research/modalities/nrv04-retro-prespend-audit.json \
+            research/modalities/nrv04-retro-criteria-audit.json
 
   nrv04_adduct_build:
     # LANE 8. The co-folds cannot supply an A1-admissible covalent input (every clean model puts the celastrol
@@ -994,17 +990,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nrv04-covalent-adduct-build.json || true
-          if git diff --cached --quiet; then
-            echo "no change"
-          else
-            git commit -m "NR-V04 covalent adduct construction attempt (auto)"
-            for attempt in 1 2 3 4; do
-              git pull --rebase origin ${{ github.ref_name }} && \
-                git push origin HEAD:${{ github.ref_name }} && break
-              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
-            done
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH; EVENT semantics preserved via PUBLISH_IF_CHANGED — see above.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NR-V04 covalent adduct construction attempt (auto)" \
+            research/modalities/nrv04-covalent-adduct-build.json
 
   nrv04_retro_price_forensics:
     # READ-ONLY forensics on the retrospective lane's _price_ledger.json (CLAUDE.md §4: get the observation,
@@ -1213,13 +1202,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nrv04-retro-unit-forensics.json \
-                  research/modalities/nrv04-retro-host-history.json \
-                  research/modalities/nrv04-retro-verdict.json || true
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "NR-V04 retro: per-attempt forensics for the AMENDMENT 4 §4.5 dependency unit (CI)"
-          git pull --rebase origin "${{ github.ref_name }}" || true
-          git push origin HEAD:"${{ github.ref_name }}"
+          # ⛔ ONE HOME FOR THE PUBLISH; EVENT semantics preserved (this step already refused an empty commit).
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NR-V04 retro: per-attempt forensics for the AMENDMENT 4 §4.5 dependency unit (CI)" \
+            research/modalities/nrv04-retro-unit-forensics.json \
+            research/modalities/nrv04-retro-host-history.json \
+            research/modalities/nrv04-retro-verdict.json
 
   nrv04_ffcache_status:
     # Fast diagnostic (~30s): print the ffcache object's LastModified + size so we can tell whether charge_cache
@@ -1280,20 +1268,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/nrv04-result-forensics.json \
-                  research/modalities/nrv04-corrected-t0.json \
-                  research/modalities/nrv04-corrected-t0-chainfix.json \
-                  research/modalities/nrv04-prespend-check.json || true
-          if git diff --cached --quiet; then
-            echo "no change to nrv04-result-forensics.json"
-          else
-            git commit -m "NR-V04 panel S3 forensics: what was actually persisted (auto)"
-            for attempt in 1 2 3 4; do
-              git pull --rebase origin ${{ github.ref_name }} && \
-                git push origin HEAD:${{ github.ref_name }} && break
-              echo "push attempt $attempt lost a race; retrying"; sleep $((attempt * 5))
-            done
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH; EVENT semantics preserved via PUBLISH_IF_CHANGED. ⚠ A PATH THAT DOES
+          # NOT EXIST IS SKIPPED, not fatal — these four artifacts are written by different modes of this job,
+          # so `git add A B C D` was already tolerant via `|| true`, and the primitive is tolerant the same way.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "NR-V04 panel S3 forensics: what was actually persisted (auto)" \
+            research/modalities/nrv04-result-forensics.json \
+            research/modalities/nrv04-corrected-t0.json \
+            research/modalities/nrv04-corrected-t0-chainfix.json \
+            research/modalities/nrv04-prespend-check.json
 
   fep_bake:
     # Prebake the OpenFE ("rbfe") env into a Vast boot image -> Docker Hub (triskit23/nr4a3fep:latest). This is
@@ -1689,26 +1672,23 @@ jobs:
           cd "$GITHUB_WORKSPACE"
           git config user.name "Claude"
           git config user.email "noreply@anthropic.com"
-          # Add each file INDEPENDENTLY: `git add A B` fails atomically if either pathspec matches nothing, so
-          # a monitor run (which writes progress.json but not map.json) staged nothing at all and reported
-          # "no readout change" while silently swallowing the error.
-          staged=0
-          for f in step1-fanout-progress.json step1-fanout-map.json step1-fanout-diag.txt step1-fanout-market-hold.json relaunch-market-hold.json step1-fanout-launch-readout.txt step1-nan-forensics.json; do
-            if [ -f "research/modalities/$f" ]; then
-              git add -f "research/modalities/$f"; staged=1; echo "staged $f"
-            else
-              echo "absent (expected for this mode): $f"
-            fi
-          done
-          [ "$staged" = 1 ] || { echo "nothing to commit"; exit 0; }
-          git diff --cached --quiet && { echo "no readout change"; exit 0; }
-          git commit -m "step1 fan-out ${{ github.event.inputs.fanout_mode }} readout ($(date -u +%FT%TZ))"
-          for i in 1 2 3 4; do
-            git pull --rebase origin "${{ github.ref_name }}" && \
-            git push origin HEAD:"${{ github.ref_name }}" && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the readout"
+          # ⛔ ONE HOME FOR THE PUBLISH — and the per-file loop this replaces was RIGHT about the hazard it
+          # documented: `git add A B` fails ATOMICALLY if either pathspec matches nothing, so a monitor run
+          # (which writes progress.json but not map.json) staged nothing at all and reported "no readout
+          # change" while swallowing the error. `publish_artifacts.sh` skips an absent path individually, so
+          # a mode that writes three of these seven publishes those three — the property the loop existed to
+          # get, without the `git pull --rebase` that could wedge on a conflict.
+          # ⚠ EVENT publish (PUBLISH_IF_CHANGED=1): this step already refused an empty commit, and a readout
+          # commit asserts a monitor pass produced a reading.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "step1 fan-out ${{ github.event.inputs.fanout_mode }} readout ($(date -u +%FT%TZ))" \
+            research/modalities/step1-fanout-progress.json \
+            research/modalities/step1-fanout-map.json \
+            research/modalities/step1-fanout-diag.txt \
+            research/modalities/step1-fanout-market-hold.json \
+            research/modalities/relaunch-market-hold.json \
+            research/modalities/step1-fanout-launch-readout.txt \
+            research/modalities/step1-nan-forensics.json
       - name: Upload fan-out artifacts
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
@@ -1905,16 +1885,15 @@ jobs:
           if aws s3 cp "$PREFIX/bioemu-crosscheck.json" research/modalities/nr4a3-bioemu-crosscheck.json 2>/dev/null; then
             echo "=== result ==="; cat research/modalities/nr4a3-bioemu-crosscheck.json
             echo "1" > /tmp/have_result
-            git config user.name "Claude"; git config user.email "noreply@anthropic.com"
-            # git add FIRST, then check the STAGED diff — `git diff --quiet <path>` ignores untracked (new) files,
-            # so a brand-new result would read as "no change" and never commit (the bug that dropped the first run).
-            git add research/modalities/nr4a3-bioemu-crosscheck.json
-            if ! git diff --cached --quiet -- research/modalities/nr4a3-bioemu-crosscheck.json; then
-              git commit -m "bioemu: capture NR4A3 cryptic-pocket cross-check result from Vast run"
-              git push origin HEAD:${{ github.ref_name }}
-            else
-              echo "no change to commit"
-            fi
+            # ⛔ ONE HOME FOR THE PUBLISH. ⚠ THE BUG THIS STEP'S OWN COMMENT RECORDS IS PRESERVED, not
+            # re-introduced: it used to `git diff --quiet <path>` BEFORE staging, and that ignores untracked
+            # files, so a brand-new result read as "no change" and never committed — which is how the first
+            # run's result was dropped. `publish_artifacts.sh` stages first and compares the STAGED tree, so
+            # a file that did not exist at checkout is correctly seen as written by this run.
+            # EVENT publish: an empty commit would assert a collect that pulled nothing.
+            PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+              "bioemu: capture NR4A3 cryptic-pocket cross-check result from Vast run" \
+              research/modalities/nr4a3-bioemu-crosscheck.json
           else
             echo "::warning::no result JSON yet — the run may still be sampling. Re-run bioemu_collect later."
           fi
