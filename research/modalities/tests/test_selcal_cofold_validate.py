@@ -110,12 +110,15 @@ def _write_pdb(atoms, path):
 def _write_cif(atoms, path):
     with open(path, "w") as fh:
         fh.write("data_test\n#\nloop_\n")
+        # `B_iso_or_equiv` is present because the DockQ cross-check REQUIRES it — DockQ's mmCIF parser reads
+        # it unconditionally and dies with KeyError without it. Real Boltz output and RCSB downloads both
+        # carry it; the fixture has to as well or the second instrument cannot be exercised offline.
         for c in ("group_PDB", "id", "type_symbol", "label_atom_id", "label_alt_id", "label_comp_id",
                   "auth_asym_id", "auth_seq_id", "pdbx_PDB_ins_code", "Cartn_x", "Cartn_y", "Cartn_z",
-                  "auth_comp_id", "auth_atom_id", "pdbx_PDB_model_num"):
+                  "occupancy", "B_iso_or_equiv", "auth_comp_id", "auth_atom_id", "pdbx_PDB_model_num"):
             fh.write("_atom_site.%s\n" % c)
         for i, a in enumerate(atoms, start=1):
-            fh.write("%s %d %s %s . %s %s %d ? %.3f %.3f %.3f %s %s 1\n"
+            fh.write("%s %d %s %s . %s %s %d ? %.3f %.3f %.3f 1.00 30.00 %s %s 1\n"
                      % ("HETATM" if a.hetatm else "ATOM", i, a.element or "C", a.name, a.resname,
                         a.chain, a.resseq, a.x, a.y, a.z, a.resname, a.name))
         fh.write("#\n")
