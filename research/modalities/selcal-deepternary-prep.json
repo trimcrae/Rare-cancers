@@ -1,0 +1,22 @@
+{
+ "_what": "Chain resolution + fragment verification for the DeepTernary head-to-head, before any prediction is made.",
+ "_licenses": "NOTHING about NR4A3, degradation or selectivity. A better score would license one sentence about generator placement.",
+ "_min_fragment_overlap": 0.55,
+ "_why_the_overlap_check": "the fragments were picked on an RCSB name and a molecular weight, which is not evidence of chemistry. A frame defined by an unrelated molecule points the generator at the wrong sub-site and the score would measure our input error rather than the generator.",
+ "degrader_comp": "A1BB4",
+ "arms": [
+  {
+   "name": "selcal_smarca2",
+   "ok": false,
+   "why": "could not fetch 9DU0: HTTP Error 404: Not Found"
+  },
+  {
+   "name": "selcal_smarca4",
+   "ok": false,
+   "why": "could not fetch 9DTX: HTTP Error 404: Not Found"
+  }
+ ],
+ "n_ready": 0,
+ "n_refused": 2,
+ "ready_configs": []
+}
