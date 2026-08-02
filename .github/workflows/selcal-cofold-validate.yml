@@ -42,6 +42,8 @@ on:
       - .github/workflows/selcal-cofold-validate.yml
       - research/modalities/selcal_cofold_validate.py
       - research/modalities/selcal_dockq_crosscheck.py
+      - research/modalities/valb_frame_transfer_check.py
+      - research/modalities/structural_provenance_census.py
       - research/modalities/tests/test_selcal_cofold_validate.py
       - research/modalities/tests/test_selcal_dockq_crosscheck.py
 
@@ -161,6 +163,25 @@ jobs:
           print(d['verdict']['sentence'])
           "
 
+      # ★ THE ONE LANE THE PROVENANCE CENSUS FLAGGED AS CHECKABLE-BUT-UNCHECKED: valB's SMARCA2 arm is
+      # SMARCA2 threaded into a 3.73 A SMARCA4 ternary frame, so its interface is inherited rather than
+      # observed. Asked crystal-vs-crystal (9DTY vs 9DTX, the SAME degrader on both paralogues) so the
+      # paralogue term is isolated and the staging pipeline is not introduced as a variable.
+      - name: valB frame-transfer check + provenance census
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python3 research/modalities/structural_provenance_census.py
+          python3 research/modalities/valb_frame_transfer_check.py \
+            --native-dir /tmp/selcal_cofolds/_native \
+            --out research/modalities/valb-frame-transfer-check.json
+          python3 -c "
+          import json
+          d = json.load(open('research/modalities/valb-frame-transfer-check.json'))
+          print('graded:', d.get('graded'), d.get('why') or '')
+          print(json.dumps(d.get('instruments', {}), indent=1))
+          "
+
       - name: Publish the artifact
         if: ${{ always() }}
         env:
@@ -178,4 +199,6 @@ jobs:
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "selcal co-fold vs deposited ternary: input-quality check + DockQ cross-check (CI)" \
             research/modalities/selcal-cofold-vs-crystal.json \
-            research/modalities/selcal-cofold-dockq.json
+            research/modalities/selcal-cofold-dockq.json \
+            research/modalities/valb-frame-transfer-check.json \
+            research/modalities/structural-provenance-census.json
