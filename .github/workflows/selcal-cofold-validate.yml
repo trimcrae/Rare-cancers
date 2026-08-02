@@ -50,6 +50,8 @@ on:
       - research/modalities/selcal_cofold_decompose.py
       - research/modalities/selcal_interface_signature.py
       - research/modalities/nr4a_ternary_signature.py
+      - research/modalities/nr4a_ternary_ligand_provenance.py
+      - research/modalities/tests/test_nr4a_ternary_ligand_provenance.py
       - research/modalities/tests/test_nr4a_ternary_signature.py
       - research/modalities/tests/test_selcal_interface_signature.py
       - research/modalities/tests/test_selcal_xtal_panel.py
@@ -103,6 +105,7 @@ jobs:
                             research/modalities/tests/test_selcal_xtal_panel.py \
                             research/modalities/tests/test_selcal_interface_signature.py \
                             research/modalities/tests/test_nr4a_ternary_signature.py \
+                            research/modalities/tests/test_nr4a_ternary_ligand_provenance.py \
                             research/modalities/tests/test_selcal_panel.py -q
 
       - name: Resolve the prefix the panel actually froze
@@ -291,6 +294,14 @@ jobs:
           python3 research/modalities/nr4a_ternary_signature.py \
             --root /tmp/nr4a_ternary \
             --out research/modalities/nr4a-ternary-signature.json
+          # ⛔ AND RECOVER WHAT WAS ACTUALLY FOLDED. The molecule behind the paper's §2.5 ternary result went
+          # in as $PROTAC_SMILES and is recorded nowhere in the repo, so the only surviving record is the
+          # ligand inside the models. A replicate run — the one remaining blocker that is a GPU spend rather
+          # than a wet-lab fact — must fold the SAME molecule, and this is what makes that possible or says
+          # plainly that it is not.
+          python3 research/modalities/nr4a_ternary_ligand_provenance.py \
+            --root /tmp/nr4a_ternary \
+            --out research/modalities/nr4a-ternary-ligand-provenance.json
 
       # ★ THE FIX EXPERIMENT, step 1: source non-native binary inputs so DeepTernary can be run on the same
       # two systems our co-folds scored 0.023-0.046 on. The exclusion-set check ran first
@@ -331,6 +342,7 @@ jobs:
             research/modalities/selcal-cofold-decompose.json \
             research/modalities/selcal-interface-signature.json \
             research/modalities/nr4a-ternary-signature.json \
+            research/modalities/nr4a-ternary-ligand-provenance.json \
             research/modalities/valb-frame-transfer-check.json \
             research/modalities/structural-provenance-census.json \
             research/modalities/deepternary-leakage-check.json \
