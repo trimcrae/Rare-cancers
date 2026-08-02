@@ -1,0 +1,57 @@
+{
+ "decision": "COMPUTED",
+ "S_kcal": -0.1297,
+ "S_err_kcal": 0.3264,
+ "S_err_kind": "replicate_sd",
+ "definition": "S = dG_tern(NR4A3) - dG_tern(NR4A1); the binary and solvent legs cancel algebraically",
+ "sign_reading": "S < 0 => the wedge is better tolerated on NR4A3 (discrimination in the designed direction); S ~ 0 => the marginal wedge is absent, which is the preregistered likely outcome and NOT a stop; S > 0 => anti-selective",
+ "per_species": {
+  "NR4A3": {
+   "leg_id": "5aks_d0_to_d__ternary_nr4a3",
+   "n_seeds": 2,
+   "dg_morph_kcal": [
+    -11.110383345183076,
+    -10.777446634477718
+   ],
+   "mean_dg_morph_kcal": -10.943914989830397,
+   "replicate_sd_kcal": 0.23542180584570233,
+   "mean_mbar_se_kcal": 0.07531256529745647
+  },
+  "NR4A1": {
+   "leg_id": "5aks_d0_to_d__ternary_nr4a1",
+   "n_seeds": 2,
+   "dg_morph_kcal": [
+    -10.974033719675903,
+    -10.654299212571155
+   ],
+   "mean_dg_morph_kcal": -10.81416646612353,
+   "replicate_sd_kcal": 0.2260864381531056,
+   "mean_mbar_se_kcal": 0.08597548547195585
+  }
+ },
+ "n_seeds_min": 2,
+ "_single_seed_warning": null,
+ "system_identity_problems": [
+  {
+   "field": "n_particles",
+   "kind": "DISAGREES",
+   "values": {
+    "209589": [
+     "5aks_d0_to_d__ternary_nr4a1:r0"
+    ],
+    "211687": [
+     "5aks_d0_to_d__ternary_nr4a1:r1"
+    ],
+    "147788": [
+     "5aks_d0_to_d__ternary_nr4a3:r0"
+    ],
+    "149308": [
+     "5aks_d0_to_d__ternary_nr4a3:r1"
+    ]
+   },
+   "why": "the legs do not describe the same system/protocol"
+  }
+ ],
+ "_title": "RUNG 5a-KS \u2014 ligand-side double difference S",
+ "_status": "DESIGN PRIORITISATION. No claim about binding, reactivity, degradation, efficacy or safety follows from S."
+}
