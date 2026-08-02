@@ -1417,20 +1417,65 @@ def _tick_publish(paths, message, branch=None):
     commit, push. `git reset --hard` is safe here — this module is already imported, and a CI checkout has no
     other uncommitted work.
 
+    ⛔⛔ AND IT MAY ONLY PUBLISH WHAT THIS PROCESS ACTUALLY WROTE (2026-08-02, measured twice in one night).
+    Stamping every path it is handed is the OTHER way a publish reverts somebody, and it does not need a
+    conflict to do it — a clean older copy applies onto a newer one silently:
+
+        00:41:37Z  a `collect` tick measured S3 and published `landed: 17`
+        00:42:44Z  THIS FUNCTION, inside a watch started at 23:05 whose checkout held `landed: 0`, stamped
+                   it back to 0 with a five-hour-old timestamp
+
+    and it had already done that once at 22:16:50Z, leaving the lane's official census reading ZERO for five
+    hours while seventeen legs sat banked in S3. ⚠ THE WORKFLOW-LEVEL FIX DOES NOT REACH HERE: this is a
+    python publisher inside a long-running loop, not a workflow step, so `publish_artifacts.sh` never sees
+    it and `test_no_hand_rolled_publish` — which scans YAML — vouched for a lane it could not inspect.
+
+    The rule is the same one, asked of the process rather than the job: is our copy DIFFERENT from the commit
+    this checkout is on? If not, this run did not write it, and upstream's copy stays.
+
     Best-effort by construction: supervision must never die because a push raced."""
     import subprocess
     branch = branch or os.environ.get("GIT_BRANCH") or "main"
     root = os.path.dirname(os.path.dirname(HERE))
-    keep = {}
+
+    def _g(*a):
+        return subprocess.run(["git", "-C", root, *a], capture_output=True, text=True)
+
+    base = (_g("rev-parse", "HEAD").stdout or "").strip()
+    keep, skipped = {}, []
     for p in paths:
-        if os.path.exists(p):
-            with open(p, "rb") as fh:
-                keep[p] = fh.read()
+        if not os.path.exists(p):
+            continue
+        with open(p, "rb") as fh:
+            mine = fh.read()
+        # ⚠ FAILS OPEN. If the base cannot be read, or the file is not in it, PUBLISH — never silently drop
+        # work on a bookkeeping failure. Only a proven byte-identical match declines.
+        if base:
+            rel = os.path.relpath(p, root)
+            was = subprocess.run(["git", "-C", root, "show", "%s:%s" % (base, rel)],
+                                 capture_output=True)
+            if was.returncode == 0 and was.stdout == mine:
+                skipped.append(rel)
+                continue
+        keep[p] = mine
+    if skipped:
+        # Say so: a path silently dropped from a publish looks exactly like the reverse bug.
+        print("[selcal-tick-publish] unchanged since checkout, upstream's kept: %s" % ", ".join(skipped),
+              flush=True)
     if not keep:
+        # ⚠ STILL A HEARTBEAT. Every path was somebody else's; commit empty so the tick is still dated —
+        # a healthy loop that happened to write nothing must not look like one that stopped.
+        try:
+            if _g("fetch", "origin", branch).returncode == 0:
+                _g("reset", "--hard", "origin/%s" % branch)
+                _g("-c", "user.name=Claude", "-c", "user.email=noreply@anthropic.com",
+                   "commit", "--allow-empty", "-m", message)
+                return _g("push", "origin", "HEAD:%s" % branch).returncode == 0
+        except Exception:  # noqa: BLE001
+            pass
         return False
 
-    def g(*a):
-        return subprocess.run(["git", "-C", root, *a], capture_output=True, text=True)
+    g = _g
     try:
         for attempt in range(3):
             if g("fetch", "origin", branch).returncode:
@@ -1744,7 +1789,25 @@ def mode_watch(bucket=None, minutes=None):
                                      landed=len(done), n_units=len(SP.enumerate_units()))
         # Published per tick for the same reason as the co-fold watch: a heartbeat nobody outside the runner
         # can see is not a heartbeat.
-        _tick_publish([REAP_READOUT, PRICE_LEDGER, COLLECT_READOUT] + board_paths,
+        # ★★ RECOMPUTE COLLECT, DO NOT MERELY RE-PUBLISH IT (2026-08-02). This loop listed COLLECT_READOUT
+        # in its publish set while never calling `mode_collect`, so every tick re-published whatever copy the
+        # checkout happened to hold. That is harmless right up until something knocks the artifact backwards
+        # — and something did: a `status` tick reverted it to `landed: 0` at 22:16:50Z, and because nothing
+        # here recomputes it, the lane's official "what has landed" readout sat at ZERO for five hours while
+        # SEVENTEEN legs were banked in S3. The publish guard now added upstream makes that WORSE, not
+        # better, in this one spot: an unchanged file is correctly skipped, so a stale copy would never be
+        # corrected by ticking. A file you publish is a file you must produce.
+        #
+        # ⛔ NOT AN INTERIM ANALYSIS. `mode_collect` SUPPRESSES the tier unless `panel_complete` — it writes
+        # the evidence and withholds the label, which is exactly what the no-peeking rule requires. Running
+        # it per tick keeps the census honest without ever emitting a verdict early.
+        try:
+            mode_collect(bucket)
+        except Exception as e:  # noqa: BLE001 — a census fault must not end supervision of a billing fleet
+            print("[selcal-watch] collect readout not refreshed this tick (%s: %s); the reap and board still "
+                  "publish, and the terminus reads S3 directly rather than this file."
+                  % (type(e).__name__, e), flush=True)
+        _tick_publish([REAP_READOUT, PRICE_LEDGER, COLLECT_READOUT, VERDICT_READOUT] + board_paths,
                       "selcal watch: supervision tick (%d/%d landed, %d host(s))"
                       % (len(done), len(SP.enumerate_units()), len(mine)))
         time.sleep(float(os.environ.get("SELCAL_WATCH_INTERVAL_S", "180")))

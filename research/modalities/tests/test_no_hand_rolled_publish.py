@@ -285,3 +285,94 @@ def test_a_new_board_lane_needs_no_second_registration():
     assert covered, "no alarm lane derives its fragment — the derivation has been bypassed"
     for lane in covered:
         assert A.lane_fragment({"board_lane": lane}) == f"{ifb.FRAGMENT_DIR}/{lane}.json"
+
+
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔ THE REGISTRY ABOVE SCANS YAML. A PUBLISHER CAN ALSO LIVE IN PYTHON.
+# ═════════════════════════════════════════════════════════════════════════════════════════════════════════
+def _python_modules():
+    import pathlib
+    return sorted(pathlib.Path(MODALITIES).glob("*.py"))
+
+
+def _reset_and_stamp_publishers():
+    """Functions that wipe the working tree to the remote and lay their own bytes back, then push.
+
+    That shape is a PUBLISHER regardless of whether it lives in a workflow, and it carries the reversal
+    exposure in its most dangerous form: after the reset, whatever bytes the process holds become the truth.
+    """
+    import ast
+    out = []
+    for path in _python_modules():
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        except (SyntaxError, ValueError, OSError):
+            continue
+        src = path.read_text(encoding="utf-8")
+        for node in ast.walk(tree):
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            seg = ast.get_source_segment(src, node) or ""
+            code = "\n".join(l for l in seg.splitlines() if not l.lstrip().startswith("#"))
+            pushes = '"push"' in code or "'push'" in code or "git push" in code
+            resets = ("reset" in code and "--hard" in code)
+            if pushes and resets:
+                out.append((path.name, node.name, code))
+    return out
+
+
+def test_every_python_publisher_that_stamps_also_guards_on_the_checkout():
+    """★★ MEASURED 2026-08-02, and the guard that should have caught it was structurally blind.
+
+        00:41:37Z  a `collect` tick measured S3 and published `landed: 17`
+        00:42:44Z  `selcal_vast_launch._tick_publish`, inside a watch started at 23:05 whose checkout held
+                   `landed: 0`, stamped it back to 0 with a five-hour-old timestamp
+
+    It had already done that once at 22:16:50Z, leaving the lane's official census reading ZERO for five
+    hours while seventeen legs sat banked in S3.
+
+    ⚠ THE POINT OF THIS TEST IS THE BLIND SPOT, NOT THE BUG. `KNOWN_HAND_ROLLED` and its scanner read
+    workflow YAML, so a publisher living inside a long-running python loop was never in their field of view
+    — and the registry's green therefore VOUCHED for a path it could not inspect. A guard that cannot see a
+    whole class of the thing it guards is worse than one that admits the gap.
+
+    The rule is the same one the shell primitive enforces, asked of the process instead of the job: compare
+    against the commit this checkout is on, and if our copy is identical, we did not write it.
+    """
+    offenders = []
+    for mod, fn, code in _reset_and_stamp_publishers():
+        if "rev-parse" not in code:
+            offenders.append(f"{mod}:{fn}")
+    assert not offenders, (
+        "these functions reset the tree to the remote and stamp their own bytes back, with no check that "
+        "this run actually wrote them — so each can silently revert another job's measurement: "
+        + ", ".join(offenders))
+
+
+def test_the_python_publisher_scanner_actually_finds_the_known_one():
+    """⚠ A GUARD THAT CANNOT GO RED IS WORSE THAN NO GUARD. If the AST walk stops resolving these functions
+    the test above passes vacuously, which is exactly how the YAML-only registry came to vouch for python."""
+    found = {(m, f) for m, f, _ in _reset_and_stamp_publishers()}
+    assert ("selcal_vast_launch.py", "_tick_publish") in found, (
+        "the scanner no longer sees the publisher this test was written for — it is passing vacuously")
+
+
+def test_a_skipped_path_is_announced_not_silently_dropped():
+    """A path silently dropped from a publish looks exactly like the reverse bug. Both directions must be
+    visible in the log, or an operator cannot tell 'declined, correctly' from 'lost'."""
+    src = (MODALITIES / "selcal_vast_launch.py").read_text(encoding="utf-8")
+    body = src[src.index("def _tick_publish("):]
+    body = body[:body.index("\ndef ", 10)]
+    assert "unchanged since checkout, upstream's kept" in body
+
+
+def test_the_heartbeat_survives_every_path_being_skipped():
+    """⚠ THE TRAP IN THE FIX. If every artifact belonged to somebody else, the naive guard returns early and
+    commits nothing — and a healthy loop that happened to write nothing becomes byte-identical to one that
+    stopped. The tick must still be dated."""
+    src = (MODALITIES / "selcal_vast_launch.py").read_text(encoding="utf-8")
+    body = src[src.index("def _tick_publish("):]
+    body = body[:body.index("\ndef ", 10)]
+    tail = body[body.index("if not keep:"):]
+    assert "--allow-empty" in tail, "a tick that skipped everything must still leave a dated commit"
+    assert "STILL A HEARTBEAT" in tail

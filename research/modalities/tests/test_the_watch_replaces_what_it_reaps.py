@@ -239,3 +239,52 @@ def test_scoring_at_the_terminus_is_not_an_interim_analysis():
     coll = src[src.index("def mode_collect("):]
     coll = coll[:coll.index("\ndef ", 10)]
     assert "tier_suppressed" in coll and "panel_complete" in coll
+
+
+# =============================================================================================================
+# a file you PUBLISH is a file you must PRODUCE
+# =============================================================================================================
+def test_the_watch_recomputes_the_collect_readout_it_publishes():
+    """★★ MEASURED 2026-08-02, and it had already done five hours of damage.
+
+    The loop listed COLLECT_READOUT in its publish set and never called `mode_collect`, so each tick
+    re-published whatever copy the checkout held. Harmless until something knocked the artifact backwards —
+    and something did: a `status` tick reverted it to `landed: 0` at 22:16:50Z. Nothing here recomputed it,
+    so the lane's official "what has landed" readout sat at ZERO while SEVENTEEN legs were banked in S3.
+
+    ⚠ THE UPSTREAM PUBLISH GUARD MAKES THIS WORSE IN THIS ONE SPOT, which is why it needs its own test: an
+    unchanged file is now correctly SKIPPED, so a stale copy can never be corrected by ticking. Publishing a
+    file you do not produce is a slow corruption, not a no-op.
+    """
+    body = _watch_body()
+    # ⚠ rindex on BOTH sides. There are two of each now — the terminus pair in the completion branch and
+    # this per-tick pair — so comparing an index against a rindex compares the wrong two calls entirely.
+    pub = body[body.rindex("_tick_publish(["):]
+    assert "COLLECT_READOUT" in pub
+    # ⚠ `rindex`, NOT `index`: there are TWO mode_collect calls now — the terminus scorer in the completion
+    # branch, and this per-tick census. `index` finds the terminus and would pass while the per-tick call
+    # was missing, i.e. it would vouch for the very thing this test exists to check.
+    assert body.count("mode_collect(") >= 2, "the per-tick census is missing (only the terminus scorer)"
+    assert body.rindex("mode_collect(") < body.rindex("_tick_publish(["), \
+        "it must be recomputed BEFORE the publish that ships it"
+
+
+def test_the_per_tick_collect_cannot_leak_an_early_verdict():
+    """⛔ Running the scorer every 3 minutes is only safe because `mode_collect` SUPPRESSES the tier unless
+    the panel is complete — it writes the evidence and withholds the label. If that ever stopped being true,
+    this loop would be emitting interim verdicts on a live panel, which the prereg forbids outright."""
+    src = open(os.path.join(MOD, "selcal_vast_launch.py")).read()
+    coll = src[src.index("def mode_collect("):]
+    coll = coll[:coll.index("\ndef ", 10)]
+    assert "tier_suppressed" in coll and 'v["tier"] = None' in coll
+    assert "NO INTERIM ANALYSIS" in coll.upper()
+    body = _watch_body()
+    assert "NOT AN INTERIM ANALYSIS" in body
+
+
+def test_a_census_fault_does_not_end_supervision():
+    """The reap stops billing; the census is reporting. A fault in the second must not kill the loop."""
+    body = _watch_body()
+    seg = body[body.rindex("mode_collect(bucket)"):]      # the PER-TICK one; see the rindex note above
+    assert "except Exception" in seg[:400]
+    assert "not refreshed this tick" in seg[:900]
