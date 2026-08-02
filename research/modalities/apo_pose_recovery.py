@@ -613,34 +613,82 @@ def random_in_box_null(mol, center, size, n=N_NULL, seed=20260802):
 # rather than a test of fpocket's ranking. The fully-agnostic top-druggability box is reported alongside
 # it, and the oracle box only as the C3 decomposition.
 
-def pipeline_box(receptor_pdb, receptor_seq, receptor_resnums, af2_reference_pdb):
-    """PRIMARY box: NR4A3's own Pocket-5 mapped onto this receptor by sequence, then Ca centroid.
+def nr4a3_lbd_reference(af2_reference_pdb, work):
+    """The AF2 NR4A3 LBD window as a standalone PDB, or (None, why).
 
-    Uses the repo's own transfer (`nr4a3_8xtt_benchmark.map_uniprot_to_pdb`) and the repo's own boxing
-    (`nr4a3_warhead.pocket_box`), so "the site" means here exactly what it means when the pipeline boxes
-    8XTT or a paralogue. Returns (center, detail) or (None, why). Uses NO ligand information."""
+    ⚠ THE WINDOW MATTERS. `AF-Q92570.pdb` is the FULL-LENGTH model; a global BLOSUM62 alignment of 626
+    residues against a ~250-residue LBD construct pays end-gap penalties that can shift the mapping. The
+    pipeline never aligns the full-length model either — `nr4a3_matrix`/`nr4a3_warhead` work on the
+    LBD-trimmed receptor. So the reference written here is the same window
+    (`nr4a3_8xtt_benchmark.LBD_FIRST..LBD_LAST`), and the identity that comes out is REPORTED, not assumed.
+    """
+    import nr4a3_8xtt_benchmark as bm
+    if not os.path.exists(af2_reference_pdb):
+        return None, "AF2 reference not on disk: %s" % af2_reference_pdb
+    keep = []
+    for line in open(af2_reference_pdb, errors="replace"):
+        if not line.startswith("ATOM"):
+            continue
+        try:
+            r = int(line[22:26])
+        except ValueError:
+            continue
+        if bm.LBD_FIRST <= r <= bm.LBD_LAST:
+            keep.append(line)
+    if not keep:
+        return None, "no residues in the LBD window %d-%d of %s" % (bm.LBD_FIRST, bm.LBD_LAST,
+                                                                    af2_reference_pdb)
+    return _write(os.path.join(work, "nr4a3_lbd_reference.pdb"), "".join(keep) + "END\n"), None
+
+
+def transfer_identity(ref_pdb, receptor_pdb):
+    """Aligned-column identity between the two chains, for the record. NEVER a gate here — see below."""
+    import nr4a3_8xtt_benchmark as bm
+    try:
+        _c, _rn, sa, _ca = bm.chain_ca(_read(ref_pdb))
+        _c2, _rn2, sb, _ca2 = bm.chain_ca(_read(receptor_pdb))
+        ba, bb = bm._biopython_align(sa, sb)
+        return round(bm.identity_from_blocks(ba, bb, sa, sb), 4)
+    except Exception:                                         # noqa: BLE001
+        return None
+
+
+def pipeline_box(receptor_pdb, af2_reference_pdb, work):
+    """PRIMARY box: NR4A3's own Pocket-5 transferred onto this receptor, then Ca centroid.
+
+    ⛔ THE TRANSFER KERNEL IS `nr4a3_warhead.map_pocket_to_paralogue`, NOT `map_uniprot_to_pdb`, and the
+    difference is load-bearing — it is the bug the first CI run died on. `map_uniprot_to_pdb` RAISES below
+    80 % identity (`MIN_ALIGN_IDENTITY`) because it exists to map Q92570 onto a deposit of the SAME
+    protein, where a low identity means a corrupt download. The benchmark receptor is a DIFFERENT protein
+    (NR4A2 measured at 0.656 against NR4A3), so that guard fired on the very best candidate and returned
+    an error with no science attached. `map_pocket_to_paralogue` is the kernel the pipeline ACTUALLY uses
+    to carry Pocket-5 onto NR4A1 and NR4A2 — this identical operation, at this identical identity — and it
+    has no such gate. Boxing is then `nr4a3_warhead.pocket_box`, so "the site" means here what it means
+    everywhere else in the pipeline.
+
+    Returns (center, detail) or (None, why). Uses NO ligand information."""
     import nr4a3_8xtt_benchmark as bm
     import nr4a3_warhead as wh
+    ref, why = nr4a3_lbd_reference(af2_reference_pdb, work)
+    if ref is None:
+        return None, why
     try:
-        _ca, af2_resnums, af2_seq = bm.af2_lbd_ca(af2_reference_pdb)
+        mapped = wh.map_pocket_to_paralogue(ref, receptor_pdb, list(bm.POCKET5))
     except Exception as e:                                    # noqa: BLE001
-        return None, "AF2 reference unreadable (%s): %s" % (af2_reference_pdb, e)
-    try:
-        uni_to_auth, identity = bm.map_uniprot_to_pdb(af2_seq, af2_resnums, receptor_seq, receptor_resnums)
-    except Exception as e:                                    # noqa: BLE001
-        return None, "Pocket-5 transfer alignment failed: %s: %s" % (type(e).__name__, e)
-    mapped = sorted({uni_to_auth[u] for u in bm.POCKET5 if u in uni_to_auth})
+        return None, "Pocket-5 transfer failed: %s: %s" % (type(e).__name__, e)
+    ident = transfer_identity(ref, receptor_pdb)
     if not mapped:
-        return None, ("no NR4A3 Pocket-5 residue mapped onto this receptor (alignment identity %.3f) — "
-                      "the site transfer the pipeline relies on does not reach this protein" % identity)
+        return None, ("no NR4A3 Pocket-5 residue mapped onto this receptor (aligned identity %s) — the "
+                      "site transfer the pipeline relies on does not reach this protein" % ident)
     try:
         center, nbox = wh.pocket_box(receptor_pdb, mapped)
     except Exception as e:                                    # noqa: BLE001
         return None, "pocket_box failed on the mapped residues: %s" % e
-    return center, {"mapped_residues": mapped, "n_box_ca": nbox,
-                    "nr4a3_alignment_identity": round(identity, 4),
-                    "_source": "NR4A3 Pocket-5 (nr4a3_8xtt_benchmark.POCKET5) transferred by sequence"}
-
+    return center, {"mapped_residues": sorted(set(mapped)), "n_box_ca": nbox,
+                    "nr4a3_aligned_identity": ident,
+                    "n_pocket5_transferred": len(set(mapped)), "n_pocket5_source": len(bm.POCKET5),
+                    "_source": "NR4A3 Pocket-5 (nr4a3_8xtt_benchmark.POCKET5) carried across by "
+                               "nr4a3_warhead.map_pocket_to_paralogue — the pipeline's own transfer"}
 
 def fpocket_boxes(receptor_pdb):
     """([pocket...] ranked by druggability, why) from fpocket on this receptor. No ligand information."""
@@ -819,9 +867,9 @@ def run_benchmark(cand, work, af2_reference_pdb):
 
     # 7) boxes
     boxes = {}
-    c, det = pipeline_box(apo_rec, apo_seq, apo_resnums, af2_reference_pdb)
+    c, det = pipeline_box(apo_rec, af2_reference_pdb, work)
     boxes["pipeline_apo"] = {"center": c, "detail": det} if c else {"center": None, "why": det}
-    ch, deth = pipeline_box(holo_rec, holo_seq, holo_resnums, af2_reference_pdb)
+    ch, deth = pipeline_box(holo_rec, af2_reference_pdb, work)
     boxes["pipeline_holo"] = {"center": ch, "detail": deth} if ch else {"center": None, "why": deth}
     pockets, pwhy = fpocket_boxes(apo_rec)
     if pockets:
