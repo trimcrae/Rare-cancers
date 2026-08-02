@@ -759,7 +759,8 @@ def fetch_rcsb_cif(pdb_id, dest_dir, timeout=60):
 # ---------- one co-fold, and the panel --------------------------------------------------------------------
 
 
-def validate_one(model_path, native_path, target_model_chain=None, e3_model_chains=None):
+def validate_one(model_path, native_path, target_model_chain=None, e3_model_chains=None,
+                 model_chain_subset=None):
     """Score one co-fold against one deposited ternary. Returns a graded record, or a refusal with `why`.
 
     Chain ROLES on the model side come from `selcal_stage`'s frozen convention (target = A, E3 = E/F/G) —
@@ -778,6 +779,14 @@ def validate_one(model_path, native_path, target_model_chain=None, e3_model_chai
     except Exception as e:                                  # noqa: BLE001 — an unreadable file is a refusal, not a score
         rec["why"] = "could not parse a structure: %s" % e
         return rec
+    if model_chain_subset is not None:
+        # ★ ONE COPY ON THE MODEL SIDE TOO. Needed when the "model" is itself a multi-copy deposited
+        # structure (a crystal-vs-crystal comparison): passing all of 9DTY's ~10 copies against 9DTX's one
+        # makes 40 model chains claim 4 native chains, and the collision guard correctly refuses. Restricting
+        # the model to a single copy is the fix; widening the guard would not be.
+        keep = set(model_chain_subset)
+        model_atoms = [a for a in model_atoms if a.chain in keep]
+        rec["model_chain_subset"] = sorted(keep)
     if not model_atoms or not native_atoms:
         rec["why"] = "a structure parsed to zero atoms"
         return rec

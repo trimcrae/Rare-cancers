@@ -126,7 +126,11 @@ def check(native_dir, min_identity=CROSS_PARALOGUE_MIN_IDENTITY):
     saved = V.MIN_CHAIN_IDENTITY
     try:
         V.MIN_CHAIN_IDENTITY = min_identity
-        rec = V.validate_one(a, b, target_model_chain=roles["target"], e3_model_chains=roles["e3"])
+        # 9DTY holds ~10 copies; the selcal map already pinned ONE of them, so the model side is restricted
+        # to exactly those chains. Without this, 40 model chains claim 4 native chains and the collision
+        # guard refuses -- correctly, but the comparison is then never made.
+        rec = V.validate_one(a, b, target_model_chain=roles["target"], e3_model_chains=roles["e3"],
+                             model_chain_subset=[roles["target"]] + list(roles["e3"]))
     finally:
         V.MIN_CHAIN_IDENTITY = saved
     out["instruments"]["interface_rmsd_fnat"] = {
@@ -140,6 +144,17 @@ def check(native_dir, min_identity=CROSS_PARALOGUE_MIN_IDENTITY):
     }
 
     # --- instrument 2: canonical DockQ, target<->VHL interface selected BY ROLE ----------------------------
+    # ⛔ INSTRUMENT 2 DOES NOT RUN OFF A REFUSED INSTRUMENT-1 RECORD. Measured the hard way on run
+    # 30748435580: instrument 1 refused (collided chain map), instrument 2 consumed that record anyway and
+    # emitted DockQ 0.136 / fnat 0.000 from a mapping nobody should trust. A downstream measurement taken
+    # from an upstream refusal is not a measurement.
+    if not rec.get("graded"):
+        out["instruments"]["dockq"] = {"error": "not run — instrument 1 refused (%s), and a number computed "
+                                                "from a refused chain map is not a measurement"
+                                                % (rec.get("why") or "no reason recorded")}
+        out["graded"] = False
+        out["why"] = rec.get("why")
+        return out
     matched = ((rec.get("chain_map") or {}).get("matched")) or {}
     mapping, map_err = X.mapping_from_first_instrument(rec)
     tgt_native = (matched.get(roles["target"]) or {}).get("native_chain")
