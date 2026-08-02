@@ -129,3 +129,46 @@ def test_render_keeps_the_ledgers_visibly_apart():
     # the floor language is the honest one while any lane is unledgered
     if rs.ATTESTED:
         assert "FLOOR" in text and "defect register" in text.lower()
+
+
+def test_the_registry_covers_every_committed_price_ledger():
+    """★★ THE FIFTH PROPERTY, and it was violated for a whole lane's life (found 2026-08-02).
+
+    The four properties above all police how the total is COMPUTED. None of them notices a lane that was
+    never added to `LANES` at all — and the selectivity-control lane kept a per-rental ledger keyed on
+    instance id (`selcal-price-ledger.json`, 58 rentals) that no row read. So the figure this module calls
+    "the authoritative machine-counted floor" silently omitted every dollar that lane spent, while the file's
+    own docstring vouched for it.
+
+    ⛔ A TOTAL THAT IS HONEST ABOUT WHAT IT COUNTED IS STILL WRONG IF NOBODY ADDED THE LANE. That is the same
+    defect class as an unreadable ledger reading as zero (property 3), one level up: there, the lane is
+    known and unreadable; here, the lane is readable and unknown. The second is worse, because nothing
+    anywhere renders it as a problem.
+
+    So the registry is checked against the FILESYSTEM: any committed `*-price-ledger.json` must be read by
+    some row, or be explicitly declared a mirror/attested with a reason.
+    """
+    here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    ledgers = {f for f in os.listdir(here) if f.endswith("-price-ledger.json")}
+    if not ledgers:
+        pytest.skip("no per-rental ledgers committed")
+    read = {os.path.basename(r["artifact"]) for r in rs.LANES}
+    read |= {os.path.basename(r.get("artifact", "")) for r in getattr(rs, "MIRRORS", [])}
+    missed = sorted(ledgers - read)
+    assert not missed, (
+        "these per-rental ledgers are committed but NO row of realised_spend reads them, so their spend is "
+        "absent from the 'authoritative machine-counted floor': %s. Add a LANES row (or a MIRRORS row with "
+        "the reason it would double-count)." % missed)
+
+
+def test_the_selcal_lane_is_ledgered_not_attested():
+    """It has exactly the artifact shape this module calls authoritative — a per-RENTAL ledger keyed on
+    instance id, written BEFORE the DELETE — which is precisely what the NR-V04 rows are attested-only for
+    lacking. Filing it as attested would have recorded a solved problem as an open one."""
+    row = next((r for r in rs.LANES if r["lane"] == "selcal"), None)
+    assert row is not None, "the selcal lane must be machine-ledgered"
+    assert row["artifact"].endswith("selcal-price-ledger.json")
+    assert row["key"] == "total_billed_usd"
+    assert "instance id" in row["ledger"], "the property that makes it authoritative must be stated"
+    usd = dict((r["lane"], u) for r, u, _e in rs.ledgered()).get("selcal")
+    assert usd and usd > 0, "the lane reads as zero — the key or the artifact is wrong"

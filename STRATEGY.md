@@ -44,10 +44,40 @@ something like *we passed n gates*, or *we failed x gate and need to make y reme
 deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
 underneath one.*
 
-**As of 2026-07-30 7:45 PM ET · 7 gates passed · 3 failed (two caught before the spend; valB_mini's fail was
-bought deliberately and is now QUANTIFIED at n=3 — a NO-GO decision, not a defect) · 1 DELIVERED BUT NOT GRADED
-(the Step 1 fan-out map; ⚠ and one of its three cycles does not close) · 3 deliverables done and 1 PARTIAL ·
-NOTHING BILLING · realised spend $77.28 machine-ledgered.**
+**As of 2026-08-02 3:30 AM ET · 7 gates passed · 4 failed · 1 DELIVERED BUT NOT GRADED
+(the Step 1 fan-out map; ⚠ and one of its three cycles does not close) · 4 deliverables done and 1 PARTIAL ·
+NOTHING BILLING on Vast · realised spend $84.49 machine-ledgered.**
+
+> ### ⛔ THE ONE HOME FOR "WHICH CONTROLS FAILED" — READ THIS BEFORE COUNTING NULLS
+>
+> **Four results are routinely confused with each other, and three of the four are nulls of some kind.**
+> They have DIFFERENT statuses and only two are failures. This table exists because summing them into
+> "everything came back null" is a category error §5(b) of the paper explicitly wrote itself to prevent:
+> *"without it, a predictable null becomes a verdict on the whole program through a category error."*
+>
+> | # | what it was | result | status |
+> |---|---|---|---|
+> | 1 | **valB_mini** — the FEP-side cooperativity calibrator (paper §2.11) | ΔΔG_coop = **−0.599** against a target of **+0.944** — the WRONG SIGN in all three preregistered replicates, ~34× the statistical uncertainty, so systematic and not a sampling deficit | ❌ **CONTROL FAILED** |
+> | 2 | **selcal SMARCA2/4** — the endpoint-MD-side sensitivity control (§2.12a) | tier **NULL**, exact one-sided *p* = **0.7468**, **zero** technical failures, reference-set floor 0.00216 vs α = 0.05 | ❌ **CONTROL FAILED**, on an adequately-powered design |
+> | 3 | **NR-V04 retrospective** — the biological holdout (§2.12) | tier **DISCORDANT**, *p* = 0.392857 — a NON-RESOLUTION, and covalency-confounded (Cys551 is unique to NR4A1) so it could never have been a positive control at ANY *n* | ⚠ **NON-RESOLUTION**, never a candidate control |
+> | 4 | **RUNG 5a-KS** — the causal kill-switch (§2.10e) | **S = −0.1297 ± 0.3264 kcal/mol**, indistinguishable from zero | ✅ **NOT A FAILURE — its PREREGISTERED null**, registered in advance as the LIKELY outcome and explicitly NOT a stop |
+>
+> **Why #4 is not a failure, structurally and not charitably.** The Tier-3 double difference is an ordinary
+> non-covalent alchemical quantity: it models no bond in either leg, so it is **structurally incapable of
+> testing the categorical mechanism** the paralogue claim actually rests on. It can only see the *marginal*
+> wedge, whose expected size (~0.5–1.5 kcal/mol, one partly-buried hydrogen bond) was registered in advance
+> as likely to be unresolvable. It came back as a **BOUND** — excluding ≳ 0.65 kcal/mol at 2σ — because its
+> design condition (two seeds per arm) was met.
+>
+> **What IS bad, and it is #1–#3 together, not #4.** After three attempts there is **no working positive
+> control** for selectivity detection, and no fourth candidate is staged. That is why every
+> paralogue-selectivity statement in the paper is an **unvalidated prediction** — and it is also what makes
+> #4 uninformative *about the method*: an uncalibrated instrument returning zero cannot distinguish "there
+> is no wedge effect" from "this method cannot resolve the wedge effect".
+>
+> ⚠ **#1 AND #2 ARE DIFFERENT INSTRUMENTS** and neither invalidates the other's numbers: #1 is alchemical
+> ternary FEP, #2 is endpoint-MD E1. They fail differently too — one gets a known answer BACKWARDS, the
+> other cannot see a known difference at all.
 
 *The spend figure's as-of is its artifact's, **11:43 AM ET**, and it has not moved because nothing has billed
 since: the last lane came off its host at 5:11 PM ET.*
@@ -56,7 +86,7 @@ since: the last lane came off its host at 5:11 PM ET.*
 [`realised-spend.json`](research/modalities/realised-spend.json), which sums each lane's own rental ledger
 (`python3 research/modalities/realised_spend.py`). Two things it deliberately keeps apart. **(a)** A further
 **+$48.89 attested** is real money **no machine ledger counts**, because the ternary Vast lane has never had
-one — so the ledgered figure is a **FLOOR**, the best estimate is **$126.17**, and the artifact carries the
+one — so the ledgered figure is a **FLOOR**, the best estimate is **$133.38**, and the artifact carries the
 remediation that deletes the gap. ⚠ **The attested block grew on 2026-07-31 by TWO LEAKS of the same class,
 not by new work.** Both are one lane going unwatched, and both are ranges. **(i)** Five `cal-*` bench
 rentals were orphaned by the 2026-07-27 re-anchor sweep and ran unnoticed until they were

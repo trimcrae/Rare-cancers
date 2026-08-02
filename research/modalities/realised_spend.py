@@ -99,6 +99,24 @@ LANES = [
         "ledger": "vast_bench_sweep.realised_spend() — cumulative per cal-* instance, keyed on instance id "
                   "so a destroyed rental cannot vanish from the total",
     },
+    {
+        # ★★ ADDED 2026-08-02, and it had been missing for the lane's whole life. The selectivity-control
+        # lane keeps a PER-RENTAL ledger keyed on instance id — exactly the shape this file calls
+        # authoritative, and the shape the NR-V04 rows below are attested-only for LACKING — and it was
+        # simply never registered here. So the "machine-counted floor" omitted every dollar this lane spent
+        # (58 rentals) while the file's own docstring called that figure the authoritative one.
+        # ⚠ THAT IS THE FAILURE MODE THIS FILE EXISTS TO PREVENT, arriving through the registry rather than
+        # through a lane: a total that is honest about what it counted is still wrong if nobody added the
+        # lane. `test_realised_spend_registry_covers_every_price_ledger` now fails when a
+        # `*-price-ledger.json` exists that no row reads.
+        "lane": "selcal",
+        "what": "LANE 22 — the SMARCA2/4 endpoint-MD sensitivity control (co-folds + the 22-leg MD panel)",
+        "artifact": "research/modalities/selcal-price-ledger.json",
+        "key": "total_billed_usd",
+        "provider": "vast",
+        "ledger": "selcal_vast_launch._ledger_record — written BEFORE the DELETE for every rental, keyed on "
+                  "instance id, so a destroyed host cannot vanish from the total",
+    },
 ]
 
 # Realised figures deliberately NOT read, and why. Reading one of these as a second lane double-counts.

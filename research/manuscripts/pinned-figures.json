@@ -1,835 +1,840 @@
 {
- "_README": [
-  "Registry for lint_consistency.py — the machine half of CLAUDE.md's ONE-FACT-ONE-PLACE rule.",
-  "",
-  "WHY IT EXISTS. On 2026-07-25 a cleanup of STRATEGY.md found the SAME quantity stated at three",
-  "different values in one file, a high band that did not sum, a dependency spine whose cumulative",
-  "chain disagreed with the ladder it summarised, and a rung recorded as both UNPRICED and PRICED.",
-  "Every one of those was a number that lived in several places while a correction reached one of",
-  "them. Prose discipline had already been tried and had already failed — which is the same reason",
-  "lint_claims.py exists. So the discipline is enforced here instead.",
-  "",
-  "TWO KINDS OF ENTRY, because there are two distinct failure modes:",
-  "  derivations[] — a total that must EQUAL its parts. Catches a wrong CURRENT value (the $544",
-  "                  high band that did not sum; the $128 that came from a table missing a row).",
-  "  superseded[]  — a value that has been replaced. It may still appear (this repo never silently",
-  "                  drops a correction) but ONLY on a line that marks it as superseded. Catches an",
-  "                  OLD value surviving somewhere the fix did not reach.",
-  "",
-  "ADDING AN ENTRY IS PART OF MAKING THE CORRECTION, not extra work afterwards: when you change a",
-  "pinned number, add its old value here in the same commit. CI then finds every copy you missed.",
-  "",
-  "KEEP PATTERNS TIGHT. A linter that flags true statements gets ignored, which is worse than no",
-  "linter (lint_claims.py's founding lesson). Prefer a multi-token pattern over a bare number."
- ],
- "targets": [
-  "STRATEGY.md",
-  "CLAUDE.md",
-  "research/compute/pricing.md",
-  "research/compute/bid-strategy.md",
-  "research/manuscripts/degrader-paper-schedule.json",
-  "research/manuscripts/nr4a3-degrader-paper.md",
-  "research/manuscripts/nr4a3-degrader-paper-SI.md",
-  "research/modalities/nr4a3-nrv04-retrospective-prereg.md",
-  "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md",
-  "research/compute/gcp-gpu-facts.md",
-  "research/compute/vast-placement-facts.md"
- ],
- "_marker_note": [
-  "A superseded value is CLEARED when its line — or the two lines above / one below, because markdown prose",
-  "wraps mid-sentence — carries one of these, or when the enclosing heading does, or when the value is",
-  "locally negated ('2.10x, NOT 2.42x'). Matched case-insensitively.",
-  "",
-  "★ A MARKER MUST MEAN 'THIS VALUE IS NO LONGER CURRENT'. It must NOT merely mean 'something changed here'.",
-  "This list once contained 'REPRICED', 'corrected', 'wrong' and 'refuted' — and an adversarial test on",
-  "2026-07-25 showed that a reintroduced '★ REPRICED → ~$128 mid-range' CLEARED ITSELF, i.e. the linter would",
-  "have missed the exact bug it was written for. A reprice ASSERTS a new value; it disclaims nothing.",
-  "Before adding a marker, ask: could this word appear in a sentence that states the number as CURRENT? If",
-  "yes, it is not a marker."
- ],
- "supersession_markers": [
-  "supersed",
-  "withdraw",
-  "retir",
-  "retract",
-  "revok",
-  "do not cite",
-  "do not quote",
-  "must not be cited",
-  "must not be quoted",
-  "not a go-forward",
-  "no longer",
-  "previously",
-  "used to",
-  "originally",
-  "the original",
-  "pre-harmonized",
-  "was ~",
-  "was $",
-  "stale",
-  "prior text",
-  "at the time",
-  "retained for the record",
-  "what retired it",
-  "believed",
-  "replac",
-  "appendix a",
-  "that stood here",
-  "historical",
-  "no longer current",
-  "does not stand",
-  "is not the ladder",
-  "carried",
-  "once ",
-  "the earlier",
-  "the intermediate"
- ],
- "derivations": [
-  {
-   "id": "ladder_total",
-   "description": "The gated-ladder total must equal the machine repricing plus the stages that tool does not cover. It is a DERIVED figure and must never be typed by hand.",
-   "tool_json": "research/modalities/vast-ladder-repricing.json",
-   "non_tool_stages": {
-    "step0": [
-     1.0,
-     1.5,
-     2.0
-    ],
-    "valA_mini": [
-     0.0,
-     0.0,
-     15.0
-    ],
-    "nrv04_feasibility_covalent_measured": [
-     8.0,
-     8.0,
-     8.0
-    ],
-    "5a_basin_search": [
-     0.0,
-     0.0,
-     50.0
-    ],
-    "5b_inverse_linker": [
-     0.0,
-     10.0,
-     20.0
-    ]
-   },
-   "_non_tool_note": "[low, mid, high]. valA_mini's mid is its REALIZED ~$0 on GCP credit, not the midpoint of its 0-15 band; step0 uses the midpoint of 1-2.",
-   "expect_mid": 169,
-   "expect_low": 46,
-   "expect_high": 626,
-   "tolerance_usd": 1.0,
-   "must_appear_in": [
+  "_README": [
+    "Registry for lint_consistency.py — the machine half of CLAUDE.md's ONE-FACT-ONE-PLACE rule.",
+    "",
+    "WHY IT EXISTS. On 2026-07-25 a cleanup of STRATEGY.md found the SAME quantity stated at three",
+    "different values in one file, a high band that did not sum, a dependency spine whose cumulative",
+    "chain disagreed with the ladder it summarised, and a rung recorded as both UNPRICED and PRICED.",
+    "Every one of those was a number that lived in several places while a correction reached one of",
+    "them. Prose discipline had already been tried and had already failed — which is the same reason",
+    "lint_claims.py exists. So the discipline is enforced here instead.",
+    "",
+    "TWO KINDS OF ENTRY, because there are two distinct failure modes:",
+    "  derivations[] — a total that must EQUAL its parts. Catches a wrong CURRENT value (the $544",
+    "                  high band that did not sum; the $128 that came from a table missing a row).",
+    "  superseded[]  — a value that has been replaced. It may still appear (this repo never silently",
+    "                  drops a correction) but ONLY on a line that marks it as superseded. Catches an",
+    "                  OLD value surviving somewhere the fix did not reach.",
+    "",
+    "ADDING AN ENTRY IS PART OF MAKING THE CORRECTION, not extra work afterwards: when you change a",
+    "pinned number, add its old value here in the same commit. CI then finds every copy you missed.",
+    "",
+    "KEEP PATTERNS TIGHT. A linter that flags true statements gets ignored, which is worse than no",
+    "linter (lint_claims.py's founding lesson). Prefer a multi-token pattern over a bare number."
+  ],
+  "targets": [
     "STRATEGY.md",
+    "CLAUDE.md",
     "research/compute/pricing.md",
-    "research/compute/bid-strategy.md"
-   ],
-   "_must_appear_in_note": "CLAUDE.md was on this list and was REMOVED 2026-07-25. Requiring it there forced a fourth copy of a number whose home is STRATEGY.md -- the exact thing the one-fact-one-place rule forbids, and CLAUDE.md's copy had in fact been stale three times running (~$390 -> ~$240 -> ~$194). CLAUDE.md now points at STRATEGY.md instead. Only docs that genuinely need to STATE the total belong here."
-  }
- ],
- "artifact_figures": [
-  {
-   "id": "realised_spend_ledgered",
-   "description": "STRATEGY.md's scoreboard headline quotes the machine-ledgered realised spend. It is a reading of realised-spend.json, never a typed total.",
-   "artifact": "research/modalities/realised-spend.json",
-   "key": "realised_usd_ledgered",
-   "context": "realised spend \\$[\\d.,]+ machine-ledgered",
-   "must_appear_in": [
-    "STRATEGY.md"
-   ],
-   "regenerate": "python3 research/modalities/realised_spend.py --write, then update the figure STRATEGY.md quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "realised_spend_attested_unledgered",
-   "description": "The attested-but-unledgered part, kept visibly apart from the ledgered figure so the headline is never read as a complete total.",
-   "artifact": "research/modalities/realised-spend.json",
-   "key": "attested_unledgered_usd",
-   "context": "\\+\\$[\\d.,]+ attested",
-   "must_appear_in": [
-    "STRATEGY.md"
-   ],
-   "regenerate": "python3 research/modalities/realised_spend.py --write"
-  },
-  {
-   "id": "realised_spend_best_estimate",
-   "description": "ledgered + attested. Quoted only alongside the split.",
-   "artifact": "research/modalities/realised-spend.json",
-   "key": "realised_usd_best_estimate",
-   "context": "best estimate is \\*\\*\\$[\\d.,]+\\*\\*",
-   "must_appear_in": [
-    "STRATEGY.md"
-   ],
-   "regenerate": "python3 research/modalities/realised_spend.py --write"
-  },
-  {
-   "id": "step1_fanout_edges_complete",
-   "description": "The paper's §2.9 congeneric-map edge count and its ranked table are readings of step1-fanout-map.json, never typed. The table specifically must come from that file's `ranking` field, whose `ranking_note` restricts it to ANCHOR-ROOTED edges — a non-anchor-rooted ΔΔG placed in it reads as a comparison against cmpd19 that was never computed, which is exactly the 2026-07-29 cw_ms_5acetamido_ester defect (Appendix A).",
-   "artifact": "research/modalities/step1-fanout-map.json",
-   "key": "n_complete",
-   "context": "COMPLETE at \\d+ computed edges",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "read step1-fanout-map.json: n_complete / n_computable / n_units for the counts, and build the ranked table by joining `ranking` (anchor-rooted, ordered) to `results` for ddg_bind_unc_kcal and n_mapped_atoms. Update the paper IN THE SAME COMMIT (CLAUDE.md 1.3)."
-  },
-  {
-   "id": "nrv04_retro_e2_stable_fraction_nr4a1",
-   "description": "Paper §2.12's E2 row quotes the NR4A1 stable fraction. E2 is a PREREGISTERED SECONDARY, reported and never gating; this pins the reported value to the artifact so the paper cannot drift from the legs it was computed on.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E2.per_arm.retro_noncov_nr4a1.stable_fraction",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "\\*\\*E2\\*\\* \\*\\(secondary\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update the figure the paper quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_e3_mean_contacts_nr4a1",
-   "description": "Paper §2.12's E3 row quotes the NR4A1 arm mean interface contact count. E3 is a preregistered secondary and a registered WEAK discriminator — reported, never gating.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E3.per_arm.retro_noncov_nr4a1.arm_mean_contacts",
-   "format": "{:.2f}",
-   "tolerance": 0.005,
-   "context": "\\*\\*E3\\*\\* \\*\\(secondary\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update the figure the paper quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_e4_mean_of_min_nr4a1",
-   "description": "Paper §2.12's E4 row quotes the NR4A1 mean-of-min Lys-Nzeta presentation distance. E4 is DESCRIPTIVE ONLY and carries no threshold anywhere.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E4.per_arm.retro_noncov_nr4a1.arm_mean_of_min_A",
-   "format": "{:.2f}",
-   "tolerance": 0.005,
-   "context": "\\*\\*E4\\*\\* \\*\\(descriptive\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update the figure the paper quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_census_admitted_legs",
-   "description": "SI S12.3's census headline quotes how many stored leg records were ADMITTED to the panel by the frozen production_leg_check. The two smoke records are excluded by that predicate and must never be counted in.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "s3_census.n_admitted_to_panel",
-   "format": "{:.0f}",
-   "tolerance": 0.5,
-   "context": "leg records found under the lane prefix",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper-SI.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update the count the SI quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_e2_stable_fraction_nr4a2",
-   "description": "Paper §2.12's E2 row quotes the NR4A2 stable fraction. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E2.per_arm.retro_noncov_nr4a2.stable_fraction",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "\\*\\*E2\\*\\* \\*\\(secondary\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_e3_mean_contacts_nr4a2",
-   "description": "Paper §2.12's E3 row quotes the NR4A2 arm mean interface contact count. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E3.per_arm.retro_noncov_nr4a2.arm_mean_contacts",
-   "format": "{:.2f}",
-   "tolerance": 0.005,
-   "context": "\\*\\*E3\\*\\* \\*\\(secondary\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_e4_mean_of_min_nr4a2",
-   "description": "Paper §2.12's E4 row quotes the NR4A2 mean-of-min Lys-Nzeta presentation distance. E4 is DESCRIPTIVE ONLY and carries no threshold anywhere. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E4.per_arm.retro_noncov_nr4a2.arm_mean_of_min_A",
-   "format": "{:.2f}",
-   "tolerance": 0.005,
-   "context": "\\*\\*E4\\*\\* \\*\\(descriptive\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_e2_stable_fraction_nr4a3",
-   "description": "Paper §2.12's E2 row quotes the NR4A3 stable fraction. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E2.per_arm.retro_noncov_nr4a3.stable_fraction",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "\\*\\*E2\\*\\* \\*\\(secondary\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_e3_mean_contacts_nr4a3",
-   "description": "Paper §2.12's E3 row quotes the NR4A3 arm mean interface contact count. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E3.per_arm.retro_noncov_nr4a3.arm_mean_contacts",
-   "format": "{:.2f}",
-   "tolerance": 0.005,
-   "context": "\\*\\*E3\\*\\* \\*\\(secondary\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_e4_mean_of_min_nr4a3",
-   "description": "Paper §2.12's E4 row quotes the NR4A3 mean-of-min Lys-Nzeta presentation distance. E4 is DESCRIPTIVE ONLY and carries no threshold anywhere. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E4.per_arm.retro_noncov_nr4a3.arm_mean_of_min_A",
-   "format": "{:.2f}",
-   "tolerance": 0.005,
-   "context": "\\*\\*E4\\*\\* \\*\\(descriptive\\)\\*",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_si_e2_nr4a1",
-   "description": "SI §S12.4's E2 table restates the NR4A1 stable fraction beside its per-leg plateaux. A second copy of a pinned quantity is exactly what rule 1 exists to catch, so it is pinned to the same artifact key as the paper's. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E2.per_arm.retro_noncov_nr4a1.stable_fraction",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "\\| NR4A1 \\(non-cov\\) \\| 4 / 6 \\|",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper-SI.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_si_e2_nr4a2",
-   "description": "SI §S12.4's E2 table restates the NR4A2 stable fraction beside its per-leg plateaux. A second copy of a pinned quantity is exactly what rule 1 exists to catch, so it is pinned to the same artifact key as the paper's. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E2.per_arm.retro_noncov_nr4a2.stable_fraction",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "\\| NR4A2 \\(non-cov\\) \\| 2 / 6 \\|",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper-SI.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_si_e2_nr4a3",
-   "description": "SI §S12.4's E2 table restates the NR4A3 stable fraction beside its per-leg plateaux. A second copy of a pinned quantity is exactly what rule 1 exists to catch, so it is pinned to the same artifact key as the paper's. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E2.per_arm.retro_noncov_nr4a3.stable_fraction",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "\\| NR4A3 \\(non-cov\\) \\| 3 / 4 \\|",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper-SI.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_si_e4_mean_of_median_nr4a1",
-   "description": "SI §S12.6's E4 table quotes the NR4A1 mean-of-median Lys-Nzeta distance, a figure the paper does not carry and nothing pinned. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E4.per_arm.retro_noncov_nr4a1.arm_mean_of_median_A",
-   "format": "{:.4f}",
-   "tolerance": 0.005,
-   "context": "\\| NR4A1 \\(non-cov\\) \\| \\*\\*[\\d.]+\\*\\* \\| \\*\\*[\\d.]+\\*\\* \\|",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper-SI.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_si_e4_mean_of_median_nr4a2",
-   "description": "SI §S12.6's E4 table quotes the NR4A2 mean-of-median Lys-Nzeta distance, a figure the paper does not carry and nothing pinned. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E4.per_arm.retro_noncov_nr4a2.arm_mean_of_median_A",
-   "format": "{:.4f}",
-   "tolerance": 0.005,
-   "context": "\\| NR4A2 \\(non-cov\\) \\| \\*\\*[\\d.]+\\*\\* \\| \\*\\*[\\d.]+\\*\\* \\|",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper-SI.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_si_e4_mean_of_median_nr4a3",
-   "description": "SI §S12.6's E4 table quotes the NR4A3 mean-of-median Lys-Nzeta distance, a figure the paper does not carry and nothing pinned. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
-   "artifact": "research/modalities/nrv04-retro-secondaries.json",
-   "key": "secondaries.E4.per_arm.retro_noncov_nr4a3.arm_mean_of_median_A",
-   "format": "{:.4f}",
-   "tolerance": 0.005,
-   "context": "\\| NR4A3 \\(non-cov\\) \\| \\*\\*[\\d.]+\\*\\* \\| \\*\\*[\\d.]+\\*\\* \\|",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper-SI.md"
-   ],
-   "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_arm_mean_E1_nr4a1",
-   "description": "Paper §2.12 quotes the NR4A1 arm-level E1 plateau from the EMITTED verdict. These three are what make the DISCORDANT tier checkable: the pooled contrast carries the registered sign and the tier still fails, because NR4A1 is not below BOTH paralogues. Pinned to the run of record so the paper can never drift from the scorer that emitted it.",
-   "artifact": "research/modalities/nrv04-retro-verdict.json",
-   "key": "verdict.arm_means.retro_noncov_nr4a1",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "Arm means are \\*\\*NR4A1",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_arm_mean_E1_nr4a2",
-   "description": "Paper §2.12 quotes the NR4A2 arm-level E1 plateau from the EMITTED verdict. These three are what make the DISCORDANT tier checkable: the pooled contrast carries the registered sign and the tier still fails, because NR4A1 is not below BOTH paralogues. Pinned to the run of record so the paper can never drift from the scorer that emitted it.",
-   "artifact": "research/modalities/nrv04-retro-verdict.json",
-   "key": "verdict.arm_means.retro_noncov_nr4a2",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "Arm means are \\*\\*NR4A1",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_arm_mean_E1_nr4a3",
-   "description": "Paper §2.12 quotes the NR4A3 arm-level E1 plateau from the EMITTED verdict. These three are what make the DISCORDANT tier checkable: the pooled contrast carries the registered sign and the tier still fails, because NR4A1 is not below BOTH paralogues. Pinned to the run of record so the paper can never drift from the scorer that emitted it.",
-   "artifact": "research/modalities/nrv04-retro-verdict.json",
-   "key": "verdict.arm_means.retro_noncov_nr4a3",
-   "format": "{:.4f}",
-   "tolerance": 5e-05,
-   "context": "Arm means are \\*\\*NR4A1",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  },
-  {
-   "id": "nrv04_retro_primary_p",
-   "description": "Paper §2.12's one-sided permutation p on the primary contrast, quoted from the emitted verdict and never recomputed — a second implementation of a preregistered rule can silently disagree with the run of record.",
-   "artifact": "research/modalities/nrv04-retro-verdict.json",
-   "key": "verdict.primary.p",
-   "format": "{:.4f}",
-   "tolerance": 0.005,
-   "context": "p = 0\\.\\d+\\*\\* over the \\*\\*C\\(8,3\\)",
-   "must_appear_in": [
-    "research/manuscripts/nr4a3-degrader-paper.md"
-   ],
-   "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
-  }
- ],
- "table_completeness": [
-  {
-   "id": "bid_strategy_repriced_ladder",
-   "description": "bid-strategy.md's repriced-ladder table must carry EVERY stage the cost model prices. Omitting one is not cosmetic: dropping the 5c row made the table total $128, which then leaked into STRATEGY.md as a whole-ladder figure and sat there contradicting $194.",
-   "file": "research/compute/bid-strategy.md",
-   "section": "## 6. REPRICED LADDER",
-   "tool_json": "research/modalities/vast-ladder-repricing.json",
-   "row_key_hints": {
-    "step1_pilot (1-2 RBFE edges)": "step1_pilot",
-    "step1_fanout (19 RBFE edges @ ~13.7 GPU-h)": "step1_fanout",
-    "valB_mini (1 ternary edge, 3 replicas)": "valB_mini",
-    "valB_full (2-3 ternary edges + CRL-MD)": "valB_full",
-    "nrv04_retrospective (3 ternary legs + shared binary/solvent)": "nrv04_retrospective",
-    "ternary_4fs_recalibration (1 matched edge)": "ternary_4fs_recalibration",
-    "5c ensemble refinement (24-200 endpoint-MD legs)": "5c",
-    "local within-basin FEP (3-6 ternary comparisons)": "within-basin FEP",
-    "5a-KS primary (ligand-side double difference, 2 seeds x 2 arms)": "5a-KS"
-   },
-   "tolerance_usd": 1.0
-  }
- ],
- "superseded": [
-  {
-   "id": "ladder_total_390",
-   "pattern": "\\$390\\s*mid|~\\$390\\b|\\$170[–-]610",
-   "current": "~$185 mid (~$51–614)",
-   "retired_by": "the 2026-07-25 reprice onto the measured $0.137/ref-GPU-h policy"
-  },
-  {
-   "id": "ladder_total_240",
-   "pattern": "\\$240\\s*mid|\\$90[–-]390",
-   "current": "~$185 mid (~$51–614)",
-   "retired_by": "the 2026-07-25 reprice"
-  },
-  {
-   "id": "ladder_total_467",
-   "pattern": "\\$467\\b|\\$249[–-]685",
-   "current": "~$185 mid (~$51–614)",
-   "retired_by": "the 2026-07-25 reprice"
-  },
-  {
-   "id": "ladder_total_128",
-   "pattern": "\\$128\\b|\\$36[–-]381",
-   "current": "~$185 mid (~$51–614)",
-   "retired_by": "it was bid-strategy.md §6's table with the 5c row missing — a subset total, never the ladder"
-  },
-  {
-   "id": "ladder_high_band_544",
-   "pattern": "\\$46[–-]544",
-   "current": "~$47–561",
-   "retired_by": "arithmetic — the per-rung rows sum to ~$561, not ~$544"
-  },
-  {
-   "id": "ternary_edge_3_6",
-   "pattern": "~\\$3[–-]6\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
-   "retired_by": "it treated 920 iterations (a checkpoint boundary on the BINARY arm) as a full 2400-iteration leg"
-  },
-  {
-   "id": "ternary_edge_4_7",
-   "pattern": "~\\$4[–-]7\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
-   "retired_by": "same 920-vs-2400 leg-length error"
-  },
-  {
-   "id": "ternary_edge_7_15",
-   "pattern": "\\$7[–-]15\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
-   "retired_by": "it predates the measured $0.137/ref-GPU-h policy"
-  },
-  {
-   "id": "ternary_edge_10_16",
-   "pattern": "~\\$10[–-]16\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
-   "retired_by": "it assumed a ~$0.15–0.25/hr host"
-  },
-  {
-   "id": "ternary_edge_65_110",
-   "pattern": "\\$65[–-]110\\b",
-   "current": "~$8.8 ($3.2–22) per ternary edge",
-   "retired_by": "it came off the refuted 55-GPU-h AWS anchor (a leg that was ~65 % GPU-idle)"
-  },
-  {
-   "id": "rbfe_edge_tyk2_rate",
-   "pattern": "~?5[–-]6 GPU-h|\\$0\\.6[–-]1\\.4",
-   "current": "~13.7 ref GPU-h ≈ ~$1.9 per RBFE edge",
-   "retired_by": "that rate was measured on public TYK2; the real cmpd19/NR4A3 complex is ~2.6× heavier"
-  },
-  {
-   "id": "fanout_12_26",
-   "pattern": "\\$12[–-]26\\b",
-   "current": "~$36 ($15–80) for the 19-edge fan-out",
-   "retired_by": "stale on BOTH axes — a TYK2 rate and a single cheap host's $0.122/hr"
-  },
-  {
-   "id": "fanout_91_101",
-   "pattern": "\\$91[–-]101\\b",
-   "current": "~$36 ($15–80) for the 19-edge fan-out",
-   "retired_by": "the $0.35–0.39/hr under it was what bidding ×1.5 on a min_bid-ranked offer costs, not the market"
-  },
-  {
-   "id": "endpoint_leg_0_26",
-   "pattern": "\\$0\\.26/leg|~\\$0\\.45\\b|~\\$0\\.6/leg",
-   "current": "~1.38 ref GPU-h ≈ ~$0.19 per endpoint-MD leg",
-   "retired_by": "the $0.26 used the withdrawn 2.42× card ratio"
-  },
-  {
-   "id": "card_ratio_242",
-   "pattern": "2\\.42\\s*[x×]",
-   "current": "2.10× (4090/3090, validated grid) — and the card is not the decision, the OFFER is",
-   "retired_by": "the withdrawn 2026-07-24 23:08 bench (single 0.9–4.5 s windows; it also ranked a 4080 SUPER above a 4090)"
-  },
-  {
-   "id": "bid_multiple",
-   "pattern": "min_bid\\s*[x×]\\s*1\\.(9|5|25|1)\\b|floor\\s*[x×]\\s*1\\.25|[x×]\\s*1\\.9\\b",
-   "current": "bid = the market floor plus a staleness tick (min_bid × 1.02, min +$0.0005), capped at on-demand",
-   "retired_by": "the measured bid ladder: charged = min(bid, on-demand), so a premium is paid on every hour and cannot buy safety from on-demand renters"
-  },
-  {
-   "id": "y29f_single_replicate",
-   "pattern": "[−-]0\\.55\\b|[−-]0\\.552\\b",
-   "current": "Y29F = −0.370 ± 0.175 at full 3 × 3 replication",
-   "retired_by": "−0.552 was the single-replicate value"
-  },
-  {
-   "id": "y29a_partial_replication",
-   "pattern": "4\\.025\\s*[±+]",
-   "current": "Y29A = +4.424 ± 1.077 at full 3 × 3 replication",
-   "retired_by": "4.025 ± 1.100 was the 2 × 3 partial set"
-  },
-  {
-   "id": "covalent_panel_arms",
-   "pattern": "recruiter_active[^.\\n]{0,60}3/3|epimer[^.\\n]{0,40}(only )?1/3|cov_c551a[^.\\n]{0,40}1/3|C551A 1/3",
-   "current": "no per-arm figure — the corrected 14-leg re-run has not been launched",
-   "retired_by": "the driver split E3 from target positionally and scored the Elongin C interface, not VHL↔NR4A1"
-  },
-  {
-   "id": "xtt_pre_harmonized",
-   "pattern": "4/20 (above|conformers)|placed \\*\\*4/20\\*\\*",
-   "current": "19/20 detected, 3 ≥ D* (= 3/19 among detected, 3/20 across all deposited)",
-   "retired_by": "the harmonized rerun (pinned fpocket build + score-independent matcher)"
-  },
-  {
-   "id": "no_ternary_leg_completed",
-   "pattern": "[Nn]o ternary leg has ever (completed|run to completion)",
-   "current": "the leg length is OBSERVED (valB_mini ternary seed 0 reached 2000/2000); what is still true is that no ternary EDGE has completed end-to-end on a 4090",
-   "retired_by": "convergence run 30157501491"
-  },
-  {
-   "id": "wedge_unpriced_as_live_status",
-   "pattern": "(treat|stays|remain|remains|still stays|is) (the 5a-KS row |it )?\\*{0,2}UNPRICED",
-   "current": "the confirmatory protein-mutation wedge is PROJECTED (~$4.6, particle-count-scaled) and excluded from the ladder total",
-   "retired_by": "the pmx + GROMACS known-answer benchmark passing on 2026-07-25"
-  },
-  {
-   "id": "no_protein_mutation_engine",
-   "pattern": "no protein-mutation FEP engine exists|no implementing engine (for the wedge )?in this repo",
-   "current": "pmx + GROMACS, qualified 2026-07-25 (perses retired as OpenEye-gated)",
-   "retired_by": "the engine being built and benchmarked"
-  },
-  {
-   "id": "ladder_total_194",
-   "pattern": "\\$194\\s*mid|~\\$194\\b",
-   "current": "~$185 mid (~$51–614)",
-   "retired_by": "RUNG 5a's basin search completed 2026-07-25 at $0 realized (pure CPU/CI, no GPU; the optional MM-GBSA rescore was recommended against). Its mid moves to realized $0 — the convention valA_mini already uses — so the total drops $25. Low/high bands unchanged, since 5a's $0–50 band is unchanged."
-  },
-  {
-   "id": "ladder_total_169",
-   "pattern": "\\$169\\s*mid\\s*\\(~?\\$47|\\$47[–-]561",
-   "current": "~$185 mid (~$51–614)",
-   "retired_by": "The as-run ternary leg is 2800 iterations, not 2400 (verified 2026-07-25 against rbfe_spot_driver._iters_from_time: warmup iterations derive from the WARMUP integrator at 1 fs, so 1 ns of equilibration is 800 iterations of 1250 steps, not 400). Every 2 fs ternary stage was understated ~17%. Net of 5a completing at $0, the total moves 169 -> 185.",
-   "_narrowed_2026_07_30": "This entry's pattern used to include a bare `~$169`, and on 2026-07-30 the pinned total RETURNED to ~$169 for an unrelated reason (RUNG 5a-KS 2 legs -> 4). Two different quantities landed on one number, so the old pattern began flagging correct current statements. Narrowed to the historical BAND ($47-561), which the current ~$169 (~$46-626) does not share. The 2026-07-25 supersession itself is unchanged and still recorded in STRATEGY.md Appendix A."
-  },
-  {
-   "id": "triangle_n1_59",
-   "pattern": "\\$5\\.9\\b",
-   "current": "~$6.83 (n=1 closure scout)",
-   "retired_by": "the 2800-iteration / 3.5e6-step basis correction, plus solvent legs"
-  },
-  {
-   "id": "triangle_n3_176",
-   "pattern": "\\$17\\.6\\b",
-   "current": "~$27.32 (n=3, 16 legs)",
-   "retired_by": "T1 has only r0, so an n=3 triangle is 16 legs not 12 (+33%), silently re-including the r1/r2 spend the r0 verdict argued against"
-  },
-  {
-   "id": "nrv04_a1_wrong_cysteine_899_1639",
-   "pattern": "8\\.99[–-]16\\.39|electrophilic carbon \\*\\*8\\.99",
-   "current": "28.42–39.11 Å at the preregistered C551, across every clean co-fold model in the bucket",
-   "retired_by": "AMENDMENT 2 (2026-07-25): the A1 input-admissibility check resolved the NEAREST of the construct's six cysteines, which is C566, not the preregistered site C551 (residue offset 344). The superseded figures made the input look NEARLY admissible — ~9 Å against an 8 Å limit — while the real site sat ~28 Å away, so the correction makes A1 MORE binding, not less. The same root cause also built the covalent restraint onto C566 and made the cov_c551a control mutate C566, i.e. not touch C551 at all."
-  },
-  {
-   "id": "ternary_selectivity_does_not_materialize",
-   "pattern": "ternary adds no NR4A3 degradation.selectivity|for a representative PROTAC, does not materialize",
-   "current": "one representative, arbitrarily-linkered construct did not PROVIDE EVIDENCE FOR an NR4A3-selective ternary geometry",
-   "retired_by": "An overclaim in the NEGATIVE direction, withdrawn 2026-07-25 from main-text Limitations caveat 5 and SI S2. The co-folding classifier fails its own affinity-sensitive stereochemical control (an inactive epimer scored identically to the active construct), and the paper therefore declares it unsuitable for binding, ternary-stability, degradation-selectivity or linker-ranking claims — so it may not conclude ternary selectivity is ABSENT either. What the run supports is absence of evidence at a tier that cannot produce the evidence."
-  },
-  {
-   "id": "s1f_shakeout_offer_quote_1p41x",
-   "pattern": "\\$0\\.00612/ns|1\\.41× basis|1\\.41x basis",
-   "current": "$0.00644/ns · 1.48× basis on 46000463 — the BILLED rate (bid + the real 80 GB disk line), read off the live instance record",
-   "retired_by": "The $0.00612/ns · 1.41× figure was computed from the launcher's `dph≈` line, which is the OFFER's dph_total — the market FLOOR plus the disk line the search priced at 8 GB — not what the instance is billed (our BID plus the disk line for the 80 GB actually allocated). Measured $0 read-only 2026-07-27 (`vast_rate_forensics.py --probe`, run 30265697399): on instance 46000463 the offer quoted $0.17922/hr and the instance is billed $0.20272/hr, a $0.0235/hr gap that decomposes exactly into $0.0035 floor→bid plus $0.0200 of disk line, a 10.0× under-quote of storage. An offer-quote multiple is therefore a LOWER BOUND and `inflight_usd_per_ns.row()` now marks it as one. This is also what made the same host look like it rose from 1.41× to 1.82× — STRATEGY.md Appendix A 36."
-  },
-  {
-   "id": "card_rtx4090_755_36",
-   "pattern": "755\\.36|31\\.47\\s*ns per reference|REFERENCE_NS_PER_H.{0,20}31\\.47",
-   "current": "RTX 4090 = 804.06 ns/day (median of 6 hosts); REFERENCE_NS_PER_H = 804.06/24 = 33.5025",
-   "retired_by": "the 2026-07-27 re-anchoring onto a median-of-N-independent-hosts estimator (the single-host figure was one draw from a 4.1%-wide distribution, and was additionally measured in the retired conda-pack `md` environment rather than the `rbfe` environment the production lanes run)"
-  },
-  {
-   "id": "card_rtx4080_703_51",
-   "pattern": "703\\.51",
-   "current": "RTX 4080 = 693.35 ns/day (median of 4 hosts)",
-   "retired_by": "the 2026-07-27 re-anchoring onto the median-of-N estimator"
-  },
-  {
-   "id": "card_rtx3090_359_36",
-   "pattern": "359\\.36",
-   "current": "RTX 3090 = 460.91 ns/day (median of 3 hosts)",
-   "retired_by": "the 2026-07-27 re-anchoring; the +28% jump is dominated by the environment change (conda-pack `md` -> the `rbfe` env the science runs in), not by host sampling"
-  },
-  {
-   "id": "card_ratio_4090_over_3090_2_10",
-   "pattern": "2\\.10\\s*[x×]|2\\.102",
-   "current": "RTX 4090 / RTX 3090 = 1.745x on the median-of-N estimator",
-   "retired_by": "the 2026-07-27 re-anchoring (the retired 2.10x itself replaced a withdrawn 2.42x)"
-  },
-  {
-   "id": "card_ratio_4090_over_4080_within_7pct",
-   "pattern": "4080 is within \\*{0,2}7\\s*%|within \\*{0,2}7 %\\*{0,2} of a 4090",
-   "current": "RTX 4090 / RTX 4080 = 1.160x on the median-of-N estimator (the 4080 is ~14% behind, not ~7%)",
-   "retired_by": "the 2026-07-27 re-anchoring — the old 7% compared a 4080 host near the top of its distribution with a 4090 host mid-pack"
-  },
-  {
-   "id": "single_host_new_card_figures_2026_07_27",
-   "pattern": "1070\\.44|793\\.79\\b|482\\.34|481\\.78|387\\.78|242\\.20\\b",
-   "current": "the median-of-N entries in vast_cost_model.MEASURED_NS_PER_DAY_84K",
-   "retired_by": "published for ~1 hour on 2026-07-27 as SINGLE-HOST measurements, then superseded the same day by the median-of-N re-anchoring; retained here because a single-host figure is one draw from a distribution up to 14% wide"
-  },
-  {
-   "id": "card_a100pcie_and_3090ti_first_pass_medians",
-   "pattern": "523\\.82|481\\.87",
-   "current": "A100 PCIe = 524.43 (provisional median of 2 hosts); RTX 3090 Ti = 481.96 (median of 3 hosts)",
-   "retired_by": "the same-day top-up wave that added a third host to each card's sample (the A100 PCIe could still only reach 2 — the board carried two qualifying offers of it all day)"
-  },
-  {
-   "id": "ladder_total_185",
-   "pattern": "\\$185\\s*mid|~\\$185\\b|\\$51[–-]614",
-   "current": "~$158 mid (~$44–578)",
-   "retired_by": "the 2026-07-27 re-anchoring of the throughput table (pricing.md Appendix T) and the ladder regeneration that followed it — the GPU-hours are unchanged, the $/reference-GPU-hour moved"
-  },
-  {
-   "id": "bid_strategy_tool_total_166",
-   "pattern": "~\\$166\\b|\\$42[–-]519",
-   "current": "~$138 ($35–483) for the stages the cost model prices",
-   "retired_by": "the same 2026-07-27 ladder regeneration"
-  },
-  {
-   "id": "valb_rung_band_8_78_22_28",
-   "pattern": "8\\.78|22\\.28",
-   "current": "valB 4-leg replicate pair: plan $7.32, ceiling $20.74 (ternary_vast_launch.rung_band_usd(4))",
-   "retired_by": "the 2026-07-27 throughput re-anchoring and the ladder regeneration that followed it — pricing.md Appendix T; the GPU-hours are unchanged, only the $/reference-GPU-hour moved"
-  },
-  {
-   "id": "buy_line_1_5x_multiple_expression",
-   "pattern": "1\\.5\\s*[x×]\\s*basis|≳1\\.5×|the 1\\.5× line|1\\.5x the ladder basis",
-   "current": "$0.006539/ns (≈1.92x the current basis) — the SAME absolute rate, re-expressed after the basis was corrected",
-   "retired_by": "trimcrae's 2026-07-27 re-expression ruling: the throughput re-anchoring moved the basis 22% with no price change, so a multiple-of-basis expression silently changed the rule; the invariant is now the approved absolute $/ns and the multiple is derived (inflight_usd_per_ns.APPROVED_USD_PER_NS)"
-  },
-  {
-   "id": "ladder_basis_0_004359",
-   "pattern": "0\\.004359|\\$0\\.0043593",
-   "current": "basis $0.003412/ns (congeneric_fanout.basis_usd_per_ns())",
-   "retired_by": "the 2026-07-27 throughput re-anchoring plus the ladder regeneration — pricing.md Appendix T"
-  },
-  {
-   "id": "scoreboard_realised_0_74",
-   "pattern": "\\$0\\.74 spent|realised spend \\$0\\.74|~\\$35 not spent",
-   "current": "realised spend is DERIVED in research/modalities/realised-spend.json (realised_spend.py) and quoted by STRATEGY.md's scoreboard under lint rule A",
-   "retired_by": "2026-07-27: a hand-carried total that stood at $0.74 while the step 1 fan-out's own rental ledger read $20.11 and the bench sweep's read $3.49. Rule 1.1 - a total is DERIVED, never typed. STRATEGY.md Appendix A row 39"
-  },
-  {
-   "id": "ternary_lane_valb_cohort3_rates",
-   "pattern": "1\\.528\\s*[x×]|1\\.574\\s*[x×]|\\$0\\.005214/ns|\\$0\\.005369/ns",
-   "current": "valB_mini cohort 4, rented 4:51 PM ET: 1.500x / 1.500x / 1.859x / 1.649x basis (ternary-vast-rental-receipt.json)",
-   "retired_by": "the 4:00 PM cohort 3 was reclaimed and re-rented at 4:51 PM ET. On this lane a per-host rate has a half-life of about two hours - STRATEGY.md Appendix A row 38"
-  },
-  {
-   "id": "tier2_term_a_seven_basins",
-   "pattern": "\\*\\*7\\*\\* (?:place|exploit)|of which \\*\\*7\\*\\* exploit|(?:all|All) (?:7|seven) (?:term-\\(a\\)|electrophile-reach) basins|0\\.019[–-]0\\.057|168 of 192|168/192",
-   "current": "Tier 2 term (a) = 3 basins (vhl|M2 10 atoms/0.057, vhl|M3 11/0.021, crbn|M17 12/0.045); reach fractions 0.021-0.057; conserved-cysteine control zero in 184 of 192 basins. nr4a3-orientation-basins.json -> tier2_gate.n_exploiting_term_a_electrophile_reach",
-   "retired_by": "the 2026-07-26 reach correction (exact three-ball kernel replacing a rule that credited a pendant with shortening the anchor-to-anchor span). Term (b) 40 and the nominal limb 28 are bit-identical across it - STRATEGY.md Appendix A row 49"
-  },
-  {
-   "id": "tier2_crbn_m0_clears_the_gate",
-   "pattern": "reaches C397 at \\*\\*11\\*\\*|25 → \\*\\*11\\*\\*|strongest basin (?:is )?among the (?:MOST|most) tractable",
-   "current": "crbn|M0's exact C397 requirement is 13 backbone atoms, so it MISSES the 12-atom gate (at-gate reach fraction 0.000). It remains the strongest NOMINATION on pose persistence (11/12) and the lysine term (7.5x). Representative -> exemplar is 33 -> 13 at the 3.0 A pendant convention",
-   "retired_by": "the same 2026-07-26 reach correction; 11 was the relaxed value. The 'most tractable' reading is withdrawn - crbn|M0 at 13 is comparable to vhl|M2 (10) and vhl|M3 (11), not ahead of them"
-  },
-  {
-   "id": "valb_miss_magnitude_and_ratio",
-   "pattern": "1\\.478|abs error \\*{0,2}1\\.466|~?33\\s*[x×] the statistical|33\\s*[x×] smaller than the miss|ΔΔG_coop = −0\\.522 vs",
-   "current": "valB_mini at the landed n=3: mean -0.599 kcal/mol, abs error 1.543, ~34x the 0.045 statistical uncertainty",
-   "retired_by": "the three preregistered replicates landing 2026-07-30. 1.466 is the r0-only reading after the restrained binary re-run; 1.478 is the reading BEFORE it, i.e. superseded twice - STRATEGY.md Appendix A rows 44 and 51"
-  },
-  {
-   "id": "linker_library_21_constructs",
-   "pattern": "21[- ]construct library|\\*\\*21 candidate molecules\\*\\*|of which 21 are retained|[Aa]ll 21 were verified|1,995 constructs",
-   "current": "54 constructs - 36 at the exemplar placement (from 3,544 enumerated) + 18 at the representative (from 1,791), RDKit-verified 54/54. nr4a3-linker-design.json -> library_summary",
-   "retired_by": "the wedge-residue fix and the representative-geometry enumeration. 21 was the pre-fix count and it contradicted STRATEGY.md's own library line - Appendix A row 48"
-  },
-  {
-   "id": "genmatched_null_degenerate_statistics",
-   "pattern": "NEVER manufactured|enrichment[^.\\n]{0,20}(?:Infinity|\\binf\\b)",
-   "current": "the generation-matched null's scramble arm is CONSISTENT WITH but UNDERPOWERED TO ESTABLISH that survival is not a funnel artifact: 0/191 controls bounds the manufactured rate at <=0.0157 (95%, rule of three) against the real campaign's own 0.0052; Fisher p = 0.5",
-   "retired_by": "a zero POINT estimate of the control rate was being read as a measured zero, which made any real survivor infinitely enriched at p=0 by construction - STRATEGY.md Appendix A row 52"
-  },
-  {
-   "id": "marginal_axis_resolvable_1p12_assumed_sd",
-   "pattern": "(?:best-case\\s+)?resolvabl\\w*[^.\\n]{0,45}1\\.12|1\\.12[^.\\n]{0,25}resolvabl|replicate SD 0\\.7, n\\s*=\\s*3|SD 0\\.7, n\\s*=\\s*3\\)|the method resolves 1\\.12|against ~?1\\.12|operating near its limit, not a discovery tool",
-   "current": "best-case resolvable difference 0.60 kcal/mol = minimum_detectable_difference(0.375, 3) on the MEASURED replicate SD, beside a MEASURED accuracy of 1.543 kcal/mol wrong-sign. The axis is UNCALIBRATED, not near its resolution limit. One home: STRATEGY.md section MECHANISM-FIRST, MARGINAL bullet",
-   "retired_by": "the n=3 valB_mini replicates measuring the replicate SD at 0.375 (2026-07-30); 0.7 had never been measured by anything in this program. Accuracy stopped being a literature ~1.7 RMSE and became the measured 1.543 wrong-sign miss on this exact quantity class - STRATEGY.md Appendix A row 53"
-  },
-  {
-   "id": "ladder_total_158_two_leg_5aks",
-   "pattern": "~?\\$158\\s*mid|\\$158\\s*\\(|mid-range\\s*\\(~?\\$44|~?\\$44[-–]578|158 mid-range",
-   "current": "PINNED TOTAL ~$169 mid-range (~$46-626), regenerated after RUNG 5a-KS went from 2 ternary legs to 4 (n = 2 seeds per arm, trimcrae go 2026-07-30, STRATEGY Open decision 11). Derived: vast_cost_model.py -> vast-ladder-repricing.json plus the non-tool stages in this file's ladder_total derivation",
-   "retired_by": "the 5a-KS leg-count decision ONLY - the market snapshot, the $/reference-GPU-hour rate and every other stage's GPU-hours are byte-identical across the reprice, so the whole +$11 mid is the second seed per arm. STRATEGY.md Appendix A row 54"
-  },
-  {
-   "id": "two_mechanism_grid_limit",
-   "pattern": "segment grid cannot build|grid limit, not geometry|k\\s*∈\\s*\\[2,\\s*3\\]\\s*at\\s*n\\s*=?\\s*16|k∈\\[2,3\\] at n=16",
-   "current": "No single construct carries both mechanisms because build_smiles takes ONE pendant -- a chain-TEMPLATE limit, not a grid one. The grid builds both targets separately at n = 16, 18 and 20; no committed T407 window is k in [2,3]. A two-branch template is constructible at n = 18 with existing segments. One home: STRATEGY.md WHERE WE ARE 5b block; derived in linker_branch_reach.py",
-   "retired_by": "the $0 re-enumeration diagnostic run 2026-07-30 against the committed nr4a3-linker-design.json - STRATEGY.md Appendix A row 55"
-  },
-  {
-   "id": "realised_spend_before_orphan_leak",
-   "pattern": "\\+\\$2\\.31 attested|best estimate is \\*\\*\\$79\\.59\\*\\*",
-   "current": "Attested-only is $48.89 and the best estimate $126.17, both DERIVED from research/modalities/realised-spend.json (regenerate: realised_spend.py --write). The growth is TWO LEAKS of one class plus the NR-V04 retrospective's own smoke rentals, not new work: five cal-* bench rentals orphaned by the 2026-07-27 re-anchor sweep (range $20-$39), the retrospective's Arm E host (range $6.68-$25.83), and that lane's 17 withdrawn smoke rentals ($0.75, a FLOOR). One home: realised_spend.ATTESTED -> vast_bench_sweep_orphans, nrv04_retro_orphan, nrv04_retro_smoke_fanout.",
-   "retired_by": "the 2026-07-31 orphan sweep. The mechanism is the durable part and is why the money was invisible twice over: the bench sweep's ledger stopped at instance 46013005 (11:27 AM ET 2026-07-27) while the sweep went on renting ids 46013066-46014594, so no ledger entry existed; and vast_idle_guard is LABEL-SCOPED, running only inside a lane's own collect, so a lane that stops being dispatched stops being guarded and nothing anywhere says so."
-  },
-  {
-   "id": "realised_spend_before_retro_orphan_leak",
-   "pattern": "\\+\\$22\\.31 attested|best estimate is \\*\\*\\$99\\.59\\*\\*",
-   "current": "Attested-only is $48.89 and the best estimate $126.17, both DERIVED from research/modalities/realised-spend.json (regenerate: realised_spend.py --write). The +$25.83 is a SECOND leak of the same class as the cal-* orphans, found the same day: instance 45749905, the NR-V04 retrospective's one genuine Arm E host, rented 6:59 PM ET Fri Jul 24 2026 and not destroyed until 6:59 AM ET Fri Jul 31 2026 -- 156.0 h of rental against a leg that computed for 1.04 h. Its size is a RANGE, $6.68-$25.83, and must never be quoted as a point estimate: the span (561615 s, start_date -> destroy) and the rate ($0.16555555555555557/hr) are both measured from the instance's own record at reap (run 30625438729 job 91139494243, 10:59:45 UTC), but the host was last seen `exited` after a container start failure and its last S3 write was 11:20 AM ET 2026-07-26, so whether the meter ran for the idle ~4.8 days cannot be recovered now the host is destroyed. One home: realised_spend.ATTESTED -> nrv04_retro_orphan.",
-   "retired_by": "the 2026-07-31 price-ledger forensics on the NR-V04 retrospective lane (nrv04_retro_price_forensics.py -> nrv04-retro-price-forensics.json). The durable finding is what the ledger's uptime_s MEANS: it is `now - instance.start_date` at whatever poll saw the host, i.e. BILLED RENTAL TIME, never the leg's compute time and never the rental's full lifetime (it is a lower bound on that). The control that settled it was the live Vast census in the same pass -- three sibling hosts rented 14/31/72 min earlier read start_date ages of 14m/31m/1h12m while their `duration` field read 135d/1958d/30d -- so the field means the rental start and the 6.5 days were real. Pinned by tests/test_price_ledger_uptime_semantics.py."
-  },
-  {
-   "id": "gcp_spec_card_table_p100",
-   "pattern": "~2\\.4\\s*\\|\\s*1\\.46|\\*\\*11\\.1\\*\\*\\s*\\|\\s*\\*\\*1\\.67\\*\\*|\\+18\\s*%\\s*more legs|P100 looks better than L4",
-   "current": "MEASURED 2026-07-31: the bandwidth heuristic that produced the P100 row is REFUTED — the T4 arm shows the workload is COMPUTE-bound (measured ~0.31x L4 where bandwidth predicted 1.07x and FP32 predicted 0.27x). P100 itself remains UNMEASURED, so it is unsupported rather than refuted. Independently, the spec table's $/h compared the L4's whole-VM rate against BARE GPU rates for the others; adding the n1-standard-4 host ($0.190/h) takes P100 from +18% to +3% on the table's own speeds. One home: research/modalities/gcp-card-bench.json; readable table gcp-gpu-facts.md 1c",
-   "retired_by": "the GCP card probe, 2026-07-31 (gpu-bench-gcp.yml runs 30632627483 / 30633727772) - STRATEGY.md Appendix A row 56"
-  },
-  {
-   "id": "gcp_spec_card_table_t4",
-   "pattern": "~1\\.1\\s*\\|\\s*0\\.35|20\\.3\\s*\\|\\s*3\\.05",
-   "current": "MEASURED 2026-07-31: T4 is ~0.31x the L4 at the lane's real 141,867-particle system, not ~1.1x, and delivers ~0.41x the L4's science-per-dollar, not 2.2x - wrong by ~5x in the direction that would have bought the worst card available. The figure was REFUSED by the probe's admission gate (CV 5.6% vs a 5% ceiling) and stands as a RANKING, not a rate. One home: research/modalities/gcp-card-bench.json",
-   "retired_by": "the GCP card probe, 2026-07-31 (run 30633727772, spot; on-demand was ZONE_RESOURCE_POOL_EXHAUSTED in all four us-central1 zones) - STRATEGY.md Appendix A row 56"
-  },
-  {
-   "id": "gcp_spec_card_table_v100",
-   "pattern": "~3\\.0×?\\s*\\|\\s*2\\.48",
-   "current": "UNSUPPORTED as of 2026-07-31: the V100 row came from the same bandwidth heuristic the T4 measurement refutes, and the V100 itself is still UNMEASURED. Its $/h also omitted the n1 host the card cannot run without. One home: research/modalities/gcp-card-bench.json",
-   "retired_by": "the GCP card probe, 2026-07-31 - STRATEGY.md Appendix A row 56"
-  },
-  {
-   "id": "nrv04_retro_panel_18_of_18",
-   "pattern": "R1[ ,:]+(only, *)?18 legs|Arm E[ ,(]+(R1, *)?18 legs|18-of-18|18 of 18 R1|C\\(9,\\s*3\\)\\s*=\\s*84|1/84",
-   "current": "AMENDMENT 4 (2026-07-31, trimcrae): the authorized NR-V04 retrospective R1 panel is 16 LEGS, not 18. nrv04-descriptive-v4/nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart (both Boltz-placed heavy atoms), PE +2.109e15 kJ/mol at protein_after_pdbfixer against a control at +2.08e5, so both units drawing on it are unrunnable and were EXCLUDED BY MEASURED INPUT FAULT, not by outcome (they produced zero frames). Model-level n per arm becomes 3/3/2, the primary reference distribution C(8,3)=56, and the minimum attainable one-sided p 1/56 = 0.0179 - still below alpha=0.05. The NR4A1-vs-NR4A3 pairwise falls to C(5,3)=10 and can no longer attain alpha. One home: nrv04_retro_panel.EXCLUDED_COFOLD_MODELS + enumerate_units; full record: research/modalities/nr4a3-nrv04-retrospective-prereg.md AMENDMENT 4.",
-   "retired_by": "AMENDMENT 4, 2026-07-31 - staged single-point PE probe, CI runs 30662210714 / 30663617181 (nrv04_pe_stage_probe); the probe reproduces the failing leg's own pe_pre_min to ten significant figures",
-   "scoping_note": "★ HOW THIS PATTERN IS SCOPED, AND WHY — read before widening it. The repo contains at least three unrelated 18s: (a) THIS panel's 18 R1 legs, now 16; (b) the COVALENT FEASIBILITY panel's genuine 18 legs (six arms x three velocity seeds), which is a different panel and still correct — the paper says '18-leg endpoint-MD panel' and '17 of 18 legs completed'; (c) the step-1 fan-out's '18 of 18' edges at $73.79. Only (a) is superseded. So this pattern anchors on retrospective-only phrasings ('R1, 18 legs', 'R1 only, 18 legs', 'Arm E, 18 legs', 'C(9,3)=84', '1/84') and deliberately does NOT match a bare '18 legs' or '18 of 18'. MEASURED VALUE OF WIDENING IT ONCE: the first version matched only 'R1 only, 18 legs' and cleared; adding the 'R1, 18 legs' / 'Arm E, 18 legs' variants found FOUR more live copies in STRATEGY.md and the prereg. A too-narrow pattern reports success while the stale number survives — the same silent-pass failure as the line-scoped marker clearing fixed the same day (lint_consistency._WINDOW_CHARS). If you widen this, re-check (b) and (c) do not start firing; a linter that flags true statements gets switched off."
-  }
- ],
- "subset_checks": [
-  {
-   "id": "strategy_spine_cum",
-   "description": "STRATEGY.md's dependency spine restates the ordered plan's cumulative chain. On 2026-07-25 it carried $15/$97/$273/$252 against the ladder's $13/$48/$104/$194. Subset, not equality — the spine legitimately skips rungs it does not draw.",
-   "file": "STRATEGY.md",
-   "superset_name": "the ordered plan's `Cum. ~$N`",
-   "superset_pattern": "Cum\\. ~\\$([0-9]+)",
-   "subset_name": "the dependency spine's `(Cum ~$N)`",
-   "subset_pattern": "Cum ~\\$([0-9]+)"
-  }
- ],
- "_artifact_figures_note": [
-  "Rule A. A doc that quotes a MACHINE-WRITTEN number must quote THAT number.",
-  "",
-  "Added 2026-07-27 after the scoreboard headline read '$0.74 spent' beside a rental ledger",
-  "standing at $20.11 on one lane alone. D/T/X/S could not see it: it was not a ladder total,",
-  "not a table row, not a summary of another table and not a superseded value — just a figure",
-  "in prose with no machine behind it.",
-  "",
-  "★ IT CHECKS THE COMMITTED SNAPSHOT, NOT A LIVE RECOMPUTATION. The lanes bill continuously, so",
-  "a live figure moves several times an hour and a rule chasing it would be red almost always —",
-  "the ignored-linter failure. The snapshot moves only when someone runs `--write`, so this fires",
-  "exactly when a refresh happened and the doc was not updated in the same commit."
- ]
+    "research/compute/bid-strategy.md",
+    "research/manuscripts/degrader-paper-schedule.json",
+    "research/manuscripts/nr4a3-degrader-paper.md",
+    "research/manuscripts/nr4a3-degrader-paper-SI.md",
+    "research/modalities/nr4a3-nrv04-retrospective-prereg.md",
+    "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md",
+    "research/compute/gcp-gpu-facts.md",
+    "research/compute/vast-placement-facts.md"
+  ],
+  "_marker_note": [
+    "A superseded value is CLEARED when its line — or the two lines above / one below, because markdown prose",
+    "wraps mid-sentence — carries one of these, or when the enclosing heading does, or when the value is",
+    "locally negated ('2.10x, NOT 2.42x'). Matched case-insensitively.",
+    "",
+    "★ A MARKER MUST MEAN 'THIS VALUE IS NO LONGER CURRENT'. It must NOT merely mean 'something changed here'.",
+    "This list once contained 'REPRICED', 'corrected', 'wrong' and 'refuted' — and an adversarial test on",
+    "2026-07-25 showed that a reintroduced '★ REPRICED → ~$128 mid-range' CLEARED ITSELF, i.e. the linter would",
+    "have missed the exact bug it was written for. A reprice ASSERTS a new value; it disclaims nothing.",
+    "Before adding a marker, ask: could this word appear in a sentence that states the number as CURRENT? If",
+    "yes, it is not a marker."
+  ],
+  "supersession_markers": [
+    "supersed",
+    "withdraw",
+    "retir",
+    "retract",
+    "revok",
+    "do not cite",
+    "do not quote",
+    "must not be cited",
+    "must not be quoted",
+    "not a go-forward",
+    "no longer",
+    "previously",
+    "used to",
+    "originally",
+    "the original",
+    "pre-harmonized",
+    "was ~",
+    "was $",
+    "stale",
+    "prior text",
+    "at the time",
+    "retained for the record",
+    "what retired it",
+    "believed",
+    "replac",
+    "appendix a",
+    "that stood here",
+    "historical",
+    "no longer current",
+    "does not stand",
+    "is not the ladder",
+    "carried",
+    "once ",
+    "the earlier",
+    "the intermediate"
+  ],
+  "derivations": [
+    {
+      "id": "ladder_total",
+      "description": "The gated-ladder total must equal the machine repricing plus the stages that tool does not cover. It is a DERIVED figure and must never be typed by hand.",
+      "tool_json": "research/modalities/vast-ladder-repricing.json",
+      "non_tool_stages": {
+        "step0": [
+          1.0,
+          1.5,
+          2.0
+        ],
+        "valA_mini": [
+          0.0,
+          0.0,
+          15.0
+        ],
+        "nrv04_feasibility_covalent_measured": [
+          8.0,
+          8.0,
+          8.0
+        ],
+        "5a_basin_search": [
+          0.0,
+          0.0,
+          50.0
+        ],
+        "5b_inverse_linker": [
+          0.0,
+          10.0,
+          20.0
+        ]
+      },
+      "_non_tool_note": "[low, mid, high]. valA_mini's mid is its REALIZED ~$0 on GCP credit, not the midpoint of its 0-15 band; step0 uses the midpoint of 1-2.",
+      "expect_mid": 169,
+      "expect_low": 46,
+      "expect_high": 626,
+      "tolerance_usd": 1.0,
+      "must_appear_in": [
+        "STRATEGY.md",
+        "research/compute/pricing.md",
+        "research/compute/bid-strategy.md"
+      ],
+      "_must_appear_in_note": "CLAUDE.md was on this list and was REMOVED 2026-07-25. Requiring it there forced a fourth copy of a number whose home is STRATEGY.md -- the exact thing the one-fact-one-place rule forbids, and CLAUDE.md's copy had in fact been stale three times running (~$390 -> ~$240 -> ~$194). CLAUDE.md now points at STRATEGY.md instead. Only docs that genuinely need to STATE the total belong here."
+    }
+  ],
+  "artifact_figures": [
+    {
+      "id": "realised_spend_ledgered",
+      "description": "STRATEGY.md's scoreboard headline quotes the machine-ledgered realised spend. It is a reading of realised-spend.json, never a typed total.",
+      "artifact": "research/modalities/realised-spend.json",
+      "key": "realised_usd_ledgered",
+      "context": "realised spend \\$[\\d.,]+ machine-ledgered",
+      "must_appear_in": [
+        "STRATEGY.md"
+      ],
+      "regenerate": "python3 research/modalities/realised_spend.py --write, then update the figure STRATEGY.md quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "realised_spend_attested_unledgered",
+      "description": "The attested-but-unledgered part, kept visibly apart from the ledgered figure so the headline is never read as a complete total.",
+      "artifact": "research/modalities/realised-spend.json",
+      "key": "attested_unledgered_usd",
+      "context": "\\+\\$[\\d.,]+ attested",
+      "must_appear_in": [
+        "STRATEGY.md"
+      ],
+      "regenerate": "python3 research/modalities/realised_spend.py --write"
+    },
+    {
+      "id": "realised_spend_best_estimate",
+      "description": "ledgered + attested. Quoted only alongside the split.",
+      "artifact": "research/modalities/realised-spend.json",
+      "key": "realised_usd_best_estimate",
+      "context": "best estimate is \\*\\*\\$[\\d.,]+\\*\\*",
+      "must_appear_in": [
+        "STRATEGY.md"
+      ],
+      "regenerate": "python3 research/modalities/realised_spend.py --write"
+    },
+    {
+      "id": "step1_fanout_edges_complete",
+      "description": "The paper's §2.9 congeneric-map edge count and its ranked table are readings of step1-fanout-map.json, never typed. The table specifically must come from that file's `ranking` field, whose `ranking_note` restricts it to ANCHOR-ROOTED edges — a non-anchor-rooted ΔΔG placed in it reads as a comparison against cmpd19 that was never computed, which is exactly the 2026-07-29 cw_ms_5acetamido_ester defect (Appendix A).",
+      "artifact": "research/modalities/step1-fanout-map.json",
+      "key": "n_complete",
+      "context": "COMPLETE at \\d+ computed edges",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "read step1-fanout-map.json: n_complete / n_computable / n_units for the counts, and build the ranked table by joining `ranking` (anchor-rooted, ordered) to `results` for ddg_bind_unc_kcal and n_mapped_atoms. Update the paper IN THE SAME COMMIT (CLAUDE.md 1.3)."
+    },
+    {
+      "id": "nrv04_retro_e2_stable_fraction_nr4a1",
+      "description": "Paper §2.12's E2 row quotes the NR4A1 stable fraction. E2 is a PREREGISTERED SECONDARY, reported and never gating; this pins the reported value to the artifact so the paper cannot drift from the legs it was computed on.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E2.per_arm.retro_noncov_nr4a1.stable_fraction",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "\\*\\*E2\\*\\* \\*\\(secondary\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update the figure the paper quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_e3_mean_contacts_nr4a1",
+      "description": "Paper §2.12's E3 row quotes the NR4A1 arm mean interface contact count. E3 is a preregistered secondary and a registered WEAK discriminator — reported, never gating.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E3.per_arm.retro_noncov_nr4a1.arm_mean_contacts",
+      "format": "{:.2f}",
+      "tolerance": 0.005,
+      "context": "\\*\\*E3\\*\\* \\*\\(secondary\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update the figure the paper quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_e4_mean_of_min_nr4a1",
+      "description": "Paper §2.12's E4 row quotes the NR4A1 mean-of-min Lys-Nzeta presentation distance. E4 is DESCRIPTIVE ONLY and carries no threshold anywhere.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E4.per_arm.retro_noncov_nr4a1.arm_mean_of_min_A",
+      "format": "{:.2f}",
+      "tolerance": 0.005,
+      "context": "\\*\\*E4\\*\\* \\*\\(descriptive\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update the figure the paper quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_census_admitted_legs",
+      "description": "SI S12.3's census headline quotes how many stored leg records were ADMITTED to the panel by the frozen production_leg_check. The two smoke records are excluded by that predicate and must never be counted in.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "s3_census.n_admitted_to_panel",
+      "format": "{:.0f}",
+      "tolerance": 0.5,
+      "context": "leg records found under the lane prefix",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper-SI.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update the count the SI quotes IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_e2_stable_fraction_nr4a2",
+      "description": "Paper §2.12's E2 row quotes the NR4A2 stable fraction. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E2.per_arm.retro_noncov_nr4a2.stable_fraction",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "\\*\\*E2\\*\\* \\*\\(secondary\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_e3_mean_contacts_nr4a2",
+      "description": "Paper §2.12's E3 row quotes the NR4A2 arm mean interface contact count. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E3.per_arm.retro_noncov_nr4a2.arm_mean_contacts",
+      "format": "{:.2f}",
+      "tolerance": 0.005,
+      "context": "\\*\\*E3\\*\\* \\*\\(secondary\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_e4_mean_of_min_nr4a2",
+      "description": "Paper §2.12's E4 row quotes the NR4A2 mean-of-min Lys-Nzeta presentation distance. E4 is DESCRIPTIVE ONLY and carries no threshold anywhere. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E4.per_arm.retro_noncov_nr4a2.arm_mean_of_min_A",
+      "format": "{:.2f}",
+      "tolerance": 0.005,
+      "context": "\\*\\*E4\\*\\* \\*\\(descriptive\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_e2_stable_fraction_nr4a3",
+      "description": "Paper §2.12's E2 row quotes the NR4A3 stable fraction. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E2.per_arm.retro_noncov_nr4a3.stable_fraction",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "\\*\\*E2\\*\\* \\*\\(secondary\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_e3_mean_contacts_nr4a3",
+      "description": "Paper §2.12's E3 row quotes the NR4A3 arm mean interface contact count. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E3.per_arm.retro_noncov_nr4a3.arm_mean_contacts",
+      "format": "{:.2f}",
+      "tolerance": 0.005,
+      "context": "\\*\\*E3\\*\\* \\*\\(secondary\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_e4_mean_of_min_nr4a3",
+      "description": "Paper §2.12's E4 row quotes the NR4A3 mean-of-min Lys-Nzeta presentation distance. E4 is DESCRIPTIVE ONLY and carries no threshold anywhere. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E4.per_arm.retro_noncov_nr4a3.arm_mean_of_min_A",
+      "format": "{:.2f}",
+      "tolerance": 0.005,
+      "context": "\\*\\*E4\\*\\* \\*\\(descriptive\\)\\*",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_si_e2_nr4a1",
+      "description": "SI §S12.4's E2 table restates the NR4A1 stable fraction beside its per-leg plateaux. A second copy of a pinned quantity is exactly what rule 1 exists to catch, so it is pinned to the same artifact key as the paper's. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E2.per_arm.retro_noncov_nr4a1.stable_fraction",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "\\| NR4A1 \\(non-cov\\) \\| 4 / 6 \\|",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper-SI.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_si_e2_nr4a2",
+      "description": "SI §S12.4's E2 table restates the NR4A2 stable fraction beside its per-leg plateaux. A second copy of a pinned quantity is exactly what rule 1 exists to catch, so it is pinned to the same artifact key as the paper's. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E2.per_arm.retro_noncov_nr4a2.stable_fraction",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "\\| NR4A2 \\(non-cov\\) \\| 2 / 6 \\|",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper-SI.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_si_e2_nr4a3",
+      "description": "SI §S12.4's E2 table restates the NR4A3 stable fraction beside its per-leg plateaux. A second copy of a pinned quantity is exactly what rule 1 exists to catch, so it is pinned to the same artifact key as the paper's. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E2.per_arm.retro_noncov_nr4a3.stable_fraction",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "\\| NR4A3 \\(non-cov\\) \\| 3 / 4 \\|",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper-SI.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_si_e4_mean_of_median_nr4a1",
+      "description": "SI §S12.6's E4 table quotes the NR4A1 mean-of-median Lys-Nzeta distance, a figure the paper does not carry and nothing pinned. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E4.per_arm.retro_noncov_nr4a1.arm_mean_of_median_A",
+      "format": "{:.4f}",
+      "tolerance": 0.005,
+      "context": "\\| NR4A1 \\(non-cov\\) \\| \\*\\*[\\d.]+\\*\\* \\| \\*\\*[\\d.]+\\*\\* \\|",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper-SI.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_si_e4_mean_of_median_nr4a2",
+      "description": "SI §S12.6's E4 table quotes the NR4A2 mean-of-median Lys-Nzeta distance, a figure the paper does not carry and nothing pinned. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E4.per_arm.retro_noncov_nr4a2.arm_mean_of_median_A",
+      "format": "{:.4f}",
+      "tolerance": 0.005,
+      "context": "\\| NR4A2 \\(non-cov\\) \\| \\*\\*[\\d.]+\\*\\* \\| \\*\\*[\\d.]+\\*\\* \\|",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper-SI.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_si_e4_mean_of_median_nr4a3",
+      "description": "SI §S12.6's E4 table quotes the NR4A3 mean-of-median Lys-Nzeta distance, a figure the paper does not carry and nothing pinned. ★ WHY THE OTHER TWO ARMS ARE PINNED TOO (added 2026-08-01). The first pass pinned only the NR4A1 column of each endpoint, so a regenerated artifact could have moved the NR4A2 or NR4A3 figure with CI still green — the same shape as this registry's own scoping_note warning that 'a too-narrow pattern reports success while the stale number survives'. Every column of every endpoint table is now covered, in the paper and in the SI.",
+      "artifact": "research/modalities/nrv04-retro-secondaries.json",
+      "key": "secondaries.E4.per_arm.retro_noncov_nr4a3.arm_mean_of_median_A",
+      "format": "{:.4f}",
+      "tolerance": 0.005,
+      "context": "\\| NR4A3 \\(non-cov\\) \\| \\*\\*[\\d.]+\\*\\* \\| \\*\\*[\\d.]+\\*\\* \\|",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper-SI.md"
+      ],
+      "regenerate": "dispatch fusion-cpu-extras.yml task=nrv04_retro_secondaries ($0, read-only S3), then update every figure the paper and the SI quote IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_arm_mean_E1_nr4a1",
+      "description": "Paper §2.12 quotes the NR4A1 arm-level E1 plateau from the EMITTED verdict. These three are what make the DISCORDANT tier checkable: the pooled contrast carries the registered sign and the tier still fails, because NR4A1 is not below BOTH paralogues. Pinned to the run of record so the paper can never drift from the scorer that emitted it.",
+      "artifact": "research/modalities/nrv04-retro-verdict.json",
+      "key": "verdict.arm_means.retro_noncov_nr4a1",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "Arm means are \\*\\*NR4A1",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_arm_mean_E1_nr4a2",
+      "description": "Paper §2.12 quotes the NR4A2 arm-level E1 plateau from the EMITTED verdict. These three are what make the DISCORDANT tier checkable: the pooled contrast carries the registered sign and the tier still fails, because NR4A1 is not below BOTH paralogues. Pinned to the run of record so the paper can never drift from the scorer that emitted it.",
+      "artifact": "research/modalities/nrv04-retro-verdict.json",
+      "key": "verdict.arm_means.retro_noncov_nr4a2",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "Arm means are \\*\\*NR4A1",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_arm_mean_E1_nr4a3",
+      "description": "Paper §2.12 quotes the NR4A3 arm-level E1 plateau from the EMITTED verdict. These three are what make the DISCORDANT tier checkable: the pooled contrast carries the registered sign and the tier still fails, because NR4A1 is not below BOTH paralogues. Pinned to the run of record so the paper can never drift from the scorer that emitted it.",
+      "artifact": "research/modalities/nrv04-retro-verdict.json",
+      "key": "verdict.arm_means.retro_noncov_nr4a3",
+      "format": "{:.4f}",
+      "tolerance": 5e-05,
+      "context": "Arm means are \\*\\*NR4A1",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    },
+    {
+      "id": "nrv04_retro_primary_p",
+      "description": "Paper §2.12's one-sided permutation p on the primary contrast, quoted from the emitted verdict and never recomputed — a second implementation of a preregistered rule can silently disagree with the run of record.",
+      "artifact": "research/modalities/nrv04-retro-verdict.json",
+      "key": "verdict.primary.p",
+      "format": "{:.4f}",
+      "tolerance": 0.005,
+      "context": "p = 0\\.\\d+\\*\\* over the \\*\\*C\\(8,3\\)",
+      "must_appear_in": [
+        "research/manuscripts/nr4a3-degrader-paper.md"
+      ],
+      "regenerate": "python3 research/modalities/nrv04_retro_verdict_readout.py — it COPIES the emitted verdict out of S3 and never recomputes a tier or a p; then update the paper IN THE SAME COMMIT (CLAUDE.md rule 1.3)"
+    }
+  ],
+  "table_completeness": [
+    {
+      "id": "bid_strategy_repriced_ladder",
+      "description": "bid-strategy.md's repriced-ladder table must carry EVERY stage the cost model prices. Omitting one is not cosmetic: dropping the 5c row made the table total $128, which then leaked into STRATEGY.md as a whole-ladder figure and sat there contradicting $194.",
+      "file": "research/compute/bid-strategy.md",
+      "section": "## 6. REPRICED LADDER",
+      "tool_json": "research/modalities/vast-ladder-repricing.json",
+      "row_key_hints": {
+        "step1_pilot (1-2 RBFE edges)": "step1_pilot",
+        "step1_fanout (19 RBFE edges @ ~13.7 GPU-h)": "step1_fanout",
+        "valB_mini (1 ternary edge, 3 replicas)": "valB_mini",
+        "valB_full (2-3 ternary edges + CRL-MD)": "valB_full",
+        "nrv04_retrospective (3 ternary legs + shared binary/solvent)": "nrv04_retrospective",
+        "ternary_4fs_recalibration (1 matched edge)": "ternary_4fs_recalibration",
+        "5c ensemble refinement (24-200 endpoint-MD legs)": "5c",
+        "local within-basin FEP (3-6 ternary comparisons)": "within-basin FEP",
+        "5a-KS primary (ligand-side double difference, 2 seeds x 2 arms)": "5a-KS"
+      },
+      "tolerance_usd": 1.0
+    }
+  ],
+  "superseded": [
+    {
+      "id": "ladder_total_390",
+      "pattern": "\\$390\\s*mid|~\\$390\\b|\\$170[–-]610",
+      "current": "~$185 mid (~$51–614)",
+      "retired_by": "the 2026-07-25 reprice onto the measured $0.137/ref-GPU-h policy"
+    },
+    {
+      "id": "ladder_total_240",
+      "pattern": "\\$240\\s*mid|\\$90[–-]390",
+      "current": "~$185 mid (~$51–614)",
+      "retired_by": "the 2026-07-25 reprice"
+    },
+    {
+      "id": "ladder_total_467",
+      "pattern": "\\$467\\b|\\$249[–-]685",
+      "current": "~$185 mid (~$51–614)",
+      "retired_by": "the 2026-07-25 reprice"
+    },
+    {
+      "id": "ladder_total_128",
+      "pattern": "\\$128\\b|\\$36[–-]381",
+      "current": "~$185 mid (~$51–614)",
+      "retired_by": "it was bid-strategy.md §6's table with the 5c row missing — a subset total, never the ladder"
+    },
+    {
+      "id": "ladder_high_band_544",
+      "pattern": "\\$46[–-]544",
+      "current": "~$47–561",
+      "retired_by": "arithmetic — the per-rung rows sum to ~$561, not ~$544"
+    },
+    {
+      "id": "ternary_edge_3_6",
+      "pattern": "~\\$3[–-]6\\b",
+      "current": "~$8.8 ($3.2–22) per ternary edge",
+      "retired_by": "it treated 920 iterations (a checkpoint boundary on the BINARY arm) as a full 2400-iteration leg"
+    },
+    {
+      "id": "ternary_edge_4_7",
+      "pattern": "~\\$4[–-]7\\b",
+      "current": "~$8.8 ($3.2–22) per ternary edge",
+      "retired_by": "same 920-vs-2400 leg-length error"
+    },
+    {
+      "id": "ternary_edge_7_15",
+      "pattern": "\\$7[–-]15\\b",
+      "current": "~$8.8 ($3.2–22) per ternary edge",
+      "retired_by": "it predates the measured $0.137/ref-GPU-h policy"
+    },
+    {
+      "id": "ternary_edge_10_16",
+      "pattern": "~\\$10[–-]16\\b",
+      "current": "~$8.8 ($3.2–22) per ternary edge",
+      "retired_by": "it assumed a ~$0.15–0.25/hr host"
+    },
+    {
+      "id": "ternary_edge_65_110",
+      "pattern": "\\$65[–-]110\\b",
+      "current": "~$8.8 ($3.2–22) per ternary edge",
+      "retired_by": "it came off the refuted 55-GPU-h AWS anchor (a leg that was ~65 % GPU-idle)"
+    },
+    {
+      "id": "rbfe_edge_tyk2_rate",
+      "pattern": "~?5[–-]6 GPU-h|\\$0\\.6[–-]1\\.4",
+      "current": "~13.7 ref GPU-h ≈ ~$1.9 per RBFE edge",
+      "retired_by": "that rate was measured on public TYK2; the real cmpd19/NR4A3 complex is ~2.6× heavier"
+    },
+    {
+      "id": "fanout_12_26",
+      "pattern": "\\$12[–-]26\\b",
+      "current": "~$36 ($15–80) for the 19-edge fan-out",
+      "retired_by": "stale on BOTH axes — a TYK2 rate and a single cheap host's $0.122/hr"
+    },
+    {
+      "id": "fanout_91_101",
+      "pattern": "\\$91[–-]101\\b",
+      "current": "~$36 ($15–80) for the 19-edge fan-out",
+      "retired_by": "the $0.35–0.39/hr under it was what bidding ×1.5 on a min_bid-ranked offer costs, not the market"
+    },
+    {
+      "id": "endpoint_leg_0_26",
+      "pattern": "\\$0\\.26/leg|~\\$0\\.45\\b|~\\$0\\.6/leg",
+      "current": "~1.38 ref GPU-h ≈ ~$0.19 per endpoint-MD leg",
+      "retired_by": "the $0.26 used the withdrawn 2.42× card ratio"
+    },
+    {
+      "id": "card_ratio_242",
+      "pattern": "2\\.42\\s*[x×]",
+      "current": "2.10× (4090/3090, validated grid) — and the card is not the decision, the OFFER is",
+      "retired_by": "the withdrawn 2026-07-24 23:08 bench (single 0.9–4.5 s windows; it also ranked a 4080 SUPER above a 4090)"
+    },
+    {
+      "id": "bid_multiple",
+      "pattern": "min_bid\\s*[x×]\\s*1\\.(9|5|25|1)\\b|floor\\s*[x×]\\s*1\\.25|[x×]\\s*1\\.9\\b",
+      "current": "bid = the market floor plus a staleness tick (min_bid × 1.02, min +$0.0005), capped at on-demand",
+      "retired_by": "the measured bid ladder: charged = min(bid, on-demand), so a premium is paid on every hour and cannot buy safety from on-demand renters"
+    },
+    {
+      "id": "y29f_single_replicate",
+      "pattern": "[−-]0\\.55\\b|[−-]0\\.552\\b",
+      "current": "Y29F = −0.370 ± 0.175 at full 3 × 3 replication",
+      "retired_by": "−0.552 was the single-replicate value"
+    },
+    {
+      "id": "y29a_partial_replication",
+      "pattern": "4\\.025\\s*[±+]",
+      "current": "Y29A = +4.424 ± 1.077 at full 3 × 3 replication",
+      "retired_by": "4.025 ± 1.100 was the 2 × 3 partial set"
+    },
+    {
+      "id": "covalent_panel_arms",
+      "pattern": "recruiter_active[^.\\n]{0,60}3/3|epimer[^.\\n]{0,40}(only )?1/3|cov_c551a[^.\\n]{0,40}1/3|C551A 1/3",
+      "current": "no per-arm figure — the corrected 14-leg re-run has not been launched",
+      "retired_by": "the driver split E3 from target positionally and scored the Elongin C interface, not VHL↔NR4A1"
+    },
+    {
+      "id": "xtt_pre_harmonized",
+      "pattern": "4/20 (above|conformers)|placed \\*\\*4/20\\*\\*",
+      "current": "19/20 detected, 3 ≥ D* (= 3/19 among detected, 3/20 across all deposited)",
+      "retired_by": "the harmonized rerun (pinned fpocket build + score-independent matcher)"
+    },
+    {
+      "id": "no_ternary_leg_completed",
+      "pattern": "[Nn]o ternary leg has ever (completed|run to completion)",
+      "current": "the leg length is OBSERVED (valB_mini ternary seed 0 reached 2000/2000); what is still true is that no ternary EDGE has completed end-to-end on a 4090",
+      "retired_by": "convergence run 30157501491"
+    },
+    {
+      "id": "wedge_unpriced_as_live_status",
+      "pattern": "(treat|stays|remain|remains|still stays|is) (the 5a-KS row |it )?\\*{0,2}UNPRICED",
+      "current": "the confirmatory protein-mutation wedge is PROJECTED (~$4.6, particle-count-scaled) and excluded from the ladder total",
+      "retired_by": "the pmx + GROMACS known-answer benchmark passing on 2026-07-25"
+    },
+    {
+      "id": "no_protein_mutation_engine",
+      "pattern": "no protein-mutation FEP engine exists|no implementing engine (for the wedge )?in this repo",
+      "current": "pmx + GROMACS, qualified 2026-07-25 (perses retired as OpenEye-gated)",
+      "retired_by": "the engine being built and benchmarked"
+    },
+    {
+      "id": "ladder_total_194",
+      "pattern": "\\$194\\s*mid|~\\$194\\b",
+      "current": "~$185 mid (~$51–614)",
+      "retired_by": "RUNG 5a's basin search completed 2026-07-25 at $0 realized (pure CPU/CI, no GPU; the optional MM-GBSA rescore was recommended against). Its mid moves to realized $0 — the convention valA_mini already uses — so the total drops $25. Low/high bands unchanged, since 5a's $0–50 band is unchanged."
+    },
+    {
+      "id": "ladder_total_169",
+      "pattern": "\\$169\\s*mid\\s*\\(~?\\$47|\\$47[–-]561",
+      "current": "~$185 mid (~$51–614)",
+      "retired_by": "The as-run ternary leg is 2800 iterations, not 2400 (verified 2026-07-25 against rbfe_spot_driver._iters_from_time: warmup iterations derive from the WARMUP integrator at 1 fs, so 1 ns of equilibration is 800 iterations of 1250 steps, not 400). Every 2 fs ternary stage was understated ~17%. Net of 5a completing at $0, the total moves 169 -> 185.",
+      "_narrowed_2026_07_30": "This entry's pattern used to include a bare `~$169`, and on 2026-07-30 the pinned total RETURNED to ~$169 for an unrelated reason (RUNG 5a-KS 2 legs -> 4). Two different quantities landed on one number, so the old pattern began flagging correct current statements. Narrowed to the historical BAND ($47-561), which the current ~$169 (~$46-626) does not share. The 2026-07-25 supersession itself is unchanged and still recorded in STRATEGY.md Appendix A."
+    },
+    {
+      "id": "triangle_n1_59",
+      "pattern": "\\$5\\.9\\b",
+      "current": "~$6.83 (n=1 closure scout)",
+      "retired_by": "the 2800-iteration / 3.5e6-step basis correction, plus solvent legs"
+    },
+    {
+      "id": "triangle_n3_176",
+      "pattern": "\\$17\\.6\\b",
+      "current": "~$27.32 (n=3, 16 legs)",
+      "retired_by": "T1 has only r0, so an n=3 triangle is 16 legs not 12 (+33%), silently re-including the r1/r2 spend the r0 verdict argued against"
+    },
+    {
+      "id": "nrv04_a1_wrong_cysteine_899_1639",
+      "pattern": "8\\.99[–-]16\\.39|electrophilic carbon \\*\\*8\\.99",
+      "current": "28.42–39.11 Å at the preregistered C551, across every clean co-fold model in the bucket",
+      "retired_by": "AMENDMENT 2 (2026-07-25): the A1 input-admissibility check resolved the NEAREST of the construct's six cysteines, which is C566, not the preregistered site C551 (residue offset 344). The superseded figures made the input look NEARLY admissible — ~9 Å against an 8 Å limit — while the real site sat ~28 Å away, so the correction makes A1 MORE binding, not less. The same root cause also built the covalent restraint onto C566 and made the cov_c551a control mutate C566, i.e. not touch C551 at all."
+    },
+    {
+      "id": "ternary_selectivity_does_not_materialize",
+      "pattern": "ternary adds no NR4A3 degradation.selectivity|for a representative PROTAC, does not materialize",
+      "current": "one representative, arbitrarily-linkered construct did not PROVIDE EVIDENCE FOR an NR4A3-selective ternary geometry",
+      "retired_by": "An overclaim in the NEGATIVE direction, withdrawn 2026-07-25 from main-text Limitations caveat 5 and SI S2. The co-folding classifier fails its own affinity-sensitive stereochemical control (an inactive epimer scored identically to the active construct), and the paper therefore declares it unsuitable for binding, ternary-stability, degradation-selectivity or linker-ranking claims — so it may not conclude ternary selectivity is ABSENT either. What the run supports is absence of evidence at a tier that cannot produce the evidence."
+    },
+    {
+      "id": "s1f_shakeout_offer_quote_1p41x",
+      "pattern": "\\$0\\.00612/ns|1\\.41× basis|1\\.41x basis",
+      "current": "$0.00644/ns · 1.48× basis on 46000463 — the BILLED rate (bid + the real 80 GB disk line), read off the live instance record",
+      "retired_by": "The $0.00612/ns · 1.41× figure was computed from the launcher's `dph≈` line, which is the OFFER's dph_total — the market FLOOR plus the disk line the search priced at 8 GB — not what the instance is billed (our BID plus the disk line for the 80 GB actually allocated). Measured $0 read-only 2026-07-27 (`vast_rate_forensics.py --probe`, run 30265697399): on instance 46000463 the offer quoted $0.17922/hr and the instance is billed $0.20272/hr, a $0.0235/hr gap that decomposes exactly into $0.0035 floor→bid plus $0.0200 of disk line, a 10.0× under-quote of storage. An offer-quote multiple is therefore a LOWER BOUND and `inflight_usd_per_ns.row()` now marks it as one. This is also what made the same host look like it rose from 1.41× to 1.82× — STRATEGY.md Appendix A 36."
+    },
+    {
+      "id": "card_rtx4090_755_36",
+      "pattern": "755\\.36|31\\.47\\s*ns per reference|REFERENCE_NS_PER_H.{0,20}31\\.47",
+      "current": "RTX 4090 = 804.06 ns/day (median of 6 hosts); REFERENCE_NS_PER_H = 804.06/24 = 33.5025",
+      "retired_by": "the 2026-07-27 re-anchoring onto a median-of-N-independent-hosts estimator (the single-host figure was one draw from a 4.1%-wide distribution, and was additionally measured in the retired conda-pack `md` environment rather than the `rbfe` environment the production lanes run)"
+    },
+    {
+      "id": "card_rtx4080_703_51",
+      "pattern": "703\\.51",
+      "current": "RTX 4080 = 693.35 ns/day (median of 4 hosts)",
+      "retired_by": "the 2026-07-27 re-anchoring onto the median-of-N estimator"
+    },
+    {
+      "id": "card_rtx3090_359_36",
+      "pattern": "359\\.36",
+      "current": "RTX 3090 = 460.91 ns/day (median of 3 hosts)",
+      "retired_by": "the 2026-07-27 re-anchoring; the +28% jump is dominated by the environment change (conda-pack `md` -> the `rbfe` env the science runs in), not by host sampling"
+    },
+    {
+      "id": "card_ratio_4090_over_3090_2_10",
+      "pattern": "2\\.10\\s*[x×]|2\\.102",
+      "current": "RTX 4090 / RTX 3090 = 1.745x on the median-of-N estimator",
+      "retired_by": "the 2026-07-27 re-anchoring (the retired 2.10x itself replaced a withdrawn 2.42x)"
+    },
+    {
+      "id": "card_ratio_4090_over_4080_within_7pct",
+      "pattern": "4080 is within \\*{0,2}7\\s*%|within \\*{0,2}7 %\\*{0,2} of a 4090",
+      "current": "RTX 4090 / RTX 4080 = 1.160x on the median-of-N estimator (the 4080 is ~14% behind, not ~7%)",
+      "retired_by": "the 2026-07-27 re-anchoring — the old 7% compared a 4080 host near the top of its distribution with a 4090 host mid-pack"
+    },
+    {
+      "id": "single_host_new_card_figures_2026_07_27",
+      "pattern": "1070\\.44|793\\.79\\b|482\\.34|481\\.78|387\\.78|242\\.20\\b",
+      "current": "the median-of-N entries in vast_cost_model.MEASURED_NS_PER_DAY_84K",
+      "retired_by": "published for ~1 hour on 2026-07-27 as SINGLE-HOST measurements, then superseded the same day by the median-of-N re-anchoring; retained here because a single-host figure is one draw from a distribution up to 14% wide"
+    },
+    {
+      "id": "card_a100pcie_and_3090ti_first_pass_medians",
+      "pattern": "523\\.82|481\\.87",
+      "current": "A100 PCIe = 524.43 (provisional median of 2 hosts); RTX 3090 Ti = 481.96 (median of 3 hosts)",
+      "retired_by": "the same-day top-up wave that added a third host to each card's sample (the A100 PCIe could still only reach 2 — the board carried two qualifying offers of it all day)"
+    },
+    {
+      "id": "ladder_total_185",
+      "pattern": "\\$185\\s*mid|~\\$185\\b|\\$51[–-]614",
+      "current": "~$158 mid (~$44–578)",
+      "retired_by": "the 2026-07-27 re-anchoring of the throughput table (pricing.md Appendix T) and the ladder regeneration that followed it — the GPU-hours are unchanged, the $/reference-GPU-hour moved"
+    },
+    {
+      "id": "bid_strategy_tool_total_166",
+      "pattern": "~\\$166\\b|\\$42[–-]519",
+      "current": "~$138 ($35–483) for the stages the cost model prices",
+      "retired_by": "the same 2026-07-27 ladder regeneration"
+    },
+    {
+      "id": "valb_rung_band_8_78_22_28",
+      "pattern": "8\\.78|22\\.28",
+      "current": "valB 4-leg replicate pair: plan $7.32, ceiling $20.74 (ternary_vast_launch.rung_band_usd(4))",
+      "retired_by": "the 2026-07-27 throughput re-anchoring and the ladder regeneration that followed it — pricing.md Appendix T; the GPU-hours are unchanged, only the $/reference-GPU-hour moved"
+    },
+    {
+      "id": "buy_line_1_5x_multiple_expression",
+      "pattern": "1\\.5\\s*[x×]\\s*basis|≳1\\.5×|the 1\\.5× line|1\\.5x the ladder basis",
+      "current": "$0.006539/ns (≈1.92x the current basis) — the SAME absolute rate, re-expressed after the basis was corrected",
+      "retired_by": "trimcrae's 2026-07-27 re-expression ruling: the throughput re-anchoring moved the basis 22% with no price change, so a multiple-of-basis expression silently changed the rule; the invariant is now the approved absolute $/ns and the multiple is derived (inflight_usd_per_ns.APPROVED_USD_PER_NS)"
+    },
+    {
+      "id": "ladder_basis_0_004359",
+      "pattern": "0\\.004359|\\$0\\.0043593",
+      "current": "basis $0.003412/ns (congeneric_fanout.basis_usd_per_ns())",
+      "retired_by": "the 2026-07-27 throughput re-anchoring plus the ladder regeneration — pricing.md Appendix T"
+    },
+    {
+      "id": "scoreboard_realised_0_74",
+      "pattern": "\\$0\\.74 spent|realised spend \\$0\\.74|~\\$35 not spent",
+      "current": "realised spend is DERIVED in research/modalities/realised-spend.json (realised_spend.py) and quoted by STRATEGY.md's scoreboard under lint rule A",
+      "retired_by": "2026-07-27: a hand-carried total that stood at $0.74 while the step 1 fan-out's own rental ledger read $20.11 and the bench sweep's read $3.49. Rule 1.1 - a total is DERIVED, never typed. STRATEGY.md Appendix A row 39"
+    },
+    {
+      "id": "ternary_lane_valb_cohort3_rates",
+      "pattern": "1\\.528\\s*[x×]|1\\.574\\s*[x×]|\\$0\\.005214/ns|\\$0\\.005369/ns",
+      "current": "valB_mini cohort 4, rented 4:51 PM ET: 1.500x / 1.500x / 1.859x / 1.649x basis (ternary-vast-rental-receipt.json)",
+      "retired_by": "the 4:00 PM cohort 3 was reclaimed and re-rented at 4:51 PM ET. On this lane a per-host rate has a half-life of about two hours - STRATEGY.md Appendix A row 38"
+    },
+    {
+      "id": "tier2_term_a_seven_basins",
+      "pattern": "\\*\\*7\\*\\* (?:place|exploit)|of which \\*\\*7\\*\\* exploit|(?:all|All) (?:7|seven) (?:term-\\(a\\)|electrophile-reach) basins|0\\.019[–-]0\\.057|168 of 192|168/192",
+      "current": "Tier 2 term (a) = 3 basins (vhl|M2 10 atoms/0.057, vhl|M3 11/0.021, crbn|M17 12/0.045); reach fractions 0.021-0.057; conserved-cysteine control zero in 184 of 192 basins. nr4a3-orientation-basins.json -> tier2_gate.n_exploiting_term_a_electrophile_reach",
+      "retired_by": "the 2026-07-26 reach correction (exact three-ball kernel replacing a rule that credited a pendant with shortening the anchor-to-anchor span). Term (b) 40 and the nominal limb 28 are bit-identical across it - STRATEGY.md Appendix A row 49"
+    },
+    {
+      "id": "tier2_crbn_m0_clears_the_gate",
+      "pattern": "reaches C397 at \\*\\*11\\*\\*|25 → \\*\\*11\\*\\*|strongest basin (?:is )?among the (?:MOST|most) tractable",
+      "current": "crbn|M0's exact C397 requirement is 13 backbone atoms, so it MISSES the 12-atom gate (at-gate reach fraction 0.000). It remains the strongest NOMINATION on pose persistence (11/12) and the lysine term (7.5x). Representative -> exemplar is 33 -> 13 at the 3.0 A pendant convention",
+      "retired_by": "the same 2026-07-26 reach correction; 11 was the relaxed value. The 'most tractable' reading is withdrawn - crbn|M0 at 13 is comparable to vhl|M2 (10) and vhl|M3 (11), not ahead of them"
+    },
+    {
+      "id": "valb_miss_magnitude_and_ratio",
+      "pattern": "1\\.478|abs error \\*{0,2}1\\.466|~?33\\s*[x×] the statistical|33\\s*[x×] smaller than the miss|ΔΔG_coop = −0\\.522 vs",
+      "current": "valB_mini at the landed n=3: mean -0.599 kcal/mol, abs error 1.543, ~34x the 0.045 statistical uncertainty",
+      "retired_by": "the three preregistered replicates landing 2026-07-30. 1.466 is the r0-only reading after the restrained binary re-run; 1.478 is the reading BEFORE it, i.e. superseded twice - STRATEGY.md Appendix A rows 44 and 51"
+    },
+    {
+      "id": "linker_library_21_constructs",
+      "pattern": "21[- ]construct library|\\*\\*21 candidate molecules\\*\\*|of which 21 are retained|[Aa]ll 21 were verified|1,995 constructs",
+      "current": "54 constructs - 36 at the exemplar placement (from 3,544 enumerated) + 18 at the representative (from 1,791), RDKit-verified 54/54. nr4a3-linker-design.json -> library_summary",
+      "retired_by": "the wedge-residue fix and the representative-geometry enumeration. 21 was the pre-fix count and it contradicted STRATEGY.md's own library line - Appendix A row 48"
+    },
+    {
+      "id": "genmatched_null_degenerate_statistics",
+      "pattern": "NEVER manufactured|enrichment[^.\\n]{0,20}(?:Infinity|\\binf\\b)",
+      "current": "the generation-matched null's scramble arm is CONSISTENT WITH but UNDERPOWERED TO ESTABLISH that survival is not a funnel artifact: 0/191 controls bounds the manufactured rate at <=0.0157 (95%, rule of three) against the real campaign's own 0.0052; Fisher p = 0.5",
+      "retired_by": "a zero POINT estimate of the control rate was being read as a measured zero, which made any real survivor infinitely enriched at p=0 by construction - STRATEGY.md Appendix A row 52"
+    },
+    {
+      "id": "marginal_axis_resolvable_1p12_assumed_sd",
+      "pattern": "(?:best-case\\s+)?resolvabl\\w*[^.\\n]{0,45}1\\.12|1\\.12[^.\\n]{0,25}resolvabl|replicate SD 0\\.7, n\\s*=\\s*3|SD 0\\.7, n\\s*=\\s*3\\)|the method resolves 1\\.12|against ~?1\\.12|operating near its limit, not a discovery tool",
+      "current": "best-case resolvable difference 0.60 kcal/mol = minimum_detectable_difference(0.375, 3) on the MEASURED replicate SD, beside a MEASURED accuracy of 1.543 kcal/mol wrong-sign. The axis is UNCALIBRATED, not near its resolution limit. One home: STRATEGY.md section MECHANISM-FIRST, MARGINAL bullet",
+      "retired_by": "the n=3 valB_mini replicates measuring the replicate SD at 0.375 (2026-07-30); 0.7 had never been measured by anything in this program. Accuracy stopped being a literature ~1.7 RMSE and became the measured 1.543 wrong-sign miss on this exact quantity class - STRATEGY.md Appendix A row 53"
+    },
+    {
+      "id": "ladder_total_158_two_leg_5aks",
+      "pattern": "~?\\$158\\s*mid|\\$158\\s*\\(|mid-range\\s*\\(~?\\$44|~?\\$44[-–]578|158 mid-range",
+      "current": "PINNED TOTAL ~$169 mid-range (~$46-626), regenerated after RUNG 5a-KS went from 2 ternary legs to 4 (n = 2 seeds per arm, trimcrae go 2026-07-30, STRATEGY Open decision 11). Derived: vast_cost_model.py -> vast-ladder-repricing.json plus the non-tool stages in this file's ladder_total derivation",
+      "retired_by": "the 5a-KS leg-count decision ONLY - the market snapshot, the $/reference-GPU-hour rate and every other stage's GPU-hours are byte-identical across the reprice, so the whole +$11 mid is the second seed per arm. STRATEGY.md Appendix A row 54"
+    },
+    {
+      "id": "two_mechanism_grid_limit",
+      "pattern": "segment grid cannot build|grid limit, not geometry|k\\s*∈\\s*\\[2,\\s*3\\]\\s*at\\s*n\\s*=?\\s*16|k∈\\[2,3\\] at n=16",
+      "current": "No single construct carries both mechanisms because build_smiles takes ONE pendant -- a chain-TEMPLATE limit, not a grid one. The grid builds both targets separately at n = 16, 18 and 20; no committed T407 window is k in [2,3]. A two-branch template is constructible at n = 18 with existing segments. One home: STRATEGY.md WHERE WE ARE 5b block; derived in linker_branch_reach.py",
+      "retired_by": "the $0 re-enumeration diagnostic run 2026-07-30 against the committed nr4a3-linker-design.json - STRATEGY.md Appendix A row 55"
+    },
+    {
+      "id": "realised_spend_before_orphan_leak",
+      "pattern": "\\+\\$2\\.31 attested|best estimate is \\*\\*\\$79\\.59\\*\\*",
+      "current": "Attested-only is $48.89 and the best estimate $126.17, both DERIVED from research/modalities/realised-spend.json (regenerate: realised_spend.py --write). The growth is TWO LEAKS of one class plus the NR-V04 retrospective's own smoke rentals, not new work: five cal-* bench rentals orphaned by the 2026-07-27 re-anchor sweep (range $20-$39), the retrospective's Arm E host (range $6.68-$25.83), and that lane's 17 withdrawn smoke rentals ($0.75, a FLOOR). One home: realised_spend.ATTESTED -> vast_bench_sweep_orphans, nrv04_retro_orphan, nrv04_retro_smoke_fanout.",
+      "retired_by": "the 2026-07-31 orphan sweep. The mechanism is the durable part and is why the money was invisible twice over: the bench sweep's ledger stopped at instance 46013005 (11:27 AM ET 2026-07-27) while the sweep went on renting ids 46013066-46014594, so no ledger entry existed; and vast_idle_guard is LABEL-SCOPED, running only inside a lane's own collect, so a lane that stops being dispatched stops being guarded and nothing anywhere says so."
+    },
+    {
+      "id": "realised_spend_before_retro_orphan_leak",
+      "pattern": "\\+\\$22\\.31 attested|best estimate is \\*\\*\\$99\\.59\\*\\*",
+      "current": "Attested-only is $48.89 and the best estimate $126.17, both DERIVED from research/modalities/realised-spend.json (regenerate: realised_spend.py --write). The +$25.83 is a SECOND leak of the same class as the cal-* orphans, found the same day: instance 45749905, the NR-V04 retrospective's one genuine Arm E host, rented 6:59 PM ET Fri Jul 24 2026 and not destroyed until 6:59 AM ET Fri Jul 31 2026 -- 156.0 h of rental against a leg that computed for 1.04 h. Its size is a RANGE, $6.68-$25.83, and must never be quoted as a point estimate: the span (561615 s, start_date -> destroy) and the rate ($0.16555555555555557/hr) are both measured from the instance's own record at reap (run 30625438729 job 91139494243, 10:59:45 UTC), but the host was last seen `exited` after a container start failure and its last S3 write was 11:20 AM ET 2026-07-26, so whether the meter ran for the idle ~4.8 days cannot be recovered now the host is destroyed. One home: realised_spend.ATTESTED -> nrv04_retro_orphan.",
+      "retired_by": "the 2026-07-31 price-ledger forensics on the NR-V04 retrospective lane (nrv04_retro_price_forensics.py -> nrv04-retro-price-forensics.json). The durable finding is what the ledger's uptime_s MEANS: it is `now - instance.start_date` at whatever poll saw the host, i.e. BILLED RENTAL TIME, never the leg's compute time and never the rental's full lifetime (it is a lower bound on that). The control that settled it was the live Vast census in the same pass -- three sibling hosts rented 14/31/72 min earlier read start_date ages of 14m/31m/1h12m while their `duration` field read 135d/1958d/30d -- so the field means the rental start and the 6.5 days were real. Pinned by tests/test_price_ledger_uptime_semantics.py."
+    },
+    {
+      "id": "gcp_spec_card_table_p100",
+      "pattern": "~2\\.4\\s*\\|\\s*1\\.46|\\*\\*11\\.1\\*\\*\\s*\\|\\s*\\*\\*1\\.67\\*\\*|\\+18\\s*%\\s*more legs|P100 looks better than L4",
+      "current": "MEASURED 2026-07-31: the bandwidth heuristic that produced the P100 row is REFUTED — the T4 arm shows the workload is COMPUTE-bound (measured ~0.31x L4 where bandwidth predicted 1.07x and FP32 predicted 0.27x). P100 itself remains UNMEASURED, so it is unsupported rather than refuted. Independently, the spec table's $/h compared the L4's whole-VM rate against BARE GPU rates for the others; adding the n1-standard-4 host ($0.190/h) takes P100 from +18% to +3% on the table's own speeds. One home: research/modalities/gcp-card-bench.json; readable table gcp-gpu-facts.md 1c",
+      "retired_by": "the GCP card probe, 2026-07-31 (gpu-bench-gcp.yml runs 30632627483 / 30633727772) - STRATEGY.md Appendix A row 56"
+    },
+    {
+      "id": "gcp_spec_card_table_t4",
+      "pattern": "~1\\.1\\s*\\|\\s*0\\.35|20\\.3\\s*\\|\\s*3\\.05",
+      "current": "MEASURED 2026-07-31: T4 is ~0.31x the L4 at the lane's real 141,867-particle system, not ~1.1x, and delivers ~0.41x the L4's science-per-dollar, not 2.2x - wrong by ~5x in the direction that would have bought the worst card available. The figure was REFUSED by the probe's admission gate (CV 5.6% vs a 5% ceiling) and stands as a RANKING, not a rate. One home: research/modalities/gcp-card-bench.json",
+      "retired_by": "the GCP card probe, 2026-07-31 (run 30633727772, spot; on-demand was ZONE_RESOURCE_POOL_EXHAUSTED in all four us-central1 zones) - STRATEGY.md Appendix A row 56"
+    },
+    {
+      "id": "gcp_spec_card_table_v100",
+      "pattern": "~3\\.0×?\\s*\\|\\s*2\\.48",
+      "current": "UNSUPPORTED as of 2026-07-31: the V100 row came from the same bandwidth heuristic the T4 measurement refutes, and the V100 itself is still UNMEASURED. Its $/h also omitted the n1 host the card cannot run without. One home: research/modalities/gcp-card-bench.json",
+      "retired_by": "the GCP card probe, 2026-07-31 - STRATEGY.md Appendix A row 56"
+    },
+    {
+      "id": "nrv04_retro_panel_18_of_18",
+      "pattern": "R1[ ,:]+(only, *)?18 legs|Arm E[ ,(]+(R1, *)?18 legs|18-of-18|18 of 18 R1|C\\(9,\\s*3\\)\\s*=\\s*84|1/84",
+      "current": "AMENDMENT 4 (2026-07-31, trimcrae): the authorized NR-V04 retrospective R1 panel is 16 LEGS, not 18. nrv04-descriptive-v4/nr4a3/seed_3 places A:GLU13:O and A:LYS181:NZ 0.181 A apart (both Boltz-placed heavy atoms), PE +2.109e15 kJ/mol at protein_after_pdbfixer against a control at +2.08e5, so both units drawing on it are unrunnable and were EXCLUDED BY MEASURED INPUT FAULT, not by outcome (they produced zero frames). Model-level n per arm becomes 3/3/2, the primary reference distribution C(8,3)=56, and the minimum attainable one-sided p 1/56 = 0.0179 - still below alpha=0.05. The NR4A1-vs-NR4A3 pairwise falls to C(5,3)=10 and can no longer attain alpha. One home: nrv04_retro_panel.EXCLUDED_COFOLD_MODELS + enumerate_units; full record: research/modalities/nr4a3-nrv04-retrospective-prereg.md AMENDMENT 4.",
+      "retired_by": "AMENDMENT 4, 2026-07-31 - staged single-point PE probe, CI runs 30662210714 / 30663617181 (nrv04_pe_stage_probe); the probe reproduces the failing leg's own pe_pre_min to ten significant figures",
+      "scoping_note": "★ HOW THIS PATTERN IS SCOPED, AND WHY — read before widening it. The repo contains at least three unrelated 18s: (a) THIS panel's 18 R1 legs, now 16; (b) the COVALENT FEASIBILITY panel's genuine 18 legs (six arms x three velocity seeds), which is a different panel and still correct — the paper says '18-leg endpoint-MD panel' and '17 of 18 legs completed'; (c) the step-1 fan-out's '18 of 18' edges at $73.79. Only (a) is superseded. So this pattern anchors on retrospective-only phrasings ('R1, 18 legs', 'R1 only, 18 legs', 'Arm E, 18 legs', 'C(9,3)=84', '1/84') and deliberately does NOT match a bare '18 legs' or '18 of 18'. MEASURED VALUE OF WIDENING IT ONCE: the first version matched only 'R1 only, 18 legs' and cleared; adding the 'R1, 18 legs' / 'Arm E, 18 legs' variants found FOUR more live copies in STRATEGY.md and the prereg. A too-narrow pattern reports success while the stale number survives — the same silent-pass failure as the line-scoped marker clearing fixed the same day (lint_consistency._WINDOW_CHARS). If you widen this, re-check (b) and (c) do not start firing; a linter that flags true statements gets switched off."
+    },
+    {
+      "id": "realised_spend_omitted_the_selcal_lane",
+      "pattern": "\\$77\\.28 machine-ledgered|best estimate is \\*\\*\\$126\\.17\\*\\*|realised spend \\$77\\.28",
+      "current": "SUPERSEDED 2026-08-02: realised spend is $84.49 machine-ledgered, best estimate $133.38. The old pair was not merely out of date, it was WRONG BY OMISSION: realised_spend.LANES registered only two lanes (step1_fanout, vast_bench_sweep), so the selectivity-control lane's per-rental ledger (selcal-price-ledger.json, $7.21 over 58 rentals, keyed on instance id and written BEFORE each DELETE) was never read at all — while this module's own docstring called the total 'the authoritative machine-counted floor'. A total that is honest about what it counted is still wrong if nobody added the lane. Registry coverage is now checked against the filesystem by tests/test_realised_spend.py::test_the_registry_covers_every_committed_price_ledger, which fails when any committed *-price-ledger.json is read by no row. Both figures remain DERIVED (realised_spend.py --write), never typed."
+    }
+  ],
+  "subset_checks": [
+    {
+      "id": "strategy_spine_cum",
+      "description": "STRATEGY.md's dependency spine restates the ordered plan's cumulative chain. On 2026-07-25 it carried $15/$97/$273/$252 against the ladder's $13/$48/$104/$194. Subset, not equality — the spine legitimately skips rungs it does not draw.",
+      "file": "STRATEGY.md",
+      "superset_name": "the ordered plan's `Cum. ~$N`",
+      "superset_pattern": "Cum\\. ~\\$([0-9]+)",
+      "subset_name": "the dependency spine's `(Cum ~$N)`",
+      "subset_pattern": "Cum ~\\$([0-9]+)"
+    }
+  ],
+  "_artifact_figures_note": [
+    "Rule A. A doc that quotes a MACHINE-WRITTEN number must quote THAT number.",
+    "",
+    "Added 2026-07-27 after the scoreboard headline read '$0.74 spent' beside a rental ledger",
+    "standing at $20.11 on one lane alone. D/T/X/S could not see it: it was not a ladder total,",
+    "not a table row, not a summary of another table and not a superseded value — just a figure",
+    "in prose with no machine behind it.",
+    "",
+    "★ IT CHECKS THE COMMITTED SNAPSHOT, NOT A LIVE RECOMPUTATION. The lanes bill continuously, so",
+    "a live figure moves several times an hour and a rule chasing it would be red almost always —",
+    "the ignored-linter failure. The snapshot moves only when someone runs `--write`, so this fires",
+    "exactly when a refresh happened and the doc was not updated in the same commit."
+  ]
 }
