@@ -435,6 +435,16 @@ could not be re-narrated after the fact, and it is machine-carried by `selcal_ga
    (warhead fragment overlap 0.42 against a 0.55 bar) and no SMARCA4 number exists.
    **What it settles:** this ternary is not beyond in-silico reach, so 0.023–0.046 is a property of the
    sequence-only co-folding route used here and not of the problem.
+   ★ **(d) AND THE FAILURE IS LOCALISED — THE HALVES ARE RIGHT, THE ASSEMBLY IS NOT.** Superposing each
+   co-fold on one protein at a time and measuring the degrader over the native atoms contacting *that*
+   protein (correspondence through the reference molecule's atom graph, never by proximity): all 12 sit
+   within **3.2 Å** of the crystal in each protein's own frame — target median **1.83 Å**, E3 median
+   **1.96 Å** — against an assembled interface scoring what the true complex scores when displaced **32 Å**.
+   A factor of **10** ([`selcal-cofold-decompose.json`](./research/modalities/selcal-cofold-decompose.json)).
+   ⇒ **The missing information is the relative placement of the two proteins**, which is exactly what a
+   ternary generator is given when handed each end's site. That is the nameable precondition for credible
+   NR4A3 ternaries, and it is why (c) matters beyond one number. ⚠ The locus is decided against that measured
+   scale, never a bar chosen for the occasion; unreadable scale ⇒ locus reported UNDETERMINED.
    ⛔ None of (a)–(c) is a positive control for paralogue-selectivity **detection**; that endpoint still has
    none, and none of them may be read as softening the tally below.
 4. **It re-scores no landed leg and changes no ΔΔG.** It is a statement about the instrument.
