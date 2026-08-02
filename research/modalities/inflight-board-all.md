@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 10:33 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 10:34 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -33,7 +33,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 10:25 PM ET Sat Aug 1, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 10:33 PM ET Sat Aug 1, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
