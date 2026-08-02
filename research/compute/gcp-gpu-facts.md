@@ -221,7 +221,7 @@ refusal below exists to stop.
 <!-- GCP-S1F-REP-RATE-TABLE:BEGIN -->
 | leg | commits | last committed | s / HREX iteration *(phase measured in)* | leg wall-clock h | ns/day per replica | ns/day aggregate (12 windows) |
 |---|---|---|---|---|---|---|
-| **complex** | 49 | production 1160 | **35.70** *(production)* | 23.8 | 6.05 | 72.61 |
+| **complex** | 50 | production 1200 | **35.66** *(production)* | 23.8 | 6.06 | 72.68 |
 | **solvent** | 0 | — | — *(0 completed commit interval(s); this lane quotes a rate at 3 (gcp_fanout_rep.MIN_RATE_INTERVALS). The next commit moves it toward the threshold.)* | — | — | — |
 
 *2.50 ps of MD per replica per iteration, derived from the run's own `warmup_target=400 prod_target=2000` line and `nr4a3_rbfe.py`'s protocol lengths (1.0 ns equilibration / 5.0 ns production).*
