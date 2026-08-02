@@ -1,0 +1,258 @@
+{
+  "_question": "Do the independent methods that placed denovo_401 in the NR4A3 LBD agree with each other? Convergence is not correctness; divergence is close to conclusive.",
+  "_ligand": "denovo_401",
+  "_contact_A": 4.0,
+  "_fits": {
+    "global": "every Ca in common between the two receptors, in UniProt Q92570 numbering",
+    "pocket": "Ca of nr4a3_8xtt_benchmark.POCKET5 only \u2014 a receptor-derived, pose-independent definition of the orthosteric site"
+  },
+  "sources_considered": [
+    {
+      "id": "dock/metad-opened/v2",
+      "kind": "smina dock into a metadynamics-OPENED AF2 frame"
+    },
+    {
+      "id": "dock/metad-opened/v2-statematch",
+      "kind": "smina dock into a metadynamics-OPENED AF2 frame"
+    },
+    {
+      "id": "dock/8XTT-model2",
+      "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 2)"
+    },
+    {
+      "id": "dock/8XTT-model8",
+      "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 8)"
+    },
+    {
+      "id": "dock/8XTT-model20",
+      "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 20)"
+    },
+    {
+      "id": "dock/8XTT-model6",
+      "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 6)"
+    }
+  ],
+  "known_absent": [
+    {
+      "id": "cofold/binary-Boltz2",
+      "why": "nr4a3-binary-cofold-result.json carries CONFIDENCE SCORES ONLY (ligand_iptm, protein_ligand_pair_iptm, complex_iplddt) and no coordinates. The predicted structure was never committed, so the co-fold cannot enter a geometric comparison from this repo. Its own numbers already say the placement is low-confidence (protein_ligand_pair_iptm 0.233 for NR4A3), which is a reason to want it in this comparison, not a reason to skip it."
+    },
+    {
+      "id": "dock/original-nr4a3-matrix",
+      "why": "results/PROVENANCE.md records S3 prefix `nr4a3-matrix` (the ORIGINAL docking-matrix poses behind denovo_401's selection) as LOST to the bucket lifecycle rule. The archived results/nr4a3-matrix/ holds the 13-compound repurposing library, NOT denovo_401."
+    }
+  ],
+  "refusals": [
+    {
+      "id": "dock/8XTT-model2",
+      "stage": "receptor",
+      "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model2_nr4a3.pdb",
+      "evidence": "os.path.exists -> False",
+      "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 2)",
+      "provenance": "nr4a3_8xtt_redock.py, S3 nr4a3-8xtt-redock/redock_work/. Scored -34.21 kcal/mol MM-GBSA in nr4a3-8xtt-redock-denovo401.json (model 2)."
+    },
+    {
+      "id": "dock/8XTT-model8",
+      "stage": "receptor",
+      "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model8_nr4a3.pdb",
+      "evidence": "os.path.exists -> False",
+      "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 8)",
+      "provenance": "nr4a3_8xtt_redock.py, S3 nr4a3-8xtt-redock/redock_work/."
+    },
+    {
+      "id": "dock/8XTT-model20",
+      "stage": "receptor",
+      "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model20_nr4a3.pdb",
+      "evidence": "os.path.exists -> False",
+      "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 20)",
+      "provenance": "nr4a3_8xtt_redock.py, S3 nr4a3-8xtt-redock/redock_work/."
+    },
+    {
+      "id": "dock/8XTT-model6",
+      "stage": "receptor",
+      "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model6_nr4a3.pdb",
+      "evidence": "os.path.exists -> False",
+      "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 6)",
+      "provenance": "nr4a3_8xtt_redock.py, S3 nr4a3-8xtt-redock/redock_work/."
+    }
+  ],
+  "usable": [
+    {
+      "id": "dock/metad-opened/v2",
+      "kind": "smina dock into a metadynamics-OPENED AF2 frame",
+      "provenance": "nr4a3_matrix.py de-novo funnel run, S3 prefix nr4a3-denovo-matrix-v2, archived to git by archive_results.py. This is the frame the published selectivity matrix was scored in.",
+      "receptor": "results/nr4a3-denovo/-matrix-v2/nr4a3-opened.pdb",
+      "poses": "results/nr4a3-denovo/-matrix-v2/docked_nr4a3.sdf",
+      "n_residues_mapped": 254,
+      "numbering_resolved_by": "renumbered-from-373",
+      "docking_score_kcalmol": -7.28137,
+      "smiles": "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1"
+    },
+    {
+      "id": "dock/metad-opened/v2-statematch",
+      "kind": "smina dock into a metadynamics-OPENED AF2 frame",
+      "provenance": "nr4a3_matrix.py state-matched run (a DIFFERENT opened conformer extracted from the metadynamics trajectory), S3 prefix nr4a3-denovo-matrix-v2-statematch.",
+      "receptor": "results/nr4a3-denovo/-matrix-v2-statematch/nr4a3-opened.pdb",
+      "poses": "results/nr4a3-denovo/-matrix-v2-statematch/docked_nr4a3.sdf",
+      "n_residues_mapped": 254,
+      "numbering_resolved_by": "renumbered-from-373",
+      "docking_score_kcalmol": -7.83328,
+      "smiles": "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1"
+    }
+  ],
+  "n_usable": 2,
+  "_ligand_identity": {
+    "canonical_smiles": [
+      "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1"
+    ],
+    "all_sources_same_molecule": true
+  },
+  "reference_frame": "dock/metad-opened/v2",
+  "pairs": [
+    {
+      "a": "dock/metad-opened/v2",
+      "b": "dock/metad-opened/v2-statematch",
+      "independent_receptor": true,
+      "same_method_kind": true,
+      "global": {
+        "n_fit_residues": 254,
+        "n_fit_used": 254,
+        "receptor_fit_rmsd_A": 3.665,
+        "ligand_rmsd_A": 7.205,
+        "ligand_rmsd_error": null,
+        "ligand_centroid_distance_A": 2.946
+      },
+      "contact_a": [
+        406,
+        407,
+        410,
+        411,
+        412,
+        480,
+        481,
+        484,
+        485,
+        531,
+        534,
+        535,
+        538
+      ],
+      "contact_b": [
+        406,
+        451,
+        477,
+        480,
+        481,
+        484,
+        485,
+        531,
+        534,
+        535,
+        538
+      ],
+      "contact_jaccard": 0.6,
+      "_contacts_note": "both contact sets are read against the SAME receptor (a's), because reading each pose against its own receptor would confound pose disagreement with conformer difference",
+      "internal_conformer_rmsd_A": 1.089,
+      "internal_conformer_rmsd_error": null,
+      "disagreement_is": "7.01 A apart in the common frame; centroids 2.36 A apart; 60% of contacted residues shared; internal conformer difference 1.09 A = 16% of the total, so the disagreement is dominated by PLACEMENT",
+      "pocket": {
+        "n_fit_residues": 10,
+        "n_fit_used": 10,
+        "receptor_fit_rmsd_A": 0.763,
+        "ligand_rmsd_A": 7.006,
+        "ligand_rmsd_error": null,
+        "ligand_centroid_distance_A": 2.362
+      }
+    }
+  ],
+  "spread": {
+    "global": {
+      "receptor_fit_rmsd_A": {
+        "n": 1,
+        "min": 3.665,
+        "median": 3.665,
+        "max": 3.665,
+        "mean": 3.665
+      },
+      "ligand_rmsd_A": {
+        "n": 1,
+        "min": 7.205,
+        "median": 7.205,
+        "max": 7.205,
+        "mean": 7.205
+      },
+      "ligand_centroid_distance_A": {
+        "n": 1,
+        "min": 2.946,
+        "median": 2.946,
+        "max": 2.946,
+        "mean": 2.946
+      }
+    },
+    "pocket": {
+      "receptor_fit_rmsd_A": {
+        "n": 1,
+        "min": 0.763,
+        "median": 0.763,
+        "max": 0.763,
+        "mean": 0.763
+      },
+      "ligand_rmsd_A": {
+        "n": 1,
+        "min": 7.006,
+        "median": 7.006,
+        "max": 7.006,
+        "mean": 7.006
+      },
+      "ligand_centroid_distance_A": {
+        "n": 1,
+        "min": 2.362,
+        "median": 2.362,
+        "max": 2.362,
+        "mean": 2.362
+      }
+    },
+    "contact_jaccard": {
+      "n": 1,
+      "min": 0.6,
+      "median": 0.6,
+      "max": 0.6,
+      "mean": 0.6
+    }
+  },
+  "verdict": {
+    "convergence_measurable": true,
+    "n_usable_sources": 2,
+    "n_sources_known": 6,
+    "n_pairs": 1,
+    "n_pairs_independent_receptors": 1,
+    "n_pairs_cross_method": 0,
+    "n_pairs_within_method": 1,
+    "pocket_fit_ligand_rmsd_spread_A": {
+      "n": 1,
+      "min": 7.006,
+      "median": 7.006,
+      "max": 7.006,
+      "mean": 7.006
+    },
+    "within_method_spread_A": {
+      "n": 1,
+      "min": 7.006,
+      "median": 7.006,
+      "max": 7.006,
+      "mean": 7.006
+    },
+    "cross_method_spread_A": {
+      "n": 0,
+      "min": null,
+      "median": null,
+      "max": null,
+      "mean": null
+    },
+    "n_pairs_within_2.0A": 0,
+    "n_pairs_within_4.0A": 0,
+    "sentence": "Across 2 readable pose source(s) of 6 known, 1 pairwise comparison(s) give a pocket-superposed, symmetry-corrected ligand RMSD spanning 7.006-7.006 A (median 7.006). 0/1 pairs agree to within 2.0 A and 0/1 to within 4.0 A. Convergence is not correctness; this number bounds how singular 'the predicted pose' is entitled to be.",
+    "cross_method_evidence": "NONE. Every readable pair is the SAME method (dock) run on a different receptor conformer, so what is measured here is the pipeline's reproducibility, not the agreement of methods that fail differently. The sources that would have made it cross-method are in `refusals`."
+  },
+  "_status": "ok"
+}

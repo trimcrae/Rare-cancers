@@ -184,6 +184,34 @@ def test_cysteine_geometry_reports_both_sasa_conventions_and_pocket_distance():
     assert row["reach_class"] in ("in_pocket", "exit_vector", "linker_borne", "distal")
 
 
+def test_sg_sphere_count_does_not_disturb_the_residue_rsa_crosscheck():
+    """★ The two-sphere-count invariant. `sg_n_points` refines the single-ATOM SG measures; it must leave
+    the RESIDUE RSA untouched, because that number is what `crosscheck_committed` reproduces against the
+    committed unique-residue artifact. If refining SG precision ever moved RSA, the cross-check would start
+    failing for a reason that has nothing to do with the data."""
+    atoms = _tiny_cys(1) + [_atom(99, 5, "CA", "C", 12.0, 0.0, 0.0, resname="ALA")]
+    residues, uni_map = [(1, "C"), (5, "A")], {1: 401, 5: 405}
+    coarse = che.cysteine_geometry(residues, atoms, uni_map, (405,), n_points=96, sg_n_points=96)
+    fine = che.cysteine_geometry(residues, atoms, uni_map, (405,), n_points=96, sg_n_points=960)
+    assert coarse[401]["rsa"] == fine[401]["rsa"]
+    assert coarse[401]["residue_sasa_A2"] == fine[401]["residue_sasa_A2"]
+    assert coarse[401]["dist_to_pocket_A"] == fine[401]["dist_to_pocket_A"]
+
+
+def test_coarse_sg_sasa_is_quantised_and_finer_sphere_relieves_it():
+    """The reason `sg_n_points` exists at all: at 96 points a sulfur's SASA lands on multiples of ~1.34 A^2,
+    coarse enough that distinct cysteines read as identical numbers. Documented as a measured property, not
+    an assumption."""
+    lone = [_atom(0, 1, "SG", "S", 0, 0, 0)]
+    r = atlas.VDW["S"] + atlas.PROBE
+    quantum = 4.0 * math.pi * r * r / 96
+    assert quantum == pytest.approx(1.34, abs=0.02)
+    coarse = che.atom_sasa(lone, [0], n_points=96)[0]
+    fine = che.atom_sasa(lone, [0], n_points=960)[0]
+    assert coarse / quantum == pytest.approx(round(coarse / quantum), abs=1e-6)
+    assert fine == pytest.approx(4.0 * math.pi * r * r, rel=0.005)
+
+
 def test_cysteine_geometry_skips_residues_with_no_uniprot_counterpart():
     """A modelled residue that aligns to nothing is omitted, not assigned a guessed number."""
     atoms = _tiny_cys(1)

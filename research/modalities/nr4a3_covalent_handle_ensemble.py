@@ -214,8 +214,20 @@ def criteria(rsa, dist_pocket):
     return {"accessible": acc, "reach_class": rc, "reachable": rch, "flagged": bool(acc and rch)}
 
 
-def cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points: int = 96):
+def cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points: int = 96,
+                      sg_n_points: int = 960):
     """Per-cysteine geometry for ONE model.
+
+    TWO SPHERE COUNTS, DELIBERATELY. Shrake-Rupley quantises an atom's SASA into `4*pi*r^2/n_points`
+    lumps; for a sulfur (r = 1.8 + 1.4 probe) at n_points = 96 that lump is **1.34 A^2**, so every SG number
+    lands on a multiple of 1.34 and two cysteines differing by less than that are indistinguishable noise.
+    (It is why two unrelated sites in this artifact both read exactly 24.13 = 18 x 1.34.)
+      * `n_points` (96) is used for the RESIDUE RSA, because that is what the committed
+        `nr4a-paralogue-unique-residues.json` used and the cross-check must reproduce it exactly.
+      * `sg_n_points` (960) is used for the single-ATOM SG measures, where the extra points cost nothing
+        (one atom, not four thousand) and buy a ~10x finer quantum.
+    Mixing them would be wrong; keeping them separate is what lets the artifact be both reproducible and
+    precise where precision matters.
 
     Returns {uniprot_resnum: {rsa, sg_sasa_A2, sg_sasa_heavy_A2, dist_to_pocket_A, ...}}.
 
@@ -236,6 +248,9 @@ def cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points: int = 
     cys_local = [r for r, aa in residues if aa == "C"]
     targets = [i for r in cys_local for i in by_res.get(r, [])]
     sasa_all = atom_sasa(atoms, targets, n_points) if targets else {}
+    # finer, atom-level pass for the SG only (see the two-sphere-count note above)
+    sg_all_idx = [i for r in cys_local for i in by_res.get(r, []) if atoms[i]["name"] == "SG"]
+    sasa_all_sg = atom_sasa(atoms, sg_all_idx, sg_n_points) if sg_all_idx else {}
 
     heavy_idx = [i for i, a in enumerate(atoms) if a["elem"] != "H"]
     heavy_atoms = [atoms[i] for i in heavy_idx]
@@ -249,6 +264,8 @@ def cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points: int = 
             if i in remap:
                 heavy_targets.append(remap[i])
     sasa_heavy = atom_sasa(heavy_atoms, heavy_targets, n_points) if heavy_targets else {}
+    sg_heavy_idx = [remap[i] for i in sg_all_idx if i in remap]
+    sasa_heavy_sg = atom_sasa(heavy_atoms, sg_heavy_idx, sg_n_points) if sg_heavy_idx else {}
 
     # Per-residue REFERENCE for the SG: its SASA with only its own residue's heavy atoms present. This is
     # the Gly-X-Gly-style denominator applied at the ATOM level, so `sg_rel` asks "how much of what this
@@ -261,7 +278,7 @@ def cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points: int = 
             continue
         k = next((j for j, a in enumerate(own) if a["name"] == "SG"), None)
         if k is not None:
-            sg_ref[r] = atom_sasa(own, [k], n_points)[k]
+            sg_ref[r] = atom_sasa(own, [k], sg_n_points)[k]
 
     out = {}
     for r in cys_local:
@@ -278,7 +295,7 @@ def cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points: int = 
                            for j in pocket_atom_idx)
         rsa = (res_sasa / maxasa) if maxasa else None
         sg_heavy = (None if sg_i is None or remap.get(sg_i) is None
-                    else sasa_heavy.get(remap[sg_i], 0.0))
+                    else sasa_heavy_sg.get(remap[sg_i], 0.0))
         res_sasa_heavy = sum(sasa_heavy.get(remap[i], 0.0)
                              for i in by_res.get(r, []) if i in remap)
         rsa_heavy = (res_sasa_heavy / maxasa) if maxasa else None
@@ -290,7 +307,7 @@ def cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points: int = 
             "rsa_heavy": None if rsa_heavy is None else round(rsa_heavy, 3),
             "residue_sasa_A2": round(res_sasa, 2),
             "residue_sasa_heavy_A2": round(res_sasa_heavy, 2),
-            "sg_sasa_A2": None if sg_i is None else round(sasa_all.get(sg_i, 0.0), 2),
+            "sg_sasa_A2": None if sg_i is None else round(sasa_all_sg.get(sg_i, 0.0), 2),
             "sg_sasa_heavy_A2": None if sg_heavy is None else round(sg_heavy, 2),
             "sg_sasa_isolated_A2": None if ref is None else round(ref, 2),
             "sg_rel": None if sg_rel is None else round(sg_rel, 3),
@@ -379,7 +396,8 @@ def model_label(path):
     return f"{parent}/{base}" if parent else base
 
 
-def analyse_models(paths, uniprot_seq, pocket_uniprot, label_fn=None, n_points: int = 96):
+def analyse_models(paths, uniprot_seq, pocket_uniprot, label_fn=None, n_points: int = 96,
+                   sg_n_points: int = 960):
     """Run cysteine_geometry over a list of model paths. Returns (per_model, identities, refusals).
 
     Labels are asserted UNIQUE — a duplicate would silently discard a model (see `model_label`)."""
@@ -397,7 +415,8 @@ def analyse_models(paths, uniprot_seq, pocket_uniprot, label_fn=None, n_points: 
             refusals.append({"model": label, "path": p, "reason": f"{type(exc).__name__}: {exc}"})
             continue
         identities[label] = round(ident, 4)
-        per_model[label] = cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points)
+        per_model[label] = cysteine_geometry(residues, atoms, uni_map, pocket_uniprot, n_points,
+                                             sg_n_points)
     return per_model, identities, refusals
 
 
@@ -436,7 +455,8 @@ def crosscheck_committed(nr4a3_opened_rows, committed_path):
 # ==============================================================================================
 # BUILD
 # ==============================================================================================
-def build(seqs, models_dir=None, n_points: int = 96, ensembles=None, struct_root=REPO):
+def build(seqs, models_dir=None, n_points: int = 96, ensembles=None, struct_root=REPO,
+          sg_n_points: int = 960):
     ensembles = ENSEMBLES if ensembles is None else ensembles
     refusals, unread = [], []
 
@@ -473,7 +493,7 @@ def build(seqs, models_dir=None, n_points: int = 96, ensembles=None, struct_root
         except Exception as exc:                              # noqa: BLE001
             refusals.append({"input": rel, "reason": f"{type(exc).__name__}: {exc}"})
             continue
-        rows = cysteine_geometry(residues, atoms, uni_map, pockets[prot], n_points)
+        rows = cysteine_geometry(residues, atoms, uni_map, pockets[prot], n_points, sg_n_points)
         opened[prot] = {"path": rel, "alignment_identity": round(ident, 4),
                         "modelled_uniprot_range": [min(uni_map.values()), max(uni_map.values())],
                         "pocket_uniprot_used": pockets[prot], "cysteines": rows}
@@ -494,7 +514,8 @@ def build(seqs, models_dir=None, n_points: int = 96, ensembles=None, struct_root
                                          "sandbox egress proxy); run this in CI or pass --models-dir."
                                          if name == "NR4A3_8xtt_nmr" else f"glob: {cfg['glob']}"))})
             continue
-        per_model, idents, refs = analyse_models(paths, seqs[prot], pockets[prot], n_points=n_points)
+        per_model, idents, refs = analyse_models(paths, seqs[prot], pockets[prot], n_points=n_points,
+                                                 sg_n_points=sg_n_points)
         refusals.extend([dict(r, ensemble=name) for r in refs])
         if not per_model:
             unread.append({"input": name, "reason": "every model refused — see refusals"})
@@ -525,7 +546,8 @@ def build(seqs, models_dir=None, n_points: int = 96, ensembles=None, struct_root
                       "accessible is it across the experimental ensemble?"),
         "_method": ("Uniqueness: imported from nr4a_paralogue_unique_residues.classify_positions (two "
                     "independent aligners). Geometry: Shrake-Rupley SASA (atlas implementation, "
-                    f"{n_points} sphere points) on the atoms of interest with all atoms as occluders; SG "
+                    f"{n_points} sphere points for residue SASA, {sg_n_points} for the single-atom SG "
+                    "measures) on the atoms of interest with all atoms as occluders; SG "
                     "distance to the mapped cryptic pocket. Numbering by global BLOSUM62 alignment of each "
                     "model's ATOM-record sequence to its own UniProt sequence, identity asserted "
                     f">= {MIN_ALIGN_IDENTITY}. Pure stdlib, $0 CPU."),
@@ -584,8 +606,42 @@ def build(seqs, models_dir=None, n_points: int = 96, ensembles=None, struct_root
     data["control_rank"] = control_rank(opened)
     data["criteria_diagnosis"] = _criteria_diagnosis(data)
     data["thiol_hydrogen_occlusion"] = _hydrogen_occlusion(opened)
+    data["comparison_validity"] = COMPARISON_VALIDITY
     data["summary"] = _summary(data)
     return data
+
+
+# Which comparisons these numbers license — stated because the tempting one is the invalid one. The NR4A3
+# ensemble is EXPERIMENTAL (solution NMR) and the only NR4A1/NR4A2 ensembles in the repo are BIASED
+# metadynamics; putting their spreads side by side would compare structure-determination method as much as
+# protein, and would flatter whichever side happened to be sampled more widely.
+COMPARISON_VALIDITY = {
+    "licensed": [
+        {"comparison": "NR4A3 cysteines against each other, within the 8XTT ensemble",
+         "why": "same protein, same 20 experimental conformers, same measurement"},
+        {"comparison": ("NR4A1 Cys551 against every NR4A3/NR4A2 cysteine, on the state-matched opened "
+                        "models (this is what `control_rank` does)"),
+         "why": ("all three models come from one modelling pipeline in one state, so a rank across them "
+                 "compares proteins rather than methods — which is why rank, not the ensemble spread, is "
+                 "the load-bearing cross-paralogue statement here")},
+        {"comparison": "the spread of one cysteine across conformers, read as structural heterogeneity",
+         "why": "within a single ensemble, spread is a property of that ensemble and is reported as such"},
+    ],
+    "not_licensed": [
+        {"comparison": ("NR4A3 8XTT ensemble spread against the NR4A1/NR4A2 metadynamics ensemble spread"),
+         "why": ("experimental restraint-satisfying NMR conformers vs conformers driven along a "
+                 "pocket-opening bias potential. Neither is Boltzmann-weighted and they are not weighted "
+                 "the same way, so a difference in spread is not evidence about the proteins.")},
+        {"comparison": "any ensemble spread read as a population or an occupancy",
+         "why": "neither ensemble is Boltzmann-weighted; frequency across conformers is not probability"},
+        {"comparison": "a flagged/not-flagged count read as evidence of ligandability",
+         "why": ("the pre-specified criteria do not recover the known covalent site, so passing them is "
+                 "not evidence — see criteria_diagnosis")},
+    ],
+    "absent_input": ("There is no experimental NR4A1 or NR4A2 LBD ensemble in this repo, so the like-for-"
+                     "like ensemble comparison the question really wants CANNOT be made from what is here. "
+                     "That is a missing input, not a negative result."),
+}
 
 
 def _hydrogen_occlusion(opened):
@@ -904,6 +960,14 @@ def to_markdown(d):
             L.append(f"- **REFUSED** `{r.get('model', r.get('input'))}` — {r['reason']}")
         L.append("")
 
+    cv = d.get("comparison_validity")
+    if cv:
+        L += ["## Which comparisons these numbers license", ""]
+        L += ["**Licensed:**", ""] + [f"- {x['comparison']} — *{x['why']}*" for x in cv["licensed"]]
+        L += ["", "**NOT licensed:**", ""] + [f"- {x['comparison']} — *{x['why']}*"
+                                              for x in cv["not_licensed"]]
+        L += ["", f"**Missing input:** {cv['absent_input']}", ""]
+
     L += ["## Honest limits", ""] + [f"- {x}" for x in d["_limits"]]
     return "\n".join(L) + "\n"
 
@@ -917,7 +981,11 @@ def main(argv=None):
                     help="download 8XTT from RCSB and split it into --models-dir (CI only; the dev "
                          "sandbox's egress proxy 403s files.rcsb.org)")
     ap.add_argument("--n-points", type=int, default=96,
-                    help="Shrake-Rupley sphere points; 96 matches the atlas default and the committed map")
+                    help="Shrake-Rupley sphere points for RESIDUE SASA; 96 matches the atlas default and "
+                         "the committed map, and changing it breaks the cross-check")
+    ap.add_argument("--sg-n-points", type=int, default=960,
+                    help="sphere points for the single-atom SG measures; at 96 the SG quantum is 1.34 A^2, "
+                         "which is coarse enough to make distinct cysteines read identically")
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a3-covalent-handle-ensemble.json"))
     args = ap.parse_args(argv)
 
@@ -933,7 +1001,7 @@ def main(argv=None):
         paths = fetch_8xtt_models(models_dir)
         print(f"[8xtt] fetched + split {len(paths)} conformers into {models_dir}", flush=True)
 
-    data = build(seqs, models_dir=models_dir, n_points=args.n_points)
+    data = build(seqs, models_dir=models_dir, n_points=args.n_points, sg_n_points=args.sg_n_points)
     with open(args.out, "w") as fh:
         json.dump(data, fh, indent=1)
     md = os.path.splitext(args.out)[0] + ".md"
