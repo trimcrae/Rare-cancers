@@ -44,6 +44,7 @@ on:
       - research/modalities/selcal_dockq_crosscheck.py
       - research/modalities/valb_frame_transfer_check.py
       - research/modalities/structural_provenance_census.py
+      - research/modalities/selcal_deepternary_controls.py
       - research/modalities/tests/test_selcal_cofold_validate.py
       - research/modalities/tests/test_selcal_dockq_crosscheck.py
 
@@ -182,6 +183,18 @@ jobs:
           print(json.dumps(d.get('instruments', {}), indent=1))
           "
 
+      # ★ THE FIX EXPERIMENT, step 1: source non-native binary inputs so DeepTernary can be run BLIND on the
+      # same two systems our co-folds scored 0.023-0.046 on. Blindness was verified first
+      # (deepternary-leakage-check.json: 9DTY/9DTX are post-horizon); the module refuses to source anything
+      # if that ever stops holding, because a blind control that is not blind yields a number that looks
+      # like validation.
+      - name: DeepTernary head-to-head — source blind inputs
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python3 research/modalities/selcal_deepternary_controls.py \
+            --out research/modalities/selcal-deepternary-controls.json
+
       - name: Publish the artifact
         if: ${{ always() }}
         env:
@@ -201,4 +214,6 @@ jobs:
             research/modalities/selcal-cofold-vs-crystal.json \
             research/modalities/selcal-cofold-dockq.json \
             research/modalities/valb-frame-transfer-check.json \
-            research/modalities/structural-provenance-census.json
+            research/modalities/structural-provenance-census.json \
+            research/modalities/deepternary-leakage-check.json \
+            research/modalities/selcal-deepternary-controls.json
