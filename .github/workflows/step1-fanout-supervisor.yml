@@ -337,6 +337,30 @@ jobs:
             else
               echo "::warning title=NRV04 RETRO TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t5 | tr '\n' ' ')"
             fi
+            # ★★ AND THE SELECTIVITY-CONTROL MD PANEL — added 2026-08-02, the night it billed 4.5 hours for
+            # nothing. Same door as every entry above, one turn further along.
+            #
+            # WHAT WAS FOUND. This lane's ONLY supervision is its own `watch` job, which runs a ~55-minute
+            # window and re-arms itself at the end. That is a chain with no anchor: the moment one re-arm
+            # fails — a cancelled run, a `pending` job holding the concurrency group, a red guard step — the
+            # lane has NO tick at all, and nothing outside it notices, because nothing outside it ever
+            # dispatched it. Measured that night: three hosts sat `running` at `gpu_util: 0.0` producing
+            # nothing while the reaper printed SPARED ~120 times, and the fix for the reaper (a failure
+            # terminus, `selcal_vast_launch.md_failure_terminus`) is worth nothing on a lane whose reaper
+            # has stopped being run. A guard that cannot fire is absent (CLAUDE.md §6).
+            #
+            # ⚠ `reap`, NOT `watch`. A `watch` from here would start a SECOND 55-minute supervisor racing
+            # the lane's own, and two watches re-placing the same unit is how a lane double-rents. `reap` is
+            # a single pass: it lists this lane's hosts, applies `reap_decision` — which now recognises a
+            # host-written FAILURE terminus as well as success — destroys what that condemns, and writes
+            # `selcal-reap.json` either way. It rents NOTHING, so this can never buy behind the market gate.
+            # A tick with nothing to reap costs $0 and still stamps the artifact, which is what makes a lane
+            # whose watch has died visibly ticking rather than silently absent.
+            if gh workflow run selectivity-control-vast.yml --ref main -f mode=reap 2>/tmp/t6; then
+              echo "[$(date -u '+%H:%M:%SZ')] selcal reap dispatched (tick ${n})"
+            else
+              echo "::warning title=SELCAL REAP TICK DISPATCH FAILED::tick ${n}: $(head -2 /tmp/t6 | tr '\n' ' ')"
+            fi
             # ★★ AND THE GCP L4 STEP-1 FAN-OUT REPLICATE LANE — added 2026-08-01, for the reason every other
             # entry above was added, arriving through yet another door.
             #
