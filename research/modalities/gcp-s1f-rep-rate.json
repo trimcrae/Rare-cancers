@@ -5,7 +5,7 @@
  "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
  "card": "nvidia-l4",
  "machine_type": "g2-standard-8",
- "measured_utc": "2026-08-02T08:51:34Z",
+ "measured_utc": "2026-08-02T08:57:46Z",
  "marks": [
   [
    "complex",
@@ -462,6 +462,54 @@
    "production",
    240,
    "2026-08-02T08:51:14Z"
+  ],
+  [
+   "solvent",
+   "production",
+   280,
+   "2026-08-02T08:51:57Z"
+  ],
+  [
+   "solvent",
+   "production",
+   320,
+   "2026-08-02T08:52:41Z"
+  ],
+  [
+   "solvent",
+   "production",
+   360,
+   "2026-08-02T08:53:25Z"
+  ],
+  [
+   "solvent",
+   "production",
+   400,
+   "2026-08-02T08:54:08Z"
+  ],
+  [
+   "solvent",
+   "production",
+   440,
+   "2026-08-02T08:54:52Z"
+  ],
+  [
+   "solvent",
+   "production",
+   480,
+   "2026-08-02T08:55:36Z"
+  ],
+  [
+   "solvent",
+   "production",
+   520,
+   "2026-08-02T08:56:19Z"
+  ],
+  [
+   "solvent",
+   "production",
+   560,
+   "2026-08-02T08:57:03Z"
   ],
   [
    "solvent",
@@ -1021,15 +1069,15 @@
     "ns_per_day_aggregate": 72.0
    },
    "solvent": {
-    "commits": 26,
+    "commits": 34,
     "stage": "production",
-    "iteration": 240,
+    "iteration": 560,
     "s_per_iteration": 1.09,
     "rate_phase": "production",
-    "n_intervals": 5,
+    "n_intervals": 13,
     "n_used": 5,
     "spread": 1.0232558139534884,
-    "why": "mean of the trailing 5 of 5 completed production commit intervals (gcp_fanout_rep.RATE_WINDOW)",
+    "why": "mean of the trailing 5 of 13 completed production commit intervals (gcp_fanout_rep.RATE_WINDOW)",
     "intervals": [
      {
       "from": 20,
@@ -1172,6 +1220,54 @@
      {
       "from": 200,
       "to": 240,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 240,
+      "to": 280,
+      "seconds": 43.0,
+      "s_per_iter": 1.075
+     },
+     {
+      "from": 280,
+      "to": 320,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 320,
+      "to": 360,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 360,
+      "to": 400,
+      "seconds": 43.0,
+      "s_per_iter": 1.075
+     },
+     {
+      "from": 400,
+      "to": 440,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 440,
+      "to": 480,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 480,
+      "to": 520,
+      "seconds": 43.0,
+      "s_per_iter": 1.075
+     },
+     {
+      "from": 520,
+      "to": 560,
       "seconds": 44.0,
       "s_per_iter": 1.1
      }
