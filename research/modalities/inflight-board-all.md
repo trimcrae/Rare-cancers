@@ -31,7 +31,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 4:45 PM ET Sun Aug 2, 2026 (8 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 4:53 PM ET Sun Aug 2, 2026 (0 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -39,7 +39,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 4:46 PM ET Sun Aug 2, 2026 (7 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. NOT buying this tick [operator_hold]: ⏸ PAUSED BY OPERATOR — this lane will not buy a GPU until gcp-s1f-rep-OPERATOR-HOLD.json is deleted. Reason on record: Pending a reevaluation of strategy. Both selectivity CONTROLS failed on 2026-08-02 (valB_mini wrong-sign, §2.11; the SMARCA2/4 sensitivity control NULL on an adequately-powered design, §2.12a), so whether to keep buying step-1 replicate sampling is a program-direction question, not a scheduling one. See STRATEGY.md → the scoreboard's control-status table. · paused 2026-08-02T09:40:00Z. Banked work is untouched — the GCS commit store is continuous, so a resume re-enters at the last COMMITTED.json and nothing is lost by waiting. The free GCP GPU is idle — that is expiring credit unspent. $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 4:46 PM ET Sun Aug 2, 2026 (8 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. NOT buying this tick [operator_hold]: ⏸ PAUSED BY OPERATOR — this lane will not buy a GPU until gcp-s1f-rep-OPERATOR-HOLD.json is deleted. Reason on record: Pending a reevaluation of strategy. Both selectivity CONTROLS failed on 2026-08-02 (valB_mini wrong-sign, §2.11; the SMARCA2/4 sensitivity control NULL on an adequately-powered design, §2.12a), so whether to keep buying step-1 replicate sampling is a program-direction question, not a scheduling one. See STRATEGY.md → the scoreboard's control-status table. · paused 2026-08-02T09:40:00Z. Banked work is untouched — the GCS commit store is continuous, so a resume re-enters at the last COMMITTED.json and nothing is lost by waiting. The free GCP GPU is idle — that is expiring credit unspent. $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns STATE          WHY (when not running)
