@@ -2006,8 +2006,17 @@ control for selectivity detection — the one experiment meant to show that this
 paralogues where the answer is already known — and it did not resolve. Together with §2.11's failed
 cooperativity calibrator, the program therefore has **no demonstrated positive control** for either half of
 the selectivity question, and every paralogue-selectivity statement in this paper is correspondingly
-predictive rather than validated. A method calibrator on a structure-matched paralogue pair remains unrun and
-is named as the gap.
+predictive rather than validated. A method calibrator on a structure-matched paralogue pair is the named gap,
+and **it is now under way rather than unrun**: an endpoint-MD sensitivity control on **SMARCA2 vs SMARCA4**
+with the PRT3789 chemotype — a pair whose selectivity is measured in the primary literature and which has
+solved structures on *both* arms, the property the retrospective's system lacks. Its criterion was frozen
+before the first GPU leg
+([`../modalities/selectivity-sensitivity-control-prereg.md`](../modalities/selectivity-sensitivity-control-prereg.md);
+`selcal_panel.PASS_CRITERION`), and **no verdict is reported here**: the scorer withholds the tier until the
+panel is complete, because a tier read off a partial panel on a run that can still be extended is the peeking
+defect the retrospective's own §4f exists to prevent. ⛔ Whatever it returns licenses **one sentence about the
+instrument** and nothing about NR4A3, degradation, efficacy or any therapeutic window — and it re-scores no
+leg reported above.
 
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
