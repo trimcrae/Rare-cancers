@@ -63,7 +63,9 @@ def test_leg_spec_rejects_unknown_environment():
 
 def test_all_leg_specs_count():
     legs = pb.all_leg_specs(n_replicas=3)
-    assert len(legs) == len(pb.BENCHMARKS) * 2 * 3
+    # `all_leg_specs` defaults to the QUALIFICATION SET, not every defined benchmark: W35F is
+    # defined and stageable but deliberately not part of the bar the engine is graded against.
+    assert len(legs) == len(pb.QUALIFICATION_SET) * 2 * 3
     assert len({leg["leg_id"] for leg in legs}) == len(legs)
 
 
@@ -276,14 +278,14 @@ def test_reduce_all_end_to_end(tmp_path):
     out = pr.reduce_all(str(tmp_path), hourly_usd=0.2)
     assert out["verdict"]["qualified"] is True
     assert out["price"]["priced"] is True
-    assert set(out["scores"]) == set(pb.BENCHMARKS)
+    assert set(out["scores"]) == set(pb.QUALIFICATION_SET)
 
 
 # ---------------------------------------------------------------- launcher (pure construction)
 def test_units_for_each_mode():
     assert len(pv.units_for("smoke")) == 1
     assert len(pv.units_for("pilot")) == 2
-    assert len(pv.units_for("full", n_replicas=3)) == len(pb.BENCHMARKS) * 2 * 3
+    assert len(pv.units_for("full", n_replicas=3)) == len(pb.QUALIFICATION_SET) * 2 * 3
 
 
 def test_smoke_unit_is_the_cheap_apo_leg_of_the_pilot_benchmark():
@@ -423,7 +425,10 @@ def test_a_sign_disagreement_is_never_reported_as_agreement():
     """
     csv = ("#Pdb;Mutation(s)_PDB;Affinity_mut (M);Affinity_wt (M);Temperature;Reference\n"
            "1BRS_A_D;YD29A;3.5E-12;1.0E-14;298;7739054\n"
-           "1BRS_A_D;YD29F;8.0E-15;1.0E-14;298;7739054\n")
+           "1BRS_A_D;YD29F;8.0E-15;1.0E-14;298;7739054\n"
+           # the wedge-scale benchmark's two records, from the same PMID
+           "1BRS_A_D;WA35F;1.4E-13;1.3E-14;298;8494892\n"
+           "1BRS_A_D;WA35F;8.5E-13;1.3E-13;298;8494892\n")
     rep = rc.check(csv_text=csv)
     a = rep["benchmarks"]["barnase_barstar_Y29A"]
     f = rep["benchmarks"]["barnase_barstar_Y29F"]
@@ -431,6 +436,9 @@ def test_a_sign_disagreement_is_never_reported_as_agreement():
     assert a["agrees"] is True and a["skempi_median_ddg_kcal"] == pytest.approx(3.469, abs=0.01)
     # Y29F: the stored constant is now the SKEMPI-derived -0.13, so it agrees.
     assert f["agrees"] is True and f["skempi_median_ddg_kcal"] == pytest.approx(-0.132, abs=0.01)
+    # W35F: the stored +1.26 is the median of the two deposited records, recomputed not remembered.
+    w = rep["benchmarks"]["barnase_barstar_W35F"]
+    assert w["agrees"] is True and w["skempi_median_ddg_kcal"] == pytest.approx(1.26, abs=0.02)
     assert rep["all_confirmed"] is True
 
 
@@ -1761,3 +1769,41 @@ def test_launch_skips_a_leg_that_is_already_running(monkeypatch, capsys):
     pv.submit(mode="pilot")
     assert pv.leg_id_for(units[0], "pilot") not in submitted
     assert "already running" in capsys.readouterr().out
+
+
+# ------------------------------------------------------------------ the wedge-scale benchmark
+def test_W35F_is_defined_but_NOT_in_the_qualification_set():
+    """Adding a benchmark must never flip a committed, cited verdict without a new measurement.
+
+    `complete` is `set(scored) >= set(QUALIFICATION_SET)`, so if W35F were in that set the engine's
+    landed `qualified: true` would read `incomplete - 2/3 scored` on the next reduce - a stale
+    artifact reading as a current fail (CLAUDE.md section 7). Promotion is a deliberate edit, after
+    it has run.
+    """
+    assert "barnase_barstar_W35F" in pb.BENCHMARKS
+    assert "barnase_barstar_W35F" not in pb.QUALIFICATION_SET
+    assert set(pb.QUALIFICATION_SET) == {"barnase_barstar_Y29A", "barnase_barstar_Y29F"}
+    # the two-benchmark verdict still qualifies, byte-for-byte as committed
+    scored = {n: pb.score_benchmark(n, pb.BENCHMARKS[n]["ref_ddg_bind_kcal"])
+              for n in pb.QUALIFICATION_SET}
+    v = pb.qualify(scored)
+    assert v["qualified"] is True and v["n_required"] == 2 and v["complete"] is True
+
+
+def test_W35F_sits_in_the_gap_the_qualified_set_leaves():
+    """Its whole reason to exist: a reference between the hot spot and the near-null."""
+    ref = pb.BENCHMARKS["barnase_barstar_W35F"]["ref_ddg_bind_kcal"]
+    lo = abs(pb.BENCHMARKS["barnase_barstar_Y29F"]["ref_ddg_bind_kcal"])
+    hi = abs(pb.BENCHMARKS["barnase_barstar_Y29A"]["ref_ddg_bind_kcal"])
+    assert lo < ref < hi
+    assert 0.5 <= ref <= 1.5                      # inside protfep_refcheck.WEDGE_BAND_KCAL
+
+
+def test_W35F_stages_from_the_other_chain_and_the_cycle_still_subtracts_correctly():
+    """It is on BARNASE (chain A), the opposite chain from Y29A/Y29F. The apo leg must follow it."""
+    cx = pb.leg_spec("barnase_barstar_W35F", "complex")
+    apo = pb.leg_spec("barnase_barstar_W35F", "apo")
+    assert sorted(cx["chains"]) == ["A", "D"]
+    assert apo["chains"] == ["A"]                 # the MUTATED chain alone, not barstar
+    assert cx["mutation"] == apo["mutation"] == "A:W35F"
+    assert cx["cycle_role"] == "ternary" and apo["cycle_role"] == "binary"

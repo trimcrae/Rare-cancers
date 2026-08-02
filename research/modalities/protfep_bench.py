@@ -110,10 +110,53 @@ BENCHMARKS = {
                 "sees none. Note the honest limitation: because the reference sits near zero, the +/-1.5 "
                 "tolerance is weak here, so the ordering test carries most of this benchmark's weight."),
     },
+    "barnase_barstar_W35F": {
+        "system": "barnase-barstar",
+        "pdb": "1BRS",
+        "partner_chain": "A",          # barnase carries this one
+        "receptor_chains": ["D"],      # barstar
+        "mutation": "A:W35F",
+        "ref_ddg_bind_kcal": 1.26,
+        "ref_source": ("SKEMPI 2.0, two records for 1BRS_A_D WA35F, both recomputed from the deposited "
+                       "Kd pairs at 298 K by protfep_refcheck --wedge-scan -> "
+                       "protfep-wedge-band-candidates.json: 1.4E-13/1.3E-14 -> +1.407 and "
+                       "8.5E-13/1.3E-13 -> +1.112, median +1.26, spread 0.295 kcal/mol. Both records "
+                       "cite PMID 8494892 (Schreiber & Fersht, Biochemistry 1993) — so the spread is "
+                       "WITHIN one paper's two wild-type baselines, not agreement between two "
+                       "independent laboratories, and must not be quoted as the latter."),
+        "ref_verified": True,
+        # ⛔ NOT IN THE QUALIFICATION SET UNTIL IT HAS RUN. Adding a benchmark to `BENCHMARKS` also
+        # adds it to `complete`, which would flip the engine's COMMITTED, CITED verdict from qualified
+        # to "incomplete — 2/3 scored" without a single new measurement. That would be a stale artifact
+        # reading as a current fail, which is the exact harm CLAUDE.md §7 names. Promotion is a
+        # deliberate edit, made once this has actually landed.
+        "in_qualification_set": False,
+        "why": ("★ THE HONEST VALIDATION THAT WAS MISSING, and the only candidate the whole of SKEMPI "
+                "offers for it. The qualified set BRACKETS the wedge without covering it: a +3.4 "
+                "hot-spot knockout and a ~0 near-null, with NOTHING at the size a paralogue-scale "
+                "difference actually has. Between-replicate SD is 6.2x different at those two ends "
+                "(±1.077 vs ±0.175) while within-leg MBAR SEs are 0.05–0.13, so the scatter is "
+                "setup/equilibration variance and cannot be extrapolated across the gap — which is "
+                "why pricing.md records that the confirmatory line 'may not claim to resolve a "
+                "paralogue-scale difference'. W35F sits at **+1.26 kcal/mol**: inside the 0.5–1.5 "
+                "wedge band, charge-conserving, buildable, on the 1BRS complex whose staging is "
+                "already proven, and with a reference resolved to 0.295 kcal/mol — tighter than the "
+                "band is wide, so scoring against it is not scoring against noise. It was found by "
+                "`protfep_refcheck --wedge-scan`, which rejected 29 other mutations of the same "
+                "complex and returned this one. ⚠ What it would and would NOT settle: it measures "
+                "whether THIS ENGINE resolves a ~1 kcal/mol interface effect. It is not a selectivity "
+                "control, it involves no paralogue, and passing it would license no claim about "
+                "SMARCA2/4 or NR4A3."),
+    },
 }
 
 # The engine is qualified only on the whole set, not on a lucky single point.
 PASS_ABS_ERR_KCAL = 1.5
+
+#: The benchmarks whose completion the qualification verdict requires. A benchmark may be defined,
+#: stageable and launchable without yet being part of the bar the engine is graded against — see
+#: `in_qualification_set` on W35F for why that separation exists.
+QUALIFICATION_SET = [k for k, v in BENCHMARKS.items() if v.get("in_qualification_set", True)]
 ORDERING_PAIRS = [("barnase_barstar_Y29A", "barnase_barstar_Y29F")]  # (larger, smaller) by experiment
 
 # Pilot-one-leg-first: this is the single most decision-relevant benchmark. If the engine cannot
@@ -160,7 +203,7 @@ def leg_spec(name, environment, replicate=0):
 def all_leg_specs(names=None, n_replicas=3):
     """Every leg needed to complete the benchmark set. Pure."""
     out = []
-    for name in (names or list(BENCHMARKS)):
+    for name in (names or list(QUALIFICATION_SET)):
         for env in ("complex", "apo"):
             for r in range(n_replicas):
                 out.append(leg_spec(name, env, r))
@@ -215,7 +258,7 @@ def qualify(results):
             ok = scored[larger]["calc_ddg_bind_kcal"] > scored[smaller]["calc_ddg_bind_kcal"]
             ordering.append({"larger": larger, "smaller": smaller, "ordering_correct": ok})
     ordering_broken = [o for o in ordering if not o["ordering_correct"]]
-    complete = set(scored) >= set(BENCHMARKS)
+    complete = set(scored) >= set(QUALIFICATION_SET)
     unverified = sorted(k for k, v in scored.items() if not v.get("ref_verified"))
     qualified = (not failures) and (not ordering_broken) and complete
     if qualified:
@@ -226,13 +269,13 @@ def qualify(results):
         reason = ("magnitudes within tolerance but ORDERING WRONG: "
                   + ", ".join(f"{o['larger']} !> {o['smaller']}" for o in ordering_broken))
     else:
-        reason = (f"incomplete — {len(scored)}/{len(BENCHMARKS)} benchmarks scored; a partial set cannot "
+        reason = (f"incomplete — {len(scored)}/{len(QUALIFICATION_SET)} benchmarks scored; a partial set cannot "
                   f"qualify the engine")
     return {
         "qualified": qualified,
         "reason": reason,
         "n_scored": len(scored),
-        "n_required": len(BENCHMARKS),
+        "n_required": len(QUALIFICATION_SET),
         "complete": complete,
         "failures": sorted(failures),
         "ordering": ordering,
