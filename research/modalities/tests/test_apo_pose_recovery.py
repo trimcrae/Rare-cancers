@@ -295,7 +295,7 @@ def test_panel_takes_one_pair_per_distinct_holo_and_caps_per_protein():
                {"accession": "P22736", "apo": "3V3E", "holo": "4REF", "ligand": {"comp_id": "3N0"}},
                {"accession": "P22736", "apo": "4KZJ", "holo": "4RE7", "ligand": {"comp_id": "XXX"}},
                {"accession": "P22736", "apo": "4KZJ", "holo": "4RZG", "ligand": {"comp_id": "YYY"}}]}
-    out = A._panel_candidates(sel)
+    out = A._dedup_pairs([dict(sel["chosen"])] + sel["considered_top"])
     holos = [r["holo"] for r in out]
     assert len(holos) == len(set(holos)), "one pair per distinct crystallographic answer"
     for acc in {r["accession"] for r in out}:
@@ -342,6 +342,23 @@ def test_the_panel_has_a_wall_clock_budget_per_pair():
     src = inspect.getsource(A.run_benchmark)
     assert "out_of_time(" in src, "the arms must honour the deadline, not just record it"
     assert "are UNRUN, " in src, "a skipped arm must be reported as UNRUN, never as a failure"
+
+
+def test_the_panel_pool_comes_from_the_full_ranked_list_not_the_40_row_excerpt():
+    """★ THE CAP THAT MADE THE PANEL UNABLE TO LEAVE THE NR4A SUBFAMILY (CI run 30762378689). The excerpt
+    kept for the record is 40 rows and, at two pairs per protein, yielded four candidates — all NR4A."""
+    import inspect
+    src = inspect.getsource(A.mode_select)
+    assert "panel_pool" in src
+    assert "_dedup_pairs([c for _s, c in ranked])" in src, "the pool must be built from ALL ranked pairs"
+
+
+def test_the_panel_has_no_early_exit_conditioned_on_results():
+    """An early exit on 'enough good ones' is a way of choosing which results to have."""
+    import inspect
+    src = inspect.getsource(A.main)
+    assert "attempted >= PANEL_SIZE" in src
+    assert 'r.get("verdict")}) >= N_BENCHMARKS' not in src
 
 
 if __name__ == "__main__":

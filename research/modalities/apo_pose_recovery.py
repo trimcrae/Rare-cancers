@@ -166,8 +166,13 @@ SELECTION_RULES = [
 #: cases, never a menu to pick from.
 N_BENCHMARKS = 3
 
-#: At most this many pairs from any one protein, so a three-member panel is not one protein three times.
+#: At most this many pairs from any one protein, so the panel is not one protein N times.
 MAX_PER_PROTEIN = 2
+
+#: How many candidate pairs the panel ATTEMPTS. Every one of them is reported, whatever it returns — there
+#: is no early exit on "enough good ones", because an early exit conditioned on results is a way of
+#: choosing which results to have. The list is fixed by SELECTION_RULES before any structure is fetched.
+PANEL_SIZE = 12
 
 #: Wall-clock budget per candidate pair, and for the panel as a whole. CLAUDE.md §6: the per-unit timeout
 #: is the real hang-guard. One pathological ligand — a substructure match that goes exponential, an RCSB
@@ -1158,6 +1163,11 @@ def mode_select(src):
     considered = [{"rank": i + 1, "score": list(s), **{k: v for k, v in c.items() if k != "ligand"},
                    "ligand": c["ligand"]} for i, (s, c) in enumerate(ranked[:40])]
     return {"n_pairs_found": len(ranked),
+            # ⚠ THE PANEL POOL IS BUILT FROM THE FULL RANKED LIST, NOT FROM `considered_top`. That field is
+            # a 40-row excerpt kept for the record, and building the panel from it silently capped the run
+            # at four candidates — every one of them NR4A subfamily — so the panel could never reach a
+            # nuclear receptor with a canonical orthosteric ligand complex. Measured on CI run 30762378689.
+            "panel_pool": _dedup_pairs([c for _s, c in ranked]),
             "considered_top": considered,
             "chosen": ranked[0][1] if ranked else None,
             "selection_rules": SELECTION_RULES,
@@ -1236,9 +1246,7 @@ def main():
                  (res.get("verdict") or {}).get("outcome")
                  or [r["stage"] for r in (res.get("refusals") or [])], res["elapsed_s"]), flush=True)
         panel.append(res)
-        if len([r for r in panel if r.get("verdict")]) >= N_BENCHMARKS:
-            break
-        if attempted >= N_BENCHMARKS * 4:      # bounded: never grind the whole 5-figure candidate list
+        if attempted >= PANEL_SIZE:            # bounded: never grind the whole 5-figure candidate list
             break
     doc["panel"] = panel
     ran = [r for r in panel if r.get("verdict")]
@@ -1247,39 +1255,39 @@ def main():
                       {"outcome": "INCONCLUSIVE",
                        "reason": "no candidate pair reached a scored arm",
                        "refusals": [r.get("refusals") for r in panel]})
-    if len(ran) > 1:
-        doc["verdict"]["panel_summary"] = {
+    doc["verdict"]["panel_summary"] = {
             "n_pairs_scored": len(ran),
             "pairs": [{"apo": r["candidate"]["apo"], "holo": r["candidate"]["holo"],
                        "ligand": r["candidate"]["ligand"]["comp_id"],
                        "outcome": r["verdict"]["outcome"],
                        "primary_rmsd_A": r["verdict"].get("primary_rmsd_A")} for r in ran],
             "n_recovered": sum(1 for r in ran if r["verdict"]["outcome"] == "RECOVERED"),
+        # ★ THE PANEL-LEVEL ANSWER APPLIES THE SAME PRE-REGISTERED C1 RULE ONE LEVEL UP: a pair whose
+        # protocol control fails is uninterpretable, so the panel's answer is over the INTERPRETABLE pairs
+        # and the count of uninterpretable ones is reported beside it rather than averaged in.
+        "n_interpretable": sum(1 for r in ran
+                               if (r["verdict"].get("c1_rmsd_A") is not None
+                                   and r["verdict"]["c1_rmsd_A"] <= RECOVER_RMSD_A)),
+        "n_uninterpretable_control_failed": sum(1 for r in ran
+                                                if r["verdict"]["outcome"] == "INCONCLUSIVE"),
+        "n_excluded_covalent_R2b": sum(1 for r in panel if r.get("excluded_by") == "R2b"),
             "_note": "the PRIMARY verdict is the rank-1 pair; these are supporting cases, reported "
                      "whatever they returned",
         }
     _emit(doc)
 
 
-def _panel_candidates(sel):
-    """Rank-ordered candidate pairs: ONE PER DISTINCT HOLO, and at most `MAX_PER_PROTEIN` per protein.
+def _dedup_pairs(cands):
+    """ONE PAIR PER DISTINCT HOLO, at most `MAX_PER_PROTEIN` per protein, in rank order.
 
-    ⚠ THIS IS A BUG FIX, NOT A RE-TUNING, and the distinction matters because a recovery number already
-    exists. The rule was written in this module BEFORE the first run — "three pairs sharing one crystal
-    would be one known answer measured three times" — but the implementation skipped a row only when BOTH
-    its apo and its holo had already been seen, so five different apo structures against the SINGLE holo
-    5Y41 all entered, and the three pairs that scored were three apo receptors against ONE crystal (4REF).
-    The code now does what the stated rule always said. The 4REF result is retained and reported, never
-    discarded, and it is what surfaced the bug.
-
-    The per-protein cap exists for the same reason one level up: a panel that is one protein three times
-    tests one protein. Neither rule can be steered by an answer — both act on the rank order, which is
-    fixed by SELECTION_RULES before any structure is fetched."""
+    ⚠ THE HOLO RULE IS A BUG FIX, NOT A RE-TUNING. It was stated in this module before the first run —
+    "three pairs sharing one crystal would be one known answer measured three times" — but the first
+    implementation skipped a row only when BOTH its apo and its holo had been seen, so five different apo
+    structures against the single holo 5Y41 all entered and the three that scored were three apo receptors
+    against ONE crystal (4REF). The per-protein cap exists for the same reason one level up. Neither rule
+    can be steered by an answer: both act on a rank order fixed by SELECTION_RULES before any fetch."""
     seen_holo, per_protein, out = set(), {}, []
-    rows = list(sel.get("considered_top") or [])
-    if sel.get("chosen"):
-        rows = [dict(sel["chosen"])] + rows
-    for r in rows:
+    for r in cands:
         acc, holo = r.get("accession"), r.get("holo")
         if not r.get("apo") or not holo or holo in seen_holo:
             continue
@@ -1290,7 +1298,20 @@ def _panel_candidates(sel):
         out.append({k: r[k] for k in ("accession", "protein", "apo", "holo", "ligand", "apo_method",
                                       "apo_models", "apo_resolution_A", "holo_resolution_A",
                                       "apo_title", "holo_title") if k in r})
+        if len(out) >= PANEL_SIZE:
+            break
     return out
+
+
+def _panel_candidates(sel):
+    """The pre-registered panel: the pool built in `mode_select`, or a de-dup of the excerpt as a fallback."""
+    pool = sel.get("panel_pool")
+    if pool:
+        return pool
+    rows = list(sel.get("considered_top") or [])
+    if sel.get("chosen"):
+        rows = [dict(sel["chosen"])] + rows
+    return _dedup_pairs(rows)
 
 
 def _emit(doc):
