@@ -8,9 +8,9 @@ Regenerate with `python3 research/modalities/selectivity_mechanism_options.py`. 
 
 ## If you read only this
 
-1. **The shortlist was three; the enumeration is 17.** Nine mechanisms in this register had no row, node or mention anywhere in the program before this file, and two of the nine are graded above the incumbent's nearest rival.
+1. **The shortlist was three; the enumeration is 17.** 9 mechanisms in this register had no row, node or mention anywhere in the program before this file — and one of them (`S3`) grades **above every non-incumbent option the program already had**, while a second (`S15`) ties the best of them.
 2. **★ The best genuinely-new option is STERIC EXCLUSION (`S3`, B+)** — three Pocket-5 positions where both paralogues carry a strictly bulkier side chain. Measured here with its own null: 0.923 paralogue-only clash against a 0.173 null at conserved/shared positions (5.34×). It scores a structure rather than generating one, its claim is a shape constraint rather than a ~1 kcal/mol ΔΔG, and it is the only new mechanism for which an unconfounded positive control is straightforwardly constructible.
-3. **★ The categorical axis is not one residue.** Sweeping 11 reactive classes instead of the committed two finds 35 paralogue-unique, alignment-robust LBD positions, of which 5 are exposed, tetherable and belong to a class with credible ligand-directed chemistry (`S11`). Route B's single point of failure is a gap in the enumeration, not a fact about the protein.
+3. **★ The categorical axis had never been swept beyond cysteine and lysine — and the sweep cuts both ways.** Across 11 reactive classes NR4A3 carries 35 paralogue-unique, alignment-robust LBD positions (`S11`). ⛔ Under the V17 exposure cutoff **no new handle clears at all** — the credible set collapses to the cysteines and lysines already committed. ★ Under the threshold-free rank the roadmap says must *replace* that cutoff, **Y419** (RSA 0.221, SuFEx tyrosine, one residue from C420) sits above NR4A1 Cys551 (0.165), the family's one literature-anchored covalent site. Both readings are reported; neither is chosen here.
 4. **⛔ Two mechanisms are refuted here on committed data.** The paralogues are **not** lysine-poor — matched over 75 conformers per species the transfer zone reaches a lysine 0.4396 / 0.4279 / 0.3692 of the time, and the NR4A3−NR4A1 gap is under one replicate-SD (`S7`). And the cryptic pocket is **not** NR4A3-specific — both paralogues reach its druggable CV under matched metadynamics and fpocket rates NR4A1's opened frame *more* druggable (`S14`).
 5. **⛔ E3 choice is not measurable at current staging precision (`S8`, D).** Changing only how the E3 arm is assembled swings the maximum term-(b) enrichment 16.60 → 6.07 on VHL and halves CRBN's any-lysine null. The program's one E3-preference claim was already retracted for this reason.
 6. **The three cheapest high-value moves are all $0 and none needs authorization:** rung `5b-T` (`S5`, already roadmap row 1), the anti-handle design filter (`S15`), and asking for the two-branch template decision that unblocks the only compounding mechanism in the register (`S13`, roadmap row 8, *never asked*).
@@ -22,25 +22,25 @@ Regenerate with `python3 research/modalities/selectivity_mechanism_options.py`. 
 
 Grades: **A** live, measured, and the claim it licenses is already defensible today · **B** live and buildable now — a $0/cheap decisive test exists and no instrument it needs has failed · **C** live but ceiling-limited — either the instrument is unvalidated in the needed regime, or a valid positive control cannot exist here, so a pass would license less than it appears to · **D** blocked — the instrument it needs has FAILED, or the mechanism reduces to a ddG smaller than any instrument here resolves · **F** refuted on committed evidence — do not retry this form of it
 
-| grade | id | mechanism | new? | instrument passed a known-answer test **in the needed regime**? | could a valid positive control exist here? |
-|---|---|---|---|---|---|
-| **A-** | `S1` | Categorical covalent capture at a paralogue-unique cysteine (C397) | — | NO, and the failure is named: V17 FAILS its own positive control (NR4A1 Cys551, RSA 0 | PARTIALLY |
-| **B** | `S15` | ★ Reciprocal anti-handle avoidance — design AWAY from the paralogues' own unique residues | ★ **NEW** | NO in the free-energy sense and it does not need one: avoiding a residue is a geometric constraint of exactly  | YES, and it is the best-supported one in the entire register: NR4A1 Cys551 / celastrol is the family's one lit |
-| **B** | `S5` | Ternary interface discrimination (rung 5b-T) | — | PARTIALLY — the strongest pair in the program | YES for assembly (9DTY, post-horizon, already recovered) |
-| **B** | `S6` | Linker length AS the selectivity filter — 'shortest viable linker' as a design principle | — | N/A for the reach half (it is enumeration, and its exactness was independently corrected in 2026-07-26 from a  | YES in the weak sense that the enumeration is checkable against geometry, and the artifact already carries a c |
-| **B+** | `S3` | ★ Steric exclusion / negative design — a subpocket both paralogues deny | ★ **NEW** | NOT YET RUN as such — but this file supplies its own internal null, which is the thing that was missing: signa | YES, and unusually cleanly — steric-gatekeeper selectivity is the best-documented structure-based selectivity  |
-| **B-** | `S11` | ★ Categorical covalent at a NON-cysteine unique nucleophile (Tyr / Met / Lys) | ★ **NEW** | NO — it inherits V17's demonstrated false negative exactly as S1 does, and adds a second untested layer: the c | YES for the geometry (same as S1) |
-| **B-** | `S13` | ★ Two-point AND-gate engagement (cryptic pocket AND C397 simultaneously) | ★ **NEW** | N/A — it is a design architecture, not a measurement | YES in the literature (bivalent/AND-gate degraders are an established class) |
-| **C** | `S17` | ★ Expression-context selectivity — a tissue-restricted E3, or a paralogue that is not there | ★ **NEW** | N/A — it is a data lookup, not an estimator | YES — tissue-restricted E3 degraders are an established concept with published examples |
-| **C** | `S7` | Degradation-competence selectivity — a unique lysine in the transfer zone | — | NO — none exists for V18, and the roadmap says so | ⛔ NOT WITH ANY SYSTEM NAMED HERE |
-| **C+** | `S12` | ★ Fusion-junction selectivity — target EWSR1::NR4A3, not NR4A3 | ★ **NEW** | N/A — nothing is built | ⚠ HARD |
-| **C+** | `S16` | ★ Pharmacological window as an amplifier — dose, Dmax and the hook | ★ **NEW** | N/A — it is an equilibrium identity, not an estimator | YES trivially (published DC50/Dmax series), but nothing here needs one |
-| **C+** | `S4` | ★ Categorical PHARMACOPHORE handles — a functional group both paralogues lack | ★ **NEW** | NO — identical to Route A | same as Route A: the V4 binary control, unauthorized and insufficient |
-| **D** | `S10` | Cooperativity (alpha) differences between paralogues | — | ⛔ RUN AND FAILED | YES — it exists, is built, and is exactly what failed |
-| **D** | `S14` | ★ Conformational-selection selectivity — differential cryptic-pocket opening | ★ **NEW** | NO | ⛔ Not with this instrument |
-| **D** | `S2` | Divergent pocket handles resolved by free energy (Route A) | — | NO | YES and it is built — CREBBP vs BRD4(1)/SGC-CBP30, same ligand, two holo crystals, experimental ddG ~2 |
-| **D** | `S8` | E3 recruiter choice as a selectivity lever | — | NO — and worse, the readout is not stable under a nuisance variable | In principle yes (a target with published VHL-vs-CRBN degradation selectivity), but it is moot until the stagi |
-| **D** | `S9` | Kinetic / residence-time selectivity | — | NO, and the prior is bad: the program's metadynamics on a much simpler CV failed cross-replica reproducibility | YES in the literature (residence-time series with measured k_off exist), but building the instrument is a mult |
+| grade | id | mechanism | new? | instrument passed a known-answer test **in the needed regime**? | could a valid positive control exist here? | cheapest decisive test |
+|---|---|---|---|---|---|---|
+| **A-** | `S1` | Categorical covalent capture at a paralogue-unique cysteine (C397) | — | ⛔ **NO** — `V17` fails its own positive control | ⚠ partially — NR-V04/C551 is the reciprocal precedent, and a confound for detection | $0 — taken; the 12-atom gate holds on reach alone |
+| **B+** | `S3` | ★ Steric exclusion / negative design — a subpocket both paralogues deny | ★ **NEW** | not yet — but its **null is measured here**: 0.923 vs 0.173 (5.34×) | **yes, cleanly** — steric-gatekeeper selectivity pairs are well documented | **$0 — taken, with its decisive control** |
+| **B** | `S15` | ★ Reciprocal anti-handle avoidance — design AWAY from the paralogues' own unique residues | ★ **NEW** | n/a in the free-energy sense — it is a geometric constraint | **yes — the register's cleanest: NR4A1 C551 / celastrol is an anti-handle** | $0 — the closure data is committed; only the constraint is missing |
+| **B** | `S5` | Ternary interface discrimination (rung 5b-T) | — | ⚠ partially — `V2` 0.839 post-horizon, `V1` one contact in one pair | yes for assembly; ⛔ **no** for the selectivity read (`V11` 0/2) | **$0 CPU — rung `5b-T`, needs no authorization** |
+| **B** | `S6` | Linker length AS the selectivity filter — 'shortest viable linker' as a design principle | — | n/a for reach (enumeration); ⛔ **NO** for the exposure half | geometry only — no experimental control without a bench | $0 — already computed and committed |
+| **B-** | `S13` | ★ Two-point AND-gate engagement (cryptic pocket AND C397 simultaneously) | ★ **NEW** | n/a — a design architecture, not a measurement | yes in the literature (bivalent / AND-gate degraders) | **$0 — it is a DECISION, and it has never been asked** |
+| **C+** | `S11` | ★ Categorical covalent at a NON-cysteine unique nucleophile (Tyr / Met / Lys) | ★ **NEW** | ⛔ **NO** — inherits `V17`'s false negative, plus a literature judgement | yes for geometry; none for the chemistry without a bench | $0 — taken (M2); both rulers reported |
+| **C+** | `S12` | ★ Fusion-junction selectivity — target EWSR1::NR4A3, not NR4A3 | ★ **NEW** | n/a — nothing is built | ⚠ hard — a disordered moiety is lesson 1's worst case | $0 — a sequence-level junction inventory needs no structure |
+| **C+** | `S16` | ★ Pharmacological window as an amplifier — dose, Dmax and the hook | ★ **NEW** | n/a — an equilibrium identity, not an estimator | yes trivially; nothing here needs one | $0 — taken (M7) |
+| **C+** | `S4` | ★ Categorical PHARMACOPHORE handles — a functional group both paralogues lack | ★ **NEW** | ⛔ **NO** — identical to Route A | same as Route A — insufficient even on a pass | $0 — the uniqueness call is taken here |
+| **C** | `S17` | ★ Expression-context selectivity — a tissue-restricted E3, or a paralogue that is not there | ★ **NEW** | n/a — a data lookup, not an estimator | yes — tissue-restricted E3 degraders are an established concept | $0 — E3 half already answered; paralogue half is a 1-line CI change |
+| **C** | `S7` | Degradation-competence selectivity — a unique lysine in the transfer zone | — | ⛔ **NO** — `V18` has none, and the roadmap says so | ⛔ **not with any system named here** — the confound is in the biology | $0 — taken (M1), and it refutes the availability form |
+| **D** | `S10` | Cooperativity (alpha) differences between paralogues | — | ⛔ **RUN AND FAILED** — wrong sign, 3/3 replicates, ~34× its uncertainty | **yes — it was built, was run, and refuted the instrument** | $0 — the leverage calculation, taken here (M7) |
+| **D** | `S14` | ★ Conformational-selection selectivity — differential cryptic-pocket opening | ★ **NEW** | ⛔ **NO** — Gate 1 failed as registered; seeds do not share an F(Rg) | ⛔ no — a reproducibility failure is not repaired by a control | $0 — taken (M5), and it refutes the categorical form |
+| **D** | `S2` | Divergent pocket handles resolved by free energy (Route A) | — | ⛔ **NO** — no selectivity ΔΔG across two pockets has ever been recovered here | yes and built (CREBBP/BRD4) — unauthorized, and binary-only | not $0 — the `V4` benchmark, unpriced, on no rung |
+| **D** | `S8` | E3 recruiter choice as a selectivity lever | — | ⛔ **NO**, and the readout is unstable under a nuisance variable | moot until staging precision is fixed | $0 — taken (M6) |
+| **D** | `S9` | Kinetic / residence-time selectivity | — | ⛔ **NO** — and metadynamics already failed cross-replica on a simpler CV | exists in the literature; the instrument does not exist here | ⛔ none is cheap — nothing here could test it |
 
 ---
 
@@ -54,7 +54,7 @@ NON-DISCRIMINATING against NR4A1 and weakly directional against NR4A2. Like-for-
 
 ### M2 — Is the categorical covalent axis one residue (C397) or a family of handles?
 
-The categorical axis is NOT one residue. Across 11 reactive classes NR4A3 carries 35 paralogue-unique, alignment-robust positions in the LBD; 18 are both solvent-exposed under the V17 cutoff and within linker reach of the cryptic pocket, and 5 of those belong to a residue class with routine or precedented ligand-directed covalent chemistry. ★ The genuinely NEW candidates are Y419 (SuFEx tyrosine, RSA 0.221, exit-vector band, one residue from C420) and M398/M399 (oxaziridine methionines). Route B as drawn has a single point of failure — C397 — and this is the first enumeration showing the failure is not structural.
+The categorical axis is NOT one residue — but the honest count depends on which ruler is used, and BOTH readings are given because the program's own record forbids trusting the cutoff. Across 11 reactive classes NR4A3 carries 35 paralogue-unique, alignment-robust positions in the LBD, and 31 of those are within linker reach of the cryptic pocket. ⛔ UNDER THE V17 CUTOFF the chemically-credible set is C397, C420, K518, K572, K592 — i.e. exactly the cysteines and lysines already committed, and NO new handle clears it. ★ UNDER THE THRESHOLD-FREE RANK the roadmap says must replace the cutoff, Y419 (RSA 0.221, exit-vector band, one residue from C420) sits ABOVE NR4A1 Cys551 (0.165) — the family's one covalent site with literature support and the very false negative that discredited the cutoff. So the new handle is real on the only ruler the program permits, and absent on the ruler it has already refused. M398/M399 (0.106/0.051) fall below the reference on both readings and are NOT carried forward.
 
 Limits:
 - Sequence uniqueness is exact; every geometric annotation is one static opened conformer.
@@ -117,6 +117,24 @@ Cooperativity is the higher-leverage lever, and it is the one whose instrument f
   - that a covalent bond forms at all (pKa, reactivity, adduct stability are untested)
 - **Why this grade.** The strongest available mechanism and the only one immune to the free-energy resolution gap — but it rests on ONE residue, its exposure adjudicator has a demonstrated false negative, and the chemoselectivity window is closed by a PARALOGUE cysteine in 30 of 30 graded cells, at a position NR4A3 SHARES in 24 of those 30.
 
+### `S3` ★ Steric exclusion / negative design — a subpocket both paralogues deny — grade **B+**
+
+**Status:** LIVE — NEW, and measured in this file  ·  **NEW**
+
+- **Physical basis.** At three Pocket-5 positions NR4A3's residue is paralogue-unique AND both paralogues carry a strictly bulkier side chain: L406->His/His, I484->Tyr/Tyr, L534->Phe/Phe. A ligand substituent that fills that lobe in NR4A3 has nowhere to sit in either paralogue. The quantity is a CLASH, which is tens of kT, not a ~1 kcal/mol preference — and the question 'does this atom fit' is answered by shape, not by a free-energy engine.
+- **Instrument.** shape/steric evaluation on an already-generated structure — the SCORING side of lesson 1, not the generating side
+- **Known-answer test in the needed regime?** NOT YET RUN as such — but this file supplies its own internal null, which is the thing that was missing: signal 0.923 vs null 0.173 (5.34x). A known-answer test is cheap and obvious: any published kinase/NR selectivity pair whose selectivity is attributed to a single gatekeeper-size difference.
+- **Could a valid positive control exist here?** YES, and unusually cleanly — steric-gatekeeper selectivity is the best-documented structure-based selectivity mechanism in the literature, so a known-answer pair with a measured selectivity ratio and two crystal structures is findable. This is the ONLY new mechanism here for which an unconfounded, adequately-powered positive control is straightforwardly constructible.
+- **Cheapest decisive test.** $0 — taken here, including its decisive control. M4: the paralogue's own docking relocates the same molecule by a median 5.31 A (NR4A1) / 5.26 A (NR4A2), so the paralogue does not reproduce the pose.
+- **A pass would license:**
+  - a POSITIVE DESIGN RULE with a measured basis: grow the warhead into the L406/I484/L534 lobe
+  - a falsifiable prediction — a matched pair differing only in that substituent
+- **⛔ A pass would NOT license:**
+  - that the paralogue does not bind the molecule. It binds it somewhere else (M4).
+  - any affinity, degradation or selectivity RATIO — no energy is computed anywhere here
+  - escape from R5: it is conditional on the cryptic pocket being the right site
+- **Why this grade.** The strongest of the new options. It scores a structure rather than generating one (lesson 1), its claim is a shape constraint rather than a ~1 kcal/mol ddG (lesson 2), it arrives with its own null already measured, and a valid positive control could exist (lesson 3). It is capped at B+ because it is conditional on the docked pose and on the rigid-transfer assumption, and because the mechanism constrains the POSE, not binding.
+
 ### `S15` ★ Reciprocal anti-handle avoidance — design AWAY from the paralogues' own unique residues — grade **B**
 
 **Status:** LIVE — free, and it is already the binding constraint  ·  **NEW as an explicit axis**
@@ -167,42 +185,6 @@ Cooperativity is the higher-leverage lever, and it is the one whose instrument f
   - any statement about the chemoselectivity WINDOW being NR4A3-limited — it is closed by a PARALOGUE cysteine in 30 of 30 graded cells, and in 24 of 30 through-space cells by NR4A1 C505, a position NR4A3 SHARES (C536)
 - **Why this grade.** A real, measured, publishable design principle that costs nothing and needs no instrument this program lacks — provided it is stated at the 12-atom gate, where it does not depend on the failed exposure criterion. Stated at 16-20 atoms it inherits V17's false negative.
 
-### `S3` ★ Steric exclusion / negative design — a subpocket both paralogues deny — grade **B+**
-
-**Status:** LIVE — NEW, and measured in this file  ·  **NEW**
-
-- **Physical basis.** At three Pocket-5 positions NR4A3's residue is paralogue-unique AND both paralogues carry a strictly bulkier side chain: L406->His/His, I484->Tyr/Tyr, L534->Phe/Phe. A ligand substituent that fills that lobe in NR4A3 has nowhere to sit in either paralogue. The quantity is a CLASH, which is tens of kT, not a ~1 kcal/mol preference — and the question 'does this atom fit' is answered by shape, not by a free-energy engine.
-- **Instrument.** shape/steric evaluation on an already-generated structure — the SCORING side of lesson 1, not the generating side
-- **Known-answer test in the needed regime?** NOT YET RUN as such — but this file supplies its own internal null, which is the thing that was missing: signal 0.923 vs null 0.173 (5.34x). A known-answer test is cheap and obvious: any published kinase/NR selectivity pair whose selectivity is attributed to a single gatekeeper-size difference.
-- **Could a valid positive control exist here?** YES, and unusually cleanly — steric-gatekeeper selectivity is the best-documented structure-based selectivity mechanism in the literature, so a known-answer pair with a measured selectivity ratio and two crystal structures is findable. This is the ONLY new mechanism here for which an unconfounded, adequately-powered positive control is straightforwardly constructible.
-- **Cheapest decisive test.** $0 — taken here, including its decisive control. M4: the paralogue's own docking relocates the same molecule by a median 5.31 A (NR4A1) / 5.26 A (NR4A2), so the paralogue does not reproduce the pose.
-- **A pass would license:**
-  - a POSITIVE DESIGN RULE with a measured basis: grow the warhead into the L406/I484/L534 lobe
-  - a falsifiable prediction — a matched pair differing only in that substituent
-- **⛔ A pass would NOT license:**
-  - that the paralogue does not bind the molecule. It binds it somewhere else (M4).
-  - any affinity, degradation or selectivity RATIO — no energy is computed anywhere here
-  - escape from R5: it is conditional on the cryptic pocket being the right site
-- **Why this grade.** The strongest of the new options. It scores a structure rather than generating one (lesson 1), its claim is a shape constraint rather than a ~1 kcal/mol ddG (lesson 2), it arrives with its own null already measured, and a valid positive control could exist (lesson 3). It is capped at B+ because it is conditional on the docked pose and on the rigid-transfer assumption, and because the mechanism constrains the POSE, not binding.
-
-### `S11` ★ Categorical covalent at a NON-cysteine unique nucleophile (Tyr / Met / Lys) — grade **B-**
-
-**Status:** LIVE — NEW, and enumerated here for the first time  ·  **NEW**
-
-- **Physical basis.** The categorical argument is about a residue type the paralogues lack — nothing in it is specific to sulfur. Sweeping 11 reactive classes instead of the committed two finds 35 paralogue-unique, alignment-robust LBD positions, of which 5 are exposed, within linker reach, AND belong to a class with routine or precedented ligand-directed covalent chemistry.
-- **Instrument.** identical to S1 — the same reach enumeration and the same exposure rank
-- **Known-answer test in the needed regime?** NO — it inherits V17's demonstrated false negative exactly as S1 does, and adds a second untested layer: the chemistry credibility label is a literature judgement, not a measurement.
-- **Could a valid positive control exist here?** YES for the geometry (same as S1). For the chemistry, published SuFEx tyrosine-targeting and oxaziridine methionine-targeting probes exist as precedent, but no positive control for THIS site is possible without a bench.
-- **Cheapest decisive test.** $0 — taken here (M2); the reach envelope per new handle is the same $0 kernel already written for cysteines
-- **Measured here.** The categorical axis is NOT one residue. Across 11 reactive classes NR4A3 carries 35 paralogue-unique, alignment-robust positions in the LBD; 18 are both solvent-exposed under the V17 cutoff and within linker reach of the cryptic pocket, and 5 of those belong to a residue class with routine or precedented ligand-directed covalent chemistry. ★ The genuinely NEW candidates are Y419 (SuFEx tyrosine, RSA 0.221, exit-vector band, one residue from C420) and M398/M399 (oxaziridine methionines). Route B as drawn has a single point of failure — C397 — and this is the first enumeration showing the failure is not structural.
-- **A pass would license:**
-  - removal of Route B's single point of failure — the paper currently states the only insurance against a C397-specific chemical failure is the unique-LYSINE degradation term, which is a different requirement; this supplies engagement-level redundancy
-  - a prioritised second and third handle: Y419 (SuFEx) and M398/M399 (oxaziridine)
-- **⛔ A pass would NOT license:**
-  - the 'not a handle' classes (Ser/Thr/Asp/Glu/Arg/Trp) as options — counting them would be the same error as counting a buried cysteine
-  - any statement that these adducts form; only that the residue is unique and reachable
-- **Why this grade.** Cheap, already computed, and it fixes a structural weakness the paper names about itself. Held to B- because the chemistry credibility of Tyr/Met handles is a judgement rather than a measurement, Y419 sits at RSA 0.221 — BELOW the exposure cutoff whose false negative is the reason we distrust it in the other direction — and each new handle re-opens the chemoselectivity-window question that S1 already answers uncomfortably.
-
 ### `S13` ★ Two-point AND-gate engagement (cryptic pocket AND C397 simultaneously) — grade **B-**
 
 **Status:** BLOCKED ON A DECISION NOBODY HAS ASKED FOR  ·  **NEW framing**
@@ -219,39 +201,24 @@ Cooperativity is the higher-leverage lever, and it is the one whose instrument f
   - any claim before the template decision is taken — enumerating over the current grid searches a space that structurally cannot contain the answer
 - **Why this grade.** Highest compounding upside of anything buildable, zero new instrument risk, and blocked only by a $0 decision that the roadmap already lists as row 8 and records as never having been asked. It is not higher because the two terms it multiplies are themselves A- and C+/D, and multiplying an unvalidated term by a validated one does not validate it.
 
-### `S17` ★ Expression-context selectivity — a tissue-restricted E3, or a paralogue that is not there — grade **C**
+### `S11` ★ Categorical covalent at a NON-cysteine unique nucleophile (Tyr / Met / Lys) — grade **C+**
 
-**Status:** REFUTED for the E3 half on committed data; UNTESTED for the paralogue half  ·  **NEW**
+**Status:** LIVE — NEW, and enumerated here for the first time  ·  **NEW**
 
-- **Physical basis.** A degrader is only active where its full CRL arm is expressed, and a paralogue that is not expressed in the tissue at risk does not need to be spared. Neither requires any molecular discrimination at all.
-- **Instrument.** committed expression artifacts (Human Protein Atlas arms; DepMap for the target)
-- **Known-answer test in the needed regime?** N/A — it is a data lookup, not an estimator.
-- **Could a valid positive control exist here?** YES — tissue-restricted E3 degraders are an established concept with published examples.
-- **Cheapest decisive test.** $0. The E3 half is already answered: all 10 recruiter arms in the widened panel are BROADLY EXPRESSED and complete, so no arm in the panel offers tissue restriction. The paralogue half is NOT answered — the committed DepMap artifact carries NR4A3 only (sarcoma mean log2TPM 1.03, expressed in 0.09 of lines) and holds no NR4A1 or NR4A2 row. Widening the existing gene list is a one-line change to an existing $0 CI job.
+- **Physical basis.** The categorical argument is about a residue type the paralogues lack — nothing in it is specific to sulfur. Sweeping 11 reactive classes instead of the committed two finds 35 paralogue-unique, alignment-robust LBD positions, and the one new handle that survives BOTH the reach test and the program's own threshold-free accessibility rank is Y419 — a tyrosine addressable by SuFEx chemistry, one residue from C420, at RSA 0.221.
+- **Instrument.** identical to S1 — the same reach enumeration and the same exposure rank
+- **Known-answer test in the needed regime?** NO — it inherits V17's demonstrated false negative exactly as S1 does, and adds a second untested layer: the chemistry credibility label is a literature judgement, not a measurement.
+- **Could a valid positive control exist here?** YES for the geometry (same as S1). For the chemistry, published SuFEx tyrosine-targeting and oxaziridine methionine-targeting probes exist as precedent, but no positive control for THIS site is possible without a bench.
+- **Cheapest decisive test.** $0 — taken here (M2); the reach envelope per new handle is the same $0 kernel already written for cysteines
+- **Measured here.** The categorical axis is NOT one residue — but the honest count depends on which ruler is used, and BOTH readings are given because the program's own record forbids trusting the cutoff. Across 11 reactive classes NR4A3 carries 35 paralogue-unique, alignment-robust positions in the LBD, and 31 of those are within linker reach of the cryptic pocket. ⛔ UNDER THE V17 CUTOFF the chemically-credible set is C397, C420, K518, K572, K592 — i.e. exactly the cysteines and lysines already committed, and NO new handle clears it. ★ UNDER THE THRESHOLD-FREE RANK the roadmap says must replace the cutoff, Y419 (RSA 0.221, exit-vector band, one residue from C420) sits ABOVE NR4A1 Cys551 (0.165) — the family's one covalent site with literature support and the very false negative that discredited the cutoff. So the new handle is real on the only ruler the program permits, and absent on the ruler it has already refused. M398/M399 (0.106/0.051) fall below the reference on both readings and are NOT carried forward.
 - **A pass would license:**
-  - a claim-scope statement: WHICH paralogue actually needs sparing, and where
-  - a re-weighting of every other row — the roadmap names NR4A2 as carrying the dopaminergic-loss liability, and it is also the paralogue Route A is 20% thinner against
+  - removal of Route B's single point of failure — the paper currently states the only insurance against a C397-specific chemical failure is the unique-LYSINE degradation term, which is a different requirement; this supplies engagement-level redundancy
+  - one prioritised second handle: Y419 (SuFEx), ranked above the family's one literature-anchored covalent site on the accessibility observable
 - **⛔ A pass would NOT license:**
-  - ⛔ any molecular selectivity. Expression context changes what a margin BUYS, never whether the molecule discriminates.
-  - safety or a therapeutic window — neither is computed anywhere in this program
-- **Why this grade.** The E3 half is closed on committed data and should stop being proposed. The paralogue half is a $0 CI job that nobody has run and that would sharpen the scope of every selectivity sentence in the paper — which is worth more than it sounds, because the program's selectivity claim is currently bounded to two paralogues by an unrun cross-binding check.
-
-### `S7` Degradation-competence selectivity — a unique lysine in the transfer zone — grade **C**
-
-**Status:** SPLIT: the availability form is refuted here; the joint form is live but uncalibrated  ·  **current (the roadmap's third route)**
-
-- **Physical basis.** A PROTAC can be selective at the ubiquitin-transfer step rather than at binding: a lysine that is not present cannot be ubiquitinated. NR4A3 has 4 unique lysines, 3 exposed (K518/K572/K592), against a MEASURED 17.1 A transfer distance.
-- **Instrument.** V18, the transfer-zone lysine-identity term
-- **Known-answer test in the needed regime?** NO — none exists for V18, and the roadmap says so.
-- **Could a valid positive control exist here?** ⛔ NOT WITH ANY SYSTEM NAMED HERE. A positive control needs a degrader whose selectivity is ATTRIBUTED to lysine placement, with the ubiquitinated site mapped. Real degraders often ubiquitinate several lysines and lysine-less substrates are still degraded, so even a correct prediction would be weakly diagnostic. This is the same shape as lesson 3: the confound is in the biology, not the instrument.
-- **Cheapest decisive test.** $0 — taken here (M1)
-- **Measured here.** NON-DISCRIMINATING against NR4A1 and weakly directional against NR4A2. Like-for-like over the same 75 unbiased conformers per species: NR4A3 0.4396, NR4A1 0.4279, NR4A2 0.3692. The NR4A3-vs-NR4A1 gap is +0.0118 against a replicate-SD of 0.0175 — under 1 SD, i.e. no measured difference — and the matched-frame win rate is 0.653, barely above a coin. NR4A2 is the only consistent direction (win rate 1.000, ratio 1.19x), and a 1.19x coverage ratio is not a selectivity mechanism.
-- **A pass would license:**
-  - the JOINT form only: a basin whose transfer zone covers an NR4A3-unique lysine while both paralogue zones stay bare — max 0.152 over 58 meta-basins, 37 of 58 non-zero
-- **⛔ A pass would NOT license:**
-  - ⛔ the AVAILABILITY form. Measured here: matched over 75 conformers per species the transfer zone reaches a lysine on NR4A3 0.4396, NR4A1 0.4279, NR4A2 0.3692 of the time. The NR4A3-NR4A1 gap is under one replicate-SD. The paralogues are NOT lysine-poor.
-  - any degradation rate — the term is set membership, and no composed RING or E2 may carry it
-- **Why this grade.** The mechanism is real and is the program's only insurance against a C397-specific chemical failure — but it has no known-answer test, no constructible positive control, and its intuitive form (the paralogues lack lysines) is measured here to be false. Its surviving form is a rare coincidence read off a best-of-N-prone statistic.
+  - the 'not a handle' classes (Ser/Thr/Asp/Glu/Arg/Trp) as options — counting them would be the same error as counting a buried cysteine
+  - ⛔ M398/M399. Measured here at RSA 0.106/0.051, i.e. below the reference site on the only ruler the program permits. They are enumerated and dropped, not carried.
+  - any statement that these adducts form; only that the residue is unique and reachable
+- **Why this grade.** Cheap, already computed, and it addresses a structural weakness the paper names about itself — but the measurement partly undercut the idea, and that is reported rather than smoothed. Under the V17 cutoff NO new handle clears at all: the credible set collapses to the cysteines and lysines already committed. Y419 survives only on the threshold-free rank, which is the reading the roadmap mandates but which is a weaker instrument than a criterion; SuFEx tyrosine chemistry is precedented rather than routine; and every added handle re-opens the chemoselectivity-window question that `S1` already answers uncomfortably.
 
 ### `S12` ★ Fusion-junction selectivity — target EWSR1::NR4A3, not NR4A3 — grade **C+**
 
@@ -302,6 +269,40 @@ Cooperativity is the higher-leverage lever, and it is the one whose instrument f
   - any margin — it still needs a free-energy number in the unvalidated regime
   - R412 in particular: the roadmap records it facing into the pocket in only 0.25 of druggable frames, from an S3-only artifact NOT committed to this repo; and its post-fit superposition deviation is the largest of the ten positions measured in M3
 - **Why this grade.** Strictly better than Route A as drawn — a bigger expected effect for the same instrument — but it does not escape lesson 2, and its best residue (R412) has both a facing caveat resting on an uncommitted artifact and the worst geometry reliability in the set.
+
+### `S17` ★ Expression-context selectivity — a tissue-restricted E3, or a paralogue that is not there — grade **C**
+
+**Status:** REFUTED for the E3 half on committed data; UNTESTED for the paralogue half  ·  **NEW**
+
+- **Physical basis.** A degrader is only active where its full CRL arm is expressed, and a paralogue that is not expressed in the tissue at risk does not need to be spared. Neither requires any molecular discrimination at all.
+- **Instrument.** committed expression artifacts (Human Protein Atlas arms; DepMap for the target)
+- **Known-answer test in the needed regime?** N/A — it is a data lookup, not an estimator.
+- **Could a valid positive control exist here?** YES — tissue-restricted E3 degraders are an established concept with published examples.
+- **Cheapest decisive test.** $0. The E3 half is already answered: all 10 recruiter arms in the widened panel are BROADLY EXPRESSED and complete, so no arm in the panel offers tissue restriction. The paralogue half is NOT answered — the committed DepMap artifact carries NR4A3 only (sarcoma mean log2TPM 1.03, expressed in 0.09 of lines) and holds no NR4A1 or NR4A2 row. Widening the existing gene list is a one-line change to an existing $0 CI job.
+- **A pass would license:**
+  - a claim-scope statement: WHICH paralogue actually needs sparing, and where
+  - a re-weighting of every other row — the roadmap names NR4A2 as carrying the dopaminergic-loss liability, and it is also the paralogue Route A is 20% thinner against
+- **⛔ A pass would NOT license:**
+  - ⛔ any molecular selectivity. Expression context changes what a margin BUYS, never whether the molecule discriminates.
+  - safety or a therapeutic window — neither is computed anywhere in this program
+- **Why this grade.** The E3 half is closed on committed data and should stop being proposed. The paralogue half is a $0 CI job that nobody has run and that would sharpen the scope of every selectivity sentence in the paper — which is worth more than it sounds, because the program's selectivity claim is currently bounded to two paralogues by an unrun cross-binding check.
+
+### `S7` Degradation-competence selectivity — a unique lysine in the transfer zone — grade **C**
+
+**Status:** SPLIT: the availability form is refuted here; the joint form is live but uncalibrated  ·  **current (the roadmap's third route)**
+
+- **Physical basis.** A PROTAC can be selective at the ubiquitin-transfer step rather than at binding: a lysine that is not present cannot be ubiquitinated. NR4A3 has 4 unique lysines, 3 exposed (K518/K572/K592), against a MEASURED 17.1 A transfer distance.
+- **Instrument.** V18, the transfer-zone lysine-identity term
+- **Known-answer test in the needed regime?** NO — none exists for V18, and the roadmap says so.
+- **Could a valid positive control exist here?** ⛔ NOT WITH ANY SYSTEM NAMED HERE. A positive control needs a degrader whose selectivity is ATTRIBUTED to lysine placement, with the ubiquitinated site mapped. Real degraders often ubiquitinate several lysines and lysine-less substrates are still degraded, so even a correct prediction would be weakly diagnostic. This is the same shape as lesson 3: the confound is in the biology, not the instrument.
+- **Cheapest decisive test.** $0 — taken here (M1)
+- **Measured here.** NON-DISCRIMINATING against NR4A1 and weakly directional against NR4A2. Like-for-like over the same 75 unbiased conformers per species: NR4A3 0.4396, NR4A1 0.4279, NR4A2 0.3692. The NR4A3-vs-NR4A1 gap is +0.0118 against a replicate-SD of 0.0175 — under 1 SD, i.e. no measured difference — and the matched-frame win rate is 0.653, barely above a coin. NR4A2 is the only consistent direction (win rate 1.000, ratio 1.19x), and a 1.19x coverage ratio is not a selectivity mechanism.
+- **A pass would license:**
+  - the JOINT form only: a basin whose transfer zone covers an NR4A3-unique lysine while both paralogue zones stay bare — max 0.152 over 58 meta-basins, 37 of 58 non-zero
+- **⛔ A pass would NOT license:**
+  - ⛔ the AVAILABILITY form. Measured here: matched over 75 conformers per species the transfer zone reaches a lysine on NR4A3 0.4396, NR4A1 0.4279, NR4A2 0.3692 of the time. The NR4A3-NR4A1 gap is under one replicate-SD. The paralogues are NOT lysine-poor.
+  - any degradation rate — the term is set membership, and no composed RING or E2 may carry it
+- **Why this grade.** The mechanism is real and is the program's only insurance against a C397-specific chemical failure — but it has no known-answer test, no constructible positive control, and its intuitive form (the paralogues lack lysines) is measured here to be false. Its surviving form is a rare coincidence read off a best-of-N-prone statistic.
 
 ### `S10` Cooperativity (alpha) differences between paralogues — grade **D**
 
@@ -402,4 +403,4 @@ Cooperativity is the higher-leverage lever, and it is the one whose instrument f
 - Grades rank mechanisms against each other for PLANNING. A grade is not evidence, and an A- row is still an unvalidated prediction under the roadmap's claim-ceiling rule.
 - Every measurement is conditional on the artifacts it reads, including the docked poses (whose known-answer test returned INCONCLUSIVE on site selection) and the matched opened models.
 
-*Generated 2026-08-02 7:28 PM ET by `selectivity_mechanism_options.py`.*
+*Generated 2026-08-02 7:32 PM ET by `selectivity_mechanism_options.py`.*

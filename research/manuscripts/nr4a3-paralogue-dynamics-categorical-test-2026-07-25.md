@@ -312,8 +312,15 @@ gate in 0/75 unbiased frames."* That is correct and should stay, but it is a sta
 
 **D3 — the E2~Ub transfer term's discrimination comes from a rare JOINT event, not from paralogue lysine
 scarcity.** Over one matched placement set at the measured 17.09 Å transfer distance, the probability that the
-zone covers *any* lysine of the species is **NR4A3 0.438 (pooled over 75 unbiased conformers), NR4A1 0.387,
-NR4A2 0.363** — statistically indistinguishable. This is consistent with, and does not contradict, the
+zone covers *any* lysine of the species is **NR4A3 0.438 (pooled over 75 unbiased conformers), NR4A1 0.387
+(static opened model), NR4A2 0.363 (static opened model)** — statistically indistinguishable. ⚠ **Those
+three are NOT like-for-like**: the ensemble labels are correct in the table above but this sentence carried
+only the first, and the roadmap's restatement of it dropped all three. The matched triples were measured
+2026-08-02 and are owned by
+[`selectivity-mechanism-options.json`](../modalities/selectivity-mechanism-options.json) → `measurements.M1`
+— **static 0.4035 / 0.3914 / 0.3650**, **pooled-unbiased 0.4396 / 0.4279 / 0.3692** — and they make the
+NR4A3−NR4A1 gap *smaller* (+0.0118 against a replicate-SD of 0.0175), so this paragraph's conclusion
+strengthens rather than changes. This is consistent with, and does not contradict, the
 committed `fraction_members_unique_and_paralogues_bare` of 0.0–0.032; it simply names where the
 discrimination comes from. Add one line to the Tier-2 block so the term is not read as "the paralogues have
 no lysines there."

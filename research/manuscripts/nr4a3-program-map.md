@@ -2614,10 +2614,21 @@ Per arm, from the same definitive run (rows sum to the 58 / 3 / 40 above, which 
   passes CATEGORICAL on **both** constructions (native marginally stronger: 3 vs 2 term-(a), 26 vs 22
   discriminating). **What falls is only the claim that the discrimination lives on VHL.** Do not repeat it.
 - ⚠ **Term (b)'s discrimination is a RARE JOINT EVENT, not paralogue lysine scarcity (Lane 13, $0).**
-  P(the transfer zone covers *any* lysine) is **NR4A3 0.438 / NR4A1 0.387 / NR4A2 0.363** — i.e. essentially
-  **non-discriminating on the any-lysine measure**, consistent with the committed 0.0–0.032 *joint* statistic.
-  The term earns its signal from the coincidence of covering a *unique* lysine while both paralogue zones stay
-  bare, not from the paralogues having fewer lysines to hit. State it that way; the scarcity reading is wrong.
+  P(the transfer zone covers *any* lysine) is **non-discriminating on the any-lysine measure**, consistent
+  with the committed 0.0–0.032 *joint* statistic. The term earns its signal from the coincidence of covering
+  a *unique* lysine while both paralogue zones stay bare, not from the paralogues having fewer lysines to
+  hit. State it that way; the scarcity reading is wrong.
+  ⚠ **LABELS ADDED 2026-08-02 — the triple this bullet used to quote MIXED THREE DIFFERENT ENSEMBLES.**
+  It read *"**NR4A3 0.438 / NR4A1 0.387 / NR4A2 0.363**"*, in which **0.438 is NR4A3's pooled-unbiased
+  MEDIAN over 75 conformers** while **0.387 and 0.363 are SINGLE static opened models** — three different
+  objects presented as one comparison. (The lane doc's own table labels them correctly; this one-line
+  restatement dropped the labels.) **No value is withdrawn — each is right for its own ensemble** — but a
+  like-for-like triple is what this claim needs, and it is now measured and owned by
+  [`selectivity-mechanism-options.json`](../modalities/selectivity-mechanism-options.json) → `measurements.M1`:
+  **static 0.4035 / 0.3914 / 0.3650**, **pooled-unbiased 0.4396 / 0.4279 / 0.3692**, with the NR4A3−NR4A1
+  gap at **+0.0118 against a replicate-SD of 0.0175** — under one SD. ✅ **The correction is CONSERVATIVE
+  for this bullet's conclusion**: matching the ensembles makes the NR4A1 gap *smaller*, so
+  "non-discriminating" is if anything understated and nothing downstream changes.
 - **`term_b_best_rank` is a best-of-N statistic, inflated by construction** (exactly piece 5's winner's-curse
   artifact), so those counts are **upper bounds**; the unbiased mean fractions lead. One CRBN basin reached
   rank 4 while scoring *below* background and was correctly excluded — **without the null it would have counted.**

@@ -316,7 +316,7 @@ def m2_residue_class_sweep():
             f"{sum(v['n_unique_in_LBD'] for v in by_class.values())} paralogue-unique, alignment-robust "
             f"positions in the LBD, and {len(reach_ok)} of those are within linker reach of the cryptic "
             "pocket. ⛔ UNDER THE V17 CUTOFF the chemically-credible set is "
-            f"{[h['class'] + h['uniprot'] for h in credible]} — i.e. exactly the cysteines and lysines "
+            + ", ".join(credible_names) + " — i.e. exactly the cysteines and lysines "
             "already committed, and NO new handle clears it. ★ UNDER THE THRESHOLD-FREE RANK the roadmap "
             "says must replace the cutoff, Y419 (RSA 0.221, exit-vector band, one residue from C420) sits "
             "ABOVE NR4A1 Cys551 (0.165) — the family's one covalent site with literature support and the "
@@ -719,7 +719,7 @@ def mechanisms(M):
     m1, m2, m3, m4, m5, m6, m7 = (M["M1"], M["M2"], M["M3"], M["M4"], M["M5"], M["M6"], M["M7"])
     return [
         {
-            "id": "S1", "name": "Categorical covalent capture at a paralogue-unique cysteine (C397)",
+            "id": "S1", "known_answer_short": '⛔ **NO** — `V17` fails its own positive control', "positive_control_short": '⚠ partially — NR-V04/C551 is the reciprocal precedent, and a confound for detection', "cheapest_test_short": '$0 — taken; the 12-atom gate holds on reach alone', "name": "Categorical covalent capture at a paralogue-unique cysteine (C397)",
             "status": "LIVE — the program's incumbent", "novelty": "current",
             "physical_basis": (
                 "NR4A1 and NR4A2 carry a non-nucleophile at the aligned position (Asn363 / Ser363), so no "
@@ -755,7 +755,7 @@ def mechanisms(M):
                 "graded cells, at a position NR4A3 SHARES in 24 of those 30."),
         },
         {
-            "id": "S2", "name": "Divergent pocket handles resolved by free energy (Route A)",
+            "id": "S2", "known_answer_short": '⛔ **NO** — no selectivity ΔΔG across two pockets has ever been recovered here', "positive_control_short": 'yes and built (CREBBP/BRD4) — unauthorized, and binary-only', "cheapest_test_short": 'not $0 — the `V4` benchmark, unpriced, on no rung', "name": "Divergent pocket handles resolved by free energy (Route A)",
             "status": "BLOCKED", "novelty": "current",
             "physical_basis": "7 of 10 Pocket-5 lining residues are paralogue-divergent and all 10 are ortholog-invariant.",
             "instrument": "V4 (selectivity ABFE) — never run; V7 (absolute ABFE) FAILS by ~7.1 kcal/mol",
@@ -780,7 +780,7 @@ def mechanisms(M):
                 "validated in."),
         },
         {
-            "id": "S3", "name": "★ Steric exclusion / negative design — a subpocket both paralogues deny",
+            "id": "S3", "known_answer_short": 'not yet — but its **null is measured here**: 0.923 vs 0.173 (5.34×)', "positive_control_short": '**yes, cleanly** — steric-gatekeeper selectivity pairs are well documented', "cheapest_test_short": '**$0 — taken, with its decisive control**', "name": "★ Steric exclusion / negative design — a subpocket both paralogues deny",
             "status": "LIVE — NEW, and measured in this file", "novelty": "NEW",
             "physical_basis": (
                 "At three Pocket-5 positions NR4A3's residue is paralogue-unique AND both paralogues carry a "
@@ -826,7 +826,7 @@ def mechanisms(M):
                 "rigid-transfer assumption, and because the mechanism constrains the POSE, not binding."),
         },
         {
-            "id": "S4", "name": "★ Categorical PHARMACOPHORE handles — a functional group both paralogues lack",
+            "id": "S4", "known_answer_short": '⛔ **NO** — identical to Route A', "positive_control_short": 'same as Route A — insufficient even on a pass', "cheapest_test_short": '$0 — the uniqueness call is taken here', "name": "★ Categorical PHARMACOPHORE handles — a functional group both paralogues lack",
             "status": "LIVE — NEW framing of an existing measurement", "novelty": "NEW",
             "physical_basis": (
                 "Six of Route A's divergent pocket residues are not merely different but CATEGORICALLY "
@@ -856,7 +856,7 @@ def mechanisms(M):
                 "resting on an uncommitted artifact and the worst geometry reliability in the set."),
         },
         {
-            "id": "S5", "name": "Ternary interface discrimination (rung 5b-T)",
+            "id": "S5", "known_answer_short": '⚠ partially — `V2` 0.839 post-horizon, `V1` one contact in one pair', "positive_control_short": 'yes for assembly; ⛔ **no** for the selectivity read (`V11` 0/2)', "cheapest_test_short": '**$0 CPU — rung `5b-T`, needs no authorization**', "name": "Ternary interface discrimination (rung 5b-T)",
             "status": "LIVE — $0, unauthorized-free, and on the roadmap as row 1", "novelty": "current",
             "physical_basis": "the induced target-E3 interface differs between paralogues; V1 reads it structurally",
             "instrument": "V2 (assembly-route generator, PASSES in scope) -> V1 (interface descriptor, PASSES in scope)",
@@ -886,7 +886,7 @@ def mechanisms(M):
                 "readout is the one that has already failed twice."),
         },
         {
-            "id": "S6", "name": "Linker length AS the selectivity filter — 'shortest viable linker' as a design principle",
+            "id": "S6", "known_answer_short": 'n/a for reach (enumeration); ⛔ **NO** for the exposure half', "positive_control_short": 'geometry only — no experimental control without a bench', "cheapest_test_short": '$0 — already computed and committed', "name": "Linker length AS the selectivity filter — 'shortest viable linker' as a design principle",
             "status": "LIVE — publishable as a principle, with one caveat that must travel with it", "novelty": "current",
             "physical_basis": (
                 "P(a paralogue cysteine is also reached | an NR4A3-unique one is) climbs monotonically with "
@@ -922,7 +922,7 @@ def mechanisms(M):
                 "the failed exposure criterion. Stated at 16-20 atoms it inherits V17's false negative."),
         },
         {
-            "id": "S7", "name": "Degradation-competence selectivity — a unique lysine in the transfer zone",
+            "id": "S7", "known_answer_short": '⛔ **NO** — `V18` has none, and the roadmap says so', "positive_control_short": '⛔ **not with any system named here** — the confound is in the biology', "cheapest_test_short": '$0 — taken (M1), and it refutes the availability form', "name": "Degradation-competence selectivity — a unique lysine in the transfer zone",
             "status": "SPLIT: the availability form is refuted here; the joint form is live but uncalibrated",
             "novelty": "current (the roadmap's third route)",
             "physical_basis": (
@@ -957,7 +957,7 @@ def mechanisms(M):
                 "form is a rare coincidence read off a best-of-N-prone statistic."),
         },
         {
-            "id": "S8", "name": "E3 recruiter choice as a selectivity lever",
+            "id": "S8", "known_answer_short": '⛔ **NO**, and the readout is unstable under a nuisance variable', "positive_control_short": 'moot until staging precision is fixed', "cheapest_test_short": '$0 — taken (M6)', "name": "E3 recruiter choice as a selectivity lever",
             "status": "BLOCKED — not by capability but by measurement precision", "novelty": "current",
             "physical_basis": "different recruiters give different ternary interfaces and different lysine reach",
             "instrument": "the orientation-basin search, per arm",
@@ -979,7 +979,7 @@ def mechanisms(M):
                 "and that is a methods problem with no rung."),
         },
         {
-            "id": "S9", "name": "Kinetic / residence-time selectivity",
+            "id": "S9", "known_answer_short": '⛔ **NO** — and metadynamics already failed cross-replica on a simpler CV', "positive_control_short": 'exists in the literature; the instrument does not exist here', "cheapest_test_short": '⛔ none is cheap — nothing here could test it', "name": "Kinetic / residence-time selectivity",
             "status": "NO INSTRUMENT — and the nearest one has already failed on a simpler quantity", "novelty": "current",
             "physical_basis": "equal Kd with unequal k_off gives unequal occupancy under washout, and degradation is a kinetic readout",
             "instrument": ("nothing in this repo computes k_off, residence time or an unbinding barrier. The "
@@ -1001,7 +1001,7 @@ def mechanisms(M):
             "why_this_grade": "Enumerated for completeness and for the record that it was considered and costed as unbuildable here.",
         },
         {
-            "id": "S10", "name": "Cooperativity (alpha) differences between paralogues",
+            "id": "S10", "known_answer_short": '⛔ **RUN AND FAILED** — wrong sign, 3/3 replicates, ~34× its uncertainty', "positive_control_short": '**yes — it was built, was run, and refuted the instrument**', "cheapest_test_short": '$0 — the leverage calculation, taken here (M7)', "name": "Cooperativity (alpha) differences between paralogues",
             "status": "HIGH LEVERAGE, INSTRUMENT FAILED", "novelty": "current",
             "physical_basis": "alpha multiplies the ternary population; a paralogue with lower alpha is spared at the same occupancy",
             "instrument": "V5 (alchemical ternary ddG_coop, valB_mini)",
@@ -1029,7 +1029,7 @@ def mechanisms(M):
                 "prospective tail is blocked."),
         },
         {
-            "id": "S11", "name": "★ Categorical covalent at a NON-cysteine unique nucleophile (Tyr / Met / Lys)",
+            "id": "S11", "known_answer_short": "⛔ **NO** — inherits `V17`'s false negative, plus a literature judgement", "positive_control_short": 'yes for geometry; none for the chemistry without a bench', "cheapest_test_short": '$0 — taken (M2); both rulers reported', "name": "★ Categorical covalent at a NON-cysteine unique nucleophile (Tyr / Met / Lys)",
             "status": "LIVE — NEW, and enumerated here for the first time", "novelty": "NEW",
             "physical_basis": (
                 "The categorical argument is about a residue type the paralogues lack — nothing in it is "
@@ -1074,7 +1074,7 @@ def mechanisms(M):
                 "uncomfortably."),
         },
         {
-            "id": "S12", "name": "★ Fusion-junction selectivity — target EWSR1::NR4A3, not NR4A3",
+            "id": "S12", "known_answer_short": 'n/a — nothing is built', "positive_control_short": "⚠ hard — a disordered moiety is lesson 1's worst case", "cheapest_test_short": '$0 — a sequence-level junction inventory needs no structure', "name": "★ Fusion-junction selectivity — target EWSR1::NR4A3, not NR4A3",
             "status": "NO RUNG, NO GATE, NO PRICE — the largest unclaimed mechanism on the board", "novelty": "NEW framing of R13",
             "physical_basis": (
                 "The disease object is the fusion oncoprotein. It carries an EWSR1 N-terminal moiety and a "
@@ -1111,7 +1111,7 @@ def mechanisms(M):
                 "structure of a disordered region."),
         },
         {
-            "id": "S13", "name": "★ Two-point AND-gate engagement (cryptic pocket AND C397 simultaneously)",
+            "id": "S13", "known_answer_short": 'n/a — a design architecture, not a measurement', "positive_control_short": 'yes in the literature (bivalent / AND-gate degraders)', "cheapest_test_short": '**$0 — it is a DECISION, and it has never been asked**', "name": "★ Two-point AND-gate engagement (cryptic pocket AND C397 simultaneously)",
             "status": "BLOCKED ON A DECISION NOBODY HAS ASKED FOR", "novelty": "NEW framing",
             "physical_basis": (
                 "If binding requires BOTH a pocket interaction and a covalent capture at a unique residue, "
@@ -1140,7 +1140,7 @@ def mechanisms(M):
                 "C+/D, and multiplying an unvalidated term by a validated one does not validate it."),
         },
         {
-            "id": "S14", "name": "★ Conformational-selection selectivity — differential cryptic-pocket opening",
+            "id": "S14", "known_answer_short": '⛔ **NO** — Gate 1 failed as registered; seeds do not share an F(Rg)', "positive_control_short": '⛔ no — a reproducibility failure is not repaired by a control', "cheapest_test_short": '$0 — taken (M5), and it refutes the categorical form', "name": "★ Conformational-selection selectivity — differential cryptic-pocket opening",
             "status": "CATEGORICAL FORM REFUTED HERE; quantitative form is requirement R6", "novelty": "NEW test of an old assumption",
             "physical_basis": "a binder requiring the open state is selective if the paralogues open less readily",
             "instrument": "V13 (metadynamics F(Rg)) — its only demonstrated reading is in the closed-route register",
@@ -1164,7 +1164,7 @@ def mechanisms(M):
                 "state remains $0 and fully defensible."),
         },
         {
-            "id": "S15", "name": "★ Reciprocal anti-handle avoidance — design AWAY from the paralogues' own unique residues",
+            "id": "S15", "known_answer_short": 'n/a in the free-energy sense — it is a geometric constraint', "positive_control_short": "**yes — the register's cleanest: NR4A1 C551 / celastrol is an anti-handle**", "cheapest_test_short": '$0 — the closure data is committed; only the constraint is missing', "name": "★ Reciprocal anti-handle avoidance — design AWAY from the paralogues' own unique residues",
             "status": "LIVE — free, and it is already the binding constraint", "novelty": "NEW as an explicit axis",
             "physical_basis": (
                 "The mirror of S1. NR4A1 carries 14 reciprocal-unique reactive residues and NR4A2 carries 5 "
@@ -1199,7 +1199,7 @@ def mechanisms(M):
                 "a mechanism: it can only ever narrow the design space, never widen the margin."),
         },
         {
-            "id": "S16", "name": "★ Pharmacological window as an amplifier — dose, Dmax and the hook",
+            "id": "S16", "known_answer_short": 'n/a — an equilibrium identity, not an estimator', "positive_control_short": 'yes trivially; nothing here needs one', "cheapest_test_short": '$0 — taken (M7)', "name": "★ Pharmacological window as an amplifier — dose, Dmax and the hook",
             "status": "NOT A SELECTIVITY MECHANISM — a conversion between one and an observable", "novelty": "NEW",
             "physical_basis": (
                 "Degradation is not linear in binding. A given margin becomes an observable window through "
@@ -1228,7 +1228,7 @@ def mechanisms(M):
                 "higher because it produces no selectivity of its own."),
         },
         {
-            "id": "S17", "name": "★ Expression-context selectivity — a tissue-restricted E3, or a paralogue that is not there",
+            "id": "S17", "known_answer_short": 'n/a — a data lookup, not an estimator', "positive_control_short": 'yes — tissue-restricted E3 degraders are an established concept', "cheapest_test_short": '$0 — E3 half already answered; paralogue half is a 1-line CI change', "name": "★ Expression-context selectivity — a tissue-restricted E3, or a paralogue that is not there",
             "status": "REFUTED for the E3 half on committed data; UNTESTED for the paralogue half", "novelty": "NEW",
             "physical_basis": (
                 "A degrader is only active where its full CRL arm is expressed, and a paralogue that is not "
@@ -1266,6 +1266,16 @@ def mechanisms(M):
 # =============================================================================================================
 # markdown
 # =============================================================================================================
+_LETTER = {"A": 0, "B": 1, "C": 2, "D": 3, "F": 4}
+_MODIFIER = {"+": 0, "": 1, "-": 2}
+
+
+def _grade_sort(m):
+    """Best first: A- ... B+ B B- ... — so '+' must sort BEFORE '' and '-', which plain string order does not."""
+    g = m["grade"]
+    return (_LETTER[g[0]], _MODIFIER.get(g[1:], 1), m["id"])
+
+
 def to_markdown(d):
     L = []
     A = L.append
@@ -1297,14 +1307,12 @@ def to_markdown(d):
     A("Grades: " + " · ".join(f"**{k}** {v}" for k, v in GRADE_KEY.items()))
     A("")
     A("| grade | id | mechanism | new? | instrument passed a known-answer test **in the needed regime**? | "
-      "could a valid positive control exist here? |")
-    A("|---|---|---|---|---|---|")
-    order = {"A": 0, "B": 1, "C": 2, "D": 3, "F": 4}
-    for m in sorted(d["mechanisms"], key=lambda m: (order[m["grade"][0]], m["grade"], m["id"])):
+      "could a valid positive control exist here? | cheapest decisive test |")
+    A("|---|---|---|---|---|---|---|")
+    for m in sorted(d["mechanisms"], key=_grade_sort):
         new = "★ **NEW**" if m["novelty"].startswith("NEW") else "—"
-        ka = m["known_answer_test_in_the_needed_regime"].split(".")[0][:110]
-        pc = m["positive_control_possible"].split(".")[0][:110]
-        A(f"| **{m['grade']}** | `{m['id']}` | {m['name']} | {new} | {ka} | {pc} |")
+        A(f"| **{m['grade']}** | `{m['id']}` | {m['name']} | {new} | {m['known_answer_short']} | "
+          f"{m['positive_control_short']} | {m['cheapest_test_short']} |")
     A("")
     A("---")
     A("")
@@ -1330,7 +1338,7 @@ def to_markdown(d):
     A("")
     A("## Every mechanism in full")
     A("")
-    for m in sorted(d["mechanisms"], key=lambda m: (order[m["grade"][0]], m["grade"], m["id"])):
+    for m in sorted(d["mechanisms"], key=_grade_sort):
         A(f"### `{m['id']}` {m['name']} — grade **{m['grade']}**")
         A("")
         A(f"**Status:** {m['status']}  ·  **{m['novelty']}**")
@@ -1391,9 +1399,10 @@ def build():
         by_grade.setdefault(m["grade"][0], []).append(m["id"])
 
     headline = [
-        "**The shortlist was three; the enumeration is 17.** Nine mechanisms in this register had no row, "
-        "node or mention anywhere in the program before this file, and two of the nine are graded above the "
-        "incumbent's nearest rival.",
+        f"**The shortlist was three; the enumeration is {len(mechs)}.** "
+        f"{sum(1 for m in mechs if m['novelty'].startswith('NEW'))} mechanisms in this register had no row, "
+        "node or mention anywhere in the program before this file — and one of them (`S3`) grades **above "
+        "every non-incumbent option the program already had**, while a second (`S15`) ties the best of them.",
         "**★ The best genuinely-new option is STERIC EXCLUSION (`S3`, B+)** — three Pocket-5 positions where "
         f"both paralogues carry a strictly bulkier side chain. Measured here with its own null: "
         f"{M['M3']['by_position_class']['unique_and_both_bulkier']['rate']} paralogue-only clash against a "
