@@ -542,10 +542,40 @@ and have never been run:**
   document's own reading of the selcal null is that SMARCA2/4 selectivity *"turns on a single Gln1469
   hydrogen bond"* — i.e. a point mutation. Conditional on a measured mutational value existing in a primary
   source, which is a $0 check that must precede any spend (Open decision 7).
+  ⛔ **THE $0 CHECK RAN ON 2026-08-02 AND THE ANSWER IS NO. THIS ARM IS CLOSED ON EVIDENCE, NOT ON BUDGET.**
+  One home for the verdict and every reading behind it:
+  [`pmx-mutation-reference-precheck.json`](research/modalities/pmx-mutation-reference-precheck.json)
+  (generator [`pmx_mutation_reference.py`](research/modalities/pmx_mutation_reference.py)) —
+  **`STOP_NO_REFERENCE`**. Do not restate its counts here. The Gln1469 contact is documented
+  **structurally** (a hydrogen bond in a crystal) and **functionally** (cellular degradation ratios), and
+  **neither is a measured interface mutational ΔΔG** — so the run would have had no known answer to be
+  scored against, which is the defect that cost this program three withdrawn selectivity claims.
+  ⚠ **The nearest measured thing is named rather than hidden, because it is what a reader will ask about:**
+  an interface point mutation *has* been measured in this exact system — **VHL R69A** (Farnaby 2019,
+  PMC6600871) — but it sits on the **E3 arm** rather than the paralogue-discriminating residue, and its
+  reported quantity is a **TR-FRET cooperativity ratio**, not a binding ΔΔG. Converting one into the other
+  would fabricate the link this program does not have.
 
-Neither is authorized here and neither is a positive control for paralogue *degradation* selectivity. They
-are recorded because "nothing is left" was the wrong sentence, and a tally that closes a search is worth
-exactly as much as the search behind it.
+**Authorization is no longer what blocks the pmx arm — evidence is (trimcrae, 2026-08-02: *"pmx only"*).**
+The superseded line, retained because it stood until that answer:
+*"Neither is authorized here."* The ABFE arm above is **still not authorized**; the pmx arm **was**, and
+then failed its own $0 precondition, which is a stronger and more durable reason to leave it unrun.
+Neither is a positive control for paralogue *degradation* selectivity. They are recorded because "nothing
+is left" was the wrong sentence, and a tally that closes a search is worth exactly as much as the search
+behind it.
+
+★ **WHAT WOULD UNBLOCK THE INSTRUMENT — and it is a different question from the one just closed.** The
+precheck refuses the *SMARCA2/4 application*. The lane's own stated limitation is separate and now has a
+concrete, priced answer: the qualified set **brackets** the wedge (+3.4 hot spot, ~0 near-null) and covers
+nothing at the size a paralogue-scale difference has, so
+[pricing.md](research/compute/pricing.md) records that the confirmatory line *"may not claim to resolve a
+paralogue-scale difference"*. Scanning all 7,085 SKEMPI rows for a wedge-sized, charge-conserving,
+buildable mutation of 1BRS returns **exactly one** candidate —
+[`protfep-wedge-band-candidates.json`](research/modalities/protfep-wedge-band-candidates.json), 29
+rejected — and it is now defined as `barnase_barstar_W35F` and CI-verified to stage. It is deliberately
+**not** in `protfep_bench.QUALIFICATION_SET`, so it cannot flip the engine's committed verdict without a
+measurement. ⚠ **It would settle whether THIS ENGINE resolves a ~1 kcal/mol interface effect. It is not a
+selectivity control, involves no paralogue, and passing it would license no SMARCA2/4 or NR4A3 claim.**
 
 ---
 
