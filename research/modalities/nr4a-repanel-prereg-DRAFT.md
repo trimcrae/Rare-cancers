@@ -132,6 +132,18 @@ makes the co-fold model the unit of independence.
 (0.64 / 0.67 / 0.72 / 0.74 at n = 3/4/5/6 where the approximation claimed 0.80), reproduced here at this
 design. **No power claim in this document may be sourced from the approximation.**
 
+⚠⚠ **EVERY FIGURE ABOVE IS AN UPPER BOUND, AND THE REASON IS IN THE FUNCTION'S OWN DOCSTRING.**
+`power_primary` replicates the frozen conjunction — statistic negative, the primary arm below **both**
+paralogue means, and p ≤ α — but **it does not apply leave-one-model-out**, because LOMO was outside that
+conjunction on the panel it was written for. **§4 of this document REQUIRES LOMO survival.** Adding a
+further condition can only lower the probability of passing all of them, so the true power of the criterion
+registered here is **at or below** each number in these tables. That direction is stated rather than
+estimated: quantifying it would need a LOMO-aware simulator, and an unmeasured correction is not a number.
+
+*(The arithmetic does not depend on which arm is designated primary — the arms are equal-sized, so the
+figures hold whichever paralogue the reference literature puts in the numerator. Which one that is remains
+⬜ below, and it is a direction to be stated, not a power question.)*
+
 ### 4c · ⛔ WHAT THIS DESIGN CANNOT DETECT — and it is the observed effect
 
 Against the separations the landed NR-V04 panel actually showed:

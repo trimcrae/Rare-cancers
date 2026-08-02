@@ -189,3 +189,16 @@ def test_supervision_is_a_precondition():
     t = _text()
     assert "leaked_usd" in t and "25.83" in t
     assert "precondition" in t.lower()
+
+
+def test_the_power_figures_are_declared_UPPER_BOUNDS():
+    """⚠ `power_primary`'s own docstring says it does NOT apply leave-one-model-out — LOMO sat outside the
+    conjunction on the panel it was written for. §4 of this prereg REQUIRES LOMO survival, and adding a
+    condition can only lower the pass probability. So every figure is an upper bound, and the already-bleak
+    power against the observed effect is bleaker still. Stated as a DIRECTION, not an estimate: quantifying
+    it needs a LOMO-aware simulator, and an unmeasured correction is not a number."""
+    t = _text()
+    assert "UPPER BOUND" in t.upper()
+    assert "leave-one-model-out" in t or "LOMO" in t
+    assert "at or below" in t
+    assert "an unmeasured correction is not a number" in t
