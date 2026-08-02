@@ -138,13 +138,20 @@ jobs:
             --out research/modalities/protfep-wedge-band-candidates.json
       - name: Commit the reference check + the wedge-band scan
         if: ${{ github.event.inputs.task == 'refcheck' }}
+        # ⚠ `git diff --quiet -- <path>` is a NO-OP for an UNTRACKED path, so this step exited 0 and
+        # committed NOTHING for every run since 2026-07-25 — which is exactly why neither
+        # protfep-reference-check.json nor protfep-wedge-band-candidates.json has ever appeared in the
+        # repo. `git add` first, then ask the INDEX. (Measured 2026-08-02, same bug, same file.)
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           PATHS="research/modalities/protfep-reference-check.json research/modalities/protfep-wedge-band-candidates.json"
-          if ! git diff --quiet -- $PATHS; then
-            git add $PATHS
+          git add -- $PATHS
+          if git diff --cached --quiet -- $PATHS; then
+            echo "no change to $PATHS"
+          else
             git commit -m "5a-KS: verify references against SKEMPI 2.0 + scan for a wedge-sized benchmark"
+            git pull --rebase origin ${{ github.ref_name }}
             git push origin HEAD:${{ github.ref_name }}
           fi
 
@@ -183,22 +190,49 @@ jobs:
           python - <<'PY'
           import json
           d = json.load(open("research/modalities/pmx-mutation-reference-precheck.json"))
-          v = d["verdict"]
+          v, s = d["verdict"], d["skempi"]
           print("::notice title=pmx mutation-reference precheck::%s" % v["decision"])
           print(v["sentence"])
+          print()
+          print("SKEMPI: %d rows scanned | on-interface: %d by PDB + %d by paired name | "
+                "off-interface leads: %d"
+                % (s.get("n_rows_scanned", 0), s.get("n_pdb_hits", 0),
+                   s.get("n_name_hits_paired", 0), s.get("n_name_leads", 0)))
+          for r in (s.get("pdb_hits") or []) + (s.get("name_hits_paired") or []):
+              print("  ON-INTERFACE %s %s %s/%s ddG=%s" % (r.get("pdb_entry"), r.get("mutation_cell"),
+                                                           r.get("protein_1"), r.get("protein_2"),
+                                                           r.get("ddg_kcal")))
+          for c in (s.get("name_lead_complexes") or [])[:25]:
+              print("  lead (NOT counted): %s" % c)
+          for row in d["europe_pmc"]:
+              n = sum(len(rec.get("fulltext_mutational_spans") or []) +
+                      len(rec.get("abstract_mutational_spans") or []) for rec in row["records"])
+              print("  EPMC %-28s hits=%s spans=%d err=%s"
+                    % (row["tag"], row["n_hits"], n, row["error"]))
           print()
           print("CAVEAT: %s" % d["caveat_that_must_travel_with_any_result"])
           PY
       - name: Commit the precheck artifact
+        # ⚠ `git diff --quiet -- <path>` is a NO-OP for an UNTRACKED path: it compares the index to the
+        # worktree for files the index knows about, so a brand-new artifact reads as "no change" and the
+        # commit is skipped while the step still exits 0. Measured 2026-08-02 on this very workflow —
+        # the first precheck run reported PROCEED and committed nothing, and the same bug is why
+        # `protfep-wedge-band-candidates.json` has never landed despite its step passing since 2026-07-25.
+        # `git add` FIRST, then ask the INDEX. A silent no-commit is the worst failure shape available:
+        # a verdict that exists only in a log is not a committed artifact and cannot be cited.
         run: |
           set -eo pipefail
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           P=research/modalities/pmx-mutation-reference-precheck.json
-          if ! git diff --quiet -- $P; then
-            git add $P
+          git add -- "$P"
+          if git diff --cached --quiet -- "$P"; then
+            echo "no change to $P"
+          else
             git commit -m "pmx precheck: does a measured mutational ddG exist for the SMARCA2/4 contact? (\$0)"
+            git pull --rebase origin ${{ github.ref_name }}
             git push origin HEAD:${{ github.ref_name }}
           fi
+          test -s "$P"
 
   # ------------------------------------------------------------------ free: image
   bake:

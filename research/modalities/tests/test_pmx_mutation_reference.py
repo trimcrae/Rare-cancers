@@ -38,16 +38,39 @@ def test_empty_table_is_a_load_failure_not_a_finding():
 
 def test_pdb_and_name_scans_are_independent_routes_to_the_same_row():
     text = _csv("6HAX_A_B;QA98L;SMARCA2 bromodomain;VHL;1E-6;1E-7;298",
-                "9XYZ_A_B;LA10A;Bromodomain-containing protein 4;Elongin C;1E-6;1E-7;298",
+                "9XYZ_A_B;LA10A;SMARCA4 bromodomain;Elongin C;1E-6;1E-7;298",
                 "1ABC_A_B;YA29A;Lysozyme;Antibody;1E-6;1E-7;298")
     scan = pmr.skempi_scan(text)
     assert scan["loaded"] is True
     assert scan["n_pdb_hits"] == 1                      # only 6HAX is in CANDIDATE_PDBS
-    assert scan["n_name_hits"] == 2                     # smarca + bromodomain/elongin
+    assert scan["n_name_hits_paired"] == 1              # SMARCA4 vs Elongin C: both arms, other deposit
+    assert scan["n_name_leads"] == 0
     # ddG is RECOMPUTED from the Kd pair, never read off a cell
     assert scan["pdb_hits"][0]["ddg_kcal"] == pytest.approx(1.363, abs=0.01)
-    # the unrelated complex is in neither bucket
-    assert all("Lysozyme" not in str(r.get("protein_1")) for r in scan["name_hits"])
+    # the unrelated complex is in no bucket at all
+    assert all("Lysozyme" not in str(r.get("protein_1"))
+               for r in scan["name_hits_paired"] + scan["name_leads"])
+
+
+def test_a_single_substring_match_is_a_LEAD_and_can_never_satisfy_the_gate():
+    """The regression that this whole three-bucket split exists for.
+
+    The first version of the gate pooled every name match and returned PROCEED off a 2.048 kcal/mol
+    record that a promiscuous substring had matched somewhere else in the database. A bromodomain is
+    not THIS bromodomain, and a populated field is not a measured one (CLAUDE.md section 4b).
+    """
+    # a big, real, entirely off-interface effect: BRD4 against a histone, not against the E3
+    scan = pmr.skempi_scan(_csv("8ABC_A_B;YA29A;Bromodomain-containing protein 4;Histone H4;1E-2;1E-7;298"))
+    assert scan["n_pdb_hits"] == 0
+    assert scan["n_name_hits_paired"] == 0
+    assert scan["n_name_leads"] == 1
+    assert scan["name_leads"][0]["ddg_kcal"] > 5.0      # a large measured number, and irrelevant
+    v = pmr.verdict(scan, [{"tag": "q", "query": "q", "error": None, "records": []}])
+    assert v["decision"] == "STOP_NO_REFERENCE"
+    assert v["gates"]["G1_measured_primary_source"]["met"] is False
+    assert v["gates"]["G1_measured_primary_source"]["skempi_offinterface_name_leads"] == 1
+    # and the lead is still SURFACED, because discovery is its job
+    assert scan["name_lead_complexes"]
 
 
 def test_unparseable_affinity_is_recorded_not_dropped():

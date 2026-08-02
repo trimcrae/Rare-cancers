@@ -135,9 +135,19 @@ CANDIDATE_PDBS = [
 #: Protein-name substrings to scan the WHOLE database for. A PDB-keyed scan alone would miss a record
 #: curated against a different deposit of the same proteins, which is an ABSENT READING, not a reading
 #: of absence (CLAUDE.md section 4).
-CANDIDATE_PROTEIN_NAMES = [
-    "smarca", "brg1", "brg-1", "brm ", "von hippel", "vhl", "elongin", "bromodomain", "brd4",
-]
+#
+# ⚠ THE SPLIT BELOW IS LOAD-BEARING AND WAS ADDED AFTER THE GATE GOT IT WRONG (measured 2026-08-02).
+# The first version pooled every substring into one list and let ANY name hit satisfy G1. It returned
+# PROCEED off a 2.048 kcal/mol record that a promiscuous substring had matched somewhere else in the
+# database entirely -- a populated field read as a measured one, which is the failure CLAUDE.md
+# section 4(b) names. So the two arms of the interface are now tracked separately, and a name hit only
+# counts as ON THIS INTERFACE when one partner is the TARGET arm and the other is the E3 arm.
+TARGET_ARM_NAMES = ["smarca", "brg1", "brg-1", "brahma", "brm2", "snf2"]
+E3_ARM_NAMES = ["von hippel", "vhl", "elongin", "cul2", "rbx"]
+#: Discovery-only. A hit here is a LEAD for a human to read, never a value: the adjacent VHL-PROTAC
+#: ternaries are a different neo-interface, and a bromodomain is not this bromodomain.
+ADJACENT_NAMES = ["bromodomain", "brd4", "brd2", "brd3", "bet family"]
+CANDIDATE_PROTEIN_NAMES = TARGET_ARM_NAMES + E3_ARM_NAMES + ADJACENT_NAMES
 
 #: Europe PMC searches. Each is a QUERY, not a conclusion. They are deliberately layered from the
 #: narrowest (the exact residue) to the broadest (any mutational thermodynamics on a PROTAC ternary
@@ -267,6 +277,18 @@ def caveat():
 def skempi_scan(csv_text, pdbs=None, name_substrings=None):
     """Every SKEMPI record touching this system, by PDB and by protein NAME. Pure.
 
+    THREE BUCKETS, AND THE DIFFERENCE BETWEEN THEM IS THE WHOLE POINT:
+
+      `pdb_hits`         -- keyed to a deposited entry of THIS interface. On-interface by construction.
+      `name_hits_paired` -- one partner is the TARGET arm (SMARCA/BRG/BRM) and the other is the E3 arm
+                            (VHL/Elongin/Cul2). On-interface by identity even if curated against a
+                            deposit this module does not list. These are the ones the name scan exists
+                            to catch.
+      `name_leads`       -- a single substring matched. A LEAD for a human to read, never a value: a
+                            bromodomain is not this bromodomain, and a promiscuous substring matching
+                            somewhere else in the database is exactly how the first version of this
+                            gate returned PROCEED off an unrelated 2.048 kcal/mol record.
+
     Returns a dict. An unparseable or empty table is reported as a LOAD FAILURE and never as the
     finding that no record exists -- that distinction is the one that made this repo apply a card
     floor to a live lane on a misread (CLAUDE.md section 4).
@@ -276,7 +298,9 @@ def skempi_scan(csv_text, pdbs=None, name_substrings=None):
     pdbs = [p.upper() for p in (pdbs or CANDIDATE_PDBS)]
     names = [n.lower() for n in (name_substrings or CANDIDATE_PROTEIN_NAMES)]
     out = {"source": rc.SKEMPI_URL, "pdbs_queried": pdbs, "name_substrings_queried": names,
-           "n_rows_scanned": 0, "pdb_hits": [], "name_hits": [], "errors": [], "loaded": False}
+           "target_arm_names": TARGET_ARM_NAMES, "e3_arm_names": E3_ARM_NAMES,
+           "n_rows_scanned": 0, "pdb_hits": [], "name_hits_paired": [], "name_leads": [],
+           "errors": [], "loaded": False}
 
     rows, columns, errors = rc.parse_skempi(csv_text or "")
     out["n_rows_scanned"] = len(rows)
@@ -318,20 +342,39 @@ def skempi_scan(csv_text, pdbs=None, name_substrings=None):
             rec["ddg_unavailable_because"] = str(e)
         return rec
 
+    def _arm(text, family):
+        t = (text or "").lower()
+        return [n for n in family if n in t]
+
     for row in rows:
         entry = str(row.get(c_pdb, "") or "").upper()
         if any(entry.startswith(p) for p in pdbs):
             out["pdb_hits"].append(_record(row, "pdb"))
-        blob = " ".join(str(row.get(c) or "") for c in (c_p1, c_p2) if c).lower()
-        if blob and any(n in blob for n in names):
-            out["name_hits"].append(_record(row, "protein_name"))
+            continue
+        p1 = str(row.get(c_p1) or "") if c_p1 else ""
+        p2 = str(row.get(c_p2) or "") if c_p2 else ""
+        blob = (p1 + " " + p2).lower()
+        if not blob.strip() or not any(n in blob for n in names):
+            continue
+        # PAIRED means the two partners are the two arms of THIS interface, in either order.
+        paired = ((_arm(p1, TARGET_ARM_NAMES) and _arm(p2, E3_ARM_NAMES)) or
+                  (_arm(p2, TARGET_ARM_NAMES) and _arm(p1, E3_ARM_NAMES)))
+        rec = _record(row, "protein_name_paired" if paired else "protein_name_lead")
+        rec["matched_substrings"] = sorted(set(_arm(blob, names)))
+        (out["name_hits_paired"] if paired else out["name_leads"]).append(rec)
 
     out["n_pdb_hits"] = len(out["pdb_hits"])
-    out["n_name_hits"] = len(out["name_hits"])
+    out["n_name_hits_paired"] = len(out["name_hits_paired"])
+    out["n_name_leads"] = len(out["name_leads"])
     # Cap the emitted rows so one promiscuous name substring cannot bloat the artifact; the COUNTS
-    # above are complete and are what the verdict reads.
+    # above are complete and are what the verdict reads. Leads are capped hardest because they are the
+    # bucket that is allowed to be noisy -- their job is to be read, not to be counted.
     out["pdb_hits"] = out["pdb_hits"][:200]
-    out["name_hits"] = out["name_hits"][:200]
+    out["name_hits_paired"] = out["name_hits_paired"][:200]
+    out["name_lead_complexes"] = sorted({
+        "%s | %s / %s" % (r.get("pdb_entry"), r.get("protein_1"), r.get("protein_2"))
+        for r in out["name_leads"]})[:100]
+    out["name_leads"] = out["name_leads"][:60]
     return out
 
 
@@ -430,18 +473,28 @@ def verdict(skempi, epmc, band=None):
     if not epmc_ok:
         blockers.append("no Europe PMC query completed")
 
-    # G1 -- is there a measured, primary-source mutational value on this interface at all?
-    skempi_measured = [r for r in (skempi.get("pdb_hits") or []) + (skempi.get("name_hits") or [])
-                       if r.get("ddg_kcal") is not None]
+    # G1 -- is there a measured, primary-source mutational value ON THIS INTERFACE at all?
+    #
+    # ⚠ ONLY `pdb_hits` AND `name_hits_paired` COUNT. `name_leads` are a single promiscuous substring
+    # match somewhere in a 7,000-row database and are leads for a human, not values — pooling them in
+    # is what made the first run of this gate return PROCEED off an unrelated record (see skempi_scan).
+    on_interface = (skempi.get("pdb_hits") or []) + (skempi.get("name_hits_paired") or [])
+    skempi_measured = [r for r in on_interface if r.get("ddg_kcal") is not None]
     n_spans = sum(len(rec.get("fulltext_mutational_spans") or []) +
                   len(rec.get("abstract_mutational_spans") or [])
                   for row in epmc for rec in row.get("records") or [])
     gates["G1_measured_primary_source"] = {
         "requirement": ("a binding ddG (or a Kd pair it is computable from) for a single point mutation "
                         "at this interface, reported as a MEASUREMENT in a primary source"),
+        "skempi_on_interface_records": len(on_interface),
         "skempi_records_with_computable_ddg": len(skempi_measured),
+        "skempi_offinterface_name_leads": skempi.get("n_name_leads", 0),
         "epmc_candidate_sentences": n_spans,
         "met": bool(skempi_measured),
+        "_what_counts": ("a record keyed to a deposited entry of this interface, or one whose two named "
+                         "partners ARE the two arms of it (target-side SMARCA/BRG/BRM against E3-side "
+                         "VHL/Elongin/Cul2). A single-substring name match elsewhere in the database is "
+                         "a LEAD and is reported in name_leads, never counted here."),
         "_why_spans_alone_do_not_meet_it": (
             "a quoted sentence is a lead, not a value. It meets G1 only after a human transcribes a "
             "specific number from it with the quote attached, which is the standing rule "
@@ -493,7 +546,8 @@ def verdict(skempi, epmc, band=None):
             "STOP -- NO MEASURED REFERENCE EXISTS. Both instruments read cleanly (%d SKEMPI rows "
             "scanned across %d deposited entries and %d protein-name patterns; %d of %d Europe PMC "
             "queries completed) and neither yields a measured binding ddG for a single point mutation "
-            "at the SMARCA2/SMARCA4 - VCB interface. The selectivity contact is documented "
+            "at the SMARCA2/SMARCA4 - VCB interface (%d off-interface name LEADS were found and are "
+            "listed for reading; a lead is not a value). The selectivity contact is documented "
             "STRUCTURALLY (a hydrogen bond seen in a crystal) and FUNCTIONALLY (cellular degradation "
             "DC50 ratios); neither is a measured interface mutational ddG, and converting a DC50 ratio "
             "into one would fabricate the quantitative link this program does not have. A pmx run here "
@@ -501,7 +555,8 @@ def verdict(skempi, epmc, band=None):
             "wearing a control's costume, which is the exact defect that cost this program three "
             "withdrawn selectivity claims. SPEND NOTHING."
             % (skempi.get("n_rows_scanned", 0), len(skempi.get("pdbs_queried") or []),
-               len(skempi.get("name_substrings_queried") or []), len(epmc_ok), len(epmc)))
+               len(skempi.get("name_substrings_queried") or []), len(epmc_ok), len(epmc),
+               skempi.get("n_name_leads", 0)))
     elif not gates["G2_signal_exceeds_band"]["met"]:
         decision = "STOP_BAND"
         sentence = (
