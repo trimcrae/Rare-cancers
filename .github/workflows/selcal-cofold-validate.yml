@@ -289,8 +289,7 @@ jobs:
           find /tmp/nr4a_ternary -name '*.cif' | sed 's|/tmp/nr4a_ternary/||' | sort | awk 'NR<=40'
           echo "n_cif=$(find /tmp/nr4a_ternary -name '*.cif' | wc -l)"
           python3 research/modalities/nr4a_ternary_signature.py \
-            --root /tmp/nr4a_ternary --recursive \
-            --pattern '*{p}*.cif' \
+            --root /tmp/nr4a_ternary \
             --out research/modalities/nr4a-ternary-signature.json
 
       # ★ THE FIX EXPERIMENT, step 1: source non-native binary inputs so DeepTernary can be run on the same
