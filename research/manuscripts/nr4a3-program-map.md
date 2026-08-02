@@ -2223,6 +2223,32 @@ is therefore immune to the resolution problem that blocks both routes below. It 
 which is why it sits under `R12` and not here, but a program that presents "two live routes" without it is
 under-selling its own strongest categorical argument.
 
+⚠ **AND "TWO" (OR THREE) IS A SHORTLIST, NOT AN ENUMERATION — AND A SHORTLIST CANNOT SHOW WHAT WAS NEVER
+CONSIDERED (2026-08-02, $0).** The full enumeration is
+[`selectivity-mechanism-options.md`](../modalities/selectivity-mechanism-options.md) /
+[`.json`](../modalities/selectivity-mechanism-options.json) — **17 mechanisms, of which 9 had no row, node or
+mention anywhere in this program**, each graded on physical basis · instrument · *whether that instrument has
+passed a known-answer test **in the needed regime*** · whether a valid positive control could exist here ·
+cheapest decisive test. **⛔ It is an OPTIONS REGISTER and amends nothing** — no gate, no criterion, no rung,
+no row of [§10.1](#101--open-rows-ordered-by-what-unblocks-the-most). Four of its results bear directly on
+this section and are measured, not argued:
+- ★ **A new mechanism grades above every non-incumbent option on this page: STERIC EXCLUSION (negative
+  design).** At three Pocket-5 positions both paralogues carry a strictly bulkier side chain
+  (L406→His/His, I484→Tyr/Tyr, L534→Phe/Phe), so it is answered by **shape** rather than by a ~1 kcal/mol
+  ΔΔG — the resolution problem Route A cannot escape. Measured **with its own null**, which is the part that
+  matters: paralogue-only clash **0.923** at those three positions against **0.173** at conserved/shared
+  ones, and **0.000** at the paralogue-unique-but-not-bulkier positions.
+- ⛔ **Route A's seven divergent handles split.** Six are *categorically* unique (a residue type absent in
+  both paralogues); only three of those are bulkier in both paralogues, and those three are the only ones the
+  steric test fires on. Uniqueness alone does not create an exclusion.
+- ⛔ **A route this page does not list is refuted there on committed data:** the cryptic pocket is **not**
+  NR4A3-specific — both paralogues reach NR4A3's druggable CV inside their own matched metadynamics, and
+  fpocket rates NR4A1's opened frame **more** druggable. Only the *quantitative* form survives, and that is
+  `R6`, which has no instrument.
+- ⛔ **The `V18` lysine term's intuitive form is refuted there too** — the paralogues are **not** lysine-poor
+  (see the like-for-like triple in [§the Tier-2 result](#-tier-2-result-in-full--the-12-pose-run-at-its-corrected-exact-kernel-values-lane-2-2026-07-25-reach-correction-2026-07-26-0-realized--no-gpu)).
+  What survives is the rare *joint* event, which this page already states correctly.
+
 ### Route A — a warhead engaging paralogue-divergent pocket handles · ○ **blocked, nothing running** · serves `R7`
 
 ⚠ **Superseded, retained:** this heading read *"◐ **in work**"*. Nothing on Route A is running or has ever

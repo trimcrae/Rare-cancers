@@ -403,4 +403,4 @@ Cooperativity is the higher-leverage lever, and it is the one whose instrument f
 - Grades rank mechanisms against each other for PLANNING. A grade is not evidence, and an A- row is still an unvalidated prediction under the roadmap's claim-ceiling rule.
 - Every measurement is conditional on the artifacts it reads, including the docked poses (whose known-answer test returned INCONCLUSIVE on site selection) and the matched opened models.
 
-*Generated 2026-08-02 7:32 PM ET by `selectivity_mechanism_options.py`.*
+*Generated 2026-08-02 7:38 PM ET by `selectivity_mechanism_options.py`.*
