@@ -1,0 +1,82 @@
+name: DeepTernary head-to-head on the two selcal systems ($0 CPU)
+
+# Our Boltz co-folds score DockQ 0.023-0.046 on the target<->VHL interface of 9DTY/9DTX
+# (selcal-cofold-dockq.json, two independent instruments). This runs a DIFFERENT generator, blind, on the
+# SAME two targets and scores it with the SAME instruments against the SAME references.
+#
+# Blindness was established before any of it was built (deepternary-leakage-check.json: 9DTY/9DTX are absent
+# from DeepTernary's disclosed exclusion set), and the control module REFUSES to source inputs if that ever
+# stops holding.
+#
+# ⚠ Expected result is UNKNOWN. DeepTernary's published 0.62-0.83 figures are on structures INSIDE its
+# exclusion set and do not predict blind performance here. What justifies the run is that the incumbent sits
+# at 0.023-0.046 and this costs nothing.
+#
+# ⛔ NO GPU, NO RENTAL. A better score licenses one sentence about generator placement — nothing about NR4A3,
+# degradation or selectivity.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/nr4a1-protac-positive-control-xnszjl]
+    paths:
+      - .github/workflows/selcal-deepternary-headtohead.yml
+      - research/modalities/selcal_deepternary_run.py
+      - research/modalities/selcal-deepternary-prep-configs.json
+
+permissions:
+  contents: write
+
+concurrency:
+  group: selcal-deepternary-headtohead
+  cancel-in-progress: false
+
+env:
+  DT_COMMIT: "827821dccca31a5918bd0355e2d6bf70c072b6dd"
+
+jobs:
+  headtohead:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10" }
+
+      # rdkit for the fragment-overlap check; numpy + DockQ for the two scoring instruments.
+      - name: Deps
+        run: |
+          set -eo pipefail
+          python -m pip install -q "numpy<2" rdkit pytest DockQ
+
+      - name: Guards hold before anything runs
+        run: |
+          set -eo pipefail
+          python3 -m pytest research/modalities/tests/test_selcal_deepternary_controls.py \
+                            research/modalities/tests/test_selcal_deepternary_inputs.py \
+                            research/modalities/tests/test_deepternary_leakage_check.py -q
+
+      # Resolve chains from the fetched files and VERIFY the picked fragments really are fragments of the
+      # degrader. An arm whose fragment is unrelated is REFUSED here, before a prediction is made, because its
+      # score would measure our input error rather than the generator.
+      - name: Resolve chains + verify fragments
+        run: |
+          set -eo pipefail
+          python3 research/modalities/selcal_deepternary_run.py \
+            --workdir /tmp/selcal_dt \
+            --out research/modalities/selcal-deepternary-prep.json
+
+      - name: Publish whatever was established
+        if: ${{ always() }}
+        env:
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          set -eo pipefail
+          sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "selcal DeepTernary head-to-head: chain resolution + fragment verification (CI)" \
+            research/modalities/selcal-deepternary-prep.json \
+            research/modalities/selcal-deepternary-prep-configs.json
