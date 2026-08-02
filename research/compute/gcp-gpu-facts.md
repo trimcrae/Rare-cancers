@@ -222,7 +222,7 @@ refusal below exists to stop.
 | leg | commits | last committed | s / HREX iteration *(phase measured in)* | leg wall-clock h | ns/day per replica | ns/day aggregate (12 windows) |
 |---|---|---|---|---|---|---|
 | **complex** | 70 | production 2000 | **36.00** *(production)* | 24.0 | 6.00 | 72.00 |
-| **solvent** | 10 | warmup 200 | **1.10** *(warmup)* | 0.7 | 196.36 | 2356.36 |
+| **solvent** | 26 | production 240 | **1.09** *(production)* | 0.7 | 198.17 | 2377.98 |
 
 *2.50 ps of MD per replica per iteration, derived from the run's own `warmup_target=400 prod_target=2000` line and `nr4a3_rbfe.py`'s protocol lengths (1.0 ns equilibration / 5.0 ns production).*
 <!-- GCP-S1F-REP-RATE-TABLE:END -->
