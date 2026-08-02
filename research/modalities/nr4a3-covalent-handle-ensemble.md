@@ -89,6 +89,7 @@ Spread across the ensemble is itself the result: a single conformer's number is 
 
 - `committed_unique_residue_map`: **AGREES** (max |ΔRSA| 0.0, max |Δd| 0.0 A)
 - `8xtt_numbering_vs_benchmark`: **AGREES**
+- `nrv04_leg0_cys_conservation`: **AGREES**
 
 ## Which comparisons these numbers license
 
