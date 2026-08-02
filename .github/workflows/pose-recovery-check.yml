@@ -1,0 +1,160 @@
+name: POSE — does the pipeline agree with itself, and can it recover a KNOWN pose? ($0, CPU)
+
+# WHY THIS EXISTS. Everything downstream of denovo_401 — the ternary, the selectivity argument, the ABFE
+# work — is anchored to ONE predicted pose in the NR4A3 LBD, and nobody has ever asked whether the pipeline
+# that produced it can recover a pose that is already known. Two questions, both $0, both CPU:
+#
+#   A. CONVERGENCE (research/modalities/pose_convergence_401.py) — collect every denovo_401-in-NR4A3 pose
+#      the program holds, superpose on the RECEPTOR, and report the SPREAD of pairwise ligand RMSD and
+#      contact agreement. Correspondence is chemical (graph match with automorphisms), never by proximity.
+#      Two of the six known pose sources are committed in git; the four 8XTT re-dock legs exist only in S3
+#      (results/nr4a3-8xtt-redock/MANIFEST.json records them as action="scratch"), so this job pulls them.
+#      A pose it cannot pull is a REFUSAL with the `aws s3 ls` output as evidence — never a silent drop.
+#
+#   B. KNOWN-ANSWER (research/modalities/apo_pose_recovery.py) — source a nuclear-receptor LBD apo/holo
+#      pair by real RCSB query, dock the holo ligand into the APO receptor with the pipeline's own site
+#      transfer and smina settings, and score recovery of the crystallographic pose against a criterion
+#      fixed in that module's docstring BEFORE the first run. Controls: self-dock into holo (a failure
+#      makes the whole thing INCONCLUSIVE), a random-in-box null (the criterion's power), and an oracle
+#      box (decomposition only, never the headline).
+#
+# ⛔ $0 BY CONSTRUCTION: free GitHub CPU runner. No GPU, no SageMaker, no Vast rental, nothing billed.
+# S3 access is READ-ONLY and only for pose files that already exist.
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "which half to run"
+        type: choice
+        options: [both, convergence, benchmark, benchmark_source, benchmark_select]
+        default: both
+      bucket:
+        description: "S3 bucket holding the 8XTT re-dock poses (read-only)"
+        default: "sagemaker-us-east-2-646605541856"
+      redock_prefix:
+        description: "S3 prefix of the 8XTT re-dock working directory"
+        default: "nr4a3-8xtt-redock/redock_work"
+      commit:
+        description: "commit the artifacts back to the triggering branch"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pose-recovery-check-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  pose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-2
+      BUCKET: ${{ inputs.bucket || 'sagemaker-us-east-2-646605541856' }}
+      REDOCK_PREFIX: ${{ inputs.redock_prefix || 'nr4a3-8xtt-redock/redock_work' }}
+      TASK: ${{ inputs.task || 'both' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # smina + fpocket are the pipeline's own tools; rdkit/biopython are what its kernels import.
+      # Nothing is "solved" on a billed machine here — this runner is free (CLAUDE.md §6 applies to
+      # rented hosts and CI alike; the reason it is fine here is that nothing is being paid for).
+      - name: Install smina + fpocket (micromamba) and the python stack
+        run: |
+          set -e
+          cd "$RUNNER_TEMP"
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/denv" -c conda-forge -c bioconda smina fpocket
+          echo "$RUNNER_TEMP/denv/bin" >> "$GITHUB_PATH"
+          python -m pip install --quiet --upgrade pip
+          pip install --quiet rdkit numpy biopython boto3 awscli
+      - name: Tool census (so a missing tool is a named refusal, not a mystery)
+        run: |
+          which smina || echo "MISSING smina"
+          which fpocket || echo "MISSING fpocket"
+          smina --version 2>&1 | head -2 || true
+          fpocket -h 2>&1 | head -3 || true
+          python -c "import rdkit,Bio,numpy;print('rdkit',rdkit.__version__,'numpy',numpy.__version__)"
+
+      # ---------------------------------------------------------------- A. convergence
+      - name: Pull the S3-only 8XTT re-dock poses (read-only; a miss becomes evidence)
+        if: env.TASK == 'both' || env.TASK == 'convergence'
+        run: |
+          set +e
+          mkdir -p research/modalities/_pose_convergence_inputs
+          LOG=research/modalities/_pose_convergence_inputs/_s3_listing.txt
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "NO AWS CREDENTIALS IN THIS RUN — the S3-only poses are UNREAD, not absent." | tee "$LOG"
+            exit 0
+          fi
+          echo "# aws s3 ls s3://$BUCKET/$REDOCK_PREFIX/  (as of $(date -u +'%Y-%m-%dT%H:%M:%SZ'))" > "$LOG"
+          aws s3 ls "s3://$BUCKET/$REDOCK_PREFIX/" >> "$LOG" 2>&1
+          echo "--- exit $? ---" >> "$LOG"
+          for f in docked_nr4a3_m2.sdf docked_nr4a3_m8.sdf docked_nr4a3_m20.sdf docked_nr4a3_m6.sdf \
+                   8xtt_model2_nr4a3.pdb 8xtt_model8_nr4a3.pdb 8xtt_model20_nr4a3.pdb \
+                   8xtt_model6_nr4a3.pdb AF-Q92570.pdb; do
+            aws s3 cp "s3://$BUCKET/$REDOCK_PREFIX/$f" \
+                      "research/modalities/_pose_convergence_inputs/$f" >> "$LOG" 2>&1
+          done
+          echo "--- pulled ---" >> "$LOG"
+          ls -la research/modalities/_pose_convergence_inputs/ >> "$LOG" 2>&1
+          cat "$LOG"
+          exit 0
+      - name: A — pose convergence
+        if: env.TASK == 'both' || env.TASK == 'convergence'
+        run: |
+          cd research/modalities
+          EXTRA_POSE_DIR="$PWD/_pose_convergence_inputs" python -u pose_convergence_401.py
+
+      # ---------------------------------------------------------------- B. known-answer benchmark
+      - name: B — apo pose-recovery known-answer test
+        if: env.TASK != 'convergence'
+        run: |
+          cd research/modalities
+          MODE=$(case "$TASK" in
+                   benchmark_source) echo source ;;
+                   benchmark_select) echo select ;;
+                   *) echo run ;;
+                 esac)
+          MODE="$MODE" APO_RECOVERY_WORK="$RUNNER_TEMP/apo_work" python -u apo_pose_recovery.py
+
+      # ---------------------------------------------------------------- publish
+      - name: Show the artifacts
+        if: always()
+        run: |
+          for f in research/modalities/pose-convergence-401.json research/modalities/apo-pose-recovery.json; do
+            [ -f "$f" ] && { echo "===== $f"; python -c "
+import json,sys
+d=json.load(open('$f'))
+for k in ('_status','_mode','n_usable','verdict','spread','selection'):
+    if k in d: print(k, '=', json.dumps(d[k])[:1400])
+print('refusals:', json.dumps(d.get('refusals') or (d.get('result') or {}).get('refusals') or [])[:900])
+"; }
+          done
+      # workflow_dispatch is the ONLY trigger on this file, so the `inputs` context always exists and the
+      # null-cast bug lint_optional_input_guards.py exists for cannot arise here.
+      - name: Commit artifacts to the triggering branch
+        if: always() && inputs.commit
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/pose-convergence-401.json \
+                     research/modalities/apo-pose-recovery.json \
+                     research/modalities/_pose_convergence_inputs/_s3_listing.txt 2>/dev/null || true
+          git diff --cached --quiet && { echo "no changes"; exit 0; }
+          git commit -m "pose convergence + apo known-answer recovery (CI run ${{ github.run_id }})"
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin "${{ github.ref_name }}" && \
+              git push origin HEAD:"${{ github.ref_name }}" && exit 0
+            echo "push race, retry $i"; sleep $((i * 7))
+          done
+          echo "::error::could not push artifacts after 5 attempts"; exit 1

@@ -1,6 +1,11 @@
 # CLAUDE.md
 
 Full maintenance guide: **[AGENTS.md](./AGENTS.md)**. The research plan: **[STRATEGY.md](./STRATEGY.md)**.
+**What blocks what: [nr4a3-program-map.md](./research/manuscripts/nr4a3-program-map.md) — READ IT BEFORE
+PROPOSING ANY NEXT STEP.** It is the dependency graph of every claim the paper has to establish and which
+instrument each rests on. Its reason for existing is that those dependencies were prose-only, so they were
+re-derived every session and blockers were repeatedly misattributed (trimcrae, 2026-08-02). STRATEGY.md owns
+the plan, gates and costs; the map owns **the order things must happen in and what is currently load-bearing**.
 
 **This file is standing RULES, not the plan and not a status board.** It loads into every session, so it stays
 short by construction: no cost figures, no rung-by-rung ladder, no history. Those live in STRATEGY.md, and
