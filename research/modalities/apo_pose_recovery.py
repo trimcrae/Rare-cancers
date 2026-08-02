@@ -85,6 +85,7 @@ import math
 import os
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -167,6 +168,13 @@ N_BENCHMARKS = 3
 
 #: At most this many pairs from any one protein, so a three-member panel is not one protein three times.
 MAX_PER_PROTEIN = 2
+
+#: Wall-clock budget per candidate pair, and for the panel as a whole. CLAUDE.md §6: the per-unit timeout
+#: is the real hang-guard. One pathological ligand — a substructure match that goes exponential, an RCSB
+#: fetch that stalls — must cost that pair and no more, and must surface as a REFUSAL with its elapsed
+#: time rather than as a killed job with nothing written.
+PAIR_BUDGET_S = int(os.environ.get("APO_PAIR_BUDGET_S", "420"))
+PANEL_BUDGET_S = int(os.environ.get("APO_PANEL_BUDGET_S", "2700"))
 
 
 # ==================================================================================================
@@ -803,9 +811,19 @@ def run_benchmark(cand, work, af2_reference_pdb):
                         "fnat_success": FNAT_SUCCESS, "n_null": N_NULL,
                         "null_power_max": NULL_POWER_MAX}}
 
+    deadline = time.time() + PAIR_BUDGET_S
+
     def refuse(stage, why):
         R_["refusals"].append({"stage": stage, "evidence": why})
         return R_
+
+    def out_of_time(stage):
+        if time.time() > deadline:
+            R_["refusals"].append({"stage": stage, "evidence":
+                                   "pair exceeded its %ds budget; the arms after this point are UNRUN, "
+                                   "not failed" % PAIR_BUDGET_S})
+            return True
+        return False
 
     # 1) structures
     try:
@@ -957,7 +975,7 @@ def run_benchmark(cand, work, af2_reference_pdb):
         arms["PRIMARY_blind_apo_pipeline_box"] = {"rmsd_A": None,
                                                   "why": boxes["pipeline_apo"].get("why")}
     # 9) secondary blind arm — fully agnostic site choice
-    if boxes.get("fpocket_top_apo", {}).get("center"):
+    if not out_of_time("blind_apo_fpocket_top_box") and boxes.get("fpocket_top_apo", {}).get("center"):
         _s, out_sdf = dock(apo_rec, boxes["fpocket_top_apo"]["center"], sdf, "apo_fpocket", work)
         mol, why = _top_pose(out_sdf, comp)
         arms["blind_apo_fpocket_top_box"] = (score_pose(mol) if mol else {"rmsd_A": None, "why": why})
@@ -984,7 +1002,8 @@ def run_benchmark(cand, work, af2_reference_pdb):
                                      else {"rmsd_A": None, "why": why})
     else:
         arms["C1_self_dock_holo"] = {"rmsd_A": None, "why": boxes["pipeline_holo"].get("why")}
-    hp, hwhy = fpocket_boxes(holo_rec)
+    hp, hwhy = (None, "pair budget spent") if out_of_time("C1_self_dock_holo_fpocket") \
+        else fpocket_boxes(holo_rec)
     if hp:
         import nr4a3_warhead as _wh
         try:
@@ -1200,9 +1219,22 @@ def main():
     # actually runs; the rest are supporting cases. Nothing here can be re-ordered by its answer, because
     # the order is fixed by SELECTION_RULES before any structure is fetched.
     panel, attempted = [], 0
+    panel_start = time.time()
     for pair in _panel_candidates(sel):
         attempted += 1
+        if time.time() - panel_start > PANEL_BUDGET_S:
+            panel.append({"candidate": pair, "refusals": [
+                {"stage": "panel_budget",
+                 "evidence": "the panel's %ds wall-clock budget was already spent when this pair came up; "
+                             "it is UNRUN, not excluded" % PANEL_BUDGET_S}]})
+            break
+        t0 = time.time()
         res = run_benchmark(pair, os.path.join(WORK, "%s_%s" % (pair["apo"], pair["holo"])), af2)
+        res["elapsed_s"] = round(time.time() - t0, 1)
+        print("[apo-pose-recovery] %s -> %s (%s): %s in %.0fs"
+              % (pair["apo"], pair["holo"], (pair.get("ligand") or {}).get("comp_id"),
+                 (res.get("verdict") or {}).get("outcome")
+                 or [r["stage"] for r in (res.get("refusals") or [])], res["elapsed_s"]), flush=True)
         panel.append(res)
         if len([r for r in panel if r.get("verdict")]) >= N_BENCHMARKS:
             break

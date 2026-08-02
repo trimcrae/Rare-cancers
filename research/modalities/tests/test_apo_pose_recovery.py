@@ -334,5 +334,15 @@ def test_each_blind_arm_is_reported_against_its_own_control():
     assert block["fpocket_top_pocket"]["blind_apo_rmsd_A"] == 3.1
 
 
+def test_the_panel_has_a_wall_clock_budget_per_pair():
+    """CLAUDE.md §6: the per-unit timeout is the real hang-guard. One pathological ligand must cost that
+    pair and no more, and must surface as a refusal carrying its elapsed time — never as a killed job."""
+    assert A.PAIR_BUDGET_S > 0 and A.PANEL_BUDGET_S > A.PAIR_BUDGET_S
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    assert "out_of_time(" in src, "the arms must honour the deadline, not just record it"
+    assert "are UNRUN, " in src, "a skipped arm must be reported as UNRUN, never as a failure"
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))
