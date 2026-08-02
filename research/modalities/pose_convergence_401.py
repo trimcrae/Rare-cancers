@@ -81,9 +81,18 @@ EXTRA_DIR = os.environ.get("EXTRA_POSE_DIR", os.path.join(HERE, "_pose_convergen
 # ==================================================================================================
 # THE CENSUS — every denovo_401-in-NR4A3 pose this program is known to hold.
 # ==================================================================================================
-# A source is listed whether or not it is readable. `kind` names the method, because the entire value of
-# this measurement rests on the methods failing DIFFERENTLY; two rows with the same `kind` and the same
-# receptor are one method run twice and are labelled as such.
+# A source is listed whether or not it is readable, and carries TWO labels that must not be conflated:
+#   `kind`                 — the pose-GENERATION method. The whole premise of a convergence argument is
+#                            that the methods fail differently, so two rows with the same `kind` are one
+#                            method run twice however different their receptors are.
+#   `receptor_provenance`  — where the receptor conformation came from (a metadynamics frame of an AF2
+#                            prediction, or a deposited apo NMR model). A real and useful axis — an
+#                            experimental receptor removes the AF2 model as a shared failure — but it is
+#                            NOT method orthogonality and is reported separately so it cannot be read as
+#                            such.
+# ⚠ Every source in this census is the SAME `kind`. That is itself the finding of Deliverable A: this
+# program has only ever placed denovo_401 with one pose-generation method, so there is no cross-method
+# convergence to measure, only cross-conformer reproducibility.
 
 def _r(*parts):
     return os.path.join(REPO, *parts)
@@ -96,7 +105,8 @@ def _x(*parts):
 SOURCES = [
     {
         "id": "dock/metad-opened/v2",
-        "kind": "smina dock into a metadynamics-OPENED AF2 frame",
+        "kind": "smina dock, top pose (nr4a3_warhead.dock_into)",
+        "receptor_provenance": "metadynamics-OPENED AF2 prediction",
         "receptor": _r("results", "nr4a3-denovo", "-matrix-v2", "nr4a3-opened.pdb"),
         "poses": _r("results", "nr4a3-denovo", "-matrix-v2", "docked_nr4a3.sdf"),
         "numbering": "renumbered-from-373",
@@ -106,7 +116,8 @@ SOURCES = [
     },
     {
         "id": "dock/metad-opened/v2-statematch",
-        "kind": "smina dock into a metadynamics-OPENED AF2 frame",
+        "kind": "smina dock, top pose (nr4a3_warhead.dock_into)",
+        "receptor_provenance": "metadynamics-OPENED AF2 prediction",
         "receptor": _r("results", "nr4a3-denovo", "-matrix-v2-statematch", "nr4a3-opened.pdb"),
         "poses": _r("results", "nr4a3-denovo", "-matrix-v2-statematch", "docked_nr4a3.sdf"),
         "numbering": "renumbered-from-373",
@@ -117,7 +128,8 @@ SOURCES = [
     # them as action="scratch", i.e. they were never mirrored into git. CI fetches them into EXTRA_DIR.
     {
         "id": "dock/8XTT-model2",
-        "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 2)",
+        "kind": "smina dock, top pose (nr4a3_warhead.dock_into)",
+        "receptor_provenance": "EXPERIMENTAL apo NMR conformer (8XTT model 2)",
         "receptor": _x("8xtt_model2_nr4a3.pdb"),
         "poses": _x("docked_nr4a3_m2.sdf"),
         "numbering": "8XTT-author",
@@ -126,7 +138,8 @@ SOURCES = [
     },
     {
         "id": "dock/8XTT-model8",
-        "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 8)",
+        "kind": "smina dock, top pose (nr4a3_warhead.dock_into)",
+        "receptor_provenance": "EXPERIMENTAL apo NMR conformer (8XTT model 8)",
         "receptor": _x("8xtt_model8_nr4a3.pdb"),
         "poses": _x("docked_nr4a3_m8.sdf"),
         "numbering": "8XTT-author",
@@ -134,7 +147,8 @@ SOURCES = [
     },
     {
         "id": "dock/8XTT-model20",
-        "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 20)",
+        "kind": "smina dock, top pose (nr4a3_warhead.dock_into)",
+        "receptor_provenance": "EXPERIMENTAL apo NMR conformer (8XTT model 20)",
         "receptor": _x("8xtt_model20_nr4a3.pdb"),
         "poses": _x("docked_nr4a3_m20.sdf"),
         "numbering": "8XTT-author",
@@ -142,7 +156,8 @@ SOURCES = [
     },
     {
         "id": "dock/8XTT-model6",
-        "kind": "smina dock into an EXPERIMENTAL apo NMR conformer (8XTT model 6)",
+        "kind": "smina dock, top pose (nr4a3_warhead.dock_into)",
+        "receptor_provenance": "EXPERIMENTAL apo NMR conformer (8XTT model 6)",
         "receptor": _x("8xtt_model6_nr4a3.pdb"),
         "poses": _x("docked_nr4a3_m6.sdf"),
         "numbering": "8XTT-author",
@@ -435,6 +450,7 @@ def load_source(src):
         return None, {"id": src["id"], "stage": "pose", "path": sdf_path, "evidence": why,
                       "kind": src["kind"], "provenance": src["provenance"]}
     return {"id": src["id"], "kind": src["kind"], "provenance": src["provenance"],
+            "receptor_provenance": src.get("receptor_provenance"),
             "receptor": os.path.relpath(rec_path, REPO) if rec_path.startswith(REPO) else rec_path,
             "poses": os.path.relpath(sdf_path, REPO) if sdf_path.startswith(REPO) else sdf_path,
             "n_residues_mapped": len(mapped), "numbering_resolved_by": how,
@@ -469,7 +485,8 @@ def measure(sources=None):
         "_fits": {"global": "every Ca in common between the two receptors, in UniProt Q92570 numbering",
                   "pocket": "Ca of nr4a3_8xtt_benchmark.POCKET5 only — a receptor-derived, pose-independent "
                             "definition of the orthosteric site"},
-        "sources_considered": [{"id": s["id"], "kind": s["kind"]} for s in sources],
+        "sources_considered": [{"id": s["id"], "kind": s["kind"],
+                                "receptor_provenance": s.get("receptor_provenance")} for s in sources],
         "known_absent": KNOWN_ABSENT,
         "refusals": refusals,
         "usable": [{k: v for k, v in r.items() if k not in ("residues", "mol")} for r in loaded],
@@ -520,7 +537,9 @@ def _compare(a, b, cutoff, bm):
     import nr4a3_8xtt_benchmark as bmod
     out = {"a": a["id"], "b": b["id"],
            "independent_receptor": a["receptor"] != b["receptor"],
-           "same_method_kind": a["kind"] == b["kind"]}
+           "same_method_kind": a["kind"] == b["kind"],
+           "same_receptor_provenance": (a.get("receptor_provenance") or "").split("(")[0]
+                                       == (b.get("receptor_provenance") or "").split("(")[0]}
     all_res = sorted(set(a["residues"]) & set(b["residues"]))
     lig_a = heavy_coords(a["mol"])
     cen_a = centroid(lig_a)
@@ -608,6 +627,8 @@ def _verdict(doc, pairs, n_usable, n_total):
     # cross-method agreement.
     cross = [p for p in ok if not p["same_method_kind"]]
     within = [p for p in ok if p["same_method_kind"]]
+    xprov = [p for p in ok if not p.get("same_receptor_provenance")]
+    wprov = [p for p in ok if p.get("same_receptor_provenance")]
     doc = {
         "convergence_measurable": True,
         "n_usable_sources": n_usable,
@@ -619,6 +640,9 @@ def _verdict(doc, pairs, n_usable, n_total):
         "pocket_fit_ligand_rmsd_spread_A": s,
         "within_method_spread_A": spread([p["pocket"]["ligand_rmsd_A"] for p in within]),
         "cross_method_spread_A": spread([p["pocket"]["ligand_rmsd_A"] for p in cross]),
+        "n_pairs_cross_receptor_provenance": len(xprov),
+        "cross_provenance_spread_A": spread([p["pocket"]["ligand_rmsd_A"] for p in xprov]),
+        "within_provenance_spread_A": spread([p["pocket"]["ligand_rmsd_A"] for p in wprov]),
         "n_pairs_within_%.1fA" % SAME_POSE_A: n_same_pose,
         "n_pairs_within_%.1fA" % SAME_SITE_A: n_same_site,
     }
@@ -631,10 +655,13 @@ def _verdict(doc, pairs, n_usable, n_total):
            n_same_pose, len(vals), SAME_POSE_A, n_same_site, len(vals), SAME_SITE_A))
     if not cross:
         doc["cross_method_evidence"] = (
-            "NONE. Every readable pair is the SAME method (%s) run on a different receptor conformer, so "
-            "what is measured here is the pipeline's reproducibility, not the agreement of methods that "
-            "fail differently. The sources that would have made it cross-method are in `refusals`."
-            % (ok[0]["a"].split("/")[0] if ok else "?"))
+            "NONE — AND THAT IS A FINDING, NOT A GAP IN THIS ANALYSIS. Every pose this program holds of "
+            "denovo_401 in NR4A3 was generated by the SAME method (smina, top pose). What varies across "
+            "the census is the RECEPTOR CONFORMATION, not the method, so %d of the %d pairs cross the "
+            "prediction/experiment line and none of them cross a method line. The convergence argument "
+            "that would license a singular 'the predicted pose' — independent methods failing differently "
+            "and agreeing anyway — cannot be made from what exists, because the second method has never "
+            "been run." % (len(xprov), len(ok)))
     return doc
 
 
