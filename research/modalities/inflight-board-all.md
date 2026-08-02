@@ -15,23 +15,17 @@ Merged 8:48 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 8:48 PM ET Sat Aug 1, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:39 PM ET Sat Aug 1, 2026 (10 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
-LEG                           ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
----------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 —                  90.0%  —    UNKNOWN   host state UNKNOWN — the Vast instance list did not read this pass (RuntimeError: vast API GET /instances/ -> 403: <html>
-<head><title>403 Forbidden</title></head>
-<body>
-<center><h1>403 Forbidden</h1></center>
-</body>
-</html>
-), so this is NOT a host death; checkpoint at production/1640 is intact in S3 and the next poll re-reads
+LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
+---------------------------------------------------------------------------------------------------------------------------------
+5aks_d0_to_d ternary nr4a1 r1 2:16 AM Aug 2      90.0%  RTX 3090 $0.00412/ns · 1.21× basis [bid] STARTING  WATCHING — quiet but alive: run.log 0 min old, content changing (last change 0 min ago), GPU idle, no committed advance — consistent with a CPU-bound setup phase · 56.1 s/iter · no like-for-like expectation (not measured on this system)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 8:47 PM ET Sat Aug 1, 2026 (1 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 8:39 PM ET Sat Aug 1, 2026 (9 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -39,7 +33,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 8:47 PM ET Sat Aug 1, 2026 (1 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 8:39 PM ET Sat Aug 1, 2026 (9 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -47,25 +41,25 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 8:48 PM ET Sat Aug 1, 2026 (0 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 8:40 PM ET Sat Aug 1, 2026 (8 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1 is on the single GCP GPU (GPUS_ALL_REGIONS=1 — strictly serial). $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns                                      STATE             WHY (when not running)
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 zaienne_cmpd19__cw_bio_primary_amide r1  —                      —  —                                         HELD — NOT BUYING [gpu_busy] 1 GCE instance(s) live. GPUS_ALL_REGIONS = 1 is the binding cap (gcp-gpu-facts.md #1), so this lane is strictly serial and there is no second GPU to buy. Not a fault — the constraint working. % DONE UNKNOWN — the driver's `warmup_target=… prod_target=…` line has not been read, so the denominator is unknown. An unreadable target is not a target of zero (CLAUDE.md §4) — the cell refuses rather than guessing a total. ETA UNKNOWN — no targets, so no remaining-work count either.
-zaienne_cmpd19__cw_ms_free_acid r1       4:44 AM Aug 2      33.3%  — free GCP trial credit (separate ledger) ⚠ NO NEW COMMIT   GCE L4, RUNNING, created 2026-08-01T05:37:11.159-07:00. phase='leg-complex-running 2026-08-01T12:41:01Z'. 1600 of 4800 committed iterations (unit = 2 legs x (warmup 400 + production 2000)). ETA is for the complex leg — scoped to the complex leg: solvent has no measured L4 rate of its own and the two legs solvate different systems, so projecting the unit off this rate would be a fabricated number.. [728 min since the leg started against a budget of 4 x its own measured 23.8 min commit interval — FLAGGED, and a flag is not a condemnation: nothing reaps or refuses on this] Bounded at CREATE by --max-run-duration=172800s.
+zaienne_cmpd19__cw_ms_free_acid r1       4:36 AM Aug 2      33.3%  — free GCP trial credit (separate ledger) ⚠ NO NEW COMMIT   GCE L4, RUNNING, created 2026-08-01T05:37:11.159-07:00. phase='leg-complex-running 2026-08-01T12:41:01Z'. 1600 of 4800 committed iterations (unit = 2 legs x (warmup 400 + production 2000)). ETA is for the complex leg — scoped to the complex leg: solvent has no measured L4 rate of its own and the two legs solvate different systems, so projecting the unit off this rate would be a fabricated number.. [720 min since the leg started against a budget of 4 x its own measured 23.8 min commit interval — FLAGGED, and a flag is not a condemnation: nothing reaps or refuses on this] Bounded at CREATE by --max-run-duration=172800s.
 cw_ms_free_acid__cw_bio_primary_amide r1 —                      —  —                                         HELD — NOT BUYING [gpu_busy] 1 GCE instance(s) live. GPUS_ALL_REGIONS = 1 is the binding cap (gcp-gpu-facts.md #1), so this lane is strictly serial and there is no second GPU to buy. Not a fault — the constraint working. % DONE UNKNOWN — the driver's `warmup_target=… prod_target=…` line has not been read, so the denominator is unknown. An unreadable target is not a target of zero (CLAUDE.md §4) — the cell refuses rather than guessing a total. ETA UNKNOWN — no targets, so no remaining-work count either.
 ```
 
 ## SENSITIVITY CONTROL — SMARCA2/4 co-fold panel (instrument calibration, not a result)
 
-_As of 8:45 PM ET Sat Aug 1, 2026 (3 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
+_As of 8:48 PM ET Sat Aug 1, 2026 (0 min ago). Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
 
 ```
 LEG                    ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                            DONE      all 6 seeds have a co-fold in S3. Host(s): 46549942 running, 46551862 running, 46552614 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
 selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                            DONE      all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46549246 running, 46549971 running, 46550806 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
-selcal-smarca2-m3-r1   —                17/24 l  — $0.1788/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   instance 46552614 running, rented 2026-08-02T00:37:40Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal-smarca2-m3-r1   —                18/24 l  — $0.1788/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) RUNNING   instance 46552614 running, rented 2026-08-02T00:37:40Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
 ```
 
