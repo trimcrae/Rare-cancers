@@ -95,6 +95,72 @@ def leg_rows(legs):
 # =============================================================================================================
 # the verdict
 # =============================================================================================================
+#: ★★ WHAT EACH TIER DOES TO THE PROGRAMME — travelling WITH the verdict, not left in a design doc.
+#: The branch was written in advance in `selectivity-resolution-options.md` §3/§4, before this panel ran, and
+#: that is what makes it quotable. But the artifact a reader actually opens at 3 AM is `selcal-verdict.json`,
+#: and until now it carried the CRITERION without carrying the CONSEQUENCE — so the one question anybody asks
+#: on seeing a tier ("what happens now?") was answerable only by finding another file.
+#:
+#: ⚠ IT POINTS, IT DOES NOT RESTATE (CLAUDE.md §1). No leg count and no dollar figure is typed here: step 3's
+#: shape and price have ONE home, `selectivity_resolution_options.recommended_sequence`, which DERIVES them.
+#: A number copied into a verdict artifact is a number that goes stale silently and then gets quoted.
+NEXT_STEP_BY_TIER = {
+    P.TIER_PASS: {
+        "unblocks": "step 3 of selectivity-resolution-options.md §3 — re-panel NR4A1/2/3 on the validated "
+                    "design. Shape and cost are DERIVED by "
+                    "`selectivity_resolution_options.recommended_sequence`; do not quote them from here.",
+        "blocking_artifact": "A NEW PREREGISTRATION, written before any step-3 leg is bought. It is NOT a "
+                             "§4d extension of the NR-V04 prereg — §4d may not be invoked on a wrong-sign "
+                             "result — and any re-use of the 16 landed NR-V04 legs must be declared inside "
+                             "it, in advance.",
+        "still_forbidden": "Everything in `_what_a_pass_licenses`. A pass re-scores no landed NR-V04 leg and "
+                           "licenses no NR4A3, degradation, efficacy or therapeutic claim.",
+    },
+    P.TIER_NULL: {
+        "unblocks": "NOTHING. Step 3 is NOT bought — it would be money spent to reproduce a failure.",
+        "blocking_artifact": None,
+        "reporting": "The paper reports NR4A3 selectivity as UNVALIDATED PREDICTIONS, in the sentence "
+                     "written in advance at selectivity-resolution-options.md §4 so it cannot later be "
+                     "re-narrated as a method failure.",
+    },
+    P.TIER_WRONG_SIGN: {
+        "unblocks": "NOTHING, and this is a FAIL of the control reported WITH THE SIGN STATED — a readout "
+                    "that separates a known pair backwards is worse than one that cannot separate it.",
+        "blocking_artifact": None,
+        "reporting": "As TIER_NULL's sentence, plus the sign. ⛔ prereg §4d may not be invoked on a "
+                     "wrong-sign result.",
+    },
+    P.TIER_INDETERMINATE: {
+        "unblocks": "NOTHING, and it is NOT a null — nothing was measured. It must not be reported as a "
+                    "negative result, and it does not license the §4 sentence either.",
+        "blocking_artifact": "Whatever made the panel unscoreable: technical failures beyond the allowance, "
+                             "or too few conforming co-fold models. Fixing that is a re-run, not a re-read.",
+    },
+}
+
+#: ⚠ NEITHER A PASS NOR A FAIL DISTINGUISHES 'the readout is blunt' FROM 'this pair is hard'. Written here
+#: because it is the misreading a tier invites, and `_what_a_fail_licenses` says it about the fail only.
+TIER_CANNOT_DISTINGUISH = ("A fail does NOT distinguish 'the readout is blunt' from 'this pair is hard', and "
+                           "must not be reported as though it did.")
+
+
+def next_step_for(tier):
+    """What this tier unblocks, forecloses, and still forbids. PURE. Points at the derivation; types nothing."""
+    row = dict(NEXT_STEP_BY_TIER.get(tier) or {})
+    row["_source"] = "selectivity-resolution-options.md §3 (the sequence) and §4 (the alternative outcome)"
+    row["_written_before_the_panel_ran"] = True
+    if tier != P.TIER_PASS:
+        row["cannot_distinguish"] = TIER_CANNOT_DISTINGUISH
+    return row
+
+
+def _with_next_step(out: dict) -> dict:
+    """Attach the tier's consequence. Called on EVERY exit of `verdict`, because a field present on some
+    paths and absent on others is worse than absent everywhere — a reader cannot tell which they have."""
+    out["next_step"] = next_step_for(out.get("tier"))
+    return out
+
+
 def verdict(legs) -> dict:
     """Apply the frozen criterion to a set of leg records. PURE.
 
@@ -144,13 +210,13 @@ def verdict(legs) -> dict:
                           "defect that made the NR-V04 NR4A1-vs-NR4A3 pairwise uninterpretable."
                           % (short, P.MIN_MODELS_PER_ARM) if short else "")).strip(),
             "underpowered_arms": underpowered, "arms_short_of_models": short})
-        return out
+        return _with_next_step(out)
     if not floor["can_reach_alpha"]:
         out.update({"tier": P.TIER_INDETERMINATE, "p": None, "statistic": None,
                     "reason": "INDETERMINATE — the reference set's floor (%.5f) exceeds alpha (%.2f), so the "
                               "test has zero power against ANY separation. It cannot reject and it cannot be "
                               "trusted to fail to reject." % (floor["min_attainable_p"], P.ALPHA)})
-        return out
+        return _with_next_step(out)
 
     # ---- the statistic ------------------------------------------------------------------------------------
     a_vals = [means[P.ARM_A][m] for m in sorted(means[P.ARM_A])]
@@ -210,7 +276,7 @@ def verdict(legs) -> dict:
                               "and is reported as one."
                               % (primary["n_arrangements"], primary["min_attainable_p"], primary["p"]),
                     "licenses": P.PASS_CRITERION["_what_a_fail_licenses"]})
-    return out
+    return _with_next_step(out)
 
 
 def render(v: dict) -> str:
@@ -226,6 +292,15 @@ def render(v: dict) -> str:
              % (v.get("p"), v.get("p_alternative"), v.get("n_arrangements") or 0, v.get("min_attainable_p")),
              "  LOMO:       %s" % ((v.get("leave_one_model_out") or {}).get("survives")),
              "  %s" % v.get("reason")]
+    # ⚠ THE CONSEQUENCE, NOT JUST THE LABEL. "PASS" on its own does not tell the reader whether anything may
+    # now be bought; that branch was written before the panel ran and belongs beside the tier.
+    nxt = v.get("next_step") or {}
+    if nxt.get("unblocks"):
+        lines.append("  NEXT:       %s" % nxt["unblocks"])
+    if nxt.get("blocking_artifact"):
+        lines.append("  BLOCKED ON: %s" % nxt["blocking_artifact"])
+    if nxt.get("reporting"):
+        lines.append("  REPORT AS:  %s" % nxt["reporting"])
     return "\n".join(lines)
 
 

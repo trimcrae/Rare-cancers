@@ -156,3 +156,79 @@ def test_scorer_delegates_to_the_frozen_shared_primitives():
 if __name__ == "__main__":
     import pytest
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+# =============================================================================================================
+# the tier travels with its CONSEQUENCE
+# =============================================================================================================
+def test_every_tier_says_what_it_unblocks():
+    """★★ A tier without its consequence sends the reader to another file for the one question a verdict
+    provokes: what happens now? The branch was written in `selectivity-resolution-options.md` §3/§4 BEFORE
+    this panel ran — which is what makes it quotable — but the artifact anyone actually opens is
+    selcal-verdict.json."""
+    import selcal_gate as G
+    import selcal_panel as P
+    for tier in (P.TIER_PASS, P.TIER_NULL, P.TIER_WRONG_SIGN, P.TIER_INDETERMINATE):
+        row = G.next_step_for(tier)
+        assert row.get("unblocks"), tier
+        assert row["_written_before_the_panel_ran"] is True
+        assert "selectivity-resolution-options.md" in row["_source"]
+
+
+def test_only_a_PASS_unblocks_anything():
+    """⛔ The load-bearing asymmetry. NULL, WRONG_SIGN and INDETERMINATE each buy nothing, and a reader must
+    not be able to take 'the control ran' as licence to spend."""
+    import selcal_gate as G
+    import selcal_panel as P
+    assert "step 3" in G.next_step_for(P.TIER_PASS)["unblocks"]
+    for tier in (P.TIER_NULL, P.TIER_WRONG_SIGN, P.TIER_INDETERMINATE):
+        assert G.next_step_for(tier)["unblocks"].startswith("NOTHING"), tier
+
+
+def test_a_pass_names_the_blocking_artifact_and_is_not_a_4d_extension():
+    """Step 3 needs a NEW preregistration; §4d may not be invoked on a wrong-sign result, and any re-use of
+    the 16 landed NR-V04 legs must be declared inside it IN ADVANCE."""
+    import selcal_gate as G
+    import selcal_panel as P
+    blk = G.next_step_for(P.TIER_PASS)["blocking_artifact"]
+    assert "NEW PREREGISTRATION" in blk.upper()
+    assert "4d" in blk and "16 landed" in blk
+
+
+def test_a_pass_still_carries_what_it_forbids():
+    """A PASS licenses EXACTLY ONE SENTENCE. The consequence field must not read as a general green light."""
+    import selcal_gate as G
+    import selcal_panel as P
+    row = G.next_step_for(P.TIER_PASS)
+    assert "_what_a_pass_licenses" in row["still_forbidden"]
+    assert "re-scores no landed NR-V04 leg" in row["still_forbidden"]
+
+
+def test_no_cost_or_leg_count_is_typed_into_the_verdict():
+    """⛔ CLAUDE.md §1. Step 3's shape and price have ONE home — `recommended_sequence`, which DERIVES them.
+    A number copied into a verdict artifact goes stale silently and is then quoted."""
+    import re
+
+    import selcal_gate as G
+    blob = repr(G.NEXT_STEP_BY_TIER)
+    assert "recommended_sequence" in blob, "it must point at the derivation"
+    assert not re.search(r"\$\s?\d", blob), "no dollar figure may be typed here"
+    assert not re.search(r"\b36\b|\b24\b", blob), "no leg count may be typed here"
+
+
+def test_the_branch_is_attached_on_EVERY_exit_of_verdict():
+    """A field present on some return paths and absent on others is worse than absent everywhere: the reader
+    cannot tell which they are holding. The INDETERMINATE admissibility exits are the easy ones to miss."""
+    import selcal_gate as G
+    v = G.verdict([])                      # no legs at all -> an early admissibility exit
+    assert v["tier"] == "INDETERMINATE"
+    assert v["next_step"]["unblocks"].startswith("NOTHING")
+    src = open(G.__file__).read()
+    body = src[src.index("def verdict(legs)"):]
+    body = body[:body.index("\ndef ", 10)]
+    assert "return out" not in body, "every exit must go through _with_next_step"
+
+
+def test_render_shows_the_consequence_not_just_the_label():
+    import selcal_gate as G
+    assert "NEXT:" in G.render(G.verdict([]))
