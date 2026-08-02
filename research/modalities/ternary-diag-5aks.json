@@ -1,7 +1,7 @@
 {
   "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
   "mode": "5aks",
-  "utc": "2026-08-02T05:59:02Z",
+  "utc": "2026-08-02T06:15:03Z",
   "units": {
     "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
       "arm": "ternary",
@@ -31,8 +31,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T03:36:35Z",
-      "phase_marker_age_min": 1582.4428682525952,
-      "log_age_min": 1582.4278673092524,
+      "phase_marker_age_min": 1598.44319084088,
+      "log_age_min": 1598.427347711722,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -207,8 +207,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T18:26:57Z",
-      "phase_marker_age_min": 692.1533379554749,
-      "log_age_min": 692.1549616416295,
+      "phase_marker_age_min": 708.1192883610726,
+      "log_age_min": 708.1204500118891,
       "n_attempts_archived": 34,
       "attempts": [
         {
@@ -481,8 +481,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T12:19:53Z",
-      "phase_marker_age_min": 1059.341574215889,
-      "log_age_min": 1059.3099973479907,
+      "phase_marker_age_min": 1075.2703957279523,
+      "log_age_min": 1075.2379078586896,
       "n_attempts_archived": 8,
       "attempts": [
         {
@@ -547,12 +547,12 @@
     },
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks": {
       "arm": "ternary",
-      "leg_record_status": null,
+      "leg_record_status": "done",
       "breaker": {
-        "verdict": "allow: no leg record \u2014 a unit that has never run must be able to run",
+        "verdict": "allow: the unit is done",
         "block": false,
-        "n_attempts": 0,
-        "record_utc": null,
+        "n_attempts": 2,
+        "record_utc": "2026-08-02T06:00:10Z",
         "newest_commit_utc": "2026-08-02T05:56:47Z",
         "eviction": {
           "_what": "the last time this lane destroyed this unit's host for a reason that was NOT the unit failing \u2014 read by leg_failure_breaker so a correct teardown does not accrue a strike",
@@ -572,10 +572,10 @@
         "iteration": 2000,
         "scalar": 1002000
       },
-      "phase_marker": "md-running 2026-08-01T22:10:27Z",
-      "phase_marker_age_min": 468.83525307178496,
-      "log_age_min": 1.9908604582150777,
-      "n_attempts_archived": 20,
+      "phase_marker": "start 2026-08-02T06:00:38Z",
+      "phase_marker_age_min": 14.539200961589813,
+      "log_age_min": 14.523432632287344,
+      "n_attempts_archived": 22,
       "attempts": [
         {
           "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/attempts/run-20260731T121345Z.log",
@@ -711,79 +711,29 @@
           "last_line": "WARNING:\tWarning: The openmmtools.multistate API is experimental and may change in future releases"
         },
         {
+          "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/attempts/run-20260802T060024Z.log",
+          "utc": "2026-08-02T06:00:26Z",
+          "bytes": 331478,
+          "n_lines": 5810,
+          "last_line": "[tvast] 2026-08-02T06:00:14Z phase=done"
+        },
+        {
+          "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/attempts/run-20260802T060037Z.log",
+          "utc": "2026-08-02T06:00:39Z",
+          "bytes": 267,
+          "n_lines": 3,
+          "last_line": "[tvast] 2026-08-02T06:00:25Z phase=start"
+        },
+        {
           "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/run.log",
-          "utc": "2026-08-02T05:59:20Z",
-          "bytes": 326525,
-          "n_lines": 5725,
-          "last_line": "INFO:\tStarting preparation"
+          "utc": "2026-08-02T06:00:41Z",
+          "bytes": 267,
+          "n_lines": 3,
+          "last_line": "[tvast] 2026-08-02T06:00:38Z phase=start"
         }
       ],
-      "instance": {
-        "id": 46541779,
-        "machine_id": 34332,
-        "label": "tvast-5aks-d0-to-d--ternary-nr4a1-r1-dt4p0fs-wu1p0-5aks",
-        "actual_status": "running",
-        "cur_state": "running",
-        "intended_status": "running",
-        "status_msg": "success, running docker.io/triskit23/ternary-fep_latest/ssh",
-        "gpu_name": "RTX 3090",
-        "num_gpus": 1,
-        "gpu_ram": 24576,
-        "cpu_ram": 128688,
-        "cpu_cores_effective": 16.0,
-        "disk_space": 60.0,
-        "disk_util": 8.800000190734863,
-        "mem_usage": 5.073010688,
-        "mem_limit": 89.45401856000001,
-        "gpu_util": 0.0,
-        "dph_total": 0.07911111111111112,
-        "start_date": 1785621996.2231026,
-        "image_uuid": "docker.io/triskit23/ternary-fep:latest"
-      },
-      "instance_is_working": true,
-      "console_last_line": "INFO:\tStarting preparation",
-      "console_tail": [
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tThe attribute(s) types have already been read from the topology file. The guesser will only guess empty values for this attribute, if any exists. To overwrite it by completely guessed values, you can pass the attribute to the force_guess parameter instead of the to_guess one",
-        "INFO:\tThere is no empty types values. Guesser did not guess any new values for types attribute",
-        "INFO:\tThere is no empty masses values. Guesser did not guess any new values for masses attribute",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tThe attribute(s) types have already been read from the topology file. The guesser will only guess empty values for this attribute, if any exists. To overwrite it by completely guessed values, you can pass the attribute to the force_guess parameter instead of the to_guess one",
-        "INFO:\tThere is no empty types values. Guesser did not guess any new values for types attribute",
-        "INFO:\tThere is no empty masses values. Guesser did not guess any new values for masses attribute",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation",
-        "INFO:\tFinishing up",
-        "INFO:\tThe attribute(s) types have already been read from the topology file. The guesser will only guess empty values for this attribute, if any exists. To overwrite it by completely guessed values, you can pass the attribute to the force_guess parameter instead of the to_guess one",
-        "INFO:\tThere is no empty types values. Guesser did not guess any new values for types attribute",
-        "INFO:\tThere is no empty masses values. Guesser did not guess any new values for masses attribute",
-        "INFO:\tChoosing frames to analyze",
-        "INFO:\tStarting preparation"
-      ]
+      "instance": null,
+      "instance_is_working": false
     }
   }
 }
