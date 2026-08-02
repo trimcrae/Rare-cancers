@@ -202,3 +202,44 @@ def test_the_power_figures_are_declared_UPPER_BOUNDS():
     assert "leave-one-model-out" in t or "LOMO" in t
     assert "at or below" in t
     assert "an unmeasured correction is not a number" in t
+
+
+# =============================================================================================================
+# the retirement — 2026-08-02, step 2 returned NULL
+# =============================================================================================================
+def test_the_draft_is_RETIRED_because_step_2_did_not_PASS():
+    """★★ The freeze conditions required `tier: PASS`. Step 2 returned NULL, so §7's own rule applies: this
+    document is RETIRED UNRUN, not amended. The retirement is asserted against the LIVE verdict rather than
+    against prose, so the two can never drift apart — if a future step 2 ever passes, this test is what makes
+    someone revisit the retirement deliberately instead of the banner quietly outliving its cause."""
+    import json
+    v = json.load(open(os.path.join(MOD, "selcal-verdict.json")))
+    t = _text()
+    if v.get("tier") == "PASS":
+        assert "RETIRED UNRUN" not in t.upper()[:2000], \
+            "step 2 PASSES, so this document must no longer be marked retired"
+        return
+    assert "RETIRED UNRUN" in t.upper(), (
+        "step 2 returned %r, which is not PASS, so this document must be marked RETIRED UNRUN at the top"
+        % v.get("tier"))
+    head = t[:2200]
+    assert "RETIRED UNRUN" in head.upper(), "the retirement must precede any design content"
+    assert "not amended" in head.lower() or "NOT AMENDED" in head, \
+        "§7's rule is retire-not-amend; the banner must say which happened"
+
+
+def test_the_retirement_KEEPS_the_document_rather_than_gutting_it():
+    """⚠ The value of a prereg written before its verdict is that it PROVES the design was not tuned to the
+    result. Deleting or hollowing it on retirement destroys exactly that evidence, so the design content and
+    the power finding must survive the retirement intact."""
+    t = _text()
+    assert len(t) > 8000, "the retired draft has been gutted; its whole evidentiary value is being complete"
+    for kept in ("0.159", "0.130", "1.0278", "power_primary", "NR4A_REPANEL_SHAPE"):
+        assert kept in t, f"{kept} did not survive the retirement"
+    assert "before" in t[:2200].lower(), "the banner must say the design predates the verdict that killed it"
+
+
+def test_the_retirement_points_at_the_verdict_that_caused_it():
+    t = _text()
+    assert "selcal-verdict.json" in t
+    assert "0.7468" in t, "the retirement must quote the p-value that triggered it, not just assert a tier"

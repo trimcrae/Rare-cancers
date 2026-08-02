@@ -1,6 +1,24 @@
-# NR4A1/2/3 RE-PANEL — PREREGISTRATION · ⚠ **DRAFT, NOT FROZEN**
+# NR4A1/2/3 RE-PANEL — PREREGISTRATION · ⚠ **DRAFT, NOT FROZEN** · ⛔ **RETIRED UNRUN 2026-08-02**
 
-> ## ⛔ STATUS: **NOT FROZEN. NOT IN FORCE. NOTHING MAY BE RUN AGAINST IT.**
+> ## ⛔⛔ RETIRED UNRUN — 2026-08-02. STEP 2 RETURNED **NULL**, AND THIS DOCUMENT'S OWN FREEZE CONDITION 1
+> ## REQUIRED `tier: PASS`. IT IS RETIRED, NOT AMENDED, EXACTLY AS §7 SAID IT WOULD BE.
+>
+> The sensitivity control was scored on its complete panel and returned **NULL** on an adequately-powered
+> design — exact one-sided *p* = 0.7468, reference set 462, floor 0.00216, zero technical failures
+> ([`selcal-verdict.json`](./selcal-verdict.json); [STRATEGY.md gate
+> record](../../STRATEGY.md#-gate-failed--the-smarca24-sensitivity-control-returns-null-on-an-adequately-powered-design-2026-08-02-1042-pm-et)).
+> **Step 3 is therefore not bought: it would be money spent to reproduce a failure.**
+>
+> ⚠ **THE DOCUMENT IS KEPT, NOT DELETED**, and that is the point of having written it early. It is the
+> record that the step-3 design was fixed *before* the verdict that killed it, so nobody later has to take
+> on trust that the design was not tuned to a result. Its §4c power analysis — the finding that this shape
+> was powered **≤ 0.16** against the separations already measured, and that those figures are UPPER BOUNDS
+> because LOMO is not modelled — **stands on its own** and pointed at the same conclusion the tier reached
+> independently. **Nothing here may be run, quoted as in force, or revived without a new step 2.**
+>
+> ---
+>
+> ## ⛔ ORIGINAL STATUS (superseded, retained): **NOT FROZEN. NOT IN FORCE. NOTHING MAY BE RUN AGAINST IT.**
 >
 > This document is **step 3** of [`selectivity-resolution-options.md`](./selectivity-resolution-options.md)
 > §3, and step 3 **runs only if step 2 (the sensitivity control) returns PASS**. Step 2 has not returned.

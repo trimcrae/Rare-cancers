@@ -265,6 +265,69 @@ superposed into the NR4A3 reference frame, carrying a per-frame core-fit residua
 
 ---
 
+## ❌ GATE FAILED — the SMARCA2/4 sensitivity control returns **NULL** on an adequately-powered design (2026-08-02 10:42 PM ET)
+
+**The headline, in the required form: a gate FAILED, and the remediation is that there is none to buy — step 3
+is not purchased and the paper's language changes instead.**
+
+This was the **method calibrator** that Open decision 9 named as the program's real gap and that RUNG 3 module 3
+adopted on 2026-07-24: the one experiment meant to show that this workflow can discriminate paralogues where
+the answer is already known. It has now been run end-to-end and **it did not detect the difference.**
+
+Every figure below has **one home**, [`selcal-verdict.json`](research/modalities/selcal-verdict.json), and is
+read from it rather than typed:
+
+| | |
+|---|---|
+| tier | **NULL** — a real negative, reported as one |
+| statistic (mean SMARCA2 − mean SMARCA4, model-level E1 plateau) | **+0.4373 Å** (4.9684 vs 4.5311) |
+| direction | ⚠ **opposite** to the primary source's prediction, and **all 11 LOMO refits keep that sign** |
+| exact one-sided *p*, predicted direction | **0.7468** |
+| mirrored *p* | **0.2554** — so NOT WRONG_SIGN either |
+| reference set / floor | **462** arrangements, min attainable *p* **0.00216**, α = 0.05 |
+| technical failures | **0** in each arm |
+| admitted legs / models | **22** legs, **6 vs 5** models |
+
+⚠ **THE DESIGN WAS ADEQUATELY POWERED BY ITS OWN FROZEN CLAUSES — this is not an underpowered miss.** The
+reference-set floor is an order of magnitude under α, there were no technical failures, and the panel cleared
+the per-arm model floor. The test could have returned significance and did not. That is a **worse** outcome for
+the program than RUNG 4's DISCORDANT, which was a non-resolution rather than a negative.
+
+**Two of the 24 designed legs were excluded before scoring, on a MEASURED INPUT FAULT and never on an outcome**
+— SMARCA4 seed 3 places two heavy atoms **0.693 Å** apart against a 1.00 Å floor, so the pre-MD audit refused it
+reproducibly on five machines before any dynamics existed. The other unfinished unit at that moment audited
+**clean at 1.2994 Å** and was **re-run, not excluded**. Full standard and evidence:
+[prereg AMENDMENT 1](research/modalities/selectivity-sensitivity-control-prereg.md#amendment-1--2026-08-02-measured-input-fault-smarca4-model-3).
+
+### What this BINDS, in the words fixed before the run
+
+The consequence is not being invented now — it was written into
+[`selectivity-resolution-options.md`](research/modalities/selectivity-resolution-options.md) §4 precisely so it
+could not be re-narrated after the fact, and it is machine-carried by `selcal_gate.NEXT_STEP_BY_TIER`:
+
+1. **⛔ STEP 3 (the NR4A1/2/3 re-panel) IS NOT BOUGHT.** It would be money spent to reproduce a failure. The
+   draft preregistration [`nr4a-repanel-prereg-DRAFT.md`](research/modalities/nr4a-repanel-prereg-DRAFT.md) is
+   **retired unrun**, and its own power section already said the design was powered ≤ 0.16 against the
+   separations this program has measured — so the tier and the power analysis point the same way.
+2. **Every NR4A3 selectivity statement in the paper is an UNVALIDATED PREDICTION**, in the language of §4,
+   applied in the sentences themselves rather than confined to a limitations paragraph.
+3. **⛔ IT DOES NOT DISTINGUISH "the readout is blunt" from "this pair is hard"** and must never be reported as
+   though it did. SMARCA2/SMARCA4 bromodomains are ~80 % identical and the published selectivity turns on a
+   single Gln1469 hydrogen bond, so a null is consistent with both an insensitive endpoint and a genuinely
+   narrow structural signal.
+4. **It re-scores no landed leg and changes no ΔΔG.** It is a statement about the instrument.
+
+### The standing tally this closes
+
+**All three** attempts to establish a positive control for this program's selectivity claims have now been run,
+and none succeeded: §2.11's cooperativity calibrator (`valB_mini`) failed on **sign**; RUNG 4's NR-V04
+retrospective returned **DISCORDANT** (non-resolution, and covalency-confounded so it could never have been a
+positive control at any *n*); and this control — the one built specifically to be free of those defects, on
+solved structures on both arms — returns **NULL on an adequately-powered design**. There is no fourth candidate
+staged. Documented in the paper at §2.12a.
+
+---
+
 ## ⏱️ IN FLIGHT — what is actually running right now (as of **2026-07-30 5:30 PM ET**)
 
 *Every row is a PROGRESS reading — the counter moved since the previous pass — not a liveness ping. Rates are

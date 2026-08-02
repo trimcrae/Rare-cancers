@@ -2007,16 +2007,58 @@ paralogues where the answer is already known — and it did not resolve. Togethe
 cooperativity calibrator, the program therefore has **no demonstrated positive control** for either half of
 the selectivity question, and every paralogue-selectivity statement in this paper is correspondingly
 predictive rather than validated. A method calibrator on a structure-matched paralogue pair is the named gap,
-and **it is now under way rather than unrun**: an endpoint-MD sensitivity control on **SMARCA2 vs SMARCA4**
-with the PRT3789 chemotype — a pair whose selectivity is measured in the primary literature and which has
-solved structures on *both* arms, the property the retrospective's system lacks. Its criterion was frozen
-before the first GPU leg
+and **it has now been run**: an endpoint-MD sensitivity control on **SMARCA2 vs SMARCA4** with the PRT3789
+chemotype — a pair whose selectivity is measured in the primary literature and which has solved structures on
+*both* arms, the property the retrospective's system lacks. Its criterion was frozen before the first GPU leg
 ([`../modalities/selectivity-sensitivity-control-prereg.md`](../modalities/selectivity-sensitivity-control-prereg.md);
-`selcal_panel.PASS_CRITERION`), and **no verdict is reported here**: the scorer withholds the tier until the
-panel is complete, because a tier read off a partial panel on a run that can still be extended is the peeking
-defect the retrospective's own §4f exists to prevent. ⛔ Whatever it returns licenses **one sentence about the
-instrument** and nothing about NR4A3, degradation, efficacy or any therapeutic window — and it re-scores no
-leg reported above.
+`selcal_panel.PASS_CRITERION`).
+
+### 2.12a The sensitivity control returns NULL on an adequately-powered design — the readout did not discriminate a paralogue pair whose selectivity is measured
+
+**It did not detect the difference.** Scored against the frozen criterion on the complete panel
+([`../modalities/selcal-verdict.json`](../modalities/selcal-verdict.json), which is the one home of every
+figure here), the model-level interface-RMSD plateaus are **4.9684 Å (SMARCA2)** against **4.5311 Å
+(SMARCA4)**, a statistic of **+0.4373 Å**. The primary source predicts SMARCA2 to be the *more* stable arm,
+i.e. a **negative** statistic; the observed value has the **opposite sign**, and every one of the **11
+leave-one-model-out refits keeps that sign**. It is nonetheless **not significant in either direction** —
+exact one-sided *p* = **0.7468** in the predicted direction and **0.2554** on the mirrored test — so the tier
+is **NULL**, not WRONG_SIGN.
+
+⚠ **This is a real negative, not an underpowered one, and that distinction is the whole point.** The design's
+own frozen adequacy clauses are all satisfied on the landed data: **zero technical failures in either arm**,
+**22 admitted legs**, and an exact reference set of **462** label arrangements whose minimum attainable *p* is
+**0.00216** — more than an order of magnitude below α = 0.05. The test *could* have returned a significant
+result and did not. That is a stronger and less comfortable outcome than §2.12's DISCORDANT, which was a
+non-resolution; here the instrument was given a difference the literature says is there, on solved structures,
+at its own preregistered rigour, and returned nothing.
+
+**Two legs of the designed 24 were excluded before scoring, on a measured input fault and not on an outcome.**
+The SMARCA4 seed-3 co-fold places `A:LYS71:O` and `E:SER38:O` **0.693 Å** apart against a 1.00 Å floor, so the
+pre-MD input audit refused it on every attempt — reproducibly, on five separate machines, before any dynamics
+were integrated and therefore before any endpoint value for it existed. Both of its replicas died; both
+replicas of every other model ran. The admissible panel is therefore **22 legs / 6 vs 5 models**, still above
+the criterion's own per-arm floor of 4, which was written to survive exactly this
+([prereg AMENDMENT 1](../modalities/selectivity-sensitivity-control-prereg.md#amendment-1--2026-08-02-measured-input-fault-smarca4-model-3)).
+The one other unfinished unit at that moment audited **clean at 1.2994 Å** and was **re-run rather than
+excluded**, which is what distinguishes an input-fault exclusion from trimming a panel to taste. The unbalanced
+arms cost **power, not validity** — the exact test enumerates the arrangements that exist — and that direction
+is adverse and was recorded before the result was known.
+
+**What it licenses, in the words written in advance.** The failure sentence was fixed before the run
+([`../modalities/selectivity-resolution-options.md`](../modalities/selectivity-resolution-options.md) §4) so
+that it could not be re-narrated afterwards: *the workflow's paralogue-discrimination authority rests on
+nothing this program has measured, and every NR4A3 selectivity statement in this paper is reported as an
+**unvalidated prediction**.* ⛔ It licenses nothing further. In particular a fail **does not distinguish "the
+readout is blunt" from "this pair is hard"**, and must not be reported as though it did — SMARCA2/SMARCA4
+bromodomains are ~80 % identical and the published selectivity is driven by a single Gln1469 hydrogen bond,
+so a null here is consistent with both an insensitive endpoint and a genuinely narrow structural signal. It
+re-scores no leg reported above, and it changes no ΔΔG.
+
+**Applied, not noted:** with §2.11's cooperativity calibrator failed on sign, §2.12's retrospective
+non-resolved, and this control null on an adequately-powered design, **all three** attempts to establish a
+positive control for this program's selectivity claims have now been run and none succeeded. The consequence
+is carried in the language of every selectivity statement in this paper rather than confined to a limitations
+paragraph.
 
 ## 3. Methods (reproducible, no wet lab)
 Scripted in `research/modalities/`, run as managed AWS SageMaker GPU/CPU jobs (GitHub Actions
