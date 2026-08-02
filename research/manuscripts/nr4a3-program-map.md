@@ -50,6 +50,45 @@ exempt — it is that no claim on it has been refuted. If one is, it gets a ✕ 
 known-answer test completed cleanly and returned a clear negative, which is why it is ⏸ rather than ○: the work
 is done, the avenue is not. §3 says what each result supports.
 
+### 0b · Three orthogonal axes — LEVERAGE, AUTHORIZATION, SUFFICIENCY
+
+★★ **THE FIX THAT THIS PAGE KEPT NEEDING (trimcrae, 2026-08-02: *"If it's the highest leverage, it's the
+highest leverage. Don't demote it just because I said not to launch it yet."*).** The work-state glyph above
+answers *"what should I do about this?"*. It cannot also answer *"how much would it buy?"* or *"am I allowed
+to buy it?"* or *"would it finish the job?"* — and every time this page tried to make one glyph carry all
+four, it produced a wrong instruction. The failure is always the same shape: an item that was **not
+authorized** got written down as **low value**, because the only column available to record "not now" was the
+one that grades importance.
+
+**So a row carries three independent readings, and all three can be true at once:**
+
+| axis | question it answers | values | who owns it |
+|---|---|---|---|
+| **work state** (§0 above) | what should I do about this? | ✓ ◐ ○ ⏸ ✕ | the committed artifact |
+| **authorization** | am I allowed to spend on this? | 🔓 **authorized** · 🔒 **not authorized** · **—** ($0, needs none) | trimcrae, via [STRATEGY.md](../../STRATEGY.md) |
+| **sufficiency** | if it returned tomorrow, what would it actually discharge? | stated in words, per row — never a glyph | the claim it feeds |
+
+⛔ **THESE ARE ORTHOGONAL, AND THE PAGE MUST NEVER COLLAPSE THEM.** The canonical row, and the one that
+forced the rule, is the **CREBBP/BRD4 selectivity ABFE**:
+
+> **highest leverage in the program · 🔒 not authorized · would not discharge the paralogue claim** —
+> three true statements about one item, none of which is a reason to soften any other.
+
+- **Leverage is earned, not granted.** It is highest-leverage because this program has **no binary
+  selectivity control at all** — [STRATEGY.md:538](../../STRATEGY.md) is explicit that *"valA validates
+  relative FEP **within one pocket**"* — so it would be the first evidence the free-energy engine can resolve
+  selectivity **between two different proteins**, which is the capability every paralogue margin on this page
+  presupposes. Nothing about a scheduling decision touches that.
+- **Authorization is a scheduling fact, not a grade.** [STRATEGY.md:546](../../STRATEGY.md): *"**Neither is
+  authorized here**"*. A 🔒 says *don't buy it yet*; it says nothing about what it is worth.
+- **Sufficiency is scope, not demotion.** [STRATEGY.md:533–538](../../STRATEGY.md): it is a **binary**
+  control and *"would **not** discharge §4's paralogue/ternary statement"*. An item can be the
+  highest-leverage thing available **and** insufficient on its own.
+
+⚠ **This is the same class of fix as separating dead from parked (§0) and work-status from evidence-quality
+(§0 opening) — the third axis, found the same way, by noticing which two things a single column was being
+asked to say.**
+
 **Colour is redundant with the glyph, by design** — every mermaid block below defines the same five classes, so
 a state is readable without it: `done` #2f8f5b · `work` #3a63b8 · `next` #8d8674 · **`parked` #6f4a9b (dashed
 2 3)** · `dead` #b1543a (dashed 5 3). ⏸ and ✕ are both dashed because both mean *stop here*; the dash pattern
@@ -72,33 +111,40 @@ that *were* conclusively closed are in §2.
 graph BT
   P["○ PAPER — a defensible<br/>NR4A3-selective degrader candidate"]
   B["○ BINDER selective<br/>over NR4A1/NR4A2"]
-  T["○ TERNARY forms and is<br/>compatible with degradation"]
+  T["○ TERNARY forms"]
+  UB["○ Ternary is compatible with<br/>DEGRADATION — productive<br/>unique-lysine geometry"]
   TS["○ TERNARY adds or preserves<br/>selectivity"]
-  TG["○ Target is a driver<br/>(EMC dependence)"]
+  TG["○ Target is a driver (EMC<br/>dependence) — DELEGATED"]
   L["○ Something BINDS<br/>the NR4A3 pocket"]
-  PO["✓ Pocket exists and<br/>is reachable"]
+  PO["○ Pocket exists and<br/>is reachable"]
+  DGO["○ Opening penalty per paralogue<br/>ΔG_open — NEVER MEASURED"]
   PS["◐ POSE — where the<br/>molecule sits"]
   LK["◐ LINKER geometry<br/>feasible"]
-  ARCH["✓ Ternary correctly<br/>ASSEMBLED"]
+  ARCH["○ OUR ternary correctly<br/>ASSEMBLED"]
   V1["✓ Selectivity readout<br/>detects a known answer"]
-  V2["✓ Generator builds a<br/>known ternary"]
+  V2["✓ Generator CAN build a<br/>known ternary"]
   V3["◐ Pipeline recovers a<br/>known ligand pose"]
-  V4["◐ Physics recovers a<br/>known ddG"]
+  V4["○ Physics recovers a known<br/>SELECTIVITY ddG — 🔒 not authorized"]
+  VC["⏸ Ternary FEP recovers a known<br/>cooperativity — FAILED on sign"]
 
   PO --> L
   L --> PS
   PS --> B
+  DGO --> B
   PS --> LK
   LK --> T
   ARCH --> T
   T --> TS
+  T --> UB
+  UB --> P
   B --> P
   TS --> P
-  TG --> P
+  TG -.delegated.-> P
   V3 -.validates.-> PS
   V4 -.validates.-> B
   V2 -.validates.-> ARCH
   V1 -.validates.-> TS
+  VC -.validates.-> TS
 
   classDef done fill:#dff0e4,stroke:#2f8f5b,stroke-width:2px,color:#10231a;
   classDef work fill:#dee7fa,stroke:#3a63b8,stroke-width:2px,color:#111f38;
@@ -106,16 +152,48 @@ graph BT
   classDef parked fill:#ece3f6,stroke:#6f4a9b,stroke-width:2px,color:#1e1030,stroke-dasharray:2 3;
   classDef dead fill:#f7e6e0,stroke:#b1543a,stroke-width:2px,color:#2e150f,stroke-dasharray:5 3;
 
-  class PO,ARCH,V1,V2 done;
-  class PS,LK,V3,V4 work;
-  class P,B,T,TS,TG,L next;
+  class V1,V2 done;
+  class PS,LK,V3 work;
+  class P,B,T,UB,TS,TG,L,PO,ARCH,DGO,V4 next;
+  class VC parked;
 ```
 
-⚠ **PAPER is ○, not ✕ — the goal is blocked, not refuted.** Its two feeders are what block it: the ternary
-claim rests on a molecule that cannot be recovered, so it needs the §6 step-4 rebuild, and the binder claim
-rests on a free-energy engine that has never recovered a known ΔΔG, so it needs the §6 step-5 benchmark. Both
-of those are ◐ or queued, and neither is a dead end. **The refuted *approaches* underneath them are in §2 —
-that is the distinction the states exist to keep visible.**
+⚠ **PAPER is ○, not ✕ — the goal is blocked, not refuted.** What blocks it, corrected 2026-08-02 after an
+audit found three of these mis-stated:
+
+- **`ARCH` is ○, not ✓ — no NR4A3 ternary has been correctly assembled by anyone.** It is the claim *"**our**
+  ternary is correctly assembled"*, which [STRATEGY.md:500](../../STRATEGY.md) answers flatly:
+  *"⛔ **NO, and this is the whole remaining gap.**"* (`nr4a-ternary-ligand-provenance.json`: `n_recovered: 0`
+  of 3 arms.) `V2` is the *instrument* reading — the generator **can** build a known ternary, best-of-16 on
+  one arm of one non-NR4A3 system — and keeping the two apart is what makes the dashed edge non-circular:
+  a validated instrument that has not yet been pointed at our system. ⚠ **Superseded, retained:** the ✓ on
+  `ARCH`, under which one proposition carried four different states across two files (map §1 ✓, map §4 ○,
+  map §6 ◐, STRATEGY.md ⛔ NO).
+- **`PO` is ○, not ✓ — the pocket is NOT settled.** See §4 row 1: preregistered **Gate 1 FAILED as
+  registered**, Gate 3B is unresolved, and an open **submission gate** can invalidate the very receptor frame
+  `denovo_401` was generated into. ⚠ **Superseded, retained:** `✓ Pocket exists and is reachable` and the
+  phrase *"settled enough to build on"*.
+- **`T` has been split.** It used to read *"TERNARY forms **and is compatible with degradation**"* — two
+  claims in one box, and precisely the distinction [STRATEGY.md:1078](../../STRATEGY.md) requirement 5 exists
+  to preserve: *"Ternary formation is **necessary, not sufficient** — productive lysine positioning is a
+  distinct requirement."* `UB` is now that second claim, and nothing on this page had carried it.
+- **`DGO` is new, and it is a way `B` can come out *backwards*.** Requirement 2
+  ([STRATEGY.md:1049–1056](../../STRATEGY.md)): *"Each paralogue can have a **different opening penalty**, so
+  comparing binding only in matched open receptors can **miss or REVERSE selectivity**."* Every ΔΔG on the
+  binder path is conditional on a term that has never been computed — so **Route A is not blocked only on its
+  instrument**, which is how this page previously read.
+- **`VC` is new — the program's hardest instrument failure had no node.** The ternary known-answer control
+  (`valB_mini` ΔΔG_coop, requirement 1(C)) **failed on the sign**, and
+  [STRATEGY.md:1156](../../STRATEGY.md) calls it *"the highest-value dollar in the plan"*. It is ⏸ not ✕
+  because the closure triangle localises the miss to an **endpoint-state** error, which more sampling cannot
+  fix but a different ternary free-energy method could.
+- **`TG` is a delegated edge, not a solid one.** The paper (`:2508`) puts the make-or-break dTAG test in the
+  EMC-program paper and states *"This paper's claimed contribution is the target's computational
+  druggability/selectivity, **not EMC efficacy**"* — so `TG` is a precondition of the *therapeutic* claim,
+  not of this paper.
+
+**The refuted *approaches* underneath these are in §2 — that is the distinction the states exist to keep
+visible.**
 
 ---
 
@@ -137,12 +215,13 @@ inflate this table into uselessness and would be exactly as misleading as the un
 corrected number is history; a closed avenue is a decision.** Roughly one Appendix A row in ten describes an
 *approach* that died, and only those are here.
 
-**The three states, and the one question that separates them:**
+**The four states, and the one question that separates each from the next:**
 
 | | means | test |
 |---|---|---|
 | **✕ dead** | positive evidence the avenue **cannot** work | *Is there any future development that would make us retry this?* **No.** |
 | **⏸ parked** | it failed with today's tools; a better tool could change the answer | **Yes** — and the row must **name** what has to land ([method-watch.md](../method-watch.md)) |
+| **🔒 held** | nothing failed and nothing is missing — it is **waiting on a decision or an authorization** | *Could it run tomorrow if trimcrae said yes?* **Yes** → §2bb. This state was added 2026-08-02; without it, held work was being written down as parked (hiding a live decision) or as ◐ in work (instructing readers not to start something nobody had started) |
 | **↩ superseded** | a number, framing or plan replaced by a better one | not an avenue at all — it lives in [Appendix A / B](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) and is **deliberately not copied here** |
 
 ---
@@ -158,7 +237,8 @@ false**, an **artifact that can never be regenerated**, or a **definitional** co
 | **NR-V04 as the positive control** for paralogue-selectivity detection | *Confound in the system.* Its selectivity is attributed to a covalent bond at a cysteine NR4A2/NR4A3 **lack**, so a geometry readout passes for the wrong reason. No sample size and no better method fixes a confound that lives in the test system rather than the instrument | Cys551 unique to NR4A1 ([`nrv04-cys-conservation.json`](../modalities/nrv04-cys-conservation.json)); celastrol C6→S **28.42–39.11 Å** against an 8.0 Å limit and a ~1.8 Å bond ([`structural-provenance-census.json`](../modalities/structural-provenance-census.json)) |
 | **Crystal-copy MD design for the E1 control** | *Arithmetic.* 9DTX's asymmetric unit holds a single ternary, so matched arms are one copy each, the permutation reference set is 2, and the **minimum attainable *p* is 0.5** against α = 0.05 — the test cannot reject however it is run. ⚠ Scoped honestly: this is dead **on the deposits that exist**. A future multi-copy SMARCA4 ternary deposit would change it — that is new *data*, not a capability, and it is on no watch list | 9DTY 8 copies / 9DTX 1; `design.can_reach_alpha: false`, `min_attainable_p: 0.5` ([`selcal-xtal-census.json`](../modalities/selcal-xtal-census.json)) |
 | **Covalent warhead at an NR4A3 pocket cysteine** | *Definitional.* The only two cysteines inside the pocket band are **conserved in all three paralogues** — a residue the paralogues share cannot discriminate between them. Both are also fully buried, so it fails twice over | C496 (3.33 Å from the pocket) and C536 (6.74 Å) both `unique_vs_both: false`, SG SASA **0.0 Å²** ([`nr4a3-covalent-handle-ensemble.json`](../modalities/nr4a3-covalent-handle-ensemble.json)) |
-| **The §2.5 ternary result** | *Unregenerable artifact.* The molecule folded is unrecoverable — no bond-order record in any of the three models, and it entered as an unlogged environment variable. That specific **result** can never be replicated or extended by anyone, us included | `n_recovered: 0` of 3 arms; "no `_chem_comp_bond` loop" on each ([`nr4a-ternary-ligand-provenance.json`](../modalities/nr4a-ternary-ligand-provenance.json)) |
+| **The §2.5 ternary result** | *Unregenerable artifact.* The molecule folded is unrecoverable — no bond-order record in any of the three models, and it entered as an unlogged environment variable. That specific **result** can never be replicated or extended by anyone, us included. ⚠ Scoped to the **result**: what is missing is connectivity/regiochemistry, not everything — the SI records a named four-part scheme (warhead–PEG2–succinyl–lenalidomide), formula **C41H56N4O8** and a heavy-atom count matching the models' `n_heavy: 53`. A re-fold could build *a* molecule of that composition; it could not establish it is *the same* one, which is what a replicate comparison needs | `n_recovered: 0` of 3 arms; "no `_chem_comp_bond` loop" on each ([`nr4a-ternary-ligand-provenance.json`](../modalities/nr4a-ternary-ligand-provenance.json)); composition record SI `:69–71` |
+| **The NR-V04 covalent panel's per-arm figures** (`recruiter_active` 3/3 vs epimer 1/3; cov 2/3 = noncov 2/3; `cov_c551a` 1/3) | *Unregenerable artifact, the same class and the more expensive lesson.* The panel **persisted no trajectory**, so a chain-ordering defect (Elongin C scored as the target), a chain-blind reactive-cysteine search and an **nm/Å unit error** were *"each correctable in principle and **none correctable in practice**"*. The 17 legs cannot be re-analysed, only re-run. ⚠ The **approach** is not dead — a re-run that strides a heavy-atom trajectory is a live option; these **numbers** are retracted and must not be quoted | paper `:808–811`, `:933–936`, `:2036`; SI `:816–817`; `nrv04_feasibility_covalent.status: "under_correction"` with its per-seed fractions marked *"SUPERSEDED and must not be cited — the interface was wrong"* ([degrader-paper-schedule.json](degrader-paper-schedule.json)) |
 | **Constrained-embed prep for the ternary generator** | *Premise false.* The generator's own unbound protocol **supplies the native pose**, so there was never a generated conformer for us to constrain. Refuted by its released benchmark data, for $0, before it was built | shipped `ligand.pdb` ≡ native, **0.000 Å over 66 heavy atoms** ([`selcal-deepternary-frame.json`](../modalities/selcal-deepternary-frame.json); [Appendix A 65](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)) |
 | **Single-snapshot MM-GBSA `margin > 0` as a selectivity verdict** | *Arithmetic, twice.* **(i)** 38 unrelated marketed drugs through the identical funnel score a positive NR4A3 margin **22 of 38 (58 %)** and `confirmed_selective` **15 of 38 (39 %)** — caffeine, ibuprofen, lidocaine, phenytoin among them — while the developability-gated de-novo set reaches only **2 of 11 (18 %)**, i.e. *below* its own null. **(ii)** De-noising the same molecules gives per-margin **SD ≈ 4–6 kcal/mol, larger than the margins themselves**: the best lead, `denovo_393` at **+18.34**, becomes **−2.95 ± 3.65**, while the negative control stays negative, so the tier is discriminating and the harvest is still noise. A signal smaller than its own noise is not recoverable by any downstream method | the 38 committed decoy margins, `DECOY_2026_06_30` in [`selectivity_calibration.py`](../modalities/selectivity_calibration.py) ("`margin > 0` is meaningless"); multi-snapshot reversal in [next-steps.md](../modalities/nr4a3-degrader-next-steps.md); paper §2.5 retraction of "MM-GBSA-confirmed selective" |
 | **The valB closure triangle as a *diagnostic* for the wrong-sign miss** | *Proof.* Under the live hypothesis (branch A) every named error class is a per-endpoint **state function** or is external to the calculation, and closure is **identically zero** for all of them — so the triangle returns a clean `R` whether or not the program's actual problem exists. It cannot discriminate "the method is right" from "the model is wrong". Under branch B it duplicates the cheaper forward/reverse leg and goes stale on the fix | `branch_A.verdict: "REFUTED for diagnosis"`, `can_closure_see_that_class: false` ([`valb-triangle-closure.json`](../modalities/valb-triangle-closure.json)). ⚠ The triangle still yields a path-error floor and an endpoint-consistency check — those are **not** dead; the *diagnosis* is |
@@ -191,6 +271,34 @@ would bury a live option**; filing a dead one here would invite re-running somet
 | **Charge-changing alchemical edges** | Blocks 8 legs of the step-1 fan-out, and killed the valB rescope's high-contrast route: **6 of 10** P-series pairs change formal charge (including P1→P4), and the 4 that do not perturb **58–80 heavy atoms** against 2 for the running edge | a validated charge-change correction in this lane (co-alchemical ion / finite-size treatment). ⚠ Even with it the P-series stays a poor calibrator on perturbation size alone — the correction reopens the *edges*, not that *design* ([`valb-pseries-chem.json`](../modalities/valb-pseries-chem.json); [Appendix A 18](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)) |
 | **E3 recruiter breadth beyond CRBN + VHL** | Availability was the **wrong constraint**; structural stageability binds. Of 10 recruiters, RNF114 has no deposited structure at all, DCAF16's ligand is 34 % buried with its partner removed (a glue interface, not a handle pocket), and DCAF15 has no partner-free liganded structure. The widening **confirmed** CRBN + VHL rather than displacing them | a deposited partner-free liganded structure for one of the blocked recruiters. A real negative to report, not to absorb ([`e3-recruiter-downselect-2026-07-25.md`](../modalities/e3-recruiter-downselect-2026-07-25.md); [Appendix A 19](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)) |
 | **Track A — qualify `denovo_401` as a lead via repaired ABFE** | Shelved 2026-07-15 by reviewer verdict; `denovo_401` is a **side comparator / benchmark, not a lead**, and the FEP tier it needs is ceiling-bound and least reliable on a cryptic, induced-fit pocket | cheaper or more reliable free energy on cryptic / induced-fit pockets — an existing [method-watch.md](../method-watch.md) row. Parked, **not deleted** ([Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings)) |
+| **perses as the protein-mutation FEP engine** | *Licence gate, not a science failure.* Its core protein-mutation path round-trips each residue template through an **OpenEye `OEMol`** (`PolymerProposalEngine.generate_oemol_from_pdb_template` → `oechem.oemolistream`) — commercial and licence-gated, with **no conditional and no RDKit alternative on that path**. Cost of establishing it: **~$0.05**. ⛔ **This does not belong in the dead table**: everything around the engine was engine-agnostic and survived the swap, and **pmx + GROMACS already serves the avenue** and has passed its known-answer benchmark | an OpenEye licence, or an RDKit path on perses' residue-template mapper. ⚠ Reopening it buys nothing today — the avenue is *served*, so this row exists to stop it being re-tried, not to be waited on ([STRATEGY.md:2344](../../STRATEGY.md); [Appendix A 8](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)) |
+| **Arm F of the NR-V04 retrospective — the alchemical ΔΔG_coop arm** | Never launched. **BLOCKED by calibration addendum condition 7** — *"runs only after the valB calibration PASSes"* — and **valB_mini FAILED on the sign**. ⛔ **So the gate that would release it can no longer fire as written**: the closure triangle localises the miss to an **endpoint-state** error, and STRATEGY.md's own reading of that branch is that *"more sampling will **NOT** fix the miss"*. Arm F is therefore not "pending" in any sense a reader should act on — it is parked behind a condition its own instrument cannot now satisfy | a ternary alchemical free-energy method that **passes** the valB known-answer control. Not more sampling of the present one. ⚠ Classified here rather than left unstated, per §0: a row behind an unfireable gate reads as scheduled work and is not ([prereg §1, condition 7](../modalities/nr4a3-nrv04-retrospective-prereg.md); [STRATEGY.md:598–604](../../STRATEGY.md)) |
+
+---
+
+### 2bb · 🔒 HELD — not refuted, not parked: waiting on a DECISION
+
+★ **Added 2026-08-02, and it is §0b's authorization axis applied to this register.** These items are neither
+dead nor parked: nothing about them failed, no capability is missing, and every one is ready to run. What
+stops them is that **trimcrae has not authorized the spend** — which the three states above cannot express,
+so they were previously either absent from this page or, worse, rendered as ◐ *in work*. **A held row is a
+live option with a price tag, and the only thing it is waiting for is a person.**
+
+⚠ **The distinction that matters when reading these:** ⏸ parked says *"come back when a tool lands"*; ✕ dead
+says *"never"*; 🔒 held says *"say the word."* Filing a held item as parked hides a decision that could be
+taken today.
+
+| 🔒 held item | what it would buy | why it is held | authorization state |
+|---|---|---|---|
+| **CREBBP vs BRD4(1) / SGC-CBP30 selectivity ABFE** | the program's **only** binary selectivity control — the first evidence the free-energy engine resolves selectivity **between two proteins**, not just within one pocket. See §0b: this is the **highest-leverage unrun item in the program** | [STRATEGY.md:546](../../STRATEGY.md) *"**Neither is authorized here**"*. ⛔ And **sufficiency is a separate matter**: it is a **binary** control and *"would **not** discharge §4's paralogue/ternary statement"* ([STRATEGY.md:533–538](../../STRATEGY.md)) | 🔒 **not authorized** |
+| **pmx/GROMACS interface point-mutation ΔΔG** | the paralogue-scale cross-check the pmx engine has **not** been benchmarked in (§3 row 3) | **🔓 AUTHORIZED 2026-08-02 (trimcrae)** — behind its **$0 primary-source precheck** (Open decision 7: a measured mutational value must exist in a primary source before any spend) | 🔓 **authorized, precheck first** |
+| **`dg_open_paralogue`** — converged pocket-opening free energy per paralogue | it turns every conditional ΔΔG on the binder path into an unconditional one, and it is the term that can **reverse** selectivity (§1 node `DGO`) | *"**HELD** — only with an explicit nod. If NOT run, report everything conditional on the open state (fully defensible, $0)"* | 🔒 **explicit nod only** |
+| **`abfe_conditional`** — conditional ABFE + the λ-overlap repair | sharper error bars on the existing ABFE block | **held on a decision AND parked as framed** — the two are not alternatives here: *"HELD — as framed, **not worth running** (interpretability)"*, and requirement 3 adds *"**HELD also means the λ-overlap repair of the existing ABFE block is parked, not in flight**"*. Even with a nod, the framing has to change first | 🔒 **explicit nod only**, and ⏸ as framed |
+| **Arm F — alchemical ΔΔG_coop** *(also in §2b)* | per-paralogue ternary cooperativity | listed here **only** to say it is *not* a decision waiting to be taken: its gate is condition 7, which its own instrument can no longer satisfy. **Do not read it as authorizable today** | ⏸ parked — see §2b |
+
+Ids and costs are STRATEGY.md's and the [schedule JSON](degrader-paper-schedule.json)'s
+(`dg_open_paralogue`, `abfe_conditional`, both `OPTIONAL/HELD (explicit nod only)` on the dependency spine);
+**per rule 1 no price is retyped here** — the spine and the schedule own them.
 
 ---
 
@@ -213,22 +321,63 @@ is not readable end-to-end from a committed artifact.
 ## 3 · The instrument layer — the thing that keeps getting rediscovered
 
 An instrument that has never recovered a known answer **cannot support a claim**, however good its output
-looks. This table is why three separate selectivity results had to be withdrawn.
+looks. This table is why **selectivity results in this program have had to be withdrawn** — see the pattern
+note below, which is narrower than the one this section used to carry.
 
-| instrument | known-answer test | result | state |
-|---|---|---|---|
-| Structural selectivity descriptor (`selcal_interface_signature`) | recover the published SMARCA2 Gln1469↔VCB hydrogen bond, unaided, from two crystals | Gln98 Oε1→Arg12 Nη2 **2.88 Å** vs Leu1545 | ✓ complete — **PASSES** |
-| Ternary generator given both sites (assembly route) | rebuild 6HAX (in-set) and 9DTY (post-horizon) | DockQ 0.618 / **0.839**, iRMSD 0.67 Å | ✓ complete — **PASSES** |
-| Interface-mutation physics (pmx/GROMACS) | barnase–barstar Y29A vs published ΔΔG | +4.42 ± 1.08 vs +3.4 | ✓ complete — **PASSES** |
-| Selectivity free energy (ABFE) | CREBBP vs BRD4(1) / SGC-CBP30, ΔΔG ≈ 2.2 kcal/mol | solvent leg dispatched; full pass priced | ◐ in work |
+⛔ **A "PASSES" here means the instrument recovered *that* known answer. It never means the instrument
+supports the claim the map points it at** — the paper spends four separate paragraphs refusing exactly that
+reading, so the scope column below is not a footnote, it is the verdict.
+
+| instrument | known-answer test | result | ⚠ what the result does NOT support | state |
+|---|---|---|---|---|
+| Structural selectivity descriptor (`selcal_interface_signature`) | recover the published SMARCA2 Gln1469↔VCB hydrogen bond, unaided, from two crystals | Gln98 Oε1→Arg12 Nη2 **2.88 Å** vs Leu1545 | *"validates **one contact in one pair**. It does **not** validate E1 … and it makes **no NR4A3 prediction correct**"* (`:2200–2203`) | ✓ complete — **PASSES, in scope** |
+| Ternary generator given both sites (assembly route) | rebuild 6HAX (in-set) and 9DTY (post-horizon) | DockQ 0.618 / **0.839**, iRMSD 0.67 Å | 6HAX is inside the model's 2023-10-14 horizon, so it is *"**memorisation-permitting by construction** … **not** evidence of generalisation"* (`:2140–2142`). 9DTY is **best of 16 seeds, median 0.442**, and **one arm** — the SMARCA4 arm was refused and **no SMARCA4 number exists** (`:2163–2165`) | ✓ complete — **PASSES, in scope** |
+| Interface-mutation physics (pmx/GROMACS) | barnase–barstar Y29A vs published ΔΔG | +4.42 ± 1.08 vs +3.4 | ⛔ *"**No benchmark yet probes the regime this cross-check would occupy** — resolving ~1 kcal/mol between two closely related receptor states — so the engine is validated for seeing a large effect and for not inventing one where none exists, but **not demonstrated to resolve a small paralogue-scale difference**"* (`:2409–2412`). **That is the regime Route A needs it for** | ✓ complete — **PASSES, but not in the regime that matters** |
+| **Selectivity free energy (ABFE)** — the *selectivity* known-answer test | CREBBP vs BRD4(1) / SGC-CBP30, ΔΔG ≈ 2.2 kcal/mol | **no result. Built and staged with no `result` key; never completed** | it is a **binary** control: even a clean pass *"would **not** discharge §4's paralogue/ternary statement"* ([STRATEGY.md:536–538](../../STRATEGY.md)) | ○ **not started · 🔒 not authorized** ([STRATEGY.md:546](../../STRATEGY.md)) — see §2bb |
+| ABFE engine, **absolute** (same engine as above) | T4-lysozyme L99A + benzene, experimental **−5.2** kcal/mol | **+1.90 ± 0.09** — *"under-binding by ≈ +7.1 kcal/mol — a failed/strongly-biased absolute benchmark"* (`:1252–1254`) | ⛔ the miss is **larger than the entire selectivity margin the engine is used to compute**, which is why every ABFE **absolute** in the paper is uninterpretable | ✓ complete — **FAILS** |
+| ABFE engine, hydration (same engine) | methane hydration free energy (FreeSolv), **+2.0** | **+1.60 ± 0.04**, *"approximately reproduced"* (`:2296–2298`) | a solvation smoke test; says nothing about a protein site | ✓ complete — **PASSES, narrowly** |
+| Relative FEP (OpenFE, the congeneric lane) | TYK2 `ejm_31→ejm_42` benchmark ΔΔG **−0.24** | **+0.37**, abs err **0.61** — inside the ~1 kcal/mol band | a **relative** result on a *different* quantity in **one** pocket. [STRATEGY.md:538](../../STRATEGY.md): *"valA validates relative FEP **within one pocket**"* — it is not a selectivity validation | ✓ complete — **PASSES, within one pocket** |
+| **λ-overlap diagnostic on the standing ABFE block** | — (a self-check, not a known answer) | ⛔ *"**every leg** — the shared solvent leg and all three complex legs — has at least one soft-core-tail window pair below 0.03"* (`:1265–1268`) | holds the **whole ABFE block provisional**, including the paralogue result in §4 row 4 | ✓ measured — **defect open**, repair 🔒 held (§2bb) |
 | Ligand pose prediction (dock + MM-GBSA) | recover a known holo pose in a nuclear receptor from apo | **INCONCLUSIVE by its own pre-registered rule** — the C1 holo self-dock control failed through the pipeline's own box on **6 of 6 pairs across 3 receptors** (17.3–29.3 Å), so the primary arm measured the *site*, not the docking. With an fpocket-chosen box the same protocol recovers **3.46 Å, fnat 0.778, 7 of 9 native contacts** | ✓ complete — verdict INCONCLUSIVE |
 | Sequence-only co-folding (Boltz-2 ternary) | reproduce 9DTY/9DTX from sequence + ligand | DockQ 0.023–0.046 ≈ true structure moved 32 Å | ⏸ parked — **FAILS** (§2b) |
 | Interface-stability endpoint (E1) | **two** attempts: NR-V04 retrospective, SMARCA2/4 sensitivity control | *p* = 0.393 (DISCORDANT) · *p* = 0.747 (NULL, adequately powered) | ⏸ parked — **no pass** (§2b) |
 | Alchemical ternary cooperativity (valB_mini ΔΔG_coop) | reproduce a known cooperativity, +0.944 kcal/mol | **−0.599** — wrong sign in all 3 replicates, ~34× the statistical uncertainty | ✓ complete — **FAILS**, systematically |
 
-★ **The pattern.** Every instrument put to a known-answer test either passed cleanly or failed cleanly. Every
-claim that later had to be withdrawn came from an instrument that had never been tested. The test costs
-close to nothing; skipping it has cost three retractions.
+★ **The pattern — rewritten 2026-08-02, because the version this page carried was false and pointed at the
+wrong prophylactic.**
+
+⚠ **SUPERSEDED, retained so it is not re-derived:** *"Every instrument put to a known-answer test either
+passed cleanly or failed cleanly. **Every** claim that later had to be withdrawn came from an instrument that
+had never been tested … skipping it has cost **three** retractions."* Both halves fail against this page's own
+table and the paper's own census.
+
+**What is actually true, and it is still worth making:**
+
+1. **A known-answer test costs close to nothing and has never once been wasted.** Every instrument put to one
+   returned a *readable* verdict — and readable is the whole point. That is the surviving lesson.
+2. **But "passed cleanly or failed cleanly" is wrong.** Two rows returned neither: the pose pipeline is
+   **INCONCLUSIVE by its own pre-registered rule**, and the NR-V04 retrospective is a **NON-RESOLUTION**
+   ([STRATEGY.md:71](../../STRATEGY.md): *"⚠ **NON-RESOLUTION**, never a candidate control"*). A test that
+   cannot resolve is a third outcome, and both of these were mis-read as failures at some point.
+3. ⛔ **And "every withdrawn claim came from an untested instrument" is REFUTED by the largest retraction in
+   the paper.** The NR-V04 per-arm figures fell to a **chain-ordering defect** (Elongin C scored as the
+   target), an **nm/Å unit error** and **contaminated inputs** (14-3-3 ε where Elongin B belongs). **No
+   known-answer test catches any of those** — the paper says so directly (`:933–936`): the panel persisted no
+   trajectory, so the defects were *"each correctable in principle and **none correctable in practice**"*.
+   The same is true of the E3-recruiter retraction (a biological-assembly frame defect, `:1600`) and the
+   Gate-3B withdrawal (cross-replica divergence, `:403`).
+4. **The count is not three.** On the paper's own naming there are **at least four** withdrawn *selectivity*
+   results — the MM-GBSA "confirmed selective" headline, `denovo_111`, the negative conclusion that the
+   ternary adds no selectivity, and the NR-V04 per-arm figures — and **six** if `denovo_94`/`denovo_57` are
+   counted as the paper counts them (`:2610`), plus two further non-selectivity retractions. *"Three"* was
+   quoted with no enumeration, in a document whose whole purpose is to stop facts being re-derived from
+   prose. ⚠ [STRATEGY.md:13](../../STRATEGY.md) also says "three" and inherits this correction — flagged in
+   §7, not edited here.
+
+**So the correct prophylactic is TWO rules, not one:** *(a)* test the instrument against a known answer
+before believing it — cheap, and it caught rows 1 and 3; and *(b)* **persist the primary artifact**, because
+the defects that cost the most were analysis and input bugs that only a retained trajectory could have let
+anyone fix. Rule (b) is the one this page was missing, and it is the more expensive of the two.
 
 ---
 
@@ -238,10 +387,10 @@ The **state** column is the work item that would move the claim, not a grade on 
 
 | claim | evidence today | what would settle it | state |
 |---|---|---|---|
-| **A pocket exists** | 4 of 20 conformers of the experimental apo NMR ensemble **8XTT** are cavity-bearing, no simulation bias applied; Gate 3A (persistence after bias removal) supported | settled enough to build on; Gate 3B (equilibrium accessibility) still open | ✓ complete |
-| **Something binds it** | none — no ligand-bound NR4A3 structure exists, of any molecule | a thermal shift / SPR / NMR fragment screen. **Cheapest decisive experiment in the program**, and a negative is as useful as a positive | ○ future — **needs a wet lab** |
+| **A pocket exists** | in the experimental apo NMR ensemble **8XTT**, the orthosteric pocket is **matched in 19 of 20** conformers, of which **3 score ≥ D\*** — i.e. **3/20 across all deposited conformers**, no simulation bias applied ([`nr4a3-pocket-reharmonize-summary.json`](../modalities/nr4a3-pocket-reharmonize-summary.json), row `8xtt_20conformers`); Gate 3A (persistence after bias removal) supported | ⛔ **NOT settled — three separate open gates, one of which is upstream of everything.** (i) Pre-registered **Gate 1 (a genuine two-state cryptic *opening*) FAILED as registered** — F(Rg) is monotonic, *"a single resolved minimum and a rising wall, with no separate opened minimum"*, and the paper records it as *"**failed, and reformulated**, not a 'weak pass'"* (`:387–394`, `:2549`). (ii) **Gate 3B** (equilibrium accessibility) is unresolved. (iii) ⛔ An open **submission gate**: the harmonized artifact reports ensemble-level fractions only and does **not** identify which individual frames cleared D\*, so it does not discharge the frame-level check that the **exact release-derived frame `denovo_401` was generated into still qualifies** — and *"if the generation frame does not qualify, the **generation receptor** … is affected"* (`:2259–2265`) | ○ **open** — the claim is *supported*, not settled |
+| **Something binds it** — scoped: **the opened cryptic Pocket-5** | ⚠ **Two different questions, and this page previously ran them together.** *Does anything bind NR4A3 at all?* — **yes, published**: a fragment screen against NOR-1/NR4A3 (hit rate <1 %) returned three chemotypes, one elaborated to a **low-micromolar inverse agonist** (Zaienne cmpd19) that shifted NOR-1-regulated gene expression in cells (`:92–99`), and §2.9's whole congeneric lane is anchored on it. *Does anything bind the **cryptic pocket**?* — **nothing, of any molecule**: those results *"leave the binding site **structurally undefined**"* (`:99–101`) | a thermal shift / SPR / NMR fragment screen **against the opened site**. **Cheapest decisive experiment in the program**, and a negative is as useful as a positive. ⚠ The scoping word is load-bearing — dropping it makes the map claim there is no experimental ligand evidence for NR4A3, which the paper's §1 contradicts | ○ future — **needs a wet lab** |
 | **The pose is right** | ⛔ the known-answer test **ran and returned INCONCLUSIVE** ([`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json)) — and its decomposition splits the question in two: the **docking** is fine (3.46 Å blind from apo, fnat 0.778), the **site selection** is what missed, on 6 of 6 pairs | re-run the primary arm with the site question separated from the docking question — see §5 branch 2 | ✓ test complete, claim **unresolved** |
-| **The binder is paralogue-selective** | predicted margin only; the paper's own reading is that selectivity, if any, rests here rather than on the ternary | paralogue ABFE with replicate-SD error bars — *after* CREBBP/BRD4 shows the method recovers a known ΔΔG | ○ future — gated on ◐ |
+| **The binder is paralogue-selective** | ⚠ **More than the map used to say, and weaker than it sounds.** The paralogue ABFE **has been run and reported at three independent-seed replicates** with exactly the replicate-SD error bars this row used to ask for: ΔΔG(NR4A3−NR4A1) **−4.76 ± 2.03**, ΔΔG(NR4A3−NR4A2) **−4.98 ± 0.68**, both resolved below zero (`:1230–1239`, `:2303`). It is held **provisional and deliberately parked** for a named defect — a soft-core-tail λ-overlap failure on *every* leg — *"It is not currently running: the whole ABFE block is **deliberately held** … it is not the next thing worth computing"* (`:1277–1280`). **"Run, reported, consciously parked" ≠ "not started"**, which is what this row said before. The paper's live reading is that selectivity rests on the binder margin **plus the nominated categorical handles**, and it explicitly refuses to write the ternary off (`:2600–2601`; SI `:141–144`) | **Two things, and they are not the same thing.** (1) **The instrument:** a selectivity known-answer test — the CREBBP/BRD4 ABFE. *(highest leverage in the program · 🔒 **not authorized** · would **not** discharge this row — it is a **binary** control; §0b, §2bb.)* (2) ⛔ **The missing physical term:** **ΔG_open per paralogue**, never computed. Requirement 2 is explicit that matched-open comparison can **"miss or REVERSE selectivity"** — so a perfect instrument on today's inputs still would not settle this row. ⚠ **This row is therefore not blocked *only* on the instrument**, which is how the map read before 2026-08-02 | ○ open — ⏸ **the existing result is parked**, not absent |
 | **A ternary forms** | predicted for all three paralogues at comparable confidence, built by the failing route — and the molecule used is **unrecoverable**, so it cannot be replicated | rebuild by the assembly route from a recorded molecule | ○ future — the *result* is ✕ (§2a, unregenerable), the *route* that built it is ⏸ (§2b), the claim is open |
 | **The ternary adds selectivity** | one sequence-encoded candidate (Glu208 → Pro in NR4A1, Tyr in NR4A2); five further hits were placement artifacts; reproducibility untested at one model per arm | credible ternaries × ≥3 models per paralogue, scored by the validated descriptor | ○ future |
 | **NR4A3 is the right target** | transfer prior from fusion-addicted sarcomas; near-invariant clonal fusion in a quiet genome; no loss-of-function experiment in any EMC model | the dTAG degradation test — delegated to the EMC-program paper | ○ future — outside scope |
