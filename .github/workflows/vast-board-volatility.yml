@@ -116,12 +116,13 @@ jobs:
           # cache branch, where the sampler has already been pushing it every 10 minutes.
           git checkout -- research/modalities/vast-board-volatility.jsonl 2>/dev/null || true
           rm -f research/modalities/vast-board-volatility.jsonl
-          git add -f research/modalities/vast-board-volatility.json \
-                    research/modalities/vast-board-volatility-gitmine.json 2>/dev/null || true
-          git commit -m "vast board volatility: $(date -u +%FT%TZ)" || { echo "no change"; exit 0; }
-          for i in 1 2 3 4; do
-            git pull --rebase origin "${{ github.ref_name }}" && \
-              git push origin HEAD:${{ github.ref_name }} && exit 0
-            sleep $((2**i))
-          done
-          echo "::warning::could not push the volatility readout"
+          # ⛔ ONE HOME FOR THE PUBLISH — the primitive already does this retry, and fixes what the loop could
+          # not: `git pull --rebase` leaves the repo MID-REBASE on a conflict, so every later attempt dies on
+          # the wreckage of the first and the step ends on a warning while reporting SUCCESS.
+          # ⚠ THE `rm -f` ABOVE IS LOAD-BEARING AND IS DELIBERATELY LEFT WHERE IT IS: the raw .jsonl series
+          # must NOT reach the working branch, and the primitive publishes exactly the paths it is given, so
+          # the removal has to happen before it runs (it does).
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "vast board volatility: $(date -u +%FT%TZ)" \
+            research/modalities/vast-board-volatility.json \
+            research/modalities/vast-board-volatility-gitmine.json

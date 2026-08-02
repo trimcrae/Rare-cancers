@@ -108,10 +108,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet research/compute/credit-status.json; then
-            git add research/compute/credit-status.json
-            git commit -m "credit-status: refresh free-credit burn board"
-            git push origin HEAD:${{ github.ref_name }}
-          else
-            echo "no change"
-          fi
+          # ⛔ ONE HOME FOR THE PUBLISH — see research/compute/publish_artifacts.sh. EVENT semantics kept via
+          # PUBLISH_IF_CHANGED: an empty commit would date a refresh that did not happen.
+          # ⚠ THE `git diff --quiet <path>` THIS REPLACES IGNORES UNTRACKED FILES, so the very first run —
+          # when credit-status.json does not exist yet — read as "no change" and published nothing. The
+          # primitive stages first and compares the staged tree, so a file absent at checkout is correctly
+          # seen as written by this run.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "credit-status: refresh free-credit burn board" \
+            research/compute/credit-status.json

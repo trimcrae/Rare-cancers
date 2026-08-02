@@ -42,6 +42,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/_reports/nr4a3-repurpose-fm-report.txt
-          git commit -m "FM repurpose report output [skip ci]" || { echo "no change"; exit 0; }
-          git push
+          # ⛔ ONE HOME FOR THE PUBLISH. ⚠ THE BARE `git push` THIS REPLACES pushed the CHECKED-OUT branch by
+          # whatever the local tracking config happened to say, rather than naming a ref — so where this
+          # landed depended on the checkout rather than on this step. The primitive takes the branch as an
+          # explicit argument, which is the same fix as naming `HEAD:<ref>` and also gets the retry.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "FM repurpose report output [skip ci]" \
+            research/modalities/_reports/nr4a3-repurpose-fm-report.txt
