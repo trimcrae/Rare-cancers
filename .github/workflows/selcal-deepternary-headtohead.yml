@@ -114,10 +114,27 @@ jobs:
           #      exists only while the process runs, and our own two scoring instruments would have found an
           #      empty directory and recorded "no predictions" for a run that predicted fine. Redirect it to
           #      a real directory that survives.
+          #      ⚠ AND THE REPLACEMENT MUST BE PICKLABLE. `THREAD_NUM = 5`, so `cfg` is pickled to five
+          #      `multiprocessing.Pool` workers; a first attempt used `cleanup=lambda: None` and run
+          #      30755062993 died before the model ran with
+          #        _pickle.PicklingError: Can't pickle <function <lambda>> ... on __main__ failed
+          #      `int` is a builtin, pickles by reference, and `int()` is 0 — so it is a no-op cleanup that
+          #      survives the fork. Verified locally: SimpleNamespace(name=..., cleanup=int) round-trips.
           sed -i "s/^    device = 'cuda'/    device = 'cpu'/" predict_cpu.py
           sed -i 's/SEED_NUM = 40/SEED_NUM = 16/g' predict_cpu.py
-          sed -i "s|cfg.tmp_dir = tempfile.TemporaryDirectory()|import types as _t; os.makedirs('predictions', exist_ok=True); cfg.tmp_dir = _t.SimpleNamespace(name='predictions', cleanup=lambda: None)|" predict_cpu.py
-          grep -n "device = 'cpu'\|SEED_NUM = 16\|predictions" predict_cpu.py | awk 'NR<=6'
+          sed -i "s|cfg.tmp_dir = tempfile.TemporaryDirectory()|import types as _t; os.makedirs('predictions', exist_ok=True); cfg.tmp_dir = _t.SimpleNamespace(name='predictions', cleanup=int)|" predict_cpu.py
+          grep -n "device = 'cpu'\|SEED_NUM = 16\|cleanup=int" predict_cpu.py | awk 'NR<=6'
+          # The patch is only trustworthy if it actually applied and left no lambda behind.
+          python3 - <<'PYCHK'
+          import pickle, re, sys, types
+          src = open("predict_cpu.py").read()
+          assert "cleanup=int" in src, "the tmp_dir patch did not apply"
+          assert "cleanup=lambda" not in src, "a lambda survived — it will not pickle to the pool workers"
+          assert re.search(r"^    device = 'cpu'", src, re.M), "device patch did not apply"
+          assert "SEED_NUM = 16" in src, "seed patch did not apply"
+          pickle.loads(pickle.dumps(types.SimpleNamespace(name="predictions", cleanup=int)))
+          print("patches applied and the replacement tmp_dir pickles")
+          PYCHK
 
       # ══ THE POSITIVE CONTROL ══════════════════════════════════════════════════════════════════════════
       # ★ RUN THE GENERATOR ON A TERNARY IT IS KNOWN TO RECOVER, THROUGH OUR HARNESS, BEFORE ASKING IT
@@ -133,6 +150,10 @@ jobs:
       #      2023-10-14 data horizon, so it is a memorisation-permitting case by construction. It is a
       #      POSITIVE CONTROL ON THE INSTRUMENT, and must never be quoted as blind performance.
       - name: Positive control — the generator on a ternary it already knows (6HAX, VHL/SMARCA2)
+        # Non-blocking ON PURPOSE, so one CI round still exercises the frame builder and the selcal arms
+        # behind it — but the run does NOT get to finish green on a failed control: the last step below
+        # reads the published artifact and fails the job if it did not pass.
+        continue-on-error: true
         run: |
           set -eo pipefail
           cd "$RUNNER_TEMP/dt"
@@ -313,3 +334,24 @@ jobs:
             research/modalities/selcal-deepternary-prep.json \
             research/modalities/selcal-deepternary-prep-configs.json \
             research/modalities/selcal-deepternary-headtohead.json
+
+      # ⛔ THE RUN DOES NOT GO GREEN ON A FAILED POSITIVE CONTROL. Everything above is allowed to continue so
+      # one CI round yields the most information, and this is where that latitude is paid back: a harness
+      # that cannot score a known-good ternary cannot be used to grade a suspect one, and a green tick would
+      # say the opposite. Published artifacts are kept either way — the state is recorded, not hidden.
+      - name: The positive control has to have passed
+        if: ${{ always() }}
+        run: |
+          set -eo pipefail
+          python3 - <<'PYGATE'
+          import json, os, sys
+          p = "research/modalities/selcal-deepternary-poscontrol.json"
+          if not os.path.exists(p):
+              print("::error::the positive control produced no artifact — it did not run to a verdict")
+              sys.exit(4)
+          d = json.load(open(p))
+          print(d.get("sentence", "(no sentence)"))
+          if not d.get("positive_control_passes"):
+              print("::error::positive control did not pass — near-zero readings elsewhere stay uninterpretable")
+              sys.exit(5)
+          PYGATE
