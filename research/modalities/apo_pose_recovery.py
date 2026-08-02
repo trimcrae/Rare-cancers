@@ -152,7 +152,18 @@ SELECTION_RULES = [
     "R7 RANK  — prefer an apo solved by SOLUTION NMR with multiple models, which mirrors 8XTT exactly.",
     "R8 RANK  — prefer better holo resolution, then better apo resolution.",
     "R9 REPORT — measure, do not assume, the apo->holo induced fit (pocket Ca RMSD) and record it.",
+    "R2b HARD — the holo ligand must NOT be covalently linked to the receptor (no LINK record joining it "
+    "to a protein atom). A non-covalent docking protocol cannot in principle reproduce a covalent pose, so "
+    "scoring one would measure the wrong thing. ADDED 2026-08-02 AFTER SOURCING BUT BEFORE ANY RMSD "
+    "EXISTED — the first run's primary arm errored at the site transfer, so no recovery number had been "
+    "computed when this rule was written. Recorded here rather than edited in silently (CLAUDE.md §1.2).",
 ]
+
+#: How many distinct benchmark pairs to run. ONE case is thin and invites the reading that the pair was
+#: chosen for its answer, so the panel is fixed at three DISTINCT crystallographic answers and every member
+#: is reported whatever it returns. The PRIMARY verdict is still the rank-1 pair; the rest are supporting
+#: cases, never a menu to pick from.
+N_BENCHMARKS = 3
 
 
 # ==================================================================================================
@@ -362,6 +373,22 @@ def ligand_hetatms(pdb_text, comp_id):
         return None, None
     key = max(groups, key=lambda k: len(groups[k]))
     return groups[key], key
+
+
+def covalent_links(pdb_text, comp_id):
+    """LINK records joining `comp_id` to anything else — R2b's evidence, read from the deposit itself.
+
+    A LINK record is how the PDB states a covalent bond between residues, so a ligand appearing in one is
+    covalently attached and a non-covalent dock cannot reproduce its pose by construction. Read from the
+    file rather than inferred from the ligand's chemistry, because only the depositor knows."""
+    out = []
+    want = comp_id.upper()
+    for line in pdb_text.splitlines():
+        if not line.startswith("LINK"):
+            continue
+        if line[17:20].strip().upper() == want or line[47:50].strip().upper() == want:
+            out.append(line.rstrip())
+    return out
 
 
 def het_coords(lines):
@@ -724,6 +751,13 @@ def run_benchmark(cand, work, af2_reference_pdb):
 
     # 2) the crystallographic answer
     comp = (cand["ligand"] or {}).get("comp_id")
+    links = covalent_links(holo_txt, comp)
+    R_["covalent_links"] = links
+    if links:
+        R_["excluded_by"] = "R2b"
+        return refuse("R2b", "%s is COVALENTLY linked in %s (%d LINK record(s)); a non-covalent dock "
+                             "cannot reproduce a covalent pose. First: %s"
+                             % (comp, cand["holo"], len(links), links[0][:80]))
     lines, key = ligand_hetatms(holo_txt, comp)
     if not lines:
         return refuse("crystal_ligand", "no HETATM copy of %s in %s" % (comp, cand["holo"]))
@@ -1025,9 +1059,58 @@ def main():
                                         "transfer could not be fetched: %s" % e}
             _emit(doc)
             return
-    doc["result"] = run_benchmark(sel["chosen"], WORK, af2)
-    doc["verdict"] = doc["result"].get("verdict")
+    # ⛔ A PANEL, NOT A PICK. Candidates are taken in the pre-registered rank order and every one that is
+    # attempted is reported, including the ones R2b throws out. The PRIMARY verdict is the first pair that
+    # actually runs; the rest are supporting cases. Nothing here can be re-ordered by its answer, because
+    # the order is fixed by SELECTION_RULES before any structure is fetched.
+    panel, attempted = [], 0
+    for pair in _panel_candidates(sel):
+        attempted += 1
+        res = run_benchmark(pair, os.path.join(WORK, "%s_%s" % (pair["apo"], pair["holo"])), af2)
+        panel.append(res)
+        if len([r for r in panel if r.get("verdict")]) >= N_BENCHMARKS:
+            break
+        if attempted >= N_BENCHMARKS * 4:      # bounded: never grind the whole 5-figure candidate list
+            break
+    doc["panel"] = panel
+    ran = [r for r in panel if r.get("verdict")]
+    doc["result"] = ran[0] if ran else (panel[0] if panel else None)
+    doc["verdict"] = (ran[0]["verdict"] if ran else
+                      {"outcome": "INCONCLUSIVE",
+                       "reason": "no candidate pair reached a scored arm",
+                       "refusals": [r.get("refusals") for r in panel]})
+    if len(ran) > 1:
+        doc["verdict"]["panel_summary"] = {
+            "n_pairs_scored": len(ran),
+            "pairs": [{"apo": r["candidate"]["apo"], "holo": r["candidate"]["holo"],
+                       "ligand": r["candidate"]["ligand"]["comp_id"],
+                       "outcome": r["verdict"]["outcome"],
+                       "primary_rmsd_A": r["verdict"].get("primary_rmsd_A")} for r in ran],
+            "n_recovered": sum(1 for r in ran if r["verdict"]["outcome"] == "RECOVERED"),
+            "_note": "the PRIMARY verdict is the rank-1 pair; these are supporting cases, reported "
+                     "whatever they returned",
+        }
     _emit(doc)
+
+
+def _panel_candidates(sel):
+    """Rank-ordered candidate pairs, de-duplicated so the panel is not three views of one comparison."""
+    seen_apo, seen_holo, out = set(), set(), []
+    rows = sel.get("considered_top") or []
+    if sel.get("chosen"):
+        rows = [{k: v for k, v in sel["chosen"].items()}] + [r for r in rows]
+    for r in rows:
+        key_a, key_h = r.get("apo"), r.get("holo")
+        if not key_a or not key_h:
+            continue
+        if key_a in seen_apo and key_h in seen_holo:
+            continue                                   # neither end is new -> nothing extra is learned
+        seen_apo.add(key_a)
+        seen_holo.add(key_h)
+        out.append({k: r[k] for k in ("accession", "protein", "apo", "holo", "ligand", "apo_method",
+                                      "apo_models", "apo_resolution_A", "holo_resolution_A",
+                                      "apo_title", "holo_title") if k in r})
+    return out
 
 
 def _emit(doc):
