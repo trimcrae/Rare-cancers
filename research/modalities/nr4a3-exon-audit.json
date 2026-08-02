@@ -1,0 +1,382 @@
+{
+ "_title": "EWSR1::NR4A3 junction model audit -- exon->residue map, both numbering schemes, and which fusion model survives",
+ "_owner": "research/manuscripts/target-route-options.md finding 3; roadmap requirement R13",
+ "_method": "Ensembl REST, canonical transcript, pure stdlib. Per-exon coding length and first encoded residue, reported under BOTH the transcript exon rank (what the literature means) and the coding-exon index (what fusion_breakpoints.py indexes). The DBD is anchored on the C4 zinc-finger motif found in the sequence, not on the AlphaFold-confidence boundary, which is offset from the actual fingers.",
+ "_limits": [
+  "Exon arithmetic and sequence motifs only. No structure, binding, degradation, activity, tolerability or clinical claim.",
+  "This does NOT establish the EMC breakpoint -- that needs a primary breakpoint report.",
+  "Canonical transcript only. A different transcript would give a different exon->residue map, and EMC breakpoints are reported against specific transcripts."
+ ],
+ "NR4A3": {
+  "symbol": "NR4A3",
+  "transcript": "ENST00000395097",
+  "translation": "ENSP00000378531",
+  "strand": 1,
+  "protein_length": 626,
+  "exons": [
+   {
+    "transcript_exon_rank": 1,
+    "coding_nt_in_exon": 0,
+    "is_coding": false
+   },
+   {
+    "transcript_exon_rank": 2,
+    "coding_nt_in_exon": 0,
+    "is_coding": false
+   },
+   {
+    "transcript_exon_rank": 3,
+    "coding_nt_in_exon": 951,
+    "is_coding": true,
+    "first_coding_nt": 1,
+    "first_protein_residue": 1,
+    "cumulative_coding_nt_through_exon": 951,
+    "coding_exon_index_1based": 1
+   },
+   {
+    "transcript_exon_rank": 4,
+    "coding_nt_in_exon": 130,
+    "is_coding": true,
+    "first_coding_nt": 952,
+    "first_protein_residue": 318,
+    "cumulative_coding_nt_through_exon": 1081,
+    "coding_exon_index_1based": 2
+   },
+   {
+    "transcript_exon_rank": 5,
+    "coding_nt_in_exon": 173,
+    "is_coding": true,
+    "first_coding_nt": 1082,
+    "first_protein_residue": 361,
+    "cumulative_coding_nt_through_exon": 1254,
+    "coding_exon_index_1based": 3
+   },
+   {
+    "transcript_exon_rank": 6,
+    "coding_nt_in_exon": 200,
+    "is_coding": true,
+    "first_coding_nt": 1255,
+    "first_protein_residue": 419,
+    "cumulative_coding_nt_through_exon": 1454,
+    "coding_exon_index_1based": 4
+   },
+   {
+    "transcript_exon_rank": 7,
+    "coding_nt_in_exon": 179,
+    "is_coding": true,
+    "first_coding_nt": 1455,
+    "first_protein_residue": 485,
+    "cumulative_coding_nt_through_exon": 1633,
+    "coding_exon_index_1based": 5
+   },
+   {
+    "transcript_exon_rank": 8,
+    "coding_nt_in_exon": 248,
+    "is_coding": true,
+    "first_coding_nt": 1634,
+    "first_protein_residue": 545,
+    "cumulative_coding_nt_through_exon": 1881,
+    "coding_exon_index_1based": 6
+   }
+  ],
+  "coding_offsets": [
+   951,
+   1081,
+   1254,
+   1454,
+   1633,
+   1881
+  ],
+  "self_checks": {
+   "offsets_sum_equals_cds_length": true,
+   "cds_translation_equals_ensembl_protein": true,
+   "n_transcript_exons": 8,
+   "n_coding_exons": 6,
+   "first_transcript_exon_is_coding": false
+  }
+ },
+ "EWSR1": {
+  "symbol": "EWSR1",
+  "transcript": "ENST00000397938",
+  "translation": "ENSP00000381031",
+  "strand": 1,
+  "protein_length": 656,
+  "exons": [
+   {
+    "transcript_exon_rank": 1,
+    "coding_nt_in_exon": 13,
+    "is_coding": true,
+    "first_coding_nt": 1,
+    "first_protein_residue": 1,
+    "cumulative_coding_nt_through_exon": 13,
+    "coding_exon_index_1based": 1
+   },
+   {
+    "transcript_exon_rank": 2,
+    "coding_nt_in_exon": 37,
+    "is_coding": true,
+    "first_coding_nt": 14,
+    "first_protein_residue": 5,
+    "cumulative_coding_nt_through_exon": 50,
+    "coding_exon_index_1based": 2
+   },
+   {
+    "transcript_exon_rank": 3,
+    "coding_nt_in_exon": 52,
+    "is_coding": true,
+    "first_coding_nt": 51,
+    "first_protein_residue": 17,
+    "cumulative_coding_nt_through_exon": 102,
+    "coding_exon_index_1based": 3
+   },
+   {
+    "transcript_exon_rank": 4,
+    "coding_nt_in_exon": 124,
+    "is_coding": true,
+    "first_coding_nt": 103,
+    "first_protein_residue": 35,
+    "cumulative_coding_nt_through_exon": 226,
+    "coding_exon_index_1based": 4
+   },
+   {
+    "transcript_exon_rank": 5,
+    "coding_nt_in_exon": 187,
+    "is_coding": true,
+    "first_coding_nt": 227,
+    "first_protein_residue": 76,
+    "cumulative_coding_nt_through_exon": 413,
+    "coding_exon_index_1based": 5
+   },
+   {
+    "transcript_exon_rank": 6,
+    "coding_nt_in_exon": 168,
+    "is_coding": true,
+    "first_coding_nt": 414,
+    "first_protein_residue": 138,
+    "cumulative_coding_nt_through_exon": 581,
+    "coding_exon_index_1based": 6
+   },
+   {
+    "transcript_exon_rank": 7,
+    "coding_nt_in_exon": 212,
+    "is_coding": true,
+    "first_coding_nt": 582,
+    "first_protein_residue": 194,
+    "cumulative_coding_nt_through_exon": 793,
+    "coding_exon_index_1based": 7
+   },
+   {
+    "transcript_exon_rank": 8,
+    "coding_nt_in_exon": 181,
+    "is_coding": true,
+    "first_coding_nt": 794,
+    "first_protein_residue": 265,
+    "cumulative_coding_nt_through_exon": 974,
+    "coding_exon_index_1based": 8
+   },
+   {
+    "transcript_exon_rank": 9,
+    "coding_nt_in_exon": 38,
+    "is_coding": true,
+    "first_coding_nt": 975,
+    "first_protein_residue": 325,
+    "cumulative_coding_nt_through_exon": 1012,
+    "coding_exon_index_1based": 9
+   },
+   {
+    "transcript_exon_rank": 10,
+    "coding_nt_in_exon": 33,
+    "is_coding": true,
+    "first_coding_nt": 1013,
+    "first_protein_residue": 338,
+    "cumulative_coding_nt_through_exon": 1045,
+    "coding_exon_index_1based": 10
+   },
+   {
+    "transcript_exon_rank": 11,
+    "coding_nt_in_exon": 119,
+    "is_coding": true,
+    "first_coding_nt": 1046,
+    "first_protein_residue": 349,
+    "cumulative_coding_nt_through_exon": 1164,
+    "coding_exon_index_1based": 11
+   },
+   {
+    "transcript_exon_rank": 12,
+    "coding_nt_in_exon": 130,
+    "is_coding": true,
+    "first_coding_nt": 1165,
+    "first_protein_residue": 389,
+    "cumulative_coding_nt_through_exon": 1294,
+    "coding_exon_index_1based": 12
+   },
+   {
+    "transcript_exon_rank": 13,
+    "coding_nt_in_exon": 123,
+    "is_coding": true,
+    "first_coding_nt": 1295,
+    "first_protein_residue": 432,
+    "cumulative_coding_nt_through_exon": 1417,
+    "coding_exon_index_1based": 13
+   },
+   {
+    "transcript_exon_rank": 14,
+    "coding_nt_in_exon": 163,
+    "is_coding": true,
+    "first_coding_nt": 1418,
+    "first_protein_residue": 473,
+    "cumulative_coding_nt_through_exon": 1580,
+    "coding_exon_index_1based": 14
+   },
+   {
+    "transcript_exon_rank": 15,
+    "coding_nt_in_exon": 98,
+    "is_coding": true,
+    "first_coding_nt": 1581,
+    "first_protein_residue": 527,
+    "cumulative_coding_nt_through_exon": 1678,
+    "coding_exon_index_1based": 15
+   },
+   {
+    "transcript_exon_rank": 16,
+    "coding_nt_in_exon": 253,
+    "is_coding": true,
+    "first_coding_nt": 1679,
+    "first_protein_residue": 560,
+    "cumulative_coding_nt_through_exon": 1931,
+    "coding_exon_index_1based": 16
+   },
+   {
+    "transcript_exon_rank": 17,
+    "coding_nt_in_exon": 40,
+    "is_coding": true,
+    "first_coding_nt": 1932,
+    "first_protein_residue": 644,
+    "cumulative_coding_nt_through_exon": 1971,
+    "coding_exon_index_1based": 17
+   }
+  ],
+  "coding_offsets": [
+   13,
+   50,
+   102,
+   226,
+   413,
+   581,
+   793,
+   974,
+   1012,
+   1045,
+   1164,
+   1294,
+   1417,
+   1580,
+   1678,
+   1931,
+   1971
+  ],
+  "self_checks": {
+   "offsets_sum_equals_cds_length": true,
+   "cds_translation_equals_ensembl_protein": true,
+   "n_transcript_exons": 17,
+   "n_coding_exons": 17,
+   "first_transcript_exon_is_coding": true
+  }
+ },
+ "coding_vs_transcript_numbering": {
+  "_question": "Does fusion_breakpoints.py's `offsets[n-2]` resume at TRANSCRIPT exon n or CODING exon n?",
+  "nr4a3_first_transcript_exon_is_coding": false,
+  "implied_label_shift_vs_transcript_rank": 1,
+  "label_map": [
+   {
+    "fusion_breakpoints_label": "NR4A3_exon_start=2",
+    "resumes_at_coding_exon_index": 2,
+    "resumes_at_transcript_exon_rank": 4,
+    "first_protein_residue": 318,
+    "literature_exon_number_this_actually_is": 4,
+    "label_matches_transcript_rank": false
+   },
+   {
+    "fusion_breakpoints_label": "NR4A3_exon_start=3",
+    "resumes_at_coding_exon_index": 3,
+    "resumes_at_transcript_exon_rank": 5,
+    "first_protein_residue": 361,
+    "literature_exon_number_this_actually_is": 5,
+    "label_matches_transcript_rank": false
+   },
+   {
+    "fusion_breakpoints_label": "NR4A3_exon_start=4",
+    "resumes_at_coding_exon_index": 4,
+    "resumes_at_transcript_exon_rank": 6,
+    "first_protein_residue": 419,
+    "literature_exon_number_this_actually_is": 6,
+    "label_matches_transcript_rank": false
+   }
+  ]
+ },
+ "domain_retention_by_resume_exon": [
+  {
+   "transcript_exon_rank": 3,
+   "coding_exon_index": 1,
+   "fusion_would_start_NR4A3_at_residue": 1,
+   "retains_zinc_finger_DBD": true,
+   "retains_LBD": true,
+   "retains_C166": true
+  },
+  {
+   "transcript_exon_rank": 4,
+   "coding_exon_index": 2,
+   "fusion_would_start_NR4A3_at_residue": 318,
+   "retains_zinc_finger_DBD": false,
+   "retains_LBD": true,
+   "retains_C166": false
+  },
+  {
+   "transcript_exon_rank": 5,
+   "coding_exon_index": 3,
+   "fusion_would_start_NR4A3_at_residue": 361,
+   "retains_zinc_finger_DBD": false,
+   "retains_LBD": true,
+   "retains_C166": false
+  },
+  {
+   "transcript_exon_rank": 6,
+   "coding_exon_index": 4,
+   "fusion_would_start_NR4A3_at_residue": 419,
+   "retains_zinc_finger_DBD": false,
+   "retains_LBD": false,
+   "retains_C166": false
+  },
+  {
+   "transcript_exon_rank": 7,
+   "coding_exon_index": 5,
+   "fusion_would_start_NR4A3_at_residue": 485,
+   "retains_zinc_finger_DBD": false,
+   "retains_LBD": false,
+   "retains_C166": false
+  },
+  {
+   "transcript_exon_rank": 8,
+   "coding_exon_index": 6,
+   "fusion_would_start_NR4A3_at_residue": 545,
+   "retains_zinc_finger_DBD": false,
+   "retains_LBD": false,
+   "retains_C166": false
+  }
+ ],
+ "verdict": {
+  "zinc_finger_first_cysteine_residue": 292,
+  "transcript_exons_whose_start_retains_the_DBD": [
+   3
+  ],
+  "committed_artifact_resume_residues": [
+   318,
+   361,
+   419
+  ],
+  "any_committed_resume_retains_the_DBD": false,
+  "fusion_breakpoints_label_is_transcript_exon_rank": false,
+  "_how_to_read": "If `any_committed_resume_retains_the_DBD` is false, then EVERY junction in fusion-breakpoint-neoantigens.json models a chimera without an intact zinc-finger DBD -- which is incompatible with the fusion transactivating the PPARG response element (Filion 2009, PMC4429309). That does NOT by itself establish the EMC breakpoint; it establishes that the exon-derived junction set cannot be the disease protein, so `fusion_cofold.py`'s model (NR4A3 from residue 2) is the only one of the two still standing -- and it is self-declared an assumption, so R13's object remains undefined until a primary breakpoint report pins it.",
+  "_what_this_does_not_settle": "The actual EMC breakpoint. Ensembl gives the exon structure; only a primary breakpoint report gives the junction. This audit bounds which models are arithmetically possible, nothing more."
+ }
+}
