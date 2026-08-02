@@ -125,15 +125,52 @@ jobs:
           sed -i "s|cfg.tmp_dir = tempfile.TemporaryDirectory()|import types as _t; os.makedirs('predictions', exist_ok=True); cfg.tmp_dir = _t.SimpleNamespace(name='predictions', cleanup=int)|" predict_cpu.py
           grep -n "device = 'cpu'\|SEED_NUM = 16\|cleanup=int" predict_cpu.py | awk 'NR<=6'
           # The patch is only trustworthy if it actually applied and left no lambda behind.
+          # (d) ⚠ `predict_cpu.py` imports `DockQ.dockq_util`, WHICH DOES NOT EXIST IN ANY PUBLISHED DockQ.
+          #     It is in neither `requirements.txt` nor the repo, and PyPI DockQ 2.1.3 ships `DockQ.DockQ`
+          #     instead — so run 30755252274's positive control died at
+          #        ModuleNotFoundError: No module named 'DockQ.dockq_util'
+          #     INSIDE the per-seed loop, after the complex had been written. The import sits OUTSIDE the
+          #     `try:` that was meant to tolerate a scoring failure, so it takes the whole run with it.
+          #     ⛔ THE SENTINEL IS `nan`, NOT 0. This lane does not use DeepTernary's internal scoring — the
+          #     numbers it quotes come from its own two instruments — but a table full of `0.0000` would read
+          #     as "scored zero" when the truth is "not measured", and that is the exact confusion this repo
+          #     keeps paying for. `nan` cannot be misread.
+          python3 - <<'PYPATCH'
+          import io
+          src = io.open("predict_cpu.py", newline="").read()
+          old = "        from DockQ.dockq_util import cal_dockq"
+          new = ("        try:\n"
+                 "            from DockQ.dockq_util import cal_dockq\n"
+                 "        except Exception:\n"
+                 "            def cal_dockq(*a, **k):\n"
+                 "                print('[internal-dockq-unavailable] not measured -> nan (our own scorers "
+                 "are the ones this lane quotes)')\n"
+                 "                return float('nan'), float('nan'), float('nan'), float('nan')")
+          n = 0
+          out = []
+          for line in src.split("\n"):
+              stripped = line.rstrip("\r")
+              if stripped == old:
+                  cr = "\r" if line.endswith("\r") else ""
+                  out.extend(l + cr for l in new.split("\n"))
+                  n += 1
+              else:
+                  out.append(line)
+          assert n >= 1, "the DockQ import line was not found — predict_cpu.py has changed"
+          io.open("predict_cpu.py", "w", newline="").write("\n".join(out))
+          print("guarded %d DockQ import site(s)" % n)
+          PYPATCH
           python3 - <<'PYCHK'
-          import pickle, re, sys, types
+          import ast, pickle, re, sys, types
           src = open("predict_cpu.py").read()
           assert "cleanup=int" in src, "the tmp_dir patch did not apply"
           assert "cleanup=lambda" not in src, "a lambda survived — it will not pickle to the pool workers"
           assert re.search(r"^    device = 'cpu'", src, re.M), "device patch did not apply"
           assert "SEED_NUM = 16" in src, "seed patch did not apply"
+          assert "internal-dockq-unavailable" in src, "the DockQ guard did not apply"
+          ast.parse(src)
           pickle.loads(pickle.dumps(types.SimpleNamespace(name="predictions", cleanup=int)))
-          print("patches applied and the replacement tmp_dir pickles")
+          print("patches applied, file still parses, and the replacement tmp_dir pickles")
           PYCHK
 
       # ══ THE POSITIVE CONTROL ══════════════════════════════════════════════════════════════════════════
@@ -161,8 +198,13 @@ jobs:
           python3 predict_cpu.py output/checkpoints/PROTAC \
             --config deepternary/configs/protac.py \
             --checkpoint output/checkpoints/PROTAC/checkpoint.pth 2>&1 | tail -30
+          # Move the predictions somewhere the selcal run cannot overwrite. NOT silenced: an empty or absent
+          # directory here is the difference between "the control failed" and "the control never ran", and
+          # run 30755252274 spent a whole round unable to tell those apart.
           mkdir -p "$RUNNER_TEMP/poscontrol"
-          cp -r predictions "$RUNNER_TEMP/poscontrol/" 2>/dev/null || true
+          echo "predictions written: $(ls -1 predictions 2>/dev/null | wc -l)"
+          cp -r predictions "$RUNNER_TEMP/poscontrol/"
+          ls -1 "$RUNNER_TEMP/poscontrol/predictions" | awk 'NR<=5'
           rm -rf predictions
 
       # Scored a SECOND time by OUR instruments, not DeepTernary's, against the same deposited reference —

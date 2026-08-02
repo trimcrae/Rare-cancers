@@ -86,6 +86,57 @@ def test_min_dist_counts_reports_zero_rather_than_crashing_on_an_empty_side():
     assert FR.min_dist_counts([], []) == (0, None)
 
 
+# ---------- moving a file instead of rebuilding it ----------------------------------------------------------
+
+
+def test_transform_pdb_coordinates_moves_only_coordinates(tmp_path):
+    """The measured fix: a file already verified readable is MOVED, never rebuilt."""
+    src = tmp_path / "lig.pdb"
+    src.write_text(
+        "REMARK   1 provenance line that must survive\n"
+        "HETATM    1  C1  LIG A 301       1.000   2.000   3.000  1.00 11.11           C\n"
+        "HETATM    2  C2  LIG A 301       2.500   2.000   3.000  1.00 22.22           C\n"
+        "CONECT    1    2\n"
+        "END\n")
+    dst = tmp_path / "moved.pdb"
+    n = FR.transform_pdb_coordinates(str(src), str(dst), np.eye(3), np.array([10.0, 0.0, 0.0]))
+    assert n == 2
+    out = dst.read_text().splitlines()
+    assert out[0] == "REMARK   1 provenance line that must survive"
+    assert out[3] == "CONECT    1    2" and out[4] == "END"
+    assert out[1].startswith("HETATM    1  C1  LIG A 301")
+    assert out[1][30:54] == "%8.3f%8.3f%8.3f" % (11.0, 2.0, 3.0)
+    assert out[1][54:].strip() == "1.00 11.11           C".strip()   # occupancy/B/element untouched
+    assert out[1][54:] == src.read_text().splitlines()[1][54:]       # byte-identical past the coordinates
+
+
+def test_transform_preserves_every_interatomic_distance():
+    """Why readability cannot change: a rigid motion is an isometry."""
+    import math
+    th = 0.7
+    R = np.array([[math.cos(th), -math.sin(th), 0.0], [math.sin(th), math.cos(th), 0.0], [0.0, 0.0, 1.0]])
+    P = np.array([[0.0, 0, 0], [1.5, 0, 0], [0, 2.5, 0]])
+    Q = (R @ P.T).T + np.array([7.0, -3.0, 2.0])
+    for i in range(3):
+        for j in range(3):
+            assert abs(np.linalg.norm(P[i] - P[j]) - np.linalg.norm(Q[i] - Q[j])) < 1e-9
+
+
+def test_rdkit_readable_reports_a_refusal_not_a_crash(tmp_path):
+    pytest.importorskip("rdkit")
+    bad = tmp_path / "empty.pdb"
+    bad.write_text("END\n")
+    ok, why = FR.rdkit_readable(str(bad))
+    assert ok is False and why
+
+
+def test_this_module_writes_no_conect_records():
+    """CONECT is the defect here, not an omission: re-declaring a bond RDKit already inferred by proximity
+    raises its order, and `get_lig_coords` then gets None back."""
+    src = open(os.path.join(MOD, "selcal_deepternary_frame.py")).read()
+    assert "conect_for=" not in src, "a CONECT-writing call came back; see transform_pdb_coordinates"
+
+
 # ---------- native decomposition --------------------------------------------------------------------------
 
 

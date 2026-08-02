@@ -110,6 +110,48 @@ def apply_rt(atoms, R, t):
     return out
 
 
+def transform_pdb_coordinates(src, dest, R, t):
+    """Copy a PDB byte-for-byte except the x/y/z columns, which are rigidly transformed.
+
+    ★ WHY NOT JUST RE-WRITE IT. The unbound fragment files reaching this module were already checked
+    RDKit-readable by the step before, and re-emitting them threw that away: the first attempt rebuilt them
+    with `write_pdb` plus CCD-sourced CONECT records and `get_lig_coords` got `None` back —
+        [rdkit] Explicit valence for atom # 7 C, 6, is greater than permitted
+    because `MolFromPDBFile` bonds a real conformer BY PROXIMITY as well as by CONECT, and re-declaring a
+    bond it had already inferred raises the bond order instead of being a no-op. Reproduced offline on
+    DeepTernary's own `6HAX_B_A_FWZ/unbound_lig1.pdb`: readable as shipped (0 CONECT), readable through
+    `write_pdb` with no CONECT, unreadable once CONECT is added. So a file that is already correct is
+    MOVED, never rebuilt — a rigid transform cannot change any distance, so readability is preserved by
+    construction."""
+    import numpy as np
+    n = 0
+    with open(src) as fh, open(dest, "w") as out:
+        for line in fh:
+            if line.startswith(("ATOM  ", "HETATM")) and len(line) >= 54:
+                x, y, z = float(line[30:38]), float(line[38:46]), float(line[46:54])
+                nx, ny, nz = np.asarray(R @ np.array([x, y, z]) + t, dtype=float)
+                out.write("%s%8.3f%8.3f%8.3f%s" % (line[:30], nx, ny, nz, line[54:]))
+                n += 1
+            else:
+                out.write(line)
+    return n
+
+
+def rdkit_readable(path):
+    """(True, None) | (False, why). A ligand file the model cannot read is a refusal here, not a crash there."""
+    try:
+        from rdkit import Chem
+        from rdkit import RDLogger
+        RDLogger.DisableLog("rdApp.*")
+        m = Chem.MolFromPDBFile(path, removeHs=False, sanitize=True)
+    except Exception as e:                                   # noqa: BLE001
+        return False, "RDKit raised on %s: %s" % (os.path.basename(path), e)
+    if m is None:
+        return False, ("RDKit cannot sanitize %s — `get_lig_coords` would call .GetConformer() on None"
+                       % os.path.basename(path))
+    return True, None
+
+
 def rmsd(a, b):
     import numpy as np
     A, B = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
@@ -273,7 +315,7 @@ def prepare_arm(cfg, base, native_dir, workdir, ideal_dir=None):
             row.update(ok=False, why="%s absent — the blind prep did not write it" % lig_name)
             return row
         moved[tag] = {"protein": apply_rt(ua, R, t), "lig": apply_rt(V.parse_structure(lp), R, t),
-                      "protein_file": p, "lig_file": lp}
+                      "protein_file": p, "lig_file": lp, "R": R, "t": t}
 
     # ★ THE MEASUREMENT. A transferred fragment is only usable if the warhead binds the binary and the ternary
     # the same way; the model's own 1 Å window is the test, so use it rather than inventing one.
@@ -291,10 +333,13 @@ def prepare_arm(cfg, base, native_dir, workdir, ideal_dir=None):
             return row
 
     # ---- write the files predict_one_unbound reads ----
-    bonds, berr = RUN.ccd_bonds(cfg["degrader_comp"], workdir)
-    row["detail"]["ccd_bonds"] = ("%d bonds" % len(bonds)) if bonds else berr
-    conect = {cfg["degrader_comp"]: bonds} if bonds else {}
-
+    #
+    # ⚠ NO CONECT RECORDS ANYWHERE HERE, and that is the fix rather than an omission. See
+    # `transform_pdb_coordinates` for the measured reason: RDKit bonds a real conformer by PROXIMITY as
+    # well as by CONECT, so re-declaring a bond it already inferred raises the bond order and the molecule
+    # fails sanitization. The four unbound files are MOVED in place, not rebuilt, so they keep exactly the
+    # bytes the readability check upstream passed; the four native-derived files are written fresh, without
+    # CONECT, and then verified.
     def _chain(atoms, ch):
         return [copy_atom(a, chain=ch) for a in atoms]
 
@@ -302,17 +347,30 @@ def prepare_arm(cfg, base, native_dir, workdir, ideal_dir=None):
     n_p2, _ = RUN.write_pdb(_chain(e3, "B"), os.path.join(d, "protein2.pdb"))
     n_gt, _ = RUN.write_pdb(_chain(tgt, "A") + _chain(e3, "B") + _chain(deg, "A"),
                             os.path.join(d, "gt_complex.pdb"))
-    n_lig, lig_alias = RUN.write_pdb(_chain(deg, "A"), os.path.join(d, "ligand.pdb"), conect_for=conect)
-    for tag, fname in (("p1", "unbound_protein1.pdb"), ("p2", "unbound_protein2.pdb")):
-        RUN.write_pdb(moved[tag]["protein"], os.path.join(d, fname))
-    for tag, fname, comp_key in (("p1", "unbound_lig1.pdb", "warhead_comp"),
-                                 ("p2", "unbound_lig2.pdb", "anchor_comp")):
-        fb, _ = RUN.ccd_bonds(cfg[comp_key], workdir)
-        RUN.write_pdb(moved[tag]["lig"], os.path.join(d, fname),
-                      conect_for=({cfg[comp_key]: fb} if fb else {}))
+    n_lig, lig_alias = RUN.write_pdb(_chain(deg, "A"), os.path.join(d, "ligand.pdb"))
+    moved_counts = {}
+    for tag, fname in (("p1", "unbound_protein1.pdb"), ("p2", "unbound_protein2.pdb"),
+                       ("p1", "unbound_lig1.pdb"), ("p2", "unbound_lig2.pdb")):
+        key = "protein_file" if "protein" in fname else "lig_file"
+        src = moved[tag][key]
+        moved_counts[fname] = transform_pdb_coordinates(src, os.path.join(d, fname),
+                                                        moved[tag]["R"], moved[tag]["t"])
     row["detail"]["written"] = {"protein1": n_p1, "protein2": n_p2, "gt_complex": n_gt, "ligand": n_lig,
                                 "ligand_resname_alias": lig_alias.get(cfg["degrader_comp"].upper())
-                                or lig_alias.get(cfg["degrader_comp"])}
+                                or lig_alias.get(cfg["degrader_comp"]),
+                                "moved_in_place": moved_counts}
+
+    # ★ THE MODEL READS THREE OF THESE WITH RDKit. Check here, where a failure is a legible refusal, rather
+    # than five minutes later inside the forward pass as `'NoneType' object has no attribute 'GetConformer'`.
+    unreadable = []
+    for fname in ("ligand.pdb", "unbound_lig1.pdb", "unbound_lig2.pdb"):
+        ok, why = rdkit_readable(os.path.join(d, fname))
+        row["detail"].setdefault("rdkit_readable", {})[fname] = True if ok else why
+        if not ok:
+            unreadable.append(why)
+    if unreadable:
+        row.update(ok=False, why="; ".join(unreadable))
+        return row
 
     # `ligand.sdf` is not read by predict_one_unbound (it reads ligand.pdb) but the blind prep's contract
     # check tests for it; leave whatever is there rather than deleting a file another module owns.
