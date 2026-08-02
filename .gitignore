@@ -38,3 +38,7 @@ scratchpad/lane10-*
 # real file, so one only survives a SIGKILL mid-write — and a lane running `git add -A` would then commit a
 # half-written ledger under a name that looks deliberate.
 research/modalities/.ledger-*.tmp
+
+# Local git worktree used to port commits to main without switching branches in the primary
+# checkout. It is a working directory, never repo content — committing it would nest a checkout.
+mainwt2/
