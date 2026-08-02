@@ -48,6 +48,16 @@ PRIMITIVE = "research/compute/publish_artifacts.sh"
 #: one is exactly one line deleted from here. A test below asserts each entry still describes reality, so an
 #: entry cannot outlive the defect it names and quietly become a permanent pardon.
 #: Order: the SILENT ones (a wedge reports success) are converted first — they are the ones that lie.
+#:
+#: ⚠⚠ THIS SET MIXES TWO DIFFERENT THINGS, AND COUNTING IT AS ONE NUMBER MISREPRESENTS THE WORK (measured
+#: 2026-08-02, after "50 remaining" was quoted twice as though it were 50 conversions). Roughly two thirds
+#: of these steps do not publish to the triggering branch at all — they `git checkout -B` / `--orphan` onto
+#: a SIDE branch (`modalities-cache`, `method-watch-cache`, `enumeration-cache`, `rbfe-introspect-cache`)
+#: and carry a create-if-missing fallback that `publish_artifacts.sh` has no equivalent for. Converting one
+#: would trade a real capability for uniformity, so they are HELD BY ARCHITECTURE, not queued.
+#: `side_branch_publishes()` derives the split from the workflow source rather than from a hand-kept list,
+#: and `test_the_backlog_reports_what_is_actually_convertible` prints it — so the honest sentence is
+#: "N convertible, M held", never a single total.
 KNOWN_HAND_ROLLED: set[tuple[str, str]] = {
     ("abfe-diagnostics-aws.yml", "diagnostics"),
     ("abfe-plot-aws.yml", "plot"),
@@ -361,3 +371,56 @@ def test_the_heartbeat_survives_every_path_being_skipped():
     tail = body[body.index("if not keep:"):]
     assert "--allow-empty" in tail, "a tick that skipped everything must still leave a dated commit"
     assert "STILL A HEARTBEAT" in tail
+
+
+# =============================================================================================================
+# the backlog's SHAPE — "50 remaining" was two different things added together
+# =============================================================================================================
+def side_branch_publishes() -> set[tuple[str, str]]:
+    """Registered entries whose workflow publishes onto a SIDE BRANCH via `git checkout -B` / `--orphan`.
+
+    ⛔ DERIVED FROM THE WORKFLOW SOURCE, never a hand-kept list — a second list would drift from the first
+    and re-create the miscount it exists to prevent. A first pass at this classification looked only for the
+    literal string `modalities-cache` and reported 31 convertible; three other cache branches
+    (`method-watch-cache`, `enumeration-cache`, `rbfe-introspect-cache`) are the same architecture under
+    different names, and the real figure is 19.
+    """
+    out = set()
+    for wf, job in KNOWN_HAND_ROLLED:
+        p = WORKFLOWS / wf
+        if p.exists() and re.search(r"git checkout (?:-f )?(?:-B|--orphan)\s", p.read_text()):
+            out.add((wf, job))
+    return out
+
+
+def test_the_backlog_reports_what_is_actually_convertible(capsys):
+    """★★ THE HONEST SENTENCE IS TWO NUMBERS. A single total reads as "50 conversions to do" when most of
+    those steps are held by architecture — which overstates the debt and, worse, makes real progress on the
+    convertible ones look like no progress at all."""
+    held = side_branch_publishes()
+    convertible = KNOWN_HAND_ROLLED - held
+    assert held, "if nothing is held the split is broken, not solved — check the checkout regex"
+    assert convertible, "if nothing is convertible the backlog is finished; delete this test and celebrate"
+    with capsys.disabled():
+        print(f"\n[publish backlog] {len(convertible)} convertible, {len(held)} held by architecture "
+              f"(side-branch publishes with a create-if-missing fallback the primitive has no equivalent for)")
+        for wf, job in sorted(convertible):
+            print(f"    convertible: {wf:<38} {job}")
+
+
+def test_every_held_entry_really_does_switch_branches():
+    """⚠ "Held by architecture" must be a CHECKED property, not a label. An entry that stopped switching
+    branches — because the workflow was rewritten — is convertible again, and would otherwise sit in the
+    held bucket forever wearing an exemption it no longer earns."""
+    for wf, job in side_branch_publishes():
+        src = (WORKFLOWS / wf).read_text()
+        assert re.search(r"git checkout (?:-f )?(?:-B|--orphan)\s", src), (wf, job)
+        # ⚠ THE INVARIANT IS "PUBLISHES TO A BRANCH THAT IS NOT THE TRIGGERING REF", not "has an orphan
+        # fallback". My first version asserted the fallback and `replicate-standard-harvest` failed it — it
+        # does `checkout -B <cache>` + `push -f`, which needs no fallback because -B creates locally and
+        # `push -f` creates remotely. Holding it is still right; the REASON I had written was wrong.
+        # `publish_artifacts.sh` fetches its target branch and resets to FETCH_HEAD, so it presumes the
+        # branch already exists on the remote — which is exactly what these steps do not presume.
+        assert re.search(r"git push (?:-f )?origin (?!HEAD:)\S*cache", src) or "--orphan" in src, (
+            f"{wf}:{job} is held as a side-branch publish, but nothing in it pushes to a non-triggering "
+            f"branch — if it publishes to the triggering ref it is convertible and should not be held")
