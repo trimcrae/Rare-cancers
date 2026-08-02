@@ -1,16 +1,30 @@
-name: DeepTernary head-to-head on the two selcal systems ($0 CPU)
+name: DeepTernary — positive ternary control, and the two selcal systems ($0 CPU)
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+# TWO THINGS, IN THIS ORDER, AND THE ORDER IS THE POINT
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
 # Our Boltz co-folds score DockQ 0.023-0.046 on the target<->VHL interface of 9DTY/9DTX
-# (selcal-cofold-dockq.json, two independent instruments). This runs a DIFFERENT generator, blind, on the
-# SAME two targets and scores it with the SAME instruments against the SAME references.
+# (selcal-cofold-dockq.json, two independent instruments). A number that low invites exactly one objection,
+# and it is the right one: HAS ANYTHING EVER SCORED HIGH THROUGH THIS HARNESS? Until something has, a
+# near-zero reading cannot be told apart from broken plumbing or a scorer that returns ~0 for everything.
 #
-# Blindness was established before any of it was built (deepternary-leakage-check.json: 9DTY/9DTX are absent
-# from DeepTernary's disclosed exclusion set), and the control module REFUSES to source inputs if that ever
-# stops holding.
+# 1. POSITIVE CONTROL — DeepTernary on `6HAX_B_A_FWZ`, a VHL/SMARCA2 PROTAC ternary from its OWN shipped
+#    benchmark inputs, re-scored by OUR instruments. In-set by construction (2018 deposit, inside the
+#    2023-10-14 horizon), so it controls the HARNESS AND THE INSTRUMENTS and NEVER generalisation.
+# 2. THE SELCAL ARMS — the same generator on 9DTY/9DTX, with inputs built the way DeepTernary's published
+#    unbound protocol actually builds them.
+#
+# ⛔ THE SELCAL ARMS ARE NOT BLIND, AND THIS FILE SAID THEY WERE UNTIL THE SHIPPED DATA WAS READ. DeepTernary's
+# `output.zip` shows the unbound protocol superposes both binaries INTO THE NATIVE TERNARY FRAME and supplies
+# the NATIVE degrader pose (its 6HAX ligand.pdb is byte-identical to the native ligand, max deviation 0.000 A
+# over 66 heavy atoms). The model still predicts the two proteins' RELATIVE PLACEMENT — protein 2 and the
+# ligand are each randomly rotated and translated before the forward pass — but it is GIVEN which pocket on
+# each protein the ligand occupies. Measurement and consequences: `selcal_deepternary_frame.py`.
+# The leakage check (deepternary-leakage-check.json: 9DTY/9DTX absent from the disclosed exclusion set) still
+# holds and still matters; it is necessary for a blind claim, and no longer sufficient for one.
 #
 # ⚠ Expected result is UNKNOWN. DeepTernary's published 0.62-0.83 figures are on structures INSIDE its
-# exclusion set and do not predict blind performance here. What justifies the run is that the incumbent sits
-# at 0.023-0.046 and this costs nothing.
+# exclusion set. What justifies the run is that the incumbent sits at 0.023-0.046 and this costs nothing.
 #
 # ⛔ NO GPU, NO RENTAL. A better score licenses one sentence about generator placement — nothing about NR4A3,
 # degradation or selectivity.
@@ -24,6 +38,9 @@ on:
       - research/modalities/selcal_deepternary_run.py
       - research/modalities/selcal-deepternary-prep-configs.json
       - research/modalities/selcal_deepternary_score.py
+      - research/modalities/selcal_deepternary_frame.py
+      - research/modalities/selcal_deepternary_poscontrol.py
+      - research/modalities/tests/test_selcal_deepternary_frame.py
 
 permissions:
   contents: write
@@ -89,6 +106,60 @@ jobs:
           pip install -q "numpy<2"
           wget -q https://github.com/youqingxiaozhua/DeepTernary/releases/download/v1.0.0/output.zip
           unzip -q output.zip
+          # Patches, applied ONCE here so every predict step below runs the same patched file.
+          #  (a) device: the script hardcodes 'cuda'; this runner has no GPU.
+          #  (b) SEED_NUM 40 -> 16: CPU budget. Reported as best-of-16, never as best-of-40.
+          #  (c) ⚠ THE PREDICTIONS ARE OTHERWISE DELETED. `cfg.tmp_dir = tempfile.TemporaryDirectory()` and
+          #      the last line of the script is `cfg.tmp_dir.cleanup()` — so `complex_pred_<name>_<seed>.pdb`
+          #      exists only while the process runs, and our own two scoring instruments would have found an
+          #      empty directory and recorded "no predictions" for a run that predicted fine. Redirect it to
+          #      a real directory that survives.
+          sed -i "s/^    device = 'cuda'/    device = 'cpu'/" predict_cpu.py
+          sed -i 's/SEED_NUM = 40/SEED_NUM = 16/g' predict_cpu.py
+          sed -i "s|cfg.tmp_dir = tempfile.TemporaryDirectory()|import types as _t; os.makedirs('predictions', exist_ok=True); cfg.tmp_dir = _t.SimpleNamespace(name='predictions', cleanup=lambda: None)|" predict_cpu.py
+          grep -n "device = 'cpu'\|SEED_NUM = 16\|predictions" predict_cpu.py | awk 'NR<=6'
+
+      # ══ THE POSITIVE CONTROL ══════════════════════════════════════════════════════════════════════════
+      # ★ RUN THE GENERATOR ON A TERNARY IT IS KNOWN TO RECOVER, THROUGH OUR HARNESS, BEFORE ASKING IT
+      # ABOUT OURS. `output.zip` ships DeepTernary's OWN complete unbound inputs for its 22-case PROTAC
+      # benchmark, and `6HAX_B_A_FWZ` is a VHL/SMARCA2 PROTAC ternary — the same E3 and the same target
+      # family as the two systems this lane cares about. Nothing needs preparing: the inputs are theirs.
+      #
+      # What a high score here does and does NOT license:
+      #   ✅ it proves THIS harness (CPU torch/dgl build, patched script, checkpoint, seeds) produces real
+      #      ternary predictions, and that a DockQ near 1 is reachable through it — so a near-zero score
+      #      downstream is a statement about the input or the system, not about the plumbing;
+      #   ⛔ it is NOT evidence of generalisation. 6HAX was deposited in 2018, long inside DeepTernary's
+      #      2023-10-14 data horizon, so it is a memorisation-permitting case by construction. It is a
+      #      POSITIVE CONTROL ON THE INSTRUMENT, and must never be quoted as blind performance.
+      - name: Positive control — the generator on a ternary it already knows (6HAX, VHL/SMARCA2)
+        run: |
+          set -eo pipefail
+          cd "$RUNNER_TEMP/dt"
+          echo "6HAX_B_A_FWZ" > data/PROTAC/protac22.txt
+          python3 predict_cpu.py output/checkpoints/PROTAC \
+            --config deepternary/configs/protac.py \
+            --checkpoint output/checkpoints/PROTAC/checkpoint.pth 2>&1 | tail -30
+          mkdir -p "$RUNNER_TEMP/poscontrol"
+          cp -r predictions "$RUNNER_TEMP/poscontrol/" 2>/dev/null || true
+          rm -rf predictions
+
+      # Scored a SECOND time by OUR instruments, not DeepTernary's, against the same deposited reference —
+      # because the number our lane will quote for the selcal arms comes from our instruments, and a positive
+      # control that only exercises the author's scorer does not control the scorer we actually use.
+      - name: Positive control — re-score it with OUR two instruments
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          python3 research/modalities/selcal_deepternary_poscontrol.py \
+            --pred-dir "$RUNNER_TEMP/poscontrol/predictions" \
+            --native "$RUNNER_TEMP/dt/output/protac22/6HAX_B_A_FWZ/gt_complex.pdb" \
+            --out research/modalities/selcal-deepternary-poscontrol.json
+          python3 -c "
+          import json
+          d = json.load(open('research/modalities/selcal-deepternary-poscontrol.json'))
+          print(d['sentence'])
+          "
 
       - name: Prep the six blind input files per ready arm
         run: |
@@ -150,57 +221,63 @@ jobs:
           sys.exit(3 if bad else 0)
           "
 
-      # ⚠ INSTRUMENT BEFORE PATCHING. Run 30753431082 died inside DeepTernary's forward pass on
-      # `max(): ... input.numel() == 0`. A reduction over an empty tensor means something UPSTREAM selected
-      # nothing, so the question is WHICH selection came back empty — not how to make the error go away.
-      # The leading hypothesis is that the warhead fragment does not substructure-match the full degrader, so
-      # the fragment->degrader atom index is zero-length. This step tests exactly that, and prints the shapes
-      # rather than asserting the guess.
-      - name: Diagnose the empty tensor (shapes, not guesses)
-        continue-on-error: true
+      # ★★ THE STEP THE BLIND PREP WAS MISSING, AND WHY IT WAS MISSING — MEASURED, NOT INFERRED.
+      # Runs 30753431082 / 30754028742 both died at
+      #     replace_to_unbound_coords ->  assert cdist.min(dim=1)[0][update_mask].max() < 1
+      #     RuntimeError: max(): Expected reduction dim to be specified for input.numel() == 0
+      # `update_mask = cdist.min(dim=1)[0] < 1` selects degrader atoms lying within 1 Å of a supplied
+      # fragment atom. Our `ligand.pdb` was the CCD IDEAL conformer in an arbitrary frame, so nothing was
+      # within 1 Å of anything, the mask was empty, and the reduction died. The empty tensor was never a
+      # model bug: it was the model correctly reporting that nothing had been positioned.
+      #
+      # ⚠ AND THE FIX IS NOT A CONSTRAINED EMBED — that was the next guess, and DeepTernary's own shipped
+      # data refutes it. `output.zip` contains the complete unbound inputs for all 22 benchmark cases, and
+      # in `6HAX_B_A_FWZ`: `ligand.pdb` is byte-identical to the FWZ ligand of `gt_complex.pdb` (max
+      # deviation 0.000 Å over all 66 heavy atoms), `unbound_protein1.pdb` (a different entry, chain I,
+      # 1150 atoms) has centroid (-21.6, 17.3, -20.3) against the native POI's (-21.3, 17.6, -20.7), and
+      # `unbound_protein2.pdb` matches the native E3 the same way. So the published UNBOUND protocol
+      # superposes each unbound binary INTO THE NATIVE TERNARY FRAME and supplies the NATIVE degrader pose;
+      # 33 of 66 ligand atoms then fall within 1 Å of unbound_lig1 and 18 within 1 Å of unbound_lig2.
+      #
+      # ⛔ SO THIS ARM IS NOT BLIND TO WHERE THE TWO LIGAND ENDS SIT, AND MUST NEVER BE DESCRIBED AS IF IT
+      # WERE. What the model is still genuinely asked to predict is the RELATIVE PLACEMENT of the two
+      # proteins: `predict_one_unbound` applies an independent random rotation+translation to protein 2 and
+      # to the ligand before the forward pass, so the native arrangement is destroyed in the input and the
+      # architecture is an output. What it is GIVEN is which pocket on each protein the ligand occupies.
+      # That is a weaker question than the one our Boltz co-folds were asked (sequence + ligand, nothing
+      # else) — recorded here so the two numbers are never set side by side as if they were the same test.
+      - name: Build DeepTernary's own unbound inputs for the selcal arms (native-frame, NOT blind)
         run: |
           set -eo pipefail
           cd "$RUNNER_TEMP/dt"
-          python3 - <<'PYDIAG'
-          import json, os
-          from rdkit import Chem
-          from rdkit.Chem import rdFMCS
-          for c in json.load(open(os.environ["RUNNER_TEMP"] + "/ready.json")):
-              d = os.path.join("output/protac22", c["name"])
-              print("=== %s ===" % c["name"])
-              lig1 = Chem.MolFromPDBFile(os.path.join(d, "unbound_lig1.pdb"), removeHs=False, sanitize=True)
-              lig2 = Chem.MolFromPDBFile(os.path.join(d, "unbound_lig2.pdb"), removeHs=False, sanitize=True)
-              deg  = next(iter(Chem.SDMolSupplier(os.path.join(d, "ligand.sdf"), removeHs=False)), None)
-              for nm, m in (("unbound_lig1 (warhead)", lig1), ("unbound_lig2 (anchor)", lig2),
-                            ("ligand.sdf (degrader)", deg)):
-                  print("   %-24s %s" % (nm, ("%d atoms, %d bonds, %d conformers"
-                        % (m.GetNumAtoms(), m.GetNumBonds(), m.GetNumConformers())) if m else "None (UNREADABLE)"))
-              if deg is None:
-                  print("   ⛔ the degrader is unreadable — every downstream index would be empty"); continue
-              for nm, frag in (("warhead", lig1), ("anchor", lig2)):
-                  if frag is None:
-                      print("   %-8s UNREADABLE" % nm); continue
-                  hit = deg.GetSubstructMatch(frag)
-                  print("   %-8s exact substructure match -> %d atoms%s"
-                        % (nm, len(hit), "" if hit else "   ⛔ EMPTY — this is the zero-length index"))
-                  if not hit:
-                      r = rdFMCS.FindMCS([frag, deg], timeout=60, ringMatchesRingOnly=True)
-                      print("            MCS fallback -> %d of %d fragment atoms (%s)"
-                            % (r.numAtoms, frag.GetNumAtoms(), r.smartsString[:80]))
-          PYDIAG
+          # ★ FIRST: does the builder reproduce the AUTHORS' construction, on the AUTHORS' data? Measure the
+          # two snap masks as shipped for 6HAX_B_A_FWZ; throw their superposition away (displace each unbound
+          # structure by 63° / ~40 Å); re-derive the frame here; measure again. Identical counts mean this is
+          # the same construction. No pinned number is compared against, so it cannot pass by being tuned to
+          # a remembered figure. Measured offline before commit: p1 33->33, p2 18->18.
+          python3 "$GITHUB_WORKSPACE/research/modalities/selcal_deepternary_frame.py" \
+            --reproduce-reference output/protac22/6HAX_B_A_FWZ
+          python3 "$GITHUB_WORKSPACE/research/modalities/selcal_deepternary_frame.py" \
+            --configs "$RUNNER_TEMP/ready.json" \
+            --base output/protac22 \
+            --native-dir /tmp/selcal_dt \
+            --workdir /tmp/selcal_dt \
+            --ideal-dir data/TernaryDB/ligand_ideal \
+            --out "$GITHUB_WORKSPACE/research/modalities/selcal-deepternary-frame.json"
 
-      - name: Predict (CPU, 16 seeds)
+      - name: Predict the selcal arms (CPU, 16 seeds)
+        continue-on-error: true
         run: |
           set -eo pipefail
           cd "$RUNNER_TEMP/dt"
           python3 -c "
           import json
-          names = [c['name'] for c in json.load(open('$RUNNER_TEMP/ready.json'))]
+          rows  = json.load(open('$GITHUB_WORKSPACE/research/modalities/selcal-deepternary-frame.json'))
+          names = [r['arm'] for r in rows if r['ok']]
           open('data/PROTAC/protac22.txt','w').write('\n'.join(names) + '\n')
           print('test list:', names)
+          print('refused  :', [(r['arm'], r['why']) for r in rows if not r['ok']])
           "
-          sed -i "s/^    device = 'cuda'/    device = 'cpu'/" predict_cpu.py
-          sed -i 's/SEED_NUM = 40/SEED_NUM = 16/g' predict_cpu.py
           python3 predict_cpu.py output/checkpoints/PROTAC \
             --config deepternary/configs/protac.py \
             --checkpoint output/checkpoints/PROTAC/checkpoint.pth 2>&1 | tail -60
@@ -212,11 +289,12 @@ jobs:
         run: |
           set -eo pipefail
           mkdir -p /tmp/dt_pred
-          find "$RUNNER_TEMP/dt" -name '*.pdb' -path '*protac22*' | awk 'NR<=200' > /tmp/dt_pred/list.txt || true
-          echo "predicted files found: $(wc -l < /tmp/dt_pred/list.txt)"
+          find "$RUNNER_TEMP/dt/predictions" -name 'complex_pred_*.pdb' 2>/dev/null | awk 'NR<=200' > /tmp/dt_pred/list.txt || true
+          echo "predicted complexes found: $(wc -l < /tmp/dt_pred/list.txt)"
           python3 research/modalities/selcal_deepternary_score.py \
-            --pred-root "$RUNNER_TEMP/dt/output/protac22" \
+            --pred-root "$RUNNER_TEMP/dt/predictions" \
             --native-dir /tmp/selcal_dt \
+            --arm-root "$RUNNER_TEMP/dt/output/protac22" \
             --out research/modalities/selcal-deepternary-headtohead.json || true
           test -f research/modalities/selcal-deepternary-headtohead.json && \
             python3 -c "import json;print(json.dumps(json.load(open('research/modalities/selcal-deepternary-headtohead.json')).get('verdict'), indent=1))"
@@ -229,7 +307,9 @@ jobs:
           set -eo pipefail
           sudo chown -R "$(id -u):$(id -g)" research/modalities 2>/dev/null || true
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
-            "selcal DeepTernary head-to-head: chain resolution + fragment verification (CI)" \
+            "selcal DeepTernary: positive control on 6HAX + native-frame inputs for the selcal arms (CI)" \
+            research/modalities/selcal-deepternary-poscontrol.json \
+            research/modalities/selcal-deepternary-frame.json \
             research/modalities/selcal-deepternary-prep.json \
             research/modalities/selcal-deepternary-prep-configs.json \
             research/modalities/selcal-deepternary-headtohead.json
