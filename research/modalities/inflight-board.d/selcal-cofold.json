@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "selcal-cofold",
-  "generated_epoch": 1785633228.2805445,
-  "generated_utc": "2026-08-02T01:13:48Z",
-  "generated_et": "9:13 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785633413.6183987,
+  "generated_utc": "2026-08-02T01:16:53Z",
+  "generated_et": "9:16 PM ET Sat Aug 1, 2026",
   "note": "12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once.",
   "rows": [
     {
@@ -22,7 +22,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 no ns: co-fold is inference, not MD",
       "state": "DONE",
-      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46549971 running, 46554862 exited. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
+      "why": "all 6 seeds have a co-fold in S3. Host(s): 46539144 running, 46549971 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics \u2014 there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell)."
     },
     {
       "name": "selcal-smarca4-m3-r1",
@@ -31,7 +31,7 @@
       "eta_s": null,
       "usd_per_ns": "\u2014 endpoint MD, not the 84k-atom RBFE the throughput table benches; no live host record this tick, so no rate to quote here",
       "state": "ENDED \u2014 no host",
-      "why": "instance 46553998 is no longer on the account, so this leg ended \u2014 landed, preempted or reaped. Rented 2026-08-02T00:59:36Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
+      "why": "instance 46554862 is no longer on the account, so this leg ended \u2014 landed, preempted or reaped. Rented 2026-08-02T01:11:39Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
     }
   ]
 }
