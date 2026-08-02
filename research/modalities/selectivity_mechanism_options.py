@@ -281,6 +281,11 @@ def m2_residue_class_sweep():
     above_control = [h for h in ranked
                      if h["rsa"] >= V17_POSITIVE_CONTROL_RSA
                      and h["chemistry_credibility"] in ("routine", "precedented")]
+    name = lambda h: "{}{}".format(h["class"], h["uniprot"])       # noqa: E731
+    credible_names = [name(h) for h in credible]
+    above_control_names = ["{} rsa={}".format(name(h), h["rsa"]) for h in above_control]
+    ranked_names = ["{}={}".format(name(h), h["rsa"]) for h in ranked]
+    new_above_control = [n for n in above_control_names if not n.split()[0] in credible_names]
 
     return {
         "_question": "Is the categorical covalent axis one residue (C397) or a family of handles?",
@@ -293,17 +298,16 @@ def m2_residue_class_sweep():
         "n_unique_alignment_robust_in_LBD_all_classes": sum(v["n_unique_in_LBD"] for v in by_class.values()),
         "n_tetherable_and_exposed": len(tetherable),
         "n_tetherable_exposed_and_chemically_credible": len(credible),
-        "chemically_credible_handles_under_the_V17_cutoff": [f"{h['class']}{h['uniprot']}" for h in credible],
+        "chemically_credible_handles_under_the_V17_cutoff": credible_names,
         "read_against_the_V17_positive_control_instead_of_the_cutoff": {
             "_why": ("The cutoff has a demonstrated false negative on the family's one literature-anchored "
                      "covalent site, so the roadmap's own rule is that only a threshold-free RANK survives. "
                      "The reference RSA is a CITATION (roadmap §3.1 `V17`), not re-homed here."),
             "reference_site": "NR4A1 Cys551 (celastrol), RSA 0.165 on the state-matched opened model",
             "reference_rsa": V17_POSITIVE_CONTROL_RSA,
-            "handles_at_or_above_the_reference_with_credible_chemistry":
-                [f"{h['class']}{h['uniprot']} rsa={h['rsa']}" for h in above_control],
-            "rank_of_every_tetherable_unique_handle_by_rsa":
-                [f"{h['class']}{h['uniprot']}={h['rsa']}" for h in ranked],
+            "handles_at_or_above_the_reference_with_credible_chemistry": above_control_names,
+            "NEW_handles_this_reading_admits_that_the_cutoff_does_not": new_above_control,
+            "rank_of_every_tetherable_unique_handle_by_rsa": ranked_names,
         },
         "★_finding": (
             "The categorical axis is NOT one residue — but the honest count depends on which ruler is used, "
