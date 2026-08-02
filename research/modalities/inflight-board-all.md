@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 8:06 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
+Merged 8:07 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,12 +15,12 @@ Merged 8:06 PM ET Sat Aug 1, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 7:59 PM ET Sat Aug 1, 2026 (8 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 8:07 PM ET Sat Aug 1, 2026 (0 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 LEG                           ETA (ET)          % DONE  $/ns                                     STATE     WHY (when not running)
 ---------------------------------------------------------------------------------------------------------------------------------
-5aks_d0_to_d ternary nr4a1 r1 2:08 AM Aug 2      88.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   55.4 s/iter · no like-for-like expectation (not measured on this system)
+5aks_d0_to_d ternary nr4a1 r1 2:16 AM Aug 2      88.9%  RTX 3090 $0.00412/ns · 1.21× basis [bid] RUNNING   55.4 s/iter · no like-for-like expectation (not measured on this system)
 ```
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
