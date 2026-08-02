@@ -225,7 +225,7 @@ Do **not** launch. Nothing is pending and $0 has been spent. Three things gate i
 
 > ### AMENDMENT 3 — 2026-07-25 (dated defect-fix; proposed, pending trimcrae)
 >
-> **Authority.** §7's freeze and STRATEGY.md's requirement that amending a preregistered rule be an explicit,
+> **Authority.** §7's freeze and nr4a3-program-map.md's requirement that amending a preregistered rule be an explicit,
 > dated, reviewer-approved defect-fix. The frozen text above is left **unedited**.
 >
 > **Standard applied (AMENDMENT 1's):** a rule may be amended only if its statistic is shown to lack
@@ -301,7 +301,7 @@ Add that this prices **Arm F**, which the prereg does not authorise, and that th
 **`research/compute/pricing.md`** line 183 (`nrv04_retrospective` row): same substitution, same reason; the row
 already says "PROJECTED on the ternary component" and should say which arm that is.
 
-**`STRATEGY.md`** RUNG 4: record that the retrospective is **HELD pending AMENDMENT 3 + the collector fix**,
+**`nr4a3-program-map.md`** RUNG 4: record that the retrospective is **HELD pending AMENDMENT 3 + the collector fix**,
 that its covalent R2 arm is retired for the same reason AMENDMENT 2 retired the sibling's covalent legs, and
 that the "two bugs found here propagate to the unlaunched NR-V04 retrospective" note (line ~1289) now has a
 **third and a fourth**: the covalent site was resolved by proximity rather than identified (fixed upstream), and

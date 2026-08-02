@@ -120,7 +120,7 @@ conditional is the whole question, and n = 1 cannot answer it.
 
 ## 5. Two of the three independent error detectors were never run — and one could not have run
 
-Replicates detect **random** error only. STRATEGY.md's own line: *"Replicates shrink precision, not accuracy."* A
+Replicates detect **random** error only. nr4a3-program-map.md's own line: *"Replicates shrink precision, not accuracy."* A
 **wrong sign, 1.478 kcal/mol from target** is far more consistent with a systematic problem than with a 2σ
 unlucky draw. The instruments for systematic error:
 
@@ -264,7 +264,7 @@ mode most likely in play. In order:
 3. **(~one replicate's cost, strictly higher information than a replicate)** Run the **reverse** ternary and
    binary legs of r0. |ΔG_fwd + ΔG_rev| tests systematic error directly; a replicate cannot.
 4. **(the real decision) Rescope the calibrator to a signal the method can resolve.** Target ≳2 kcal/mol — not an
-   arbitrary number: it is the same ~2.0 kcal/mol margin STRATEGY.md says a useful degradation window requires.
+   arbitrary number: it is the same ~2.0 kcal/mol margin nr4a3-program-map.md says a useful degradation window requires.
    Calibrating at 0.944 demands resolution the programme does not even need. Two routes that keep a congeneric
    map:
    - a **multi-edge path** through the SMARCA2–VHL series (signal adds linearly, noise as √N) — which also
@@ -323,7 +323,7 @@ path — the surviving instance of §6's signature defect — now returns `None`
 
 ### Strategic note
 
-STRATEGY.md already concluded (2026-07-24, mechanism-first revision) that the marginal/induced-interface axis
+nr4a3-program-map.md already concluded (2026-07-24, mechanism-first revision) that the marginal/induced-interface axis
 *"is a confirmation tool operating near its limit, not a discovery tool"* — best-case resolvable difference
 1.12 kcal/mol against a ~2.0 kcal/mol requirement. **valB_mini is a test of exactly that near-limit axis, at a
 0.944 kcal/mol signal.** The programme's own revision moved the load-bearing selectivity claim to the

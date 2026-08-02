@@ -5,9 +5,9 @@ Two deliverables come out of the known-answer benchmark, and they are independen
 
 1. **A VERDICT.** Does the wedge engine recover measured protein-protein interface ddG values within
    tolerance, in the right order? Until it does, `nr4a3_protein_fep` may not contribute a number to
-   the manuscript, per STRATEGY.md's gate.
+   the manuscript, per nr4a3-program-map.md's gate.
 
-2. **A PRICE.** STRATEGY.md carries 5a-KS as UNPRICED, and says so bluntly: an engine that exists is
+2. **A PRICE.** nr4a3-program-map.md carries 5a-KS as UNPRICED, and says so bluntly: an engine that exists is
    not a rate. This reduction turns completed legs into a measured s/iteration, GPU-h/leg and $/leg,
    which is the only honest basis for pricing the rung. The projection is stated per *wedge* (2
    environments x n replicates), and it is a PROJECTION from benchmark systems — a barnase-barstar
@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import protfep_bench as bench  # noqa: E402
 
 # The production wedge this benchmark is meant to price, for the particle-count scaling below.
-NR4A_TERNARY_PARTICLES = 146284   # measured: the firm ternary leg's solvated hybrid (STRATEGY.md)
+NR4A_TERNARY_PARTICLES = 146284   # measured: the firm ternary leg's solvated hybrid (nr4a3-program-map.md)
 NR4A_BINARY_PARTICLES = 35000     # approximate: the binary RBFE complex+solvent lane
 
 

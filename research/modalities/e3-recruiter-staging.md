@@ -1,6 +1,6 @@
 # E3 recruiter staging + ligandability downselect
 
-*E3 recruiter staging + ligandability downselect — STRATEGY.md RUNG 5a(c), 'E3 breadth, free at the search stage'*
+*E3 recruiter staging + ligandability downselect — nr4a3-program-map.md RUNG 5a(c), 'E3 breadth, free at the search stage'*
 
 > **Honest scope.** This is DESIGN PREP, not a validated result. Ligandability computed from one deposited holo structure is a hypothesis for testing: it says a published ligand occupies a pocket with a solvent-directed exit vector, nothing more.
 
@@ -29,7 +29,7 @@
 
 ## Dropped set — every recruiter not advanced, with the reason
 
-*STRATEGY.md: "a silent top-N reads as 'we covered everything'". Availability is **never** a reason here — all widened arms are broadly expressed (HPA, CI run 30125742542).*
+*nr4a3-program-map.md: "a silent top-N reads as 'we covered everything'". Availability is **never** a reason here — all widened arms are broadly expressed (HPA, CI run 30125742542).*
 
 - **DCAF16** — dropped at the *gate* stage. buried fraction of the primary ligand's solvent-accessible surface >= 0.50 — observed: 0.3442
 - **RNF114** — dropped at the *gate* stage. at least one deposited structure containing the recruiter with a bound non-solvent, non-cryoprotectant ligand of >=10 heavy atoms, at resolution <=3.0 A (diffraction/EM) or by solution NMR — observed: no deposited structure of this protein at all (RCSB: None entries carrying the accession)

@@ -184,7 +184,7 @@ Three obstacles, in increasing severity.
    machinery cannot represent. Leg 0 **settled that**: the reactive Cys is unique to NR4A1 (NR4A2 = Tyr,
    NR4A3 = Thr579, no cysteine in either ±5 window). That is the confound, established from sequence, with no
    GPU and no structure. The covalent MD legs were never the evidence for it.
-3. **NR-V04 is no longer the calibrator.** STRATEGY.md already swapped the method calibrator to
+3. **NR-V04 is no longer the calibrator.** nr4a3-program-map.md already swapped the method calibrator to
    SMARCA2-vs-SMARCA4 and demoted NR-V04 to a **biological holdout**, explicitly *because* celastrol is
    covalent. Spending to model the covalency of a demoted holdout inverts the ladder's own priority order.
 4. **What remains is defensible on its own.** A **noncovalent-only** panel — `noncov_nr4a1`,
@@ -300,7 +300,7 @@ merely reporting it.
   aligned position (Leg 0). If anything the corrected reading **strengthens** the paper's covalent-confound
   argument, which is why the narrowing is not a loss.
 
-**`STRATEGY.md`** — RUNG 3 `nrv04_feasibility_covalent`:
+**`nr4a3-program-map.md`** — RUNG 3 `nrv04_feasibility_covalent`:
 
 - Keep `[HELD]`. Replace *"Unblocking now needs INPUT work, not compute: re-fold the covalent systems with the
   electrophile seated at Cys551, or drop the covalent legs and re-scope — and say which"* with the answer:

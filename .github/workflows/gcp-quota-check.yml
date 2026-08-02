@@ -140,15 +140,15 @@ jobs:
           # summary that costs a 250-line log fetch to read is a summary nobody reads.
           ONELINE=$(printf '%s\n' "${NONZERO:-none}" | awk '{printf "%s(limit %s) ", $1, $2}')
           # ⚠ THIS LINE USED TO CARRY A SUPERSEDED CONCLUSION, AND IT IS THE KIND THAT GETS ACTED ON.
-          # It said "a faster card compresses calendar without adding science", which STRATEGY.md Open
+          # It said "a faster card compresses calendar without adding science", which nr4a3-program-map.md Open
           # decision 5 CORRECTED the same week: that holds only for cards priced IN PROPORTION to their
           # speed (A100, H100, V100 — all at or below the L4's science/$). It does NOT hold for P100 or T4,
           # whose spec-derived rows come out ABOVE the L4 on science-per-dollar. An operator-facing
           # annotation is a live claim, so restating a retired one here is a rule-1 defect in the direction
           # that matters — it would talk someone out of a measurement the plan says is worth ~$1-2.
-          # ONE FACT, ONE PLACE: the arithmetic lives in STRATEGY.md Open decision 5 and the caveat in
+          # ONE FACT, ONE PLACE: the arithmetic lives in nr4a3-program-map.md Open decision 5 and the caveat in
           # gcp-gpu-facts.md §1b. This line POINTS at them and states no ratio of its own.
-          echo "::notice title=GPU TYPES USABLE TODAY::inside the permanent GPUS_ALL_REGIONS=1 cap, the GPU metrics with a NON-ZERO us-central1 limit are: ${ONELINE:-none}. Anything absent would need its own quota request. WHICH CARD IS WORTH USING IS NOT DECIDED HERE and must not be inferred from this list: the lane is DOLLAR-bound, so the figure of merit is science-per-dollar (speed ÷ rate), NOT speed — and the per-card rows are SPEC-DERIVED and explicitly not plannable until a ~50-iteration probe measures them. Read STRATEGY.md Open decision 5 with gcp-gpu-facts.md §1b before choosing a card."
+          echo "::notice title=GPU TYPES USABLE TODAY::inside the permanent GPUS_ALL_REGIONS=1 cap, the GPU metrics with a NON-ZERO us-central1 limit are: ${ONELINE:-none}. Anything absent would need its own quota request. WHICH CARD IS WORTH USING IS NOT DECIDED HERE and must not be inferred from this list: the lane is DOLLAR-bound, so the figure of merit is science-per-dollar (speed ÷ rate), NOT speed — and the per-card rows are SPEC-DERIVED and explicitly not plannable until a ~50-iteration probe measures them. Read nr4a3-program-map.md Open decision 5 with gcp-gpu-facts.md §1b before choosing a card."
           echo "=== [QUOTA-SUMMARY] (the ones that matter for on-demand L4) ==="
           Q=$(gcloud compute regions describe us-central1 --flatten="quotas[]" \
                 --format="value(quotas.metric, quotas.limit, quotas.usage)" 2>/dev/null)

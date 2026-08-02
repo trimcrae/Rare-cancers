@@ -16,7 +16,7 @@
 
 ## 1 · What this stage is for, and the one constraint that shapes it
 
-[STRATEGY.md](../../STRATEGY.md) → *The prospective stage*, item **(c) E3 breadth, free at the search stage*:
+[nr4a3-program-map.md](../manuscripts/nr4a3-program-map.md) → *The prospective stage*, item **(c) E3 breadth, free at the search stage*:
 
 > widen beyond VHL/CRBN to the ligandable set with public ligand-bound structures (cIAP1/BIRC2, DCAF1,
 > DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2). Since basin search is CPU this costs ~nothing and multiplies
@@ -207,9 +207,9 @@ discriminates NR4A3 from NR4A1/2; whether a linker of the required length is syn
 the recruiter's own pharmacology is tolerable. Those are the basin search's, RUNG 5b's, and a literature
 assessment's questions respectively. Nothing here is a selectivity claim.
 
-## 7 · Proposed STRATEGY.md deltas
+## 7 · Proposed nr4a3-program-map.md deltas
 
-*This lane does not edit STRATEGY.md. The exact edits requested are listed here for whoever owns that file.*
+*This lane does not edit nr4a3-program-map.md. The exact edits requested are listed here for whoever owns that file.*
 
 See the lane's final report for the verbatim quote/replacement pairs; in substance:
 
@@ -251,5 +251,5 @@ See the lane's final report for the verbatim quote/replacement pairs; in substan
 - The exit-vector quality axis **saturates**: clearance is capped at 20 Å and most gate-passing recruiters
   reach a 30° cone openness of 1.0, so `exit_quality` mostly restates G3 rather than discriminating. The
   discrimination in practice comes from the analogue tier and the open solid angle. This is reported, **not
-  retuned** — amending a preregistered rule after seeing the result is exactly the move STRATEGY.md forbids
+  retuned** — amending a preregistered rule after seeing the result is exactly the move nr4a3-program-map.md forbids
   without a dated, reviewed defect-fix.

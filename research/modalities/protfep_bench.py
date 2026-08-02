@@ -4,7 +4,7 @@
 WHY THIS FILE EXISTS
 --------------------
 `nr4a3_protein_fep.py` implements the 5a-KS wedge (an alchemical protein point mutation run in two
-environments and subtracted). STRATEGY.md marks that rung **UNPRICED and UNVALIDATED**: the engine
+environments and subtracted). nr4a3-program-map.md marks that rung **UNPRICED and UNVALIDATED**: the engine
 exists, but no leg has ever run, and an engine that exists is not a rate. The gate the engine must
 clear before any number it produces may enter the manuscript is a **known-answer protein-mutation
 benchmark** — a published, experimentally measured protein-protein interface ddG that the engine

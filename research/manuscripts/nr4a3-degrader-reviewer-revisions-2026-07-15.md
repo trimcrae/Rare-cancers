@@ -2,7 +2,7 @@
 
 **Do not re-litigate. This records the external reviewer-AI's decision so the revised plan is not second-guessed.**
 The plan changes it mandates are operationalized in the ordered master plan
-([STRATEGY.md](./STRATEGY.md)) and the machine calendar
+([nr4a3-program-map.md](nr4a3-program-map.md)) and the machine calendar
 ([degrader-paper-schedule.json](./degrader-paper-schedule.json)). This file is the rationale of record.
 
 ## Decision: conditional approval with mandatory changes

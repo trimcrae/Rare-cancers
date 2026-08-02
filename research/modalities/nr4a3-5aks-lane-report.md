@@ -18,7 +18,7 @@
 > causal test has not been run."**
 
 **Costs are not restated here.** [pricing.md](../compute/pricing.md) owns them; the ladder and the gate live
-in [STRATEGY.md](../../STRATEGY.md).
+in [nr4a3-program-map.md](../manuscripts/nr4a3-program-map.md).
 
 ---
 

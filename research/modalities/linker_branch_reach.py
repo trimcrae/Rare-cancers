@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Why no ONE construct carries both the covalent electrophile and the causal wedge — the measured answer.
 
-★ WHAT THIS SETTLES, AND WHY IT IS NOT WHAT WAS WRITTEN DOWN. STRATEGY.md and the RUNG 5b block record the
+★ WHAT THIS SETTLES, AND WHY IT IS NOT WHAT WAS WRITTEN DOWN. nr4a3-program-map.md and the RUNG 5b block record the
 blocker as: *"the covalent series sits at 14 backbone atoms and the wedge pair at 19; a single chain carrying
 BOTH needs 16, and the segment grid cannot build it (branch floor k=6 against T407's k in [2,3] at n=16)"* —
 i.e. a GRID-RESOLUTION limit at one chain length. Run against the committed enumeration, **every clause of
@@ -54,7 +54,7 @@ sys.path.insert(0, HERE)
 LIB_JSON = os.path.join(HERE, "nr4a3-linker-design.json")
 OUT = os.path.join(HERE, "linker-branch-reach.json")
 
-# The two mechanisms a single chain would have to carry at once. One home: STRATEGY.md section MECHANISM-FIRST.
+# The two mechanisms a single chain would have to carry at once. One home: nr4a3-program-map.md section MECHANISM-FIRST.
 COVALENT_TARGET = "C397 SG"
 WEDGE_TARGET = "T407"
 

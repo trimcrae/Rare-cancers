@@ -421,7 +421,7 @@ succeeds or fails.** After §5a it is also the *only* one of the two that the av
 
 ---
 
-## 8a. Exact `STRATEGY.md` deltas (this lane does not edit that file)
+## 8a. Exact `nr4a3-program-map.md` deltas (this lane does not edit that file)
 
 **(1) RUNG 2 → Validation B-mini → "Recommended next steps (spend order)", item 4.** Replace the current text —
 *"rescope the calibrator to a ≳2 kcal/mol signal … via a multi-edge congeneric path … or the high-contrast

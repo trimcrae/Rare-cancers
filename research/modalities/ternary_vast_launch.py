@@ -477,7 +477,7 @@ MODES = {
     #                               miss IS fixable by the protocol changes that address it.
     #
     # That is a discriminating experiment, not a confirmation, which is why it is worth buying. One home for
-    # the mapping in prose: STRATEGY.md's IN FLIGHT board, "WHAT R DECIDES"; the retraction is Appendix A 41.
+    # the mapping in prose: nr4a3-program-map.md's IN FLIGHT board, "WHAT R DECIDES"; the retraction is Appendix A 41.
     #
     # ⚠ 2 fs / 1 fs, PINNED BY THE MODE, NOT INHERITED FROM THE LANE. r0 is a 2 fs leg and this lane's
     # default is RUNG 2b's 4 fs. `build_jobspec` resolves the timestep mode-first for exactly this reason:

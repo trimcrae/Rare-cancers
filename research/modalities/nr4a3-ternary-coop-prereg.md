@@ -201,7 +201,7 @@ co-fold + ensemble checks.
 
 ### 4b. Binary↔ternary combination rule (frozen at Stage 0 — no post-hoc weights)
 
-> **⚠️ AMENDED 2026-07-15 (reviewer mandate 5 — see [`/STRATEGY.md`](../../STRATEGY.md)).** The scalar `S_d`
+> **⚠️ AMENDED 2026-07-15 (reviewer mandate 5 — see [`/nr4a3-program-map.md`](../manuscripts/nr4a3-program-map.md)).** The scalar `S_d`
 > below is **SUPERSEDED as the selection method** by **staged gates → Pareto-front selection** (binary → ternary
 > → linker-strain → ubiquitination-geometry → physchem/synthetic; select candidates that stay nondominated
 > across plausible parameter settings, with uncertainty on every axis). A single weighted scalar — even with

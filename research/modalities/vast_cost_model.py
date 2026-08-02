@@ -661,7 +661,7 @@ def summarise_market(ranked, top=10):
 # =============================================================================================================
 # CLI — planning numbers and a repriced ladder, from a market snapshot
 # =============================================================================================================
-# The point of this entry point is that every cost figure in pricing.md / STRATEGY.md can be REGENERATED rather
+# The point of this entry point is that every cost figure in pricing.md / nr4a3-program-map.md can be REGENERATED rather
 # than hand-carried. Hand-carried numbers are how the repo ended up quoting "$12-26" for a fan-out whose own
 # footnote said "$91-101" three lines later.
 

@@ -5,16 +5,16 @@
 > basis matters because the **marginal** axis needs ~2.0 kcal/mol against a resolvable difference this lane doc
 > **originally** put at ~1.12, calling it *"a confirmation tool operating near its limit, not a discovery tool."*
 > ⚠ **Both quotations are SUPERSEDED and retained only as the framing this lane ran under** — the replicate SD
-> was measured on 2026-07-30 and the current pair lives once, in STRATEGY.md §MECHANISM-FIRST (Appendix A row
+> was measured on 2026-07-30 and the current pair lives once, in nr4a3-program-map.md §MECHANISM-FIRST (STRATEGY.md Appendix A row
 > 53). **Nothing in this lane's result depends on either**: it is a categorical, geometric measurement, and the
 > quotation appears here only to say why the categorical basis was worth testing.
 >
 > The NR4A3 side of the categorical case is now well characterised over 100 conformers. **The paralogue side
-> had only ever been tested on ONE static opened conformer each**, and STRATEGY.md names the matched paralogue
+> had only ever been tested on ONE static opened conformer each**, and nr4a3-program-map.md names the matched paralogue
 > ensembles as the open cheap add-on in two places. This lane runs them and asks the question they were for:
 > **do paralogue DYNAMICS open a compensating site?**
 >
-> Subordinate to [STRATEGY.md](../../STRATEGY.md); this lane does not edit it. Exact deltas are in §6.
+> Subordinate to [nr4a3-program-map.md](nr4a3-program-map.md); this lane does not edit it. Exact deltas are in §6.
 > Language discipline applies throughout: nothing here implies efficacy, safety, a therapeutic window or
 > clinical readiness, and every result is design prioritisation, not validation.
 
@@ -232,7 +232,7 @@ its machine excluded.
 
 ## 4. What is already established, and what it does to the categorical claim
 
-**The claim as STRATEGY.md states it is: the paralogues "have no nucleophile at the aligned position, so a
+**The claim as nr4a3-program-map.md states it is: the paralogues "have no nucleophile at the aligned position, so a
 covalent bond *cannot form* on them at all."** The first clause is true and is not in dispute. **The second
 does not follow, and three measurements now say so:**
 
@@ -271,9 +271,9 @@ matched ensembles exist to turn those four single-frame numbers into distributio
 
 ---
 
-## 6. Exact STRATEGY.md deltas proposed by this lane
+## 6. Exact nr4a3-program-map.md deltas proposed by this lane
 
-*This lane does not edit STRATEGY.md.* All four deltas below are supported by the $0 stage alone; §3.5's
+*This lane does not edit nr4a3-program-map.md.* All four deltas below are supported by the $0 stage alone; §3.5's
 result will either sharpen D1 or add a fifth.
 
 **D1 — §MECHANISM-FIRST: the CATEGORICAL bullet's second clause is not established, and must be narrowed.**

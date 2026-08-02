@@ -3,7 +3,7 @@
 
 ★ WHAT THIS EXISTS TO SETTLE.
 
-`research/compute/gcp-gpu-facts.md` §1b and STRATEGY.md Open decision 5 both carry a table claiming that a
+`research/compute/gcp-gpu-facts.md` §1b and nr4a3-program-map.md Open decision 5 both carry a table claiming that a
 **P100 is faster than an L4 AND +18 % better on science-per-dollar**, and that a **T4 is 2.2× better on
 science-per-dollar** — and both mark every row ⚠ *SPEC-DERIVED, NOT MEASURED, do not plan on these rows yet*.
 The heuristic behind them is memory bandwidth, validated on exactly ONE pair (L4 vs Vast RTX 4090) where

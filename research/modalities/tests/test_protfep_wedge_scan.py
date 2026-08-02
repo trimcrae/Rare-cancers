@@ -3,7 +3,7 @@
 
 WHY THIS FILE EXISTS
 --------------------
-STRATEGY.md's RUNG 5a-KS records that the qualified protein-mutation benchmark set BRACKETS the
+nr4a3-program-map.md's RUNG 5a-KS records that the qualified protein-mutation benchmark set BRACKETS the
 wedge without covering it (a +3.4 hot spot and a ~0 near-null), and that until a wedge-sized
 benchmark exists "the confirmatory line may not claim to resolve a paralogue-scale difference".
 `scan_wedge_band` is the free half of closing that: it picks candidates from primary Kd data.
@@ -175,7 +175,7 @@ class TestRankingAndContract:
         assert pb.BENCHMARKS == before
 
     def test_band_endpoints_come_from_the_module_constant(self):
-        # The band is the wedge's own expected effect size (STRATEGY.md RUNG 5a-KS). Pinning it here
+        # The band is the wedge's own expected effect size (nr4a3-program-map.md RUNG 5a-KS). Pinning it here
         # means widening it to admit a candidate is a visible edit, not a quiet one.
         assert rc.WEDGE_BAND_KCAL == (0.5, 1.5)
         assert rc.MAX_RECORD_SPREAD_KCAL == pytest.approx(1.0)

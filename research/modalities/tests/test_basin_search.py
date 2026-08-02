@@ -243,7 +243,7 @@ def test_term_a_limb_is_read_at_a_practical_linker_length_not_the_sampling_ceili
 
 
 def test_tier2_gate_is_a_conjunction_and_labels_a_nominal_only_pass_as_weaker():
-    """STRATEGY.md's rule is 'no categorical handle AND no nominal discrimination => STOP', so a GO needs only
+    """nr4a3-program-map.md's rule is 'no categorical handle AND no nominal discrimination => STOP', so a GO needs only
     one limb — but a categorical GO and a nominal-only GO are NOT the same evidence, and the gate must say so
     rather than laundering a cheap contact-score difference into a mechanism."""
     assert B.tier2_verdict([_meta(term_a=True)], 1)["basis"] == "CATEGORICAL"

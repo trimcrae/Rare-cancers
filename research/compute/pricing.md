@@ -1,6 +1,6 @@
 # GPU / compute PRICING — single source of truth (every number links to a justifying test)
 
-> **This file is authoritative for "what does step X cost, and how do we know."** STRATEGY.md's economics block
+> **This file is authoritative for "what does step X cost, and how do we know."** nr4a3-program-map.md's economics block
 > summarizes it; this file carries the evidence. **Rule: a MEASURED number (with a linked run/artifact) always
 > beats an ESTIMATE.** Never quote a cost without a `status` and a `source`. The canonical RBFE map
 > (`research/modalities/congeneric-rbfe-map.json`) still holds `est_gpu_h: null` and "forbids trusting stub
@@ -331,7 +331,7 @@ $0.057 best offer .. $0.309 median). Regenerate the alchemical/MD stages with
 **$149.4 ($38.2–466.4)**. The ladder figure adds what the tool does not cover: step0 ~$1–2 (mid $1.5),
 `valA_mini` ~$0–15 (**realized ~$0** on GCP credit), the ~$8 measured covalent panel, 5a basin ~$0–50 (mid $25),
 5b linker ~$0–20 (mid $10). So `149.4 + 1.5 + 0 + 8 + 25 + 10 ≈ 194`; low `38.2 + 1 + 8 ≈ 47`; high
-`466.4 + 2 + 15 + 8 + 50 + 20 ≈ 561`. STRATEGY.md's per-step `Cum.` chain and
+`466.4 + 2 + 15 + 8 + 50 + 20 ≈ 561`. nr4a3-program-map.md's per-step `Cum.` chain and
 [bid-strategy.md §6](./bid-strategy.md) end on the same numbers. *(The `~$46–544` this line previously carried
 did not sum; corrected 2026-07-25. Superseded totals: ~$467 (~$249–685), ~$240 (~$90–390), ~$390 (~$170–610),
 and a stray ~$128 that was bid-strategy §6's table with the 5c row missing.)*
@@ -432,7 +432,7 @@ each rung individually at its gate.
 - **De-anchored AWS RBFE baseline** — `research/modalities/nr4a3-post-pilot-sequence.md` (2026-07-13) +
   `sm_gpu_util.py` (live CloudWatch GPU-util probe). Kept only as historical context; **not** the Vast number.
 - **Design/count sources (unpinned)** — `research/modalities/congeneric-rbfe-map.json` (19 RBFE edges,
-  `est_gpu_h: null`); the prospective-matrix + mutation-cycle counts in `STRATEGY.md`.
+  `est_gpu_h: null`); the prospective-matrix + mutation-cycle counts in `nr4a3-program-map.md`.
 
 ---
 
@@ -491,7 +491,7 @@ defaults; the code of record is `research/modalities/gpu_backend.py` (`VAST_BID_
 ---
 
 *Maintenance: when a `firm`/`bench` run completes, update the matching row here (MEASURING → MEASURED, with the
-run id + the realized number) and reconcile the STRATEGY.md economics summary to it.*
+run id + the realized number) and reconcile the nr4a3-program-map.md economics summary to it.*
 
 ---
 

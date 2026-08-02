@@ -64,7 +64,7 @@ The other 15 units are cold and start from staging.
 Wave 2's first rental: Vast **45936074** on machine **18857**, RTX 4090, **charged $0.1224/hr** — against
 wave 1's **$0.35–0.39/hr** for the same card class on the same market days later. That gap is the retired
 `×1.9` bid multiplier, not the market, exactly as §6 reconstructs. At ~13.7 reference-GPU-h per unit that is
-**~$1.68/unit ⇒ ~$31.9 for the 19-unit tranche**, *under* STRATEGY.md's **~$36** planning figure and nowhere
+**~$1.68/unit ⇒ ~$31.9 for the 19-unit tranche**, *under* nr4a3-program-map.md's **~$36** planning figure and nowhere
 near the retracted $91–101.
 
 **And the throughput reproduces the measurement.** The host advanced **160 → 260 committed iterations** across
@@ -186,7 +186,7 @@ result is not load-bearing for this lane in either direction.
 
 ## 1. What the lane is
 
-RUNG 4 of [STRATEGY.md](../../STRATEGY.md): turn the frozen perturbation map
+RUNG 4 of [nr4a3-program-map.md](../manuscripts/nr4a3-program-map.md): turn the frozen perturbation map
 (`congeneric-rbfe-map.json`) into RBFE ΔΔG values across the cmpd19 congeneric series.
 
 **Unit = one map edge, at one microstate leg, on one receptor frame.** One rented GPU runs BOTH alchemical
@@ -278,7 +278,7 @@ tight enough to rule out host variance).
 **(c) The process failure.** The caveat was already written *in the same file, three lines below the number*:
 "the probe re-runs the (already-passed) TYK2 valA edge; to make it real science + cost, point it at a live
 cmpd19 step1_fanout edge". `git log -S` shows the $12–26 and the 5.2 s/iter row landed in the **same commit**
-(`8f4c0dd`) — caveat and number authored together, then the number propagated into STRATEGY.md, the rung table
+(`8f4c0dd`) — caveat and number authored together, then the number propagated into nr4a3-program-map.md, the rung table
 and the schedule while the caveat stayed put. **The bolded MEASURED label conferred authority that suppressed
 the scrutiny the adjacent sentence was requesting.** It *was* measured — of the wrong thing.
 
@@ -404,7 +404,7 @@ All three are why a ~4× cost error stood unnoticed for two days.
   progress manufactures a stall.
 - **Cost is derived, never typed.** `UNIT_GPU_H` and `VAST_4090_USD_PER_H` were hand-carried and both wrong,
   in the same direction, at the same time. They now come from `vast_cost_model.LADDER_REFERENCE_GPU_H` and the
-  `vast-ladder-repricing.json` market snapshot, so STRATEGY.md's ~$36 and the launcher's own print cannot
+  `vast-ladder-repricing.json` market snapshot, so nr4a3-program-map.md's ~$36 and the launcher's own print cannot
   disagree.
 - **Rental ledger** (`…/results/_rentals.json`). `step1-fanout-handles.json` is rewritten by every launch, so
   a two-stage fan-out loses the first stage's rental — the exact way the last cost figure became a memory

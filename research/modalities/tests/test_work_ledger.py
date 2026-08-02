@@ -130,7 +130,7 @@ def _tree(tmp_path, *, progress=None, watch=None, thold=None, fhold=None, ledger
     (root / "ternary-watch.json").write_text(json.dumps(gcp if gcp is not None else _watch([])))
     sched = root / "schedule.json"
     sched.write_text(json.dumps(schedule if schedule is not None else _schedule()))
-    strat = root / "STRATEGY.md"
+    strat = root / "nr4a3-program-map.md"
     strat.write_text(strategy if strategy is not None else
                      "## THE ORDERED PLAN (spend-gated)\n\n### RUNG 9 — x\n\n")
     return str(root), str(strat), str(sched)
@@ -924,3 +924,30 @@ def test_a_source_root_pointing_nowhere_is_refused_before_anything_dispatches(tm
                   "--source-root", f"ternary={tmp_path}/nope"])
     assert rc == 2
     assert "is not a directory" in capsys.readouterr().err
+
+
+# ============================================================================================================
+# ★★ THE PLAN DOCUMENT MOVED, AND POINTING AT THE OLD FILE FAILS SILENTLY.
+#
+# On 2026-08-02 THE ORDERED PLAN was physically moved out of STRATEGY.md into the roadmap
+# (`nr4a3-program-map.md`), heading string and bullet format unchanged. `scan_plan_items` reports its own
+# blindness rather than returning [], but nothing else does: a `DEFAULT_PLAN_DOC` aimed at a file with no
+# ORDERED PLAN heading makes the entire plan layer vanish from the board with a green exit code. These two
+# tests read the REAL repo on purpose — the failure they guard is a path, and a fixture cannot see it.
+# ============================================================================================================
+def test_the_default_plan_document_actually_contains_the_ordered_plan():
+    assert os.path.exists(wl.DEFAULT_PLAN_DOC), wl.DEFAULT_PLAN_DOC
+    text = open(wl.DEFAULT_PLAN_DOC, encoding="utf-8").read()
+    assert any(ln.startswith("## ") and wl._PLAN_HEADING in ln.upper()
+               for ln in text.splitlines()), \
+        (f"{wl.DEFAULT_PLAN_DOC} has no '## ... {wl._PLAN_HEADING} ...' heading, so scan_plan_items would "
+         f"print NOT SCANNED and every open plan item would disappear from the board with no error")
+    assert wl.DEFAULT_STRATEGY == wl.DEFAULT_PLAN_DOC, \
+        "the legacy --strategy alias must resolve to the same document, never a second one"
+
+
+def test_the_real_plan_document_yields_open_items():
+    text = open(wl.DEFAULT_PLAN_DOC, encoding="utf-8").read()
+    got, how = wl.scan_plan_items(text, None)
+    assert "NOT SCANNED" not in how, how
+    assert got, "the ORDERED PLAN scanned to zero open items — that is indistinguishable from a broken parse"

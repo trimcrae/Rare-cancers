@@ -167,9 +167,73 @@ def test_local_negation_does_not_leak_across_a_sentence_boundary():
 
 
 def test_earned_phrase_rules_use_local_negation():
-    for rid in ("R1-synthesis-ready", "R1-selective-hit"):
+    for rid in ("R1-synthesis-ready", "R1-selective-hit", "R1-recovered-degradation"):
         rule = next(r for r in lint_claims.RULES if r.rid == rid)
         assert rule.clears_on == "local_negation", rid
+
+
+# -------------------------------------------------------------------------------------------------
+# A document that MANDATES a replacement has to be able to name the phrase it replaces.
+#
+# THE INCIDENT (2026-08-02). The language-discipline section — which states every R1 rule as a
+# substitution, `"selective hit" → **"predicted selective candidate"**` — lived in STRATEGY.md, which
+# this linter does not read. The roadmap merge moved it into the roadmap, which this linter DOES
+# read, and three R1 rules immediately ERRORed on their own definitions. That is the "a linter that
+# flags true statements gets ignored" failure this file's docstring is built around.
+# -------------------------------------------------------------------------------------------------
+@pytest.mark.parametrize(
+    "text",
+    [
+        '- "selective hit" → **"predicted selective candidate"**',
+        '- "synthesis-ready matrix" → **"a computationally prioritized candidate matrix"**',
+        '- "recovered degradation" → **"produced a surrogate score concordant with the outcome"**',
+        '"selective hit" -> "predicted selective candidate"',
+    ],
+)
+def test_a_substitution_rule_naming_a_banned_phrase_is_not_a_claim(tmp_path, text):
+    hard = [f for f in _lint(tmp_path, text) if f["severity"] == "ERROR"]
+    assert hard == [], f"a substitution rule must not ERROR on its own left-hand side: {text} -> {hard}"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        # No arrow into a replacement: this is the claim, and it must still fire.
+        "Deliverable: a synthesis-ready matrix, not another in-silico lead",
+        "The workflow recovered degradation for NR4A1.",
+        "Three selective hits emerged from the screen.",
+    ],
+)
+def test_the_substitution_clearing_does_not_excuse_an_assertion(tmp_path, text):
+    hard = [f for f in _lint(tmp_path, text) if f["severity"] == "ERROR"]
+    assert hard, f"an assertion must still ERROR: {text}"
+
+
+def test_a_prohibition_that_names_the_phrase_is_cleared_but_the_claim_is_not(tmp_path):
+    """Validation requirement 4's own wording: `... — never "recovered degradation."`
+
+    It PROHIBITS the phrase by naming it, and the merge moved that text into a linted file. Only a
+    negation sitting immediately before the phrase clears it, so the bare assertion still ERRORs —
+    that pair is the whole point of using `local_negation` rather than a blanket disclaimer.
+    """
+    ok = 'Report only directional concordance with the reported outcome — never "recovered degradation."'
+    assert [f for f in _lint(tmp_path, ok) if f["severity"] == "ERROR"] == []
+    bad = "The retrospective recovered degradation for NR4A1 and NR4A2."
+    assert [f for f in _lint(tmp_path, bad) if f["rule"] == "R1-recovered-degradation"]
+
+
+def test_R5_ignores_a_zero_dollar_figure_but_not_a_real_one(tmp_path):
+    """`$0` is the ABSENCE of a cost, so it can never be the mislabelled projection R5 catches.
+
+    Measured case: the merge moved "(measured 2026-07-28, $0 CPU, `ternary-system-census.yml`)" into a
+    linted file and R5 fired on a true statement about free CPU work. A real sub-dollar figure is
+    still checked — the narrowing is `$0`, not `$0.xx`.
+    """
+    free = ("The ternary edge's system identity is answered from the trajectories "
+            "(measured 2026-07-28, $0 CPU, ternary-system-census.yml).")
+    assert [f for f in _lint(tmp_path, free) if f["rule"] == "R5-measured-edge-cost"] == []
+    real = "The ternary edge cost a measured ~$7 per edge."
+    assert [f for f in _lint(tmp_path, real) if f["rule"] == "R5-measured-edge-cost"]
 
 
 def test_strategy_and_plan_docs_are_clean_of_banned_phrases():

@@ -8,7 +8,7 @@
 **Committed BEFORE any retrospective leg runs.** This freezes — a priori, before any favourable number is
 visible — the panel, the starting structures, the protocol, the primary endpoint, the statistical test, the
 blinding, the extension rule, the verdict tiers, the honest-failure semantics, and the claim ceiling for the
-**NR-V04 retrospective** (STRATEGY.md RUNG 4, schedule id `nrv04_retrospective`).
+**NR-V04 retrospective** (nr4a3-program-map.md RUNG 4, schedule id `nrv04_retrospective`).
 
 It sits on top of:
 - [`nr4a3-ternary-coop-prereg.md`](./nr4a3-ternary-coop-prereg.md) — the standing ternary prereg (§3d is the
@@ -212,7 +212,7 @@ one-sided permutation p-value.
 ### 5a. What CONCORDANT licenses
 Only this: the ensemble ternary workflow, run identically and without tuning on three paralogues, ordered them
 **directionally concordantly** with the reported NR-V04 outcome, **with the covalent confound held off**. That
-is the GO condition for RUNG 5 in STRATEGY.md.
+is the GO condition for RUNG 5 in nr4a3-program-map.md.
 
 ### 5b. What DISCORDANT means — and what it does NOT mean
 Discordance does **not** falsify the ternary-first thesis. NR-V04's selectivity may arise (i) from the covalent
@@ -291,7 +291,7 @@ value left in serializing, so the rest go **fully parallel**.
 
 ## 9. Dependency honesty — what this holdout is running ahead of
 
-STRATEGY.md RUNG 4 lists `nrv04_retrospective` as gated on **valB_full + feasibility + step1_fanout**, and
+nr4a3-program-map.md RUNG 4 lists `nrv04_retrospective` as gated on **valB_full + feasibility + step1_fanout**, and
 calibration addendum condition 7 says the NR-V04 retrospective runs only after the calibration PASSes. As of
 2026-07-24 **only the feasibility panel is complete**; valB is still the live front and step1_fanout has not run.
 
@@ -315,7 +315,7 @@ silent edits to a criterion.*
 
 ## AMENDMENT 3 — 2026-07-25 (dated defect-fix; trimcrae-delegated, APPLIED)
 
-**Authority.** §7's freeze and STRATEGY.md's requirement that amending a preregistered rule be an explicit,
+**Authority.** §7's freeze and nr4a3-program-map.md's requirement that amending a preregistered rule be an explicit,
 dated, reviewer-approved defect-fix. The frozen text above is left **unedited**.
 
 **Standard applied (AMENDMENT 1's):** a rule may be amended only if its statistic is shown to lack
@@ -389,7 +389,7 @@ free-energy arm, **stays blocked** on the valB calibration PASS exactly as §7 a
 narrowing §9 describes is accepted as sufficient rather than the alternative it offered ("hold Arm E until valB
 passes").
 
-**Why, and the reasoning is §9's own.** The gates that STRATEGY.md RUNG 4 listed govern a *free-energy*
+**Why, and the reasoning is §9's own.** The gates that nr4a3-program-map.md RUNG 4 listed govern a *free-energy*
 quantity. Arm E asserts no free energy: it is an endpoint-MD geometric contrast reported in Ångström, with its
 own registered MDE (leg-to-leg σ **0.855 Å**, 80 % power only at 1.5–2.0 Å) and its own claim ceiling of
 **directional concordance only** (§5a/§6). A calibration of the ternary-FEP cooperativity lane is not what
@@ -473,7 +473,7 @@ also only ever **subtracts**: every clause above narrows what a result may be re
 
 ## AMENDMENT 4 — 2026-07-31 (dated defect-fix; trimcrae DECIDED, APPLIED). The panel becomes **16 of 18**.
 
-**Authority.** §7's freeze and STRATEGY.md's requirement that amending a preregistered rule be an explicit,
+**Authority.** §7's freeze and nr4a3-program-map.md's requirement that amending a preregistered rule be an explicit,
 dated, approved defect-fix. The frozen text above is left **unedited**. Structure and standard follow
 **AMENDMENT 3**, which retired R2 for this same failure mode and is recorded there as having cost the primary
 result if left unfixed.

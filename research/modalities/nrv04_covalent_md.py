@@ -876,7 +876,7 @@ def run_leg(env):
                 "per_frame_contacts": per_frame_contacts, "iface_rmsds": iface_rmsds, "lys_frames": lys_frames,
                 "timed_ns_accum": _done_frames * stride * dt_ns, "wall_accum": _wall_accum + (time.time() - _t0)}
 
-    # ★ THE DURABLE TRAJECTORY — STRATEGY.md RUNG 3's adopted requirement, wired here because this is the
+    # ★ THE DURABLE TRAJECTORY — nr4a3-program-map.md RUNG 3's adopted requirement, wired here because this is the
     # driver whose absence of one made three analysis defects uncorrectable and forced a whole panel to be
     # re-run. Every readout below (the chain split, the reactive-Cys search, the Lys/proxy separation) becomes
     # a $0 re-derivation instead of a re-rental. See md_analysis_traj for what it does and does NOT persist.

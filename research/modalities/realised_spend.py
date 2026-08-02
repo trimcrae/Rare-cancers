@@ -4,11 +4,11 @@
 ★★ WHY THIS EXISTS (trimcrae, 2026-07-27: the scoreboard headline read **$0.74 spent** while the step 1
 fan-out alone had realised twenty times that).
 
-STRATEGY.md's scoreboard carried a hand-typed realised total. Rule 1.1 says a total is DERIVED, never typed,
+The scoreboard (then in STRATEGY.md) carried a hand-typed realised total. Rule 1.1 says a total is DERIVED, never typed,
 and this is exactly why: the lanes bill continuously, three of them at once, and nobody re-adds a sentence.
 The number was not merely stale — it was stale in the direction that matters, understating spend while the
 fleet was billing. So the total moves out of prose and into arithmetic over the artifacts the lanes already
-write, and STRATEGY.md points at the artifact instead of restating it.
+write, and nr4a3-program-map.md points at the artifact instead of restating it.
 
 WHAT IT IS AND IS NOT
 ---------------------
@@ -47,7 +47,7 @@ changes several times an hour. A document cannot quote a number like that and st
 demanding it match would be red almost always, which is the linter-nobody-listens-to failure.
 
 So there are two things, on purpose. `summary()` always reads the lanes LIVE. `--write` freezes that reading
-into `realised-spend.json` with the moment it was taken. **STRATEGY.md quotes the SNAPSHOT**, and
+into `realised-spend.json` with the moment it was taken. **nr4a3-program-map.md quotes the SNAPSHOT**, and
 `lint_consistency.py` holds the doc to the snapshot — a check that only fires when someone deliberately
 refreshes the snapshot and forgets the doc, which is the actual failure mode rule 1 is about. `--check`
 prints how far the snapshot has drifted from live, so the lag is visible rather than assumed.
@@ -58,7 +58,7 @@ is reproducible from the repo alone.
 Usage:
     python3 research/modalities/realised_spend.py            # human readout, live
     python3 research/modalities/realised_spend.py --json     # machine-readable
-    python3 research/modalities/realised_spend.py --write    # refresh the snapshot (then update STRATEGY.md)
+    python3 research/modalities/realised_spend.py --write    # refresh the snapshot (then update nr4a3-program-map.md)
     python3 research/modalities/realised_spend.py --check    # how stale is the committed snapshot?
 """
 
@@ -339,7 +339,7 @@ def summary(lanes=None, attested=None, credit_artifact=CREDIT_ARTIFACT):
     led_total = round(sum(u for _, u in good), 2)
     att_total = round(sum(float(a["usd"]) for a in att), 2)
     return {
-        "_what": "Realised spend, DERIVED from each lane's own ledger. STRATEGY.md's scoreboard quotes this "
+        "_what": "Realised spend, DERIVED from each lane's own ledger. nr4a3-program-map.md's scoreboard quotes this "
                  "SNAPSHOT and lint_consistency.py holds it to it; the figure is never typed fresh.",
         "_generated_by": "research/modalities/realised_spend.py --write",
         "_as_of_utc": _now_utc(),
@@ -407,7 +407,7 @@ def render(doc):
 def drift(live=None, snapshot_path=READOUT_PATH):
     """How far the committed snapshot has fallen behind the lanes. Reporting only — never a failure.
 
-    The snapshot is SUPPOSED to lag: it is what STRATEGY.md quotes, and it moves only when someone runs
+    The snapshot is SUPPOSED to lag: it is what nr4a3-program-map.md quotes, and it moves only when someone runs
     `--write`. This makes the lag a printed number instead of an assumption, so "the doc says $23.60 and
     the fleet has been billing for six hours" is a thing a reader can see rather than deduce.
     """
@@ -424,7 +424,7 @@ def drift(live=None, snapshot_path=READOUT_PATH):
             "live_ledgered_usd": live["realised_usd_ledgered"],
             "drift_usd": d,
             "action": ("in step" if abs(d) < 0.005 else
-                       "run --write, then update the figure STRATEGY.md quotes IN THE SAME COMMIT")}
+                       "run --write, then update the figure nr4a3-program-map.md quotes IN THE SAME COMMIT")}
 
 
 def main(argv=None):
@@ -442,7 +442,7 @@ def main(argv=None):
             json.dump(doc, fh, indent=1)
             fh.write("\n")
         print(f"[realised-spend] wrote {os.path.relpath(READOUT_PATH, REPO)} — now update the figure "
-              f"STRATEGY.md quotes, in the same commit (CLAUDE.md rule 1.3)")
+              f"nr4a3-program-map.md quotes, in the same commit (CLAUDE.md rule 1.3)")
     if a.json:
         print(json.dumps(doc, indent=1))
     else:

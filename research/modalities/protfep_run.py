@@ -19,7 +19,7 @@ net-charge guards, wedge arithmetic, and the benchmark plan. It deliberately run
 guards stay testable on CPU. This module is the other half: the thing that actually builds a perses
 hybrid topology, samples it with replica exchange, reduces it with MBAR, and writes a leg JSON.
 
-Until this file existed, STRATEGY.md's "engine BUILT 2026-07-24" was true only of the planning
+Until this file existed, nr4a3-program-map.md's "engine BUILT 2026-07-24" was true only of the planning
 layer: nothing could run a leg, so the rung stayed UNPRICED because there was no rate to price from.
 
 WHAT ONE LEG IS

@@ -1,5 +1,27 @@
 # Merge spec — one roadmap, with STRATEGY.md folded in
 
+> ## ⛔ SUPERSEDED IN PART, 2026-08-02 — §1's CENTRAL RULING IS RETIRED. THE MERGE IS PHYSICAL.
+> **§1 below says the merge must be "structural, not physical" and that THE ORDERED PLAN, the spend ladder,
+> the language-discipline section and the gate scoreboard must stay in STRATEGY.md because seven CI checks
+> parse them there. That was implemented, and it produced a RELABELLING, not a merge** — STRATEGY.md stayed
+> 3,317 lines against the roadmap's 1,436, with
+> [`map-merge-inventory.md`](map-merge-inventory.md) classifying **~2,430** of those lines as live plan
+> material. trimcrae: *"Strategy.md and the mapping document are still different files? What is the role of
+> strategy anymore?"*
+>
+> ⛔ **The CI-binding argument was a real constraint but never a reason.** CLAUDE.md §5: engineering effort is
+> free, and *"not worth the engineering effort to save X"* is never valid. Every parser was repointed instead.
+> **What actually happened:** every live section moved into
+> [`nr4a3-program-map.md`](nr4a3-program-map.md) under the heading string and slug it always had;
+> `work_ledger.DEFAULT_PLAN_DOC`, `pinned-figures.json`'s `must_appear_in` / `subset_checks.file` /
+> `artifact_figures`, and `lint_claims.py`'s 21 provenance strings were repointed in the same commit;
+> **Appendix A and Appendix B stayed**, because their rows are read *as data* and Appendix A's heading is a
+> structural clear in `lint_consistency.is_cleared`.
+>
+> **Still live below and unchanged:** §2 (the `R`/`V` id scheme), §3 (the invariants), §4's table of *what*
+> each machine parses and how it breaks (only the *file* changed), and §5's list of holes the document must
+> render as holes.
+
 ★ **trimcrae, 2026-08-02: *"Ideally the map serves as the new source of truth and the strategy.md gets folded
 in with it into one document, just adding color. And then it can link to appendices that give more history and
 stuff… It's really like a systems engineering task."*** And, on sequencing: *"We shouldn't be executing the

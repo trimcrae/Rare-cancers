@@ -1,6 +1,6 @@
 """The realised-spend summariser: the scoreboard's headline is arithmetic, not a sentence.
 
-WHY IT EXISTS. On 2026-07-27 STRATEGY.md's scoreboard read "$0.74 spent" while the step 1 fan-out's own
+WHY IT EXISTS. On 2026-07-27 the scoreboard (then in STRATEGY.md) read "$0.74 spent" while the step 1 fan-out's own
 ledger stood at $20.11 — a hand-typed total, ~27x low, understating spend while three lanes were billing.
 Rule 1.1 already said a total is DERIVED; nothing enforced it for THIS total. These tests pin the four
 properties that make the derived answer trustworthy, and every one of them is a mistake that was available:
@@ -95,7 +95,7 @@ def test_attested_entries_carry_a_source_and_a_remediation():
 
 
 def test_committed_snapshot_is_internally_consistent_and_dated():
-    """`realised-spend.json` is what STRATEGY.md quotes, so its own arithmetic must hold.
+    """`realised-spend.json` is what nr4a3-program-map.md quotes, so its own arithmetic must hold.
 
     It is NOT asserted equal to a live recomputation: the lanes bill continuously, so that test would be
     red most of the time and an always-red check is one nobody reads. The snapshot is allowed to lag; what

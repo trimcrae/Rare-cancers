@@ -7,7 +7,7 @@ to pin the three things that could silently corrupt the deliverable:
      report high burial and an exit vector pointing OUT of the mouth, not into the wall;
   2. the DOWNSELECT is the preregistered rule — gates are hard, the Pareto front is a real dominance test,
      and the cap drops the rest with a recorded reason;
-  3. no recruiter can be dropped on availability, which STRATEGY.md forbids explicitly.
+  3. no recruiter can be dropped on availability, which nr4a3-program-map.md forbids explicitly.
 """
 import json
 import math
@@ -236,7 +236,7 @@ def test_low_resolution_fails_G1_but_nmr_does_not():
 
 def test_cap_is_two_and_the_overflow_is_logged_not_silent():
     """Four recruiters on the front (each best on a different axis) -> exactly 2 advance and the other 2
-    are dropped WITH a reason. A silent top-N is the failure mode STRATEGY.md names explicitly."""
+    are dropped WITH a reason. A silent top-N is the failure mode nr4a3-program-map.md names explicitly."""
     recs = {"A": _rec(tier=3, clearance=20.0, cone=0.9, open15=0.2),     # best analogue tier
             "B": _rec(tier=2, clearance=20.0, cone=0.9, open15=0.9),     # best openness
             "C": _rec(tier=1, clearance=20.0, cone=0.95, open15=0.5),    # best exit quality
@@ -276,7 +276,7 @@ def test_pareto_front_excludes_a_dominated_recruiter():
 
 
 def test_availability_is_never_a_drop_reason():
-    """STRATEGY.md RUNG 5a: all widened arms are broadly expressed, so no recruiter may be dropped with
+    """nr4a3-program-map.md RUNG 5a: all widened arms are broadly expressed, so no recruiter may be dropped with
     'not expressed'. Assert it structurally rather than trusting the prose."""
     recs = {"A": _rec(), "B": _rec(tier=1, open15=0.1), "C": _rec(burial=0.1)}
     ds = st.downselect(recs)

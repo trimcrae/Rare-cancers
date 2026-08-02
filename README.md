@@ -7,18 +7,22 @@
 > ## Start here
 >
 > - **🗺️ [`research/manuscripts/nr4a3-program-map.md`](./research/manuscripts/nr4a3-program-map.md) — THE
->   ROADMAP, and where to start.** One document, read top to bottom: what is done, what is true, what is
->   blocked and what is next. It carries the requirement register (`R*`), the instrument register (`V*`), the
->   dependency graph, the closed-route register and the single ordered list of next steps. The #1 program is
+>   ROADMAP. It is the whole plan, and it is the only thing you have to read.** One document, top to bottom:
+>   what is done, what is true, what is blocked and what is next. It carries the requirement register (`R*`),
+>   the instrument register (`V*`), the dependency graph, the gate scoreboard, the closed-route register,
+>   **THE ORDERED PLAN**, the spend ladder and its derivation, the validation architecture, the
+>   language-discipline rules, the open decisions and the single ordered list of next steps. The #1 program is
 >   the **NR4A3-selective degrader paper**. Read this before proposing a step — a step whose instrument is
 >   unvalidated buys nothing.
-> - **📋 [`STRATEGY.md`](./STRATEGY.md) — the roadmap's APPENDIX SET, and the machine-parsed layer.** The
->   ordered plan, the spend ladder and its derivation, the validation architecture, the language-discipline
->   rules, the gate scoreboard, the open decisions and the history (Appendices A and B). It stays a separate
->   file because seven CI checks parse it by exact heading and format. **For a cost, a gate, a plan marker or a
->   decision number it wins; for what blocks what and what to do next, the roadmap wins.**
+> - **📋 [`STRATEGY.md`](./STRATEGY.md) — history only: two appendices.** Appendix A (superseded numbers and
+>   retracted claims) and Appendix B (retired plan framings). ⛔ **Nothing live is left in it** — every section
+>   that said what to do, what a thing costs or what a gate decided was moved into the roadmap on 2026-08-02,
+>   under the same headings and slugs. The two appendices stay because their rows are read *as data*
+>   (`realised_spend.py` cites "Appendix A row 35") and because `lint_consistency` uses Appendix A's heading as
+>   a structural clear. **The roadmap wins on everything; this file wins only on what a superseded value used
+>   to be.**
 > - **[`research/manuscripts/emc-treatment-strategy.md`](./research/manuscripts/emc-treatment-strategy.md)** —
->   the broader route portfolio (all treatment routes ranked; context beneath `STRATEGY.md`).
+>   the broader route portfolio (all treatment routes ranked; context beneath the roadmap).
 > - **[`research/IDEAS.md`](./research/IDEAS.md)** — live tracker board: every candidate route, status, next step.
 >
 > Everything clinical must be cited and never fabricated — medical-integrity rules in [AGENTS.md](./AGENTS.md)
@@ -27,9 +31,10 @@
 ## Repo layout
 
 - **`research/manuscripts/nr4a3-program-map.md`** — the roadmap: requirements, instruments, what blocks what,
-  and the one ordered list of what is next (read first).
-- **`STRATEGY.md`** — the roadmap's appendix set: the ordered plan, the spend ladder, the validation
-  architecture, the open decisions and the history. Machine-parsed; do not restructure it.
+  the ordered plan, the spend ladder and the one ordered list of what is next (read first). Machine-parsed by
+  `work_ledger`, `lint_consistency` and `lint_claims` on exact heading strings — do not rename a heading.
+- **`STRATEGY.md`** — history only: Appendix A (superseded numbers, rows cited as data) and Appendix B
+  (retired plan framings). Do not restructure it; do not renumber its rows.
 - **`research/`** — the treatment-discovery work: manuscripts, modalities (structure/FEP/ternary pipelines),
   the EMC atlas, and compute infra. `research/manuscripts/` holds the papers; `research/modalities/` holds the
   in-silico pipelines and how-to-run handoffs.

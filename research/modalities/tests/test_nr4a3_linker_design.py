@@ -114,7 +114,7 @@ def test_every_pendant_declares_a_reach_that_exists():
 
 
 def test_the_irreversible_comparator_is_present_and_labelled():
-    """STRATEGY.md prefers REVERSIBLE-covalent chemistry. That preference is only a tested choice if the
+    """nr4a3-program-map.md prefers REVERSIBLE-covalent chemistry. That preference is only a tested choice if the
     irreversible comparator is in the library and marked as one."""
     assert LDD.PENDANT["acrylamide"]["reversible"] is False
     assert "IRREVERSIBLE" in LDD.PENDANT["acrylamide"]["name"]

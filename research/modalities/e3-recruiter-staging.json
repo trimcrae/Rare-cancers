@@ -1,5 +1,5 @@
 {
- "_title": "E3 recruiter staging + ligandability downselect \u2014 STRATEGY.md RUNG 5a(c), 'E3 breadth, free at the search stage'",
+ "_title": "E3 recruiter staging + ligandability downselect \u2014 nr4a3-program-map.md RUNG 5a(c), 'E3 breadth, free at the search stage'",
  "_why": "Selectivity in this program is created at the induced target-E3 interface, so the E3's own surface is the largest lever on whether a discriminating interface exists at all. Basin search is CPU, so widening the recruiter set is free \u2014 but a wide set multiplied by GPU legs is not, which is why STRATEGY caps it at <=2 recruiters before any GPU leg AND requires the dropped set to be logged: a silent top-N reads as 'we covered everything'.",
  "_method": "UniProt (reviewed, human, exact gene match, fail-closed) -> RCSB search for entries carrying that accession with >=1 non-polymer entity, plus an unfiltered search so 'no structure' is distinguishable from 'no liganded structure' -> RCSB data API for resolution, method, chain composition, ligand CCD and primary citation -> the geometry frame is the best PARTNER-FREE entry with an intact (>=60-residue) receptor construct, taken from BIOLOGICAL ASSEMBLY 1 rather than the asymmetric unit, with the occluder set restricted to the recruiter and its own CRL arm -> pure-stdlib geometry (Shrake-Rupley burial, ray-cast enclosure and exit vector, LIGSITE PSP cavity volume) + fpocket druggability attributed by ligand-atom overlap -> a tier-3 'solved bivalent complex' claim is re-verified from coordinates and demoted if the ligand does not contact both proteins -> preregistered gates, Pareto front, lexicographic tiebreak.",
  "_limits": [
@@ -127,7 +127,7 @@
   "widened_flagged_or_incomplete": [],
   "incumbent_arms_both_broad": true,
   "used_as_a_drop_reason": false,
-  "_note": "Availability is NECESSARY but does not discriminate here, so it is recorded and then deliberately excluded from the downselect (STRATEGY.md RUNG 5a)."
+  "_note": "Availability is NECESSARY but does not discriminate here, so it is recorded and then deliberately excluded from the downselect (nr4a3-program-map.md RUNG 5a)."
  },
  "recruiters": {
   "VHL": {
@@ -9246,7 +9246,7 @@
    }
   ],
   "availability_assertion": {
-   "claim": "No recruiter is dropped for lack of expression. All eight widened arms are broadly expressed and record-complete on HPA (nr4a3_e3_expression.py, CI run 30125742542), so availability does not constrain this choice \u2014 STRATEGY.md RUNG 5a.",
+   "claim": "No recruiter is dropped for lack of expression. All eight widened arms are broadly expressed and record-complete on HPA (nr4a3_e3_expression.py, CI run 30125742542), so availability does not constrain this choice \u2014 nr4a3-program-map.md RUNG 5a.",
    "verified": true
   }
  },

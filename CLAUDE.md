@@ -1,14 +1,17 @@
 # CLAUDE.md
 
-Full maintenance guide: **[AGENTS.md](./AGENTS.md)**. The research plan: **[STRATEGY.md](./STRATEGY.md)**.
-**What blocks what: [nr4a3-program-map.md](./research/manuscripts/nr4a3-program-map.md) — READ IT BEFORE
-PROPOSING ANY NEXT STEP.** It is the dependency graph of every claim the paper has to establish and which
-instrument each rests on. Its reason for existing is that those dependencies were prose-only, so they were
-re-derived every session and blockers were repeatedly misattributed (trimcrae, 2026-08-02). STRATEGY.md owns
-the plan, gates and costs; the map owns **the order things must happen in and what is currently load-bearing**.
+Full maintenance guide: **[AGENTS.md](./AGENTS.md)**.
+**THE PLAN IS ONE FILE: [nr4a3-program-map.md](./research/manuscripts/nr4a3-program-map.md) — THE ROADMAP.
+READ IT BEFORE PROPOSING ANY NEXT STEP.** It carries the dependency graph of every claim the paper has to
+establish and which instrument each rests on, **and since 2026-08-02 it also carries the whole plan** — the
+gate scoreboard, THE ORDERED PLAN, the spend ladder, the validation architecture, the language-discipline
+rules and the open decisions, all moved out of STRATEGY.md rather than copied. Its reason for existing is that
+those dependencies were prose-only, so they were re-derived every session and blockers were repeatedly
+misattributed (trimcrae, 2026-08-02). **[STRATEGY.md](./STRATEGY.md) is now history only** — Appendix A
+(superseded numbers, cited as data) and Appendix B (retired framings).
 
 **This file is standing RULES, not the plan and not a status board.** It loads into every session, so it stays
-short by construction: no cost figures, no rung-by-rung ladder, no history. Those live in STRATEGY.md, and
+short by construction: no cost figures, no rung-by-rung ladder, no history. Those live in the roadmap, and
 anything here that restates them is a bug — see rule 1.
 
 ---
@@ -29,7 +32,7 @@ anything here that restates them is a bug — see rule 1.
      [`pinned-figures.json`](./research/manuscripts/pinned-figures.json) IN THE SAME COMMIT.** Not paperwork —
      it is how CI finds the copies you missed.
   **Enforced, because prose discipline is exactly what already failed here** (the same reason `lint_claims.py`
-  exists): [`lint_consistency.py`](./research/manuscripts/lint_consistency.py) runs in CI over STRATEGY.md,
+  exists): [`lint_consistency.py`](./research/manuscripts/lint_consistency.py) runs in CI over the roadmap,
   this file, pricing.md, bid-strategy.md, the schedule JSON, the paper, the SI and the NR-V04 prereg. Run it
   before committing doc changes: `python3 research/manuscripts/lint_consistency.py`. It clears correctly-written
   retractions, so **a red build is a real inconsistency — fix the doc, don't loosen the pattern.**
@@ -96,8 +99,9 @@ anything here that restates them is a bug — see rule 1.
       Rendered by [`inflight_usd_per_ns.py`](./research/modalities/inflight_usd_per_ns.py) — **never typed, and
       never off a launcher's `dph≈` line**, which is the market floor plus the search's disk line and so reads
       LOW against the rate the instance is actually billed (`vast_rate_forensics.py`).
-- **Language discipline for the manuscript** is in [STRATEGY.md](./STRATEGY.md) → "Honest scope and language
-  discipline" and enforced by `lint_claims.py` (R1–R5) in CI. Never imply proteome-wide selectivity, EMC
+- **Language discipline for the manuscript** is in
+  [the roadmap](./research/manuscripts/nr4a3-program-map.md#honest-scope-and-language-discipline-apply-everywhere-including-the-manuscript)
+  → "Honest scope and language discipline" and enforced by `lint_claims.py` (R1–R5) in CI. Never imply proteome-wide selectivity, EMC
   efficacy, safety, a therapeutic window, or clinical readiness.
 
 ## 2 · Autonomy — do the work, don't offer it
@@ -208,12 +212,15 @@ When in doubt: do it and show it.
 
 ## 5 · Scope, spend and the research program
 
-- **THE PLAN IS [STRATEGY.md](./STRATEGY.md)** — the gold-standard single source of truth for what's next, every
-  step's GO/NO-GO gate, and every cost. It wins over any other doc, including this one. The schedule JSON
-  [degrader-paper-schedule.json](./research/manuscripts/degrader-paper-schedule.json) is a machine mirror of it;
-  [pricing.md](./research/compute/pricing.md) owns the cost evidence. **Do not restate prices here** — this file
-  carried a ladder total three times and it was stale every time. Superseded plan framings (atlas-anchor, Track
-  A/B, the three-step spine, orientation-first) are in STRATEGY.md → Appendix B.
+- **THE PLAN IS [nr4a3-program-map.md](./research/manuscripts/nr4a3-program-map.md)** — the gold-standard
+  single source of truth for what's next, every step's GO/NO-GO gate, and every cost. It wins over any other
+  doc, including this one. *(Superseded, retained: **"THE PLAN IS STRATEGY.md"** — true until 2026-08-02, when
+  every live section was moved into the roadmap and STRATEGY.md became two history appendices.)* The schedule
+  JSON [degrader-paper-schedule.json](./research/manuscripts/degrader-paper-schedule.json) is a machine mirror
+  of the ordered plan; [pricing.md](./research/compute/pricing.md) owns the cost evidence. **Do not restate
+  prices here** — this file carried a ladder total three times and it was stale every time. Superseded plan
+  framings (atlas-anchor, Track A/B, the three-step spine, orientation-first) are in
+  [STRATEGY.md → Appendix B](./STRATEGY.md#appendix-b--superseded-strategy-framings).
 - **★ NORTH STAR (trimcrae, 2026-07-01):** the **state of the art of what in-silico can do for an NR4A3-selective
   degrader** — the most complete, rigorous, honest computational characterization achievable with **no wet lab**,
   every result at its true weight. The paper documents *that*, not a ship-when-adequate minimum. The program is

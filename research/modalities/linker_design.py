@@ -27,7 +27,7 @@ THE FOUR KERNELS THAT CARRY SCIENTIFIC WEIGHT
    The box claim was true; the convergence claim was FALSE, and it is why the 8XTT reach table could not be
    committed — see the `three_ball_min_margin` docstring for the measurement that retired it.
 
-2. `branch_position_window` — the CHEMISTRY DELIVERABLE of this rung, and the thing STRATEGY.md's RUNG 5b asks
+2. `branch_position_window` — the CHEMISTRY DELIVERABLE of this rung, and the thing nr4a3-program-map.md's RUNG 5b asks
    for by name: "the library enumerates the ELECTROPHILE POSITION ON THE LINKER as a design variable". It is
    kernel 1 evaluated over every integer branch index k, returning the contiguous window of backbone atoms
    from which the electrophile can reach the target nucleophile. **Cross-validated against `basin_geom`**: in
@@ -35,7 +35,7 @@ THE FOUR KERNELS THAT CARRY SCIENTIFIC WEIGHT
    `basin_geom.linker_can_visit`. `tests/test_linker_design.py` asserts that identity, so this kernel cannot
    silently drift from the one the RUNG-5a gate was read on.
 
-3. `wlc_window_probability` — the CORRECTED accessibility `P(B_k | d, s)` of STRATEGY.md load-bearing piece 4.
+3. `wlc_window_probability` — the CORRECTED accessibility `P(B_k | d, s)` of nr4a3-program-map.md load-bearing piece 4.
    RUNG 5a reported accessibility as the mean WLC *density* at the basin's spans, whose argmax over linker
    length is CENSORED at the top of the scanned grid (see the module docstring note below and the lane doc);
    a probability integrated over the basin's span window is dimensionless, comparable across basins and
@@ -54,7 +54,7 @@ THE FOUR KERNELS THAT CARRY SCIENTIFIC WEIGHT
 mean-density profile is still rising there for spans above ~12 A — for a 20 A span the true argmax is ~53
 backbone atoms, far outside the scan. So the field is a grid edge, not an optimum, and it must not be read as
 "a 19-atom linker is the right length". `wlc_window_probability` replaces it. The reconciliation note already
-in STRATEGY.md ("`best_linker_atoms` is the length that best supports basin accessibility") is right about the
+in nr4a3-program-map.md ("`best_linker_atoms` is the length that best supports basin accessibility") is right about the
 *quantity*; what was not known when it was written is that the *reported value* is censored.
 """
 from __future__ import annotations
@@ -354,7 +354,7 @@ def min_linker_atoms_exact(anchor_a, anchor_b, nucleophile, arm_reach: float,
 # target atom being touched, with the branch fully engaged (side chain + any amide + the Michael acceptor + the
 # forming C-S bond). These are NAMED, commercially routine groups, so a sweep over them is a sweep over
 # BUILDING BLOCKS, not over a knob — which is the only reason a sensitivity sweep is admissible under
-# STRATEGY.md load-bearing piece 5 (no tunable scalar).
+# nr4a3-program-map.md load-bearing piece 5 (no tunable scalar).
 #
 # ⚠ `rung5a_convention` (3.0 A) is the PREREGISTERED value the Tier-2 term-(a) gate is read at, and it stays
 # the gate value. It is SHORTER than every real pendant below, i.e. conservative — so the longer entries are a

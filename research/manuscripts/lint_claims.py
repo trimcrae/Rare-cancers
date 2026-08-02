@@ -3,9 +3,14 @@
 
 WHY THIS EXISTS
 ---------------
-`STRATEGY.md` -> "Honest scope and language discipline (apply everywhere, including the
-manuscript)" states hard rules about what the manuscript may and may not assert. Until
-now those rules had **zero automated enforcement** -- they were a prose instruction that a
+The roadmap (`research/manuscripts/nr4a3-program-map.md`) -> "Honest scope and language
+discipline (apply everywhere, including the manuscript)" states hard rules about what the
+manuscript may and may not assert. ⚠ THAT SECTION MOVED ON 2026-08-02: it used to live in
+`STRATEGY.md`, and the roadmap merge physically moved it -- heading string unchanged -- into
+the roadmap, which is now the one document the program is steered by. The 21 provenance
+strings below name the section, not the file, so a future move needs no edit here; the file
+name is stated once, in this paragraph. Until this linter existed those rules had **zero
+automated enforcement** -- they were a prose instruction that a
 human or an agent had to remember. A 2026-07-24 audit reported a "linter FAIL (2 ERROR,
 incl. SI:89 'efficacy')" that turned out to be a naive substring match: every "efficacy"
 hit in the SI is a *disclaimer* ("makes no efficacy claim", "not EMC efficacy"). That
@@ -19,12 +24,12 @@ So every regulated pattern here is scanned at SENTENCE granularity and cleared w
 same sentence carries a disclaimer marker. Only the phrases that are wrong in *every*
 context are hard errors.
 
-RULES IMPLEMENTED (each cites its STRATEGY.md source line)
+RULES IMPLEMENTED (each cites its roadmap source section)
 ----------------------------------------------------------
-  R1  earned-phrase substitutions      STRATEGY.md "selective hit" -> "predicted selective candidate" etc.
-  R2  never-imply set                  STRATEGY.md "Never imply proteome-wide selectivity, EMC efficacy,
+  R1  earned-phrase substitutions      roadmap "selective hit" -> "predicted selective candidate" etc.
+  R2  never-imply set                  roadmap "Never imply proteome-wide selectivity, EMC efficacy,
                                        safety, a therapeutic window, or clinical readiness."
-  R3  novelty right-sizing             STRATEGY.md "Novelty is incremental, not landmark."
+  R3  novelty right-sizing             roadmap "Novelty is incremental, not landmark."
   R4  evidentiary-verb discipline      no computational result "proves" / "confirms" / "establishes"
   R5  measured-vs-projected            "measured" must not be attached to a projected cost/number
 
@@ -166,7 +171,7 @@ RULES = [
         r"\bselective hits?\b",
         "ERROR",
         'say "predicted selective candidate", not "selective hit"',
-        'STRATEGY.md "selective hit" -> "predicted selective candidate"',
+        'roadmap "selective hit" -> "predicted selective candidate"',
         clears_on="local_negation",
     ),
     Rule(
@@ -177,7 +182,7 @@ RULES = [
         "exit-vector chemistry, routes, building-block availability and physicochemical "
         'assessment exist; say "computationally prioritized, structure-defined, '
         'retrosynthetically annotated candidate matrix"',
-        'STRATEGY.md "synthesis-ready matrix" -> earned phrase',
+        'roadmap "synthesis-ready matrix" -> earned phrase',
         clears_on="local_negation",
     ),
     Rule(
@@ -185,7 +190,7 @@ RULES = [
         r"\bNR4A3-selective\b",
         "WARN",
         'prefer "predicted NR4A-paralogue-selective" unless the sentence already scopes it',
-        'STRATEGY.md "NR4A3-selective" -> "predicted NR4A-paralogue-selective"',
+        'roadmap "NR4A3-selective" -> "predicted NR4A-paralogue-selective"',
         clears_on="hedge",
     ),
     Rule(
@@ -193,7 +198,7 @@ RULES = [
         r"\b(?:does|do) bind\b|\bbinds? at all\b",
         "WARN",
         'say "is compatible with the hypothesized conditional bound state"',
-        'STRATEGY.md "does bind at all" -> conditional bound state',
+        'roadmap "does bind at all" -> conditional bound state',
         clears_on="hedge",
     ),
     Rule(
@@ -201,8 +206,17 @@ RULES = [
         r"\brecovered (?:the )?degradation\b",
         "ERROR",
         'say "produced a surrogate score concordant with the reported outcome"',
-        'STRATEGY.md "recovered degradation" -> surrogate-score concordance',
-        clears_on=None,
+        'roadmap "recovered degradation" -> surrogate-score concordance',
+        # Was clears_on=None ("wrong in every context"). ⚠ That was true while this linter
+        # only read the manuscript. Validation requirement 4 -- the reviewer's own text --
+        # ends `Report only directional concordance ... never "recovered degradation."`,
+        # i.e. it PROHIBITS the phrase by naming it, and the roadmap merge moved that text
+        # into a linted file. `LOCAL_NEGATION_RE`'s own comment already names this exact
+        # construct (`never "recovered degradation"`) as the case it was built for, and it
+        # is the same tight test the other two earned-phrase rules use: only a negation
+        # sitting immediately before the phrase clears it, so "the workflow recovered
+        # degradation for NR4A1" still ERRORs (pinned by test_lint_claims.py).
+        clears_on="local_negation",
     ),
     # -- R2: never-imply set -------------------------------------------------------------
     # These are regulated words, NOT banned words. Disclaimed use is correct and passes.
@@ -211,7 +225,7 @@ RULES = [
         r"\befficac(?:y|ious)\b",
         "ERROR",
         "efficacy may only appear in a sentence that scopes the claim OUT",
-        "STRATEGY.md Never imply ... EMC efficacy",
+        "roadmap Never imply ... EMC efficacy",
         clears_on="disclaimer",
     ),
     Rule(
@@ -219,7 +233,7 @@ RULES = [
         r"\btherapeutic window\b",
         "ERROR",
         "a therapeutic window may only appear scoped out (or when describing prior art)",
-        "STRATEGY.md Never imply ... a therapeutic window",
+        "roadmap Never imply ... a therapeutic window",
         clears_on="disclaimer",
     ),
     Rule(
@@ -227,7 +241,7 @@ RULES = [
         r"\bclinical(?:ly)? read(?:y|iness)\b|\bready for the clinic\b|\bclinic[- ]ready\b",
         "ERROR",
         "never imply clinical readiness",
-        "STRATEGY.md Never imply ... clinical readiness",
+        "roadmap Never imply ... clinical readiness",
         clears_on="disclaimer",
     ),
     Rule(
@@ -235,7 +249,7 @@ RULES = [
         r"\bis safe\b|\bsafe and effective\b|\bwell[- ]tolerated\b|\bsafety (?:is |was )?(?:established|demonstrated|shown)\b",
         "ERROR",
         "never imply safety",
-        "STRATEGY.md Never imply ... safety",
+        "roadmap Never imply ... safety",
         clears_on="disclaimer",
     ),
     Rule(
@@ -243,7 +257,7 @@ RULES = [
         r"\bproteome[- ]wide selectiv\w*\b|\bselective across the proteome\b",
         "ERROR",
         "never imply proteome-wide selectivity (nothing here tests off-family targets)",
-        "STRATEGY.md Never imply proteome-wide selectivity",
+        "roadmap Never imply proteome-wide selectivity",
         clears_on="disclaimer",
     ),
     Rule(
@@ -251,7 +265,7 @@ RULES = [
         r"\b(?:cures?|cured|treats|will treat|therapy for EMC\b)",
         "ERROR",
         "no treatment claim -- degradation is experimentally unvalidated",
-        "STRATEGY.md final deliverable: degradation experimentally unvalidated",
+        "roadmap final deliverable: degradation experimentally unvalidated",
         clears_on="disclaimer",
     ),
     # -- R3: novelty right-sizing --------------------------------------------------------
@@ -261,7 +275,7 @@ RULES = [
         "ERROR",
         "novelty is incremental, not landmark -- all-atom ternary-cooperativity FEP is an "
         "active published area (Chen 2023; JCTC 2025; JCIM 2024) and must be cited, not out-claimed",
-        "STRATEGY.md Novelty is incremental, not landmark",
+        "roadmap Novelty is incremental, not landmark",
         # Was clears_on=None ("wrong in every context"), which fired on the manuscript's own
         # right-sizing sentence -- precisely the false-positive class this file's docstring
         # says must pass or the linter gets ignored. Disclaiming landmark status IS the rule
@@ -272,9 +286,9 @@ RULES = [
         "R3-first-to",
         r"\bthe first (?:to|study|work|report|demonstration)\b|\bwe are the first\b",
         "WARN",
-        "a first-in-field claim needs the prior-art citations STRATEGY.md mandates "
+        "a first-in-field claim needs the prior-art citations the roadmap mandates "
         "(Chen 2023; JCTC 2025 5c00064/5c00736; JCIM 2024 4c01227)",
-        "STRATEGY.md The paper must cite and benchmark against this prior art",
+        "roadmap The paper must cite and benchmark against this prior art",
         clears_on="disclaimer",
     ),
     # -- R4: evidentiary-verb discipline --------------------------------------------------
@@ -283,7 +297,7 @@ RULES = [
         r"\bprove[sd]?\b|\bproven\b|\bproof that\b",
         "WARN",
         "a computational result does not prove -- say what it is evidence *for*, conditionally",
-        "STRATEGY.md everything is conditional on the hypothesized pose x receptor frame",
+        "roadmap everything is conditional on the hypothesized pose x receptor frame",
         clears_on="disclaimer",
     ),
     Rule(
@@ -292,13 +306,20 @@ RULES = [
         "WARN",
         "reserve confirm/establish/validate for results with a committed primary artifact; "
         "otherwise say concordant / consistent with",
-        "STRATEGY.md language discipline",
+        "roadmap language discipline",
         clears_on="disclaimer",
     ),
     # -- R5: measured vs projected --------------------------------------------------------
     Rule(
         "R5-measured-edge-cost",
-        r"\bmeasured\b[^.\n]{0,80}\$|\$[^.\n]{0,60}\bmeasured\b",
+        # ⚠ `$0` IS EXCLUDED, and that is a narrowing rather than a loosening. This rule is
+        # about a PROJECTED per-edge cost being labelled "measured"; a figure of exactly $0
+        # is the absence of a cost — it marks free CPU/CI work — so it can never be the
+        # mislabelled projection the rule exists to catch. Without the exclusion the roadmap
+        # merge turned "(measured 2026-07-28, $0 CPU, `ternary-system-census.yml`)" into an
+        # ERROR, which is a true statement flagged. Written so a real sub-dollar figure is
+        # still checked: `$0.43 per leg` matches, `$0 CPU` does not.
+        r"\bmeasured\b[^.\n]{0,80}\$(?!0(?![\d.]))|\$(?!0(?![\d.]))[^.\n]{0,60}\bmeasured\b",
         "ERROR",
         "no per-EDGE alchemical dollar figure is a completed run on the card quoted -- the "
         "RBFE edge is a rate x hardcoded phase counts, and the ternary edge is a projected "
@@ -430,6 +451,39 @@ def _locally_negated(sent, match_start):
     return bool(LOCAL_NEGATION_RE.search(sent[max(0, match_start - LOCAL_NEGATION_WINDOW):match_start]))
 
 
+# ★★ A DOCUMENT THAT MANDATES A REPLACEMENT MUST BE ABLE TO NAME THE PHRASE IT REPLACES.
+# The language-discipline section states every R1 rule as a SUBSTITUTION:
+#
+#     - "selective hit" → **"predicted selective candidate"**
+#     - "recovered degradation" → **"produced a surrogate score concordant with ..."**
+#
+# so each banned phrase appears as the LEFT-HAND SIDE of an arrow. That is the rule being
+# written down, not the claim being made -- and flagging it is exactly the "a linter that
+# flags true statements gets ignored" failure this file's docstring is built around.
+#
+# WHY IT BECAME LIVE (2026-08-02). The rules' source section used to sit in STRATEGY.md,
+# which this linter does not read. The roadmap merge moved it into the roadmap, which this
+# linter DOES read, and three R1 rules immediately fired on their own definitions. The
+# section is not wrong; the clearing rule was missing.
+#
+# Tight by construction, and this is the whole reason it is safe: the phrase must be
+# followed by a substitution arrow INTO A QUOTED REPLACEMENT. An assertion is never written
+# `... → **"..."`. It is applied to every rule, including `clears_on=None` ones, because
+# naming a phrase as a substitution's LHS is not an assertion of it under any rule.
+#
+# The leading character class is the REST of the quoted left-hand side: the rules regex a
+# token ("synthesis-ready") out of a longer quoted phrase ("synthesis-ready matrix"), so the
+# closing quote is up to a few words further on. It admits only word characters, spaces,
+# hyphens/dashes and commas — never a `.`, `;`, `:` or a stray quote — so it cannot bridge
+# from an asserted phrase to some unrelated arrow later in the sentence.
+_SUBSTITUTION_LHS_RE = re.compile(r'^[\w \-–—,]{0,30}["\'`”]?\s*(?:→|->|⇒|=>)\s*\*{0,2}["\'`“]')
+
+
+def _is_substitution_lhs(sent, match_end):
+    """True if the match is the left-hand side of a `"phrase" → "replacement"` rule. Pure."""
+    return bool(_SUBSTITUTION_LHS_RE.match(sent[match_end:match_end + 72]))
+
+
 def lint_file(path):
     findings = []
     with open(path, "r", encoding="utf-8") as fh:
@@ -442,6 +496,11 @@ def lint_file(path):
             for rule in RULES:
                 m = rule.re.search(sent)
                 if not m:
+                    continue
+                # Applies to EVERY rule, before `clears_on` is consulted: naming a phrase as
+                # the LHS of a mandated substitution states the rule, it never asserts the
+                # claim. See `_SUBSTITUTION_LHS_RE`.
+                if _is_substitution_lhs(sent, m.end()):
                     continue
                 if rule.clears_on == "disclaimer" and has_disclaimer:
                     continue

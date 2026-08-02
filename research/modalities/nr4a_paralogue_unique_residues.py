@@ -4,7 +4,7 @@ NR4A3 PARALOGUE-UNIQUE REACTIVE-RESIDUE map — the *categorical* selectivity ax
 
 WHY. The degrader plan's prospective stage currently seeks selectivity on ONE axis: a favourable-vs-frustrated
 induced target-E3 interface, i.e. a ~1 kcal/mol thermodynamic margin resolved by methods whose own accuracy is
-~1-1.7 kcal/mol. That axis has no validated prospective predictor (STRATEGY.md thesis). This module maps the two
+~1-1.7 kcal/mol. That axis has no validated prospective predictor (nr4a3-program-map.md thesis). This module maps the two
 axes on which NR4A1/NR4A2 are not merely *disfavoured* but *structurally incapable*:
 
   AXIS 1 - a paralogue-unique NUCLEOPHILE. If NR4A3 carries a solvent-exposed cysteine at a position where both

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-NR4A1/2/3 paralogue-differential SURFACE atlas (RUNG-4 free CPU step; STRATEGY.md orientation-first ladder).
+NR4A1/2/3 paralogue-differential SURFACE atlas (RUNG-4 free CPU step; nr4a3-program-map.md orientation-first ladder).
 
 WHY. The orientation-first prospective ladder needs a MAP of where NR4A3 could plausibly support a
 paralogue-selective ternary neo-interface BEFORE any linker is designed. Precedent (BRD4-vs-BRD2/3, CDK4-vs-6,
@@ -10,7 +10,7 @@ E3), (b) DIVERGENT between NR4A3 and NR4A1/NR4A2, and (c) chemically NON-conserv
 intersection is the differential surface — the set of candidate "selectivity wedges" the orientation-basin search
 (RUNG 5a) then tries to steer an E3 against. It also maps accessible lysines (the ubiquitination-geometry axis).
 
-This is the RUNG-4 cheap early NO-GO named in STRATEGY.md: if there is NO exposed, divergent, E3-reachable surface
+This is the RUNG-4 cheap early NO-GO named in nr4a3-program-map.md: if there is NO exposed, divergent, E3-reachable surface
 handle, the wedge search is unlikely to succeed and we say so before spending on the orientation search.
 
 WHAT. Pure-stdlib (no numpy/biopython/freesasa needed — works in the dev sandbox at $0):

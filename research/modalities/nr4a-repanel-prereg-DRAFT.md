@@ -5,8 +5,8 @@
 >
 > The sensitivity control was scored on its complete panel and returned **NULL** on an adequately-powered
 > design — exact one-sided *p* = 0.7468, reference set 462, floor 0.00216, zero technical failures
-> ([`selcal-verdict.json`](./selcal-verdict.json); [STRATEGY.md gate
-> record](../../STRATEGY.md#-gate-failed--the-smarca24-sensitivity-control-returns-null-on-an-adequately-powered-design-2026-08-02-1042-pm-et)).
+> ([`selcal-verdict.json`](./selcal-verdict.json); [roadmap gate
+> record](../manuscripts/nr4a3-program-map.md#-gate-failed--the-smarca24-sensitivity-control-returns-null-on-an-adequately-powered-design-2026-08-02-1042-pm-et)).
 > **Step 3 is therefore not bought: it would be money spent to reproduce a failure.**
 >
 > ⚠ **THE DOCUMENT IS KEPT, NOT DELETED**, and that is the point of having written it early. It is the

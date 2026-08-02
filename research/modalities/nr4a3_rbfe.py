@@ -1011,7 +1011,7 @@ def reduce_receptor():
            "absolute_dg_B": round(rb.absolute_dg_B(ddg, RECEPTOR), 3),
            "note": "ΔΔG_bind(401->lo_m0_NCCO); negative = lo_m0_NCCO binds tighter. absolute_dg_B anchors on "
                    "401's preliminary ABFE (rbfe_edges.ANCHOR_401_ABFE)."}
-    # valA known-answer benchmark (STRATEGY.md RUNG 1 kill-switch): if a valA_manifest.json with a measured
+    # valA known-answer benchmark (nr4a3-program-map.md RUNG 1 kill-switch): if a valA_manifest.json with a measured
     # ΔΔG_exp is staged alongside the legs, compare the COMPUTED ΔΔG_bind to it. GO if |Δ| ≲ 1.5-2 kcal/mol —
     # i.e. this exact container/protocol reproduces a public measured ΔΔG. NO-GO ⇒ stop/pivot before NR4A science.
     man = None

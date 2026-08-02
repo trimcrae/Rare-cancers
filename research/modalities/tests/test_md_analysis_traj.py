@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Guards for the durable analysis trajectory — STRATEGY.md RUNG 3's adopted requirement, finally wired.
+"""Guards for the durable analysis trajectory — nr4a3-program-map.md RUNG 3's adopted requirement, finally wired.
 
 WHAT THESE TESTS ARE ACTUALLY PROTECTING. The NR-V04 covalent panel was re-run from zero because three
 POST-HOC ANALYSIS bugs (a positional chain split, a chain-blind cysteine search, an nm-labelled-as-Å readout)

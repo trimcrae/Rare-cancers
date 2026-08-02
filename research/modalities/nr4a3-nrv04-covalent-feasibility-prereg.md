@@ -1,6 +1,6 @@
 # NR-V04 covalent feasibility panel — preregistration & scoring freeze
 
-**Rung:** `nrv04_feasibility_covalent` (STRATEGY.md RUNG 3). **Status:** BUILDING (no GPU run until this panel is
+**Rung:** `nrv04_feasibility_covalent` (nr4a3-program-map.md RUNG 3). **Status:** BUILDING (no GPU run until this panel is
 built + CI-validated end-to-end — trimcrae decision 2026-07-22: "build fully before any run").
 **Provider when it runs:** Vast.ai (bid/interruptible, RTX-4090-class, per-leg S3 checkpoint).
 
@@ -25,7 +25,7 @@ append-only for results; the criteria below do not move.
 
 ---
 
-## 1. Why this panel exists (reviewer condition 4, STRATEGY.md:86-94)
+## 1. Why this panel exists (reviewer condition 4, roadmap → Validation architecture)
 
 Celastrol — the warhead in NR-V04 (Wang 2024) — is reported to bind NR4A1 **covalently via Cys551** (Michael
 addition of the thiol to celastrol's electrophilic quinone-methide A-ring). Consequences the panel must confront:
@@ -151,7 +151,7 @@ honestly, not buried.
 - **Independent (parallel on Vast):** every `(leg, seed)` system — one `submit()` each → N independent
   RTX-4090 bid instances. Leg 0 is $0 CPU/CI.
 - **Dependent:** the sensitivity comparison (R4) and the panel verdict run after legs 1–6 land.
-- **Cost placeholder — NOT yet measured:** the `~$40–100` in STRATEGY.md is an estimate. The real number is
+- **Cost placeholder — NOT yet measured:** the `~$40–100` in nr4a3-program-map.md is an estimate. The real number is
   calibrated on the **first real leg's** GPU-hours × the Vast 4090 bid rate (~$0.10–0.20/hr midpoint). This file
   and the schedule JSON's `cost_est_usd` are updated the moment that leg completes. **No Vast spend occurs until
   §7 CI validation passes.**
@@ -181,7 +181,7 @@ Only when that CI smoke is green do we wire the Vast launcher and run the real l
   on NR4A2/NR4A3, so NR-V04's paralogue selectivity is **at least partly a warhead-reactivity effect** the
   noncovalent free-energy machinery cannot represent. **Consequences for the panel:** (i) this is now a
   *confirmed* confound, not a hypothetical — the covalent vs C551A vs warhead-only legs are the way we
-  disentangle it; (ii) it reinforces STRATEGY.md's demotion of NR-V04 to a biological holdout, not a noncovalent
+  disentangle it; (ii) it reinforces nr4a3-program-map.md's demotion of NR-V04 to a biological holdout, not a noncovalent
   method calibrator; (iii) the optional `cov_nr4a2/cov_nr4a3` legs are **not** run in the minimal panel (celastrol
   can't bond there — there is nothing covalent to model).
 - *Caveat:* global NW alignment of the full LBDs; the local ±5 windows (no nearby Cys in either paralogue) make
@@ -199,7 +199,7 @@ Only when that CI smoke is green do we wire the Vast launcher and run the real l
 
 ## AMENDMENT 1 — 2026-07-25 (dated defect-fix; trimcrae-delegated)
 
-**Authority.** §Preamble freezes these criteria and STRATEGY.md requires that amending a preregistered rule
+**Authority.** §Preamble freezes these criteria and nr4a3-program-map.md requires that amending a preregistered rule
 after a failing result be "an explicit, dated, reviewer-approved defect-fix, not a quiet retune." trimcrae
 delegated this decision on 2026-07-25. It is recorded here in full, with the frozen text above left **unedited**
 so the original rule and this amendment can both be read.

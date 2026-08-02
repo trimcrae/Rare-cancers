@@ -9,7 +9,7 @@ instruction for it is *"Treat it as a single GPU in your fleet"* — one unit at
 This module is that one unit's wiring, and nothing else.
 
 THE UNIT, and why it is this one:
-  * STRATEGY.md's `[ ]` item *"Step 1 fan-out · REPLICATES ON THE OPEN CYCLE"* is **unowned** in
+  * nr4a3-program-map.md's `[ ]` item *"Step 1 fan-out · REPLICATES ON THE OPEN CYCLE"* is **unowned** in
     `work-ledger.json` — no lane, no workflow, no agent is carrying it.
   * `cycle_3carbonyl` does **not** close (`step1-fanout-map.json` → `cycle_closure`, `sum_kcal` vs
     `tol_kcal`), and at n = 1 "one edge is wrong" and "three unlucky draws" are the same observation.

@@ -174,7 +174,7 @@ the cheap end — see F4.
 
 ## 4. ⚠ THE CARD RULE IS RETIRED — "the 4090 is the default" is false as a *selection* rule
 
-Both `pricing.md` and `STRATEGY.md` say *"the 4090 wins $/ns at every size, so it is the default."* Two
+Both `pricing.md` and `nr4a3-program-map.md` say *"the 4090 wins $/ns at every size, so it is the default."* Two
 problems.
 
 **(a) The supporting numbers are from a WITHDRAWN bench.** The quoted `4090 = 1549 / 669 / 175.6 ns/day` and
@@ -215,7 +215,7 @@ flags this, precisely so the cheap tail is not chosen for the covalent-style leg
 
 **This work corrects the `$/hr` axis only. The GPU-hour axis keeps every uncertainty it already had.**
 
-`STRATEGY.md`'s spend summary records that the ternary base was measured on the **SMARCA2/VHL 8G1Q** assembly
+`nr4a3-program-map.md`'s spend summary records that the ternary base was measured on the **SMARCA2/VHL 8G1Q** assembly
 and is being used to price **NR4A** ternaries — the same non-transferability that cost **2.6×** on the binary
 lane when the real cmpd19/NR4A3 complex turned out to sample at ~13.6 s/iter against TYK2's ~5.2. **Repricing
 multiplies the repo's own GPU-hour estimates; if those are 2.6× low, the costs are 2.6× low regardless of what
@@ -289,7 +289,7 @@ this table carried is superseded; the GPU-hours are unchanged, only the `$/refer
 ⚠ **This is not the ladder total.** It covers only the nine alchemical/MD stages the cost model reprices. The
 whole gated ladder — adding step0, `valA_mini`, the measured `$8` covalent panel, and the CPU-dominated 5a/5b —
 is **~$169 (~$46–626)** *(the **~$158 (~$44–578)** this line carried is superseded — RUNG 5a-KS went from 2 ternary legs to 4, STRATEGY Appendix A row 54; and the **~$185 (~$51–614)** before that — pricing.md Appendix T)*;
-[STRATEGY.md → Spend summary](../../STRATEGY.md) carries the derivation and is
+[nr4a3-program-map.md → Spend summary](../manuscripts/nr4a3-program-map.md) carries the derivation and is
 authoritative. *(This table previously omitted the `5c` row, which is where a stray `~$128` total for the whole
 ladder came from. Fixed 2026-07-25.)*
 

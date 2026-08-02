@@ -1,6 +1,6 @@
 # NR4A3 degrader — post-RBFE-pilot execution sequence (2026-07-13)
 
-> **⚠️ SUPERSEDED / HISTORICAL (banner added 2026-07-24) — read [`/STRATEGY.md`](../../STRATEGY.md) for the live
+> **⚠️ SUPERSEDED / HISTORICAL (banner added 2026-07-24) — read [`/nr4a3-program-map.md`](../manuscripts/nr4a3-program-map.md) for the live
 > plan and [`../compute/pricing.md`](../compute/pricing.md) for live costs.** This 2026-07-13 sequence is retained
 > **only** as the historical record of the AWS-era cost pathology it diagnosed. **Do not execute anything below.**
 > Four independent things in it are now wrong:
@@ -17,22 +17,22 @@
 >    "a full complex leg does NOT fit Modal's $30 cap" conclusion are both artifacts of it.
 > 2. **Its provider policy is reversed.** § "PROVIDER POLICY" makes **GCP spot L4 the "PRIMARY workhorse"**, gates
 >    everything on a `GPUS_ALL_REGIONS` quota that was *"**0** and Google **DENIED** the increase"*, and reserves
->    Modal for smokes. STRATEGY.md § "GPU economics": **"All production runs go on Vast — RTX 4090 (default) or
+>    Modal for smokes. nr4a3-program-map.md § "GPU economics": **"All production runs go on Vast — RTX 4090 (default) or
 >    RTX 3090 (fallback). GCP L4 / SageMaker / Modal are not the go-forward basis."** The GCP quota question is
 >    also settled and different now — see [`../compute/gcp-gpu-facts.md`](../compute/gcp-gpu-facts.md).
 > 3. **Its ordering and endpoint are superseded.** "Step C" builds a molecule-first
 >    *"**warhead × linker × E3 matrix**"* → *"**synthesis-ready ~6–12-compound matrix** (the deliverable)."*
->    STRATEGY.md § "The prospective stage" rejects exactly this: *"enumerate a fixed
+>    nr4a3-program-map.md § "The prospective stage" rejects exactly this: *"enumerate a fixed
 >    {warhead×exit×ligase×linker} matrix, model each ternary, score, and hope the Pareto front contains a
 >    selective degrader — is a well-controlled lottery."* The live stage is **orientation-first inverse design**
 >    (RUNG 5: surface atlas → orientation basins → **5a-KS reciprocal-mutation causal kill-switch** → linker
->    requirements → molecules), and the phrase **"synthesis-ready"** is explicitly banned by STRATEGY.md's
+>    requirements → molecules), and the phrase **"synthesis-ready"** is explicitly banned by nr4a3-program-map.md's
 >    language discipline in favour of *"computationally prioritized, structure-defined, retrosynthetically
 >    annotated candidate set."*
 > 4. **Its two ternary gates target the wrong systems and claim too much.** "B2" freezes the calibration pair as
 >    *"**P1 α≈93 vs P5 α≈0.6**, crystallographic 9HYN/9HYP"*; the live `valB_mini` is the **Wurz SMARCA2–VHL
->    cmpd 1→4 all-binding graded edge (α 12.8→2.6)** (STRATEGY.md RUNG 2). "B3" makes NR-V04 the method gate —
->    *"Recover NR-V04 selectivity → method trusted"* — but STRATEGY.md validation requirement 1(C) demotes
+>    cmpd 1→4 all-binding graded edge (α 12.8→2.6)** (nr4a3-program-map.md RUNG 2). "B3" makes NR-V04 the method gate —
+>    *"Recover NR-V04 selectivity → method trusted"* — but nr4a3-program-map.md validation requirement 1(C) demotes
 >    **NR-V04 to a biological-selectivity holdout, not the method calibrator**, and requirement 4 permits only
 >    **"directional concordance"**, never "recovered". NR-V04's warhead (celastrol) is **covalent (C551)**, so it
 >    does not exercise the noncovalent machinery the ternary method needs calibrating on.

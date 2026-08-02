@@ -427,6 +427,6 @@ under prereg §6.
 - **It amends no preregistration**, proposes no criterion change, and re-scores no landed leg. §1c's power
   figures are design-planning numbers, explicitly *not* a replacement MDE — AMENDMENT 4 §4.3 declined to
   register one and that stands.
-- **It does not re-audit the verdict.** A separate thread owns folding the result into STRATEGY.md, the
+- **It does not re-audit the verdict.** A separate thread owns folding the result into nr4a3-program-map.md, the
   manuscript and the pricing of one power option; this file points at homes rather than restating them.
 - **It asserts no selectivity, efficacy, cooperativity or degradation claim**, and nothing here licenses one.
