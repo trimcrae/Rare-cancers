@@ -36,6 +36,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RCSB_PDB = "https://files.rcsb.org/download/{p}.pdb"
+RCSB_CIF = "https://files.rcsb.org/download/{p}.cif"
 RCSB_IDEAL = "https://files.rcsb.org/ligands/download/{c}_ideal.sdf"
 
 #: A picked fragment must share at least this fraction of its own heavy atoms with the degrader, by MCS.
@@ -56,23 +57,36 @@ def _fetch(url, dest):
     return True, None
 
 
+def _fetch_structure(pdb_id, workdir):
+    """(path, error). Tries the legacy PDB format, falls back to mmCIF.
+
+    ⚠ MEASURED, run 30751709728: BOTH arms refused on `HTTP 404` for the .pdb file. Recent and large entries
+    are deposited mmCIF-only and have NO legacy PDB — 9DU0 and 9DTX are both in that class. A 404 here is a
+    FORMAT fact, not a missing structure, and reading it as "structure unavailable" would have retired two
+    perfectly good inputs."""
+    for url, ext in ((RCSB_PDB, "pdb"), (RCSB_CIF, "cif")):
+        dest = os.path.join(workdir, "%s.%s" % (pdb_id, ext))
+        if os.path.exists(dest):
+            return dest, None
+        ok, err = _fetch(url.format(p=pdb_id), dest)
+        if ok:
+            return dest, None
+        last = err
+        if os.path.exists(dest):
+            os.remove(dest)
+    return None, "neither .pdb nor .cif could be fetched (last: %s)" % last
+
+
 def resolve_chains(pdb_path, comp_id, near_a=6.0):
-    """Polymer chains with a heavy atom within `near_a` of the named ligand. DERIVED from the file."""
-    lig, prot = [], []
-    for line in open(pdb_path):
-        if line[:6] not in ("ATOM  ", "HETATM"):
-            continue
-        if line[16] not in (" ", "A"):
-            continue
-        try:
-            xyz = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
-        except ValueError:
-            continue
-        res, ch = line[17:20].strip(), line[21]
-        if res == comp_id:
-            lig.append(xyz)
-        elif line[:6] == "ATOM  ":
-            prot.append((ch, xyz))
+    """Polymer chains with a heavy atom within `near_a` of the named ligand. DERIVED from the file.
+
+    Parsing is delegated to `selcal_cofold_validate.parse_structure`, which already handles both mmCIF and
+    PDB and already applies the altloc/first-model rules — so this lane cannot drift from the parser the
+    scoring instruments use."""
+    import selcal_cofold_validate as V
+    atoms = V.parse_structure(pdb_path)
+    lig = [a.xyz for a in atoms if a.resname == comp_id and a.is_heavy]
+    prot = [(a.chain, a.xyz) for a in atoms if a.resname in V._THREE_TO_ONE and a.is_heavy]
     if not lig:
         return [], "ligand %s not found in %s" % (comp_id, os.path.basename(pdb_path))
     c2 = near_a * near_a
@@ -87,7 +101,8 @@ def resolve_chains(pdb_path, comp_id, near_a=6.0):
 
 
 def all_polymer_chains(pdb_path):
-    return sorted({l[21] for l in open(pdb_path) if l[:6] == "ATOM  " and l[16] in (" ", "A")})
+    import selcal_cofold_validate as V
+    return V.polymer_chains(V.parse_structure(pdb_path))
 
 
 def fragment_overlap(frag_comp, degrader_comp, workdir):
@@ -125,12 +140,10 @@ def prepare(configs, workdir, degrader_comp):
         row = {"name": cfg["name"], "ok": True, "why": None}
         paths = {}
         for key in ("poi_binary_pdb", "e3_binary_pdb", "native_pdb"):
-            p = os.path.join(workdir, "%s.pdb" % cfg[key])
-            if not os.path.exists(p):
-                ok, err = _fetch(RCSB_PDB.format(p=cfg[key]), p)
-                if not ok:
-                    row.update(ok=False, why="could not fetch %s: %s" % (cfg[key], err))
-                    break
+            p, err = _fetch_structure(cfg[key], workdir)
+            if err:
+                row.update(ok=False, why="could not fetch %s: %s" % (cfg[key], err))
+                break
             paths[key] = p
         if not row["ok"]:
             report.append(row); continue
