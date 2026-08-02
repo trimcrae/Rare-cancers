@@ -144,7 +144,6 @@ jobs:
               ref = d.get("refusals") or (d.get("result") or {}).get("refusals") or []
               print("refusals:", json.dumps(ref)[:900])
           PY
-          sed -i 's/^          //' "$RUNNER_TEMP/show.py"
           python "$RUNNER_TEMP/show.py" research/modalities/pose-convergence-401.json \
                                         research/modalities/apo-pose-recovery.json
       # workflow_dispatch is the ONLY trigger on this file, so the `inputs` context always exists and the

@@ -535,6 +535,7 @@ def build(seqs, models_dir=None, n_points: int = 96, ensembles=None, struct_root
             opened.get("NR4A3", {}).get("cysteines", {}),
             os.path.join(HERE, "nr4a-paralogue-unique-residues.json")),
         "8xtt_numbering_vs_benchmark": _crosscheck_8xtt_numbering(models_dir, seqs, struct_root),
+        "nrv04_leg0_cys_conservation": _crosscheck_leg0(pc_partners),
     }
 
     data = {
@@ -744,6 +745,46 @@ def control_rank(opened, control=POSITIVE_CONTROL):
             "top3": [f"{p} C{u} = {v}" for v, p, u in vals[:3]],
         }
     return out
+
+
+LEG0_ARTIFACT = os.path.join(HERE, "nrv04-cys-conservation.json")
+
+
+def _crosscheck_leg0(pc_partners, path=LEG0_ARTIFACT):
+    """Third cross-check: the paralogue residues opposite NR4A1 Cys551 derived here must match the committed
+    NR-V04 Leg 0 artifact (`nrv04_cys_conservation.py`), the repo's one home for that fact.
+
+    PROVENANCE (this cost a real detour, so it is recorded rather than remembered). Leg 0 ran as CI run
+    29923279236 and its artifact was committed to the `modalities-cache` BRANCH only, never to main, while
+    five modules cite it by name as though it were readable -- exactly the branch-drift shape CLAUDE.md
+    section 7 calls a data-loss bug. It is ported alongside this module so the check can actually run; if it
+    is ever absent again the check reports UNREAD with the recovery command, and UNREAD is never scored as
+    agreement.
+    """
+    if not os.path.exists(path):
+        return {"status": "UNREAD", "path": os.path.relpath(path, REPO),
+                "reason": ("NR-V04 Leg 0 artifact absent on this ref. It lives on the `modalities-cache` "
+                           "branch (commit b63ef583f), not main. Recover with: git checkout "
+                           "origin/modalities-cache -- research/modalities/nrv04-cys-conservation.json"),
+                "not_scored_as_agreement": True}
+    with open(path) as fh:
+        leg0 = json.load(fh)
+    rows, ok = [], True
+    for other, got in sorted(pc_partners.items()):
+        ref = (leg0.get("aligned") or {}).get(other)
+        if ref is None:
+            rows.append({"paralogue": other, "status": "ABSENT_IN_LEG0"})
+            ok = False
+            continue
+        agree = (ref["residue"] == got["residue"] and ref["resnum"] == got["resnum"])
+        ok = ok and agree
+        rows.append({"paralogue": other, "leg0": "%s%s" % (ref["residue"], ref["resnum"]),
+                     "here": "%s%s" % (got["residue"], got["resnum"]), "agrees": agree})
+    if not leg0.get("nr4a1_is_cysteine"):
+        ok = False
+    return {"status": "AGREES" if ok else "DISAGREES",
+            "source_of_truth": "nrv04-cys-conservation.json (NR-V04 feasibility prereg Leg 0, CI 29923279236)",
+            "nr4a1_is_cysteine_leg0": leg0.get("nr4a1_is_cysteine"), "rows": rows}
 
 
 def _control_recovery(d):
