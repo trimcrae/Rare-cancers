@@ -1,7 +1,7 @@
 {
  "_what": "ACCOUNT-KEYED CENTRAL REAPER \u2014 the one thing in the repo that destroys Vast hosts on a narrow, provably-safe predicate, keyed on the account so no lane's private teardown bug can leave a box billing. RULE 1: terminal state, unconditional. RULE 2: unit recorded done AND its output verified present in the object store, attributed to THIS rental by timestamp. Nothing else may destroy.",
- "generated_utc": "2026-08-02T00:15:57Z",
- "generated_et": "8:15 PM ET Aug 1, 2026",
+ "generated_utc": "2026-08-02T00:24:18Z",
+ "generated_et": "8:24 PM ET Aug 1, 2026",
  "mode": "ARMED",
  "thresholds": {
   "census_stale_min": 20.0,
@@ -23,88 +23,72 @@
   "a stale or unreadable census",
   "a `done` record older than the instance"
  ],
- "census_utc": "2026-08-01T23:58:54Z",
- "census_et": "7:58 PM ET Aug 1, 2026",
- "census_age_min": 17.1,
- "census_n_instances": 8,
+ "census_utc": "2026-08-02T00:15:10Z",
+ "census_et": "8:15 PM ET Aug 1, 2026",
+ "census_age_min": 9.1,
+ "census_n_instances": 10,
  "graded": true,
  "reap": [
   {
-   "instance": 46548482,
-   "machine_id": 57342,
-   "label": "selcal-smarca4-m3-r0",
-   "gpu_name": "RTX PRO 4000",
+   "instance": 46549922,
+   "machine_id": 36518,
+   "label": "selcal-smarca2-m3-r1",
+   "gpu_name": "RTX 5090",
    "actual_status": "created",
    "cur_state": "stopped",
-   "uptime_h": 0.383,
-   "dph_total": 0.07376666666666666,
-   "spend_so_far_usd": 0.0283,
-   "start_date": 1785627356.0049593,
-   "start_et": "7:35 PM ET Aug 1, 2026",
+   "uptime_h": 0.226,
+   "dph_total": 0.22066666666666665,
+   "spend_so_far_usd": 0.0499,
+   "start_date": 1785628897.8969324,
+   "start_et": "8:01 PM ET Aug 1, 2026",
    "action": "REAP",
    "rule": "RULE-1-TERMINAL",
    "why": "actual_status='created' cur_state='stopped' is TERMINAL (derived set: ['error', 'exited', 'offline', 'stopped']). A terminal host is not coming back, so anything it produced is already in the object store or was never written \u2014 THIS RULE CANNOT LOSE WORK BY CONSTRUCTION. It still appears in `GET /instances/`, and a host cannot end its own rental (\u00a76: only the control plane can), so it persists until something destroys it. Nothing did: the owning lane's `mode=reap` ran, exited SUCCESS, and destroyed neither this nor a finished host."
   },
   {
-   "instance": 46549228,
-   "machine_id": 57342,
-   "label": "selcal-smarca2-m1-r1",
-   "gpu_name": "RTX PRO 4000",
-   "actual_status": "loading",
-   "cur_state": "stopped",
-   "uptime_h": 0.172,
-   "dph_total": 0.07476666666666666,
-   "spend_so_far_usd": 0.0129,
-   "start_date": 1785628113.880735,
-   "start_et": "7:48 PM ET Aug 1, 2026",
-   "action": "REAP",
-   "rule": "RULE-1-TERMINAL",
-   "why": "actual_status='loading' cur_state='stopped' is TERMINAL (derived set: ['error', 'exited', 'offline', 'stopped']). A terminal host is not coming back, so anything it produced is already in the object store or was never written \u2014 THIS RULE CANNOT LOSE WORK BY CONSTRUCTION. It still appears in `GET /instances/`, and a host cannot end its own rental (\u00a76: only the control plane can), so it persists until something destroys it. Nothing did: the owning lane's `mode=reap` ran, exited SUCCESS, and destroyed neither this nor a finished host."
-  },
-  {
-   "instance": 46549229,
-   "machine_id": 57342,
-   "label": "selcal-smarca2-m3-r1",
-   "gpu_name": "RTX PRO 4000",
-   "actual_status": "loading",
-   "cur_state": "stopped",
-   "uptime_h": 0.172,
-   "dph_total": 0.07586666666666667,
-   "spend_so_far_usd": 0.013,
-   "start_date": 1785628115.8736646,
-   "start_et": "7:48 PM ET Aug 1, 2026",
-   "action": "REAP",
-   "rule": "RULE-1-TERMINAL",
-   "why": "actual_status='loading' cur_state='stopped' is TERMINAL (derived set: ['error', 'exited', 'offline', 'stopped']). A terminal host is not coming back, so anything it produced is already in the object store or was never written \u2014 THIS RULE CANNOT LOSE WORK BY CONSTRUCTION. It still appears in `GET /instances/`, and a host cannot end its own rental (\u00a76: only the control plane can), so it persists until something destroys it. Nothing did: the owning lane's `mode=reap` ran, exited SUCCESS, and destroyed neither this nor a finished host."
-  },
-  {
-   "instance": 46549230,
-   "machine_id": 57342,
-   "label": "selcal-smarca2-m4-r0",
-   "gpu_name": "RTX PRO 4000",
-   "actual_status": "loading",
-   "cur_state": "stopped",
-   "uptime_h": 0.171,
-   "dph_total": 0.07686666666666667,
-   "spend_so_far_usd": 0.0131,
-   "start_date": 1785628118.411083,
-   "start_et": "7:48 PM ET Aug 1, 2026",
-   "action": "REAP",
-   "rule": "RULE-1-TERMINAL",
-   "why": "actual_status='loading' cur_state='stopped' is TERMINAL (derived set: ['error', 'exited', 'offline', 'stopped']). A terminal host is not coming back, so anything it produced is already in the object store or was never written \u2014 THIS RULE CANNOT LOSE WORK BY CONSTRUCTION. It still appears in `GET /instances/`, and a host cannot end its own rental (\u00a76: only the control plane can), so it persists until something destroys it. Nothing did: the owning lane's `mode=reap` ran, exited SUCCESS, and destroyed neither this nor a finished host."
-  },
-  {
-   "instance": 46549240,
-   "machine_id": 57342,
+   "instance": 46549950,
+   "machine_id": 36518,
    "label": "selcal-smarca4-m1-r0",
-   "gpu_name": "RTX PRO 4000",
+   "gpu_name": "RTX 5090",
+   "actual_status": "created",
+   "cur_state": "stopped",
+   "uptime_h": 0.219,
+   "dph_total": 0.22476666666666667,
+   "spend_so_far_usd": 0.0492,
+   "start_date": 1785628921.3526213,
+   "start_et": "8:02 PM ET Aug 1, 2026",
+   "action": "REAP",
+   "rule": "RULE-1-TERMINAL",
+   "why": "actual_status='created' cur_state='stopped' is TERMINAL (derived set: ['error', 'exited', 'offline', 'stopped']). A terminal host is not coming back, so anything it produced is already in the object store or was never written \u2014 THIS RULE CANNOT LOSE WORK BY CONSTRUCTION. It still appears in `GET /instances/`, and a host cannot end its own rental (\u00a76: only the control plane can), so it persists until something destroys it. Nothing did: the owning lane's `mode=reap` ran, exited SUCCESS, and destroyed neither this nor a finished host."
+  },
+  {
+   "instance": 46550800,
+   "machine_id": 24573,
+   "label": "selcal-smarca2-m1-r1",
+   "gpu_name": "RTX 4090",
    "actual_status": "loading",
    "cur_state": "stopped",
-   "uptime_h": 0.17,
-   "dph_total": 0.07786666666666667,
-   "spend_so_far_usd": 0.0132,
-   "start_date": 1785628120.8748746,
-   "start_et": "7:48 PM ET Aug 1, 2026",
+   "uptime_h": 0.012,
+   "dph_total": 0.1310222222222222,
+   "spend_so_far_usd": 0.0016,
+   "start_date": 1785629667.3910384,
+   "start_et": "8:14 PM ET Aug 1, 2026",
+   "action": "REAP",
+   "rule": "RULE-1-TERMINAL",
+   "why": "actual_status='loading' cur_state='stopped' is TERMINAL (derived set: ['error', 'exited', 'offline', 'stopped']). A terminal host is not coming back, so anything it produced is already in the object store or was never written \u2014 THIS RULE CANNOT LOSE WORK BY CONSTRUCTION. It still appears in `GET /instances/`, and a host cannot end its own rental (\u00a76: only the control plane can), so it persists until something destroys it. Nothing did: the owning lane's `mode=reap` ran, exited SUCCESS, and destroyed neither this nor a finished host."
+  },
+  {
+   "instance": 46550805,
+   "machine_id": 24573,
+   "label": "selcal-smarca2-m3-r1",
+   "gpu_name": "RTX 4090",
+   "actual_status": "loading",
+   "cur_state": "stopped",
+   "uptime_h": 0.011,
+   "dph_total": 0.13342222222222222,
+   "spend_so_far_usd": 0.0015,
+   "start_date": 1785629671.0139127,
+   "start_et": "8:14 PM ET Aug 1, 2026",
    "action": "REAP",
    "rule": "RULE-1-TERMINAL",
    "why": "actual_status='loading' cur_state='stopped' is TERMINAL (derived set: ['error', 'exited', 'offline', 'stopped']). A terminal host is not coming back, so anything it produced is already in the object store or was never written \u2014 THIS RULE CANNOT LOSE WORK BY CONSTRUCTION. It still appears in `GET /instances/`, and a host cannot end its own rental (\u00a76: only the control plane can), so it persists until something destroys it. Nothing did: the owning lane's `mode=reap` ran, exited SUCCESS, and destroyed neither this nor a finished host."
@@ -118,9 +102,9 @@
    "gpu_name": "RTX 4090",
    "actual_status": "running",
    "cur_state": "running",
-   "uptime_h": 2.502,
+   "uptime_h": 2.774,
    "dph_total": 0.18186666666666668,
-   "spend_so_far_usd": 0.455,
+   "spend_so_far_usd": 0.5045,
    "start_date": 1785619725.911777,
    "start_et": "5:28 PM ET Aug 1, 2026",
    "action": "SPARE",
@@ -140,9 +124,9 @@
    "gpu_name": "RTX 3090",
    "actual_status": "running",
    "cur_state": "running",
-   "uptime_h": 1.872,
+   "uptime_h": 2.143,
    "dph_total": 0.07911111111111112,
-   "spend_so_far_usd": 0.1481,
+   "spend_so_far_usd": 0.1695,
    "start_date": 1785621996.2231026,
    "start_et": "6:06 PM ET Aug 1, 2026",
    "action": "SPARE",
@@ -156,9 +140,9 @@
    "gpu_name": "RTX PRO 4000",
    "actual_status": "running",
    "cur_state": "running",
-   "uptime_h": 0.17,
+   "uptime_h": 0.441,
    "dph_total": 0.07886666666666667,
-   "spend_so_far_usd": 0.0134,
+   "spend_so_far_usd": 0.0348,
    "start_date": 1785628122.9742417,
    "start_et": "7:48 PM ET Aug 1, 2026",
    "action": "SPARE",
@@ -170,45 +154,106 @@
     "record": "selcal-cofold-census.json"
    },
    "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('boot 2026-08-01T18:33:07Z instance=46524315') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE."
+  },
+  {
+   "instance": 46549942,
+   "machine_id": 54409,
+   "label": "selcal-smarca2-m4-r0",
+   "gpu_name": "RTX 4090",
+   "actual_status": "running",
+   "cur_state": "running",
+   "uptime_h": 0.222,
+   "dph_total": 0.1909777777777778,
+   "spend_so_far_usd": 0.0424,
+   "start_date": 1785628913.1108193,
+   "start_et": "8:01 PM ET Aug 1, 2026",
+   "action": "SPARE",
+   "rule": "NO-RULE-FIRED",
+   "evidence": {
+    "banked": false,
+    "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('boot 2026-08-01T18:33:07Z instance=46524315') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE.",
+    "lane": "selcal-cofold",
+    "record": "selcal-cofold-census.json"
+   },
+   "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('boot 2026-08-01T18:33:07Z instance=46524315') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE."
+  },
+  {
+   "instance": 46549971,
+   "machine_id": 19569,
+   "label": "selcal-smarca4-m3-r0",
+   "gpu_name": "RTX 5090",
+   "actual_status": "running",
+   "cur_state": "running",
+   "uptime_h": 0.216,
+   "dph_total": 0.22066666666666665,
+   "spend_so_far_usd": 0.0477,
+   "start_date": 1785628932.411356,
+   "start_et": "8:02 PM ET Aug 1, 2026",
+   "action": "SPARE",
+   "rule": "NO-RULE-FIRED",
+   "evidence": {
+    "banked": false,
+    "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('boot 2026-08-01T18:33:07Z instance=46524315') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE.",
+    "lane": "selcal-cofold",
+    "record": "selcal-cofold-census.json"
+   },
+   "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('boot 2026-08-01T18:33:07Z instance=46524315') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE."
+  },
+  {
+   "instance": 46550806,
+   "machine_id": 24573,
+   "label": "selcal-smarca4-m1-r0",
+   "gpu_name": "RTX 4090",
+   "actual_status": "running",
+   "cur_state": "running",
+   "uptime_h": 0.01,
+   "dph_total": 0.13542222222222222,
+   "spend_so_far_usd": 0.0014,
+   "start_date": 1785629674.5625498,
+   "start_et": "8:14 PM ET Aug 1, 2026",
+   "action": "SPARE",
+   "rule": "NO-RULE-FIRED",
+   "evidence": {
+    "banked": false,
+    "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('boot 2026-08-01T18:33:07Z instance=46524315') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE.",
+    "lane": "selcal-cofold",
+    "record": "selcal-cofold-census.json"
+   },
+   "why": "RULE 2 could not read an instance-named completion marker from selcal-cofold-census.json: the marker does not carry the `<phase> rc=<n> <ISO-Z> instance=<id>` convention ('boot 2026-08-01T18:33:07Z instance=46524315') \u2014 without an instance id there is no exact attribution, and this module will not decode a Vast label back into a unit to get one \u2014 SPARE."
   }
  ],
- "n_reap": 5,
+ "n_reap": 4,
  "ok": true,
  "verdict": "REAP",
- "detail": "8 instance(s) graded; 5 match a reap rule (RULE-1-TERMINAL), 3 spared. ARMED \u2014 these will be destroyed.",
+ "detail": "10 instance(s) graded; 4 match a reap rule (RULE-1-TERMINAL), 6 spared. ARMED \u2014 these will be destroyed.",
  "rule_2_lanes": [
   "selcal-cofold"
  ],
  "execution": {
   "mode": "ARMED",
-  "destroyed": [],
-  "failed": [
+  "destroyed": [
    {
-    "instance": 46548482,
+    "instance": 46549922,
     "rule": "RULE-1-TERMINAL",
-    "error": "RuntimeError: vast API DELETE /instances/46548482/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46548482 not found.\"}"
+    "outcome": "DESTROYED"
    },
    {
-    "instance": 46549228,
+    "instance": 46549950,
     "rule": "RULE-1-TERMINAL",
-    "error": "RuntimeError: vast API DELETE /instances/46549228/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46549228 not found.\"}"
+    "outcome": "DESTROYED"
    },
    {
-    "instance": 46549229,
+    "instance": 46550800,
     "rule": "RULE-1-TERMINAL",
-    "error": "RuntimeError: vast API DELETE /instances/46549229/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46549229 not found.\"}"
+    "outcome": "DESTROYED"
    },
    {
-    "instance": 46549230,
+    "instance": 46550805,
     "rule": "RULE-1-TERMINAL",
-    "error": "RuntimeError: vast API DELETE /instances/46549230/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46549230 not found.\"}"
-   },
-   {
-    "instance": 46549240,
-    "rule": "RULE-1-TERMINAL",
-    "error": "RuntimeError: vast API DELETE /instances/46549240/ -> 404: {\"success\": false, \"error\": \"no_such_instance\", \"msg\": \"Instance 46549240 not found.\"}"
+    "outcome": "DESTROYED"
    }
   ],
+  "failed": [],
   "ledger": "vast-account-reaper-ledger.jsonl"
  }
 }
