@@ -1,0 +1,227 @@
+name: C02 decoy null + C04 paralogue pocket contrast (CPU, $0)
+
+# TWO $0 CPU INSTRUMENT CALIBRATIONS. No GPU, no rental, no SageMaker, no AWS credentials.
+#
+#   C04  research/modalities/paralogue_pocket_contrast.py
+#        The harmonized cryptic-pocket detector, pointed for the first time at the NR4A1/NR4A2 conformer
+#        ensembles that have been COMMITTED to this repo since 2026-07-26. Every frame is already on disk
+#        (`git ls-files results` -> 2,082); the only thing this job adds is fpocket. NR4A3's own 100 frames
+#        are re-scored in the SAME job so the contrast is matched under ONE fpocket build — the committed
+#        table records fpocket 4.0 and is used here only as a reproduction check.
+#
+#   C02  research/modalities/categorical_decoy_null.py
+#        The cross-system decoy null the categorical covalent axis has never faced. Unrelated human
+#        paralogue pairs (universe = the committed 47-receptor nuclear-receptor list) pushed through the
+#        IDENTICAL categorical pipeline, so `P(paralogue also labelled | target labelled)` = 0 can be read
+#        as an enrichment over a MEASURED background instead of an unmeasured one.
+#        Staged: prepare (network: AlphaFold DB) -> shards (CPU, sharded by target) -> reduce.
+#        The PRE-REGISTRATION is published by `prepare`, before any statistic exists.
+#
+# WHY micromamba RATHER THAN A BAKED IMAGE. CLAUDE.md §6 forbids solving an environment on a machine we are
+# PAYING for and prefers a pulled image. Nothing here is billed (public-repo Actions), and the only external
+# binary needed is fpocket — a single conda-forge package, not the 15-25 minute scientific-stack solve that
+# rule is about. The repo's own analysis modules (basin_geom, nr4a_differential_atlas, nr4a3_basin_search,
+# pocket_tracking) are pure stdlib, so nothing else is installed. The resolved fpocket version is RECORDED
+# into every artifact rather than assumed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "which calibration to run"
+        type: choice
+        options: [both, pocket_contrast, decoy_null, decoy_prepare_only, decoy_reduce_only]
+        default: both
+      branch:
+        description: "branch to publish artifacts to"
+        default: "main"
+      pocket_limit:
+        description: "C04 smoke: cap frames per subset (0 = all 100 per species)"
+        default: "0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: categorical-decoy-null-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NSHARDS: "12"
+
+jobs:
+  # =========================================================================================================
+  # C04 — the paralogue-matched cryptic-pocket contrast. Frames are already committed; this only adds fpocket.
+  # =========================================================================================================
+  pocket_contrast:
+    if: ${{ inputs.task == 'both' || inputs.task == 'pocket_contrast' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Install fpocket (conda-forge, the only reliable source)
+        run: |
+          set -euo pipefail
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
+            | sudo tar -xj -C /usr/local/bin --strip-components=1 bin/micromamba
+          export MAMBA_ROOT_PREFIX="$HOME/mamba"
+          micromamba create -y -q -n fp -c conda-forge fpocket
+          echo "$MAMBA_ROOT_PREFIX/envs/fp/bin" >> "$GITHUB_PATH"
+      - name: fpocket version (recorded, never assumed)
+        run: fpocket -h 2>&1 | head -5 || true
+      - name: Run the harmonized detector over NR4A1 / NR4A2 / NR4A3
+        run: |
+          set -euo pipefail
+          cd research/modalities
+          ARGS=""
+          if [ "${{ inputs.pocket_limit }}" != "0" ]; then ARGS="--limit ${{ inputs.pocket_limit }}"; fi
+          python3 paralogue_pocket_contrast.py $ARGS
+      - name: Publish
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C04: paralogue-matched cryptic-pocket contrast (NR4A1/NR4A2/NR4A3, one fpocket build)" \
+            research/modalities/paralogue-pocket-contrast.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: paralogue-pocket-contrast
+          path: research/modalities/paralogue-pocket-contrast.json
+          if-no-files-found: warn
+
+  # =========================================================================================================
+  # C02 stage 1 — PRE-REGISTRATION + structures + pair selection. Publishes the design BEFORE any statistic.
+  # =========================================================================================================
+  decoy_prepare:
+    if: ${{ inputs.task == 'both' || inputs.task == 'decoy_null' || inputs.task == 'decoy_prepare_only' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Emit the pre-registration (no network, no statistic)
+        run: cd research/modalities && python3 categorical_decoy_null.py plan
+      - name: Fetch AlphaFold DB models for the universe
+        run: cd research/modalities && python3 categorical_decoy_null.py fetch
+      - name: Trim domains, all-vs-all identity, pre-registered pair selection
+        run: cd research/modalities && python3 categorical_decoy_null.py pairs
+      - name: Publish the plan (design + pairs, still no result)
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C02: PRE-REGISTRATION + pair plan for the cross-system categorical decoy null (no results yet)" \
+            research/modalities/categorical-decoy-null-plan.json
+      # ⚠ Stage into ONE directory before upload. upload-artifact@v4 roots a multi-path artifact at the
+      # least common ancestor, so a mixed list of `results/...` and `research/...` paths would arrive with a
+      # different layout than a single-path one — a silent restore bug in the shards job.
+      - name: Stage the inputs for the shards
+        run: |
+          set -euo pipefail
+          mkdir -p _stage
+          cp -a results/categorical-decoy-null/af _stage/af
+          cp -a results/categorical-decoy-null/trimmed _stage/trimmed
+          cp -a research/modalities/categorical-decoy-null-plan.json _stage/plan.json
+          ls _stage/trimmed | wc -l
+      - uses: actions/upload-artifact@v4
+        with:
+          name: decoy-inputs
+          path: _stage
+          retention-days: 7
+
+  # =========================================================================================================
+  # C02 stage 2 — the statistic, sharded BY TARGET so each shard samples its placement sets once.
+  # =========================================================================================================
+  decoy_shards:
+    if: ${{ inputs.task == 'both' || inputs.task == 'decoy_null' }}
+    needs: decoy_prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: decoy-inputs
+          path: _decoy_inputs
+      - name: Restore the prepared inputs
+        run: |
+          set -euo pipefail
+          mkdir -p results/categorical-decoy-null
+          cp -a _decoy_inputs/af results/categorical-decoy-null/af
+          cp -a _decoy_inputs/trimmed results/categorical-decoy-null/trimmed
+          cp -a _decoy_inputs/plan.json research/modalities/categorical-decoy-null-plan.json
+          ls results/categorical-decoy-null/trimmed | wc -l
+      - name: Install fpocket
+        run: |
+          set -euo pipefail
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
+            | sudo tar -xj -C /usr/local/bin --strip-components=1 bin/micromamba
+          export MAMBA_ROOT_PREFIX="$HOME/mamba"
+          micromamba create -y -q -n fp -c conda-forge fpocket
+          echo "$MAMBA_ROOT_PREFIX/envs/fp/bin" >> "$GITHUB_PATH"
+      - name: Shard ${{ matrix.shard }}
+        run: |
+          cd research/modalities
+          nproc
+          python3 categorical_decoy_null.py run --shard ${{ matrix.shard }} --nshards ${{ env.NSHARDS }}
+      - uses: actions/upload-artifact@v4
+        if: always()          # the shard file is checkpointed after EVERY row, so a timeout still delivers
+        with:
+          name: decoy-shard-${{ matrix.shard }}
+          path: results/categorical-decoy-null/shards
+          if-no-files-found: warn
+
+  # =========================================================================================================
+  # C02 stage 3 — background distribution + the NR4A3 percentile.
+  # =========================================================================================================
+  decoy_reduce:
+    if: ${{ always() && (inputs.task == 'both' || inputs.task == 'decoy_null' || inputs.task == 'decoy_reduce_only') }}
+    needs: decoy_shards
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: decoy-shard-*
+          merge-multiple: true
+          path: results/categorical-decoy-null/shards
+      - uses: actions/download-artifact@v4
+        with:
+          name: decoy-inputs
+          path: _decoy_inputs
+      - name: Restore the plan
+        run: cp -a _decoy_inputs/plan.json research/modalities/categorical-decoy-null-plan.json || true
+      - name: Reduce
+        run: |
+          ls -la results/categorical-decoy-null/shards || true
+          cd research/modalities && python3 categorical_decoy_null.py reduce
+      - name: Publish
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C02: cross-system decoy null for the categorical axis — measured background + NR4A3 percentile" \
+            research/modalities/categorical-decoy-null.json \
+            research/modalities/categorical-decoy-null-plan.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: categorical-decoy-null
+          path: research/modalities/categorical-decoy-null.json
+          if-no-files-found: warn
