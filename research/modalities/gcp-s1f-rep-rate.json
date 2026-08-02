@@ -5,7 +5,7 @@
  "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
  "card": "nvidia-l4",
  "machine_type": "g2-standard-8",
- "measured_utc": "2026-08-02T01:21:33Z",
+ "measured_utc": "2026-08-02T01:29:21Z",
  "marks": [
   [
    "complex",
@@ -195,6 +195,12 @@
   ],
   [
    "complex",
+   "production",
+   1280,
+   "2026-08-02T01:22:44Z"
+  ],
+  [
+   "complex",
    "warmup",
    20,
    "2026-08-01T00:23:12Z"
@@ -327,15 +333,15 @@
   "ps_per_iteration_per_replica": 2.5,
   "legs": {
    "complex": {
-    "commits": 51,
+    "commits": 52,
     "stage": "production",
-    "iteration": 1240,
-    "s_per_iteration": 35.72,
+    "iteration": 1280,
+    "s_per_iteration": 35.815,
     "rate_phase": "production",
-    "n_intervals": 30,
+    "n_intervals": 31,
     "n_used": 5,
-    "spread": 1.0098591549295775,
-    "why": "mean of the trailing 5 of 30 completed production commit intervals (gcp_fanout_rep.RATE_WINDOW)",
+    "spread": 1.0169014084507042,
+    "why": "mean of the trailing 5 of 31 completed production commit intervals (gcp_fanout_rep.RATE_WINDOW)",
     "intervals": [
      {
       "from": 20,
@@ -630,11 +636,17 @@
       "to": 1240,
       "seconds": 1434.0,
       "s_per_iter": 35.85
+     },
+     {
+      "from": 1240,
+      "to": 1280,
+      "seconds": 1444.0,
+      "s_per_iter": 36.1
      }
     ],
-    "leg_hours": 23.813333333333333,
-    "ns_per_day_per_replica": 6.047032474804031,
-    "ns_per_day_aggregate": 72.56438969764838
+    "leg_hours": 23.876666666666665,
+    "ns_per_day_per_replica": 6.030992600865559,
+    "ns_per_day_aggregate": 72.37191121038671
    },
    "solvent": {
     "commits": 0,
