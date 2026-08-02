@@ -5,7 +5,7 @@
  "unit_id": "e_zaienne_cmpd19__cw_ms_free_acid__neutral__neutral_acid__r1",
  "card": "nvidia-l4",
  "machine_type": "g2-standard-8",
- "measured_utc": "2026-08-02T08:59:51Z",
+ "measured_utc": "2026-08-02T09:08:04Z",
  "marks": [
   [
    "complex",
@@ -528,6 +528,72 @@
    "production",
    680,
    "2026-08-02T08:59:14Z"
+  ],
+  [
+   "solvent",
+   "production",
+   720,
+   "2026-08-02T08:59:58Z"
+  ],
+  [
+   "solvent",
+   "production",
+   760,
+   "2026-08-02T09:00:42Z"
+  ],
+  [
+   "solvent",
+   "production",
+   800,
+   "2026-08-02T09:01:25Z"
+  ],
+  [
+   "solvent",
+   "production",
+   840,
+   "2026-08-02T09:02:09Z"
+  ],
+  [
+   "solvent",
+   "production",
+   880,
+   "2026-08-02T09:02:53Z"
+  ],
+  [
+   "solvent",
+   "production",
+   920,
+   "2026-08-02T09:03:37Z"
+  ],
+  [
+   "solvent",
+   "production",
+   960,
+   "2026-08-02T09:04:21Z"
+  ],
+  [
+   "solvent",
+   "production",
+   1000,
+   "2026-08-02T09:05:05Z"
+  ],
+  [
+   "solvent",
+   "production",
+   1040,
+   "2026-08-02T09:05:49Z"
+  ],
+  [
+   "solvent",
+   "production",
+   1080,
+   "2026-08-02T09:06:32Z"
+  ],
+  [
+   "solvent",
+   "production",
+   1120,
+   "2026-08-02T09:07:16Z"
   ],
   [
    "solvent",
@@ -1087,15 +1153,15 @@
     "ns_per_day_aggregate": 72.0
    },
    "solvent": {
-    "commits": 37,
+    "commits": 48,
     "stage": "production",
-    "iteration": 680,
-    "s_per_iteration": 1.09,
+    "iteration": 1120,
+    "s_per_iteration": 1.0950000000000002,
     "rate_phase": "production",
-    "n_intervals": 16,
+    "n_intervals": 27,
     "n_used": 5,
     "spread": 1.0232558139534884,
-    "why": "mean of the trailing 5 of 16 completed production commit intervals (gcp_fanout_rep.RATE_WINDOW)",
+    "why": "mean of the trailing 5 of 27 completed production commit intervals (gcp_fanout_rep.RATE_WINDOW)",
     "intervals": [
      {
       "from": 20,
@@ -1306,13 +1372,79 @@
       "to": 680,
       "seconds": 44.0,
       "s_per_iter": 1.1
+     },
+     {
+      "from": 680,
+      "to": 720,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 720,
+      "to": 760,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 760,
+      "to": 800,
+      "seconds": 43.0,
+      "s_per_iter": 1.075
+     },
+     {
+      "from": 800,
+      "to": 840,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 840,
+      "to": 880,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 880,
+      "to": 920,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 920,
+      "to": 960,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 960,
+      "to": 1000,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 1000,
+      "to": 1040,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
+     },
+     {
+      "from": 1040,
+      "to": 1080,
+      "seconds": 43.0,
+      "s_per_iter": 1.075
+     },
+     {
+      "from": 1080,
+      "to": 1120,
+      "seconds": 44.0,
+      "s_per_iter": 1.1
      }
     ],
-    "leg_hours": 0.7266666666666667,
-    "ns_per_day_per_replica": 198.16513761467888,
-    "ns_per_day_aggregate": 2377.9816513761466
+    "leg_hours": 0.7300000000000001,
+    "ns_per_day_per_replica": 197.2602739726027,
+    "ns_per_day_aggregate": 2367.1232876712324
    }
   },
-  "unit_hours": 24.726666666666667
+  "unit_hours": 24.73
  }
 }
