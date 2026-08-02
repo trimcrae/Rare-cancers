@@ -170,6 +170,82 @@ def discriminating_positions(focus_sig, comparator_sigs):
             "_rule": "a position must discriminate against EVERY comparator, not any one of them"}
 
 
+def run_replicated(model_sets, target_chain, e3_chains, validated_path=None, provenance=None):
+    """model_sets: {paralogue: [path, ...]}. Every focus model against EVERY comparator model.
+
+    ★★ WHY REPLICATES ARE NOT OPTIONAL HERE. The first pass compared ONE model per paralogue and returned six
+    discriminating positions, five of which were placement artifacts. Requiring the residue to differ removed
+    those — but a single model per arm still cannot tell a real determinant from one structure's accident,
+    and Boltz already wrote five models per prediction, so the test costs nothing and was simply not run.
+    A position is REPRODUCIBLE only if it is sequence-encoded in EVERY focus model against EVERY comparator
+    model; the per-model sets are published so a reader can see how close the call was."""
+    ok, why = descriptor_is_validated(validated_path)
+    doc = {"_what": "reproducibility of any paralogue-discriminating contact across every predicted model",
+           "focus": FOCUS, "comparators": list(COMPARATORS),
+           "descriptor_validated": bool(ok), "descriptor_validation": why,
+           "n_models": {k: len(v) for k, v in sorted(model_sets.items())},
+           "structure_provenance": provenance or ("every NR4A ternary this program holds came from the same "
+                                                  "co-folding route whose output, on the one system with a "
+                                                  "crystal to check against, scores DockQ 0.023-0.046")}
+    if not ok:
+        doc["sentence"] = ("REFUSED — the descriptor has not passed its known-answer test. %s" % why)
+        return doc
+    missing = [p for p in (FOCUS,) + COMPARATORS if not model_sets.get(p)]
+    if missing:
+        doc["sentence"] = ("REFUSED — no model for %s. A comparison missing an arm is not a comparison; "
+                           "unread is not absent." % ", ".join(missing))
+        return doc
+
+    sigs = {p: [signature_of(f, target_chain, e3_chains) for f in model_sets[p]]
+            for p in (FOCUS,) + COMPARATORS}
+    bad = {p: [s["error"] for s in v if s.get("error")] for p, v in sigs.items()}
+    doc["unreadable"] = {k: v for k, v in bad.items() if v}
+    sigs = {p: [s for s in v if not s.get("error")] for p, v in sigs.items()}
+    if any(not v for v in sigs.values()):
+        doc["sentence"] = "REFUSED — an arm has no readable model. Unread is not absent."
+        return doc
+
+    per_focus = []
+    for i, fs in enumerate(sigs[FOCUS]):
+        # a position must be absent in EVERY comparator model, so each comparator contributes its own set
+        comps = {}
+        for p in COMPARATORS:
+            for j, cs in enumerate(sigs[p]):
+                comps["%s#%d" % (p, j)] = cs
+        res = discriminating_positions(fs, comps)
+        per_focus.append({"focus_model": os.path.basename(model_sets[FOCUS][i]),
+                          "sequence_encoded": res.get("sequence_encoded", []),
+                          "n_discriminating": res.get("n_discriminating"),
+                          "same_residue_placement_artifact": res.get("same_residue_placement_artifact", []),
+                          "error": res.get("error")})
+    doc["per_focus_model"] = per_focus
+    sets = [set(r["sequence_encoded"]) for r in per_focus if not r.get("error")]
+    reproducible = sorted(set.intersection(*sets)) if sets else []
+    union = sorted(set().union(*sets)) if sets else []
+    doc["reproducible_sequence_encoded"] = reproducible
+    doc["seen_in_any_model"] = union
+    doc["n_focus_models_compared"] = len(sets)
+    if reproducible:
+        doc["sentence"] = (
+            "%s reproducible across ALL %d %s models against ALL comparator models: %s (seen in at least one "
+            "model: %s). ⛔ Still a structural HYPOTHESIS, not a demonstration: read off a route that scores "
+            "DockQ 0.023-0.046 where it can be checked, with the target-side warhead pose unmeasured. What it "
+            "licenses is a designed test — vary linker and exit vector, ask whether the contact survives."
+            % (", ".join(reproducible), len(sets), FOCUS, ", ".join(reproducible), ", ".join(union) or "none"))
+    elif union:
+        doc["sentence"] = (
+            "NO sequence-encoded contact survives across all %d %s models. %s appeared in at least one model "
+            "but not all, so on this evidence any single-model hit is that model's accident rather than a "
+            "determinant. A selective-ternary claim cannot be justified from these structures."
+            % (len(sets), FOCUS, ", ".join(union)))
+    else:
+        doc["sentence"] = (
+            "NO sequence-encoded discriminating contact in any of the %d %s models. Under a descriptor that "
+            "DID recover the published SMARCA2 Gln1469 contact, these NR4A3 ternaries show none — so a "
+            "selective-ternary claim cannot be justified from them." % (len(sets), FOCUS))
+    return doc
+
+
 def run(structures, target_chain, e3_chains, validated_path=None, provenance=None):
     """structures: {paralogue: path}. Returns the artifact document."""
     ok, why = descriptor_is_validated(validated_path)
@@ -262,7 +338,7 @@ def main(argv=None):
         print("[nr4a-signature] --pattern is ignored: selection is by path token with a deny-list", flush=True)
     DENY = ("control", "binary", "apo")
     all_cif = sorted(glob.glob(os.path.join(args.root, "**", "*.cif"), recursive=True))
-    candidates, structures = {}, {}
+    candidates, structures, model_sets = {}, {}, {}
     for p in (FOCUS,) + COMPARATORS:
         tok = p.lower()
         hits = [f for f in all_cif
@@ -273,6 +349,7 @@ def main(argv=None):
                 if sum(1 for q in (FOCUS,) + COMPARATORS
                        if q.lower() in os.path.relpath(f, args.root).lower()) == 1]
         candidates[p] = [os.path.relpath(f, args.root) for f in hits]
+        model_sets[p] = hits
         if len(hits) == 1:
             structures[p] = hits[0]
         elif len(hits) > 1:
@@ -309,6 +386,10 @@ def main(argv=None):
     doc["chain_resolution"] = chain_detail or {"_source": "given on the command line"}
     doc["structure_selection"] = {"candidates": candidates, "deny_tokens": list(DENY),
                                   "n_cif_under_root": len(all_cif)}
+    # ★ AND THE SAME QUESTION ACROSS EVERY MODEL, WHICH COSTS NOTHING AND WAS SIMPLY NOT RUN. One model per
+    # arm cannot tell a determinant from one structure's accident.
+    doc["replicated"] = run_replicated(model_sets, tgt, e3, validated_path=args.validated)
+    doc["sentence_replicated"] = doc["replicated"].get("sentence")
     json.dump(doc, open(args.out, "w"), indent=1)
     print(doc["sentence"], flush=True)
     return 0
