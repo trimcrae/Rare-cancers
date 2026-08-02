@@ -894,3 +894,60 @@ def test_selcal_md_reports_the_frozen_shape_beside_the_live_one(tmp_path):
     md = next(v for v in report["lanes"] if v["lane"] == "selcal-md")["state"]
     parked = " ".join(md.get("parked_units") or [])
     assert "selcal_smarca4:m3" in parked and "0.693" in parked
+
+
+def test_selcal_cofold_is_dated_from_utc_which_BOTH_writers_emit(tmp_path):
+    """★★ MEASURED 2026-08-02, and it had this lane rendering UNKNOWN on every run. `selcal-cofold-census.json`
+    has TWO writers: the collect path sets `cen["phase"] = ph`, and the `cofold_watch` tick does NOT — it
+    writes `utc` and `written_by` and no phase at all. Reading `phase` alone therefore made gradability depend
+    on which writer ran last, and once the watch became the usual writer the lane was permanently unreadable:
+    an alarm that is always red, which is the same end state as no alarm."""
+    root = _tree(tmp_path / "utc",
+                 progress=_progress(minutes_old=6, live=15), watch=_watch([]),
+                 hold=_ternary_hold(minutes_old=8, hold=False, live=1),
+                 ledger=_ledger((8, "market-gate", "ok", "task=edge-reps")),
+                 # The REAL shape the watch tick writes: `utc` + `written_by`, and NO `phase`.
+                 selcal={"prefix": "selcal-smarca-cofold-v1",
+                         "per_arm": {"selcal_smarca2": [1, 2, 3], "selcal_smarca4": [1, 2, 3]},
+                         "missing": [], "complete": True,
+                         "n_models_per_arm": {"selcal_smarca2": 6, "selcal_smarca4": 6},
+                         "written_by": "cofold_watch tick",
+                         "utc": _ago(4)})
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    st = next(v for v in report["lanes"] if v["lane"] == "selcal-cofold")["state"]
+    assert not (st.get("unreadable") or {}).get("progress"), \
+        "a census with `utc` and no `phase` must still be datable — that is the shape the watch writes"
+    assert st["last_evidence_utc"] is not None
+    assert "utc" in (st["last_evidence_what"] or "")
+    assert any("cofold_watch tick" in n for n in (st.get("notes") or [])), \
+        "which writer produced the census is the fact that explains the whole defect; report it"
+
+
+def test_the_phase_fallback_still_dates_an_OLDER_census(tmp_path):
+    """The fallback is kept deliberately: a census committed before the `utc` key existed carries only an
+    ISO-Z inside `phase`, and losing the ability to date those would trade one blind spot for another."""
+    root = _tree(tmp_path / "phaseonly",
+                 progress=_progress(minutes_old=6, live=15), watch=_watch([]),
+                 hold=_ternary_hold(minutes_old=8, hold=False, live=1),
+                 ledger=_ledger((8, "market-gate", "ok", "task=edge-reps")),
+                 selcal={"prefix": "p", "per_arm": {"selcal_smarca2": [1], "selcal_smarca4": [1]},
+                         "missing": [], "complete": True,
+                         "n_models_per_arm": {"selcal_smarca2": 6, "selcal_smarca4": 6},
+                         "phase": "done rc=0 %s instance=46508454" % _ago(9)})
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    st = next(v for v in report["lanes"] if v["lane"] == "selcal-cofold")["state"]
+    assert st["last_evidence_utc"] is not None
+    assert "fallback" in (st["last_evidence_what"] or "")
+
+
+def test_a_census_with_NEITHER_is_reported_unreadable_not_silently_dated(tmp_path):
+    root = _tree(tmp_path / "neither",
+                 progress=_progress(minutes_old=6, live=15), watch=_watch([]),
+                 hold=_ternary_hold(minutes_old=8, hold=False, live=1),
+                 ledger=_ledger((8, "market-gate", "ok", "task=edge-reps")),
+                 selcal={"prefix": "p", "per_arm": {}, "missing": [], "complete": False,
+                         "n_models_per_arm": {}})
+    report, _ = lsw.build_report(str(root), NOW, use_api=False)
+    st = next(v for v in report["lanes"] if v["lane"] == "selcal-cofold")["state"]
+    assert (st.get("unreadable") or {}).get("progress")
+    assert st["last_evidence_utc"] is None

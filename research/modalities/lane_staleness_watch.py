@@ -735,19 +735,33 @@ def read_selcal(spec: dict, census: dict | None, census_err: str | None,
     if census is None:
         st.unreadable["progress"] = census_err or "unknown"
     else:
+        # ★★ `utc` FIRST, `phase` ONLY AS A FALLBACK — and reading `phase` alone was a live defect (measured
+        # 2026-08-02). THIS CENSUS HAS TWO WRITERS. The collect path sets `cen["phase"] = ph`; the
+        # `cofold_watch` tick does not — it writes `utc` and `written_by: "cofold_watch tick"` and no phase
+        # at all. So whichever wrote last decided whether this lane could be graded, and once the watch
+        # became the usual writer the lane rendered UNKNOWN on every run: an alarm that is always red, which
+        # this module's own docstring says is the same end state as no alarm.
+        # ⚠ `utc` is also the STRICTLY BETTER signal — a dedicated ISO-Z key that both writers emit, versus
+        # an ISO-Z fished out of a prose string with a regex. The fallback is kept because an older committed
+        # census may still carry only `phase`, and losing the ability to date those would trade one blind
+        # spot for another.
         phase = census.get("phase")
-        stamp = None
-        if isinstance(phase, str):
+        stamp = _parse_z(census.get("utc"))
+        source = "selcal-cofold-census.json `utc` (written by every tick, whichever writer ran)"
+        if stamp is None and isinstance(phase, str):
             m = re.search(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z", phase)
             stamp = _parse_z(m.group(0)) if m else None
+            source = "selcal-cofold-census.json `phase` (fallback: this census predates the `utc` key)"
         if stamp is None:
-            st.unreadable["progress"] = ("`phase` in selcal-cofold-census.json carries no parseable ISO-Z "
-                                         "stamp, so when this lane last ticked cannot be read")
+            st.unreadable["progress"] = ("neither `utc` nor an ISO-Z inside `phase` could be read from "
+                                         "selcal-cofold-census.json, so when this lane last ticked is unknown")
         else:
             st.last_evidence_utc = stamp
-            st.last_evidence_what = "selcal-cofold-census.json `phase` (the tick's own completion stamp)"
+            st.last_evidence_what = source
             if isinstance(phase, str):
                 st.notes.append(f"last tick phase: {phase[:120]}")
+            if census.get("written_by"):
+                st.notes.append(f"census written by: {census['written_by']}")
 
         missing = census.get("missing")
         complete = census.get("complete")
