@@ -122,18 +122,30 @@ def transform_pdb_coordinates(src, dest, R, t):
     DeepTernary's own `6HAX_B_A_FWZ/unbound_lig1.pdb`: readable as shipped (0 CONECT), readable through
     `write_pdb` with no CONECT, unreadable once CONECT is added. So a file that is already correct is
     MOVED, never rebuilt — a rigid transform cannot change any distance, so readability is preserved by
-    construction."""
+    construction.
+
+    ⚠ THE SOURCE IS READ IN FULL BEFORE THE DESTINATION IS OPENED, and that is load-bearing: this rewrites
+    each file IN PLACE, so `src` and `dest` are the same path. Streaming one into the other truncated all
+    four files to zero bytes on run 30755624681 — `moved_in_place` recorded `0` atoms for every one of them,
+    and the readability check below caught the empty files before the model did.
+    """
     import numpy as np
+    with open(src) as fh:
+        lines = fh.readlines()
     n = 0
-    with open(src) as fh, open(dest, "w") as out:
-        for line in fh:
-            if line.startswith(("ATOM  ", "HETATM")) and len(line) >= 54:
-                x, y, z = float(line[30:38]), float(line[38:46]), float(line[46:54])
-                nx, ny, nz = np.asarray(R @ np.array([x, y, z]) + t, dtype=float)
-                out.write("%s%8.3f%8.3f%8.3f%s" % (line[:30], nx, ny, nz, line[54:]))
-                n += 1
-            else:
-                out.write(line)
+    out_lines = []
+    for line in lines:
+        if line.startswith(("ATOM  ", "HETATM")) and len(line) >= 54:
+            x, y, z = float(line[30:38]), float(line[38:46]), float(line[46:54])
+            nx, ny, nz = np.asarray(R @ np.array([x, y, z]) + t, dtype=float)
+            out_lines.append("%s%8.3f%8.3f%8.3f%s" % (line[:30], nx, ny, nz, line[54:]))
+            n += 1
+        else:
+            out_lines.append(line)
+    if not n:
+        raise ValueError("%s has no coordinate lines to transform" % os.path.basename(src))
+    with open(dest, "w") as out:
+        out.writelines(out_lines)
     return n
 
 

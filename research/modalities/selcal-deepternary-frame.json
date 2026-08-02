@@ -1,8 +1,8 @@
 [
  {
   "arm": "selcal_smarca2",
-  "ok": true,
-  "why": null,
+  "ok": false,
+  "why": "RDKit cannot sanitize unbound_lig1.pdb \u2014 `get_lig_coords` would call .GetConformer() on None; RDKit cannot sanitize unbound_lig2.pdb \u2014 `get_lig_coords` would call .GetConformer() on None",
   "native_pdb": "9DTY",
   "degrader_comp": "A1BB4",
   "detail": {
@@ -50,15 +50,24 @@
     "n_degrader_atoms_within_1A": 30,
     "closest_approach_A": 0.232
    },
-   "ccd_bonds": "130 bonds",
    "written": {
     "protein1": 901,
     "protein2": 1214,
     "gt_complex": 2179,
     "ligand": 64,
-    "ligand_resname_alias": "L01"
+    "ligand_resname_alias": "L01",
+    "moved_in_place": {
+     "unbound_protein1.pdb": 0,
+     "unbound_protein2.pdb": 0,
+     "unbound_lig1.pdb": 0,
+     "unbound_lig2.pdb": 0
+    }
    },
-   "ideal_sdf_seeded": "data/TernaryDB/ligand_ideal/smarca2_ideal.sdf"
+   "rdkit_readable": {
+    "ligand.pdb": true,
+    "unbound_lig1.pdb": "RDKit cannot sanitize unbound_lig1.pdb \u2014 `get_lig_coords` would call .GetConformer() on None",
+    "unbound_lig2.pdb": "RDKit cannot sanitize unbound_lig2.pdb \u2014 `get_lig_coords` would call .GetConformer() on None"
+   }
   }
  }
 ]
