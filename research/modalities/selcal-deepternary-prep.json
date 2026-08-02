@@ -46,7 +46,7 @@
   {
    "name": "selcal_smarca2",
    "poi_binary_pdb": "9DU0",
-   "warhead_comp": "A1BB5",
+   "warhead_comp": "L01",
    "e3_binary_pdb": "5NVX",
    "anchor_comp": "4YY",
    "degrader_comp": "A1BB4",
@@ -59,7 +59,58 @@
     "C",
     "K",
     "L"
-   ]
+   ],
+   "warhead_comp_real": "A1BB5",
+   "anchor_comp_real": "4YY"
   }
- ]
+ ],
+ "raw_emitted": [
+  {
+   "pdb": "9DU0",
+   "ok": true,
+   "n_atoms": 2890,
+   "from": "9DU0.cif",
+   "conect_components": {
+    "A1BB5": 41
+   },
+   "conect_errors": null,
+   "resname_alias": {
+    "A1BB5": "L01"
+   },
+   "_alias_why": "legacy PDB's residue-name field is 3 columns; a 5-character CCD id would truncate and the downstream extractor would find zero atoms",
+   "truncated_at_99999": false
+  },
+  {
+   "pdb": "5NVX",
+   "ok": true,
+   "n_atoms": 11642,
+   "from": "5NVX.pdb",
+   "conect_components": {
+    "4YY": 72
+   },
+   "conect_errors": null,
+   "resname_alias": {},
+   "_alias_why": "legacy PDB's residue-name field is 3 columns; a 5-character CCD id would truncate and the downstream extractor would find zero atoms",
+   "truncated_at_99999": false
+  },
+  {
+   "pdb": "9DTY",
+   "ok": true,
+   "n_atoms": 36937,
+   "from": "9DTY.cif",
+   "conect_components": {
+    "A1BB4": 130
+   },
+   "conect_errors": null,
+   "resname_alias": {
+    "A1BB4": "L01"
+   },
+   "_alias_why": "legacy PDB's residue-name field is 3 columns; a 5-character CCD id would truncate and the downstream extractor would find zero atoms",
+   "truncated_at_99999": false
+  }
+ ],
+ "resname_aliases": {
+  "A1BB5": "L01",
+  "A1BB4": "L01"
+ }
 }

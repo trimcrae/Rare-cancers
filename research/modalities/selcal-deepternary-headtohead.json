@@ -1,8 +1,10 @@
 {
- "_what": "DeepTernary (blind) vs our own Boltz co-folds, same targets, same deposited references, same two scoring instruments, same target<->VHL interface.",
- "_what_a_win_would_be": "a POSITIVE TERNARY CONTROL AT THE GENERATION STAGE \u2014 a known-answer test, run blind, that the workflow passes. This program has none in any form.",
- "_what_a_win_would_NOT_be": "a positive control for paralogue-selectivity DETECTION. Different stage, harder claim; the panel those co-folds fed returned a NULL whose bound is unchanged by anything here.",
- "_not_perfectly_matched": "our co-folds were generated from SEQUENCE ALONE; DeepTernary is given pre-positioned binary poses from separate crystals. That is its documented operating mode, not an advantage smuggled in \u2014 but a win says 'this pipeline with these inputs places the complex better', not 'this architecture beats that one'.",
+ "_what": "DeepTernary vs our own Boltz co-folds, same targets, same deposited references, same two scoring instruments, same target<->VHL interface.",
+ "_this_arm_is_not_blind": "MEASURED, not assumed: DeepTernary's published UNBOUND protocol superposes both unbound binaries into the NATIVE ternary frame and supplies the NATIVE degrader pose (its own 6HAX_B_A_FWZ ligand.pdb is byte-identical to the native ligand, max deviation 0.000 A over 66 heavy atoms). The model still predicts the RELATIVE PLACEMENT of the two proteins \u2014 both protein 2 and the ligand are randomly rotated and translated before the forward pass \u2014 but it is GIVEN which pocket on each protein the ligand occupies.",
+ "_what_a_win_would_be": "evidence that a dedicated ternary generator, given the two binding sites, places these two complexes far better than our sequence-only co-folds do.",
+ "_what_a_win_would_NOT_be": "a positive control for paralogue-selectivity DETECTION (different stage, harder claim; the panel those co-folds fed returned a NULL whose bound is unchanged by anything here), and not a blind result.",
+ "_the_positive_control_is_elsewhere": "selcal-deepternary-poscontrol.json \u2014 the same generator and the same instruments on 6HAX_B_A_FWZ, a case inside the model's data horizon. That controls the HARNESS; this file does not.",
+ "_not_perfectly_matched": "our co-folds were generated from SEQUENCE ALONE; DeepTernary is given pre-positioned binary poses in the native frame. That is its documented operating mode, not an advantage smuggled in \u2014 but a win says 'this pipeline with these inputs places the complex better', not 'this architecture beats that one'.",
  "incumbent_our_cofolds": {
   "selcal_smarca2": {
    "n": 6,
@@ -27,7 +29,7 @@
    "n_predictions": 0,
    "native": "9DTY.cif",
    "scored": [],
-   "error": "no predicted complex under /home/runner/work/_temp/dt/output/protac22/selcal_smarca2 \u2014 unrun, NOT a prediction that scored zero"
+   "error": "no predicted complex under /home/runner/work/_temp/dt/predictions/selcal_smarca2 \u2014 unrun, NOT a prediction that scored zero"
   }
  ],
  "verdict": {
