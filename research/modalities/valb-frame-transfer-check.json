@@ -17,85 +17,49 @@
  "cross_paralogue_min_identity": 0.55,
  "instruments": {
   "interface_rmsd_fnat": {
-   "graded": false,
-   "why": "two model chains map to one crystal chain {'D': ['A', 'E', 'I', 'M', 'Q', 'U', 'Y', 'c', 'g', 'k'], 'C': ['B', 'F', 'J', 'N', 'R', 'V', 'Z', 'd', 'h', 'l'], 'B': ['C', 'G', 'K', 'O', 'S', 'W', 'a', 'e', 'i', 'm'], 'A': ['D', 'H', 'L', 'P', 'T', 'X', 'b', 'f', 'j', 'n']} \u2014 refusing rather than guessing; this is the shape of the mis-mapping that scored Elongin C as the degradation target",
-   "interface_rmsd_A": null,
-   "fnat": null,
-   "n_native_contacts": null,
+   "graded": true,
+   "why": null,
+   "interface_rmsd_A": 7.121,
+   "fnat": 0.5,
+   "n_native_contacts": 4,
    "chain_map": {
-    "A": "D",
-    "B": "C",
-    "C": "B",
-    "D": "A",
-    "E": "D",
-    "F": "C",
-    "G": "B",
-    "H": "A",
-    "I": "D",
-    "J": "C",
-    "K": "B",
-    "L": "A",
     "M": "D",
-    "N": "C",
-    "O": "B",
-    "P": "A",
-    "Q": "D",
     "R": "C",
     "S": "B",
-    "T": "A",
-    "U": "D",
-    "V": "C",
-    "W": "B",
-    "X": "A",
-    "Y": "D",
-    "Z": "C",
-    "a": "B",
-    "b": "A",
-    "c": "D",
-    "d": "C",
-    "e": "B",
-    "f": "A",
-    "g": "D",
-    "h": "C",
-    "i": "B",
-    "j": "A",
-    "k": "D",
-    "l": "C",
-    "m": "B",
-    "n": "A"
+    "T": "A"
    }
   },
   "dockq": {
    "interface": "DC",
-   "DockQ": 0.13608894237731492,
-   "quality_class": "Incorrect",
-   "fnat": 0,
-   "iRMSD_A": 2.6031070855155076
+   "DockQ": 0.23889704224642075,
+   "quality_class": "Acceptable",
+   "fnat": 0.25,
+   "iRMSD_A": 2.655045988183884
   },
   "dockq_other_interfaces_context_only": [
    {
+    "interface": "CA",
+    "DockQ": 0.9664724101441379,
+    "fnat": 1.0,
+    "iRMS": 0.45369578545264355
+   },
+   {
     "interface": "BA",
-    "DockQ": 0.8943838758816555,
-    "fnat": 0.9210526315789473,
-    "iRMS": 0.8031506873212841
+    "DockQ": 0.9284761249244369,
+    "fnat": 0.9473684210526315,
+    "iRMS": 0.605014904931532
    },
    {
     "interface": "CB",
-    "DockQ": 0.8658079571100384,
-    "fnat": 0.8529411764705882,
-    "iRMS": 0.6247487855669129
-   },
-   {
-    "interface": "CA",
-    "DockQ": 0.8586031539619231,
-    "fnat": 0.9,
-    "iRMS": 0.5985868103373877
+    "DockQ": 0.9254975926649255,
+    "fnat": 0.9411764705882353,
+    "iRMS": 0.606490136277666
    },
    {
     "interface": "DC",
-    "DockQ": 0.13608894237731492,
-    "fnat": 0,
-    "iRMS": 2.6031070855155076
+    "DockQ": 0.23889704224642075,
+    "fnat": 0.25,
+    "iRMS": 2.655045988183884
    }
   ]
  },
@@ -134,5 +98,5 @@
   }
  },
  "smarca2_chain_roles_error": null,
- "graded": false
+ "graded": true
 }
