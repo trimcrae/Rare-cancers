@@ -6,6 +6,15 @@
 > next / what does each step cost." If any other doc (the schedule JSON, a strategy note, a manuscript section, a
 > commit message) conflicts with this file, **this file wins** — reconcile the other doc to it.
 >
+> ## ★ ITS COMPANION: [nr4a3-program-map.md](research/manuscripts/nr4a3-program-map.md) — WHAT BLOCKS WHAT
+> **This file says what to do next and what it costs. The map says WHY that is next** — the dependency graph
+> of every claim the paper must establish, which instrument produces it, and whether that instrument has ever
+> recovered a known answer. **Read the map before proposing a next step from this file**, because a step whose
+> instrument is unvalidated buys nothing (it is how three selectivity results came to be withdrawn).
+> ⛔ **They must not restate each other.** Costs, gates and the rung ladder live HERE; the dependency order and
+> instrument-validation status live THERE; the numbers live in the artifacts both point at. A figure appearing
+> in two of the three is the bug rule 1 exists to catch.
+>
 > **Keep it current.** When work lands: update the stage's `[ ]/[~]/[x]` status here AND the mirrored `status` in
 > [degrader-paper-schedule.json](research/manuscripts/degrader-paper-schedule.json) (its milestone `id`s match the
 > stage tags below one-for-one; that JSON is a machine MIRROR of this file, not a competing source).

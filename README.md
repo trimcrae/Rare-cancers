@@ -9,6 +9,11 @@
 > - **📋 [`STRATEGY.md`](./STRATEGY.md) — the overarching research strategy and the single source of truth for the
 >   plan.** What we run, in what order, why, each step priced, with GO/NO-GO gates. The #1 program is the
 >   **NR4A3-selective degrader paper**; its full spend-gated execution ladder is there.
+> - **🗺️ [`research/manuscripts/nr4a3-program-map.md`](./research/manuscripts/nr4a3-program-map.md) — WHAT
+>   BLOCKS WHAT.** The dependency graph of every claim the degrader paper must establish, which instrument
+>   produces it, and whether that instrument has ever recovered a known answer. `STRATEGY.md` says what is next
+>   and what it costs; **the map says why it is next.** Read it before proposing a step — a step whose
+>   instrument is unvalidated buys nothing.
 > - **[`research/manuscripts/emc-treatment-strategy.md`](./research/manuscripts/emc-treatment-strategy.md)** —
 >   the broader route portfolio (all treatment routes ranked; context beneath `STRATEGY.md`).
 > - **[`research/IDEAS.md`](./research/IDEAS.md)** — live tracker board: every candidate route, status, next step.
@@ -19,6 +24,8 @@
 ## Repo layout
 
 - **`STRATEGY.md`** — the plan (read first).
+- **`research/manuscripts/nr4a3-program-map.md`** — the dependency graph: what blocks what, and which
+  instruments are validated (read alongside it).
 - **`research/`** — the treatment-discovery work: manuscripts, modalities (structure/FEP/ternary pipelines),
   the EMC atlas, and compute infra. `research/manuscripts/` holds the papers; `research/modalities/` holds the
   in-silico pipelines and how-to-run handoffs.
