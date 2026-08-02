@@ -2168,6 +2168,19 @@ ternary is **not beyond in-silico reach** — with the two binding sites supplie
 generator places it to within 0.67 Å at the interface. The 0.023–0.046 is therefore a property of the
 sequence-only co-folding route used here, not of the problem.
 
+★ **AND THE FAILURE IS LOCALISED: THE TWO HALVES ARE APPROXIMATELY RIGHT, THE ASSEMBLY IS NOT.** Superposing
+each co-fold on one protein at a time and measuring the degrader's deviation over the native atoms contacting
+*that* protein — correspondence through the reference molecule's own atom graph, never by proximity — all
+twelve place the degrader within **3.2 Å** of its crystal position in each protein's own frame (target-side
+median **1.83 Å**, E3-side median **1.96 Å**), while the assembled interface scores what the true complex
+scores when displaced **32 Å**: a factor of **10**
+([`../modalities/selcal-cofold-decompose.json`](../modalities/selcal-cofold-decompose.json)). So each
+protein's ligand pocket is occupied roughly as the crystal has it, and what fails is the **relative placement
+of the two proteins** — which is precisely the information a ternary generator is handed when it is given
+each end's site, and the configuration that reached 0.839 above. ⚠ The locus is decided against that measured
+displacement scale rather than a threshold chosen here; where the scale cannot be read, the artifact reports
+the locus as undetermined rather than guessing it.
+
 **Applied, not noted:** with §2.11's cooperativity calibrator failed on sign, §2.12's retrospective
 non-resolved, and this control null on an adequately-powered design, **all three** attempts to establish a
 positive control **for this program's selectivity claims** have now been run and none succeeded — a
