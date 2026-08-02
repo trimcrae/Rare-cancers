@@ -1,9 +1,9 @@
 {
   "_what": "One lane's rows for the all-lane in-flight board. Written ONLY by this lane; merged, never edited, by inflight_board.merge_board().",
   "lane": "selcal-cofold",
-  "generated_epoch": 1785633970.9081242,
-  "generated_utc": "2026-08-02T01:26:10Z",
-  "generated_et": "9:26 PM ET Sat Aug 1, 2026",
+  "generated_epoch": 1785634225.625294,
+  "generated_utc": "2026-08-02T01:30:25Z",
+  "generated_et": "9:30 PM ET Sat Aug 1, 2026",
   "note": "12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once.",
   "rows": [
     {
@@ -29,9 +29,9 @@
       "pct": null,
       "pct_of": "21/24 landed",
       "eta_s": null,
-      "usd_per_ns": "\u2014 endpoint MD, not the 84k-atom RBFE the throughput table benches; no live host record this tick, so no rate to quote here",
-      "state": "ENDED \u2014 no host",
-      "why": "instance 46554862 is no longer on the account, so this leg ended \u2014 landed, preempted or reaped. Rented 2026-08-02T01:11:39Z. Which of the three it was is in the lane's collect, not here: this row reports host state and must not guess an outcome. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
+      "usd_per_ns": "\u2014 $0.0711/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches)",
+      "state": "RUNNING",
+      "why": "instance 46555738 running, rented 2026-08-02T01:24:17Z. ETA UNKNOWN \u2014 this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it."
     }
   ]
 }
