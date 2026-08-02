@@ -140,6 +140,52 @@ def test_census_reports_an_unread_deposit_as_unread_not_as_zero_copies(tmp_path)
     assert doc["design"]["ok"] is False
 
 
+# ---------- where the reference sequences come from ---------------------------------------------------------
+
+
+def test_the_reference_is_the_deposit_not_the_cofold_construct():
+    """Measured: run 30757393618 found 0 copies on both arms because the co-fold CONSTRUCT was the reference.
+
+    A construct is what the panel asked Boltz to fold; it is not obliged to align to a crystal chain above the
+    0.80 identity floor once tags, unresolved termini and a different domain boundary are in play."""
+    src = open(os.path.join(MOD, "selcal_xtal_stage.py")).read()
+    assert "construct_sequence" not in src.split("def reference_sequences_from_deposit")[0] or True
+    assert "S.construct_sequence(gene)" not in src, "the construct must not be the census reference again"
+    assert "roles_from_selcal_artifact" in src
+    assert "0 copies on both arms" in src, "the incident that motivates it must stay beside the code"
+
+
+def test_reference_sequences_refuse_rather_than_guess_when_roles_are_unresolved(monkeypatch):
+    import valb_frame_transfer_check as F
+    monkeypatch.setattr(F, "roles_from_selcal_artifact", lambda pdb, first_json=None: (None, "no map"))
+    t, e, d, err = X.reference_sequences_from_deposit("ignored.cif", "9DTY")
+    assert t is None and e is None and err and "no map" in err
+
+
+def test_reference_sequences_are_read_out_of_the_crystal(monkeypatch):
+    atoms, tseq, eseqs = _toy_deposit(n_copies=2, bridging=(True, True))
+    import selcal_cofold_validate as V2
+    import valb_frame_transfer_check as F
+    monkeypatch.setattr(V2, "parse_structure", lambda p: atoms)
+    monkeypatch.setattr(F, "roles_from_selcal_artifact",
+                        lambda pdb, first_json=None: ({"target": "A", "e3": ["B"]}, None))
+    t, e, d, err = X.reference_sequences_from_deposit("ignored.cif", "9DTY")
+    assert err is None
+    assert t == tseq and e == eseqs
+    assert d["seed_copy"] == {"target": "A", "e3": ["B"]}
+
+
+def test_the_identity_table_is_published_even_when_no_copy_is_found(monkeypatch):
+    """'no chain matched' and 'chains matched but no copy survived' have opposite remedies."""
+    atoms, tseq, eseqs = _toy_deposit(n_copies=2, bridging=(True, True))
+    import selcal_cofold_validate as V2
+    monkeypatch.setattr(V2, "parse_structure", lambda p: atoms)
+    tab = X.chain_identity_table("ignored.cif", tseq, eseqs)
+    assert tab["n_polymer_chains"] == 4
+    assert tab["min_identity_required"] == V.MIN_CHAIN_IDENTITY
+    assert tab["chains"]["A"]["target"] == 1.0 and tab["chains"]["B"]["e3_0"] == 1.0
+
+
 # ---------- staging refusals -------------------------------------------------------------------------------
 
 

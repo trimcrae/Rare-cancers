@@ -71,6 +71,65 @@ def bridging_cutoff_a():
 # =============================================================================================================
 
 
+def reference_sequences_from_deposit(cif_path, pdb_id):
+    """(target_seq, [e3 seqs], detail, error) taken from the DEPOSIT'S OWN chains, via the committed map.
+
+    ⛔ THIS REPLACES `selcal_stage.construct_sequence` + `e3_sequences` AS THE REFERENCE, and the first census
+    is why: run 30757393618 reported **0 copies on both arms**, against the ~10 that every other measurement
+    in this lane sees in 9DTY. Those two helpers return the CO-FOLD CONSTRUCT sequences — what the panel asked
+    Boltz to fold — and a construct is not obliged to align to a crystal chain above the 0.80 identity floor
+    once expression tags, unresolved termini and a different domain boundary are in play.
+
+    `valb_frame_transfer_check.roles_from_selcal_artifact` already names ONE copy's chains in this very
+    deposit, derived by sequence in the committed map every other number here uses. Reading those chains'
+    sequences OUT OF THE CRYSTAL gives references that are by construction crystal-like, so the sibling copies
+    are found by matching a deposit against itself. It also keeps the copy convention identical to the DockQ
+    measurements, which is the point of using the committed map rather than a fresh derivation."""
+    import selcal_cofold_validate as V
+    import valb_frame_transfer_check as F
+    roles, rerr = F.roles_from_selcal_artifact(pdb_id)
+    if rerr:
+        return None, None, None, "roles unresolved for %s: %s" % (pdb_id, rerr)
+    atoms = V.parse_structure(cif_path)
+    tseq, _ = V.chain_sequence(atoms, roles["target"])
+    e3 = []
+    for c in roles["e3"]:
+        s, _ = V.chain_sequence(atoms, c)
+        if not s:
+            return None, None, None, "E3 chain %s of %s carries no polymer sequence" % (c, pdb_id)
+        e3.append(s)
+    if not tseq:
+        return None, None, None, "target chain %s of %s carries no polymer sequence" % (roles["target"], pdb_id)
+    detail = {"_source": "chain sequences read out of the deposit, at the chains the committed selcal map "
+                         "names — never the co-fold construct, which does not have to align to a crystal "
+                         "chain above the identity floor",
+              "seed_copy": {"target": roles["target"], "e3": roles["e3"]},
+              "lengths": {"target": len(tseq), "e3": [len(s) for s in e3]}}
+    return tseq, e3, detail, None
+
+
+def chain_identity_table(cif_path, target_seq, e3_seqs, floor=0.5):
+    """Every polymer chain's identity to each reference, for chains above `floor`. A DIAGNOSTIC, not a gate.
+
+    Published beside the census because "0 copies" and "0 chains matched the target" are different findings
+    with opposite remedies, and the first census could not tell them apart."""
+    import selcal_cofold_validate as V
+    atoms = V.parse_structure(cif_path)
+    refs = [("target", target_seq)] + [("e3_%d" % i, s) for i, s in enumerate(e3_seqs)]
+    out = {}
+    for ch in V.polymer_chains(atoms):
+        seq, _ = V.chain_sequence(atoms, ch)
+        best = {}
+        for name, ref in refs:
+            ident, _ = V.align_identity(seq, ref)
+            if ident >= floor:
+                best[name] = round(ident, 4)
+        if best:
+            out[ch] = best
+    return {"n_polymer_chains": len(V.polymer_chains(atoms)), "identity_floor_shown": floor,
+            "min_identity_required": V.MIN_CHAIN_IDENTITY, "chains": out}
+
+
 def copy_census(cif_path, target_seq, e3_seqs, degrader_comp):
     """[{copy_id, target_chain, e3_chains, ligand_key, bridges, min_dist_target_A, min_dist_e3_A}, ...].
 
@@ -134,7 +193,6 @@ def census_both_arms(native_dir, out_path=None):
     import selcal_panel as P
 
     dep, genes = deposits(), arm_genes()
-    e3 = [seq for _chain, _role, seq in S.e3_sequences()]   # (chain, role, sequence) triples
     lig = S.ligand_smiles()
     doc = {"_what": "independent crystallographic copies per arm — the unit of independence for the "
                     "crystal re-run of the sensitivity control",
@@ -150,7 +208,16 @@ def census_both_arms(native_dir, out_path=None):
                             % (pdb, native_dir))
             doc["arms"][arm_id] = rec
             continue
-        tseq = S.construct_sequence(gene)["sequence"]
+        tseq, e3, detail, serr = reference_sequences_from_deposit(path, pdb)
+        rec["reference_sequences"] = detail or {"error": serr}
+        if serr:
+            rec["error"] = serr
+            doc["arms"][arm_id] = rec
+            continue
+        # ⚠ Published whether or not copies are found: "no chain matched the target" and "chains matched but
+        # no copy survived the chimera check" are different findings with opposite remedies, and the first
+        # census could not tell them apart.
+        rec["chain_identities"] = chain_identity_table(path, tseq, e3)
         rows = copy_census(path, tseq, e3, lig["ccd"])
         rec["copies"] = rows
         rec["n_copies"] = len(rows)
