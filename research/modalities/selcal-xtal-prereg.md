@@ -111,3 +111,39 @@ pass here establishes at most one of them, and the paper must not let one stand 
 - `selcal_xtal_panel.partition_legs` returns foreign records rather than dropping them: a foreign record here
   means a prefix collision, and a crystal record that failed to stamp its provenance is equally a reason to
   stop.
+
+---
+
+## AMENDMENT 1 (2026-08-02) — the design does not exist, and this panel does not run
+
+**Census result** ([`selcal-xtal-census.json`](./selcal-xtal-census.json), CI run 30757725008):
+
+| arm | deposit | polymer chains | copies enumerated | copies with a bridging degrader |
+|---|---|---|---|---|
+| `selcal_smarca2` | 9DTY | 40 | 8 | **5** |
+| `selcal_smarca4` | 9DTX | 4 | 1 | **1** |
+
+**9DTX's asymmetric unit contains a single ternary.** Arms are matched at the smaller deposit (§4), so the
+realised design is **1 copy per arm**: reference set **C(2,1) = 2**, minimum attainable one-sided
+**p = 0.5**. That does not clear α, let alone the α/3 condition of §5.
+
+⛔ **Therefore this panel does not run, and §5 is applied as written rather than relaxed.** The three ways to
+make it run were each considered and each rejected on the record:
+
+1. **Promote velocity replicas to the unit of independence** — this is the one that would "work", and it is
+   the one §4 exists to forbid. Two replicas of one structure are not two draws of the thing being compared,
+   and using them would manufacture a reference set out of thermal noise.
+2. **Run 5 SMARCA2 copies against 1 SMARCA4 copy** — an unmatched design compares unequal evidence between
+   arms, refused by §4 before any number is seen.
+3. **Generate additional SMARCA4 starting structures** — reintroduces exactly the generation stage this panel
+   was built to remove, on the route measured at DockQ 0.023–0.046.
+
+**This is a property of the deposits, not a null.** The endpoint E1 remains untested on correct inputs, and
+no claim about it may be made in either direction from this. Recorded because the alternative — quietly
+dropping a preregistered panel — is how a design gets loosened until it passes.
+
+★ **What it redirects to.** The published mechanism for this pair is a *hydrogen bond*, not a dynamical
+quantity, and a bond between two named partners is visible in a deposited structure. The known-answer test
+therefore does not need a replication design at all: it is a deterministic measurement on the two crystals,
+run by [`selcal_interface_signature.py`](./selcal_interface_signature.py), and it is scored the same way —
+recover the published contact, or the descriptor may not be used to argue selectivity anywhere.
