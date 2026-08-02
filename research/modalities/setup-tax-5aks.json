@@ -1,7 +1,7 @@
 {
  "_what": "THE SETUP TAX \u2014 how much of each rental is bought and NOT spent on science, split by line item. $0.",
  "mode": "5aks",
- "utc": "2026-08-02T05:42:55Z",
+ "utc": "2026-08-02T06:00:26Z",
  "units": {
   "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
    "attempts": [
@@ -1263,59 +1263,6 @@
    "attempts": [
     {
      "caches": {
-      "stage": true,
-      "preequil": true,
-      "setup": true
-     },
-     "setup_seconds": null,
-     "setup_built": false,
-     "setup_restored_from": "s3://sagemaker-us-east-2-646605541856/ternary-vast/setupcache/5aks_d0_to_d__ternary_nr4a1_fwd_r1__nagl__v1pe",
-     "setup_cache_missing": null,
-     "restore_seconds": {
-      "production": 12.4
-     },
-     "restore_list": [
-      {
-       "phase": "production",
-       "n_gen": 3,
-       "seconds": 0.6
-      }
-     ],
-     "restore_fetch": [
-      {
-       "bytes": 218283250,
-       "seconds": 11.4
-      }
-     ],
-     "first_commit_iteration": 160,
-     "s_per_iter": 26.3,
-     "n_lines": 320,
-     "timeline": {
-      "marks": [
-       [
-        "container-start",
-        "2026-08-01T00:14:59Z"
-       ]
-      ],
-      "spans": {},
-      "complete": false
-     },
-     "commits": [
-      {
-       "phase": "production",
-       "iteration": 160,
-       "mib": 359.4,
-       "seconds": 6.2
-      }
-     ],
-     "checkpoint_interval": 40,
-     "attempt": "run-20260801T005303Z.log",
-     "utc": "2026-08-01 00:53:05+00:00",
-     "bytes": 24298,
-     "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
-    },
-    {
-     "caches": {
       "stage": null,
       "preequil": null,
       "setup": null
@@ -1857,7 +1804,7 @@
      ],
      "first_commit_iteration": 1560,
      "s_per_iter": 55.1,
-     "n_lines": 2458,
+     "n_lines": 5812,
      "timeline": {
       "marks": [
        [
@@ -1883,6 +1830,14 @@
        [
         "md-running",
         "2026-08-01T22:10:27Z"
+       ],
+       [
+        "md-done",
+        "2026-08-02T06:00:07Z"
+       ],
+       [
+        "done",
+        "2026-08-02T06:00:14Z"
        ]
       ],
       "spans": {
@@ -1890,7 +1845,9 @@
        "start->cloned": 15.0,
        "cloned->staging": 3.0,
        "staging->preequil": 4.0,
-       "preequil->md-running": 4.0
+       "preequil->md-running": 4.0,
+       "md-running->md-done": 28180.0,
+       "md-done->done": 7.0
       },
       "complete": true
      },
@@ -1960,43 +1917,88 @@
        "iteration": 1960,
        "mib": 7161.6,
        "seconds": 91.7
+      },
+      {
+       "phase": "production",
+       "iteration": 2000,
+       "mib": 7312.6,
+       "seconds": 89.0
       }
      ],
      "checkpoint_interval": 40,
-     "attempt": "run.log",
-     "utc": "2026-08-02 05:41:07+00:00",
-     "bytes": 177086,
+     "attempt": "run-20260802T060024Z.log",
+     "utc": "2026-08-02 06:00:26+00:00",
+     "bytes": 331462,
      "verdict": "stage=HIT \u00b7 preequil=HIT \u00b7 setup=HIT"
+    },
+    {
+     "caches": {
+      "stage": null,
+      "preequil": null,
+      "setup": null
+     },
+     "setup_seconds": null,
+     "setup_built": false,
+     "setup_restored_from": null,
+     "setup_cache_missing": null,
+     "restore_seconds": {},
+     "restore_list": [],
+     "restore_fetch": [],
+     "first_commit_iteration": null,
+     "s_per_iter": null,
+     "n_lines": 3,
+     "timeline": {
+      "marks": [
+       [
+        "container-start",
+        "2026-08-02T06:00:23Z"
+       ],
+       [
+        "start",
+        "2026-08-02T06:00:25Z"
+       ]
+      ],
+      "spans": {
+       "container-start->start": 2.0
+      },
+      "complete": false
+     },
+     "commits": [],
+     "checkpoint_interval": null,
+     "attempt": "run.log",
+     "utc": "2026-08-02 06:00:28+00:00",
+     "bytes": 267,
+     "verdict": "stage=ABSENT(unobservable) \u00b7 preequil=ABSENT(unobservable) \u00b7 setup=ABSENT(unobservable)"
     }
    ],
-   "live_cold_start_s": 29.0,
-   "live_cold_start_span": "container-start -> md-running",
-   "md_to_first_commit_s": 2597.0,
-   "md_to_first_commit_span": "md-running -> first commit of this attempt",
-   "commit_bytes_median": 1724401278.0,
-   "n_generations": 74,
+   "live_cold_start_s": 2.0,
+   "live_cold_start_span": "container-start -> start",
+   "md_to_first_commit_s": null,
+   "md_to_first_commit_span": "phase.txt says 'start', not md-running \u2014 this boundary is not in the record",
+   "commit_bytes_median": 1803675588,
+   "n_generations": 75,
    "commit_store": {
-    "n": 74,
+    "n": 75,
     "prefix": "ternary-vast/commits/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
     "growth": {
      "first_iter": 40,
      "first_mib": 107.0,
-     "last_iter": 1960,
-     "last_mib": 7161.6
+     "last_iter": 2000,
+     "last_mib": 7312.6
     },
     "min_mib": 106.6,
-    "max_mib": 7161.6,
+    "max_mib": 7312.6,
     "by_extension_total_mib": {
-     "chk": 77887.9,
-     "nc": 113813.1
+     "chk": 80337.4,
+     "nc": 118676.3
     },
     "by_extension_largest_single_mib": {
-     "chk": 2401.4,
-     "nc": 4760.2
+     "chk": 2449.4,
+     "nc": 4863.2
     }
    },
    "markers": {
-    "phase.txt": "2026-08-01 22:10:28+00:00"
+    "phase.txt": "2026-08-02 06:00:27+00:00"
    }
   }
  },
@@ -2005,8 +2007,8 @@
   "median_seconds": {
    "cloned->staging": 1.0,
    "container-start->start": 2.0,
-   "md-done->done": 3.5,
-   "md-running->md-done": 4531.0,
+   "md-done->done": 4.0,
+   "md-running->md-done": 5391.0,
    "preequil->md-running": 3.0,
    "staging->preequil": 3.0,
    "start->cloned": 15.0
@@ -2014,8 +2016,8 @@
   "n_observations": {
    "cloned->staging": 14,
    "container-start->start": 14,
-   "md-done->done": 2,
-   "md-running->md-done": 2,
+   "md-done->done": 3,
+   "md-running->md-done": 3,
    "preequil->md-running": 14,
    "staging->preequil": 14,
    "start->cloned": 14
@@ -2023,31 +2025,31 @@
  },
  "commit_cost": {
   "n_observed": 59,
-  "median_mib": 3685.6,
-  "median_seconds": 43.6,
+  "median_mib": 3817.6,
+  "median_seconds": 44.7,
   "_reading": "the PAUSE a checkpoint costs. Halving the warmup interval 64 -> 32 doubles how often this is paid, so the interval change is only worth taking while this is small against interval x s/iter (the MD between commits)."
  },
  "totals": {
   "n_attempts": 28,
   "setup_build_seconds_median": null,
   "n_setup_builds": 0,
-  "restore_seconds_median": 53.7
+  "restore_seconds_median": 54.6
  },
  "cache_tally": {
   "stage": {
-   "HIT": 21,
+   "HIT": 20,
    "MISS": 0,
-   "ABSENT": 7
+   "ABSENT": 8
   },
   "preequil": {
-   "HIT": 21,
+   "HIT": 20,
    "MISS": 0,
-   "ABSENT": 7
+   "ABSENT": 8
   },
   "setup": {
-   "HIT": 19,
+   "HIT": 18,
    "MISS": 0,
-   "ABSENT": 9
+   "ABSENT": 10
   }
  },
  "line_items": {
@@ -2174,19 +2176,6 @@
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run-20260801T005303Z.log",
-    "complete_timeline": false,
-    "provision_to_container": null,
-    "container_to_md_running": null,
-    "setup_breakdown": {},
-    "md_running_to_first_commit": 17.53,
-    "first_commit_is_derived": true,
-    "checkpoint_interval": 40,
-    "s_per_iter": 26.3,
-    "md_running_to_md_done": null,
-    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
-   },
-   {
     "attempt": "run-20260801T010122Z.log",
     "complete_timeline": false,
     "provision_to_container": null,
@@ -2276,7 +2265,7 @@
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
    },
    {
-    "attempt": "run.log",
+    "attempt": "run-20260802T060024Z.log",
     "complete_timeline": true,
     "provision_to_container": null,
     "container_to_md_running": 0.48,
@@ -2291,6 +2280,19 @@
     "first_commit_is_derived": true,
     "checkpoint_interval": 40,
     "s_per_iter": 55.1,
+    "md_running_to_md_done": 469.6666666666667,
+    "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
+   },
+   {
+    "attempt": "run.log",
+    "complete_timeline": false,
+    "provision_to_container": null,
+    "container_to_md_running": null,
+    "setup_breakdown": {},
+    "md_running_to_first_commit": null,
+    "first_commit_is_derived": true,
+    "checkpoint_interval": null,
+    "s_per_iter": null,
     "md_running_to_md_done": null,
     "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
    },
@@ -2519,22 +2521,20 @@
     "median_min": 17.4,
     "min_min": 6.07,
     "max_min": 37.3,
-    "n": 16,
+    "n": 15,
     "derived": "checkpoint_interval x s_per_iter \u2014 the `[barrier] commit` line carries a persist duration but no wall-clock stamp, so the elapsed time to the first checkpoint is reconstructed from the log's own two measured quantities rather than read directly.",
-    "measured_median_min": 43.28,
-    "measured_n_units": 1,
+    "measured_median_min": null,
+    "measured_n_units": 0,
     "measured_how": "the first commit object's S3 LastModified minus the `md-running` timestamp in phase.txt \u2014 a real wall clock, on units currently inside md-running. None means no unit is in that phase right now, which is NOT the same as a fast segment.",
-    "measured_over_derived": 2.49,
-    "_reading": "a ratio near 1.0 says the segment really is one checkpoint interval of MD and nothing else, so the CHECKPOINT INTERVAL is the whole lever. Materially above 1.0 says the window also holds fixed cost the reconstruction cannot see \u2014 setup restore/build and minimisation are the candidates, and `of_which` below carries the two that time themselves.",
     "of_which_setup_build_min": null,
-    "of_which_setup_restore_min": 0.9,
+    "of_which_setup_restore_min": 0.91,
     "_residual_is": "what remains after those two is minimisation + the warmup iterations to the first checkpoint, PLUS anything else in the window that times nothing. A RESIDUAL, not a measurement of minimisation \u2014 do not quote it as one."
    },
    "md_running_to_md_done": {
-    "median_min": 75.52,
+    "median_min": 89.85,
     "min_min": 61.18,
-    "max_min": 89.85,
-    "n": 2
+    "max_min": 469.67,
+    "n": 3
    },
    "verdict": "TIME TO THE FIRST COMMIT DOMINATES: 17.4 min median against 0.4 min of in-container setup (40x). The setup cache, the stage fetch and the pre-equil restore are NOT the tax \u2014 they total under a minute on most attempts. The only levers on the dominant term are the CHECKPOINT INTERVAL and the card's s/iter, which is what makes the .chk payload work load-bearing: at 25.88x smaller commits a shorter interval becomes affordable. Provisioning is still unmeasured and could be material."
   }

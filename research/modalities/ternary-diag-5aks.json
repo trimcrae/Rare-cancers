@@ -1,7 +1,7 @@
 {
   "_what": "why the ternary replicate legs commit nothing, measured from the container's own output rather than inferred from exit status (CLAUDE.md \u00a74)",
   "mode": "5aks",
-  "utc": "2026-08-02T05:42:18Z",
+  "utc": "2026-08-02T05:59:02Z",
   "units": {
     "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks": {
       "arm": "ternary",
@@ -31,8 +31,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T03:36:35Z",
-      "phase_marker_age_min": 1565.6916158676147,
-      "log_age_min": 1565.6757323503493,
+      "phase_marker_age_min": 1582.4428682525952,
+      "log_age_min": 1582.4278673092524,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -207,8 +207,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T18:26:57Z",
-      "phase_marker_age_min": 675.3570607860883,
-      "log_age_min": 675.3577605168025,
+      "phase_marker_age_min": 692.1533379554749,
+      "log_age_min": 692.1549616416295,
       "n_attempts_archived": 34,
       "attempts": [
         {
@@ -481,8 +481,8 @@
         "scalar": 1002000
       },
       "phase_marker": "start 2026-08-01T12:19:53Z",
-      "phase_marker_age_min": 1042.4827915787696,
-      "log_age_min": 1042.450153152148,
+      "phase_marker_age_min": 1059.341574215889,
+      "log_age_min": 1059.3099973479907,
       "n_attempts_archived": 8,
       "attempts": [
         {
@@ -553,7 +553,7 @@
         "block": false,
         "n_attempts": 0,
         "record_utc": null,
-        "newest_commit_utc": "2026-08-02T05:19:01Z",
+        "newest_commit_utc": "2026-08-02T05:56:47Z",
         "eviction": {
           "_what": "the last time this lane destroyed this unit's host for a reason that was NOT the unit failing \u2014 read by leg_failure_breaker so a correct teardown does not accrue a strike",
           "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
@@ -569,12 +569,12 @@
       },
       "committed": {
         "phase": "production",
-        "iteration": 1960,
-        "scalar": 1001960
+        "iteration": 2000,
+        "scalar": 1002000
       },
       "phase_marker": "md-running 2026-08-01T22:10:27Z",
-      "phase_marker_age_min": 451.94077369769417,
-      "log_age_min": 1.2926149447758992,
+      "phase_marker_age_min": 468.83525307178496,
+      "log_age_min": 1.9908604582150777,
       "n_attempts_archived": 20,
       "attempts": [
         {
@@ -712,10 +712,10 @@
         },
         {
           "key": "ternary-vast/legs/5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks/run.log",
-          "utc": "2026-08-02T05:41:07Z",
-          "bytes": 177100,
-          "n_lines": 2456,
-          "last_line": "INFO:\t********************************************************************************"
+          "utc": "2026-08-02T05:59:20Z",
+          "bytes": 326525,
+          "n_lines": 5725,
+          "last_line": "INFO:\tStarting preparation"
         }
       ],
       "instance": {
@@ -732,57 +732,57 @@
         "cpu_ram": 128688,
         "cpu_cores_effective": 16.0,
         "disk_space": 60.0,
-        "disk_util": 7.800000190734863,
-        "mem_usage": 5.09083648,
+        "disk_util": 8.800000190734863,
+        "mem_usage": 5.073010688,
         "mem_limit": 89.45401856000001,
-        "gpu_util": 99.999908,
+        "gpu_util": 0.0,
         "dph_total": 0.07911111111111112,
         "start_date": 1785621996.2231026,
         "image_uuid": "docker.io/triskit23/ternary-fep:latest"
       },
       "instance_is_working": true,
-      "console_last_line": "INFO:\t********************************************************************************",
+      "console_last_line": "INFO:\tStarting preparation",
       "console_tail": [
-        "INFO:\tIteration took 54.092s.",
-        "INFO:\tEstimated completion in 0:20:11.237533, at 2026-Aug-02-05:55:43 (consuming total wall clock time 1 day, 6:35:12.502972).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1979/2000",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 51.886s.",
-        "INFO:\tEstimated completion in 0:19:12.678406, at 2026-Aug-02-05:55:36 (consuming total wall clock time 1 day, 6:29:38.895780).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1980/2000",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 56.494s.",
-        "INFO:\tEstimated completion in 0:18:19.393931, at 2026-Aug-02-05:55:39 (consuming total wall clock time 1 day, 6:32:19.393115).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1981/2000",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 51.719s.",
-        "INFO:\tEstimated completion in 0:17:21.483229, at 2026-Aug-02-05:55:33 (consuming total wall clock time 1 day, 6:27:09.813558).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1982/2000",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 53.046s.",
-        "INFO:\tEstimated completion in 0:16:25.221649, at 2026-Aug-02-05:55:30 (consuming total wall clock time 1 day, 6:24:29.072147).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1983/2000",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 48.972s.",
-        "INFO:\tEstimated completion in 0:15:26.228368, at 2026-Aug-02-05:55:20 (consuming total wall clock time 1 day, 6:16:08.043244).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1984/2000",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 57.680s.",
-        "INFO:\tEstimated completion in 0:14:33.875678, at 2026-Aug-02-05:55:25 (consuming total wall clock time 1 day, 6:20:34.459798).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1985/2000",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration took 53.799s.",
-        "INFO:\tEstimated completion in 0:13:38.767787, at 2026-Aug-02-05:55:24 (consuming total wall clock time 1 day, 6:19:29.038200).",
-        "INFO:\t********************************************************************************",
-        "INFO:\tIteration 1986/2000",
-        "INFO:\t********************************************************************************"
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tThe attribute(s) types have already been read from the topology file. The guesser will only guess empty values for this attribute, if any exists. To overwrite it by completely guessed values, you can pass the attribute to the force_guess parameter instead of the to_guess one",
+        "INFO:\tThere is no empty types values. Guesser did not guess any new values for types attribute",
+        "INFO:\tThere is no empty masses values. Guesser did not guess any new values for masses attribute",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tThe attribute(s) types have already been read from the topology file. The guesser will only guess empty values for this attribute, if any exists. To overwrite it by completely guessed values, you can pass the attribute to the force_guess parameter instead of the to_guess one",
+        "INFO:\tThere is no empty types values. Guesser did not guess any new values for types attribute",
+        "INFO:\tThere is no empty masses values. Guesser did not guess any new values for masses attribute",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation",
+        "INFO:\tFinishing up",
+        "INFO:\tThe attribute(s) types have already been read from the topology file. The guesser will only guess empty values for this attribute, if any exists. To overwrite it by completely guessed values, you can pass the attribute to the force_guess parameter instead of the to_guess one",
+        "INFO:\tThere is no empty types values. Guesser did not guess any new values for types attribute",
+        "INFO:\tThere is no empty masses values. Guesser did not guess any new values for masses attribute",
+        "INFO:\tChoosing frames to analyze",
+        "INFO:\tStarting preparation"
       ]
     }
   }

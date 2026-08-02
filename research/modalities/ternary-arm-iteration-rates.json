@@ -1,8 +1,8 @@
 {
   "_what": "measured seconds-per-iteration per ARM per PRODUCTION TIMESTEP, read from each leg's own leg.json timing block. The one home for `ternary_vast_launch.arm_iteration_rates()`; regenerate with `python research/modalities/ternary_arm_rates.py --out <this file>`.",
   "_never_pool": "across timestep_fs (a 2 fs iteration is 1250 MD steps, a 4 fs one 625), across phase (pricing.md's superseded ~2.06x card ratio was a warmup/production mix-up), or across SYSTEM SIZE (added 2026-07-31: the 4 fs ternary rate pooled legs spanning 141,458-147,788 particles with a 7.9-31.8 s/iter spread, so it described no single assembly; `rates` keeps the pooled figure for existing consumers but now FLAGS it, and `rates_by_system` is the split table)",
-  "generated_utc": "2026-08-02T05:43:05Z",
-  "n_leg_records": 17,
+  "generated_utc": "2026-08-02T06:00:49Z",
+  "n_leg_records": 18,
   "rates": {
     "2.0": {
       "binary": {
@@ -126,15 +126,16 @@
         "_system_warning": null
       },
       "ternary": {
-        "s_per_iter": 17.45,
+        "s_per_iter": 17.9,
         "source_phase": "production",
-        "n_legs": 8,
+        "n_legs": 9,
         "spread_s_per_iter": [
           7.9,
-          31.8
+          55.1
         ],
         "units": [
           "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+          "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
           "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
           "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks_smoke",
           "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
@@ -149,20 +150,20 @@
           "NVIDIA GeForce RTX 5090"
         ],
         "by_gpu": {
-          "NVIDIA GeForce RTX 3090": 31.45,
+          "NVIDIA GeForce RTX 3090": 31.8,
           "NVIDIA GeForce RTX 4090": 17.0,
           "NVIDIA GeForce RTX 5090": 12.8
         },
         "n_particles_spread": [
           141740,
-          209589
+          211687
         ],
         "system_buckets": [
           "146k",
-          "210k"
+          "211k"
         ],
         "pooled_across_systems": true,
-        "_system_warning": "POOLED ACROSS 2 SYSTEM SIZES ['146k', '210k'] \u2014 this median describes no single assembly. Use `rates_by_system` for a per-system figure; see `_never_pool`."
+        "_system_warning": "POOLED ACROSS 2 SYSTEM SIZES ['146k', '211k'] \u2014 this median describes no single assembly. Use `rates_by_system` for a per-system figure; see `_never_pool`."
       }
     }
   },
@@ -303,21 +304,24 @@
             "NVIDIA GeForce RTX 5090"
           ]
         },
-        "210k": {
-          "s_per_iter": 26.1,
+        "211k": {
+          "s_per_iter": 40.6,
           "source_phase": "production",
-          "n_legs": 1,
+          "n_legs": 2,
           "spread_s_per_iter": [
             26.1,
-            26.1
+            55.1
           ],
           "n_particles": [
-            209589
+            209589,
+            211687
           ],
           "units": [
-            "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks"
+            "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+            "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
           ],
           "gpus": [
+            "NVIDIA GeForce RTX 3090",
             "NVIDIA GeForce RTX 4090"
           ]
         },
@@ -375,6 +379,22 @@
       "production_median_s_per_iter": 26.1,
       "production_n": 4,
       "recorded_utc": "2026-08-01T18:25:53Z"
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
+      "leg_id": "5aks_d0_to_d__ternary_nr4a1",
+      "arm": "ternary",
+      "mode": "5aks",
+      "status": "done",
+      "timestep_fs": 4.0,
+      "warmup_timestep_fs": 1.0,
+      "gpu": "NVIDIA GeForce RTX 3090",
+      "n_particles": 211687,
+      "warmup_median_s_per_iter": null,
+      "warmup_n": null,
+      "production_median_s_per_iter": 55.1,
+      "production_n": 12,
+      "recorded_utc": "2026-08-02T06:00:13Z"
     },
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
