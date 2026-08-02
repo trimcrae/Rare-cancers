@@ -62,7 +62,7 @@
   "model_means_A_arm": "selcal_smarca2",
   "model_means_B": {
     "1": 3.9715,
-    "2": 5.243,
+    "2": 4.344,
     "4": 3.847,
     "5": 6.6865,
     "6": 3.8065
@@ -72,7 +72,7 @@
     "selcal_smarca2": 0,
     "selcal_smarca4": 0
   },
-  "n_legs_admitted": 21,
+  "n_legs_admitted": 22,
   "rejected_records": [],
   "design_floor": {
     "models_arm_a": 6,
@@ -82,49 +82,49 @@
     "alpha": 0.05,
     "can_reach_alpha": true
   },
-  "statistic": 0.2575,
+  "statistic": 0.4373,
   "statistic_definition": "mean(E1 | selcal_smarca2) - mean(E1 | selcal_smarca4), model-level means",
-  "p": 0.638528,
+  "p": 0.746753,
   "p_alternative": "less",
-  "p_mirror": 0.363636,
+  "p_mirror": 0.255411,
   "n_arrangements": 462,
   "min_attainable_p": 0.002165,
   "leave_one_model_out": {
-    "observed_stat": 0.2575,
+    "observed_stat": 0.4373,
     "refits": [
       {
         "dropped": "selcal_smarca2:m1",
-        "stat": 0.4474,
+        "stat": 0.6272,
         "sign_kept": true
       },
       {
         "dropped": "selcal_smarca2:m2",
-        "stat": 0.3233,
+        "stat": 0.5031,
         "sign_kept": true
       },
       {
         "dropped": "selcal_smarca2:m3",
-        "stat": 0.2591,
+        "stat": 0.4389,
         "sign_kept": true
       },
       {
         "dropped": "selcal_smarca2:m4",
-        "stat": 0.4833,
+        "stat": 0.6631,
         "sign_kept": true
       },
       {
         "dropped": "selcal_smarca2:m5",
-        "stat": -0.0911,
-        "sign_kept": false
+        "stat": 0.0887,
+        "sign_kept": true
       },
       {
         "dropped": "selcal_smarca2:m6",
-        "stat": 0.1231,
+        "stat": 0.3029,
         "sign_kept": true
       },
       {
         "dropped": "selcal_smarca4:m1",
-        "stat": 0.0727,
+        "stat": 0.2974,
         "sign_kept": true
       },
       {
@@ -134,34 +134,35 @@
       },
       {
         "dropped": "selcal_smarca4:m4",
-        "stat": 0.0415,
+        "stat": 0.2663,
         "sign_kept": true
       },
       {
         "dropped": "selcal_smarca4:m5",
-        "stat": 0.7514,
+        "stat": 0.9762,
         "sign_kept": true
       },
       {
         "dropped": "selcal_smarca4:m6",
-        "stat": 0.0314,
+        "stat": 0.2562,
         "sign_kept": true
       }
     ],
-    "survives": false
+    "survives": true
   },
   "mean_A": 4.9684,
-  "mean_B": 4.7109,
-  "reason": "NULL — an adequately-powered design (reference set of 462, floor 0.00216, well under alpha) did not detect the difference: p = 0.6385. This is a REAL negative and is reported as one.",
+  "mean_B": 4.5311,
+  "tier": "NULL",
+  "reason": "NULL — an adequately-powered design (reference set of 462, floor 0.00216, well under alpha) did not detect the difference: p = 0.7468. This is a REAL negative and is reported as one.",
   "licenses": "The sentence written in advance in selectivity-resolution-options.md §4: the workflow's paralogue-discrimination authority rests on nothing this program has measured, and the NR4A3 selectivity predictions are reported as UNVALIDATED PREDICTIONS. A fail does NOT distinguish 'the readout is blunt' from 'this pair is hard', and must not be reported as though it did.",
-  "utc": "2026-08-02T02:38:58Z",
-  "panel_complete": false,
-  "tier_suppressed": "NULL",
-  "tier": null,
-  "next_step_suppressed": true,
   "next_step": {
-    "unblocks": "WITHHELD — the panel is incomplete, so no tier is reported and no consequence follows from one. This is not 'nothing is unblocked'; it is 'the question has not been asked yet'.",
-    "_source": "selcal_gate.suppress_for_incomplete_panel"
+    "unblocks": "NOTHING. Step 3 is NOT bought — it would be money spent to reproduce a failure.",
+    "blocking_artifact": null,
+    "reporting": "The paper reports NR4A3 selectivity as UNVALIDATED PREDICTIONS, in the sentence written in advance at selectivity-resolution-options.md §4 so it cannot later be re-narrated as a method failure.",
+    "_source": "selectivity-resolution-options.md §3 (the sequence) and §4 (the alternative outcome)",
+    "_written_before_the_panel_ran": true,
+    "cannot_distinguish": "A fail does NOT distinguish 'the readout is blunt' from 'this pair is hard', and must not be reported as though it did."
   },
-  "suppression": "The panel is incomplete (21 of 22 units). The criterion forbids an interim verdict: a tier read off a partial panel, on a run that can still be extended, is the peeking defect. The evidence below is reported; the LABEL, and anything that discloses it, is withheld until the panel is complete or an arm is definitively short."
+  "utc": "2026-08-02T02:42:06Z",
+  "panel_complete": true
 }

@@ -2,7 +2,7 @@
   "_what": "What the sensitivity-control lane's reaper destroyed, and what it SPARED and why. Written on every tick, destroying nothing included — a reaper with no artifact is indistinguishable from a reaper that never ran.",
   "_rule": "CLAUDE.md §6 — the host cannot stop its own billing, only the control plane can; and GPU idleness NEVER condemns a box, only banked work / a host-written terminus / a terminal state does.",
   "lane": "selcal",
-  "utc": "2026-08-02T02:38:57Z",
+  "utc": "2026-08-02T02:42:05Z",
   "stop_all": false,
   "cofold_prefix": "selcal-smarca-cofold-v1",
   "s3_census_readable": true,
@@ -29,6 +29,7 @@
     "selcal-smarca2-m6-r1",
     "selcal-smarca4-m1-r0",
     "selcal-smarca4-m1-r1",
+    "selcal-smarca4-m2-r0",
     "selcal-smarca4-m2-r1",
     "selcal-smarca4-m4-r0",
     "selcal-smarca4-m4-r1",
@@ -37,21 +38,21 @@
     "selcal-smarca4-m6-r0",
     "selcal-smarca4-m6-r1"
   ],
-  "destroyed": [],
-  "spared": [
+  "destroyed": [
     {
       "instance": "46560490",
       "label": "selcal-smarca4-m2-r0",
       "status": "running",
-      "uptime_min": 8.5,
+      "uptime_min": 11.6,
       "dph_total": 0.07106666666666667,
-      "host_phase": "md-running 2026-08-02T02:31:23Z instance=46560490 attempt=20260802T023059Z",
+      "host_phase": "md-running 2026-08-02T02:41:16Z instance=46560490 attempt=20260802T024052Z",
       "md_terminus": null,
-      "why": "SPARED — no landed leg in S3 and no host-written terminus for selcal-smarca4-m2-r0; status 'running'."
+      "why": "work banked, no remaining role — this unit's production-conforming leg record is in S3 (selcal_panel.production_leg_check)"
     }
   ],
+  "spared": [],
   "destroy_failed": [],
-  "n_destroyed": 0,
-  "n_spared": 1,
+  "n_destroyed": 1,
+  "n_spared": 0,
   "n_destroy_failed": 0
 }

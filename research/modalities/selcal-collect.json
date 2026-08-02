@@ -1,14 +1,12 @@
 {
   "_what": "What the sensitivity-control panel has landed, measured from S3.",
-  "utc": "2026-08-02T02:38:58Z",
+  "utc": "2026-08-02T02:42:06Z",
   "bucket": "sagemaker-us-east-2-646605541856",
   "prefix": "selcal-results",
   "expected": 22,
-  "landed": 21,
-  "missing": [
-    "selcal-smarca4-m2-r0"
-  ],
-  "panel_complete": false,
+  "landed": 22,
+  "missing": [],
+  "panel_complete": true,
   "expected_at_freeze": 24,
   "excluded_cofold_models": {
     "selcal_smarca4:m3": "AMENDMENT 1 (2026-08-02): input fault. selcal-smarca-cofold-v1/smarca4/seed_3 places A:LYS71:O and E:SER38:O 0.693 A apart (both Boltz-placed heavy atoms, 4499 in the system) against the 1.00 A floor, so `selcal_stage.cofold_input_audit` REFUSED before minimisation on every attempt. OUTCOME-BLIND: the audit reads static geometry and had not integrated one femtosecond, so no endpoint value of any kind existed at the moment of refusal, inconvenient or otherwise. THE FAULT FOLLOWS THE CO-FOLD, NOT THE HOST — both replicas (r0, r1) refused with byte-identical numbers across 12 attempt logs on FIVE distinct machines (46539178, 46549246, 46553998, 46554862, 46555738). NO OTHER CO-FOLD IN EITHER ARM FAILED: the one other unlanded smarca4 unit at the time, m2-r0, AUDITED CLEAN at 1.2994 A on the same day and its replica m2-r1 landed, so m2 is exonerated as an input and is re-run, not excluded. Evidence: container stdout via `--mode diag`, runs 30728025643 and 30728185356."
@@ -28,6 +26,7 @@
     "selcal-results/selcal-smarca2-m6-r1/leg_selcal_smarca2__m6_s1.json",
     "selcal-results/selcal-smarca4-m1-r0/leg_selcal_smarca4__m1_s0.json",
     "selcal-results/selcal-smarca4-m1-r1/leg_selcal_smarca4__m1_s1.json",
+    "selcal-results/selcal-smarca4-m2-r0/leg_selcal_smarca4__m2_s0.json",
     "selcal-results/selcal-smarca4-m2-r1/leg_selcal_smarca4__m2_s1.json",
     "selcal-results/selcal-smarca4-m4-r0/leg_selcal_smarca4__m4_s0.json",
     "selcal-results/selcal-smarca4-m4-r1/leg_selcal_smarca4__m4_s1.json",
