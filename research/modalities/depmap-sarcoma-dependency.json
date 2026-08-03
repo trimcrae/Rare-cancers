@@ -194,6 +194,39 @@
       "n_sarcoma": 91
     }
   ],
+  "nr4a_paralogue_comparison": {
+    "_note": "Pan-panel DepMap CRISPR gene effect for the three NR4A paralogues (H1 safety prior). More negative = more essential; frac_dependent = fraction of lines below -0.5. The tolerability argument for a NR4A3-selective degrader is supported if ALL THREE are broadly non-essential (mean near 0, few dependent lines) \u2014 i.e. the family is dispensable in dividing cells, so single-paralogue loss is unlikely to be broadly toxic. Caveat: DepMap lines are proliferating cancer lines, NOT the post-mitotic tissues (CNS/dopaminergic) where NR4A2 loss is feared \u2014 DepMap can rule broad essentiality IN, but cannot clear tissue-specific tolerability. No DepMap line is EMC.",
+    "paralogues": {
+      "NR4A1": {
+        "gene": "NR4A1",
+        "n_lines": 1178,
+        "mean_gene_effect": -0.115,
+        "median_gene_effect": -0.11,
+        "min_gene_effect": -0.922,
+        "frac_dependent": 0.005,
+        "n_dependent_lines": 6
+      },
+      "NR4A2": {
+        "gene": "NR4A2",
+        "n_lines": 1178,
+        "mean_gene_effect": -0.05,
+        "median_gene_effect": -0.047,
+        "min_gene_effect": -0.753,
+        "frac_dependent": 0.003,
+        "n_dependent_lines": 4
+      },
+      "NR4A3": {
+        "gene": "NR4A3",
+        "n_lines": 1178,
+        "mean_gene_effect": 0.023,
+        "median_gene_effect": 0.022,
+        "min_gene_effect": -0.5,
+        "frac_dependent": 0.0,
+        "n_dependent_lines": 0
+      }
+    },
+    "all_broadly_nonessential": true
+  },
   "self_validation": {
     "BRD9_in_synovial": {
       "subtype_match": "synovial",
