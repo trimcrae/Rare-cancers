@@ -200,13 +200,24 @@ def _days_old(datestr: str, today: _dt.date) -> int | None:
     return None
 
 
-def _matches(title: str, must: list[str], exclude: list[str]) -> bool:
+def _matches(title: str, must: list[str], also: list[str], exclude: list[str]) -> bool:
+    """`must` OR-list AND `also` OR-list, minus `exclude`.
+
+    The second axis exists because the 2026-08-03 first run showed `must` doing no work on
+    the broad-field triggers: their queries are already TITLE-anchored on the same terms, so
+    every returned record matched and the filter was a no-op (in_window == results_seen).
+    `also` is a DIFFERENT axis -- topic AND method, e.g. "oligonucleotide" AND "tumour" --
+    which is what actually separates a delivery paper from an oligonucleotide chemistry one.
+    Absent, it is skipped; a trigger with no natural second axis should not be given a fake one.
+    """
     t = title.lower()
     if any(x.lower() in t for x in exclude):
         return False
-    if not must:
-        return True
-    return any(x.lower() in t for x in must)
+    if must and not any(x.lower() in t for x in must):
+        return False
+    if also and not any(x.lower() in t for x in also):
+        return False
+    return True
 
 
 # --------------------------------------------------------------------------------- ledger
@@ -363,11 +374,86 @@ def write_board(cfg: dict, ledger: dict, run: dict, per_trigger: dict) -> None:
         fh.write("\n".join(L) + "\n")
 
 
+# ------------------------------------------------------------------- registry cross-check
+
+
+REGISTRY = os.path.join(_ROOT, "research", "manuscripts", "emc-systems-map.json")
+
+
+def check_registry(cfg: dict) -> int:
+    """Every registry id a trigger points at must EXIST in the registry.
+
+    WHY. This file is the one home for the SEARCH QUERIES; emc-systems-map.json is the one
+    home for the route<->blocker mapping. Two files, one vocabulary — which is exactly the
+    shape that rots silently: a route gets renamed there, the pointer here keeps rendering,
+    and a scan hit names a route nobody can find. Cheap to check, so check it.
+
+    ⚠ ONE-DIRECTIONAL, AND THAT IS THE OPEN ITEM. This verifies trigger -> registry. The
+    reverse (every `revival_trigger` in the registry names a TRG-* that exists here) cannot
+    be checked until the registry carries that field; as of 2026-08-03 it does not, so a
+    registry row could name a trigger that was never written and nothing would say so.
+    """
+    problems: list[str] = []
+    if not os.path.exists(REGISTRY):
+        print(f"trigger_scan --check: registry not found at {REGISTRY} — skipping cross-check")
+        return 0
+    with open(REGISTRY, encoding="utf-8") as fh:
+        reg = json.load(fh)
+    routes = {r["id"] for r in reg.get("routes", [])}
+    blockers = {b["id"] for b in reg.get("blockers", [])}
+
+    seen_ids: set[str] = set()
+    for t in cfg["triggers"]:
+        tid = t["id"]
+        if tid in seen_ids:
+            problems.append(f"{tid}: duplicate trigger id")
+        seen_ids.add(tid)
+        if not tid.startswith("TRG-"):
+            problems.append(f"{tid}: trigger ids must start with TRG-")
+        if t.get("status") not in ("watching", "landed", "superseded"):
+            problems.append(f"{tid}: status {t.get('status')!r} is not one of watching/landed/superseded")
+        if t.get("scan_enabled") and not (
+            (t.get("search") or {}).get("europepmc") or (t.get("search") or {}).get("arxiv")
+        ):
+            problems.append(f"{tid}: scan_enabled with no queries")
+        if not t.get("scan_enabled") and not t.get("not_searchable_because"):
+            problems.append(f"{tid}: scan disabled without not_searchable_because")
+        r = t.get("reopens") or {}
+        for x in r.get("registry_routes", []) or []:
+            if x not in routes:
+                problems.append(f"{tid}: route id {x} not in emc-systems-map.json")
+        for x in r.get("registry_blockers", []) or []:
+            if x not in blockers:
+                problems.append(f"{tid}: blocker id {x} not in emc-systems-map.json")
+
+    reverse = [
+        (r.get("id"), r["revival_trigger"])
+        for r in reg.get("routes", [])
+        if isinstance(r, dict) and r.get("revival_trigger")
+    ]
+    for rid, trg in reverse:
+        names = trg if isinstance(trg, list) else [trg]
+        for n in names:
+            if isinstance(n, str) and n.startswith("TRG-") and n not in seen_ids:
+                problems.append(f"registry route {rid}: revival_trigger {n} has no entry here")
+
+    for p in problems:
+        print(f"ERROR {p}")
+    print(
+        f"trigger_scan --check: {len(problems)} ERROR across {len(cfg['triggers'])} trigger(s); "
+        f"{len(reverse)} registry revival_trigger field(s) seen"
+        + ("" if reverse else " — reverse direction is UNCHECKED until the registry carries that field")
+    )
+    return 1 if problems else 0
+
+
 # ------------------------------------------------------------------------------------ main
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--check", action="store_true",
+                    help="validate the trigger file against emc-systems-map.json and exit")
     ap.add_argument("--seed", action="store_true",
                     help="fill the ledger from the full window and append nothing to IDEAS.md")
     ap.add_argument("--report-days", type=int, default=int(os.environ.get("TRIGGER_REPORT_DAYS", "21")),
@@ -382,6 +468,8 @@ def main() -> int:
 
     with open(TRIGGERS, encoding="utf-8") as fh:
         cfg = json.load(fh)
+    if args.check:
+        return check_registry(cfg)
     ledger = load_ledger()
     today = _dt.date.today()
     today_s = today.isoformat()
@@ -404,6 +492,7 @@ def main() -> int:
         search = t.get("search", {}) or {}
         window = int(search.get("window_days") or 120)
         must = search.get("must_match") or []
+        also = search.get("also_match") or []
         excl = search.get("exclude_match") or []
         results: list[dict] = []
 
@@ -428,7 +517,7 @@ def main() -> int:
         known = ledger["hits"].setdefault(t["id"], {})
         fresh: list[dict] = []
         for h in results:
-            if not h["title"] or not _matches(h["title"], must, excl):
+            if not h["title"] or not _matches(h["title"], must, also, excl):
                 continue
             age = _days_old(h["date"], today)
             if age is None or age > window or age < -3:
