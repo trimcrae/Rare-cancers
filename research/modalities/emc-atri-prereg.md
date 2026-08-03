@@ -1,9 +1,39 @@
 # Pre-registration — ATR-inhibitor sensitivity in extraskeletal myxoid chondrosarcoma
 
-**Written and committed BEFORE any cell is plated, and before we have approached anyone who could
-plate one.** A criterion written after the numbers arrive is not a criterion; that is the whole reason
-this document exists and the reason it is dated by its commit rather than by a line of prose. It is
-the artifact this program hands a collaborator, not a plan we keep to ourselves.
+> ## ⛔ SCOPE, BEFORE ANYTHING ELSE: THIS IS AN ASK, NOT A PLAN
+>
+> **This program has no wet lab, no institutional affiliation and no committed collaborator.**
+> It is one private individual working in-silico. **Nothing in this document is scheduled, funded,
+> resourced or going to happen** on any timeline this program controls.
+>
+> **What this document IS:** a **publish-to-convince artifact** — a protocol written out in full,
+> with its criteria, its controls and its adverse prior all fixed *in advance*, and offered to
+> whoever might one day run it. Its value is that **if anyone ever does run it, the result is
+> interpretable**, because the bar was set before the numbers existed rather than after. That is a
+> real contribution and it is the correct form for it. It is not a claim that we will execute it.
+>
+> **What this document is NOT:** a next step, a work plan, a commitment, or evidence that anything
+> has been or will be tested. **Every readout in §4 and every criterion in §5 requires a bench we
+> do not have.** Where the text below says "run", "plate" or "stain", read *"a lab that chose to
+> take this up would…"*.
+>
+> ⚠ **Superseded, retained (2026-08-03):** an earlier framing of this file, and of route 1 in the
+> options memo, described the panel as *"the cheapest wet-lab ask"* and read as though the
+> experiment were something this program would carry out. It never was. The cost of an experiment
+> we cannot run is not "cheap" — it is *unavailable*, and calling it cheap misrepresented the one
+> constraint that actually binds. The corrected reading: route 1's ask is **the least demanding of
+> the wet-lab-gated routes**, which is a statement about the *other* routes, not about our reach.
+>
+> **What this program CAN settle by itself** is a different and much narrower question — whether the
+> hypothesis is internally consistent in public data and whether it transfers to EMC. That is done,
+> it is $0, and it lives in
+> [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md) +
+> [`emc_atr_vulnerability.py`](./emc_atr_vulnerability.py). **It is not evidence that an ATR
+> inhibitor kills EMC cells and cannot become that evidence.**
+
+**Written and committed BEFORE any cell is plated, and before anyone who could plate one has been
+approached.** A criterion written after the numbers arrive is not a criterion; that is the whole
+reason this document exists and the reason it is dated by its commit rather than by a line of prose.
 
 **Route:** [`emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md) route 1.
 That memo is the design rationale and the ranking; it is not re-derived here and nothing here amends
@@ -22,9 +52,20 @@ comparator, by a margin that survived a general-chemosensitivity correction and 
 the negative-translation control"* — and **nothing else**. It does not license a dose, a schedule, a
 combination, a patient, or a trial.
 
-**This program has no wet lab.** Everything below is specified so that a group which *does* can run
-it without re-deriving anything, and so that whatever they get back is interpretable against criteria
-that were fixed in advance.
+**This program has no wet lab and no committed collaborator** (scope note above). Everything below is
+specified so that a group which *does* could run it without re-deriving anything, and so that
+whatever they got back would be interpretable against criteria that were fixed in advance. **Nobody
+has agreed to run it and nobody has been asked.**
+
+### 0b · What is executable by whom — so the reader never has to guess
+
+| item | who can do it | status |
+|---|---|---|
+| The public-data transfer test (is the hypothesis internally consistent; does it transfer to EMC) | **us, in-silico, $0** | ✅ done — [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md) |
+| The structural precondition from sequence | **us, in-silico, $0** | ✅ done — [`emc_fet_idr_census.py`](./emc_fet_idr_census.py) |
+| The GDSC / DepMap re-cuts | **us, in-silico, $0** | ✅ done — [`fet_ddr_axis_scan.py`](./fet_ddr_axis_scan.py) |
+| ⛔ Everything in §3–§6 below — cells, dose–response, γH2AX, PARPi arm, proliferation index | **a laboratory. NOT us.** | **HOPE, not plan.** No lab engaged, none approached |
+| ⛔ The optional ATM-pS1981 ± IR mechanism readout | **a laboratory. NOT us.** | **HOPE, not plan** |
 
 ---
 
@@ -139,7 +180,11 @@ registers a meaningful probability of it, and the route's ranking already accoun
 
 ---
 
-## 6 · What we will do with each outcome — also fixed now
+## 6 · What would be done with each outcome — also fixed now
+
+⚠ **Read this section as conditional throughout.** Nobody is running the experiment; these are the
+interpretations pre-committed to *so that they cannot be chosen after the fact* by whoever does.
+The only thing this program itself commits to is writing up whatever comes back honestly.
 
 - **HIT** → write it up with the class argument, the structural census and the GDSC caveat all
   included; propose the in-vivo and mechanism experiments; **do not** propose a trial.
@@ -161,6 +206,13 @@ registers a meaningful probability of it, and the route's ranking already accoun
 - **The structural precondition census is a SEQUENCE argument.** It cannot show that any NR4A3 fusion
   is recruited to double-strand breaks or suppresses ATM. Those are the measurements being asked for.
 - **The GDSC comparator is every non-FET line in GDSC2, not other sarcomas**, and its FET group is
-  dominated by Ewing. It says nothing about EMC directly — **no EMC line is in GDSC2.**
-- **We have not contacted any of the groups named in §3.** Doing so is an outward-facing act and is
-  gated on trimcrae per CLAUDE.md §3.
+  dominated by Ewing. It says nothing about EMC directly — **no EMC line is in GDSC2.** ⭑ The
+  matched-comparator version of that contrast is now computed and is in
+  [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md).
+- **We have not contacted any of the groups named in §3, and there is no plan to.** Doing so is an
+  outward-facing act and is gated on trimcrae per CLAUDE.md §3. Until then this file is a document,
+  not a project.
+- ⚠ **H-EMC-SS is named in §3 as a candidate EMC model and its fusion status is UNVERIFIED.** §3's
+  "Fusion status" row already requires per-model confirmation, and that requirement is now doing
+  real work rather than being boilerplate — see part A of
+  [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md).
