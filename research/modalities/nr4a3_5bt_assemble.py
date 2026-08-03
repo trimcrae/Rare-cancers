@@ -323,7 +323,12 @@ def matched_receptors(struct_dir=None):
     import nr4a3_basin_search as BS
     struct_dir = struct_dir or os.path.join(REPO, "results", "nr4a3-matrix")
     ref = BS.load_paralogue(os.path.join(struct_dir, "nr4a3-opened.pdb"))
-    out = {"NR4A3": {"model": ref, "R": ((1, 0, 0), (0, 1, 0), (0, 0, 1)), "t": (0.0, 0.0, 0.0),
+    # ⚠ `basin_geom.apply_superpose` takes `t` as the PAIR OF CENTROIDS `(cm, cr)`, not a translation
+    # vector — `x' = R @ (x - cm) + cr`. A `(0, 0, 0)` translation is therefore the wrong SHAPE, not a
+    # harmless identity, and it raised `ValueError: too many values to unpack` the first time the NR4A3 arm
+    # was actually built. The identity in this convention is R = I with cm = cr.
+    ORIGIN = (0.0, 0.0, 0.0)
+    out = {"NR4A3": {"model": ref, "R": ((1, 0, 0), (0, 1, 0), (0, 0, 1)), "t": (ORIGIN, ORIGIN),
                      "superposition": {"_note": "reference frame; identity transform"}}}
     for p in ("NR4A1", "NR4A2"):
         mob = BS.load_paralogue(os.path.join(struct_dir, "%s-opened.pdb" % p.lower()))

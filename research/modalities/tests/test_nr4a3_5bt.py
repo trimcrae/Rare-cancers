@@ -327,7 +327,11 @@ def _synthetic_deposit(tmp_path):
               pom.GetAtomWithIdx(i).GetSymbol()) for i in range(pom.GetNumAtoms())]
     dest = str(tmp_path / "SYNTH.pdb")
     A.write_pdb_atoms(rows, dest)
-    bonds = {(names[b.GetBeginAtomIdx()], names[b.GetEndAtomIdx()]) for b in pom.GetBonds()}
+    # ⛔ ORDERS, not just pairs — the CCD table is what supplies them and this fixture mirrors it.
+    _ORD = {Chem.BondType.SINGLE: 1, Chem.BondType.DOUBLE: 2, Chem.BondType.TRIPLE: 3}
+    kek = Chem.Mol(pom); Chem.Kekulize(kek, clearAromaticFlags=True)
+    bonds = {(names[b.GetBeginAtomIdx()], names[b.GetEndAtomIdx()]): _ORD[b.GetBondType()]
+             for b in kek.GetBonds()}
     return dest, bonds
 
 
@@ -335,7 +339,7 @@ def test_resolve_e3_binary_runs_end_to_end_offline(tmp_path, monkeypatch):
     import selcal_deepternary_run as RUN
     dep, bonds = _synthetic_deposit(tmp_path)
     monkeypatch.setattr(RUN, "_fetch_structure", lambda pid, wd: (dep, None))
-    monkeypatch.setattr(RUN, "ccd_bonds", lambda comp, wd: (bonds, None))
+    monkeypatch.setattr(A, "ccd_bond_orders", lambda comp, wd: (bonds, None))
 
     pl, _ = A.exemplar_placement()
     placed, _, err = A.placed_registry_arm(pl)
@@ -370,7 +374,7 @@ def test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty(tmp_path, mo
 
     dep, bonds = _synthetic_deposit(tmp_path)
     monkeypatch.setattr(RUN, "_fetch_structure", lambda pid, wd: (dep, None))
-    monkeypatch.setattr(RUN, "ccd_bonds", lambda comp, wd: (bonds, None))
+    monkeypatch.setattr(A, "ccd_bond_orders", lambda comp, wd: (bonds, None))
 
     c, _ = A.recorded_degrader()
     deg, roles, _ = A.degrader_mol(c)
