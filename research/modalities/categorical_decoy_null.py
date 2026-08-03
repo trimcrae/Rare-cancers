@@ -1613,6 +1613,48 @@ def cysteine_level_background(decoys, refs):
     return bg, nr4a3
 
 
+def configuration_declaration():
+    """★ §3b's DECLARATION RULE, discharged BY THE ARTIFACT rather than by a page that quotes it.
+
+    The roadmap's rule is that a number whose value depends on a frozen choice must NAME that choice where
+    the number is written. Every figure in this file depends on several, so they are declared once here, at
+    the top of the artifact, with their status — and two of them are NOT merely frozen, which is the part a
+    reader must not miss."""
+    scope_id = SCOPES[SCOPE]["configuration_id"]
+    items = {
+        scope_id: {"what_it_fixes": f"THIS RUN'S SCOPE — {SCOPES[SCOPE]['label']}",
+                   "status": "frozen (registered by this run's own pre-registration, before its numbers)",
+                   "home": "categorical_decoy_null.PREREG" + ("_LBD" if SCOPE == "lbd" else "")},
+        "C8": {"what_it_fixes": "the linker-reach design gate = 12 backbone atoms — the gate every headline "
+                                "figure here is read at",
+               "status": "frozen", "home": "nr4a3-handle-ensemble.json -> linker_gate_atoms"},
+        "C9": {"what_it_fixes": "the reach convention (through-space vs corridor), reported side by side "
+                                "and never merged",
+               "status": "⚠ CONTESTED — two frozen conventions that disagree on live conclusions",
+               "home": "nr4a3_linker_covalent_reach.py"},
+        "C7": {"what_it_fixes": f"EXPOSED_RSA = {EXPOSED_RSA}, the exposure cutoff behind every "
+                                "`_EXPOSED` column in this artifact",
+               "status": "⛔ KNOWN-DEFECTIVE — it fails its own positive control (NR4A1 C551 at RSA 0.165, "
+                         "0 of 25 frames), which is WHY the reach-only column is the load-bearing one here "
+                         "and why no verdict in this file rests on the exposure-filtered column",
+               "home": "nr4a_paralogue_dynamics.EXPOSED_RSA; instrument row V17"},
+    }
+    other = next((v for k, v in SCOPES.items() if k != SCOPE), None)
+    if other:
+        items[other["configuration_id"]] = {
+            "what_it_fixes": f"the OTHER scope's domain trim — {other['label']}",
+            "status": "⚠ CONTESTED (its own row) — ⛔ NOT USED by this run and NOT CHANGED by it",
+            "home": "categorical_decoy_null.MIN_PLDDT / MIN_DOMAIN_LEN"}
+    return {
+        "_rule": "roadmap §3b: a number whose value depends on a frozen definitional choice must NAME that "
+                 "choice, inline, where the number is written. Declared here so every figure below "
+                 "inherits it and no reader has to reconstruct it from source.",
+        "items": items,
+        "⛔_none_of_these_is_altered_by_this_run": "they are cited, not edited. Changing any of them is "
+                                                  "trimcrae's decision, per §3b.",
+    }
+
+
 def placement_budget_saturation(rows):
     """⛔ DID THE PLACEMENT SETS ACTUALLY REACH THEIR PRE-REGISTERED SIZE? PURE.
 
@@ -1860,6 +1902,7 @@ def mode_reduce(args):
                               "which scope produced it.",
         },
         "_generated": _stamp(),
+        "_configuration": configuration_declaration(),
         "preregistration": plan.get("preregistration", active_prereg()),
         "lbd_reference": plan.get("lbd_reference"),
         "pair_plan": {k: plan.get(k) for k in ("nr4a3_reference_identities",
