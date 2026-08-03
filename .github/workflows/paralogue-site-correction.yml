@@ -1,0 +1,109 @@
+name: SITE — correct the paralogue docking box from crystallography ($0, CPU)
+
+# ★★ WHY THIS EXISTS. `apo-pose-regime-dock.json` (CI run 30846497928) measured the pipeline's two
+# site-selection routes against 11 deposited crystallographic answers on NR4A1/NR4A2 and found:
+#
+#     box drawn by                blind-from-apo dock, MINUS this protocol's own best on the SAME pair
+#     the receptor's own cavity   median  +0.39 A   — beats the holo oracle outright on 3 of 11
+#     the Pocket-5 transfer       median +16.05 A   — worse on 11 of 11
+#
+# The Pocket-5 transfer (`nr4a3_warhead.map_pocket_to_paralogue`) is the step that places every
+# ANTI-TARGET box in the program. NR4A3's own box is NOT built that way. So every selectivity margin the
+# program holds is a comparison whose paralogue arms were drawn by the failing route and whose target arm
+# was not — which is a comparison between a real pocket and two misplaced ones.
+#
+# This job builds the correction from the one source that does not need inferring: NR4A1 and NR4A2 have
+# DEPOSITED HOLO STRUCTURES, so where ligands bind on them is already answered. Each deposited ligand is
+# CE-superposed into the frame of the AF2 model the pipeline actually docks into, and the consensus of
+# those positions is the corrected site.
+#
+# ⛔ IT RE-SCORES NOTHING. No ddG moves, no leg re-runs, no verdict changes. It emits a corrected site and
+# a measured displacement; adopting them is a separate, explicit step per artifact.
+#
+# ⛔ $0 BY CONSTRUCTION: free GitHub CPU runner. Network is RCSB + the AlphaFold API, both read-only.
+# No GPU, no SageMaker, no Vast rental, no S3, nothing billed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: "commit the artifact back to the triggering branch"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: paralogue-site-correction-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  correct:
+    runs-on: ubuntu-latest
+    # 14 deposited entries, each a fetch plus one CE superposition. Free CPU, so wall clock is not a cost;
+    # the module refuses per entry rather than dying, so a slow or missing deposit costs that entry only.
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # biopython supplies BOTH halves that matter here: `Bio.PDB.cealign` for the structure-based
+      # transfer, and `Bio.Align` for `map_pocket_to_paralogue`, which must be the pipeline's real
+      # function rather than a reimplementation. rdkit is NOT needed — nothing here touches a ligand
+      # topology, only HETATM coordinates.
+      - name: Install the python stack
+        run: |
+          python -m pip install --quiet --upgrade pip
+          pip install --quiet biopython numpy
+
+      - name: Tool census (a missing import must be a named refusal, not a mystery)
+        run: |
+          python -c "import Bio, numpy; print('biopython', Bio.__version__, 'numpy', numpy.__version__)"
+          python -c "from Bio.PDB.cealign import CEAligner; print('cealign OK')"
+
+      - name: Correct the paralogue site
+        run: |
+          cd research/modalities
+          PARA_SITE_WORK="$RUNNER_TEMP/para_site" python -u paralogue_site_correction.py
+
+      - name: Show the result
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          f = "research/modalities/paralogue-site-correction.json"
+          if not os.path.exists(f):
+              print("== not produced"); raise SystemExit(0)
+          d = json.load(open(f))
+          print("=== summary"); print(json.dumps(d.get("summary"), indent=1))
+          if d.get("refusals"):
+              print("=== top-level refusals"); print(json.dumps(d["refusals"], indent=1)[:2000])
+          for acc, row in (d.get("paralogues") or {}).items():
+              print("\n=== %s  %s" % (acc, row.get("protein")))
+              print("  pipeline transferred box :", json.dumps(row.get("pipeline_transferred_box")))
+              print("  corrected site           :", json.dumps((row.get("corrected_site") or {}).get("center")))
+              print("  displacement             :", json.dumps(row.get("displacement")))
+              print("  usable %s of %s deposited ligand(s)" % (row.get("n_usable"), row.get("n_entries")))
+              for e in (row.get("entries") or []):
+                  print("     %-5s %-5s %-9s %s" % (
+                      e.get("holo"), e.get("ligand"),
+                      "covalent" if e.get("covalent") else "",
+                      e.get("refused") or e.get("ligand_centroid_af2_frame")))
+              for r in (row.get("refusals") or []):
+                  print("     REFUSED", r)
+          PY
+
+      - name: Publish the artifact
+        if: always() && inputs.commit
+        env:
+          # An event publish: this records a measurement, not a heartbeat. `--allow-empty` here would
+          # write a commit asserting the correction ran on a run where nothing was measured.
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          set -eo pipefail
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "paralogue site correction from deposited crystallography (CI run ${{ github.run_id }}, \$0)" \
+            research/modalities/paralogue-site-correction.json
