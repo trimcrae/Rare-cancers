@@ -864,6 +864,87 @@ MAP_10_1_ROW_26 = (
 # ---------------------------------------------------------------------------------------------------
 # Roadmap edits -- routed, never applied. This module does not own nr4a3-program-map.md.
 # ---------------------------------------------------------------------------------------------------
+
+def headline_findings(doc):
+    """The three or four things a reader must not have to dig for. Derived, never typed."""
+    sg = (doc.get("mgi") or {}).get("single_gene") or {}
+    multi = (doc.get("mgi") or {}).get("multi_gene_genotypes") or []
+    ov = (doc.get("hpa") or {}).get("overlap") or {}
+    out = []
+
+    def _terms(g):
+        return (sg.get(g) or {}).get("survival_or_viability_terms") or []
+
+    n2 = _terms("Nr4a2")
+    if n2:
+        out.append({
+            "finding": ("the repo's flagged-UNCONFIRMED \"Nurr1 single-KO is neonatal-lethal\" "
+                        "RESOLVES TO A CITATION"),
+            "evidence": [{"term": t["term"], "mp_id": t["mp_id"], "pubmed_ids": t["pubmed_ids"]}
+                         for t in n2],
+            "what_it_changes": ("nr4a3-emc-biology-evidence.md may retire the UNCONFIRMED flag and "
+                                "roadmap §2.4 may stop calling the NR4A2 half unbounded in that "
+                                "direction"),
+            "what_it_does_not_change": ("a germline KO bounds developmental loss, not adult "
+                                        "transient degradation -- see "
+                                        "caveat_that_must_travel_with_any_result"),
+        })
+    else:
+        out.append({
+            "finding": ("the repo's flagged-UNCONFIRMED \"Nurr1 single-KO is neonatal-lethal\" did "
+                        "NOT resolve to a citation in MGI"),
+            "evidence": [], "what_it_changes": "the claim must not be repeated as fact",
+            "what_it_does_not_change": "an absent record is not evidence the knockout is healthy",
+        })
+
+    n3 = _terms("Nr4a3")
+    if n3:
+        out.append({
+            "finding": ("⚠ THE TARGET'S OWN SINGLE KNOCKOUT CARRIES LETHALITY TERMS TOO -- this is "
+                        "about NR4A3, not the anti-targets, and the program had no standardized "
+                        "in-vivo source for it"),
+            "evidence": [{"term": t["term"], "mp_id": t["mp_id"], "pubmed_ids": t["pubmed_ids"]}
+                         for t in n3],
+            "what_it_changes": ("it is concordant with the gnomAD reading already on record "
+                                "(NR4A3 LoF-constrained, pLI 0.9999) and gives the "
+                                "'developmental / tissue-specific rather than proliferative' "
+                                "interpretation a mouse phenotype instead of an inference"),
+            "what_it_does_not_change": ("the same developmental-vs-adult limit applies, and it "
+                                        "says nothing about degrading NR4A3 in an adult. It is NOT "
+                                        "a safety result."),
+        })
+
+    dko = [r for r in multi if r.get("involves_only_nr4a") and r.get("survival_or_viability_terms")]
+    if dko:
+        out.append({
+            "finding": ("the NR4A double-knockout genotypes the design brief is built around are "
+                        "independently recoverable from MGI, with their lethality terms"),
+            "evidence": [{"genotype": r["genotype_genes"], "n_annotations": r["n_annotations"],
+                          "survival_terms": r["survival_or_viability_terms"],
+                          "pubmed_ids": r["pubmed_ids"]} for r in dko],
+            "what_it_changes": ("roadmap §2.4's NR4A1 half is corroborated by a second, "
+                                "standardized source rather than by the two PMIDs alone"),
+            "what_it_does_not_change": "nothing about the NR4A1 constraint, which was already hard",
+        })
+
+    if ov.get("n_tissues_with_all_three_measured"):
+        c = ov.get("counts") or {}
+        out.append({
+            "finding": ("tissue overlap is now a measured quantity, and it points the OPPOSITE way "
+                        "from the assumption the brief carried"),
+            "evidence": {"n_tissues": ov["n_tissues_with_all_three_measured"], "counts": c,
+                         "highest_nr4a2_tissue": ov.get("highest_nr4a2_tissue"),
+                         "source": (doc.get("hpa") or {}).get("source")},
+            "what_it_changes": ("NR4A2 and NR4A3 co-express in %s of %s tissues, so tissue "
+                                "distribution cannot separate target from anti-target and the "
+                                "selectivity has to be molecular"
+                                % (c.get("nr4a2_and_nr4a3_co_expressed"),
+                                   ov["n_tissues_with_all_three_measured"])),
+            "what_it_does_not_change": ov.get("_the_specific_misreading_to_avoid"),
+        })
+    return out
+
+
 def map_edits_required(doc):
     """Verbatim, ready-to-apply edits the roadmap needs, as a machine-readable list.
 
@@ -943,6 +1024,54 @@ def map_edits_required(doc):
             "artifact": "research/modalities/nr4a2-sparing-bound.json:hpa.overlap",
         })
 
+    n3 = (mgi.get("single_gene") or {}).get("Nr4a3") or {}
+    n3_leth = n3.get("survival_or_viability_terms") or []
+    if n3_leth:
+        edits.append({
+            "section": "2.4 (a NEW row or footnote — this is about the TARGET, not an anti-target)",
+            "anchor": None,
+            "where": ("§2.4's table has a row per ANTI-TARGET and no place for a fact about NR4A3 "
+                      "itself. This finding belongs either as a third row or as a footnote under "
+                      "the table; the map's owner should choose, because adding a target row "
+                      "changes what the table is."),
+            "current_text": None,
+            "proposed_text": (
+                "⚠ **And the asymmetry is not the whole picture: the TARGET's own single knockout "
+                "is lethal too.** MGI records %d single-gene *Nr4a3* annotations including %s "
+                "(PMID %s). This is concordant with the gnomAD reading already on record (NR4A3 "
+                "LoF-constrained, pLI 0.9999) and gives the *\"developmental / tissue-specific "
+                "rather than proliferative\"* interpretation a mouse phenotype instead of an "
+                "inference. ⛔ It is **not** a safety result: a germline knockout bounds "
+                "developmental loss, and a degrader is adult, transient and incomplete. One home: "
+                "[`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) → "
+                "`headline_findings`."
+                % (n3.get("n_single_gene_annotations", 0),
+                   "; ".join('*"%s"*' % t["term"] for t in n3_leth[:2]),
+                   ", ".join(sorted({p for t in n3_leth for p in (t.get("pubmed_ids") or [])})[:3])
+                   or "—")),
+            "why": ("row 26 was scoped to the NR4A2 half and the same $0 read returned a "
+                    "decision-relevant fact about NR4A3 that the program had no standardized "
+                    "in-vivo source for"),
+            "artifact": "research/modalities/nr4a2-sparing-bound.json:mgi.single_gene.Nr4a3",
+        })
+
+    dko = [r for r in (mgi.get("multi_gene_genotypes") or [])
+           if r.get("involves_only_nr4a") and r.get("survival_or_viability_terms")]
+    if dko:
+        edits.append({
+            "section": "2.4 (the NR4A1 row — corroboration, not a change)",
+            "anchor": "a **named anti-target genotype**",
+            "current_text": "a **named anti-target genotype**",
+            "proposed_text": ("a **named anti-target genotype** (independently recoverable from "
+                              "MGI: %s)"
+                              % "; ".join("`%s` → %s" % (r["genotype_genes"],
+                                                         ", ".join(r["survival_or_viability_terms"][:2]))
+                                          for r in dko[:2])),
+            "why": ("the hard half of the requirement now rests on a second standardized source as "
+                    "well as the two PMIDs"),
+            "artifact": "research/modalities/nr4a2-sparing-bound.json:mgi.multi_gene_genotypes",
+        })
+
     edits.append({
         "section": "10.1 row 26",
         "anchor": "the *only* thing that would bound the unbounded half of the requirement",
@@ -1008,6 +1137,7 @@ def run(out_path=OUT, offline=False, mgi_texts=None, hpa_text=None):
         }
 
     doc["verdict"] = verdict(doc["mgi"], doc["hpa"])
+    doc["headline_findings"] = headline_findings(doc)
     doc["map_edits_required"] = map_edits_required(doc)
 
     if out_path:
