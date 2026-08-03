@@ -1212,6 +1212,21 @@ def build_map_edits(res):
                      "(../modalities/categorical_decoy_null.py) `PREREG` |"))),
     ]
 
+    scope = (res.get("results") or {}).get("\u26d4_nr4a3_harness_scope") or {}
+    outside = scope.get("\u26d4_outside_and_therefore_INVISIBLE_to_this_harness") or []
+    if outside:
+        entries.append(ME.edit(
+            text, "\u00a73.4 instrument facts",
+            "### 3.4 · Three instrument facts this page used to be missing",
+            "\u26a0 THE CAVEAT THAT MUST TRAVEL WITH THE PERCENTILE. The pre-registered pLDDT trim leaves "
+            f"{outside} outside the NR4A3 window, so the harness-matched row does NOT interrogate the "
+            "program's headline C397. A roadmap that quotes the percentile without this reads as if the "
+            "committed claim had been calibrated, and it has not been \u2014 the percentile calibrates the "
+            "SCREEN under one identical rule.",
+            art + " -> results.\u26d4_nr4a3_harness_scope",
+            ME.replace_in_line("Three instrument facts", "Four instrument facts"),
+            kind="same-anchor-as-the-fourth-fact-entry; apply once, carrying BOTH notes"))
+
     if verdict == "NOT DISTINGUISHED":
         entries.append(ME.edit(
             text, "§8 Route B", "### Route B — a linker-borne covalent handle at an NR4A3-unique cysteine",
