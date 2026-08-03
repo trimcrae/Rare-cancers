@@ -549,17 +549,56 @@ def test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty(tmp_path, mo
 def test_map_edits_are_emitted_and_point_at_the_artifact_rather_than_restating_it():
     """⛔ Rule 1: the map LINKS, it does not carry a second copy of the verdict's numbers. And every anchor
     is checked against the LIVE map by `verify_map_edits.py` — nine verbatim edits died on stale anchors in
-    one day while four agents edited that file."""
+    one day while four agents edited that file.
+
+    ⚠ CORRECTED 2026-08-03, THE SAME DAY AND FOR THE SAME REASON AS
+    `test_linker_library_canonical.test_every_emitted_map_edit_anchor_is_present_in_the_live_roadmap`, whose
+    docstring is the long form of this note. As written this asserted `map_text.count(current_text) == 1`,
+    which went RED at the exact moment the rung's edits were ROUTED INTO THE MAP — because applying an edit
+    is what removes its `current_text`. It failed within the hour, on the three edits this very artifact
+    emitted, all three correctly applied by `route_map_edits.py --apply`. **The guard's only stable green
+    state was "nobody applied anything", so the behaviour it rewarded was not routing edits at all** —
+    which is the failure the router exists to end.
+
+    The shared discriminator costs one extra substring search:
+        current_text PRESENT once                    => OK       (routed, not yet applied)
+        current_text absent + proposed_text PRESENT  => APPLIED  (a success, not an error)
+        current_text absent + proposed_text ABSENT   => NOT_FOUND (the document really did move)
+    Nothing is loosened: AMBIGUOUS is still a failure, a genuinely relocated anchor is still a failure, and
+    an edit whose `proposed_text` is null (the DERIVED-COUNT contract) still cannot reach APPLIED — which is
+    why the anchor check below stays exact for those.
+
+    ⚠ AND THE PROBE MUST COME FROM THE COMMITTED ARTIFACT, NOT FROM A SYNTHETIC VERDICT. This function
+    generates edits for a made-up `INDETERMINATE` verdict, whose `proposed_text` embeds that verdict — so
+    probing the live map with it can only ever say NOT_FOUND once the REAL verdict's edit has landed. The
+    schema/shape half below still uses the synthetic edits (it is verdict-independent); the anchor-liveness
+    half reads `nr4a3-5bt-gate.json`, which is the only place the applied text can be checked against.
+    """
     import verify_map_edits as VME
+    import map_edit_anchors as mea
     edits = GT.map_edits({"verdict": "INDETERMINATE"})
     assert edits
     map_text = open(VME.DEFAULT_MAP).read()
     for e in edits:
         for f in VME.REQUIRED_FIELDS:
             assert f in e, f
-        assert map_text.count(e["anchor"]) == 1, "dead or ambiguous anchor: %r" % e["anchor"]
-        assert map_text.count(e["current_text"]) == 1, "dead current_text: %r" % e["current_text"]
+        # ⚠ `<= 1`, NOT `== 1`. AMBIGUITY IS ALWAYS A FAILURE; ABSENCE IS NOT, because one of these anchors
+        # IS its own current_text (the ORDERED PLAN checkbox `[ ]` → `[x]`), so applying the edit is what
+        # removes the anchor. Liveness is checked below, on the committed artifact, with the discriminator
+        # that can tell APPLIED from NOT_FOUND.
+        assert map_text.count(e["anchor"]) <= 1, "ambiguous anchor: %r" % e["anchor"]
         assert e["artifact"].startswith("nr4a3-5bt-")
+
+    gate_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                             "nr4a3-5bt-gate.json")
+    if os.path.exists(gate_path):
+        committed = json.load(open(gate_path)).get("map_edits_required") or []
+        got, _summary = mea.verify(committed, VME.DEFAULT_MAP)
+        for e, g in zip(committed, got):
+            assert g["anchor_status"] in ("OK", "APPLIED"), (
+                "committed map edit %r is %s — its current_text is not in the live roadmap and its "
+                "proposed_text is not there either, so it applies to nothing and reads as done: %r"
+                % (e.get("section"), g["anchor_status"], e.get("current_text")))
         # ⛔ `proposed_text: null` IS THE DERIVED-COUNT CONTRACT, NOT AN EMPTY EDIT (rule 1.1; the shape
         # `route_map_edits.py` reports as DEFERRED). It has to carry the `flag` that says WHY, or a reader
         # cannot tell a deliberate deferral from a half-written entry.
