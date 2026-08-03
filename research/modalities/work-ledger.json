@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-08-03T14:01:40Z",
-  "_generated_et": "10:01 AM ET Aug 3, 2026",
+  "_generated_utc": "2026-08-03T14:02:11Z",
+  "_generated_et": "10:02 AM ET Aug 3, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-08-03T14:49:40Z",
-  "_stale_after_et": "10:49 AM ET Aug 3, 2026",
+  "_stale_after_utc": "2026-08-03T14:50:11Z",
+  "_stale_after_et": "10:50 AM ET Aug 3, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -2157,7 +2157,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 10118 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 10119 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2514,16 +2514,16 @@
     {
       "id": "lane:step1-fanout",
       "scanner": "lanes",
-      "what": "Step 1 congeneric RBFE fan-out (Vast) \u2014 IDLE-WITHIN-GRACE",
+      "what": "Step 1 congeneric RBFE fan-out (Vast) \u2014 UNKNOWN",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "dispatched",
-      "evidence_fingerprint": "IDLE-WITHIN-GRACE|0a6f4dfd6d350671|step1-fanout-progress.json `_generated_utc`",
-      "last_evidence_utc": "2026-08-01T19:31:04Z",
-      "last_evidence_et": "3:31 PM ET Aug 1, 2026",
+      "state": "unreadable",
+      "evidence_fingerprint": "UNKNOWN|0a6f4dfd6d350671|step1-fanout-progress.json `_generated_utc`",
+      "last_evidence_utc": "2026-08-03T14:00:09Z",
+      "last_evidence_et": "10:00 AM ET Aug 3, 2026",
       "last_evidence_what": "step1-fanout-progress.json `_generated_utc`",
-      "next_evidence_due_utc": "2026-08-01T20:16:04Z",
-      "next_evidence_due_et": "4:16 PM ET Aug 1, 2026",
+      "next_evidence_due_utc": "2026-08-03T14:45:09Z",
+      "next_evidence_due_et": "10:45 AM ET Aug 3, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -2584,16 +2584,18 @@
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "already dispatched and still inside the acknowledgement window",
+      "auto_action_why_none": "this item's state could not be read, and dispatching on an unread state is how an unmeasured value becomes a purchase",
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
       "blocked_cause": null,
       "board_group": "step1-fanout",
       "first_seen_utc": "2026-07-28T00:25:47Z",
-      "unreadable": null,
+      "unreadable": {
+        "lane_state": "this lane has unfinished work and its host count could not be read (the tick recorded `_vast_unreadable`: RuntimeError: vast API GET /instances/ -> 410: {\"success\":false,\"error\":\"deprecated_endpoint\",\"msg\":\"/api/v0/instances/ is deprecated. Use /api/v1/instances/ instead.\"} \u2014 live_instances is not a"
+      },
       "notes": [
-        "no hosts and 1 unit(s) unfinished, but the last evidence is only 10 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
+        "this lane has unfinished work and its host count could not be read (the tick recorded `_vast_unreadable`: RuntimeError: vast API GET /instances/ -> 410: {\"success\":false,\"error\":\"deprecated_endpoint\",\"msg\":\"/api/v0/instances/ is deprecated. Use /api/v1/instances/ instead.\"} \u2014 live_instances is not a measurement this tick), so 'billing but not advancing' and 'idle' cannot be separated. Not graded O"
       ]
     },
     {
@@ -3076,7 +3078,7 @@
     "blocked": 20,
     "open": 14,
     "done": 25,
-    "dispatched": 1
+    "unreadable": 1
   },
   "blocked": [
     "plan:validation-b-mini-all-binding-graded-cooperativity-edge-8-8-3-2-22-cum",
@@ -3136,17 +3138,17 @@
     "rung:genmatched_null_generative_arm"
   ],
   "_self": {
-    "now_et": "10:01 AM ET Aug 3, 2026",
-    "generated_et": "10:01 AM ET Aug 3, 2026",
-    "stale_after_et": "10:49 AM ET Aug 3, 2026",
+    "now_et": "10:02 AM ET Aug 3, 2026",
+    "generated_et": "10:02 AM ET Aug 3, 2026",
+    "stale_after_et": "10:50 AM ET Aug 3, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 10:49 AM ET Aug 3, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 10:50 AM ET Aug 3, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (9:52 AM ET Aug 3, 2026) refreshed the artifact to 10:01 AM ET Aug 3, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (9:59 AM ET Aug 3, 2026) refreshed the artifact to 10:02 AM ET Aug 3, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
