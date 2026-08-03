@@ -1,0 +1,3897 @@
+{
+  "_schema": "emc-systems-map/1",
+  "_title": "The EMC systems map — a machine-checkable registry of routes, objects, evidence, instruments, artifacts and claims",
+  "_role": "NAVIGATION AND INTEGRITY LAYER. It records WHERE each fact lives and checks that the pointer resolves. It grades nothing, re-derives nothing and restates no figure that has a home elsewhere (CLAUDE.md §1 — one fact, one place).",
+  "_owner": "research/manuscripts/emc-systems-map.json is the ONE HOME of this registry. research/manuscripts/emc-systems-map.md is DERIVED from it and is regenerated, never hand-edited.",
+  "_checker": "research/manuscripts/emc_systems_map_check.py --check (pure stdlib, wired into .github/workflows/tests.yml)",
+  "_generated_view": "research/manuscripts/emc-systems-map.md",
+  "_cost": "$0 — no GPU, no rental, no purchase, no contact, no wet lab.",
+  "_why_it_exists": [
+    "One piece of evidence carried under two names. ⛔ SUPERSEDED ATTRIBUTION, RETAINED so it stays quotable and searchable: five repo files cited the NOR-1 druggability result under a wrong author name (a misattribution), always without a PMID, for the paper other places cite correctly as Zaienne et al., ChemMedChem 2022, PMID 35704774. A route was graded while its own supporting evidence sat in another file, unfindable under a name that matches no paper. ✅ The misattribution was measured, corrected and retired on 2026-08-03 — one home in `research/modalities/nr4a3-druggability-reconciliation.md` §5b, pinned by `research/modalities/tests/test_munck_attribution_retired.py`. THIS REGISTRY'S JOB IS THE STRUCTURAL HALF: every name a source travels under resolves to ONE evidence item, so the class of error cannot recur under a new name.",
+    "One object carried under two incompatible definitions: 'the canonical EMC fusion' names a modelled EWSR1 e7 :: NR4A3 e3 construct that is NOT a reported fusion type, and the reported type 2 protein carries 59 extra UTR-encoded residues that fusion_cofold.py's protein-level model does not have.",
+    "One grade applied to two different routes: the covalent probe at C397 and a monovalent reversible pocket modulator fail on OPPOSITE blockers and must never share a row or a demotion.",
+    "A number quoted from an artifact that is a STUB on the branch a reader would open: emc-fet-idr-census.json is a 161-byte 'cannot compute' placeholder on `main` while emc-post-degrader-options.md on `main` prints a full results table out of it."
+  ],
+  "_limits": [
+    "This registry asserts NO grade, NO tier and NO number of its own. Every grade cell names the file that owns it; every claim names the artifact field that owns it.",
+    "It makes no efficacy, potency, safety, therapeutic-window or clinical-readiness claim for any route or molecule, and none follows from anything in it.",
+    "It is not complete over the whole repo. Its scope is the EMC treatment-route portfolio plus the objects, evidence, instruments and artifacts those routes rest on.",
+    "Where the record genuinely conflicts and the registry cannot resolve it from what is committed, the conflict is logged in `open_conflicts` rather than decided."
+  ],
+  "blockers": [
+    {
+      "id": "BLK-TERNARY-GEOMETRY",
+      "name": "Ternary geometry — assembly, E3, exit vector, ubiquitin transfer",
+      "statement_about": "the DEGRADER ARCHITECTURE, not the target",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#-where-we-are--the-scoreboard-in-plain-language"
+      }
+    },
+    {
+      "id": "BLK-PARALOGUE-DDG",
+      "name": "The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)",
+      "statement_about": "a free-energy difference between two similar pockets, which this program has failed to measure four separate ways",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged"
+      }
+    },
+    {
+      "id": "BLK-ENDPOINT-MD",
+      "name": "Endpoint-MD selectivity readout (E1) returns null",
+      "statement_about": "an endpoint-MD instrument, not the target",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#-gate-failed--the-smarca24-sensitivity-control-returns-null-on-an-adequately-powered-design-2026-08-02-1042-pm-et"
+      }
+    },
+    {
+      "id": "BLK-PARALOGUE-CONTROL",
+      "name": "The paralogue-discrimination positive control (NR-V04) is discordant",
+      "statement_about": "a positive control for paralogue discrimination",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#-where-we-are--the-scoreboard-in-plain-language"
+      }
+    },
+    {
+      "id": "BLK-REACH-CATEGORICAL",
+      "name": "The categorical (covalent) window at C397 does not survive the E3-arm-free reach enumeration on the conservative convention",
+      "statement_about": "geometry at one opened target frame — it can refute a route, it cannot license one",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+        "anchor": "#3--the-0-test-built-run-and-it-came-back-against-the-route"
+      }
+    },
+    {
+      "id": "BLK-FUNCTIONAL-ACTIONABILITY",
+      "name": "Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent activator?",
+      "statement_about": "a functional cell assay nobody has run; not covered by the delegated dTAG test",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+        "anchor": "#2--the-crux-is-the-pocket-functionally-actionable--and-is-it-actionable-in-the-fusion"
+      }
+    },
+    {
+      "id": "BLK-R4-BINDS",
+      "name": "R4 — nothing is known to bind the cryptic pocket at all",
+      "statement_about": "an unanswered requirement that needs a bench",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#32--the-rv-coverage-matrix--where-the-holes-are"
+      }
+    },
+    {
+      "id": "BLK-DELIVERY",
+      "name": "Tumour delivery of an oligonucleotide or a vector",
+      "statement_about": "engineering, not biology; not in-silico-solvable today",
+      "owner": {
+        "file": "research/manuscripts/fusion-junction-aso-paper.md",
+        "anchor": null
+      }
+    },
+    {
+      "id": "BLK-NO-WET-LAB",
+      "name": "No wet lab and no collaborator — an ask needs a self-interested taker before its size matters",
+      "statement_about": "the operating regime, not any route's science",
+      "owner": {
+        "file": "research/manuscripts/what-a-civilian-can-buy.md",
+        "anchor": null
+      }
+    },
+    {
+      "id": "BLK-ANTIGEN-COLD",
+      "name": "EMC is antigen-cold, and the fusion junction is a weak peptide-HLA",
+      "statement_about": "the tumour's immunogenicity, shared by every antigen-directed route",
+      "owner": {
+        "file": "research/manuscripts/immunotherapy-options-emc.md",
+        "anchor": null
+      }
+    },
+    {
+      "id": "BLK-NO-EMC-DATA",
+      "name": "EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)",
+      "statement_about": "data availability — the repo-wide rate-limiter, not any one route",
+      "owner": {
+        "file": "research/IDEAS.md",
+        "anchor": null
+      }
+    },
+    {
+      "id": "BLK-NOT-FUSION-SELECTIVE",
+      "name": "The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)",
+      "statement_about": "what the molecule can and cannot tell apart",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it"
+      }
+    },
+    {
+      "id": "BLK-CLASS-INHERITANCE",
+      "name": "Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenotype",
+      "statement_about": "the strength of a transfer argument",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#route-1--atr-inhibitor-synthetic-lethality-emc-inherits-a-class-vulnerability-it-has-never-been-tested-for"
+      }
+    },
+    {
+      "id": "BLK-VECTOR-DELIVERY",
+      "name": "Vector delivery (gene-therapy payload into a solid tumour)",
+      "statement_about": "engineering, distinct from oligonucleotide delivery",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3"
+      }
+    },
+    {
+      "id": "BLK-INDUCED-COMPLEX",
+      "name": "An induced ternary/bivalent complex is still required (a second protein must be placed)",
+      "statement_about": "the same generation problem as the degrader, with a different second terminus",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+        "anchor": "#1--the-route-stated-precisely--and-the-split-that-decides-it"
+      }
+    },
+    {
+      "id": "BLK-UNSIZED-REQUIREMENT",
+      "name": "Nobody has stated how much selectivity the route would need, so 'the requirement is smaller' is not a claim this repo can make",
+      "statement_about": "an absent specification, not a measured shortfall",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+        "anchor": "#4--effect-on-the-paralogue-requirement--reshapes-into-a-requirement-of-unquantified-size"
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EV-ZAIENNE-2022",
+      "canonical": {
+        "pmid": "35704774",
+        "pmcid": "PMC9542104",
+        "doi": "10.1002/cmdc.202200259"
+      },
+      "citation": "Zaienne D, Arifi S, Marschner JA, Heering J, et al. Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse NOR-1 Agonists. ChemMedChem 2022;17(16):e202200259.",
+      "what_it_supports": "LBD-borne functional modulation of NOR-1/NR4A3; the Gal4-NOR-1-LBD reporter construct (which is itself AF-1-less); the absent paralogue counter-screen; the inverse-agonist warhead series the congeneric RBFE lane is anchored to; NOR-1 output scaling with expression level.",
+      "aliases": [
+        "Zaienne 2022",
+        "Zaienne et al. ChemMedChem 2022",
+        "Zaienne, ChemMedChem 2022",
+        "Zaienne D, Arifi S, Marschner JA, Heering J, Merk D",
+        "Zaienne-19",
+        "Zaienne-2022"
+      ],
+      "misattributed_as": [
+        "Munck 2022"
+      ],
+      "misattribution_note": "⛔ SUPERSEDED ATTRIBUTION, RETAINED (CLAUDE.md §1.2). The retired name matches no paper: measured in CI on 2026-08-03 against Europe PMC and PubMed (0 hits for any author of that name on NR4A3/NOR-1; the title resolves uniquely to PMID 35704774). It is registered here so BOTH names resolve to one evidence item. The correction itself has exactly one home — nr4a3-druggability-reconciliation.md §5b — and its repo-wide enforcement is delegated, not duplicated here.",
+      "cited_in": [
+        {
+          "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+          "as": "Zaienne 2022",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/published-warhead-registry.json",
+          "as": "Zaienne 2022",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/rbfe_edges.py",
+          "as": "Zaienne-19",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/safe2025_verify.py",
+          "as": "Zaienne-2022",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/nr4a3-congeneric-dock-shard.json",
+          "as": "Zaienne 2022",
+          "role": "assertion"
+        },
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "as": "PMID 35704774",
+          "role": "assertion"
+        },
+        {
+          "file": "research/manuscripts/degrader-vs-synthetic-lethal.md",
+          "as": "PMID 35704774",
+          "role": "assertion"
+        },
+        {
+          "file": "research/manuscripts/emc-treatment-roadmap.md",
+          "as": "PMID 35704774",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/nr4a3-degrader-design-spec.md",
+          "as": "Munck 2022",
+          "role": "superseded_retained"
+        },
+        {
+          "file": "research/manuscripts/emc-treatment-roadmap.md",
+          "as": "Munck 2022",
+          "role": "superseded_retained"
+        },
+        {
+          "file": "research/manuscripts/degrader-vs-synthetic-lethal.md",
+          "as": "Munck 2022",
+          "role": "superseded_retained"
+        },
+        {
+          "file": "research/modalities/nr4a3-druggability-reconciliation.md",
+          "as": "Munck 2022",
+          "role": "correction_home"
+        },
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "as": "Munck 2022",
+          "role": "correction_note"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+          "as": "Munck 2022",
+          "role": "correction_note"
+        }
+      ],
+      "retired_by": "research/modalities/tests/test_munck_attribution_retired.py",
+      "correction_home": "research/modalities/nr4a3-druggability-reconciliation.md#5b"
+    },
+    {
+      "id": "EV-ZETTERSTROM-1996",
+      "canonical": {
+        "pmid": "8961274"
+      },
+      "citation": "Zetterström RH et al. Mol Endocrinol 1996;10:1656–66.",
+      "what_it_supports": "NR4A3/NOR-1 does not heterodimerise with RXR, unlike NR4A1 and NR4A2 — the verbatim basis on which the RXR-heterodimer route is closed.",
+      "aliases": [
+        "Zetterström et al., Mol Endocrinol 1996",
+        "Zetterstrom 1996",
+        "Zetterström et al., *Mol Endocrinol* 1996"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "as": "Zetterström et al., *Mol Endocrinol* 1996",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-WANSA-2003",
+      "canonical": {
+        "pmid": "12709428"
+      },
+      "citation": "Wansa KDSA et al. J Biol Chem 2003;278(27):24776–90.",
+      "what_it_supports": "NOR-1's AF-1 is delimited to residues 1–112 and SRC-2 modulates AF-1 but not the LBD — the basis on which the 6-mercaptopurine route is closed for the chimera.",
+      "aliases": [
+        "Wansa et al., J Biol Chem 2003",
+        "Wansa 2003",
+        "Wansa et al., *J Biol Chem* 2003"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "as": "Wansa et al., *J Biol Chem* 2003",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-FET-ATR-2023",
+      "canonical": {
+        "pmid": "37205599",
+        "doi": "10.1101/2023.04.30.538578"
+      },
+      "citation": "FET fusion oncoproteins impair ATM activation at double-strand breaks through their shared N-terminal IDR, leaving the ATR axis load-bearing.",
+      "what_it_supports": "The synthetic-lethality premise the ATR route inherits, and the structural precondition (retain the N-terminal IDR, lose the C-terminal RGG repeats) that emc_fet_idr_census.py tests.",
+      "aliases": [
+        "PMID 37205599",
+        "the FET/ATR paper"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/IDEAS.md",
+          "as": "PMID 37205599",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/emc-fet-idr-census.json",
+          "as": "PMID 37205599",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-FILION-2009",
+      "canonical": {
+        "pmcid": "PMC4429309"
+      },
+      "citation": "Filion C et al. (2009) — the EWSR1::NR4A3 fusion transactivates a PPARG-promoter response element.",
+      "what_it_supports": "That the fusion is a functional transcriptional driver acting through its DNA-binding domain; the fusion→PPARG axis both PPARG routes rest on; the DBD filter in fusion_object_inventory.py.",
+      "aliases": [
+        "Filion 2009",
+        "Filion 2009, PMC4429309",
+        "Filion et al."
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/IDEAS.md",
+          "as": "Filion 2009",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/fusion-object-inventory.json",
+          "as": "Filion 2009",
+          "role": "assertion"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-emc-biology-evidence.md",
+          "as": "Filion et al.",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-PMC3335514",
+      "canonical": {
+        "pmcid": "PMC3335514"
+      },
+      "citation": "\"The most common fusion transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript.\"",
+      "what_it_supports": "The exon-level definitions of EWSR1::NR4A3 type 1 and type 2, and of TAF15::NR4A3.",
+      "aliases": [
+        "PMC3335514"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-atr-collaborator-package.md",
+          "as": "PMC3335514",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/emc-fet-construct-designs.json",
+          "as": "PMC3335514",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-PMC4015728",
+      "canonical": {
+        "pmcid": "PMC4015728"
+      },
+      "citation": "Agaram NP et al. (2014) — RT-PCR primer design: an EWSR1 exon 12 forward primer with an NR4A3 exon 3 reverse for type 1; an EWSR1 exon 7 forward with an NR4A3 exon 2 reverse for type 2.",
+      "what_it_supports": "Independent corroboration of the type 1 and type 2 exon-level junctions.",
+      "aliases": [
+        "Agaram 2014",
+        "PMC4015728",
+        "PMC4015728 (Agaram 2014)"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-atr-collaborator-package.md",
+          "as": "PMC4015728",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/emc-fet-construct-designs.json",
+          "as": "PMC4015728",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-PMC4055444",
+      "canonical": {
+        "pmcid": "PMC4055444"
+      },
+      "citation": "\"The most frequent are: type 1, for the fusion between exons 12 of EWS and 3 of CHN, and type 5, between exons 13 of EWS and 3 of CHN.\" Also: the TCF12::NR4A3 breakpoint is reported only at genomic resolution (intron 5).",
+      "what_it_supports": "The type 5 junction; the TAF15::NR4A3 exclusivity; the TCF12::NR4A3 genomic-only breakpoint.",
+      "aliases": [
+        "PMC4055444"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-atr-collaborator-package.md",
+          "as": "PMC4055444",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/emc-fet-construct-designs.json",
+          "as": "PMC4055444",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-PMC2395470",
+      "canonical": {
+        "pmcid": "PMC2395470"
+      },
+      "citation": "A counted series: 10 of 15 EWS/CHN tumours were exon 12 :: exon 3; 2 of 15 were type 5.",
+      "what_it_supports": "That type 1 is the commonest reported EWSR1::NR4A3 junction, on a counted series rather than an assertion.",
+      "aliases": [
+        "PMC2395470"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-atr-collaborator-package.md",
+          "as": "PMC2395470",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-PMC6766969",
+      "canonical": {
+        "pmcid": "PMC6766969"
+      },
+      "citation": "\"E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)\"; \"T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion\"; and a rarer T-N isoform splicing into a cryptic exon in NR4A3 intron 2, \"thus encoding 25 additional amino acids prior to the NR4A3 ATG\".",
+      "what_it_supports": "Expressed constructs corroborating type 1 and TAF15::NR4A3; the registered-but-deliberately-unmodelled cryptic-exon TAF15 isoform.",
+      "aliases": [
+        "PMC6766969"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-atr-collaborator-package.md",
+          "as": "PMC6766969",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/emc-fet-construct-designs.json",
+          "as": "PMC6766969",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-EB-TCIP-2025",
+      "canonical": {
+        "doi": "10.1021/jacs.5c05634",
+        "pmcid": "PMC12851799"
+      },
+      "citation": "EB-TCIP on EWSR1::FLI1, JACS 2025 — bivalent transcriptional chemically-induced proximity that co-opts a fusion TF.",
+      "what_it_supports": "The TCIP route's mechanism and its stated first limitation — \"Due to the dearth of EWSR1::FLI1-specific ligands, we have used a N-FKBP12^F36V-EWSR1::FLI1 model system\" — which is what gives the route its W1 and also names its gap.",
+      "aliases": [
+        "EB-TCIP",
+        "EB-TCIP on EWSR1::FLI1, JACS 2025",
+        "the TCIP paper"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "as": "EB-TCIP on EWSR1::FLI1, JACS 2025",
+          "role": "assertion"
+        },
+        {
+          "file": "research/IDEAS.md",
+          "as": "PMC12851799",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-PIOGLITAZONE-TRABECTEDIN-2019",
+      "canonical": {
+        "doi": "10.1158/1078-0432.CCR-19-0976"
+      },
+      "citation": "Pioglitazone + trabectedin induced adipocyte differentiation and overcame trabectedin resistance in myxoid liposarcoma. Clin Cancer Res 2019;25:7565.",
+      "what_it_supports": "That the combination already worked in the sibling myxoid sarcoma — the class-extension interest that gives the trabectedin+PPARγ route its taker.",
+      "aliases": [
+        "Clin Cancer Res 2019;25:7565",
+        "the pioglitazone + trabectedin paper",
+        "Clin Cancer Res* 2019;25:7565"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/IDEAS.md",
+          "as": "Clin Cancer Res* 2019;25:7565",
+          "role": "assertion"
+        },
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "as": "Clin Cancer Res* 2019;25:7565",
+          "role": "assertion"
+        }
+      ]
+    },
+    {
+      "id": "EV-BANGERTER-2023",
+      "canonical": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Bangerter+2023+extraskeletal+myxoid+chondrosarcoma"
+      },
+      "citation": "Bangerter 2023 — ex-vivo drug sensitivity across two patient-derived EMC models.",
+      "what_it_supports": "The carfilzomib ± anthracycline ± venetoclax route's only ex-vivo EMC evidence.",
+      "aliases": [
+        "Bangerter 2023",
+        "Bangerter"
+      ],
+      "misattributed_as": [],
+      "provenance_flag": "NO PMID/DOI RECORDED IN THIS REPO — registered with a search URL as its canonical handle so the gap is visible rather than silent. Resolving it is open_conflicts/OC-4.",
+      "cited_in": [
+        {
+          "file": "research/IDEAS.md",
+          "as": "Bangerter 2023",
+          "role": "assertion"
+        },
+        {
+          "file": "research/manuscripts/repurposing-hypotheses.md",
+          "as": "Bangerter",
+          "role": "assertion"
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "id": "OBJ-FUS-T1",
+      "kind": "fusion_protein",
+      "display_name": "EWSR1::NR4A3 type 1",
+      "aliases": [
+        "EWSR1::NR4A3 type 1",
+        "EWSR1 e12 :: NR4A3 e3",
+        "type 1",
+        "E-N",
+        "EWS/CHN exon 12 :: exon 3"
+      ],
+      "status": "reported",
+      "definition": {
+        "exon_level": "EWSR1 exon 12 :: NR4A3 exon 3",
+        "residue_level": "EWSR1(1–431) :: 1 junction residue :: NR4A3(1–626)",
+        "length_field": {
+          "artifact": "ART-CONSTRUCT-DESIGNS",
+          "field": "/constructs"
+        },
+        "reported_rank": "commonest",
+        "provenance": [
+          "EV-PMC3335514",
+          "EV-PMC4055444",
+          "EV-PMC4015728",
+          "EV-PMC2395470",
+          "EV-PMC6766969"
+        ]
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-FUS-T2",
+          "why": "different 5′ cut AND different 3′ exon; type 2 additionally carries 59 UTR-encoded residues that type 1 does not"
+        },
+        {
+          "object": "OBJ-MODEL-E7E3",
+          "why": "the modelled construct pairs type 2's 5′ half with type 1's 3′ half and is not a reported type"
+        }
+      ],
+      "notes": "Carries the label 'canonical' as of the 2026-08-03 correction. Its RG-retention value sits at the same point on the RGG axis as the commonest clear-cell type, which is why the ATR precondition for it is an interpolation onto a measured point rather than an extrapolation — see CLM-IDR-COMPARATIVE."
+    },
+    {
+      "id": "OBJ-FUS-T2",
+      "kind": "fusion_protein",
+      "display_name": "EWSR1::NR4A3 type 2",
+      "aliases": [
+        "EWSR1::NR4A3 type 2",
+        "EWSR1 e7 :: NR4A3 e2",
+        "type 2"
+      ],
+      "status": "reported",
+      "definition": {
+        "exon_level": "EWSR1 exon 7 :: NR4A3 exon 2",
+        "residue_level": "EWSR1(1–264) :: [59 UTR-encoded residues] :: NR4A3(1–626)",
+        "length_field": {
+          "artifact": "ART-CONSTRUCT-DESIGNS",
+          "field": "/constructs"
+        },
+        "reported_rank": "second",
+        "provenance": [
+          "EV-PMC3335514",
+          "EV-PMC4015728"
+        ]
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-FUS-T1",
+          "why": "different 5′ cut and different 3′ exon"
+        },
+        {
+          "object": "OBJ-MODEL-E7E3",
+          "why": "shares the EWSR1(1–264) cut but NOT the 3′ exon, and the model omits the 59 UTR-encoded residues entirely"
+        }
+      ],
+      "notes": "⚠ The 59 extra residues are a COMPUTED consequence of the canonical transcripts at the reported exon junction, not an observed protein. NR4A3 exon 2 is entirely non-coding, so the fusion mRNA carries NR4A3 5′-UTR downstream of the EWSR1 cut and reads through in EWSR1's frame with no stop codon. This is what makes fusion_cofold.py's protein-level model wrong for THIS object — see INS-FUSION-COFOLD and OC-2."
+    },
+    {
+      "id": "OBJ-FUS-T5",
+      "kind": "fusion_protein",
+      "display_name": "EWSR1::NR4A3 type 5",
+      "aliases": [
+        "EWSR1::NR4A3 type 5",
+        "EWSR1 e13 :: NR4A3 e3",
+        "type 5"
+      ],
+      "status": "reported",
+      "definition": {
+        "exon_level": "EWSR1 exon 13 :: NR4A3 exon 3",
+        "residue_level": "EWSR1(1–472) :: 1 junction residue :: NR4A3(1–626)",
+        "length_field": {
+          "artifact": "ART-CONSTRUCT-DESIGNS",
+          "field": "/constructs"
+        },
+        "reported_rank": "minority",
+        "provenance": [
+          "EV-PMC4055444",
+          "EV-PMC2395470"
+        ]
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-FUS-T1",
+          "why": "one exon further 3′ on EWSR1, so it retains more of EWSR1's RGG content"
+        }
+      ],
+      "notes": "Retains the most EWSR1 RGG content of the three reported EWSR1::NR4A3 types, which matters to the ATR precondition and to nothing else on the board."
+    },
+    {
+      "id": "OBJ-FUS-TAF15",
+      "kind": "fusion_protein",
+      "display_name": "TAF15::NR4A3",
+      "aliases": [
+        "TAF15::NR4A3",
+        "TAF15 e6 :: NR4A3 e3",
+        "T-N*"
+      ],
+      "status": "reported",
+      "definition": {
+        "exon_level": "TAF15 exon 6 :: NR4A3 exon 3 — reported as the ONLY coding junction (\"exclusively\", \"always\")",
+        "residue_level": "TAF15(1–161) :: 1 junction residue :: NR4A3(1–626)",
+        "length_field": {
+          "artifact": "ART-CONSTRUCT-DESIGNS",
+          "field": "/constructs"
+        },
+        "provenance": [
+          "EV-PMC3335514",
+          "EV-PMC4055444",
+          "EV-PMC2395470",
+          "EV-PMC6766969"
+        ]
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-FUS-T1",
+          "why": "a different 5′ FET partner; TAF15's first RG dipeptide sits at a different residue, so its RGG-retention answer is independently computed"
+        }
+      ],
+      "notes": "A rarer T-N isoform splicing into a cryptic exon in NR4A3 intron 2 is REGISTERED AND DELIBERATELY NOT MODELLED — its cryptic exon sequence is in no artifact this repo holds and building it would mean inventing nucleotides."
+    },
+    {
+      "id": "OBJ-FUS-FUSNR4A3",
+      "kind": "fusion_protein",
+      "display_name": "FUS::NR4A3",
+      "aliases": [
+        "FUS::NR4A3"
+      ],
+      "status": "reported_breakpoint_unpinned",
+      "definition": {
+        "exon_level": "⛔ no exon-level breakpoint statement found in this repo's literature cache",
+        "residue_level": "⛔ unpinned — answered as a FUNCTION of breakpoint by the sweep, never as a point",
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [],
+      "notes": "Naming the gap is part of the deliverable; silence would read as 'there is no such fusion'. The breakpoint-INDEPENDENT sweep in ART-IDR-CENSUS answers the RGG question across every breakpoint."
+    },
+    {
+      "id": "OBJ-FUS-TCF12",
+      "kind": "fusion_protein",
+      "display_name": "TCF12::NR4A3",
+      "aliases": [
+        "TCF12::NR4A3"
+      ],
+      "status": "reported_breakpoint_unpinned",
+      "definition": {
+        "exon_level": "⛔ genomic resolution only — \"the breakpoint affects the region of intron 5\"",
+        "residue_level": "⛔ unpinned; TCF12 also has several alternatively-spliced isoforms and Ensembl/UniProt disagree on the canonical (706 aa vs 682 aa)",
+        "length_field": null,
+        "provenance": [
+          "EV-PMC4055444"
+        ]
+      },
+      "distinct_from": [],
+      "notes": "Used as the NEGATIVE control for the FET-family precondition, and the control does not need the junction: it is computed over EVERY possible TCF12 breakpoint."
+    },
+    {
+      "id": "OBJ-MODEL-E7E3",
+      "kind": "modelled_construct",
+      "display_name": "The modelled EWSR1 e7 :: NR4A3 e3 construct",
+      "aliases": [
+        "EWSR1 e7 :: NR4A3 e3",
+        "EWSR1 e7::e3",
+        "emc_canonical_EWSR1_NR4A3",
+        "EWS_CUT = 264 :: NR4A3 resumed at res 2"
+      ],
+      "status": "modelled_not_reported",
+      "definition": {
+        "exon_level": "EWSR1 exon 7 :: NR4A3 exon 3 — ⛔ NOT A REPORTED FUSION TYPE. It pairs the 5′ half of reported type 2 with the 3′ half of reported type 1.",
+        "residue_level": "EWSR1(1–264) :: NR4A3(1–626), with no UTR-encoded segment",
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-FUS-T1",
+          "why": "shares type 1's 3′ exon only"
+        },
+        {
+          "object": "OBJ-FUS-T2",
+          "why": "shares type 2's 5′ cut only, and omits type 2's 59 UTR-encoded residues"
+        }
+      ],
+      "notes": "⚠ THE NAME 'the canonical EMC fusion' WAS ATTACHED TO THIS MODEL and to OBJ-FUS-T1 in different files — see contested_names. What the correction does NOT disturb: the arithmetic for a 264-residue EWSR1 cut is still valid, and it is still the right comparator for EWSR1::FLI1 type 1, which really does cut at 264. What changes is the LABEL. Superseded figures quoted off this object stay quotable via emc-atr-collaborator-package.md's appendix."
+    },
+    {
+      "id": "OBJ-NR4A3-WT",
+      "kind": "wild_type_protein",
+      "display_name": "NR4A3 / NOR-1 (wild type)",
+      "aliases": [
+        "NR4A3",
+        "NOR-1",
+        "NOR1",
+        "CHN"
+      ],
+      "status": "wild_type",
+      "definition": {
+        "exon_level": "ENST00000395097 — 8 transcript exons, 6 coding; exons 1 and 2 are NON-CODING (the cause of the off-by-two correction)",
+        "residue_level": "626 aa",
+        "length_field": {
+          "artifact": "ART-FUSION-OBJECT-INVENTORY",
+          "field": "/transcripts/NR4A3/protein_length"
+        },
+        "provenance": []
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-FUS-T1",
+          "why": "every LBD-directed route engages BOTH — the LBD is shared, so an LBD binder is NR4A3-selective but NOT fusion-selective"
+        }
+      ],
+      "notes": "Wild-type NR4A3 is what the ASO spares and what every LBD-directed route also hits."
+    },
+    {
+      "id": "OBJ-NR4A1-WT",
+      "kind": "wild_type_protein",
+      "display_name": "NR4A1 / Nur77",
+      "aliases": [
+        "NR4A1",
+        "Nur77",
+        "NGFI-B"
+      ],
+      "status": "wild_type",
+      "definition": {
+        "exon_level": null,
+        "residue_level": null,
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [],
+      "notes": "The named AML anti-target: the NR4A1+NR4A3 pair is what makes paralogue cross-reactivity unacceptable for any systemic molecule. NR4A1-sparing is the MANDATORY half of the asymmetric requirement."
+    },
+    {
+      "id": "OBJ-NR4A2-WT",
+      "kind": "wild_type_protein",
+      "display_name": "NR4A2 / Nurr1",
+      "aliases": [
+        "NR4A2",
+        "Nurr1"
+      ],
+      "status": "wild_type",
+      "definition": {
+        "exon_level": null,
+        "residue_level": null,
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [],
+      "notes": "NR4A2-sparing is the BEST-EFFORT half of the asymmetric requirement, not the mandatory one."
+    },
+    {
+      "id": "OBJ-EWSR1-WT",
+      "kind": "wild_type_protein",
+      "display_name": "EWSR1 (wild type)",
+      "aliases": [
+        "EWSR1",
+        "EWS"
+      ],
+      "status": "wild_type",
+      "definition": {
+        "exon_level": "ENST00000397938 — 17 transcript exons, 17 coding",
+        "residue_level": "656 aa",
+        "length_field": {
+          "artifact": "ART-FUSION-OBJECT-INVENTORY",
+          "field": "/transcripts/EWSR1/protein_length"
+        },
+        "provenance": []
+      },
+      "distinct_from": [],
+      "notes": "An essential housekeeping protein — which is why targeting the EWSR1 half at the protein level RELOCATES selectivity somewhere worse."
+    },
+    {
+      "id": "OBJ-NR4A3-LBD-MODELLED",
+      "kind": "domain",
+      "display_name": "The modelled NR4A3 ligand-binding domain construct (NR4A3 373–626)",
+      "aliases": [
+        "NR4A3 373-626",
+        "the modelled LBD",
+        "the LBD construct in this program"
+      ],
+      "status": "domain",
+      "definition": {
+        "exon_level": null,
+        "residue_level": "NR4A3 373–626",
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-NR4A3-LBD-CATALOGUE",
+          "why": "the catalogue protein starts one residue LATER and therefore excludes C397"
+        }
+      ],
+      "notes": "Every structure in the degrader program is this isolated construct. It contains C397; it does not contain the rest of the fusion object."
+    },
+    {
+      "id": "OBJ-NR4A3-LBD-CATALOGUE",
+      "kind": "reagent",
+      "display_name": "Catalogue recombinant NR4A3 LBD (Cayman 40344, UniProt aa 398–626)",
+      "aliases": [
+        "Cayman 40344",
+        "the catalogue NR4A3 LBD"
+      ],
+      "status": "domain",
+      "definition": {
+        "exon_level": null,
+        "residue_level": "UniProt 398–626",
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-NR4A3-LBD-MODELLED",
+          "why": "excludes C397 by exactly one residue, so an intact-mass covalent-probe readout on it would be blind to the programme's headline handle"
+        }
+      ],
+      "notes": "Its existence closes 'is protein supply the blocker on R4?' — it is not. The blocker is that a binding assay reports a binding EVENT and R4 asks about a SITE."
+    },
+    {
+      "id": "OBJ-NR4A3-AF1",
+      "kind": "domain",
+      "display_name": "NR4A3 AF-1 (N-terminal activation function)",
+      "aliases": [
+        "AF-1",
+        "the AF-1 domain",
+        "NR4A3 AF1 1-260"
+      ],
+      "status": "domain",
+      "definition": {
+        "exon_level": null,
+        "residue_level": "delimited to residues 1–112 for SRC-2 recruitment; the repo measures the swapped stretch as NR4A3 1–260 ↔ EWSR1-LC 1–264",
+        "length_field": {
+          "artifact": "ART-TARGET-ROUTE-CENSUS",
+          "field": "/af1_to_lc_swap"
+        },
+        "provenance": [
+          "EV-WANSA-2003"
+        ]
+      },
+      "distinct_from": [],
+      "notes": "This is the domain the fusion REPLACES with EWSR1's low-complexity region. Any ligand whose whole mechanism lives here cannot act on the chimera at any dose — which closes 6-MP and does NOT close LBD-directed modulation."
+    },
+    {
+      "id": "OBJ-NR4A3-DBD",
+      "kind": "domain",
+      "display_name": "NR4A3 C4 zinc-finger DNA-binding domain",
+      "aliases": [
+        "the DBD",
+        "C4 zinc finger"
+      ],
+      "status": "domain",
+      "definition": {
+        "exon_level": null,
+        "residue_level": null,
+        "length_field": {
+          "artifact": "ART-TARGET-ROUTE-CENSUS",
+          "field": "/zinc_finger_window"
+        },
+        "provenance": [
+          "EV-FILION-2009"
+        ]
+      },
+      "distinct_from": [],
+      "notes": "92.8 % / 98.6 % paralogue identity — which is why relocating the target here WORSENS the selectivity problem on arithmetic alone. Its intactness is also the filter that narrows 18 arithmetically-possible breakpoints to 9 plausible ones."
+    },
+    {
+      "id": "OBJ-RES-C397",
+      "kind": "residue",
+      "display_name": "NR4A3 C397",
+      "aliases": [
+        "C397",
+        "Cys397",
+        "the programme's headline handle"
+      ],
+      "status": "residue",
+      "definition": {
+        "exon_level": null,
+        "residue_level": "NR4A3 cysteine 397",
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-RES-NR4A1-C551",
+          "why": "different protein, different residue; C551 is NR4A1's only literature-supported covalent site and is V17's positive control"
+        }
+      ],
+      "notes": "The residue on which the categorical (covalent) escape from the ΔΔG requirement rests. Two routes engage it — the covalent PROBE and the covalent-monovalent sub-form — and they are NOT the same route."
+    },
+    {
+      "id": "OBJ-RES-C166",
+      "kind": "residue",
+      "display_name": "NR4A3 C166",
+      "aliases": [
+        "C166"
+      ],
+      "status": "residue",
+      "definition": {
+        "exon_level": null,
+        "residue_level": "NR4A3 cysteine 166 — present in the fusion under every plausible breakpoint, absent from every structure in this program",
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-RES-C397",
+          "why": "C166 lies outside the modelled LBD construct entirely; no geometric statement in this program reaches it"
+        }
+      ],
+      "notes": "NR4A3-unique among the reactive residues enumerated in the fusion object; it is one of the 30 reactive residues that lie outside every structure this program has."
+    },
+    {
+      "id": "OBJ-RES-NR4A1-C551",
+      "kind": "residue",
+      "display_name": "NR4A1 C551",
+      "aliases": [
+        "C551",
+        "NR4A1 Cys551"
+      ],
+      "status": "residue",
+      "definition": {
+        "exon_level": null,
+        "residue_level": "NR4A1 cysteine 551 — the one NR4A-family covalent site with literature support",
+        "length_field": null,
+        "provenance": []
+      },
+      "distinct_from": [
+        {
+          "object": "OBJ-RES-C397",
+          "why": "it is the CONTROL, not the target"
+        }
+      ],
+      "notes": "V17's positive control — and V17 FAILS on it, which is why anything adjudicated by that exposure cutoff inherits a demonstrated false negative."
+    }
+  ],
+  "contested_names": [
+    {
+      "name": "the canonical EMC fusion",
+      "maps_to": [
+        "OBJ-FUS-T1",
+        "OBJ-MODEL-E7E3"
+      ],
+      "conflict": "OC-2",
+      "note": "Live text in several files uses this phrase for the MODELLED e7::e3 construct; the 2026-08-03 correction assigns 'canonical' to reported type 1 (e12::e3). Both readings are currently in the repo, so the name is registered as CONTESTED rather than as an alias of either object. Per the invariant a contested name may not appear in any object's `aliases`."
+    },
+    {
+      "name": "EMC's canonical fusion",
+      "maps_to": [
+        "OBJ-FUS-T1",
+        "OBJ-MODEL-E7E3"
+      ],
+      "conflict": "OC-2",
+      "note": "Same ambiguity, different wording; both forms are in live text."
+    }
+  ],
+  "instruments": [
+    {
+      "id": "V1",
+      "name": "Structural selectivity descriptor (selcal_interface_signature)",
+      "module": "research/modalities/selcal_interface_signature.py",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "recover the published SMARCA2 Gln1469↔VCB hydrogen bond, unaided, from two crystals",
+        "state": "passes",
+        "note": "validates ONE contact in ONE pair; makes no NR4A3 prediction correct"
+      },
+      "serves": [
+        "R11"
+      ]
+    },
+    {
+      "id": "V2",
+      "name": "Ternary generator given both sites (assembly route)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "rebuild 6HAX (in-set) and 9DTY (post-horizon)",
+        "state": "passes",
+        "note": "in scope only — never pointed at our system; one arm only"
+      },
+      "serves": [
+        "R9",
+        "R10"
+      ]
+    },
+    {
+      "id": "V3",
+      "name": "Ligand pose prediction (dock + MM-GBSA)",
+      "module": "research/modalities/apo_pose_recovery.py",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "recover a known holo pose in a nuclear receptor from apo",
+        "state": "inconclusive",
+        "note": "INCONCLUSIVE by its own pre-registered rule; its site arm is 0 of 14 in regime by two independent transfer routes"
+      },
+      "serves": [
+        "R5",
+        "R8"
+      ]
+    },
+    {
+      "id": "V4",
+      "name": "Selectivity free energy (ABFE) — the selectivity known-answer test",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "CREBBP vs BRD4(1) / SGC-CBP30",
+        "state": "none",
+        "note": "built and staged with no result key; never completed; not authorized"
+      },
+      "serves": [
+        "R7"
+      ]
+    },
+    {
+      "id": "V5",
+      "name": "Alchemical ternary cooperativity (valB_mini ΔΔG_coop)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "reproduce a known cooperativity",
+        "state": "fails",
+        "note": "wrong sign in all 3 replicates; the closure triangle localises the miss to an endpoint-state error"
+      },
+      "serves": [
+        "R11"
+      ]
+    },
+    {
+      "id": "V6",
+      "name": "Relative FEP (OpenFE, the congeneric lane)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "TYK2 ejm_31→ejm_42 benchmark",
+        "state": "passes",
+        "note": "within ONE pocket and ONE charge model; not a selectivity validation"
+      },
+      "serves": [
+        "R7"
+      ]
+    },
+    {
+      "id": "V7",
+      "name": "ABFE engine, absolute",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "T4-lysozyme L99A + benzene",
+        "state": "fails",
+        "note": "the miss is larger than the entire selectivity margin the engine is used to compute"
+      },
+      "serves": [
+        "R7"
+      ]
+    },
+    {
+      "id": "V8",
+      "name": "ABFE engine, hydration",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "methane hydration free energy (FreeSolv)",
+        "state": "passes",
+        "note": "a solvation smoke test; says nothing about a protein site"
+      },
+      "serves": [
+        "R7"
+      ]
+    },
+    {
+      "id": "V9",
+      "name": "λ-overlap diagnostic on the standing ABFE block",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "a self-check, not a known answer",
+        "state": "none",
+        "note": "defect open — holds the whole ABFE block provisional"
+      },
+      "serves": [
+        "R7"
+      ]
+    },
+    {
+      "id": "V10",
+      "name": "Interface-mutation physics (pmx/GROMACS)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "barnase–barstar Y29A vs published ΔΔG",
+        "state": "passes",
+        "note": "PASSES, but not in the regime that matters; its SMARCA2/4 application is refused by its own $0 precheck"
+      },
+      "serves": [
+        "R7"
+      ]
+    },
+    {
+      "id": "V11",
+      "name": "Interface-stability endpoint (E1)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "two attempts: NR-V04 retrospective, SMARCA2/4 sensitivity control",
+        "state": "fails",
+        "note": "no pass — parked"
+      },
+      "serves": [
+        "R11"
+      ]
+    },
+    {
+      "id": "V12",
+      "name": "Sequence-only co-folding (Boltz-2 ternary)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "reproduce 9DTY/9DTX from sequence + ligand",
+        "state": "fails",
+        "note": "parked — the true structure moved 32 Å"
+      },
+      "serves": [
+        "R10"
+      ]
+    },
+    {
+      "id": "V13",
+      "name": "Cryptic-opening free-energy profile (metadynamics F(Rg))",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "Gate 1: a genuine two-state cryptic opening",
+        "state": "fails",
+        "note": "failed as registered, and reformulated — not a weak pass. A failed MECHANISM test is not evidence of absence"
+      },
+      "serves": [
+        "R1",
+        "R2"
+      ]
+    },
+    {
+      "id": "V14",
+      "name": "BioEmu unbiased ensemble cross-check",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "⛔ no in-repo known-answer test on this system",
+        "state": "none",
+        "note": "an orthogonal axis for R1 — which is its whole value and also its limit"
+      },
+      "serves": [
+        "R1"
+      ]
+    },
+    {
+      "id": "V15",
+      "name": "PocketMiner + four permutation nulls",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "the nulls are the control",
+        "state": "mixed",
+        "note": "one of the five nulls does not support it"
+      },
+      "serves": [
+        "R1"
+      ]
+    },
+    {
+      "id": "V16",
+      "name": "The causal matched-pair test S (RUNG 5a-KS)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "⛔ none — it has no known-answer calibrator",
+        "state": "none",
+        "note": "S may be read as a BOUND and may NOT be reported as calibrated"
+      },
+      "serves": [
+        "R11"
+      ]
+    },
+    {
+      "id": "V17",
+      "name": "The exposure criterion EXPOSED_RSA = 0.25",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "NR4A1 C551 — the one NR4A-family covalent site with literature support",
+        "state": "fails",
+        "note": "⛔ KNOWN-DEFECTIVE. Fails its own positive control; anything adjudicated by this cutoff inherits a demonstrated false negative. What survives is a threshold-free RANK"
+      },
+      "serves": [
+        "R8",
+        "R15"
+      ]
+    },
+    {
+      "id": "V18",
+      "name": "The transfer-zone lysine-identity term",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "⛔ none exists",
+        "state": "none",
+        "note": "set membership, not energy"
+      },
+      "serves": [
+        "R12"
+      ]
+    },
+    {
+      "id": "V19",
+      "name": "The generation-matched null (winner's-curse / generative confound)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "the scrambled-objective arm",
+        "state": "mixed",
+        "note": "PARTIAL — the arm that addresses the GENERATIVE step is unrun"
+      },
+      "serves": [
+        "R7",
+        "R15"
+      ]
+    },
+    {
+      "id": "V20",
+      "name": "Single-snapshot MM-GBSA margin > 0 as a selectivity verdict",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "38 unrelated marketed drugs through the identical funnel",
+        "state": "fails",
+        "note": "✕ REFUTED and dead — a signal smaller than its own noise"
+      },
+      "serves": []
+    },
+    {
+      "id": "V21",
+      "name": "The anti-target docking panel (antitarget_dock)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "each target's own cognate crystallographic ligand re-docked through the identical protocol",
+        "state": "fails",
+        "note": "7 of 10 pass; panel_readable: false. Nothing from this panel may be read while it fails, and that reaches PRINT"
+      },
+      "serves": [
+        "R14"
+      ]
+    },
+    {
+      "id": "V22",
+      "name": "The scoring-independent second pose method (rDock)",
+      "module": null,
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#31--the-instrument-table"
+      },
+      "known_answer_control": {
+        "description": "⛔ none of its own on this system — it is run BESIDE V3 and the comparison IS the test",
+        "state": "none",
+        "note": "the two methods DISAGREE; agreement would not have meant correctness"
+      },
+      "serves": [
+        "R5"
+      ]
+    },
+    {
+      "id": "INS-IDR-CENSUS",
+      "name": "FET N-terminal IDR / RGG retention census",
+      "module": "research/modalities/emc_fet_idr_census.py",
+      "owner": {
+        "file": "research/manuscripts/emc-systems-map.json",
+        "anchor": "instruments/INS-IDR-CENSUS"
+      },
+      "known_answer_control": {
+        "description": "the fusions in which ATM suppression was MEASURED (EWSR1::FLI1 type 1, EWSR1::ATF1 clear-cell types) are pushed through the identical pipeline as positive controls",
+        "state": "passes",
+        "note": "the controls calibrate the reading rather than confirm it — the commonest clear-cell type retains RGG content and the mechanism was measured there anyway, so a zero is not the only qualifying value"
+      },
+      "serves": [
+        "the ATR route's structural precondition"
+      ]
+    },
+    {
+      "id": "INS-CONSTRUCT-DESIGNS",
+      "name": "Transcript-level fusion construct designer (frame computed at the nucleotide level)",
+      "module": "research/modalities/emc_fet_construct_designs.py",
+      "owner": {
+        "file": "research/manuscripts/emc-atr-collaborator-package.md",
+        "anchor": "#72-the-four-constructs--all-four-are-in-frame-4--4"
+      },
+      "known_answer_control": {
+        "description": "each gene model must pass its own translate-and-sum self-check, and Ensembl translations are cross-checked against the UniProt cache",
+        "state": "passes",
+        "note": "⚠ the TCF12 Ensembl/UniProt mismatch is REPORTED rather than smoothed over. This instrument is what found the 59 UTR-encoded residues a CDS-level model cannot see"
+      },
+      "serves": [
+        "the exon-level and residue-level definition of every fusion OBJECT"
+      ]
+    },
+    {
+      "id": "INS-FUSION-OBJECT-INVENTORY",
+      "name": "Fusion object sequence inventory + breakpoint enumeration",
+      "module": "research/modalities/fusion_object_inventory.py",
+      "owner": {
+        "file": "research/modalities/fusion-object-inventory.md",
+        "anchor": "#the-gate"
+      },
+      "known_answer_control": {
+        "description": "a REPRODUCED gate: five checks on exon coding status, boundaries and protein length, plus both exon maps' translate-and-sum self-checks",
+        "state": "passes",
+        "note": "the gate reproduces the MODELLED junction (OBJ-MODEL-E7E3), so a pass is a statement about arithmetic, not about which junction is reported"
+      },
+      "serves": [
+        "R13"
+      ]
+    },
+    {
+      "id": "INS-MONOVALENT-REACH",
+      "name": "Paired monovalent-vs-bivalent covalent reach enumeration (E3 arm removed)",
+      "module": "research/modalities/nr4a3_monovalent_reach.py",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+        "anchor": "#3--the-0-test-built-run-and-it-came-back-against-the-route"
+      },
+      "known_answer_control": {
+        "description": "its BIVALENT half must replicate the already-committed bivalent artifact cell-for-cell",
+        "state": "passes",
+        "note": "the replication is what makes the monovalent half readable; it inherits V3's INCONCLUSIVE site question and V17's defective exposure cutoff, so it can refute a route and cannot license one"
+      },
+      "serves": [
+        "R8",
+        "the categorical axis at C397"
+      ]
+    },
+    {
+      "id": "INS-DDR-AXIS-SCAN",
+      "name": "ATRi/PARPi sensitivity re-cut by FET status (GDSC2)",
+      "module": "research/modalities/fet_ddr_axis_scan.py",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#-the-atri-contrast-and-the-two-things-it-says--one-supporting-route-1-one-bounding-it-hard"
+      },
+      "known_answer_control": {
+        "description": "a general-chemosensitivity correction — the ATRi effect must survive it, and the same lines' PARPi response is computed as the contrast arm",
+        "state": "passes",
+        "note": "the control cuts BOTH ways and is reported that way: the ATRi effect survives the correction AND PARP inhibitors are larger in the same lines"
+      },
+      "serves": [
+        "the ATR route's pharmacological premise"
+      ]
+    },
+    {
+      "id": "INS-DEPMAP-KO",
+      "name": "DepMap CRISPR-knockout dependency scan of the ATR axis",
+      "module": "research/modalities/fet_ddr_axis_scan.py",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#-the-atri-contrast-and-the-two-things-it-says--one-supporting-route-1-one-bounding-it-hard"
+      },
+      "known_answer_control": {
+        "description": "the FET-vs-non-FET sarcoma contrast must exceed the panel's own spread",
+        "state": "fails",
+        "note": "⛔ REPORTED AS A FAILED INSTRUMENT: the ATR axis sits at the common-essential floor, so the contrast is inside the noise. It cannot support the route and is not cited as if it could"
+      },
+      "serves": [
+        "the ATR route — as a disclosed failure, never as support"
+      ]
+    },
+    {
+      "id": "INS-FUSION-COFOLD",
+      "name": "Fusion protein-level co-folding model",
+      "module": "research/modalities/fusion_cofold.py",
+      "owner": {
+        "file": "research/manuscripts/emc-atr-collaborator-package.md",
+        "anchor": "#72-the-four-constructs--all-four-are-in-frame-4--4"
+      },
+      "known_answer_control": {
+        "description": "⛔ none of its own",
+        "state": "none",
+        "note": "⚠ KNOWN-DEFECTIVE FOR ONE OBJECT: its protein-level model (EWS_CUT = 264, 'NR4A3 resumed at res 2') describes OBJ-MODEL-E7E3. Applied to reported type 2 it is wrong by the 59 UTR-encoded residues. Applied to type 1 it is wrong by the EWSR1 cut. The off-by-two correction it embodies is NOT superseded — see OC-2"
+      },
+      "serves": [
+        "R13"
+      ]
+    },
+    {
+      "id": "INS-HLA-COVERAGE",
+      "name": "HLA population-coverage calculator",
+      "module": "research/modalities/hla_coverage.py",
+      "owner": {
+        "file": "research/manuscripts/hla-coverage-emc.md",
+        "anchor": null
+      },
+      "known_answer_control": {
+        "description": "⛔ no known-answer test recorded",
+        "state": "none",
+        "note": "⚠ its class-II coverage is a FLOOR over a tested 3-allele DR panel, not a complete DR scan. It is computed on the OBJ-MODEL-E7E3 junction, so its epitopes inherit that object's status"
+      },
+      "serves": [
+        "the junction-neoantigen family of routes"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "ART-IDR-CENSUS",
+      "path": "research/modalities/emc-fet-idr-census.json",
+      "produced_by": "research/modalities/emc_fet_idr_census.py",
+      "workflow": ".github/workflows/depmap-dependency.yml",
+      "published_to": [
+        "claude/emc-treatment-alternatives-jdmiwo",
+        "main (⛔ STUB — see note)"
+      ],
+      "note": "⛔ THE FAILURE-4 ARTIFACT. On `main` this is a 161-byte {_status, _remedy} placeholder written by the module's own network-failure path, while a document on `main` prints a full results table from it. Root cause and the one-way fix: research/modalities/artifact_stub_guard.py. A stub is detected by 'every top-level key starts with _'."
+    },
+    {
+      "id": "ART-CONSTRUCT-DESIGNS",
+      "path": "research/modalities/emc-fet-construct-designs.json",
+      "produced_by": "research/modalities/emc_fet_construct_designs.py",
+      "workflow": ".github/workflows/depmap-dependency.yml",
+      "published_to": [
+        "claude/emc-treatment-alternatives-jdmiwo"
+      ],
+      "note": "The transcript-level constructs. Holds the exon-level and residue-level definition of every reported fusion OBJECT, including the 59 UTR-encoded residues."
+    },
+    {
+      "id": "ART-DDR-AXIS-SCAN",
+      "path": "research/modalities/fet-ddr-axis-scan.json",
+      "produced_by": "research/modalities/fet_ddr_axis_scan.py",
+      "workflow": ".github/workflows/depmap-dependency.yml",
+      "published_to": [
+        "claude/emc-treatment-alternatives-jdmiwo",
+        "modalities-cache"
+      ],
+      "note": "⚠ emc-post-degrader-options.md on the feature branch says this is 'committed on `main`'. As of this registry's authoring it is NOT on `main` — the sentence becomes true only when the branch merges. Logged as OC-3."
+    },
+    {
+      "id": "ART-MONOVALENT-REACH",
+      "path": "research/modalities/nr4a3-monovalent-reach.json",
+      "produced_by": "research/modalities/nr4a3_monovalent_reach.py",
+      "workflow": null,
+      "published_to": [
+        "claude/emc-treatment-alternatives-jdmiwo"
+      ],
+      "note": "The paired monovalent-vs-bivalent reach enumeration; 18 tests. Its bivalent half replicates the committed bivalent artifact cell-for-cell."
+    },
+    {
+      "id": "ART-FUSION-OBJECT-INVENTORY",
+      "path": "research/modalities/fusion-object-inventory.json",
+      "produced_by": "research/modalities/fusion_object_inventory.py",
+      "workflow": ".github/workflows/fusion-cpu-extras.yml",
+      "published_to": [
+        "main"
+      ],
+      "note": "Sequence inventory + the 18→9 breakpoint enumeration. Its gate reproduces OBJ-MODEL-E7E3, not a reported junction."
+    },
+    {
+      "id": "ART-TARGET-ROUTE-CENSUS",
+      "path": "research/modalities/target-route-census.json",
+      "produced_by": "research/modalities/target_route_census.py",
+      "workflow": ".github/workflows/fusion-cpu-extras.yml",
+      "published_to": [
+        "main"
+      ],
+      "note": "Paralogue identity by domain, the zinc-finger window, the AF1↔LC swap measurement, and the recorded fusion_model_disagreement."
+    },
+    {
+      "id": "ART-DECOY-NULL-LBD",
+      "path": "research/modalities/categorical-decoy-null-lbd.json",
+      "produced_by": "research/modalities/categorical_decoy_null.py",
+      "workflow": ".github/workflows/categorical-decoy-null.yml",
+      "published_to": [
+        "main"
+      ],
+      "note": "The second, independently pre-registered decoy-null scope — the one that DOES contain C397."
+    },
+    {
+      "id": "ART-APO-POSE-SITE",
+      "path": "research/modalities/apo-pose-site-in-regime.json",
+      "produced_by": "research/modalities/apo_pose_recovery.py",
+      "workflow": null,
+      "published_to": [
+        "main"
+      ],
+      "note": "V3's in-regime site supplement. Emits no RMSD and by its own rule cannot change the pre-registered INCONCLUSIVE."
+    },
+    {
+      "id": "ART-ATR-VULNERABILITY",
+      "path": "research/modalities/emc-atr-vulnerability.json",
+      "produced_by": "research/modalities/emc_atr_vulnerability.py",
+      "workflow": ".github/workflows/depmap-dependency.yml",
+      "published_to": [
+        "claude/emc-treatment-alternatives-jdmiwo"
+      ],
+      "note": "The computed half of the ATR route, assembled as one module."
+    },
+    {
+      "id": "ART-PUBLISHED-WARHEAD-REGISTRY",
+      "path": "research/modalities/published-warhead-registry.json",
+      "produced_by": null,
+      "workflow": null,
+      "published_to": [
+        "main"
+      ],
+      "note": "Where the Zaienne series is recorded WITH its PMID/PMC — i.e. the record the files carrying the ⛔ superseded, retained \"Munck 2022\" attribution should have been pointing at. See EV-ZAIENNE-2022's misattribution_note; the correction is retired and pinned elsewhere."
+    },
+    {
+      "id": "ART-HLA-COVERAGE",
+      "path": "research/modalities/hla-coverage.json",
+      "produced_by": "research/modalities/hla_coverage.py",
+      "workflow": null,
+      "published_to": [
+        "main"
+      ],
+      "note": "Class-II coverage is a FLOOR over a tested 3-allele DR panel, and the junction it is computed on is OBJ-MODEL-E7E3."
+    }
+  ],
+  "routes": [
+    {
+      "id": "RT-DEGRADER",
+      "display_name": "NR4A3-LBD PROTAC degrader",
+      "aliases": [
+        "Degrader — NR4A3-LBD PROTAC",
+        "the degrader",
+        "the degrader program"
+      ],
+      "grade": {
+        "value": "LEADING driver-directed route; the program's north star — and the route whose four blocking failures reorganise every other row",
+        "owner": {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#-where-we-are--the-scoreboard-in-plain-language"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/manuscripts/emc-treatment-strategy.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-PARALOGUE-DDG",
+        "BLK-ENDPOINT-MD",
+        "BLK-PARALOGUE-CONTROL",
+        "BLK-R4-BINDS",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [
+          "V1",
+          "V6",
+          "V8",
+          "V2"
+        ],
+        "disclosed_failing": [
+          "V4",
+          "V5",
+          "V7",
+          "V11",
+          "V12",
+          "V13",
+          "V17",
+          "V20",
+          "V21"
+        ]
+      },
+      "objects": [
+        "OBJ-NR4A3-LBD-MODELLED",
+        "OBJ-NR4A3-WT",
+        "OBJ-NR4A1-WT",
+        "OBJ-NR4A2-WT",
+        "OBJ-RES-C397"
+      ],
+      "evidence": [
+        "EV-ZAIENNE-2022"
+      ],
+      "artifacts": [
+        "ART-DECOY-NULL-LBD",
+        "ART-APO-POSE-SITE"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-ANDGATE",
+          "axis": "what the second arm detects",
+          "fails_on": [
+            "BLK-TERNARY-GEOMETRY",
+            "BLK-PARALOGUE-DDG"
+          ],
+          "why": "the AND-gate adds a fusion-vs-wild-type layer and LEAVES the paralogue layer exactly where it was — two orthogonal requirements, not one replaced"
+        },
+        {
+          "route": "RT-GLUE",
+          "axis": "how proximity is induced",
+          "fails_on": [
+            "BLK-PARALOGUE-DDG"
+          ],
+          "why": "a glue faces the same discrimination with FEWER independent handles"
+        },
+        {
+          "route": "RT-MONOVALENT",
+          "axis": "whether a degradation geometry is needed at all",
+          "fails_on": [
+            "BLK-TERNARY-GEOMETRY"
+          ],
+          "why": "the monovalent route deletes the ternary layer entirely; the degrader is defined by it"
+        },
+        {
+          "route": "RT-TCIP",
+          "axis": "what the recruited partner does",
+          "fails_on": [
+            "BLK-TERNARY-GEOMETRY",
+            "BLK-PARALOGUE-CONTROL"
+          ],
+          "why": "the degrader's second partner is an E3 and its verdict is a degradation event; TCIP's is a transcriptional effector and its verdict is a rewired output — the ubiquitin-transfer geometry does not apply to it"
+        }
+      ]
+    },
+    {
+      "id": "RT-ASO",
+      "display_name": "Fusion-junction ASO / siRNA (the deliverable)",
+      "aliases": [
+        "Fusion-junction ASO / siRNA",
+        "the junction ASO",
+        "post-degrader route 2",
+        "target-route route 3"
+      ],
+      "grade": {
+        "value": "Tier 1, rank 2 — DELIVERABLE",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#2--the-ranked-list|tier1-rank2"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-DELIVERY"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1",
+        "OBJ-FUS-T2",
+        "OBJ-NR4A3-WT"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-ASO-ASK",
+          "axis": "deliverable vs ask",
+          "fails_on": [
+            "BLK-NO-WET-LAB"
+          ],
+          "why": "the manuscript is finished and needs nobody; the knockdown experiment needs a lab and has the portfolio's weakest taker. Grading them as one row is what the W1/W2/D correction exists to stop"
+        },
+        {
+          "route": "RT-CRISPR-CAS13",
+          "axis": "delivery class",
+          "fails_on": [
+            "BLK-DELIVERY"
+          ],
+          "why": "an oligonucleotide's delivery problem has clinical precedent in solid tumours; a vector's is a different engineering problem with different precedents, and Cas13 additionally carries collateral activity"
+        }
+      ]
+    },
+    {
+      "id": "RT-ASO-ASK",
+      "display_name": "Junction knockdown + parental sparing in EMC lines (the ask behind the ASO)",
+      "aliases": [
+        "post-degrader route 2b",
+        "the ASO wet-lab ask"
+      ],
+      "grade": {
+        "value": "Tier 2, rank 6 — ASK",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#2--the-ranked-list|tier2-rank6"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-NO-WET-LAB",
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1",
+        "OBJ-NR4A3-WT"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-ASO",
+          "axis": "deliverable vs ask",
+          "fails_on": [
+            "BLK-DELIVERY"
+          ],
+          "why": "the paper is unaffected by this ask failing — the one ask in the portfolio whose failure costs its route nothing"
+        }
+      ]
+    },
+    {
+      "id": "RT-METHODS-PAPER",
+      "display_name": "The honest methods paper on the degrader program's own failure record",
+      "aliases": [
+        "post-degrader route 3",
+        "the methods paper"
+      ],
+      "grade": {
+        "value": "Tier 1, rank 1 — DELIVERABLE",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#route-3--publish-the-methods-result-the-program-has-already-earned--rank-1"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [],
+      "blockers_retired": [
+        "BLK-NO-WET-LAB"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "V4",
+          "V5",
+          "V7",
+          "V11",
+          "V12",
+          "V13",
+          "V17",
+          "V20",
+          "V21"
+        ]
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": []
+    },
+    {
+      "id": "RT-ATR-ASSESS",
+      "display_name": "The in-silico ATR vulnerability assessment (the computed half)",
+      "aliases": [
+        "post-degrader route 1a",
+        "the ATR assessment"
+      ],
+      "grade": {
+        "value": "Tier 1, rank 3 — DELIVERABLE",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#2--the-ranked-list|tier1-rank3"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-CLASS-INHERITANCE",
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-R4-BINDS"
+      ],
+      "instruments": {
+        "support": [
+          "INS-IDR-CENSUS",
+          "INS-DDR-AXIS-SCAN",
+          "INS-CONSTRUCT-DESIGNS"
+        ],
+        "disclosed_failing": [
+          "INS-DEPMAP-KO"
+        ]
+      },
+      "objects": [
+        "OBJ-FUS-T1",
+        "OBJ-FUS-T2",
+        "OBJ-FUS-T5",
+        "OBJ-FUS-TAF15",
+        "OBJ-FUS-FUSNR4A3",
+        "OBJ-FUS-TCF12",
+        "OBJ-MODEL-E7E3"
+      ],
+      "evidence": [
+        "EV-FET-ATR-2023"
+      ],
+      "artifacts": [
+        "ART-IDR-CENSUS",
+        "ART-CONSTRUCT-DESIGNS",
+        "ART-DDR-AXIS-SCAN",
+        "ART-ATR-VULNERABILITY"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-ATR-PANEL",
+          "axis": "deliverable vs ask",
+          "fails_on": [
+            "BLK-CLASS-INHERITANCE"
+          ],
+          "why": "the assessment produces a computed result whether or not one cell is ever plated; the panel is the experiment and this programme does not execute it. The corrected ranking SPLIT them for exactly this reason"
+        },
+        {
+          "route": "RT-SYNLETH-DEP",
+          "axis": "where the dependency comes from",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "both are called 'synthetic lethality' and they are not the same route: the ATR axis is inherited from a FET-family class argument, the BRD9/ncBAF axis was a DepMap transfer prior and came back negative"
+        }
+      ]
+    },
+    {
+      "id": "RT-ATR-PANEL",
+      "display_name": "The ATR-inhibitor cell panel in EMC lines (the ask)",
+      "aliases": [
+        "post-degrader route 1b",
+        "the ATR cell panel"
+      ],
+      "grade": {
+        "value": "Tier 2, rank 4 — ASK, best W1 in the portfolio",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#2--the-ranked-list|tier2-rank4"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-WET-LAB",
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [
+        "EV-FET-ATR-2023"
+      ],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-ATR-ASSESS",
+          "axis": "deliverable vs ask",
+          "fails_on": [
+            "BLK-NO-WET-LAB"
+          ],
+          "why": "its value is entirely in an experiment this programme cannot cause; the assessment's value is not"
+        }
+      ]
+    },
+    {
+      "id": "RT-TCIP",
+      "display_name": "TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3",
+      "aliases": [
+        "post-degrader route 4",
+        "target-route route 6",
+        "TCIP",
+        "bivalent fusion-TF rewiring"
+      ],
+      "grade": {
+        "value": "Tier 3 — demoted from Tier 2; the cheapest promotion available in the memo",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#2--the-ranked-list|tier3-route4"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-R4-BINDS",
+        "BLK-INDUCED-COMPLEX",
+        "BLK-PARALOGUE-DDG",
+        "BLK-NO-WET-LAB"
+      ],
+      "blockers_retired": [
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-NR4A3-LBD-MODELLED",
+        "OBJ-FUS-T1"
+      ],
+      "evidence": [
+        "EV-EB-TCIP-2025"
+      ],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-MONOVALENT",
+          "axis": "how many termini the molecule has",
+          "fails_on": [
+            "BLK-INDUCED-COMPLEX",
+            "BLK-R4-BINDS"
+          ],
+          "why": "a TCIP is still bivalent, so the reach result computed for the monovalent configuration DOES NOT TRANSFER to it — a different second terminus is a different enumeration, and running it is an open $0 item"
+        },
+        {
+          "route": "RT-DEGRADER",
+          "axis": "what the recruited partner does",
+          "fails_on": [
+            "BLK-INDUCED-COMPLEX"
+          ],
+          "why": "TCIP recruits a transcriptional effector rather than an E3, so it retires the ubiquitin-transfer geometry while keeping the induced-complex problem"
+        },
+        {
+          "route": "RT-RIPTAC",
+          "axis": "what the recruited partner does",
+          "fails_on": [
+            "BLK-INDUCED-COMPLEX",
+            "BLK-R4-BINDS"
+          ],
+          "why": "a TCIP recruits a transcriptional effector; a RIPTAC recruits an essential protein to poison it, which reinstates the full paralogue-selectivity requirement a TCIP can partly avoid"
+        }
+      ]
+    },
+    {
+      "id": "RT-COVALENT-PROBE",
+      "display_name": "Covalent probe at C397 — as a REAGENT, not a drug",
+      "aliases": [
+        "post-degrader route 5",
+        "the covalent probe",
+        "the C397 probe"
+      ],
+      "grade": {
+        "value": "Tier 3 — the largest single demotion; D ≈ 0 and P is negative rather than merely absent",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#route-5--the-covalent-probe-at-c397-proposed-as-a-reagent---the-largest-single-demotion"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-WET-LAB",
+        "BLK-R4-BINDS"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-FUNCTIONAL-ACTIONABILITY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "V17",
+          "V3"
+        ]
+      },
+      "objects": [
+        "OBJ-RES-C397",
+        "OBJ-NR4A3-LBD-MODELLED",
+        "OBJ-NR4A3-LBD-CATALOGUE",
+        "OBJ-RES-NR4A1-C551"
+      ],
+      "evidence": [],
+      "artifacts": [
+        "ART-DECOY-NULL-LBD"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-MONOVALENT",
+          "axis": "what the molecule has to DO once bound",
+          "fails_on": [
+            "BLK-NO-WET-LAB",
+            "BLK-R4-BINDS"
+          ],
+          "why": "⭐ THE FAILURE-3 PAIR. A probe needs only to BIND, so it inherits neither functional actionability nor a selectivity window; a monovalent DRUG needs the pocket to be a functional handle in the chimera and needs a selectivity requirement nobody has sized. Their in-silico halves fail on OPPOSITE things, so one demotion cannot cover both"
+        }
+      ]
+    },
+    {
+      "id": "RT-MONOVALENT",
+      "display_name": "Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD",
+      "aliases": [
+        "the monovalent route",
+        "monovalent LBD pocket modulation",
+        "the third framing of C397"
+      ],
+      "grade": {
+        "value": "REGISTERED, NOT PROMOTED — and specifically a DOWNGRADE of what the probe framing implies about a monovalent drug",
+        "owner": {
+          "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+          "anchor": "#7--grade-against-the-failure-record"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-FUNCTIONAL-ACTIONABILITY",
+        "BLK-UNSIZED-REQUIREMENT",
+        "BLK-R4-BINDS",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "blockers_retired": [
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-INDUCED-COMPLEX"
+      ],
+      "sub_forms": [
+        {
+          "name": "non-covalent occupancy",
+          "fails_on": [
+            "BLK-PARALOGUE-DDG"
+          ],
+          "note": "still an exp(−ΔΔG/RT) ratio — the requirement this program has failed to measure four ways"
+        },
+        {
+          "name": "covalent occupancy",
+          "fails_on": [
+            "BLK-REACH-CATEGORICAL"
+          ],
+          "note": "escapes the ΔΔG requirement CATEGORICALLY — and the E3-arm-free reach enumeration closes the categorical window at C397 on the conservative convention in every cell that had one"
+        }
+      ],
+      "instruments": {
+        "support": [
+          "INS-MONOVALENT-REACH"
+        ],
+        "disclosed_failing": [
+          "V17",
+          "V3"
+        ]
+      },
+      "objects": [
+        "OBJ-RES-C397",
+        "OBJ-NR4A3-LBD-MODELLED",
+        "OBJ-NR4A3-LBD-CATALOGUE",
+        "OBJ-NR4A3-AF1",
+        "OBJ-NR4A3-WT"
+      ],
+      "evidence": [
+        "EV-ZAIENNE-2022"
+      ],
+      "artifacts": [
+        "ART-MONOVALENT-REACH"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-COVALENT-PROBE",
+          "axis": "what the molecule has to DO once bound",
+          "fails_on": [
+            "BLK-FUNCTIONAL-ACTIONABILITY",
+            "BLK-UNSIZED-REQUIREMENT"
+          ],
+          "why": "⭐ THE FAILURE-3 PAIR. This route adds a make-or-break no other LBD route carries — functional actionability of the LBD IN THE CHIMERA — which cannot be computed, cannot be bought, and is not covered by the delegated dTAG test. The probe framing is untouched by all of it"
+        },
+        {
+          "route": "RT-TCIP",
+          "axis": "how many termini the molecule has",
+          "fails_on": [
+            "BLK-FUNCTIONAL-ACTIONABILITY"
+          ],
+          "why": "monovalent is strictly cleaner on the ternary axis — no second protein at all — while TCIP still inherits the induced-complex problem. The monovalent reach result therefore does not transfer to TCIP and vice versa"
+        },
+        {
+          "route": "RT-6MP",
+          "axis": "which domain the mechanism lives in",
+          "fails_on": [
+            "BLK-FUNCTIONAL-ACTIONABILITY"
+          ],
+          "why": "6-MP is closed because it acts through the AF-1, the domain the disease deletes. That closure does NOT close LBD-directed modulation — the published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less"
+        },
+        {
+          "route": "RT-DEGRADER",
+          "axis": "whether a degradation geometry is needed at all",
+          "fails_on": [
+            "BLK-FUNCTIONAL-ACTIONABILITY",
+            "BLK-UNSIZED-REQUIREMENT"
+          ],
+          "why": "the degrader only has to BIND and be degraded; a monovalent modulator has to change what the chimera DOES, which is a make-or-break the degrader does not carry"
+        }
+      ]
+    },
+    {
+      "id": "RT-ASYMMETRIC",
+      "display_name": "Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort",
+      "aliases": [
+        "target-route route 1",
+        "the asymmetric requirement"
+      ],
+      "grade": {
+        "value": "★★ adopt now — free, and it changes the design brief",
+        "owner": {
+          "file": "research/manuscripts/target-route-options.md",
+          "anchor": "#route-1--asymmetric-selectivity-nr4a1-sparing-mandatory-nr4a2-sparing-best-effort--pk"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-PARALOGUE-DDG"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-NR4A1-WT",
+        "OBJ-NR4A2-WT",
+        "OBJ-NR4A3-WT"
+      ],
+      "evidence": [],
+      "artifacts": [
+        "ART-TARGET-ROUTE-CENSUS"
+      ],
+      "distinct_from": []
+    },
+    {
+      "id": "RT-TRABECTEDIN-PPARG",
+      "display_name": "Trabectedin + a PPARγ agonist (all approved drugs)",
+      "aliases": [
+        "post-degrader route 6",
+        "trabectedin + pioglitazone"
+      ],
+      "grade": {
+        "value": "Tier 2, rank 5 — ASK with a good taker and a thin deliverable",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#route-6--trabectedin--a-ppar-agonist-an-all-approved-drug-combination-on-emcs-own-documented-axis"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-WET-LAB",
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-R4-BINDS"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1"
+      ],
+      "evidence": [
+        "EV-FILION-2009",
+        "EV-PIOGLITAZONE-TRABECTEDIN-2019"
+      ],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-TRABECTEDIN",
+          "axis": "combination vs monotherapy",
+          "fails_on": [
+            "BLK-NO-WET-LAB"
+          ],
+          "why": "the board carried trabectedin and the PPARG axis as two separate rows for months and never joined them; joining them is what created THIS route, and the monotherapy row remains a distinct near-term lead with its own evidence"
+        },
+        {
+          "route": "RT-PPARG-DOWNSTREAM",
+          "axis": "whether the agonist acts alone",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "the downstream/TZD row is the agonist ALONE and carries an unresolved direction question that cuts AGAINST the naive version — in EMC the fusion turns PPARG on, so an agonist may be redundant. The combination's logic is promoter displacement unmasking a differentiation-competent receptor, which is a different argument"
+        }
+      ]
+    },
+    {
+      "id": "RT-TRABECTEDIN",
+      "display_name": "Trabectedin (± RT or combination)",
+      "aliases": [
+        "trabectedin monotherapy"
+      ],
+      "grade": {
+        "value": "NEAR-TERM LEAD — approved, mechanism-fit",
+        "owner": {
+          "file": "research/IDEAS.md",
+          "anchor": "route-board|trabectedin"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/emerging-modalities-scan-emc.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-TRABECTEDIN-PPARG",
+          "axis": "combination vs monotherapy",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "monotherapy rests on a reported EMC responder and a mechanism fit; the combination rests additionally on a published result in a sibling sarcoma and on the fusion→PPARG axis"
+        }
+      ]
+    },
+    {
+      "id": "RT-PPARG-DOWNSTREAM",
+      "display_name": "PPARG downstream-effector (repurpose TZDs)",
+      "aliases": [
+        "target-route route 5",
+        "the PPARG/TZD row",
+        "downstream nodes the fusion transactivates"
+      ],
+      "grade": {
+        "value": "★ keep; direction unresolved",
+        "owner": {
+          "file": "research/manuscripts/target-route-options.md",
+          "anchor": "#route-5--downstream-of-the-fusion-pparg-and-the-transactivated-nodes"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-R4-BINDS"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1"
+      ],
+      "evidence": [
+        "EV-FILION-2009"
+      ],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-TRABECTEDIN-PPARG",
+          "axis": "whether the agonist acts alone",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "this row is the agonist alone and its direction (agonism vs antagonism vs redundancy) is unresolved; the combination row's argument runs through promoter displacement and does not depend on resolving it the same way"
+        }
+      ]
+    },
+    {
+      "id": "RT-SSTR2",
+      "display_name": "SSTR2 / neuroendocrine theranostic",
+      "aliases": [
+        "post-degrader route 7",
+        "SSTR2",
+        "⁶⁸Ga-DOTATATE / ¹⁷⁷Lu-DOTATATE"
+      ],
+      "grade": {
+        "value": "Tier 3 — demoted; W2 is the smallest imaginable and W1 is the problem",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#route-7--sstr2--neuroendocrine-theranostic-the-cheapest-possible-confirm-and-the-clearest-case-of-cheapness-not-being-enough"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/emc-surface-target-landscape.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-WET-LAB",
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-B7H3",
+          "axis": "which antigen and how it was graded",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "SSTR2 is UNMEASURED in EMC; B7-H3 was MEASURED and came back not selective (BH q = 1.0). 'Surface-target route' names both and they failed differently"
+        },
+        {
+          "route": "RT-FAP-RLT",
+          "axis": "which radioligand target",
+          "fails_on": [
+            "BLK-NO-WET-LAB"
+          ],
+          "why": "SSTR2 follows EMC's own neuroendocrine differentiation and its ask needs a clinician with an EMC patient; FAP targets the myxoid STROMA and its ask is an expression/avidity confirm"
+        }
+      ]
+    },
+    {
+      "id": "RT-B7H3",
+      "display_name": "B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T",
+      "aliases": [
+        "post-degrader route 13",
+        "B7-H3",
+        "CD276"
+      ],
+      "grade": {
+        "value": "Tier 3 — already red-teamed in this repo: not selective (BH q = 1.0)",
+        "owner": {
+          "file": "research/manuscripts/emc-surface-target-landscape.md",
+          "anchor": null
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NOT-FUSION-SELECTIVE",
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-CART-SURFACE",
+          "axis": "antigen vs modality",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "B7-H3 is an ANTIGEN whose selectivity was measured and failed; CAR-T is a MODALITY that would use whichever antigen survives. Collapsing them hides that the modality is blocked by the antigen search, not by the cell product"
+        },
+        {
+          "route": "RT-SSTR2",
+          "axis": "which antigen and how it was graded",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "B7-H3's selectivity was MEASURED and failed (BH q = 1.0); SSTR2 is UNMEASURED in EMC. A measured negative and an unmeasured hope are not the same status"
+        }
+      ]
+    },
+    {
+      "id": "RT-CART-SURFACE",
+      "display_name": "CAR-T for EMC (surface-directed)",
+      "aliases": [
+        "CAR-T for EMC"
+      ],
+      "grade": {
+        "value": "Hard but not closed — among surface modalities, ADC/FAPI-RLT likely beat CAR-T to a patient",
+        "owner": {
+          "file": "research/manuscripts/car-t-strategies-emc.md",
+          "anchor": null
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-ANTIGEN-COLD",
+        "BLK-NO-EMC-DATA",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-PANNR4A-EXVIVO",
+          "axis": "where the NR4A molecule acts",
+          "fails_on": [
+            "BLK-ANTIGEN-COLD"
+          ],
+          "why": "⚠ TWO DIFFERENT CAR-T ROUTES. This one treats EMC with a CAR against an EMC surface antigen. The pan-NR4A pole is a MANUFACTURING ADDITIVE applied ex vivo to the T cells, where the systemic-selectivity liability does not arise at all"
+        },
+        {
+          "route": "RT-B7H3",
+          "axis": "antigen vs modality",
+          "fails_on": [
+            "BLK-ANTIGEN-COLD",
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "CAR-T is the modality; B7-H3 is one antigen it could use. The modality is blocked by the antigen search and by the cold myxoid stroma, not by the cell product"
+        }
+      ]
+    },
+    {
+      "id": "RT-PANNR4A-EXVIVO",
+      "display_name": "Ex-vivo pan-NR4A pole (CAR-T manufacturing additive)",
+      "aliases": [
+        "target-route route 4",
+        "pole 2",
+        "the pan-NR4A pole"
+      ],
+      "grade": {
+        "value": "★ already in the paper as pole 2; under-used as an ARGUMENT",
+        "owner": {
+          "file": "research/manuscripts/target-route-options.md",
+          "anchor": "#route-4--the-ex-vivo-pan-nr4a-pole-car-t-manufacturing-additive"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/nr4a3-degrader-carT-and-family-druggability-framing.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-NR4A1-WT",
+        "OBJ-NR4A2-WT",
+        "OBJ-NR4A3-WT"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-CART-SURFACE",
+          "axis": "where the NR4A molecule acts",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "it is not an EMC treatment route at all in the direct sense — it removes the selectivity requirement by changing the exposure regime, not by being cleverer about the pocket"
+        }
+      ]
+    },
+    {
+      "id": "RT-JUNCTION-NEOANTIGEN",
+      "display_name": "Fusion-junction neoantigen (the antigen, shared by three delivery routes)",
+      "aliases": [
+        "target-route route 7",
+        "junction neoantigen"
+      ],
+      "grade": {
+        "value": "○ drafted — and now carrying a correction owed",
+        "owner": {
+          "file": "research/manuscripts/target-route-options.md",
+          "anchor": "#route-7--junction-neoantigen-vaccine--tcr-t--soluble-tcr"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/fusion-junction-neoantigen-paper.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-ANTIGEN-COLD"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "INS-HLA-COVERAGE"
+        ]
+      },
+      "objects": [
+        "OBJ-MODEL-E7E3",
+        "OBJ-FUS-T1",
+        "OBJ-FUS-T2"
+      ],
+      "evidence": [],
+      "artifacts": [
+        "ART-HLA-COVERAGE"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-VACCINE",
+          "axis": "delivery of the same antigen",
+          "fails_on": [
+            "BLK-ANTIGEN-COLD"
+          ],
+          "why": "the antigen is one object; the vaccine, the TCR-T and the soluble TCR are three different products with different failure modes, and the board has graded them as one row"
+        },
+        {
+          "route": "RT-TCR-IMMTAC",
+          "axis": "delivery of the same antigen",
+          "fails_on": [
+            "BLK-ANTIGEN-COLD"
+          ],
+          "why": "same antigen, engineered-cell or soluble-bispecific product rather than an immunisation"
+        }
+      ],
+      "correction_owed": "⛔ Its 26 predicted binders span seams that do not exist. fusion-breakpoint-neoantigens.json must be regenerated against the corrected exon index — this is a live correction owed, recorded by target-route-options.md, and this registry only points at it."
+    },
+    {
+      "id": "RT-VACCINE",
+      "display_name": "Fusion-junction vaccine / HLA-coverage paper",
+      "aliases": [
+        "the vaccine route",
+        "HLA-coverage paper"
+      ],
+      "grade": {
+        "value": "PARKED — done, not a treatment path; a self-adjacent junction in a cold tumour is a weak immunogen",
+        "owner": {
+          "file": "research/manuscripts/hla-coverage-emc.md",
+          "anchor": null
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-ANTIGEN-COLD"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "INS-HLA-COVERAGE"
+        ]
+      },
+      "objects": [
+        "OBJ-MODEL-E7E3"
+      ],
+      "evidence": [],
+      "artifacts": [
+        "ART-HLA-COVERAGE"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-JUNCTION-NEOANTIGEN",
+          "axis": "antigen vs product",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "the vaccine is one product built on the antigen; parking the product does not park the antigen, whose HLA-coverage output still feeds TCR-T eligibility"
+        }
+      ]
+    },
+    {
+      "id": "RT-TCR-IMMTAC",
+      "display_name": "Fusion-junction TCR-T / soluble-TCR (ImmTAC) against the junction peptide-HLA",
+      "aliases": [
+        "post-degrader route 10",
+        "fusion-junction TCR / ImmTAC"
+      ],
+      "grade": {
+        "value": "Tier 3 — the weak-junction-pHLA problem; EMC is antigen-cold",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#routes-813--why-each-sits-in-tier-3|route10"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/immunotherapy-options-emc.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-ANTIGEN-COLD"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "INS-HLA-COVERAGE"
+        ]
+      },
+      "objects": [
+        "OBJ-MODEL-E7E3"
+      ],
+      "evidence": [],
+      "artifacts": [
+        "ART-HLA-COVERAGE"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-PRAME-IMMTAC",
+          "axis": "which peptide the TCR sees",
+          "fails_on": [
+            "BLK-ANTIGEN-COLD"
+          ],
+          "why": "⚠ BOTH ARE 'ImmTAC' AND THEY ARE NOT THE SAME ROUTE. This one targets the FUSION JUNCTION peptide-HLA (fusion-exclusive, weak junction). The PRAME route targets a cancer-testis antigen through an EXISTING tumour-agnostic basket product and is not fusion-exclusive at all"
+        },
+        {
+          "route": "RT-JUNCTION-NEOANTIGEN",
+          "axis": "antigen vs product",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "this is one of three products on the same antigen"
+        }
+      ]
+    },
+    {
+      "id": "RT-PRAME-IMMTAC",
+      "display_name": "PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR",
+      "aliases": [
+        "PRAME-directed",
+        "brenetafusp"
+      ],
+      "grade": {
+        "value": "NEW antigen-directed lead — best of the CTAs",
+        "owner": {
+          "file": "research/IDEAS.md",
+          "anchor": "route-board|prame"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/immunotherapy-options-emc.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-TCR-IMMTAC",
+          "axis": "which peptide the TCR sees",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "a cancer-testis antigen, not the junction; its access route is an existing basket trial rather than a bespoke product, and it sacrifices fusion-exclusivity"
+        },
+        {
+          "route": "RT-TCRT-CTA",
+          "axis": "which CTA",
+          "fails_on": [
+            "BLK-ANTIGEN-COLD"
+          ],
+          "why": "NY-ESO-1/MAGE-A4 TCR-T is DOWNGRADED on measured EMC CTA-low data; PRAME is the one CTA whose surrogate expression read came back favourable"
+        }
+      ]
+    },
+    {
+      "id": "RT-TCRT-CTA",
+      "display_name": "TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcoma port)",
+      "aliases": [
+        "afami-cel port",
+        "NY-ESO-1 / MAGE-A4 TCR-T"
+      ],
+      "grade": {
+        "value": "DOWNGRADED to weak — gating fact resolved, mostly negative",
+        "owner": {
+          "file": "research/manuscripts/immunotherapy-options-emc.md",
+          "anchor": null
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-ANTIGEN-COLD",
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "INS-HLA-COVERAGE"
+        ]
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [
+        "ART-HLA-COVERAGE"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-PRAME-IMMTAC",
+          "axis": "which CTA",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "EMC is NY-ESO-1-rare and MAGE-A4-low on measured data; PRAME is separately expressed and separately graded"
+        }
+      ]
+    },
+    {
+      "id": "RT-ICI-TKI",
+      "display_name": "Checkpoint inhibitor + anti-angiogenic TKI combination",
+      "aliases": [
+        "ImmunoSarc",
+        "sunitinib + nivolumab"
+      ],
+      "grade": {
+        "value": "TOP NEAR-TERM LEAD (best EMC evidence)",
+        "owner": {
+          "file": "research/manuscripts/immunotherapy-options-emc.md",
+          "anchor": "#2"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": []
+    },
+    {
+      "id": "RT-CARFILZOMIB",
+      "display_name": "Carfilzomib ± anthracycline (± venetoclax)",
+      "aliases": [
+        "carfilzomib"
+      ],
+      "grade": {
+        "value": "NEAR-TERM LEAD — best ex-vivo EMC evidence",
+        "owner": {
+          "file": "research/manuscripts/repurposing-hypotheses.md",
+          "anchor": null
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [
+        "EV-BANGERTER-2023"
+      ],
+      "artifacts": [],
+      "distinct_from": []
+    },
+    {
+      "id": "RT-FAP-RLT",
+      "display_name": "FAP-targeted radioligand therapy (FAPI-RLT)",
+      "aliases": [
+        "FAPI-RLT",
+        "FAP-PET"
+      ],
+      "grade": {
+        "value": "Emerging, plausible",
+        "owner": {
+          "file": "research/manuscripts/emerging-modalities-scan-emc.md",
+          "anchor": "#2"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-SSTR2",
+          "axis": "which radioligand target",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "both are theranostics and they target different things — FAP is the myxoid STROMA, SSTR2 is EMC's own neuroendocrine differentiation"
+        }
+      ]
+    },
+    {
+      "id": "RT-SYNLETH-DEP",
+      "display_name": "Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BAF)",
+      "aliases": [
+        "target-route route 9",
+        "BRD9 / ncBAF"
+      ],
+      "grade": {
+        "value": "DOWNGRADED — DepMap 24Q4 transfer prior negative; ⏸ parked on data, not on ideas",
+        "owner": {
+          "file": "research/manuscripts/degrader-vs-synthetic-lethal.md",
+          "anchor": null
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-R4-BINDS"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-ATR-ASSESS",
+          "axis": "where the dependency comes from",
+          "fails_on": [
+            "BLK-NO-EMC-DATA"
+          ],
+          "why": "'synthetic lethality' names both. This one is a DepMap transfer prior that came back negative; the ATR route is a class inheritance from a published FET-family argument with its own structural precondition computed"
+        }
+      ]
+    },
+    {
+      "id": "RT-ANDGATE",
+      "display_name": "AND-gate bivalent degrader (avidity coincidence detection)",
+      "aliases": [
+        "target-route route 8",
+        "the AND-gate"
+      ],
+      "grade": {
+        "value": "⏸ hold — arm-2 chemistry does not exist",
+        "owner": {
+          "file": "research/manuscripts/fusion-selective-andgate-degrader-paper.md",
+          "anchor": null
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-PARALOGUE-DDG",
+        "BLK-R4-BINDS"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1",
+        "OBJ-NR4A3-LBD-MODELLED"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-DEGRADER",
+          "axis": "what the second arm detects",
+          "fails_on": [
+            "BLK-TERNARY-GEOMETRY"
+          ],
+          "why": "⚠ 'fusion-selective' is NOT automatically 'paralogue-free'. The AND-gate adds a fusion-vs-wild-type layer on top of the paralogue layer; arm 1 still carries the selectivity handles"
+        }
+      ]
+    },
+    {
+      "id": "RT-GLUE",
+      "display_name": "Molecular glue instead of a PROTAC",
+      "aliases": [
+        "target-route route 10",
+        "molecular glue"
+      ],
+      "grade": {
+        "value": "⏸ watch, do not build — removes handles and keeps the same ~1 kcal/mol claim",
+        "owner": {
+          "file": "research/manuscripts/target-route-options.md",
+          "anchor": "#route-10--a-molecular-glue-instead-of-a-protac"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "asserts_grade": false
+        },
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-R4-BINDS"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-NR4A3-LBD-MODELLED"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-DEGRADER",
+          "axis": "how proximity is induced",
+          "fails_on": [
+            "BLK-PARALOGUE-DDG",
+            "BLK-R4-BINDS"
+          ],
+          "why": "a glue keeps the same ~1 kcal/mol paralogue claim with FEWER independent handles than a PROTAC — the registered reason it is watch-do-not-build rather than a cheaper degrader"
+        }
+      ]
+    },
+    {
+      "id": "RT-EWSR1-PROTEIN",
+      "display_name": "Target the EWSR1 half at the protein level",
+      "aliases": [
+        "target-route route 11"
+      ],
+      "grade": {
+        "value": "✕ down — relocates onto an essential gene",
+        "owner": {
+          "file": "research/manuscripts/target-route-options.md",
+          "anchor": "#route-11--target-the-ewsr1-half-at-the-protein-level"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-EWSR1-WT"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-FET-LC-LIGAND",
+          "axis": "the same liability, arrived at from a different direction",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "one targets EWSR1 as EWSR1; the other targets the FET low-complexity half as a shared class feature. Both land on wild-type EWSR1, so they share a blocker and are still separately registered because their entry points differ"
+        }
+      ]
+    },
+    {
+      "id": "RT-FET-LC-LIGAND",
+      "display_name": "A ligand for the shared FET low-complexity half",
+      "aliases": [
+        "post-degrader route 15"
+      ],
+      "grade": {
+        "value": "Tier 3 — relocates selectivity somewhere worse",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#route-15---a-ligand-for-the-shared-fet-low-complexity-half"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-EWSR1-WT"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-EWSR1-PROTEIN",
+          "axis": "the same liability, arrived at from a different direction",
+          "fails_on": [
+            "BLK-NO-WET-LAB"
+          ],
+          "why": "a NEW route to this repo, proposed as a class-wide FET handle rather than as an EWSR1-specific one"
+        }
+      ]
+    },
+    {
+      "id": "RT-DBD",
+      "display_name": "Target the DBD / DNA binding",
+      "aliases": [
+        "target-route route 12"
+      ],
+      "grade": {
+        "value": "✕ down, on arithmetic — 92.8 % / 98.6 % paralogue identity",
+        "owner": {
+          "file": "research/manuscripts/target-route-options.md",
+          "anchor": "#route-12--target-the-dbd--dna-binding"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-PARALOGUE-DDG"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-NR4A3-DBD"
+      ],
+      "evidence": [],
+      "artifacts": [
+        "ART-TARGET-ROUTE-CENSUS"
+      ],
+      "distinct_from": []
+    },
+    {
+      "id": "RT-UBIQ-SELECTIVE",
+      "display_name": "Fusion-selective ubiquitination — discriminate at the transfer step",
+      "aliases": [
+        "target-route route 13"
+      ],
+      "grade": {
+        "value": "✕ closed by a measurement already committed",
+        "owner": {
+          "file": "research/manuscripts/target-route-options.md",
+          "anchor": "#route-13--fusion-selective-ubiquitination-closed-by-a-number-the-repo-already-owns"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "V18"
+        ]
+      },
+      "objects": [
+        "OBJ-FUS-T1"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": []
+    },
+    {
+      "id": "RT-RIPTAC",
+      "display_name": "RIPTAC — bind the tumour protein, poison an essential one",
+      "aliases": [
+        "post-degrader route 8"
+      ],
+      "grade": {
+        "value": "Tier 3 — needs paralogue selectivity AND a med-chem campaign; strictly worse than TCIP on both",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#routes-813--why-each-sits-in-tier-3|route8"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-INDUCED-COMPLEX",
+        "BLK-R4-BINDS"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-NR4A3-LBD-MODELLED"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-TCIP",
+          "axis": "what the recruited partner does",
+          "fails_on": [
+            "BLK-PARALOGUE-DDG",
+            "BLK-R4-BINDS"
+          ],
+          "why": "a RIPTAC poisons an essential protein and therefore needs the paralogue selectivity a TCIP's effector recruitment can partly avoid; it is strictly worse on both axes and is registered so it is not re-proposed as 'TCIP-like'"
+        }
+      ]
+    },
+    {
+      "id": "RT-CRISPR-CAS13",
+      "display_name": "CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown",
+      "aliases": [
+        "post-degrader route 9",
+        "Cas13"
+      ],
+      "grade": {
+        "value": "Tier 3 — delivery, and Cas13 collateral activity",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#routes-813--why-each-sits-in-tier-3|route9"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/manuscripts/novel-modalities.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [
+        "BLK-VECTOR-DELIVERY"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-ASO",
+          "axis": "delivery class",
+          "fails_on": [
+            "BLK-VECTOR-DELIVERY"
+          ],
+          "why": "an oligonucleotide's delivery problem and a vector's delivery problem are different engineering problems with different precedents — BLK-DELIVERY vs BLK-VECTOR-DELIVERY"
+        }
+      ]
+    },
+    {
+      "id": "RT-HDAC-BET",
+      "display_name": "HDAC / BET to lower fusion expression",
+      "aliases": [
+        "post-degrader route 11"
+      ],
+      "grade": {
+        "value": "Tier 3 — not fusion-selective; a class effect, not an EMC result",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#routes-813--why-each-sits-in-tier-3|route11"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": []
+    },
+    {
+      "id": "RT-RIBOZYME",
+      "display_name": "Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript",
+      "aliases": [
+        "post-degrader route 12"
+      ],
+      "grade": {
+        "value": "Tier 3 — vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#routes-813--why-each-sits-in-tier-3|route12"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-VECTOR-DELIVERY"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-NOT-FUSION-SELECTIVE"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-SYNPROMOTER",
+          "axis": "what the fusion is sensed BY",
+          "fails_on": [
+            "BLK-VECTOR-DELIVERY"
+          ],
+          "why": "the ribozyme senses the fusion TRANSCRIPT by base-pairing; the synthetic promoter senses the fusion PROTEIN by DNA binding — and the second fails for an EMC-specific reason the first does not (EMC lacks a neomorphic DNA-binding element)"
+        }
+      ]
+    },
+    {
+      "id": "RT-SYNPROMOTER",
+      "display_name": "Fusion-driven synthetic promoter → suicide gene",
+      "aliases": [
+        "post-degrader route 14"
+      ],
+      "grade": {
+        "value": "Tier 3 — vector delivery, AND EMC lacks the neomorphic DNA-binding element the technique depends on",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#route-14---the-fusion-driven-synthetic-promoter-and-the-precise-reason-emc-is-a-harder-case-than-ewing"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-VECTOR-DELIVERY"
+      ],
+      "blockers_retired": [
+        "BLK-PARALOGUE-DDG",
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-FUS-T1",
+        "OBJ-NR4A3-DBD"
+      ],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [
+        {
+          "route": "RT-RIBOZYME",
+          "axis": "what the fusion is sensed BY",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "⭐ the REASON this route fails is itself a computed-and-cited EMC result and belongs in a paper even though the route does not — EMC's fusion reads a normal NR4A response element, not a neomorphic one"
+        }
+      ]
+    },
+    {
+      "id": "RT-RXR",
+      "display_name": "RXR-heterodimer modulation of the fusion",
+      "aliases": [
+        "Tier 4 closed — RXR"
+      ],
+      "grade": {
+        "value": "✕ CLOSED 2026-08-03 — NR4A3 does not heterodimerise with RXR",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#2--the-ranked-list|tier4-rxr"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-NR4A3-WT",
+        "OBJ-NR4A1-WT",
+        "OBJ-NR4A2-WT"
+      ],
+      "evidence": [
+        "EV-ZETTERSTROM-1996"
+      ],
+      "artifacts": [],
+      "distinct_from": [],
+      "closure_note": "Recorded so it is not re-proposed. The one pharmacology this receptor family has actually solved is the one place our paralogue is absent."
+    },
+    {
+      "id": "RT-6MP",
+      "display_name": "6-mercaptopurine / AF-1 agonism of the fusion",
+      "aliases": [
+        "Tier 4 closed — 6-MP"
+      ],
+      "grade": {
+        "value": "✕ CLOSED 2026-08-03 — 6-MP acts through the AF-1, the domain the fusion replaces",
+        "owner": {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "anchor": "#2--the-ranked-list|tier4-6mp"
+        }
+      },
+      "grade_pointers": [
+        {
+          "file": "research/IDEAS.md",
+          "asserts_grade": false
+        }
+      ],
+      "blockers_inherited": [],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": []
+      },
+      "objects": [
+        "OBJ-NR4A3-AF1",
+        "OBJ-EWSR1-WT"
+      ],
+      "evidence": [
+        "EV-WANSA-2003"
+      ],
+      "artifacts": [
+        "ART-TARGET-ROUTE-CENSUS"
+      ],
+      "distinct_from": [
+        {
+          "route": "RT-MONOVALENT",
+          "axis": "which domain the mechanism lives in",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "⚠ SCOPED SO IT IS NOT OVER-READ: this closes 6-MP, NOT LBD-directed modulation generally. The published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less"
+        }
+      ],
+      "closure_note": "Recorded so it is not re-proposed."
+    },
+    {
+      "id": "RT-AF3-INTERFACE",
+      "display_name": "AF3 on a druggable interface",
+      "aliases": [
+        "AF3 interface"
+      ],
+      "grade": {
+        "value": "Deferred; method not strategy",
+        "owner": {
+          "file": "research/IDEAS.md",
+          "anchor": "route-board|af3"
+        }
+      },
+      "grade_pointers": [],
+      "blockers_inherited": [
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "blockers_retired": [],
+      "instruments": {
+        "support": [],
+        "disclosed_failing": [
+          "V2",
+          "V12"
+        ]
+      },
+      "objects": [],
+      "evidence": [],
+      "artifacts": [],
+      "distinct_from": [],
+      "closure_note": "Only once a route picks a ternary/PPI interface. Registered because it is a METHOD that keeps being proposed as a route."
+    }
+  ],
+  "claims": [
+    {
+      "id": "CLM-IDR-EMC",
+      "document": "research/manuscripts/emc-post-degrader-options.md",
+      "locator": "route 1's RGG-retention table row for EWSR1::NR4A3",
+      "artifact": "ART-IDR-CENSUS",
+      "field": "/emc_canonical_EWSR1_NR4A3/rg_dipeptides_retained",
+      "note": "⛔ THE FAILURE-4 CLAIM. On `main` this document prints the full table and the artifact is a stub, so the number reads as current and is unsupported by anything on that ref."
+    },
+    {
+      "id": "CLM-IDR-CONTROLS",
+      "document": "research/manuscripts/emc-post-degrader-options.md",
+      "locator": "the positive-control rows beside it (the fusions in which ATM suppression was MEASURED)",
+      "artifact": "ART-IDR-CENSUS",
+      "field": "/positive_controls_pass",
+      "note": "The controls are what make the EMC row readable; if the artifact is a stub they are missing too."
+    },
+    {
+      "id": "CLM-IDR-COMPARATIVE",
+      "document": "research/IDEAS.md",
+      "locator": "the ATR route row's 'structural precondition is COMPUTED and it holds' sentence",
+      "artifact": "ART-IDR-CENSUS",
+      "field": "/emc_vs_measured_fusions_comparative/rows",
+      "note": "The comparative rows are the claim's actual support — EMC loses at least as much RGG content as each measured fusion."
+    },
+    {
+      "id": "CLM-CONSTRUCT-FRAME",
+      "document": "research/manuscripts/emc-atr-collaborator-package.md",
+      "locator": "§7.2 'The four constructs — all four are in frame'",
+      "artifact": "ART-CONSTRUCT-DESIGNS",
+      "field": "/n_constructs_in_frame",
+      "note": "The 59-UTR-residue finding lives in the same artifact's /constructs entry for type 2 and is the reason a CDS-level model is not enough."
+    },
+    {
+      "id": "CLM-CONSTRUCT-TCF12",
+      "document": "research/manuscripts/emc-atr-collaborator-package.md",
+      "locator": "§7.4 'TCF12 — the negative control checked out'",
+      "artifact": "ART-CONSTRUCT-DESIGNS",
+      "field": "/tcf12_negative_control",
+      "note": "The verdict does not rest on the weakest test; the decisive tests are compositional and are computed over every prefix."
+    },
+    {
+      "id": "CLM-MONOVALENT-VERDICT",
+      "document": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+      "locator": "§3 'The result' — the E3-arm-free reach enumeration",
+      "artifact": "ART-MONOVALENT-REACH",
+      "field": "/verdict/answer_on_the_conservative_convention",
+      "note": "This is the finding that holds the monovalent route below the probe framing, and it is the route's own cheapest test."
+    },
+    {
+      "id": "CLM-MONOVALENT-CROSSCHECK",
+      "document": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+      "locator": "§3 'its bivalent half replicates the committed artifact cell-for-cell'",
+      "artifact": "ART-MONOVALENT-REACH",
+      "field": "/cross_checks",
+      "note": "The replication IS the instrument's known-answer control (INS-MONOVALENT-REACH); without it the monovalent half is unreadable."
+    },
+    {
+      "id": "CLM-ATRI-GDSC",
+      "document": "research/manuscripts/emc-post-degrader-options.md",
+      "locator": "the ATRi-contrast section — the GDSC2 re-cut by FET status",
+      "artifact": "ART-DDR-AXIS-SCAN",
+      "field": "/atr_inhibitor_sensitivity_gdsc/by_drug",
+      "note": "⚠ the doc says this artifact is 'committed on `main`'. See OC-3."
+    },
+    {
+      "id": "CLM-KO-SATURATION",
+      "document": "research/manuscripts/emc-post-degrader-options.md",
+      "locator": "the DepMap knockout scan reported as a FAILED instrument",
+      "artifact": "ART-DDR-AXIS-SCAN",
+      "field": "/knockout_instrument_saturation",
+      "note": "A failed instrument reported AS failed — the pattern this registry's instrument invariant enforces."
+    },
+    {
+      "id": "CLM-FUSION-MODEL-DISAGREEMENT",
+      "document": "research/manuscripts/target-route-options.md",
+      "locator": "§1.3 'the repo held two incompatible models of the fusion protein'",
+      "artifact": "ART-TARGET-ROUTE-CENSUS",
+      "field": "/fusion_model_disagreement",
+      "note": "The artifact keeps model B's disagreement rather than deleting it, because model B's own artifact is still committed and still quotable."
+    },
+    {
+      "id": "CLM-AF1-LC-SWAP",
+      "document": "research/manuscripts/emc-post-degrader-options.md",
+      "locator": "the 6-MP closure — 'NOR-1 residues 1–112 sit entirely inside the stretch the fusion replaces'",
+      "artifact": "ART-TARGET-ROUTE-CENSUS",
+      "field": "/af1_to_lc_swap",
+      "note": "The measured swap is what makes the 6-MP closure a computation rather than an assertion."
+    },
+    {
+      "id": "CLM-BREAKPOINT-FILTER",
+      "document": "research/modalities/fusion-object-inventory.md",
+      "locator": "'Which chimeras are possible, and which are plausible'",
+      "artifact": "ART-FUSION-OBJECT-INVENTORY",
+      "field": "/plausible_breakpoints/n_after_DBD_filter",
+      "note": "The DBD filter narrows the set; it does not choose within it. Only a primary breakpoint report pins the patient-level junction."
+    },
+    {
+      "id": "CLM-C397-DECOY-NULL",
+      "document": "research/manuscripts/nr4a3-program-map.md",
+      "locator": "V17's row — the second, independently pre-registered decoy-null scope that DOES contain C397",
+      "artifact": "ART-DECOY-NULL-LBD",
+      "field": "/results",
+      "note": "NOT DISTINGUISHED for C397. Quoting a percentile from the OTHER scope is forbidden because its NR4A3 arm does not contain C397."
+    },
+    {
+      "id": "CLM-APO-SITE-IN-REGIME",
+      "document": "research/manuscripts/nr4a3-program-map.md",
+      "locator": "V3's row — the in-regime site panel by two independent transfer routes",
+      "artifact": "ART-APO-POSE-SITE",
+      "field": "/site_panel_in_regime",
+      "note": "A geometric site supplement; it emits no RMSD and by its own rule cannot change the pre-registered INCONCLUSIVE."
+    }
+  ],
+  "open_conflicts": [
+    {
+      "id": "OC-2",
+      "what": "'the canonical EMC fusion' names two incompatible objects, and one working module is built on the one that is not a reported fusion type.",
+      "files": [
+        "research/modalities/fusion_cofold.py",
+        "research/modalities/emc_fet_idr_census.py",
+        "research/modalities/fusion_object_inventory.py",
+        "research/manuscripts/emc-post-degrader-options.md",
+        "research/manuscripts/target-route-options.md",
+        "research/manuscripts/emc-atr-collaborator-package.md"
+      ],
+      "positions": [
+        "emc-atr-collaborator-package.md §2.2 + appendix: 'canonical' now belongs to reported type 1 (EWSR1 e12 :: NR4A3 e3); the e7::e3 combination is not a reported type. The e7::e3 ARITHMETIC remains valid and remains the right comparator for EWSR1::FLI1 type 1.",
+        "Same file §7.2: reported type 2 carries 59 UTR-encoded residues, so fusion_cofold.py's protein-level model (EWS_CUT = 264, 'NR4A3 resumed at res 2') is not type 2 either.",
+        "Same file, appendix: the §1.3 off-by-two correction is NOT superseded — both reported types retain NR4A3 from its first coding exon, so AF-1, the C4 zinc finger and the LBD are present under either."
+      ],
+      "why_not_decided": "Changing which junction fusion_cofold.py models is a science decision with downstream reach (the neoantigen lane's seams, the IDR census's canonical row, R13's object) and at least three modules would have to move together. The registry's job is to make the three models nameable and separable; choosing between them is not a navigation-layer call.",
+      "owner": "research/manuscripts/nr4a3-program-map.md (R13 — 'real biological object')"
+    },
+    {
+      "id": "OC-3",
+      "what": "emc-post-degrader-options.md states that fet-ddr-axis-scan.json is 'committed on `main`'. It is not on `main` as of this registry's authoring — it is on the feature branch and on `modalities-cache`.",
+      "files": [
+        "research/manuscripts/emc-post-degrader-options.md",
+        "research/modalities/fet-ddr-axis-scan.json"
+      ],
+      "positions": [
+        "The sentence is the FIX for an earlier instance of exactly this problem (numbers quoted off a branch), and it becomes true the moment the feature branch merges to `main`.",
+        "Until then a reader on `main` follows a relative link to a file that is not there — the same shape of harm the sentence was written to close."
+      ],
+      "why_not_decided": "The remedy is the merge itself, not a doc edit; editing the sentence to say something weaker would remove a true statement about the intended state. Logged so that if the merge is ever reverted, the claim is already registered as conditional on it.",
+      "owner": "CLAUDE.md §7 — keep everything synced to `main`"
+    },
+    {
+      "id": "OC-4",
+      "what": "'Bangerter 2023' — the only ex-vivo EMC drug-sensitivity evidence in the repo — carries no PMID or DOI anywhere.",
+      "files": [
+        "research/IDEAS.md",
+        "research/manuscripts/repurposing-hypotheses.md"
+      ],
+      "positions": [
+        "It is cited as load-bearing evidence for the carfilzomib route ('best ex-vivo EMC evidence', 'only 1 of 17 drugs with high sensitivity across 2 patient-derived EMC models').",
+        "No canonical identifier is recorded, so it cannot be verified through `verify-refs` and is registered here with a search URL rather than an identifier."
+      ],
+      "why_not_decided": "Resolving it needs a literature fetch from a CI runner (the dev sandbox's proxy 403s PubMed/PMC), which is a separate job. Registering the gap is what stops it reading as a verified citation.",
+      "owner": "research/manuscripts/fact-check-log.md"
+    }
+  ],
+  "resolved_conflicts": [
+    {
+      "id": "RC-1",
+      "what": "⛔ SUPERSEDED ATTRIBUTION, RETAINED: five files cited the NOR-1 druggability paper under a wrong author name with no PMID, so the evidence the warhead lane is anchored to was unfindable to the repo's own sessions.",
+      "resolved_on": "2026-08-03",
+      "resolution_home": "research/modalities/nr4a3-druggability-reconciliation.md#5b",
+      "guard": "research/modalities/tests/test_munck_attribution_retired.py",
+      "what_this_registry_adds": "The structural half. EV-ZAIENNE-2022 lists every name the source travels under, including the retired one, so the two names can never again be read as two sources — and the E1/E3 invariants fail if any name resolves to two evidence items or if a source is cited under a name nothing registers."
+    }
+  ]
+}

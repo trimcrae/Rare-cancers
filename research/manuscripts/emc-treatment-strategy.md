@@ -10,6 +10,16 @@
 > active manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md) is its publishable form.
 > Read this before resuming *portfolio-level* treatment-research work. Folder map: [`README.md`](./README.md).
 >
+> **🗺 AND ITS MACHINE-CHECKED INDEX: [`emc-systems-map.md`](./emc-systems-map.md)** (generated from
+> [`emc-systems-map.json`](./emc-systems-map.json); invariants run in CI by
+> [`emc_systems_map_check.py`](./emc_systems_map_check.py)). ⛔ **It ranks nothing and asserts no grade** —
+> it is the integrity layer *underneath* this capstone, recording which file OWNS each route's grade, which
+> routes are the same route under a different memo's numbering, which are different routes that must never be
+> conflated (with the opposite blockers that make them different), which instruments have no passing
+> known-answer control, and which quoted figures resolve to a real artifact field **on `main`**. Where it and
+> this capstone appear to disagree about a grade, **this capstone wins and the map is stale** — the map's job
+> is to say where the grade lives, not what it is.
+>
 > **★★ AND READ [`emc-post-degrader-options.md`](./emc-post-degrader-options.md) (2026-08-03) ALONGSIDE IT.**
 > This capstone ranks routes on *likelihood of helping a patient × near-term feasibility*, with the degrader
 > as #1. That memo asks the question this capstone's framing assumes away — **what if the flagship does not

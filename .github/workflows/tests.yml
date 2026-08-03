@@ -41,6 +41,18 @@ jobs:
         run: python3 research/manuscripts/lint_consistency.py
       - name: Manuscript language discipline
         run: python3 research/manuscripts/lint_claims.py
+      # The EMC route registry's invariants. Same standalone-step reasoning as above, plus one it
+      # does not share: this check reads artifacts AS THEY EXIST ON THE PUBLISH REF, not in the
+      # working tree, because the failure it exists to catch is a document on `main` printing a
+      # results table out of a file that is a "cannot compute" stub on `main`. `actions/checkout`
+      # fetches only the pushed ref, so without the fetch below the check silently degrades to the
+      # working tree -- it says so loudly when that happens, and a guard that announces its own
+      # weakening is the only kind worth having.
+      - name: EMC systems map — registry invariants (routes / objects / evidence / instruments / artifacts / claims)
+        run: |
+          git fetch --no-tags --depth=1 origin main:refs/remotes/origin/main || \
+            echo "could not fetch origin/main -- the claim check will fall back and say so"
+          python3 research/manuscripts/emc_systems_map_check.py --check
       # Same standalone-step reasoning, for the two CI-shape linters. Both exist because a guard
       # that fails OPEN leaves no trace: a `skipped` step and a silently-loosened threshold both
       # render as a green tick, so the only place they can be caught is before they merge.

@@ -50,6 +50,18 @@ documents. To avoid the "which of these is *the paper*?" confusion, the rule is:
 
 ## Strategy / source of truth (internal — not a manuscript)
 
+- **🗺 [`emc-systems-map.md`](./emc-systems-map.md)** — **the index to everything below, and the only
+  file here that is GENERATED.** Its one home is [`emc-systems-map.json`](./emc-systems-map.json), a
+  machine-checkable registry of every EMC route, biological object, cited source, instrument,
+  artifact and quoted claim, plus the relations between them; [`emc_systems_map_check.py`](./emc_systems_map_check.py)
+  runs its invariants in CI. ⛔ **It asserts no grade and no number** — it records *where each one
+  already lives* and fails the build when a pointer stops resolving, so read it to find the owner of
+  a fact, not to learn the fact. It exists because four integrity failures were found here in one
+  day: one source under two names, one fusion object under three incompatible models, one grade over
+  two routes that fail on opposite blockers, and a figure quoted from an artifact that was a stub on
+  the branch a reader would open. **Do not edit the `.md`** — regenerate it with
+  `python3 research/manuscripts/emc_systems_map_check.py --write-view`.
+
 - **[`emc-treatment-strategy.md`](./emc-treatment-strategy.md)** — the capstone that ranks every
   treatment route into the prioritized portfolio. This is the **decision record**; the active
   manuscript above is its publishable expression. Paired with the live route board in

@@ -56,6 +56,18 @@ of what's shelved vs. active and the next step for each.
 > [that memo's §6](./manuscripts/emc-post-degrader-options.md#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis)
 > and [STRATEGY.md Appendix B](../STRATEGY.md#appendix-b--superseded-strategy-framings).
 
+> **🗺 WHICH ROW IS WHICH, AND WHOSE GRADE IS IT — [`manuscripts/emc-systems-map.md`](./manuscripts/emc-systems-map.md)
+> (2026-08-03), generated from [`emc-systems-map.json`](./manuscripts/emc-systems-map.json) and
+> checked in CI by [`emc_systems_map_check.py`](./manuscripts/emc_systems_map_check.py).** It adds no
+> grade and no number — it records, machine-readably, **where each one already lives** and fails the
+> build when a pointer stops resolving. Use it when the same thing appears twice under different
+> names: it carries every route's **aliases** across the memos' three separate numbering schemes,
+> each fusion type as a **separate object** at exon and residue level, every source keyed by
+> **PMID/DOI with all the names it travels under**, which **instruments have no passing
+> known-answer control**, and which quoted figures resolve to a real artifact field **on `main`**.
+> It also names, per pair, **which routes must never be conflated and the opposite blockers they
+> fail on** — the covalent probe and the monovalent modulator being the worked case.
+
 The goal pivoted away from the vaccine/coverage work (rigorous but unlikely to
 *yield a treatment*; economics favour a tumour-agnostic platform we don't control) toward routes
 that could actually drug or immuno-target EWSR1::NR4A3 EMC.
