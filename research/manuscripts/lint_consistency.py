@@ -485,11 +485,61 @@ def check_superseded(reg, repo=REPO, targets=None):
 
 
 # ---------------------------------------------------------------------------
+def check_in_page_anchors(reg, repo=REPO):
+    """Every `](#slug)` in a target document must resolve to a heading IN THAT DOCUMENT.
+
+    ★ WHY THIS IS A CONSISTENCY RULE AND NOT A STYLE ONE (added 2026-08-03). The roadmap is now the single
+    steering document, and CLAUDE.md rule 1 is *one fact, one place — everywhere else POINTS AT IT*. A
+    pointer that resolves to nothing does not fail loudly: GitHub renders the link, the reader clicks, the
+    page does not move, and the fact stays un-found. So the rule that makes the map navigable is exactly
+    the rule nothing was checking.
+
+    ⛔ TWO WERE ALREADY BROKEN WHEN THIS WAS WRITTEN, both from the same cause — an anchor typed from what
+    the author *meant* the heading to say rather than from the heading:
+      `#gpu-economics-full-provenance-in-pricingmd`  (the real heading carries the whole markdown link,
+                                                     so the slug swallows `computepricingmd` too)
+      `#in-flight-superseded`                        (the heading says no such thing; "superseded" is the
+                                                     ref's editorial gloss, not the heading's text)
+    Both had survived every doc pass because a dead in-page anchor is silent. Fixed in the same commit.
+
+    The slug rule is GitHub's: lowercase, drop everything that is not word/space/hyphen, spaces to hyphens.
+    ⚠ It is applied to the heading TEXT AS WRITTEN, punctuation and emoji included — which is precisely why
+    a hand-typed anchor drifts from a heading that later gains a `·`, an emoji or an inline link.
+    """
+    out = []
+    for rel in reg["targets"]:
+        path = os.path.join(repo, rel)
+        if not os.path.exists(path) or not rel.endswith(".md"):
+            continue
+        text = open(path, encoding="utf-8").read()
+        heads = {_gh_slug(m.group(1)) for m in re.finditer(r"^#{1,6}\s+(.*)$", text, re.M)}
+        for m in re.finditer(r"\]\(#([^)]+)\)", text):
+            if m.group(1) in heads:
+                continue
+            line = text.count("\n", 0, m.start()) + 1
+            out.append(_finding(
+                "N-dead-in-page-anchor", "ERROR", rel, line,
+                "in-page anchor #%s resolves to no heading in this file" % m.group(1),
+                "a pointer that goes nowhere fails SILENTLY — the link renders, the page does not move, "
+                "and the fact it points at stays un-found. Derive the slug from the heading text as "
+                "written (lowercase, drop non-word/space/hyphen, spaces -> hyphens); do not type it."))
+    return out
+
+
+def _gh_slug(heading):
+    """GitHub's heading -> anchor rule, applied to the heading text exactly as written."""
+    s = heading.strip().lower()
+    s = re.sub(r"[^\w\s-]", "", s, flags=re.UNICODE)
+    return re.sub(r"\s", "-", s)
+
+
+# ---------------------------------------------------------------------------
 def lint(repo=REPO, registry_path=REGISTRY):
     reg = load_registry(registry_path)
     return (check_derivations(reg, repo) + check_artifact_figures(reg, repo)
             + check_table_completeness(reg, repo)
-            + check_subsets(reg, repo) + check_superseded(reg, repo))
+            + check_subsets(reg, repo) + check_superseded(reg, repo)
+            + check_in_page_anchors(reg, repo))
 
 
 def main(argv=None):
