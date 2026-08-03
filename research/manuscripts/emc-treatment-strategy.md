@@ -15,8 +15,9 @@
 > as #1. That memo asks the question this capstone's framing assumes away — **what if the flagship does not
 > deliver a candidate?** — and re-ranks on the axes the degrader program's failure record says matter. It does
 > **not** supersede the two axes here; it adds a third question (what produces a *testable* candidate now) and
-> its answer changes what to start next, not what to tell a patient. It also adds two routes this table does
-> not carry (ATR-inhibitor synthetic lethality via EMC's FET rearrangement; trabectedin + PPARγ) and closes two.
+> its answer changes what to start next, not what to tell a patient. The two routes it introduced —
+> ATR-inhibitor synthetic lethality via EMC's FET rearrangement, and trabectedin + PPARγ — are now IN the
+> table below; it also closes two routes, recorded on the [board](../IDEAS.md) and in the roadmap's §6a register.
 
 **What this is.** The synthesis of the autonomous treatment-route investigation (2026-06-21/22),
 ranking every route by **likelihood of helping a real EMC patient × near-term feasibility**, with
@@ -69,6 +70,7 @@ leans on Axis A; a scientist or developer choosing where the field should invest
 
 | Route | **Axis A — near-term readiness** | **Axis B — driver-directedness** |
 |---|---|---|
+| **ATR inhibitor (FET-rearrangement synthetic lethality)** | **Confirm-gated** — investigational compounds exist and are catalogue reagents; needs an EMC-line dose–response ([prereg](../modalities/emc-atri-prereg.md)) | **Targeted (indirect)** — a *collateral* vulnerability the fusion itself creates (FET N-terminal IDR → impaired ATM activation at DSBs → the ATR axis becomes load-bearing). Not the fusion, but caused by it |
 | Anti-angiogenic TKI + checkpoint inhibitor | **Now** — approved; real EMC responder | **Generic** — anti-angiogenic + checkpoint; disease-agnostic |
 | Trabectedin (± RT / combo) | **Now** — approved; reported EMC responder | **Targeted (indirect)** — displaces the fusion TF from promoters (mechanism-fit), not fusion-selective |
 | Carfilzomib + anthracycline (± venetoclax) | **Now** — approved; best *ex-vivo* EMC evidence | **Generic** — proteasome inhibitor; empirical ex-vivo hit, no fusion rationale |

@@ -188,6 +188,46 @@ stopping at Ewing, and both are quoted rather than paraphrased:
    xenograft best (*"partial by RECIST criteria, >50 % reduction in tumor volume"*). **EMC's partner,
    NR4A3, is a nuclear receptor — a fourth TF class, and the untested one.**
 
+#### ⭐ The structural precondition, computed — and EMC's fusion carries the *identical* FET segment
+
+**The partner-list argument is about gene names. The mechanism is about structure**, and the source
+states it as a conjunction: the fusion **retains** the FET N-terminal IDR (so it reaches DSBs) and
+**loses** the C-terminal RGG repeats (so its recruitment is aberrant) — *"all oncogenic FET fusion
+proteins including EWSR1-FLI1 share a similar structure: the N-terminal IDR of the FET protein fused
+to the DNA binding domain of a transcription factor … with loss of the C-terminal RGG repeats"*. The
+RGG half is the one shown **causally**: putting 1 or all 3 RGG domains back into EWSR1-FLI1 restored
+earlier recruitment kinetics in an RGG dose-dependent manner. **Nobody had checked this for any NR4A3
+fusion.** [`emc_fet_idr_census.py`](../modalities/emc_fet_idr_census.py) →
+[`emc-fet-idr-census.json`](../modalities/emc-fet-idr-census.json) does, from sequence, for $0.
+
+| fusion | EWSR1 retained | RG dipeptides kept | precondition |
+|---|---|---|---|
+| **EWSR1::NR4A3 (EMC, canonical)** | **1–264** | **0 of 30** | ✅ met, 35 residues of margin |
+| EWSR1::FLI1 (Ewing, type 1) — *mechanism measured here* | 1–264 | 0 of 30 | ✅ met |
+| EWSR1::ATF1 (clear cell, e7) — *mechanism measured here* | 1–264 | 0 of 30 | ✅ met |
+| EWSR1::ATF1 (clear cell, **commonest** type, e8) | 1–324 | **7 of 30** | ✖ strict criterion — **and the mechanism was measured anyway** |
+
+⭑ **The headline: EMC's canonical fusion retains a segment that is BYTE-IDENTICAL to the Ewing
+type-1 fusion's** (`byte_identical: true`) — not similar, not homologous, the same 264 residues of
+EWSR1. Whatever the retained FET N-terminus does at a double-strand break in Ewing sarcoma, EMC's
+commonest fusion presents the same object.
+
+⚠ **And the controls calibrate the criterion instead of merely passing it**, which is why the last
+row matters more than the first three. The *commonest* reported clear-cell type keeps 7 of 30 RG
+dipeptides and the lesion was still measured in that disease — so "loses the RGG repeats" means
+losing the bulk, not literally all, and **the strict verdict is conservative**. The defensible claim
+is therefore comparative and needs no threshold at all: **EMC loses at least as much RGG content as
+every fusion in which ATM suppression has been measured.**
+
+⚠ **Three limits, all recorded in the artifact.** This is a *sequence* argument — it cannot show that
+any NR4A3 fusion is recruited to DSBs or suppresses ATM, which is exactly the wet-lab ask. TAF15 and
+FUS breakpoints are **swept, not known** (this repo has no exon audit for them), so their answer is
+reported as a function of breakpoint. And the module's first two designs were wrong and were caught
+by testing rather than by review: an RGG box was reported at its sliding-window edge (putting EWSR1's
+first box at 258 when its first RG is at 300 — an error straddling the very breakpoint being judged),
+and the IDR half was gated on a composition threshold that *decided* the answer, so it is now
+reported and never gated.
+
 **Why EMC is arguably the *cleanest* member of the class.** EMC's three commonest 5′ partners —
 **EWSR1, TAF15 and FUS** — are the three FET-family genes. From two published series: **EWSR1 62 % /
 TAF15 27 % / TCF12 4 %** (n = 26, [Agaram et al., *Hum Pathol* 2014](https://pmc.ncbi.nlm.nih.gov/articles/PMC4015728/))
@@ -555,11 +595,17 @@ Everything below is $0 or free CI. Ordered by what unblocks the most, not by app
    in both directions: the ATR-inhibitor effect in FET lines survives correction for general
    chemosensitivity, and PARP inhibitors are 2–4× larger in the same lines despite having already
    failed clinically in Ewing. Route 1 keeps its rank; its in-vitro case is now explicitly bounded.
-2. **Write the route-1 preregistration**, and it now has a design requirement this analysis produced:
-   **a PARP-inhibitor arm as an internal negative-translation control**, plus a proliferation index
-   alongside γH2AX. Write the prediction, the panel, the readouts and the kill criteria *before* any
-   collaborator is approached — that artifact is what makes the ask credible, and it is the thing
-   this program is good at.
+2. ✅ **DONE — the route-1 preregistration is written and committed**
+   ([`emc-atri-prereg.md`](../modalities/emc-atri-prereg.md)), before anyone has been approached. It
+   carries the two design requirements this session's analyses produced — **a PARP-inhibitor arm as
+   an internal negative-translation control** and a **proliferation index** alongside γH2AX — names
+   the published EMC models, fixes the criteria in advance, and registers its own adverse prior in
+   writing rather than discovering it later.
+2b. ✅ **DONE — the structural precondition is computed** and EMC's canonical fusion meets it with a
+   byte-identical FET segment to the Ewing fusion the mechanism was measured on (§3 route 1).
+2c. ⛔ **NEXT, AND IT IS trimcrae's CALL, NOT MINE.** The remaining step is to approach one of the
+   groups holding an EMC model. That is **outward-facing**, so CLAUDE.md §3 gates it. Everything
+   needed for the ask exists; nothing further should be built to delay it.
 3. **Pull EMC PPARG-axis expression** to settle route 6's direction question, using the surfaceome/
    expression machinery that already exists.
 4. **Re-run the linker enumeration in the TCIP configuration** (no E3 arm) — free CPU, and a negative
