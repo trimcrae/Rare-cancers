@@ -1,0 +1,256 @@
+{
+  "_question": "Do EMC's FET fusions satisfy the structural precondition of the FET -> ATM-suppression -> ATR-dependency mechanism (retain the N-terminal IDR, lose the C-terminal RGG repeats)?",
+  "_source_of_the_precondition": "biorxiv 10.1101/2023.04.30.538578 / PMID 37205599, quoted in this module's docstring from the fetched full text",
+  "_operational_definitions": {
+    "verdict_criterion": "rg_dipeptides_retained == 0 \u2014 THRESHOLD-FREE. An RG dipeptide is either inside the retained segment or it is not.",
+    "rgg_box": "reported for context only: a window of 60 residues containing >= 6 RG dipeptides, merged across overlaps, with each box spanning its first to its last RG",
+    "n_terminal_composition": "REPORTED, never gated \u2014 see lc_composition's docstring for the tested reason the composition threshold was removed"
+  },
+  "wild_type_annotation": {
+    "EWSR1": {
+      "length": 656,
+      "rgg_boxes": [
+        {
+          "start": 300,
+          "end": 332,
+          "n_RG": 8
+        },
+        {
+          "start": 455,
+          "end": 638,
+          "n_RG": 22
+        }
+      ],
+      "first_RG_dipeptide_at": 300,
+      "rgg_free_ceiling": 299,
+      "n_terminal_composition_to_ceiling": {
+        "span": [
+          1,
+          299
+        ],
+        "length": 299,
+        "sygq_fraction": 0.555
+      }
+    },
+    "TAF15": {
+      "length": 592,
+      "rgg_boxes": [
+        {
+          "start": 326,
+          "end": 572,
+          "n_RG": 26
+        }
+      ],
+      "first_RG_dipeptide_at": 175,
+      "rgg_free_ceiling": 174,
+      "n_terminal_composition_to_ceiling": {
+        "span": [
+          1,
+          174
+        ],
+        "length": 174,
+        "sygq_fraction": 0.69
+      }
+    },
+    "FUS": {
+      "length": 526,
+      "rgg_boxes": [
+        {
+          "start": 213,
+          "end": 261,
+          "n_RG": 8
+        },
+        {
+          "start": 377,
+          "end": 516,
+          "n_RG": 16
+        }
+      ],
+      "first_RG_dipeptide_at": 213,
+      "rgg_free_ceiling": 212,
+      "n_terminal_composition_to_ceiling": {
+        "span": [
+          1,
+          212
+        ],
+        "length": 212,
+        "sygq_fraction": 0.816
+      }
+    }
+  },
+  "positive_controls": {
+    "EWSR1::FLI1 (Ewing, type 1 \u2014 EWSR1 e7::FLI1 e6)": {
+      "_role": "the mechanism was MEASURED on this fusion",
+      "types": [
+        {
+          "fet": "EWSR1",
+          "last_fet_residue_retained": 264,
+          "rgg_free_ceiling": 299,
+          "margin_to_ceiling": 35,
+          "rg_dipeptides_retained": 0,
+          "rg_dipeptides_total_in_wildtype": 30,
+          "fraction_of_wildtype_RG_retained": 0.0,
+          "rgg_boxes_touched": 0,
+          "retained_segment_composition": {
+            "span": [
+              1,
+              264
+            ],
+            "length": 264,
+            "sygq_fraction": 0.561
+          },
+          "precondition_met": true,
+          "verdict": "PRECONDITION_MET \u2014 retains the FET N-terminus, retains no RG dipeptide",
+          "ewsr1_transcript_exon": 7,
+          "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793"
+        }
+      ],
+      "any_type_meets_precondition": true,
+      "all_types_meet_precondition": true
+    },
+    "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)": {
+      "_role": "the mechanism was MEASURED on this fusion",
+      "types": [
+        {
+          "fet": "EWSR1",
+          "last_fet_residue_retained": 324,
+          "rgg_free_ceiling": 299,
+          "margin_to_ceiling": -25,
+          "rg_dipeptides_retained": 7,
+          "rg_dipeptides_total_in_wildtype": 30,
+          "fraction_of_wildtype_RG_retained": 0.233,
+          "rgg_boxes_touched": 1,
+          "retained_segment_composition": {
+            "span": [
+              1,
+              324
+            ],
+            "length": 324,
+            "sygq_fraction": 0.556
+          },
+          "precondition_met": false,
+          "verdict": "NOT_MET \u2014 the retained segment carries 7 RG dipeptide(s)",
+          "ewsr1_transcript_exon": 8,
+          "breakpoint_provenance": "EWSR1 transcript exon 8, cumulative coding nt 974"
+        },
+        {
+          "fet": "EWSR1",
+          "last_fet_residue_retained": 264,
+          "rgg_free_ceiling": 299,
+          "margin_to_ceiling": 35,
+          "rg_dipeptides_retained": 0,
+          "rg_dipeptides_total_in_wildtype": 30,
+          "fraction_of_wildtype_RG_retained": 0.0,
+          "rgg_boxes_touched": 0,
+          "retained_segment_composition": {
+            "span": [
+              1,
+              264
+            ],
+            "length": 264,
+            "sygq_fraction": 0.561
+          },
+          "precondition_met": true,
+          "verdict": "PRECONDITION_MET \u2014 retains the FET N-terminus, retains no RG dipeptide",
+          "ewsr1_transcript_exon": 7,
+          "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793"
+        },
+        {
+          "fet": "EWSR1",
+          "last_fet_residue_retained": 348,
+          "rgg_free_ceiling": 299,
+          "margin_to_ceiling": -49,
+          "rg_dipeptides_retained": 8,
+          "rg_dipeptides_total_in_wildtype": 30,
+          "fraction_of_wildtype_RG_retained": 0.267,
+          "rgg_boxes_touched": 1,
+          "retained_segment_composition": {
+            "span": [
+              1,
+              348
+            ],
+            "length": 348,
+            "sygq_fraction": 0.54
+          },
+          "precondition_met": false,
+          "verdict": "NOT_MET \u2014 the retained segment carries 8 RG dipeptide(s)",
+          "ewsr1_transcript_exon": 10,
+          "breakpoint_provenance": "EWSR1 transcript exon 10, cumulative coding nt 1045"
+        }
+      ],
+      "any_type_meets_precondition": true,
+      "all_types_meet_precondition": false
+    }
+  },
+  "positive_controls_pass": true,
+  "_control_rule": "AT LEAST ONE reported type of EACH measured fusion must read PRECONDITION_MET. They are the fusions the mechanism was measured on, so if the criterion cannot admit their architecture nothing else here may be quoted. \u26a0 The rule is 'any type', not 'all types', because a fusion's breakpoint varies between patients and this repo has no exon audit fixing which type the source's constructs used \u2014 a stricter rule would be answering a question the inputs cannot answer.",
+  "_what_the_controls_calibrate": "If some reported type of a MEASURED fusion retains RG dipeptides and the mechanism was still observed, then 'loses the C-terminal RGG repeats' is satisfied by losing the BULK rather than literally all of them \u2014 which makes fraction_of_wildtype_RG_retained the quantity to compare EMC against, and the strict zero-RG verdict a CONSERVATIVE reading. Both are reported so the distinction is visible.",
+  "emc_canonical_EWSR1_NR4A3": {
+    "fet": "EWSR1",
+    "last_fet_residue_retained": 264,
+    "rgg_free_ceiling": 299,
+    "margin_to_ceiling": 35,
+    "rg_dipeptides_retained": 0,
+    "rg_dipeptides_total_in_wildtype": 30,
+    "fraction_of_wildtype_RG_retained": 0.0,
+    "rgg_boxes_touched": 0,
+    "retained_segment_composition": {
+      "span": [
+        1,
+        264
+      ],
+      "length": 264,
+      "sygq_fraction": 0.561
+    },
+    "precondition_met": true,
+    "verdict": "PRECONDITION_MET \u2014 retains the FET N-terminus, retains no RG dipeptide",
+    "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793"
+  },
+  "emc_retained_half_vs_measured_fusions": {
+    "EWSR1::FLI1 (Ewing, type 1)": {
+      "emc_retained_len": 264,
+      "comparator_retained_len": 264,
+      "identical_over_shared_prefix": true,
+      "byte_identical": true
+    },
+    "EWSR1::ATF1 (clear cell, type 1)": {
+      "emc_retained_len": 264,
+      "comparator_retained_len": 324,
+      "identical_over_shared_prefix": true,
+      "byte_identical": false
+    }
+  },
+  "emc_TAF15_and_FUS_breakpoint_sweep": {
+    "TAF15": {
+      "_what": "the precondition as a FUNCTION of breakpoint \u2014 no breakpoint is assumed",
+      "rgg_free_ceiling": 174,
+      "first_rgg_box_starts_at": 326,
+      "window_where_precondition_holds": {
+        "from": 100,
+        "to": 170
+      },
+      "n_grid_points": 51,
+      "n_meeting_precondition": 8,
+      "fraction_of_grid_meeting_precondition": 0.157,
+      "_reading": "a fusion breaking ANYWHERE in the window above meets the precondition; reported this way because the repo holds no exon audit for this gene and an assumed breakpoint would be the weakest link in the argument"
+    },
+    "FUS": {
+      "_what": "the precondition as a FUNCTION of breakpoint \u2014 no breakpoint is assumed",
+      "rgg_free_ceiling": 212,
+      "first_rgg_box_starts_at": 213,
+      "window_where_precondition_holds": {
+        "from": 100,
+        "to": 210
+      },
+      "n_grid_points": 44,
+      "n_meeting_precondition": 12,
+      "fraction_of_grid_meeting_precondition": 0.273,
+      "_reading": "a fusion breaking ANYWHERE in the window above meets the precondition; reported this way because the repo holds no exon audit for this gene and an assumed breakpoint would be the weakest link in the argument"
+    }
+  },
+  "_limits": [
+    "This is a SEQUENCE argument about a structural precondition. It cannot show that any NR4A3 fusion is actually recruited to double-strand breaks or actually suppresses ATM \u2014 those are the wet-lab measurements the route asks for.",
+    "The RGG and IDR definitions are operational. A different threshold could move a box boundary; the controls exist so that a definition which cannot recover the measured fusions' architecture is caught rather than trusted.",
+    "TAF15 and FUS breakpoints are swept, not known. A sweep answers 'for which breakpoints does this hold', never 'this is the breakpoint'."
+  ]
+}
