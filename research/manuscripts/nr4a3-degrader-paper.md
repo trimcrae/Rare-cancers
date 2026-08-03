@@ -607,9 +607,29 @@ in the alignment means *differs from NR4A1 or NR4A2*; selectivity must hold agai
 the subsets are not equal. Against **NR4A1**, all 7 handles differ (and all 5 engageable ones). Against
 **NR4A2**, only **6 of 7** differ — **I531 is identical (Ile in both NR4A3 and NR4A2)** — so of the 5
 engageable handles, only **4** distinguish NR4A3 from NR4A2 (L406, T410, I484, L534; I531 drops out). NR4A2
-selectivity therefore rests on a *narrower* engageable set than NR4A1 selectivity, which matters because
-NR4A2/Nurr1 is the paralogue carrying the dopaminergic-loss liability one most wants to spare. This is a
-specification with a quantified, paralogue-resolved window — not a demonstrated binding margin. This design
+selectivity therefore rests on a *narrower* engageable set than NR4A1 selectivity. This is a
+specification with a quantified, paralogue-resolved window — not a demonstrated binding margin.
+
+**⚠ The two paralogue constraints are not interchangeable, and the asymmetry runs in the direction that
+disfavours this specification.** NR4A1-sparing is mandated by a *combination* genotype that a non-selective
+NR4A3 degrader would reconstitute — the *Nr4a1*⁻/⁻;*Nr4a3*⁻/⁻ mouse (PMID 17515897; PMID 29343483), whose
+lethality we also recover independently from MGI's curated genotype–phenotype corpus. NR4A2's liability is a
+*single*-gene germline phenotype: mouse *Nr4a2* nulls are recorded in MGI with complete-penetrance neonatal
+lethality (PMID 9092472; PMID 9608532) alongside abnormal substantia nigra morphology (PMID 9520484) and
+reduced dopaminergic neuron number (PMID 20016108). **So the program has more discriminating power against
+the paralogue whose sparing rests on the genotype a degrader could actually recreate, and less against the
+one whose evidence is complete developmental loss — which no degrader delivers.** Two limits travel with
+that sentence and are not softenable: a **germline knockout bounds developmental, complete, lifelong loss**,
+whereas a degrader is adult, transient and incomplete, and **no source cited here measures that regime**;
+and this work reports **no measured or predicted CNS-exposure datum for any candidate**, so the exposure
+lever that would otherwise narrow the NR4A2 question is a property of a molecule that does not exist.
+Per-tissue mRNA (Human Protein Atlas consensus) additionally shows NR4A2 and NR4A3 co-expressed across
+almost every tissue measured, so **tissue distribution cannot separate target from anti-target and the
+selectivity must be molecular**. Counts, terms, accessions and the full per-tissue table:
+[`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json). *(Superseded, retained: the clause
+"which matters because NR4A2/Nurr1 is the paralogue carrying the dopaminergic-loss liability one most wants
+to spare" — it ranked the two liabilities as if both were evidenced at the same strength, and the ranking it
+implied is the reverse of the one above.)* This design
 specification lets the
 *same* opened pocket be tuned **NR4A3-selective** (engaging the divergent handles; an NR4A3-selective agent
 removes NR4A3 but **spares NR4A1**, thereby avoiding the combined NR4A1+NR4A3 loss state associated with
