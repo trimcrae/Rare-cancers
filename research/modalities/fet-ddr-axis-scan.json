@@ -348,12 +348,19 @@
         "n_FET": 57,
         "n_comparator": 1124,
         "keys_seen": 1916,
-        "welch": {
+        "welch_raw_ln_ic50": {
           "t": -4.477,
           "df": 64.1,
           "mean_a": 1.3477,
           "mean_b": 2.1052,
           "delta_a_minus_b": -0.7575
+        },
+        "welch_line_median_corrected": {
+          "t": -5.083,
+          "df": 69.6,
+          "mean_a": -1.7054,
+          "mean_b": -1.2142,
+          "delta_a_minus_b": -0.4911
         }
       },
       "ve-822": {
@@ -362,12 +369,19 @@
         "n_FET": 54,
         "n_comparator": 1064,
         "keys_seen": 1788,
-        "welch": {
+        "welch_raw_ln_ic50": {
           "t": -2.592,
           "df": 57.6,
           "mean_a": 2.5266,
           "mean_b": 3.2172,
           "delta_a_minus_b": -0.6906
+        },
+        "welch_line_median_corrected": {
+          "t": -2.203,
+          "df": 57.8,
+          "mean_a": -0.5326,
+          "mean_b": -0.1092,
+          "delta_a_minus_b": -0.4233
         }
       },
       "paclitaxel": {
@@ -376,12 +390,19 @@
         "n_FET": 57,
         "n_comparator": 1124,
         "keys_seen": 1916,
-        "welch": {
+        "welch_raw_ln_ic50": {
           "t": -3.194,
           "df": 61.2,
           "mean_a": -3.8583,
           "mean_b": -3.0664,
           "delta_a_minus_b": -0.7919
+        },
+        "welch_line_median_corrected": {
+          "t": -3.076,
+          "df": 61.4,
+          "mean_a": -6.9114,
+          "mean_b": -6.3859,
+          "delta_a_minus_b": -0.5255
         }
       },
       "olaparib": {
@@ -390,12 +411,19 @@
         "n_FET": 57,
         "n_comparator": 1131,
         "keys_seen": 1934,
-        "welch": {
+        "welch_raw_ln_ic50": {
           "t": -5.367,
           "df": 58.6,
           "mean_a": 3.0886,
           "mean_b": 4.3684,
           "delta_a_minus_b": -1.2798
+        },
+        "welch_line_median_corrected": {
+          "t": -5.583,
+          "df": 57.9,
+          "mean_a": 0.0355,
+          "mean_b": 1.0518,
+          "delta_a_minus_b": -1.0163
         }
       },
       "talazoparib": {
@@ -404,12 +432,19 @@
         "n_FET": 57,
         "n_comparator": 1120,
         "keys_seen": 1912,
-        "welch": {
+        "welch_raw_ln_ic50": {
           "t": -5.673,
           "df": 58.6,
           "mean_a": 0.652,
           "mean_b": 2.9881,
           "delta_a_minus_b": -2.3362
+        },
+        "welch_line_median_corrected": {
+          "t": -5.851,
+          "df": 58.2,
+          "mean_a": -2.4011,
+          "mean_b": -0.3358,
+          "delta_a_minus_b": -2.0653
         }
       },
       "mk-1775": {
@@ -418,12 +453,19 @@
         "n_FET": 57,
         "n_comparator": 1131,
         "keys_seen": 1934,
-        "welch": {
+        "welch_raw_ln_ic50": {
           "t": -1.616,
           "df": 64.3,
           "mean_a": 0.3809,
           "mean_b": 0.6232,
           "delta_a_minus_b": -0.2423
+        },
+        "welch_line_median_corrected": {
+          "t": 0.167,
+          "df": 61.2,
+          "mean_a": -2.6722,
+          "mean_b": -2.6935,
+          "delta_a_minus_b": 0.0212
         }
       },
       "bortezomib": {
@@ -432,16 +474,23 @@
         "n_FET": 57,
         "n_comparator": 1122,
         "keys_seen": 1914,
-        "welch": {
+        "welch_raw_ln_ic50": {
           "t": -1.976,
           "df": 70.9,
           "mean_a": -4.8811,
           "mean_b": -4.6981,
           "delta_a_minus_b": -0.183
+        },
+        "welch_line_median_corrected": {
+          "t": 0.883,
+          "df": 64.7,
+          "mean_a": -7.9342,
+          "mean_b": -8.0211,
+          "delta_a_minus_b": 0.0869
         }
       }
     },
-    "_reading": "Read the CONTROL drugs first. The hypothesis predicts a negative delta for ATR inhibitors and NOT for the controls; a negative delta across both is a growth-rate or lineage artefact, not selectivity."
+    "_reading": "Read the CONTROL drugs first, and quote the LINE-MEDIAN-CORRECTED contrast, never the raw one. A negative delta across ATR inhibitors AND controls alike in the RAW numbers is a growth-rate or lineage artefact, which is exactly what run 30849750035 found: talazoparib -2.34 and olaparib -1.28 against azd6738 -0.76. The corrected column removes each line's own general drug sensitivity and is what the hypothesis is actually about."
   },
   "atr_inhibitor_sensitivity_depmap_attempt": {
     "_instrument": "ATR-INHIBITOR sensitivity (PRISM-class drug screen), NOT ATR knockout \u2014 the readout the source paper used and the one a CRISPR KO cannot give",
@@ -581,39 +630,128 @@
       "ScreenNaiveGeneScore.csv",
       "ScreenSequenceMap.csv"
     ],
-    "Data S3:33148457": [
+    "Effects of maternal GCs on neural transcriptomics:25511149": [
+      "202510_Thudsonicus_transcriptome_annotated.fasta",
+      "2025_11_07_salmon.gene.counts.matrix",
+      "2025_go_annotations.txt",
+      "2026_03_DEanalysis_HIPPO_figshare.Rmd",
+      "2026_03_DEanalysis_HYPO_figshare.Rmd",
+      "2026_03_DEanalysis_acthResponse_figshare.Rmd",
+      "2026_03_DEanalysis_activity_figshare.Rmd",
+      "2026_03_DEanalysis_aggression_figshare.Rmd",
+      "2026_03_DEanalysis_brainregions_figshare.Rmd",
+      "2026_03_DEanalysis_negFeedback_figshare.Rmd",
+      "complete_trait_data.csv",
+      "sample_metadata_figshare.csv"
+    ],
+    "<b>A Machine Learning Approach to Doping Attitudes: A Comput:33148451": [
+      "PEAS_FINAL_DB_.xlsx"
+    ],
+    "Data S3-S7:33148457": [
+      "(A1) 1-p35S-bar-tNOS-2.gb",
+      "(A10) 2-LBpTIT37-3.gb",
+      "(A11) 3-pNOS-Barnase(int)-tMAS-4.gb",
+      "(A12) 3-LINKER-4.gb",
+      "(A13) 4-RB-p35S-bar-t35S-LB-5.gb",
+      "(A14) 4-RB-p35S-hpt(int)-t35S-LB-5.gb",
+      "(A15) 4-LINKER-5.gb",
+      "(A16) 5-ermC-6.gb",
+      "(A17) 5-GmR-6.gb",
+      "(A18) 5-nptII-6.gb",
+      "(A19) 5-aadA-6.gb",
+      "(A2) 1-pNOS-bar-tNOS-2.gb",
+      "(A20) 5-TetA-6.gb",
+      "(A21) 6-Phage-P1-7.gb",
+      "(A22) 6-P15A-7.gb",
+      "(A23) 6-ColE1-7.gb",
+      "(A24) 6-ColE1-ROP-7.gb",
+      "(A25) 6-pUC-7.gb",
+      "(A26) 7-pRI-8.gb",
+      "(A27) 7-oriV-8.gb",
+      "(A28) 7-pSa-8.gb",
+      "(A29) 7-pVS1+RepA-8.gb",
+      "(A3) 1-pNOS-hpt-tNOS-2.gb",
+      "(A30) 7-pVS1+RepA(R106H)-8.dna",
+      "(A30) 7-pVS1+RepA(R106H)-8.gb",
+      "(A31) 7-WKS1-8.gb",
+      "(A32) 8-trfA-9.gb",
+      "(A33) 8-pSa RepA (WT)-9.gb",
+      "(A34) 8-pSa RepA(K155N)-9.gb",
+      "(A35) 8-OriT-9.gb",
+      "(A36) 8-LINKER-9.gb",
+      "(A37) 9-minRBpTIT37-10.gb",
+      "(A38) 9-RBpTIT37-10.gb",
+      "(A39) B3-A-ccdB-G.gb",
+      "(A4) 1-pOsAct-hpt(int)-t35S-2.gb",
+      "(A40) B3-U1-ccdB-U9.gb",
+      "(A41) 1-LINKER-5.gb",
+      "(A42) 3-LINKER-5.gb",
+      "(A43) 7-LINKER-10.gb",
+      "(A5) 1-pNOS-nptII-tNOS-2.gb",
+      "(A6) 1-pOLE1-OLE1-mRuby3-tNOS-2.gb",
+      "(A7) 1-LINKER-2.gb",
+      "(A8) 2-LBpTiC58-3.gb",
+      "(A9) 2-2xLBpTiC58-3.gb",
+      "(E1) B3-1-2.gb",
+      "(E2) B3-2-3.gb",
+      "(E3) B3-3-4.gb",
+      "(E4) B3-4-5.gb",
+      "(E5) B3-5-6.gb",
+      "(E6) B3-6-7.gb",
+      "(E7) B3-7-8.gb",
+      "(E8) B3-8-9.gb",
+      "(E9) B3-9-10.gb",
       "AG1-1_verified.gb",
       "AG10-1_verified.gb",
+      "AG10_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG10_in_silico.gb",
       "AG11-1_verified.gb",
+      "AG11_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG11_in_silico.gb",
       "AG12-1_verified.gb",
+      "AG12_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG12_in_silico.gb",
       "AG13-1_verified.gb",
+      "AG13_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG13_in_silico.gb",
       "AG14-1_verified.gb",
+      "AG14_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG14_in_silico.gb",
       "AG15-1_verified.gb",
+      "AG15_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG15_in_silico.gb",
       "AG16-1_verified.gb",
+      "AG16_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG16_in_silico.gb",
+      "AG1_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG1_in_sillico.gb",
       "AG2-1_verified.gb",
+      "AG2_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG2_in_silico.gb",
       "AG3-1_verified.gb",
+      "AG3_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG3_in_silico.gb",
       "AG4-1_verified.gb",
+      "AG4_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG4_in_silico.gb",
       "AG5-1_verified.gb",
+      "AG5_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG5_in_silico.gb",
       "AG6-1_verified.gb",
+      "AG6_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG6_in_silico.gb",
       "AG7-1_verified.gb",
+      "AG7_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG7_in_silico.gb",
       "AG8-1_verified.gb",
+      "AG8_PcUBIP-RUBY-G7T_eforCP.gb",
       "AG8_in_silico.gb",
       "AG9-1_verified.gb",
-      "AG9_in_silico.gb"
+      "AG9_PcUBIP-RUBY-G7T_eforCP.gb",
+      "AG9_in_silico.gb",
+      "pB3G3HI-AG.gb",
+      "pB3G3HI-Zm13GFP-TBS.gb",
+      "pG3HI-AG.gb"
     ],
     "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq s:33135038": [
       "figshare_deposit_submission.zip"
@@ -642,29 +780,24 @@
     ],
     "Shroud Viruses:33148418": [
       "Shroud_viruses.fna"
-    ],
-    "Toward Site-Specific\nLife-Cycle Assessment for Mining\nActivi:33148421": [
-      "es6c01701_si_001.zip"
-    ],
-    "All custom analytical scripts, plotting codes and associated:33127355": [
-      "Fig1a_PlantingArea.zip",
-      "Fig1b_ParentLineAreaPedigree.zip",
-      "Fig1f_YieldRaincloudGWAS.zip",
-      "circos_eQTLgene.zip",
-      "circos_yuan88S_genome.zip",
-      "eQTL_analysis.zip",
-      "fig2g.zip",
-      "fig2h.zip",
-      "fig3g.zip",
-      "population_structure_and_phylogeny.zip"
     ]
   },
   "figshare_search_for_drug_matrices": {
     "PRISM Repurposing Public": [
       {
+        "id": 25511149,
+        "title": "Effects of maternal GCs on neural transcriptomics",
+        "published": "2026-08-03T20:29:17Z"
+      },
+      {
+        "id": 33148451,
+        "title": "<b>A Machine Learning Approach to Doping Attitudes: A Computational Analysis of Psychological and Behavioral Predictors</b>",
+        "published": "2026-08-03T20:27:26Z"
+      },
+      {
         "id": 33148457,
-        "title": "Data S3",
-        "published": "2026-08-03T20:23:45Z"
+        "title": "Data S3-S7",
+        "published": "2026-08-03T20:25:55Z"
       },
       {
         "id": 33135038,
@@ -775,23 +908,23 @@
         "id": 33148346,
         "title": "Year-long teacher professional development on fifth grade student science outcomes",
         "published": "2026-08-03T19:23:11Z"
-      },
-      {
-        "id": 32995511,
-        "title": "Six newly described Inocybaceae from North America",
-        "published": "2026-08-03T19:16:10Z"
-      },
-      {
-        "id": 33148331,
-        "title": "Development of a Creativity Orientation Scale using EFA",
-        "published": "2026-08-03T19:14:57Z"
       }
     ],
     "PRISM Oncology Reference": [
       {
+        "id": 25511149,
+        "title": "Effects of maternal GCs on neural transcriptomics",
+        "published": "2026-08-03T20:29:17Z"
+      },
+      {
+        "id": 33148451,
+        "title": "<b>A Machine Learning Approach to Doping Attitudes: A Computational Analysis of Psychological and Behavioral Predictors</b>",
+        "published": "2026-08-03T20:27:26Z"
+      },
+      {
         "id": 33148457,
-        "title": "Data S3",
-        "published": "2026-08-03T20:23:45Z"
+        "title": "Data S3-S7",
+        "published": "2026-08-03T20:25:55Z"
       },
       {
         "id": 33135038,
@@ -902,23 +1035,23 @@
         "id": 33148346,
         "title": "Year-long teacher professional development on fifth grade student science outcomes",
         "published": "2026-08-03T19:23:11Z"
-      },
-      {
-        "id": 32995511,
-        "title": "Six newly described Inocybaceae from North America",
-        "published": "2026-08-03T19:16:10Z"
-      },
-      {
-        "id": 33148331,
-        "title": "Development of a Creativity Orientation Scale using EFA",
-        "published": "2026-08-03T19:14:57Z"
       }
     ],
     "Repurposing_Public": [
       {
+        "id": 25511149,
+        "title": "Effects of maternal GCs on neural transcriptomics",
+        "published": "2026-08-03T20:29:17Z"
+      },
+      {
+        "id": 33148451,
+        "title": "<b>A Machine Learning Approach to Doping Attitudes: A Computational Analysis of Psychological and Behavioral Predictors</b>",
+        "published": "2026-08-03T20:27:26Z"
+      },
+      {
         "id": 33148457,
-        "title": "Data S3",
-        "published": "2026-08-03T20:23:45Z"
+        "title": "Data S3-S7",
+        "published": "2026-08-03T20:25:55Z"
       },
       {
         "id": 33135038,
@@ -1029,23 +1162,23 @@
         "id": 33148346,
         "title": "Year-long teacher professional development on fifth grade student science outcomes",
         "published": "2026-08-03T19:23:11Z"
-      },
-      {
-        "id": 32995511,
-        "title": "Six newly described Inocybaceae from North America",
-        "published": "2026-08-03T19:16:10Z"
-      },
-      {
-        "id": 33148331,
-        "title": "Development of a Creativity Orientation Scale using EFA",
-        "published": "2026-08-03T19:14:57Z"
       }
     ],
     "DepMap PRISM": [
       {
+        "id": 25511149,
+        "title": "Effects of maternal GCs on neural transcriptomics",
+        "published": "2026-08-03T20:29:17Z"
+      },
+      {
+        "id": 33148451,
+        "title": "<b>A Machine Learning Approach to Doping Attitudes: A Computational Analysis of Psychological and Behavioral Predictors</b>",
+        "published": "2026-08-03T20:27:26Z"
+      },
+      {
         "id": 33148457,
-        "title": "Data S3",
-        "published": "2026-08-03T20:23:45Z"
+        "title": "Data S3-S7",
+        "published": "2026-08-03T20:25:55Z"
       },
       {
         "id": 33135038,
@@ -1156,23 +1289,23 @@
         "id": 33148346,
         "title": "Year-long teacher professional development on fifth grade student science outcomes",
         "published": "2026-08-03T19:23:11Z"
-      },
-      {
-        "id": 32995511,
-        "title": "Six newly described Inocybaceae from North America",
-        "published": "2026-08-03T19:16:10Z"
-      },
-      {
-        "id": 33148331,
-        "title": "Development of a Creativity Orientation Scale using EFA",
-        "published": "2026-08-03T19:14:57Z"
       }
     ],
     "prism drug repurposing": [
       {
+        "id": 25511149,
+        "title": "Effects of maternal GCs on neural transcriptomics",
+        "published": "2026-08-03T20:29:17Z"
+      },
+      {
+        "id": 33148451,
+        "title": "<b>A Machine Learning Approach to Doping Attitudes: A Computational Analysis of Psychological and Behavioral Predictors</b>",
+        "published": "2026-08-03T20:27:26Z"
+      },
+      {
         "id": 33148457,
-        "title": "Data S3",
-        "published": "2026-08-03T20:23:45Z"
+        "title": "Data S3-S7",
+        "published": "2026-08-03T20:25:55Z"
       },
       {
         "id": 33135038,
@@ -1283,16 +1416,6 @@
         "id": 33148346,
         "title": "Year-long teacher professional development on fifth grade student science outcomes",
         "published": "2026-08-03T19:23:11Z"
-      },
-      {
-        "id": 32995511,
-        "title": "Six newly described Inocybaceae from North America",
-        "published": "2026-08-03T19:16:10Z"
-      },
-      {
-        "id": 33148331,
-        "title": "Development of a Creativity Orientation Scale using EFA",
-        "published": "2026-08-03T19:14:57Z"
       }
     ]
   },
