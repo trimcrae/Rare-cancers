@@ -292,6 +292,22 @@ def _refusal(where, why, **extra):
     return r
 
 
+def _checkpoint(doc):
+    """Write the artifact AFTER EVERY UNIT. CLAUDE.md's standing checkpoint rule, applied to a $0 job.
+
+    ⚠ THE RULE IS NOT ABOUT MONEY, WHICH IS WHY IT APPLIES HERE. A single end-of-run `json.dump` means a
+    wall-clock timeout on the flagged fan-out (38 docks, single-threaded) publishes NOTHING — not a
+    partial panel, not the self-control that had already finished and is the GATE. The publish step is
+    `if: always()`, so the only thing standing between a timeout and a lost verdict is whether the file
+    exists on disk. Nine self-docks that completed are a result; losing them because a tenth ligand was
+    slow is a bug, and it costs one `json.dump` per unit to prevent.
+    """
+    try:
+        json.dump(doc, open(OUT, "w"), indent=2)
+    except Exception as e:                                     # noqa: BLE001
+        print("  [checkpoint] could not write %s: %s" % (OUT, e), file=sys.stderr)
+
+
 def mode_resolve(doc):
     """Resolve MR / NR3C2 from UniProt by a live RCSB query and write it into the panel."""
     import apo_pose_recovery as apr
@@ -468,6 +484,15 @@ def mode_selfcontrol(doc):
     os.makedirs(WORK, exist_ok=True)
     spec = json.load(open(PANEL))
     rows = []
+    # `rows` is the SAME list object the artifact carries, so every `_checkpoint(doc)` below writes the
+    # panel as far as it has got. `_partial` is true until the panel verdict is computed, so a reader
+    # can never mistake a timed-out half-panel for a finished one.
+    doc["criterion"] = b
+    doc["protocol"] = proto
+    doc["selfcontrol"] = {"targets": rows, "_partial": True,
+                          "_partial_note": "the run had not reached the panel verdict when this was "
+                                           "written; per-target rows are complete, the verdict is absent"}
+    _checkpoint(doc)
     for t in spec["targets"]:
         t0 = time.time()
         row = {"name": t["name"], "class": t.get("class"), "pdb_id": t.get("pdb_id"),
@@ -478,6 +503,7 @@ def mode_selfcontrol(doc):
             row.update({"verdict": "UNSCORED", "why": "receptor prep failed: %s" % e})
             doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
             rows.append(row)
+            _checkpoint(doc)
             continue
         row["center"] = f["center"]
         row["chain"] = f["chain"]
@@ -495,6 +521,7 @@ def mode_selfcontrol(doc):
             row.update({"verdict": "UNSCORED", "why": "no crystallographic ligand copy to score against"})
             doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
             rows.append(row)
+            _checkpoint(doc)
             continue
 
         smi, why = _ccd_smiles(f["lig_resname"])
@@ -503,6 +530,7 @@ def mode_selfcontrol(doc):
             row.update({"verdict": "UNSCORED", "why": "no CCD SMILES: %s" % why})
             doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
             rows.append(row)
+            _checkpoint(doc)
             continue
 
         xtal, why = apr.crystal_mol(copy_lines, smi)
@@ -510,6 +538,7 @@ def mode_selfcontrol(doc):
             row.update({"verdict": "UNSCORED", "why": "crystal pose not buildable: %s" % why})
             doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
             rows.append(row)
+            _checkpoint(doc)
             continue
         row["n_heavy_atoms"] = xtal.GetNumAtoms()
 
@@ -521,12 +550,14 @@ def mode_selfcontrol(doc):
             row.update({"verdict": "UNSCORED", "why": "rdkit could not embed the cognate ligand"})
             doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
             rows.append(row)
+            _checkpoint(doc)
             continue
         err = _smina(rec_pdb, f["center"], box, lig_sdf, pose_sdf, exh, nmodes)
         if err:
             row.update({"verdict": "UNSCORED", "why": "dock failed: %s" % err})
             doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
             rows.append(row)
+            _checkpoint(doc)
             continue
         mol, dg, why = _top_pose_mol(pose_sdf)
         row["self_dock_dG"] = dg
@@ -534,6 +565,7 @@ def mode_selfcontrol(doc):
             row.update({"verdict": "UNSCORED", "why": "no scorable pose: %s" % why})
             doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
             rows.append(row)
+            _checkpoint(doc)
             continue
         try:
             row["rmsd_A"] = round(float(rdMolAlign.CalcRMS(mol, xtal)), 3)
@@ -541,6 +573,7 @@ def mode_selfcontrol(doc):
             row.update({"verdict": "UNSCORED", "why": "RMSD failed: %s: %s" % (type(e).__name__, e)})
             doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
             rows.append(row)
+            _checkpoint(doc)
             continue
 
         # C2 power control — the same box the dock searched. `random_in_box_null` reports
@@ -576,15 +609,16 @@ def mode_selfcontrol(doc):
                                         b["recovered_rmsd_A"], b["partial_rmsd_A"], b["null_power_max"])
         row["elapsed_s"] = round(time.time() - t0, 1)
         rows.append(row)
+        _checkpoint(doc)
         print("  %-8s %s  rmsd %s  dG %s  null %s" % (
             row["name"], row["verdict"], row.get("rmsd_A"), row.get("self_dock_dG"),
             row.get("null_frac_under_criterion")), flush=True)
 
-    doc["criterion"] = b
-    doc["protocol"] = proto
-    doc["selfcontrol"] = {"targets": rows}
+    doc["selfcontrol"]["_partial"] = False
+    doc["selfcontrol"].pop("_partial_note", None)
     doc["selfcontrol"].update(panel_verdict([{"name": r["name"], "verdict": r.get("verdict")}
                                              for r in rows]))
+    _checkpoint(doc)
 
 
 def mode_flagged(doc):
@@ -630,15 +664,18 @@ def mode_flagged(doc):
             if not ndock.make_sdf([(m["name"], m["name"], m["smiles"])], lig_sdf):
                 row.update({"dG": None, "note": "embed_failed"})
                 doc["flagged"]["rows"].append(row)
+                _checkpoint(doc)
                 continue
             err = _smina(rec_pdb, f["center"], box, lig_sdf, pose_sdf, exh, nmodes)
             if err:
                 row.update({"dG": None, "note": err})
                 doc["flagged"]["rows"].append(row)
+                _checkpoint(doc)
                 continue
             _mol, dg, why = _top_pose_mol(pose_sdf)
             row.update({"dG": dg, "note": "ok" if dg is not None else (why or "no_affinity")})
             doc["flagged"]["rows"].append(row)
+            _checkpoint(doc)
             for p in (lig_sdf, pose_sdf):
                 try:
                     os.remove(p)
