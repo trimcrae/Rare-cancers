@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 6:34 AM ET Mon Aug 3, 2026. One row per GPU leg, for every lane that can bill.
+Merged 6:35 AM ET Mon Aug 3, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -39,7 +39,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 6:26 AM ET Mon Aug 3, 2026 (8 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. NOT buying this tick [operator_hold]: ⏸ PAUSED BY OPERATOR — this lane will not buy a GPU until gcp-s1f-rep-OPERATOR-HOLD.json is deleted. Reason on record: Pending a reevaluation of strategy. Both selectivity CONTROLS failed on 2026-08-02 (valB_mini wrong-sign, §2.11; the SMARCA2/4 sensitivity control NULL on an adequately-powered design, §2.12a), so whether to keep buying step-1 replicate sampling is a program-direction question, not a scheduling one. See nr4a3-program-map.md → the scoreboard's control-status table. · paused 2026-08-02T09:40:00Z. Banked work is untouched — the GCS commit store is continuous, so a resume re-enters at the last COMMITTED.json and nothing is lost by waiting. The free GCP GPU is idle — that is expiring credit unspent. $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 6:35 AM ET Mon Aug 3, 2026 (0 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. NOT buying this tick [operator_hold]: ⏸ PAUSED BY OPERATOR — this lane will not buy a GPU until gcp-s1f-rep-OPERATOR-HOLD.json is deleted. Reason on record: Pending a reevaluation of strategy. Both selectivity CONTROLS failed on 2026-08-02 (valB_mini wrong-sign, §2.11; the SMARCA2/4 sensitivity control NULL on an adequately-powered design, §2.12a), so whether to keep buying step-1 replicate sampling is a program-direction question, not a scheduling one. See nr4a3-program-map.md → the scoreboard's control-status table. · paused 2026-08-02T09:40:00Z. Banked work is untouched — the GCS commit store is continuous, so a resume re-enters at the last COMMITTED.json and nothing is lost by waiting. The free GCP GPU is idle — that is expiring credit unspent. $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns STATE          WHY (when not running)
