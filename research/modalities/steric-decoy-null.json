@@ -3,8 +3,8 @@
  "_status": "INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, affinity, reactivity, degradation, efficacy, safety or clinical readiness.",
  "_reading": "This calibrates the STERIC SCREEN, not NR4A3. A contrast is only evidence about NR4A3 to the extent that an arbitrary close paralogue pair does NOT reproduce it.",
  "_generated": {
-  "utc": "2026-08-03T18:40:46Z",
-  "et": "2026-08-03 02:40 PM ET",
+  "utc": "2026-08-03T18:47:46Z",
+  "et": "2026-08-03 02:47 PM ET",
   "generator": "research/modalities/steric_decoy_null.py"
  },
  "_configuration": {
@@ -21130,6 +21130,44 @@
    "SECONDARY (`full_trio`, target and both partners swapped): filtered clash contrast 0 graded arms, verdict UNGRADEABLE_empty_background — and the pre-registration PREDICTED this from the smoke, because transporting a pose set docked into NR4A3 into another target's frame drops the poses (attrition: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11]). The unfiltered sensitivity, biased DOWNWARD on decoys, graded 0 arms at verdict UNGRADEABLE_empty_background. ⭑ The half that is immune to all of this is the POSE-FREE volume axis: 7 graded arms, index 1.0, verdict NOT DISTINGUISHED.",
    "⛔ AND THE CEILING IS UNCHANGED BY ANY OF THIS: the paralogue RELOCATES these molecules by a median ~5.3 A rather than refusing them (`M4`), so `S3` constrains a POSE and never 'the paralogue cannot bind this molecule'. The transfer is rigid, and the target's absence of clash is guaranteed by construction and carries no information in any arm."
   ]
+ },
+ "⛔_refusal_gate": {
+  "n_refusals": 0,
+  "n_graded_primary_contrast_a": 5,
+  "rule": "a run whose primary background falls below the verdict floor WHILE arms were refused is reported as a CODE failure, not as a thin background. Both are 'too few rows'; only one of them is a finding.",
+  "verdict": "OK"
+ },
+ "★_the_numbers_that_decide_it": {
+  "1_arbitrary_pairs_that_BEAT_NR4A3_on_contrast_a": {
+   "index_signal_minus_null": 0.625,
+   "arms_scoring_higher": [
+    "ESRRA|ESRRG",
+    "HNF4A|HNF4G"
+   ],
+   "of_n_graded": 5,
+   "★": "these are arbitrary close nuclear-receptor pairs, chosen on identity alone, scoring a LARGER steric contrast than NR4A3 does under the identical pipeline."
+  },
+  "2_the_enrichment_RATIO_form_is_worse_for_NR4A3_not_better": {
+   "index_ratio": 2.667,
+   "background_ratios": [
+    4.491,
+    4.491
+   ],
+   "n_undefined_because_the_decoys_null_was_exactly_zero": 3,
+   "★": "an UNDEFINED ratio here is not a missing datum — it is a decoy whose null class fired at exactly 0, i.e. a PERFECT contrast, which is better than NR4A3's, not worse. Counting those as absent would flatter the index.",
+   "⚠": "n is below the verdict floor on this form, so no verdict is claimed from it."
+  },
+  "3_both_zero_valued_claims_sit_at_the_backgrounds_MODE": {
+   "contrast_b_index": 0.0,
+   "contrast_b_background_frac_exactly_zero": 0.625,
+   "contrast_b_wilson95": [
+    0.3057,
+    0.8632
+   ],
+   "volume_axis_index": 1.0,
+   "volume_axis_background_modal_frac": 0.5833333333333334,
+   "★": "on BOTH the 0.000 claim and the volume-bar claim the index arm returns the background's MODAL value, so in each case the percentile and the modal frequency are ONE measurement and not two. This is the same shape `C24` found on the categorical axis."
+  }
  },
  "map_edits_required": {
   "_what": "Roadmap edits this result requires. DESCRIBED, NOT APPLIED — every `current_text` is READ out of the live map by `map_edits.locate`, so it is a byte-exact substring of the map as it stood at generation time. Route with `python3 research/manuscripts/route_map_edits.py <artifact> --apply`.",
