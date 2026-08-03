@@ -265,3 +265,19 @@ def test_a_probe_that_cannot_discriminate_is_reported_rather_than_guessed():
     must NOT be turned into an APPLIED. Absence of a usable probe is not evidence either way."""
     probe, discriminating = mea.build_probe("abc", "abc")     # a no-op proposal introduces nothing
     assert probe == "" and discriminating is False
+
+
+def test_widening_measures_the_stripped_probe_so_a_landed_edit_is_not_called_dead():
+    """Measured by routing the C24 edits twice. The §3b register's item count is `**23 items.**` ->
+    `**24 items.**`: a ONE-character change whose widened window ended in whitespace, so a 25-character
+    slice stripped to 23 — one below the floor — and the applied edit came back a DEAD ANCHOR."""
+    current = "**23 items.** Status: ✅ **frozen** · ⚠ **CONTESTED** (a defensible alternative)"
+    proposed = current.replace("**23 items.**", "**24 items.**", 1)
+    probe, discriminating = mea.build_probe(proposed, current)
+    assert discriminating, "a one-character count bump must still yield a usable probe"
+    assert len(probe) >= mea.MIN_PROBE_CHARS, "the floor applies to the STRIPPED probe"
+    assert "**24 items.**" in probe and "**23" not in probe
+    got, _s = mea.verify([{"section": "s", "anchor": "a", "current_text": current,
+                           "proposed_text": proposed, "why": "w", "artifact": "x"}],
+                         _write("noise\n" + proposed + "\n"))
+    assert got[0]["anchor_status"] == "APPLIED", "the landed edit must not read as dead"
