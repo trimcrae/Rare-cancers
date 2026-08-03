@@ -2344,6 +2344,29 @@ receptor, not merely a mis-placed one. **No dominant-site statistic is computed 
 seeing the spread is the post-hoc tuning this program forbids, so NR4A1 stays **UNMEASURED** and the
 question is registered rather than answered.
 
+⛔⛔ **AND THE CONTAMINATION IS NOT A BOX — IT IS THE COLLECTIVE VARIABLE (traced 2026-08-03, after the
+result above).** The natural reading of everything so far is "a docking box is in the wrong place, move it."
+That is too small. [`nr4a3_metad.py:42-45`](../modalities/nr4a3_metad.py) states that a paralogue's
+**LBD trim window and CV (Pocket-5 lining) residues** are *"derived at runtime by BLOSUM62 alignment … the
+same alignment `nr4a_selectivity.py` / `nr4a3_warhead.py` use"*, and `:549` confirms the method is
+*"identical to `nr4a3_warhead.map_pocket_to_paralogue`"*.
+
+⇒ **The coordinate the metadynamics PUSHES ON to open NR4A1's and NR4A2's cryptic pockets is the
+transferred one.** So the paralogue **opened-state ensembles themselves** were opened at a site ~15–16 Å
+from where those receptors' ligands actually bind. Everything built on `{paralogue}-opened.pdb` inherits it
+— the MM-GBSA margins, the selectivity matrix, the steric design rule and its decoy null, the NR4A1-sparing
+axis, and the ABFE, which ran on *"each … in its selected opened conformer"*.
+
+⚠ **This cannot be fixed by moving a box.** A box is a runtime argument; an opened ensemble is the output of
+GPU-time metadynamics. Re-deriving the paralogue arms means **re-opening them at the corrected site**, which
+is **compute spend, not $0** — and NR4A1 has **no corrected site to re-open at**, because its deposits do not
+define one.
+
+⭑ **AND THE COMMENT THAT LET THIS STAND IS A TEXTBOOK INSTANCE OF THE §4 RULE:** *"the warhead run mapped
+these exact paralogue pockets successfully"*. **It did** — 129 residues mapped, no error raised. *Mapping
+succeeded* and *mapped to the right place* are different claims, and the code recorded the first as evidence
+for the second. **A populated field is not a measured one.**
+
 **⚠ THE INSTRUMENT WAS WRONG TWICE BEFORE THIS, AND THE GATE IS WHY NOTHING WRONG WAS PUBLISHED.**
 
 1. **Run 1** emitted corrected sites for both paralogues and a clean 22.8 / 24.7 Å displacement — from
