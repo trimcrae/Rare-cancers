@@ -43,6 +43,33 @@ def live_line(anchor):
                   "stale" if not hits else "ambiguous, and this tool never picks one"))
 
 
+#: ★ THE SENTINEL THAT MAKES THIS RE-RUNNABLE. Every block this generator appends begins with its own
+#: sentinel, and `rebase` strips a previously-applied block off `current_text` before the new one is
+#: composed. Without it a second pass — which is EXPECTED here, because Part A lands before the
+#: known-answer panel does — would see its own appended text as part of the live line and append again,
+#: leaving two contradictory blocks inside one 5,000-line document with nothing reporting it.
+#: `route_map_edits.py` is idempotent for an UNCHANGED edit; it cannot be for a REVISED one, and this is
+#: what makes a revised edit a replacement instead of a second copy.
+def rebase(cur, sentinel):
+    """`cur` with any previously-applied block of ours removed, so the new block REPLACES it."""
+    if cur is None or not sentinel:
+        return cur
+    i = cur.find(sentinel)
+    return cur[:i].rstrip() if i >= 0 else cur.rstrip()
+
+
+#: One sentinel per edit. They must be STABLE ACROSS RUNS and unique in the document — changing one
+#: silently turns the next pass from a replacement into a second copy, which is the failure `rebase`
+#: exists to prevent.
+SENTINELS = {
+    "E1": " \u2705 **AND THE SECOND METHOD HAS NOW RUN",
+    "E3": " \u2b51 **AND IT NOW HAS A SECOND INSTRUMENT",
+    "E4": " \u26a0 **AND `V22` INHERITS THE SAME `C14`, DELIBERATELY**",
+    "E5": " \u2b51 **AND THE LESSON IS NOW OPERATIONALISED",
+    "E6": " \u2b51 **THE BLOCKER IS NOW NAMED DIFFERENTLY",
+}
+
+
 def _f(v, nd=3, dash="—"):
     if v is None:
         return dash
@@ -173,7 +200,7 @@ def build(doc):
                       "current_text": None, "proposed_text": None, "why": why1})
     else:
         add = (
-            " ✅ **AND THE SECOND METHOD HAS NOW RUN — 2026-08-03, $0, free CPU. `cross_method_evidence` "
+            SENTINELS["E1"] + " — 2026-08-03, $0, free CPU. `cross_method_evidence` "
             "is no longer NONE.** The engine is **rDock** (`rbcavity` + `rbdock`, stock three-stage "
             "protocol), chosen because it is independent WHERE IT COUNTS: it shares with smina no "
             "scoring term, no search algorithm, no atom typing and no source code — a genetic-algorithm "
@@ -207,22 +234,35 @@ def build(doc):
                _f(f["within_rec"], 0), _f(f["within_n"], 0), _f(f["rec_A"], 2), _f(f["within_med"]),
                _f(f["within_lo"]), _f(f["within_hi"]),
                _panel_phrase(f), _fit_phrase(f)))
+        base1 = rebase(cur1, SENTINELS["E1"])
         edits.append({
             "id": "E1", "row": 4, "serves": "V3 → R5", "section": "§10.1 · Open rows, row 4",
             "file": "research/manuscripts/nr4a3-program-map.md", "anchor": anchor1,
-            "current_text": cur1, "proposed_text": cur1.rstrip() + add,
+            "current_text": cur1, "proposed_text": base1 + add,
             "why": "the row's own next action was `run a SECOND INDEPENDENT POSE METHOD`; it has run",
         })
 
     # ------------------------------------------------------------------ E2 · §3.1 a new instrument row
     anchor2 = "| **V20** | Single-snapshot MM-GBSA `margin > 0` as a selectivity verdict"
     cur2, why2 = live_line(anchor2)
-    collision = ("`%s`" % NEW_V) in MAP.read_text()
-    if cur2 is None or collision:
+    # ⚠ RE-RUNNABLE, LIKE THE REST. On a second pass the `V22` row already exists, so a blind
+    # `V20-line -> V20-line + row` replacement would insert a SECOND one. `current_text` therefore
+    # carries the existing row when there is one, which turns the edit into a replacement.
+    map_text = MAP.read_text()
+    ours = [ln for ln in map_text.splitlines() if ln.startswith("| **%s** |" % NEW_V)]
+    # a collision is `V22` used for something that is NOT our instrument row — that would mean the id
+    # was minted elsewhere and §0.4 forbids renumbering, so the edit is refused rather than guessed.
+    collision = (("`%s`" % NEW_V) in map_text) and not ours
+    if cur2 is not None and ours:
+        cur2 = cur2.rstrip() + "\n" + ours[0]
+    if cur2 is None or collision or len(ours) > 1:
         edits.append({"id": "E2", "section": "§3.1 instrument table", "anchor": anchor2,
                       "current_text": None, "proposed_text": None,
-                      "why": ("`%s` is already used in the live map — pick the next free id rather than "
-                              "renumbering (§0.4)" % NEW_V) if collision else why2})
+                      "why": ("`%s` is already used in the live map for something that is not this "
+                              "instrument row — pick the next free id rather than renumbering (§0.4)"
+                              % NEW_V) if collision else
+                             ("%d rows already claim `%s` — ambiguous, and this tool never picks one"
+                              % (len(ours), NEW_V)) if len(ours) > 1 else why2})
     else:
         row = (
             "| **%s** | **The scoring-independent second pose method** (`pose_second_method` — rDock "
@@ -241,21 +281,27 @@ def build(doc):
         edits.append({
             "id": "E2", "section": "§3.1 · The instrument table",
             "file": "research/manuscripts/nr4a3-program-map.md", "anchor": anchor2,
-            "current_text": cur2, "proposed_text": cur2.rstrip() + "\n" + row,
+            "current_text": cur2,
+            "proposed_text": (cur2.rsplit("\n", 1)[0] if ours else cur2.rstrip()) + "\n" + row,
             "why": "an instrument that answers a requirement needs a row; `%s` is the next free id and "
                    "was checked against the live map for collision" % NEW_V,
         })
 
     # ------------------------------------------------------------------ E3 · §3.2 the R5 coverage cell
-    anchor3 = "| `R5` pose (`C14` `C15`) | `V3` |"
+    # ⚠ THE ANCHOR MUST SURVIVE ITS OWN EDIT. The first version of this anchor included the `| `V3` |`
+    # cell — which this edit CHANGES to `| `V3` `V22` |` — so a second pass could not find its own row
+    # and reported a dead anchor on a row it had just written. Anchor on the part that does not move.
+    anchor3 = "| `R5` pose (`C14` `C15`) |"
     cur3, why3 = live_line(anchor3)
     if cur3 is None:
         edits.append({"id": "E3", "section": "§3.2 R×V coverage", "anchor": anchor3,
                       "current_text": None, "proposed_text": None, "why": why3})
     else:
-        new3 = cur3.replace("| `V3` |", "| `V3` `%s` |" % NEW_V, 1)
+        new3 = rebase(cur3, SENTINELS["E3"])
+        if ("`%s`" % NEW_V) not in new3:                      # idempotent: only add the id once
+            new3 = new3.replace("| `V3` |", "| `V3` `%s` |" % NEW_V, 1)
         new3 = new3.rstrip().rstrip("|").rstrip() + (
-            " ⭑ **AND IT NOW HAS A SECOND INSTRUMENT, WHICH IS WHAT MAKES THE READING ATTRIBUTABLE:** "
+            SENTINELS["E3"] + ", WHICH IS WHAT MAKES THE READING ATTRIBUTABLE:** "
             "`%s` (rDock) disagrees with `V3` on %s of %s systems at median **%s Å**, and disagrees in "
             "ORIENTATION rather than in location. ⛔ Two disjoint scoring functions failing to converge "
             "on the same receptors says the non-convergence is the SYSTEM's, not one function's — it "
@@ -271,17 +317,19 @@ def build(doc):
         })
 
     # ------------------------------------------------------------------ E4 · §3b.3 the R×V×C R5 row
-    anchor4 = "| **R5** the binding pose is right | `V3` | `C14` `C15` |"
+    anchor4 = "| **R5** the binding pose is right |"          # same reason as anchor3
     cur4, why4 = live_line(anchor4)
     if cur4 is None:
         edits.append({"id": "E4", "section": "§3b.3 R×V×C", "anchor": anchor4,
                       "current_text": None, "proposed_text": None, "why": why4})
     else:
-        new4 = cur4.replace("| `V3` | `C14` `C15` |", "| `V3` `%s` | `C14` `C15` |" % NEW_V, 1)
+        new4 = rebase(cur4, SENTINELS["E4"])
+        if ("`%s`" % NEW_V) not in new4:
+            new4 = new4.replace("| `V3` | `C14` `C15` |", "| `V3` `%s` | `C14` `C15` |" % NEW_V, 1)
         new4 = new4.rstrip().rstrip("|").rstrip() + (
-            " ⚠ **AND `%s` INHERITS THE SAME `C14`, DELIBERATELY** — a second method graded by a "
+            SENTINELS["E4"] + " — a second method graded by a "
             "different line would not be a check, it would be a different question. So `C14` moving "
-            "still moves BOTH readings of `R5` together, exactly as it moves `R14`'s. |" % NEW_V)
+            "still moves BOTH readings of `R5` together, exactly as it moves `R14`'s. |")
         edits.append({
             "id": "E4", "section": "§3b.3 · The R×V×C traceability view",
             "file": "research/manuscripts/nr4a3-program-map.md", "anchor": anchor4,
@@ -300,8 +348,8 @@ def build(doc):
             "id": "E5", "section": "§3b.4 · item 1 (the `V14` lesson)",
             "file": "research/manuscripts/nr4a3-program-map.md", "anchor": anchor5,
             "current_text": cur5,
-            "proposed_text": cur5.rstrip() + (
-                " ⭑ **AND THE LESSON IS NOW OPERATIONALISED RATHER THAN ONLY RECORDED:** `%s` "
+            "proposed_text": rebase(cur5, SENTINELS["E5"]) + (
+                SENTINELS["E5"] + " RATHER THAN ONLY RECORDED:** `%s` "
                 "([`pose_second_method.py`](../modalities/pose_second_method.py)) states its shared and "
                 "unshared `C*` items **per arm**, computed from each arm's definition and pinned by "
                 "`tests/test_pose_second_method.py`, so an instrument cannot quietly become "
@@ -320,8 +368,8 @@ def build(doc):
             "id": "E6", "section": "§5 · Where each requirement stands — `R5`",
             "file": "research/manuscripts/nr4a3-program-map.md", "anchor": anchor6,
             "current_text": cur6,
-            "proposed_text": cur6.rstrip() + (
-                " ⭑ **THE BLOCKER IS NOW NAMED DIFFERENTLY, AND THAT IS THE 2026-08-03 CHANGE.** It was "
+            "proposed_text": rebase(cur6, SENTINELS["E6"]) + (
+                SENTINELS["E6"] + ", AND THAT IS THE 2026-08-03 CHANGE.** It was "
                 "*\"no second opinion exists\"*; a second opinion now exists (`%s`, rDock — disjoint "
                 "scoring, disjoint search, disjoint typing) and it **disagrees**: %s, median **%s Å**, "
                 "with the disagreement carried by ORIENTATION (median centroid separation **%s Å**) "
