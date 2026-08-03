@@ -1,9 +1,9 @@
 {
-  "_title": "C02 \u2014 cross-system decoy null for the categorical covalent axis: PRE-REGISTRATION",
+  "_title": "C02 \u2014 cross-system decoy null: PRE-REGISTRATION + the selected pair plan (still no statistic computed)",
   "_status": "PRE-REGISTRATION ONLY. No structure has been fetched and no statistic computed at the time this file is written.",
   "_generated": {
-    "utc": "2026-08-02T23:52:39Z",
-    "et": "2026-08-02 07:52 PM ET",
+    "utc": "2026-08-03T00:01:58Z",
+    "et": "2026-08-02 08:01 PM ET",
     "generator": "research/modalities/categorical_decoy_null.py"
   },
   "preregistration": {
@@ -15,7 +15,7 @@
       "why_nuclear_receptors": "The null must be the RIGHT null: close paralogue pairs in the same fold class, with the same domain size and the same kind of buried ligand pocket. A random-protein null would confound 'no collision' with 'wrong fold'. \u26a0 The price is that the background measured here is a NUCLEAR-RECEPTOR background, not a proteome background \u2014 stated as a limit, not hidden."
     },
     "structures": {
-      "source": "AlphaFold DB, model_v4 (fallback v3, v2), one per accession \u2014 the only source that covers every member of the universe uniformly. Version and SHA-256 recorded per model.",
+      "source": "AlphaFold DB, one model per accession, resolved through the prediction API (the file URL's version number is NOT guessed \u2014 measured 2026-08-02, a hard-wired v4/v3/v2 file URL 404'd on all 48). The resolved URL, model version and SHA-256 are recorded per model.",
       "domain_trim": "largest CONTIGUOUS run of residues with pLDDT >= MIN_PLDDT (70.0), minimum length MIN_DOMAIN_LEN (120) residues. Mechanical, identical for every protein, and it removes the disordered tails whose spurious cysteines would INFLATE the decoy collision rate \u2014 i.e. the trim is in the direction that makes the NR4A3 result look WORSE, not better."
     },
     "pair_formation": {
@@ -326,5 +326,1109 @@
       "contact_A": 6.0,
       "min_contact_residues": 12
     }
-  }
+  },
+  "nr4a3_reference_identities": {
+    "P22736": {
+      "identity": 0.6408,
+      "coverage": 0.9861
+    },
+    "P43354": {
+      "identity": 0.6993,
+      "coverage": 0.9931
+    }
+  },
+  "nr4a3_reference_identity_used_for_ranking": 0.6701,
+  "trimmed": {
+    "P10828": {
+      "accession": "P10828",
+      "first": 263,
+      "last": 461,
+      "n_residues": 199,
+      "path": "results/categorical-decoy-null/trimmed/P10828-domain.pdb",
+      "seq_len": 199,
+      "gene": "THRB",
+      "in_nr4a_family": false
+    },
+    "P10827": {
+      "accession": "P10827",
+      "first": 210,
+      "last": 373,
+      "n_residues": 164,
+      "path": "results/categorical-decoy-null/trimmed/P10827-domain.pdb",
+      "seq_len": 164,
+      "gene": "THRA",
+      "in_nr4a_family": false
+    },
+    "P43354": {
+      "accession": "P43354",
+      "first": 397,
+      "last": 541,
+      "n_residues": 145,
+      "path": "results/categorical-decoy-null/trimmed/P43354-domain.pdb",
+      "seq_len": 145,
+      "gene": "NR4A2",
+      "in_nr4a_family": true
+    },
+    "P35398": {
+      "accession": "P35398",
+      "first": 268,
+      "last": 512,
+      "n_residues": 245,
+      "path": "results/categorical-decoy-null/trimmed/P35398-domain.pdb",
+      "seq_len": 245,
+      "gene": "RORA",
+      "in_nr4a_family": false
+    },
+    "Q92753": {
+      "accession": "Q92753",
+      "first": 219,
+      "last": 462,
+      "n_residues": 244,
+      "path": "results/categorical-decoy-null/trimmed/Q92753-domain.pdb",
+      "seq_len": 244,
+      "gene": "RORB",
+      "in_nr4a_family": false
+    },
+    "P28702": {
+      "accession": "P28702",
+      "first": 334,
+      "last": 514,
+      "n_residues": 181,
+      "path": "results/categorical-decoy-null/trimmed/P28702-domain.pdb",
+      "seq_len": 181,
+      "gene": "RXRB",
+      "in_nr4a_family": false
+    },
+    "P22736": {
+      "accession": "P22736",
+      "first": 398,
+      "last": 542,
+      "n_residues": 145,
+      "path": "results/categorical-decoy-null/trimmed/P22736-domain.pdb",
+      "seq_len": 145,
+      "gene": "NR4A1",
+      "in_nr4a_family": true
+    },
+    "P10826": {
+      "accession": "P10826",
+      "first": 180,
+      "last": 415,
+      "n_residues": 236,
+      "path": "results/categorical-decoy-null/trimmed/P10826-domain.pdb",
+      "seq_len": 236,
+      "gene": "RARB",
+      "in_nr4a_family": false
+    },
+    "P10276": {
+      "accession": "P10276",
+      "first": 180,
+      "last": 415,
+      "n_residues": 236,
+      "path": "results/categorical-decoy-null/trimmed/P10276-domain.pdb",
+      "seq_len": 236,
+      "gene": "RARA",
+      "in_nr4a_family": false
+    },
+    "P37231": {
+      "accession": "P37231",
+      "first": 304,
+      "last": 505,
+      "n_residues": 202,
+      "path": "results/categorical-decoy-null/trimmed/P37231-domain.pdb",
+      "seq_len": 202,
+      "gene": "PPARG",
+      "in_nr4a_family": false
+    },
+    "P08235": {
+      "accession": "P08235",
+      "first": 737,
+      "last": 909,
+      "n_residues": 173,
+      "path": "results/categorical-decoy-null/trimmed/P08235-domain.pdb",
+      "seq_len": 173,
+      "gene": "NR3C2",
+      "in_nr4a_family": false
+    },
+    "P10275": {
+      "accession": "P10275",
+      "first": 673,
+      "last": 919,
+      "n_residues": 247,
+      "path": "results/categorical-decoy-null/trimmed/P10275-domain.pdb",
+      "seq_len": 247,
+      "gene": "AR",
+      "in_nr4a_family": false
+    },
+    "P03372": {
+      "accession": "P03372",
+      "first": 305,
+      "last": 456,
+      "n_residues": 152,
+      "path": "results/categorical-decoy-null/trimmed/P03372-domain.pdb",
+      "seq_len": 152,
+      "gene": "ESR1",
+      "in_nr4a_family": false
+    },
+    "P48443": {
+      "accession": "P48443",
+      "first": 264,
+      "last": 444,
+      "n_residues": 181,
+      "path": "results/categorical-decoy-null/trimmed/P48443-domain.pdb",
+      "seq_len": 181,
+      "gene": "RXRG",
+      "in_nr4a_family": false
+    },
+    "P11474": {
+      "accession": "P11474",
+      "first": 220,
+      "last": 366,
+      "n_residues": 147,
+      "path": "results/categorical-decoy-null/trimmed/P11474-domain.pdb",
+      "seq_len": 147,
+      "gene": "ESRRA",
+      "in_nr4a_family": false
+    },
+    "P62508": {
+      "accession": "P62508",
+      "first": 235,
+      "last": 458,
+      "n_residues": 224,
+      "path": "results/categorical-decoy-null/trimmed/P62508-domain.pdb",
+      "seq_len": 224,
+      "gene": "ESRRG",
+      "in_nr4a_family": false
+    },
+    "Q92731": {
+      "accession": "Q92731",
+      "first": 262,
+      "last": 407,
+      "n_residues": 146,
+      "path": "results/categorical-decoy-null/trimmed/Q92731-domain.pdb",
+      "seq_len": 146,
+      "gene": "ESR2",
+      "in_nr4a_family": false
+    },
+    "O95718": {
+      "accession": "O95718",
+      "first": 209,
+      "last": 433,
+      "n_residues": 225,
+      "path": "results/categorical-decoy-null/trimmed/O95718-domain.pdb",
+      "seq_len": 225,
+      "gene": "ESRRB",
+      "in_nr4a_family": false
+    },
+    "Q96RI1": {
+      "accession": "Q96RI1",
+      "first": 293,
+      "last": 468,
+      "n_residues": 176,
+      "path": "results/categorical-decoy-null/trimmed/Q96RI1-domain.pdb",
+      "seq_len": 176,
+      "gene": "NR1H4",
+      "in_nr4a_family": false
+    },
+    "Q14541": {
+      "accession": "Q14541",
+      "first": 126,
+      "last": 277,
+      "n_residues": 152,
+      "path": "results/categorical-decoy-null/trimmed/Q14541-domain.pdb",
+      "seq_len": 152,
+      "gene": "HNF4G",
+      "in_nr4a_family": false
+    },
+    "P13631": {
+      "accession": "P13631",
+      "first": 182,
+      "last": 417,
+      "n_residues": 236,
+      "path": "results/categorical-decoy-null/trimmed/P13631-domain.pdb",
+      "seq_len": 236,
+      "gene": "RARG",
+      "in_nr4a_family": false
+    },
+    "Q13133": {
+      "accession": "Q13133",
+      "first": 204,
+      "last": 444,
+      "n_residues": 241,
+      "path": "results/categorical-decoy-null/trimmed/Q13133-domain.pdb",
+      "seq_len": 241,
+      "gene": "NR1H3",
+      "in_nr4a_family": false
+    },
+    "Q15406": {
+      "accession": "Q15406",
+      "first": 245,
+      "last": 476,
+      "n_residues": 232,
+      "path": "results/categorical-decoy-null/trimmed/Q15406-domain.pdb",
+      "seq_len": 232,
+      "gene": "NR6A1",
+      "in_nr4a_family": false
+    },
+    "Q03181": {
+      "accession": "Q03181",
+      "first": 232,
+      "last": 440,
+      "n_residues": 209,
+      "path": "results/categorical-decoy-null/trimmed/Q03181-domain.pdb",
+      "seq_len": 209,
+      "gene": "PPARD",
+      "in_nr4a_family": false
+    },
+    "O75469": {
+      "accession": "O75469",
+      "first": 192,
+      "last": 314,
+      "n_residues": 123,
+      "path": "results/categorical-decoy-null/trimmed/O75469-domain.pdb",
+      "seq_len": 123,
+      "gene": "NR1I2",
+      "in_nr4a_family": false
+    },
+    "P11473": {
+      "accession": "P11473",
+      "first": 223,
+      "last": 374,
+      "n_residues": 152,
+      "path": "results/categorical-decoy-null/trimmed/P11473-domain.pdb",
+      "seq_len": 152,
+      "gene": "VDR",
+      "in_nr4a_family": false
+    },
+    "P51449": {
+      "accession": "P51449",
+      "first": 265,
+      "last": 507,
+      "n_residues": 243,
+      "path": "results/categorical-decoy-null/trimmed/P51449-domain.pdb",
+      "seq_len": 243,
+      "gene": "RORC",
+      "in_nr4a_family": false
+    },
+    "P55055": {
+      "accession": "P55055",
+      "first": 218,
+      "last": 458,
+      "n_residues": 241,
+      "path": "results/categorical-decoy-null/trimmed/P55055-domain.pdb",
+      "seq_len": 241,
+      "gene": "NR1H2",
+      "in_nr4a_family": false
+    },
+    "Q13285": {
+      "accession": "Q13285",
+      "first": 260,
+      "last": 447,
+      "n_residues": 188,
+      "path": "results/categorical-decoy-null/trimmed/Q13285-domain.pdb",
+      "seq_len": 188,
+      "gene": "NR5A1",
+      "in_nr4a_family": false
+    },
+    "P19793": {
+      "accession": "P19793",
+      "first": 263,
+      "last": 456,
+      "n_residues": 194,
+      "path": "results/categorical-decoy-null/trimmed/P19793-domain.pdb",
+      "seq_len": 194,
+      "gene": "RXRA",
+      "in_nr4a_family": false
+    },
+    "P24468": {
+      "accession": "P24468",
+      "first": 280,
+      "last": 402,
+      "n_residues": 123,
+      "path": "results/categorical-decoy-null/trimmed/P24468-domain.pdb",
+      "seq_len": 123,
+      "gene": "NR2F2",
+      "in_nr4a_family": false
+    },
+    "P10589": {
+      "accession": "P10589",
+      "first": 287,
+      "last": 409,
+      "n_residues": 123,
+      "path": "results/categorical-decoy-null/trimmed/P10589-domain.pdb",
+      "seq_len": 123,
+      "gene": "NR2F1",
+      "in_nr4a_family": false
+    },
+    "P10588": {
+      "accession": "P10588",
+      "first": 270,
+      "last": 392,
+      "n_residues": 123,
+      "path": "results/categorical-decoy-null/trimmed/P10588-domain.pdb",
+      "seq_len": 123,
+      "gene": "NR2F6",
+      "in_nr4a_family": false
+    },
+    "P49116": {
+      "accession": "P49116",
+      "first": 461,
+      "last": 582,
+      "n_residues": 122,
+      "path": "results/categorical-decoy-null/trimmed/P49116-domain.pdb",
+      "seq_len": 122,
+      "gene": "NR2C2",
+      "in_nr4a_family": false
+    },
+    "P13056": {
+      "accession": "P13056",
+      "first": 467,
+      "last": 589,
+      "n_residues": 123,
+      "path": "results/categorical-decoy-null/trimmed/P13056-domain.pdb",
+      "seq_len": 123,
+      "gene": "NR2C1",
+      "in_nr4a_family": false
+    },
+    "P06401": {
+      "accession": "P06401",
+      "first": 685,
+      "last": 859,
+      "n_residues": 175,
+      "path": "results/categorical-decoy-null/trimmed/P06401-domain.pdb",
+      "seq_len": 175,
+      "gene": "PGR",
+      "in_nr4a_family": false
+    },
+    "P41235": {
+      "accession": "P41235",
+      "first": 175,
+      "last": 376,
+      "n_residues": 202,
+      "path": "results/categorical-decoy-null/trimmed/P41235-domain.pdb",
+      "seq_len": 202,
+      "gene": "HNF4A",
+      "in_nr4a_family": false
+    },
+    "Q07869": {
+      "accession": "Q07869",
+      "first": 265,
+      "last": 467,
+      "n_residues": 203,
+      "path": "results/categorical-decoy-null/trimmed/Q07869-domain.pdb",
+      "seq_len": 203,
+      "gene": "PPARA",
+      "in_nr4a_family": false
+    },
+    "Q92570": {
+      "accession": "Q92570",
+      "first": 427,
+      "last": 570,
+      "n_residues": 144,
+      "path": "results/categorical-decoy-null/trimmed/Q92570-domain.pdb",
+      "seq_len": 144,
+      "gene": "NR4A3",
+      "in_nr4a_family": true
+    }
+  },
+  "trim_refusals": [
+    {
+      "accession": "P04150",
+      "gene": "NR3C1",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    },
+    {
+      "accession": "P20393",
+      "gene": "NR1D1",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    },
+    {
+      "accession": "Q9Y466",
+      "gene": "NR2E1",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    },
+    {
+      "accession": "Q14995",
+      "gene": "NR1D2",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    },
+    {
+      "accession": "Q9Y5X4",
+      "gene": "NR2E3",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    },
+    {
+      "accession": "Q14994",
+      "gene": "NR1I3",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    },
+    {
+      "accession": "O00482",
+      "gene": "NR5A2",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    },
+    {
+      "accession": "P51843",
+      "gene": "NR0B1",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    },
+    {
+      "accession": "Q15466",
+      "gene": "NR0B2",
+      "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+    }
+  ],
+  "n_candidate_pairs": 630,
+  "selected_pairs": [
+    {
+      "a": "P37231",
+      "b": "Q07869",
+      "gene_a": "PPARG",
+      "gene_b": "PPARA",
+      "identity": 0.6766,
+      "coverage": 0.995,
+      "rank_key": 0.00655
+    },
+    {
+      "a": "P37231",
+      "b": "Q03181",
+      "gene_a": "PPARG",
+      "gene_b": "PPARD",
+      "identity": 0.6915,
+      "coverage": 0.995,
+      "rank_key": 0.02145
+    },
+    {
+      "a": "P03372",
+      "b": "Q92731",
+      "gene_a": "ESR1",
+      "gene_b": "ESR2",
+      "identity": 0.6483,
+      "coverage": 0.9932,
+      "rank_key": 0.02175
+    },
+    {
+      "a": "O95718",
+      "b": "P11474",
+      "gene_a": "ESRRB",
+      "gene_b": "ESRRA",
+      "identity": 0.6327,
+      "coverage": 1.0,
+      "rank_key": 0.03735
+    },
+    {
+      "a": "P35398",
+      "b": "Q92753",
+      "gene_a": "RORA",
+      "gene_b": "RORB",
+      "identity": 0.623,
+      "coverage": 1.0,
+      "rank_key": 0.04705
+    },
+    {
+      "a": "Q03181",
+      "b": "Q07869",
+      "gene_a": "PPARD",
+      "gene_b": "PPARA",
+      "identity": 0.7241,
+      "coverage": 1.0,
+      "rank_key": 0.05405
+    },
+    {
+      "a": "P11474",
+      "b": "P62508",
+      "gene_a": "ESRRA",
+      "gene_b": "ESRRG",
+      "identity": 0.6122,
+      "coverage": 1.0,
+      "rank_key": 0.05785
+    },
+    {
+      "a": "P13056",
+      "b": "P49116",
+      "gene_a": "NR2C1",
+      "gene_b": "NR2C2",
+      "identity": 0.7459,
+      "coverage": 1.0,
+      "rank_key": 0.07585
+    },
+    {
+      "a": "P10588",
+      "b": "P10589",
+      "gene_a": "NR2F6",
+      "gene_b": "NR2F1",
+      "identity": 0.7642,
+      "coverage": 1.0,
+      "rank_key": 0.09415
+    },
+    {
+      "a": "P55055",
+      "b": "Q13133",
+      "gene_a": "NR1H2",
+      "gene_b": "NR1H3",
+      "identity": 0.7667,
+      "coverage": 0.9959,
+      "rank_key": 0.09665
+    }
+  ],
+  "rejected_pairs_sample": [
+    {
+      "a": "O75469",
+      "b": "O95718",
+      "gene_a": "NR1I2",
+      "gene_b": "ESRRB",
+      "identity": 0.2925,
+      "coverage": 0.8618,
+      "rejected_because": "identity 0.292 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P03372",
+      "gene_a": "NR1I2",
+      "gene_b": "ESR1",
+      "identity": 0.2679,
+      "coverage": 0.9106,
+      "rejected_because": "identity 0.268 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P06401",
+      "gene_a": "NR1I2",
+      "gene_b": "PGR",
+      "identity": 0.3173,
+      "coverage": 0.8455,
+      "rejected_because": "identity 0.317 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P08235",
+      "gene_a": "NR1I2",
+      "gene_b": "NR3C2",
+      "identity": 0.3173,
+      "coverage": 0.8455,
+      "rejected_because": "identity 0.317 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P10275",
+      "gene_a": "NR1I2",
+      "gene_b": "AR",
+      "identity": 0.2404,
+      "coverage": 0.8455,
+      "rejected_because": "identity 0.240 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P10276",
+      "gene_a": "NR1I2",
+      "gene_b": "RARA",
+      "identity": 0.3025,
+      "coverage": 0.9675,
+      "rejected_because": "identity 0.302 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P10588",
+      "gene_a": "NR1I2",
+      "gene_b": "NR2F6",
+      "identity": 0.213,
+      "coverage": 0.878,
+      "rejected_because": "identity 0.213 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P10589",
+      "gene_a": "NR1I2",
+      "gene_b": "NR2F1",
+      "identity": 0.1217,
+      "coverage": 0.935,
+      "rejected_because": "identity 0.122 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P10826",
+      "gene_a": "NR1I2",
+      "gene_b": "RARB",
+      "identity": 0.3193,
+      "coverage": 0.9675,
+      "rejected_because": "identity 0.319 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P11474",
+      "gene_a": "NR1I2",
+      "gene_b": "ESRRA",
+      "identity": 0.2571,
+      "coverage": 0.8537,
+      "rejected_because": "identity 0.257 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P13056",
+      "gene_a": "NR1I2",
+      "gene_b": "NR2C1",
+      "identity": 0.2072,
+      "coverage": 0.9024,
+      "rejected_because": "identity 0.207 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P13631",
+      "gene_a": "NR1I2",
+      "gene_b": "RARG",
+      "identity": 0.3482,
+      "coverage": 0.9106,
+      "rejected_because": "identity 0.348 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P19793",
+      "gene_a": "NR1I2",
+      "gene_b": "RXRA",
+      "identity": 0.2397,
+      "coverage": 0.9837,
+      "rejected_because": "identity 0.240 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P24468",
+      "gene_a": "NR1I2",
+      "gene_b": "NR2F2",
+      "identity": 0.113,
+      "coverage": 0.935,
+      "rejected_because": "identity 0.113 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P28702",
+      "gene_a": "NR1I2",
+      "gene_b": "RXRB",
+      "identity": 0.2397,
+      "coverage": 0.9837,
+      "rejected_because": "identity 0.240 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P35398",
+      "gene_a": "NR1I2",
+      "gene_b": "RORA",
+      "identity": 0.292,
+      "coverage": 0.9187,
+      "rejected_because": "identity 0.292 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P37231",
+      "gene_a": "NR1I2",
+      "gene_b": "PPARG",
+      "identity": 0.2906,
+      "coverage": 0.9512,
+      "rejected_because": "identity 0.291 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P41235",
+      "gene_a": "NR1I2",
+      "gene_b": "HNF4A",
+      "identity": 0.2417,
+      "coverage": 0.9756,
+      "rejected_because": "identity 0.242 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P48443",
+      "gene_a": "NR1I2",
+      "gene_b": "RXRG",
+      "identity": 0.2314,
+      "coverage": 0.9837,
+      "rejected_because": "identity 0.231 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P49116",
+      "gene_a": "NR1I2",
+      "gene_b": "NR2C2",
+      "identity": 0.1532,
+      "coverage": 0.9098,
+      "rejected_because": "identity 0.153 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P51449",
+      "gene_a": "NR1I2",
+      "gene_b": "RORC",
+      "identity": 0.2645,
+      "coverage": 0.9837,
+      "rejected_because": "identity 0.265 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P55055",
+      "gene_a": "NR1I2",
+      "gene_b": "NR1H2",
+      "identity": 0.2602,
+      "coverage": 1.0,
+      "rejected_because": "identity 0.260 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "P62508",
+      "gene_a": "NR1I2",
+      "gene_b": "ESRRG",
+      "identity": 0.301,
+      "coverage": 0.8374,
+      "rejected_because": "identity 0.301 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q03181",
+      "gene_a": "NR1I2",
+      "gene_b": "PPARD",
+      "identity": 0.2241,
+      "coverage": 0.9431,
+      "rejected_because": "identity 0.224 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q07869",
+      "gene_a": "NR1I2",
+      "gene_b": "PPARA",
+      "identity": 0.2033,
+      "coverage": 1.0,
+      "rejected_because": "identity 0.203 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q13133",
+      "gene_a": "NR1I2",
+      "gene_b": "NR1H3",
+      "identity": 0.2605,
+      "coverage": 0.9675,
+      "rejected_because": "identity 0.261 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q13285",
+      "gene_a": "NR1I2",
+      "gene_b": "NR5A1",
+      "identity": 0.187,
+      "coverage": 1.0,
+      "rejected_because": "identity 0.187 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q14541",
+      "gene_a": "NR1I2",
+      "gene_b": "HNF4G",
+      "identity": 0.2885,
+      "coverage": 0.8455,
+      "rejected_because": "identity 0.288 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q15406",
+      "gene_a": "NR1I2",
+      "gene_b": "NR6A1",
+      "identity": 0.3303,
+      "coverage": 0.8862,
+      "rejected_because": "identity 0.330 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q92731",
+      "gene_a": "NR1I2",
+      "gene_b": "ESR2",
+      "identity": 0.2593,
+      "coverage": 0.878,
+      "rejected_because": "identity 0.259 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q92753",
+      "gene_a": "NR1I2",
+      "gene_b": "RORB",
+      "identity": 0.2358,
+      "coverage": 1.0,
+      "rejected_because": "identity 0.236 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O75469",
+      "b": "Q96RI1",
+      "gene_a": "NR1I2",
+      "gene_b": "NR1H4",
+      "identity": 0.2521,
+      "coverage": 0.9675,
+      "rejected_because": "identity 0.252 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O95718",
+      "b": "P06401",
+      "gene_a": "ESRRB",
+      "gene_b": "PGR",
+      "identity": 0.3176,
+      "coverage": 0.9714,
+      "rejected_because": "identity 0.318 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O95718",
+      "b": "P08235",
+      "gene_a": "ESRRB",
+      "gene_b": "NR3C2",
+      "identity": 0.3099,
+      "coverage": 0.9884,
+      "rejected_because": "identity 0.310 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O95718",
+      "b": "P10275",
+      "gene_a": "ESRRB",
+      "gene_b": "AR",
+      "identity": 0.2262,
+      "coverage": 0.9822,
+      "rejected_because": "identity 0.226 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O95718",
+      "b": "P10276",
+      "gene_a": "ESRRB",
+      "gene_b": "RARA",
+      "identity": 0.2793,
+      "coverage": 0.9867,
+      "rejected_because": "identity 0.279 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O95718",
+      "b": "P10588",
+      "gene_a": "ESRRB",
+      "gene_b": "NR2F6",
+      "identity": 0.3171,
+      "coverage": 1.0,
+      "rejected_because": "identity 0.317 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O95718",
+      "b": "P10826",
+      "gene_a": "ESRRB",
+      "gene_b": "RARB",
+      "identity": 0.2703,
+      "coverage": 0.9867,
+      "rejected_because": "identity 0.270 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O95718",
+      "b": "P10827",
+      "gene_a": "ESRRB",
+      "gene_b": "THRA",
+      "identity": 0.2561,
+      "coverage": 1.0,
+      "rejected_because": "identity 0.256 outside band [0.35, 0.9]"
+    },
+    {
+      "a": "O95718",
+      "b": "P10828",
+      "gene_a": "ESRRB",
+      "gene_b": "THRB",
+      "identity": 0.2475,
+      "coverage": 0.995,
+      "rejected_because": "identity 0.247 outside band [0.35, 0.9]"
+    }
+  ],
+  "n_rejected_pairs": 531,
+  "ordered_decoys": [
+    {
+      "target": "P37231",
+      "paralogue": "Q07869",
+      "gene_target": "PPARG",
+      "gene_paralogue": "PPARA",
+      "identity": 0.6766,
+      "arm": "decoy"
+    },
+    {
+      "target": "Q07869",
+      "paralogue": "P37231",
+      "gene_target": "PPARA",
+      "gene_paralogue": "PPARG",
+      "identity": 0.6766,
+      "arm": "decoy"
+    },
+    {
+      "target": "P37231",
+      "paralogue": "Q03181",
+      "gene_target": "PPARG",
+      "gene_paralogue": "PPARD",
+      "identity": 0.6915,
+      "arm": "decoy"
+    },
+    {
+      "target": "Q03181",
+      "paralogue": "P37231",
+      "gene_target": "PPARD",
+      "gene_paralogue": "PPARG",
+      "identity": 0.6915,
+      "arm": "decoy"
+    },
+    {
+      "target": "P03372",
+      "paralogue": "Q92731",
+      "gene_target": "ESR1",
+      "gene_paralogue": "ESR2",
+      "identity": 0.6483,
+      "arm": "decoy"
+    },
+    {
+      "target": "Q92731",
+      "paralogue": "P03372",
+      "gene_target": "ESR2",
+      "gene_paralogue": "ESR1",
+      "identity": 0.6483,
+      "arm": "decoy"
+    },
+    {
+      "target": "O95718",
+      "paralogue": "P11474",
+      "gene_target": "ESRRB",
+      "gene_paralogue": "ESRRA",
+      "identity": 0.6327,
+      "arm": "decoy"
+    },
+    {
+      "target": "P11474",
+      "paralogue": "O95718",
+      "gene_target": "ESRRA",
+      "gene_paralogue": "ESRRB",
+      "identity": 0.6327,
+      "arm": "decoy"
+    },
+    {
+      "target": "P35398",
+      "paralogue": "Q92753",
+      "gene_target": "RORA",
+      "gene_paralogue": "RORB",
+      "identity": 0.623,
+      "arm": "decoy"
+    },
+    {
+      "target": "Q92753",
+      "paralogue": "P35398",
+      "gene_target": "RORB",
+      "gene_paralogue": "RORA",
+      "identity": 0.623,
+      "arm": "decoy"
+    },
+    {
+      "target": "Q03181",
+      "paralogue": "Q07869",
+      "gene_target": "PPARD",
+      "gene_paralogue": "PPARA",
+      "identity": 0.7241,
+      "arm": "decoy"
+    },
+    {
+      "target": "Q07869",
+      "paralogue": "Q03181",
+      "gene_target": "PPARA",
+      "gene_paralogue": "PPARD",
+      "identity": 0.7241,
+      "arm": "decoy"
+    },
+    {
+      "target": "P11474",
+      "paralogue": "P62508",
+      "gene_target": "ESRRA",
+      "gene_paralogue": "ESRRG",
+      "identity": 0.6122,
+      "arm": "decoy"
+    },
+    {
+      "target": "P62508",
+      "paralogue": "P11474",
+      "gene_target": "ESRRG",
+      "gene_paralogue": "ESRRA",
+      "identity": 0.6122,
+      "arm": "decoy"
+    },
+    {
+      "target": "P13056",
+      "paralogue": "P49116",
+      "gene_target": "NR2C1",
+      "gene_paralogue": "NR2C2",
+      "identity": 0.7459,
+      "arm": "decoy"
+    },
+    {
+      "target": "P49116",
+      "paralogue": "P13056",
+      "gene_target": "NR2C2",
+      "gene_paralogue": "NR2C1",
+      "identity": 0.7459,
+      "arm": "decoy"
+    },
+    {
+      "target": "P10588",
+      "paralogue": "P10589",
+      "gene_target": "NR2F6",
+      "gene_paralogue": "NR2F1",
+      "identity": 0.7642,
+      "arm": "decoy"
+    },
+    {
+      "target": "P10589",
+      "paralogue": "P10588",
+      "gene_target": "NR2F1",
+      "gene_paralogue": "NR2F6",
+      "identity": 0.7642,
+      "arm": "decoy"
+    },
+    {
+      "target": "P55055",
+      "paralogue": "Q13133",
+      "gene_target": "NR1H2",
+      "gene_paralogue": "NR1H3",
+      "identity": 0.7667,
+      "arm": "decoy"
+    },
+    {
+      "target": "Q13133",
+      "paralogue": "P55055",
+      "gene_target": "NR1H3",
+      "gene_paralogue": "NR1H2",
+      "identity": 0.7667,
+      "arm": "decoy"
+    },
+    {
+      "target": "Q92570",
+      "paralogue": "P22736",
+      "gene_target": "NR4A3",
+      "gene_paralogue": "NR4A1",
+      "identity": 0.6408,
+      "arm": "reference"
+    },
+    {
+      "target": "Q92570",
+      "paralogue": "P43354",
+      "gene_target": "NR4A3",
+      "gene_paralogue": "NR4A2",
+      "identity": 0.6993,
+      "arm": "reference"
+    }
+  ],
+  "n_ordered_decoys": 22,
+  "targets": [
+    "O95718",
+    "P03372",
+    "P10588",
+    "P10589",
+    "P11474",
+    "P13056",
+    "P35398",
+    "P37231",
+    "P49116",
+    "P55055",
+    "P62508",
+    "Q03181",
+    "Q07869",
+    "Q13133",
+    "Q92570",
+    "Q92731",
+    "Q92753"
+  ]
 }

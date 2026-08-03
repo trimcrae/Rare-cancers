@@ -1,0 +1,6003 @@
+{
+  "_title": "C04 \u2014 paralogue-matched cryptic-pocket druggability: the harmonized detector over the committed NR4A1 / NR4A2 / NR4A3 conformer ensembles",
+  "_status": "DESIGN PRIORITISATION / instrument reading. $0 CPU. Nothing here is a claim about binding, reactivity, degradation, efficacy or safety.",
+  "_what_this_measures": "Whether NR4A3's prespecified Pocket-5 site is DETECTED, and whether it reaches D*, in NR4A1 and NR4A2 under the IDENTICAL harmonized fpocket protocol, per matched subset, both denominators.",
+  "_licenses": "A paralogue-matched conformational-selection RANKING statement with no free energy in it.",
+  "_does_not_license": [
+    "dG_open \u2014 a detection fraction is not an opening penalty and must never be reported as one.",
+    "Evidence of ABSENCE. At these ensemble sizes a paralogue that never opens is weak evidence; this supports a ranking, never a categorical exclusion.",
+    "Any statement about binding, reactivity, degradation, selectivity in vivo, efficacy or safety.",
+    "Anything about a cavity the paralogue may have ELSEWHERE. The site definition is NR4A3's Pocket-5 mapped by alignment, so a paralogue row of 0 means 'NR4A3's site did not open here', not 'this protein has no druggable cavity'."
+  ],
+  "_generated": {
+    "utc": "2026-08-03T00:01:06Z",
+    "et": "2026-08-02 08:01 PM ET",
+    "generator": "research/modalities/paralogue_pocket_contrast.py"
+  },
+  "detector": {
+    "module": "research/modalities/pocket_tracking.py",
+    "site_definition": "FIXED prespecified Pocket-5 lining set (score-independent), mapped onto each species by BLOSUM62 Needleman-Wunsch \u2014 nr4a_paralogue_dynamics.homologous_pocket",
+    "pocket5_lining_uniprot_nr4a3": [
+      406,
+      407,
+      410,
+      411,
+      412,
+      481,
+      484,
+      485,
+      531,
+      534
+    ],
+    "match_params": {
+      "jaccard_min": 0.25,
+      "frac_recovered_min": 0.3,
+      "centroid_max_ang": 8.0
+    },
+    "d_star": 0.53,
+    "fpocket_version_resolved": "4.0",
+    "fpocket_banner": [
+      "***** POCKET HUNTING BEGINS ***** "
+    ],
+    "fpocket_available": true,
+    "\u26a0_version_note": "The committed NR4A3 table was produced under a DIFFERENT fpocket build (see committed_nr4a3_reproduction_check.fpocket_version). That is exactly why NR4A3's own frames are re-scored here: the contrast that carries the conclusion is computed inside THIS run, under ONE build."
+  },
+  "ensembles": {
+    "subsets": [
+      "metad",
+      "release_rep0",
+      "release_rep1",
+      "release_rep2"
+    ],
+    "biased_subsets": [
+      "metad"
+    ],
+    "roots": {
+      "NR4A3": "results/nr4a3-pocket-reharmonize/metad",
+      "NR4A1": "results/nr4a1-pocket-ensemble/metad",
+      "NR4A2": "results/nr4a2-pocket-ensemble/metad"
+    }
+  },
+  "rows": [
+    {
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "biased": true,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 17,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.68,
+      "frac_ge_among_propagated": 0.68,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 14,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.56,
+      "frac_ge_among_propagated": 0.56,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 10,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.4,
+      "frac_ge_among_propagated": 0.4,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 20,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.8,
+      "frac_ge_among_propagated": 0.8,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A3",
+      "ensemble": "release_unbiased_pooled",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 75,
+      "n_detected": 75,
+      "n_ge_dstar": 44,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.5866666666666667,
+      "frac_ge_among_propagated": 0.5866666666666667
+    },
+    {
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "biased": true,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 4,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.16,
+      "frac_ge_among_propagated": 0.16,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 7,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.28,
+      "frac_ge_among_propagated": 0.28,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 8,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.32,
+      "frac_ge_among_propagated": 0.32,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 3,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.12,
+      "frac_ge_among_propagated": 0.12,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A1",
+      "ensemble": "release_unbiased_pooled",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 75,
+      "n_detected": 75,
+      "n_ge_dstar": 18,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.24,
+      "frac_ge_among_propagated": 0.24
+    },
+    {
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "biased": true,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 7,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.28,
+      "frac_ge_among_propagated": 0.28,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 24,
+      "n_ge_dstar": 11,
+      "detection_fraction": 0.96,
+      "frac_ge_among_detected": 0.4583333333333333,
+      "frac_ge_among_propagated": 0.44,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 25,
+      "n_ge_dstar": 6,
+      "detection_fraction": 1.0,
+      "frac_ge_among_detected": 0.24,
+      "frac_ge_among_propagated": 0.24,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 25,
+      "n_detected": 23,
+      "n_ge_dstar": 4,
+      "detection_fraction": 0.92,
+      "frac_ge_among_detected": 0.17391304347826086,
+      "frac_ge_among_propagated": 0.16,
+      "n_frames_found": 25,
+      "n_refused": 0
+    },
+    {
+      "species": "NR4A2",
+      "ensemble": "release_unbiased_pooled",
+      "biased": false,
+      "d_star": 0.53,
+      "n_propagated": 75,
+      "n_detected": 72,
+      "n_ge_dstar": 21,
+      "detection_fraction": 0.96,
+      "frac_ge_among_detected": 0.2916666666666667,
+      "frac_ge_among_propagated": 0.28
+    }
+  ],
+  "refusals": [],
+  "n_refusals": 0,
+  "committed_nr4a3_reproduction_check": {
+    "_source": "research/modalities/nr4a3-pocket-reharmonize-summary.json",
+    "fpocket_version": "4.0",
+    "d_star": 0.53,
+    "match_params": {
+      "jaccard_min": 0.25,
+      "frac_recovered_min": 0.3,
+      "centroid_max_ang": 8.0
+    },
+    "rows": {
+      "metad": {
+        "n_propagated": 25,
+        "n_detected": 25,
+        "detection_fraction": 1.0,
+        "n_ge_dstar": 17,
+        "frac_ge_among_detected": 0.68,
+        "frac_ge_among_propagated": 0.68
+      },
+      "release_rep0": {
+        "n_propagated": 25,
+        "n_detected": 25,
+        "detection_fraction": 1.0,
+        "n_ge_dstar": 14,
+        "frac_ge_among_detected": 0.56,
+        "frac_ge_among_propagated": 0.56
+      },
+      "release_rep1": {
+        "n_propagated": 25,
+        "n_detected": 25,
+        "detection_fraction": 1.0,
+        "n_ge_dstar": 10,
+        "frac_ge_among_detected": 0.4,
+        "frac_ge_among_propagated": 0.4
+      },
+      "release_rep2": {
+        "n_propagated": 25,
+        "n_detected": 25,
+        "detection_fraction": 1.0,
+        "n_ge_dstar": 20,
+        "frac_ge_among_detected": 0.8,
+        "frac_ge_among_propagated": 0.8
+      },
+      "release_unbiased_pooled": {
+        "n_propagated": 75,
+        "n_detected": 75,
+        "detection_fraction": 1.0,
+        "n_ge_dstar": 44,
+        "frac_ge_among_detected": 0.5866666666666667,
+        "frac_ge_among_propagated": 0.5866666666666667
+      }
+    }
+  },
+  "per_frame": [
+    {
+      "frame": "NR4A3/metad/fp_0_n3xnnwtq",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.002,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 1.762
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A3/metad/fp_100_r0v6eii1",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.046,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5833,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 1.495
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A3/metad/fp_1049_4_6afonm",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.794,
+      "n_candidates": 15,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.6667,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.249
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/metad/fp_1099_47wb1cua",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.924,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5333,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.74
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/metad/fp_1149_vmhhcns_",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.839,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 3.213
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/metad/fp_1199_28y_tpl1",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.923,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.057
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/metad/fp_150_swaj0len",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.097,
+      "n_candidates": 15,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6154,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.199
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A3/metad/fp_200_fpee7nfv",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.801,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.625,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.352
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/metad/fp_250_q522gxce",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.813,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.3889,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.056
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/metad/fp_300_ghof7_p8",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.931,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5556,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 3.392
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/metad/fp_350_mqube8s7",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.778,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.3462,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 3.804
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A3/metad/fp_400_zvm5m_1w",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.757,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.35,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.21
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A3/metad/fp_450_wskr_kfz",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.78,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5263,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.216
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/metad/fp_500_ycsrtywp",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.631,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.307
+      },
+      "pocket_number": 19
+    },
+    {
+      "frame": "NR4A3/metad/fp_50_euecvs_m",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.695,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.364
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A3/metad/fp_550__lowc0pe",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.653,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 0.165
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/metad/fp_600_cz697ghc",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.48,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.203
+      },
+      "pocket_number": 21
+    },
+    {
+      "frame": "NR4A3/metad/fp_649_zt43n62v",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.601,
+      "n_candidates": 28,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.4706,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.962
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/metad/fp_699_3zfw6v19",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.705,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.6667,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.607
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/metad/fp_749_0a57if8n",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.836,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4667,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.155
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A3/metad/fp_799_b9fn9068",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.003,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 6.048
+      },
+      "pocket_number": 19
+    },
+    {
+      "frame": "NR4A3/metad/fp_849_airzuuiq",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.376,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6429,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.363
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/metad/fp_899_wuhr3no5",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.028,
+      "n_candidates": 16,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.45,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.807
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A3/metad/fp_949_c5z_r7nj",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.448,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.7
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A3/metad/fp_999_0fbgzuxn",
+      "species": "NR4A3",
+      "ensemble": "metad",
+      "druggability": 0.617,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6429,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.338
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_0_4vzbx5ra",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.007,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.8182,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.43
+      },
+      "pocket_number": 21
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_12_avlf4fak",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.788,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.227
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_16_7d2_dg8o",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.801,
+      "n_candidates": 28,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.117
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_21_4epudmze",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.536,
+      "n_candidates": 15,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 0.861
+      },
+      "pocket_number": 15
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_25_avtcpwzo",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.686,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.319
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_29_drk1n3fd",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.598,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.747
+      },
+      "pocket_number": 18
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_33_k3wnwlwz",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.861,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.602
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_37_h9k263rg",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.618,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.6667,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.809
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_41_xmzapaw0",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.637,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.799
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_45_jinx_r_8",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.683,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.39
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_4_n88dx50w",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.079,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.9091,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 0.868
+      },
+      "pocket_number": 26
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_50_0a772pv0",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.041,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.249
+      },
+      "pocket_number": 18
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_54_m_w3m0z6",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.597,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.466
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_58_ekzeccb5",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.254,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.605
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_62_30jw0mox",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.297,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6154,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.799
+      },
+      "pocket_number": 15
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_66__y4o8nnl",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.042,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.687
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_70_j0_ivu8i",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.313,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.679
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_74_ez_znzun",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.293,
+      "n_candidates": 12,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.966
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_78_sjr6_moo",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.642,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 3.059
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_82_cjx4k709",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.139,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.173
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_87_8a2ksi5b",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.497,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6429,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.552
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_8__pvupkbd",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.587,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.147
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_91_75bay3s8",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.655,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.503
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_95_539ml58c",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.259,
+      "n_candidates": 15,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6154,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.478
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/release_rep0/fp_99_az0_ci9r",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.621,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6923,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.147
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_0_7kmkyixu",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.889,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.6667,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.959
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_12_nn2css8l",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.257,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.353
+      },
+      "pocket_number": 19
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_16_6slpb8cj",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.834,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.625,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.712
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_21_izs2izi0",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.08,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.876
+      },
+      "pocket_number": 16
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_25_bs_g17ow",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.856,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.972
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_29_exs_dbmp",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.557,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.635
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_33_nt10_2xv",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.093,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.651
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_37_osq0qamo",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.109,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.481
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_41_4fj0umwb",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.354,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.116
+      },
+      "pocket_number": 18
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_45_xn_uwcr7",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.523,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.675
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_4__gm8ru1j",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.297,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6923,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.19
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_50_5crn6rr0",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.351,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.9091,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 0.811
+      },
+      "pocket_number": 16
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_54_fbc1xfmw",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.703,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.351
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_58_31dj5c86",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.549,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.168
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_62_wf1gwj6z",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.247,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.146
+      },
+      "pocket_number": 19
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_66_k_ebobwu",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.013,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6923,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.58
+      },
+      "pocket_number": 17
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_70_o3en4agv",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.497,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.169
+      },
+      "pocket_number": 16
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_74_i37odgkx",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.818,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.942
+      },
+      "pocket_number": 18
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_78_jhzbkhfg",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.004,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.6364,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.017
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_82_bnw94h9l",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.741,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.456
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_87_rz2nbi31",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.695,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5556,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.356
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_8_yiklghv0",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.307,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.9091,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 0.889
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_91_22s2c3bd",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.489,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5263,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.014
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_95_a4x2acfs",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.358,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5263,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.882
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A3/release_rep1/fp_99_kiu6y02o",
+      "species": "NR4A3",
+      "ensemble": "release_rep1",
+      "druggability": 0.678,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5882,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.279
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_0_5trjukql",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.603,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.336
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_12_4lew7e6_",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.541,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.84
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_16_4dv5b553",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.584,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.8182,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.281
+      },
+      "pocket_number": 21
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_21_rg_hx2ie",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.717,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.817
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_25_cf3un3qv",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.53,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.317
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_29_ibss1q42",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.762,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.226
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_33_kg_pmv9v",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.854,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6923,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.611
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_37_r_0s3ctb",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.755,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7692,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.189
+      },
+      "pocket_number": 17
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_41_fvjkjta4",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.156,
+      "n_candidates": 29,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.8182,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.3
+      },
+      "pocket_number": 25
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_45_6iu72erl",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.668,
+      "n_candidates": 31,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.7143,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.647
+      },
+      "pocket_number": 31
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_4_gcdxnubv",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.774,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.8333,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.309
+      },
+      "pocket_number": 16
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_50_46iix8xe",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.523,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.282
+      },
+      "pocket_number": 14
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_54_nx27u88z",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.251,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.6364,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.479
+      },
+      "pocket_number": 14
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_58_ccjmcwhh",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.805,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.625,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.848
+      },
+      "pocket_number": 18
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_62_b3k4o4ff",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.175,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.6364,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.863
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_66_8hq1qla_",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.737,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.5294,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.81
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_70_82qzbd6p",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.74,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.5625,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.802
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_74_r1r6o4wu",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.782,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.4762,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 3.868
+      },
+      "pocket_number": 19
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_78_jn7252vh",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.037,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.8,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.12
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_82_nd6d775q",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.827,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.708
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_87_ikxspe7p",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.568,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6429,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 2.259
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_8__yixyl8c",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.673,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 4.134
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_91_ednq8xz8",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.791,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4118,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.144
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_95_u834_fhy",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.704,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.98
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A3/release_rep2/fp_99_fi3age_c",
+      "species": "NR4A3",
+      "ensemble": "release_rep2",
+      "druggability": 0.88,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.933
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/metad/fp_0_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.0,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3125,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.34
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A1/metad/fp_100_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.018,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.3158,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.243
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/metad/fp_1049_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.007,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2667,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 7.871
+      },
+      "pocket_number": 24
+    },
+    {
+      "frame": "NR4A1/metad/fp_1099_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.0,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3571,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 3.763
+      },
+      "pocket_number": 25
+    },
+    {
+      "frame": "NR4A1/metad/fp_1149_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.278,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 5.301
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A1/metad/fp_1199_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.051,
+      "n_candidates": 31,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.771
+      },
+      "pocket_number": 19
+    },
+    {
+      "frame": "NR4A1/metad/fp_150_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.034,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4286,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.445
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A1/metad/fp_200_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.005,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.375,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 5.011
+      },
+      "pocket_number": 23
+    },
+    {
+      "frame": "NR4A1/metad/fp_250_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.009,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.665
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A1/metad/fp_300_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.001,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 3,
+        "jaccard": 0.1875,
+        "frac_recovered": 0.3,
+        "centroid_dist_ang": 6.656
+      },
+      "pocket_number": 17
+    },
+    {
+      "frame": "NR4A1/metad/fp_350_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.792,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.765
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/metad/fp_400_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.131,
+      "n_candidates": 16,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.2963,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.228
+      },
+      "pocket_number": 15
+    },
+    {
+      "frame": "NR4A1/metad/fp_450_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.026,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.4286,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 3.318
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A1/metad/fp_500_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.059,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3571,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 3.164
+      },
+      "pocket_number": 18
+    },
+    {
+      "frame": "NR4A1/metad/fp_50_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.045,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4375,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.837
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A1/metad/fp_550_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.775,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.25,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 5.326
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/metad/fp_600_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.007,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.231
+      },
+      "pocket_number": 16
+    },
+    {
+      "frame": "NR4A1/metad/fp_649_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.052,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2667,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 7.54
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/metad/fp_699_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.175,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.24,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 7.091
+      },
+      "pocket_number": 23
+    },
+    {
+      "frame": "NR4A1/metad/fp_749_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.166,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.4286,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 4.327
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/metad/fp_799_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.457,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.2857,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 6.735
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/metad/fp_849_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.003,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 3,
+        "jaccard": 0.2,
+        "frac_recovered": 0.3,
+        "centroid_dist_ang": 5.864
+      },
+      "pocket_number": 15
+    },
+    {
+      "frame": "NR4A1/metad/fp_899_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.924,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.15,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 7.043
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A1/metad/fp_949_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.85,
+      "n_candidates": 30,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.738
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A1/metad/fp_999_metad",
+      "species": "NR4A1",
+      "ensemble": "metad",
+      "druggability": 0.06,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.2632,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 6.207
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_0_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.053,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2857,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 4.592
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_12_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.05,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.2778,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 7.073
+      },
+      "pocket_number": 15
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_16_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.002,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3077,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 3.972
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_21_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.022,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 3.556
+      },
+      "pocket_number": 12
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_25_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.611,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.25,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 7.227
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_29_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.1,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.757
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_33_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.434,
+      "n_candidates": 28,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.845
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_37_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.482,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4615,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.598
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_41_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.051,
+      "n_candidates": 28,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 3.505
+      },
+      "pocket_number": 27
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_45_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.822,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4615,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.816
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_4_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.594,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 3.494
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_50_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.384,
+      "n_candidates": 28,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.4167,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 3.498
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_54_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.074,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.665
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_58_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.431,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.78
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_62_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.472,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2105,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.903
+      },
+      "pocket_number": 12
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_66_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.001,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2667,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 7.149
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_70_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.811,
+      "n_candidates": 14,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.044
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_74_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.023,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5455,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 3.61
+      },
+      "pocket_number": 18
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_78_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.008,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.25,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.927
+      },
+      "pocket_number": 21
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_82_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.615,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 3,
+        "jaccard": 0.15,
+        "frac_recovered": 0.3,
+        "centroid_dist_ang": 6.875
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_87_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.979,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.2963,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.104
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_8_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.406,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.4167,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 2.628
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_91_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.76,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.184
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_95_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.15,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 3.618
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A1/release_rep0/fp_99_release_rep0",
+      "species": "NR4A1",
+      "ensemble": "release_rep0",
+      "druggability": 0.013,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.522
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_0_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.01,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 3.053
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_12_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.151,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3846,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.281
+      },
+      "pocket_number": 12
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_16_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.066,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 3.13
+      },
+      "pocket_number": 22
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_21_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.728,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 0.805
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_25_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.093,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.4167,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 2.676
+      },
+      "pocket_number": 17
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_29_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.614,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6429,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.758
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_33_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.144,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5714,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.16
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_37_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.068,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5714,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.381
+      },
+      "pocket_number": 25
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_41_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.504,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.35,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 5.021
+      },
+      "pocket_number": 14
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_45_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.602,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5385,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.162
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_4_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.071,
+      "n_candidates": 28,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.566
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_50_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.768,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.3684,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.207
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_54_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.681,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.3889,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.729
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_58_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.815,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.2963,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 6.4
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_62_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.493,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 6.059
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_66_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.675,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.021
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_70_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.415,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4286,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.141
+      },
+      "pocket_number": 14
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_74_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.319,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3077,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 3.48
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_78_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.003,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3125,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.843
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_82_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.018,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.375,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 3.502
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_87_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.594,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.5,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 3.212
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_8_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.29,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2857,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 4.639
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_91_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.004,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3125,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.027
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_95_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.431,
+      "n_candidates": 28,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.4167,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 3.066
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A1/release_rep1/fp_99_release_rep1",
+      "species": "NR4A1",
+      "ensemble": "release_rep1",
+      "druggability": 0.523,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.375,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 3.929
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_0_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.013,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.4167,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 2.574
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_12_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.047,
+      "n_candidates": 31,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3571,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.093
+      },
+      "pocket_number": 17
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_16_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.0,
+      "n_candidates": 30,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.25,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 6.928
+      },
+      "pocket_number": 25
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_21_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.741,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.1923,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 7.191
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_25_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.002,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2667,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 4.931
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_29_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.001,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.2941,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 6.642
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_33_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.004,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 3,
+        "jaccard": 0.1875,
+        "frac_recovered": 0.3,
+        "centroid_dist_ang": 7.999
+      },
+      "pocket_number": 16
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_37_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.008,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3571,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.067
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_41_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.12,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.443
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_45_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.352,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 4.539
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_4_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.307,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4375,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.627
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_50_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.011,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.2941,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 6.614
+      },
+      "pocket_number": 14
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_54_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.0,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.2941,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 5.016
+      },
+      "pocket_number": 26
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_58_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.088,
+      "n_candidates": 29,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3846,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 5.786
+      },
+      "pocket_number": 14
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_62_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.004,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.3846,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 3.057
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_66_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.551,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.15,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 5.578
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_70_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.253,
+      "n_candidates": 28,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.3529,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.387
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_74_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.483,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.3636,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 5.608
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_78_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.351,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.381,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 6.033
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_82_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.023,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 5.012
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_87_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.683,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.375,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.392
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_8_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.005,
+      "n_candidates": 29,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 3,
+        "jaccard": 0.2143,
+        "frac_recovered": 0.3,
+        "centroid_dist_ang": 6.584
+      },
+      "pocket_number": 28
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_91_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.027,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4667,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 1.894
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_95_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.009,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4286,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.077
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A1/release_rep2/fp_99_release_rep2",
+      "species": "NR4A1",
+      "ensemble": "release_rep2",
+      "druggability": 0.018,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 347,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.3158,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.967
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/metad/fp_0_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.629,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.8182,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.441
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/metad/fp_100_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.02,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.4444,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 4.57
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/metad/fp_1049_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.805,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.6667,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 1.854
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/metad/fp_1099_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.605,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.865
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/metad/fp_1149_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.352,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 10,
+        "jaccard": 0.5263,
+        "frac_recovered": 1.0,
+        "centroid_dist_ang": 2.65
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A2/metad/fp_1199_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.827,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.5625,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.708
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/metad/fp_150_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.056,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4118,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.382
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/metad/fp_200_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.557,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.3529,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.663
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/metad/fp_250_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.141,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 3,
+        "jaccard": 0.2,
+        "frac_recovered": 0.3,
+        "centroid_dist_ang": 6.858
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A2/metad/fp_300_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.0,
+      "n_candidates": 26,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.5,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 6.417
+      },
+      "pocket_number": 21
+    },
+    {
+      "frame": "NR4A2/metad/fp_350_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.001,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.5,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 5.777
+      },
+      "pocket_number": 15
+    },
+    {
+      "frame": "NR4A2/metad/fp_400_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.355,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 6.101
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A2/metad/fp_450_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.064,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5455,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.832
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A2/metad/fp_500_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.177,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5385,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.707
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A2/metad/fp_50_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.56,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4615,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.274
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/metad/fp_550_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.012,
+      "n_candidates": 16,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5333,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.224
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/metad/fp_600_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.005,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.6,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.846
+      },
+      "pocket_number": 18
+    },
+    {
+      "frame": "NR4A2/metad/fp_649_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.011,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5455,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 6.028
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/metad/fp_699_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.006,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2857,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 6.178
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A2/metad/fp_749_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.636,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.588
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A2/metad/fp_799_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.026,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.25,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 6.678
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A2/metad/fp_849_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.002,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4375,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.048
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/metad/fp_899_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.001,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6154,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.352
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A2/metad/fp_949_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.34,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.015
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/metad/fp_999_metad",
+      "species": "NR4A2",
+      "ensemble": "metad",
+      "druggability": 0.352,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.296
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_0_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.005,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.727
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_12_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.001,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2857,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.084
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_16_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.002,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 4.044
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_21_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": null,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": false
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_25_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.002,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 7.55
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_29_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.002,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 4.954
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_33_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.046,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 3,
+        "jaccard": 0.1111,
+        "frac_recovered": 0.3,
+        "centroid_dist_ang": 7.617
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_37_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.349,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5833,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 1.752
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_41_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.544,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.199
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_45_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.876,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.6923,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.954
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_4_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.005,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2857,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.606
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_50_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.523,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.225
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_54_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.677,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 0.36
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_58_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.571,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.131
+      },
+      "pocket_number": 20
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_62_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.087,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.258
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_66_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.621,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.19
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_70_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.821,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6154,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 0.527
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_74_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.769,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.4444,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 5.334
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_78_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.56,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.204
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_82_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.869,
+      "n_candidates": 16,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 0.377
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_87_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.606,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5385,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.495
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_8_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.014,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2667,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.439
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_91_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.141,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.549
+      },
+      "pocket_number": 15
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_95_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.541,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4667,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 4.473
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep0/fp_99_release_rep0",
+      "species": "NR4A2",
+      "ensemble": "release_rep0",
+      "druggability": 0.346,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.4706,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 4.069
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_0_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.001,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.006
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_12_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.013,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3077,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.755
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_16_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.002,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.042
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_21_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.005,
+      "n_candidates": 16,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.943
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_25_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.212,
+      "n_candidates": 13,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.32,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 5.617
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_29_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.028,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.4118,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.654
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_33_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.184,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.001
+      },
+      "pocket_number": 9
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_37_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.087,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.45,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 4.441
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_41_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.462,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.3913,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 4.289
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_45_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.001,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.4615,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 4.237
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_4_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.009,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.991
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_50_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.7,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.453
+      },
+      "pocket_number": 3
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_54_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.628,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.237
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_58_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.611,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.7273,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.315
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_62_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.701,
+      "n_candidates": 31,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.5714,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.436
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_66_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.063,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.164
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_70_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.475,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.6364,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 1.855
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_74_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.673,
+      "n_candidates": 15,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5385,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.559
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_78_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.66,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.5833,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.896
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_82_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.088,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.4211,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.755
+      },
+      "pocket_number": 1
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_87_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.031,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.8,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.613
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_8_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.108,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.021
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_91_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.362,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.3333,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 5.035
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_95_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.304,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.8,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.767
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A2/release_rep1/fp_99_release_rep1",
+      "species": "NR4A2",
+      "ensemble": "release_rep1",
+      "druggability": 0.01,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.8,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.075
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_0_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.001,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 5,
+        "jaccard": 0.4167,
+        "frac_recovered": 0.5,
+        "centroid_dist_ang": 2.776
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_12_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.195,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.6364,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 1.812
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_16_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.012,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5455,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.515
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_21_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.004,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.6364,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 1.9
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_25_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.0,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3077,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.665
+      },
+      "pocket_number": 13
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_29_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.041,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.9,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 1.313
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_33_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.138,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.458
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_37_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.468,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.902
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_41_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.001,
+      "n_candidates": 17,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 3.241
+      },
+      "pocket_number": 15
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_45_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.037,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.147
+      },
+      "pocket_number": 6
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_4_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.006,
+      "n_candidates": 16,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.2857,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.189
+      },
+      "pocket_number": 4
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_50_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": null,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": false
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_54_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.069,
+      "n_candidates": 27,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 2.882
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_58_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.006,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 7,
+        "jaccard": 0.7,
+        "frac_recovered": 0.7,
+        "centroid_dist_ang": 3.008
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_62_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.669,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.8182,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.575
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_66_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.603,
+      "n_candidates": 23,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.448
+      },
+      "pocket_number": 7
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_70_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.052,
+      "n_candidates": 15,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.163
+      },
+      "pocket_number": 10
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_74_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.0,
+      "n_candidates": 19,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 4,
+        "jaccard": 0.3077,
+        "frac_recovered": 0.4,
+        "centroid_dist_ang": 5.709
+      },
+      "pocket_number": 8
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_78_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.32,
+      "n_candidates": 24,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.8182,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.579
+      },
+      "pocket_number": 11
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_82_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.003,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 6,
+        "jaccard": 0.5455,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 2.756
+      },
+      "pocket_number": 22
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_87_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.395,
+      "n_candidates": 22,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.8,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 2.495
+      },
+      "pocket_number": 5
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_8_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.821,
+      "n_candidates": 25,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6667,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 1.753
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_91_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.82,
+      "n_candidates": 20,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.75,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.425
+      },
+      "pocket_number": 2
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_95_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": null,
+      "n_candidates": 21,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": false
+    },
+    {
+      "frame": "NR4A2/release_rep2/fp_99_release_rep2",
+      "species": "NR4A2",
+      "ensemble": "release_rep2",
+      "druggability": 0.071,
+      "n_candidates": 18,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 343,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 9,
+        "jaccard": 0.8182,
+        "frac_recovered": 0.9,
+        "centroid_dist_ang": 0.578
+      },
+      "pocket_number": 5
+    }
+  ],
+  "runtime_s": 264.7
+}
