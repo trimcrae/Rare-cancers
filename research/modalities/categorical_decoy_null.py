@@ -2287,7 +2287,7 @@ def _map_edits_lbd(ME, text, res, g):
                     f"{both}. ⛔ It is **not** a widening of `C16` and does **not** supersede this row's "
                     f"result — both runs stand and their rows are never pooled. Numbers: {link}; design and "
                     f"pairs: {plink}")),
-        ME.edit(text, "§10.2 Q2 — the calibration-gap row",
+        ME.edit(text, "§10.1a option queue — the `Q2` calibration-gap row",
                 "| **Q2** | **Close the categorical axis's calibration gap**",
                 "`Q2` IS this job, stated in the roadmap's own words: *'re-run the NR4A3 arm of the decoy "
                 "background under a separately pre-registered trim that contains C397'*. It has been done "
