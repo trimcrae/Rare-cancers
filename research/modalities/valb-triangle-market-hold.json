@@ -1,17 +1,8 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-08-03T16:01:02Z",
+  "utc": "2026-08-03T16:02:21Z",
   "mode": "triangle",
-  "n_units": 0,
-  "nothing_to_launch": true,
-  "hold": false,
-  "units_done": [
-    "calib_lo_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_lo_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_hi_to_lo2__ternary_vhl_r0_dt2.0fs_wu1.0_triangle",
-    "calib_hi_to_lo2__binary_vhl_r0_dt2.0fs_wu1.0_triangle"
-  ],
-  "units_live": [],
-  "live_host_rates": [],
-  "reason": "no unit of mode triangle needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold."
+  "hold": true,
+  "nothing_to_launch": false,
+  "reason": "could not list live instances (RuntimeError: vast API GET /instances/ -> 403: <html>\r\n<head><title>403 Forbidden</title></head>\r\n<body>\r\n<center><h1>403 Forbidden</h1></center>\r\n</body>\r\n</html>\r\n) \u2014 so we cannot tell which units already hold a host, and every unit would look unhosted. Refusing to dispatch: renting on this would double-buy on top of running legs. The next tick re-checks."
 }
