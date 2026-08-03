@@ -3,8 +3,8 @@
  "_status": "INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, affinity, reactivity, degradation, efficacy, safety or clinical readiness.",
  "_reading": "This calibrates the STERIC SCREEN, not NR4A3. It converts 'the steric rule fired at 5.34x its own within-system null' into 'it fired at 5.34x, against a measured cross-system background of X'.",
  "_generated": {
-  "utc": "2026-08-03T18:19:41Z",
-  "et": "2026-08-03 02:19 PM ET",
+  "utc": "2026-08-03T18:20:46Z",
+  "et": "2026-08-03 02:20 PM ET",
   "generator": "research/modalities/steric_decoy_null.py"
  },
  "_configuration": {
@@ -158,5 +158,1735 @@
   "_selection_source": "categorical_decoy_null.PREREG.pair_formation (`C24`/`C16`)",
   "gradeability_min_conditioning_events": 20
  },
- "⛔_what_is_still_unmeasured_at_plan_time": "everything. No model has been fetched, no pair selected, no clash computed. The pair and trio lists are written by `pairs`, which is also answer-blind, and the statistics by `run`."
+ "⛔_what_is_still_unmeasured_at_plan_time": "everything. No model has been fetched, no pair selected, no clash computed. The pair and trio lists are written by `pairs`, which is also answer-blind, and the statistics by `run`.",
+ "nr4a3_reference_identities": {},
+ "nr4a3_reference_identity_used_for_pair_ranking": 0.6,
+ "nr4a_trio_mean_pairwise_identity_used_for_trio_ranking": 0.6,
+ "trimmed": {
+  "P10828": {
+   "accession": "P10828",
+   "first": 265,
+   "last": 457,
+   "n_residues": 193,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P10828-domain.pdb",
+   "seq_len": 193,
+   "scope_alignment": {
+    "sw_score": 167,
+    "n_aligned_columns": 189,
+    "reference_coverage": 0.7441,
+    "identity_to_reference": 0.291,
+    "first": 265,
+    "last": 457,
+    "window_len": 193
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 193,
+    "mean_plddt": 96.25,
+    "min_plddt": 84.25,
+    "max_plddt": 98.81,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "THRB",
+   "in_nr4a_family": false
+  },
+  "P43354": {
+   "accession": "P43354",
+   "first": 344,
+   "last": 598,
+   "n_residues": 255,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P43354-domain.pdb",
+   "seq_len": 255,
+   "scope_alignment": {
+    "sw_score": 854,
+    "n_aligned_columns": 249,
+    "reference_coverage": 0.9803,
+    "identity_to_reference": 0.6827,
+    "first": 344,
+    "last": 598,
+    "window_len": 255
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 255,
+    "mean_plddt": 86.77,
+    "min_plddt": 32.28,
+    "max_plddt": 97.88,
+    "frac_at_or_above_70": 0.8667,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR4A2",
+   "in_nr4a_family": true
+  },
+  "P35398": {
+   "accession": "P35398",
+   "first": 327,
+   "last": 492,
+   "n_residues": 166,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P35398-domain.pdb",
+   "seq_len": 166,
+   "scope_alignment": {
+    "sw_score": 120,
+    "n_aligned_columns": 160,
+    "reference_coverage": 0.6299,
+    "identity_to_reference": 0.2562,
+    "first": 327,
+    "last": 492,
+    "window_len": 166
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 166,
+    "mean_plddt": 96.43,
+    "min_plddt": 84.88,
+    "max_plddt": 98.69,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RORA",
+   "in_nr4a_family": false
+  },
+  "Q92753": {
+   "accession": "Q92753",
+   "first": 271,
+   "last": 453,
+   "n_residues": 183,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q92753-domain.pdb",
+   "seq_len": 183,
+   "scope_alignment": {
+    "sw_score": 153,
+    "n_aligned_columns": 182,
+    "reference_coverage": 0.7165,
+    "identity_to_reference": 0.2747,
+    "first": 271,
+    "last": 453,
+    "window_len": 183
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 183,
+    "mean_plddt": 95.45,
+    "min_plddt": 81.12,
+    "max_plddt": 98.62,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RORB",
+   "in_nr4a_family": false
+  },
+  "P28702": {
+   "accession": "P28702",
+   "first": 353,
+   "last": 512,
+   "n_residues": 160,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P28702-domain.pdb",
+   "seq_len": 160,
+   "scope_alignment": {
+    "sw_score": 171,
+    "n_aligned_columns": 156,
+    "reference_coverage": 0.6142,
+    "identity_to_reference": 0.3077,
+    "first": 353,
+    "last": 512,
+    "window_len": 160
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 160,
+    "mean_plddt": 95.58,
+    "min_plddt": 74.25,
+    "max_plddt": 98.75,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RXRB",
+   "in_nr4a_family": false
+  },
+  "P22736": {
+   "accession": "P22736",
+   "first": 348,
+   "last": 598,
+   "n_residues": 251,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P22736-domain.pdb",
+   "seq_len": 251,
+   "scope_alignment": {
+    "sw_score": 702,
+    "n_aligned_columns": 244,
+    "reference_coverage": 0.9606,
+    "identity_to_reference": 0.6189,
+    "first": 348,
+    "last": 598,
+    "window_len": 251
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 251,
+    "mean_plddt": 87.67,
+    "min_plddt": 32.53,
+    "max_plddt": 98.06,
+    "frac_at_or_above_70": 0.8606,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR4A1",
+   "in_nr4a_family": true
+  },
+  "P10826": {
+   "accession": "P10826",
+   "first": 227,
+   "last": 413,
+   "n_residues": 187,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P10826-domain.pdb",
+   "seq_len": 187,
+   "scope_alignment": {
+    "sw_score": 222,
+    "n_aligned_columns": 184,
+    "reference_coverage": 0.7244,
+    "identity_to_reference": 0.3261,
+    "first": 227,
+    "last": 413,
+    "window_len": 187
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 187,
+    "mean_plddt": 96.89,
+    "min_plddt": 87.38,
+    "max_plddt": 98.81,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RARB",
+   "in_nr4a_family": false
+  },
+  "P20393": {
+   "accession": "P20393",
+   "first": 418,
+   "last": 612,
+   "n_residues": 195,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P20393-domain.pdb",
+   "seq_len": 195,
+   "scope_alignment": {
+    "sw_score": 155,
+    "n_aligned_columns": 187,
+    "reference_coverage": 0.7362,
+    "identity_to_reference": 0.2674,
+    "first": 418,
+    "last": 612,
+    "window_len": 195
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 195,
+    "mean_plddt": 83.22,
+    "min_plddt": 27.77,
+    "max_plddt": 97.69,
+    "frac_at_or_above_70": 0.8154,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR1D1",
+   "in_nr4a_family": false
+  },
+  "P10276": {
+   "accession": "P10276",
+   "first": 221,
+   "last": 423,
+   "n_residues": 203,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P10276-domain.pdb",
+   "seq_len": 203,
+   "scope_alignment": {
+    "sw_score": 222,
+    "n_aligned_columns": 195,
+    "reference_coverage": 0.7677,
+    "identity_to_reference": 0.3333,
+    "first": 221,
+    "last": 423,
+    "window_len": 203
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 203,
+    "mean_plddt": 93.46,
+    "min_plddt": 32.19,
+    "max_plddt": 98.75,
+    "frac_at_or_above_70": 0.9606,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RARA",
+   "in_nr4a_family": false
+  },
+  "P37231": {
+   "accession": "P37231",
+   "first": 327,
+   "last": 503,
+   "n_residues": 177,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P37231-domain.pdb",
+   "seq_len": 177,
+   "scope_alignment": {
+    "sw_score": 117,
+    "n_aligned_columns": 166,
+    "reference_coverage": 0.6535,
+    "identity_to_reference": 0.2711,
+    "first": 327,
+    "last": 503,
+    "window_len": 177
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 177,
+    "mean_plddt": 95.61,
+    "min_plddt": 70.44,
+    "max_plddt": 98.88,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "PPARG",
+   "in_nr4a_family": false
+  },
+  "P08235": {
+   "accession": "P08235",
+   "first": 687,
+   "last": 969,
+   "n_residues": 283,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P08235-domain.pdb",
+   "seq_len": 283,
+   "scope_alignment": {
+    "sw_score": 118,
+    "n_aligned_columns": 239,
+    "reference_coverage": 0.9409,
+    "identity_to_reference": 0.2971,
+    "first": 687,
+    "last": 969,
+    "window_len": 283
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 283,
+    "mean_plddt": 85.14,
+    "min_plddt": 30.55,
+    "max_plddt": 98.19,
+    "frac_at_or_above_70": 0.8021,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR3C2",
+   "in_nr4a_family": false
+  },
+  "P03372": {
+   "accession": "P03372",
+   "first": 315,
+   "last": 534,
+   "n_residues": 220,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P03372-domain.pdb",
+   "seq_len": 220,
+   "scope_alignment": {
+    "sw_score": 189,
+    "n_aligned_columns": 205,
+    "reference_coverage": 0.8071,
+    "identity_to_reference": 0.2976,
+    "first": 315,
+    "last": 534,
+    "window_len": 220
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 220,
+    "mean_plddt": 92.07,
+    "min_plddt": 41.62,
+    "max_plddt": 98.62,
+    "frac_at_or_above_70": 0.9273,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "ESR1",
+   "in_nr4a_family": false
+  },
+  "P48443": {
+   "accession": "P48443",
+   "first": 283,
+   "last": 442,
+   "n_residues": 160,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P48443-domain.pdb",
+   "seq_len": 160,
+   "scope_alignment": {
+    "sw_score": 181,
+    "n_aligned_columns": 156,
+    "reference_coverage": 0.6142,
+    "identity_to_reference": 0.3077,
+    "first": 283,
+    "last": 442,
+    "window_len": 160
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 160,
+    "mean_plddt": 95.91,
+    "min_plddt": 72.56,
+    "max_plddt": 98.81,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RXRG",
+   "in_nr4a_family": false
+  },
+  "P11474": {
+   "accession": "P11474",
+   "first": 187,
+   "last": 418,
+   "n_residues": 232,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P11474-domain.pdb",
+   "seq_len": 232,
+   "scope_alignment": {
+    "sw_score": 170,
+    "n_aligned_columns": 225,
+    "reference_coverage": 0.8858,
+    "identity_to_reference": 0.2933,
+    "first": 187,
+    "last": 418,
+    "window_len": 232
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 232,
+    "mean_plddt": 90.58,
+    "min_plddt": 34.62,
+    "max_plddt": 98.81,
+    "frac_at_or_above_70": 0.9138,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "ESRRA",
+   "in_nr4a_family": false
+  },
+  "P62508": {
+   "accession": "P62508",
+   "first": 224,
+   "last": 454,
+   "n_residues": 231,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P62508-domain.pdb",
+   "seq_len": 231,
+   "scope_alignment": {
+    "sw_score": 181,
+    "n_aligned_columns": 227,
+    "reference_coverage": 0.8937,
+    "identity_to_reference": 0.2731,
+    "first": 224,
+    "last": 454,
+    "window_len": 231
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 231,
+    "mean_plddt": 92.69,
+    "min_plddt": 33.91,
+    "max_plddt": 98.44,
+    "frac_at_or_above_70": 0.9524,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "ESRRG",
+   "in_nr4a_family": false
+  },
+  "Q92731": {
+   "accession": "Q92731",
+   "first": 268,
+   "last": 485,
+   "n_residues": 218,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q92731-domain.pdb",
+   "seq_len": 218,
+   "scope_alignment": {
+    "sw_score": 153,
+    "n_aligned_columns": 204,
+    "reference_coverage": 0.8031,
+    "identity_to_reference": 0.2745,
+    "first": 268,
+    "last": 485,
+    "window_len": 218
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 218,
+    "mean_plddt": 91.12,
+    "min_plddt": 43.72,
+    "max_plddt": 98.0,
+    "frac_at_or_above_70": 0.945,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "ESR2",
+   "in_nr4a_family": false
+  },
+  "O95718": {
+   "accession": "O95718",
+   "first": 236,
+   "last": 429,
+   "n_residues": 194,
+   "path": "results/categorical-decoy-null/trimmed-lbd/O95718-domain.pdb",
+   "seq_len": 194,
+   "scope_alignment": {
+    "sw_score": 153,
+    "n_aligned_columns": 191,
+    "reference_coverage": 0.752,
+    "identity_to_reference": 0.2618,
+    "first": 236,
+    "last": 429,
+    "window_len": 194
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 194,
+    "mean_plddt": 94.97,
+    "min_plddt": 74.56,
+    "max_plddt": 98.56,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "ESRRB",
+   "in_nr4a_family": false
+  },
+  "Q9Y466": {
+   "accession": "Q9Y466",
+   "first": 195,
+   "last": 365,
+   "n_residues": 171,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q9Y466-domain.pdb",
+   "seq_len": 171,
+   "scope_alignment": {
+    "sw_score": 97,
+    "n_aligned_columns": 155,
+    "reference_coverage": 0.6102,
+    "identity_to_reference": 0.2516,
+    "first": 195,
+    "last": 365,
+    "window_len": 171
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 171,
+    "mean_plddt": 90.07,
+    "min_plddt": 46.62,
+    "max_plddt": 97.69,
+    "frac_at_or_above_70": 0.9415,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR2E1",
+   "in_nr4a_family": false
+  },
+  "Q14541": {
+   "accession": "Q14541",
+   "first": 153,
+   "last": 326,
+   "n_residues": 174,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q14541-domain.pdb",
+   "seq_len": 174,
+   "scope_alignment": {
+    "sw_score": 134,
+    "n_aligned_columns": 166,
+    "reference_coverage": 0.6535,
+    "identity_to_reference": 0.259,
+    "first": 153,
+    "last": 326,
+    "window_len": 174
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 174,
+    "mean_plddt": 94.28,
+    "min_plddt": 63.78,
+    "max_plddt": 98.69,
+    "frac_at_or_above_70": 0.9885,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "HNF4G",
+   "in_nr4a_family": false
+  },
+  "P13631": {
+   "accession": "P13631",
+   "first": 165,
+   "last": 415,
+   "n_residues": 251,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P13631-domain.pdb",
+   "seq_len": 251,
+   "scope_alignment": {
+    "sw_score": 205,
+    "n_aligned_columns": 240,
+    "reference_coverage": 0.9449,
+    "identity_to_reference": 0.2917,
+    "first": 165,
+    "last": 415,
+    "window_len": 251
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 251,
+    "mean_plddt": 91.72,
+    "min_plddt": 32.72,
+    "max_plddt": 98.81,
+    "frac_at_or_above_70": 0.9323,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RARG",
+   "in_nr4a_family": false
+  },
+  "Q14995": {
+   "accession": "Q14995",
+   "first": 403,
+   "last": 577,
+   "n_residues": 175,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q14995-domain.pdb",
+   "seq_len": 175,
+   "scope_alignment": {
+    "sw_score": 132,
+    "n_aligned_columns": 168,
+    "reference_coverage": 0.6614,
+    "identity_to_reference": 0.256,
+    "first": 403,
+    "last": 577,
+    "window_len": 175
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 175,
+    "mean_plddt": 90.4,
+    "min_plddt": 46.75,
+    "max_plddt": 98.0,
+    "frac_at_or_above_70": 0.9657,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR1D2",
+   "in_nr4a_family": false
+  },
+  "Q13133": {
+   "accession": "Q13133",
+   "first": 192,
+   "last": 437,
+   "n_residues": 246,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q13133-domain.pdb",
+   "seq_len": 246,
+   "scope_alignment": {
+    "sw_score": 170,
+    "n_aligned_columns": 234,
+    "reference_coverage": 0.9213,
+    "identity_to_reference": 0.2906,
+    "first": 192,
+    "last": 437,
+    "window_len": 246
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 246,
+    "mean_plddt": 92.37,
+    "min_plddt": 45.25,
+    "max_plddt": 98.62,
+    "frac_at_or_above_70": 0.9512,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR1H3",
+   "in_nr4a_family": false
+  },
+  "Q03181": {
+   "accession": "Q03181",
+   "first": 243,
+   "last": 439,
+   "n_residues": 197,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q03181-domain.pdb",
+   "seq_len": 197,
+   "scope_alignment": {
+    "sw_score": 108,
+    "n_aligned_columns": 184,
+    "reference_coverage": 0.7244,
+    "identity_to_reference": 0.2717,
+    "first": 243,
+    "last": 439,
+    "window_len": 197
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 197,
+    "mean_plddt": 95.52,
+    "min_plddt": 75.56,
+    "max_plddt": 98.62,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "PPARD",
+   "in_nr4a_family": false
+  },
+  "O75469": {
+   "accession": "O75469",
+   "first": 184,
+   "last": 417,
+   "n_residues": 234,
+   "path": "results/categorical-decoy-null/trimmed-lbd/O75469-domain.pdb",
+   "seq_len": 234,
+   "scope_alignment": {
+    "sw_score": 116,
+    "n_aligned_columns": 221,
+    "reference_coverage": 0.8701,
+    "identity_to_reference": 0.2805,
+    "first": 184,
+    "last": 417,
+    "window_len": 234
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 234,
+    "mean_plddt": 92.59,
+    "min_plddt": 33.62,
+    "max_plddt": 98.94,
+    "frac_at_or_above_70": 0.9573,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR1I2",
+   "in_nr4a_family": false
+  },
+  "P51449": {
+   "accession": "P51449",
+   "first": 324,
+   "last": 483,
+   "n_residues": 160,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P51449-domain.pdb",
+   "seq_len": 160,
+   "scope_alignment": {
+    "sw_score": 143,
+    "n_aligned_columns": 154,
+    "reference_coverage": 0.6063,
+    "identity_to_reference": 0.2987,
+    "first": 324,
+    "last": 483,
+    "window_len": 160
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 160,
+    "mean_plddt": 95.83,
+    "min_plddt": 82.25,
+    "max_plddt": 98.38,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RORC",
+   "in_nr4a_family": false
+  },
+  "P55055": {
+   "accession": "P55055",
+   "first": 226,
+   "last": 450,
+   "n_residues": 225,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P55055-domain.pdb",
+   "seq_len": 225,
+   "scope_alignment": {
+    "sw_score": 155,
+    "n_aligned_columns": 211,
+    "reference_coverage": 0.8307,
+    "identity_to_reference": 0.2796,
+    "first": 226,
+    "last": 450,
+    "window_len": 225
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 225,
+    "mean_plddt": 95.37,
+    "min_plddt": 80.19,
+    "max_plddt": 98.69,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR1H2",
+   "in_nr4a_family": false
+  },
+  "P19793": {
+   "accession": "P19793",
+   "first": 282,
+   "last": 441,
+   "n_residues": 160,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P19793-domain.pdb",
+   "seq_len": 160,
+   "scope_alignment": {
+    "sw_score": 175,
+    "n_aligned_columns": 156,
+    "reference_coverage": 0.6142,
+    "identity_to_reference": 0.3077,
+    "first": 282,
+    "last": 441,
+    "window_len": 160
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 160,
+    "mean_plddt": 96.24,
+    "min_plddt": 78.0,
+    "max_plddt": 98.81,
+    "frac_at_or_above_70": 1.0,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "RXRA",
+   "in_nr4a_family": false
+  },
+  "P24468": {
+   "accession": "P24468",
+   "first": 226,
+   "last": 406,
+   "n_residues": 181,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P24468-domain.pdb",
+   "seq_len": 181,
+   "scope_alignment": {
+    "sw_score": 125,
+    "n_aligned_columns": 164,
+    "reference_coverage": 0.6457,
+    "identity_to_reference": 0.311,
+    "first": 226,
+    "last": 406,
+    "window_len": 181
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 181,
+    "mean_plddt": 90.59,
+    "min_plddt": 51.88,
+    "max_plddt": 98.44,
+    "frac_at_or_above_70": 0.9448,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR2F2",
+   "in_nr4a_family": false
+  },
+  "P10589": {
+   "accession": "P10589",
+   "first": 163,
+   "last": 413,
+   "n_residues": 251,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P10589-domain.pdb",
+   "seq_len": 251,
+   "scope_alignment": {
+    "sw_score": 127,
+    "n_aligned_columns": 225,
+    "reference_coverage": 0.8858,
+    "identity_to_reference": 0.2756,
+    "first": 163,
+    "last": 413,
+    "window_len": 251
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 251,
+    "mean_plddt": 83.23,
+    "min_plddt": 29.48,
+    "max_plddt": 98.56,
+    "frac_at_or_above_70": 0.8048,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR2F1",
+   "in_nr4a_family": false
+  },
+  "Q9Y5X4": {
+   "accession": "Q9Y5X4",
+   "first": 149,
+   "last": 393,
+   "n_residues": 245,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q9Y5X4-domain.pdb",
+   "seq_len": 245,
+   "scope_alignment": {
+    "sw_score": 137,
+    "n_aligned_columns": 219,
+    "reference_coverage": 0.8622,
+    "identity_to_reference": 0.2922,
+    "first": 149,
+    "last": 393,
+    "window_len": 245
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 245,
+    "mean_plddt": 76.87,
+    "min_plddt": 29.02,
+    "max_plddt": 98.12,
+    "frac_at_or_above_70": 0.6653,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR2E3",
+   "in_nr4a_family": false
+  },
+  "P10588": {
+   "accession": "P10588",
+   "first": 216,
+   "last": 396,
+   "n_residues": 181,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P10588-domain.pdb",
+   "seq_len": 181,
+   "scope_alignment": {
+    "sw_score": 117,
+    "n_aligned_columns": 173,
+    "reference_coverage": 0.6811,
+    "identity_to_reference": 0.2659,
+    "first": 216,
+    "last": 396,
+    "window_len": 181
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 181,
+    "mean_plddt": 91.03,
+    "min_plddt": 57.28,
+    "max_plddt": 98.38,
+    "frac_at_or_above_70": 0.9448,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR2F6",
+   "in_nr4a_family": false
+  },
+  "Q14994": {
+   "accession": "Q14994",
+   "first": 158,
+   "last": 326,
+   "n_residues": 169,
+   "path": "results/categorical-decoy-null/trimmed-lbd/Q14994-domain.pdb",
+   "seq_len": 169,
+   "scope_alignment": {
+    "sw_score": 101,
+    "n_aligned_columns": 158,
+    "reference_coverage": 0.622,
+    "identity_to_reference": 0.2785,
+    "first": 158,
+    "last": 326,
+    "window_len": 169
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 169,
+    "mean_plddt": 93.22,
+    "min_plddt": 52.03,
+    "max_plddt": 98.69,
+    "frac_at_or_above_70": 0.9349,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR1I3",
+   "in_nr4a_family": false
+  },
+  "P49116": {
+   "accession": "P49116",
+   "first": 379,
+   "last": 576,
+   "n_residues": 198,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P49116-domain.pdb",
+   "seq_len": 198,
+   "scope_alignment": {
+    "sw_score": 101,
+    "n_aligned_columns": 183,
+    "reference_coverage": 0.7205,
+    "identity_to_reference": 0.2514,
+    "first": 379,
+    "last": 576,
+    "window_len": 198
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 198,
+    "mean_plddt": 88.5,
+    "min_plddt": 54.59,
+    "max_plddt": 97.06,
+    "frac_at_or_above_70": 0.9545,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR2C2",
+   "in_nr4a_family": false
+  },
+  "P13056": {
+   "accession": "P13056",
+   "first": 403,
+   "last": 583,
+   "n_residues": 181,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P13056-domain.pdb",
+   "seq_len": 181,
+   "scope_alignment": {
+    "sw_score": 82,
+    "n_aligned_columns": 170,
+    "reference_coverage": 0.6693,
+    "identity_to_reference": 0.2529,
+    "first": 403,
+    "last": 583,
+    "window_len": 181
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 181,
+    "mean_plddt": 89.83,
+    "min_plddt": 55.16,
+    "max_plddt": 96.94,
+    "frac_at_or_above_70": 0.9724,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR2C1",
+   "in_nr4a_family": false
+  },
+  "O00482": {
+   "accession": "O00482",
+   "first": 359,
+   "last": 522,
+   "n_residues": 164,
+   "path": "results/categorical-decoy-null/trimmed-lbd/O00482-domain.pdb",
+   "seq_len": 164,
+   "scope_alignment": {
+    "sw_score": 65,
+    "n_aligned_columns": 153,
+    "reference_coverage": 0.6024,
+    "identity_to_reference": 0.2288,
+    "first": 359,
+    "last": 522,
+    "window_len": 164
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 164,
+    "mean_plddt": 94.44,
+    "min_plddt": 66.94,
+    "max_plddt": 98.62,
+    "frac_at_or_above_70": 0.9878,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "NR5A2",
+   "in_nr4a_family": false
+  },
+  "P41235": {
+   "accession": "P41235",
+   "first": 201,
+   "last": 379,
+   "n_residues": 179,
+   "path": "results/categorical-decoy-null/trimmed-lbd/P41235-domain.pdb",
+   "seq_len": 179,
+   "scope_alignment": {
+    "sw_score": 113,
+    "n_aligned_columns": 170,
+    "reference_coverage": 0.6693,
+    "identity_to_reference": 0.2471,
+    "first": 201,
+    "last": 379,
+    "window_len": 179
+   },
+   "plddt_in_window_REPORTED_NOT_APPLIED": {
+    "n_residues_with_plddt": 179,
+    "mean_plddt": 93.67,
+    "min_plddt": 37.78,
+    "max_plddt": 98.69,
+    "frac_at_or_above_70": 0.9832,
+    "_reading": "REPORTED, NOT APPLIED. `C24` has no confidence criterion; this is here so a reader can see exactly which residues `C16` would have removed and judge the models rather than take the scope on trust."
+   },
+   "gene": "HNF4A",
+   "in_nr4a_family": false
+  }
+ },
+ "trim_refusals": [
+  {
+   "accession": "P10827",
+   "gene": "THRA",
+   "reason": "ValueError: reference coverage 0.504 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "P04150",
+   "gene": "NR3C1",
+   "reason": "ValueError: reference coverage 0.402 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "P10275",
+   "gene": "AR",
+   "reason": "ValueError: reference coverage 0.516 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "Q96RI1",
+   "gene": "NR1H4",
+   "reason": "ValueError: reference coverage 0.591 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "Q15406",
+   "gene": "NR6A1",
+   "reason": "ValueError: reference coverage 0.476 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "P11473",
+   "gene": "VDR",
+   "reason": "ValueError: reference coverage 0.598 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "Q13285",
+   "gene": "NR5A1",
+   "reason": "ValueError: reference coverage 0.469 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "P51843",
+   "gene": "NR0B1",
+   "reason": "ValueError: reference coverage 0.138 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "Q15466",
+   "gene": "NR0B2",
+   "reason": "ValueError: reference coverage 0.161 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "P06401",
+   "gene": "PGR",
+   "reason": "ValueError: reference coverage 0.425 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  },
+  {
+   "accession": "Q07869",
+   "gene": "PPARA",
+   "reason": "ValueError: reference coverage 0.598 < 0.6 — the reference LBD is not confidently locatable in this chain"
+  }
+ ],
+ "n_candidate_pairs": 561,
+ "n_rejected_pairs": 455,
+ "rejected_pairs_sample": [
+  {
+   "a": "O00482",
+   "b": "O75469",
+   "gene_a": "NR5A2",
+   "gene_b": "NR1I2",
+   "identity": 0.2722,
+   "coverage": 0.9634,
+   "rejected_because": "identity 0.272 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "O95718",
+   "gene_a": "NR5A2",
+   "gene_b": "ESRRB",
+   "identity": 0.3291,
+   "coverage": 0.9634,
+   "rejected_because": "identity 0.329 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P03372",
+   "gene_a": "NR5A2",
+   "gene_b": "ESR1",
+   "identity": 0.2866,
+   "coverage": 0.9573,
+   "rejected_because": "identity 0.287 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P08235",
+   "gene_a": "NR5A2",
+   "gene_b": "NR3C2",
+   "identity": 0.2422,
+   "coverage": 0.9817,
+   "rejected_because": "identity 0.242 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P10276",
+   "gene_a": "NR5A2",
+   "gene_b": "RARA",
+   "identity": 0.2953,
+   "coverage": 0.9085,
+   "rejected_because": "identity 0.295 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P10826",
+   "gene_a": "NR5A2",
+   "gene_b": "RARB",
+   "identity": 0.2685,
+   "coverage": 0.9085,
+   "rejected_because": "identity 0.269 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P10828",
+   "gene_a": "NR5A2",
+   "gene_b": "THRB",
+   "identity": 0.2468,
+   "coverage": 0.9634,
+   "rejected_because": "identity 0.247 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P11474",
+   "gene_a": "NR5A2",
+   "gene_b": "ESRRA",
+   "identity": 0.327,
+   "coverage": 0.9695,
+   "rejected_because": "identity 0.327 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P13056",
+   "gene_a": "NR5A2",
+   "gene_b": "NR2C1",
+   "identity": 0.3148,
+   "coverage": 0.9878,
+   "rejected_because": "identity 0.315 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P13631",
+   "gene_a": "NR5A2",
+   "gene_b": "RARG",
+   "identity": 0.2622,
+   "coverage": 1.0,
+   "rejected_because": "identity 0.262 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P20393",
+   "gene_a": "NR5A2",
+   "gene_b": "NR1D1",
+   "identity": 0.3038,
+   "coverage": 0.9634,
+   "rejected_because": "identity 0.304 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P35398",
+   "gene_a": "NR5A2",
+   "gene_b": "RORA",
+   "identity": 0.1987,
+   "coverage": 0.9512,
+   "rejected_because": "identity 0.199 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P37231",
+   "gene_a": "NR5A2",
+   "gene_b": "PPARG",
+   "identity": 0.2264,
+   "coverage": 0.9695,
+   "rejected_because": "identity 0.226 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P41235",
+   "gene_a": "NR5A2",
+   "gene_b": "HNF4A",
+   "identity": 0.3247,
+   "coverage": 0.939,
+   "rejected_because": "identity 0.325 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P49116",
+   "gene_a": "NR5A2",
+   "gene_b": "NR2C2",
+   "identity": 0.3148,
+   "coverage": 0.9878,
+   "rejected_because": "identity 0.315 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P51449",
+   "gene_a": "NR5A2",
+   "gene_b": "RORC",
+   "identity": 0.2245,
+   "coverage": 0.9187,
+   "rejected_because": "identity 0.225 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P55055",
+   "gene_a": "NR5A2",
+   "gene_b": "NR1H2",
+   "identity": 0.2938,
+   "coverage": 0.9756,
+   "rejected_because": "identity 0.294 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "P62508",
+   "gene_a": "NR5A2",
+   "gene_b": "ESRRG",
+   "identity": 0.3354,
+   "coverage": 0.9634,
+   "rejected_because": "identity 0.335 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q03181",
+   "gene_a": "NR5A2",
+   "gene_b": "PPARD",
+   "identity": 0.2201,
+   "coverage": 0.9695,
+   "rejected_because": "identity 0.220 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q13133",
+   "gene_a": "NR5A2",
+   "gene_b": "NR1H3",
+   "identity": 0.2785,
+   "coverage": 0.9634,
+   "rejected_because": "identity 0.279 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q14541",
+   "gene_a": "NR5A2",
+   "gene_b": "HNF4G",
+   "identity": 0.3038,
+   "coverage": 0.9634,
+   "rejected_because": "identity 0.304 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q14994",
+   "gene_a": "NR5A2",
+   "gene_b": "NR1I3",
+   "identity": 0.2727,
+   "coverage": 0.872,
+   "rejected_because": "identity 0.273 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q14995",
+   "gene_a": "NR5A2",
+   "gene_b": "NR1D2",
+   "identity": 0.3312,
+   "coverage": 0.9573,
+   "rejected_because": "identity 0.331 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q92731",
+   "gene_a": "NR5A2",
+   "gene_b": "ESR2",
+   "identity": 0.2632,
+   "coverage": 0.9268,
+   "rejected_because": "identity 0.263 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q92753",
+   "gene_a": "NR5A2",
+   "gene_b": "RORB",
+   "identity": 0.28,
+   "coverage": 0.9146,
+   "rejected_because": "identity 0.280 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q9Y466",
+   "gene_a": "NR5A2",
+   "gene_b": "NR2E1",
+   "identity": 0.3376,
+   "coverage": 0.9573,
+   "rejected_because": "identity 0.338 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O00482",
+   "b": "Q9Y5X4",
+   "gene_a": "NR5A2",
+   "gene_b": "NR2E3",
+   "identity": 0.3208,
+   "coverage": 0.9695,
+   "rejected_because": "identity 0.321 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O75469",
+   "b": "O95718",
+   "gene_a": "NR1I2",
+   "gene_b": "ESRRB",
+   "identity": 0.289,
+   "coverage": 0.8918,
+   "rejected_because": "identity 0.289 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O75469",
+   "b": "P03372",
+   "gene_a": "NR1I2",
+   "gene_b": "ESR1",
+   "identity": 0.2462,
+   "coverage": 0.9045,
+   "rejected_because": "identity 0.246 outside band [0.35, 0.9]"
+  },
+  {
+   "a": "O75469",
+   "b": "P08235",
+   "gene_a": "NR1I2",
+   "gene_b": "NR3C2",
+   "identity": 0.2423,
+   "coverage": 0.9701,
+   "rejected_because": "identity 0.242 outside band [0.35, 0.9]"
+  }
+ ],
+ "selected_pairs": [
+  {
+   "a": "P03372",
+   "b": "Q92731",
+   "gene_a": "ESR1",
+   "gene_b": "ESR2",
+   "identity": 0.5991,
+   "coverage": 0.9954,
+   "rank_key": 0.0009
+  },
+  {
+   "a": "P35398",
+   "b": "P51449",
+   "gene_a": "RORA",
+   "gene_b": "RORC",
+   "identity": 0.5875,
+   "coverage": 1.0,
+   "rank_key": 0.0125
+  },
+  {
+   "a": "P11474",
+   "b": "P62508",
+   "gene_a": "ESRRA",
+   "gene_b": "ESRRG",
+   "identity": 0.6228,
+   "coverage": 0.987,
+   "rank_key": 0.0228
+  },
+  {
+   "a": "P35398",
+   "b": "Q92753",
+   "gene_a": "RORA",
+   "gene_b": "RORB",
+   "identity": 0.6325,
+   "coverage": 1.0,
+   "rank_key": 0.0325
+  },
+  {
+   "a": "P51449",
+   "b": "Q92753",
+   "gene_a": "RORC",
+   "gene_b": "RORB",
+   "identity": 0.5478,
+   "coverage": 0.9812,
+   "rank_key": 0.0522
+  },
+  {
+   "a": "O95718",
+   "b": "P11474",
+   "gene_a": "ESRRB",
+   "gene_b": "ESRRA",
+   "identity": 0.6598,
+   "coverage": 1.0,
+   "rank_key": 0.0598
+  },
+  {
+   "a": "O75469",
+   "b": "Q14994",
+   "gene_a": "NR1I2",
+   "gene_b": "NR1I3",
+   "identity": 0.5305,
+   "coverage": 0.9704,
+   "rank_key": 0.0695
+  },
+  {
+   "a": "P37231",
+   "b": "Q03181",
+   "gene_a": "PPARG",
+   "gene_b": "PPARD",
+   "identity": 0.7288,
+   "coverage": 1.0,
+   "rank_key": 0.1288
+  },
+  {
+   "a": "P13056",
+   "b": "P49116",
+   "gene_a": "NR2C1",
+   "gene_b": "NR2C2",
+   "identity": 0.7293,
+   "coverage": 1.0,
+   "rank_key": 0.1293
+  },
+  {
+   "a": "P10588",
+   "b": "Q9Y5X4",
+   "gene_a": "NR2F6",
+   "gene_b": "NR2E3",
+   "identity": 0.4688,
+   "coverage": 0.884,
+   "rank_key": 0.1312
+  },
+  {
+   "a": "Q9Y466",
+   "b": "Q9Y5X4",
+   "gene_a": "NR2E1",
+   "gene_b": "NR2E3",
+   "identity": 0.4634,
+   "coverage": 0.9591,
+   "rank_key": 0.1366
+  },
+  {
+   "a": "P19793",
+   "b": "P24468",
+   "gene_a": "RXRA",
+   "gene_b": "NR2F2",
+   "identity": 0.4557,
+   "coverage": 0.9875,
+   "rank_key": 0.1443
+  },
+  {
+   "a": "P19793",
+   "b": "Q14541",
+   "gene_a": "RXRA",
+   "gene_b": "HNF4G",
+   "identity": 0.4528,
+   "coverage": 0.9938,
+   "rank_key": 0.1472
+  },
+  {
+   "a": "P20393",
+   "b": "Q14995",
+   "gene_a": "NR1D1",
+   "gene_b": "NR1D2",
+   "identity": 0.7543,
+   "coverage": 1.0,
+   "rank_key": 0.1543
+  },
+  {
+   "a": "P24468",
+   "b": "P48443",
+   "gene_a": "NR2F2",
+   "gene_b": "RXRG",
+   "identity": 0.4437,
+   "coverage": 1.0,
+   "rank_key": 0.1563
+  },
+  {
+   "a": "P10588",
+   "b": "P10589",
+   "gene_a": "NR2F6",
+   "gene_b": "NR2F1",
+   "identity": 0.7624,
+   "coverage": 1.0,
+   "rank_key": 0.1624
+  },
+  {
+   "a": "P10589",
+   "b": "P48443",
+   "gene_a": "NR2F1",
+   "gene_b": "RXRG",
+   "identity": 0.4375,
+   "coverage": 1.0,
+   "rank_key": 0.1625
+  },
+  {
+   "a": "P28702",
+   "b": "Q14541",
+   "gene_a": "RXRB",
+   "gene_b": "HNF4G",
+   "identity": 0.434,
+   "coverage": 0.9938,
+   "rank_key": 0.166
+  },
+  {
+   "a": "P28702",
+   "b": "P41235",
+   "gene_a": "RXRB",
+   "gene_b": "HNF4A",
+   "identity": 0.4313,
+   "coverage": 1.0,
+   "rank_key": 0.1687
+  },
+  {
+   "a": "P55055",
+   "b": "Q13133",
+   "gene_a": "NR1H2",
+   "gene_b": "NR1H3",
+   "identity": 0.7733,
+   "coverage": 1.0,
+   "rank_key": 0.1733
+  }
+ ],
+ "n_candidate_trios": 160,
+ "selected_trios": [
+  {
+   "members": [
+    "P19793",
+    "P24468",
+    "P48443"
+   ],
+   "mean_identity": 0.5998,
+   "pairwise_identity": [
+    0.4557,
+    0.9,
+    0.4437
+   ],
+   "rank_key": 0.0002,
+   "genes": [
+    "RXRA",
+    "NR2F2",
+    "RXRG"
+   ]
+  },
+  {
+   "members": [
+    "P10589",
+    "P19793",
+    "P48443"
+   ],
+   "mean_identity": 0.5956,
+   "pairwise_identity": [
+    0.4494,
+    0.4375,
+    0.9
+   ],
+   "rank_key": 0.00437,
+   "genes": [
+    "NR2F1",
+    "RXRA",
+    "RXRG"
+   ]
+  },
+  {
+   "members": [
+    "P35398",
+    "P51449",
+    "Q92753"
+   ],
+   "mean_identity": 0.5893,
+   "pairwise_identity": [
+    0.5875,
+    0.6325,
+    0.5478
+   ],
+   "rank_key": 0.01073,
+   "genes": [
+    "RORA",
+    "RORC",
+    "RORB"
+   ]
+  },
+  {
+   "members": [
+    "P28702",
+    "P41235",
+    "Q14541"
+   ],
+   "mean_identity": 0.57,
+   "pairwise_identity": [
+    0.4313,
+    0.434,
+    0.8448
+   ],
+   "rank_key": 0.02997,
+   "genes": [
+    "RXRB",
+    "HNF4A",
+    "HNF4G"
+   ]
+  },
+  {
+   "members": [
+    "P10588",
+    "P24468",
+    "Q9Y5X4"
+   ],
+   "mean_identity": 0.5662,
+   "pairwise_identity": [
+    0.7735,
+    0.4688,
+    0.4562
+   ],
+   "rank_key": 0.03383,
+   "genes": [
+    "NR2F6",
+    "NR2F2",
+    "NR2E3"
+   ]
+  },
+  {
+   "members": [
+    "P10826",
+    "P10828",
+    "P13631"
+   ],
+   "mean_identity": 0.5588,
+   "pairwise_identity": [
+    0.3978,
+    0.8984,
+    0.3802
+   ],
+   "rank_key": 0.0412,
+   "genes": [
+    "RARB",
+    "THRB",
+    "RARG"
+   ]
+  },
+  {
+   "members": [
+    "P10588",
+    "P10589",
+    "Q9Y5X4"
+   ],
+   "mean_identity": 0.5524,
+   "pairwise_identity": [
+    0.7624,
+    0.4688,
+    0.426
+   ],
+   "rank_key": 0.0476,
+   "genes": [
+    "NR2F6",
+    "NR2F1",
+    "NR2E3"
+   ]
+  },
+  {
+   "members": [
+    "P20393",
+    "P51449",
+    "Q14995"
+   ],
+   "mean_identity": 0.5447,
+   "pairwise_identity": [
+    0.4423,
+    0.7543,
+    0.4375
+   ],
+   "rank_key": 0.0553,
+   "genes": [
+    "NR1D1",
+    "RORC",
+    "NR1D2"
+   ]
+  },
+  {
+   "members": [
+    "P20393",
+    "P35398",
+    "Q14995"
+   ],
+   "mean_identity": 0.5406,
+   "pairwise_identity": [
+    0.4157,
+    0.7543,
+    0.4518
+   ],
+   "rank_key": 0.0594,
+   "genes": [
+    "NR1D1",
+    "RORA",
+    "NR1D2"
+   ]
+  },
+  {
+   "members": [
+    "P10276",
+    "P10828",
+    "P13631"
+   ],
+   "mean_identity": 0.5402,
+   "pairwise_identity": [
+    0.3802,
+    0.8601,
+    0.3802
+   ],
+   "rank_key": 0.05983,
+   "genes": [
+    "RARA",
+    "THRB",
+    "RARG"
+   ]
+  },
+  {
+   "members": [
+    "O95718",
+    "P03372",
+    "P62508"
+   ],
+   "mean_identity": 0.5258,
+   "pairwise_identity": [
+    0.3978,
+    0.8093,
+    0.3702
+   ],
+   "rank_key": 0.07423,
+   "genes": [
+    "ESRRB",
+    "ESR1",
+    "ESRRG"
+   ]
+  },
+  {
+   "members": [
+    "O95718",
+    "P62508",
+    "Q92731"
+   ],
+   "mean_identity": 0.5144,
+   "pairwise_identity": [
+    0.8093,
+    0.3681,
+    0.3659
+   ],
+   "rank_key": 0.08557,
+   "genes": [
+    "ESRRB",
+    "ESRRG",
+    "ESR2"
+   ]
+  }
+ ],
+ "window_size_spread": {
+  "n_proteins": 36,
+  "min": 160,
+  "median": 194,
+  "max": 283,
+  "max_over_min": 1.769,
+  "_reading": "a scope whose windows differ by a large factor is not one structural region measured in many proteins; it is many regions pooled. Window size drives how many cysteines the screen can see, so it is a confound on the background."
+ },
+ "⛔_still_no_statistic": "selection above is a function of SEQUENCE IDENTITY and STRUCTURE AVAILABILITY only. No clash, lobe or rate has been computed."
 }
