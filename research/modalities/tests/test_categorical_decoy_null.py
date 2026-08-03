@@ -401,9 +401,26 @@ def test_grade_uses_one_rule_for_both_scopes_and_reports_C397_separately():
     g = CDN.grade(res)
     assert g["verdict"] == "DISTINGUISHED"
     assert g["c397_verdict"] == "DISTINGUISHED"
-    # and a scope with no C397 must say NOT MEASURED rather than inherit the row-level grade
+    # and a scope with no C397 must say NOT MEASURED rather than inherit the row-level grade —
+    # ⛔ NAMING THE RIGHT REASON, which is the part that was wrong and that the degenerate-path test caught
     res["results"]["★_nr4a3_per_cysteine_vs_that_background"] = {"C559_vs_NR4A1": {}}
-    assert CDN.grade(res)["c397_verdict"].startswith("NOT MEASURED")
+    res["results"]["⛔_nr4a3_harness_scope"] = {"headline_residue_C397_in_scope": False}
+    out_of_scope = CDN.grade(res)["c397_verdict"]
+    assert out_of_scope == "NOT MEASURED — C397 was not in this scope"
+    # the SAME emptiness with C397 IN scope is a different fact and must not borrow that sentence
+    res["results"]["⛔_nr4a3_harness_scope"] = {"headline_residue_C397_in_scope": True}
+    in_scope = CDN.grade(res)["c397_verdict"]
+    assert in_scope.startswith("NOT MEASURED") and "WAS in this scope" in in_scope
+    assert in_scope != out_of_scope, "a mis-attributed absence is worse than an unexplained one"
+    # and an unrecorded scope check must not be guessed either way
+    res["results"]["⛔_nr4a3_harness_scope"] = {}
+    assert "did not record" in CDN.grade(res)["c397_verdict"]
+    # in scope, measured, but ungradeable -> UNDERPOWERED, not NOT MEASURED
+    res["results"]["⛔_nr4a3_harness_scope"] = {"headline_residue_C397_in_scope": True}
+    res["results"]["★_nr4a3_per_cysteine_vs_that_background"] = {
+        "C397_vs_NR4A1": {"percentile_reach_only": None}}
+    v = CDN.grade(res)["c397_verdict"]
+    assert v.startswith("UNDERPOWERED") and "was in scope and was measured" in v
 
 
 def test_summarise_background_carries_an_interval_and_a_resolution_not_a_bare_point_estimate():

@@ -2129,11 +2129,25 @@ def grade(res):
             if k.startswith("C397")}
     cpct = [v.get("percentile_reach_only") for v in c397.values()
             if v.get("percentile_reach_only") is not None]
-    c_verdict = (
-        "NOT MEASURED — C397 was not in this scope" if not c397 else
-        "UNDERPOWERED" if cn < 5 or not cpct else
-        "DISTINGUISHED" if (cfrac0 is not None and cfrac0 <= 0.5 and max(cpct) <= 0.25) else
-        "NOT DISTINGUISHED")
+    # ⛔ "NOT MEASURED" MUST NAME THE RIGHT REASON. An earlier version returned "C397 was not in this
+    #    scope" for EVERY case with no gradeable C397 row — including a run where C397 WAS in scope and
+    #    simply produced no gradeable row. That asserts a cause that is not the true one, contradicts
+    #    `⛔_nr4a3_harness_scope` two blocks away, and would read as this scope having failed at the one
+    #    thing it exists to do. An absent reading is not a reading of absence (CLAUDE.md §4), and a
+    #    MIS-ATTRIBUTED absence is worse than an unexplained one. Caught by the degenerate-path test.
+    in_scope = (r.get("⛔_nr4a3_harness_scope") or {}).get("headline_residue_C397_in_scope")
+    if not c397:
+        c_verdict = ("NOT MEASURED — C397 was not in this scope" if in_scope is False else
+                     "NOT MEASURED — C397 WAS in this scope, but no NR4A3 reference row reached the "
+                     "per-cysteine statistic" if in_scope else
+                     "NOT MEASURED — and the scope check did not record whether C397 was in scope")
+    elif cn < 5 or not cpct:
+        c_verdict = ("UNDERPOWERED — C397 was in scope and was measured, but the cysteine-level "
+                     "background or C397's own row did not clear the gradeability floor")
+    elif cfrac0 is not None and cfrac0 <= 0.5 and max(cpct) <= 0.25:
+        c_verdict = "DISTINGUISHED"
+    else:
+        c_verdict = "NOT DISTINGUISHED"
     return {"verdict": verdict, "n_graded": n_graded, "frac0": frac0,
             "frac0_exposed": bge.get("frac_exactly_zero"), "percentiles": pct,
             "percentiles_exposed": {k: v.get("percentile_exposed") for k, v in n3.items()},
