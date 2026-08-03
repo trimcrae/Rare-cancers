@@ -282,6 +282,13 @@ def _gdsc_atri_read(pd, model, fet_ids, comparator_ids):
         if len(key_cs) > 1:
             alt = df[key_cs[1]].map(lambda v: str(int(v)) if pd.notna(v) else "")
             df["_key2"] = alt
+        # ⭑ GENERAL-SENSITIVITY CORRECTION. A line that is simply easy to kill is more sensitive to
+        # everything, and FET-rearranged lines (Ewing especially) are fast-growing and broadly
+        # chemosensitive in vitro — so a raw LN_IC50 contrast measures growth rate as much as biology.
+        # Subtracting each line's own median LN_IC50 across ALL GDSC drugs leaves the drug-specific
+        # residual, which is the quantity the hypothesis is actually about.
+        line_median = df.groupby("_key")[ic_c].median()
+        df["_resid"] = df[ic_c] - df["_key"].map(line_median)
         by_drug = {}
         names = df[drug_c].astype(str).str.lower()
         for want in ATRI_NAMES + CONTROL_DRUG_NAMES:
@@ -294,10 +301,17 @@ def _gdsc_atri_read(pd, model, fet_ids, comparator_ids):
             if "_key2" in sub:
                 a += [float(v) for k, v in zip(sub["_key2"], sub[ic_c]) if k in fet_keys]
                 b += [float(v) for k, v in zip(sub["_key2"], sub[ic_c]) if k in comp_keys]
+            ra = [float(v) for k, v in zip(sub["_key"], sub["_resid"]) if k in fet_keys]
+            rb = [float(v) for k, v in zip(sub["_key"], sub["_resid"]) if k in comp_keys]
+            if "_key2" in sub:
+                ra += [float(v) for k, v in zip(sub["_key2"], sub["_resid"]) if k in fet_keys]
+                rb += [float(v) for k, v in zip(sub["_key2"], sub["_resid"]) if k in comp_keys]
             by_drug[want] = {"is_atr_inhibitor": want in ATRI_NAMES,
                              "n_rows": int(len(sub)), "n_FET": len(a), "n_comparator": len(b),
-                             "keys_seen": len(keys), "welch": _welch(a, b)}
-        if not any(v["is_atr_inhibitor"] and v.get("welch") for v in by_drug.values()):
+                             "keys_seen": len(keys),
+                             "welch_raw_ln_ic50": _welch(a, b),
+                             "welch_line_median_corrected": _welch(ra, rb)}
+        if not any(v["is_atr_inhibitor"] and v.get("welch_raw_ln_ic50") for v in by_drug.values()):
             out["_attempts"].append({"source": label, "n_rows": int(df.shape[0]),
                                      "error": "no ATR inhibitor with a computable contrast",
                                      "drugs_matched": sorted(by_drug)})
@@ -305,9 +319,7 @@ def _gdsc_atri_read(pd, model, fet_ids, comparator_ids):
         out.update({"_status": "read", "source": label, "n_rows": int(df.shape[0]),
                     "n_FET_keys": len(fet_keys), "n_comparator_keys": len(comp_keys),
                     "by_drug": by_drug,
-                    "_reading": "Read the CONTROL drugs first. The hypothesis predicts a negative "
-                                "delta for ATR inhibitors and NOT for the controls; a negative delta "
-                                "across both is a growth-rate or lineage artefact, not selectivity."})
+                    "_reading": "Read the CONTROL drugs first, and quote the LINE-MEDIAN-CORRECTED contrast, never the raw one. A negative delta across ATR inhibitors AND controls alike in the RAW numbers is a growth-rate or lineage artefact, which is exactly what run 30849750035 found: talazoparib -2.34 and olaparib -1.28 against azd6738 -0.76. The corrected column removes each line's own general drug sensitivity and is what the hypothesis is actually about."})
         return out
     out["_status"] = "no GDSC release yielded an ATR-inhibitor contrast; see _attempts"
     return out

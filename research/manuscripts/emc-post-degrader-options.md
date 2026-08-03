@@ -95,6 +95,25 @@ of every route below is that.
 
 ---
 
+### ⭑ The trade-off this ranking makes, stated plainly so it can be overruled
+
+**Tier 1 buys speed-to-a-tested-candidate by giving up "the candidate is ours".** The degrader was
+attractive partly because the molecule would have been this program's own invention; route 1's
+molecule is somebody else's, and the contribution is the *hypothesis, the class argument and the
+preregistered experiment* rather than the compound. That is a real loss and it should be named rather
+than glossed.
+
+The reason I still rank it first: **for an ultra-rare cancer with no wet lab, the binding constraint
+is not idea supply — it is getting anything tested at all.** A hypothesis whose reagent is in a
+catalogue and whose model exists in three labs converts into a real experiment on a timescale nothing
+requiring a synthesised molecule can match, and a positive would be the first mechanistically-grounded
+systemic hypothesis EMC has had. **If the program's goal is weighted instead toward originating a
+novel agent, the correct reordering is 2 → 4 → 5 first** (junction ASO, TCIP, covalent probe — all
+"ours"), with route 1 run in parallel because it costs almost nothing to carry. That is a judgement
+about what the program is for, not about the evidence, and it is trimcrae's to make.
+
+---
+
 ## 2 · THE RANKED LIST
 
 **Tier 1 — start now. Each is $0-to-cheap for us, each produces a paper, and each hands a lab an
@@ -241,7 +260,18 @@ experiment, not a program.
 **Axis S — inherits none of the three blockers.** No ΔΔG, no ternary, no paralogue discrimination.
 The molecule is not ours and does not need to be selective for anything in the NR4A family.
 
-⚠ **Three honest counterweights, none of which is a reason not to run it.** (i) **The ATR class has
+⚠ **A fourth counterweight that is mechanistic rather than commercial, and it is the one I would
+press hardest if I were reviewing this.** ATR-inhibitor activity generally tracks **proliferation and
+replication stress**, and EMC is the opposite of that — indolent, median time to metastasis ≈ 28
+months, 10-year DSS ≈ 85 %. The published mechanism here is ATM suppression at double-strand breaks
+rather than replication stress *per se*, so the two are not the same argument, but a slowly-cycling
+tumour has fewer replication forks for an ATR inhibitor to catch and a lower baseline γH2AX for the
+readout to move. **This does not change the ranking** — the experiment is cheap enough that the
+objection is better answered than argued, and the PDX panel that responded included relapsed disease —
+but it belongs in the preregistration as a stated prior, and it argues for including a **proliferation
+index** alongside γH2AX so a null can be attributed rather than merely recorded.
+
+⚠ **Three further counterweights, none of which is a reason not to run it.** (i) **The ATR class has
 had a bad two years commercially** — ceralasertib missed in a phase 3 NSCLC readout, Bayer
 discontinued elimusertib, berzosertib was shelved, and Roche returned camonsertib; a basket expansion
 of elimusertib in DDR-defective solid tumours reported **ORR 4.5 % with DCR 49.3 %**
