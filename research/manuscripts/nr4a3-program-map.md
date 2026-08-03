@@ -2248,6 +2248,73 @@ test system. It is a statement about **one instrument**, which is the only thing
 
 ---
 
+### 3.4b · The $0 fix — and what it does to every selectivity number the program holds
+
+**(trimcrae, 2026-08-03: *"Ok I guess do the $0 fix then and document it everywhere"*.)**
+
+⛔ **THE MECHANISM, AND IT IS ONE LINE OF CODE.** `nr4a3_warhead.py:314` builds NR4A1's and NR4A2's docking
+boxes by **copying NR4A3's pocket onto them** — `map_pocket_to_paralogue()` carries the Pocket-5 residues
+across a BLOSUM62 alignment, `pocket_box()` centres a 24 Å box on their Cα centroid. **NR4A3's own box is
+not built that way**; it is found directly on the NR4A3 structure. So the two halves of every selectivity
+statement rest on different methods — and [§3.4a](#34a--the-family-positive-control-existed-the-whole-time)
+measured what those methods are worth on this fold:
+
+| box drawn by | blind dock, minus this protocol's own best on the SAME pair | used for |
+|---|---|---|
+| the receptor's own cavity | **+0.39 Å** (median), beats the oracle on 3 of 11 | *nothing in the pipeline* |
+| **the Pocket-5 transfer** | **+16.05 Å** (median), worse on **11 of 11** | ⛔ **every anti-target box in the program** |
+
+⭑ **THE CONSEQUENCE, AND IT IS THE ONE THAT MATTERS.** A selectivity result is a **comparison**. If the
+target arm is docked in a real pocket and the paralogue arms are docked 16–19 Å from theirs, then a
+"paralogue-selective" margin is *the difference between a real pocket and two misplaced ones* — which **any
+molecule would show**. That is not a selectivity measurement. It also explains a size nobody could account
+for: the ABFE contrast is ≈ −4.8 / −5.0 kcal/mol, i.e. **~3,000×**, which is not a plausible paralogue
+margin and is exactly the shape of a comparison against the wrong site.
+
+⚠ **This does not say the numbers are WRONG. It says they have not been measured** — the control arm was
+not the paralogue's binding site. Nothing here re-scores anything.
+
+**THE FIX — [`paralogue_site_correction.py`](../modalities/paralogue_site_correction.py) →
+[`paralogue-site-correction.json`](../modalities/paralogue-site-correction.json), $0 CI.** It does **not**
+swap in a cavity detector and hope: **NR4A1 and NR4A2 have deposited holo structures**, so where ligands
+bind on them is already answered by crystallography. Each deposited entry is CE-superposed into the frame
+of *the AF2 model the pipeline actually docks into*, its crystallographic ligand carried across, and the
+consensus taken as the corrected site. The pipeline's transferred box is then rebuilt **through the
+pipeline's own two functions** and the displacement reported, with whether the real site falls inside the
+24 Å box the pipeline draws at all.
+
+Four design rules, each load-bearing:
+
+1. **CE structural superposition, never sequence alignment.** The defect being measured *is* a BLOSUM62
+   residue mapping; checking it with another sequence alignment could inherit the same error and agree
+   with it. CE reads no sequence.
+2. **The entry list is READ from [`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json)**,
+   never typed — the same in-regime set the docking panel graded. A test greps the module body for typed
+   PDB literals.
+3. **Covalent entries are KEPT.** `R2b` excludes them from a *docking* panel because a non-covalent dock
+   cannot reproduce a covalent pose; this module runs no dock and asks only *where* the ligand sits. ⛔ All
+   three NR4A2 entries are covalent, so applying `R2b` here would leave **NR4A3's closest paralogue
+   uncorrected**, for a reason that does not apply to it.
+4. **A paralogue with no readable deposited ligand is REFUSED, not defaulted** — the summary says
+   `UNMEASURED`, never "the box is fine" — CLAUDE.md §4's rule that an absent reading is not a
+   reading of absence.
+
+**What adopting the corrected site does and does not license:**
+
+- ✅ It makes the **comparison** valid for the first time. Every anti-target number becomes recomputable
+  against a control that is actually the paralogue's binding site.
+- ⛔ **It does not make any existing margin valid.** A margin must be **RECOMPUTED** at the corrected site
+  before it means anything. Re-running the free-energy arm is **GPU spend, not $0** — what is free is
+  re-picking the site and re-running the cheap screens.
+- ⛔ **It does not lift the resolution bound.** Even a perfect site leaves this protocol placing ligands to
+  ≈ the ceiling measured in §3.4a (**median 3.147 Å**), which is **larger than the differences these
+  margins are asked to resolve.** That bound travels with the correction and is carried in the artifact's
+  own `_does_not_license`.
+- ⛔ **It touches NR4A3's own site not at all** — never built by this step, and nothing here re-derives it.
+- ⛔ **It re-opens no ✕ row.**
+
+---
+
 ## 4 · The dependency graph
 
 Read upward: a box can only be claimed once everything feeding it holds. **Dashed edges are validation
@@ -2401,7 +2468,7 @@ The **state** column is the work item that would move the requirement, not a gra
 | **R4 · Something binds it** — scoped: **the opened cryptic Pocket-5** | ⚠ **Two different questions, and this page previously ran them together.** *Does anything bind NR4A3 at all?* — **yes, published**: a fragment screen against NOR-1/NR4A3 (hit rate <1 %) returned three chemotypes, one elaborated to a **low-micromolar inverse agonist** (Zaienne cmpd19) that shifted NOR-1-regulated gene expression in cells (`:92–99`), and the congeneric lane is anchored on it. *Does anything bind the **cryptic pocket**?* — **nothing, of any molecule**: those results *"leave the binding site **structurally undefined**"* (`:99–101`) | a thermal shift / SPR / NMR fragment screen **against the opened site**. **Cheapest decisive experiment in the program**, and a negative is as useful as a positive. ⚠ The scoping word is load-bearing — dropping it makes this page claim there is no experimental ligand evidence for NR4A3, which the paper's §1 contradicts | ○ future — **needs a wet lab** |
 | **R5 · The pose is right** | ⛔ the known-answer test **ran and returned INCONCLUSIVE** ([`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json)) — and its decomposition splits the question in two: the **docking** is *less bad than the site* (blind from apo through an fpocket-chosen box it lands in `C14`'s **PARTIAL** band, fnat 0.778, 7 of 9 native contacts — ⛔ **not a pass, and the RMSD digit is deliberately not typed here: it is a re-seeded draw, see [`V3`](#31--the-instrument-table)**), the **site selection** is what missed, on 6 of 6 pairs. ⚠ **Superseded, retained: 3.46 Å and 3.04 Å** — the first was read off an earlier generation of this artifact (commit `cc4325b68`, `blind_apo_fpocket_top_box` 3.464) and never re-read after regeneration at `060a6a653`; **the second was this page's correction of it, and drifted the same way** (the committed artifact now reads 3.142). ⛔ **Correcting a drifting number with the next draw of the same unseeded search is not a correction** — it is the bug, performed twice, with a superseded-value note attached. The arm's stable readout is its **band** ⛔ **AND TWO RESULTS ON 2026-08-03 MADE THIS ROW WORSE, NOT BETTER.** *(a)* **The site question, re-asked in regime, is 0 of 14** — over every gradeable apo/holo pair on the three proteins the pipeline actually transfers Pocket-5 onto, the **sequence** transfer and the **Pocket-5 structure** transfer each put the crystallographic ligand inside their own box **zero** times, while an fpocket-chosen box finds it in **11**. Two independent routes, both zero, so the 6-of-6 above is no longer the whole evidence ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json); a **site supplement**, which emits no RMSD and changes no pre-registered verdict). *(b)* ⛔ **The carried pose is not a singular object.** Six committed poses of `denovo_401` in NR4A3 give 15 pairwise comparisons whose pocket-superposed median RMSD exceeds the cost of turning the molecule end-for-end in place; **1 of 15** pairs agrees within 2 Å; the docking score spread across them is too narrow to have chosen among them; and **7 pairs whose receptors superpose within 1 Å still span the full range**, so the disagreement is not the conformers. ⛔ **`cross_method_evidence` is NONE** — every pose is the same method's top pose, which is a finding about the evidence base and not a gap in the analysis ([`pose-convergence-401.json`](../modalities/pose-convergence-401.json)) | re-run the primary arm with the site question separated from the docking question — see [§7 branch 2](#7--branches-still-open) — and, from the other side, **a second INDEPENDENT pose method on the same ligand in the same receptor**, which is the only thing that can attribute the 7 Å spread to anything | ✓ test complete, claim **unresolved** — ⛔ and **every pose-conditional claim must now be stated as marginalised over poses** |
 | **R6 · ΔG_open does not reverse the margin** | ⛔ **nothing. Never computed, for any paralogue.** ⚠ **What it blocks was narrowed 2026-08-03:** it is a term in an **absolute** per-paralogue affinity, and it **cancels inside each protein** in a ligand-side *relative* double difference — so it blocks the ABFE route to `R7` and not a `ΔΔΔG` route to `R11`'s causal question ([§3.4 fact 3](#34--four-instrument-facts-this-page-used-to-be-missing)) | a converged opening penalty per paralogue — priced in the ladder's OPTIONAL/HELD tier. Otherwise: **report everything conditional on the open state**, which is $0 and fully defensible | ○ future — 🔒 **explicit nod only** |
-| **R7 · The binder is paralogue-selective** | ⚠ **More than this page used to say, and weaker than it sounds.** The paralogue ABFE **has been run and reported at three independent-seed replicates** with exactly the replicate-SD error bars this row used to ask for: ΔΔG(NR4A3−NR4A1) **−4.76 ± 2.03**, ΔΔG(NR4A3−NR4A2) **−4.98 ± 0.68**, both resolved below zero (`:1230–1239`, `:2303`). It is held **provisional and deliberately parked** for a named defect — `V9`, a soft-core-tail λ-overlap failure on *every* leg — *"It is not currently running: the whole ABFE block is **deliberately held** … it is not the next thing worth computing"* (`:1277–1280`). **"Run, reported, consciously parked" ≠ "not started"**, which is what this row said before. The paper's live reading is that selectivity rests on the binder margin **plus the nominated categorical handles**, and it explicitly refuses to write the ternary off (`:2600–2601`; SI `:141–144`) | **Three things, and they are not the same thing.** (1) **The instrument:** `V4`, the CREBBP/BRD4 selectivity known-answer test. *(highest leverage in the program · 🔒 **not authorized** · would **not** discharge this row — it is a **binary** control.)* (2) ⛔ **The missing physical term:** `R6`. A perfect instrument on today's inputs still would not settle this row. (3) ⛔ **The size of the prize versus the resolution** — the margin arithmetic in [§1](#1--the-thesis-the-north-star-and-the-operating-regime). ⚠ **This row is therefore not blocked *only* on the instrument**, which is how the page read before 2026-08-02 | ○ open — ⏸ **the existing result is parked**, not absent |
+| **R7 · The binder is paralogue-selective** | ⚠ **More than this page used to say, and weaker than it sounds.** The paralogue ABFE **has been run and reported at three independent-seed replicates** with exactly the replicate-SD error bars this row used to ask for: ΔΔG(NR4A3−NR4A1) **−4.76 ± 2.03**, ΔΔG(NR4A3−NR4A2) **−4.98 ± 0.68**, both resolved below zero (`:1230–1239`, `:2303`). It is held **provisional and deliberately parked** for a named defect — `V9`, a soft-core-tail λ-overlap failure on *every* leg — *"It is not currently running: the whole ABFE block is **deliberately held** … it is not the next thing worth computing"* (`:1277–1280`). **"Run, reported, consciously parked" ≠ "not started"**, which is what this row said before. The paper's live reading is that selectivity rests on the binder margin **plus the nominated categorical handles**, and it explicitly refuses to write the ternary off (`:2600–2601`; SI `:141–144`) | **Three things, and they are not the same thing.** (1) **The instrument:** `V4`, the CREBBP/BRD4 selectivity known-answer test. *(highest leverage in the program · 🔒 **not authorized** · would **not** discharge this row — it is a **binary** control.)* (2) ⛔ **The missing physical term:** `R6`. A perfect instrument on today's inputs still would not settle this row. (3) ⛔ **The size of the prize versus the resolution** — the margin arithmetic in [§1](#1--the-thesis-the-north-star-and-the-operating-regime). ⚠ **This row is therefore not blocked *only* on the instrument**, which is how the page read before 2026-08-02. ⛔ **(4) AND AS OF 2026-08-03 THERE IS A FOURTH, WHICH CHANGES HOW (1)–(3) ARE READ: the paralogue arms of that ABFE were docked in the WRONG PLACE.** NR4A1's and NR4A2's boxes are built by copying NR4A3's pocket onto them (`nr4a3_warhead.py:314`), and that route docks a median **+16.05 Å worse than this protocol's own ceiling, on 11 of 11** in-regime pairs with deposited answers — while the target arm's box was never built that way. So **−4.76 / −4.98 is a comparison between a real pocket and two misplaced ones**, which any molecule would show, and the implausible ~3,000× is the expected shape of exactly that. ⚠ **NOT 'the numbers are wrong' — 'the comparison has not been made'**; the control arm was not the paralogue's binding site. Fix and its bounds: [§3.4b](#34b--the-0-fix--and-what-it-does-to-every-selectivity-number-the-program-holds) | ○ open — ⏸ **the existing result is parked**, and ⛔ **its control arm is now known to be misplaced**, so re-running it is a RECOMPUTATION rather than a refinement |
 | **R8 · A linker geometry is feasible** | ✓ computed and committed ([`nr4a3-linker-covalent-reach.json`](../modalities/nr4a3-linker-covalent-reach.json), `dc0befd9c`): only **C397** of the three unique LBD cysteines is within tether range; **C420 is refuted everywhere** (0 of 60 placement×pendant cells, both conventions — `C9`, `C10`); ⚠ **C559 is NOT** — it survives at exactly one cell (`vhl|M3@term_a_exemplar | dab_branch`, 2 of 19 conformers) under through-space, and the artifact's `refuted_unique_cysteines` label is built from `best_corridor` alone, so it is stronger than its own data. ✅ **RECONCILED 2026-08-03**, claim by claim — see [§7 branch 1b](#branch-1b--computed-not-reconciled-to-its-artifact) | reconciling the prose to the artifact ($0), then the pose re-run `R5` that every anchor depends on | ✓ work complete · claim **conditional on `R5` and unreconciled** |
 | **R9 · Our ternary is correctly assembled** | ⛔ **nothing. `n_recovered: 0` of 3 arms**, and the existing prediction was built by the ⏸ route from a molecule that is unrecoverable | rebuild by the assembly route (`V2`) from a recorded molecule — ⛔ **and it has no rung, no gate and no price** | ○ future — **NOT STARTED · 🔒 unpriced** |
 | **R10 · A ternary forms** | predicted for all three paralogues at comparable confidence, built by the failing route — and the molecule used is **unrecoverable**, so it cannot be replicated | `R9`, then rebuild by the assembly route from a recorded molecule | ○ future — the *result* is ✕ ([§6a](#6a--dead--conclusively-unworkable-never-retry), unregenerable), the *route* that built it is ⏸ ([§6b](#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen)), the requirement is open |

@@ -19,11 +19,21 @@ def test_the_holo_entry_list_is_READ_not_typed():
     docking panel also grades. A hand-typed list here could drift from it silently and nothing would
     catch it — and then the correction and the evidence for the correction would be about different sets.
     """
-    src = inspect.getsource(P)
-    body = src.split('"""', 2)[2]                     # skip the module docstring, which may cite examples
-    ids = set(re.findall(r"\b[1-9][A-Z0-9]{3}\b", body)) - {"2026", "3000"}
-    assert not ids, "PDB-like literals typed into the body: %s — read them from the panel" % sorted(ids)
-    assert "apo-pose-site-in-regime.json" in src
+    # ⚠ EXECUTABLE CODE ONLY — every docstring is stripped via the AST (widened 2026-08-03). The first
+    # version skipped only the MODULE docstring and then failed when `af2_domain_span`'s docstring cited
+    # `4WHF`/`4WHG` as the EVIDENCE for the register bug. Naming the deposits that proved a defect is
+    # exactly what a docstring is for; the rule is that no entry list is typed into the code.
+    import ast
+    tree = ast.parse(inspect.getsource(P))
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
+            doc = ast.get_docstring(node, clean=False)
+            if doc and node.body and isinstance(node.body[0], ast.Expr):
+                node.body[0].value = ast.Constant(value="")
+    code = ast.unparse(tree)
+    ids = set(re.findall(r"\b[1-9][A-Z0-9]{3}\b", code)) - {"2026", "3000"}
+    assert not ids, "PDB-like literals typed into the code: %s — read them from the panel" % sorted(ids)
+    assert "apo-pose-site-in-regime.json" in inspect.getsource(P)
 
 
 def test_the_box_edge_comes_from_the_pipeline_not_from_a_constant():
@@ -150,3 +160,69 @@ def test_the_crystallographic_transfer_is_structure_based_not_sequence_based():
     src = inspect.getsource(P.crystal_site_in_af2_frame)
     assert "CEAligner" in src
     assert "cannot inherit" in inspect.getsource(P) or "could inherit the same error" in src
+
+
+# ============================== the agreement gate, and the wrong answer that created it
+
+def test_the_agreement_gate_refuses_the_first_runs_real_data():
+    """★★ THE REGRESSION FIXTURE IS THE ACTUAL WRONG ANSWER (2026-08-03, CI run 30850991002).
+
+    The first run emitted a corrected site for BOTH paralogues and a clean displacement — 22.814 A and
+    24.656 A, both "outside the pipeline's box" — from ligand positions scattered 8.8-26.8 A (NR4A1) and
+    28.6-55.2 A (NR4A2) around their own consensus. A centroid of a cloud that wide is a point where no
+    ligand is, so the displacement was measured against a fiction.
+
+    ⛔ The agreement data was ALREADY IN THE ARTIFACT (`spread_from_consensus`) and the summary did not
+    read it. That is the same failure shape as `regime_dock`'s first headline: evidence emitted, conclusion
+    ignoring it. These are the real numbers; the gate must refuse both."""
+    nr4a1 = [8.821, 11.969, 13.709, 17.227, 22.722, 22.788, 23.139, 25.401, 26.517, 26.529, 26.783]
+    nr4a2 = [28.602, 41.782, 55.249]
+    assert max(nr4a1) > P.AGREEMENT_MAX_SPREAD_A, "NR4A1's real spread must fail the gate"
+    assert max(nr4a2) > P.AGREEMENT_MAX_SPREAD_A, "NR4A2's real spread must fail the gate"
+    # and the threshold is the pipeline's own box half-edge, not a number chosen to make this pass
+    assert P.AGREEMENT_MAX_SPREAD_A == P.BOX_EDGE_A / 2.0
+
+
+def test_a_refused_paralogue_emits_no_site_and_no_displacement():
+    """A refusal must remove the CONCLUSION, not just annotate it. A corrected site left beside a failed
+    agreement check is a number someone will quote."""
+    src = inspect.getsource(P.run)
+    i = src.index("if not agrees:")
+    blk = src[i:i + 1200]
+    assert 'row["corrected_site"] = None' in blk
+    assert "no displacement is computed" in blk
+    assert "UNMEASURED, not evidence that the pipeline's box is right" in blk
+    # and the refusal must point at the mechanism, not just say "wide"
+    assert "reference_af2_span" in blk and "ALIGNMENT symptom" in blk
+
+
+def test_the_reference_is_bounded_to_the_domain_the_crystal_covers():
+    """⛔ THE CAUSE OF THE WRONG ANSWER. AlphaFold serves the FULL-LENGTH protein (NR4A1 is 598 aa, mostly
+    a disordered AF1 arm); every deposit is an LBD-only construct of ~250 aa. CE placed a 250-residue
+    domain inside that at CE RMS 0.7-1.6 A and in the WRONG REGISTER for some entries — putting `4WHF` and
+    `4WHG`, consecutive depositions from ONE paper, 48 A apart in the same protein."""
+    src = inspect.getsource(P.crystal_site_in_af2_frame)
+    assert "TRIM THE REFERENCE, NEVER THE MOBILE STRUCTURE" in src
+    assert "reference_af2_span" in src, "the span must be recorded — CE RMS alone cannot show a register error"
+    run_src = inspect.getsource(P.run)
+    assert "af2_domain_span(holo_path, para_pdb)" in run_src
+    assert "span=(lo, hi)" in run_src
+
+
+def test_the_span_helper_refuses_an_implausible_self_identity():
+    """A deposit and the model of the SAME accession must align near-exactly. Anything low is a
+    chain-selection or wrong-file symptom, and aligning onto the wrong region is precisely the failure
+    this helper exists to stop — so it refuses rather than proceeding."""
+    src = inspect.getsource(P.af2_domain_span)
+    assert "frac < 0.9" in src
+    assert "SAME accession" in src and "refusing rather than aligning onto the wrong region" in src
+
+
+def test_using_a_sequence_alignment_here_is_justified_not_an_oversight():
+    """The module forbids a sequence alignment for the CROSS-PROTEIN transfer, because that inference is
+    what is under test. `af2_domain_span` aligns the SAME protein against itself, only to bound the
+    reference — the placement stays CE's. The distinction must be written down, or a later reader will
+    'fix' it back."""
+    src = inspect.getsource(P.af2_domain_span)
+    assert "NOT A CONTRADICTION OF THE MODULE'S OWN RULE" in src
+    assert "SAME protein against itself" in src

@@ -66,6 +66,21 @@ WORK = os.environ.get("PARA_SITE_WORK", os.path.join(HERE, "_paralogue_site_work
 #: A containment test against a different size would be a test of a box the pipeline never draws.
 BOX_EDGE_A = 24.0
 
+#: ★★ THE AGREEMENT GATE — the guard whose ABSENCE let a wrong answer through on this module's first run.
+#:
+#: That run emitted a corrected site for both paralogues and a clean displacement (22.8 A / 24.7 A, both
+#: outside the pipeline's box) from ligand positions scattered **8-27 A** (NR4A1) and **29-55 A** (NR4A2)
+#: around their own consensus. A centroid of a cloud that wide is not a site; it is a point where no
+#: ligand is. The agreement data was IN the artifact — `spread_from_consensus` — and the summary simply
+#: did not read it, which is the same shape as `regime_dock`'s first headline: the evidence was emitted
+#: and the conclusion ignored it.
+#:
+#: So a consensus is only emitted when the deposited ligands actually agree. The threshold is the
+#: pipeline's own box HALF-edge: ligands that all sit within the half-edge of their consensus would all
+#: be inside one box centred there, which is exactly the property a docking site has to have to be usable.
+#: Anything wider is REFUSED with its spread, never averaged into a number.
+AGREEMENT_MAX_SPREAD_A = BOX_EDGE_A / 2.0
+
 
 def _pipeline_box_edge():
     """Read `--size_x` out of `dock_into`'s source. ONE HOME: if the pipeline's box changes, this follows."""
@@ -131,18 +146,98 @@ def pipeline_transferred_box(nr4a3_pdb, para_pdb, pocket_resnums):
             "n_residues_mapped": len(para_res)}, None
 
 
-def crystal_site_in_af2_frame(holo_pdb_path, comp_id, af2_pdb_path):
+def af2_domain_span(holo_pdb_path, af2_pdb_path):
+    """Which AF2 residues does this crystal actually cover? Returns (lo, hi, identity) or (None, None, why).
+
+    ★★ THIS EXISTS BECAUSE ITS ABSENCE PRODUCED A WRONG ANSWER (2026-08-03, first run of this module).
+    AlphaFold DB serves the FULL-LENGTH protein — NR4A1 is 598 aa, most of it outside the LBD a long
+    disordered AF1 arm — while every deposited NR4A1/NR4A2 entry is an LBD-only construct of ~250 aa.
+    Handed a 250-residue domain and a 598-residue reference containing that spaghetti, CE returns a
+    good-RMS superposition IN THE WRONG REGISTER for some entries, and reports no complaint: all 14 came
+    back at CE RMS 0.7-1.6 A.
+
+    ⛔ THE EVIDENCE THAT THIS IS AN ALIGNMENT BUG AND NOT BIOLOGY, because a scatter alone could be either:
+    `4WHF` and `4WHG` are consecutive depositions from ONE paper — "TR3 LBD in complex with Molecule 3"
+    and its sibling — and the first run placed their ligands **48 A apart in the same protein**. So did
+    `4REF` vs `4RE8`, same series. Companion structures of one construct cannot be 48 A apart; the
+    register is what moved.
+
+    ⚠ SEQUENCE ALIGNMENT IS CORRECT HERE, AND THIS IS NOT A CONTRADICTION OF THE MODULE'S OWN RULE. That
+    rule refuses a sequence alignment for the CROSS-PROTEIN transfer (NR4A3's pocket -> NR4A1), because
+    that is the very inference under test. This is the SAME protein against itself — a deposited NR4A1
+    construct against the NR4A1 model — so the alignment is near-exact and carries no cross-protein
+    inference at all. It is used ONLY to bound the reference; the placement is still CE's.
+    """
+    from Bio.Align import PairwiseAligner, substitution_matrices
+    three2one = {"ALA": "A", "ARG": "R", "ASN": "N", "ASP": "D", "CYS": "C", "GLN": "Q", "GLU": "E",
+                 "GLY": "G", "HIS": "H", "ILE": "I", "LEU": "L", "LYS": "K", "MET": "M", "PHE": "F",
+                 "PRO": "P", "SER": "S", "THR": "T", "TRP": "W", "TYR": "Y", "VAL": "V"}
+
+    def seq_items(pdb, chain=None):
+        d, seen_model = {}, False
+        for line in open(pdb):
+            if line.startswith("ENDMDL"):
+                seen_model = True
+            if seen_model or not line.startswith("ATOM") or line[12:16].strip() != "CA":
+                continue
+            if chain and line[21] != chain:
+                continue
+            d[int(line[22:26])] = three2one.get(line[17:20].strip(), "X")
+        return sorted(d.items())
+
+    # the crystal's largest chain — a construct's other chains are copies and add nothing here
+    chains = {}
+    for line in open(holo_pdb_path):
+        if line.startswith("ATOM") and line[12:16].strip() == "CA":
+            chains[line[21]] = chains.get(line[21], 0) + 1
+    if not chains:
+        return None, None, "no CA atoms in the deposit"
+    best = max(chains, key=lambda c: chains[c])
+
+    h, a = seq_items(holo_pdb_path, best), seq_items(af2_pdb_path)
+    if len(h) < 30 or len(a) < 30:
+        return None, None, "too few CA to establish the domain span (%d vs %d)" % (len(h), len(a))
+    al = PairwiseAligner()
+    al.mode = "global"
+    al.substitution_matrix = substitution_matrices.load("BLOSUM62")
+    al.open_gap_score, al.extend_gap_score = -10, -0.5
+    aln = al.align("".join(x for _, x in h), "".join(x for _, x in a))[0]
+    a_resnums = [r for r, _ in a]
+    covered, ident, n = [], 0, 0
+    for (h0, h1), (a0, a1) in zip(aln.aligned[0], aln.aligned[1]):
+        for off in range(a1 - a0):
+            covered.append(a_resnums[a0 + off])
+            n += 1
+            if h[h0 + off][1] == a[a0 + off][1]:
+                ident += 1
+    if not covered:
+        return None, None, "the deposit and the model share no aligned residues"
+    frac = ident / float(n)
+    if frac < 0.9:
+        # same UniProt entry: anything below this is a chain-selection or wrong-file symptom, not biology
+        return None, None, ("aligned identity %.3f between a deposit and the model of the SAME accession "
+                            "— implausible; refusing rather than aligning onto the wrong region" % frac)
+    return min(covered), max(covered), round(frac, 3)
+
+
+def crystal_site_in_af2_frame(holo_pdb_path, comp_id, af2_pdb_path, span=None):
     """Carry a deposited ligand into the AF2 model's frame by CE structural superposition.
 
-    ⛔ CE, NOT SEQUENCE ALIGNMENT — and that is the whole point rather than a preference. The defect being
-    measured lives in a BLOSUM62 residue mapping; validating it with another sequence alignment could
-    inherit the same error and agree with it. `Bio.PDB.cealign` matches the two folds without reading the
-    sequence at all, so agreement or disagreement here is independent evidence.
+    ⛔ CE, NOT SEQUENCE ALIGNMENT, FOR THE PLACEMENT — and that is the whole point rather than a
+    preference. The defect being measured lives in a BLOSUM62 residue mapping; validating it with another
+    sequence alignment could inherit the same error and agree with it. `Bio.PDB.cealign` matches the two
+    folds without reading the sequence at all, so agreement or disagreement here is independent evidence.
+
+    ⚠ `span` BOUNDS THE REFERENCE TO THE DOMAIN THE CRYSTAL COVERS (see `af2_domain_span` for the wrong
+    answer its absence produced). Without it CE is asked to place a 250-residue domain inside a 598-residue
+    model with a long disordered arm, and silently mis-registers. Bounding the reference is not a hint
+    about WHERE the ligand goes — it is a statement of which residues exist in both structures.
     """
     import apo_pose_recovery as apr
     try:
         from Bio.PDB import PDBParser
         from Bio.PDB.cealign import CEAligner
+        from Bio.PDB import Select, PDBIO
     except Exception as e:                                     # noqa: BLE001
         return None, "Bio.PDB.cealign unavailable: %s: %s" % (type(e).__name__, e)
 
@@ -152,9 +247,27 @@ def crystal_site_in_af2_frame(holo_pdb_path, comp_id, af2_pdb_path):
         return None, "no HETATM copy of %s in %s" % (comp_id, os.path.basename(holo_pdb_path))
     lig = apr.het_coords(lines)
 
+    ref_path = af2_pdb_path
+    if span:
+        lo, hi = span
+        # ⛔ TRIM THE REFERENCE, NEVER THE MOBILE STRUCTURE. Trimming the crystal would drop the ligand's
+        # own contact residues and change what CE matches ON; trimming the model only removes residues
+        # the crystal does not contain in the first place.
+        ref_path = os.path.join(os.path.dirname(holo_pdb_path),
+                                "_ref_%s_%d_%d.pdb" % (os.path.basename(af2_pdb_path), lo, hi))
+        if not os.path.exists(ref_path):
+            with open(af2_pdb_path) as src, open(ref_path, "w") as dst:
+                for line in src:
+                    if line.startswith(("ATOM", "HETATM")):
+                        try:
+                            if not (lo <= int(line[22:26]) <= hi):
+                                continue
+                        except ValueError:
+                            continue
+                    dst.write(line)
     try:
         parser = PDBParser(QUIET=True)
-        af2 = parser.get_structure("af2", af2_pdb_path)
+        af2 = parser.get_structure("af2", ref_path)
         holo = parser.get_structure("holo", holo_pdb_path)
         aligner = CEAligner()
         aligner.set_reference(af2)
@@ -181,9 +294,13 @@ def crystal_site_in_af2_frame(holo_pdb_path, comp_id, af2_pdb_path):
         moved = bm.apply_transform(lig, R, t)
     except Exception as e:                                      # noqa: BLE001
         return None, "could not recover the CE transform: %s: %s" % (type(e).__name__, e)
+    # ⭑ RECORD WHAT THE REFERENCE WAS. The first run reported CE RMS 0.7-1.6 A on every entry while
+    # placing companion structures 48 A apart, so RMS alone cannot show a register error — the span the
+    # alignment was allowed to use is the field that can, and its absence is why the error was invisible.
     return {"ligand_centroid_af2_frame": [round(c, 3) for c in bm.centroid(moved)],
             "n_ligand_heavy_atoms": len(moved),
             "ce_rms_A": round(float(getattr(aligner, "rms", float("nan"))), 3),
+            "reference_af2_span": list(span) if span else "FULL-LENGTH — register error possible",
             "n_ca_superposed": n}, None
 
 
@@ -260,7 +377,14 @@ def run():
                 e_row["refused"] = "fetch: %s: %s" % (type(e).__name__, e)
                 row["entries"].append(e_row)
                 continue
-            got, why2 = crystal_site_in_af2_frame(holo_path, ent["ligand"], para_pdb)
+            lo, hi, ident = af2_domain_span(holo_path, para_pdb)
+            if lo is None:
+                e_row["refused"] = "domain span: %s" % ident
+                row["entries"].append(e_row)
+                continue
+            e_row["af2_span"] = [lo, hi]
+            e_row["span_identity"] = ident
+            got, why2 = crystal_site_in_af2_frame(holo_path, ent["ligand"], para_pdb, span=(lo, hi))
             if got is None:
                 e_row["refused"] = why2
             else:
@@ -279,13 +403,35 @@ def run():
             continue
 
         c = _centroid(sites)
+        spread = _spread(sites, c)
+        agrees = bool(spread) and spread[-1] <= AGREEMENT_MAX_SPREAD_A
+        row["agreement"] = {
+            "spread_from_consensus_A": spread,
+            "max_spread_A": spread[-1] if spread else None,
+            "threshold_A": AGREEMENT_MAX_SPREAD_A,
+            "ligands_agree": agrees,
+            "_reads": ("do the deposited ligands actually sit in one place? A consensus over positions "
+                       "wider than the pipeline's box half-edge is a centroid of a cloud, not a site."),
+        }
+        if not agrees:
+            row["corrected_site"] = None
+            row["_reads"] = (
+                "⛔ REFUSED — the deposited ligands do NOT agree (max %s A from their consensus, "
+                "threshold %s A), so no corrected site is emitted and no displacement is computed. "
+                "This is UNMEASURED, not evidence that the pipeline's box is right. A spread this wide "
+                "on one construct is an ALIGNMENT symptom before it is a biological one: check "
+                "`reference_af2_span` per entry — a FULL-LENGTH reference lets CE mis-register an "
+                "LBD-only deposit at good RMS."
+                % (spread[-1] if spread else "?", AGREEMENT_MAX_SPREAD_A))
+            doc["paralogues"][acc] = row
+            continue
         row["corrected_site"] = {
             "center": c,
             "n_deposited_ligands": len(sites),
-            "agreement_A": {"spread_from_consensus": _spread(sites, c)},
+            "agreement_A": {"spread_from_consensus": spread},
             "_reads": ("where crystallography says ligands bind on this protein, expressed in the frame of "
-                       "the AF2 model the pipeline docks into. Consensus of %d deposited ligand(s)."
-                       % len(sites)),
+                       "the AF2 model the pipeline docks into. Consensus of %d deposited ligand(s), all "
+                       "within %s A of it." % (len(sites), AGREEMENT_MAX_SPREAD_A)),
         }
         if box:
             d = round(math.dist(box["center"], c), 3)
