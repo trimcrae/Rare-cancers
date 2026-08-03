@@ -350,6 +350,35 @@ def test_missing_tools_is_a_named_refusal_not_a_crash(monkeypatch):
     assert "rbcavity" in why and "rbdock" in why and "UNRUN" in why
 
 
+def test_pose_files_are_written_best_first_and_read_by_score(tmp_path, monkeypatch):
+    """★ THE BUG THAT ALMOST GOT THROUGH, PINNED. `rbdock` writes its poses in RUN order, not score
+    order: on the 8XTT-model2 system record 1 scored +10.795 while the best of the 50 scored −18.519.
+    Two readers here took 'the first molecule in the file', so they compared run #1 instead of the best
+    pose — and the tell was that a 5-run job and a 50-run job at the same seed returned BYTE-IDENTICAL
+    cross-conformer numbers, which a deeper search cannot do."""
+    Chem = pytest.importorskip("rdkit.Chem")
+    AllChem = pytest.importorskip("rdkit.Chem.AllChem")
+    m = Chem.AddHs(Chem.MolFromSmiles("CCOc1ccccc1"))
+    assert AllChem.EmbedMolecule(m, randomSeed=3) == 0
+    m = Chem.RemoveHs(m)
+    import pose_convergence_401 as PC
+    far = PC.transformed_copy(m, [[1, 0, 0], [0, 1, 0], [0, 0, 1]], (10.0, 0.0, 0.0))
+    # deliberately unsorted, worst first — exactly what rbdock hands back
+    poses = [(10.795, far), (-18.519, m), (3.9, far)]
+    monkeypatch.setattr(P, "POSE_DIR", str(tmp_path))
+    monkeypatch.setattr(P, "REPO", str(tmp_path.parent))
+    rel = P._keep_pose(poses, "probe.sd")
+    assert rel is not None
+    path = os.path.join(str(tmp_path.parent), rel)
+    recs = [x for x in Chem.SDMolSupplier(path, removeHs=True) if x is not None]
+    assert len(recs) == 3, "every run is kept — the spread is the search's own evidence"
+    assert float(recs[0].GetProp("SCORE")) == -18.519, "file order must be best-first"
+    got = P.best_from_sd(path)
+    assert float(got.GetProp("SCORE")) == -18.519
+    # and the reader must pick by SCORE even if the file were ever unsorted again
+    assert P.in_frame_rmsd(got, m)[0] == 0.0
+
+
 def test_cavity_parser_reads_rdock_own_output_format():
     """rbcavity prints `Vol=1376.88 A^3` — the unit is inside the token, and a naive float() of it
     raises, which would silently drop the volume from every row."""

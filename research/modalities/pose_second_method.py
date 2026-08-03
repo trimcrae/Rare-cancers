@@ -420,15 +420,47 @@ def run_rbdock(prm_path, ligand_sd, out_root, n_runs, tools, cwd, seed=RDOCK_SEE
             "score_spread": _spread([p[0] for p in poses])}, None
 
 
-def _keep_pose(src, name):
-    """Copy a pose file into the committed pose directory; return its repo-relative path."""
+def _keep_pose(poses, name):
+    """Write the run's poses into the committed pose directory, BEST FIRST; return a repo-relative path.
+
+    ⛔ SORTED, AND THAT IS A BUG FIX, NOT A CONVENIENCE (measured 2026-08-03). `rbdock` writes its poses
+    in RUN order, not in score order — on the 8XTT-model2 system record 1 scored **+10.795** while the
+    best of the 50 scored **−18.519**. Two readers here took "the first molecule in the file" and were
+    therefore comparing run #1 rather than the best pose. The tell was that a 5-run job and a 50-run job
+    at the same seed produced BYTE-IDENTICAL cross-conformer numbers, which a deeper search cannot do:
+    run #1 is the same in both. Sorting at the point of writing means the file's order and the in-memory
+    ranking cannot disagree again, for any future reader.
+
+    ⚠ All poses are kept, not just the best — the run-to-run spread IS the second method's own measure of
+    how hard the search had to look, and dropping it would hide a thin search behind a single number."""
+    from rdkit import Chem
     try:
         os.makedirs(POSE_DIR, exist_ok=True)
         dst = os.path.join(POSE_DIR, name)
-        shutil.copy(src, dst)
+        w = Chem.SDWriter(dst)
+        for score, m in sorted(poses, key=lambda t: t[0]):     # sorted HERE, not at the call site
+            m.SetProp("SCORE", "%.4f" % score)
+            w.write(m)
+        w.close()
         return os.path.relpath(dst, REPO)
     except Exception:                                         # noqa: BLE001 — never fail the science
         return None
+
+
+def best_from_sd(path):
+    """The best-scoring pose in an SD file, read by SCORE and never by file position."""
+    from rdkit import Chem
+    best = None
+    for m in Chem.SDMolSupplier(path, removeHs=True, sanitize=True):
+        if m is None:
+            continue
+        try:
+            s = float(m.GetProp("SCORE"))
+        except (KeyError, ValueError):
+            continue
+        if best is None or s < best[0]:
+            best = (s, m)
+    return best[1] if best else None
 
 
 def _spread(values):
@@ -653,7 +685,7 @@ def _part_a_system(rec, lig_sd, tools, work, radius, runs, bm, pc):
     row["rdock_score_spread"] = res_["score_spread"]
     row["rdock_elapsed_s"] = res_["elapsed_s"]
     best = res_["poses"][0][1]
-    row["best_pose_sd"] = _keep_pose(os.path.join(d, "out.sd"), "cross_%s.sd" % rid)
+    row["best_pose_sd"] = _keep_pose(res_["poses"], "cross_%s.sd" % rid)
     rms, why = in_frame_rmsd(best, rec["mol"])
     row["cross_method_rmsd_A"] = rms
     row["cross_method_band"] = band(rms)
@@ -684,7 +716,6 @@ def _cross_conformer_spread(rows, loaded, bm, pc):
     method's spread; this recomputes the SAME quantity for the second method, using
     `pose_convergence_401`'s superposition and RMSD kernels, so the two are commensurable. The first
     method's figure is NOT restated here — the artifact is pointed at instead (CLAUDE.md rule 1)."""
-    from rdkit import Chem
     by_id = {r["id"]: r for r in rows}
     have = [rec for rec in loaded
             if by_id.get(rec["id"], {}).get("best_pose_sd")
@@ -699,11 +730,10 @@ def _cross_conformer_spread(rows, loaded, bm, pc):
         return out
     poses = {}
     for rec in have:
-        sd = os.path.join(REPO, by_id[rec["id"]]["best_pose_sd"])
-        for m in Chem.SDMolSupplier(sd, removeHs=True, sanitize=True):
-            if m is not None:
-                poses[rec["id"]] = m
-                break
+        # ⛔ BY SCORE, NEVER BY FILE POSITION — see `_keep_pose`. rbdock writes run order.
+        m = best_from_sd(os.path.join(REPO, by_id[rec["id"]]["best_pose_sd"]))
+        if m is not None:
+            poses[rec["id"]] = m
     vals, cvals, pairs = [], [], []
     for i in range(len(have)):
         for j in range(i + 1, len(have)):
@@ -863,7 +893,7 @@ def panel_pair(ctx, tools, runs):
                     "rdock_score_spread": res_["score_spread"], "n_rdock_poses": res_["n_poses"],
                     "elapsed_s": res_["elapsed_s"], "box_center": [round(v, 3) for v in center],
                     "search_radius_A": rad, "shared_configuration": shared_arm})
-        rec["pose_sd"] = _keep_pose(os.path.join(d, "out.sd"), "panel_%s_%s.sd" % (tag, name))
+        rec["pose_sd"] = _keep_pose(res_["poses"], "panel_%s_%s.sd" % (tag, name))
         out["arms"][name] = rec
 
     apo, holo = ctx["apo_rec"], ctx["holo_rec"]
@@ -923,7 +953,6 @@ _ARM_PAIRING = {
 
 def _panel_cross_method(ctx, rdock_arms):
     """Second-method pose vs first-method pose, box for box, in the receptor's own frame."""
-    from rdkit import Chem
     import apo_pose_recovery as apr
     work, comp = ctx["work"], ctx["comp"]
     tags = {"PRIMARY_blind_apo_pipeline_box": "apo_pipeline",
@@ -945,11 +974,7 @@ def _panel_cross_method(ctx, rdock_arms):
             row["why"] = "the first method produced no pose in this arm: %s" % why
             rows[rd_name] = row
             continue
-        rd_mol = None
-        for m in Chem.SDMolSupplier(os.path.join(REPO, sd), removeHs=True, sanitize=True):
-            if m is not None:
-                rd_mol = m
-                break
+        rd_mol = best_from_sd(os.path.join(REPO, sd))   # by SCORE, never by file position
         if rd_mol is None:
             row["why"] = "the second method's SD file held no readable pose"
             rows[rd_name] = row
