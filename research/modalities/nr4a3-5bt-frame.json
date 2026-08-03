@@ -1,0 +1,466 @@
+{
+ "_what": "RUNG 5b-T \u2014 the assembled inputs for the three paralogue arms",
+ "_status": "INPUT CONSTRUCTION AND ITS PRE-FLIGHT. No prediction, no score, no claim.",
+ "construct_id": "crbnM0@ex_5amide_a2-a5_acrylamide",
+ "arms": [
+  {
+   "arm": "NR4A3_5BT_LIG",
+   "paralogue": "NR4A3",
+   "ok": true,
+   "why": null,
+   "detail": {
+    "matched_superposition": {
+     "_note": "reference frame; identity transform"
+    },
+    "docked_warhead": {
+     "poses": [
+      {
+       "pose": 0,
+       "c5n_to_exitvec_anchor_A": 9.79,
+       "smina_affinity_kcal_per_mol": -6.75654
+      },
+      {
+       "pose": 1,
+       "c5n_to_exitvec_anchor_A": 13.82,
+       "smina_affinity_kcal_per_mol": -6.5753
+      },
+      {
+       "pose": 2,
+       "c5n_to_exitvec_anchor_A": 7.91,
+       "smina_affinity_kcal_per_mol": -6.49599
+      },
+      {
+       "pose": 3,
+       "c5n_to_exitvec_anchor_A": 8.73,
+       "smina_affinity_kcal_per_mol": -6.27455
+      },
+      {
+       "pose": 4,
+       "c5n_to_exitvec_anchor_A": 8.86,
+       "smina_affinity_kcal_per_mol": -6.27192
+      },
+      {
+       "pose": 5,
+       "c5n_to_exitvec_anchor_A": 13.54,
+       "smina_affinity_kcal_per_mol": -6.1644
+      },
+      {
+       "pose": 6,
+       "c5n_to_exitvec_anchor_A": 12.11,
+       "smina_affinity_kcal_per_mol": -6.07721
+      },
+      {
+       "pose": 7,
+       "c5n_to_exitvec_anchor_A": 11.13,
+       "smina_affinity_kcal_per_mol": -5.75522
+      },
+      {
+       "pose": 8,
+       "c5n_to_exitvec_anchor_A": 12.48,
+       "smina_affinity_kcal_per_mol": -5.31461
+      }
+     ],
+     "chosen_pose": 2,
+     "chosen_c5n_to_anchor_A": 7.91,
+     "_rule": "nearest C5 nitrogen to the exit-vector anchor the E3 placement was sampled at; fixed before the run, not chosen on the outcome"
+    },
+    "imid_mcs": {
+     "n_atoms": 16,
+     "smarts": "[#6]1(-&@[#6]-&@[#6]-&@[#6]-&@[#7]-&@[#6]-&@1)-&!@[#7]1-&@[#6]-&@[#6]2-,:;@[#6](-&@[#6]-&@1)-,:;@[#6]-,:;@[#6]-,:;@[#6]-,:;@[#6]-,:;@2-&!@[#7&!R]",
+     "n_overlapping_the_glutarimide": 7
+    },
+    "embed": {
+     "n_conformers": 200,
+     "chosen_conf": 183,
+     "warhead_rmsd_to_docked_pose_A": 0.24,
+     "imid_rmsd_to_placed_fragment_A": 0.577,
+     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement \u2014 nothing about affinity, and nothing about whether the arrangement is right."
+    },
+    "snap_masks": {
+     "unbound_lig1_warhead": {
+      "n_degrader_atoms_within_1A": 14,
+      "closest_approach_A": 0.152
+     },
+     "unbound_lig2_imid": {
+      "n_degrader_atoms_within_1A": 18,
+      "closest_approach_A": 0.21
+     },
+     "reference_construction": {
+      "unbound_lig1": 33,
+      "unbound_lig2": 18,
+      "on": "6HAX_B_A_FWZ"
+     },
+     "_why": "`replace_to_unbound_coords` builds `cdist.min(dim=1)[0] < 1` and reduces over it; an empty mask is the RuntimeError that killed runs 30753431082 and 30754028742."
+    },
+    "written": {
+     "protein1.pdb": 2001,
+     "unbound_protein1.pdb": 2001,
+     "protein2.pdb": 2852,
+     "unbound_protein2.pdb": 2852,
+     "unbound_lig1.pdb": 14,
+     "unbound_lig2.pdb": 19,
+     "ligand.pdb": 59,
+     "gt_complex.pdb": 4912
+    },
+    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth \u2014 there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
+    "protein1_is_also_unbound_protein1": "the same matched opened LBD serves both slots, because there is no native ternary to take a bound conformer from. Stated rather than hidden: this arm supplies NO induced fit on the target side.",
+    "rdkit_readable": {
+     "ligand.pdb": true,
+     "unbound_lig1.pdb": true,
+     "unbound_lig2.pdb": true
+    },
+    "arm_C_inputs": {
+     "electrophile_beta_carbon_ligand_atom": "C1",
+     "electrophile_beta_carbon_index_in_ligand_pdb": 1,
+     "n_backbone_atoms_measured": 14,
+     "c397_sg_xyz": [
+      7.313,
+      9.0,
+      -16.897
+     ],
+     "_note": "C397 is NR4A3-unique; the comparator arms have no such cysteine, which is the categorical handle itself. Arm (C) is therefore measured on the NR4A3 arm only."
+    }
+   }
+  },
+  {
+   "arm": "NR4A1_5BT_LIG",
+   "paralogue": "NR4A1",
+   "ok": true,
+   "why": null,
+   "detail": {
+    "matched_superposition": {
+     "n_ca_pairs": 244,
+     "global_all_pair_rmsd_A": 6.383,
+     "n_core": 203,
+     "core_fraction": 0.832,
+     "core_rmsd_A": 1.728,
+     "post_fit_deviation_A": {
+      "median": 1.74,
+      "p90": 8.21,
+      "max": 32.06
+     },
+     "_note": "Reported as global-vs-core deliberately. The global figure is dominated by a minority of terminal/loop positions that the two independently-built opened models genuinely place differently; the core figure is the one that says whether the fold-level frame is shared. Residues with a large post-fit deviation have UNRELIABLE positions in this frame and any claim about them is flagged accordingly."
+    },
+    "docked_warhead": {
+     "poses": [
+      {
+       "pose": 0,
+       "c5n_to_exitvec_anchor_A": 9.65,
+       "smina_affinity_kcal_per_mol": -6.30429
+      },
+      {
+       "pose": 1,
+       "c5n_to_exitvec_anchor_A": 10.05,
+       "smina_affinity_kcal_per_mol": -6.06934
+      },
+      {
+       "pose": 2,
+       "c5n_to_exitvec_anchor_A": 15.23,
+       "smina_affinity_kcal_per_mol": -5.73131
+      },
+      {
+       "pose": 3,
+       "c5n_to_exitvec_anchor_A": 14.5,
+       "smina_affinity_kcal_per_mol": -5.60083
+      },
+      {
+       "pose": 4,
+       "c5n_to_exitvec_anchor_A": 19.08,
+       "smina_affinity_kcal_per_mol": -5.54986
+      },
+      {
+       "pose": 5,
+       "c5n_to_exitvec_anchor_A": 13.32,
+       "smina_affinity_kcal_per_mol": -5.22134
+      },
+      {
+       "pose": 6,
+       "c5n_to_exitvec_anchor_A": 19.92,
+       "smina_affinity_kcal_per_mol": -5.08568
+      },
+      {
+       "pose": 7,
+       "c5n_to_exitvec_anchor_A": 17.24,
+       "smina_affinity_kcal_per_mol": -5.02126
+      },
+      {
+       "pose": 8,
+       "c5n_to_exitvec_anchor_A": 20.85,
+       "smina_affinity_kcal_per_mol": -4.86873
+      }
+     ],
+     "chosen_pose": 0,
+     "chosen_c5n_to_anchor_A": 9.65,
+     "_rule": "nearest C5 nitrogen to the exit-vector anchor the E3 placement was sampled at; fixed before the run, not chosen on the outcome"
+    },
+    "imid_mcs": {
+     "n_atoms": 16,
+     "smarts": "[#6]1(-&@[#6]-&@[#6]-&@[#6]-&@[#7]-&@[#6]-&@1)-&!@[#7]1-&@[#6]-&@[#6]2-,:;@[#6](-&@[#6]-&@1)-,:;@[#6]-,:;@[#6]-,:;@[#6]-,:;@[#6]-,:;@2-&!@[#7&!R]",
+     "n_overlapping_the_glutarimide": 7
+    },
+    "embed": {
+     "n_conformers": 200,
+     "chosen_conf": 181,
+     "warhead_rmsd_to_docked_pose_A": 0.257,
+     "imid_rmsd_to_placed_fragment_A": 0.637,
+     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement \u2014 nothing about affinity, and nothing about whether the arrangement is right."
+    },
+    "snap_masks": {
+     "unbound_lig1_warhead": {
+      "n_degrader_atoms_within_1A": 14,
+      "closest_approach_A": 0.141
+     },
+     "unbound_lig2_imid": {
+      "n_degrader_atoms_within_1A": 17,
+      "closest_approach_A": 0.059
+     },
+     "reference_construction": {
+      "unbound_lig1": 33,
+      "unbound_lig2": 18,
+      "on": "6HAX_B_A_FWZ"
+     },
+     "_why": "`replace_to_unbound_coords` builds `cdist.min(dim=1)[0] < 1` and reduces over it; an empty mask is the RuntimeError that killed runs 30753431082 and 30754028742."
+    },
+    "written": {
+     "protein1.pdb": 1966,
+     "unbound_protein1.pdb": 1966,
+     "protein2.pdb": 2852,
+     "unbound_protein2.pdb": 2852,
+     "unbound_lig1.pdb": 14,
+     "unbound_lig2.pdb": 19,
+     "ligand.pdb": 59,
+     "gt_complex.pdb": 4877
+    },
+    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth \u2014 there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
+    "protein1_is_also_unbound_protein1": "the same matched opened LBD serves both slots, because there is no native ternary to take a bound conformer from. Stated rather than hidden: this arm supplies NO induced fit on the target side.",
+    "rdkit_readable": {
+     "ligand.pdb": true,
+     "unbound_lig1.pdb": true,
+     "unbound_lig2.pdb": true
+    },
+    "arm_C_inputs": {
+     "electrophile_beta_carbon_ligand_atom": "C1",
+     "electrophile_beta_carbon_index_in_ligand_pdb": 1,
+     "n_backbone_atoms_measured": 14,
+     "c397_sg_xyz": null,
+     "_note": "C397 is NR4A3-unique; the comparator arms have no such cysteine, which is the categorical handle itself. Arm (C) is therefore measured on the NR4A3 arm only."
+    }
+   }
+  },
+  {
+   "arm": "NR4A2_5BT_LIG",
+   "paralogue": "NR4A2",
+   "ok": true,
+   "why": null,
+   "detail": {
+    "matched_superposition": {
+     "n_ca_pairs": 249,
+     "global_all_pair_rmsd_A": 4.934,
+     "n_core": 206,
+     "core_fraction": 0.827,
+     "core_rmsd_A": 1.602,
+     "post_fit_deviation_A": {
+      "median": 1.55,
+      "p90": 5.92,
+      "max": 37.13
+     },
+     "_note": "Reported as global-vs-core deliberately. The global figure is dominated by a minority of terminal/loop positions that the two independently-built opened models genuinely place differently; the core figure is the one that says whether the fold-level frame is shared. Residues with a large post-fit deviation have UNRELIABLE positions in this frame and any claim about them is flagged accordingly."
+    },
+    "docked_warhead": {
+     "poses": [
+      {
+       "pose": 0,
+       "c5n_to_exitvec_anchor_A": 13.85,
+       "smina_affinity_kcal_per_mol": -6.37105
+      },
+      {
+       "pose": 1,
+       "c5n_to_exitvec_anchor_A": 14.18,
+       "smina_affinity_kcal_per_mol": -6.08255
+      },
+      {
+       "pose": 2,
+       "c5n_to_exitvec_anchor_A": 19.59,
+       "smina_affinity_kcal_per_mol": -5.96542
+      },
+      {
+       "pose": 3,
+       "c5n_to_exitvec_anchor_A": 19.14,
+       "smina_affinity_kcal_per_mol": -5.68023
+      },
+      {
+       "pose": 4,
+       "c5n_to_exitvec_anchor_A": 19.53,
+       "smina_affinity_kcal_per_mol": -5.51257
+      },
+      {
+       "pose": 5,
+       "c5n_to_exitvec_anchor_A": 18.07,
+       "smina_affinity_kcal_per_mol": -5.28722
+      },
+      {
+       "pose": 6,
+       "c5n_to_exitvec_anchor_A": 20.84,
+       "smina_affinity_kcal_per_mol": -4.96541
+      },
+      {
+       "pose": 7,
+       "c5n_to_exitvec_anchor_A": 14.44,
+       "smina_affinity_kcal_per_mol": -4.9037
+      },
+      {
+       "pose": 8,
+       "c5n_to_exitvec_anchor_A": 16.86,
+       "smina_affinity_kcal_per_mol": -4.86135
+      }
+     ],
+     "chosen_pose": 0,
+     "chosen_c5n_to_anchor_A": 13.85,
+     "_rule": "nearest C5 nitrogen to the exit-vector anchor the E3 placement was sampled at; fixed before the run, not chosen on the outcome"
+    },
+    "imid_mcs": {
+     "n_atoms": 16,
+     "smarts": "[#6]1(-&@[#6]-&@[#6]-&@[#6]-&@[#7]-&@[#6]-&@1)-&!@[#7]1-&@[#6]-&@[#6]2-,:;@[#6](-&@[#6]-&@1)-,:;@[#6]-,:;@[#6]-,:;@[#6]-,:;@[#6]-,:;@2-&!@[#7&!R]",
+     "n_overlapping_the_glutarimide": 7
+    },
+    "embed": {
+     "n_conformers": 200,
+     "chosen_conf": 42,
+     "warhead_rmsd_to_docked_pose_A": 0.252,
+     "imid_rmsd_to_placed_fragment_A": 0.66,
+     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement \u2014 nothing about affinity, and nothing about whether the arrangement is right."
+    },
+    "snap_masks": {
+     "unbound_lig1_warhead": {
+      "n_degrader_atoms_within_1A": 14,
+      "closest_approach_A": 0.053
+     },
+     "unbound_lig2_imid": {
+      "n_degrader_atoms_within_1A": 18,
+      "closest_approach_A": 0.254
+     },
+     "reference_construction": {
+      "unbound_lig1": 33,
+      "unbound_lig2": 18,
+      "on": "6HAX_B_A_FWZ"
+     },
+     "_why": "`replace_to_unbound_coords` builds `cdist.min(dim=1)[0] < 1` and reduces over it; an empty mask is the RuntimeError that killed runs 30753431082 and 30754028742."
+    },
+    "written": {
+     "protein1.pdb": 2023,
+     "unbound_protein1.pdb": 2023,
+     "protein2.pdb": 2852,
+     "unbound_protein2.pdb": 2852,
+     "unbound_lig1.pdb": 14,
+     "unbound_lig2.pdb": 19,
+     "ligand.pdb": 59,
+     "gt_complex.pdb": 4934
+    },
+    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth \u2014 there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
+    "protein1_is_also_unbound_protein1": "the same matched opened LBD serves both slots, because there is no native ternary to take a bound conformer from. Stated rather than hidden: this arm supplies NO induced fit on the target side.",
+    "rdkit_readable": {
+     "ligand.pdb": true,
+     "unbound_lig1.pdb": true,
+     "unbound_lig2.pdb": true
+    },
+    "arm_C_inputs": {
+     "electrophile_beta_carbon_ligand_atom": "C1",
+     "electrophile_beta_carbon_index_in_ligand_pdb": 1,
+     "n_backbone_atoms_measured": 14,
+     "c397_sg_xyz": null,
+     "_note": "C397 is NR4A3-unique; the comparator arms have no such cysteine, which is the categorical handle itself. Arm (C) is therefore measured on the NR4A3 arm only."
+    }
+   }
+  }
+ ],
+ "degrader": {
+  "construct_id": "crbnM0@ex_5amide_a2-a5_acrylamide",
+  "canonical_smiles": "C=CC(=O)NCC[C@H](NC(=O)CCC(=O)Nc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O)C(=O)NCCCCCC(=O)Nc1ccc2[nH]cc(C(=O)OC)c2c1",
+  "inchikey": "CPOXVXPVTRJUBD-XLTVJXRZSA-N",
+  "n_backbone_atoms_measured": 14,
+  "_source": "nr4a3-linker-library-chem.json \u2014 recorded, never perceived"
+ },
+ "placement": {
+  "meta_basin_id": "crbn|M0",
+  "basin_id": "crbn|exitvec_07|b0",
+  "pose_id": "exitvec_07",
+  "exact_atoms": 13,
+  "span_A": 13.423,
+  "anchor_e3_xyz": [
+   10.955,
+   16.341,
+   -21.897
+  ],
+  "_the_constraint": "\u26d4 THERE IS NO NATIVE NR4A3 TERNARY, so DeepTernary's published 'superpose both binaries into the native frame' step has no reference. This RUNG-5a orientation basin supplies the arrangement instead, and every result downstream is conditional on it. It does not leak into the prediction \u2014 `predict_one_unbound` randomly rotates and translates protein 2 and the ligand \u2014 but it decides whether the two-fragment embed is feasible at all."
+ },
+ "e3_placement": {
+  "transform_recovery_rms_A": 0.0004,
+  "anchor_reproduced_to_A": 0.0007,
+  "receptor_pdb": "results/nr4a3-e3-arms/crbn-receptor.pdb",
+  "chain": "B",
+  "n_atoms": 3005,
+  "receptor_entry": {
+   "pdb_id": "6BOY",
+   "title": "Crystal structure of DDB1-CRBN-BRD4(BD1) complex bound to dBET6 PROTAC.",
+   "resolution_A": 3.33,
+   "method": "X-ray",
+   "chains_by_accession": {
+    "Q16531": [
+     "A"
+    ],
+    "Q96SW2": [
+     "B"
+    ],
+    "O60885": [
+     "C"
+    ]
+   }
+  },
+  "\u26d4_provenance": "6BOY is a TERNARY (DDB1-CRBN-BRD4/dBET6). This placed copy is used ONLY as the frame onto which a BINARY IMiD deposit is superposed; its own conformer never reaches the model, precisely because a ternary-derived E3 imports that ternary's induced fit."
+ },
+ "e3_binary": {
+  "selected": {
+   "pdb_id": "4TZ4",
+   "fetched": "4TZ4.pdb",
+   "chain": "C",
+   "identity_to_staged_crbn": 0.9861,
+   "n_ca_pairs": 357,
+   "ca_rmsd_A": 1.367,
+   "ligand": {
+    "het_code": "LVY",
+    "chain": "C",
+    "resseq": 502,
+    "n_heavy": 19,
+    "min_dist_to_crbn_A": 2.74,
+    "n_ccd_bonds_sourced": 34,
+    "smiles_from_ccd_orders": "Nc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O",
+    "probe_pdb": "/tmp/nr4a3_5bt/_probe_LVY_C502.pdb",
+    "_never": "bond orders are SOURCED from the CCD, never perceived from the PDB \u2014 `MolFromPDBFile` reads CONECT as all-single and turns every carbonyl into an alcohol"
+   },
+   "het_components_skipped": [],
+   "ok": true
+  },
+  "tried": [
+   {
+    "pdb_id": "4TZ4",
+    "fetched": "4TZ4.pdb",
+    "chain": "C",
+    "identity_to_staged_crbn": 0.9861,
+    "n_ca_pairs": 357,
+    "ca_rmsd_A": 1.367,
+    "ligand": {
+     "het_code": "LVY",
+     "chain": "C",
+     "resseq": 502,
+     "n_heavy": 19,
+     "min_dist_to_crbn_A": 2.74,
+     "n_ccd_bonds_sourced": 34,
+     "smiles_from_ccd_orders": "Nc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O",
+     "probe_pdb": "/tmp/nr4a3_5bt/_probe_LVY_C502.pdb",
+     "_never": "bond orders are SOURCED from the CCD, never perceived from the PDB \u2014 `MolFromPDBFile` reads CONECT as all-single and turns every carbonyl into an alcohol"
+    },
+    "het_components_skipped": [],
+    "ok": true
+   }
+  ],
+  "_mol": 
