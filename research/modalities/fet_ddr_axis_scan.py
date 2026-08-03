@@ -37,8 +37,12 @@ WHAT THIS CANNOT DO - read before quoting any number
 2. **EMC is n<=1 in DepMap** (ACH-001519 / H-EMC-SS, expression-only per this repo's own record).
    The script reports what CRISPR data that model actually has rather than assuming. Every FET
    number below is a transfer prior from OTHER FET sarcomas, never an EMC measurement.
-3. **Subtype assignment is string matching on Oncotree labels**, not a fusion call. Lines are
-   grouped by disease label; the label is reported with each group so the grouping is auditable.
+3. **Grouping is reported TWICE and the disagreement is the uncertainty.** The primary grouping is
+   string matching on Oncotree disease labels, with the labels seen recorded per group. A second
+   grouping is built from DepMap's own `OmicsFusionFiltered.csv` calls (a line is FET-rearranged if a
+   filtered call names EWSR1, FUS or TAF15). Neither is authoritative - a called FET fusion is not
+   automatically the oncogenic driver fusion, and a disease label is not a genotype - so both are
+   emitted and their overlap is counted rather than one being trusted silently.
 
 Output: fet-ddr-axis-scan.json. Internet required (figshare/DepMap) -> runs in CI, not the sandbox.
 """
@@ -47,6 +51,7 @@ import io
 import json
 import os
 import sys
+import urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "fet-ddr-axis-scan.json")
@@ -161,6 +166,76 @@ def _welch(a, b):
     return {"t": round(t, 3), "df": round(num / den, 1) if den else None,
             "mean_a": round(ma, 4), "mean_b": round(mb, 4),
             "delta_a_minus_b": round(ma - mb, 4)}
+
+
+def _fet_by_fusion_call(pd, article_ids, crispr_index):
+    """Group lines by the fusion DepMap actually CALLED, not by their disease label.
+
+    Limit 3 of the module docstring was that grouping is string matching on Oncotree labels. It does
+    not have to be: `OmicsFusionFiltered.csv` is in both known releases (measured, run 30848796748).
+    A line is FET-rearranged if a filtered fusion call names EWSR1, FUS or TAF15 on either side.
+    Reported ALONGSIDE the label grouping so the two can disagree visibly rather than silently."""
+    out = {"_what": "FET status from DepMap's own filtered fusion calls, not from disease labels"}
+    for label, aid in article_ids:
+        try:
+            files = {f["name"]: f["download_url"]
+                     for f in json.loads(_get(f"https://api.figshare.com/v2/articles/{aid}"))
+                     .get("files", [])}
+        except Exception:  # noqa: BLE001
+            continue
+        if "OmicsFusionFiltered.csv" not in files:
+            continue
+        try:
+            path = _download(files["OmicsFusionFiltered.csv"], timeout=900)
+            fus = pd.read_csv(path)
+        except Exception as exc:  # noqa: BLE001
+            out["_error"] = f"{label}: {exc}"
+            continue
+        mid = next((c for c in fus.columns if c in ("ModelID", "DepMap_ID", "SampleID")), None)
+        name_c = next((c for c in fus.columns if c.lower() in ("fusionname", "fusion_name")), None)
+        if not mid or not name_c:
+            out["_error"] = f"{label}: columns {list(fus.columns)[:8]}"
+            continue
+        fet_hits, partners = {}, {}
+        for _, r in fus[[mid, name_c]].dropna().iterrows():
+            parts = str(r[name_c]).replace("::", "--").split("--")
+            genes = [p.split("(")[0].strip().upper() for p in parts]
+            hit = [g for g in genes if g in ("EWSR1", "FUS", "TAF15")]
+            if hit:
+                fet_hits.setdefault(str(r[mid]), set()).update(hit)
+                partners.setdefault(str(r[mid]), set()).add(str(r[name_c]))
+        ids = set(fet_hits) & set(crispr_index)
+        out.update({
+            "source_release": label,
+            "n_models_with_a_FET_fusion_call": len(fet_hits),
+            "n_of_those_with_crispr": len(ids),
+            "model_ids_with_crispr": sorted(ids),
+            "_caveat": "a called EWSR1/FUS/TAF15 fusion is not automatically the ONCOGENIC driver "
+                       "fusion — read this as a wider, noisier grouping than the label one, and use "
+                       "the disagreement between the two as the uncertainty, not either alone",
+        })
+        out["_fet_ids"] = sorted(ids)
+        return out
+    out["_status"] = "no OmicsFusionFiltered.csv in any known release"
+    return out
+
+
+def _figshare_search(terms, page_size=25):
+    """Find figshare articles whose title matches a term. The PRISM / Repurposing drug matrices are
+    SEPARATE articles from the quarterly CRISPR release — measured on run 30848796748, whose recorded
+    inventory of 24Q4 (73 files) and 23Q2 (52 files) contains no drug-sensitivity file at all."""
+    found = {}
+    for term in terms:
+        try:
+            arts = json.loads(_get(
+                f"https://api.figshare.com/v2/articles?search_for={urllib.parse.quote(term)}"
+                f"&page_size={page_size}&order=published_date&order_direction=desc"))
+        except Exception as exc:  # noqa: BLE001
+            found[term] = [f"_error: {exc}"]
+            continue
+        found[term] = [{"id": a.get("id"), "title": a.get("title"),
+                        "published": a.get("published_date")} for a in arts]
+    return found
 
 
 def _figshare_inventory(article_ids):
@@ -396,8 +471,35 @@ def main():
 
     # --- second instrument: ATR-INHIBITOR sensitivity, re-cut by FET status ----------------------
     from depmap_sarcoma_dependency import KNOWN_RELEASES
+    fusion_grouping = _fet_by_fusion_call(pd, KNOWN_RELEASES, ge.index)
+    fet_ids_by_call = set(fusion_grouping.pop("_fet_ids", []))
+    if fet_ids_by_call:
+        for axis_name, genes in axes.items():
+            fusion_grouping.setdefault("double_prediction_by_fusion_call", {})[axis_name] = {
+                "FET_by_call": _axis_stats(ge, fet_ids_by_call, genes, "FET by fusion call"),
+                "contrast_vs_everything_else": _welch(
+                    per_line_axis(fet_ids_by_call, genes),
+                    per_line_axis(set(ge.index) - fet_ids_by_call, genes)),
+            }
+        fusion_grouping["agreement_with_label_grouping"] = {
+            "n_label_only": len(fet_ids - fet_ids_by_call),
+            "n_call_only": len(fet_ids_by_call - fet_ids),
+            "n_both": len(fet_ids & fet_ids_by_call),
+        }
     inventory = _figshare_inventory(KNOWN_RELEASES)
-    drug = _drug_sensitivity_read(pd, inventory, KNOWN_RELEASES, fet_ids,
+    # The drug matrices live in their OWN figshare articles — search for them, then inventory
+    # whatever the search finds, so a miss records the search result rather than "unavailable".
+    search = _figshare_search(["PRISM Repurposing Public", "PRISM Oncology Reference",
+                               "Repurposing_Public", "DepMap PRISM", "prism drug repurposing"])
+    extra = []
+    seen_ids = {aid for _, aid in KNOWN_RELEASES}
+    for term, arts in search.items():
+        for a in arts:
+            if isinstance(a, dict) and a.get("id") and a["id"] not in seen_ids:
+                seen_ids.add(a["id"])
+                extra.append((str(a.get("title", term))[:60], a["id"]))
+    inventory.update(_figshare_inventory(extra[:12]))
+    drug = _drug_sensitivity_read(pd, inventory, KNOWN_RELEASES + extra, fet_ids,
                                   nonfet_ids | other_sarcoma_ids | nonsarcoma_ids, ge.index)
 
     # --- is the KNOCKOUT instrument saturated? Decide it from the data, not from the docstring ---
@@ -451,6 +553,8 @@ def main():
         "knockout_instrument_saturation": saturation,
         "atr_inhibitor_sensitivity": drug,
         "depmap_release_file_inventory": inventory,
+        "figshare_search_for_drug_matrices": search,
+        "fet_grouping_by_fusion_call": fusion_grouping,
         "other_druggable_ddr_nodes": other_ddr,
         "context_gene_panel_means": context,
         "_controls": {

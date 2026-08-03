@@ -1,0 +1,426 @@
+# If the degrader does not deliver a candidate — the ranked alternatives
+
+> **Role: decision memo, written to one question.** *"If the NR4A3 degrader paper ends up unable to
+> deliver a good candidate — which is where it is trending — what are the next best routes to a
+> **publishable EMC treatment candidate that a wet lab would actually test?**"* (trimcrae,
+> 2026-08-03.) It ranks every route, including several this repo has never carried, on the axes that
+> the degrader program's own failure record says matter.
+>
+> **Subordinate to [`nr4a3-program-map.md`](./nr4a3-program-map.md)** (the roadmap owns the plan, the
+> gates and the prices — nothing here restates one), to
+> [`emc-treatment-strategy.md`](./emc-treatment-strategy.md) + [`../IDEAS.md`](../IDEAS.md) (the route
+> portfolio) and to [`target-route-options.md`](./target-route-options.md) (the *target* axis). Where
+> any of them conflicts with this memo on a plan or an ordering, **they win.** This memo's
+> contribution is the **post-failure** axis, which none of them carries: what survives when the
+> instrument that was supposed to prove selectivity has failed three times.
+>
+> **$0.** No GPU, no rental, no wet lab. Every literature claim is fetched and quoted from a
+> committed corpus ([`lit-targets-emc-post-degrader.json`](./lit-targets-emc-post-degrader.json) →
+> `literature-cache` branch, run **30848359354**, 22 of 25 targets at HTTP 200); every DepMap number
+> is computed by [`fet_ddr_axis_scan.py`](../modalities/fet_ddr_axis_scan.py) →
+> [`fet-ddr-axis-scan.json`](../modalities/fet-ddr-axis-scan.json) on the `modalities-cache` branch.
+> **Nothing here is a molecule, a dose, an efficacy claim or a statement about activity or
+> tolerability in a patient**, and none is implied.
+
+---
+
+## 0 · The finding that reorganises the whole list, stated first
+
+**Every one of the degrader program's blocking failures is a property of the DEGRADER ARCHITECTURE,
+not of the target.** That is not consolation, it is the ranking criterion. Read the four failures
+([roadmap §WHERE WE ARE](./nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language) is
+their one home) by *what they are about*:
+
+| the failure | what it is a statement about | does it block a route that needs only a BINDER? |
+|---|---|---|
+| valB_mini wrong sign | alchemical **ternary** FEP | **no** — there is no ternary |
+| SMARCA2/4 null | an **endpoint-MD selectivity** readout | **no** — no ΔΔG is being resolved |
+| co-fold assembly, DockQ 0.023–0.046 | **ternary generation** | **no** — no second protein to place |
+| NR-V04 discordant | a **paralogue-discrimination** positive control | only if the route needs paralogue discrimination |
+
+And the roadmap's own arithmetic says why this is structural rather than a matter of trying harder: a
+useful degradation window needs **~2.0 kcal/mol** of true margin against a resolvable difference of
+**0.60** and an engine accuracy of **1.543 kcal/mol, wrong sign**
+([MECHANISM-FIRST](./nr4a3-program-map.md#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged)
+owns those figures). A route whose central claim is *a free-energy difference between two similar
+pockets* is asking this program for a measurement it has now failed to make four separate ways.
+
+⭑ **So the asset and the liability separate cleanly, and they were being carried as one thing.**
+
+- **The ASSET is the ligandable pocket** — an opened, state-matched cryptic NR4A3 LBD with docked
+  de-novo binders and 33 exposed divergent surface handles. That survives every failure above intact.
+- **The LIABILITY is the degradation geometry** — ternary, E3, exit vector, ubiquitin transfer, and a
+  ~1 kcal/mol paralogue margin. That is what failed.
+
+⛔ **And the field has just told us, in print, that the asset is the scarce half.** The flagship
+demonstration of chemically-induced-proximity *rewiring* of a fusion TF —
+[EB-TCIP on EWSR1::FLI1, JACS 2025](https://pubs.acs.org/doi/10.1021/jacs.5c05634) — could not use
+the real oncoprotein. It had to tag it: *"Due to the dearth of EWSR1::FLI1-specific ligands, we have
+used a N-FKBP12^F36V-EWSR1::FLI1 (FKBP-E::F) model system"*, and its own stated first limitation is
+*"endogenous EWSR1::FLI1 will need to be recruited. Although there is a lack of ligands for
+EWSR1::FLI1…"*. **EWSR1::NR4A3 is the FET fusion whose partner brings a real ligand-binding domain.**
+Whatever else is true, that is the thing this program has and the field does not, and it should be
+spent on modalities that need a binder rather than on the one modality that also needs a ternary.
+
+---
+
+## 1 · The three axes every route is graded on
+
+A single tier number blends questions that do not move together — the mistake
+[`emc-treatment-strategy.md`](./emc-treatment-strategy.md) already corrected for the portfolio. This
+memo asks a narrower question than that capstone (*what produces a testable candidate now*), so it
+uses three axes of its own and reports each separately.
+
+- **Axis P — what NEW evidence can we generate with no wet lab?** Not "can we argue for it" — can we
+  *compute* something that did not exist before. This is the axis that decides whether a route yields
+  a paper or an opinion.
+- **Axis W — the wet-lab ask.** How cheap, how decisive, and **does the reagent and the model already
+  exist**? A route needing a bespoke molecule synthesised is a different ask from one needing a
+  catalogue compound on a plate.
+- **Axis S — does it inherit the program's blockers?** Specifically: does its central claim reduce to
+  a ~1 kcal/mol free-energy difference, does it need a generated ternary, and does it need
+  NR4A-paralogue discrimination. **Three noes is the profile that survives.**
+
+⚠ **One standing constraint that no route escapes, so it is stated once here rather than in every
+row.** EMC is indolent: **5-year OS 66–88 %, 10-year DSS ≈ 85 %, median time to metastasis ≈ 28
+months**, and the best EMC-specific systemic result on record is pazopanib at **ORR 18 %, median PFS
+19 months** ([Stacchiotti et al., *Lancet Oncol* 2019;20:1252–62, NCT02066285](https://pubmed.ncbi.nlm.nih.gov/31331701/),
+as summarised by the 2025 review below). The same review states plainly: **"No clinically validated
+agents directly target NR4A3"**
+([Journal of Cancer Research and Clinical Oncology 2025, 10.1007/s00432-025-06316-5](https://link.springer.com/article/10.1007/s00432-025-06316-5)).
+That is the gap and the bar together — an indolent disease with a 19-month PFS comparator means a new
+agent is judged on disease control over a long horizon, and it means **no in-silico result is going
+to look decisive against it.** What we can deliver is a *testable* candidate, and the honest framing
+of every route below is that.
+
+---
+
+## 2 · THE RANKED LIST
+
+**Tier 1 — start now. Each is $0-to-cheap for us, each produces a paper, and each hands a lab an
+experiment it could run in weeks with reagents that already exist.**
+
+| # | route | P (what we compute) | W (the ask) | S (blockers inherited) |
+|---|---|---|---|---|
+| **1** | **ATR-inhibitor synthetic lethality, inherited by EMC as a FET-rearranged cancer** | re-cut the public ATRi sensitivity data by **FET status** rather than Ewing-vs-rest — an analysis the source paper did not run | **catalogue ATR inhibitor, dose–response, 3 existing EMC lines, γH2AX readout** | **none of the three** |
+| **2** | **Fusion-junction ASO / siRNA** *(already the repo's priority paper 2)* | in-silico arc is complete; the open GPU item is the RNase-H1 cleavage-discrimination MD | junction knockdown + parental sparing in EMC lines | **none of the three** |
+| **3** | **The honest methods paper the degrader program has already earned** | nothing new needed — the negative results *are* the result | none | n/a — it is *about* the blockers |
+
+**Tier 2 — high ceiling, one build away, still no wet lab required from us. Each spends the asset
+(a ligandable NR4A3 pocket) on a modality that does not need the liability (a ternary).**
+
+| # | route | why it is here |
+|---|---|---|
+| **4** | **TCIP / transcriptional chemically-induced proximity on EWSR1::NR4A3** | the field's blocker is "no ligand for the fusion"; ours is the fusion that has one |
+| **5** | **Covalent probe at C397 — as a REAGENT, not a drug** | the cheapest possible form of the one un-buyable requirement (`R4`: does anything bind the opened pocket) |
+| **6** | **Trabectedin + PPARγ agonist, on EMC's own documented fusion→PPARG axis** | all-approved-drug combination with an exact precedent in a sibling myxoid sarcoma |
+| **7** | **SSTR2 / neuroendocrine theranostic** | the confirm is an *existing approved scan*, which is the cheapest decisive test in the whole portfolio |
+
+**Tier 3 — real, and correctly ranked below the above because each is gated on something neither we
+nor a small collaborator can supply.**
+
+| # | route | the gate |
+|---|---|---|
+| 8 | RIPTAC (bind-the-tumour-protein, poison an essential one) | needs paralogue selectivity *and* a medicinal-chemistry campaign |
+| 9 | CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown | delivery, and Cas13 collateral activity |
+| 10 | Fusion-junction TCR / ImmTAC | the weak-junction-pHLA problem; EMC is antigen-cold |
+| 11 | HDAC / BET to lower fusion *expression* | not fusion-selective; a class effect, not an EMC result |
+| 12 | Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript | vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing |
+| 13 | B7-H3 / CD56 ADC or CAR-T | already red-teamed in this repo: not selective (BH q = 1.0) |
+
+**Tier 4 — closed. Do not spend on these; two of them are closed *by this session's reading* and are
+new entries.**
+
+| route | why closed |
+|---|---|
+| **RXR-heterodimer modulation of the fusion** — ⭑ **NEW, closed today** | **NR4A3 does not heterodimerise with RXR** (unlike NR4A1 and NR4A2). The one pharmacology that has actually been solved in this receptor family does not apply to our paralogue |
+| **6-mercaptopurine / AF-1 agonism of the fusion** — ⭑ **NEW, closed today** | 6-MP activates NR4A3 *through the AF-1 in the A/B domain, independent of the LBD* — and **the AF-1 is exactly the domain EWSR1's low-complexity region replaces** in the fusion ([`target-route-options.md` check B](./target-route-options.md) measured that swap: NR4A3 AF1 1–260 vs EWSR1-LC 1–264). The one approved-drug NR4A3 ligand acts on the half of the protein the disease deletes |
+| molecular glue instead of a PROTAC | ⏸ already parked by the roadmap — *removes* handles and keeps the same ~1 kcal/mol claim |
+| relocating the target to the DBD / DNA binding | ✕ already dead by arithmetic — 93–99 % paralogue identity against 59–67 % |
+| fusion-junction vaccine / HLA coverage | ⏸ already parked — weak immunogen in a cold tumour |
+
+---
+
+## 3 · The routes in detail
+
+### Route 1 — ⭐ ATR-inhibitor synthetic lethality: EMC inherits a class vulnerability it has never been tested for
+
+**This is the strongest new candidate in the memo and it is not a molecule we have to invent.**
+
+**The mechanism, cited.** FET fusion oncoproteins are recruited to DNA double-strand breaks through
+their N-terminal intrinsically-disordered region and **impair ATM activation and downstream
+signalling**, leaving the compensatory ATR axis load-bearing — so ATR inhibition is synthetic lethal
+([Cancer Res / bioRxiv 10.1101/2023.04.30.538578, PMID 37205599](https://pubmed.ncbi.nlm.nih.gov/37205599/);
+open-access full text in the corpus). Two things in that paper make it transfer to EMC rather than
+stopping at Ewing, and both are quoted rather than paraphrased:
+
+1. **The effect is carried by the FET half, not the partner.** *"the N-terminal IDRs, as a shared
+   structural feature of FET fusion oncoproteins … could promote aberrant DSB recruitment in other
+   tumors within this class. EWSR1-ATF1 is the sole oncogenic driver of clear cell sarcoma (CCS) and
+   contains the identical N-terminal IDR sequence as EWSR1-FLI1."* They then show CCS behaves the
+   same: *"CCS cells also display FET fusion oncogene-dependent synthetic lethality with ATR
+   inhibitors."*
+2. **It is already partner-agnostic in the tested set.** The panel and the in-vivo work span an
+   **ETS** partner (FLI1), a **bZIP** partner (ATF1) and a **zinc-finger** partner (WT1, DSRCT), plus
+   myxoid liposarcoma. Elimusertib IC50s were **20–60 nM** in FET-driven lines, and **5 FET-rearranged
+   PDX models** — 2 Ewing, 2 CCS, 1 DSRCT — *"show significant anti-tumor responses"*, the DSRCT
+   xenograft best (*"partial by RECIST criteria, >50 % reduction in tumor volume"*). **EMC's partner,
+   NR4A3, is a nuclear receptor — a fourth TF class, and the untested one.**
+
+**Why EMC is arguably the *cleanest* member of the class.** EMC's three commonest 5′ partners —
+**EWSR1, TAF15 and FUS** — are the three FET-family genes. From two published series: **EWSR1 62 % /
+TAF15 27 % / TCF12 4 %** (n = 26, [Agaram et al., *Hum Pathol* 2014](https://pmc.ncbi.nlm.nih.gov/articles/PMC4015728/))
+and **EWSR1 79 % / TAF15 16 % / TCF12 3 %** (n = 58, [Warmke/Antonescu-type series, *Mod Pathol* 2023](https://pubmed.ncbi.nlm.nih.gov/36948401/)).
+So **≈ 89–95 % of EMC carries a FET-family 5′ partner** — a higher FET fraction than any tumour in the
+paper's own panel, because Ewing's *EWSR1::ERG* and *FUS::ERG* variants are the exception there and
+here the FET partner is the rule. ⚠ Stated at its true weight: that is an *inclusion* argument, not
+evidence that the ATM lesion occurs in EMC. **Nobody has measured a DSB-recruitment or ATM-signalling
+phenotype for any NR4A3 fusion.** That is the gap, and it is exactly what makes the experiment worth
+running.
+
+**What we already computed, including the part that did not work.** The DepMap knockout scan
+([`fet-ddr-axis-scan.json`](../modalities/fet-ddr-axis-scan.json), release 24Q4, 1,178 models) was
+pre-registered as a **double** prediction — ATR axis more essential in FET lines *and* ATM axis not
+more essential — because either half alone is consistent with a lineage artefact. **It came back
+`NEITHER` / `ATR_HALF_ONLY`, and the diagnosis is the instrument, exactly as the module said in
+advance it would be.** The ATR axis sits at **−1.578** in FET lines, **−1.601** in non-FET sarcoma and
+**−1.559** in everything else: a between-group delta of **0.02** against a within-group SD of
+**0.12–0.15**. That is the common-essential floor, not a null result about biology — a full ATR
+knockout removes the protein everywhere, which is a different question from what a sub-lethal
+inhibitor does. ⛔ **This is reported as a failed instrument and must not be quoted as evidence
+against the hypothesis.** The scan now also carries the *right* instrument — **ATR-inhibitor
+sensitivity** — because the source paper used exactly that (*"we utilized DepMap screening data for
+elimusertib in 880 cancer cell lines which included 17 ES samples"*) and **split it only as Ewing vs
+non-Ewing**. Re-cutting the same public data by FET status, so CCS, DSRCT and myxoid liposarcoma sit
+*with* Ewing instead of in the comparator, is a free analysis that is not in the paper and that
+directly tests whether the class claim is partner-agnostic or a Ewing effect.
+
+⭑ **Two other $0 answers fell out of the same run.** The one EMC model in DepMap, **ACH-001519 /
+H-EMC-SS**, is present with `OncotreeSubtype: "Extraskeletal Myxoid Chondrosarcoma"`,
+lineage `Bone` — and **has no CRISPR gene-effect data** (`has_crispr_gene_effect: false`), which
+closes the `[to verify]` that has sat in [`../IDEAS.md`](../IDEAS.md) since 2026-07-03. And
+**POLR2A and PRKDC are simply absent from the 24Q4 column set**, which is why the first run's stated
+pan-essential control read `null`; the control is now RPL5.
+
+**Axis P — what we can publish without a lab.** The FET-fraction arithmetic above; the re-cut ATRi
+sensitivity analysis; a structural argument that all three EMC fusions retain the full FET IDR
+(this repo already owns the exon-resolved fusion model that resolves the junction to **EWSR1(1–264)::NR4A3(1–626)**,
+[`target-route-options.md` §1.3](./target-route-options.md)); and a preregistered prediction with
+kill criteria.
+
+**Axis W — the ask, and why it is the cheapest in the portfolio.** *Run a 7-point elimusertib (or
+ceralasertib/berzosertib) dose–response in EMC cells against a non-FET sarcoma control, and stain
+γH2AX.* Every component exists: **the compounds are catalogue reagents**; **the models exist** —
+USZ20-EMC1 and USZ22-EMC2 ([Bangerter et al., *Human Cell* 2023;36:446–455](https://link.springer.com/article/10.1007/s13577-022-00818-x)),
+NCC-EMC1-C1 ([Iwata et al., *Human Cell* 2025](https://link.springer.com/article/10.1007/s13577-025-01250-7)),
+and H-EMC-SS; and **the readout is pre-validated** — the source paper found *"gH2AX proved to be a
+reliable biomarker for elimusertib activity"* after p-CHK1 did not discriminate. This is a plate
+experiment, not a program.
+
+**Axis S — inherits none of the three blockers.** No ΔΔG, no ternary, no paralogue discrimination.
+The molecule is not ours and does not need to be selective for anything in the NR4A family.
+
+⚠ **Three honest counterweights, none of which is a reason not to run it.** (i) **The ATR class has
+had a bad two years commercially** — ceralasertib missed in a phase 3 NSCLC readout, Bayer
+discontinued elimusertib, berzosertib was shelved, and Roche returned camonsertib; a basket expansion
+of elimusertib in DDR-defective solid tumours reported **ORR 4.5 % with DCR 49.3 %**
+([PMID 40516108](https://pubmed.ncbi.nlm.nih.gov/40516108/)). Commercial retreat is not a mechanistic
+refutation, and for a rare disease it can even help — deprioritised compounds are easier to obtain
+for investigator-initiated work — but it must be said, and it means **the deliverable is a hypothesis
+plus a biomarker, not a development plan.** (ii) **The inhibitors are not interchangeable**: the same
+paper notes berzosertib *"showed no anti-tumor activity as monotherapy in ES cell line xenografts"*.
+(iii) **PARP-inhibitor monotherapy failed in Ewing** despite the older R-loop/BRCA-like model — the
+cautionary precedent for exactly this kind of class transfer, and the reason the ask includes a
+mechanism readout rather than viability alone.
+
+---
+
+### Route 2 — Fusion-junction ASO / siRNA: unchanged in rank, and it is now the *most* de-risked thing we own
+
+Nothing in this memo changes the existing plan ([`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md);
+route detail in [`target-route-options.md` route 3](./target-route-options.md)). It is repeated here
+only because the ranking would be wrong by omission, and because **the degrader's failures raise its
+relative rank without anything about it changing**: base pairing is categorical, so it inherits none
+of the three blockers, and it is the only route that removes the paralogue requirement *and* the
+wild-type-NR4A3 liability at once.
+
+**The one gate is tumour delivery, and that gate has moved.** Antibody-oligonucleotide conjugates are
+now a real extrahepatic-delivery modality with clinical programs, explicitly framed as *"a promising
+class of therapeutics for extrahepatic delivery of small interfering ribonucleic acids"*
+([Antibody Therapeutics 2026](https://academic.oup.com/abt/article/9/3/273/8664745)) — which converts
+"delivery is unsolved" into "delivery needs a tumour-restricted surface antigen", and **this repo has
+already built the EMC surfaceome scan that asks precisely that question**
+([`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md)). ⚠ That landscape's own
+honest headline is that the intersection of selective and normal-tissue-restricted is **empty** among
+classic antigens, so this is a *reframing of the gate*, not a solution to it.
+
+---
+
+### Route 3 — ⭐ Publish the methods result the program has already earned
+
+**This is the route most likely to be under-rated because it feels like a consolation prize. It is
+not.** The north star is *"the state of the art of what in-silico can do"* — and a rigorous,
+preregistered demonstration of **where in-silico selectivity prediction breaks** is a state-of-the-art
+result about the state of the art. What this program can put on the record that essentially nobody
+else has:
+
+- **Three independent, preregistered attempts at a positive control for paralogue-selectivity
+  detection, all failing, with their mechanisms diagnosed** — a wrong-sign ternary FEP calibrator, an
+  adequately-powered endpoint-MD null with zero technical failures and a reference-set floor two
+  orders under α, and a covalency-confounded retrospective that could never have worked at any *n*.
+- **The measured reason the third one is uninterpretable**: sequence-only co-folding assembles
+  ternaries wrongly rather than approximately — **DockQ 0.023–0.046, fnat 0.000** on the
+  target↔E3 interface while the internal E3 machinery scores 0.89–0.97 — localised by decomposition to
+  *relative placement of the two proteins*, at the scale a true complex reaches when displaced ~32 Å.
+- **A selectivity detector that passes a known-answer test** (the SMARCA2/SMARCA4 Gln98→Leu interface
+  signature) **and then returns "not yet" on our own system for a stated, reproducible reason.**
+
+Negative results with working controls are publishable and they are what the field is short of. Venue
+is a methods/assessment journal, not a target paper. **Cost: $0. Blockers inherited: none — it is a
+paper *about* the blockers.** This also protects the program's credibility: the alternative is a
+target paper carrying an unvalidated selectivity prediction, which is the outcome the roadmap's
+language discipline exists to prevent.
+
+---
+
+### Route 4 — TCIP: spend the ligand on rewiring instead of degradation
+
+**Rationale, cited.** Bivalent "transcriptional chemical inducers of proximity" recruit a fusion TF to
+new chromatin sites rather than removing it; EB-TCIP relocalises EWSR1::FLI1 to BCL6-bound loci with
+*"rapid chromatin remodeling and expression of BCL6 target genes"*
+([JACS 2025](https://pubs.acs.org/doi/10.1021/jacs.5c05634)). **The demonstrated blocker is the
+ligand**, quoted in §0.
+
+**What would have to be true, and where it is genuinely easier than the degrader.** A TCIP needs a
+binder and a *productive* induced proximity — but **not a ubiquitin-transfer geometry**: no E3 exit
+vector, no lysine reach, no transfer-zone enumeration. That deletes the entire `R12`/`R15` machinery
+and the ternary-generation stage that measurably fails. What it does **not** delete is paralogue
+discrimination — a molecule binding NR4A1/NR4A2 would rewire those too — so this route **reshapes**
+the requirement rather than removing it, and must be graded that way.
+
+**Cheapest decisive $0 test:** re-run the linker enumeration in the TCIP configuration (anchor +
+effector-recruiter, **no E3 arm**), which is a strictly smaller geometric problem than the one already
+enumerated, and ask whether a productive bivalent exists at all. Same free CPU as
+[route 2 of `target-route-options.md`](./target-route-options.md), different pendant.
+
+**Grade: ★★ promote, behind Tier 1 only because it still needs a molecule.**
+
+---
+
+### Route 5 — the covalent probe at C397, proposed as a REAGENT
+
+Already specified in [`target-route-options.md` route 2](./target-route-options.md); its rank *rises*
+here for one reason. The program's single un-buyable requirement is **`R4` — does anything bind the
+opened cryptic pocket** — and a covalent probe is the cheapest form of that experiment for a
+collaborator: an irreversible adduct gives an intact-mass readout with no SPR, ITC or thermal-shift
+rig. **Ask for the probe, not the drug.** ⚠ Its named risks stand unchanged: reach is necessary and
+never sufficient, no thiol pKa or intrinsic reactivity is computed anywhere in this repo, and the
+exposure criterion `V17` fails its own positive control.
+
+---
+
+### Route 6 — ⭐ Trabectedin + a PPARγ agonist: an all-approved-drug combination on EMC's own documented axis
+
+**This is a new synthesis, not a new fact.** The repo has carried trabectedin and PPARG as separate
+rows for months and never joined them. Three published pieces make the join:
+
+1. **The fusion transactivates *PPARG* directly** — the EMC-specific, non-transfer evidence this repo
+   already leans on ([Filion et al., *J Pathol* 2009, PMC4429309](https://pmc.ncbi.nlm.nih.gov/articles/PMC4429309/)).
+2. **Trabectedin's mechanism is displacing fusion transcription factors from their target promoters**,
+   shown in myxoid liposarcoma, and EMC has a reported responder plus a report of near-complete
+   regression of metastatic EMC lesions with radiotherapy + trabectedin (Filannino et al. 2018, via
+   the [2025 review](https://link.springer.com/article/10.1007/s00432-025-06316-5)).
+3. **The combination already worked in the sibling myxoid sarcoma**: pioglitazone + trabectedin
+   *"induce adipocyte differentiation to overcome trabectedin resistance in myxoid liposarcomas"*, with
+   tumour regression in xenografts only marginally sensitive to trabectedin alone
+   ([*Clin Cancer Res* 2019;25:7565](https://aacrjournals.org/clincancerres/article/25/24/7565/82159/Combination-of-PPAR-Agonist-Pioglitazone-and)).
+
+⚠ **And the direction question that IDEAS.md flags is real and cuts against the naive version.** In
+myxoid liposarcoma the logic is that FUS::DDIT3 **blocks** adipocytic differentiation and a PPARγ
+agonist restores it. In EMC the fusion **turns PPARG on**, so "add an agonist" is not the same
+argument and could be redundant. The honest hypothesis is narrower and more interesting: *EMC is a
+tumour whose driver has already installed a differentiation-competent nuclear receptor, and
+trabectedin's promoter-displacement may be what unmasks it.* **Deciding this needs EMC expression
+data, which is the $0 next step** (does EMC express PPARG target genes at a level consistent with an
+active or a poised receptor). **Blockers inherited: none.** **Wet-lab ask: a two-drug matrix on the
+existing EMC lines** — approved drugs, catalogue reagents, one plate.
+
+---
+
+### Route 7 — SSTR2 / neuroendocrine theranostic: the cheapest decisive confirm in the entire portfolio
+
+Fully worked in [`emc-surface-target-landscape.md` §3.4](./emc-surface-target-landscape.md) and
+unchanged; it is listed here because **its confirm is an approved diagnostic scan that a clinician can
+order on a single patient**, which no other route in this memo can say. If EMC's neuroendocrine
+phenotype extends to SSTR2, ⁶⁸Ga-DOTATATE PET is both the biomarker and the eligibility test for an
+off-the-shelf ¹⁷⁷Lu-DOTATATE theranostic. ⚠ SSTR2's normal-tissue window is `ENHANCED_BROAD`, the
+expression is **unmeasured in EMC**, and a negative scan kills the route — which is exactly why it is
+worth asking for.
+
+---
+
+### Routes 8–13 — why each sits in Tier 3
+
+- **RIPTAC** ([bioRxiv 2023.01.01.522436](https://www.biorxiv.org/content/10.1101/2023.01.01.522436.full.pdf);
+  first-in-class now in the clinic) forms a ternary between a tumour-selective protein and a
+  pan-essential one, killing only cells expressing the target. Conceptually attractive for a fusion —
+  and it is a **nuclear-receptor**-anchored modality in humans already. ⛔ But it needs the target to
+  be genuinely tumour-restricted, and NR4A1/NR4A2 are expressed in normal tissue, so it inherits the
+  paralogue requirement **in full** while also needing a new medicinal-chemistry campaign. Strictly
+  worse than route 4 on both axes.
+- **CRISPR intron-targeted fusion disruption** is real and published in sarcoma
+  ([*Nat Commun* 2020](https://www.nature.com/articles/s41467-020-18875-x)), and **Cas13** fusion-RNA
+  knockdown is the RNA analogue. Both are delivery-gated exactly like route 2, and Cas13 additionally
+  carries collateral-cleavage risk. They are worth one paragraph in a paper, not a program.
+- **Fusion-junction TCR / ImmTAC**: the class works elsewhere (SYT-SSX in synovial, EWSR1-WT1 in
+  DSRCT), but EMC's measured microenvironment is against it — absent PD-L1, no TMB, M2-predominant,
+  sparse CD8 ([PMC9527174](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9527174/)).
+- **HDAC / BET to lower fusion expression** has a direct sibling precedent — vorinostat reduces
+  EWSR1::ATF1 expression in clear cell sarcoma and synergises with JQ1
+  ([Cancer Res Commun 2023](https://pmc.ncbi.nlm.nih.gov/articles/PMC10317042/)) — but it is not
+  fusion-selective and this repo's own DepMap read already found BET/CDK pan-essential with no
+  selectivity window.
+- **Trans-splicing ribozyme → suicide gene** triggered by the fusion transcript is the most elegant
+  fusion-exclusive idea in the list and has real literature behind it, but it is vector-delivered and
+  has no modern solid-tumour clinical footing.
+- **B7-H3 / CD56** are already red-teamed here: not selective (BH q = 1.0).
+
+---
+
+## 4 · What I would do in the next two weeks, in order
+
+Everything below is $0 or free CI. Ordered by what unblocks the most, not by appeal.
+
+1. **Land the ATRi-sensitivity re-cut** (running; run **30848796748**). If FET-non-Ewing lines track
+   Ewing, route 1 has a computed result and not only an inherited argument. If the drug matrix is not
+   in the release, the scan now writes the release file inventory so the next attempt starts from fact.
+2. **Write the route-1 preregistration** — the prediction, the cell panel, the readout, and the kill
+   criteria — *before* any collaborator is approached. This is the artifact that makes the ask
+   credible, and it is the thing this program is good at.
+3. **Pull EMC PPARG-axis expression** to settle route 6's direction question, using the surfaceome/
+   expression machinery that already exists.
+4. **Re-run the linker enumeration in the TCIP configuration** (no E3 arm) — free CPU, and a negative
+   is worth as much as a positive.
+5. **Draft the methods paper's outline** (route 3) against the four failures and their controls.
+6. **Add routes 1, 4 and 6, and the two Tier-4 closures, to [`../IDEAS.md`](../IDEAS.md)'s board and
+   to the closed-route register** so they stop being re-derived.
+
+---
+
+## 5 · Limits of this memo, stated so it is read correctly
+
+- **No efficacy, safety, therapeutic-window or clinical-readiness claim is made for any route here**,
+  including route 1. Everything is an untested hypothesis, and for an untested agent efficacy is
+  unmeasurable.
+- **The ATR hypothesis is a class inheritance, not an EMC measurement.** No NR4A3 fusion has been
+  tested for the DSB-recruitment or ATM-signalling phenotype the mechanism rests on. That is the
+  experiment, not a gap in the write-up.
+- **The DepMap knockout scan failed as an instrument and is reported as a failure**, not as a null
+  about biology. Its saturation is decided from the data and recorded in the artifact.
+- **Three of the 25 literature targets returned HTTP 403** (`emc_tamoxifen_pgr_nr4a3_jcopo`,
+  `emc_taf15_modern_pathology`, `emc_ngs_oncotarget`), so the two fusion-frequency series are cited
+  from their abstracts and the search record rather than from fetched full text. The TAF15 series'
+  percentages should be re-verified against full text before they enter a manuscript.
+- **This memo does not re-rank the portfolio.** [`emc-treatment-strategy.md`](./emc-treatment-strategy.md)
+  owns that, on its own two axes and for a different question (what could help a patient), and where
+  the two differ it wins.
