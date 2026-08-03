@@ -37,7 +37,7 @@ on:
         description: "which half to run"
         type: choice
         options: [both, convergence, benchmark, benchmark_source, benchmark_select, site_in_regime,
-                  regime_dock,
+                  regime_dock, paralogue_site,
                   second_method, second_method_cross, second_method_panel]
         default: both
       bucket:
@@ -187,6 +187,21 @@ jobs:
           MODE="$MODE" APO_RECOVERY_WORK="$RUNNER_TEMP/apo_work" python -u apo_pose_recovery.py
 
       # ---------------------------------------------------------------- publish
+      # ★ THE $0 SITE FIX, ROUTED THROUGH THIS FILE ON PURPOSE. It has its own workflow —
+      # `paralogue-site-correction.yml` — but a NEW workflow file on a feature branch cannot be
+      # dispatched (GitHub resolves `workflow_dispatch` against the DEFAULT branch, so it 404s until the
+      # file reaches main; measured here, exactly as CLAUDE.md §6 documents). This file IS on main, and a
+      # dispatch with `ref=<branch>` runs THIS BRANCH's version of it and of the code — so the correction
+      # can run before the standalone workflow merges. Remove this step once that file is on main; until
+      # then deleting it would make the fix unrunnable from a branch.
+      - name: SITE — correct the paralogue box from deposited crystallography
+        if: env.TASK == 'paralogue_site'
+        run: |
+          pip install --quiet biopython numpy
+          python -c "from Bio.PDB.cealign import CEAligner; print('cealign OK')"
+          cd research/modalities
+          PARA_SITE_WORK="$RUNNER_TEMP/para_site" python -u paralogue_site_correction.py
+
       - name: Show the artifacts
         if: always()
         run: |
@@ -282,6 +297,7 @@ jobs:
             research/modalities/apo-pose-recovery.md \
             research/modalities/apo-pose-site-in-regime.json \
             research/modalities/apo-pose-regime-dock.json \
+            research/modalities/paralogue-site-correction.json \
             research/modalities/pose-second-method.json \
             research/modalities/_pose_convergence_inputs \
             research/modalities/_pose_second_method_poses
