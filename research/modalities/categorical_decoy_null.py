@@ -1609,8 +1609,38 @@ def cysteine_level_background(decoys, refs):
                                                  [g["P_gate_EXPOSED"] for g in graded])
                                    if p.get("P_gate_EXPOSED") is not None and graded else None),
             "⚠_percentile_resolution": (round(1.0 / len(graded), 4) if graded else None),
+            # ★ THE LICENCE TRAVELS WITH THE NUMBER. This program has repeatedly learned that a caveat
+            #   living 400 lines above a figure is a caveat that gets dropped when the figure is quoted —
+            #   it is the whole reason §3.4 fact 4 exists. So the scope of what a favourable percentile
+            #   here does and does not permit is attached to the percentile itself.
+            "★_what_a_favourable_value_here_licenses": LICENCE,
         }
     return bg, nr4a3
+
+
+#: One home for the licence statement, referenced from the pre-registration AND attached to every
+#: per-cysteine percentile, so the two can never drift apart.
+LICENCE = {
+    "★_it_licenses": "that the categorical SCREEN fires on NR4A3 at this residue more rarely-by-chance "
+                     "than on an arbitrary target-unique cysteine of an arbitrary close human paralogue "
+                     "pair — over the LBD, at the 12-atom gate (`C8`), under the reach convention `C9`, "
+                     "on AlphaFold models, inside a NUCLEAR-RECEPTOR universe.",
+    "⛔_it_does_NOT_license": [
+        "no statement about binding, affinity or any free energy — none is computed anywhere in this run",
+        "no statement about reactivity, thiol pKa, nucleophilicity, adduct formation or adduct stability "
+        "— reach and exposure are NECESSARY, NOT SUFFICIENT, for the decoys exactly as for NR4A3",
+        "nothing about degradation, nothing about efficacy, nothing about safety, and never a therapeutic "
+        "window or clinical readiness — no such quantity is modelled here",
+        "no claim of proteome-wide selectivity: this is a nuclear-receptor background and it does not "
+        "bound the rate over the proteome",
+        "⭑ NOT that a linker exists. Linker length and exit vector remain conditional on the "
+        "docked-pose-derived anchors, i.e. on `R5`. Cysteine UNIQUENESS and paralogue BURIAL are "
+        "pose-independent — the split the categorical audit established, and the reason this test is not "
+        "blocked behind the second pose-method work.",
+        "⛔ it is not a re-derivation of the committed C397-led verdict: this is an ALPHAFOLD-MODEL row, "
+        "not the committed opened-model row and not an 8XTT row.",
+    ],
+}
 
 
 def configuration_declaration():
