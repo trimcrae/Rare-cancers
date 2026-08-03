@@ -131,8 +131,11 @@ from, whose known-answer test is `V3`"*. Read from the source, **the anchors are
 pocket-mouth anchors rather than asserted."* Both audited artifacts read from that ensemble
 (`exitvec_00`…`exitvec_11`).
 
-**What this actually inherits from `V3`:** `V3`'s failure was **site selection** on 6 of 6 pairs, not pose
-accuracy (the docking reaches 3.04 Å blind from apo through an fpocket-chosen box). Site selection is exactly
+**What this actually inherits from `V3`:** `V3`'s failure was **site selection** on 6 of 6 pairs — and now
+**0 of 14 in regime by two independent transfer routes**, against **11 of 14** for an fpocket-chosen box —
+not pose accuracy (an fpocket-chosen box lands in `C14`'s PARTIAL band; the RMSD digit is deliberately not
+restated, because that arm is an unseeded Monte-Carlo search whose value has been committed six different
+ways and `C6` measured the **band** to be what is stable). Site selection is exactly
 what these anchors rest on. So — **a pose-accuracy failure is already absorbed by the marginalisation; a
 site-selection failure voids every reach number here.** The exposure runs through the **pocket**, not through a
 pose, and saying "docked pose" both overstates it in one direction and hides the real dependency.

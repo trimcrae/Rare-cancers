@@ -711,7 +711,7 @@ def _fake_replicates(vals, arm="blind_apo_fpocket_top_box"):
 def test_c6_replicates_the_arms_the_program_actually_quotes():
     """A reproducibility control that skipped the arm the roadmap cites would measure nothing that
     matters. These three are named because each carries a decision."""
-    assert "blind_apo_fpocket_top_box" in A.REPLICATED_ARMS      # the 3.04 A the roadmap quotes
+    assert "blind_apo_fpocket_top_box" in A.REPLICATED_ARMS      # the arm the roadmap USED to quote as a digit; it now quotes the band
     assert "C3_oracle_box_apo" in A.REPLICATED_ARMS              # Q-DOCKING's own arm
     assert "C1c_self_dock_holo_oracle_box" in A.REPLICATED_ARMS  # whether a pair is gradeable at all
     assert A.SEED_REPLICATES >= 3
