@@ -607,12 +607,33 @@ def hpa_overlap(per_gene, prereg=None):
         "nr4a2_unbuffered_tissues": [r["tissue"] for r in rows if r["nr4a2_unbuffered"]],
         "nr4a2_dominant_tissues": [r["tissue"] for r in rows if r["nr4a2_dominant"]],
         "top_20_tissues_by_nr4a2": sorted(rows, key=lambda r: -r["NR4A2_nTPM"])[:20],
+        "highest_nr4a2_tissue": (max(rows, key=lambda r: r["NR4A2_nTPM"])["tissue"] if rows
+                                 else None),
+        "brain_regions_present_in_this_table": [r["tissue"] for r in rows if any(
+            k in r["tissue"].lower() for k in
+            ("brain", "cereb", "ganglia", "cortex", "midbrain", "hypothal", "amygdal",
+             "hippocamp", "substantia", "thalam", "medulla", "pons", "spinal"))],
         "per_tissue": rows,
         "_what_this_does_not_say": (
             "mRNA nTPM is not protein, and a tissue average is not a cell type. A tissue where the "
             "paralogues co-express does not thereby demonstrate functional compensation; it only "
-            "shows the compensating protein could be present. The counts above bound where a "
+            "shows the compensating protein COULD be present. The counts above bound where a "
             "non-sparing degrader WOULD act, not what would happen if it did."),
+        "_the_specific_misreading_to_avoid": (
+            "⛔ BULK TISSUE AVERAGES DILUTE A SMALL NUCLEUS, AND THE NR4A2 STORY IS ABOUT ONE. The "
+            "dopaminergic liability attributed to NR4A2/Nurr1 lives in the substantia nigra pars "
+            "compacta -- a structure of order 10^5 neurons that is a small fraction of any bulk "
+            "brain region this table samples. A LOW consensus nTPM in a pooled brain region is "
+            "therefore NOT evidence against a dopaminergic requirement, and this artifact must "
+            "never be quoted that way. What the table CAN support is the converse direction, which "
+            "is the one the design brief needs: wherever NR4A2 is present ABOVE the cut, a "
+            "non-sparing degrader would act on it, and the count of such tissues is a floor on "
+            "exposure breadth, not a ceiling."),
+        "_and_the_label_is_not_the_distribution": (
+            "HPA's 'Tissue enhanced' label for NR4A2 describes RELATIVE enrichment, not "
+            "restriction. Reading it as 'NR4A2 is the CNS-confined paralogue' is a category error "
+            "that the per-tissue numbers here settle directly -- which is the whole reason roadmap "
+            "§2.4 asked for the nTPM field rather than the label."),
     }
 
 
@@ -787,6 +808,19 @@ def tolerance_statement(decision, mgi, hpa):
         if ov.get("nr4a2_unbuffered_tissues"):
             parts.append("UNBUFFERED TISSUES (NR4A2 present, both paralogues below the cut): %s."
                          % ", ".join(ov["nr4a2_unbuffered_tissues"][:15]))
+        else:
+            parts.append(
+                "⛔ AND THE DIRECTION OF THAT RESULT IS THE OPPOSITE OF WHAT THE BRIEF ASSUMED: "
+                "there is NO tissue in which NR4A2 is present while both paralogues are absent, and "
+                "NR4A2 is the dominant family member in none of them. The premise that NR4A2 marks "
+                "the tissue where paralogue compensation is LEAST available is not supported by "
+                "this table. ⚠ It is not refuted either, and the reason is stated rather than "
+                "buried: a bulk tissue average dilutes the substantia nigra to invisibility, so "
+                "this measures exposure breadth and not the dopaminergic requirement "
+                "(`hpa.overlap._the_specific_misreading_to_avoid`).")
+        if ov.get("highest_nr4a2_tissue"):
+            parts.append("HIGHEST NR4A2 TISSUE IN THE TABLE: %s."
+                         % ov["highest_nr4a2_tissue"])
 
     other = []
     for sym in ("Nr4a1", "Nr4a3"):
