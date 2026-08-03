@@ -245,6 +245,11 @@ def _reference_kind(path, text, basename):
     if writes:
         return "CODE — WRITES this artifact (its producer)"
     if opens_const or direct:
+        # ⛔ A GUARD IS NOT A CONSUMER. A test that opens the artifact to assert the banner is there does not
+        # inherit the defect, and counting it would inflate the blast radius — which is the fastest way to
+        # make this list untrusted, and an untrusted list is not acted on.
+        if "/tests/" in path.replace(os.sep, "/") or os.path.basename(path).startswith("test_"):
+            return "TEST — loads it as a guard (does not inherit the defect)"
         return "CODE — LOADS this artifact and recomputes from it"
     return "code comment / docstring reference only"
 
@@ -355,7 +360,11 @@ def breakpoint_banner(stamp_utc, stamp_et):
                               "serious class, because their numbers inherit the defect without ever "
                               "printing a peptide. A retracted input still quoted downstream is the more "
                               "serious half of the defect: each needs its own correction, and NONE of them "
-                              "is fixed by this banner."),
+                              "is fixed by this banner. ⚠ Two of the loaders — `nr4a3_exon_audit.py` and "
+                              "`fusion_object_inventory.py` — read it in order to AUDIT it and are the "
+                              "modules that diagnosed the defect; they are listed because they load it, not "
+                              "because they inherit it. Test files that load it as a guard are classed "
+                              "separately for the same reason."),
         "⛔_scope": ("exon arithmetic and sequence composition only. No affinity, presentation, "
                     "immunogenicity, efficacy, safety or clinical claim is made, repaired or implied here, "
                     "and none was ever established by this artifact."),
@@ -407,6 +416,12 @@ def single_breakpoint_banner(stamp_utc, stamp_et):
     }, art
 
 
+#: The one predicate for "this file LOADS the artifact and its numbers inherit the defect". Used by the
+#: banner text, the routed map edit AND the console readout — a second copy is how they disagreed once.
+def _n_loaded(banner):
+    return sum(1 for r in banner["downstream_consumers"] if r["kind"].startswith("CODE — LOADS"))
+
+
 def map_edits(banner, banner2=None):
     """The roadmap edits this grading requires.
 
@@ -418,7 +433,7 @@ def map_edits(banner, banner2=None):
     """
     c = banner["counts"]
     n_cited = len(banner["downstream_citations"])
-    n_loaded = sum(1 for r in banner["downstream_consumers"] if r["kind"].startswith("CODE — LOADS"))
+    n_loaded = _n_loaded(banner)
     edits = [
         {"section": "§9 finding 23 → the neoantigen lane's owed consequence",
          "anchor": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
@@ -441,18 +456,24 @@ def map_edits(banner, banner2=None):
     ]
     if banner2:
         edits.append(
+            # ⚠ APPENDED AT THE END OF THE BULLET, NOT SPLICED INTO ITS OPENING SENTENCE. A first attempt
+            # anchored on "`fusion_cofold.py` resumed NR4A3 at residue 2;" and REPLACED it, which dropped a
+            # long clause into the middle of a sentence whose second half then read as a non-sequitur. An
+            # edit that applies cleanly and reads badly is still a defect in the map.
             {"section": "§9 finding 23 → the OTHER neoantigen artifact",
-             "anchor": "`fusion_cofold.py` resumed NR4A3 at residue 2;",
-             "current_text": "`fusion_cofold.py` resumed NR4A3 at residue 2;",
-             "proposed_text": "`fusion_cofold.py` resumed NR4A3 at residue 2 — **immaterial to a fold model "
-                              "and NOT immaterial to a neoantigen one, which is a distinction this page did "
-                              "not draw**: `fusion-neoantigen-predictions.json` uses that same residue-2 "
-                              "seam, so all %s of its junction-spanning peptides differ from the "
-                              "corrected junction's by NR4A3 Met1, and its lead epitope is quoted in "
+             "anchor": "because C166 would not have been in the fusion at all.",
+             "current_text": "because C166 would not have been in the fusion at all.",
+             "proposed_text": "because C166 would not have been in the fusion at all. ⚠ **But "
+                              "\"residue 2 is the exon-correct one\" holds for a FOLD model and not for a "
+                              "PEPTIDE one, and this page did not draw that distinction:** the corrected "
+                              "junction retains NR4A3 from residue **1**, so "
+                              "`fusion-neoantigen-predictions.json` — which uses the same residue-2 seam — "
+                              "has all %s of its junction-spanning peptides differing from the corrected "
+                              "junction's by NR4A3 **Met1**, and its lead epitope is quoted in "
                               "`research/README.md` and three manuscripts. It is flagged **UNVERIFIED, not "
-                              "retracted** — the Met1 question is a splice-PHASE one that "
+                              "retracted**, because whether Met1 survives is a splice-PHASE question that "
                               "[`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) "
-                              "→ `gate._phase_note` explicitly leaves open —"
+                              "→ `gate._phase_note` explicitly leaves open."
                               % banner2.get("n_spanning_peptides_affected"),
              "why": "the page treats the residue-2 model as simply vindicated; that holds for the co-fold "
                     "lane and does not hold for the peptide lane, where one residue at the seam changes "
@@ -480,8 +501,10 @@ def main(argv=None):
     print("  downstream files quoting it: %d" % len(banner["downstream_citations"]))
     for row in banner["downstream_citations"]:
         print("    %-58s %3d peptides" % (row["path"], row["n_peptides_quoted"]))
-    print("  files that LOAD it and recompute: %d"
-          % sum(1 for r in banner["downstream_consumers"] if r["kind"].startswith("CODE")))
+    # ⛔ THE SAME PREDICATE THE BANNER AND THE MAP EDIT USE. This read `startswith("CODE")`, which swept in
+    # the artifact's own PRODUCER and printed 7 where the committed data said 6 — a console line disagreeing
+    # with the artifact beside it, which is the exact defect class this module exists to close.
+    print("  files that LOAD it and recompute: %d" % _n_loaded(banner))
     for row in banner["downstream_consumers"]:
         print("    %-58s %s" % (row["path"], row["kind"]))
     print(banner2["status"])

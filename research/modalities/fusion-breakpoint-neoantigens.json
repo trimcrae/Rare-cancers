@@ -312,20 +312,20 @@
     "kind": "CODE — LOADS this artifact and recomputes from it"
    },
    {
-    "path": "research/modalities/tests/test_fusion_neoantigen_invalidation.py",
-    "kind": "CODE — LOADS this artifact and recomputes from it"
-   },
-   {
-    "path": "research/modalities/tests/test_scope_rungs_free.py",
-    "kind": "CODE — LOADS this artifact and recomputes from it"
-   },
-   {
     "path": "research/modalities/vaccine_construct.py",
     "kind": "CODE — LOADS this artifact and recomputes from it"
    },
    {
     "path": "research/modalities/fusion_breakpoints.py",
     "kind": "CODE — WRITES this artifact (its producer)"
+   },
+   {
+    "path": "research/modalities/tests/test_fusion_neoantigen_invalidation.py",
+    "kind": "TEST — loads it as a guard (does not inherit the defect)"
+   },
+   {
+    "path": "research/modalities/tests/test_scope_rungs_free.py",
+    "kind": "TEST — loads it as a guard (does not inherit the defect)"
    },
    {
     "path": "research/manuscripts/fusion-junction-neoantigen-paper.md",
@@ -364,10 +364,10 @@
     "kind": "names the artifact (prose or data)"
    }
   ],
-  "⛔_downstream_note": "`downstream_citations` are files quoting peptide STRINGS from this artifact; `downstream_consumers` are files that LOAD it and recompute — the more serious class, because their numbers inherit the defect without ever printing a peptide. A retracted input still quoted downstream is the more serious half of the defect: each needs its own correction, and NONE of them is fixed by this banner.",
+  "⛔_downstream_note": "`downstream_citations` are files quoting peptide STRINGS from this artifact; `downstream_consumers` are files that LOAD it and recompute — the more serious class, because their numbers inherit the defect without ever printing a peptide. A retracted input still quoted downstream is the more serious half of the defect: each needs its own correction, and NONE of them is fixed by this banner. ⚠ Two of the loaders — `nr4a3_exon_audit.py` and `fusion_object_inventory.py` — read it in order to AUDIT it and are the modules that diagnosed the defect; they are listed because they load it, not because they inherit it. Test files that load it as a guard are classed separately for the same reason.",
   "⛔_scope": "exon arithmetic and sequence composition only. No affinity, presentation, immunogenicity, efficacy, safety or clinical claim is made, repaired or implied here, and none was ever established by this artifact.",
-  "graded_utc": "2026-08-03T12:05:00Z",
-  "graded_et": "2026-08-03 8:05 AM ET",
+  "graded_utc": "2026-08-03T12:09:28Z",
+  "graded_et": "2026-08-03 8:09 AM ET",
   "graded_by": "research/modalities/fusion_neoantigen_invalidation.py"
  },
  "_note": "Breakpoint-resolved EWSR1::NR4A3 junction neoantigens. Junctions derived from real Ensembl exon structure (no assumed breakpoint); only in-frame fusions with an intact NR4A3 C-terminus are kept. MHCflurry-2.0; presentation_percentile<=0.5 strong, <=2 weak.",
