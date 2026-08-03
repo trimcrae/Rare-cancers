@@ -462,15 +462,36 @@ def map_edits(doc):
                "sequence level, with what is invariant across breakpoints separated from what is not",
         "artifact": "research/modalities/fusion-object-inventory.json",
     }, {
-        "section": "§9 / the neoantigen lane",
-        "anchor": "fusion-breakpoint-neoantigens.json",
-        "current_text": "fusion-breakpoint-neoantigens.json",
-        "proposed_text": "fusion-breakpoint-neoantigens.json ⛔ **STALE — re-derived 2026-08-03: every "
-                         "committed junction resumes at a residue no corrected breakpoint produces, so "
-                         "all 26 predicted binders span seams that do not exist. Flagged, not fixed "
-                         "(MHCflurry-in-CI is that lane's call).**",
-        "why": "the off-by-two fix invalidated that artifact's seams and nothing on the map says so",
+        # ⚠ NOT A RESTATEMENT. The map ALREADY carries the consequence (finding 23's sub-bullet), so
+        # repeating "26 binders span seams that do not exist" here would give one fact two homes —
+        # exactly what CLAUDE.md §1 forbids. What the map does NOT carry is that the consequence has
+        # since been INDEPENDENTLY RE-DERIVED at the corrected junction rather than inferred from the
+        # bug, which is a different and stronger statement and needs a pointer, not a copy.
+        "section": "§9 finding 23 → the neoantigen lane's owed consequence",
+        "anchor": "`fusion-breakpoint-neoantigens.json` predates the fix and **must be regenerated "
+                  "before any of it is",
+        "current_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
+        "proposed_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane). "
+                         "✅ **Independently re-derived 2026-08-03 by rung `R13-a` and CONFIRMED:** all 7 "
+                         "committed junctions resume at residues (318 / 361 / 419) that no breakpoint "
+                         "surviving the corrected windows produces "
+                         "([`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) "
+                         "→ `neoantigen_lane_flag`).",
+        "why": "the map states this consequence as an inference from the indexing bug; R13-a measured it "
+               "from the corrected exon map, which is a stronger warrant for the same conclusion — and a "
+               "pointer avoids giving the fact a second home",
         "artifact": "research/modalities/fusion-object-inventory.json",
+    }, {
+        # A STALE SENTENCE THE SAME SECTION CARRIES, caught by reading the live map rather than by a
+        # linter: rung S was added on 2026-08-03 and §10.1 row 9 already says "✅ PRICED and GATED".
+        "section": "§9 finding 23 → 'Still not settled'",
+        "anchor": "`R13` still has no rung,",
+        "current_text": "`R13` still has no rung,\n      no gate and no price",
+        "proposed_text": "`R13` **now has a rung, a gate and a price** (rung `S`, 2026-08-03)",
+        "why": "STALE — contradicted by §10.1 row 9 ('✅ PRICED and GATED, 2026-08-03') and by RUNG S in "
+               "THE ORDERED PLAN, which carries `R13-a` at $0 and `R13-b` at ~$0.66. One fact, one "
+               "place: this sentence is the second, out-of-date copy",
+        "artifact": "research/modalities/scope-rung-cost.json",
     }]
 
 
@@ -716,7 +737,16 @@ def main():
                        "NOT identical, so residue numbers from the two sources cannot be mixed; the "
                        "uniqueness marks in this run are therefore reported as UNVERIFIED"})
     assemble(ews_map, nr4_map, doc)
-    doc["map_edits_required"] = map_edits(doc)
+    # ⛔ THE ANCHOR CHECK IS PART OF THE RUN, NOT A HUMAN'S LAST STEP. The roadmap is edited concurrently;
+    # a routed edit whose `current_text` has been reworded fails SILENTLY when someone tries to apply it.
+    import map_edit_anchors as mea
+    doc["map_edits_required"], doc["map_edit_anchor_check"] = mea.verify(map_edits(doc))
+    if not doc["map_edit_anchor_check"]["all_applicable"]:
+        doc["refusals"].append({
+            "where": "map_edits_required",
+            "why": "at least one routed edit's anchor is NOT_FOUND, AMBIGUOUS or UNREAD against the live "
+                   "roadmap — see map_edit_anchor_check. Those edits must be rewritten, not applied by "
+                   "judgement."})
     json.dump(doc, open(OUT, "w"), indent=2)
     open(OUT_MD, "w").write(render_markdown(doc))
     print("wrote", OUT)
