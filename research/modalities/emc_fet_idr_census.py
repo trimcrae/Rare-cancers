@@ -96,11 +96,26 @@ def _fetch(acc):
 
 
 def load_sequences(refresh=False):
+    """Load the FET/partner sequences, refreshing from UniProt when asked.
+
+    ⚠ `--refresh` MUST NOT be able to SHRINK the cache. It used to start from `{}`, so a run in
+    which UniProt was unreachable wrote back only whatever the NR4A fallback happened to hold —
+    which is exactly how `fet-sequences-cache.json` on `main` came to carry 4 entries (NR4A1/2/3 +
+    EWSR1, the fallback set) instead of 8, and therefore how `emc-fet-idr-census.json` on `main`
+    became the 2-key `sequences missing, cannot compute: ['TAF15','FUS']` stub while documents on
+    `main` printed a full table out of it. The committed cache is now always the floor: a failed
+    fetch leaves the previous sequence in place rather than deleting it.
+    """
     have = {}
-    if os.path.exists(CACHE) and not refresh:
-        have = json.load(open(CACHE))
+    if os.path.exists(CACHE):
+        try:
+            have = json.load(open(CACHE))
+        except Exception as exc:  # noqa: BLE001
+            print(f"  cache unreadable, starting empty: {exc}", file=sys.stderr)
+            have = {}
     want = {**FET, **PARTNERS}
-    missing = [k for k in want if k not in have]
+    # on --refresh re-fetch everything, but keep `have` as the fallback for anything that fails
+    missing = list(want) if refresh else [k for k in want if k not in have]
     if missing:
         for name in missing:
             try:

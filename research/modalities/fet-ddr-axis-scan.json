@@ -1,0 +1,1575 @@
+{
+  "_what": "Does DepMap support the FET-fusion -> ATM-suppression -> ATR-axis-dependency mechanism, as a transfer prior for EMC (EWSR1/TAF15/FUS::NR4A3)?",
+  "_hypothesis_source": "FET fusion oncoproteins disrupt physiologic DNA repair and create a targetable opportunity for ATR inhibitor therapy \u2014 biorxiv 10.1101/2023.04.30.538578 (PMID 37205599); clear cell sarcoma (EWSR1::ATF1) is reported to share the FET-dependent ATRi synthetic lethality, which is what makes this a CLASS claim EMC can inherit.",
+  "_instrument_ceiling": "CRISPR knockout != inhibitor sensitivity. ATR is common-essential, so this scan can SUPPORT the hypothesis or miss it; it cannot refute it. Read with the module docstring's three limits.",
+  "depmap_release": "24Q4",
+  "n_models_with_crispr": 1178,
+  "genes_found": [
+    "ATF1",
+    "ATM",
+    "ATR",
+    "ATRIP",
+    "CHEK1",
+    "CHEK2",
+    "CLSPN",
+    "DDIT3",
+    "EWSR1",
+    "FLI1",
+    "FUS",
+    "MDC1",
+    "MRE11",
+    "NBN",
+    "NR4A3",
+    "PARP1",
+    "PKMYT1",
+    "POLQ",
+    "RAD50",
+    "RAD51",
+    "RPA1",
+    "RPA2",
+    "RPA3",
+    "RPL5",
+    "TAF15",
+    "TOPBP1",
+    "TP53BP1",
+    "USP1",
+    "WEE1",
+    "WT1"
+  ],
+  "genes_requested_but_absent": [
+    "MRE11A",
+    "POLR2A",
+    "PRKDC"
+  ],
+  "dependent_threshold": -0.5,
+  "grouping": {
+    "label_column_used": "OncotreeSubtype",
+    "FET_rearranged": {
+      "Ewing": {
+        "oncotree_match": "ewing",
+        "fusion": "EWSR1::FLI1 / EWSR1::ERG",
+        "n_with_crispr": 27,
+        "labels_seen": [
+          "Ewing Sarcoma"
+        ]
+      },
+      "clear_cell_sarcoma": {
+        "oncotree_match": "clear cell sarcoma",
+        "fusion": "EWSR1::ATF1",
+        "n_with_crispr": 1,
+        "labels_seen": [
+          "Clear Cell Sarcoma"
+        ]
+      },
+      "myxoid_liposarcoma": {
+        "oncotree_match": "myxoid",
+        "fusion": "FUS::DDIT3 / EWSR1::DDIT3",
+        "n_with_crispr": 0,
+        "labels_seen": []
+      },
+      "DSRCT": {
+        "oncotree_match": "desmoplastic small round",
+        "fusion": "EWSR1::WT1",
+        "n_with_crispr": 0,
+        "labels_seen": []
+      },
+      "EMC": {
+        "oncotree_match": "extraskeletal myxoid chondrosarcoma",
+        "fusion": "EWSR1::NR4A3 (the disease itself)",
+        "n_with_crispr": 0,
+        "labels_seen": []
+      }
+    },
+    "n_FET_lines_total": 28,
+    "non_FET_sarcoma": {
+      "synovial": {
+        "oncotree_match": "synovial",
+        "driver": "SS18::SSX",
+        "n_with_crispr": 5
+      },
+      "rhabdomyosarcoma": {
+        "oncotree_match": "rhabdomyosarcoma",
+        "driver": "PAX3::FOXO1 or fusion-negative",
+        "n_with_crispr": 13
+      },
+      "osteosarcoma": {
+        "oncotree_match": "osteosarcoma",
+        "driver": "complex karyotype",
+        "n_with_crispr": 17
+      },
+      "leiomyosarcoma": {
+        "oncotree_match": "leiomyosarcoma",
+        "driver": "complex karyotype",
+        "n_with_crispr": 3
+      },
+      "rhabdoid": {
+        "oncotree_match": "rhabdoid",
+        "driver": "SMARCB1 loss",
+        "n_with_crispr": 5
+      },
+      "chondrosarcoma": {
+        "oncotree_match": "chondrosarcoma",
+        "driver": "IDH1/2 (conventional)",
+        "n_with_crispr": 1
+      }
+    },
+    "n_other_sarcoma_unclassified": 19,
+    "n_non_sarcoma": 1087
+  },
+  "emc_line": {
+    "model_id": "ACH-001519",
+    "in_model_metadata": true,
+    "has_crispr_gene_effect": false,
+    "oncotree_label": "Extraskeletal Myxoid Chondrosarcoma",
+    "lineage": "Bone"
+  },
+  "double_prediction": {
+    "ATR_axis": {
+      "FET": {
+        "group": "FET-rearranged sarcoma",
+        "n_lines": 28,
+        "genes_used": [
+          "ATR",
+          "ATRIP",
+          "CHEK1",
+          "TOPBP1",
+          "CLSPN",
+          "RPA1",
+          "RPA2",
+          "RPA3"
+        ],
+        "axis_mean_gene_effect": -1.5781,
+        "axis_sd_across_lines": 0.1222,
+        "frac_lines_dependent_on_axis": 1.0,
+        "per_gene_mean": {
+          "ATR": -1.4651,
+          "ATRIP": -0.7096,
+          "CHEK1": -1.9135,
+          "TOPBP1": -1.4374,
+          "CLSPN": -0.9137,
+          "RPA1": -2.2462,
+          "RPA2": -1.6818,
+          "RPA3": -2.2573
+        }
+      },
+      "non_FET_sarcoma": {
+        "group": "non_FET_sarcoma",
+        "n_lines": 63,
+        "genes_used": [
+          "ATR",
+          "ATRIP",
+          "CHEK1",
+          "TOPBP1",
+          "CLSPN",
+          "RPA1",
+          "RPA2",
+          "RPA3"
+        ],
+        "axis_mean_gene_effect": -1.6008,
+        "axis_sd_across_lines": 0.1405,
+        "frac_lines_dependent_on_axis": 1.0,
+        "per_gene_mean": {
+          "ATR": -1.4175,
+          "ATRIP": -0.6149,
+          "CHEK1": -1.9571,
+          "TOPBP1": -1.4001,
+          "CLSPN": -0.9169,
+          "RPA1": -2.4005,
+          "RPA2": -1.9137,
+          "RPA3": -2.1858
+        }
+      },
+      "contrast_FET_vs_non_FET_sarcoma": {
+        "t": 0.782,
+        "df": 59.2,
+        "mean_a": -1.5781,
+        "mean_b": -1.6008,
+        "delta_a_minus_b": 0.0228
+      },
+      "all_non_sarcoma": {
+        "group": "all_non_sarcoma",
+        "n_lines": 1087,
+        "genes_used": [
+          "ATR",
+          "ATRIP",
+          "CHEK1",
+          "TOPBP1",
+          "CLSPN",
+          "RPA1",
+          "RPA2",
+          "RPA3"
+        ],
+        "axis_mean_gene_effect": -1.5592,
+        "axis_sd_across_lines": 0.1542,
+        "frac_lines_dependent_on_axis": 1.0,
+        "per_gene_mean": {
+          "ATR": -1.3462,
+          "ATRIP": -0.6176,
+          "CHEK1": -1.8872,
+          "TOPBP1": -1.4155,
+          "CLSPN": -0.9207,
+          "RPA1": -2.3294,
+          "RPA2": -1.8226,
+          "RPA3": -2.134
+        }
+      },
+      "contrast_FET_vs_all_non_sarcoma": {
+        "t": -0.802,
+        "df": 29.3,
+        "mean_a": -1.5781,
+        "mean_b": -1.5592,
+        "delta_a_minus_b": -0.0189
+      }
+    },
+    "ATM_axis": {
+      "FET": {
+        "group": "FET-rearranged sarcoma",
+        "n_lines": 28,
+        "genes_used": [
+          "ATM",
+          "MDC1",
+          "NBN",
+          "MRE11",
+          "RAD50",
+          "TP53BP1"
+        ],
+        "axis_mean_gene_effect": -0.1588,
+        "axis_sd_across_lines": 0.1135,
+        "frac_lines_dependent_on_axis": 0.0,
+        "per_gene_mean": {
+          "ATM": -0.0389,
+          "MDC1": -0.2307,
+          "NBN": -0.0531,
+          "MRE11": -0.5093,
+          "RAD50": -0.0421,
+          "TP53BP1": -0.0788
+        }
+      },
+      "non_FET_sarcoma": {
+        "group": "non_FET_sarcoma",
+        "n_lines": 63,
+        "genes_used": [
+          "ATM",
+          "MDC1",
+          "NBN",
+          "MRE11",
+          "RAD50",
+          "TP53BP1"
+        ],
+        "axis_mean_gene_effect": -0.0935,
+        "axis_sd_across_lines": 0.1309,
+        "frac_lines_dependent_on_axis": 0.0,
+        "per_gene_mean": {
+          "ATM": -0.0101,
+          "MDC1": -0.1271,
+          "NBN": 0.0063,
+          "MRE11": -0.3832,
+          "RAD50": -0.0347,
+          "TP53BP1": -0.0124
+        }
+      },
+      "contrast_FET_vs_non_FET_sarcoma": {
+        "t": -2.412,
+        "df": 59.3,
+        "mean_a": -0.1588,
+        "mean_b": -0.0935,
+        "delta_a_minus_b": -0.0653
+      },
+      "all_non_sarcoma": {
+        "group": "all_non_sarcoma",
+        "n_lines": 1087,
+        "genes_used": [
+          "ATM",
+          "MDC1",
+          "NBN",
+          "MRE11",
+          "RAD50",
+          "TP53BP1"
+        ],
+        "axis_mean_gene_effect": -0.1051,
+        "axis_sd_across_lines": 0.1184,
+        "frac_lines_dependent_on_axis": 0.002,
+        "per_gene_mean": {
+          "ATM": -0.0067,
+          "MDC1": -0.1414,
+          "NBN": -0.0409,
+          "MRE11": -0.3525,
+          "RAD50": -0.0154,
+          "TP53BP1": -0.0739
+        }
+      },
+      "contrast_FET_vs_all_non_sarcoma": {
+        "t": -2.467,
+        "df": 28.5,
+        "mean_a": -0.1588,
+        "mean_b": -0.1051,
+        "delta_a_minus_b": -0.0537
+      }
+    }
+  },
+  "verdict": {
+    "non_FET_sarcoma": {
+      "atr_axis_delta_FET_minus_comparator": 0.0228,
+      "atm_axis_delta_FET_minus_comparator": -0.0653,
+      "atr_axis_more_essential_in_FET": false,
+      "atm_axis_not_more_essential_in_FET": false,
+      "tier": "NEITHER",
+      "_reading": "BOTH_HALVES is the only tier that supports the mechanism. Any other tier is consistent with a lineage artefact and must be reported as one. NOTE the ceiling in the module docstring: a common-essential ATR compresses exactly this contrast, so a null here is NOT a refutation."
+    },
+    "all_non_sarcoma": {
+      "atr_axis_delta_FET_minus_comparator": -0.0189,
+      "atm_axis_delta_FET_minus_comparator": -0.0537,
+      "atr_axis_more_essential_in_FET": true,
+      "atm_axis_not_more_essential_in_FET": false,
+      "tier": "ATR_HALF_ONLY",
+      "_reading": "BOTH_HALVES is the only tier that supports the mechanism. Any other tier is consistent with a lineage artefact and must be reported as one. NOTE the ceiling in the module docstring: a common-essential ATR compresses exactly this contrast, so a null here is NOT a refutation."
+    }
+  },
+  "knockout_instrument_saturation": {
+    "atr_axis_panel_mean": -1.5618,
+    "atr_axis_panel_sd": 0.1531,
+    "largest_group_delta_seen": 0.0228,
+    "_criterion": "the ATR axis sits near the common-essential floor (~ -1 is the median common-essential gene) in EVERY group, so a between-group delta an order of magnitude under the within-group SD is an INSTRUMENT reading, not a biological one",
+    "verdict": "SATURATED \u2014 the knockout read cannot address this hypothesis; use the drug-sensitivity instrument below"
+  },
+  "atr_inhibitor_sensitivity_gdsc": {
+    "_instrument": "GDSC LN_IC50 \u2014 ATR-INHIBITOR sensitivity, not ATR knockout",
+    "_sign": "LN_IC50: LOWER = MORE SENSITIVE. delta_a_minus_b < 0 == FET lines more sensitive.",
+    "_attempts": [],
+    "_status": "read",
+    "source": "GDSC2_8.5_27Oct23",
+    "n_rows": 242036,
+    "n_FET_keys": 69,
+    "n_comparator_keys": 1230,
+    "by_drug": {
+      "azd6738": {
+        "is_atr_inhibitor": true,
+        "n_rows": 958,
+        "n_FET": 57,
+        "n_comparator": 1124,
+        "keys_seen": 1916,
+        "welch_raw_ln_ic50": {
+          "t": -4.477,
+          "df": 64.1,
+          "mean_a": 1.3477,
+          "mean_b": 2.1052,
+          "delta_a_minus_b": -0.7575
+        },
+        "welch_line_median_corrected": {
+          "t": -5.083,
+          "df": 69.6,
+          "mean_a": -1.7054,
+          "mean_b": -1.2142,
+          "delta_a_minus_b": -0.4911
+        }
+      },
+      "ve-822": {
+        "is_atr_inhibitor": true,
+        "n_rows": 894,
+        "n_FET": 54,
+        "n_comparator": 1064,
+        "keys_seen": 1788,
+        "welch_raw_ln_ic50": {
+          "t": -2.592,
+          "df": 57.6,
+          "mean_a": 2.5266,
+          "mean_b": 3.2172,
+          "delta_a_minus_b": -0.6906
+        },
+        "welch_line_median_corrected": {
+          "t": -2.203,
+          "df": 57.8,
+          "mean_a": -0.5326,
+          "mean_b": -0.1092,
+          "delta_a_minus_b": -0.4233
+        }
+      },
+      "paclitaxel": {
+        "is_atr_inhibitor": false,
+        "n_rows": 958,
+        "n_FET": 57,
+        "n_comparator": 1124,
+        "keys_seen": 1916,
+        "welch_raw_ln_ic50": {
+          "t": -3.194,
+          "df": 61.2,
+          "mean_a": -3.8583,
+          "mean_b": -3.0664,
+          "delta_a_minus_b": -0.7919
+        },
+        "welch_line_median_corrected": {
+          "t": -3.076,
+          "df": 61.4,
+          "mean_a": -6.9114,
+          "mean_b": -6.3859,
+          "delta_a_minus_b": -0.5255
+        }
+      },
+      "olaparib": {
+        "is_atr_inhibitor": false,
+        "n_rows": 967,
+        "n_FET": 57,
+        "n_comparator": 1131,
+        "keys_seen": 1934,
+        "welch_raw_ln_ic50": {
+          "t": -5.367,
+          "df": 58.6,
+          "mean_a": 3.0886,
+          "mean_b": 4.3684,
+          "delta_a_minus_b": -1.2798
+        },
+        "welch_line_median_corrected": {
+          "t": -5.583,
+          "df": 57.9,
+          "mean_a": 0.0355,
+          "mean_b": 1.0518,
+          "delta_a_minus_b": -1.0163
+        }
+      },
+      "talazoparib": {
+        "is_atr_inhibitor": false,
+        "n_rows": 956,
+        "n_FET": 57,
+        "n_comparator": 1120,
+        "keys_seen": 1912,
+        "welch_raw_ln_ic50": {
+          "t": -5.673,
+          "df": 58.6,
+          "mean_a": 0.652,
+          "mean_b": 2.9881,
+          "delta_a_minus_b": -2.3362
+        },
+        "welch_line_median_corrected": {
+          "t": -5.851,
+          "df": 58.2,
+          "mean_a": -2.4011,
+          "mean_b": -0.3358,
+          "delta_a_minus_b": -2.0653
+        }
+      },
+      "mk-1775": {
+        "is_atr_inhibitor": false,
+        "n_rows": 967,
+        "n_FET": 57,
+        "n_comparator": 1131,
+        "keys_seen": 1934,
+        "welch_raw_ln_ic50": {
+          "t": -1.616,
+          "df": 64.3,
+          "mean_a": 0.3809,
+          "mean_b": 0.6232,
+          "delta_a_minus_b": -0.2423
+        },
+        "welch_line_median_corrected": {
+          "t": 0.167,
+          "df": 61.2,
+          "mean_a": -2.6722,
+          "mean_b": -2.6935,
+          "delta_a_minus_b": 0.0212
+        }
+      },
+      "bortezomib": {
+        "is_atr_inhibitor": false,
+        "n_rows": 957,
+        "n_FET": 57,
+        "n_comparator": 1122,
+        "keys_seen": 1914,
+        "welch_raw_ln_ic50": {
+          "t": -1.976,
+          "df": 70.9,
+          "mean_a": -4.8811,
+          "mean_b": -4.6981,
+          "delta_a_minus_b": -0.183
+        },
+        "welch_line_median_corrected": {
+          "t": 0.883,
+          "df": 64.7,
+          "mean_a": -7.9342,
+          "mean_b": -8.0211,
+          "delta_a_minus_b": 0.0869
+        }
+      }
+    },
+    "_reading": "Read the CONTROL drugs first, and quote the LINE-MEDIAN-CORRECTED contrast, never the raw one. A negative delta across ATR inhibitors AND controls alike in the RAW numbers is a growth-rate or lineage artefact, which is exactly what run 30849750035 found: talazoparib -2.34 and olaparib -1.28 against azd6738 -0.76. The corrected column removes each line's own general drug sensitivity and is what the hypothesis is actually about."
+  },
+  "atr_inhibitor_sensitivity_depmap_attempt": {
+    "_instrument": "ATR-INHIBITOR sensitivity (PRISM-class drug screen), NOT ATR knockout \u2014 the readout the source paper used and the one a CRISPR KO cannot give",
+    "candidate_files": {},
+    "_status": "no PRISM/Repurposing/OncRef-looking file in the release inventory below; the inventory is recorded so the next attempt starts from fact"
+  },
+  "depmap_release_file_inventory": {
+    "24Q4:27993248": [
+      "AchillesCommonEssentialControls.csv",
+      "AchillesHighVarianceGeneControls.csv",
+      "AchillesNonessentialControls.csv",
+      "AchillesScreenQCReport.csv",
+      "AchillesSequenceQCReport.csv",
+      "AvanaGuideMap.csv",
+      "AvanaLogfoldChange.csv",
+      "AvanaRawReadcounts.csv",
+      "CRISPRGeneDependency.csv",
+      "CRISPRGeneEffect.csv",
+      "CRISPRGeneEffectUncorrected.csv",
+      "CRISPRInferredCommonEssentials.csv",
+      "CRISPRInferredGuideEfficacy.csv",
+      "CRISPRInferredLibraryEffect.csv",
+      "CRISPRInferredModelEfficacy.csv",
+      "CRISPRInferredModelGrowthRate.csv",
+      "CRISPRInferredSequenceOverdispersion.csv",
+      "CRISPRInitialOffset.csv",
+      "CRISPRScreenMap.csv",
+      "Gene.csv",
+      "HumagneGuideMap.csv",
+      "HumagneLogfoldChange.csv",
+      "HumagneRawReadcounts.csv",
+      "KYGuideMap.csv",
+      "KYLogfoldChange.csv",
+      "KYRawReadcounts.csv",
+      "Model.csv",
+      "ModelCondition.csv",
+      "OmicsAbsoluteCNGene.csv",
+      "OmicsAbsoluteCNSegmentsProfile.csv",
+      "OmicsCNGene.csv",
+      "OmicsCNSegmentsProfile.csv",
+      "OmicsDefaultModelConditionProfiles.csv",
+      "OmicsDefaultModelProfiles.csv",
+      "OmicsExpressionAllGenesEffectiveLengthProfile.csv",
+      "OmicsExpressionAllGenesTPMLogp1Profile.csv",
+      "OmicsExpressionAllGenesTPMLogp1StrandedProfile.csv",
+      "OmicsExpressionGeneSetEnrichment.csv",
+      "OmicsExpressionGeneSetEnrichmentProfile.csv",
+      "OmicsExpressionGenesExpectedCountProfile.csv",
+      "OmicsExpressionGenesExpectedCountStrandedProfile.csv",
+      "OmicsExpressionProteinCodingGenesTPMLogp1.csv",
+      "OmicsExpressionProteinCodingGenesTPMLogp1BatchCorrected.csv",
+      "OmicsExpressionProteinCodingGenesTPMLogp1Stranded.csv",
+      "OmicsExpressionRNASeQCGeneCountProfile.csv",
+      "OmicsExpressionRNASeQCGeneCountStrandedProfile.csv",
+      "OmicsExpressionTranscriptsExpectedCountProfile.csv",
+      "OmicsExpressionTranscriptsExpectedCountStrandedProfile.csv",
+      "OmicsExpressionTranscriptsTPMLogp1Profile.csv",
+      "OmicsExpressionTranscriptsTPMLogp1StrandedProfile.csv",
+      "OmicsFusionFiltered.csv",
+      "OmicsFusionUnfilteredProfile.csv",
+      "OmicsGuideMutationsBinaryAvana.csv",
+      "OmicsGuideMutationsBinaryHumagne.csv",
+      "OmicsGuideMutationsBinaryKY.csv",
+      "OmicsLoH.csv",
+      "OmicsMicrosatelliteRepeatsProfile.csv",
+      "OmicsProfiles.csv",
+      "OmicsSignatures.csv",
+      "OmicsSignaturesProfile.csv",
+      "OmicsSomaticMutations.csv",
+      "OmicsSomaticMutationsMAFProfile.maf",
+      "OmicsSomaticMutationsMatrixDamaging.csv",
+      "OmicsSomaticMutationsMatrixHotspot.csv",
+      "OmicsSomaticMutationsProfile.csv",
+      "PortalCompounds.csv",
+      "PortalOmicsCNGeneLog2.csv",
+      "README.txt",
+      "ScreenGeneDependency.csv",
+      "ScreenGeneEffect.csv",
+      "ScreenGeneEffectUncorrected.csv",
+      "ScreenNaiveGeneScore.csv",
+      "ScreenSequenceMap.csv"
+    ],
+    "24Q4-alt:27993966": [
+      "_error: failed: https://api.figshare.com/v2/articles/27993966"
+    ],
+    "23Q2:22765112": [
+      "AchillesCommonEssentialControls.csv",
+      "AchillesHighVarianceGeneControls.csv",
+      "AchillesNonessentialControls.csv",
+      "AchillesScreenQCReport.csv",
+      "AchillesSequenceQCReport.csv",
+      "AvanaGuideMap.csv",
+      "AvanaLogfoldChange.csv",
+      "AvanaRawReadcounts.csv",
+      "CRISPRGeneDependency.csv",
+      "CRISPRGeneEffect.csv",
+      "CRISPRGeneEffectUncorrected.csv",
+      "CRISPRInferredCommonEssentials.csv",
+      "CRISPRInferredGuideEfficacy.csv",
+      "CRISPRInferredLibraryEffect.csv",
+      "CRISPRInferredModelEfficacy.csv",
+      "CRISPRInferredModelGrowthRate.csv",
+      "CRISPRInferredSequenceOverdispersion.csv",
+      "CRISPRInitialOffset.csv",
+      "CRISPRScreenMap.csv",
+      "KYGuideMap.csv",
+      "KYLogfoldChange.csv",
+      "KYRawReadcounts.csv",
+      "Media.csv",
+      "Model.csv",
+      "ModelCondition.csv",
+      "OmicsCNGene.csv",
+      "OmicsCNSegmentsProfile.csv",
+      "OmicsDefaultModelConditionProfiles.csv",
+      "OmicsDefaultModelProfiles.csv",
+      "OmicsExpressionGeneSetEnrichment.csv",
+      "OmicsExpressionGeneSetEnrichmentProfile.csv",
+      "OmicsExpressionGenesExpectedCountProfile.csv",
+      "OmicsExpressionProteinCodingGenesTPMLogp1.csv",
+      "OmicsExpressionTranscriptsExpectedCountProfile.csv",
+      "OmicsExpressionTranscriptsTPMLogp1Profile.csv",
+      "OmicsFusionFiltered.csv",
+      "OmicsFusionUnfilteredProfile.csv",
+      "OmicsGuideMutationsBinaryAvana.csv",
+      "OmicsGuideMutationsBinaryHumagne.csv",
+      "OmicsGuideMutationsBinaryKY.csv",
+      "OmicsProfiles.csv",
+      "OmicsSomaticMutations.csv",
+      "OmicsSomaticMutationsMAFProfile.maf",
+      "OmicsSomaticMutationsMatrixDamaging.csv",
+      "OmicsSomaticMutationsMatrixHotspot.csv",
+      "OmicsSomaticMutationsProfile.csv",
+      "README.txt",
+      "ScreenGeneDependency.csv",
+      "ScreenGeneEffect.csv",
+      "ScreenGeneEffectUncorrected.csv",
+      "ScreenNaiveGeneScore.csv",
+      "ScreenSequenceMap.csv"
+    ],
+    "Checklist de accesibilidad para la revisi\u00f3n descriptiva de P:33148541": [
+      "03_Checklist_WCAG_Planet_Lingua.pdf"
+    ],
+    "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq s:33135038": [
+      "figshare_deposit_submission.zip"
+    ],
+    "Matriz de evaluaci\u00f3n heur\u00edstica de la usabilidad de Planet L:33148538": [
+      "02_Matriz_heuristica_Nielsen_Planet_Lingua.pdf"
+    ],
+    "Matriz de juicio de expertos para validar el contenido, la p:33148535": [
+      "01_Matriz_juicio_expertos_Planet_Lingua.pdf"
+    ],
+    "Generative AI and Simulation-Driven Predictive Modeling Fram:33088037": [],
+    "Exploring Endocannabinoids As A Potential Indicator Of Affec:33148301": [
+      "REV Byrd_Levi_M.S.Thesis_July_31_2026_JLB.pdf"
+    ],
+    "Analysis outputs:30147601": [
+      "01747_C01_P018218_S00_I00_N03_R1_overlap_summary.csv",
+      "20150708_QE3_UPLC8_DBJ_QC_HELA_39frac_Chymotrypsin_overlap_summary.csv",
+      "20151020_QE3_UPLC8_DBJ_SA_A549_Rep2_46_overlap_summary.csv",
+      "20170303_QEh1_LC2_FaMa_ChCh_SA_HLApI_JY_R1_exp2_overlap_summary.csv",
+      "20170609_QEh1_LC1_ChCh_FAMA_SA_HLAIIp_JY_all_R1_overlap_summary.csv",
+      "PXD004732_overlap_summary.csv",
+      "PXD014877_overlap_summary.csv",
+      "PXD023064_overlap_summary.csv",
+      "ablation_summary_arabidopsis.csv",
+      "ablation_summary_astral.csv",
+      "astral_overlap_summary.csv",
+      "calibrator_generalisation_results.csv",
+      "chymotrypsin_calibration_delta_summary.csv",
+      "chymotrypsin_feature_comparison.csv",
+      "chymotrypsin_terminus_proportions.csv",
+      "chymotrypsin_tryptic_summary.csv",
+      "external_peptide_holdout_results.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "metadata.csv",
+      "perm_importance.pkl",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "preds_and_fdr_metrics.csv",
+      "proteometools_feature_comparison.csv",
+      "proteometools_novelty_summary.csv",
+      "shap_values.pkl",
+      "upscored_fp_detail.csv",
+      "upscored_summary.csv"
+    ],
+    "Apresenta\u00e7\u00e3o sobre O cl\u00e1ssico e o p\u00f3s-moderno: algumas refle:33148520": [
+      "lv_0_20260802154546.mp4"
+    ],
+    "<p>Search for Cascade Resonances Decaying to a Photon and a :32979686": [],
+    "Data and R code for \u201cContrasting responses of soil organic c:33148511": [
+      "CATENA code.R",
+      "CATENA data.xlsx",
+      "README.md"
+    ],
+    "<b>Functional aspects of oral health and general health in o:32686089": [
+      "Data_extraction_form.docx",
+      "Extraction_table.xlsx",
+      "Review protocol.pdf.pdf"
+    ],
+    "GraphQLer Experimentation Dataset:33107861": [
+      "GraphQLer-experiments-v2.zip",
+      "GraphQLer-experiments-v5.zip",
+      "GraphQLer-experiments.zip"
+    ]
+  },
+  "figshare_search_for_drug_matrices": {
+    "PRISM Repurposing Public": [
+      {
+        "id": 33148541,
+        "title": "Checklist de accesibilidad para la revisi\u00f3n descriptiva de Planet Lingua seg\u00fan los principios WCAG 2.2",
+        "published": "2026-08-03T21:42:24Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T21:40:45Z"
+      },
+      {
+        "id": 33148538,
+        "title": "Matriz de evaluaci\u00f3n heur\u00edstica de la usabilidad de Planet Lingua basada en las diez heur\u00edsticas de Nielsen",
+        "published": "2026-08-03T21:40:03Z"
+      },
+      {
+        "id": 33148535,
+        "title": "Matriz de juicio de expertos para validar el contenido, la pertinencia did\u00e1ctica y la calidad gamificada de Planet Lingua",
+        "published": "2026-08-03T21:37:11Z"
+      },
+      {
+        "id": 33088037,
+        "title": "Generative AI and Simulation-Driven Predictive Modeling Framework Under Data Scarcity",
+        "published": "2026-08-03T21:36:53Z"
+      },
+      {
+        "id": 33148301,
+        "title": "Exploring Endocannabinoids As A Potential Indicator Of Affective State In Dairy Cattle",
+        "published": "2026-08-03T21:36:26Z"
+      },
+      {
+        "id": 30147601,
+        "title": "Analysis outputs",
+        "published": "2026-08-03T21:25:18Z"
+      },
+      {
+        "id": 33148520,
+        "title": "Apresenta\u00e7\u00e3o sobre O cl\u00e1ssico e o p\u00f3s-moderno: algumas reflex\u00f5es acerca da arquivologia a partir do pensamento de Hilary Jenkinson e Terry Cook",
+        "published": "2026-08-03T21:23:05Z"
+      },
+      {
+        "id": 32979686,
+        "title": "<p>Search for Cascade Resonances Decaying to a Photon and a Pair of Merged Photons in Proton-Proton Collisions at vs = 13 TeV</p>",
+        "published": "2026-08-03T21:18:38Z"
+      },
+      {
+        "id": 33148511,
+        "title": "Data and R code for \u201cContrasting responses of soil organic carbon and functional fractions across forest modification pathways: A meta-analysis\u201d",
+        "published": "2026-08-03T21:14:23Z"
+      },
+      {
+        "id": 32686089,
+        "title": "<b>Functional aspects of oral health and general health in older adults: a scoping review of analytical observational studies</b>",
+        "published": "2026-08-03T21:13:11Z"
+      },
+      {
+        "id": 33107861,
+        "title": "GraphQLer Experimentation Dataset",
+        "published": "2026-08-03T21:12:51Z"
+      },
+      {
+        "id": 33148493,
+        "title": "Atividade avaliativa tecnologia da informa\u00e7\u00e3o",
+        "published": "2026-08-03T21:07:41Z"
+      },
+      {
+        "id": 33145304,
+        "title": "Quantum Motion through Space (QMS).",
+        "published": "2026-08-03T21:06:16Z"
+      },
+      {
+        "id": 33148507,
+        "title": "Improved Mechanical\nand Thermal Performance of Carbon\nFiber/Epoxy Composites by In Situ Grown ZIF-90 Interface",
+        "published": "2026-08-03T21:05:36Z"
+      },
+      {
+        "id": 33148504,
+        "title": "Stabilizing Solid-State Battery Interfaces with a\nPolyelectrolyte Complex Nanocoating",
+        "published": "2026-08-03T21:05:07Z"
+      },
+      {
+        "id": 33148501,
+        "title": "Designing Viologen Molecular Wires with Enhanced Electron\nTransport Properties: Implication for Molecular Electronics",
+        "published": "2026-08-03T21:04:31Z"
+      },
+      {
+        "id": 33148498,
+        "title": "A Candidate Small\nMolecule Targeting Tachykinin Receptor\n1 Suppresses Substance P\u2011Driven Extracellular Signal-Regulated\nKinase Activation and Tumor Innervation in Pancreatic Cancer",
+        "published": "2026-08-03T21:03:50Z"
+      },
+      {
+        "id": 33148495,
+        "title": "Synthesis of a Zinc(II)\nComplex from a 2,2\u2032-Thiodiphenol\nDerivative and Its Guest Inclusion Modes in the Solid State",
+        "published": "2026-08-03T21:03:20Z"
+      },
+      {
+        "id": 33065138,
+        "title": "Dataset supporting <i>Untangling dopamine and glutamate in the ventral tegmental area</i>",
+        "published": "2026-08-03T21:02:15Z"
+      },
+      {
+        "id": 33148481,
+        "title": "Segmented Time and Ancient Logic: A Necklace Journey Through Clepsydra Thinking",
+        "published": "2026-08-03T20:56:17Z"
+      },
+      {
+        "id": 33148484,
+        "title": "Integrating dynamic infection models, omics, population pharmacokinetic and quantitative and systems pharmacology modelling to evaluate antibiotic dosing strategies against resistant bacterial pathogens",
+        "published": "2026-08-03T20:49:16Z"
+      },
+      {
+        "id": 33148445,
+        "title": "Behavioral manifestations of third ventricular colloid cysts",
+        "published": "2026-08-03T20:43:36Z"
+      },
+      {
+        "id": 33148472,
+        "title": "Supplementary data from manuscript: A selected lipid profiling secreted by <i>Haemonchus contortus</i> is dependent on the nematode ABC transporters activity for its extrusion.",
+        "published": "2026-08-03T20:42:20Z"
+      },
+      {
+        "id": 33148475,
+        "title": "The Antinomous Triad: Ideal, Value, and Benefit in Ethical, Intellectual, and Practical Reasoning",
+        "published": "2026-08-03T20:40:42Z"
+      }
+    ],
+    "PRISM Oncology Reference": [
+      {
+        "id": 33148541,
+        "title": "Checklist de accesibilidad para la revisi\u00f3n descriptiva de Planet Lingua seg\u00fan los principios WCAG 2.2",
+        "published": "2026-08-03T21:42:24Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T21:40:45Z"
+      },
+      {
+        "id": 33148538,
+        "title": "Matriz de evaluaci\u00f3n heur\u00edstica de la usabilidad de Planet Lingua basada en las diez heur\u00edsticas de Nielsen",
+        "published": "2026-08-03T21:40:03Z"
+      },
+      {
+        "id": 33148535,
+        "title": "Matriz de juicio de expertos para validar el contenido, la pertinencia did\u00e1ctica y la calidad gamificada de Planet Lingua",
+        "published": "2026-08-03T21:37:11Z"
+      },
+      {
+        "id": 33088037,
+        "title": "Generative AI and Simulation-Driven Predictive Modeling Framework Under Data Scarcity",
+        "published": "2026-08-03T21:36:53Z"
+      },
+      {
+        "id": 33148301,
+        "title": "Exploring Endocannabinoids As A Potential Indicator Of Affective State In Dairy Cattle",
+        "published": "2026-08-03T21:36:26Z"
+      },
+      {
+        "id": 30147601,
+        "title": "Analysis outputs",
+        "published": "2026-08-03T21:25:18Z"
+      },
+      {
+        "id": 33148520,
+        "title": "Apresenta\u00e7\u00e3o sobre O cl\u00e1ssico e o p\u00f3s-moderno: algumas reflex\u00f5es acerca da arquivologia a partir do pensamento de Hilary Jenkinson e Terry Cook",
+        "published": "2026-08-03T21:23:05Z"
+      },
+      {
+        "id": 32979686,
+        "title": "<p>Search for Cascade Resonances Decaying to a Photon and a Pair of Merged Photons in Proton-Proton Collisions at vs = 13 TeV</p>",
+        "published": "2026-08-03T21:18:38Z"
+      },
+      {
+        "id": 33148511,
+        "title": "Data and R code for \u201cContrasting responses of soil organic carbon and functional fractions across forest modification pathways: A meta-analysis\u201d",
+        "published": "2026-08-03T21:14:23Z"
+      },
+      {
+        "id": 32686089,
+        "title": "<b>Functional aspects of oral health and general health in older adults: a scoping review of analytical observational studies</b>",
+        "published": "2026-08-03T21:13:11Z"
+      },
+      {
+        "id": 33107861,
+        "title": "GraphQLer Experimentation Dataset",
+        "published": "2026-08-03T21:12:51Z"
+      },
+      {
+        "id": 33148493,
+        "title": "Atividade avaliativa tecnologia da informa\u00e7\u00e3o",
+        "published": "2026-08-03T21:07:41Z"
+      },
+      {
+        "id": 33145304,
+        "title": "Quantum Motion through Space (QMS).",
+        "published": "2026-08-03T21:06:16Z"
+      },
+      {
+        "id": 33148507,
+        "title": "Improved Mechanical\nand Thermal Performance of Carbon\nFiber/Epoxy Composites by In Situ Grown ZIF-90 Interface",
+        "published": "2026-08-03T21:05:36Z"
+      },
+      {
+        "id": 33148504,
+        "title": "Stabilizing Solid-State Battery Interfaces with a\nPolyelectrolyte Complex Nanocoating",
+        "published": "2026-08-03T21:05:07Z"
+      },
+      {
+        "id": 33148501,
+        "title": "Designing Viologen Molecular Wires with Enhanced Electron\nTransport Properties: Implication for Molecular Electronics",
+        "published": "2026-08-03T21:04:31Z"
+      },
+      {
+        "id": 33148498,
+        "title": "A Candidate Small\nMolecule Targeting Tachykinin Receptor\n1 Suppresses Substance P\u2011Driven Extracellular Signal-Regulated\nKinase Activation and Tumor Innervation in Pancreatic Cancer",
+        "published": "2026-08-03T21:03:50Z"
+      },
+      {
+        "id": 33148495,
+        "title": "Synthesis of a Zinc(II)\nComplex from a 2,2\u2032-Thiodiphenol\nDerivative and Its Guest Inclusion Modes in the Solid State",
+        "published": "2026-08-03T21:03:20Z"
+      },
+      {
+        "id": 33065138,
+        "title": "Dataset supporting <i>Untangling dopamine and glutamate in the ventral tegmental area</i>",
+        "published": "2026-08-03T21:02:15Z"
+      },
+      {
+        "id": 33148481,
+        "title": "Segmented Time and Ancient Logic: A Necklace Journey Through Clepsydra Thinking",
+        "published": "2026-08-03T20:56:17Z"
+      },
+      {
+        "id": 33148484,
+        "title": "Integrating dynamic infection models, omics, population pharmacokinetic and quantitative and systems pharmacology modelling to evaluate antibiotic dosing strategies against resistant bacterial pathogens",
+        "published": "2026-08-03T20:49:16Z"
+      },
+      {
+        "id": 33148445,
+        "title": "Behavioral manifestations of third ventricular colloid cysts",
+        "published": "2026-08-03T20:43:36Z"
+      },
+      {
+        "id": 33148472,
+        "title": "Supplementary data from manuscript: A selected lipid profiling secreted by <i>Haemonchus contortus</i> is dependent on the nematode ABC transporters activity for its extrusion.",
+        "published": "2026-08-03T20:42:20Z"
+      },
+      {
+        "id": 33148475,
+        "title": "The Antinomous Triad: Ideal, Value, and Benefit in Ethical, Intellectual, and Practical Reasoning",
+        "published": "2026-08-03T20:40:42Z"
+      }
+    ],
+    "Repurposing_Public": [
+      {
+        "id": 33148541,
+        "title": "Checklist de accesibilidad para la revisi\u00f3n descriptiva de Planet Lingua seg\u00fan los principios WCAG 2.2",
+        "published": "2026-08-03T21:42:24Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T21:40:45Z"
+      },
+      {
+        "id": 33148538,
+        "title": "Matriz de evaluaci\u00f3n heur\u00edstica de la usabilidad de Planet Lingua basada en las diez heur\u00edsticas de Nielsen",
+        "published": "2026-08-03T21:40:03Z"
+      },
+      {
+        "id": 33148535,
+        "title": "Matriz de juicio de expertos para validar el contenido, la pertinencia did\u00e1ctica y la calidad gamificada de Planet Lingua",
+        "published": "2026-08-03T21:37:11Z"
+      },
+      {
+        "id": 33088037,
+        "title": "Generative AI and Simulation-Driven Predictive Modeling Framework Under Data Scarcity",
+        "published": "2026-08-03T21:36:53Z"
+      },
+      {
+        "id": 33148301,
+        "title": "Exploring Endocannabinoids As A Potential Indicator Of Affective State In Dairy Cattle",
+        "published": "2026-08-03T21:36:26Z"
+      },
+      {
+        "id": 30147601,
+        "title": "Analysis outputs",
+        "published": "2026-08-03T21:25:18Z"
+      },
+      {
+        "id": 33148520,
+        "title": "Apresenta\u00e7\u00e3o sobre O cl\u00e1ssico e o p\u00f3s-moderno: algumas reflex\u00f5es acerca da arquivologia a partir do pensamento de Hilary Jenkinson e Terry Cook",
+        "published": "2026-08-03T21:23:05Z"
+      },
+      {
+        "id": 32979686,
+        "title": "<p>Search for Cascade Resonances Decaying to a Photon and a Pair of Merged Photons in Proton-Proton Collisions at vs = 13 TeV</p>",
+        "published": "2026-08-03T21:18:38Z"
+      },
+      {
+        "id": 33148511,
+        "title": "Data and R code for \u201cContrasting responses of soil organic carbon and functional fractions across forest modification pathways: A meta-analysis\u201d",
+        "published": "2026-08-03T21:14:23Z"
+      },
+      {
+        "id": 32686089,
+        "title": "<b>Functional aspects of oral health and general health in older adults: a scoping review of analytical observational studies</b>",
+        "published": "2026-08-03T21:13:11Z"
+      },
+      {
+        "id": 33107861,
+        "title": "GraphQLer Experimentation Dataset",
+        "published": "2026-08-03T21:12:51Z"
+      },
+      {
+        "id": 33148493,
+        "title": "Atividade avaliativa tecnologia da informa\u00e7\u00e3o",
+        "published": "2026-08-03T21:07:41Z"
+      },
+      {
+        "id": 33145304,
+        "title": "Quantum Motion through Space (QMS).",
+        "published": "2026-08-03T21:06:16Z"
+      },
+      {
+        "id": 33148507,
+        "title": "Improved Mechanical\nand Thermal Performance of Carbon\nFiber/Epoxy Composites by In Situ Grown ZIF-90 Interface",
+        "published": "2026-08-03T21:05:36Z"
+      },
+      {
+        "id": 33148504,
+        "title": "Stabilizing Solid-State Battery Interfaces with a\nPolyelectrolyte Complex Nanocoating",
+        "published": "2026-08-03T21:05:07Z"
+      },
+      {
+        "id": 33148501,
+        "title": "Designing Viologen Molecular Wires with Enhanced Electron\nTransport Properties: Implication for Molecular Electronics",
+        "published": "2026-08-03T21:04:31Z"
+      },
+      {
+        "id": 33148498,
+        "title": "A Candidate Small\nMolecule Targeting Tachykinin Receptor\n1 Suppresses Substance P\u2011Driven Extracellular Signal-Regulated\nKinase Activation and Tumor Innervation in Pancreatic Cancer",
+        "published": "2026-08-03T21:03:50Z"
+      },
+      {
+        "id": 33148495,
+        "title": "Synthesis of a Zinc(II)\nComplex from a 2,2\u2032-Thiodiphenol\nDerivative and Its Guest Inclusion Modes in the Solid State",
+        "published": "2026-08-03T21:03:20Z"
+      },
+      {
+        "id": 33065138,
+        "title": "Dataset supporting <i>Untangling dopamine and glutamate in the ventral tegmental area</i>",
+        "published": "2026-08-03T21:02:15Z"
+      },
+      {
+        "id": 33148481,
+        "title": "Segmented Time and Ancient Logic: A Necklace Journey Through Clepsydra Thinking",
+        "published": "2026-08-03T20:56:17Z"
+      },
+      {
+        "id": 33148484,
+        "title": "Integrating dynamic infection models, omics, population pharmacokinetic and quantitative and systems pharmacology modelling to evaluate antibiotic dosing strategies against resistant bacterial pathogens",
+        "published": "2026-08-03T20:49:16Z"
+      },
+      {
+        "id": 33148445,
+        "title": "Behavioral manifestations of third ventricular colloid cysts",
+        "published": "2026-08-03T20:43:36Z"
+      },
+      {
+        "id": 33148472,
+        "title": "Supplementary data from manuscript: A selected lipid profiling secreted by <i>Haemonchus contortus</i> is dependent on the nematode ABC transporters activity for its extrusion.",
+        "published": "2026-08-03T20:42:20Z"
+      },
+      {
+        "id": 33148475,
+        "title": "The Antinomous Triad: Ideal, Value, and Benefit in Ethical, Intellectual, and Practical Reasoning",
+        "published": "2026-08-03T20:40:42Z"
+      }
+    ],
+    "DepMap PRISM": [
+      {
+        "id": 33148541,
+        "title": "Checklist de accesibilidad para la revisi\u00f3n descriptiva de Planet Lingua seg\u00fan los principios WCAG 2.2",
+        "published": "2026-08-03T21:42:24Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T21:40:45Z"
+      },
+      {
+        "id": 33148538,
+        "title": "Matriz de evaluaci\u00f3n heur\u00edstica de la usabilidad de Planet Lingua basada en las diez heur\u00edsticas de Nielsen",
+        "published": "2026-08-03T21:40:03Z"
+      },
+      {
+        "id": 33148535,
+        "title": "Matriz de juicio de expertos para validar el contenido, la pertinencia did\u00e1ctica y la calidad gamificada de Planet Lingua",
+        "published": "2026-08-03T21:37:11Z"
+      },
+      {
+        "id": 33088037,
+        "title": "Generative AI and Simulation-Driven Predictive Modeling Framework Under Data Scarcity",
+        "published": "2026-08-03T21:36:53Z"
+      },
+      {
+        "id": 33148301,
+        "title": "Exploring Endocannabinoids As A Potential Indicator Of Affective State In Dairy Cattle",
+        "published": "2026-08-03T21:36:26Z"
+      },
+      {
+        "id": 30147601,
+        "title": "Analysis outputs",
+        "published": "2026-08-03T21:25:18Z"
+      },
+      {
+        "id": 33148520,
+        "title": "Apresenta\u00e7\u00e3o sobre O cl\u00e1ssico e o p\u00f3s-moderno: algumas reflex\u00f5es acerca da arquivologia a partir do pensamento de Hilary Jenkinson e Terry Cook",
+        "published": "2026-08-03T21:23:05Z"
+      },
+      {
+        "id": 32979686,
+        "title": "<p>Search for Cascade Resonances Decaying to a Photon and a Pair of Merged Photons in Proton-Proton Collisions at vs = 13 TeV</p>",
+        "published": "2026-08-03T21:18:38Z"
+      },
+      {
+        "id": 33148511,
+        "title": "Data and R code for \u201cContrasting responses of soil organic carbon and functional fractions across forest modification pathways: A meta-analysis\u201d",
+        "published": "2026-08-03T21:14:23Z"
+      },
+      {
+        "id": 32686089,
+        "title": "<b>Functional aspects of oral health and general health in older adults: a scoping review of analytical observational studies</b>",
+        "published": "2026-08-03T21:13:11Z"
+      },
+      {
+        "id": 33107861,
+        "title": "GraphQLer Experimentation Dataset",
+        "published": "2026-08-03T21:12:51Z"
+      },
+      {
+        "id": 33148493,
+        "title": "Atividade avaliativa tecnologia da informa\u00e7\u00e3o",
+        "published": "2026-08-03T21:07:41Z"
+      },
+      {
+        "id": 33145304,
+        "title": "Quantum Motion through Space (QMS).",
+        "published": "2026-08-03T21:06:16Z"
+      },
+      {
+        "id": 33148507,
+        "title": "Improved Mechanical\nand Thermal Performance of Carbon\nFiber/Epoxy Composites by In Situ Grown ZIF-90 Interface",
+        "published": "2026-08-03T21:05:36Z"
+      },
+      {
+        "id": 33148504,
+        "title": "Stabilizing Solid-State Battery Interfaces with a\nPolyelectrolyte Complex Nanocoating",
+        "published": "2026-08-03T21:05:07Z"
+      },
+      {
+        "id": 33148501,
+        "title": "Designing Viologen Molecular Wires with Enhanced Electron\nTransport Properties: Implication for Molecular Electronics",
+        "published": "2026-08-03T21:04:31Z"
+      },
+      {
+        "id": 33148498,
+        "title": "A Candidate Small\nMolecule Targeting Tachykinin Receptor\n1 Suppresses Substance P\u2011Driven Extracellular Signal-Regulated\nKinase Activation and Tumor Innervation in Pancreatic Cancer",
+        "published": "2026-08-03T21:03:50Z"
+      },
+      {
+        "id": 33148495,
+        "title": "Synthesis of a Zinc(II)\nComplex from a 2,2\u2032-Thiodiphenol\nDerivative and Its Guest Inclusion Modes in the Solid State",
+        "published": "2026-08-03T21:03:20Z"
+      },
+      {
+        "id": 33065138,
+        "title": "Dataset supporting <i>Untangling dopamine and glutamate in the ventral tegmental area</i>",
+        "published": "2026-08-03T21:02:15Z"
+      },
+      {
+        "id": 33148481,
+        "title": "Segmented Time and Ancient Logic: A Necklace Journey Through Clepsydra Thinking",
+        "published": "2026-08-03T20:56:17Z"
+      },
+      {
+        "id": 33148484,
+        "title": "Integrating dynamic infection models, omics, population pharmacokinetic and quantitative and systems pharmacology modelling to evaluate antibiotic dosing strategies against resistant bacterial pathogens",
+        "published": "2026-08-03T20:49:16Z"
+      },
+      {
+        "id": 33148445,
+        "title": "Behavioral manifestations of third ventricular colloid cysts",
+        "published": "2026-08-03T20:43:36Z"
+      },
+      {
+        "id": 33148472,
+        "title": "Supplementary data from manuscript: A selected lipid profiling secreted by <i>Haemonchus contortus</i> is dependent on the nematode ABC transporters activity for its extrusion.",
+        "published": "2026-08-03T20:42:20Z"
+      },
+      {
+        "id": 33148475,
+        "title": "The Antinomous Triad: Ideal, Value, and Benefit in Ethical, Intellectual, and Practical Reasoning",
+        "published": "2026-08-03T20:40:42Z"
+      }
+    ],
+    "prism drug repurposing": [
+      {
+        "id": 33148541,
+        "title": "Checklist de accesibilidad para la revisi\u00f3n descriptiva de Planet Lingua seg\u00fan los principios WCAG 2.2",
+        "published": "2026-08-03T21:42:24Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T21:40:45Z"
+      },
+      {
+        "id": 33148538,
+        "title": "Matriz de evaluaci\u00f3n heur\u00edstica de la usabilidad de Planet Lingua basada en las diez heur\u00edsticas de Nielsen",
+        "published": "2026-08-03T21:40:03Z"
+      },
+      {
+        "id": 33148535,
+        "title": "Matriz de juicio de expertos para validar el contenido, la pertinencia did\u00e1ctica y la calidad gamificada de Planet Lingua",
+        "published": "2026-08-03T21:37:11Z"
+      },
+      {
+        "id": 33088037,
+        "title": "Generative AI and Simulation-Driven Predictive Modeling Framework Under Data Scarcity",
+        "published": "2026-08-03T21:36:53Z"
+      },
+      {
+        "id": 33148301,
+        "title": "Exploring Endocannabinoids As A Potential Indicator Of Affective State In Dairy Cattle",
+        "published": "2026-08-03T21:36:26Z"
+      },
+      {
+        "id": 30147601,
+        "title": "Analysis outputs",
+        "published": "2026-08-03T21:25:18Z"
+      },
+      {
+        "id": 33148520,
+        "title": "Apresenta\u00e7\u00e3o sobre O cl\u00e1ssico e o p\u00f3s-moderno: algumas reflex\u00f5es acerca da arquivologia a partir do pensamento de Hilary Jenkinson e Terry Cook",
+        "published": "2026-08-03T21:23:05Z"
+      },
+      {
+        "id": 32979686,
+        "title": "<p>Search for Cascade Resonances Decaying to a Photon and a Pair of Merged Photons in Proton-Proton Collisions at vs = 13 TeV</p>",
+        "published": "2026-08-03T21:18:38Z"
+      },
+      {
+        "id": 33148511,
+        "title": "Data and R code for \u201cContrasting responses of soil organic carbon and functional fractions across forest modification pathways: A meta-analysis\u201d",
+        "published": "2026-08-03T21:14:23Z"
+      },
+      {
+        "id": 32686089,
+        "title": "<b>Functional aspects of oral health and general health in older adults: a scoping review of analytical observational studies</b>",
+        "published": "2026-08-03T21:13:11Z"
+      },
+      {
+        "id": 33107861,
+        "title": "GraphQLer Experimentation Dataset",
+        "published": "2026-08-03T21:12:51Z"
+      },
+      {
+        "id": 33148493,
+        "title": "Atividade avaliativa tecnologia da informa\u00e7\u00e3o",
+        "published": "2026-08-03T21:07:41Z"
+      },
+      {
+        "id": 33145304,
+        "title": "Quantum Motion through Space (QMS).",
+        "published": "2026-08-03T21:06:16Z"
+      },
+      {
+        "id": 33148507,
+        "title": "Improved Mechanical\nand Thermal Performance of Carbon\nFiber/Epoxy Composites by In Situ Grown ZIF-90 Interface",
+        "published": "2026-08-03T21:05:36Z"
+      },
+      {
+        "id": 33148504,
+        "title": "Stabilizing Solid-State Battery Interfaces with a\nPolyelectrolyte Complex Nanocoating",
+        "published": "2026-08-03T21:05:07Z"
+      },
+      {
+        "id": 33148501,
+        "title": "Designing Viologen Molecular Wires with Enhanced Electron\nTransport Properties: Implication for Molecular Electronics",
+        "published": "2026-08-03T21:04:31Z"
+      },
+      {
+        "id": 33148498,
+        "title": "A Candidate Small\nMolecule Targeting Tachykinin Receptor\n1 Suppresses Substance P\u2011Driven Extracellular Signal-Regulated\nKinase Activation and Tumor Innervation in Pancreatic Cancer",
+        "published": "2026-08-03T21:03:50Z"
+      },
+      {
+        "id": 33148495,
+        "title": "Synthesis of a Zinc(II)\nComplex from a 2,2\u2032-Thiodiphenol\nDerivative and Its Guest Inclusion Modes in the Solid State",
+        "published": "2026-08-03T21:03:20Z"
+      },
+      {
+        "id": 33065138,
+        "title": "Dataset supporting <i>Untangling dopamine and glutamate in the ventral tegmental area</i>",
+        "published": "2026-08-03T21:02:15Z"
+      },
+      {
+        "id": 33148481,
+        "title": "Segmented Time and Ancient Logic: A Necklace Journey Through Clepsydra Thinking",
+        "published": "2026-08-03T20:56:17Z"
+      },
+      {
+        "id": 33148484,
+        "title": "Integrating dynamic infection models, omics, population pharmacokinetic and quantitative and systems pharmacology modelling to evaluate antibiotic dosing strategies against resistant bacterial pathogens",
+        "published": "2026-08-03T20:49:16Z"
+      },
+      {
+        "id": 33148445,
+        "title": "Behavioral manifestations of third ventricular colloid cysts",
+        "published": "2026-08-03T20:43:36Z"
+      },
+      {
+        "id": 33148472,
+        "title": "Supplementary data from manuscript: A selected lipid profiling secreted by <i>Haemonchus contortus</i> is dependent on the nematode ABC transporters activity for its extrusion.",
+        "published": "2026-08-03T20:42:20Z"
+      },
+      {
+        "id": 33148475,
+        "title": "The Antinomous Triad: Ideal, Value, and Benefit in Ethical, Intellectual, and Practical Reasoning",
+        "published": "2026-08-03T20:40:42Z"
+      }
+    ]
+  },
+  "fet_grouping_by_fusion_call": {
+    "_what": "FET status from DepMap's own filtered fusion calls, not from disease labels",
+    "source_release": "24Q4",
+    "n_models_with_a_FET_fusion_call": 81,
+    "n_of_those_with_crispr": 55,
+    "model_ids_with_crispr": [
+      "ACH-000001",
+      "ACH-000013",
+      "ACH-000039",
+      "ACH-000041",
+      "ACH-000048",
+      "ACH-000052",
+      "ACH-000087",
+      "ACH-000092",
+      "ACH-000097",
+      "ACH-000210",
+      "ACH-000279",
+      "ACH-000317",
+      "ACH-000332",
+      "ACH-000344",
+      "ACH-000391",
+      "ACH-000424",
+      "ACH-000437",
+      "ACH-000452",
+      "ACH-000473",
+      "ACH-000484",
+      "ACH-000499",
+      "ACH-000520",
+      "ACH-000545",
+      "ACH-000608",
+      "ACH-000652",
+      "ACH-000660",
+      "ACH-000681",
+      "ACH-000740",
+      "ACH-000773",
+      "ACH-000820",
+      "ACH-000899",
+      "ACH-000910",
+      "ACH-000958",
+      "ACH-001029",
+      "ACH-001038",
+      "ACH-001041",
+      "ACH-001164",
+      "ACH-001192",
+      "ACH-001193",
+      "ACH-001197",
+      "ACH-001232",
+      "ACH-001283",
+      "ACH-001430",
+      "ACH-001431",
+      "ACH-001563",
+      "ACH-001669",
+      "ACH-001670",
+      "ACH-001735",
+      "ACH-001814",
+      "ACH-001863",
+      "ACH-001991",
+      "ACH-002019",
+      "ACH-002045",
+      "ACH-002780",
+      "ACH-002792"
+    ],
+    "_caveat": "a called EWSR1/FUS/TAF15 fusion is not automatically the ONCOGENIC driver fusion \u2014 read this as a wider, noisier grouping than the label one, and use the disagreement between the two as the uncertainty, not either alone",
+    "double_prediction_by_fusion_call": {
+      "ATR_axis": {
+        "FET_by_call": {
+          "group": "FET by fusion call",
+          "n_lines": 55,
+          "genes_used": [
+            "ATR",
+            "ATRIP",
+            "CHEK1",
+            "TOPBP1",
+            "CLSPN",
+            "RPA1",
+            "RPA2",
+            "RPA3"
+          ],
+          "axis_mean_gene_effect": -1.5564,
+          "axis_sd_across_lines": 0.1248,
+          "frac_lines_dependent_on_axis": 1.0,
+          "per_gene_mean": {
+            "ATR": -1.3079,
+            "ATRIP": -0.6438,
+            "CHEK1": -1.9001,
+            "TOPBP1": -1.4348,
+            "CLSPN": -0.9544,
+            "RPA1": -2.2643,
+            "RPA2": -1.7772,
+            "RPA3": -2.1684
+          }
+        },
+        "contrast_vs_everything_else": {
+          "t": 0.331,
+          "df": 62.4,
+          "mean_a": -1.5564,
+          "mean_b": -1.5621,
+          "delta_a_minus_b": 0.0058
+        }
+      },
+      "ATM_axis": {
+        "FET_by_call": {
+          "group": "FET by fusion call",
+          "n_lines": 55,
+          "genes_used": [
+            "ATM",
+            "MDC1",
+            "NBN",
+            "MRE11",
+            "RAD50",
+            "TP53BP1"
+          ],
+          "axis_mean_gene_effect": -0.1165,
+          "axis_sd_across_lines": 0.1125,
+          "frac_lines_dependent_on_axis": 0.0,
+          "per_gene_mean": {
+            "ATM": -0.0016,
+            "MDC1": -0.1574,
+            "NBN": -0.0419,
+            "MRE11": -0.4022,
+            "RAD50": -0.0076,
+            "TP53BP1": -0.0883
+          }
+        },
+        "contrast_vs_everything_else": {
+          "t": -0.721,
+          "df": 60.1,
+          "mean_a": -0.1165,
+          "mean_b": -0.1053,
+          "delta_a_minus_b": -0.0112
+        }
+      }
+    },
+    "agreement_with_label_grouping": {
+      "n_label_only": 10,
+      "n_call_only": 37,
+      "n_both": 18
+    }
+  },
+  "other_druggable_ddr_nodes": {
+    "WEE1": {
+      "FET_mean": -2.5656,
+      "non_FET_sarcoma_mean": -2.505
+    },
+    "CHEK2": {
+      "FET_mean": 0.1226,
+      "non_FET_sarcoma_mean": 0.1951
+    },
+    "PRKDC": {
+      "FET_mean": null,
+      "non_FET_sarcoma_mean": null
+    },
+    "PARP1": {
+      "FET_mean": -0.186,
+      "non_FET_sarcoma_mean": -0.2178
+    },
+    "POLQ": {
+      "FET_mean": -0.2932,
+      "non_FET_sarcoma_mean": -0.2725
+    },
+    "RAD51": {
+      "FET_mean": -1.5235,
+      "non_FET_sarcoma_mean": -1.4363
+    },
+    "USP1": {
+      "FET_mean": -0.3752,
+      "non_FET_sarcoma_mean": -0.3602
+    },
+    "PKMYT1": {
+      "FET_mean": -1.0121,
+      "non_FET_sarcoma_mean": -1.033
+    }
+  },
+  "context_gene_panel_means": {
+    "POLR2A": null,
+    "RPL5": -2.55,
+    "NR4A3": 0.0227,
+    "EWSR1": -0.8637,
+    "TAF15": -0.071,
+    "FUS": -0.0889,
+    "FLI1": -0.0245,
+    "ATF1": -0.1803,
+    "DDIT3": -0.163,
+    "WT1": 0.0844
+  },
+  "_controls": {
+    "RPL5_should_be_strongly_negative_panel_wide": -2.55,
+    "ATM_should_be_near_zero_panel_wide": -0.0076,
+    "_reading": "If RPL5 is not clearly essential or ATM is not near-neutral panel-wide, the read is broken and nothing else here should be quoted. \u26a0 POLR2A and PRKDC are NOT in the 24Q4 column set \u2014 measured on run 30848356798, which is why the pan-essential control is RPL5."
+  }
+}

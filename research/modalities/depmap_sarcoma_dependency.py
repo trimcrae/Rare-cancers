@@ -72,17 +72,47 @@ def _get(url, timeout=120, data=None, headers=None):
     raise RuntimeError(f"failed: {url}")
 
 
-def _download(url, timeout=900):
-    """Stream a (large) file to a temp path without holding it all in memory. Returns path."""
+def _download(url, timeout=900, total_deadline=None):
+    """Stream a (large) file to a temp path without holding it all in memory. Returns path.
+
+    ⚠ `timeout=` on urlopen is a PER-SOCKET-OPERATION timeout, NOT a whole-transfer deadline: a peer
+    that keeps dribbling a byte inside every timeout window never trips it, so the transfer can hang
+    indefinitely and the retry loop multiplies it. Measured on run 30853818120 — the DepMap step took
+    **15 min against a normal 17–26 s** and only ended because a re-dispatch cancelled it.
+
+    So the loop below enforces two REAL wall clocks on top of the socket timeout:
+      * `timeout`        — per-attempt whole-transfer deadline. An attempt that has been running
+                           longer than this is abandoned and retried, mid-stream.
+      * `total_deadline` — budget across ALL attempts (default 2 x `timeout`, replacing the old
+                           unbounded ~4 x `timeout` worst case). Once spent, we raise instead of
+                           starting another attempt.
+    The workflow's `timeout-minutes:` is the outer backstop; this is the one that lets a stalled
+    transfer *retry* rather than merely die.
+    """
     import tempfile
     import time
+    if total_deadline is None:
+        total_deadline = 2 * timeout
+    hard_stop = time.monotonic() + total_deadline
     f = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
     for i in range(4):
+        if time.monotonic() >= hard_stop:
+            break
+        attempt_stop = min(time.monotonic() + timeout, hard_stop)
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "rare-cancers/1.0"})
             with urllib.request.urlopen(req, timeout=timeout) as r:
+                # ⚠ `read()` blocks until it has the FULL requested size, so a deadline checked
+                # around `r.read(1<<20)` is never reached while a peer dribbles — measured: the
+                # first version of this fix still hung. `read1()` returns whatever has arrived,
+                # which is what makes the wall clock below actually run.
+                read1 = getattr(r, "read1", None) or r.read
                 while True:
-                    chunk = r.read(1 << 20)
+                    if time.monotonic() > attempt_stop:
+                        raise TimeoutError(
+                            f"whole-transfer deadline {timeout}s exceeded after "
+                            f"{f.tell()} bytes (socket was still alive)")
+                    chunk = read1(1 << 20)
                     if not chunk:
                         break
                     f.write(chunk)
@@ -91,8 +121,11 @@ def _download(url, timeout=900):
         except Exception as e:  # noqa
             print(f"  retry {i+1} download {url[:80]}: {e}", file=sys.stderr)
             f.seek(0); f.truncate()
-            time.sleep(2 ** i)
-    raise RuntimeError(f"failed download: {url}")
+            remaining = hard_stop - time.monotonic()
+            if remaining <= 0:
+                break
+            time.sleep(min(2 ** i, max(0.0, remaining)))
+    raise RuntimeError(f"failed download (total deadline {total_deadline}s): {url}")
 
 
 def _article_files(aid):
