@@ -1,0 +1,1706 @@
+{
+  "_title": "EWSR1::NR4A3 fusion-object sequence inventory at the CORRECTED junction (rung R13-a)",
+  "_owner": "research/manuscripts/nr4a3-program-map.md THE ORDERED PLAN -> RUNG S, and \u00a710.1 row 9",
+  "_cost": "$0 \u2014 free GitHub CPU runner. No GPU, no SageMaker, no Vast rental, nothing billed.",
+  "_serves": "R13 \u2014 validation requirement 5, 'the modelled object is the real biological object'",
+  "_limits": [
+    "Exon arithmetic and sequence composition only. No structure, pose, contact, reach, reactivity, affinity or degradation quantity is computed or implied.",
+    "The patient-level breakpoint is NOT pinned. Only a primary breakpoint report can pin it, and EMC carries several; every row is therefore classified INVARIANT or BREAKPOINT_DEPENDENT.",
+    "Canonical transcripts only. A different transcript gives a different exon->residue map, and EMC breakpoints are reported against specific transcripts.",
+    "No efficacy, safety, tolerability, therapeutic-window or clinical claim is made or implied.",
+    "This module does not edit the roadmap, the paper or the SI. Required edits are ROUTED in map_edits_required and must be applied by whoever owns those files."
+  ],
+  "_utc": "2026-08-03T01:53:33Z",
+  "refusals": [],
+  "_source": "Ensembl REST, canonical transcripts, re-derived this run (never read back from a committed artifact \u2014 that is what the gate is for)",
+  "transcripts": {
+    "EWSR1": {
+      "transcript": "ENST00000397938",
+      "translation": "ENSP00000381031",
+      "protein_length": 656,
+      "self_checks": {
+        "offsets_sum_equals_cds_length": true,
+        "cds_translation_equals_ensembl_protein": true,
+        "n_transcript_exons": 17,
+        "n_coding_exons": 17,
+        "first_transcript_exon_is_coding": true
+      }
+    },
+    "NR4A3": {
+      "transcript": "ENST00000395097",
+      "translation": "ENSP00000378531",
+      "protein_length": 626,
+      "self_checks": {
+        "offsets_sum_equals_cds_length": true,
+        "cds_translation_equals_ensembl_protein": true,
+        "n_transcript_exons": 8,
+        "n_coding_exons": 6,
+        "first_transcript_exon_is_coding": false
+      }
+    }
+  },
+  "sequence_cross_check": {
+    "NR4A3": {
+      "uniprot_cache_len": 626,
+      "ensembl_translation_len": 626,
+      "identical": true,
+      "_why_it_matters": "residue numbering for the uniqueness marks comes from the UniProt cache; residue numbering for the exon map comes from Ensembl"
+    },
+    "EWSR1": {
+      "uniprot_cache_len": 656,
+      "ensembl_translation_len": 656,
+      "identical": true,
+      "_why_it_matters": "residue numbering for the uniqueness marks comes from the UniProt cache; residue numbering for the exon map comes from Ensembl"
+    }
+  },
+  "gate": {
+    "status": "REPRODUCED",
+    "junction": "EWSR1(1-264)::NR4A3(1-626)",
+    "checks": [
+      {
+        "check": "EWSR1 exon 7 is coding and ends at residue 264",
+        "got": 264,
+        "want": 264,
+        "ok": true
+      },
+      {
+        "check": "NR4A3 exon 3 is coding and begins at residue 1",
+        "got": 1,
+        "want": 1,
+        "ok": true
+      },
+      {
+        "check": "NR4A3 canonical protein is 626 aa",
+        "got": 626,
+        "want": 626,
+        "ok": true
+      },
+      {
+        "check": "NR4A3 transcript exons 1 and 2 are non-coding (the cause of the off-by-two)",
+        "got": [
+          1,
+          2
+        ],
+        "want": [
+          1,
+          2
+        ],
+        "ok": true
+      },
+      {
+        "check": "both exon maps passed their own translate-and-sum self-checks",
+        "got": {
+          "NR4A3": {
+            "offsets_sum_equals_cds_length": true,
+            "cds_translation_equals_ensembl_protein": true
+          },
+          "EWSR1": {
+            "offsets_sum_equals_cds_length": true,
+            "cds_translation_equals_ensembl_protein": true
+          }
+        },
+        "want": "all true",
+        "ok": true
+      }
+    ],
+    "ewsr1_exon7_coding_phase": 1,
+    "_phase_note": "EWSR1 exon 7 ends 1 nt past a codon boundary, so residue 265 is SPLIT across the splice junction. That is a normal exon phase and is reported, not corrected: the PROTEIN-level junction the gate asserts is EWSR1 kept to residue 264, and how the split codon is completed depends on the acceptor exon's own 5' phase.",
+    "_what_a_refusal_means": "the exon structure this run read does not produce the corrected junction; NOTHING downstream may be emitted, because an inventory of the wrong object is worse than no inventory"
+  },
+  "breakpoints": {
+    "breakpoints": [
+      {
+        "ewsr1_exon_end": 6,
+        "ewsr1_last_residue": 193,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 6,
+        "ewsr1_last_residue": 193,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 7,
+        "ewsr1_last_residue": 264,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": true
+      },
+      {
+        "ewsr1_exon_end": 7,
+        "ewsr1_last_residue": 264,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 8,
+        "ewsr1_last_residue": 324,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 8,
+        "ewsr1_last_residue": 324,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 9,
+        "ewsr1_last_residue": 337,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 9,
+        "ewsr1_last_residue": 337,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 10,
+        "ewsr1_last_residue": 348,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 10,
+        "ewsr1_last_residue": 348,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 11,
+        "ewsr1_last_residue": 388,
+        "ewsr1_coding_phase": 0,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 11,
+        "ewsr1_last_residue": 388,
+        "ewsr1_coding_phase": 0,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 12,
+        "ewsr1_last_residue": 431,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 12,
+        "ewsr1_last_residue": 431,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 13,
+        "ewsr1_last_residue": 472,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 13,
+        "ewsr1_last_residue": 472,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 14,
+        "ewsr1_last_residue": 526,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 14,
+        "ewsr1_last_residue": 526,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      }
+    ],
+    "skipped_exons": [
+      {
+        "side": "NR4A3",
+        "exon": 2,
+        "why": "carries no coding sequence"
+      }
+    ],
+    "n_breakpoints": 18,
+    "windows": {
+      "EWSR1_exons": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "NR4A3_exons": [
+        2,
+        3,
+        4
+      ],
+      "_read_from": "fusion_breakpoints.EWSR1_EXON_WINDOW / NR4A3_EXON_WINDOW"
+    },
+    "_filter": "the declared windows only. Whether a given chimera is the PATIENT's chimera is not decidable from exon structure and is not decided here."
+  },
+  "plausible_breakpoints": {
+    "n_arithmetically_possible": 18,
+    "n_after_DBD_filter": 9,
+    "plausible": [
+      {
+        "ewsr1_exon_end": 6,
+        "ewsr1_last_residue": 193,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 7,
+        "ewsr1_last_residue": 264,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": true
+      },
+      {
+        "ewsr1_exon_end": 8,
+        "ewsr1_last_residue": 324,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 9,
+        "ewsr1_last_residue": 337,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 10,
+        "ewsr1_last_residue": 348,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 11,
+        "ewsr1_last_residue": 388,
+        "ewsr1_coding_phase": 0,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 12,
+        "ewsr1_last_residue": 431,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 13,
+        "ewsr1_last_residue": 472,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 14,
+        "ewsr1_last_residue": 526,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 3,
+        "nr4a3_first_residue": 1,
+        "retains_AF1": true,
+        "retains_zinc_finger_DBD": true,
+        "retains_LBD": true,
+        "retains_C166": true,
+        "is_canonical": false
+      }
+    ],
+    "excluded_by_DBD_filter": [
+      {
+        "ewsr1_exon_end": 6,
+        "ewsr1_last_residue": 193,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 7,
+        "ewsr1_last_residue": 264,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 8,
+        "ewsr1_last_residue": 324,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 9,
+        "ewsr1_last_residue": 337,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 10,
+        "ewsr1_last_residue": 348,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 11,
+        "ewsr1_last_residue": 388,
+        "ewsr1_coding_phase": 0,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 12,
+        "ewsr1_last_residue": 431,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 13,
+        "ewsr1_last_residue": 472,
+        "ewsr1_coding_phase": 1,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      },
+      {
+        "ewsr1_exon_end": 14,
+        "ewsr1_last_residue": 526,
+        "ewsr1_coding_phase": 2,
+        "nr4a3_exon_start": 4,
+        "nr4a3_first_residue": 318,
+        "retains_AF1": false,
+        "retains_zinc_finger_DBD": false,
+        "retains_LBD": true,
+        "retains_C166": false,
+        "is_canonical": false
+      }
+    ],
+    "filter": "an intact C4 zinc-finger DBD (opens at NR4A3 C292)",
+    "filter_evidence": "Filion 2009, PMC4429309 \u2014 the fusion transactivates a PPARG-promoter response element, a DBD-dependent function (cited in nr4a3-emc-biology-evidence.md hypothesis 2, pillar 2)",
+    "_still_not_pinned": "this narrows the set; it does not choose within it. Only a primary breakpoint report pins the patient-level junction, and EMC carries several."
+  },
+  "domains": {
+    "AF1/N-terminal (disordered)": [
+      1,
+      260
+    ],
+    "DNA-binding domain (zinc fingers)": [
+      261,
+      337
+    ],
+    "hinge": [
+      338,
+      372
+    ],
+    "ligand-binding domain": [
+      373,
+      626
+    ]
+  },
+  "inventory": {
+    "rows": [
+      {
+        "protein": "NR4A3",
+        "residue": "C3",
+        "resnum": 3,
+        "kind": "C",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C75",
+        "resnum": 75,
+        "kind": "C",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C166",
+        "resnum": 166,
+        "kind": "C",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": [
+          "NR4A1",
+          "NR4A2"
+        ],
+        "uniqueness_alignment_robust": true
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C292",
+        "resnum": 292,
+        "kind": "C",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C295",
+        "resnum": 295,
+        "kind": "C",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C301",
+        "resnum": 301,
+        "kind": "C",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C309",
+        "resnum": 309,
+        "kind": "C",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C312",
+        "resnum": 312,
+        "kind": "C",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C328",
+        "resnum": 328,
+        "kind": "C",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C334",
+        "resnum": 334,
+        "kind": "C",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C344",
+        "resnum": 344,
+        "kind": "C",
+        "domain": "hinge",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C347",
+        "resnum": 347,
+        "kind": "C",
+        "domain": "hinge",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "C352",
+        "resnum": 352,
+        "kind": "C",
+        "domain": "hinge",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K37",
+        "resnum": 37,
+        "kind": "K",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K72",
+        "resnum": 72,
+        "kind": "K",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K85",
+        "resnum": 85,
+        "kind": "K",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K136",
+        "resnum": 136,
+        "kind": "K",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K178",
+        "resnum": 178,
+        "kind": "K",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": [
+          "NR4A1",
+          "NR4A2"
+        ],
+        "uniqueness_alignment_robust": true
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K194",
+        "resnum": 194,
+        "kind": "K",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K249",
+        "resnum": 249,
+        "kind": "K",
+        "domain": "AF1/N-terminal (disordered)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K313",
+        "resnum": 313,
+        "kind": "K",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K317",
+        "resnum": 317,
+        "kind": "K",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K322",
+        "resnum": 322,
+        "kind": "K",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K325",
+        "resnum": 325,
+        "kind": "K",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K332",
+        "resnum": 332,
+        "kind": "K",
+        "domain": "DNA-binding domain (zinc fingers)",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K338",
+        "resnum": 338,
+        "kind": "K",
+        "domain": "hinge",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K351",
+        "resnum": 351,
+        "kind": "K",
+        "domain": "hinge",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K359",
+        "resnum": 359,
+        "kind": "K",
+        "domain": "hinge",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "NR4A3",
+        "residue": "K368",
+        "resnum": 368,
+        "kind": "K",
+        "domain": "hinge",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_nr4a3_resumes_at": [
+          1
+        ],
+        "absent_when_nr4a3_resumes_at": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "C384",
+        "resnum": 384,
+        "kind": "C",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          4,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          388,
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "C524",
+        "resnum": 524,
+        "kind": "C",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          1,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388,
+          431,
+          472
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K144",
+        "resnum": 144,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "INVARIANT",
+        "present_under_n_of_n_plausible": [
+          9,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388,
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K335",
+        "resnum": 335,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          6,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          337,
+          348,
+          388,
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K382",
+        "resnum": 382,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          4,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          388,
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K388",
+        "resnum": 388,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          4,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          388,
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K391",
+        "resnum": 391,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          3,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K404",
+        "resnum": 404,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          3,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K408",
+        "resnum": 408,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          3,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K410",
+        "resnum": 410,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          3,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K424",
+        "resnum": 424,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          3,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          431,
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K433",
+        "resnum": 433,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          2,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388,
+          431
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K439",
+        "resnum": 439,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          2,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388,
+          431
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K441",
+        "resnum": 441,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          2,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388,
+          431
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K447",
+        "resnum": 447,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          2,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388,
+          431
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      },
+      {
+        "protein": "EWSR1",
+        "residue": "K448",
+        "resnum": 448,
+        "kind": "K",
+        "domain": "EWSR1 prion-like low-complexity / EAD",
+        "in_modelled_LBD_construct": false,
+        "class": "BREAKPOINT_DEPENDENT",
+        "present_under_n_of_n_plausible": [
+          2,
+          9
+        ],
+        "present_when_ewsr1_kept_to": [
+          472,
+          526
+        ],
+        "absent_when_ewsr1_kept_to": [
+          193,
+          264,
+          324,
+          337,
+          348,
+          388,
+          431
+        ],
+        "nr4a3_unique_vs_paralogues": null,
+        "uniqueness_alignment_robust": null,
+        "_note": "no NR4A paralogue carries an EWSR1 moiety at all, so 'paralogue-unique' is not the right frame for this half; it is FUSION-specific, which is a different and stronger categorical axis and a different question from selectivity vs NR4A1/2."
+      }
+    ],
+    "n_rows": 45,
+    "n_invariant": 30,
+    "n_breakpoint_dependent": 15,
+    "_where_the_variation_is": {
+      "proteins": [
+        "EWSR1"
+      ],
+      "clause": " \u2014 and every breakpoint-dependent residue is on the EWSR1 side, because the DNA-binding-domain requirement pins the NR4A3 resume and only the EWSR1 cut moves"
+    },
+    "excluded_span": {
+      "NR4A3_residues_excluded_by_the_construct": "1-372",
+      "n_NR4A3_residues_excluded": 372,
+      "canonical_EWSR1_residues_in_the_chimera": "1-264",
+      "n_EWSR1_residues_canonical": 264,
+      "EWSR1_kept_range_across_plausible_breakpoints": [
+        193,
+        526
+      ],
+      "n_reactive_residues_outside_the_construct_at_the_canonical_junction": 30,
+      "modelled_construct": "NR4A3 373-626",
+      "n_modelled": 254,
+      "nr4a3_resume_range_across_plausible_breakpoints": [
+        1,
+        1
+      ]
+    },
+    "unique_reactive_residues_outside_the_construct": [
+      "C166",
+      "K178"
+    ],
+    "_what_this_licenses": "a SCOPE statement: which residues of the real object every geometry claim in this program is silent about. It licenses no geometry, no reach, no reactivity and no degradation claim about any of them \u2014 those would need a structure that contains them, and none exists here."
+  },
+  "neoantigen_lane_flag": {
+    "read": true,
+    "n_junctions": 7,
+    "n_predicted_binders": 26,
+    "nr4a3_resume_residues_in_the_artifact": [
+      318,
+      361,
+      419
+    ],
+    "nr4a3_resume_residues_that_survive_the_corrected_windows": [
+      1
+    ],
+    "all_seams_stale": true,
+    "stale_resume_residues": [
+      318,
+      361,
+      419
+    ],
+    "verdict": "EVERY committed junction resumes at a residue no plausible corrected breakpoint produces \u2014 so all 26 predicted binders span seams that do not exist",
+    "\u26d4_not_fixed_here": "regenerating this artifact needs MHCflurry, which is that lane's call and not this rung's. R13-a FLAGS it. Do not quote any of those binders."
+  },
+  "the_sentence": "Every structure in this work is an isolated NR4A3 ligand-binding-domain construct (NR4A3 373-626); the EWSR1::NR4A3 fusion protein that defines extraskeletal myxoid chondrosarcoma additionally contains NR4A3 residues 1-372 and, at the canonical exon-derived junction, EWSR1 residues 1-264, so 30 reactive residues \u2014 including the NR4A3-unique cysteine C166 \u2014 lie outside every structure reported here and outside the reach of every geometric statement made about them.  (NR4A3-unique among those: C166, K178.)  The patient-level breakpoint is not pinned; across every breakpoint the declared windows allow that retains the DNA-binding domain, 30 of the 45 reactive residues enumerated are invariant and 15 are breakpoint-dependent \u2014 and every breakpoint-dependent residue is on the EWSR1 side, because the DNA-binding-domain requirement pins the NR4A3 resume and only the EWSR1 cut moves.",
+  "map_edits_required": [
+    {
+      "section": "THE ORDERED PLAN \u2192 RUNG S",
+      "anchor": "**`[ ]` `R13-a` \u00b7 Fusion-junction SEQUENCE inventory, at the CORRECTED junction**",
+      "current_text": "**`[ ]` `R13-a` \u00b7 Fusion-junction SEQUENCE inventory, at the CORRECTED junction**",
+      "proposed_text": "**`[x]` `R13-a` \u00b7 Fusion-junction SEQUENCE inventory, at the CORRECTED junction \u2014 RAN 2026-08-03, $0, gate REPRODUCED**",
+      "why": "the rung ran on a free CI runner at $0; the junction re-derived from Ensembl exon structure alone reproduces EWSR1(1-264)::NR4A3(1-626), and the inventory names 45 reactive residues of the real object that lie outside the modelled LBD construct",
+      "artifact": "research/modalities/fusion-object-inventory.json"
+    },
+    {
+      "section": "\u00a710.1 row 9",
+      "anchor": "**RUN `R13-a` \u2014 it needs no authorization.**",
+      "current_text": "**RUN `R13-a` \u2014 it needs no authorization.**",
+      "proposed_text": "\u2705 **`R13-a` RAN 2026-08-03 ($0, CI) \u2014 the gate REPRODUCED `EWSR1(1-264)::NR4A3(1-626)` from exon structure alone, and the inventory is [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json).**",
+      "why": "row 9's next action was to run R13-a; it has run and the object is now stated at the sequence level, with what is invariant across breakpoints separated from what is not",
+      "artifact": "research/modalities/fusion-object-inventory.json"
+    },
+    {
+      "section": "\u00a79 / the neoantigen lane",
+      "anchor": "fusion-breakpoint-neoantigens.json",
+      "current_text": "fusion-breakpoint-neoantigens.json",
+      "proposed_text": "fusion-breakpoint-neoantigens.json \u26d4 **STALE \u2014 re-derived 2026-08-03: every committed junction resumes at a residue no corrected breakpoint produces, so all 26 predicted binders span seams that do not exist. Flagged, not fixed (MHCflurry-in-CI is that lane's call).**",
+      "why": "the off-by-two fix invalidated that artifact's seams and nothing on the map says so",
+      "artifact": "research/modalities/fusion-object-inventory.json"
+    }
+  ]
+}
