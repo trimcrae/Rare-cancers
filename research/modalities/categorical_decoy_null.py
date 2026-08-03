@@ -1609,6 +1609,15 @@ def cysteine_level_background(decoys, refs):
                                                  [g["P_gate_EXPOSED"] for g in graded])
                                    if p.get("P_gate_EXPOSED") is not None and graded else None),
             "⚠_percentile_resolution": (round(1.0 / len(graded), 4) if graded else None),
+            # ⚠ ANTI-DOUBLE-COUNTING. When the target's own P is EXACTLY 0 — which is the interesting
+            #   case and the one this whole lane is about — the percentile is by definition
+            #   P(background <= 0) = the background's `frac_exactly_zero`. They are THE SAME NUMBER, and
+            #   quoting both as if they were two independent findings would be counting one measurement
+            #   twice. Flagged per row rather than left for a reader to notice.
+            "⚠_percentile_equals_the_background_zero_rate": (
+                "this row's P is exactly 0, so its percentile IS the background's `frac_exactly_zero` — "
+                "one measurement, not two. Do not quote them as independent evidence."
+                if p.get("P_gate") == 0.0 else None),
             # ★ THE LICENCE TRAVELS WITH THE NUMBER. This program has repeatedly learned that a caveat
             #   living 400 lines above a figure is a caveat that gets dropped when the figure is quoted —
             #   it is the whole reason §3.4 fact 4 exists. So the scope of what a favourable percentile
