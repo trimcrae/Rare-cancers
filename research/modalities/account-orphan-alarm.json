@@ -1,7 +1,7 @@
 {
  "_what": "cross-lane, ACCOUNT-KEYED alarm: is any host billing whose lane has stopped reporting? Keyed on the Vast account because a lane-scoped watcher structurally cannot see a host whose lane stopped. REPORT-ONLY: this never destroys, stops, reaps, nudges or rents.",
- "generated_utc": "2026-08-03T14:20:04Z",
- "generated_et": "10:20 AM ET Aug 3, 2026",
+ "generated_utc": "2026-08-03T14:30:07Z",
+ "generated_et": "10:30 AM ET Aug 3, 2026",
  "thresholds": {
   "lane_silent_min": 40.0,
   "census_stale_min": 45.0,
@@ -10,11 +10,11 @@
  "report_only": true,
  "census_utc": "2026-08-03T13:27:00Z",
  "census_et": "9:27 AM ET Aug 3, 2026",
- "census_age_min": 53.1,
+ "census_age_min": 63.1,
  "census_n_instances": 0,
  "verdict": "CENSUS-STALE",
  "ok": false,
- "detail": "the account census is 53 min old (stamped 9:27 AM ET Aug 3, 2026; threshold 45 min), so it is NOT treated as a weaker reading \u2014 it is not treated as a reading at all, and every lane verdict is suppressed. Measured today: it went 155 min stale, a window in which a naive check would have reported all-clear while two hosts were up. The census writer is a diagnostic task dispatched from a supervisor loop; if it has stopped, that is the incident.",
+ "detail": "the account census is 63 min old (stamped 9:27 AM ET Aug 3, 2026; threshold 45 min), so it is NOT treated as a weaker reading \u2014 it is not treated as a reading at all, and every lane verdict is suppressed. Measured today: it went 155 min stale, a window in which a naive check would have reported all-clear while two hosts were up. The census writer is a diagnostic task dispatched from a supervisor loop; if it has stopped, that is the incident.",
  "graded": false,
  "lanes": null,
  "orphans": null,
