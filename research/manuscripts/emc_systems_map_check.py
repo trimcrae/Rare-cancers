@@ -51,9 +51,18 @@ VIEW_PATH = os.path.join(REPO, "research/manuscripts/emc-systems-map.md")
 
 # The ref a reader following a link from the default branch would actually open. Claim artifacts are
 # checked THERE, not in the working tree -- checking the working tree is what let failure 4 survive.
-# `actions/checkout` fetches one branch, so on a feature-branch CI run the local `main` may not
-# exist; the remote-tracking ref is tried next, and only then does the check fall back (loudly).
-PUBLISH_REF_CANDIDATES = ("main", "origin/main", "refs/remotes/origin/main")
+#
+# ⚠ THE REMOTE-TRACKING REF COMES FIRST, AND THAT ORDER IS THE WHOLE POINT. The first version of
+# this list tried local `main` first and was measured, minutes later, reading a local `main` that
+# was 183 commits stale -- so it reported nine claim artifacts as absent/stubbed when they had just
+# been merged and pushed. A stale local branch reporting as the publish ref is EXACTLY the failure
+# this checker exists to catch, committed by the checker itself. What a reader opens is the ref on
+# the remote; a local branch of the same name is a convenience, not the publish ref, so it is the
+# LAST resort and says so when it is used.
+#
+# `actions/checkout` fetches one branch, so on a feature-branch CI run neither may exist until the
+# workflow's explicit fetch runs; the check then falls back to the working tree, loudly.
+PUBLISH_REF_CANDIDATES = ("origin/main", "refs/remotes/origin/main", "main")
 
 # An instrument whose own known-answer control is in one of these states may not be listed as
 # SUPPORT for a route. `none` is included deliberately: "no control exists" and "the control failed"
@@ -397,6 +406,10 @@ def check_claims(m, f):
     artifacts = {a["id"]: a for a in m.get("artifacts", [])}
     publish_ref = next((r for r in PUBLISH_REF_CANDIDATES if ref_exists(r)), None)
     have_ref = publish_ref is not None
+    if publish_ref == "main":
+        f.warn("C1", "no remote-tracking origin/main in this checkout, so claim artifacts were "
+                     "checked against the LOCAL `main`, which can be arbitrarily stale -- fetch "
+                     "origin/main before trusting a C1/C2 result")
     if not have_ref:
         f.warn("C1", f"none of {PUBLISH_REF_CANDIDATES} is present in this checkout -- claim "
                      f"artifacts were checked in the WORKING TREE, which is weaker than the "
@@ -872,7 +885,7 @@ def render_view(m):
     w("## 7 · Artifacts — which module writes them, which workflow runs it, which ref they land on")
     w("")
     w("⚠ **The ref matters.** An artifact on the wrong branch is a stale fact that reads as a "
-      "current one (CLAUDE.md §7). Claims are checked against **`" + PUBLISH_REF_CANDIDATES[0] + "`**, "
+      "current one (CLAUDE.md §7). Claims are checked against **`" + "main" + "`**, "
       "not against the working tree.")
     w("")
     w("| artifact | produced by | workflow | published to | note |")
@@ -887,7 +900,7 @@ def render_view(m):
     w("## 8 · Claims — a quoted figure and the one field that is its home")
     w("")
     w("The registry records **where** each figure lives, never the figure. The checker resolves "
-      "each field against the artifact **on `" + PUBLISH_REF_CANDIDATES[0] + "`** and fails if it "
+      "each field against the artifact **on `" + "main" + "`** and fails if it "
       "is absent, a stub, or missing the field.")
     w("")
     w("| claim | document | what it quotes | its one home |")
