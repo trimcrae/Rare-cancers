@@ -253,3 +253,81 @@ See the lane's final report for the verbatim quote/replacement pairs; in substan
   discrimination in practice comes from the analogue tier and the open solid angle. This is reported, **not
   retuned** — amending a preregistered rule after seeing the result is exactly the move nr4a3-program-map.md forbids
   without a dated, reviewed defect-fix.
+
+---
+
+## 9 · Re-checked 2026-08-03 — the trigger fired, and the row did not move
+
+The reopening trigger this lane's §5 named — `TRG-E3-RECRUITER-STRUCTURE` in
+[`method-watch-triggers.json`](../method-watch-triggers.json) — fired for the first time on
+2026-08-03, surfacing two *J. Med. Chem.* papers. Both were read and graded. **Verdict:
+DOES NOT REOPEN.** Cost **$0** (one CI fetch, no GPU, no rental).
+
+Numbers, entry lists and HTTP statuses are **not restated here** — their one home is
+[`e3-recruiter-pdb-recheck-2026-08-03.json`](e3-recruiter-pdb-recheck-2026-08-03.json), and the raw
+fetched text is on the `literature-cache` branch under `literature/e3-recruiter-trigger/`
+(corpus [`lit-targets-e3-recruiter-trigger.json`](../manuscripts/lit-targets-e3-recruiter-trigger.json),
+`fetch-literature.yml` run 30861878219).
+
+**★ The decisive fact is a PDB census, not a paper — and it was free the whole time.** The trigger's
+criterion is a *deposited partner-free liganded structure*, which no paper text can establish and no
+abstract can refute. Re-queried live against RCSB, the census for all three blocked recruiters is
+**unchanged from the 2026-07-25 run**: RNF114 still returns zero entries, DCAF16 still has exactly
+three and every one is ternary (DCAF16 + DDB1 + a bromodomain partner, so
+`geometry_frame.n_clean_binary_entries` is still **0**), and DCAF15's nine entries are the same nine
+this lane screened. Neither paper has a released PDB entry for these accessions. ⚠ A structure
+deposited but still **on hold** would be invisible to this check; that limit is stated rather than
+glossed, and it is why the trigger stays `watching`.
+
+**Why the DCAF16 paper does not touch §5's drop.** *"New Reversible Covalent Warheads:
+Cyanobenzothiazoles Recruiting DCAF16…"* (PMID 42045146, `10.1021/acs.jmedchem.6c00889`) describes,
+in its own abstract, a warhead carried on the **BRD4-targeting** ligand which *"modifies DCAF16 at
+Cys58, promoting ternary complex formation"*. That is the same template-assisted glue architecture
+the **0.344** buried fraction measured — it corroborates §5's reading rather than overturning it.
+This lane never claimed DCAF16 lacks binders; it measured that DCAF16's site is not a handle pocket
+once the partner is removed.
+
+**⚠ Evidence level, stated plainly.** Both papers are paywalled and **only their abstracts were
+obtained** (Europe PMC `fullTextXML` 404, neither in PMC, no preprint version indexed). An abstract
+cannot establish a buried-surface fraction or an exit vector, so the reading of the papers is
+**provisional**. The verdict does not depend on it: it rests on the PDB census, which is definitive.
+
+### 9b · The FEM1B paper is a different question, and the answer is a different trigger
+
+*"Structure-Guided Discovery of Novel Dual-Site FEM1B Ligands…"* (PMID 42456065,
+`10.1021/acs.jmedchem.6c00968`) is not about a blocked recruiter. **FEM1B is one of the ten this lane
+staged**, it **passed all three gates**, and it already had partner-free liganded structures when
+this lane ran — `n_clean_binary_entries` was **7** (the VU-series entries released 2025-11-26, from a
+*Protein Sci.* NMR fragment screen, PMID 41229306; **not** from this paper). FEM1B was dropped on the
+**Pareto front**, on the two axes §5's table records.
+
+The paper bears on exactly **one** of those two: it reports FEM1B-based PROTACs, which is the linker
+chemistry §8's second limit anticipated — *"A tier-1 recruiter is 'no solved linker-bearing
+structure', not 'no linker chemistry exists'."* But `linker_analogue_tier` is defined **structurally
+from deposited entries**, and this paper deposited none, so the tier cannot move. Its other losing
+axis, the open solid angle at 0.045 — the tightest exit in the panel — is untouched by any amount of
+chemistry. That distinct capability now has its own watch row,
+**`TRG-FEM1B-LINKER-BEARING-STRUCTURE`**, rather than being folded into the recruiter-structure
+trigger, because merging them would let a FEM1B hit read as a DCAF16 unblocking.
+
+### 9c · What this grading changed, and the one thing it deliberately did not
+
+**Changed — the trigger's queries**, which are the durable deliverable of a *does not reopen*. The
+first firing returned six hits and none satisfied the criterion, for two reasons both located in the
+query rather than in the field: it searched **KEAP1 and FEM1B**, which are gate-*passers* dropped on
+a different axis (three of the six hits were KEAP1 redox pharmacology), and its second clause
+admitted `TITLE:ligand`, `TITLE:covalent`, `TITLE:degrader` and `TITLE:recruiter` — terms that select
+for *"a ligand exists"*, **the constraint §1 of this lane already recorded as the wrong one**. The
+revision scopes the genes to the three the row blocks and requires a structural word; re-run against
+the six recorded hits it rejects all six, and admits hand-written positive controls. The superseded
+query is kept verbatim in the trigger's `search._query_revision`.
+
+**Not changed — the row itself, and nothing downstream.** ⚠ And one thing worth saying even though it
+deflates the finding: `R9` and `R12` are both *future — NOT STARTED*, and
+[`emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md) §0 puts the E3
+recruiter on the **liability** side of the split it draws — *"the degradation geometry — ternary, E3,
+exit vector, ubiquitin transfer, and a ~1 kcal/mol paralogue margin"* — not the asset side. So even a
+genuine reopen here would reopen a parked row **inside a programme parked for unrelated,
+architectural reasons.** The trigger is kept because a partner-free DCAF16 or RNF114 structure would
+be a real field advance worth recording; it now carries a `consequence_caveat` saying in its own
+metadata that a hit is not by itself a reason to spend.

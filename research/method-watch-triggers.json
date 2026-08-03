@@ -8,7 +8,7 @@
   "_registry_reconciliation": {
     "checked": "2026-08-03",
     "registry": "research/manuscripts/emc-systems-map.json",
-    "mapped_here": "8 of the registry's TR-* ids have a TRG-* counterpart, joined via each trigger's registry_trigger_ids.",
+    "mapped_here": "10 of the registry's TR-* ids have a TRG-* counterpart, joined via each trigger's registry_trigger_ids (10 triggers carry the field).",
     "registry_triggers_with_no_counterpart_here": {
       "TR-ABFE-AUTHORIZATION": "not a capability — an authorization. It is a 🔒 HELD row (trimcrae's decision), not a ⏸ parked one, and no literature can deliver it. Nothing to search.",
       "TR-TCIP-LINKER-ENUMERATION": "this repo's own enumeration work.",
@@ -18,7 +18,11 @@
       "TR-EMC-EXPRESSION-DATASET": "MAPPED as of this pass — it IS searchable, and building the trigger list surfaced that nothing here was watching for it. See TRG-EMC-EXPRESSION-DATASET."
     },
     "divergence_worth_knowing": "The registry maps RT-RIBOZYME / RT-SYNPROMOTER / RT-CRISPR-CAS13 to TR-OLIGO-TUMOUR-DELIVERY. This file splits that into TRG-OLIGO-DELIVERY-TECH (an oligonucleotide reaching the tumour) and TRG-VECTOR-DELIVERY-SOLID-TUMOUR (a vector delivering a transcriptional payload), because the registry itself carries BLK-DELIVERY and BLK-VECTOR-DELIVERY as separate blockers and the evidence that would clear one need not clear the other. Recorded rather than silently reconciled — the two files disagree about the grain, and whoever owns the registry should decide, not this file.",
-    "open": "Nothing checks that a registry TR-* id and the TRG-* it joins to still describe the SAME capability — only that the join exists. A rewritten description on either side would pass."
+    "open": "Nothing checks that a registry TR-* id and the TRG-* it joins to still describe the SAME capability — only that the join exists. A rewritten description on either side would pass. ⚠ AND the join is still ASYMMETRIC for three more pairs, found while repairing the E3 one on 2026-08-03 and recorded rather than unilaterally fixed, because this file does not own the registry: TR-POSE-METHODS-CONVERGE, TR-NR4A3-RXR-HETERODIMER-REPORT and TR-EMC-EXPRESSION-DATASET carry no `scan_trigger`, and emc_systems_map_check.py warns that 'nothing is searching for it' — while the last two ARE searched for here (TRG-NR4A3-DIRECT-MATTER and TRG-EMC-EXPRESSION-DATASET name them in registry_trigger_ids). The warn is therefore false in two of the three cases, and clearing it is a one-field edit in the registry by whoever owns it.",
+    "_2026_08_03_join_repair": "TRG-E3-RECRUITER-STRUCTURE had no registry_trigger_ids even though the registry's TR-E3-RECRUITER-STRUCTURE already carried scan_trigger: ['TRG-E3-RECRUITER-STRUCTURE'] — so the join existed in one direction only, for precisely the trigger that then fired first. Repaired while grading that firing. Nothing else changed.",
+    "triggers_here_with_no_registry_counterpart": {
+      "TRG-FEM1B-LINKER-BEARING-STRUCTURE": "Created 2026-08-03 by the grading of TRG-E3-RECRUITER-STRUCTURE's first firing. It has no TR-* counterpart because the registry's E3 trigger is scoped to the three BLOCKED recruiters and FEM1B is a gate-passer dropped on a different axis — a genuinely different capability, recorded here rather than silently widened into the registry's string. Whoever owns the registry should decide whether it wants a TR-* for it."
+    }
   },
   "_integrity": "A hit is an UNVALIDATED LEAD and a prompt to read the paper, never a status change and never a result. CLAUDE.md section 5's guardrail applies in full: a coming capability justifies waiting or re-running, never claiming a result before the method supports it.",
   "_status_values": {
@@ -643,6 +647,9 @@
       "title": "A deposited PARTNER-FREE LIGANDED structure for one of the blocked E3 recruiters",
       "capability": "A structure of RNF114, DCAF16 or DCAF15 with a ligand bound and the partner protein absent — i.e. a handle pocket that can be staged, rather than a glue interface that only exists with its partner in place. Availability of a recruiter was the wrong constraint here; structural stageability is what binds.",
       "trigger_kind": "external_capability",
+      "registry_trigger_ids": [
+        "TR-E3-RECRUITER-STRUCTURE"
+      ],
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
@@ -668,21 +675,154 @@
         ],
         "note": "The widening LEFT CRBN + VHL STANDING — a negative result about the alternatives, not a positive validation of the incumbents. A hit reopens the widening, it does not demote CRBN/VHL."
       },
-      "on_fire": "Re-run the recruiter downselect with the new structure staged; the test is partner-free liganded, not merely deposited.",
+      "on_fire": "FIRST, and before reading the paper: run the PDB census in decisive_evidence above. If n_clean_binary_entries is still 0 for all three blocked recruiters, the trigger is NOT satisfied however the paper reads — record the grade and stop. Only if a partner-free liganded entry exists, re-run the recruiter downselect with it staged (e3_recruiter_staging.py), and read consequence_caveat before proposing any spend.",
       "search": {
+        "_query_revision": {
+          "date": "2026-08-03",
+          "why": "The first real firing returned 6 hits and NONE satisfied the criterion. Two causes, both in the query: (1) the recruiter list included KEAP1 and FEM1B, which are gate-PASSERS dropped on the Pareto front — a different question from structural stageability — and 3 of the 6 hits were KEAP1 redox pharmacology (acute lung injury, coenzyme A, heart failure) with no bearing on anything here; (2) the second clause admitted TITLE:ligand, TITLE:covalent, TITLE:degrader and TITLE:recruiter, which select for 'a ligand exists' — precisely the constraint this row already recorded as the WRONG one. The revision scopes the genes to the three the row actually blocks and requires a STRUCTURAL word.",
+          "superseded_query": "(TITLE:RNF114 OR TITLE:DCAF16 OR TITLE:DCAF15 OR TITLE:DCAF11 OR TITLE:FEM1B OR TITLE:KEAP1) AND (TITLE:structure OR TITLE:crystal OR TITLE:\"cryo-EM\" OR TITLE:ligand OR TITLE:covalent OR TITLE:degrader OR TITLE:recruiter)",
+          "superseded_must_match": [
+            "rnf114",
+            "dcaf",
+            "fem1b",
+            "keap1",
+            "e3 ligase",
+            "recruiter"
+          ],
+          "false_negative_risk_accepted": "exclude_match drops titles framed as molecular glues, which is where the criterion is by construction NOT met — but a paper could in principle report a glue AND a partner-free structure and would now be missed. Accepted because decisive_evidence above makes the PDB census the real check and it is free, run on every grading, and cannot be fooled by a title."
+        },
         "europepmc": [
-          "(TITLE:RNF114 OR TITLE:DCAF16 OR TITLE:DCAF15 OR TITLE:DCAF11 OR TITLE:FEM1B OR TITLE:KEAP1) AND (TITLE:structure OR TITLE:crystal OR TITLE:\"cryo-EM\" OR TITLE:ligand OR TITLE:covalent OR TITLE:degrader OR TITLE:recruiter)"
+          "(TITLE:RNF114 OR TITLE:DCAF16 OR TITLE:DCAF15) AND (TITLE:structure OR TITLE:\"crystal structure\" OR TITLE:crystal OR TITLE:\"cryo-EM\" OR TITLE:\"structural basis\" OR TITLE:crystallography)",
+          "(TITLE:RNF114 OR TITLE:DCAF16 OR TITLE:DCAF15) AND (TITLE:apo OR TITLE:\"binary complex\" OR TITLE:\"ligand-bound\" OR TITLE:\"co-crystal\" OR TITLE:\"fragment screen\" OR TITLE:\"fragment-based\" OR TITLE:NMR OR TITLE:\"X-ray\")"
         ],
         "arxiv": [],
         "must_match": [
           "rnf114",
-          "dcaf",
-          "fem1b",
-          "keap1",
-          "e3 ligase",
-          "recruiter"
+          "dcaf16",
+          "dcaf15"
         ],
-        "exclude_match": [],
+        "also_match": [
+          "structure",
+          "structural",
+          "crystal",
+          "cryo-em",
+          "cryoem",
+          "crystallograph",
+          "apo",
+          "binary complex",
+          "ligand-bound",
+          "co-crystal",
+          "fragment screen",
+          "fragment-based",
+          "nmr",
+          "x-ray"
+        ],
+        "exclude_match": [
+          "molecular glue",
+          "glue degrader",
+          "monovalent degrader",
+          "template-assisted",
+          "review",
+          "perspective"
+        ],
+        "window_days": 180
+      },
+      "decisive_evidence": {
+        "_why_this_field_exists": "The 2026-08-03 grading showed the scan can only ever surface a PAPER, while this trigger's criterion is a DEPOSITED STRUCTURE. A paper is weak evidence for it and a PDB census is decisive, free and offline-checkable. Grading from the papers alone is what would have produced a wrong answer.",
+        "check": "RCSB search on the UniProt accession, then read geometry_frame.n_clean_binary_entries in research/modalities/e3-recruiter-staging.json for the recruiter.",
+        "criterion": "n_clean_binary_entries > 0 for RNF114, DCAF16 or DCAF15. Anything else is not this trigger.",
+        "baseline_2026_08_03": {
+          "RNF114": "Q9Y508 — 0 entries (RCSB HTTP 204). No deposited structure of the protein at all.",
+          "DCAF16": "Q9NXF7 — 3 entries (9S3R, 8OV6, 8G46), ALL ternary with DDB1 + a bromodomain partner. n_clean_binary_entries = 0.",
+          "DCAF15": "Q66K64 — 9 entries, unchanged since the 2026-07-25 downselect."
+        },
+        "blind_spot": "A structure deposited but still ON HOLD is invisible to this check. Stated rather than glossed; it is part of why the trigger stays 'watching' rather than being retired.",
+        "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json"
+      },
+      "last_graded": {
+        "date": "2026-08-03",
+        "verdict": "DOES_NOT_REOPEN",
+        "hits_graded": [
+          "MED/42045146 — New Reversible Covalent Warheads: Cyanobenzothiazoles Recruiting DCAF16 for Targeted Protein Degradation (J Med Chem, 10.1021/acs.jmedchem.6c00889)",
+          "MED/42456065 — Structure-Guided Discovery of Novel Dual-Site FEM1B Ligands and Assessment of Their Use in Targeted Protein Degradation (J Med Chem, 10.1021/acs.jmedchem.6c00968)"
+        ],
+        "evidence_level": "Both papers are PAYWALLED — ABSTRACTS ONLY (Europe PMC fullTextXML 404, not in PMC, no preprint version indexed). The PDB census is definitive and is what the verdict rests on; the abstract reading is corroborating and labelled provisional.",
+        "why": "The DCAF16 paper is a template-assisted covalent GLUE: its own abstract says the cyanobenzothiazole, carried on the BRD4-targeting ligand, 'modifies DCAF16 at Cys58, promoting ternary complex formation'. That is the architecture the 0.3442 buried fraction already described, not a refutation of it — and no structure was deposited (DCAF16 entry count unchanged at 3). 'There are more DCAF16 binders' was never the blocker. The FEM1B paper is a different question entirely — see TRG-FEM1B-LINKER-BEARING-STRUCTURE.",
+        "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json",
+        "corpus": "research/manuscripts/lit-targets-e3-recruiter-trigger.json → literature-cache branch, literature/e3-recruiter-trigger/ (fetch-literature.yml run 30861878219)"
+      },
+      "consequence_caveat": "⚠ A HIT ON THIS TRIGGER DOES NOT BY ITSELF RESTART ANY WORK, and saying so is not a demotion of the trigger — it is the thing a reader needs in order to act on a hit correctly. R9 and R12 are both 'future — NOT STARTED', and emc-post-degrader-options.md section 0 puts the E3 recruiter on the LIABILITY side of the split it draws ('the degradation geometry — ternary, E3, exit vector, ubiquitin transfer, and a ~1 kcal/mol paralogue margin'), not on the ASSET side. So a partner-free liganded structure reopens a parked row inside a programme that is parked for unrelated, architectural reasons. It would still be a real field advance and worth recording; it would not be a reason to spend."
+    },
+    {
+      "id": "TRG-FEM1B-LINKER-BEARING-STRUCTURE",
+      "title": "A deposited FEM1B structure carrying a linker-bearing (>=500 Da) ligand",
+      "capability": "FEM1B is NOT one of the blocked recruiters — it PASSED all three gates of the 2026-07-25 downselect (G1 on 9PW8 @ 2.8 A, ligand A1CLY; G2 buried fraction 0.8694; G3 clearance 25.0 A, 30-degree cone openness 0.5429) and already has 7 partner-free liganded entries (geometry_frame.n_clean_binary_entries = 7: 9PQ9/9PQA/9PQE/9PW8/9PWJ/9PXO/9PXP, all released 2025-11-26, from the Protein Sci NMR fragment screen PMID 41229306). It was dropped on the PARETO front, at linker_analogue_tier 1 and open_solid_angle_fraction_15A 0.0449 — the tightest exit in the panel. The capability watched here is the one that would move the FIRST of those two: a deposited entry in which FEM1B is bound by a >=500 Da ligand, which is what tier 1 records as absent.",
+      "trigger_kind": "external_capability",
+      "status": "watching",
+      "scan_enabled": true,
+      "_why_separate_from_TRG-E3-RECRUITER-STRUCTURE": "Different criterion, different consequence. That trigger asks whether a site survives partner removal; FEM1B's already does. This one asks whether the exit vector has been SHOWN to tolerate a linker. Merging them would let a FEM1B hit read as a DCAF16 unblocking, which is exactly the conflation the 2026-08-03 grading had to undo.",
+      "evidence_home": [
+        {
+          "file": "research/modalities/e3-recruiter-downselect-2026-07-25.md",
+          "note": "section 5 dropped-set table (FEM1B row) and section 8, which states the limit this trigger watches: 'A tier-1 recruiter is \"no solved linker-bearing structure\", not \"no linker chemistry exists\".'"
+        },
+        {
+          "file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json",
+          "note": "fem1b_finding"
+        }
+      ],
+      "decisive_evidence": {
+        "check": "RCSB search on Q9UK73, newest first; then e3-recruiter-staging.json FEM1B.linker_bearing_analogue.n_entries_with_ligand_ge_500Da.",
+        "criterion": "n_entries_with_ligand_ge_500Da > 0.",
+        "baseline_2026_08_03": "31 entries, newest release 2025-11-26 (the VU-series fragment structures). n_entries_with_ligand_ge_500Da = 0."
+      },
+      "reopens": {
+        "roadmap_rows": [
+          "R9",
+          "R12"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER"
+        ],
+        "registry_blockers": [
+          "BLK-TERNARY-GEOMETRY"
+        ],
+        "note": "⚠ Clearing tier 1 would NOT by itself advance FEM1B. It lost on TWO Pareto axes and the second, open_solid_angle_fraction_15A = 0.0449, is untouched by any amount of linker chemistry — only a new conformer, re-measured, could move it. So a hit here licenses a $0 re-run of the downselect, nothing more. The consequence_caveat on TRG-E3-RECRUITER-STRUCTURE applies here in full."
+      },
+      "last_graded": {
+        "date": "2026-08-03",
+        "verdict": "NOT_MET — trigger created BY this grading",
+        "hits_graded": [
+          "MED/42456065 — Structure-Guided Discovery of Novel Dual-Site FEM1B Ligands (J Med Chem, 10.1021/acs.jmedchem.6c00968, first published 2026-07-15)"
+        ],
+        "why": "The paper reports FEM1B-based PROTACs on a dual-site ligand FL47 — i.e. exactly the linker chemistry that section 8's limit anticipated — but it deposited nothing: FEM1B's newest released entry is still 2025-11-26 and is cited to Protein Sci., not to this paper. The structurally-defined tier therefore cannot move. ⚠ PROVISIONAL on the paper: it is paywalled and only the ABSTRACT was obtained, and an abstract cannot establish a buried fraction or an exit vector."
+      },
+      "on_fire": "Re-run e3_recruiter_staging.py with the new entry in scope and read the Pareto front again. Do not report FEM1B as advanced on the tier alone — check the openness axis.",
+      "search": {
+        "europepmc": [
+          "TITLE:FEM1B AND (TITLE:structure OR TITLE:\"crystal structure\" OR TITLE:\"cryo-EM\" OR TITLE:\"structural basis\" OR TITLE:co-crystal OR TITLE:crystallography)",
+          "TITLE:FEM1B AND (TITLE:PROTAC OR TITLE:degrader OR TITLE:bivalent OR TITLE:\"ternary complex\")"
+        ],
+        "arxiv": [],
+        "must_match": [
+          "fem1b"
+        ],
+        "also_match": [
+          "structure",
+          "structural",
+          "crystal",
+          "cryo-em",
+          "crystallograph",
+          "co-crystal",
+          "protac",
+          "degrader",
+          "bivalent",
+          "ternary"
+        ],
+        "exclude_match": [
+          "review",
+          "perspective"
+        ],
         "window_days": 180
       }
     },
