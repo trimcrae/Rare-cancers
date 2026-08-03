@@ -5,6 +5,7 @@ fragments built inline. The heavy scientific steps are IMPORTED from already-tes
 (`nr4a3_basin_search`, `nr4a_paralogue_dynamics`, `nr4a_differential_atlas`, `pocket_tracking`) and are not
 re-tested here — what is new in these two modules is the DRIVER, and that is what these tests pin.
 """
+import json
 import os
 import sys
 
@@ -421,3 +422,21 @@ def test_summarise_background_carries_an_interval_and_a_resolution_not_a_bare_po
 
 def test_what_n_excludes_refuses_to_speak_at_n_zero():
     assert CDN.what_n_excludes(0, 0) is None
+
+
+def test_compare_scopes_derives_C397_in_scope_for_an_artifact_that_predates_the_field(tmp_path, monkeypatch):
+    """⚠ An absent field is not an unknown answer. `C16`'s committed artifact predates
+    `headline_residue_C397_in_scope`, but it records `inside_the_trimmed_window` — so the answer is known
+    and must not render as null."""
+    monkeypatch.setattr(CDN, "HERE", str(tmp_path))
+    (tmp_path / "categorical-decoy-null.json").write_text(json.dumps({"results": {
+        "background_at_gate_12": {"reach_only": {"n": 8}},
+        "nr4a3_harness_matched": {},
+        "⛔_nr4a3_harness_scope": {"trimmed_window_uniprot": [427, 570],
+                                   "inside_the_trimmed_window": [559]},
+        "precondition_has_a_target_unique_cysteine": {},
+    }}))
+    out = CDN.compare_scopes("lbd", {}, {}, {}, {}, {"trimmed_window_uniprot": [373, 626]}, 0)
+    other = out["what_the_NR4A3_row_actually_scored"]["other_scope"]
+    assert other["C397_in_scope"] is False, "a knowable false must not render as null"
+    assert "DERIVED" in other["_C397_in_scope_source"]

@@ -1662,7 +1662,21 @@ def compare_scopes(scope, bg, cys_bg, nr4a3, precondition, nr4a3_scope, n_graded
                        "C397_in_scope": nr4a3_scope.get("headline_residue_C397_in_scope")},
         "other_scope": {"window_uniprot": oscope.get("trimmed_window_uniprot"),
                         "unique_cysteines_in_scope": oscope.get("inside_the_trimmed_window"),
-                        "C397_in_scope": oscope.get("headline_residue_C397_in_scope")},
+                        # ⚠ AN ABSENT FIELD IS NOT AN UNKNOWN ANSWER. `headline_residue_C397_in_scope` was
+                        # added with this scope, so the older artifact does not carry it — but the answer is
+                        # right there in `inside_the_trimmed_window` and rendering it `null` would print a
+                        # KNOWN fact as an open question. Derived when absent, and the derivation says so.
+                        "C397_in_scope": (
+                            oscope["headline_residue_C397_in_scope"]
+                            if "headline_residue_C397_in_scope" in oscope
+                            else (397 in (oscope.get("inside_the_trimmed_window") or [])
+                                  if oscope.get("inside_the_trimmed_window") is not None else None)),
+                        "_C397_in_scope_source": ("recorded in that artifact"
+                                                  if "headline_residue_C397_in_scope" in oscope else
+                                                  "DERIVED here from that artifact's "
+                                                  "`inside_the_trimmed_window` — the field predates this "
+                                                  "scope, and printing `null` for a knowable fact would be "
+                                                  "an absent reading masquerading as an unknown")},
     }
     op = o.get("precondition_has_a_target_unique_cysteine") or {}
     out["precondition_no_target_unique_cysteine"] = {
