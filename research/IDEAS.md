@@ -307,9 +307,25 @@ drug**; the medical-integrity labeling discipline gets MORE important as this go
 
 ## 🔄 Auto-captured field-scan advances (review + integrate into the board above)
 
-Appended automatically by the weekly field-scan Routine (and manual scans). Items here are NEW routes/advances
-not yet integrated into the curated route board above — review + fold in. Dated + sourced; no fabrication.
-These are unvalidated leads with the same medical-integrity guardrail as the rest of the board.
+Items here are NEW routes/advances not yet integrated into the curated route board above — review + fold in.
+Dated + sourced; no fabrication. These are unvalidated leads with the same medical-integrity guardrail as the
+rest of the board.
+
+**Who actually appends here (checked 2026-08-03 against committed history, because the previous sentence was
+wrong).** ⚠ *Superseded, retained: "Appended automatically by the weekly field-scan Routine (and manual
+scans)."* The **weekly field-scan Routine has never appended anything** — every bullet below is dated
+2026-07-13 and came from the manual catch-up whose own commit title is *"manual catch-up: automated Routine
+failed to deliver"*, and `research/field-scan-log.md` has carried no entry since. Two writers are real:
+**(a) a session doing a manual scan**, and **(b)** ⭑ **the reopening-trigger scan** —
+[`scripts/trigger_scan.py`](../scripts/trigger_scan.py) via
+[`.github/workflows/method-watch-triggers.yml`](../.github/workflows/method-watch-triggers.yml) — which
+searches for the **specific named capabilities** that would reopen a parked route
+([`method-watch-triggers.json`](method-watch-triggers.json)) and appends each hit **with the routes,
+requirements and blockers it would reopen**, so a line here carries its consequence rather than just a paper.
+Its bullets are prefixed with the trigger id and marked as machine-matched. ⚠ **A quiet week here is not
+evidence that nothing landed** — CLAUDE.md §6 records that this repo's crons are throttled and need manual
+dispatch; the run history that says whether the scan fired lives in
+[`method-watch-trigger-scan.md`](method-watch-trigger-scan.md).
 
 - **2026-07-13 — ★ NEW candidate route: bivalent fusion-TF "rewiring" / TCIP (Transcriptional Chemical-Induced
   Proximity).** Bivalent small molecules that *co-opt* a tumour-specific fusion TF (recruit a transcriptional

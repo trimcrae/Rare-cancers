@@ -4,8 +4,16 @@
 moment a specific in-silico capability becomes usable. This file is the **watch config +
 trigger table** (what to look for, and what to do when it appears).
 
-**Two automated layers now run this watch (trimcrae, 2026-07-13):**
-1. **Weekly AI newsletter → EMAILED to trimcrae** (the user-facing one). Routine
+**Three automated layers now run this watch.** ⚠ **AND ONE OF THEM HAS NOT BEEN DELIVERING — checked
+2026-08-03, free, from committed history rather than assumed.** Layer 1's Routine is credited in this file and
+in `IDEAS.md` with auto-capturing advances to `main`, and **it has never written an entry**:
+`research/field-scan-log.md` holds exactly one dated entry, 2026-07-13, committed under the title *"manual
+catch-up: automated Routine failed to deliver"*, and the three Fridays after the scope was last widened
+(2026-07-17 / 07-24 / 07-31) produced nothing there, in `IDEAS.md`, or in `compute/cheap-gpu-plan.md`. **Layer 2
+by contrast has fired on every Friday since its cron went weekly** (public Actions API, `event: schedule`),
+1–2 h later than requested — the ordinary throttle CLAUDE.md §6 describes. So: **read layers 2 and 3; do not
+assume layer 1 ran.** The claim below describes what the Routine is CONFIGURED to do, not what it has done.
+1. **Weekly AI newsletter → EMAILED to trimcrae** (the user-facing one, **and the one not delivering**). Routine
    `trig_01X5xHy1cmkLjkATEijZSNJf` ("Weekly NR4A3 field-scan (newsletter + auto-capture to main)"),
    cron `0 12 * * 5` (**Fridays 8:00 AM ET**), spawns a fresh session that web-searches the past week
    (open-source methods, NR4A/EMC papers, degrader methodology, non-degrader routes, AND — added
@@ -20,10 +28,30 @@ trigger table** (what to look for, and what to do when it appears).
    `IDEAS.md`, and `compute/cheap-gpu-plan.md`). This is the thing you actually read. Manage via the
    claude-code-remote trigger tools (list/update/delete). NB: `update_trigger` cannot edit a Routine's PROMPT —
    to change the scan scope, recreate the trigger (delete + create) as was done 2026-07-14/15.
-2. **Monthly mechanical digest** (raw feed). `scripts/method-watch.mjs` via
-   `.github/workflows/method-watch.yml` (cron `0 7 1 * *`) — a keyword scan of EBI/GitHub that
-   commits a dated digest to the `method-watch-cache` branch. NOT emailed, NOT synthesized;
-   it's the comprehensive raw-hit backstop the weekly newsletter can consult, not a deliverable.
+2. **Mechanical BROAD digest** (raw feed). `scripts/method-watch.mjs` via
+   [`.github/workflows/method-watch.yml`](../.github/workflows/method-watch.yml) — a keyword scan of
+   EBI/GitHub/grants.gov that commits a dated digest to the `method-watch-cache` branch and emails it.
+   NOT synthesized; it's the comprehensive raw-hit backstop the weekly newsletter can consult, not a
+   deliverable. ⚠ **Its cadence has ONE home — the `schedule:` block in that workflow file — and this line
+   used to restate it, wrongly**: it read *"Monthly … (cron `0 7 1 * *`)"* long after the workflow went
+   weekly, which is exactly the copy-drift CLAUDE.md §1 exists to stop. *(Superseded, retained: "Monthly
+   mechanical digest … cron `0 7 1 * *`".)*
+3. **Mechanical NARROW scan — the reopening triggers, searched by name.** ⭑ **Added 2026-08-03, and it is
+   the layer this file was missing.** Layers 1 and 2 search *topics*; the table below and
+   [`nr4a3-program-map.md` §6b](manuscripts/nr4a3-program-map.md#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen)
+   name *specific capabilities*, and nothing was searching for those names — so a paper that satisfied a
+   named trigger arrived in the digest indistinguishable from background, and the reader had to re-derive
+   paper→parked-row by hand every week. The queries now have a machine home in
+   [`research/method-watch-triggers.json`](method-watch-triggers.json) (one entry per named trigger, with the
+   routes/requirements/blockers it would reopen), run by
+   [`scripts/trigger_scan.py`](../scripts/trigger_scan.py) via
+   [`.github/workflows/method-watch-triggers.yml`](../.github/workflows/method-watch-triggers.yml), and every
+   hit is reported **with the consequence attached**. Board:
+   [`research/method-watch-trigger-scan.md`](method-watch-trigger-scan.md) — its "Last run" date is what tells
+   you whether the scan fired at all. ⚠ **Division of labour, so neither file drifts:** *this* table is the
+   one home for **what a landed capability unlocks in prose**; the JSON is the one home for **how to search
+   for it**; §6b is the one home for **which parked row it belongs to**. Do not copy any of the three into
+   either of the others.
 
 **Operating assumption (trimcrae, standing).** In-silico drug-discovery capability is on a
 **steep, rising frontier** — the limits of today are not the limits in 6–12 months — and this is

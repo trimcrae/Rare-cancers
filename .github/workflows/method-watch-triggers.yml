@@ -1,0 +1,113 @@
+name: Reopening-trigger scan
+
+# Searches the literature for the SPECIFIC capabilities this repo has already named as the
+# condition for reopening a parked route -- the third column of nr4a3-program-map.md §6b, plus
+# the rows in research/method-watch.md. Config: research/method-watch-triggers.json (one home
+# for the queries). Fetcher: scripts/trigger_scan.py (pure stdlib).
+#
+# WHY IT IS SEPARATE FROM method-watch.yml. That workflow runs a broad, generic topic digest
+# and emails it. This one is narrow and consequence-carrying: each hit is reported alongside
+# the routes/requirements/blockers that trigger would reopen, so a reviewing session sees the
+# consequence rather than just the paper. Neither replaces the other.
+#
+# ⚠ THE CRON BELOW IS A REQUEST, NOT A GUARANTEE. CLAUDE.md §6 records, with measurement, that
+# GitHub throttles this repo's schedules to a fraction of what the cron asks for, and that an
+# agent has in practice been dispatching runs by hand. Do NOT read a quiet week as "nothing
+# landed" -- read research/method-watch-trigger-scan.md, whose "Last run" date and run-history
+# table make a scan that did not fire visible. If that date is stale, dispatch this workflow.
+#
+# ⚠ OUTPUT IS UNVALIDATED LEADS. Hits are substring matches on paper titles. Nothing this
+# workflow writes may be cited, and a hit never changes a status by itself.
+#
+# The sandbox cannot reach EBI/arXiv (CLAUDE.md §6), which is the whole reason this is CI.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "scan (default — append new hits) | seed (fill the ledger, append nothing; use once after adding triggers)"
+        default: "scan"
+        required: false
+      report_days:
+        description: "Only hits published within this many days are appended to IDEAS.md"
+        default: "21"
+        required: false
+      max_per_trigger:
+        description: "Cap on IDEAS.md bullets per trigger per run"
+        default: "3"
+        required: false
+      only:
+        description: "Comma-separated trigger ids to scan (blank = all enabled)"
+        default: ""
+        required: false
+      commit:
+        description: "true (default) commits results back to the triggering branch | false leaves them as a job artifact only"
+        default: "true"
+        required: false
+  schedule:
+    # 13:00 UTC Fridays = 9:00 AM ET, i.e. after method-watch.yml's 11:00 UTC digest so the two
+    # do not race the same APIs. See the throttling warning above: delivered, not requested.
+    - cron: "0 13 * * 5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: method-watch-triggers
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run the reopening-trigger scan
+        env:
+          MODE: ${{ inputs.mode }}
+          REPORT_DAYS: ${{ inputs.report_days }}
+          MAX_PER: ${{ inputs.max_per_trigger }}
+          ONLY: ${{ inputs.only }}
+        run: |
+          set -e
+          args=""
+          [ "$MODE" = "seed" ] && args="$args --seed"
+          [ -n "$REPORT_DAYS" ] && args="$args --report-days $REPORT_DAYS"
+          [ -n "$MAX_PER" ] && args="$args --max-per-trigger $MAX_PER"
+          [ -n "$ONLY" ] && args="$args --only $ONLY"
+          python3 scripts/trigger_scan.py $args
+
+      - name: Upload the board + ledger as an artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trigger-scan-${{ github.run_id }}
+          path: |
+            research/method-watch-trigger-scan.md
+            research/method-watch-trigger-hits.json
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Commit results to the triggering branch
+        if: ${{ inputs.commit != 'false' }}
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/method-watch-trigger-scan.md \
+                  research/method-watch-trigger-hits.json \
+                  research/IDEAS.md
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "Reopening-trigger scan $(date -u +%Y-%m-%d) (CI)"
+          # Another agent may have pushed while the scan ran; rebase rather than clobber
+          # (CLAUDE.md §7 — branch drift is a data-loss bug).
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && \
+              git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep 10
+          done
+          echo "push failed after 3 attempts" >&2
+          exit 1
