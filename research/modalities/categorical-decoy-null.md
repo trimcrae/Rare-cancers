@@ -103,6 +103,34 @@ information and becomes quotable **with this background beside it**. If most dec
 GO is a property of the **method** and the axis must be re-graded — which is worth far more found here than
 found in review.
 
+## 4a · What it returned
+
+**The background is NOT concentrated at zero, and that is the whole finding.** Read the numbers from
+[`categorical-decoy-null.json`](./categorical-decoy-null.json) — they are not restated here (rule 1):
+
+| read this | where |
+|---|---|
+| the decoy distribution, reach-only **and** exposure-filtered, with `n_exactly_zero` / `frac_exactly_zero` | `results.background_at_gate_12` |
+| NR4A3 under the identical rule, with its percentile in both columns | `results.nr4a3_harness_matched` |
+| how often a close paralogue pair even HAS a target-unique cysteine | `results.precondition_has_a_target_unique_cysteine` |
+| ⛔ **which NR4A3 unique cysteines the harness could see at all** | `results.⛔_nr4a3_harness_scope` |
+| the driver's reproduction of the committed static verdict | `harness_known_answer_check` |
+| the verdict and the roadmap edits it requires | `map_edits_required` |
+
+⛔ **The caveat that must travel with the percentile.** The pre-registered pLDDT trim keeps only part of the
+NR4A3 LBD, so the harness-matched row does **not** interrogate the program's headline **C397** — it
+interrogates whichever unique cysteines survive the window, and `results.⛔_nr4a3_harness_scope` measures
+exactly which. The percentile therefore calibrates the **screen** under one identical rule; it is **not** a
+re-derivation of the committed C397-led result, which keeps its own home in
+[`nr4a-paralogue-dynamics.json`](./nr4a-paralogue-dynamics.json). ⚠ The trim is **not** relaxed after the
+fact: widening it to admit C397 having seen that C397 fell outside is exactly the tuning the pre-registration
+exists to prevent.
+
+⚠ **The exposure-filtered column can have no NR4A3 point** when the surviving unique cysteine is buried in
+the AlphaFold model. An undefined conditional is published as `null` and excluded — never as a zero. The
+audit establishes **reach-only** as the load-bearing case at the 12-atom gate, and that is the column the
+verdict uses.
+
 ## 5 · Limits, all of them
 
 1. The background is a **nuclear-receptor** background, not a proteome background.
