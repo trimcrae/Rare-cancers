@@ -2190,6 +2190,12 @@ def main():
     _emit(doc)
 
 
+def _REGIME_ACCESSIONS():
+    """The proteins the pipeline actually carries Pocket-5 onto. READ FROM THE PIPELINE, never typed."""
+    import nr4a3_warhead as wh
+    return set(wh.PARALOGUES.values()) | {"Q92570"}
+
+
 def in_regime_pairs(sel, limit=None):
     """Every apo/holo pair on an accession the pipeline ACTUALLY transfers Pocket-5 onto, one per holo.
 
@@ -2199,11 +2205,10 @@ def in_regime_pairs(sel, limit=None):
 
     ⚠ THIS DOES NOT TOUCH `panel_pool`. The pre-registered panel, its rank order, its caps and its R2b
     exclusion are all unchanged; this is a separate list for a separate, docking-free question."""
-    import nr4a3_warhead as wh
-    regime = set(wh.PARALOGUES.values()) | {"Q92570"}
+    regime = _REGIME_ACCESSIONS()
     seen, out = set(), []
-    for r in (sel.get("panel_pool") or []) + list(sel.get("_all_ranked") or []) \
-            + list(sel.get("considered_top") or []):
+    for r in (list(sel.get("_all_ranked_in_regime") or []) + (sel.get("panel_pool") or [])
+              + list(sel.get("considered_top") or [])):
         if r.get("accession") not in regime or not r.get("apo") or not r.get("holo"):
             continue
         if (r["apo"], r["holo"]) in seen or r["holo"] in {h for _a, h in seen}:

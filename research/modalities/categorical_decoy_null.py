@@ -1004,6 +1004,50 @@ def mode_reduce(args):
                                        .get("n_placements_with_any_nr4a3_hit")}
                                   for k, v in cv.get("by_scope", {}).items()}}
 
+    # ★ WHICH NR4A3 CYSTEINES THE HARNESS COULD EVEN SEE — measured from the trim, not narrated. The
+    # pre-registered pLDDT>=70 trim keeps only part of the NR4A3 LBD, and a reader who assumed the harness
+    # row interrogates the program's headline C397 would be wrong. This is the single most load-bearing
+    # caveat on the percentile, so it is computed and published rather than left to prose.
+    tr = (plan.get("trimmed") or {}).get(NR4A3_ACC) or {}
+    lo, hi = tr.get("first"), tr.get("last")
+    inside = [c for c in sorted(PD.NR4A3_UNIQUE_CYS) if lo is not None and lo <= c <= hi]
+    outside = [c for c in sorted(PD.NR4A3_UNIQUE_CYS) if c not in inside]
+    nr4a3_scope = {
+        "trimmed_window_uniprot": [lo, hi],
+        "n_residues": tr.get("n_residues"),
+        "committed_nr4a3_unique_cysteines": sorted(PD.NR4A3_UNIQUE_CYS),
+        "inside_the_trimmed_window": inside,
+        "⛔_outside_and_therefore_INVISIBLE_to_this_harness": outside,
+        "★_reading": (
+            "The pre-registered pLDDT>=70 trim keeps UniProt "
+            f"{lo}-{hi} of the NR4A3 AlphaFold model, so of the committed unique set "
+            f"{sorted(PD.NR4A3_UNIQUE_CYS)} only {inside} is inside it. ⛔ THE HARNESS-MATCHED NR4A3 ROW "
+            "THEREFORE DOES NOT INTERROGATE THE PROGRAM'S HEADLINE C397 — it interrogates "
+            f"{inside}. The percentile still answers the question it was built to answer (does an arbitrary "
+            "close paralogue pair, under this IDENTICAL rule, return 0?), because NR4A3 goes through the "
+            "same rule as every decoy. But it is a statement about the SCREEN, and it is a weaker statement "
+            "about the program's actual construct than it would be with C397 in the window. The committed "
+            "C397-led result keeps its own home in nr4a-paralogue-dynamics.json and is NOT re-derived here."
+            if outside else
+            "Every committed NR4A3-unique cysteine is inside the trimmed window."),
+        "_why_the_trim_is_not_relaxed_after_the_fact": (
+            "It is pre-registered. Widening it to admit C397 AFTER seeing that C397 fell outside would be "
+            "exactly the tuning the pre-registration exists to prevent. The honest move is to report the "
+            "scope and, if it matters, re-run with a DIFFERENT pre-registered trim as a separate test."),
+    }
+    undef_rows = [r for r in decoys if r.get("status", "").startswith("UNDEFINED")]
+    precondition = {
+        "_what": "How often a close paralogue pair even HAS a target-unique cysteine — the categorical "
+                 "screen's FIRST precondition, before any reach question is asked.",
+        "n_ordered_decoys": len(decoys),
+        "n_with_no_target_unique_cysteine": len(undef_rows),
+        "frac_with_no_target_unique_cysteine": (len(undef_rows) / len(decoys)) if decoys else None,
+        "wilson95": PD.wilson95(len(undef_rows), len(decoys)) if decoys else None,
+        "★_reading": "This is a result in its own right, not bookkeeping: a pair with no target-unique "
+                     "cysteine is a pair on which the categorical screen could never fire at all. It "
+                     "belongs beside the collision statistic, because the two together are what 'how "
+                     "special is the NR4A3 configuration' actually decomposes into.",
+    }
     res = {
         "_title": "C02 — cross-system decoy null for the categorical covalent axis",
         "_status": "INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, reactivity, "
@@ -1019,6 +1063,8 @@ def mode_reduce(args):
         "results": {
             "n_decoy_rows_attempted": len(decoys),
             "n_graded": len(graded), "n_underpowered": len(underpowered), "n_undefined": len(undefined),
+            "precondition_has_a_target_unique_cysteine": precondition,
+            "⛔_nr4a3_harness_scope": nr4a3_scope,
             "n_refusals": len(refusals),
             "background_at_gate_12": bg,
             "nr4a3_harness_matched": nr4a3,
@@ -1048,6 +1094,15 @@ def mode_reduce(args):
             "the Shrake-Rupley RSA is not numerically identical between the two arms. The exposure-filtered "
             "column is affected; the reach-only column, which the audit shows carries the 12-atom result, "
             "is not.",
+            "⛔ THE HARNESS-MATCHED NR4A3 ROW DOES NOT COVER C397. The pre-registered pLDDT trim leaves "
+            "only part of the NR4A3 LBD, so the row rests on whichever unique cysteines survive it — see "
+            "`results.⛔_nr4a3_harness_scope`, which measures exactly which. The percentile calibrates the "
+            "SCREEN under one identical rule; it is not a re-derivation of the committed C397-led result.",
+            "The EXPOSURE-FILTERED percentile for NR4A3 may be undefined (P_gate_EXPOSED = null) when its "
+            "surviving unique cysteine is buried in the AlphaFold model. An undefined conditional is "
+            "reported as null and excluded, never as a zero — but it means the exposed column can have no "
+            "NR4A3 point even while the reach-only column does. The audit establishes reach-only as the "
+            "load-bearing case at the 12-atom gate, which is why that is the column the verdict uses.",
             "Reach and exposure are necessary, not sufficient — for the decoys exactly as for NR4A3.",
             "Underpowered and undefined rows are excluded from the percentile and counted separately; that "
             "exclusion biases the graded background toward pairs with MORE collision opportunity.",
