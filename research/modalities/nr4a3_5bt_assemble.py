@@ -124,6 +124,109 @@ def arm_name(paralogue):
 
 
 # ---------------------------------------------------------------------------------------------------------
+# ⛔ THE ONE WRITER. `json.dump` IS BANNED IN THIS MODULE — MEASURED, run 30778084770 (commit e02aaf7d1).
+# ---------------------------------------------------------------------------------------------------------
+# `resolve_e3_binary` returned `{"selected": …, "tried": …, "_mol": <rdkit.Chem.Mol>}` and `mode_build`
+# assigned it straight to `doc["e3_binary"]`. `json.dump(doc, open(out, "w"))` STREAMS: it wrote 16 642 bytes
+# of real content, reached the Mol, and raised `TypeError: Object of type Mol is not JSON serializable` —
+# leaving a file truncated mid-key at `"_mol": ` that the `if: always()` publish step then committed as
+# `e02aaf7d1`. ⚠ ALL THREE ARMS HAD ALREADY PASSED (`NR4A3_5BT_LIG READY` 02:03:16Z, `NR4A1` 02:05:27Z,
+# `NR4A2` 02:07:41Z): 6 min 44 s of real assembly, and the artifact recorded no verdict at all, because
+# every key `mode_build` inserts after `e3_binary` (`exitvec_anchor`, `c397_sg_xyz`, `ready_arms`,
+# `refused_arms`, `base`, `sentence`) was lost with the raise. The Mol had NO consumer — nothing in this
+# module or its tests ever read `_mol`. Run 30778487977 hit the identical traceback ten minutes later.
+#
+# THREE INDEPENDENT DEFENCES, because one of them would have been enough and none was present:
+#   1. `unserialisable_paths()` walks the document FIRST and refuses with EVERY offending path named, not
+#      just the one that happened to be reached. Refuse, never coerce: a Mol rendered as `repr()` would be a
+#      field that LOOKS measured and is not (CLAUDE.md §4 — a populated field is not a measured one).
+#   2. `json.dumps()` builds the whole string BEFORE the file is opened, so even a guard bypass cannot
+#      truncate an artifact — the exception happens with nothing written.
+#   3. `os.replace()` from a sibling temp file is atomic, so a reader (or a publish step firing on
+#      `always()`) can never observe a half-written artifact.
+# Held by `tests/test_nr4a3_5bt.py::test_no_unserialisable_object_can_reach_the_writer` and
+# `::test_this_module_never_calls_json_dump_directly`.
+
+
+class UnserialisableArtifact(TypeError):
+    """A document reached the writer carrying something `json` cannot write. Names every offending path."""
+
+
+#: Types `json` writes natively. `bool` is a subclass of `int`; `None` is handled separately.
+_JSON_SCALARS = (str, int, float, bool, type(None))
+
+
+def _mol_identity(mol):
+    """The JSON-safe facts about an RDKit `Mol` — identity and size, never the object.
+
+    ⛔ The InChIKey is here because it is the thing a replicate can be matched on; a SMILES alone is
+    canonicalisation-dependent. `None` in, `None` out — an absent molecule is reported as absent rather than
+    as an empty molecule (CLAUDE.md §4: an absent reading is not a reading of absence).
+    """
+    if mol is None:
+        return None
+    from rdkit import Chem
+    try:
+        key = Chem.MolToInchiKey(mol) or None
+    except Exception as exc:                                   # InChI is an optional RDKit component
+        key = None
+        key_err = "%s: %s" % (type(exc).__name__, exc)
+    else:
+        key_err = None
+    out = {"smiles": Chem.MolToSmiles(mol),
+           "inchikey": key,
+           "n_atoms": mol.GetNumAtoms(),
+           "n_heavy_atoms": mol.GetNumHeavyAtoms(),
+           "n_bonds": mol.GetNumBonds(),
+           "_what": "identity of the E3 binary's own IMiD as read from the deposit with CCD bond orders; "
+                    "the OBJECT is never serialised — see the writer block at the top of this module"}
+    if key_err:
+        out["_inchikey_unavailable"] = key_err
+    return out
+
+
+def unserialisable_paths(obj, path="$"):
+    """Every path in `obj` whose value `json` cannot serialise, as `[(path, type_name, repr), …]`.
+
+    ⛔ COMPLETE, NOT FIRST-FAILURE. `json.dump` reports the first offender it reaches and abandons the rest,
+    which is how one dead `_mol` hid whatever else the same document might have carried.
+    """
+    bad = []
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if not isinstance(k, (str, int, float, bool, type(None))):
+                bad.append(("%s.<key %r>" % (path, k), type(k).__name__, repr(k)[:120]))
+            bad.extend(unserialisable_paths(v, "%s.%s" % (path, k)))
+    elif isinstance(obj, (list, tuple)):
+        for i, v in enumerate(obj):
+            bad.extend(unserialisable_paths(v, "%s[%d]" % (path, i)))
+    elif not isinstance(obj, _JSON_SCALARS):
+        bad.append((path, type(obj).__name__, repr(obj)[:120]))
+    return bad
+
+
+def write_json(doc, path, indent=1):
+    """Write `doc` to `path` as JSON, or refuse loudly WITHOUT touching `path`. The only writer here."""
+    bad = unserialisable_paths(doc)
+    if bad:
+        raise UnserialisableArtifact(
+            "REFUSED to write %s: %d value(s) json cannot serialise. A half-written artifact is worse than "
+            "none, so nothing was written and any previous %s is untouched. Offending paths:\n%s"
+            % (os.path.basename(path), len(bad), os.path.basename(path),
+               "\n".join("  %s -> %s %s" % (p, t, r) for p, t, r in bad)))
+    text = json.dumps(doc, indent=indent)          # complete, or an exception with the file still closed
+    tmp = "%s.partial-%d" % (path, os.getpid())
+    try:
+        with open(tmp, "w") as fh:
+            fh.write(text)
+        os.replace(tmp, path)                      # atomic: a reader never sees a prefix
+    finally:
+        if os.path.exists(tmp):
+            os.remove(tmp)
+    return path
+
+
+# ---------------------------------------------------------------------------------------------------------
 # Small helpers
 # ---------------------------------------------------------------------------------------------------------
 
@@ -596,7 +699,14 @@ def resolve_e3_binary(placed_rows, workdir, candidates=E3_BINARY_CANDIDATES, raw
                       "xyz": p} for a, p in zip(chain_atoms, moved_chain)]
         lig_out = [{"name": a.name, "resname": a.resname, "resseq": a.resseq, "element": a.element,
                     "xyz": p} for a, p in zip(lig, moved_lig)]
-        return chain_out, lig_out, {"selected": rec, "tried": tried, "_mol": lig_mol}, None
+        # ⛔ WHAT GOES IN THE DETAIL DICT IS WHAT A READER CAN USE — NEVER THE RDKit OBJECT ITSELF.
+        # This slot held `lig_mol` (a `Chem.Mol`) until run 30778084770 truncated the artifact on it; see the
+        # writer block at the top of this file. Nothing consumed it — the one consumer of this dict reads
+        # `["selected"]["ligand"]["probe_pdb"]`, and `imid_mcs_map` re-reads the molecule from that probe with
+        # `MolFromPDBFile`. So the fix is not to carry the object out-of-band, it is to carry the FACTS about
+        # it: identity (SMILES + InChIKey, which is what a replicate can be matched on) and size.
+        return chain_out, lig_out, {"selected": rec, "tried": tried,
+                                    "_mol": _mol_identity(lig_mol)}, None
     return None, None, {"tried": tried}, ("no DDB1–CRBN binary IMiD deposit could be resolved from %s; the "
                                           "6BOY TERNARY conformer is NOT substituted silently"
                                           % ", ".join(candidates))
@@ -891,7 +1001,7 @@ def mode_dock_inputs(args):
         write_pdb_atoms(_receptor_rows(model, "A"), dest)
         out["receptors"][p] = {"source": os.path.relpath(src, REPO), "prepared": dest,
                                "n_heavy_atoms": len(model["heavy_xyz"])}
-    json.dump(out, open(args.out, "w"), indent=1)
+    write_json(out, args.out)
     print(json.dumps({k: v for k, v in out.items() if k != "receptors"}, indent=1), flush=True)
     return 0
 
@@ -931,9 +1041,34 @@ def mode_plan(args):
     doc["ok"] = not doc["problems"]
     doc["sentence"] = ("Every committed input for RUNG 5b-T resolves." if doc["ok"]
                        else "REFUSED before any compute: %s" % "; ".join(doc["problems"]))
-    json.dump(doc, open(args.out, "w"), indent=1)
+    write_json(doc, args.out)
     print(doc["sentence"], flush=True)
     return 0 if doc["ok"] else 6
+
+
+def _summarise_arms(doc, complete):
+    """Recompute the roll-up fields IN PLACE and return the ready-arm list. Called after every arm.
+
+    ⛔ A PARTIAL FLUSH MUST NOT READ AS A FINISHED PANEL. `_artifact_state` says how many of the three arms
+    the file actually contains, and while it is partial the sentence leads with that — CLAUDE.md §4(b): a
+    record that looks plausible is more dangerous than one that looks empty, and "1 of 3 arms passed" is
+    exactly what a two-arms-still-running file would otherwise claim.
+    """
+    ready = [r["arm"] for r in doc["arms"] if r["ok"]]
+    doc["ready_arms"] = ready
+    doc["refused_arms"] = [{"arm": r["arm"], "why": r["why"]} for r in doc["arms"] if not r["ok"]]
+    doc["_artifact_state"] = ("COMPLETE — all %d arms attempted" % len(PARALOGUES) if complete else
+                             "PARTIAL — %d of %d arms attempted; the build had not finished when this was "
+                             "flushed" % (len(doc["arms"]), len(PARALOGUES)))
+    doc["sentence"] = (
+        ("" if complete else "⚠ PARTIAL ARTIFACT — %d of %d arms attempted so far. " % (len(doc["arms"]),
+                                                                                        len(PARALOGUES)))
+        + "%d of %d paralogue arms passed the pre-flight and are built (%s)."
+        % (len(ready), len(PARALOGUES), ", ".join(ready) or "none")
+        + (" REFUSED: %s." % "; ".join("%s (%s)" % (r["arm"], r["why"]) for r in doc["refused_arms"])
+           if doc["refused_arms"] else "")
+        + " ⛔ A refusal is not a zero, and an arm that is not built is not a result of any magnitude.")
+    return ready
 
 
 def mode_build(args):
@@ -950,13 +1085,13 @@ def mode_build(args):
     c, err = recorded_degrader()
     if err:
         doc["error"] = err
-        json.dump(doc, open(args.out, "w"), indent=1)
+        write_json(doc, args.out)
         print("REFUSED —", err, flush=True)
         return 6
     deg, roles, err = degrader_mol(c)
     if err:
         doc["error"] = err
-        json.dump(doc, open(args.out, "w"), indent=1)
+        write_json(doc, args.out)
         print("REFUSED —", err, flush=True)
         return 6
     doc["degrader"] = {"construct_id": c["construct_id"], "canonical_smiles": c["canonical_smiles"],
@@ -967,13 +1102,13 @@ def mode_build(args):
     pl, err = exemplar_placement()
     if err:
         doc["error"] = err
-        json.dump(doc, open(args.out, "w"), indent=1)
+        write_json(doc, args.out)
         print("REFUSED —", err, flush=True)
         return 6
     placed, e3det, err = placed_registry_arm(pl)
     if err:
         doc["error"] = err
-        json.dump(doc, open(args.out, "w"), indent=1)
+        write_json(doc, args.out)
         print("REFUSED —", err, flush=True)
         return 6
     doc["placement"] = {k: pl[k] for k in ("meta_basin_id", "basin_id", "pose_id", "exact_atoms", "span_A",
@@ -991,7 +1126,7 @@ def mode_build(args):
     doc["e3_binary"] = seldet
     if err:
         doc["error"] = err
-        json.dump(doc, open(args.out, "w"), indent=1)
+        write_json(doc, args.out)
         print("REFUSED —", err, flush=True)
         return 6
 
@@ -1014,22 +1149,21 @@ def mode_build(args):
     doc["exitvec_anchor"] = anchor
     doc["c397_sg_xyz"] = ctx["c397_sg"]
 
+    doc["base"] = base
+    # ⛔ FLUSHED AFTER EVERY ARM, NOT ONCE AT THE END (CLAUDE.md §6, the continuous-upload rule). This loop
+    # is the long part of the mode, and it used to write NOTHING until all three arms were done: a timeout,
+    # a crash or a killed runner published no artifact at all — including the arms that HAD been built and
+    # the pre-flight verdicts they carry. `write_json` is atomic, so a flush cannot be observed half-written,
+    # and `_artifact_state` makes the partial say it is partial rather than reading as a finished panel.
     for p in PARALOGUES:
         r = build_arm(p, ctx, base, args.workdir)
         doc["arms"].append(r)
         print("  %-16s %s" % (r["arm"], "READY" if r["ok"] else "REFUSED — " + (r["why"] or "")), flush=True)
+        _summarise_arms(doc, complete=False)
+        write_json(doc, args.out)
 
-    ready = [r["arm"] for r in doc["arms"] if r["ok"]]
-    doc["ready_arms"] = ready
-    doc["refused_arms"] = [{"arm": r["arm"], "why": r["why"]} for r in doc["arms"] if not r["ok"]]
-    doc["base"] = base
-    doc["sentence"] = (
-        "%d of %d paralogue arms passed the pre-flight and are built (%s)."
-        % (len(ready), len(PARALOGUES), ", ".join(ready) or "none")
-        + (" REFUSED: %s." % "; ".join("%s (%s)" % (r["arm"], r["why"]) for r in doc["refused_arms"])
-           if doc["refused_arms"] else "")
-        + " ⛔ A refusal is not a zero, and an arm that is not built is not a result of any magnitude.")
-    json.dump(doc, open(args.out, "w"), indent=1)
+    ready = _summarise_arms(doc, complete=True)
+    write_json(doc, args.out)
     print(doc["sentence"], flush=True)
     # ⛔ ALL THREE OR NONE. A comparison missing an arm is not a comparison — the same rule
     # `nr4a_ternary_signature` already enforces, applied one stage earlier so nothing is predicted for a
