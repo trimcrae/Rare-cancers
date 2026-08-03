@@ -94,6 +94,7 @@ def facts():
         "same_construct": (res.get("engineered_construct") or {}).get(
             "apo_and_holo_are_the_same_construct"),
         "site_supp": sp,
+        "gradeability": rep.get("gradeability") or {},
     }
 
 
@@ -312,6 +313,44 @@ def edits(f):
                 "is quotable — only its band."),
         "artifact": "research/modalities/apo-pose-recovery.json",
     })
+    E.append({
+        "id": "P7", "row": 4, "serves": "provenance",
+        "file": MAP, "section": "§Provenance — artifacts that own the numbers",
+        "anchor": "[`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json) ·",
+        "current_text": None,
+        "proposed_text": ("[`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json) · "
+                          "[`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json) ·"),
+        "why": ("The site supplement is a new artifact that now owns the in-regime site numbers. An "
+                "artifact that owns a number and is not in the provenance list is how a claim ends up "
+                "with no findable home."),
+        "artifact": "research/modalities/apo-pose-site-in-regime.json",
+    })
+    # P8 exists ONLY once C6b has measured an unstable count. A gradeability warning with no measurement
+    # behind it would be the "unanswered question wearing the costume of a status" CLAUDE.md §4 forbids.
+    g = f.get("gradeability") or {}
+    if g.get("gradeable_count_is_stable") is False:
+        E.append({
+            "id": "P8", "row": 4, "serves": "V3",
+            "file": MAP, "section": "§3.1 / §5 — every place an `n of m gradeable` count is quoted",
+            "anchor": "recover a known holo pose in a nuclear receptor from apo",
+            "current_text": None,
+            "proposed_text": None,
+            "_manual_because": (
+                "⚠ `Q_DOCKING.n_gradeable` is NOT a stable integer. %d of %d pairs carrying ceiling "
+                "replicates are gradeable on some seeds and not others (%s), because the ceiling arm "
+                "straddles the 2.00 Å criterion. WHEREVER this page quotes an `n of m gradeable` count "
+                "it must carry that range — which is more than one cell, so it is flagged rather than "
+                "given as a single verbatim replacement. Measured: `reproducibility.gradeability` in "
+                "[`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json)."
+                % (len(g.get("pairs_whose_gradeability_flips") or []),
+                   g.get("n_pairs_with_ceiling_replicates"),
+                   ", ".join("%s→%s %s of %s seeds"
+                             % (p["apo"], p["holo"], p["n_seeds_gradeable"], p["n_seeds"])
+                             for p in g.get("pairs_whose_gradeability_flips") or []))),
+            "why": ("A count whose membership is decided by an unseeded search is a range, and every "
+                    "place the map states it as an integer is quoting one draw."),
+            "artifact": "research/modalities/apo-pose-recovery.json",
+        })
     return E
 
 
@@ -340,7 +379,9 @@ def verify(path=OUT):
                                         capture_output=True, text=True, cwd=REPO).stdout)
             na = body.count(e["anchor"])
             nc = body.count(e["current_text"]) if e["current_text"] else 0
-            ok = na == 1 and nc == 1
+            # ⚠ An edit whose `proposed_text` is deliberately null is a FLAG, not a replacement: it is
+            # verified on its anchor alone, because there is no single line to swap.
+            ok = na == 1 and (nc == 1 if e.get("proposed_text") else True)
             bad += 0 if ok else 1
             print("%s %-3s %-9s anchor×%d current_text×%d  %s"
                   % ("OK  " if ok else "FAIL", e["id"], ref, na, nc, e["file"].split("/")[-1]))

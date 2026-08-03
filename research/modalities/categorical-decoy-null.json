@@ -1,0 +1,1309 @@
+{
+  "_title": "C02 \u2014 cross-system decoy null for the categorical covalent axis",
+  "_status": "INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, reactivity, degradation, efficacy or safety.",
+  "_reading": "This calibrates the SCREEN, not NR4A3. It converts 'the categorical gate fired' into 'the categorical gate fired, against a measured background of X'.",
+  "_generated": {
+    "utc": "2026-08-03T01:59:08Z",
+    "et": "2026-08-02 09:59 PM ET",
+    "generator": "research/modalities/categorical_decoy_null.py"
+  },
+  "preregistration": {
+    "_frozen": "Design fixed before any AlphaFold model was fetched and before any statistic was computed. Mode `plan` emits this block with no results at all, so git history carries the design ahead of the numbers.",
+    "question": "How often does an ARBITRARY close human paralogue pair, pushed through the identical categorical pipeline, return P(paralogue also labelled | target-unique cysteine labelled) = 0 at the 12-backbone-atom design gate?",
+    "universe": {
+      "source": "research/modalities/nr4a-superfamily-selectivity.json -> ranking[] \u2014 47 human nuclear receptors with UniProt accessions, a COMMITTED artifact generated for a different purpose months earlier. Using an existing on-disk list rather than curating one is what keeps the universe answer-blind.",
+      "exclusions": "the NR4A family (NR4A1 P22736, NR4A2 P43354, NR4A3 Q92570) \u2014 that is the test case, not the background.",
+      "why_nuclear_receptors": "The null must be the RIGHT null: close paralogue pairs in the same fold class, with the same domain size and the same kind of buried ligand pocket. A random-protein null would confound 'no collision' with 'wrong fold'. \u26a0 The price is that the background measured here is a NUCLEAR-RECEPTOR background, not a proteome background \u2014 stated as a limit, not hidden."
+    },
+    "structures": {
+      "source": "AlphaFold DB, one model per accession, resolved through the prediction API (the file URL's version number is NOT guessed \u2014 measured 2026-08-02, a hard-wired v4/v3/v2 file URL 404'd on all 48). The resolved URL, model version and SHA-256 are recorded per model.",
+      "domain_trim": "largest CONTIGUOUS run of residues with pLDDT >= MIN_PLDDT (70.0), minimum length MIN_DOMAIN_LEN (120) residues. Mechanical, identical for every protein, and it removes the disordered tails whose spurious cysteines would INFLATE the decoy collision rate \u2014 i.e. the trim is in the direction that makes the NR4A3 result look WORSE, not better."
+    },
+    "pair_formation": {
+      "identity_band": [
+        0.35,
+        0.9
+      ],
+      "why": "'close pairs, not random proteins'. The band brackets the measured NR4A3-vs-NR4A1 and NR4A3-vs-NR4A2 trimmed-domain identities, which are computed by this same code and recorded in the artifact.",
+      "alignment_coverage_min": 0.6,
+      "max_pairs": 10,
+      "max_per_protein": 2,
+      "ranking_rule": "qualifying unordered pairs ranked by |identity - NR4A3_reference_identity| ASCENDING (closest to the NR4A3 case first), then taken greedily subject to max_per_protein. Answer-blind: identity is a property of the sequences, computed before any reach statistic exists.",
+      "orientations": "each unordered pair contributes TWO ordered decoys (A as target/B as paralogue, and B as target/A as paralogue). Both are reported; neither is chosen."
+    },
+    "pocket_rule": "fpocket's HIGHEST-DRUGGABILITY cavity on the target's trimmed domain supplies the pocket lining set, hence the pocket centroid the warhead exit-vector poses are built around. Family-agnostic and mechanical. \u26a0 It is NOT the same rule as NR4A3's prespecified Pocket-5 \u2014 which is exactly why NR4A3 is ALSO run through this harness under this same rule, and why the percentile is taken against THAT row rather than against the committed one.",
+    "statistic": {
+      "gate_atoms": 12,
+      "also_reported": [
+        14,
+        16,
+        20
+      ],
+      "definition": "P(any paralogue cysteine is inside the same linker budget | the same placement puts the electrophile on a TARGET-UNIQUE cysteine), over one matched placement set.",
+      "target_unique_cysteine": "a cysteine in the target whose BLOSUM62-aligned position in the paralogue is not a cysteine (or has no aligned partner) \u2014 the same rule that produces NR4A3's {C397, C420, C559}.",
+      "both_filters": "computed BOTH reach-only and reach-AND-exposed (RSA >= 0.25). \u26a0 The audit established that at the 12-atom gate the reach-only numbers already carry the result, so a null that tested only the exposure-filtered form would miss the load-bearing case.",
+      "uncertainty": "Wilson 95 % on the conditional, using the SAME `nr4a_paralogue_dynamics.wilson95`."
+    },
+    "placements": {
+      "target_n_placements": 45000,
+      "why": "the committed NR4A3 run accepted 73,867 placements; 45,000 keeps every row inside one CI job while staying the same order. The sampler budget is chosen ADAPTIVELY per target from a pilot so that every row gets a comparable placement set rather than a comparable raw sample count \u2014 an acceptance rate is a property of the pocket, and matching samples would silently un-match the statistics.",
+      "pilot_samples_per_arm_pose": 25000,
+      "max_samples_per_arm_pose": 6000000,
+      "n_poses": 12,
+      "seed": 20260802
+    },
+    "gradeability": {
+      "min_conditioning_events": 20,
+      "rule": "an ordered decoy is GRADED only if >= 20 placements put the electrophile on a target-unique cysteine at the 12-atom gate. Below that the conditional has no power and the row is reported as UNDERPOWERED with its counts and EXCLUDED from the percentile.",
+      "\u26a0_selection_effect": "excluding underpowered rows biases the graded set toward pairs whose unique cysteines are reachable at all \u2014 i.e. toward pairs with MORE opportunity to collide, which makes the background HARDER for NR4A3 to beat, not easier. The count of underpowered rows is reported so the reader can see the size of the effect.",
+      "undefined": "a pair with zero target-unique cysteines has no conditional at all. Recorded as UNDEFINED with its count, never as a zero."
+    },
+    "readout": {
+      "percentile": "the fraction of GRADED decoy rows whose collision probability is <= NR4A3's harness-matched row, plus the fraction that are EXACTLY zero. Reported for both the reach-only and the exposure-filtered statistic.",
+      "what_a_pass_means": "if few decoys reach 0, the categorical GO carries information and becomes quotable WITH this background beside it. If most decoys reach 0, the categorical GO is a property of the METHOD and the axis must be re-graded. A pass is not the goal; a measured background is."
+    },
+    "not_claimed": [
+      "Nothing here is a claim about binding, reactivity, degradation, selectivity in vivo, efficacy, safety, a therapeutic window or clinical readiness.",
+      "Reach and exposure are NECESSARY, not sufficient: no thiol pKa, nucleophilicity, adduct stability or promiscuity is modelled, for the decoys any more than for NR4A3.",
+      "This calibrates the SCREEN. It says nothing about NR4A3 specifically that the screen does not."
+    ]
+  },
+  "pair_plan": {
+    "nr4a3_reference_identities": {
+      "P22736": {
+        "identity": 0.6408,
+        "coverage": 0.9861
+      },
+      "P43354": {
+        "identity": 0.6993,
+        "coverage": 0.9931
+      }
+    },
+    "nr4a3_reference_identity_used_for_ranking": 0.6701,
+    "selected_pairs": [
+      {
+        "a": "P37231",
+        "b": "Q07869",
+        "gene_a": "PPARG",
+        "gene_b": "PPARA",
+        "identity": 0.6766,
+        "coverage": 0.995,
+        "rank_key": 0.00655
+      },
+      {
+        "a": "P37231",
+        "b": "Q03181",
+        "gene_a": "PPARG",
+        "gene_b": "PPARD",
+        "identity": 0.6915,
+        "coverage": 0.995,
+        "rank_key": 0.02145
+      },
+      {
+        "a": "P03372",
+        "b": "Q92731",
+        "gene_a": "ESR1",
+        "gene_b": "ESR2",
+        "identity": 0.6483,
+        "coverage": 0.9932,
+        "rank_key": 0.02175
+      },
+      {
+        "a": "O95718",
+        "b": "P11474",
+        "gene_a": "ESRRB",
+        "gene_b": "ESRRA",
+        "identity": 0.6327,
+        "coverage": 1.0,
+        "rank_key": 0.03735
+      },
+      {
+        "a": "P35398",
+        "b": "Q92753",
+        "gene_a": "RORA",
+        "gene_b": "RORB",
+        "identity": 0.623,
+        "coverage": 1.0,
+        "rank_key": 0.04705
+      },
+      {
+        "a": "Q03181",
+        "b": "Q07869",
+        "gene_a": "PPARD",
+        "gene_b": "PPARA",
+        "identity": 0.7241,
+        "coverage": 1.0,
+        "rank_key": 0.05405
+      },
+      {
+        "a": "P11474",
+        "b": "P62508",
+        "gene_a": "ESRRA",
+        "gene_b": "ESRRG",
+        "identity": 0.6122,
+        "coverage": 1.0,
+        "rank_key": 0.05785
+      },
+      {
+        "a": "P13056",
+        "b": "P49116",
+        "gene_a": "NR2C1",
+        "gene_b": "NR2C2",
+        "identity": 0.7459,
+        "coverage": 1.0,
+        "rank_key": 0.07585
+      },
+      {
+        "a": "P10588",
+        "b": "P10589",
+        "gene_a": "NR2F6",
+        "gene_b": "NR2F1",
+        "identity": 0.7642,
+        "coverage": 1.0,
+        "rank_key": 0.09415
+      },
+      {
+        "a": "P55055",
+        "b": "Q13133",
+        "gene_a": "NR1H2",
+        "gene_b": "NR1H3",
+        "identity": 0.7667,
+        "coverage": 0.9959,
+        "rank_key": 0.09665
+      }
+    ],
+    "n_candidate_pairs": 630,
+    "n_rejected_pairs": 531,
+    "n_ordered_decoys": 22,
+    "targets": [
+      "O95718",
+      "P03372",
+      "P10588",
+      "P10589",
+      "P11474",
+      "P13056",
+      "P35398",
+      "P37231",
+      "P49116",
+      "P55055",
+      "P62508",
+      "Q03181",
+      "Q07869",
+      "Q13133",
+      "Q92570",
+      "Q92731",
+      "Q92753"
+    ],
+    "trim_refusals": [
+      {
+        "accession": "P04150",
+        "gene": "NR3C1",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      },
+      {
+        "accession": "P20393",
+        "gene": "NR1D1",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      },
+      {
+        "accession": "Q9Y466",
+        "gene": "NR2E1",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      },
+      {
+        "accession": "Q14995",
+        "gene": "NR1D2",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      },
+      {
+        "accession": "Q9Y5X4",
+        "gene": "NR2E3",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      },
+      {
+        "accession": "Q14994",
+        "gene": "NR1I3",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      },
+      {
+        "accession": "O00482",
+        "gene": "NR5A2",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      },
+      {
+        "accession": "P51843",
+        "gene": "NR0B1",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      },
+      {
+        "accession": "Q15466",
+        "gene": "NR0B2",
+        "reason": "ValueError: no contiguous pLDDT>=70.0 segment of >= 120 residues"
+      }
+    ]
+  },
+  "results": {
+    "n_decoy_rows_attempted": 20,
+    "n_graded": 8,
+    "n_underpowered": 2,
+    "n_undefined": 10,
+    "precondition_has_a_target_unique_cysteine": {
+      "_what": "How often a close paralogue pair even HAS a target-unique cysteine \u2014 the categorical screen's FIRST precondition, before any reach question is asked.",
+      "n_ordered_decoys": 20,
+      "n_with_no_target_unique_cysteine": 10,
+      "frac_with_no_target_unique_cysteine": 0.5,
+      "wilson95": [
+        0.2993,
+        0.7007
+      ],
+      "\u2605_reading": "This is a result in its own right, not bookkeeping: a pair with no target-unique cysteine is a pair on which the categorical screen could never fire at all. It belongs beside the collision statistic, because the two together are what 'how special is the NR4A3 configuration' actually decomposes into."
+    },
+    "\u26d4_nr4a3_harness_scope": {
+      "trimmed_window_uniprot": [
+        427,
+        570
+      ],
+      "n_residues": 144,
+      "committed_nr4a3_unique_cysteines": [
+        397,
+        420,
+        559
+      ],
+      "inside_the_trimmed_window": [
+        559
+      ],
+      "\u26d4_outside_and_therefore_INVISIBLE_to_this_harness": [
+        397,
+        420
+      ],
+      "\u2605_reading": "The pre-registered pLDDT>=70 trim keeps UniProt 427-570 of the NR4A3 AlphaFold model, so of the committed unique set [397, 420, 559] only [559] is inside it. \u26d4 THE HARNESS-MATCHED NR4A3 ROW THEREFORE DOES NOT INTERROGATE THE PROGRAM'S HEADLINE C397 \u2014 it interrogates [559]. The percentile still answers the question it was built to answer (does an arbitrary close paralogue pair, under this IDENTICAL rule, return 0?), because NR4A3 goes through the same rule as every decoy. But it is a statement about the SCREEN, and it is a weaker statement about the program's actual construct than it would be with C397 in the window. The committed C397-led result keeps its own home in nr4a-paralogue-dynamics.json and is NOT re-derived here.",
+      "_why_the_trim_is_not_relaxed_after_the_fact": "It is pre-registered. Widening it to admit C397 AFTER seeing that C397 fell outside would be exactly the tuning the pre-registration exists to prevent. The honest move is to report the scope and, if it matters, re-run with a DIFFERENT pre-registered trim as a separate test."
+    },
+    "n_refusals": 0,
+    "background_at_gate_12": {
+      "reach_only": {
+        "n": 8,
+        "min": 0.0,
+        "q25": 0.021645181904808214,
+        "median": 0.04215373050178538,
+        "q75": 0.20070137577555974,
+        "max": 0.9393939393939394,
+        "mean": 0.20246011424005542,
+        "n_exactly_zero": 1,
+        "frac_exactly_zero": 0.125
+      },
+      "exposed": {
+        "n": 6,
+        "min": 0.0,
+        "q25": 0.002526753864447087,
+        "median": 0.025655726429369613,
+        "q75": 0.04264935216173932,
+        "max": 0.4396039603960396,
+        "mean": 0.08900773394501904,
+        "n_exactly_zero": 2,
+        "frac_exactly_zero": 0.3333333333333333
+      }
+    },
+    "nr4a3_harness_matched": {
+      "NR4A1": {
+        "status": "GRADED",
+        "n_conditioning_events_gate": 182,
+        "P_gate": 0.0,
+        "P_gate_EXPOSED": null,
+        "n_target_unique_cysteines": 1,
+        "target_unique_labels": [
+          "C559"
+        ],
+        "n_placements": 46667,
+        "percentile_reach_only": 0.125,
+        "percentile_exposed": null
+      },
+      "NR4A2": {
+        "status": "GRADED",
+        "n_conditioning_events_gate": 182,
+        "P_gate": 0.0,
+        "P_gate_EXPOSED": null,
+        "n_target_unique_cysteines": 1,
+        "target_unique_labels": [
+          "C559"
+        ],
+        "n_placements": 46667,
+        "percentile_reach_only": 0.125,
+        "percentile_exposed": null
+      }
+    },
+    "nr4a3_committed_for_reference": {
+      "_source": "research/modalities/nr4a-paralogue-dynamics.json -> categorical_verdict (the ONE home of these figures; quoted, not re-derived)",
+      "gate_atoms": 12,
+      "by_scope": {
+        "static_opened_model": {
+          "P_paralogue_also_labelled_given_nr4a3": 0.0,
+          "P_paralogue_also_labelled_given_nr4a3_EXPOSED": 0.0,
+          "n_placements_with_any_nr4a3_hit": 77
+        },
+        "unbiased_release": {
+          "P_paralogue_also_labelled_given_nr4a3": 0.00124,
+          "P_paralogue_also_labelled_given_nr4a3_EXPOSED": 0.0,
+          "n_placements_with_any_nr4a3_hit": 122
+        },
+        "metad_biased": {
+          "P_paralogue_also_labelled_given_nr4a3": 0.0029,
+          "P_paralogue_also_labelled_given_nr4a3_EXPOSED": 0.0,
+          "n_placements_with_any_nr4a3_hit": 89
+        }
+      }
+    },
+    "decoy_rows": [
+      {
+        "gene_target": "NR2F1",
+        "gene_paralogue": "NR2F6",
+        "target": "P10589",
+        "paralogue": "P10588",
+        "identity": 0.7642,
+        "status": "GRADED",
+        "n_placements": 44092,
+        "n_target_cysteines": 3,
+        "n_target_unique_cysteines": 1,
+        "target_unique_labels": [
+          "C350"
+        ],
+        "n_paralogue_cysteines": 2,
+        "n_conditioning_events_gate": 45,
+        "P_gate": 0.0,
+        "P_gate_EXPOSED": 0.0
+      },
+      {
+        "gene_target": "PPARD",
+        "gene_paralogue": "PPARG",
+        "target": "Q03181",
+        "paralogue": "P37231",
+        "identity": 0.6915,
+        "status": "GRADED",
+        "n_placements": 46938,
+        "n_target_cysteines": 3,
+        "n_target_unique_cysteines": 2,
+        "target_unique_labels": [
+          "C251",
+          "C358"
+        ],
+        "n_paralogue_cysteines": 1,
+        "n_conditioning_events_gate": 1682,
+        "P_gate": 0.010107015457788348,
+        "P_gate_EXPOSED": 0.010107015457788348
+      },
+      {
+        "gene_target": "RORA",
+        "gene_paralogue": "RORB",
+        "target": "P35398",
+        "paralogue": "Q92753",
+        "identity": 0.623,
+        "status": "GRADED",
+        "n_placements": 44998,
+        "n_target_cysteines": 8,
+        "n_target_unique_cysteines": 2,
+        "target_unique_labels": [
+          "C396",
+          "C472"
+        ],
+        "n_paralogue_cysteines": 7,
+        "n_conditioning_events_gate": 1883,
+        "P_gate": 0.025491237387148168,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "PPARA",
+        "gene_paralogue": "PPARG",
+        "target": "Q07869",
+        "paralogue": "P37231",
+        "identity": 0.6766,
+        "status": "GRADED",
+        "n_placements": 44406,
+        "n_target_cysteines": 6,
+        "n_target_unique_cysteines": 5,
+        "target_unique_labels": [
+          "C275",
+          "C278",
+          "C352",
+          "C384",
+          "C385"
+        ],
+        "n_paralogue_cysteines": 1,
+        "n_conditioning_events_gate": 4420,
+        "P_gate": 0.041176470588235294,
+        "P_gate_EXPOSED": 0.04120443740095087
+      },
+      {
+        "gene_target": "NR2C1",
+        "gene_paralogue": "NR2C2",
+        "target": "P13056",
+        "paralogue": "P49116",
+        "identity": 0.7459,
+        "status": "GRADED",
+        "n_placements": 44191,
+        "n_target_cysteines": 2,
+        "n_target_unique_cysteines": 1,
+        "target_unique_labels": [
+          "C493"
+        ],
+        "n_paralogue_cysteines": 1,
+        "n_conditioning_events_gate": 626,
+        "P_gate": 0.04313099041533546,
+        "P_gate_EXPOSED": 0.04313099041533546
+      },
+      {
+        "gene_target": "ESR1",
+        "gene_paralogue": "ESR2",
+        "target": "P03372",
+        "paralogue": "Q92731",
+        "identity": 0.6483,
+        "status": "GRADED",
+        "n_placements": 44748,
+        "n_target_cysteines": 3,
+        "n_target_unique_cysteines": 1,
+        "target_unique_labels": [
+          "C381"
+        ],
+        "n_paralogue_cysteines": 3,
+        "n_conditioning_events_gate": 297,
+        "P_gate": 0.12121212121212122,
+        "P_gate_EXPOSED": 0.0
+      },
+      {
+        "gene_target": "PPARA",
+        "gene_paralogue": "PPARD",
+        "target": "Q07869",
+        "paralogue": "Q03181",
+        "identity": 0.7241,
+        "status": "GRADED",
+        "n_placements": 44406,
+        "n_target_cysteines": 6,
+        "n_target_unique_cysteines": 3,
+        "target_unique_labels": [
+          "C275",
+          "C352",
+          "C384"
+        ],
+        "n_paralogue_cysteines": 3,
+        "n_conditioning_events_gate": 3033,
+        "P_gate": 0.4391691394658754,
+        "P_gate_EXPOSED": 0.4396039603960396
+      },
+      {
+        "gene_target": "ESR2",
+        "gene_paralogue": "ESR1",
+        "target": "Q92731",
+        "paralogue": "P03372",
+        "identity": 0.6483,
+        "status": "GRADED",
+        "n_placements": 46132,
+        "n_target_cysteines": 3,
+        "n_target_unique_cysteines": 1,
+        "target_unique_labels": [
+          "C334"
+        ],
+        "n_paralogue_cysteines": 3,
+        "n_conditioning_events_gate": 33,
+        "P_gate": 0.9393939393939394,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "ESRRB",
+        "gene_paralogue": "ESRRA",
+        "target": "O95718",
+        "paralogue": "P11474",
+        "identity": 0.6327,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 12841,
+        "n_target_cysteines": 1,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 1,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "NR1H3",
+        "gene_paralogue": "NR1H2",
+        "target": "Q13133",
+        "paralogue": "P55055",
+        "identity": 0.7667,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 38593,
+        "n_target_cysteines": 1,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 2,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "ESRRG",
+        "gene_paralogue": "ESRRA",
+        "target": "P62508",
+        "paralogue": "P11474",
+        "identity": 0.6122,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 13199,
+        "n_target_cysteines": 1,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 1,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "PPARD",
+        "gene_paralogue": "PPARA",
+        "target": "Q03181",
+        "paralogue": "Q07869",
+        "identity": 0.7241,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 46938,
+        "n_target_cysteines": 3,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 6,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "NR2F6",
+        "gene_paralogue": "NR2F1",
+        "target": "P10588",
+        "paralogue": "P10589",
+        "identity": 0.7642,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 43861,
+        "n_target_cysteines": 2,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 3,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "ESRRA",
+        "gene_paralogue": "ESRRB",
+        "target": "P11474",
+        "paralogue": "O95718",
+        "identity": 0.6327,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 46016,
+        "n_target_cysteines": 1,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 1,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "ESRRA",
+        "gene_paralogue": "ESRRG",
+        "target": "P11474",
+        "paralogue": "P62508",
+        "identity": 0.6122,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 46016,
+        "n_target_cysteines": 1,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 1,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "RORB",
+        "gene_paralogue": "RORA",
+        "target": "Q92753",
+        "paralogue": "P35398",
+        "identity": 0.623,
+        "status": "UNDERPOWERED_too_few_conditioning_events",
+        "n_placements": 45734,
+        "n_target_cysteines": 7,
+        "n_target_unique_cysteines": 1,
+        "target_unique_labels": [
+          "C310"
+        ],
+        "n_paralogue_cysteines": 8,
+        "n_conditioning_events_gate": 0,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "PPARG",
+        "gene_paralogue": "PPARA",
+        "target": "P37231",
+        "paralogue": "Q07869",
+        "identity": 0.6766,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 42786,
+        "n_target_cysteines": 1,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 6,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "PPARG",
+        "gene_paralogue": "PPARD",
+        "target": "P37231",
+        "paralogue": "Q03181",
+        "identity": 0.6915,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 42786,
+        "n_target_cysteines": 1,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 3,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "NR2C2",
+        "gene_paralogue": "NR2C1",
+        "target": "P49116",
+        "paralogue": "P13056",
+        "identity": 0.7459,
+        "status": "UNDEFINED_no_target_unique_cysteine",
+        "n_placements": 44847,
+        "n_target_cysteines": 1,
+        "n_target_unique_cysteines": 0,
+        "target_unique_labels": [],
+        "n_paralogue_cysteines": 2,
+        "n_conditioning_events_gate": null,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      },
+      {
+        "gene_target": "NR1H2",
+        "gene_paralogue": "NR1H3",
+        "target": "P55055",
+        "paralogue": "Q13133",
+        "identity": 0.7667,
+        "status": "UNDERPOWERED_too_few_conditioning_events",
+        "n_placements": 45550,
+        "n_target_cysteines": 2,
+        "n_target_unique_cysteines": 1,
+        "target_unique_labels": [
+          "C325"
+        ],
+        "n_paralogue_cysteines": 1,
+        "n_conditioning_events_gate": 0,
+        "P_gate": null,
+        "P_gate_EXPOSED": null
+      }
+    ],
+    "refusals": []
+  },
+  "harness_known_answer_check": {
+    "_what": "the C02 driver re-run on the committed opened models + committed Pocket-5, against the committed static verdict",
+    "n_placements": 7729,
+    "n_poses": 12,
+    "samples_per_arm_pose": 200000,
+    "rows": {
+      "NR4A1": {
+        "target_unique_uniprot": [
+          397,
+          420,
+          559
+        ],
+        "n_paralogue_cysteines": 6,
+        "by_linker_atoms": {
+          "12": {
+            "n_conditioning_events": 9,
+            "n_collisions": 0,
+            "P_paralogue_also_labelled": 0.0,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0,
+              0.2991
+            ],
+            "mean_P_target_unique": 0.0011644455945141673,
+            "mean_P_any_paralogue_cys": 0.00025876568766981497,
+            "per_target_unique_cys": {
+              "C25": 9
+            },
+            "per_paralogue_cys": {
+              "C204": 2
+            },
+            "n_conditioning_events_EXPOSED": 9,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.2991
+            ],
+            "mean_P_target_unique_EXPOSED": 0.0011644455945141673,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 9
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "14": {
+            "n_conditioning_events": 31,
+            "n_collisions": 0,
+            "P_paralogue_also_labelled": 0.0,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0,
+              0.1103
+            ],
+            "mean_P_target_unique": 0.004010868158882132,
+            "mean_P_any_paralogue_cys": 0.0010350627506792599,
+            "per_target_unique_cys": {
+              "C25": 31
+            },
+            "per_paralogue_cys": {
+              "C204": 8
+            },
+            "n_conditioning_events_EXPOSED": 31,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.1103
+            ],
+            "mean_P_target_unique_EXPOSED": 0.004010868158882132,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 31
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "16": {
+            "n_conditioning_events": 94,
+            "n_collisions": 4,
+            "P_paralogue_also_labelled": 0.0425531914893617,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0167,
+              0.1044
+            ],
+            "mean_P_target_unique": 0.012161987320481304,
+            "mean_P_any_paralogue_cys": 0.006339759347910467,
+            "per_target_unique_cys": {
+              "C25": 88,
+              "C48": 6
+            },
+            "per_paralogue_cys": {
+              "C118": 6,
+              "C158": 3,
+              "C187": 3,
+              "C204": 37
+            },
+            "n_conditioning_events_EXPOSED": 94,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.0393
+            ],
+            "mean_P_target_unique_EXPOSED": 0.012161987320481304,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 88,
+              "C48": 6
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "20": {
+            "n_conditioning_events": 505,
+            "n_collisions": 107,
+            "P_paralogue_also_labelled": 0.21188118811881188,
+            "P_paralogue_also_labelled_wilson95": [
+              0.1785,
+              0.2496
+            ],
+            "mean_P_target_unique": 0.06533833613662829,
+            "mean_P_any_paralogue_cys": 0.0432138698408591,
+            "per_target_unique_cys": {
+              "C25": 439,
+              "C48": 66
+            },
+            "per_paralogue_cys": {
+              "C118": 101,
+              "C158": 106,
+              "C187": 42,
+              "C204": 152
+            },
+            "n_conditioning_events_EXPOSED": 505,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.0075
+            ],
+            "mean_P_target_unique_EXPOSED": 0.06533833613662829,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 439,
+              "C48": 66
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          }
+        }
+      },
+      "NR4A2": {
+        "target_unique_uniprot": [
+          397,
+          420,
+          559
+        ],
+        "n_paralogue_cysteines": 5,
+        "by_linker_atoms": {
+          "12": {
+            "n_conditioning_events": 9,
+            "n_collisions": 0,
+            "P_paralogue_also_labelled": 0.0,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0,
+              0.2991
+            ],
+            "mean_P_target_unique": 0.0011644455945141673,
+            "mean_P_any_paralogue_cys": 0.0,
+            "per_target_unique_cys": {
+              "C25": 9
+            },
+            "per_paralogue_cys": {},
+            "n_conditioning_events_EXPOSED": 9,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.2991
+            ],
+            "mean_P_target_unique_EXPOSED": 0.0011644455945141673,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 9
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "14": {
+            "n_conditioning_events": 31,
+            "n_collisions": 0,
+            "P_paralogue_also_labelled": 0.0,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0,
+              0.1103
+            ],
+            "mean_P_target_unique": 0.004010868158882132,
+            "mean_P_any_paralogue_cys": 0.00012938284383490748,
+            "per_target_unique_cys": {
+              "C25": 31
+            },
+            "per_paralogue_cys": {
+              "C122": 1
+            },
+            "n_conditioning_events_EXPOSED": 31,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.1103
+            ],
+            "mean_P_target_unique_EXPOSED": 0.004010868158882132,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 31
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "16": {
+            "n_conditioning_events": 94,
+            "n_collisions": 5,
+            "P_paralogue_also_labelled": 0.05319148936170213,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0229,
+              0.1185
+            ],
+            "mean_P_target_unique": 0.012161987320481304,
+            "mean_P_any_paralogue_cys": 0.0025876568766981497,
+            "per_target_unique_cys": {
+              "C25": 88,
+              "C48": 6
+            },
+            "per_paralogue_cys": {
+              "C122": 13,
+              "C162": 3,
+              "C191": 5
+            },
+            "n_conditioning_events_EXPOSED": 94,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.0393
+            ],
+            "mean_P_target_unique_EXPOSED": 0.012161987320481304,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 88,
+              "C48": 6
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "20": {
+            "n_conditioning_events": 505,
+            "n_collisions": 102,
+            "P_paralogue_also_labelled": 0.201980198019802,
+            "P_paralogue_also_labelled_wilson95": [
+              0.1693,
+              0.2392
+            ],
+            "mean_P_target_unique": 0.06533833613662829,
+            "mean_P_any_paralogue_cys": 0.04192004140251003,
+            "per_target_unique_cys": {
+              "C25": 439,
+              "C48": 66
+            },
+            "per_paralogue_cys": {
+              "C122": 199,
+              "C162": 103,
+              "C191": 66
+            },
+            "n_conditioning_events_EXPOSED": 505,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.0075
+            ],
+            "mean_P_target_unique_EXPOSED": 0.06533833613662829,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 439,
+              "C48": 66
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          }
+        }
+      },
+      "JOINT_both_paralogues": {
+        "target_unique_uniprot": [
+          397,
+          420,
+          559
+        ],
+        "by_linker_atoms": {
+          "12": {
+            "n_conditioning_events": 9,
+            "n_collisions": 0,
+            "P_paralogue_also_labelled": 0.0,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0,
+              0.2991
+            ],
+            "mean_P_target_unique": 0.0011644455945141673,
+            "mean_P_any_paralogue_cys": 0.00025876568766981497,
+            "per_target_unique_cys": {
+              "C25": 9
+            },
+            "per_paralogue_cys": {
+              "C204": 2
+            },
+            "n_conditioning_events_EXPOSED": 9,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.2991
+            ],
+            "mean_P_target_unique_EXPOSED": 0.0011644455945141673,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 9
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "14": {
+            "n_conditioning_events": 31,
+            "n_collisions": 0,
+            "P_paralogue_also_labelled": 0.0,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0,
+              0.1103
+            ],
+            "mean_P_target_unique": 0.004010868158882132,
+            "mean_P_any_paralogue_cys": 0.0011644455945141673,
+            "per_target_unique_cys": {
+              "C25": 31
+            },
+            "per_paralogue_cys": {
+              "C204": 8,
+              "C122": 1
+            },
+            "n_conditioning_events_EXPOSED": 31,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.1103
+            ],
+            "mean_P_target_unique_EXPOSED": 0.004010868158882132,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 31
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "16": {
+            "n_conditioning_events": 94,
+            "n_collisions": 6,
+            "P_paralogue_also_labelled": 0.06382978723404255,
+            "P_paralogue_also_labelled_wilson95": [
+              0.0296,
+              0.1323
+            ],
+            "mean_P_target_unique": 0.012161987320481304,
+            "mean_P_any_paralogue_cys": 0.008021736317764264,
+            "per_target_unique_cys": {
+              "C25": 88,
+              "C48": 6
+            },
+            "per_paralogue_cys": {
+              "C118": 6,
+              "C158": 3,
+              "C187": 3,
+              "C204": 37,
+              "C122": 13,
+              "C162": 3,
+              "C191": 5
+            },
+            "n_conditioning_events_EXPOSED": 94,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.0393
+            ],
+            "mean_P_target_unique_EXPOSED": 0.012161987320481304,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 88,
+              "C48": 6
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          },
+          "20": {
+            "n_conditioning_events": 505,
+            "n_collisions": 113,
+            "P_paralogue_also_labelled": 0.22376237623762377,
+            "P_paralogue_also_labelled_wilson95": [
+              0.1896,
+              0.2621
+            ],
+            "mean_P_target_unique": 0.06533833613662829,
+            "mean_P_any_paralogue_cys": 0.059516108164057446,
+            "per_target_unique_cys": {
+              "C25": 439,
+              "C48": 66
+            },
+            "per_paralogue_cys": {
+              "C118": 101,
+              "C158": 106,
+              "C187": 42,
+              "C204": 152,
+              "C122": 199,
+              "C162": 103,
+              "C191": 66
+            },
+            "n_conditioning_events_EXPOSED": 505,
+            "n_collisions_EXPOSED": 0,
+            "P_paralogue_also_labelled_EXPOSED": 0.0,
+            "P_paralogue_also_labelled_EXPOSED_wilson95": [
+              0.0,
+              0.0075
+            ],
+            "mean_P_target_unique_EXPOSED": 0.06533833613662829,
+            "mean_P_any_paralogue_cys_EXPOSED": 0.0,
+            "per_target_unique_cys_EXPOSED": {
+              "C25": 439,
+              "C48": 66
+            },
+            "per_paralogue_cys_EXPOSED": {}
+          }
+        }
+      }
+    },
+    "committed_static_opened_model": {
+      "_source": "research/modalities/nr4a-paralogue-dynamics.json (the ONE home; quoted, not re-derived)",
+      "n_placements": 73867,
+      "by_linker_atoms": {
+        "12": {
+          "P_categorical_given_nr4a3": 1.0,
+          "P_paralogue_also_labelled_given_nr4a3": 0.0,
+          "mean_P_nr4a3_unique": 0.001042,
+          "n_placements_with_any_nr4a3_hit": 77,
+          "P_categorical_given_nr4a3_EXPOSED": 1.0,
+          "P_paralogue_also_labelled_given_nr4a3_EXPOSED": 0.0,
+          "mean_P_nr4a3_unique_EXPOSED": 0.001042,
+          "n_placements_with_any_nr4a3_hit_EXPOSED": 77,
+          "mean_P_any_cysteine_NR4A3": 0.001042,
+          "mean_P_any_EXPOSED_cysteine_NR4A3": 0.001042,
+          "mean_P_any_cysteine_NR4A1": 0.00023,
+          "mean_P_any_EXPOSED_cysteine_NR4A1": 0.0,
+          "mean_P_any_cysteine_NR4A2": 2.7e-05,
+          "mean_P_any_EXPOSED_cysteine_NR4A2": 0.0
+        },
+        "20": {
+          "P_categorical_given_nr4a3": 0.7367,
+          "P_paralogue_also_labelled_given_nr4a3": 0.2633,
+          "mean_P_nr4a3_unique": 0.081701,
+          "n_placements_with_any_nr4a3_hit": 6035,
+          "P_categorical_given_nr4a3_EXPOSED": 1.0,
+          "P_paralogue_also_labelled_given_nr4a3_EXPOSED": 0.0,
+          "mean_P_nr4a3_unique_EXPOSED": 0.081633,
+          "n_placements_with_any_nr4a3_hit_EXPOSED": 6030,
+          "mean_P_any_cysteine_NR4A3": 0.087238,
+          "mean_P_any_EXPOSED_cysteine_NR4A3": 0.081633,
+          "mean_P_any_cysteine_NR4A1": 0.062626,
+          "mean_P_any_EXPOSED_cysteine_NR4A1": 0.0,
+          "mean_P_any_cysteine_NR4A2": 0.055099,
+          "mean_P_any_EXPOSED_cysteine_NR4A2": 0.0
+        }
+      }
+    },
+    "committed_nr4a3_unique_cysteines": [
+      397,
+      420,
+      559
+    ],
+    "checks": {
+      "unique_set_reproduced": true,
+      "n_paralogue_cysteines": {
+        "NR4A1": 6,
+        "NR4A2": 5
+      },
+      "n_conditioning_events": {
+        "12": 9,
+        "20": 505
+      },
+      "committed_n_conditioning_events": {
+        "12": 77,
+        "20": 6035
+      },
+      "gate12_collision_abs_diff": 0.0,
+      "atoms20_collision_abs_diff": 0.03954,
+      "atoms20_mean_P_any_paralogue_cys": {
+        "harness_NR4A1": 0.0432138698408591,
+        "committed_NR4A1": 0.062626,
+        "harness_NR4A2": 0.04192004140251003,
+        "committed_NR4A2": 0.055099
+      },
+      "_reading": "`atoms20_collision_abs_diff` is the DISCRIMINATING number \u2014 thousands of conditioning events on both sides, so a driver that disagreed with the committed pipeline would show it here. The 12-atom cell agrees trivially at 0 on a cheap re-run (77 events in 73,867 committed placements) and is recorded for completeness, not as evidence. A `None` means this run produced no conditioning events at that length and the comparison could not be made \u2014 not that it agreed."
+    }
+  },
+  "limits": [
+    "The background is a NUCLEAR-RECEPTOR background: every decoy pair is drawn from the committed 47-receptor human NR list. It does not bound the rate over the whole proteome.",
+    "One static AlphaFold conformer per protein. The committed NR4A3 verdict has three scopes (static / unbiased-release / metad-biased); only the STATIC scope is comparable to these rows, and the harness-matched NR4A3 row is provided precisely so the percentile is not taken against a differently-produced number.",
+    "The pocket rule differs from NR4A3's prespecified Pocket-5 (fpocket top-druggability cavity), which is why NR4A3 is run through the SAME rule here rather than compared across rules.",
+    "AlphaFold models are heavy-atom only; the committed NR4A3 opened models carry hydrogens, so the Shrake-Rupley RSA is not numerically identical between the two arms. The exposure-filtered column is affected; the reach-only column, which the audit shows carries the 12-atom result, is not.",
+    "\u26d4 THE HARNESS-MATCHED NR4A3 ROW DOES NOT COVER C397. The pre-registered pLDDT trim leaves only part of the NR4A3 LBD, so the row rests on whichever unique cysteines survive it \u2014 see `results.\u26d4_nr4a3_harness_scope`, which measures exactly which. The percentile calibrates the SCREEN under one identical rule; it is not a re-derivation of the committed C397-led result.",
+    "The EXPOSURE-FILTERED percentile for NR4A3 may be undefined (P_gate_EXPOSED = null) when its surviving unique cysteine is buried in the AlphaFold model. An undefined conditional is reported as null and excluded, never as a zero \u2014 but it means the exposed column can have no NR4A3 point even while the reach-only column does. The audit establishes reach-only as the load-bearing case at the 12-atom gate, which is why that is the column the verdict uses.",
+    "Reach and exposure are necessary, not sufficient \u2014 for the decoys exactly as for NR4A3.",
+    "Underpowered and undefined rows are excluded from the percentile and counted separately; that exclusion biases the graded background toward pairs with MORE collision opportunity."
+  ],
+  "runtime_note": "produced by research/modalities/categorical_decoy_null.py (modes plan/probe/fetch/pairs/selfcheck/run/reduce)",
+  "map_edits_required": {
+    "_what": "Roadmap edits this result requires. DESCRIBED, NOT APPLIED \u2014 `nr4a3-program-map.md` is being edited by sibling agents and this run does not touch it.",
+    "_how_anchors_are_kept_live": "Every `current_text` is READ out of the map at generation time by `map_edits.locate`, so it is a byte-exact substring of the map as it stood. An anchor that is missing or ambiguous yields `status: ANCHOR_NOT_FOUND` / `ANCHOR_NOT_UNIQUE` with no `proposed_text` \u2014 a visible refusal, never a mis-targeted edit. Measured reason: the categorical audit emitted nine verbatim edits and all nine failed to apply against a restructured map.",
+    "verdict": "DISTINGUISHED",
+    "verdict_basis": {
+      "n_graded": 8,
+      "frac_exactly_zero_reach_only": 0.125,
+      "frac_exactly_zero_exposed": 0.3333333333333333,
+      "nr4a3_percentiles_reach_only": {
+        "NR4A1": 0.125,
+        "NR4A2": 0.125
+      },
+      "nr4a3_percentiles_exposed": {
+        "NR4A1": null,
+        "NR4A2": null
+      },
+      "rule": "DISTINGUISHED requires n_graded >= 5 AND frac_exactly_zero <= 0.5 AND every NR4A3 percentile <= 0.25. Both halves are needed: in a background where most decoys also return 0, a 0th-percentile NR4A3 means nothing \u2014 that is precisely the V20 failure mode."
+    },
+    "\u26d4_not_filed_in_section_6": "A null that FAILS TO REJECT closes nothing. Nothing here is proposed for \u00a76 (dead / parked / held) in either direction.",
+    "entries": [
+      {
+        "section": "\u00a73.1 instrument table \u2014 row V17",
+        "anchor": "| **V17** | The exposure criterion",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The categorical screen this row adjudicates now has a CROSS-SYSTEM background: unrelated close human paralogue pairs pushed through the identical pipeline. Until now every null in the repo was within-system, so the categorical result was an enrichment over an unmeasured background \u2014 the exact shape that cost the program `V20`. The background does not change V17's own positive-control failure; it changes what a 0 from the screen is worth.",
+        "artifact": "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / results.nr4a3_harness_matched",
+        "current_text": "| **V17** | The exposure criterion `EXPOSED_RSA = 0.25` | NR4A1 **Cys551** \u2014 the one NR4A-family covalent site with literature support | \u26d4 **FAILS its own positive control** \u2014 RSA **0.165** on the state-matched opened model; **0 of 25** frames in the metadynamics ensemble, median **0.064** | \u26d4 **anything adjudicated by this cutoff inherits a demonstrated false negative.** What survives is a threshold-free **rank**: C551 is 3/18 across the family on every accessibility observable, behind NR4A3's C397 and C420 | \u2713 measured \u2014 **FAILS its positive control; rank-only** | `R8` `R15` |",
+        "proposed_text": "| **V17** | The exposure criterion `EXPOSED_RSA = 0.25` | NR4A1 **Cys551** \u2014 the one NR4A-family covalent site with literature support | \u26d4 **FAILS its own positive control** \u2014 RSA **0.165** on the state-matched opened model; **0 of 25** frames in the metadynamics ensemble, median **0.064** | \u26d4 **anything adjudicated by this cutoff inherits a demonstrated false negative.** What survives is a threshold-free **rank**: C551 is 3/18 across the family on every accessibility observable, behind NR4A3's C397 and C420. \u2605 And the SCREEN this criterion sits inside now has a CROSS-SYSTEM background \u2014 [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json) \u2014 so a 0 from it can be read against a measured rate instead of an unmeasured one | \u2713 measured \u2014 **FAILS its positive control; rank-only** | `R8` `R15` |"
+      },
+      {
+        "section": "\u00a73.4 instrument facts",
+        "anchor": "### 3.4 \u00b7 Three instrument facts this page used to be missing",
+        "kind": "amend",
+        "status": "OK",
+        "why": "\u00a73.4 is the section that exists to carry scope facts about instruments, and the largest one now missing is that the categorical screen has a measured cross-system background. Adding it here requires retitling the section, which is why the heading is the anchor.",
+        "artifact": "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / results.nr4a3_harness_matched",
+        "current_text": "### 3.4 \u00b7 Three instrument facts this page used to be missing",
+        "proposed_text": "### 3.4 \u00b7 Four instrument facts this page used to be missing"
+      },
+      {
+        "section": "\u00a73.2 R\u00d7V coverage matrix \u2014 row R8",
+        "anchor": "| `R8` linker reach |",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The `R8` cell reads `rank-only, and conditional on R5`. That is still true of the exposure criterion, but the SCREEN as a whole is no longer uncalibrated: it now has a decoy background at the 12-atom gate, reported both reach-only and exposure-filtered.",
+        "artifact": "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / results.nr4a3_harness_matched",
+        "current_text": "| `R8` linker reach | `V17` + enumeration | `V17` fails its own positive control | rank-only, and conditional on `R5` |",
+        "proposed_text": "| `R8` linker reach | `V17` + enumeration | `V17` fails its own positive control | rank-only, and conditional on `R5` \u2014 but the screen now has a measured cross-system background at the 12-atom gate, reach-only AND exposure-filtered ([`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json)) |"
+      },
+      {
+        "section": "\u00a710.1 open rows",
+        "anchor": "### 10.1 \u00b7 Open rows, ordered by what unblocks the most",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The decoy null was on no ranked list \u2014 it existed only as a limit in the categorical audit. \u00a710.3's own lesson is that a caveat with nowhere to go is how work gets silently dropped, so it needs a row whether it passed or failed. \u26a0 When the run is UNDERPOWERED a SECOND row is added in the same edit: an underpowered reading is neither a pass nor a failure, and what it needs is more pairs, which is $0.",
+        "artifact": "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / results.nr4a3_harness_matched",
+        "current_text": "### 10.1 \u00b7 Open rows, ordered by what unblocks the most",
+        "proposed_text": "### 10.1 \u00b7 Open rows, ordered by what unblocks the most\n| **C02** | **Cross-system decoy null for the categorical axis** \u2014 unrelated close human paralogue pairs through the identical pipeline | `R8` `R15` | \u2713 **complete** | \u2014 ($0) | **$0** \u2014 CPU/CI | \u2705 **RAN.** Verdict **DISTINGUISHED**. n_graded=8, frac_exactly_zero=0.125, NR4A3 percentile(s)=[0.125, 0.125]. Numbers: [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json); design and pairs: [`categorical-decoy-null-plan.json`](../modalities/categorical-decoy-null-plan.json). The harness reproduces the committed static verdict (`harness_known_answer_check`) |"
+      },
+      {
+        "section": "\u00a73.4 instrument facts",
+        "anchor": "### 3.4 \u00b7 Three instrument facts this page used to be missing",
+        "kind": "same-anchor-as-the-fourth-fact-entry; apply once, carrying BOTH notes",
+        "status": "OK",
+        "why": "\u26a0 THE CAVEAT THAT MUST TRAVEL WITH THE PERCENTILE. The pre-registered pLDDT trim leaves [397, 420] outside the NR4A3 window, so the harness-matched row does NOT interrogate the program's headline C397. A roadmap that quotes the percentile without this reads as if the committed claim had been calibrated, and it has not been \u2014 the percentile calibrates the SCREEN under one identical rule.",
+        "artifact": "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / results.nr4a3_harness_matched -> results.\u26d4_nr4a3_harness_scope",
+        "current_text": "### 3.4 \u00b7 Three instrument facts this page used to be missing",
+        "proposed_text": "### 3.4 \u00b7 Four instrument facts this page used to be missing"
+      },
+      {
+        "section": "\u00a78 Route B",
+        "anchor": "### Route B \u2014 a linker-borne covalent handle at an NR4A3-unique cysteine",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The categorical GO now stands against a MEASURED background rather than an unmeasured one, which is what makes it quotable. The background belongs next to the claim, not in a footnote.",
+        "artifact": "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / results.nr4a3_harness_matched",
+        "current_text": "### Route B \u2014 a linker-borne covalent handle at an NR4A3-unique cysteine \u00b7 \u25cb **blocked on `R5`, nothing running** \u00b7 serves `R8` `R15`",
+        "proposed_text": "### Route B \u2014 a linker-borne covalent handle at an NR4A3-unique cysteine \u00b7 \u25cb **blocked on `R5`, nothing running** \u00b7 serves `R8` `R15`\n\n\u2605 **The categorical GO now has a measured cross-system background.** n_graded=8, frac_exactly_zero=0.125, NR4A3 percentile(s)=[0.125, 0.125] \u2014 see [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json). \u26a0 The background is a NUCLEAR-RECEPTOR background, not a proteome background, and it calibrates the SCREEN, not the target."
+      }
+    ],
+    "verification": {
+      "n_entries": 6,
+      "n_applicable": 6,
+      "n_unlocatable": 0,
+      "n_stale": 0,
+      "unlocatable_anchors": [],
+      "stale_anchors": [],
+      "verified_against": "research/manuscripts/nr4a3-program-map.md",
+      "_method": "each entry's current_text re-counted in the live map; exactly one occurrence = applicable. This is the `grep -F` check, run at generation time.",
+      "status": "ALL APPLICABLE"
+    }
+  }
+}

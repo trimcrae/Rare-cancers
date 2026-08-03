@@ -4,7 +4,7 @@
   "_do_not_apply_blind": "P2 and P4 change a requirement's stated BLOCKER, which is a judgement call about what R5 needs next, not a clerical fix.",
   "generated": "2026-08-03",
   "verified_against": "origin/main + worktree",
-  "n_edits": 6,
+  "n_edits": 7,
   "map_edits_required": [
     {
       "id": "P1",
@@ -82,6 +82,19 @@
       "proposed_text": "    rest on is the pose pass's call, not this merge's.** ✅ **ANSWERED 2026-08-03: NEITHER ARM'S DIGITS.** The search is unseeded (`nr4a3_warhead.dock_into` passes smina no `--seed`), so every RMSD in this artifact is one draw; C6 re-seeds the three decision-carrying arms and reports the **band**, which is what may be quoted. Blind fpocket arm: PARTIAL on all 5 seeds, 3.364–3.593 Å (spread 0.229 Å). Oracle arm: PARTIAL on all 5 seeds, 3.139–3.573 Å (spread 0.434 Å). Protocol ceiling: PARTIAL on all 5 seeds, 2.611–2.878 Å (spread 0.267 Å). The pre-registered bands are stable, so the CONCLUSIONS survive the noise even though the digits do not.",
       "why": "The merge notes explicitly deferred 'which arm the pose claim should rest on' to the pose pass. This is the pose pass, and the answer is that neither arm's 3-figure value is quotable — only its band.",
       "artifact": "research/modalities/apo-pose-recovery.json",
+      "_anchor_hits_on_origin_main": 1
+    },
+    {
+      "id": "P7",
+      "row": 4,
+      "serves": "provenance",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§Provenance — artifacts that own the numbers",
+      "anchor": "[`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json) ·",
+      "current_text": "[`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json) ·",
+      "proposed_text": "[`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json) · [`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json) ·",
+      "why": "The site supplement is a new artifact that now owns the in-regime site numbers. An artifact that owns a number and is not in the provenance list is how a claim ends up with no findable home.",
+      "artifact": "research/modalities/apo-pose-site-in-regime.json",
       "_anchor_hits_on_origin_main": 1
     }
   ]
