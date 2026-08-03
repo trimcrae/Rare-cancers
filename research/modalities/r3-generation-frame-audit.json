@@ -105,6 +105,37 @@
   "docking_primary_receptor": "nr4a3-release-druggable.pdb",
   "manifest_pocket_match": null,
   "manifest_status": "ok",
+  "manifest_candidate_source": "reused pocket_analysis_summary.json (trajectory release_rep0.dcd, 25 frames with druggability+Rg)",
+  "manifest_candidate_pool": {
+    "n": 25,
+    "rg_min": 0.7193,
+    "rg_max": 0.7819
+  },
+  "manifest_params": {
+    "d_star": 0.53,
+    "target_rg": 0.737,
+    "n_alt": 3
+  },
+  "manifest_selection": {
+    "d_star_used": 0.53,
+    "relaxed": false,
+    "n_druggable": 5,
+    "n_usable": 25,
+    "reason": "5 druggable frame(s) at threshold 0.53; primary at Rg 0.737 (target 0.737), 3 alternate(s) spanning the druggable Rg range"
+  },
+  "manifest_confirm_filter": {
+    "d_star": 0.53,
+    "n_confirmed_druggable": 3,
+    "n_dropped": 1,
+    "dropped": [
+      {
+        "pdb": "nr4a3-release-druggable-alt2.pdb",
+        "confirmed_druggability": 0.001,
+        "selection_druggability": 0.558
+      }
+    ],
+    "note": "Sub-ensemble filtered by CONFIRMED fpocket druggability >= D*. Frames whose reused-summary druggability did not reproduce on re-extraction are dropped (e.g. a single-frame fpocket pocket-detection / fpocket-build discrepancy). Dock/score against druggable_subensemble."
+  },
   "verdict": {
     "verdict": "FRAME_NAMED_UNSCORED",
     "frame_id": {
