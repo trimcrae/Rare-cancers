@@ -580,23 +580,36 @@ def verdict(d):
     pt = d["paired_transitions"]["by_convention"]
     pco, pts = pt["corridor"], pt["through_space"]
 
-    gained = pco["closed_to_open"] + pts["closed_to_open"]
-    lost = pco["open_to_closed"] + pts["open_to_closed"]
-    direction = "WORSE" if lost and not gained else "BETTER" if gained and not lost else "MIXED"
+    def _dir(t):
+        if t["open_to_closed"] and not t["closed_to_open"]:
+            return "WORSE"
+        if t["closed_to_open"] and not t["open_to_closed"]:
+            return "BETTER"
+        return "MIXED"
+
+    per_conv = {c: _dir(t) for c, t in pt.items()}
 
     return {
-        "answer": direction,
+        # ⚠ The answer is stated PER CONVENTION and not collapsed to one word, because the two conventions
+        #   disagree and merging them would hide the disagreement. `corridor` is the conservative rule (a
+        #   clash-free branch position with a clash-free arm); `through_space` is an upper bound on
+        #   reachability that scores a buried sulfur as reachable.
+        "answer_by_convention": per_conv,
+        "answer_on_the_conservative_convention": per_conv["corridor"],
         "headline": (
-            "Removing the E3 arm makes the categorical window %s, not better, and the paired comparison "
-            "is one-directional. Corridor (conservative): of the %d bivalent cells that had an open "
-            "family-wide window at C397, %d retain one when the E3 arm is removed, and %d cells gain a "
-            "window they did not have. Through-space (permissive): %d of %d retained, %d gained. The "
-            "intuition that one fewer terminus is 'a strictly smaller search problem' is true about reach "
-            "and irrelevant to selectivity: dropping the |p-b| term shortens every competitor's chain as "
-            "well as the target's, and it removes the geometric constraint that was ORDERING them."
-            % (direction, pco["open_to_open"] + pco["open_to_closed"], pco["open_to_open"],
+            "Removing the E3 arm does NOT rescue the categorical axis, and on the conservative convention "
+            "it destroys it outright. Corridor: of the %d bivalent cells that had an open family-wide "
+            "window at C397, **%d** retain one when the E3 arm is removed, and **%d** gain one — a "
+            "complete, one-directional collapse. Through-space (an upper bound on reachability, which "
+            "scores buried sulfurs as reachable): %d of %d retained and %d gained, so the permissive rule "
+            "reads MIXED. The intuition that one fewer terminus is 'a strictly smaller search problem' is "
+            "true about REACH and irrelevant to SELECTIVITY: dropping the |p-b| term shortens every "
+            "competitor's chain as well as the target's, and it removes the geometric constraint that was "
+            "ORDERING them."
+            % (pco["open_to_open"] + pco["open_to_closed"], pco["open_to_open"],
                pco["closed_to_open"],
                pts["open_to_open"], pts["open_to_open"] + pts["open_to_closed"], pts["closed_to_open"])),
+        "cells_that_gained_a_window": {c: t["cells_that_gained_a_window"] for c, t in pt.items()},
         "board_level_counts": {
             "_caveat": ("cell counts are NOT comparable between configurations — ten bivalent placements "
                         "collapse to five monovalent anchors — so these are reported as rates and the "
