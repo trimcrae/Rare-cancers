@@ -825,6 +825,13 @@
    "pattern": "0\\.081\\s*(at|@)\\s*16|0\\.258\\s*(at|@)\\s*20|\\b5,?657\\s+placements",
    "current": "reach-only collision 0.000-0.003 @12, 0.054-0.133 @16, 0.263-0.383 @20 over 73,867 matched placements and three scopes (nr4a-paralogue-dynamics.json -> categorical_verdict.by_scope)",
    "retired_by": "the matched NR4A1/NR4A2/NR4A3 ensembles landing 2026-07-26 (3d993237f), which replaced the 5,657-placement static-model pilot"
+  },
+  {
+   "id": "nr4a_paralogue_pocket_80pct_identity",
+   "pattern": "~?80\\s*%[- ]identical\\s+(paralogue\\s+)?pocket|~?80\\s*%[- ]identical\\s+paralogues?\\b",
+   "current": "There is no ~80 % NR4A paralogue identity anywhere in this repo; the figure is SMARCA2/SMARCA4 transplanted onto NR4A. The NR4A readings, each owned elsewhere and none of them ~80 %: the Pocket-5 lining is 7 of 10 residues divergent (nr4a-selectivity.json); the aligned LBD is pct_divergent_any 42.9 pooled across both paralogues (nr4a3-differential-surface-atlas.json); and the domain-resolved PER-PARALOGUE identities -- zinc-finger DBD, hinge, LBD and AF1, each against NR4A1 and against NR4A2 separately -- are in target-route-census.json -> paralogue_identity_by_domain / zinc_finger_window. Consequence, and it runs in the program's favour: the LBD is the LEAST conserved ordered domain, so the programme already works in the most divergent part of the protein, and any route relocating the target to the DBD or to DNA binding is strictly worse on arithmetic alone (roadmap 6a).",
+   "retired_by": "roadmap section 8 Route B's 2026-08-02 retraction ('Nothing in this repo puts the NR4A paralogue pocket at ~80 % identity'), sharpened 2026-08-03 by the domain-resolved census (target_route_census.py, $0 CPU over the cached UniProt sequences)",
+   "scoping_note": "★ SCOPED TO THE NR4A USE, AND IT MUST STAY THAT WAY -- READ BEFORE WIDENING. ~80 % identity IS the correct, cited figure for SMARCA2/SMARCA4 bromodomains, a different protein pair this repo legitimately discusses in at least four live places (nr4a3-degrader-paper.md:2109; the roadmap's SMARCA2/4 gate record; selcal_interface_signature.py; valb_frame_transfer_check.py). A bare '80 %' pattern would fire on every one of them, and a linter that flags true statements gets switched off -- lint_claims.py's founding lesson. So the pattern anchors on the NOUN the number was wrongly attached to ('pocket' / 'paralogue(s)') and never on the number alone. The one live instance outside a marked retraction, nr4a3_linker_covalent_reach.py's docstring, was corrected in the same commit that added this entry; note that .py files are not lint targets, so that fix was by inspection rather than by the linter."
   }
  ],
  "subset_checks": [

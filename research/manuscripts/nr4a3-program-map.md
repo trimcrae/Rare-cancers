@@ -81,6 +81,12 @@ Rendered version (mermaid + status colouring): published artifact, regenerated f
 
 Everything else on this page is evidence feeding one of those four.
 
+⚠ **Two things are deliberately NOT a fifth register.** The **options registers**
+([§0.8](#08--the-six-options-registers--what-they-own-and-the-one-thing-they-may-never-do)) enumerate what
+this program *could* do on five axes; they are inputs to the four above and amend none of them. And the
+**framing question** ([§13](#13--the-deliverables-framing--an-open-question-with-a-register-and-no-decision)) — *what is the
+paper about* — is an open question of trimcrae's, recorded so it is visible, blocking no row.
+
 ### 0.2 · Work state — the five glyphs
 
 ★ **A state here is WORK STATUS, not evidence quality (trimcrae, 2026-08-02).** An earlier pass coloured this
@@ -260,6 +266,32 @@ this run"* and every open item vanishes from the work board with no error.
 ⚠ **Nothing else is there.** A citation naming any other STRATEGY.md section — the scoreboard, the ordered
 plan, the spend summary, open decisions, a landed gate — resolves here, under the same heading and the same
 slug.
+
+### 0.8 · The six OPTIONS REGISTERS — what they own, and the one thing they may never do
+
+★ **Added 2026-08-03, wiring in a five-axis fan-out (trimcrae: *"Make sure these are all appropriately
+documented in the map as they land."*).** Five agents enumerated, in parallel, the options this program has
+on five different axes; a sixth file ranks across them. **They landed beside this page rather than in it,
+which is precisely the drift this page exists to prevent** — a fact whose only home is a side file gets
+re-derived and then contradicted. Everything each of them *decides* is now in the sections below; this table
+is the index, and the pointer for anything they own that this page deliberately does not restate.
+
+| register | the question it enumerates | what this page took from it |
+|---|---|---|
+| [`selectivity-mechanism-options.md`](../modalities/selectivity-mechanism-options.md) / [`.json`](../modalities/selectivity-mechanism-options.json) | **by what mechanism** could paralogue selectivity be argued — 17 enumerated, 9 previously unrecorded, 7 new measurements | two refutations → [§6a](#6a--dead--conclusively-unworkable-never-retry); one grading downgraded to ⏸ → [§6b](#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen); steric exclusion and its control → [§8](#8--the-two-live-routes-to-selectivity--and-where-each-is-actually-blocked) |
+| [`instrument-options.md`](../modalities/instrument-options.md) / [`.json`](../modalities/instrument-options.json) | **by what instrument** — 16 candidates, ranked by whether they need a free-energy resolution at all | the double-difference instrument fact → [§3.4](#34--three-instrument-facts-this-page-used-to-be-missing); `R14`'s hole is ~8/9 filled → [§2.2](#22--requirements-with-no-instrument--the-holes) |
+| [`target-route-options.md`](target-route-options.md) + [`target-route-census.json`](../modalities/target-route-census.json) | **must the molecule be paralogue-selective at all** — 13 routes, graded by their effect on the requirement | the requirement is **asymmetric** → [§2.4](#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically); three closures → [§6](#6--the-closed-route-register); the per-domain identity table → [§8 Route B](#route-b--a-linker-borne-covalent-handle-at-an-nr4a3-unique-cysteine---blocked-on-r5-nothing-running--serves-r8-r15) |
+| [`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json) | **does a construct exist at the 12-atom gate** — the candidate molecule, and what forces the library's floor | the candidate and its two defects → [§5 row R15](#5--where-each-requirement-stands), rung [`5b-T`](#the-ordered-plan-spend-gated--read-top-to-bottom-for-whats-next) arm (C), [§10.1 rows 24–25](#101--open-rows-ordered-by-what-unblocks-the-most) |
+| [`paper-framing-options.md`](paper-framing-options.md) | **what else this body of work could publish** — 7 framings on six columns | [§13](#13--the-deliverables-framing--an-open-question-with-a-register-and-no-decision), recorded as open and **not decided here** |
+| [`path-family-synthesis.md`](path-family-synthesis.md) | the ranked synthesis across the five | read as a reader's guide; every ranking it states is graded independently below |
+
+⛔ **AN OPTIONS REGISTER AMENDS NOTHING.** None of the six changes a gate, a criterion, a price, a rung, a
+status or a claim ceiling, and none is a source of truth for anything this page also carries. **They own
+their numbers; this page owns the claim, the state and the pointer** — and per invariant 6 a figure that
+appears in both is the bug, not the belt-and-braces. Where a register's grade and this page's disagree,
+**this page's grade is the one that binds**, and [§6](#6--the-closed-route-register)'s bar is stricter than
+any register's: three of the routes their authors marked closed are ⏸ **parked** here, because *"closed by
+the measurements we already have"* is not the same statement as *"nothing reopens it"*.
 
 ---
 
@@ -1372,16 +1404,16 @@ claimed today**, which can never exceed the validation status of the instrument 
 | **R3** | **The receptor frame `denovo_401` was generated into still qualifies** — the paper's explicit **submission gate** | ○ future | — (**$0-to-cheap**) | ⛔ **none run** | **open, and it reaches upstream**: *"if the generation frame does not qualify, the **generation receptor** … is affected"* (`:2259–2265`) |
 | **R4** | **Something binds that pocket.** Node `L` | ○ future | — | ⛔ **none — needs a bench** | **nothing binds the cryptic pocket, of any molecule.** ⚠ Scoping is load-bearing: NR4A3 *is* experimentally ligandable ([§5 row R4](#5--where-each-requirement-stands)); the cryptic site is what has no ligand |
 | **R5** | **The binding pose is right.** Node `PS` | ○ future (re-run) | — | `V3` — **INCONCLUSIVE** | **unresolved.** The docking works; the pipeline's **site selection** missed on 6 of 6 pairs, so the pose's weight rests on the site being right and `V3` could not check that |
-| **R6** | **The per-paralogue opening penalty does not reverse the margin** — ΔG_open. Node `DGO` | ○ future | 🔒 explicit nod | ⛔ **none built** | ⛔ **every ΔΔG on the binder path is conditional on a term nobody has computed.** Validation requirement 2: matched-open comparison can *"miss or REVERSE selectivity"* |
-| **R7** | **The binder is paralogue-selective over NR4A1/NR4A2.** Node `B` | ○ open — the existing result is ⏸ parked | 🔒 (`V4`) | `V4` (no result) · `V6` `V7` `V8` `V9` `V10` | ⛔ **an unvalidated prediction.** Three separate blocks, only one of which is the instrument — see [§8](#8--the-two-live-routes-to-selectivity--and-where-each-is-actually-blocked) |
+| **R6** | **The per-paralogue opening penalty does not reverse the margin** — ΔG_open. Node `DGO` | ○ future | 🔒 explicit nod | ⛔ **none built** | ⛔ **every ABSOLUTE ΔΔG on the binder path is conditional on a term nobody has computed.** Validation requirement 2: matched-open comparison can *"miss or REVERSE selectivity"*. ⚠ **Narrowed 2026-08-03, and this page stated it too widely:** the block is on the **absolute** route to `R7`, **not** on a ligand-side *relative* double difference, in which the opening penalty is common to both ligands of a matched pair and cancels inside each protein — [§3.4 fact 3](#34--three-instrument-facts-this-page-used-to-be-missing). ⚠ *Superseded, retained: "every ΔΔG on the binder path".* |
+| **R7** | **The binder is paralogue-selective over NR4A1/NR4A2** — ⚠ **and the two halves are NOT the same requirement**: NR4A1-sparing is a hard constraint with a named anti-target genotype, NR4A2-sparing is unbounded in both directions ([§2.4](#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)). Node `B` | ○ open — the existing result is ⏸ parked | 🔒 (`V4`) | `V4` (no result) · `V6` `V7` `V8` `V9` `V10` | ⛔ **an unvalidated prediction.** Three separate blocks, only one of which is the instrument — see [§8](#8--the-two-live-routes-to-selectivity--and-where-each-is-actually-blocked) |
 | **R8** | **A linker geometry is feasible** at an NR4A3-unique cysteine. Node `LK` | ✓ computed — ⚠ **not reconciled to its artifact** | — ($0 CPU) | `V17` (fails its own positive control) + the reach enumeration | **geometry only.** No thiol pKa, reactivity, adduct or degradation quantity; reach is necessary and never sufficient. And it is conditional on `R5` |
 | **R9** | **OUR ternary is correctly assembled.** Node `ARCH` | ○ future — **NOT STARTED** | **—** ($0, needs no nod) — rung **`5b-T`**, [priced and gated 2026-08-02](#101--open-rows-ordered-by-what-unblocks-the-most). ⚠ *Superseded, retained: "🔒 unpriced, no rung."* | `V2` — recovered its known answer in scope, **never pointed at our system** | ⛔ **no NR4A3 ternary has been correctly assembled by anyone.** [§what the SMARCA2/4 null BINDS](#what-this-binds-in-the-words-fixed-before-the-run): *"⛔ **NO, and this is the whole remaining gap.**"* ⚠ `5b-T` gives it a route and a gate; it does not make the claim, and its output is **structural, never thermodynamic** |
 | **R10** | **A ternary forms.** Node `T` | ○ future | 🔒 (via `R9`) | `V2` (live route) · `V12` ⏸ (the route that built the existing one) | the existing prediction was built by the failing route and its molecule is **unrecoverable**, so it cannot be replicated |
 | **R11** | **The ternary adds or preserves selectivity.** Node `TS` | ○ future | 🔒 (via `R9`) | `V1` (passes, in scope) · `V16` (null with a bound, **uncalibrated**) · `V5` ⏸ FAILS · `V11` ⏸ no pass | one sequence-encoded candidate at **1 model per arm against a reproducibility bar of 3** |
 | **R12** | **The ternary is compatible with DEGRADATION** — productive unique-lysine geometry. Node `UB` | ○ future | — ($0 screen) | `V18` — ⛔ **no known-answer test exists for it** | categorical input only (**4 NR4A3-unique lysines, 3 exposed**). Validation requirement 5's honest limit: real degraders often ubiquitinate several lysines and lysine-less substrates can still be degraded, so this **raises the odds; it does not guarantee** the paralogue is spared |
 | **R13** | **The modelled object is the real biological object — EWSR1::NR4A3 in fusion context**, not an isolated LBD | ○ future | 🔒 unpriced | ⛔ **none — no lane, no rung, no row anywhere** | ⛔ **every geometry claim on this page is about an isolated LBD construct.** Validation requirement 5 asks for the fusion-context ensemble, lysines **outside** the LBD (hinge, DBD, fusion partner) and full CRL/E2~Ub ensembles |
-| **R14** | **Selectivity claims are bounded to their tested scope** — the AR/MR superfamily cross-binding check | ○ future | 🔒 unpriced | ⛔ **none run** | the selectivity claim is **currently bounded to two paralogues by an unrun check**. SI names MR/AR *"the **sole** sequence-level non-paralogue follow-ups"* that *"must clear"* (SI `:213–219`) |
-| **R15** | **The candidate set is chemically constructible and physicochemically plausible** | ✓ work complete for one mechanism per molecule | — ($0) | RDKit enumeration + `V17`-adjacent reach | **one mechanism per molecule.** The two-mechanism construct needs a **two-branch template**, which is a design change to a preregistered enumeration and **the decision has never been asked for** ([§10](#10--the-roadmap--one-ordered-list)) |
+| **R14** | **Selectivity claims are bounded to their tested scope** — the AR/MR superfamily cross-binding check | ○ future | 🔒 unpriced | ⚠ **~8/9 BUILT, NEVER ASSEMBLED** — not "no instrument" ([§2.2](#22--requirements-with-no-instrument--the-holes)) | the selectivity claim is **currently bounded to two paralogues by an unrun check**. SI names MR/AR *"the **sole** sequence-level non-paralogue follow-ups"* that *"must clear"* (SI `:213–219`). ⚠ *Superseded, retained: served by "⛔ **none run**".* |
+| **R15** | **The candidate set is chemically constructible and physicochemically plausible** | ✓ work complete for one mechanism per molecule — ⚠ **and a named candidate now exists AT the 12-atom gate** ([§5 row R15](#5--where-each-requirement-stands)) | — ($0) | RDKit enumeration + `V17`-adjacent reach | **one mechanism per molecule.** The two-mechanism construct needs a **two-branch template**, which is a design change to a preregistered enumeration and **the decision has never been asked for** ([§10](#10--the-roadmap--one-ordered-list)). ⛔ **And the library's own provenance is open** — its generator no longer reproduces it, which reaches the causal test article: [§10.1 row 25](#101--open-rows-ordered-by-what-unblocks-the-most) |
 | **R16** | **NR4A3 is the right target** (EMC dependence). Node `TG` | ○ future — **DELEGATED** | — | the dTAG degradation test, in the EMC-program paper | not a blocker of this paper. `:2508`: *"This paper's claimed contribution is the target's computational druggability/selectivity, **not EMC efficacy**"* |
 
 ⚠ **`R7` is the row every reader should test invariant 1 against.** Its own paralogue ABFE **has run**, at
@@ -1403,7 +1435,7 @@ could answer them, so no amount of running the existing lanes moves them.
 | **R4** does anything bind | **no in-silico instrument can serve it.** A thermal shift / SPR / NMR fragment screen against the opened site is the only answer | ❌ not in silico | carry it as the standing wet-lab dependency; a negative would redirect the program and is as useful as a positive |
 | **R6** ΔG_open per paralogue | nothing has ever computed an opening penalty for any paralogue | ✅ yes — priced in the ladder's OPTIONAL/HELD tier | 🔒 a budget nod. **Otherwise report everything conditional on the open state** — which is $0 and fully defensible |
 | **R13** fusion-context object | the entire program models an isolated LBD construct (373–626). C166, one of the four unique cysteines, is already outside it | ✅ in principle | ⛔ **give it a rung, a gate and a price — it has none.** Nothing on the plan, the spine or the ranked list touches it |
-| **R14** AR/MR cross-binding | never run | ✅ yes | 🔒 unpriced — needs a rung |
+| **R14** AR/MR cross-binding | ⚠ **THIS ROW OVERSTATED THE GAP BY ABOUT 8/9THS, AND IT IS THE ONE HOLE ON THIS LIST THAT IS MOSTLY BUILT.** The sequence screen has run and flagged exactly **NR3C2 (MR)** and **AR**; the docking harness has run at anti-target-panel scale; **AR is already a panel target**; `denovo_401` is already staged as an anti-target candidate. What is genuinely missing is **MR/NR3C2 in the panel**, and the SI's *second* requirement — a cryptic-pocket-formation test on AR/MR — which is the same detector as `R3`'s. Evidence and the four pointers: [`instrument-options.md`](../modalities/instrument-options.md) §3.2 (`C08`) | ✅ yes — **and mostly already is** | assemble what exists rather than build one: add MR to the panel, run the panel's own never-run cognate-ligand self-control, and point the harmonized detector at AR/MR. ⚠ *Superseded, retained: "never run".* |
 
 ⚠ **And four more requirements have an instrument that has never returned a usable answer**, which is a
 different failure and must not be filed with the above: **`R2`** (`V13`'s only demonstrated reading is ✕
@@ -1412,6 +1444,16 @@ dead), **`R5`** (`V3` INCONCLUSIVE), **`R9`** (`V2` validated but never pointed 
 
 **So of sixteen requirements: one is delegated, two are ✓ on the work axis with the claim open, and thirteen
 are open — of which nine have either no instrument or no usable instrument answer.**
+
+⚠ **AND ONE OF THE FIVE HOLES IS A DIFFERENT KIND OF HOLE, WHICH THIS SECTION COULD NOT SAY UNTIL THE
+INSTRUMENT SWEEP (2026-08-03).** The counts above are all of the form *"has an instrument RETURNED a usable
+answer"*, and on that reading `R14` belongs where it sits. But **"no instrument" and "the pieces exist and
+nobody assembled them" are opposite work items**, and only the second is free. `R14` is the second:
+the screen ran, the harness ran at scale, one of the two targets is already in the panel. `R13` and `R4` are
+the first — `R4` genuinely cannot be served in silico at all. **Filing them under one word is how the
+cheap one stayed invisible**, which is the same failure as [§10.3](#103--what-taking-the-union-changed)'s
+*"a caveat with nowhere to go"*, one layer down. The counts are unchanged because they are still true as
+defined; what changed is that `R14`'s row now says which kind it is.
 
 ### 2.3 · The claim-ceiling rule, stated so it can be checked
 
@@ -1426,6 +1468,45 @@ sets it lower still.
 **at least four** withdrawn *selectivity* results, and the largest of them fell to defects **no known-answer
 test could have caught** — which is why the prophylactic is two rules and not one
 ([§3.3](#33--the-pattern--rewritten-because-the-version-this-page-carried-was-false)).
+
+### 2.4 · The selectivity requirement is ASYMMETRIC — and this page stated it symmetrically
+
+★★ **THIS IS A CHANGE TO THE DESIGN TARGET, NOT A FOOTNOTE, WHICH IS WHY IT SITS IN THE REQUIREMENTS LAYER
+(2026-08-03, from the target-route sweep).** `R7`, `R11` and `R12` all read *"selective over NR4A1/NR4A2"*,
+one requirement with two comparators. **The biology does not say that.** The two halves have different
+evidence, different weights and different remedies, and reading them as one has made the brief harder than
+it needs to be in the place where the program is strongest and softer than it should be where the program
+is weakest.
+
+| half | what bounds it | what the program holds against it |
+|---|---|---|
+| **NR4A1 — a HARD constraint** | ⛔ a **named anti-target genotype**: the combined *Nr4a1*⁻/⁻;*Nr4a3*⁻/⁻ mouse, which is precisely the pair a non-selective NR4A3 degrader reconstitutes. Single nulls do not do it. (PMID **17515897**; PMID **29343483**; evidence assembled in [`nr4a3-emc-biology-evidence.md`](nr4a3-emc-biology-evidence.md), numbers in [`nr4a-safety-genetics.json`](../modalities/nr4a-safety-genetics.json)) | **all 7 divergent Pocket-5 lining residues differ; 5 of them engageable** ([§8 Route A](#route-a--a-warhead-engaging-paralogue-divergent-pocket-handles---blocked-nothing-running--serves-r7)) |
+| **NR4A2 — UNBOUNDED, in both directions** | ⚠ the *most* constrained paralogue in human population genetics and the most tissue-enhanced, but **no phenotyped KO** — the repo's IMPC query returned nothing for any of the three, and the widely-repeated *"Nurr1 single-KO is neonatal-lethal"* is flagged **UNCONFIRMED** in [`nr4a3-emc-biology-evidence.md`](nr4a3-emc-biology-evidence.md). **Strongly selected against in humans; unbounded for adult transient loss.** | **only 6 of 7 differ (I531 is Ile in NR4A3 *and* NR4A2), so 4 of the 5 engageable handles distinguish it** |
+
+⛔ **AND THE ASYMMETRY RUNS THE OTHER WAY FROM HOW THIS PAGE READ IT.** [§8 Route A](#route-a--a-warhead-engaging-paralogue-divergent-pocket-handles---blocked-nothing-running--serves-r7)
+said Route A is *"20 % thinner exactly where it can least afford to be"*, on the strength of NR4A2 being
+*"the paralogue carrying the dopaminergic-loss liability one most wants to spare"*. **That premise is an
+unbounded claim wearing an evidenced one's costume**: the lethality it rests on is the flagged-UNCONFIRMED
+one above. The defensible statement is narrower and more useful — **the program has MORE discriminating
+power against the paralogue whose sparing is evidenced-mandatory, and LESS against the one it has no bound
+on in either direction.** *(Superseded, retained: "exactly where it can least afford to be" as an
+evidenced ranking of the two liabilities.)*
+
+**What this changes, and what it explicitly does not.**
+
+- ✅ **It changes the brief**, at $0 and with no new claim: **hard constraint — spare NR4A1; soft constraint
+  — spare NR4A2 as far as the four handles allow, and carry the residual as an exposure question rather than
+  a chemistry one.** A narrowing of a requirement inherits no instrument, so nothing on
+  [§3](#3--instruments--which-one-answers-each-requirement) has to pass for it to be adopted.
+- ⛔ **It does NOT dissolve the requirement**, and the hypothesis that it might is answered **no** for any
+  systemic molecule — by that one cited mouse genotype.
+- ⛔ **An absent KO is not a safe KO.** *Unbounded* means the liability could be larger than NR4A1's, not
+  smaller. Nothing here licenses degrading NR4A2, and the exposure lever is a property of **a molecule that
+  does not exist** — this repo holds no measured or predicted CNS-penetration datum for any NR4A candidate.
+- **The two $0 observations that would bound the open half** — MGI single-KO phenotypes for *Nr4a1/2/3*
+  (the named source after IMPC returned nothing) and HPA per-tissue nTPM (the field is `null` today) — are
+  [§10.1 row 26](#101--open-rows-ordered-by-what-unblocks-the-most). Full argument, both directions, and the
+  route it came from: [`target-route-options.md`](target-route-options.md) route 1.
 
 ---
 
@@ -1447,7 +1528,7 @@ reading, so the scope column below is not a footnote, it is the verdict.
 | **V3** | Ligand pose prediction (dock + MM-GBSA) | recover a known holo pose in a nuclear receptor from apo | **INCONCLUSIVE by its own pre-registered rule** — the C1 holo self-dock control failed through the pipeline's own box on **6 of 6 pairs across 3 receptors** (17.3–29.3 Å), so the primary arm measured the *site*, not the docking. With an fpocket-chosen box the same protocol reaches **3.04 Å, fnat 0.778, 7 of 9 native contacts** | it cannot grade the docking: the protocol ceiling itself missed (`C1c_self_dock_holo_oracle_box` 2.849 Å against a 2.0 Å criterion) | ✓ complete — **verdict INCONCLUSIVE** | `R5` `R8` |
 | **V4** | **Selectivity free energy (ABFE)** — the *selectivity* known-answer test | CREBBP vs BRD4(1) / SGC-CBP30, ΔΔG ≈ 2.2 kcal/mol | **no result. Built and staged with no `result` key; never completed** | it is a **binary** control: even a clean pass *"would **not** discharge §4's paralogue/ternary statement"* ([§what the SMARCA2/4 null BINDS](#what-this-binds-in-the-words-fixed-before-the-run)) | ○ **not started · 🔒 not authorized** — see [§6c](#6c--held--not-refuted-not-parked-waiting-on-a-decision) | `R7` |
 | **V5** | Alchemical ternary cooperativity (`valB_mini` ΔΔG_coop) — **validation requirement 1(C), "Val C"** | reproduce a known cooperativity, **+0.944** kcal/mol | **−0.599** — wrong sign in all 3 replicates, ~34× the statistical uncertainty | ⛔ nothing. [§Validation architecture](#validation-architecture-the-five-requirements) calls it *"the highest-value dollar in the plan"* and it **failed**; the closure triangle localises the miss to an **endpoint-state** error, so more sampling will NOT fix it | ✓ complete — **FAILS, systematically** | `R11` |
-| **V6** | Relative FEP (OpenFE, the congeneric lane) — **validation requirement 1(A), "Val A"** | TYK2 `ejm_31→ejm_42` benchmark ΔΔG **−0.24** | **+0.37**, abs err **0.61** — inside the ~1 kcal/mol band | a **relative** result on a *different* quantity in **one** pocket. [§what the SMARCA2/4 null BINDS](#what-this-binds-in-the-words-fixed-before-the-run): *"valA validates relative FEP **within one pocket**"* — it is **not** a selectivity validation. ⛔ **AND ITS SCOPE IS THE `am1bcc` BINARY LANE ONLY** — see [§3.4](#34--two-instrument-facts-this-page-used-to-be-missing) | ✓ **PASSES, within one pocket, one charge model** | `R7` |
+| **V6** | Relative FEP (OpenFE, the congeneric lane) — **validation requirement 1(A), "Val A"** | TYK2 `ejm_31→ejm_42` benchmark ΔΔG **−0.24** | **+0.37**, abs err **0.61** — inside the ~1 kcal/mol band | a **relative** result on a *different* quantity in **one** pocket. [§what the SMARCA2/4 null BINDS](#what-this-binds-in-the-words-fixed-before-the-run): *"valA validates relative FEP **within one pocket**"* — it is **not** a selectivity validation. ⛔ **AND ITS SCOPE IS THE `am1bcc` BINARY LANE ONLY** — see [§3.4](#34--three-instrument-facts-this-page-used-to-be-missing) | ✓ **PASSES, within one pocket, one charge model** | `R7` |
 | **V7** | ABFE engine, **absolute** | T4-lysozyme L99A + benzene, experimental **−5.2** kcal/mol | **+1.90 ± 0.09** — *"under-binding by ≈ +7.1 kcal/mol — a failed/strongly-biased absolute benchmark"* (`:1252–1254`) | ⛔ the miss is **larger than the entire selectivity margin the engine is used to compute**, which is why every ABFE **absolute** in the paper is uninterpretable | ✓ complete — **FAILS** | `R7` |
 | **V8** | ABFE engine, hydration | methane hydration free energy (FreeSolv), **+2.0** | **+1.60 ± 0.04**, *"approximately reproduced"* (`:2296–2298`) | a solvation smoke test; says nothing about a protein site | ✓ **PASSES, narrowly** | `R7` |
 | **V9** | λ-overlap diagnostic on the standing ABFE block | — (a self-check, not a known answer) | ⛔ *"**every leg** — the shared solvent leg and all three complex legs — has at least one soft-core-tail window pair below 0.03"* (`:1265–1268`) | holds the **whole ABFE block provisional**, including the paralogue result in [§5 row R7](#5--where-each-requirement-stands) | ✓ measured — **defect open**, repair 🔒 held **and** ⏸ as framed | `R7` |
@@ -1527,7 +1608,7 @@ before believing it — cheap, and it caught rows 1 and 3; and *(b)* **persist t
 the defects that cost the most were analysis and input bugs that only a retained trajectory could have let
 anyone fix. Rule (b) is the one this page was missing, and it is the more expensive of the two.
 
-### 3.4 · Two instrument facts this page used to be missing
+### 3.4 · Three instrument facts this page used to be missing
 
 ⛔ **1 · `V6`'s accuracy citation does NOT cover the ternary or endpoint lanes, and a reader of this page
 alone would have assumed it did.** The lanes split by charge model — **binary RBFE `am1bcc`** · **ternary FEP
@@ -1548,6 +1629,38 @@ the gap in two — *can a null be read?* ($0, **done**) and *can a non-null be c
 **deferred**). ⚠ Open decision 9b binds any future calibrator: **reference data and structure must sit on the
 SAME protein**, because the existing SMARCA calibrator is built on the lowest-resolution structure in the
 family (3.73 Å) and on the wrong paralogue.
+
+⛔ **3 · A LIGAND-SIDE DOUBLE DIFFERENCE DOES NOT INHERIT `V6`'s VALIDATION — BUT `R6` CANCELS OUT OF IT, SO
+THIS PAGE'S `R6` BLOCK WAS TOO WIDE (added 2026-08-03; the analysis in full is
+[`instrument-options.md`](../modalities/instrument-options.md) §2, which is its one home).** The quantity is
+`ΔΔΔG ≡ ΔΔG_bind(d₀→d | NR4A3) − ΔΔG_bind(d₀→d | NR4A1)`, built from the same machinery `V6` passed on. Two
+findings, and they point in opposite directions:
+
+- **The inheritance FAILS, and it must not be assumed.** The solvent leg cancels **algebraically** — the same
+  two molecules, the same box, the same λ schedule — so it drops out before any number is computed. ⛔ But the
+  classes it removes are **exactly the classes `V6` also removed**, and what is left standing is exactly what
+  `V6` **never measured**: a between-protein comparison. A within-pocket pass therefore says nothing about it,
+  and `ΔΔΔG` needs **its own** known-answer test at paralogue scale. ⚠ The cancellation is also **conditional
+  and must be enforced, not assumed** — same atom map, same partial charges, same λ schedule on both arms, or
+  the ligand and mapping terms stop cancelling too. This repo already enforces and verifies that
+  (`nr4a3_rbfe.strip_foreign_partial_charges`, `assert_charge_consistency`).
+- ⭑ **But `R6` — the opening penalty nobody has computed — drops out to FIRST ORDER, and this page stated the
+  block globally.** Validation requirement 2's *"can miss or REVERSE selectivity"* bites on an **absolute**
+  per-paralogue affinity, where `ΔG_bind,obs ≈ ΔG_open + ΔG_bind|open`. In a **relative** quantity the opening
+  penalty is common to both ligands of a matched pair and cancels **inside each protein**, before the
+  between-protein subtraction is taken. **So `R6` blocks the ABFE route to `R7` and does not block a `ΔΔΔG`
+  route to `R11`'s causal question** — a real narrowing of the blocker set, corrected in
+  [§2.1 row `R6`](#21--the-register), [§5 row R6](#5--where-each-requirement-stands) and
+  [§8 Route A](#-where-route-a-is-blocked--three-things-and-only-one-of-them-is-the-instrument).
+- ⚠ **It is an ARGUMENT, not a measurement**, and is recorded as one — the same register this page already
+  uses for *"'not implicated' is an argument, not a measurement"*. Its condition: the cancellation holds to
+  the extent that `d` and `d₀` select the *same* open sub-state, which is a good approximation for a matched
+  pair differing by one small element and a poor one for two dissimilar molecules.
+- **What it licenses is a CAUSAL/DESIGN statement** — *"this structural element contributes X more in NR4A3
+  than in NR4A1, with both receptors in their modelled open states"* — and **never** an absolute selectivity
+  claim (*"N-fold selective"*), which still needs `R6`. ⛔ Nothing here raises a claim ceiling: no `ΔΔΔG` has
+  been computed, and the instrument is at *proposed*. Its two **$0** searches for a paralogue-scale benchmark
+  are [§10.1 row 27](#101--open-rows-ordered-by-what-unblocks-the-most).
 
 ---
 
@@ -1834,7 +1947,7 @@ The **state** column is the work item that would move the requirement, not a gra
 | **R3 · The generation receptor still qualifies** | ⛔ the harmonized artifact reports **ensemble-level fractions only** and does **not** identify which individual frames cleared D\*, so it does not discharge the frame-level check that the **exact release-derived frame `denovo_401` was generated into still qualifies** — and *"if the generation frame does not qualify, the **generation receptor** … is affected"* (`:2259–2265`) | the frame-level dependency audit — **$0-to-cheap, and the cheapest open item in the program** | ○ future — **nothing built** |
 | **R4 · Something binds it** — scoped: **the opened cryptic Pocket-5** | ⚠ **Two different questions, and this page previously ran them together.** *Does anything bind NR4A3 at all?* — **yes, published**: a fragment screen against NOR-1/NR4A3 (hit rate <1 %) returned three chemotypes, one elaborated to a **low-micromolar inverse agonist** (Zaienne cmpd19) that shifted NOR-1-regulated gene expression in cells (`:92–99`), and the congeneric lane is anchored on it. *Does anything bind the **cryptic pocket**?* — **nothing, of any molecule**: those results *"leave the binding site **structurally undefined**"* (`:99–101`) | a thermal shift / SPR / NMR fragment screen **against the opened site**. **Cheapest decisive experiment in the program**, and a negative is as useful as a positive. ⚠ The scoping word is load-bearing — dropping it makes this page claim there is no experimental ligand evidence for NR4A3, which the paper's §1 contradicts | ○ future — **needs a wet lab** |
 | **R5 · The pose is right** | ⛔ the known-answer test **ran and returned INCONCLUSIVE** ([`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json)) — and its decomposition splits the question in two: the **docking** is fine (**3.04 Å** blind from apo through an fpocket-chosen box, fnat 0.778, 7 of 9 native contacts), the **site selection** is what missed, on 6 of 6 pairs. ⚠ **Superseded, retained: 3.46 Å** — that value was read off an earlier generation of this same artifact (commit `cc4325b68`, `blind_apo_fpocket_top_box` 3.464) and never re-read after regeneration at `060a6a653`; the current arm reads **3.04**, and the oracle-box arm — a *different* arm — reads 3.489 | re-run the primary arm with the site question separated from the docking question — see [§7 branch 2](#7--branches-still-open) | ✓ test complete, claim **unresolved** |
-| **R6 · ΔG_open does not reverse the margin** | ⛔ **nothing. Never computed, for any paralogue.** | a converged opening penalty per paralogue — priced in the ladder's OPTIONAL/HELD tier. Otherwise: **report everything conditional on the open state**, which is $0 and fully defensible | ○ future — 🔒 **explicit nod only** |
+| **R6 · ΔG_open does not reverse the margin** | ⛔ **nothing. Never computed, for any paralogue.** ⚠ **What it blocks was narrowed 2026-08-03:** it is a term in an **absolute** per-paralogue affinity, and it **cancels inside each protein** in a ligand-side *relative* double difference — so it blocks the ABFE route to `R7` and not a `ΔΔΔG` route to `R11`'s causal question ([§3.4 fact 3](#34--three-instrument-facts-this-page-used-to-be-missing)) | a converged opening penalty per paralogue — priced in the ladder's OPTIONAL/HELD tier. Otherwise: **report everything conditional on the open state**, which is $0 and fully defensible | ○ future — 🔒 **explicit nod only** |
 | **R7 · The binder is paralogue-selective** | ⚠ **More than this page used to say, and weaker than it sounds.** The paralogue ABFE **has been run and reported at three independent-seed replicates** with exactly the replicate-SD error bars this row used to ask for: ΔΔG(NR4A3−NR4A1) **−4.76 ± 2.03**, ΔΔG(NR4A3−NR4A2) **−4.98 ± 0.68**, both resolved below zero (`:1230–1239`, `:2303`). It is held **provisional and deliberately parked** for a named defect — `V9`, a soft-core-tail λ-overlap failure on *every* leg — *"It is not currently running: the whole ABFE block is **deliberately held** … it is not the next thing worth computing"* (`:1277–1280`). **"Run, reported, consciously parked" ≠ "not started"**, which is what this row said before. The paper's live reading is that selectivity rests on the binder margin **plus the nominated categorical handles**, and it explicitly refuses to write the ternary off (`:2600–2601`; SI `:141–144`) | **Three things, and they are not the same thing.** (1) **The instrument:** `V4`, the CREBBP/BRD4 selectivity known-answer test. *(highest leverage in the program · 🔒 **not authorized** · would **not** discharge this row — it is a **binary** control.)* (2) ⛔ **The missing physical term:** `R6`. A perfect instrument on today's inputs still would not settle this row. (3) ⛔ **The size of the prize versus the resolution** — the margin arithmetic in [§1](#1--the-thesis-the-north-star-and-the-operating-regime). ⚠ **This row is therefore not blocked *only* on the instrument**, which is how the page read before 2026-08-02 | ○ open — ⏸ **the existing result is parked**, not absent |
 | **R8 · A linker geometry is feasible** | ✓ computed and committed ([`nr4a3-linker-covalent-reach.json`](../modalities/nr4a3-linker-covalent-reach.json), `dc0befd9c`): only **C397** of the three unique LBD cysteines is within tether range; **C420 is refuted everywhere** (0 of 60 placement×pendant cells, both conventions); ⚠ **C559 is NOT** — it survives at exactly one cell (`vhl|M3@term_a_exemplar | dab_branch`, 2 of 19 conformers) under through-space, and the artifact's `refuted_unique_cysteines` label is built from `best_corridor` alone, so it is stronger than its own data. ⚠ **NOT reconciled to this page's prose** — see [§7 branch 1b](#branch-1b--computed-not-reconciled-to-its-artifact) | reconciling the prose to the artifact ($0), then the pose re-run `R5` that every anchor depends on | ✓ work complete · claim **conditional on `R5` and unreconciled** |
 | **R9 · Our ternary is correctly assembled** | ⛔ **nothing. `n_recovered: 0` of 3 arms**, and the existing prediction was built by the ⏸ route from a molecule that is unrecoverable | rebuild by the assembly route (`V2`) from a recorded molecule — ⛔ **and it has no rung, no gate and no price** | ○ future — **NOT STARTED · 🔒 unpriced** |
@@ -1842,8 +1955,8 @@ The **state** column is the work item that would move the requirement, not a gra
 | **R11 · The ternary adds selectivity** | one sequence-encoded candidate (Glu208 → Pro in NR4A1, Tyr in NR4A2); five further hits were placement artifacts; reproducibility untested at one model per arm. ⚠ **And the causal test has run**: `V16` returned **S = −0.1297 ± 0.3264**, a preregistered null carrying a bound of \|S\| ≳ 0.65 kcal/mol — *"the **only** test in this program that asks whether a designed element **causes** discrimination"* (`:1782–1783`) | credible ternaries × ≥3 models per paralogue, scored by `V1` — gated on `R9`. And a known-answer calibrator for `V16`, which is unpriced | ○ future |
 | **R12 · Ternary is compatible with DEGRADATION** | ⛔ **nothing** — this claim had no row and no node until 2026-08-02, and it is a **distinct requirement** from "a ternary forms" ([§Honest scope](#honest-scope-and-language-discipline-apply-everywhere-including-the-manuscript) validation requirement 5). What exists is the categorical input, not the geometry: **four NR4A3-unique lysines**, of which **K518, K572, K592** are exposed in the LBD at 13.4 / 11.5 / 16.2 Å from the cryptic pocket ([`nr4a-paralogue-unique-residues.json`](../modalities/nr4a-paralogue-unique-residues.json) `gate.exposed_unique_lysines`) | `V18` — *which* lysine does the modelled E2~Ub transfer zone cover? Scored *unique-only* highest, *unique + conserved* next, *conserved-only* lowest; set membership, not energy. Against the **17.1 Å** ubiquitin-transfer distance in a *solved* CRL4–CRBN assembly (the repo's assumed 10 Å was ~7 Å too strict), and requiring a full CRL/E2~Ub ensemble rather than a **composed** RING. ⚠ Honest limit carried from validation requirement 5: real degraders often ubiquitinate several lysines and lysine-less substrates can still be degraded, so this **raises the odds; it does not guarantee** the paralogue is spared | ○ future |
 | **R13 · The modelled object is EWSR1::NR4A3** | ⛔ **nothing, anywhere.** Every structure on this page is an isolated LBD construct (373–626) — which is already load-bearing: the fourth unique cysteine, **C166**, is outside it and unavailable to any LBD-anchored design | a fusion-context ensemble; lysines outside the LBD (hinge, DBD, fusion partner); public EMC VHL/CRBN expression; full CRL/E2~Ub geometry ensembles — validation requirement 5, in its own words | ○ future — 🔒 **unpriced, and on no list until this pass** |
-| **R14 · Scope is bounded (AR/MR)** | ⛔ **nothing run.** SI names MR and AR *"the **sole** sequence-level non-paralogue follow-ups"* that *"must clear"* (SI `:213–219`) | an energetic cross-binding check against MR and AR | ○ future — 🔒 **unpriced** |
-| **R15 · The candidate set is constructible** | ✓ the virtual linker library is chemistry-verified end to end — **54 constructs (36 exemplar + 18 representative), RDKit-verified 54/54** — plus the matched pair for the causal test. ⚠ `V19`'s decisive arm is unrun, so the generative confound is **narrowed, not excluded** | for a *two-mechanism* molecule: the two-branch template, which is a **design change to a preregistered enumeration** and needs an explicit decision that **has never been asked for** | ✓ work complete for one mechanism per molecule |
+| **R14 · Scope is bounded (AR/MR)** | ⚠ **more than "nothing run", and this row understated it.** The sequence screen HAS run and flagged exactly **NR3C2 (MR)** and **AR**; the anti-target docking harness has run at panel scale; **AR is already a panel target**; `denovo_401` is already staged against it. ⛔ What has never happened is the **assembly**: MR is not in the panel, the panel's own cognate-ligand self-control has never been run, and the SI's second requirement — a cryptic-pocket-formation test on AR/MR — has no result. Pointers: [`instrument-options.md`](../modalities/instrument-options.md) §3.2. SI names MR and AR *"the **sole** sequence-level non-paralogue follow-ups"* that *"must clear"* (SI `:213–219`). ⚠ *Superseded, retained: "⛔ **nothing run**".* | an energetic cross-binding check against MR and AR — **assembled from parts that exist**, not built from nothing | ○ future — 🔒 **unpriced** |
+| **R15 · The candidate set is constructible** | ✓ the virtual linker library is chemistry-verified end to end — **54 constructs (36 exemplar + 18 representative), RDKit-verified 54/54** — plus the matched pair for the causal test. ⚠ `V19`'s decisive arm is unrun, so the generative confound is **narrowed, not excluded**. ★ **AND A NAMED CONSTRUCT NOW EXISTS AT THE 12-ATOM GATE** — `vhlM2@ex_5amide_a2-a3_cyac_me`, InChIKey `RZSRKKSYYBOIEK-ACNWJKEOSA-N`, backbone length re-derived by RDKit, with a SMILES and a retrosynthetic annotation ([`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json), which owns every figure about it). ⛔ **The library's floor of 14 was never geometry or chemistry** — the term binding at every gate-clearing basin is `min_member_fraction_comfortable`, a basin-**breadth policy**; the geometric/chemical floor is **11**. ⚠ Its scope is **target-engagement geometry only** — no affinity, no reactivity, no ternary, no degradation — and it is conditional on `R5`'s unresolved **site** selection, since the warhead exit vector is marginalised over pocket-mouth anchors rather than taken from a docked pose | for a *two-mechanism* molecule: the two-branch template, which is a **design change to a preregistered enumeration** and needs an explicit decision that **has never been asked for**. ⛔ **And before either: settle which library is canonical** — the committed one no longer reproduces from its own generator, and the drift reaches the causal test article ([§10.1 row 25](#101--open-rows-ordered-by-what-unblocks-the-most)) | ✓ work complete for one mechanism per molecule |
 | **R16 · NR4A3 is the right target** | transfer prior from fusion-addicted sarcomas; near-invariant clonal fusion in a quiet genome; no loss-of-function experiment in any EMC model | the dTAG degradation test — **delegated** to the EMC-program paper | ○ future — **delegated, not a blocker of this paper** |
 
 ⚠ **NO REQUIREMENT ON THIS PAGE IS ✓-SETTLED, INCLUDING THE POCKET.** ⚠ **Superseded, retained:** *"Only one
@@ -1878,6 +1991,16 @@ scoped its sweep against *"~113 entries"*, and
 plain **65** is also wrong because it drops the lettered sub-rows. The value read from the table is **69**: one
 header, one separator, 69 id-bearing data rows, ids 1–65 with no duplicates plus 19a–19d. ⚠ The inventory's 76
 inherits this correction — flagged in [§12](#12--findings-that-belong-to-other-documents), not edited here.
+
+★ **AND SEVEN ROWS WERE ADDED 2026-08-03 FROM A DIFFERENT SOURCE — A FORWARD ENUMERATION, NOT A BACKWARD
+SWEEP.** Everything above was found by reading what the program had already tried. The
+[options registers](#08--the-six-options-registers--what-they-own-and-the-one-thing-they-may-never-do)
+enumerated what it had *not* tried and then measured several of them to a close, which is the only way a
+register like this one ever gets a row it could not have remembered. ⛔ **Their grades are not adopted
+wholesale.** This page's bar is stricter than any register's, and **three routes their authors marked
+closed are ⏸ parked here** — *"closed by the measurements we already have"* answers a different question
+from *"is there any future development that would make us retry this?"*. Each of the three says so in its
+own row, with the register's wording quoted, so the disagreement is legible rather than silent.
 
 ⚠ **THE COUNT IS SMALL ON PURPOSE, AND THE REASON IS THE POINT.** Appendix A is overwhelmingly **↩ superseded
 numbers** — a value corrected, a rate re-measured, an ETA that was wrong. Importing those as dead ends would
@@ -1917,6 +2040,9 @@ names the requirement or instrument the route would have served.
 | **The valB closure triangle as a *diagnostic* for the wrong-sign miss** *(`V5`)* | *Proof.* Under the live hypothesis (branch A) every named error class is a per-endpoint **state function** or is external to the calculation, and closure is **identically zero** for all of them — so the triangle returns a clean `R` whether or not the program's actual problem exists. It cannot discriminate "the method is right" from "the model is wrong". Under branch B it duplicates the cheaper forward/reverse leg and goes stale on the fix | `branch_A.verdict: "REFUTED for diagnosis"`, `can_closure_see_that_class: false` ([`valb-triangle-closure.json`](../modalities/valb-triangle-closure.json)). ⚠ The triangle still yields a path-error floor and an endpoint-consistency check — those are **not** dead; the *diagnosis* is |
 | **The one-pendant linker grid as a route to a two-mechanism molecule** *(`R15`)* | *Architectural.* `build_smiles`'s template carries **one branch residue**, so no choice of segments, length or placement can emit a molecule carrying both a covalent handle and the causal wedge — every sweep over the grid searched a space that structurally cannot contain the answer. The branch floor `k = 3 + SEG2 + tail` is independent of SEG1 and of chain length, and `SEG2 = 0` would form an acylurea, so **no grid change reaches k < 4** | [`linker-branch-reach.json`](../modalities/linker-branch-reach.json) + 7 tests ([`tests/test_linker_branch_reach.py`](../modalities/tests/test_linker_branch_reach.py)); [Appendix A 55](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims). ⚠ The **fix** is a two-branch template at n = 18 with existing segments — that is a live design change, not a re-grid |
 | **Reading Gate 3B off a *single* biased F(Rg) profile** *(`R2` via `V13`)* | *Premise false.* Three independent-seed replicas do **not** reconstruct a common F(Rg): the basin sits at a different Rg in each, and the basin→druggable ΔF differs by many kcal/mol. The ~0.6 kcal/mol single-trajectory accessibility estimate is therefore an artifact of one profile, and no single profile can be read that way again. ⚠ **`R2` itself is open, not dead** — only this way of answering it is closed | `_interpretation`: "the replicas do NOT reconstruct a common F(Rg) … Gate 3B is unresolved" ([`nr4a3-metad-crossreplica.json`](../modalities/nr4a3-metad-crossreplica.json)); withdrawn in paper §2.2 |
+| **Selectivity from LYSINE AVAILABILITY — the paralogues being lysine-POOR in the transfer zone** *(would have served `R12` via `V18`)* — ⚠ **scoped to the availability form; the uniqueness form is what `R12` actually rests on and is untouched** | *Premise false, then arithmetic.* The premise was that NR4A3's transfer zone reaches a lysine materially more often than the paralogues'. Matched over the same unbiased conformers per species it does not: the NR4A3-vs-NR4A1 gap is **under one replicate-SD** and the NR4A2 direction is a coverage *ratio* near unity, which is not a selectivity mechanism at any precision. And the arithmetic cannot be reached from here — availability-based discrimination needs the paralogue coverage near **zero**, and it is not near zero. ⚠ **What is dead is scarcity, not the term:** the discrimination `R12` claims is the rare **joint** event — covering a *unique* lysine while both paralogue zones stay bare — which this page already states correctly in [§the Tier-2 result](#-tier-2-result-in-full--the-12-pose-run-at-its-corrected-exact-kernel-values-lane-2-2026-07-25-reach-correction-2026-07-26-0-realized--no-gpu) and which no measurement here touches | the matched like-for-like triple, its replicate-SD and the matched-frame win rate: [`selectivity-mechanism-options.md`](../modalities/selectivity-mechanism-options.md) → `M1` / [`.json`](../modalities/selectivity-mechanism-options.json) `measurements.M1`, computed over [`nr4a-paralogue-dynamics.json`](../modalities/nr4a-paralogue-dynamics.json). ⚠ The same measurement carries the **ensemble-label correction** to the triple this page used to quote, and it is **conservative** — matching the ensembles makes the NR4A1 gap *smaller* |
+| **CONFORMATIONAL-SELECTION selectivity — "the cryptic pocket opens only in NR4A3"** *(would have served `R1`/`R7` before any chemistry)* — ⚠ **scoped to the CATEGORICAL form** | *Premise false.* Both paralogues **reach** NR4A3's druggable CV value inside their own matched metadynamics (NR4A1 exactly; NR4A2 within a rounding of it), and in the opened frames fpocket rates NR4A1 **more** druggable than NR4A3. "Only NR4A3 has the cryptic site" is therefore not available as an argument, and nothing reopens a set-membership claim whose complement has been observed. ★ **Note WHY the refutation survives an instrument this page grades harshly:** `V13`'s cross-replica reproducibility failed, which destroys any statement about the *population* of the opened state — but a refutation by **existence** needs only that the paralogues reach the value, which a biased ensemble can show. ✓ **What survives is the QUANTITATIVE form** — the paralogues may pay a different free-energy price to get there — and that is exactly **`R6`**, which has no instrument and is 🔒 held. ⚠ The fpocket ordering is **one opened frame per species**; the matched, replicated druggability contrast is candidate `C04` in [`instrument-options.md`](../modalities/instrument-options.md), **$0 and not in hand** | [`selectivity-mechanism-options.md`](../modalities/selectivity-mechanism-options.md) → `M5` (`S14`), read off the committed matched metadynamics ensembles; the surviving quantitative form is [§2.1 row `R6`](#21--the-register) |
+| **Relocating the target to the DBD or to DNA binding** *(would have served `R7` by choosing an easier object)* | *Arithmetic, over a fixed sequence fact.* The zinc-finger DBD is far **more** conserved between the paralogues than the LBD the program already targets — the identity ordering is in [§8 Route B](#route-b--a-linker-borne-covalent-handle-at-an-nr4a3-unique-cysteine---blocked-on-r5-nothing-running--serves-r8-r15)'s table — so *"the fusion works through DNA binding, so block that"*, which is the intuitive move, lands on the **worst** available place to stand on this target. The whole family also binds the same NBRE/NurRE elements, so the *functional* site is shared as well as the sequence. No development changes a sequence identity | domain-resolved identities computed from the cached UniProt sequences: [`target-route-census.json`](../modalities/target-route-census.json) `paralogue_identity_by_domain` / `zinc_finger_window`, reasoning in [`target-route-options.md`](target-route-options.md) route 12 |
 
 **Operations.** Compute-side routes that were tried and cannot work. They are here because they cost real
 sessions and keep being re-proposed, and because CLAUDE.md §6's rules point at them rather than restating them.
@@ -1953,6 +2079,9 @@ would bury a live option**; filing a dead one here would invite re-running somet
 | **perses as the protein-mutation FEP engine** *(`V10`)* | *Licence gate, not a science failure.* Its core protein-mutation path round-trips each residue template through an **OpenEye `OEMol`** (`PolymerProposalEngine.generate_oemol_from_pdb_template` → `oechem.oemolistream`) — commercial and licence-gated, with **no conditional and no RDKit alternative on that path**. Cost of establishing it: **~$0.05**. ⛔ **This does not belong in the dead table**: everything around the engine was engine-agnostic and survived the swap, and **pmx + GROMACS already serves the avenue** and has passed its known-answer benchmark | an OpenEye licence, or an RDKit path on perses' residue-template mapper. ⚠ Reopening it buys nothing today — the avenue is *served*, so this row exists to stop it being re-tried, not to be waited on ([§THE ORDERED PLAN](#the-ordered-plan-spend-gated--read-top-to-bottom-for-whats-next); [Appendix A 8](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)) |
 | **The celastrol–C551 covalent re-fold route** *(`R12`'s NR-V04 analogue)* | Run and refuted for **~$0.05**: deleting the E3 makes seating *worse* (33.6–44.7 Å), and a **steered** co-fold honouring `max_distance: 6.0` never satisfied its own bound on 3 seeds, across 7 clean models, 4 seeds and 3 prefixes | a better co-folder or a hand-placed pose. ⚠ The ladder's own scoping is load-bearing: *"this is a statement about the predictor, not about whether celastrol binds C551"*, which is literature-anchored |
 | **The required covalent control set** (preformed adduct, C551A, warhead-only, active/inactive recruiter, noncov-vs-cov) *(validation requirement 4)* | Built, run, and then **retired** when the covalent legs were dropped and the panel was re-scoped to noncovalent | it parks with the re-fold route above. ⚠ **Validation requirement 4 mandates this control set**, so the parking is a live constraint on what NR-V04 may be claimed to have tested — not a tidy-up |
+| **E3 recruiter CHOICE as a paralogue-selectivity lever** *(`R12`, via `V18`'s term (b))* — ⚠ **distinct from the recruiter-BREADTH row above: that one asks *which recruiters can be staged*, this one asks *whether the choice discriminates*** | ⛔ **The readout is not stable under a nuisance variable.** Changing only how the E3 arm is *assembled* — no change to recruiter, sampling or criteria — swings the maximum term-(b) enrichment by nearly 3× and halves one recruiter's any-lysine null. The program's single E3-preference claim (*"the discrimination lives on VHL"*) was **retracted the same day for exactly this reason**, and this page already carries that retraction. **A recruiter preference is not measurable at the current staging precision** | **staging precision good enough that a preference survives a restaging** — concretely, an **observed** rather than **composed** CRL/E2~Ub geometry, which is the same trigger `V18` carries (*"no degradation-geometry claim may rest on a RING or E2 that was COMPOSED rather than observed"*). ⚠ **GRADED DOWN TO ⏸ HERE FROM THE REGISTER'S "closed":** [`selectivity-mechanism-options.md`](../modalities/selectivity-mechanism-options.md) grades `S8` **D — blocked**, which is *"the instrument failed"*, not *"nothing reopens it"*. An instability under a nuisance variable is the textbook ⏸: fix the nuisance variable and the measurement becomes possible. Measurement: `M6` there |
+| **A molecular glue instead of a PROTAC** *(would have served `R7` `R9` `R10`)* | ⛔ **It removes handles rather than adding them, and it is the modality most dependent on the one capability the field lacks.** A glue has no linker, so it has **no covalent axis and no designed exit vector**: the claim collapses back onto a single induced-interface ΔΔG of the same ~1 kcal/mol size no instrument here resolves, against a PROTAC's three independent mechanisms. And the program's own thesis is that in every landmark case glue selectivity was **discovered then rationalized** by a solved ternary, *never predicted blind*. The repo has also already met a glue interface and classified it **unstageable** (a ligand 34 % buried with its partner removed — *"a glue interface, not a handle pocket"*) | **a validated prospective molecular-glue design or glue-interface selectivity predictor** — a [method-watch.md](../method-watch.md) trigger, because a glue is the modality most likely to arrive from someone else's screen rather than from this program's design. ⚠ **GRADED ⏸ HERE, NOT ✕:** the register's own verdict is *"⏸ watch, do not build"*, and the block is a missing capability, which is the definition of parked ([`target-route-options.md`](target-route-options.md) route 10) |
+| **Fusion-selective *ubiquitination*** — discriminating EWSR1::NR4A3 from wild-type NR4A3 at the transfer step rather than the binding step *(would have served `R13`'s object, and would have been a fusion-vs-WT axis rather than a paralogue one)* | ⛔ **The geometry does not reach.** The idea is sound — binding cannot discriminate the fusion from wild-type NR4A3 because the LBD is shared, but *degradation additionally requires a lysine in the transfer zone*, and the two proteins present different N-terminal acceptor sets. It fails because the measured ubiquitin-transfer distance and the exposed NR4A3-unique lysines are **both inside the shared LBD**, while the differential lysines sit ≥100 residues away on the far side of the DBD and hinge. **The idea is sound; the geometry is not** | **a construct whose E3 is anchored somewhere other than the cryptic pocket** — at which point the transfer-zone geometry question re-opens and has to be re-measured. ⚠ **GRADED DOWN TO ⏸ HERE FROM THE REGISTER'S "✕ closed", ON THE REGISTER'S OWN CAVEAT:** *"filed at the roadmap's strict bar this is a route closed by measurements that already exist, not a proof of impossibility"* ([`target-route-options.md`](target-route-options.md) route 13). It is on this page at all only because it is now a *generated* hypothesis with a recorded closure — it was never an open route here |
 | **Arm F of the NR-V04 retrospective — the alchemical ΔΔG_coop arm** *(`R11`)* | Never launched. **BLOCKED by calibration addendum condition 7** — *"runs only after the valB calibration PASSes"* — and `V5` **FAILED on the sign**. ⛔ **So the gate that would release it can no longer fire as written**: the closure triangle localises the miss to an **endpoint-state** error, and STRATEGY.md's own reading of that branch is that *"more sampling will **NOT** fix the miss"*. Arm F is therefore not "pending" in any sense a reader should act on — it is parked behind a condition its own instrument cannot now satisfy | a ternary alchemical free-energy method that **passes** the valB known-answer control. Not more sampling of the present one. ⛔ **AND THE DECISION ITSELF IS OUTSTANDING** — Arm E got an explicit ruling ([Open decision 12](#open-decisions)); Arm F never did, so it is **classified here but undecided by the program**. It needs one — held, or explicitly retired. On the roadmap as a $0 decision item ([§10](#10--the-roadmap--one-ordered-list)) |
 
 ---
@@ -2238,16 +2367,28 @@ this section and are measured, not argued:
   ΔΔG — the resolution problem Route A cannot escape. Measured **with its own null**, which is the part that
   matters: paralogue-only clash **0.923** at those three positions against **0.173** at conserved/shared
   ones, and **0.000** at the paralogue-unique-but-not-bulkier positions.
+  - ⛔ **AND ITS OWN CONTROL CAPS WHAT IT MAY SAY — read this before the clash number is quoted anywhere.**
+    The register ran the discriminating control (`M4`): the paralogue **does not refuse the molecule, it
+    RELOCATES it**, by a median of ~5.3 Å in both paralogues. So the exclusion is real **about the POSE and
+    says nothing about whether the paralogue binds the molecule at all.** That makes this a **design rule** —
+    *grow the substituent into the L406/I484/L534 lobe* — and not a selectivity claim, and it is the honest
+    ceiling for any negative-design argument. Two further limits the register states and this page inherits:
+    the transfer is **rigid** (the paralogue side chain is held in its own opened conformer and could rotate
+    away), and the *absence* of NR4A3 clash is **guaranteed by construction** because these poses were docked
+    into NR4A3, so only the between-class contrast is gradeable. It also inherits `R5` — it is conditional on
+    the cryptic pocket being the right site.
 - ⛔ **Route A's seven divergent handles split.** Six are *categorically* unique (a residue type absent in
   both paralogues); only three of those are bulkier in both paralogues, and those three are the only ones the
   steric test fires on. Uniqueness alone does not create an exclusion.
 - ⛔ **A route this page does not list is refuted there on committed data:** the cryptic pocket is **not**
   NR4A3-specific — both paralogues reach NR4A3's druggable CV inside their own matched metadynamics, and
   fpocket rates NR4A1's opened frame **more** druggable. Only the *quantitative* form survives, and that is
-  `R6`, which has no instrument.
+  `R6`, which has no instrument. ✅ **Now graded and filed** — ✕ dead in
+  [§6a](#6a--dead--conclusively-unworkable-never-retry), scoped to the categorical form.
 - ⛔ **The `V18` lysine term's intuitive form is refuted there too** — the paralogues are **not** lysine-poor
   (see the like-for-like triple in [§the Tier-2 result](#-tier-2-result-in-full--the-12-pose-run-at-its-corrected-exact-kernel-values-lane-2-2026-07-25-reach-correction-2026-07-26-0-realized--no-gpu)).
-  What survives is the rare *joint* event, which this page already states correctly.
+  What survives is the rare *joint* event, which this page already states correctly. ✅ **Now graded and
+  filed** — ✕ dead in [§6a](#6a--dead--conclusively-unworkable-never-retry), scoped to the availability form.
 
 ### Route A — a warhead engaging paralogue-divergent pocket handles · ○ **blocked, nothing running** · serves `R7`
 
@@ -2270,14 +2411,23 @@ provenance and this page used to give both the first one's weight.
   (`:552–566`; the number is §2.3, not §2.4). ⛔ **Against this page's own banner** — status is read from
   committed artifacts, never typed — this cell was typed. ⚠ **Superseded, retained:** *"Chemical basis: ✓
   strong, and already measured."*
-- ⛔ **And the engageable set is NARROWER against the paralogue that matters most.** Against NR4A1 all 7
+- ⛔ **And the engageable set is NARROWER against ONE of the two paralogues.** Against NR4A1 all 7
   handles differ. Against **NR4A2 only 6 of 7** differ — **I531 is Ile in both NR4A3 and NR4A2**
   (`nr4a-selectivity.json`: `nr4a3 "I531", nr4a1 "V", nr4a2 "I"`) — so of the 5 engageable handles only
-  **4** distinguish NR4A3 from NR4A2 (`:606–611`, repeated at `:2421` and `:2568`). That is the paralogue
-  *"carrying the dopaminergic-loss liability one most wants to spare"*. Route A is **20 % thinner** exactly
-  where it can least afford to be, and this page carried the caveat nowhere while the paper carries it in
-  three places. ⚠ Note this is [§6a](#6a--dead--conclusively-unworkable-never-retry)'s own rule applied to
-  this page's preferred route: *"a residue the paralogues share cannot discriminate between them."*
+  **4** distinguish NR4A3 from NR4A2 (`:606–611`, repeated at `:2421` and `:2568`), and this page carried
+  the caveat nowhere while the paper carries it in three places. ⚠ Note this is
+  [§6a](#6a--dead--conclusively-unworkable-never-retry)'s own rule applied to this page's preferred route:
+  *"a residue the paralogues share cannot discriminate between them."*
+  - ⚠ **CORRECTED 2026-08-03 — the DIRECTION of that thinness was stated as evidenced and is not.** This
+    bullet read: *"the engageable set is NARROWER against the paralogue that matters most … That is the
+    paralogue carrying the dopaminergic-loss liability one most wants to spare. Route A is 20 % thinner
+    exactly where it can least afford to be."* **Superseded, retained** — the ranking it asserts rests on
+    NR4A2's lethality, which is flagged **UNCONFIRMED** and has no phenotyped KO, while NR4A1 carries a
+    **named anti-target genotype** ([§2.4](#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)).
+    The defensible reading inverts the emphasis without moving a number: **the handle set is complete
+    against the paralogue whose sparing is evidenced-mandatory and one short against the paralogue nobody
+    has bounded in either direction.** *Unbounded is not smaller* — this narrows the claim, it does not
+    relax the design.
 - ⚠ Statistical hedging this page also dropped: *"a two-test Bonferroni correction moves p = 0.028 to
   **0.056**, i.e. borderline"*, plus spatial-correlation and selection caveats (`:658–672`).
 
@@ -2302,6 +2452,11 @@ running." Every clause of that was wrong.** Corrected 2026-08-02:
 2. ⛔ **The physics term nobody has computed: `R6`, ΔG_open per paralogue.** Validation requirement 2 says
    matched-open comparison can **"miss or REVERSE selectivity."** **A passing instrument would not fix
    this** — so "blocked on the instrument" was never the whole sentence.
+   ⚠ **AND THE BLOCK IS ROUTE A's, NOT THE PROGRAM's (2026-08-03).** `R6` is a term in an **absolute**
+   per-paralogue affinity, which is exactly the currency Route A works in. It **cancels inside each protein**
+   in a ligand-side *relative* double difference, so it does **not** block that route to `R11`'s causal
+   question — [§3.4 fact 3](#34--three-instrument-facts-this-page-used-to-be-missing). Stating the block
+   globally made a live route look shut.
 3. ⛔ **The size of the prize versus the resolution.** [§the hysteresis gate](#-the-first-forwardreverse-hysteresis-this-program-has-ever-measured--gate-passed-2026-07-27-214-pm-et): a useful
    degradation window needs **~2.0 kcal/mol** of true margin, against a best-case **resolvable** difference
    of **0.60** and an accuracy of **1.543 kcal/mol, wrong sign**. Even a perfectly calibrated
@@ -2361,7 +2516,26 @@ figure is **SMARCA2/SMARCA4** ([§the SMARCA2/4 gate record](#-gate-failed--the-
 | object | reading | identity |
 |---|---|---|
 | Pocket-5 lining | `n_residues: 10`, `n_divergent: 7` ([`nr4a-selectivity.json`](../modalities/nr4a-selectivity.json)) | **30 % identical** |
-| the LBD overall | `n_residues_aligned: 254`, `n_divergent_any: 109`, `pct_divergent_any: 42.9` ([`nr4a3-differential-surface-atlas.json`](../modalities/nr4a3-differential-surface-atlas.json)) | **≈57 % identical** |
+| the LBD overall | `n_residues_aligned: 254`, `n_divergent_any: 109`, `pct_divergent_any: 42.9` ([`nr4a3-differential-surface-atlas.json`](../modalities/nr4a3-differential-surface-atlas.json)) | **≈57 % identical**, pooled across both paralogues |
+
+★ **AND THE PER-DOMAIN, PER-PARALOGUE VERSION (2026-08-03, $0 CPU over the cached UniProt sequences) SHARPENS
+IT INTO A RESULT THE PROGRAM CAN USE.** The domain-resolved identities — zinc-finger DBD, hinge, LBD, AF1,
+each against NR4A1 and against NR4A2 separately — are owned by
+[`target-route-census.json`](../modalities/target-route-census.json) (`paralogue_identity_by_domain`,
+`zinc_finger_window`) and read out in [`target-route-options.md`](target-route-options.md) finding 1. **Two
+consequences, and both are load-bearing:**
+
+1. ✅ **The program is already standing in the most divergent ordered domain of the protein, and the pocket
+   lining is more divergent still.** *"Work somewhere easier"* has no destination on this target — which
+   turns a premise that read as a liability into a favourable fact.
+2. ⛔ **Every route that relocates the target toward the DBD or DNA binding makes the requirement strictly
+   worse**, by a wide margin and on arithmetic alone. Closed for that reason in
+   [§6a](#6a--dead--conclusively-unworkable-never-retry).
+
+⚠ **The `≈57 %` above is not superseded by these** — it is a different quantity (pooled "divergent in
+either paralogue" over the aligned LBD), and both readings stand. The per-paralogue split is what
+[§2.4](#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)'s asymmetric
+brief needs and the pooled figure cannot supply.
 
 ⚠ **And the borrowed number inverted the argument.** Route B's rhetorical case was *"Route A is asking the
 warhead to do something very hard, so use the linker instead"* — argued **sixteen lines after Route A reports
@@ -2393,6 +2567,54 @@ routine linker length; C420 and C559 are closed. What *does* close C397's window
 a residue NR4A3 lacks, which is the opposite direction to the one the counter-test was designed to check.
 ⚠ **Read with branch 1b's reconciliation caveat.**
 
+★ **AND THE ROUTE NOW HAS A NAMED MOLECULE AT ITS OWN GATE (2026-08-03, $0 RDKit/CPU).** Route B has argued
+for a short linker since it was written and had **no construct at the 12-atom gate** to point at. One exists:
+**`vhlM2@ex_5amide_a2-a3_cyac_me`**, InChIKey **`RZSRKKSYYBOIEK-ACNWJKEOSA-N`** — SMILES committed,
+backbone length re-derived by RDKit rather than intended, reaching C397's SG under **both** reach
+conventions, with a retrosynthetic annotation over catalogue building blocks. Everything about it —
+descriptors, basin fidelity, span window, the four floors, the limits — is owned by
+[`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json); this page carries only that
+it exists and what it does not license.
+
+- ⛔ **The library's floor of 14 was a POLICY, not a fact — and that is the finding.** The term binding at
+  every gate-clearing basin is `min_member_fraction_comfortable`, a basin-**breadth** threshold; the
+  geometric and chemical floor of the committed building-block grid is **11**. *(Superseded, retained:
+  *"no enumerated molecule reaches 12 (the shortest is 14)"* as a statement about geometry.)* A design
+  constraint that reads as physics but is a tunable is exactly the kind of fact this page exists to expose.
+- ⛔ **DEFECT 1 — the E3 is the wrong one for the rung that needs this.** Rung
+  [`5b-T`](#the-ordered-plan-spend-gated--read-top-to-bottom-for-whats-next)'s E3 is **CRBN**, and the
+  candidate is **VHL**. The best CRBN construct at the gate reaches C397 **through-space only**; under the
+  **corridor** convention — a non-clashing branch position with a clash-free arm to the SG — its floor is
+  **14**, above the gate. **The two conventions must not be merged**, and the honest CRBN answer is that a
+  gate-length CRBN degrader exists on an upper-bound reach rule and not on the conservative one.
+- ⛔ **DEFECT 2 — provenance.** The committed construct library no longer reproduces from its own generator,
+  and the drift reaches the **causal test article**, not just the count
+  ([§10.1 row 25](#101--open-rows-ordered-by-what-unblocks-the-most)).
+- ⛔ **What it does NOT license, stated because a named molecule invites exactly this:** no binding affinity
+  of anything to anything; no electrophile reactivity, thiol pKa, adduct stability or chemoproteomic
+  selectivity; no ternary, cooperativity or productive geometry; no degradation, efficacy, window, safety or
+  clinical readiness; and **no proteome-wide selectivity of any kind** — the comparison set is two paralogues.
+  It is a **target-engagement geometry** result and inherits `R5`'s unresolved site question.
+
+⚠ **AND THE CATEGORICAL AXIS IS WIDER THAN C397 — BUT ONLY ON THE RULER THIS PAGE PERMITS, AND BOTH READINGS
+ARE CARRIED.** The axis had never been swept past cysteine and lysine. Across 11 reactive classes NR4A3
+carries a set of paralogue-unique, alignment-robust LBD positions, most within linker reach
+([`selectivity-mechanism-options.md`](../modalities/selectivity-mechanism-options.md) `M2`, which owns the
+counts). **The sweep cuts both ways and neither reading is chosen here:**
+
+- ⛔ **Under `V17`'s exposure cutoff, NO new handle clears at all** — the credible set collapses to exactly
+  the cysteines and lysines already committed.
+- ★ **Under the threshold-free RANK this page mandates instead** ([§3.1 row `V17`](#31--the-instrument-table)),
+  **Y419** — a SuFEx tyrosine one residue from C420 — sits **above NR4A1 Cys551**, the family's one
+  literature-anchored covalent site and the very false negative that discredited the cutoff.
+- ⛔ **M398/M399 fall below the reference on BOTH readings and are dropped, not carried.** Naming them is the
+  point: a sweep that only reports what survives is a sweep nobody can grade.
+- ⚠ **Limits inherited whole:** sequence uniqueness is exact, but every geometric annotation is **one static
+  opened conformer**; and **chemistry credibility is a literature label, not a computed quantity** — no thiol
+  or phenol pKa, nucleophilicity, adduct stability or electrophile promiscuity is modelled anywhere. SuFEx
+  tyrosine is precedented rather than routine, and **every added handle re-opens the chemoselectivity-window
+  question** that C397 already answers badly.
+
 ⛔ **What remains blocking is upstream, not here:** every anchor comes from the docked pose, whose known-answer
 test `V3` returned **INCONCLUSIVE** — and the re-run that would settle it has not started. Reach is a
 necessary condition for a covalent handle and never a sufficient one.
@@ -2413,7 +2635,7 @@ graph could not express.
 | lane | what it is | serves | why the roadmap needs it |
 |---|---|---|---|
 | **§2.9 congeneric RBFE map** — 18 of 18 computable edges, **$73.79** realised GPU spend | the program's largest completed quantitative lane | `V6` → `R7` | ⛔ **It contains the most concrete evidence about the reliability of the free-energy machinery `V4` and Route A depend on**, and it is *negative*: the `cycle_3carbonyl` triangle (cmpd19 → free acid → primary amide → cmpd19) sums to **R = +1.307 and is a VIOLATION** of tolerance — *"at least one of them is **not converged or not consistently mapped**, and all three are therefore quoted under that reservation"* (`:1405–1423`). Separately, **an independent recomputation of one edge disagrees with the pilot by more than either stated uncertainty**: cmpd19 → 5-NH₂ at **+1.84 ± 0.36** against the fan-out's **+1.064 ± 0.118**, a gap of **≈0.78 kcal/mol** (`:1425–1433`). [§3.1](#31--the-instrument-table) records an *unrun* benchmark for `V4` while the program had already found, on its own system, that two runs of one perturbation differ by several times their own error bars |
-| **§2.10e causal matched-pair test** — **S = −0.1297 ± 0.3264 kcal/mol** | *"the **only** test in this program that asks whether a designed element **causes** discrimination"* (`:1782–1783`) | `V16` → `R11` | ⛔ **A dependency, not a result.** It is the causal test of `R11` and of Route B's mechanism, it has **run**, and it returned a preregistered null **with a quantified bound** — the design could only have resolved *"a wedge contribution of roughly **\|S\| ≳ 0.65 kcal/mol** (2σ)"* (`:1798–1800`). A dependency graph with no causal node cannot express the paper's own Tier-2/Tier-3 structure. ⛔ And it has **no calibrator** ([§3.4](#34--two-instrument-facts-this-page-used-to-be-missing)) |
+| **§2.10e causal matched-pair test** — **S = −0.1297 ± 0.3264 kcal/mol** | *"the **only** test in this program that asks whether a designed element **causes** discrimination"* (`:1782–1783`) | `V16` → `R11` | ⛔ **A dependency, not a result.** It is the causal test of `R11` and of Route B's mechanism, it has **run**, and it returned a preregistered null **with a quantified bound** — the design could only have resolved *"a wedge contribution of roughly **\|S\| ≳ 0.65 kcal/mol** (2σ)"* (`:1798–1800`). A dependency graph with no causal node cannot express the paper's own Tier-2/Tier-3 structure. ⛔ And it has **no calibrator** ([§3.4](#34--three-instrument-facts-this-page-used-to-be-missing)) |
 | **§2.1 BioEmu** unbiased ensemble cross-check — **12.5 %** druggable | the honest open-state population estimate | `V14` → `R1` | an **orthogonal evidence axis** for `R1`, independent of the metadynamics that Gate 1 and Gate 3B are argued over |
 | **§2.2 PocketMiner** + four permutation nulls (p = 0.009 / 0.0001 / 0.036 / **0.74** / 0.014) | the only **independent-method** support for the cryptic site | `V15` → `R1` | `R1` rests on it, and one of the five nulls (**p = 0.74**) does not support it — a mixed result this page showed as a clean ✓ |
 | **`denovo_401`** — the paper's **sole carried candidate** (§2.7, §2.8, §3, §5 Gate 4, SI §S1–S3) | the molecule every downstream claim is about | `R5` `R7` `R15` | it is the subject of `R5` and `R7`, of `V19`'s unrun generative arm, and of the `R3` submission gate that can invalidate the receptor it was generated into |
@@ -2787,16 +3009,25 @@ the figure.
 | **21** | **5c — explicit ternary-ensemble refinement** | `R12` | ○ future | 🔒 (behind row 19) | **priced** | which lysine the ubiquitin actually reaches, per construct, as a distribution over unique-vs-conserved sites |
 | **22** | **5d — local ternary FEP** → the final candidate set | `R15` | ○ future | 🔒 (behind rows 19, 21) | **priced** | the prioritized, structure-defined, retrosynthetically annotated candidate set with an identified causal mechanism — degradation experimentally unvalidated |
 | **23** | **RUNG 6 — fold results into the paper · final red-team · post & submit** | all | ○ future | **outward-facing — needs trimcrae sign-off** | **$0** | the deliverable |
+| **24** | **Extend the steric-exclusion screen from a measurement to a DESIGN RULE** — and carry its own control with it | `R7` `R15` | ○ **not started** | **—** ($0) | **$0** | the highest-grading genuinely-new mechanism in the enumeration, and the only one whose unconfounded positive control is straightforwardly constructible. ⛔ Its ceiling is fixed by its own control: the paralogue **relocates** the ligand rather than refusing it, so what it yields is a **pose rule**, never a binding or selectivity claim ([§8](#8--the-two-live-routes-to-selectivity--and-where-each-is-actually-blocked)) |
+| **25** | ⛔ **Settle which linker library is CANONICAL — the committed one no longer reproduces from its own generator, and the drift reaches the CAUSAL TEST ARTICLE** | `R15` → `V16`, rung `5b-T` | ○ **decision + $0** | **—** | **$0** | ⭑ **Take this before `5b-T` runs, not after.** Re-running the generator today returns a different construct set *and a different recommended 5a-KS matched pair* (a different linker class, a different backbone length, a different SMILES) from the pair `V16` was actually measured on. ✅ **`V16`'s own molecule is NOT lost** — its endpoint SMILES are committed in [`nr4a3-5aks-cofold-prep.json`](../modalities/nr4a3-5aks-cofold-prep.json) and match the committed library, so this is **not** the unregenerable-artifact failure of [§6a](#6a--dead--conclusively-unworkable-never-retry). ⛔ What is broken is that **anyone re-deriving the test article from the code gets a different molecule**, silently — and `5b-T`'s degrader SMILES come down the same chain. Decide: freeze the artifact with a provenance note, or regenerate and re-declare. Evidence: [`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json) → `flagged_not_fixed` |
+| **26** | **Bound the NR4A2 half of the selectivity requirement** — MGI single-KO phenotypes for *Nr4a1/2/3*, and HPA per-tissue nTPM | `R7` ([§2.4](#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)) | ○ future | **—** ($0, networked → CI) | **$0** | the *only* thing that would bound the unbounded half of the requirement without a bench. IMPC returned nothing for any of the three, MGI is the named remaining source, and the per-tissue nTPM field is `null` today. ⚠ A null result here is as useful as a positive: it converts *"unbounded"* from an unanswered question into a measured absence |
+| **27** | **The two $0 searches for a paralogue-scale known answer for the ligand-side ΔΔΔG** | `V6`-adjacent → `R11` | ○ future | **—** ($0) | **$0** | decides whether the program's cheapest well-posed selectivity instrument can be *bought a known answer at the right size*. ⛔ It does not raise any ceiling by itself — a `ΔΔΔG` route needs its **own** validation and inherits none ([§3.4 fact 3](#34--three-instrument-facts-this-page-used-to-be-missing)). A `STOP_NO_REFERENCE` is a good outcome and not a failure |
 
 ### 10.2 · The readout — derived from the column, not typed
 
-- **0 of 23 open rows are moving.** Not one is ◐, and four independent $0 reads say nothing is billing.
-- **10 rows wait on a money decision** (🔒 spend): 2, 9, 10, 11, 13, 14, 15, 16, 17, 19. ⚠ **Superseded,
+- **0 of 27 open rows are moving.** Not one is ◐, and four independent $0 reads say nothing is billing.
+  ⚠ *Superseded, retained: "0 of 23" — rows 24–27 were added 2026-08-03 from the options-register fan-out
+  ([§0.8](#08--the-six-options-registers--what-they-own-and-the-one-thing-they-may-never-do)).*
+- **10 rows wait on a money decision** (🔒 spend): 2, 9, 10, 11, 13, 14, 15, 16, 17, 19 — **unchanged by the
+  four additions, every one of which is $0 and needs no nod.** ⚠ **Superseded,
   retained:** *"11 rows … 1, 2, 9, …"* — **row 1 left this list on 2026-08-02**, not because anything was
   authorized but because pricing it showed there was **nothing to authorize**: the assembly route runs on CPU,
   so the largest open gap in the program turned out to cost **$0**.
-- **2 rows wait on a decision that costs nothing at all** (7, 8) — and one of those, the two-branch template,
-  **has never been put to trimcrae in the first place.**
+- **3 rows wait on a decision that costs nothing at all** (7, 8, 25) — and one of those, the two-branch
+  template, **has never been put to trimcrae in the first place.** ⚠ *Superseded, retained: "2 rows … (7, 8)".*
+  ⭑ **Row 25 is the one to take first of the three**: it is the only one that gets *more expensive* by
+  waiting, because rung `5b-T` consumes the artifact it is about.
 - ⛔ **0 rows are authorized.** Row 12 was, until its **$0 precheck ran and refused it on evidence** — which
   is a better outcome than a budget hold, because it cannot be reversed by a nod. ⚠ **Superseded, retained:**
   *"1 row is authorized (12), behind a $0 precheck."*
@@ -2805,9 +3036,14 @@ the figure.
   the program's *highest-leverage unrun item* (row 2). ⚠ **Superseded, retained:** *"6 rows … 1, 2, 9, 10, 11,
   15 … Two of the six are the program's largest open gap (row 1) and its highest-leverage unrun item (row 2)."*
   Row 1 was priced and gated on 2026-08-02 (rung `5b-T`), and row 18 points at it rather than restating it.
-- **6 rows could start today with no authorization and no bench** — **1**, 3, 5, 6 at **$0**, 4 cheap, and 18
-  is the same purchase as 1. ⚠ **Superseded, retained:** *"4 rows … 3, 5, 6 at $0, and 4 cheap."* ⭑ **Row 1 is
+- **10 rows could start today with no authorization and no bench** — **1**, 3, 5, 6, **24, 25, 26, 27** at
+  **$0**, 4 cheap, and 18 is the same purchase as 1. ⚠ **Superseded, retained:** *"6 rows … 1, 3, 5, 6 at $0,
+  4 cheap, and 18 …"*, and before it *"4 rows … 3, 5, 6 at $0, and 4 cheap."* ⭑ **Row 1 is
   now the largest of them**: the program's biggest open gap is a $0 CPU job that nobody has to be asked about.
+  ⚠ **And the shape of the backlog changed with the four additions, which is the point of counting it:**
+  **the free, unauthorized, no-bench tier is now the LARGEST tier on this list** — larger than the money-gated
+  one. A program that reads as *"blocked on spend"* is, on its own board, mostly blocked on nobody having
+  done the free thing.
 - **1 row cannot be bought at all** (20 — it needs a wet lab), and **1 is blocked by a gate that cannot fire**
   (19), which in turn holds 21 and 22.
 
@@ -2827,6 +3063,7 @@ list; the union is 23 rows and 11 wait on money.
 | the ladder's decision-value ranking | 9 ranks + 1 exclusion | folded in; ranks 1–3 and 6 are ✅ done, 4 and 5 have **landed** since it was written |
 | items on **neither** list | — | **8 added**: `R3` (row 3), branch-1b reconciliation (5), the $0 pose diagnostic (6), Arm F's classification (7), the two-branch decision (8), `R13` (9), `valB_full`'s unfireable gate (19), and `V4`'s missing rung (2) |
 | rows with no price anywhere | not visible — they were prose | **6, and each is now a named $0 next action** |
+| items on **no list at all**, because nobody had enumerated the options (2026-08-03) | — | **4 added**, all $0 and none needing a nod: the steric-exclusion design rule (24), the linker-library provenance decision (25), bounding the NR4A2 half (26), and the ΔΔΔG benchmark searches (27). ⛔ **Every one came from an OPTIONS register rather than from a caveat**, which is a different failure from §10.3's original one: §10.3 fixed *"a caveat with nowhere to go"*; these were **never written down anywhere**, because a shortlist cannot show what was never considered |
 
 ★ **The pattern behind all eight additions is one sentence, and [§WHAT THE LANDED RESULTS CHANGE](#-what-the-landed-results-change-about-the-remaining-plan) is its home:
 *"A caveat with nowhere to go is how work gets silently dropped."*** Every added row existed as prose in a
@@ -3745,6 +3982,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   the only CRBN basin in the confirmed set misses the 12-atom gate by construction. A $0 RDKit re-enumeration
   is the named way out; if it returns nothing buildable the rung runs at the shortest committed length and
   **carries the measured collision bracket** instead of claiming the 12-atom figure.
+  ✅ **THE NAMED WAY OUT WAS TAKEN, 2026-08-03, AND IT ANSWERS ARM (C) PARTLY IN THIS RUNG'S FAVOUR AND PARTLY
+  AGAINST IT** ([`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json)). **(i)** The
+  premise *"nothing exists at 12"* is false — a construct exists, is named, has a SMILES and an InChIKey, and
+  clears the gate under both reach conventions; the library's floor of 14 turned out to be a basin-**breadth
+  policy** rather than geometry or chemistry ([§8 Route B](#route-b--a-linker-borne-covalent-handle-at-an-nr4a3-unique-cysteine---blocked-on-r5-nothing-running--serves-r8-r15)).
+  ⛔ **(ii) But it is a VHL construct and THIS RUNG'S E3 IS CRBN.** The best CRBN construct at the gate reaches
+  C397 **through-space only**; under the corridor convention its floor is **14**, above the gate. So arm (C)
+  stays AT RISK for CRBN, and the fallback stands as written — run at the shortest committed length and carry
+  the measured bracket. ⛔ **(iii) And before either, the SMILES provenance has to be settled:** this rung
+  takes its degrader from `nr4a3-linker-library-chem.json`, which is generated from
+  `nr4a3-linker-design.json`, **which no longer reproduces from its own generator** —
+  [§10.1 row 25](#101--open-rows-ordered-by-what-unblocks-the-most). That is a $0 decision and it belongs
+  *before* the run, not after it.
   **Refusals, not results:** an empty snap mask or an infeasible embed is **REFUSED**, never reported as a
   zero; a failed positive control makes the whole run uninterpretable; fewer than 3 models on any arm and no
   reproducibility statement is made in either direction.
@@ -4763,6 +5013,34 @@ both are live text this pass does not own):
     reports per construct, which is that lane's call, not this one's. Rung `5b-T`'s gate therefore reads the
     **artifact** and never the copy.
 
+**For the fusion / neoantigen lane** (found 2026-08-03 by the target-route sweep, **fixed at source, one
+consequence still owed** — that consequence is not this page's to discharge):
+
+23. ⛔ **THE REPO HELD TWO INCOMPATIBLE MODELS OF THE FUSION PROTEIN, AND ONE OF THEM WAS AN OFF-BY-TWO.**
+    `fusion_cofold.py` resumed NR4A3 at residue 2; `fusion-breakpoint-neoantigens.json`'s 7 in-frame
+    junctions resumed it at 318 / 361 / 419. A **$0 CI run** settled it
+    ([`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json)): **NR4A3's first two transcript exons
+    are entirely non-coding**, and `fusion_breakpoints.py` indexed a **coding**-exon table with **transcript**
+    exon numbers. For EWSR1 that is harmless — its exon 1 *is* coding, so rank ≡ coding index — **which is
+    exactly why the error was invisible.** ✅ **Fixed at source**, with a guard that raises on a non-coding
+    exon instead of silently sliding to a neighbour, plus an assertion that the resume window still retains
+    the DBD.
+    - ⛔ **The consequence the neoantigen lane owes:** all 7 committed junctions delete NR4A3's AF1 **and the
+      first zinc finger**, so its **26 predicted binders span seams that do not exist**.
+      `fusion-breakpoint-neoantigens.json` predates the fix and **must be regenerated before any of it is
+      quoted** (regeneration needs MHCflurry in CI and belongs to that lane).
+    - ✅ **What it does to this page, and it is favourable in both directions.** The model flagged as an
+      *unsourced assumption* turns out to be the exon-correct one, arrived at independently. The ASO lane is
+      unaffected and now corroborated — it deliberately refuses the exon mapping and sweeps a window that
+      **brackets** the right answer, so what looked like conservatism was load-bearing. And **`R13`'s object
+      is now defined at the sequence level**, which strengthens rather than weakens the standing note that
+      the modelled LBD construct (373–626) excludes the fourth unique cysteine **C166**: under the *wrong*
+      model that concern would have evaporated, because C166 would not have been in the fusion at all.
+    - ⚠ **Still not settled:** the audit bounds which junction models are *arithmetically possible*; it does
+      not pin the patient-level breakpoint, which needs a primary breakpoint report. `R13` still has no rung,
+      no gate and no price ([§10.1 row 9](#101--open-rows-ordered-by-what-unblocks-the-most)) — what changed
+      is that it now has a defined object to write them against.
+
 **Closed by this merge** (recorded so it is not re-raised):
 
 18. ✅ **Neither document contained the union of the two orderings.** This page's critical path and
@@ -4785,6 +5063,45 @@ both are live text this pass does not own):
     gate or verdict changed.** What remains in STRATEGY.md is Appendix A and Appendix B, because their rows are
     read *as data* by `realised_spend.py` and their heading is a structural clear in
     `lint_consistency.is_cleared`.
+
+---
+
+## 13 · The deliverable's FRAMING — an open question, with a register and no decision
+
+★ **Added 2026-08-03, and deliberately left OPEN.** [§5's operating regime](#5--where-each-requirement-stands)
+names a **single deliverable** — [the paper](nr4a3-degrader-paper.md) + its SI — and this page has never
+carried the question of *what that paper is about* as a question at all. It is one, it is trimcrae's, and
+until 2026-08-03 nothing enumerated the alternatives. Seven framings, graded on six columns (does its central
+claim rest on an instrument that has recovered a known answer **in the regime the claim needs** · evidence
+committed · needs a bench · softening an existing claim · manuscript re-use · clock):
+[`paper-framing-options.md`](paper-framing-options.md), which owns every grade and every figure below.
+
+**Three things this page records, and none of them is a decision.**
+
+1. ⛔ **The current framing is hostage to `R4`, which has no in-silico instrument and never will.** The
+   candidate paper's central claim needs *something to bind the opened pocket*
+   ([§2.2](#22--requirements-with-no-instrument--the-holes)), and [§10.1 row 20](#101--open-rows-ordered-by-what-unblocks-the-most)
+   is the only row on the board that **cannot be bought at all**. Under a permanent no-wet-lab regime that is
+   not a scheduling fact, it is a structural one.
+2. ★ **Three of the seven framings need NEITHER a validated instrument NOR a bench.** They are writable on
+   committed evidence today: **the known-answer audit** (the register of what happens when in-silico
+   selectivity pipelines are put to tests with known answers — where **the failures ARE the result**, so no
+   instrument has to pass); **the co-folding assembly failure** (components right, assembly wrong, by a
+   factor of ten — self-contained, and the only framing with a live clock on it); and **the target-enablement
+   dossier**, which can absorb the candidate work as a closing *"what a candidate would require"* section and
+   so keeps every result in print. ⚠ **This is a statement about what is WRITABLE, not about what is best.**
+3. ⚠ **The uncomfortable observation the register makes, recorded rather than argued:** the current paper's
+   own scoreboard has more failed gates than a title promising a selective candidate can carry, and **three
+   of the four failures are the three attempts at a positive control for the exact capability the title
+   promises**. [§the scoreboard](#-where-we-are--the-scoreboard-in-plain-language) owns those counts; this
+   section does not restate them.
+
+⛔ **NOTHING HERE IS DECIDED, AND NOTHING HERE BLOCKS ANYTHING.** The framing choice is not a gate on any row
+of [§10.1](#101--open-rows-ordered-by-what-unblocks-the-most): the mechanism, instrument and requirement work
+strengthens whichever paper is written, and no row waits on it. ⚠ **It is also not an Open decision** — the
+[Open decisions](#open-decisions) numbering is frozen and cited as data by 30 files, and this is not a ruling
+that has been taken. It is recorded here so that a question with real consequences stops being invisible,
+which is the same reason every other section of this page exists.
 
 ---
 
@@ -4812,6 +5129,15 @@ Artifacts that own the numbers above:
 [`step1-fanout-map.json`](../modalities/step1-fanout-map.json) ·
 [`selectivity-benchmark.json`](../modalities/selectivity-benchmark.json) ·
 [`nr4a3-metad-crossreplica.json`](../modalities/nr4a3-metad-crossreplica.json).
+
+**And the options registers wired in on 2026-08-03** ([§0.8](#08--the-six-options-registers--what-they-own-and-the-one-thing-they-may-never-do)),
+each of which owns its own numbers and is linked rather than restated:
+[`selectivity-mechanism-options.json`](../modalities/selectivity-mechanism-options.json) ·
+[`instrument-options.json`](../modalities/instrument-options.json) ·
+[`target-route-census.json`](../modalities/target-route-census.json) ·
+[`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json) ·
+[`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json) ·
+[`nr4a3-5aks-cofold-prep.json`](../modalities/nr4a3-5aks-cofold-prep.json).
 
 ⛔ No claim on this page asserts NR4A3 selectivity, efficacy or clinical readiness; predicted quantities are
 labelled as predictions throughout.

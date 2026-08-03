@@ -2,11 +2,22 @@
 """
 IS A LINKER-BORNE COVALENT NR4A3 HANDLE GEOMETRICALLY AVAILABLE? ($0, CPU/CI only.)
 
-THE IDEA BEING TESTED. The conventional PROTAC asks the WARHEAD to discriminate an ~80 %-identical
-paralogue pocket. `nr4a3-covalent-handle-ensemble.json` measured that NR4A3's three paralogue-unique
+THE IDEA BEING TESTED. The conventional PROTAC asks the WARHEAD to resolve a paralogue difference as a
+free-energy margin. `nr4a3-covalent-handle-ensemble.json` measured that NR4A3's three paralogue-unique
 cysteines (C397, C420, C559) are 11-19 A from that pocket -- too far for a warhead-borne electrophile, but
 that band is exactly where a PROTAC's LINKER passes. So: put the electrophile on the LINKER, aimed at a
-cysteine the paralogues do not have, and ask the warhead only to bind rather than to discriminate.
+cysteine the paralogues do not have, and ask the warhead only to bind rather than to discriminate. The
+argument is CATEGORICAL (a residue one protein has and the others do not) rather than thermodynamic, which
+is why it does not need an instrument that resolves ~1 kcal/mol.
+
+  SUPERSEDED, RETAINED: this paragraph opened "asks the WARHEAD to discriminate an ~80 %-identical
+  paralogue pocket". THAT FIGURE IS SMARCA2/SMARCA4, TRANSPLANTED ONTO NR4A, and nothing in this repo puts
+  the NR4A paralogue pocket at ~80 % identity -- the Pocket-5 lining is 7 of 10 residues divergent and the
+  LBD is the LEAST conserved ordered domain of the protein (domain-resolved identities:
+  `target-route-census.json` -> `paralogue_identity_by_domain`). The borrowed number also INVERTED the
+  argument: Route B never needed Route A to be hopeless, because the pocket lining is the most divergent
+  object here, not the least. Registered in `research/manuscripts/pinned-figures.json` as
+  `nr4a_paralogue_pocket_80pct_identity`; roadmap section 8, Route B.
 
 ★ THE FIRST FINDING IS THAT THE ARCHITECTURE ALREADY EXISTS AND THE RECORDED BLOCKER IS A DIFFERENT
   QUESTION. It was put to this module that "a linker-borne electrophile plus an E3 arm is a two-branch
