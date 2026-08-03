@@ -351,6 +351,23 @@ kills the covalent axis for inhibitors as well as degraders and is worth as much
 *after* the branch-1b reconciliation, which is already roadmap row 5 and also $0 — otherwise the
 comparison has no baseline.)
 
+⛔ **✅ RUN 2026-08-03 — AND IT IS THE NEGATIVE.** The branch-1b reconciliation landed first, so the
+baseline existed; the enumeration was then built as a **paired** test (both configurations in one pass,
+identical frames, anchors and candidate sets, differing only in the length rule) and its bivalent half
+replicates the committed artifact cell for cell. **Removing the E3 arm does not widen the categorical
+window — on the conservative convention it closes every cell that had one, and no cell gains one.** The
+intuition quoted above is true about *reach* and irrelevant to *selectivity*: dropping the E3 term
+shortens every competitor's chain as well as the target's, and it removes a constraint that was
+**ordering** them, so C397 stops being the first residue in reach in almost every cell. Module, artifact,
+mechanism and the limits it inherits:
+[`nr4a3_monovalent_reach.py`](../modalities/nr4a3_monovalent_reach.py) →
+[`nr4a3-monovalent-reach.json`](../modalities/nr4a3-monovalent-reach.json), written up in
+[`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md) §3.
+⚠ **Scoped precisely: this does not close route 2.** It closes the *hope that the inhibitor
+configuration is geometrically easier than the degrader configuration*. It says nothing about a
+non-covalent inhibitor, and nothing about the **probe** use in the paragraph below, which needs only a
+binder.
+
 **Effect on the requirement: RESHAPES.** It moves the paralogue claim from a thermodynamic ΔΔG the
 instruments cannot resolve to a kinetic/categorical one at a residue the paralogues do not have. It does
 **not** remove it — a paralogue cysteine can still be hit, which is exactly what branch 1b found.
@@ -655,7 +672,7 @@ Every item is free, none needs an authorization, and each is stated as an action
 | **1** | ✅ **DONE this session — the exon audit** ([run 30772341046](../modalities/nr4a3-exon-audit.json)) | `R13`, routes 3 / 7 | found an **off-by-two**, fixed it at source, and defined `R13`'s object at the sequence level. **What remains:** regenerate `fusion-breakpoint-neoantigens.json`, and pin the patient-level junction against a primary breakpoint report |
 | **2** | **MGI single-KO phenotypes for *Nr4a1/2/3*** | route 1 | the only thing that would bound the NR4A2 half of the requirement without a lab; IMPC returned nothing and MGI is the repo's own named next source |
 | **3** | **HPA per-tissue nTPM for NR4A1/2/3** | route 1 | sizes the CNS-vs-periphery split, i.e. how much of the NR4A2 liability a biodistribution lever could remove. The field is `null` today |
-| **4** | **Re-run the linker-reach enumeration with the E3 arm removed** | route 2 | the 30-of-30 counter-result was computed under a constraint an inhibitor does not face. Run *after* roadmap row 5 (branch-1b reconciliation), or there is no baseline |
+| **4** | ✅ **DONE 2026-08-03 — the E3-arm-free reach enumeration**, run after the branch-1b reconciliation exactly as this row required ([`nr4a3_monovalent_reach.py`](../modalities/nr4a3_monovalent_reach.py)) | route 2 | the 30-of-30 counter-result was computed under a constraint an inhibitor does not face — **and removing that constraint makes the window WORSE, not better.** The negative is worth what a positive would have been: it closes the geometric case for the covalent-inhibitor configuration and names why ([route 2](#route-2--a-covalent-inhibitor-or-covalent-probe-at-c397-instead-of-a-degrader); [`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md)). **What remains:** the same paired test for the **TCIP** configuration, which is a *different* second terminus |
 | **5** | **Resolve the PPARG agonist-vs-antagonist direction from the literature, in CI** | route 5 | unblocks the highest-readiness route that removes the selectivity requirement; approved drugs, no new chemistry |
 | **6** | **Verify the TCIP citation through `verify-refs`, then give it a row on `IDEAS.md`** | route 6 | it has sat as an auto-captured lead since 2026-07-13 with an explicit *"may warrant a new row — for human review"* |
 | **7** | **Re-query DepMap for CRISPR data on ACH-001519 / H-EMC-SS** | route 9 | the only EMC-specific dependency datum that could exist without a lab |

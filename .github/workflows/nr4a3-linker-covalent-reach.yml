@@ -94,8 +94,45 @@ jobs:
         run: |
           python3 research/manuscripts/lint_claims.py \
             research/modalities/nr4a3-linker-covalent-reach.md \
+            research/manuscripts/nr4a3-monovalent-pocket-route.md \
             research/manuscripts/nr4a3-program-map.md
           python3 research/manuscripts/lint_consistency.py
+
+      # ★ THE MONOVALENT COMPANION — a SEPARATE step, not a separate workflow, because CLAUDE.md §6 says a
+      #   new workflow file on a feature branch 404s on dispatch while an already-on-main file dispatched
+      #   with ref=<branch> runs that branch's version. It needs NO network (in-tree opened models + the
+      #   paralogue metadynamics frames), so unlike the leg above it can also be reproduced in the dev
+      #   sandbox — CI is here for the tests and for a run nobody had to remember to do.
+      - name: Monovalent (E3-arm-free) paired reach — offline tests
+        run: |
+          cd research/modalities
+          python -m pytest tests/test_nr4a3_monovalent_reach.py -q
+
+      - name: Monovalent (E3-arm-free) paired reach — run
+        run: |
+          cd research/modalities
+          python3 nr4a3_monovalent_reach.py --out nr4a3-monovalent-reach.json
+
+      - name: Refuse a monovalent result whose bivalent half does not replicate the committed artifact
+        # The monovalent number is a DELTA against the bivalent one. A bivalent half that does not
+        # reproduce `nr4a3-linker-covalent-reach.json` cell for cell invalidates the delta too, so this
+        # fails the job rather than committing a comparison nobody can grade. Same reasoning as the
+        # partial-ensemble gate above.
+        run: |
+          cd research/modalities
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("nr4a3-monovalent-reach.json"))
+          for k, v in d["cross_checks"].items():
+              st = v.get("status")
+              print(f"cross-check {k}: {st}")
+              if st not in ("AGREES", "HOLDS"):
+                  print(f"::error::monovalent cross-check {k} = {st}: {json.dumps(v)[:800]}")
+                  sys.exit(1)
+          for r in d["refusals"]:
+              print(f"::warning::REFUSED {r.get('model', r.get('input'))}: {r['reason']}")
+          print(json.dumps(d["verdict"]["headline"]))
+          PY
 
       - name: Commit results
         if: ${{ inputs.commit }}
@@ -108,7 +145,9 @@ jobs:
         run: |
           BR="${{ inputs.git_ref != '' && inputs.git_ref || github.ref_name }}"
           PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "$BR" \
-            "linker-borne covalent reach: full 20-conformer 8XTT ensemble + paralogue control" \
+            "linker-borne covalent reach: full 20-conformer 8XTT ensemble + paralogue control; monovalent (E3-arm-free) paired comparison" \
             research/modalities/nr4a3-linker-covalent-reach.json \
-            research/modalities/nr4a3-linker-covalent-reach.md
+            research/modalities/nr4a3-linker-covalent-reach.md \
+            research/modalities/nr4a3-monovalent-reach.json \
+            research/modalities/nr4a3-monovalent-reach.md
           exit 1

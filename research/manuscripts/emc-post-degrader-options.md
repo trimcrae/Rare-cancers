@@ -621,6 +621,33 @@ else's cost.
   intact and the fix (a working exposure instrument, or computed reactivity) is in-silico and
   therefore ours to do. It simply cannot be ranked above routes that already hold their product.
 
+#### ⭑ The THIRD framing of C397 now has its own memo — and it hardens two of the rows above
+
+This row frames C397 as a **reagent**; [`target-route-options.md` route 2](./target-route-options.md)
+frames it as the **targeting arm of a bivalent**. Neither states the third option — *a standalone
+monovalent molecule that only occupies the LBD and thereby alters what the fusion does*. It is written
+up and graded in [`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md) (2026-08-03,
+$0) rather than here, because it turns on a different question: not *does anything bind*, but **does
+binary occupancy change what the fusion does.** Its verdict is **registered, not promoted**, and three
+of its findings bear on this row:
+
+1. ★ **The AF-1 argument that closes 6-MP in Tier 4 does NOT also close LBD-directed modulation.** The
+   one published demonstration of LBD-borne functional modulation of NOR-1 was read out on a
+   **Gal4-NOR-1-LBD** reporter — a construct that is *itself* AF-1-less — so the domain the fusion
+   deletes is not the domain that result rests on. Free, and it was sitting unconnected in the repo.
+2. ⛔ **The E3-arm-free reach enumeration that item 4 of §4 asks for HAS NOW BEEN RUN** (in the
+   monovalent configuration; the TCIP configuration is still a different second terminus and is not
+   answered by it). **It goes against the covalent axis:** removing the second terminus does not widen
+   the categorical window at C397 — on the conservative convention it closes every cell that had one.
+   A strictly smaller search problem returning a strictly worse selectivity margin, with the mechanism
+   measured ([`nr4a3-monovalent-reach.json`](../modalities/nr4a3-monovalent-reach.json)).
+3. ⛔ **`R4` is not purchasable as a service either, and the reason is not the price.** `R4` is two
+   questions: *does anything bind NR4A3's LBD* is already answered yes in the literature, and *does
+   anything bind the **opened cryptic** site* needs the site to be populated in the sample — which is
+   `R2`. So a bought binding screen cannot tell "no ligand" from "no pocket", and its negative is
+   unreadable at any price. That **strengthens the demotion above** rather than merely accompanying
+   it: the ask cannot be routed around a missing collaborator by buying it.
+
 ---
 
 ### Route 6 — ⭐ Trabectedin + a PPARγ agonist: an all-approved-drug combination on EMC's own documented axis
