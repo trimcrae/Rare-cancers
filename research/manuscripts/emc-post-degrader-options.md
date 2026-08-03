@@ -136,7 +136,7 @@ new entries.**
 | route | why closed |
 |---|---|
 | **RXR-heterodimer modulation of the fusion** — ⭑ **NEW, closed today, on a verbatim primary source** | **NR4A3 does not heterodimerise with RXR**, unlike NR4A1 and NR4A2. Quoted rather than paraphrased, because the whole closure turns on it: *"Nor1 is unable to promote RXR signaling due to its inability to form heterodimers with RXR"* ([Zetterström et al., *Mol Endocrinol* 1996;10:1656–66, PMID 8961274](https://pubmed.ncbi.nlm.nih.gov/8961274/) — the paper's title is literally that RXR heterodimerisation *distinguishes* the three). The one pharmacology this receptor family has actually solved is the one place our paralogue is absent |
-| **6-mercaptopurine / AF-1 agonism of the fusion** — ⭑ **NEW, closed today** | 6-MP is the one **approved** drug that activates NR4A3, which would have been the cheapest imaginable entry — but it acts *through the AF-1 in the A/B domain, independently of the LBD* ([Wansa et al., *J Biol Chem* 2003;278:24776–90, PMID 12709428](https://pubmed.ncbi.nlm.nih.gov/12709428/)), and **the AF-1 is exactly the domain EWSR1's low-complexity region replaces** in the fusion ([`target-route-options.md` check B](./target-route-options.md) measured that swap: NR4A3 AF1 1–260 vs EWSR1-LC 1–264). A ligand whose entire mechanism lives in the deleted half cannot act on the chimera at any dose |
+| **6-mercaptopurine / AF-1 agonism of the fusion** — ⭑ **NEW, closed today** | 6-MP is the one **approved** drug that activates NR4A3, which would have been the cheapest imaginable entry — but it acts *through the AF-1, not the LBD* — and the source delimits that domain exactly: *"The N-terminal AF-1 domain delimited to between amino acids 1 and 112, preferentially recruits the steroid receptor coactivator (SRC)… SRC-2 modulates the activity of the AF-1 domain but not the C-terminal ligand binding domain (LBD)"* ([Wansa et al., *J Biol Chem* 2003;278(27):24776–90, PMID 12709428](https://pubmed.ncbi.nlm.nih.gov/12709428/)). ⭑ **NOR-1 residues 1–112 sit entirely inside the 1–260 stretch the fusion replaces** with EWSR1's low-complexity region ([`target-route-options.md` check B](./target-route-options.md) measured that swap: NR4A3 AF1 1–260 ↔ EWSR1-LC 1–264). A ligand whose whole mechanism lives in a domain the disease deletes cannot act on the chimera at any dose |
 | molecular glue instead of a PROTAC | ⏸ already parked by the roadmap — *removes* handles and keeps the same ~1 kcal/mol claim |
 | relocating the target to the DBD / DNA binding | ✕ already dead by arithmetic — 93–99 % paralogue identity against 59–67 % |
 | fusion-junction vaccine / HLA coverage | ⏸ already parked — weak immunogen in a cold tumour |
@@ -480,9 +480,12 @@ not an oversight.***
 
 Everything below is $0 or free CI. Ordered by what unblocks the most, not by appeal.
 
-1. **Land the ATRi-sensitivity re-cut** (running; run **30848796748**). If FET-non-Ewing lines track
-   Ewing, route 1 has a computed result and not only an inherited argument. If the drug matrix is not
-   in the release, the scan now writes the release file inventory so the next attempt starts from fact.
+1. **Land the ATRi-sensitivity re-cut** — the one pending number in this memo. Three sources have
+   now been tried and recorded: the quarterly figshare releases (no drug matrix), figshare search
+   (returns unrelated articles), and **GDSC**, which is the live attempt. If FET-non-Ewing lines
+   track Ewing there, route 1 has a computed result and not only an inherited argument; if GDSC's
+   ATR-inhibitor coverage is too thin, the remaining source is the DepMap portal's own download API
+   and the scan records what each attempt saw so the next one starts from fact.
 2. **Write the route-1 preregistration** — the prediction, the cell panel, the readout, and the kill
    criteria — *before* any collaborator is approached. This is the artifact that makes the ask
    credible, and it is the thing this program is good at.
@@ -491,8 +494,10 @@ Everything below is $0 or free CI. Ordered by what unblocks the most, not by app
 4. **Re-run the linker enumeration in the TCIP configuration** (no E3 arm) — free CPU, and a negative
    is worth as much as a positive.
 5. **Draft the methods paper's outline** (route 3) against the four failures and their controls.
-6. **Add routes 1, 4 and 6, and the two Tier-4 closures, to [`../IDEAS.md`](../IDEAS.md)'s board and
-   to the closed-route register** so they stop being re-derived.
+6. ✅ **DONE this session** — routes 1 and 6 and the two Tier-4 closures are on
+   [`../IDEAS.md`](../IDEAS.md)'s board, and the closures are rows in the roadmap's
+   [§6a register](./nr4a3-program-map.md#6a--dead--conclusively-unworkable-never-retry), pointing here
+   rather than restating the reasoning.
 
 ---
 
@@ -506,10 +511,19 @@ Everything below is $0 or free CI. Ordered by what unblocks the most, not by app
   experiment, not a gap in the write-up.
 - **The DepMap knockout scan failed as an instrument and is reported as a failure**, not as a null
   about biology. Its saturation is decided from the data and recorded in the artifact.
-- **Three of the 25 literature targets returned HTTP 403** (`emc_tamoxifen_pgr_nr4a3_jcopo`,
-  `emc_taf15_modern_pathology`, `emc_ngs_oncotarget`), so the two fusion-frequency series are cited
-  from their abstracts and the search record rather than from fetched full text. The TAF15 series'
-  percentages should be re-verified against full text before they enter a manuscript.
+- **Five of the 38 literature targets returned HTTP 403** at their publisher (`emc_tamoxifen_pgr_nr4a3_jcopo`,
+  `emc_taf15_modern_pathology`, `emc_ngs_oncotarget`, `pioglitazone_trabectedin_mls_ccr2019`,
+  `aoc_extrahepatic_delivery_abt2026`), so route 6's myxoid-liposarcoma precedent and route 2's AOC
+  claim are cited from their abstracts and the search record rather than from fetched full text, and
+  should be re-verified against full text before either enters a manuscript. The 2023 fusion-frequency
+  series was re-fetched successfully on PubMed and **its percentages are verbatim-verified**: of 58
+  EMCs, *"46 (79 %), 9 (16 %), and 2 (3 %) cases harbored EWSR1::NR4A3, TAF15::NR4A3, and TCF12::NR4A3
+  fusions, respectively"*, plus 1 (2 %) with no identifiable partner.
+- ⚠ **One citation in an earlier draft of this memo was wrong and was caught by fetching it.** The
+  6-MP/AF-1 closure initially pointed at PMID 12709434, which is a paper about an apolipoprotein E
+  peptide; the correct id is 12709428. It is recorded here rather than silently fixed because it is
+  the case for routing every closure through fetch-and-quote instead of a search summary — and because
+  the RXR closure, written the same way, came back verbatim and stands.
 - **This memo does not re-rank the portfolio.** [`emc-treatment-strategy.md`](./emc-treatment-strategy.md)
   owns that, on its own two axes and for a different question (what could help a patient), and where
   the two differ it wins.
