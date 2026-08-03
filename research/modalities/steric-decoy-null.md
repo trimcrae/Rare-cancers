@@ -1,6 +1,6 @@
 # `C25` — the cross-system decoy null for the steric-exclusion axis (`S3`)
 
-**contrast (a) UNGRADEABLE_too_few_graded_rows · contrast (b) UNGRADEABLE_too_few_graded_rows — primary background `partner_swap`, n = 3 / 3**
+**contrast (a) NOT DISTINGUISHED · contrast (b) NOT DISTINGUISHED — primary background `partner_swap`, n = 5 / 8**
 
 INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, affinity, reactivity, degradation, efficacy, safety or clinical readiness.
 
@@ -8,10 +8,10 @@ INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, affini
 
 ## The plain reading
 
-- CONTRAST (a) — bulkier-in-both vs the conserved/shared null. NR4A3 (matched index row) signal_minus_null = 0.625. Background over 3 graded arms: median 0.583, q75 0.666, max 0.75. NR4A3 sits above 0.6667 of the background (resolution 0.3333). VERDICT: UNGRADEABLE_too_few_graded_rows.
-- CONTRAST (b) — the unique-but-NOT-bulkier class, which fires at 0.000 on NR4A3. Background over 3 graded arms: frac_exactly_zero = 1.0 (Wilson 95% [0.4385, 1.0]), median 0.0. VERDICT: UNGRADEABLE_too_few_graded_rows.
-- ⛔ THE INDEX ARM'S VALUE IS EXACTLY THE BACKGROUND'S MODAL VALUE (0.0, 3 of 3 rows). Its percentile IS that modal frequency — ONE measurement, not two. Do not quote them as independent evidence.
-- SECONDARY (`full_trio`, target and both partners swapped): filtered clash contrast 0 graded arms, verdict UNGRADEABLE_empty_background — and the pre-registration PREDICTED this from the smoke, because transporting a pose set docked into NR4A3 into another target's frame drops the poses (attrition: [0, 0]). The unfiltered sensitivity, biased DOWNWARD on decoys, graded 0 arms at verdict UNGRADEABLE_empty_background. ⭑ The half that is immune to all of this is the POSE-FREE volume axis: 0 graded arms, index 1.0, verdict UNGRADEABLE_empty_background.
+- CONTRAST (a) — bulkier-in-both vs the conserved/shared null. NR4A3 (matched index row) signal_minus_null = 0.625. Background over 5 graded arms: median 0.611, q75 0.75, max 1.0. NR4A3 sits above 0.6 of the background (resolution 0.2). VERDICT: NOT DISTINGUISHED.
+- CONTRAST (b) — the unique-but-NOT-bulkier class, which fires at 0.000 on NR4A3. Background over 8 graded arms: frac_exactly_zero = 0.625 (Wilson 95% [0.3057, 0.8632]), median 0.0. VERDICT: NOT DISTINGUISHED.
+- ⛔ THE INDEX ARM'S VALUE IS EXACTLY THE BACKGROUND'S MODAL VALUE (0.0, 5 of 8 rows). Its percentile IS that modal frequency — ONE measurement, not two. Do not quote them as independent evidence.
+- SECONDARY (`full_trio`, target and both partners swapped): filtered clash contrast 0 graded arms, verdict UNGRADEABLE_empty_background — and the pre-registration PREDICTED this from the smoke, because transporting a pose set docked into NR4A3 into another target's frame drops the poses (attrition: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 11]). The unfiltered sensitivity, biased DOWNWARD on decoys, graded 0 arms at verdict UNGRADEABLE_empty_background. ⭑ The half that is immune to all of this is the POSE-FREE volume axis: 7 graded arms, index 1.0, verdict NOT DISTINGUISHED.
 - ⛔ AND THE CEILING IS UNCHANGED BY ANY OF THIS: the paralogue RELOCATES these molecules by a median ~5.3 A rather than refusing them (`M4`), so `S3` constrains a POSE and never 'the paralogue cannot bind this molecule'. The transfer is rigid, and the target's absence of clash is guaranteed by construction and carries no information in any arm.
 
 ## The known-answer check
@@ -27,14 +27,15 @@ INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, affini
 
 target = the committed NR4A3 opened model (`results/nr4a3-matrix/nr4a3-opened.pdb`), poses = the 13 committed docked molecules, positions = Pocket-5 (`C5`). The two proteins playing the paralogue ROLES are an arbitrary close pair from the universe, superposed onto NR4A3 by the same `superpose_paralogue` call `M3` makes.
 
-**contrast (a) · signal − null** — index `0.625`, n = 3, resolution 0.3333, percentile (favourable direction) **0.6667**, verdict **UNGRADEABLE_too_few_graded_rows**. Background: min 0.583 / median 0.583 / max 0.75, `frac_exactly_zero` 0.0.
+**contrast (a) · signal − null** — index `0.625`, n = 5, resolution 0.2, percentile (favourable direction) **0.6**, verdict **NOT DISTINGUISHED**. Background: min 0.583 / median 0.611 / max 1.0, `frac_exactly_zero` 0.0.
 
 **contrast (a) · enrichment ratio** — index `2.667`, n = 2, resolution 0.5, percentile (favourable direction) **0.0**, verdict **UNGRADEABLE_too_few_graded_rows**. Background: min 4.491 / median 4.491 / max 4.491, `frac_exactly_zero` 0.0.
 
-**contrast (b) · unique-not-bulkier rate** — index `0.0`, n = 3, resolution 0.3333, percentile (favourable direction) **0.0**, verdict **UNGRADEABLE_too_few_graded_rows**. Background: min 0.0 / median 0.0 / max 0.0, `frac_exactly_zero` 1.0.
-  - ⛔ THE INDEX ARM'S VALUE IS EXACTLY THE BACKGROUND'S MODAL VALUE (0.0, 3 of 3 rows). Its percentile IS that modal frequency — ONE measurement, not two. Do not quote them as independent evidence.
+**contrast (b) · unique-not-bulkier rate** — index `0.0`, n = 8, resolution 0.125, percentile (favourable direction) **0.375**, verdict **NOT DISTINGUISHED**. Background: min 0.0 / median 0.0 / max 0.875, `frac_exactly_zero` 0.625.
+  - ⛔ THE INDEX ARM'S VALUE IS EXACTLY THE BACKGROUND'S MODAL VALUE (0.0, 5 of 8 rows). Its percentile IS that modal frequency — ONE measurement, not two. Do not quote them as independent evidence.
 
-**volume axis · fraction of signal positions clearing the arm's own bar** — index `1.0`, n = 3, resolution 0.3333, percentile (favourable direction) **0.6667**, verdict **UNGRADEABLE_too_few_graded_rows**. Background: min 0.0 / median 0.5 / max 1.0, `frac_exactly_zero` 0.333.
+**volume axis · fraction of signal positions clearing the arm's own bar** — index `1.0`, n = 12, resolution 0.0833, percentile (favourable direction) **0.4167**, verdict **NOT DISTINGUISHED**. Background: min 0.0 / median 1.0 / max 1.0, `frac_exactly_zero` 0.25.
+  - ⛔ THE INDEX ARM'S VALUE IS EXACTLY THE BACKGROUND'S MODAL VALUE (1.0, 7 of 12 rows). Its percentile IS that modal frequency — ONE measurement, not two. Do not quote them as independent evidence.
 
 ## Background `full_trio` (SECONDARY)
 
@@ -46,7 +47,8 @@ a trio {T, A, B} from the universe. T is superposed into the NR4A3 pose frame by
 
 **contrast (b) · unique-not-bulkier rate** — index `0.0`, n = 0, resolution None, percentile (favourable direction) **None**, verdict **UNGRADEABLE_empty_background**. Background: min None / median None / max None, `frac_exactly_zero` None.
 
-**volume axis · fraction of signal positions clearing the arm's own bar** — index `1.0`, n = 0, resolution None, percentile (favourable direction) **None**, verdict **UNGRADEABLE_empty_background**. Background: min None / median None / max None, `frac_exactly_zero` None.
+**volume axis · fraction of signal positions clearing the arm's own bar** — index `1.0`, n = 7, resolution 0.1429, percentile (favourable direction) **0.0**, verdict **NOT DISTINGUISHED**. Background: min 1.0 / median 1.0 / max 1.0, `frac_exactly_zero` 0.0.
+  - ⛔ THE INDEX ARM'S VALUE IS EXACTLY THE BACKGROUND'S MODAL VALUE (1.0, 7 of 7 rows). Its percentile IS that modal frequency — ONE measurement, not two. Do not quote them as independent evidence.
 
 ## ⛔ Limits
 
@@ -61,4 +63,4 @@ a trio {T, A, B} from the universe. T is superposed into the NR4A3 pose frame by
 - ⛔ `C5`'s Pocket-5 lining set is mapped onto every decoy target by sequence alignment, so a decoy position is 'NR4A3's site, mapped', never 'this protein's own pocket'. That is the same convention the committed paralogue contrast uses and it has the same reading.
 - ⚠ 13 poses is a small pose set and it is the committed selectivity-matrix library, not the carried candidate. The per-arm filter can only shrink it.
 
-*Generated 2026-08-03 02:33 PM ET by `steric_decoy_null.py`.*
+*Generated 2026-08-03 02:40 PM ET by `steric_decoy_null.py`.*
