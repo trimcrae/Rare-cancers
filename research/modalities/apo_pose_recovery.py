@@ -155,6 +155,19 @@ pocket and calling it a control.
 verdict, amends no preregistration.
 
 Output: apo-pose-recovery.json.  MODE=source|select|run (default run). No GPU, no rental.
+
+★★ TWO IN-REGIME SUPPLEMENTS, EACH IN ITS OWN FILE, NEITHER EVER SUMMED INTO THE PANEL ABOVE. The
+pre-registered panel's rank order picked receptors the pipeline does not target, so its site arm carries
+an OUT-OF-REGIME disqualifier on most pairs. These two ask the same questions where they actually bite:
+
+  MODE=site        -> apo-pose-site-in-regime.json  · geometric containment, NO dock, covalent pairs
+                      readable (R2b is a rule about docking). "Does a site route box the ligand at all?"
+  MODE=regime_dock -> apo-pose-regime-dock.json     · the FULL arm set, R2b enforced. "On the NR4A fold,
+                      blind from apo, does the protocol recover a KNOWN pose — and through which box?"
+
+`MODE=regime_dock` is the family positive control the program repeatedly recorded as non-existent. See
+`OUT_REGIME` for why that record was wrong: no NR4A3 holo structure exists, but NR4A1 and NR4A2 carry
+deposited ones at ~60 % / ~66 % aligned identity, and they had never been docked into.
 """
 from __future__ import annotations
 
@@ -176,6 +189,28 @@ OUT_MD = os.path.join(HERE, "apo-pose-recovery.md")
 #: MODE=site's own artifact. A separate question (geometric, docking-free, in-regime only) gets a
 #: separate file so it can never be mistaken for — or written over — the pre-registered panel's result.
 OUT_SITE = os.path.join(HERE, "apo-pose-site-in-regime.json")
+#: ★★ MODE=regime_dock's own artifact (added 2026-08-03). THE FAMILY POSITIVE CONTROL.
+#:
+#: WHY IT EXISTS. This module already had both halves of the question and never put them together:
+#: `MODE=run` DOCKS, but its pre-registered rank order picked 6 pairs across 3 receptors of which most
+#: are OUT of the pipeline's regime (PPARG, RXRA), and `pair_questions` says so in every one of their
+#: `disqualifiers`. `MODE=site` is IN regime — 14 NR4A1/NR4A2 pairs — but it is geometric containment
+#: only and runs no dock at all. So the program has been saying, in the roadmap and the manuscript, that
+#: **no positive control exists for pose prediction on this target**, while holding 14 crystallographic
+#: ligand positions on the two closest paralogues (60.0 % / 65.6 % aligned identity to NR4A3) that had
+#: never been docked into.
+#:
+#: THE QUESTION IT ANSWERS, which neither existing mode can: on the NR4A fold itself, blind from apo,
+#: does this docking protocol recover a pose that is already known — and does the answer depend on which
+#: site-selection route drew the box? Every arm is reported against ITS OWN control, so "the site was
+#: wrong" and "the search was wrong" can never borrow each other's evidence.
+#:
+#: ⛔ IT IS NOT THE PRE-REGISTERED PANEL AND CANNOT BECOME IT. Different candidate list, different file,
+#: no `verdict()` call — `apo-pose-recovery.json`'s INCONCLUSIVE stands untouched, and nothing here is
+#: ever summed into its counts. R2b still excludes covalent ligands, because this mode DOES dock and a
+#: non-covalent dock still cannot reproduce a covalent pose; that is what keeps it honest rather than
+#: what makes it convenient (it costs the three NR4A2 pairs, the closest paralogue).
+OUT_REGIME = os.path.join(HERE, "apo-pose-regime-dock.json")
 WORK = os.environ.get("APO_RECOVERY_WORK", os.path.join(HERE, "_apo_recovery_work"))
 
 # ---------------------------------------------------------------------------------- fixed thresholds
@@ -378,6 +413,20 @@ APPENDIX = {
         "contains no dock. It had removed BOTH NR4A2 pairs (5Y41/RPG, 5YD6/8SU, each LINK SG CYS 566 -> "
         "ligand C11) — NR4A3's closest paralogue — from a question they can answer. The pre-registered "
         "DOCKING panel still excludes them; every covalent pair read by the supplement is flagged.",
+        "★★ MODE=regime_dock — THE FAMILY POSITIVE CONTROL. The same in-regime candidate list as "
+        "MODE=site, but DOCKED: every pair runs the full arm set (pipeline box, fpocket box, oracle box) "
+        "each against the self-dock control that goes through the SAME site route, and the panel answer "
+        "is a COUNT of pre-registered bands over the pairs whose own control passed. It writes "
+        "`apo-pose-regime-dock.json`, calls no panel-level `verdict()`, and cannot change the "
+        "pre-registered panel's INCONCLUSIVE. R2b IS enforced here — this mode docks — which costs the "
+        "three NR4A2 pairs and is the honest price of the question. Reason it exists: the roadmap, the "
+        "manuscript and every status report state that no positive control exists for pose prediction on "
+        "this target. That is true of NR4A3 (no holo structure) and FALSE for the family — NR4A1 and "
+        "NR4A2 carry deposited holo structures at ~60 % / ~66 % aligned identity, i.e. real "
+        "crystallographic answers on the same fold, which had never been docked into.",
+        "APO_REGIME_PANEL_BUDGET_S = 12000 s — regime_dock's own wall-clock guard. Reusing the "
+        "pre-registered panel's 4500 s (sized for ~6 pairs) would have recorded the tail of an ~11-pair "
+        "panel as UNRUN and reported a family control over whichever pairs happened to fit.",
         "C5b — the APO deposit's engineered substitutions are now graded too, and the two SEQADV sets are "
         "compared: `apo_and_holo_are_the_same_construct`. C5 read the holo side only, which silently "
         "assumed a pair is two states of ONE construct; on the headline pair (4RZF S441W / 4REF L449W) it "
@@ -428,6 +477,13 @@ APPENDIX = {
 #: The superseded values are registered in `_appendix` exactly like any other corrected number.
 PAIR_BUDGET_S = int(os.environ.get("APO_PAIR_BUDGET_S", "900"))
 PANEL_BUDGET_S = int(os.environ.get("APO_PANEL_BUDGET_S", "4500"))
+#: ★ MODE=regime_dock's own wall-clock guard, and it is DELIBERATELY NOT `PANEL_BUDGET_S`. That budget is
+#: sized for the pre-registered panel's ~6 pairs; the regime panel has ~11 gradeable pairs after R2b, so
+#: reusing it would silently record the tail as UNRUN and then report a family control over whichever
+#: pairs happened to fit — the exact "silent cap" failure CLAUDE.md forbids. Same nature as the others:
+#: a hang-guard that can only decide whether a pair RUNS, never what it returns. `PAIR_BUDGET_S` stays
+#: the per-pair guard, so 11 x 900 s is the worst case this must accommodate.
+REGIME_PANEL_BUDGET_S = int(os.environ.get("APO_REGIME_PANEL_BUDGET_S", "12000"))
 
 
 # ==================================================================================================
@@ -2246,6 +2302,54 @@ def main():
                                      "and cannot change the pre-registered panel's INCONCLUSIVE.")}
         _emit(doc)
         return
+    # ★★ MODE=regime_dock — THE FAMILY POSITIVE CONTROL (added 2026-08-03; rationale at `OUT_REGIME`).
+    # Same in-regime candidate list as MODE=site, but `site_only=False`, so every pair runs the full arm
+    # set: the pipeline's own box, the fpocket box, and the oracle box, each beside the self-dock control
+    # that goes through the SAME site-selection route. That pairing is the whole design — 14 pairs graded
+    # through one box would repeat the original panel's mistake of reporting a number that moves if either
+    # the site or the search is wrong.
+    if mode == "regime_dock":
+        rows, cands = [], in_regime_pairs(sel)
+        doc["_in_regime_candidates"] = cands
+        panel_start = time.time()
+        for pair in cands:
+            if time.time() - panel_start > REGIME_PANEL_BUDGET_S:
+                rows.append({"candidate": pair, "refusals": [
+                    {"stage": "panel_budget",
+                     "evidence": "the regime panel's %ds wall-clock budget was already spent when this "
+                                 "pair came up; it is UNRUN, not excluded" % REGIME_PANEL_BUDGET_S}]})
+                continue
+            t0 = time.time()
+            r = run_benchmark(pair, os.path.join(WORK, "rd_%s_%s" % (pair["apo"], pair["holo"])), af2,
+                              ceiling_replicates=CEILING_REPLICATES)
+            # ⛔ `verdict()` IS CALLED PER PAIR AND NEVER PANEL-WIDE HERE. Its outcome string is what makes
+            # each row readable on its own; the panel-level answer is a COUNT over rows whose control
+            # passed, computed in `panel_regime_dock`, never an average of RMSDs across pairs.
+            if not r.get("excluded_by") and (r.get("arms") or {}):
+                r["verdict"] = verdict(r)
+                r["questions"] = pair_questions(r, pair)
+            r["elapsed_s"] = round(time.time() - t0, 1)
+            a = r.get("arms") or {}
+            print("[apo-pose-recovery/regime_dock] %s -> %s (%s): pipeline=%s fpocket=%s oracle=%s "
+                  "ceiling=%s in %.0fs"
+                  % (pair["apo"], pair["holo"], (pair.get("ligand") or {}).get("comp_id"),
+                     (a.get("PRIMARY_blind_apo_pipeline_box") or {}).get("rmsd_A"),
+                     (a.get("blind_apo_fpocket_top_box") or {}).get("rmsd_A"),
+                     (a.get("C3_oracle_box_apo") or {}).get("rmsd_A"),
+                     (a.get("C1c_self_dock_holo_oracle_box") or {}).get("rmsd_A"),
+                     r["elapsed_s"]), flush=True)
+            rows.append(r)
+        doc["regime_dock_panel"] = panel_regime_dock(rows, cands)
+        doc["regime_dock_rows"] = rows
+        doc["induced_fit_panel"] = panel_induced_fit([r for r in rows if r.get("verdict")])
+        doc["_appendix"] = APPENDIX
+        doc["verdict"] = {
+            "outcome": "FAMILY POSITIVE CONTROL — NOT THE PRE-REGISTERED PANEL",
+            "reason": ("MODE=regime_dock docks the in-regime NR4A pairs. It is a separate candidate list "
+                       "in a separate file and cannot change apo-pose-recovery.json's INCONCLUSIVE."),
+            "headline": doc["regime_dock_panel"].get("headline")}
+        _emit(doc)
+        return
     # ⛔ A PANEL, NOT A PICK. Candidates are taken in the pre-registered rank order and every one that is
     # attempted is reported, including the ones R2b throws out. The PRIMARY verdict is the first pair that
     # actually runs; the rest are supporting cases. Nothing here can be re-ordered by its answer, because
@@ -2394,6 +2498,112 @@ def panel_site_supplement(rows, attempted):
         "unreadable": [{"apo": r["candidate"].get("apo"), "holo": r["candidate"].get("holo"),
                         "why": [f.get("stage") for f in (r.get("refusals") or [])]}
                        for r in rows if r not in graded],
+    }
+
+
+#: The three blind arms of `run_benchmark`, each with the self-dock control that goes through the SAME
+#: site-selection route. Read as (arm, its own control, what a pass would mean).
+REGIME_ARMS = (
+    ("pipeline_site_transfer", "PRIMARY_blind_apo_pipeline_box", "C1_self_dock_holo",
+     "NR4A3's Pocket-5 carried onto this receptor by the pipeline's own transfer — the box every "
+     "downstream NR4A3 number was computed in"),
+    ("fpocket_top_pocket", "blind_apo_fpocket_top_box", "C1_self_dock_holo_fpocket",
+     "the receptor's own highest-druggability fpocket cavity, using NO NR4A3 information at all"),
+    ("oracle_box", "C3_oracle_box_apo", "C1c_self_dock_holo_oracle_box",
+     "a box centred on the crystallographic ligand — the site handed over for free, so a miss here is "
+     "the search and scoring and nothing else"),
+)
+
+
+def panel_regime_dock(rows, cands):
+    """The family positive control, counted per arm over the pairs that arm could actually grade.
+
+    ⛔ THREE COUNTING RULES, EACH ONE A MISTAKE THIS MODULE HAS ALREADY MADE ONCE.
+
+    1. **Every arm is counted against ITS OWN control, and a pair whose control missed is counted OUT,
+       never averaged in.** This is the pre-registered C1 rule applied per arm instead of once for the
+       whole pair — which is exactly what the original panel could not do, and why a 19 A miss there was
+       equally consistent with a broken search and a box in the wrong half of the protein.
+    2. **No RMSD is averaged across pairs.** The panel-level statistic is a COUNT of pairs in each
+       pre-registered band (`C14`). A mean RMSD over a set containing one 19 A miss is not a summary of
+       anything, and `C6` already measured that a single arm's RMSD moves 3.04-3.50 A between runs of
+       this same benchmark — so a count of BANDS is the only stable readout, which is `C6`'s own finding
+       applied rather than restated.
+    3. **Refusals and exclusions are reported, never dropped.** `n_attempted` is the candidate count and
+       every gap between it and `n_graded` carries its stage. A family control that quietly reported only
+       the pairs that worked would overstate precisely the thing it exists to measure.
+    """
+    import nr4a3_warhead as wh
+    graded = [r for r in rows if (r.get("arms") or {})]
+    out_arms, refusals = {}, {}
+    for r in rows:
+        for f in (r.get("refusals") or []):
+            refusals[f.get("stage")] = refusals.get(f.get("stage"), 0) + 1
+
+    for label, arm_key, ctrl_key, what in REGIME_ARMS:
+        per_pair = []
+        for r in graded:
+            a = (r.get("arms") or {})
+            blind, ctrl = a.get(arm_key) or {}, a.get(ctrl_key) or {}
+            c_rms = ctrl.get("rmsd_A")
+            per_pair.append({
+                "apo": r["candidate"].get("apo"), "holo": r["candidate"].get("holo"),
+                "protein": r["candidate"].get("protein"),
+                "ligand": (r["candidate"].get("ligand") or {}).get("comp_id"),
+                "blind_apo_rmsd_A": blind.get("rmsd_A"), "blind_apo_fnat": blind.get("fnat"),
+                "band": _band(blind.get("rmsd_A")),
+                "own_control_rmsd_A": c_rms,
+                "control_passed": c_rms is not None and c_rms <= RECOVER_RMSD_A,
+            })
+        ok = [p for p in per_pair if p["control_passed"] and p["blind_apo_rmsd_A"] is not None]
+        out_arms[label] = {
+            "_site": what,
+            "arm": arm_key, "control": ctrl_key,
+            "n_pairs": len(per_pair),
+            "n_gradeable_control_passed": len(ok),
+            "n_recovered": sum(1 for p in ok if p["band"] == "RECOVERED"),
+            "n_partial": sum(1 for p in ok if p["band"] == "PARTIAL"),
+            "n_not_recovered": sum(1 for p in ok if p["band"] == "NOT RECOVERED"),
+            "n_fnat_at_or_above_criterion": sum(1 for p in ok if (p["blind_apo_fnat"] or 0) >= FNAT_SUCCESS),
+            "pairs": per_pair,
+        }
+
+    fp, pl = out_arms["fpocket_top_pocket"], out_arms["pipeline_site_transfer"]
+    if fp["n_gradeable_control_passed"] == 0 and pl["n_gradeable_control_passed"] == 0:
+        headline = ("NO ARM IS GRADEABLE — every pair's self-dock control missed, so this panel measures "
+                    "the docking protocol and says nothing about apo->holo recovery on the NR4A fold. "
+                    "Same pre-registered outcome as the original panel, one level up.")
+    else:
+        headline = (
+            "On the NR4A fold, blind from apo: the fpocket box recovered %d of %d gradeable pairs "
+            "(%d partial, %d not recovered); the pipeline's own Pocket-5 transfer recovered %d of %d "
+            "(%d partial, %d not recovered)."
+            % (fp["n_recovered"], fp["n_gradeable_control_passed"], fp["n_partial"], fp["n_not_recovered"],
+               pl["n_recovered"], pl["n_gradeable_control_passed"], pl["n_partial"],
+               pl["n_not_recovered"]))
+    return {
+        "_asks": ("On the protein family the pipeline actually targets, using ligand positions that are "
+                  "already known from crystallography: can this docking protocol recover a pose blind "
+                  "from apo — and does the answer depend on which route drew the box?"),
+        "_why_this_is_the_positive_control_the_program_said_it_lacked": (
+            "the roadmap and the manuscript both state that no known answer exists for pose prediction "
+            "here. That is true of NR4A3 ITSELF — no ligand-bound NR4A3 structure exists — and it is "
+            "FALSE for the family: NR4A1 and NR4A2 carry deposited holo structures at %s aligned "
+            "identity to NR4A3, and this mode grades against them."
+            % sorted({p.get("nr4a3_aligned_identity") for p in
+                      [((r.get("boxes", {}).get("pipeline_apo") or {}).get("detail") or {})
+                       for r in graded]} - {None})),
+        "_regime": sorted(set(wh.PARALOGUES.values()) | {"Q92570"}),
+        "_never_summed_into": ("apo-pose-recovery.json — that panel's candidate list, rank order and "
+                               "INCONCLUSIVE verdict are untouched by this mode"),
+        "n_attempted": len(cands), "n_graded": len(graded),
+        "n_excluded_covalent_R2b": sum(1 for r in rows if r.get("excluded_by") == "R2b"),
+        "refusal_stages": refusals,
+        "criterion": {"recovered_A": RECOVER_RMSD_A, "partial_A": PARTIAL_RMSD_A,
+                      "fnat_success": FNAT_SUCCESS,
+                      "_source": "C14, unchanged — this mode adds pairs, never a threshold"},
+        "arms": out_arms,
+        "headline": headline,
     }
 
 
@@ -2600,12 +2810,15 @@ def _emit(doc):
     # document with no arms and no RMSDs; emitting it to `apo-pose-recovery.json` would silently replace
     # the pre-registered panel's result with something that cannot be mistaken for it only if you read
     # it. Different question, different file — and `MODE=report` still renders the panel's.
-    out = OUT_SITE if doc.get("_mode") == "site" else OUT
+    out = {"site": OUT_SITE, "regime_dock": OUT_REGIME}.get(doc.get("_mode"), OUT)
     with open(out, "w") as fh:
         json.dump(doc, fh, indent=2)
     print(json.dumps({k: doc[k] for k in ("_mode", "verdict") if k in doc}, indent=2))
     print("[apo-pose-recovery] wrote %s" % out)
-    if doc.get("_mode") == "site":
+    # ⛔ ONLY THE PRE-REGISTERED PANEL RENDERS THE MARKDOWN. `render_markdown` reads panel keys that the
+    # supplements do not produce, and writing it from either of them would leave apo-pose-recovery.md
+    # describing a run that is not the one its own JSON holds.
+    if doc.get("_mode") in ("site", "regime_dock"):
         return
     try:
         _write(OUT_MD, render_markdown(doc))

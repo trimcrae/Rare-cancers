@@ -926,12 +926,30 @@ def test_site_only_emits_no_arms_no_rmsd_and_no_verdict():
         assert after not in src[i:j], "%s runs before the site-only return" % after
 
 
-def test_the_supplement_writes_its_own_artifact_and_never_over_the_panels():
-    assert A.OUT_SITE != A.OUT
+def test_the_supplement_writes_its_own_artifact_and_never_over_the_panels(tmp_path, monkeypatch):
+    """⚠ THIS TEST NOW EXERCISES `_emit` INSTEAD OF GREPPING ITS SOURCE (changed 2026-08-03, when
+    `MODE=regime_dock` turned the two-way `== "site"` check into a routing table and this assertion went
+    stale while the guarantee it protects was intact). A source-string assertion on a routing expression
+    breaks on every refactor and passes on a wrong route that happens to contain the string; writing the
+    documents and reading back which path got what cannot do either."""
+    assert len({A.OUT, A.OUT_SITE, A.OUT_REGIME}) == 3
     assert A.OUT_SITE.endswith("apo-pose-site-in-regime.json")
-    import inspect
-    src = inspect.getsource(A._emit)
-    assert 'doc.get("_mode") == "site"' in src
+    assert A.OUT_REGIME.endswith("apo-pose-regime-dock.json")
+    paths = {}
+    for name in ("OUT", "OUT_SITE", "OUT_REGIME", "OUT_MD"):
+        paths[name] = str(tmp_path / os.path.basename(getattr(A, name)))
+        monkeypatch.setattr(A, name, paths[name])
+    for mode, expected in (("site", "OUT_SITE"), ("regime_dock", "OUT_REGIME"), ("run", "OUT")):
+        for p in paths.values():
+            if os.path.exists(p):
+                os.remove(p)
+        A._emit({"_mode": mode, "verdict": {"outcome": mode}})
+        assert os.path.exists(paths[expected]), "%s must write %s" % (mode, expected)
+        for name, p in paths.items():
+            if name != expected and name != "OUT_MD":
+                assert not os.path.exists(p), "%s wrote %s as well" % (mode, name)
+        # only the pre-registered panel renders the markdown: it reads panel-only keys
+        assert os.path.exists(paths["OUT_MD"]) == (mode == "run")
 
 
 def test_the_supplement_reports_every_attempted_pair_including_the_unreadable_ones():
@@ -994,3 +1012,120 @@ def test_the_third_revision_is_registered_in_the_appendix():
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))
+
+
+# ================================================ MODE=regime_dock — the family positive control
+#
+# ⛔ WHAT THESE TESTS ARE GUARDING. `regime_dock` grades the pipeline against real crystallographic
+# answers on NR4A1/NR4A2, which makes it the most quotable artifact this module can produce — and
+# therefore the one where a counting shortcut would do the most damage. Each test below pins one rule
+# that, if it slipped, would turn a null into a pass without anything going red.
+
+def _rd_row(apo, holo, lig, *, pipeline=None, fpocket=None, oracle=None,
+            c1=None, c1_fp=None, c1c=None, fnat=0.8, excluded=None, refusals=None):
+    r = {"candidate": {"apo": apo, "holo": holo, "protein": "NR4A1 / Nur77",
+                       "accession": "P22736", "ligand": {"comp_id": lig}},
+         "refusals": refusals or [],
+         "boxes": {"pipeline_apo": {"detail": {"nr4a3_aligned_identity": 0.6}}}}
+    if excluded:
+        r["excluded_by"] = excluded
+        return r
+    r["arms"] = {"PRIMARY_blind_apo_pipeline_box": {"rmsd_A": pipeline, "fnat": fnat},
+                 "C1_self_dock_holo": {"rmsd_A": c1},
+                 "blind_apo_fpocket_top_box": {"rmsd_A": fpocket, "fnat": fnat},
+                 "C1_self_dock_holo_fpocket": {"rmsd_A": c1_fp},
+                 "C3_oracle_box_apo": {"rmsd_A": oracle},
+                 "C1c_self_dock_holo_oracle_box": {"rmsd_A": c1c}}
+    return r
+
+
+def test_regime_dock_writes_its_own_file_and_can_never_overwrite_the_panel():
+    """The pre-registered panel's INCONCLUSIVE is a RESULT. A supplement that lands on its path would
+    replace it with a document that is not comparable to it — the same reason MODE=site got its own file."""
+    assert A.OUT_REGIME != A.OUT and A.OUT_REGIME != A.OUT_SITE
+    import inspect
+    src = inspect.getsource(A._emit)
+    assert '"regime_dock": OUT_REGIME' in src
+    assert 'doc.get("_mode") in ("site", "regime_dock")' in src, \
+        "neither supplement may render apo-pose-recovery.md — it reads panel-only keys"
+
+
+def test_regime_dock_counts_each_arm_against_its_own_control_and_excludes_the_rest():
+    """The whole point of the mode. A pair whose fpocket self-dock missed cannot grade the fpocket arm,
+    and must be counted OUT rather than averaged in — C1's pre-registered rule, applied per arm."""
+    rows = [
+        # gradeable on fpocket (control 1.4), NOT on the pipeline box (control 19.5)
+        _rd_row("4RZF", "4REF", "3N0", pipeline=19.3, c1=19.5, fpocket=1.5, c1_fp=1.4, oracle=1.6, c1c=1.2),
+        # fpocket control itself missed -> this pair grades nothing on that arm
+        _rd_row("4RZF", "4RE8", "3MJ", pipeline=18.9, c1=19.1, fpocket=3.2, c1_fp=6.9, oracle=1.8, c1c=1.1),
+    ]
+    p = A.panel_regime_dock(rows, rows)
+    fp = p["arms"]["fpocket_top_pocket"]
+    assert fp["n_pairs"] == 2 and fp["n_gradeable_control_passed"] == 1
+    assert fp["n_recovered"] == 1
+    pl = p["arms"]["pipeline_site_transfer"]
+    assert pl["n_gradeable_control_passed"] == 0, "both pipeline-box controls missed"
+    assert pl["n_recovered"] == 0
+
+
+def test_regime_dock_reports_no_mean_rmsd_anywhere():
+    """★ C6 measured this arm moving 3.04-3.50 A between runs of identical code, so a mean over pairs is
+    a number nobody can reproduce. The panel statistic is a COUNT of pre-registered bands."""
+    rows = [_rd_row("4RZF", "4REF", "3N0", pipeline=1.1, c1=1.0, fpocket=1.2,
+                    c1_fp=1.0, oracle=1.0, c1c=1.0)]
+    p = A.panel_regime_dock(rows, rows)
+    flat = repr(p)
+    assert "mean" not in flat and "median" not in flat and "average" not in flat
+    import inspect
+    src = inspect.getsource(A.panel_regime_dock)
+    assert "No RMSD is averaged across pairs" in src
+
+
+def test_regime_dock_reports_every_gap_between_attempted_and_graded():
+    """A family control that silently showed only the pairs that worked would overstate exactly the thing
+    it exists to measure. R2b exclusions and refusal stages both surface."""
+    rows = [_rd_row("4RZF", "4REF", "3N0", pipeline=1.1, c1=1.0, fpocket=1.2, c1_fp=1.0, oracle=1.0, c1c=1.0),
+            _rd_row("1OVL", "5Y41", "RPG", excluded="R2b"),
+            _rd_row("4RZF", "3V3Q", "TMY", refusals=[{"stage": "fetch", "evidence": "404"}], excluded="x")]
+    p = A.panel_regime_dock(rows, rows)
+    assert p["n_attempted"] == 3 and p["n_graded"] == 1
+    assert p["n_excluded_covalent_R2b"] == 1
+    assert p["refusal_stages"].get("fetch") == 1
+
+
+def test_regime_dock_enforces_r2b_because_it_docks():
+    """MODE=site may read covalent pairs (geometry, no dock). This mode DOCKS, so R2b stands — and that
+    costs the three NR4A2 pairs, the closest paralogue. The cost is the honest price, not a bug."""
+    import inspect
+    src = inspect.getsource(A.main)
+    i = src.index('mode == "regime_dock"')
+    assert "site_only" not in src[i:i + 2000], "regime_dock must NOT pass site_only — R2b must apply"
+
+
+def test_regime_dock_has_its_own_budget_sized_for_its_own_panel():
+    """Reusing the pre-registered panel's 4500 s (sized for ~6 pairs) would record the tail of an ~11-pair
+    panel as UNRUN and then report a family control over whichever pairs happened to fit."""
+    assert A.REGIME_PANEL_BUDGET_S > A.PANEL_BUDGET_S
+    assert A.REGIME_PANEL_BUDGET_S >= 11 * A.PAIR_BUDGET_S
+
+
+def test_regime_dock_headline_states_both_arms_and_refuses_to_claim_when_nothing_grades():
+    """A headline that reported only the good arm would be the finding with the evidence removed."""
+    rows = [_rd_row("4RZF", "4REF", "3N0", pipeline=19.3, c1=19.5, fpocket=1.5, c1_fp=1.4, oracle=1.6, c1c=1.2)]
+    h = A.panel_regime_dock(rows, rows)["headline"]
+    assert "fpocket" in h and "pipeline" in h
+    dead = [_rd_row("4RZF", "4REF", "3N0", pipeline=19.3, c1=19.5, fpocket=3.2, c1_fp=6.9,
+                    oracle=1.6, c1c=1.2)]
+    h2 = A.panel_regime_dock(dead, dead)["headline"]
+    assert "NO ARM IS GRADEABLE" in h2
+
+
+def test_regime_dock_does_not_touch_the_preregistered_candidate_list_or_thresholds():
+    """It adds pairs, never a threshold. `C14` is the one home of the bands."""
+    import inspect
+    src = inspect.getsource(A.panel_regime_dock)
+    assert "RECOVER_RMSD_A" in src and "PARTIAL_RMSD_A" in src
+    assert "_panel_candidates" not in src
+    main_src = inspect.getsource(A.main)
+    i = main_src.index('mode == "regime_dock"')
+    assert "in_regime_pairs(sel)" in main_src[i:i + 800], "same in-regime list MODE=site uses"

@@ -37,6 +37,7 @@ on:
         description: "which half to run"
         type: choice
         options: [both, convergence, benchmark, benchmark_source, benchmark_select, site_in_regime,
+                  regime_dock,
                   second_method, second_method_cross, second_method_panel]
         default: both
       bucket:
@@ -164,6 +165,7 @@ jobs:
       # ---------------------------------------------------------------- B. known-answer benchmark
       - name: B — apo pose-recovery known-answer test
         if: env.TASK == 'both' || startsWith(env.TASK, 'benchmark') || env.TASK == 'site_in_regime'
+              || env.TASK == 'regime_dock'
         run: |
           cd research/modalities
           MODE=$(case "$TASK" in
@@ -174,6 +176,12 @@ jobs:
                    # Pocket-5 onto. It writes apo-pose-site-in-regime.json and CANNOT touch the
                    # pre-registered panel's apo-pose-recovery.json.
                    site_in_regime) echo site ;;
+                   # ★★ THE FAMILY POSITIVE CONTROL. The same in-regime pairs, DOCKED: NR4A1/NR4A2 holo
+                   # structures are real crystallographic answers on NR4A3's own fold (~60 % / ~66 %
+                   # identity), and nothing had ever docked into them — which is why the program kept
+                   # recording that no positive control for pose prediction exists. Writes
+                   # apo-pose-regime-dock.json; it cannot touch either of the other two artifacts.
+                   regime_dock) echo regime_dock ;;
                    *) echo run ;;
                  esac)
           MODE="$MODE" APO_RECOVERY_WORK="$RUNNER_TEMP/apo_work" python -u apo_pose_recovery.py
@@ -199,12 +207,32 @@ jobs:
                         "site_panel_in_regime"):
                   if k in d:
                       print("=== %s" % k, json.dumps(d[k], indent=1)[:6000])
+              # the family positive control's own readout. `arms` carries a full per-pair list, so print
+              # the counts and the headline first — a log that dumps the pairs and truncates before the
+              # counts shows the evidence and hides the answer.
+              rd = d.get("regime_dock_panel")
+              if rd:
+                  print("=== regime_dock headline:", rd.get("headline"))
+                  print("    attempted=%s graded=%s R2b_excluded=%s refusals=%s"
+                        % (rd.get("n_attempted"), rd.get("n_graded"),
+                           rd.get("n_excluded_covalent_R2b"), rd.get("refusal_stages")))
+                  for name, arm in (rd.get("arms") or {}).items():
+                      print("    %-24s gradeable=%s recovered=%s partial=%s not=%s fnat_ok=%s"
+                            % (name, arm.get("n_gradeable_control_passed"), arm.get("n_recovered"),
+                               arm.get("n_partial"), arm.get("n_not_recovered"),
+                               arm.get("n_fnat_at_or_above_criterion")))
+                      for p in (arm.get("pairs") or []):
+                          print("        %s->%s %-4s blind=%-7s band=%-14s ctrl=%-7s ok=%s"
+                                % (p.get("apo"), p.get("holo"), p.get("ligand"),
+                                   p.get("blind_apo_rmsd_A"), p.get("band"),
+                                   p.get("own_control_rmsd_A"), p.get("control_passed")))
               ref = d.get("refusals") or (d.get("result") or {}).get("refusals") or []
               print("refusals:", json.dumps(ref)[:900])
           PY
           python "$RUNNER_TEMP/show.py" research/modalities/pose-convergence-401.json \
                                         research/modalities/apo-pose-recovery.json \
-                                        research/modalities/apo-pose-site-in-regime.json
+                                        research/modalities/apo-pose-site-in-regime.json \
+                                        research/modalities/apo-pose-regime-dock.json
           # the second method's own readout: the arms that decide it, printed even on a failed run so a
           # partial is visible in the log rather than only in a file nobody opens.
           python - <<'PY'
@@ -253,6 +281,7 @@ jobs:
             research/modalities/apo-pose-recovery.json \
             research/modalities/apo-pose-recovery.md \
             research/modalities/apo-pose-site-in-regime.json \
+            research/modalities/apo-pose-regime-dock.json \
             research/modalities/pose-second-method.json \
             research/modalities/_pose_convergence_inputs \
             research/modalities/_pose_second_method_poses
