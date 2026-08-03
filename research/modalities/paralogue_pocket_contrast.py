@@ -107,6 +107,48 @@ def pool_detections(dets, d_star=pt.D_STAR):
             "frac_ge_among_propagated": (n_ge / n_prop) if n_prop else None}
 
 
+def contrast_summary(by_species_subset):
+    """THE READOUT, with BOTH error bars, because they answer different questions and only one of them is
+    honest about the correlation. PURE.
+
+    * `wilson95_ge_among_propagated` treats the 75 pooled unbiased frames as 75 independent draws. They are
+      NOT: frames within a replica are correlated, so the effective n is smaller than 75 and this interval is
+      ANTI-CONSERVATIVE. It is reported because it is the repo's standard interval (METHODOLOGY.md) and
+      because it is what a reader will otherwise compute themselves.
+    * `replicate_spread` takes the three release replicas as the unit — 3 numbers, their mean, their sample
+      SD and their range. This is the CLAUDE.md §5 posture ("honest replicate-SD"), and it is the one to
+      quote when the two disagree.
+    A contrast whose Wilson intervals separate but whose replicate RANGES overlap is a contrast that is not
+    established at replicate granularity, and saying so is the whole point of reporting both."""
+    reps = [s for s in SUBSETS if s not in BIASED]
+    out = {}
+    for sp, per in by_species_subset.items():
+        pooled = pool_detections([per.get(s) for s in reps])
+        row = {"unbiased_pooled": pooled}
+        if pooled and pooled["n_propagated"]:
+            row["wilson95_ge_among_propagated"] = PD.wilson95(pooled["n_ge_dstar"], pooled["n_propagated"])
+            row["wilson95_detection_fraction"] = PD.wilson95(pooled["n_detected"], pooled["n_propagated"])
+        vals = [per[s]["frac_ge_among_propagated"] for s in reps
+                if per.get(s) and per[s].get("frac_ge_among_propagated") is not None]
+        if vals:
+            m = sum(vals) / len(vals)
+            sd = (sum((v - m) ** 2 for v in vals) / (len(vals) - 1)) ** 0.5 if len(vals) > 1 else None
+            row["replicate_spread"] = {"per_replicate_frac_ge_dstar": [round(v, 4) for v in vals],
+                                       "mean": round(m, 4),
+                                       "sd": (round(sd, 4) if sd is not None else None),
+                                       "min": round(min(vals), 4), "max": round(max(vals), 4),
+                                       "n_replicates": len(vals)}
+        b = per.get("metad")
+        if b:
+            row["metad_biased_adversarial_upper_bound"] = {
+                "frac_ge_among_propagated": b.get("frac_ge_among_propagated"),
+                "wilson95": (PD.wilson95(b["n_ge_dstar"], b["n_propagated"]) if b.get("n_propagated")
+                             else None),
+                "_never_pooled_with_unbiased": True}
+        out[sp] = row
+    return out
+
+
 def contrast_rows(by_species_subset):
     """Fold {species: {subset: detection}} into the flat table this artifact publishes. PURE."""
     rows = []
@@ -288,6 +330,21 @@ def main(argv=None):
         "ensembles": {"subsets": list(SUBSETS), "biased_subsets": sorted(BIASED),
                       "roots": {sp: os.path.relpath(os.path.dirname(os.path.dirname(
                           (frame_paths(sp, SUBSETS[0]) or ["x/y/z"])[0])), REPO) for sp in species}},
+        "contrast": contrast_summary(by_species_subset),
+        "_how_to_read_the_contrast": [
+            "DETECTION and DRUGGABILITY are different answers and must not be collapsed. A high detection "
+            "fraction in a paralogue says the homologous site EXISTS and is findable; the >= D* fraction is "
+            "the one that speaks to druggability.",
+            "Two error bars are reported. `wilson95_*` treats the 75 pooled unbiased frames as independent "
+            "and is ANTI-CONSERVATIVE (frames within a replica are correlated). `replicate_spread` takes the "
+            "three replicas as the unit and is the honest one. Where they disagree, quote the replicate "
+            "spread.",
+            "The metad subsets are BIASED along the opening CV and are an adversarial upper bound on how far "
+            "each pocket can open. They are never pooled with the unbiased frames.",
+            "n_detected < n_propagated is a DETECTED-FAILED frame — the detector ran and no cavity cleared "
+            "the gate. That is a reading. A REFUSAL (see `refusals`) is not: it means the frame could not be "
+            "read, and it is excluded from n_propagated rather than scored as an absence.",
+        ],
         "rows": rows,
         "refusals": refusals,
         "n_refusals": len(refusals),
