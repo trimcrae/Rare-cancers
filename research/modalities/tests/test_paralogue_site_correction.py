@@ -226,3 +226,35 @@ def test_using_a_sequence_alignment_here_is_justified_not_an_oversight():
     src = inspect.getsource(P.af2_domain_span)
     assert "NOT A CONTRADICTION OF THE MODULE'S OWN RULE" in src
     assert "SAME protein against itself" in src
+
+
+def test_only_the_chain_the_ligand_touches_is_aligned():
+    """★★ THE ACTUAL CAUSE OF THE SCATTER, and it is NOT the register error the domain trim was built for.
+
+    ⛔ WHAT KILLED THE REGISTER HYPOTHESIS: bounding the reference to the LBD (361-598, aligned identity
+    0.987-1.000, CE RMS 0.7-1.2 A) changed the NR4A1 ligand positions by NOTHING — identical coordinates.
+    CE had been landing on the LBD all along.
+
+    ⭑ WHAT THE NUMBER SAYS INSTEAD: the separation is bimodal at ~49 A and a nuclear-receptor LBD is only
+    ~40 A across, so two ligands 49 A apart cannot both sit on one monomer — they are on different chains
+    of a crystallographic dimer. `ligand_hetatms` picks the largest ligand COPY while CE aligned the WHOLE
+    deposit, so whenever that copy sat on the chain CE did not superpose, the ligand landed a subunit away.
+
+    ⚠ The helper for this already existed and was TESTED — `apo_pose_recovery._chain_nearest`, documented
+    as "the chain the ligand actually binds", used by that module's own benchmark, which is why its site
+    arm worked while this one's did not. Bypassing it was the defect."""
+    src = inspect.getsource(P.crystal_site_in_af2_frame)
+    assert "_chain_nearest(holo_txt, lig" in src, "the ligand's own chain must select the alignment target"
+    assert "protein_only(holo_txt, chain)" in src
+    assert "holo_chain_the_ligand_touches" in src, "the chain must be recorded, or this stays invisible"
+    # the refusal path: a ligand touching no chain is refused, not aligned against an arbitrary one
+    assert "no protein chain within 6.0 A" in src
+
+
+def test_the_register_hypothesis_is_recorded_as_REFUTED_not_quietly_dropped():
+    """The domain trim stays — it is correct and cheap — but the artifact and the code must not imply it
+    was the fix. A superseded diagnosis left looking live is how a wrong mechanism gets re-cited."""
+    src = inspect.getsource(P.crystal_site_in_af2_frame)
+    assert "changed the NR4A1 ligand positions by NOTHING" in src
+    assert "the register was never wrong" in inspect.getsource(P.af2_domain_span) or \
+           "not the register error" in src

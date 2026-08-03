@@ -149,7 +149,14 @@ def pipeline_transferred_box(nr4a3_pdb, para_pdb, pocket_resnums):
 def af2_domain_span(holo_pdb_path, af2_pdb_path):
     """Which AF2 residues does this crystal actually cover? Returns (lo, hi, identity) or (None, None, why).
 
-    ★★ THIS EXISTS BECAUSE ITS ABSENCE PRODUCED A WRONG ANSWER (2026-08-03, first run of this module).
+    ⚠ SUPERSEDED AS A DIAGNOSIS, KEPT AS A GUARD (2026-08-03). This was built as the fix for the first
+    run's scatter and IT WAS NOT THE CAUSE: bounding the reference to the LBD produced aligned identity
+    0.987-1.000, CE RMS 0.7-1.2 A, and NR4A1 ligand coordinates IDENTICAL to the untrimmed run. CE had
+    been landing on the LBD all along, so the register was never wrong. The real cause was chain
+    selection — see `crystal_site_in_af2_frame`. This is kept because the reasoning below is still sound
+    and the trim is free, but it must not be cited as what fixed anything.
+
+    ★★ THE ORIGINAL (now refuted) REASONING, retained:
     AlphaFold DB serves the FULL-LENGTH protein — NR4A1 is 598 aa, most of it outside the LBD a long
     disordered AF1 arm — while every deposited NR4A1/NR4A2 entry is an LBD-only construct of ~250 aa.
     Handed a 250-residue domain and a 598-residue reference containing that spaghetti, CE returns a
@@ -247,6 +254,35 @@ def crystal_site_in_af2_frame(holo_pdb_path, comp_id, af2_pdb_path, span=None):
         return None, "no HETATM copy of %s in %s" % (comp_id, os.path.basename(holo_pdb_path))
     lig = apr.het_coords(lines)
 
+    # ★★ ALIGN ONLY THE CHAIN THIS LIGAND COPY ACTUALLY TOUCHES — and this is the real cause of the first
+    # two runs' scatter, not the register error the domain trim was built for (2026-08-03).
+    #
+    # ⛔ THE EVIDENCE THAT KILLED THE REGISTER HYPOTHESIS: bounding the reference to the LBD (361-598,
+    # aligned identity 0.987-1.000, CE RMS 0.7-1.2 A) changed the NR4A1 ligand positions by NOTHING — the
+    # coordinates came back identical. So CE had been landing on the LBD all along and the register was
+    # never wrong.
+    #
+    # ⭑ WHAT THE NUMBER ITSELF SAYS. The separation is bimodal at ~49 A, and a nuclear-receptor LBD is
+    # only ~40 A across. Two ligands 49 A apart therefore CANNOT both sit on one monomer — so they are on
+    # different chains of a crystallographic dimer. `ligand_hetatms` picks the largest ligand COPY while
+    # CE was aligning the WHOLE deposit; whenever the chosen copy sat on the chain CE did not superpose,
+    # its ligand landed a subunit away. `4WHF` vs `4WHG` at 49.4 A and `4REF` vs `4RE8` at 49.6 A — one
+    # subunit apart, in both cases, which is what makes this mechanical rather than biological.
+    #
+    # ⚠ AND THE HELPER FOR THIS ALREADY EXISTED AND WAS TESTED: `apo_pose_recovery._chain_nearest` is
+    # documented as "the chain the ligand actually binds", and its own benchmark uses it — which is why
+    # that panel's site arm worked while this module's did not. Bypassing it was the defect.
+    chain = apr._chain_nearest(holo_txt, lig, cutoff=6.0)
+    if not chain:
+        return None, ("no protein chain within 6.0 A of the %s copy — the ligand is not in contact with "
+                      "this deposit's protein, so nothing can be aligned to it" % comp_id)
+    single = apr.protein_only(holo_txt, chain)
+    if not single.strip():
+        return None, "chain %s carries no ATOM records after selection" % chain
+    holo_pdb_path = os.path.join(os.path.dirname(holo_pdb_path),
+                                 "_chain%s_%s" % (chain, os.path.basename(holo_pdb_path)))
+    apr._write(holo_pdb_path, single)
+
     ref_path = af2_pdb_path
     if span:
         lo, hi = span
@@ -301,6 +337,7 @@ def crystal_site_in_af2_frame(holo_pdb_path, comp_id, af2_pdb_path, span=None):
             "n_ligand_heavy_atoms": len(moved),
             "ce_rms_A": round(float(getattr(aligner, "rms", float("nan"))), 3),
             "reference_af2_span": list(span) if span else "FULL-LENGTH — register error possible",
+            "holo_chain_the_ligand_touches": chain,
             "n_ca_superposed": n}, None
 
 
