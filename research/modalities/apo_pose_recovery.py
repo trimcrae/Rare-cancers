@@ -177,6 +177,37 @@ STRUCT_TRANSFER_MAX_CA_A = 6.00
 #: pair whose crystallographic ligand is declared allosteric cannot test an ORTHOSTERIC site transfer.
 ALLOSTERIC_MARKERS = ("ALLOSTERIC", "NON-ORTHOSTERIC", "SECOND SITE")
 
+# ------------------------------------------------- ADDED 2026-08-03 (third revision). AGAIN NOTHING
+# ------------------------------------------------- PRE-REGISTERED MOVES: this is a new control on an
+# ------------------------------------------------- existing arm, and it cannot change any verdict.
+# ★★ C6 — IS THE NUMBER WE QUOTE A MEASUREMENT, OR ONE DRAW FROM A STOCHASTIC SEARCH?
+#
+# `nr4a3_warhead.dock_into` passes smina no `--seed`, so every arm in this module is a Monte-Carlo
+# search re-seeded from the clock on each run. That is the pipeline's own behaviour and this module
+# must not change it — but it means a single RMSD is a SAMPLE, not a constant, and the repo has
+# already been bitten by treating one as the other: the blind-apo fpocket arm has been committed at
+# 3.122, 3.437, 3.464, 3.503 and 3.04 A across five CI runs of this same benchmark, and the roadmap
+# quotes the last of those as if it were the measurement.
+#
+# So C6 re-runs the three DECISION-CARRYING arms with distinct explicit `--seed`s and reports the
+# spread. ⛔ THE ENDPOINT IS NOT A TIGHTER NUMBER — it is whether the pre-registered BAND
+# (RECOVERED / PARTIAL / NOT RECOVERED) is stable across replicates. A band that holds means the
+# conclusion survives the search noise even though the digits do not; a band that flips means no
+# single-draw statement of this arm is quotable at all. Neither outcome can move `verdict()`, which
+# still reads the pre-registered unseeded arms and nothing else.
+#: Replicate docks per arm, on the PRIMARY pair only (the pair whose numbers are quoted downstream).
+SEED_REPLICATES = int(os.environ.get("APO_SEED_REPLICATES", "5"))
+#: Fixed, declared before the run so the replicate set cannot be chosen after seeing an answer. The
+#: first seed is deliberately used TWICE (see `_determinism_selfcheck`): smina is only reproducible at
+#: a fixed seed if its parallel search is, and asserting that rather than assuming it is the whole
+#: point of a control on reproducibility.
+REPLICATE_SEEDS = (20260803, 20260804, 20260805, 20260806, 20260807, 20260808, 20260809, 20260810)
+#: Arms C6 replicates, and why each is decision-carrying:
+#:   blind_apo_fpocket_top_box    — the arm the roadmap quotes (3.04 A), the only blind arm that lands
+#:   C3_oracle_box_apo            — Q-DOCKING's own arm
+#:   C1c_self_dock_holo_oracle_box— Q-DOCKING's ceiling; whether a pair is gradeable at all turns on it
+REPLICATED_ARMS = ("blind_apo_fpocket_top_box", "C3_oracle_box_apo", "C1c_self_dock_holo_oracle_box")
+
 # ------------------------------------------------------------------- what counts as a real ligand
 #: Non-polymer components that are crystallisation/cryo/buffer matter, not ligands. A structure carrying
 #: only these is APO. Standard list; it is the reason a glycerol does not make a structure "holo".
@@ -704,6 +735,34 @@ def dock(receptor_pdb, center, ligand_sdf, tag, work, num_modes=None):
     return {}, out_sdf
 
 
+def dock_seeded(receptor_pdb, center, ligand_sdf, tag, work, seed):
+    """The pipeline's own dock command with an explicit `--seed`. C6 only.
+
+    ⛔ EVERY SETTING EXCEPT THE SEED IS READ OUT OF `nr4a3_warhead.dock_into` BY `pipeline_dock_params`,
+    exactly as the pre-registered arms do. This is the same search with its randomness pinned, not a
+    different protocol — the whole value of the control depends on that, because a replicate run at a
+    different exhaustiveness would measure the settings rather than the noise.
+
+    ⚠ It does NOT touch `nr4a3_warhead`. The pipeline stays unseeded, which is the behaviour under test;
+    adding a seed there would silently change every downstream number this program has ever produced."""
+    import nr4a3_dock as ndock
+    smina = ndock._which("smina")
+    if not smina:
+        return None, "smina not on PATH"
+    out_sdf = os.path.join(work, "docked_%s.sdf" % tag)
+    p = pipeline_dock_params()
+    subprocess.run([smina, "-r", receptor_pdb, "-l", ligand_sdf,
+                    "--center_x", str(center[0]), "--center_y", str(center[1]),
+                    "--center_z", str(center[2]),
+                    "--size_x", p.get("size_x", "24"), "--size_y", p.get("size_y", "24"),
+                    "--size_z", p.get("size_z", "24"),
+                    "--exhaustiveness", p.get("exhaustiveness", "8"),
+                    "--num_modes", p.get("num_modes", "1"),
+                    "--seed", str(seed), "-o", out_sdf],
+                   capture_output=True, text=True)
+    return out_sdf, None
+
+
 def crystal_mol(lines, smiles):
     """The crystallographic ligand as an RDKit molecule with the reference bond graph, or (None, why).
 
@@ -1108,7 +1167,86 @@ def _top_pose(sdf_path, label):
     return None, "pose file %s held no readable molecule" % os.path.basename(sdf_path)
 
 
-def run_benchmark(cand, work, af2_reference_pdb):
+def seed_replicates(n, work, sdf, comp, score_pose, arms, plan, out_of_time):
+    """C6: re-run the decision-carrying arms at explicit seeds and report the SPREAD and the BAND.
+
+    ⛔ THIS FUNCTION OWNS NO THRESHOLD. It re-uses `score_pose` — the same scorer the pre-registered
+    arms use — so a replicate is graded by the same rule as the arm it replicates, and `_band` is the
+    pre-registered 2.00/4.00 A banding untouched.
+
+    ⚠ AN UNRUN REPLICATE IS RECORDED AS UNRUN, never dropped: an arm whose box was never drawn, or a
+    pair that ran out of wall clock, produces `n_replicates: 0` with the reason attached. Averaging
+    over "the ones that happened to finish" is how a spread gets quietly narrowed."""
+    out = {"_endpoint": ("does the pre-registered BAND survive re-seeding? The spread is reported "
+                         "beside it; neither can change `verdict()`."),
+           "_why": ("nr4a3_warhead.dock_into passes smina no --seed, so each pre-registered arm is ONE "
+                    "draw from a Monte-Carlo search. This measures how wide that draw is."),
+           "n_requested": n, "seeds": list(REPLICATE_SEEDS[:n]), "arms": {}}
+    for name in REPLICATED_ARMS:
+        recv, center, transform = plan.get(name, (None, None, True))
+        row = {"unseeded_rmsd_A": (arms.get(name) or {}).get("rmsd_A"),
+               "unseeded_band": _band((arms.get(name) or {}).get("rmsd_A"))}
+        if center is None or recv is None:
+            row.update({"n_replicates": 0,
+                        "why": "this arm drew no box on this pair, so there is nothing to re-seed"})
+            out["arms"][name] = row
+            continue
+        if out_of_time("C6_seed_replicates:" + name):
+            row.update({"n_replicates": 0, "why": "pair budget spent — the replicates are UNRUN"})
+            out["arms"][name] = row
+            continue
+        # The first seed is run TWICE. If smina is reproducible at a fixed seed the two agree exactly;
+        # if they do not, every "replicate" below is confounded by non-determinism and the artifact has
+        # to say so rather than presenting the spread as seed-to-seed variation.
+        seeds = list(REPLICATE_SEEDS[:n]) + [REPLICATE_SEEDS[0]]
+        vals, rows = [], []
+        for i, sd in enumerate(seeds):
+            sdf_out, why = dock_seeded(recv, center, sdf, "%s_seed%d_%d" % (name, sd, i), work, sd)
+            if not sdf_out:
+                rows.append({"seed": sd, "rmsd_A": None, "why": why})
+                continue
+            mol, why = _top_pose(sdf_out, comp)
+            sc = score_pose(mol, transform=transform) if mol else {"rmsd_A": None, "why": why}
+            rows.append({"seed": sd, "rmsd_A": sc.get("rmsd_A"), "fnat": sc.get("fnat"),
+                         "band": sc.get("verdict"), "_repeat_of_first": i == len(seeds) - 1})
+            if sc.get("rmsd_A") is not None and i < len(seeds) - 1:
+                vals.append(sc["rmsd_A"])
+        first = next((r for r in rows if not r.get("_repeat_of_first")), None)
+        rep = rows[-1] if rows and rows[-1].get("_repeat_of_first") else None
+        row["_determinism_selfcheck"] = {
+            "seed": REPLICATE_SEEDS[0],
+            "first_rmsd_A": (first or {}).get("rmsd_A"), "repeat_rmsd_A": (rep or {}).get("rmsd_A"),
+            "identical": (first is not None and rep is not None
+                          and first.get("rmsd_A") == rep.get("rmsd_A")),
+            "_reads": ("smina at a fixed seed is reproducible here, so the spread below is seed-to-seed "
+                       "search variation and nothing else"
+                       if (first is not None and rep is not None
+                           and first.get("rmsd_A") == rep.get("rmsd_A")) else
+                       "⚠ THE SAME SEED DID NOT REPRODUCE — the spread below is search variation PLUS "
+                       "non-determinism, and no part of it may be attributed to seeding alone")}
+        row["replicates"] = rows
+        if vals:
+            srt = sorted(vals)
+            bands = sorted({_band(v) for v in vals})
+            row.update({
+                "n_replicates": len(vals), "min_A": min(srt), "max_A": max(srt),
+                "median_A": round(srt[len(srt) // 2] if len(srt) % 2
+                                  else (srt[len(srt) // 2 - 1] + srt[len(srt) // 2]) / 2.0, 3),
+                "spread_A": round(max(srt) - min(srt), 3),
+                "bands_seen": bands, "band_stable": len(bands) == 1,
+                "_reads": ("the pre-registered band is %s on every replicate, so the CONCLUSION survives "
+                           "the search noise even though the digits do not — quote the band, never the "
+                           "3-figure RMSD" % bands[0] if len(bands) == 1 else
+                           "⛔ THE BAND FLIPS ACROSS SEEDS (%s). No single-draw statement of this arm is "
+                           "quotable; the arm reports a distribution or it reports nothing"
+                           % ", ".join(bands))})
+        else:
+            row.update({"n_replicates": 0, "why": "no replicate returned a scorable pose"})
+        out["arms"][name] = row
+    return out
+
+
+def run_benchmark(cand, work, af2_reference_pdb, replicates=0):
     """The whole known-answer test for ONE apo/holo pair. Returns a result dict (never raises)."""
     import nr4a3_8xtt_benchmark as bm
     import nr4a3_dock as ndock
@@ -1387,6 +1525,7 @@ def run_benchmark(cand, work, af2_reference_pdb):
     # 10) C3 ORACLE — decomposition only, never the headline
     #     centre the box on the crystallographic ligand, still docking into the APO receptor.
     oracle_center_holo = centroid(xtal_pts)
+    oracle_center_apo = None
     try:
         oracle_center_apo = bm.apply_transform([oracle_center_holo], Ri, ti)[0]
         _s, out_sdf = dock(apo_rec, oracle_center_apo, sdf, "apo_oracle", work)
@@ -1451,6 +1590,18 @@ def run_benchmark(cand, work, af2_reference_pdb):
         arms["C4_self_dock_holo_struct_transfer"] = {
             "rmsd_A": None, "why": boxes["struct_transfer_holo"].get("why") or "pair budget spent"}
     R_["arms"] = arms
+
+    # 11b) ★★ C6 — SEED REPLICATES. Added 2026-08-03. Reporting only; `verdict()` never reads it.
+    if replicates:
+        R_["C6_seed_replicates"] = seed_replicates(
+            replicates, work, sdf, comp, score_pose, arms,
+            {"blind_apo_fpocket_top_box":
+                (apo_rec, (boxes.get("fpocket_top_apo") or {}).get("center"), True),
+             "C3_oracle_box_apo":
+                (apo_rec, oracle_center_apo, True),
+             "C1c_self_dock_holo_oracle_box":
+                (holo_rec, oracle_center_holo, False)},
+            out_of_time)
 
     # 12) C2 power
     R_["C2_random_in_box_null"] = random_in_box_null(xtal, oracle_center_holo, size)
@@ -1840,6 +1991,12 @@ def main():
     # the order is fixed by SELECTION_RULES before any structure is fetched.
     panel, attempted = [], 0
     panel_start = time.time()
+    # ★ C6 RUNS ON THE PRIMARY PAIR AND ONLY THE PRIMARY PAIR. That is the pair whose numbers the roadmap
+    # and the manuscript quote, and it is the one whose reproducibility therefore decides whether those
+    # quotes are legitimate. Replicating all six would multiply the panel's wall clock by ~4 to answer a
+    # question about pairs nothing downstream cites. `replicated` is set from the RESULT, not from the
+    # loop index, so a rank-1 pair that R2b throws out hands the replicates to the pair that actually runs.
+    replicated = False
     for pair in _panel_candidates(sel):
         attempted += 1
         if time.time() - panel_start > PANEL_BUDGET_S:
@@ -1849,7 +2006,10 @@ def main():
                              "it is UNRUN, not excluded" % PANEL_BUDGET_S}]})
             break
         t0 = time.time()
-        res = run_benchmark(pair, os.path.join(WORK, "%s_%s" % (pair["apo"], pair["holo"])), af2)
+        res = run_benchmark(pair, os.path.join(WORK, "%s_%s" % (pair["apo"], pair["holo"])), af2,
+                            replicates=0 if replicated else SEED_REPLICATES)
+        if res.get("C6_seed_replicates"):
+            replicated = True
         res["elapsed_s"] = round(time.time() - t0, 1)
         print("[apo-pose-recovery] %s -> %s (%s): %s in %.0fs"
               % (pair["apo"], pair["holo"], (pair.get("ligand") or {}).get("comp_id"),
