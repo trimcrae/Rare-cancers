@@ -10,8 +10,8 @@
     "Anything about a cavity the paralogue may have ELSEWHERE. The site definition is NR4A3's Pocket-5 mapped by alignment, so a paralogue row of 0 means 'NR4A3's site did not open here', not 'this protein has no druggable cavity'."
   ],
   "_generated": {
-    "utc": "2026-08-03T00:01:06Z",
-    "et": "2026-08-02 08:01 PM ET",
+    "utc": "2026-08-03T02:06:00Z",
+    "et": "2026-08-02 10:06 PM ET",
     "generator": "research/modalities/paralogue_pocket_contrast.py"
   },
   "detector": {
@@ -40,7 +40,7 @@
       "***** POCKET HUNTING BEGINS ***** "
     ],
     "fpocket_available": true,
-    "\u26a0_version_note": "The committed NR4A3 table was produced under a DIFFERENT fpocket build (see committed_nr4a3_reproduction_check.fpocket_version). That is exactly why NR4A3's own frames are re-scored here: the contrast that carries the conclusion is computed inside THIS run, under ONE build."
+    "\u26a0_version_note": "`fpocket_version_resolved` is the string the BANNER prints (`fpocket -h` says `fpocket 4.0` whatever conda-forge build is installed), so it is NOT proof that two runs used the same binary. That is exactly why NR4A3's own frames are re-scored here \u2014 the contrast that carries the conclusion is computed inside THIS run under ONE binary \u2014 and why the real check is `committed_nr4a3_reproduction_check.verdict`, which compares COUNTS."
   },
   "ensembles": {
     "subsets": [
@@ -58,6 +58,202 @@
       "NR4A2": "results/nr4a2-pocket-ensemble/metad"
     }
   },
+  "contrast": {
+    "NR4A3": {
+      "unbiased_pooled": {
+        "d_star": 0.53,
+        "n_propagated": 75,
+        "n_detected": 75,
+        "n_ge_dstar": 44,
+        "detection_fraction": 1.0,
+        "frac_ge_among_detected": 0.5866666666666667,
+        "frac_ge_among_propagated": 0.5866666666666667
+      },
+      "wilson95_ge_among_propagated": [
+        0.4737,
+        0.6912
+      ],
+      "wilson95_detection_fraction": [
+        0.9513,
+        1.0
+      ],
+      "replicate_spread": {
+        "per_replicate_frac_ge_dstar": [
+          0.56,
+          0.4,
+          0.8
+        ],
+        "mean": 0.5867,
+        "sd": 0.2013,
+        "min": 0.4,
+        "max": 0.8,
+        "n_replicates": 3
+      },
+      "metad_biased_adversarial_upper_bound": {
+        "frac_ge_among_propagated": 0.68,
+        "wilson95": [
+          0.4841,
+          0.8279
+        ],
+        "_never_pooled_with_unbiased": true
+      }
+    },
+    "NR4A1": {
+      "unbiased_pooled": {
+        "d_star": 0.53,
+        "n_propagated": 75,
+        "n_detected": 75,
+        "n_ge_dstar": 18,
+        "detection_fraction": 1.0,
+        "frac_ge_among_detected": 0.24,
+        "frac_ge_among_propagated": 0.24
+      },
+      "wilson95_ge_among_propagated": [
+        0.1575,
+        0.3478
+      ],
+      "wilson95_detection_fraction": [
+        0.9513,
+        1.0
+      ],
+      "replicate_spread": {
+        "per_replicate_frac_ge_dstar": [
+          0.28,
+          0.32,
+          0.12
+        ],
+        "mean": 0.24,
+        "sd": 0.1058,
+        "min": 0.12,
+        "max": 0.32,
+        "n_replicates": 3
+      },
+      "metad_biased_adversarial_upper_bound": {
+        "frac_ge_among_propagated": 0.16,
+        "wilson95": [
+          0.064,
+          0.3465
+        ],
+        "_never_pooled_with_unbiased": true
+      }
+    },
+    "NR4A2": {
+      "unbiased_pooled": {
+        "d_star": 0.53,
+        "n_propagated": 75,
+        "n_detected": 72,
+        "n_ge_dstar": 21,
+        "detection_fraction": 0.96,
+        "frac_ge_among_detected": 0.2916666666666667,
+        "frac_ge_among_propagated": 0.28
+      },
+      "wilson95_ge_among_propagated": [
+        0.191,
+        0.3904
+      ],
+      "wilson95_detection_fraction": [
+        0.8889,
+        0.9863
+      ],
+      "replicate_spread": {
+        "per_replicate_frac_ge_dstar": [
+          0.44,
+          0.24,
+          0.16
+        ],
+        "mean": 0.28,
+        "sd": 0.1442,
+        "min": 0.16,
+        "max": 0.44,
+        "n_replicates": 3
+      },
+      "metad_biased_adversarial_upper_bound": {
+        "frac_ge_among_propagated": 0.28,
+        "wilson95": [
+          0.1428,
+          0.4758
+        ],
+        "_never_pooled_with_unbiased": true
+      }
+    }
+  },
+  "map_edits_required": {
+    "_what": "Roadmap edits this result requires. DESCRIBED, NOT APPLIED \u2014 sibling agents are editing `nr4a3-program-map.md` and this run does not touch it.",
+    "_how_anchors_are_kept_live": "`current_text` is read out of the live map at generation time; a missing or ambiguous anchor yields a visible refusal instead of a mis-targeted edit.",
+    "verdict": "RANKED but replicate ranges OVERLAP",
+    "verdict_basis": {
+      "unbiased_pooled_frac_ge_dstar": {
+        "NR4A3": 0.5866666666666667,
+        "NR4A1": 0.24,
+        "NR4A2": 0.28
+      },
+      "replicate_ranges": {
+        "NR4A3": [
+          0.4,
+          0.8
+        ],
+        "NR4A1": [
+          0.12,
+          0.32
+        ],
+        "NR4A2": [
+          0.16,
+          0.44
+        ]
+      },
+      "rule": "SEPARATED requires NR4A3's WORST release replicate to beat each paralogue's BEST. That is stricter than non-overlapping Wilson intervals and it is the honest bar, because the 75 pooled frames are 3 correlated replicas and the Wilson interval is anti-conservative."
+    },
+    "\u26d4_not_filed_in_section_6": "Nothing here closes a route. A paralogue that opens less often is a RANKING, not an exclusion, and evidence of absence is not available at these ensemble sizes.",
+    "entries": [
+      {
+        "section": "\u00a78 Route A",
+        "anchor": "### Route A \u2014 a warhead engaging paralogue-divergent pocket handles",
+        "kind": "amend",
+        "status": "OK",
+        "why": "Route A's PREMISE \u2014 that the cryptic pocket is itself a paralogue discriminator \u2014 had never been measured against a paralogue, on frames that were committed to this repo. It has now been, on matched ensembles under one detector. \u26a0 This is a CONFORMATIONAL-SELECTION statement with no free energy in it; it is NOT dG_open and must never be reported as one, so `R6` is untouched.",
+        "artifact": "research/modalities/paralogue-pocket-contrast.json -> contrast",
+        "current_text": "### Route A \u2014 a warhead engaging paralogue-divergent pocket handles \u00b7 \u25cb **blocked, nothing running** \u00b7 serves `R7`",
+        "proposed_text": "### Route A \u2014 a warhead engaging paralogue-divergent pocket handles \u00b7 \u25cb **blocked, nothing running** \u00b7 serves `R7`\n\n\u2605 **Paralogue-matched cryptic-pocket contrast \u2014 measured (the first paralogue-matched evidence Route A has).** RANKED but replicate ranges OVERLAP. unbiased pooled frac >= D*: NR4A3 0.5866666666666667, NR4A1 0.24, NR4A2 0.28; per-replicate ranges (0.4, 0.8) / (0.12, 0.32) / (0.16, 0.44) \u2014 [`paralogue-pocket-contrast.json`](../modalities/paralogue-pocket-contrast.json). \u26a0 A detection fraction is **not** an opening penalty: this does not touch `R6`, and at these ensemble sizes it supports a RANKING, never a categorical exclusion."
+      },
+      {
+        "section": "\u00a73.2 R\u00d7V coverage matrix \u2014 row R1",
+        "anchor": "| `R1` pocket exists |",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The `R1` row says no instrument is validated on this system. That stays true \u2014 validation is not what changed. What changed is that the harmonized detector now has a paralogue-MATCHED reading, a different axis, and it is the one Route A's premise actually needed. The cell should point at it rather than restate it (rule 1).",
+        "artifact": "research/modalities/paralogue-pocket-contrast.json -> contrast",
+        "current_text": "| `R1` pocket exists | `V13` `V14` `V15` | \u2713 ran, mixed; one gate failed as registered | no \u2014 but no instrument is *validated on this system* |",
+        "proposed_text": "| `R1` pocket exists | `V13` `V14` `V15` | \u2713 ran, mixed; one gate failed as registered | no \u2014 but no instrument is *validated on this system*. \u2605 The detector now has a paralogue-MATCHED reading \u2014 [`paralogue-pocket-contrast.json`](../modalities/paralogue-pocket-contrast.json) |"
+      },
+      {
+        "section": "\u00a710.1 open rows",
+        "anchor": "### 10.1 \u00b7 Open rows, ordered by what unblocks the most",
+        "kind": "amend",
+        "status": "OK",
+        "why": "C04 was on no ranked list: the frames were committed on 2026-07-26 and the detector was never pointed at them. A caveat with nowhere to go is how work gets silently dropped.",
+        "artifact": "research/modalities/paralogue-pocket-contrast.json -> contrast",
+        "current_text": "### 10.1 \u00b7 Open rows, ordered by what unblocks the most",
+        "proposed_text": "### 10.1 \u00b7 Open rows, ordered by what unblocks the most\n| **C04** | **Paralogue-matched cryptic-pocket druggability** \u2014 the harmonized detector over the committed NR4A1/NR4A2/NR4A3 ensembles | `R1` `R2` (Route A's premise) | \u2713 **complete** | \u2014 ($0) | **$0** \u2014 CPU/CI | \u2705 **RAN.** RANKED but replicate ranges OVERLAP. unbiased pooled frac >= D*: NR4A3 0.5866666666666667, NR4A1 0.24, NR4A2 0.28; per-replicate ranges (0.4, 0.8) / (0.12, 0.32) / (0.16, 0.44). [`paralogue-pocket-contrast.json`](../modalities/paralogue-pocket-contrast.json); the NR4A3 arm REPRODUCES the committed table cell-for-cell (`committed_nr4a3_reproduction_check.verdict`) |"
+      }
+    ],
+    "verification": {
+      "n_entries": 3,
+      "n_applicable": 3,
+      "n_unlocatable": 0,
+      "n_stale": 0,
+      "unlocatable_anchors": [],
+      "stale_anchors": [],
+      "verified_against": "research/manuscripts/nr4a3-program-map.md",
+      "_method": "each entry's current_text re-counted in the live map; exactly one occurrence = applicable. This is the `grep -F` check, run at generation time.",
+      "status": "ALL APPLICABLE"
+    }
+  },
+  "_how_to_read_the_contrast": [
+    "DETECTION and DRUGGABILITY are different answers and must not be collapsed. A high detection fraction in a paralogue says the homologous site EXISTS and is findable; the >= D* fraction is the one that speaks to druggability.",
+    "Two error bars are reported. `wilson95_*` treats the 75 pooled unbiased frames as independent and is ANTI-CONSERVATIVE (frames within a replica are correlated). `replicate_spread` takes the three replicas as the unit and is the honest one. Where they disagree, quote the replicate spread.",
+    "The metad subsets are BIASED along the opening CV and are an adversarial upper bound on how far each pocket can open. They are never pooled with the unbiased frames.",
+    "n_detected < n_propagated is a DETECTED-FAILED frame \u2014 the detector ran and no cavity cleared the gate. That is a reading. A REFUSAL (see `refusals`) is not: it means the frame could not be read, and it is excluded from n_propagated rather than scored as an absence."
+  ],
   "rows": [
     {
       "species": "NR4A3",
@@ -315,6 +511,78 @@
         "n_ge_dstar": 44,
         "frac_ge_among_detected": 0.5866666666666667,
         "frac_ge_among_propagated": 0.5866666666666667
+      }
+    },
+    "verdict": {
+      "status": "REPRODUCED \u2014 every compared NR4A3 cell matches the committed table",
+      "n_ensembles_compared": 5,
+      "\u26a0_why_this_and_not_the_version_string": "`fpocket -h` prints the banner `fpocket 4.0` whatever conda-forge build is installed, so a matching `fpocket_version` proves only that two runs read the same banner. Matching counts across every ensemble is the real evidence, and it is what licenses reading the paralogue arms against the committed NR4A3 rows.",
+      "rows": {
+        "metad": {
+          "matches_committed": true,
+          "this_run": {
+            "n_propagated": 25,
+            "n_detected": 25,
+            "n_ge_dstar": 17
+          },
+          "committed": {
+            "n_propagated": 25,
+            "n_detected": 25,
+            "n_ge_dstar": 17
+          }
+        },
+        "release_rep0": {
+          "matches_committed": true,
+          "this_run": {
+            "n_propagated": 25,
+            "n_detected": 25,
+            "n_ge_dstar": 14
+          },
+          "committed": {
+            "n_propagated": 25,
+            "n_detected": 25,
+            "n_ge_dstar": 14
+          }
+        },
+        "release_rep1": {
+          "matches_committed": true,
+          "this_run": {
+            "n_propagated": 25,
+            "n_detected": 25,
+            "n_ge_dstar": 10
+          },
+          "committed": {
+            "n_propagated": 25,
+            "n_detected": 25,
+            "n_ge_dstar": 10
+          }
+        },
+        "release_rep2": {
+          "matches_committed": true,
+          "this_run": {
+            "n_propagated": 25,
+            "n_detected": 25,
+            "n_ge_dstar": 20
+          },
+          "committed": {
+            "n_propagated": 25,
+            "n_detected": 25,
+            "n_ge_dstar": 20
+          }
+        },
+        "release_unbiased_pooled": {
+          "matches_committed": true,
+          "this_run": {
+            "n_propagated": 75,
+            "n_detected": 75,
+            "n_ge_dstar": 44
+          },
+          "committed": {
+            "n_propagated": 75,
+            "n_detected": 75,
+            "n_ge_dstar": 44
+          }
+        }
       }
     }
   },
@@ -5999,5 +6267,5 @@
       "pocket_number": 5
     }
   ],
-  "runtime_s": 264.7
+  "runtime_s": 181.0
 }
