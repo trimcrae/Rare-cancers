@@ -1,46 +1,64 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-08-03T01:15:13Z",
+  "utc": "2026-08-03T01:25:31Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
   "pending_seen": [
     {
+      "run": 30776807798,
+      "name": "Cross-lane staleness watch \u2014 has any lane gone stale, and is",
+      "jobs": 0,
+      "age_min": 0.8
+    },
+    {
       "run": 30776279909,
       "name": "Rows 26 + 27 \u2014 NR4A2 bound + \u0394\u0394\u0394G known-answer search (CPU, ",
       "jobs": 0,
-      "age_min": 3.8
+      "age_min": 14.2
     },
     {
       "run": 30773642280,
       "name": "C02 decoy null + C04 paralogue pocket contrast (CPU, $0)",
       "jobs": 0,
-      "age_min": 69.8
+      "age_min": 80.1
     }
   ],
   "wedged": [
     {
+      "run": 30776279909,
+      "name": "Rows 26 + 27 \u2014 NR4A2 bound + \u0394\u0394\u0394G known-answer search (CPU, ",
+      "age_min": 14.2
+    },
+    {
       "run": 30773642280,
       "name": "C02 decoy null + C04 paralogue pocket contrast (CPU, $0)",
-      "age_min": 69.8
+      "age_min": 80.1
     }
   ],
   "cancelled": [],
   "cancel_failed": [],
   "spared": [
     {
+      "run": 30776807798,
+      "name": "Cross-lane staleness watch \u2014 has any lane gone stale, and is",
+      "jobs": 0,
+      "age_min": 0.8,
+      "why": "only 0.8 min old; below the 10 min threshold"
+    },
+    {
       "run": 30776279909,
       "name": "Rows 26 + 27 \u2014 NR4A2 bound + \u0394\u0394\u0394G known-answer search (CPU, ",
       "jobs": 0,
-      "age_min": 3.8,
-      "why": "only 3.8 min old; below the 10 min threshold"
+      "age_min": 14.2,
+      "why": "another run of this workflow is in progress, so this one may be legitimately queued behind it \u2014 REPORTED, not cancelled. Cancelling a queued supervision re-arm would leave a fleet unwatched."
     },
     {
       "run": 30773642280,
       "name": "C02 decoy null + C04 paralogue pocket contrast (CPU, $0)",
       "jobs": 0,
-      "age_min": 69.8,
+      "age_min": 80.1,
       "why": "another run of this workflow is in progress, so this one may be legitimately queued behind it \u2014 REPORTED, not cancelled. Cancelling a queued supervision re-arm would leave a fleet unwatched."
     }
   ]
