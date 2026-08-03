@@ -1,0 +1,4232 @@
+{
+ "_title": "`C25` — CROSS-SYSTEM DECOY NULL FOR THE STERIC-EXCLUSION AXIS (`S3`). Two independently constructed backgrounds, never pooled, both computed by the code that produced the committed measurement.",
+ "_status": "INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, affinity, reactivity, degradation, efficacy, safety or clinical readiness.",
+ "_reading": "This calibrates the STERIC SCREEN, not NR4A3. A contrast is only evidence about NR4A3 to the extent that an arbitrary close paralogue pair does NOT reproduce it.",
+ "_generated": {
+  "utc": "2026-08-03T18:33:59Z",
+  "et": "2026-08-03 02:33 PM ET",
+  "generator": "research/modalities/steric_decoy_null.py"
+ },
+ "_configuration": {
+  "_rule": "roadmap §3b: a number whose value depends on a frozen definitional choice must NAME that choice, inline, where the number is written. Declared here so every percentile in this artifact carries its conditions.",
+  "items": {
+   "C25": {
+    "what_it_fixes": "the STERIC decoy-null construction — which proteins may play the paralogue roles, how a decoy arm is built, how poses are carried and filtered, and the gradeability floor a background row must clear",
+    "value": "two backgrounds never pooled (`partner_swap` PRIMARY, `full_trio` SECONDARY); decoy roles drawn from the committed 47-receptor nuclear-receptor universe minus the NR4A family; AlphaFold models trimmed by `C24`'s LBD window; pairs/trios ranked answer-blind on identity; 20 conditioning events per class",
+    "frozen_by": "this file's `PREREG`, emitted by `plan` before any model was fetched under it and before any statistic under it existed",
+    "home": "research/modalities/steric_decoy_null.py -> PREREG; plan file research/modalities/steric-decoy-null-plan.json",
+    "what_moves_if_it_moves": "every percentile this artifact quotes for `S3`'s 0.923 / 0.173 / 0.000, and therefore whether the 5.34x contrast is reported as distinctive or as ordinary",
+    "status": "frozen"
+   },
+   "C24": "the LBD window trim and the pair-selection rule, INHERITED here rather than re-frozen",
+   "C5": "the Pocket-5 lining set, mapped onto every arm's target",
+   "C16": "the sibling decoy-null trim; cited, never used here"
+  },
+  "⛔_none_of_these_is_altered_by_this_run": "they are cited, not edited. Changing any of them is trimcrae's decision, per §3b."
+ },
+ "headline": "contrast (a) UNGRADEABLE_too_few_graded_rows · contrast (b) UNGRADEABLE_too_few_graded_rows — primary background `partner_swap`, n = 3 / 3",
+ "preregistration": {
+  "_frozen": "Design fixed BEFORE any structure was fetched under this rule and before any statistic under it existed. `plan` emits this block from constants alone — it reads no model, no alignment and no result, so a plan file and a result file cannot disagree about what was registered.",
+  "_configuration_id": "C25",
+  "question": "The steric-exclusion axis `S3` reports 0.923 paralogue-only clash at bulkier-in-both positions against a 0.173 null at conserved/shared positions (5.34x), and it has a WITHIN-SYSTEM null only. Does an ARBITRARY close paralogue pair, pushed through the IDENTICAL pipeline, also produce that contrast? If most do, the contrast is a property of the METHOD, not of NR4A3.",
+  "★_why_this_is_asked_now": "Because the same gap was closed on the categorical axis hours earlier and the answer was NOT flattering: `C24` measured `frac_exactly_zero = 0.56` at the cysteine level, so a clean P = 0 sat at roughly the 56th percentile — zero was the MODAL outcome. A headline with no cross-system background is a headline nobody can grade, in either direction.",
+  "two_backgrounds_never_pooled": {
+   "⛔_rule": "These are two separate tests answering two different questions. Their rows are NEVER merged into one background, neither supersedes the other, and every percentile names which one it came from. Same discipline as `C24`'s two scopes.",
+   "partner_swap": {
+    "role": "PRIMARY",
+    "what_varies": "the PARTNER PAIR only",
+    "construction": "target = the committed NR4A3 opened model (`results/nr4a3-matrix/nr4a3-opened.pdb`), poses = the 13 committed docked molecules, positions = Pocket-5 (`C5`). The two proteins playing the paralogue ROLES are an arbitrary close pair from the universe, superposed onto NR4A3 by the same `superpose_paralogue` call `M3` makes.",
+    "★_why_it_is_the_primary": "It is the only construction in which EVERYTHING except the swapped pair is byte-identical to `M3`: same target, same poses, same frame, same by-construction absence of target clash. It therefore isolates the question exactly — is the NR4A1/NR4A2 pair special, or would any close homologue pair produce this contrast?",
+    "⚠_what_it_cannot_answer": "It never varies the TARGET or the POSES, so it cannot say whether an arbitrary close paralogue SYSTEM produces the contrast. That is what `full_trio` is for."
+   },
+   "full_trio": {
+    "role": "SECONDARY",
+    "what_varies": "the target AND both partners",
+    "construction": "a trio {T, A, B} from the universe. T is superposed into the NR4A3 pose frame by `superpose_paralogue(T, nr4a3_opened)`; A and B are then superposed onto T-as-placed by the same function, so the partners are fitted to THEIR OWN target exactly as in `M3`. Positions = Pocket-5 mapped onto T through the same `corr_from_ref` chain. Poses = the same 13 molecules, unmoved.",
+    "⚠_the_asymmetry_it_carries_and_the_reading_that_follows": "The poses were docked into NR4A3, not into T. The per-arm pose filter below removes the resulting bias in the FIRING statistic (a pose that clashes with its own target is dropped in every arm, index included), but it cannot remove the SELECTION effect: an arm whose target fills the pocket keeps fewer poses and may fall below the gradeability floor. PRE-REGISTERED READING, asymmetric on purpose: a HIGH `full_trio` background is decisive against distinctiveness; a LOW one is UNINTERPRETABLE, because pose attrition and a real absence of contrast are not separable here. `partner_swap` carries no such asymmetry.",
+    "⛔_A_MEASURED_PREDICTION_MADE_BEFORE_ANY_DECOY_WAS_FETCHED": "The `smoke` mode runs this exact construction on the three COMMITTED opened models with NR4A1 as target — a trio whose answer is meaningless and whose plumbing is the decoys' — and it returns **0 of 13 poses surviving the target-clash filter**. That is not a surprise once stated: `M3`'s own per-pose table shows NR4A1's side chains clashing at 2-5 of the 10 Pocket-5 positions for EVERY pose, which is the whole reason the steric signal exists. So it is registered HERE, in advance and with its evidence, that `full_trio`'s CLASH contrasts are EXPECTED TO BE UNGRADEABLE, and that this is a property of transporting a docked pose set, not a finding about any decoy. ⭑ What `full_trio` therefore contributes is its POSE-FREE half — the denied-lobe VOLUME axis, which needs no ligand at all and is unaffected by pose attrition. Predicting this before the run is the difference between a limitation and an excuse."
+   }
+  },
+  "universe_and_structures": {
+   "universe": "`research/modalities/nr4a-superfamily-selectivity.json` -> `ranking[]` — 47 human nuclear receptors with UniProt accessions, a COMMITTED artifact. The same universe `C24` used; not re-picked here.",
+   "decoy_roles_exclude_the_NR4A_family": "NR4A1, NR4A2 and NR4A3 are removed from the decoy candidate pool. They are the INDEX arm; a decoy row containing one of them would not be a decoy.",
+   "models": "AlphaFold DB model of each accession, fetched by `categorical_decoy_null.fetch_af` — the same function, the same URL template, the same version fallback.",
+   "trim": "`categorical_decoy_null.trim_one` at `--scope lbd`, i.e. `C24`'s REFERENCE-ANCHORED LBD WINDOW (Smith-Waterman local alignment to the committed NR4A3 LBD construct). Imported, not restated: `C24` is the home of that rule and this file inherits it rather than freezing a second one.",
+   "⚠_index_arm_partner_source": "The decoys' partners are AlphaFold models, so the MATCHED index row uses AlphaFold models of NR4A1 and NR4A2 too — `C24`'s discipline, which refused 8XTT for exactly this reason. The committed OPENED NR4A1/NR4A2 models are also scored, as the reference row that must reproduce `M3`. Both are reported; the percentile is quoted for the matched row and the mixed-source percentile is reported beside it, labelled.",
+   "⚠_index_arm_target_source": "The target stays the committed NR4A3 OPENED model in both backgrounds, because the poses were docked into it and a pose set is meaningless in another frame. In `full_trio` the decoy targets are AlphaFold models, so the target SOURCE is not matched there. Stated, not hidden — and it is the reason `full_trio` is secondary."
+  },
+  "selection_rule": {
+   "⛔_answer_blind": "Pairs and trios are chosen on SEQUENCE IDENTITY and STRUCTURE AVAILABILITY alone, both of which are fixed before any clash, lobe or rate exists. No arm is ever selected, dropped or re-ranked on what it scored.",
+   "pairs": "`categorical_decoy_null.select_pairs`, imported unchanged: identity band [0.35, 0.90], alignment coverage >= 0.6, ranked by |identity - reference identity| ASCENDING, taken greedily subject to `max_per_protein = 2`. The reference identity is the mean of the measured NR4A3-vs-NR4A1 and NR4A3-vs-NR4A2 trimmed-window identities, computed by the same code.",
+   "max_pairs": 20,
+   "_why_20": "Held identical to `C24`'s budget, which is itself on record with its reason: a percentile against 8 points cannot resolve finer than 1/8 = 0.125. 20 gives 0.05. Chosen as an inheritance, not as a fresh number, so it cannot be read as tuned.",
+   "pair_orientation": "an unordered pair contributes ONE arm. `score_pose`'s predicate is symmetric in the two partners (`all(...)` over both), so A-as-first and B-as-first are the SAME measurement — emitting both would double-count, which is the opposite of `C24`'s situation where the target/paralogue roles are asymmetric.",
+   "trios": "unordered triples whose three pairwise identities all clear the same band and coverage floor, ranked by |mean pairwise identity - the NR4A trio's own mean pairwise identity| ASCENDING, taken greedily subject to `max_per_protein = 2`. Each selected trio contributes THREE arms — each member as target once — because choosing which member is 'the target' would be a choice with no answer-blind rule behind it.",
+   "max_trios": 12,
+   "⚠_clustering": "the three arms of one trio share proteins and the pairs share proteins under `max_per_protein = 2`, so the effective n is below `n_graded`. Every background summary reports `n_distinct_proteins` beside `n`, and the Wilson interval is, if anything, optimistic."
+  },
+  "statistic": {
+   "computed_by": "steric_design_rule.score_pose(heavy_xyz, geometry, HARD_CLASH_A) — UNCHANGED",
+   "per_pose_per_position_predicate": "FIRED = both partner side chains come within HARD_CLASH_A (3.0 A) of a pose heavy atom AND the target's side chain does not. Identical to `M3`.",
+   "classes": {
+    "unique_and_both_bulkier": "the target's residue TYPE is absent from both partners at the aligned position, alignment-robust under two independent aligners, AND both partner side chains carry strictly more heavy atoms than the target's. THE SIGNAL CLASS.",
+    "unique_not_bulkier": "unique but not strictly bulkier in both. On NR4A3 this class fires at 0.000, which is the discriminating behaviour: uniqueness alone creates no steric exclusion. THE SECOND CONTRAST, and it is a separate claim from the first — never pooled with it.",
+    "conserved_or_shared": "the target's residue type appears in at least one partner. THE NULL."
+   },
+   "contrast_a": {
+    "primary": "signal_rate - null_rate (`score_pose`'s own `signal_minus_null`, which the module's `how_to_score_a_new_candidate` names as the quantity to accept on)",
+    "secondary": "signal_rate / null_rate — the 5.34x enrichment as usually quoted",
+    "⚠_undefined_ratios": "an arm whose null rate is exactly 0 has an UNDEFINED ratio. It is reported as null and counted in `n_enrichment_undefined` — never set to infinity, never dropped, and never silently excluded from the difference background where it IS defined."
+   },
+   "contrast_b": {
+    "primary": "the unique_not_bulkier rate. NR4A3 = 0.000.",
+    "⛔_the_modal_value_trap": "if NR4A3's value equals the background's modal value then its percentile IS that modal frequency — ONE measurement, not two — and the artifact must say so in those words. This is the sentence `C24` got right and it is the single most useful line in that artifact."
+   },
+   "volume_axis": {
+    "computed_by": "steric_design_rule.denied_lobe(...) — UNCHANGED, same GRID_A",
+    "bar": "each arm's OWN null-class largest lobe, exactly as `steric_design_rule` measures it for NR4A3. ⛔ NOT NR4A3's 11.78 A^3 — importing the index arm's scale into the background would make the bar a property of NR4A3 rather than of the arm.",
+    "statistic": "fraction of that arm's signal-class positions whose lobe exceeds its own bar",
+    "gradeability": "an arm's volume axis is GRADED only when it has >= 1 unique_and_both_bulkier position AND >= 1 conserved_or_shared position, because without the second there is no MEASURED bar and the absolute sanity floor is a chosen number.",
+    "★_why_this_axis_matters_most_for_full_trio": "it needs no ligand, so it is untouched by the pose attrition registered above. It is the half of `S3` that a transported pose set cannot damage."
+   }
+  },
+  "poses": {
+   "set": "the 13 committed selectivity-matrix molecules, results/nr4a3-matrix/docked_nr4a3.sdf",
+   "per_arm_filter": "a pose is DROPPED from an arm if it clashes with that arm's TARGET side chain at any mapped position. Applied identically to every arm, index included.",
+   "_why": "`score_pose`'s predicate requires the target NOT to clash, and on NR4A3 that is true by construction because the poses were docked in. Applying the filter everywhere makes the same property hold by construction in every arm instead of quietly depressing the decoys.",
+   "⚠_it_costs_the_index_arm_a_pose": "one committed pose clashes with NR4A3 at two Pocket-5 positions, so the filtered index row is NOT the committed 0.923/0.173. The committed value is reported beside it as the reference, and the unfiltered rates are reported for every arm as a declared sensitivity."
+  },
+  "gradeability": {
+   "min_conditioning_events": 20,
+   "_source": "held byte-identical to `C24`'s `gradeability_min_conditioning_events = 20`. Not a fresh choice — an inheritance, so it cannot have been set by looking at these rows.",
+   "definition": "a class is GRADED when it has >= 20 (pose x position) cells in that arm, i.e. `n_poses_used * n_positions_in_class >= 20`. Contrast (a) needs BOTH the signal class and the null class graded; contrast (b) needs the unique_not_bulkier class graded.",
+   "⛔_the_floor_does_not_move": "`C24`'s NR4A3 arm reached 12 conditioning events against this same floor of 20 and could not be graded. Raising or lowering the floor after seeing which rows bind is the same class of act as widening a scope after seeing a residue fall outside it. The floor is fixed here; the count of rows that clear it is a RESULT.",
+   "min_graded_for_a_verdict": 5
+  },
+  "verdict_rule": {
+   "DISTINCTIVE_requires_all_of": [
+    "n_graded >= 5 in the background being quoted",
+    "NR4A3's percentile >= 0.75 — i.e. at most a quarter of the background reaches its contrast",
+    "for contrast (b): the background's frac_exactly_zero <= 0.5, because in a background where most arms also return 0 a 0 from NR4A3 means nothing — the `C24` failure mode exactly"
+   ],
+   "otherwise": "NOT DISTINGUISHED, or UNGRADEABLE when n_graded < the floor",
+   "⛔_both_halves_are_needed": "a favourable percentile computed against a background whose modal value equals NR4A3's own is not evidence. `grade()` is the one home of this rule and the SAME thresholds grade both backgrounds and both contrasts; only the numbers going in differ."
+  },
+  "what_a_favourable_result_licenses": {
+   "★_it_licenses": "that the steric-exclusion CONTRAST is larger on NR4A3/NR4A1/NR4A2 than on an arbitrary close human nuclear-receptor pair pushed through the identical geometry — on one opened NR4A3 conformer, one superposition, 13 poses, at a 3.0 A hard-clash radius, inside a NUCLEAR-RECEPTOR universe.",
+   "⛔_it_does_NOT_license": [
+    "no statement about binding, affinity, a selectivity ratio or any free energy — none is computed anywhere in this file",
+    "⛔ NOT that the paralogue fails to bind these molecules. `M4` measures that it RELOCATES them by a median 5.31 A (NR4A1) / 5.26 A (NR4A2), so the rule constrains a POSE and nothing more",
+    "nothing about degradation, efficacy, safety, a therapeutic window or clinical readiness",
+    "no claim of proteome-wide selectivity: a nuclear-receptor background does not bound the rate over the proteome",
+    "⚠ no escape from `R5` — the whole axis is conditional on the cryptic pocket being the right site, and the pose known-answer test `V3` returned INCONCLUSIVE on site selection",
+    "⚠ RIGID TRANSFER throughout: partner side chains are held in their own conformer and could rotate away. 'Denied in this conformer' is never 'denied'"
+   ]
+  },
+  "⛔_no_tuning": [
+   "no re-picking of pairs or trios after seeing a score",
+   "no adjustment of HARD_CLASH_A, GRID_A or the design-target volume bar",
+   "no dropping of a decoy arm because it scored high",
+   "no moving of the gradeability floor in either direction",
+   "if the contrast is not distinctive, that IS the finding and it is reported as directly as `C24` reported its own"
+  ]
+ },
+ "⛔_the_ceiling_that_travels_with_every_number_here": {
+  "_source": "M4 / selectivity-mechanism-options.md, quoted not re-derived",
+  "median_centroid_shift_A": {
+   "NR4A1": 5.31,
+   "NR4A2": 5.26
+  },
+  "✅_what_a_high_contrast_licenses": "this POSE is denied in the partner's modelled conformer",
+  "⛔_what_it_is_not": "NOT that the paralogue fails to bind the molecule — it binds it somewhere else (`M4`, median ~5.3 A relocation). NOT an affinity, a selectivity ratio, a degradation statement or any energy: none is computed here. NOT independent of `R5` — the whole axis is conditional on the cryptic pocket being the right site, and `V3` returned INCONCLUSIVE on site selection.",
+  "⚠_rigid_transfer": "every partner side chain is held in its own conformer and could rotate away; every lobe and every clash is 'denied in this conformer', never 'denied'",
+  "⚠_target_absence_of_clash_is_by_construction": "the poses were docked INTO NR4A3, so the target's lack of clash carries no information in ANY arm — which is why only the between-class contrast is gradeable, and why the per-arm pose filter exists at all"
+ },
+ "harness_known_answer_check": {
+  "_why": "a background computed by a harness that cannot reproduce the committed measurement is worse than no background. This runs THIS file's arm builder on `M3`'s own inputs — the committed opened models, the committed 13 poses, the full UniProt sequences — and compares every rate and every denied-lobe volume against the committed artifacts.",
+  "committed_M3_rates": {
+   "unique_and_both_bulkier": 0.923,
+   "unique_not_bulkier": 0.0,
+   "conserved_or_shared": 0.173
+  },
+  "recomputed_UNFILTERED": {
+   "unique_and_both_bulkier": 0.923,
+   "unique_not_bulkier": 0.0,
+   "conserved_or_shared": 0.173
+  },
+  "reproduces_committed_M3": true,
+  "recomputed_after_the_per_arm_pose_filter": {
+   "unique_and_both_bulkier": 0.917,
+   "unique_not_bulkier": 0.0,
+   "conserved_or_shared": 0.188
+  },
+  "n_poses_used_after_filter": 12,
+  "poses_dropped_by_the_filter": [
+   {
+    "pose": "NR4A3-active:CHEMBL4755698",
+    "target_clashing_positions": [
+     481,
+     531
+    ]
+   }
+  ],
+  "committed_denied_lobe_volumes_A3": {
+   "406": 2.69,
+   "407": 0.58,
+   "410": 0.0,
+   "411": 0.19,
+   "412": 68.8,
+   "481": 11.78,
+   "484": 51.9,
+   "485": 0.77,
+   "531": 3.01,
+   "534": 60.74
+  },
+  "recomputed_denied_lobe_volumes_A3": {
+   "406": 2.69,
+   "407": 0.58,
+   "410": 0.0,
+   "411": 0.19,
+   "412": 68.8,
+   "481": 11.78,
+   "484": 51.9,
+   "485": 0.77,
+   "531": 3.01,
+   "534": 60.74
+  },
+  "reproduces_committed_lobes": true,
+  "committed_null_volume_ceiling_A3": 11.78,
+  "recomputed_null_volume_ceiling_A3": 11.78,
+  "_if_false": "the backgrounds in this file MUST be discarded — the code, not the biology, would be the finding.",
+  "PASS": true
+ },
+ "index_arms": {
+  "index_committed": {
+   "arm": "index_committed",
+   "kind": "index",
+   "role_map": {
+    "NR4A1": "NR4A1",
+    "NR4A2": "NR4A2"
+   },
+   "n_positions_evaluated": 10,
+   "n_positions_dropped_unaligned": 0,
+   "positions_dropped_unaligned": [],
+   "⛔_why_dropped_not_zeroed": "a position that does not align in the target or in a partner is a MISSING measurement. Scored as a non-firing trial it would join the NULL class and inflate this arm's enrichment ratio.",
+   "n_positions_by_class": {
+    "unique_and_both_bulkier": 3,
+    "unique_not_bulkier": 3,
+    "conserved_or_shared": 4
+   },
+   "positions": {
+    "406": {
+     "class": "unique_and_both_bulkier",
+     "target_residue": "L",
+     "partner_residues": {
+      "NR4A1": "H",
+      "NR4A2": "H"
+     },
+     "n_side_chain_heavy": {
+      "target": 4,
+      "NR4A1": 6,
+      "NR4A2": 6
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": true,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 2.57,
+      "NR4A2": 0.81
+     }
+    },
+    "407": {
+     "class": "unique_not_bulkier",
+     "target_residue": "T",
+     "partner_residues": {
+      "NR4A1": "L",
+      "NR4A2": "V"
+     },
+     "n_side_chain_heavy": {
+      "target": 3,
+      "NR4A1": 4,
+      "NR4A2": 3
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 2.07,
+      "NR4A2": 1.07
+     }
+    },
+    "410": {
+     "class": "unique_not_bulkier",
+     "target_residue": "T",
+     "partner_residues": {
+      "NR4A1": "G",
+      "NR4A2": "N"
+     },
+     "n_side_chain_heavy": {
+      "target": 3,
+      "NR4A1": 0,
+      "NR4A2": 4
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 2.54,
+      "NR4A2": 2.11
+     }
+    },
+    "411": {
+     "class": "conserved_or_shared",
+     "target_residue": "P",
+     "partner_residues": {
+      "NR4A1": "P",
+      "NR4A2": "P"
+     },
+     "n_side_chain_heavy": {
+      "target": 3,
+      "NR4A1": 3,
+      "NR4A2": 3
+     },
+     "categorically_unique_vs_both": false,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 2.27,
+      "NR4A2": 1.55
+     }
+    },
+    "412": {
+     "class": "unique_not_bulkier",
+     "target_residue": "R",
+     "partner_residues": {
+      "NR4A1": "A",
+      "NR4A2": "T"
+     },
+     "n_side_chain_heavy": {
+      "target": 7,
+      "NR4A1": 1,
+      "NR4A2": 3
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 5.83,
+      "NR4A2": 4.34
+     }
+    },
+    "481": {
+     "class": "conserved_or_shared",
+     "target_residue": "R",
+     "partner_residues": {
+      "NR4A1": "R",
+      "NR4A2": "R"
+     },
+     "n_side_chain_heavy": {
+      "target": 7,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "categorically_unique_vs_both": false,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 1.42,
+      "NR4A2": 1.51
+     }
+    },
+    "484": {
+     "class": "unique_and_both_bulkier",
+     "target_residue": "I",
+     "partner_residues": {
+      "NR4A1": "Y",
+      "NR4A2": "Y"
+     },
+     "n_side_chain_heavy": {
+      "target": 4,
+      "NR4A1": 8,
+      "NR4A2": 8
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": true,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 0.97,
+      "NR4A2": 0.84
+     }
+    },
+    "485": {
+     "class": "conserved_or_shared",
+     "target_residue": "R",
+     "partner_residues": {
+      "NR4A1": "R",
+      "NR4A2": "R"
+     },
+     "n_side_chain_heavy": {
+      "target": 7,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "categorically_unique_vs_both": false,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 0.57,
+      "NR4A2": 0.96
+     }
+    },
+    "531": {
+     "class": "conserved_or_shared",
+     "target_residue": "I",
+     "partner_residues": {
+      "NR4A1": "V",
+      "NR4A2": "I"
+     },
+     "n_side_chain_heavy": {
+      "target": 4,
+      "NR4A1": 3,
+      "NR4A2": 4
+     },
+     "categorically_unique_vs_both": false,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 1.16,
+      "NR4A2": 1.57
+     }
+    },
+    "534": {
+     "class": "unique_and_both_bulkier",
+     "target_residue": "L",
+     "partner_residues": {
+      "NR4A1": "F",
+      "NR4A2": "F"
+     },
+     "n_side_chain_heavy": {
+      "target": 4,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": true,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 1.25,
+      "NR4A2": 0.87
+     }
+    }
+   },
+   "n_poses_total": 13,
+   "n_poses_used": 12,
+   "n_poses_dropped_target_clash": 1,
+   "poses_dropped": [
+    {
+     "pose": "NR4A3-active:CHEMBL4755698",
+     "target_clashing_positions": [
+      481,
+      531
+     ]
+    }
+   ],
+   "by_position_class": {
+    "unique_and_both_bulkier": {
+     "fired": 33,
+     "conditioning_events": 36,
+     "rate": 0.917,
+     "graded": true
+    },
+    "unique_not_bulkier": {
+     "fired": 0,
+     "conditioning_events": 36,
+     "rate": 0.0,
+     "graded": true
+    },
+    "conserved_or_shared": {
+     "fired": 9,
+     "conditioning_events": 48,
+     "rate": 0.188,
+     "graded": true
+    }
+   },
+   "by_position_class_UNFILTERED_sensitivity": {
+    "unique_and_both_bulkier": {
+     "fired": 36,
+     "conditioning_events": 39,
+     "rate": 0.923,
+     "graded": true
+    },
+    "unique_not_bulkier": {
+     "fired": 0,
+     "conditioning_events": 39,
+     "rate": 0.0,
+     "graded": true
+    },
+    "conserved_or_shared": {
+     "fired": 9,
+     "conditioning_events": 52,
+     "rate": 0.173,
+     "graded": true
+    }
+   },
+   "signal_rate": 0.917,
+   "null_rate": 0.188,
+   "unique_not_bulkier_rate": 0.0,
+   "signal_minus_null": 0.729,
+   "enrichment_signal_over_null": 4.878,
+   "graded_contrast_a": true,
+   "graded_contrast_b": true,
+   "superposition": {
+    "NR4A1": {
+     "n_ca_pairs": 244,
+     "n_core": 203,
+     "core_fraction": 0.832,
+     "core_rmsd_A": 1.728
+    },
+    "NR4A2": {
+     "n_ca_pairs": 249,
+     "n_core": 206,
+     "core_fraction": 0.827,
+     "core_rmsd_A": 1.602
+    }
+   },
+   "volume_axis": {
+    "n_null_positions": 4,
+    "n_signal_positions": 3,
+    "n_unique_not_bulkier_positions": 3,
+    "null_volume_ceiling_A3": 11.78,
+    "null_volume_ceiling_at": 481,
+    "bar_A3": 11.78,
+    "max_signal_lobe_A3": 60.74,
+    "max_unique_not_bulkier_lobe_A3": 68.8,
+    "signal_positions_clearing_own_bar": [
+     484,
+     534
+    ],
+    "graded": true,
+    "⛔_why_both_are_required": "the bar IS this arm's largest conserved-or-shared lobe. An arm with no null-class position has no bar of its own, and `MIN_LOBE_VOLUME_A3` is an absolute sanity floor rather than a measured ceiling — grading against it would be grading against a chosen number, which is the one thing the measured bar exists to avoid.",
+    "frac_signal_positions_clearing_own_bar": 0.667,
+    "signal_over_null_volume": 5.156,
+    "volumes_A3": {
+     "406": 2.69,
+     "407": 0.58,
+     "410": 0.0,
+     "411": 0.19,
+     "412": 68.8,
+     "481": 11.78,
+     "484": 51.9,
+     "485": 0.77,
+     "531": 3.01,
+     "534": 60.74
+    },
+    "⛔_the_bar_is_this_arms_own": "the bar is this arm's largest conserved-or-shared lobe, measured on this arm's own superposition — never NR4A3's 11.78 A^3."
+   },
+   "_what": "the committed opened NR4A1/NR4A2 models and the FULL UniProt sequences — i.e. `M3`'s own inputs, through this file's code path"
+  },
+  "index_alphafold_partners": {
+   "arm": "index_alphafold_partners",
+   "kind": "index",
+   "role_map": {
+    "NR4A1": "P22736",
+    "NR4A2": "P43354"
+   },
+   "n_positions_evaluated": 10,
+   "n_positions_dropped_unaligned": 0,
+   "positions_dropped_unaligned": [],
+   "⛔_why_dropped_not_zeroed": "a position that does not align in the target or in a partner is a MISSING measurement. Scored as a non-firing trial it would join the NULL class and inflate this arm's enrichment ratio.",
+   "n_positions_by_class": {
+    "unique_and_both_bulkier": 3,
+    "unique_not_bulkier": 3,
+    "conserved_or_shared": 4
+   },
+   "positions": {
+    "406": {
+     "class": "unique_and_both_bulkier",
+     "target_residue": "L",
+     "partner_residues": {
+      "NR4A1": "H",
+      "NR4A2": "H"
+     },
+     "n_side_chain_heavy": {
+      "target": 4,
+      "NR4A1": 6,
+      "NR4A2": 6
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": true,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 2.45,
+      "NR4A2": 2.26
+     }
+    },
+    "407": {
+     "class": "unique_not_bulkier",
+     "target_residue": "T",
+     "partner_residues": {
+      "NR4A1": "L",
+      "NR4A2": "V"
+     },
+     "n_side_chain_heavy": {
+      "target": 3,
+      "NR4A1": 4,
+      "NR4A2": 3
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 2.52,
+      "NR4A2": 2.33
+     }
+    },
+    "410": {
+     "class": "unique_not_bulkier",
+     "target_residue": "T",
+     "partner_residues": {
+      "NR4A1": "G",
+      "NR4A2": "N"
+     },
+     "n_side_chain_heavy": {
+      "target": 3,
+      "NR4A1": 0,
+      "NR4A2": 4
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 4.07,
+      "NR4A2": 3.82
+     }
+    },
+    "411": {
+     "class": "conserved_or_shared",
+     "target_residue": "P",
+     "partner_residues": {
+      "NR4A1": "P",
+      "NR4A2": "P"
+     },
+     "n_side_chain_heavy": {
+      "target": 3,
+      "NR4A1": 3,
+      "NR4A2": 3
+     },
+     "categorically_unique_vs_both": false,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 4.34,
+      "NR4A2": 4.16
+     }
+    },
+    "412": {
+     "class": "unique_not_bulkier",
+     "target_residue": "R",
+     "partner_residues": {
+      "NR4A1": "A",
+      "NR4A2": "T"
+     },
+     "n_side_chain_heavy": {
+      "target": 7,
+      "NR4A1": 1,
+      "NR4A2": 3
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 5.89,
+      "NR4A2": 6.47
+     }
+    },
+    "481": {
+     "class": "conserved_or_shared",
+     "target_residue": "R",
+     "partner_residues": {
+      "NR4A1": "R",
+      "NR4A2": "R"
+     },
+     "n_side_chain_heavy": {
+      "target": 7,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "categorically_unique_vs_both": false,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 1.79,
+      "NR4A2": 1.52
+     }
+    },
+    "484": {
+     "class": "unique_and_both_bulkier",
+     "target_residue": "I",
+     "partner_residues": {
+      "NR4A1": "Y",
+      "NR4A2": "Y"
+     },
+     "n_side_chain_heavy": {
+      "target": 4,
+      "NR4A1": 8,
+      "NR4A2": 8
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": true,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 0.81,
+      "NR4A2": 0.78
+     }
+    },
+    "485": {
+     "class": "conserved_or_shared",
+     "target_residue": "R",
+     "partner_residues": {
+      "NR4A1": "R",
+      "NR4A2": "R"
+     },
+     "n_side_chain_heavy": {
+      "target": 7,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "categorically_unique_vs_both": false,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 0.55,
+      "NR4A2": 0.45
+     }
+    },
+    "531": {
+     "class": "conserved_or_shared",
+     "target_residue": "I",
+     "partner_residues": {
+      "NR4A1": "V",
+      "NR4A2": "I"
+     },
+     "n_side_chain_heavy": {
+      "target": 4,
+      "NR4A1": 3,
+      "NR4A2": 4
+     },
+     "categorically_unique_vs_both": false,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": false,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 0.98,
+      "NR4A2": 0.69
+     }
+    },
+    "534": {
+     "class": "unique_and_both_bulkier",
+     "target_residue": "L",
+     "partner_residues": {
+      "NR4A1": "F",
+      "NR4A2": "F"
+     },
+     "n_side_chain_heavy": {
+      "target": 4,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "categorically_unique_vs_both": true,
+     "alignment_robust": true,
+     "both_partner_side_chains_bulkier": true,
+     "all_positions_aligned": true,
+     "post_fit_deviation_A": {
+      "NR4A1": 0.6,
+      "NR4A2": 0.43
+     }
+    }
+   },
+   "n_poses_total": 13,
+   "n_poses_used": 12,
+   "n_poses_dropped_target_clash": 1,
+   "poses_dropped": [
+    {
+     "pose": "NR4A3-active:CHEMBL4755698",
+     "target_clashing_positions": [
+      481,
+      531
+     ]
+    }
+   ],
+   "by_position_class": {
+    "unique_and_both_bulkier": {
+     "fired": 36,
+     "conditioning_events": 36,
+     "rate": 1.0,
+     "graded": true
+    },
+    "unique_not_bulkier": {
+     "fired": 0,
+     "conditioning_events": 36,
+     "rate": 0.0,
+     "graded": true
+    },
+    "conserved_or_shared": {
+     "fired": 18,
+     "conditioning_events": 48,
+     "rate": 0.375,
+     "graded": true
+    }
+   },
+   "by_position_class_UNFILTERED_sensitivity": {
+    "unique_and_both_bulkier": {
+     "fired": 39,
+     "conditioning_events": 39,
+     "rate": 1.0,
+     "graded": true
+    },
+    "unique_not_bulkier": {
+     "fired": 0,
+     "conditioning_events": 39,
+     "rate": 0.0,
+     "graded": true
+    },
+    "conserved_or_shared": {
+     "fired": 18,
+     "conditioning_events": 52,
+     "rate": 0.346,
+     "graded": true
+    }
+   },
+   "signal_rate": 1.0,
+   "null_rate": 0.375,
+   "unique_not_bulkier_rate": 0.0,
+   "signal_minus_null": 0.625,
+   "enrichment_signal_over_null": 2.667,
+   "graded_contrast_a": true,
+   "graded_contrast_b": true,
+   "superposition": {
+    "NR4A1": {
+     "n_ca_pairs": 244,
+     "n_core": 203,
+     "core_fraction": 0.832,
+     "core_rmsd_A": 1.729
+    },
+    "NR4A2": {
+     "n_ca_pairs": 249,
+     "n_core": 200,
+     "core_fraction": 0.803,
+     "core_rmsd_A": 1.654
+    }
+   },
+   "volume_axis": {
+    "n_null_positions": 4,
+    "n_signal_positions": 3,
+    "n_unique_not_bulkier_positions": 3,
+    "null_volume_ceiling_A3": 28.42,
+    "null_volume_ceiling_at": 481,
+    "bar_A3": 28.42,
+    "max_signal_lobe_A3": 78.27,
+    "max_unique_not_bulkier_lobe_A3": 9.79,
+    "signal_positions_clearing_own_bar": [
+     406,
+     484,
+     534
+    ],
+    "graded": true,
+    "⛔_why_both_are_required": "the bar IS this arm's largest conserved-or-shared lobe. An arm with no null-class position has no bar of its own, and `MIN_LOBE_VOLUME_A3` is an absolute sanity floor rather than a measured ceiling — grading against it would be grading against a chosen number, which is the one thing the measured bar exists to avoid.",
+    "frac_signal_positions_clearing_own_bar": 1.0,
+    "signal_over_null_volume": 2.754,
+    "volumes_A3": {
+     "406": 78.27,
+     "407": 5.18,
+     "410": 0.0,
+     "411": 1.22,
+     "412": 9.79,
+     "481": 28.42,
+     "484": 67.2,
+     "485": 16.0,
+     "531": 2.37,
+     "534": 31.1
+    },
+    "⛔_the_bar_is_this_arms_own": "the bar is this arm's largest conserved-or-shared lobe, measured on this arm's own superposition — never NR4A3's 11.78 A^3."
+   },
+   "_what": "the MATCHED index row: NR4A1 and NR4A2 as AlphaFold models trimmed by the same rule as every decoy, on the same committed NR4A3 target and poses. This is the row the percentile is quoted for."
+  },
+  "⚠_which_one_the_percentile_uses": "`index_alphafold_partners` — the MATCHED row, whose partners come from the same source and the same trim as every decoy. `index_committed` is the reference row and is what reproduces the committed `M3` rates; quoting a percentile for it would compare a committed opened-model arm against an AlphaFold background, which is the mixed-source comparison `C24` refused.",
+  "both_percentiles_are_reported": true
+ },
+ "backgrounds": {
+  "partner_swap": {
+   "_what": "target = the committed NR4A3 opened model (`results/nr4a3-matrix/nr4a3-opened.pdb`), poses = the 13 committed docked molecules, positions = Pocket-5 (`C5`). The two proteins playing the paralogue ROLES are an arbitrary close pair from the universe, superposed onto NR4A3 by the same `superpose_paralogue` call `M3` makes.",
+   "role": "PRIMARY",
+   "n_rows_attempted": 3,
+   "n_graded_contrast_a": 3,
+   "n_graded_contrast_b": 3,
+   "contrast_a_signal_minus_null": {
+    "n_graded": 3,
+    "n_distinct_proteins": 3,
+    "distribution": {
+     "n": 3,
+     "min": 0.583,
+     "q25": 0.583,
+     "median": 0.583,
+     "q75": 0.6665,
+     "max": 0.75,
+     "mean": 0.6386666666666666,
+     "n_exactly_zero": 0,
+     "frac_exactly_zero": 0.0,
+     "frac_exactly_zero_wilson95": [
+      0.0,
+      0.5615
+     ],
+     "percentile_resolution": 0.3333333333333333,
+     "★_what_this_n_can_and_cannot_exclude": {
+      "n_graded": 3,
+      "n_exactly_zero": 0,
+      "zero_rate_wilson95": [
+       0.0,
+       0.5615
+      ],
+      "CAN_exclude": "a true background zero-rate outside [0.000, 0.561] at 95 %",
+      "CANNOT_exclude": "any zero-rate inside [0.000, 0.561] — at n = 3 that interval is wide, and two backgrounds differing by less than its width are indistinguishable here",
+      "CANNOT_report": "a percentile finer than 0.3333 (= 1/n). A target that beats every background point still reports 0.3333 if one point ties it, so a percentile sitting at that floor is a statement about n as much as about the target",
+      "⚠_effective_n": "the points are not fully independent — see the clustering note beside whichever background this summarises — so the interval above is, if anything, optimistic."
+     }
+    },
+    "modal_value": {
+     "value": 0.583,
+     "count": 2,
+     "frac": 0.6666666666666666,
+     "n": 3
+    },
+    "index_value": 0.625,
+    "index_arm": "index_alphafold_partners",
+    "graded_rows": [
+     {
+      "arm": "ESRRB|ESRRA",
+      "signal_minus_null": 0.583,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 2,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 6
+      }
+     },
+     {
+      "arm": "ESRRA|ESRRG",
+      "signal_minus_null": 0.75,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 5,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 3
+      }
+     },
+     {
+      "arm": "ESRRB|ESRRG",
+      "signal_minus_null": 0.583,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 2,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 6
+      }
+     }
+    ],
+    "percentile_of_the_background_BELOW_the_index": 0.6667,
+    "frac_of_the_background_at_or_above_the_index": 0.3333,
+    "frac_of_the_background_at_or_below_the_index": 0.6667,
+    "percentile_resolution": 0.3333,
+    "⚠_index_equals_the_background_mode": null,
+    "favourable_direction": "high",
+    "percentile_in_the_favourable_direction": 0.6667,
+    "verdict": "UNGRADEABLE_too_few_graded_rows",
+    "⚠_clustering": "pairs share proteins under `max_per_protein = 2`, so the rows are not fully independent and the effective n is below `n_graded`. `n_distinct_proteins` is reported beside it."
+   },
+   "contrast_a_enrichment_ratio": {
+    "n_graded": 2,
+    "n_distinct_proteins": 3,
+    "distribution": {
+     "n": 2,
+     "min": 4.491,
+     "q25": 4.491,
+     "median": 4.491,
+     "q75": 4.491,
+     "max": 4.491,
+     "mean": 4.491,
+     "n_exactly_zero": 0,
+     "frac_exactly_zero": 0.0,
+     "frac_exactly_zero_wilson95": [
+      0.0,
+      0.6576
+     ],
+     "percentile_resolution": 0.5,
+     "★_what_this_n_can_and_cannot_exclude": {
+      "n_graded": 2,
+      "n_exactly_zero": 0,
+      "zero_rate_wilson95": [
+       0.0,
+       0.6576
+      ],
+      "CAN_exclude": "a true background zero-rate outside [0.000, 0.658] at 95 %",
+      "CANNOT_exclude": "any zero-rate inside [0.000, 0.658] — at n = 2 that interval is wide, and two backgrounds differing by less than its width are indistinguishable here",
+      "CANNOT_report": "a percentile finer than 0.5000 (= 1/n). A target that beats every background point still reports 0.5000 if one point ties it, so a percentile sitting at that floor is a statement about n as much as about the target",
+      "⚠_effective_n": "the points are not fully independent — see the clustering note beside whichever background this summarises — so the interval above is, if anything, optimistic."
+     }
+    },
+    "modal_value": {
+     "value": 4.491,
+     "count": 2,
+     "frac": 1.0,
+     "n": 2
+    },
+    "index_value": 2.667,
+    "index_arm": "index_alphafold_partners",
+    "graded_rows": [
+     {
+      "arm": "ESRRB|ESRRA",
+      "enrichment_signal_over_null": 4.491,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 2,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 6
+      }
+     },
+     {
+      "arm": "ESRRB|ESRRG",
+      "enrichment_signal_over_null": 4.491,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 2,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 6
+      }
+     }
+    ],
+    "percentile_of_the_background_BELOW_the_index": 0.0,
+    "frac_of_the_background_at_or_above_the_index": 1.0,
+    "frac_of_the_background_at_or_below_the_index": 0.0,
+    "percentile_resolution": 0.5,
+    "⚠_index_equals_the_background_mode": null,
+    "favourable_direction": "high",
+    "percentile_in_the_favourable_direction": 0.0,
+    "verdict": "UNGRADEABLE_too_few_graded_rows",
+    "⚠_clustering": "pairs share proteins under `max_per_protein = 2`, so the rows are not fully independent and the effective n is below `n_graded`. `n_distinct_proteins` is reported beside it."
+   },
+   "n_enrichment_undefined": 1,
+   "contrast_b_unique_not_bulkier_rate": {
+    "n_graded": 3,
+    "n_distinct_proteins": 3,
+    "distribution": {
+     "n": 3,
+     "min": 0.0,
+     "q25": 0.0,
+     "median": 0.0,
+     "q75": 0.0,
+     "max": 0.0,
+     "mean": 0.0,
+     "n_exactly_zero": 3,
+     "frac_exactly_zero": 1.0,
+     "frac_exactly_zero_wilson95": [
+      0.4385,
+      1.0
+     ],
+     "percentile_resolution": 0.3333333333333333,
+     "★_what_this_n_can_and_cannot_exclude": {
+      "n_graded": 3,
+      "n_exactly_zero": 3,
+      "zero_rate_wilson95": [
+       0.4385,
+       1.0
+      ],
+      "CAN_exclude": "a true background zero-rate outside [0.439, 1.000] at 95 %",
+      "CANNOT_exclude": "any zero-rate inside [0.439, 1.000] — at n = 3 that interval is wide, and two backgrounds differing by less than its width are indistinguishable here",
+      "CANNOT_report": "a percentile finer than 0.3333 (= 1/n). A target that beats every background point still reports 0.3333 if one point ties it, so a percentile sitting at that floor is a statement about n as much as about the target",
+      "⚠_effective_n": "the points are not fully independent — see the clustering note beside whichever background this summarises — so the interval above is, if anything, optimistic."
+     }
+    },
+    "modal_value": {
+     "value": 0.0,
+     "count": 3,
+     "frac": 1.0,
+     "n": 3
+    },
+    "index_value": 0.0,
+    "index_arm": "index_alphafold_partners",
+    "graded_rows": [
+     {
+      "arm": "ESRRB|ESRRA",
+      "unique_not_bulkier_rate": 0.0,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 2,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 6
+      }
+     },
+     {
+      "arm": "ESRRA|ESRRG",
+      "unique_not_bulkier_rate": 0.0,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 5,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 3
+      }
+     },
+     {
+      "arm": "ESRRB|ESRRG",
+      "unique_not_bulkier_rate": 0.0,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 2,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 6
+      }
+     }
+    ],
+    "percentile_of_the_background_BELOW_the_index": 0.0,
+    "frac_of_the_background_at_or_above_the_index": 1.0,
+    "frac_of_the_background_at_or_below_the_index": 1.0,
+    "percentile_resolution": 0.3333,
+    "⚠_index_equals_the_background_mode": "⛔ THE INDEX ARM'S VALUE IS EXACTLY THE BACKGROUND'S MODAL VALUE (0.0, 3 of 3 rows). Its percentile IS that modal frequency — ONE measurement, not two. Do not quote them as independent evidence.",
+    "favourable_direction": "low",
+    "percentile_in_the_favourable_direction": 0.0,
+    "verdict": "UNGRADEABLE_too_few_graded_rows",
+    "⚠_clustering": "pairs share proteins under `max_per_protein = 2`, so the rows are not fully independent and the effective n is below `n_graded`. `n_distinct_proteins` is reported beside it."
+   },
+   "volume_axis_frac_signal_clearing_own_bar": {
+    "n_graded": 3,
+    "n_distinct_proteins": 3,
+    "distribution": {
+     "n": 3,
+     "min": 0.0,
+     "q25": 0.25,
+     "median": 0.5,
+     "q75": 0.75,
+     "max": 1.0,
+     "mean": 0.5,
+     "n_exactly_zero": 1,
+     "frac_exactly_zero": 0.3333333333333333,
+     "frac_exactly_zero_wilson95": [
+      0.0615,
+      0.7923
+     ],
+     "percentile_resolution": 0.3333333333333333,
+     "★_what_this_n_can_and_cannot_exclude": {
+      "n_graded": 3,
+      "n_exactly_zero": 1,
+      "zero_rate_wilson95": [
+       0.0615,
+       0.7923
+      ],
+      "CAN_exclude": "a true background zero-rate outside [0.061, 0.792] at 95 %",
+      "CANNOT_exclude": "any zero-rate inside [0.061, 0.792] — at n = 3 that interval is wide, and two backgrounds differing by less than its width are indistinguishable here",
+      "CANNOT_report": "a percentile finer than 0.3333 (= 1/n). A target that beats every background point still reports 0.3333 if one point ties it, so a percentile sitting at that floor is a statement about n as much as about the target",
+      "⚠_effective_n": "the points are not fully independent — see the clustering note beside whichever background this summarises — so the interval above is, if anything, optimistic."
+     }
+    },
+    "modal_value": {
+     "value": 0.0,
+     "count": 1,
+     "frac": 0.3333333333333333,
+     "n": 3
+    },
+    "index_value": 1.0,
+    "index_arm": "index_alphafold_partners",
+    "graded_rows": [
+     {
+      "arm": "ESRRB|ESRRA",
+      "_vol_frac": 0.0,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 2,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 6
+      }
+     },
+     {
+      "arm": "ESRRA|ESRRG",
+      "_vol_frac": 1.0,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 5,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 3
+      }
+     },
+     {
+      "arm": "ESRRB|ESRRG",
+      "_vol_frac": 0.5,
+      "n_poses_used": 12,
+      "n_positions_by_class": {
+       "unique_and_both_bulkier": 2,
+       "unique_not_bulkier": 2,
+       "conserved_or_shared": 6
+      }
+     }
+    ],
+    "percentile_of_the_background_BELOW_the_index": 0.6667,
+    "frac_of_the_background_at_or_above_the_index": 0.3333,
+    "frac_of_the_background_at_or_below_the_index": 1.0,
+    "percentile_resolution": 0.3333,
+    "⚠_index_equals_the_background_mode": null,
+    "favourable_direction": "high",
+    "percentile_in_the_favourable_direction": 0.6667,
+    "verdict": "UNGRADEABLE_too_few_graded_rows",
+    "⚠_clustering": "pairs share proteins under `max_per_protein = 2`, so the rows are not fully independent and the effective n is below `n_graded`. `n_distinct_proteins` is reported beside it."
+   }
+  },
+  "full_trio": {
+   "_what": "a trio {T, A, B} from the universe. T is superposed into the NR4A3 pose frame by `superpose_paralogue(T, nr4a3_opened)`; A and B are then superposed onto T-as-placed by the same function, so the partners are fitted to THEIR OWN target exactly as in `M3`. Positions = Pocket-5 mapped onto T through the same `corr_from_ref` chain. Poses = the same 13 molecules, unmoved.",
+   "role": "SECONDARY",
+   "⚠_asymmetric_reading": "The poses were docked into NR4A3, not into T. The per-arm pose filter below removes the resulting bias in the FIRING statistic (a pose that clashes with its own target is dropped in every arm, index included), but it cannot remove the SELECTION effect: an arm whose target fills the pocket keeps fewer poses and may fall below the gradeability floor. PRE-REGISTERED READING, asymmetric on purpose: a HIGH `full_trio` background is decisive against distinctiveness; a LOW one is UNINTERPRETABLE, because pose attrition and a real absence of contrast are not separable here. `partner_swap` carries no such asymmetry.",
+   "n_rows_attempted": 2,
+   "n_graded_contrast_a": 0,
+   "n_graded_contrast_b": 0,
+   "contrast_a_signal_minus_null": {
+    "n_graded": 0,
+    "n_distinct_proteins": 0,
+    "distribution": null,
+    "modal_value": null,
+    "index_value": 0.625,
+    "index_arm": "index_alphafold_partners",
+    "graded_rows": [],
+    "verdict": "UNGRADEABLE_empty_background",
+    "⚠_clustering": "the three arms of one trio share all three proteins, so within a trio the rows are STRONGLY dependent — `n_graded / 3` is closer to the number of independent systems than `n_graded` is. `n_distinct_proteins` is reported beside it."
+   },
+   "contrast_a_enrichment_ratio": {
+    "n_graded": 0,
+    "n_distinct_proteins": 0,
+    "distribution": null,
+    "modal_value": null,
+    "index_value": 2.667,
+    "index_arm": "index_alphafold_partners",
+    "graded_rows": [],
+    "verdict": "UNGRADEABLE_empty_background",
+    "⚠_clustering": "the three arms of one trio share all three proteins, so within a trio the rows are STRONGLY dependent — `n_graded / 3` is closer to the number of independent systems than `n_graded` is. `n_distinct_proteins` is reported beside it."
+   },
+   "n_enrichment_undefined": 0,
+   "contrast_b_unique_not_bulkier_rate": {
+    "n_graded": 0,
+    "n_distinct_proteins": 0,
+    "distribution": null,
+    "modal_value": null,
+    "index_value": 0.0,
+    "index_arm": "index_alphafold_partners",
+    "graded_rows": [],
+    "verdict": "UNGRADEABLE_empty_background",
+    "⚠_clustering": "the three arms of one trio share all three proteins, so within a trio the rows are STRONGLY dependent — `n_graded / 3` is closer to the number of independent systems than `n_graded` is. `n_distinct_proteins` is reported beside it."
+   },
+   "volume_axis_frac_signal_clearing_own_bar": {
+    "n_graded": 0,
+    "n_distinct_proteins": 0,
+    "distribution": null,
+    "modal_value": null,
+    "index_value": 1.0,
+    "index_arm": "index_alphafold_partners",
+    "graded_rows": [],
+    "verdict": "UNGRADEABLE_empty_background",
+    "⚠_clustering": "the three arms of one trio share all three proteins, so within a trio the rows are STRONGLY dependent — `n_graded / 3` is closer to the number of independent systems than `n_graded` is. `n_distinct_proteins` is reported beside it."
+   },
+   "⚠_UNFILTERED_sensitivity_because_the_filtered_contrast_was_predicted_ungradeable": {
+    "_what": "the same arms read off their UNFILTERED class counts, i.e. with the target-clash term left in `score_pose`'s predicate exactly as it stands. Reported because the pre-registration PREDICTED, with the smoke as evidence, that the filtered clash contrast would be ungradeable here.",
+    "⚠_bias_direction": "biased DOWNWARD on decoys — the decoy target's own side chains suppress firing in every class. A HIGH background under this bias is evidence against distinctiveness; a LOW one is not evidence for it.",
+    "⛔_the_index_is_read_UNFILTERED_here_too": "a filtered index against an unfiltered background would not be like-for-like, and the difference is not cosmetic — the index arm's own value moves when its one target-clashing pose is put back.",
+    "contrast_a_signal_minus_null": {
+     "n_graded": 0,
+     "n_distinct_proteins": 0,
+     "distribution": null,
+     "modal_value": null,
+     "index_value": 0.654,
+     "index_arm": "index_alphafold_partners",
+     "graded_rows": [],
+     "verdict": "UNGRADEABLE_empty_background",
+     "⚠_clustering": "the three arms of one trio share all three proteins, so within a trio the rows are STRONGLY dependent — `n_graded / 3` is closer to the number of independent systems than `n_graded` is. `n_distinct_proteins` is reported beside it."
+    },
+    "contrast_b_unique_not_bulkier_rate": {
+     "n_graded": 0,
+     "n_distinct_proteins": 0,
+     "distribution": null,
+     "modal_value": null,
+     "index_value": 0.0,
+     "index_arm": "index_alphafold_partners",
+     "graded_rows": [],
+     "verdict": "UNGRADEABLE_empty_background",
+     "⚠_clustering": "the three arms of one trio share all three proteins, so within a trio the rows are STRONGLY dependent — `n_graded / 3` is closer to the number of independent systems than `n_graded` is. `n_distinct_proteins` is reported beside it."
+    }
+   },
+   "pose_attrition": {
+    "_what": "how many of the 13 poses survived each decoy target's own clash filter. This is the quantity that decides whether a LOW `full_trio` background means 'no contrast' or 'not enough poses to see one'.",
+    "n_poses_used": [
+     0,
+     0
+    ],
+    "n_arms_with_zero_poses": 2
+   }
+  }
+ },
+ "index_percentile_under_the_committed_row_MIXED_SOURCE": {
+  "_warning": "reported for completeness ONLY. The committed row's partners are opened models built by this program; the background's are AlphaFold models. A percentile across that boundary is not like-for-like.",
+  "contrast_a_signal_minus_null": 0.6667,
+  "contrast_b_unique_not_bulkier_rate": 0.0
+ },
+ "decoy_rows": {
+  "partner_swap": [
+   {
+    "arm": "ESRRB|ESRRA",
+    "kind": "decoy_partner_swap",
+    "role_map": {
+     "NR4A1": "O95718",
+     "NR4A2": "P11474"
+    },
+    "n_positions_evaluated": 10,
+    "n_positions_dropped_unaligned": 0,
+    "positions_dropped_unaligned": [],
+    "⛔_why_dropped_not_zeroed": "a position that does not align in the target or in a partner is a MISSING measurement. Scored as a non-firing trial it would join the NULL class and inflate this arm's enrichment ratio.",
+    "n_positions_by_class": {
+     "unique_and_both_bulkier": 2,
+     "unique_not_bulkier": 2,
+     "conserved_or_shared": 6
+    },
+    "positions": {
+     "406": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 25.29,
+       "NR4A2": 5.35
+      }
+     },
+     "407": {
+      "class": "conserved_or_shared",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "T",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 3,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 25.85,
+       "NR4A2": 5.11
+      }
+     },
+     "410": {
+      "class": "conserved_or_shared",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "T",
+       "NR4A2": "E"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 3,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 18.01,
+       "NR4A2": 5.41
+      }
+     },
+     "411": {
+      "class": "conserved_or_shared",
+      "target_residue": "P",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "P"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 4,
+       "NR4A2": 3
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 18.41,
+       "NR4A2": 6.74
+      }
+     },
+     "412": {
+      "class": "unique_not_bulkier",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "C",
+       "NR4A2": "E"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 2,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 21.39,
+       "NR4A2": 6.99
+      }
+     },
+     "481": {
+      "class": "unique_not_bulkier",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "G",
+       "NR4A2": "G"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 0,
+       "NR4A2": 0
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.92,
+       "NR4A2": 0.79
+      }
+     },
+     "484": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "I",
+      "partner_residues": {
+       "NR4A1": "Y",
+       "NR4A2": "Q"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 8,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 1.14,
+       "NR4A2": 0.83
+      }
+     },
+     "485": {
+      "class": "conserved_or_shared",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 1.01,
+       "NR4A2": 1.39
+      }
+     },
+     "531": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "I",
+      "partner_residues": {
+       "NR4A1": "K",
+       "NR4A2": "R"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 5,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.79,
+       "NR4A2": 2.15
+      }
+     },
+     "534": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "F",
+       "NR4A2": "Y"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 7,
+       "NR4A2": 8
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.83,
+       "NR4A2": 1.79
+      }
+     }
+    },
+    "n_poses_total": 13,
+    "n_poses_used": 12,
+    "n_poses_dropped_target_clash": 1,
+    "poses_dropped": [
+     {
+      "pose": "NR4A3-active:CHEMBL4755698",
+      "target_clashing_positions": [
+       481,
+       531
+      ]
+     }
+    ],
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "fired": 18,
+      "conditioning_events": 24,
+      "rate": 0.75,
+      "graded": true
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 24,
+      "rate": 0.0,
+      "graded": true
+     },
+     "conserved_or_shared": {
+      "fired": 12,
+      "conditioning_events": 72,
+      "rate": 0.167,
+      "graded": true
+     }
+    },
+    "by_position_class_UNFILTERED_sensitivity": {
+     "unique_and_both_bulkier": {
+      "fired": 19,
+      "conditioning_events": 26,
+      "rate": 0.731,
+      "graded": true
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 26,
+      "rate": 0.0,
+      "graded": true
+     },
+     "conserved_or_shared": {
+      "fired": 13,
+      "conditioning_events": 78,
+      "rate": 0.167,
+      "graded": true
+     }
+    },
+    "signal_rate": 0.75,
+    "null_rate": 0.167,
+    "unique_not_bulkier_rate": 0.0,
+    "signal_minus_null": 0.583,
+    "enrichment_signal_over_null": 4.491,
+    "graded_contrast_a": true,
+    "graded_contrast_b": true,
+    "superposition": {
+     "NR4A1": {
+      "n_ca_pairs": 191,
+      "n_core": 115,
+      "core_fraction": 0.602,
+      "core_rmsd_A": 1.322
+     },
+     "NR4A2": {
+      "n_ca_pairs": 225,
+      "n_core": 170,
+      "core_fraction": 0.756,
+      "core_rmsd_A": 2.343
+     }
+    },
+    "volume_axis": {
+     "n_null_positions": 6,
+     "n_signal_positions": 2,
+     "n_unique_not_bulkier_positions": 2,
+     "null_volume_ceiling_A3": 60.8,
+     "null_volume_ceiling_at": 534,
+     "bar_A3": 60.8,
+     "max_signal_lobe_A3": 44.61,
+     "max_unique_not_bulkier_lobe_A3": 0.0,
+     "signal_positions_clearing_own_bar": [],
+     "graded": true,
+     "⛔_why_both_are_required": "the bar IS this arm's largest conserved-or-shared lobe. An arm with no null-class position has no bar of its own, and `MIN_LOBE_VOLUME_A3` is an absolute sanity floor rather than a measured ceiling — grading against it would be grading against a chosen number, which is the one thing the measured bar exists to avoid.",
+     "frac_signal_positions_clearing_own_bar": 0.0,
+     "signal_over_null_volume": 0.734,
+     "volumes_A3": {
+      "406": 0.0,
+      "407": 0.0,
+      "410": 0.0,
+      "411": 0.0,
+      "412": 0.0,
+      "481": 0.0,
+      "484": 40.13,
+      "485": 1.34,
+      "531": 44.61,
+      "534": 60.8
+     },
+     "⛔_the_bar_is_this_arms_own": "the bar is this arm's largest conserved-or-shared lobe, measured on this arm's own superposition — never NR4A3's 11.78 A^3."
+    },
+    "pair_identity": 0.6598,
+    "genes": [
+     "ESRRB",
+     "ESRRA"
+    ],
+    "accessions": [
+     "O95718",
+     "P11474"
+    ]
+   },
+   {
+    "arm": "ESRRA|ESRRG",
+    "kind": "decoy_partner_swap",
+    "role_map": {
+     "NR4A1": "P11474",
+     "NR4A2": "P62508"
+    },
+    "n_positions_evaluated": 10,
+    "n_positions_dropped_unaligned": 0,
+    "positions_dropped_unaligned": [],
+    "⛔_why_dropped_not_zeroed": "a position that does not align in the target or in a partner is a MISSING measurement. Scored as a non-firing trial it would join the NULL class and inflate this arm's enrichment ratio.",
+    "n_positions_by_class": {
+     "unique_and_both_bulkier": 5,
+     "unique_not_bulkier": 2,
+     "conserved_or_shared": 3
+    },
+    "positions": {
+     "406": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 5.35,
+       "NR4A2": 5.52
+      }
+     },
+     "407": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 5.11,
+       "NR4A2": 5.13
+      }
+     },
+     "410": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "E",
+       "NR4A2": "E"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 5,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 5.41,
+       "NR4A2": 5.59
+      }
+     },
+     "411": {
+      "class": "conserved_or_shared",
+      "target_residue": "P",
+      "partner_residues": {
+       "NR4A1": "P",
+       "NR4A2": "P"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 3,
+       "NR4A2": 3
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 6.74,
+       "NR4A2": 6.76
+      }
+     },
+     "412": {
+      "class": "unique_not_bulkier",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "E",
+       "NR4A2": "E"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 5,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 6.99,
+       "NR4A2": 6.77
+      }
+     },
+     "481": {
+      "class": "unique_not_bulkier",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "G",
+       "NR4A2": "G"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 0,
+       "NR4A2": 0
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.79,
+       "NR4A2": 1.0
+      }
+     },
+     "484": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "I",
+      "partner_residues": {
+       "NR4A1": "Q",
+       "NR4A2": "Y"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 5,
+       "NR4A2": 8
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.83,
+       "NR4A2": 1.21
+      }
+     },
+     "485": {
+      "class": "conserved_or_shared",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 1.39,
+       "NR4A2": 1.47
+      }
+     },
+     "531": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "I",
+      "partner_residues": {
+       "NR4A1": "R",
+       "NR4A2": "K"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 7,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 2.15,
+       "NR4A2": 2.94
+      }
+     },
+     "534": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "Y",
+       "NR4A2": "F"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 8,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 1.79,
+       "NR4A2": 2.49
+      }
+     }
+    },
+    "n_poses_total": 13,
+    "n_poses_used": 12,
+    "n_poses_dropped_target_clash": 1,
+    "poses_dropped": [
+     {
+      "pose": "NR4A3-active:CHEMBL4755698",
+      "target_clashing_positions": [
+       481,
+       531
+      ]
+     }
+    ],
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "fired": 45,
+      "conditioning_events": 60,
+      "rate": 0.75,
+      "graded": true
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 24,
+      "rate": 0.0,
+      "graded": true
+     },
+     "conserved_or_shared": {
+      "fired": 0,
+      "conditioning_events": 36,
+      "rate": 0.0,
+      "graded": true
+     }
+    },
+    "by_position_class_UNFILTERED_sensitivity": {
+     "unique_and_both_bulkier": {
+      "fired": 47,
+      "conditioning_events": 65,
+      "rate": 0.723,
+      "graded": true
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 26,
+      "rate": 0.0,
+      "graded": true
+     },
+     "conserved_or_shared": {
+      "fired": 0,
+      "conditioning_events": 39,
+      "rate": 0.0,
+      "graded": true
+     }
+    },
+    "signal_rate": 0.75,
+    "null_rate": 0.0,
+    "unique_not_bulkier_rate": 0.0,
+    "signal_minus_null": 0.75,
+    "enrichment_signal_over_null": null,
+    "graded_contrast_a": true,
+    "graded_contrast_b": true,
+    "superposition": {
+     "NR4A1": {
+      "n_ca_pairs": 225,
+      "n_core": 170,
+      "core_fraction": 0.756,
+      "core_rmsd_A": 2.343
+     },
+     "NR4A2": {
+      "n_ca_pairs": 227,
+      "n_core": 178,
+      "core_fraction": 0.784,
+      "core_rmsd_A": 2.765
+     }
+    },
+    "volume_axis": {
+     "n_null_positions": 3,
+     "n_signal_positions": 5,
+     "n_unique_not_bulkier_positions": 2,
+     "null_volume_ceiling_A3": 1.41,
+     "null_volume_ceiling_at": 485,
+     "bar_A3": 1.41,
+     "max_signal_lobe_A3": 68.86,
+     "max_unique_not_bulkier_lobe_A3": 67.65,
+     "signal_positions_clearing_own_bar": [
+      407,
+      410,
+      484,
+      531,
+      534
+     ],
+     "graded": true,
+     "⛔_why_both_are_required": "the bar IS this arm's largest conserved-or-shared lobe. An arm with no null-class position has no bar of its own, and `MIN_LOBE_VOLUME_A3` is an absolute sanity floor rather than a measured ceiling — grading against it would be grading against a chosen number, which is the one thing the measured bar exists to avoid.",
+     "frac_signal_positions_clearing_own_bar": 1.0,
+     "signal_over_null_volume": 48.837,
+     "volumes_A3": {
+      "406": 0.0,
+      "407": 19.39,
+      "410": 12.29,
+      "411": 0.0,
+      "412": 67.65,
+      "481": 0.0,
+      "484": 43.39,
+      "485": 1.41,
+      "531": 57.86,
+      "534": 68.86
+     },
+     "⛔_the_bar_is_this_arms_own": "the bar is this arm's largest conserved-or-shared lobe, measured on this arm's own superposition — never NR4A3's 11.78 A^3."
+    },
+    "pair_identity": 0.6228,
+    "genes": [
+     "ESRRA",
+     "ESRRG"
+    ],
+    "accessions": [
+     "P11474",
+     "P62508"
+    ]
+   },
+   {
+    "arm": "ESRRB|ESRRG",
+    "kind": "decoy_partner_swap",
+    "role_map": {
+     "NR4A1": "O95718",
+     "NR4A2": "P62508"
+    },
+    "n_positions_evaluated": 10,
+    "n_positions_dropped_unaligned": 0,
+    "positions_dropped_unaligned": [],
+    "⛔_why_dropped_not_zeroed": "a position that does not align in the target or in a partner is a MISSING measurement. Scored as a non-firing trial it would join the NULL class and inflate this arm's enrichment ratio.",
+    "n_positions_by_class": {
+     "unique_and_both_bulkier": 2,
+     "unique_not_bulkier": 2,
+     "conserved_or_shared": 6
+    },
+    "positions": {
+     "406": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 25.29,
+       "NR4A2": 5.52
+      }
+     },
+     "407": {
+      "class": "conserved_or_shared",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "T",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 3,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 25.85,
+       "NR4A2": 5.13
+      }
+     },
+     "410": {
+      "class": "conserved_or_shared",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "T",
+       "NR4A2": "E"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 3,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 18.01,
+       "NR4A2": 5.59
+      }
+     },
+     "411": {
+      "class": "conserved_or_shared",
+      "target_residue": "P",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "P"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 4,
+       "NR4A2": 3
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 18.41,
+       "NR4A2": 6.76
+      }
+     },
+     "412": {
+      "class": "unique_not_bulkier",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "C",
+       "NR4A2": "E"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 2,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 21.39,
+       "NR4A2": 6.77
+      }
+     },
+     "481": {
+      "class": "unique_not_bulkier",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "G",
+       "NR4A2": "G"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 0,
+       "NR4A2": 0
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.92,
+       "NR4A2": 1.0
+      }
+     },
+     "484": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "I",
+      "partner_residues": {
+       "NR4A1": "Y",
+       "NR4A2": "Y"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 8,
+       "NR4A2": 8
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 1.14,
+       "NR4A2": 1.21
+      }
+     },
+     "485": {
+      "class": "conserved_or_shared",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 1.01,
+       "NR4A2": 1.47
+      }
+     },
+     "531": {
+      "class": "unique_and_both_bulkier",
+      "target_residue": "I",
+      "partner_residues": {
+       "NR4A1": "K",
+       "NR4A2": "K"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 5,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": true,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.79,
+       "NR4A2": 2.94
+      }
+     },
+     "534": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "F",
+       "NR4A2": "F"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": true,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.83,
+       "NR4A2": 2.49
+      }
+     }
+    },
+    "n_poses_total": 13,
+    "n_poses_used": 12,
+    "n_poses_dropped_target_clash": 1,
+    "poses_dropped": [
+     {
+      "pose": "NR4A3-active:CHEMBL4755698",
+      "target_clashing_positions": [
+       481,
+       531
+      ]
+     }
+    ],
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "fired": 18,
+      "conditioning_events": 24,
+      "rate": 0.75,
+      "graded": true
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 24,
+      "rate": 0.0,
+      "graded": true
+     },
+     "conserved_or_shared": {
+      "fired": 12,
+      "conditioning_events": 72,
+      "rate": 0.167,
+      "graded": true
+     }
+    },
+    "by_position_class_UNFILTERED_sensitivity": {
+     "unique_and_both_bulkier": {
+      "fired": 19,
+      "conditioning_events": 26,
+      "rate": 0.731,
+      "graded": true
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 26,
+      "rate": 0.0,
+      "graded": true
+     },
+     "conserved_or_shared": {
+      "fired": 13,
+      "conditioning_events": 78,
+      "rate": 0.167,
+      "graded": true
+     }
+    },
+    "signal_rate": 0.75,
+    "null_rate": 0.167,
+    "unique_not_bulkier_rate": 0.0,
+    "signal_minus_null": 0.583,
+    "enrichment_signal_over_null": 4.491,
+    "graded_contrast_a": true,
+    "graded_contrast_b": true,
+    "superposition": {
+     "NR4A1": {
+      "n_ca_pairs": 191,
+      "n_core": 115,
+      "core_fraction": 0.602,
+      "core_rmsd_A": 1.322
+     },
+     "NR4A2": {
+      "n_ca_pairs": 227,
+      "n_core": 178,
+      "core_fraction": 0.784,
+      "core_rmsd_A": 2.765
+     }
+    },
+    "volume_axis": {
+     "n_null_positions": 6,
+     "n_signal_positions": 2,
+     "n_unique_not_bulkier_positions": 2,
+     "null_volume_ceiling_A3": 59.46,
+     "null_volume_ceiling_at": 534,
+     "bar_A3": 59.46,
+     "max_signal_lobe_A3": 73.79,
+     "max_unique_not_bulkier_lobe_A3": 0.0,
+     "signal_positions_clearing_own_bar": [
+      484
+     ],
+     "graded": true,
+     "⛔_why_both_are_required": "the bar IS this arm's largest conserved-or-shared lobe. An arm with no null-class position has no bar of its own, and `MIN_LOBE_VOLUME_A3` is an absolute sanity floor rather than a measured ceiling — grading against it would be grading against a chosen number, which is the one thing the measured bar exists to avoid.",
+     "frac_signal_positions_clearing_own_bar": 0.5,
+     "signal_over_null_volume": 1.241,
+     "volumes_A3": {
+      "406": 0.0,
+      "407": 0.0,
+      "410": 0.0,
+      "411": 0.0,
+      "412": 0.0,
+      "481": 0.0,
+      "484": 73.79,
+      "485": 1.41,
+      "531": 27.84,
+      "534": 59.46
+     },
+     "⛔_the_bar_is_this_arms_own": "the bar is this arm's largest conserved-or-shared lobe, measured on this arm's own superposition — never NR4A3's 11.78 A^3."
+    },
+    "pair_identity": 0.8093,
+    "genes": [
+     "ESRRB",
+     "ESRRG"
+    ],
+    "accessions": [
+     "O95718",
+     "P62508"
+    ]
+   }
+  ],
+  "full_trio": [
+   {
+    "arm": "ESRRB<-ESRRA+ESRRG",
+    "kind": "decoy_full_trio",
+    "role_map": {
+     "TARGET": "O95718",
+     "NR4A1": "P11474",
+     "NR4A2": "P62508"
+    },
+    "n_positions_evaluated": 10,
+    "n_positions_dropped_unaligned": 0,
+    "positions_dropped_unaligned": [],
+    "⛔_why_dropped_not_zeroed": "a position that does not align in the target or in a partner is a MISSING measurement. Scored as a non-firing trial it would join the NULL class and inflate this arm's enrichment ratio.",
+    "n_positions_by_class": {
+     "unique_and_both_bulkier": 0,
+     "unique_not_bulkier": 0,
+     "conserved_or_shared": 10
+    },
+    "positions": {
+     "406": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "V",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 3,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.29,
+       "NR4A2": 0.45
+      }
+     },
+     "407": {
+      "class": "conserved_or_shared",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "A",
+       "NR4A2": "T"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 1,
+       "NR4A2": 3
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.54,
+       "NR4A2": 0.24
+      }
+     },
+     "410": {
+      "class": "conserved_or_shared",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "T",
+       "NR4A2": "T"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 3,
+       "NR4A2": 3
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.51,
+       "NR4A2": 0.21
+      }
+     },
+     "411": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.19,
+       "NR4A2": 0.32
+      }
+     },
+     "412": {
+      "class": "conserved_or_shared",
+      "target_residue": "C",
+      "partner_residues": {
+       "NR4A1": "C",
+       "NR4A2": "C"
+      },
+      "n_side_chain_heavy": {
+       "target": 2,
+       "NR4A1": 2,
+       "NR4A2": 2
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.19,
+       "NR4A2": 0.33
+      }
+     },
+     "481": {
+      "class": "conserved_or_shared",
+      "target_residue": "G",
+      "partner_residues": {
+       "NR4A1": "G",
+       "NR4A2": "G"
+      },
+      "n_side_chain_heavy": {
+       "target": 0,
+       "NR4A1": 0,
+       "NR4A2": 0
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.38,
+       "NR4A2": 0.15
+      }
+     },
+     "484": {
+      "class": "conserved_or_shared",
+      "target_residue": "Y",
+      "partner_residues": {
+       "NR4A1": "Q",
+       "NR4A2": "Y"
+      },
+      "n_side_chain_heavy": {
+       "target": 8,
+       "NR4A1": 5,
+       "NR4A2": 8
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.3,
+       "NR4A2": 0.1
+      }
+     },
+     "485": {
+      "class": "conserved_or_shared",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.31,
+       "NR4A2": 0.3
+      }
+     },
+     "531": {
+      "class": "conserved_or_shared",
+      "target_residue": "K",
+      "partner_residues": {
+       "NR4A1": "R",
+       "NR4A2": "K"
+      },
+      "n_side_chain_heavy": {
+       "target": 5,
+       "NR4A1": 7,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.38,
+       "NR4A2": 0.31
+      }
+     },
+     "534": {
+      "class": "conserved_or_shared",
+      "target_residue": "F",
+      "partner_residues": {
+       "NR4A1": "Y",
+       "NR4A2": "F"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 8,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.29,
+       "NR4A2": 0.3
+      }
+     }
+    },
+    "n_poses_total": 13,
+    "n_poses_used": 0,
+    "n_poses_dropped_target_clash": 13,
+    "poses_dropped": [
+     {
+      "pose": "celastrol",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "cytosporone B",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "amodiaquine",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "chloroquine",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "piperlongumine",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "resveratrol",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1221517",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1961796",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1961797",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL4755698",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1873475",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL682",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL76",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     }
+    ],
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     },
+     "conserved_or_shared": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     }
+    },
+    "by_position_class_UNFILTERED_sensitivity": {
+     "unique_and_both_bulkier": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     },
+     "conserved_or_shared": {
+      "fired": 0,
+      "conditioning_events": 130,
+      "rate": 0.0,
+      "graded": true
+     }
+    },
+    "signal_rate": null,
+    "null_rate": null,
+    "unique_not_bulkier_rate": null,
+    "signal_minus_null": null,
+    "enrichment_signal_over_null": null,
+    "graded_contrast_a": false,
+    "graded_contrast_b": false,
+    "superposition": {
+     "NR4A1": {
+      "n_ca_pairs": 194,
+      "n_core": 188,
+      "core_fraction": 0.969,
+      "core_rmsd_A": 0.456
+     },
+     "NR4A2": {
+      "n_ca_pairs": 194,
+      "n_core": 194,
+      "core_fraction": 1.0,
+      "core_rmsd_A": 0.382
+     }
+    },
+    "volume_axis": {
+     "n_null_positions": 10,
+     "n_signal_positions": 0,
+     "n_unique_not_bulkier_positions": 0,
+     "null_volume_ceiling_A3": 6.14,
+     "null_volume_ceiling_at": 410,
+     "bar_A3": 6.14,
+     "max_signal_lobe_A3": null,
+     "max_unique_not_bulkier_lobe_A3": null,
+     "signal_positions_clearing_own_bar": [],
+     "graded": false,
+     "⛔_why_both_are_required": "the bar IS this arm's largest conserved-or-shared lobe. An arm with no null-class position has no bar of its own, and `MIN_LOBE_VOLUME_A3` is an absolute sanity floor rather than a measured ceiling — grading against it would be grading against a chosen number, which is the one thing the measured bar exists to avoid.",
+     "frac_signal_positions_clearing_own_bar": null,
+     "signal_over_null_volume": null,
+     "volumes_A3": {
+      "406": 0.0,
+      "407": 0.0,
+      "410": 6.14,
+      "411": 0.0,
+      "412": 0.0,
+      "481": 0.0,
+      "484": 0.13,
+      "485": 0.0,
+      "531": 4.99,
+      "534": 3.46
+     },
+     "⛔_the_bar_is_this_arms_own": "the bar is this arm's largest conserved-or-shared lobe, measured on this arm's own superposition — never NR4A3's 11.78 A^3."
+    },
+    "trio_mean_identity": 0.6973,
+    "genes": [
+     "ESRRB",
+     "ESRRA",
+     "ESRRG"
+    ],
+    "target_gene": "ESRRB",
+    "n_pocket5_positions_mapped": 10,
+    "target_superposition_onto_NR4A3": {
+     "n_ca_pairs": 191,
+     "n_core": 115,
+     "core_fraction": 0.602,
+     "core_rmsd_A": 1.322
+    }
+   },
+   {
+    "arm": "ESRRB<-ESR1+ESRRG",
+    "kind": "decoy_full_trio",
+    "role_map": {
+     "TARGET": "O95718",
+     "NR4A1": "P03372",
+     "NR4A2": "P62508"
+    },
+    "n_positions_evaluated": 10,
+    "n_positions_dropped_unaligned": 0,
+    "positions_dropped_unaligned": [],
+    "⛔_why_dropped_not_zeroed": "a position that does not align in the target or in a partner is a MISSING measurement. Scored as a non-firing trial it would join the NULL class and inflate this arm's enrichment ratio.",
+    "n_positions_by_class": {
+     "unique_and_both_bulkier": 0,
+     "unique_not_bulkier": 0,
+     "conserved_or_shared": 10
+    },
+    "positions": {
+     "406": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": false,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 30.89,
+       "NR4A2": 0.45
+      }
+     },
+     "407": {
+      "class": "conserved_or_shared",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "T"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 4,
+       "NR4A2": 3
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 30.33,
+       "NR4A2": 0.24
+      }
+     },
+     "410": {
+      "class": "conserved_or_shared",
+      "target_residue": "T",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "T"
+      },
+      "n_side_chain_heavy": {
+       "target": 3,
+       "NR4A1": 4,
+       "NR4A2": 3
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.25,
+       "NR4A2": 0.21
+      }
+     },
+     "411": {
+      "class": "conserved_or_shared",
+      "target_residue": "L",
+      "partner_residues": {
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "n_side_chain_heavy": {
+       "target": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.15,
+       "NR4A2": 0.32
+      }
+     },
+     "412": {
+      "class": "conserved_or_shared",
+      "target_residue": "C",
+      "partner_residues": {
+       "NR4A1": "T",
+       "NR4A2": "C"
+      },
+      "n_side_chain_heavy": {
+       "target": 2,
+       "NR4A1": 3,
+       "NR4A2": 2
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.27,
+       "NR4A2": 0.33
+      }
+     },
+     "481": {
+      "class": "conserved_or_shared",
+      "target_residue": "G",
+      "partner_residues": {
+       "NR4A1": "G",
+       "NR4A2": "G"
+      },
+      "n_side_chain_heavy": {
+       "target": 0,
+       "NR4A1": 0,
+       "NR4A2": 0
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.75,
+       "NR4A2": 0.15
+      }
+     },
+     "484": {
+      "class": "conserved_or_shared",
+      "target_residue": "Y",
+      "partner_residues": {
+       "NR4A1": "W",
+       "NR4A2": "Y"
+      },
+      "n_side_chain_heavy": {
+       "target": 8,
+       "NR4A1": 10,
+       "NR4A2": 8
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.37,
+       "NR4A2": 0.1
+      }
+     },
+     "485": {
+      "class": "conserved_or_shared",
+      "target_residue": "R",
+      "partner_residues": {
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.36,
+       "NR4A2": 0.3
+      }
+     },
+     "531": {
+      "class": "conserved_or_shared",
+      "target_residue": "K",
+      "partner_residues": {
+       "NR4A1": "G",
+       "NR4A2": "K"
+      },
+      "n_side_chain_heavy": {
+       "target": 5,
+       "NR4A1": 0,
+       "NR4A2": 5
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.6,
+       "NR4A2": 0.31
+      }
+     },
+     "534": {
+      "class": "conserved_or_shared",
+      "target_residue": "F",
+      "partner_residues": {
+       "NR4A1": "F",
+       "NR4A2": "F"
+      },
+      "n_side_chain_heavy": {
+       "target": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "categorically_unique_vs_both": false,
+      "alignment_robust": true,
+      "both_partner_side_chains_bulkier": false,
+      "all_positions_aligned": true,
+      "post_fit_deviation_A": {
+       "NR4A1": 0.51,
+       "NR4A2": 0.3
+      }
+     }
+    },
+    "n_poses_total": 13,
+    "n_poses_used": 0,
+    "n_poses_dropped_target_clash": 13,
+    "poses_dropped": [
+     {
+      "pose": "celastrol",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "cytosporone B",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "amodiaquine",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "chloroquine",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "piperlongumine",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "resveratrol",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1221517",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1961796",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1961797",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL4755698",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1873475",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL682",
+      "target_clashing_positions": [
+       484,
+       534
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL76",
+      "target_clashing_positions": [
+       484,
+       531,
+       534
+      ]
+     }
+    ],
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     },
+     "conserved_or_shared": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     }
+    },
+    "by_position_class_UNFILTERED_sensitivity": {
+     "unique_and_both_bulkier": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     },
+     "unique_not_bulkier": {
+      "fired": 0,
+      "conditioning_events": 0,
+      "rate": null,
+      "graded": false
+     },
+     "conserved_or_shared": {
+      "fired": 0,
+      "conditioning_events": 130,
+      "rate": 0.0,
+      "graded": true
+     }
+    },
+    "signal_rate": null,
+    "null_rate": null,
+    "unique_not_bulkier_rate": null,
+    "signal_minus_null": null,
+    "enrichment_signal_over_null": null,
+    "graded_contrast_a": false,
+    "graded_contrast_b": false,
+    "superposition": {
+     "NR4A1": {
+      "n_ca_pairs": 181,
+      "n_core": 139,
+      "core_fraction": 0.768,
+      "core_rmsd_A": 0.715
+     },
+     "NR4A2": {
+      "n_ca_pairs": 194,
+      "n_core": 194,
+      "core_fraction": 1.0,
+      "core_rmsd_A": 0.382
+     }
+    },
+    "volume_axis": {
+     "n_null_positions": 10,
+     "n_signal_positions": 0,
+     "n_unique_not_bulkier_positions": 0,
+     "null_volume_ceiling_A3": 7.17,
+     "null_volume_ceiling_at": 410,
+     "bar_A3": 7.17,
+     "max_signal_lobe_A3": null,
+     "max_unique_not_bulkier_lobe_A3": null,
+     "signal_positions_clearing_own_bar": [],
+     "graded": false,
+     "⛔_why_both_are_required": "the bar IS this arm's largest conserved-or-shared lobe. An arm with no null-class position has no bar of its own, and `MIN_LOBE_VOLUME_A3` is an absolute sanity floor rather than a measured ceiling — grading against it would be grading against a chosen number, which is the one thing the measured bar exists to avoid.",
+     "frac_signal_positions_clearing_own_bar": null,
+     "signal_over_null_volume": null,
+     "volumes_A3": {
+      "406": 0.0,
+      "407": 0.0,
+      "410": 7.17,
+      "411": 0.0,
+      "412": 0.0,
+      "481": 0.0,
+      "484": 2.3,
+      "485": 1.28,
+      "531": 0.0,
+      "534": 0.06
+     },
+     "⛔_the_bar_is_this_arms_own": "the bar is this arm's largest conserved-or-shared lobe, measured on this arm's own superposition — never NR4A3's 11.78 A^3."
+    },
+    "trio_mean_identity": 0.5258,
+    "genes": [
+     "ESRRB",
+     "ESR1",
+     "ESRRG"
+    ],
+    "target_gene": "ESRRB",
+    "n_pocket5_positions_mapped": 10,
+    "target_superposition_onto_NR4A3": {
+     "n_ca_pairs": 191,
+     "n_core": 115,
+     "core_fraction": 0.602,
+     "core_rmsd_A": 1.322
+    }
+   }
+  ]
+ },
+ "refusals": [
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P35398",
+    "Q92753"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P03372",
+    "Q92731"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P35398",
+    "P51449"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P37231",
+    "Q03181"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P13056",
+    "P49116"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P51449",
+    "Q92753"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P20393",
+    "Q14995"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P10588",
+    "P10589"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "O75469",
+    "Q14994"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P55055",
+    "Q13133"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P10588",
+    "P24468"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "Q9Y466",
+    "Q9Y5X4"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P41235",
+    "Q14541"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P24468",
+    "Q9Y5X4"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P19793",
+    "Q14541"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P10589",
+    "P19793"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "partner_swap",
+   "pair": [
+    "P10276",
+    "P13631"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P11474",
+   "partners": [
+    "O95718",
+    "P62508"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P62508",
+   "partners": [
+    "O95718",
+    "P11474"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P19793",
+   "partners": [
+    "P24468",
+    "P48443"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P24468",
+   "partners": [
+    "P19793",
+    "P48443"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P48443",
+   "partners": [
+    "P19793",
+    "P24468"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P10589",
+   "partners": [
+    "P19793",
+    "P48443"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P19793",
+   "partners": [
+    "P10589",
+    "P48443"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P48443",
+   "partners": [
+    "P10589",
+    "P19793"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P35398",
+   "partners": [
+    "P51449",
+    "Q92753"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P51449",
+   "partners": [
+    "P35398",
+    "Q92753"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "Q92753",
+   "partners": [
+    "P35398",
+    "P51449"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P28702",
+   "partners": [
+    "P41235",
+    "Q14541"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P41235",
+   "partners": [
+    "P28702",
+    "Q14541"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "Q14541",
+   "partners": [
+    "P28702",
+    "P41235"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P10588",
+   "partners": [
+    "P24468",
+    "Q9Y5X4"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P24468",
+   "partners": [
+    "P10588",
+    "Q9Y5X4"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "Q9Y5X4",
+   "partners": [
+    "P10588",
+    "P24468"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P10826",
+   "partners": [
+    "P10828",
+    "P13631"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P10828",
+   "partners": [
+    "P10826",
+    "P13631"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P13631",
+   "partners": [
+    "P10826",
+    "P10828"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P10588",
+   "partners": [
+    "P10589",
+    "Q9Y5X4"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P10589",
+   "partners": [
+    "P10588",
+    "Q9Y5X4"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "Q9Y5X4",
+   "partners": [
+    "P10588",
+    "P10589"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P20393",
+   "partners": [
+    "P51449",
+    "Q14995"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P51449",
+   "partners": [
+    "P20393",
+    "Q14995"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "Q14995",
+   "partners": [
+    "P20393",
+    "P51449"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P20393",
+   "partners": [
+    "P35398",
+    "Q14995"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P35398",
+   "partners": [
+    "P20393",
+    "Q14995"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "Q14995",
+   "partners": [
+    "P20393",
+    "P35398"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P10276",
+   "partners": [
+    "P10828",
+    "P13631"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P10828",
+   "partners": [
+    "P10276",
+    "P13631"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P13631",
+   "partners": [
+    "P10276",
+    "P10828"
+   ],
+   "reason": "KeyError: 406"
+  },
+  {
+   "background": "full_trio",
+   "target": "P03372",
+   "partners": [
+    "O95718",
+    "P62508"
+   ],
+   "reason": "KeyError: 410"
+  },
+  {
+   "background": "full_trio",
+   "target": "P62508",
+   "partners": [
+    "O95718",
+    "P03372"
+   ],
+   "reason": "KeyError: 406"
+  }
+ ],
+ "plan": {
+  "selected_pairs": [
+   {
+    "a": "O95718",
+    "b": "P11474",
+    "gene_a": "ESRRB",
+    "gene_b": "ESRRA",
+    "identity": 0.6598,
+    "coverage": 1.0,
+    "rank_key": 0.009
+   },
+   {
+    "a": "P35398",
+    "b": "Q92753",
+    "gene_a": "RORA",
+    "gene_b": "RORB",
+    "identity": 0.6325,
+    "coverage": 1.0,
+    "rank_key": 0.0183
+   },
+   {
+    "a": "P11474",
+    "b": "P62508",
+    "gene_a": "ESRRA",
+    "gene_b": "ESRRG",
+    "identity": 0.6228,
+    "coverage": 0.987,
+    "rank_key": 0.028
+   },
+   {
+    "a": "P03372",
+    "b": "Q92731",
+    "gene_a": "ESR1",
+    "gene_b": "ESR2",
+    "identity": 0.5991,
+    "coverage": 0.9954,
+    "rank_key": 0.0517
+   },
+   {
+    "a": "P35398",
+    "b": "P51449",
+    "gene_a": "RORA",
+    "gene_b": "RORC",
+    "identity": 0.5875,
+    "coverage": 1.0,
+    "rank_key": 0.0633
+   },
+   {
+    "a": "P37231",
+    "b": "Q03181",
+    "gene_a": "PPARG",
+    "gene_b": "PPARD",
+    "identity": 0.7288,
+    "coverage": 1.0,
+    "rank_key": 0.078
+   },
+   {
+    "a": "P13056",
+    "b": "P49116",
+    "gene_a": "NR2C1",
+    "gene_b": "NR2C2",
+    "identity": 0.7293,
+    "coverage": 1.0,
+    "rank_key": 0.0785
+   },
+   {
+    "a": "P51449",
+    "b": "Q92753",
+    "gene_a": "RORC",
+    "gene_b": "RORB",
+    "identity": 0.5478,
+    "coverage": 0.9812,
+    "rank_key": 0.103
+   },
+   {
+    "a": "P20393",
+    "b": "Q14995",
+    "gene_a": "NR1D1",
+    "gene_b": "NR1D2",
+    "identity": 0.7543,
+    "coverage": 1.0,
+    "rank_key": 0.1035
+   },
+   {
+    "a": "P10588",
+    "b": "P10589",
+    "gene_a": "NR2F6",
+    "gene_b": "NR2F1",
+    "identity": 0.7624,
+    "coverage": 1.0,
+    "rank_key": 0.1116
+   },
+   {
+    "a": "O75469",
+    "b": "Q14994",
+    "gene_a": "NR1I2",
+    "gene_b": "NR1I3",
+    "identity": 0.5305,
+    "coverage": 0.9704,
+    "rank_key": 0.1203
+   },
+   {
+    "a": "P55055",
+    "b": "Q13133",
+    "gene_a": "NR1H2",
+    "gene_b": "NR1H3",
+    "identity": 0.7733,
+    "coverage": 1.0,
+    "rank_key": 0.1225
+   },
+   {
+    "a": "P10588",
+    "b": "P24468",
+    "gene_a": "NR2F6",
+    "gene_b": "NR2F2",
+    "identity": 0.7735,
+    "coverage": 1.0,
+    "rank_key": 0.1227
+   },
+   {
+    "a": "O95718",
+    "b": "P62508",
+    "gene_a": "ESRRB",
+    "gene_b": "ESRRG",
+    "identity": 0.8093,
+    "coverage": 1.0,
+    "rank_key": 0.1585
+   },
+   {
+    "a": "Q9Y466",
+    "b": "Q9Y5X4",
+    "gene_a": "NR2E1",
+    "gene_b": "NR2E3",
+    "identity": 0.4634,
+    "coverage": 0.9591,
+    "rank_key": 0.1874
+   },
+   {
+    "a": "P41235",
+    "b": "Q14541",
+    "gene_a": "HNF4A",
+    "gene_b": "HNF4G",
+    "identity": 0.8448,
+    "coverage": 1.0,
+    "rank_key": 0.194
+   },
+   {
+    "a": "P24468",
+    "b": "Q9Y5X4",
+    "gene_a": "NR2F2",
+    "gene_b": "NR2E3",
+    "identity": 0.4562,
+    "coverage": 0.884,
+    "rank_key": 0.1946
+   },
+   {
+    "a": "P19793",
+    "b": "Q14541",
+    "gene_a": "RXRA",
+    "gene_b": "HNF4G",
+    "identity": 0.4528,
+    "coverage": 0.9938,
+    "rank_key": 0.198
+   },
+   {
+    "a": "P10589",
+    "b": "P19793",
+    "gene_a": "NR2F1",
+    "gene_b": "RXRA",
+    "identity": 0.4494,
+    "coverage": 0.9875,
+    "rank_key": 0.2014
+   },
+   {
+    "a": "P10276",
+    "b": "P13631",
+    "gene_a": "RARA",
+    "gene_b": "RARG",
+    "identity": 0.8601,
+    "coverage": 0.9507,
+    "rank_key": 0.2093
+   }
+  ],
+  "selected_trios": [
+   {
+    "members": [
+     "O95718",
+     "P11474",
+     "P62508"
+    ],
+    "mean_identity": 0.6973,
+    "pairwise_identity": [
+     0.6598,
+     0.8093,
+     0.6228
+    ],
+    "rank_key": 0.04167,
+    "genes": [
+     "ESRRB",
+     "ESRRA",
+     "ESRRG"
+    ]
+   },
+   {
+    "members": [
+     "P19793",
+     "P24468",
+     "P48443"
+    ],
+    "mean_identity": 0.5998,
+    "pairwise_identity": [
+     0.4557,
+     0.9,
+     0.4437
+    ],
+    "rank_key": 0.05583,
+    "genes": [
+     "RXRA",
+     "NR2F2",
+     "RXRG"
+    ]
+   },
+   {
+    "members": [
+     "P10589",
+     "P19793",
+     "P48443"
+    ],
+    "mean_identity": 0.5956,
+    "pairwise_identity": [
+     0.4494,
+     0.4375,
+     0.9
+    ],
+    "rank_key": 0.06,
+    "genes": [
+     "NR2F1",
+     "RXRA",
+     "RXRG"
+    ]
+   },
+   {
+    "members": [
+     "P35398",
+     "P51449",
+     "Q92753"
+    ],
+    "mean_identity": 0.5893,
+    "pairwise_identity": [
+     0.5875,
+     0.6325,
+     0.5478
+    ],
+    "rank_key": 0.06637,
+    "genes": [
+     "RORA",
+     "RORC",
+     "RORB"
+    ]
+   },
+   {
+    "members": [
+     "P28702",
+     "P41235",
+     "Q14541"
+    ],
+    "mean_identity": 0.57,
+    "pairwise_identity": [
+     0.4313,
+     0.434,
+     0.8448
+    ],
+    "rank_key": 0.0856,
+    "genes": [
+     "RXRB",
+     "HNF4A",
+     "HNF4G"
+    ]
+   },
+   {
+    "members": [
+     "P10588",
+     "P24468",
+     "Q9Y5X4"
+    ],
+    "mean_identity": 0.5662,
+    "pairwise_identity": [
+     0.7735,
+     0.4688,
+     0.4562
+    ],
+    "rank_key": 0.08947,
+    "genes": [
+     "NR2F6",
+     "NR2F2",
+     "NR2E3"
+    ]
+   },
+   {
+    "members": [
+     "P10826",
+     "P10828",
+     "P13631"
+    ],
+    "mean_identity": 0.5588,
+    "pairwise_identity": [
+     0.3978,
+     0.8984,
+     0.3802
+    ],
+    "rank_key": 0.09683,
+    "genes": [
+     "RARB",
+     "THRB",
+     "RARG"
+    ]
+   },
+   {
+    "members": [
+     "P10588",
+     "P10589",
+     "Q9Y5X4"
+    ],
+    "mean_identity": 0.5524,
+    "pairwise_identity": [
+     0.7624,
+     0.4688,
+     0.426
+    ],
+    "rank_key": 0.10323,
+    "genes": [
+     "NR2F6",
+     "NR2F1",
+     "NR2E3"
+    ]
+   },
+   {
+    "members": [
+     "P20393",
+     "P51449",
+     "Q14995"
+    ],
+    "mean_identity": 0.5447,
+    "pairwise_identity": [
+     0.4423,
+     0.7543,
+     0.4375
+    ],
+    "rank_key": 0.11093,
+    "genes": [
+     "NR1D1",
+     "RORC",
+     "NR1D2"
+    ]
+   },
+   {
+    "members": [
+     "P20393",
+     "P35398",
+     "Q14995"
+    ],
+    "mean_identity": 0.5406,
+    "pairwise_identity": [
+     0.4157,
+     0.7543,
+     0.4518
+    ],
+    "rank_key": 0.11503,
+    "genes": [
+     "NR1D1",
+     "RORA",
+     "NR1D2"
+    ]
+   },
+   {
+    "members": [
+     "P10276",
+     "P10828",
+     "P13631"
+    ],
+    "mean_identity": 0.5402,
+    "pairwise_identity": [
+     0.3802,
+     0.8601,
+     0.3802
+    ],
+    "rank_key": 0.11547,
+    "genes": [
+     "RARA",
+     "THRB",
+     "RARG"
+    ]
+   },
+   {
+    "members": [
+     "O95718",
+     "P03372",
+     "P62508"
+    ],
+    "mean_identity": 0.5258,
+    "pairwise_identity": [
+     0.3978,
+     0.8093,
+     0.3702
+    ],
+    "rank_key": 0.12987,
+    "genes": [
+     "ESRRB",
+     "ESR1",
+     "ESRRG"
+    ]
+   }
+  ],
+  "window_size_spread": {
+   "n_proteins": 37,
+   "min": 160,
+   "median": 194,
+   "max": 283,
+   "max_over_min": 1.769,
+   "_reading": "a scope whose windows differ by a large factor is not one structural region measured in many proteins; it is many regions pooled. Window size drives how many cysteines the screen can see, so it is a confound on the background."
+  },
+  "nr4a3_reference_identities": {
+   "NR4A1": {
+    "identity": 0.6189,
+    "coverage": 0.9721
+   },
+   "NR4A2": {
+    "identity": 0.6827,
+    "coverage": 0.9803
+   }
+  },
+  "trim_refusals": [
+   {
+    "accession": "P10827",
+    "gene": "THRA",
+    "reason": "ValueError: reference coverage 0.504 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "P04150",
+    "gene": "NR3C1",
+    "reason": "ValueError: reference coverage 0.402 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "P10275",
+    "gene": "AR",
+    "reason": "ValueError: reference coverage 0.516 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "Q96RI1",
+    "gene": "NR1H4",
+    "reason": "ValueError: reference coverage 0.591 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "Q15406",
+    "gene": "NR6A1",
+    "reason": "ValueError: reference coverage 0.476 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "P11473",
+    "gene": "VDR",
+    "reason": "ValueError: reference coverage 0.598 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "Q13285",
+    "gene": "NR5A1",
+    "reason": "ValueError: reference coverage 0.469 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "P51843",
+    "gene": "NR0B1",
+    "reason": "ValueError: reference coverage 0.138 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "Q15466",
+    "gene": "NR0B2",
+    "reason": "ValueError: reference coverage 0.161 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "P06401",
+    "gene": "PGR",
+    "reason": "ValueError: reference coverage 0.425 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   },
+   {
+    "accession": "Q07869",
+    "gene": "PPARA",
+    "reason": "ValueError: reference coverage 0.598 < 0.6 — the reference LBD is not confidently locatable in this chain"
+   }
+  ]
+ },
+ "limits": [
+  "⛔ This calibrates the SCREEN, not the protein. A distinctive contrast would say the steric predicate separates NR4A3 from an arbitrary close nuclear-receptor pair; it would still say nothing about binding, affinity, degradation, efficacy or safety, none of which is computed anywhere here.",
+  "⚠ RIGID TRANSFER, every arm. Partner side chains are held in their own modelled conformer and could rotate away. Every rate and every lobe is 'denied in this conformer', never 'denied'.",
+  "⚠ The target's absence of clash is guaranteed by construction (the poses were docked into NR4A3) and carries no information. Only the between-class contrast is gradeable — which is why `score_pose` refuses to emit a signal without its matched null, and why this file always reports both.",
+  "⚠ The decoy arms are ALPHAFOLD models trimmed to `C24`'s reference-anchored LBD window; the index target is the committed metadynamics-OPENED NR4A3 conformer. The partner source is matched (the index row's partners are AlphaFold models too); the TARGET source is not matched in `full_trio`.",
+  "⚠ A nuclear-receptor universe is not the proteome. Nothing here bounds the rate over the proteome, and no proteome-wide selectivity claim is made or implied.",
+  "⚠ Clustering: pairs and trios share proteins under `max_per_protein = 2`, and the three arms of one trio share all three proteins. The effective n is below `n_graded` and every Wilson interval here is, if anything, optimistic.",
+  "⚠ One superposition per partner, by iterative core refinement. Post-fit deviation is carried on every position so a reader can down-weight the worst ones, exactly as `M3` does.",
+  "⛔ Conditional on `R5`. The whole steric axis assumes the cryptic pocket is the right site, and the pose known-answer test `V3` returned INCONCLUSIVE on site selection. A background cannot repair that.",
+  "⛔ `C5`'s Pocket-5 lining set is mapped onto every decoy target by sequence alignment, so a decoy position is 'NR4A3's site, mapped', never 'this protein's own pocket'. That is the same convention the committed paralogue contrast uses and it has the same reading.",
+  "⚠ 13 poses is a small pose set and it is the committed selectivity-matrix library, not the carried candidate. The per-arm filter can only shrink it."
+ ],
+ "verdict": {
+  "contrast_a_bulkier_in_both_vs_conserved_null": "UNGRADEABLE_too_few_graded_rows",
+  "contrast_b_unique_but_not_bulkier": "UNGRADEABLE_too_few_graded_rows",
+  "primary_background": "partner_swap",
+  "secondary_background_contrast_a": "UNGRADEABLE_empty_background",
+  "secondary_background_contrast_b": "UNGRADEABLE_empty_background",
+  "rule": {
+   "DISTINCTIVE_requires_all_of": [
+    "n_graded >= 5 in the background being quoted",
+    "NR4A3's percentile >= 0.75 — i.e. at most a quarter of the background reaches its contrast",
+    "for contrast (b): the background's frac_exactly_zero <= 0.5, because in a background where most arms also return 0 a 0 from NR4A3 means nothing — the `C24` failure mode exactly"
+   ],
+   "otherwise": "NOT DISTINGUISHED, or UNGRADEABLE when n_graded < the floor",
+   "⛔_both_halves_are_needed": "a favourable percentile computed against a background whose modal value equals NR4A3's own is not evidence. `grade()` is the one home of this rule and the SAME thresholds grade both backgrounds and both contrasts; only the numbers going in differ."
+  },
+  "★_plain_reading": [
+   "CONTRAST (a) — bulkier-in-both vs the conserved/shared null. NR4A3 (matched index row) signal_minus_null = 0.625. Background over 3 graded arms: median 0.583, q75 0.666, max 0.75. NR4A3 sits above 0.6667 of the background (resolution 0.3333). VERDICT: UNGRADEABLE_too_few_graded_rows.",
+   "CONTRAST (b) — the unique-but-NOT-bulkier class, which fires at 0.000 on NR4A3. Background over 3 graded arms: frac_exactly_zero = 1.0 (Wilson 95% [0.4385, 1.0]), median 0.0. VERDICT: UNGRADEABLE_too_few_graded_rows.",
+   "⛔ THE INDEX ARM'S VALUE IS EXACTLY THE BACKGROUND'S MODAL VALUE (0.0, 3 of 3 rows). Its percentile IS that modal frequency — ONE measurement, not two. Do not quote them as independent evidence.",
+   "SECONDARY (`full_trio`, target and both partners swapped): filtered clash contrast 0 graded arms, verdict UNGRADEABLE_empty_background — and the pre-registration PREDICTED this from the smoke, because transporting a pose set docked into NR4A3 into another target's frame drops the poses (attrition: [0, 0]). The unfiltered sensitivity, biased DOWNWARD on decoys, graded 0 arms at verdict UNGRADEABLE_empty_background. ⭑ The half that is immune to all of this is the POSE-FREE volume axis: 0 graded arms, index 1.0, verdict UNGRADEABLE_empty_background.",
+   "⛔ AND THE CEILING IS UNCHANGED BY ANY OF THIS: the paralogue RELOCATES these molecules by a median ~5.3 A rather than refusing them (`M4`), so `S3` constrains a POSE and never 'the paralogue cannot bind this molecule'. The transfer is rigid, and the target's absence of clash is guaranteed by construction and carries no information in any arm."
+  ]
+ },
+ "map_edits_required": {
+  "_what": "Roadmap edits this result requires. DESCRIBED, NOT APPLIED — every `current_text` is READ out of the live map by `map_edits.locate`, so it is a byte-exact substring of the map as it stood at generation time. Route with `python3 research/manuscripts/route_map_edits.py <artifact> --apply`.",
+  "configuration_id": "C25",
+  "verdict_contrast_a": "UNGRADEABLE_too_few_graded_rows",
+  "verdict_contrast_b": "UNGRADEABLE_too_few_graded_rows",
+  "⛔_not_filed_in_section_6": "A null that fails to reject closes nothing, and a null that DOES reject does not close the axis either — it calibrates it. Nothing here is proposed for §6 in either direction.",
+  "entries": [
+   {
+    "section": "§3b.1 configuration register — the new `C25` row",
+    "anchor": "| **C24** |",
+    "kind": "insert",
+    "status": "OK",
+    "why": "`C25` is a NEW frozen definitional choice and §3b's rule is that a number depending on one must name it. Every percentile this run quotes is conditional on it.",
+    "artifact": "research/modalities/steric-decoy-null.json",
+    "current_text": "| **C24** | **the SECOND decoy-null domain trim** — the reference-anchored LBD window | the residue-number span aligned to the **committed NR4A3 LBD construct** (UniProt **[373, 626]**) by **Smith-Waterman local** alignment, BLOSUM62, gaps −11/−1; refusals at reference coverage < **0.6** or window < **120** residues. ⭑ **No pLDDT criterion at all** | **pre-registered 2026-08-03** in [`categorical-decoy-null-lbd-plan.json`](../modalities/categorical-decoy-null-lbd-plan.json), before any model was trimmed under it and before any statistic under it existed, and committed to git ahead of the numbers — the same registering act as `C14`/`C15`/`C17`, and like every item here **changing it is trimcrae's** | [`categorical_decoy_null.PREREG_LBD` / `lbd_window`](../modalities/categorical_decoy_null.py) | ⛔ **whether a percentile may be quoted for C397 at all.** It keeps UniProt [373, 626] of the NR4A3 model, so the committed unique set [397, 420, 559] is in scope, C397 included. ⚠ It is **NOT** a widening of `C16` — `C16` stands, both runs stand, and their rows are never pooled | ✅ frozen |",
+    "proposed_text": "| **C24** | **the SECOND decoy-null domain trim** — the reference-anchored LBD window | the residue-number span aligned to the **committed NR4A3 LBD construct** (UniProt **[373, 626]**) by **Smith-Waterman local** alignment, BLOSUM62, gaps −11/−1; refusals at reference coverage < **0.6** or window < **120** residues. ⭑ **No pLDDT criterion at all** | **pre-registered 2026-08-03** in [`categorical-decoy-null-lbd-plan.json`](../modalities/categorical-decoy-null-lbd-plan.json), before any model was trimmed under it and before any statistic under it existed, and committed to git ahead of the numbers — the same registering act as `C14`/`C15`/`C17`, and like every item here **changing it is trimcrae's** | [`categorical_decoy_null.PREREG_LBD` / `lbd_window`](../modalities/categorical_decoy_null.py) | ⛔ **whether a percentile may be quoted for C397 at all.** It keeps UniProt [373, 626] of the NR4A3 model, so the committed unique set [397, 420, 559] is in scope, C397 included. ⚠ It is **NOT** a widening of `C16` — `C16` stands, both runs stand, and their rows are never pooled | ✅ frozen |\n| **C25** | **the STERIC decoy-null construction** — which proteins may play the paralogue roles, how a decoy arm is built, how poses are carried and filtered | two backgrounds **never pooled** (`partner_swap` PRIMARY, `full_trio` SECONDARY); decoy roles = the committed 47-receptor nuclear-receptor universe **minus the NR4A family**; AlphaFold models trimmed by `C24`'s LBD window; pairs/trios ranked **answer-blind** on identity; **20** conditioning events per class (inherited from `C24`, not re-chosen) | this run's `PREREG`, emitted by `plan` **before any model was fetched under it and before any statistic under it existed** | [`steric_decoy_null.PREREG`](../modalities/steric_decoy_null.py); plan in [`steric-decoy-null-plan.json`](../modalities/steric-decoy-null-plan.json) | ⛔ **whether `S3`'s 5.34× is reported as DISTINCTIVE or as ORDINARY.** Contrast (a) **UNGRADEABLE_too_few_graded_rows**, contrast (b) **UNGRADEABLE_too_few_graded_rows** | ✅ frozen |"
+   },
+   {
+    "section": "§3b.1 register — the item count (DERIVED, not typed)",
+    "anchor": "**24 items.**",
+    "kind": "amend",
+    "status": "OK",
+    "why": "The register states how many items it holds and `C25` makes one more. The number is COUNTED from the table's own `| **C<n>** |` rows at generation time, never carried by hand.",
+    "artifact": "research/modalities/steric-decoy-null.json",
+    "current_text": "**24 items.** Status: ✅ **frozen** · ⚠ **CONTESTED** (a defensible alternative would change a verdict) ·",
+    "proposed_text": "**25 items.** Status: ✅ **frozen** · ⚠ **CONTESTED** (a defensible alternative would change a verdict) ·"
+   },
+   {
+    "section": "§10.1 row 24 — the steric-exclusion design rule",
+    "anchor": "| **24** | **The steric-exclusion DESIGN RULE**",
+    "kind": "amend",
+    "status": "OK",
+    "why": "Row 24 is the design rule's home and it currently quotes the 0.923-vs-0.173 contrast with a WITHIN-SYSTEM null only. The cross-system background is what decides how that contrast may be read.",
+    "artifact": "research/modalities/steric-decoy-null.json",
+    "current_text": "| **24** | **The steric-exclusion DESIGN RULE** (`S3`) — measurement → design rule, with its control attached | `R7` `R15` | ✅ **work complete 2026-08-03** — claim **capped by its own control, see the last cell** | **—** ($0, no nod) | **$0 · realized $0, no GPU** | ✅ **BUILT: [`steric-design-rule.json`](../modalities/steric-design-rule.json)** (`steric_design_rule.py --check`). It carries two substituent **vectors**, a shape spec and a per-candidate **scorer** that reproduces `M3`'s own 0.923-vs-0.173 over `M3`'s own poses. ★ **Three things the measurement could not show.** (1) **The rule has TWO usable vectors, not three** — only **I484→Tyr/Tyr** (51.9 Å³, reach 4.27 Å) and **L534→Phe/Phe** (60.7 Å³, reach 5.62 Å) clear the bar; **L406→His/His fires on clash but offers 2.69 Å³**, because the space both paralogues deny there is denied by NR4A3 too. (2) **The bar is MEASURED, not chosen** — it is the null class's own largest lobe (**11.78 Å³ at the conserved R481**), which is *larger than L406's*, so on the volume axis too: grade the contrast, never the signal. (3) **The biggest lobe of all (68.8 Å³, R412) must NOT be the top target** — it is `unique_not_bulkier`, fires at 0.000 on the clash test, and carries the worst post-fit deviation in the set, so **volume never overrides class.** ⛔ **THE CONTROL IS ON EVERY RECORD, AND IT CAPS THE CLAIM:** the paralogue's own docking **RELOCATES** these molecules (median **5.31 / 5.26 Å**), so a score means ***\"this POSE is denied in the paralogue\"* — NEVER *\"the paralogue cannot bind this molecule\"***. Rigid transfer (side chains could rotate away); NR4A3's absence of clash is **guaranteed by construction** and carries no information. ⚠ Remaining: route the rule into [§8 Route A](#route-a--a-warhead-engaging-paralogue-divergent-pocket-handles---blocked-nothing-running--serves-r7) — a section this pass does not own |",
+    "proposed_text": "| **24** | **The steric-exclusion DESIGN RULE** (`S3`) — measurement → design rule, with its control attached | `R7` `R15` | ✅ **work complete 2026-08-03** — claim **capped by its own control, see the last cell** | **—** ($0, no nod) | **$0 · realized $0, no GPU** | ✅ **BUILT: [`steric-design-rule.json`](../modalities/steric-design-rule.json)** (`steric_design_rule.py --check`). It carries two substituent **vectors**, a shape spec and a per-candidate **scorer** that reproduces `M3`'s own 0.923-vs-0.173 over `M3`'s own poses. ★ **Three things the measurement could not show.** (1) **The rule has TWO usable vectors, not three** — only **I484→Tyr/Tyr** (51.9 Å³, reach 4.27 Å) and **L534→Phe/Phe** (60.7 Å³, reach 5.62 Å) clear the bar; **L406→His/His fires on clash but offers 2.69 Å³**, because the space both paralogues deny there is denied by NR4A3 too. (2) **The bar is MEASURED, not chosen** — it is the null class's own largest lobe (**11.78 Å³ at the conserved R481**), which is *larger than L406's*, so on the volume axis too: grade the contrast, never the signal. (3) **The biggest lobe of all (68.8 Å³, R412) must NOT be the top target** — it is `unique_not_bulkier`, fires at 0.000 on the clash test, and carries the worst post-fit deviation in the set, so **volume never overrides class.** ⛔ **THE CONTROL IS ON EVERY RECORD, AND IT CAPS THE CLAIM:** the paralogue's own docking **RELOCATES** these molecules (median **5.31 / 5.26 Å**), so a score means ***\"this POSE is denied in the paralogue\"* — NEVER *\"the paralogue cannot bind this molecule\"***. Rigid transfer (side chains could rotate away); NR4A3's absence of clash is **guaranteed by construction** and carries no information. ⚠ Remaining: route the rule into [§8 Route A](#route-a--a-warhead-engaging-paralogue-divergent-pocket-handles---blocked-nothing-running--serves-r7) — a section this pass does not own | ⭑ **AND IT NOW HAS A CROSS-SYSTEM BACKGROUND (`C25`, 2026-08-03, $0):** arbitrary close nuclear-receptor pairs pushed through the identical `score_pose` path — contrast (a) **UNGRADEABLE_too_few_graded_rows**, contrast (b) **UNGRADEABLE_too_few_graded_rows**, `n` = 3 / 3 graded arms, `frac_exactly_zero` = 1.0 on the unique-but-not-bulkier class. Numbers: [`steric-decoy-null.json`](../modalities/steric-decoy-null.json)."
+   },
+   {
+    "section": "§8 — the steric bullet's 0.923/0.173 statement",
+    "anchor": "matters: paralogue-only clash **0.923** at those three positions against **0.173** at conserved/shared",
+    "kind": "amend",
+    "status": "OK",
+    "why": "This is the sentence a reader takes the headline from. A contrast with a measured cross-system background reads differently from one without.",
+    "artifact": "research/modalities/steric-decoy-null.json",
+    "current_text": "  matters: paralogue-only clash **0.923** at those three positions against **0.173** at conserved/shared",
+    "proposed_text": "  matters: paralogue-only clash **0.923** at those three positions against **0.173** at conserved/shared ⭑ **AND IT NOW HAS A CROSS-SYSTEM BACKGROUND (`C25`, 2026-08-03, $0):** arbitrary close nuclear-receptor pairs pushed through the identical `score_pose` path — contrast (a) **UNGRADEABLE_too_few_graded_rows**, contrast (b) **UNGRADEABLE_too_few_graded_rows**, `n` = 3 / 3 graded arms, `frac_exactly_zero` = 1.0 on the unique-but-not-bulkier class. Numbers: [`steric-decoy-null.json`](../modalities/steric-decoy-null.json)."
+   },
+   {
+    "section": "§10.1a option queue — the `Q1` steric row",
+    "anchor": "| **Q1** | **Score the committed construct set through the steric design rule**",
+    "kind": "amend",
+    "status": "OK",
+    "why": "`Q1` is the steric axis's queue row and the calibration it lacked is now measured.",
+    "artifact": "research/modalities/steric-decoy-null.json",
+    "current_text": "| **Q1** | **Score the committed construct set through the steric design rule** — `steric_design_rule.score_pose()` over the committed constructs, then route the rule into [§8 Route A](#route-a--a-warhead-engaging-paralogue-divergent-pocket-handles---blocked-nothing-running--serves-r7), the half [row 24](#101--open-rows-ordered-by-what-unblocks-the-most) names as remaining | [`S3`](../modalities/selectivity-mechanism-options.md) **B+** | `R7` `R15` | **⊕ CMP** (with `Q2`, `Q3`) | ○ | **—** | **$0** | **no committed construct reaches the I484 or L534 lobe ⇒ the rule is a design TARGET, not a property of the current set.** ⛔ Its ceiling is measured and travels with every score: the paralogue *relocates* these molecules, so a high score means *\"this POSE is denied\"*, never *\"the paralogue cannot bind this molecule\"* |",
+    "proposed_text": "| **Q1** | **Score the committed construct set through the steric design rule** — `steric_design_rule.score_pose()` over the committed constructs, then route the rule into [§8 Route A](#route-a--a-warhead-engaging-paralogue-divergent-pocket-handles---blocked-nothing-running--serves-r7), the half [row 24](#101--open-rows-ordered-by-what-unblocks-the-most) names as remaining | [`S3`](../modalities/selectivity-mechanism-options.md) **B+** | `R7` `R15` | **⊕ CMP** (with `Q2`, `Q3`) | ○ | **—** | **$0** | **no committed construct reaches the I484 or L534 lobe ⇒ the rule is a design TARGET, not a property of the current set.** ⛔ Its ceiling is measured and travels with every score: the paralogue *relocates* these molecules, so a high score means *\"this POSE is denied\"*, never *\"the paralogue cannot bind this molecule\"* | ⭑ **AND IT NOW HAS A CROSS-SYSTEM BACKGROUND (`C25`, 2026-08-03, $0):** arbitrary close nuclear-receptor pairs pushed through the identical `score_pose` path — contrast (a) **UNGRADEABLE_too_few_graded_rows**, contrast (b) **UNGRADEABLE_too_few_graded_rows**, `n` = 3 / 3 graded arms, `frac_exactly_zero` = 1.0 on the unique-but-not-bulkier class. Numbers: [`steric-decoy-null.json`](../modalities/steric-decoy-null.json)."
+   }
+  ],
+  "verification": {
+   "n_entries": 5,
+   "n_applicable": 5,
+   "n_unlocatable": 0,
+   "n_stale": 0,
+   "unlocatable_anchors": [],
+   "stale_anchors": [],
+   "verified_against": "research/manuscripts/nr4a3-program-map.md",
+   "_method": "each entry's current_text re-counted in the live map; exactly one occurrence = applicable. This is the `grep -F` check, run at generation time.",
+   "status": "ALL APPLICABLE"
+  }
+ }
+}
