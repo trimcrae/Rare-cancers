@@ -1068,14 +1068,25 @@ def test_regime_dock_counts_each_arm_against_its_own_control_and_excludes_the_re
     assert pl["n_recovered"] == 0
 
 
-def test_regime_dock_reports_no_mean_rmsd_anywhere():
+def test_regime_dock_reports_no_MEAN_rmsd_anywhere():
     """★ C6 measured this arm moving 3.04-3.50 A between runs of identical code, so a mean over pairs is
-    a number nobody can reproduce. The panel statistic is a COUNT of pre-registered bands."""
+    a number nobody can reproduce. The primary panel statistic stays a COUNT of pre-registered bands.
+
+    ⚠ NARROWED 2026-08-03, DELIBERATELY, AND THE SUPERSEDED FORM IS NAMED. This test originally forbade
+    `median` as well as `mean`. That was too broad and it blocked the fix the first run demanded: with a
+    protocol ceiling `C14` cannot reach, the only readout that separates site from docking is each blind
+    arm against ITS OWN PAIR'S ceiling — a set of PAIRED DIFFERENCES, summarised by a median with n/min/max
+    beside it. A median of paired differences is not what the rule was written against: the rule exists
+    because a MEAN RMSD over a set containing one 19 A miss is dominated by that miss, and a median is
+    precisely the statistic that is not. `mean` and `average` remain forbidden, and the band counts remain
+    primary — both asserted below."""
     rows = [_rd_row("4RZF", "4REF", "3N0", pipeline=1.1, c1=1.0, fpocket=1.2,
                     c1_fp=1.0, oracle=1.0, c1c=1.0)]
     p = A.panel_regime_dock(rows, rows)
     flat = repr(p)
-    assert "mean" not in flat and "median" not in flat and "average" not in flat
+    assert "mean" not in flat and "average" not in flat
+    for arm in p["arms"].values():                       # the band counts are still the primary readout
+        assert {"n_recovered", "n_partial", "n_not_recovered"} <= set(arm)
     import inspect
     src = inspect.getsource(A.panel_regime_dock)
     assert "No RMSD is averaged across pairs" in src
@@ -1117,7 +1128,10 @@ def test_regime_dock_headline_states_both_arms_and_refuses_to_claim_when_nothing
     dead = [_rd_row("4RZF", "4REF", "3N0", pipeline=19.3, c1=19.5, fpocket=3.2, c1_fp=6.9,
                     oracle=1.6, c1c=1.2)]
     h2 = A.panel_regime_dock(dead, dead)["headline"]
-    assert "NO ARM IS GRADEABLE" in h2
+    # ⚠ the ungradeable headline is asserted in full by
+    # `test_an_ungradeable_panel_reports_what_it_DID_measure`; here it only must not go silent.
+    assert "says nothing" not in h2
+    assert "NOT A NULL RESULT" in h2 and "ceiling" in h2
 
 
 def test_regime_dock_does_not_touch_the_preregistered_candidate_list_or_thresholds():
@@ -1129,3 +1143,62 @@ def test_regime_dock_does_not_touch_the_preregistered_candidate_list_or_threshol
     main_src = inspect.getsource(A.main)
     i = main_src.index('mode == "regime_dock"')
     assert "in_regime_pairs(sel)" in main_src[i:i + 800], "same in-regime list MODE=site uses"
+
+
+def test_an_ungradeable_panel_reports_what_it_DID_measure():
+    """★ THE FIRST regime_dock RUN'S HEADLINE WAS WRONG AND THIS IS THE GUARD (2026-08-03).
+
+    Both blind arms returned `n_gradeable_control_passed == 0`, and the headline concluded the panel
+    "says nothing about apo->holo recovery on the NR4A fold." It said a great deal: the controls missed
+    because `C14`'s 2.0 A line is BELOW this protocol's resolution on this fold (ceiling median 3.147 A,
+    clearing 2.0 A on 1 of 11 pairs), and against their own ceilings the two arms separate completely.
+    An ungradeable panel that reports no finding is indistinguishable from a panel where nothing was
+    measured — which is exactly the "absent reading vs reading of absence" error, one level up."""
+    rows = [
+        # ceiling ~2.9 (misses 2.0), fpocket blind ~3.0 (at the ceiling), pipeline blind ~19 (way off)
+        _rd_row("4RZF", "4REF", "3N0", pipeline=19.3, c1=19.4, fpocket=3.0, c1_fp=2.9, oracle=3.1, c1c=2.9),
+        _rd_row("4RZF", "4RE8", "3MJ", pipeline=18.7, c1=18.9, fpocket=2.3, c1_fp=2.2, oracle=2.5, c1c=3.1),
+    ]
+    p = A.panel_regime_dock(rows, rows)
+    assert p["arms"]["fpocket_top_pocket"]["n_gradeable_control_passed"] == 0
+    assert p["arms"]["pipeline_site_transfer"]["n_gradeable_control_passed"] == 0
+    h = p["headline"]
+    assert "says nothing" not in h, "an ungradeable panel must still report what it measured"
+    assert "NOT A NULL RESULT" in h and "ceiling" in h
+    cf = p["criterion_free"]
+    assert cf["protocol_ceiling_A"]["n_clearing_the_criterion"] == 0
+    # the separation must be visible without any threshold
+    fp = cf["blind_minus_ceiling_by_arm"]["fpocket_top_pocket"]["median"]
+    pl = cf["blind_minus_ceiling_by_arm"]["pipeline_site_transfer"]["median"]
+    assert fp < 1.0 < pl, "the criterion-free margin is what separates site from docking"
+
+
+def test_the_criterion_free_readout_does_not_move_C14():
+    """⛔ `C14` grades `V21` as well as `R5`, so it is not this panel's to re-tune — and moving a
+    pre-registered threshold after seeing the answer is the exact tuning this module forbids. The
+    criterion-free fields are an ADDITIONAL readout; the band counts must still be there and still use
+    the frozen numbers."""
+    assert A.RECOVER_RMSD_A == 2.00 and A.PARTIAL_RMSD_A == 4.00
+    rows = [_rd_row("4RZF", "4REF", "3N0", pipeline=19.3, c1=19.4, fpocket=3.0, c1_fp=2.9,
+                    oracle=3.1, c1c=2.9)]
+    p = A.panel_regime_dock(rows, rows)
+    for arm in p["arms"].values():
+        assert {"n_recovered", "n_partial", "n_not_recovered"} <= set(arm)
+    import inspect
+    src = inspect.getsource(A.panel_regime_dock)
+    assert "C14` IS NOT MOVED" in src
+
+
+def test_the_panel_can_be_resummarised_offline_without_re_docking():
+    """A summary that can only be regenerated by re-measuring is a summary that drifts from its data —
+    and the first run proved the rows can be right while the readout is wrong. `MODE=regime_report`
+    re-derives the panel from the committed rows; it must touch no measurement."""
+    import inspect
+    src = inspect.getsource(A.main)
+    i = src.index('mode == "regime_report"')
+    blk = src[i:i + 900]
+    assert "regime_dock_rows" in blk and "panel_regime_dock(" in blk
+    # ⚠ name the MEASURING calls; a bare "dock(" also matches `panel_regime_dock(`, which is the pure
+    # summary function this mode exists to call.
+    for forbidden in ("run_benchmark(", "fetch_pdb(", "dock_seeded(", "smina", "fpocket_boxes("):
+        assert forbidden not in blk, "regime_report must not re-measure anything (%s)" % forbidden

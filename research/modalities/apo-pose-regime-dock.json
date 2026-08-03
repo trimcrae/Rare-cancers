@@ -5716,7 +5716,15 @@
             "own_control_rmsd_A": 31.454,
             "control_passed": false
           }
-        ]
+        ],
+        "blind_minus_own_pair_ceiling_A": {
+          "n": 11,
+          "min": 10.502,
+          "max": 23.229,
+          "median": 16.05
+        },
+        "n_pairs_at_or_better_than_ceiling": 0,
+        "_criterion_free_reads": "how much worse than this protocol's own best on the SAME pair. Needs no threshold, so it survives a ceiling `C14` cannot reach. Near zero = the box is as good as handing over the answer; large = the box is the failure."
       },
       "fpocket_top_pocket": {
         "_site": "the receptor's own highest-druggability fpocket cavity, using NO NR4A3 information at all",
@@ -5850,7 +5858,15 @@
             "own_control_rmsd_A": 22.158,
             "control_passed": false
           }
-        ]
+        ],
+        "blind_minus_own_pair_ceiling_A": {
+          "n": 11,
+          "min": -0.515,
+          "max": 21.278,
+          "median": 0.387
+        },
+        "n_pairs_at_or_better_than_ceiling": 3,
+        "_criterion_free_reads": "how much worse than this protocol's own best on the SAME pair. Needs no threshold, so it survives a ceiling `C14` cannot reach. Near zero = the box is as good as handing over the answer; large = the box is the failure."
       },
       "oracle_box": {
         "_site": "a box centred on the crystallographic ligand \u2014 the site handed over for free, so a miss here is the search and scoring and nothing else",
@@ -5987,7 +6003,32 @@
         ]
       }
     },
-    "headline": "NO ARM IS GRADEABLE \u2014 every pair's self-dock control missed, so this panel measures the docking protocol and says nothing about apo->holo recovery on the NR4A fold. Same pre-registered outcome as the original panel, one level up."
+    "criterion_free": {
+      "_why": "`C14`'s 2.0 A line is below this protocol's resolution on this fold, so the band counts above print 'ungradeable' for a reason that is about the CRITERION rather than about the pipeline. These fields answer the same question without one.",
+      "protocol_ceiling_A": {
+        "n": 11,
+        "min": 1.921,
+        "max": 13.553,
+        "median": 3.147,
+        "n_clearing_the_criterion": 1,
+        "_reads": "the BEST this docking protocol can do on each system \u2014 the receptor the ligand was solved in, with the box centred on the ligand itself. A pair whose ceiling misses `C14` cannot be graded by `C14` no matter what the blind arms do, so this distribution is what decides whether the criterion is usable on this fold at all."
+      },
+      "blind_minus_ceiling_by_arm": {
+        "pipeline_site_transfer": {
+          "n": 11,
+          "min": 10.502,
+          "max": 23.229,
+          "median": 16.05
+        },
+        "fpocket_top_pocket": {
+          "n": 11,
+          "min": -0.515,
+          "max": 21.278,
+          "median": 0.387
+        }
+      }
+    },
+    "headline": "\u26d4 NOT GRADEABLE AT `C14`, AND THAT IS A FACT ABOUT THE CRITERION, NOT A NULL RESULT: the protocol ceiling (holo receptor, box on the crystal ligand) has median 3.147 A over 11 pairs and clears the 2.0 A line on 1 of them, so no blind arm can be graded by it on this fold. \u2b51 AGAINST ITS OWN CEILING, WHICH NEEDS NO CRITERION, THE TWO ARMS SEPARATE COMPLETELY: an fpocket-chosen box docks a median +0.39 A from this protocol's own best on the same pair (and beats it outright on 3 of 11), while the pipeline's Pocket-5 transfer is a median +16.05 A worse \u2014 on 11 of 11 pairs. \u21d2 the docking is at its resolution limit and the SITE SELECTION is the entire failure."
   },
   "regime_dock_rows": [
     {
@@ -15050,6 +15091,6 @@
   "verdict": {
     "outcome": "FAMILY POSITIVE CONTROL \u2014 NOT THE PRE-REGISTERED PANEL",
     "reason": "MODE=regime_dock docks the in-regime NR4A pairs. It is a separate candidate list in a separate file and cannot change apo-pose-recovery.json's INCONCLUSIVE.",
-    "headline": "NO ARM IS GRADEABLE \u2014 every pair's self-dock control missed, so this panel measures the docking protocol and says nothing about apo->holo recovery on the NR4A fold. Same pre-registered outcome as the original panel, one level up."
+    "headline": "\u26d4 NOT GRADEABLE AT `C14`, AND THAT IS A FACT ABOUT THE CRITERION, NOT A NULL RESULT: the protocol ceiling (holo receptor, box on the crystal ligand) has median 3.147 A over 11 pairs and clears the 2.0 A line on 1 of them, so no blind arm can be graded by it on this fold. \u2b51 AGAINST ITS OWN CEILING, WHICH NEEDS NO CRITERION, THE TWO ARMS SEPARATE COMPLETELY: an fpocket-chosen box docks a median +0.39 A from this protocol's own best on the same pair (and beats it outright on 3 of 11), while the pipeline's Pocket-5 transfer is a median +16.05 A worse \u2014 on 11 of 11 pairs. \u21d2 the docking is at its resolution limit and the SITE SELECTION is the entire failure."
   }
 }
