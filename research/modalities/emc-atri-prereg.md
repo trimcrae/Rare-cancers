@@ -63,6 +63,7 @@ has agreed to run it and nobody has been asked.**
 |---|---|---|
 | The public-data transfer test (is the hypothesis internally consistent; does it transfer to EMC) | **us, in-silico, $0** | ✅ done — [`emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md) |
 | The structural precondition from sequence | **us, in-silico, $0** | ✅ done — [`emc_fet_idr_census.py`](./emc_fet_idr_census.py) |
+| The DSB-recruitment arm: exon-verified construct designs, the RGG dose-calibration prediction and the within-EMC TCF12 negative control | **us, in-silico, $0** (the designs; a lab still has to build and image them) | ✅ done — [`emc-atr-collaborator-package.md`](../manuscripts/emc-atr-collaborator-package.md) → [`emc_fet_construct_designs.py`](./emc_fet_construct_designs.py). ⚠ It also **corrects the junction this file's §1 relies on** — the commonest EMC fusion is EWSR1 exon 12, not exon 7; see that file's appendix |
 | The GDSC / DepMap re-cuts | **us, in-silico, $0** | ✅ done — [`fet_ddr_axis_scan.py`](./fet_ddr_axis_scan.py) |
 | ⛔ Everything in §3–§6 below — cells, dose–response, γH2AX, PARPi arm, proliferation index | **a laboratory. NOT us.** | **HOPE, not plan.** No lab engaged, none approached |
 | ⛔ The optional ATM-pS1981 ± IR mechanism readout | **a laboratory. NOT us.** | **HOPE, not plan** |

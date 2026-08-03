@@ -268,6 +268,15 @@ stopping at Ewing, and both are quoted rather than paraphrased:
 
 #### ⭐ The structural precondition, computed — and EMC's fusion carries the *identical* FET segment
 
+> ⚠ **POINTER, added 2026-08-03.** The construct-level version of this route — exon-verified,
+> source-quoted junctions for the EMC fusions, the RGG dose-calibration prediction registered
+> against the source's own add-back series, and a within-EMC TCF12 negative control — is
+> [`emc-atr-collaborator-package.md`](./emc-atr-collaborator-package.md)
+> ([`emc_fet_construct_designs.py`](../modalities/emc_fet_construct_designs.py)). **It corrects the
+> junction used in the table below**: the commonest reported EMC fusion is **EWSR1 exon 12** ::
+> NR4A3 exon 3, not exon 7, and the two reported EMC types straddle the two fusions the mechanism
+> was measured on rather than sitting at one point. Old value registered in that file's appendix.
+
 **The partner-list argument is about gene names. The mechanism is about structure**, and the source
 states it as a conjunction: the fusion **retains** the FET N-terminal IDR (so it reaches DSBs) and
 **loses** the C-terminal RGG repeats (so its recruitment is aberrant) — *"all oncogenic FET fusion
@@ -644,12 +653,14 @@ of its findings bear on this row:
    the categorical window at C397 — on the conservative convention it closes every cell that had one.
    A strictly smaller search problem returning a strictly worse selectivity margin, with the mechanism
    measured ([`nr4a3-monovalent-reach.json`](../modalities/nr4a3-monovalent-reach.json)).
-3. ⛔ **`R4` is not purchasable as a service either, and the reason is not the price.** `R4` is two
-   questions: *does anything bind NR4A3's LBD* is already answered yes in the literature, and *does
-   anything bind the **opened cryptic** site* needs the site to be populated in the sample — which is
-   `R2`. So a bought binding screen cannot tell "no ligand" from "no pocket", and its negative is
-   unreadable at any price. That **strengthens the demotion above** rather than merely accompanying
-   it: the ask cannot be routed around a missing collaborator by buying it.
+3. ⛔ **And the ask cannot be routed around a missing collaborator by buying it** —
+   [`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md) owns that verdict and it is not
+   restated here. ⭑ **One consequence specific to THIS row that its audit did not draw:** the single
+   off-the-shelf recombinant NR4A3 LBD it identifies spans UniProt **398–626**, so it contains C420 and
+   C559 — the two cysteines branch 1b closed — and **excludes C397, the one that survived, by a single
+   residue.** An intact-mass covalent-probe experiment on the catalogue protein would therefore be
+   blind to the handle this row exists for. That **strengthens the demotion above** rather than merely
+   accompanying it.
 
 ---
 
