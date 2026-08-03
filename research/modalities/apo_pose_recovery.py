@@ -230,6 +230,21 @@ REPLICATE_SEEDS = (20260803, 20260804, 20260805, 20260806, 20260807, 20260808, 2
 #:   C3_oracle_box_apo            — Q-DOCKING's own arm
 #:   C1c_self_dock_holo_oracle_box— Q-DOCKING's ceiling; whether a pair is gradeable at all turns on it
 REPLICATED_ARMS = ("blind_apo_fpocket_top_box", "C3_oracle_box_apo", "C1c_self_dock_holo_oracle_box")
+
+# ------------------------------------------------- ADDED 2026-08-03 (fourth revision). A HOOK, NOT AN
+# ------------------------------------------------- ARM. Default None; nothing in this module sets it.
+# ★★ THE SECOND-METHOD HOOK. `pose_second_method.py` needs the EXACT prepared inputs this module builds
+# — the same receptors, the same `bench_ligand.sdf`, the same boxes and the same `score_pose` — because a
+# cross-method comparison whose two halves were prepared differently measures the preparation. Rebuilding
+# that prep in a second module would be a silent fork of it; passing it out is not.
+#
+# ⛔ WHAT THIS HOOK MAY NOT DO, held by tests/test_pose_second_method.py:
+#   · it is called AFTER `R_["arms"]` is complete and BEFORE `pair_questions`/`verdict`, and its return
+#     value lands under the single key `second_method` — which `verdict()` does not read (it reads
+#     `arms` and `C2_random_in_box_null` only). No added arm can turn a NOT RECOVERED into a pass.
+#   · it moves no threshold, draws no box, and is OFF unless another module assigns it.
+#   · an exception inside it is caught and recorded; it can never take down a pre-registered pair.
+SECOND_METHOD_HOOK = None
 # ★★ C6b — AND THE THING C6's FIRST RUN REVEALED, WHICH IS WORSE THAN DRIFTING DIGITS (2026-08-03).
 # `Q_DOCKING`'s `n_gradeable` moved **3 -> 4** between two runs of the identical code, because
 # `C1c_self_dock_holo_oracle_box` on 2QMV->9V8H drew 6.809 A one run and 1.916 A the next. The ceiling
@@ -1830,6 +1845,22 @@ def run_benchmark(cand, work, af2_reference_pdb, replicates=0, site_only=False,
             % (len(apo_in_site), apo_in_site)) if apo_in_site else
            "Neither apo substitution maps into the ligand's contact shell, so the benchmarked pocket is "
            "not one either mutation built."))
+
+    # 13b) THE SECOND-METHOD HOOK. OFF by default (SECOND_METHOD_HOOK is None); `verdict()` never reads
+    #      what it returns. See the constant's own comment for the invariants this must keep.
+    if SECOND_METHOD_HOOK is not None:
+        try:
+            R_["second_method"] = SECOND_METHOD_HOOK({
+                "cand": cand, "work": work, "sdf": sdf, "comp": comp,
+                "apo_rec": apo_rec, "holo_rec": holo_rec,
+                "boxes": boxes, "size": size,
+                "oracle_center_apo": oracle_center_apo, "oracle_center_holo": oracle_center_holo,
+                "score_pose": score_pose, "native": native, "xtal": xtal, "xtal_pts": xtal_pts,
+                "arms": arms, "out_of_time": out_of_time, "contact_A": cutoff,
+                "induced_fit": R_.get("induced_fit"),
+            })
+        except Exception as e:                                # noqa: BLE001 — a refusal, never a crash
+            R_["second_method"] = {"_error": "%s: %s" % (type(e).__name__, e)}
 
     # 14) THE TWO QUESTIONS, SEPARATED. Added 2026-08-02. Neither changes `verdict()`.
     R_["questions"] = pair_questions(R_, cand)

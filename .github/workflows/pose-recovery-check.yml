@@ -11,6 +11,15 @@ name: POSE — does the pipeline agree with itself, and can it recover a KNOWN p
 #      (results/nr4a3-8xtt-redock/MANIFEST.json records them as action="scratch"), so this job pulls them.
 #      A pose it cannot pull is a REFUSAL with the `aws s3 ls` output as evidence — never a silent drop.
 #
+#   C. SECOND METHOD (research/modalities/pose_second_method.py) — the one thing A could not do. A's own
+#      decisive field is `cross_method_evidence: NONE`: all six poses it compares are the SAME method
+#      (smina) on different receptors, so a 7 A disagreement cannot be attributed to anything. This job
+#      runs rDock — a docking engine that shares NO scoring term, NO search algorithm, NO atom typing and
+#      NO source code with smina — on the same six systems AND on B's known-answer panel, and reports
+#      inter-method agreement in `C14`'s own vocabulary. ⛔ It is scoring-independent by construction,
+#      which is the trap `V14` fell into (orthogonal SAMPLING, shared detector); the artifact states
+#      per-arm which `C*` items it shares and which it does not.
+#
 #   B. KNOWN-ANSWER (research/modalities/apo_pose_recovery.py) — source a nuclear-receptor LBD apo/holo
 #      pair by real RCSB query, dock the holo ligand into the APO receptor with the pipeline's own site
 #      transfer and smina settings, and score recovery of the crystallographic pose against a criterion
@@ -27,7 +36,8 @@ on:
       task:
         description: "which half to run"
         type: choice
-        options: [both, convergence, benchmark, benchmark_source, benchmark_select, site_in_regime]
+        options: [both, convergence, benchmark, benchmark_source, benchmark_select, site_in_regime,
+                  second_method, second_method_cross, second_method_panel]
         default: both
       bucket:
         description: "S3 bucket holding the 8XTT re-dock poses (read-only)"
@@ -50,7 +60,11 @@ concurrency:
 jobs:
   pose:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # The second-method job docks two engines over six systems plus a six-pair known-answer panel at four
+    # boxes each. It is free CPU, so wall clock is not a cost; the real guards are the module's own
+    # per-unit and total budgets, which record an over-budget unit as UNRUN rather than letting the job
+    # die with nothing written.
+    timeout-minutes: 330
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -76,6 +90,22 @@ jobs:
           echo "$RUNNER_TEMP/denv/bin" >> "$GITHUB_PATH"
           python -m pip install --quiet --upgrade pip
           pip install --quiet rdkit numpy biopython boto3 awscli
+      # ★★ rDock GOES IN ITS OWN PREFIX AND IS DELIBERATELY *NOT* PUT ON PATH. The bioconda package
+      # depends on `python >=3.10,<3.13` and `numpy <2`, so prepending its bin/ would shadow the
+      # interpreter that holds rdkit and the whole job would silently run against the wrong python.
+      # `pose_second_method.rdock_tools()` resolves the binaries, RBT_ROOT, LD_LIBRARY_PATH and Open
+      # Babel's data dirs from RDOCK_ROOT instead. Open Babel arrives as rDock's own dependency, so the
+      # receptor typing comes from the same solve as the docking engine.
+      - name: Install rDock into its own prefix (second method only)
+        if: startsWith(env.TASK, 'second_method')
+        run: |
+          set -e
+          cd "$RUNNER_TEMP"
+          if [ ! -x ./bin/micromamba ]; then
+            curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba
+          fi
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/rdenv" -c conda-forge -c bioconda rdock
+          echo "RDOCK_ROOT=$RUNNER_TEMP/rdenv" >> "$GITHUB_ENV"
       - name: Tool census (so a missing tool is a named refusal, not a mystery)
         run: |
           which smina || echo "MISSING smina"
@@ -83,6 +113,12 @@ jobs:
           smina --version 2>&1 | head -2 || true
           fpocket -h 2>&1 | head -3 || true
           python -c "import rdkit,Bio,numpy;print('rdkit',rdkit.__version__,'numpy',numpy.__version__)"
+          if [ -n "${RDOCK_ROOT:-}" ]; then
+            ls "$RDOCK_ROOT/bin" | head -20
+            LD_LIBRARY_PATH="$RDOCK_ROOT/lib" "$RDOCK_ROOT/bin/rbdock" 2>&1 | head -8 || true
+            LD_LIBRARY_PATH="$RDOCK_ROOT/lib" "$RDOCK_ROOT/bin/obabel" -V 2>&1 | head -2 || true
+            ls "$RDOCK_ROOT/share" || true
+          fi
 
       # ---------------------------------------------------------------- A. convergence
       - name: Pull the S3-only 8XTT re-dock poses (read-only; a miss becomes evidence)
@@ -114,9 +150,20 @@ jobs:
           cd research/modalities
           EXTRA_POSE_DIR="$PWD/_pose_convergence_inputs" python -u pose_convergence_401.py
 
+      # ---------------------------------------------------------------- C. the second method
+      - name: C — rDock, the scoring-independent second opinion
+        if: startsWith(env.TASK, 'second_method')
+        env:
+          MODE: ${{ inputs.task == 'second_method_cross' && 'cross' || (inputs.task == 'second_method_panel' && 'panel' || 'both') }}
+        run: |
+          cd research/modalities
+          SECOND_METHOD_WORK="$RUNNER_TEMP/second_method_work" \
+          APO_RECOVERY_WORK="$RUNNER_TEMP/apo_work" \
+          MODE="$MODE" python -u pose_second_method.py
+
       # ---------------------------------------------------------------- B. known-answer benchmark
       - name: B — apo pose-recovery known-answer test
-        if: env.TASK != 'convergence'
+        if: env.TASK == 'both' || startsWith(env.TASK, 'benchmark') || env.TASK == 'site_in_regime'
         run: |
           cd research/modalities
           MODE=$(case "$TASK" in
@@ -158,6 +205,29 @@ jobs:
           python "$RUNNER_TEMP/show.py" research/modalities/pose-convergence-401.json \
                                         research/modalities/apo-pose-recovery.json \
                                         research/modalities/apo-pose-site-in-regime.json
+          # the second method's own readout: the arms that decide it, printed even on a failed run so a
+          # partial is visible in the log rather than only in a file nobody opens.
+          python - <<'PY'
+          import json, os
+          for f in ("research/modalities/pose-second-method.json",
+                    "research/modalities/pose-second-method.json.partial"):
+              if not os.path.exists(f):
+                  print("== %s : not produced" % f); continue
+              d = json.load(open(f))
+              print("===== %s" % f)
+              print("tooling =", json.dumps(d.get("tooling"))[:600])
+              for k in ("_status", "verdict"):
+                  if k in d: print(k, "=", json.dumps(d[k], indent=1)[:3500])
+              a = d.get("part_a") or {}
+              for k in ("cross_method_same_frame", "orientation_or_location",
+                        "within_second_method_spread"):
+                  if k in a: print("=== part_a.%s" % k,
+                                   json.dumps({kk: vv for kk, vv in a[k].items() if kk != "pairs"},
+                                              indent=1)[:2500])
+              b = d.get("part_b") or {}
+              for k in ("rollup", "induced_fit_panel"):
+                  if k in b: print("=== part_b.%s" % k, json.dumps(b[k], indent=1)[:5000])
+          PY
       # workflow_dispatch is the ONLY trigger on this file, so the `inputs` context always exists and the
       # null-cast bug lint_optional_input_guards.py exists for cannot arise here.
       - name: Publish the artifacts
@@ -183,4 +253,6 @@ jobs:
             research/modalities/apo-pose-recovery.json \
             research/modalities/apo-pose-recovery.md \
             research/modalities/apo-pose-site-in-regime.json \
-            research/modalities/_pose_convergence_inputs
+            research/modalities/pose-second-method.json \
+            research/modalities/_pose_convergence_inputs \
+            research/modalities/_pose_second_method_poses
