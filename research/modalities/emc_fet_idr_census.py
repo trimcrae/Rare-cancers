@@ -303,14 +303,52 @@ def main(argv=None):
             "_what": "the precondition as a FUNCTION of breakpoint — no breakpoint is assumed",
             "rgg_free_ceiling": a["rgg_free_ceiling"],
             "first_rgg_box_starts_at": a["rgg_boxes"][0]["start"] if a["rgg_boxes"] else None,
-            "window_where_precondition_holds": ({"from": met[0]["last_fet_residue_retained"],
-                                                 "to": met[-1]["last_fet_residue_retained"]}
-                                                if met else None),
+            "window_where_strict_zero_RG_holds": ({"from": met[0]["last_fet_residue_retained"],
+                                                   "to": met[-1]["last_fet_residue_retained"]}
+                                                  if met else None),
+            "window_where_no_RGG_BOX_is_retained": (
+                {"from": 100, "to": a["rgg_boxes"][0]["start"] - 1} if a["rgg_boxes"] else None),
+            "_two_windows": "the strict window (no RG dipeptide at all) and the looser one (no dense "
+                            "RGG box). The controls show a MEASURED fusion sits between them, so a "
+                            "breakpoint in the gap is not evidence against the mechanism — it is the "
+                            "regime the clear-cell fusion occupies.",
             "n_grid_points": len(rows), "n_meeting_precondition": len(met),
             "fraction_of_grid_meeting_precondition": round(len(met) / len(rows), 3) if rows else None,
-            "_reading": "a fusion breaking ANYWHERE in the window above meets the precondition; "
-                        "reported this way because the repo holds no exon audit for this gene and "
-                        "an assumed breakpoint would be the weakest link in the argument",
+            "_reading": "a fusion breaking anywhere in the STRICT window meets the conservative "
+                        "criterion; one breaking in the gap up to the box window sits where the "
+                        "measured clear-cell fusion sits. Reported as a function of breakpoint "
+                        "because the repo holds no exon audit for this gene, and an assumed "
+                        "breakpoint would be the weakest link in the whole argument.",
+        }
+
+    # --- 4. ⭐ THE COMPARATIVE STATEMENT, which is the only one the controls actually license ------
+    # The strict zero-RG verdict is CONSERVATIVE: the commonest reported clear-cell type retains RG
+    # dipeptides and the mechanism was measured there anyway. So the defensible claim is not "EMC
+    # meets an absolute bar" but "EMC loses AT LEAST AS MUCH RGG content as a fusion in which the
+    # lesion is documented" — which is a comparison, needs no bar at all, and cannot be tuned.
+    comparative = {}
+    if ctrl_ok and emc_canonical.get("fraction_of_wildtype_RG_retained") is not None:
+        emc_frac = emc_canonical["fraction_of_wildtype_RG_retained"]
+        rows = []
+        for label, v in controls.items():
+            for t in v.get("types", []):
+                if t.get("fraction_of_wildtype_RG_retained") is None:
+                    continue
+                rows.append({
+                    "measured_fusion": label, "ewsr1_transcript_exon": t.get("ewsr1_transcript_exon"),
+                    "comparator_RG_retained_fraction": t["fraction_of_wildtype_RG_retained"],
+                    "emc_RG_retained_fraction": emc_frac,
+                    "emc_loses_at_least_as_much": bool(emc_frac <= t["fraction_of_wildtype_RG_retained"]),
+                })
+        comparative = {
+            "_claim_under_test": "EMC's canonical fusion loses at least as much of EWSR1's RGG "
+                                 "content as each fusion in which ATM suppression was MEASURED",
+            "rows": rows,
+            "holds_against_every_measured_type": all(r["emc_loses_at_least_as_much"] for r in rows),
+            "_why_this_and_not_an_absolute_bar": "the controls show the absolute bar is conservative "
+                                                 "— a measured fusion violates it — so a comparison "
+                                                 "is what the evidence supports and it needs no "
+                                                 "threshold that could be tuned",
         }
 
     result = {
@@ -349,6 +387,7 @@ def main(argv=None):
         {"_withheld": "positive controls did not pass"},
         "emc_retained_half_vs_measured_fusions": ident if ctrl_ok else {},
         "emc_TAF15_and_FUS_breakpoint_sweep": sweeps if ctrl_ok else {},
+        "emc_vs_measured_fusions_comparative": comparative,
         "_limits": [
             "This is a SEQUENCE argument about a structural precondition. It cannot show that any "
             "NR4A3 fusion is actually recruited to double-strand breaks or actually suppresses ATM — "
