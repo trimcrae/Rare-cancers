@@ -459,7 +459,7 @@ def build_geometry(target_model, partner_models, positions_target_rid, seqs, seq
     rows = {r["resnum"]: r for r in U.classify_positions(
         {k: seqs[k] for k in seq_names}, ref=tname, others=tuple(pnames), residue_types=ALL_AA)}
 
-    geometry, detail = {}, {}
+    geometry, detail, unaligned = {}, {}, []
     for label, rid_t in positions_target_rid.items():
         sc_t = S._sidechain(target_model, rid_t) if rid_t is not None else []
         idx = seq_index_of(target_model, rid_t) if rid_t is not None else None
@@ -478,6 +478,17 @@ def build_geometry(target_model, partner_models, positions_target_rid, seqs, seq
         unique = bool(row and row["unique_vs_both"] and row["alignment_robust"])
         cls = ("unique_and_both_bulkier" if unique and all(bulkier)
                else "unique_not_bulkier" if unique else "conserved_or_shared")
+        # ⛔ AN ABSENT READING IS NOT A READING OF ABSENCE (CLAUDE.md §4). A position that does not align in
+        # the target or in either partner is a MISSING measurement, not a non-firing one. Kept in the
+        # geometry it would contribute a trial that can never fire — silently joining the NULL class,
+        # depressing the null rate and INFLATING every decoy's enrichment ratio. All ten Pocket-5 positions
+        # map on the index arm, so this changes nothing there and only ever corrects a decoy.
+        if not aligned or rid_t is None:
+            unaligned.append({"position": label, "target_rid": rid_t,
+                              "partner_aligned": {role: (partner_models[role]["corr_from_ref"].get(rid_t)
+                                                         is not None) for role in ROLES},
+                              "would_have_been_classed": cls})
+            continue
         geometry[label] = {"class": cls, "NR4A3_sidechain": sc_t, "paralogue_sidechain": par_sc}
         detail[label] = {
             "class": cls,
@@ -493,7 +504,7 @@ def build_geometry(target_model, partner_models, positions_target_rid, seqs, seq
                 role: _r(partner_models[role]["deviation_by_res"].get(
                     partner_models[role]["corr_from_ref"].get(rid_t)), 2) for role in ROLES},
         }
-    return geometry, detail
+    return geometry, detail, unaligned
 
 
 def score_arm(geometry, ligands, clash_a=None):
@@ -600,14 +611,20 @@ def summarise_lobes(lobes, detail):
 def arm_result(name, kind, target_model, partner_models, positions, seqs, seq_names,
                ligands, role_map, extra=None, with_lobes=True, seq_index_of=seq_index_of_rid):
     """ONE arm, index or decoy, through the identical path."""
-    geometry, detail = build_geometry(target_model, partner_models, positions, seqs, seq_names,
-                                      seq_index_of)
+    geometry, detail, unaligned = build_geometry(target_model, partner_models, positions, seqs, seq_names,
+                                                 seq_index_of)
     scored = score_arm(geometry, ligands)
     cls = scored["by_position_class"]
     sig, nul, unb = (cls["unique_and_both_bulkier"], cls["conserved_or_shared"],
                      cls["unique_not_bulkier"])
     row = {
         "arm": name, "kind": kind, "role_map": role_map,
+        "n_positions_evaluated": len(detail),
+        "n_positions_dropped_unaligned": len(unaligned),
+        "positions_dropped_unaligned": unaligned,
+        "⛔_why_dropped_not_zeroed": (
+            "a position that does not align in the target or in a partner is a MISSING measurement. Scored "
+            "as a non-firing trial it would join the NULL class and inflate this arm's enrichment ratio."),
         "n_positions_by_class": {k: sum(1 for lab in detail if detail[lab]["class"] == k)
                                  for k in ("unique_and_both_bulkier", "unique_not_bulkier",
                                            "conserved_or_shared")},

@@ -168,3 +168,35 @@ def test_register_count_is_counted_from_the_document_not_typed():
     rows, anchor = SDN.register_count(text)
     assert rows == 2 and anchor == "**24 items.**"
     assert SDN.register_count("nothing") == (0, None)
+
+
+# ── an absent reading is not a reading of absence ────────────────────────────────────────────────────────
+class _Model(dict):
+    """Minimal stand-in for a loaded model: enough for build_geometry, nothing more."""
+
+
+def _model(ids, seq, corr=None, sidechains=None):
+    m = _Model(ids=list(ids), seq=seq, aa_of={r: seq[i] for i, r in enumerate(ids)},
+               atoms_by_res={}, cb={}, heavy_xyz=[], deviation_by_res={},
+               corr_from_ref=dict(corr or {}))
+    for rid, atoms in (sidechains or {}).items():
+        m["atoms_by_res"][rid] = [{"name": "CB", "x": x, "y": y, "z": z} for (x, y, z) in atoms]
+    return m
+
+
+def test_unaligned_positions_are_dropped_not_scored_as_null():
+    """⛔ CLAUDE.md §4. A position that does not align in a partner cannot be evaluated. Scored as a
+    non-firing trial it joins the NULL class, depresses the null rate and INFLATES the decoy's enrichment
+    ratio — i.e. it would make every decoy look MORE like NR4A3 than it is."""
+    tgt = _model([1, 2], "AC", sidechains={1: [(0, 0, 0)], 2: [(9, 9, 9)]})
+    # partner 1 aligns at both positions; partner 2 aligns only at position 1
+    p1 = _model([1, 2], "AC", corr={1: 1, 2: 2}, sidechains={1: [(0, 0, 0)], 2: [(9, 9, 9)]})
+    p2 = _model([1], "A", corr={1: 1}, sidechains={1: [(0, 0, 0)]})
+    seqs = {"T": "AC", "NR4A1": "AC", "NR4A2": "A"}
+    geom, detail, unaligned = SDN.build_geometry(
+        tgt, {"NR4A1": p1, "NR4A2": p2}, {10: 1, 20: 2}, seqs, ("T", "NR4A1", "NR4A2"),
+        SDN.seq_index_of_rid)
+    assert set(geom) == {10}, "the unaligned position must not reach the geometry"
+    assert set(detail) == {10}
+    assert [u["position"] for u in unaligned] == [20]
+    assert unaligned[0]["partner_aligned"] == {"NR4A1": True, "NR4A2": False}
