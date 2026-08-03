@@ -15,6 +15,7 @@ on:
       - research/modalities/nr4a_superfamily_selectivity.py
       - research/modalities/fet_ddr_axis_scan.py
       - research/modalities/emc_fet_idr_census.py
+      - research/modalities/emc_fet_construct_designs.py
       - .github/workflows/depmap-dependency.yml
 
 permissions:
@@ -89,18 +90,33 @@ jobs:
         if: always()
         run: python research/modalities/emc_atr_vulnerability.py --check || echo "atr-vulnerability --check reported drift; non-blocking, but READ IT"
 
+      # ⭐ READY-TO-ORDER EMC FUSION CONSTRUCTS for the FET DSB-recruitment assay, plus the RGG
+      # dose-calibration prediction and the within-EMC TCF12 negative control. Everything it
+      # emits is a COMPUTED DESIGN FOR SOMEONE ELSE TO VERIFY BEFORE ORDERING — this repo has
+      # been wrong about a fusion junction before (target-route-options.md §1.3), which is why
+      # the module carries per-construct in-frame self-checks and quotes every breakpoint.
+      - name: EMC fusion construct designs (exon-verified junctions + RGG prediction + TCF12 control)
+        if: always()
+        run: python research/modalities/emc_fet_construct_designs.py --refresh || echo "construct-designs soft-fail (network); non-blocking"
+
+      - name: Reproduce check — construct designs must re-derive offline from their inputs cache
+        if: always()
+        run: python research/modalities/emc_fet_construct_designs.py --check || echo "construct-designs --check reported drift; non-blocking, but READ IT"
+
       # ⚠ CLAUDE.md §7: an artifact whose only home is a side branch is a stale fact that reads as
       # a current one. The modalities-cache step below rewrites the working tree, so the triggering
       # branch gets its copy FIRST.
-      - name: Publish the ATR-vulnerability artifact to the triggering branch
+      - name: Publish the ATR-vulnerability and construct-design artifacts to the triggering branch
         if: always() && github.ref_name != 'main'
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f research/modalities/emc-atr-vulnerability.json \
-                     research/modalities/emc-atr-vulnerability-inputs.json 2>/dev/null || true
-          git commit -m "CI: EMC in-silico ATR vulnerability assessment artifact + inputs cache" \
+                     research/modalities/emc-atr-vulnerability-inputs.json \
+                     research/modalities/emc-fet-construct-designs.json \
+                     research/modalities/emc-construct-inputs.json 2>/dev/null || true
+          git commit -m "CI: EMC ATR vulnerability + fusion construct designs, with inputs caches" \
             || { echo "no artifact changes"; exit 0; }
           git push origin HEAD:"${GITHUB_REF_NAME}"
           # ⚠ Hand the working tree back EXACTLY as the modalities-cache step below expects it.
@@ -133,6 +149,8 @@ jobs:
           cp research/modalities/emc-fet-idr-census.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/fet-sequences-cache.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/emc-atr-vulnerability.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/emc-fet-construct-designs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/emc-construct-inputs.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -159,5 +177,7 @@ jobs:
           git add research/modalities/emc-fet-idr-census.json 2>/dev/null || true
           git add research/modalities/fet-sequences-cache.json 2>/dev/null || true
           git add research/modalities/emc-atr-vulnerability.json 2>/dev/null || true
+          git add research/modalities/emc-fet-construct-designs.json 2>/dev/null || true
+          git add research/modalities/emc-construct-inputs.json 2>/dev/null || true
           git commit -m "DepMap + NR4A safety-genetics + resistance-map + E3-expression + superfamily-selectivity compute" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
