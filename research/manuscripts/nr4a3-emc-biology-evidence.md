@@ -58,11 +58,23 @@ The broad "the paralogues do the same jobs so losing NR4A3 is fine" is **under-e
   LoF-constrained), so it neither proves nor refutes *adult transient-knockdown* tolerability — but it **flags
   a tissue/developmental context that needs NR4A3** as the on-target-toxicity risk to watch, and it makes
   **NR4A2-sparing doubly important** (most-constrained paralogue *and* CNS-enhanced; see HPA below).
-- **Tissue co-expression (2026-07-02 Human Protein Atlas query).** NR4A1 ("low tissue specificity, detected
-  in all") and NR4A3 ("low tissue specificity, detected in many") are **broadly co-expressed** — paralogue
-  buffering is plausible across most tissues — whereas NR4A2 is **"tissue enhanced"** (its known CNS/
-  dopaminergic bias), i.e. the tissue where paralogue compensation is **least** available. This is the
-  structural reason the CNS is the safety watch-zone for any NR4A degrader that is not cleanly NR4A2-sparing.
+- **★ Tissue co-expression is now MEASURED per tissue, not read off HPA's specificity LABEL
+  (2026-08-03, roadmap row 26).** The per-tissue nTPM field this file previously had no access to
+  (`rna_tissue_specific_nTPM: null` for all three genes) is filled from the HPA consensus table, and every
+  count has one home in [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) →
+  `hpa.overlap.counts` — **not restated here.** Two things the numbers settle:
+  1. **NR4A2 and NR4A3 co-express across almost every tissue measured**, so tissue distribution cannot
+     separate target from anti-target: **the selectivity has to be molecular.** That is the operative fact
+     for the degrader brief.
+  2. ⛔ **There is no tissue in which NR4A2 is present while both paralogues are absent, and NR4A2 is
+     nowhere the dominant family member.** So *"NR4A2 marks the tissue where paralogue compensation is
+     least available"* is **not supported by this table**. ⚠ It is **not refuted** either, and the reason
+     matters more than the count: a bulk tissue average dilutes the substantia nigra pars compacta to
+     invisibility, so this measures **exposure breadth** and not the dopaminergic requirement
+     (`hpa.overlap._the_specific_misreading_to_avoid`). HPA's *"Tissue enhanced"* label describes relative
+     **enrichment, not restriction** — reading it as "NR4A2 is the CNS-confined paralogue" is a category
+     error the per-tissue numbers settle directly.
+  *(Superseded, retained: the label-based reading — see the appendix.)*
 - **Demonstrated redundancy is myeloid-specific — and it IS the AML anti-target.** Mullican et al., *Nat Med*
   2007 (**PMID 17515897**): combined *Nr4a1⁻/⁻;Nr4a3⁻/⁻* mice die of AML in 3–4 weeks while **single nulls do
   not** — operational proof that single-gene NR4A3 loss is compensated by NR4A1 *in myeloid cells*. Blood 2018
