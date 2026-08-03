@@ -85,6 +85,11 @@ quietly dropped, and the breakpoint is not adjusted until it passes — "tune th
 answer is nice" is the exact circularity the positive controls in
 [`emc_fet_idr_census.py`](../modalities/emc_fet_idr_census.py) were built to prevent.
 
+⭐ **This is not a theoretical distinction: it changed one of the four answers.** All four
+constructs came back in frame, but the type-2 junction turns out to carry **59 extra residues**
+encoded by NR4A3 5′-UTR read through in EWSR1's frame — see §7.2. A CDS-level model would have
+reported that construct as `EWSR1(1–264)::NR4A3(1–626)` and been wrong by 59 residues.
+
 ### 2.2 ⚠ A correction this work forced, stated up front
 
 **The junction this repo has been calling "the canonical EMC fusion" mixes two reported types.**
@@ -214,7 +219,7 @@ prose.** One home for the machine-readable versions:
 |---|---|---|
 | **P1** | **EWSR1::NR4A3 type 2 is recruited to laser-induced DSBs with kinetics indistinguishable from EWSR1-FLI1.** Basis: 0 of 30 RG retained, the same zero as their reference construct, on a byte-identical EWSR1 segment | no accumulation at the stripe; or kinetics matching *native EWSR1* rather than the fusion reference |
 | **P2** | **EWSR1::NR4A3 type 1 (the commonest EMC fusion) is recruited, EARLIER than type 2, and closest to the commonest clear-cell EWSR1::ATF1 type.** Basis: 8 of 30 vs 7 of 30 | type 1 recruiting no earlier than type 2 — which would say retained RG content is not the variable; or type 1 not being recruited at all |
-| **P3** | **TAF15::NR4A3 is recruited, at or near the zero end of the axis.** Basis: the TAF15 exon-6 RG count from the exon audit built for this deliverable | kinetics indistinguishable from native TAF15 |
+| **P3** | **TAF15::NR4A3 is recruited, at the zero end of the axis — like type 2 and like EWSR1-FLI1.** Basis, now computed (§7.3): the sourced TAF15 exon-6 junction retains TAF15(1–161) and **0 of 31** RG dipeptides, with 14 residues of margin to TAF15's first RG at 175 | kinetics indistinguishable from native TAF15 |
 | **P4** ⭐ | **EMC supplies, in nature, the RGG dose series they had to ENGINEER.** Type 2 (0 RG) and type 1 (8 RG) are two naturally occurring points on the same axis, in the same disease, with the same 3′ partner. If the RGG dose-dependence is real, that pair must reproduce it **with no add-back construct at all** | the pair showing no kinetic difference — which would bound the RGG dose-dependence to engineered constructs |
 | **P5** | **TCF12::NR4A3 is NOT recruited** — see §4, the arm that can actually falsify the hypothesis | recruitment of TCF12::NR4A3 |
 
@@ -323,9 +328,99 @@ check in an afternoon, and then run four plasmids.**
 
 ## 7 · Computed values, as the artifact records them
 
-*(Filled from `emc-fet-construct-designs.json` after the CI run that produces it. Any figure in
-this section that disagrees with the artifact is a bug in this file, not in the artifact — the
-artifact is the home.)*
+Produced by GitHub Actions run **30857647907** on `depmap-dependency.yml`, published to this branch
+and to `modalities-cache`. **The artifact is the home of every figure below; anything here that
+disagrees with it is a bug in this file.** `--check` re-derives all of it offline from
+`emc-construct-inputs.json` and prints `REPRODUCES`.
+
+### 7.1 Gene models — all four assertions pass on all five transcripts
+
+`gene_model_self_checks_all_pass: true` over `exon_lengths_sum_equals_cdna`,
+`coding_nt_sum_equals_cds`, `cdna_slice_at_utr5_equals_cds`, `cds_translation_equals_protein`.
+
+| gene | Ensembl transcript | protein | transcript / coding exons | Ensembl == UniProt |
+|---|---|---|---|---|
+| EWSR1 | ENST00000397938 | 656 aa | 17 / 17 | ✅ |
+| TAF15 | (canonical) | 592 aa | 16 / 16 | ✅ |
+| FUS | (canonical) | 526 aa | 15 / 15 | ✅ |
+| NR4A3 | ENST00000395097 | 626 aa | 8 / **6** (exons 1–2 non-coding) | ✅ |
+| **TCF12** | (canonical) | **706 aa** | 21 / **19** | ⚠ **no — UniProt Q99081 is 682 aa** |
+
+⚠ **The TCF12 mismatch is reported, not smoothed over.** The two databases pick different canonical
+isoforms, so a TCF12 residue number taken from the literature must be converted before it is
+compared with anything here. It does not affect the negative control in §7.4, whose decisive tests
+are compositional and are computed over every prefix.
+
+### 7.2 The four constructs — **all four are in frame** (4 / 4)
+
+| construct | 5′ retained | seam | extra junction residues | ORF | NR4A3 half |
+|---|---|---|---|---|---|
+| **type 1** — EWSR1 e12 :: NR4A3 e3 | EWSR1(1–431) | `TAKAAVEWFD \| DMPCVQAQYS` | **1** | **1058 aa** | full: AF-1 ✅ C4 zinc finger ✅ LBD ✅ C166 ✅ |
+| **type 2** — EWSR1 e7 :: NR4A3 e2 | EWSR1(1–264) | `SQQSSSYGQQ \| KPTAEEGSPA` | ⚠ **59** | **949 aa** | full: AF-1 ✅ C4 zinc finger ✅ LBD ✅ C166 ✅ |
+| **type 5** — EWSR1 e13 :: NR4A3 e3 | EWSR1(1–472) | `GRGMPPPLRG \| DMPCVQAQYS` | **1** | **1099 aa** | full: AF-1 ✅ C4 zinc finger ✅ LBD ✅ C166 ✅ |
+| **TAF15::NR4A3** — TAF15 e6 :: NR4A3 e3 | TAF15(1–**161**) | `QRENYSHHTQ \| DMPCVQAQYS` | **1** | **788 aa** | full: AF-1 ✅ C4 zinc finger ✅ LBD ✅ C166 ✅ |
+
+**Every one of the four splits a codon across the junction** — which is precisely why the frame had
+to be computed at the nucleotide level rather than assumed from residue arithmetic.
+
+⚠⭐ **The finding nobody would have guessed, and the reason the transcript-level model earns its
+keep: type 2 carries 59 extra residues.** Its named 3′ exon (NR4A3 exon 2) is entirely non-coding,
+so the fusion mRNA carries **176 nt of NR4A3 5′-UTR** downstream of the EWSR1 cut. Read in EWSR1's
+frame that UTR contains no stop codon and encodes **59 residues** sitting between EWSR1(1–264) and
+NR4A3's own methionine. **So the type-2 fusion protein is *not* `EWSR1(1–264)::NR4A3(1–626)`** — the
+model this repo has used ([`fusion_cofold.py`](../modalities/fusion_cofold.py)'s `EWS_CUT = 264` ::
+*"NR4A3 resumed at res 2"*). It is `EWSR1(1–264) :: [59 UTR-encoded residues] :: NR4A3(1–626)`.
+⛔ **Stated at its true weight:** this is what the *canonical transcripts* predict for the *reported*
+exon junction. It is a computed consequence, not an observed protein, and it is exactly the sort of
+thing a collaborator should check against a sequenced junction before ordering. It is flagged here
+because it is a 59-residue difference nobody had noticed, and because it is a large novel segment
+that a junction-neoepitope lane would also want to know about.
+
+### 7.3 The RGG axis, with the measured comparators beside the predicted EMC rows
+
+| construct | 5′ partner retained | RG kept | fraction | status |
+|---|---|---|---|---|
+| EWSR1-FLI1 (reference fusion) | EWSR1(1–264) | **0 / 30** | 0.000 | **measured** |
+| **EWSR1::NR4A3 type 2** | EWSR1(1–264) | **0 / 30** | 0.000 | *predicted (P1)* |
+| **TAF15::NR4A3** | TAF15(1–161) | **0 / 31** | 0.000 | *predicted (P3)* |
+| EWSR1::ATF1 e8 (**commonest clear-cell type**) | EWSR1(1–324) | **7 / 30** | 0.233 | **measured — phenotype present** |
+| EWSR1::ATF1 e10 | EWSR1(1–348) | **8 / 30** | 0.267 | **measured** |
+| **EWSR1::NR4A3 type 1 (commonest EMC)** | EWSR1(1–431) | **8 / 30** | 0.267 | *predicted (P2)* |
+| **EWSR1::NR4A3 type 5** | EWSR1(1–472) | **11 / 30** | 0.367 | *predicted* |
+| EWSR1-RGG(3)-FLI1 / native EWSR1 | full | **30 / 30** | 1.000 | **measured** |
+
+⭑ **The commonest EMC fusion and the commonest clear-cell fusion sit at the same point on this axis
+to three decimal places** (0.267 vs 0.233, and identical at 0.267 to the e10 clear-cell type). The
+mechanism was measured in clear-cell sarcoma and found present. **P2 is therefore an interpolation
+onto a measured point, not an extrapolation.**
+
+⭑ **P3 resolves cleanly and was genuinely open until this run.** TAF15's sourced exon-6 junction
+retains **161** residues, and TAF15's first RG dipeptide is at **175** — so the junction falls
+**inside** the strict zero-RG window the census could previously only report as a *range*
+(`window_where_strict_zero_RG_holds: 100–170`). TAF15::NR4A3 lands at the zero end of the axis with
+14 residues of margin.
+
+### 7.4 TCF12 — the negative control checked out, with one honest qualification
+
+| test | the three FET proteins | TCF12 | separates? |
+|---|---|---|---|
+| N-terminal 250-aa **[S,Y,G,Q] fraction** | EWSR1 **0.540** · TAF15 **0.620** · FUS **0.804** | **0.368** | ✅ decisively |
+| **best achievable** [S,Y,G,Q] over **every** prefix (50 aa → full length, 66 prefixes) | — | **0.400**, at residues 1–160 | ✅ **no TCF12 breakpoint of any length reaches even the lowest FET value** |
+| **RG dipeptides**, whole protein | 30 · 31 · 24 | **7** | ✅ |
+| **RGG boxes** (census's operational definition) | 2 · 1 · 2 | **0** | ✅ |
+| N-terminal **sequence identity** (Needleman–Wunsch) | FET-vs-FET **26.1 – 35.7 %** | TCF12-vs-FET **16.8 – 20.5 %** | ⚠ separates, but **not dramatically** |
+
+**Verdict: `tcf12_is_fet_family: false`** — and the verdict does **not** rest on the weakest test.
+⚠ **The identity test is the honest qualification and is reported as such**: 20.5 % against a
+FET-vs-FET floor of 26.1 % is a real gap but a modest one, which is unsurprising given that the FET
+N-termini are themselves low-complexity and only 26–36 % identical to *each other*. **The decisive
+tests are compositional** — TCF12 has no RGG box at all, a quarter of the RG content, and **no
+N-terminal prefix of any length that reaches the FET compositional range**, which is what makes the
+prediction robust to the unpinned TCF12 breakpoint.
+
+⭐ **Nothing surprised us here, and that is the useful outcome**: the negative control is a genuine
+negative control, so P5 is a real falsification arm rather than a foregone conclusion dressed up as
+one.
 
 ---
 

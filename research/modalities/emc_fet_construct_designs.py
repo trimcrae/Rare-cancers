@@ -230,6 +230,11 @@ UNPINNED = [
 
 CODON = exon_audit.CODON
 
+# The gene-model self-checks that are ASSERTIONS (must be true). Everything else in that dict is a
+# description of the transcript, not a pass/fail.
+SELF_CHECK_KEYS = ("exon_lengths_sum_equals_cdna", "coding_nt_sum_equals_cds",
+                   "cdna_slice_at_utr5_equals_cds", "cds_translation_equals_protein")
+
 
 # ---------------------------------------------------------------------------------------------
 # fetch
@@ -908,9 +913,14 @@ def derive(inputs: dict) -> dict:
             for sym, g in genes.items()
         },
         "ensembl_vs_uniprot_sequences": ens_vs_uni,
+        # ⚠ Only the four ASSERTIONS are aggregated. `first_transcript_exon_is_coding` is a
+        # DESCRIPTION, not a check — it is legitimately false for NR4A3 and TCF12, and folding it
+        # into the roll-up made a run whose every real check passed report
+        # `gene_model_self_checks_all_pass: false`. A green/red flag that goes red on a normal
+        # value is worse than no flag: it trains a reader to ignore it.
         "gene_model_self_checks_all_pass": all(
-            all(v for v in g["self_checks"].values() if isinstance(v, bool))
-            for g in genes.values()),
+            g["self_checks"].get(k) is True for g in genes.values() for k in SELF_CHECK_KEYS),
+        "_self_check_keys_aggregated": list(SELF_CHECK_KEYS),
         "nr4a3_landmarks_read_from_the_audit": {
             "c4_zinc_finger_first_cysteine": zf_start, "lbd_start": lbd_start,
             "_home": "nr4a3-exon-audit.json / nr4a3_exon_audit.NR4A3_LBD_START",
