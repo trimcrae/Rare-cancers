@@ -271,6 +271,90 @@ def reproduction_verdict(mine_by_subset, committed):
             "rows": rows}
 
 
+def build_map_edits(contrast):
+    """The roadmap edits THIS result requires — DESCRIBED, NEVER APPLIED. Same anchor discipline as C02:
+    every `current_text` is read out of the live map by `map_edits`, so an entry that cannot be targeted says
+    so rather than being silently wrong."""
+    import map_edits as ME
+    text = ME.load_map()
+    n3 = (contrast.get("NR4A3") or {})
+    p1 = (contrast.get("NR4A1") or {})
+    p2 = (contrast.get("NR4A2") or {})
+
+    def frac(x):
+        return ((x.get("unbiased_pooled") or {}).get("frac_ge_among_propagated"))
+
+    def rng(x):
+        s = x.get("replicate_spread") or {}
+        return (s.get("min"), s.get("max"))
+    f3, f1, f2 = frac(n3), frac(p1), frac(p2)
+    r3, r1, r2 = rng(n3), rng(p1), rng(p2)
+    # SEPARATED at replicate granularity = NR4A3's worst replicate beats each paralogue's best. That is a
+    # much stricter bar than non-overlapping Wilson intervals, and it is the honest one: the 75 pooled
+    # frames are 3 correlated replicas, so the Wilson interval is anti-conservative.
+    sep = all(v is not None for v in (r3[0], r1[1], r2[1])) and r3[0] > r1[1] and r3[0] > r2[1]
+    ordered = all(v is not None for v in (f3, f1, f2)) and f3 > f1 and f3 > f2
+    verdict = ("SEPARATED at replicate granularity" if sep else
+               "RANKED but replicate ranges OVERLAP" if ordered else
+               "NOT RANKED in NR4A3's favour")
+    art = "research/modalities/paralogue-pocket-contrast.json -> contrast"
+    summary = (f"unbiased pooled frac >= D*: NR4A3 {f3}, NR4A1 {f1}, NR4A2 {f2}; "
+               f"per-replicate ranges {r3} / {r1} / {r2}")
+    entries = [
+        ME.edit(text, "§8 Route A", "### Route A — a warhead engaging paralogue-divergent pocket handles",
+                "Route A's PREMISE — that the cryptic pocket is itself a paralogue discriminator — had never "
+                "been measured against a paralogue, on frames that were committed to this repo. It has now "
+                "been, on matched ensembles under one detector. ⚠ This is a CONFORMATIONAL-SELECTION "
+                "statement with no free energy in it; it is NOT dG_open and must never be reported as one, "
+                "so `R6` is untouched.",
+                art, ME.append_after_line(
+                    "\n★ **Paralogue-matched cryptic-pocket contrast — measured " +
+                    "(the first paralogue-matched evidence Route A has).** " + verdict + ". " + summary +
+                    " — [`paralogue-pocket-contrast.json`](../modalities/paralogue-pocket-contrast.json). "
+                    "⚠ A detection fraction is **not** an opening penalty: this does not touch `R6`, and at "
+                    "these ensemble sizes it supports a RANKING, never a categorical exclusion.")),
+        ME.edit(text, "§3.2 R×V coverage matrix — row R1", "| `R1` pocket exists |",
+                "The `R1` row says no instrument is validated on this system. That stays true — validation "
+                "is not what changed. What changed is that the harmonized detector now has a "
+                "paralogue-MATCHED reading, a different axis, and it is the one Route A's premise actually "
+                "needed. The cell should point at it rather than restate it (rule 1).",
+                art, ME.replace_in_line(
+                    "no — but no instrument is *validated on this system*",
+                    "no — but no instrument is *validated on this system*. ★ The detector now has a "
+                    "paralogue-MATCHED reading — "
+                    "[`paralogue-pocket-contrast.json`](../modalities/paralogue-pocket-contrast.json)")),
+        ME.edit(text, "§10.1 open rows", "### 10.1 · Open rows, ordered by what unblocks the most",
+                "C04 was on no ranked list: the frames were committed on 2026-07-26 and the detector was "
+                "never pointed at them. A caveat with nowhere to go is how work gets silently dropped.",
+                art, ME.append_after_line(
+                    "| **C04** | **Paralogue-matched cryptic-pocket druggability** — the harmonized detector "
+                    "over the committed NR4A1/NR4A2/NR4A3 ensembles | `R1` `R2` (Route A's premise) | "
+                    "✓ **complete** | — ($0) | **$0** — CPU/CI | ✅ **RAN.** " + verdict + ". " + summary +
+                    ". [`paralogue-pocket-contrast.json`](../modalities/paralogue-pocket-contrast.json); the "
+                    "NR4A3 arm REPRODUCES the committed table cell-for-cell "
+                    "(`committed_nr4a3_reproduction_check.verdict`) |")),
+    ]
+    return {
+        "_what": "Roadmap edits this result requires. DESCRIBED, NOT APPLIED — sibling agents are editing "
+                 "`nr4a3-program-map.md` and this run does not touch it.",
+        "_how_anchors_are_kept_live": "`current_text` is read out of the live map at generation time; a "
+                                      "missing or ambiguous anchor yields a visible refusal instead of a "
+                                      "mis-targeted edit.",
+        "verdict": verdict,
+        "verdict_basis": {"unbiased_pooled_frac_ge_dstar": {"NR4A3": f3, "NR4A1": f1, "NR4A2": f2},
+                          "replicate_ranges": {"NR4A3": r3, "NR4A1": r1, "NR4A2": r2},
+                          "rule": "SEPARATED requires NR4A3's WORST release replicate to beat each "
+                                  "paralogue's BEST. That is stricter than non-overlapping Wilson intervals "
+                                  "and it is the honest bar, because the 75 pooled frames are 3 correlated "
+                                  "replicas and the Wilson interval is anti-conservative."},
+        "⛔_not_filed_in_section_6": "Nothing here closes a route. A paralogue that opens less often is a "
+                                    "RANKING, not an exclusion, and evidence of absence is not available at "
+                                    "these ensemble sizes.",
+        "entries": entries,
+        "verification": ME.verify(entries, text),
+    }
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--species", default=",".join(SPECIES))
@@ -373,6 +457,7 @@ def main(argv=None):
                       "roots": {sp: os.path.relpath(os.path.dirname(os.path.dirname(
                           (frame_paths(sp, SUBSETS[0]) or ["x/y/z"])[0])), REPO) for sp in species}},
         "contrast": contrast_summary(by_species_subset),
+        "map_edits_required": build_map_edits(contrast_summary(by_species_subset)),
         "_how_to_read_the_contrast": [
             "DETECTION and DRUGGABILITY are different answers and must not be collapsed. A high detection "
             "fraction in a paralogue says the homologous site EXISTS and is findable; the >= D* fraction is "

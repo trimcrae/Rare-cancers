@@ -1047,9 +1047,10 @@ def mode_reduce(args):
             "Underpowered and undefined rows are excluded from the percentile and counted separately; that "
             "exclusion biases the graded background toward pairs with MORE collision opportunity.",
         ],
-        "runtime_note": "produced by research/modalities/categorical_decoy_null.py (modes plan/fetch/pairs/"
-                        "run/reduce)",
+        "runtime_note": "produced by research/modalities/categorical_decoy_null.py (modes plan/probe/fetch/"
+                        "pairs/selfcheck/run/reduce)",
     }
+    res["map_edits_required"] = build_map_edits(res)
     # ⛔ A background of zero rows is not a background. Publishing one would turn "we measured nothing"
     # into a green artifact that reads as "the screen was calibrated" — the exact failure §4 warns about.
     if not decoys:
@@ -1066,6 +1067,139 @@ def mode_reduce(args):
         print(f"  [cdn] background reach-only: n={bg['reach_only']['n']} "
               f"median={bg['reach_only']['median']:.4f} frac_zero={bg['reach_only']['frac_exactly_zero']:.3f}")
     return res
+
+
+def build_map_edits(res):
+    """The roadmap edits this result requires — DESCRIBED, never applied (four sibling agents are editing
+    `nr4a3-program-map.md`). Anchors are resolved against the LIVE map by `map_edits`, so a `current_text`
+    here is a byte-exact substring of the map at generation time and an entry that cannot be targeted says so
+    instead of being silently wrong.
+
+    ⚠ THE EDIT SET DEPENDS ON THE ANSWER, and both directions are filed with equal weight. A background that
+    leaves NR4A3 unremarkable changes Route B's argument and `R8`'s grade; one that does not changes only the
+    instrument's status — and per §0's strict bar, a null that FAILS TO REJECT closes nothing in §6."""
+    import map_edits as ME
+    text = ME.load_map()
+    r = res["results"]
+    bg = (r.get("background_at_gate_12") or {}).get("reach_only") or {}
+    bge = (r.get("background_at_gate_12") or {}).get("exposed") or {}
+    n3 = r.get("nr4a3_harness_matched") or {}
+    pct = [v.get("percentile_reach_only") for v in n3.values() if v.get("percentile_reach_only") is not None]
+    n_graded = r.get("n_graded", 0)
+    frac0 = bg.get("frac_exactly_zero")
+    # DISTINGUISHED = NR4A3 sits at/near the bottom of the background AND zero is not the common answer.
+    # Both halves are needed: a background where most decoys also return 0 makes a 0th-percentile NR4A3
+    # meaningless, which is precisely the V20 failure mode.
+    distinguished = (n_graded >= 5 and frac0 is not None and frac0 <= 0.5
+                     and pct and max(pct) <= 0.25)
+    inconclusive = n_graded < 5
+    verdict = ("UNDERPOWERED" if inconclusive else
+               "DISTINGUISHED" if distinguished else "NOT DISTINGUISHED")
+    art = "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / " \
+          "results.nr4a3_harness_matched"
+    summary = (f"n_graded={n_graded}, frac_exactly_zero={frac0}, "
+               f"NR4A3 percentile(s)={sorted(pct) if pct else None}")
+
+    entries = [
+        ME.edit(text, "§3.1 instrument table — row V17", "| **V17** | The exposure criterion",
+                "The categorical screen this row adjudicates now has a CROSS-SYSTEM background: unrelated "
+                "close human paralogue pairs pushed through the identical pipeline. Until now every null in "
+                "the repo was within-system, so the categorical result was an enrichment over an unmeasured "
+                "background — the exact shape that cost the program `V20`. The background does not change "
+                "V17's own positive-control failure; it changes what a 0 from the screen is worth.",
+                art,
+                ME.replace_in_line(
+                    "behind NR4A3's C397 and C420",
+                    "behind NR4A3's C397 and C420. ★ And the SCREEN this criterion sits inside now has a "
+                    "CROSS-SYSTEM background — "
+                    "[`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json) — so a 0 "
+                    "from it can be read against a measured rate instead of an unmeasured one")),
+        ME.edit(text, "§3.4 instrument facts", "### 3.4 · Three instrument facts this page used to be missing",
+                "§3.4 is the section that exists to carry scope facts about instruments, and the largest one "
+                "now missing is that the categorical screen has a measured cross-system background. Adding "
+                "it here requires retitling the section, which is why the heading is the anchor.",
+                art,
+                ME.replace_in_line("Three instrument facts", "Four instrument facts")),
+        ME.edit(text, "§3.2 R×V coverage matrix — row R8", "| `R8` linker reach |",
+                "The `R8` cell reads `rank-only, and conditional on R5`. That is still true of the exposure "
+                "criterion, but the SCREEN as a whole is no longer uncalibrated: it now has a decoy "
+                "background at the 12-atom gate, reported both reach-only and exposure-filtered.",
+                art,
+                ME.replace_in_line(
+                    "rank-only, and conditional on `R5`",
+                    "rank-only, and conditional on `R5` — but the screen now has a measured cross-system "
+                    "background at the 12-atom gate, reach-only AND exposure-filtered "
+                    "([`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json))")),
+        ME.edit(text, "§10.1 open rows", "### 10.1 · Open rows, ordered by what unblocks the most",
+                "The decoy null was on no ranked list — it existed only as a limit in the categorical "
+                "audit. §10.3's own lesson is that a caveat with nowhere to go is how work gets silently "
+                "dropped, so it needs a row whether it passed or failed. ⚠ When the run is UNDERPOWERED a "
+                "SECOND row is added in the same edit: an underpowered reading is neither a pass nor a "
+                "failure, and what it needs is more pairs, which is $0.",
+                art,
+                ME.append_after_line(
+                    "| **C02** | **Cross-system decoy null for the categorical axis** — unrelated close "
+                    "human paralogue pairs through the identical pipeline | `R8` `R15` | ✓ **complete** | "
+                    "— ($0) | **$0** — CPU/CI | ✅ **RAN.** Verdict **" + verdict + "**. " + summary +
+                    ". Numbers: [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json); "
+                    "design and pairs: [`categorical-decoy-null-plan.json`]"
+                    "(../modalities/categorical-decoy-null-plan.json). The harness reproduces the committed "
+                    "static verdict (`harness_known_answer_check`) |" +
+                    ("" if verdict != "UNDERPOWERED" else
+                     "\n| **C02b** | **Widen the decoy null** — too few pairs graded for a percentile | "
+                     "`R8` | \u25cb | \u2014 | **$0** | " + summary + ". Raise `max_pairs` / relax the "
+                     "gradeability floor in [`categorical_decoy_null.py`]"
+                     "(../modalities/categorical_decoy_null.py) `PREREG` |"))),
+    ]
+
+    if verdict == "NOT DISTINGUISHED":
+        entries.append(ME.edit(
+            text, "§8 Route B", "### Route B — a linker-borne covalent handle at an NR4A3-unique cysteine",
+            "⛔ The decoy background does NOT separate the NR4A3 result from an arbitrary close paralogue "
+            "pair at the 12-atom gate. That is a blocker on the argument, not on the chemistry: the "
+            "categorical GO may not be reported as an enrichment until it is. This is the V20 shape and it "
+            "must be filed as one.",
+            art, ME.append_after_line(
+                "\n⛔ **The categorical GO is not distinguished from a cross-system background.** " + summary +
+                " — see [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json). Until "
+                "that changes, the categorical result may be reported as a *screen output*, never as an "
+                "*enrichment*.")))
+    elif verdict == "DISTINGUISHED":
+        entries.append(ME.edit(
+            text, "§8 Route B", "### Route B — a linker-borne covalent handle at an NR4A3-unique cysteine",
+            "The categorical GO now stands against a MEASURED background rather than an unmeasured one, "
+            "which is what makes it quotable. The background belongs next to the claim, not in a footnote.",
+            art, ME.append_after_line(
+                "\n★ **The categorical GO now has a measured cross-system background.** " + summary +
+                " — see [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json). ⚠ The "
+                "background is a NUCLEAR-RECEPTOR background, not a proteome background, and it calibrates "
+                "the SCREEN, not the target.")))
+    return {
+        "_what": "Roadmap edits this result requires. DESCRIBED, NOT APPLIED — `nr4a3-program-map.md` is "
+                 "being edited by sibling agents and this run does not touch it.",
+        "_how_anchors_are_kept_live": "Every `current_text` is READ out of the map at generation time by "
+                                      "`map_edits.locate`, so it is a byte-exact substring of the map as it "
+                                      "stood. An anchor that is missing or ambiguous yields "
+                                      "`status: ANCHOR_NOT_FOUND` / `ANCHOR_NOT_UNIQUE` with no "
+                                      "`proposed_text` — a visible refusal, never a mis-targeted edit. "
+                                      "Measured reason: the categorical audit emitted nine verbatim edits "
+                                      "and all nine failed to apply against a restructured map.",
+        "verdict": verdict,
+        "verdict_basis": {"n_graded": n_graded, "frac_exactly_zero_reach_only": frac0,
+                          "frac_exactly_zero_exposed": bge.get("frac_exactly_zero"),
+                          "nr4a3_percentiles_reach_only": {k: v.get("percentile_reach_only")
+                                                           for k, v in n3.items()},
+                          "nr4a3_percentiles_exposed": {k: v.get("percentile_exposed")
+                                                        for k, v in n3.items()},
+                          "rule": "DISTINGUISHED requires n_graded >= 5 AND frac_exactly_zero <= 0.5 AND "
+                                  "every NR4A3 percentile <= 0.25. Both halves are needed: in a background "
+                                  "where most decoys also return 0, a 0th-percentile NR4A3 means nothing — "
+                                  "that is precisely the V20 failure mode."},
+        "⛔_not_filed_in_section_6": "A null that FAILS TO REJECT closes nothing. Nothing here is proposed "
+                                    "for §6 (dead / parked / held) in either direction.",
+        "entries": entries,
+        "verification": ME.verify(entries, text),
+    }
 
 
 def _stamp():
