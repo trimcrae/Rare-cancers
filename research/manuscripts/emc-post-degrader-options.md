@@ -16,8 +16,8 @@
 >
 > **$0.** No GPU, no rental, no wet lab. Every literature claim is fetched and quoted from a
 > committed corpus ([`lit-targets-emc-post-degrader.json`](./lit-targets-emc-post-degrader.json) →
-> `literature-cache` branch, run **30848359354**, 22 of 25 targets at HTTP 200); every DepMap number
-> is computed by [`fet_ddr_axis_scan.py`](../modalities/fet_ddr_axis_scan.py) →
+> `literature-cache` branch, 33 of 38 targets at HTTP 200 — the 5 misses are publisher paywalls,
+> named in §5); every public-data number is computed by [`fet_ddr_axis_scan.py`](../modalities/fet_ddr_axis_scan.py) →
 > [`fet-ddr-axis-scan.json`](../modalities/fet-ddr-axis-scan.json) on the `modalities-cache` branch.
 > **Nothing here is a molecule, a dose, an efficacy claim or a statement about activity or
 > tolerability in a patient**, and none is implied.
@@ -121,7 +121,7 @@ experiment it could run in weeks with reagents that already exist.**
 
 | # | route | P (what we compute) | W (the ask) | S (blockers inherited) |
 |---|---|---|---|---|
-| **1** | **ATR-inhibitor synthetic lethality, inherited by EMC as a FET-rearranged cancer** | re-cut the public ATRi sensitivity data by **FET status** rather than Ewing-vs-rest — an analysis the source paper did not run | **catalogue ATR inhibitor, dose–response, 3 existing EMC lines, γH2AX readout** | **none of the three** |
+| **1** | **ATR-inhibitor synthetic lethality, inherited by EMC as a FET-rearranged cancer** | ✅ **done, and it cuts both ways** — the public ATRi sensitivity data re-cut by **FET status** with a general-sensitivity correction: the ATRi effect survives (AZD6738 Δ −0.491, *t* −5.08) but PARP inhibitors are 2–4× larger, and PARPi monotherapy already failed clinically in Ewing | **catalogue ATR inhibitor, dose–response, 3 existing EMC lines, γH2AX readout** | **none of the three** |
 | **2** | **Fusion-junction ASO / siRNA** *(already the repo's priority paper 2)* | in-silico arc is complete; the open GPU item is the RNase-H1 cleavage-discrimination MD | junction knockdown + parental sparing in EMC lines | **none of the three** |
 | **3** | **The honest methods paper the degrader program has already earned** | nothing new needed — the negative results *are* the result | none | n/a — it is *about* the blockers |
 
@@ -230,10 +230,51 @@ of in the comparator, is a free analysis that is not in the paper and that direc
 class claim is partner-agnostic or a Ewing effect. ⚠ **Where that data lives was itself a measured
 question, and two guesses were wrong**: the quarterly figshare releases carry no drug matrix (73 and
 52 files, all CRISPR/omics) and figshare's search endpoint returns unrelated articles for every PRISM
-term tried, so the scan now reads ATR-inhibitor LN_IC50 from **GDSC**, keyed through `Model.csv`'s
-Sanger/COSMIC ids, with control drugs run through the identical path so an "FET lines are sensitive to
-everything" artefact would be visible rather than inferred. **That contrast is the one number in this
-memo that is still pending.**
+term tried, so the scan reads ATR-inhibitor LN_IC50 from **GDSC2 (release 8.5)**, keyed through
+`Model.csv`'s Sanger/COSMIC ids, with control drugs run through the identical path.
+
+#### ⭐ The ATRi contrast, and the two things it says — one supporting route 1, one bounding it hard
+
+**69 FET-keyed lines against 1,230 comparators, GDSC2 8.5, LN_IC50 (lower = more sensitive).** Both
+the raw contrast and one corrected for **each line's own median LN_IC50 across every GDSC drug** are
+reported, because FET-rearranged lines — Ewing especially — are fast-growing and broadly
+chemosensitive, so a raw contrast measures growth rate as much as biology. **Quote the corrected
+column.**
+
+| drug | class | n FET | raw Δ (t) | **corrected Δ (t)** |
+|---|---|---|---|---|
+| **ceralasertib / AZD6738** | **ATR inhibitor** | 57 | −0.757 (−4.48) | **−0.491 (−5.08)** |
+| **berzosertib / VE-822** | **ATR inhibitor** | 54 | −0.691 (−2.59) | **−0.423 (−2.20)** |
+| talazoparib | PARP inhibitor | 57 | −2.336 (−5.67) | **−2.065 (−5.85)** |
+| olaparib | PARP inhibitor | 57 | −1.280 (−5.37) | **−1.016 (−5.58)** |
+| paclitaxel | tubulin (non-DDR) | 57 | −0.792 (−3.19) | **−0.525 (−3.08)** |
+| adavosertib / MK-1775 | WEE1 inhibitor | 57 | −0.242 (−1.62) | **+0.021 (+0.17)** |
+| bortezomib | proteasome | 57 | −0.183 (−1.98) | **+0.087 (+0.88)** |
+
+**✅ What supports route 1.** The ATR-inhibitor effect is real and it **survives the correction** —
+about a third of the raw signal was general chemosensitivity, two thirds is drug-specific — and the
+correction demonstrably works, because two controls that should land at zero do (adavosertib +0.02,
+bortezomib +0.09). This is a **computed** result rather than an inherited argument, and it is one the
+source paper did not produce: its DepMap cut was Ewing-vs-everything, this is FET-vs-everything with
+a general-sensitivity correction and non-DDR controls.
+
+**⛔ What bounds it, and this is the more important half.** ATR is **not** the dominant DDR
+vulnerability in this data. **Talazoparib is four times the effect and olaparib twice**, both with
+larger *t* than either ATR inhibitor — and **paclitaxel, which has nothing to do with DNA repair,
+matches AZD6738**. So this dataset supports "FET-rearranged lines are drug-sensitive, including but
+not especially to ATR inhibitors"; it does **not** isolate ATR, and it must not be written as if it
+did.
+
+⭑ **And the PARP row is the single most useful thing this analysis produced, because its clinical
+answer is already known.** *"Both xenograft studies and clinical trials in ES patients failed to
+demonstrate any benefit for PARP inhibitor monotherapy"* — quoted from the very paper proposing the
+ATR route. **This dataset therefore contains a worked example of a large, reproducible, in-vitro
+FET-line DDR sensitivity that did not translate to patients** — and it is *larger* than the ATR
+signal we would be arguing from. That is a real bound on how much weight route 1's in-vitro case can
+carry, and it converts directly into a design requirement: **the preregistration must include a
+PARP-inhibitor arm as an internal negative-translation control.** If EMC lines look PARPi-sensitive
+too, the assay is reproducing the Ewing pattern that already failed, and the ATRi number should be
+discounted accordingly. That control costs one extra column on the same plate.
 
 ⭑ **Two other $0 answers fell out of the same run.** The one EMC model in DepMap, **ACH-001519 /
 H-EMC-SS**, is present with `OncotreeSubtype: "Extraskeletal Myxoid Chondrosarcoma"`,
@@ -510,15 +551,15 @@ not an oversight.***
 
 Everything below is $0 or free CI. Ordered by what unblocks the most, not by appeal.
 
-1. **Land the ATRi-sensitivity re-cut** — the one pending number in this memo. Three sources have
-   now been tried and recorded: the quarterly figshare releases (no drug matrix), figshare search
-   (returns unrelated articles), and **GDSC**, which is the live attempt. If FET-non-Ewing lines
-   track Ewing there, route 1 has a computed result and not only an inherited argument; if GDSC's
-   ATR-inhibitor coverage is too thin, the remaining source is the DepMap portal's own download API
-   and the scan records what each attempt saw so the next one starts from fact.
-2. **Write the route-1 preregistration** — the prediction, the cell panel, the readout, and the kill
-   criteria — *before* any collaborator is approached. This is the artifact that makes the ask
-   credible, and it is the thing this program is good at.
+1. ✅ **DONE — the ATRi-sensitivity re-cut landed** (GDSC2 8.5; §3 route 1). It is a genuine result
+   in both directions: the ATR-inhibitor effect in FET lines survives correction for general
+   chemosensitivity, and PARP inhibitors are 2–4× larger in the same lines despite having already
+   failed clinically in Ewing. Route 1 keeps its rank; its in-vitro case is now explicitly bounded.
+2. **Write the route-1 preregistration**, and it now has a design requirement this analysis produced:
+   **a PARP-inhibitor arm as an internal negative-translation control**, plus a proliferation index
+   alongside γH2AX. Write the prediction, the panel, the readouts and the kill criteria *before* any
+   collaborator is approached — that artifact is what makes the ask credible, and it is the thing
+   this program is good at.
 3. **Pull EMC PPARG-axis expression** to settle route 6's direction question, using the surfaceome/
    expression machinery that already exists.
 4. **Re-run the linker enumeration in the TCIP configuration** (no E3 arm) — free CPU, and a negative
@@ -541,6 +582,10 @@ Everything below is $0 or free CI. Ordered by what unblocks the most, not by app
   experiment, not a gap in the write-up.
 - **The DepMap knockout scan failed as an instrument and is reported as a failure**, not as a null
   about biology. Its saturation is decided from the data and recorded in the artifact.
+- **The GDSC contrast's comparator is every non-FET line in GDSC2, not other sarcomas.** A
+  sarcoma-restricted comparator would be the better test and is free; it is not run here. The
+  FET group is also dominated by Ewing, so "FET" in that table is substantially "Ewing plus a few",
+  and it says nothing about EMC directly — no EMC line is in GDSC2.
 - **Five of the 38 literature targets returned HTTP 403** at their publisher (`emc_tamoxifen_pgr_nr4a3_jcopo`,
   `emc_taf15_modern_pathology`, `emc_ngs_oncotarget`, `pioglitazone_trabectedin_mls_ccr2019`,
   `aoc_extrahepatic_delivery_abt2026`), so route 6's myxoid-liposarcoma precedent and route 2's AOC
