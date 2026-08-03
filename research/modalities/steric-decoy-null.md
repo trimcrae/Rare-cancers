@@ -21,7 +21,7 @@ INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, affini
 | `M3` class rates | `{'unique_and_both_bulkier': 0.923, 'unique_not_bulkier': 0.0, 'conserved_or_shared': 0.173}` | `{'unique_and_both_bulkier': 0.923, 'unique_not_bulkier': 0.0, 'conserved_or_shared': 0.173}` | **True** |
 | denied-lobe volumes | `11.78` | `11.78` | **True** |
 
-⛔ the backgrounds in this file MUST be discarded — the code, not the biology, would be the finding.
+✅ **The harness reproduces the committed measurement exactly**, so a background from it is readable. Had it not, the backgrounds in this file MUST be discarded — the code, not the biology, would be the finding.
 
 ## Background `partner_swap` (PRIMARY)
 

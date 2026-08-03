@@ -1740,6 +1740,34 @@ def to_markdown(d):
     return "\n".join(L) + "\n"
 
 
+def already_applied_guard(art):
+    """⛔ REFUSE TO RE-ANCHOR EDITS THAT HAVE ALREADY LANDED. Measured 2026-08-03, and it corrupted the map.
+
+    `remap` rebuilds each edit by locating an anchor in the LIVE map and applying the transform to the line
+    it finds. Run BEFORE routing that is exactly right. Run AFTER routing it is a duplication engine: the
+    located line already contains the appended tag, so the transform appends a SECOND copy, and
+    `map_edit_anchors.verify` cannot catch it because the newly introduced span genuinely is not present
+    twice yet. Measured effect of running it once after routing: the C25 tag appeared TWICE on each of three
+    roadmap lines, the register grew a SECOND `C25` row, and the derived item count went to 26.
+
+    So the guard is on the edits the artifact ALREADY carries: if any of them reads back as APPLIED, the map
+    has them and re-anchoring is not a repair, it is a second application.
+    """
+    entries = (art.get("map_edits_required") or {}).get("entries") or []
+    if not entries:
+        return
+    import map_edit_anchors as mea
+    checked, _summary = mea.verify(entries, ME.MAP)
+    landed = [e.get("section") for e, c in zip(entries, checked)
+              if c.get("anchor_status") == "APPLIED"]
+    if landed:
+        raise SystemExit(
+            "  ABORT: %d of this artifact's map edits have ALREADY been applied to the roadmap (%s). "
+            "Re-anchoring them now would append a second copy of every edit — measured, and it produced "
+            "duplicate register rows and a doubled item count. `remap` is for an artifact whose edits have "
+            "NOT been routed yet." % (len(landed), "; ".join(str(x) for x in landed[:3])))
+
+
 def mode_remap(_args):
     """Regenerate ONLY the committed artifact's `map_edits_required`, against the map as it stands NOW.
 
@@ -1750,6 +1778,7 @@ def mode_remap(_args):
     `current_text` are rebuilt.
     """
     art = json.load(open(OUT_JSON))
+    already_applied_guard(art)
     art["map_edits_required"] = map_edits(art)
     art["map_edits_required"]["_regenerated"] = _stamp()
     with open(OUT_JSON, "w") as fh:

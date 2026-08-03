@@ -233,3 +233,23 @@ def test_refusal_gate_separates_a_crash_from_a_thin_background():
     b = art(2, 20)                      # a few refusals but the background still grades -> OK, and counted
     SDN.refusal_gate(b)
     assert b["⛔_refusal_gate"]["verdict"] == "OK" and b["⛔_refusal_gate"]["n_refusals"] == 2
+
+
+def test_remap_refuses_to_re_anchor_edits_that_have_already_landed(tmp_path, monkeypatch):
+    """⛔ MEASURED 2026-08-03 — running `remap` after routing appended a SECOND copy of every edit: the C25
+    tag twice on each of three roadmap lines, a duplicate `C25` register row, and the derived item count at
+    26. `map_edit_anchors.verify` cannot catch it, because the span the second application introduces
+    genuinely is not present twice yet. The guard is on the edits the artifact already carries."""
+    import pytest
+    mapfile = tmp_path / "map.md"
+    mapfile.write_text("| **C1** | a | ✅ frozen | and the appended tag\n")
+    monkeypatch.setattr(SDN.ME, "MAP", str(mapfile))
+    art = {"map_edits_required": {"entries": [
+        {"section": "row", "anchor": "| **C1** |", "status": "OK",
+         "current_text": "| **C1** | a | ✅ frozen |",
+         "proposed_text": "| **C1** | a | ✅ frozen | and the appended tag"}]}}
+    with pytest.raises(SystemExit):
+        SDN.already_applied_guard(art)
+    # an artifact whose edits have NOT landed passes straight through
+    mapfile.write_text("| **C1** | a | ✅ frozen |\n")
+    SDN.already_applied_guard(art)
