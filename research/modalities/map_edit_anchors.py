@@ -50,6 +50,61 @@ PROPOSED_PROBE_CHARS = 120
 MIN_PROBE_CHARS = 24
 
 
+def _introduced_span(proposed, current):
+    """(start, end) of the text an edit INTRODUCES — `proposed` minus its common prefix and common suffix
+    with `current`. PURE. Correct for all three edit shapes rather than two:
+
+        append   proposed = current + TAIL            -> TAIL
+        prepend  proposed = HEAD + current            -> HEAD
+        replace  proposed = A + NEW + B (cur A+OLD+B) -> NEW   <- the shape that used to fall through
+    """
+    n = min(len(proposed), len(current))
+    i = 0
+    while i < n and proposed[i] == current[i]:
+        i += 1
+    j = 0
+    # the suffix scan must not run back past the prefix it already consumed, or a proposal that merely
+    # reorders text could report an empty difference and be called APPLIED on no evidence.
+    while j < n - i and proposed[len(proposed) - 1 - j] == current[len(current) - 1 - j]:
+        j += 1
+    return i, len(proposed) - j
+
+
+def build_probe(proposed, current, min_chars=None, max_chars=None):
+    """The probe every status decision rests on: text that is ABSENT before the edit lands and PRESENT
+    after. Returns (probe, discriminating). PURE.
+
+    ⚠ THE DIFFERENCE ALONE IS NOT ALWAYS USABLE, and assuming it is broke a live check (measured
+    2026-08-03). `5b-T` flips an ORDERED-PLAN checkbox `[ ]` -> `[x]`: the introduced text is the single
+    character `x`, far too short to mean anything in a 6,000-line document, so a bare difference-probe
+    reports the applied edit as a DEAD ANCHOR. So the window is WIDENED around the difference until it is
+    long enough to be meaningful — the widened probe still straddles the change, so it is still absent
+    before and present after.
+
+    ⛔ AND WIDENING IS ONLY SAFE IF IT STAYS DISCRIMINATING. Widening a short APPEND backwards would
+    otherwise swallow enough of `current_text` to match the document before the edit — the exact false
+    APPLIED this function exists to prevent. So the result is checked against `current_text` and reported
+    NOT discriminating rather than guessed at; a caller that gets `discriminating=False` must fall back to
+    `current_text` counting instead of manufacturing an APPLIED.
+    """
+    min_chars = MIN_PROBE_CHARS if min_chars is None else min_chars
+    max_chars = PROPOSED_PROBE_CHARS if max_chars is None else max_chars
+    if not current:
+        # nothing to diff against: the whole proposal is the probe, which is the right answer here
+        probe = proposed.strip()[:max_chars]
+        return probe, len(probe) >= min_chars
+    start, end = _introduced_span(proposed, current)
+    if end <= start:
+        return "", False                      # a pure deletion introduces nothing probeable
+    while (end - start) < min_chars and (start > 0 or end < len(proposed)):
+        if start > 0:
+            start -= 1
+        if end < len(proposed):
+            end += 1
+    probe = proposed[start:end].strip()[:max_chars]
+    return probe, bool(probe) and len(probe) >= min_chars and probe not in current
+
+
 def verify(edits, map_path=None):
     """Annotate each routed edit with its anchor status against the live map. Returns (edits, summary)."""
     path = os.path.abspath(map_path or DEFAULT_MAP)
@@ -87,17 +142,32 @@ def verify(edits, map_path=None):
         # A truncated probe rather than the whole string, because a proposed replacement is routinely
         # restyled as it lands (a link rewritten, a date localised) and an exact full match would report
         # a landed edit as dead.
+        # ⛔ THE THIRD SHAPE, AND IT WAS SILENTLY BROKEN (measured 2026-08-03, on live C24 edits before
+        # they were routed). The two branches this used to have — `proposed` starts with `current`
+        # (append) or ends with it (prepend) — do not cover a MID-LINE REPLACEMENT, which is what
+        # `map_edits.replace_in_line` produces and what most instrument-table and coverage-matrix edits
+        # are. For those, `proposed` neither starts nor ends with `current`, so the old code fell through
+        # to `probe_src = prop` and probed the FIRST 120 CHARACTERS OF THE WHOLE LINE. On a long table row
+        # the replacement sits far past character 120, so those 120 characters are byte-identical to the
+        # line already in the document — the probe matched, the status came back APPLIED, and the edit was
+        # SKIPPED WITHOUT EVER BEING APPLIED while the router printed a clean run. Two of the C24 edits
+        # (the `V17` and `R8` rows, the two places the map says no percentile may be quoted for C397) hit
+        # exactly this and would have been dropped.
+        # The fix generalises the same idea instead of adding a third special case: strip the common
+        # PREFIX and the common SUFFIX, and probe what is left — the text the edit actually introduces.
+        # It reduces to the old behaviour for append and prepend, and is correct for replacement.
         prop = (e.get("proposed_text") or "")
         cur = (e.get("current_text") or "")
-        if cur and prop.startswith(cur):
-            probe_src = prop[len(cur):]
-        elif cur and prop.endswith(cur):
-            probe_src = prop[:len(prop) - len(cur)]
-        else:
-            probe_src = prop
-        probe = probe_src.strip()[:PROPOSED_PROBE_CHARS]
-        n_proposed = text.count(probe) if len(probe) >= MIN_PROBE_CHARS else 0
-        e["_probe_is_the_difference"] = bool(cur) and probe_src is not prop
+        probe, discriminating = build_probe(prop, cur)
+        n_proposed = text.count(probe) if discriminating else 0
+        e["_probe_is_the_difference"] = bool(cur)
+        e["_probe_is_discriminating"] = discriminating
+        if not discriminating:
+            # ⚠ An unusable probe is NOT evidence the edit has not landed. Say so, so a reader can tell
+            # "we looked and it was absent" from "we could not look".
+            e["_probe_why_not"] = ("no probe of this edit could be both long enough to be meaningful and "
+                                   "absent from its own current_text, so APPLIED could not be tested and "
+                                   "the status below rests on current_text alone")
         e["anchor_occurrences"] = n_anchor
         e["current_text_occurrences"] = n_current
         e["proposed_text_occurrences"] = n_proposed

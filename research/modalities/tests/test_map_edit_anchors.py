@@ -10,6 +10,16 @@ import json
 import os
 import sys
 
+def _write(text, _n=[0]):
+    """Write `text` to a fresh temp file and return its path — `mea.verify` reads a PATH, not a string."""
+    import tempfile, os
+    _n[0] += 1
+    fd, path = tempfile.mkstemp(prefix="mapedit_%d_" % _n[0], suffix=".md")
+    with os.fdopen(fd, "w") as fh:
+        fh.write(text)
+    return path
+
+
 import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -182,3 +192,76 @@ def test_r13a_does_not_give_the_stale_neoantigen_fact_a_second_home():
     assert "26 predicted binders" not in neo[0]["proposed_text"], \
         "the map already states this; the edit must confirm and point, not copy"
     assert "fusion-object-inventory.json" in neo[0]["proposed_text"]
+
+
+# =========================================================================================================
+# THE THIRD EDIT SHAPE — a MID-LINE REPLACEMENT, which the probe used to get silently wrong.
+#
+# Measured 2026-08-03 on live `C24` edits before they were routed: for a replacement the proposal neither
+# starts nor ends with `current_text`, so the old code probed the first 120 characters of the WHOLE line.
+# On a long table row the change sits far past character 120, so those 120 characters were byte-identical
+# to the line already in the document — the probe matched, the status came back APPLIED, and the edit was
+# SKIPPED while the router printed a clean run. Two `C24` edits (the `V17` and `R8` rows, the two places
+# the roadmap says no percentile may be quoted for C397) hit exactly this.
+# =========================================================================================================
+LONG = ("| **V17** | The exposure criterion `EXPOSED_RSA = 0.25` is known-defective and fails its own "
+        "positive control, and the rank is what survives, which is why the row reads the way it does, ")
+
+
+def test_a_midline_replacement_is_NOT_reported_applied_before_it_lands():
+    current = LONG + "the arm does not contain C397 | rank-only |"
+    proposed = LONG + "the arm does not contain C397 *from that run*, and a second scope does | rank-only |"
+    doc = "noise\n" + current + "\nmore noise\n"
+    probe, discriminating = mea.build_probe(proposed, current)
+    assert discriminating, "a real mid-line change must yield a usable probe"
+    assert doc.count(probe) == 0, "the probe must be ABSENT before the edit lands"
+    assert (doc.replace(current, proposed)).count(probe) == 1, "and PRESENT after"
+    got, _s = mea.verify([{"section": "s", "anchor": "a", "current_text": current,
+                           "proposed_text": proposed, "why": "w", "artifact": "x"}],
+                         _write(doc))
+    assert got[0]["anchor_status"] == "OK", "a mid-line edit that has not landed must be OK, not APPLIED"
+
+
+def test_a_midline_replacement_is_reported_applied_once_it_has_landed():
+    current = LONG + "the arm does not contain C397 | rank-only |"
+    proposed = LONG + "the arm does not contain C397 *from that run*, and a second scope does | rank-only |"
+    got, _s = mea.verify([{"section": "s", "anchor": "a", "current_text": current,
+                           "proposed_text": proposed, "why": "w", "artifact": "x"}],
+                         _write("noise\n" + proposed + "\n"))
+    assert got[0]["anchor_status"] == "APPLIED"
+
+
+def test_a_one_character_change_still_probes_because_the_window_widens():
+    """`5b-T` flips an ORDERED-PLAN checkbox `[ ]` -> `[x]`. The introduced text is ONE character, which is
+    meaningless as a probe in a 6,000-line document — so the window widens around it and still straddles
+    the change, staying absent before and present after."""
+    current = "`[ ]` 5b-T · Rebuild the NR4A1/2/3 ternaries by the ASSEMBLY route (structural only)"
+    proposed = current.replace("`[ ]`", "`[x]`", 1)
+    probe, discriminating = mea.build_probe(proposed, current)
+    assert discriminating and len(probe) >= mea.MIN_PROBE_CHARS
+    assert "[x]" in probe
+    got, _s = mea.verify([{"section": "s", "anchor": "a", "current_text": current,
+                           "proposed_text": proposed, "why": "w", "artifact": "x"}],
+                         _write("noise\n" + proposed + "\n"))
+    assert got[0]["anchor_status"] == "APPLIED"
+    got, _s = mea.verify([{"section": "s", "anchor": "a", "current_text": current,
+                           "proposed_text": proposed, "why": "w", "artifact": "x"}],
+                         _write("noise\n" + current + "\n"))
+    assert got[0]["anchor_status"] == "OK"
+
+
+def test_append_and_prepend_shapes_are_unchanged_by_the_generalisation():
+    current = "| **C16** | the decoy-null domain trim | pLDDT >= 70 | frozen |"
+    for proposed in (current + " ⭑ a second scope now covers C397 — see C24, not a widening of this one.",
+                     "⭑ PREFIXED NOTE ABOUT THE SECOND SCOPE, long enough to probe. " + current):
+        probe, discriminating = mea.build_probe(proposed, current)
+        assert discriminating
+        assert ("noise\n" + current + "\n").count(probe) == 0
+        assert ("noise\n" + proposed + "\n").count(probe) == 1
+
+
+def test_a_probe_that_cannot_discriminate_is_reported_rather_than_guessed():
+    """A change so small and so surrounded by its own text that no widened window escapes `current_text`
+    must NOT be turned into an APPLIED. Absence of a usable probe is not evidence either way."""
+    probe, discriminating = mea.build_probe("abc", "abc")     # a no-op proposal introduces nothing
+    assert probe == "" and discriminating is False
