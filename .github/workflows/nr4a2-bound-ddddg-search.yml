@@ -1,0 +1,207 @@
+name: Rows 26 + 27 — NR4A2 bound + ΔΔΔG known-answer search (CPU, $0)
+
+# TWO $0 ROADMAP ROWS. No GPU, no rental, no SageMaker, no AWS credentials, no Vast.
+#
+#   ROW 26  research/modalities/nr4a2_sparing_bound.py
+#           Bound the NR4A2 half of the ASYMMETRIC selectivity requirement (roadmap §2.4) from MGI
+#           single-KO phenotypes and Human Protein Atlas per-tissue nTPM. Resolves the repo's
+#           flagged-UNCONFIRMED "Nurr1 single-KO is neonatal-lethal" to a citation or to an explicit
+#           not-found, and turns tissue overlap from an assumption into arithmetic. Pure stdlib.
+#
+#   ROW 27  research/modalities/ddddg_known_answer_search.py
+#           C01b — does a measured CONGENERIC ligand pair exist across the designated CREBBP/BRD4
+#                  binary control? Returns a reference or STOP_NO_REFERENCE.
+#           C01a — the wide ligand-side wedge-band scan: ChEMBL joined against the PDB for two
+#                  homologous proteins x a matched congeneric ligand pair x four measured affinities
+#                  x holo structures on both arms, with the double difference in the paralogue-scale
+#                  band. The exact analogue of the SKEMPI scan that returned barnase_barstar_W35F.
+#
+# WHY THIS RUNS IN CI AT ALL. The dev sandbox's egress proxy reaches NONE of these hosts —
+# informatics.jax.org, proteinatlas.org, ebi.ac.uk/chembl, search.rcsb.org and bindingdb.org all
+# fail at CONNECT. CLAUDE.md §6 routes exactly this to a GitHub Actions runner, and §6 is also why
+# "I can't run it here" was never a reason to defer.
+#
+# WHY pip AND NOT A BAKED IMAGE. CLAUDE.md §6 forbids solving an environment on a machine we are
+# PAYING for. Nothing here is billed (public-repo Actions minutes), row 26 is pure stdlib, and row
+# 27 needs exactly two wheels — rdkit and biopython — not the 15-25 minute scientific-stack solve
+# that rule is about. Both resolved versions are RECORDED into the log rather than assumed.
+#
+# ⛔ EVERY JOB RE-VERIFIES ITS ROUTED ROADMAP EDITS AND FAILS IF ONE NO LONGER APPLIES. The
+# categorical audit shipped nine verbatim map edits and all nine were dead on arrival, written
+# against a map that had been restructured underneath them. `verify_map_edits.py` is that guard, and
+# it is a hard gate here rather than a warning.
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "which row to run"
+        type: choice
+        options: [all, row26, c01b, c01a]
+        default: all
+      branch:
+        description: "branch to publish artifacts to"
+        default: "main"
+      max_pairs:
+        description: "C01a: cap the number of homologous protein pairs examined (0 = every one)"
+        default: "400"
+      max_targets:
+        description: "C01a: cap the number of targets whose activities are fetched (0 = every one)"
+        default: "500"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nr4a2-bound-ddddg-search-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # =========================================================================================================
+  # ROW 26 — MGI single-KO phenotypes + HPA per-tissue nTPM. Pure stdlib; nothing to install.
+  # =========================================================================================================
+  row26:
+    if: ${{ inputs.task == 'all' || inputs.task == 'row26' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Gate logic self-test (no network — proves the verdict logic before any data touches it)
+        run: cd research/modalities && python3 -m pytest tests/test_nr4a2_sparing_bound.py -q
+      - name: MGI + HPA — bound the NR4A2 half
+        run: cd research/modalities && python3 nr4a2_sparing_bound.py
+      - name: Routed roadmap edits must still apply to the live map
+        run: |
+          cd research/modalities
+          python3 verify_map_edits.py nr4a2-sparing-bound.json
+      - name: Publish
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "row 26: bound the NR4A2 half of the selectivity requirement (MGI single-KO + HPA nTPM, CI, \$0)" \
+            research/modalities/nr4a2-sparing-bound.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nr4a2-sparing-bound
+          path: research/modalities/nr4a2-sparing-bound.json
+          if-no-files-found: warn
+
+  # =========================================================================================================
+  # ROW 27 / C01b — the CREBBP/BRD4 congeneric-analogue precheck. Bounded: two accessions.
+  # =========================================================================================================
+  c01b:
+    if: ${{ inputs.task == 'all' || inputs.task == 'c01b' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install rdkit + biopython (two wheels, versions recorded not assumed)
+        run: |
+          python -m pip install --upgrade pip
+          pip install rdkit biopython
+          python -c "import rdkit, Bio; print('rdkit', rdkit.__version__); print('biopython', Bio.__version__)"
+      - name: Gate logic self-test (no network)
+        run: cd research/modalities && python3 -m pytest tests/test_ddddg_known_answer_search.py -q
+      - name: C01b — does a measured congeneric pair exist across CREBBP and BRD4?
+        run: cd research/modalities && python3 ddddg_known_answer_search.py c01b
+      - name: Routed roadmap edits must still apply to the live map
+        run: cd research/modalities && python3 verify_map_edits.py ddddg-crebbp-brd4-precheck.json
+      - name: Publish
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "row 27 / C01b: CREBBP-BRD4 congeneric-analogue precheck for a ligand-side ΔΔΔG (CI, \$0)" \
+            research/modalities/ddddg-crebbp-brd4-precheck.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ddddg-crebbp-brd4-precheck
+          path: research/modalities/ddddg-crebbp-brd4-precheck.json
+          if-no-files-found: warn
+
+  # =========================================================================================================
+  # ROW 27 / C01a — the wide scan. Staged and CHECKPOINTED after every stage and every target, so a
+  # timeout delivers a partial scan rather than nothing (CLAUDE.md §6, checkpoint rule). ⚠ A capped or
+  # partial scan cannot return STOP — the gate reads `scan_covered_every_qualifying_pair` and drops to
+  # UNDETERMINED, because a search-shaped null across a scan that did not finish is an absent reading.
+  # =========================================================================================================
+  c01a:
+    if: ${{ inputs.task == 'all' || inputs.task == 'c01a' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install rdkit + biopython (versions recorded not assumed)
+        run: |
+          python -m pip install --upgrade pip
+          pip install rdkit biopython
+          python -c "import rdkit, Bio; print('rdkit', rdkit.__version__); print('biopython', Bio.__version__)"
+      - name: Gate logic self-test (no network)
+        run: cd research/modalities && python3 -m pytest tests/test_ddddg_known_answer_search.py -q
+      - name: Stage 1 — the universe of human single-protein ChEMBL targets, with sequences
+        run: cd research/modalities && python3 ddddg_known_answer_search.py c01a --stage universe
+      - name: Stage 2 — per-target counts of binding activities carrying a pchembl value
+        run: cd research/modalities && python3 ddddg_known_answer_search.py c01a --stage counts
+      - name: Stage 3 — homologous pairs, k-mer prefiltered then CONFIRMED by real alignment
+        run: cd research/modalities && python3 ddddg_known_answer_search.py c01a --stage pairs
+      - name: Stage 4 — activities for every target in a qualifying pair (checkpointed per target)
+        if: always()
+        run: |
+          cd research/modalities
+          python3 ddddg_known_answer_search.py c01a --stage activities \
+            ${{ inputs.max_targets != '0' && format('--max-targets {0}', inputs.max_targets) || '' }}
+      - name: Stage 5 — congeneric candidates and their ΔΔΔG
+        if: always()
+        run: |
+          cd research/modalities
+          python3 ddddg_known_answer_search.py c01a --stage candidates \
+            ${{ inputs.max_pairs != '0' && format('--max-pairs {0}', inputs.max_pairs) || '' }}
+      - name: Stage 6 — RCSB structures on both arms, then the pre-registered gate
+        if: always()
+        run: |
+          cd research/modalities
+          python3 ddddg_known_answer_search.py c01a --stage verdict \
+            ${{ inputs.max_pairs != '0' && format('--max-pairs {0}', inputs.max_pairs) || '' }} \
+            ${{ inputs.max_targets != '0' && format('--max-targets {0}', inputs.max_targets) || '' }}
+      - name: Routed roadmap edits must still apply to the live map
+        if: always()
+        run: cd research/modalities && python3 verify_map_edits.py ddddg-benchmark-scan.json
+      - name: Publish
+        if: always()
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "row 27 / C01a: ligand-side wedge-band scan for a paralogue-scale ΔΔΔG known answer (CI, \$0)" \
+            research/modalities/ddddg-benchmark-scan.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ddddg-benchmark-scan
+          path: |
+            research/modalities/ddddg-benchmark-scan.json
+            research/modalities/_ddddg_ckpt/pairs.json
+            research/modalities/_ddddg_ckpt/counted.json
+            research/modalities/_ddddg_ckpt/candidates.json
+          if-no-files-found: warn
