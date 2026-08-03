@@ -73,7 +73,7 @@ opposite to the predicted direction but is not significant in either, mirrored *
 paralogue-selectivity statement in this work is therefore an unvalidated prediction**: all three attempts to
 establish a positive control for selectivity detection — the cooperativity calibrator above, a preregistered
 retrospective holdout that returned a non-resolution and is in any case covalency-confounded, and this
-control — have now been run and none succeeded. ⛔ A null of this kind **does not distinguish an insensitive
+control — have now been run and none succeeded. ⛔ **AND AS OF 2026-08-03 THERE IS A STRONGER, MEASURED REASON: the paralogue arms were never prepared at the paralogues' ligand sites.** Both anti-target receptors take their docking box *and* the metadynamics collective variable that opens their cryptic pocket from a BLOSUM62 transfer of NR4A3's pocket, which NR4A3's own site does not; graded blind against 11 deposited crystallographic answers on these two proteins that transfer docks a median **+16.05 Å worse than the same protocol's own ceiling, on 11 of 11 pairs**, and the NR4A2 receptor — the arm carrying the only interval resolved below zero — sits **15.472 Å** from NR4A2's ligand site, **outside its own search box**. A selectivity margin is a comparison, and this comparison was therefore **not made** rather than made and found small (§2.8). ⛔ A null of this kind **does not distinguish an insensitive
 readout from a genuinely narrow structural signal** and is not reported as though it did. The **causal test of whether any designed
 element creates discrimination has not been run**, and its reading is pre-registered. This is a
 **computation-only** design and feasibility
@@ -1266,6 +1266,44 @@ described only as **NR4A2-sparing (computational); NR4A1 selectivity provisional
 directionally supportive but **not statistically resolved** and is not claimed as established. (The wider NR4A1
 SD, ± 2.03, is driven by one replicate whose NR4A3 leg sampled ~2.5 kcal/mol weaker; excluding it, r1/r3 agree
 at −6.9/−4.5.)
+
+> ### ⛔ ADDED 2026-08-03, AND IT BOUNDS THIS ENTIRE SUBSECTION: THE PARALOGUE ARMS WERE OPENED AT THE WRONG SITE
+>
+> **The NR4A1 and NR4A2 receptors above were not prepared at those receptors' ligand-binding sites.** Both
+> paralogue arms — the docking box *and* the metadynamics collective variable that opened their cryptic
+> pockets — are derived by carrying NR4A3's Pocket-5 across a BLOSUM62 alignment
+> (`nr4a3_warhead.map_pocket_to_paralogue`; `nr4a3_metad.py:42-45`, `:549`). **NR4A3's own site is not
+> built that way.** Measured against deposited crystallography this evening:
+>
+> - **NR4A2 / Nurr1** — the arm whose ΔΔG **−4.98 ± 0.68** is the *only* interval above resolved below
+>   zero, and the sole basis for the "NR4A2-sparing" description — was prepared **15.472 Å** from where
+>   NR4A2's ligands bind, a site that lies **outside the 24 Å search box itself**. Three deposited
+>   structures agree to 1.5–3.4 Å, so the reference site is well determined (all three covalent at Cys566,
+>   so it is chemotype-narrow). [`paralogue-site-correction.json`](../modalities/paralogue-site-correction.json)
+> - **NR4A1 / Nur77** — **unmeasurable by this route**: its 11 deposited ligand positions do not define one
+>   site (7 within 1.4 Å, 3 at 7.8–14.3 Å, 1 at 26.5 Å), so a single-box anti-target model may be the wrong
+>   model for that receptor rather than a mis-placed one.
+> - The site-selection step itself, graded blind against 11 crystallographic answers on these two proteins,
+>   docks a median **+16.05 Å worse than the same protocol's own ceiling, on 11 of 11 pairs**, while a box
+>   chosen from the receptor's own cavity sits at **+0.39 Å**.
+>   [`apo-pose-regime-dock.json`](../modalities/apo-pose-regime-dock.json)
+>
+> ⛔ **Consequence, stated at its correct weight: a selectivity margin is a COMPARISON, and this comparison
+> was not made.** The NR4A3 arm was prepared at a site found on NR4A3; the paralogue arms were not. A
+> contrast between a receptor opened at its own site and two receptors opened elsewhere is not a
+> paralogue-selectivity measurement, and it is the expected shape of the implausible magnitude reported
+> above (≈ −4.8 / −5.0 kcal/mol is ~3,000×).
+>
+> ⚠ **This does not assert the numbers are wrong.** It asserts they are **unmeasured**: no claim of
+> paralogue selectivity — including "NR4A2-sparing (computational)" — is supported by this block, and none
+> may be carried into the abstract, the discussion or any figure until the paralogue arms are re-derived at
+> a corrected site. That re-derivation is **not** a re-scoring: an opened ensemble is the output of GPU
+> metadynamics, so it requires re-opening, and for NR4A1 there is currently no site to re-open at.
+>
+> ⚠ **A further bound applies even after that fix.** The same benchmark measured this protocol's pose
+> ceiling on this fold at a median **3.147 Å**, which is larger than the structural differences these
+> margins are asked to resolve. Programme record and full derivation:
+> [roadmap §3.4a / §3.4b](nr4a3-program-map.md#34b--the-0-fix--and-what-it-does-to-every-selectivity-number-the-program-holds).
 
 **Three limits bound the reading, and the repair that would lift the second is scoped but deliberately held.**
 *(i) The absolute scale is not validated.*
@@ -2652,7 +2690,7 @@ weight, with the following caveats made explicit rather than buried:
    **release-frame-specific (= design-frame-specific)**, not universal. What remains is
    **single-trajectory GB-implicit MD, not ABFE**, so **selectivity ABFE is the quantitative gate — initial
    three-replicate ABFE complete (three-replicate ΔΔG NR4A3-favoured; NR4A2-sparing resolved below zero,
-   NR4A1 unanimous in direction but not resolved from zero), with the dense-schedule λ-overlap repair
+   NR4A1 unanimous in direction but not resolved from zero) — ⛔ **and that whole block is now UNMEASURED rather than provisional: both paralogue arms were prepared at a transferred site, the NR4A2 one 15.472 Å from its own ligand site and outside its search box (§2.8)** — with the dense-schedule λ-overlap repair
    **deliberately held rather than queued** — it is parked, not in flight, and repairing error bars would not
    lift the two limits that actually bound the block (no validated absolute scale; conditional on the chosen
    opened state) (§2.8)**;
